@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, User, Settings, Activity, RefreshCw, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { TelegramBotSetup } from "@/components/TelegramBotSetup";
 
 interface Profile {
   id: string;
@@ -264,6 +265,8 @@ export default function Profile() {
                 </div>
               </CardContent>
             </Card>
+
+            <TelegramBotSetup />
           </TabsContent>
 
           <TabsContent value="settings" className="space-y-4">
