@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/hooks/useAuth';
 import { useProjects } from '@/hooks/useProjects';
 import { useProjectTracks } from '@/hooks/useProjectTracks';
@@ -11,14 +12,18 @@ import { ArrowLeft, Sparkles, Music, Settings, FileText } from 'lucide-react';
 import { ProjectDetailsTab } from '@/components/project/ProjectDetailsTab';
 import { ProjectAnalysisTab } from '@/components/project/ProjectAnalysisTab';
 import { ProjectTracklistTab } from '@/components/project/ProjectTracklistTab';
+import { AIActionsDialog } from '@/components/project/AIActionsDialog';
+import { supabase } from '@/integrations/supabase/client';
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { isAuthenticated, loading: authLoading } = useAuth();
   const { projects, isLoading } = useProjects();
   const { tracks, isLoading: tracksLoading } = useProjectTracks(id);
   const [activeTab, setActiveTab] = useState('details');
+  const [aiDialogOpen, setAiDialogOpen] = useState(false);
 
   if (authLoading || isLoading) {
     return (
@@ -33,6 +38,24 @@ export default function ProjectDetail() {
   }
 
   const project = projects?.find((p) => p.id === id);
+
+  const handleApplyUpdates = async (updates: Record<string, any>) => {
+    if (!project) return;
+    
+    try {
+      const { error } = await supabase
+        .from('music_projects')
+        .update(updates)
+        .eq('id', project.id);
+
+      if (error) throw error;
+
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
+    } catch (error) {
+      console.error('Error updating project:', error);
+      throw error;
+    }
+  };
 
   if (!project) {
     return (
@@ -57,14 +80,22 @@ export default function ProjectDetail() {
       <div className="container max-w-6xl mx-auto px-4 py-6">
         {/* Header */}
         <div className="mb-6">
-          <Button
-            variant="ghost"
-            onClick={() => navigate('/projects')}
-            className="mb-4"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Назад к проектам
-          </Button>
+          <div className="flex items-center justify-between mb-4">
+            <Button
+              variant="ghost"
+              onClick={() => navigate('/projects')}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Назад к проектам
+            </Button>
+            <Button
+              onClick={() => setAiDialogOpen(true)}
+              className="gap-2"
+            >
+              <Sparkles className="w-4 h-4" />
+              AI Actions
+            </Button>
+          </div>
 
           <div className="flex items-start gap-4">
             <div className="w-24 h-24 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0">
@@ -139,6 +170,13 @@ export default function ProjectDetail() {
           </TabsContent>
         </Tabs>
       </div>
+
+      <AIActionsDialog
+        open={aiDialogOpen}
+        onOpenChange={setAiDialogOpen}
+        projectId={project.id}
+        onApply={handleApplyUpdates}
+      />
     </div>
   );
 }
