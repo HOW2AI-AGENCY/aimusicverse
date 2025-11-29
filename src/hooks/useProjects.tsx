@@ -24,6 +24,7 @@ export interface Project {
   copyright_info: string | null;
   is_commercial: boolean | null;
   is_public: boolean | null;
+  language: string | null;
   ai_context: any | null;
   cover_url: string | null;
   created_at: string;

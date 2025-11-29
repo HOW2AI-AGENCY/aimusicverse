@@ -41,19 +41,25 @@ serve(async (req) => {
       .eq('id', projectId)
       .single();
 
-    if (projectError || !project) {
+    if (!project) {
       return new Response(JSON.stringify({ error: 'Project not found' }), {
         status: 404,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
+    // Get project language, default to Russian if not set
+    const projectLanguage = project.language || 'ru';
+    const languageInstruction = projectLanguage === 'ru' 
+      ? 'ВАЖНО: Отвечай ТОЛЬКО на русском языке. Весь текст должен быть на русском.' 
+      : 'IMPORTANT: Respond ONLY in English. All text must be in English.';
+
     let systemPrompt = '';
     let userPrompt = '';
 
     if (action === 'translate') {
       const targetLang = language === 'en' ? 'English' : 'Russian';
-      systemPrompt = `You are a professional translator specializing in music project content. Translate the content naturally while preserving the creative tone and style.`;
+      systemPrompt = `You are a professional translator specializing in music project content. Translate the content naturally while preserving the creative tone and style. Respond in ${targetLang}.`;
       
       userPrompt = `Translate the following music project to ${targetLang}:
       
@@ -71,10 +77,14 @@ Return ONLY a JSON object with these exact fields:
 }`;
 
     } else if (action === 'improve_options') {
-      systemPrompt = `Ты - креативный консультант по музыкальной индустрии. Генерируй несколько вариантов улучшения для поля музыкального проекта, объясняя различия между ними. ВСЕ тексты должны быть НА РУССКОМ ЯЗЫКЕ.`;
+      systemPrompt = projectLanguage === 'ru'
+        ? `Ты - креативный консультант по музыкальной индустрии. Генерируй несколько вариантов улучшения для поля музыкального проекта, объясняя различия между ними. ВСЕ тексты должны быть НА РУССКОМ ЯЗЫКЕ.`
+        : `You are a creative music industry consultant. Generate multiple improvement options for a music project field, explaining the differences between them. ALL text must be in English.`;
       
       const currentValue = project[field as keyof typeof project];
-      userPrompt = `Сгенерируй 3 разных варианта улучшения для поля "${field}" этого музыкального проекта.
+      
+      if (projectLanguage === 'ru') {
+        userPrompt = `Сгенерируй 3 разных варианта улучшения для поля "${field}" этого музыкального проекта.
 
 Текущее значение: ${currentValue || 'Не указано'}
 Контекст проекта:
@@ -95,6 +105,29 @@ Return ONLY a JSON object with these exact fields:
 }
 
 Сделай каждый вариант заметно отличающимся по подходу и тону.`;
+      } else {
+        userPrompt = `Generate 3 different improvement options for the "${field}" field of this music project.
+
+Current value: ${currentValue || 'Not set'}
+Project context:
+- Title: ${project.title}
+- Genre: ${project.genre || 'Not set'}
+- Project Type: ${project.project_type || 'Not set'}
+
+Return a JSON object with an array of 3 options:
+{
+  "options": [
+    {
+      "title": "Short descriptive title (in English)",
+      "value": "Improved content (in English)",
+      "explanation": "Why this approach works and what makes it unique (in English)",
+      "tone": "professional|creative|commercial|experimental"
+    }
+  ]
+}
+
+Make each option distinctly different in approach and tone.`;
+      }
     }
 
     // Call Lovable AI

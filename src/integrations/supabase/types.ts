@@ -182,6 +182,7 @@ export type Database = {
           is_public: boolean | null
           key_signature: string | null
           label_name: string | null
+          language: string | null
           mood: string | null
           primary_artist_id: string | null
           project_type: Database["public"]["Enums"]["project_type"] | null
@@ -210,6 +211,7 @@ export type Database = {
           is_public?: boolean | null
           key_signature?: string | null
           label_name?: string | null
+          language?: string | null
           mood?: string | null
           primary_artist_id?: string | null
           project_type?: Database["public"]["Enums"]["project_type"] | null
@@ -238,6 +240,7 @@ export type Database = {
           is_public?: boolean | null
           key_signature?: string | null
           label_name?: string | null
+          language?: string | null
           mood?: string | null
           primary_artist_id?: string | null
           project_type?: Database["public"]["Enums"]["project_type"] | null

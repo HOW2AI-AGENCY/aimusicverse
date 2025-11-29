@@ -60,6 +60,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
           concept: project.concept,
           targetAudience: project.target_audience,
           projectType: project.project_type,
+          language: project.language || 'ru',
         },
       });
 
