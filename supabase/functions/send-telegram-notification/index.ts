@@ -19,16 +19,55 @@ async function sendTelegramMessage(chatId: number, text: string, replyMarkup?: a
     throw new Error('TELEGRAM_BOT_TOKEN not configured');
   }
 
-  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-  
-  const response = await fetch(url, {
+  const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       chat_id: chatId,
       text,
-      parse_mode: 'HTML',
+      parse_mode: 'Markdown',
       reply_markup: replyMarkup,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Telegram API error: ${error}`);
+  }
+
+  return response.json();
+}
+
+async function sendTelegramAudio(
+  chatId: number, 
+  audioUrl: string, 
+  options: {
+    caption?: string;
+    title?: string;
+    performer?: string;
+    duration?: number;
+    thumbnail?: string;
+    replyMarkup?: any;
+  }
+) {
+  const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
+  if (!botToken) {
+    throw new Error('TELEGRAM_BOT_TOKEN not configured');
+  }
+
+  const response = await fetch(`https://api.telegram.org/bot${botToken}/sendAudio`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: chatId,
+      audio: audioUrl,
+      caption: options.caption,
+      title: options.title,
+      performer: options.performer,
+      duration: options.duration,
+      thumbnail: options.thumbnail,
+      parse_mode: 'Markdown',
+      reply_markup: options.replyMarkup,
     }),
   });
 
@@ -58,41 +97,64 @@ Deno.serve(async (req) => {
     let replyMarkup = undefined;
 
     if (status === 'completed' && track_id) {
-      // Get track details
+      // Get track details with full info
       const { data: track } = await supabase
         .from('tracks')
-        .select('title, style')
+        .select('*')
         .eq('id', track_id)
         .single();
 
-      const title = track?.title || 'Трек';
-      const style = track?.style || '';
-
-      message = `✅ <b>Ваш трек готов!</b>\n\n`;
-      message += `🎵 ${title}\n`;
-      if (style) {
-        message += `🎸 Стиль: ${style}\n`;
-      }
-
       const miniAppUrl = Deno.env.get('MINI_APP_URL') || 'https://t.me/your_bot/app';
-      replyMarkup = {
-        inline_keyboard: [[
-          { 
-            text: '▶️ Прослушать', 
-            web_app: { url: `${miniAppUrl}?startapp=track_${track_id}` }
+      
+      // If we have audio URL, send audio file directly
+      if (track?.audio_url) {
+        const durationSeconds = track.duration_seconds || 0;
+        const caption = `🎉 *Ваш трек готов!*\n\n🎵 *${track.title || 'Новый трек'}*\n${track.style ? `🎸 Стиль: ${track.style}` : ''}\n⏱️ Длительность: ${Math.floor(durationSeconds / 60)}:${String(Math.floor(durationSeconds % 60)).padStart(2, '0')}\n\nСлушайте прямо здесь или откройте в приложении! 🎧`;
+        
+        await sendTelegramAudio(chat_id, track.audio_url, {
+          caption,
+          title: track.title || 'MusicVerse Track',
+          performer: 'MusicVerse AI',
+          duration: durationSeconds,
+          thumbnail: track.cover_url,
+          replyMarkup: {
+            inline_keyboard: [
+              [{ text: '🎵 Открыть в приложении', web_app: { url: `${miniAppUrl}?startapp=track_${track_id}` } }],
+              [
+                { text: '🔄 Создать еще', callback_data: 'generate' },
+                { text: '📚 Моя библиотека', callback_data: 'library' }
+              ]
+            ]
           }
-        ]]
-      };
-    } else if (status === 'failed') {
-      message = `❌ <b>Ошибка при генерации</b>\n\n`;
-      if (error_message) {
-        message += `Причина: ${error_message}\n\n`;
+        });
+      } else {
+        // Fallback to text message
+        message = `🎉 *Ваш трек готов!*\n\n🎵 *${track?.title || 'Новый трек'}*\n${track?.style ? `🎸 Стиль: ${track.style}` : ''}\n\nОткройте в приложении для прослушивания! 🎧`;
+        
+        replyMarkup = {
+          inline_keyboard: [
+            [{ text: '🎧 Открыть трек', web_app: { url: `${miniAppUrl}?startapp=track_${track_id}` } }],
+            [{ text: '🔄 Создать еще', callback_data: 'generate' }]
+          ]
+        };
+        
+        await sendTelegramMessage(chat_id, message, replyMarkup);
       }
-      message += `Попробуйте еще раз с помощью команды /generate`;
+    } else if (status === 'failed') {
+      message = `😔 *Не удалось создать трек*\n\n${error_message || 'Произошла ошибка при генерации'}\n\n💡 *Попробуйте:*\n• Упростить описание\n• Изменить стиль\n• Попробовать через минуту`;
+      
+      replyMarkup = {
+        inline_keyboard: [
+          [{ text: '🔄 Попробовать снова', callback_data: 'generate' }],
+          [
+            { text: '❓ Помощь', callback_data: 'help' },
+            { text: '⬅️ Главное меню', callback_data: 'main_menu' }
+          ]
+        ]
+      };
+      
+      await sendTelegramMessage(chat_id, message, replyMarkup);
     }
-
-    // Send notification
-    await sendTelegramMessage(chat_id, message, replyMarkup);
 
     return new Response(
       JSON.stringify({ success: true }),

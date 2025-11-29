@@ -3,6 +3,7 @@ import { handleHelp } from './commands/help.ts';
 import { handleGenerate } from './commands/generate.ts';
 import { handleLibrary } from './commands/library.ts';
 import { handleProjects } from './commands/projects.ts';
+import { handleStatus } from './commands/status.ts';
 import { sendMessage, parseCommand, answerCallbackQuery, type TelegramUpdate } from './telegram-api.ts';
 import { BOT_CONFIG } from './config.ts';
 
@@ -22,7 +23,36 @@ export async function handleUpdate(update: TelegramUpdate) {
       } else if (data === 'help') {
         await handleHelp(chatId);
       } else if (data === 'generate') {
-        await sendMessage(chatId, 'Используйте команду:\n/generate <описание трека>');
+        const { createGenerateKeyboard } = await import('./keyboards/main-menu.ts');
+        await sendMessage(
+          chatId, 
+          '🎼 *Создание трека*\n\nВыберите стиль музыки или опишите свой:',
+          createGenerateKeyboard()
+        );
+      } else if (data === 'status') {
+        await handleStatus(chatId, from.id);
+      } else if (data === 'main_menu') {
+        const { createMainMenuKeyboard } = await import('./keyboards/main-menu.ts');
+        await sendMessage(chatId, '🏠 *Главное меню*\n\nВыберите действие:', createMainMenuKeyboard());
+      } else if (data && data.startsWith('style_')) {
+        const style = data.replace('style_', '');
+        const styleNames: Record<string, string> = {
+          rock: 'рок',
+          pop: 'поп',
+          jazz: 'джаз',
+          electronic: 'электроника',
+          classical: 'классика',
+          hiphop: 'хип-хоп'
+        };
+        await sendMessage(
+          chatId,
+          `🎵 *Стиль: ${styleNames[style] || style}*\n\nТеперь отправьте описание трека:\n\nНапример:\n"Энергичный трек с гитарными риффами и мощным барабанным битом"`
+        );
+      } else if (data === 'custom_generate') {
+        await sendMessage(
+          chatId,
+          '✍️ *Своё описание*\n\nОпишите какую музыку вы хотите создать:\n\nИспользуйте /generate <ваше описание>'
+        );
       }
 
       await answerCallbackQuery(id);
@@ -60,8 +90,8 @@ export async function handleUpdate(update: TelegramUpdate) {
           await handleLibrary(chat.id, from.id);
           break;
 
-        case 'projects':
-          await handleProjects(chat.id, from.id);
+        case 'status':
+          await handleStatus(chat.id, from.id);
           break;
 
         case 'app':
