@@ -37,9 +37,10 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
   const [isDevelopmentMode, setIsDevelopmentMode] = useState(false);
 
   useEffect(() => {
-    // Check for development mode - always enable on lovable.dev/lovable.app or localhost
+    // Check for development mode - always enable on lovable domains or localhost
     const devMode = window.location.hostname.includes('lovable.dev') ||
                     window.location.hostname.includes('lovable.app') ||
+                    window.location.hostname.includes('lovableproject.com') ||
                     window.location.hostname === 'localhost' ||
                     window.location.search.includes('dev=1');
     
