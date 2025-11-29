@@ -245,12 +245,12 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
             {track.has_vocals && (
               <div>
                 <Label htmlFor="vocal-gender">Пол вокала</Label>
-                <Select value={vocalGender} onValueChange={(v) => setVocalGender(v as 'm' | 'f' | '')}>
+                <Select value={vocalGender || "auto"} onValueChange={(v) => setVocalGender(v === "auto" ? '' : v as 'm' | 'f')}>
                   <SelectTrigger className="mt-2">
                     <SelectValue placeholder="Автоматически" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Автоматически</SelectItem>
+                    <SelectItem value="auto">Автоматически</SelectItem>
                     <SelectItem value="m">Мужской</SelectItem>
                     <SelectItem value="f">Женский</SelectItem>
                   </SelectContent>
