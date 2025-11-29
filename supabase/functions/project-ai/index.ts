@@ -55,12 +55,31 @@ serve(async (req) => {
 
     console.log(`Project AI action: ${action} for user: ${user.id}`);
 
+    // Detect language from user input
+    const detectLanguage = (text: string): string => {
+      if (!text) return 'English';
+      // Check for Cyrillic characters
+      const cyrillicPattern = /[а-яА-ЯёЁ]/;
+      if (cyrillicPattern.test(text)) return 'Russian';
+      return 'English';
+    };
+
+    const userLanguage = detectLanguage(
+      title || description || concept || genre || mood || theme || ''
+    );
+
+    const languageInstruction = userLanguage === 'Russian' 
+      ? 'ВАЖНО: Отвечай ТОЛЬКО на русском языке. Весь текст должен быть на русском.' 
+      : 'IMPORTANT: Respond ONLY in English.';
+
     let result;
 
     switch (action) {
       case 'concept':
         // Generate project concept
-        const conceptPrompt = `You are a music producer and A&R expert. Create a detailed concept for a music project.
+        const conceptPrompt = `${languageInstruction}
+
+You are a music producer and A&R expert. Create a detailed concept for a music project.
 
 Project Type: ${projectType || 'album'}
 Genre: ${genre || 'any'}
@@ -98,7 +117,6 @@ Return as JSON:
           body: JSON.stringify({
             model: 'google/gemini-2.5-flash',
             messages: [{ role: 'user', content: conceptPrompt }],
-            temperature: 0.8,
           }),
         });
 
@@ -117,7 +135,9 @@ Return as JSON:
 
       case 'tracklist':
         // Generate detailed tracklist
-        const tracklistPrompt = `You are a music producer. Create a detailed tracklist for a music project.
+        const tracklistPrompt = `${languageInstruction}
+
+You are a music producer. Create a detailed tracklist for a music project.
 
 Project Type: ${projectType || 'album'}
 Genre: ${genre || 'any'}
@@ -161,7 +181,6 @@ Return as JSON array:
           body: JSON.stringify({
             model: 'google/gemini-2.5-flash',
             messages: [{ role: 'user', content: tracklistPrompt }],
-            temperature: 0.7,
           }),
         });
 
@@ -180,7 +199,9 @@ Return as JSON array:
 
       case 'collaboration':
         // Suggest collaboration ideas
-        const collabPrompt = `You are an A&R expert. Suggest potential collaboration opportunities.
+        const collabPrompt = `${languageInstruction}
+
+You are an A&R expert. Suggest potential collaboration opportunities.
 
 Project Genre: ${genre || 'any'}
 Project Mood: ${mood || 'any'}
@@ -213,7 +234,6 @@ Return as JSON:
           body: JSON.stringify({
             model: 'google/gemini-2.5-flash',
             messages: [{ role: 'user', content: collabPrompt }],
-            temperature: 0.7,
           }),
         });
 
@@ -232,7 +252,9 @@ Return as JSON:
 
       case 'analyze':
         // Analyze project and provide recommendations
-        const analyzePrompt = `You are a music industry expert and A&R professional. Analyze this music project in detail.
+        const analyzePrompt = `${languageInstruction}
+
+You are a music industry expert and A&R professional. Analyze this music project in detail.
 
 Project Title: ${title || 'Untitled'}
 Type: ${projectType || 'not specified'}
@@ -275,7 +297,6 @@ Return as JSON:
           body: JSON.stringify({
             model: 'google/gemini-2.5-flash',
             messages: [{ role: 'user', content: analyzePrompt }],
-            temperature: 0.7,
           }),
         });
 
@@ -294,7 +315,9 @@ Return as JSON:
 
       case 'improve':
         // Generate improved version of a specific field
-        const improvePrompt = `You are a music industry expert. Improve this project field:
+        const improvePrompt = `${languageInstruction}
+
+You are a music industry expert. Improve this project field:
 
 Field: ${field}
 Current Value: ${currentValue || 'empty'}
@@ -318,7 +341,6 @@ Return ONLY the improved text, no JSON or formatting.`;
           body: JSON.stringify({
             model: 'google/gemini-2.5-flash',
             messages: [{ role: 'user', content: improvePrompt }],
-            temperature: 0.8,
           }),
         });
 
