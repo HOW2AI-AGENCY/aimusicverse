@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,18 +6,23 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Sparkles, Loader2, Zap, Sliders } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Slider } from '@/components/ui/slider';
+import { Sparkles, Loader2, Zap, Sliders, Coins } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
 
 interface GenerateSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  projectId?: string;
 }
 
-export const GenerateSheet = ({ open, onOpenChange }: GenerateSheetProps) => {
+export const GenerateSheet = ({ open, onOpenChange, projectId }: GenerateSheetProps) => {
   const [mode, setMode] = useState<'simple' | 'custom'>('simple');
   const [loading, setLoading] = useState(false);
+  const [credits, setCredits] = useState<number | null>(null);
   
   // Simple mode state
   const [description, setDescription] = useState('');
@@ -27,33 +32,72 @@ export const GenerateSheet = ({ open, onOpenChange }: GenerateSheetProps) => {
   const [lyrics, setLyrics] = useState('');
   const [style, setStyle] = useState('');
   
-  // Common state
+  // Advanced settings
   const [instrumental, setInstrumental] = useState(false);
+  const [model, setModel] = useState('V4_5ALL');
+  const [negativeTags, setNegativeTags] = useState('');
+  const [vocalGender, setVocalGender] = useState<'m' | 'f' | ''>('');
+  const [styleWeight, setStyleWeight] = useState([0.65]);
+  const [weirdnessConstraint, setWeirdnessConstraint] = useState([0.5]);
+
+  // Fetch credits
+  useEffect(() => {
+    const fetchCredits = async () => {
+      try {
+        const { data } = await supabase.functions.invoke('suno-credits');
+        if (data?.credits !== undefined) {
+          setCredits(data.credits);
+        }
+      } catch (error) {
+        console.error('Error fetching credits:', error);
+      }
+    };
+
+    if (open) {
+      fetchCredits();
+    }
+  }, [open]);
 
   const handleGenerate = async () => {
-    const prompt = mode === 'simple' ? description : style;
+    const prompt = mode === 'simple' ? description : (instrumental ? '' : lyrics);
     
-    if (!prompt) {
-      toast.error('Пожалуйста, заполните описание музыки');
+    if (mode === 'simple' && !description) {
+      toast.error('Пожалуйста, опишите музыку');
+      return;
+    }
+
+    if (mode === 'custom' && !style) {
+      toast.error('Пожалуйста, укажите стиль музыки');
+      return;
+    }
+
+    if (mode === 'custom' && !instrumental && !lyrics) {
+      toast.error('Пожалуйста, добавьте лирику или включите режим инструментала');
       return;
     }
 
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('generate-music', {
+      const { data, error } = await supabase.functions.invoke('suno-music-generate', {
         body: {
-          prompt,
+          mode,
+          prompt: mode === 'simple' ? description : prompt,
           title: mode === 'custom' ? title : undefined,
-          lyrics: mode === 'custom' && !instrumental ? lyrics : undefined,
           style: mode === 'custom' ? style : undefined,
-          has_vocals: !instrumental,
+          instrumental,
+          model,
+          negativeTags: negativeTags || undefined,
+          vocalGender: vocalGender || undefined,
+          styleWeight: styleWeight[0],
+          weirdnessConstraint: weirdnessConstraint[0],
+          projectId,
         },
       });
 
       if (error) throw error;
 
-      toast.success('Генерация началась!', {
-        description: 'Ваш трек появится в библиотеке через несколько минут',
+      toast.success('Генерация началась! 🎵', {
+        description: 'Ваш трек появится в библиотеке через 1-3 минуты',
       });
 
       // Reset form and close
@@ -61,26 +105,63 @@ export const GenerateSheet = ({ open, onOpenChange }: GenerateSheetProps) => {
       setTitle('');
       setLyrics('');
       setStyle('');
+      setNegativeTags('');
+      setVocalGender('');
+      setStyleWeight([0.65]);
+      setWeirdnessConstraint([0.5]);
       onOpenChange(false);
+      
+      // Refresh credits
+      const { data: creditsData } = await supabase.functions.invoke('suno-credits');
+      if (creditsData?.credits !== undefined) {
+        setCredits(creditsData.credits);
+      }
     } catch (error: any) {
       console.error('Generation error:', error);
-      toast.error('Ошибка генерации', {
-        description: error.message || 'Попробуйте еще раз',
-      });
+      
+      if (error.message?.includes('429') || error.message?.includes('credits')) {
+        toast.error('Недостаточно кредитов', {
+          description: 'Пополните баланс SunoAPI для продолжения',
+        });
+      } else {
+        toast.error('Ошибка генерации', {
+          description: error.message || 'Попробуйте еще раз',
+        });
+      }
     } finally {
       setLoading(false);
     }
+  };
+
+  const modelInfo = {
+    V5: { name: 'V5', desc: 'Новейшая модель, быстрая генерация', emoji: '🚀' },
+    V4_5PLUS: { name: 'V4.5+', desc: 'Богатый звук, до 8 мин', emoji: '💎' },
+    V4_5ALL: { name: 'V4.5 All', desc: 'Лучшая структура, до 8 мин', emoji: '🎯' },
+    V4_5: { name: 'V4.5', desc: 'Быстро, качественно, до 8 мин', emoji: '⚡' },
+    V4: { name: 'V4', desc: 'Классика, до 4 мин', emoji: '🎵' },
   };
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="h-[90vh] overflow-y-auto">
         <SheetHeader className="mb-6">
-          <SheetTitle className="text-2xl flex items-center gap-2">
-            <Sparkles className="w-6 h-6 text-primary" />
-            MusicVerse
-          </SheetTitle>
-          <p className="text-sm text-muted-foreground">AI Music Generator</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <SheetTitle className="text-2xl flex items-center gap-2">
+                <Sparkles className="w-6 h-6 text-primary" />
+                MusicVerse AI
+              </SheetTitle>
+              <p className="text-sm text-muted-foreground">Генератор музыки SunoAPI</p>
+            </div>
+            
+            {credits !== null && (
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg glass-card border border-primary/20">
+                <Coins className="w-4 h-4 text-primary" />
+                <span className="text-sm font-medium">{credits}</span>
+                <span className="text-xs text-muted-foreground">кредитов</span>
+              </div>
+            )}
+          </div>
         </SheetHeader>
 
         <div className="space-y-6">
@@ -96,72 +177,52 @@ export const GenerateSheet = ({ open, onOpenChange }: GenerateSheetProps) => {
               </TabsTrigger>
             </TabsList>
 
-            <div className="mt-4">
-              <p className="text-sm text-center text-muted-foreground mb-4">
-                {mode === 'simple' ? 'Быстрая генерация одним нажатием' : 'Расширенные настройки для профессионалов'}
-              </p>
-            </div>
-
             <TabsContent value="simple" className="space-y-4 mt-4">
               <div>
-                <Label htmlFor="description" className="text-base flex items-center gap-2">
+                <Label htmlFor="description" className="text-base flex items-center gap-2 mb-2">
                   <Sparkles className="w-4 h-4" />
                   Опишите вашу музыку
                 </Label>
                 <Textarea
                   id="description"
-                  placeholder="pop"
+                  placeholder="Энергичный электронный трек с мощным басом и синтезаторами"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={6}
-                  className="mt-2 resize-none"
+                  className="resize-none"
                 />
                 <p className="text-xs text-muted-foreground mt-2">
-                  Опишите стиль, настроение, инструменты или атмосферу, которую вы хотите
+                  Опишите стиль, настроение, инструменты. AI автоматически создаст лирику и структуру.
                 </p>
-              </div>
-
-              <div className="flex items-center justify-between p-4 rounded-lg glass border border-border/50">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-primary/20">
-                    <Sparkles className="w-4 h-4 text-primary" />
-                  </div>
-                  <Label htmlFor="instrumental-simple" className="cursor-pointer font-medium">
-                    Инструментал
-                  </Label>
-                </div>
-                <Switch
-                  id="instrumental-simple"
-                  checked={instrumental}
-                  onCheckedChange={setInstrumental}
-                />
               </div>
             </TabsContent>
 
             <TabsContent value="custom" className="space-y-4 mt-4">
               <div>
-                <Label htmlFor="title">Название (опционально)</Label>
+                <Label htmlFor="title">Название трека (опционально)</Label>
                 <Input
                   id="title"
-                  placeholder="Автоматически, если пусто"
+                  placeholder="Моя композиция"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   className="mt-2"
+                  maxLength={100}
                 />
               </div>
 
               <div>
                 <Label htmlFor="style" className="text-base flex items-center gap-2">
                   <Sliders className="w-4 h-4" />
-                  Описание стиля
+                  Стиль музыки *
                 </Label>
                 <Textarea
                   id="style"
-                  placeholder="Опишите стиль, жанр, настроение... например, энергичная электроника с синт-лидами, 128 BPM"
+                  placeholder="Электронная музыка с элементами транса, 128 BPM, синт-лиды"
                   value={style}
                   onChange={(e) => setStyle(e.target.value)}
-                  rows={4}
+                  rows={3}
                   className="mt-2 resize-none"
+                  maxLength={1000}
                 />
               </div>
 
@@ -171,37 +232,138 @@ export const GenerateSheet = ({ open, onOpenChange }: GenerateSheetProps) => {
                     <Sparkles className="w-4 h-4 text-primary" />
                   </div>
                   <Label htmlFor="instrumental-custom" className="cursor-pointer font-medium">
-                    С вокалом
+                    Инструментал (без вокала)
                   </Label>
                 </div>
                 <Switch
                   id="instrumental-custom"
-                  checked={!instrumental}
-                  onCheckedChange={(checked) => setInstrumental(!checked)}
+                  checked={instrumental}
+                  onCheckedChange={setInstrumental}
                 />
               </div>
 
               {!instrumental && (
                 <div>
                   <Label htmlFor="lyrics" className="text-base">
-                    Лирика
+                    Лирика *
                   </Label>
                   <p className="text-xs text-muted-foreground mt-1 mb-2">
-                    Используйте [VERSE], [CHORUS] и т.д. для структуры.
-                    Добавляйте (guitar), (emotion: sad) для тегов.
+                    Используйте [Verse], [Chorus], [Bridge] для структуры
                   </p>
                   <Textarea
                     id="lyrics"
-                    placeholder="[VERSE]&#10;Потерянный в ритме ночи&#10;Танцуя под неоновым светом (synth)&#10;(energy: high)&#10;&#10;[CHORUS]&#10;Мы живы, мы свободны (vocal: powerful)&#10;Это то место, где мы должны быть"
+                    placeholder="[Verse]&#10;В ритме ночи, мы танцуем&#10;Под неоновым светом&#10;&#10;[Chorus]&#10;Это наша свобода&#10;Здесь и сейчас"
                     value={lyrics}
                     onChange={(e) => setLyrics(e.target.value)}
                     rows={10}
                     className="mt-2 font-mono text-sm resize-none"
+                    maxLength={5000}
                   />
                 </div>
               )}
             </TabsContent>
           </Tabs>
+
+          {/* Advanced Settings */}
+          <div className="space-y-4 border-t pt-4">
+            <h3 className="font-semibold flex items-center gap-2">
+              <Sliders className="w-4 h-4" />
+              Расширенные настройки
+            </h3>
+
+            {/* Model Selection */}
+            <div>
+              <Label htmlFor="model">Модель AI</Label>
+              <Select value={model} onValueChange={setModel}>
+                <SelectTrigger className="mt-2">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.entries(modelInfo).map(([key, info]) => (
+                    <SelectItem key={key} value={key}>
+                      <div className="flex items-center gap-2">
+                        <span>{info.emoji}</span>
+                        <div>
+                          <div className="font-medium">{info.name}</div>
+                          <div className="text-xs text-muted-foreground">{info.desc}</div>
+                        </div>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Vocal Gender */}
+            {!instrumental && (
+              <div>
+                <Label htmlFor="vocal-gender">Пол вокала (опционально)</Label>
+                <Select value={vocalGender} onValueChange={(v) => setVocalGender(v as 'm' | 'f' | '')}>
+                  <SelectTrigger className="mt-2">
+                    <SelectValue placeholder="Автоматически" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Автоматически</SelectItem>
+                    <SelectItem value="m">Мужской</SelectItem>
+                    <SelectItem value="f">Женский</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Style Weight */}
+            <div>
+              <div className="flex justify-between mb-2">
+                <Label>Вес стиля</Label>
+                <Badge variant="outline">{styleWeight[0].toFixed(2)}</Badge>
+              </div>
+              <Slider
+                value={styleWeight}
+                onValueChange={setStyleWeight}
+                min={0}
+                max={1}
+                step={0.01}
+                className="mt-2"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Насколько точно следовать стилю
+              </p>
+            </div>
+
+            {/* Creativity */}
+            <div>
+              <div className="flex justify-between mb-2">
+                <Label>Креативность</Label>
+                <Badge variant="outline">{weirdnessConstraint[0].toFixed(2)}</Badge>
+              </div>
+              <Slider
+                value={weirdnessConstraint}
+                onValueChange={setWeirdnessConstraint}
+                min={0}
+                max={1}
+                step={0.01}
+                className="mt-2"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Уровень экспериментальности и уникальности
+              </p>
+            </div>
+
+            {/* Negative Tags */}
+            <div>
+              <Label htmlFor="negative-tags">Исключить (negative tags)</Label>
+              <Input
+                id="negative-tags"
+                placeholder="heavy metal, screaming, aggressive"
+                value={negativeTags}
+                onChange={(e) => setNegativeTags(e.target.value)}
+                className="mt-2"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Стили и элементы, которые нужно избежать
+              </p>
+            </div>
+          </div>
 
           <Button
             onClick={handleGenerate}
@@ -218,12 +380,13 @@ export const GenerateSheet = ({ open, onOpenChange }: GenerateSheetProps) => {
               <>
                 <Sparkles className="w-5 h-5" />
                 Создать трек
+                <Badge variant="secondary" className="ml-2">1 кредит</Badge>
               </>
             )}
           </Button>
 
           <p className="text-xs text-center text-muted-foreground">
-            Использует 1 кредит с вашего баланса
+            Генерация обычно занимает 1-3 минуты
           </p>
         </div>
       </SheetContent>

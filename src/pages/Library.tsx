@@ -8,6 +8,8 @@ import { useTracks } from '@/hooks/useTracks';
 import { TrackCard } from '@/components/TrackCard';
 import { TrackAnalytics } from '@/components/TrackAnalytics';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { GenerationProgress } from '@/components/GenerationProgress';
+import { AudioPlayer } from '@/components/AudioPlayer';
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -46,6 +48,7 @@ export default function Library() {
   const handlePlay = (trackId: string, audioUrl: string | null) => {
     if (!audioUrl) return;
     
+    // Toggle play/pause
     if (playingTrackId === trackId) {
       setPlayingTrackId(null);
     } else {
@@ -69,6 +72,8 @@ export default function Library() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 p-4 pb-24">
+      <GenerationProgress />
+      
       <div className="max-w-6xl mx-auto space-y-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-3 rounded-full glass-card border-primary/20">
@@ -146,6 +151,24 @@ export default function Library() {
             </TabsContent>
           </Tabs>
         )}
+
+        {/* Mini Audio Player */}
+        {playingTrackId && (() => {
+          const track = filteredTracks.find(t => t.id === playingTrackId);
+          return track && (
+            <div className="fixed bottom-20 left-0 right-0 px-4 z-40">
+              <AudioPlayer
+                trackId={track.id}
+                title={track.title || undefined}
+                streamingUrl={track.streaming_url}
+                localAudioUrl={track.local_audio_url}
+                audioUrl={track.audio_url}
+                coverUrl={track.cover_url}
+                onPlay={() => logPlay(track.id)}
+              />
+            </div>
+          );
+        })()}
       </div>
     </div>
   );

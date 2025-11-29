@@ -14,9 +14,17 @@ export interface Track {
   tags: string | null;
   audio_url: string | null;
   cover_url: string | null;
+  streaming_url: string | null;
+  local_audio_url: string | null;
+  local_cover_url: string | null;
   status: string | null;
   provider: string | null;
   model_name: string | null;
+  suno_model: string | null;
+  generation_mode: string | null;
+  vocal_gender: string | null;
+  style_weight: number | null;
+  negative_tags: string | null;
   has_vocals: boolean | null;
   is_public: boolean | null;
   play_count: number | null;

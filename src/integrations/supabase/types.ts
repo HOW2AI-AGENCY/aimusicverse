@@ -118,39 +118,54 @@ export type Database = {
       }
       generation_tasks: {
         Row: {
+          audio_clips: Json | null
+          callback_received_at: string | null
           completed_at: string | null
           created_at: string
           error_message: string | null
+          generation_mode: string | null
           id: string
+          model_used: string | null
           prompt: string
           source: string | null
           status: string
+          suno_task_id: string | null
           telegram_chat_id: number | null
           track_id: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
+          audio_clips?: Json | null
+          callback_received_at?: string | null
           completed_at?: string | null
           created_at?: string
           error_message?: string | null
+          generation_mode?: string | null
           id?: string
+          model_used?: string | null
           prompt: string
           source?: string | null
           status?: string
+          suno_task_id?: string | null
           telegram_chat_id?: number | null
           track_id?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
+          audio_clips?: Json | null
+          callback_received_at?: string | null
           completed_at?: string | null
           created_at?: string
           error_message?: string | null
+          generation_mode?: string | null
           id?: string
+          model_used?: string | null
           prompt?: string
           source?: string | null
           status?: string
+          suno_task_id?: string | null
           telegram_chat_id?: number | null
           track_id?: string | null
           updated_at?: string
@@ -974,23 +989,31 @@ export type Database = {
           created_at: string | null
           duration_seconds: number | null
           error_message: string | null
+          generation_mode: string | null
           has_vocals: boolean | null
           id: string
           is_public: boolean | null
+          local_audio_url: string | null
+          local_cover_url: string | null
           lyrics: string | null
           model_name: string | null
+          negative_tags: string | null
           play_count: number | null
           project_id: string | null
           prompt: string
           provider: string | null
           status: string | null
+          streaming_url: string | null
           style: string | null
+          style_weight: number | null
           suno_id: string | null
+          suno_model: string | null
           suno_task_id: string | null
           tags: string | null
           title: string | null
           updated_at: string | null
           user_id: string
+          vocal_gender: string | null
         }
         Insert: {
           audio_url?: string | null
@@ -998,23 +1021,31 @@ export type Database = {
           created_at?: string | null
           duration_seconds?: number | null
           error_message?: string | null
+          generation_mode?: string | null
           has_vocals?: boolean | null
           id?: string
           is_public?: boolean | null
+          local_audio_url?: string | null
+          local_cover_url?: string | null
           lyrics?: string | null
           model_name?: string | null
+          negative_tags?: string | null
           play_count?: number | null
           project_id?: string | null
           prompt: string
           provider?: string | null
           status?: string | null
+          streaming_url?: string | null
           style?: string | null
+          style_weight?: number | null
           suno_id?: string | null
+          suno_model?: string | null
           suno_task_id?: string | null
           tags?: string | null
           title?: string | null
           updated_at?: string | null
           user_id: string
+          vocal_gender?: string | null
         }
         Update: {
           audio_url?: string | null
@@ -1022,23 +1053,31 @@ export type Database = {
           created_at?: string | null
           duration_seconds?: number | null
           error_message?: string | null
+          generation_mode?: string | null
           has_vocals?: boolean | null
           id?: string
           is_public?: boolean | null
+          local_audio_url?: string | null
+          local_cover_url?: string | null
           lyrics?: string | null
           model_name?: string | null
+          negative_tags?: string | null
           play_count?: number | null
           project_id?: string | null
           prompt?: string
           provider?: string | null
           status?: string | null
+          streaming_url?: string | null
           style?: string | null
+          style_weight?: number | null
           suno_id?: string | null
+          suno_model?: string | null
           suno_task_id?: string | null
           tags?: string | null
           title?: string | null
           updated_at?: string | null
           user_id?: string
+          vocal_gender?: string | null
         }
         Relationships: [
           {

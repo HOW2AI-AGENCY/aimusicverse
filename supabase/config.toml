@@ -24,6 +24,15 @@ verify_jwt = true
 [functions.suno-generate]
 verify_jwt = true
 
+[functions.suno-music-generate]
+verify_jwt = true
+
+[functions.suno-music-callback]
+verify_jwt = false
+
+[functions.suno-send-audio]
+verify_jwt = false
+
 [functions.analyze-audio]
 verify_jwt = true
 

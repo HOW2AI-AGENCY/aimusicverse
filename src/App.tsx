@@ -7,6 +7,7 @@ import { TelegramProvider } from "@/contexts/TelegramContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { BottomNavigation } from "@/components/BottomNavigation";
+import { GenerationProgress } from "@/components/GenerationProgress";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
@@ -31,6 +32,7 @@ const queryClient = new QueryClient({
 
 const ProtectedLayout = ({ children }: { children: React.ReactNode }) => (
   <>
+    <GenerationProgress />
     {children}
     <BottomNavigation />
   </>
