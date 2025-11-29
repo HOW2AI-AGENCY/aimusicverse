@@ -3,7 +3,7 @@ import { NotificationBadge } from "@/components/NotificationBadge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Send, LogOut, UserCircle, Activity, TrendingUp, Clock, CheckCircle2, CheckSquare } from "lucide-react";
+import { Music, LogOut, UserCircle, Activity, TrendingUp, Clock, CheckCircle2, CheckSquare } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useNavigate } from "react-router-dom";
@@ -45,20 +45,20 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <div className="container max-w-6xl mx-auto px-4 py-6">
         {/* Header */}
         <header className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
-            <div className="p-3 rounded-2xl bg-gradient-to-br from-primary to-secondary shadow-[var(--shadow-telegram)]">
-              <Send className="w-8 h-8 text-primary-foreground" />
+            <div className="p-3 rounded-2xl glass-card border-primary/20">
+              <Music className="w-8 h-8 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">
-                Главная
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                AI MusicVerse
               </h1>
               <p className="text-sm text-muted-foreground">
-                Добро пожаловать в ваше приложение
+                Создавайте музыку с помощью AI
               </p>
             </div>
           </div>
@@ -68,7 +68,7 @@ const Index = () => {
               variant="ghost"
               size="icon"
               onClick={goToProfile}
-              className="text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground glass rounded-full"
             >
               <UserCircle className="w-5 h-5" />
             </Button>
@@ -76,7 +76,7 @@ const Index = () => {
               variant="ghost"
               size="icon"
               onClick={handleLogout}
-              className="text-muted-foreground hover:text-destructive"
+              className="text-muted-foreground hover:text-destructive glass rounded-full"
             >
               <LogOut className="w-5 h-5" />
             </Button>
@@ -97,49 +97,49 @@ const Index = () => {
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <Card className="p-4 bg-card hover:shadow-[var(--shadow-hover)] transition-[var(--transition-smooth)]">
+            <Card className="p-4 glass-card border-primary/20">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-primary/10">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10">
                   <Activity className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-card-foreground">{activities?.length || 0}</p>
+                  <p className="text-2xl font-bold text-foreground">{activities?.length || 0}</p>
                   <p className="text-xs text-muted-foreground">Действий</p>
                 </div>
               </div>
             </Card>
 
-            <Card className="p-4 bg-card hover:shadow-[var(--shadow-hover)] transition-[var(--transition-smooth)]">
+            <Card className="p-4 glass-card border-primary/20">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-secondary/10">
-                  <TrendingUp className="w-5 h-5 text-secondary" />
+                <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500/20 to-purple-500/10">
+                  <TrendingUp className="w-5 h-5 text-purple-400" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-card-foreground">100%</p>
+                  <p className="text-2xl font-bold text-foreground">100%</p>
                   <p className="text-xs text-muted-foreground">Активность</p>
                 </div>
               </div>
             </Card>
 
-            <Card className="p-4 bg-card hover:shadow-[var(--shadow-hover)] transition-[var(--transition-smooth)]">
+            <Card className="p-4 glass-card border-primary/20">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-accent">
-                  <Clock className="w-5 h-5 text-accent-foreground" />
+                <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-500/10">
+                  <Clock className="w-5 h-5 text-blue-400" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-card-foreground">24/7</p>
+                  <p className="text-2xl font-bold text-foreground">24/7</p>
                   <p className="text-xs text-muted-foreground">Онлайн</p>
                 </div>
               </div>
             </Card>
 
-            <Card className="p-4 bg-card hover:shadow-[var(--shadow-hover)] transition-[var(--transition-smooth)]">
+            <Card className="p-4 glass-card border-primary/20">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <CheckCircle2 className="w-5 h-5 text-primary" />
+                <div className="p-2 rounded-lg bg-gradient-to-br from-green-500/20 to-green-500/10">
+                  <CheckCircle2 className="w-5 h-5 text-green-400" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-card-foreground">OK</p>
+                  <p className="text-2xl font-bold text-foreground">OK</p>
                   <p className="text-xs text-muted-foreground">Статус</p>
                 </div>
               </div>
@@ -148,12 +148,12 @@ const Index = () => {
         )}
 
         {/* Quick Actions */}
-        <Card className="p-6 mb-6 bg-card">
-          <h2 className="text-lg font-semibold mb-4 text-card-foreground">Быстрые действия</h2>
+        <Card className="p-6 mb-6 glass-card border-primary/20">
+          <h2 className="text-lg font-semibold mb-4 text-foreground">Быстрые действия</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <Button
               onClick={() => navigate('/tasks')}
-              className="bg-gradient-to-r from-primary to-secondary text-primary-foreground h-auto py-4 flex flex-col gap-2"
+              className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 h-auto py-4 flex flex-col gap-2"
             >
               <CheckSquare className="w-6 h-6" />
               <span className="text-sm">Задачи</span>
@@ -161,7 +161,7 @@ const Index = () => {
             <Button
               onClick={() => handleAction('activity_logged')}
               variant="outline"
-              className="h-auto py-4 flex flex-col gap-2"
+              className="glass border-primary/20 h-auto py-4 flex flex-col gap-2"
             >
               <Activity className="w-6 h-6" />
               <span className="text-sm">Активность</span>
@@ -169,7 +169,7 @@ const Index = () => {
             <Button
               onClick={() => handleAction('data_synced')}
               variant="outline"
-              className="h-auto py-4 flex flex-col gap-2"
+              className="glass border-primary/20 h-auto py-4 flex flex-col gap-2"
             >
               <TrendingUp className="w-6 h-6" />
               <span className="text-sm">Синхр.</span>
@@ -177,7 +177,7 @@ const Index = () => {
             <Button
               onClick={goToProfile}
               variant="outline"
-              className="h-auto py-4 flex flex-col gap-2"
+              className="glass border-primary/20 h-auto py-4 flex flex-col gap-2"
             >
               <UserCircle className="w-6 h-6" />
               <span className="text-sm">Профиль</span>
@@ -186,8 +186,8 @@ const Index = () => {
         </Card>
 
         {/* Recent Activity */}
-        <Card className="p-6 bg-card">
-          <h2 className="text-lg font-semibold mb-4 text-card-foreground">Последняя активность</h2>
+        <Card className="p-6 glass-card border-primary/20">
+          <h2 className="text-lg font-semibold mb-4 text-foreground">Последняя активность</h2>
           {activitiesLoading ? (
             <div className="space-y-3">
               {[1, 2, 3].map((i) => (
@@ -199,10 +199,10 @@ const Index = () => {
               {activities.slice(0, 5).map((activity) => (
                 <div
                   key={activity.id}
-                  className="flex items-center justify-between p-3 rounded-lg bg-muted hover:bg-accent transition-[var(--transition-smooth)]"
+                  className="flex items-center justify-between p-3 rounded-lg glass border border-primary/10 hover:border-primary/20 transition-all"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-primary/10">
+                    <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10">
                       <Activity className="w-4 h-4 text-primary" />
                     </div>
                     <div>
@@ -214,13 +214,13 @@ const Index = () => {
                       </p>
                     </div>
                   </div>
-                  <Badge variant="secondary">Завершено</Badge>
+                  <Badge className="bg-primary/20 text-primary border-primary/30">Завершено</Badge>
                 </div>
               ))}
             </div>
           ) : (
             <div className="text-center py-8">
-              <Clock className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+              <Clock className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-50" />
               <p className="text-sm text-muted-foreground">
                 Пока нет активности. Выполните действие, чтобы увидеть его здесь.
               </p>

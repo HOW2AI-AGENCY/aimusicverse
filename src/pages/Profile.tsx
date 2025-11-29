@@ -128,45 +128,47 @@ export default function Profile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5">
         <div className="text-foreground">Загрузка...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background p-4">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 p-4">
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => navigate("/")}
-            className="shrink-0"
+            className="shrink-0 glass rounded-full"
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h1 className="text-2xl font-bold text-foreground">Профиль</h1>
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+            Профиль
+          </h1>
         </div>
 
         <Tabs defaultValue="info" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="info">
+          <TabsList className="grid w-full grid-cols-3 glass-card border-primary/20">
+            <TabsTrigger value="info" className="data-[state=active]:bg-primary/20">
               <User className="w-4 h-4 mr-2" />
               Инфо
             </TabsTrigger>
-            <TabsTrigger value="settings">
+            <TabsTrigger value="settings" className="data-[state=active]:bg-primary/20">
               <Settings className="w-4 h-4 mr-2" />
               Настройки
             </TabsTrigger>
-            <TabsTrigger value="activity">
+            <TabsTrigger value="activity" className="data-[state=active]:bg-primary/20">
               <Activity className="w-4 h-4 mr-2" />
               Активность
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="info" className="space-y-4">
-            <Card>
+            <Card className="glass-card border-primary/20">
               <CardHeader>
                 <CardTitle>Telegram Данные</CardTitle>
                 <CardDescription>
@@ -175,9 +177,9 @@ export default function Profile() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center gap-4">
-                  <Avatar className="w-20 h-20">
+                  <Avatar className="w-20 h-20 border-2 border-primary/30">
                     <AvatarImage src={profile?.photo_url} />
-                    <AvatarFallback>
+                    <AvatarFallback className="bg-gradient-to-br from-primary/20 to-primary/10 text-primary">
                       {profile?.first_name?.[0]}{profile?.last_name?.[0]}
                     </AvatarFallback>
                   </Avatar>
@@ -194,12 +196,12 @@ export default function Profile() {
                 </div>
 
                 <div className="space-y-2">
-                  <div className="flex justify-between py-2 border-b">
+                  <div className="flex justify-between py-2 border-b border-primary/10">
                     <span className="text-muted-foreground">Telegram ID:</span>
                     <span className="font-medium">{profile?.telegram_id}</span>
                   </div>
                   {profile?.language_code && (
-                    <div className="flex justify-between py-2 border-b">
+                    <div className="flex justify-between py-2 border-b border-primary/10">
                       <span className="text-muted-foreground">Язык:</span>
                       <span className="font-medium">{profile.language_code}</span>
                     </div>
@@ -210,7 +212,7 @@ export default function Profile() {
           </TabsContent>
 
           <TabsContent value="settings" className="space-y-4">
-            <Card>
+            <Card className="glass-card border-primary/20">
               <CardHeader>
                 <CardTitle>Настройки профиля</CardTitle>
                 <CardDescription>
@@ -225,6 +227,7 @@ export default function Profile() {
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     placeholder="Введите имя"
+                    className="glass border-primary/20"
                   />
                 </div>
 
@@ -235,10 +238,14 @@ export default function Profile() {
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     placeholder="Введите фамилию"
+                    className="glass border-primary/20"
                   />
                 </div>
 
-                <Button onClick={handleSaveSettings} className="w-full">
+                <Button 
+                  onClick={handleSaveSettings} 
+                  className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+                >
                   Сохранить изменения
                 </Button>
 
@@ -254,7 +261,7 @@ export default function Profile() {
           </TabsContent>
 
           <TabsContent value="activity" className="space-y-4">
-            <Card>
+            <Card className="glass-card border-primary/20">
               <CardHeader>
                 <CardTitle>История активности</CardTitle>
                 <CardDescription>
@@ -271,7 +278,7 @@ export default function Profile() {
                     {activities.map((activity) => (
                       <div
                         key={activity.id}
-                        className="flex justify-between items-center p-3 rounded-lg bg-accent/50"
+                        className="flex justify-between items-center p-3 rounded-lg glass border border-primary/10"
                       >
                         <div>
                           <p className="font-medium">

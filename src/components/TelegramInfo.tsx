@@ -20,13 +20,21 @@ export const TelegramInfo = () => {
   }
 
   return (
-    <Card className="p-6 bg-gradient-to-br from-accent to-card">
+    <Card className="p-6 glass-card border-primary/20">
       <div className="flex items-center gap-4 mb-4">
-        <div className="p-3 rounded-full bg-primary">
-          <User className="w-6 h-6 text-primary-foreground" />
-        </div>
+        {displayUser.photo_url ? (
+          <img
+            src={displayUser.photo_url}
+            alt="Avatar"
+            className="w-14 h-14 rounded-full border-2 border-primary/30"
+          />
+        ) : (
+          <div className="p-3 rounded-full bg-gradient-to-br from-primary/20 to-primary/10">
+            <User className="w-8 h-8 text-primary" />
+          </div>
+        )}
         <div>
-          <h3 className="text-lg font-semibold text-card-foreground">
+          <h3 className="text-lg font-semibold text-foreground">
             {displayUser.first_name} {displayUser.last_name}
           </h3>
           {displayUser.username && (
@@ -43,8 +51,8 @@ export const TelegramInfo = () => {
       )}
 
       {isDevelopmentMode && (
-        <div className="mt-2 text-xs text-muted-foreground">
-          Dev Mode
+        <div className="mt-2 px-2 py-1 rounded bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30">
+          <p className="text-xs text-yellow-200">Dev Mode</p>
         </div>
       )}
     </Card>
