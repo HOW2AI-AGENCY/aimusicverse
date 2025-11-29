@@ -14,6 +14,7 @@ import Tasks from "./pages/Tasks";
 import Generate from "./pages/Generate";
 import Library from "./pages/Library";
 import Projects from "./pages/Projects";
+import ProjectDetail from "./pages/ProjectDetail";
 import Artists from "./pages/Artists";
 import Blog from "./pages/Blog";
 import Analytics from "./pages/Analytics";
@@ -51,6 +52,7 @@ const App = () => (
               <Route path="/generate" element={<ProtectedRoute><ProtectedLayout><Generate /></ProtectedLayout></ProtectedRoute>} />
               <Route path="/library" element={<ProtectedRoute><ProtectedLayout><Library /></ProtectedLayout></ProtectedRoute>} />
               <Route path="/projects" element={<ProtectedRoute><ProtectedLayout><Projects /></ProtectedLayout></ProtectedRoute>} />
+              <Route path="/projects/:id" element={<ProtectedRoute><ProtectedLayout><ProjectDetail /></ProtectedLayout></ProtectedRoute>} />
               <Route path="/artists" element={<ProtectedRoute><ProtectedLayout><Artists /></ProtectedLayout></ProtectedRoute>} />
               <Route path="/blog" element={<ProtectedRoute><ProtectedLayout><Blog /></ProtectedLayout></ProtectedRoute>} />
               <Route path="/analytics" element={<ProtectedRoute><ProtectedLayout><Analytics /></ProtectedLayout></ProtectedRoute>} />

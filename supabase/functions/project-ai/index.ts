@@ -36,7 +36,7 @@ serve(async (req) => {
     }
 
     const { 
-      action, // 'concept', 'tracklist', 'collaboration'
+      action, // 'concept', 'tracklist', 'collaboration', 'analyze', 'improve'
       projectType,
       genre,
       mood,
@@ -45,6 +45,12 @@ serve(async (req) => {
       artistPersona,
       trackCount,
       projectId,
+      title,
+      description,
+      concept,
+      field,
+      currentValue,
+      suggestion,
     } = await req.json();
 
     console.log(`Project AI action: ${action} for user: ${user.id}`);
@@ -222,6 +228,102 @@ Return as JSON:
         } catch (e) {
           result = { error: 'Failed to parse collaboration suggestions', raw: collabText };
         }
+        break;
+
+      case 'analyze':
+        // Analyze project and provide recommendations
+        const analyzePrompt = `You are a music industry expert and A&R professional. Analyze this music project in detail.
+
+Project Title: ${title || 'Untitled'}
+Type: ${projectType || 'not specified'}
+Genre: ${genre || 'not specified'}
+Mood: ${mood || 'not specified'}
+Description: ${description || 'not provided'}
+Concept: ${concept || 'not provided'}
+Target Audience: ${targetAudience || 'not specified'}
+
+Provide a comprehensive analysis including:
+1. Overall quality score (0-100)
+2. Strengths (what's working well)
+3. Weaknesses (what needs improvement)
+4. Market potential assessment
+5. Specific recommendations for improvement
+6. Suggestions for each empty or weak field with priority level
+
+Return as JSON:
+{
+  "score": 75,
+  "strengths": ["...", "..."],
+  "weaknesses": ["...", "..."],
+  "marketPotential": "...",
+  "recommendations": ["...", "..."],
+  "improvements": [
+    {
+      "field": "description",
+      "suggestion": "...",
+      "priority": "high"
+    }
+  ]
+}`;
+
+        const analyzeResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${lovableApiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'google/gemini-2.5-flash',
+            messages: [{ role: 'user', content: analyzePrompt }],
+            temperature: 0.7,
+          }),
+        });
+
+        const analyzeData = await analyzeResponse.json();
+        const analyzeText = analyzeData.choices?.[0]?.message?.content || '{}';
+        
+        try {
+          const jsonMatch = analyzeText.match(/```json\s*([\s\S]*?)\s*```/) || 
+                           analyzeText.match(/```\s*([\s\S]*?)\s*```/);
+          const jsonText = jsonMatch ? jsonMatch[1] : analyzeText;
+          result = JSON.parse(jsonText);
+        } catch (e) {
+          result = { error: 'Failed to parse analysis', raw: analyzeText };
+        }
+        break;
+
+      case 'improve':
+        // Generate improved version of a specific field
+        const improvePrompt = `You are a music industry expert. Improve this project field:
+
+Field: ${field}
+Current Value: ${currentValue || 'empty'}
+Context - Project Type: ${projectType}, Genre: ${genre}, Mood: ${mood}
+AI Suggestion: ${suggestion}
+
+Generate an improved, professional version of this field that:
+1. Incorporates the suggestion
+2. Fits the project's genre and mood
+3. Is compelling and market-ready
+4. Maintains authenticity
+
+Return ONLY the improved text, no JSON or formatting.`;
+
+        const improveResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${lovableApiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'google/gemini-2.5-flash',
+            messages: [{ role: 'user', content: improvePrompt }],
+            temperature: 0.8,
+          }),
+        });
+
+        const improveData = await improveResponse.json();
+        result = { improved: improveData.choices?.[0]?.message?.content || '' };
         break;
 
       default:
