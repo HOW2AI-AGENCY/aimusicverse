@@ -21,7 +21,7 @@ export default function Tasks() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 p-4 pb-24">
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-3 rounded-full glass-card border-primary/20">
