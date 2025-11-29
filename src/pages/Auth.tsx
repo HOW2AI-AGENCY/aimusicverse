@@ -161,23 +161,37 @@ const Auth = () => {
               {user.first_name} {user.last_name}
             </p>
             {user.username && (
-              <p className="text-sm text-muted-foreground">@{user.username}</p>
+              <p className="text-sm text-muted-foreground mb-2">@{user.username}</p>
             )}
+            <p className="text-xs text-muted-foreground mt-2">
+              Нажмите "Продолжить" для авторизации через Telegram
+            </p>
           </div>
 
           {loading || isAuthenticating ? (
             <div className="text-center py-4">
               <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
               <p className="text-muted-foreground">Авторизация...</p>
+              <p className="text-xs text-muted-foreground/60 mt-2">
+                Проверяем данные Telegram...
+              </p>
             </div>
           ) : (
-            <Button
-              onClick={handleAuth}
-              className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
-              size="lg"
-            >
-              Продолжить
-            </Button>
+            <>
+              <Button
+                onClick={handleAuth}
+                className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+                size="lg"
+              >
+                Продолжить
+              </Button>
+              
+              <div className="mt-4 p-3 glass rounded-lg">
+                <p className="text-xs text-muted-foreground text-center">
+                  ✨ Безопасная авторизация через Telegram
+                </p>
+              </div>
+            </>
           )}
         </div>
       </Card>
