@@ -8,7 +8,7 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-import { Sparkles, Loader2, Zap, Sliders, Coins, ChevronDown, Upload, User, FolderOpen, Music, Mic } from 'lucide-react';
+import { Sparkles, Loader2, Zap as ZapIcon, Sliders, Coins, ChevronDown, Upload, User, FolderOpen, Music, Mic } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
@@ -31,6 +31,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
   const [mode, setMode] = useState<'simple' | 'custom'>('simple');
   const [loading, setLoading] = useState(false);
+  const [boostLoading, setBoostLoading] = useState(false);
   const [credits, setCredits] = useState<number | null>(null);
   const [advancedOpen, setAdvancedOpen] = useState(false);
   
@@ -96,6 +97,49 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     }
     setSelectedTrackId(trackId);
     setTrackDialogOpen(false);
+  };
+
+  const handleBoostStyle = async () => {
+    const content = mode === 'simple' ? description : style;
+    
+    if (!content) {
+      toast.error('Пожалуйста, заполните описание стиля');
+      return;
+    }
+
+    setBoostLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('suno-boost-style', {
+        body: { content },
+      });
+
+      if (error) throw error;
+
+      if (data?.boostedStyle) {
+        if (mode === 'simple') {
+          setDescription(data.boostedStyle);
+        } else {
+          setStyle(data.boostedStyle);
+        }
+        toast.success('Стиль улучшен! ✨', {
+          description: 'Описание стиля было оптимизировано AI',
+        });
+      }
+    } catch (error: any) {
+      console.error('Boost error:', error);
+      
+      if (error.message?.includes('429') || error.message?.includes('кредитов')) {
+        toast.error('Недостаточно кредитов', {
+          description: 'Пополните баланс SunoAPI',
+        });
+      } else {
+        toast.error('Ошибка улучшения', {
+          description: error.message || 'Попробуйте еще раз',
+        });
+      }
+    } finally {
+      setBoostLoading(false);
+    }
   };
 
   const handleGenerate = async () => {
@@ -216,7 +260,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           <Tabs value={mode} onValueChange={(v) => setMode(v as 'simple' | 'custom')}>
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="simple" className="gap-2">
-                <Zap className="w-4 h-4" />
+                <ZapIcon className="w-4 h-4" />
                 Простой
               </TabsTrigger>
               <TabsTrigger value="custom" className="gap-2">
@@ -231,10 +275,32 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               </p>
               
               <div>
-                <Label htmlFor="description" className="text-base flex items-center gap-2 mb-2">
-                  <Sparkles className="w-4 h-4" />
-                  Опишите вашу музыку
-                </Label>
+                <div className="flex items-center justify-between mb-2">
+                  <Label htmlFor="description" className="text-base flex items-center gap-2">
+                    <Sparkles className="w-4 h-4" />
+                    Опишите вашу музыку
+                  </Label>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={handleBoostStyle}
+                    disabled={boostLoading || !description}
+                    className="gap-2"
+                  >
+                    {boostLoading ? (
+                      <>
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                        Улучшение...
+                      </>
+                    ) : (
+                      <>
+                        <ZapIcon className="w-3 h-3" />
+                        Улучшить
+                      </>
+                    )}
+                  </Button>
+                </div>
                 <Textarea
                   id="description"
                   placeholder="Энергичный электронный трек с мощным басом и синтезаторами"
@@ -340,10 +406,32 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               </div>
 
               <div>
-                <Label htmlFor="style" className="text-base flex items-center gap-2">
-                  <Sliders className="w-4 h-4" />
-                  Описание стиля
-                </Label>
+                <div className="flex items-center justify-between mb-2">
+                  <Label htmlFor="style" className="text-base flex items-center gap-2">
+                    <Sliders className="w-4 h-4" />
+                    Описание стиля
+                  </Label>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={handleBoostStyle}
+                    disabled={boostLoading || !style}
+                    className="gap-2"
+                  >
+                    {boostLoading ? (
+                      <>
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                        Улучшение...
+                      </>
+                    ) : (
+                      <>
+                        <ZapIcon className="w-3 h-3" />
+                        Улучшить
+                      </>
+                    )}
+                  </Button>
+                </div>
                 <Textarea
                   id="style"
                   placeholder="Опишите стиль, жанр, настроение... например, энергичная электроника с синт-лидами, 128 BPM"
