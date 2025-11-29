@@ -4,18 +4,17 @@ import type { InlineKeyboardButton } from '../telegram-api.ts';
 export function createMainMenuKeyboard() {
   return {
     inline_keyboard: [
-      [{ text: '🎵 Открыть приложение', web_app: { url: BOT_CONFIG.miniAppUrl } }],
+      [{ text: '🚀 Открыть студию', web_app: { url: BOT_CONFIG.miniAppUrl + '/studio' } }],
       [
-        { text: '🎼 Создать трек', callback_data: 'generate' },
-        { text: '⚡ Статус', callback_data: 'status' }
+        { text: '🎼 Генератор', callback_data: 'generate' },
+        { text: '📚 Библиотека', callback_data: 'library' }
       ],
       [
-        { text: '📚 Библиотека', callback_data: 'library' },
-        { text: '📁 Проекты', callback_data: 'projects' }
+        { text: '📁 Проекты', callback_data: 'projects' },
+        { text: '⚙️ Настройки', callback_data: 'settings' }
       ],
       [
-        { text: '⚙️ Настройки', callback_data: 'settings' },
-        { text: '❓ Помощь', callback_data: 'help' }
+        { text: 'ℹ️ О платформе', callback_data: 'help' }
       ]
     ] as InlineKeyboardButton[][]
   };
@@ -24,6 +23,7 @@ export function createMainMenuKeyboard() {
 export function createGenerateKeyboard() {
   return {
     inline_keyboard: [
+      [{ text: '🚀 Генератор в студии', web_app: { url: BOT_CONFIG.miniAppUrl + '/generate' } }],
       [{ text: '🎸 Рок', callback_data: 'style_rock' }, { text: '🎹 Поп', callback_data: 'style_pop' }],
       [{ text: '🎺 Джаз', callback_data: 'style_jazz' }, { text: '🎧 Электроника', callback_data: 'style_electronic' }],
       [{ text: '🎻 Классика', callback_data: 'style_classical' }, { text: '🎤 Хип-хоп', callback_data: 'style_hiphop' }],
@@ -129,5 +129,5 @@ export function createTrackDetailsKeyboard(trackId: string) {
 }
 
 export function getMainBanner(): string {
-  return 'https://placehold.co/800x800/1a1a1a/white?text=🎵+MusicVerse';
+  return 'https://i.ibb.co/GWh5DKm/musicverse-banner.png';
 }

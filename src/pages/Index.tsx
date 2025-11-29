@@ -46,18 +46,21 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
+    <div className="min-h-screen bg-background pb-24">
       <div className="container max-w-6xl mx-auto px-4 py-6">
         {/* Header */}
-        <header className="flex items-center justify-between mb-8">
+        <header className="flex items-center justify-between mb-8 glass-card p-4 rounded-2xl">
           <div className="flex items-center gap-4">
-            <img src={logo} alt="MusicVerse" className="w-12 h-12 rounded-xl" />
+            <div className="relative">
+              <img src={logo} alt="MusicVerse" className="w-12 h-12 rounded-xl" />
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-background animate-pulse-glow"></div>
+            </div>
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-telegram bg-clip-text text-transparent">
                 MusicVerse
               </h1>
               <p className="text-sm text-muted-foreground">
-                Создавайте музыку с помощью AI
+                AI Music Studio
               </p>
             </div>
           </div>
@@ -147,27 +150,27 @@ const Index = () => {
         )}
 
         {/* Quick Actions */}
-        <Card className="p-6 mb-6 glass-card border-primary/20">
+        <Card className="p-6 mb-6 glass-card border-primary/30">
           <h2 className="text-lg font-semibold mb-4 text-foreground">Быстрые действия</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <Button
               onClick={() => navigate('/generate')}
-              className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 h-auto py-4 flex flex-col gap-2"
+              className="bg-gradient-telegram hover:opacity-90 h-auto py-6 flex flex-col gap-2 shadow-lg hover:shadow-primary/30 transition-all active:scale-95"
             >
               <Sparkles className="w-6 h-6" />
-              <span className="text-sm">Генератор</span>
+              <span className="text-sm font-semibold">Генератор</span>
             </Button>
             <Button
               onClick={() => navigate('/library')}
-              className="bg-gradient-to-r from-purple-500 to-purple-500/80 hover:from-purple-500/90 hover:to-purple-500/70 h-auto py-4 flex flex-col gap-2"
+              className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 h-auto py-6 flex flex-col gap-2 shadow-lg hover:shadow-purple-500/30 transition-all active:scale-95"
             >
               <Library className="w-6 h-6" />
-              <span className="text-sm">Библиотека</span>
+              <span className="text-sm font-semibold">Библиотека</span>
             </Button>
             <Button
               onClick={() => navigate('/tasks')}
               variant="outline"
-              className="glass border-primary/20 h-auto py-4 flex flex-col gap-2"
+              className="glass border-primary/30 hover:border-primary/50 h-auto py-6 flex flex-col gap-2 transition-all active:scale-95"
             >
               <CheckSquare className="w-6 h-6" />
               <span className="text-sm">Задачи</span>
@@ -175,7 +178,7 @@ const Index = () => {
             <Button
               onClick={goToProfile}
               variant="outline"
-              className="glass border-primary/20 h-auto py-4 flex flex-col gap-2"
+              className="glass border-primary/30 hover:border-primary/50 h-auto py-6 flex flex-col gap-2 transition-all active:scale-95"
             >
               <UserCircle className="w-6 h-6" />
               <span className="text-sm">Профиль</span>
