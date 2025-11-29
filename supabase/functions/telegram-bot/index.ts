@@ -1,5 +1,6 @@
 import { handleUpdate } from './bot.ts';
 import type { TelegramUpdate } from './telegram-api.ts';
+import { handleInlineQuery } from './commands/inline.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -28,7 +29,12 @@ Deno.serve(async (req) => {
       
       console.log('Received update:', JSON.stringify(update, null, 2));
 
-      await handleUpdate(update);
+      // Handle inline queries
+      if (update.inline_query) {
+        await handleInlineQuery(update.inline_query);
+      } else {
+        await handleUpdate(update);
+      }
 
       return new Response(JSON.stringify({ ok: true }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

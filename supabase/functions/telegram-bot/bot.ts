@@ -74,6 +74,39 @@ export async function handleUpdate(update: TelegramUpdate) {
         const taskId = data.replace('check_task_', '');
         const { handleCheckTask } = await import('./commands/check-task.ts');
         await handleCheckTask(chatId, from.id, taskId, messageId);
+      } else if (data && data.startsWith('share_menu_')) {
+        const trackId = data.replace('share_menu_', '');
+        const { handleShareTrack } = await import('./commands/share.ts');
+        await handleShareTrack(chatId, trackId, messageId);
+      } else if (data && data.startsWith('send_to_chat_')) {
+        const trackId = data.replace('send_to_chat_', '');
+        const { handleSendTrackToChat } = await import('./commands/share.ts');
+        await handleSendTrackToChat(chatId, from.id, trackId);
+      } else if (data && data.startsWith('copy_link_')) {
+        const trackId = data.replace('copy_link_', '');
+        const { handleCopyTrackLink } = await import('./commands/share.ts');
+        await handleCopyTrackLink(chatId, trackId, messageId);
+      } else if (data && data.startsWith('track_details_')) {
+        const trackId = data.replace('track_details_', '');
+        const { handleTrackDetails } = await import('./commands/share.ts');
+        await handleTrackDetails(chatId, trackId, messageId);
+      } else if (data === 'settings') {
+        const { handleSettings } = await import('./commands/settings.ts');
+        await handleSettings(chatId, messageId);
+      } else if (data === 'settings_notifications') {
+        const { handleNotificationSettings } = await import('./commands/settings.ts');
+        await handleNotificationSettings(chatId, from.id, messageId);
+      } else if (data === 'settings_emoji_status') {
+        const { handleEmojiStatusSettings } = await import('./commands/settings.ts');
+        await handleEmojiStatusSettings(chatId, from.id, messageId);
+      } else if (data && data.startsWith('emoji_')) {
+        const emojiType = data.replace('emoji_', '');
+        const { handleSetEmojiStatus, handleRemoveEmojiStatus } = await import('./commands/settings.ts');
+        if (emojiType === 'remove') {
+          await handleRemoveEmojiStatus(chatId, from.id, messageId);
+        } else {
+          await handleSetEmojiStatus(chatId, from.id, emojiType, messageId);
+        }
       }
 
       await answerCallbackQuery(id);
@@ -121,6 +154,19 @@ export async function handleUpdate(update: TelegramUpdate) {
               { text: '🎵 Открыть MusicVerse', web_app: { url: BOT_CONFIG.miniAppUrl } }
             ]]
           });
+          break;
+
+        case 'track':
+          if (args) {
+            const trackId = args.replace('_', '');
+            const { handleTrackDetails } = await import('./commands/share.ts');
+            await handleTrackDetails(chat.id, trackId);
+          }
+          break;
+
+        case 'settings':
+          const { handleSettings } = await import('./commands/settings.ts');
+          await handleSettings(chat.id);
           break;
 
         default:

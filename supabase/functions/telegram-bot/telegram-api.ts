@@ -34,6 +34,16 @@ export interface TelegramUpdate {
     message?: TelegramMessage;
     data?: string;
   };
+  inline_query?: {
+    id: string;
+    from: {
+      id: number;
+      first_name: string;
+      username?: string;
+    };
+    query: string;
+    offset: string;
+  };
 }
 
 export interface InlineKeyboardButton {
@@ -192,11 +202,46 @@ export async function setWebhook(url: string) {
 }
 
 export async function setMyCommands(commands: Array<{ command: string; description: string }>) {
-  const response = await fetch(`${TELEGRAM_API}/setMyCommands`, {
+  const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
+  if (!botToken) {
+    throw new Error('TELEGRAM_BOT_TOKEN not configured');
+  }
+
+  const response = await fetch(`https://api.telegram.org/bot${botToken}/setMyCommands`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ commands }),
   });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Telegram API error: ${error}`);
+  }
+
+  return response.json();
+}
+
+export async function setUserEmojiStatus(userId: number, emojiId: string | null) {
+  const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
+  if (!botToken) {
+    throw new Error('TELEGRAM_BOT_TOKEN not configured');
+  }
+
+  const body: any = { user_id: userId };
+  if (emojiId) {
+    body.emoji_status_custom_emoji_id = emojiId;
+  }
+
+  const response = await fetch(`https://api.telegram.org/bot${botToken}/setUserEmojiStatus`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Telegram API error: ${error}`);
+  }
 
   return response.json();
 }

@@ -13,7 +13,10 @@ export function createMainMenuKeyboard() {
         { text: '📚 Библиотека', callback_data: 'library' },
         { text: '📁 Проекты', callback_data: 'projects' }
       ],
-      [{ text: '❓ Помощь', callback_data: 'help' }]
+      [
+        { text: '⚙️ Настройки', callback_data: 'settings' },
+        { text: '❓ Помощь', callback_data: 'help' }
+      ]
     ] as InlineKeyboardButton[][]
   };
 }
