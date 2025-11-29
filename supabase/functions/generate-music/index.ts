@@ -12,26 +12,24 @@ serve(async (req) => {
   }
 
   try {
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
-      {
-        global: {
-          headers: { Authorization: req.headers.get('Authorization')! },
-        },
-      }
+    const supabaseUrl = Deno.env.get('SUPABASE_URL') ?? '';
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
+    const supabaseClient = createClient(supabaseUrl, supabaseKey);
+
+    // Authenticate user from Authorization header
+    const authHeader = req.headers.get('Authorization')!;
+    const { data: { user }, error: authError } = await supabaseClient.auth.getUser(
+      authHeader.replace('Bearer ', '')
     );
 
-    const { data: { user } } = await supabaseClient.auth.getUser();
-
-    if (!user) {
+    if (authError || !user) {
       return new Response(
         JSON.stringify({ error: 'Unauthorized' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    const { prompt, title, lyrics, style, tags, has_vocals, project_id } = await req.json();
+    const { prompt, title, lyrics, style, tags, has_vocals, project_id, model, make_instrumental } = await req.json();
 
     if (!prompt) {
       return new Response(
@@ -73,7 +71,7 @@ serve(async (req) => {
       // Continue with original prompt
     }
 
-    // Create track record
+    // Create track record with full metadata
     const { data: track, error: trackError } = await supabaseClient
       .from('tracks')
       .insert({
@@ -84,9 +82,10 @@ serve(async (req) => {
         lyrics: lyrics || null,
         style: style || null,
         tags: tags || null,
-        has_vocals: has_vocals !== false,
+        has_vocals: has_vocals !== false && !make_instrumental,
         status: 'pending',
-        provider: 'lovable_ai',
+        provider: 'suno_api',
+        model_name: model || 'chirp-crow',
       })
       .select()
       .single();
@@ -98,6 +97,27 @@ serve(async (req) => {
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+
+    // Log generation request
+    await supabaseClient.from('track_change_log').insert({
+      track_id: track.id,
+      user_id: user.id,
+      change_type: 'generation_requested',
+      changed_by: 'user',
+      ai_model_used: model || 'chirp-crow',
+      prompt_used: improvedPrompt,
+      metadata: {
+        original_prompt: prompt,
+        improved_prompt: improvedPrompt,
+        title,
+        style,
+        lyrics,
+        tags,
+        has_vocals: has_vocals !== false && !make_instrumental,
+        model,
+        timestamp: new Date().toISOString(),
+      },
+    });
 
     console.log('Track created successfully:', track.id);
 

@@ -3,71 +3,27 @@ import { useAuth } from '@/hooks/useAuth';
 import { Navigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Music2, Search, Play, Pause, Loader2, Clock } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { Button } from '@/components/ui/button';
-
-interface Track {
-  id: string;
-  title: string;
-  prompt: string;
-  status: string;
-  audio_url: string | null;
-  cover_url: string | null;
-  created_at: string;
-  duration_seconds: number | null;
-  has_vocals: boolean;
-}
+import { Music2, Search, Loader2 } from 'lucide-react';
+import { useTracks } from '@/hooks/useTracks';
+import { TrackCard } from '@/components/TrackCard';
+import { TrackAnalytics } from '@/components/TrackAnalytics';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
-  const [tracks, setTracks] = useState<Track[]>([]);
-  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [playingTrackId, setPlayingTrackId] = useState<string | null>(null);
+  const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      loadTracks();
-      
-      // Set up realtime subscription
-      const subscription = supabase
-        .channel('tracks_changes')
-        .on(
-          'postgres_changes',
-          {
-            event: '*',
-            schema: 'public',
-            table: 'tracks',
-          },
-          () => {
-            loadTracks();
-          }
-        )
-        .subscribe();
-
-      return () => {
-        subscription.unsubscribe();
-      };
-    }
-  }, [isAuthenticated]);
-
-  const loadTracks = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('tracks')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setTracks(data || []);
-    } catch (error) {
-      console.error('Error loading tracks:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    tracks,
+    isLoading,
+    deleteTrack,
+    toggleLike,
+    logPlay,
+    downloadTrack,
+    syncTags,
+  } = useTracks();
 
   if (authLoading) {
     return (
@@ -81,21 +37,34 @@ export default function Library() {
     return <Navigate to="/auth" replace />;
   }
 
-  const filteredTracks = tracks.filter(
+  const filteredTracks = (tracks || []).filter(
     (track) =>
       track.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       track.prompt?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const getStatusBadge = (status: string) => {
-    const variants: Record<string, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
-      pending: { label: 'Ожидание', variant: 'secondary' },
-      processing: { label: 'Обработка', variant: 'default' },
-      completed: { label: 'Готов', variant: 'outline' },
-      failed: { label: 'Ошибка', variant: 'destructive' },
-    };
-    const config = variants[status] || { label: status, variant: 'outline' };
-    return <Badge variant={config.variant}>{config.label}</Badge>;
+  const handlePlay = (trackId: string, audioUrl: string | null) => {
+    if (!audioUrl) return;
+    
+    if (playingTrackId === trackId) {
+      setPlayingTrackId(null);
+    } else {
+      setPlayingTrackId(trackId);
+      logPlay(trackId);
+    }
+  };
+
+  const handleDownload = (trackId: string, audioUrl: string | null, coverUrl: string | null) => {
+    if (!audioUrl) return;
+    
+    // Try automatic download to storage
+    downloadTrack({ trackId, audioUrl, coverUrl: coverUrl || undefined });
+    
+    // Also trigger browser download
+    const link = document.createElement('a');
+    link.href = audioUrl;
+    link.download = `track-${trackId}.mp3`;
+    link.click();
   };
 
   return (
@@ -125,7 +94,7 @@ export default function Library() {
           </div>
         </Card>
 
-        {loading ? (
+        {isLoading ? (
           <div className="flex items-center justify-center py-12">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
@@ -142,74 +111,40 @@ export default function Library() {
             </p>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredTracks.map((track) => (
-              <Card
-                key={track.id}
-                className="glass-card border-primary/20 p-4 hover:border-primary/40 transition-all"
-              >
-                <div className="aspect-square bg-gradient-to-br from-primary/20 to-primary/5 rounded-lg mb-3 flex items-center justify-center relative overflow-hidden">
-                  {track.cover_url ? (
-                    <img
-                      src={track.cover_url}
-                      alt={track.title}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <Music2 className="w-12 h-12 text-primary/40" />
-                  )}
-                  {track.status === 'processing' && (
-                    <div className="absolute inset-0 bg-background/80 flex items-center justify-center">
-                      <Loader2 className="w-8 h-8 animate-spin text-primary" />
-                    </div>
-                  )}
-                </div>
+          <Tabs defaultValue="grid" className="w-full">
+            <TabsList className="mb-4">
+              <TabsTrigger value="grid">Сетка</TabsTrigger>
+              <TabsTrigger value="analytics" disabled={!selectedTrackId}>
+                Аналитика
+              </TabsTrigger>
+            </TabsList>
 
-                <h3 className="font-semibold truncate mb-1">{track.title}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
-                  {track.prompt}
-                </p>
-
-                <div className="flex items-center justify-between mb-3">
-                  {getStatusBadge(track.status)}
-                  {track.duration_seconds && (
-                    <span className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      {Math.floor(track.duration_seconds / 60)}:
-                      {String(track.duration_seconds % 60).padStart(2, '0')}
-                    </span>
-                  )}
-                </div>
-
-                {track.audio_url && track.status === 'completed' && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="w-full gap-2"
-                    onClick={() => {
-                      if (playingTrackId === track.id) {
-                        setPlayingTrackId(null);
-                      } else {
-                        setPlayingTrackId(track.id);
+            <TabsContent value="grid">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {filteredTracks.map((track) => (
+                  <div key={track.id} onClick={() => setSelectedTrackId(track.id)}>
+                    <TrackCard
+                      track={track}
+                      isPlaying={playingTrackId === track.id}
+                      onPlay={() => handlePlay(track.id, track.audio_url)}
+                      onDelete={() => deleteTrack(track.id)}
+                      onDownload={() => handleDownload(track.id, track.audio_url, track.cover_url)}
+                      onToggleLike={() =>
+                        toggleLike({
+                          trackId: track.id,
+                          isLiked: track.is_liked || false,
+                        })
                       }
-                    }}
-                  >
-                    {playingTrackId === track.id ? (
-                      <>
-                        <Pause className="w-4 h-4" />
-                        Пауза
-                      </>
-                    ) : (
-                      <>
-                        <Play className="w-4 h-4" />
-                        Воспроизвести
-                      </>
-                    )}
-                  </Button>
-                )}
-              </Card>
-            ))}
-          </div>
+                    />
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="analytics">
+              {selectedTrackId && <TrackAnalytics trackId={selectedTrackId} />}
+            </TabsContent>
+          </Tabs>
         )}
       </div>
     </div>
