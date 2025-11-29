@@ -62,8 +62,8 @@ serve(async (req) => {
 
     console.log('Checking status for Suno task:', sunoTaskId);
 
-    // Query Suno API for task status
-    const sunoResponse = await fetch(`https://api.sunoapi.org/api/v1/query?taskId=${sunoTaskId}`, {
+    // Query Suno API for task status using correct endpoint
+    const sunoResponse = await fetch(`https://api.sunoapi.org/api/get?ids=${sunoTaskId}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${sunoApiKey}`,
@@ -73,17 +73,17 @@ serve(async (req) => {
 
     const sunoData = await sunoResponse.json();
 
-    if (!sunoResponse.ok || sunoData.code !== 200) {
+    if (!sunoResponse.ok || sunoData.code !== 'success') {
       console.error('SunoAPI query error:', sunoData);
-      throw new Error(sunoData.msg || 'Failed to query Suno API');
+      throw new Error(sunoData.message || 'Failed to query Suno API');
     }
 
     const trackId = task.track_id;
-    const audioData = sunoData.data?.data || [];
+    const audioData = sunoData.data || [];
     const firstClip = audioData[0];
 
     // Check if generation is complete
-    if (firstClip && firstClip.status === 'complete') {
+    if (firstClip && firstClip.status === 'SUCCESS') {
       console.log('Task completed, updating records');
 
       // Download audio file
@@ -92,7 +92,7 @@ serve(async (req) => {
 
       try {
         // Download and save audio to storage
-        const audioResponse = await fetch(firstClip.audioUrl);
+        const audioResponse = await fetch(firstClip.audio_url);
         const audioBlob = await audioResponse.blob();
         const audioFileName = `${trackId}_${Date.now()}.mp3`;
         
@@ -111,8 +111,8 @@ serve(async (req) => {
         }
 
         // Download and save cover image
-        if (firstClip.imageUrl) {
-          const coverResponse = await fetch(firstClip.imageUrl);
+        if (firstClip.image_url) {
+          const coverResponse = await fetch(firstClip.image_url);
           const coverBlob = await coverResponse.blob();
           const coverFileName = `${trackId}_cover_${Date.now()}.jpg`;
           
@@ -139,15 +139,15 @@ serve(async (req) => {
         .from('tracks')
         .update({
           status: 'completed',
-          audio_url: firstClip.audioUrl,
-          streaming_url: firstClip.audioUrl,
+          audio_url: firstClip.audio_url,
+          streaming_url: firstClip.audio_url,
           local_audio_url: localAudioUrl,
-          cover_url: firstClip.imageUrl || task.tracks.cover_url,
+          cover_url: firstClip.image_url || task.tracks.cover_url,
           local_cover_url: localCoverUrl,
           title: firstClip.title || task.tracks.title,
           duration_seconds: firstClip.duration || null,
           tags: firstClip.tags || task.tracks.tags,
-          lyrics: firstClip.lyric || task.tracks.lyrics,
+          lyrics: firstClip.metadata?.prompt || task.tracks.lyrics,
         })
         .eq('id', trackId);
 
@@ -166,8 +166,8 @@ serve(async (req) => {
         .from('track_versions')
         .insert({
           track_id: trackId,
-          audio_url: firstClip.audioUrl,
-          cover_url: firstClip.imageUrl,
+          audio_url: firstClip.audio_url,
+          cover_url: firstClip.image_url,
           duration_seconds: firstClip.duration,
           version_type: 'original',
           is_primary: true,
@@ -210,9 +210,9 @@ serve(async (req) => {
         }
       );
 
-    } else if (firstClip && firstClip.status === 'error') {
+    } else if (firstClip && firstClip.status === 'FAILED') {
       // Generation failed
-      const errorMessage = firstClip.errorMessage || 'Generation failed';
+      const errorMessage = firstClip.metadata?.error_message || 'Generation failed';
 
       await supabase
         .from('generation_tasks')
