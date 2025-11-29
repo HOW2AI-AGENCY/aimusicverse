@@ -1,4 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.7';
+import { createHmac } from 'node:crypto';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -12,6 +13,8 @@ interface TelegramUser {
   username?: string;
   language_code?: string;
   photo_url?: string;
+  allows_write_to_pm?: boolean;
+  is_premium?: boolean;
 }
 
 interface TelegramAuthData {
@@ -27,130 +30,108 @@ interface AuthResponse {
 }
 
 /**
- * Validates Telegram Web App initData according to official documentation
- * @see https://core.telegram.org/bots/webapps#validating-data-received-via-the-mini-app
+ * Validates Telegram Web App initData using the official algorithm
+ * Based on https://core.telegram.org/bots/webapps#validating-data-received-via-the-mini-app
+ * 
+ * Algorithm:
+ * 1. Parse initData as URL query string
+ * 2. Extract hash parameter
+ * 3. Sort remaining parameters alphabetically
+ * 4. Create data-check-string: key=value pairs joined by \n
+ * 5. secret_key = HMAC-SHA256("WebAppData", bot_token)
+ * 6. calculated_hash = HMAC-SHA256(secret_key, data-check-string)
+ * 7. Compare calculated_hash with received hash
  */
-async function validateTelegramData(initData: string, botToken: string): Promise<TelegramUser | null> {
+function validateTelegramWebAppData(initData: string, botToken: string): TelegramUser | null {
   try {
-    console.log('🔐 Starting Telegram data validation...');
+    console.log('🔐 Starting Telegram validation...');
     console.log('📊 InitData length:', initData.length);
-    
-    // Decode the init data
+
+    // Step 1: Decode and parse initData
     const decoded = decodeURIComponent(initData);
-    console.log('📄 Decoded initData preview:', decoded.substring(0, 100) + '...');
-    
-    // Parse parameters
     const params = decoded.split('&');
-    let hash = '';
-    const dataCheckArr: string[] = [];
     
-    // Extract hash and collect other parameters
+    let receivedHash = '';
+    const dataCheckArray: string[] = [];
+    
+    // Step 2: Extract hash and collect other parameters
     for (const param of params) {
-      if (param.startsWith('hash=')) {
-        hash = param.split('=')[1];
+      const [key, value] = param.split('=');
+      if (key === 'hash') {
+        receivedHash = value;
       } else {
-        dataCheckArr.push(param);
+        dataCheckArray.push(param);
       }
     }
-    
-    if (!hash) {
-      console.error('❌ No hash in initData');
+
+    if (!receivedHash) {
+      console.error('❌ No hash found in initData');
       return null;
     }
+
+    console.log('🔑 Received hash:', receivedHash);
+
+    // Step 3: Sort parameters alphabetically
+    dataCheckArray.sort((a, b) => a.localeCompare(b));
     
-    console.log('🔑 Hash found:', hash);
-    
-    // Sort parameters alphabetically
-    dataCheckArr.sort((a, b) => a.localeCompare(b));
-    
-    // Create data check string with newline separator
-    const dataCheckString = dataCheckArr.join('\n');
-    console.log('📝 Data check string created');
-    console.log('📋 Params count:', dataCheckArr.length);
-    console.log('📋 First param:', dataCheckArr[0]?.substring(0, 50) + '...');
-    
-    // Step 1: Create secret key = HMAC-SHA256("WebAppData", bot_token)
-    const encoder = new TextEncoder();
-    const webAppDataKey = await crypto.subtle.importKey(
-      'raw',
-      encoder.encode('WebAppData'),
-      { name: 'HMAC', hash: 'SHA-256' },
-      false,
-      ['sign']
-    );
-    
-    const secretKeyData = await crypto.subtle.sign(
-      'HMAC',
-      webAppDataKey,
-      encoder.encode(botToken)
-    );
-    
+    // Step 4: Create data-check-string
+    const dataCheckString = dataCheckArray.join('\n');
+    console.log('📝 Data check string:', dataCheckString.substring(0, 100) + '...');
+
+    // Step 5: Calculate secret_key = HMAC-SHA256("WebAppData", bot_token)
+    const secretKey = createHmac('sha256', 'WebAppData')
+      .update(botToken)
+      .digest();
+
     console.log('🔑 Secret key generated');
 
-    // Step 2: Create calculated hash = HMAC-SHA256(secret_key, data_check_string)
-    const secretKey = await crypto.subtle.importKey(
-      'raw',
-      secretKeyData,
-      { name: 'HMAC', hash: 'SHA-256' },
-      false,
-      ['sign']
-    );
-
-    const signature = await crypto.subtle.sign(
-      'HMAC',
-      secretKey,
-      encoder.encode(dataCheckString)
-    );
-
-    const calculatedHash = Array.from(new Uint8Array(signature))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
+    // Step 6: Calculate hash = HMAC-SHA256(secret_key, data-check-string)
+    const calculatedHash = createHmac('sha256', secretKey)
+      .update(dataCheckString)
+      .digest('hex');
 
     console.log('🔐 Calculated hash:', calculatedHash);
-    console.log('🔐 Received hash:  ', hash);
+    console.log('🔐 Received hash:  ', receivedHash);
 
-    // Verify hash matches
-    if (calculatedHash !== hash) {
-      console.error('❌ Hash validation failed - hashes do not match');
-      console.error('Expected:', calculatedHash);
-      console.error('Received:', hash);
-      console.error('🔧 Bot token (first 10 chars):', botToken.substring(0, 10) + '...');
-      console.error('📋 Data check string preview:', dataCheckString.substring(0, 150) + '...');
+    // Step 7: Compare hashes
+    if (calculatedHash !== receivedHash) {
+      console.error('❌ Hash mismatch!');
+      console.error('📋 Bot token preview:', botToken.substring(0, 15) + '...');
       return null;
     }
 
     console.log('✅ Hash validation successful!');
 
-    // Validate timestamp to prevent replay attacks
+    // Step 8: Validate timestamp (24 hours max age)
     const authDateParam = params.find(p => p.startsWith('auth_date='));
     if (authDateParam) {
       const authTimestamp = parseInt(authDateParam.split('=')[1], 10);
       const currentTimestamp = Math.floor(Date.now() / 1000);
-      const maxAge = 86400; // 24 hours for development
-      
+      const maxAge = 86400; // 24 hours
+
       if (currentTimestamp - authTimestamp > maxAge) {
-        console.error('❌ InitData too old:', {
-          authTimestamp,
-          currentTimestamp,
-          age: currentTimestamp - authTimestamp,
-          maxAge
-        });
+        console.error('❌ InitData expired');
         return null;
       }
-      console.log('✅ Timestamp validation passed');
+      console.log('✅ Timestamp valid');
     }
 
-    // Parse and return user data
+    // Step 9: Extract and parse user data
     const userParam = params.find(p => p.startsWith('user='));
     if (!userParam) {
       console.error('❌ No user data in initData');
       return null;
     }
 
-    const userData = userParam.split('=')[1];
-    const user = JSON.parse(decodeURIComponent(userData)) as TelegramUser;
-    console.log('✅ User validated:', user.id, user.first_name, user.username || '(no username)');
+    const userData = decodeURIComponent(userParam.split('=')[1]);
+    const user = JSON.parse(userData) as TelegramUser;
     
+    console.log('✅ User validated:', {
+      id: user.id,
+      name: user.first_name,
+      username: user.username || 'none'
+    });
+
     return user;
   } catch (error) {
     console.error('❌ Validation error:', error);
@@ -160,7 +141,7 @@ async function validateTelegramData(initData: string, botToken: string): Promise
 
 /**
  * Main handler for Telegram OAuth authentication
- * Implements secure OAuth flow with Telegram Mini App
+ * Implements secure OAuth flow with JWT generation
  */
 Deno.serve(async (req) => {
   // Handle CORS preflight
@@ -170,7 +151,6 @@ Deno.serve(async (req) => {
 
   console.log('🚀 Telegram Auth function invoked');
   console.log('📍 Method:', req.method);
-  console.log('📍 URL:', req.url);
 
   try {
     // Get environment variables
@@ -189,12 +169,10 @@ Deno.serve(async (req) => {
 
     if (!botToken) {
       console.error('❌ TELEGRAM_BOT_TOKEN not set');
-      console.error('💡 Добавьте TELEGRAM_BOT_TOKEN в Supabase → Project Settings → Edge Functions → Secrets');
       return new Response(
         JSON.stringify({
-          error: 'Telegram bot token not configured',
-          message: 'TELEGRAM_BOT_TOKEN не настроен в Supabase Secrets',
-          solution: 'Добавьте TELEGRAM_BOT_TOKEN в Project Settings → Edge Functions → Manage secrets'
+          error: 'TELEGRAM_BOT_TOKEN not configured',
+          message: 'Настройте TELEGRAM_BOT_TOKEN в Secrets'
         }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
@@ -213,63 +191,32 @@ Deno.serve(async (req) => {
     // Parse request body
     const { initData } = await req.json() as TelegramAuthData;
 
-    if (!initData) {
-      console.error('❌ No initData in request');
+    if (!initData || typeof initData !== 'string' || initData.trim().length === 0) {
+      console.error('❌ Invalid initData');
       return new Response(
         JSON.stringify({
-          error: 'Missing initData',
-          message: 'InitData не передан в запросе'
-        }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    if (typeof initData !== 'string' || initData.trim().length === 0) {
-      console.error('❌ Invalid initData format');
-      return new Response(
-        JSON.stringify({
-          error: 'Invalid initData format',
-          message: 'InitData должен быть непустой строкой'
+          error: 'Invalid initData',
+          message: 'InitData обязателен'
         }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
     console.log('📦 InitData received, length:', initData.length);
-    console.log('📄 InitData preview:', initData.substring(0, 100) + '...');
 
     // Step 1: Validate Telegram data
-    let telegramUser = await validateTelegramData(initData, botToken);
+    const telegramUser = validateTelegramWebAppData(initData, botToken);
     
-    // Development fallback: if validation fails but we have user data, use it anyway
     if (!telegramUser) {
-      console.warn('⚠️ Telegram validation failed, checking for development fallback...');
-      
-      // Try to extract user data even if hash validation failed (for development)
-      try {
-        const urlParams = new URLSearchParams(initData);
-        const userParam = urlParams.get('user');
-        if (userParam) {
-          const parsedUser = JSON.parse(userParam);
-          console.warn('🔧 Development mode: Using user data despite failed validation');
-          console.warn('👤 User:', parsedUser);
-          telegramUser = parsedUser;
-        }
-      } catch (e) {
-        console.error('❌ Could not parse user data:', e);
-      }
-      
-      if (!telegramUser) {
-        console.error('❌ Telegram validation failed and no fallback available');
-        return new Response(
-          JSON.stringify({
-            error: 'Invalid Telegram authentication data',
-            message: 'Валидация Telegram данных не прошла. Проверьте TELEGRAM_BOT_TOKEN или перезапустите Mini App.',
-            details: 'Hash validation failed or initData expired'
-          }),
-          { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
-      }
+      console.error('❌ Telegram validation failed');
+      return new Response(
+        JSON.stringify({
+          error: 'Invalid Telegram authentication data',
+          message: 'Валидация не прошла. Проверьте TELEGRAM_BOT_TOKEN.',
+          hint: 'Перезапустите Mini App для получения свежего initData'
+        }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     console.log('✅ Telegram user validated:', telegramUser.id);
@@ -282,7 +229,7 @@ Deno.serve(async (req) => {
       .maybeSingle();
 
     if (profileCheckError) {
-      console.error('❌ Error checking profile:', profileCheckError);
+      console.error('❌ Database error:', profileCheckError);
       return new Response(
         JSON.stringify({ error: 'Database error' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -291,31 +238,32 @@ Deno.serve(async (req) => {
 
     const email = `telegram_${telegramUser.id}@telegram.user`;
     let userId: string;
-    let sessionData: any;
+    let accessToken: string;
+    let refreshToken: string;
 
-    // Step 3: Handle existing user
+    // Step 3: Handle existing user - generate new session
     if (existingProfile) {
       console.log('👤 Existing user found:', existingProfile.user_id);
       userId = existingProfile.user_id;
 
-      // Generate new password for session
+      // Generate new secure password for session
       const newPassword = crypto.randomUUID();
       
-      // Update user password
+      // Update user password to allow sign in
       const { error: updateError } = await supabase.auth.admin.updateUserById(
         userId,
         { password: newPassword }
       );
 
       if (updateError) {
-        console.error('❌ Failed to update password:', updateError);
+        console.error('❌ Password update failed:', updateError);
         return new Response(
           JSON.stringify({ error: 'Authentication error' }),
           { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
 
-      // Update profile data
+      // Update profile with latest Telegram data
       const { error: profileUpdateError } = await supabase
         .from('profiles')
         .update({
@@ -332,24 +280,26 @@ Deno.serve(async (req) => {
         console.warn('⚠️ Profile update failed:', profileUpdateError);
       }
 
-      // Create session
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+      // Sign in to generate JWT tokens
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password: newPassword,
       });
 
-      if (signInError || !data.session) {
-        console.error('❌ Session creation failed:', signInError);
+      if (signInError || !signInData.session) {
+        console.error('❌ Session generation failed:', signInError);
         return new Response(
           JSON.stringify({ error: 'Failed to create session' }),
           { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
 
-      sessionData = data;
+      accessToken = signInData.session.access_token;
+      refreshToken = signInData.session.refresh_token;
+      
       console.log('✅ Session created for existing user');
     } 
-    // Step 4: Create new user
+    // Step 4: Create new user and generate session
     else {
       console.log('🆕 Creating new user for Telegram ID:', telegramUser.id);
       
@@ -366,6 +316,7 @@ Deno.serve(async (req) => {
           last_name: telegramUser.last_name,
           username: telegramUser.username,
           language_code: telegramUser.language_code,
+          photo_url: telegramUser.photo_url,
         },
       });
 
@@ -395,7 +346,7 @@ Deno.serve(async (req) => {
 
       if (profileError) {
         console.error('❌ Profile creation failed:', profileError);
-        // Try to clean up auth user
+        // Clean up auth user
         await supabase.auth.admin.deleteUser(userId);
         return new Response(
           JSON.stringify({ error: 'Failed to create profile' }),
@@ -405,35 +356,37 @@ Deno.serve(async (req) => {
 
       console.log('✅ Profile created');
 
-      // Create session
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+      // Sign in to generate JWT tokens
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (signInError || !data.session) {
-        console.error('❌ Session creation failed:', signInError);
+      if (signInError || !signInData.session) {
+        console.error('❌ Session generation failed:', signInError);
         return new Response(
           JSON.stringify({ error: 'Failed to create session' }),
           { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
 
-      sessionData = data;
+      accessToken = signInData.session.access_token;
+      refreshToken = signInData.session.refresh_token;
+      
       console.log('✅ Session created for new user');
     }
 
-    // Step 5: Return OAuth tokens
+    // Step 5: Return JWT tokens to client
     const response: AuthResponse = {
       user: telegramUser,
       session: {
-        access_token: sessionData.session.access_token,
-        refresh_token: sessionData.session.refresh_token,
+        access_token: accessToken,
+        refresh_token: refreshToken,
       },
     };
 
     console.log('✅ Authentication successful for user:', userId);
-    console.log('🎉 Returning session tokens');
+    console.log('🎉 Returning JWT tokens');
 
     return new Response(
       JSON.stringify(response),
