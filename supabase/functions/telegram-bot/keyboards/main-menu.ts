@@ -129,5 +129,6 @@ export function createTrackDetailsKeyboard(trackId: string) {
 }
 
 export function getMainBanner(): string {
-  return 'https://i.ibb.co/GWh5DKm/musicverse-banner.png';
+  // Use stable, reliable image hosting
+  return 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&h=400&fit=crop&q=80';
 }
