@@ -26,6 +26,7 @@ export const ProjectDetailsTab = ({ project }: ProjectDetailsTabProps) => {
     target_audience: project.target_audience || '',
     release_date: project.release_date || '',
     concept: project.concept || '',
+    language: project.language || 'ru',
   });
 
   const handleSave = () => {
@@ -46,6 +47,7 @@ export const ProjectDetailsTab = ({ project }: ProjectDetailsTabProps) => {
       target_audience: project.target_audience || '',
       release_date: project.release_date || '',
       concept: project.concept || '',
+      language: project.language || 'ru',
     });
     setIsEditing(false);
   };
@@ -131,6 +133,39 @@ export const ProjectDetailsTab = ({ project }: ProjectDetailsTabProps) => {
                 <p className="text-sm text-foreground">{project.mood || 'Не указано'}</p>
               )}
             </div>
+          </div>
+
+          {/* Language */}
+          <div className="space-y-2">
+            <Label htmlFor="language">Язык проекта</Label>
+            {isEditing ? (
+              <Select 
+                value={formData.language} 
+                onValueChange={(value) => setFormData({ ...formData, language: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="ru">
+                    <div className="flex items-center gap-2">
+                      <span>🇷🇺</span>
+                      <span>Русский</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="en">
+                    <div className="flex items-center gap-2">
+                      <span>🇬🇧</span>
+                      <span>English</span>
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            ) : (
+              <p className="text-sm text-foreground">
+                {project.language === 'ru' ? '🇷🇺 Русский' : '🇬🇧 English'}
+              </p>
+            )}
           </div>
 
           {/* Status */}

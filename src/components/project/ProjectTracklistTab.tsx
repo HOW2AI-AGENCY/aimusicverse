@@ -34,6 +34,7 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [editingTrack, setEditingTrack] = useState<ProjectTrack | null>(null);
   const [lyricsEditingTrack, setLyricsEditingTrack] = useState<ProjectTrack | null>(null);
+  const [isGeneratingLyrics, setIsGeneratingLyrics] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     style_prompt: '',
@@ -128,11 +129,46 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
       id: trackId,
       updates: {
         style_prompt: lyricsData.stylePrompt,
-        notes: lyricsData.finalPrompt, // Store full prompt in notes
+        notes: lyricsData.finalPrompt,
       },
     });
     setLyricsEditingTrack(null);
     toast.success('Лирика сохранена');
+  };
+
+  const handleGenerateLyrics = async () => {
+    if (!lyricsEditingTrack) return;
+
+    setIsGeneratingLyrics(true);
+    try {
+      const theme = lyricsEditingTrack.notes || lyricsEditingTrack.title;
+      const style = lyricsEditingTrack.style_prompt || project.genre || '';
+      const mood = project.mood || '';
+
+      const { data, error } = await supabase.functions.invoke('generate-lyrics', {
+        body: {
+          theme,
+          style,
+          mood,
+          language: project.language || 'ru',
+          trackId: lyricsEditingTrack.id,
+          projectId: project.id,
+          structure: 'verse-chorus-verse-chorus-bridge-chorus',
+        },
+      });
+
+      if (error) throw error;
+
+      if (data?.success) {
+        toast.success(data.message || 'Генерация лирики начата');
+        toast.info('Результат будет доступен через несколько секунд');
+      }
+    } catch (error: any) {
+      console.error('Error generating lyrics:', error);
+      toast.error('Ошибка генерации лирики');
+    } finally {
+      setIsGeneratingLyrics(false);
+    }
   };
 
   return (
@@ -445,6 +481,26 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
             <p className="text-sm text-muted-foreground">
               Редактирование лирики и структуры трека
             </p>
+            <div className="pt-2">
+              <Button
+                onClick={handleGenerateLyrics}
+                disabled={isGeneratingLyrics}
+                className="w-full gap-2"
+                variant="outline"
+              >
+                {isGeneratingLyrics ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                    Генерация лирики...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4" />
+                    Сгенерировать лирику с AI (Suno)
+                  </>
+                )}
+              </Button>
+            </div>
           </SheetHeader>
 
           {lyricsEditingTrack && (
