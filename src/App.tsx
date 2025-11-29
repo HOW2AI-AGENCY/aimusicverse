@@ -6,12 +6,17 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { TelegramProvider } from "@/contexts/TelegramContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { BottomNavigation } from "@/components/BottomNavigation";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import Tasks from "./pages/Tasks";
 import Generate from "./pages/Generate";
 import Library from "./pages/Library";
+import Projects from "./pages/Projects";
+import Artists from "./pages/Artists";
+import Blog from "./pages/Blog";
+import Analytics from "./pages/Analytics";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient({
@@ -23,6 +28,13 @@ const queryClient = new QueryClient({
   },
 });
 
+const ProtectedLayout = ({ children }: { children: React.ReactNode }) => (
+  <>
+    {children}
+    <BottomNavigation />
+  </>
+);
+
 const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
@@ -33,11 +45,15 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/auth" element={<Auth />} />
-              <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
-              <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-              <Route path="/tasks" element={<ProtectedRoute><Tasks /></ProtectedRoute>} />
-              <Route path="/generate" element={<ProtectedRoute><Generate /></ProtectedRoute>} />
-              <Route path="/library" element={<ProtectedRoute><Library /></ProtectedRoute>} />
+              <Route path="/" element={<ProtectedRoute><ProtectedLayout><Index /></ProtectedLayout></ProtectedRoute>} />
+              <Route path="/profile" element={<ProtectedRoute><ProtectedLayout><Profile /></ProtectedLayout></ProtectedRoute>} />
+              <Route path="/tasks" element={<ProtectedRoute><ProtectedLayout><Tasks /></ProtectedLayout></ProtectedRoute>} />
+              <Route path="/generate" element={<ProtectedRoute><ProtectedLayout><Generate /></ProtectedLayout></ProtectedRoute>} />
+              <Route path="/library" element={<ProtectedRoute><ProtectedLayout><Library /></ProtectedLayout></ProtectedRoute>} />
+              <Route path="/projects" element={<ProtectedRoute><ProtectedLayout><Projects /></ProtectedLayout></ProtectedRoute>} />
+              <Route path="/artists" element={<ProtectedRoute><ProtectedLayout><Artists /></ProtectedLayout></ProtectedRoute>} />
+              <Route path="/blog" element={<ProtectedRoute><ProtectedLayout><Blog /></ProtectedLayout></ProtectedRoute>} />
+              <Route path="/analytics" element={<ProtectedRoute><ProtectedLayout><Analytics /></ProtectedLayout></ProtectedRoute>} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
