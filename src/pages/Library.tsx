@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Music2, Search, Loader2 } from 'lucide-react';
-import { useTracks } from '@/hooks/useTracks';
+import { useTracks } from '@/hooks/useTracksOptimized';
 import { TrackCard } from '@/components/TrackCard';
 import { TrackAnalytics } from '@/components/TrackAnalytics';
 import { TrackLyricsView } from '@/components/TrackLyricsView';
