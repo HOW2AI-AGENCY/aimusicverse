@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      music_projects: {
+        Row: {
+          context_vector: Json | null
+          cover_url: string | null
+          created_at: string | null
+          genre: string | null
+          id: string
+          mood: string | null
+          status: string | null
+          title: string
+          type: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          context_vector?: Json | null
+          cover_url?: string | null
+          created_at?: string | null
+          genre?: string | null
+          id?: string
+          mood?: string | null
+          status?: string | null
+          title: string
+          type?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          context_vector?: Json | null
+          cover_url?: string | null
+          created_at?: string | null
+          genre?: string | null
+          id?: string
+          mood?: string | null
+          status?: string | null
+          title?: string
+          type?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           action_url: string | null
@@ -165,6 +207,188 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "task_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      track_stems: {
+        Row: {
+          audio_url: string
+          created_at: string | null
+          id: string
+          separation_mode: string | null
+          stem_type: string
+          track_id: string
+          version_id: string | null
+        }
+        Insert: {
+          audio_url: string
+          created_at?: string | null
+          id?: string
+          separation_mode?: string | null
+          stem_type: string
+          track_id: string
+          version_id?: string | null
+        }
+        Update: {
+          audio_url?: string
+          created_at?: string | null
+          id?: string
+          separation_mode?: string | null
+          stem_type?: string
+          track_id?: string
+          version_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "track_stems_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "track_stems_version_id_fkey"
+            columns: ["version_id"]
+            isOneToOne: false
+            referencedRelation: "track_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      track_versions: {
+        Row: {
+          audio_url: string
+          cover_url: string | null
+          created_at: string | null
+          duration_seconds: number | null
+          id: string
+          is_primary: boolean | null
+          metadata: Json | null
+          parent_version_id: string | null
+          track_id: string
+          version_type: string | null
+        }
+        Insert: {
+          audio_url: string
+          cover_url?: string | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          id?: string
+          is_primary?: boolean | null
+          metadata?: Json | null
+          parent_version_id?: string | null
+          track_id: string
+          version_type?: string | null
+        }
+        Update: {
+          audio_url?: string
+          cover_url?: string | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          id?: string
+          is_primary?: boolean | null
+          metadata?: Json | null
+          parent_version_id?: string | null
+          track_id?: string
+          version_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "track_versions_parent_version_id_fkey"
+            columns: ["parent_version_id"]
+            isOneToOne: false
+            referencedRelation: "track_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "track_versions_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tracks: {
+        Row: {
+          audio_url: string | null
+          cover_url: string | null
+          created_at: string | null
+          duration_seconds: number | null
+          error_message: string | null
+          has_vocals: boolean | null
+          id: string
+          is_public: boolean | null
+          lyrics: string | null
+          model_name: string | null
+          play_count: number | null
+          project_id: string | null
+          prompt: string
+          provider: string | null
+          status: string | null
+          style: string | null
+          suno_id: string | null
+          suno_task_id: string | null
+          tags: string | null
+          title: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          audio_url?: string | null
+          cover_url?: string | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          error_message?: string | null
+          has_vocals?: boolean | null
+          id?: string
+          is_public?: boolean | null
+          lyrics?: string | null
+          model_name?: string | null
+          play_count?: number | null
+          project_id?: string | null
+          prompt: string
+          provider?: string | null
+          status?: string | null
+          style?: string | null
+          suno_id?: string | null
+          suno_task_id?: string | null
+          tags?: string | null
+          title?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          audio_url?: string | null
+          cover_url?: string | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          error_message?: string | null
+          has_vocals?: boolean | null
+          id?: string
+          is_public?: boolean | null
+          lyrics?: string | null
+          model_name?: string | null
+          play_count?: number | null
+          project_id?: string | null
+          prompt?: string
+          provider?: string | null
+          status?: string | null
+          style?: string | null
+          suno_id?: string | null
+          suno_task_id?: string | null
+          tags?: string | null
+          title?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tracks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "music_projects"
             referencedColumns: ["id"]
           },
         ]
