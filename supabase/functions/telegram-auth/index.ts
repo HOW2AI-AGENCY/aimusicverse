@@ -30,18 +30,20 @@ async function validateTelegramData(initData: string, botToken: string): Promise
       return null;
     }
     
-    // Remove hash from params (keep everything else including signature)
+    // Remove hash and signature from validation
+    // Note: signature is NOT part of the validation for Mini Apps
     urlParams.delete('hash');
+    urlParams.delete('signature');
 
     // Sort all parameters alphabetically by key and create data check string
-    const dataCheckArr: string[] = [];
     const sortedKeys = Array.from(urlParams.keys()).sort();
+    const dataCheckArr: string[] = [];
     
     for (const key of sortedKeys) {
       const value = urlParams.get(key);
       if (value) {
-        // URL decode the value to handle special characters
-        dataCheckArr.push(`${key}=${decodeURIComponent(value)}`);
+        // Keep original value without decoding for hash calculation
+        dataCheckArr.push(`${key}=${value}`);
       }
     }
     
@@ -99,7 +101,7 @@ async function validateTelegramData(initData: string, botToken: string): Promise
       return null;
     }
 
-    console.log('Hash validation successful!');
+    console.log('✅ Hash validation successful!');
 
     // Check timestamp to prevent replay attacks (max age: 24 hours for development, 5 min for production)
     const authDate = urlParams.get('auth_date');
@@ -117,7 +119,7 @@ async function validateTelegramData(initData: string, botToken: string): Promise
         });
         return null;
       }
-      console.log('Timestamp validation passed - initData is fresh');
+      console.log('✅ Timestamp validation passed - initData is fresh');
     } else {
       console.warn('No auth_date found in initData - skipping timestamp validation');
     }
@@ -129,11 +131,11 @@ async function validateTelegramData(initData: string, botToken: string): Promise
       return null;
     }
 
-    const user = JSON.parse(decodeURIComponent(userParam)) as TelegramUser;
-    console.log('User validated successfully:', user.id);
+    const user = JSON.parse(userParam) as TelegramUser;
+    console.log('✅ User validated successfully:', user.id, user.first_name);
     return user;
   } catch (error) {
-    console.error('Error validating Telegram data:', error);
+    console.error('❌ Error validating Telegram data:', error);
     return null;
   }
 }
