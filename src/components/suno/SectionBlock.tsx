@@ -34,6 +34,7 @@ export const SectionBlock = ({
 }: SectionBlockProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [localContent, setLocalContent] = useState(section.content);
+  const [cursorPosition, setCursorPosition] = useState(0);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const sectionLabel = SECTION_LABELS[section.type];
@@ -49,14 +50,20 @@ export const SectionBlock = ({
     }
   }, [isEditing]);
 
+  // Update section content when it changes from outside
+  useEffect(() => {
+    setLocalContent(section.content);
+  }, [section.content]);
+
   const handleSave = () => {
     onUpdate(section.id, localContent);
     setIsEditing(false);
   };
 
   const handleOpenTagMenu = () => {
-    const cursorPosition = textareaRef.current?.selectionStart || localContent.length;
-    onOpenTagMenu(section.id, cursorPosition);
+    const pos = textareaRef.current?.selectionStart || localContent.length;
+    setCursorPosition(pos);
+    onOpenTagMenu(section.id, pos);
   };
 
   // View Mode
@@ -197,6 +204,10 @@ export const SectionBlock = ({
                 setLocalContent(e.target.value);
                 e.target.style.height = 'auto';
                 e.target.style.height = `${e.target.scrollHeight}px`;
+              }}
+              onSelect={(e) => {
+                const target = e.target as HTMLTextAreaElement;
+                setCursorPosition(target.selectionStart);
               }}
               placeholder="Введите текст..."
               className="min-h-[100px] resize-none text-base"
