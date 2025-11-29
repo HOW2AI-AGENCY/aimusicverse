@@ -272,12 +272,17 @@ Provide a comprehensive analysis including:
 5. Specific recommendations for improvement
 6. Suggestions for each empty or weak field with priority level
 
-CRITICAL: For the "field" property in improvements, use EXACT database field names:
-- "description" (NOT "Description")
-- "concept" (NOT "Concept")
-- "target_audience" (NOT "Target Audience" or "targetAudience")
-- "genre" (NOT "Genre")
-- "mood" (NOT "Mood")
+CRITICAL: Use ONLY these EXACT field names in improvements array (these are the actual database columns):
+- "title" (project title, NOT "project_title")
+- "description" (project description)
+- "concept" (creative concept)
+- "target_audience" (target audience, NOT "Target Audience" or "targetAudience")
+- "genre" (music genre)
+- "mood" (emotional mood)
+- "type" (deprecated, use project_type instead)
+- "project_type" (single, ep, album, ost, etc.)
+
+DO NOT suggest improvements for fields not in this list!
 
 Return as JSON:
 {
@@ -326,20 +331,63 @@ Return as JSON:
         break;
 
       case 'improve':
+        // Define valid database fields and their aliases
+        const validFields = [
+          'title', 'description', 'concept', 'target_audience', 
+          'genre', 'mood', 'project_type', 'cover_url', 
+          'reference_artists', 'reference_tracks', 'key_signature',
+          'bpm_range', 'release_date', 'status', 'copyright_info',
+          'label_name', 'is_commercial'
+        ];
+        
         // Map field names to database column names
         const fieldMapping: Record<string, string> = {
+          // Title variations
+          'project_title': 'title',
+          'project title': 'title',
+          'projectTitle': 'title',
+          'Title': 'title',
+          
+          // Target audience variations
           'Target Audience': 'target_audience',
           'target audience': 'target_audience',
           'targetAudience': 'target_audience',
+          'audience': 'target_audience',
+          
+          // Description variations
           'Description': 'description',
+          'desc': 'description',
+          
+          // Concept variations
           'Concept': 'concept',
+          
+          // Genre variations
           'Genre': 'genre',
+          'music genre': 'genre',
+          'musicGenre': 'genre',
+          
+          // Mood variations
           'Mood': 'mood',
-          'Title': 'title',
+          'emotional mood': 'mood',
+          'emotionalMood': 'mood',
+          
+          // Project type variations
+          'type': 'project_type',
+          'Type': 'project_type',
+          'projectType': 'project_type',
+          'project type': 'project_type',
         };
         
         // Normalize field name
-        const normalizedField = fieldMapping[field] || field.toLowerCase().replace(/\s+/g, '_');
+        let normalizedField = fieldMapping[field] || field.toLowerCase().replace(/\s+/g, '_');
+        
+        // Validate that the field exists in the database
+        if (!validFields.includes(normalizedField)) {
+          console.error('Invalid field name:', field, 'normalized to:', normalizedField);
+          throw new Error(`Field "${field}" is not a valid database column. Valid fields: ${validFields.join(', ')}`);
+        }
+        
+        console.log('Field normalization:', { original: field, normalized: normalizedField });
         
         // Generate improved version of a specific field
         const improvePrompt = `${languageInstruction}
