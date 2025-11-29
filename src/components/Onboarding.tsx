@@ -11,7 +11,7 @@ interface OnboardingProps {
 const slides = [
   {
     icon: Music,
-    title: 'AI MusicVerse',
+    title: 'MusicVerse',
     description: 'Платформа для создания и редактирования музыки с помощью искусственного интеллекта',
     gradient: 'from-purple-500/20 to-blue-500/20',
   },

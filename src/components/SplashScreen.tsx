@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Music } from 'lucide-react';
+import logo from '@/assets/logo.png';
 
 interface SplashScreenProps {
   onComplete: () => void;
@@ -30,7 +31,7 @@ export const SplashScreen = ({ onComplete }: SplashScreenProps) => {
         <motion.div
           className="relative"
           animate={{
-            scale: [1, 1.1, 1],
+            scale: [1, 1.05, 1],
           }}
           transition={{
             duration: 2,
@@ -38,8 +39,8 @@ export const SplashScreen = ({ onComplete }: SplashScreenProps) => {
             ease: 'easeInOut',
           }}
         >
-          <div className="p-8 rounded-3xl glass-card border-primary/30">
-            <Music className="w-24 h-24 text-primary" />
+          <div className="p-2 rounded-3xl glass-card border-primary/30">
+            <img src={logo} alt="MusicVerse" className="w-32 h-32 rounded-2xl" />
           </div>
           
           {/* Animated glow rings */}
@@ -64,7 +65,7 @@ export const SplashScreen = ({ onComplete }: SplashScreenProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          AI MusicVerse
+          MusicVerse
         </motion.h1>
 
         {/* Subtitle */}

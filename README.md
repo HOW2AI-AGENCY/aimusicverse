@@ -1,73 +1,111 @@
-# Welcome to your Lovable project
+# 🎵 MusicVerse - AI Music Generation Platform
 
-## Project info
+![MusicVerse Logo](public/logo.png)
 
-**URL**: https://lovable.dev/projects/41aaf5d2-e133-4bbc-b678-4511adfae5c5
+**MusicVerse** - платформа для создания и редактирования музыки с помощью искусственного интеллекта, интегрированная с Telegram Mini Apps.
 
-## How can I edit this code?
+## ✨ Возможности
 
-There are several ways of editing your application.
+- 🎼 **AI Генерация музыки** - создавайте уникальные треки с помощью передовых AI моделей
+- 🎨 **Простой и продвинутый режимы** - выбирайте между быстрой генерацией или детальной настройкой
+- 📚 **Библиотека треков** - управляйте своими композициями, поиск и фильтрация
+- 📁 **Система проектов** - организуйте треки по проектам
+- 🔄 **Real-time обновления** - мгновенные обновления статуса генерации
+- 🎯 **Telegram интеграция** - используйте платформу прямо в Telegram
 
-**Use Lovable**
+## 🚀 Технологии
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/41aaf5d2-e133-4bbc-b678-4511adfae5c5) and start prompting.
+- **Frontend**: React + TypeScript + Vite
+- **UI**: Tailwind CSS + shadcn/ui
+- **Backend**: Lovable Cloud (Supabase)
+- **AI**: Lovable AI (Gemini models)
+- **Database**: PostgreSQL with RLS
+- **Auth**: Telegram Web App Authentication
+- **Real-time**: Supabase Realtime
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## 📦 Установка
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# Клонировать репозиторий
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Перейти в директорию проекта
+cd musicverse
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Установить зависимости
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Запустить dev сервер
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## 🔧 Конфигурация
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Проект использует Lovable Cloud для backend функциональности. Все необходимые переменные окружения настроены автоматически.
 
-**Use GitHub Codespaces**
+Для Telegram интеграции необходимо настроить:
+- Telegram Bot Token (в секретах Lovable Cloud)
+- Telegram Mini App URL
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 📱 Использование
 
-## What technologies are used for this project?
+### Генерация музыки
 
-This project is built with:
+1. Откройте приложение через Telegram Mini App
+2. Нажмите кнопку "+" в навигации
+3. Выберите режим:
+   - **Простой**: быстрая генерация по описанию
+   - **Кастомный**: детальная настройка стиля, настроения и инструментов
+4. Дождитесь генерации трека
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Управление треками
 
-## How can I deploy this project?
+- Просматривайте все треки в разделе "Библиотека"
+- Используйте поиск и фильтры для быстрого доступа
+- Организуйте треки по проектам
 
-Simply open [Lovable](https://lovable.dev/projects/41aaf5d2-e133-4bbc-b678-4511adfae5c5) and click on Share -> Publish.
+## 🏗️ Структура проекта
 
-## Can I connect a custom domain to my Lovable project?
+```
+musicverse/
+├── src/
+│   ├── components/      # React компоненты
+│   ├── pages/          # Страницы приложения
+│   ├── hooks/          # Custom hooks
+│   ├── contexts/       # React contexts
+│   ├── integrations/   # Интеграции (Supabase)
+│   └── assets/         # Статические ресурсы
+├── supabase/
+│   ├── functions/      # Edge Functions
+│   └── migrations/     # Database migrations
+└── public/            # Публичные файлы
+```
 
-Yes, you can!
+## 🛡️ Безопасность
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- Row Level Security (RLS) для всех таблиц
+- Telegram Web App аутентификация
+- Защита от replay атак
+- Валидация всех входных данных
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 🌐 Деплой
+
+Проект автоматически деплоится через Lovable:
+
+1. Откройте [Lovable Project](https://lovable.dev/projects/41aaf5d2-e133-4bbc-b678-4511adfae5c5)
+2. Нажмите Share → Publish
+3. Настройте custom domain (опционально)
+
+## 📄 Лицензия
+
+MIT License
+
+## 🤝 Поддержка
+
+Для вопросов и поддержки:
+- Telegram: [@Phuketguruadmin](https://t.me/Phuketguruadmin)
+- GitHub Issues: [Create an issue](../../issues)
+
+---
+
+Made with ❤️ using [Lovable](https://lovable.dev)

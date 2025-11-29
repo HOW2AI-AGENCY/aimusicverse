@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useTelegram } from '@/contexts/TelegramContext';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Music } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { SplashScreen } from '@/components/SplashScreen';
 import { Onboarding } from '@/components/Onboarding';
+import logo from '@/assets/logo.png';
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -73,8 +74,8 @@ const Auth = () => {
         <Card className="max-w-md w-full glass-card border-primary/20">
           <div className="p-8 text-center">
             <div className="mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-3xl">🔧</span>
+              <div className="mb-4 flex justify-center">
+                <img src={logo} alt="MusicVerse" className="w-24 h-24 rounded-2xl" />
               </div>
               <h1 className="text-2xl font-bold mb-2 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                 Режим разработки
@@ -139,8 +140,11 @@ const Auth = () => {
       <Card className="max-w-md w-full glass-card border-primary/20">
         <div className="p-8">
           <div className="text-center mb-6">
+            <div className="mb-4 flex justify-center">
+              <img src={logo} alt="MusicVerse" className="w-24 h-24 rounded-2xl" />
+            </div>
             <h1 className="text-2xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              Добро пожаловать в AI MusicVerse!
+              Добро пожаловать в MusicVerse!
             </h1>
             
             {user.photo_url && (
