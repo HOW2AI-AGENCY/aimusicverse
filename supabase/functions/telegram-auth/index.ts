@@ -187,8 +187,13 @@ Deno.serve(async (req) => {
 
     if (!botToken) {
       console.error('❌ TELEGRAM_BOT_TOKEN not set');
+      console.error('💡 Добавьте TELEGRAM_BOT_TOKEN в Supabase → Project Settings → Edge Functions → Secrets');
       return new Response(
-        JSON.stringify({ error: 'Telegram bot token not configured' }),
+        JSON.stringify({
+          error: 'Telegram bot token not configured',
+          message: 'TELEGRAM_BOT_TOKEN не настроен в Supabase Secrets',
+          solution: 'Добавьте TELEGRAM_BOT_TOKEN в Project Settings → Edge Functions → Manage secrets'
+        }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -209,12 +214,27 @@ Deno.serve(async (req) => {
     if (!initData) {
       console.error('❌ No initData in request');
       return new Response(
-        JSON.stringify({ error: 'Missing initData' }),
+        JSON.stringify({
+          error: 'Missing initData',
+          message: 'InitData не передан в запросе'
+        }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (typeof initData !== 'string' || initData.trim().length === 0) {
+      console.error('❌ Invalid initData format');
+      return new Response(
+        JSON.stringify({
+          error: 'Invalid initData format',
+          message: 'InitData должен быть непустой строкой'
+        }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
     console.log('📦 InitData received, length:', initData.length);
+    console.log('📄 InitData preview:', initData.substring(0, 100) + '...');
 
     // Step 1: Validate Telegram data
     const telegramUser = await validateTelegramData(initData, botToken);
@@ -222,7 +242,11 @@ Deno.serve(async (req) => {
     if (!telegramUser) {
       console.error('❌ Telegram validation failed');
       return new Response(
-        JSON.stringify({ error: 'Invalid Telegram authentication data' }),
+        JSON.stringify({
+          error: 'Invalid Telegram authentication data',
+          message: 'Валидация Telegram данных не прошла. Проверьте TELEGRAM_BOT_TOKEN или перезапустите Mini App.',
+          details: 'Hash validation failed or initData expired'
+        }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }

@@ -55,15 +55,44 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
     if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
       const tg = window.Telegram.WebApp;
       setWebApp(tg);
-      
+
+      console.log('🤖 Telegram WebApp обнаружен');
+      console.log('📱 Platform:', tg.platform);
+      console.log('📊 Version:', tg.version);
+      console.log('🎨 Color scheme:', tg.colorScheme);
+
       tg.ready();
       tg.expand();
-      
+
       if (tg.initDataUnsafe?.user) {
+        console.log('👤 Telegram пользователь:', {
+          id: tg.initDataUnsafe.user.id,
+          firstName: tg.initDataUnsafe.user.first_name,
+          username: tg.initDataUnsafe.user.username
+        });
         setUser(tg.initDataUnsafe.user as TelegramUser);
+      } else {
+        console.warn('⚠️ initDataUnsafe.user не найден');
       }
-      
+
       setPlatform(tg.platform);
+
+      if (tg.initData) {
+        console.log('✅ InitData получен, длина:', tg.initData.length);
+        console.log('📄 InitData preview:', tg.initData.substring(0, 100) + '...');
+
+        // Парсим и показываем параметры для диагностики
+        const params = new URLSearchParams(tg.initData);
+        console.log('🔑 InitData параметры:', {
+          hasHash: !!params.get('hash'),
+          hasUser: !!params.get('user'),
+          hasAuthDate: !!params.get('auth_date'),
+          authDate: params.get('auth_date') ? new Date(parseInt(params.get('auth_date')!) * 1000).toISOString() : 'N/A'
+        });
+      } else {
+        console.error('❌ InitData не получен от Telegram!');
+      }
+
       setInitData(tg.initData);
 
       // Apply Telegram theme colors to CSS variables
