@@ -1,6 +1,6 @@
 import { MESSAGES, BOT_CONFIG } from '../config.ts';
 import { createMainMenuKeyboard } from '../keyboards/main-menu.ts';
-import { sendMessage } from '../telegram-api.ts';
+import { sendMessage, sendPhoto } from '../telegram-api.ts';
 
 export async function handleStart(chatId: number, startParam?: string) {
   // Handle deep links
@@ -46,6 +46,10 @@ export async function handleStart(chatId: number, startParam?: string) {
     }
   }
   
-  // Default start message with rich formatting
-  await sendMessage(chatId, MESSAGES.welcome, createMainMenuKeyboard());
+  // Default start message with image
+  const welcomeImageUrl = `${BOT_CONFIG.miniAppUrl.split('/app')[0]}/telegram-welcome.png`;
+  await sendPhoto(chatId, welcomeImageUrl, {
+    caption: MESSAGES.welcome,
+    replyMarkup: createMainMenuKeyboard()
+  });
 }

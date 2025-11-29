@@ -4,7 +4,7 @@ import { handleGenerate } from './commands/generate.ts';
 import { handleLibrary } from './commands/library.ts';
 import { handleProjects } from './commands/projects.ts';
 import { handleStatus } from './commands/status.ts';
-import { sendMessage, parseCommand, answerCallbackQuery, type TelegramUpdate } from './telegram-api.ts';
+import { sendMessage, parseCommand, answerCallbackQuery, editMessageText, type TelegramUpdate } from './telegram-api.ts';
 import { BOT_CONFIG } from './config.ts';
 
 export async function handleUpdate(update: TelegramUpdate) {
@@ -16,43 +16,64 @@ export async function handleUpdate(update: TelegramUpdate) {
 
       if (!chatId) return;
 
+      const messageId = message?.message_id;
+
       if (data === 'library') {
-        await handleLibrary(chatId, from.id);
+        await handleLibrary(chatId, from.id, messageId);
       } else if (data === 'projects') {
-        await handleProjects(chatId, from.id);
+        await handleProjects(chatId, from.id, messageId);
       } else if (data === 'help') {
-        await handleHelp(chatId);
+        if (messageId) {
+          const { MESSAGES } = await import('./config.ts');
+          const { createMainMenuKeyboard } = await import('./keyboards/main-menu.ts');
+          await editMessageText(chatId, messageId, MESSAGES.help, createMainMenuKeyboard());
+        }
       } else if (data === 'generate') {
-        const { createGenerateKeyboard } = await import('./keyboards/main-menu.ts');
-        await sendMessage(
-          chatId, 
-          '🎼 *Создание трека*\n\nВыберите стиль музыки или опишите свой:',
-          createGenerateKeyboard()
-        );
+        if (messageId) {
+          const { createGenerateKeyboard } = await import('./keyboards/main-menu.ts');
+          await editMessageText(
+            chatId,
+            messageId,
+            '🎼 *Создание трека*\n\nВыберите стиль музыки или опишите свой:',
+            createGenerateKeyboard()
+          );
+        }
       } else if (data === 'status') {
-        await handleStatus(chatId, from.id);
+        await handleStatus(chatId, from.id, messageId);
       } else if (data === 'main_menu') {
-        const { createMainMenuKeyboard } = await import('./keyboards/main-menu.ts');
-        await sendMessage(chatId, '🏠 *Главное меню*\n\nВыберите действие:', createMainMenuKeyboard());
+        if (messageId) {
+          const { createMainMenuKeyboard } = await import('./keyboards/main-menu.ts');
+          await editMessageText(chatId, messageId, '🏠 *Главное меню*\n\nВыберите действие:', createMainMenuKeyboard());
+        }
       } else if (data && data.startsWith('style_')) {
-        const style = data.replace('style_', '');
-        const styleNames: Record<string, string> = {
-          rock: 'рок',
-          pop: 'поп',
-          jazz: 'джаз',
-          electronic: 'электроника',
-          classical: 'классика',
-          hiphop: 'хип-хоп'
-        };
-        await sendMessage(
-          chatId,
-          `🎵 *Стиль: ${styleNames[style] || style}*\n\nТеперь отправьте описание трека:\n\nНапример:\n"Энергичный трек с гитарными риффами и мощным барабанным битом"`
-        );
+        if (messageId) {
+          const style = data.replace('style_', '');
+          const styleNames: Record<string, string> = {
+            rock: 'рок',
+            pop: 'поп',
+            jazz: 'джаз',
+            electronic: 'электроника',
+            classical: 'классика',
+            hiphop: 'хип-хоп'
+          };
+          await editMessageText(
+            chatId,
+            messageId,
+            `🎵 *Стиль: ${styleNames[style] || style}*\n\nТеперь отправьте описание трека:\n\nНапример:\n"Энергичный трек с гитарными риффами и мощным барабанным битом"`
+          );
+        }
       } else if (data === 'custom_generate') {
-        await sendMessage(
-          chatId,
-          '✍️ *Своё описание*\n\nОпишите какую музыку вы хотите создать:\n\nИспользуйте /generate <ваше описание>'
-        );
+        if (messageId) {
+          await editMessageText(
+            chatId,
+            messageId,
+            '✍️ *Своё описание*\n\nОпишите какую музыку вы хотите создать:\n\nИспользуйте /generate <ваше описание>'
+          );
+        }
+      } else if (data && data.startsWith('check_task_')) {
+        const taskId = data.replace('check_task_', '');
+        const { handleCheckTask } = await import('./commands/check-task.ts');
+        await handleCheckTask(chatId, from.id, taskId, messageId);
       }
 
       await answerCallbackQuery(id);
