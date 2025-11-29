@@ -185,9 +185,26 @@ export const GenerationProgress = () => {
     return null;
   }
 
-  const activeTasks = tasks.filter(
-    (t) => t.status === 'pending' || t.status === 'processing' || t.tracks?.status === 'streaming_ready'
-  );
+  const activeTasks = tasks.filter((t) => {
+    // Фильтруем только действительно активные задачи
+    const taskStatus = t.tracks?.status || t.status;
+    
+    // Не показываем завершенные или ошибочные задачи
+    if (taskStatus === 'completed' || taskStatus === 'failed') {
+      return false;
+    }
+    
+    // Не показываем задачи старше 15 минут в статусе processing
+    if (taskStatus === 'processing') {
+      const taskAge = Date.now() - new Date(t.created_at).getTime();
+      const fifteenMinutes = 15 * 60 * 1000;
+      if (taskAge > fifteenMinutes) {
+        return false;
+      }
+    }
+    
+    return taskStatus === 'pending' || taskStatus === 'processing' || taskStatus === 'streaming_ready';
+  });
 
   if (activeTasks.length === 0) {
     return null;

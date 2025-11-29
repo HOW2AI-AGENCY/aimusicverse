@@ -62,3 +62,9 @@ verify_jwt = true
 
 [functions.get-timestamped-lyrics]
 verify_jwt = true
+
+[functions.cleanup-stale-tasks]
+verify_jwt = false
+
+[functions.suno-check-status]
+verify_jwt = true
