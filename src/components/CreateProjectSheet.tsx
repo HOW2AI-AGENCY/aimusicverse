@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Sparkles, Wand2, HelpCircle, Upload, Music, User, Plus, Image as ImageIcon } from 'lucide-react';
 import { useProjects } from '@/hooks/useProjects';
@@ -14,6 +14,7 @@ import { useArtists } from '@/hooks/useArtists';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface CreateProjectSheetProps {
   open: boolean;
@@ -48,8 +49,10 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
   const { createProject, generateProjectConcept, isCreating, isGenerating } = useProjects();
   const { artists, createArtist, isCreating: isCreatingArtist } = useArtists();
   
+  const isMobile = useIsMobile();
   const [mode, setMode] = useState<'manual' | 'ai'>('manual');
   const [title, setTitle] = useState('');
+  const [titleRu, setTitleRu] = useState('');
   const [projectType, setProjectType] = useState('album');
   const [genre, setGenre] = useState('');
   const [mood, setMood] = useState('');
@@ -154,6 +157,7 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
         primary_artist_id: primaryArtistId || null,
         cover_url: coverUrl || null,
         status: 'draft',
+        ai_context: titleRu ? { title_ru: titleRu } : null,
       },
       {
         onSuccess: (data) => {
@@ -190,6 +194,7 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
 
   const resetForm = () => {
     setTitle('');
+    setTitleRu('');
     setProjectType('album');
     setGenre('');
     setMood('');
@@ -205,16 +210,16 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
   };
 
   const FieldHelp = ({ text }: { text: string }) => (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-        </TooltipTrigger>
-        <TooltipContent className="max-w-xs">
-          <p>{text}</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <Popover>
+      <PopoverTrigger asChild>
+        <button type="button" className="inline-flex items-center justify-center">
+          <HelpCircle className="w-4 h-4 text-muted-foreground hover:text-foreground transition-colors" />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent className="max-w-xs text-sm" side={isMobile ? "bottom" : "top"} align="start">
+        <p>{text}</p>
+      </PopoverContent>
+    </Popover>
   );
 
   return (
@@ -250,6 +255,19 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Введите название..."
+              />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Label htmlFor="title-ru">Русское название</Label>
+                <FieldHelp text="Перевод названия на русский язык для локализации." />
+              </div>
+              <Input
+                id="title-ru"
+                value={titleRu}
+                onChange={(e) => setTitleRu(e.target.value)}
+                placeholder="Русский перевод названия..."
               />
             </div>
 
