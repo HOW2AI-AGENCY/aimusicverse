@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Loader2, Music2, CheckCircle2, XCircle, Radio } from 'lucide-react';
+import { Loader2, Music2, CheckCircle2, XCircle, Radio, RefreshCw } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 interface GenerationTask {
   id: string;
@@ -26,6 +28,8 @@ export const GenerationProgress = () => {
   const { user } = useAuth();
   const [tasks, setTasks] = useState<GenerationTask[]>([]);
   const [loading, setLoading] = useState(true);
+  const [checkingStatus, setCheckingStatus] = useState<string | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (!user) return;
@@ -138,6 +142,45 @@ export const GenerationProgress = () => {
     }
   };
 
+  const handleCheckStatus = async (taskId: string) => {
+    setCheckingStatus(taskId);
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('suno-check-status', {
+        body: { taskId },
+      });
+
+      if (error) throw error;
+
+      if (data.status === 'completed') {
+        toast({
+          title: 'Трек готов! 🎵',
+          description: 'Генерация успешно завершена',
+        });
+      } else if (data.status === 'failed') {
+        toast({
+          title: 'Ошибка генерации',
+          description: data.error || 'Не удалось сгенерировать трек',
+          variant: 'destructive',
+        });
+      } else {
+        toast({
+          title: 'Генерация продолжается',
+          description: 'Трек все еще обрабатывается',
+        });
+      }
+    } catch (error: any) {
+      console.error('Check status error:', error);
+      toast({
+        title: 'Ошибка проверки',
+        description: error.message || 'Не удалось проверить статус',
+        variant: 'destructive',
+      });
+    } finally {
+      setCheckingStatus(null);
+    }
+  };
+
   if (loading) {
     return null;
   }
@@ -189,6 +232,28 @@ export const GenerationProgress = () => {
                   <p className="text-xs text-primary mt-1">
                     ⚡ Можно начинать слушать
                   </p>
+                )}
+
+                {trackStatus === 'processing' && (
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="h-7 text-xs mt-2"
+                    onClick={() => handleCheckStatus(task.id)}
+                    disabled={checkingStatus === task.id}
+                  >
+                    {checkingStatus === task.id ? (
+                      <>
+                        <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                        Проверка...
+                      </>
+                    ) : (
+                      <>
+                        <RefreshCw className="w-3 h-3 mr-1" />
+                        Проверить статус
+                      </>
+                    )}
+                  </Button>
                 )}
               </div>
             </div>
