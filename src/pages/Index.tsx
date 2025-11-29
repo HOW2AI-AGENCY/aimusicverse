@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserActivity, useCreateActivity } from "@/hooks/useUserActivity";
 import { ActivitySkeleton, StatCardSkeleton } from "@/components/ui/skeleton-loader";
 import { toast } from "sonner";
+import logo from "@/assets/logo.png";
 
 const Index = () => {
   const { logout } = useAuth();
@@ -50,12 +51,10 @@ const Index = () => {
         {/* Header */}
         <header className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
-            <div className="p-3 rounded-2xl glass-card border-primary/20">
-              <Music className="w-8 h-8 text-primary" />
-            </div>
+            <img src={logo} alt="MusicVerse" className="w-12 h-12 rounded-xl" />
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                AI MusicVerse
+                MusicVerse
               </h1>
               <p className="text-sm text-muted-foreground">
                 Создавайте музыку с помощью AI
