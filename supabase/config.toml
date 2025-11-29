@@ -2,3 +2,6 @@ project_id = "ygmvthybdrqymfsqifmj"
 
 [functions.generate-music]
 verify_jwt = true
+
+[functions.telegram-auth]
+verify_jwt = false
