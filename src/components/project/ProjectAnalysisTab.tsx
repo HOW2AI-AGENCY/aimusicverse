@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -6,6 +7,7 @@ import { Sparkles, AlertCircle, CheckCircle, TrendingUp, Target, Lightbulb } fro
 import { Project } from '@/hooks/useProjects';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { useAuth } from '@/hooks/useAuth';
 
 interface ProjectAnalysisTabProps {
   project: Project;
@@ -25,8 +27,21 @@ interface AnalysisResult {
 }
 
 export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isApplying, setIsApplying] = useState(false);
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
+
+  // Load saved analysis from project.ai_context on mount
+  useEffect(() => {
+    if (project.ai_context && typeof project.ai_context === 'object') {
+      const savedAnalysis = (project.ai_context as any).analysis;
+      if (savedAnalysis) {
+        setAnalysis(savedAnalysis);
+      }
+    }
+  }, [project.ai_context]);
 
   const runAnalysis = async () => {
     setIsAnalyzing(true);
@@ -48,7 +63,28 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
       if (error) throw error;
 
       if (data?.data) {
-        setAnalysis(data.data);
+        const analysisResult = data.data;
+        setAnalysis(analysisResult);
+
+        // Save analysis to database
+        const { error: saveError } = await supabase
+          .from('music_projects')
+          .update({
+            ai_context: {
+              ...(typeof project.ai_context === 'object' ? project.ai_context : {}),
+              analysis: analysisResult,
+              analyzedAt: new Date().toISOString(),
+            }
+          })
+          .eq('id', project.id);
+
+        if (saveError) {
+          console.error('Error saving analysis:', saveError);
+        }
+
+        // Invalidate queries to refresh project data
+        queryClient.invalidateQueries({ queryKey: ['projects', user?.id] });
+        
         toast.success('Анализ проекта завершен');
       }
     } catch (error) {
@@ -60,6 +96,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
   };
 
   const applyImprovement = async (field: string, value: string) => {
+    setIsApplying(true);
     try {
       const { data, error } = await supabase.functions.invoke('project-ai', {
         body: {
@@ -86,13 +123,16 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
 
         if (updateError) throw updateError;
 
+        // Invalidate queries to refresh project data
+        queryClient.invalidateQueries({ queryKey: ['projects', user?.id] });
+        
         toast.success('Улучшение применено');
-        // Trigger re-fetch
-        window.location.reload();
       }
     } catch (error) {
       console.error('Apply improvement error:', error);
       toast.error('Ошибка при применении улучшения');
+    } finally {
+      setIsApplying(false);
     }
   };
 
@@ -278,11 +318,12 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
                         <Button
                           size="sm"
                           variant="outline"
+                          disabled={isApplying}
                           onClick={() =>
                             applyImprovement(improvement.field, improvement.suggestion)
                           }
                         >
-                          Применить
+                          {isApplying ? 'Применение...' : 'Применить'}
                         </Button>
                       </div>
                     </div>
