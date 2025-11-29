@@ -68,13 +68,28 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
           field,
           currentValue: (project as any)[field],
           suggestion: value,
+          projectType: project.project_type,
+          genre: project.genre,
+          mood: project.mood,
         },
       });
 
       if (error) throw error;
 
-      toast.success('Улучшение применено');
-      // Trigger re-fetch or update
+      // Update the project with the improved value
+      const improvedValue = data?.data?.improved;
+      if (improvedValue) {
+        const { error: updateError } = await supabase
+          .from('music_projects')
+          .update({ [field]: improvedValue })
+          .eq('id', project.id);
+
+        if (updateError) throw updateError;
+
+        toast.success('Улучшение применено');
+        // Trigger re-fetch
+        window.location.reload();
+      }
     } catch (error) {
       console.error('Apply improvement error:', error);
       toast.error('Ошибка при применении улучшения');
