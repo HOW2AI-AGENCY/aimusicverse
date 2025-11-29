@@ -326,12 +326,27 @@ Return as JSON:
         break;
 
       case 'improve':
+        // Map field names to database column names
+        const fieldMapping: Record<string, string> = {
+          'Target Audience': 'target_audience',
+          'target audience': 'target_audience',
+          'targetAudience': 'target_audience',
+          'Description': 'description',
+          'Concept': 'concept',
+          'Genre': 'genre',
+          'Mood': 'mood',
+          'Title': 'title',
+        };
+        
+        // Normalize field name
+        const normalizedField = fieldMapping[field] || field.toLowerCase().replace(/\s+/g, '_');
+        
         // Generate improved version of a specific field
         const improvePrompt = `${languageInstruction}
 
 You are a music industry expert. Improve this project field:
 
-Field: ${field}
+Field: ${normalizedField}
 Current Value: ${currentValue || 'empty'}
 Context - Project Type: ${projectType}, Genre: ${genre}, Mood: ${mood}
 AI Suggestion: ${suggestion}
@@ -357,7 +372,10 @@ Return ONLY the improved text, no JSON or formatting.`;
         });
 
         const improveData = await improveResponse.json();
-        result = { improved: improveData.choices?.[0]?.message?.content || '' };
+        result = { 
+          improved: improveData.choices?.[0]?.message?.content || '',
+          normalizedField // Return normalized field name
+        };
         break;
 
       default:

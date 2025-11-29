@@ -127,12 +127,13 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
       }
 
       const improvedValue = data.data.improved;
-      console.log('Improved value received:', improvedValue);
+      const actualField = data.data.normalizedField || field; // Use normalized field name from server
+      console.log('Improved value received:', { improvedValue, actualField });
 
       // Update the project with the improved value
       const { data: updateData, error: updateError } = await supabase
         .from('music_projects')
-        .update({ [field]: improvedValue })
+        .update({ [actualField]: improvedValue })
         .eq('id', project.id)
         .select()
         .single();
@@ -147,11 +148,11 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
       // Invalidate and refetch queries
       await queryClient.invalidateQueries({ queryKey: ['projects', user?.id] });
       
-      const fieldName = field === 'description' ? 'Описание' :
-                       field === 'concept' ? 'Концепт' :
-                       field === 'target_audience' ? 'Целевая аудитория' :
-                       field === 'genre' ? 'Жанр' :
-                       field === 'mood' ? 'Настроение' : field;
+      const fieldName = actualField === 'description' ? 'Описание' :
+                       actualField === 'concept' ? 'Концепт' :
+                       actualField === 'target_audience' ? 'Целевая аудитория' :
+                       actualField === 'genre' ? 'Жанр' :
+                       actualField === 'mood' ? 'Настроение' : actualField;
       
       toast.success(`${fieldName} успешно обновлено`);
     } catch (error: any) {
