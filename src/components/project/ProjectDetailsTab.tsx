@@ -9,6 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useProjects, Project } from '@/hooks/useProjects';
 import { Edit, Save, X, Calendar, Target, Music, Users } from 'lucide-react';
 import { toast } from 'sonner';
+import { ProjectCoverEditor } from './ProjectCoverEditor';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface ProjectDetailsTabProps {
   project: Project;
@@ -17,6 +19,7 @@ interface ProjectDetailsTabProps {
 export const ProjectDetailsTab = ({ project }: ProjectDetailsTabProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const { updateProject, isUpdating } = useProjects();
+  const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
     title: project.title,
     description: project.description || '',
@@ -52,8 +55,23 @@ export const ProjectDetailsTab = ({ project }: ProjectDetailsTabProps) => {
     setIsEditing(false);
   };
 
+  const handleCoverUpdate = (newCoverUrl: string) => {
+    queryClient.invalidateQueries({ queryKey: ['project', project.id] });
+    queryClient.invalidateQueries({ queryKey: ['projects'] });
+  };
+
   return (
     <div className="space-y-4">
+      {/* Cover Editor */}
+      <ProjectCoverEditor
+        projectId={project.id}
+        currentCoverUrl={project.cover_url}
+        projectTitle={project.title}
+        projectGenre={project.genre}
+        projectMood={project.mood}
+        onCoverUpdate={handleCoverUpdate}
+      />
+
       {/* Actions */}
       <Card className="glass-card border-primary/20">
         <CardHeader className="flex flex-row items-center justify-between pb-2">

@@ -35,10 +35,10 @@ serve(async (req) => {
       throw new Error('Unauthorized');
     }
 
-    const { prompt, title, genre, mood } = await req.json();
+    const { projectId, prompt, title, genre, mood } = await req.json();
 
-    if (!prompt) {
-      throw new Error('Prompt is required');
+    if (!prompt || !projectId) {
+      throw new Error('Prompt and projectId are required');
     }
 
     console.log(`Generating cover image for user: ${user.id}`);
@@ -90,15 +90,8 @@ serve(async (req) => {
 
     if (uploadError) {
       console.error('Upload error:', uploadError);
-      // If upload fails, return the base64 data URL as fallback
-      return new Response(
-        JSON.stringify({ 
-          success: true,
-          imageUrl: imageUrl, // base64 data URL
-          isBase64: true,
-        }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      // If upload fails, return error (don't use base64 fallback for projects)
+      throw new Error('Failed to upload cover image to storage');
     }
 
     // Get public URL
@@ -106,10 +99,21 @@ serve(async (req) => {
       .from('project-assets')
       .getPublicUrl(fileName);
 
+    // Update project cover_url in database
+    const { error: updateError } = await supabase
+      .from('music_projects')
+      .update({ cover_url: publicUrl })
+      .eq('id', projectId);
+
+    if (updateError) {
+      console.error('Error updating project cover:', updateError);
+      // Continue anyway, return the URL
+    }
+
     return new Response(
       JSON.stringify({ 
         success: true,
-        imageUrl: publicUrl,
+        coverUrl: publicUrl,
         isBase64: false,
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
