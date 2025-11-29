@@ -44,6 +44,16 @@ export const useAuth = () => {
         const testEmail = 'test@lovable.dev';
         const testPassword = 'testpassword123';
         
+        // Mock Telegram user data for testing
+        const mockTelegramData = {
+          telegram_id: 123456789,
+          first_name: 'Test',
+          last_name: 'User',
+          username: 'testuser',
+          language_code: 'ru',
+          photo_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=test',
+        };
+        
         // Try to sign in first
         let { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
           email: testEmail,
@@ -52,16 +62,12 @@ export const useAuth = () => {
         
         // If user doesn't exist, create account
         if (signInError?.message.includes('Invalid login credentials')) {
-          console.log('🔧 Creating test account...');
+          console.log('🔧 Creating test account with Telegram-like metadata...');
           const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
             email: testEmail,
             password: testPassword,
             options: {
-              data: {
-                first_name: 'Test',
-                last_name: 'User',
-                telegram_id: 123456789,
-              }
+              data: mockTelegramData,
             }
           });
           
@@ -72,6 +78,7 @@ export const useAuth = () => {
           }
           
           signInData = signUpData;
+          console.log('🔧 Test account created successfully with profile');
         } else if (signInError) {
           console.error('Sign in error:', signInError);
           toast.error('Ошибка входа в тестовый аккаунт');
