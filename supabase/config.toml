@@ -66,5 +66,8 @@ verify_jwt = true
 [functions.cleanup-stale-tasks]
 verify_jwt = false
 
+[functions.sync-stale-tasks]
+verify_jwt = false
+
 [functions.suno-check-status]
 verify_jwt = true

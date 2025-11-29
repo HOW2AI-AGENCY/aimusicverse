@@ -345,16 +345,19 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
   const handleDeepLink = (startParam: string) => {
     console.log('Processing deep link:', startParam);
     
-    if (startParam.startsWith('track_')) {
-      const trackId = startParam.replace('track_', '');
-      window.location.hash = `/library?track=${trackId}`;
-    } else if (startParam.startsWith('project_')) {
-      const projectId = startParam.replace('project_', '');
-      window.location.hash = `/projects/${projectId}`;
-    } else if (startParam.startsWith('generate_')) {
-      const style = startParam.replace('generate_', '');
-      window.location.hash = `/generate?style=${style}`;
-    }
+    // Use setTimeout to ensure routing happens after app initialization
+    setTimeout(() => {
+      if (startParam.startsWith('track_')) {
+        const trackId = startParam.replace('track_', '');
+        window.location.href = `${window.location.origin}/library?track=${trackId}`;
+      } else if (startParam.startsWith('project_')) {
+        const projectId = startParam.replace('project_', '');
+        window.location.href = `${window.location.origin}/projects/${projectId}`;
+      } else if (startParam.startsWith('generate_')) {
+        const style = startParam.replace('generate_', '');
+        window.location.href = `${window.location.origin}/generate?style=${style}`;
+      }
+    }, 100);
   };
 
   return (

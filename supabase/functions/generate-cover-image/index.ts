@@ -43,7 +43,7 @@ serve(async (req) => {
 
     console.log(`Generating cover image for user: ${user.id}`);
 
-    // Generate image using Lovable AI (Gemini image generation)
+    // Generate image using Lovable AI (Gemini 3 Pro Image)
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -51,14 +51,14 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash-image-preview',
+        model: 'google/gemini-3-pro-image-preview',
         messages: [
           {
             role: 'user',
-            content: prompt,
+            content: `Create a professional music album cover image. ${prompt}. Style: ${genre || 'modern'}, mood: ${mood || 'dynamic'}. High quality, artistic, suitable for music streaming platforms.`,
           },
         ],
-        modalities: ['image', 'text'],
+        max_tokens: 1024,
       }),
     });
 
@@ -69,9 +69,23 @@ serve(async (req) => {
     }
 
     const data = await response.json();
-    const imageUrl = data.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+    console.log('AI Response:', JSON.stringify(data, null, 2));
+    
+    // Extract image URL from response
+    const content = data.choices?.[0]?.message?.content;
+    let imageUrl: string | null = null;
+
+    if (typeof content === 'string') {
+      // Check if content contains base64 image
+      if (content.includes('data:image')) {
+        imageUrl = content.match(/data:image\/[^;]+;base64,[^\s"]+/)?.[0] || null;
+      }
+    } else if (data.choices?.[0]?.message?.images?.[0]) {
+      imageUrl = data.choices[0].message.images[0].image_url?.url || data.choices[0].message.images[0].url;
+    }
 
     if (!imageUrl) {
+      console.error('No image URL found in response');
       throw new Error('No image generated');
     }
 
