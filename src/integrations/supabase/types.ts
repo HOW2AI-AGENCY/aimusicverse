@@ -14,47 +14,148 @@ export type Database = {
   }
   public: {
     Tables: {
+      artists: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string | null
+          genre_tags: string[] | null
+          id: string
+          is_ai_generated: boolean | null
+          metadata: Json | null
+          mood_tags: string[] | null
+          name: string
+          style_description: string | null
+          suno_persona_id: string | null
+          updated_at: string | null
+          user_id: string
+          voice_sample_url: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          genre_tags?: string[] | null
+          id?: string
+          is_ai_generated?: boolean | null
+          metadata?: Json | null
+          mood_tags?: string[] | null
+          name: string
+          style_description?: string | null
+          suno_persona_id?: string | null
+          updated_at?: string | null
+          user_id: string
+          voice_sample_url?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          genre_tags?: string[] | null
+          id?: string
+          is_ai_generated?: boolean | null
+          metadata?: Json | null
+          mood_tags?: string[] | null
+          name?: string
+          style_description?: string | null
+          suno_persona_id?: string | null
+          updated_at?: string | null
+          user_id?: string
+          voice_sample_url?: string | null
+        }
+        Relationships: []
+      }
       music_projects: {
         Row: {
+          ai_context: Json | null
+          bpm_range: unknown
+          concept: string | null
           context_vector: Json | null
+          copyright_info: string | null
           cover_url: string | null
           created_at: string | null
+          description: string | null
           genre: string | null
           id: string
+          is_commercial: boolean | null
+          key_signature: string | null
+          label_name: string | null
           mood: string | null
+          primary_artist_id: string | null
+          project_type: Database["public"]["Enums"]["project_type"] | null
+          reference_artists: string[] | null
+          reference_tracks: string[] | null
+          release_date: string | null
           status: string | null
+          target_audience: string | null
           title: string
           type: string | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
+          ai_context?: Json | null
+          bpm_range?: unknown
+          concept?: string | null
           context_vector?: Json | null
+          copyright_info?: string | null
           cover_url?: string | null
           created_at?: string | null
+          description?: string | null
           genre?: string | null
           id?: string
+          is_commercial?: boolean | null
+          key_signature?: string | null
+          label_name?: string | null
           mood?: string | null
+          primary_artist_id?: string | null
+          project_type?: Database["public"]["Enums"]["project_type"] | null
+          reference_artists?: string[] | null
+          reference_tracks?: string[] | null
+          release_date?: string | null
           status?: string | null
+          target_audience?: string | null
           title: string
           type?: string | null
           updated_at?: string | null
           user_id: string
         }
         Update: {
+          ai_context?: Json | null
+          bpm_range?: unknown
+          concept?: string | null
           context_vector?: Json | null
+          copyright_info?: string | null
           cover_url?: string | null
           created_at?: string | null
+          description?: string | null
           genre?: string | null
           id?: string
+          is_commercial?: boolean | null
+          key_signature?: string | null
+          label_name?: string | null
           mood?: string | null
+          primary_artist_id?: string | null
+          project_type?: Database["public"]["Enums"]["project_type"] | null
+          reference_artists?: string[] | null
+          reference_tracks?: string[] | null
+          release_date?: string | null
           status?: string | null
+          target_audience?: string | null
           title?: string
           type?: string | null
           updated_at?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "music_projects_primary_artist_id_fkey"
+            columns: ["primary_artist_id"]
+            isOneToOne: false
+            referencedRelation: "artists"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       notifications: {
         Row: {
@@ -127,6 +228,132 @@ export type Database = {
           username?: string | null
         }
         Relationships: []
+      }
+      project_assets: {
+        Row: {
+          asset_type: string
+          created_at: string | null
+          file_name: string | null
+          file_size: number | null
+          file_url: string
+          height: number | null
+          id: string
+          is_primary: boolean | null
+          metadata: Json | null
+          mime_type: string | null
+          project_id: string
+          width: number | null
+        }
+        Insert: {
+          asset_type: string
+          created_at?: string | null
+          file_name?: string | null
+          file_size?: number | null
+          file_url: string
+          height?: number | null
+          id?: string
+          is_primary?: boolean | null
+          metadata?: Json | null
+          mime_type?: string | null
+          project_id: string
+          width?: number | null
+        }
+        Update: {
+          asset_type?: string
+          created_at?: string | null
+          file_name?: string | null
+          file_size?: number | null
+          file_url?: string
+          height?: number | null
+          id?: string
+          is_primary?: boolean | null
+          metadata?: Json | null
+          mime_type?: string | null
+          project_id?: string
+          width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_assets_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "music_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_tracks: {
+        Row: {
+          collab_artist_id: string | null
+          created_at: string | null
+          duration_target: number | null
+          id: string
+          notes: string | null
+          position: number
+          project_id: string
+          recommended_structure: string | null
+          recommended_tags: string[] | null
+          status: string | null
+          style_prompt: string | null
+          title: string
+          track_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          collab_artist_id?: string | null
+          created_at?: string | null
+          duration_target?: number | null
+          id?: string
+          notes?: string | null
+          position: number
+          project_id: string
+          recommended_structure?: string | null
+          recommended_tags?: string[] | null
+          status?: string | null
+          style_prompt?: string | null
+          title: string
+          track_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          collab_artist_id?: string | null
+          created_at?: string | null
+          duration_target?: number | null
+          id?: string
+          notes?: string | null
+          position?: number
+          project_id?: string
+          recommended_structure?: string | null
+          recommended_tags?: string[] | null
+          status?: string | null
+          style_prompt?: string | null
+          title?: string
+          track_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_tracks_collab_artist_id_fkey"
+            columns: ["collab_artist_id"]
+            isOneToOne: false
+            referencedRelation: "artists"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_tracks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "music_projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_tracks_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       task_categories: {
         Row: {
@@ -207,6 +434,69 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "task_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      track_change_log: {
+        Row: {
+          ai_model_used: string | null
+          change_type: string
+          changed_by: string
+          created_at: string | null
+          field_name: string | null
+          id: string
+          metadata: Json | null
+          new_value: string | null
+          old_value: string | null
+          prompt_used: string | null
+          track_id: string
+          user_id: string
+          version_id: string | null
+        }
+        Insert: {
+          ai_model_used?: string | null
+          change_type: string
+          changed_by: string
+          created_at?: string | null
+          field_name?: string | null
+          id?: string
+          metadata?: Json | null
+          new_value?: string | null
+          old_value?: string | null
+          prompt_used?: string | null
+          track_id: string
+          user_id: string
+          version_id?: string | null
+        }
+        Update: {
+          ai_model_used?: string | null
+          change_type?: string
+          changed_by?: string
+          created_at?: string | null
+          field_name?: string | null
+          id?: string
+          metadata?: Json | null
+          new_value?: string | null
+          old_value?: string | null
+          prompt_used?: string | null
+          track_id?: string
+          user_id?: string
+          version_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "track_change_log_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "track_change_log_version_id_fkey"
+            columns: ["version_id"]
+            isOneToOne: false
+            referencedRelation: "track_versions"
             referencedColumns: ["id"]
           },
         ]
@@ -490,6 +780,15 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      project_type:
+        | "single"
+        | "ep"
+        | "album"
+        | "ost"
+        | "background_music"
+        | "jingle"
+        | "compilation"
+        | "mixtape"
       task_priority: "low" | "medium" | "high" | "urgent"
       task_status: "todo" | "in_progress" | "completed" | "archived"
     }
@@ -620,6 +919,16 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      project_type: [
+        "single",
+        "ep",
+        "album",
+        "ost",
+        "background_music",
+        "jingle",
+        "compilation",
+        "mixtape",
+      ],
       task_priority: ["low", "medium", "high", "urgent"],
       task_status: ["todo", "in_progress", "completed", "archived"],
     },
