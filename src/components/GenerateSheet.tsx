@@ -8,10 +8,11 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-import { Sparkles, Loader2, Zap, Sliders, Coins } from 'lucide-react';
+import { Sparkles, Loader2, Zap, Sliders, Coins, ChevronDown } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 interface GenerateSheetProps {
   open: boolean;
@@ -23,6 +24,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: GenerateSheetPr
   const [mode, setMode] = useState<'simple' | 'custom'>('simple');
   const [loading, setLoading] = useState(false);
   const [credits, setCredits] = useState<number | null>(null);
+  const [advancedOpen, setAdvancedOpen] = useState(false);
   
   // Simple mode state
   const [description, setDescription] = useState('');
@@ -265,11 +267,17 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: GenerateSheetPr
           </Tabs>
 
           {/* Advanced Settings */}
-          <div className="space-y-4 border-t pt-4">
-            <h3 className="font-semibold flex items-center gap-2">
-              <Sliders className="w-4 h-4" />
-              Расширенные настройки
-            </h3>
+          <Collapsible open={advancedOpen} onOpenChange={setAdvancedOpen} className="border-t pt-4">
+            <CollapsibleTrigger asChild>
+              <Button variant="ghost" className="w-full justify-between p-0 h-auto font-semibold hover:bg-transparent">
+                <span className="flex items-center gap-2">
+                  <Sliders className="w-4 h-4" />
+                  Расширенные настройки
+                </span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${advancedOpen ? 'rotate-180' : ''}`} />
+              </Button>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="space-y-4 pt-4">
 
             {/* Model Selection */}
             <div>
@@ -363,7 +371,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: GenerateSheetPr
                 Стили и элементы, которые нужно избежать
               </p>
             </div>
-          </div>
+            </CollapsibleContent>
+          </Collapsible>
 
           <Button
             onClick={handleGenerate}
