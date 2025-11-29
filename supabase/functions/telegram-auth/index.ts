@@ -68,15 +68,26 @@ async function validateTelegramData(initData: string, botToken: string): Promise
     const dataCheckString = dataCheckArr.join('\n');
     console.log('📝 Data check string created');
 
-    // Create secret key using HMAC-SHA256("WebAppData", bot_token)
+    // HMAC-SHA256 validation according to Telegram docs
+    // https://core.telegram.org/bots/webapps#validating-data-received-via-the-mini-app
     const encoder = new TextEncoder();
     
-    // Step 1: Create secret key from "WebAppData" string
-    const secretKeyData = await crypto.subtle.digest(
-      'SHA-256',
-      encoder.encode('WebAppData')
+    // Step 1: secret_key = HMAC-SHA256(bot_token, "WebAppData")
+    const webAppDataKey = await crypto.subtle.importKey(
+      'raw',
+      encoder.encode('WebAppData'),
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['sign']
     );
     
+    const secretKeyData = await crypto.subtle.sign(
+      'HMAC',
+      webAppDataKey,
+      encoder.encode(botToken)
+    );
+
+    // Step 2: Import secret_key for signing data_check_string
     const secretKey = await crypto.subtle.importKey(
       'raw',
       secretKeyData,
@@ -85,26 +96,10 @@ async function validateTelegramData(initData: string, botToken: string): Promise
       ['sign']
     );
 
-    // Step 2: Sign bot token with secret key
-    const tokenSignature = await crypto.subtle.sign(
-      'HMAC',
-      secretKey,
-      encoder.encode(botToken)
-    );
-
-    // Step 3: Import token signature as the data key
-    const dataKey = await crypto.subtle.importKey(
-      'raw',
-      tokenSignature,
-      { name: 'HMAC', hash: 'SHA-256' },
-      false,
-      ['sign']
-    );
-
-    // Step 4: Calculate hash of data check string
+    // Step 3: calculated_hash = HMAC-SHA256(secret_key, data_check_string)
     const signature = await crypto.subtle.sign(
       'HMAC',
-      dataKey,
+      secretKey,
       encoder.encode(dataCheckString)
     );
 
