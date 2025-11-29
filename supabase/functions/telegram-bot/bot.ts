@@ -6,6 +6,8 @@ import { handleProjects } from './commands/projects.ts';
 import { handleStatus } from './commands/status.ts';
 import { sendMessage, parseCommand, answerCallbackQuery, editMessageText, type TelegramUpdate } from './telegram-api.ts';
 import { BOT_CONFIG } from './config.ts';
+import { handleNavigationCallback } from './handlers/navigation.ts';
+import { handleMediaCallback } from './handlers/media.ts';
 
 export async function handleUpdate(update: TelegramUpdate) {
   try {
@@ -18,6 +20,21 @@ export async function handleUpdate(update: TelegramUpdate) {
 
       const messageId = message?.message_id;
 
+      // New navigation handlers (реактивное обновление)
+      if (data?.startsWith('nav_') || data?.startsWith('lib_page_') || data?.startsWith('project_page_')) {
+        await handleNavigationCallback(data, chatId, from.id, messageId!, id);
+        return;
+      }
+
+      // Media handlers (play, download, share, like)
+      if (data?.startsWith('play_') || data?.startsWith('dl_') || 
+          data?.startsWith('share_') || data?.startsWith('like_') || 
+          data?.startsWith('track_') || data?.startsWith('share_link_')) {
+        await handleMediaCallback(data, chatId, messageId!, id);
+        return;
+      }
+
+      // Legacy handlers
       if (data === 'library') {
         await handleLibrary(chatId, from.id, messageId);
       } else if (data === 'projects') {
