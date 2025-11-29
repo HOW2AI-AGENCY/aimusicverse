@@ -1,1 +1,4 @@
 project_id = "ygmvthybdrqymfsqifmj"
+
+[functions.generate-music]
+verify_jwt = true
