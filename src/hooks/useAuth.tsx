@@ -123,24 +123,34 @@ export const useAuth = () => {
       }
       
       // Production mode: Use Telegram authentication
-      console.log('Starting Telegram authentication...');
+      console.log('🔐 Starting Telegram authentication...');
+      console.log('📊 InitData length:', initData?.length || 0);
+
+      if (!initData) {
+        console.error('❌ No initData available');
+        toast.error('Ошибка: нет данных для аутентификации');
+        return { user: null, session: null, hasProfile: false, error: new Error('No initData') };
+      }
 
       // Call the telegram-auth edge function
+      console.log('📡 Calling telegram-auth edge function...');
       const { data, error } = await supabase.functions.invoke('telegram-auth', {
         body: { initData },
       });
 
       if (error) {
-        console.error('Edge function error:', error);
-        toast.error('Ошибка аутентификации');
+        console.error('❌ Edge function error:', error);
+        toast.error(`Ошибка аутентификации: ${error.message || 'Неизвестная ошибка'}`);
         return { user: null, session: null, hasProfile: false, error };
       }
 
       if (!data?.session) {
-        console.error('No session in response:', data);
+        console.error('❌ No session in response:', data);
         toast.error('Не удалось создать сессию');
         return { user: null, session: null, hasProfile: false, error: new Error('No session received') };
       }
+
+      console.log('✅ Edge function response received');
 
       // Set the session using the tokens from the edge function
       const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
@@ -149,7 +159,7 @@ export const useAuth = () => {
       });
 
       if (sessionError) {
-        console.error('Session error:', sessionError);
+        console.error('❌ Session error:', sessionError);
         toast.error('Ошибка создания сессии');
         return { user: null, session: null, hasProfile: false, error: sessionError };
       }
@@ -159,11 +169,11 @@ export const useAuth = () => {
       
       const hasProfile = sessionData.user ? await checkProfile(sessionData.user.id) : false;
       
-      console.log('Authentication successful, hasProfile:', hasProfile);
+      console.log('✅ Authentication successful, hasProfile:', hasProfile);
       toast.success('Успешная авторизация!');
       return { user: sessionData.user, session: sessionData.session, hasProfile };
     } catch (error) {
-      console.error('Unexpected auth error:', error);
+      console.error('❌ Unexpected auth error:', error);
       toast.error('Ошибка авторизации');
       return { user: null, session: null, hasProfile: false, error };
     } finally {

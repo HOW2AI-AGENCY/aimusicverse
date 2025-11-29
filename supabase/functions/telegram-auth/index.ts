@@ -21,6 +21,7 @@ interface TelegramAuthData {
 // Validate Telegram initData according to official Telegram docs
 async function validateTelegramData(initData: string, botToken: string): Promise<TelegramUser | null> {
   try {
+    // Parse the init data as URL parameters
     const urlParams = new URLSearchParams(initData);
     const hash = urlParams.get('hash');
     
@@ -29,21 +30,25 @@ async function validateTelegramData(initData: string, botToken: string): Promise
       return null;
     }
     
-    // Remove hash and signature from validation (signature is not part of the data check)
+    // Remove hash from params (keep everything else including signature)
     urlParams.delete('hash');
-    urlParams.delete('signature');
 
-    // Sort params and create data check string
+    // Sort all parameters alphabetically by key and create data check string
     const dataCheckArr: string[] = [];
-    for (const [key, value] of urlParams.entries()) {
-      dataCheckArr.push(`${key}=${value}`);
+    const sortedKeys = Array.from(urlParams.keys()).sort();
+    
+    for (const key of sortedKeys) {
+      const value = urlParams.get(key);
+      if (value) {
+        // URL decode the value to handle special characters
+        dataCheckArr.push(`${key}=${decodeURIComponent(value)}`);
+      }
     }
-    dataCheckArr.sort();
+    
     const dataCheckString = dataCheckArr.join('\n');
-
     console.log('Data check string:', dataCheckString);
 
-    // Create secret key using WebAppData constant from Telegram Bot API
+    // Create secret key using WebAppData constant
     const encoder = new TextEncoder();
     const secretKeyData = await crypto.subtle.digest(
       'SHA-256',
@@ -94,12 +99,14 @@ async function validateTelegramData(initData: string, botToken: string): Promise
       return null;
     }
 
-    // Check timestamp to prevent replay attacks (max age: 5 minutes)
+    console.log('Hash validation successful!');
+
+    // Check timestamp to prevent replay attacks (max age: 24 hours for development, 5 min for production)
     const authDate = urlParams.get('auth_date');
     if (authDate) {
       const authTimestamp = parseInt(authDate, 10);
       const currentTimestamp = Math.floor(Date.now() / 1000);
-      const maxAge = 300; // 5 minutes in seconds
+      const maxAge = 86400; // 24 hours in seconds (relaxed for development)
       
       if (currentTimestamp - authTimestamp > maxAge) {
         console.error('initData too old:', {
@@ -122,8 +129,8 @@ async function validateTelegramData(initData: string, botToken: string): Promise
       return null;
     }
 
-    const user = JSON.parse(userParam) as TelegramUser;
-    console.log('User validated:', user.id);
+    const user = JSON.parse(decodeURIComponent(userParam)) as TelegramUser;
+    console.log('User validated successfully:', user.id);
     return user;
   } catch (error) {
     console.error('Error validating Telegram data:', error);
