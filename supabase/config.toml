@@ -71,3 +71,12 @@ verify_jwt = false
 
 [functions.suno-check-status]
 verify_jwt = true
+
+[functions.suno-remix]
+verify_jwt = true
+
+[functions.suno-separate-vocals]
+verify_jwt = true
+
+[functions.suno-vocal-callback]
+verify_jwt = false
