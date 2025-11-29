@@ -1,0 +1,352 @@
+import { useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Slider } from '@/components/ui/slider';
+import { Loader2, Plus, Sparkles } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
+import { Track } from '@/hooks/useTracks';
+
+interface ExtendTrackDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  track: Track;
+}
+
+export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDialogProps) => {
+  const [loading, setLoading] = useState(false);
+  const [useCustomParams, setUseCustomParams] = useState(true);
+  
+  // Custom parameters
+  const [continueAt, setContinueAt] = useState(track.duration_seconds || 60);
+  const [prompt, setPrompt] = useState('');
+  const [style, setStyle] = useState(track.style || '');
+  const [title, setTitle] = useState(`${track.title || 'Track'} (Extended)`);
+  
+  // Advanced settings
+  const [model, setModel] = useState(track.suno_model || 'V4_5ALL');
+  const [negativeTags, setNegativeTags] = useState('');
+  const [vocalGender, setVocalGender] = useState<'m' | 'f' | ''>('');
+  const [styleWeight, setStyleWeight] = useState([0.65]);
+  const [weirdnessConstraint, setWeirdnessConstraint] = useState([0.5]);
+  const [audioWeight, setAudioWeight] = useState([0.65]);
+
+  const handleExtend = async () => {
+    if (useCustomParams) {
+      if (!prompt) {
+        toast.error('Пожалуйста, укажите как продолжить трек');
+        return;
+      }
+      if (!style) {
+        toast.error('Пожалуйста, укажите стиль');
+        return;
+      }
+      if (!title) {
+        toast.error('Пожалуйста, укажите название');
+        return;
+      }
+      if (!continueAt || continueAt <= 0) {
+        toast.error('Пожалуйста, укажите время продолжения');
+        return;
+      }
+    }
+
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('suno-music-extend', {
+        body: {
+          sourceTrackId: track.id,
+          defaultParamFlag: useCustomParams,
+          continueAt: useCustomParams ? continueAt : undefined,
+          prompt: useCustomParams ? prompt : undefined,
+          style: useCustomParams ? style : undefined,
+          title: useCustomParams ? title : undefined,
+          model,
+          negativeTags: negativeTags || undefined,
+          vocalGender: vocalGender || undefined,
+          styleWeight: styleWeight[0],
+          weirdnessConstraint: weirdnessConstraint[0],
+          audioWeight: audioWeight[0],
+          projectId: track.project_id,
+        },
+      });
+
+      if (error) throw error;
+
+      toast.success('Расширение началось! 🎵', {
+        description: 'Расширенный трек появится в библиотеке через 1-3 минуты',
+      });
+
+      onOpenChange(false);
+    } catch (error: any) {
+      console.error('Extend error:', error);
+      
+      if (error.message?.includes('429') || error.message?.includes('credits')) {
+        toast.error('Недостаточно кредитов', {
+          description: 'Пополните баланс SunoAPI для продолжения',
+        });
+      } else {
+        toast.error('Ошибка расширения', {
+          description: error.message || 'Попробуйте еще раз',
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <Plus className="w-5 h-5 text-primary" />
+            Расширить трек
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="space-y-6">
+          {/* Track Info */}
+          <div className="p-4 rounded-lg glass border border-border/50">
+            <div className="flex items-center gap-3">
+              {track.cover_url && (
+                <img
+                  src={track.cover_url}
+                  alt={track.title || ''}
+                  className="w-12 h-12 rounded object-cover"
+                />
+              )}
+              <div className="flex-1">
+                <h3 className="font-semibold">{track.title || 'Без названия'}</h3>
+                <p className="text-sm text-muted-foreground">
+                  {track.style} • {formatTime(track.duration_seconds || 0)}
+                </p>
+              </div>
+              <Badge>{track.suno_model || 'V4'}</Badge>
+            </div>
+          </div>
+
+          {/* Mode Toggle */}
+          <div className="flex items-center justify-between p-4 rounded-lg glass border border-border/50">
+            <div>
+              <Label className="font-medium">Пользовательские параметры</Label>
+              <p className="text-xs text-muted-foreground mt-1">
+                Изменить стиль и направление продолжения
+              </p>
+            </div>
+            <Switch
+              checked={useCustomParams}
+              onCheckedChange={setUseCustomParams}
+            />
+          </div>
+
+          {useCustomParams ? (
+            <>
+              {/* Continue At */}
+              <div>
+                <div className="flex justify-between mb-2">
+                  <Label>Продолжить с (секунд)</Label>
+                  <Badge variant="outline">{formatTime(continueAt)}</Badge>
+                </div>
+                <Slider
+                  value={[continueAt]}
+                  onValueChange={(v) => setContinueAt(v[0])}
+                  min={1}
+                  max={track.duration_seconds || 240}
+                  step={1}
+                  className="mt-2"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  С какого момента начать расширение трека
+                </p>
+              </div>
+
+              {/* Prompt */}
+              <div>
+                <Label htmlFor="prompt">Как продолжить *</Label>
+                <Textarea
+                  id="prompt"
+                  placeholder="Добавить более энергичную секцию с эпическим нарастанием"
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  rows={4}
+                  className="mt-2 resize-none"
+                />
+              </div>
+
+              {/* Style */}
+              <div>
+                <Label htmlFor="style">Стиль *</Label>
+                <Input
+                  id="style"
+                  placeholder="Electronic Dance Music, 128 BPM"
+                  value={style}
+                  onChange={(e) => setStyle(e.target.value)}
+                  className="mt-2"
+                />
+              </div>
+
+              {/* Title */}
+              <div>
+                <Label htmlFor="title">Название *</Label>
+                <Input
+                  id="title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="mt-2"
+                />
+              </div>
+            </>
+          ) : (
+            <div className="p-4 rounded-lg bg-muted/50">
+              <p className="text-sm text-muted-foreground">
+                Трек будет продолжен с использованием оригинальных параметров и стиля
+              </p>
+            </div>
+          )}
+
+          {/* Advanced Settings */}
+          <div className="space-y-4 border-t pt-4">
+            <h3 className="font-semibold flex items-center gap-2 text-sm">
+              <Sparkles className="w-4 h-4" />
+              Расширенные настройки
+            </h3>
+
+            {/* Model */}
+            <div>
+              <Label htmlFor="model">Модель</Label>
+              <Select value={model} onValueChange={setModel}>
+                <SelectTrigger className="mt-2">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="V5">🚀 V5 - Новейшая</SelectItem>
+                  <SelectItem value="V4_5PLUS">💎 V4.5+ - Богатый звук</SelectItem>
+                  <SelectItem value="V4_5ALL">🎯 V4.5 All - Лучшая структура</SelectItem>
+                  <SelectItem value="V4_5">⚡ V4.5 - Быстро</SelectItem>
+                  <SelectItem value="V4">🎵 V4 - Классика</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Vocal Gender */}
+            {track.has_vocals && (
+              <div>
+                <Label htmlFor="vocal-gender">Пол вокала</Label>
+                <Select value={vocalGender} onValueChange={(v) => setVocalGender(v as 'm' | 'f' | '')}>
+                  <SelectTrigger className="mt-2">
+                    <SelectValue placeholder="Автоматически" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Автоматически</SelectItem>
+                    <SelectItem value="m">Мужской</SelectItem>
+                    <SelectItem value="f">Женский</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Audio Weight */}
+            <div>
+              <div className="flex justify-between mb-2">
+                <Label>Вес оригинального аудио</Label>
+                <Badge variant="outline">{audioWeight[0].toFixed(2)}</Badge>
+              </div>
+              <Slider
+                value={audioWeight}
+                onValueChange={setAudioWeight}
+                min={0}
+                max={1}
+                step={0.01}
+                className="mt-2"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Насколько сильно сохранить оригинальное звучание
+              </p>
+            </div>
+
+            {/* Style Weight */}
+            <div>
+              <div className="flex justify-between mb-2">
+                <Label>Вес стиля</Label>
+                <Badge variant="outline">{styleWeight[0].toFixed(2)}</Badge>
+              </div>
+              <Slider
+                value={styleWeight}
+                onValueChange={setStyleWeight}
+                min={0}
+                max={1}
+                step={0.01}
+                className="mt-2"
+              />
+            </div>
+
+            {/* Creativity */}
+            <div>
+              <div className="flex justify-between mb-2">
+                <Label>Креативность</Label>
+                <Badge variant="outline">{weirdnessConstraint[0].toFixed(2)}</Badge>
+              </div>
+              <Slider
+                value={weirdnessConstraint}
+                onValueChange={setWeirdnessConstraint}
+                min={0}
+                max={1}
+                step={0.01}
+                className="mt-2"
+              />
+            </div>
+
+            {/* Negative Tags */}
+            <div>
+              <Label htmlFor="negative-tags">Исключить</Label>
+              <Input
+                id="negative-tags"
+                placeholder="elements to avoid..."
+                value={negativeTags}
+                onChange={(e) => setNegativeTags(e.target.value)}
+                className="mt-2"
+              />
+            </div>
+          </div>
+
+          <Button
+            onClick={handleExtend}
+            disabled={loading}
+            size="lg"
+            className="w-full gap-2"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                Расширение...
+              </>
+            ) : (
+              <>
+                <Plus className="w-5 h-5" />
+                Расширить трек
+                <Badge variant="secondary" className="ml-2">1 кредит</Badge>
+              </>
+            )}
+          </Button>
+
+          <p className="text-xs text-center text-muted-foreground">
+            Расширение обычно занимает 1-3 минуты
+          </p>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
