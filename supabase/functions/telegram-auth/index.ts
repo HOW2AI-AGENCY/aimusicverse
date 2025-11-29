@@ -243,138 +243,149 @@ Deno.serve(async (req) => {
 
     // Step 3: Handle existing user - generate new session
     if (existingProfile) {
-      console.log('👤 Existing user found:', existingProfile.user_id);
+      console.log('👤 Existing profile found, checking auth user...');
       userId = existingProfile.user_id;
 
-      // Generate new secure password for session
-      const newPassword = crypto.randomUUID();
+      // Check if auth user still exists (handle orphaned profiles)
+      const { data: authUser, error: authUserError } = await supabase.auth.admin.getUserById(userId);
       
-      // Update user password to allow sign in
-      const { error: updateError } = await supabase.auth.admin.updateUserById(
-        userId,
-        { password: newPassword }
-      );
-
-      if (updateError) {
-        console.error('❌ Password update failed:', updateError);
-        return new Response(
-          JSON.stringify({ error: 'Authentication error' }),
-          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      if (authUserError || !authUser) {
+        console.warn('⚠️ Orphaned profile detected (auth user missing), cleaning up...');
+        
+        // Delete orphaned profile
+        await supabase
+          .from('profiles')
+          .delete()
+          .eq('telegram_id', telegramUser.id);
+        
+        console.log('🔄 Creating new auth user after cleanup...');
+        
+        // Fall through to create new user
+      } else {
+        // Auth user exists, update password and sign in
+        console.log('✅ Auth user exists:', userId);
+        
+        const newPassword = crypto.randomUUID();
+        
+        // Update user password to allow sign in
+        const { error: updateError } = await supabase.auth.admin.updateUserById(
+          userId,
+          { password: newPassword }
         );
-      }
 
-      // Update profile with latest Telegram data
-      const { error: profileUpdateError } = await supabase
-        .from('profiles')
-        .update({
-          first_name: telegramUser.first_name,
-          last_name: telegramUser.last_name,
-          username: telegramUser.username,
-          language_code: telegramUser.language_code,
-          photo_url: telegramUser.photo_url,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('user_id', userId);
+        if (updateError) {
+          console.error('❌ Password update failed:', updateError);
+          return new Response(
+            JSON.stringify({ error: 'Authentication error' }),
+            { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
 
-      if (profileUpdateError) {
-        console.warn('⚠️ Profile update failed:', profileUpdateError);
-      }
+        // Update profile with latest Telegram data
+        const { error: profileUpdateError } = await supabase
+          .from('profiles')
+          .update({
+            first_name: telegramUser.first_name,
+            last_name: telegramUser.last_name,
+            username: telegramUser.username,
+            language_code: telegramUser.language_code,
+            photo_url: telegramUser.photo_url,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('user_id', userId);
 
-      // Sign in to generate JWT tokens
-      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password: newPassword,
-      });
+        if (profileUpdateError) {
+          console.warn('⚠️ Profile update failed:', profileUpdateError);
+        }
 
-      if (signInError || !signInData.session) {
-        console.error('❌ Session generation failed:', signInError);
-        return new Response(
-          JSON.stringify({ error: 'Failed to create session' }),
-          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
-      }
-
-      accessToken = signInData.session.access_token;
-      refreshToken = signInData.session.refresh_token;
-      
-      console.log('✅ Session created for existing user');
-    } 
-    // Step 4: Create new user and generate session
-    else {
-      console.log('🆕 Creating new user for Telegram ID:', telegramUser.id);
-      
-      const password = crypto.randomUUID();
-
-      // Create auth user
-      const { data: authData, error: authError } = await supabase.auth.admin.createUser({
-        email,
-        password,
-        email_confirm: true,
-        user_metadata: {
-          telegram_id: telegramUser.id,
-          first_name: telegramUser.first_name,
-          last_name: telegramUser.last_name,
-          username: telegramUser.username,
-          language_code: telegramUser.language_code,
-          photo_url: telegramUser.photo_url,
-        },
-      });
-
-      if (authError || !authData.user) {
-        console.error('❌ User creation failed:', authError);
-        return new Response(
-          JSON.stringify({ error: 'Failed to create user' }),
-          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
-      }
-
-      userId = authData.user.id;
-      console.log('✅ Auth user created:', userId);
-
-      // Create profile
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          user_id: userId,
-          telegram_id: telegramUser.id,
-          first_name: telegramUser.first_name,
-          last_name: telegramUser.last_name,
-          username: telegramUser.username,
-          language_code: telegramUser.language_code,
-          photo_url: telegramUser.photo_url,
+        // Sign in to generate JWT tokens
+        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password: newPassword,
         });
 
-      if (profileError) {
-        console.error('❌ Profile creation failed:', profileError);
-        // Clean up auth user
-        await supabase.auth.admin.deleteUser(userId);
+        if (signInError || !signInData.session) {
+          console.error('❌ Session generation failed:', signInError);
+          return new Response(
+            JSON.stringify({ error: 'Failed to create session' }),
+            { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
+
+        accessToken = signInData.session.access_token;
+        refreshToken = signInData.session.refresh_token;
+        
+        console.log('✅ Session created for existing user');
+        
+        // Return early for existing user
+        const response: AuthResponse = {
+          user: telegramUser,
+          session: {
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          },
+        };
+
         return new Response(
-          JSON.stringify({ error: 'Failed to create profile' }),
-          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          JSON.stringify(response),
+          { 
+            status: 200,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+          }
         );
       }
-
-      console.log('✅ Profile created');
-
-      // Sign in to generate JWT tokens
-      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (signInError || !signInData.session) {
-        console.error('❌ Session generation failed:', signInError);
-        return new Response(
-          JSON.stringify({ error: 'Failed to create session' }),
-          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
-      }
-
-      accessToken = signInData.session.access_token;
-      refreshToken = signInData.session.refresh_token;
-      
-      console.log('✅ Session created for new user');
     }
+    
+    // Step 4: Create new user (or recreate after orphan cleanup)
+    // Note: Trigger will automatically create profile!
+    console.log('🆕 Creating new user for Telegram ID:', telegramUser.id);
+    
+    const password = crypto.randomUUID();
+
+    // Create auth user (trigger will create profile automatically)
+    const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+      user_metadata: {
+        telegram_id: telegramUser.id,
+        first_name: telegramUser.first_name,
+        last_name: telegramUser.last_name,
+        username: telegramUser.username,
+        language_code: telegramUser.language_code,
+        photo_url: telegramUser.photo_url,
+      },
+    });
+
+    if (authError || !authData.user) {
+      console.error('❌ User creation failed:', authError);
+      return new Response(
+        JSON.stringify({ error: 'Failed to create user' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    userId = authData.user.id;
+    console.log('✅ Auth user created:', userId, '(trigger will create profile)');
+
+    // Sign in to generate JWT tokens
+    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (signInError || !signInData.session) {
+      console.error('❌ Session generation failed:', signInError);
+      return new Response(
+        JSON.stringify({ error: 'Failed to create session' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    accessToken = signInData.session.access_token;
+    refreshToken = signInData.session.refresh_token;
+    
+    console.log('✅ Session created for new user');
 
     // Step 5: Return JWT tokens to client
     const response: AuthResponse = {
