@@ -272,17 +272,15 @@ Provide a comprehensive analysis including:
 5. Specific recommendations for improvement
 6. Suggestions for each empty or weak field with priority level
 
-CRITICAL: Use ONLY these EXACT field names in improvements array (these are the actual database columns):
-- "title" (project title, NOT "project_title")
-- "description" (project description)
-- "concept" (creative concept)
-- "target_audience" (target audience, NOT "Target Audience" or "targetAudience")
-- "genre" (music genre)
-- "mood" (emotional mood)
-- "type" (deprecated, use project_type instead)
-- "project_type" (single, ep, album, ost, etc.)
+CRITICAL: Use ONLY these EXACT field names (copy them exactly as shown):
+- "description" - for project description
+- "concept" - for creative concept
+- "target_audience" - for target audience (use underscore, not space!)
+- "genre" - for music genre
+- "mood" - for emotional mood
 
-DO NOT suggest improvements for fields not in this list!
+DO NOT suggest improvements for: title, project_type, or any other fields not listed above!
+DO NOT use "Project Title", "Target Audience" with capital letters or spaces!
 
 Return as JSON:
 {
@@ -343,6 +341,7 @@ Return as JSON:
         // Map field names to database column names
         const fieldMapping: Record<string, string> = {
           // Title variations
+          'Project Title': 'title',
           'project_title': 'title',
           'project title': 'title',
           'projectTitle': 'title',
@@ -372,10 +371,11 @@ Return as JSON:
           'emotionalMood': 'mood',
           
           // Project type variations
-          'type': 'project_type',
           'Type': 'project_type',
+          'type': 'project_type',
           'projectType': 'project_type',
           'project type': 'project_type',
+          'Project Type': 'project_type',
         };
         
         // Normalize field name
