@@ -1,4 +1,4 @@
-import { Bot } from 'https://deno.land/x/grammy@v1.21.1/mod.ts';
+import { setWebhook, setMyCommands, getWebhookInfo } from '../telegram-bot/telegram-api.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -21,19 +21,15 @@ Deno.serve(async (req) => {
       throw new Error('SUPABASE_URL not configured');
     }
 
-    const bot = new Bot(botToken);
-    
     // Construct webhook URL
     const webhookUrl = `${supabaseUrl}/functions/v1/telegram-bot`;
 
     // Set webhook
-    await bot.api.setWebhook(webhookUrl, {
-      allowed_updates: ['message', 'callback_query'],
-      drop_pending_updates: true,
-    });
+    const webhookResult = await setWebhook(webhookUrl);
+    console.log('Webhook set result:', webhookResult);
 
     // Set bot commands
-    await bot.api.setMyCommands([
+    const commandsResult = await setMyCommands([
       { command: 'start', description: 'Начать работу' },
       { command: 'generate', description: 'Создать музыку' },
       { command: 'library', description: 'Моя библиотека' },
@@ -41,14 +37,17 @@ Deno.serve(async (req) => {
       { command: 'app', description: 'Открыть приложение' },
       { command: 'help', description: 'Помощь' },
     ]);
+    console.log('Commands set result:', commandsResult);
 
     // Get webhook info
-    const webhookInfo = await bot.api.getWebhookInfo();
+    const webhookInfo = await getWebhookInfo();
 
     return new Response(
       JSON.stringify({
         success: true,
         webhook_url: webhookUrl,
+        webhook_result: webhookResult,
+        commands_result: commandsResult,
         webhook_info: webhookInfo,
       }),
       {
@@ -57,10 +56,11 @@ Deno.serve(async (req) => {
     );
   } catch (error) {
     console.error('Error setting up webhook:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return new Response(
       JSON.stringify({
         success: false,
-        error: error.message,
+        error: errorMessage,
       }),
       {
         status: 500,

@@ -92,7 +92,7 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       }
 
       // Handle deep linking
-      const startParam = tg.initDataUnsafe?.start_param;
+      const startParam = (tg.initDataUnsafe as any)?.start_param;
       if (startParam) {
         console.log('🔗 Deep link detected:', startParam);
         handleDeepLink(startParam);

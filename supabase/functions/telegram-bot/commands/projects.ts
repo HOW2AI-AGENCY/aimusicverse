@@ -1,30 +1,24 @@
-import { CommandContext } from 'https://deno.land/x/grammy@v1.21.1/mod.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { BOT_CONFIG, MESSAGES } from '../config.ts';
 import { createProjectKeyboard } from '../keyboards/main-menu.ts';
+import { sendMessage } from '../telegram-api.ts';
 
 const supabase = createClient(
   BOT_CONFIG.supabaseUrl,
   BOT_CONFIG.supabaseServiceKey
 );
 
-export async function handleProjects(ctx: CommandContext<any>) {
-  const telegramUserId = ctx.from?.id;
-  if (!telegramUserId) {
-    await ctx.reply('❌ Не удалось определить пользователя.');
-    return;
-  }
-
+export async function handleProjects(chatId: number, userId: number) {
   try {
     // Get user from profiles table
     const { data: profile } = await supabase
       .from('profiles')
       .select('user_id')
-      .eq('telegram_id', telegramUserId)
+      .eq('telegram_id', userId)
       .single();
 
     if (!profile) {
-      await ctx.reply('❌ Пользователь не найден. Сначала откройте Mini App.');
+      await sendMessage(chatId, '❌ Пользователь не найден. Сначала откройте Mini App.');
       return;
     }
 
@@ -38,12 +32,12 @@ export async function handleProjects(ctx: CommandContext<any>) {
 
     if (error) {
       console.error('Error fetching projects:', error);
-      await ctx.reply('❌ Ошибка при загрузке проектов.');
+      await sendMessage(chatId, '❌ Ошибка при загрузке проектов.');
       return;
     }
 
     if (!projects || projects.length === 0) {
-      await ctx.reply(MESSAGES.noProjects);
+      await sendMessage(chatId, MESSAGES.noProjects);
       return;
     }
 
@@ -58,11 +52,9 @@ export async function handleProjects(ctx: CommandContext<any>) {
       message += `   /project_${project.id}\n\n`;
     }
 
-    await ctx.reply(message, {
-      reply_markup: projects[0] ? createProjectKeyboard(projects[0].id) : undefined,
-    });
+    await sendMessage(chatId, message, projects[0] ? createProjectKeyboard(projects[0].id) : undefined);
   } catch (error) {
     console.error('Error in projects command:', error);
-    await ctx.reply('❌ Ошибка при загрузке проектов.');
+    await sendMessage(chatId, '❌ Ошибка при загрузке проектов.');
   }
 }
