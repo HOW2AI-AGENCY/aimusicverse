@@ -1,3 +1,4 @@
+// Telegram Web App SDK type definitions
 interface TelegramWebApp {
   initData: string;
   initDataUnsafe: {

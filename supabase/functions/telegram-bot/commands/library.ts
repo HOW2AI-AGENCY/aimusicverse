@@ -1,30 +1,24 @@
-import { CommandContext } from 'https://deno.land/x/grammy@v1.21.1/mod.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { BOT_CONFIG, MESSAGES } from '../config.ts';
 import { createTrackKeyboard } from '../keyboards/main-menu.ts';
+import { sendMessage } from '../telegram-api.ts';
 
 const supabase = createClient(
   BOT_CONFIG.supabaseUrl,
   BOT_CONFIG.supabaseServiceKey
 );
 
-export async function handleLibrary(ctx: CommandContext<any>) {
-  const telegramUserId = ctx.from?.id;
-  if (!telegramUserId) {
-    await ctx.reply('❌ Не удалось определить пользователя.');
-    return;
-  }
-
+export async function handleLibrary(chatId: number, userId: number) {
   try {
     // Get user from profiles table
     const { data: profile } = await supabase
       .from('profiles')
       .select('user_id')
-      .eq('telegram_id', telegramUserId)
+      .eq('telegram_id', userId)
       .single();
 
     if (!profile) {
-      await ctx.reply('❌ Пользователь не найден. Сначала откройте Mini App.');
+      await sendMessage(chatId, '❌ Пользователь не найден. Сначала откройте Mini App.');
       return;
     }
 
@@ -38,12 +32,12 @@ export async function handleLibrary(ctx: CommandContext<any>) {
 
     if (error) {
       console.error('Error fetching tracks:', error);
-      await ctx.reply('❌ Ошибка при загрузке треков.');
+      await sendMessage(chatId, '❌ Ошибка при загрузке треков.');
       return;
     }
 
     if (!tracks || tracks.length === 0) {
-      await ctx.reply(MESSAGES.noTracks);
+      await sendMessage(chatId, MESSAGES.noTracks);
       return;
     }
 
@@ -59,11 +53,9 @@ export async function handleLibrary(ctx: CommandContext<any>) {
       message += `   /track_${track.id}\n\n`;
     }
 
-    await ctx.reply(message, {
-      reply_markup: createTrackKeyboard(tracks[0].id),
-    });
+    await sendMessage(chatId, message, createTrackKeyboard(tracks[0].id));
   } catch (error) {
     console.error('Error in library command:', error);
-    await ctx.reply('❌ Ошибка при загрузке библиотеки.');
+    await sendMessage(chatId, '❌ Ошибка при загрузке библиотеки.');
   }
 }

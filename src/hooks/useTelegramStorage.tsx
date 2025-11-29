@@ -15,7 +15,7 @@ export function useTelegramStorage<T>(
   const [isLoading, setIsLoading] = useState(true);
 
   // Check if CloudStorage is available
-  const hasCloudStorage = isInitialized && webApp?.CloudStorage;
+  const hasCloudStorage = isInitialized && (webApp as any)?.CloudStorage;
 
   // Load initial value
   useEffect(() => {
@@ -23,7 +23,7 @@ export function useTelegramStorage<T>(
       try {
         if (hasCloudStorage) {
           // Use Telegram CloudStorage
-          webApp.CloudStorage.getItem(key, (error, result) => {
+          (webApp as any).CloudStorage.getItem(key, (error, result) => {
             if (error) {
               console.error('CloudStorage getItem error:', error);
               if (options.fallbackToLocalStorage) {
@@ -74,7 +74,7 @@ export function useTelegramStorage<T>(
         ? newValue 
         : JSON.stringify(newValue);
 
-      webApp.CloudStorage.setItem(key, stringValue, (error) => {
+      (webApp as any).CloudStorage.setItem(key, stringValue, (error) => {
         if (error) {
           console.error('CloudStorage setItem error:', error);
           if (options.fallbackToLocalStorage) {
@@ -96,7 +96,7 @@ export function useTelegramStorage<T>(
     setValue(initialValue);
 
     if (hasCloudStorage) {
-      webApp.CloudStorage.removeItem(key, (error) => {
+      (webApp as any).CloudStorage.removeItem(key, (error) => {
         if (error) {
           console.error('CloudStorage removeItem error:', error);
           if (options.fallbackToLocalStorage) {
