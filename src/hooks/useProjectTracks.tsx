@@ -177,29 +177,8 @@ export const useProjectTracks = (projectId: string | undefined) => {
       });
 
       if (error) throw error;
-
-      // Insert generated tracks into database
-      const generatedTracks = data?.data?.tracks || [];
-      if (generatedTracks.length > 0) {
-        const tracksToInsert = generatedTracks.map((track: any) => ({
-          project_id: projectId,
-          position: track.position,
-          title: track.title,
-          style_prompt: track.styleTags?.join(', ') || null,
-          notes: track.description || null,
-          recommended_tags: track.styleTags || null,
-          recommended_structure: track.structure || null,
-          duration_target: track.bpm ? Math.round((60 / track.bpm) * 240) : 120,
-          status: 'draft',
-        }));
-
-        const { error: insertError } = await supabase
-          .from('project_tracks')
-          .insert(tracksToInsert);
-
-        if (insertError) throw insertError;
-      }
-
+      
+      // Tracks are now inserted by the edge function using service role
       return data;
     },
     onSuccess: () => {

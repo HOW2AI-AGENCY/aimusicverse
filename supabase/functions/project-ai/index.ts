@@ -13,14 +13,14 @@ serve(async (req) => {
 
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const lovableApiKey = Deno.env.get('LOVABLE_API_KEY');
 
     if (!lovableApiKey) {
       throw new Error('LOVABLE_API_KEY not configured');
     }
 
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
@@ -194,8 +194,37 @@ Return as JSON array:
                            tracklistText.match(/```\s*([\s\S]*?)\s*```/);
           const jsonText = jsonMatch ? jsonMatch[1] : tracklistText;
           result = JSON.parse(jsonText);
+          
+          // Insert tracks into database using service role
+          if (result.tracks && Array.isArray(result.tracks) && projectId) {
+            const tracksToInsert = result.tracks.map((track: any) => ({
+              project_id: projectId,
+              position: track.position,
+              title: track.title,
+              style_prompt: track.styleTags?.join(', ') || null,
+              notes: track.description || track.notes || null,
+              recommended_tags: track.styleTags || null,
+              recommended_structure: track.structure || null,
+              duration_target: track.bpm ? Math.round((60 / track.bpm) * 240) : 120,
+              status: 'draft',
+            }));
+
+            const { data: insertedTracks, error: insertError } = await supabase
+              .from('project_tracks')
+              .insert(tracksToInsert)
+              .select();
+
+            if (insertError) {
+              console.error('Error inserting tracks:', insertError);
+              throw insertError;
+            }
+            
+            console.log('Tracks inserted successfully:', insertedTracks?.length);
+            result.insertedCount = insertedTracks?.length || 0;
+          }
         } catch (e) {
-          result = { error: 'Failed to parse tracklist', raw: tracklistText };
+          console.error('Error in tracklist generation:', e);
+          result = { error: 'Failed to parse or insert tracklist', raw: tracklistText };
         }
         break;
 
