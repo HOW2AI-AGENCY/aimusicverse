@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, Download, Heart, Share2, MoreVertical, Trash2 } from 'lucide-react';
+import { Play, Pause, Download, Heart, Share2, MoreVertical, Trash2, Plus } from 'lucide-react';
 import { Track } from '@/hooks/useTracks';
 import { useState } from 'react';
 import {
@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
+import { ExtendTrackDialog } from './ExtendTrackDialog';
 
 interface TrackCardProps {
   track: Track;
@@ -29,6 +30,7 @@ export const TrackCard = ({
   isPlaying,
 }: TrackCardProps) => {
   const [imageError, setImageError] = useState(false);
+  const [extendDialogOpen, setExtendDialogOpen] = useState(false);
 
   const handleShare = async () => {
     if (navigator.share && track.audio_url) {
@@ -150,8 +152,12 @@ export const TrackCard = ({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                {track.audio_url && (
+                {track.audio_url && track.status === 'completed' && (
                   <>
+                    <DropdownMenuItem onClick={() => setExtendDialogOpen(true)}>
+                      <Plus className="w-4 h-4 mr-2" />
+                      Расширить трек
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={onDownload}>
                       <Download className="w-4 h-4 mr-2" />
                       Скачать
@@ -174,6 +180,12 @@ export const TrackCard = ({
           </div>
         </div>
       </div>
+
+      <ExtendTrackDialog
+        open={extendDialogOpen}
+        onOpenChange={setExtendDialogOpen}
+        track={track}
+      />
     </Card>
   );
 };
