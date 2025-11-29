@@ -51,26 +51,28 @@ serve(async (req) => {
       field,
       currentValue,
       suggestion,
+      language, // Add language parameter
     } = await req.json();
 
     console.log(`Project AI action: ${action} for user: ${user.id}`);
 
     // Detect language from user input
     const detectLanguage = (text: string): string => {
-      if (!text) return 'English';
+      if (!text) return 'en';
       // Check for Cyrillic characters
       const cyrillicPattern = /[а-яА-ЯёЁ]/;
-      if (cyrillicPattern.test(text)) return 'Russian';
-      return 'English';
+      if (cyrillicPattern.test(text)) return 'ru';
+      return 'en';
     };
 
-    const userLanguage = detectLanguage(
+    // Use language from request or detect from user input
+    const userLanguage = language || detectLanguage(
       title || description || concept || genre || mood || theme || ''
     );
 
-    const languageInstruction = userLanguage === 'Russian' 
+    const languageInstruction = userLanguage === 'ru'
       ? 'ВАЖНО: Отвечай ТОЛЬКО на русском языке. Весь текст должен быть на русском.' 
-      : 'IMPORTANT: Respond ONLY in English.';
+      : 'IMPORTANT: Respond ONLY in English. All text must be in English.';
 
     let result;
 

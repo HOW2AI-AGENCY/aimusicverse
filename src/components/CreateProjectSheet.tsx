@@ -67,6 +67,7 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
   const [coverUrl, setCoverUrl] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   const [isPremiumUser, setIsPremiumUser] = useState(false);
+  const [language, setLanguage] = useState('ru');
   const [isUploadingCover, setIsUploadingCover] = useState(false);
   const [isGeneratingCover, setIsGeneratingCover] = useState(false);
   const [newArtistName, setNewArtistName] = useState('');
@@ -176,6 +177,7 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
         status: 'draft',
         ai_context: titleRu ? { title_ru: titleRu } : null,
         is_public: isPublic,
+        language: language,
       },
       {
         onSuccess: (data) => {
@@ -225,6 +227,7 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
     setNewArtistName('');
     setShowNewArtist(false);
     setMode('manual');
+    setLanguage('ru');
   };
 
   const FieldHelp = ({ text }: { text: string }) => (
@@ -307,6 +310,32 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
                       </div>
                     </SelectItem>
                   ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Label htmlFor="language">Язык проекта</Label>
+                <FieldHelp text="Выберите язык для AI-генерируемого контента проекта. Весь контент будет создаваться на выбранном языке." />
+              </div>
+              <Select value={language} onValueChange={setLanguage}>
+                <SelectTrigger className="bg-background">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-background z-50">
+                  <SelectItem value="ru">
+                    <div className="flex items-center gap-2">
+                      <span>🇷🇺</span>
+                      <span>Русский</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="en">
+                    <div className="flex items-center gap-2">
+                      <span>🇬🇧</span>
+                      <span>English</span>
+                    </div>
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
