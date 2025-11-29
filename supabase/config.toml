@@ -59,3 +59,6 @@ verify_jwt = true
 
 [functions.download-track]
 verify_jwt = true
+
+[functions.get-timestamped-lyrics]
+verify_jwt = true

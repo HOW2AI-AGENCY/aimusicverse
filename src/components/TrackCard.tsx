@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, Download, Heart, Share2, MoreVertical, Trash2, Plus } from 'lucide-react';
+import { Play, Pause, Download, Heart, Share2, MoreVertical, Trash2, Plus, FileText } from 'lucide-react';
 import { Track } from '@/hooks/useTracks';
 import { useState } from 'react';
 import {
@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 import { ExtendTrackDialog } from './ExtendTrackDialog';
+import { LyricsDialog } from './LyricsDialog';
 
 interface TrackCardProps {
   track: Track;
@@ -31,6 +32,7 @@ export const TrackCard = ({
 }: TrackCardProps) => {
   const [imageError, setImageError] = useState(false);
   const [extendDialogOpen, setExtendDialogOpen] = useState(false);
+  const [lyricsDialogOpen, setLyricsDialogOpen] = useState(false);
 
   const handleShare = async () => {
     if (navigator.share && track.audio_url) {
@@ -154,6 +156,12 @@ export const TrackCard = ({
               <DropdownMenuContent align="end">
                 {track.audio_url && track.status === 'completed' && (
                   <>
+                    {(track.lyrics || (track.suno_task_id && track.suno_id)) && (
+                      <DropdownMenuItem onClick={() => setLyricsDialogOpen(true)}>
+                        <FileText className="w-4 h-4 mr-2" />
+                        Текст песни
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem onClick={() => setExtendDialogOpen(true)}>
                       <Plus className="w-4 h-4 mr-2" />
                       Расширить трек
@@ -184,6 +192,12 @@ export const TrackCard = ({
       <ExtendTrackDialog
         open={extendDialogOpen}
         onOpenChange={setExtendDialogOpen}
+        track={track}
+      />
+
+      <LyricsDialog
+        open={lyricsDialogOpen}
+        onOpenChange={setLyricsDialogOpen}
         track={track}
       />
     </Card>

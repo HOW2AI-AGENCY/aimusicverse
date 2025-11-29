@@ -7,6 +7,7 @@ import { Music2, Search, Loader2 } from 'lucide-react';
 import { useTracks } from '@/hooks/useTracks';
 import { TrackCard } from '@/components/TrackCard';
 import { TrackAnalytics } from '@/components/TrackAnalytics';
+import { TrackLyricsView } from '@/components/TrackLyricsView';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { GenerationProgress } from '@/components/GenerationProgress';
 import { AudioPlayer } from '@/components/AudioPlayer';
@@ -119,6 +120,9 @@ export default function Library() {
           <Tabs defaultValue="grid" className="w-full">
             <TabsList className="mb-4">
               <TabsTrigger value="grid">Сетка</TabsTrigger>
+              <TabsTrigger value="lyrics" disabled={!selectedTrackId}>
+                🎵 Лирика
+              </TabsTrigger>
               <TabsTrigger value="analytics" disabled={!selectedTrackId}>
                 Аналитика
               </TabsTrigger>
@@ -144,6 +148,13 @@ export default function Library() {
                   </div>
                 ))}
               </div>
+            </TabsContent>
+
+            <TabsContent value="lyrics">
+              {selectedTrackId && (() => {
+                const track = filteredTracks.find(t => t.id === selectedTrackId);
+                return track ? <TrackLyricsView track={track} /> : null;
+              })()}
             </TabsContent>
 
             <TabsContent value="analytics">
