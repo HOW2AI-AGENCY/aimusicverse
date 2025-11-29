@@ -35,9 +35,23 @@ async function validateTelegramData(initData: string, botToken: string): Promise
     console.log('🔐 Starting Telegram data validation...');
     console.log('📊 InitData length:', initData.length);
     
-    // Parse the init data as URL parameters
-    const urlParams = new URLSearchParams(initData);
-    const hash = urlParams.get('hash');
+    // Decode the init data
+    const decoded = decodeURIComponent(initData);
+    console.log('📄 Decoded initData preview:', decoded.substring(0, 100) + '...');
+    
+    // Parse parameters
+    const params = decoded.split('&');
+    let hash = '';
+    const dataCheckArr: string[] = [];
+    
+    // Extract hash and collect other parameters
+    for (const param of params) {
+      if (param.startsWith('hash=')) {
+        hash = param.split('=')[1];
+      } else {
+        dataCheckArr.push(param);
+      }
+    }
     
     if (!hash) {
       console.error('❌ No hash in initData');
@@ -46,34 +60,17 @@ async function validateTelegramData(initData: string, botToken: string): Promise
     
     console.log('🔑 Hash found:', hash);
     
-    // Remove hash and signature from validation
-    // Note: signature parameter is NOT part of Mini Apps validation
-    urlParams.delete('hash');
-    urlParams.delete('signature');
-
-    // Sort all parameters alphabetically by key and create data check string
-    const sortedKeys = Array.from(urlParams.keys()).sort();
-    const dataCheckArr: string[] = [];
+    // Sort parameters alphabetically
+    dataCheckArr.sort((a, b) => a.localeCompare(b));
     
-    console.log('📋 Parameters to validate:', sortedKeys.join(', '));
-    
-    for (const key of sortedKeys) {
-      const value = urlParams.get(key);
-      if (value) {
-        // URLSearchParams already handles decoding, use values as-is
-        dataCheckArr.push(`${key}=${value}`);
-      }
-    }
-    
+    // Create data check string with newline separator
     const dataCheckString = dataCheckArr.join('\n');
     console.log('📝 Data check string created');
-    console.log('📝 Data check string:', dataCheckString);
-
-    // HMAC-SHA256 validation according to Telegram docs
-    // https://core.telegram.org/bots/webapps#validating-data-received-via-the-mini-app
-    const encoder = new TextEncoder();
+    console.log('📋 Params count:', dataCheckArr.length);
+    console.log('📋 First param:', dataCheckArr[0]?.substring(0, 50) + '...');
     
-    // Step 1: secret_key = HMAC-SHA256(bot_token, "WebAppData")
+    // Step 1: Create secret key = HMAC-SHA256("WebAppData", bot_token)
+    const encoder = new TextEncoder();
     const webAppDataKey = await crypto.subtle.importKey(
       'raw',
       encoder.encode('WebAppData'),
@@ -87,8 +84,10 @@ async function validateTelegramData(initData: string, botToken: string): Promise
       webAppDataKey,
       encoder.encode(botToken)
     );
+    
+    console.log('🔑 Secret key generated');
 
-    // Step 2: Import secret_key for signing data_check_string
+    // Step 2: Create calculated hash = HMAC-SHA256(secret_key, data_check_string)
     const secretKey = await crypto.subtle.importKey(
       'raw',
       secretKeyData,
@@ -97,7 +96,6 @@ async function validateTelegramData(initData: string, botToken: string): Promise
       ['sign']
     );
 
-    // Step 3: calculated_hash = HMAC-SHA256(secret_key, data_check_string)
     const signature = await crypto.subtle.sign(
       'HMAC',
       secretKey,
@@ -117,16 +115,16 @@ async function validateTelegramData(initData: string, botToken: string): Promise
       console.error('Expected:', calculatedHash);
       console.error('Received:', hash);
       console.error('🔧 Bot token (first 10 chars):', botToken.substring(0, 10) + '...');
-      console.error('📋 Data check string:', dataCheckString);
+      console.error('📋 Data check string preview:', dataCheckString.substring(0, 150) + '...');
       return null;
     }
 
     console.log('✅ Hash validation successful!');
 
     // Validate timestamp to prevent replay attacks
-    const authDate = urlParams.get('auth_date');
-    if (authDate) {
-      const authTimestamp = parseInt(authDate, 10);
+    const authDateParam = params.find(p => p.startsWith('auth_date='));
+    if (authDateParam) {
+      const authTimestamp = parseInt(authDateParam.split('=')[1], 10);
       const currentTimestamp = Math.floor(Date.now() / 1000);
       const maxAge = 86400; // 24 hours for development
       
@@ -143,13 +141,14 @@ async function validateTelegramData(initData: string, botToken: string): Promise
     }
 
     // Parse and return user data
-    const userParam = urlParams.get('user');
+    const userParam = params.find(p => p.startsWith('user='));
     if (!userParam) {
       console.error('❌ No user data in initData');
       return null;
     }
 
-    const user = JSON.parse(userParam) as TelegramUser;
+    const userData = userParam.split('=')[1];
+    const user = JSON.parse(decodeURIComponent(userData)) as TelegramUser;
     console.log('✅ User validated:', user.id, user.first_name, user.username || '(no username)');
     
     return user;
