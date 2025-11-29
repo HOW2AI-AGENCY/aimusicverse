@@ -168,7 +168,78 @@ export async function editMessageText(
 
   if (!response.ok) {
     const error = await response.text();
-    throw new Error(`Telegram API error: ${error}`);
+    // Игнорируем ошибку "message is not modified" - это не критично
+    if (!error.includes('message is not modified')) {
+      console.error('editMessageText error:', error);
+    }
+    return null;
+  }
+
+  return response.json();
+}
+
+export async function editMessageMedia(
+  chatId: number,
+  messageId: number,
+  media: {
+    type: 'photo';
+    media: string;
+    caption?: string;
+    parse_mode?: 'Markdown' | 'HTML';
+  },
+  replyMarkup?: {
+    inline_keyboard?: InlineKeyboardButton[][];
+  }
+) {
+  const response = await fetch(`${TELEGRAM_API}/editMessageMedia`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: chatId,
+      message_id: messageId,
+      media,
+      reply_markup: replyMarkup,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    // Игнорируем ошибку "message is not modified" - это не критично
+    if (!error.includes('message is not modified')) {
+      console.error('editMessageMedia error:', error);
+    }
+    return null;
+  }
+
+  return response.json();
+}
+
+export async function editMessageCaption(
+  chatId: number,
+  messageId: number,
+  caption: string,
+  replyMarkup?: {
+    inline_keyboard?: InlineKeyboardButton[][];
+  }
+) {
+  const response = await fetch(`${TELEGRAM_API}/editMessageCaption`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: chatId,
+      message_id: messageId,
+      caption,
+      parse_mode: 'Markdown',
+      reply_markup: replyMarkup,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    if (!error.includes('message is not modified')) {
+      console.error('editMessageCaption error:', error);
+    }
+    return null;
   }
 
   return response.json();

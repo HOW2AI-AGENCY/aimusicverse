@@ -49,3 +49,85 @@ export function createProjectKeyboard(projectId: string) {
     ] as InlineKeyboardButton[][]
   };
 }
+
+// New functions for reactive interface
+export function createPlayerControls(trackId: string, page: number, total: number) {
+  const prev = page > 0 ? page - 1 : total - 1;
+  const next = page < total - 1 ? page + 1 : 0;
+
+  return {
+    inline_keyboard: [
+      [
+        { text: '⏮️', callback_data: `lib_page_${prev}` },
+        { text: '▶️ СЛУШАТЬ', callback_data: `play_${trackId}` },
+        { text: '⏭️', callback_data: `lib_page_${next}` }
+      ],
+      [
+        { text: '❤️ Like', callback_data: `like_${trackId}` },
+        { text: '⬇️ Скачать', callback_data: `dl_${trackId}` },
+        { text: '📤 Поделиться', callback_data: `share_${trackId}` }
+      ],
+      [
+        { text: '🔙 Главное меню', callback_data: 'nav_main' }
+      ]
+    ] as InlineKeyboardButton[][]
+  };
+}
+
+export function createProjectControls(projectId: string, page: number, total: number) {
+  const prev = page > 0 ? page - 1 : total - 1;
+  const next = page < total - 1 ? page + 1 : 0;
+
+  return {
+    inline_keyboard: [
+      [
+        { text: '⬅️', callback_data: `project_page_${prev}` },
+        { text: `📂 ${page + 1}/${total}`, callback_data: 'noop' },
+        { text: '➡️', callback_data: `project_page_${next}` }
+      ],
+      [
+        { text: '📂 Открыть в студии', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=project_${projectId}` } }
+      ],
+      [
+        { text: '🔙 Главное меню', callback_data: 'nav_main' }
+      ]
+    ] as InlineKeyboardButton[][]
+  };
+}
+
+export function createShareMenu(trackId: string) {
+  return {
+    inline_keyboard: [
+      [
+        { text: '💬 Отправить в чат', callback_data: `share_chat_${trackId}` }
+      ],
+      [
+        { text: '👥 Поделиться с друзьями', switch_inline_query: `track_${trackId}` }
+      ],
+      [
+        { text: '🔗 Копировать ссылку', callback_data: `share_link_${trackId}` }
+      ],
+      [
+        { text: '🔙 К треку', callback_data: `track_${trackId}` }
+      ]
+    ] as InlineKeyboardButton[][]
+  };
+}
+
+export function createTrackDetailsKeyboard(trackId: string) {
+  return {
+    inline_keyboard: [
+      [
+        { text: '🎵 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=track_${trackId}` } }
+      ],
+      [
+        { text: '📤 Поделиться', callback_data: `share_${trackId}` },
+        { text: '⬇️ Скачать', callback_data: `dl_${trackId}` }
+      ]
+    ] as InlineKeyboardButton[][]
+  };
+}
+
+export function getMainBanner(): string {
+  return 'https://placehold.co/800x800/1a1a1a/white?text=🎵+MusicVerse';
+}

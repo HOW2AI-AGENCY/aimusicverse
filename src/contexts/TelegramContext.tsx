@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { telegramAuthService } from '@/services/telegram-auth';
 
 export interface TelegramUser {
   telegram_id: number;
@@ -112,6 +113,19 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
           hasAuthDate: !!params.get('auth_date'),
           authDate: params.get('auth_date') ? new Date(parseInt(params.get('auth_date')!) * 1000).toISOString() : 'N/A'
         });
+
+        // Seamless authentication with backend
+        telegramAuthService.authenticateWithTelegram(tg.initData)
+          .then(authData => {
+            if (authData) {
+              console.log('✅ Telegram authentication successful:', authData.user);
+            } else {
+              console.warn('⚠️ Telegram authentication failed');
+            }
+          })
+          .catch(err => {
+            console.error('❌ Telegram authentication error:', err);
+          });
       } else {
         console.error('❌ InitData не получен от Telegram!');
       }
