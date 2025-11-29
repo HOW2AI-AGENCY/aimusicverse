@@ -1,0 +1,128 @@
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
+
+serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+    const lovableApiKey = Deno.env.get('LOVABLE_API_KEY');
+
+    if (!lovableApiKey) {
+      throw new Error('LOVABLE_API_KEY not configured');
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      throw new Error('No authorization header');
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser(
+      authHeader.replace('Bearer ', '')
+    );
+
+    if (authError || !user) {
+      throw new Error('Unauthorized');
+    }
+
+    const { prompt, title, genre, mood } = await req.json();
+
+    if (!prompt) {
+      throw new Error('Prompt is required');
+    }
+
+    console.log(`Generating cover image for user: ${user.id}`);
+
+    // Generate image using Lovable AI (Gemini image generation)
+    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${lovableApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'google/gemini-2.5-flash-image-preview',
+        messages: [
+          {
+            role: 'user',
+            content: prompt,
+          },
+        ],
+        modalities: ['image', 'text'],
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Lovable AI error:', errorText);
+      throw new Error(`AI generation failed: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const imageUrl = data.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+
+    if (!imageUrl) {
+      throw new Error('No image generated');
+    }
+
+    // Upload the base64 image to Supabase Storage
+    const base64Data = imageUrl.split(',')[1];
+    const buffer = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+    
+    const fileName = `${user.id}/covers/${Date.now()}.png`;
+    
+    const { error: uploadError } = await supabase.storage
+      .from('project-assets')
+      .upload(fileName, buffer, {
+        contentType: 'image/png',
+        upsert: false,
+      });
+
+    if (uploadError) {
+      console.error('Upload error:', uploadError);
+      // If upload fails, return the base64 data URL as fallback
+      return new Response(
+        JSON.stringify({ 
+          success: true,
+          imageUrl: imageUrl, // base64 data URL
+          isBase64: true,
+        }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Get public URL
+    const { data: { publicUrl } } = supabase.storage
+      .from('project-assets')
+      .getPublicUrl(fileName);
+
+    return new Response(
+      JSON.stringify({ 
+        success: true,
+        imageUrl: publicUrl,
+        isBase64: false,
+      }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+
+  } catch (error: any) {
+    console.error('Error in generate-cover-image:', error);
+    return new Response(
+      JSON.stringify({ error: error.message }),
+      { 
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+      }
+    );
+  }
+});

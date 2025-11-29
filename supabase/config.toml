@@ -17,3 +17,6 @@ verify_jwt = true
 
 [functions.project-ai]
 verify_jwt = true
+
+[functions.generate-cover-image]
+verify_jwt = true
