@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Music, Sparkles, Loader2 } from 'lucide-react';
+import { Music, Sparkles, Loader2, Zap } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -16,6 +16,7 @@ export default function Generate() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const [mode, setMode] = useState<'simple' | 'custom'>('simple');
   const [loading, setLoading] = useState(false);
+  const [boostLoading, setBoostLoading] = useState(false);
   
   // Simple mode state
   const [description, setDescription] = useState('');
@@ -40,6 +41,42 @@ export default function Generate() {
   if (!isAuthenticated) {
     return <Navigate to="/auth" replace />;
   }
+
+  const handleBoostStyle = async () => {
+    const content = mode === 'simple' ? description : `${style} ${tags}`.trim();
+    
+    if (!content) {
+      toast.error('Пожалуйста, заполните описание стиля');
+      return;
+    }
+
+    setBoostLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('suno-boost-style', {
+        body: { content },
+      });
+
+      if (error) throw error;
+
+      if (data?.boostedStyle) {
+        if (mode === 'simple') {
+          setDescription(data.boostedStyle);
+        } else {
+          setStyle(data.boostedStyle);
+        }
+        toast.success('Стиль улучшен! ✨', {
+          description: 'Описание стиля было оптимизировано',
+        });
+      }
+    } catch (error: any) {
+      console.error('Boost error:', error);
+      toast.error('Ошибка улучшения', {
+        description: error.message || 'Попробуйте еще раз',
+      });
+    } finally {
+      setBoostLoading(false);
+    }
+  };
 
   const handleGenerate = async () => {
     const prompt = mode === 'simple' ? description : `${style} ${tags}`.trim();
@@ -108,7 +145,29 @@ export default function Generate() {
 
             <TabsContent value="simple" className="space-y-4">
               <div>
-                <Label htmlFor="description">Описание трека</Label>
+                <div className="flex items-center justify-between mb-2">
+                  <Label htmlFor="description">Описание трека</Label>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={handleBoostStyle}
+                    disabled={boostLoading || !description}
+                    className="gap-2"
+                  >
+                    {boostLoading ? (
+                      <>
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                        Улучшение...
+                      </>
+                    ) : (
+                      <>
+                        <Zap className="w-3 h-3" />
+                        Улучшить
+                      </>
+                    )}
+                  </Button>
+                </div>
                 <Textarea
                   id="description"
                   placeholder="Опишите желаемый трек: жанр, настроение, инструменты..."
@@ -133,7 +192,29 @@ export default function Generate() {
               </div>
 
               <div>
-                <Label htmlFor="style">Стиль и жанр</Label>
+                <div className="flex items-center justify-between mb-2">
+                  <Label htmlFor="style">Стиль и жанр</Label>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={handleBoostStyle}
+                    disabled={boostLoading || (!style && !tags)}
+                    className="gap-2"
+                  >
+                    {boostLoading ? (
+                      <>
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                        Улучшение...
+                      </>
+                    ) : (
+                      <>
+                        <Zap className="w-3 h-3" />
+                        Улучшить
+                      </>
+                    )}
+                  </Button>
+                </div>
                 <Input
                   id="style"
                   placeholder="Synthwave, Electronic, Ambient..."
