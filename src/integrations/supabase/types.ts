@@ -820,6 +820,41 @@ export type Database = {
           },
         ]
       }
+      track_analytics: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          metadata: Json | null
+          track_id: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          track_id: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          track_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "track_analytics_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       track_change_log: {
         Row: {
           ai_model_used: string | null
@@ -879,6 +914,35 @@ export type Database = {
             columns: ["version_id"]
             isOneToOne: false
             referencedRelation: "track_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      track_likes: {
+        Row: {
+          created_at: string
+          id: string
+          track_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          track_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          track_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "track_likes_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
         ]
@@ -1258,6 +1322,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      increment_track_play_count: {
+        Args: { track_id_param: string }
+        Returns: undefined
       }
       is_premium_or_admin: { Args: { _user_id: string }; Returns: boolean }
       recommend_styles_for_user: {

@@ -26,7 +26,11 @@ serve(async (req) => {
     // Get user from auth header
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
-      throw new Error('No authorization header');
+      console.error('No authorization header');
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 401 }
+      );
     }
 
     const { data: { user }, error: userError } = await supabase.auth.getUser(
@@ -34,7 +38,11 @@ serve(async (req) => {
     );
 
     if (userError || !user) {
-      throw new Error('Unauthorized');
+      console.error('User authentication failed:', userError);
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 401 }
+      );
     }
 
     const body = await req.json();
@@ -57,17 +65,29 @@ serve(async (req) => {
 
     // Validate required fields
     if (!prompt) {
-      throw new Error('Prompt is required');
+      console.error('Prompt is required');
+      return new Response(
+        JSON.stringify({ success: false, error: 'Prompt is required' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
     }
 
     const customMode = mode === 'custom';
 
     if (customMode && !style) {
-      throw new Error('Style is required in custom mode');
+      console.error('Style is required in custom mode');
+      return new Response(
+        JSON.stringify({ success: false, error: 'Style is required in custom mode' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
     }
 
     if (customMode && !instrumental && prompt.length > 5000) {
-      throw new Error('Prompt too long (max 5000 characters)');
+      console.error('Prompt too long');
+      return new Response(
+        JSON.stringify({ success: false, error: 'Prompt too long (max 5000 characters)' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
     }
 
     // Create track record
@@ -166,26 +186,61 @@ serve(async (req) => {
     const sunoData = await sunoResponse.json();
 
     if (!sunoResponse.ok || sunoData.code !== 200) {
-      console.error('SunoAPI error:', sunoData);
+      console.error('SunoAPI error:', sunoResponse.status, sunoData);
+      
+      const errorMsg = sunoData.msg || 'SunoAPI request failed';
+      
+      // Handle rate limiting
+      if (sunoResponse.status === 429) {
+        await supabase.from('generation_tasks').update({ 
+          status: 'failed', 
+          error_message: 'Превышен лимит запросов. Попробуйте позже.' 
+        }).eq('id', task.id);
+
+        await supabase.from('tracks').update({ 
+          status: 'failed', 
+          error_message: 'Превышен лимит запросов. Попробуйте позже.' 
+        }).eq('id', track.id);
+
+        return new Response(
+          JSON.stringify({ success: false, error: 'Превышен лимит запросов. Попробуйте позже.' }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 429 }
+        );
+      }
+
+      // Handle insufficient credits
+      if (sunoResponse.status === 402) {
+        await supabase.from('generation_tasks').update({ 
+          status: 'failed', 
+          error_message: 'Недостаточно кредитов на аккаунте' 
+        }).eq('id', task.id);
+
+        await supabase.from('tracks').update({ 
+          status: 'failed', 
+          error_message: 'Недостаточно кредитов на аккаунте' 
+        }).eq('id', track.id);
+
+        return new Response(
+          JSON.stringify({ success: false, error: 'Недостаточно кредитов на аккаунте' }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 402 }
+        );
+      }
       
       // Update task and track as failed
-      await supabase
-        .from('generation_tasks')
-        .update({ 
-          status: 'failed', 
-          error_message: sunoData.msg || 'SunoAPI request failed' 
-        })
-        .eq('id', task.id);
+      await supabase.from('generation_tasks').update({ 
+        status: 'failed', 
+        error_message: errorMsg 
+      }).eq('id', task.id);
 
-      await supabase
-        .from('tracks')
-        .update({ 
-          status: 'failed', 
-          error_message: sunoData.msg || 'SunoAPI request failed' 
-        })
-        .eq('id', track.id);
+      await supabase.from('tracks').update({ 
+        status: 'failed', 
+        error_message: errorMsg 
+      }).eq('id', track.id);
 
-      throw new Error(sunoData.msg || 'SunoAPI request failed');
+      return new Response(
+        JSON.stringify({ success: false, error: errorMsg }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
+      );
     }
 
     const sunoTaskId = sunoData.data?.taskId;
@@ -245,6 +300,34 @@ serve(async (req) => {
 
   } catch (error: any) {
     console.error('Error in suno-music-generate:', error);
+    
+    // Try to log error to database if we have context
+    try {
+      const authHeader = req.headers.get('Authorization');
+      if (authHeader) {
+        const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+        const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+        const supabase = createClient(supabaseUrl, supabaseServiceKey);
+        
+        const { data: { user } } = await supabase.auth.getUser(
+          authHeader.replace('Bearer ', '')
+        );
+        
+        if (user) {
+          await supabase
+            .from('notifications')
+            .insert({
+              user_id: user.id,
+              type: 'generation_error',
+              title: 'Ошибка генерации',
+              message: error.message || 'Произошла ошибка при генерации трека',
+            });
+        }
+      }
+    } catch (logError) {
+      console.error('Failed to log error:', logError);
+    }
+    
     return new Response(
       JSON.stringify({ 
         success: false, 

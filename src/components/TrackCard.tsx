@@ -1,21 +1,10 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, Download, Heart, Share2, MoreVertical, Trash2, Plus, FileText, Info, Scissors, Music, Video, FileAudio, Globe, Lock } from 'lucide-react';
-import { Track } from '@/hooks/useTracks';
+import { Play, Pause, Heart } from 'lucide-react';
+import { Track } from '@/hooks/useTracksOptimized';
 import { useState } from 'react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
-import { ExtendTrackDialog } from './ExtendTrackDialog';
-import { LyricsDialog } from './LyricsDialog';
-import { TrackDetailDialog } from './TrackDetailDialog';
-import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
+import { TrackActionsMenu } from './TrackActionsMenu';
 
 interface TrackCardProps {
   track: Track;
@@ -35,99 +24,6 @@ export const TrackCard = ({
   isPlaying,
 }: TrackCardProps) => {
   const [imageError, setImageError] = useState(false);
-  const [extendDialogOpen, setExtendDialogOpen] = useState(false);
-  const [lyricsDialogOpen, setLyricsDialogOpen] = useState(false);
-  const [detailDialogOpen, setDetailDialogOpen] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  const handleShare = async () => {
-    if (navigator.share && track.audio_url) {
-      try {
-        await navigator.share({
-          title: track.title || 'Трек',
-          text: `Послушай ${track.title || 'этот трек'}`,
-          url: track.audio_url,
-        });
-      } catch (error) {
-        console.error('Error sharing:', error);
-      }
-    }
-  };
-
-  const handleRemix = async () => {
-    if (!track.suno_id) {
-      toast.error('Невозможно создать ремикс для этого трека');
-      return;
-    }
-
-    setIsProcessing(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('suno-remix', {
-        body: {
-          audioId: track.suno_id,
-          prompt: `Remix of ${track.prompt}`,
-          style: track.style,
-        },
-      });
-
-      if (error) throw error;
-
-      toast.success('Ремикс начат! Трек появится в библиотеке после завершения');
-    } catch (error: any) {
-      console.error('Remix error:', error);
-      toast.error(error.message || 'Ошибка создания ремикса');
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  const handleSeparateVocals = async (mode: 'simple' | 'detailed' = 'simple') => {
-    if (!track.suno_task_id || !track.suno_id) {
-      toast.error('Невозможно разделить вокал для этого трека');
-      return;
-    }
-
-    setIsProcessing(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('suno-separate-vocals', {
-        body: {
-          taskId: track.suno_task_id,
-          audioId: track.suno_id,
-          mode,
-        },
-      });
-
-      if (error) throw error;
-
-      toast.success('Разделение началось! Стемы появятся после завершения');
-    } catch (error: any) {
-      console.error('Separation error:', error);
-      toast.error(error.message || 'Ошибка разделения');
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  const handleTogglePublic = async () => {
-    setIsProcessing(true);
-    try {
-      const { error } = await supabase
-        .from('tracks')
-        .update({ is_public: !track.is_public })
-        .eq('id', track.id);
-
-      if (error) throw error;
-
-      toast.success(track.is_public ? 'Трек теперь приватный' : 'Трек теперь публичный');
-      // Trigger refetch in parent
-      window.location.reload();
-    } catch (error: any) {
-      console.error('Toggle public error:', error);
-      toast.error('Ошибка изменения видимости');
-    } finally {
-      setIsProcessing(false);
-    }
-  };
 
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-all">
@@ -228,119 +124,14 @@ export const TrackCard = ({
               </span>
             )}
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button size="icon" variant="ghost" className="h-8 w-8">
-                  <MoreVertical className="w-4 h-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem onClick={() => setDetailDialogOpen(true)}>
-                  <Info className="w-4 h-4 mr-2" />
-                  Детали трека
-                </DropdownMenuItem>
-
-                {track.audio_url && track.status === 'completed' && (
-                  <>
-                    <DropdownMenuSeparator />
-                    
-                    {(track.lyrics || (track.suno_task_id && track.suno_id)) && (
-                      <DropdownMenuItem onClick={() => setLyricsDialogOpen(true)}>
-                        <FileText className="w-4 h-4 mr-2" />
-                        Текст песни
-                      </DropdownMenuItem>
-                    )}
-
-                    <DropdownMenuItem onClick={() => setExtendDialogOpen(true)}>
-                      <Plus className="w-4 h-4 mr-2" />
-                      Расширить трек
-                    </DropdownMenuItem>
-
-                    {track.suno_id && (
-                      <DropdownMenuItem onClick={handleRemix} disabled={isProcessing}>
-                        <Music className="w-4 h-4 mr-2" />
-                        Создать ремикс
-                      </DropdownMenuItem>
-                    )}
-
-                    <DropdownMenuSeparator />
-
-                    {track.suno_task_id && track.suno_id && (
-                      <>
-                        <DropdownMenuItem onClick={() => handleSeparateVocals('simple')} disabled={isProcessing}>
-                          <Scissors className="w-4 h-4 mr-2" />
-                          Разделить на стемы (простой)
-                        </DropdownMenuItem>
-                        
-                        <DropdownMenuItem onClick={() => handleSeparateVocals('detailed')} disabled={isProcessing}>
-                          <Scissors className="w-4 h-4 mr-2" />
-                          Разделить на стемы (детально)
-                        </DropdownMenuItem>
-                      </>
-                    )}
-
-                    <DropdownMenuSeparator />
-
-                    <DropdownMenuItem onClick={onDownload}>
-                      <Download className="w-4 h-4 mr-2" />
-                      Скачать MP3
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem onClick={handleShare}>
-                      <Share2 className="w-4 h-4 mr-2" />
-                      Поделиться
-                    </DropdownMenuItem>
-
-                    <DropdownMenuSeparator />
-
-                    <DropdownMenuItem onClick={handleTogglePublic} disabled={isProcessing}>
-                      {track.is_public ? (
-                        <>
-                          <Lock className="w-4 h-4 mr-2" />
-                          Сделать приватным
-                        </>
-                      ) : (
-                        <>
-                          <Globe className="w-4 h-4 mr-2" />
-                          Сделать публичным
-                        </>
-                      )}
-                    </DropdownMenuItem>
-                  </>
-                )}
-
-                <DropdownMenuSeparator />
-                
-                <DropdownMenuItem
-                  onClick={onDelete}
-                  className="text-destructive"
-                >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Удалить
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <TrackActionsMenu
+              track={track}
+              onDelete={onDelete}
+              onDownload={onDownload}
+            />
           </div>
         </div>
       </div>
-
-      <ExtendTrackDialog
-        open={extendDialogOpen}
-        onOpenChange={setExtendDialogOpen}
-        track={track}
-      />
-
-      <LyricsDialog
-        open={lyricsDialogOpen}
-        onOpenChange={setLyricsDialogOpen}
-        track={track}
-      />
-
-      <TrackDetailDialog
-        open={detailDialogOpen}
-        onOpenChange={setDetailDialogOpen}
-        track={track}
-      />
     </Card>
   );
 };
