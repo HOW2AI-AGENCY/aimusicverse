@@ -7,6 +7,11 @@ const supabase = createClient(
   BOT_CONFIG.supabaseServiceKey
 );
 
+// Helper to escape markdown special characters
+function escapeMarkdown(text: string): string {
+  return text.replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1');
+}
+
 export async function handleCheckTask(
   chatId: number, 
   userId: number, 
@@ -26,17 +31,17 @@ export async function handleCheckTask(
         await editMessageText(
           chatId,
           messageId,
-          '❌ Пользователь не найден. Войдите в приложение сначала.',
+          '❌ Пользователь не найден\\. Войдите в приложение сначала\\.',
           { inline_keyboard: [[{ text: '⬅️ Назад', callback_data: 'status' }]] }
         );
       }
       return;
     }
 
-    // Get task details
+    // Get task details with track info
     const { data: task, error: taskError } = await supabase
       .from('generation_tasks')
-      .select('*')
+      .select('*, tracks(*)')
       .eq('id', taskId)
       .eq('user_id', profile.user_id)
       .single();
@@ -93,7 +98,7 @@ export async function handleCheckTask(
         await editMessageText(
           chatId,
           messageId,
-          `❌ Ошибка при проверке статуса: ${sunoData.msg || 'Unknown error'}`,
+          `❌ Ошибка при проверке статуса: ${escapeMarkdown(sunoData.msg || 'Unknown error')}`,
           { inline_keyboard: [[{ text: '⬅️ Назад', callback_data: 'status' }]] }
         );
       }
@@ -101,8 +106,9 @@ export async function handleCheckTask(
     }
 
     const taskData = sunoData.data;
+    const promptEscaped = escapeMarkdown(task.prompt.substring(0, 100));
     let statusText = `🔍 *Проверка трека*\n\n`;
-    statusText += `📝 Промпт: ${task.prompt.substring(0, 100)}${task.prompt.length > 100 ? '...' : ''}\n\n`;
+    statusText += `📝 Промпт: ${promptEscaped}${task.prompt.length > 100 ? '\\.\\.\\.' : ''}\n\n`;
     
     // Map status
     const statusMap: Record<string, string> = {
@@ -117,37 +123,151 @@ export async function handleCheckTask(
     };
 
     statusText += `📊 Статус: ${statusMap[taskData.status] || taskData.status}\n`;
-    statusText += `🎼 Тип: ${taskData.type || 'N/A'}\n`;
+    statusText += `🎼 Тип: ${escapeMarkdown(taskData.type || 'N/A')}\n`;
     
     if (taskData.errorMessage) {
-      statusText += `\n⚠️ Ошибка: ${taskData.errorMessage}`;
+      statusText += `\n⚠️ Ошибка: ${escapeMarkdown(taskData.errorMessage)}`;
     }
+
+    const trackButtons: any[] = [];
 
     if (taskData.response?.sunoData && taskData.response.sunoData.length > 0) {
       const clips = taskData.response.sunoData;
       statusText += `\n\n🎵 *Клипов создано:* ${clips.length}\n`;
       
       clips.forEach((clip: any, index: number) => {
-        statusText += `\n${index + 1}. ${clip.title || 'Без названия'}\n`;
+        const clipTitle = clip.title || 'Без названия';
+        statusText += `\n${index + 1}\\. ${escapeMarkdown(clipTitle)}\n`;
         statusText += `   ⏱️ Длительность: ${clip.duration ? Math.floor(clip.duration) + ' сек' : 'N/A'}\n`;
-        statusText += `   🎨 Модель: ${clip.modelName || 'N/A'}\n`;
+        statusText += `   🎨 Модель: ${escapeMarkdown(clip.modelName || 'N/A')}\n`;
       });
+
+      // Update task status if SUCCESS and download audio files
+      if (taskData.status === 'SUCCESS' && task.status !== 'completed') {
+        const firstClip = clips[0];
+        
+        if (firstClip && task.track_id) {
+          // Download and save audio to storage
+          let localAudioUrl = null;
+          let localCoverUrl = null;
+
+          try {
+            if (firstClip.audioUrl) {
+              // Download audio
+              const audioResponse = await fetch(firstClip.audioUrl);
+              const audioBlob = await audioResponse.blob();
+              const audioFileName = `${task.track_id}_${Date.now()}.mp3`;
+              
+              const { data: audioUpload, error: audioError } = await supabase.storage
+                .from('project-assets')
+                .upload(`tracks/${audioFileName}`, audioBlob, {
+                  contentType: 'audio/mpeg',
+                  upsert: true,
+                });
+
+              if (!audioError && audioUpload) {
+                const { data: publicData } = supabase.storage
+                  .from('project-assets')
+                  .getPublicUrl(`tracks/${audioFileName}`);
+                localAudioUrl = publicData.publicUrl;
+              }
+            }
+
+            // Download cover
+            if (firstClip.imageUrl) {
+              const coverResponse = await fetch(firstClip.imageUrl);
+              const coverBlob = await coverResponse.blob();
+              const coverFileName = `${task.track_id}_cover_${Date.now()}.jpg`;
+              
+              const { data: coverUpload, error: coverError } = await supabase.storage
+                .from('project-assets')
+                .upload(`covers/${coverFileName}`, coverBlob, {
+                  contentType: 'image/jpeg',
+                  upsert: true,
+                });
+
+              if (!coverError && coverUpload) {
+                const { data: publicData } = supabase.storage
+                  .from('project-assets')
+                  .getPublicUrl(`covers/${coverFileName}`);
+                localCoverUrl = publicData.publicUrl;
+              }
+            }
+
+            // Update track with complete data
+            await supabase
+              .from('tracks')
+              .update({
+                status: 'completed',
+                audio_url: firstClip.audioUrl,
+                streaming_url: firstClip.audioUrl,
+                local_audio_url: localAudioUrl,
+                cover_url: firstClip.imageUrl || null,
+                local_cover_url: localCoverUrl,
+                title: firstClip.title || task.tracks?.title,
+                duration_seconds: firstClip.duration || null,
+                tags: firstClip.tags || task.tracks?.tags,
+                lyrics: firstClip.lyric || task.tracks?.lyrics,
+                suno_id: firstClip.id || null,
+              })
+              .eq('id', task.track_id);
+
+            // Create track version
+            await supabase
+              .from('track_versions')
+              .insert({
+                track_id: task.track_id,
+                audio_url: firstClip.audioUrl,
+                cover_url: firstClip.imageUrl,
+                duration_seconds: firstClip.duration,
+                version_type: 'original',
+                is_primary: true,
+              });
+
+            // Log completion
+            await supabase
+              .from('track_change_log')
+              .insert({
+                track_id: task.track_id,
+                user_id: task.user_id,
+                change_type: 'generation_completed',
+                changed_by: 'telegram_bot_sync',
+                metadata: {
+                  clips: clips.length,
+                  duration: firstClip.duration,
+                  synced_from_check: true,
+                },
+              });
+
+          } catch (downloadError) {
+            console.error('Error downloading and saving files:', downloadError);
+          }
+        }
+
+        // Update task to completed
+        await supabase
+          .from('generation_tasks')
+          .update({ 
+            status: 'completed',
+            completed_at: new Date().toISOString(),
+            callback_received_at: new Date().toISOString(),
+            audio_clips: clips,
+          })
+          .eq('id', taskId);
+        
+        statusText += `\n\n✅ Трек синхронизирован с БД`;
+
+        // Add listen button if track available
+        if (task.track_id) {
+          trackButtons.push([
+            { text: '🎵 Прослушать', callback_data: `track_details_${task.track_id}` }
+          ]);
+        }
+      }
     }
 
-    // Update task status if it's different
-    if (taskData.status === 'SUCCESS' && task.status !== 'completed') {
-      // Update task to completed
-      await supabase
-        .from('generation_tasks')
-        .update({ 
-          status: 'completed',
-          completed_at: new Date().toISOString()
-        })
-        .eq('id', taskId);
-      
-      statusText += `\n\n✅ Статус обновлён на "завершено"`;
-    } else if (taskData.status.includes('FAILED') || taskData.status.includes('ERROR')) {
-      // Update task to failed
+    // Handle failed status
+    if (taskData.status.includes('FAILED') || taskData.status.includes('ERROR')) {
       await supabase
         .from('generation_tasks')
         .update({ 
@@ -156,19 +276,33 @@ export async function handleCheckTask(
           completed_at: new Date().toISOString()
         })
         .eq('id', taskId);
+
+      if (task.track_id) {
+        await supabase
+          .from('tracks')
+          .update({ 
+            status: 'failed',
+            error_message: taskData.errorMessage || 'Generation failed'
+          })
+          .eq('id', task.track_id);
+      }
       
       statusText += `\n\n❌ Статус обновлён на "ошибка"`;
     }
+
+    // Build keyboard
+    const keyboard = [
+      ...trackButtons,
+      [{ text: '🔄 Проверить ещё раз', callback_data: `check_task_${taskId}` }],
+      [{ text: '⬅️ Назад к статусу', callback_data: 'status' }]
+    ];
 
     if (messageId) {
       await editMessageText(
         chatId,
         messageId,
         statusText,
-        { inline_keyboard: [
-          [{ text: '🔄 Проверить ещё раз', callback_data: `check_task_${taskId}` }],
-          [{ text: '⬅️ Назад к статусу', callback_data: 'status' }]
-        ]}
+        { inline_keyboard: keyboard }
       );
     }
 
@@ -179,7 +313,7 @@ export async function handleCheckTask(
       await editMessageText(
         chatId,
         messageId,
-        `❌ Ошибка при проверке: ${errorMessage}`,
+        `❌ Ошибка при проверке: ${escapeMarkdown(errorMessage)}`,
         { inline_keyboard: [[{ text: '⬅️ Назад', callback_data: 'status' }]] }
       );
     }

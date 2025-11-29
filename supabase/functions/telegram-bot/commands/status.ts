@@ -49,6 +49,9 @@ export async function handleStatus(chatId: number, userId: number, messageId?: n
       return;
     }
 
+    // Escape markdown special characters
+    const escapeMarkdown = (text: string) => text.replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1');
+    
     let statusText = `⏳ *Статус генерации*\n\nАктивных задач: ${tasks.length}\n\n`;
     const keyboard: any[][] = [];
 
@@ -56,8 +59,9 @@ export async function handleStatus(chatId: number, userId: number, messageId?: n
       const createdAt = new Date(task.created_at);
       const now = new Date();
       const minutesAgo = Math.floor((now.getTime() - createdAt.getTime()) / 60000);
+      const prompt = task.prompt.substring(0, 50) + (task.prompt.length > 50 ? '...' : '');
       
-      statusText += `${index + 1}. 🎵 ${task.prompt.substring(0, 50)}${task.prompt.length > 50 ? '...' : ''}\n`;
+      statusText += `${index + 1}\\. 🎵 ${escapeMarkdown(prompt)}\n`;
       statusText += `   ⏱️ ${minutesAgo < 1 ? 'Только что' : `${minutesAgo} мин назад`}\n`;
       statusText += `   📊 ${task.status === 'pending' ? 'В очереди' : 'Обрабатывается'}\n\n`;
       
