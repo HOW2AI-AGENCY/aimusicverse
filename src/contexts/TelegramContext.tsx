@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
-interface TelegramUser {
-  id: number;
+export interface TelegramUser {
+  telegram_id: number;
   first_name: string;
   last_name?: string;
   username?: string;
@@ -79,9 +79,23 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
           firstName: tg.initDataUnsafe.user.first_name,
           username: tg.initDataUnsafe.user.username
         });
-        setUser(tg.initDataUnsafe.user as TelegramUser);
+        setUser({
+          telegram_id: tg.initDataUnsafe.user.id,
+          first_name: tg.initDataUnsafe.user.first_name,
+          last_name: tg.initDataUnsafe.user.last_name,
+          username: tg.initDataUnsafe.user.username,
+          language_code: tg.initDataUnsafe.user.language_code,
+          photo_url: tg.initDataUnsafe.user.photo_url,
+        });
       } else {
         console.warn('⚠️ initDataUnsafe.user не найден');
+      }
+
+      // Handle deep linking
+      const startParam = tg.initDataUnsafe?.start_param;
+      if (startParam) {
+        console.log('🔗 Deep link detected:', startParam);
+        handleDeepLink(startParam);
       }
 
       setPlatform(tg.platform);
@@ -166,7 +180,7 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       console.log('🔧 Development mode: Using mock Telegram data');
       
       const mockUser: TelegramUser = {
-        id: 123456789,
+        telegram_id: 123456789,
         first_name: 'Test',
         last_name: 'User',
         username: 'testuser',
@@ -199,6 +213,43 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
           impactOccurred: (type: string) => console.log('Mock Haptic:', type),
           notificationOccurred: (type: string) => console.log('Mock Notification:', type),
           selectionChanged: () => console.log('Mock Selection changed'),
+        },
+        CloudStorage: {
+          setItem: (key: string, value: string, callback?: any) => {
+            console.log('Mock CloudStorage.setItem:', key);
+            localStorage.setItem(`mock_cloud_${key}`, value);
+            callback?.(null, true);
+          },
+          getItem: (key: string, callback: any) => {
+            console.log('Mock CloudStorage.getItem:', key);
+            const value = localStorage.getItem(`mock_cloud_${key}`) || '';
+            callback(null, value);
+          },
+          removeItem: (key: string, callback?: any) => {
+            console.log('Mock CloudStorage.removeItem:', key);
+            localStorage.removeItem(`mock_cloud_${key}`);
+            callback?.(null, true);
+          },
+          getKeys: (callback: any) => {
+            console.log('Mock CloudStorage.getKeys');
+            const keys = Object.keys(localStorage)
+              .filter(k => k.startsWith('mock_cloud_'))
+              .map(k => k.replace('mock_cloud_', ''));
+            callback(null, keys);
+          },
+          getItems: (keys: string[], callback: any) => {
+            console.log('Mock CloudStorage.getItems:', keys);
+            const values: Record<string, string> = {};
+            keys.forEach(key => {
+              values[key] = localStorage.getItem(`mock_cloud_${key}`) || '';
+            });
+            callback(null, values);
+          },
+          removeItems: (keys: string[], callback?: any) => {
+            console.log('Mock CloudStorage.removeItems:', keys);
+            keys.forEach(key => localStorage.removeItem(`mock_cloud_${key}`));
+            callback?.(null, true);
+          },
         },
       } as any;
       
@@ -274,6 +325,21 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
   const ready = () => {
     if (webApp) {
       webApp.ready();
+    }
+  };
+
+  const handleDeepLink = (startParam: string) => {
+    console.log('Processing deep link:', startParam);
+    
+    if (startParam.startsWith('track_')) {
+      const trackId = startParam.replace('track_', '');
+      window.location.hash = `/library?track=${trackId}`;
+    } else if (startParam.startsWith('project_')) {
+      const projectId = startParam.replace('project_', '');
+      window.location.hash = `/projects/${projectId}`;
+    } else if (startParam.startsWith('generate_')) {
+      const style = startParam.replace('generate_', '');
+      window.location.hash = `/generate?style=${style}`;
     }
   };
 

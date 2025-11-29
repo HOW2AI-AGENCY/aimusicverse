@@ -6,6 +6,15 @@ verify_jwt = true
 [functions.telegram-auth]
 verify_jwt = false
 
+[functions.telegram-bot]
+verify_jwt = false
+
+[functions.telegram-webhook-setup]
+verify_jwt = false
+
+[functions.send-telegram-notification]
+verify_jwt = false
+
 [functions.suno-generate]
 verify_jwt = true
 
@@ -13,6 +22,9 @@ verify_jwt = true
 verify_jwt = true
 
 [functions.generate-lyrics]
+verify_jwt = true
+
+[functions.lyrics-ai]
 verify_jwt = true
 
 [functions.project-ai]
