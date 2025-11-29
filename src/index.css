@@ -8,92 +8,110 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    /* Light theme (fallback) */
+    --background: 240 10% 95%;
+    --foreground: 240 10% 15%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card: 240 10% 98%;
+    --card-foreground: 240 10% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 240 10% 98%;
+    --popover-foreground: 240 10% 15%;
 
-    --primary: 199 89% 48%;
+    --primary: 270 70% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 199 89% 55%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 240 15% 90%;
+    --secondary-foreground: 240 10% 15%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 240 10% 92%;
+    --muted-foreground: 240 5% 45%;
 
-    --accent: 199 89% 95%;
-    --accent-foreground: 199 89% 48%;
+    --accent: 270 70% 95%;
+    --accent-foreground: 270 70% 60%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 199 89% 48%;
+    --border: 240 10% 85%;
+    --input: 240 10% 85%;
+    --ring: 270 70% 60%;
 
     --radius: 1rem;
     
-    --gradient-primary: linear-gradient(135deg, hsl(199 89% 48%), hsl(199 89% 60%));
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 40% 99%));
-    --shadow-telegram: 0 2px 8px hsla(199 89% 48% / 0.15);
-    --shadow-hover: 0 4px 16px hsla(199 89% 48% / 0.25);
+    /* Glassmorphism variables */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.18);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    
+    --gradient-primary: linear-gradient(135deg, hsl(270 70% 60%), hsl(280 70% 70%));
+    --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    --gradient-hero: linear-gradient(135deg, hsl(270 70% 60% / 0.2), hsl(280 70% 70% / 0.2));
+    
+    --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    --shadow-hover: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 240 10% 98%;
+    --sidebar-foreground: 240 10% 20%;
+    --sidebar-primary: 270 70% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 10% 94%;
+    --sidebar-accent-foreground: 240 10% 20%;
+    --sidebar-border: 240 10% 88%;
+    --sidebar-ring: 270 70% 60%;
   }
 
   .dark {
-    --background: 215 28% 17%;
-    --foreground: 210 40% 98%;
+    /* Dark theme (default) - Glassmorphism with deep purple/blue palette */
+    --background: 240 20% 8%;
+    --foreground: 240 10% 95%;
 
-    --card: 217 33% 20%;
-    --card-foreground: 210 40% 98%;
+    --card: 240 15% 12%;
+    --card-foreground: 240 10% 95%;
 
-    --popover: 217 33% 20%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 240 15% 12%;
+    --popover-foreground: 240 10% 95%;
 
-    --primary: 199 89% 48%;
+    --primary: 270 70% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 33% 25%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 240 15% 18%;
+    --secondary-foreground: 240 10% 95%;
 
-    --muted: 217 33% 25%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 240 15% 18%;
+    --muted-foreground: 240 10% 65%;
 
-    --accent: 217 33% 25%;
-    --accent-foreground: 199 89% 48%;
+    --accent: 240 15% 18%;
+    --accent-foreground: 270 70% 60%;
 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 60% 45%;
+    --destructive-foreground: 240 10% 95%;
 
-    --border: 217 33% 25%;
-    --input: 217 33% 25%;
-    --ring: 199 89% 48%;
+    --border: 240 15% 20%;
+    --input: 240 15% 20%;
+    --ring: 270 70% 60%;
     
-    --gradient-primary: linear-gradient(135deg, hsl(199 89% 48%), hsl(199 89% 60%));
-    --gradient-card: linear-gradient(180deg, hsl(217 33% 20%), hsl(217 33% 22%));
-    --shadow-telegram: 0 2px 8px hsla(199 89% 48% / 0.2);
-    --shadow-hover: 0 4px 16px hsla(199 89% 48% / 0.3);
+    /* Glassmorphism variables for dark theme */
+    --glass-bg: rgba(20, 20, 40, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    
+    --gradient-primary: linear-gradient(135deg, hsl(270 70% 60%), hsl(280 70% 70%));
+    --gradient-card: linear-gradient(135deg, rgba(40, 40, 80, 0.3), rgba(30, 30, 60, 0.2));
+    --gradient-hero: linear-gradient(135deg, hsl(270 70% 30% / 0.3), hsl(280 70% 40% / 0.3));
+    
+    --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+
+    --sidebar-background: 240 15% 10%;
+    --sidebar-foreground: 240 10% 90%;
+    --sidebar-primary: 270 70% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 15% 16%;
+    --sidebar-accent-foreground: 240 10% 90%;
+    --sidebar-border: 240 15% 18%;
+    --sidebar-ring: 270 70% 60%;
   }
 }
 
@@ -104,5 +122,30 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Glassmorphism utility classes */
+@layer utilities {
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+    transition: var(--transition-smooth);
+  }
+
+  .glass-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
   }
 }

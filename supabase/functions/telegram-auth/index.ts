@@ -175,7 +175,7 @@ Deno.serve(async (req) => {
     // Sign in the user to create a session
     const email = `telegram_${telegramUser.id}@telegram.user`;
     
-    // For existing users, we need to reset their password first
+    // For existing users, we need to reset their password first and update profile data
     if (existingProfile) {
       userId = existingProfile.user_id;
       const newPassword = crypto.randomUUID();
@@ -190,6 +190,23 @@ Deno.serve(async (req) => {
           JSON.stringify({ error: 'Failed to update user credentials' }),
           { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
+      }
+      
+      // Update profile data including photo_url
+      const { error: profileUpdateError } = await supabase
+        .from('profiles')
+        .update({
+          first_name: telegramUser.first_name,
+          last_name: telegramUser.last_name,
+          username: telegramUser.username,
+          language_code: telegramUser.language_code,
+          photo_url: telegramUser.photo_url,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('user_id', userId);
+      
+      if (profileUpdateError) {
+        console.error('Error updating profile:', profileUpdateError);
       }
       
       // Sign in with new password
