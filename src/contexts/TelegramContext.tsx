@@ -10,7 +10,7 @@ interface TelegramUser {
 }
 
 interface TelegramContextType {
-  webApp: typeof window.Telegram.WebApp | null;
+  webApp: TelegramWebApp | null;
   user: TelegramUser | null;
   platform: string;
   initData: string;
@@ -29,7 +29,7 @@ interface TelegramContextType {
 const TelegramContext = createContext<TelegramContextType | undefined>(undefined);
 
 export const TelegramProvider = ({ children }: { children: ReactNode }) => {
-  const [webApp, setWebApp] = useState<typeof window.Telegram.WebApp | null>(null);
+  const [webApp, setWebApp] = useState<TelegramWebApp | null>(null);
   const [user, setUser] = useState<TelegramUser | null>(null);
   const [platform, setPlatform] = useState<string>('');
   const [initData, setInitData] = useState<string>('');
@@ -61,8 +61,17 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       console.log('📊 Version:', tg.version);
       console.log('🎨 Color scheme:', tg.colorScheme);
 
+      // Развернуть приложение на весь экран и инициализировать
       tg.ready();
       tg.expand();
+
+      // Установка цветов header и background
+      if (tg.setHeaderColor) {
+        tg.setHeaderColor('secondary_bg_color');
+      }
+      if (tg.setBackgroundColor) {
+        tg.setBackgroundColor('bg_color');
+      }
 
       if (tg.initDataUnsafe?.user) {
         console.log('👤 Telegram пользователь:', {
@@ -96,19 +105,60 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       setInitData(tg.initData);
 
       // Apply Telegram theme colors to CSS variables
+      const root = document.documentElement;
       const themeParams = tg.themeParams;
+      
       if (themeParams.bg_color) {
-        document.documentElement.style.setProperty('--tg-theme-bg-color', themeParams.bg_color);
+        root.style.setProperty('--tg-theme-bg-color', themeParams.bg_color);
       }
       if (themeParams.text_color) {
-        document.documentElement.style.setProperty('--tg-theme-text-color', themeParams.text_color);
+        root.style.setProperty('--tg-theme-text-color', themeParams.text_color);
       }
       if (themeParams.button_color) {
-        document.documentElement.style.setProperty('--tg-theme-button-color', themeParams.button_color);
+        root.style.setProperty('--tg-theme-button-color', themeParams.button_color);
       }
       if (themeParams.button_text_color) {
-        document.documentElement.style.setProperty('--tg-theme-button-text-color', themeParams.button_text_color);
+        root.style.setProperty('--tg-theme-button-text-color', themeParams.button_text_color);
       }
+      if (themeParams.secondary_bg_color) {
+        root.style.setProperty('--tg-theme-secondary-bg-color', themeParams.secondary_bg_color);
+      }
+
+      // Apply Safe Area Insets для iOS и Android
+      // Telegram предоставляет safe area через CSS переменные автоматически,
+      // но мы также можем установить их явно для совместимости
+      const applySafeAreaInsets = () => {
+        // Для iOS устройств с notch (44px сверху, 34px снизу)
+        // Для Android устройств с punch-hole камерой
+        const isIOS = tg.platform === 'ios';
+        const isAndroid = tg.platform === 'android';
+        
+        // Telegram автоматически устанавливает CSS переменные:
+        // --tg-safe-area-inset-top, --tg-safe-area-inset-bottom, etc.
+        // Мы просто убеждаемся, что они применяются
+        
+        console.log('📐 Safe Area setup for platform:', tg.platform);
+        
+        // Установка минимальных safe areas для разных платформ
+        if (isIOS) {
+          root.style.setProperty('--safe-area-top', 'env(safe-area-inset-top, 44px)');
+          root.style.setProperty('--safe-area-bottom', 'env(safe-area-inset-bottom, 34px)');
+        } else if (isAndroid) {
+          root.style.setProperty('--safe-area-top', 'env(safe-area-inset-top, 24px)');
+          root.style.setProperty('--safe-area-bottom', 'env(safe-area-inset-bottom, 0px)');
+        } else {
+          root.style.setProperty('--safe-area-top', 'env(safe-area-inset-top, 0px)');
+          root.style.setProperty('--safe-area-bottom', 'env(safe-area-inset-bottom, 0px)');
+        }
+        
+        root.style.setProperty('--safe-area-left', 'env(safe-area-inset-left, 0px)');
+        root.style.setProperty('--safe-area-right', 'env(safe-area-inset-right, 0px)');
+      };
+
+      applySafeAreaInsets();
+
+      // Отслеживание изменений viewport для обновления safe areas
+      tg.onEvent?.('viewportChanged', applySafeAreaInsets);
       
       setIsInitialized(true);
     } else if (devMode) {

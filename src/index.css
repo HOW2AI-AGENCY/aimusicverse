@@ -8,6 +8,18 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    /* Safe Area Insets для адаптации под устройства с notch, punch-hole, и т.д. */
+    --safe-area-top: env(safe-area-inset-top, 0px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-left: env(safe-area-inset-left, 0px);
+    --safe-area-right: env(safe-area-inset-right, 0px);
+
+    /* Telegram Safe Area Variables (устанавливаются автоматически) */
+    --tg-safe-area-inset-top: 0px;
+    --tg-safe-area-inset-bottom: 0px;
+    --tg-safe-area-inset-left: 0px;
+    --tg-safe-area-inset-right: 0px;
+
     /* Light theme (fallback) */
     --background: 240 10% 95%;
     --foreground: 240 10% 15%;
@@ -122,6 +134,15 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    /* Адаптация под полноэкранный режим Telegram Mini App */
+    overscroll-behavior: none;
+    overflow-x: hidden;
+  }
+
+  /* Основной контейнер приложения с safe areas */
+  #root {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
   }
 }
 
@@ -147,5 +168,45 @@ All colors MUST be HSL.
   .glass-card:hover {
     box-shadow: var(--shadow-hover);
     transform: translateY(-2px);
+  }
+
+  /* Safe Area utility classes для адаптации UI компонентов */
+  .safe-area-top {
+    padding-top: var(--safe-area-top);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: var(--safe-area-bottom);
+  }
+
+  .safe-area-left {
+    padding-left: var(--safe-area-left);
+  }
+
+  .safe-area-right {
+    padding-right: var(--safe-area-right);
+  }
+
+  .safe-area-inset {
+    padding-top: var(--safe-area-top);
+    padding-bottom: var(--safe-area-bottom);
+    padding-left: var(--safe-area-left);
+    padding-right: var(--safe-area-right);
+  }
+
+  /* Header с safe area (для fixed/sticky headers) */
+  .header-safe {
+    padding-top: max(var(--safe-area-top), 12px);
+  }
+
+  /* Content с отступом от header и bottom navigation */
+  .content-safe {
+    padding-top: max(var(--safe-area-top), 16px);
+    padding-bottom: max(var(--safe-area-bottom), 16px);
+  }
+
+  /* Bottom navigation с safe area */
+  .bottom-nav-safe {
+    padding-bottom: max(var(--safe-area-bottom), 16px);
   }
 }

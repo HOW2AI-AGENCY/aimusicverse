@@ -7,6 +7,7 @@ interface TelegramWebApp {
       last_name?: string;
       username?: string;
       language_code?: string;
+      photo_url?: string;
     };
     query_id?: string;
     auth_date?: string;
@@ -22,6 +23,7 @@ interface TelegramWebApp {
     link_color?: string;
     button_color?: string;
     button_text_color?: string;
+    secondary_bg_color?: string;
   };
   isExpanded: boolean;
   viewportHeight: number;
@@ -29,9 +31,22 @@ interface TelegramWebApp {
   headerColor: string;
   backgroundColor: string;
   isClosingConfirmationEnabled: boolean;
+  safeAreaInset?: {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+  };
   ready: () => void;
   expand: () => void;
   close: () => void;
+  setHeaderColor?: (color: string) => void;
+  setBackgroundColor?: (color: string) => void;
+  setBottomBarColor?: (color: string) => void;
+  enableClosingConfirmation?: () => void;
+  disableClosingConfirmation?: () => void;
+  onEvent?: (eventType: string, callback: () => void) => void;
+  offEvent?: (eventType: string, callback: () => void) => void;
   showAlert: (message: string, callback?: () => void) => void;
   showConfirm: (message: string, callback?: (confirmed: boolean) => void) => void;
   showPopup: (params: {
@@ -39,6 +54,8 @@ interface TelegramWebApp {
     message: string;
     buttons?: Array<{ id?: string; type?: string; text?: string }>;
   }, callback?: (buttonId: string) => void) => void;
+  openLink?: (url: string) => void;
+  openTelegramLink?: (url: string) => void;
   MainButton: {
     text: string;
     color: string;
