@@ -3,7 +3,7 @@ import { NotificationBadge } from "@/components/NotificationBadge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Music, LogOut, UserCircle, Activity, TrendingUp, Clock, CheckCircle2, CheckSquare, Library, Sparkles } from "lucide-react";
+import { Music, LogOut, UserCircle, Activity, TrendingUp, Clock, CheckCircle2, CheckSquare, Library, Sparkles, FolderOpen } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,10 @@ import { useUserActivity, useCreateActivity } from "@/hooks/useUserActivity";
 import { ActivitySkeleton, StatCardSkeleton } from "@/components/ui/skeleton-loader";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
+import { useTracks } from "@/hooks/useTracksOptimized";
+import { TrackCard } from "@/components/TrackCard";
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
 
 const Index = () => {
   const { logout } = useAuth();
@@ -18,6 +22,23 @@ const Index = () => {
   const navigate = useNavigate();
   const { data: activities, isLoading: activitiesLoading } = useUserActivity();
   const createActivity = useCreateActivity();
+  const { tracks: publicTracks } = useTracks();
+
+  const { data: publicProjects, isLoading: projectsLoading } = useQuery({
+    queryKey: ['public-projects'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('music_projects')
+        .select('*')
+        .eq('is_public', true)
+        .order('created_at', { ascending: false })
+        .limit(6);
+
+      if (error) throw error;
+      return data || [];
+    },
+    staleTime: 60000,
+  });
 
   const handleAction = async (actionType: string) => {
     hapticFeedback('success');
@@ -185,6 +206,65 @@ const Index = () => {
             </Button>
           </div>
         </Card>
+
+        {/* Public Projects */}
+        {publicProjects && publicProjects.length > 0 && (
+          <Card className="p-6 mb-6 glass-card border-primary/20">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                <FolderOpen className="w-5 h-5 text-primary" />
+                Публичные проекты
+              </h2>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {publicProjects.map((project) => (
+                <Card
+                  key={project.id}
+                  onClick={() => navigate(`/projects/${project.id}`)}
+                  className="p-4 glass-card border-primary/20 hover:border-primary/40 transition-all cursor-pointer"
+                >
+                  <div className="flex gap-4">
+                    <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0">
+                      {project.cover_url ? (
+                        <img src={project.cover_url} alt={project.title} className="w-full h-full object-cover rounded-lg" />
+                      ) : (
+                        <Music className="w-6 h-6 text-primary" />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-foreground mb-1 truncate">{project.title}</h3>
+                      {project.genre && (
+                        <Badge variant="secondary" className="text-xs">
+                          {project.genre}
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </Card>
+        )}
+
+        {/* Public Tracks */}
+        {publicTracks && publicTracks.filter(t => t.is_public).length > 0 && (
+          <Card className="p-6 mb-6 glass-card border-primary/20">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                <Music className="w-5 h-5 text-primary" />
+                Публичные треки
+              </h2>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {publicTracks
+                .filter(track => track.is_public)
+                .slice(0, 6)
+                .map((track) => (
+                  <TrackCard key={track.id} track={track} />
+                ))}
+            </div>
+          </Card>
+        )}
 
         {/* Recent Activity */}
         <Card className="p-6 glass-card border-primary/20">
