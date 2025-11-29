@@ -14,6 +14,7 @@ const Auth = () => {
   const { webApp, user, isInitialized, isDevelopmentMode } = useTelegram();
   const [showSplash, setShowSplash] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -22,24 +23,28 @@ const Auth = () => {
   }, [isAuthenticated, navigate]);
 
   const handleAuth = async () => {
+    setIsAuthenticating(true);
     const result = await authenticateWithTelegram();
+    setIsAuthenticating(false);
+    
     if (result?.session) {
-      navigate('/', { replace: true });
+      // Если профиля нет в БД - показать онбординг
+      if (!result.hasProfile) {
+        setShowOnboarding(true);
+      } else {
+        // Если профиль есть - перейти на главную
+        navigate('/', { replace: true });
+      }
     }
   };
 
   const handleSplashComplete = () => {
     setShowSplash(false);
-    // Check if user has seen onboarding before
-    const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
-    if (!hasSeenOnboarding && !isAuthenticated) {
-      setShowOnboarding(true);
-    }
   };
 
   const handleOnboardingComplete = () => {
-    localStorage.setItem('hasSeenOnboarding', 'true');
-    setShowOnboarding(false);
+    // После завершения онбординга перейти на главную
+    navigate('/', { replace: true });
   };
 
   // Show splash screen on first load
@@ -79,7 +84,7 @@ const Auth = () => {
               </p>
             </div>
             
-            {loading ? (
+            {loading || isAuthenticating ? (
               <div className="py-4">
                 <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
                 <p className="text-muted-foreground">Создание тестовой сессии...</p>
@@ -156,7 +161,7 @@ const Auth = () => {
             )}
           </div>
 
-          {loading ? (
+          {loading || isAuthenticating ? (
             <div className="text-center py-4">
               <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
               <p className="text-muted-foreground">Авторизация...</p>

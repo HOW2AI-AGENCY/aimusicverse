@@ -4,6 +4,13 @@ import { User, Session } from '@supabase/supabase-js';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { toast } from 'sonner';
 
+export interface AuthResult {
+  user: User | null;
+  session: Session | null;
+  hasProfile: boolean;
+  error?: any;
+}
+
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -33,7 +40,27 @@ export const useAuth = () => {
   // Removed auto-authentication to prevent infinite loops
   // Users must explicitly click the auth button
 
-  const authenticateWithTelegram = async () => {
+  const checkProfile = async (userId: string): Promise<boolean> => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('user_id', userId)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error checking profile:', error);
+        return false;
+      }
+
+      return !!data;
+    } catch (error) {
+      console.error('Unexpected error checking profile:', error);
+      return false;
+    }
+  };
+
+  const authenticateWithTelegram = async (): Promise<AuthResult> => {
     try {
       setLoading(true);
       
@@ -74,7 +101,7 @@ export const useAuth = () => {
           if (signUpError) {
             console.error('Sign up error:', signUpError);
             toast.error('Ошибка создания тестового аккаунта');
-            return { error: signUpError };
+            return { user: null, session: null, hasProfile: false, error: signUpError };
           }
           
           signInData = signUpData;
@@ -82,14 +109,17 @@ export const useAuth = () => {
         } else if (signInError) {
           console.error('Sign in error:', signInError);
           toast.error('Ошибка входа в тестовый аккаунт');
-          return { error: signInError };
+          return { user: null, session: null, hasProfile: false, error: signInError };
         }
         
         setSession(signInData.session);
         setUser(signInData.user);
-        console.log('🔧 Development authentication successful');
+        
+        const hasProfile = signInData.user ? await checkProfile(signInData.user.id) : false;
+        
+        console.log('🔧 Development authentication successful, hasProfile:', hasProfile);
         toast.success('Режим разработки: вход выполнен!');
-        return { user: signInData.user, session: signInData.session };
+        return { user: signInData.user, session: signInData.session, hasProfile };
       }
       
       // Production mode: Use Telegram authentication
@@ -103,13 +133,13 @@ export const useAuth = () => {
       if (error) {
         console.error('Edge function error:', error);
         toast.error('Ошибка аутентификации');
-        return { error };
+        return { user: null, session: null, hasProfile: false, error };
       }
 
       if (!data?.session) {
         console.error('No session in response:', data);
         toast.error('Не удалось создать сессию');
-        return { error: new Error('No session received') };
+        return { user: null, session: null, hasProfile: false, error: new Error('No session received') };
       }
 
       // Set the session using the tokens from the edge function
@@ -121,18 +151,21 @@ export const useAuth = () => {
       if (sessionError) {
         console.error('Session error:', sessionError);
         toast.error('Ошибка создания сессии');
-        return { error: sessionError };
+        return { user: null, session: null, hasProfile: false, error: sessionError };
       }
 
       setSession(sessionData.session);
       setUser(sessionData.user);
-      console.log('Authentication successful');
+      
+      const hasProfile = sessionData.user ? await checkProfile(sessionData.user.id) : false;
+      
+      console.log('Authentication successful, hasProfile:', hasProfile);
       toast.success('Успешная авторизация!');
-      return { user: sessionData.user, session: sessionData.session };
+      return { user: sessionData.user, session: sessionData.session, hasProfile };
     } catch (error) {
       console.error('Unexpected auth error:', error);
       toast.error('Ошибка авторизации');
-      return { error };
+      return { user: null, session: null, hasProfile: false, error };
     } finally {
       setLoading(false);
     }
