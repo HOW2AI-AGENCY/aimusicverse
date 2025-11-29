@@ -71,30 +71,30 @@ Return ONLY a JSON object with these exact fields:
 }`;
 
     } else if (action === 'improve_options') {
-      systemPrompt = `You are a creative music industry consultant. Generate multiple improvement options for a music project field, explaining the differences between them.`;
+      systemPrompt = `Ты - креативный консультант по музыкальной индустрии. Генерируй несколько вариантов улучшения для поля музыкального проекта, объясняя различия между ними. ВСЕ тексты должны быть НА РУССКОМ ЯЗЫКЕ.`;
       
       const currentValue = project[field as keyof typeof project];
-      userPrompt = `Generate 3 different improvement options for the "${field}" field of this music project.
+      userPrompt = `Сгенерируй 3 разных варианта улучшения для поля "${field}" этого музыкального проекта.
 
-Current value: ${currentValue || 'Not set'}
-Project context:
-- Title: ${project.title}
-- Genre: ${project.genre || 'Not set'}
-- Project Type: ${project.project_type || 'Not set'}
+Текущее значение: ${currentValue || 'Не указано'}
+Контекст проекта:
+- Название: ${project.title}
+- Жанр: ${project.genre || 'Не указано'}
+- Тип проекта: ${project.project_type || 'Не указано'}
 
-Return a JSON object with an array of 3 options:
+Верни JSON объект с массивом из 3 вариантов:
 {
   "options": [
     {
-      "title": "Short descriptive title",
-      "value": "The improved content",
-      "explanation": "Why this approach works and what makes it unique",
-      "tone": "professional|creative|commercial|experimental"
+      "title": "Короткий описательный заголовок (на русском)",
+      "value": "Улучшенный контент (на русском)",
+      "explanation": "Почему этот подход работает и что делает его уникальным (на русском)",
+      "tone": "профессиональный|креативный|коммерческий|экспериментальный"
     }
   ]
 }
 
-Make each option distinctly different in approach and tone.`;
+Сделай каждый вариант заметно отличающимся по подходу и тону.`;
     }
 
     // Call Lovable AI

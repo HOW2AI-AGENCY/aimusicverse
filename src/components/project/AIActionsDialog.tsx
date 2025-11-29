@@ -132,30 +132,32 @@ export function AIActionsDialog({
 
         {mode === 'menu' && (
           <div className="space-y-4">
-            <div>
-              <h3 className="font-semibold mb-2 flex items-center gap-2">
-                <Languages className="w-4 h-4" />
-                Перевод проекта
-              </h3>
-              <div className="flex gap-2">
-                <Button
-                  onClick={() => handleTranslate('en')}
-                  disabled={isLoading}
-                  variant="outline"
-                  className="flex-1"
-                >
-                  🇬🇧 На английский
-                </Button>
-                <Button
-                  onClick={() => handleTranslate('ru')}
-                  disabled={isLoading}
-                  variant="outline"
-                  className="flex-1"
-                >
-                  🇷🇺 На русский
-                </Button>
+            {!field && (
+              <div>
+                <h3 className="font-semibold mb-2 flex items-center gap-2">
+                  <Languages className="w-4 h-4" />
+                  Перевод проекта
+                </h3>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => handleTranslate('en')}
+                    disabled={isLoading}
+                    variant="outline"
+                    className="flex-1"
+                  >
+                    🇬🇧 На английский
+                  </Button>
+                  <Button
+                    onClick={() => handleTranslate('ru')}
+                    disabled={isLoading}
+                    variant="outline"
+                    className="flex-1"
+                  >
+                    🇷🇺 На русский
+                  </Button>
+                </div>
               </div>
-            </div>
+            )}
 
             {field && (
               <div>
