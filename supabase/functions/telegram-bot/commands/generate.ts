@@ -9,11 +9,37 @@ const supabase = createClient(
 
 export async function handleGenerate(chatId: number, userId: number, prompt: string) {
   if (!prompt || prompt.trim().length === 0) {
-    await sendMessage(chatId, '❌ Укажите описание трека.\n\nПример: /generate энергичный рок трек');
+    await sendMessage(chatId, '❌ Укажите описание трека.\n\nПример:\n/generate энергичный рок трек\n/generate --instrumental --model=V5 ambient space music');
     return;
   }
 
   try {
+    // Parse command options
+    let mode = 'simple';
+    let instrumental = false;
+    let model = 'V4_5ALL';
+    let actualPrompt = prompt;
+
+    // Check for flags
+    const flagRegex = /--([\w]+)(?:=(\S+))?/g;
+    let match;
+    const flags: Record<string, string> = {};
+    
+    while ((match = flagRegex.exec(prompt)) !== null) {
+      flags[match[1]] = match[2] || 'true';
+      actualPrompt = actualPrompt.replace(match[0], '').trim();
+    }
+
+    if (flags.instrumental) instrumental = true;
+    if (flags.mode) mode = flags.mode;
+    if (flags.model) model = flags.model.toUpperCase();
+
+    // Check for inline mode indicators
+    if (actualPrompt.toLowerCase().includes('[custom]')) {
+      mode = 'custom';
+      actualPrompt = actualPrompt.replace(/\[custom\]/i, '').trim();
+    }
+
     // Get user from profiles table
     const { data: profile } = await supabase
       .from('profiles')
@@ -26,45 +52,38 @@ export async function handleGenerate(chatId: number, userId: number, prompt: str
       return;
     }
 
-    // Create generation task
-    const { data: task, error: taskError } = await supabase
-      .from('generation_tasks')
-      .insert({
-        user_id: profile.user_id,
-        prompt: prompt,
-        telegram_chat_id: chatId,
-        source: 'telegram_bot',
-        status: 'pending',
-      })
-      .select()
-      .single();
+    // Show generation starting message with details
+    const modeEmoji = mode === 'custom' ? '🎨' : '⚡';
+    const modelEmoji = model === 'V5' ? '🚀' : '🎵';
+    const typeEmoji = instrumental ? '🎸' : '🎤';
+    
+    await sendMessage(
+      chatId, 
+      `${modeEmoji} Запускаю генерацию...\n\n${modelEmoji} Модель: ${model}\n${typeEmoji} Тип: ${instrumental ? 'Инструментал' : 'С вокалом'}\n💭 ${actualPrompt.substring(0, 100)}${actualPrompt.length > 100 ? '...' : ''}`
+    );
 
-    if (taskError || !task) {
-      console.error('Task creation error:', taskError);
-      await sendMessage(chatId, MESSAGES.generationError);
-      return;
-    }
-
-    // Start generation via edge function
-    const { error: generateError } = await supabase.functions.invoke('generate-music', {
+    // Call new suno-music-generate function
+    const { data, error: generateError } = await supabase.functions.invoke('suno-music-generate', {
       body: {
-        prompt: prompt,
-        taskId: task.id,
+        mode,
+        instrumental,
+        model,
+        prompt: actualPrompt,
+        style: mode === 'custom' ? actualPrompt : undefined,
       },
     });
 
     if (generateError) {
       console.error('Generation error:', generateError);
-      await supabase
-        .from('generation_tasks')
-        .update({ status: 'failed', error_message: generateError.message })
-        .eq('id', task.id);
-      
       await sendMessage(chatId, MESSAGES.generationError);
       return;
     }
 
-    await sendMessage(chatId, MESSAGES.generationStarted);
+    await sendMessage(
+      chatId, 
+      `✅ Генерация началась!\n\n⏳ Обычно занимает 1-3 минуты\n🔔 Вы получите уведомление когда трек будет готов`
+    );
+
   } catch (error) {
     console.error('Error in generate command:', error);
     await sendMessage(chatId, MESSAGES.generationError);

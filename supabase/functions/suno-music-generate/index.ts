@@ -1,0 +1,259 @@
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
+
+serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const sunoApiKey = Deno.env.get('SUNO_API_KEY');
+    const miniAppUrl = Deno.env.get('MINI_APP_URL');
+
+    if (!sunoApiKey) {
+      throw new Error('SUNO_API_KEY not configured');
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    
+    // Get user from auth header
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      throw new Error('No authorization header');
+    }
+
+    const { data: { user }, error: userError } = await supabase.auth.getUser(
+      authHeader.replace('Bearer ', '')
+    );
+
+    if (userError || !user) {
+      throw new Error('Unauthorized');
+    }
+
+    const body = await req.json();
+    const {
+      mode = 'simple',
+      instrumental = false,
+      model = 'V4_5ALL',
+      prompt,
+      title,
+      style,
+      negativeTags,
+      vocalGender,
+      styleWeight,
+      weirdnessConstraint,
+      audioWeight,
+      personaId,
+      projectId,
+      language = 'ru',
+    } = body;
+
+    // Validate required fields
+    if (!prompt) {
+      throw new Error('Prompt is required');
+    }
+
+    const customMode = mode === 'custom';
+
+    if (customMode && !style) {
+      throw new Error('Style is required in custom mode');
+    }
+
+    if (customMode && !instrumental && prompt.length > 5000) {
+      throw new Error('Prompt too long (max 5000 characters)');
+    }
+
+    // Create track record
+    const { data: track, error: trackError } = await supabase
+      .from('tracks')
+      .insert({
+        user_id: user.id,
+        project_id: projectId,
+        prompt: prompt,
+        title: customMode ? title : null,
+        style: style,
+        has_vocals: !instrumental,
+        status: 'pending',
+        provider: 'suno',
+        suno_model: model,
+        generation_mode: mode,
+        vocal_gender: vocalGender,
+        style_weight: styleWeight,
+        negative_tags: negativeTags,
+      })
+      .select()
+      .single();
+
+    if (trackError || !track) {
+      console.error('Track creation error:', trackError);
+      throw new Error('Failed to create track record');
+    }
+
+    // Get telegram_chat_id if available
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('telegram_id')
+      .eq('user_id', user.id)
+      .single();
+
+    const telegramChatId = profile?.telegram_id || null;
+
+    // Create generation task
+    const { data: task, error: taskError } = await supabase
+      .from('generation_tasks')
+      .insert({
+        user_id: user.id,
+        prompt: prompt,
+        status: 'pending',
+        telegram_chat_id: telegramChatId,
+        track_id: track.id,
+        source: 'mini_app',
+        generation_mode: mode,
+        model_used: model,
+      })
+      .select()
+      .single();
+
+    if (taskError || !task) {
+      console.error('Task creation error:', taskError);
+      throw new Error('Failed to create generation task');
+    }
+
+    // Prepare SunoAPI request
+    const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
+    
+    const sunoPayload: any = {
+      customMode,
+      instrumental,
+      model,
+      callBackUrl: callbackUrl,
+    };
+
+    if (customMode) {
+      sunoPayload.prompt = prompt;
+      sunoPayload.style = style;
+      if (title) sunoPayload.title = title;
+    } else {
+      sunoPayload.prompt = prompt;
+    }
+
+    if (negativeTags) sunoPayload.negativeTags = negativeTags;
+    if (vocalGender) sunoPayload.vocalGender = vocalGender;
+    if (styleWeight !== undefined) sunoPayload.styleWeight = styleWeight;
+    if (weirdnessConstraint !== undefined) sunoPayload.weirdnessConstraint = weirdnessConstraint;
+    if (audioWeight !== undefined) sunoPayload.audioWeight = audioWeight;
+    if (personaId) sunoPayload.personaId = personaId;
+
+    console.log('Sending to SunoAPI:', JSON.stringify(sunoPayload, null, 2));
+
+    // Call SunoAPI
+    const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${sunoApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(sunoPayload),
+    });
+
+    const sunoData = await sunoResponse.json();
+
+    if (!sunoResponse.ok || sunoData.code !== 200) {
+      console.error('SunoAPI error:', sunoData);
+      
+      // Update task and track as failed
+      await supabase
+        .from('generation_tasks')
+        .update({ 
+          status: 'failed', 
+          error_message: sunoData.msg || 'SunoAPI request failed' 
+        })
+        .eq('id', task.id);
+
+      await supabase
+        .from('tracks')
+        .update({ 
+          status: 'failed', 
+          error_message: sunoData.msg || 'SunoAPI request failed' 
+        })
+        .eq('id', track.id);
+
+      throw new Error(sunoData.msg || 'SunoAPI request failed');
+    }
+
+    const sunoTaskId = sunoData.data?.taskId;
+
+    if (!sunoTaskId) {
+      throw new Error('No taskId returned from SunoAPI');
+    }
+
+    // Update task with Suno taskId
+    await supabase
+      .from('generation_tasks')
+      .update({ 
+        suno_task_id: sunoTaskId,
+        status: 'processing',
+      })
+      .eq('id', task.id);
+
+    await supabase
+      .from('tracks')
+      .update({ 
+        suno_task_id: sunoTaskId,
+        status: 'processing',
+      })
+      .eq('id', track.id);
+
+    // Log the generation
+    await supabase
+      .from('track_change_log')
+      .insert({
+        track_id: track.id,
+        user_id: user.id,
+        change_type: 'generation_started',
+        changed_by: 'suno_api',
+        ai_model_used: model,
+        prompt_used: prompt,
+        metadata: {
+          mode,
+          instrumental,
+          style,
+          model,
+          suno_task_id: sunoTaskId,
+        },
+      });
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        trackId: track.id,
+        taskId: task.id,
+        sunoTaskId,
+      }),
+      { 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 200,
+      }
+    );
+
+  } catch (error: any) {
+    console.error('Error in suno-music-generate:', error);
+    return new Response(
+      JSON.stringify({ 
+        success: false, 
+        error: error.message || 'Unknown error',
+      }),
+      { 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 500,
+      }
+    );
+  }
+});

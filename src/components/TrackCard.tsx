@@ -79,24 +79,28 @@ export const TrackCard = ({
         </div>
 
         {/* Status badge */}
-        {track.status && (
+        {track.status && track.status !== 'completed' && (
           <Badge
             variant={
-              track.status === 'completed'
+              track.status === 'streaming_ready'
                 ? 'default'
-                : track.status === 'error'
+                : track.status === 'failed' || track.status === 'error'
                 ? 'destructive'
                 : 'secondary'
             }
             className="absolute top-2 left-2"
           >
             {track.status === 'pending'
-              ? 'Ожидание'
+              ? 'В очереди'
               : track.status === 'processing'
-              ? 'Обработка'
+              ? '⚡ Генерация'
+              : track.status === 'streaming_ready'
+              ? '🎵 Готов к стримингу'
               : track.status === 'completed'
               ? 'Готов'
-              : 'Ошибка'}
+              : track.status === 'failed'
+              ? 'Ошибка'
+              : track.status}
           </Badge>
         )}
       </div>
