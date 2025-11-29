@@ -123,12 +123,12 @@ export const TaskForm = () => {
           {categories && categories.length > 0 && (
             <div className="space-y-2">
               <Label htmlFor="category">Категория</Label>
-              <Select value={categoryId} onValueChange={setCategoryId}>
+              <Select value={categoryId || "none"} onValueChange={(v) => setCategoryId(v === "none" ? "" : v)}>
                 <SelectTrigger id="category">
                   <SelectValue placeholder="Выберите категорию" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Без категории</SelectItem>
+                  <SelectItem value="none">Без категории</SelectItem>
                   {categories.map((category) => (
                     <SelectItem key={category.id} value={category.id}>
                       {category.name}
