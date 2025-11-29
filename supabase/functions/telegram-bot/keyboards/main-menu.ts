@@ -6,10 +6,26 @@ export function createMainMenuKeyboard() {
     inline_keyboard: [
       [{ text: '🎵 Открыть приложение', web_app: { url: BOT_CONFIG.miniAppUrl } }],
       [
-        { text: '📚 Моя библиотека', callback_data: 'library' },
+        { text: '🎼 Создать трек', callback_data: 'generate' },
+        { text: '⚡ Статус', callback_data: 'status' }
+      ],
+      [
+        { text: '📚 Библиотека', callback_data: 'library' },
         { text: '📁 Проекты', callback_data: 'projects' }
       ],
       [{ text: '❓ Помощь', callback_data: 'help' }]
+    ] as InlineKeyboardButton[][]
+  };
+}
+
+export function createGenerateKeyboard() {
+  return {
+    inline_keyboard: [
+      [{ text: '🎸 Рок', callback_data: 'style_rock' }, { text: '🎹 Поп', callback_data: 'style_pop' }],
+      [{ text: '🎺 Джаз', callback_data: 'style_jazz' }, { text: '🎧 Электроника', callback_data: 'style_electronic' }],
+      [{ text: '🎻 Классика', callback_data: 'style_classical' }, { text: '🎤 Хип-хоп', callback_data: 'style_hiphop' }],
+      [{ text: '✍️ Свой стиль', callback_data: 'custom_generate' }],
+      [{ text: '⬅️ Назад', callback_data: 'main_menu' }]
     ] as InlineKeyboardButton[][]
   };
 }

@@ -55,8 +55,46 @@ export async function sendMessage(
     body: JSON.stringify({
       chat_id: chatId,
       text,
-      parse_mode: 'HTML',
+      parse_mode: 'Markdown',
       reply_markup: replyMarkup,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Telegram API error: ${error}`);
+  }
+
+  return response.json();
+}
+
+export async function sendAudio(
+  chatId: number,
+  audioUrl: string,
+  options: {
+    caption?: string;
+    title?: string;
+    performer?: string;
+    duration?: number;
+    thumbnail?: string;
+    replyMarkup?: {
+      inline_keyboard?: InlineKeyboardButton[][];
+    };
+  } = {}
+) {
+  const response = await fetch(`${TELEGRAM_API}/sendAudio`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: chatId,
+      audio: audioUrl,
+      caption: options.caption,
+      title: options.title,
+      performer: options.performer,
+      duration: options.duration,
+      thumbnail: options.thumbnail,
+      parse_mode: 'Markdown',
+      reply_markup: options.replyMarkup,
     }),
   });
 
