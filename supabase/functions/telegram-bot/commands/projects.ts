@@ -56,15 +56,18 @@ export async function handleProjects(chatId: number, userId: number, messageId?:
       return;
     }
 
+    // Escape markdown special characters
+    const escapeMarkdown = (text: string) => text.replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1');
+    
     let message = '📁 Ваши проекты:\n\n';
     
     for (const project of projects) {
       const statusEmoji = project.status === 'completed' ? '✅' : 
                           project.status === 'in_progress' ? '⏳' : '📝';
       
-      message += `${statusEmoji} ${project.title}\n`;
-      message += `   Статус: ${project.status}\n`;
-      message += `   /project_${project.id}\n\n`;
+      message += `${statusEmoji} ${escapeMarkdown(project.title)}\n`;
+      message += `   Статус: ${escapeMarkdown(project.status || 'draft')}\n`;
+      message += `   /project\\_${project.id.replace(/-/g, '')}\n\n`;
     }
 
     if (messageId) {

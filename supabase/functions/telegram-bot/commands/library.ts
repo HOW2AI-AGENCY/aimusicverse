@@ -56,6 +56,9 @@ export async function handleLibrary(chatId: number, userId: number, messageId?: 
       return;
     }
 
+    // Escape markdown special characters
+    const escapeMarkdown = (text: string) => text.replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1');
+    
     let message = '🎵 *Ваши последние треки:*\n\n';
     
     for (const track of tracks) {
@@ -63,12 +66,12 @@ export async function handleLibrary(chatId: number, userId: number, messageId?: 
       const style = track.style || 'Без стиля';
       const statusEmoji = track.status === 'completed' ? '✅' : '⏳';
       
-      message += `${statusEmoji} *${title}*\n`;
-      message += `   🎸 ${style}\n`;
-      message += `   📋 /track_${track.id}\n\n`;
+      message += `${statusEmoji} *${escapeMarkdown(title)}*\n`;
+      message += `   🎸 ${escapeMarkdown(style)}\n`;
+      message += `   📋 /track\\_${track.id.replace(/-/g, '')}\n\n`;
     }
     
-    message += '\n💡 _Нажмите на команду /track\\_ID для деталей_';
+    message += '\n💡 _Нажмите на команду для деталей_';
 
     if (messageId) {
       await editMessageText(chatId, messageId, message, createTrackKeyboard(tracks[0].id));
