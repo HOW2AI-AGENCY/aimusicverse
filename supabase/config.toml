@@ -20,3 +20,9 @@ verify_jwt = true
 
 [functions.generate-cover-image]
 verify_jwt = true
+
+[functions.sync-suno-tags]
+verify_jwt = true
+
+[functions.download-track]
+verify_jwt = true

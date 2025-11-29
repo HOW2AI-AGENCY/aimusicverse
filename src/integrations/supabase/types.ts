@@ -1130,6 +1130,17 @@ export type Database = {
           tag_name: string
         }[]
       }
+      get_track_analytics_summary: {
+        Args: { _time_period?: unknown; _track_id: string }
+        Returns: {
+          plays_by_day: Json
+          total_downloads: number
+          total_likes: number
+          total_plays: number
+          total_shares: number
+          unique_listeners: number
+        }[]
+      }
       get_user_roles: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"][]
