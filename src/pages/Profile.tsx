@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, User, Settings, Activity } from "lucide-react";
+import { ArrowLeft, User, Settings, Activity, RefreshCw, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface Profile {
@@ -38,6 +38,8 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [sunoCredits, setSunoCredits] = useState<number | null>(null);
+  const [isLoadingCredits, setIsLoadingCredits] = useState(false);
 
   useEffect(() => {
     showBackButton(() => navigate("/"));
@@ -48,6 +50,7 @@ export default function Profile() {
     if (user) {
       loadProfile();
       loadActivities();
+      fetchSunoCredits();
     }
   }, [user]);
 
@@ -85,6 +88,24 @@ export default function Profile() {
       setActivities(data || []);
     } catch (error) {
       console.error("Error loading activities:", error);
+    }
+  };
+
+  const fetchSunoCredits = async () => {
+    setIsLoadingCredits(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('suno-credits');
+      
+      if (error) throw error;
+      
+      if (data?.success) {
+        setSunoCredits(data.credits);
+      }
+    } catch (error: any) {
+      console.error('Error fetching Suno credits:', error);
+      toast.error("Не удалось загрузить кредиты SunoAPI");
+    } finally {
+      setIsLoadingCredits(false);
     }
   };
 
@@ -206,6 +227,40 @@ export default function Profile() {
                       <span className="font-medium">{profile.language_code}</span>
                     </div>
                   )}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="glass-card border-primary/20">
+              <CardHeader>
+                <CardTitle>SunoAPI Кредиты</CardTitle>
+                <CardDescription>
+                  Количество доступных кредитов для генерации музыки и лирики
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label>Доступно кредитов</Label>
+                    <p className="text-2xl font-bold mt-1">
+                      {isLoadingCredits ? (
+                        <Loader2 className="h-6 w-6 animate-spin" />
+                      ) : sunoCredits !== null ? (
+                        sunoCredits
+                      ) : (
+                        '—'
+                      )}
+                    </p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={fetchSunoCredits}
+                    disabled={isLoadingCredits}
+                    className="glass border-primary/20"
+                  >
+                    <RefreshCw className={`h-4 w-4 ${isLoadingCredits ? 'animate-spin' : ''}`} />
+                  </Button>
                 </div>
               </CardContent>
             </Card>

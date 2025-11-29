@@ -12,6 +12,9 @@ verify_jwt = false
 [functions.telegram-webhook-setup]
 verify_jwt = false
 
+[functions.suno-credits]
+verify_jwt = true
+
 [functions.send-telegram-notification]
 verify_jwt = false
 
