@@ -28,11 +28,13 @@ export async function handleLibrary(chatId: number, userId: number, messageId?: 
       return;
     }
 
-    // Get last 5 tracks
+    // Get last 5 completed tracks with audio
     const { data: tracks, error } = await supabase
       .from('tracks')
-      .select('id, title, style, created_at, status')
+      .select('id, title, style, created_at, status, audio_url, local_audio_url')
       .eq('user_id', profile.user_id)
+      .eq('status', 'completed')
+      .not('audio_url', 'is', null)
       .order('created_at', { ascending: false })
       .limit(5);
 
@@ -59,19 +61,18 @@ export async function handleLibrary(chatId: number, userId: number, messageId?: 
     // Escape markdown special characters
     const escapeMarkdown = (text: string) => text.replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1');
     
-    let message = '🎵 *Ваши последние треки:*\n\n';
+    let message = '🎵 *Ваши треки:*\n\n';
     
     for (const track of tracks) {
       const title = track.title || 'Без названия';
       const style = track.style || 'Без стиля';
-      const statusEmoji = track.status === 'completed' ? '✅' : '⏳';
       
-      message += `${statusEmoji} *${escapeMarkdown(title)}*\n`;
+      message += `✅ *${escapeMarkdown(title)}*\n`;
       message += `   🎸 ${escapeMarkdown(style)}\n`;
       message += `   📋 /track\\_${track.id.replace(/-/g, '')}\n\n`;
     }
     
-    message += '\n💡 _Нажмите на команду для деталей_';
+    message += '\n💡 _Нажмите на команду для прослушивания_';
 
     if (messageId) {
       await editMessageText(chatId, messageId, message, createTrackKeyboard(tracks[0].id));

@@ -106,9 +106,32 @@ export async function handleTrackDetails(chatId: number, trackId: string, messag
     }
 
     const durationSeconds = track.duration_seconds || 0;
-    const durationText = `${Math.floor(durationSeconds / 60)}:${String(Math.floor(durationSeconds % 60)).padStart(2, '0')}`;
+    const durationText = durationSeconds > 0 
+      ? `${Math.floor(durationSeconds / 60)}:${String(Math.floor(durationSeconds % 60)).padStart(2, '0')}`
+      : '0:00';
 
-    const msg = `🎵 *${track.title || 'Новый трек'}*\n\n${track.style ? `🎸 Стиль: ${track.style}` : ''}\n⏱️ Длительность: ${durationText}\n📊 Прослушиваний: ${track.play_count || 0}\n📅 Создан: ${new Date(track.created_at).toLocaleDateString('ru-RU')}\n\n${track.prompt ? `💭 "${track.prompt.substring(0, 100)}${track.prompt.length > 100 ? '...' : ''}"` : ''}`;
+    // Если есть аудио, отправляем аудио файл
+    if (track.audio_url || track.local_audio_url) {
+      const audioUrl = track.local_audio_url || track.audio_url;
+      
+      try {
+        await sendAudio(chatId, audioUrl, {
+          caption: `🎵 *${track.title || 'Новый трек'}*\n\n${track.style ? `🎸 Стиль: ${track.style}\n` : ''}⏱️ Длительность: ${durationText}\n📊 Прослушиваний: ${track.play_count || 0}\n📅 Создан: ${new Date(track.created_at).toLocaleDateString('ru-RU')}\n\n${track.prompt ? `💭 "${track.prompt.substring(0, 100)}${track.prompt.length > 100 ? '...' : ''}"` : ''}`,
+          title: track.title || 'MusicVerse Track',
+          performer: 'MusicVerse AI',
+          duration: durationSeconds,
+          thumbnail: track.cover_url || track.local_cover_url,
+          replyMarkup: createTrackDetailsKeyboard(trackId)
+        });
+        return;
+      } catch (audioError) {
+        console.error('Error sending audio:', audioError);
+        // Если не удалось отправить аудио, отправим текстовое сообщение
+      }
+    }
+
+    // Если аудио нет или не удалось отправить, отправляем текстовое сообщение
+    const msg = `🎵 *${track.title || 'Новый трек'}*\n\n${track.style ? `🎸 Стиль: ${track.style}\n` : ''}⏱️ Длительность: ${durationText}\n📊 Прослушиваний: ${track.play_count || 0}\n📅 Создан: ${new Date(track.created_at).toLocaleDateString('ru-RU')}\n\n${track.prompt ? `💭 "${track.prompt.substring(0, 100)}${track.prompt.length > 100 ? '...' : ''}"` : ''}${!track.audio_url && !track.local_audio_url ? '\n\n⚠️ Трек в процессе генерации' : ''}`;
     
     if (messageId) {
       await editMessageText(chatId, messageId, msg, createTrackDetailsKeyboard(trackId));
