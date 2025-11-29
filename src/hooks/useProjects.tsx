@@ -23,6 +23,7 @@ export interface Project {
   label_name: string | null;
   copyright_info: string | null;
   is_commercial: boolean | null;
+  is_public: boolean | null;
   ai_context: any | null;
   cover_url: string | null;
   created_at: string;
@@ -53,10 +54,16 @@ export const useProjects = () => {
     mutationFn: async (projectData: Partial<Project> & { title: string }) => {
       if (!user?.id) throw new Error('User not authenticated');
 
+      // Check if user is premium or admin to set default is_public
+      const { data: isPremium } = await supabase.rpc('is_premium_or_admin', {
+        _user_id: user.id
+      });
+
       const { data, error } = await supabase
         .from('music_projects')
         .insert([{
           user_id: user.id,
+          is_public: isPremium ? false : true, // Free users create public by default
           ...projectData,
         }])
         .select()

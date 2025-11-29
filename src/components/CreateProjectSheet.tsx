@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,13 +8,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Sparkles, Wand2, HelpCircle, Upload, Music, User, Plus, Image as ImageIcon } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Sparkles, Wand2, HelpCircle, Upload, Music, User, Plus, Image as ImageIcon, Lock, Globe } from 'lucide-react';
 import { useProjects } from '@/hooks/useProjects';
 import { useArtists } from '@/hooks/useArtists';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useAuth } from '@/hooks/useAuth';
 
 interface CreateProjectSheetProps {
   open: boolean;
@@ -46,6 +48,7 @@ const MOODS = [
 
 export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetProps) {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { createProject, generateProjectConcept, isCreating, isGenerating } = useProjects();
   const { artists, createArtist, isCreating: isCreatingArtist } = useArtists();
   
@@ -62,11 +65,25 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
   const [targetAudience, setTargetAudience] = useState('');
   const [primaryArtistId, setPrimaryArtistId] = useState<string>('');
   const [coverUrl, setCoverUrl] = useState('');
+  const [isPublic, setIsPublic] = useState(false);
+  const [isPremiumUser, setIsPremiumUser] = useState(false);
   const [isUploadingCover, setIsUploadingCover] = useState(false);
   const [isGeneratingCover, setIsGeneratingCover] = useState(false);
   const [newArtistName, setNewArtistName] = useState('');
   const [showNewArtist, setShowNewArtist] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Check if user is premium or admin on mount
+  useEffect(() => {
+    if (user) {
+      supabase.rpc('is_premium_or_admin', { _user_id: user.id })
+        .then(({ data }) => {
+          setIsPremiumUser(!!data);
+          // Premium users default to private projects
+          setIsPublic(!data);
+        });
+    }
+  }, [user]);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -158,6 +175,7 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
         cover_url: coverUrl || null,
         status: 'draft',
         ai_context: titleRu ? { title_ru: titleRu } : null,
+        is_public: isPublic,
       },
       {
         onSuccess: (data) => {
@@ -499,6 +517,28 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
                 className="bg-background"
               />
             </div>
+
+            {/* Public/Private Toggle - only for premium users */}
+            {isPremiumUser && (
+              <div className="flex items-center justify-between p-4 border rounded-lg bg-muted/50">
+                <div className="flex items-center gap-3">
+                  {isPublic ? <Globe className="w-5 h-5 text-green-500" /> : <Lock className="w-5 h-5 text-orange-500" />}
+                  <div>
+                    <Label htmlFor="is-public" className="cursor-pointer">
+                      {isPublic ? 'Публичный проект' : 'Приватный проект'}
+                    </Label>
+                    <p className="text-xs text-muted-foreground">
+                      {isPublic ? 'Виден всем пользователям' : 'Виден только вам'}
+                    </p>
+                  </div>
+                </div>
+                <Switch
+                  id="is-public"
+                  checked={isPublic}
+                  onCheckedChange={setIsPublic}
+                />
+              </div>
+            )}
 
             <Button
               onClick={handleManualCreate}

@@ -15,6 +15,9 @@ verify_jwt = false
 [functions.send-telegram-notification]
 verify_jwt = false
 
+[functions.project-ai-actions]
+verify_jwt = true
+
 [functions.suno-generate]
 verify_jwt = true
 

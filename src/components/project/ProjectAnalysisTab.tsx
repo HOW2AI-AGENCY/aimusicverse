@@ -8,6 +8,7 @@ import { Project } from '@/hooks/useProjects';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
+import { AIActionsDialog } from './AIActionsDialog';
 
 interface ProjectAnalysisTabProps {
   project: Project;
@@ -32,6 +33,8 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isApplying, setIsApplying] = useState(false);
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
+  const [aiDialogOpen, setAiDialogOpen] = useState(false);
+  const [selectedField, setSelectedField] = useState<string | undefined>();
 
   // Load saved analysis from project.ai_context on mount
   useEffect(() => {
@@ -95,71 +98,24 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
     }
   };
 
-  const applyImprovement = async (field: string, suggestion: string) => {
-    setIsApplying(true);
-    console.log('Starting improvement application:', { field, suggestion });
-    
+  const applyImprovement = async (field: string) => {
+    setSelectedField(field);
+    setAiDialogOpen(true);
+  };
+
+  const handleApplyUpdates = async (updates: Record<string, any>) => {
     try {
-      // Call the edge function to improve the field
-      const { data, error } = await supabase.functions.invoke('project-ai', {
-        body: {
-          action: 'improve',
-          projectId: project.id,
-          field,
-          currentValue: (project as any)[field] || '',
-          suggestion,
-          projectType: project.project_type,
-          genre: project.genre,
-          mood: project.mood,
-        },
-      });
-
-      console.log('Edge function response:', { data, error });
-
-      if (error) {
-        console.error('Edge function error:', error);
-        throw new Error(`Edge function failed: ${error.message}`);
-      }
-
-      if (!data?.data?.improved) {
-        console.error('Invalid response structure:', data);
-        throw new Error('No improved value returned from AI');
-      }
-
-      const improvedValue = data.data.improved;
-      const actualField = data.data.normalizedField || field; // Use normalized field name from server
-      console.log('Improved value received:', { improvedValue, actualField });
-
-      // Update the project with the improved value
-      const { data: updateData, error: updateError } = await supabase
+      const { error } = await supabase
         .from('music_projects')
-        .update({ [actualField]: improvedValue })
-        .eq('id', project.id)
-        .select()
-        .single();
+        .update(updates)
+        .eq('id', project.id);
 
-      console.log('Database update result:', { updateData, updateError });
+      if (error) throw error;
 
-      if (updateError) {
-        console.error('Database update error:', updateError);
-        throw new Error(`Failed to update database: ${updateError.message}`);
-      }
-
-      // Invalidate and refetch queries
-      await queryClient.invalidateQueries({ queryKey: ['projects', user?.id] });
-      
-      const fieldName = actualField === 'description' ? 'Описание' :
-                       actualField === 'concept' ? 'Концепт' :
-                       actualField === 'target_audience' ? 'Целевая аудитория' :
-                       actualField === 'genre' ? 'Жанр' :
-                       actualField === 'mood' ? 'Настроение' : actualField;
-      
-      toast.success(`${fieldName} успешно обновлено`);
-    } catch (error: any) {
-      console.error('Apply improvement error:', error);
-      toast.error(error?.message || 'Ошибка при применении улучшения');
-    } finally {
-      setIsApplying(false);
+      queryClient.invalidateQueries({ queryKey: ['projects', user?.id] });
+    } catch (error) {
+      console.error('Error updating project:', error);
+      throw error;
     }
   };
 
@@ -402,15 +358,11 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
                         <Button
                           size="sm"
                           variant="default"
-                          disabled={isApplying}
-                          onClick={() => applyImprovement(improvement.field, improvement.suggestion)}
-                          className="flex-shrink-0"
+                          onClick={() => applyImprovement(improvement.field)}
+                          className="flex-shrink-0 gap-2"
                         >
-                          {isApplying ? (
-                            <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white"></div>
-                          ) : (
-                            'Применить'
-                          )}
+                          <Sparkles className="w-3 h-3" />
+                          Варианты AI
                         </Button>
                       </div>
                     </div>
@@ -421,6 +373,14 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
           )}
         </>
       )}
+
+      <AIActionsDialog
+        open={aiDialogOpen}
+        onOpenChange={setAiDialogOpen}
+        projectId={project.id}
+        field={selectedField}
+        onApply={handleApplyUpdates}
+      />
     </div>
   );
 };

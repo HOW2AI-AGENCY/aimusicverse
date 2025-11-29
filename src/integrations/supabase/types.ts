@@ -22,6 +22,7 @@ export type Database = {
           genre_tags: string[] | null
           id: string
           is_ai_generated: boolean | null
+          is_public: boolean | null
           metadata: Json | null
           mood_tags: string[] | null
           name: string
@@ -38,6 +39,7 @@ export type Database = {
           genre_tags?: string[] | null
           id?: string
           is_ai_generated?: boolean | null
+          is_public?: boolean | null
           metadata?: Json | null
           mood_tags?: string[] | null
           name: string
@@ -54,6 +56,7 @@ export type Database = {
           genre_tags?: string[] | null
           id?: string
           is_ai_generated?: boolean | null
+          is_public?: boolean | null
           metadata?: Json | null
           mood_tags?: string[] | null
           name?: string
@@ -176,6 +179,7 @@ export type Database = {
           genre: string | null
           id: string
           is_commercial: boolean | null
+          is_public: boolean | null
           key_signature: string | null
           label_name: string | null
           mood: string | null
@@ -203,6 +207,7 @@ export type Database = {
           genre?: string | null
           id?: string
           is_commercial?: boolean | null
+          is_public?: boolean | null
           key_signature?: string | null
           label_name?: string | null
           mood?: string | null
@@ -230,6 +235,7 @@ export type Database = {
           genre?: string | null
           id?: string
           is_commercial?: boolean | null
+          is_public?: boolean | null
           key_signature?: string | null
           label_name?: string | null
           mood?: string | null
@@ -338,6 +344,9 @@ export type Database = {
           language_code: string | null
           last_name: string | null
           photo_url: string | null
+          subscription_tier:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           telegram_id: number
           updated_at: string
           user_id: string
@@ -350,6 +359,9 @@ export type Database = {
           language_code?: string | null
           last_name?: string | null
           photo_url?: string | null
+          subscription_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           telegram_id: number
           updated_at?: string
           user_id: string
@@ -362,6 +374,9 @@ export type Database = {
           language_code?: string | null
           last_name?: string | null
           photo_url?: string | null
+          subscription_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           telegram_id?: number
           updated_at?: string
           user_id?: string
@@ -1202,6 +1217,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_premium_or_admin: { Args: { _user_id: string }; Returns: boolean }
       recommend_styles_for_user: {
         Args: { _limit?: number; _user_id: string }
         Returns: {
@@ -1222,6 +1238,7 @@ export type Database = {
         | "jingle"
         | "compilation"
         | "mixtape"
+      subscription_tier: "free" | "premium" | "enterprise"
       suno_model_status: "deprecated" | "active" | "latest"
       tag_category:
         | "structure"
@@ -1374,6 +1391,7 @@ export const Constants = {
         "compilation",
         "mixtape",
       ],
+      subscription_tier: ["free", "premium", "enterprise"],
       suno_model_status: ["deprecated", "active", "latest"],
       tag_category: [
         "structure",
