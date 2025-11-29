@@ -272,6 +272,13 @@ Provide a comprehensive analysis including:
 5. Specific recommendations for improvement
 6. Suggestions for each empty or weak field with priority level
 
+CRITICAL: For the "field" property in improvements, use EXACT database field names:
+- "description" (NOT "Description")
+- "concept" (NOT "Concept")
+- "target_audience" (NOT "Target Audience" or "targetAudience")
+- "genre" (NOT "Genre")
+- "mood" (NOT "Mood")
+
 Return as JSON:
 {
   "score": 75,
@@ -284,6 +291,11 @@ Return as JSON:
       "field": "description",
       "suggestion": "...",
       "priority": "high"
+    },
+    {
+      "field": "target_audience",
+      "suggestion": "...",
+      "priority": "medium"
     }
   ]
 }`;

@@ -97,6 +97,8 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
 
   const applyImprovement = async (field: string, suggestion: string) => {
     setIsApplying(true);
+    console.log('Starting improvement application:', { field, suggestion });
+    
     try {
       // Call the edge function to improve the field
       const { data, error } = await supabase.functions.invoke('project-ai', {
@@ -112,53 +114,52 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
         },
       });
 
+      console.log('Edge function response:', { data, error });
+
       if (error) {
         console.error('Edge function error:', error);
-        throw error;
+        throw new Error(`Edge function failed: ${error.message}`);
       }
 
-      // Update the project with the improved value
-      const improvedValue = data?.data?.improved;
-      
-      if (!improvedValue) {
+      if (!data?.data?.improved) {
+        console.error('Invalid response structure:', data);
         throw new Error('No improved value returned from AI');
       }
 
-      console.log('Applying improvement:', { field, improvedValue });
+      const improvedValue = data.data.improved;
+      console.log('Improved value received:', improvedValue);
 
-      const { error: updateError } = await supabase
+      // Update the project with the improved value
+      const { data: updateData, error: updateError } = await supabase
         .from('music_projects')
         .update({ [field]: improvedValue })
         .eq('id', project.id)
-        .select();
+        .select()
+        .single();
+
+      console.log('Database update result:', { updateData, updateError });
 
       if (updateError) {
-        console.error('Update error:', updateError);
-        throw updateError;
+        console.error('Database update error:', updateError);
+        throw new Error(`Failed to update database: ${updateError.message}`);
       }
 
-      // Invalidate queries to refresh project data
+      // Invalidate and refetch queries
       await queryClient.invalidateQueries({ queryKey: ['projects', user?.id] });
       
-      toast.success(`Поле "${field === 'description' ? 'Описание' :
-                            field === 'concept' ? 'Концепт' :
-                            field === 'target_audience' ? 'Целевая аудитория' :
-                            field === 'genre' ? 'Жанр' :
-                            field === 'mood' ? 'Настроение' :
-                            field}" обновлено`);
-    } catch (error) {
+      const fieldName = field === 'description' ? 'Описание' :
+                       field === 'concept' ? 'Концепт' :
+                       field === 'target_audience' ? 'Целевая аудитория' :
+                       field === 'genre' ? 'Жанр' :
+                       field === 'mood' ? 'Настроение' : field;
+      
+      toast.success(`${fieldName} успешно обновлено`);
+    } catch (error: any) {
       console.error('Apply improvement error:', error);
-      toast.error('Ошибка при применении улучшения');
+      toast.error(error?.message || 'Ошибка при применении улучшения');
     } finally {
       setIsApplying(false);
     }
-  };
-
-  const getMoodEmoji = (score: number) => {
-    if (score >= 80) return { emoji: '🚀', color: 'text-green-500', bg: 'bg-green-500/10' };
-    if (score >= 60) return { emoji: '✨', color: 'text-blue-500', bg: 'bg-blue-500/10' };
-    if (score >= 40) return { emoji: '⚡', color: 'text-yellow-500', bg: 'bg-yellow-500/10' };
-    return { emoji: '💡', color: 'text-orange-500', bg: 'bg-orange-500/10' };
   };
 
   return (
@@ -232,31 +233,42 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
           <Card className="glass-card border-primary/20">
             <CardContent className="pt-6">
               <div className="flex items-center gap-6">
-                {(() => {
-                  const mood = getMoodEmoji(analysis.score);
-                  return (
-                    <>
-                      <div className={`w-16 h-16 rounded-2xl ${mood.bg} flex items-center justify-center flex-shrink-0`}>
-                        <span className="text-3xl">{mood.emoji}</span>
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-baseline gap-2 mb-2">
-                          <span className="text-4xl font-bold text-primary">{analysis.score}</span>
-                          <span className="text-lg text-muted-foreground">/100</span>
-                          <span className={`ml-auto text-sm font-medium ${mood.color}`}>
-                            {analysis.score >= 80 ? 'Отлично' : analysis.score >= 60 ? 'Хорошо' : analysis.score >= 40 ? 'Нормально' : 'Требует доработки'}
-                          </span>
-                        </div>
-                        <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-gradient-to-r from-primary to-primary/70 transition-all duration-500"
-                            style={{ width: `${analysis.score}%` }}
-                          />
-                        </div>
-                      </div>
-                    </>
-                  );
-                })()}
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 ${
+                  analysis.score >= 80 ? 'bg-green-500/10' :
+                  analysis.score >= 60 ? 'bg-blue-500/10' :
+                  analysis.score >= 40 ? 'bg-yellow-500/10' :
+                  'bg-orange-500/10'
+                }`}>
+                  {analysis.score >= 80 ? (
+                    <TrendingUp className="w-8 h-8 text-green-500" />
+                  ) : analysis.score >= 60 ? (
+                    <Sparkles className="w-8 h-8 text-blue-500" />
+                  ) : analysis.score >= 40 ? (
+                    <Target className="w-8 h-8 text-yellow-500" />
+                  ) : (
+                    <AlertCircle className="w-8 h-8 text-orange-500" />
+                  )}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <span className="text-4xl font-bold text-primary">{analysis.score}</span>
+                    <span className="text-lg text-muted-foreground">/100</span>
+                    <span className={`ml-auto text-sm font-medium ${
+                      analysis.score >= 80 ? 'text-green-500' :
+                      analysis.score >= 60 ? 'text-blue-500' :
+                      analysis.score >= 40 ? 'text-yellow-500' :
+                      'text-orange-500'
+                    }`}>
+                      {analysis.score >= 80 ? 'Отлично' : analysis.score >= 60 ? 'Хорошо' : analysis.score >= 40 ? 'Нормально' : 'Требует доработки'}
+                    </span>
+                  </div>
+                  <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-primary to-primary/70 transition-all duration-500"
+                      style={{ width: `${analysis.score}%` }}
+                    />
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -267,7 +279,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
             <Card className="glass-card border-primary/20">
               <CardHeader className="pb-3">
                 <CardTitle className="text-base flex items-center gap-2">
-                  <span className="text-xl">✅</span>
+                  <CheckCircle className="w-4 h-4 text-green-500" />
                   Сильные стороны
                 </CardTitle>
               </CardHeader>
@@ -275,7 +287,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
                 <ul className="space-y-1.5">
                   {analysis.strengths.map((strength, index) => (
                     <li key={index} className="flex items-start gap-2 text-sm">
-                      <span className="text-green-500 mt-0.5">•</span>
+                      <CheckCircle className="w-3.5 h-3.5 text-green-500 mt-0.5 flex-shrink-0" />
                       <span className="text-foreground/90">{strength}</span>
                     </li>
                   ))}
@@ -288,7 +300,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
               <Card className="glass-card border-primary/20">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base flex items-center gap-2">
-                    <span className="text-xl">⚠️</span>
+                    <AlertCircle className="w-4 h-4 text-orange-500" />
                     Слабые стороны
                   </CardTitle>
                 </CardHeader>
@@ -296,7 +308,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
                   <ul className="space-y-1.5">
                     {analysis.weaknesses.map((weakness, index) => (
                       <li key={index} className="flex items-start gap-2 text-sm">
-                        <span className="text-orange-500 mt-0.5">•</span>
+                        <AlertCircle className="w-3.5 h-3.5 text-orange-500 mt-0.5 flex-shrink-0" />
                         <span className="text-foreground/90">{weakness}</span>
                       </li>
                     ))}
@@ -306,7 +318,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
             )}
           </div>
 
-          {/* Market Potential - Compact with emoji */}
+          {/* Market Potential - Compact */}
           <Card className="glass-card border-primary/20">
             <CardContent className="pt-6">
               <div className="flex items-start gap-4">
@@ -314,20 +326,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
                   <TrendingUp className="w-6 h-6 text-primary" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold mb-2 flex items-center gap-2">
-                    Рыночный потенциал
-                    {(() => {
-                      const potential = analysis.marketPotential.toLowerCase();
-                      if (potential.includes('высок') || potential.includes('отличн') || potential.includes('больш')) {
-                        return <span className="text-lg">🎯</span>;
-                      } else if (potential.includes('средн') || potential.includes('хорош')) {
-                        return <span className="text-lg">📈</span>;
-                      } else if (potential.includes('низк') || potential.includes('огранич')) {
-                        return <span className="text-lg">📊</span>;
-                      }
-                      return <span className="text-lg">💼</span>;
-                    })()}
-                  </h3>
+                  <h3 className="font-semibold mb-2">Рыночный потенциал</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{analysis.marketPotential}</p>
                 </div>
               </div>
@@ -338,7 +337,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
           <Card className="glass-card border-primary/20">
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center gap-2">
-                <span className="text-xl">💡</span>
+                <Lightbulb className="w-4 h-4 text-yellow-500" />
                 Рекомендации
               </CardTitle>
             </CardHeader>
@@ -346,7 +345,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
               <ul className="space-y-2">
                 {analysis.recommendations.map((recommendation, index) => (
                   <li key={index} className="flex items-start gap-2.5 p-2 rounded-lg hover:bg-secondary/50 transition-colors">
-                    <span className="text-yellow-500 font-bold text-sm mt-0.5">{index + 1}.</span>
+                    <span className="text-primary font-bold text-sm mt-0.5">{index + 1}.</span>
                     <span className="text-sm text-foreground/90 leading-relaxed">{recommendation}</span>
                   </li>
                 ))}
@@ -359,7 +358,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
             <Card className="glass-card border-primary/20">
               <CardHeader className="pb-3">
                 <CardTitle className="text-base flex items-center gap-2">
-                  <span className="text-xl">🎯</span>
+                  <Target className="w-4 h-4 text-primary" />
                   Предложенные улучшения
                 </CardTitle>
               </CardHeader>
@@ -391,8 +390,8 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
                               }
                               className="text-xs h-5"
                             >
-                              {improvement.priority === 'high' ? '🔥 Высокий' :
-                               improvement.priority === 'medium' ? '⚡ Средний' : '💫 Низкий'}
+                              {improvement.priority === 'high' ? 'Высокий' :
+                               improvement.priority === 'medium' ? 'Средний' : 'Низкий'}
                             </Badge>
                           </div>
                           <p className="text-sm text-muted-foreground leading-relaxed">
