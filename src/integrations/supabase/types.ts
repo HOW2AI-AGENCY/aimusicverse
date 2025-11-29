@@ -65,6 +65,54 @@ export type Database = {
         }
         Relationships: []
       }
+      generation_tag_usage: {
+        Row: {
+          created_at: string
+          id: string
+          prompt_text: string | null
+          style_id: string | null
+          success: boolean | null
+          tags_used: string[]
+          track_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          prompt_text?: string | null
+          style_id?: string | null
+          success?: boolean | null
+          tags_used: string[]
+          track_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          prompt_text?: string | null
+          style_id?: string | null
+          success?: boolean | null
+          tags_used?: string[]
+          track_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "generation_tag_usage_style_id_fkey"
+            columns: ["style_id"]
+            isOneToOne: false
+            referencedRelation: "music_styles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "generation_tag_usage_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       music_projects: {
         Row: {
           ai_context: Json | null
@@ -156,6 +204,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      music_styles: {
+        Row: {
+          component_count: number | null
+          created_at: string
+          description: string | null
+          geographic_influence: string[] | null
+          id: string
+          is_fusion: boolean | null
+          mood_atmosphere: string[] | null
+          popularity_score: number | null
+          primary_genre: string | null
+          style_name: string
+          updated_at: string
+        }
+        Insert: {
+          component_count?: number | null
+          created_at?: string
+          description?: string | null
+          geographic_influence?: string[] | null
+          id?: string
+          is_fusion?: boolean | null
+          mood_atmosphere?: string[] | null
+          popularity_score?: number | null
+          primary_genre?: string | null
+          style_name: string
+          updated_at?: string
+        }
+        Update: {
+          component_count?: number | null
+          created_at?: string
+          description?: string | null
+          geographic_influence?: string[] | null
+          id?: string
+          is_fusion?: boolean | null
+          mood_atmosphere?: string[] | null
+          popularity_score?: number | null
+          primary_genre?: string | null
+          style_name?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       notifications: {
         Row: {
@@ -351,6 +441,215 @@ export type Database = {
             columns: ["track_id"]
             isOneToOne: false
             referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      prompt_templates: {
+        Row: {
+          created_at: string
+          id: string
+          is_public: boolean | null
+          name: string
+          style_id: string | null
+          tags: string[]
+          template_text: string
+          updated_at: string
+          usage_count: number | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_public?: boolean | null
+          name: string
+          style_id?: string | null
+          tags: string[]
+          template_text: string
+          updated_at?: string
+          usage_count?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_public?: boolean | null
+          name?: string
+          style_id?: string | null
+          tags?: string[]
+          template_text?: string
+          updated_at?: string
+          usage_count?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prompt_templates_style_id_fkey"
+            columns: ["style_id"]
+            isOneToOne: false
+            referencedRelation: "music_styles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      style_tag_mappings: {
+        Row: {
+          created_at: string
+          id: string
+          is_primary: boolean | null
+          relevance_score: number | null
+          style_id: string
+          tag_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_primary?: boolean | null
+          relevance_score?: number | null
+          style_id: string
+          tag_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_primary?: boolean | null
+          relevance_score?: number | null
+          style_id?: string
+          tag_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "style_tag_mappings_style_id_fkey"
+            columns: ["style_id"]
+            isOneToOne: false
+            referencedRelation: "music_styles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "style_tag_mappings_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "suno_meta_tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      suno_meta_tags: {
+        Row: {
+          category: Database["public"]["Enums"]["tag_category"]
+          compatible_models: string[] | null
+          created_at: string
+          description: string | null
+          id: string
+          is_explicit_format: boolean | null
+          syntax_format: string | null
+          tag_name: string
+          updated_at: string
+          usage_examples: string[] | null
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["tag_category"]
+          compatible_models?: string[] | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_explicit_format?: boolean | null
+          syntax_format?: string | null
+          tag_name: string
+          updated_at?: string
+          usage_examples?: string[] | null
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["tag_category"]
+          compatible_models?: string[] | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_explicit_format?: boolean | null
+          syntax_format?: string | null
+          tag_name?: string
+          updated_at?: string
+          usage_examples?: string[] | null
+        }
+        Relationships: []
+      }
+      suno_models: {
+        Row: {
+          created_at: string
+          id: string
+          max_prompt_length: number | null
+          max_style_length: number | null
+          max_title_length: number | null
+          model_name: string
+          status: Database["public"]["Enums"]["suno_model_status"]
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          max_prompt_length?: number | null
+          max_style_length?: number | null
+          max_title_length?: number | null
+          model_name: string
+          status?: Database["public"]["Enums"]["suno_model_status"]
+          updated_at?: string
+          version: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          max_prompt_length?: number | null
+          max_style_length?: number | null
+          max_title_length?: number | null
+          model_name?: string
+          status?: Database["public"]["Enums"]["suno_model_status"]
+          updated_at?: string
+          version?: string
+        }
+        Relationships: []
+      }
+      tag_relationships: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          related_tag_id: string
+          relationship_type: string
+          strength: number | null
+          tag_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          related_tag_id: string
+          relationship_type: string
+          strength?: number | null
+          tag_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          related_tag_id?: string
+          relationship_type?: string
+          strength?: number | null
+          tag_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tag_relationships_related_tag_id_fkey"
+            columns: ["related_tag_id"]
+            isOneToOne: false
+            referencedRelation: "suno_meta_tags"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tag_relationships_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "suno_meta_tags"
             referencedColumns: ["id"]
           },
         ]
@@ -761,11 +1060,76 @@ export type Database = {
         }
         Relationships: []
       }
+      user_tag_preferences: {
+        Row: {
+          created_at: string
+          id: string
+          is_favorite: boolean | null
+          last_used_at: string | null
+          style_id: string | null
+          tag_id: string
+          updated_at: string
+          usage_count: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_favorite?: boolean | null
+          last_used_at?: string | null
+          style_id?: string | null
+          tag_id: string
+          updated_at?: string
+          usage_count?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_favorite?: boolean | null
+          last_used_at?: string | null
+          style_id?: string | null
+          tag_id?: string
+          updated_at?: string
+          usage_count?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_tag_preferences_style_id_fkey"
+            columns: ["style_id"]
+            isOneToOne: false
+            referencedRelation: "music_styles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_tag_preferences_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "suno_meta_tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      build_suno_prompt: {
+        Args: { _style_id?: string; _tag_ids: string[] }
+        Returns: string
+      }
+      get_complementary_tags: {
+        Args: { _max_depth?: number; _tag_id: string }
+        Returns: {
+          depth: number
+          relationship_type: string
+          strength: number
+          tag_id: string
+          tag_name: string
+        }[]
+      }
       get_user_roles: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"][]
@@ -776,6 +1140,14 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      recommend_styles_for_user: {
+        Args: { _limit?: number; _user_id: string }
+        Returns: {
+          recommendation_score: number
+          style_id: string
+          style_name: string
+        }[]
       }
     }
     Enums: {
@@ -789,6 +1161,18 @@ export type Database = {
         | "jingle"
         | "compilation"
         | "mixtape"
+      suno_model_status: "deprecated" | "active" | "latest"
+      tag_category:
+        | "structure"
+        | "vocal"
+        | "instrument"
+        | "genre_style"
+        | "mood_energy"
+        | "production_texture"
+        | "effect_processing"
+        | "special_effects"
+        | "transition_dynamics"
+        | "format"
       task_priority: "low" | "medium" | "high" | "urgent"
       task_status: "todo" | "in_progress" | "completed" | "archived"
     }
@@ -928,6 +1312,19 @@ export const Constants = {
         "jingle",
         "compilation",
         "mixtape",
+      ],
+      suno_model_status: ["deprecated", "active", "latest"],
+      tag_category: [
+        "structure",
+        "vocal",
+        "instrument",
+        "genre_style",
+        "mood_energy",
+        "production_texture",
+        "effect_processing",
+        "special_effects",
+        "transition_dynamics",
+        "format",
       ],
       task_priority: ["low", "medium", "high", "urgent"],
       task_status: ["todo", "in_progress", "completed", "archived"],
