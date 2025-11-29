@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
+import { useEffect } from 'react';
 
 export interface ProjectTrack {
   id: string;
@@ -40,6 +41,35 @@ export const useProjectTracks = (projectId: string | undefined) => {
     },
     enabled: !!projectId && !!user?.id,
   });
+
+  // Realtime subscription for project tracks updates
+  useEffect(() => {
+    if (!projectId) return;
+
+    console.log('🔄 Setting up realtime subscription for project tracks:', projectId);
+
+    const channel = supabase
+      .channel(`project-tracks-${projectId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'project_tracks',
+          filter: `project_id=eq.${projectId}`,
+        },
+        (payload) => {
+          console.log('📊 Project tracks change received:', payload);
+          queryClient.invalidateQueries({ queryKey: ['project-tracks', projectId] });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      console.log('🔌 Unsubscribing from project tracks realtime');
+      supabase.removeChannel(channel);
+    };
+  }, [projectId, queryClient]);
 
   const addTrack = useMutation({
     mutationFn: async (trackData: Partial<ProjectTrack> & { position: number; title: string }) => {
