@@ -3,7 +3,7 @@ import { NotificationBadge } from "@/components/NotificationBadge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Music, LogOut, UserCircle, Activity, TrendingUp, Clock, CheckCircle2, CheckSquare } from "lucide-react";
+import { Music, LogOut, UserCircle, Activity, TrendingUp, Clock, CheckCircle2, CheckSquare, Library, Sparkles } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useNavigate } from "react-router-dom";
@@ -152,27 +152,26 @@ const Index = () => {
           <h2 className="text-lg font-semibold mb-4 text-foreground">Быстрые действия</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <Button
-              onClick={() => navigate('/tasks')}
+              onClick={() => navigate('/generate')}
               className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 h-auto py-4 flex flex-col gap-2"
+            >
+              <Sparkles className="w-6 h-6" />
+              <span className="text-sm">Генератор</span>
+            </Button>
+            <Button
+              onClick={() => navigate('/library')}
+              className="bg-gradient-to-r from-purple-500 to-purple-500/80 hover:from-purple-500/90 hover:to-purple-500/70 h-auto py-4 flex flex-col gap-2"
+            >
+              <Library className="w-6 h-6" />
+              <span className="text-sm">Библиотека</span>
+            </Button>
+            <Button
+              onClick={() => navigate('/tasks')}
+              variant="outline"
+              className="glass border-primary/20 h-auto py-4 flex flex-col gap-2"
             >
               <CheckSquare className="w-6 h-6" />
               <span className="text-sm">Задачи</span>
-            </Button>
-            <Button
-              onClick={() => handleAction('activity_logged')}
-              variant="outline"
-              className="glass border-primary/20 h-auto py-4 flex flex-col gap-2"
-            >
-              <Activity className="w-6 h-6" />
-              <span className="text-sm">Активность</span>
-            </Button>
-            <Button
-              onClick={() => handleAction('data_synced')}
-              variant="outline"
-              className="glass border-primary/20 h-auto py-4 flex flex-col gap-2"
-            >
-              <TrendingUp className="w-6 h-6" />
-              <span className="text-sm">Синхр.</span>
             </Button>
             <Button
               onClick={goToProfile}
