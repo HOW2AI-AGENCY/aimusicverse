@@ -1,14 +1,15 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { BOT_CONFIG, MESSAGES } from '../config.ts';
 import { createProjectKeyboard } from '../keyboards/main-menu.ts';
-import { sendMessage } from '../telegram-api.ts';
+import { sendMessage, editMessageText } from '../telegram-api.ts';
+import { createMainMenuKeyboard } from '../keyboards/main-menu.ts';
 
 const supabase = createClient(
   BOT_CONFIG.supabaseUrl,
   BOT_CONFIG.supabaseServiceKey
 );
 
-export async function handleProjects(chatId: number, userId: number) {
+export async function handleProjects(chatId: number, userId: number, messageId?: number) {
   try {
     // Get user from profiles table
     const { data: profile } = await supabase
@@ -18,7 +19,12 @@ export async function handleProjects(chatId: number, userId: number) {
       .single();
 
     if (!profile) {
-      await sendMessage(chatId, '❌ Пользователь не найден. Сначала откройте Mini App.');
+      const text = '❌ Пользователь не найден. Сначала откройте Mini App.';
+      if (messageId) {
+        await editMessageText(chatId, messageId, text, createMainMenuKeyboard());
+      } else {
+        await sendMessage(chatId, text, createMainMenuKeyboard());
+      }
       return;
     }
 
@@ -32,12 +38,21 @@ export async function handleProjects(chatId: number, userId: number) {
 
     if (error) {
       console.error('Error fetching projects:', error);
-      await sendMessage(chatId, '❌ Ошибка при загрузке проектов.');
+      const text = '❌ Ошибка при загрузке проектов.';
+      if (messageId) {
+        await editMessageText(chatId, messageId, text, createMainMenuKeyboard());
+      } else {
+        await sendMessage(chatId, text, createMainMenuKeyboard());
+      }
       return;
     }
 
     if (!projects || projects.length === 0) {
-      await sendMessage(chatId, MESSAGES.noProjects);
+      if (messageId) {
+        await editMessageText(chatId, messageId, MESSAGES.noProjects, createMainMenuKeyboard());
+      } else {
+        await sendMessage(chatId, MESSAGES.noProjects, createMainMenuKeyboard());
+      }
       return;
     }
 
@@ -52,9 +67,18 @@ export async function handleProjects(chatId: number, userId: number) {
       message += `   /project_${project.id}\n\n`;
     }
 
-    await sendMessage(chatId, message, projects[0] ? createProjectKeyboard(projects[0].id) : undefined);
+    if (messageId) {
+      await editMessageText(chatId, messageId, message, projects[0] ? createProjectKeyboard(projects[0].id) : createMainMenuKeyboard());
+    } else {
+      await sendMessage(chatId, message, projects[0] ? createProjectKeyboard(projects[0].id) : createMainMenuKeyboard());
+    }
   } catch (error) {
     console.error('Error in projects command:', error);
-    await sendMessage(chatId, '❌ Ошибка при загрузке проектов.');
+    const text = '❌ Ошибка при загрузке проектов.';
+    if (messageId) {
+      await editMessageText(chatId, messageId, text, createMainMenuKeyboard());
+    } else {
+      await sendMessage(chatId, text, createMainMenuKeyboard());
+    }
   }
 }

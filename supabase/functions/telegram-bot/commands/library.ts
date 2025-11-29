@@ -1,14 +1,15 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { BOT_CONFIG, MESSAGES } from '../config.ts';
 import { createTrackKeyboard } from '../keyboards/main-menu.ts';
-import { sendMessage } from '../telegram-api.ts';
+import { sendMessage, editMessageText } from '../telegram-api.ts';
+import { createMainMenuKeyboard } from '../keyboards/main-menu.ts';
 
 const supabase = createClient(
   BOT_CONFIG.supabaseUrl,
   BOT_CONFIG.supabaseServiceKey
 );
 
-export async function handleLibrary(chatId: number, userId: number) {
+export async function handleLibrary(chatId: number, userId: number, messageId?: number) {
   try {
     // Get user from profiles table
     const { data: profile } = await supabase
@@ -18,7 +19,12 @@ export async function handleLibrary(chatId: number, userId: number) {
       .single();
 
     if (!profile) {
-      await sendMessage(chatId, '❌ Пользователь не найден. Сначала откройте Mini App.');
+      const text = '❌ Пользователь не найден. Сначала откройте Mini App.';
+      if (messageId) {
+        await editMessageText(chatId, messageId, text, createMainMenuKeyboard());
+      } else {
+        await sendMessage(chatId, text, createMainMenuKeyboard());
+      }
       return;
     }
 
@@ -32,12 +38,21 @@ export async function handleLibrary(chatId: number, userId: number) {
 
     if (error) {
       console.error('Error fetching tracks:', error);
-      await sendMessage(chatId, '❌ Ошибка при загрузке треков.');
+      const text = '❌ Ошибка при загрузке треков.';
+      if (messageId) {
+        await editMessageText(chatId, messageId, text, createMainMenuKeyboard());
+      } else {
+        await sendMessage(chatId, text, createMainMenuKeyboard());
+      }
       return;
     }
 
     if (!tracks || tracks.length === 0) {
-      await sendMessage(chatId, MESSAGES.noTracks);
+      if (messageId) {
+        await editMessageText(chatId, messageId, MESSAGES.noTracks, createMainMenuKeyboard());
+      } else {
+        await sendMessage(chatId, MESSAGES.noTracks, createMainMenuKeyboard());
+      }
       return;
     }
 
@@ -53,9 +68,18 @@ export async function handleLibrary(chatId: number, userId: number) {
       message += `   /track_${track.id}\n\n`;
     }
 
-    await sendMessage(chatId, message, createTrackKeyboard(tracks[0].id));
+    if (messageId) {
+      await editMessageText(chatId, messageId, message, createTrackKeyboard(tracks[0].id));
+    } else {
+      await sendMessage(chatId, message, createTrackKeyboard(tracks[0].id));
+    }
   } catch (error) {
     console.error('Error in library command:', error);
-    await sendMessage(chatId, '❌ Ошибка при загрузке библиотеки.');
+    const text = '❌ Ошибка при загрузке библиотеки.';
+    if (messageId) {
+      await editMessageText(chatId, messageId, text, createMainMenuKeyboard());
+    } else {
+      await sendMessage(chatId, text, createMainMenuKeyboard());
+    }
   }
 }

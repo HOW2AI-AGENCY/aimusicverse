@@ -68,6 +68,36 @@ export async function sendMessage(
   return response.json();
 }
 
+export async function sendPhoto(
+  chatId: number,
+  photoUrl: string,
+  options: {
+    caption?: string;
+    replyMarkup?: {
+      inline_keyboard?: InlineKeyboardButton[][];
+    };
+  } = {}
+) {
+  const response = await fetch(`${TELEGRAM_API}/sendPhoto`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: chatId,
+      photo: photoUrl,
+      caption: options.caption,
+      parse_mode: 'Markdown',
+      reply_markup: options.replyMarkup,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Telegram API error: ${error}`);
+  }
+
+  return response.json();
+}
+
 export async function sendAudio(
   chatId: number,
   audioUrl: string,
@@ -95,6 +125,34 @@ export async function sendAudio(
       thumbnail: options.thumbnail,
       parse_mode: 'Markdown',
       reply_markup: options.replyMarkup,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Telegram API error: ${error}`);
+  }
+
+  return response.json();
+}
+
+export async function editMessageText(
+  chatId: number,
+  messageId: number,
+  text: string,
+  replyMarkup?: {
+    inline_keyboard?: InlineKeyboardButton[][];
+  }
+) {
+  const response = await fetch(`${TELEGRAM_API}/editMessageText`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: chatId,
+      message_id: messageId,
+      text,
+      parse_mode: 'Markdown',
+      reply_markup: replyMarkup,
     }),
   });
 

@@ -1,6 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { MESSAGES, BOT_CONFIG } from '../config.ts';
-import { sendMessage } from '../telegram-api.ts';
+import { sendMessage, editMessageText } from '../telegram-api.ts';
 import { createMainMenuKeyboard } from '../keyboards/main-menu.ts';
 
 const supabase = createClient(
@@ -8,7 +8,7 @@ const supabase = createClient(
   BOT_CONFIG.supabaseServiceKey
 );
 
-export async function handleStatus(chatId: number, userId: number) {
+export async function handleStatus(chatId: number, userId: number, messageId?: number) {
   try {
     // Get user profile
     const { data: profile } = await supabase
@@ -40,15 +40,17 @@ export async function handleStatus(chatId: number, userId: number) {
     }
 
     if (!tasks || tasks.length === 0) {
-      await sendMessage(
-        chatId,
-        MESSAGES.processingStatus(0),
-        createMainMenuKeyboard()
-      );
+      const text = MESSAGES.processingStatus(0);
+      if (messageId) {
+        await editMessageText(chatId, messageId, text, createMainMenuKeyboard());
+      } else {
+        await sendMessage(chatId, text, createMainMenuKeyboard());
+      }
       return;
     }
 
     let statusText = `⏳ *Статус генерации*\n\nАктивных задач: ${tasks.length}\n\n`;
+    const keyboard: any[][] = [];
 
     tasks.forEach((task, index) => {
       const createdAt = new Date(task.created_at);
@@ -58,11 +60,23 @@ export async function handleStatus(chatId: number, userId: number) {
       statusText += `${index + 1}. 🎵 ${task.prompt.substring(0, 50)}${task.prompt.length > 50 ? '...' : ''}\n`;
       statusText += `   ⏱️ ${minutesAgo < 1 ? 'Только что' : `${minutesAgo} мин назад`}\n`;
       statusText += `   📊 ${task.status === 'pending' ? 'В очереди' : 'Обрабатывается'}\n\n`;
+      
+      // Add check button for each task
+      keyboard.push([{ 
+        text: `🔍 Проверить трек ${index + 1}`, 
+        callback_data: `check_task_${task.id}` 
+      }]);
     });
 
-    statusText += '💡 Вы получите уведомление, когда треки будут готовы!';
+    statusText += '💡 Нажмите кнопку для проверки статуса трека';
+    
+    keyboard.push([{ text: '⬅️ Главное меню', callback_data: 'main_menu' }]);
 
-    await sendMessage(chatId, statusText, createMainMenuKeyboard());
+    if (messageId) {
+      await editMessageText(chatId, messageId, statusText, { inline_keyboard: keyboard });
+    } else {
+      await sendMessage(chatId, statusText, { inline_keyboard: keyboard });
+    }
 
   } catch (error) {
     console.error('Error in handleStatus:', error);
