@@ -56,17 +56,19 @@ export async function handleLibrary(chatId: number, userId: number, messageId?: 
       return;
     }
 
-    let message = '🎵 Ваши последние треки:\n\n';
+    let message = '🎵 *Ваши последние треки:*\n\n';
     
     for (const track of tracks) {
       const title = track.title || 'Без названия';
       const style = track.style || 'Без стиля';
       const statusEmoji = track.status === 'completed' ? '✅' : '⏳';
       
-      message += `${statusEmoji} ${title}\n`;
-      message += `   Стиль: ${style}\n`;
-      message += `   /track_${track.id}\n\n`;
+      message += `${statusEmoji} *${title}*\n`;
+      message += `   🎸 ${style}\n`;
+      message += `   📋 /track_${track.id}\n\n`;
     }
+    
+    message += '\n💡 _Нажмите на команду /track\\_ID для деталей_';
 
     if (messageId) {
       await editMessageText(chatId, messageId, message, createTrackKeyboard(tracks[0].id));

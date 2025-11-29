@@ -44,7 +44,7 @@ Deno.serve(async (req) => {
     // Set webhook
     const webhookResult = await callTelegramAPI('setWebhook', {
       url: webhookUrl,
-      allowed_updates: ['message', 'callback_query'],
+      allowed_updates: ['message', 'callback_query', 'inline_query'],
       drop_pending_updates: true,
     });
     
@@ -53,12 +53,14 @@ Deno.serve(async (req) => {
     // Set bot commands
     const commandsResult = await callTelegramAPI('setMyCommands', {
       commands: [
-        { command: 'start', description: 'Начать работу' },
-        { command: 'generate', description: 'Создать музыку' },
-        { command: 'library', description: 'Моя библиотека' },
-        { command: 'projects', description: 'Мои проекты' },
-        { command: 'app', description: 'Открыть приложение' },
-        { command: 'help', description: 'Помощь' },
+        { command: 'start', description: '🎵 Начать работу с ботом' },
+        { command: 'generate', description: '🎼 Создать музыкальный трек' },
+        { command: 'library', description: '📚 Моя библиотека треков' },
+        { command: 'projects', description: '📁 Мои музыкальные проекты' },
+        { command: 'status', description: '⚡ Статус генерации' },
+        { command: 'settings', description: '⚙️ Настройки бота' },
+        { command: 'app', description: '🎵 Открыть приложение' },
+        { command: 'help', description: '❓ Справка по командам' },
       ],
     });
     

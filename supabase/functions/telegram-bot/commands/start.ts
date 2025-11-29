@@ -46,10 +46,10 @@ export async function handleStart(chatId: number, startParam?: string) {
     }
   }
   
-  // Default start message with image
-  const welcomeImageUrl = `${BOT_CONFIG.miniAppUrl.split('/app')[0]}/telegram-welcome.png`;
-  await sendPhoto(chatId, welcomeImageUrl, {
-    caption: MESSAGES.welcome,
-    replyMarkup: createMainMenuKeyboard()
-  });
+  // Default start message (text only to avoid image errors)
+  await sendMessage(
+    chatId,
+    `${MESSAGES.welcome}\n\n🎵 Выберите действие:`,
+    createMainMenuKeyboard()
+  );
 }
