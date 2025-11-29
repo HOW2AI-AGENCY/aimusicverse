@@ -10,7 +10,13 @@ import { sendPhoto, editMessageMedia, editMessageCaption, answerCallbackQuery } 
 const MAIN_BANNER = getMainBanner();
 
 export async function handleNavigationMain(chatId: number, messageId?: number) {
-  const caption = `🏠 *Главное меню*\n\nВыберите раздел:`;
+  const caption = `🏠 *MusicVerse Studio*\n\n` +
+    `Создавайте музыку с помощью искусственного интеллекта.\n\n` +
+    `🎵 Генерация треков по текстовым промптам\n` +
+    `📁 Управление проектами\n` +
+    `🎧 Встроенный плеер\n` +
+    `✂️ Разделение на стемы\n\n` +
+    `Выберите раздел:`;
   const keyboard = createMainMenuKeyboard();
 
   if (messageId) {
