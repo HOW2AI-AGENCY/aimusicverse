@@ -88,24 +88,34 @@ export async function sendPhoto(
     };
   } = {}
 ) {
-  const response = await fetch(`${TELEGRAM_API}/sendPhoto`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: chatId,
-      photo: photoUrl,
-      caption: options.caption,
-      parse_mode: 'Markdown',
-      reply_markup: options.replyMarkup,
-    }),
-  });
+  console.log('Sending photo to chat:', chatId, 'URL:', photoUrl);
+  
+  try {
+    const response = await fetch(`${TELEGRAM_API}/sendPhoto`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        photo: photoUrl,
+        caption: options.caption,
+        parse_mode: 'Markdown',
+        reply_markup: options.replyMarkup,
+      }),
+    });
 
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Telegram API error: ${error}`);
+    if (!response.ok) {
+      const error = await response.text();
+      console.error('sendPhoto failed:', error);
+      throw new Error(`Telegram API error: ${error}`);
+    }
+
+    const result = await response.json();
+    console.log('sendPhoto success:', result.ok);
+    return result;
+  } catch (error) {
+    console.error('sendPhoto exception:', error);
+    throw error;
   }
-
-  return response.json();
 }
 
 export async function sendAudio(

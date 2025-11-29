@@ -58,17 +58,17 @@ export function createPlayerControls(trackId: string, page: number, total: numbe
   return {
     inline_keyboard: [
       [
-        { text: '⏮️', callback_data: `lib_page_${prev}` },
+        { text: '⏮️ Пред', callback_data: `lib_page_${prev}` },
         { text: '▶️ СЛУШАТЬ', callback_data: `play_${trackId}` },
-        { text: '⏭️', callback_data: `lib_page_${next}` }
+        { text: '⏭️ След', callback_data: `lib_page_${next}` }
       ],
       [
         { text: '❤️ Like', callback_data: `like_${trackId}` },
-        { text: '⬇️ Скачать', callback_data: `dl_${trackId}` },
-        { text: '📤 Поделиться', callback_data: `share_${trackId}` }
+        { text: '⬇️ Скачать', callback_data: `dl_${trackId}` }
       ],
       [
-        { text: '🔙 Главное меню', callback_data: 'nav_main' }
+        { text: '📤 Поделиться', callback_data: `share_${trackId}` },
+        { text: '🏠 Главное меню', callback_data: 'nav_main' }
       ]
     ] as InlineKeyboardButton[][]
   };
@@ -81,15 +81,15 @@ export function createProjectControls(projectId: string, page: number, total: nu
   return {
     inline_keyboard: [
       [
-        { text: '⬅️', callback_data: `project_page_${prev}` },
-        { text: `📂 ${page + 1}/${total}`, callback_data: 'noop' },
-        { text: '➡️', callback_data: `project_page_${next}` }
+        { text: '⬅️ Пред', callback_data: `project_page_${prev}` },
+        { text: `${page + 1}/${total}`, callback_data: 'noop' },
+        { text: '➡️ След', callback_data: `project_page_${next}` }
       ],
       [
-        { text: '📂 Открыть в студии', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=project_${projectId}` } }
+        { text: '📂 Открыть проект', web_app: { url: `${BOT_CONFIG.miniAppUrl}/projects/${projectId}` } }
       ],
       [
-        { text: '🔙 Главное меню', callback_data: 'nav_main' }
+        { text: '🏠 Главное меню', callback_data: 'nav_main' }
       ]
     ] as InlineKeyboardButton[][]
   };

@@ -65,20 +65,27 @@ export class MusicService {
 
   async getUserProjects(telegramId: number): Promise<Project[]> {
     const profile = await this.getUserByTelegramId(telegramId);
-    if (!profile) return [];
+    if (!profile) {
+      console.error('No profile found for telegram_id:', telegramId);
+      return [];
+    }
+
+    console.log('Fetching projects for user_id:', profile.user_id);
 
     const { data, error } = await supabase
       .from('music_projects')
       .select('*')
       .eq('user_id', profile.user_id)
       .order('created_at', { ascending: false })
-      .limit(10);
+      .limit(20); // Увеличиваем лимит
 
     if (error) {
       console.error('Error fetching projects:', error);
       return [];
     }
 
+    console.log('Projects fetched:', data?.length || 0);
+    
     return data as Project[];
   }
 
@@ -190,7 +197,11 @@ export class MusicService {
   }
 
   getCoverUrl(track: Track): string {
-    return track.local_cover_url || track.cover_url || 'https://placehold.co/600x600/1a1a1a/white?text=🎵';
+    return track.local_cover_url || track.cover_url || 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=800&fit=crop&q=80';
+  }
+
+  getProjectCoverUrl(project: Project): string {
+    return project.cover_url || 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&h=800&fit=crop&q=80';
   }
 
   getAudioUrl(track: Track): string | null {
