@@ -69,7 +69,16 @@ export async function handleNavigationLibrary(
 
   const track = tracks[page];
   const caption = musicService.formatTrackCaption(track, page, tracks.length);
-  const coverUrl = musicService.getCoverUrl(track);
+  let coverUrl = musicService.getCoverUrl(track);
+  
+  // Validate cover URL - if it's invalid, use fallback
+  try {
+    new URL(coverUrl);
+  } catch {
+    console.warn(`Invalid cover URL for track ${track.id}:`, coverUrl);
+    coverUrl = 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=800&fit=crop&q=80';
+  }
+  
   const keyboard = createPlayerControls(track.id, page, tracks.length);
 
   if (messageId) {
@@ -108,7 +117,11 @@ export async function handleNavigationProjects(
   messageId?: number,
   page: number = 0
 ) {
+  console.log('Navigation: Projects page', page, 'for user', userId);
+  
   const projects = await musicService.getUserProjects(userId);
+
+  console.log('Projects returned:', projects.length);
 
   if (!projects.length) {
     const noProjectsMsg = '📭 *У вас пока нет проектов*\n\nСоздайте первый проект в приложении!';
@@ -128,10 +141,14 @@ export async function handleNavigationProjects(
   if (page < 0) page = projects.length - 1;
   if (page >= projects.length) page = 0;
 
+  console.log('Displaying project', page + 1, 'of', projects.length);
+
   const project = projects[page];
   const caption = musicService.formatProjectCaption(project, page, projects.length);
-  const coverUrl = project.cover_url || MAIN_BANNER;
+  const coverUrl = musicService.getProjectCoverUrl(project);
   const keyboard = createProjectControls(project.id, page, projects.length);
+
+  console.log('Project cover URL:', coverUrl);
 
   if (messageId) {
     const result = await editMessageMedia(

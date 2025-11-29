@@ -117,6 +117,11 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
   };
 
   const handleGenerateCover = async () => {
+    if (!title) {
+      toast.error('Сначала введите название проекта');
+      return;
+    }
+    
     try {
       setIsGeneratingCover(true);
       
@@ -125,19 +130,26 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
         Style: modern, artistic, high quality, professional music cover art.
         ${concept ? `Concept: ${concept}` : ''}`;
 
+      // Note: We'll upload cover during project creation
+      // For now just generate the image URL
       const { data, error } = await supabase.functions.invoke('generate-cover-image', {
-        body: { prompt, title, genre, mood },
+        body: { 
+          projectId: crypto.randomUUID(), // Temporary ID
+          prompt, 
+          genre, 
+          mood 
+        },
       });
 
       if (error) throw error;
       
-      if (data?.imageUrl) {
-        setCoverUrl(data.imageUrl);
+      if (data?.coverUrl) {
+        setCoverUrl(data.coverUrl);
         toast.success('Обложка сгенерирована');
       }
     } catch (error: any) {
       console.error('Generate error:', error);
-      toast.error('Ошибка генерации обложки');
+      toast.error(error.message || 'Ошибка генерации обложки');
     } finally {
       setIsGeneratingCover(false);
     }

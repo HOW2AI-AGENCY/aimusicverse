@@ -172,7 +172,12 @@ export const useProjectTracks = (projectId: string | undefined) => {
       const { data, error } = await supabase.functions.invoke('project-ai', {
         body: {
           action: 'tracklist',
-          ...params,
+          projectId,
+          projectType: params.projectType,
+          genre: params.genre,
+          mood: params.mood,
+          theme: params.theme,
+          trackCount: params.trackCount,
         },
       });
 
