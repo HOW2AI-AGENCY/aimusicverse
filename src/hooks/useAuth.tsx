@@ -134,13 +134,40 @@ export const useAuth = () => {
 
       // Call the telegram-auth edge function
       console.log('📡 Calling telegram-auth edge function...');
+      console.log('📊 InitData preview:', initData?.substring(0, 100) + '...');
+
       const { data, error } = await supabase.functions.invoke('telegram-auth', {
         body: { initData },
       });
 
       if (error) {
         console.error('❌ Edge function error:', error);
-        toast.error(`Ошибка аутентификации: ${error.message || 'Неизвестная ошибка'}`);
+        console.error('❌ Error details:', JSON.stringify(error, null, 2));
+
+        // Детальная диагностика ошибок
+        let errorMessage = 'Ошибка аутентификации';
+        if (error.message?.includes('bot token')) {
+          errorMessage = '⚠️ TELEGRAM_BOT_TOKEN не настроен в Supabase Secrets';
+        } else if (error.message?.includes('Invalid')) {
+          errorMessage = '⚠️ Невалидные данные Telegram (проверьте hash)';
+        } else if (error.message?.includes('old') || error.message?.includes('expired')) {
+          errorMessage = '⚠️ InitData устарел (перезапустите Mini App)';
+        } else if (error.context?.body) {
+          // Если есть тело ответа, попробуем его распарсить
+          try {
+            const errorBody = JSON.parse(error.context.body);
+            errorMessage = `⚠️ ${errorBody.error || errorBody.message || error.message}`;
+          } catch {
+            errorMessage = `⚠️ ${error.message || 'Неизвестная ошибка'}`;
+          }
+        }
+
+        toast.error(errorMessage, { duration: 5000 });
+        console.error('💡 Возможные решения:');
+        console.error('1. Проверьте TELEGRAM_BOT_TOKEN в Supabase → Settings → Secrets');
+        console.error('2. Убедитесь, что приложение открыто через Telegram');
+        console.error('3. Перезапустите Mini App для получения свежего initData');
+
         return { user: null, session: null, hasProfile: false, error };
       }
 
