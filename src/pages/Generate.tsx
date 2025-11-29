@@ -8,15 +8,17 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Music, Sparkles, Loader2, Zap } from 'lucide-react';
+import { Music, Sparkles, Loader2, Zap, FileAudio } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { UploadExtendDialog } from '@/components/UploadExtendDialog';
 
 export default function Generate() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const [mode, setMode] = useState<'simple' | 'custom'>('simple');
   const [loading, setLoading] = useState(false);
   const [boostLoading, setBoostLoading] = useState(false);
+  const [uploadExtendOpen, setUploadExtendOpen] = useState(false);
   
   // Simple mode state
   const [description, setDescription] = useState('');
@@ -293,8 +295,24 @@ export default function Generate() {
             <li>• В профессиональном режиме можно указать структуру: [Verse], [Chorus], [Bridge]</li>
             <li>• Генерация занимает 2-5 минут</li>
           </ul>
+          
+          <div className="mt-6 pt-6 border-t">
+            <Button
+              onClick={() => setUploadExtendOpen(true)}
+              variant="outline"
+              className="w-full gap-2"
+            >
+              <FileAudio className="w-4 h-4" />
+              Загрузить и расширить аудио
+            </Button>
+          </div>
         </Card>
       </div>
+
+      <UploadExtendDialog 
+        open={uploadExtendOpen}
+        onOpenChange={setUploadExtendOpen}
+      />
     </div>
   );
 }
