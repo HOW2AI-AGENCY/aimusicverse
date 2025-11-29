@@ -1,53 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { Navigate } from 'react-router-dom';
+import { useProjects } from '@/hooks/useProjects';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { FolderOpen, Search, Plus, Music, Clock, TrendingUp } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-
-interface Project {
-  id: string;
-  title: string;
-  genre: string | null;
-  mood: string | null;
-  status: string | null;
-  created_at: string | null;
-  cover_url: string | null;
-}
+import { FolderOpen, Search, Plus, Music, Clock, Sparkles } from 'lucide-react';
+import { CreateProjectSheet } from '@/components/CreateProjectSheet';
 
 export default function Projects() {
-  const { isAuthenticated, loading: authLoading, user } = useAuth();
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { isAuthenticated, loading: authLoading } = useAuth();
+  const { projects, isLoading } = useProjects();
   const [searchQuery, setSearchQuery] = useState('');
-
-  useEffect(() => {
-    if (user) {
-      fetchProjects();
-    }
-  }, [user]);
-
-  const fetchProjects = async () => {
-    try {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('music_projects')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setProjects(data || []);
-    } catch (error: any) {
-      console.error('Error fetching projects:', error);
-      toast.error('Ошибка загрузки проектов');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [createSheetOpen, setCreateSheetOpen] = useState(false);
+  const navigate = useNavigate();
 
   if (authLoading) {
     return (
@@ -61,9 +28,12 @@ export default function Projects() {
     return <Navigate to="/auth" replace />;
   }
 
-  const filteredProjects = projects.filter((project) =>
+  const filteredProjects = projects?.filter((project) =>
     project.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  ) || [];
+
+  const completedCount = projects?.filter(p => p.status === 'completed').length || 0;
+  const inProgressCount = projects?.filter(p => p.status === 'in_progress').length || 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
@@ -99,7 +69,7 @@ export default function Projects() {
           <Card className="p-4 glass-card border-primary/20">
             <div className="flex flex-col items-center text-center">
               <FolderOpen className="w-8 h-8 text-primary mb-2" />
-              <p className="text-2xl font-bold text-foreground">{projects.length}</p>
+              <p className="text-2xl font-bold text-foreground">{projects?.length || 0}</p>
               <p className="text-xs text-muted-foreground">Проектов</p>
             </div>
           </Card>
@@ -107,9 +77,7 @@ export default function Projects() {
           <Card className="p-4 glass-card border-primary/20">
             <div className="flex flex-col items-center text-center">
               <Music className="w-8 h-8 text-purple-400 mb-2" />
-              <p className="text-2xl font-bold text-foreground">
-                {projects.reduce((acc, p) => acc + (p.status === 'completed' ? 1 : 0), 0)}
-              </p>
+              <p className="text-2xl font-bold text-foreground">{completedCount}</p>
               <p className="text-xs text-muted-foreground">Завершено</p>
             </div>
           </Card>
@@ -117,16 +85,14 @@ export default function Projects() {
           <Card className="p-4 glass-card border-primary/20">
             <div className="flex flex-col items-center text-center">
               <Clock className="w-8 h-8 text-blue-400 mb-2" />
-              <p className="text-2xl font-bold text-foreground">
-                {projects.reduce((acc, p) => acc + (p.status === 'in_progress' ? 1 : 0), 0)}
-              </p>
+              <p className="text-2xl font-bold text-foreground">{inProgressCount}</p>
               <p className="text-xs text-muted-foreground">В работе</p>
             </div>
           </Card>
         </div>
 
         {/* Projects List */}
-        {loading ? (
+        {isLoading ? (
           <div className="flex items-center justify-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           </div>
@@ -135,6 +101,7 @@ export default function Projects() {
             {filteredProjects.map((project) => (
               <Card
                 key={project.id}
+                onClick={() => navigate(`/projects/${project.id}`)}
                 className="p-4 glass-card border-primary/20 hover:border-primary/40 transition-all cursor-pointer"
               >
                 <div className="flex gap-4">
@@ -179,7 +146,7 @@ export default function Projects() {
                 : 'Создайте свой первый музыкальный проект'}
             </p>
             {!searchQuery && (
-              <Button className="gap-2">
+              <Button onClick={() => setCreateSheetOpen(true)} className="gap-2">
                 <Plus className="w-4 h-4" />
                 Создать проект
               </Button>
@@ -187,6 +154,11 @@ export default function Projects() {
           </Card>
         )}
       </div>
+
+      <CreateProjectSheet 
+        open={createSheetOpen} 
+        onOpenChange={setCreateSheetOpen}
+      />
     </div>
   );
 }

@@ -5,3 +5,15 @@ verify_jwt = true
 
 [functions.telegram-auth]
 verify_jwt = false
+
+[functions.suno-generate]
+verify_jwt = true
+
+[functions.analyze-audio]
+verify_jwt = true
+
+[functions.generate-lyrics]
+verify_jwt = true
+
+[functions.project-ai]
+verify_jwt = true
