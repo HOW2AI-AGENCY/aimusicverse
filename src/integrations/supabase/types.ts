@@ -113,6 +113,56 @@ export type Database = {
           },
         ]
       }
+      generation_tasks: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          error_message: string | null
+          id: string
+          prompt: string
+          source: string | null
+          status: string
+          telegram_chat_id: number | null
+          track_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          prompt: string
+          source?: string | null
+          status?: string
+          telegram_chat_id?: number | null
+          track_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          prompt?: string
+          source?: string | null
+          status?: string
+          telegram_chat_id?: number | null
+          track_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "generation_tasks_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       music_projects: {
         Row: {
           ai_context: Json | null
