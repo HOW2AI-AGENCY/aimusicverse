@@ -8,7 +8,7 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-import { Sparkles, Loader2, Zap as ZapIcon, Sliders, Coins, ChevronDown, Upload, User, FolderOpen, Music, Mic } from 'lucide-react';
+import { Sparkles, Loader2, Zap as ZapIcon, Sliders, Coins, ChevronDown, Upload, User, FolderOpen, Music, Mic, FileAudio } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
@@ -17,6 +17,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { useProjects } from '@/hooks/useProjects';
 import { useArtists } from '@/hooks/useArtists';
 import { useTracks } from '@/hooks/useTracks';
+import { UploadExtendDialog } from './UploadExtendDialog';
 
 interface GenerateSheetProps {
   open: boolean;
@@ -32,6 +33,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [mode, setMode] = useState<'simple' | 'custom'>('simple');
   const [loading, setLoading] = useState(false);
   const [boostLoading, setBoostLoading] = useState(false);
+  const [uploadExtendOpen, setUploadExtendOpen] = useState(false);
   const [credits, setCredits] = useState<number | null>(null);
   const [advancedOpen, setAdvancedOpen] = useState(false);
   
@@ -608,6 +610,16 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             )}
           </Button>
 
+          <Button
+            onClick={() => setUploadExtendOpen(true)}
+            variant="outline"
+            size="lg"
+            className="w-full h-14 text-base gap-2"
+          >
+            <FileAudio className="w-5 h-5" />
+            Загрузить и расширить аудио
+          </Button>
+
           <p className="text-xs text-center text-muted-foreground">
             Генерация обычно занимает 1-3 минуты
           </p>
@@ -706,6 +718,11 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           </div>
         </DialogContent>
       </Dialog>
+      
+      <UploadExtendDialog 
+        open={uploadExtendOpen}
+        onOpenChange={setUploadExtendOpen}
+      />
     </Sheet>
   );
 };
