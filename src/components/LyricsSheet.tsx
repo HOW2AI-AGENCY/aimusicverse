@@ -1,18 +1,16 @@
 import { useState } from 'react';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TimestampedLyrics } from './TimestampedLyrics';
 import { ScrollArea } from './ui/scroll-area';
 import { useAudioPlayer } from '@/hooks/useAudioPlayer';
-import { LyricsSheet } from './LyricsSheet';
-import { useIsMobile } from '@/hooks/use-mobile';
 
-interface LyricsDialogProps {
+interface LyricsSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   track: {
@@ -27,8 +25,7 @@ interface LyricsDialogProps {
   };
 }
 
-export function LyricsDialog({ open, onOpenChange, track }: LyricsDialogProps) {
-  const isMobile = useIsMobile();
+export function LyricsSheet({ open, onOpenChange, track }: LyricsSheetProps) {
   const [activeTab, setActiveTab] = useState<'synced' | 'plain'>('synced');
 
   const {
@@ -44,24 +41,20 @@ export function LyricsDialog({ open, onOpenChange, track }: LyricsDialogProps) {
 
   const hasTimestampedLyrics = track.suno_task_id && track.suno_id;
 
-  if (isMobile) {
-    return <LyricsSheet open={open} onOpenChange={onOpenChange} track={track} />;
-  }
-
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[85vh] flex flex-col">
-        <DialogHeader>
-          <DialogTitle className="text-2xl">
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side="bottom" className="h-[90vh] rounded-t-xl">
+        <SheetHeader>
+          <SheetTitle>
             {track.title || 'Текст песни'}
-          </DialogTitle>
-        </DialogHeader>
+          </SheetTitle>
+        </SheetHeader>
 
-        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'synced' | 'plain')} className="flex-1 flex flex-col">
+        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'synced' | 'plain')} className="mt-4">
           <TabsList className="w-full">
             {hasTimestampedLyrics && (
               <TabsTrigger value="synced" className="flex-1">
-                🎵 Синхронизированный текст
+                🎵 Синхронизированный
               </TabsTrigger>
             )}
             <TabsTrigger value="plain" className="flex-1">
@@ -70,23 +63,21 @@ export function LyricsDialog({ open, onOpenChange, track }: LyricsDialogProps) {
           </TabsList>
 
           {hasTimestampedLyrics && (
-            <TabsContent value="synced" className="flex-1 min-h-0">
-              <ScrollArea className="h-full">
-                <TimestampedLyrics
-                  taskId={track.suno_task_id}
-                  audioId={track.suno_id}
-                  currentTime={currentTime}
-                  isPlaying={isPlaying}
-                  duration={duration}
-                />
-              </ScrollArea>
+            <TabsContent value="synced" className="h-[calc(90vh-12rem)]">
+              <TimestampedLyrics
+                taskId={track.suno_task_id}
+                audioId={track.suno_id}
+                currentTime={currentTime}
+                isPlaying={isPlaying}
+                duration={duration}
+              />
             </TabsContent>
           )}
 
-          <TabsContent value="plain" className="flex-1 min-h-0">
+          <TabsContent value="plain" className="h-[calc(90vh-12rem)]">
             <ScrollArea className="h-full pr-4">
               {track.lyrics ? (
-                <div className="whitespace-pre-wrap text-lg leading-relaxed p-4">
+                <div className="whitespace-pre-wrap text-base leading-relaxed p-4">
                   {track.lyrics}
                 </div>
               ) : (
@@ -97,7 +88,7 @@ export function LyricsDialog({ open, onOpenChange, track }: LyricsDialogProps) {
             </ScrollArea>
           </TabsContent>
         </Tabs>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }
