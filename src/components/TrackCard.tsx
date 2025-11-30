@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, Heart, Music2, Mic, Volume2, Guitar, Drum, Piano, Globe, Lock, MoreHorizontal } from 'lucide-react';
+import { Play, Pause, Heart, Music2, Mic, Volume2, Guitar, Drum, Piano, Globe, Lock, MoreHorizontal, Layers } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
@@ -29,19 +29,26 @@ export const TrackCard = ({
 }: TrackCardProps) => {
   const [imageError, setImageError] = useState(false);
   const [versionCount, setVersionCount] = useState<number>(0);
+  const [stemCount, setStemCount] = useState<number>(0);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    const fetchVersionCount = async () => {
-      const { count } = await supabase
+    const fetchCounts = async () => {
+      const { count: versionCount } = await supabase
         .from('track_versions')
         .select('*', { count: 'exact', head: true })
         .eq('track_id', track.id);
-      setVersionCount(count || 0);
+      setVersionCount(versionCount || 0);
+
+      const { count: stemsCount } = await supabase
+        .from('track_stems')
+        .select('*', { count: 'exact', head: true })
+        .eq('track_id', track.id);
+      setStemCount(stemsCount || 0);
     };
-    fetchVersionCount();
+    fetchCounts();
     
     // Subscribe to track_stems for real-time updates
     const channel = supabase
@@ -57,6 +64,7 @@ export const TrackCard = ({
         (payload) => {
           console.log('Stem update:', payload);
           setIsProcessing(false);
+          fetchCounts();
         }
       )
       .subscribe();
@@ -189,12 +197,20 @@ export const TrackCard = ({
           )}
         </div>
 
-        {/* Version count badge */}
-        {versionCount > 0 && (
-          <Badge variant="secondary" className="absolute top-2 right-2">
-            {versionCount} {versionCount === 1 ? 'версия' : versionCount < 5 ? 'версии' : 'версий'}
-          </Badge>
-        )}
+        {/* Badges */}
+        <div className="absolute top-2 right-2 flex gap-1">
+          {stemCount > 0 && (
+            <Badge variant="secondary" className="gap-1">
+              <Layers className="w-3 h-3" />
+              {stemCount}
+            </Badge>
+          )}
+          {versionCount > 0 && (
+            <Badge variant="secondary">
+              {versionCount} {versionCount === 1 ? 'версия' : versionCount < 5 ? 'версии' : 'версий'}
+            </Badge>
+          )}
+        </div>
       </div>
 
       <div className="p-4">

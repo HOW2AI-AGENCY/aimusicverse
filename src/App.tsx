@@ -12,6 +12,7 @@ import { GenerationProgress } from "@/components/GenerationProgress";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Studio from "./pages/Studio";
+import StemStudio from "./pages/StemStudio";
 import Profile from "./pages/Profile";
 import Tasks from "./pages/Tasks";
 import Generate from "./pages/Generate";
@@ -57,6 +58,7 @@ const App = () => (
                 <Route path="/tasks" element={<ProtectedRoute><ProtectedLayout><Tasks /></ProtectedLayout></ProtectedRoute>} />
                 <Route path="/generate" element={<ProtectedRoute><ProtectedLayout><Generate /></ProtectedLayout></ProtectedRoute>} />
                 <Route path="/library" element={<ProtectedRoute><ProtectedLayout><Library /></ProtectedLayout></ProtectedRoute>} />
+                <Route path="/studio/:trackId" element={<ProtectedRoute><StemStudio /></ProtectedRoute>} />
                 <Route path="/projects" element={<ProtectedRoute><ProtectedLayout><Projects /></ProtectedLayout></ProtectedRoute>} />
                 <Route path="/projects/:id" element={<ProtectedRoute><ProtectedLayout><ProjectDetail /></ProtectedLayout></ProtectedRoute>} />
                 <Route path="/artists" element={<ProtectedRoute><ProtectedLayout><Artists /></ProtectedLayout></ProtectedRoute>} />

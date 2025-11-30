@@ -1,6 +1,8 @@
 import { DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
-import { Download, Share2, Globe, Lock } from 'lucide-react';
+import { Download, Share2, Globe, Lock, Send } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 interface TrackShareSectionProps {
   track: Track;
