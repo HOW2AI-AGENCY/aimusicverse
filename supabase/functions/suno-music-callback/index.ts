@@ -87,13 +87,14 @@ serve(async (req) => {
       console.log('First clip ready for streaming');
       
       const firstClip = audioData?.[0];
-      if (firstClip?.audioUrl) {
+      // Use source URLs which are permanent, not the temporary audioUrl
+      if (firstClip?.sourceStreamAudioUrl || firstClip?.streamAudioUrl) {
         await supabase
           .from('tracks')
           .update({
             status: 'streaming_ready',
-            streaming_url: firstClip.audioUrl,
-            cover_url: firstClip.imageUrl || null,
+            streaming_url: firstClip.sourceStreamAudioUrl || firstClip.streamAudioUrl,
+            cover_url: firstClip.sourceImageUrl || firstClip.imageUrl || null,
             title: firstClip.title || task.tracks.title,
             audio_clips: JSON.stringify([firstClip]),
           })
@@ -129,8 +130,13 @@ serve(async (req) => {
         let localCoverUrl = null;
 
         try {
-          // Download and save audio to storage
-          const audioResponse = await fetch(clip.audioUrl);
+          // Download and save audio to storage - use source_audio_url which is permanent
+          const audioUrl = clip.sourceAudioUrl || clip.audioUrl;
+          if (!audioUrl) {
+            throw new Error('No audio URL available');
+          }
+
+          const audioResponse = await fetch(audioUrl);
           const audioBlob = await audioResponse.blob();
           const audioFileName = `${currentTrackId || clip.id}_${Date.now()}.mp3`;
           
@@ -148,9 +154,10 @@ serve(async (req) => {
             localAudioUrl = publicData.publicUrl;
           }
 
-          // Download and save cover image
-          if (clip.imageUrl) {
-            const coverResponse = await fetch(clip.imageUrl);
+          // Download and save cover image - use source_image_url
+          const coverUrl = clip.sourceImageUrl || clip.imageUrl;
+          if (coverUrl) {
+            const coverResponse = await fetch(coverUrl);
             const coverBlob = await coverResponse.blob();
             const coverFileName = `${currentTrackId || clip.id}_cover_${Date.now()}.jpg`;
             
@@ -178,10 +185,10 @@ serve(async (req) => {
             .from('tracks')
             .update({
               status: 'completed',
-              audio_url: clip.audioUrl,
-              streaming_url: clip.audioUrl,
+              audio_url: clip.sourceAudioUrl || clip.audioUrl,
+              streaming_url: clip.sourceStreamAudioUrl || clip.streamAudioUrl || clip.sourceAudioUrl || clip.audioUrl,
               local_audio_url: localAudioUrl,
-              cover_url: clip.imageUrl || task.tracks.cover_url,
+              cover_url: clip.sourceImageUrl || clip.imageUrl || task.tracks.cover_url,
               local_cover_url: localCoverUrl,
               title: clip.title || task.tracks.title,
               duration_seconds: clip.duration || null,
@@ -198,8 +205,8 @@ serve(async (req) => {
             .from('track_versions')
             .insert({
               track_id: trackId,
-              audio_url: clip.audioUrl,
-              cover_url: clip.imageUrl,
+              audio_url: clip.sourceAudioUrl || clip.audioUrl,
+              cover_url: clip.sourceImageUrl || clip.imageUrl,
               duration_seconds: clip.duration,
               version_type: 'original',
               is_primary: true,
@@ -212,10 +219,10 @@ serve(async (req) => {
               user_id: task.user_id,
               project_id: task.tracks.project_id,
               status: 'completed',
-              audio_url: clip.audioUrl,
-              streaming_url: clip.audioUrl,
+              audio_url: clip.sourceAudioUrl || clip.audioUrl,
+              streaming_url: clip.sourceStreamAudioUrl || clip.streamAudioUrl || clip.sourceAudioUrl || clip.audioUrl,
               local_audio_url: localAudioUrl,
-              cover_url: clip.imageUrl,
+              cover_url: clip.sourceImageUrl || clip.imageUrl,
               local_cover_url: localCoverUrl,
               title: clip.title,
               duration_seconds: clip.duration || null,
@@ -241,8 +248,8 @@ serve(async (req) => {
               .from('track_versions')
               .insert({
                 track_id: newTrack.id,
-                audio_url: clip.audioUrl,
-                cover_url: clip.imageUrl,
+                audio_url: clip.sourceAudioUrl || clip.audioUrl,
+                cover_url: clip.sourceImageUrl || clip.imageUrl,
                 duration_seconds: clip.duration,
                 version_type: 'original',
                 is_primary: true,
@@ -297,8 +304,8 @@ serve(async (req) => {
           body: {
             chatId: task.telegram_chat_id,
             trackId: firstSaved.id,
-            audioUrl: firstSaved.clip.audioUrl,
-            coverUrl: firstSaved.clip.imageUrl,
+            audioUrl: firstSaved.clip.sourceAudioUrl || firstSaved.clip.audioUrl,
+            coverUrl: firstSaved.clip.sourceImageUrl || firstSaved.clip.imageUrl,
             title: firstSaved.clip.title,
             duration: firstSaved.clip.duration,
           },
