@@ -23,6 +23,7 @@ export const useGenerationPolling = () => {
   const queryClient = useQueryClient();
   const pollingInterval = useRef<NodeJS.Timeout | null>(null);
   const isPolling = useRef(false);
+  const realtimeChannel = useRef<any>(null);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -72,22 +73,24 @@ export const useGenerationPolling = () => {
 
         console.log(`Checking ${tasksToCheck.length} active generation tasks`);
 
-        // Проверяем каждую активную задачу
-        for (const task of tasksToCheck) {
-          try {
-            const { error: checkError } = await supabase.functions.invoke('suno-check-status', {
-              body: { taskId: task.id },
-            });
+        // Проверяем все задачи параллельно для ускорения
+        await Promise.all(
+          tasksToCheck.map(async (task) => {
+            try {
+              const { error: checkError } = await supabase.functions.invoke('suno-check-status', {
+                body: { taskId: task.id },
+              });
 
-            if (checkError) {
-              console.error(`Error checking task ${task.id}:`, checkError);
-            } else {
-              console.log(`Checked task ${task.id}`);
+              if (checkError) {
+                console.error(`Error checking task ${task.id}:`, checkError);
+              } else {
+                console.log(`Checked task ${task.id}`);
+              }
+            } catch (taskError) {
+              console.error(`Error invoking check for task ${task.id}:`, taskError);
             }
-          } catch (taskError) {
-            console.error(`Error invoking check for task ${task.id}:`, taskError);
-          }
-        }
+          })
+        );
 
         // Инвалидируем кеш треков чтобы обновить UI
         if (tasksToCheck.length > 0) {
@@ -100,15 +103,55 @@ export const useGenerationPolling = () => {
       }
     };
 
+    // Setup realtime subscription for instant updates
+    const setupRealtime = () => {
+      realtimeChannel.current = supabase
+        .channel('generation_tasks_changes')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'generation_tasks',
+            filter: `user_id=eq.${user.id}`
+          },
+          (payload) => {
+            console.log('Realtime update:', payload);
+            // Invalidate queries on any change
+            queryClient.invalidateQueries({ queryKey: ['tracks'] });
+            queryClient.invalidateQueries({ queryKey: ['generation_tasks'] });
+          }
+        )
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'tracks',
+            filter: `user_id=eq.${user.id}`
+          },
+          (payload) => {
+            console.log('Track realtime update:', payload);
+            queryClient.invalidateQueries({ queryKey: ['tracks'] });
+          }
+        )
+        .subscribe();
+    };
+
+    setupRealtime();
+
     // Первая проверка сразу после монтирования
     checkActiveTasks();
 
-    // Затем проверяем каждые 10 секунд
-    pollingInterval.current = setInterval(checkActiveTasks, 10000);
+    // Затем проверяем каждые 5 секунд (уменьшено с 10 для быстрее обновлений)
+    pollingInterval.current = setInterval(checkActiveTasks, 5000);
 
     return () => {
       if (pollingInterval.current) {
         clearInterval(pollingInterval.current);
+      }
+      if (realtimeChannel.current) {
+        supabase.removeChannel(realtimeChannel.current);
       }
     };
   }, [user?.id, queryClient]);
