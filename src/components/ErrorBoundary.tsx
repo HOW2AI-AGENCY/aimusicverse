@@ -39,7 +39,11 @@ export class ErrorBoundary extends Component<Props, State> {
               <p className="text-muted-foreground mb-6">
                 Произошла ошибка при загрузке приложения. Попробуйте перезагрузить страницу.
               </p>
-              {this.state.error && (
+              {/*
+                TODO: We should log this to a remote logging service instead of showing it to the user.
+                For now, we'll just hide it to prevent leaking sensitive information.
+              */}
+              {/* {this.state.error && (
                 <details className="mb-4 w-full text-left">
                   <summary className="cursor-pointer text-sm text-muted-foreground hover:text-foreground">
                     Детали ошибки
@@ -48,7 +52,7 @@ export class ErrorBoundary extends Component<Props, State> {
                     {this.state.error.message}
                   </pre>
                 </details>
-              )}
+              )} */}
               <Button
                 onClick={() => window.location.reload()}
                 className="w-full"
