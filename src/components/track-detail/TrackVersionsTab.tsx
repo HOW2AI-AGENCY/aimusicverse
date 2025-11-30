@@ -46,7 +46,10 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
 
   const getVersionLabel = (type: string) => {
     const labels: Record<string, string> = {
+      current: 'Текущая версия',
       initial: 'Оригинал',
+      original: 'Оригинал',
+      alternative: 'Альтернатива',
       remix: 'Ремикс',
       extend: 'Продление',
       cover: 'Кавер',
@@ -174,12 +177,46 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
                 </div>
               </div>
 
-              {/* Metadata */}
+              {/* Metadata - более удобное отображение */}
               {version.metadata && (
-                <div className="mb-3 p-3 rounded-lg bg-muted/50">
-                  <p className="text-xs text-muted-foreground">
-                    {JSON.stringify(version.metadata, null, 2)}
-                  </p>
+                <div className="mb-3 space-y-2">
+                  {version.metadata.title && version.version_type !== 'current' && (
+                    <div className="flex items-center gap-2">
+                      <Music2 className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-sm font-medium">{version.metadata.title}</span>
+                    </div>
+                  )}
+                  
+                  {version.metadata.tags && (
+                    <div className="flex flex-wrap gap-1">
+                      {version.metadata.tags.split(',').slice(0, 5).map((tag: string, i: number) => (
+                        <Badge key={i} variant="outline" className="text-xs">
+                          {tag.trim()}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                  
+                  {(version.metadata.model_name || version.metadata.suno_id) && (
+                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                      {version.metadata.model_name && (
+                        <span>🤖 {version.metadata.model_name}</span>
+                      )}
+                      {version.metadata.suno_id && (
+                        <span className="font-mono">ID: {version.metadata.suno_id.substring(0, 8)}...</span>
+                      )}
+                      {version.metadata.clip_index !== undefined && (
+                        <span>Клип #{version.metadata.clip_index + 1}</span>
+                      )}
+                    </div>
+                  )}
+                  
+                  {version.metadata.local_storage && (
+                    <div className="flex items-center gap-2 text-xs text-green-600 dark:text-green-400">
+                      <Check className="w-3 h-3" />
+                      <span>Сохранено локально</span>
+                    </div>
+                  )}
                 </div>
               )}
 
