@@ -12,6 +12,9 @@ verify_jwt = false
 [functions.telegram-webhook-setup]
 verify_jwt = false
 
+[functions.replicate-music-analysis]
+verify_jwt = true
+
 [functions.suno-credits]
 verify_jwt = true
 

@@ -70,8 +70,14 @@ export type Database = {
       }
       audio_analysis: {
         Row: {
+          analysis_metadata: Json | null
           analysis_type: string
+          approachability: string | null
+          arousal: number | null
+          beats_data: Json | null
+          bpm: number | null
           created_at: string
+          engagement: string | null
           full_response: string | null
           genre: string | null
           id: string
@@ -84,10 +90,17 @@ export type Database = {
           track_id: string
           updated_at: string
           user_id: string
+          valence: number | null
         }
         Insert: {
+          analysis_metadata?: Json | null
           analysis_type: string
+          approachability?: string | null
+          arousal?: number | null
+          beats_data?: Json | null
+          bpm?: number | null
           created_at?: string
+          engagement?: string | null
           full_response?: string | null
           genre?: string | null
           id?: string
@@ -100,10 +113,17 @@ export type Database = {
           track_id: string
           updated_at?: string
           user_id: string
+          valence?: number | null
         }
         Update: {
+          analysis_metadata?: Json | null
           analysis_type?: string
+          approachability?: string | null
+          arousal?: number | null
+          beats_data?: Json | null
+          bpm?: number | null
           created_at?: string
+          engagement?: string | null
           full_response?: string | null
           genre?: string | null
           id?: string
@@ -116,6 +136,7 @@ export type Database = {
           track_id?: string
           updated_at?: string
           user_id?: string
+          valence?: number | null
         }
         Relationships: [
           {

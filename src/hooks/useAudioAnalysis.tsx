@@ -15,6 +15,13 @@ export interface AudioAnalysis {
   key_signature: string | null;
   structure: string | null;
   style_description: string | null;
+  bpm: number | null;
+  beats_data: any[] | null;
+  arousal: number | null;
+  valence: number | null;
+  approachability: string | null;
+  engagement: string | null;
+  analysis_metadata: any | null;
   created_at: string;
   updated_at: string;
 }
