@@ -2,10 +2,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Track } from '@/hooks/useTracks';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Music2, GitBranch, History } from 'lucide-react';
+import { Music2, GitBranch, History, Sparkles } from 'lucide-react';
 import { TrackDetailsTab } from './track-detail/TrackDetailsTab';
 import { TrackVersionsTab } from './track-detail/TrackVersionsTab';
 import { TrackChangelogTab } from './track-detail/TrackChangelogTab';
+import { TrackAnalysisTab } from './track-detail/TrackAnalysisTab';
 
 interface TrackDetailDialogProps {
   open: boolean;
@@ -25,10 +26,14 @@ export function TrackDetailDialog({ open, onOpenChange, track }: TrackDetailDial
         </DialogHeader>
 
         <Tabs defaultValue="details" className="flex-1">
-          <TabsList className="grid w-full grid-cols-3 mb-4">
+          <TabsList className="grid w-full grid-cols-4 mb-4">
             <TabsTrigger value="details" className="gap-2">
               <Music2 className="w-4 h-4" />
               Детали
+            </TabsTrigger>
+            <TabsTrigger value="analysis" className="gap-2">
+              <Sparkles className="w-4 h-4" />
+              Анализ
             </TabsTrigger>
             <TabsTrigger value="versions" className="gap-2">
               <GitBranch className="w-4 h-4" />
@@ -44,6 +49,10 @@ export function TrackDetailDialog({ open, onOpenChange, track }: TrackDetailDial
             <div className="pr-4">
               <TabsContent value="details" className="mt-0">
                 <TrackDetailsTab track={track} />
+              </TabsContent>
+
+              <TabsContent value="analysis" className="mt-0">
+                <TrackAnalysisTab track={track} />
               </TabsContent>
 
               <TabsContent value="versions" className="mt-0">

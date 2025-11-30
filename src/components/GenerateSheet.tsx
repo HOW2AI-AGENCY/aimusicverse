@@ -338,8 +338,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               className="h-12 gap-2 border-2"
               onClick={() => setProjectDialogOpen(true)}
             >
-              <FileAudio className="w-4 h-4" />
-              <span className="text-sm font-medium">+ Audio</span>
+              <FolderOpen className="w-4 h-4" />
+              <span className="text-sm font-medium">Проект</span>
             </Button>
 
             <Button
@@ -349,7 +349,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               onClick={() => setArtistDialogOpen(true)}
             >
               <User className="w-4 h-4" />
-              <span className="text-sm font-medium">+ Persona</span>
+              <span className="text-sm font-medium">Персона</span>
             </Button>
 
             <Button
@@ -358,10 +358,28 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               className="h-12 gap-2 border-2"
               onClick={() => setTrackDialogOpen(true)}
             >
-              <Music2 className="w-4 h-4" />
-              <span className="text-sm font-medium">+ Проект</span>
+              <FileAudio className="w-4 h-4" />
+              <span className="text-sm font-medium">Трек</span>
             </Button>
           </div>
+
+          {/* Audio Reference Upload */}
+          <AudioReferenceUpload
+            audioFile={audioFile}
+            onAudioChange={setAudioFile}
+            onAnalysisComplete={(styleDescription) => {
+              // Update style field with analysis results
+              if (mode === 'custom') {
+                setStyle(prevStyle => {
+                  const newStyle = prevStyle 
+                    ? `${prevStyle}\n\nАнализ референса:\n${styleDescription}`
+                    : styleDescription;
+                  toast.success('Стиль обновлен с результатами анализа');
+                  return newStyle;
+                });
+              }
+            }}
+          />
 
           {/* Simple Mode */}
           {mode === 'simple' && (

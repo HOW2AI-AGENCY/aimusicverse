@@ -2,21 +2,96 @@ import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
-import { FileAudio, Mic, X, Play, Pause } from 'lucide-react';
+import { FileAudio, Mic, X, Play, Pause, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 interface AudioReferenceUploadProps {
   audioFile: File | null;
   onAudioChange: (file: File | null) => void;
+  onAnalysisComplete?: (styleDescription: string) => void;
 }
 
-export function AudioReferenceUpload({ audioFile, onAudioChange }: AudioReferenceUploadProps) {
+export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisComplete }: AudioReferenceUploadProps) {
   const [isRecording, setIsRecording] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+
+  const analyzeAudio = async (file: File) => {
+    setIsAnalyzing(true);
+    try {
+      console.log('Uploading reference audio for analysis...');
+      
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Not authenticated');
+      
+      // Upload audio to storage for analysis
+      const fileName = `reference-${Date.now()}-${file.name}`;
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('project-assets')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: false,
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('project-assets')
+        .getPublicUrl(fileName);
+
+      console.log('Analyzing reference audio:', publicUrl);
+      toast.info('Анализируем референс...', { icon: <Sparkles className="w-4 h-4" /> });
+
+      // Create temporary track for analysis
+      const { data: tempTrack, error: trackError } = await supabase
+        .from('tracks')
+        .insert({
+          user_id: user.id,
+          prompt: 'Reference audio analysis',
+          audio_url: publicUrl,
+          status: 'completed',
+          generation_mode: 'reference',
+        })
+        .select()
+        .single();
+
+      if (trackError) throw trackError;
+
+      // Analyze audio
+      const { data: analysisData, error: analysisError } = await supabase.functions.invoke(
+        'analyze-audio-flamingo',
+        {
+          body: {
+            track_id: tempTrack.id,
+            audio_url: publicUrl,
+            analysis_type: 'reference',
+          },
+        }
+      );
+
+      if (analysisError) throw analysisError;
+
+      if (analysisData.success && analysisData.parsed.style_description) {
+        toast.success('Анализ завершен!');
+        onAnalysisComplete?.(analysisData.parsed.style_description);
+      }
+
+      // Clean up temporary track
+      await supabase.from('tracks').delete().eq('id', tempTrack.id);
+
+    } catch (error) {
+      console.error('Audio analysis error:', error);
+      toast.error('Ошибка анализа аудио');
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
 
   const startRecording = async () => {
     try {
@@ -31,7 +106,7 @@ export function AudioReferenceUpload({ audioFile, onAudioChange }: AudioReferenc
         }
       };
 
-      mediaRecorder.onstop = () => {
+      mediaRecorder.onstop = async () => {
         const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
         const file = new File([blob], `recording-${Date.now()}.webm`, { type: 'audio/webm' });
         const url = URL.createObjectURL(blob);
@@ -41,6 +116,9 @@ export function AudioReferenceUpload({ audioFile, onAudioChange }: AudioReferenc
         toast.success('Запись завершена');
         
         stream.getTracks().forEach(track => track.stop());
+        
+        // Auto-analyze recorded audio
+        await analyzeAudio(file);
       };
 
       mediaRecorder.start();
@@ -59,7 +137,7 @@ export function AudioReferenceUpload({ audioFile, onAudioChange }: AudioReferenc
     }
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 20 * 1024 * 1024) {
@@ -70,6 +148,9 @@ export function AudioReferenceUpload({ audioFile, onAudioChange }: AudioReferenc
       setAudioUrl(url);
       onAudioChange(file);
       toast.success('Аудио загружено');
+      
+      // Auto-analyze uploaded audio
+      await analyzeAudio(file);
     }
   };
 
@@ -95,7 +176,16 @@ export function AudioReferenceUpload({ audioFile, onAudioChange }: AudioReferenc
   };
 
   return (
-    <Card className="p-4 space-y-3">
+    <Card className="p-4 space-y-3 relative">
+      {isAnalyzing && (
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-10 flex items-center justify-center rounded-lg">
+          <div className="text-center space-y-2">
+            <Sparkles className="w-8 h-8 animate-pulse text-primary mx-auto" />
+            <p className="text-sm font-medium">Анализируем аудио...</p>
+          </div>
+        </div>
+      )}
+      
       <Label className="text-base flex items-center gap-2">
         <FileAudio className="w-4 h-4" />
         Референс аудио (опционально)

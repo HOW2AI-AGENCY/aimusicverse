@@ -189,6 +189,28 @@ export const GenerationProgress = () => {
           title: 'Трек готов! 🎵',
           description: 'Генерация успешно завершена',
         });
+        
+        // Trigger automatic audio analysis
+        if (data.track?.audio_url) {
+          console.log('Triggering automatic audio analysis for track:', data.track.id);
+          supabase.functions.invoke('analyze-audio-flamingo', {
+            body: {
+              track_id: data.track.id,
+              audio_url: data.track.audio_url,
+              analysis_type: 'auto',
+            },
+          }).then(({ data: analysisData, error: analysisError }) => {
+            if (analysisError) {
+              console.error('Auto-analysis error:', analysisError);
+            } else {
+              console.log('Auto-analysis started:', analysisData);
+              toast({
+                title: 'Анализ запущен',
+                description: 'AI анализирует ваш трек',
+              });
+            }
+          });
+        }
       } else if (data.status === 'failed') {
         toast({
           title: 'Ошибка генерации',
