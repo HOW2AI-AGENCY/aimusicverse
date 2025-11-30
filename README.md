@@ -4,7 +4,6 @@
 
 # 🎵 MusicVerse AI
 
-![MusicVerse Banner](src/assets/banner.png)
 
 ### Профессиональная AI-платформа для создания музыки
 
@@ -18,13 +17,13 @@
 [![Meta Tags](https://img.shields.io/badge/Meta%20Tags-174+-ff6b6b?logo=music&logoColor=white)](https://github.com/yourusername/musicverse)
 [![Music Styles](https://img.shields.io/badge/Music%20Styles-277+-9b59b6?logo=spotify&logoColor=white)](https://github.com/yourusername/musicverse)
 [![Languages](https://img.shields.io/badge/Languages-75+-3498db?logo=googletranslate&logoColor=white)](https://github.com/yourusername/musicverse)
-[![Suno API](https://img.shields.io/badge/Suno%20API-v5-e74c3c?logo=soundcloud&logoColor=white)](https://docs.sunoapi.org)
+[![MusicVerse API](https://img.shields.io/badge/MusicVerse%20API-v5-e74c3c?logo=soundcloud&logoColor=white)](https://docs.musicverse.ai)
 
 [📖 Документация](#-документация) • [🚀 Быстрый старт](#-быстрый-старт) • [🎼 Meta Tags](#-suno-meta-tags-174) • [🎸 Стили](#-музыкальные-стили-277) • [🌍 Языки](#-поддерживаемые-языки-75)
 
-![MusicVerse Banner](docs/images/banner.png)
-
 </div>
+
+![MusicVerse Banner](src/assets/banner.jpg)
 
 ---
 
