@@ -174,31 +174,67 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
     );
   };
 
-  const handleManualCreate = () => {
-    createProject(
-      {
-        title,
-        project_type: projectType as any,
-        genre: genre || null,
-        mood: mood || null,
-        description: description || null,
-        concept: concept || null,
-        target_audience: targetAudience || null,
-        primary_artist_id: primaryArtistId || null,
-        cover_url: coverUrl || null,
-        status: 'draft',
-        ai_context: titleRu ? { title_ru: titleRu } : null,
-        is_public: isPublic,
-        language: language,
-      },
-      {
-        onSuccess: (data) => {
-          onOpenChange(false);
-          navigate(`/projects/${data.id}`);
-          resetForm();
-        },
+  const handleManualCreate = async () => {
+    try {
+      // Auto-generate cover if not provided
+      let finalCoverUrl = coverUrl;
+      if (!finalCoverUrl && title) {
+        setIsGeneratingCover(true);
+        try {
+          const prompt = `Create a professional music album cover for a ${projectType} project titled "${title}". 
+            Genre: ${genre || 'various'}. Mood: ${mood || 'creative'}. 
+            Style: modern, artistic, high quality, professional music cover art.
+            ${concept ? `Concept: ${concept}` : ''}`;
+
+          const tempProjectId = crypto.randomUUID();
+          const { data: coverData, error: coverError } = await supabase.functions.invoke('generate-cover-image', {
+            body: { 
+              projectId: tempProjectId,
+              prompt, 
+              genre, 
+              mood 
+            },
+          });
+
+          if (!coverError && coverData?.coverUrl) {
+            finalCoverUrl = coverData.coverUrl;
+          }
+        } catch (err) {
+          console.error('Auto-generate cover error:', err);
+          // Continue without cover
+        } finally {
+          setIsGeneratingCover(false);
+        }
       }
-    );
+
+      createProject(
+        {
+          title,
+          project_type: projectType as any,
+          genre: genre || null,
+          mood: mood || null,
+          description: description || null,
+          concept: concept || null,
+          target_audience: targetAudience || null,
+          primary_artist_id: primaryArtistId || null,
+          cover_url: finalCoverUrl || null,
+          status: 'draft',
+          ai_context: titleRu ? { title_ru: titleRu } : null,
+          is_public: isPublic,
+          language: language,
+        },
+        {
+          onSuccess: (data) => {
+            onOpenChange(false);
+            navigate(`/projects/${data.id}`);
+            resetForm();
+          },
+        }
+      );
+    } catch (error) {
+      console.error('Create project error:', error);
+      toast.error('Ошибка создания проекта');
+    }
   };
 
   const handleAIGenerate = () => {

@@ -1,12 +1,14 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, Heart, Music2, Mic, Volume2, Guitar, Drum, Piano } from 'lucide-react';
+import { Play, Pause, Heart, Music2, Mic, Volume2, Guitar, Drum, Piano, Globe, Lock, MoreHorizontal } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { TrackActionsMenu } from './TrackActionsMenu';
+import { TrackActionsSheet } from './TrackActionsSheet';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface TrackCardProps {
   track: Track;
@@ -27,6 +29,8 @@ export const TrackCard = ({
 }: TrackCardProps) => {
   const [imageError, setImageError] = useState(false);
   const [versionCount, setVersionCount] = useState<number>(0);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const fetchVersionCount = async () => {
@@ -53,26 +57,61 @@ export const TrackCard = ({
 
   const trackIcon = getTrackIcon();
 
-  return (
-    <Card className="group overflow-hidden hover:shadow-lg transition-all">
-      <div className="relative aspect-square">
-        {track.cover_url && !imageError ? (
-          <img
-            src={track.cover_url}
-            alt={track.title || 'Track cover'}
-            className="w-full h-full object-cover"
-            onError={() => setImageError(true)}
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-            <div className="text-4xl font-bold text-primary/20">
-              {track.title?.charAt(0) || '♪'}
-            </div>
-          </div>
-        )}
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Don't trigger if clicking on buttons or the cover
+    const target = e.target as HTMLElement;
+    if (
+      target.closest('button') || 
+      target.closest('[data-play-button]') ||
+      target.closest('img')
+    ) {
+      return;
+    }
+    
+    if (isMobile) {
+      setSheetOpen(true);
+    }
+  };
 
-        {/* Play button overlay */}
-        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+  return (
+    <>
+      <Card 
+        className="group overflow-hidden hover:shadow-lg transition-all cursor-pointer"
+        onClick={handleCardClick}
+      >
+        <div className="relative aspect-square" data-play-button>
+          {track.cover_url && !imageError ? (
+            <img
+              src={track.cover_url}
+              alt={track.title || 'Track cover'}
+              className="w-full h-full object-cover cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                onPlay?.();
+              }}
+              onError={() => setImageError(true)}
+            />
+          ) : (
+            <div 
+              className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                onPlay?.();
+              }}
+            >
+              <div className="text-4xl font-bold text-primary/20">
+                {track.title?.charAt(0) || '♪'}
+              </div>
+            </div>
+          )}
+
+          {/* Play button overlay */}
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+            onClick={(e) => {
+              e.stopPropagation();
+              onPlay?.();
+            }}
+          >
           <Button
             size="lg"
             className="rounded-full w-16 h-16"
@@ -130,14 +169,32 @@ export const TrackCard = ({
       </div>
 
       <div className="p-4">
-        <h3 className="font-semibold text-lg mb-1 truncate">
-          {track.title || 'Без названия'}
-        </h3>
+        <div className="flex items-center gap-2 mb-1">
+          <h3 className="font-semibold text-lg truncate flex-1">
+            {track.title || 'Без названия'}
+          </h3>
+          {track.is_public ? (
+            <Globe className="w-4 h-4 text-primary flex-shrink-0" />
+          ) : (
+            <Lock className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+          )}
+        </div>
 
         {track.style && (
-          <p className="text-sm text-muted-foreground mb-3 line-clamp-1">
+          <p className="text-sm text-muted-foreground mb-2 line-clamp-1">
             {track.style}
           </p>
+        )}
+
+        {/* Tags */}
+        {track.tags && (
+          <div className="flex gap-1 mb-3 flex-wrap">
+            {track.tags.split(',').slice(0, 3).map((tag, idx) => (
+              <Badge key={idx} variant="secondary" className="text-xs">
+                {tag.trim()}
+              </Badge>
+            ))}
+          </div>
         )}
 
         <div className="flex items-center justify-between">
@@ -167,14 +224,37 @@ export const TrackCard = ({
               </span>
             )}
 
-            <TrackActionsMenu
-              track={track}
-              onDelete={onDelete}
-              onDownload={onDownload}
-            />
+            {isMobile ? (
+              <Button 
+                size="icon" 
+                variant="ghost" 
+                className="h-8 w-8"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSheetOpen(true);
+                }}
+              >
+                <MoreHorizontal className="w-4 h-4" />
+              </Button>
+            ) : (
+              <TrackActionsMenu
+                track={track}
+                onDelete={onDelete}
+                onDownload={onDownload}
+              />
+            )}
           </div>
         </div>
       </div>
     </Card>
+
+    <TrackActionsSheet
+      track={track}
+      open={sheetOpen}
+      onOpenChange={setSheetOpen}
+      onDelete={onDelete}
+      onDownload={onDownload}
+    />
+  </>
   );
 };
