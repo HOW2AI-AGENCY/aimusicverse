@@ -8,20 +8,22 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Music, Sparkles, Loader2, Zap, FileAudio, Disc } from 'lucide-react';
+import { Music, Sparkles, Loader2, Zap, FileAudio, Disc, Brain } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { UploadExtendDialog } from '@/components/UploadExtendDialog';
 import { UploadCoverDialog } from '@/components/UploadCoverDialog';
 import { savePromptToHistory } from '@/components/generate-form/PromptHistory';
+import { LongPromptAssistant } from '@/components/suno/LongPromptAssistant';
 
 export default function Generate() {
   const { isAuthenticated, loading: authLoading } = useAuth();
-  const [mode, setMode] = useState<'simple' | 'custom'>('simple');
+  const [mode, setMode] = useState<'simple' | 'custom' | 'assistant'>('simple');
   const [loading, setLoading] = useState(false);
   const [boostLoading, setBoostLoading] = useState(false);
   const [uploadExtendOpen, setUploadExtendOpen] = useState(false);
   const [uploadCoverOpen, setUploadCoverOpen] = useState(false);
+  const [generatingParts, setGeneratingParts] = useState<string[]>([]);
   
   // Simple mode state
   const [description, setDescription] = useState('');
@@ -106,15 +108,17 @@ export default function Generate() {
 
       if (error) throw error;
 
-      // Save to prompt history
-      savePromptToHistory({
-        mode,
-        description: mode === 'simple' ? description : undefined,
-        title: mode === 'custom' ? title : undefined,
-        style: mode === 'custom' ? style : undefined,
-        lyrics: mode === 'custom' && !instrumental ? lyrics : undefined,
-        model: 'V4_5ALL',
-      });
+      // Save to prompt history (skip for assistant mode)
+      if (mode !== 'assistant') {
+        savePromptToHistory({
+          mode: mode as 'simple' | 'custom',
+          description: mode === 'simple' ? description : undefined,
+          title: mode === 'custom' ? title : undefined,
+          style: mode === 'custom' ? style : undefined,
+          lyrics: mode === 'custom' && !instrumental ? lyrics : undefined,
+          model: 'V4_5ALL',
+        });
+      }
 
       toast.success('Генерация началась!', {
         description: 'Ваш трек появится в библиотеке через несколько минут',
@@ -136,6 +140,46 @@ export default function Generate() {
     }
   };
 
+  const handleGenerateParts = async (parts: string[]) => {
+    if (parts.length === 0) return;
+
+    setGeneratingParts(parts);
+    toast.success(`Начинаем генерацию ${parts.length} частей`, {
+      description: 'Каждая часть будет обработана отдельно',
+    });
+
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i];
+      toast.info(`Генерация части ${i + 1} из ${parts.length}`, {
+        description: part.substring(0, 50) + '...',
+      });
+
+      try {
+        const { error } = await supabase.functions.invoke('generate-lyrics', {
+          body: {
+            theme: part,
+            style: '',
+            mood: '',
+          },
+        });
+
+        if (error) throw error;
+
+        await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2s between requests
+      } catch (error) {
+        console.error(`Error generating part ${i + 1}:`, error);
+        toast.error(`Ошибка генерации части ${i + 1}`, {
+          description: error.message || 'Пропускаем эту часть',
+        });
+      }
+    }
+
+    setGeneratingParts([]);
+    toast.success('Все части сгенерированы!', {
+      description: 'Проверьте вашу библиотеку',
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 p-4 pb-24">
       <div className="max-w-4xl mx-auto space-y-6">
@@ -152,10 +196,14 @@ export default function Generate() {
         </div>
 
         <Card className="glass-card border-primary/20 p-6">
-          <Tabs value={mode} onValueChange={(v) => setMode(v as 'simple' | 'custom')}>
-            <TabsList className="grid w-full grid-cols-2 mb-6">
+          <Tabs value={mode} onValueChange={(v) => setMode(v as 'simple' | 'custom' | 'assistant')}>
+            <TabsList className="grid w-full grid-cols-3 mb-6">
               <TabsTrigger value="simple">Простой режим</TabsTrigger>
               <TabsTrigger value="custom">Профессиональный</TabsTrigger>
+              <TabsTrigger value="assistant">
+                <Brain className="w-3 h-3 mr-1" />
+                ИИ-помощник
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="simple" className="space-y-4">
@@ -264,8 +312,13 @@ export default function Generate() {
                 </div>
               )}
             </TabsContent>
+
+            <TabsContent value="assistant" className="space-y-4">
+              <LongPromptAssistant onGenerateParts={handleGenerateParts} />
+            </TabsContent>
           </Tabs>
 
+          {mode !== 'assistant' && (
           <div className="flex items-center justify-between mt-6 pt-6 border-t">
             <div className="flex items-center space-x-2">
               <Switch
@@ -297,6 +350,7 @@ export default function Generate() {
               )}
             </Button>
           </div>
+          )}
         </Card>
 
         <Card className="glass-card border-primary/20 p-6">
