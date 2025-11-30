@@ -25,7 +25,7 @@ export function TrackProcessingSection({
 
   return (
     <>
-      {track.suno_task_id && track.suno_id && (
+      {track.suno_id && (
         <>
           <DropdownMenuItem onClick={() => onSeparateVocals('simple')} disabled={isProcessing}>
             <Scissors className="w-4 h-4 mr-2" />

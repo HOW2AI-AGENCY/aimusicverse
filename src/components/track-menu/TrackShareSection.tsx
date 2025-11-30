@@ -27,8 +27,6 @@ export function TrackShareSection({
 
   return (
     <>
-      <DropdownMenuSeparator />
-
       <DropdownMenuItem onClick={onDownload}>
         <Download className="w-4 h-4 mr-2" />
         Скачать MP3
