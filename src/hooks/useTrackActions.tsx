@@ -143,31 +143,6 @@ export function useTrackActions() {
     }
   };
 
-  const handleCreateVideo = async (track: Track) => {
-    if (!track.suno_id) {
-      toast.error('Невозможно создать видео для этого трека');
-      return;
-    }
-
-    setIsProcessing(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('suno-create-video', {
-        body: { audioId: track.suno_id },
-      });
-
-      if (error) throw error;
-
-      toast.success('Создание видео началось!', {
-        description: 'Видео будет готово через несколько минут',
-      });
-    } catch (error: any) {
-      console.error('Video creation error:', error);
-      toast.error(error.message || 'Ошибка создания видео');
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
   return {
     isProcessing,
     handleShare,
@@ -176,6 +151,5 @@ export function useTrackActions() {
     handleTogglePublic,
     handleConvertToWav,
     handleGenerateCover,
-    handleCreateVideo,
   };
 }

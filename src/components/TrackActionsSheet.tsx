@@ -43,7 +43,6 @@ export function TrackActionsSheet({
     handleSeparateVocals,
     handleGenerateCover,
     handleConvertToWav,
-    handleCreateVideo,
   } = useTrackActions();
   
   if (!track) return null;
@@ -187,15 +186,6 @@ export function TrackActionsSheet({
           },
           disabled: isProcessing,
         },
-        {
-          icon: Video,
-          label: 'Создать музыкальное видео',
-          onClick: async () => {
-            await handleCreateVideo(track);
-            onOpenChange(false);
-          },
-          disabled: isProcessing,
-        }
       );
     }
   }
