@@ -55,7 +55,7 @@ Provide concise, accurate information suitable for music generation AI.`;
 
     console.log('Creating Replicate prediction...');
 
-    // Start Replicate prediction
+    // Start Replicate prediction with correct model identifier
     const predictionResponse = await fetch('https://api.replicate.com/v1/predictions', {
       method: 'POST',
       headers: {
@@ -63,7 +63,7 @@ Provide concise, accurate information suitable for music generation AI.`;
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        version: 'zsxkib/audio-flamingo-3',
+        version: 'zsxkib/audio-flamingo-3:26c2f703df1a25eecae5ae74c76ac68e0c03eb26ade4e1b0f59c39b3d1e2ee71',
         input: {
           audio: audio_url,
           prompt: 'Analyze this audio',
