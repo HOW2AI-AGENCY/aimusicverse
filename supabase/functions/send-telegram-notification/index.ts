@@ -14,6 +14,14 @@ interface NotificationPayload {
   trackId?: string;
   type?: string;
   error_message?: string;
+  audioUrl?: string;
+  coverUrl?: string;
+  title?: string;
+  duration?: number;
+  tags?: string;
+  style?: string;
+  versionsCount?: number;
+  generationMode?: string;
 }
 
 async function sendTelegramMessage(chatId: number, text: string, replyMarkup?: any) {
@@ -103,7 +111,10 @@ Deno.serve(async (req) => {
 
   try {
     const payload: NotificationPayload = await req.json();
-    const { chat_id, chatId, status, track_id, trackId, type, error_message } = payload;
+    const { 
+      chat_id, chatId, status, track_id, trackId, type, error_message,
+      audioUrl, coverUrl, title, duration, tags, style, versionsCount, generationMode
+    } = payload;
     
     const finalChatId = chat_id || chatId;
     const finalTrackId = track_id || trackId;
@@ -119,6 +130,64 @@ Deno.serve(async (req) => {
 
     let message = '';
     let replyMarkup = undefined;
+    const miniAppUrl = Deno.env.get('MINI_APP_URL') || 'https://t.me/your_bot/app';
+
+    // Handle generation complete with direct data
+    if (type === 'generation_complete' && audioUrl) {
+      console.log('📤 Sending generation complete notification with audio');
+      
+      const durationText = duration 
+        ? `⏱️ ${Math.floor(duration / 60)}:${String(Math.floor(duration % 60)).padStart(2, '0')}`
+        : '';
+      
+      const tagsText = tags 
+        ? `\n🏷️ ${tags.split(',').slice(0, 3).map(t => `#${t.trim().replace(/\s/g, '_')}`).join(' ')}`
+        : '';
+      
+      const versionsText = versionsCount && versionsCount > 1
+        ? `\n🎭 Создано версий: ${versionsCount}`
+        : '';
+      
+      const modeEmoji = generationMode === 'upload_cover' ? '🎤' 
+        : generationMode === 'upload_extend' ? '⏩'
+        : generationMode === 'add_vocals' ? '🎙️'
+        : generationMode === 'add_instrumental' ? '🎸'
+        : '🎵';
+      
+      const modeText = generationMode === 'upload_cover' ? 'Кавер готов' 
+        : generationMode === 'upload_extend' ? 'Расширение готово'
+        : generationMode === 'add_vocals' ? 'Вокал добавлен'
+        : generationMode === 'add_instrumental' ? 'Инструментал добавлен'
+        : 'Генерация завершена';
+      
+      const caption = `${modeEmoji} *${modeText}!*\n\n🎵 *${title || 'Новый трек'}*${style ? `\n🎸 ${style.split(',')[0]}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}${versionsText}\n\n✨ _Создано с помощью AI_ ✨`;
+      
+      await sendTelegramAudio(finalChatId, audioUrl, {
+        caption,
+        title: title || 'AI Music Track',
+        performer: 'AIMusicVerse AI',
+        duration: duration ? Math.round(duration) : undefined,
+        coverUrl: coverUrl,
+        replyMarkup: {
+          inline_keyboard: [
+            [{ text: '🎵 Открыть в приложении', web_app: { url: `${miniAppUrl}?startapp=track_${finalTrackId}` } }],
+            [
+              { text: '🔄 Создать ремикс', callback_data: `remix_${finalTrackId}` },
+              { text: '🎨 Открыть студию', callback_data: `studio_${finalTrackId}` }
+            ],
+            [
+              { text: '🎵 Создать еще', callback_data: 'generate' },
+              { text: '📚 Библиотека', callback_data: 'library' }
+            ]
+          ]
+        }
+      });
+
+      return new Response(
+        JSON.stringify({ success: true, type: 'generation_complete' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     // Handle track share type
     if (type === 'track_share' && finalTrackId) {

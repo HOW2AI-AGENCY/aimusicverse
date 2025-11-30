@@ -88,17 +88,41 @@ export function useTrackVersionManagement() {
 
       if (setPrimaryError) throw setPrimaryError;
 
-      // Update main track with version data
+      // Update main track with version data including title and metadata
+      const metadata = version.metadata as any;
+      const versionTitle = metadata?.title || (typeof metadata?.prompt === 'string' ? metadata.prompt.split('\n')[0] : null) || null;
+      
       const { error: trackError } = await supabase
         .from('tracks')
         .update({
           audio_url: version.audio_url,
           cover_url: version.cover_url,
           duration_seconds: version.duration_seconds,
+          title: versionTitle,
+          tags: metadata?.tags || null,
+          lyrics: metadata?.lyrics || null,
         })
         .eq('id', trackId);
 
       if (trackError) throw trackError;
+
+      // Log the change
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await supabase
+          .from('track_change_log')
+          .insert({
+            track_id: trackId,
+            user_id: user.id,
+            version_id: versionId,
+            change_type: 'version_switched',
+            changed_by: 'user',
+            metadata: {
+              previous_audio_url: version.audio_url,
+              new_title: versionTitle,
+            },
+          });
+      }
 
       toast.success('Версия установлена как основная');
       window.location.reload();

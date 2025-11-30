@@ -122,11 +122,23 @@ serve(async (req) => {
       // Process BOTH clips as versions of same track
       const savedVersions = [];
       
+      // Determine best track title from clips or fallback to prompt
+      const bestTitle = clips[0]?.title || 
+                        clips[1]?.title || 
+                        task.prompt?.split('\n')[0]?.substring(0, 100) || 
+                        'Новый трек';
+      
       for (let i = 0; i < clips.length; i++) {
         const clip = clips[i];
         const isFirstClip = i === 0;
         
-        console.log(`💾 Processing clip ${i + 1}/${clips.length}:`, clip.id);
+        console.log(`💾 Processing clip ${i + 1}/${clips.length}:`, {
+          id: clip.id,
+          title: clip.title,
+          duration: clip.duration,
+          hasAudio: !!clip.sourceAudioUrl,
+          hasCover: !!clip.sourceImageUrl,
+        });
         
         let localAudioUrl = null;
         let localCoverUrl = null;
@@ -140,12 +152,17 @@ serve(async (req) => {
           }
 
           const audioResponse = await fetch(audioUrl);
+          if (!audioResponse.ok) {
+            console.error(`❌ Failed to fetch audio for clip ${i}: ${audioResponse.status}`);
+            continue;
+          }
+          
           const audioBlob = await audioResponse.blob();
-          const audioFileName = `${trackId}_v${i + 1}_${Date.now()}.mp3`;
+          const audioFileName = `tracks/${task.user_id}/${trackId}_v${i + 1}_${Date.now()}.mp3`;
           
           const { data: audioUpload, error: audioError } = await supabase.storage
             .from('project-assets')
-            .upload(`tracks/${audioFileName}`, audioBlob, {
+            .upload(audioFileName, audioBlob, {
               contentType: 'audio/mpeg',
               upsert: true,
             });
@@ -155,7 +172,7 @@ serve(async (req) => {
           } else if (audioUpload) {
             const { data: publicData } = supabase.storage
               .from('project-assets')
-              .getPublicUrl(`tracks/${audioFileName}`);
+              .getPublicUrl(audioFileName);
             localAudioUrl = publicData.publicUrl;
             console.log(`✅ Audio uploaded for clip ${i}:`, localAudioUrl);
           }
@@ -164,66 +181,98 @@ serve(async (req) => {
           const coverUrl = clip.sourceImageUrl || clip.imageUrl;
           if (coverUrl) {
             const coverResponse = await fetch(coverUrl);
-            const coverBlob = await coverResponse.blob();
-            const coverFileName = `${trackId}_v${i + 1}_cover_${Date.now()}.jpg`;
-            
-            const { data: coverUpload, error: coverError } = await supabase.storage
-              .from('project-assets')
-              .upload(`covers/${coverFileName}`, coverBlob, {
-                contentType: 'image/jpeg',
-                upsert: true,
-              });
-
-            if (coverError) {
-              console.error(`❌ Cover upload error for clip ${i}:`, coverError);
-            } else if (coverUpload) {
-              const { data: publicData } = supabase.storage
+            if (coverResponse.ok) {
+              const coverBlob = await coverResponse.blob();
+              const coverFileName = `covers/${task.user_id}/${trackId}_v${i + 1}_cover_${Date.now()}.jpg`;
+              
+              const { data: coverUpload, error: coverError } = await supabase.storage
                 .from('project-assets')
-                .getPublicUrl(`covers/${coverFileName}`);
-              localCoverUrl = publicData.publicUrl;
-              console.log(`✅ Cover uploaded for clip ${i}:`, localCoverUrl);
+                .upload(coverFileName, coverBlob, {
+                  contentType: 'image/jpeg',
+                  upsert: true,
+                });
+
+              if (coverError) {
+                console.error(`❌ Cover upload error for clip ${i}:`, coverError);
+              } else if (coverUpload) {
+                const { data: publicData } = supabase.storage
+                  .from('project-assets')
+                  .getPublicUrl(coverFileName);
+                localCoverUrl = publicData.publicUrl;
+                console.log(`✅ Cover uploaded for clip ${i}:`, localCoverUrl);
+              }
             }
           }
         } catch (downloadError) {
           console.error(`❌ Error downloading files for version ${i}:`, downloadError);
         }
 
-        // For first clip, update main track record
+        // Prepare comprehensive metadata
+        const versionTitle = clip.title || bestTitle;
+        const versionMetadata = {
+          suno_id: clip.id,
+          suno_task_id: sunoTaskId,
+          clip_index: i,
+          title: versionTitle,
+          tags: clip.tags || task.tracks?.tags,
+          lyrics: clip.lyric || clip.prompt,
+          model_name: clip.modelName || 'chirp-v4',
+          prompt: clip.prompt || task.prompt,
+          style: clip.tags,
+          create_time: clip.createTime,
+          source_urls: {
+            audio: clip.sourceAudioUrl,
+            image: clip.sourceImageUrl,
+            stream: clip.sourceStreamAudioUrl,
+          },
+          api_urls: {
+            audio: clip.audioUrl,
+            image: clip.imageUrl,
+            stream: clip.streamAudioUrl,
+          },
+          generation_mode: task.generation_mode,
+          local_storage: {
+            audio: localAudioUrl,
+            cover: localCoverUrl,
+          },
+        };
+
+        // For first clip, update main track record with comprehensive data
         if (isFirstClip) {
+          const updateData = {
+            status: 'completed',
+            audio_url: clip.sourceAudioUrl || clip.audioUrl,
+            streaming_url: clip.sourceStreamAudioUrl || clip.streamAudioUrl || clip.sourceAudioUrl || clip.audioUrl,
+            local_audio_url: localAudioUrl,
+            cover_url: clip.sourceImageUrl || clip.imageUrl || task.tracks?.cover_url,
+            local_cover_url: localCoverUrl,
+            title: versionTitle,
+            duration_seconds: Math.round(clip.duration) || null,
+            tags: clip.tags || task.tracks?.tags,
+            lyrics: clip.lyric || task.tracks?.lyrics,
+            suno_id: clip.id,
+            model_name: clip.modelName,
+          };
+          
+          console.log(`📝 Updating main track with:`, updateData);
+          
           await supabase
             .from('tracks')
-            .update({
-              status: 'completed',
-              audio_url: clip.sourceAudioUrl || clip.audioUrl,
-              streaming_url: clip.sourceStreamAudioUrl || clip.streamAudioUrl || clip.sourceAudioUrl || clip.audioUrl,
-              local_audio_url: localAudioUrl,
-              cover_url: clip.sourceImageUrl || clip.imageUrl || task.tracks.cover_url,
-              local_cover_url: localCoverUrl,
-              title: clip.title || task.tracks.title,
-              duration_seconds: clip.duration || null,
-              tags: clip.tags || task.tracks.tags,
-              lyrics: clip.lyric || task.tracks.lyrics,
-              suno_id: clip.id,
-            })
+            .update(updateData)
             .eq('id', trackId);
         }
 
-        // Create version for each clip
+        // Create version for each clip with full metadata
         const { data: version, error: versionError } = await supabase
           .from('track_versions')
           .insert({
             track_id: trackId,
             audio_url: localAudioUrl || clip.sourceAudioUrl || clip.audioUrl,
             cover_url: localCoverUrl || clip.sourceImageUrl || clip.imageUrl,
-            duration_seconds: clip.duration,
+            duration_seconds: Math.round(clip.duration) || null,
             version_type: isFirstClip ? 'original' : 'alternative',
             is_primary: isFirstClip,
-            metadata: {
-              suno_id: clip.id,
-              title: clip.title,
-              tags: clip.tags,
-              lyrics: clip.lyric,
-            },
+            metadata: versionMetadata,
           })
           .select()
           .single();
@@ -234,7 +283,7 @@ serve(async (req) => {
           console.log(`✅ Version ${i} saved:`, version.id);
           savedVersions.push({ versionId: version.id, clip, clipIndex: i });
 
-          // Log version creation
+          // Log version creation with detailed metadata
           await supabase
             .from('track_change_log')
             .insert({
@@ -243,11 +292,17 @@ serve(async (req) => {
               version_id: version.id,
               change_type: isFirstClip ? 'generation_completed' : 'version_created',
               changed_by: 'suno_api',
+              ai_model_used: clip.modelName || 'chirp-v4',
+              prompt_used: task.prompt,
               metadata: {
                 clip_index: i,
                 suno_task_id: sunoTaskId,
                 suno_clip_id: clip.id,
                 version_type: isFirstClip ? 'original' : 'alternative',
+                title: versionTitle,
+                duration: clip.duration,
+                tags: clip.tags,
+                has_local_storage: !!(localAudioUrl && localCoverUrl),
               },
             });
         }
@@ -284,16 +339,25 @@ serve(async (req) => {
       // Send telegram notification with audio (fire and forget)
       if (task.telegram_chat_id && clips.length > 0) {
         const firstClip = clips[0];
-        supabase.functions.invoke('suno-send-audio', {
+        const trackTitle = bestTitle;
+        
+        console.log(`📱 Sending Telegram notification to chat ${task.telegram_chat_id}`);
+        
+        supabase.functions.invoke('send-telegram-notification', {
           body: {
+            type: 'generation_complete',
             chatId: task.telegram_chat_id,
             trackId: trackId,
             audioUrl: firstClip.sourceAudioUrl || firstClip.audioUrl,
             coverUrl: firstClip.sourceImageUrl || firstClip.imageUrl,
-            title: firstClip.title,
+            title: trackTitle,
             duration: firstClip.duration,
+            tags: firstClip.tags,
+            style: firstClip.tags,
+            versionsCount: clips.length,
+            generationMode: task.generation_mode,
           },
-        }).catch(err => console.error('Error sending audio to Telegram:', err));
+        }).catch(err => console.error('Error sending to Telegram:', err));
       }
 
       // Create notification
