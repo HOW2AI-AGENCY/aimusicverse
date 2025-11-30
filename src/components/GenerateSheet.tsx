@@ -18,6 +18,7 @@ import { useProjects } from '@/hooks/useProjects';
 import { useArtists } from '@/hooks/useArtists';
 import { useTracks } from '@/hooks/useTracks';
 import { UploadExtendDialog } from './UploadExtendDialog';
+import { UploadCoverDialog } from './UploadCoverDialog';
 
 interface GenerateSheetProps {
   open: boolean;
@@ -34,6 +35,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [loading, setLoading] = useState(false);
   const [boostLoading, setBoostLoading] = useState(false);
   const [uploadExtendOpen, setUploadExtendOpen] = useState(false);
+  const [uploadCoverOpen, setUploadCoverOpen] = useState(false);
   const [credits, setCredits] = useState<number | null>(null);
   const [advancedOpen, setAdvancedOpen] = useState(false);
   
@@ -620,6 +622,16 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             Загрузить и расширить аудио
           </Button>
 
+          <Button
+            onClick={() => setUploadCoverOpen(true)}
+            variant="outline"
+            size="lg"
+            className="w-full h-14 text-base gap-2"
+          >
+            <Mic className="w-5 h-5" />
+            Создать кавер аудио
+          </Button>
+
           <p className="text-xs text-center text-muted-foreground">
             Генерация обычно занимает 1-3 минуты
           </p>
@@ -722,6 +734,12 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
       <UploadExtendDialog 
         open={uploadExtendOpen}
         onOpenChange={setUploadExtendOpen}
+        projectId={selectedProjectId || initialProjectId}
+      />
+      <UploadCoverDialog 
+        open={uploadCoverOpen}
+        onOpenChange={setUploadCoverOpen}
+        projectId={selectedProjectId || initialProjectId}
       />
     </Sheet>
   );
