@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Loader2, Music2, CheckCircle2, XCircle, Radio, RefreshCw } from 'lucide-react';
+import { Loader2, Music2, CheckCircle2, XCircle, Radio, RefreshCw, Play, Pause } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { useGenerationPolling } from '@/hooks/useGenerationPolling';
+import { AudioPlayer } from './AudioPlayer';
 
 interface GenerationTask {
   id: string;
@@ -20,6 +22,9 @@ interface GenerationTask {
     id: string;
     title: string;
     streaming_url: string | null;
+    local_audio_url: string | null;
+    audio_url: string | null;
+    cover_url: string | null;
     status: string;
   } | null;
 }
@@ -29,20 +34,27 @@ export const GenerationProgress = () => {
   const [tasks, setTasks] = useState<GenerationTask[]>([]);
   const [loading, setLoading] = useState(true);
   const [checkingStatus, setCheckingStatus] = useState<string | null>(null);
+  const [playingTrackId, setPlayingTrackId] = useState<string | null>(null);
   const { toast } = useToast();
+
+  // Автоматический polling статуса генерации
+  useGenerationPolling();
 
   useEffect(() => {
     if (!user) return;
 
     const fetchTasks = async () => {
       const { data, error } = await supabase
-        .from('generation_tasks')
+      .from('generation_tasks')
         .select(`
           *,
           tracks (
             id,
             title,
             streaming_url,
+            local_audio_url,
+            audio_url,
+            cover_url,
             status
           )
         `)
@@ -211,8 +223,9 @@ export const GenerationProgress = () => {
   }
 
   return (
-    <div className="fixed top-4 right-4 z-50 w-80 space-y-2 max-h-[80vh] overflow-y-auto">
-      {activeTasks.map((task) => {
+    <>
+      <div className="fixed top-4 right-4 z-50 w-80 space-y-2 max-h-[80vh] overflow-y-auto">
+        {activeTasks.map((task) => {
         const trackStatus = task.tracks?.status || task.status;
         const progress = getProgress(trackStatus);
 
@@ -245,10 +258,33 @@ export const GenerationProgress = () => {
                   <Progress value={progress} className="h-1.5" />
                 )}
 
-                {trackStatus === 'streaming_ready' && (
-                  <p className="text-xs text-primary mt-1">
-                    ⚡ Можно начинать слушать
-                  </p>
+                {/* Streaming ready - показываем аудиоплеер */}
+                {trackStatus === 'streaming_ready' && task.tracks?.streaming_url && (
+                  <div className="mt-2 space-y-1">
+                    <p className="text-xs text-primary">
+                      ⚡ Можно начинать слушать
+                    </p>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="h-7 w-full text-xs gap-1"
+                      onClick={() => setPlayingTrackId(
+                        playingTrackId === task.tracks?.id ? null : task.tracks?.id || null
+                      )}
+                    >
+                      {playingTrackId === task.tracks?.id ? (
+                        <>
+                          <Pause className="w-3 h-3" />
+                          Остановить
+                        </>
+                      ) : (
+                        <>
+                          <Play className="w-3 h-3" />
+                          Прослушать
+                        </>
+                      )}
+                    </Button>
+                  </div>
                 )}
 
                 {trackStatus === 'processing' && (
@@ -275,8 +311,28 @@ export const GenerationProgress = () => {
               </div>
             </div>
           </Card>
+          );
+        })}
+      </div>
+
+      {/* Mini Audio Player for streaming tracks */}
+      {playingTrackId && (() => {
+        const task = activeTasks.find(t => t.tracks?.id === playingTrackId);
+        const track = task?.tracks;
+        
+        return track && (
+          <div className="fixed bottom-4 left-4 right-4 z-40 max-w-2xl mx-auto">
+            <AudioPlayer
+              trackId={track.id}
+              title={track.title || 'Генерируется...'}
+              streamingUrl={track.streaming_url}
+              localAudioUrl={track.local_audio_url}
+              audioUrl={track.audio_url}
+              coverUrl={track.cover_url}
+            />
+          </div>
         );
-      })}
-    </div>
+      })()}
+    </>
   );
 };

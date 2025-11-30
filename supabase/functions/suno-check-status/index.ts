@@ -87,90 +87,136 @@ serve(async (req) => {
     const taskData = sunoData.data;
     const trackId = task.track_id;
 
-    // Check if generation is complete
-    if (taskData.status === 'SUCCESS' && taskData.response?.sunoData && taskData.response.sunoData.length > 0) {
+    // Check if at least first clip is ready for streaming
+    if (taskData.response?.sunoData && taskData.response.sunoData.length > 0) {
       const clips = taskData.response.sunoData;
       const firstClip = clips[0];
-      console.log('Task completed, updating records');
+      
+      // Check if it's streaming ready (first clip) or fully completed (all clips)
+      const isComplete = taskData.status === 'SUCCESS' && clips.length >= 2;
+      const isStreamingReady = clips.length === 1 || (!isComplete && firstClip.audioUrl);
+      
+      console.log(`Task status: ${taskData.status}, clips: ${clips.length}, streaming ready: ${isStreamingReady}, complete: ${isComplete}`);
 
-      // Download audio file
-      let localAudioUrl = null;
-      let localCoverUrl = null;
+      // If streaming ready but not complete, update with streaming URL
+      if (isStreamingReady && !isComplete) {
+        console.log('Streaming ready - updating track with streaming URL');
+        
+        await supabase
+          .from('tracks')
+          .update({
+            status: 'streaming_ready',
+            streaming_url: firstClip.audioUrl,
+            audio_url: firstClip.audioUrl,
+            cover_url: firstClip.imageUrl || task.tracks?.cover_url,
+            title: firstClip.title || task.tracks?.title,
+          })
+          .eq('id', trackId);
 
-      try {
-        // Download and save audio to storage
-        if (firstClip.audioUrl) {
-          const audioResponse = await fetch(firstClip.audioUrl);
-          const audioBlob = await audioResponse.blob();
-          const audioFileName = `${trackId}_${Date.now()}.mp3`;
-          
-          const { data: audioUpload, error: audioError } = await supabase.storage
-            .from('project-assets')
-            .upload(`tracks/${audioFileName}`, audioBlob, {
-              contentType: 'audio/mpeg',
-              upsert: true,
-            });
+        await supabase
+          .from('generation_tasks')
+          .update({
+            status: 'processing',
+            audio_clips: [firstClip],
+          })
+          .eq('id', task.id);
 
-          if (!audioError && audioUpload) {
-            const { data: publicData } = supabase.storage
-              .from('project-assets')
-              .getPublicUrl(`tracks/${audioFileName}`);
-            localAudioUrl = publicData.publicUrl;
+        return new Response(
+          JSON.stringify({ 
+            success: true, 
+            status: 'streaming_ready',
+            track: firstClip,
+            message: 'Track is ready for streaming',
+          }),
+          { 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            status: 200,
           }
-        }
-
-        // Download and save cover image
-        if (firstClip.imageUrl) {
-          const coverResponse = await fetch(firstClip.imageUrl);
-          const coverBlob = await coverResponse.blob();
-          const coverFileName = `${trackId}_cover_${Date.now()}.jpg`;
-          
-          const { data: coverUpload, error: coverError } = await supabase.storage
-            .from('project-assets')
-            .upload(`covers/${coverFileName}`, coverBlob, {
-              contentType: 'image/jpeg',
-              upsert: true,
-            });
-
-          if (!coverError && coverUpload) {
-            const { data: publicData } = supabase.storage
-              .from('project-assets')
-              .getPublicUrl(`covers/${coverFileName}`);
-            localCoverUrl = publicData.publicUrl;
-          }
-        }
-      } catch (downloadError) {
-        console.error('Error downloading files:', downloadError);
+        );
       }
 
-      // Update track with complete data
-      await supabase
-        .from('tracks')
-        .update({
-          status: 'completed',
-          audio_url: firstClip.audioUrl,
-          streaming_url: firstClip.audioUrl,
-          local_audio_url: localAudioUrl,
-          cover_url: firstClip.imageUrl || task.tracks?.cover_url,
-          local_cover_url: localCoverUrl,
-          title: firstClip.title || task.tracks?.title,
-          duration_seconds: firstClip.duration || null,
-          tags: firstClip.tags || task.tracks?.tags,
-          lyrics: firstClip.lyric || task.tracks?.lyrics,
-          suno_id: firstClip.id || null,
-        })
-        .eq('id', trackId);
+      // If complete, download and save to storage
+      if (isComplete) {
+        console.log('Task completed, downloading and saving files');
+        
+        let localAudioUrl = null;
+        let localCoverUrl = null;
 
-      // Update generation task
-      await supabase
-        .from('generation_tasks')
-        .update({
-          status: 'completed',
-          completed_at: new Date().toISOString(),
-          callback_received_at: new Date().toISOString(),
-          audio_clips: clips,
-        })
-        .eq('id', task.id);
+        try {
+          // Download and save audio to storage
+          if (firstClip.audioUrl) {
+            const audioResponse = await fetch(firstClip.audioUrl);
+            const audioBlob = await audioResponse.blob();
+            const audioFileName = `${trackId}_${Date.now()}.mp3`;
+            
+            const { data: audioUpload, error: audioError } = await supabase.storage
+              .from('project-assets')
+              .upload(`tracks/${audioFileName}`, audioBlob, {
+                contentType: 'audio/mpeg',
+                upsert: true,
+              });
+
+            if (!audioError && audioUpload) {
+              const { data: publicData } = supabase.storage
+                .from('project-assets')
+                .getPublicUrl(`tracks/${audioFileName}`);
+              localAudioUrl = publicData.publicUrl;
+            }
+          }
+
+          // Download and save cover image
+          if (firstClip.imageUrl) {
+            const coverResponse = await fetch(firstClip.imageUrl);
+            const coverBlob = await coverResponse.blob();
+            const coverFileName = `${trackId}_cover_${Date.now()}.jpg`;
+            
+            const { data: coverUpload, error: coverError } = await supabase.storage
+              .from('project-assets')
+              .upload(`covers/${coverFileName}`, coverBlob, {
+                contentType: 'image/jpeg',
+                upsert: true,
+              });
+
+            if (!coverError && coverUpload) {
+              const { data: publicData } = supabase.storage
+                .from('project-assets')
+                .getPublicUrl(`covers/${coverFileName}`);
+              localCoverUrl = publicData.publicUrl;
+            }
+          }
+        } catch (downloadError) {
+          console.error('Error downloading files:', downloadError);
+        }
+
+        // Update track with complete data
+        await supabase
+          .from('tracks')
+          .update({
+            status: 'completed',
+            audio_url: firstClip.audioUrl,
+            streaming_url: firstClip.audioUrl,
+            local_audio_url: localAudioUrl,
+            cover_url: firstClip.imageUrl || task.tracks?.cover_url,
+            local_cover_url: localCoverUrl,
+            title: firstClip.title || task.tracks?.title,
+            duration_seconds: firstClip.duration || null,
+            tags: firstClip.tags || task.tracks?.tags,
+            lyrics: firstClip.lyric || task.tracks?.lyrics,
+            suno_id: firstClip.id || null,
+          })
+          .eq('id', trackId);
+
+        // Update generation task
+        await supabase
+          .from('generation_tasks')
+          .update({
+            status: 'completed',
+            completed_at: new Date().toISOString(),
+            callback_received_at: new Date().toISOString(),
+            audio_clips: clips,
+          })
+          .eq('id', task.id);
+      }
 
       // Create track version
       await supabase
