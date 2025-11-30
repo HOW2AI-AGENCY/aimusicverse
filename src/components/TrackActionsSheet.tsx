@@ -11,6 +11,7 @@ import { useTrackActions } from '@/hooks/useTrackActions';
 import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { TrackDetailSheet } from './TrackDetailSheet';
 
 interface TrackActionsSheetProps {
   track: Track | null;
@@ -37,6 +38,8 @@ export function TrackActionsSheet({
   onDelete,
   onDownload 
 }: TrackActionsSheetProps) {
+  const [detailSheetOpen, setDetailSheetOpen] = useState(false);
+  
   const { 
     isProcessing, 
     handleTogglePublic, 
@@ -69,8 +72,8 @@ export function TrackActionsSheet({
       icon: Info,
       label: 'Детали трека',
       onClick: () => {
-        // This will be handled by parent
         onOpenChange(false);
+        setDetailSheetOpen(true);
       },
     },
     {
@@ -207,38 +210,46 @@ export function TrackActionsSheet({
   }
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="h-auto max-h-[80vh] rounded-t-xl">
-        <SheetHeader>
-          <SheetTitle className="text-left">
-            {track.title || 'Без названия'}
-          </SheetTitle>
-          {track.style && (
-            <p className="text-sm text-muted-foreground text-left">
-              {track.style}
-            </p>
-          )}
-        </SheetHeader>
-        
-        <div className="mt-6 space-y-1">
-          {actions.map((action, index) => 
-            'separator' in action ? (
-              <Separator key={`sep-${index}`} className="my-2" />
-            ) : (
-              <Button
-                key={index}
-                variant={action.variant || 'ghost'}
-                className="w-full justify-start gap-3 h-12"
-                onClick={action.onClick}
-                disabled={action.disabled}
-              >
-                <action.icon className="w-5 h-5" />
-                <span>{action.label}</span>
-              </Button>
-            )
-          )}
-        </div>
-      </SheetContent>
-    </Sheet>
+    <>
+      <Sheet open={open} onOpenChange={onOpenChange}>
+        <SheetContent side="bottom" className="h-auto max-h-[80vh] rounded-t-xl">
+          <SheetHeader>
+            <SheetTitle className="text-left">
+              {track.title || 'Без названия'}
+            </SheetTitle>
+            {track.style && (
+              <p className="text-sm text-muted-foreground text-left">
+                {track.style}
+              </p>
+            )}
+          </SheetHeader>
+          
+          <div className="mt-6 space-y-1">
+            {actions.map((action, index) => 
+              'separator' in action ? (
+                <Separator key={`sep-${index}`} className="my-2" />
+              ) : (
+                <Button
+                  key={index}
+                  variant={action.variant || 'ghost'}
+                  className="w-full justify-start gap-3 h-12"
+                  onClick={action.onClick}
+                  disabled={action.disabled}
+                >
+                  <action.icon className="w-5 h-5" />
+                  <span>{action.label}</span>
+                </Button>
+              )
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      <TrackDetailSheet
+        open={detailSheetOpen}
+        onOpenChange={setDetailSheetOpen}
+        track={track}
+      />
+    </>
   );
 }
