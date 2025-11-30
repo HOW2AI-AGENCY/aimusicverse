@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { telegramAuthService } from '@/services/telegram-auth';
 
 export interface TelegramUser {
@@ -90,13 +91,6 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
         });
       } else {
         console.warn('⚠️ initDataUnsafe.user не найден');
-      }
-
-      // Handle deep linking
-      const startParam = (tg.initDataUnsafe as any)?.start_param;
-      if (startParam) {
-        console.log('🔗 Deep link detected:', startParam);
-        handleDeepLink(startParam);
       }
 
       setPlatform(tg.platform);
@@ -347,24 +341,6 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const handleDeepLink = (startParam: string) => {
-    console.log('Processing deep link:', startParam);
-    
-    // Use setTimeout to ensure routing happens after app initialization
-    setTimeout(() => {
-      if (startParam.startsWith('track_')) {
-        const trackId = startParam.replace('track_', '');
-        window.location.href = `${window.location.origin}/library?track=${trackId}`;
-      } else if (startParam.startsWith('project_')) {
-        const projectId = startParam.replace('project_', '');
-        window.location.href = `${window.location.origin}/projects/${projectId}`;
-      } else if (startParam.startsWith('generate_')) {
-        const style = startParam.replace('generate_', '');
-        window.location.href = `${window.location.origin}/generate?style=${style}`;
-      }
-    }, 100);
-  };
-
   return (
     <TelegramContext.Provider
       value={{
@@ -395,4 +371,29 @@ export const useTelegram = () => {
     throw new Error('useTelegram must be used within a TelegramProvider');
   }
   return context;
+};
+
+// Component to handle deep linking using useNavigate
+export const DeepLinkHandler = () => {
+  const navigate = useNavigate();
+  const { webApp } = useTelegram();
+
+  useEffect(() => {
+    const startParam = (webApp?.initDataUnsafe as any)?.start_param;
+    if (startParam) {
+      console.log('Processing deep link with router:', startParam);
+      if (startParam.startsWith('track_')) {
+        const trackId = startParam.replace('track_', '');
+        navigate(`/library?track=${trackId}`);
+      } else if (startParam.startsWith('project_')) {
+        const projectId = startParam.replace('project_', '');
+        navigate(`/projects/${projectId}`);
+      } else if (startParam.startsWith('generate_')) {
+        const style = startParam.replace('generate_', '');
+        navigate(`/generate?style=${style}`);
+      }
+    }
+  }, [webApp, navigate]);
+
+  return null; // This component does not render anything
 };

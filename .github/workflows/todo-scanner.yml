@@ -1,0 +1,20 @@
+name: 'Create Issues from TODOs'
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 'TODO to Issue'
+        uses: alstr/todo-to-issue-action@v4
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          KEYWORDS: '["TODO:", "FIXME:"]'
+          LABEL: '["todo"]'
