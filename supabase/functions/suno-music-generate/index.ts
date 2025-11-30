@@ -174,6 +174,7 @@ serve(async (req) => {
     console.log('Sending to SunoAPI:', JSON.stringify(sunoPayload, null, 2));
 
     // Call SunoAPI
+    const startTime = Date.now();
     const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate', {
       method: 'POST',
       headers: {
@@ -183,7 +184,23 @@ serve(async (req) => {
       body: JSON.stringify(sunoPayload),
     });
 
+    const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
+    
+    console.log(`📥 Suno response (${duration}ms, $0.05)`);
+
+    // Log API call
+    await supabase.from('api_usage_logs').insert({
+      user_id: user.id,
+      service: 'suno',
+      endpoint: 'generate',
+      method: 'POST',
+      request_body: sunoPayload,
+      response_status: sunoResponse.status,
+      response_body: sunoData,
+      duration_ms: duration,
+      estimated_cost: 0.05,
+    });
 
     if (!sunoResponse.ok || sunoData.code !== 200) {
       console.error('SunoAPI error:', sunoResponse.status, sunoData);

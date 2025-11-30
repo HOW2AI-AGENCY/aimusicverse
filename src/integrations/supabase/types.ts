@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      api_usage_logs: {
+        Row: {
+          created_at: string | null
+          duration_ms: number | null
+          endpoint: string
+          estimated_cost: number | null
+          id: string
+          method: string | null
+          request_body: Json | null
+          response_body: Json | null
+          response_status: number | null
+          service: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          duration_ms?: number | null
+          endpoint: string
+          estimated_cost?: number | null
+          id?: string
+          method?: string | null
+          request_body?: Json | null
+          response_body?: Json | null
+          response_status?: number | null
+          service: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          duration_ms?: number | null
+          endpoint?: string
+          estimated_cost?: number | null
+          id?: string
+          method?: string | null
+          request_body?: Json | null
+          response_body?: Json | null
+          response_status?: number | null
+          service?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       artists: {
         Row: {
           avatar_url: string | null

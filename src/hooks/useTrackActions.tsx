@@ -55,11 +55,15 @@ export function useTrackActions() {
 
     setIsProcessing(true);
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Не авторизован');
+
       const { data, error } = await supabase.functions.invoke('suno-separate-vocals', {
         body: {
           taskId: track.suno_task_id,
           audioId: track.suno_id,
           mode,
+          userId: user.id,
         },
       });
 
@@ -143,6 +147,48 @@ export function useTrackActions() {
     }
   };
 
+  const handleSendToTelegram = async (track: Track) => {
+    if (!track.audio_url) {
+      toast.error('Трек ещё не готов');
+      return;
+    }
+
+    setIsProcessing(true);
+    try {
+      // Get telegram_id from profiles table
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Не авторизован');
+
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('telegram_id')
+        .eq('user_id', user.id)
+        .single();
+
+      if (profileError || !profile?.telegram_id) {
+        toast.error('Telegram не подключен');
+        return;
+      }
+
+      const { error } = await supabase.functions.invoke('send-telegram-notification', {
+        body: {
+          type: 'track_share',
+          track_id: track.id,
+          chat_id: profile.telegram_id,
+        },
+      });
+
+      if (error) throw error;
+
+      toast.success('Трек отправлен в Telegram!');
+    } catch (error: any) {
+      console.error('Send to Telegram error:', error);
+      toast.error(error.message || 'Ошибка отправки в Telegram');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   return {
     isProcessing,
     handleShare,
@@ -151,5 +197,6 @@ export function useTrackActions() {
     handleTogglePublic,
     handleConvertToWav,
     handleGenerateCover,
+    handleSendToTelegram,
   };
 }

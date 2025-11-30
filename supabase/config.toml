@@ -79,7 +79,7 @@ verify_jwt = true
 verify_jwt = true
 
 [functions.suno-separate-vocals]
-verify_jwt = true
+verify_jwt = false
 
 [functions.suno-vocal-callback]
 verify_jwt = false
