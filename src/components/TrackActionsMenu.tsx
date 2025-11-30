@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Track } from '@/hooks/useTracksOptimized';
 import {
   DropdownMenu,
@@ -11,7 +11,7 @@ import {
   DropdownMenuSubContent,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { MoreVertical, Trash2, Info, FileText, Edit3, Wand2, Share2, Send } from 'lucide-react';
+import { MoreVertical, Trash2, Info, FileText } from 'lucide-react';
 import { ExtendTrackDialog } from './ExtendTrackDialog';
 import { LyricsDialog } from './LyricsDialog';
 import { TrackDetailDialog } from './TrackDetailDialog';
@@ -21,6 +21,8 @@ import { useTrackActions } from '@/hooks/useTrackActions';
 import { TrackEditSection } from './track-menu/TrackEditSection';
 import { TrackProcessingSection } from './track-menu/TrackProcessingSection';
 import { TrackShareSection } from './track-menu/TrackShareSection';
+import { TrackStudioSection } from './track-menu/TrackStudioSection';
+import { TrackInfoSection } from './track-menu/TrackInfoSection';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -36,6 +38,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
   const [addVocalsDialogOpen, setAddVocalsDialogOpen] = useState(false);
   const [addInstrumentalDialogOpen, setAddInstrumentalDialogOpen] = useState(false);
+  const [stemCount, setStemCount] = useState(0);
 
   const {
     isProcessing,
@@ -46,6 +49,17 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
     handleConvertToWav,
     handleGenerateCover,
   } = useTrackActions();
+
+  useEffect(() => {
+    const fetchStemCount = async () => {
+      const { count } = await supabase
+        .from('track_stems')
+        .select('*', { count: 'exact', head: true })
+        .eq('track_id', track.id);
+      setStemCount(count || 0);
+    };
+    fetchStemCount();
+  }, [track.id]);
 
   const handleTranscribeMidi = async () => {
     const { useMidiTranscription } = await import('@/hooks/useMidiTranscription');
@@ -59,44 +73,6 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
     }
   };
 
-  const handleSendToTelegram = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        toast.error('Войдите в систему');
-        return;
-      }
-
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('telegram_id')
-        .eq('user_id', user.id)
-        .single();
-
-      if (!profile?.telegram_id) {
-        toast.error('Telegram не подключен');
-        return;
-      }
-
-      toast.promise(
-        supabase.functions.invoke('send-telegram-notification', {
-          body: {
-            chatId: profile.telegram_id,
-            trackId: track.id,
-            type: 'track_share'
-          }
-        }),
-        {
-          loading: 'Отправляем трек...',
-          success: 'Трек отправлен в Telegram!',
-          error: 'Ошибка отправки'
-        }
-      );
-    } catch (error) {
-      console.error('Error sending to Telegram:', error);
-      toast.error('Ошибка отправки в Telegram');
-    }
-  };
 
   return (
     <>
@@ -108,89 +84,63 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="end" className="w-56">
-          {/* Информация */}
-          <DropdownMenuItem onClick={() => setDetailDialogOpen(true)}>
-            <Info className="w-4 h-4 mr-2" />
-            Детали трека
-          </DropdownMenuItem>
-
-          {track.audio_url && track.status === 'completed' && (track.lyrics || (track.suno_task_id && track.suno_id)) && (
-            <DropdownMenuItem onClick={() => setLyricsDialogOpen(true)}>
-              <FileText className="w-4 h-4 mr-2" />
-              Текст песни
-            </DropdownMenuItem>
-          )}
+          {/* Info */}
+          <TrackInfoSection
+            track={track}
+            onDetailClick={() => setDetailDialogOpen(true)}
+            onLyricsClick={() => setLyricsDialogOpen(true)}
+          />
 
           <DropdownMenuSeparator />
 
-          {/* Редактирование */}
-          {track.audio_url && track.status === 'completed' && (
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>
-                <Edit3 className="w-4 h-4 mr-2" />
-                Редактировать
-              </DropdownMenuSubTrigger>
-              <DropdownMenuSubContent>
-                <TrackEditSection
-                  track={track}
-                  isProcessing={isProcessing}
-                  onExtendClick={() => setExtendDialogOpen(true)}
-                  onAddVocalsClick={() => setAddVocalsDialogOpen(true)}
-                  onAddInstrumentalClick={() => setAddInstrumentalDialogOpen(true)}
-                  onRemix={() => handleRemix(track)}
-                />
-              </DropdownMenuSubContent>
-            </DropdownMenuSub>
-          )}
+          {/* Studio */}
+          <TrackStudioSection track={track} stemCount={stemCount} />
 
-          {/* Обработка */}
-          {track.audio_url && track.status === 'completed' && (
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>
-                <Wand2 className="w-4 h-4 mr-2" />
-                Обработка
-              </DropdownMenuSubTrigger>
-              <DropdownMenuSubContent>
-                <TrackProcessingSection
-                  track={track}
-                  isProcessing={isProcessing}
-                  onSeparateVocals={(mode) => handleSeparateVocals(track, mode)}
-                  onGenerateCover={() => handleGenerateCover(track)}
-                  onConvertToWav={() => handleConvertToWav(track)}
-                  onTranscribeMidi={handleTranscribeMidi}
-                />
-              </DropdownMenuSubContent>
-            </DropdownMenuSub>
-          )}
+          {stemCount > 0 && <DropdownMenuSeparator />}
 
-          {/* Поделиться */}
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <Share2 className="w-4 h-4 mr-2" />
-              Поделиться
-            </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent>
-              <TrackShareSection
+          {/* Edit */}
+          {track.audio_url && track.status === 'completed' && (
+            <>
+              <TrackEditSection
                 track={track}
                 isProcessing={isProcessing}
-                onDownload={onDownload || (() => {})}
-                onShare={() => handleShare(track)}
-                onTogglePublic={() => handleTogglePublic(track)}
+                onExtendClick={() => setExtendDialogOpen(true)}
+                onAddVocalsClick={() => setAddVocalsDialogOpen(true)}
+                onAddInstrumentalClick={() => setAddInstrumentalDialogOpen(true)}
+                onRemix={() => handleRemix(track)}
               />
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleSendToTelegram}>
-                <Send className="w-4 h-4 mr-2" />
-                Отправить в Telegram
-              </DropdownMenuItem>
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
+            </>
+          )}
+
+          {/* Processing */}
+          {track.audio_url && track.status === 'completed' && (
+            <>
+              <TrackProcessingSection
+                track={track}
+                isProcessing={isProcessing}
+                onSeparateVocals={(mode) => handleSeparateVocals(track, mode)}
+                onGenerateCover={() => handleGenerateCover(track)}
+                onConvertToWav={() => handleConvertToWav(track)}
+                onTranscribeMidi={handleTranscribeMidi}
+              />
+              <DropdownMenuSeparator />
+            </>
+          )}
+
+          {/* Share */}
+          <TrackShareSection
+            track={track}
+            isProcessing={isProcessing}
+            onDownload={onDownload || (() => {})}
+            onShare={() => handleShare(track)}
+            onTogglePublic={() => handleTogglePublic(track)}
+          />
 
           <DropdownMenuSeparator />
           
-          <DropdownMenuItem
-            onClick={onDelete}
-            className="text-destructive"
-          >
+          {/* Delete */}
+          <DropdownMenuItem onClick={onDelete} className="text-destructive">
             <Trash2 className="w-4 h-4 mr-2" />
             Удалить
           </DropdownMenuItem>
