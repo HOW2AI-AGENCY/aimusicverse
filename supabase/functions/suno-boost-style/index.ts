@@ -14,10 +14,10 @@ serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const sunoApiKey = Deno.env.get('SUNO_API_KEY');
+    const lovableApiKey = Deno.env.get('LOVABLE_API_KEY');
 
-    if (!sunoApiKey) {
-      console.error('SUNO_API_KEY not configured');
+    if (!lovableApiKey) {
+      console.error('LOVABLE_API_KEY not configured');
       return new Response(
         JSON.stringify({ error: 'API key not configured' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -55,65 +55,67 @@ serve(async (req) => {
       );
     }
 
-    console.log('Boosting style with content:', content);
+    console.log('Boosting style with AI:', content.substring(0, 100));
 
-    // Call Suno API to boost style
-    const response = await fetch('https://api.sunoapi.org/api/v1/style/generate', {
+    // Use Lovable AI to enhance the style description
+    const aiResponse = await fetch('https://api.lovable.dev/v1/ai/chat', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${sunoApiKey}`,
+        'Authorization': `Bearer ${lovableApiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ content }),
+      body: JSON.stringify({
+        model: 'google/gemini-2.5-flash',
+        messages: [
+          {
+            role: 'system',
+            content: `Ты профессиональный музыкальный продюсер. Твоя задача - улучшить описание музыкального стиля для Suno AI v5.
+
+Правила улучшения:
+1. Используй формат Suno v5: [Category: Value]
+2. Добавь 5-8 релевантных мета-тегов из категорий: Genre, Mood, Instrument, Vocal Style, Production, Texture, Energy
+3. Сделай описание более детальным и профессиональным
+4. Убери противоречивые элементы
+5. Максимум 2 жанра, 3-4 инструмента
+6. Отвечай ТОЛЬКО улучшенным текстом стиля, без пояснений
+
+Пример улучшения:
+Вход: "грустная медленная песня"
+Выход: "[Genre: Indie Folk, Acoustic] [Mood: Melancholic, Introspective] [Instrument: Acoustic Guitar, Piano, Cello] [Vocal Style: Soft, Breathy] [Production: Intimate, Lo-Fi] [Texture: Sparse, Reverb-Light] [Energy: Low] [BPM: 65-75]"`,
+          },
+          {
+            role: 'user',
+            content: `Улучши это описание стиля:\n\n${content}`,
+          },
+        ],
+        temperature: 0.7,
+        max_tokens: 500,
+      }),
     });
 
-    const data = await response.json();
-    console.log('Suno API response:', JSON.stringify(data, null, 2));
-
-    if (!response.ok || data.code !== 200) {
-      console.error('Suno API error:', data);
-      
-      if (data.code === 429) {
-        return new Response(
-          JSON.stringify({ 
-            error: 'Недостаточно кредитов на SunoAPI',
-            code: 429 
-          }),
-          { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
-      }
-
-      if (data.code === 430) {
-        return new Response(
-          JSON.stringify({ 
-            error: 'Слишком частые запросы, попробуйте позже',
-            code: 430 
-          }),
-          { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
-      }
-
-      return new Response(
-        JSON.stringify({ error: data.msg || 'Failed to boost style' }),
-        { status: response.status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+    if (!aiResponse.ok) {
+      const errorText = await aiResponse.text();
+      console.error('Lovable AI error:', aiResponse.status, errorText);
+      throw new Error(`AI API error: ${aiResponse.status}`);
     }
 
-    const result = data.data?.result;
-    
-    if (!result) {
-      console.error('No result in response:', data);
+    const aiData = await aiResponse.json();
+    const boostedStyle = aiData.choices?.[0]?.message?.content?.trim();
+
+    if (!boostedStyle) {
+      console.error('No style in AI response:', aiData);
       return new Response(
         JSON.stringify({ error: 'No style generated' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
+    console.log('Style boosted successfully');
+
     return new Response(
       JSON.stringify({ 
-        boostedStyle: result,
-        creditsConsumed: data.data?.creditsConsumed,
-        creditsRemaining: data.data?.creditsRemaining,
+        boostedStyle,
+        original: content,
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );

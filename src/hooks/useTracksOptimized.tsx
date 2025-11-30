@@ -65,6 +65,8 @@ export const useTracks = (projectId?: string) => {
     queryFn: async () => {
       if (!user?.id) return [];
 
+      console.log('🔄 Fetching tracks for user:', user.id);
+
       return retryWithBackoff(async () => {
         let query = supabase
           .from('tracks')
@@ -78,7 +80,12 @@ export const useTracks = (projectId?: string) => {
 
         const { data, error } = await query;
 
-        if (error) throw error;
+        if (error) {
+          console.error('❌ Error fetching tracks:', error);
+          throw error;
+        }
+
+        console.log(`✅ Fetched ${data?.length || 0} tracks`);
 
         const trackIds = data?.map(t => t.id) || [];
 
@@ -106,16 +113,21 @@ export const useTracks = (projectId?: string) => {
 
         const userLikes = new Set(userLikesData.data?.map(l => l.track_id) || []);
 
-        return data?.map(track => ({
+        const enrichedTracks = data?.map(track => ({
           ...track,
           likes_count: likesCounts[track.id] || 0,
           is_liked: userLikes.has(track.id),
         })) || [];
+
+        console.log('✅ Tracks enriched with likes');
+        return enrichedTracks;
       });
     },
     enabled: !!user?.id,
-    staleTime: 30000, // 30 seconds
+    staleTime: 10000, // 10 seconds - уменьшено для более частых обновлений
     gcTime: 5 * 60 * 1000, // 5 minutes
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
 
   // Realtime subscription for tracks updates with error handling

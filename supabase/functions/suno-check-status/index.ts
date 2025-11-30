@@ -138,6 +138,13 @@ serve(async (req) => {
       // If complete, download and save to storage
       if (isComplete) {
         console.log('Task completed, downloading and saving files');
+        console.log('Track ID to update:', trackId);
+        console.log('First clip data:', JSON.stringify({
+          title: firstClip.title,
+          audioUrl: firstClip.audioUrl,
+          imageUrl: firstClip.imageUrl,
+          duration: firstClip.duration,
+        }));
         
         let localAudioUrl = null;
         let localCoverUrl = null;
@@ -188,8 +195,10 @@ serve(async (req) => {
           console.error('Error downloading files:', downloadError);
         }
 
-        // Update track with complete data
-        await supabase
+        // Update track with complete data - use service role to bypass RLS
+        console.log('Updating track with ID:', trackId);
+        
+        const { data: updatedTrack, error: trackUpdateError } = await supabase
           .from('tracks')
           .update({
             status: 'completed',
@@ -198,40 +207,72 @@ serve(async (req) => {
             local_audio_url: localAudioUrl,
             cover_url: firstClip.imageUrl || task.tracks?.cover_url,
             local_cover_url: localCoverUrl,
-            title: firstClip.title || task.tracks?.title,
-            duration_seconds: firstClip.duration || null,
+            title: firstClip.title || task.tracks?.title || 'Untitled',
+            duration_seconds: Math.floor(firstClip.duration || 0),
             tags: firstClip.tags || task.tracks?.tags,
             lyrics: firstClip.lyric || task.tracks?.lyrics,
             suno_id: firstClip.id || null,
+            updated_at: new Date().toISOString(),
           })
-          .eq('id', trackId);
+          .eq('id', trackId)
+          .select();
+
+        if (trackUpdateError) {
+          console.error('❌ Error updating track:', trackUpdateError);
+          throw new Error(`Failed to update track: ${trackUpdateError.message}`);
+        } else {
+          console.log('✅ Track updated successfully:', updatedTrack);
+        }
 
         // Update generation task
-        await supabase
+        console.log('Updating generation task with ID:', task.id);
+        
+        const { data: updatedTask, error: taskUpdateError } = await supabase
           .from('generation_tasks')
           .update({
             status: 'completed',
             completed_at: new Date().toISOString(),
             callback_received_at: new Date().toISOString(),
             audio_clips: clips,
+            updated_at: new Date().toISOString(),
           })
-          .eq('id', task.id);
+          .eq('id', task.id)
+          .select();
+
+        if (taskUpdateError) {
+          console.error('❌ Error updating generation task:', taskUpdateError);
+        } else {
+          console.log('✅ Generation task updated successfully:', updatedTask);
+        }
       }
 
-      // Create track version
-      await supabase
+      // Create track version (only if doesn't exist)
+      const { data: existingVersion } = await supabase
         .from('track_versions')
-        .insert({
-          track_id: trackId,
-          audio_url: firstClip.audioUrl,
-          cover_url: firstClip.imageUrl,
-          duration_seconds: firstClip.duration,
-          version_type: 'original',
-          is_primary: true,
-        });
+        .select('id')
+        .eq('track_id', trackId)
+        .eq('version_type', 'original')
+        .single();
+
+      if (!existingVersion) {
+        const { error: versionError } = await supabase
+          .from('track_versions')
+          .insert({
+            track_id: trackId,
+            audio_url: firstClip.audioUrl,
+            cover_url: firstClip.imageUrl,
+            duration_seconds: firstClip.duration,
+            version_type: 'original',
+            is_primary: true,
+          });
+
+        if (versionError) {
+          console.error('Error creating track version:', versionError);
+        }
+      }
 
       // Log completion
-      await supabase
+      const { error: logError } = await supabase
         .from('track_change_log')
         .insert({
           track_id: trackId,
@@ -245,8 +286,12 @@ serve(async (req) => {
           },
         });
 
+      if (logError) {
+        console.error('Error logging completion:', logError);
+      }
+
       // Create notification
-      await supabase
+      const { error: notifError } = await supabase
         .from('notifications')
         .insert({
           user_id: task.user_id,
@@ -256,11 +301,24 @@ serve(async (req) => {
           action_url: `/library`,
         });
 
+      if (notifError) {
+        console.error('Error creating notification:', notifError);
+      }
+
+      console.log('✅ Track generation fully completed and synced');
+
       return new Response(
         JSON.stringify({ 
           success: true, 
           status: 'completed',
-          track: firstClip,
+          track: {
+            id: trackId,
+            title: firstClip.title,
+            audioUrl: firstClip.audioUrl,
+            coverUrl: firstClip.imageUrl,
+            duration: firstClip.duration,
+          },
+          message: 'Track generation completed successfully',
         }),
         { 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },

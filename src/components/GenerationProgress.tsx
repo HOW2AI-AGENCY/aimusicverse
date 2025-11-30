@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { useGenerationPolling } from '@/hooks/useGenerationPolling';
 import { AudioPlayer } from './AudioPlayer';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface GenerationTask {
   id: string;
@@ -31,6 +32,7 @@ interface GenerationTask {
 
 export const GenerationProgress = () => {
   const { user } = useAuth();
+  const queryClient = useQueryClient();
   const [tasks, setTasks] = useState<GenerationTask[]>([]);
   const [loading, setLoading] = useState(true);
   const [checkingStatus, setCheckingStatus] = useState<string | null>(null);
@@ -40,39 +42,39 @@ export const GenerationProgress = () => {
   // Автоматический polling статуса генерации
   useGenerationPolling();
 
+  const fetchTasks = async () => {
+    const { data, error } = await supabase
+      .from('generation_tasks')
+      .select(`
+        *,
+        tracks (
+          id,
+          title,
+          streaming_url,
+          local_audio_url,
+          audio_url,
+          cover_url,
+          status
+        )
+      `)
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(5);
+
+    if (!error && data) {
+      setTasks(data as any);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     if (!user) return;
-
-    const fetchTasks = async () => {
-      const { data, error } = await supabase
-      .from('generation_tasks')
-        .select(`
-          *,
-          tracks (
-            id,
-            title,
-            streaming_url,
-            local_audio_url,
-            audio_url,
-            cover_url,
-            status
-          )
-        `)
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(5);
-
-      if (!error && data) {
-        setTasks(data as any);
-      }
-      setLoading(false);
-    };
 
     fetchTasks();
 
     // Subscribe to realtime updates
     const channel = supabase
-      .channel('generation-progress')
+      .channel(`generation_progress_${user.id}`)
       .on(
         'postgres_changes',
         {
@@ -81,7 +83,8 @@ export const GenerationProgress = () => {
           table: 'generation_tasks',
           filter: `user_id=eq.${user.id}`,
         },
-        () => {
+        (payload) => {
+          console.log('Generation task updated:', payload);
           fetchTasks();
         }
       )
@@ -93,11 +96,14 @@ export const GenerationProgress = () => {
           table: 'tracks',
           filter: `user_id=eq.${user.id}`,
         },
-        () => {
+        (payload) => {
+          console.log('Track updated:', payload);
           fetchTasks();
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log('Generation progress realtime status:', status);
+      });
 
     return () => {
       supabase.removeChannel(channel);
@@ -158,11 +164,25 @@ export const GenerationProgress = () => {
     setCheckingStatus(taskId);
     
     try {
+      console.log('Manually checking status for task:', taskId);
+      
       const { data, error } = await supabase.functions.invoke('suno-check-status', {
         body: { taskId },
       });
 
-      if (error) throw error;
+      console.log('Check status response:', data);
+
+      if (error) {
+        console.error('Check status error:', error);
+        throw error;
+      }
+
+      // Force refresh tasks after check
+      await fetchTasks();
+      
+      // Also invalidate all related queries
+      queryClient.invalidateQueries({ queryKey: ['tracks'] });
+      queryClient.invalidateQueries({ queryKey: ['generation_tasks'] });
 
       if (data.status === 'completed') {
         toast({
@@ -178,7 +198,7 @@ export const GenerationProgress = () => {
       } else {
         toast({
           title: 'Генерация продолжается',
-          description: 'Трек все еще обрабатывается',
+          description: `Статус: ${data.status || data.progress || 'обработка'}`,
         });
       }
     } catch (error: any) {
@@ -198,12 +218,28 @@ export const GenerationProgress = () => {
   }
 
   const activeTasks = tasks.filter((t) => {
-    // Фильтруем только действительно активные задачи
-    const taskStatus = t.tracks?.status || t.status;
+    // Показываем только активные задачи
+    const taskStatus = t.status;
+    const trackStatus = t.tracks?.status;
     
-    // Не показываем завершенные или ошибочные задачи
-    if (taskStatus === 'completed' || taskStatus === 'failed') {
+    // Задача completed но трек все еще processing - показываем с кнопкой refresh
+    if (taskStatus === 'completed' && trackStatus === 'processing') {
+      return true;
+    }
+    
+    // Не показываем полностью завершенные
+    if (taskStatus === 'completed' && trackStatus === 'completed') {
       return false;
+    }
+    
+    // Не показываем ошибочные старше 5 минут
+    if (taskStatus === 'failed') {
+      const taskAge = Date.now() - new Date(t.created_at).getTime();
+      const fiveMinutes = 5 * 60 * 1000;
+      if (taskAge > fiveMinutes) {
+        return false;
+      }
+      return true;
     }
     
     // Не показываем задачи старше 15 минут в статусе processing
@@ -215,7 +251,7 @@ export const GenerationProgress = () => {
       }
     }
     
-    return taskStatus === 'pending' || taskStatus === 'processing' || taskStatus === 'streaming_ready';
+    return taskStatus === 'pending' || taskStatus === 'processing' || trackStatus === 'streaming_ready';
   });
 
   if (activeTasks.length === 0) {
@@ -226,91 +262,99 @@ export const GenerationProgress = () => {
     <>
       <div className="fixed top-4 right-4 z-50 w-80 space-y-2 max-h-[80vh] overflow-y-auto">
         {activeTasks.map((task) => {
-        const trackStatus = task.tracks?.status || task.status;
-        const progress = getProgress(trackStatus);
+          const taskStatus = task.status;
+          const trackStatus = task.tracks?.status || task.status;
+          const displayStatus = trackStatus;
+          const progress = getProgress(displayStatus);
 
-        return (
-          <Card
-            key={task.id}
-            className={cn(
-              'glass-card border-primary/20 p-4 animate-in slide-in-from-right',
-              trackStatus === 'failed' && 'border-destructive/20'
-            )}
-          >
-            <div className="flex items-start gap-3">
-              <div className="mt-0.5">{getStatusIcon(trackStatus)}</div>
-              
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <p className="text-sm font-medium truncate">
-                    {task.tracks?.title || task.prompt.substring(0, 30)}
-                  </p>
-                  <Badge variant="outline" className="text-xs">
-                    {task.model_used || 'V4'}
-                  </Badge>
-                </div>
-
-                <p className="text-xs text-muted-foreground mb-2">
-                  {getStatusText(trackStatus)}
-                </p>
-
-                {trackStatus !== 'failed' && (
-                  <Progress value={progress} className="h-1.5" />
-                )}
-
-                {/* Streaming ready - показываем аудиоплеер */}
-                {trackStatus === 'streaming_ready' && task.tracks?.streaming_url && (
-                  <div className="mt-2 space-y-1">
-                    <p className="text-xs text-primary">
-                      ⚡ Можно начинать слушать
+          return (
+            <Card
+              key={task.id}
+              className={cn(
+                'glass-card border-primary/20 p-4 animate-in slide-in-from-right',
+                displayStatus === 'failed' && 'border-destructive/20'
+              )}
+            >
+              <div className="flex items-start gap-3">
+                <div className="mt-0.5">{getStatusIcon(displayStatus)}</div>
+                
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <p className="text-sm font-medium truncate">
+                      {task.tracks?.title || task.prompt.substring(0, 30)}
                     </p>
+                    <Badge variant="outline" className="text-xs">
+                      {task.model_used || 'V4'}
+                    </Badge>
+                  </div>
+
+                  <p className="text-xs text-muted-foreground mb-2">
+                    {getStatusText(displayStatus)}
+                    {taskStatus === 'completed' && trackStatus === 'processing' && (
+                      <span className="text-yellow-500 ml-1">
+                        - синхронизация...
+                      </span>
+                    )}
+                  </p>
+
+                  {displayStatus !== 'failed' && (
+                    <Progress value={progress} className="h-1.5" />
+                  )}
+
+                  {/* Force refresh button for stuck tasks */}
+                  {(displayStatus === 'processing' || (taskStatus === 'completed' && trackStatus === 'processing')) && (
                     <Button
                       size="sm"
-                      variant="outline"
-                      className="h-7 w-full text-xs gap-1"
-                      onClick={() => setPlayingTrackId(
-                        playingTrackId === task.tracks?.id ? null : task.tracks?.id || null
-                      )}
+                      variant="ghost"
+                      className="h-7 text-xs mt-2"
+                      onClick={() => handleCheckStatus(task.id)}
+                      disabled={checkingStatus === task.id}
                     >
-                      {playingTrackId === task.tracks?.id ? (
+                      {checkingStatus === task.id ? (
                         <>
-                          <Pause className="w-3 h-3" />
-                          Остановить
+                          <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                          Проверка...
                         </>
                       ) : (
                         <>
-                          <Play className="w-3 h-3" />
-                          Прослушать
+                          <RefreshCw className="w-3 h-3 mr-1" />
+                          Обновить
                         </>
                       )}
                     </Button>
-                  </div>
-                )}
+                  )}
 
-                {trackStatus === 'processing' && (
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="h-7 text-xs mt-2"
-                    onClick={() => handleCheckStatus(task.id)}
-                    disabled={checkingStatus === task.id}
-                  >
-                    {checkingStatus === task.id ? (
-                      <>
-                        <Loader2 className="w-3 h-3 mr-1 animate-spin" />
-                        Проверка...
-                      </>
-                    ) : (
-                      <>
-                        <RefreshCw className="w-3 h-3 mr-1" />
-                        Проверить статус
-                      </>
-                    )}
-                  </Button>
-                )}
+                  {/* Streaming ready - показываем аудиоплеер */}
+                  {displayStatus === 'streaming_ready' && task.tracks?.streaming_url && (
+                    <div className="mt-2 space-y-1">
+                      <p className="text-xs text-primary">
+                        ⚡ Можно начинать слушать
+                      </p>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="h-7 w-full text-xs gap-1"
+                        onClick={() => setPlayingTrackId(
+                          playingTrackId === task.tracks?.id ? null : task.tracks?.id || null
+                        )}
+                      >
+                        {playingTrackId === task.tracks?.id ? (
+                          <>
+                            <Pause className="w-3 h-3" />
+                            Остановить
+                          </>
+                        ) : (
+                          <>
+                            <Play className="w-3 h-3" />
+                            Прослушать
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </Card>
+            </Card>
           );
         })}
       </div>
