@@ -34,6 +34,9 @@ export default function Library() {
     syncTags,
   } = useTracks();
 
+  // IMPORTANT: Call hooks before early returns to avoid "Rendered more hooks" error
+  const { data: versions } = useTrackVersions(fullscreenTrackId || '');
+
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5">
@@ -51,8 +54,6 @@ export default function Library() {
       track.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       track.prompt?.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const { data: versions } = useTrackVersions(fullscreenTrackId || '');
 
   const handlePlay = (trackId: string, audioUrl: string | null) => {
     if (!audioUrl) return;

@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useAudioPlayer } from '@/hooks/useAudioPlayer';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
+import { AudioWaveformVisualizer } from '@/components/AudioWaveformVisualizer';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -202,28 +203,15 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
 
             {/* Controls */}
             <Card className="w-full max-w-md glass-card border-primary/20 p-6 space-y-4">
-              {/* Progress Bar */}
+              {/* Waveform Visualizer */}
               <div className="space-y-2">
-                <div className="relative h-2 bg-secondary rounded-full overflow-hidden">
-                  <div
-                    className="absolute h-full bg-secondary-foreground/20 transition-all"
-                    style={{ width: `${buffered}%` }}
-                  />
-                  <div
-                    className="absolute h-full bg-primary transition-all"
-                    style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
-                  />
-                </div>
-
-                {duration > 0 && (
-                  <Slider
-                    value={[currentTime]}
-                    max={duration}
-                    step={0.1}
-                    onValueChange={handleSeek}
-                    className="w-full"
-                  />
-                )}
+                <AudioWaveformVisualizer
+                  audioUrl={audioUrl}
+                  isPlaying={isPlaying}
+                  currentTime={currentTime}
+                  duration={duration}
+                  onSeek={seek}
+                />
 
                 <div className="flex justify-between text-xs text-muted-foreground">
                   <span>{formatTime(currentTime)}</span>
