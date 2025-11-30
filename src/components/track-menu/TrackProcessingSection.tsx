@@ -1,5 +1,5 @@
 import { DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
-import { Scissors, Wand2, ImagePlus, FileAudio } from 'lucide-react';
+import { Scissors, Wand2, ImagePlus, FileAudio, Music2 } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 
 interface TrackProcessingSectionProps {
@@ -8,6 +8,7 @@ interface TrackProcessingSectionProps {
   onSeparateVocals: (mode: 'simple' | 'detailed') => void;
   onGenerateCover: () => void;
   onConvertToWav: () => void;
+  onTranscribeMidi: () => void;
 }
 
 export function TrackProcessingSection({
@@ -16,6 +17,7 @@ export function TrackProcessingSection({
   onSeparateVocals,
   onGenerateCover,
   onConvertToWav,
+  onTranscribeMidi,
 }: TrackProcessingSectionProps) {
   if (!track.audio_url || track.status !== 'completed') {
     return null;
@@ -52,6 +54,11 @@ export function TrackProcessingSection({
           Конвертировать в WAV
         </DropdownMenuItem>
       )}
+
+      <DropdownMenuItem onClick={onTranscribeMidi} disabled={isProcessing}>
+        <Music2 className="w-4 h-4 mr-2" />
+        Транскрипция в MIDI
+      </DropdownMenuItem>
     </>
   );
 }

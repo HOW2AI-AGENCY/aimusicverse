@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Music, Sparkles, Loader2, Zap, FileAudio, Disc, Brain } from 'lucide-react';
+import { Music, Sparkles, Loader2, Zap, FileAudio, Disc, Brain, ArrowRight } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { UploadExtendDialog } from '@/components/UploadExtendDialog';
@@ -182,205 +182,211 @@ export default function Generate() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 p-4 pb-24">
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 rounded-full glass-card border-primary/20">
-            <Music className="w-6 h-6 text-primary" />
+      <div className="max-w-3xl mx-auto space-y-4">
+        {/* Header */}
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <div className="absolute inset-0 bg-primary/20 blur-xl animate-pulse" />
+            <div className="relative p-2.5 rounded-2xl glass-card border-primary/30">
+              <Music className="w-5 h-5 text-primary" />
+            </div>
           </div>
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              Генератор музыки
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-primary to-primary/70 bg-clip-text text-transparent">
+              AI Music Generator
             </h1>
-            <p className="text-muted-foreground">Создайте уникальный трек с помощью AI</p>
+            <p className="text-xs text-muted-foreground">Создайте уникальный трек за минуты</p>
           </div>
         </div>
 
-        <Card className="glass-card border-primary/20 p-6">
-          <Tabs value={mode} onValueChange={(v) => setMode(v as 'simple' | 'custom' | 'assistant')}>
-            <TabsList className="grid w-full grid-cols-3 mb-6">
-              <TabsTrigger value="simple">Простой режим</TabsTrigger>
-              <TabsTrigger value="custom">Профессиональный</TabsTrigger>
-              <TabsTrigger value="assistant">
-                <Brain className="w-3 h-3 mr-1" />
-                ИИ-помощник
-              </TabsTrigger>
-            </TabsList>
+        {/* Main Card */}
+        <Card className="glass-card border-primary/10 overflow-hidden">
+          <div className="p-4 space-y-4">
+            {/* Mode Tabs - Compact */}
+            <Tabs value={mode} onValueChange={(v) => setMode(v as 'simple' | 'custom' | 'assistant')}>
+              <TabsList className="grid w-full grid-cols-3 h-9 bg-secondary/50">
+                <TabsTrigger value="simple" className="text-xs">Простой</TabsTrigger>
+                <TabsTrigger value="custom" className="text-xs">Pro</TabsTrigger>
+                <TabsTrigger value="assistant" className="text-xs gap-1">
+                  <Brain className="w-3 h-3" />
+                  AI
+                </TabsTrigger>
+              </TabsList>
 
-            <TabsContent value="simple" className="space-y-4">
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <Label htmlFor="description">Описание трека</Label>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={handleBoostStyle}
-                    disabled={boostLoading || !description}
-                    className="gap-2"
-                  >
-                    {boostLoading ? (
-                      <>
-                        <Loader2 className="w-3 h-3 animate-spin" />
-                        Улучшение...
-                      </>
-                    ) : (
-                      <>
-                        <Zap className="w-3 h-3" />
-                        Улучшить
-                      </>
-                    )}
-                  </Button>
-                </div>
-                <Textarea
-                  id="description"
-                  placeholder="Опишите желаемый трек: жанр, настроение, инструменты..."
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  rows={6}
-                  className="mt-2"
-                />
-              </div>
-            </TabsContent>
-
-            <TabsContent value="custom" className="space-y-4">
-              <div>
-                <Label htmlFor="title">Название трека</Label>
-                <Input
-                  id="title"
-                  placeholder="My Awesome Track"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="mt-2"
-                />
-              </div>
-
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <Label htmlFor="style">Стиль и жанр</Label>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={handleBoostStyle}
-                    disabled={boostLoading || (!style && !tags)}
-                    className="gap-2"
-                  >
-                    {boostLoading ? (
-                      <>
-                        <Loader2 className="w-3 h-3 animate-spin" />
-                        Улучшение...
-                      </>
-                    ) : (
-                      <>
-                        <Zap className="w-3 h-3" />
-                        Улучшить
-                      </>
-                    )}
-                  </Button>
-                </div>
-                <Input
-                  id="style"
-                  placeholder="Synthwave, Electronic, Ambient..."
-                  value={style}
-                  onChange={(e) => setStyle(e.target.value)}
-                  className="mt-2"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="tags">Теги и настроение</Label>
-                <Input
-                  id="tags"
-                  placeholder="dark, energetic, nostalgic..."
-                  value={tags}
-                  onChange={(e) => setTags(e.target.value)}
-                  className="mt-2"
-                />
-              </div>
-
-              {!instrumental && (
+              <TabsContent value="simple" className="space-y-3 mt-4">
                 <div>
-                  <Label htmlFor="lyrics">Текст песни (опционально)</Label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <Label htmlFor="description" className="text-sm font-medium">Описание</Label>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBoostStyle}
+                      disabled={boostLoading || !description}
+                      className="h-7 gap-1.5 px-2"
+                    >
+                      {boostLoading ? (
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                      ) : (
+                        <Zap className="w-3 h-3" />
+                      )}
+                      <span className="text-xs">Boost</span>
+                    </Button>
+                  </div>
                   <Textarea
-                    id="lyrics"
-                    placeholder="[Verse]&#10;Your lyrics here...&#10;&#10;[Chorus]&#10;More lyrics..."
-                    value={lyrics}
-                    onChange={(e) => setLyrics(e.target.value)}
-                    rows={8}
-                    className="mt-2 font-mono text-sm"
+                    id="description"
+                    placeholder="Опишите стиль, жанр, настроение..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={5}
+                    className="resize-none text-sm"
                   />
                 </div>
-              )}
-            </TabsContent>
+              </TabsContent>
 
-            <TabsContent value="assistant" className="space-y-4">
-              <LongPromptAssistant onGenerateParts={handleGenerateParts} />
-            </TabsContent>
-          </Tabs>
+              <TabsContent value="custom" className="space-y-3 mt-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label htmlFor="title" className="text-sm font-medium">Название</Label>
+                    <Input
+                      id="title"
+                      placeholder="My Track"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      className="mt-1.5 h-9 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="tags" className="text-sm font-medium">Теги</Label>
+                    <Input
+                      id="tags"
+                      placeholder="dark, energetic..."
+                      value={tags}
+                      onChange={(e) => setTags(e.target.value)}
+                      className="mt-1.5 h-9 text-sm"
+                    />
+                  </div>
+                </div>
 
-          {mode !== 'assistant' && (
-          <div className="flex items-center justify-between mt-6 pt-6 border-t">
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="instrumental"
-                checked={instrumental}
-                onCheckedChange={setInstrumental}
-              />
-              <Label htmlFor="instrumental" className="cursor-pointer">
-                Инструментальная версия
-              </Label>
-            </div>
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <Label htmlFor="style" className="text-sm font-medium">Стиль</Label>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBoostStyle}
+                      disabled={boostLoading || (!style && !tags)}
+                      className="h-7 gap-1.5 px-2"
+                    >
+                      {boostLoading ? (
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                      ) : (
+                        <Zap className="w-3 h-3" />
+                      )}
+                      <span className="text-xs">Boost</span>
+                    </Button>
+                  </div>
+                  <Input
+                    id="style"
+                    placeholder="Synthwave, Electronic..."
+                    value={style}
+                    onChange={(e) => setStyle(e.target.value)}
+                    className="h-9 text-sm"
+                  />
+                </div>
 
-            <Button
-              onClick={handleGenerate}
-              disabled={loading}
-              size="lg"
-              className="gap-2"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Генерация...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-4 h-4" />
-                  Создать трек
-                </>
-              )}
-            </Button>
+                {!instrumental && (
+                  <div>
+                    <Label htmlFor="lyrics" className="text-sm font-medium">Текст</Label>
+                    <Textarea
+                      id="lyrics"
+                      placeholder="[Verse]&#10;Your lyrics...&#10;&#10;[Chorus]&#10;..."
+                      value={lyrics}
+                      onChange={(e) => setLyrics(e.target.value)}
+                      rows={6}
+                      className="mt-1.5 resize-none font-mono text-xs"
+                    />
+                  </div>
+                )}
+              </TabsContent>
+
+              <TabsContent value="assistant" className="mt-4">
+                <LongPromptAssistant onGenerateParts={handleGenerateParts} />
+              </TabsContent>
+            </Tabs>
+
+            {/* Footer Actions */}
+            {mode !== 'assistant' && (
+              <div className="flex items-center justify-between pt-3 border-t border-border/50">
+                <div className="flex items-center gap-2">
+                  <Switch
+                    id="instrumental"
+                    checked={instrumental}
+                    onCheckedChange={setInstrumental}
+                  />
+                  <Label htmlFor="instrumental" className="text-xs cursor-pointer text-muted-foreground">
+                    Инструментальная
+                  </Label>
+                </div>
+
+                <Button
+                  onClick={handleGenerate}
+                  disabled={loading}
+                  size="sm"
+                  className="gap-2 px-6 h-9"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span className="text-sm">Генерация...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-sm font-medium">Создать</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </>
+                  )}
+                </Button>
+              </div>
+            )}
           </div>
-          )}
         </Card>
 
-        <Card className="glass-card border-primary/20 p-6">
-          <h3 className="text-lg font-semibold mb-4">Советы по созданию</h3>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>• Опишите желаемый жанр и настроение максимально подробно</li>
-            <li>• Упомяните конкретные инструменты, если они важны</li>
-            <li>• Укажите темп: медленный, средний или быстрый</li>
-            <li>• В профессиональном режиме можно указать структуру: [Verse], [Chorus], [Bridge]</li>
+        {/* Quick Actions */}
+        <div className="grid grid-cols-2 gap-3">
+          <Button
+            onClick={() => setUploadExtendOpen(true)}
+            variant="outline"
+            size="sm"
+            className="gap-2 h-10 border-primary/20"
+          >
+            <FileAudio className="w-4 h-4" />
+            <span className="text-sm">Расширить аудио</span>
+          </Button>
+          <Button
+            onClick={() => setUploadCoverOpen(true)}
+            variant="outline"
+            size="sm"
+            className="gap-2 h-10 border-primary/20"
+          >
+            <Disc className="w-4 h-4" />
+            <span className="text-sm">Создать кавер</span>
+          </Button>
+        </div>
+
+        {/* Tips */}
+        <Card className="glass-card border-primary/5 p-4">
+          <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+            <Sparkles className="w-3.5 h-3.5 text-primary" />
+            Советы
+          </h3>
+          <ul className="space-y-1.5 text-xs text-muted-foreground leading-relaxed">
+            <li>• Укажите жанр, настроение и темп для лучших результатов</li>
+            <li>• Используйте Boost для оптимизации описания стиля</li>
+            <li>• В Pro-режиме доступна структура: [Verse], [Chorus], [Bridge]</li>
             <li>• Генерация занимает 2-5 минут</li>
           </ul>
-          
-          <div className="mt-6 pt-6 border-t space-y-2">
-            <Button
-              onClick={() => setUploadExtendOpen(true)}
-              variant="outline"
-              className="w-full gap-2"
-            >
-              <FileAudio className="w-4 h-4" />
-              Загрузить и расширить аудио
-            </Button>
-            <Button
-              onClick={() => setUploadCoverOpen(true)}
-              variant="outline"
-              className="w-full gap-2"
-            >
-              <Disc className="w-4 h-4" />
-              Создать кавер аудио
-            </Button>
-          </div>
         </Card>
       </div>
 

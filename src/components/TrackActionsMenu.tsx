@@ -47,6 +47,18 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
     handleGenerateCover,
   } = useTrackActions();
 
+  const handleTranscribeMidi = async () => {
+    const { useMidiTranscription } = await import('@/hooks/useMidiTranscription');
+    const transcribe = useMidiTranscription();
+    if (track.audio_url) {
+      transcribe.mutate({
+        trackId: track.id,
+        audioUrl: track.audio_url,
+        modelType: 'mt3',
+      });
+    }
+  };
+
   const handleSendToTelegram = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -145,6 +157,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                   onSeparateVocals={(mode) => handleSeparateVocals(track, mode)}
                   onGenerateCover={() => handleGenerateCover(track)}
                   onConvertToWav={() => handleConvertToWav(track)}
+                  onTranscribeMidi={handleTranscribeMidi}
                 />
               </DropdownMenuSubContent>
             </DropdownMenuSub>
