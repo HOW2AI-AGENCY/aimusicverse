@@ -57,9 +57,9 @@ Provide concise, accurate information suitable for music generation AI.`;
 
     console.log('Creating Replicate prediction...');
 
-    // Use Replicate SDK to run the model
+    // Use Replicate SDK with the correct model identifier (without :latest)
     const output = await replicate.run(
-      "zsxkib/audio-flamingo-3:latest",
+      "zsxkib/audio-flamingo-3",
       {
         input: {
           audio: audio_url,
