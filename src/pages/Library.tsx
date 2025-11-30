@@ -11,12 +11,16 @@ import { TrackLyricsView } from '@/components/TrackLyricsView';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { GenerationProgress } from '@/components/GenerationProgress';
 import { AudioPlayer } from '@/components/AudioPlayer';
+import { useGenerationPolling } from '@/hooks/useGenerationPolling';
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [playingTrackId, setPlayingTrackId] = useState<string | null>(null);
   const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
+
+  // Автоматический polling статуса генерации
+  useGenerationPolling();
 
   const {
     tracks,
