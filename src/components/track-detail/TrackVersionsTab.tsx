@@ -1,9 +1,13 @@
 import { useTrackVersions } from '@/hooks/useTrackVersions';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Music2, Clock, Play, Download } from 'lucide-react';
+import { Music2, Clock, Play, Download, Check, Trash2, Plus } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import { useTrackVersionManagement } from '@/hooks/useTrackVersionManagement';
+import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from '@tanstack/react-query';
+import { Track } from '@/hooks/useTracksOptimized';
 
 interface TrackVersionsTabProps {
   trackId: string;
@@ -11,6 +15,27 @@ interface TrackVersionsTabProps {
 
 export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
   const { data: versions, isLoading } = useTrackVersions(trackId);
+  const { 
+    isProcessing, 
+    createVersionFromTrack, 
+    setVersionAsPrimary, 
+    deleteVersion 
+  } = useTrackVersionManagement();
+
+  // Fetch main track data
+  const { data: mainTrack } = useQuery({
+    queryKey: ['track', trackId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('tracks')
+        .select('*')
+        .eq('id', trackId)
+        .single();
+      
+      if (error) throw error;
+      return data as Track;
+    },
+  });
 
   const formatDuration = (seconds: number | null) => {
     if (!seconds) return 'N/A';
@@ -41,7 +66,28 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
     );
   }
 
-  if (!versions || versions.length === 0) {
+  // Combine main track with versions
+  const allVersions = [
+    ...(mainTrack ? [{
+      id: mainTrack.id,
+      track_id: mainTrack.id,
+      audio_url: mainTrack.audio_url || '',
+      cover_url: mainTrack.cover_url,
+      duration_seconds: mainTrack.duration_seconds,
+      version_type: 'current',
+      is_primary: true,
+      parent_version_id: null,
+      metadata: {
+        prompt: mainTrack.prompt,
+        style: mainTrack.style,
+        tags: mainTrack.tags,
+      },
+      created_at: mainTrack.created_at,
+    }] : []),
+    ...(versions || []),
+  ];
+
+  if (!allVersions || allVersions.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
         <Music2 className="w-12 h-12 text-muted-foreground mb-4" />
@@ -50,13 +96,33 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
     );
   }
 
+  const handlePlayVersion = (audioUrl: string) => {
+    const audio = new Audio(audioUrl);
+    audio.play();
+  };
+
   return (
     <div className="relative">
+      {/* Action buttons */}
+      {mainTrack && (
+        <div className="mb-6 flex gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => createVersionFromTrack(mainTrack)}
+            disabled={isProcessing}
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Создать версию из текущего трека
+          </Button>
+        </div>
+      )}
+
       {/* Timeline line */}
-      <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent" />
+      <div className="absolute left-6 top-20 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent" />
 
       <div className="space-y-6">
-        {versions.map((version, index) => (
+        {allVersions.map((version, index) => (
           <div key={version.id} className="relative pl-16 group">
             {/* Timeline dot */}
             <div
@@ -118,14 +184,45 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
               )}
 
               {/* Actions */}
-              <div className="flex gap-2">
-                <Button size="sm" variant="outline" className="flex-1">
+              <div className="flex gap-2 flex-wrap">
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="flex-1"
+                  onClick={() => handlePlayVersion(version.audio_url)}
+                >
                   <Play className="w-3 h-3 mr-1" />
                   Прослушать
                 </Button>
-                <Button size="sm" variant="outline">
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={() => window.open(version.audio_url, '_blank')}
+                >
                   <Download className="w-3 h-3" />
                 </Button>
+                
+                {!version.is_primary && version.version_type !== 'current' && (
+                  <>
+                    <Button 
+                      size="sm" 
+                      variant="default"
+                      onClick={() => setVersionAsPrimary(version.id, trackId)}
+                      disabled={isProcessing}
+                    >
+                      <Check className="w-3 h-3 mr-1" />
+                      Сделать текущей
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      variant="destructive"
+                      onClick={() => deleteVersion(version.id)}
+                      disabled={isProcessing}
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
 
