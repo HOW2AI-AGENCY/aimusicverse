@@ -143,10 +143,10 @@ export function TimestampedLyrics({ taskId, audioId, currentTime, isPlaying, dur
   }
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col pb-safe">
       {/* Audio Waveform Visualization */}
       {lyricsData?.waveformData && lyricsData.waveformData.length > 0 && (
-        <div className="mb-4 px-6 pt-6">
+        <div className="mb-4 px-4 md:px-6 pt-4 md:pt-6">
           <AudioWaveform
             waveformData={lyricsData.waveformData}
             currentTime={currentTime}
@@ -156,7 +156,7 @@ export function TimestampedLyrics({ taskId, audioId, currentTime, isPlaying, dur
       )}
 
       <ScrollArea className="flex-1" ref={scrollRef}>
-        <div className="p-6 space-y-4">
+        <div className="px-4 md:px-6 pb-24 md:pb-6 space-y-3 md:space-y-4">
           {lines.map((line, lineIndex) => {
           const lineStart = line[0].startS;
           const lineEnd = line[line.length - 1].endS;
@@ -167,7 +167,7 @@ export function TimestampedLyrics({ taskId, audioId, currentTime, isPlaying, dur
               key={lineIndex}
               ref={isActiveLine ? activeLineRef : null}
               className={`transition-all duration-300 ${
-                isActiveLine ? 'scale-105' : 'scale-100'
+                isActiveLine ? 'md:scale-105' : 'scale-100'
               }`}
             >
               <div className="flex flex-wrap gap-1">
@@ -178,9 +178,9 @@ export function TimestampedLyrics({ taskId, audioId, currentTime, isPlaying, dur
                   return (
                     <span
                       key={`${lineIndex}-${wordIndex}`}
-                      className={`inline-block transition-all duration-200 text-lg font-medium ${
+                      className={`inline-block transition-all duration-200 text-base md:text-lg font-medium ${
                         isActiveWord
-                          ? 'text-primary scale-110 font-bold'
+                          ? 'text-primary scale-105 md:scale-110 font-bold'
                           : isPast
                           ? 'text-foreground'
                           : 'text-muted-foreground'
