@@ -78,36 +78,44 @@ serve(async (req) => {
       }
     }
 
-    // Step 2: Analyze style, genre, mood using Lovable AI
+    // Step 2: Analyze style, genre, mood using Lovable AI (with Russian translation)
     if (analysisType === 'full' || analysisType === 'style') {
       console.log('Analyzing style with Lovable AI...');
       
-      const analysisPrompt = `Analyze this music track and provide a detailed analysis in JSON format.
+      const analysisPrompt = `Проанализируй этот музыкальный трек и предоставь детальный анализ в формате JSON.
 
-${transcription ? `Lyrics:\n${transcription.text}\n\n` : ''}
+${transcription ? `Текст песни:\n${transcription.text}\n\n` : ''}
 
-Provide the following analysis:
-1. Genre(s) - specific genres and subgenres
-2. Style - detailed description of musical style
-3. Mood/Emotion - emotional characteristics
-4. BPM estimate - approximate beats per minute
-5. Key signature - musical key if identifiable
-6. Instruments - prominent instruments used
-7. Vocal characteristics - if vocals present
-8. Production quality - assessment of mixing/mastering
-9. Tags - 5-10 descriptive tags for music generation
+Предоставь следующий анализ НА РУССКОМ ЯЗЫКЕ:
+1. Жанр(ы) - конкретные жанры и поджанры
+2. Стиль - детальное описание музыкального стиля
+3. Настроение/Эмоция - эмоциональные характеристики
+4. Оценка BPM - приблизительное количество ударов в минуту
+5. Тональность - музыкальная тональность, если определяется
+6. Инструменты - используемые инструменты
+7. Вокальные характеристики - если присутствует вокал
+8. Качество продакшена - оценка сведения/мастеринга
+9. Теги - 5-10 описательных тегов для генерации музыки
+10. Темп - описание темпа (медленный, средний, быстрый)
+11. Структура - структура трека (куплет, припев и т.д.)
+12. Валентность - эмоциональная окраска от 0 до 1 (0 - грустный, 1 - радостный)
+13. Возбуждение - уровень энергии от 0 до 1 (0 - спокойный, 1 - энергичный)
 
-Return ONLY valid JSON in this exact format:
+Верни ТОЛЬКО валидный JSON в точно таком формате:
 {
-  "genre": ["genre1", "genre2"],
-  "style": "detailed style description",
-  "mood": ["mood1", "mood2"],
+  "genre": ["жанр1", "жанр2"],
+  "style_description": "детальное описание стиля на русском",
+  "mood": "настроение на русском",
   "bpm": 120,
-  "key": "C major",
-  "instruments": ["instrument1", "instrument2"],
-  "vocals": "description or null",
-  "production": "assessment",
-  "tags": ["tag1", "tag2", "tag3"]
+  "key_signature": "тональность",
+  "instruments": ["инструмент1", "инструмент2"],
+  "tempo": "медленный/средний/быстрый",
+  "structure": "описание структуры",
+  "valence": 0.7,
+  "arousal": 0.6,
+  "approachability": "высокая/средняя/низкая",
+  "engagement": "высокое/среднее/низкое",
+  "tags": ["тег1", "тег2", "тег3"]
 }`;
 
       const styleResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
@@ -125,6 +133,7 @@ Return ONLY valid JSON in this exact format:
             },
           ],
           temperature: 0.3,
+          response_format: { type: "json_object" },
         }),
       });
 
@@ -141,67 +150,86 @@ Return ONLY valid JSON in this exact format:
                            analysisText.match(/```\s*([\s\S]*?)\s*```/);
           const jsonText = jsonMatch ? jsonMatch[1] : analysisText;
           styleAnalysis = JSON.parse(jsonText);
+          
+          console.log('✅ Style analysis parsed successfully:', styleAnalysis);
         } catch (e) {
-          console.error('Failed to parse style analysis JSON:', e);
-          styleAnalysis = { raw: analysisText };
+          const error = e as Error;
+          console.error('Failed to parse style analysis JSON:', error);
+          console.error('Raw analysis text:', analysisText);
+          styleAnalysis = { raw: analysisText, parse_error: error.message };
         }
       }
     }
 
-    // Step 3: Update track if trackId provided
-    if (trackId) {
-      const updates: any = {};
+    // Step 3: Save to audio_analysis table and update track
+    if (trackId && styleAnalysis) {
+      // Save structured analysis to audio_analysis table
+      const analysisData: any = {
+        track_id: trackId,
+        user_id: user.id,
+        analysis_type: 'ai_comprehensive',
+        genre: styleAnalysis.genre?.join(', ') || null,
+        style_description: styleAnalysis.style_description || null,
+        mood: styleAnalysis.mood || null,
+        bpm: styleAnalysis.bpm || null,
+        key_signature: styleAnalysis.key_signature || null,
+        instruments: styleAnalysis.instruments || [],
+        tempo: styleAnalysis.tempo || null,
+        structure: styleAnalysis.structure || null,
+        valence: styleAnalysis.valence || null,
+        arousal: styleAnalysis.arousal || null,
+        approachability: styleAnalysis.approachability || null,
+        engagement: styleAnalysis.engagement || null,
+        full_response: JSON.stringify(styleAnalysis),
+        analysis_metadata: {
+          transcription_available: !!transcription,
+          language: transcription?.language,
+          tags: styleAnalysis.tags || [],
+        },
+      };
+
+      const { error: analysisError } = await supabase
+        .from('audio_analysis')
+        .insert(analysisData);
+
+      if (analysisError) {
+        console.error('Failed to save audio analysis:', analysisError);
+      } else {
+        console.log('✅ Audio analysis saved to database');
+      }
+
+      // Update track with lyrics and tags
+      const trackUpdates: any = {};
       
       if (transcription) {
-        updates.lyrics = transcription.text;
+        trackUpdates.lyrics = transcription.text;
       }
       
-      if (styleAnalysis) {
-        updates.style = styleAnalysis.style;
-        updates.tags = styleAnalysis.tags?.join(', ');
-        
-        // Update metadata field
-        const { data: currentTrack } = await supabase
-          .from('tracks')
-          .select('metadata')
-          .eq('id', trackId)
-          .single();
-
-        const currentMetadata = currentTrack?.metadata || {};
-        updates.metadata = {
-          ...currentMetadata,
-          analysis: {
-            genre: styleAnalysis.genre,
-            mood: styleAnalysis.mood,
-            bpm: styleAnalysis.bpm,
-            key: styleAnalysis.key,
-            instruments: styleAnalysis.instruments,
-            vocals: styleAnalysis.vocals,
-            production: styleAnalysis.production,
-          },
-        };
+      if (styleAnalysis.tags) {
+        trackUpdates.tags = styleAnalysis.tags.join(', ');
       }
 
-      if (Object.keys(updates).length > 0) {
+      if (Object.keys(trackUpdates).length > 0) {
         await supabase
           .from('tracks')
-          .update(updates)
+          .update(trackUpdates)
           .eq('id', trackId);
-
-        // Log the analysis
-        await supabase.from('track_change_log').insert({
-          track_id: trackId,
-          user_id: user.id,
-          change_type: 'ai_analyze',
-          changed_by: 'ai',
-          ai_model_used: 'fal_wizper+gemini_2.5_flash',
-          metadata: {
-            analysis_type: analysisType,
-            transcription_success: !!transcription,
-            style_analysis_success: !!styleAnalysis,
-          },
-        });
       }
+
+      // Log the analysis action
+      await supabase.from('track_change_log').insert({
+        track_id: trackId,
+        user_id: user.id,
+        change_type: 'ai_analyze',
+        changed_by: 'ai',
+        ai_model_used: 'fal_wizper+gemini_2.5_flash',
+        metadata: {
+          analysis_type: analysisType,
+          transcription_success: !!transcription,
+          style_analysis_success: !!styleAnalysis,
+          language: transcription?.language,
+        },
+      });
     }
 
     return new Response(
