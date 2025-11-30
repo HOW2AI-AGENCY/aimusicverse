@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
-import { Upload, Mic, X, Play, Pause } from 'lucide-react';
+import { FileAudio, Mic, X, Play, Pause } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface AudioReferenceUploadProps {
@@ -97,7 +97,7 @@ export function AudioReferenceUpload({ audioFile, onAudioChange }: AudioReferenc
   return (
     <Card className="p-4 space-y-3">
       <Label className="text-base flex items-center gap-2">
-        <Upload className="w-4 h-4" />
+        <FileAudio className="w-4 h-4" />
         Референс аудио (опционально)
       </Label>
 
@@ -109,7 +109,7 @@ export function AudioReferenceUpload({ audioFile, onAudioChange }: AudioReferenc
             className="w-full gap-2"
             onClick={() => document.getElementById('audio-file-input')?.click()}
           >
-            <Upload className="w-4 h-4" />
+            <FileAudio className="w-4 h-4" />
             Загрузить файл
           </Button>
           <input

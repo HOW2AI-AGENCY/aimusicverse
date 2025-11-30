@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Sparkles, Loader2, Zap as ZapIcon, Sliders, Coins, Mic, FileAudio, FolderOpen, User, Music2, Upload } from 'lucide-react';
+import { Sparkles, Loader2, Zap as ZapIcon, Sliders, Coins, Mic, FileAudio, FolderOpen, User, Music2, History } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
@@ -20,6 +20,8 @@ import { AudioReferenceUpload } from './generate-form/AudioReferenceUpload';
 import { ArtistSelector } from './generate-form/ArtistSelector';
 import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
 import { AdvancedSettings } from './generate-form/AdvancedSettings';
+import { LyricsVisualEditor } from './generate-form/LyricsVisualEditor';
+import { PromptHistory, savePromptToHistory } from './generate-form/PromptHistory';
 
 interface GenerateSheetProps {
   open: boolean;
@@ -39,6 +41,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [uploadCoverOpen, setUploadCoverOpen] = useState(false);
   const [credits, setCredits] = useState<number | null>(null);
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [showVisualEditor, setShowVisualEditor] = useState(false);
   
   // Simple mode state
   const [description, setDescription] = useState('');
@@ -166,6 +170,16 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
       return;
     }
 
+    // Save to history before generating
+    savePromptToHistory({
+      mode,
+      description: mode === 'simple' ? description : undefined,
+      title: mode === 'custom' ? title : undefined,
+      style: mode === 'custom' ? style : undefined,
+      lyrics: mode === 'custom' && hasVocals ? lyrics : undefined,
+      model,
+    });
+
     setLoading(true);
     try {
       // Get persona ID from selected artist
@@ -264,14 +278,24 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         </SheetHeader>
 
         <div className="space-y-4">
-          {/* Header with credits and mode toggle */}
+          {/* Header with credits, history and mode toggle */}
           <div className="flex items-center justify-between gap-3">
-            {credits !== null && (
-              <Button variant="secondary" size="sm" className="rounded-full px-4 gap-2">
-                <Coins className="w-4 h-4" />
-                <span className="font-semibold">{credits.toFixed(2)}</span>
+            <div className="flex items-center gap-2">
+              {credits !== null && (
+                <Button variant="secondary" size="sm" className="rounded-full px-4 gap-2">
+                  <Coins className="w-4 h-4" />
+                  <span className="font-semibold">{credits.toFixed(2)}</span>
+                </Button>
+              )}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setHistoryOpen(true)}
+                className="gap-2"
+              >
+                <History className="w-4 h-4" />
               </Button>
-            )}
+            </div>
 
             <div className="flex items-center gap-1 p-0.5 rounded-lg bg-secondary/50">
               <Button
@@ -314,7 +338,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               className="h-12 gap-2 border-2"
               onClick={() => setProjectDialogOpen(true)}
             >
-              <Upload className="w-4 h-4" />
+              <FileAudio className="w-4 h-4" />
               <span className="text-sm font-medium">+ Audio</span>
             </Button>
 
@@ -452,21 +476,34 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                 <div className="flex items-center justify-between mb-2">
                   <Label className="text-sm">Lyrics</Label>
                   <div className="flex gap-1">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-6 px-2"
+                      onClick={() => setShowVisualEditor(!showVisualEditor)}
+                    >
+                      <span className="text-xs">{showVisualEditor ? 'Text' : 'Visual'}</span>
+                    </Button>
                     <Button variant="ghost" size="sm" className="h-6 px-2">
                       <span className="text-xs">AI</span>
                     </Button>
-                    <Button variant="ghost" size="sm" className="h-6 px-2">
-                      <span className="text-xs">Generate</span>
-                    </Button>
                   </div>
                 </div>
-                <Textarea
-                  placeholder="Введите текст песни или используйте AI генерацию..."
-                  value={lyrics}
-                  onChange={(e) => setLyrics(e.target.value)}
-                  rows={6}
-                  className="resize-none text-base"
-                />
+                
+                {showVisualEditor ? (
+                  <LyricsVisualEditor
+                    value={lyrics}
+                    onChange={setLyrics}
+                  />
+                ) : (
+                  <Textarea
+                    placeholder="Введите текст песни или используйте AI генерацию..."
+                    value={lyrics}
+                    onChange={(e) => setLyrics(e.target.value)}
+                    rows={6}
+                    className="resize-none text-base"
+                  />
+                )}
               </div>
 
               {/* Advanced Settings Collapsible */}
@@ -563,6 +600,23 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         open={uploadCoverOpen}
         onOpenChange={setUploadCoverOpen}
         projectId={selectedProjectId || initialProjectId}
+      />
+
+      {/* Prompt History */}
+      <PromptHistory
+        open={historyOpen}
+        onOpenChange={setHistoryOpen}
+        onSelectPrompt={(prompt) => {
+          setMode(prompt.mode);
+          if (prompt.mode === 'simple') {
+            setDescription(prompt.description || '');
+          } else {
+            setTitle(prompt.title || '');
+            setStyle(prompt.style || '');
+            setLyrics(prompt.lyrics || '');
+          }
+          if (prompt.model) setModel(prompt.model);
+        }}
       />
     </Sheet>
   );
