@@ -125,6 +125,11 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
           })
           .catch(err => {
             console.error('❌ Telegram authentication error:', err);
+            // TODO: Implement a more robust and user-friendly notification system.
+            // Using showAlert for now as a quick solution based on audit feedback.
+            if (tg.showAlert) {
+              tg.showAlert('Ошибка аутентификации. Пожалуйста, попробуйте перезапустить приложение.');
+            }
           });
       } else {
         console.error('❌ InitData не получен от Telegram!');
