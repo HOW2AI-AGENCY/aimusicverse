@@ -134,7 +134,7 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
         isFullscreen ? 'p-0' : 'p-4 md:p-8'
       )}
     >
-      <div className="h-full flex flex-col max-w-7xl mx-auto">
+      <div className="h-full flex flex-col max-w-7xl mx-auto pb-safe">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex-1">
@@ -282,14 +282,14 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
           </div>
 
           {/* Right: Lyrics */}
-          <Card className="glass-card border-primary/20 p-6 overflow-hidden flex flex-col">
-            <h3 className="text-xl font-semibold mb-4">Текст песни</h3>
+          <Card className="glass-card border-primary/20 p-4 md:p-6 overflow-hidden flex flex-col">
+            <h3 className="text-lg md:text-xl font-semibold mb-3 md:mb-4">Текст песни</h3>
             <div
               ref={lyricsRef}
-              className="flex-1 overflow-y-auto space-y-1 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent"
+              className="flex-1 overflow-y-auto space-y-1 pb-20 md:pb-4 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent"
             >
               {lyricsData?.alignedWords && lyricsData.alignedWords.length > 0 ? (
-                <div className="space-y-4">
+                <div className="space-y-2 md:space-y-4">
                   {lyricsData.alignedWords.map((word, index) => {
                     const isActive = currentTime >= word.startS && currentTime <= word.endS;
                     const isPast = currentTime > word.endS;
@@ -301,7 +301,7 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
                         initial={{ opacity: 0.4 }}
                         animate={{
                           opacity: isActive ? 1 : isPast ? 0.6 : 0.4,
-                          scale: isActive ? 1.1 : 1,
+                          scale: isActive ? 1.05 : 1,
                           color: isActive
                             ? 'hsl(var(--primary))'
                             : isPast
@@ -310,7 +310,7 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
                         }}
                         transition={{ duration: 0.2 }}
                         className={cn(
-                          'inline-block mr-2 text-lg md:text-xl font-medium cursor-pointer transition-all',
+                          'inline-block mr-2 text-base md:text-lg lg:text-xl font-medium cursor-pointer transition-all',
                           isActive && 'font-bold'
                         )}
                         onClick={() => seek(word.startS)}
@@ -321,7 +321,7 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
                   })}
                 </div>
               ) : track.lyrics ? (
-                <div className="whitespace-pre-wrap text-lg leading-relaxed">
+                <div className="whitespace-pre-wrap text-base md:text-lg leading-relaxed pb-20 md:pb-0">
                   {track.lyrics}
                 </div>
               ) : (
