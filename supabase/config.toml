@@ -80,3 +80,6 @@ verify_jwt = true
 
 [functions.suno-vocal-callback]
 verify_jwt = false
+
+[functions.analyze-long-prompt]
+verify_jwt = true
