@@ -48,6 +48,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
     handleTogglePublic,
     handleConvertToWav,
     handleGenerateCover,
+    handleSendToTelegram,
   } = useTrackActions();
 
   useEffect(() => {
@@ -83,7 +84,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
           </Button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuContent align="end" className="w-56 max-h-[70vh] overflow-y-auto">
           {/* Info */}
           <TrackInfoSection
             track={track}
@@ -135,6 +136,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
             onDownload={onDownload || (() => {})}
             onShare={() => handleShare(track)}
             onTogglePublic={() => handleTogglePublic(track)}
+            onSendToTelegram={() => handleSendToTelegram(track)}
           />
 
           <DropdownMenuSeparator />

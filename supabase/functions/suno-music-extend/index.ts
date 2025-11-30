@@ -191,6 +191,7 @@ serve(async (req) => {
     console.log('Sending extend request to SunoAPI:', JSON.stringify(sunoPayload, null, 2));
 
     // Call SunoAPI extend endpoint
+    const startTime = Date.now();
     const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate/extend', {
       method: 'POST',
       headers: {
@@ -200,7 +201,23 @@ serve(async (req) => {
       body: JSON.stringify(sunoPayload),
     });
 
+    const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
+    
+    console.log(`📥 Extend response (${duration}ms, $0.03)`);
+
+    // Log API call
+    await supabase.from('api_usage_logs').insert({
+      user_id: user.id,
+      service: 'suno',
+      endpoint: 'extend',
+      method: 'POST',
+      request_body: sunoPayload,
+      response_status: sunoResponse.status,
+      response_body: sunoData,
+      duration_ms: duration,
+      estimated_cost: 0.03,
+    });
 
     if (!sunoResponse.ok || sunoData.code !== 200) {
       console.error('SunoAPI extend error:', sunoData);

@@ -10,6 +10,7 @@ interface TrackShareSectionProps {
   onDownload: () => void;
   onShare: () => void;
   onTogglePublic: () => void;
+  onSendToTelegram: () => void;
 }
 
 export function TrackShareSection({
@@ -18,6 +19,7 @@ export function TrackShareSection({
   onDownload,
   onShare,
   onTogglePublic,
+  onSendToTelegram,
 }: TrackShareSectionProps) {
   if (!track.audio_url || track.status !== 'completed') {
     return null;
@@ -35,6 +37,11 @@ export function TrackShareSection({
       <DropdownMenuItem onClick={onShare}>
         <Share2 className="w-4 h-4 mr-2" />
         Поделиться
+      </DropdownMenuItem>
+
+      <DropdownMenuItem onClick={onSendToTelegram} disabled={isProcessing}>
+        <Send className="w-4 h-4 mr-2" />
+        Отправить в Telegram
       </DropdownMenuItem>
 
       <DropdownMenuSeparator />
