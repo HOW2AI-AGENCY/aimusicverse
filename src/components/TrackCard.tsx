@@ -9,6 +9,7 @@ import { TrackActionsSheet } from './TrackActionsSheet';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { toast } from 'sonner';
 
 interface TrackCardProps {
   track: Track;
@@ -51,26 +52,46 @@ export const TrackCard = ({
     fetchCounts();
     
     // Subscribe to track_stems for real-time updates
-    const channel = supabase
+    const stemsChannel = supabase
       .channel(`track-stems-${track.id}`)
       .on(
         'postgres_changes',
         {
-          event: '*',
+          event: 'INSERT',
           schema: 'public',
           table: 'track_stems',
           filter: `track_id=eq.${track.id}`,
         },
         (payload) => {
-          console.log('Stem update:', payload);
+          console.log('✅ New stem added:', payload);
+          fetchCounts();
+          toast.success('Стемы готовы! 🎵');
           setIsProcessing(false);
+        }
+      )
+      .subscribe();
+
+    // Subscribe to track_versions for real-time updates
+    const versionsChannel = supabase
+      .channel(`track-versions-${track.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'track_versions',
+          filter: `track_id=eq.${track.id}`,
+        },
+        (payload) => {
+          console.log('✅ New version added:', payload);
           fetchCounts();
         }
       )
       .subscribe();
 
     return () => {
-      supabase.removeChannel(channel);
+      supabase.removeChannel(stemsChannel);
+      supabase.removeChannel(versionsChannel);
     };
   }, [track.id]);
 

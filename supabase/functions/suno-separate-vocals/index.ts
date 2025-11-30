@@ -22,107 +22,100 @@ serve(async (req) => {
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      throw new Error('No authorization header');
-    }
-
-    const { data: { user }, error: userError } = await supabase.auth.getUser(
-      authHeader.replace('Bearer ', '')
-    );
-
-    if (userError || !user) {
-      throw new Error('Unauthorized');
-    }
-
     const body = await req.json();
-    const {
-      taskId,
-      audioId,
-      mode = 'simple', // 'simple' for vocal/instrumental only, 'detailed' for full stems
-    } = body;
+    const { taskId, audioId, mode = 'simple', userId } = body;
 
-    if (!taskId || !audioId) {
-      throw new Error('taskId and audioId are required');
+    console.log('🎵 Vocal separation request:', { taskId, audioId, mode, userId });
+
+    if (!taskId || !audioId || !userId) {
+      throw new Error('taskId, audioId, and userId are required');
     }
 
-    // Get original track
+    // Verify track ownership
     const { data: track, error: trackError } = await supabase
       .from('tracks')
       .select('*')
       .eq('suno_task_id', taskId)
-      .eq('suno_id', audioId)
+      .eq('user_id', userId)
       .single();
 
     if (trackError || !track) {
-      throw new Error('Track not found');
+      console.error('❌ Track not found:', trackError);
+      throw new Error('Track not found or access denied');
     }
 
+    console.log('✅ Track verified:', track.id);
+
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-vocal-callback`;
-    
-    // Call SunoAPI vocal separation endpoint
+    const requestBody = {
+      taskId,
+      audioId,
+      mode: mode === 'detailed' ? 'stems' : 'vocal_and_instrument',
+      callBackUrl: callbackUrl,
+    };
+
+    console.log('📤 Calling Suno API:', requestBody);
+
+    const startTime = Date.now();
     const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/vocal-removal/generate', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${sunoApiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        taskId,
-        audioId,
-        callBackUrl: callbackUrl,
-      }),
+      body: JSON.stringify(requestBody),
     });
 
+    const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
+    
+    console.log(`📥 Response (${duration}ms):`, sunoData);
+    console.log(`💰 Cost: $0.02`);
+
+    // Log API call
+    const { error: logError } = await supabase.from('api_usage_logs').insert({
+      user_id: userId,
+      service: 'suno',
+      endpoint: 'vocal-removal',
+      method: 'POST',
+      request_body: requestBody,
+      response_status: sunoResponse.status,
+      response_body: sunoData,
+      duration_ms: duration,
+      estimated_cost: 0.02,
+    });
+
+    if (logError) console.error('⚠️ Log error:', logError);
 
     if (!sunoResponse.ok || sunoData.code !== 200) {
       throw new Error(sunoData.msg || 'SunoAPI request failed');
     }
 
     const separationTaskId = sunoData.data?.taskId;
-
     if (!separationTaskId) {
-      throw new Error('No taskId returned from SunoAPI');
+      throw new Error('No taskId returned');
     }
 
-    // Log the separation request
-    await supabase
-      .from('track_change_log')
-      .insert({
-        track_id: track.id,
-        user_id: user.id,
-        change_type: 'vocal_separation_started',
-        changed_by: 'suno_api',
-        metadata: {
-          separation_task_id: separationTaskId,
-          mode,
-        },
-      });
+    console.log('✅ Separation initiated:', separationTaskId);
+
+    await supabase.from('track_change_log').insert({
+      track_id: track.id,
+      user_id: userId,
+      change_type: 'vocal_separation_started',
+      changed_by: 'suno_api',
+      metadata: { separation_task_id: separationTaskId, mode },
+    });
 
     return new Response(
-      JSON.stringify({
-        success: true,
-        trackId: track.id,
-        separationTaskId,
-      }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200,
-      }
+      JSON.stringify({ success: true, trackId: track.id, separationTaskId }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }
     );
 
   } catch (error: any) {
-    console.error('Error in suno-separate-vocals:', error);
+    console.error('❌ Error:', error);
     return new Response(
-      JSON.stringify({ 
-        success: false, 
-        error: error.message || 'Unknown error',
-      }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 500,
-      }
+      JSON.stringify({ success: false, error: error.message }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
     );
   }
 });

@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { logApiCall } from '../_shared/apiLogger.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -125,6 +126,8 @@ serve(async (req) => {
         const clip = clips[i];
         const isFirstClip = i === 0;
         
+        console.log(`💾 Processing clip ${i + 1}/${clips.length}:`, clip.id);
+        
         let localAudioUrl = null;
         let localCoverUrl = null;
 
@@ -132,7 +135,8 @@ serve(async (req) => {
           // Download and save audio to storage - use source_audio_url which is permanent
           const audioUrl = clip.sourceAudioUrl || clip.audioUrl;
           if (!audioUrl) {
-            throw new Error('No audio URL available');
+            console.error(`❌ No audio URL for clip ${i}`);
+            continue;
           }
 
           const audioResponse = await fetch(audioUrl);
@@ -146,11 +150,14 @@ serve(async (req) => {
               upsert: true,
             });
 
-          if (!audioError && audioUpload) {
+          if (audioError) {
+            console.error(`❌ Audio upload error for clip ${i}:`, audioError);
+          } else if (audioUpload) {
             const { data: publicData } = supabase.storage
               .from('project-assets')
               .getPublicUrl(`tracks/${audioFileName}`);
             localAudioUrl = publicData.publicUrl;
+            console.log(`✅ Audio uploaded for clip ${i}:`, localAudioUrl);
           }
 
           // Download and save cover image - use source_image_url
@@ -167,15 +174,18 @@ serve(async (req) => {
                 upsert: true,
               });
 
-            if (!coverError && coverUpload) {
+            if (coverError) {
+              console.error(`❌ Cover upload error for clip ${i}:`, coverError);
+            } else if (coverUpload) {
               const { data: publicData } = supabase.storage
                 .from('project-assets')
                 .getPublicUrl(`covers/${coverFileName}`);
               localCoverUrl = publicData.publicUrl;
+              console.log(`✅ Cover uploaded for clip ${i}:`, localCoverUrl);
             }
           }
         } catch (downloadError) {
-          console.error(`Error downloading files for version ${i}:`, downloadError);
+          console.error(`❌ Error downloading files for version ${i}:`, downloadError);
         }
 
         // For first clip, update main track record
@@ -218,7 +228,10 @@ serve(async (req) => {
           .select()
           .single();
 
-        if (!versionError && version) {
+        if (versionError) {
+          console.error(`❌ Error saving version ${i}:`, versionError);
+        } else if (version) {
+          console.log(`✅ Version ${i} saved:`, version.id);
           savedVersions.push({ versionId: version.id, clip, clipIndex: i });
 
           // Log version creation
@@ -239,6 +252,8 @@ serve(async (req) => {
             });
         }
       }
+
+      console.log(`✅ Total versions saved: ${savedVersions.length}/${clips.length}`);
 
       // Update generation task
       await supabase

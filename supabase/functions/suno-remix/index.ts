@@ -104,6 +104,7 @@ serve(async (req) => {
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
     
     // Call SunoAPI remix endpoint
+    const startTime = Date.now();
     const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate', {
       method: 'POST',
       headers: {
@@ -122,7 +123,23 @@ serve(async (req) => {
       }),
     });
 
+    const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
+    
+    console.log(`📥 Remix response (${duration}ms, $0.04)`);
+
+    // Log API call
+    await supabase.from('api_usage_logs').insert({
+      user_id: user.id,
+      service: 'suno',
+      endpoint: 'remix',
+      method: 'POST',
+      request_body: { audioId, prompt, style, title, instrumental, model },
+      response_status: sunoResponse.status,
+      response_body: sunoData,
+      duration_ms: duration,
+      estimated_cost: 0.04,
+    });
 
     if (!sunoResponse.ok || sunoData.code !== 200) {
       await supabase.from('generation_tasks').update({ 

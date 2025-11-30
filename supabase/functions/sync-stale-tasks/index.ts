@@ -180,17 +180,129 @@ serve(async (req) => {
             })
             .eq('id', task.id);
 
-          // Create track version
-          await supabase
-            .from('track_versions')
-            .insert({
-              track_id: task.track_id,
-              audio_url: firstClip.audioUrl,
-              cover_url: firstClip.imageUrl,
-              duration_seconds: firstClip.duration,
-              version_type: 'original',
-              is_primary: true,
-            });
+          // Save ALL clips as versions
+          console.log(`💾 Saving ${clips.length} versions...`);
+          const savedVersions = [];
+
+          for (let i = 0; i < clips.length; i++) {
+            const clip = clips[i];
+            const isFirstClip = i === 0;
+            
+            let localAudioUrl = null;
+            let localCoverUrl = null;
+
+            try {
+              // Download and save audio - use source_audio_url which is permanent
+              const audioUrl = clip.sourceAudioUrl || clip.audioUrl;
+              if (audioUrl) {
+                const audioResponse = await fetch(audioUrl);
+                const audioBlob = await audioResponse.blob();
+                const audioFileName = `${task.track_id}_v${i + 1}_${Date.now()}.mp3`;
+                
+                const { data: audioUpload, error: audioError } = await supabase.storage
+                  .from('project-assets')
+                  .upload(`tracks/${audioFileName}`, audioBlob, {
+                    contentType: 'audio/mpeg',
+                    upsert: true,
+                  });
+
+                if (!audioError && audioUpload) {
+                  const { data: publicData } = supabase.storage
+                    .from('project-assets')
+                    .getPublicUrl(`tracks/${audioFileName}`);
+                  localAudioUrl = publicData.publicUrl;
+                }
+              }
+
+              // Download and save cover image
+              const coverUrl = clip.sourceImageUrl || clip.imageUrl;
+              if (coverUrl) {
+                const coverResponse = await fetch(coverUrl);
+                const coverBlob = await coverResponse.blob();
+                const coverFileName = `${task.track_id}_v${i + 1}_cover_${Date.now()}.jpg`;
+                
+                const { data: coverUpload, error: coverError } = await supabase.storage
+                  .from('project-assets')
+                  .upload(`covers/${coverFileName}`, coverBlob, {
+                    contentType: 'image/jpeg',
+                    upsert: true,
+                  });
+
+                if (!coverError && coverUpload) {
+                  const { data: publicData } = supabase.storage
+                    .from('project-assets')
+                    .getPublicUrl(`covers/${coverFileName}`);
+                  localCoverUrl = publicData.publicUrl;
+                }
+              }
+            } catch (downloadError) {
+              console.error(`⚠️ Error downloading files for version ${i}:`, downloadError);
+            }
+
+            // For first clip, update main track record
+            if (isFirstClip) {
+              await supabase
+                .from('tracks')
+                .update({
+                  status: 'completed',
+                  audio_url: clip.audioUrl,
+                  streaming_url: clip.audioUrl,
+                  local_audio_url: localAudioUrl,
+                  cover_url: clip.imageUrl,
+                  local_cover_url: localCoverUrl,
+                  title: clip.title,
+                  duration_seconds: clip.duration || null,
+                  tags: clip.tags,
+                  lyrics: clip.lyric,
+                  suno_id: clip.id,
+                })
+                .eq('id', task.track_id);
+            }
+
+            // Create version for each clip
+            const { data: version, error: versionError } = await supabase
+              .from('track_versions')
+              .insert({
+                track_id: task.track_id,
+                audio_url: localAudioUrl || clip.audioUrl,
+                cover_url: localCoverUrl || clip.imageUrl,
+                duration_seconds: clip.duration,
+                version_type: isFirstClip ? 'original' : 'alternative',
+                is_primary: isFirstClip,
+                metadata: {
+                  suno_id: clip.id,
+                  title: clip.title,
+                  tags: clip.tags,
+                  lyrics: clip.lyric,
+                },
+              })
+              .select()
+              .single();
+
+            if (versionError) {
+              console.error(`❌ Error saving version ${i}:`, versionError);
+            } else if (version) {
+              console.log(`✅ Version ${i} saved:`, version.id);
+              savedVersions.push({ versionId: version.id, clip, clipIndex: i });
+
+              // Log version creation
+              await supabase.from('track_change_log').insert({
+                track_id: task.track_id,
+                user_id: task.user_id,
+                version_id: version.id,
+                change_type: isFirstClip ? 'generation_completed' : 'version_created',
+                changed_by: 'auto_sync_stale_tasks',
+                metadata: {
+                  clip_index: i,
+                  suno_clip_id: clip.id,
+                  version_type: isFirstClip ? 'original' : 'alternative',
+                  auto_synced: true,
+                },
+              });
+            }
+          }
+
+          console.log(`✅ Saved ${savedVersions.length}/${clips.length} versions`);
 
           // Log completion
           await supabase
