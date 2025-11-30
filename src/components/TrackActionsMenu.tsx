@@ -85,7 +85,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
           </Button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent align="end" className="w-56 max-h-[70vh] overflow-y-auto bg-background/95 backdrop-blur-sm z-50">
+        <DropdownMenuContent align="end" className="w-56 max-h-[70vh] bg-background/95 backdrop-blur-sm" style={{ zIndex: 9999 }}>
           {/* Info Section */}
           <TrackInfoSection
             track={track}
@@ -108,7 +108,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                   <Music className="w-4 h-4 mr-2" />
                   Редактировать
                 </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent>
+                <DropdownMenuSubContent className="bg-background/95 backdrop-blur-sm" sideOffset={8} alignOffset={-4}>
                   <DropdownMenuItem onClick={() => setExtendDialogOpen(true)}>
                     <Plus className="w-4 h-4 mr-2" />
                     Расширить
@@ -148,7 +148,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                   <Wand2 className="w-4 h-4 mr-2" />
                   Обработка
                 </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent>
+                <DropdownMenuSubContent className="bg-background/95 backdrop-blur-sm" sideOffset={8} alignOffset={-4}>
                   {track.suno_id && (
                     <>
                       <DropdownMenuItem onClick={() => handleSeparateVocals(track, 'simple')} disabled={isProcessing}>

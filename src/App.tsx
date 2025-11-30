@@ -13,7 +13,8 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Studio from "./pages/Studio";
 import StemStudio from "./pages/StemStudio";
-import Profile from "./pages/Profile";
+import ProfilePage from "./pages/ProfilePage";
+import Settings from "./pages/Settings";
 import Tasks from "./pages/Tasks";
 import Generate from "./pages/Generate";
 import Library from "./pages/Library";
@@ -54,7 +55,8 @@ const App = () => (
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/" element={<ProtectedRoute><ProtectedLayout><Index /></ProtectedLayout></ProtectedRoute>} />
                 <Route path="/studio" element={<ProtectedRoute><ProtectedLayout><Studio /></ProtectedLayout></ProtectedRoute>} />
-                <Route path="/profile" element={<ProtectedRoute><ProtectedLayout><Profile /></ProtectedLayout></ProtectedRoute>} />
+                <Route path="/profile" element={<ProtectedRoute><ProtectedLayout><ProfilePage /></ProtectedLayout></ProtectedRoute>} />
+                <Route path="/settings" element={<ProtectedRoute><ProtectedLayout><Settings /></ProtectedLayout></ProtectedRoute>} />
                 <Route path="/tasks" element={<ProtectedRoute><ProtectedLayout><Tasks /></ProtectedLayout></ProtectedRoute>} />
                 <Route path="/generate" element={<ProtectedRoute><ProtectedLayout><Generate /></ProtectedLayout></ProtectedRoute>} />
                 <Route path="/library" element={<ProtectedRoute><ProtectedLayout><Library /></ProtectedLayout></ProtectedRoute>} />
