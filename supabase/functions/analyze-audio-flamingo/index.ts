@@ -1,6 +1,6 @@
-import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
+import Replicate from "https://esm.sh/replicate@0.25.2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -18,6 +18,8 @@ serve(async (req) => {
       throw new Error('REPLICATE_API_KEY not configured');
     }
 
+    const replicate = new Replicate({ auth: REPLICATE_API_KEY });
+    
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
@@ -55,15 +57,10 @@ Provide concise, accurate information suitable for music generation AI.`;
 
     console.log('Creating Replicate prediction...');
 
-    // Start Replicate prediction with correct model identifier
-    const predictionResponse = await fetch('https://api.replicate.com/v1/predictions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Token ${REPLICATE_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        version: 'zsxkib/audio-flamingo-3:26c2f703df1a25eecae5ae74c76ac68e0c03eb26ade4e1b0f59c39b3d1e2ee71',
+    // Use Replicate SDK to run the model
+    const output = await replicate.run(
+      "zsxkib/audio-flamingo-3:latest",
+      {
         input: {
           audio: audio_url,
           prompt: 'Analyze this audio',
@@ -72,46 +69,10 @@ Provide concise, accurate information suitable for music generation AI.`;
           temperature: 0.1,
           max_length: 1024,
         },
-      }),
-    });
+      }
+    ) as string;
 
-    if (!predictionResponse.ok) {
-      const error = await predictionResponse.text();
-      console.error('Replicate API error:', error);
-      throw new Error(`Replicate API error: ${error}`);
-    }
-
-    const prediction = await predictionResponse.json();
-    console.log('Prediction created:', prediction.id);
-
-    // Poll for result
-    let result = prediction;
-    let attempts = 0;
-    const maxAttempts = 60; // 5 minutes max
-
-    while (result.status !== 'succeeded' && result.status !== 'failed' && attempts < maxAttempts) {
-      await new Promise(resolve => setTimeout(resolve, 5000)); // Wait 5 seconds
-      
-      const statusResponse = await fetch(`https://api.replicate.com/v1/predictions/${prediction.id}`, {
-        headers: {
-          'Authorization': `Token ${REPLICATE_API_KEY}`,
-        },
-      });
-
-      result = await statusResponse.json();
-      attempts++;
-      console.log(`Attempt ${attempts}: Status ${result.status}`);
-    }
-
-    if (result.status === 'failed') {
-      throw new Error(`Analysis failed: ${result.error}`);
-    }
-
-    if (result.status !== 'succeeded') {
-      throw new Error('Analysis timeout');
-    }
-
-    const fullResponse = result.output;
+    const fullResponse = output;
     console.log('Analysis result:', fullResponse);
 
     // Parse structured data from response
