@@ -58,7 +58,7 @@ serve(async (req) => {
     console.log('Boosting style with AI:', content.substring(0, 100));
 
     // Use Lovable AI to enhance the style description
-    const aiResponse = await fetch('https://api.lovable.dev/v1/ai/chat', {
+    const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${lovableApiKey}`,
