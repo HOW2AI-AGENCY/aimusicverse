@@ -63,19 +63,21 @@ export function LyricsSheet({ open, onOpenChange, track }: LyricsSheetProps) {
           </TabsList>
 
           {hasTimestampedLyrics && (
-            <TabsContent value="synced" className="h-[calc(90vh-12rem)]">
-              <TimestampedLyrics
-                taskId={track.suno_task_id}
-                audioId={track.suno_id}
-                currentTime={currentTime}
-                isPlaying={isPlaying}
-                duration={duration}
-              />
+            <TabsContent value="synced" className="mt-0">
+              <div className="h-[calc(90vh-12rem)]">
+                <TimestampedLyrics
+                  taskId={track.suno_task_id}
+                  audioId={track.suno_id}
+                  currentTime={currentTime}
+                  isPlaying={isPlaying}
+                  duration={duration}
+                />
+              </div>
             </TabsContent>
           )}
 
-          <TabsContent value="plain" className="h-[calc(90vh-12rem)]">
-            <ScrollArea className="h-full pr-4">
+          <TabsContent value="plain" className="mt-0">
+            <ScrollArea className="h-[calc(90vh-12rem)] pr-4">
               {track.lyrics ? (
                 <div className="whitespace-pre-wrap text-base leading-relaxed p-4">
                   {track.lyrics}
