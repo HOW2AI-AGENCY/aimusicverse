@@ -52,29 +52,37 @@ serve(async (req) => {
 
     console.log(`Generating lyrics for user: ${user.id}, language: ${language}`);
 
-    // Build language-aware prompt for SunoAPI
-    let promptText = '';
+    // Build compact prompt for SunoAPI (max 200 chars limit)
+    let promptParts: string[] = [];
     
-    if (language === 'ru') {
-      promptText = `Напиши текст песни на русском языке.\n`;
-      promptText += `Тема: ${theme}\n`;
-      if (style) promptText += `Стиль: ${style}\n`;
-      if (mood) promptText += `Настроение: ${mood}\n`;
-      if (structure) promptText += `Структура: ${structure}\n`;
-      if (artistPersona) promptText += `Голос артиста: ${artistPersona}\n`;
-    } else {
-      promptText = `Write song lyrics in English.\n`;
-      promptText += `Theme: ${theme}\n`;
-      if (style) promptText += `Style: ${style}\n`;
-      if (mood) promptText += `Mood: ${mood}\n`;
-      if (structure) promptText += `Structure: ${structure}\n`;
-      if (artistPersona) promptText += `Artist persona: ${artistPersona}\n`;
+    // Theme is most important, truncate if needed
+    const maxThemeLength = 100;
+    const truncatedTheme = theme.length > maxThemeLength 
+      ? theme.substring(0, maxThemeLength) 
+      : theme;
+    promptParts.push(truncatedTheme);
+    
+    // Add style and mood if space allows
+    if (style) promptParts.push(style);
+    if (mood) promptParts.push(mood);
+    
+    // Join with commas and ensure under 200 chars
+    let promptText = promptParts.join(', ');
+    
+    // Final safety check - truncate to 200 chars if needed
+    if (promptText.length > 200) {
+      promptText = promptText.substring(0, 197) + '...';
+    }
+    
+    console.log(`Prompt (${promptText.length} chars):`, promptText);
+
+    // Validate prompt length
+    if (promptText.length > 200) {
+      throw new Error('The prompt length cannot exceed 200 characters');
     }
 
     // Call SunoAPI to generate lyrics
     const callbackUrl = `${supabaseUrl}/functions/v1/lyrics-callback`;
-    
-    console.log('Calling SunoAPI with prompt:', promptText.substring(0, 100));
 
     const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/lyrics', {
       method: 'POST',
