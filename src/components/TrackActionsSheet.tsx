@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator';
 import { 
   Download, Share2, Info, Trash2, Eye, EyeOff, Send,
   Scissors, Wand2, ImagePlus, FileAudio, Music2, FileText, Layers,
-  Plus, Mic, Volume2, Music, Globe, Lock
+  Plus, Mic, Volume2, Music, Globe, Lock, ChevronDown
 } from 'lucide-react';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { useState, useEffect } from 'react';
@@ -155,10 +155,13 @@ export function TrackActionsSheet({
                   <CollapsibleTrigger asChild>
                     <Button
                       variant="ghost"
-                      className="w-full justify-start gap-3 h-12"
+                      className="w-full justify-between gap-3 h-12"
                     >
-                      <Music className="w-5 h-5" />
-                      <span>Редактировать</span>
+                      <div className="flex items-center gap-3">
+                        <Music className="w-5 h-5" />
+                        <span>Редактировать</span>
+                      </div>
+                      <ChevronDown className={`w-4 h-4 transition-transform ${editOpen ? 'rotate-180' : ''}`} />
                     </Button>
                   </CollapsibleTrigger>
                   <CollapsibleContent className="pl-4 space-y-1">
@@ -224,10 +227,13 @@ export function TrackActionsSheet({
                   <CollapsibleTrigger asChild>
                     <Button
                       variant="ghost"
-                      className="w-full justify-start gap-3 h-12"
+                      className="w-full justify-between gap-3 h-12"
                     >
-                      <Wand2 className="w-5 h-5" />
-                      <span>Обработка</span>
+                      <div className="flex items-center gap-3">
+                        <Wand2 className="w-5 h-5" />
+                        <span>Обработка</span>
+                      </div>
+                      <ChevronDown className={`w-4 h-4 transition-transform ${processOpen ? 'rotate-180' : ''}`} />
                     </Button>
                   </CollapsibleTrigger>
                   <CollapsibleContent className="pl-4 space-y-1">
