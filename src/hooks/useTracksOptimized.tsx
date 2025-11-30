@@ -118,28 +118,66 @@ export const useTracks = (projectId?: string) => {
     gcTime: 5 * 60 * 1000, // 5 minutes
   });
 
-  // Realtime subscription for tracks updates
+  // Realtime subscription for tracks updates with error handling
   useEffect(() => {
     if (!user?.id) return;
 
-    const channel = supabase
-      .channel(`tracks-${user.id}`)
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'tracks',
-          filter: `user_id=eq.${user.id}`,
-        },
-        () => {
-          queryClient.invalidateQueries({ queryKey: ['tracks', user.id] });
-        }
-      )
-      .subscribe();
+    let reconnectAttempts = 0;
+    const maxReconnectAttempts = 3;
+    let channel: any = null;
+
+    const setupChannel = () => {
+      if (reconnectAttempts >= maxReconnectAttempts) {
+        console.warn('Max reconnect attempts reached for tracks channel');
+        return;
+      }
+
+      try {
+        channel = supabase
+          .channel(`tracks_${user.id}`, {
+            config: {
+              broadcast: { self: false },
+            },
+          })
+          .on(
+            'postgres_changes',
+            {
+              event: 'UPDATE',
+              schema: 'public',
+              table: 'tracks',
+              filter: `user_id=eq.${user.id}`,
+            },
+            () => {
+              reconnectAttempts = 0;
+              queryClient.invalidateQueries({ queryKey: ['tracks', user.id] });
+            }
+          )
+          .subscribe((status) => {
+            if (status === 'CHANNEL_ERROR') {
+              reconnectAttempts++;
+              console.error('Tracks channel error, attempt:', reconnectAttempts);
+              
+              const backoffMs = Math.min(1000 * Math.pow(2, reconnectAttempts), 15000);
+              setTimeout(() => {
+                if (channel) {
+                  supabase.removeChannel(channel);
+                }
+                setupChannel();
+              }, backoffMs);
+            }
+          });
+      } catch (error) {
+        console.error('Error setting up tracks channel:', error);
+        reconnectAttempts++;
+      }
+    };
+
+    setupChannel();
 
     return () => {
-      supabase.removeChannel(channel);
+      if (channel) {
+        supabase.removeChannel(channel);
+      }
     };
   }, [user?.id, queryClient]);
 
