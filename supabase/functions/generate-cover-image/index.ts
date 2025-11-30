@@ -71,17 +71,19 @@ serve(async (req) => {
     const data = await response.json();
     console.log('AI Response:', JSON.stringify(data, null, 2));
     
-    // Extract image URL from response
-    const content = data.choices?.[0]?.message?.content;
+    // Extract image URL from response - prioritize images array
     let imageUrl: string | null = null;
 
-    if (typeof content === 'string') {
-      // Check if content contains base64 image
-      if (content.includes('data:image')) {
+    // First check images array (most reliable)
+    if (data.choices?.[0]?.message?.images?.[0]) {
+      imageUrl = data.choices[0].message.images[0].image_url?.url || data.choices[0].message.images[0].url;
+    } 
+    // Fallback to content string if no images array
+    else {
+      const content = data.choices?.[0]?.message?.content;
+      if (typeof content === 'string' && content.includes('data:image')) {
         imageUrl = content.match(/data:image\/[^;]+;base64,[^\s"]+/)?.[0] || null;
       }
-    } else if (data.choices?.[0]?.message?.images?.[0]) {
-      imageUrl = data.choices[0].message.images[0].image_url?.url || data.choices[0].message.images[0].url;
     }
 
     if (!imageUrl) {
