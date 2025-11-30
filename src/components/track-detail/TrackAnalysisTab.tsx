@@ -7,6 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import { Loader2, Sparkles, Music, Mic2, Activity, Key, Box, Zap } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { AdvancedMusicAnalytics } from './AdvancedMusicAnalytics';
+import { EmotionalMap } from './EmotionalMap';
+import { BeatsVisualization } from './BeatsVisualization';
+import { useState } from 'react';
 
 interface TrackAnalysisTabProps {
   track: Track;
@@ -16,6 +19,8 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
   const { data: analysis, isLoading } = useAudioAnalysis(track.id);
   const { mutate: analyzeAudio, isPending } = useAnalyzeAudio();
   const { mutate: replicateAnalyze, isPending: isReplicatePending } = useReplicateAnalysis();
+  const [currentTime, setCurrentTime] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const handleAnalyze = () => {
     const audioUrl = track.audio_url || track.streaming_url || track.local_audio_url;
@@ -157,6 +162,23 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
       </div>
 
       <Separator />
+
+      {/* Emotional Map */}
+      {(analysis.arousal !== null || analysis.valence !== null) && (
+        <EmotionalMap analysis={analysis} />
+      )}
+
+      {/* Beats Visualization */}
+      {analysis.beats_data && Array.isArray(analysis.beats_data) && analysis.beats_data.length > 0 && (
+        <BeatsVisualization 
+          analysis={analysis}
+          currentTime={currentTime}
+          duration={track.duration_seconds || 0}
+          isPlaying={isPlaying}
+          onSeek={(time) => setCurrentTime(time)}
+          onPlayPause={() => setIsPlaying(!isPlaying)}
+        />
+      )}
 
       {/* Advanced Music Analytics */}
       <AdvancedMusicAnalytics analysis={analysis} />
