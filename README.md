@@ -4,6 +4,8 @@
 
 # 🎵 MusicVerse AI
 
+![MusicVerse Banner](src/assets/banner.png)
+
 ### Профессиональная AI-платформа для создания музыки
 
 [![Made with Lovable](https://img.shields.io/badge/Made%20with-Lovable-ff69b4.svg)](https://lovable.dev)
