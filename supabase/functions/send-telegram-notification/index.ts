@@ -49,7 +49,7 @@ async function sendTelegramAudio(
     title?: string;
     performer?: string;
     duration?: number;
-    thumbnail?: string;
+    coverUrl?: string;
     replyMarkup?: any;
   }
 ) {
@@ -58,20 +58,34 @@ async function sendTelegramAudio(
     throw new Error('TELEGRAM_BOT_TOKEN not configured');
   }
 
+  // Download cover image if provided
+  let thumbBlob: Blob | null = null;
+  if (options.coverUrl) {
+    try {
+      const thumbResponse = await fetch(options.coverUrl);
+      if (thumbResponse.ok) {
+        thumbBlob = await thumbResponse.blob();
+      }
+    } catch (error) {
+      console.error('Error downloading cover:', error);
+    }
+  }
+
+  // Prepare form data for sending audio with file thumbnail
+  const formData = new FormData();
+  formData.append('chat_id', chatId.toString());
+  formData.append('audio', audioUrl);
+  if (options.caption) formData.append('caption', options.caption);
+  if (options.title) formData.append('title', options.title);
+  if (options.performer) formData.append('performer', options.performer);
+  if (options.duration) formData.append('duration', options.duration.toString());
+  if (thumbBlob) formData.append('thumbnail', thumbBlob, 'cover.jpg');
+  formData.append('parse_mode', 'Markdown');
+  if (options.replyMarkup) formData.append('reply_markup', JSON.stringify(options.replyMarkup));
+
   const response = await fetch(`https://api.telegram.org/bot${botToken}/sendAudio`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: chatId,
-      audio: audioUrl,
-      caption: options.caption,
-      title: options.title,
-      performer: options.performer,
-      duration: options.duration,
-      thumbnail: options.thumbnail,
-      parse_mode: 'Markdown',
-      reply_markup: options.replyMarkup,
-    }),
+    body: formData,
   });
 
   if (!response.ok) {
@@ -115,14 +129,33 @@ Deno.serve(async (req) => {
         .single();
 
       if (track?.audio_url) {
-        const caption = `🎵 *${track.title || 'Новый трек'}*\n\n${track.style ? `🎸 ${track.style}` : ''}\n\n_Создано в AIMusicVerse_`;
+        const durationText = track.duration_seconds 
+          ? `⏱️ ${Math.floor(track.duration_seconds / 60)}:${String(Math.floor(track.duration_seconds % 60)).padStart(2, '0')}`
+          : '';
+        
+        const tagsText = track.tags 
+          ? `\n🏷️ ${track.tags.split(',').slice(0, 3).map((t: string) => `#${t.trim()}`).join(' ')}`
+          : '';
+        
+        const caption = `🎵 *${track.title || 'Новый трек'}*${track.style ? `\n🎸 ${track.style}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}\n\n_Создано в AIMusicVerse_ ✨`;
+        
+        const miniAppUrl = Deno.env.get('MINI_APP_URL') || 'https://t.me/your_bot/app';
         
         await sendTelegramAudio(finalChatId, track.audio_url, {
           caption,
           title: track.title || 'AIMusicVerse Track',
-          performer: 'AIMusicVerse',
+          performer: 'AIMusicVerse AI',
           duration: track.duration_seconds || undefined,
-          thumbnail: track.cover_url,
+          coverUrl: track.cover_url,
+          replyMarkup: {
+            inline_keyboard: [
+              [{ text: '🎵 Открыть в приложении', web_app: { url: `${miniAppUrl}?startapp=track_${finalTrackId}` } }],
+              [
+                { text: '🔄 Создать ремикс', callback_data: `remix_${finalTrackId}` },
+                { text: '📤 Поделиться', callback_data: `share_${finalTrackId}` }
+              ]
+            ]
+          }
         });
 
         return new Response(
@@ -145,20 +178,34 @@ Deno.serve(async (req) => {
       // If we have audio URL, send audio file directly
       if (track?.audio_url) {
         const durationSeconds = track.duration_seconds || 0;
-        const caption = `🎉 *Ваш трек готов!*\n\n🎵 *${track.title || 'Новый трек'}*\n${track.style ? `🎸 Стиль: ${track.style}` : ''}\n⏱️ Длительность: ${Math.floor(durationSeconds / 60)}:${String(Math.floor(durationSeconds % 60)).padStart(2, '0')}\n\nСлушайте прямо здесь или откройте в приложении! 🎧`;
+        const durationText = `${Math.floor(durationSeconds / 60)}:${String(Math.floor(durationSeconds % 60)).padStart(2, '0')}`;
+        
+        const tagsText = track.tags 
+          ? `\n🏷️ ${track.tags.split(',').slice(0, 3).map((t: string) => `#${t.trim()}`).join(' ')}`
+          : '';
+        
+        const lyricsPreview = track.lyrics 
+          ? `\n\n📝 _${track.lyrics.slice(0, 100)}${track.lyrics.length > 100 ? '...' : ''}_`
+          : '';
+        
+        const caption = `🎉 *Ваш трек готов!*\n\n🎵 *${track.title || 'Новый трек'}*${track.style ? `\n🎸 ${track.style}` : ''}\n⏱️ ${durationText}${tagsText}${lyricsPreview}\n\n✨ _Создано с помощью AI_ ✨`;
         
         await sendTelegramAudio(finalChatId, track.audio_url, {
           caption,
           title: track.title || 'MusicVerse Track',
           performer: 'MusicVerse AI',
           duration: durationSeconds,
-          thumbnail: track.cover_url,
+          coverUrl: track.cover_url,
           replyMarkup: {
             inline_keyboard: [
               [{ text: '🎵 Открыть в приложении', web_app: { url: `${miniAppUrl}?startapp=track_${finalTrackId}` } }],
               [
-                { text: '🔄 Создать еще', callback_data: 'generate' },
-                { text: '📚 Моя библиотека', callback_data: 'library' }
+                { text: '🔄 Создать ремикс', callback_data: `remix_${finalTrackId}` },
+                { text: '📥 Скачать MP3', callback_data: `download_${finalTrackId}` }
+              ],
+              [
+                { text: '🎵 Создать еще', callback_data: 'generate' },
+                { text: '📚 Библиотека', callback_data: 'library' }
               ]
             ]
           }

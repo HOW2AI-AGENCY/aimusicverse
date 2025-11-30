@@ -19,6 +19,12 @@ export function TrackEditSection({
   onAddInstrumentalClick,
   onRemix,
 }: TrackEditSectionProps) {
+  // Add Vocals only for instrumental tracks (has_vocals = false)
+  const canAddVocals = track.has_vocals === false;
+  
+  // Add Instrumental only for vocal tracks (has_vocals = true)
+  const canAddInstrumental = track.has_vocals === true;
+  
   return (
     <>
       <DropdownMenuItem onClick={onExtendClick}>
@@ -26,15 +32,19 @@ export function TrackEditSection({
         Расширить трек
       </DropdownMenuItem>
 
-      <DropdownMenuItem onClick={onAddVocalsClick}>
-        <Mic className="w-4 h-4 mr-2" />
-        Добавить вокал
-      </DropdownMenuItem>
+      {canAddVocals && (
+        <DropdownMenuItem onClick={onAddVocalsClick}>
+          <Mic className="w-4 h-4 mr-2" />
+          Добавить вокал
+        </DropdownMenuItem>
+      )}
 
-      <DropdownMenuItem onClick={onAddInstrumentalClick}>
-        <Volume2 className="w-4 h-4 mr-2" />
-        Добавить инструментал
-      </DropdownMenuItem>
+      {canAddInstrumental && (
+        <DropdownMenuItem onClick={onAddInstrumentalClick}>
+          <Volume2 className="w-4 h-4 mr-2" />
+          Добавить инструментал
+        </DropdownMenuItem>
+      )}
 
       {track.suno_id && (
         <DropdownMenuItem onClick={onRemix} disabled={isProcessing}>

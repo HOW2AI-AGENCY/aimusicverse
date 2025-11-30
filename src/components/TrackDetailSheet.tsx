@@ -7,6 +7,7 @@ import { TrackDetailsTab } from './track-detail/TrackDetailsTab';
 import { TrackVersionsTab } from './track-detail/TrackVersionsTab';
 import { TrackChangelogTab } from './track-detail/TrackChangelogTab';
 import { TrackAnalysisTab } from './track-detail/TrackAnalysisTab';
+import { TrackStemsTab } from './track-detail/TrackStemsTab';
 
 interface TrackDetailSheetProps {
   open: boolean;
@@ -26,7 +27,7 @@ export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheet
         </SheetHeader>
 
         <Tabs defaultValue="details" className="flex-1 mt-4">
-          <TabsList className="grid w-full grid-cols-4 mb-4">
+          <TabsList className="grid w-full grid-cols-5 mb-4">
             <TabsTrigger value="details" className="gap-1 text-xs">
               <Music2 className="w-4 h-4" />
               <span className="hidden sm:inline">Детали</span>
@@ -38,6 +39,10 @@ export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheet
             <TabsTrigger value="versions" className="gap-1 text-xs">
               <GitBranch className="w-4 h-4" />
               <span className="hidden sm:inline">Версии</span>
+            </TabsTrigger>
+            <TabsTrigger value="stems" className="gap-1 text-xs">
+              <Music2 className="w-4 h-4" />
+              <span className="hidden sm:inline">Стемы</span>
             </TabsTrigger>
             <TabsTrigger value="changelog" className="gap-1 text-xs">
               <History className="w-4 h-4" />
@@ -57,6 +62,10 @@ export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheet
 
               <TabsContent value="versions" className="mt-0">
                 <TrackVersionsTab trackId={track.id} />
+              </TabsContent>
+
+              <TabsContent value="stems" className="mt-0">
+                <TrackStemsTab trackId={track.id} />
               </TabsContent>
 
               <TabsContent value="changelog" className="mt-0">

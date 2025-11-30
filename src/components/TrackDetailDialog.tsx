@@ -7,6 +7,7 @@ import { TrackDetailsTab } from './track-detail/TrackDetailsTab';
 import { TrackVersionsTab } from './track-detail/TrackVersionsTab';
 import { TrackChangelogTab } from './track-detail/TrackChangelogTab';
 import { TrackAnalysisTab } from './track-detail/TrackAnalysisTab';
+import { TrackStemsTab } from './track-detail/TrackStemsTab';
 import { TrackDetailSheet } from './TrackDetailSheet';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -34,7 +35,7 @@ export function TrackDetailDialog({ open, onOpenChange, track }: TrackDetailDial
         </DialogHeader>
 
         <Tabs defaultValue="details" className="flex-1">
-          <TabsList className="grid w-full grid-cols-4 mb-4">
+          <TabsList className="grid w-full grid-cols-5 mb-4">
             <TabsTrigger value="details" className="gap-2">
               <Music2 className="w-4 h-4" />
               Детали
@@ -46,6 +47,10 @@ export function TrackDetailDialog({ open, onOpenChange, track }: TrackDetailDial
             <TabsTrigger value="versions" className="gap-2">
               <GitBranch className="w-4 h-4" />
               Версии
+            </TabsTrigger>
+            <TabsTrigger value="stems" className="gap-2">
+              <Music2 className="w-4 h-4" />
+              Стемы
             </TabsTrigger>
             <TabsTrigger value="changelog" className="gap-2">
               <History className="w-4 h-4" />
@@ -65,6 +70,10 @@ export function TrackDetailDialog({ open, onOpenChange, track }: TrackDetailDial
 
               <TabsContent value="versions" className="mt-0">
                 <TrackVersionsTab trackId={track.id} />
+              </TabsContent>
+
+              <TabsContent value="stems" className="mt-0">
+                <TrackStemsTab trackId={track.id} />
               </TabsContent>
 
               <TabsContent value="changelog" className="mt-0">
