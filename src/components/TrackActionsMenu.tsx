@@ -23,10 +23,16 @@ import {
   Video,
   FileAudio,
   Wand2,
+  Mic,
+  ImagePlus,
+  FileArchive,
+  Volume2,
 } from 'lucide-react';
 import { ExtendTrackDialog } from './ExtendTrackDialog';
 import { LyricsDialog } from './LyricsDialog';
 import { TrackDetailDialog } from './TrackDetailDialog';
+import { AddVocalsDialog } from './AddVocalsDialog';
+import { AddInstrumentalDialog } from './AddInstrumentalDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -40,6 +46,8 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
   const [extendDialogOpen, setExtendDialogOpen] = useState(false);
   const [lyricsDialogOpen, setLyricsDialogOpen] = useState(false);
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
+  const [addVocalsDialogOpen, setAddVocalsDialogOpen] = useState(false);
+  const [addInstrumentalDialogOpen, setAddInstrumentalDialogOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleShare = async () => {
@@ -130,6 +138,80 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
     }
   };
 
+  const handleConvertToWav = async () => {
+    if (!track.suno_id) {
+      toast.error('Невозможно конвертировать этот трек');
+      return;
+    }
+
+    setIsProcessing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('suno-convert-wav', {
+        body: { audioId: track.suno_id },
+      });
+
+      if (error) throw error;
+
+      toast.success('Конвертация в WAV началась!', {
+        description: 'Файл будет готов через несколько минут',
+      });
+    } catch (error: any) {
+      console.error('WAV conversion error:', error);
+      toast.error(error.message || 'Ошибка конвертации');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleGenerateCover = async () => {
+    setIsProcessing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('suno-generate-cover-image', {
+        body: {
+          trackId: track.id,
+          prompt: track.prompt,
+          style: track.style,
+        },
+      });
+
+      if (error) throw error;
+
+      toast.success('Генерация обложки началась!', {
+        description: 'Новая обложка будет готова через минуту',
+      });
+    } catch (error: any) {
+      console.error('Cover generation error:', error);
+      toast.error(error.message || 'Ошибка генерации обложки');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleCreateVideo = async () => {
+    if (!track.suno_id) {
+      toast.error('Невозможно создать видео для этого трека');
+      return;
+    }
+
+    setIsProcessing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('suno-create-video', {
+        body: { audioId: track.suno_id },
+      });
+
+      if (error) throw error;
+
+      toast.success('Создание видео началось!', {
+        description: 'Видео будет готово через несколько минут',
+      });
+    } catch (error: any) {
+      console.error('Video creation error:', error);
+      toast.error(error.message || 'Ошибка создания видео');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   return (
     <>
       <DropdownMenu>
@@ -161,6 +243,16 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                 Расширить трек
               </DropdownMenuItem>
 
+              <DropdownMenuItem onClick={() => setAddVocalsDialogOpen(true)}>
+                <Mic className="w-4 h-4 mr-2" />
+                Добавить вокал
+              </DropdownMenuItem>
+
+              <DropdownMenuItem onClick={() => setAddInstrumentalDialogOpen(true)}>
+                <Volume2 className="w-4 h-4 mr-2" />
+                Добавить инструментал
+              </DropdownMenuItem>
+
               {track.suno_id && (
                 <DropdownMenuItem onClick={handleRemix} disabled={isProcessing}>
                   <Music className="w-4 h-4 mr-2" />
@@ -180,6 +272,27 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                   <DropdownMenuItem onClick={() => handleSeparateVocals('detailed')} disabled={isProcessing}>
                     <Wand2 className="w-4 h-4 mr-2" />
                     Стемы: Детальное разделение
+                  </DropdownMenuItem>
+                </>
+              )}
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem onClick={handleGenerateCover} disabled={isProcessing}>
+                <ImagePlus className="w-4 h-4 mr-2" />
+                Сгенерировать обложку
+              </DropdownMenuItem>
+
+              {track.suno_id && (
+                <>
+                  <DropdownMenuItem onClick={handleConvertToWav} disabled={isProcessing}>
+                    <FileAudio className="w-4 h-4 mr-2" />
+                    Конвертировать в WAV
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem onClick={handleCreateVideo} disabled={isProcessing}>
+                    <Video className="w-4 h-4 mr-2" />
+                    Создать музыкальное видео
                   </DropdownMenuItem>
                 </>
               )}
@@ -229,6 +342,18 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
       <ExtendTrackDialog
         open={extendDialogOpen}
         onOpenChange={setExtendDialogOpen}
+        track={track}
+      />
+
+      <AddVocalsDialog
+        open={addVocalsDialogOpen}
+        onOpenChange={setAddVocalsDialogOpen}
+        track={track}
+      />
+
+      <AddInstrumentalDialog
+        open={addInstrumentalDialogOpen}
+        onOpenChange={setAddInstrumentalDialogOpen}
         track={track}
       />
 

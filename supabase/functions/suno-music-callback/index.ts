@@ -311,7 +311,11 @@ serve(async (req) => {
         ? 'Кавер создан' 
         : task.generation_mode === 'upload_extend' 
           ? 'Расширение завершено'
-          : 'Генерация завершена';
+          : task.generation_mode === 'add_vocals'
+            ? 'Вокал добавлен'
+            : task.generation_mode === 'add_instrumental'
+              ? 'Инструментал добавлен'
+              : 'Генерация завершена';
       
       const notificationMessage = clips.length === 1
         ? `Ваш трек "${firstClip.title || 'Без названия'}" готов`
