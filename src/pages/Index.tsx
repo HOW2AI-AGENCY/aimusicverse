@@ -1,3 +1,4 @@
+import { Onboarding } from "@/components/Onboarding";
 import { TelegramInfo } from "@/components/TelegramInfo";
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { Button } from "@/components/ui/button";
@@ -68,6 +69,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background pb-24">
+      <Onboarding />
       <div className="container max-w-6xl mx-auto px-4 py-6">
         {/* Header */}
         <header className="flex items-center justify-between mb-8 glass-card p-4 rounded-2xl">
