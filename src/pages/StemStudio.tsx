@@ -9,7 +9,8 @@ import { StudioTimeline } from '@/components/stem-studio/StudioTimeline';
 import { toast } from 'sonner';
 
 export default function StemStudio() {
-  const { trackId } = useParams<{ trackId: string }>();
+  const params = useParams();
+  const trackId = params.trackId;
   const navigate = useNavigate();
   const { data: stems, isLoading: stemsLoading } = useTrackStems(trackId!);
   const { tracks } = useTracks();
@@ -21,7 +22,7 @@ export default function StemStudio() {
   const [stemStates, setStemStates] = useState<Record<string, { muted: boolean; solo: boolean; volume: number }>>({});
   
   const audioRefs = useRef<Record<string, HTMLAudioElement>>({});
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     if (stems) {

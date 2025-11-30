@@ -10,7 +10,11 @@ import {
 import { Button } from '@/components/ui/button';
 import { Lightbulb, Music, FolderOpen, Library } from 'lucide-react';
 
-export const Onboarding = () => {
+interface OnboardingProps {
+  onComplete?: () => void;
+}
+
+export const Onboarding = ({ onComplete }: OnboardingProps = {}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -23,6 +27,7 @@ export const Onboarding = () => {
   const handleClose = () => {
     localStorage.setItem('hasSeenOnboarding', 'true');
     setIsOpen(false);
+    onComplete?.();
   };
 
   if (!isOpen) {
