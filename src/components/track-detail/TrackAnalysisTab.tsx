@@ -1,10 +1,12 @@
 import { useAudioAnalysis, useAnalyzeAudio } from '@/hooks/useAudioAnalysis';
+import { useReplicateAnalysis } from '@/hooks/useReplicateAnalysis';
 import { Track } from '@/hooks/useTracks';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Sparkles, Music, Mic2, Activity, Key, Box } from 'lucide-react';
+import { Loader2, Sparkles, Music, Mic2, Activity, Key, Box, Zap } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { AdvancedMusicAnalytics } from './AdvancedMusicAnalytics';
 
 interface TrackAnalysisTabProps {
   track: Track;
@@ -13,6 +15,7 @@ interface TrackAnalysisTabProps {
 export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
   const { data: analysis, isLoading } = useAudioAnalysis(track.id);
   const { mutate: analyzeAudio, isPending } = useAnalyzeAudio();
+  const { mutate: replicateAnalyze, isPending: isReplicatePending } = useReplicateAnalysis();
 
   const handleAnalyze = () => {
     const audioUrl = track.audio_url || track.streaming_url || track.local_audio_url;
@@ -24,6 +27,19 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
       trackId: track.id,
       audioUrl,
       analysisType: 'manual',
+    });
+  };
+
+  const handleAdvancedAnalyze = () => {
+    const audioUrl = track.audio_url || track.streaming_url || track.local_audio_url;
+    if (!audioUrl) {
+      return;
+    }
+
+    replicateAnalyze({
+      trackId: track.id,
+      audioUrl,
+      analysisTypes: ['bpm', 'beats', 'emotion', 'approachability'],
     });
   };
 
@@ -42,26 +58,47 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
           <Sparkles className="w-12 h-12 text-primary mx-auto mb-4" />
           <h3 className="text-lg font-semibold">Анализ трека не выполнен</h3>
           <p className="text-sm text-muted-foreground max-w-md">
-            Используйте Audio Flamingo 3 для глубокого анализа аудио: жанр, настроение, инструменты и структура
+            Используйте AI для глубокого анализа аудио
           </p>
         </div>
-        <Button 
-          onClick={handleAnalyze}
-          disabled={isPending || !track.audio_url}
-          className="gap-2"
-        >
-          {isPending ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              Анализ...
-            </>
-          ) : (
-            <>
-              <Sparkles className="w-4 h-4" />
-              Анализировать трек
-            </>
-          )}
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            onClick={handleAnalyze}
+            disabled={isPending || !track.audio_url}
+            className="gap-2"
+            variant="default"
+          >
+            {isPending ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Базовый анализ...
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4" />
+                Базовый анализ
+              </>
+            )}
+          </Button>
+          <Button 
+            onClick={handleAdvancedAnalyze}
+            disabled={isReplicatePending || !track.audio_url}
+            className="gap-2"
+            variant="secondary"
+          >
+            {isReplicatePending ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Продвинутый...
+              </>
+            ) : (
+              <>
+                <Zap className="w-4 h-4" />
+                Продвинутый анализ
+              </>
+            )}
+          </Button>
+        </div>
       </div>
     );
   }
@@ -77,28 +114,52 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
             {analysis.analysis_type}
           </Badge>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleAnalyze}
-          disabled={isPending}
-          className="gap-2"
-        >
-          {isPending ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              Обновление...
-            </>
-          ) : (
-            <>
-              <Sparkles className="w-4 h-4" />
-              Обновить
-            </>
-          )}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleAnalyze}
+            disabled={isPending}
+            className="gap-2"
+          >
+            {isPending ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Базовый...
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4" />
+                Базовый
+              </>
+            )}
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleAdvancedAnalyze}
+            disabled={isReplicatePending}
+            className="gap-2"
+          >
+            {isReplicatePending ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Продвинутый...
+              </>
+            ) : (
+              <>
+                <Zap className="w-4 h-4" />
+                Продвинутый
+              </>
+            )}
+          </Button>
+        </div>
       </div>
 
       <Separator />
+
+      {/* Advanced Music Analytics */}
+      <AdvancedMusicAnalytics analysis={analysis} />
 
       {/* Structured Analysis */}
       <div className="grid gap-4">
