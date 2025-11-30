@@ -1,5 +1,7 @@
 <div align="center">
 
+![MusicVerse Logo](src/assets/logo.png)
+
 # 🎵 MusicVerse AI
 
 ### Профессиональная AI-платформа для создания музыки
