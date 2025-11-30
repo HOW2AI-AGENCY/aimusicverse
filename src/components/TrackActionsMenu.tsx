@@ -11,16 +11,17 @@ import {
   DropdownMenuSubContent,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { MoreVertical, Trash2, Info, FileText } from 'lucide-react';
+import { 
+  MoreVertical, Trash2, Info, FileText, Plus, Mic, Volume2, Music, 
+  Wand2, Scissors, ImagePlus, FileAudio, Music2, Download, Share2, 
+  Send, Lock, Globe 
+} from 'lucide-react';
 import { ExtendTrackDialog } from './ExtendTrackDialog';
 import { LyricsDialog } from './LyricsDialog';
 import { TrackDetailDialog } from './TrackDetailDialog';
 import { AddVocalsDialog } from './AddVocalsDialog';
 import { AddInstrumentalDialog } from './AddInstrumentalDialog';
 import { useTrackActions } from '@/hooks/useTrackActions';
-import { TrackEditSection } from './track-menu/TrackEditSection';
-import { TrackProcessingSection } from './track-menu/TrackProcessingSection';
-import { TrackShareSection } from './track-menu/TrackShareSection';
 import { TrackStudioSection } from './track-menu/TrackStudioSection';
 import { TrackInfoSection } from './track-menu/TrackInfoSection';
 import { supabase } from '@/integrations/supabase/client';
@@ -84,8 +85,8 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
           </Button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent align="end" className="w-56 max-h-[70vh] overflow-y-auto">
-          {/* Info */}
+        <DropdownMenuContent align="end" className="w-56 max-h-[70vh] overflow-y-auto bg-background/95 backdrop-blur-sm z-50">
+          {/* Info Section */}
           <TrackInfoSection
             track={track}
             onDetailClick={() => setDetailDialogOpen(true)}
@@ -94,50 +95,131 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
 
           <DropdownMenuSeparator />
 
-          {/* Studio */}
+          {/* Studio Section */}
           <TrackStudioSection track={track} stemCount={stemCount} />
 
           {stemCount > 0 && <DropdownMenuSeparator />}
 
-          {/* Edit */}
+          {/* Edit Section */}
           {track.audio_url && track.status === 'completed' && (
             <>
-              <TrackEditSection
-                track={track}
-                isProcessing={isProcessing}
-                onExtendClick={() => setExtendDialogOpen(true)}
-                onAddVocalsClick={() => setAddVocalsDialogOpen(true)}
-                onAddInstrumentalClick={() => setAddInstrumentalDialogOpen(true)}
-                onRemix={() => handleRemix(track)}
-              />
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <Music className="w-4 h-4 mr-2" />
+                  Редактировать
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem onClick={() => setExtendDialogOpen(true)}>
+                    <Plus className="w-4 h-4 mr-2" />
+                    Расширить
+                  </DropdownMenuItem>
+
+                  {track.has_vocals === false && (
+                    <DropdownMenuItem onClick={() => setAddVocalsDialogOpen(true)}>
+                      <Mic className="w-4 h-4 mr-2" />
+                      Добавить вокал
+                    </DropdownMenuItem>
+                  )}
+
+                  {track.has_vocals === true && (
+                    <DropdownMenuItem onClick={() => setAddInstrumentalDialogOpen(true)}>
+                      <Volume2 className="w-4 h-4 mr-2" />
+                      Добавить инструментал
+                    </DropdownMenuItem>
+                  )}
+
+                  {track.suno_id && (
+                    <DropdownMenuItem onClick={() => handleRemix(track)} disabled={isProcessing}>
+                      <Music className="w-4 h-4 mr-2" />
+                      Ремикс
+                    </DropdownMenuItem>
+                  )}
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
               <DropdownMenuSeparator />
             </>
           )}
 
-          {/* Processing */}
+          {/* Processing Section */}
           {track.audio_url && track.status === 'completed' && (
             <>
-              <TrackProcessingSection
-                track={track}
-                isProcessing={isProcessing}
-                onSeparateVocals={(mode) => handleSeparateVocals(track, mode)}
-                onGenerateCover={() => handleGenerateCover(track)}
-                onConvertToWav={() => handleConvertToWav(track)}
-                onTranscribeMidi={handleTranscribeMidi}
-              />
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <Wand2 className="w-4 h-4 mr-2" />
+                  Обработка
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  {track.suno_id && (
+                    <>
+                      <DropdownMenuItem onClick={() => handleSeparateVocals(track, 'simple')} disabled={isProcessing}>
+                        <Scissors className="w-4 h-4 mr-2" />
+                        Стемы (простое)
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem onClick={() => handleSeparateVocals(track, 'detailed')} disabled={isProcessing}>
+                        <Wand2 className="w-4 h-4 mr-2" />
+                        Стемы (детальное)
+                      </DropdownMenuItem>
+                    </>
+                  )}
+
+                  <DropdownMenuItem onClick={() => handleGenerateCover(track)} disabled={isProcessing}>
+                    <ImagePlus className="w-4 h-4 mr-2" />
+                    Обложка
+                  </DropdownMenuItem>
+
+                  {track.suno_id && (
+                    <DropdownMenuItem onClick={() => handleConvertToWav(track)} disabled={isProcessing}>
+                      <FileAudio className="w-4 h-4 mr-2" />
+                      WAV формат
+                    </DropdownMenuItem>
+                  )}
+
+                  <DropdownMenuItem onClick={handleTranscribeMidi} disabled={isProcessing}>
+                    <Music2 className="w-4 h-4 mr-2" />
+                    MIDI файл
+                  </DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
               <DropdownMenuSeparator />
             </>
           )}
 
-          {/* Share */}
-          <TrackShareSection
-            track={track}
-            isProcessing={isProcessing}
-            onDownload={onDownload || (() => {})}
-            onShare={() => handleShare(track)}
-            onTogglePublic={() => handleTogglePublic(track)}
-            onSendToTelegram={() => handleSendToTelegram(track)}
-          />
+          {/* Share Section */}
+          {track.audio_url && track.status === 'completed' && (
+            <>
+              <DropdownMenuItem onClick={onDownload || (() => {})}>
+                <Download className="w-4 h-4 mr-2" />
+                Скачать
+              </DropdownMenuItem>
+
+              <DropdownMenuItem onClick={() => handleShare(track)}>
+                <Share2 className="w-4 h-4 mr-2" />
+                Поделиться
+              </DropdownMenuItem>
+
+              <DropdownMenuItem onClick={() => handleSendToTelegram(track)} disabled={isProcessing}>
+                <Send className="w-4 h-4 mr-2" />
+                Отправить в Telegram
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem onClick={() => handleTogglePublic(track)} disabled={isProcessing}>
+                {track.is_public ? (
+                  <>
+                    <Lock className="w-4 h-4 mr-2" />
+                    Сделать приватным
+                  </>
+                ) : (
+                  <>
+                    <Globe className="w-4 h-4 mr-2" />
+                    Сделать публичным
+                  </>
+                )}
+              </DropdownMenuItem>
+            </>
+          )}
 
           <DropdownMenuSeparator />
           
