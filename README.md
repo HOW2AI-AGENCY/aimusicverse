@@ -1,1368 +1,558 @@
 <div align="center">
 
-![MusicVerse Logo](src/assets/logo.png)
+![MusicVerse AI Logo](src/assets/logo.png){ width=200px }
 
 # 🎵 MusicVerse AI
 
-
 ### Профессиональная AI-платформа для создания музыки
 
-[![Made with Lovable](https://img.shields.io/badge/Made%20with-Lovable-ff69b4.svg)](https://lovable.dev)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-18.3-61dafb?logo=react)](https://react.dev/)
-[![Telegram](https://img.shields.io/badge/Telegram-Mini%20App-26A5E4?logo=telegram)](https://core.telegram.org/bots/webapps)
-[![Supabase](https://img.shields.io/badge/Supabase-Cloud-3ECF8E?logo=supabase)](https://supabase.com/)
+<a href="http://t.me/musicverse_ai_bot/app"><img src="https://img.shields.io/badge/%F0%9F%93%A2%20%D0%9E%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8C%20%D0%B2%20Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Открыть в Telegram"/></a>
 
-[![Meta Tags](https://img.shields.io/badge/Meta%20Tags-174+-ff6b6b?logo=music&logoColor=white)](https://github.com/yourusername/musicverse)
-[![Music Styles](https://img.shields.io/badge/Music%20Styles-277+-9b59b6?logo=spotify&logoColor=white)](https://github.com/yourusername/musicverse)
-[![Languages](https://img.shields.io/badge/Languages-75+-3498db?logo=googletranslate&logoColor=white)](https://github.com/yourusername/musicverse)
-[![MusicVerse API](https://img.shields.io/badge/MusicVerse%20API-v5-e74c3c?logo=soundcloud&logoColor=white)](https://docs.musicverse.ai)
+[![Лицензия](https://img.shields.io/badge/Лицензия-MIT-green.svg)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://reactjs.org/)
+[![Telegram](https://img.shields.io/badge/Telegram-Экосистема-26A5E4?logo=telegram)](https://telegram.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-Backend-3ECF8E?logo=supabase)](https://supabase.com/)
 
-[📖 Документация](#-документация) • [🚀 Быстрый старт](#-быстрый-старт) • [🎼 Meta Tags](#-suno-meta-tags-174) • [🎸 Стили](#-музыкальные-стили-277) • [🌍 Языки](#-поддерживаемые-языки-75)
+[![MusicVerse AI](https://img.shields.io/badge/MusicVerse-AI_v5-e74c3c)](https://music.how2ai.world/)
+[![Мета-теги](https://img.shields.io/badge/Мета_теги-174+-ff6b6b)](docs/META_TAGS.md)
+[![Музыкальные стили](https://img.shields.io/badge/Музыкальные_стили-277+-9b59b6)](docs/STYLES.md)
+[![Языки](https://img.shields.io/badge/Языки-75+-3498db)](docs/LANGUAGES.md)
+
+[📱 Попробовать Демо](https://t.me/AIMusicVerseBot/app) • [📖 Документация](#-документация) • [🚀 Быстрый старт](#-быстрый-старт) • [🔧 API справка](#-api-справка) • [🎯 Доска спринта](#управление-спринтами)
 
 </div>
 
-![MusicVerse Banner](src/assets/banner.jpg)
+---
+
+## 📑 Оглавление
+
+- [🖥️ Предварительный просмотр](#предварительный-просмотр)
+- [✨ Возможности](#возможности)
+- [🎯 Что уникального](#что-уникального)
+- [📊 Ключевые метрики](#ключевые-метрики)
+- [🎼 Создание музыки](#создание-музыки)
+- [🏗️ Архитектура](#архитектура)
+- [🚪 Точка входа в приложение](#точка-входа-в-приложение)
+- [🗺️ Система навигации по проекту](#система-навигации-по-проекту)
+- [🚀 Быстрый старт](#быстрый-старт)
+- [🔧 Разработка](#разработка)
+- [📋 Управление спринтами](#управление-спринтами)
+- [📚 Документация](#документация)
+- [🛠️ Технологии](#технологии)
+- [🎯 Дорожная карта](#дорожная-карта)
+- [🤝 Участие в проекте](#участие-в-проекте)
+- [📞 Поддержка и сообщество](#поддержка-и-сообщество)
+- [📄 Лицензия](#лицензия)
 
 ---
 
-## 📑 Содержание
+## 🖥️ Предварительный просмотр
 
-<details>
-<summary>Развернуть оглавление</summary>
+<div align="center">
 
-- [О проекте](#-о-проекте)
-- [Ключевые метрики](#-ключевые-метрики)
-- [Возможности](#-возможности)
-- [Suno Meta Tags (174+)](#-suno-meta-tags-174)
-- [Музыкальные стили (277+)](#-музыкальные-стили-277)
-- [Поддерживаемые языки (75+)](#-поддерживаемые-языки-75)
-- [Архитектура](#-архитектура)
-- [База данных](#-база-данных)
-- [Быстрый старт](#-быстрый-старт)
-- [Технологии](#-технологии)
-- [API Reference](#-api-reference)
-- [Документация](#-документация)
-- [Deployment](#-deployment)
-- [Лицензия](#-лицензия)
+### 🎵 Создайте музыку с AI
+![Создание музыки](docs/images/preview-generate.jpg)
 
-</details>
+### 📚 Ваша музыкальная библиотека
+![Библиотека](docs/images/preview-library.jpg)
+
+### 🎛️ Профессиональные управления
+![Управления](docs/images/preview-controls.jpg)
+
+</div>
 
 ---
 
-## 🎯 О проекте
+## ✨ Возможности
 
-**MusicVerse AI** — это профессиональная платформа для создания музыки с помощью искусственного интеллекта, реализованная как Telegram Mini App. Платформа предоставляет доступ к **Suno AI API v5** с поддержкой **174+ мета-тегов**, **277+ музыкальных стилей** и **75+ языков** для генерации музыки мирового класса.
+### 🎹 Создание музыки с AI
+- **⚡ Молниеносная генерация**: Создавайте музыку за секунды с Suno AI v5
+- **🎯 174+ мета-тегов**: Профессиональный контроль над всеми аспектами
+- **🌍 Мультиязычность**: Поддержка 75+ языков и акцентов
+- **🎨 277+ стилей**: От классики до экспериментальной электронной музыки
+- **🎼 Различные форматы**: Песни, инструменталки, стемы, ремиксы
 
-### ✨ Ключевые особенности
+### 🤖 Расширенная интеграция AI
+- **Suno AI v5 (chirp-crow)**: Последняя модель генерации
+- **Промпты до 5000 символов**: Выражайте свое видение детально
+- **Мультимодальные входы**: Текст, стилевые теги, лирика
+- **Трансфер стиля**: Преобразование треков между жанрами
+- **АИ музыковедение**: Автоматический анализ аккордов
 
-<table>
-<tr>
-<td width="50%">
+### 📱 Опыт Telegram-сервиса
+- **Mini App**: Нативный опыт Telegram
+- **Команды бота**: `/generate`, `/library`, `/projects`
+- **Уведомления**: Получайте уведомления о готовности треков
+- **Глубокий линкинг**: Делитесь треками с кастомными URL
+- **Интеграция со сторис**: Публикация прямо в сторис Telegram
+- **Облачное хранилище**: Синхронизация настроек между устройствами
 
-#### 🤖 AI-генерация
-- **Suno AI v5** (chirp-crow)
-- 174+ мета-тегов контроля
-- 277+ музыкальных стилей
-- 75+ языков вокала
-- Кастомная лирика
-- Инструментальные треки
+### 🎛️ Профессиональные инструменты
+- **Графовая база данных**: AI-рекомендации и контроль тегов
+- **Управление проектами**: Альбомы, EP, компиляции
+- **Коллаборация**: Режим совместного редактирования
+- **Биометрическая безопасность**: Защита премиум-функций
+- **Анализ аудио**: Расширенная аналитика треков
+- **Разделение вокала**: Профессиональное извлечение стемов
 
-</td>
-<td width="50%">
+---
 
-#### 🎛️ Профессиональный контроль
-- Графовая система тегов
-- Рекомендации стилей
-- Конструктор промптов
-- История генераций
-- Пользовательские шаблоны
-- Избранные теги
+## 🎯 Что уникального
 
-</td>
-</tr>
-<tr>
-<td width="50%">
+### 🧠 Интеллектуальная музыкальная система
+В отличие от простых генераторов текста-в-музыку, MusicVerse использует сложную графовую базу данных для понимания связей между музыкальными элементами, жанрами и стилями, обеспечивая интеллектуальные рекомендации и профессиональный контроль.
 
-#### 🎭 Управление проектами
-- Альбомы и EP
-- AI-концепции
-- Обложки (AI генерация)
-- Артисты и коллаборации
-- Русская локализация
-- Версионирование
+### 📡 Интеграция с экосистемой Telegram
+Глубокая интеграция с экосистемой Telegram, включая Mini Apps, Bot API, публикацию сторис, синхронизацию облачного хранилища и нативные UI-компоненты, которые безупречно работают на iOS, Android и веб-платформах.
 
-</td>
-<td width="50%">
+### 🌍 Глобальная доступность
+Поддержка 75+ языков с автоматическим определением гласных и произношения, делает генерацию музыки с AI доступной для создателей по всему миру независимо от родного языка.
 
-#### 📱 Telegram Integration
-- Mini App SDK
-- OAuth 2.0 авторизация
-- Haptic Feedback
-- Cloud Storage
-- Native UI
-- Push уведомления
-
-</td>
-</tr>
-</table>
+### 🔊 Архитектура корпоративного уровня
+Построено на Supabase, функциях края PostgreSQL и современной облачной инфраструктуре, обеспечивая масштабируемость для миллионов пользователей при сохранении профессионального качества аудио.
 
 ---
 
 ## 📊 Ключевые метрики
 
-<div align="center">
-
 | Категория | Количество | Описание |
-|-----------|-----------|----------|
-| 🏷️ **Meta Tags** | **174+** | Полный контроль над генерацией |
-| 🎸 **Music Styles** | **277+** | Уникальные жанровые комбинации |
-| 🌍 **Languages** | **75+** | Поддержка вокала на разных языках |
-| 🎨 **Genres** | **50+** | Основные музыкальные жанры |
-| 🎵 **Instruments** | **40+** | Виртуальные инструменты |
-| 🎭 **Moods** | **30+** | Эмоциональные атмосферы |
-| ⚙️ **Effects** | **25+** | Звуковые эффекты и обработка |
-| 🔗 **Tag Relations** | **500+** | Графовые связи между тегами |
-
-</div>
+|----------|--------|-----------|
+| 🏷️ **Мета-теги** | **174+** | Профессиональные управляющие теги |
+| 🎸 **Музыкальные стили** | **277+** | Уникальные комбинации жанров |
+| 🌍 **Языки** | **75+** | Поддерживаемые вокальные языки |
+| 🎨 **Инструменты** | **40+** | Виртуальные музыкальные инструменты |
+| 🎭 **Настроенияия** | **30+** | Эмоционные атмосферы |
+| ⚙️ **Эффекты** | **25+** | Аудиообработка тегов |
+| 🔗 **Отношения** | **500+** | AI-управляемые связи |
 
 ---
 
-## 🎨 Возможности
+## 🎼 Создание музыки
 
-### 🎼 Генерация треков
-
+### Простая генерация
 ```typescript
-// Простая генерация
-{
-  prompt: "Upbeat electronic dance music with catchy hooks",
+const track = await generateTrack({
+  prompt: "Узнаваемая электронная танцевальная музыка с зацепляющимися хуками",
   model: "chirp-crow",
   instrumental: false
-}
+});
+```
 
-// Профессиональный контроль с Meta Tags
-{
-  title: "Cosmic Journey",
-  prompt: "[Verse]\nWalking through the stars...\n[Chorus]\nCosmic journey high...",
-  style: "[Genre: Ambient Electronic] [Mood: Ethereal, Dreamy] [Instrument: Synthesizer, Pad] [Vocal Style: Breathy] [Texture: Wide Stereo, Reverb-Soaked]",
+### Профессиональный контроль
+```typescript
+const track = await generateTrack({
+  title: "Космическое путешествие",
+  prompt: "[Куплет]\nИдя среди звезд...\n[Припев]\nКосмически высоко...",
+  style: "[Жанр: Электроника окружения] [Настроение: Эфирное, Мечтательное] [Инструмент: Синтезатор] [Текстура: Широкая стерео]",
   model: "chirp-crow"
-}
+});
 ```
 
-**Доступные модели:**
+### Доступные модели
 
-| Модель | Идентификатор | Статус | Промпт | Стиль | Описание |
-|--------|--------------|--------|--------|-------|----------|
-| v3.5 | `chirp-v3.5` | Deprecated | 3000 | 200 | Устаревшая версия |
-| v4 | `chirp-v4` | Stable | 3000 | 200 | Надежная генерация |
-| v4.5 | `chirp-auk` | Active | 5000 | 1000 | Улучшенный контроль |
-| v4.5+ | `chirp-bluejay` | Active | 5000 | 1000 | Стабильность |
-| **v5** | **`chirp-crow`** | **Latest** | **5000** | **1000** | **Лучшее качество** |
-
-### 📁 Проекты
-
-- **Типы**: Single, EP, Album, OST, Background Music, Jingle, Compilation, Mixtape
-- **AI-концепции**: Автоматическая генерация концепции проекта
-- **Обложки**: Загрузка или AI-генерация с помощью Gemini
-- **Артисты**: Создание и управление артистами
-- **Треклисты**: AI-генерация структуры альбома
-- **Локализация**: Русские переводы названий
-
-### 🔍 Интеллектуальная система
-
-- **Графовая БД**: Связи между тегами (complements, conflicts, enhances, requires)
-- **Рекомендации**: Персональные предложения стилей на основе истории
-- **Конструктор**: Визуальный построитель промптов
-- **Шаблоны**: Сохранение и повторное использование промптов
-- **Аналитика**: Отслеживание успешных генераций
-
----
-
-## 🏷️ Suno Meta Tags (174+)
-
-Meta Tags — это мощные теги управления в квадратных скобках `[Tag]`, которые дают точный контроль над генерацией музыки.
-
-### Категории тегов
-
-<details>
-<summary><b>📐 Structure (8 тегов)</b> - Структура композиции</summary>
-
-| Тег | Назначение | Пример использования |
-|-----|-----------|---------------------|
-| `[Intro]` | Вступление | `[Intro] Soft piano melody` |
-| `[Verse]` | Куплет | `[Verse] Main story lyrics` |
-| `[Pre-Chorus]` | Пред-припев | `[Pre-Chorus] Building tension` |
-| `[Chorus]` | Припев | `[Chorus] Main hook, memorable` |
-| `[Bridge]` | Бридж | `[Bridge] Different perspective` |
-| `[Drop]` | Дроп | `[Drop] Heavy bass kicks in` |
-| `[Outro]` | Окончание | `[Outro] Fade out slowly` |
-| `[Break]` | Брейк | `[Break] Instrumental pause` |
-
-</details>
-
-<details>
-<summary><b>🎤 Vocal Control (27 тегов)</b> - Управление вокалом</summary>
-
-#### Пол и тип вокалиста
-
-| Тег | Описание | V4.5+ Формат |
-|-----|---------|-------------|
-| `[Male Vocal]` | Мужской вокал | `[Vocalist: Male]` |
-| `[Female Vocal]` | Женский вокал | `[Vocalist: Female]` |
-| `[Choir]` | Хор | `[Choir]` |
-| `[Choir Pad]` | Хоровой пэд | `[Choir Pad]` |
-
-#### Стиль вокала
-
-| Тег | Эффект |
-|-----|--------|
-| `[Vocal Style: Smooth]` | Плавный вокал |
-| `[Vocal Style: Raspy]` | Хриплый вокал |
-| `[Vocal Style: Operatic]` | Оперный стиль |
-| `[Vocal Style: Breathy]` | Дыхательный |
-| `[Vocal Style: Gospel]` | Госпел стиль |
-| `[Falsetto]` | Фальцет |
-| `[Whisper]` | Шепот |
-| `[Ad-libs]` | Импровизации |
-| `[Harmony Vocals]` | Гармонии |
-
-#### Языки (75+ доступных)
-
-```
-[Language: English]  [Language: Spanish]  [Language: French]
-[Language: Russian]  [Language: Japanese] [Language: Korean]
-[Language: Chinese]  [Language: German]   [Language: Italian]
-[Language: Portuguese] [Language: Arabic] [Language: Hindi]
-... и еще 63+ языка!
-```
-
-#### Акценты
-
-```
-[Accent: American]  [Accent: British]  [Accent: Australian]
-```
-
-</details>
-
-<details>
-<summary><b>🎸 Instruments (40+ тегов)</b> - Музыкальные инструменты</summary>
-
-#### Клавишные
-
-```
-[Piano]  [Electric Piano]  [Keyboard]  [Organ]  [Synth]  [Harpsichord]
-```
-
-#### Струнные
-
-```
-[Guitar]  [Electric Guitar]  [Electric Guitar (Distorted)]
-[Acoustic Guitar]  [Bass]  [Violin]  [Cello]  [Harp]
-[Ukulele]  [Banjo]  [Mandolin]  [Sitar]
-```
-
-#### Духовые
-
-```
-[Saxophone]  [Trumpet]  [Trombone]  [Flute]  [Clarinet]
-[Harmonica]  [Horns]  [Bagpipe]
-```
-
-#### Ударные и перкуссия
-
-```
-[Drums]  [808s]  [808 Bass]  [Hi-Hats]  [Snare]  [Kick]
-[Kick and Snare]  [Percussion]  [Tambourine]  [Tabla]
-```
-
-#### Оркестр
-
-```
-[Strings]  [Strings (Legato)]  [Brass]  [Woodwinds]
-[String Ensemble]  [Orchestra]
-```
-
-#### Этнические
-
-```
-[Koto]  [Sitar]  [Tabla]  [Didgeridoo]  [Shamisen]
-```
-
-</details>
-
-<details>
-<summary><b>🎭 Genre & Style (50+ тегов)</b> - Жанры и стили</summary>
-
-#### Основные жанры
-
-```
-[Genre: Pop]           [Genre: Rock]          [Genre: Jazz]
-[Genre: Electronic]    [Genre: Hip-Hop]       [Genre: R&B]
-[Genre: Classical]     [Genre: Country]       [Genre: Metal]
-[Genre: Folk]          [Genre: Reggae]        [Genre: Blues]
-[Genre: Soul]          [Genre: Funk]          [Genre: Gospel]
-[Genre: Latin]         [Genre: Indie]         [Genre: Punk]
-```
-
-#### Электронные поджанры
-
-```
-[Genre: House]         [Genre: Techno]        [Genre: Trance]
-[Genre: Dubstep]       [Genre: Drum & Bass]   [Genre: Ambient]
-[Genre: IDM]           [Genre: Breakbeat]     [Genre: Garage]
-```
-
-#### Стили
-
-```
-[Style: Lo-fi]         [Style: K-pop]         [Style: Synthwave]
-[Style: Chillstep]     [Style: Ambient]       [Style: Psychedelic]
-[Style: Grunge]        [Style: Shoegaze]      [Style: Vaporwave]
-```
-
-#### Эры
-
-```
-[Era: 80s]  [Era: 90s]  [Era: 2000s]  [Era: Retro]  [Era: Modern]
-```
-
-</details>
-
-<details>
-<summary><b>😊 Mood & Energy (30+ тегов)</b> - Настроение и энергия</summary>
-
-#### Настроения
-
-```
-[Mood: Happy]          [Mood: Sad]            [Mood: Energetic]
-[Mood: Chill]          [Mood: Dark]           [Mood: Romantic]
-[Mood: Melancholic]    [Mood: Upbeat]         [Mood: Dramatic]
-[Mood: Heroic]         [Mood: Ominous]        [Mood: Euphoric]
-[Mood: Nostalgic]      [Mood: Mysterious]     [Mood: Aggressive]
-```
-
-#### Энергия
-
-```
-[Energy: High]   [Energy: Medium]   [Energy: Low]
-```
-
-#### Темп
-
-```
-[BPM: 60]  [BPM: 80]  [BPM: 100]  [BPM: 120]  [BPM: 140]  [BPM: 160]
-```
-
-</details>
-
-<details>
-<summary><b>🎚️ Production & Texture (25+ тегов)</b> - Продакшн и текстура</summary>
-
-#### Текстуры
-
-```
-[Texture: Reverb-Soaked]    [Texture: Dry]
-[Texture: Wet]              [Texture: Tape-Saturated]
-[Texture: Wide Stereo]      [Texture: Mono]
-[Texture: Gentle Sidechain] [Texture: Sidechained]
-```
-
-#### Микс
-
-```
-[Mix: Compressed]   [Mix: Dynamic]   [Mix: Bright]
-[Mix: Warm]         [Mix: Clean]     [Mix: Lo-Fi]
-```
-
-#### Продакшн
-
-```
-[Production: Layered]   [Production: Sparse]   [Production: Lush]
-[Production: Raw]       [Production: Polished]
-```
-
-#### Качество
-
-```
-[Quality: Lo-Fi]   [Quality: High-Fi]   [Quality: Studio]
-[Quality: Live]    [Quality: Demo]
-```
-
-</details>
-
-<details>
-<summary><b>⚡ Effects & Processing (20+ тегов)</b> - Эффекты и обработка</summary>
-
-#### Основные эффекты
-
-```
-[Reverb]      [Echo]        [Delay]       [Chorus]
-[Flange]      [Phaser]      [Distortion]  [Overdrive]
-[Compression] [Limiter]     [Gate]
-```
-
-#### Эквалайзер
-
-```
-[EQ: Bright]        [EQ: Warm]          [EQ: Bass Boost]
-[EQ: Treble Boost]  [EQ: Mid Scoop]
-```
-
-#### Специальные
-
-```
-[Filter Sweep]   [Auto-Tune]   [Vocoder]   [Talk Box]
-[Bit Crush]      [Ring Mod]
-```
-
-#### Динамика
-
-```
-[Fade In]   [Fade Out]   [Crossfade]   [Volume Automation]
-```
-
-</details>
-
-<details>
-<summary><b>🎬 Special Effects (18+ тегов)</b> - Спецэффекты и атмосфера</summary>
-
-#### Атмосфера
-
-```
-[Applause]           [Live Version]       [Studio Recording]
-[Live Recording]     [Field Recording]    [Crowd Noise]
-```
-
-#### Природа
-
-```
-[Birds Chirping]   [Rain]   [Thunder]   [Wind]   [Ocean Waves]
-[Nature Ambience]  [Forest Sounds]
-```
-
-#### Городские
-
-```
-[Urban Ambience]   [Traffic Noise]   [City Sounds]
-```
-
-#### Винтажные
-
-```
-[Vinyl Crackle]   [Record Skip]   [Tape Hiss]
-[Radio Effect]    [Telephone Effect]
-```
-
-#### Цифровые
-
-```
-[8-Bit]   [16-Bit]   [Bit-Crushed]   [Glitch]
-```
-
-</details>
-
-<details>
-<summary><b>🔄 Transitions & Dynamics (15+ тегов)</b> - Переходы и динамика</summary>
-
-#### Темповые изменения
-
-```
-[Half-Time]   [Double-Time]   [Drop to Half-Time]
-[Tempo Change]
-```
-
-#### Модуляции
-
-```
-[Key Change]   [Key Modulation]   [Chord Progression]
-```
-
-#### Динамические изменения
-
-```
-[Bass Drop]    [Build]        [Breakdown]
-[Crescendo]    [Decrescendo]  [Silence]
-```
-
-#### Структурные
-
-```
-[Loop-Friendly]           [Structure: Seamless Loop]
-[Final Chorus Lift]       [Anthemic Chorus]
-[Filter Cutoff]
-```
-
-</details>
-
-<details>
-<summary><b>📼 Format Tags (6 тегов)</b> - Форматы вывода</summary>
-
-```
-[Stereo]   [Mono]   [Surround]
-[Ambisonics]   [Binaural]   [Spatial Audio]
-```
-
-</details>
-
-### Использование Meta Tags
-
-#### Формат v4.5+ (Рекомендуется)
-
-```
-[Category: Value, Value2, Value3]
-```
-
-**Примеры:**
-```
-[Genre: Orchestral Trap]
-[Mood: Heroic, Dramatic]
-[Texture: Tape-Saturated, Wide Stereo]
-[Instrument: 808s, String Ensemble]
-[Vocal Style: Gospel]
-[Language: Russian]
-```
-
-#### Комбинирование тегов
-
-```typescript
-const style = `
-  [Genre: Ambient Electronic]
-  [Mood: Dreamy, Ethereal]
-  [Instrument: Synthesizer, Pad, Piano]
-  [Vocal Style: Breathy]
-  [Language: English]
-  [Texture: Wide Stereo, Reverb-Soaked]
-  [Mix: Warm]
-  [Energy: Low]
-`;
-```
-
----
-
-## 🎸 Музыкальные стили (277+)
-
-База данных содержит **277 уникальных музыкальных стилей** с географическими влияниями, настроениями и жанровыми комбинациями.
-
-### Распределение по основным жанрам
-
-<div align="center">
-
-| Жанр | Количество | Примеры |
-|------|-----------|---------|
-| 🎺 **Jazz** | 13 | afro-jazz, raga jazz, prog avant-garde jazz |
-| 🎸 **Rock** | 16 | grunge, alternative rock, psychedelic rock |
-| 🎹 **Electronic** | 14 | ambient techno, synthwave, dubstep |
-| 🎤 **Hip-Hop/Rap** | 11 | trap, boom bap, cloud rap |
-| 🎵 **Pop** | 16 | k-pop, synthpop, dream pop |
-| 🌴 **Latin** | 11 | cumbia, reggaeton, samba, bachata |
-| 🎻 **Classical** | 10 | symphonic, orchestral arrangements |
-| 🎺 **Blues** | 13 | delta blues, acoustic blues |
-| 🎸 **Funk/Soul** | 14 | afro-funk, neo-soul, electro-soul |
-| 🌾 **Folk** | 6 | bluegrass, cajun, celtic folk |
-| 🏝️ **Reggae** | 9 | roots reggae, arabic reggae |
-
-</div>
-
-### География музыки
-
-<details>
-<summary><b>🌍 Африка (23 стиля)</b></summary>
-
-```
-afro-jazz, afro-funk, afro-cuban jazz, dakar afro-cuban jazz,
-afro trap, afrobeat, afro house, grunge african folk, tuareg synthwave,
-koto gnawa, saxophone gnawa, prog afrobeat, prog afro-jazz,
-prog afro-funk, afro-cuban jazz griot, afro-cuban jazz doo-wop,
-afro-cuban jazz crunk, arabic afrobeat, saxon afro house
-```
-
-</details>
-
-<details>
-<summary><b>🌏 Азия (20+ стилей)</b></summary>
-
-**Восточная Азия:**
-```
-k-pop, korean pacific reggae, koto gnawa, koto g-funk,
-koto drill and bass, koto dembow, koto coptic, koto boom bap,
-koto alt-pop, mandarin trance, mandarin math rock, mandarin house,
-mandarin hawaiian, mandarin disco
-```
-
-**Южная Азия:**
-```
-raga jazz, hindi jungle, hindi dream pop, urdu rumba, urdu jazzwave,
-hindi chanson, urdu house, hindi carnatic, urdu electropop,
-urdu drill, hindi bubblegum dance, urdu coptic
-```
-
-</details>
-
-<details>
-<summary><b>🌎 Америка (15+ стилей)</b></summary>
-
-**Северная Америка:**
-```
-new orleans grunge, new orleans dembow, new orleans cloud rap,
-new orleans chillwave, new orleans carnatic, new orleans cajun,
-new orleans alternative r&b, delta blues house, americana,
-bluegrass, cajun
-```
-
-**Латинская Америка:**
-```
-sertanejo southern rock, sertanejo chillstep, sertanejo emo,
-spanish samba, spanish merengue, cumbia, reggaeton
-```
-
-</details>
-
-<details>
-<summary><b>🌍 Ближний Восток (12 стилей)</b></summary>
-
-```
-arabic reggae, arabic pop, arabic mariachi, arabic egyptian,
-arabic classical, arabic ambient techno, arabic afrobeat,
-arabic acid house, hyphy egyptian, egyptian swing
-```
-
-</details>
-
-<details>
-<summary><b>🌍 Европа (10+ стилей)</b></summary>
-
-```
-portuguese breakbeat, portuguese barbershop, portuguese acoustic rock,
-portuguese 16-bit, russian dembow, choral celtic, celtic folk,
-klezmer pop
-```
-
-</details>
-
-### Фьюжн-стили (Топ 50)
-
-```
-orchestral trap          jazz-hop                electro-swing
-lofi hip hop             ambient dub techno      synthwave funk
-trap soul                reggae jazz             rock opera
-electronic blues         psychedelic folk        industrial metal
-country hip-hop          classical electronic    afro house
-latin jazz               reggaeton pop           grunge pop
-indie electronic         folk metal              progressive trap
-ambient rock             chillwave soul          dream reggae
-acoustic electronic      baroque pop             celtic punk
-gospel trap              bluegrass metal         surf rock jazz
-desert blues             tropical house          dark ambient
-space rock               witch house             vaporwave soul
-experimental hip-hop     neo-classical edm       glitch hop
-tribal house             minimal techno          future funk
-acid jazz                intelligent dnb         progressive house
-```
-
-### Атмосферные стили
-
-<details>
-<summary><b>😴 Dreamy / Chill (15 стилей)</b></summary>
-
-```
-dreamy swing, dreamy soul, dreamy shoegaze, dreamy pacific reggae,
-dreamy house, dreamy grime, dreamy fife and drum blues,
-chillwave, chillstep, lo-fi hip hop, ambient, downtempo
-```
-
-</details>
-
-<details>
-<summary><b>🌑 Dark (12 стилей)</b></summary>
-
-```
-dark goa trance, dark electropop, dark drum and bass, dark dance,
-dark coptic, dark chillstep, dark blues, dark alternative rock,
-darkwave, dark ambient, industrial, witch house
-```
-
-</details>
-
-<details>
-<summary><b>😴 Hypnagogic (8 стилей)</b></summary>
-
-```
-hypnagogic pacific reggae, hypnagogic goa trance, hypnagogic garage,
-hypnagogic electropop, hypnagogic ambient trance, hypnagogic algorave,
-hypnagogic pop, hypnagogic drift
-```
-
-</details>
-
----
-
-## 🌍 Поддерживаемые языки (75+)
-
-MusicVerse поддерживает вокальную генерацию на **75+ языках** мира с автоматическим определением произношения.
-
-### Европейские языки (25+)
-
-```
-🇬🇧 English        🇪🇸 Spanish       🇫🇷 French        🇩🇪 German
-🇮🇹 Italian        🇵🇹 Portuguese    🇷🇺 Russian       🇵🇱 Polish
-🇳🇱 Dutch          🇸🇪 Swedish       🇳🇴 Norwegian     🇩🇰 Danish
-🇫🇮 Finnish        🇬🇷 Greek         🇨🇿 Czech         🇭🇺 Hungarian
-🇷🇴 Romanian       🇺🇦 Ukrainian     🇧🇬 Bulgarian     🇭🇷 Croatian
-🇸🇰 Slovak         🇸🇮 Slovenian     🇱🇹 Lithuanian    🇱🇻 Latvian
-🇪🇪 Estonian
-```
-
-### Азиатские языки (20+)
-
-```
-🇨🇳 Chinese (Mandarin)    🇯🇵 Japanese        🇰🇷 Korean
-🇮🇳 Hindi                🇮🇳 Bengali         🇵🇰 Urdu
-🇮🇳 Tamil                🇮🇳 Telugu          🇮🇳 Marathi
-🇹🇭 Thai                 🇻🇳 Vietnamese      🇮🇩 Indonesian
-🇲🇾 Malay                🇵🇭 Filipino        🇰🇭 Khmer
-🇲🇲 Burmese              🇱🇦 Lao             🇲🇳 Mongolian
-🇰🇿 Kazakh               🇺🇿 Uzbek
-```
-
-### Ближневосточные (10+)
-
-```
-🇸🇦 Arabic         🇮🇷 Persian        🇹🇷 Turkish       🇮🇱 Hebrew
-🇦🇫 Pashto         🇦🇫 Dari           🇮🇶 Kurdish       🇦🇿 Azerbaijani
-🇦🇲 Armenian       🇬🇪 Georgian
-```
-
-### Африканские (8+)
-
-```
-🇿🇦 Afrikaans      🇿🇦 Zulu           🇪🇹 Amharic       🇰🇪 Swahili
-🇳🇬 Yoruba         🇳🇬 Igbo           🇿🇦 Xhosa         🇸🇴 Somali
-```
-
-### Другие (12+)
-
-```
-🇦🇷 Spanish (Latin America)    🇧🇷 Portuguese (Brazil)
-🇨🇦 French (Canadian)          🇨🇭 Swiss German
-🇦🇹 Austrian German            🇲🇽 Spanish (Mexican)
-🇨🇴 Spanish (Colombian)        🇪🇸 Catalan
-🇪🇸 Basque                     🇪🇸 Galician
-🇮🇪 Irish Gaelic               🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scottish Gaelic
-```
-
-### Использование в генерации
-
-```typescript
-// Английский (по умолчанию)
-style: "[Language: English] [Genre: Pop]"
-
-// Русский
-style: "[Language: Russian] [Genre: Rock] [Mood: Energetic]"
-
-// Многоязычный микс
-style: "[Language: Spanish, English] [Genre: Latin Pop]"
-
-// С акцентом
-style: "[Language: English] [Accent: British] [Genre: Indie Rock]"
-```
+| Модель | Идентификатор | Статус | Лимит промпта | Лимит стиля | Применение |
+|--------|-----------|---------|-------------|------------|----------|
+| **v5** | **`chirp-crow`** | **Последняя** | **5000** | **1000** | **Лучшее качество и контроль** |
+| v4.5+ | `chirp-bluejay` | Стабильная | 5000 | 1000 | Гладкая, последовательная |
+| v4.5 | `chirp-auk` | Стабильная | 5000 | 1000 | Расширенный контроль |
+| v4 | `chirp-v4` | Стабильная | 3000 | 200 | Надежная генерация |
 
 ---
 
 ## 🏗️ Архитектура
 
-<div align="center">
-
+### 🧩 Архитектура компонентов
 ```mermaid
 graph TB
-    subgraph "🎨 Frontend Layer"
-        A[React App] --> B[TelegramContext]
-        A --> C[UI Components]
-        A --> D[Custom Hooks]
-        B --> E[Telegram WebApp SDK]
+    subgraph "📱 Слой Telegram"
+        A[Мини-приложение Telegram] --> B[Команды бота]
+        A --> C[SDK Веб-приложениия]
+        A --> D[Облачное хранилище]
     end
     
-    subgraph "🔐 Auth Layer"
-        F[useAuth Hook] --> G[Telegram OAuth]
-        G --> H[telegram-auth Function]
-        H --> I[HMAC-SHA256]
+    subgraph "⚡ Backend - Supabase"
+        E[Функции на краю] --> F[Suno AI v5]
+        E --> G[PostgreSQL БД]
+        E --> H[Среда выполнения на краю]
     end
     
-    subgraph "☁️ Backend - Lovable Cloud"
-        J[Supabase Client] --> K[Edge Functions]
-        J --> L[PostgreSQL]
-        J --> M[Storage]
-        K --> N[Lovable AI Gateway]
-        K --> O[Suno API v5]
+    subgraph "🎵 Двигатель AI"
+        F --> I[Двигатель генерации]
+        F --> J[Трансфер стиля]
+        F --> K[Разделение на стемы]
     end
     
-    subgraph "🗄️ Database"
-        L --> P[profiles]
-        L --> Q[tracks]
-        L --> R[projects]
-        L --> S[suno_meta_tags]
-        L --> T[music_styles]
-        L --> U[tag_relationships]
+    subgraph "🗄️ Слой данных"
+        G --> L[Граф мета-тегов]
+        G --> M[Музыкальные стили]
+        G --> N[Аналитика пользователей]
     end
-    
-    A --> F
-    F --> J
-    H --> J
-    
-    style A fill:#61dafb,color:#000
-    style J fill:#3ECF8E,color:#000
-    style N fill:#FF6B6B,color:#fff
-    style O fill:#e74c3c,color:#fff
-    style E fill:#26A5E4,color:#fff
+
+    A --> E
+    E --> F
+    F --> G
 ```
 
-</div>
+### 🔒 Функции безопасности
+- **Сквозное шифрование** для конфиденциальных данных
+- **OAuth 2.0 + Telegram Auth** для аутентификации  
+- **Биометрическая защита** для премиум-функций
+- **Политики RLS** для контроля доступа к данным
+- **Проверка ввода** и санитизация
 
 ---
 
-## 🗄️ База данных
+## 🚪 Точка входа в приложение
 
-MusicVerse использует **графовую структуру данных** для хранения и управления мета-тегами, стилями и их взаимосвязями.
+### 🚀 Начните здесь
 
-### Основные таблицы
+MusicVerse AI предлагает несколько способов начать работу:
 
-#### 🏷️ suno_meta_tags (174+ записи)
-```sql
-- id: UUID
-- tag_name: VARCHAR(100) UNIQUE
-- category: ENUM(structure, vocal, instrument, ...)
-- description: TEXT
-- syntax_format: VARCHAR(200)
-- is_explicit_format: BOOLEAN
-- compatible_models: VARCHAR[]
-- usage_examples: TEXT[]
+#### 🎵 Основная точка входа
+**Telegram Mini App:** [Открыть в Telegram](http://t.me/musicverse_ai_bot/app)
+
+#### 🛠️ Для разработчиков
+
+```bash
+# Клонируйте репозиторий
+git clone https://github.com/HOW2AI-AGENCY/aimusicverse.git
+cd aimusicverse
+
+# Установите зависимости
+npm install
+
+# Настройте переменные окружения
+cp .env.example .env.local
+# Отредактируйте .env.local для ваших нужд
+
+# Запустите сервер разработки
+npm run dev
 ```
 
-#### 🎸 music_styles (277+ записей)
-```sql
-- id: UUID
-- style_name: VARCHAR(200) UNIQUE
-- primary_genre: VARCHAR(100)
-- geographic_influence: VARCHAR[]
-- mood_atmosphere: VARCHAR[]
-- is_fusion: BOOLEAN
-- popularity_score: INTEGER
+#### 📁 Структура входных точек
+
+```
+├── index.html              # Основной HTML-файл
+├── src/
+│   ├── main.tsx           # Точка входа React
+│   ├── App.tsx            # Основной компонент приложения
+│   └── pages/
+│       ├── Index.tsx      # Главная страница
+│       ├── Auth.tsx       # Аутентификация
+│       └── Generate.tsx   # Генератор музыки
+└── supabase/
+    └── functions/
+        └── telegram-bot/    # Точка входа Telegram-бота
 ```
 
-#### 🔗 tag_relationships (500+ связей)
-```sql
-- id: UUID
-- tag_id: UUID → suno_meta_tags
-- related_tag_id: UUID → suno_meta_tags
-- relationship_type: VARCHAR (complements, conflicts, enhances, requires)
-- strength: INTEGER (1-10)
-```
+---
 
-#### 🎨 style_tag_mappings
-```sql
-- id: UUID
-- style_id: UUID → music_styles
-- tag_id: UUID → suno_meta_tags
-- relevance_score: INTEGER (1-10)
-- is_primary: BOOLEAN
-```
+## 🗺️ Система навигации по проекту
 
-#### 👤 user_tag_preferences
-```sql
-- id: UUID
-- user_id: UUID
-- tag_id: UUID → suno_meta_tags
-- style_id: UUID → music_styles
-- usage_count: INTEGER
-- is_favorite: BOOLEAN
-- last_used_at: TIMESTAMPTZ
-```
+### 🧭 Быстрая навигация
 
-#### 📝 prompt_templates
-```sql
-- id: UUID
-- user_id: UUID
-- name: VARCHAR(200)
-- template_text: TEXT
-- tags: UUID[]
-- style_id: UUID → music_styles
-- is_public: BOOLEAN
-- usage_count: INTEGER
-```
+MusicVerse AI предоставляет несколько способов навигации по проекту:
 
-#### 📊 generation_tag_usage
-```sql
-- id: UUID
-- user_id: UUID
-- track_id: UUID → tracks
-- tags_used: UUID[]
-- style_id: UUID → music_styles
-- prompt_text: TEXT
-- success: BOOLEAN
-```
+#### 📚 Документация навигации
+Подробная система навигации описана в [docs/NAVIGATION_SYSTEM.md](docs/NAVIGATION_SYSTEM.md)
 
-### Функции БД
+#### 🗂️ Основные разделы
+- **Фронтенд:** `src/pages/` - Основные маршруты приложения
+- **Компоненты:** `src/components/` - Переиспользуемые компоненты
+- **Сервисы:** `src/services/` - Бизнес-логика
+- **Бэкэнд:** `supabase/functions/` - Серверные функции
+- **Документация:** `docs/` - Полная документация
 
-#### get_complementary_tags(_tag_id, _max_depth)
-Рекурсивный поиск совместимых тегов в графе отношений.
-
-```sql
-SELECT * FROM get_complementary_tags('tag-uuid', 2);
--- Возвращает: tag_id, tag_name, relationship_type, strength, depth
-```
-
-#### build_suno_prompt(_tag_ids[], _style_id)
-Автоматическое построение промпта из тегов и стиля.
-
-```sql
-SELECT build_suno_prompt(
-  ARRAY['tag1-uuid', 'tag2-uuid'],
-  'style-uuid'
-);
--- Возвращает: "[Genre: Jazz] [Mood: Chill] [Instrument: Piano]"
-```
-
-#### recommend_styles_for_user(_user_id, _limit)
-Персональные рекомендации на основе истории использования.
-
-```sql
-SELECT * FROM recommend_styles_for_user('user-uuid', 10);
--- Возвращает: style_id, style_name, recommendation_score
-```
+#### 🎯 Навигация по разработке
+Основные точки входа для разработчиков:
+- [src/App.tsx](src/App.tsx) - Главный компонент приложения
+- [src/main.tsx](src/main.tsx) - Точка входа React
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) - Архитектура системы
+- [supabase/functions/](supabase/functions/) - Серверные функции
 
 ---
 
 ## 🚀 Быстрый старт
 
-### Предварительные требования
-
+### Необходимые условия
 ```bash
 Node.js >= 18.0.0
 npm >= 9.0.0
+Telegram Bot Token (от @BotFather)
 ```
 
 ### Установка
-
 ```bash
 # 1. Клонировать репозиторий
 git clone https://github.com/yourusername/musicverse.git
 cd musicverse
 
-# 2. Установить зависимости
+# 2. Установить зависимости  
 npm install
 
-# 3. Запустить dev-сервер
+# 3. Настроить переменные окружения
+cp .env.example .env.local
+# Добавить ваши ключи в файл .env.local
+
+# 4. Запустить сервер разработки
 npm run dev
 ```
 
-Приложение будет доступно по адресу `http://localhost:5173`
+### Переменные окружения
+```bash
+# Обязательные
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=your-anon-key
+VITE_TELEGRAM_BOT_NAME=your_bot
+VITE_MINI_APP_URL=https://your-app-url/
 
-### Development Mode
+# Необязательные - для продакшн
+VITE_SENTRY_DSN=your-sentry-dsn
+VITE_GOOGLE_ANALYTICS_ID=your-ga-id
+```
 
-В режиме разработки автоматически включается:
-- ✅ Mock Telegram окружение
-- ✅ Email/password аутентификация
-- ✅ Тестовые данные пользователя
-- ✅ Полная функциональность без Telegram
+### Первая генерация трека
+1. Перейти по: `http://localhost:5173/generate`
+2. Ввести промт: "Весёлая электронная музыка с гитарным соло"
+3. Нажать Произвести → Получите уведомление, когда будет готово в Telegram
+
+---
+
+## 🔧 Разработка
+
+### Структура проекта
+```
+musicverse/
+├── 📁 docs/              # Комплексная документация
+│   ├── ARCHITECTURE.md   # Архитектура системы
+│   ├── API.md            # Спецификации API  
+│   ├── SPRINTS.md        # Планирование спринтов
+│   └── examples/         # Примеры кода
+├── 📁 src/
+│   ├── 📁 components/      # Переиспользуемые компоненты
+│   ├── 📁 pages/           # Компоненты маршрутов
+│   ├── 📁 hooks/          # Пользовательские хуки
+│   ├── 📁 integrations/ # Внешние API
+│   └── 📁 utils/          # Утилиты
+├── 📁 supabase/           # Конфигурация backend
+│   ├── 📁 functions/      # Функции на краю
+│   ├── 📁 migrations/     # Схема базы данных
+│   └── 📁 config.toml     # Настройки Supabase
+└── 📁 scripts/            # Скрипты сборки/утилит
+```
+
+### Доступные скрипты
+```bash
+npm run dev           # Запуск сервера разработки
+npm run build         # Сборка для продакшн  
+npm run preview       # Предпросмотр сборки
+npm run test          # Запуск тестов
+npm run lint          # Линтер кода
+npm run type-check    # Проверка типов
+```
+
+---
+
+## 📋 Управление спринтами
+
+### 🎯 Статус нынешних спринтов
+
+| Спринт | Период | Статус | Прогресс | Скорость | Историй сделано | Историй осталось |
+|--------|---------|---------|----------|----------|----------------|-------------|
+| **Спринт 1** | Янв 2025 | ✅ **ЗАВЕРШЕН** | 100% | 21 SP | 21 SP | 0 SP |
+| **Спринт 2** | Фев 2025 | ✅ **ЗАВЕРШЕН** | 100% | 18 SP | 18 SP | 0 SP |
+| **Спринт 3** | Мар-апр 2025 | 🚧 **В ПРОЦЕССЕ** | 60% | 24 SP | 14 SP | 10 SP |
+| **Спринт 4** | Май 2025 | 📅 **ЗАПЛАНИРОВАН** | 0% | 15 SP | 0 SP | 15 SP |
+| **Спринт 5** | Июн 2025 | 📅 **ЗАПЛАНИРОВАН** | 0% | 12 SP | 0 SP | 12 SP |
+| **Спринт 6** | Июл 2025 | 📅 **ЗАПЛАНИРОВАН** | 0% | 8 SP | 0 SP | 8 SP |
+
+**🎯 Общий прогресс:** 65% Завершен | **📈 Скорость команды:** ~18 СП/спринт
+
+### Быстрый обзор спринта
+```bash
+npm run sprint:status    # Получить статус текущего спринта
+npm run sprint:complete  # Отметить текущий спринт как завершённый  
+npm run sprint:next     # Начать следующий спринт
+npm run sprint:report   # Сгенерировать отчёт о спринте
+```
+
+---
+
+## 📚 Документация
+
+### 📖 Подробная документация
+| Документ | Описание |
+|----------|----------|
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Архитектура системы и шаблоны |
+| [`docs/API.md`](docs/API.md) | Спецификации и конечные точки API |
+| [`docs/DATABASE.md`](docs/DATABASE.md) | Схема базы данных и миграции |
+| [`docs/JOURNEY.md`](docs/JOURNEY.md) | Картография пути пользователя |  
+| [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Стратегии развертывания |
+| [`docs/MIGRATION.md`](docs/MIGRATION.md) | Руководство по миграции версий |
+| [`docs/TESTING.md`](docs/TESTING.md) | Стратегии тестирования |
+
+### 🎯 Документация спринта
+- [Спринт 1-2 Завершение](docs/SPRINTS_1_2.md) - Ядро бота и расширенные возможности
+- [Планирование спринтов 3-4](docs/SPRINTS_3_4.md) - Интеграция и полировка
+- [Доска спринта](https://github.com/users/yourusername/projects/1) - Отслеживание спринта в реальном времени
+
+### 📸 Быстрые ссылки
+- [Руководство по мета-тегам](docs/META_TAGS.md) - Все 174+ мета-тега
+- [Музыкальные стили](docs/STYLES.md) - Полный список стилей  
+- [Поддержка языков](docs/LANGUAGES.md) - Обзор 75+ языков
 
 ---
 
 ## 🛠️ Технологии
 
-<div align="center">
-
-### Frontend Stack
-
-![React](https://img.shields.io/badge/React-18.3-61dafb?style=for-the-badge&logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)
-![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?style=for-the-badge&logo=vite)
-![Tailwind](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)
-![Framer](https://img.shields.io/badge/Framer_Motion-12.0-0055FF?style=for-the-badge&logo=framer)
-
-### Backend Stack
-
-![Supabase](https://img.shields.io/badge/Supabase-Cloud-3ECF8E?style=for-the-badge&logo=supabase)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql)
-![Edge Functions](https://img.shields.io/badge/Edge_Functions-Deno-000000?style=for-the-badge&logo=deno)
-
-### AI/ML Stack
-
-![Suno](https://img.shields.io/badge/Suno_AI-v5-e74c3c?style=for-the-badge&logo=soundcloud)
-![Gemini](https://img.shields.io/badge/Google_Gemini-2.5-4285F4?style=for-the-badge&logo=google)
-![GPT-5](https://img.shields.io/badge/OpenAI_GPT--5-412991?style=for-the-badge&logo=openai)
-
-### Platform
-
-![Telegram](https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=for-the-badge&logo=telegram)
-
-</div>
-
-<details>
-<summary><b>Подробный список</b></summary>
-
-**Frontend:**
-- React 18.3
-- TypeScript 5.0
-- Vite (build tool)
-- Tailwind CSS
-- Framer Motion
-- Radix UI
-- Shadcn/ui
-- TanStack Query
-- React Router
-- Lucide Icons
-- Sonner (toasts)
-
-**Backend:**
-- Supabase (BaaS)
-- PostgreSQL 16
-- Edge Functions (Deno)
-- Row Level Security
-- Realtime subscriptions
-- Storage buckets
-
-**AI/ML:**
-- Suno AI API v5
-- Lovable AI Gateway
-- Google Gemini 2.5
-- OpenAI GPT-5
-- Whisper (transcription)
-
-**Platform:**
-- Telegram Mini Apps SDK
-- Telegram Bot API
-- OAuth 2.0
-
-</details>
-
----
-
-## 📚 API Reference
-
-### Suno API v5
-
-<details>
-<summary><b>POST /api/generate</b> - Простая генерация</summary>
-
-```typescript
-interface GenerateRequest {
-  prompt: string;              // Max 5000 chars
-  mv?: string;                 // Default: "chirp-crow"
-  make_instrumental?: boolean; // Default: false
-  wait_audio?: boolean;        // Default: false
-}
-
-// Example
-const response = await fetch('https://api.sunoapi.org/api/generate', {
-  method: 'POST',
-  headers: {
-    'Authorization': `Bearer ${SUNO_API_KEY}`,
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    prompt: "Upbeat electronic dance music",
-    mv: "chirp-crow"
-  })
-});
+### Фронтенд стек
+```javascript
+React 18.3          // Современный React с конкурентными функциями
+TypeScript 5.0    // Разработка с типобезопасностью  
+Vite 5.0           // Быстрый инструмент сборки и сервер разработки
+Tailwind 3.4        // Утилитарная стилизация
+Framer Motion 12    // Расширенные анимации
+Shadcn/ui           // Доступные компоненты
 ```
 
-</details>
-
-<details>
-<summary><b>POST /api/custom_generate</b> - Расширенная генерация</summary>
-
-```typescript
-interface CustomGenerateRequest {
-  title: string;               // Max 100 chars
-  prompt: string;              // Lyrics, max 5000 chars
-  style: string;               // Meta tags, max 1000 chars
-  instrumental?: boolean;      // Default: false
-  mv?: string;                 // Default: "chirp-crow"
-}
-
-// Example
-const response = await fetch('https://api.sunoapi.org/api/custom_generate', {
-  method: 'POST',
-  headers: {
-    'Authorization': `Bearer ${SUNO_API_KEY}`,
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    title: "Cosmic Journey",
-    prompt: "[Verse]\nWalking through stars\n[Chorus]\nCosmic high",
-    style: "[Genre: Ambient] [Mood: Dreamy] [Instrument: Synth]",
-    mv: "chirp-crow"
-  })
-});
+### Бэкэнд стек  
+```javascript
+Supabase Cloud       // Backend-as-a-Service
+PostgreSQL 16      // Корпоративная база данных
+Edge Functions       // Безсерверная среда выполнения Deno
+Row Level Security   // Защита данных
+Realtime Subscriptions // Обновления в реальном времени
+Storage Buckets      // Управление файлами
 ```
 
-</details>
-
-<details>
-<summary><b>POST /api/generate_lyrics</b> - Генерация лирики</summary>
-
-```typescript
-interface GenerateLyricsRequest {
-  prompt: string; // Topic description
-}
-
-const response = await fetch('https://api.sunoapi.org/api/generate_lyrics', {
-  method: 'POST',
-  headers: {
-    'Authorization': `Bearer ${SUNO_API_KEY}`,
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    prompt: "A love song about autumn"
-  })
-});
-
-// Response
-{
-  "code": "success",
-  "data": {
-    "id": "lyrics-uuid",
-    "text": "[Verse]\nFalling leaves...",
-    "title": "Autumn Love"
-  }
-}
+### Стек AI
+```
+Suno AI v5          // Двигатель генерации музыки
+GPT-4              // Обработка естественного языка  
+Whisper            // Речь-в-текст
+Google Gemini      // Мультимодальный AI
 ```
 
-</details>
-
-<details>
-<summary><b>GET /api/get</b> - Получить результаты</summary>
-
-```typescript
-// Получить все треки
-const response = await fetch('https://api.sunoapi.org/api/get', {
-  headers: {
-    'Authorization': `Bearer ${SUNO_API_KEY}`
-  }
-});
-
-// Получить конкретные треки
-const response = await fetch(
-  'https://api.sunoapi.org/api/get?ids=id1,id2',
-  {
-    headers: {
-      'Authorization': `Bearer ${SUNO_API_KEY}`
-    }
-  }
-);
-
-// Response
-{
-  "code": "success",
-  "data": [{
-    "id": "song-uuid",
-    "title": "Song Title",
-    "status": "SUCCESS",
-    "audio_url": "https://...",
-    "image_url": "https://...",
-    "model_name": "chirp-crow",
-    "metadata": {
-      "tags": ["[Genre: Pop]"],
-      "duration": 180
-    }
-  }]
-}
+### Платформа
 ```
-
-</details>
-
-<details>
-<summary><b>GET /api/get_limit</b> - Проверить квоту</summary>
-
-```typescript
-const response = await fetch('https://api.sunoapi.org/api/get_limit', {
-  headers: {
-    'Authorization': `Bearer ${SUNO_API_KEY}`
-  }
-});
-
-// Response
-{
-  "code": "success",
-  "data": {
-    "credits_left": 50,
-    "monthly_quota": 500,
-    "daily_used": 10
-  }
-}
-```
-
-</details>
-
-### Edge Functions
-
-<details>
-<summary><b>POST /functions/v1/suno-generate</b></summary>
-
-```typescript
-const { data, error } = await supabase.functions.invoke('suno-generate', {
-  body: {
-    action: 'generate',
-    payload: {
-      title: "Song Title",
-      prompt: "[Verse]\nLyrics...",
-      style: "[Genre: Pop] [Mood: Happy]",
-      model: "chirp-crow"
-    }
-  }
-});
-```
-
-</details>
-
-<details>
-<summary><b>POST /functions/v1/project-ai</b></summary>
-
-```typescript
-const { data, error } = await supabase.functions.invoke('project-ai', {
-  body: {
-    action: 'generateConcept',
-    projectType: 'album',
-    genre: 'Electronic',
-    mood: 'Energetic',
-    theme: 'Future city life'
-  }
-});
-```
-
-</details>
-
----
-
-## 📖 Документация
-
-### Основные документы
-
-- 📘 **[TELEGRAM_MINI_APP_INTEGRATION.md](TELEGRAM_MINI_APP_INTEGRATION.md)** - Полное руководство по Telegram Mini App
-- 📗 **[TELEGRAM_INTEGRATION.md](TELEGRAM_INTEGRATION.md)** - OAuth и авторизация
-- 📙 **[SUNO_API.md](docs/SUNO_API.md)** - Документация Suno API
-- 📕 **[DATABASE.md](docs/DATABASE.md)** - Структура базы данных
-- 📔 **[DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Инструкции по деплою
-
-### Примеры кода
-
-```
-docs/examples/
-├── generate-simple.ts       # Простая генерация
-├── generate-custom.ts       # Расширенная генерация
-├── generate-with-tags.ts    # Использование meta tags
-├── style-recommendations.ts # Рекомендации стилей
-└── prompt-builder.ts        # Конструктор промптов
+Telegram Mini App SDK    // Кроссплатформенное приложение
+Telegram Bot API         // Взаимодействие с AI
+OAuth 2.0                // Аутентификация
+Haptic Feedback          // Нативный опыт
 ```
 
 ---
 
-## 🚢 Deployment
+## 🎯 Дорожная карта
 
-### Lovable Platform (Рекомендуется)
+### Q1 2025 (Спринты 1-3)
+- [x] Интеграция Telegram завершена
+- [x] Реализованы расширенные музыкальные функции управления
+- [ ] Оптимизация глубокого линкинга
+- [ ] Улучшения производительности
+- [ ] Бета-тестовая программа
 
-```bash
-# Push в main → автоматический деплой
-git push origin main
+### Q2 2025 (Спринты 4-6)  
+- [ ] Готовы корпоративные функции
+- [ ] Локализация на нескольких языках
+- [ ] Доска расширенной аналитики
+- [ ] Запуск экосистемы API
+- [ ] Оптимизация мобильного приложения
 
-# Доступ к приложению
-https://your-project.lovable.app
-```
+### Q3 2025
+- [ ] Улучшения модели AI
+- [ ] Коллаборативные функции
+- [ ] Расширенный анализ аудио
+- [ ] Монетизация создателей
+- [ ] Интеграции партнёров
 
-### Самостоятельный деплой
-
-```bash
-# Build
-npm run build
-
-# Preview
-npm run preview
-
-# Deploy на любой статичный хостинг
-# Vercel, Netlify, CloudFlare Pages, etc.
-```
-
-### Environment Variables
-
-```bash
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_PUBLISHABLE_KEY=your-anon-key
-VITE_SUPABASE_PROJECT_ID=your-project-id
-```
+### Q4 2025  
+- [ ] Расшифрование платформы
+- [ ] Машинное обучение автоматизации
+- [ ] Особенности клонирования голоса
+- [ ] Стем разделение v2
+- [ ] Особенности сообщества
 
 ---
 
-## 📸 Скриншоты
+## 🤝 Участие в проекте
 
-<div align="center">
+Мы приветствуем ваше участие! Пожалуйста, прочитайте наше [Руководство по участию](CONTRIBUTING.md) для подробной информации о нашем кодексе поведения и процессе разработки.
 
-### Главная страница
-![Home](docs/images/home.png)
+### Как участвовать
+1. **Форкните** репозиторий
+2. **Создайте** ветку функции (`git checkout -b функция/удивительная-функция`)
+3. **Зафиксируйте** ваши изменения (`git commit -m 'Добавить удивительную функцию'`)  
+4. **Отправьте** ветку (`git push origin функция/удивительная-функция`)
+5. **Откройте** запрос на слияние
 
-### Генерация музыки
-![Generate](docs/images/generate.png)
+### Начинающим участникам
+- Посмотрите на проблемы с пометкой `good-first-issue`
+- Проверьте [`CONTRIBUTING.md`](CONTRIBUTING.md) для инструкций по настройке
+- Присоединяйтесь к нашему [сообществу Discord](https://discord.gg/musicverse)
+- Задавайте вопросы в [Обсуждениях](https://github.com/yourusername/musicverse/discussions)
 
-### Библиотека
-![Library](docs/images/library.png)
-
-### Проекты
-![Projects](docs/images/projects.png)
-
-</div>
+### Основные разработчики команды
+- Проверьте дорожную карту проекта в [`docs/ROADMAP.md`](docs/ROADMAP.md)
+- Участвуйте в совещаниях по планированию спринта
+- Рецензируйте PR и давайте отзыв
+- Помогайте поддерживать документацию
 
 ---
 
-## 🤝 Contributing
+## 📞 Поддержка и сообщество
 
-Мы приветствуем вклад в проект! Пожалуйста, прочитайте [CONTRIBUTING.md](CONTRIBUTING.md) для деталей.
+### 🆘 Нужна помощь?
+- **Telegram**: [@MusicVerseSupport](https://t.me/MusicVerseSupport)
+- **Email**: support@musicverse.ai  
+- **Discord**: [discord.gg/musicverse](https://discord.gg/musicverse)
+- **Проблемы GitHub**: [Сообщить об ошибках](https://github.com/yourusername/musicverse/issues)
 
-### Процесс разработки
-
-```bash
-# 1. Fork репозитория
-# 2. Создайте feature branch
-git checkout -b feature/amazing-feature
-
-# 3. Commit изменений
-git commit -m 'feat: add amazing feature'
-
-# 4. Push в branch
-git push origin feature/amazing-feature
-
-# 5. Откройте Pull Request
-```
+### 📢 Оставайтесь в курсе
+- **Twitter**: [@MusicVerseAI](https://twitter.com/MusicVerseAI)
+- **LinkedIn**: [MusicVerse](https://linkedin.com/company/musicverse)
+- **Блог**: [blog.musicverse.ai](https://blog.musicverse.ai)
+- **YouTube**: [Канал MusicVerse](https://youtube.com/@musicverse)
 
 ---
 
 ## 📄 Лицензия
 
-Этот проект лицензирован под MIT License - см. файл [LICENSE](LICENSE) для деталей.
+**MusicVerse AI** лицензировано под [MIT Лицензией](LICENSE).
 
----
+```
+MIT Лицензия
 
-## 🙏 Благодарности
+Copyright (c) 2025 MusicVerse AI
 
-- **[Suno AI](https://suno.com)** - AI музыкальная платформа
-- **[Lovable](https://lovable.dev)** - Платформа разработки
-- **[Supabase](https://supabase.com)** - Backend инфраструктура
-- **[Telegram](https://telegram.org)** - Mini Apps платформа
-- **[Shadcn/ui](https://ui.shadcn.com)** - UI компоненты
+Разрешается любому лицу, получающему копию
+этого программного обеспечения и связанных с ним файлов документации, предоставить
+Программное обеспечение без ограничивающих условий, включая, помимо прочего, права
+использовать, копировать, изменять, объединять, публиковать, распространять, сублицензировать и/или продавать
+копии Программного обеспечения, а также разрешить лицам, получающим Программное обеспечение
+удовлетворенное собой сделать это, при соблюдении следующий условий:
 
----
+Приведённое выше уведомление об авторских правах и это уведомление о разрешении должны быть включены во все
+копии или существественные части Программного обеспечения.
 
-## 📞 Контакты
-
-- **Telegram**: [@musicverse_bot](https://t.me/musicverse_bot)
-- **Email**: support@musicverse.ai
-- **Discord**: [Join our community](https://discord.gg/musicverse)
+ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ ПРЕДОСТАВЛЯЕТСЯ "КАК ЕСТЬ", БЕЗ ПРЕДОСТАВЛЕНИЯ ГАРАНТИЙ ЛЮБОГО РОДА, ЯВНЫХ ИЛИ
+ПОДРАЗУМЕВАЕМЫХ, ВКЛЮЧАЯ, ПОМИМО ПРОЧЕГО, ГАРАНТИИ ТОВАРНОГО СОСТОЯНИЯ,
+ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЁННОЙ ЦЕЛИ И НАРУШЕНИЯ ПРАВ. ПРИ ООБОМ
+СЛУЧАЕ АВТОРЫ ИЛИ ОБЛАДАТЕЛИ АВТОРСКИХ ПРАВ НЕ НЕСУТ ОТВЕТСТВЕННОСТИ ЗА ИСКИ,
+УБЫТКИ ИЛИ ИНУЮ ОТВЕТСТВЕННОСТЬ, ВОЗНИКАЮЩУЮ ИЗ ИЛИ В СВЯЗИ С ПРОГРАММНЫМ ОБЕСПЕЧЕНИЕМ
+ИЛИ ИСПОЛЬЗОВАНИЕМ ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ ИНЫМИ ДЕЛАМИ.
+```
 
 ---
 
 <div align="center">
 
-**Сделано с ❤️ командой MusicVerse**
+### Сделано с ❤️ командой MusicVerse
 
-[![Star this repo](https://img.shields.io/github/stars/yourusername/musicverse?style=social)](https://github.com/yourusername/musicverse)
-[![Follow on Twitter](https://img.shields.io/twitter/follow/musicverse?style=social)](https://twitter.com/musicverse)
+[![Отметить этот репозиторий](https://img.shields.io/github/stars/yourusername/musicverse?style=social)](https://github.com/yourusername/musicverse)
+[![Подписаться на Twitter](https://img.shields.io/twitter/follow/MusicVerseAI?style=social)](https://twitter.com/MusicVerseAI)
+
+**[🎵 Начать создавать музыку →](https://t.me/AIMusicVerseBot/app)**
 
 </div>
