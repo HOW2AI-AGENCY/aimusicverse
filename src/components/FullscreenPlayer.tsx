@@ -1,0 +1,350 @@
+import { useState, useEffect, useRef } from 'react';
+import { X, Play, Pause, Volume2, VolumeX, Maximize2, Minimize2, SkipBack, SkipForward } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { useAudioPlayer } from '@/hooks/useAudioPlayer';
+import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
+import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
+
+interface TrackVersion {
+  id: string;
+  audio_url: string;
+  cover_url: string | null;
+  duration_seconds: number | null;
+  version_type: string;
+  is_primary: boolean;
+  metadata?: any;
+}
+
+interface FullscreenPlayerProps {
+  track: {
+    id: string;
+    title?: string | null;
+    style?: string | null;
+    lyrics?: string | null;
+    audio_url?: string | null;
+    streaming_url?: string | null;
+    local_audio_url?: string | null;
+    cover_url?: string | null;
+    suno_task_id?: string | null;
+    suno_id?: string | null;
+  };
+  versions?: TrackVersion[];
+  onClose: () => void;
+}
+
+export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPlayerProps) {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [volume, setVolume] = useState(1);
+  const [muted, setMuted] = useState(false);
+  const [selectedVersionId, setSelectedVersionId] = useState<string | null>(
+    versions.find(v => v.is_primary)?.id || versions[0]?.id || null
+  );
+
+  const selectedVersion = versions.find(v => v.id === selectedVersionId);
+  const audioUrl = selectedVersion?.audio_url || track.audio_url;
+  const coverUrl = selectedVersion?.cover_url || track.cover_url;
+
+  const {
+    isPlaying,
+    currentTime,
+    duration,
+    buffered,
+    loading,
+    togglePlay,
+    seek,
+    setVolume: setAudioVolume,
+  } = useAudioPlayer({
+    trackId: track.id,
+    streamingUrl: track.streaming_url,
+    localAudioUrl: track.local_audio_url,
+    audioUrl,
+  });
+
+  const { data: lyricsData } = useTimestampedLyrics(
+    track.suno_task_id || null,
+    track.suno_id || null
+  );
+
+  const lyricsRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll lyrics
+  useEffect(() => {
+    if (!lyricsData?.alignedWords || !lyricsRef.current) return;
+
+    const currentWord = lyricsData.alignedWords.find(
+      (word) => currentTime >= word.startS && currentTime <= word.endS
+    );
+
+    if (currentWord) {
+      const wordElement = lyricsRef.current.querySelector(`[data-start="${currentWord.startS}"]`);
+      if (wordElement) {
+        wordElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }, [currentTime, lyricsData]);
+
+  const formatTime = (seconds: number) => {
+    if (!seconds || !isFinite(seconds)) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const handleVolumeChange = (value: number[]) => {
+    const newVolume = value[0];
+    setVolume(newVolume);
+    setAudioVolume(newVolume);
+    if (newVolume > 0 && muted) setMuted(false);
+  };
+
+  const toggleMute = () => {
+    if (muted) {
+      setAudioVolume(volume);
+      setMuted(false);
+    } else {
+      setAudioVolume(0);
+      setMuted(true);
+    }
+  };
+
+  const handleSeek = (value: number[]) => {
+    seek(value[0]);
+  };
+
+  const skipSeconds = (seconds: number) => {
+    seek(Math.max(0, Math.min(duration, currentTime + seconds)));
+  };
+
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className={cn(
+        'fixed inset-0 z-50 bg-background/95 backdrop-blur-xl',
+        isFullscreen ? 'p-0' : 'p-4 md:p-8'
+      )}
+    >
+      <div className="h-full flex flex-col max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex-1">
+            <h2 className="text-2xl md:text-3xl font-bold truncate">
+              {track.title || 'Без названия'}
+            </h2>
+            {track.style && (
+              <p className="text-muted-foreground text-sm md:text-base">{track.style}</p>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleFullscreen}
+              className="hidden md:flex"
+            >
+              {isFullscreen ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
+            </Button>
+            <Button variant="ghost" size="icon" onClick={onClose}>
+              <X className="h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-hidden">
+          {/* Left: Album Art & Controls */}
+          <div className="flex flex-col items-center justify-center space-y-6">
+            {/* Album Art */}
+            <Card className="relative aspect-square w-full max-w-md overflow-hidden glass-card border-primary/20">
+              {coverUrl ? (
+                <img
+                  src={coverUrl}
+                  alt={track.title || 'Track cover'}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                  <div className="text-6xl font-bold text-primary/20">
+                    {track.title?.charAt(0) || '♪'}
+                  </div>
+                </div>
+              )}
+            </Card>
+
+            {/* Version Selector */}
+            {versions.length > 1 && (
+              <div className="flex gap-2 flex-wrap justify-center">
+                {versions.map((version, index) => (
+                  <Button
+                    key={version.id}
+                    variant={selectedVersionId === version.id ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setSelectedVersionId(version.id)}
+                    className="min-w-20"
+                  >
+                    <Badge variant={version.is_primary ? 'default' : 'secondary'} className="mr-2">
+                      {version.is_primary ? '★' : index + 1}
+                    </Badge>
+                    {version.version_type === 'original' ? 'Оригинал' : `Версия ${index + 1}`}
+                  </Button>
+                ))}
+              </div>
+            )}
+
+            {/* Controls */}
+            <Card className="w-full max-w-md glass-card border-primary/20 p-6 space-y-4">
+              {/* Progress Bar */}
+              <div className="space-y-2">
+                <div className="relative h-2 bg-secondary rounded-full overflow-hidden">
+                  <div
+                    className="absolute h-full bg-secondary-foreground/20 transition-all"
+                    style={{ width: `${buffered}%` }}
+                  />
+                  <div
+                    className="absolute h-full bg-primary transition-all"
+                    style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                  />
+                </div>
+
+                {duration > 0 && (
+                  <Slider
+                    value={[currentTime]}
+                    max={duration}
+                    step={0.1}
+                    onValueChange={handleSeek}
+                    className="w-full"
+                  />
+                )}
+
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>{formatTime(currentTime)}</span>
+                  <span>{formatTime(duration)}</span>
+                </div>
+              </div>
+
+              {/* Playback Controls */}
+              <div className="flex items-center justify-center gap-4">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => skipSeconds(-10)}
+                  disabled={!audioUrl}
+                >
+                  <SkipBack className="h-5 w-5" />
+                </Button>
+
+                <Button
+                  variant="default"
+                  size="icon"
+                  onClick={togglePlay}
+                  disabled={!audioUrl}
+                  className="h-14 w-14"
+                >
+                  {loading ? (
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-foreground" />
+                  ) : isPlaying ? (
+                    <Pause className="h-6 w-6" />
+                  ) : (
+                    <Play className="h-6 w-6" />
+                  )}
+                </Button>
+
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => skipSeconds(10)}
+                  disabled={!audioUrl}
+                >
+                  <SkipForward className="h-5 w-5" />
+                </Button>
+              </div>
+
+              {/* Volume Control */}
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleMute}
+                  className="h-8 w-8 flex-shrink-0"
+                >
+                  {muted || volume === 0 ? (
+                    <VolumeX className="h-4 w-4" />
+                  ) : (
+                    <Volume2 className="h-4 w-4" />
+                  )}
+                </Button>
+                <Slider
+                  value={[muted ? 0 : volume]}
+                  max={1}
+                  step={0.01}
+                  onValueChange={handleVolumeChange}
+                  className="flex-1"
+                />
+              </div>
+            </Card>
+          </div>
+
+          {/* Right: Lyrics */}
+          <Card className="glass-card border-primary/20 p-6 overflow-hidden flex flex-col">
+            <h3 className="text-xl font-semibold mb-4">Текст песни</h3>
+            <div
+              ref={lyricsRef}
+              className="flex-1 overflow-y-auto space-y-1 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent"
+            >
+              {lyricsData?.alignedWords && lyricsData.alignedWords.length > 0 ? (
+                <div className="space-y-4">
+                  {lyricsData.alignedWords.map((word, index) => {
+                    const isActive = currentTime >= word.startS && currentTime <= word.endS;
+                    const isPast = currentTime > word.endS;
+
+                    return (
+                      <motion.span
+                        key={index}
+                        data-start={word.startS}
+                        initial={{ opacity: 0.4 }}
+                        animate={{
+                          opacity: isActive ? 1 : isPast ? 0.6 : 0.4,
+                          scale: isActive ? 1.1 : 1,
+                          color: isActive
+                            ? 'hsl(var(--primary))'
+                            : isPast
+                            ? 'hsl(var(--foreground))'
+                            : 'hsl(var(--muted-foreground))',
+                        }}
+                        transition={{ duration: 0.2 }}
+                        className={cn(
+                          'inline-block mr-2 text-lg md:text-xl font-medium cursor-pointer transition-all',
+                          isActive && 'font-bold'
+                        )}
+                        onClick={() => seek(word.startS)}
+                      >
+                        {word.word}
+                      </motion.span>
+                    );
+                  })}
+                </div>
+              ) : track.lyrics ? (
+                <div className="whitespace-pre-wrap text-lg leading-relaxed">
+                  {track.lyrics}
+                </div>
+              ) : (
+                <div className="flex items-center justify-center h-full text-muted-foreground">
+                  <p>Текст песни недоступен</p>
+                </div>
+              )}
+            </div>
+          </Card>
+        </div>
+      </div>
+    </motion.div>
+  );
+}

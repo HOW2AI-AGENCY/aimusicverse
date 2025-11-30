@@ -118,13 +118,12 @@ serve(async (req) => {
         throw new Error('No audio clips in completion callback');
       }
 
-      // Process BOTH tracks from Suno API
-      const savedTracks = [];
+      // Process BOTH clips as versions of same track
+      const savedVersions = [];
       
       for (let i = 0; i < clips.length; i++) {
         const clip = clips[i];
-        const isFirstTrack = i === 0;
-        const currentTrackId = isFirstTrack ? trackId : null;
+        const isFirstClip = i === 0;
         
         let localAudioUrl = null;
         let localCoverUrl = null;
@@ -138,7 +137,7 @@ serve(async (req) => {
 
           const audioResponse = await fetch(audioUrl);
           const audioBlob = await audioResponse.blob();
-          const audioFileName = `${currentTrackId || clip.id}_${Date.now()}.mp3`;
+          const audioFileName = `${trackId}_v${i + 1}_${Date.now()}.mp3`;
           
           const { data: audioUpload, error: audioError } = await supabase.storage
             .from('project-assets')
@@ -159,7 +158,7 @@ serve(async (req) => {
           if (coverUrl) {
             const coverResponse = await fetch(coverUrl);
             const coverBlob = await coverResponse.blob();
-            const coverFileName = `${currentTrackId || clip.id}_cover_${Date.now()}.jpg`;
+            const coverFileName = `${trackId}_v${i + 1}_cover_${Date.now()}.jpg`;
             
             const { data: coverUpload, error: coverError } = await supabase.storage
               .from('project-assets')
@@ -176,11 +175,11 @@ serve(async (req) => {
             }
           }
         } catch (downloadError) {
-          console.error(`Error downloading files for track ${i}:`, downloadError);
+          console.error(`Error downloading files for version ${i}:`, downloadError);
         }
 
-        // For first track, update existing record
-        if (isFirstTrack) {
+        // For first clip, update main track record
+        if (isFirstClip) {
           await supabase
             .from('tracks')
             .update({
@@ -197,78 +196,47 @@ serve(async (req) => {
               suno_id: clip.id,
             })
             .eq('id', trackId);
+        }
 
-          savedTracks.push({ id: trackId, clip });
-
-          // Create track version
-          await supabase
-            .from('track_versions')
-            .insert({
-              track_id: trackId,
-              audio_url: clip.sourceAudioUrl || clip.audioUrl,
-              cover_url: clip.sourceImageUrl || clip.imageUrl,
-              duration_seconds: clip.duration,
-              version_type: 'original',
-              is_primary: true,
-            });
-        } else {
-          // For second track, create new record
-          const { data: newTrack, error: newTrackError } = await supabase
-            .from('tracks')
-            .insert({
-              user_id: task.user_id,
-              project_id: task.tracks.project_id,
-              status: 'completed',
-              audio_url: clip.sourceAudioUrl || clip.audioUrl,
-              streaming_url: clip.sourceStreamAudioUrl || clip.streamAudioUrl || clip.sourceAudioUrl || clip.audioUrl,
-              local_audio_url: localAudioUrl,
-              cover_url: clip.sourceImageUrl || clip.imageUrl,
-              local_cover_url: localCoverUrl,
+        // Create version for each clip
+        const { data: version, error: versionError } = await supabase
+          .from('track_versions')
+          .insert({
+            track_id: trackId,
+            audio_url: localAudioUrl || clip.sourceAudioUrl || clip.audioUrl,
+            cover_url: localCoverUrl || clip.sourceImageUrl || clip.imageUrl,
+            duration_seconds: clip.duration,
+            version_type: isFirstClip ? 'original' : 'alternative',
+            is_primary: isFirstClip,
+            metadata: {
+              suno_id: clip.id,
               title: clip.title,
-              duration_seconds: clip.duration || null,
               tags: clip.tags,
               lyrics: clip.lyric,
-              suno_id: clip.id,
-              suno_task_id: sunoTaskId,
-              prompt: task.prompt,
-              style: task.tracks.style,
-              has_vocals: task.tracks.has_vocals,
-              provider: 'suno',
-              suno_model: task.model_used,
-              generation_mode: task.generation_mode,
-            })
-            .select()
-            .single();
+            },
+          })
+          .select()
+          .single();
 
-          if (!newTrackError && newTrack) {
-            savedTracks.push({ id: newTrack.id, clip });
+        if (!versionError && version) {
+          savedVersions.push({ versionId: version.id, clip, clipIndex: i });
 
-            // Create track version for second track
-            await supabase
-              .from('track_versions')
-              .insert({
-                track_id: newTrack.id,
-                audio_url: clip.sourceAudioUrl || clip.audioUrl,
-                cover_url: clip.sourceImageUrl || clip.imageUrl,
-                duration_seconds: clip.duration,
-                version_type: 'original',
-                is_primary: true,
-              });
-
-            // Log creation of second track
-            await supabase
-              .from('track_change_log')
-              .insert({
-                track_id: newTrack.id,
-                user_id: task.user_id,
-                change_type: 'generation_completed',
-                changed_by: 'suno_api',
-                metadata: {
-                  clip_index: i,
-                  suno_task_id: sunoTaskId,
-                },
-              });
-          }
+          // Log version creation
+          await supabase
+            .from('track_change_log')
+            .insert({
+              track_id: trackId,
+              user_id: task.user_id,
+              version_id: version.id,
+              change_type: isFirstClip ? 'generation_completed' : 'version_created',
+              changed_by: 'suno_api',
+              metadata: {
+                clip_index: i,
+                suno_task_id: sunoTaskId,
+                suno_clip_id: clip.id,
+                version_type: isFirstClip ? 'original' : 'alternative',
+              },
+            });
         }
       }
 
@@ -283,7 +251,7 @@ serve(async (req) => {
         })
         .eq('id', task.id);
 
-      // Log completion for first track
+      // Log overall completion
       await supabase
         .from('track_change_log')
         .insert({
@@ -293,21 +261,22 @@ serve(async (req) => {
           changed_by: 'suno_api',
           metadata: {
             total_clips: clips.length,
-            saved_tracks: savedTracks.length,
+            saved_versions: savedVersions.length,
+            suno_task_id: sunoTaskId,
           },
         });
 
       // Send telegram notification with audio (fire and forget)
-      if (task.telegram_chat_id && savedTracks.length > 0) {
-        const firstSaved = savedTracks[0];
+      if (task.telegram_chat_id && clips.length > 0) {
+        const firstClip = clips[0];
         supabase.functions.invoke('suno-send-audio', {
           body: {
             chatId: task.telegram_chat_id,
-            trackId: firstSaved.id,
-            audioUrl: firstSaved.clip.sourceAudioUrl || firstSaved.clip.audioUrl,
-            coverUrl: firstSaved.clip.sourceImageUrl || firstSaved.clip.imageUrl,
-            title: firstSaved.clip.title,
-            duration: firstSaved.clip.duration,
+            trackId: trackId,
+            audioUrl: firstClip.sourceAudioUrl || firstClip.audioUrl,
+            coverUrl: firstClip.sourceImageUrl || firstClip.imageUrl,
+            title: firstClip.title,
+            duration: firstClip.duration,
           },
         }).catch(err => console.error('Error sending audio to Telegram:', err));
       }
@@ -326,7 +295,7 @@ serve(async (req) => {
       
       const notificationMessage = clips.length === 1
         ? `Ваш трек "${firstClip.title || 'Без названия'}" готов`
-        : `Ваши треки "${firstClip.title || 'Без названия'}" и еще ${clips.length - 1} готовы`;
+        : `Трек "${firstClip.title || 'Без названия'}" готов (${clips.length} версии)`;
       
       await supabase
         .from('notifications')

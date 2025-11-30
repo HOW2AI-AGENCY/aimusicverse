@@ -7,17 +7,19 @@ import { Music2, Search, Loader2 } from 'lucide-react';
 import { useTracks } from '@/hooks/useTracksOptimized';
 import { TrackCard } from '@/components/TrackCard';
 import { TrackAnalytics } from '@/components/TrackAnalytics';
-import { TrackLyricsView } from '@/components/TrackLyricsView';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { GenerationProgress } from '@/components/GenerationProgress';
-import { AudioPlayer } from '@/components/AudioPlayer';
+import { FullscreenPlayer } from '@/components/FullscreenPlayer';
 import { useGenerationPolling } from '@/hooks/useGenerationPolling';
+import { useTrackVersions } from '@/hooks/useTrackVersions';
+import { AnimatePresence } from 'framer-motion';
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [playingTrackId, setPlayingTrackId] = useState<string | null>(null);
   const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
+  const [fullscreenTrackId, setFullscreenTrackId] = useState<string | null>(null);
 
   // Автоматический polling статуса генерации
   useGenerationPolling();
@@ -50,16 +52,14 @@ export default function Library() {
       track.prompt?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const { data: versions } = useTrackVersions(fullscreenTrackId || '');
+
   const handlePlay = (trackId: string, audioUrl: string | null) => {
     if (!audioUrl) return;
     
-    // Toggle play/pause
-    if (playingTrackId === trackId) {
-      setPlayingTrackId(null);
-    } else {
-      setPlayingTrackId(trackId);
-      logPlay(trackId);
-    }
+    // Open fullscreen player
+    setFullscreenTrackId(trackId);
+    logPlay(trackId);
   };
 
   const handleDownload = (trackId: string, audioUrl: string | null, coverUrl: string | null) => {
@@ -155,10 +155,11 @@ export default function Library() {
             </TabsContent>
 
             <TabsContent value="lyrics">
-              {selectedTrackId && (() => {
-                const track = filteredTracks.find(t => t.id === selectedTrackId);
-                return track ? <TrackLyricsView track={track} /> : null;
-              })()}
+              <Card className="glass-card border-primary/20 p-6 text-center">
+                <p className="text-muted-foreground">
+                  Нажмите на трек чтобы открыть полноэкранный плеер с синхронизированной лирикой
+                </p>
+              </Card>
             </TabsContent>
 
             <TabsContent value="analytics">
@@ -167,23 +168,19 @@ export default function Library() {
           </Tabs>
         )}
 
-        {/* Mini Audio Player */}
-        {playingTrackId && (() => {
-          const track = filteredTracks.find(t => t.id === playingTrackId);
-          return track && (
-            <div className="fixed bottom-20 left-0 right-0 px-4 z-40">
-              <AudioPlayer
-                trackId={track.id}
-                title={track.title || undefined}
-                streamingUrl={track.streaming_url}
-                localAudioUrl={track.local_audio_url}
-                audioUrl={track.audio_url}
-                coverUrl={track.cover_url}
-                onPlay={() => logPlay(track.id)}
+        {/* Fullscreen Player */}
+        <AnimatePresence>
+          {fullscreenTrackId && (() => {
+            const track = filteredTracks.find(t => t.id === fullscreenTrackId);
+            return track ? (
+              <FullscreenPlayer
+                track={track}
+                versions={versions || []}
+                onClose={() => setFullscreenTrackId(null)}
               />
-            </div>
-          );
-        })()}
+            ) : null;
+          })()}
+        </AnimatePresence>
       </div>
     </div>
   );
