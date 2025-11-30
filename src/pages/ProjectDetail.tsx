@@ -14,11 +14,13 @@ import { ProjectAnalysisTab } from '@/components/project/ProjectAnalysisTab';
 import { ProjectTracklistTab } from '@/components/project/ProjectTracklistTab';
 import { AIActionsDialog } from '@/components/project/AIActionsDialog';
 import { supabase } from '@/integrations/supabase/client';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const isMobile = useIsMobile();
   const { isAuthenticated, loading: authLoading } = useAuth();
   const { projects, isLoading } = useProjects();
   const { tracks, isLoading: tracksLoading } = useProjectTracks(id);
@@ -77,28 +79,32 @@ export default function ProjectDetail() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
-      <div className="container max-w-6xl mx-auto px-4 py-6">
-        {/* Header */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between mb-4">
+      <div className={`container mx-auto ${isMobile ? 'px-3 py-3' : 'max-w-6xl px-4 py-6'}`}>
+        {/* Compact Header for Mobile */}
+        <div className={isMobile ? 'mb-3' : 'mb-6'}>
+          <div className={`flex items-center ${isMobile ? 'justify-between mb-2' : 'justify-between mb-4'}`}>
             <Button
               variant="ghost"
+              size={isMobile ? 'sm' : 'default'}
               onClick={() => navigate('/projects')}
+              className={isMobile ? 'px-2' : ''}
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Назад к проектам
+              <ArrowLeft className="w-4 h-4 mr-1" />
+              {!isMobile && 'Назад к проектам'}
             </Button>
             <Button
+              size={isMobile ? 'sm' : 'default'}
               onClick={() => setAiDialogOpen(true)}
-              className="gap-2"
+              className="gap-1.5"
             >
               <Sparkles className="w-4 h-4" />
-              AI Actions
+              {!isMobile && 'AI Actions'}
             </Button>
           </div>
 
-          <div className="flex items-start gap-4">
-            <div className="w-24 h-24 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0">
+          {/* Compact Project Info */}
+          <div className={`flex items-start ${isMobile ? 'gap-3' : 'gap-4'}`}>
+            <div className={`${isMobile ? 'w-16 h-16' : 'w-24 h-24'} rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0`}>
               {project.cover_url ? (
                 <img
                   src={project.cover_url}
@@ -106,29 +112,29 @@ export default function ProjectDetail() {
                   className="w-full h-full object-cover rounded-xl"
                 />
               ) : (
-                <Music className="w-10 h-10 text-primary" />
+                <Music className={`${isMobile ? 'w-7 h-7' : 'w-10 h-10'} text-primary`} />
               )}
             </div>
 
-            <div className="flex-1">
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent mb-2">
+            <div className="flex-1 min-w-0">
+              <h1 className={`${isMobile ? 'text-xl' : 'text-3xl'} font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent mb-1.5 leading-tight`}>
                 {project.title}
               </h1>
-              <div className="flex gap-2 mb-2 flex-wrap">
+              <div className={`flex gap-1.5 ${isMobile ? 'mb-1' : 'mb-2'} flex-wrap`}>
                 {project.project_type && (
-                  <Badge variant="default" className="capitalize">
+                  <Badge variant="default" className={`capitalize ${isMobile ? 'text-xs h-5' : ''}`}>
                     {project.project_type.replace('_', ' ')}
                   </Badge>
                 )}
                 {project.genre && (
-                  <Badge variant="secondary">{project.genre}</Badge>
+                  <Badge variant="secondary" className={isMobile ? 'text-xs h-5' : ''}>{project.genre}</Badge>
                 )}
                 {project.mood && (
-                  <Badge variant="outline">{project.mood}</Badge>
+                  <Badge variant="outline" className={isMobile ? 'text-xs h-5' : ''}>{project.mood}</Badge>
                 )}
               </div>
-              {project.description && (
-                <p className="text-sm text-muted-foreground">
+              {project.description && !isMobile && (
+                <p className="text-sm text-muted-foreground line-clamp-2">
                   {project.description}
                 </p>
               )}
@@ -136,32 +142,32 @@ export default function ProjectDetail() {
           </div>
         </div>
 
-        {/* Tabs */}
+        {/* Compact Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="w-full grid grid-cols-3 mb-6">
-            <TabsTrigger value="details" className="gap-2">
-              <FileText className="w-4 h-4" />
-              Детали
+          <TabsList className={`w-full grid grid-cols-3 ${isMobile ? 'mb-3 h-9' : 'mb-6'}`}>
+            <TabsTrigger value="details" className={`gap-1.5 ${isMobile ? 'text-xs px-2' : ''}`}>
+              <FileText className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
+              {!isMobile && 'Детали'}
             </TabsTrigger>
-            <TabsTrigger value="analysis" className="gap-2">
-              <Sparkles className="w-4 h-4" />
-              Анализ
+            <TabsTrigger value="analysis" className={`gap-1.5 ${isMobile ? 'text-xs px-2' : ''}`}>
+              <Sparkles className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
+              {!isMobile && 'Анализ'}
             </TabsTrigger>
-            <TabsTrigger value="tracklist" className="gap-2">
-              <Music className="w-4 h-4" />
-              Треклист
+            <TabsTrigger value="tracklist" className={`gap-1.5 ${isMobile ? 'text-xs px-2' : ''}`}>
+              <Music className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
+              {!isMobile && 'Треклист'}
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="details">
+          <TabsContent value="details" className={isMobile ? 'mt-2' : ''}>
             <ProjectDetailsTab project={project} />
           </TabsContent>
 
-          <TabsContent value="analysis">
+          <TabsContent value="analysis" className={isMobile ? 'mt-2' : ''}>
             <ProjectAnalysisTab project={project} />
           </TabsContent>
 
-          <TabsContent value="tracklist">
+          <TabsContent value="tracklist" className={isMobile ? 'mt-2' : ''}>
             <ProjectTracklistTab 
               project={project} 
               tracks={tracks || []} 
