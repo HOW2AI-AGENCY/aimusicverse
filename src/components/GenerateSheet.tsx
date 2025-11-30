@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Sparkles, Loader2, Zap as ZapIcon, Sliders, Coins, Mic, FileAudio, FolderOpen, User } from 'lucide-react';
+import { Sparkles, Loader2, Zap as ZapIcon, Sliders, Coins, Mic, FileAudio, FolderOpen, User, Music2, Upload } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
@@ -253,202 +253,242 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="h-[90vh] overflow-y-auto">
-        <SheetHeader className="mb-6">
+      <SheetContent side="bottom" className="h-[90vh] overflow-y-auto bg-background/95 backdrop-blur-xl">
+        <SheetHeader className="mb-4">
           <div className="flex items-center justify-between">
-            <div>
-              <SheetTitle className="text-2xl flex items-center gap-2">
-                <Sparkles className="w-6 h-6 text-primary" />
-                MusicVerse AI
-              </SheetTitle>
-              <p className="text-sm text-muted-foreground">Генератор музыки SunoAPI</p>
-            </div>
-            
-            {credits !== null && (
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg glass-card border border-primary/20">
-                <Coins className="w-4 h-4 text-primary" />
-                <span className="text-sm font-medium">{credits}</span>
-                <span className="text-xs text-muted-foreground">кредитов</span>
-              </div>
-            )}
+            <SheetTitle className="text-xl flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-primary" />
+              Создать трек
+            </SheetTitle>
           </div>
         </SheetHeader>
 
-        <div className="space-y-6">
-          <Tabs value={mode} onValueChange={(v) => setMode(v as 'simple' | 'custom')}>
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="simple" className="gap-2">
-                <ZapIcon className="w-4 h-4" />
-                Простой
-              </TabsTrigger>
-              <TabsTrigger value="custom" className="gap-2">
-                <Sliders className="w-4 h-4" />
-                Продвинутый
-              </TabsTrigger>
-            </TabsList>
+        <div className="space-y-4">
+          {/* Header with credits and mode toggle */}
+          <div className="flex items-center justify-between gap-3">
+            {credits !== null && (
+              <Button variant="secondary" size="sm" className="rounded-full px-4 gap-2">
+                <Coins className="w-4 h-4" />
+                <span className="font-semibold">{credits.toFixed(2)}</span>
+              </Button>
+            )}
 
-            <TabsContent value="simple" className="space-y-4 mt-4">
-              <p className="text-sm text-muted-foreground text-center py-2">
-                Быстрая генерация одним нажатием
-              </p>
-              
+            <div className="flex items-center gap-1 p-0.5 rounded-lg bg-secondary/50">
+              <Button
+                variant={mode === 'simple' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setMode('simple')}
+                className="rounded-md px-4"
+              >
+                Simple
+              </Button>
+              <Button
+                variant={mode === 'custom' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setMode('custom')}
+                className="rounded-md px-4"
+              >
+                Custom
+              </Button>
+            </div>
+
+            <Select value={model} onValueChange={setModel}>
+              <SelectTrigger className="w-20 h-9">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.entries(modelInfo).map(([key, info]) => (
+                  <SelectItem key={key} value={key}>
+                    {info.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Quick Action Buttons */}
+          <div className="grid grid-cols-3 gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="h-12 gap-2 border-2"
+              onClick={() => setProjectDialogOpen(true)}
+            >
+              <Upload className="w-4 h-4" />
+              <span className="text-sm font-medium">+ Audio</span>
+            </Button>
+
+            <Button
+              type="button"
+              variant="outline"
+              className="h-12 gap-2 border-2"
+              onClick={() => setArtistDialogOpen(true)}
+            >
+              <User className="w-4 h-4" />
+              <span className="text-sm font-medium">+ Persona</span>
+            </Button>
+
+            <Button
+              type="button"
+              variant="outline"
+              className="h-12 gap-2 border-2"
+              onClick={() => setTrackDialogOpen(true)}
+            >
+              <Music2 className="w-4 h-4" />
+              <span className="text-sm font-medium">+ Проект</span>
+            </Button>
+          </div>
+
+          {/* Simple Mode */}
+          {mode === 'simple' && (
+            <div className="space-y-4">
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <Label htmlFor="description" className="text-base flex items-center gap-2">
-                    <Sparkles className="w-4 h-4" />
-                    Опишите вашу музыку
+                <div className="flex items-center gap-2 mb-2">
+                  <Label htmlFor="description" className="text-sm text-muted-foreground">
+                    Описание музыки
                   </Label>
+                </div>
+                <Textarea
+                  id="description"
+                  placeholder="e.g., Спокойный лоу-фай бит с джазовым пианино..."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  rows={6}
+                  className="resize-none text-base"
+                />
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-xs text-muted-foreground">0/500</span>
                   <Button
                     type="button"
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
                     onClick={handleBoostStyle}
                     disabled={boostLoading || !description}
                     className="gap-2"
                   >
                     {boostLoading ? (
-                      <>
-                        <Loader2 className="w-3 h-3 animate-spin" />
-                        Улучшение...
-                      </>
+                      <Loader2 className="w-3 h-3 animate-spin" />
                     ) : (
-                      <>
-                        <ZapIcon className="w-3 h-3" />
-                        Улучшить
-                      </>
+                      <Sparkles className="w-3 h-3" />
                     )}
                   </Button>
                 </div>
-                <Textarea
-                  id="description"
-                  placeholder="Энергичный электронный трек с мощным басом и синтезаторами"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  rows={6}
-                  className="resize-none"
-                />
-                <p className="text-xs text-muted-foreground mt-2">
-                  Опишите стиль, настроение, инструменты или атмосферу, которую вы хотите
-                </p>
               </div>
-            </TabsContent>
-
-            <TabsContent value="custom" className="space-y-4 mt-4">
-              {/* Model Selection */}
-              <div>
-                <Label>Модель генерации</Label>
-                <Select value={model} onValueChange={setModel}>
-                  <SelectTrigger className="mt-2">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Object.entries(modelInfo).map(([key, info]) => (
-                      <SelectItem key={key} value={key}>
-                        {info.emoji} {info.name} - {info.desc}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Reference Selection Grid */}
-              <div className="grid grid-cols-3 gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="gap-2"
-                  onClick={() => setProjectDialogOpen(true)}
-                >
-                  <FolderOpen className="w-4 h-4" />
-                  Проект
-                  {selectedProjectId && <Badge variant="secondary" className="ml-1">1</Badge>}
-                </Button>
-
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="gap-2"
-                  onClick={() => setArtistDialogOpen(true)}
-                >
-                  <User className="w-4 h-4" />
-                  Артист
-                  {selectedArtistId && <Badge variant="secondary" className="ml-1">1</Badge>}
-                </Button>
-
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="gap-2"
-                  onClick={() => setTrackDialogOpen(true)}
-                  disabled={!selectedProjectId}
-                >
-                  <FileAudio className="w-4 h-4" />
-                  Трек
-                  {selectedTrackId && <Badge variant="secondary" className="ml-1">1</Badge>}
-                </Button>
-              </div>
-
-              {/* Audio Reference Upload */}
-              <AudioReferenceUpload
-                audioFile={audioFile}
-                onAudioChange={setAudioFile}
-              />
 
               <div>
-                <Label htmlFor="title">Название (опционально)</Label>
+                <Label htmlFor="simple-title" className="text-sm text-muted-foreground">
+                  Название трека <span className="text-xs">(опционально)</span>
+                </Label>
                 <Input
-                  id="title"
-                  placeholder="Автоматически, если пусто"
+                  id="simple-title"
+                  placeholder="Оставьте пустым для автогенерации"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   className="mt-2"
-                  maxLength={100}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Custom Mode */}
+          {mode === 'custom' && (
+            <div className="space-y-4">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <Label htmlFor="title" className="text-sm text-muted-foreground">
+                    Название
+                  </Label>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 px-2 gap-1.5"
+                  >
+                    <Sparkles className="w-3 h-3" />
+                    <span className="text-xs">AI</span>
+                  </Button>
+                </div>
+                <Input
+                  id="title"
+                  placeholder="Авто-генерация если пусто"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="text-base"
                 />
               </div>
 
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <Label htmlFor="style" className="text-base flex items-center gap-2">
-                    <Sliders className="w-4 h-4" />
-                    Описание стиля
-                  </Label>
+                <Label htmlFor="style" className="text-sm text-muted-foreground border-l-2 border-primary pl-2">
+                  Описание стиля
+                </Label>
+                <Textarea
+                  id="style"
+                  placeholder="Опишите стиль, жанр, настроение..."
+                  value={style}
+                  onChange={(e) => setStyle(e.target.value)}
+                  rows={4}
+                  className="mt-2 resize-none text-base"
+                />
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-xs text-muted-foreground">0/3000</span>
                   <Button
                     type="button"
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
                     onClick={handleBoostStyle}
                     disabled={boostLoading || !style}
                     className="gap-2"
                   >
                     {boostLoading ? (
-                      <>
-                        <Loader2 className="w-3 h-3 animate-spin" />
-                        Улучшение...
-                      </>
+                      <Loader2 className="w-3 h-3 animate-spin" />
                     ) : (
-                      <>
-                        <ZapIcon className="w-3 h-3" />
-                        Улучшить
-                      </>
+                      <Sparkles className="w-3 h-3" />
                     )}
                   </Button>
                 </div>
+              </div>
+
+              {/* Lyrics Section */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <Label className="text-sm">Lyrics</Label>
+                  <div className="flex gap-1">
+                    <Button variant="ghost" size="sm" className="h-6 px-2">
+                      <span className="text-xs">AI</span>
+                    </Button>
+                    <Button variant="ghost" size="sm" className="h-6 px-2">
+                      <span className="text-xs">Generate</span>
+                    </Button>
+                  </div>
+                </div>
                 <Textarea
-                  id="style"
-                  placeholder="Опишите стиль, жанр, настроение... например, энергичная электроника с синт-лидами, 128 BPM"
-                  value={style}
-                  onChange={(e) => setStyle(e.target.value)}
-                  rows={3}
-                  className="mt-2 resize-none"
-                  maxLength={1000}
+                  placeholder="Введите текст песни или используйте AI генерацию..."
+                  value={lyrics}
+                  onChange={(e) => setLyrics(e.target.value)}
+                  rows={6}
+                  className="resize-none text-base"
                 />
               </div>
 
-              <div className="flex items-center justify-between p-4 rounded-lg glass border border-border/50">
+              {/* Advanced Settings Collapsible */}
+              <AdvancedSettings
+                open={advancedOpen}
+                onOpenChange={setAdvancedOpen}
+                negativeTags={negativeTags}
+                onNegativeTagsChange={setNegativeTags}
+                vocalGender={vocalGender}
+                onVocalGenderChange={setVocalGender}
+                styleWeight={styleWeight}
+                onStyleWeightChange={setStyleWeight}
+                weirdnessConstraint={weirdnessConstraint}
+                onWeirdnessConstraintChange={setWeirdnessConstraint}
+                audioWeight={audioWeight}
+                onAudioWeightChange={setAudioWeight}
+                hasReferenceAudio={!!audioFile}
+              />
+
+              <div className="flex items-center justify-between p-4 rounded-lg border border-border/30">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-primary/20">
-                    <Mic className="w-4 h-4 text-primary" />
-                  </div>
+                  <Mic className="w-4 h-4" />
                   <Label htmlFor="vocals-toggle" className="cursor-pointer font-medium">
                     С вокалом
                   </Label>
@@ -459,90 +499,28 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   onCheckedChange={setHasVocals}
                 />
               </div>
+            </div>
+          )}
 
-              {hasVocals && (
-                <div>
-                  <Label htmlFor="lyrics" className="text-base flex items-center gap-2 mb-2">
-                    <Mic className="w-4 h-4" />
-                    Лирика
-                  </Label>
-                  <p className="text-xs text-muted-foreground mb-2">
-                    Используйте [VERSE], [CHORUS] и т.д. для структуры. Добавляйте (guitar), (emotion: sad) для тегов.
-                  </p>
-                  <Textarea
-                    id="lyrics"
-                    placeholder="[VERSE]&#10;Потерянный в ритме ночи&#10;Танцуя под неоновым светом (synth)&#10;(energy: high)&#10;&#10;[CHORUS]&#10;Мы живы, мы свободны (vocal: powerful)&#10;Это то место, где мы должны быть"
-                    value={lyrics}
-                    onChange={(e) => setLyrics(e.target.value)}
-                    rows={10}
-                    className="mt-2 font-mono text-sm resize-none"
-                    maxLength={5000}
-                  />
-                </div>
-              )}
-            </TabsContent>
-          </Tabs>
-
-          {/* Advanced Settings */}
-          <AdvancedSettings
-            open={advancedOpen}
-            onOpenChange={setAdvancedOpen}
-            negativeTags={negativeTags}
-            onNegativeTagsChange={setNegativeTags}
-            vocalGender={vocalGender}
-            onVocalGenderChange={setVocalGender}
-            styleWeight={styleWeight}
-            onStyleWeightChange={setStyleWeight}
-            weirdnessConstraint={weirdnessConstraint}
-            onWeirdnessConstraintChange={setWeirdnessConstraint}
-            audioWeight={audioWeight}
-            onAudioWeightChange={setAudioWeight}
-            hasReferenceAudio={!!audioFile || !!selectedArtistId}
-          />
-
+          {/* Generate Button */}
           <Button
             onClick={handleGenerate}
             disabled={loading}
             size="lg"
-            className="w-full h-14 text-base gap-2"
+            className="w-full h-14 text-base gap-2 bg-primary hover:bg-primary/90"
           >
             {loading ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                Генерация...
+                Создать музыку
               </>
             ) : (
               <>
-                <Sparkles className="w-5 h-5" />
-                Создать трек
-                <Badge variant="secondary" className="ml-2">1 кредит</Badge>
+                <Music2 className="w-5 h-5" />
+                Создать
               </>
             )}
           </Button>
-
-          <Button
-            onClick={() => setUploadExtendOpen(true)}
-            variant="outline"
-            size="lg"
-            className="w-full h-14 text-base gap-2"
-          >
-            <FileAudio className="w-5 h-5" />
-            Загрузить и расширить аудио
-          </Button>
-
-          <Button
-            onClick={() => setUploadCoverOpen(true)}
-            variant="outline"
-            size="lg"
-            className="w-full h-14 text-base gap-2"
-          >
-            <Mic className="w-5 h-5" />
-            Создать кавер аудио
-          </Button>
-
-          <p className="text-xs text-center text-muted-foreground">
-            Генерация обычно занимает 1-3 минуты
-          </p>
         </div>
       </SheetContent>
 

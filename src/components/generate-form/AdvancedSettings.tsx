@@ -43,9 +43,9 @@ export function AdvancedSettings({
         <Button
           type="button"
           variant="ghost"
-          className="w-full justify-between p-4 h-auto"
+          className="w-full justify-center gap-2 text-muted-foreground hover:text-foreground"
         >
-          <span className="font-medium">Расширенные настройки</span>
+          <span className="text-sm">Advanced Options</span>
           <ChevronDown className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
         </Button>
       </CollapsibleTrigger>
@@ -66,23 +66,52 @@ export function AdvancedSettings({
         </div>
 
         <div>
-          <Label htmlFor="vocal-gender">Пол вокала</Label>
-          <Select value={vocalGender} onValueChange={onVocalGenderChange}>
-            <SelectTrigger id="vocal-gender" className="mt-2">
-              <SelectValue placeholder="Автоматически" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="">Автоматически</SelectItem>
-              <SelectItem value="m">Мужской</SelectItem>
-              <SelectItem value="f">Женский</SelectItem>
-            </SelectContent>
-          </Select>
+          <Label htmlFor="vocal-gender" className="text-sm text-muted-foreground">
+            Тип вокала
+          </Label>
+          <div className="grid grid-cols-4 gap-2 mt-2">
+            <Button
+              type="button"
+              variant={vocalGender === '' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => onVocalGenderChange('')}
+              className="text-xs"
+            >
+              Любой
+            </Button>
+            <Button
+              type="button"
+              variant={vocalGender === 'f' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => onVocalGenderChange('f')}
+              className="text-xs"
+            >
+              Женский
+            </Button>
+            <Button
+              type="button"
+              variant={vocalGender === 'm' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => onVocalGenderChange('m')}
+              className="text-xs"
+            >
+              Мужской
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="text-xs"
+            >
+              Без вокала
+            </Button>
+          </div>
         </div>
 
         <div>
-          <div className="flex items-center justify-between mb-2">
-            <Label>Вес стиля</Label>
-            <span className="text-sm text-muted-foreground">{styleWeight[0].toFixed(2)}</span>
+          <div className="flex items-center justify-between mb-3">
+            <Label className="text-sm text-muted-foreground">Влияние стиля</Label>
+            <span className="text-sm font-medium text-foreground">{Math.round(styleWeight[0] * 100)}</span>
           </div>
           <Slider
             value={styleWeight}
@@ -90,17 +119,14 @@ export function AdvancedSettings({
             min={0}
             max={1}
             step={0.05}
-            className="mt-2"
+            className="[&_[role=slider]]:bg-primary [&_[role=slider]]:border-primary"
           />
-          <p className="text-xs text-muted-foreground mt-1">
-            Влияние описания стиля на результат (0 - слабое, 1 - сильное)
-          </p>
         </div>
 
         <div>
-          <div className="flex items-center justify-between mb-2">
-            <Label>Креативность</Label>
-            <span className="text-sm text-muted-foreground">{weirdnessConstraint[0].toFixed(2)}</span>
+          <div className="flex items-center justify-between mb-3">
+            <Label className="text-sm text-muted-foreground">Креативность</Label>
+            <span className="text-sm font-medium text-foreground">{Math.round(weirdnessConstraint[0] * 100)}</span>
           </div>
           <Slider
             value={weirdnessConstraint}
@@ -108,11 +134,8 @@ export function AdvancedSettings({
             min={0}
             max={1}
             step={0.05}
-            className="mt-2"
+            className="[&_[role=slider]]:bg-primary [&_[role=slider]]:border-primary"
           />
-          <p className="text-xs text-muted-foreground mt-1">
-            Уровень экспериментальности (0 - стандартно, 1 - креативно)
-          </p>
         </div>
 
         {hasReferenceAudio && (
