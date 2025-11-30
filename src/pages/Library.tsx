@@ -3,26 +3,26 @@ import { useAuth } from '@/hooks/useAuth';
 import { Navigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Music2, Search, Loader2 } from 'lucide-react';
+import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal } from 'lucide-react';
 import { useTracks } from '@/hooks/useTracksOptimized';
 import { TrackCard } from '@/components/TrackCard';
-import { TrackAnalytics } from '@/components/TrackAnalytics';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
 import { GenerationProgress } from '@/components/GenerationProgress';
 import { FullscreenPlayer } from '@/components/FullscreenPlayer';
 import { useGenerationPolling } from '@/hooks/useGenerationPolling';
 import { useTrackVersions } from '@/hooks/useTrackVersions';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ErrorBoundaryWrapper } from '@/components/ErrorBoundaryWrapper';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [playingTrackId, setPlayingTrackId] = useState<string | null>(null);
-  const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
   const [fullscreenTrackId, setFullscreenTrackId] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [sortBy, setSortBy] = useState<'recent' | 'popular' | 'liked'>('recent');
 
-  // Автоматический polling статуса генерации
   useGenerationPolling();
 
   const {
@@ -32,10 +32,8 @@ export default function Library() {
     toggleLike,
     logPlay,
     downloadTrack,
-    syncTags,
   } = useTracks();
 
-  // IMPORTANT: Call hooks before early returns to avoid "Rendered more hooks" error
   const { data: versions } = useTrackVersions(fullscreenTrackId || '');
 
   if (authLoading) {
@@ -50,27 +48,34 @@ export default function Library() {
     return <Navigate to="/auth" replace />;
   }
 
-  const filteredTracks = (tracks || []).filter(
+  let filteredTracks = (tracks || []).filter(
     (track) =>
       track.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      track.prompt?.toLowerCase().includes(searchQuery.toLowerCase())
+      track.prompt?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      track.style?.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Sort tracks
+  if (sortBy === 'popular') {
+    filteredTracks = [...filteredTracks].sort((a, b) => (b.play_count || 0) - (a.play_count || 0));
+  } else if (sortBy === 'liked') {
+    filteredTracks = [...filteredTracks].sort((a, b) => (b.likes_count || 0) - (a.likes_count || 0));
+  } else {
+    filteredTracks = [...filteredTracks].sort((a, b) => 
+      new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
+    );
+  }
 
   const handlePlay = (trackId: string, audioUrl: string | null) => {
     if (!audioUrl) return;
-    
-    // Open fullscreen player
     setFullscreenTrackId(trackId);
     logPlay(trackId);
   };
 
   const handleDownload = (trackId: string, audioUrl: string | null, coverUrl: string | null) => {
     if (!audioUrl) return;
-    
-    // Try automatic download to storage
     downloadTrack({ trackId, audioUrl, coverUrl: coverUrl || undefined });
     
-    // Also trigger browser download
     const link = document.createElement('a');
     link.href = audioUrl;
     link.download = `track-${trackId}.mp3`;
@@ -79,66 +84,108 @@ export default function Library() {
 
   return (
     <ErrorBoundaryWrapper>
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 p-4 pb-24">
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
         <GenerationProgress />
       
-      <div className="max-w-6xl mx-auto space-y-6">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 rounded-full glass-card border-primary/20">
-            <Music2 className="w-6 h-6 text-primary" />
-          </div>
-          <div className="flex-1">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              Библиотека треков
-            </h1>
-            <p className="text-muted-foreground">Ваша музыкальная коллекция</p>
+        {/* Modern Header */}
+        <div className="sticky top-0 z-30 bg-background/80 backdrop-blur-lg border-b border-border/50">
+          <div className="max-w-7xl mx-auto px-4 py-4">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10">
+                  <Music2 className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold">Библиотека</h1>
+                  <p className="text-sm text-muted-foreground">
+                    {tracks?.length || 0} треков
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Button
+                  variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                  size="icon"
+                  onClick={() => setViewMode('grid')}
+                  className="h-9 w-9"
+                >
+                  <Grid3x3 className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={viewMode === 'list' ? 'default' : 'ghost'}
+                  size="icon"
+                  onClick={() => setViewMode('list')}
+                  className="h-9 w-9"
+                >
+                  <List className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Search and Filters */}
+            <div className="flex gap-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                <Input
+                  placeholder="Поиск треков..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+              
+              <Select value={sortBy} onValueChange={(v: any) => setSortBy(v)}>
+                <SelectTrigger className="w-40">
+                  <SlidersHorizontal className="w-4 h-4 mr-2" />
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="recent">Недавние</SelectItem>
+                  <SelectItem value="popular">Популярные</SelectItem>
+                  <SelectItem value="liked">Понравившиеся</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
 
-        <Card className="glass-card border-primary/20 p-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-            <Input
-              placeholder="Поиск по названию или описанию..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-        </Card>
-
-        {isLoading ? (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          </div>
-        ) : filteredTracks.length === 0 ? (
-          <Card className="glass-card border-primary/20 p-12 text-center">
-            <Music2 className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-2">
-              {searchQuery ? 'Ничего не найдено' : 'Пока нет треков'}
-            </h3>
-            <p className="text-muted-foreground">
-              {searchQuery
-                ? 'Попробуйте изменить поисковой запрос'
-                : 'Создайте свой первый трек в генераторе'}
-            </p>
-          </Card>
-        ) : (
-          <Tabs defaultValue="grid" className="w-full">
-            <TabsList className="mb-4">
-              <TabsTrigger value="grid">Сетка</TabsTrigger>
-              <TabsTrigger value="lyrics" disabled={!selectedTrackId}>
-                🎵 Лирика
-              </TabsTrigger>
-              <TabsTrigger value="analytics" disabled={!selectedTrackId}>
-                Аналитика
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="grid">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {/* Content */}
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          {isLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+          ) : filteredTracks.length === 0 ? (
+            <Card className="glass-card border-primary/20 p-12 text-center">
+              <Music2 className="w-16 h-16 mx-auto text-muted-foreground/50 mb-4" />
+              <h3 className="text-lg font-semibold mb-2">
+                {searchQuery ? 'Ничего не найдено' : 'Пока нет треков'}
+              </h3>
+              <p className="text-muted-foreground">
+                {searchQuery
+                  ? 'Попробуйте изменить поисковой запрос'
+                  : 'Создайте свой первый трек в генераторе'}
+              </p>
+            </Card>
+          ) : (
+            <motion.div
+              layout
+              className={viewMode === 'grid' 
+                ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'
+                : 'flex flex-col gap-3'
+              }
+            >
+              <AnimatePresence mode="popLayout">
                 {filteredTracks.map((track) => (
-                  <div key={track.id} onClick={() => setSelectedTrackId(track.id)}>
+                  <motion.div
+                    key={track.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     <TrackCard
                       track={track}
                       isPlaying={playingTrackId === track.id}
@@ -152,24 +199,12 @@ export default function Library() {
                         })
                       }
                     />
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="lyrics">
-              <Card className="glass-card border-primary/20 p-6 text-center">
-                <p className="text-muted-foreground">
-                  Нажмите на трек чтобы открыть полноэкранный плеер с синхронизированной лирикой
-                </p>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="analytics">
-              {selectedTrackId && <TrackAnalytics trackId={selectedTrackId} />}
-            </TabsContent>
-          </Tabs>
-        )}
+              </AnimatePresence>
+            </motion.div>
+          )}
+        </div>
 
         {/* Fullscreen Player */}
         <AnimatePresence>
@@ -184,7 +219,6 @@ export default function Library() {
             ) : null;
           })()}
         </AnimatePresence>
-      </div>
       </div>
     </ErrorBoundaryWrapper>
   );

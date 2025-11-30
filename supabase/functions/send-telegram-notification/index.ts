@@ -6,10 +6,13 @@ const corsHeaders = {
 };
 
 interface NotificationPayload {
-  task_id: string;
-  chat_id: number;
-  status: string;
+  task_id?: string;
+  chat_id?: number;
+  chatId?: number;
+  status?: string;
   track_id?: string;
+  trackId?: string;
+  type?: string;
   error_message?: string;
 }
 
@@ -86,7 +89,14 @@ Deno.serve(async (req) => {
 
   try {
     const payload: NotificationPayload = await req.json();
-    const { chat_id, status, track_id, error_message } = payload;
+    const { chat_id, chatId, status, track_id, trackId, type, error_message } = payload;
+    
+    const finalChatId = chat_id || chatId;
+    const finalTrackId = track_id || trackId;
+
+    if (!finalChatId) {
+      throw new Error('chat_id is required');
+    }
 
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
@@ -96,12 +106,38 @@ Deno.serve(async (req) => {
     let message = '';
     let replyMarkup = undefined;
 
-    if (status === 'completed' && track_id) {
+    // Handle track share type
+    if (type === 'track_share' && finalTrackId) {
+      const { data: track } = await supabase
+        .from('tracks')
+        .select('*')
+        .eq('id', finalTrackId)
+        .single();
+
+      if (track?.audio_url) {
+        const caption = `🎵 *${track.title || 'Новый трек'}*\n\n${track.style ? `🎸 ${track.style}` : ''}\n\n_Создано в AIMusicVerse_`;
+        
+        await sendTelegramAudio(finalChatId, track.audio_url, {
+          caption,
+          title: track.title || 'AIMusicVerse Track',
+          performer: 'AIMusicVerse',
+          duration: track.duration_seconds || undefined,
+          thumbnail: track.cover_url,
+        });
+
+        return new Response(
+          JSON.stringify({ success: true }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+    }
+
+    if (status === 'completed' && finalTrackId) {
       // Get track details with full info
       const { data: track } = await supabase
         .from('tracks')
         .select('*')
-        .eq('id', track_id)
+        .eq('id', finalTrackId)
         .single();
 
       const miniAppUrl = Deno.env.get('MINI_APP_URL') || 'https://t.me/your_bot/app';
@@ -111,7 +147,7 @@ Deno.serve(async (req) => {
         const durationSeconds = track.duration_seconds || 0;
         const caption = `🎉 *Ваш трек готов!*\n\n🎵 *${track.title || 'Новый трек'}*\n${track.style ? `🎸 Стиль: ${track.style}` : ''}\n⏱️ Длительность: ${Math.floor(durationSeconds / 60)}:${String(Math.floor(durationSeconds % 60)).padStart(2, '0')}\n\nСлушайте прямо здесь или откройте в приложении! 🎧`;
         
-        await sendTelegramAudio(chat_id, track.audio_url, {
+        await sendTelegramAudio(finalChatId, track.audio_url, {
           caption,
           title: track.title || 'MusicVerse Track',
           performer: 'MusicVerse AI',
@@ -119,7 +155,7 @@ Deno.serve(async (req) => {
           thumbnail: track.cover_url,
           replyMarkup: {
             inline_keyboard: [
-              [{ text: '🎵 Открыть в приложении', web_app: { url: `${miniAppUrl}?startapp=track_${track_id}` } }],
+              [{ text: '🎵 Открыть в приложении', web_app: { url: `${miniAppUrl}?startapp=track_${finalTrackId}` } }],
               [
                 { text: '🔄 Создать еще', callback_data: 'generate' },
                 { text: '📚 Моя библиотека', callback_data: 'library' }
@@ -133,12 +169,12 @@ Deno.serve(async (req) => {
         
         replyMarkup = {
           inline_keyboard: [
-            [{ text: '🎧 Открыть трек', web_app: { url: `${miniAppUrl}?startapp=track_${track_id}` } }],
+            [{ text: '🎧 Открыть трек', web_app: { url: `${miniAppUrl}?startapp=track_${finalTrackId}` } }],
             [{ text: '🔄 Создать еще', callback_data: 'generate' }]
           ]
         };
         
-        await sendTelegramMessage(chat_id, message, replyMarkup);
+        await sendTelegramMessage(finalChatId, message, replyMarkup);
       }
     } else if (status === 'failed') {
       message = `😔 *Не удалось создать трек*\n\n${error_message || 'Произошла ошибка при генерации'}\n\n💡 *Попробуйте:*\n• Упростить описание\n• Изменить стиль\n• Попробовать через минуту`;
@@ -153,7 +189,7 @@ Deno.serve(async (req) => {
         ]
       };
       
-      await sendTelegramMessage(chat_id, message, replyMarkup);
+      await sendTelegramMessage(finalChatId, message, replyMarkup);
     }
 
     return new Response(

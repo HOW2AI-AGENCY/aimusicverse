@@ -1,4 +1,4 @@
-import { DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Plus, Mic, Volume2, Music } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 
@@ -19,14 +19,8 @@ export function TrackEditSection({
   onAddInstrumentalClick,
   onRemix,
 }: TrackEditSectionProps) {
-  if (!track.audio_url || track.status !== 'completed') {
-    return null;
-  }
-
   return (
     <>
-      <DropdownMenuSeparator />
-
       <DropdownMenuItem onClick={onExtendClick}>
         <Plus className="w-4 h-4 mr-2" />
         Расширить трек

@@ -1,10 +1,12 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, Heart } from 'lucide-react';
+import { Play, Pause, Heart, Music2, Mic, Volume2, Guitar, Drum, Piano } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { TrackActionsMenu } from './TrackActionsMenu';
+import { supabase } from '@/integrations/supabase/client';
+import { cn } from '@/lib/utils';
 
 interface TrackCardProps {
   track: Track;
@@ -24,6 +26,32 @@ export const TrackCard = ({
   isPlaying,
 }: TrackCardProps) => {
   const [imageError, setImageError] = useState(false);
+  const [versionCount, setVersionCount] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchVersionCount = async () => {
+      const { count } = await supabase
+        .from('track_versions')
+        .select('*', { count: 'exact', head: true })
+        .eq('track_id', track.id);
+      setVersionCount(count || 0);
+    };
+    fetchVersionCount();
+  }, [track.id]);
+
+  // Determine track type icon
+  const getTrackIcon = () => {
+    if (!track.has_vocals) {
+      return <Volume2 className="w-3 h-3" />;
+    }
+    // Check if it's a stem
+    if (track.generation_mode === 'separate_vocals') {
+      return <Mic className="w-3 h-3" />;
+    }
+    return null;
+  };
+
+  const trackIcon = getTrackIcon();
 
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-all">
@@ -59,29 +87,44 @@ export const TrackCard = ({
           </Button>
         </div>
 
-        {/* Status badge */}
-        {track.status && track.status !== 'completed' && (
-          <Badge
-            variant={
-              track.status === 'streaming_ready'
-                ? 'default'
-                : track.status === 'failed' || track.status === 'error'
-                ? 'destructive'
-                : 'secondary'
-            }
-            className="absolute top-2 left-2"
-          >
-            {track.status === 'pending'
-              ? 'В очереди'
-              : track.status === 'processing'
-              ? '⚡ Генерация'
-              : track.status === 'streaming_ready'
-              ? '🎵 Готов к стримингу'
-              : track.status === 'completed'
-              ? 'Готов'
-              : track.status === 'failed'
-              ? 'Ошибка'
-              : track.status}
+        {/* Badges */}
+        <div className="absolute top-2 left-2 flex gap-1">
+          {track.status && track.status !== 'completed' && (
+            <Badge
+              variant={
+                track.status === 'streaming_ready'
+                  ? 'default'
+                  : track.status === 'failed' || track.status === 'error'
+                  ? 'destructive'
+                  : 'secondary'
+              }
+            >
+              {track.status === 'pending'
+                ? 'В очереди'
+                : track.status === 'processing'
+                ? '⚡ Генерация'
+                : track.status === 'streaming_ready'
+                ? '🎵 Готов к стримингу'
+                : track.status === 'completed'
+                ? 'Готов'
+                : track.status === 'failed'
+                ? 'Ошибка'
+                : track.status}
+            </Badge>
+          )}
+          
+          {trackIcon && (
+            <Badge variant="secondary" className="gap-1">
+              {trackIcon}
+              {!track.has_vocals ? 'Инстр.' : 'Вокал'}
+            </Badge>
+          )}
+        </div>
+
+        {/* Version count badge */}
+        {versionCount > 0 && (
+          <Badge variant="secondary" className="absolute top-2 right-2">
+            {versionCount} {versionCount === 1 ? 'версия' : versionCount < 5 ? 'версии' : 'версий'}
           </Badge>
         )}
       </div>
