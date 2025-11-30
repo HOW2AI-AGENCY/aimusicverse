@@ -68,6 +68,65 @@ export type Database = {
         }
         Relationships: []
       }
+      audio_analysis: {
+        Row: {
+          analysis_type: string
+          created_at: string
+          full_response: string | null
+          genre: string | null
+          id: string
+          instruments: string[] | null
+          key_signature: string | null
+          mood: string | null
+          structure: string | null
+          style_description: string | null
+          tempo: string | null
+          track_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          analysis_type: string
+          created_at?: string
+          full_response?: string | null
+          genre?: string | null
+          id?: string
+          instruments?: string[] | null
+          key_signature?: string | null
+          mood?: string | null
+          structure?: string | null
+          style_description?: string | null
+          tempo?: string | null
+          track_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          analysis_type?: string
+          created_at?: string
+          full_response?: string | null
+          genre?: string | null
+          id?: string
+          instruments?: string[] | null
+          key_signature?: string | null
+          mood?: string | null
+          structure?: string | null
+          style_description?: string | null
+          tempo?: string | null
+          track_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audio_analysis_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       generation_tag_usage: {
         Row: {
           created_at: string
