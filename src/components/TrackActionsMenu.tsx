@@ -45,7 +45,6 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
     handleTogglePublic,
     handleConvertToWav,
     handleGenerateCover,
-    handleCreateVideo,
   } = useTrackActions();
 
   const handleSendToTelegram = async () => {
@@ -146,7 +145,6 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                   onSeparateVocals={(mode) => handleSeparateVocals(track, mode)}
                   onGenerateCover={() => handleGenerateCover(track)}
                   onConvertToWav={() => handleConvertToWav(track)}
-                  onCreateVideo={() => handleCreateVideo(track)}
                 />
               </DropdownMenuSubContent>
             </DropdownMenuSub>
