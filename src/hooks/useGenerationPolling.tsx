@@ -24,6 +24,8 @@ export const useGenerationPolling = () => {
   const pollingInterval = useRef<NodeJS.Timeout | null>(null);
   const isPolling = useRef(false);
   const realtimeChannel = useRef<any>(null);
+  const reconnectAttempts = useRef(0);
+  const maxReconnectAttempts = 5;
 
   useEffect(() => {
     if (!user?.id) return;
@@ -103,39 +105,59 @@ export const useGenerationPolling = () => {
       }
     };
 
-    // Setup realtime subscription for instant updates
+    // Setup realtime subscription with error handling and reconnect logic
     const setupRealtime = () => {
-      realtimeChannel.current = supabase
-        .channel('generation_tasks_changes')
-        .on(
-          'postgres_changes',
-          {
-            event: '*',
-            schema: 'public',
-            table: 'generation_tasks',
-            filter: `user_id=eq.${user.id}`
-          },
-          (payload) => {
-            console.log('Realtime update:', payload);
-            // Invalidate queries on any change
-            queryClient.invalidateQueries({ queryKey: ['tracks'] });
-            queryClient.invalidateQueries({ queryKey: ['generation_tasks'] });
-          }
-        )
-        .on(
-          'postgres_changes',
-          {
-            event: 'UPDATE',
-            schema: 'public',
-            table: 'tracks',
-            filter: `user_id=eq.${user.id}`
-          },
-          (payload) => {
-            console.log('Track realtime update:', payload);
-            queryClient.invalidateQueries({ queryKey: ['tracks'] });
-          }
-        )
-        .subscribe();
+      if (reconnectAttempts.current >= maxReconnectAttempts) {
+        console.warn('Max reconnect attempts reached, falling back to polling only');
+        return;
+      }
+
+      try {
+        realtimeChannel.current = supabase
+          .channel(`generation_polling_${user.id}`, {
+            config: {
+              broadcast: { self: false },
+              presence: { key: '' },
+            },
+          })
+          .on(
+            'postgres_changes',
+            {
+              event: '*',
+              schema: 'public',
+              table: 'generation_tasks',
+              filter: `user_id=eq.${user.id}`
+            },
+            (payload) => {
+              console.log('Realtime generation update:', payload);
+              reconnectAttempts.current = 0; // Reset on successful message
+              queryClient.invalidateQueries({ queryKey: ['generation_tasks'] });
+            }
+          )
+          .subscribe((status) => {
+            console.log('Realtime status:', status);
+            
+            if (status === 'CHANNEL_ERROR') {
+              reconnectAttempts.current++;
+              console.error('Realtime channel error, attempt:', reconnectAttempts.current);
+              
+              // Exponential backoff
+              const backoffMs = Math.min(1000 * Math.pow(2, reconnectAttempts.current), 30000);
+              setTimeout(() => {
+                if (realtimeChannel.current) {
+                  supabase.removeChannel(realtimeChannel.current);
+                }
+                setupRealtime();
+              }, backoffMs);
+            } else if (status === 'SUBSCRIBED') {
+              reconnectAttempts.current = 0;
+              console.log('Realtime subscribed successfully');
+            }
+          });
+      } catch (error) {
+        console.error('Error setting up realtime:', error);
+        reconnectAttempts.current++;
+      }
     };
 
     setupRealtime();
@@ -143,8 +165,8 @@ export const useGenerationPolling = () => {
     // Первая проверка сразу после монтирования
     checkActiveTasks();
 
-    // Затем проверяем каждые 5 секунд (уменьшено с 10 для быстрее обновлений)
-    pollingInterval.current = setInterval(checkActiveTasks, 5000);
+    // Затем проверяем каждые 10 секунд (увеличено для снижения нагрузки)
+    pollingInterval.current = setInterval(checkActiveTasks, 10000);
 
     return () => {
       if (pollingInterval.current) {

@@ -13,6 +13,7 @@ import { FullscreenPlayer } from '@/components/FullscreenPlayer';
 import { useGenerationPolling } from '@/hooks/useGenerationPolling';
 import { useTrackVersions } from '@/hooks/useTrackVersions';
 import { AnimatePresence } from 'framer-motion';
+import { ErrorBoundaryWrapper } from '@/components/ErrorBoundaryWrapper';
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -77,8 +78,9 @@ export default function Library() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 p-4 pb-24">
-      <GenerationProgress />
+    <ErrorBoundaryWrapper>
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 p-4 pb-24">
+        <GenerationProgress />
       
       <div className="max-w-6xl mx-auto space-y-6">
         <div className="flex items-center gap-3 mb-6">
@@ -183,6 +185,7 @@ export default function Library() {
           })()}
         </AnimatePresence>
       </div>
-    </div>
+      </div>
+    </ErrorBoundaryWrapper>
   );
 }
