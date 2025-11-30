@@ -21,10 +21,17 @@ export function AudioWaveformVisualizer({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [waveformData, setWaveformData] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const waveformCacheRef = useRef<Map<string, number[]>>(new Map());
 
-  // Generate waveform data from audio
+  // Generate waveform data from audio with caching and optimization
   useEffect(() => {
     if (!audioUrl) return;
+
+    // Check cache first
+    if (waveformCacheRef.current.has(audioUrl)) {
+      setWaveformData(waveformCacheRef.current.get(audioUrl)!);
+      return;
+    }
 
     const generateWaveform = async () => {
       setIsLoading(true);
@@ -35,24 +42,32 @@ export function AudioWaveformVisualizer({
         const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
         const rawData = audioBuffer.getChannelData(0);
-        const samples = 200; // Number of bars in waveform
+        const samples = 100; // Reduced from 200 for faster rendering
         const blockSize = Math.floor(rawData.length / samples);
         const filteredData: number[] = [];
 
+        // Optimized sampling - take max instead of average for better visual
         for (let i = 0; i < samples; i++) {
           let blockStart = blockSize * i;
-          let sum = 0;
-          for (let j = 0; j < blockSize; j++) {
-            sum += Math.abs(rawData[blockStart + j]);
+          let max = 0;
+          // Sample every 4th point instead of all points
+          for (let j = 0; j < blockSize; j += 4) {
+            const val = Math.abs(rawData[blockStart + j]);
+            if (val > max) max = val;
           }
-          filteredData.push(sum / blockSize);
+          filteredData.push(max);
         }
 
         // Normalize data
-        const multiplier = Math.pow(Math.max(...filteredData), -1);
-        const normalizedData = filteredData.map((n) => n * multiplier);
+        const maxVal = Math.max(...filteredData);
+        const normalizedData = filteredData.map((n) => maxVal > 0 ? n / maxVal : 0);
 
+        // Cache the result
+        waveformCacheRef.current.set(audioUrl, normalizedData);
         setWaveformData(normalizedData);
+        
+        // Close audio context to free resources
+        audioContext.close();
       } catch (error) {
         console.error('Error generating waveform:', error);
       } finally {

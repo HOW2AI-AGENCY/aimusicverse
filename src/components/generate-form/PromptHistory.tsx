@@ -16,6 +16,8 @@ import { ru } from 'date-fns/locale';
 interface PromptHistoryItem {
   id: string;
   timestamp: Date;
+  lastUsed?: Date;
+  usageCount: number;
   mode: 'simple' | 'custom';
   description?: string;
   title?: string;
@@ -74,6 +76,15 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
   });
 
   const handleSelect = (item: PromptHistoryItem) => {
+    // Update usage count
+    const updated = history.map(h => 
+      h.id === item.id 
+        ? { ...h, usageCount: h.usageCount + 1, lastUsed: new Date() }
+        : h
+    );
+    setHistory(updated);
+    localStorage.setItem('musicverse_prompt_history', JSON.stringify(updated));
+    
     onSelectPrompt(item);
     onOpenChange(false);
     toast.success('Промпт загружен');
@@ -228,9 +239,14 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
 
                       {/* Footer */}
                       <div className="flex items-center justify-between pt-2 border-t border-border/50">
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                          <Clock className="w-3 h-3" />
-                          {format(item.timestamp, 'dd MMM yyyy, HH:mm', { locale: ru })}
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {format(item.lastUsed || item.timestamp, 'dd MMM yyyy, HH:mm', { locale: ru })}
+                          </div>
+                          <Badge variant="outline" className="text-xs">
+                            {item.usageCount}x
+                          </Badge>
                         </div>
                         <Button
                           variant="ghost"
@@ -270,19 +286,55 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
 }
 
 // Helper function to save prompt to history
-export function savePromptToHistory(prompt: Omit<PromptHistoryItem, 'id' | 'timestamp'>) {
+export function savePromptToHistory(prompt: Omit<PromptHistoryItem, 'id' | 'timestamp' | 'usageCount' | 'lastUsed'>) {
   try {
     const stored = localStorage.getItem('musicverse_prompt_history');
-    const history: PromptHistoryItem[] = stored ? JSON.parse(stored) : [];
+    const history: PromptHistoryItem[] = stored ? JSON.parse(stored).map((item: any) => ({
+      ...item,
+      timestamp: new Date(item.timestamp),
+      lastUsed: item.lastUsed ? new Date(item.lastUsed) : undefined,
+    })) : [];
     
-    const newItem: PromptHistoryItem = {
-      ...prompt,
-      id: `prompt-${Date.now()}`,
-      timestamp: new Date(),
+    // Check for duplicate by comparing key fields
+    const isDuplicate = (a: PromptHistoryItem, b: typeof prompt) => {
+      if (a.mode !== b.mode) return false;
+      if (a.mode === 'simple') {
+        return a.description?.trim() === b.description?.trim();
+      } else {
+        return (
+          a.title?.trim() === b.title?.trim() &&
+          a.style?.trim() === b.style?.trim() &&
+          a.lyrics?.trim() === b.lyrics?.trim()
+        );
+      }
     };
     
+    const existingIndex = history.findIndex(item => isDuplicate(item, prompt));
+    
+    if (existingIndex !== -1) {
+      // Update existing prompt: increment usage count and update lastUsed
+      history[existingIndex] = {
+        ...history[existingIndex],
+        usageCount: history[existingIndex].usageCount + 1,
+        lastUsed: new Date(),
+        model: prompt.model, // Update to latest model used
+      };
+      // Move to top
+      const [updated] = history.splice(existingIndex, 1);
+      history.unshift(updated);
+    } else {
+      // Add new prompt
+      const newItem: PromptHistoryItem = {
+        ...prompt,
+        id: `prompt-${Date.now()}`,
+        timestamp: new Date(),
+        usageCount: 1,
+      };
+      history.unshift(newItem);
+    }
+    
     // Keep only last 50 items
-    const updated = [newItem, ...history].slice(0, 50);
+    const updated = history.slice(0, 50);
     localStorage.setItem('musicverse_prompt_history', JSON.stringify(updated));
   } catch (error) {
     console.error('Failed to save to history:', error);
