@@ -74,17 +74,21 @@ serve(async (req) => {
 
     const callBackUrl = `${supabaseUrl}/functions/v1/suno-cover-callback`;
 
-    // Call Suno API
-    const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate/cover-suno', {
+    // Build comprehensive prompt
+    const imagePrompt = prompt || 
+      `${track.title || 'Music'} - ${track.style || 'abstract music'} album cover art, ${style || 'professional, artistic'}`;
+
+    // Call Suno API for cover image generation
+    const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/image/generate', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${sunoApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        prompt: prompt || track.prompt || track.title,
-        style: style || track.style,
+        prompt: imagePrompt,
         callBackUrl,
+        size: '1024x1024',
       }),
     });
 

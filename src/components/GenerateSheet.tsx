@@ -7,18 +7,19 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
-import { Sparkles, Loader2, Zap as ZapIcon, Sliders, Coins, ChevronDown, Upload, User, FolderOpen, Music, Mic, FileAudio } from 'lucide-react';
+import { Sparkles, Loader2, Zap as ZapIcon, Sliders, Coins, Mic, FileAudio, FolderOpen, User } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useProjects } from '@/hooks/useProjects';
 import { useArtists } from '@/hooks/useArtists';
 import { useTracks } from '@/hooks/useTracks';
 import { UploadExtendDialog } from './UploadExtendDialog';
 import { UploadCoverDialog } from './UploadCoverDialog';
+import { AudioReferenceUpload } from './generate-form/AudioReferenceUpload';
+import { ArtistSelector } from './generate-form/ArtistSelector';
+import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
+import { AdvancedSettings } from './generate-form/AdvancedSettings';
 
 interface GenerateSheetProps {
   open: boolean;
@@ -46,7 +47,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [title, setTitle] = useState('');
   const [lyrics, setLyrics] = useState('');
   const [style, setStyle] = useState('');
-  const [hasVocals, setHasVocals] = useState(true); // Изменено на "с вокалом"
+  const [hasVocals, setHasVocals] = useState(true);
   
   // Advanced settings
   const [model, setModel] = useState('V4_5ALL');
@@ -59,12 +60,12 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   // Reference data
   const [selectedProjectId, setSelectedProjectId] = useState<string | undefined>(initialProjectId);
   const [selectedTrackId, setSelectedTrackId] = useState<string | undefined>();
-  const [selectedPersonaId, setSelectedPersonaId] = useState<string | undefined>();
+  const [selectedArtistId, setSelectedArtistId] = useState<string | undefined>();
   const [audioFile, setAudioFile] = useState<File | null>(null);
 
   // Dialogs
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
-  const [personaDialogOpen, setPersonaDialogOpen] = useState(false);
+  const [artistDialogOpen, setArtistDialogOpen] = useState(false);
   const [trackDialogOpen, setTrackDialogOpen] = useState(false);
 
   // Fetch credits
@@ -85,7 +86,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     }
   }, [open]);
 
-  // Автозаполнение при выборе трека
+  // Auto-fill from selected track
   const handleTrackSelect = (trackId: string) => {
     const track = allTracks?.find(t => t.id === trackId);
     if (track) {
@@ -167,6 +168,11 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
     setLoading(true);
     try {
+      // Get persona ID from selected artist
+      const personaId = selectedArtistId 
+        ? artists?.find(a => a.id === selectedArtistId)?.suno_persona_id 
+        : undefined;
+
       const { data, error } = await supabase.functions.invoke('suno-music-generate', {
         body: {
           mode,
@@ -179,8 +185,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           vocalGender: vocalGender || undefined,
           styleWeight: styleWeight[0],
           weirdnessConstraint: weirdnessConstraint[0],
-          audioWeight: (audioFile || selectedPersonaId) ? audioWeight[0] : undefined,
-          personaId: selectedPersonaId,
+          audioWeight: (audioFile || personaId) ? audioWeight[0] : undefined,
+          personaId: personaId,
           projectId: selectedProjectId || initialProjectId,
         },
       });
@@ -192,19 +198,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
       });
 
       // Reset form and close
-      setDescription('');
-      setTitle('');
-      setLyrics('');
-      setStyle('');
-      setNegativeTags('');
-      setVocalGender('');
-      setStyleWeight([0.65]);
-      setWeirdnessConstraint([0.5]);
-      setAudioWeight([0.65]);
-      setSelectedProjectId(initialProjectId);
-      setSelectedTrackId(undefined);
-      setSelectedPersonaId(undefined);
-      setAudioFile(null);
+      resetForm();
       onOpenChange(false);
       
       // Refresh credits
@@ -229,6 +223,22 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     }
   };
 
+  const resetForm = () => {
+    setDescription('');
+    setTitle('');
+    setLyrics('');
+    setStyle('');
+    setNegativeTags('');
+    setVocalGender('');
+    setStyleWeight([0.65]);
+    setWeirdnessConstraint([0.5]);
+    setAudioWeight([0.65]);
+    setSelectedProjectId(initialProjectId);
+    setSelectedTrackId(undefined);
+    setSelectedArtistId(undefined);
+    setAudioFile(null);
+  };
+
   const modelInfo = {
     V5: { name: 'V5', desc: 'Новейшая модель, быстрая генерация', emoji: '🚀' },
     V4_5PLUS: { name: 'V4.5+', desc: 'Богатый звук, до 8 мин', emoji: '💎' },
@@ -236,6 +246,10 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     V4_5: { name: 'V4.5', desc: 'Быстро, качественно, до 8 мин', emoji: '⚡' },
     V4: { name: 'V4', desc: 'Классика, до 4 мин', emoji: '🎵' },
   };
+
+  const projectTracks = selectedProjectId 
+    ? allTracks?.filter(t => t.project_id === selectedProjectId) 
+    : [];
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -320,10 +334,11 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             </TabsContent>
 
             <TabsContent value="custom" className="space-y-4 mt-4">
-              {/* Model & Reference Buttons */}
-              <div className="space-y-3">
+              {/* Model Selection */}
+              <div>
+                <Label>Модель генерации</Label>
                 <Select value={model} onValueChange={setModel}>
-                  <SelectTrigger>
+                  <SelectTrigger className="mt-2">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -334,68 +349,50 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                     ))}
                   </SelectContent>
                 </Select>
-
-                <div className="grid grid-cols-3 gap-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="gap-2"
-                    onClick={() => document.getElementById('audio-upload')?.click()}
-                  >
-                    <Upload className="w-4 h-4" />
-                    Аудио
-                    {audioFile && <Badge variant="secondary" className="ml-1">1</Badge>}
-                  </Button>
-                  <input
-                    id="audio-upload"
-                    type="file"
-                    accept="audio/*"
-                    className="hidden"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        setAudioFile(file);
-                        toast.success('Аудио загружено');
-                      }
-                    }}
-                  />
-
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="gap-2"
-                    onClick={() => setPersonaDialogOpen(true)}
-                  >
-                    <User className="w-4 h-4" />
-                    Персона
-                    {selectedPersonaId && <Badge variant="secondary" className="ml-1">1</Badge>}
-                  </Button>
-
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="gap-2"
-                    onClick={() => setProjectDialogOpen(true)}
-                  >
-                    <FolderOpen className="w-4 h-4" />
-                    Проект
-                    {selectedProjectId && <Badge variant="secondary" className="ml-1">1</Badge>}
-                  </Button>
-                </div>
-
-                {selectedProjectId && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="w-full gap-2"
-                    onClick={() => setTrackDialogOpen(true)}
-                  >
-                    <Music className="w-4 h-4" />
-                    Выбрать трек из проекта
-                  </Button>
-                )}
               </div>
+
+              {/* Reference Selection Grid */}
+              <div className="grid grid-cols-3 gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="gap-2"
+                  onClick={() => setProjectDialogOpen(true)}
+                >
+                  <FolderOpen className="w-4 h-4" />
+                  Проект
+                  {selectedProjectId && <Badge variant="secondary" className="ml-1">1</Badge>}
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="gap-2"
+                  onClick={() => setArtistDialogOpen(true)}
+                >
+                  <User className="w-4 h-4" />
+                  Артист
+                  {selectedArtistId && <Badge variant="secondary" className="ml-1">1</Badge>}
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="gap-2"
+                  onClick={() => setTrackDialogOpen(true)}
+                  disabled={!selectedProjectId}
+                >
+                  <FileAudio className="w-4 h-4" />
+                  Трек
+                  {selectedTrackId && <Badge variant="secondary" className="ml-1">1</Badge>}
+                </Button>
+              </div>
+
+              {/* Audio Reference Upload */}
+              <AudioReferenceUpload
+                audioFile={audioFile}
+                onAudioChange={setAudioFile}
+              />
 
               <div>
                 <Label htmlFor="title">Название (опционально)</Label>
@@ -487,110 +484,21 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           </Tabs>
 
           {/* Advanced Settings */}
-          <Collapsible open={advancedOpen} onOpenChange={setAdvancedOpen} className="border-t pt-4">
-            <CollapsibleTrigger asChild>
-              <Button variant="ghost" className="w-full justify-between p-0 h-auto font-semibold hover:bg-transparent">
-                <span className="flex items-center gap-2">
-                  <Sliders className="w-4 h-4" />
-                  Расширенные настройки
-                </span>
-                <ChevronDown className={`w-4 h-4 transition-transform ${advancedOpen ? 'rotate-180' : ''}`} />
-              </Button>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="space-y-4 pt-4">
-
-            {/* Vocal Gender */}
-            {hasVocals && (
-              <div>
-                <Label htmlFor="vocal-gender">Пол вокала (опционально)</Label>
-                <Select value={vocalGender || "auto"} onValueChange={(v) => setVocalGender(v === "auto" ? '' : v as 'm' | 'f')}>
-                  <SelectTrigger className="mt-2">
-                    <SelectValue placeholder="Автоматически" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="auto">Автоматически</SelectItem>
-                    <SelectItem value="m">Мужской</SelectItem>
-                    <SelectItem value="f">Женский</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-
-            {/* Style Weight */}
-            <div>
-              <div className="flex justify-between mb-2">
-                <Label>Вес стиля</Label>
-                <Badge variant="outline">{styleWeight[0].toFixed(2)}</Badge>
-              </div>
-              <Slider
-                value={styleWeight}
-                onValueChange={setStyleWeight}
-                min={0}
-                max={1}
-                step={0.01}
-                className="mt-2"
-              />
-              <p className="text-xs text-muted-foreground mt-1">
-                Насколько точно следовать стилю
-              </p>
-            </div>
-
-            {/* Creativity */}
-            <div>
-              <div className="flex justify-between mb-2">
-                <Label>Креативность</Label>
-                <Badge variant="outline">{weirdnessConstraint[0].toFixed(2)}</Badge>
-              </div>
-              <Slider
-                value={weirdnessConstraint}
-                onValueChange={setWeirdnessConstraint}
-                min={0}
-                max={1}
-                step={0.01}
-                className="mt-2"
-              />
-              <p className="text-xs text-muted-foreground mt-1">
-                Уровень экспериментальности и уникальности
-              </p>
-            </div>
-
-            {/* Audio Weight */}
-            {(audioFile || selectedPersonaId) && (
-              <div>
-                <div className="flex justify-between mb-2">
-                  <Label>Сила воздействия референсного аудио</Label>
-                  <Badge variant="outline">{audioWeight[0].toFixed(2)}</Badge>
-                </div>
-                <Slider
-                  value={audioWeight}
-                  onValueChange={setAudioWeight}
-                  min={0}
-                  max={1}
-                  step={0.01}
-                  className="mt-2"
-                />
-                <p className="text-xs text-muted-foreground mt-1">
-                  Насколько сильно влияет загруженное аудио или персона
-                </p>
-              </div>
-            )}
-
-            {/* Negative Tags */}
-            <div>
-              <Label htmlFor="negative-tags">Исключить (negative tags)</Label>
-              <Input
-                id="negative-tags"
-                placeholder="heavy metal, screaming, aggressive"
-                value={negativeTags}
-                onChange={(e) => setNegativeTags(e.target.value)}
-                className="mt-2"
-              />
-              <p className="text-xs text-muted-foreground mt-1">
-                Стили и элементы, которые нужно избежать
-              </p>
-            </div>
-            </CollapsibleContent>
-          </Collapsible>
+          <AdvancedSettings
+            open={advancedOpen}
+            onOpenChange={setAdvancedOpen}
+            negativeTags={negativeTags}
+            onNegativeTagsChange={setNegativeTags}
+            vocalGender={vocalGender}
+            onVocalGenderChange={setVocalGender}
+            styleWeight={styleWeight}
+            onStyleWeightChange={setStyleWeight}
+            weirdnessConstraint={weirdnessConstraint}
+            onWeirdnessConstraintChange={setWeirdnessConstraint}
+            audioWeight={audioWeight}
+            onAudioWeightChange={setAudioWeight}
+            hasReferenceAudio={!!audioFile || !!selectedArtistId}
+          />
 
           <Button
             onClick={handleGenerate}
@@ -638,104 +546,41 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         </div>
       </SheetContent>
 
-      {/* Project Selection Dialog */}
-      <Dialog open={projectDialogOpen} onOpenChange={setProjectDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Выбрать проект</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-2 max-h-[400px] overflow-y-auto">
-            {projects?.map((project) => (
-              <Button
-                key={project.id}
-                variant="outline"
-                className="w-full justify-start"
-                onClick={() => {
-                  setSelectedProjectId(project.id);
-                  setProjectDialogOpen(false);
-                  toast.success(`Проект "${project.title}" выбран`);
-                }}
-              >
-                <FolderOpen className="w-4 h-4 mr-2" />
-                {project.title}
-              </Button>
-            ))}
-            {!projects?.length && (
-              <p className="text-sm text-muted-foreground text-center py-4">
-                Нет доступных проектов
-              </p>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Project Selector */}
+      <ProjectTrackSelector
+        type="project"
+        open={projectDialogOpen}
+        onOpenChange={setProjectDialogOpen}
+        projects={projects}
+        selectedId={selectedProjectId}
+        onSelect={setSelectedProjectId}
+      />
 
-      {/* Persona Selection Dialog */}
-      <Dialog open={personaDialogOpen} onOpenChange={setPersonaDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Выбрать персону</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-2 max-h-[400px] overflow-y-auto">
-            {artists?.map((artist) => (
-              <Button
-                key={artist.id}
-                variant="outline"
-                className="w-full justify-start"
-                onClick={() => {
-                  setSelectedPersonaId(artist.suno_persona_id || undefined);
-                  setPersonaDialogOpen(false);
-                  toast.success(`Персона "${artist.name}" выбрана`);
-                }}
-                disabled={!artist.suno_persona_id}
-              >
-                <User className="w-4 h-4 mr-2" />
-                {artist.name}
-                {!artist.suno_persona_id && (
-                  <span className="text-xs text-muted-foreground ml-2">(нет persona ID)</span>
-                )}
-              </Button>
-            ))}
-            {!artists?.length && (
-              <p className="text-sm text-muted-foreground text-center py-4">
-                Нет доступных персон
-              </p>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Artist Selector */}
+      <ArtistSelector
+        open={artistDialogOpen}
+        onOpenChange={setArtistDialogOpen}
+        artists={artists}
+        selectedArtistId={selectedArtistId}
+        onSelect={setSelectedArtistId}
+      />
 
-      {/* Track Selection Dialog */}
-      <Dialog open={trackDialogOpen} onOpenChange={setTrackDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Выбрать трек</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-2 max-h-[400px] overflow-y-auto">
-            {allTracks?.filter(t => t.project_id === selectedProjectId).map((track) => (
-              <Button
-                key={track.id}
-                variant="outline"
-                className="w-full justify-start"
-                onClick={() => handleTrackSelect(track.id)}
-              >
-                <Music className="w-4 h-4 mr-2" />
-                {track.title || 'Без названия'}
-              </Button>
-            ))}
-            {!allTracks?.filter(t => t.project_id === selectedProjectId).length && (
-              <p className="text-sm text-muted-foreground text-center py-4">
-                Нет треков в выбранном проекте
-              </p>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Track Selector */}
+      <ProjectTrackSelector
+        type="track"
+        open={trackDialogOpen}
+        onOpenChange={setTrackDialogOpen}
+        tracks={projectTracks}
+        selectedId={selectedTrackId}
+        onSelect={handleTrackSelect}
+      />
       
       <UploadExtendDialog 
         open={uploadExtendOpen}
         onOpenChange={setUploadExtendOpen}
         projectId={selectedProjectId || initialProjectId}
       />
+      
       <UploadCoverDialog 
         open={uploadCoverOpen}
         onOpenChange={setUploadCoverOpen}
