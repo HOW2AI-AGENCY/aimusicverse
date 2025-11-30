@@ -76,11 +76,6 @@ serve(async (req) => {
     
     console.log(`Prompt (${promptText.length} chars):`, promptText);
 
-    // Validate prompt length
-    if (promptText.length > 200) {
-      throw new Error('The prompt length cannot exceed 200 characters');
-    }
-
     // Call SunoAPI to generate lyrics
     const callbackUrl = `${supabaseUrl}/functions/v1/lyrics-callback`;
 
