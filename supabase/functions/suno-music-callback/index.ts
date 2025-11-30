@@ -20,7 +20,9 @@ serve(async (req) => {
     console.log('Received callback from SunoAPI:', JSON.stringify(payload, null, 2));
 
     const { code, msg, data } = payload;
-    const { callbackType, taskId: sunoTaskId, data: audioData } = data || {};
+    // Support both taskId and task_id formats from API
+    const { callbackType, taskId, task_id, data: audioData } = data || {};
+    const sunoTaskId = taskId || task_id;
 
     if (!sunoTaskId) {
       throw new Error('No taskId in callback');
@@ -305,13 +307,23 @@ serve(async (req) => {
 
       // Create notification
       const firstClip = clips[0];
+      const generationModeText = task.generation_mode === 'upload_cover' 
+        ? 'Кавер создан' 
+        : task.generation_mode === 'upload_extend' 
+          ? 'Расширение завершено'
+          : 'Генерация завершена';
+      
+      const notificationMessage = clips.length === 1
+        ? `Ваш трек "${firstClip.title || 'Без названия'}" готов`
+        : `Ваши треки "${firstClip.title || 'Без названия'}" и еще ${clips.length - 1} готовы`;
+      
       await supabase
         .from('notifications')
         .insert({
           user_id: task.user_id,
           type: 'track_generated',
-          title: `${clips.length} трека готовы! 🎵`,
-          message: `Ваши треки "${firstClip.title || 'Без названия'}" и еще ${clips.length - 1} успешно сгенерированы`,
+          title: `${generationModeText} 🎵`,
+          message: notificationMessage,
           action_url: `/library`,
         });
     }
