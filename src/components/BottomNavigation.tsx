@@ -1,17 +1,15 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, FolderOpen, Plus, Library, MoreHorizontal } from 'lucide-react';
+import { Home, FolderOpen, Plus, Library, UserCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { GenerateSheet } from './GenerateSheet';
-import { MoreSheet } from './MoreSheet';
 
 export const BottomNavigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { hapticFeedback } = useTelegram();
   const [generateOpen, setGenerateOpen] = useState(false);
-  const [moreOpen, setMoreOpen] = useState(false);
 
   const handleNavigate = (path: string) => {
     hapticFeedback('light');
@@ -21,11 +19,6 @@ export const BottomNavigation = () => {
   const handleGenerateClick = () => {
     hapticFeedback('medium');
     setGenerateOpen(true);
-  };
-
-  const handleMoreClick = () => {
-    hapticFeedback('light');
-    setMoreOpen(true);
   };
 
   const isActive = (path: string) => location.pathname === path;
@@ -85,20 +78,24 @@ export const BottomNavigation = () => {
               <span className="text-xs font-medium">Библиотека</span>
             </button>
 
-            {/* More */}
+            {/* Profile */}
             <button
-              onClick={handleMoreClick}
-              className="flex flex-col items-center gap-1 px-4 py-2 rounded-xl text-muted-foreground hover:text-foreground transition-all"
+              onClick={() => handleNavigate('/profile')}
+              className={cn(
+                "flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all",
+                isActive('/profile')
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
             >
-              <MoreHorizontal className="w-5 h-5" />
-              <span className="text-xs font-medium">Ещё</span>
+              <UserCircle className="w-5 h-5" />
+              <span className="text-xs font-medium">Профиль</span>
             </button>
           </div>
         </div>
       </nav>
 
       <GenerateSheet open={generateOpen} onOpenChange={setGenerateOpen} />
-      <MoreSheet open={moreOpen} onOpenChange={setMoreOpen} />
     </>
   );
 };

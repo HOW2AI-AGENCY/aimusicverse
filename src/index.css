@@ -21,16 +21,16 @@ All colors MUST be HSL.
     --tg-safe-area-inset-right: 0px;
 
     /* Light theme (fallback) */
-    --background: 240 10% 95%;
-    --foreground: 240 10% 15%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
 
-    --card: 240 10% 98%;
-    --card-foreground: 240 10% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
 
-    --popover: 240 10% 98%;
-    --popover-foreground: 240 10% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
 
-    --primary: 270 70% 60%;
+    --primary: 207 90% 56%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 240 15% 90%;
@@ -45,11 +45,11 @@ All colors MUST be HSL.
     --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 10% 85%;
-    --input: 240 10% 85%;
-    --ring: 270 70% 60%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 207 90% 56%;
 
-    --radius: 1rem;
+    --radius: 1.25rem;
     
     /* Glassmorphism variables */
     --glass-bg: rgba(255, 255, 255, 0.7);
@@ -76,7 +76,7 @@ All colors MUST be HSL.
 
   .dark {
     /* Dark theme - MusicVerse Studio (ТЗ: #0e0e0e background, Telegram Blue #3390ec) */
-    --background: 0 0% 5.5%;
+    --background: 222.2 47.4% 11.2%;
     --foreground: 0 0% 100%;
 
     --card: 0 0% 11.8%;
