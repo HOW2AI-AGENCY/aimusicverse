@@ -325,8 +325,8 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
                                 )}
                               </div>
 
-                              {track.style_prompt && !isMobile && (
-                                <p className="text-xs text-muted-foreground truncate">
+                              {track.style_prompt && (
+                                <p className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground truncate`}>
                                   {track.style_prompt}
                                 </p>
                               )}
@@ -359,17 +359,15 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
                                   <Play className={isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'} />
                                 </Button>
                               )}
-                              {!isMobile && (
-                                <Button
-                                  size="sm"
-                                  variant="ghost"
-                                  onClick={() => setLyricsEditingTrack(track)}
-                                  title="Редактировать лирику"
-                                  className="h-9 w-9 p-0 touch-manipulation"
-                                >
-                                  <FileText className="w-4 h-4" />
-                                </Button>
-                              )}
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => setLyricsEditingTrack(track)}
+                                title="Редактировать лирику"
+                                className={`${isMobile ? 'h-7 w-7' : 'h-9 w-9'} p-0 touch-manipulation`}
+                              >
+                                <FileText className={isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'} />
+                              </Button>
                               <Button
                                 size="sm"
                                 variant="ghost"
