@@ -17,29 +17,15 @@ interface AddVocalsDialogProps {
 }
 
 export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogProps) => {
-  const [audioFile, setAudioFile] = useState<File | null>(null);
   const [prompt, setPrompt] = useState('');
   const [customMode, setCustomMode] = useState(false);
   const [style, setStyle] = useState(track.style || '');
   const [title, setTitle] = useState('');
   const [loading, setLoading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (!file.type.startsWith('audio/')) {
-        toast.error('Пожалуйста, выберите аудио файл');
-        return;
-      }
-      setAudioFile(file);
-      toast.success('Файл загружен');
-    }
-  };
 
   const handleSubmit = async () => {
-    if (!audioFile) {
-      toast.error('Пожалуйста, выберите аудио файл');
+    if (!track.audio_url) {
+      toast.error('У трека отсутствует аудио файл');
       return;
     }
 
@@ -50,24 +36,13 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
 
     setLoading(true);
     try {
-      // Read file as base64
-      const reader = new FileReader();
-      const fileData = await new Promise<string>((resolve) => {
-        reader.onload = () => resolve(reader.result as string);
-        reader.readAsDataURL(audioFile);
-      });
-
       const { data, error } = await supabase.functions.invoke('suno-add-vocals', {
         body: {
-          audioFile: {
-            name: audioFile.name,
-            type: audioFile.type,
-            data: fileData,
-          },
+          audioUrl: track.audio_url,
           prompt,
           customMode,
           style: customMode ? style : undefined,
-          title: customMode ? title : undefined,
+          title: customMode ? title : track.title,
           projectId: track.project_id,
         },
       });
@@ -98,28 +73,10 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
         </DialogHeader>
 
         <div className="space-y-4">
-          <div>
-            <Label>Загрузить инструментальный трек</Label>
-            <div className="mt-2">
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="audio/*"
-                onChange={handleFileSelect}
-                className="hidden"
-              />
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <Upload className="w-4 h-4 mr-2" />
-                {audioFile ? audioFile.name : 'Выбрать аудио файл'}
-              </Button>
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Поддерживаются форматы: MP3, WAV, M4A (макс. 8 минут)
+          <div className="p-3 bg-muted rounded-lg">
+            <p className="text-sm">
+              <Music className="w-4 h-4 inline mr-2" />
+              Будет использован инструментальный трек: <span className="font-semibold">{track.title || 'Без названия'}</span>
             </p>
           </div>
 
@@ -176,7 +133,7 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
             <Button variant="outline" onClick={() => onOpenChange(false)}>
               Отмена
             </Button>
-            <Button onClick={handleSubmit} disabled={loading || !audioFile}>
+            <Button onClick={handleSubmit} disabled={loading || !track.audio_url}>
               {loading ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />

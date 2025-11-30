@@ -30,6 +30,7 @@ export const TrackCard = ({
   const [imageError, setImageError] = useState(false);
   const [versionCount, setVersionCount] = useState<number>(0);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -41,6 +42,28 @@ export const TrackCard = ({
       setVersionCount(count || 0);
     };
     fetchVersionCount();
+    
+    // Subscribe to track_stems for real-time updates
+    const channel = supabase
+      .channel(`track-stems-${track.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'track_stems',
+          filter: `track_id=eq.${track.id}`,
+        },
+        (payload) => {
+          console.log('Stem update:', payload);
+          setIsProcessing(false);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [track.id]);
 
   // Determine track type icon
@@ -128,7 +151,13 @@ export const TrackCard = ({
 
         {/* Badges */}
         <div className="absolute top-2 left-2 flex gap-1">
-          {track.status && track.status !== 'completed' && (
+          {isProcessing && (
+            <Badge variant="secondary" className="animate-pulse">
+              ⚙️ Обработка...
+            </Badge>
+          )}
+          
+          {track.status && track.status !== 'completed' && !isProcessing && (
             <Badge
               variant={
                 track.status === 'streaming_ready'

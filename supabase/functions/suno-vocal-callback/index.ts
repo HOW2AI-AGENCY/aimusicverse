@@ -20,9 +20,17 @@ serve(async (req) => {
     console.log('Received vocal separation callback:', JSON.stringify(payload, null, 2));
 
     const { code, msg, data } = payload;
-    const { taskId, audioId, vocalUrl, instrumentalUrl } = data || {};
+    
+    // Support multiple data formats from SunoAPI
+    const taskId = data?.taskId || data?.task_id;
+    const audioId = data?.audioId || data?.audio_id;
+    const vocalUrl = data?.vocalUrl || data?.vocal_url;
+    const instrumentalUrl = data?.instrumentalUrl || data?.instrumental_url;
+
+    console.log('Parsed callback data:', { taskId, audioId, vocalUrl, instrumentalUrl });
 
     if (!taskId || !audioId) {
+      console.error('Missing required data:', { taskId, audioId, fullData: data });
       throw new Error('Missing taskId or audioId');
     }
 
