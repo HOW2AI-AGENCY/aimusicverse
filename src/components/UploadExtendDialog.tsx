@@ -15,9 +15,10 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 interface UploadExtendDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  projectId?: string;
 }
 
-export const UploadExtendDialog = ({ open, onOpenChange }: UploadExtendDialogProps) => {
+export const UploadExtendDialog = ({ open, onOpenChange, projectId }: UploadExtendDialogProps) => {
   const [loading, setLoading] = useState(false);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [audioDuration, setAudioDuration] = useState<number | null>(null);
@@ -109,6 +110,7 @@ export const UploadExtendDialog = ({ open, onOpenChange }: UploadExtendDialogPro
           styleWeight: styleWeight[0],
           weirdnessConstraint: weirdnessConstraint[0],
           audioWeight: audioWeight[0],
+          projectId: projectId || undefined,
         },
       });
 

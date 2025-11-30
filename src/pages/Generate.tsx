@@ -8,10 +8,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Music, Sparkles, Loader2, Zap, FileAudio } from 'lucide-react';
+import { Music, Sparkles, Loader2, Zap, FileAudio, Disc } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { UploadExtendDialog } from '@/components/UploadExtendDialog';
+import { UploadCoverDialog } from '@/components/UploadCoverDialog';
 
 export default function Generate() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -19,6 +20,7 @@ export default function Generate() {
   const [loading, setLoading] = useState(false);
   const [boostLoading, setBoostLoading] = useState(false);
   const [uploadExtendOpen, setUploadExtendOpen] = useState(false);
+  const [uploadCoverOpen, setUploadCoverOpen] = useState(false);
   
   // Simple mode state
   const [description, setDescription] = useState('');
@@ -296,7 +298,7 @@ export default function Generate() {
             <li>• Генерация занимает 2-5 минут</li>
           </ul>
           
-          <div className="mt-6 pt-6 border-t">
+          <div className="mt-6 pt-6 border-t space-y-2">
             <Button
               onClick={() => setUploadExtendOpen(true)}
               variant="outline"
@@ -305,6 +307,14 @@ export default function Generate() {
               <FileAudio className="w-4 h-4" />
               Загрузить и расширить аудио
             </Button>
+            <Button
+              onClick={() => setUploadCoverOpen(true)}
+              variant="outline"
+              className="w-full gap-2"
+            >
+              <Disc className="w-4 h-4" />
+              Создать кавер аудио
+            </Button>
           </div>
         </Card>
       </div>
@@ -312,6 +322,10 @@ export default function Generate() {
       <UploadExtendDialog 
         open={uploadExtendOpen}
         onOpenChange={setUploadExtendOpen}
+      />
+      <UploadCoverDialog 
+        open={uploadCoverOpen}
+        onOpenChange={setUploadCoverOpen}
       />
     </div>
   );
