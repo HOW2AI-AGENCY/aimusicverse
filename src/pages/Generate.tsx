@@ -13,6 +13,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { UploadExtendDialog } from '@/components/UploadExtendDialog';
 import { UploadCoverDialog } from '@/components/UploadCoverDialog';
+import { savePromptToHistory } from '@/components/generate-form/PromptHistory';
 
 export default function Generate() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -104,6 +105,16 @@ export default function Generate() {
       });
 
       if (error) throw error;
+
+      // Save to prompt history
+      savePromptToHistory({
+        mode,
+        description: mode === 'simple' ? description : undefined,
+        title: mode === 'custom' ? title : undefined,
+        style: mode === 'custom' ? style : undefined,
+        lyrics: mode === 'custom' && !instrumental ? lyrics : undefined,
+        model: 'V4_5ALL',
+      });
 
       toast.success('Генерация началась!', {
         description: 'Ваш трек появится в библиотеке через несколько минут',
