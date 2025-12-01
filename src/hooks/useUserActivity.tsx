@@ -1,7 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./useAuth";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
+
+interface Activity {
+  action_type: string;
+  action_data?: Record<string, unknown>;
+}
 
 export const useUserActivity = () => {
   const { user } = useAuth();
@@ -27,10 +32,9 @@ export const useUserActivity = () => {
 export const useCreateActivity = () => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
-  const { toast } = useToast();
 
   return useMutation({
-    mutationFn: async (activity: { action_type: string; action_data?: any }) => {
+    mutationFn: async (activity: Activity) => {
       if (!user?.id) throw new Error("No user");
 
       const { data, error } = await supabase
@@ -49,10 +53,8 @@ export const useCreateActivity = () => {
       queryClient.invalidateQueries({ queryKey: ['user_activity', user?.id] });
     },
     onError: (error) => {
-      toast({
-        title: "Ошибка",
-        description: "Не удалось сохранить действие",
-        variant: "destructive",
+      toast.error("Не удалось сохранить действие", {
+        description: error.message,
       });
     },
   });

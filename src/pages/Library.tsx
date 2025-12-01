@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Navigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal } from 'lucide-react';
-import { useTracks } from '@/hooks/useTracksOptimized';
+import { useTracks, type Track } from '@/hooks/useTracksOptimized';
 import { TrackCard } from '@/components/TrackCard';
 import { Button } from '@/components/ui/button';
 import { GenerationProgress } from '@/components/GenerationProgress';
-import { FullscreenPlayer } from '@/components/FullscreenPlayer';
 import { useGenerationRealtime } from '@/hooks/useGenerationRealtime';
 import { useTrackVersions } from '@/hooks/useTrackVersions';
 import { usePlayerStore } from '@/hooks/usePlayerState';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ErrorBoundaryWrapper } from '@/components/ErrorBoundaryWrapper';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useDebounce } from 'use-debounce';
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -22,6 +22,7 @@ export default function Library() {
   const { activeTrack, playTrack } = usePlayerStore();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState<'recent' | 'popular' | 'liked'>('recent');
+  const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
 
   useGenerationRealtime();
 
@@ -32,7 +33,10 @@ export default function Library() {
     toggleLike,
     logPlay,
     downloadTrack,
-  } = useTracks();
+  } = useTracks({
+    searchQuery: debouncedSearchQuery,
+    sortBy,
+  });
 
   const fullscreenTrackId = activeTrack?.id;
   const { data: versions } = useTrackVersions(fullscreenTrackId || '');
@@ -49,25 +53,9 @@ export default function Library() {
     return <Navigate to="/auth" replace />;
   }
 
-  let filteredTracks = (tracks || []).filter(
-    (track) =>
-      track.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      track.prompt?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      track.style?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const tracksToDisplay = tracks || [];
 
-  // Sort tracks
-  if (sortBy === 'popular') {
-    filteredTracks = [...filteredTracks].sort((a, b) => (b.play_count || 0) - (a.play_count || 0));
-  } else if (sortBy === 'liked') {
-    filteredTracks = [...filteredTracks].sort((a, b) => (b.likes_count || 0) - (a.likes_count || 0));
-  } else {
-    filteredTracks = [...filteredTracks].sort((a, b) => 
-      new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
-    );
-  }
-
-  const handlePlay = (track: any) => {
+  const handlePlay = (track: Track) => {
     if (!track.audio_url) return;
     playTrack(track);
     logPlay(track.id);
@@ -136,7 +124,7 @@ export default function Library() {
                 />
               </div>
               
-              <Select value={sortBy} onValueChange={(v: any) => setSortBy(v)}>
+              <Select value={sortBy} onValueChange={(v: 'recent' | 'popular' | 'liked') => setSortBy(v)}>
                 <SelectTrigger className="w-40">
                   <SlidersHorizontal className="w-4 h-4 mr-2" />
                   <SelectValue />
@@ -157,7 +145,7 @@ export default function Library() {
             <div className="flex items-center justify-center py-12">
               <Loader2 className="w-8 h-8 animate-spin text-primary" />
             </div>
-          ) : filteredTracks.length === 0 ? (
+          ) : tracksToDisplay.length === 0 ? (
             <Card className="glass-card border-primary/20 p-12 text-center">
               <Music2 className="w-16 h-16 mx-auto text-muted-foreground/50 mb-4" />
               <h3 className="text-lg font-semibold mb-2">
@@ -178,7 +166,7 @@ export default function Library() {
               }
             >
               <AnimatePresence mode="popLayout">
-                {filteredTracks.map((track) => (
+                {tracksToDisplay.map((track) => (
                   <motion.div
                     key={track.id}
                     layout

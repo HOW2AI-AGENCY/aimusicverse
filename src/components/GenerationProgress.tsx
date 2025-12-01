@@ -7,7 +7,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { AudioPlayer } from './AudioPlayer';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useGenerationRealtime } from '@/hooks/useGenerationRealtime';
@@ -61,7 +61,6 @@ export const GenerationProgress = () => {
   const queryClient = useQueryClient();
   const [checkingStatus, setCheckingStatus] = useState<string | null>(null);
   const [playingTrackId, setPlayingTrackId] = useState<string | null>(null);
-  const { toast } = useToast();
 
   // Set up realtime updates for generation tasks
   useGenerationRealtime();
@@ -145,8 +144,7 @@ export const GenerationProgress = () => {
       queryClient.invalidateQueries({ queryKey: ['generation_tasks'] });
 
       if (data.status === 'completed') {
-        toast({
-          title: 'Трек готов! 🎵',
+        toast.success('Трек готов! 🎵', {
           description: 'Генерация успешно завершена',
         });
         
@@ -164,32 +162,26 @@ export const GenerationProgress = () => {
               console.error('Auto-analysis error:', analysisError);
             } else {
               console.log('Auto-analysis started:', analysisData);
-              toast({
-                title: 'Анализ запущен',
+              toast.info('Анализ запущен', {
                 description: 'AI анализирует ваш трек',
               });
             }
           });
         }
       } else if (data.status === 'failed') {
-        toast({
-          title: 'Ошибка генерации',
+        toast.error('Ошибка генерации', {
           description: data.error || 'Не удалось сгенерировать трек',
-          variant: 'destructive',
         });
       } else {
-        toast({
-          title: 'Генерация продолжается',
+        toast.info('Генерация продолжается', {
           description: `Статус: ${data.status || data.progress || 'обработка'}`,
         });
       }
     } catch (error: unknown) {
       console.error('Check status error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Не удалось проверить статус';
-      toast({
-        title: 'Ошибка проверки',
+      toast.error('Ошибка проверки', {
         description: errorMessage,
-        variant: 'destructive',
       });
     } finally {
       setCheckingStatus(null);

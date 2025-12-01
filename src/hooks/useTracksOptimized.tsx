@@ -55,24 +55,51 @@ const retryWithBackoff = async <T,>(
   }
 };
 
-export const useTracks = (projectId?: string) => {
+interface UseTracksParams {
+  projectId?: string;
+  searchQuery?: string;
+  sortBy?: 'recent' | 'popular' | 'liked';
+}
+
+export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTracksParams = {}) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
   // Fetch tracks with optimized query
   const { data: tracks, isLoading, error, refetch } = useQuery({
-    queryKey: ['tracks', user?.id, projectId],
+    queryKey: ['tracks', user?.id, projectId, searchQuery, sortBy],
     queryFn: async () => {
       if (!user?.id) return [];
 
-      console.log('🔄 Fetching tracks for user:', user.id);
+      console.log(`🔄 Fetching tracks for user: ${user.id} with query: "${searchQuery}" sorted by: "${sortBy}"`);
 
       return retryWithBackoff(async () => {
         let query = supabase
           .from('tracks')
           .select('*')
-          .eq('user_id', user.id)
-          .order('created_at', { ascending: false });
+          .eq('user_id', user.id);
+
+        // Server-side search
+        if (searchQuery) {
+          // Using textSearch for better performance on larger datasets.
+          // Note: This requires a GIN index on the 'prompt' and 'title' columns for efficiency.
+          // Example SQL: CREATE INDEX tracks_search_idx ON tracks USING GIN (to_tsvector('russian', title || ' ' || prompt));
+          query = query.textSearch('prompt', searchQuery, { type: 'websearch', config: 'russian' });
+        }
+
+        // Server-side sorting
+        switch (sortBy) {
+          case 'popular':
+            query = query.order('play_count', { ascending: false, nullsFirst: false });
+            break;
+          case 'liked':
+            query = query.order('likes_count', { ascending: false, nullsFirst: false });
+            break;
+          case 'recent':
+          default:
+            query = query.order('created_at', { ascending: false });
+            break;
+        }
 
         if (projectId) {
           query = query.eq('project_id', projectId);
