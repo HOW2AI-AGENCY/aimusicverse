@@ -4,7 +4,6 @@ import * as AuthHook from '@/hooks/useAuth';
 import * as TracksHook from '@/hooks/useTracksOptimized';
 import * as PlayerStore from '@/hooks/usePlayerState';
 import { Track } from '@/hooks/useTracksOptimized';
-import { fn } from '@storybook/test';
 
 const meta: Meta<typeof Library> = {
   title: 'Pages/Library',
@@ -39,12 +38,12 @@ const mockAllHooks = (isLoading = false, tracks = mockTracks) => {
     jest.spyOn(TracksHook, 'useTracks').mockReturnValue({
       tracks,
       isLoading,
-      deleteTrack: fn(),
-      toggleLike: fn(),
-      logPlay: fn(),
-      downloadTrack: fn(),
+      deleteTrack: jest.fn(),
+      toggleLike: jest.fn(),
+      logPlay: jest.fn(),
+      downloadTrack: jest.fn(),
     });
-    jest.spyOn(PlayerStore, 'usePlayerStore').mockReturnValue({ activeTrack: tracks.length > 0 ? tracks[0] : null, playTrack: fn() });
+    jest.spyOn(PlayerStore, 'usePlayerStore').mockReturnValue({ activeTrack: tracks.length > 0 ? tracks[0] : null, playTrack: jest.fn() });
   };
 
 export const Default: Story = {
