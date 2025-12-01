@@ -2,11 +2,11 @@
   "name": "aimusicverse",
   "version": "1.0.0",
   "scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "build:dev": "vite build --mode development",
-  "preview": "vite preview"
-},
+    "dev": "vite",
+    "build": "vite build",
+    "build:dev": "vite build --mode development",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "^5.2.2",
@@ -45,6 +45,7 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.2.2",
+    "autoprefixer": "^10.4.22",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -57,6 +58,7 @@
     "lovable-tagger": "^1.1.11",
     "lucide-react": "^0.555.0",
     "next-themes": "^0.4.6",
+    "postcss": "^8.5.6",
     "react": "^19.2.0",
     "react-day-picker": "^9.11.3",
     "react-dom": "^19.2.0",
@@ -66,6 +68,7 @@
     "recharts": "^3.5.1",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0",
+    "tailwindcss": "^4.1.17",
     "ts-jest": "^29.4.5",
     "ts-node": "^10.9.2",
     "vaul": "^1.1.2",
