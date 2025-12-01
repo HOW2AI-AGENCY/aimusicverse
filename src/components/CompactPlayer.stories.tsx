@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { CompactPlayer } from './CompactPlayer';
 import { Track } from '@/hooks/useTracksOptimized';
-import { fn } from '@storybook/test';
+// import { fn } from '@storybook/test';
 import * as AudioPlayerHook from '@/hooks/useAudioPlayer';
 import * as LyricsHook from '@/hooks/useTimestampedLyrics';
+
+const fn = () => {};
 
 const meta: Meta<typeof CompactPlayer> = {
   title: 'Components/CompactPlayer',
@@ -46,22 +48,22 @@ const mockTrack: Track = {
 const mockWaveformData = Array.from({ length: 100 }, () => Math.random());
 
 const mockAudioPlayer = (isPlaying: boolean, currentTime: number) => {
-    jest.spyOn(AudioPlayerHook, 'useAudioPlayer').mockImplementation(() => ({
-        isPlaying,
-        currentTime,
-        duration: 240,
-        togglePlay: fn(),
-        seek: fn(),
-        setVolume: fn(),
-      }));
+    // jest.spyOn(AudioPlayerHook, 'useAudioPlayer').mockImplementation(() => ({
+    //     isPlaying,
+    //     currentTime,
+    //     duration: 240,
+    //     togglePlay: fn(),
+    //     seek: fn(),
+    //     setVolume: fn(),
+    //   }));
 }
 
 const mockLyrics = (isLoading: boolean, waveformData: number[]) => {
-    jest.spyOn(LyricsHook, 'useTimestampedLyrics').mockImplementation(() => ({
-        data: { waveformData },
-        isLoading,
-        isError: false,
-      }));
+    // jest.spyOn(LyricsHook, 'useTimestampedLyrics').mockImplementation(() => ({
+    //     data: { waveformData },
+    //     isLoading,
+    //     isError: false,
+    //   }));
 }
 
 export const Default: Story = {
