@@ -18,6 +18,7 @@ interface TrackCardProps {
   onDownload?: () => void;
   onToggleLike?: () => void;
   isPlaying?: boolean;
+  layout?: 'grid' | 'list';
 }
 
 export const TrackCard = ({
@@ -27,6 +28,7 @@ export const TrackCard = ({
   onDownload,
   onToggleLike,
   isPlaying,
+  layout = 'grid',
 }: TrackCardProps) => {
   const [imageError, setImageError] = useState(false);
   const [versionCount, setVersionCount] = useState<number>(0);
@@ -124,6 +126,72 @@ export const TrackCard = ({
       setSheetOpen(true);
     }
   };
+
+  if (layout === 'list') {
+    return (
+        <>
+            <Card className="group overflow-hidden hover:shadow-lg transition-all cursor-pointer flex items-center" onClick={handleCardClick}>
+                <div className="relative w-20 h-20 flex-shrink-0" data-play-button>
+                    {track.cover_url && !imageError ? (
+                        <img
+                            src={track.cover_url}
+                            alt={track.title || 'Track cover'}
+                            className="w-full h-full object-cover cursor-pointer"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onPlay?.();
+                            }}
+                            onError={() => setImageError(true)}
+                        />
+                    ) : (
+                        <div
+                            className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center cursor-pointer"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onPlay?.();
+                            }}
+                        >
+                            <div className="text-4xl font-bold text-primary/20">
+                                {track.title?.charAt(0) || '♪'}
+                            </div>
+                        </div>
+                    )}
+                </div>
+                <div className="p-4 flex-grow">
+                    <h3 className="font-semibold text-lg truncate">{track.title || 'Без названия'}</h3>
+                    <p className="text-sm text-muted-foreground truncate">{track.style || 'Нет стиля'}</p>
+                </div>
+                <div className="p-4 flex items-center gap-2 flex-shrink-0">
+                    <Button
+                        size="icon"
+                        variant={track.is_liked ? 'default' : 'ghost'}
+                        onClick={onToggleLike}
+                        className="h-8 w-8"
+                    >
+                        <Heart className={`w-4 h-4 ${track.is_liked ? 'fill-current' : ''}`} />
+                    </Button>
+                    {isMobile ? (
+                        <Button
+                            size="icon"
+                            variant="ghost"
+                            className="h-8 w-8"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setSheetOpen(true);
+                            }}
+                        >
+                            <MoreHorizontal className="w-4 h-4" />
+                        </Button>
+                    ) : (
+                        <TrackActionsMenu track={track} onDelete={onDelete} onDownload={onDownload} />
+                    )}
+                </div>
+            </Card>
+            <TrackActionsSheet track={track} open={sheetOpen} onOpenChange={setSheetOpen} onDelete={onDelete} onDownload={onDownload} />
+        </>
+    );
+}
+
 
   return (
     <>

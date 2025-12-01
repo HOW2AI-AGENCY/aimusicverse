@@ -35,8 +35,8 @@ export interface Track {
   vocal_gender: string | null;
   style_weight: number | null;
   negative_tags: string | null;
-  likes_count?: number;
-  is_liked?: boolean;
+  likes_count: number;
+  is_liked: boolean;
 }
 
 const RETRY_ATTEMPTS = 3;
