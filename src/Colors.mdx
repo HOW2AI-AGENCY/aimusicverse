@@ -1,0 +1,72 @@
+import { Meta, Title, Subtitle, Primary } from '@storybook/addon-docs/blocks';
+
+<Meta title="Design System/Colors" />
+
+<Title>Color Palette</Title>
+
+<Subtitle>
+  The color palette for MusicVerse AI is designed to be modern, energetic, and accessible.
+  It supports both a light and a dark theme, which are defined using CSS variables in `src/index.css`.
+</Subtitle>
+
+<Primary>
+  <div className="flex items-center justify-center p-4">
+    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      <div className="flex flex-col items-center">
+        <div className="w-24 h-24 rounded-lg bg-background border border-border" />
+        <span className="mt-2 font-semibold">Background</span>
+        <span className="text-muted-foreground text-sm">bg-background</span>
+      </div>
+      <div className="flex flex-col items-center">
+        <div className="w-24 h-24 rounded-lg bg-foreground" />
+        <span className="mt-2 font-semibold">Foreground</span>
+        <span className="text-muted-foreground text-sm">text-foreground</span>
+      </div>
+      <div className="flex flex-col items-center">
+        <div className="w-24 h-24 rounded-lg bg-card" />
+        <span className="mt-2 font-semibold">Card</span>
+        <span className="text-muted-foreground text-sm">bg-card</span>
+      </div>
+      <div className="flex flex-col items-center">
+        <div className="w-24 h-24 rounded-lg bg-primary" />
+        <span className="mt-2 font-semibold">Primary</span>
+        <span className="text-muted-foreground text-sm">bg-primary</span>
+      </div>
+      <div className="flex flex-col items-center">
+        <div className="w-24 h-24 rounded-lg bg-secondary" />
+        <span className="mt-2 font-semibold">Secondary</span>
+        <span className="text-muted-foreground text-sm">bg-secondary</span>
+      </div>
+      <div className="flex flex-col items-center">
+        <div className="w-24 h-24 rounded-lg bg-accent" />
+        <span className="mt-2 font-semibold">Accent</span>
+        <span className="text-muted-foreground text-sm">bg-accent</span>
+      </div>
+      <div className="flex flex-col items-center">
+        <div className="w-24 h-24 rounded-lg bg-muted" />
+        <span className="mt-2 font-semibold">Muted</span>
+        <span className="text-muted-foreground text-sm">bg-muted</span>
+      </div>
+      <div className="flex flex-col items-center">
+        <div className="w-24 h-24 rounded-lg bg-destructive" />
+        <span className="mt-2 font-semibold">Destructive</span>
+        <span className="text-muted-foreground text-sm">bg-destructive</span>
+      </div>
+      <div className="flex flex-col items-center">
+        <div className="w-24 h-24 rounded-lg bg-border" />
+        <span className="mt-2 font-semibold">Border</span>
+        <span className="text-muted-foreground text-sm">border-border</span>
+      </div>
+       <div className="flex flex-col items-center">
+        <div className="w-24 h-24 rounded-lg bg-input" />
+        <span className="mt-2 font-semibold">Input</span>
+        <span className="text-muted-foreground text-sm">bg-input</span>
+      </div>
+    </div>
+  </div>
+</Primary>
+
+### Usage
+
+Colors are applied using Tailwind CSS utility classes. For example, to set the background color to the primary color, you would use the class `bg-primary`.
+The system is built on top of CSS variables, which allows for easy theming. You can find the variable definitions in `:root` and `.dark` selectors in `src/index.css`.
