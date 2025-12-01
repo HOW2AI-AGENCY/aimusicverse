@@ -281,9 +281,11 @@ When working on music generation features:
 - [Contributing Guide](../CONTRIBUTING.md)
 - [Development Workflow](../DEVELOPMENT_WORKFLOW.md)
 - [Project Management](../PROJECT_MANAGEMENT.md)
-- [Meta Tags Documentation](../docs/META_TAGS.md)
-- [Music Styles](../docs/STYLES.md)
-- [Language Support](../docs/LANGUAGES.md)
+- [Database Documentation](../docs/DATABASE.md)
+- [Suno API Documentation](../docs/SUNO_API.md)
+- [Telegram Bot Architecture](../docs/TELEGRAM_BOT_ARCHITECTURE.md)
+- [Navigation System](../docs/NAVIGATION_SYSTEM.md)
+- [Project Specification](../docs/PROJECT_SPECIFICATION.md)
 
 ## Questions or Issues?
 
