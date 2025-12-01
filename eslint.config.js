@@ -23,4 +23,4 @@ export default tseslint.config({ ignores: ["dist"] }, {
     "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
     "@typescript-eslint/no-unused-vars": "off",
   },
-}, storybook.configs["flat/recommended"]);
+}, storybook.configs["flat/recommended"], storybook.configs["flat/recommended"], storybook.configs["flat/recommended"]);
