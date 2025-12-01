@@ -9,7 +9,7 @@ import { TrackCard } from '@/components/TrackCard';
 import { Button } from '@/components/ui/button';
 import { GenerationProgress } from '@/components/GenerationProgress';
 import { FullscreenPlayer } from '@/components/FullscreenPlayer';
-import { useGenerationPolling } from '@/hooks/useGenerationPolling';
+import { useGenerationRealtime } from '@/hooks/useGenerationRealtime';
 import { useTrackVersions } from '@/hooks/useTrackVersions';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ErrorBoundaryWrapper } from '@/components/ErrorBoundaryWrapper';
@@ -23,7 +23,7 @@ export default function Library() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState<'recent' | 'popular' | 'liked'>('recent');
 
-  useGenerationPolling();
+  useGenerationRealtime();
 
   const {
     tracks,
