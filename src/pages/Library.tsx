@@ -34,6 +34,7 @@ export default function Library() {
     downloadTrack,
   } = useTracks();
 
+  const fullscreenTrackId = activeTrack?.id;
   const { data: versions } = useTrackVersions(fullscreenTrackId || '');
 
   if (authLoading) {
