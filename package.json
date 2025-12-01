@@ -2,8 +2,11 @@
   "name": "aimusicverse",
   "version": "1.0.0",
   "scripts": {
-    "create-project": "ts-node src/scripts/create-project.ts"
-  },
+  "dev": "vite",
+  "build": "vite build",
+  "build:dev": "vite build --mode development",
+  "preview": "vite preview"
+},
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "^5.2.2",
