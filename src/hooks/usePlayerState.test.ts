@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
-import { usePlayerStore } from './usePlayerState';
+import { usePlayerStore, playerLogic } from './usePlayerState';
 import { Track } from '@/hooks/useTracksOptimized';
 
 const mockTrack: Track = {
@@ -14,7 +14,6 @@ const mockTrack: Track = {
 
 describe('usePlayerStore', () => {
   beforeEach(() => {
-    // Reset the store before each test
     act(() => {
       usePlayerStore.setState({ activeTrack: null, isPlaying: false });
     });
@@ -22,31 +21,18 @@ describe('usePlayerStore', () => {
 
   it('should not change track reference when playing the same track that is paused', () => {
     const { result } = renderHook(() => usePlayerStore());
-
-    // 1. Play a track
     act(() => {
       result.current.playTrack(mockTrack);
     });
-
-    // Hold a reference to the initially set track object
     const initialTrackReference = result.current.activeTrack;
     expect(result.current.isPlaying).toBe(true);
-
-    // 2. Pause the track
     act(() => {
       result.current.pauseTrack();
     });
     expect(result.current.isPlaying).toBe(false);
-
-    // 3. Play the "same" track again, but as a different object reference
-    // This simulates the track object coming from a different component or API call
     act(() => {
       result.current.playTrack({ ...mockTrack });
     });
-
-    // THE BUG: The current implementation replaces the activeTrack object,
-    // which would cause React to re-mount the player component.
-    // This assertion will fail because the store creates a new object instead of just updating isPlaying.
     expect(result.current.activeTrack).toBe(initialTrackReference);
     expect(result.current.isPlaying).toBe(true);
   });
@@ -54,19 +40,51 @@ describe('usePlayerStore', () => {
   it('should play a new track when one is already active', () => {
     const { result } = renderHook(() => usePlayerStore());
     const anotherTrack: Track = { ...mockTrack, id: '2', title: 'Another Track' };
-
-    // 1. Play the first track
     act(() => {
       result.current.playTrack(mockTrack);
     });
-
-    // 2. Play a different track
     act(() => {
       result.current.playTrack(anotherTrack);
     });
-
-    // The active track should be the new track
     expect(result.current.activeTrack?.id).toEqual(anotherTrack.id);
     expect(result.current.isPlaying).toBe(true);
+  });
+
+  it('should do nothing if the same track is played while already playing', () => {
+    const { result } = renderHook(() => usePlayerStore());
+    act(() => {
+      result.current.playTrack(mockTrack);
+    });
+    const initialTrackReference = result.current.activeTrack;
+    expect(result.current.isPlaying).toBe(true);
+    act(() => {
+      result.current.playTrack({ ...mockTrack });
+    });
+    expect(result.current.activeTrack).toBe(initialTrackReference);
+    expect(result.current.isPlaying).toBe(true);
+  });
+});
+
+describe('playerLogic', () => {
+  it('should set isPlaying to true for a paused track', () => {
+    const set = jest.fn();
+    const get = jest.fn(() => ({ activeTrack: mockTrack, isPlaying: false }));
+    playerLogic.playTrack(set, get, mockTrack);
+    expect(set).toHaveBeenCalledWith({ isPlaying: true });
+  });
+
+  it('should set a new active track', () => {
+    const set = jest.fn();
+    const get = jest.fn(() => ({ activeTrack: null, isPlaying: false }));
+    const newTrack = { ...mockTrack, id: '2' };
+    playerLogic.playTrack(set, get, newTrack);
+    expect(set).toHaveBeenCalledWith({ activeTrack: newTrack, isPlaying: true });
+  });
+
+  it('should do nothing if the same track is already playing', () => {
+    const set = jest.fn();
+    const get = jest.fn(() => ({ activeTrack: mockTrack, isPlaying: true }));
+    playerLogic.playTrack(set, get, mockTrack);
+    expect(set).not.toHaveBeenCalled();
   });
 });

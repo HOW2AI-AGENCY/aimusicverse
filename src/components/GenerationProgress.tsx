@@ -183,11 +183,12 @@ export const GenerationProgress = () => {
           description: `Статус: ${data.status || data.progress || 'обработка'}`,
         });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Check status error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Не удалось проверить статус';
       toast({
         title: 'Ошибка проверки',
-        description: error.message || 'Не удалось проверить статус',
+        description: errorMessage,
         variant: 'destructive',
       });
     } finally {

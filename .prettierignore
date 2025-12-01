@@ -1,0 +1,14 @@
+# Ignore artifacts:
+build
+dist
+coverage
+
+# Ignore dependencies:
+node_modules
+
+# Ignore docs and markdown files for now
+*.md
+docs/
+
+# Ignore Supabase generated files
+supabase/functions/suno-api/index.ts

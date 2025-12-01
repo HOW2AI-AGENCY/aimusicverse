@@ -67,7 +67,7 @@ export const parseTextToSections = (text: string): LyricSection[] => {
   const lines = text.split('\n');
   
   let currentSection: LyricSection | null = null;
-  let sectionCounter: Record<SectionType, number> = {} as Record<SectionType, number>;
+  const sectionCounter: Record<SectionType, number> = {} as Record<SectionType, number>;
   
   lines.forEach((line) => {
     // Check if line is a section header - now supports numbered sections and variations
@@ -80,7 +80,7 @@ export const parseTextToSections = (text: string): LyricSection[] => {
       }
       
       // Create new section
-      let typeStr = headerMatch[1].toLowerCase().replace(/^pre-?chorus$/i, 'pre_chorus').replace('-', '_');
+      const typeStr = headerMatch[1].toLowerCase().replace(/^pre-?chorus$/i, 'pre_chorus').replace('-', '_');
       const type = typeStr as SectionType;
       
       sectionCounter[type] = (sectionCounter[type] || 0) + 1;

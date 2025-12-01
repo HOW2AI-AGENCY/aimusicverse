@@ -143,11 +143,12 @@ export async function handleUpdate(update: TelegramUpdate) {
       const { command, args } = cmd;
 
       switch (command) {
-        case 'start':
+        case 'start': {
           // Check for start parameter in the command
           const startParam = args || undefined;
           await handleStart(chat.id, startParam);
           break;
+        }
 
         case 'help':
           await handleHelp(chat.id);
@@ -173,18 +174,20 @@ export async function handleUpdate(update: TelegramUpdate) {
           });
           break;
 
-        case 'track':
+        case 'track': {
           if (args) {
             const trackId = args.replace('_', '');
             const { handleTrackDetails } = await import('./commands/share.ts');
             await handleTrackDetails(chat.id, trackId);
           }
           break;
+        }
 
-        case 'settings':
+        case 'settings': {
           const { handleSettings } = await import('./commands/settings.ts');
           await handleSettings(chat.id);
           break;
+        }
 
         default:
           await sendMessage(

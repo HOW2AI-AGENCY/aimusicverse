@@ -48,7 +48,7 @@ export function AudioWaveformVisualizer({
 
         // Optimized sampling - take max instead of average for better visual
         for (let i = 0; i < samples; i++) {
-          let blockStart = blockSize * i;
+          const blockStart = blockSize * i;
           let max = 0;
           // Sample every 4th point instead of all points
           for (let j = 0; j < blockSize; j += 4) {
