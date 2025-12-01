@@ -44,7 +44,7 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
     const parsed: LyricSection[] = [];
     const lines = text.split('\n');
     let currentSection: LyricSection | null = null;
-    let sectionCounter = { verse: 0, chorus: 0 };
+    const sectionCounter = { verse: 0, chorus: 0 };
 
     for (const line of lines) {
       const match = line.match(/\[(\w+)(?:\s+\d+)?\]/i);

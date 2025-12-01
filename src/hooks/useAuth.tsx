@@ -8,7 +8,7 @@ export interface AuthResult {
   user: User | null;
   session: Session | null;
   hasProfile: boolean;
-  error?: any;
+  error?: Error | null;
 }
 
 export const useAuth = () => {
@@ -202,7 +202,7 @@ export const useAuth = () => {
     } catch (error) {
       console.error('❌ Unexpected auth error:', error);
       toast.error('Ошибка авторизации');
-      return { user: null, session: null, hasProfile: false, error };
+      return { user: null, session: null, hasProfile: false, error: error instanceof Error ? error : new Error(String(error)) };
     } finally {
       setLoading(false);
     }

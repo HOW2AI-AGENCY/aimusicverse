@@ -228,29 +228,29 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
           selectionChanged: () => console.log('Mock Selection changed'),
         },
         CloudStorage: {
-          setItem: (key: string, value: string, callback?: any) => {
+          setItem: (key: string, value: string, callback?: (error: string | null, success: boolean) => void) => {
             console.log('Mock CloudStorage.setItem:', key);
             localStorage.setItem(`mock_cloud_${key}`, value);
             callback?.(null, true);
           },
-          getItem: (key: string, callback: any) => {
+          getItem: (key: string, callback: (error: string | null, value: string) => void) => {
             console.log('Mock CloudStorage.getItem:', key);
             const value = localStorage.getItem(`mock_cloud_${key}`) || '';
             callback(null, value);
           },
-          removeItem: (key: string, callback?: any) => {
+          removeItem: (key: string, callback?: (error: string | null, success: boolean) => void) => {
             console.log('Mock CloudStorage.removeItem:', key);
             localStorage.removeItem(`mock_cloud_${key}`);
             callback?.(null, true);
           },
-          getKeys: (callback: any) => {
+          getKeys: (callback: (error: string | null, keys: string[]) => void) => {
             console.log('Mock CloudStorage.getKeys');
             const keys = Object.keys(localStorage)
               .filter(k => k.startsWith('mock_cloud_'))
               .map(k => k.replace('mock_cloud_', ''));
             callback(null, keys);
           },
-          getItems: (keys: string[], callback: any) => {
+          getItems: (keys: string[], callback: (error: string | null, values: Record<string, string>) => void) => {
             console.log('Mock CloudStorage.getItems:', keys);
             const values: Record<string, string> = {};
             keys.forEach(key => {
@@ -258,13 +258,13 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
             });
             callback(null, values);
           },
-          removeItems: (keys: string[], callback?: any) => {
+          removeItems: (keys: string[], callback?: (error: string | null, success: boolean) => void) => {
             console.log('Mock CloudStorage.removeItems:', keys);
             keys.forEach(key => localStorage.removeItem(`mock_cloud_${key}`));
             callback?.(null, true);
           },
         },
-      } as any;
+      } as unknown as TelegramWebApp;
       
       setWebApp(mockWebApp);
       setIsInitialized(true);
@@ -379,7 +379,7 @@ export const DeepLinkHandler = () => {
   const { webApp } = useTelegram();
 
   useEffect(() => {
-    const startParam = (webApp?.initDataUnsafe as any)?.start_param;
+    const startParam = webApp?.initDataUnsafe?.start_param;
     if (startParam) {
       console.log('Processing deep link with router:', startParam);
       if (startParam.startsWith('track_')) {

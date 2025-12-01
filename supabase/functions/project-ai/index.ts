@@ -77,7 +77,7 @@ serve(async (req) => {
     let result;
 
     switch (action) {
-      case 'concept':
+      case 'concept': {
         // Generate project concept
         const conceptPrompt = `${languageInstruction}
 
@@ -134,8 +134,9 @@ Return as JSON:
           result = { error: 'Failed to parse concept', raw: conceptText };
         }
         break;
+      }
 
-      case 'tracklist':
+      case 'tracklist': {
         // Generate detailed tracklist
         const tracklistPrompt = `${languageInstruction}
 
@@ -227,8 +228,9 @@ Return as JSON array:
           result = { error: 'Failed to parse or insert tracklist', raw: tracklistText };
         }
         break;
+      }
 
-      case 'collaboration':
+      case 'collaboration': {
         // Suggest collaboration ideas
         const collabPrompt = `${languageInstruction}
 
@@ -280,8 +282,9 @@ Return as JSON:
           result = { error: 'Failed to parse collaboration suggestions', raw: collabText };
         }
         break;
+      }
 
-      case 'analyze':
+      case 'analyze': {
         // Analyze project and provide recommendations
         const analyzePrompt = `${languageInstruction}
 
@@ -358,8 +361,9 @@ Return as JSON:
           result = { error: 'Failed to parse analysis', raw: analyzeText };
         }
         break;
+      }
 
-      case 'improve':
+      case 'improve': {
         // Define valid database fields and their aliases
         const validFields = [
           'title', 'description', 'concept', 'target_audience', 
@@ -410,7 +414,7 @@ Return as JSON:
         };
         
         // Normalize field name
-        let normalizedField = fieldMapping[field] || field.toLowerCase().replace(/\s+/g, '_');
+        const normalizedField = fieldMapping[field] || field.toLowerCase().replace(/\s+/g, '_');
         
         // Validate that the field exists in the database
         if (!validFields.includes(normalizedField)) {
@@ -456,6 +460,7 @@ Return ONLY the improved text, no JSON or formatting.`;
           normalizedField // Return normalized field name
         };
         break;
+      }
 
       default:
         throw new Error(`Unknown action: ${action}`);

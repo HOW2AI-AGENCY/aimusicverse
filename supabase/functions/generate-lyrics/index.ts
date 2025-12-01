@@ -53,7 +53,7 @@ serve(async (req) => {
     console.log(`Generating lyrics for user: ${user.id}, language: ${language}`);
 
     // Build compact prompt for SunoAPI (max 200 chars limit)
-    let promptParts: string[] = [];
+    const promptParts: string[] = [];
     
     // Theme is most important, truncate if needed
     const maxThemeLength = 100;

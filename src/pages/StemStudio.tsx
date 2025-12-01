@@ -27,25 +27,28 @@ export default function StemStudio() {
   useEffect(() => {
     if (stems) {
       const initialStates: Record<string, { muted: boolean; solo: boolean; volume: number }> = {};
+      let maxDuration = 0;
+
       stems.forEach(stem => {
         initialStates[stem.id] = { muted: false, solo: false, volume: 0.85 };
         
-        // Create audio element
         const audio = new Audio(stem.audio_url);
         audio.crossOrigin = 'anonymous';
         audioRefs.current[stem.id] = audio;
         
         audio.addEventListener('loadedmetadata', () => {
-          if (audio.duration > duration) {
-            setDuration(audio.duration);
+          if (audio.duration > maxDuration) {
+            maxDuration = audio.duration;
+            setDuration(maxDuration);
           }
         });
       });
       setStemStates(initialStates);
     }
 
+    const audioElements = Object.values(audioRefs.current);
     return () => {
-      Object.values(audioRefs.current).forEach(audio => {
+      audioElements.forEach(audio => {
         audio.pause();
         audio.src = '';
       });
