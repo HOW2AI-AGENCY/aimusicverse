@@ -1,29 +1,33 @@
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { TelegramProvider, DeepLinkHandler } from "@/contexts/TelegramContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { GenerationProgress } from "@/components/GenerationProgress";
-import Index from "./pages/Index";
-import Auth from "./pages/Auth";
-import Studio from "./pages/Studio";
-import StemStudio from "./pages/StemStudio";
-import ProfilePage from "./pages/ProfilePage";
-import Settings from "./pages/Settings";
-import Tasks from "./pages/Tasks";
-import Generate from "./pages/Generate";
-import Library from "./pages/Library";
-import Projects from "./pages/Projects";
-import ProjectDetail from "./pages/ProjectDetail";
-import Artists from "./pages/Artists";
-import Blog from "./pages/Blog";
-import Analytics from "./pages/Analytics";
-import NotFound from "./pages/NotFound";
+
+// Lazy load pages
+const Index = lazy(() => import("./pages/Index"));
+const Auth = lazy(() => import("./pages/Auth"));
+const Studio = lazy(() => import("./pages/Studio"));
+const StemStudio = lazy(() => import("./pages/StemStudio"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const Settings = lazy(() => import("./pages/Settings"));
+const Tasks = lazy(() => import("./pages/Tasks"));
+const Generate = lazy(() => import("./pages/Generate"));
+const Library = lazy(() => import("./pages/Library"));
+const Projects = lazy(() => import("./pages/Projects"));
+const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
+const Artists = lazy(() => import("./pages/Artists"));
+const Blog = lazy(() => import("./pages/Blog"));
+const Analytics = lazy(() => import("./pages/Analytics"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,10 +38,10 @@ const queryClient = new QueryClient({
   },
 });
 
-const ProtectedLayout = ({ children }: { children: React.ReactNode }) => (
+const ProtectedLayout = () => (
   <>
     <GenerationProgress />
-    {children}
+    <Outlet />
     <BottomNavigation />
   </>
 );
@@ -52,24 +56,35 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <DeepLinkHandler />
-              <Routes>
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/" element={<ProtectedRoute><ProtectedLayout><Index /></ProtectedLayout></ProtectedRoute>} />
-                <Route path="/studio" element={<ProtectedRoute><ProtectedLayout><Studio /></ProtectedLayout></ProtectedRoute>} />
-                <Route path="/profile" element={<ProtectedRoute><ProtectedLayout><ProfilePage /></ProtectedLayout></ProtectedRoute>} />
-                <Route path="/settings" element={<ProtectedRoute><ProtectedLayout><Settings /></ProtectedLayout></ProtectedRoute>} />
-                <Route path="/tasks" element={<ProtectedRoute><ProtectedLayout><Tasks /></ProtectedLayout></ProtectedRoute>} />
-                <Route path="/generate" element={<ProtectedRoute><ProtectedLayout><Generate /></ProtectedLayout></ProtectedRoute>} />
-                <Route path="/library" element={<ProtectedRoute><ProtectedLayout><Library /></ProtectedLayout></ProtectedRoute>} />
-                <Route path="/studio/:trackId" element={<ProtectedRoute><StemStudio /></ProtectedRoute>} />
-                <Route path="/projects" element={<ProtectedRoute><ProtectedLayout><Projects /></ProtectedLayout></ProtectedRoute>} />
-                <Route path="/projects/:id" element={<ProtectedRoute><ProtectedLayout><ProjectDetail /></ProtectedLayout></ProtectedRoute>} />
-                <Route path="/artists" element={<ProtectedRoute><ProtectedLayout><Artists /></ProtectedLayout></ProtectedRoute>} />
-                <Route path="/blog" element={<ProtectedRoute><ProtectedLayout><Blog /></ProtectedLayout></ProtectedRoute>} />
-                <Route path="/analytics" element={<ProtectedRoute><ProtectedLayout><Analytics /></ProtectedLayout></ProtectedRoute>} />
+              <Suspense fallback={<div>Loading...</div>}>
+                <Routes>
+                  <Route path="/auth" element={<Auth />} />
+
+                  {/* Routes with BottomNavigation */}
+                <Route element={<ProtectedRoute><ProtectedLayout /></ProtectedRoute>}>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/studio" element={<Studio />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="/tasks" element={<Tasks />} />
+                  <Route path="/generate" element={<Generate />} />
+                  <Route path="/library" element={<Library />} />
+                  <Route path="/projects" element={<Projects />} />
+                  <Route path="/projects/:id" element={<ProjectDetail />} />
+                  <Route path="/artists" element={<Artists />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/analytics" element={<Analytics />} />
+                </Route>
+
+                {/* Routes without BottomNavigation */}
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/studio/:trackId" element={<StemStudio />} />
+                </Route>
+
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
-              </Routes>
+                </Routes>
+              </Suspense>
             </BrowserRouter>
           </TooltipProvider>
         </TelegramProvider>
