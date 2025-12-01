@@ -1,315 +1,101 @@
-# 🗺️ Навигация по проекту MusicVerse
+# 🗺️ Путеводитель по проекту MusicVerse
 
-## 📚 Быстрый доступ к документации
+Добро пожаловать в MusicVerse AI! Этот документ — ваша карта по репозиторию. Он поможет вам быстро найти нужную информацию, понять архитектуру и начать работу.
 
-### Начало работы
-- [README.md](README.md) - Главная страница проекта
-- [Quickstart](TELEGRAM_INTEGRATION_QUICKSTART.md) - Быстрый старт для новых разработчиков
+## 🚀 Ключевые документы
 
-### Архитектура
-- [Telegram Bot Architecture](docs/TELEGRAM_BOT_ARCHITECTURE.md) - Полная спецификация бота на grammY
-- [Database Schema](docs/DATABASE.md) - Структура БД, таблицы, RLS policies
-- [Suno API](docs/SUNO_API.md) - Интеграция с Suno для генерации музыки
+| Файл | Описание |
+|---|---|
+| [**README.md**](README.md) | **Начните отсюда.** Общая информация о проекте, его целях и возможностях. |
+| [**CONTRIBUTING.md**](CONTRIBUTING.md) | Правила и рекомендации для тех, кто хочет внести свой вклад в проект. |
+| [**DEVELOPMENT_WORKFLOW.md**](DEVELOPMENT_WORKFLOW.md) | Описание нашего рабочего процесса, включая GitFlow и стандарты коммитов. |
+| [**PROJECT_MANAGEMENT.md**](PROJECT_MANAGEMENT.md) | Как мы управляем задачами, спринтами и бэклогом. |
+| [**ONBOARDING.md**](ONBOARDING.md) | Пошаговое руководство для новых разработчиков по настройке окружения. |
 
-### Telegram Integration
-- [Integration Summary](TELEGRAM_INTEGRATION_SUMMARY.md) - Обзор интеграции
-- [Features](TELEGRAM_BOT_FEATURES.md) - Список возможностей бота
-- [Checklist](TELEGRAM_INTEGRATION_CHECKLIST.md) - Чек-лист реализации
-- [Mini App Guide](TELEGRAM_MINI_APP_INTEGRATION.md) - Интеграция Mini App
+---
 
-### Спринты и задачи
-- [Sprint 1-2](TELEGRAM_INTEGRATION_SPRINT.md) - Базовые функции (✅ Завершено)
-- [Sprint 3-4](TELEGRAM_INTEGRATION_SPRINT_3_4.md) - Продвинутые функции (✅ Завершено)
-- [Sprint 5-6](TELEGRAM_INTEGRATION_SPRINT_5_6.md) - Native App Interface (🚧 В работе)
+## 🏗️ Архитектура и решения
+
+Наши ключевые архитектурные решения задокументированы в **ADR (Architectural Decision Records)**. Это помогает нам сохранять историю технических выборов и их обоснований.
+
+| ADR | Описание | Статус |
+|---|---|---|
+| [**ADR-001**](ADR/ADR-001-Telegram-Integration-Strategy.md) | Выбор **grammY** для Telegram-бота и **Supabase** для бэкенда. | ✅ Принято |
+| [**ADR-002**](ADR/ADR-002-Frontend-Architecture-And-Stack.md) | Утверждение стека фронтенда: **Vite, React, TS, Tailwind CSS**. | ✅ Принято |
+| [**ADR-003**](ADR/ADR-003-Project-Management-in-Markdown.md) | Решение вести управление проектом в Markdown-файлах внутри репозитория. | ✅ Принято |
 
 ---
 
 ## 📂 Структура проекта
 
+Ниже представлена структура ключевых директорий и файлов проекта.
+
 ```
-musicverse/
+/
+├── .github/             # CI/CD и автоматизация (GitHub Actions)
+├── ADR/                 # Архитектурные решения (ADR)
+├── SPRINTS/             # Управление проектом (спринты, бэклог)
+├── docs/                # Детальная техническая документация
+├── public/              # Статические ассеты (иконки, шрифты)
+├── src/                 # Исходный код фронтенда (React, TypeScript)
+│   ├── components/      # Переиспользуемые UI-компоненты (shadcn/ui)
+│   ├── hooks/           # Пользовательские React-хуки
+│   ├── pages/           # Компоненты страниц (экраны Mini App)
+│   ├── services/        # Логика взаимодействия с API
+│   └── utils/           # Вспомогательные функции
 │
-├── 📄 README.md                          # Главная страница
-├── 📄 NAVIGATION.md                      # Этот файл (навигация)
+├── supabase/            # Бэкенд-часть на Supabase
+│   ├── functions/       # Edge Functions (Deno/TypeScript)
+│   │   ├── telegram-bot/  # Логика Telegram-бота
+│   │   └── suno-api/      # Прокси для взаимодействия с Suno AI
+│   └── migrations/      # Миграции схемы базы данных (SQL)
 │
-├── 📁 docs/                              # Техническая документация
-│   ├── TELEGRAM_BOT_ARCHITECTURE.md      # 🤖 Архитектура бота (grammY)
-│   ├── DATABASE.md                       # 🗄️ Схема БД
-│   ├── SUNO_API.md                       # 🎵 Suno API
-│   └── images/                           # Изображения для доков
-│
-├── 📁 src/                               # Frontend (React + TypeScript)
-│   ├── components/                       # UI компоненты
-│   │   ├── AudioPlayer.tsx               # Аудио плеер
-│   │   ├── TrackCard.tsx                 # Карточка трека
-│   │   ├── GenerationProgress.tsx        # Прогресс генерации
-│   │   └── ...
-│   ├── pages/                            # Страницы Mini App
-│   │   ├── Library.tsx                   # Библиотека треков
-│   │   ├── Projects.tsx                  # Проекты (альбомы)
-│   │   ├── Generate.tsx                  # Генерация музыки
-│   │   └── ...
-│   ├── hooks/                            # Custom React hooks
-│   │   ├── useTracks.tsx                 # Работа с треками
-│   │   ├── useProjects.tsx               # Работа с проектами
-│   │   └── ...
-│   └── integrations/supabase/            # Supabase client
-│       ├── client.ts                     # Supabase клиент (авто-генерация)
-│       └── types.ts                      # DB типы (авто-генерация)
-│
-├── 📁 supabase/                          # Backend (Supabase)
-│   ├── functions/                        # Edge Functions (Deno)
-│   │   │
-│   │   ├── telegram-bot/                 # 🤖 Telegram Bot (grammY)
-│   │   │   ├── bot/
-│   │   │   │   ├── handlers/             # Обработчики команд
-│   │   │   │   │   ├── navigation.ts     # Навигация (main → library → projects)
-│   │   │   │   │   ├── media.ts          # Отправка аудио/stems
-│   │   │   │   │   ├── library.ts        # Библиотека + плеер
-│   │   │   │   │   ├── projects.ts       # Проекты
-│   │   │   │   │   └── share.ts          # Шаринг треков
-│   │   │   │   ├── menus/                # Конструкторы клавиатур
-│   │   │   │   │   ├── main-menu.ts      # Главное меню
-│   │   │   │   │   ├── player.ts         # Плеер (controls)
-│   │   │   │   │   └── share-menu.ts     # Меню шаринга
-│   │   │   │   └── middleware/           # Middleware
-│   │   │   │       ├── auth.ts           # Авторизация
-│   │   │   │       └── session.ts        # State management
-│   │   │   ├── core/
-│   │   │   │   ├── services/             # API сервисы
-│   │   │   │   │   ├── music.ts          # Работа с треками
-│   │   │   │   │   ├── suno.ts           # Suno API
-│   │   │   │   │   └── storage.ts        # Supabase Storage
-│   │   │   │   └── types/                # TypeScript типы
-│   │   │   │       └── bot.ts            # BotContext, Track, Project
-│   │   │   ├── utils/                    # Хелперы
-│   │   │   │   ├── formatting.ts         # Форматирование текста
-│   │   │   │   └── pagination.ts         # Пагинация
-│   │   │   └── index.ts                  # 🚀 Точка входа (Webhook)
-│   │   │
-│   │   ├── suno-music-generate/          # Генерация музыки (Suno)
-│   │   ├── suno-check-status/            # Проверка статуса генерации
-│   │   ├── cleanup-stale-tasks/          # Синхронизация зависших задач
-│   │   ├── send-telegram-notification/   # Уведомления в Telegram
-│   │   └── ...
-│   │
-│   ├── migrations/                       # SQL миграции
-│   │   ├── 20240101_create_tracks.sql
-│   │   └── ...
-│   │
-│   └── config.toml                       # Конфигурация Supabase
-│
-├── 📄 TELEGRAM_INTEGRATION.md            # Общий обзор интеграции
-├── 📄 TELEGRAM_BOT_FEATURES.md           # Список возможностей бота
-├── 📄 TELEGRAM_INTEGRATION_CHECKLIST.md  # Чек-лист реализации
-├── 📄 TELEGRAM_INTEGRATION_QUICKSTART.md # Быстрый старт
-├── 📄 TELEGRAM_INTEGRATION_SUMMARY.md    # Краткое резюме
-├── 📄 TELEGRAM_MINI_APP_INTEGRATION.md   # Mini App интеграция
-│
-├── 📄 TELEGRAM_INTEGRATION_SPRINT.md     # Sprint 1-2 (✅ Done)
-├── 📄 TELEGRAM_INTEGRATION_SPRINT_3_4.md # Sprint 3-4 (✅ Done)
-├── 📄 TELEGRAM_INTEGRATION_SPRINT_5_6.md # Sprint 5-6 (🚧 In Progress)
-│
-├── 📄 package.json                       # Зависимости
-├── 📄 tsconfig.json                      # TypeScript config
-├── 📄 vite.config.ts                     # Vite config
-└── 📄 tailwind.config.ts                 # TailwindCSS config
+├── package.json         # Зависимости и скрипты
+├── vite.config.ts       # Конфигурация сборщика Vite
+└── tailwind.config.ts   # Конфигурация Tailwind CSS
 ```
 
 ---
 
-## 🎯 Быстрые ссылки по задачам
+## 🎯 Навигация по задачам
 
-### Для Frontend разработчиков
-- [React Components](src/components/) - UI компоненты
-- [Pages](src/pages/) - Страницы Mini App
-- [Hooks](src/hooks/) - Custom hooks
-- [TailwindCSS Config](tailwind.config.ts) - Дизайн система
+### Frontend-разработка
+- **UI-компоненты:** `/src/components/`
+- **Экраны приложения:** `/src/pages/`
+- **Управление состоянием:** `/src/hooks/` (Zustand, TanStack Query)
+- **Дизайн-система:** `tailwind.config.ts`, `src/index.css`
 
-### Для Backend разработчиков
-- [Edge Functions](supabase/functions/) - Serverless функции
-- [Telegram Bot](supabase/functions/telegram-bot/) - Код бота
-- [Database Migrations](supabase/migrations/) - SQL миграции
-- [Database Schema](docs/DATABASE.md) - Документация БД
+### Backend-разработка
+- **Логика Telegram-бота:** `/supabase/functions/telegram-bot/`
+- **Взаимодействие с Suno AI:** `/supabase/functions/suno-api/`
+- **Схема базы данных:** `/supabase/migrations/`
+- **Документация по БД:** `/docs/DATABASE_SCHEMA.md`
 
-### Для DevOps
-- [Supabase Config](supabase/config.toml) - Конфигурация
-- [Deployment Guide](README.md#deployment) - Деплой
-- [Environment Variables](README.md#настройка-окружения) - .env файлы
-
----
-
-## 🔍 Поиск по функциям
-
-### Генерация музыки
-- **Frontend**: [src/pages/Generate.tsx](src/pages/Generate.tsx)
-- **Backend**: [supabase/functions/suno-music-generate/](supabase/functions/suno-music-generate/)
-- **Docs**: [docs/SUNO_API.md](docs/SUNO_API.md)
-
-### Библиотека треков
-- **Frontend**: [src/pages/Library.tsx](src/pages/Library.tsx)
-- **Bot**: [supabase/functions/telegram-bot/bot/handlers/library.ts](supabase/functions/telegram-bot/commands/library.ts)
-- **Docs**: [docs/TELEGRAM_BOT_ARCHITECTURE.md#экран-библиотека](docs/TELEGRAM_BOT_ARCHITECTURE.md)
-
-### Проекты (Альбомы)
-- **Frontend**: [src/pages/Projects.tsx](src/pages/Projects.tsx)
-- **Bot**: [supabase/functions/telegram-bot/commands/projects.ts](supabase/functions/telegram-bot/commands/projects.ts)
-- **Docs**: [docs/DATABASE.md#таблица-music_projects](docs/DATABASE.md)
-
-### Telegram Bot
-- **Main Handler**: [supabase/functions/telegram-bot/index.ts](supabase/functions/telegram-bot/index.ts)
-- **Commands**: [supabase/functions/telegram-bot/commands/](supabase/functions/telegram-bot/commands/)
-- **Docs**: [docs/TELEGRAM_BOT_ARCHITECTURE.md](docs/TELEGRAM_BOT_ARCHITECTURE.md)
-
-### Stems (Разделение)
-- **Backend**: [supabase/functions/suno-music-extend/](supabase/functions/suno-music-extend/)
-- **Bot Handler**: [supabase/functions/telegram-bot/bot/handlers/media.ts](supabase/functions/telegram-bot/commands/share.ts)
+### DevOps и CI/CD
+- **Workflows:** `/.github/workflows/`
+- **Конфигурация Supabase:** `/supabase/config.toml`
+- **Инструкции по развертыванию:** `DEVELOPMENT_WORKFLOW.md`
 
 ---
 
-## 📖 Гайды по сценариям
+## ❓ Как...
 
-### Как добавить новую команду в бот?
+### ...добавить новую команду в бот?
+1.  Создайте новый файл-обработчик в `/supabase/functions/telegram-bot/handlers/`.
+2.  Зарегистрируйте его в главном файле бота `/supabase/functions/telegram-bot/index.ts`.
+3.  Опишите новую команду в `/docs/TELEGRAM_BOT_FEATURES.md`.
 
-1. Создайте handler:
-```typescript
-// supabase/functions/telegram-bot/bot/handlers/my-command.ts
-export const myCommandHandler = new Composer<BotContext>();
+### ...внести изменения в базу данных?
+1.  Создайте новый файл миграции: `supabase migration new <migration_name>`.
+2.  Напишите SQL-код в созданном файле в `/supabase/migrations/`.
+3.  Примените миграцию: `supabase db push`.
+4.  Обновите документацию по схеме: `/docs/DATABASE_SCHEMA.md`.
 
-myCommandHandler.command("mycommand", async (ctx) => {
-  await ctx.reply("Hello!");
-});
-```
-
-2. Зарегистрируйте в `index.ts`:
-```typescript
-import { myCommandHandler } from "./bot/handlers/my-command.ts";
-bot.use(myCommandHandler);
-```
-
-3. Обновите документацию: [TELEGRAM_BOT_FEATURES.md](TELEGRAM_BOT_FEATURES.md)
+### ...создать новый экран в Mini App?
+1.  Создайте компонент страницы в `/src/pages/`.
+2.  Добавьте маршрут для новой страницы в `/src/App.tsx`.
+3.  При необходимости добавьте ссылку в навигационное меню (например, `/src/components/layout/BottomNavigation.tsx`).
 
 ---
 
-### Как добавить новую таблицу в БД?
-
-1. Создайте миграцию:
-```bash
-supabase migration new add_my_table
-```
-
-2. Напишите SQL в `supabase/migrations/`:
-```sql
-CREATE TABLE my_table (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES auth.users,
-  created_at TIMESTAMPTZ DEFAULT now()
-);
-
--- Добавьте RLS policies
-ALTER TABLE my_table ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Users can view own data"
-  ON my_table FOR SELECT
-  USING (auth.uid() = user_id);
-```
-
-3. Примените миграцию:
-```bash
-supabase db push
-```
-
-4. Обновите [docs/DATABASE.md](docs/DATABASE.md)
-
----
-
-### Как добавить новый экран в Mini App?
-
-1. Создайте компонент страницы:
-```typescript
-// src/pages/MyPage.tsx
-export const MyPage = () => {
-  return <div>My Page</div>;
-};
-```
-
-2. Добавьте роут в `src/App.tsx`:
-```typescript
-<Route path="/my-page" element={<MyPage />} />
-```
-
-3. Добавьте навигацию в `src/components/BottomNavigation.tsx`
-
----
-
-## 🐛 Debugging
-
-### Логи Edge Functions
-```bash
-# Реальные логи
-supabase functions logs telegram-bot --tail
-
-# Локальная разработка
-supabase functions serve telegram-bot
-```
-
-### Отладка Telegram Bot
-```bash
-# Установите ngrok для локального тестирования
-ngrok http 54321
-
-# Установите webhook на ngrok URL
-curl -X POST "https://api.telegram.org/bot<TOKEN>/setWebhook" \
-  -d "url=https://xxx.ngrok.io/functions/v1/telegram-bot"
-```
-
-### Отладка БД
-```bash
-# Подключитесь к локальной БД
-supabase db connect
-
-# Или к продакшн БД
-psql -h db.xxx.supabase.co -U postgres -d postgres
-```
-
----
-
-## 📝 Code Style
-
-### TypeScript
-- Строгий режим (`strict: true`)
-- Explicit return types для функций
-- Используйте `interface` для объектов, `type` для union types
-
-### React
-- Функциональные компоненты (no classes)
-- Hooks first
-- TypeScript для всех props
-
-### Git Commits
-- Conventional Commits: `feat:`, `fix:`, `docs:`, `refactor:`
-- Пример: `feat(bot): add inline mode support`
-
----
-
-## 🆘 Помощь
-
-### Нашли баг?
-1. Проверьте [Issues](https://github.com/your-org/musicverse/issues)
-2. Создайте новый issue с лейблом `bug`
-3. Приложите логи и скриншоты
-
-### Нужна новая фича?
-1. Создайте issue с лейблом `feature-request`
-2. Опишите use case и ожидаемое поведение
-3. Команда обсудит и добавит в roadmap
-
-### Вопросы?
-- **Telegram**: [@MusicVerseSupport](https://t.me/MusicVerseSupport)
-- **Email**: support@musicverse.ai
-- **Discord**: [discord.gg/musicverse](https://discord.gg/musicverse)
-
----
-
-**Последнее обновление**: 2024  
-**Автор**: MusicVerse Team
+*Этот документ — живой. Если вы заметили неточность или устаревшую информацию, пожалуйста, обновите его.*
