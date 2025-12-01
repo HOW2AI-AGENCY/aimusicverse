@@ -23,6 +23,14 @@ const Auth = () => {
     }
   }, [isAuthenticated, navigate]);
 
+  // Auto-authenticate in development mode
+  useEffect(() => {
+    if (isDevelopmentMode && !isAuthenticated && !loading && !showSplash && !isAuthenticating) {
+      console.log('🔧 Auto-authenticating in dev mode...');
+      handleAuth();
+    }
+  }, [isDevelopmentMode, isAuthenticated, loading, showSplash, isAuthenticating]);
+
   const handleAuth = async () => {
     setIsAuthenticating(true);
     const result = await authenticateWithTelegram();
