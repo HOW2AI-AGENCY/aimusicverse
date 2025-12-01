@@ -25,3 +25,7 @@ dist-ssr
 
 *storybook.log
 storybook-static
+
+# Verification artifacts
+*.png
+verify.cjs
