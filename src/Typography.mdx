@@ -1,0 +1,36 @@
+import { Meta, Title, Subtitle, Primary } from '@storybook/addon-docs/blocks';
+
+<Meta title="Design System/Typography" />
+
+<Title>Typography</Title>
+
+<Subtitle>
+  The typography for MusicVerse AI is designed for readability and a modern aesthetic. We use the 'Inter' font family, which is configured in `tailwind.config.ts`.
+</Subtitle>
+
+<Primary>
+  <div className="space-y-4">
+    <h1 className="text-5xl font-extrabold tracking-tight lg:text-5xl">h1. The quick brown fox jumps over the lazy dog.</h1>
+    <h2 className="text-4xl font-bold tracking-tight">h2. The quick brown fox jumps over the lazy dog.</h2>
+    <h3 className="text-3xl font-bold tracking-tight">h3. The quick brown fox jumps over the lazy dog.</h3>
+    <h4 className="text-2xl font-bold tracking-tight">h4. The quick brown fox jumps over the lazy dog.</h4>
+    <p className="text-lg">p. The quick brown fox jumps over the lazy dog.</p>
+    <blockquote className="border-l-2 pl-6 italic">
+      "The quick brown fox jumps over the lazy dog."
+    </blockquote>
+    <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+      code. The quick brown fox jumps over the lazy dog.
+    </code>
+    <p className="text-sm text-muted-foreground">
+      small. The quick brown fox jumps over the lazy dog.
+    </p>
+  </div>
+</Primary>
+
+### Font Family
+
+- **Sans-serif:** Inter (Primary font)
+
+### Usage
+
+Typography is applied using Tailwind CSS utility classes. For example, to create a main heading, you would use `text-5xl font-extrabold`. The base font size and family are applied to the `body` element.
