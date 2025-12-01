@@ -11,6 +11,7 @@ import { GenerationProgress } from '@/components/GenerationProgress';
 import { FullscreenPlayer } from '@/components/FullscreenPlayer';
 import { useGenerationRealtime } from '@/hooks/useGenerationRealtime';
 import { useTrackVersions } from '@/hooks/useTrackVersions';
+import { usePlayerStore } from '@/hooks/usePlayerState';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ErrorBoundaryWrapper } from '@/components/ErrorBoundaryWrapper';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -18,8 +19,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
-  const [playingTrackId, setPlayingTrackId] = useState<string | null>(null);
-  const [fullscreenTrackId, setFullscreenTrackId] = useState<string | null>(null);
+  const { activeTrack, playTrack } = usePlayerStore();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState<'recent' | 'popular' | 'liked'>('recent');
 
@@ -66,10 +66,10 @@ export default function Library() {
     );
   }
 
-  const handlePlay = (trackId: string, audioUrl: string | null) => {
-    if (!audioUrl) return;
-    setFullscreenTrackId(trackId);
-    logPlay(trackId);
+  const handlePlay = (track: any) => {
+    if (!track.audio_url) return;
+    playTrack(track);
+    logPlay(track.id);
   };
 
   const handleDownload = (trackId: string, audioUrl: string | null, coverUrl: string | null) => {
@@ -188,8 +188,9 @@ export default function Library() {
                   >
                     <TrackCard
                       track={track}
-                      isPlaying={playingTrackId === track.id}
-                      onPlay={() => handlePlay(track.id, track.audio_url)}
+                      layout={viewMode}
+                      isPlaying={activeTrack?.id === track.id}
+                      onPlay={() => handlePlay(track)}
                       onDelete={() => deleteTrack(track.id)}
                       onDownload={() => handleDownload(track.id, track.audio_url, track.cover_url)}
                       onToggleLike={() =>
@@ -205,20 +206,6 @@ export default function Library() {
             </motion.div>
           )}
         </div>
-
-        {/* Fullscreen Player */}
-        <AnimatePresence>
-          {fullscreenTrackId && (() => {
-            const track = filteredTracks.find(t => t.id === fullscreenTrackId);
-            return track ? (
-              <FullscreenPlayer
-                track={track}
-                versions={versions || []}
-                onClose={() => setFullscreenTrackId(null)}
-              />
-            ) : null;
-          })()}
-        </AnimatePresence>
       </div>
     </ErrorBoundaryWrapper>
   );

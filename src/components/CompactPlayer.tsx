@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { Play, Pause, X, Maximize2, Volume2, VolumeX } from 'lucide-react';
+import { Play, Pause, X, Maximize2, Volume2, VolumeX, Heart, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Card } from '@/components/ui/card';
 import { useAudioPlayer } from '@/hooks/useAudioPlayer';
 import { AudioWaveform } from '@/components/AudioWaveform';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
+import { useTracks } from '@/hooks/useTracksOptimized';
+import { cn } from '@/lib/utils';
 
 interface CompactPlayerProps {
   track: {
@@ -25,6 +27,7 @@ interface CompactPlayerProps {
 export function CompactPlayer({ track, onClose, onMaximize }: CompactPlayerProps) {
   const [volume, setVolume] = useState(1);
   const [muted, setMuted] = useState(false);
+  const { toggleLike, downloadTrack } = useTracks();
 
   const {
     isPlaying,
@@ -70,7 +73,7 @@ export function CompactPlayer({ track, onClose, onMaximize }: CompactPlayerProps
   };
 
   return (
-    <Card className="fixed bottom-20 md:bottom-4 left-4 right-4 md:left-auto md:w-[400px] z-40 glass-card border-primary/20 p-4 shadow-2xl">
+    <Card className="fixed bottom-20 md:bottom-4 left-4 right-4 md:left-auto md:w-[400px] z-40 glass-card border-primary/20 p-4 shadow-2xl rounded-2xl">
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -140,6 +143,22 @@ export function CompactPlayer({ track, onClose, onMaximize }: CompactPlayerProps
           ) : (
             <Play className="h-5 w-5" />
           )}
+        </Button>
+        <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => toggleLike({ trackId: track.id, isLiked: track.is_liked })}
+            className="h-8 w-8 flex-shrink-0"
+        >
+            <Heart className={cn("h-4 w-4", track.is_liked && "fill-current text-red-500")} />
+        </Button>
+        <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => downloadTrack({ trackId: track.id, audioUrl: track.audio_url!, coverUrl: track.cover_url! })}
+            className="h-8 w-8 flex-shrink-0"
+        >
+            <Download className="h-4 w-4" />
         </Button>
 
         {/* Volume Control */}

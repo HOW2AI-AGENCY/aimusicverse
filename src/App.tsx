@@ -10,6 +10,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { GenerationProgress } from "@/components/GenerationProgress";
+import { ResizablePlayer } from "@/components/ResizablePlayer";
 
 // Lazy load pages
 const Index = lazy(() => import("./pages/Index"));
@@ -42,6 +43,7 @@ const ProtectedLayout = () => (
   <>
     <GenerationProgress />
     <Outlet />
+    <ResizablePlayer />
     <BottomNavigation />
   </>
 );

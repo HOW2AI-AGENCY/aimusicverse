@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import { X, Play, Pause, Volume2, VolumeX, Maximize2, Minimize2, SkipBack, SkipForward } from 'lucide-react';
+import { ChevronDown, Play, Pause, Volume2, VolumeX, Maximize2, Minimize2, SkipBack, SkipForward, Heart, Download, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useAudioPlayer } from '@/hooks/useAudioPlayer';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
+import { useTracks, Track } from '@/hooks/useTracksOptimized';
+import { useTrackActions } from '@/hooks/useTrackActions';
 import { AudioWaveformVisualizer } from '@/components/AudioWaveformVisualizer';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -21,18 +24,7 @@ interface TrackVersion {
 }
 
 interface FullscreenPlayerProps {
-  track: {
-    id: string;
-    title?: string | null;
-    style?: string | null;
-    lyrics?: string | null;
-    audio_url?: string | null;
-    streaming_url?: string | null;
-    local_audio_url?: string | null;
-    cover_url?: string | null;
-    suno_task_id?: string | null;
-    suno_id?: string | null;
-  };
+  track: Track;
   versions?: TrackVersion[];
   onClose: () => void;
 }
@@ -44,6 +36,8 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
   const [selectedVersionId, setSelectedVersionId] = useState<string | null>(
     versions.find(v => v.is_primary)?.id || versions[0]?.id || null
   );
+  const { toggleLike, downloadTrack } = useTracks();
+  const { handleShare } = useTrackActions();
 
   const selectedVersion = versions.find(v => v.id === selectedVersionId);
   const audioUrl = selectedVersion?.audio_url || track.audio_url;
@@ -126,9 +120,10 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      initial={{ y: '100%' }}
+      animate={{ y: '0%' }}
+      exit={{ y: '100%' }}
+      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       className={cn(
         'fixed inset-0 z-50 bg-background/95 backdrop-blur-xl',
         isFullscreen ? 'p-0' : 'p-4 md:p-8'
@@ -149,13 +144,20 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
             <Button
               variant="ghost"
               size="icon"
+              onClick={() => handleShare(track)}
+            >
+                <MoreHorizontal className="h-5 w-5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={toggleFullscreen}
               className="hidden md:flex"
             >
               {isFullscreen ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
             </Button>
             <Button variant="ghost" size="icon" onClick={onClose}>
-              <X className="h-5 w-5" />
+              <ChevronDown className="h-5 w-5" />
             </Button>
           </div>
         </div>
@@ -185,18 +187,29 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
             {versions.length > 1 && (
               <div className="flex gap-2 flex-wrap justify-center">
                 {versions.map((version, index) => (
-                  <Button
-                    key={version.id}
-                    variant={selectedVersionId === version.id ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setSelectedVersionId(version.id)}
-                    className="min-w-20"
-                  >
-                    <Badge variant={version.is_primary ? 'default' : 'secondary'} className="mr-2">
-                      {version.is_primary ? '★' : index + 1}
-                    </Badge>
-                    {version.version_type === 'original' ? 'Оригинал' : `Версия ${index + 1}`}
-                  </Button>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          key={version.id}
+                          variant={selectedVersionId === version.id ? 'default' : 'outline'}
+                          size="sm"
+                          onClick={() => setSelectedVersionId(version.id)}
+                          className={cn("min-w-20", version.is_primary && "border-primary")}
+                        >
+                          <Badge variant={version.is_primary ? 'default' : 'secondary'} className="mr-2">
+                            {version.is_primary ? '★' : index + 1}
+                          </Badge>
+                          {version.version_type === 'original' ? 'Оригинал' : `Версия ${index + 1}`}
+                        </Button>
+                      </TooltipTrigger>
+                      {version.is_primary && (
+                        <TooltipContent>
+                          <p>Основная версия</p>
+                        </TooltipContent>
+                      )}
+                    </Tooltip>
+                  </TooltipProvider>
                 ))}
               </div>
             )}
@@ -221,6 +234,13 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
 
               {/* Playback Controls */}
               <div className="flex items-center justify-center gap-4">
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => toggleLike({ trackId: track.id, isLiked: track.is_liked })}
+                >
+                    <Heart className={cn("h-5 w-5", track.is_liked && "fill-current text-red-500")} />
+                </Button>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -253,6 +273,13 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
                   disabled={!audioUrl}
                 >
                   <SkipForward className="h-5 w-5" />
+                </Button>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => downloadTrack({ trackId: track.id, audioUrl: audioUrl!, coverUrl: coverUrl! })}
+                >
+                    <Download className="h-5 w-5" />
                 </Button>
               </div>
 
@@ -290,33 +317,34 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
             >
               {lyricsData?.alignedWords && lyricsData.alignedWords.length > 0 ? (
                 <div className="space-y-2 md:space-y-4">
-                  {lyricsData.alignedWords.map((word, index) => {
-                    const isActive = currentTime >= word.startS && currentTime <= word.endS;
-                    const isPast = currentTime > word.endS;
-
+                  {lyricsData.alignedWords.reduce((lines, word, index) => {
+                    if (index === 0 || word.word.includes('\n')) {
+                      lines.push([]);
+                    }
+                    lines[lines.length - 1].push(word);
+                    return lines;
+                  }, [] as any[][]).map((line, lineIndex) => {
+                    const isActive = line.some(word => currentTime >= word.startS && currentTime <= word.endS);
+                    const isPast = line.every(word => currentTime > word.endS);
                     return (
-                      <motion.span
-                        key={index}
-                        data-start={word.startS}
+                      <motion.div
+                        key={lineIndex}
                         initial={{ opacity: 0.4 }}
                         animate={{
-                          opacity: isActive ? 1 : isPast ? 0.6 : 0.4,
-                          scale: isActive ? 1.05 : 1,
-                          color: isActive
-                            ? 'hsl(var(--primary))'
-                            : isPast
-                            ? 'hsl(var(--foreground))'
-                            : 'hsl(var(--muted-foreground))',
+                            opacity: isActive ? 1 : isPast ? 0.6 : 0.4,
+                            scale: isActive ? 1.05 : 1,
                         }}
                         transition={{ duration: 0.2 }}
                         className={cn(
-                          'inline-block mr-2 text-base md:text-lg lg:text-xl font-medium cursor-pointer transition-all',
-                          isActive && 'font-bold'
+                          'text-base md:text-lg lg:text-xl font-medium cursor-pointer transition-all',
+                          isActive && 'font-bold text-primary'
                         )}
-                        onClick={() => seek(word.startS)}
+                        onClick={() => seek(line[0].startS)}
                       >
-                        {word.word}
-                      </motion.span>
+                        {line.map((word, wordIndex) => (
+                          <span key={wordIndex} className="mr-2">{word.word.replace('\n', '')}</span>
+                        ))}
+                      </motion.div>
                     );
                   })}
                 </div>
