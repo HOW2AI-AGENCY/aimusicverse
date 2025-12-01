@@ -1,0 +1,227 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AssistantFormState",
+  "description": "State for AI Assistant generation mode form",
+  "type": "object",
+  "required": ["step", "totalSteps", "mode", "isValid"],
+  "properties": {
+    "step": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Current step number (1-based)"
+    },
+    "totalSteps": {
+      "type": "integer",
+      "minimum": 2,
+      "maximum": 6,
+      "description": "Total number of steps (varies by mode)"
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["prompt", "style-lyrics", "cover", "extend", "project", "persona"],
+      "description": "Generation mode selected by user"
+    },
+    "prompt": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Main generation prompt"
+    },
+    "style": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Style description (genre, mood, instrumentation)"
+    },
+    "lyrics": {
+      "type": "string",
+      "maxLength": 5000,
+      "description": "User-provided or generated lyrics"
+    },
+    "reference": {
+      "type": "object",
+      "nullable": true,
+      "description": "Reference audio/track/project for generation",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["audio", "track", "project", "persona"]
+        },
+        "id": {
+          "type": "string",
+          "description": "UUID of referenced entity"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL for external audio reference"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Additional reference metadata"
+        }
+      },
+      "required": ["type"]
+    },
+    "options": {
+      "type": "object",
+      "description": "Generation options",
+      "properties": {
+        "instrumental": {
+          "type": "boolean",
+          "default": false,
+          "description": "Generate instrumental only (no vocals)"
+        },
+        "duration": {
+          "type": "integer",
+          "nullable": true,
+          "minimum": 10,
+          "maximum": 300,
+          "description": "Desired duration in seconds"
+        },
+        "custom_mode": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use custom generation mode"
+        },
+        "make_instrumental": {
+          "type": "boolean",
+          "default": false,
+          "description": "Generate both vocal and instrumental versions"
+        },
+        "continue_at": {
+          "type": "number",
+          "nullable": true,
+          "description": "Continue from timestamp (for extensions)"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 50
+          },
+          "maxItems": 10,
+          "description": "Additional style tags"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata and form state",
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "User-provided track title"
+        },
+        "cover_file": {
+          "type": "string",
+          "nullable": true,
+          "description": "Base64 or URL of custom cover image"
+        },
+        "project_id": {
+          "type": "string",
+          "nullable": true,
+          "description": "Project to add generated track to"
+        },
+        "playlist_id": {
+          "type": "string",
+          "nullable": true,
+          "description": "Playlist to add generated track to"
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "description": "Validation state for each field",
+      "properties": {
+        "prompt": {
+          "$ref": "#/definitions/FieldValidation"
+        },
+        "style": {
+          "$ref": "#/definitions/FieldValidation"
+        },
+        "lyrics": {
+          "$ref": "#/definitions/FieldValidation"
+        },
+        "reference": {
+          "$ref": "#/definitions/FieldValidation"
+        }
+      }
+    },
+    "isValid": {
+      "type": "boolean",
+      "description": "Whether the entire form is valid"
+    },
+    "errors": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Map of field names to error messages"
+    },
+    "hints": {
+      "type": "object",
+      "description": "Dynamic hints shown to user",
+      "properties": {
+        "current_step": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Hints for current step"
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": { "type": "string" },
+              "value": { "type": "string" }
+            }
+          },
+          "description": "Example values for current field"
+        }
+      }
+    },
+    "savedAt": {
+      "type": "number",
+      "description": "Timestamp when form was last saved (Unix ms)"
+    },
+    "expiresAt": {
+      "type": "number",
+      "description": "Timestamp when saved form expires (Unix ms)"
+    },
+    "completedSteps": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "List of completed step numbers"
+    },
+    "canProceed": {
+      "type": "boolean",
+      "description": "Whether user can proceed to next step"
+    }
+  },
+  "definitions": {
+    "FieldValidation": {
+      "type": "object",
+      "properties": {
+        "isValid": {
+          "type": "boolean"
+        },
+        "error": {
+          "type": "string",
+          "nullable": true
+        },
+        "warning": {
+          "type": "string",
+          "nullable": true
+        },
+        "touched": {
+          "type": "boolean",
+          "description": "Whether field has been interacted with"
+        }
+      }
+    }
+  }
+}
