@@ -1,12 +1,12 @@
 import React from 'react';
-import type { Preview } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
 import '../src/index.css';
 
 const queryClient = new QueryClient();
 
-const preview: Preview = {
+/** @type { import('@storybook/react').Preview } */
+const preview = {
   parameters: {
     controls: {
       matchers: {
