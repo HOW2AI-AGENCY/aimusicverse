@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -8,9 +8,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
-import { useGenerationPolling } from '@/hooks/useGenerationPolling';
 import { AudioPlayer } from './AudioPlayer';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useGenerationRealtime } from '@/hooks/useGenerationRealtime';
 
 interface GenerationTask {
   id: string;
@@ -30,85 +30,47 @@ interface GenerationTask {
   } | null;
 }
 
+const fetchGenerationTasks = async (userId: string) => {
+  const { data, error } = await supabase
+    .from('generation_tasks')
+    .select(`
+      *,
+      tracks (
+        id,
+        title,
+        streaming_url,
+        local_audio_url,
+        audio_url,
+        cover_url,
+        status
+      )
+    `)
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(5);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data as GenerationTask[];
+};
+
+
 export const GenerationProgress = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const [tasks, setTasks] = useState<GenerationTask[]>([]);
-  const [loading, setLoading] = useState(true);
   const [checkingStatus, setCheckingStatus] = useState<string | null>(null);
   const [playingTrackId, setPlayingTrackId] = useState<string | null>(null);
   const { toast } = useToast();
 
-  // Автоматический polling статуса генерации
-  useGenerationPolling();
+  // Set up realtime updates for generation tasks
+  useGenerationRealtime();
 
-  const fetchTasks = async () => {
-    const { data, error } = await supabase
-      .from('generation_tasks')
-      .select(`
-        *,
-        tracks (
-          id,
-          title,
-          streaming_url,
-          local_audio_url,
-          audio_url,
-          cover_url,
-          status
-        )
-      `)
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
-      .limit(5);
-
-    if (!error && data) {
-      setTasks(data as any);
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    if (!user) return;
-
-    fetchTasks();
-
-    // Subscribe to realtime updates
-    const channel = supabase
-      .channel(`generation_progress_${user.id}`)
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'generation_tasks',
-          filter: `user_id=eq.${user.id}`,
-        },
-        (payload) => {
-          console.log('Generation task updated:', payload);
-          fetchTasks();
-        }
-      )
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'tracks',
-          filter: `user_id=eq.${user.id}`,
-        },
-        (payload) => {
-          console.log('Track updated:', payload);
-          fetchTasks();
-        }
-      )
-      .subscribe((status) => {
-        console.log('Generation progress realtime status:', status);
-      });
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [user]);
+  const { data: tasks = [], isLoading } = useQuery({
+    queryKey: ['generation_tasks', user?.id],
+    queryFn: () => fetchGenerationTasks(user!.id),
+    enabled: !!user,
+  });
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -177,10 +139,8 @@ export const GenerationProgress = () => {
         throw error;
       }
 
-      // Force refresh tasks after check
-      await fetchTasks();
-      
-      // Also invalidate all related queries
+      // Invalidate queries to refetch data
+      await queryClient.invalidateQueries({ queryKey: ['generation_tasks', user?.id] });
       queryClient.invalidateQueries({ queryKey: ['tracks'] });
       queryClient.invalidateQueries({ queryKey: ['generation_tasks'] });
 
@@ -235,7 +195,7 @@ export const GenerationProgress = () => {
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return null;
   }
 
