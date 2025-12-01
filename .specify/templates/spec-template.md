@@ -77,10 +77,18 @@
 
 ## Requirements *(mandatory)*
 
-<!--
-  ACTION REQUIRED: The content in this section represents placeholders.
-  Fill them out with the right functional requirements.
--->
+### Contracts & Schemas (MANDATORY)
+
+- Any feature that introduces, changes or exposes APIs, messages, or persisted
+  schemas MUST include machine-readable contract artifacts and human-readable
+  documentation in the same PR.
+  - HTTP APIs: provide OpenAPI (YAML/JSON) under `specs/[###-feature]/contracts/`
+    or `contracts/` with examples of requests/responses.
+  - Shared data schemas: provide JSON Schema and/or TypeScript types for all
+    objects exchanged between components and stored in the database.
+  - For breaking changes include a migration plan and compatibility notes.
+- CI SHOULD validate OpenAPI/JSON Schema (linting) and run basic contract tests
+  where possible; PRs that modify contracts MUST pass these checks before merge.
 
 ### Functional Requirements
 

@@ -1,63 +1,80 @@
-# MusicVerse Constitution
+<!--
+Sync Impact Report
+Version change: template -> 1.0.0
+Modified principles: added
+  - I. Тестирование (Test-First) (новое)
+  - II. Безопасность и минимизация данных (новое)
+  - III. Наблюдаемость и метрики (новое)
+  - IV. Инкрементальная доставка и семантическое версионирование (новое)
+  - V. Простота, явные контракты и документация (новое)
+Added sections: expanded Governance and explicit Development Workflow
+Removed sections: none
+Templates requiring updates:
+  - .specify/templates/plan-template.md ✅ updated
+  - .specify/templates/tasks-template.md ✅ updated
+  - .specify/templates/spec-template.md ⚠ pending
+Follow-up TODOs: none
+-->
 
-## 1. Introduction
+# MusicVerse AI Constitution
 
-### 1.1 Purpose
-The purpose of this Constitution is to define the immutable laws, governance structure, and development standards for the MusicVerse project. It serves as the supreme source of truth for all contributors.
+## Core Principles
 
-### 1.2 Scope
-This Constitution applies to all code, documentation, design assets, and processes within the MusicVerse repository. All contributors, regardless of role, are bound by these rules.
+### I. Тестирование (Test‑First)
+- Правило: Для всех новых функций и критичных исправлений тесты MUST быть написаны до реализации (TDD: тесты пишутся, тесты падают, реализация, тесты проходят).
+- Требования: P1‑user stories и все изменения в foundation должны включать unit/contract/integration тесты; PR не принимается без успешного выполнения CI и прохождения тестов.
+- Обоснование: Гарантирует регресс‑защиту, быстрое обнаружение ошибок и воспроизводимость поведения.
 
-## 2. Project Vision
+### II. Безопасность и минимизация данных
+- Правило: Сбор и хранение данных MUST быть минимальными; персональные данные и секреты НЕ хранятся в репозитории (ни в явном виде, ни в истории коммитов).
+- Требования: Любая интеграция с внешними сервисами должна документировать хранение/ретеншн данных и иметь план удаления; RLS и шифрование там, где это применимо.
+- Обоснование: Снижает риск утечек и упрощает соответствие нормативам и ожиданиям пользователей.
 
-MusicVerse is a professional AI-powered music generation platform integrated into the Telegram ecosystem.
-**Core Values:**
-*   **User-Centricity**: The user experience is paramount.
-*   **Quality**: Code must be robust, tested, and maintainable.
-*   **Innovation**: We leverage cutting-edge AI (Suno v5) to deliver unique value.
-*   **Accessibility**: The platform must be accessible globally (75+ languages).
+### III. Наблюдаемость и метрики
+- Правило: Каждая feature ветка/план MUST указывать необходимые метрики, логи и точки трассировки; ошибки MUST быть трассируемыми и категоризированными.
+- Требования: Структурированные логи (JSON), метрики p95/p99 там, где это релевантно, и интеграция с существующими средствами (Sentry/GA/telemetry).
+- Обоснование: Быстрая диагностика инцидентов и количественная оценка качества фич.
 
-## 3. Governance & Decision Making
+### IV. Инкрементальная доставка и семантическое версионирование
+- Правило: Изменения доставляются мелкими, обратимыми шагами; breaking changes MUST сопровождаться документированным планом миграции и версионированием.
+- Требования: Следовать MAJOR.MINOR.PATCH; добавление принципов/удаление/переопределение — MAJOR; новые обязательные разделы/значительное расширение — MINOR; формулировочные/опечаточные правки — PATCH.
+- Обоснование: Уменьшает риск развертываний и делает откат/совместимость предсказуемой.
 
-*   **Benevolent Dictatorship**: The Project Lead has final say on architectural decisions and roadmap.
-*   **RFC Process**: Major changes must go through a Request for Comments (RFC) process via the `speckit.specify` workflow.
-*   **Code Review**: No code is merged without approval from at least one peer or the AI Architect.
+### V. Простота, явные контракты и документация
+- Правило: Решения MUST быть максимально простыми; интерфейсы и контрактные форматы MUST быть явными и задокументированными.
+- Требования: API/контракты должны предоставлять схемы (OpenAPI/JSON Schema), спецификации и примеры; документация обновляется в том же PR, что и код.
+- Обоснование: Уменьшает когнитивную нагрузку, ускоряет интеграции и снижает технический долг.
 
-## 4. Development Workflow (SpecKit)
+## Операционные ограничения и стандарты
 
-We strictly adhere to the **SpecKit** workflow. "Code First" is prohibited.
+- Стек: TypeScript + React (frontend), Supabase (backend, Postgres, Edge Functions на Deno); следовать версиям, прописанным в package.json.
+- CI: Все PR MUST проходить линтинг, type‑check и тесты. Merge разрешён только при зелёном CI и минимум одном утверждающем ревью от владельца компонента.
+- Секреты: Использовать .env и секретное хранилище (не коммитить секреты). История репозитория, содержащая секреты, MUST быть очищена или задокументирована с планом исправления.
 
-### 4.1 The Cycle
-1.  **Specify**: All features start with a specification (`/speckit.specify`).
-2.  **Validate**: Requirements are validated via checklists (`/speckit.checklist`).
-3.  **Plan**: A technical plan is generated (`/speckit.plan`).
-4.  **Implement**: Code is written only after the plan is approved (`/speckit.implement`).
+## Development Workflow
 
-### 4.2 Rules of Engagement
-*   **TDD**: Test-Driven Development is mandatory. Tests must be written before implementation code.
-*   **Atomic Commits**: Commits should be small, focused, and descriptive.
-*   **Branching**: Use `kebab-case` for branches (e.g., `feature/user-auth`, `fix/login-error`).
+- Ветки: feature/..., fix/..., chore/..., hotfix/.... Именование должно быть читабельным: feature/<id>-<краткое-описание>.
+- Pull Request: Каждый PR MUST содержать список изменений, ссылку на задачу/спецификацию, чеклист соответствия Конституции (tests/security/observability/docs) и статус CI.
+- Code Review: Для критичных изменений требуются минимум 2 одобряющих ревью; для обычных — 1 одобрение от владельца области.
+- Releases: Теги и релизы создаются по завершении MINOR/MAJOR работ; CHANGELOG обновляется при каждом MINOR/MAJOR.
 
-## 5. Technology Standards
+## Governance
 
-### 5.1 Stack
-*   **Frontend**: React 18+, TypeScript 5+, Vite, TailwindCSS, Shadcn/UI.
-*   **Backend**: Supabase (Edge Functions, PostgreSQL, Auth, Storage).
-*   **AI**: Suno AI v5 API.
-*   **Platform**: Telegram Mini Apps SDK.
+- Конституция является руководящим документом проекта; её положения приоритезируются выше практик, не соответствующих ей.
 
-### 5.2 Coding Conventions
-*   **TypeScript**: Strict mode enabled. No `any`.
-*   **Styling**: TailwindCSS utility classes. No CSS-in-JS libraries unless approved.
-*   **State**: TanStack Query for server state, React Context for global UI state.
-*   **Comments**: JSDoc for all public functions and components.
+- Процедура внесения изменений:
+  1. Любые изменения в Конституцию вносятся через PR с меткой `constitution:amend` и описанием причин и миграционного плана.
+  2. Период обсуждения — не менее 7 дней с момента публикации PR (кроме экстренных исправлений, требующих MAINTAINERS одобрения).
+  3. Для принятия изменений требуется минимум два одобряющих ревью от MAINTAINERS и зелёный CI для миграционных скриптов/проверок.
+  4. После слияния поле "Last Amended" обновляется на дату слияния, а версия увеличивается согласно правилам семантического версионирования.
 
-## 6. Documentation
+- Версионирование Конституции:
+  - MAJOR: удаление или несовместимая переработка принципов/положений.
+  - MINOR: добавление нового принципа или расширение значимого раздела.
+  - PATCH: редакционные правки, уточнения и исправления опечаток.
 
-*   **Language**: Primary documentation is in **Russian** (target audience) and **English** (technical standard).
-*   **Location**: All documentation resides in `docs/` or `.specify/`.
-*   **Living Documents**: `README.md` and `docs/` must be kept in sync with code changes.
+- Compliance и проверки:
+  - Каждый PR обязан включать чеклист соответствия Конституции; автоматические проверки в CI должны валидировать: наличие тестов, отсутствие секретов, базовую метрику/логирование.
+  - Команда безопасности/MAINTAINERS может инициировать аудит соответствия и требовать исправлений перед слиянием.
 
-## 7. Amendments
-
-This Constitution may be amended only through a formal proposal and review process involving the Project Lead.
+**Version**: 1.0.0 | **Ratified**: 2025-12-01 | **Last Amended**: 2025-12-01
