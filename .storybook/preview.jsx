@@ -1,4 +1,3 @@
-import type { Preview } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TelegramProvider } from '../src/contexts/TelegramContext';
@@ -6,7 +5,7 @@ import React from 'react';
 
 const queryClient = new QueryClient();
 
-const preview: Preview = {
+const preview = {
   parameters: {
     controls: {
       matchers: {

@@ -1,8 +1,8 @@
-import type { StorybookConfig } from '@storybook/react-vite';
-import path from 'path';
-import { mergeConfig } from 'vite';
+const path = require('path');
+const { mergeConfig } = require('vite');
 
-const config: StorybookConfig = {
+/** @type { import('@storybook/react-vite').StorybookConfig } */
+const config = {
   stories: [
     "../src/**/*.mdx",
     "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
@@ -23,11 +23,10 @@ const config: StorybookConfig = {
     return mergeConfig(config, {
       resolve: {
         alias: {
-          // Adjust this path to point to your src directory
-          "@": path.resolve(path.dirname(new URL(import.meta.url).pathname), "../src"),
+          "@": path.resolve(__dirname, "../src"),
         },
       },
     });
   },
 };
-export default config;
+module.exports = config;
