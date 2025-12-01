@@ -1,0 +1,319 @@
+openapi: 3.0.0
+info:
+  title: Track Versioning API
+  version: 1.0.0
+  description: API for managing track versions and master version switching
+
+servers:
+  - url: /api/v1
+    description: API v1
+
+paths:
+  /tracks/{trackId}/versions:
+    get:
+      summary: Get all versions of a track
+      description: Returns all versions of a track with master version flagged
+      operationId: getTrackVersions
+      parameters:
+        - name: trackId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: UUID of the track
+      responses:
+        '200':
+          description: List of track versions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrackVersion'
+        '404':
+          description: Track not found
+        '401':
+          description: Unauthorized
+
+  /tracks/{trackId}/versions/{versionId}/set-master:
+    post:
+      summary: Set a version as the master version
+      description: Sets the specified version as the master (active) version and logs the change
+      operationId: setMasterVersion
+      parameters:
+        - name: trackId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: versionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  description: Optional reason for changing master version
+                  maxLength: 500
+      responses:
+        '200':
+          description: Master version updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Track'
+        '400':
+          description: Invalid request
+        '404':
+          description: Track or version not found
+        '401':
+          description: Unauthorized
+
+  /tracks/{trackId}/changelog:
+    get:
+      summary: Get track changelog
+      description: Returns chronological changelog of track and version changes
+      operationId: getTrackChangelog
+      parameters:
+        - name: trackId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            minimum: 1
+            maximum: 100
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+      responses:
+        '200':
+          description: Changelog entries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ChangelogEntry'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '404':
+          description: Track not found
+        '401':
+          description: Unauthorized
+
+components:
+  schemas:
+    Track:
+      type: object
+      required:
+        - id
+        - user_id
+        - title
+        - audio_url
+        - cover_url
+        - duration_seconds
+        - is_public
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          maxLength: 200
+        audio_url:
+          type: string
+          format: uri
+        cover_url:
+          type: string
+          format: uri
+        duration_seconds:
+          type: integer
+          minimum: 1
+        master_version_id:
+          type: string
+          format: uuid
+          nullable: true
+        lyrics:
+          type: string
+          nullable: true
+        timestamped_lyrics:
+          type: object
+          nullable: true
+        is_public:
+          type: boolean
+        genre:
+          type: string
+          nullable: true
+        mood:
+          type: string
+          nullable: true
+        metadata:
+          type: object
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        version_count:
+          type: integer
+          description: Computed field - total number of versions
+        stem_count:
+          type: integer
+          description: Computed field - total number of stems
+        is_liked:
+          type: boolean
+          description: Computed field - whether current user liked this track
+
+    TrackVersion:
+      type: object
+      required:
+        - id
+        - track_id
+        - version_number
+        - is_master
+        - version_type
+        - audio_url
+        - duration_seconds
+        - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+        track_id:
+          type: string
+          format: uuid
+        version_number:
+          type: integer
+          minimum: 1
+        is_master:
+          type: boolean
+        version_type:
+          type: string
+          enum:
+            - original
+            - alternative
+            - remix
+            - cover
+            - extended
+            - edit
+        audio_url:
+          type: string
+          format: uri
+        cover_url:
+          type: string
+          format: uri
+          nullable: true
+        duration_seconds:
+          type: integer
+          minimum: 1
+        metadata:
+          type: object
+          properties:
+            generation_params:
+              type: object
+            remix_of:
+              type: string
+              format: uuid
+            parent_version:
+              type: string
+              format: uuid
+            notes:
+              type: string
+        created_at:
+          type: string
+          format: date-time
+
+    ChangelogEntry:
+      type: object
+      required:
+        - id
+        - track_id
+        - change_type
+        - change_data
+        - user_id
+        - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+        track_id:
+          type: string
+          format: uuid
+        version_id:
+          type: string
+          format: uuid
+          nullable: true
+        change_type:
+          type: string
+          enum:
+            - version_created
+            - master_changed
+            - metadata_updated
+            - stem_generated
+            - cover_updated
+            - lyrics_updated
+        change_data:
+          type: object
+          properties:
+            old_value:
+              type: object
+            new_value:
+              type: object
+            reason:
+              type: string
+        user_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        version:
+          $ref: '#/components/schemas/TrackVersion'
+          description: Joined version data (if applicable)
+        user:
+          type: object
+          description: Joined user data
+          properties:
+            id:
+              type: string
+            username:
+              type: string
+
+    Pagination:
+      type: object
+      properties:
+        total:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+        has_more:
+          type: boolean
