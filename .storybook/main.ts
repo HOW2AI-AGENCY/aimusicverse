@@ -1,6 +1,10 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 import path from 'path';
 import { mergeConfig } from 'vite';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const config: StorybookConfig = {
   stories: [
@@ -23,8 +27,7 @@ const config: StorybookConfig = {
     return mergeConfig(config, {
       resolve: {
         alias: {
-          // Adjust this path to point to your src directory
-          "@": path.resolve(path.dirname(new URL(import.meta.url).pathname), "../src"),
+          "@": path.resolve(__dirname, "../src"),
         },
       },
     });
