@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./useAuth";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { useEffect } from "react";
 
 export const useNotifications = (filter?: 'all' | 'unread') => {
@@ -108,7 +108,6 @@ export const useMarkAllAsRead = () => {
 export const useCreateNotification = () => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
-  const { toast } = useToast();
 
   return useMutation({
     mutationFn: async (notification: {
@@ -133,6 +132,11 @@ export const useCreateNotification = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notifications', user?.id] });
+    },
+    onError: (error) => {
+      toast.error("Ошибка создания уведомления", {
+        description: error.message,
+      });
     },
   });
 };

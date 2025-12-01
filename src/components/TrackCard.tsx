@@ -130,57 +130,71 @@ export const TrackCard = ({
   if (layout === 'list') {
     return (
         <>
-            <Card className="group overflow-hidden hover:shadow-lg transition-all cursor-pointer flex items-center" onClick={handleCardClick}>
-                <div className="relative w-20 h-20 flex-shrink-0" data-play-button>
+            <Card className="group overflow-hidden hover:shadow-lg transition-all cursor-pointer flex items-center gap-3 p-2" onClick={handleCardClick}>
+                <div className="relative w-16 h-16 flex-shrink-0 rounded-md overflow-hidden" data-play-button>
                     {track.cover_url && !imageError ? (
                         <img
                             src={track.cover_url}
                             alt={track.title || 'Track cover'}
-                            className="w-full h-full object-cover cursor-pointer"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onPlay?.();
-                            }}
+                            className="w-full h-full object-cover"
                             onError={() => setImageError(true)}
                         />
                     ) : (
-                        <div
-                            className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center cursor-pointer"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onPlay?.();
-                            }}
-                        >
-                            <div className="text-4xl font-bold text-primary/20">
+                        <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                            <div className="text-3xl font-bold text-primary/20">
                                 {track.title?.charAt(0) || '♪'}
                             </div>
                         </div>
                     )}
-                </div>
-                <div className="p-4 flex-grow">
-                    <h3 className="font-semibold text-lg truncate">{track.title || 'Без названия'}</h3>
-                    <p className="text-sm text-muted-foreground truncate">{track.style || 'Нет стиля'}</p>
-                </div>
-                <div className="p-4 flex items-center gap-2 flex-shrink-0">
-                    <Button
-                        size="icon"
-                        variant={track.is_liked ? 'default' : 'ghost'}
-                        onClick={onToggleLike}
-                        className="h-8 w-8"
+                    {/* Play/Pause icon in list view */}
+                    <div
+                        className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                        onClick={(e) => { e.stopPropagation(); onPlay?.(); }}
                     >
-                        <Heart className={`w-4 h-4 ${track.is_liked ? 'fill-current' : ''}`} />
-                    </Button>
+                        <Button size="icon" variant="ghost" className="w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black/70">
+                            {isPlaying ? <Pause className="w-5 h-5"/> : <Play className="w-5 h-5" />}
+                        </Button>
+                    </div>
+                </div>
+
+                <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-sm truncate">{track.title || 'Без названия'}</h3>
+                    <p className="text-xs text-muted-foreground truncate">{track.style || 'Нет стиля'}</p>
+                    <div className="flex sm:hidden items-center gap-3 text-xs text-muted-foreground mt-1">
+                        {track.likes_count !== undefined && track.likes_count > 0 && (
+                            <span className="flex items-center gap-1">
+                                <Heart className="w-3 h-3" /> {track.likes_count}
+                            </span>
+                        )}
+                        {track.play_count !== undefined && track.play_count > 0 && (
+                            <span className="flex items-center gap-1">
+                                <Play className="w-3 h-3" /> {track.play_count}
+                            </span>
+                        )}
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-2 flex-shrink-0">
+                    <div className="hidden sm:flex items-center gap-3 text-xs text-muted-foreground">
+                        {track.likes_count !== undefined && track.likes_count > 0 && (
+                            <span className="flex items-center gap-1">
+                                <Heart className="w-3 h-3" /> {track.likes_count}
+                            </span>
+                        )}
+                        {track.play_count !== undefined && track.play_count > 0 && (
+                            <span className="flex items-center gap-1">
+                                <Play className="w-3 h-3" /> {track.play_count}
+                            </span>
+                        )}
+                    </div>
                     {isMobile ? (
                         <Button
                             size="icon"
                             variant="ghost"
-                            className="h-8 w-8"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setSheetOpen(true);
-                            }}
+                            className="h-9 w-9"
+                            onClick={(e) => { e.stopPropagation(); setSheetOpen(true); }}
                         >
-                            <MoreHorizontal className="w-4 h-4" />
+                            <MoreHorizontal className="w-5 h-5" />
                         </Button>
                     ) : (
                         <TrackActionsMenu track={track} onDelete={onDelete} onDownload={onDownload} />
@@ -303,27 +317,27 @@ export const TrackCard = ({
       </div>
 
       <div className="p-4">
-        <div className="flex items-center gap-2 mb-1">
-          <h3 className="font-semibold text-lg truncate flex-1">
+        <div className="flex items-start justify-between gap-2 mb-1">
+          <h3 className="font-semibold text-base sm:text-lg truncate flex-1">
             {track.title || 'Без названия'}
           </h3>
           {track.is_public ? (
-            <Globe className="w-4 h-4 text-primary flex-shrink-0" />
+            <Globe className="w-4 h-4 text-primary flex-shrink-0 mt-1" />
           ) : (
-            <Lock className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+            <Lock className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-1" />
           )}
         </div>
 
         {track.style && (
-          <p className="text-sm text-muted-foreground mb-2 line-clamp-1">
+          <p className="text-sm text-muted-foreground mb-2 line-clamp-1 sm:line-clamp-2">
             {track.style}
           </p>
         )}
 
-        {/* Tags */}
+        {/* Tags - hidden on mobile, shown on sm+ */}
         {track.tags && (
-          <div className="flex gap-1 mb-3 flex-wrap">
-            {track.tags.split(',').slice(0, 3).map((tag, idx) => (
+          <div className="hidden sm:flex gap-1 mb-3 flex-wrap">
+            {track.tags.split(',').slice(0, 2).map((tag, idx) => (
               <Badge key={idx} variant="secondary" className="text-xs">
                 {tag.trim()}
               </Badge>
@@ -332,19 +346,19 @@ export const TrackCard = ({
         )}
 
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <Button
               size="icon"
               variant={track.is_liked ? 'default' : 'ghost'}
               onClick={onToggleLike}
-              className="h-8 w-8"
+              className="h-9 w-9" // Increased tap target size
             >
               <Heart
                 className={`w-4 h-4 ${track.is_liked ? 'fill-current' : ''}`}
               />
             </Button>
             {track.likes_count !== undefined && track.likes_count > 0 && (
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm text-muted-foreground pr-2">
                 {track.likes_count}
               </span>
             )}

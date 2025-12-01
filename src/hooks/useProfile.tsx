@@ -1,11 +1,16 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./useAuth";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
+
+interface Profile {
+  username?: string;
+  avatar_url?: string;
+  // Add other profile fields here
+}
 
 export const useProfile = () => {
   const { user } = useAuth();
-  const { toast } = useToast();
 
   return useQuery({
     queryKey: ['profile', user?.id],
@@ -28,10 +33,9 @@ export const useProfile = () => {
 export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
-  const { toast } = useToast();
 
   return useMutation({
-    mutationFn: async (updates: any) => {
+    mutationFn: async (updates: Profile) => {
       if (!user?.id) throw new Error("No user");
 
       const { data, error } = await supabase
@@ -46,16 +50,13 @@ export const useUpdateProfile = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['profile', user?.id] });
-      toast({
-        title: "Профиль обновлен",
+      toast.success("Профиль обновлен", {
         description: "Ваши изменения сохранены",
       });
     },
     onError: (error) => {
-      toast({
-        title: "Ошибка",
-        description: "Не удалось обновить профиль",
-        variant: "destructive",
+      toast.error("Не удалось обновить профиль", {
+        description: error.message,
       });
     },
   });
