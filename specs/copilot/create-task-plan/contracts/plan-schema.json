@@ -1,0 +1,224 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://musicverse.how2ai.world/schemas/implementation-plan.schema.json",
+  "title": "Implementation Plan Schema",
+  "description": "Schema for validating implementation plan documents (plan.md)",
+  "type": "object",
+  "required": ["frontmatter", "summary", "technicalContext", "constitutionCheck"],
+  "properties": {
+    "frontmatter": {
+      "type": "object",
+      "required": ["feature", "branch", "date", "phase", "status"],
+      "properties": {
+        "feature": {
+          "type": "string",
+          "description": "Name of the feature being planned",
+          "minLength": 3,
+          "maxLength": 100
+        },
+        "branch": {
+          "type": "string",
+          "description": "Git branch name for this feature",
+          "pattern": "^[a-z0-9-]+/[a-z0-9-]+$"
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "Plan creation date (ISO 8601)"
+        },
+        "spec_path": {
+          "type": "string",
+          "description": "Path to the feature specification file",
+          "pattern": "^specs/.+/spec\\.md$"
+        },
+        "phase": {
+          "type": "string",
+          "enum": ["Phase0", "Phase1", "Phase2"],
+          "description": "Current phase: Phase0 (Research), Phase1 (Design), Phase2 (Tasks)"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Planning", "In Progress", "Complete"],
+          "description": "Current status of the plan"
+        }
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "High-level summary of the feature and technical approach",
+      "minLength": 50,
+      "maxLength": 500
+    },
+    "technicalContext": {
+      "type": "object",
+      "required": ["language", "dependencies", "testing", "platform", "projectType"],
+      "properties": {
+        "language": {
+          "type": "string",
+          "description": "Primary programming language and version",
+          "pattern": "^[A-Za-z]+\\s+\\d+(\\.\\d+)?",
+          "examples": ["TypeScript 5.9", "Python 3.11", "Rust 1.75"]
+        },
+        "dependencies": {
+          "type": "array",
+          "description": "Primary dependencies and frameworks",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "examples": [["React 19", "Vite 5", "Supabase"]]
+        },
+        "storage": {
+          "type": "string",
+          "description": "Storage mechanism (database, file system, etc.)",
+          "examples": ["PostgreSQL 16", "File system", "N/A"]
+        },
+        "testing": {
+          "type": "string",
+          "description": "Testing framework and approach",
+          "examples": ["Jest + React Testing Library", "pytest", "cargo test"]
+        },
+        "platform": {
+          "type": "string",
+          "description": "Target platform(s)",
+          "examples": ["Web (Telegram Mini App)", "iOS 15+", "Linux server"]
+        },
+        "projectType": {
+          "type": "string",
+          "enum": ["single", "web", "mobile", "library"],
+          "description": "Type of project structure"
+        },
+        "performanceGoals": {
+          "type": "array",
+          "description": "Domain-specific performance targets",
+          "items": {
+            "type": "string"
+          },
+          "examples": [["<2s TTI on 4G", "60 FPS animations", "1000 req/s"]]
+        },
+        "constraints": {
+          "type": "array",
+          "description": "Technical or business constraints",
+          "items": {
+            "type": "string"
+          },
+          "examples": [["<200ms p95 latency", "No external APIs", "Offline support"]]
+        },
+        "scale": {
+          "type": "string",
+          "description": "Expected scale or scope",
+          "examples": ["10k users", "1M LOC", "50 screens"]
+        }
+      }
+    },
+    "constitutionCheck": {
+      "type": "object",
+      "required": ["principles", "gateStatus"],
+      "properties": {
+        "principles": {
+          "type": "array",
+          "description": "Validation results for each constitution principle",
+          "items": {
+            "type": "object",
+            "required": ["id", "name", "status"],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 8
+              },
+              "name": {
+                "type": "string",
+                "enum": [
+                  "Testing",
+                  "Security",
+                  "Observability",
+                  "Versioning",
+                  "Simplicity",
+                  "Performance",
+                  "i18n/a11y",
+                  "Telegram-first"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": ["pass", "fail", "warning", "needs-review"],
+                "description": "Validation status: pass (✓), fail (✗), warning (⚠), needs-review (?)"
+              },
+              "notes": {
+                "type": "string",
+                "description": "Explanation of the status"
+              },
+              "exceptionJustification": {
+                "type": "string",
+                "description": "Justification for violations (if status is fail or warning)"
+              }
+            }
+          },
+          "minItems": 8,
+          "maxItems": 8
+        },
+        "gateStatus": {
+          "type": "string",
+          "enum": ["approved", "warning", "blocked"],
+          "description": "Overall gate decision: approved (🟢), warning (⚠️), blocked (🔴)"
+        },
+        "reviewedBy": {
+          "type": "string",
+          "description": "GitHub username of reviewer"
+        },
+        "reviewedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Review timestamp (ISO 8601)"
+        }
+      }
+    },
+    "projectStructure": {
+      "type": "object",
+      "properties": {
+        "structureDecision": {
+          "type": "string",
+          "description": "Explanation of chosen project structure"
+        },
+        "directories": {
+          "type": "array",
+          "description": "Key directories and their purposes",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "purpose": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "complexityTracking": {
+      "type": "array",
+      "description": "Justified violations of constitution principles",
+      "items": {
+        "type": "object",
+        "required": ["violation", "reason", "alternativeRejected"],
+        "properties": {
+          "violation": {
+            "type": "string",
+            "description": "What constitution principle is being violated"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Why this violation is necessary"
+          },
+          "alternativeRejected": {
+            "type": "string",
+            "description": "Why simpler alternatives were rejected"
+          }
+        }
+      }
+    }
+  }
+}
