@@ -192,3 +192,392 @@
 2. Начать Sprint 008 (Library & Player MVP)
 3. Провести user testing после каждого User Story
 4. Итерировать на основе feedback
+
+---
+
+## 🔍 Эпик E008: Quality & Infrastructure Improvements (NEW - 2025-12-02)
+
+### Обзор
+Комплексное улучшение качества кода, инфраструктуры, документации и безопасности на основе аудита от 2025-12-02.
+
+### Документация
+- 📊 **Аудит**: `SPRINT_AUDIT_2025-12-02.md`
+- 🎯 **Приоритизация**: High -> Medium -> Low
+- 📝 **Story Points**: Total ~123 SP
+
+---
+
+### Категория: Code Quality 📊
+
+| ID | Название | Приоритет | Статус | Story Points | Эпик |
+|---|---|---|---|---|---|
+| CQ-001 | **Fix Remaining Lint Errors in Hooks** - Исправить ~50 lint ошибок в src/hooks/ | Высокий | To Do | 5 SP | E008 |
+| CQ-002 | **Fix Remaining Lint Errors in Pages** - Исправить ~116 lint ошибок в src/pages/ | Высокий | To Do | 8 SP | E008 |
+| CQ-003 | **Increase Test Coverage to 80%** - Unit тесты для hooks, integration для pages | Средний | To Do | 13 SP | E008 |
+| CQ-004 | **Implement E2E Tests with Playwright** - Критичные user flows | Средний | To Do | 8 SP | E008 |
+| CQ-005 | **Bundle Size Optimization** - Code splitting, vendor split, <800 KB | Средний | To Do | 5 SP | E008 |
+| CQ-006 | **Performance Profiling & Optimization** - Lighthouse, DevTools, bottlenecks | Низкий | To Do | 8 SP | E008 |
+
+**Итого Code Quality:** 47 SP
+
+#### Детали задач
+
+**CQ-001: Fix Remaining Lint Errors in Hooks**
+- Remove `any` types
+- Fix React Hooks dependencies
+- Add proper type annotations
+- Remove unused variables
+- Files: `src/hooks/*.ts`
+
+**CQ-002: Fix Remaining Lint Errors in Pages**
+- Remove `any` types
+- Fix React Hooks rules violations
+- Add proper type annotations
+- Improve error handling
+- Files: `src/pages/*.tsx`
+
+**CQ-003: Increase Test Coverage to 80%**
+- Unit тесты для всех hooks
+- Integration тесты для pages
+- Component тесты для UI
+- Достичь 80% statements coverage
+- Достичь 75% branches coverage
+
+**CQ-004: Implement E2E Tests with Playwright**
+- User authentication flow
+- Music generation flow
+- Library management
+- Player functionality
+- Mobile и desktop viewports
+
+**CQ-005: Bundle Size Optimization**
+- Implement code splitting (React.lazy)
+- Split vendor bundle
+- Remove unused dependencies
+- Enable tree-shaking
+- Target: <800 KB total
+
+**CQ-006: Performance Profiling & Optimization**
+- Lighthouse audit (target: >90)
+- React DevTools profiling
+- Identify bottlenecks
+- Optimize re-renders
+- Improve initial load time
+
+---
+
+### Категория: Documentation 📚
+
+| ID | Название | Приоритет | Статус | Story Points | Эпик |
+|---|---|---|---|---|---|
+| DOC-001 | **Create Quick Start Guide** - Пошаговый гайд для новых пользователей | Высокий | To Do | 3 SP | E008 |
+| DOC-002 | **Complete API Documentation** - REST API reference с примерами | Высокий | To Do | 5 SP | E008 |
+| DOC-003 | **Create Testing Documentation** - Тестовая стратегия и guidelines | Средний | To Do | 3 SP | E008 |
+| DOC-004 | **Create Deployment Guide** - Environment setup, build, deploy | Средний | To Do | 3 SP | E008 |
+| DOC-005 | **Create FAQ & Troubleshooting** - Часто задаваемые вопросы и решения | Средний | To Do | 2 SP | E008 |
+| DOC-006 | **User Guides** - Детальные руководства пользователя (guides/ folder) | Низкий | To Do | 8 SP | E008 |
+
+**Итого Documentation:** 24 SP
+
+#### Детали задач
+
+**DOC-001: Create Quick Start Guide** (`docs/QUICK_START.md`)
+- Installation steps
+- First track generation walkthrough
+- Basic features overview
+- Common workflows
+
+**DOC-002: Complete API Documentation** (`docs/API.md`)
+- REST API endpoints
+- Request/Response examples
+- Authentication details
+- Error codes reference
+- Rate limiting
+
+**DOC-003: Create Testing Documentation** (`docs/TESTING.md`)
+- Testing philosophy
+- Unit test guidelines
+- Integration test guidelines
+- E2E test guidelines
+- Running tests locally
+
+**DOC-004: Create Deployment Guide** (`docs/DEPLOYMENT.md`)
+- Environment setup
+- Build process
+- Deployment to production
+- Rollback procedures
+- Monitoring setup
+
+**DOC-005: Create FAQ & Troubleshooting** (`docs/FAQ.md`, `docs/TROUBLESHOOTING.md`)
+- Common questions
+- Common errors and solutions
+- Debug tips
+- Performance issues
+
+**DOC-006: User Guides** (`docs/guides/`)
+- Music generation guide
+- Library management guide
+- Player usage guide
+- Projects and albums guide
+- Advanced features (stems, effects, etc.)
+
+---
+
+### Категория: Infrastructure 🏗️
+
+| ID | Название | Приоритет | Статус | Story Points | Эпик |
+|---|---|---|---|---|---|
+| INF-001 | **Setup Supabase Development Environment** - Локальное Supabase окружение | Критический | To Do | 3 SP | E008 |
+| INF-002 | **Database Migrations for Versioning** - 6 migrations для версионирования | Критический | To Do | 5 SP | E008 |
+| INF-003 | **Setup Monitoring & Logging** - Error tracking, analytics, performance | Средний | To Do | 5 SP | E008 |
+| INF-004 | **CI/CD Pipeline Enhancements** - Preview, E2E, budgets, security | Низкий | To Do | 3 SP | E008 |
+
+**Итого Infrastructure:** 16 SP
+
+#### Детали задач
+
+**INF-001: Setup Supabase Development Environment** ⚠️ БЛОКЕР для Sprint 008
+- Install Supabase CLI
+- Initialize local Supabase
+- Configure migrations
+- Seed test data
+- Documentation
+
+**INF-002: Database Migrations for Versioning** ⚠️ ЗАВИСИТ от INF-001
+- master_version column
+- version_number tracking
+- changelog table
+- playlists support
+- indexes и RLS policies
+
+**INF-003: Setup Monitoring & Logging**
+- Error tracking (Sentry)
+- Analytics (GA/Plausible)
+- Performance monitoring
+- Log aggregation
+- Alerting
+
+**INF-004: CI/CD Pipeline Enhancements**
+- Add deployment preview
+- Automated E2E tests in CI
+- Performance budgets
+- Security scanning
+- Automated releases
+
+---
+
+### Категория: UI/UX Improvements 🎨
+
+| ID | Название | Приоритет | Статус | Story Points | Эпик |
+|---|---|---|---|---|---|
+| UI-001 | **Accessibility Audit & Fixes** - WCAG AA compliance, keyboard, screen reader | Средний | To Do | 8 SP | E008 |
+| UI-002 | **Dark/Light Theme Enhancement** - Улучшение тем и кастомизация | Низкий | To Do | 3 SP | E008 |
+| UI-003 | **Animation & Transition Polish** - Smooth transitions, 60fps | Низкий | To Do | 3 SP | E008 |
+
+**Итого UI/UX:** 14 SP
+
+#### Детали задач
+
+**UI-001: Accessibility Audit & Fixes**
+- Run WAVE/axe audit
+- Fix WCAG AA violations
+- Keyboard navigation
+- Screen reader testing
+- Color contrast improvements
+
+**UI-002: Dark/Light Theme Enhancement**
+- Improve color schemes
+- Add theme customization options
+- Accent colors selector
+- High contrast mode
+
+**UI-003: Animation & Transition Polish**
+- Smooth page transitions
+- Component animations
+- Loading states polish
+- Micro-interactions
+- 60fps performance
+
+---
+
+### Категория: Security 🔐
+
+| ID | Название | Приоритет | Статус | Story Points | Эпик |
+|---|---|---|---|---|---|
+| SEC-001 | **Security Audit** - Полный аудит: dependencies, XSS, CSRF, SQL, API | Высокий | To Do | 5 SP | E008 |
+| SEC-002 | **Implement Rate Limiting** - User/IP limits, graceful degradation | Средний | To Do | 3 SP | E008 |
+| SEC-003 | **Content Security Policy (CSP)** - Строгий CSP, monitoring | Низкий | To Do | 2 SP | E008 |
+
+**Итого Security:** 10 SP
+
+#### Детали задач
+
+**SEC-001: Security Audit**
+- npm audit fix
+- XSS vulnerability scan
+- CSRF protection review
+- SQL injection prevention
+- API security review
+
+**SEC-002: Implement Rate Limiting**
+- User-based limits
+- IP-based limits
+- Graceful degradation
+- Rate limit headers
+- Documentation
+
+**SEC-003: Content Security Policy (CSP)**
+- Define CSP headers
+- Test in report-only mode
+- Deploy to production
+- Monitor violations
+- Documentation
+
+---
+
+## 📊 Эпик E008: Статистика
+
+### Story Points по категориям
+
+| Категория | Story Points | Задачи | % от эпика |
+|-----------|--------------|--------|------------|
+| Code Quality | 47 SP | 6 | 38% |
+| Documentation | 24 SP | 6 | 20% |
+| Infrastructure | 16 SP | 4 | 13% |
+| UI/UX | 14 SP | 3 | 11% |
+| Security | 10 SP | 3 | 8% |
+| **ИТОГО** | **123 SP** | **22** | **100%** |
+
+### Приоритизация
+
+| Приоритет | Story Points | Задачи |
+|-----------|--------------|--------|
+| Критический | 8 SP | 2 |
+| Высокий | 26 SP | 5 |
+| Средний | 50 SP | 9 |
+| Низкий | 27 SP | 6 |
+
+### Рекомендуемое распределение по спринтам
+
+#### Sprint 008 Prerequisites (КРИТИЧНО)
+- **INF-001** (3 SP) - Setup Supabase Dev Environment
+- **INF-002** (5 SP) - Database Migrations
+- **Итого:** 8 SP
+
+#### Sprint 008+ Parallel Track (ВЫСОКИЙ ПРИОРИТЕТ)
+- **CQ-001** (5 SP) - Fix Lint Errors in Hooks
+- **CQ-002** (8 SP) - Fix Lint Errors in Pages
+- **DOC-001** (3 SP) - Quick Start Guide
+- **DOC-002** (5 SP) - API Documentation
+- **SEC-001** (5 SP) - Security Audit
+- **Итого:** 26 SP
+
+#### Sprint 009+ (СРЕДНИЙ ПРИОРИТЕТ)
+- **CQ-003** (13 SP) - Test Coverage
+- **CQ-004** (8 SP) - E2E Tests
+- **CQ-005** (5 SP) - Bundle Optimization
+- **DOC-003** (3 SP) - Testing Docs
+- **DOC-004** (3 SP) - Deployment Guide
+- **DOC-005** (2 SP) - FAQ
+- **INF-003** (5 SP) - Monitoring
+- **UI-001** (8 SP) - Accessibility
+- **SEC-002** (3 SP) - Rate Limiting
+- **Итого:** 50 SP
+
+#### Sprint 010+ (НИЗКИЙ ПРИОРИТЕТ)
+- **CQ-006** (8 SP) - Performance Optimization
+- **DOC-006** (8 SP) - User Guides
+- **INF-004** (3 SP) - CI/CD Enhancements
+- **UI-002** (3 SP) - Theme Enhancement
+- **UI-003** (3 SP) - Animation Polish
+- **SEC-003** (2 SP) - CSP
+- **Итого:** 27 SP
+
+---
+
+## 📈 Метрики прогресса эпика E008
+
+### Tracking Dashboard
+
+| Метрика | Текущее | Цель (1 мес) | Цель (3 мес) | Статус |
+|---------|---------|--------------|--------------|--------|
+| Lint Errors | 166 | 50 | 0 | 🔴 |
+| Test Coverage | 60% | 70% | 80% | 🟡 |
+| Bundle Size | 1.01 MB | 900 KB | 800 KB | 🟡 |
+| Lighthouse Score | ? | 85 | 90+ | ⚪ |
+| Docs Coverage | 60% | 80% | 95% | 🟡 |
+| Security Score | ? | 85% | 95% | ⚪ |
+
+### Success Criteria
+
+**Краткосрочные (1 месяц):**
+- ✅ Sprint 008 prerequisites завершены (INF-001, INF-002)
+- ✅ Lint errors < 50
+- ✅ Test coverage > 70%
+- ✅ Core documentation completed (DOC-001, DOC-002)
+- ✅ Security audit passed (SEC-001)
+
+**Среднесрочные (3 месяца):**
+- ✅ Lint errors = 0
+- ✅ Test coverage > 80%
+- ✅ E2E tests implemented
+- ✅ Bundle size < 800 KB
+- ✅ Lighthouse score > 90
+- ✅ WCAG AA compliance
+- ✅ Monitoring & logging operational
+
+---
+
+<div align="center">
+
+## 🎯 Эпик E008: Roadmap Timeline
+
+```mermaid
+gantt
+    title E008 Quality & Infrastructure Improvements
+    dateFormat  YYYY-MM-DD
+    section Critical
+    INF-001 Supabase Dev        :crit, 2025-12-02, 3d
+    INF-002 DB Migrations        :crit, 2025-12-05, 5d
+    
+    section High Priority
+    CQ-001 Lint Hooks           :2025-12-10, 5d
+    CQ-002 Lint Pages           :2025-12-15, 8d
+    DOC-001 Quick Start         :2025-12-10, 3d
+    DOC-002 API Docs            :2025-12-13, 5d
+    SEC-001 Security Audit      :2025-12-18, 5d
+    
+    section Medium Priority
+    CQ-003 Test Coverage        :2025-12-23, 13d
+    CQ-004 E2E Tests            :2026-01-05, 8d
+    CQ-005 Bundle Opt           :2026-01-13, 5d
+    
+    section Low Priority
+    CQ-006 Performance          :2026-01-20, 8d
+    UI-002 Theme Enhancement    :2026-01-28, 3d
+```
+
+**Примечание:** Timeline является ориентировочным и может корректироваться в зависимости от приоритетов спринтов.
+
+</div>
+
+---
+
+## 🔗 Связанные документы
+
+- 📊 [Sprint Audit 2025-12-02](../SPRINT_AUDIT_2025-12-02.md) - Детальный аудит
+- 📋 [Sprint Management](../SPRINT_MANAGEMENT.md) - Управление спринтами
+- 📚 [Documentation Index](../docs/INDEX.md) - Навигация по документации
+- 🔐 [Security Policy](../SECURITY.md) - Политика безопасности
+- 🤝 [Contributing](../CONTRIBUTING.md) - Руководство по участию
+
+---
+
+<div align="center">
+
+**Последнее обновление:** 2025-12-02  
+**Следующий обзор:** Sprint Planning Meeting
+
+[⬆️ Вернуться к началу](#бэклог-продукта)
+
+</div>
