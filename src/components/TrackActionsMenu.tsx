@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { 
   MoreVertical, Trash2, Info, FileText, Plus, Mic, Volume2, Music, 
   Wand2, Scissors, ImagePlus, FileAudio, Music2, Download, Share2, 
-  Send, Lock, Globe, Sparkles, Folder 
+  Send, Lock, Globe, Sparkles, Folder, ListMusic 
 } from 'lucide-react';
 import { ExtendTrackDialog } from './ExtendTrackDialog';
 import { LyricsDialog } from './LyricsDialog';
@@ -24,6 +24,7 @@ import { AddInstrumentalDialog } from './AddInstrumentalDialog';
 import { CreatePersonaDialog } from './track-menu/CreatePersonaDialog';
 import { AddToProjectDialog } from './track-menu/AddToProjectDialog';
 import { ShareTrackDialog } from './track-menu/ShareTrackDialog';
+import { PlaylistSelector } from './track-menu/PlaylistSelector';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { TrackStudioSection } from './track-menu/TrackStudioSection';
 import { TrackInfoSection } from './track-menu/TrackInfoSection';
@@ -46,6 +47,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
   const [createPersonaDialogOpen, setCreatePersonaDialogOpen] = useState(false);
   const [addToProjectDialogOpen, setAddToProjectDialogOpen] = useState(false);
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [playlistSelectorOpen, setPlaylistSelectorOpen] = useState(false);
   const [stemCount, setStemCount] = useState(0);
   const navigate = useNavigate();
 
@@ -214,6 +216,11 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                 Добавить в проект
               </DropdownMenuItem>
 
+              <DropdownMenuItem onClick={() => setPlaylistSelectorOpen(true)}>
+                <ListMusic className="w-4 h-4 mr-2" />
+                Добавить в плейлист
+              </DropdownMenuItem>
+
               <DropdownMenuItem onClick={() => setCreatePersonaDialogOpen(true)}>
                 <Sparkles className="w-4 h-4 mr-2" />
                 Создать персону
@@ -292,6 +299,12 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
       <ShareTrackDialog
         open={shareDialogOpen}
         onOpenChange={setShareDialogOpen}
+        track={track}
+      />
+
+      <PlaylistSelector
+        open={playlistSelectorOpen}
+        onOpenChange={setPlaylistSelectorOpen}
         track={track}
       />
     </>
