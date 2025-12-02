@@ -17,6 +17,13 @@ interface InlineQuery {
   offset: string;
 }
 
+interface InlineKeyboardMarkup {
+  inline_keyboard: Array<Array<{
+    text: string;
+    web_app?: { url: string };
+  }>>;
+}
+
 interface InlineQueryResult {
   type: string;
   id: string;
@@ -26,7 +33,7 @@ interface InlineQueryResult {
   audio_url?: string;
   caption?: string;
   parse_mode?: string;
-  reply_markup?: any;
+  reply_markup?: InlineKeyboardMarkup;
 }
 
 export async function handleInlineQuery(inlineQuery: InlineQuery) {

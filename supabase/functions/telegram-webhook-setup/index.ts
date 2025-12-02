@@ -3,7 +3,10 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-async function callTelegramAPI(method: string, body?: any) {
+// Type definition for Telegram API request body
+type TelegramAPIBody = Record<string, unknown>;
+
+async function callTelegramAPI(method: string, body?: TelegramAPIBody) {
   const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
   if (!botToken) {
     throw new Error('TELEGRAM_BOT_TOKEN not configured');

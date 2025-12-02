@@ -308,7 +308,12 @@ export async function setUserEmojiStatus(userId: number, emojiId: string | null)
     throw new Error('TELEGRAM_BOT_TOKEN not configured');
   }
 
-  const body: any = { user_id: userId };
+  interface EmojiStatusBody {
+    user_id: number;
+    emoji_status_custom_emoji_id?: string;
+  }
+
+  const body: EmojiStatusBody = { user_id: userId };
   if (emojiId) {
     body.emoji_status_custom_emoji_id = emojiId;
   }

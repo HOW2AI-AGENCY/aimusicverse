@@ -49,11 +49,16 @@ export async function handleStatus(chatId: number, userId: number, messageId?: n
       return;
     }
 
-    // Escape markdown special characters
-    const escapeMarkdown = (text: string) => text.replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1');
+    // Escape markdown special characters for Telegram MarkdownV2
+    const escapeMarkdown = (text: string) => text.replace(/([_*[\]()~`>#+\-=|{}.!])/g, '\\$1');
+    
+    interface InlineKeyboardButton {
+      text: string;
+      callback_data: string;
+    }
     
     let statusText = `⏳ *Статус генерации*\n\nАктивных задач: ${tasks.length}\n\n`;
-    const keyboard: any[][] = [];
+    const keyboard: InlineKeyboardButton[][] = [];
 
     tasks.forEach((task, index) => {
       const createdAt = new Date(task.created_at);
