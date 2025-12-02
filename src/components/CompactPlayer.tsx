@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, Pause, X, Maximize2, Volume2, VolumeX, Heart, Download } from 'lucide-react';
+import { X, Maximize2, Volume2, VolumeX, Heart, Download, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Card } from '@/components/ui/card';
@@ -7,7 +7,10 @@ import { useAudioPlayer } from '@/hooks/useAudioPlayer';
 import { AudioWaveform } from '@/components/AudioWaveform';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useTracks } from '@/hooks/useTracksOptimized';
+import { PlaybackControls } from '@/components/player/PlaybackControls';
+import { motion, useDragControls } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { hapticImpact } from '@/lib/haptic';
 
 interface CompactPlayerProps {
   track: {
@@ -23,12 +26,14 @@ interface CompactPlayerProps {
   };
   onClose: () => void;
   onMaximize: () => void;
+  onExpand?: () => void;
 }
 
-export function CompactPlayer({ track, onClose, onMaximize }: CompactPlayerProps) {
+export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactPlayerProps) {
   const [volume, setVolume] = useState(1);
   const [muted, setMuted] = useState(false);
   const { toggleLike, downloadTrack } = useTracks();
+  const dragControls = useDragControls();
 
   const {
     isPlaying,
@@ -73,10 +78,33 @@ export function CompactPlayer({ track, onClose, onMaximize }: CompactPlayerProps
     }
   };
 
+  const handleDragEnd = (event: any, info: any) => {
+    // Swipe up to expand
+    if (info.offset.y < -50 && onExpand) {
+      hapticImpact('light');
+      onExpand();
+    }
+  };
+
   return (
-    <Card className="fixed bottom-20 sm:bottom-20 md:bottom-4 left-2 right-2 sm:left-4 sm:right-4 md:left-auto md:w-[400px] z-40 glass-card border-primary/20 p-3 sm:p-4 shadow-2xl rounded-2xl bottom-nav-safe">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-2 sm:mb-3">
+    <motion.div
+      drag="y"
+      dragControls={dragControls}
+      dragConstraints={{ top: 0, bottom: 0 }}
+      dragElastic={0.2}
+      onDragEnd={handleDragEnd}
+      className="fixed bottom-20 sm:bottom-20 md:bottom-4 left-2 right-2 sm:left-4 sm:right-4 md:left-auto md:w-[400px] z-40 bottom-nav-safe"
+    >
+      <Card className="glass-card border-primary/20 p-3 sm:p-4 shadow-2xl rounded-2xl">
+        {/* Swipe indicator */}
+        {onExpand && (
+          <div className="flex justify-center mb-2">
+            <div className="w-12 h-1 bg-muted-foreground/30 rounded-full" />
+          </div>
+        )}
+        
+        {/* Header */}
+        <div className="flex items-center justify-between mb-2 sm:mb-3">
         <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
           {track.cover_url && (
             <img
@@ -133,44 +161,38 @@ export function CompactPlayer({ track, onClose, onMaximize }: CompactPlayerProps
       </div>
 
       {/* Controls */}
-      <div className="flex items-center gap-2 sm:gap-3">
-        <Button
-          variant="default"
-          size="icon"
-          onClick={togglePlay}
-          disabled={!track.audio_url}
-          className="h-11 w-11 sm:h-10 sm:w-10 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex-shrink-0 touch-manipulation active:scale-95 shadow-lg"
-          aria-label={isPlaying ? "Пауза" : "Воспроизвести"}
-        >
-          {isPlaying ? (
-            <Pause className="h-5 w-5" />
-          ) : (
-            <Play className="h-5 w-5" />
-          )}
-        </Button>
-        <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => toggleLike({ trackId: track.id, isLiked: track.is_liked || false })}
-            className="h-9 w-9 sm:h-8 sm:w-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex-shrink-0 touch-manipulation active:scale-95"
-            aria-label={track.is_liked ? "Убрать из избранного" : "Добавить в избранное"}
-            disabled={!track.id}
-        >
-            <Heart className={cn("h-4 w-4", track.is_liked && "fill-current text-red-500")} />
-        </Button>
-        <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => downloadTrack({ trackId: track.id, audioUrl: track.audio_url!, coverUrl: track.cover_url! })}
-            className="h-9 w-9 sm:h-8 sm:w-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex-shrink-0 touch-manipulation active:scale-95"
-            aria-label="Скачать трек"
-            disabled={!track.audio_url}
-        >
-            <Download className="h-4 w-4" />
-        </Button>
+      <div className="flex items-center justify-between gap-2 sm:gap-3">
+        {/* Left side: Like & Download */}
+        <div className="flex items-center gap-1">
+          <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => toggleLike({ trackId: track.id, isLiked: track.is_liked || false })}
+              className="h-9 w-9 sm:h-8 sm:w-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex-shrink-0 touch-manipulation active:scale-95"
+              aria-label={track.is_liked ? "Убрать из избранного" : "Добавить в избранное"}
+              disabled={!track.id}
+          >
+              <Heart className={cn("h-4 w-4", track.is_liked && "fill-current text-red-500")} />
+          </Button>
+          <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => downloadTrack({ trackId: track.id, audioUrl: track.audio_url!, coverUrl: track.cover_url! })}
+              className="h-9 w-9 sm:h-8 sm:w-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex-shrink-0 touch-manipulation active:scale-95"
+              aria-label="Скачать трек"
+              disabled={!track.audio_url}
+          >
+              <Download className="h-4 w-4" />
+          </Button>
+        </div>
 
-        {/* Volume Control - Hide on small screens */}
-        <div className="hidden sm:flex items-center gap-2 flex-1">
+        {/* Center: Playback Controls */}
+        <div className="flex-1 flex justify-center">
+          <PlaybackControls size="compact" />
+        </div>
+
+        {/* Right side: Volume (desktop only) */}
+        <div className="hidden sm:flex items-center gap-2">
           <Button
             variant="ghost"
             size="icon"
@@ -189,11 +211,12 @@ export function CompactPlayer({ track, onClose, onMaximize }: CompactPlayerProps
             max={1}
             step={0.01}
             onValueChange={handleVolumeChange}
-            className="flex-1"
+            className="w-20"
             aria-label="Громкость"
           />
         </div>
       </div>
-    </Card>
+      </Card>
+    </motion.div>
   );
 }
