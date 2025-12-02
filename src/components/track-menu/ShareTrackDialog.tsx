@@ -13,6 +13,7 @@ import { Track } from '@/hooks/useTracksOptimized';
 import { Share2, Copy, Check, ExternalLink, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { hapticNotification } from '@/lib/haptic';
 
 interface ShareTrackDialogProps {
   open: boolean;
@@ -47,11 +48,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       
-      // Haptic feedback
-      if (window.Telegram?.WebApp?.HapticFeedback) {
-        window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-      }
-      
+      hapticNotification('success');
       toast.success('Link copied to clipboard');
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
@@ -69,9 +66,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
           url: shareUrl,
         });
         
-        if (window.Telegram?.WebApp?.HapticFeedback) {
-          window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-        }
+        hapticNotification('success');
       } catch (error) {
         if ((error as Error).name !== 'AbortError') {
           console.error('Error sharing:', error);

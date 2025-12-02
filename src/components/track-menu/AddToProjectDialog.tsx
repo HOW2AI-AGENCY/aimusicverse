@@ -16,6 +16,7 @@ import { toast } from 'sonner';
 import { useProjects } from '@/hooks/useProjects';
 import { useProjectTracks } from '@/hooks/useProjectTracks';
 import { cn } from '@/lib/utils';
+import { hapticImpact, hapticNotification } from '@/lib/haptic';
 
 interface AddToProjectDialogProps {
   open: boolean;
@@ -46,10 +47,7 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
     setLoading(true);
 
     try {
-      // Add haptic feedback
-      if (window.Telegram?.WebApp?.HapticFeedback) {
-        window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
-      }
+      hapticImpact('light');
 
       await addTrackToProject({
         projectId: selectedProjectId,
@@ -57,6 +55,7 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
       });
 
       const project = projects?.find(p => p.id === selectedProjectId);
+      hapticNotification('success');
       toast.success(`Added to "${project?.name}"`);
       onOpenChange(false);
       

@@ -15,6 +15,7 @@ import { Track } from '@/hooks/useTracksOptimized';
 import { Sparkles, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useArtists } from '@/hooks/useArtists';
+import { hapticImpact, hapticNotification } from '@/lib/haptic';
 
 interface CreatePersonaDialogProps {
   open: boolean;
@@ -43,10 +44,7 @@ export function CreatePersonaDialog({ open, onOpenChange, track }: CreatePersona
     setLoading(true);
     
     try {
-      // Add haptic feedback if available
-      if (window.Telegram?.WebApp?.HapticFeedback) {
-        window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
-      }
+      hapticImpact('medium');
 
       await createArtist({
         name: name.trim(),
@@ -55,6 +53,7 @@ export function CreatePersonaDialog({ open, onOpenChange, track }: CreatePersona
         avatar_url: track.cover_url || null,
       });
 
+      hapticNotification('success');
       toast.success('Persona created successfully');
       onOpenChange(false);
       
