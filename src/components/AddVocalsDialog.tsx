@@ -54,9 +54,10 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
       });
 
       onOpenChange(false);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Add vocals error:', error);
-      toast.error(error.message || 'Ошибка добавления вокала');
+      const errorMessage = error instanceof Error ? error.message : 'Ошибка добавления вокала';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

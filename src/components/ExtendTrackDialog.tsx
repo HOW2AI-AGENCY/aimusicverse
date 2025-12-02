@@ -84,10 +84,11 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
       });
 
       onOpenChange(false);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Extend error:', error);
       
-      if (error.message?.includes('429') || error.message?.includes('credits')) {
+      const errorMessage = error instanceof Error ? error.message : '';
+      if (errorMessage.includes('429') || errorMessage.includes('credits')) {
         toast.error('Недостаточно кредитов', {
           description: 'Пополните баланс SunoAPI для продолжения',
         });

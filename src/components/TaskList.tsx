@@ -4,6 +4,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TaskSkeleton } from "@/components/ui/skeleton-loader";
 import { CheckCircle2, Circle, Clock, Archive } from "lucide-react";
+import { Tables } from "@/integrations/supabase/types";
+
+type Task = Tables<"tasks"> & { task_categories: Tables<"task_categories"> | null };
 
 export const TaskList = () => {
   const { data: allTasks, isLoading: allLoading } = useTasks('all');
@@ -11,7 +14,7 @@ export const TaskList = () => {
   const { data: inProgressTasks, isLoading: progressLoading } = useTasks('in_progress');
   const { data: completedTasks, isLoading: completedLoading } = useTasks('completed');
 
-  const renderTasks = (tasks: any[] | undefined, isLoading: boolean) => {
+  const renderTasks = (tasks: Task[] | undefined, isLoading: boolean) => {
     if (isLoading) {
       return (
         <div className="space-y-3 p-3">

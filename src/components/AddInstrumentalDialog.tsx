@@ -54,9 +54,10 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
       });
 
       onOpenChange(false);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Add instrumental error:', error);
-      toast.error(error.message || 'Ошибка добавления инструментала');
+      const errorMessage = error instanceof Error ? error.message : 'Ошибка добавления инструментала';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

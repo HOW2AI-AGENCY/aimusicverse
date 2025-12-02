@@ -22,9 +22,10 @@ export const TelegramBotSetup = () => {
       console.log('✅ Вебхук настроен:', data);
       setWebhookInfo(data);
       toast.success('Telegram бот успешно настроен!');
-    } catch (error: any) {
+    } catch (error) {
       console.error('❌ Ошибка настройки вебхука:', error);
-      toast.error('Ошибка настройки бота: ' + error.message);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      toast.error('Ошибка настройки бота: ' + errorMessage);
     } finally {
       setLoading(false);
     }

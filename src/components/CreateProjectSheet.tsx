@@ -108,7 +108,7 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
 
       setCoverUrl(publicUrl);
       toast.success('Обложка загружена');
-    } catch (error: any) {
+    } catch (error) {
       console.error('Upload error:', error);
       toast.error('Ошибка загрузки обложки');
     } finally {
@@ -147,9 +147,10 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
         setCoverUrl(data.coverUrl);
         toast.success('Обложка сгенерирована');
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Generate error:', error);
-      toast.error(error.message || 'Ошибка генерации обложки');
+      const errorMessage = error instanceof Error ? error.message : 'Ошибка генерации обложки';
+      toast.error(errorMessage);
     } finally {
       setIsGeneratingCover(false);
     }

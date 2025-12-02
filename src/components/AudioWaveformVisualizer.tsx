@@ -36,7 +36,11 @@ export function AudioWaveformVisualizer({
     const generateWaveform = async () => {
       setIsLoading(true);
       try {
-        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const AudioContextClass = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+        if (!AudioContextClass) {
+          throw new Error('AudioContext not supported');
+        }
+        const audioContext = new AudioContextClass();
         const response = await fetch(audioUrl);
         const arrayBuffer = await response.arrayBuffer();
         const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);

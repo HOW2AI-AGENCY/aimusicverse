@@ -63,16 +63,12 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
     fetchStemCount();
   }, [track.id]);
 
-  const handleTranscribeMidi = async () => {
-    const { useMidiTranscription } = await import('@/hooks/useMidiTranscription');
-    const transcribe = useMidiTranscription();
-    if (track.audio_url) {
-      transcribe.mutate({
-        trackId: track.id,
-        audioUrl: track.audio_url,
-        modelType: 'mt3',
-      });
-    }
+  const handleTranscribeMidi = () => {
+    if (!track.audio_url) return;
+    
+    // TODO: Implement MIDI transcription functionality
+    // This requires useMidiTranscription hook to be properly implemented
+    toast.info('MIDI transcription feature coming soon!');
   };
 
 

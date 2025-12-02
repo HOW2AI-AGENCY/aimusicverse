@@ -15,14 +15,12 @@ interface OnboardingProps {
 }
 
 export const Onboarding = ({ onComplete }: OnboardingProps = {}) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
+  const [isOpen, setIsOpen] = useState(() => {
+    // Safe to use localStorage in Telegram Mini Apps (client-side only, no SSR)
+    if (typeof window === 'undefined') return false;
     const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
-    if (!hasSeenOnboarding) {
-      setIsOpen(true);
-    }
-  }, []);
+    return !hasSeenOnboarding;
+  });
 
   const handleClose = () => {
     localStorage.setItem('hasSeenOnboarding', 'true');
