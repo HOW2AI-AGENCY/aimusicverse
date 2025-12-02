@@ -15,6 +15,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ErrorBoundaryWrapper } from '@/components/ErrorBoundaryWrapper';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useDebounce } from 'use-debounce';
+import { TrackCardSkeleton } from '@/components/ui/skeleton-loader';
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -145,8 +146,13 @@ export default function Library() {
         {/* Content - Improved responsive padding and layout */}
         <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
           {isLoading ? (
-            <div className="flex items-center justify-center py-12">
-              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <div className={viewMode === 'grid' 
+              ? 'grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4'
+              : 'flex flex-col gap-2 sm:gap-3'
+            }>
+              {Array.from({ length: 8 }).map((_, i) => (
+                <TrackCardSkeleton key={i} layout={viewMode} />
+              ))}
             </div>
           ) : tracksToDisplay.length === 0 ? (
             <Card className="glass-card border-primary/20 p-8 sm:p-12 text-center">

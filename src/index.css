@@ -92,7 +92,7 @@ All colors MUST be HSL.
     --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 16.5%;
-    --muted-foreground: 0 0% 100% / 0.6;
+    --muted-foreground: 0 0% 100% / 0.65;
 
     --accent: 0 0% 16.5%;
     --accent-foreground: 207 90% 56%;
@@ -133,6 +133,10 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
     /* Адаптация под полноэкранный режим Telegram Mini App */
@@ -144,6 +148,16 @@ All colors MUST be HSL.
   #root {
     min-height: 100vh;
     min-height: -webkit-fill-available;
+  }
+
+  /* Улучшенные фокус-состояния для доступности */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+
+  /* Убираем фокус для мыши, оставляем для клавиатуры */
+  button:focus:not(:focus-visible) {
+    outline: none;
   }
 }
 
@@ -209,5 +223,52 @@ All colors MUST be HSL.
   /* Bottom navigation с safe area */
   .bottom-nav-safe {
     padding-bottom: max(var(--safe-area-bottom), 16px);
+  }
+
+  /* Touch feedback utilities */
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Smooth transitions for interactive elements */
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Improved hover states for cards */
+  .hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  /* Active state for buttons */
+  .active-scale:active {
+    transform: scale(0.95);
+  }
+
+  /* Loading skeleton animation */
+  @keyframes skeleton-loading {
+    0% {
+      background-position: -200px 0;
+    }
+    100% {
+      background-position: calc(200px + 100%) 0;
+    }
+  }
+
+  .skeleton-loading {
+    background: linear-gradient(
+      90deg,
+      var(--muted) 0px,
+      rgba(255, 255, 255, 0.1) 40px,
+      var(--muted) 80px
+    );
+    background-size: 200px 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
   }
 }
