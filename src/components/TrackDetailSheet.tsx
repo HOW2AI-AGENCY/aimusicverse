@@ -2,12 +2,13 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { Track } from '@/hooks/useTracks';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Music2, GitBranch, History, Sparkles } from 'lucide-react';
+import { Music2, GitBranch, History, Sparkles, FileText } from 'lucide-react';
 import { TrackDetailsTab } from './track-detail/TrackDetailsTab';
 import { TrackVersionsTab } from './track-detail/TrackVersionsTab';
 import { TrackChangelogTab } from './track-detail/TrackChangelogTab';
 import { TrackAnalysisTab } from './track-detail/TrackAnalysisTab';
 import { TrackStemsTab } from './track-detail/TrackStemsTab';
+import { LyricsView } from './track-detail/LyricsView';
 
 interface TrackDetailSheetProps {
   open: boolean;
@@ -27,10 +28,14 @@ export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheet
         </SheetHeader>
 
         <Tabs defaultValue="details" className="flex-1 mt-4">
-          <TabsList className="grid w-full grid-cols-5 mb-4">
+          <TabsList className="grid w-full grid-cols-6 mb-4">
             <TabsTrigger value="details" className="gap-1 text-xs">
               <Music2 className="w-4 h-4" />
               <span className="hidden sm:inline">Детали</span>
+            </TabsTrigger>
+            <TabsTrigger value="lyrics" className="gap-1 text-xs">
+              <FileText className="w-4 h-4" />
+              <span className="hidden sm:inline">Текст</span>
             </TabsTrigger>
             <TabsTrigger value="analysis" className="gap-1 text-xs">
               <Sparkles className="w-4 h-4" />
@@ -54,6 +59,10 @@ export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheet
             <div className="pr-4">
               <TabsContent value="details" className="mt-0">
                 <TrackDetailsTab track={track} />
+              </TabsContent>
+
+              <TabsContent value="lyrics" className="mt-0">
+                <LyricsView lyrics={track.lyrics} />
               </TabsContent>
 
               <TabsContent value="analysis" className="mt-0">

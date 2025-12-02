@@ -14,18 +14,22 @@ import { Button } from '@/components/ui/button';
 import { 
   MoreVertical, Trash2, Info, FileText, Plus, Mic, Volume2, Music, 
   Wand2, Scissors, ImagePlus, FileAudio, Music2, Download, Share2, 
-  Send, Lock, Globe 
+  Send, Lock, Globe, Sparkles, Folder 
 } from 'lucide-react';
 import { ExtendTrackDialog } from './ExtendTrackDialog';
 import { LyricsDialog } from './LyricsDialog';
 import { TrackDetailDialog } from './TrackDetailDialog';
 import { AddVocalsDialog } from './AddVocalsDialog';
 import { AddInstrumentalDialog } from './AddInstrumentalDialog';
+import { CreatePersonaDialog } from './track-menu/CreatePersonaDialog';
+import { AddToProjectDialog } from './track-menu/AddToProjectDialog';
+import { ShareTrackDialog } from './track-menu/ShareTrackDialog';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { TrackStudioSection } from './track-menu/TrackStudioSection';
 import { TrackInfoSection } from './track-menu/TrackInfoSection';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 
 interface TrackActionsMenuProps {
   track: Track;
@@ -39,7 +43,11 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
   const [addVocalsDialogOpen, setAddVocalsDialogOpen] = useState(false);
   const [addInstrumentalDialogOpen, setAddInstrumentalDialogOpen] = useState(false);
+  const [createPersonaDialogOpen, setCreatePersonaDialogOpen] = useState(false);
+  const [addToProjectDialogOpen, setAddToProjectDialogOpen] = useState(false);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [stemCount, setStemCount] = useState(0);
+  const navigate = useNavigate();
 
   const {
     isProcessing,
@@ -189,7 +197,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                 Скачать
               </DropdownMenuItem>
 
-              <DropdownMenuItem onClick={() => handleShare(track)}>
+              <DropdownMenuItem onClick={() => setShareDialogOpen(true)}>
                 <Share2 className="w-4 h-4 mr-2" />
                 Поделиться
               </DropdownMenuItem>
@@ -197,6 +205,18 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
               <DropdownMenuItem onClick={() => handleSendToTelegram(track)} disabled={isProcessing}>
                 <Send className="w-4 h-4 mr-2" />
                 Отправить в Telegram
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem onClick={() => setAddToProjectDialogOpen(true)}>
+                <Folder className="w-4 h-4 mr-2" />
+                Добавить в проект
+              </DropdownMenuItem>
+
+              <DropdownMenuItem onClick={() => setCreatePersonaDialogOpen(true)}>
+                <Sparkles className="w-4 h-4 mr-2" />
+                Создать персону
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />
@@ -254,6 +274,24 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
       <TrackDetailDialog
         open={detailDialogOpen}
         onOpenChange={setDetailDialogOpen}
+        track={track}
+      />
+
+      <CreatePersonaDialog
+        open={createPersonaDialogOpen}
+        onOpenChange={setCreatePersonaDialogOpen}
+        track={track}
+      />
+
+      <AddToProjectDialog
+        open={addToProjectDialogOpen}
+        onOpenChange={setAddToProjectDialogOpen}
+        track={track}
+      />
+
+      <ShareTrackDialog
+        open={shareDialogOpen}
+        onOpenChange={setShareDialogOpen}
         track={track}
       />
     </>
