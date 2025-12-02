@@ -7,8 +7,10 @@ export interface TrackVersion {
   audio_url: string;
   cover_url: string | null;
   duration_seconds: number | null;
-  version_type: string;
-  is_primary: boolean;
+  version_type: string | null;
+  version_number: number;
+  is_master: boolean;
+  is_primary: boolean | null;
   parent_version_id: string | null;
   metadata: Record<string, unknown> | null;
   created_at: string;
@@ -22,8 +24,8 @@ export const useTrackVersions = (trackId: string) => {
         .from('track_versions')
         .select('*')
         .eq('track_id', trackId)
-        .order('is_primary', { ascending: false })
-        .order('created_at', { ascending: true });
+        .order('is_master', { ascending: false })
+        .order('version_number', { ascending: false });
 
       if (error) throw error;
       return (data || []) as TrackVersion[];

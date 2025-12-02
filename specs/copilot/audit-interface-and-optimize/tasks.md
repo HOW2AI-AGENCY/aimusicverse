@@ -47,23 +47,23 @@
 
 ### Core Utility Libraries
 
-- [ ] T014 [P] Create versioning utility functions in src/lib/versioning.ts (getVersionNumber, setMasterVersion, etc.)
-- [ ] T015 [P] Create player utility functions in src/lib/player-utils.ts (formatTime, calculateProgress, etc.)
-- [ ] T016 [P] Create mobile detection and responsive utilities in src/lib/mobile-utils.ts (useIsMobile, useTouchEvents, etc.)
+- [X] T014 [P] Create versioning utility functions in src/lib/versioning.ts (getVersionNumber, setMasterVersion, etc.)
+- [X] T015 [P] Create player utility functions in src/lib/player-utils.ts (formatTime, calculateProgress, etc.)
+- [X] T016 [P] Create mobile detection and responsive utilities in src/lib/mobile-utils.ts (useIsMobile, useTouchEvents, etc.)
 
 ### Foundational Hooks
 
-- [ ] T017 [P] Create useTrackVersions hook for fetching versions in src/hooks/useTrackVersions.ts
-- [ ] T018 Create useVersionSwitcher hook for managing master version switching in src/hooks/useVersionSwitcher.ts
-- [ ] T019 [P] Create usePublicContent hook for fetching public tracks/projects/artists in src/hooks/usePublicContent.ts
-- [ ] T020 Create usePlayerState Zustand store for global player state in src/hooks/usePlayerState.ts
-- [ ] T021 Create usePlaybackQueue hook for queue management in src/hooks/usePlaybackQueue.ts
+- [X] T017 [P] Create useTrackVersions hook for fetching versions in src/hooks/useTrackVersions.ts
+- [X] T018 Create useVersionSwitcher hook for managing master version switching in src/hooks/useVersionSwitcher.ts
+- [X] T019 [P] Create usePublicContent hook for fetching public tracks/projects/artists in src/hooks/usePublicContent.ts
+- [X] T020 Create usePlayerState Zustand store for global player state in src/hooks/usePlayerState.ts
+- [X] T021 Create usePlaybackQueue hook for queue management in src/hooks/usePlaybackQueue.ts
 
 ### Supabase Query Functions
 
-- [ ] T022 [P] Create public content query functions in src/integrations/supabase/queries/public-content.ts
-- [ ] T023 [P] Create versioning query functions in src/integrations/supabase/queries/versioning.ts
-- [ ] T024 [P] Create changelog query functions in src/integrations/supabase/queries/changelog.ts
+- [X] T022 [P] Create public content query functions in src/integrations/supabase/queries/public-content.ts
+- [X] T023 [P] Create versioning query functions in src/integrations/supabase/queries/versioning.ts
+- [X] T024 [P] Create changelog query functions in src/integrations/supabase/queries/changelog.ts
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
