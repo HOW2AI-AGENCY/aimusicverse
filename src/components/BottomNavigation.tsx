@@ -25,9 +25,9 @@ export const BottomNavigation = () => {
 
   return (
     <>
-      <nav className="fixed bottom-0 left-0 right-0 z-50 glass-card border-t border-border/50 safe-area-bottom">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 glass-card border-t border-border/50 bottom-nav-safe">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:py-3">
-          <div className="flex items-center justify-around">
+          <div className="flex items-center justify-around gap-1 sm:gap-2">
             {/* Home */}
             <button
               onClick={() => handleNavigate('/')}

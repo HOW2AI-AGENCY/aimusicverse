@@ -28,35 +28,50 @@ export const Step3Style = ({ onNext, onBack }: Step3StyleProps) => {
   };
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Выберите стиль</h2>
-      <div className="space-y-4">
-        <Card>
-          <CardHeader>
-            <CardTitle>Жанр</CardTitle>
+    <div className="space-y-4 sm:space-y-6">
+      <div>
+        <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent mb-2">
+          Выберите стиль
+        </h2>
+        <p className="text-xs sm:text-sm text-muted-foreground">Выберите жанры и настроение для вашего трека</p>
+      </div>
+      <div className="space-y-3 sm:space-y-4">
+        <Card className="glass-card border-primary/20">
+          <CardHeader className="p-3 sm:p-6">
+            <CardTitle className="text-base sm:text-lg">Жанр</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-wrap gap-2">
+          <CardContent className="flex flex-wrap gap-2 p-3 sm:p-6 pt-0">
             {genres.map((genre) => (
               <Button
                 key={genre}
                 variant={selectedGenres.includes(genre) ? "default" : "outline"}
                 onClick={() => handleGenreSelect(genre)}
+                className={cn(
+                  "min-h-[44px] touch-manipulation active:scale-95 transition-transform",
+                  selectedGenres.includes(genre) && "shadow-md shadow-primary/30"
+                )}
+                size="lg"
               >
                 {genre}
               </Button>
             ))}
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Настроение</CardTitle>
+        <Card className="glass-card border-primary/20">
+          <CardHeader className="p-3 sm:p-6">
+            <CardTitle className="text-base sm:text-lg">Настроение</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-wrap gap-2">
+          <CardContent className="flex flex-wrap gap-2 p-3 sm:p-6 pt-0">
             {moods.map((mood) => (
               <Button
                 key={mood}
                 variant={selectedMoods.includes(mood) ? "default" : "outline"}
                 onClick={() => handleMoodSelect(mood)}
+                className={cn(
+                  "min-h-[44px] touch-manipulation active:scale-95 transition-transform",
+                  selectedMoods.includes(mood) && "shadow-md shadow-primary/30"
+                )}
+                size="lg"
               >
                 {mood}
               </Button>
@@ -64,11 +79,22 @@ export const Step3Style = ({ onNext, onBack }: Step3StyleProps) => {
           </CardContent>
         </Card>
       </div>
-      <div className="flex justify-between mt-6">
-        <Button variant="outline" onClick={onBack}>
+      <div className="flex justify-between pt-3 sm:pt-4 border-t border-border/50 gap-3">
+        <Button 
+          variant="outline" 
+          onClick={onBack}
+          size="lg"
+          className="flex-1 sm:flex-initial min-h-[48px] touch-manipulation active:scale-95 transition-transform"
+        >
           Назад
         </Button>
-        <Button onClick={handleNext}>Далее</Button>
+        <Button 
+          onClick={handleNext}
+          size="lg"
+          className="flex-1 sm:flex-initial min-h-[48px] touch-manipulation active:scale-95 transition-transform"
+        >
+          Далее
+        </Button>
       </div>
     </div>
   );
