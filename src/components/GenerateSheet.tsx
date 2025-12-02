@@ -144,7 +144,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         });
       } else {
         toast.error('Ошибка улучшения', {
-          description: error.message || 'Попробуйте еще раз',
+          description: errorMessage || 'Попробуйте еще раз',
         });
       }
     } finally {
@@ -231,7 +231,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         });
       } else {
         toast.error('Ошибка генерации', {
-          description: error.message || 'Попробуйте еще раз',
+          description: errorMessage || 'Попробуйте еще раз',
         });
       }
     } finally {

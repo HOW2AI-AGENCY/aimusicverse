@@ -17,6 +17,7 @@ import { AddVocalsDialog } from './AddVocalsDialog';
 import { AddInstrumentalDialog } from './AddInstrumentalDialog';
 import { useNavigate } from 'react-router-dom';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
+import { toast } from 'sonner';
 
 interface TrackActionsSheetProps {
   track: Track | null;

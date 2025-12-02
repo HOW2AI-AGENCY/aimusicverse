@@ -38,7 +38,17 @@ export const NotificationList = () => {
     markAllAsRead.mutate();
   };
 
-  const renderNotifications = (notifications: unknown[] | undefined, isLoading: boolean) => {
+  interface Notification {
+    id: string;
+    type: string;
+    title: string;
+    message: string;
+    read: boolean | null;
+    created_at: string | null;
+    action_url?: string | null;
+  }
+
+  const renderNotifications = (notifications: Notification[] | undefined, isLoading: boolean) => {
     if (isLoading) {
       return (
         <div className="space-y-2 p-3">
@@ -62,13 +72,13 @@ export const NotificationList = () => {
       <ScrollArea className="h-[400px]">
         <div className="space-y-1 p-2">
           {notifications.map((notification) => {
-            const Icon = iconMap[notification.type as keyof typeof iconMap];
-            const colorClass = colorMap[notification.type as keyof typeof colorMap];
+            const Icon = iconMap[notification.type as keyof typeof iconMap] || Info;
+            const colorClass = colorMap[notification.type as keyof typeof colorMap] || "text-blue-500";
 
             return (
               <button
                 key={notification.id}
-                onClick={() => handleMarkAsRead(notification.id, notification.read)}
+                onClick={() => handleMarkAsRead(notification.id, notification.read || false)}
                 className={cn(
                   "w-full p-3 rounded-lg text-left transition-colors hover:bg-accent",
                   !notification.read && "bg-accent/50"
@@ -88,12 +98,14 @@ export const NotificationList = () => {
                     <p className="text-sm text-muted-foreground mb-1">
                       {notification.message}
                     </p>
-                    <span className="text-xs text-muted-foreground">
-                      {formatDistanceToNow(new Date(notification.created_at), {
-                        addSuffix: true,
-                        locale: ru,
-                      })}
-                    </span>
+                    {notification.created_at && (
+                      <span className="text-xs text-muted-foreground">
+                        {formatDistanceToNow(new Date(notification.created_at), {
+                          addSuffix: true,
+                          locale: ru,
+                        })}
+                      </span>
+                    )}
                   </div>
                 </div>
               </button>
