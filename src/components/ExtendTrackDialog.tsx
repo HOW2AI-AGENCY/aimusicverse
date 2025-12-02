@@ -94,7 +94,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
         });
       } else {
         toast.error('Ошибка расширения', {
-          description: error.message || 'Попробуйте еще раз',
+          description: errorMessage || 'Попробуйте еще раз',
         });
       }
     } finally {
