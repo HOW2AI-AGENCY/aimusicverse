@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Music, ArrowRight, GitBranchPlus } from 'lucide-react';
 
 interface Step1ModeProps {
-  onNext: (mode: 'create' | 'extend' | 'cover') => void;
+  onNext: (mode: 'generate' | 'extend' | 'cover') => void;
 }
 
 export const Step1Mode = ({ onNext }: Step1ModeProps) => {
@@ -10,7 +10,7 @@ export const Step1Mode = ({ onNext }: Step1ModeProps) => {
     <div>
       <h2 className="text-xl font-bold mb-4">Что вы хотите сделать?</h2>
       <div className="space-y-3">
-        <Button onClick={() => onNext('create')} className="w-full justify-between h-16">
+        <Button onClick={() => onNext('generate')} className="w-full justify-between h-16">
           <span>Создать трек с нуля</span>
           <Music className="w-5 h-5" />
         </Button>

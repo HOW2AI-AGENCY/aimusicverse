@@ -77,9 +77,11 @@ const App = () => (
                 </Route>
 
                 {/* Routes without BottomNavigation */}
-                <Route element={<ProtectedRoute />}>
-                  <Route path="/studio/:trackId" element={<StemStudio />} />
-                </Route>
+                <Route path="/studio/:trackId" element={
+                  <ProtectedRoute>
+                    <StemStudio />
+                  </ProtectedRoute>
+                } />
 
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />

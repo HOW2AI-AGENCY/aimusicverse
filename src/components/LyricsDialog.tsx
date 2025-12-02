@@ -73,8 +73,8 @@ export function LyricsDialog({ open, onOpenChange, track }: LyricsDialogProps) {
             <TabsContent value="synced" className="flex-1 min-h-0">
               <ScrollArea className="h-full">
                 <TimestampedLyrics
-                  taskId={track.suno_task_id}
-                  audioId={track.suno_id}
+                  taskId={track.suno_task_id || undefined}
+                  audioId={track.suno_id || undefined}
                   currentTime={currentTime}
                   isPlaying={isPlaying}
                   duration={duration}

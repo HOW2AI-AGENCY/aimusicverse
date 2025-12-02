@@ -66,8 +66,8 @@ export function LyricsSheet({ open, onOpenChange, track }: LyricsSheetProps) {
             <TabsContent value="synced" className="mt-0">
               <div className="h-[calc(90vh-12rem)]">
                 <TimestampedLyrics
-                  taskId={track.suno_task_id}
-                  audioId={track.suno_id}
+                  taskId={track.suno_task_id || undefined}
+                  audioId={track.suno_id || undefined}
                   currentTime={currentTime}
                   isPlaying={isPlaying}
                   duration={duration}

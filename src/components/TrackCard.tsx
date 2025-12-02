@@ -166,7 +166,7 @@ export const TrackCard = ({
                                 <Heart className="w-3 h-3" /> {track.likes_count}
                             </span>
                         )}
-                        {track.play_count !== undefined && track.play_count > 0 && (
+                        {track.play_count != null && track.play_count > 0 && (
                             <span className="flex items-center gap-1">
                                 <Play className="w-3 h-3" /> {track.play_count}
                             </span>
@@ -181,7 +181,7 @@ export const TrackCard = ({
                                 <Heart className="w-3 h-3" /> {track.likes_count}
                             </span>
                         )}
-                        {track.play_count !== undefined && track.play_count > 0 && (
+                        {track.play_count != null && track.play_count > 0 && (
                             <span className="flex items-center gap-1">
                                 <Play className="w-3 h-3" /> {track.play_count}
                             </span>
@@ -365,7 +365,7 @@ export const TrackCard = ({
           </div>
 
           <div className="flex items-center gap-1">
-            {track.play_count !== undefined && track.play_count > 0 && (
+            {track.play_count != null && track.play_count > 0 && (
               <span className="text-xs text-muted-foreground flex items-center gap-1">
                 <Play className="w-3 h-3" />
                 {track.play_count}

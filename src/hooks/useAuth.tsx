@@ -112,6 +112,10 @@ export const useAuth = () => {
           return { user: null, session: null, hasProfile: false, error: signInError };
         }
         
+        if (!signInData.session || !signInData.user) {
+          return { user: null, session: null, hasProfile: false, error: new Error('No session created') };
+        }
+        
         setSession(signInData.session);
         setUser(signInData.user);
         
