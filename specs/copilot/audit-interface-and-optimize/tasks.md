@@ -112,18 +112,18 @@
 
 ### Implementation for User Story 2
 
-- [ ] T035 [P] [US2] Redesign CompactPlayer component for mobile in src/components/player/CompactPlayer.tsx
-- [ ] T036 [P] [US2] Create ExpandedPlayer component with bottom sheet design in src/components/player/ExpandedPlayer.tsx
-- [ ] T037 [P] [US2] Redesign FullscreenPlayer component with mobile optimization in src/components/player/FullscreenPlayer.tsx
-- [ ] T038 [P] [US2] Create reusable PlaybackControls component in src/components/player/PlaybackControls.tsx
-- [ ] T039 [P] [US2] Create ProgressBar component with buffering state in src/components/player/ProgressBar.tsx
-- [ ] T040 [P] [US2] Create VolumeControl component (desktop slider, mobile device volume) in src/components/player/VolumeControl.tsx
-- [ ] T041 [US2] Implement swipe gesture handlers in player components using Framer Motion in src/components/player/ExpandedPlayer.tsx
-- [ ] T042 [US2] Add player state transition logic (compact → expanded → fullscreen) in src/hooks/usePlayerState.ts
-- [ ] T043 [US2] Create QueueManager component for displaying and managing queue in src/components/player/QueueManager.tsx
-- [ ] T044 [US2] Implement queue logic (next/previous, repeat modes, shuffle) in src/hooks/usePlaybackQueue.ts
-- [ ] T045 [P] [US2] Add mobile-specific touch optimizations and haptic feedback in src/lib/mobile-utils.ts
-- [ ] T046 [US2] Add TODO comments for audio streaming optimization in src/components/player/CompactPlayer.tsx
+- [X] T035 [P] [US2] Redesign CompactPlayer component for mobile in src/components/player/CompactPlayer.tsx
+- [X] T036 [P] [US2] Create ExpandedPlayer component with bottom sheet design in src/components/player/ExpandedPlayer.tsx
+- [X] T037 [P] [US2] Redesign FullscreenPlayer component with mobile optimization in src/components/player/FullscreenPlayer.tsx
+- [X] T038 [P] [US2] Create reusable PlaybackControls component in src/components/player/PlaybackControls.tsx
+- [X] T039 [P] [US2] Create ProgressBar component with buffering state in src/components/player/ProgressBar.tsx
+- [X] T040 [P] [US2] Create VolumeControl component (desktop slider, mobile device volume) in src/components/player/VolumeControl.tsx
+- [X] T041 [US2] Implement swipe gesture handlers in player components using Framer Motion in src/components/player/ExpandedPlayer.tsx
+- [X] T042 [US2] Add player state transition logic (compact → expanded → fullscreen) in src/hooks/usePlayerState.ts
+- [X] T043 [US2] Create QueueManager component for displaying and managing queue in src/components/player/QueueManager.tsx
+- [X] T044 [US2] Implement queue logic (next/previous, repeat modes, shuffle) in src/hooks/usePlaybackQueue.ts
+- [X] T045 [P] [US2] Add mobile-specific touch optimizations and haptic feedback in src/lib/mobile-utils.ts
+- [X] T046 [US2] Add TODO comments for audio streaming optimization in src/components/player/CompactPlayer.tsx
 
 **Checkpoint**: At this point, User Story 2 should be fully functional with smooth state transitions
 
