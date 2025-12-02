@@ -29,40 +29,59 @@ export const Step4Review = ({ formData, onBack, onSubmit, isLoading }: Step4Revi
   const { info, style } = formData;
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Проверьте и создайте</h2>
-      <Card>
-        <CardHeader>
-          <CardTitle>{info?.title || "Без названия"}</CardTitle>
+    <div className="space-y-4 sm:space-y-6">
+      <div>
+        <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent mb-2">
+          Проверьте и создайте
+        </h2>
+        <p className="text-xs sm:text-sm text-muted-foreground">Убедитесь, что все данные верны перед генерацией</p>
+      </div>
+      <Card className="glass-card border-primary/20">
+        <CardHeader className="p-3 sm:p-6">
+          <CardTitle className="text-lg sm:text-xl">{info?.title || "Без названия"}</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-6 pt-0">
           <div>
-            <h3 className="text-sm font-semibold mb-2">Стиль:</h3>
-            <div className="flex flex-wrap gap-2">
+            <h3 className="text-xs sm:text-sm font-semibold mb-2">Стиль:</h3>
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {style?.genres?.map((g: string) => (
-                <Badge key={g}>{g}</Badge>
+                <Badge key={g} className="text-xs">{g}</Badge>
               ))}
               {style?.moods?.map((m: string) => (
-                <Badge key={m} variant="secondary">
+                <Badge key={m} variant="secondary" className="text-xs">
                   {m}
                 </Badge>
               ))}
+              {(!style?.genres?.length && !style?.moods?.length) && (
+                <span className="text-xs text-muted-foreground">Не указано</span>
+              )}
             </div>
           </div>
           <div>
-            <h3 className="text-sm font-semibold mb-2">Текст:</h3>
-            <pre className="text-xs bg-muted p-2 rounded-md max-h-40 overflow-y-auto">
+            <h3 className="text-xs sm:text-sm font-semibold mb-2">Текст:</h3>
+            <pre className="text-[10px] sm:text-xs bg-muted/50 p-2.5 sm:p-3 rounded-md max-h-32 sm:max-h-40 overflow-y-auto font-mono">
               {info?.lyrics || "Нет текста"}
             </pre>
           </div>
         </CardContent>
       </Card>
-      <div className="flex justify-between mt-6">
-        <Button variant="outline" onClick={onBack} disabled={isLoading}>
+      <div className="flex justify-between pt-3 sm:pt-4 border-t border-border/50 gap-3">
+        <Button 
+          variant="outline" 
+          onClick={onBack} 
+          disabled={isLoading}
+          size="lg"
+          className="flex-1 sm:flex-initial min-h-[48px] touch-manipulation active:scale-95 transition-transform"
+        >
           Назад
         </Button>
-        <Button onClick={onSubmit} disabled={isLoading}>
-          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        <Button 
+          onClick={onSubmit} 
+          disabled={isLoading}
+          size="lg"
+          className="flex-1 sm:flex-initial min-h-[48px] touch-manipulation active:scale-95 transition-transform gap-2"
+        >
+          {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
           Сгенерировать
         </Button>
       </div>
