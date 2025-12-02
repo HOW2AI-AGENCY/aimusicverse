@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Sparkles, Loader2, Zap as ZapIcon, Sliders, Coins, Mic, FileAudio, FolderOpen, User, Music2, History } from 'lucide-react';
+import { Sparkles, Loader2, Zap as ZapIcon, Sliders, Coins, Mic, FileAudio, FolderOpen, User, Music2, History, Plus } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
@@ -17,7 +17,7 @@ import { useArtists } from '@/hooks/useArtists';
 import { useTracks } from '@/hooks/useTracks';
 import { UploadExtendDialog } from './UploadExtendDialog';
 import { UploadCoverDialog } from './UploadCoverDialog';
-import { AudioReferenceUpload } from './generate-form/AudioReferenceUpload';
+import { AudioActionDialog } from './generate-form/AudioActionDialog';
 import { ArtistSelector } from './generate-form/ArtistSelector';
 import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
 import { AdvancedSettings } from './generate-form/AdvancedSettings';
@@ -72,6 +72,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
   const [artistDialogOpen, setArtistDialogOpen] = useState(false);
   const [trackDialogOpen, setTrackDialogOpen] = useState(false);
+  const [audioDialogOpen, setAudioDialogOpen] = useState(false);
 
   // Fetch credits
   useEffect(() => {
@@ -271,167 +272,181 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="h-[90vh] flex flex-col bg-background/95 backdrop-blur-xl p-0">
-        <SheetHeader className="p-4 sm:p-6 pb-0">
-          <SheetTitle className="text-xl sm:text-2xl flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-primary" />
+        <SheetHeader className="px-4 pt-4 pb-3 sm:px-6 sm:pt-6 sm:pb-4">
+          <SheetTitle className="text-lg sm:text-xl flex items-center gap-2">
+            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
             Создать треk
           </SheetTitle>
-          <SheetDescription>
-            Выберите режим и заполните поля, чтобы сгенерировать новую композицию.
-          </SheetDescription>
         </SheetHeader>
 
         <ScrollArea className="flex-1">
-          <div className="p-4 sm:p-6 space-y-4">
-            {/* Header with credits, history and mode toggle */}
-            <div className="flex items-center justify-between gap-2 sm:gap-3">
+          <div className="px-4 pb-4 sm:px-6 sm:pb-6 space-y-3">
+            {/* Compact header with credits, mode and model */}
+            <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 {credits !== null && (
-                  <Button variant="secondary" size="sm" className="rounded-full px-3 sm:px-4 gap-2">
-                  <Coins className="w-4 h-4" />
-                  <span className="font-semibold">{credits.toFixed(2)}</span>
+                  <Badge 
+                    variant="secondary" 
+                    className="gap-1.5 px-2.5 py-1"
+                    aria-label={`Доступно кредитов: ${credits.toFixed(2)}`}
+                  >
+                    <Coins className="w-3.5 h-3.5" />
+                    <span className="font-semibold text-xs">{credits.toFixed(2)}</span>
+                  </Badge>
+                )}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setHistoryOpen(true)}
+                  className="h-8 w-8 p-0"
+                >
+                  <History className="w-4 h-4" />
                 </Button>
-              )}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setHistoryOpen(true)}
-                className="gap-2"
-              >
-                <History className="w-4 h-4" />
-              </Button>
+              </div>
+
+              <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-0.5 p-0.5 rounded-md bg-muted">
+                  <Button
+                    variant={mode === 'simple' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setMode('simple')}
+                    className="h-7 px-3 text-xs"
+                  >
+                    Simple
+                  </Button>
+                  <Button
+                    variant={mode === 'custom' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setMode('custom')}
+                    className="h-7 px-3 text-xs"
+                  >
+                    Custom
+                  </Button>
+                </div>
+
+                <Select value={model} onValueChange={setModel}>
+                  <SelectTrigger className="w-16 h-7 text-xs">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.entries(modelInfo).map(([key, info]) => (
+                      <SelectItem key={key} value={key}>
+                        {info.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
-            <div className="flex items-center gap-1 p-0.5 rounded-lg bg-secondary/50">
-              <Button
-                variant={mode === 'simple' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setMode('simple')}
-                className="rounded-md px-4"
-              >
-                Simple
-              </Button>
-              <Button
-                variant={mode === 'custom' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setMode('custom')}
-                className="rounded-md px-4"
-              >
-                Custom
-              </Button>
-            </div>
-
-            <Select value={model} onValueChange={setModel}>
-              <SelectTrigger className="w-20 h-9">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.entries(modelInfo).map(([key, info]) => (
-                  <SelectItem key={key} value={key}>
-                    {info.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Quick Action Buttons */}
-          <div className="grid grid-cols-3 gap-2">
+          {/* Compact Quick Action Buttons */}
+          <div className="grid grid-cols-4 gap-2">
             <Button
               type="button"
               variant="outline"
-              className="h-12 gap-2 border-2"
-              onClick={() => setProjectDialogOpen(true)}
+              size="sm"
+              className="h-10 gap-1.5 flex-col py-1"
+              onClick={() => setAudioDialogOpen(true)}
             >
-              <FolderOpen className="w-4 h-4" />
-              <span className="text-sm font-medium">Проект</span>
+              <Plus className="w-3.5 h-3.5" />
+              <span className="text-xs leading-none">Аудио</span>
             </Button>
 
             <Button
               type="button"
               variant="outline"
-              className="h-12 gap-2 border-2"
+              size="sm"
+              className="h-10 gap-1.5 flex-col py-1"
               onClick={() => setArtistDialogOpen(true)}
             >
-              <User className="w-4 h-4" />
-              <span className="text-sm font-medium">Персона</span>
+              <Plus className="w-3.5 h-3.5" />
+              <span className="text-xs leading-none">Персона</span>
             </Button>
 
             <Button
               type="button"
               variant="outline"
-              className="h-12 gap-2 border-2"
+              size="sm"
+              className="h-10 gap-1.5 flex-col py-1"
+              onClick={() => setProjectDialogOpen(true)}
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span className="text-xs leading-none">Проект</span>
+            </Button>
+
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-10 gap-1.5 flex-col py-1"
               onClick={() => setTrackDialogOpen(true)}
             >
-              <FileAudio className="w-4 h-4" />
-              <span className="text-sm font-medium">Трек</span>
+              <Plus className="w-3.5 h-3.5" />
+              <span className="text-xs leading-none">Трек</span>
             </Button>
           </div>
 
-          {/* Audio Reference Upload */}
-          <AudioReferenceUpload
-            audioFile={audioFile}
-            onAudioChange={setAudioFile}
-            onAnalysisComplete={(styleDescription) => {
-              // Update style field with analysis results
-              if (mode === 'custom') {
-                setStyle(prevStyle => {
-                  const newStyle = prevStyle 
-                    ? `${prevStyle}\n\nАнализ референса:\n${styleDescription}`
-                    : styleDescription;
-                  toast.success('Стиль обновлен с результатами анализа');
-                  return newStyle;
-                });
-              }
-            }}
-          />
+          {/* Audio file indicator */}
+          {audioFile && (
+            <div className="flex items-center gap-2 p-2 rounded-lg bg-primary/10 border border-primary/20">
+              <FileAudio className="w-4 h-4 text-primary" />
+              <span className="text-xs flex-1 truncate">{audioFile.name}</span>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="h-6 w-6 p-0"
+                onClick={() => setAudioFile(null)}
+              >
+                <span className="text-xs">✕</span>
+              </Button>
+            </div>
+          )}
 
           {/* Simple Mode */}
           {mode === 'simple' && (
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <Label htmlFor="description" className="text-sm text-muted-foreground">
+                <div className="flex items-center justify-between mb-1.5">
+                  <Label htmlFor="description" className="text-xs font-medium">
                     Описание музыки
                   </Label>
-                </div>
-                <Textarea
-                  id="description"
-                  placeholder="e.g., Спокойный лоу-фай бит с джазовым пианино..."
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  rows={6}
-                  className="resize-none text-base"
-                />
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-xs text-muted-foreground">0/500</span>
                   <Button
                     type="button"
                     variant="ghost"
                     size="sm"
                     onClick={handleBoostStyle}
                     disabled={boostLoading || !description}
-                    className="gap-2"
+                    className="h-6 px-2 gap-1"
                   >
                     {boostLoading ? (
                       <Loader2 className="w-3 h-3 animate-spin" />
                     ) : (
                       <Sparkles className="w-3 h-3" />
                     )}
+                    <span className="text-xs">AI</span>
                   </Button>
                 </div>
+                <Textarea
+                  id="description"
+                  placeholder="Например: Спокойный лоу-фай бит с джазовым пианино..."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  rows={5}
+                  className="resize-none text-sm"
+                />
               </div>
 
               <div>
-                <Label htmlFor="simple-title" className="text-sm text-muted-foreground">
-                  Название трека <span className="text-xs">(опционально)</span>
+                <Label htmlFor="simple-title" className="text-xs font-medium mb-1.5 block">
+                  Название <span className="text-muted-foreground">(опционально)</span>
                 </Label>
                 <Input
                   id="simple-title"
-                  placeholder="Оставьте пустым для автогенерации"
+                  placeholder="Автогенерация если пусто"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="mt-2"
+                  className="h-9 text-sm"
                 />
               </div>
             </div>
@@ -439,65 +454,55 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
           {/* Custom Mode */}
           {mode === 'custom' && (
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <Label htmlFor="title" className="text-sm text-muted-foreground">
-                    Название
-                  </Label>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 px-2 gap-1.5"
-                  >
-                    <Sparkles className="w-3 h-3" />
-                    <span className="text-xs">AI</span>
-                  </Button>
-                </div>
+                <Label htmlFor="title" className="text-xs font-medium mb-1.5 block">
+                  Название
+                </Label>
                 <Input
                   id="title"
-                  placeholder="Авто-генерация если пусто"
+                  placeholder="Автогенерация если пусто"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="text-base"
+                  className="h-9 text-sm"
                 />
               </div>
 
               <div>
-                <Label htmlFor="style" className="text-sm text-muted-foreground border-l-2 border-primary pl-2">
-                  Описание стиля
-                </Label>
-                <Textarea
-                  id="style"
-                  placeholder="Опишите стиль, жанр, настроение..."
-                  value={style}
-                  onChange={(e) => setStyle(e.target.value)}
-                  rows={4}
-                  className="mt-2 resize-none text-base"
-                />
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-xs text-muted-foreground">0/3000</span>
+                <div className="flex items-center justify-between mb-1.5">
+                  <Label htmlFor="style" className="text-xs font-medium">
+                    Стиль
+                  </Label>
                   <Button
                     type="button"
                     variant="ghost"
                     size="sm"
                     onClick={handleBoostStyle}
                     disabled={boostLoading || !style}
-                    className="gap-2"
+                    className="h-6 px-2 gap-1"
                   >
                     {boostLoading ? (
                       <Loader2 className="w-3 h-3 animate-spin" />
                     ) : (
                       <Sparkles className="w-3 h-3" />
                     )}
+                    <span className="text-xs">AI</span>
                   </Button>
                 </div>
+                <Textarea
+                  id="style"
+                  placeholder="Опишите стиль, жанр, настроение..."
+                  value={style}
+                  onChange={(e) => setStyle(e.target.value)}
+                  rows={3}
+                  className="resize-none text-sm"
+                />
               </div>
 
               {/* Lyrics Section */}
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <Label className="text-sm">Lyrics</Label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <Label className="text-xs font-medium">Текст песни</Label>
                   <div className="flex gap-1">
                     <Button 
                       variant="ghost" 
@@ -505,10 +510,10 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                       className="h-6 px-2"
                       onClick={() => setShowVisualEditor(!showVisualEditor)}
                     >
-                      <span className="text-xs">{showVisualEditor ? 'Text' : 'Visual'}</span>
+                      <span className="text-xs">{showVisualEditor ? 'Текст' : 'Визуал'}</span>
                     </Button>
                     <Button variant="ghost" size="sm" className="h-6 px-2">
-                      <span className="text-xs">AI</span>
+                      <Sparkles className="w-3 h-3" />
                     </Button>
                   </div>
                 </div>
@@ -520,13 +525,28 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   />
                 ) : (
                   <Textarea
-                    placeholder="Введите текст песни или используйте AI генерацию..."
+                    placeholder="Введите текст или используйте AI..."
                     value={lyrics}
                     onChange={(e) => setLyrics(e.target.value)}
-                    rows={6}
-                    className="resize-none text-base"
+                    rows={5}
+                    className="resize-none text-sm"
                   />
                 )}
+              </div>
+
+              {/* Vocals Toggle */}
+              <div className="flex items-center justify-between p-3 rounded-lg border">
+                <div className="flex items-center gap-2">
+                  <Mic className="w-4 h-4" />
+                  <Label htmlFor="vocals-toggle" className="cursor-pointer text-sm font-medium">
+                    С вокалом
+                  </Label>
+                </div>
+                <Switch
+                  id="vocals-toggle"
+                  checked={hasVocals}
+                  onCheckedChange={setHasVocals}
+                />
               </div>
 
               {/* Advanced Settings Collapsible */}
@@ -545,41 +565,24 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                 onAudioWeightChange={setAudioWeight}
                 hasReferenceAudio={!!audioFile}
               />
-
-              <div className="flex items-center justify-between p-4 rounded-lg border border-border/30">
-                <div className="flex items-center gap-3">
-                  <Mic className="w-4 h-4" />
-                  <Label htmlFor="vocals-toggle" className="cursor-pointer font-medium">
-                    С вокалом
-                  </Label>
-                </div>
-                <Switch
-                  id="vocals-toggle"
-                  checked={hasVocals}
-                  onCheckedChange={setHasVocals}
-                />
-              </div>
             </div>
           )}
-
           </div>
         </ScrollArea>
-        <SheetFooter className="p-4 sm:p-6 bg-background/95 backdrop-blur-xl border-t">
-          {/* Generate Button */}
+        <SheetFooter className="p-3 sm:p-4 bg-background/95 backdrop-blur-xl border-t">
           <Button
             onClick={handleGenerate}
             disabled={loading}
-            size="lg"
-            className="w-full h-14 text-base gap-2 bg-primary hover:bg-primary/90"
+            className="w-full h-12 text-sm gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg"
           >
             {loading ? (
               <>
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <Loader2 className="w-4 h-4 animate-spin" />
                 Создание...
               </>
             ) : (
               <>
-                <Music2 className="w-5 h-5" />
+                <Sparkles className="w-4 h-4" />
                 Сгенерировать
               </>
             )}
@@ -614,6 +617,27 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         tracks={projectTracks}
         selectedId={selectedTrackId}
         onSelect={handleTrackSelect}
+      />
+
+      {/* Audio Action Dialog */}
+      <AudioActionDialog
+        open={audioDialogOpen}
+        onOpenChange={setAudioDialogOpen}
+        onAudioSelected={(file) => {
+          setAudioFile(file);
+          toast.success('Аудио добавлено');
+        }}
+        onAnalysisComplete={(styleDescription) => {
+          if (mode === 'custom') {
+            setStyle(prevStyle => {
+              const newStyle = prevStyle 
+                ? `${prevStyle}\n\nАнализ референса:\n${styleDescription}`
+                : styleDescription;
+              toast.success('Стиль обновлен с результатами анализа');
+              return newStyle;
+            });
+          }
+        }}
       />
       
       <UploadExtendDialog 
