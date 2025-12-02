@@ -1,55 +1,117 @@
 /**
  * Public Content Hook
- * 
+ *
  * Fetches public tracks, projects, and artists for discovery features
  * Includes filtering, sorting, and pagination
  */
 
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import type { Database } from '@/integrations/supabase/types';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 
-type PublicTrack = Database['public']['Tables']['tracks']['Row'];
-type PublicProject = Database['public']['Tables']['music_projects']['Row'];
-type PublicArtist = Database['public']['Tables']['artists']['Row'];
+type PublicTrack = Database["public"]["Tables"]["tracks"]["Row"];
+type PublicProject = Database["public"]["Tables"]["music_projects"]["Row"];
+type PublicArtist = Database["public"]["Tables"]["artists"]["Row"];
 
 interface PublicContentFilters {
   genre?: string;
   mood?: string;
-  sortBy?: 'recent' | 'popular' | 'trending';
+  sortBy?: "recent" | "popular" | "trending";
   limit?: number;
   offset?: number;
+}
+
+interface UsePublicContentParams {
+  sort?: "recent" | "popular" | "trending" | "featured";
+  limit?: number;
+  offset?: number;
+  genre?: string;
+  mood?: string;
+}
+
+/**
+ * General hook to fetch public content (tracks)
+ * Unified interface for different sections
+ */
+export function usePublicContent(params: UsePublicContentParams = {}) {
+  const { sort = "recent", limit = 20, offset = 0, genre, mood } = params;
+
+  // Map 'featured' to 'recent' for now (TODO: implement featured logic)
+  const sortBy = sort === "featured" ? "recent" : sort;
+
+  const query = useQuery({
+    queryKey: ["public-content", params],
+    queryFn: async () => {
+      let queryBuilder = supabase
+        .from("tracks")
+        .select("*")
+        .eq("is_public", true)
+        .eq("status", "completed")
+        .not("audio_url", "is", null)
+        .range(offset, offset + limit - 1);
+
+      // Apply sorting
+      switch (sortBy) {
+        case "recent":
+          queryBuilder = queryBuilder.order("created_at", { ascending: false });
+          break;
+        case "popular":
+          // TODO: Add play_count or popularity metric
+          queryBuilder = queryBuilder.order("created_at", { ascending: false });
+          break;
+        case "trending":
+          // TODO: Add trending algorithm (views in last 7 days)
+          queryBuilder = queryBuilder.order("created_at", { ascending: false });
+          break;
+      }
+
+      const { data, error } = await queryBuilder;
+
+      if (error) throw error;
+      return (data || []) as PublicTrack[];
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+
+  return {
+    tracks: query.data || [],
+    isLoading: query.isLoading,
+    error: query.error,
+    // Mock pagination functions for now
+    fetchNextPage: () => Promise.resolve(),
+    hasNextPage: false,
+  };
 }
 
 /**
  * Hook to fetch public tracks
  */
 export function usePublicTracks(filters: PublicContentFilters = {}) {
-  const { sortBy = 'recent', limit = 20, offset = 0 } = filters;
+  const { sortBy = "recent", limit = 20, offset = 0 } = filters;
 
   return useQuery({
-    queryKey: ['public-tracks', filters],
+    queryKey: ["public-tracks", filters],
     queryFn: async () => {
       let query = supabase
-        .from('tracks')
-        .select('*')
-        .eq('is_public', true)
-        .eq('status', 'completed')
-        .not('audio_url', 'is', null)
+        .from("tracks")
+        .select("*")
+        .eq("is_public", true)
+        .eq("status", "completed")
+        .not("audio_url", "is", null)
         .range(offset, offset + limit - 1);
 
       // Apply sorting
       switch (sortBy) {
-        case 'recent':
-          query = query.order('created_at', { ascending: false });
+        case "recent":
+          query = query.order("created_at", { ascending: false });
           break;
-        case 'popular':
+        case "popular":
           // TODO: Add play_count or popularity metric
-          query = query.order('created_at', { ascending: false });
+          query = query.order("created_at", { ascending: false });
           break;
-        case 'trending':
+        case "trending":
           // TODO: Add trending algorithm (views in last 7 days)
-          query = query.order('created_at', { ascending: false });
+          query = query.order("created_at", { ascending: false });
           break;
       }
 
@@ -66,25 +128,25 @@ export function usePublicTracks(filters: PublicContentFilters = {}) {
  * Hook to fetch public projects
  */
 export function usePublicProjects(filters: PublicContentFilters = {}) {
-  const { sortBy = 'recent', limit = 20, offset = 0 } = filters;
+  const { sortBy = "recent", limit = 20, offset = 0 } = filters;
 
   return useQuery({
-    queryKey: ['public-projects', filters],
+    queryKey: ["public-projects", filters],
     queryFn: async () => {
       let query = supabase
-        .from('music_projects')
-        .select('*')
-        .eq('is_public', true)
+        .from("music_projects")
+        .select("*")
+        .eq("is_public", true)
         .range(offset, offset + limit - 1);
 
       // Apply sorting
       switch (sortBy) {
-        case 'recent':
-          query = query.order('created_at', { ascending: false });
+        case "recent":
+          query = query.order("created_at", { ascending: false });
           break;
-        case 'popular':
-        case 'trending':
-          query = query.order('created_at', { ascending: false });
+        case "popular":
+        case "trending":
+          query = query.order("created_at", { ascending: false });
           break;
       }
 
@@ -101,25 +163,25 @@ export function usePublicProjects(filters: PublicContentFilters = {}) {
  * Hook to fetch public artists
  */
 export function usePublicArtists(filters: PublicContentFilters = {}) {
-  const { sortBy = 'recent', limit = 20, offset = 0 } = filters;
+  const { sortBy = "recent", limit = 20, offset = 0 } = filters;
 
   return useQuery({
-    queryKey: ['public-artists', filters],
+    queryKey: ["public-artists", filters],
     queryFn: async () => {
       let query = supabase
-        .from('artists')
-        .select('*')
-        .eq('is_public', true)
+        .from("artists")
+        .select("*")
+        .eq("is_public", true)
         .range(offset, offset + limit - 1);
 
       // Apply sorting
       switch (sortBy) {
-        case 'recent':
-          query = query.order('created_at', { ascending: false });
+        case "recent":
+          query = query.order("created_at", { ascending: false });
           break;
-        case 'popular':
-        case 'trending':
-          query = query.order('created_at', { ascending: false });
+        case "popular":
+        case "trending":
+          query = query.order("created_at", { ascending: false });
           break;
       }
 
@@ -137,26 +199,26 @@ export function usePublicArtists(filters: PublicContentFilters = {}) {
  */
 export function useFeaturedContent() {
   return useQuery({
-    queryKey: ['featured-content'],
+    queryKey: ["featured-content"],
     queryFn: async () => {
       // Get top rated/featured tracks
       const { data: tracks, error: tracksError } = await supabase
-        .from('tracks')
-        .select('*')
-        .eq('is_public', true)
-        .eq('status', 'completed')
-        .not('audio_url', 'is', null)
-        .order('created_at', { ascending: false })
+        .from("tracks")
+        .select("*")
+        .eq("is_public", true)
+        .eq("status", "completed")
+        .not("audio_url", "is", null)
+        .order("created_at", { ascending: false })
         .limit(10);
 
       if (tracksError) throw tracksError;
 
       // Get featured projects
       const { data: projects, error: projectsError } = await supabase
-        .from('music_projects')
-        .select('*')
-        .eq('is_public', true)
-        .order('created_at', { ascending: false })
+        .from("music_projects")
+        .select("*")
+        .eq("is_public", true)
+        .order("created_at", { ascending: false })
         .limit(5);
 
       if (projectsError) throw projectsError;
@@ -175,7 +237,7 @@ export function useFeaturedContent() {
  */
 export function useSearchPublicContent(searchQuery: string) {
   return useQuery({
-    queryKey: ['search-public-content', searchQuery],
+    queryKey: ["search-public-content", searchQuery],
     queryFn: async () => {
       if (!searchQuery || searchQuery.trim().length < 2) {
         return { tracks: [], projects: [], artists: [] };
@@ -185,10 +247,10 @@ export function useSearchPublicContent(searchQuery: string) {
 
       // Search tracks
       const { data: tracks, error: tracksError } = await supabase
-        .from('tracks')
-        .select('*')
-        .eq('is_public', true)
-        .eq('status', 'completed')
+        .from("tracks")
+        .select("*")
+        .eq("is_public", true)
+        .eq("status", "completed")
         .or(`title.ilike.${query},metadata->>style.ilike.${query}`)
         .limit(20);
 
@@ -196,9 +258,9 @@ export function useSearchPublicContent(searchQuery: string) {
 
       // Search projects
       const { data: projects, error: projectsError } = await supabase
-        .from('music_projects')
-        .select('*')
-        .eq('is_public', true)
+        .from("music_projects")
+        .select("*")
+        .eq("is_public", true)
         .or(`name.ilike.${query},description.ilike.${query}`)
         .limit(10);
 
@@ -206,9 +268,9 @@ export function useSearchPublicContent(searchQuery: string) {
 
       // Search artists
       const { data: artists, error: artistsError } = await supabase
-        .from('artists')
-        .select('*')
-        .eq('is_public', true)
+        .from("artists")
+        .select("*")
+        .eq("is_public", true)
         .or(`name.ilike.${query},bio.ilike.${query}`)
         .limit(10);
 

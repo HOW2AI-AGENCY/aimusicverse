@@ -1,6 +1,6 @@
 /**
  * Player Utility Functions
- * 
+ *
  * Provides utilities for audio player functionality:
  * - Time formatting
  * - Progress calculation
@@ -8,7 +8,7 @@
  * - Playback state management
  */
 
-import type { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from "@/hooks/useTracksOptimized";
 
 /**
  * Format time in seconds to MM:SS or HH:MM:SS format
@@ -17,19 +17,26 @@ import type { Track } from '@/hooks/useTracksOptimized';
  */
 export function formatTime(seconds: number): string {
   if (!seconds || seconds < 0 || !isFinite(seconds)) {
-    return '0:00';
+    return "0:00";
   }
-  
+
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
   const secs = Math.floor(seconds % 60);
-  
+
   if (hours > 0) {
-    return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    return `${hours}:${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   }
-  
-  return `${minutes}:${secs.toString().padStart(2, '0')}`;
+
+  return `${minutes}:${secs.toString().padStart(2, "0")}`;
 }
+
+/**
+ * Format duration in seconds to MM:SS format (alias for formatTime)
+ * @param seconds - Duration in seconds
+ * @returns Formatted duration string
+ */
+export const formatDuration = formatTime;
 
 /**
  * Calculate playback progress percentage
@@ -41,7 +48,7 @@ export function calculateProgress(currentTime: number, duration: number): number
   if (!duration || duration <= 0 || !isFinite(duration)) {
     return 0;
   }
-  
+
   const progress = (currentTime / duration) * 100;
   return Math.min(Math.max(progress, 0), 100); // Clamp between 0-100
 }
@@ -57,40 +64,40 @@ export function calculateProgress(currentTime: number, duration: number): number
 export function getNextTrack(
   queue: Track[],
   currentIndex: number,
-  repeat: 'off' | 'all' | 'one' = 'off',
-  shuffle: boolean = false
+  repeat: "off" | "all" | "one" = "off",
+  shuffle: boolean = false,
 ): number | null {
   if (!queue || queue.length === 0) {
     return null;
   }
-  
+
   // If repeat one, stay on current track
-  if (repeat === 'one') {
+  if (repeat === "one") {
     return currentIndex;
   }
-  
+
   // If shuffle, get random track (but not the current one if possible)
   if (shuffle) {
     if (queue.length === 1) {
-      return repeat === 'all' ? 0 : null;
+      return repeat === "all" ? 0 : null;
     }
-    
+
     let nextIndex: number;
     do {
       nextIndex = Math.floor(Math.random() * queue.length);
     } while (nextIndex === currentIndex && queue.length > 1);
-    
+
     return nextIndex;
   }
-  
+
   // Normal sequential playback
   const nextIndex = currentIndex + 1;
-  
+
   if (nextIndex >= queue.length) {
     // End of queue
-    return repeat === 'all' ? 0 : null;
+    return repeat === "all" ? 0 : null;
   }
-  
+
   return nextIndex;
 }
 
@@ -101,27 +108,23 @@ export function getNextTrack(
  * @param currentTime - Current playback time (if > 3s, restart current track)
  * @returns Previous track index
  */
-export function getPreviousTrack(
-  queue: Track[],
-  currentIndex: number,
-  currentTime: number = 0
-): number {
+export function getPreviousTrack(queue: Track[], currentIndex: number, currentTime: number = 0): number {
   if (!queue || queue.length === 0) {
     return 0;
   }
-  
+
   // If more than 3 seconds into the track, restart current track
   if (currentTime > 3) {
     return currentIndex;
   }
-  
+
   const prevIndex = currentIndex - 1;
-  
+
   // If at the beginning, wrap to the end
   if (prevIndex < 0) {
     return queue.length - 1;
   }
-  
+
   return prevIndex;
 }
 
@@ -136,22 +139,22 @@ export function shuffleQueue(queue: Track[], currentIndex: number = 0): Track[] 
   if (!queue || queue.length <= 1) {
     return queue;
   }
-  
+
   const shuffled = [...queue];
   const currentTrack = shuffled[currentIndex];
-  
+
   // Remove current track
   shuffled.splice(currentIndex, 1);
-  
+
   // Fisher-Yates shuffle
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
-  
+
   // Put current track at the beginning
   shuffled.unshift(currentTrack);
-  
+
   return shuffled;
 }
 
@@ -161,8 +164,8 @@ export function shuffleQueue(queue: Track[], currentIndex: number = 0): Track[] 
  * @returns Time in seconds
  */
 export function parseTimeToSeconds(timeString: string): number {
-  const parts = timeString.split(':').map(Number);
-  
+  const parts = timeString.split(":").map(Number);
+
   if (parts.length === 2) {
     // MM:SS
     const [minutes, seconds] = parts;
@@ -172,7 +175,7 @@ export function parseTimeToSeconds(timeString: string): number {
     const [hours, minutes, seconds] = parts;
     return hours * 3600 + minutes * 60 + seconds;
   }
-  
+
   return 0;
 }
 
@@ -183,13 +186,15 @@ export function parseTimeToSeconds(timeString: string): number {
  */
 export function canPlayAudio(audioUrl: string | null | undefined): boolean {
   if (!audioUrl) return false;
-  
-  const validExtensions = ['.mp3', '.wav', '.ogg', '.m4a', '.aac', '.flac'];
+
+  const validExtensions = [".mp3", ".wav", ".ogg", ".m4a", ".aac", ".flac"];
   const urlLower = audioUrl.toLowerCase();
-  
-  return validExtensions.some(ext => urlLower.includes(ext)) || 
-         urlLower.startsWith('blob:') ||
-         urlLower.startsWith('data:audio/');
+
+  return (
+    validExtensions.some((ext) => urlLower.includes(ext)) ||
+    urlLower.startsWith("blob:") ||
+    urlLower.startsWith("data:audio/")
+  );
 }
 
 /**
@@ -198,14 +203,11 @@ export function canPlayAudio(audioUrl: string | null | undefined): boolean {
  * @param duration - Total duration in seconds
  * @returns Buffered percentage (0-100)
  */
-export function getBufferedPercentage(
-  buffered: TimeRanges | null,
-  duration: number
-): number {
+export function getBufferedPercentage(buffered: TimeRanges | null, duration: number): number {
   if (!buffered || buffered.length === 0 || !duration) {
     return 0;
   }
-  
+
   // Get the end time of the last buffered range
   const bufferedEnd = buffered.end(buffered.length - 1);
   return (bufferedEnd / duration) * 100;
