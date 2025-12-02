@@ -104,7 +104,13 @@ export const useAuth = () => {
             return { user: null, session: null, hasProfile: false, error: signUpError };
           }
           
-          signInData = signUpData;
+          if (!signUpData.user || !signUpData.session) {
+            console.error('Sign up did not return user or session');
+            return { user: null, session: null, hasProfile: false, error: new Error('Sign up failed') };
+          }
+          
+          signInData = { user: signUpData.user, session: signUpData.session };
+          signInError = null;
           console.log('🔧 Test account created successfully with profile');
         } else if (signInError) {
           console.error('Sign in error:', signInError);
