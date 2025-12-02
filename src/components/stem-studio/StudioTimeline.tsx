@@ -20,7 +20,7 @@ export function StudioTimeline({ currentTime, duration, onSeek }: StudioTimeline
 
   const handleMouseMove = (e: MouseEvent) => {
     if (isDragging) {
-      handleSeek(e as any);
+      handleSeek(e);
     }
   };
 
@@ -49,7 +49,7 @@ export function StudioTimeline({ currentTime, duration, onSeek }: StudioTimeline
         document.removeEventListener('mouseup', handleMouseUp);
       };
     }
-  }, [isDragging]);
+  }, [isDragging, handleMouseMove]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);

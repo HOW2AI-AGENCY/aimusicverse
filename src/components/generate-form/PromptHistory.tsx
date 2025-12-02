@@ -44,8 +44,8 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
       try {
         const stored = localStorage.getItem('musicverse_prompt_history');
         if (stored) {
-          const parsed = JSON.parse(stored);
-          const items = parsed.map((item: any) => ({
+          const parsed = JSON.parse(stored) as Array<Omit<PromptHistoryItem, 'timestamp'> & { timestamp: string }>;
+          const items = parsed.map((item) => ({
             ...item,
             timestamp: new Date(item.timestamp),
           }));
@@ -289,7 +289,11 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
 export function savePromptToHistory(prompt: Omit<PromptHistoryItem, 'id' | 'timestamp' | 'usageCount' | 'lastUsed'>) {
   try {
     const stored = localStorage.getItem('musicverse_prompt_history');
-    const history: PromptHistoryItem[] = stored ? JSON.parse(stored).map((item: any) => ({
+    type StoredHistoryItem = Omit<PromptHistoryItem, 'timestamp' | 'lastUsed'> & { 
+      timestamp: string; 
+      lastUsed?: string;
+    };
+    const history: PromptHistoryItem[] = stored ? (JSON.parse(stored) as StoredHistoryItem[]).map((item) => ({
       ...item,
       timestamp: new Date(item.timestamp),
       lastUsed: item.lastUsed ? new Date(item.lastUsed) : undefined,
