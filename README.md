@@ -1,25 +1,57 @@
 <div align="center">
 
-![MusicVerse AI Logo](src/assets/logo.png){ width=200px }
+<!-- Banner with project branding -->
+<img src="src/assets/banner.jpg" alt="MusicVerse AI Banner" width="100%" style="max-width: 1200px; border-radius: 10px; margin-bottom: 20px;" />
+
+<!-- Logo -->
+<img src="src/assets/logo.png" alt="MusicVerse AI Logo" width="200" height="200" />
 
 # 🎵 MusicVerse AI
 
-### Профессиональная AI-платформа для создания музыки
+### 🎼 Профессиональная AI-платформа для создания музыки
 
-<a href="http://t.me/musicverse_ai_bot/app"><img src="https://img.shields.io/badge/%F0%9F%93%A2%20%D0%9E%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8C%20%D0%B2%20Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Открыть в Telegram"/></a>
+<p align="center">
+  <strong>Создавайте музыку с помощью искусственного интеллекта</strong><br>
+  <em>Powered by Suno AI v5 • Telegram Mini App • 174+ Meta Tags • 277+ Styles • 75+ Languages</em>
+</p>
 
-[![Лицензия](https://img.shields.io/badge/Лицензия-MIT-green.svg)](LICENSE)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://reactjs.org/)
-[![Telegram](https://img.shields.io/badge/Telegram-Экосистема-26A5E4?logo=telegram)](https://telegram.org/)
-[![Supabase](https://img.shields.io/badge/Supabase-Backend-3ECF8E?logo=supabase)](https://supabase.com/)
+---
 
-[![MusicVerse AI](https://img.shields.io/badge/MusicVerse-AI_v5-e74c3c)](https://music.how2ai.world/)
-[![Мета-теги](https://img.shields.io/badge/Мета_теги-174+-ff6b6b)](docs/META_TAGS.md)
-[![Музыкальные стили](https://img.shields.io/badge/Музыкальные_стили-277+-9b59b6)](docs/STYLES.md)
-[![Языки](https://img.shields.io/badge/Языки-75+-3498db)](docs/LANGUAGES.md)
+<!-- Primary Call to Action -->
+<a href="http://t.me/musicverse_ai_bot/app">
+  <img src="https://img.shields.io/badge/🚀%20Открыть%20в%20Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white&labelColor=0088cc" alt="Открыть в Telegram" />
+</a>
 
-[📱 Попробовать Демо](https://t.me/AIMusicVerseBot/app) • [📖 Документация](#-документация) • [🚀 Быстрый старт](#-быстрый-старт) • [🔧 API справка](#-api-справка) • [🎯 Доска спринта](#управление-спринтами)
+---
+
+<!-- Status Badges -->
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/Лицензия-MIT-green.svg?style=flat-square" alt="License MIT" /></a>
+  <a href="https://typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.0-blue.svg?style=flat-square&logo=typescript" alt="TypeScript 5.0" /></a>
+  <a href="https://reactjs.org/"><img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React 19" /></a>
+  <a href="https://telegram.org/"><img src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=flat-square&logo=telegram" alt="Telegram Mini App" /></a>
+  <a href="https://supabase.com/"><img src="https://img.shields.io/badge/Supabase-Backend-3ECF8E?style=flat-square&logo=supabase" alt="Supabase" /></a>
+</p>
+
+<!-- Feature Badges -->
+<p align="center">
+  <a href="docs/SUNO_API.md"><img src="https://img.shields.io/badge/Suno_AI-v5-e74c3c?style=flat-square" alt="Suno AI v5" /></a>
+  <a href="docs/META_TAGS.md"><img src="https://img.shields.io/badge/Мета_теги-174+-ff6b6b?style=flat-square" alt="174+ Meta Tags" /></a>
+  <a href="docs/STYLES.md"><img src="https://img.shields.io/badge/Стили-277+-9b59b6?style=flat-square" alt="277+ Styles" /></a>
+  <a href="docs/LANGUAGES.md"><img src="https://img.shields.io/badge/Языки-75+-3498db?style=flat-square" alt="75+ Languages" /></a>
+  <img src="https://img.shields.io/badge/Build-Passing-brightgreen?style=flat-square" alt="Build Status" />
+  <img src="https://img.shields.io/badge/Coverage-60%25-yellow?style=flat-square" alt="Test Coverage" />
+</p>
+
+<!-- Quick Navigation -->
+<p align="center">
+  <a href="#-возможности"><strong>✨ Возможности</strong></a> •
+  <a href="#-быстрый-старт"><strong>🚀 Быстрый старт</strong></a> •
+  <a href="#-документация"><strong>📖 Документация</strong></a> •
+  <a href="#-архитектура"><strong>🏗️ Архитектура</strong></a> •
+  <a href="#-управление-спринтами"><strong>📋 Спринты</strong></a> •
+  <a href="#-участие-в-проекте"><strong>🤝 Участие</strong></a>
+</p>
 
 </div>
 
@@ -28,23 +60,41 @@
 ## 📑 Содержание
 
 <details>
-<summary>Развернуть оглавление</summary>
+<summary><strong>📖 Развернуть полное оглавление</strong></summary>
 
-- [О проекте](#-о-проекте)
-- [Ключевые метрики](#-ключевые-метрики)
-- [Возможности](#-возможности)
-- [Suno Meta Tags (174+)](#-suno-meta-tags-174)
-- [Музыкальные стили (277+)](#-музыкальные-стили-277)
-- [Поддерживаемые языки (75+)](#-поддерживаемые-языки-75)
-- [Архитектура](#-архитектура)
-- [FAQ (Часто задаваемые вопросы)](#-faq-часто-задаваемые-вопросы)
-- [База данных](#-база-данных)
-- [Быстрый старт](#-быстрый-старт)
-- [Технологии](#-технологии)
-- [API Reference](#-api-reference)
-- [Документация](#-документация)
-- [Deployment](#-deployment)
-- [Лицензия](#-лицензия)
+### 🎯 Основное
+- [✨ Возможности](#-возможности)
+- [🖥️ Предварительный просмотр](#-предварительный-просмотр)
+- [🎯 Что уникального](#-что-уникального)
+- [📊 Ключевые метрики](#-ключевые-метрики)
+
+### 🚀 Начало работы
+- [🚪 Точка входа в приложение](#-точка-входа-в-приложение)
+- [🚀 Быстрый старт](#-быстрый-старт)
+- [🔧 Разработка](#-разработка)
+
+### 🎼 Музыкальные возможности
+- [🎼 Создание музыки](#-создание-музыки)
+- [🎛️ Suno Meta Tags (174+)](#-suno-meta-tags-174)
+- [🎸 Музыкальные стили (277+)](#-музыкальные-стили-277)
+- [🌍 Поддерживаемые языки (75+)](#-поддерживаемые-языки-75)
+
+### 🏗️ Техническая информация
+- [🏗️ Архитектура](#-архитектура)
+- [🗺️ Система навигации по проекту](#-система-навигации-по-проекту)
+- [🛠️ Технологии](#-технологии)
+- [❓ FAQ (Часто задаваемые вопросы)](#-faq-часто-задаваемые-вопросы)
+
+### 📊 Управление проектом
+- [📊 Текущий статус разработки](#-текущий-статус-разработки)
+- [📋 Управление спринтами](#-управление-спринтами)
+- [🎯 Дорожная карта](#-дорожная-карта)
+
+### 📚 Документация
+- [📚 Документация](#-документация)
+- [🤝 Участие в проекте](#-участие-в-проекте)
+- [📞 Поддержка и сообщество](#-поддержка-и-сообщество)
+- [📄 Лицензия](#-лицензия)
 
 </details>
 
