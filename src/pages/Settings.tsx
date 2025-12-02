@@ -157,40 +157,30 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 p-4 pb-24">
-      <div className="max-w-2xl mx-auto space-y-6">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => navigate("/")}
-            className="shrink-0 glass rounded-full"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-            Профиль
-          </h1>
-        </div>
+    <div className="container mx-auto max-w-4xl py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold">Настройки</h1>
+        <p className="text-muted-foreground">Управляйте вашим аккаунтом и настройками Telegram.</p>
+      </div>
 
-        <Tabs defaultValue="info" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 glass-card border-primary/20">
-            <TabsTrigger value="info" className="data-[state=active]:bg-primary/20">
-              <User className="w-4 h-4 mr-2" />
-              Инфо
-            </TabsTrigger>
-            <TabsTrigger value="settings" className="data-[state=active]:bg-primary/20">
-              <Settings className="w-4 h-4 mr-2" />
-              Настройки
-            </TabsTrigger>
-            <TabsTrigger value="activity" className="data-[state=active]:bg-primary/20">
-              <Activity className="w-4 h-4 mr-2" />
-              Активность
-            </TabsTrigger>
-          </TabsList>
+      <Tabs defaultValue="info" className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="info">
+            <User className="w-4 h-4 mr-2" />
+            Инфо
+          </TabsTrigger>
+          <TabsTrigger value="settings">
+            <Settings className="w-4 h-4 mr-2" />
+            Настройки
+          </TabsTrigger>
+          <TabsTrigger value="activity">
+            <Activity className="w-4 h-4 mr-2" />
+            Активность
+          </TabsTrigger>
+        </TabsList>
 
-          <TabsContent value="info" className="space-y-4">
-            <Card className="glass-card border-primary/20">
+        <TabsContent value="info" className="space-y-4 mt-6">
+          <Card>
               <CardHeader>
                 <CardTitle>Telegram Данные</CardTitle>
                 <CardDescription>
@@ -232,7 +222,7 @@ export default function Profile() {
               </CardContent>
             </Card>
 
-            <Card className="glass-card border-primary/20">
+            <Card>
               <CardHeader>
                 <CardTitle>SunoAPI Кредиты</CardTitle>
                 <CardDescription>
@@ -258,7 +248,6 @@ export default function Profile() {
                     size="icon"
                     onClick={fetchSunoCredits}
                     disabled={isLoadingCredits}
-                    className="glass border-primary/20"
                   >
                     <RefreshCw className={`h-4 w-4 ${isLoadingCredits ? 'animate-spin' : ''}`} />
                   </Button>
@@ -269,8 +258,8 @@ export default function Profile() {
             <TelegramBotSetup />
           </TabsContent>
 
-          <TabsContent value="settings" className="space-y-4">
-            <Card className="glass-card border-primary/20">
+          <TabsContent value="settings" className="space-y-4 mt-6">
+            <Card>
               <CardHeader>
                 <CardTitle>Настройки профиля</CardTitle>
                 <CardDescription>
@@ -285,7 +274,6 @@ export default function Profile() {
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     placeholder="Введите имя"
-                    className="glass border-primary/20"
                   />
                 </div>
 
@@ -296,13 +284,12 @@ export default function Profile() {
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     placeholder="Введите фамилию"
-                    className="glass border-primary/20"
                   />
                 </div>
 
                 <Button 
                   onClick={handleSaveSettings} 
-                  className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+                  className="w-full"
                 >
                   Сохранить изменения
                 </Button>
@@ -318,8 +305,8 @@ export default function Profile() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="activity" className="space-y-4">
-            <Card className="glass-card border-primary/20">
+          <TabsContent value="activity" className="space-y-4 mt-6">
+            <Card>
               <CardHeader>
                 <CardTitle>История активности</CardTitle>
                 <CardDescription>
@@ -336,7 +323,7 @@ export default function Profile() {
                     {activities.map((activity) => (
                       <div
                         key={activity.id}
-                        className="flex justify-between items-center p-3 rounded-lg glass border border-primary/10"
+                        className="flex justify-between items-center p-3 rounded-lg border"
                       >
                         <div>
                           <p className="font-medium">
@@ -359,7 +346,6 @@ export default function Profile() {
             </Card>
           </TabsContent>
         </Tabs>
-      </div>
     </div>
   );
 }

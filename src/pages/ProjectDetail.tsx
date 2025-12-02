@@ -14,13 +14,10 @@ import { ProjectAnalysisTab } from '@/components/project/ProjectAnalysisTab';
 import { ProjectTracklistTab } from '@/components/project/ProjectTracklistTab';
 import { AIActionsDialog } from '@/components/project/AIActionsDialog';
 import { supabase } from '@/integrations/supabase/client';
-import { useIsMobile } from '@/hooks/use-mobile';
-
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const isMobile = useIsMobile();
   const { isAuthenticated, loading: authLoading } = useAuth();
   const { projects, isLoading } = useProjects();
   const { tracks, isLoading: tracksLoading } = useProjectTracks(id);
@@ -61,13 +58,11 @@ export default function ProjectDetail() {
 
   if (!project) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5">
-        <Card className="p-8 glass-card border-primary/20 text-center max-w-md">
-          <Music className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
-          <h3 className="text-lg font-semibold mb-2">Проект не найден</h3>
-          <p className="text-sm text-muted-foreground mb-6">
-            Проект с таким ID не существует или был удален
-          </p>
+      <div className="min-h-screen flex items-center justify-center">
+        <Card className="p-8 text-center max-w-md">
+          <Music className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+          <h3 className="text-xl font-semibold mb-2">Проект не найден</h3>
+          <p className="text-muted-foreground mb-6">Проект с таким ID не существует или был удален.</p>
           <Button onClick={() => navigate('/projects')}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             Вернуться к проектам
@@ -78,96 +73,68 @@ export default function ProjectDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
-      <div className={`container mx-auto ${isMobile ? 'px-3 py-3' : 'max-w-6xl px-4 py-6'}`}>
-        {/* Compact Header for Mobile */}
-        <div className={isMobile ? 'mb-3' : 'mb-6'}>
-          <div className={`flex items-center ${isMobile ? 'justify-between mb-2' : 'justify-between mb-4'}`}>
-            <Button
-              variant="ghost"
-              size={isMobile ? 'sm' : 'default'}
-              onClick={() => navigate('/projects')}
-              className={isMobile ? 'px-2' : ''}
-            >
-              <ArrowLeft className="w-4 h-4 mr-1" />
-              {!isMobile && 'Назад к проектам'}
-            </Button>
-            <Button
-              size={isMobile ? 'sm' : 'default'}
-              onClick={() => setAiDialogOpen(true)}
-              className="gap-1.5"
-            >
-              <Sparkles className="w-4 h-4" />
-              {!isMobile && 'AI Actions'}
-            </Button>
+    <div className="pb-24">
+      <div className="container mx-auto max-w-6xl px-4 py-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6 mb-6">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-xl bg-secondary flex items-center justify-center flex-shrink-0">
+            <img
+              src={project.cover_url || `https://placehold.co/128x128/1a1a1a/ffffff?text=${project.title.charAt(0)}`}
+              alt={project.title}
+              className="w-full h-full object-cover rounded-xl"
+            />
           </div>
-
-          {/* Compact Project Info */}
-          <div className={`flex items-start ${isMobile ? 'gap-3' : 'gap-4'}`}>
-            <div className={`${isMobile ? 'w-16 h-16' : 'w-24 h-24'} rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0`}>
-              {project.cover_url ? (
-                <img
-                  src={project.cover_url}
-                  alt={project.title}
-                  className="w-full h-full object-cover rounded-xl"
-                />
-              ) : (
-                <Music className={`${isMobile ? 'w-7 h-7' : 'w-10 h-10'} text-primary`} />
-              )}
-            </div>
-
-            <div className="flex-1 min-w-0">
-              <h1 className={`${isMobile ? 'text-xl' : 'text-3xl'} font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent mb-1.5 leading-tight`}>
-                {project.title}
-              </h1>
-              <div className={`flex gap-1.5 ${isMobile ? 'mb-1' : 'mb-2'} flex-wrap`}>
-                {project.project_type && (
-                  <Badge variant="default" className={`capitalize ${isMobile ? 'text-xs h-5' : ''}`}>
-                    {project.project_type.replace('_', ' ')}
-                  </Badge>
-                )}
-                {project.genre && (
-                  <Badge variant="secondary" className={isMobile ? 'text-xs h-5' : ''}>{project.genre}</Badge>
-                )}
-                {project.mood && (
-                  <Badge variant="outline" className={isMobile ? 'text-xs h-5' : ''}>{project.mood}</Badge>
+          <div className="flex-1">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start">
+              <div>
+                <h1 className="text-3xl sm:text-4xl font-bold mb-2">{project.title}</h1>
+                <div className="flex gap-2 mb-2 flex-wrap">
+                  <Badge variant="default" className="capitalize">{project.project_type?.replace('_', ' ') || 'N/A'}</Badge>
+                  <Badge variant="secondary">{project.genre || 'Без жанра'}</Badge>
+                  <Badge variant="outline">{project.mood || 'Без настроения'}</Badge>
+                </div>
+                {project.description && (
+                  <p className="text-muted-foreground mt-2 max-w-prose">{project.description}</p>
                 )}
               </div>
-              {project.description && !isMobile && (
-                <p className="text-sm text-muted-foreground line-clamp-2">
-                  {project.description}
-                </p>
-              )}
+              <div className="mt-4 sm:mt-0 flex gap-2 flex-shrink-0">
+                <Button variant="outline" onClick={() => navigate('/projects')}>
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Назад
+                </Button>
+                <Button onClick={() => setAiDialogOpen(true)}>
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  AI Действия
+                </Button>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Compact Tabs */}
+        {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className={`w-full grid grid-cols-3 ${isMobile ? 'mb-3 h-9' : 'mb-6'}`}>
-            <TabsTrigger value="details" className={`gap-1.5 ${isMobile ? 'text-xs px-2' : ''}`}>
-              <FileText className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
-              {!isMobile && 'Детали'}
+          <TabsList className="w-full grid grid-cols-3 mb-6">
+            <TabsTrigger value="details" className="gap-2 text-base py-3">
+              <FileText className="w-5 h-5" />
+              Детали
             </TabsTrigger>
-            <TabsTrigger value="analysis" className={`gap-1.5 ${isMobile ? 'text-xs px-2' : ''}`}>
-              <Sparkles className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
-              {!isMobile && 'Анализ'}
+            <TabsTrigger value="analysis" className="gap-2 text-base py-3">
+              <Sparkles className="w-5 h-5" />
+              Анализ
             </TabsTrigger>
-            <TabsTrigger value="tracklist" className={`gap-1.5 ${isMobile ? 'text-xs px-2' : ''}`}>
-              <Music className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
-              {!isMobile && 'Треклист'}
+            <TabsTrigger value="tracklist" className="gap-2 text-base py-3">
+              <Music className="w-5 h-5" />
+              Треклист
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="details" className={isMobile ? 'mt-2' : ''}>
+          <TabsContent value="details">
             <ProjectDetailsTab project={project} />
           </TabsContent>
-
-          <TabsContent value="analysis" className={isMobile ? 'mt-2' : ''}>
+          <TabsContent value="analysis">
             <ProjectAnalysisTab project={project} />
           </TabsContent>
-
-          <TabsContent value="tracklist" className={isMobile ? 'mt-2' : ''}>
+          <TabsContent value="tracklist">
             <ProjectTracklistTab 
               project={project} 
               tracks={tracks || []} 
