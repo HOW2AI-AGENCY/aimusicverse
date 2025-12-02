@@ -25,7 +25,7 @@ interface InfoData {
 }
 
 interface StyleData {
-  style?: string;
+  style?: string | { genres: string[]; moods: string[] };
   tags?: string;
 }
 

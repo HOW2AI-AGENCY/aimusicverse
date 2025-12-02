@@ -2,51 +2,19 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
+import type { Track } from './useTracksOptimized';
 
-export interface Track {
-  id: string;
-  user_id: string;
-  project_id: string | null;
-  title: string | null;
-  prompt: string;
-  lyrics: string | null;
-  style: string | null;
-  tags: string | null;
-  audio_url: string | null;
-  cover_url: string | null;
-  streaming_url: string | null;
-  local_audio_url: string | null;
-  local_cover_url: string | null;
-  status: string | null;
-  provider: string | null;
-  model_name: string | null;
-  suno_model: string | null;
-  generation_mode: string | null;
-  vocal_gender: string | null;
-  style_weight: number | null;
-  negative_tags: string | null;
-  has_vocals: boolean | null;
-  is_public: boolean | null;
-  play_count: number | null;
-  duration_seconds: number | null;
-  suno_id: string | null;
-  suno_task_id: string | null;
-  error_message: string | null;
-  created_at: string;
-  updated_at: string;
-  likes_count?: number;
-  is_liked?: boolean;
-}
+export type { Track } from './useTracksOptimized';
 
 export const useTracks = (projectId?: string) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const { data: tracks, isLoading, error } = useQuery({
+  const { data: tracks, isLoading } = useQuery({
     queryKey: ['tracks', user?.id, projectId],
     queryFn: async () => {
       if (!user?.id) return [];
-
+      
       let query = supabase
         .from('tracks')
         .select('*')
@@ -58,35 +26,38 @@ export const useTracks = (projectId?: string) => {
       }
 
       const { data, error } = await query;
-
+      
       if (error) throw error;
 
-      // Get likes count for each track
-      const trackIds = data?.map(t => t.id) || [];
-      const { data: likesData } = await supabase
-        .from('track_likes' as any)
-        .select('track_id')
-        .in('track_id', trackIds);
+      // Enrich with likes data
+      if (!data || data.length === 0) return [];
 
-      // Get user's likes
-      const { data: userLikes } = await supabase
-        .from('track_likes' as any)
-        .select('track_id')
-        .eq('user_id', user.id)
-        .in('track_id', trackIds);
+      const trackIds = data.map(t => t.id);
+      
+      const [likesData, userLikesData] = await Promise.all([
+        supabase
+          .from('track_likes')
+          .select('track_id')
+          .in('track_id', trackIds),
+        supabase
+          .from('track_likes')
+          .select('track_id')
+          .eq('user_id', user.id)
+          .in('track_id', trackIds)
+      ]);
 
-      const likesCounts = (likesData || []).reduce((acc: Record<string, number>, like: any) => {
+      const likesCounts = likesData.data?.reduce((acc, like) => {
         acc[like.track_id] = (acc[like.track_id] || 0) + 1;
         return acc;
-      }, {});
+      }, {} as Record<string, number>) || {};
 
-      const likedTrackIds = new Set(userLikes?.map((l: any) => l.track_id) || []);
+      const userLikes = new Set(userLikesData.data?.map(l => l.track_id) || []);
 
-      return (data || []).map((track: any) => ({
+      return data.map(track => ({
         ...track,
         likes_count: likesCounts[track.id] || 0,
-        is_liked: likedTrackIds.has(track.id),
-      })) as Track[];
+        is_liked: userLikes.has(track.id)
+      }));
     },
     enabled: !!user?.id,
   });
@@ -96,18 +67,16 @@ export const useTracks = (projectId?: string) => {
       const { error } = await supabase
         .from('tracks')
         .delete()
-        .eq('id', trackId)
-        .eq('user_id', user?.id);
-
+        .eq('id', trackId);
+      
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tracks'] });
+      queryClient.invalidateQueries({ queryKey: ['tracks', user?.id] });
       toast.success('Трек удален');
     },
     onError: (error: any) => {
-      console.error('Error deleting track:', error);
-      toast.error('Ошибка удаления трека');
+      toast.error(error.message || 'Ошибка удаления');
     },
   });
 
@@ -116,123 +85,90 @@ export const useTracks = (projectId?: string) => {
       if (!user?.id) throw new Error('Not authenticated');
 
       if (isLiked) {
-        // Remove like
         const { error } = await supabase
-          .from('track_likes' as any)
+          .from('track_likes')
           .delete()
           .eq('track_id', trackId)
           .eq('user_id', user.id);
-
+        
         if (error) throw error;
       } else {
-        // Add like
         const { error } = await supabase
-          .from('track_likes' as any)
-          .insert({
-            track_id: trackId,
-            user_id: user.id,
-          });
-
+          .from('track_likes')
+          .insert({ track_id: trackId, user_id: user.id });
+        
         if (error) throw error;
       }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tracks'] });
+    onSuccess: (_, { isLiked }) => {
+      queryClient.invalidateQueries({ queryKey: ['tracks', user?.id] });
+      toast.success(isLiked ? 'Удалено из избранного' : 'Добавлено в избранное');
     },
     onError: (error: any) => {
-      console.error('Error toggling like:', error);
-      toast.error('Ошибка');
+      toast.error(error.message || 'Ошибка');
     },
   });
 
   const logPlay = useMutation({
     mutationFn: async (trackId: string) => {
-      const { error } = await supabase
-        .from('track_analytics' as any)
+      const { error: analyticsError } = await supabase
+        .from('track_analytics')
         .insert({
           track_id: trackId,
-          user_id: user?.id,
+          user_id: user?.id || null,
           event_type: 'play',
-          metadata: {
-            timestamp: new Date().toISOString(),
-          },
         });
 
-      if (error) throw error;
+      if (analyticsError) console.error('Analytics error:', analyticsError);
+
+      await supabase.rpc('increment_track_play_count', {
+        track_id_param: trackId,
+      });
+    },
+    onError: (error: any) => {
+      console.error('Play log error:', error);
     },
   });
 
   const downloadTrack = useMutation({
-    mutationFn: async ({ trackId, audioUrl, coverUrl }: { 
-      trackId: string; 
-      audioUrl: string; 
+    mutationFn: async ({
+      trackId,
+      audioUrl,
+      coverUrl,
+    }: {
+      trackId: string;
+      audioUrl: string;
       coverUrl?: string;
     }) => {
-      const { data, error } = await supabase.functions.invoke('download-track', {
-        body: {
-          trackId,
-          audioUrl,
-          coverUrl,
-          metadata: {
-            downloaded_at: new Date().toISOString(),
-          },
-        },
+      const { error } = await supabase.functions.invoke('download-track', {
+        body: { trackId, audioUrl, coverUrl },
       });
 
       if (error) throw error;
-      return data;
+
+      await supabase
+        .from('track_analytics')
+        .insert({
+          track_id: trackId,
+          user_id: user?.id || null,
+          event_type: 'download',
+        });
+    },
+    onError: (error: any) => {
+      toast.error(error.message || 'Ошибка скачивания');
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tracks'] });
-      toast.success('Трек загружен в хранилище');
-    },
-    onError: (error: any) => {
-      console.error('Error downloading track:', error);
-      toast.error('Ошибка загрузки трека');
-    },
-  });
-
-  const syncTags = useMutation({
-    mutationFn: async ({ trackId, trackData, tags }: {
-      trackId: string;
-      trackData: any;
-      tags?: string[];
-    }) => {
-      const { data, error } = await supabase.functions.invoke('sync-suno-tags', {
-        body: {
-          trackData: {
-            id: trackId,
-            ...trackData,
-          },
-          tags,
-        },
-      });
-
-      if (error) throw error;
-      return data;
-    },
-    onSuccess: (data) => {
-      console.log('Tags synced:', data);
-      toast.success(`Синхронизировано ${data.syncedTags} тегов`);
-    },
-    onError: (error: any) => {
-      console.error('Error syncing tags:', error);
-      toast.error('Ошибка синхронизации тегов');
+      toast.success('Скачивание началось');
     },
   });
 
   return {
     tracks,
     isLoading,
-    error,
-    deleteTrack: deleteTrack.mutate,
-    toggleLike: toggleLike.mutate,
-    logPlay: logPlay.mutate,
-    downloadTrack: downloadTrack.mutate,
-    syncTags: syncTags.mutate,
-    isDeleting: deleteTrack.isPending,
-    isTogglingLike: toggleLike.isPending,
-    isDownloading: downloadTrack.isPending,
-    isSyncingTags: syncTags.isPending,
+    deleteTrack: (trackId: string) => deleteTrack.mutate(trackId),
+    toggleLike: (params: { trackId: string; isLiked: boolean }) => toggleLike.mutate(params),
+    logPlay: (trackId: string) => logPlay.mutate(trackId),
+    downloadTrack: (params: { trackId: string; audioUrl: string; coverUrl?: string }) =>
+      downloadTrack.mutate(params),
   };
 };

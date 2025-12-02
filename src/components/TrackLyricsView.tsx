@@ -62,8 +62,8 @@ export function TrackLyricsView({ track }: TrackLyricsViewProps) {
           {hasTimestampedLyrics && (
             <TabsContent value="synced" className="h-[500px]">
               <TimestampedLyrics
-                taskId={track.suno_task_id}
-                audioId={track.suno_id}
+                taskId={track.suno_task_id || undefined}
+                audioId={track.suno_id || undefined}
                 currentTime={currentTime}
                 isPlaying={isPlaying}
                 duration={duration}

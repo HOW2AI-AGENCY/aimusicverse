@@ -23,7 +23,7 @@ export function useTelegramStorage<T>(
       try {
         if (hasCloudStorage) {
           // Use Telegram CloudStorage
-          (webApp as any).CloudStorage.getItem(key, (error, result) => {
+          (webApp as any).CloudStorage.getItem(key, (error: Error | null, result: string) => {
             if (error) {
               console.error('CloudStorage getItem error:', error);
               if (options.fallbackToLocalStorage) {
@@ -74,7 +74,7 @@ export function useTelegramStorage<T>(
         ? newValue 
         : JSON.stringify(newValue);
 
-      (webApp as any).CloudStorage.setItem(key, stringValue, (error) => {
+      (webApp as any).CloudStorage.setItem(key, stringValue, (error: Error | null) => {
         if (error) {
           console.error('CloudStorage setItem error:', error);
           if (options.fallbackToLocalStorage) {
@@ -96,7 +96,7 @@ export function useTelegramStorage<T>(
     setValue(initialValue);
 
     if (hasCloudStorage) {
-      (webApp as any).CloudStorage.removeItem(key, (error) => {
+      (webApp as any).CloudStorage.removeItem(key, (error: Error | null) => {
         if (error) {
           console.error('CloudStorage removeItem error:', error);
           if (options.fallbackToLocalStorage) {

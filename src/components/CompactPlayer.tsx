@@ -19,6 +19,7 @@ interface CompactPlayerProps {
     cover_url?: string | null;
     suno_task_id?: string | null;
     suno_id?: string | null;
+    is_liked?: boolean;
   };
   onClose: () => void;
   onMaximize: () => void;
@@ -147,7 +148,7 @@ export function CompactPlayer({ track, onClose, onMaximize }: CompactPlayerProps
         <Button
             variant="ghost"
             size="icon"
-            onClick={() => toggleLike({ trackId: track.id, isLiked: track.is_liked })}
+            onClick={() => toggleLike({ trackId: track.id, isLiked: track.is_liked || false })}
             className="h-8 w-8 flex-shrink-0"
         >
             <Heart className={cn("h-4 w-4", track.is_liked && "fill-current text-red-500")} />

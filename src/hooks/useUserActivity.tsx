@@ -39,10 +39,11 @@ export const useCreateActivity = () => {
 
       const { data, error } = await supabase
         .from('user_activity')
-        .insert({
+        .insert([{
           user_id: user.id,
-          ...activity,
-        })
+          action_type: activity.action_type,
+          action_data: activity.action_data as any,
+        }])
         .select()
         .single();
 

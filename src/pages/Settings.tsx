@@ -60,12 +60,12 @@ export default function Profile() {
       const { data, error } = await supabase
         .from("profiles")
         .select("*")
-        .eq("user_id", user?.id)
+        .eq("user_id", user?.id ?? "")
         .single();
 
       if (error) throw error;
       
-      setProfile(data);
+      setProfile(data as any);
       setFirstName(data.first_name || "");
       setLastName(data.last_name || "");
     } catch (error) {
@@ -81,7 +81,7 @@ export default function Profile() {
       const { data, error } = await supabase
         .from("user_activity")
         .select("*")
-        .eq("user_id", user?.id)
+        .eq("user_id", user?.id ?? "")
         .order("created_at", { ascending: false })
         .limit(10);
 
@@ -120,16 +120,16 @@ export default function Profile() {
           first_name: firstName,
           last_name: lastName,
         })
-        .eq("user_id", user?.id);
+        .eq("user_id", user?.id ?? "");
 
       if (error) throw error;
 
       // Log activity
-      await supabase.from("user_activity").insert({
-        user_id: user?.id,
+      await supabase.from("user_activity").insert([{
+        user_id: user?.id ?? "",
         action_type: "profile_updated",
-        action_data: { first_name: firstName, last_name: lastName },
-      });
+        action_data: { first_name: firstName, last_name: lastName } as any,
+      }]);
 
       hapticFeedback("success");
       toast.success("Настройки сохранены!");

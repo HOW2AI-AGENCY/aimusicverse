@@ -19,8 +19,8 @@ export interface TimestampedLyricsData {
 }
 
 interface TimestampedLyricsProps {
-  taskId: string | null;
-  audioId: string | null;
+  taskId?: string | null;
+  audioId?: string | null;
   currentTime: number;
   isPlaying: boolean;
   duration?: number;
