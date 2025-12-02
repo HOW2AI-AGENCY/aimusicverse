@@ -42,7 +42,10 @@ export function ProjectTrackSelector({
 }: ProjectTrackSelectorProps) {
   const handleSelect = (id: string) => {
     onSelect(id);
-    onOpenChange(false);
+    // Only close dialog if selecting a track, not a project
+    if (type === 'track') {
+      onOpenChange(false);
+    }
   };
 
   const formatDuration = (seconds?: number | null) => {

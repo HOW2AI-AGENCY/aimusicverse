@@ -73,6 +73,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [artistDialogOpen, setArtistDialogOpen] = useState(false);
   const [trackDialogOpen, setTrackDialogOpen] = useState(false);
   const [audioDialogOpen, setAudioDialogOpen] = useState(false);
+  const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
 
   // Fetch credits
   useEffect(() => {
@@ -269,6 +270,21 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     ? allTracks?.filter(t => t.project_id === selectedProjectId) 
     : [];
 
+  // Handle project selection - show tracks for that project
+  const handleProjectSelect = (projectId: string) => {
+    setSelectedProjectId(projectId);
+    // If project has tracks, show track selection
+    const tracks = allTracks?.filter(t => t.project_id === projectId);
+    if (tracks && tracks.length > 0) {
+      setProjectTrackStep('track');
+    } else {
+      setProjectDialogOpen(false);
+      toast.info('Проект выбран', {
+        description: 'В проекте пока нет треков',
+      });
+    }
+  };
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="h-[90vh] flex flex-col bg-background/95 backdrop-blur-xl p-0">
@@ -281,9 +297,10 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
         <ScrollArea className="flex-1">
           <div className="px-4 pb-4 sm:px-6 sm:pb-6 space-y-3">
-            {/* Compact header with credits, mode and model */}
+            {/* Centered header with mode toggle */}
             <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
+              {/* Left side: Credits and History */}
+              <div className="flex items-center gap-2 flex-1">
                 {credits !== null && (
                   <Badge 
                     variant="secondary" 
@@ -304,43 +321,41 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                 </Button>
               </div>
 
-              <div className="flex items-center gap-1.5">
-                <div className="flex items-center gap-0.5 p-0.5 rounded-md bg-muted">
-                  <Button
-                    variant={mode === 'simple' ? 'default' : 'ghost'}
-                    size="sm"
-                    onClick={() => setMode('simple')}
-                    className="h-7 px-3 text-xs"
-                  >
-                    Simple
-                  </Button>
-                  <Button
-                    variant={mode === 'custom' ? 'default' : 'ghost'}
-                    size="sm"
-                    onClick={() => setMode('custom')}
-                    className="h-7 px-3 text-xs"
-                  >
-                    Custom
-                  </Button>
-                </div>
+              {/* Center: Mode Toggle */}
+              <div className="flex items-center gap-0.5 p-0.5 rounded-md bg-muted">
+                <Button
+                  variant={mode === 'simple' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setMode('simple')}
+                  className="h-7 px-3 text-xs"
+                >
+                  Simple
+                </Button>
+                <Button
+                  variant={mode === 'custom' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setMode('custom')}
+                  className="h-7 px-3 text-xs"
+                >
+                  Custom
+                </Button>
+              </div>
 
-                <Select value={model} onValueChange={setModel}>
-                  <SelectTrigger className="w-16 h-7 text-xs">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Object.entries(modelInfo).map(([key, info]) => (
-                      <SelectItem key={key} value={key}>
-                        {info.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              {/* Right side: Advanced Settings */}
+              <div className="flex items-center gap-2 flex-1 justify-end">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setAdvancedOpen(!advancedOpen)}
+                  className="h-8 w-8 p-0"
+                >
+                  <Sliders className="w-4 h-4" />
+                </Button>
               </div>
             </div>
 
           {/* Compact Quick Action Buttons */}
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             <Button
               type="button"
               variant="outline"
@@ -373,33 +388,65 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               <Plus className="w-3.5 h-3.5" />
               <span className="text-xs leading-none">Проект</span>
             </Button>
-
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="h-10 gap-1.5 flex-col py-1"
-              onClick={() => setTrackDialogOpen(true)}
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span className="text-xs leading-none">Трек</span>
-            </Button>
           </div>
 
-          {/* Audio file indicator */}
-          {audioFile && (
-            <div className="flex items-center gap-2 p-2 rounded-lg bg-primary/10 border border-primary/20">
-              <FileAudio className="w-4 h-4 text-primary" />
-              <span className="text-xs flex-1 truncate">{audioFile.name}</span>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="h-6 w-6 p-0"
-                onClick={() => setAudioFile(null)}
-              >
-                <span className="text-xs">✕</span>
-              </Button>
+          {/* Selected References Indicators */}
+          {(audioFile || selectedArtistId || selectedProjectId) && (
+            <div className="space-y-2">
+              {audioFile && (
+                <div className="flex items-center gap-2 p-2 rounded-lg bg-primary/10 border border-primary/20">
+                  <FileAudio className="w-4 h-4 text-primary" />
+                  <span className="text-xs flex-1 truncate">{audioFile.name}</span>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0"
+                    onClick={() => setAudioFile(null)}
+                  >
+                    <span className="text-xs">✕</span>
+                  </Button>
+                </div>
+              )}
+              
+              {selectedArtistId && (
+                <div className="flex items-center gap-2 p-2 rounded-lg bg-primary/10 border border-primary/20">
+                  <User className="w-4 h-4 text-primary" />
+                  <span className="text-xs flex-1 truncate">
+                    {artists?.find(a => a.id === selectedArtistId)?.name || 'Персона'}
+                  </span>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0"
+                    onClick={() => setSelectedArtistId(undefined)}
+                  >
+                    <span className="text-xs">✕</span>
+                  </Button>
+                </div>
+              )}
+
+              {selectedProjectId && (
+                <div className="flex items-center gap-2 p-2 rounded-lg bg-primary/10 border border-primary/20">
+                  <FolderOpen className="w-4 h-4 text-primary" />
+                  <span className="text-xs flex-1 truncate">
+                    {projects?.find(p => p.id === selectedProjectId)?.title || 'Проект'}
+                  </span>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0"
+                    onClick={() => {
+                      setSelectedProjectId(undefined);
+                      setSelectedTrackId(undefined);
+                    }}
+                  >
+                    <span className="text-xs">✕</span>
+                  </Button>
+                </div>
+              )}
             </div>
           )}
 
@@ -447,6 +494,21 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   className="h-9 text-sm"
+                />
+              </div>
+
+              {/* Vocals Toggle for Simple Mode */}
+              <div className="flex items-center justify-between p-3 rounded-lg border">
+                <div className="flex items-center gap-2">
+                  <Mic className="w-4 h-4" />
+                  <Label htmlFor="simple-vocals-toggle" className="cursor-pointer text-sm font-medium">
+                    С вокалом
+                  </Label>
+                </div>
+                <Switch
+                  id="simple-vocals-toggle"
+                  checked={hasVocals}
+                  onCheckedChange={setHasVocals}
                 />
               </div>
             </div>
@@ -499,41 +561,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                 />
               </div>
 
-              {/* Lyrics Section */}
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <Label className="text-xs font-medium">Текст песни</Label>
-                  <div className="flex gap-1">
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="h-6 px-2"
-                      onClick={() => setShowVisualEditor(!showVisualEditor)}
-                    >
-                      <span className="text-xs">{showVisualEditor ? 'Текст' : 'Визуал'}</span>
-                    </Button>
-                    <Button variant="ghost" size="sm" className="h-6 px-2">
-                      <Sparkles className="w-3 h-3" />
-                    </Button>
-                  </div>
-                </div>
-                
-                {showVisualEditor ? (
-                  <LyricsVisualEditor
-                    value={lyrics}
-                    onChange={setLyrics}
-                  />
-                ) : (
-                  <Textarea
-                    placeholder="Введите текст или используйте AI..."
-                    value={lyrics}
-                    onChange={(e) => setLyrics(e.target.value)}
-                    rows={5}
-                    className="resize-none text-sm"
-                  />
-                )}
-              </div>
-
               {/* Vocals Toggle */}
               <div className="flex items-center justify-between p-3 rounded-lg border">
                 <div className="flex items-center gap-2">
@@ -548,6 +575,43 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   onCheckedChange={setHasVocals}
                 />
               </div>
+
+              {/* Lyrics Section - Only show when hasVocals is true */}
+              {hasVocals && (
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <Label className="text-xs font-medium">Текст песни</Label>
+                    <div className="flex gap-1">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="h-6 px-2"
+                        onClick={() => setShowVisualEditor(!showVisualEditor)}
+                      >
+                        <span className="text-xs">{showVisualEditor ? 'Текст' : 'Визуал'}</span>
+                      </Button>
+                      <Button variant="ghost" size="sm" className="h-6 px-2">
+                        <Sparkles className="w-3 h-3" />
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  {showVisualEditor ? (
+                    <LyricsVisualEditor
+                      value={lyrics}
+                      onChange={setLyrics}
+                    />
+                  ) : (
+                    <Textarea
+                      placeholder="Введите текст или используйте AI..."
+                      value={lyrics}
+                      onChange={(e) => setLyrics(e.target.value)}
+                      rows={5}
+                      className="resize-none text-sm"
+                    />
+                  )}
+                </div>
+              )}
 
               {/* Advanced Settings Collapsible */}
               <AdvancedSettings
@@ -564,6 +628,9 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                 audioWeight={audioWeight}
                 onAudioWeightChange={setAudioWeight}
                 hasReferenceAudio={!!audioFile}
+                hasPersona={!!selectedArtistId}
+                model={model}
+                onModelChange={setModel}
               />
             </div>
           )}
@@ -590,14 +657,20 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         </SheetFooter>
       </SheetContent>
 
-      {/* Project Selector */}
+      {/* Unified Project and Track Selector */}
       <ProjectTrackSelector
-        type="project"
+        type={projectTrackStep}
         open={projectDialogOpen}
-        onOpenChange={setProjectDialogOpen}
+        onOpenChange={(open) => {
+          setProjectDialogOpen(open);
+          if (!open) {
+            setProjectTrackStep('project');
+          }
+        }}
         projects={projects}
-        selectedId={selectedProjectId}
-        onSelect={setSelectedProjectId}
+        tracks={projectTrackStep === 'track' ? projectTracks : undefined}
+        selectedId={projectTrackStep === 'project' ? selectedProjectId : selectedTrackId}
+        onSelect={projectTrackStep === 'project' ? handleProjectSelect : handleTrackSelect}
       />
 
       {/* Artist Selector */}
@@ -607,16 +680,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         artists={artists}
         selectedArtistId={selectedArtistId}
         onSelect={setSelectedArtistId}
-      />
-
-      {/* Track Selector */}
-      <ProjectTrackSelector
-        type="track"
-        open={trackDialogOpen}
-        onOpenChange={setTrackDialogOpen}
-        tracks={projectTracks}
-        selectedId={selectedTrackId}
-        onSelect={handleTrackSelect}
       />
 
       {/* Audio Action Dialog */}

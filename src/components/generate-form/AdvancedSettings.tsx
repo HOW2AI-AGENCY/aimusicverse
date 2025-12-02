@@ -20,7 +20,18 @@ interface AdvancedSettingsProps {
   audioWeight: number[];
   onAudioWeightChange: (value: number[]) => void;
   hasReferenceAudio: boolean;
+  hasPersona?: boolean;
+  model?: string;
+  onModelChange?: (value: string) => void;
 }
+
+const MODEL_INFO = {
+  V5: { name: 'V5', desc: 'Новейшая модель, быстрая генерация', emoji: '🚀' },
+  V4_5PLUS: { name: 'V4.5+', desc: 'Богатый звук, до 8 мин', emoji: '💎' },
+  V4_5ALL: { name: 'V4.5 All', desc: 'Лучшая структура, до 8 мин', emoji: '🎯' },
+  V4_5: { name: 'V4.5', desc: 'Быстро, качественно, до 8 мин', emoji: '⚡' },
+  V4: { name: 'V4', desc: 'Классика, до 4 мин', emoji: '🎵' },
+};
 
 export function AdvancedSettings({
   open,
@@ -36,6 +47,9 @@ export function AdvancedSettings({
   audioWeight,
   onAudioWeightChange,
   hasReferenceAudio,
+  hasPersona = false,
+  model,
+  onModelChange,
 }: AdvancedSettingsProps) {
   return (
     <Collapsible open={open} onOpenChange={onOpenChange}>
@@ -51,6 +65,32 @@ export function AdvancedSettings({
       </CollapsibleTrigger>
 
       <CollapsibleContent className="space-y-4 pt-4">
+        {/* Model Selection */}
+        {model && onModelChange && (
+          <div>
+            <Label htmlFor="model-select" className="text-sm text-muted-foreground">
+              Модель AI
+            </Label>
+            <Select value={model} onValueChange={onModelChange}>
+              <SelectTrigger id="model-select" className="mt-2">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.entries(MODEL_INFO).map(([key, info]) => (
+                  <SelectItem key={key} value={key}>
+                    <div className="flex items-center gap-2">
+                      <span>{info.emoji}</span>
+                      <div className="flex flex-col">
+                        <span className="font-medium">{info.name}</span>
+                        <span className="text-xs text-muted-foreground">{info.desc}</span>
+                      </div>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
         <div>
           <Label htmlFor="negative-tags">Нежелательные теги</Label>
           <Input
@@ -138,10 +178,16 @@ export function AdvancedSettings({
           />
         </div>
 
-        {hasReferenceAudio && (
+        {(hasReferenceAudio || hasPersona) && (
           <div>
             <div className="flex items-center justify-between mb-2">
-              <Label>Вес референс аудио</Label>
+              <Label>
+                {hasReferenceAudio && hasPersona 
+                  ? 'Сила аудио / персоны' 
+                  : hasReferenceAudio 
+                    ? 'Вес референс аудио'
+                    : 'Сила персоны'}
+              </Label>
               <span className="text-sm text-muted-foreground">{audioWeight[0].toFixed(2)}</span>
             </div>
             <Slider
@@ -153,7 +199,11 @@ export function AdvancedSettings({
               className="mt-2"
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Влияние референс аудио на результат (0 - слабое, 1 - сильное)
+              {hasReferenceAudio && hasPersona 
+                ? 'Влияние референс аудио и персоны на результат (0 - слабое, 1 - сильное)'
+                : hasReferenceAudio
+                  ? 'Влияние референс аудио на результат (0 - слабое, 1 - сильное)'
+                  : 'Влияние персоны на стиль вокала (0 - слабое, 1 - сильное)'}
             </p>
           </div>
         )}
