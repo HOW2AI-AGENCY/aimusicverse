@@ -1,8 +1,10 @@
 
+import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, FolderOpen, Library, UserCircle, Settings, BarChart2 } from 'lucide-react';
+import { Home, FolderOpen, Library, UserCircle, Settings, BarChart2, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
+import { GenerateSheet } from './GenerateSheet';
 
 const navItems = [
   { path: '/', label: 'Главная', icon: Home },
@@ -19,15 +21,29 @@ const bottomNavItems = [
 export const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [generateOpen, setGenerateOpen] = useState(false);
 
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <aside className="h-full flex flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
-      <div className="p-4">
-        <h1 className="text-2xl font-bold text-sidebar-primary">MusicVerse</h1>
-      </div>
-      <nav className="flex-1 px-2 space-y-1">
+    <>
+      <aside className="h-full flex flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+        <div className="p-4">
+          <h1 className="text-2xl font-bold text-sidebar-primary">MusicVerse</h1>
+        </div>
+        
+        {/* Create/Generate Button */}
+        <div className="px-2 pb-4">
+          <Button
+            onClick={() => setGenerateOpen(true)}
+            className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 gap-2 shadow-lg"
+          >
+            <Sparkles className="w-5 h-5" />
+            <span>Создать трек</span>
+          </Button>
+        </div>
+        
+        <nav className="flex-1 px-2 space-y-1">
         {navItems.map((item) => (
           <Button
             key={item.path}
@@ -54,5 +70,8 @@ export const Sidebar = () => {
         ))}
       </div>
     </aside>
+    
+    <GenerateSheet open={generateOpen} onOpenChange={setGenerateOpen} />
+    </>
   );
 };

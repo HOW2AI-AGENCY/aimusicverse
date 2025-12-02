@@ -142,7 +142,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                   <Music className="w-4 h-4 mr-2" />
                   Редактировать
                 </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent className="bg-background/95 backdrop-blur-sm" sideOffset={8} alignOffset={-4}>
+                <DropdownMenuSubContent className="bg-background/95 backdrop-blur-sm z-[10000]" sideOffset={8} alignOffset={-4}>
                   <DropdownMenuItem onClick={() => {
                     triggerSelectionHaptic(); // T063
                     setExtendDialogOpen(true);
@@ -191,7 +191,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                   <Wand2 className="w-4 h-4 mr-2" />
                   Обработка
                 </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent className="bg-background/95 backdrop-blur-sm" sideOffset={8} alignOffset={-4}>
+                <DropdownMenuSubContent className="bg-background/95 backdrop-blur-sm z-[10000]" sideOffset={8} alignOffset={-4}>
                   {track.suno_id && (
                     <>
                       <DropdownMenuItem onClick={() => handleSeparateVocals(track, 'simple')} disabled={isProcessing}>
