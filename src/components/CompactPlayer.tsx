@@ -154,6 +154,7 @@ export function CompactPlayer({ track, onClose, onMaximize }: CompactPlayerProps
             onClick={() => toggleLike({ trackId: track.id, isLiked: track.is_liked || false })}
             className="h-9 w-9 sm:h-8 sm:w-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex-shrink-0 touch-manipulation active:scale-95"
             aria-label={track.is_liked ? "Убрать из избранного" : "Добавить в избранное"}
+            disabled={!track.id}
         >
             <Heart className={cn("h-4 w-4", track.is_liked && "fill-current text-red-500")} />
         </Button>
