@@ -39,9 +39,10 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
   // Load saved analysis from project.ai_context on mount
   useEffect(() => {
     if (project.ai_context && typeof project.ai_context === 'object') {
-      const savedAnalysis = (project.ai_context as any).analysis;
-      if (savedAnalysis) {
-        setAnalysis(savedAnalysis);
+      const contextData = project.ai_context as Record<string, unknown>;
+      const savedAnalysis = contextData.analysis;
+      if (savedAnalysis && typeof savedAnalysis === 'object') {
+        setAnalysis(savedAnalysis as AnalysisResult);
       }
     }
   }, [project.ai_context]);
@@ -104,7 +105,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
     setAiDialogOpen(true);
   };
 
-  const handleApplyUpdates = async (updates: Record<string, any>) => {
+  const handleApplyUpdates = async (updates: Record<string, string | number | boolean | null>) => {
     try {
       const { error } = await supabase
         .from('music_projects')

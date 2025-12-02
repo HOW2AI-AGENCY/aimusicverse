@@ -16,7 +16,7 @@ interface Step {
   name: string;
 }
 
-// TODO: Refine these types for more specific properties
+// FIXME: Refine these types for more specific properties
 interface InfoData {
   title?: string;
   style?: string;
@@ -203,10 +203,11 @@ export const GenerateWizard = () => {
       setFormData({});
       setStep("mode");
       localStorage.removeItem(LOCAL_STORAGE_KEY);
-    } catch (error: any) {
+    } catch (error) {
       console.error("Generation error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Попробуйте еще раз";
       toast.error("Ошибка генерации", {
-        description: error.message || "Попробуйте еще раз",
+        description: errorMessage,
       });
     } finally {
       setLoading(false);

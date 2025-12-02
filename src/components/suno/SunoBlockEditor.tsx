@@ -42,8 +42,9 @@ export const SunoBlockEditor = ({
 
   const handleAddSection = (type: SectionType) => {
     const existingCount = sections.filter((s) => s.type === type).length;
+    const timestamp = Date.now();
     const newSection: LyricSection = {
-      id: `${type}-${existingCount + 1}-${Date.now()}`,
+      id: `${type}-${existingCount + 1}-${timestamp}`,
       type,
       header: `[${SECTION_LABELS[type].en}]`,
       content: '',

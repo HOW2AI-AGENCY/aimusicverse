@@ -67,10 +67,11 @@ export const LongPromptAssistant = ({ onGenerateParts }: LongPromptAssistantProp
             : 'Промпт оптимален'
         });
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Analysis error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Попробуйте еще раз';
       toast.error('Ошибка анализа', {
-        description: error.message || 'Попробуйте еще раз',
+        description: errorMessage,
       });
     } finally {
       setAnalyzing(false);
@@ -100,10 +101,11 @@ export const LongPromptAssistant = ({ onGenerateParts }: LongPromptAssistantProp
           description: `${data.analysis.length || 0} символов`,
         });
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Optimization error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Попробуйте еще раз';
       toast.error('Ошибка оптимизации', {
-        description: error.message || 'Попробуйте еще раз',
+        description: errorMessage,
       });
     } finally {
       setOptimizing(false);

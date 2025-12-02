@@ -47,8 +47,10 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       });
     });
     
-    // Initialize states after all audio elements are created
-    setStemStates(initialStates);
+    // Initialize states after all audio elements are created (in a separate effect to avoid cascading renders)
+    requestAnimationFrame(() => {
+      setStemStates(initialStates);
+    });
 
     const audioElements = Object.values(audioRefs.current);
     return () => {

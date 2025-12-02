@@ -10,7 +10,7 @@ export interface TrackVersion {
   version_type: string;
   is_primary: boolean;
   parent_version_id: string | null;
-  metadata: any;
+  metadata: Record<string, unknown> | null;
   created_at: string;
 }
 

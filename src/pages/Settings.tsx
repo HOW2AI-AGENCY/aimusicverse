@@ -26,7 +26,7 @@ interface Profile {
 interface UserActivity {
   id: string;
   action_type: string;
-  action_data?: any;
+  action_data?: Record<string, unknown> | null;
   created_at: string;
 }
 
@@ -53,6 +53,7 @@ export default function Profile() {
       loadActivities();
       fetchSunoCredits();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const loadProfile = async () => {
@@ -65,7 +66,7 @@ export default function Profile() {
 
       if (error) throw error;
       
-      setProfile(data as any);
+      setProfile(data as Profile);
       setFirstName(data.first_name || "");
       setLastName(data.last_name || "");
     } catch (error) {
@@ -102,7 +103,7 @@ export default function Profile() {
       if (data?.success) {
         setSunoCredits(data.credits);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error fetching Suno credits:', error);
       toast.error("Не удалось загрузить кредиты SunoAPI");
     } finally {
@@ -128,7 +129,7 @@ export default function Profile() {
       await supabase.from("user_activity").insert([{
         user_id: user?.id ?? "",
         action_type: "profile_updated",
-        action_data: { first_name: firstName, last_name: lastName } as any,
+        action_data: { first_name: firstName, last_name: lastName },
       }]);
 
       hapticFeedback("success");

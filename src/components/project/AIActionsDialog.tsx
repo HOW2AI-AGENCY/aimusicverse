@@ -18,7 +18,7 @@ interface AIActionsDialogProps {
   onOpenChange: (open: boolean) => void;
   projectId: string;
   field?: string;
-  onApply: (updates: Record<string, any>) => void;
+  onApply: (updates: Record<string, string | number | boolean | null>) => void;
 }
 
 export function AIActionsDialog({ 

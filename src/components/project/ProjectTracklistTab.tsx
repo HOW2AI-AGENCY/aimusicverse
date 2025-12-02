@@ -123,7 +123,7 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
   };
 
   const handleSaveLyrics = (trackId: string, lyricsData: { 
-    sections: any[]; 
+    sections: Array<{id: string; type: string; header: string; content: string}>; 
     stylePrompt: string; 
     finalPrompt: string;
   }) => {
@@ -165,7 +165,7 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
         toast.success(data.message || 'Генерация лирики начата');
         toast.info('Результат будет доступен через несколько секунд');
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error generating lyrics:', error);
       toast.error('Ошибка генерации лирики');
     } finally {

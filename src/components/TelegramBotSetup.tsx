@@ -6,9 +6,21 @@ import { CheckCircle2, AlertCircle, Loader2, Send } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
+interface WebhookInfo {
+  webhook_url?: string;
+  webhook_info?: {
+    ok: boolean;
+    result?: {
+      url?: string;
+      pending_update_count?: number;
+      last_error_message?: string;
+    };
+  };
+}
+
 export const TelegramBotSetup = () => {
   const [loading, setLoading] = useState(false);
-  const [webhookInfo, setWebhookInfo] = useState<any>(null);
+  const [webhookInfo, setWebhookInfo] = useState<WebhookInfo | null>(null);
 
   const setupWebhook = async () => {
     setLoading(true);

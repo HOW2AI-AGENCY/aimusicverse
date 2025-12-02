@@ -75,7 +75,7 @@ export const useTracks = (projectId?: string) => {
       queryClient.invalidateQueries({ queryKey: ['tracks', user?.id] });
       toast.success('Трек удален');
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast.error(error.message || 'Ошибка удаления');
     },
   });
@@ -104,7 +104,7 @@ export const useTracks = (projectId?: string) => {
       queryClient.invalidateQueries({ queryKey: ['tracks', user?.id] });
       toast.success(isLiked ? 'Удалено из избранного' : 'Добавлено в избранное');
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast.error(error.message || 'Ошибка');
     },
   });
@@ -125,7 +125,7 @@ export const useTracks = (projectId?: string) => {
         track_id_param: trackId,
       });
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       console.error('Play log error:', error);
     },
   });
@@ -154,7 +154,7 @@ export const useTracks = (projectId?: string) => {
           event_type: 'download',
         });
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast.error(error.message || 'Ошибка скачивания');
     },
     onSuccess: () => {
