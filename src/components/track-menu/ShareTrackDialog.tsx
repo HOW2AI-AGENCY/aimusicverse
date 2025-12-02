@@ -31,15 +31,20 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
     if (open && track) {
       setLoading(true);
       
-      // Generate share URL (placeholder - replace with actual API call)
+      // Generate share URL (TODO: replace with actual API call)
       const baseUrl = window.location.origin;
       const publicUrl = `${baseUrl}/share/track/${track.id}`;
       
-      // Simulate API call
-      setTimeout(() => {
-        setShareUrl(publicUrl);
-        setLoading(false);
-      }, 500);
+      // Simulate API call with Promise-based approach
+      Promise.resolve(publicUrl)
+        .then((url) => {
+          setShareUrl(url);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('Failed to generate share URL:', error);
+          setLoading(false);
+        });
     }
   }, [open, track]);
 

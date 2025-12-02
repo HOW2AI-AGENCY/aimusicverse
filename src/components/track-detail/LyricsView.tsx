@@ -119,7 +119,7 @@ export function LyricsView({ lyrics, currentTime = 0, onSeek, isLoading = false 
         {hasTimestampedLyrics ? (
           // Timestamped lyrics with word-by-word highlighting
           <div className="space-y-3">
-            {lyricsData.alignedWords!.reduce((lines, word, index) => {
+            {(lyricsData.alignedWords || []).reduce((lines, word, index) => {
               if (index === 0 || word.word.includes('\n')) {
                 lines.push([]);
               }

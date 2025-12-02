@@ -7,7 +7,6 @@ import { useAudioPlayer } from '@/hooks/useAudioPlayer';
 import { AudioWaveform } from '@/components/AudioWaveform';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useTracks } from '@/hooks/useTracksOptimized';
-import { usePlayerStore } from '@/hooks/usePlayerState';
 import { PlaybackControls } from '@/components/player/PlaybackControls';
 import { motion, useDragControls } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -34,7 +33,6 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
   const [volume, setVolume] = useState(1);
   const [muted, setMuted] = useState(false);
   const { toggleLike, downloadTrack } = useTracks();
-  const { playTrack } = usePlayerStore();
   const dragControls = useDragControls();
 
   const {

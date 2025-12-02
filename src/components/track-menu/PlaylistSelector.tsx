@@ -36,6 +36,7 @@ export function PlaylistSelector({ open, onOpenChange, track }: PlaylistSelector
   const [loading, setLoading] = useState(false);
 
   // TODO: Replace with actual playlists hook when implemented
+  // Example: const { data: playlists, isLoading: playlistsLoading } = usePlaylists();
   const playlists: Playlist[] = [];
   const playlistsLoading = false;
 
