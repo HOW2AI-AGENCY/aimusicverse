@@ -25,6 +25,7 @@ import { CreatePersonaDialog } from './track-menu/CreatePersonaDialog';
 import { AddToProjectDialog } from './track-menu/AddToProjectDialog';
 import { ShareTrackDialog } from './track-menu/ShareTrackDialog';
 import { PlaylistSelector } from './track-menu/PlaylistSelector';
+import { AddToPlaylistDialog } from './track/AddToPlaylistDialog';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { TrackStudioSection } from './track-menu/TrackStudioSection';
@@ -50,6 +51,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
   const [addToProjectDialogOpen, setAddToProjectDialogOpen] = useState(false);
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [playlistSelectorOpen, setPlaylistSelectorOpen] = useState(false);
+  const [addToPlaylistDialogOpen, setAddToPlaylistDialogOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false); // T064 - Delete confirmation
   const [stemCount, setStemCount] = useState(0);
   const navigate = useNavigate();
@@ -251,7 +253,10 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                 Добавить в проект
               </DropdownMenuItem>
 
-              <DropdownMenuItem onClick={() => setPlaylistSelectorOpen(true)}>
+              <DropdownMenuItem onClick={() => {
+                triggerSelectionHaptic();
+                setAddToPlaylistDialogOpen(true);
+              }}>
                 <ListMusic className="w-4 h-4 mr-2" />
                 Добавить в плейлист
               </DropdownMenuItem>
@@ -364,6 +369,12 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
       <PlaylistSelector
         open={playlistSelectorOpen}
         onOpenChange={setPlaylistSelectorOpen}
+        track={track}
+      />
+
+      <AddToPlaylistDialog
+        open={addToPlaylistDialogOpen}
+        onOpenChange={setAddToPlaylistDialogOpen}
         track={track}
       />
     </>
