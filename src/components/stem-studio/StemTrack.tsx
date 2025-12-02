@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
-import { Music2, Mic, Volume2, Wind, Drum, VolumeX } from 'lucide-react';
+import { Music2, Mic, Volume2, Wind, Drum, VolumeX, type LucideIcon } from 'lucide-react';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { cn } from '@/lib/utils';
 
@@ -13,7 +13,7 @@ interface StemTrackProps {
   isPlaying: boolean;
 }
 
-const stemIcons: Record<string, React.ComponentType<{ className?: string }>> = {
+const stemIcons: Record<string, LucideIcon> = {
   vocal: Mic,
   instrumental: Music2,
   drums: Drum,
