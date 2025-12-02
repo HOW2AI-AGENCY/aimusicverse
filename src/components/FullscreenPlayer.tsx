@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { ChevronDown, Play, Pause, Volume2, VolumeX, Maximize2, Minimize2, SkipBack, SkipForward, Heart, Download, MoreHorizontal } from 'lucide-react';
+import { ChevronDown, Volume2, VolumeX, Maximize2, Minimize2, Heart, Download, MoreHorizontal, ListMusic } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Card } from '@/components/ui/card';
@@ -12,6 +12,10 @@ import { useTrackActions } from '@/hooks/useTrackActions';
 import { AudioWaveformVisualizer } from '@/components/AudioWaveformVisualizer';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
+import { PlaybackControls } from '@/components/player/PlaybackControls';
+import { ProgressBar } from '@/components/player/ProgressBar';
+import { QueueSheet } from '@/components/player/QueueSheet';
+import { hapticImpact } from '@/lib/haptic';
 
 interface AlignedWord {
   word: string;
@@ -39,6 +43,7 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [volume, setVolume] = useState(1);
   const [muted, setMuted] = useState(false);
+  const [queueSheetOpen, setQueueSheetOpen] = useState(false);
   const [selectedVersionId, setSelectedVersionId] = useState<string | null>(
     versions.find(v => v.is_primary)?.id || versions[0]?.id || null
   );
@@ -222,72 +227,59 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
 
             {/* Controls */}
             <Card className="w-full max-w-md glass-card border-primary/20 p-6 space-y-4">
-              {/* Waveform Visualizer */}
-              <div className="space-y-2">
-                <AudioWaveformVisualizer
-                  audioUrl={audioUrl}
-                  isPlaying={isPlaying}
-                  currentTime={currentTime}
-                  duration={duration}
-                  onSeek={seek}
-                />
+              {/* Progress Bar */}
+              <ProgressBar
+                currentTime={currentTime}
+                duration={duration}
+                buffered={buffered}
+                onSeek={seek}
+              />
 
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>{formatTime(currentTime)}</span>
-                  <span>{formatTime(duration)}</span>
-                </div>
+              {/* Action Buttons */}
+              <div className="flex items-center justify-between">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    hapticImpact('light');
+                    toggleLike({ trackId: track.id, isLiked: track.is_liked });
+                  }}
+                  className="h-11 w-11 touch-manipulation"
+                  aria-label={track.is_liked ? "Unlike" : "Like"}
+                >
+                  <Heart className={cn("h-5 w-5", track.is_liked && "fill-current text-red-500")} />
+                </Button>
+                
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    hapticImpact('light');
+                    setQueueSheetOpen(true);
+                  }}
+                  className="h-11 w-11 touch-manipulation"
+                  aria-label="Queue"
+                >
+                  <ListMusic className="h-5 w-5" />
+                </Button>
+                
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    hapticImpact('light');
+                    downloadTrack({ trackId: track.id, audioUrl: audioUrl!, coverUrl: coverUrl! });
+                  }}
+                  className="h-11 w-11 touch-manipulation"
+                  aria-label="Download"
+                  disabled={!audioUrl}
+                >
+                  <Download className="h-5 w-5" />
+                </Button>
               </div>
 
               {/* Playback Controls */}
-              <div className="flex items-center justify-center gap-4">
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => toggleLike({ trackId: track.id, isLiked: track.is_liked })}
-                >
-                    <Heart className={cn("h-5 w-5", track.is_liked && "fill-current text-red-500")} />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => skipSeconds(-10)}
-                  disabled={!audioUrl}
-                >
-                  <SkipBack className="h-5 w-5" />
-                </Button>
-
-                <Button
-                  variant="default"
-                  size="icon"
-                  onClick={togglePlay}
-                  disabled={!audioUrl}
-                  className="h-14 w-14"
-                >
-                  {loading ? (
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-foreground" />
-                  ) : isPlaying ? (
-                    <Pause className="h-6 w-6" />
-                  ) : (
-                    <Play className="h-6 w-6" />
-                  )}
-                </Button>
-
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => skipSeconds(10)}
-                  disabled={!audioUrl}
-                >
-                  <SkipForward className="h-5 w-5" />
-                </Button>
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => downloadTrack({ trackId: track.id, audioUrl: audioUrl!, coverUrl: coverUrl! })}
-                >
-                    <Download className="h-5 w-5" />
-                </Button>
-              </div>
+              <PlaybackControls size="large" />
 
               {/* Volume Control */}
               <div className="flex items-center gap-3">
@@ -295,12 +287,13 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
                   variant="ghost"
                   size="icon"
                   onClick={toggleMute}
-                  className="h-8 w-8 flex-shrink-0"
+                  className="h-11 w-11 flex-shrink-0 touch-manipulation"
+                  aria-label={muted ? "Unmute" : "Mute"}
                 >
                   {muted || volume === 0 ? (
-                    <VolumeX className="h-4 w-4" />
+                    <VolumeX className="h-5 w-5" />
                   ) : (
-                    <Volume2 className="h-4 w-4" />
+                    <Volume2 className="h-5 w-5" />
                   )}
                 </Button>
                 <Slider
@@ -309,6 +302,7 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
                   step={0.01}
                   onValueChange={handleVolumeChange}
                   className="flex-1"
+                  aria-label="Volume"
                 />
               </div>
             </Card>
@@ -367,6 +361,9 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
           </Card>
         </div>
       </div>
+      
+      {/* Queue Sheet */}
+      <QueueSheet open={queueSheetOpen} onOpenChange={setQueueSheetOpen} />
     </motion.div>
   );
 }

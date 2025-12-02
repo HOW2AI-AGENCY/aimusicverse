@@ -1,63 +1,83 @@
 import { useState } from 'react';
-import {
-  Sheet,
-  SheetContent,
-} from '@/components/ui/sheet';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, List, Heart } from 'lucide-react';
-import { usePlayerStore } from '@/hooks/usePlayerState';
+import { ChevronDown, Maximize2, ListMusic, Heart } from 'lucide-react';
 import { useAudioPlayer } from '@/hooks/useAudioPlayer';
 import { PlaybackControls } from './PlaybackControls';
 import { ProgressBar } from './ProgressBar';
 import { QueueSheet } from './QueueSheet';
-import { useTracks } from '@/hooks/useTracksOptimized';
+import { useTracks, Track } from '@/hooks/useTracksOptimized';
 import { cn } from '@/lib/utils';
+import { motion, PanInfo } from 'framer-motion';
+import { hapticImpact } from '@/lib/haptic';
 
 interface ExpandedPlayerProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
+  track: Track;
+  onClose: () => void;
   onMaximize: () => void;
 }
 
-export function ExpandedPlayer({ open, onOpenChange, onMaximize }: ExpandedPlayerProps) {
-  const { activeTrack } = usePlayerStore();
+export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerProps) {
   const { toggleLike } = useTracks();
   const [queueOpen, setQueueOpen] = useState(false);
 
   const {
-    isPlaying,
     currentTime,
     duration,
     buffered,
     seek,
   } = useAudioPlayer({
-    trackId: activeTrack?.id || '',
-    streamingUrl: activeTrack?.streaming_url,
-    localAudioUrl: activeTrack?.local_audio_url,
-    audioUrl: activeTrack?.audio_url,
+    trackId: track.id,
+    streamingUrl: track.streaming_url,
+    localAudioUrl: track.local_audio_url,
+    audioUrl: track.audio_url,
   });
 
-  if (!activeTrack) return null;
-
   const handleLike = () => {
-    if (!activeTrack) return;
+    hapticImpact('light');
     toggleLike({
-      trackId: activeTrack.id,
-      isLiked: activeTrack.is_liked || false,
+      trackId: track.id,
+      isLiked: track.is_liked || false,
     });
+  };
+
+  const handleDragEnd = (_event: any, info: PanInfo) => {
+    // Swipe down to close
+    if (info.offset.y > 50) {
+      hapticImpact('light');
+      onClose();
+    }
   };
 
   return (
     <>
-      <Sheet open={open} onOpenChange={onOpenChange}>
-        <SheetContent side="bottom" className="h-[40vh] p-6">
+      <motion.div
+        drag="y"
+        dragConstraints={{ top: 0, bottom: 0 }}
+        dragElastic={0.2}
+        onDragEnd={handleDragEnd}
+        initial={{ y: '100%', opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: '100%', opacity: 0 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        className="fixed bottom-20 sm:bottom-20 md:bottom-4 left-0 right-0 z-40 px-2 sm:px-4 bottom-nav-safe"
+      >
+        <Card className="glass-card border-primary/20 p-4 sm:p-6 shadow-2xl rounded-2xl max-w-2xl mx-auto">
+          {/* Swipe indicator */}
+          <div className="flex justify-center mb-4">
+            <div className="w-12 h-1 bg-muted-foreground/30 rounded-full" />
+          </div>
+
           {/* Header */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-4">
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => onOpenChange(false)}
-              className="h-10 w-10 touch-manipulation"
+              onClick={() => {
+                hapticImpact('light');
+                onClose();
+              }}
+              className="h-11 w-11 touch-manipulation"
               aria-label="Close"
             >
               <ChevronDown className="h-5 w-5" />
@@ -67,11 +87,26 @@ export function ExpandedPlayer({ open, onOpenChange, onMaximize }: ExpandedPlaye
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setQueueOpen(true)}
-                className="h-10 w-10 touch-manipulation"
+                onClick={() => {
+                  hapticImpact('light');
+                  setQueueOpen(true);
+                }}
+                className="h-11 w-11 touch-manipulation"
                 aria-label="Queue"
               >
-                <List className="h-5 w-5" />
+                <ListMusic className="h-5 w-5" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  hapticImpact('light');
+                  onMaximize();
+                }}
+                className="h-11 w-11 touch-manipulation"
+                aria-label="Fullscreen"
+              >
+                <Maximize2 className="h-5 w-5" />
               </Button>
             </div>
           </div>
@@ -79,26 +114,37 @@ export function ExpandedPlayer({ open, onOpenChange, onMaximize }: ExpandedPlaye
           {/* Cover Art */}
           <div className="flex justify-center mb-6">
             <button
-              onClick={onMaximize}
+              onClick={() => {
+                hapticImpact('medium');
+                onMaximize();
+              }}
               className="relative group cursor-pointer"
               aria-label="Expand to fullscreen"
             >
-              <img
-                src={activeTrack.cover_url || '/placeholder-cover.png'}
-                alt={activeTrack.title || 'Track cover'}
-                className="w-32 h-32 rounded-lg shadow-lg object-cover transition-transform group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 rounded-lg transition-colors" />
+              {track.cover_url ? (
+                <img
+                  src={track.cover_url}
+                  alt={track.title || 'Track cover'}
+                  className="w-40 h-40 sm:w-48 sm:h-48 rounded-xl shadow-lg object-cover transition-transform group-hover:scale-105 group-active:scale-95"
+                />
+              ) : (
+                <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-xl shadow-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                  <div className="text-4xl font-bold text-primary/20">
+                    {track.title?.charAt(0) || '♪'}
+                  </div>
+                </div>
+              )}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 rounded-xl transition-colors" />
             </button>
           </div>
 
           {/* Track Info */}
-          <div className="text-center mb-4">
-            <h3 className="font-semibold text-lg line-clamp-1">
-              {activeTrack.title || 'Untitled Track'}
+          <div className="text-center mb-6">
+            <h3 className="font-semibold text-xl sm:text-2xl line-clamp-1 mb-1">
+              {track.title || 'Untitled Track'}
             </h3>
-            <p className="text-sm text-muted-foreground line-clamp-1">
-              {activeTrack.style || 'Unknown Style'}
+            <p className="text-sm sm:text-base text-muted-foreground line-clamp-1">
+              {track.style || 'Unknown Style'}
             </p>
           </div>
 
@@ -119,22 +165,22 @@ export function ExpandedPlayer({ open, onOpenChange, onMaximize }: ExpandedPlaye
               size="icon"
               onClick={handleLike}
               className={cn(
-                'h-10 w-10 touch-manipulation',
-                activeTrack.is_liked && 'text-red-500'
+                'h-11 w-11 touch-manipulation',
+                track.is_liked && 'text-red-500'
               )}
-              aria-label={activeTrack.is_liked ? 'Unlike' : 'Like'}
+              aria-label={track.is_liked ? 'Unlike' : 'Like'}
             >
-              <Heart className="h-5 w-5" fill={activeTrack.is_liked ? 'currentColor' : 'none'} />
+              <Heart className="h-5 w-5" fill={track.is_liked ? 'currentColor' : 'none'} />
             </Button>
 
             <div className="flex-1 max-w-md">
               <PlaybackControls size="medium" />
             </div>
 
-            <div className="w-10" /> {/* Spacer for symmetry */}
+            <div className="w-11" /> {/* Spacer for symmetry */}
           </div>
-        </SheetContent>
-      </Sheet>
+        </Card>
+      </motion.div>
 
       {/* Queue Sheet */}
       <QueueSheet open={queueOpen} onOpenChange={setQueueOpen} />
