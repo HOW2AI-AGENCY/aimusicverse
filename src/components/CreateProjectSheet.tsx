@@ -211,7 +211,7 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
       createProject(
         {
           title,
-          project_type: projectType as any,
+          project_type: projectType as 'single' | 'ep' | 'album' | 'ost' | 'background_music' | 'jingle' | 'compilation' | 'mixtape',
           genre: genre || null,
           mood: mood || null,
           description: description || null,
@@ -305,7 +305,7 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
           </SheetDescription>
         </SheetHeader>
 
-        <Tabs value={mode} onValueChange={(v) => setMode(v as any)} className="mt-6">
+        <Tabs value={mode} onValueChange={(v) => setMode(v as 'manual' | 'ai')} className="mt-6">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="manual">Вручную</TabsTrigger>
             <TabsTrigger value="ai">

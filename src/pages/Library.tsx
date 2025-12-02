@@ -76,28 +76,29 @@ export default function Library() {
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
         <GenerationProgress />
       
-        {/* Modern Header */}
-        <div className="sticky top-0 z-30 bg-background/80 backdrop-blur-lg border-b border-border/50">
-          <div className="max-w-7xl mx-auto px-4 py-4">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10">
-                  <Music2 className="w-6 h-6 text-primary" />
+        {/* Modern Header - Improved responsive design */}
+        <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-lg border-b border-border/50 safe-area-top">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="p-1.5 sm:p-2 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10">
+                  <Music2 className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold">Библиотека</h1>
-                  <p className="text-sm text-muted-foreground">
-                    {tracks?.length || 0} треков
+                  <h1 className="text-xl sm:text-2xl font-bold">Библиотека</h1>
+                  <p className="text-xs sm:text-sm text-muted-foreground">
+                    {tracks?.length || 0} {tracks?.length === 1 ? 'трек' : tracks?.length && tracks.length < 5 ? 'трека' : 'треков'}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <Button
                   variant={viewMode === 'grid' ? 'default' : 'ghost'}
                   size="icon"
                   onClick={() => setViewMode('grid')}
-                  className="h-9 w-9"
+                  className="h-10 w-10 min-h-[44px] min-w-[44px] touch-manipulation active:scale-95 transition-transform"
+                  aria-label="Сетка"
                 >
                   <Grid3x3 className="w-4 h-4" />
                 </Button>
@@ -105,27 +106,29 @@ export default function Library() {
                   variant={viewMode === 'list' ? 'default' : 'ghost'}
                   size="icon"
                   onClick={() => setViewMode('list')}
-                  className="h-9 w-9"
+                  className="h-10 w-10 min-h-[44px] min-w-[44px] touch-manipulation active:scale-95 transition-transform"
+                  aria-label="Список"
                 >
                   <List className="w-4 h-4" />
                 </Button>
               </div>
             </div>
 
-            {/* Search and Filters */}
-            <div className="flex gap-2">
+            {/* Search and Filters - Improved mobile layout */}
+            <div className="flex flex-col sm:flex-row gap-2">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
                   placeholder="Поиск треков..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 h-11 sm:h-10"
+                  aria-label="Поиск"
                 />
               </div>
               
               <Select value={sortBy} onValueChange={(v: 'recent' | 'popular' | 'liked') => setSortBy(v)}>
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-full sm:w-40 h-11 sm:h-10 touch-manipulation" aria-label="Сортировка">
                   <SlidersHorizontal className="w-4 h-4 mr-2" />
                   <SelectValue />
                 </SelectTrigger>
@@ -139,19 +142,19 @@ export default function Library() {
           </div>
         </div>
 
-        {/* Content */}
-        <div className="max-w-7xl mx-auto px-4 py-6">
+        {/* Content - Improved responsive padding and layout */}
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
           {isLoading ? (
             <div className="flex items-center justify-center py-12">
               <Loader2 className="w-8 h-8 animate-spin text-primary" />
             </div>
           ) : tracksToDisplay.length === 0 ? (
-            <Card className="glass-card border-primary/20 p-12 text-center">
-              <Music2 className="w-16 h-16 mx-auto text-muted-foreground/50 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">
+            <Card className="glass-card border-primary/20 p-8 sm:p-12 text-center">
+              <Music2 className="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-muted-foreground/50 mb-4" />
+              <h3 className="text-base sm:text-lg font-semibold mb-2">
                 {searchQuery ? 'Ничего не найдено' : 'Пока нет треков'}
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-sm sm:text-base text-muted-foreground">
                 {searchQuery
                   ? 'Попробуйте изменить поисковой запрос'
                   : 'Создайте свой первый трек в генераторе'}
@@ -161,8 +164,8 @@ export default function Library() {
             <motion.div
               layout
               className={viewMode === 'grid' 
-                ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'
-                : 'flex flex-col gap-3'
+                ? 'grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4'
+                : 'flex flex-col gap-2 sm:gap-3'
               }
             >
               <AnimatePresence mode="popLayout">

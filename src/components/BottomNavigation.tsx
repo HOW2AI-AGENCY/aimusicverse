@@ -25,17 +25,17 @@ export const BottomNavigation = () => {
 
   return (
     <>
-      <nav className="fixed bottom-0 left-0 right-0 z-50 glass-card border-t border-border/50">
-        <div className="max-w-7xl mx-auto px-4 py-3">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 glass-card border-t border-border/50 safe-area-bottom">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:py-3">
           <div className="flex items-center justify-around">
             {/* Home */}
             <button
               onClick={() => handleNavigate('/')}
               className={cn(
-                "flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all",
+                "flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all min-h-[44px] min-w-[44px] touch-manipulation active:scale-95",
                 isActive('/') 
-                  ? "text-primary" 
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "text-primary bg-primary/10" 
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50 active:bg-muted"
               )}
             >
               <Home className="w-5 h-5" />
@@ -46,10 +46,10 @@ export const BottomNavigation = () => {
             <button
               onClick={() => handleNavigate('/projects')}
               className={cn(
-                "flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all",
+                "flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all min-h-[44px] min-w-[44px] touch-manipulation active:scale-95",
                 isActive('/projects') 
-                  ? "text-primary" 
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "text-primary bg-primary/10" 
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50 active:bg-muted"
               )}
             >
               <FolderOpen className="w-5 h-5" />
@@ -59,7 +59,7 @@ export const BottomNavigation = () => {
             {/* Create (Center) */}
             <button
               onClick={handleGenerateClick}
-              className="flex items-center justify-center w-14 h-14 -mt-8 rounded-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all"
+              className="flex items-center justify-center w-14 h-14 min-h-[56px] min-w-[56px] -mt-6 sm:-mt-8 rounded-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl active:scale-95 transition-all touch-manipulation"
             >
               <Plus className="w-7 h-7 text-primary-foreground" />
             </button>
@@ -68,10 +68,10 @@ export const BottomNavigation = () => {
             <button
               onClick={() => handleNavigate('/library')}
               className={cn(
-                "flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all",
+                "flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all min-h-[44px] min-w-[44px] touch-manipulation active:scale-95",
                 isActive('/library') 
-                  ? "text-primary" 
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "text-primary bg-primary/10" 
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50 active:bg-muted"
               )}
             >
               <Library className="w-5 h-5" />
@@ -82,10 +82,10 @@ export const BottomNavigation = () => {
             <button
               onClick={() => handleNavigate('/profile')}
               className={cn(
-                "flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all",
+                "flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all min-h-[44px] min-w-[44px] touch-manipulation active:scale-95",
                 isActive('/profile')
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "text-primary bg-primary/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50 active:bg-muted"
               )}
             >
               <UserCircle className="w-5 h-5" />

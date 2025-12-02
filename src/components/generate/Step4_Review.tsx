@@ -3,8 +3,23 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
+interface FormData {
+  mode?: 'generate' | 'extend' | 'cover';
+  info?: {
+    title?: string;
+    style?: string;
+    tags?: string;
+    lyrics?: string;
+  };
+  style?: {
+    genres?: string[];
+    moods?: string[];
+    tags?: string;
+  };
+}
+
 interface Step4ReviewProps {
-  formData: any;
+  formData: FormData;
   onBack: () => void;
   onSubmit: () => void;
   isLoading: boolean;

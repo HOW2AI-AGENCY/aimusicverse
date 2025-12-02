@@ -13,7 +13,7 @@ interface StemTrackProps {
   isPlaying: boolean;
 }
 
-const stemIcons: Record<string, any> = {
+const stemIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   vocal: Mic,
   instrumental: Music2,
   drums: Drum,
@@ -29,10 +29,23 @@ const stemColors: Record<string, string> = {
   atmosphere: 'pink',
 };
 
+// Generate stable waveform heights based on stem type
+const generateWaveformHeights = (stemType: string): number[] => {
+  const seed = stemType.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const heights: number[] = [];
+  for (let i = 0; i < 60; i++) {
+    // Use seed-based pseudo-random generation for consistent heights
+    const pseudoRandom = ((seed + i) * 9301 + 49297) % 233280 / 233280;
+    heights.push(pseudoRandom * 80 + 20);
+  }
+  return heights;
+};
+
 export function StemTrack({ stem, state, onToggle, onVolumeChange, isPlaying }: StemTrackProps) {
   const stemType = stem.stem_type.toLowerCase();
   const Icon = stemIcons[stemType] || Music2;
   const color = stemColors[stemType] || 'neutral';
+  const waveformHeights = generateWaveformHeights(stemType);
   
   const isSoloActive = state.solo;
   const colorClass = `${color}-500`;
@@ -115,8 +128,7 @@ export function StemTrack({ stem, state, onToggle, onVolumeChange, isPlaying }: 
       
       {/* Waveform Visualization */}
       <div className="h-12 w-full flex items-center gap-[2px] opacity-60 group-hover:opacity-100 transition-opacity">
-        {Array.from({ length: 60 }).map((_, i) => {
-          const height = Math.random() * 80 + 20;
+        {waveformHeights.map((height, i) => {
           const isAccent = i % 8 === 0;
           
           return (

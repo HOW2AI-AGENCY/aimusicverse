@@ -130,8 +130,8 @@ export const TrackCard = ({
   if (layout === 'list') {
     return (
         <>
-            <Card className="group overflow-hidden hover:shadow-lg transition-all cursor-pointer flex items-center gap-3 p-2" onClick={handleCardClick}>
-                <div className="relative w-16 h-16 flex-shrink-0 rounded-md overflow-hidden" data-play-button>
+            <Card className="group overflow-hidden hover:shadow-lg active:scale-[0.98] transition-all cursor-pointer flex items-center gap-3 p-3 sm:p-2" onClick={handleCardClick}>
+                <div className="relative w-16 h-16 sm:w-14 sm:h-14 flex-shrink-0 rounded-md overflow-hidden" data-play-button>
                     {track.cover_url && !imageError ? (
                         <img
                             src={track.cover_url}
@@ -141,34 +141,34 @@ export const TrackCard = ({
                         />
                     ) : (
                         <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                            <div className="text-3xl font-bold text-primary/20">
+                            <div className="text-3xl sm:text-2xl font-bold text-primary/20">
                                 {track.title?.charAt(0) || '♪'}
                             </div>
                         </div>
                     )}
-                    {/* Play/Pause icon in list view */}
+                    {/* Play/Pause icon in list view - larger touch target on mobile */}
                     <div
-                        className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                        className="absolute inset-0 bg-black/40 opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer touch-manipulation"
                         onClick={(e) => { e.stopPropagation(); onPlay?.(); }}
                     >
-                        <Button size="icon" variant="ghost" className="w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black/70">
-                            {isPlaying ? <Pause className="w-5 h-5"/> : <Play className="w-5 h-5" />}
+                        <Button size="icon" variant="ghost" className="w-12 h-12 sm:w-10 sm:h-10 rounded-full bg-black/50 text-white hover:bg-black/70 active:bg-black/80">
+                            {isPlaying ? <Pause className="w-6 h-6 sm:w-5 sm:h-5"/> : <Play className="w-6 h-6 sm:w-5 sm:h-5" />}
                         </Button>
                     </div>
                 </div>
 
                 <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-sm truncate">{track.title || 'Без названия'}</h3>
-                    <p className="text-xs text-muted-foreground truncate">{track.style || 'Нет стиля'}</p>
+                    <h3 className="font-semibold text-sm sm:text-base truncate">{track.title || 'Без названия'}</h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground truncate">{track.style || 'Нет стиля'}</p>
                     <div className="flex sm:hidden items-center gap-3 text-xs text-muted-foreground mt-1">
                         {track.likes_count !== undefined && track.likes_count > 0 && (
                             <span className="flex items-center gap-1">
-                                <Heart className="w-3 h-3" /> {track.likes_count}
+                                <Heart className="w-3.5 h-3.5" /> {track.likes_count}
                             </span>
                         )}
                         {track.play_count != null && track.play_count > 0 && (
                             <span className="flex items-center gap-1">
-                                <Play className="w-3 h-3" /> {track.play_count}
+                                <Play className="w-3.5 h-3.5" /> {track.play_count}
                             </span>
                         )}
                     </div>
@@ -191,7 +191,7 @@ export const TrackCard = ({
                         <Button
                             size="icon"
                             variant="ghost"
-                            className="h-9 w-9"
+                            className="h-11 w-11 min-h-[44px] min-w-[44px] touch-manipulation"
                             onClick={(e) => { e.stopPropagation(); setSheetOpen(true); }}
                         >
                             <MoreHorizontal className="w-5 h-5" />
@@ -210,7 +210,7 @@ export const TrackCard = ({
   return (
     <>
       <Card 
-        className="group overflow-hidden hover:shadow-lg transition-all cursor-pointer"
+        className="group overflow-hidden hover:shadow-lg active:scale-[0.98] transition-all cursor-pointer"
         onClick={handleCardClick}
       >
         <div className="relative aspect-square" data-play-button>
@@ -239,8 +239,8 @@ export const TrackCard = ({
             </div>
           )}
 
-          {/* Play button overlay */}
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+          {/* Play button overlay - larger touch target on mobile */}
+          <div className="absolute inset-0 bg-black/40 opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center justify-center touch-manipulation"
             onClick={(e) => {
               e.stopPropagation();
               onPlay?.();
@@ -248,14 +248,14 @@ export const TrackCard = ({
           >
           <Button
             size="lg"
-            className="rounded-full w-16 h-16"
+            className="rounded-full w-16 h-16 sm:w-14 sm:h-14 min-h-[44px] min-w-[44px] active:scale-95 transition-transform"
             onClick={onPlay}
             disabled={!track.audio_url}
           >
             {isPlaying ? (
-              <Pause className="w-6 h-6" />
+              <Pause className="w-6 h-6 sm:w-5 sm:h-5" />
             ) : (
-              <Play className="w-6 h-6" />
+              <Play className="w-6 h-6 sm:w-5 sm:h-5" />
             )}
           </Button>
         </div>
@@ -345,13 +345,13 @@ export const TrackCard = ({
           </div>
         )}
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1">
+        <div className="flex items-center justify-between mt-2">
+          <div className="flex items-center gap-1.5">
             <Button
               size="icon"
               variant={track.is_liked ? 'default' : 'ghost'}
               onClick={onToggleLike}
-              className="h-9 w-9" // Increased tap target size
+              className="h-10 w-10 min-h-[44px] min-w-[44px] touch-manipulation active:scale-95 transition-transform"
             >
               <Heart
                 className={`w-4 h-4 ${track.is_liked ? 'fill-current' : ''}`}
@@ -376,7 +376,7 @@ export const TrackCard = ({
               <Button 
                 size="icon" 
                 variant="ghost" 
-                className="h-8 w-8"
+                className="h-10 w-10 min-h-[44px] min-w-[44px] touch-manipulation active:scale-95 transition-transform"
                 onClick={(e) => {
                   e.stopPropagation();
                   setSheetOpen(true);
