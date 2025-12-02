@@ -285,7 +285,11 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 {credits !== null && (
-                  <Badge variant="secondary" className="gap-1.5 px-2.5 py-1">
+                  <Badge 
+                    variant="secondary" 
+                    className="gap-1.5 px-2.5 py-1"
+                    aria-label={`Доступно кредитов: ${credits.toFixed(2)}`}
+                  >
                     <Coins className="w-3.5 h-3.5" />
                     <span className="font-semibold text-xs">{credits.toFixed(2)}</span>
                   </Badge>
@@ -345,7 +349,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               onClick={() => setAudioDialogOpen(true)}
             >
               <Plus className="w-3.5 h-3.5" />
-              <span className="text-[10px] leading-none">Аудио</span>
+              <span className="text-xs leading-none">Аудио</span>
             </Button>
 
             <Button
@@ -356,7 +360,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               onClick={() => setArtistDialogOpen(true)}
             >
               <Plus className="w-3.5 h-3.5" />
-              <span className="text-[10px] leading-none">Персона</span>
+              <span className="text-xs leading-none">Персона</span>
             </Button>
 
             <Button
@@ -367,7 +371,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               onClick={() => setProjectDialogOpen(true)}
             >
               <Plus className="w-3.5 h-3.5" />
-              <span className="text-[10px] leading-none">Проект</span>
+              <span className="text-xs leading-none">Проект</span>
             </Button>
 
             <Button
@@ -378,7 +382,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               onClick={() => setTrackDialogOpen(true)}
             >
               <Plus className="w-3.5 h-3.5" />
-              <span className="text-[10px] leading-none">Трек</span>
+              <span className="text-xs leading-none">Трек</span>
             </Button>
           </div>
 
@@ -506,7 +510,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                       className="h-6 px-2"
                       onClick={() => setShowVisualEditor(!showVisualEditor)}
                     >
-                      <span className="text-[10px]">{showVisualEditor ? 'Текст' : 'Визуал'}</span>
+                      <span className="text-xs">{showVisualEditor ? 'Текст' : 'Визуал'}</span>
                     </Button>
                     <Button variant="ghost" size="sm" className="h-6 px-2">
                       <Sparkles className="w-3 h-3" />

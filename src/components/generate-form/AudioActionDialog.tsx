@@ -39,7 +39,7 @@ export function AudioActionDialog({
       console.log('Uploading reference audio for analysis...');
       
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      if (!user) throw new Error('Пользователь не авторизован. Войдите в систему для загрузки аудио.');
       
       const fileName = `reference-${Date.now()}-${file.name}`;
       const { data: uploadData, error: uploadError } = await supabase.storage
@@ -191,13 +191,13 @@ export function AudioActionDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" aria-describedby="audio-dialog-description">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <FileAudio className="w-5 h-5" />
             Аудио референс
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription id="audio-dialog-description">
             Загрузите или запишите аудио для использования в качестве референса
           </DialogDescription>
         </DialogHeader>
