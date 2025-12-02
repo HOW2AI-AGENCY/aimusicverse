@@ -309,6 +309,8 @@ This task breakdown implements an automated system for translating feature speci
 
 ### Task T-009: Add JSON Schema validation to scripts (Priority: P2)
 
+**Status**: [X] Completed
+
 **User Story**: User Story 3 - Constitution Compliance Validation
 
 **Description**: Integrate JSON Schema validation into generation scripts to ensure generated artifacts (plan.md, tasks.md) conform to their schemas before writing to disk. Use the schemas in contracts/ directory.
@@ -339,6 +341,8 @@ This task breakdown implements an automated system for translating feature speci
 ---
 
 ### Task T-010: Create agent context update script (Priority: P2)
+
+**Status**: [X] Completed
 
 **User Story**: User Story 4 - Agent Context Synchronization
 
@@ -374,6 +378,8 @@ This task breakdown implements an automated system for translating feature speci
 
 ### Task T-011: Add spec migration script for existing features (Priority: P2)
 
+**Status**: [X] Completed
+
 **User Story**: User Story 1 - Automated Task Planning from Specifications
 
 **Description**: Create a script that migrates existing feature directories in specs/ to the new structure, adding missing artifacts (research.md, data-model.md, contracts/, quickstart.md, tasks.md) by extracting information from existing docs.
@@ -406,6 +412,8 @@ This task breakdown implements an automated system for translating feature speci
 ---
 
 ### Task T-012: Create CLI wrapper for easier usage (Priority: P2)
+
+**Status**: [X] Completed
 
 **User Story**: User Story 1 - Automated Task Planning from Specifications
 
