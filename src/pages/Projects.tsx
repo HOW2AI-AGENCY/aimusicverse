@@ -39,54 +39,57 @@ export default function Projects() {
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
       <div className="container max-w-6xl mx-auto px-4 py-6">
         {/* Header */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 rounded-full glass-card border-primary/20">
-            <FolderOpen className="w-6 h-6 text-primary" />
-          </div>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              Проекты
-            </h1>
-            <p className="text-muted-foreground">Управляйте вашими музыкальными проектами</p>
+            <h1 className="text-3xl font-bold">Проекты</h1>
+            <p className="text-muted-foreground">Управляйте вашими музыкальными альбомами, EP и синглами.</p>
           </div>
+          <Button onClick={() => setCreateSheetOpen(true)} className="w-full sm:w-auto">
+            <Plus className="w-4 h-4 mr-2" />
+            Создать проект
+          </Button>
         </div>
 
-        {/* Search */}
+        {/* Search & Filters */}
         <div className="mb-6">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
-              placeholder="Поиск проектов..."
+              placeholder="Поиск по названию..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
+              className="pl-11 h-12 text-base"
             />
           </div>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          <Card className="p-4 glass-card border-primary/20">
-            <div className="flex flex-col items-center text-center">
-              <FolderOpen className="w-8 h-8 text-primary mb-2" />
-              <p className="text-2xl font-bold text-foreground">{projects?.length || 0}</p>
-              <p className="text-xs text-muted-foreground">Проектов</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <Card className="p-4">
+            <div className="flex items-center gap-4">
+              <FolderOpen className="w-8 h-8 text-primary" />
+              <div>
+                <p className="text-2xl font-bold">{projects?.length || 0}</p>
+                <p className="text-sm text-muted-foreground">Всего проектов</p>
+              </div>
             </div>
           </Card>
-
-          <Card className="p-4 glass-card border-primary/20">
-            <div className="flex flex-col items-center text-center">
-              <Music className="w-8 h-8 text-purple-400 mb-2" />
-              <p className="text-2xl font-bold text-foreground">{completedCount}</p>
-              <p className="text-xs text-muted-foreground">Завершено</p>
+          <Card className="p-4">
+            <div className="flex items-center gap-4">
+              <Music className="w-8 h-8 text-green-500" />
+              <div>
+                <p className="text-2xl font-bold">{completedCount}</p>
+                <p className="text-sm text-muted-foreground">Завершено</p>
+              </div>
             </div>
           </Card>
-
-          <Card className="p-4 glass-card border-primary/20">
-            <div className="flex flex-col items-center text-center">
-              <Clock className="w-8 h-8 text-blue-400 mb-2" />
-              <p className="text-2xl font-bold text-foreground">{inProgressCount}</p>
-              <p className="text-xs text-muted-foreground">В работе</p>
+          <Card className="p-4">
+            <div className="flex items-center gap-4">
+              <Clock className="w-8 h-8 text-blue-500" />
+              <div>
+                <p className="text-2xl font-bold">{inProgressCount}</p>
+                <p className="text-sm text-muted-foreground">В работе</p>
+              </div>
             </div>
           </Card>
         </div>
@@ -97,37 +100,29 @@ export default function Projects() {
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           </div>
         ) : filteredProjects.length > 0 ? (
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filteredProjects.map((project) => (
               <Card
                 key={project.id}
                 onClick={() => navigate(`/projects/${project.id}`)}
-                className="p-4 glass-card border-primary/20 hover:border-primary/40 transition-all cursor-pointer"
+                className="p-4 hover:bg-muted/50 transition-all cursor-pointer"
               >
                 <div className="flex gap-4">
-                  <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0">
-                    {project.cover_url ? (
-                      <img src={project.cover_url} alt={project.title} className="w-full h-full object-cover rounded-xl" />
-                    ) : (
-                      <Music className="w-8 h-8 text-primary" />
-                    )}
+                  <div className="w-24 h-24 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
+                    <img
+                      src={project.cover_url || `https://placehold.co/128x128/1a1a1a/ffffff?text=${project.title.charAt(0)}`}
+                      alt={project.title}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-foreground mb-1 truncate">{project.title}</h3>
+                    <h3 className="font-semibold text-lg truncate mb-1">{project.title}</h3>
                     <div className="flex gap-2 mb-2 flex-wrap">
-                      {project.genre && (
-                        <Badge variant="secondary" className="text-xs">
-                          {project.genre}
-                        </Badge>
-                      )}
-                      {project.mood && (
-                        <Badge variant="outline" className="text-xs">
-                          {project.mood}
-                        </Badge>
-                      )}
+                      <Badge variant="secondary">{project.genre || 'Без жанра'}</Badge>
+                      <Badge variant="outline">{project.mood || 'Без настроения'}</Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      {project.created_at && new Date(project.created_at).toLocaleDateString('ru-RU')}
+                    <p className="text-sm text-muted-foreground">
+                      Создан: {project.created_at && new Date(project.created_at).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
@@ -135,7 +130,7 @@ export default function Projects() {
             ))}
           </div>
         ) : (
-          <Card className="p-12 glass-card border-primary/20 text-center">
+          <Card className="p-12 text-center">
             <FolderOpen className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
             <h3 className="text-lg font-semibold mb-2 text-foreground">
               {searchQuery ? 'Проекты не найдены' : 'Нет проектов'}

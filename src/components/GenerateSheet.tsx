@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter, SheetDescription } from '@/components/ui/sheet';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -269,22 +270,24 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="h-[90vh] overflow-y-auto bg-background/95 backdrop-blur-xl">
-        <SheetHeader className="mb-4">
-          <div className="flex items-center justify-between">
-            <SheetTitle className="text-xl flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-primary" />
-              Создать трек
-            </SheetTitle>
-          </div>
+      <SheetContent side="bottom" className="h-[90vh] flex flex-col bg-background/95 backdrop-blur-xl p-0">
+        <SheetHeader className="p-4 sm:p-6 pb-0">
+          <SheetTitle className="text-xl sm:text-2xl flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-primary" />
+            Создать треk
+          </SheetTitle>
+          <SheetDescription>
+            Выберите режим и заполните поля, чтобы сгенерировать новую композицию.
+          </SheetDescription>
         </SheetHeader>
 
-        <div className="space-y-4">
-          {/* Header with credits, history and mode toggle */}
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              {credits !== null && (
-                <Button variant="secondary" size="sm" className="rounded-full px-4 gap-2">
+        <ScrollArea className="flex-1">
+          <div className="p-4 sm:p-6 space-y-4">
+            {/* Header with credits, history and mode toggle */}
+            <div className="flex items-center justify-between gap-2 sm:gap-3">
+              <div className="flex items-center gap-2">
+                {credits !== null && (
+                  <Button variant="secondary" size="sm" className="rounded-full px-3 sm:px-4 gap-2">
                   <Coins className="w-4 h-4" />
                   <span className="font-semibold">{credits.toFixed(2)}</span>
                 </Button>
@@ -559,6 +562,9 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             </div>
           )}
 
+          </div>
+        </ScrollArea>
+        <SheetFooter className="p-4 sm:p-6 bg-background/95 backdrop-blur-xl border-t">
           {/* Generate Button */}
           <Button
             onClick={handleGenerate}
@@ -569,16 +575,16 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             {loading ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                Создать музыку
+                Создание...
               </>
             ) : (
               <>
                 <Music2 className="w-5 h-5" />
-                Создать
+                Сгенерировать
               </>
             )}
           </Button>
-        </div>
+        </SheetFooter>
       </SheetContent>
 
       {/* Project Selector */}

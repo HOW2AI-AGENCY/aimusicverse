@@ -1,9 +1,10 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, Heart, Music2, Mic, Volume2, Guitar, Drum, Piano, Globe, Lock, MoreHorizontal, Layers } from 'lucide-react';
+import { Play, Pause, Heart, Mic, Volume2, Globe, Lock, MoreHorizontal, Layers, Music2 } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { TrackActionsMenu } from './TrackActionsMenu';
 import { TrackActionsSheet } from './TrackActionsSheet';
 import { supabase } from '@/integrations/supabase/client';
@@ -129,82 +130,72 @@ export const TrackCard = ({
 
   if (layout === 'list') {
     return (
-        <>
-            <Card className="group overflow-hidden hover:shadow-lg active:scale-[0.98] transition-all cursor-pointer flex items-center gap-3 p-3 sm:p-2" onClick={handleCardClick}>
-                <div className="relative w-16 h-16 sm:w-14 sm:h-14 flex-shrink-0 rounded-md overflow-hidden" data-play-button>
-                    {track.cover_url && !imageError ? (
-                        <img
-                            src={track.cover_url}
-                            alt={track.title || 'Track cover'}
-                            className="w-full h-full object-cover"
-                            onError={() => setImageError(true)}
-                        />
-                    ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                            <div className="text-3xl sm:text-2xl font-bold text-primary/20">
-                                {track.title?.charAt(0) || '♪'}
-                            </div>
-                        </div>
-                    )}
-                    {/* Play/Pause icon in list view - larger touch target on mobile */}
-                    <div
-                        className="absolute inset-0 bg-black/40 opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer touch-manipulation"
-                        onClick={(e) => { e.stopPropagation(); onPlay?.(); }}
-                    >
-                        <Button size="icon" variant="ghost" className="w-12 h-12 sm:w-10 sm:h-10 rounded-full bg-black/50 text-white hover:bg-black/70 active:bg-black/80">
-                            {isPlaying ? <Pause className="w-6 h-6 sm:w-5 sm:h-5"/> : <Play className="w-6 h-6 sm:w-5 sm:h-5" />}
-                        </Button>
-                    </div>
-                </div>
+      <>
+        <Card
+          className="group grid grid-cols-[auto,1fr,auto] items-center gap-3 sm:gap-4 p-2 sm:p-3 transition-all hover:bg-muted/50"
+          onClick={handleCardClick}
+        >
+          {/* Cover Image & Play Button */}
+          <div className="relative w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 rounded-md overflow-hidden" data-play-button>
+            <img
+              src={track.cover_url || ''}
+              alt={track.title || 'Track cover'}
+              className="w-full h-full object-cover"
+              onError={(e) => (e.currentTarget.src = 'https://placehold.co/128x128/1a1a1a/ffffff?text=🎵')}
+            />
+            <div
+              className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+              onClick={(e) => { e.stopPropagation(); onPlay?.(); }}
+            >
+              <Button size="icon" variant="ghost" className="w-10 h-10 rounded-full text-white">
+                {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+              </Button>
+            </div>
+          </div>
 
-                <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-sm sm:text-base truncate">{track.title || 'Без названия'}</h3>
-                    <p className="text-xs sm:text-sm text-muted-foreground truncate">{track.style || 'Нет стиля'}</p>
-                    <div className="flex sm:hidden items-center gap-3 text-xs text-muted-foreground mt-1">
-                        {track.likes_count !== undefined && track.likes_count > 0 && (
-                            <span className="flex items-center gap-1">
-                                <Heart className="w-3.5 h-3.5" /> {track.likes_count}
-                            </span>
-                        )}
-                        {track.play_count != null && track.play_count > 0 && (
-                            <span className="flex items-center gap-1">
-                                <Play className="w-3.5 h-3.5" /> {track.play_count}
-                            </span>
-                        )}
-                    </div>
-                </div>
+          {/* Track Info */}
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-base truncate">{track.title || 'Без названия'}</h3>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground truncate">
+              {track.artist_name && (
+                <>
+                  <Avatar className="w-5 h-5">
+                    <AvatarImage src={track.artist_avatar_url || ''} />
+                    <AvatarFallback>{track.artist_name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <span>{track.artist_name}</span>
+                </>
+              )}
+            </div>
+          </div>
 
-                <div className="flex items-center gap-2 flex-shrink-0">
-                    <div className="hidden sm:flex items-center gap-3 text-xs text-muted-foreground">
-                        {track.likes_count !== undefined && track.likes_count > 0 && (
-                            <span className="flex items-center gap-1">
-                                <Heart className="w-3 h-3" /> {track.likes_count}
-                            </span>
-                        )}
-                        {track.play_count != null && track.play_count > 0 && (
-                            <span className="flex items-center gap-1">
-                                <Play className="w-3 h-3" /> {track.play_count}
-                            </span>
-                        )}
-                    </div>
-                    {isMobile ? (
-                        <Button
-                            size="icon"
-                            variant="ghost"
-                            className="h-11 w-11 min-h-[44px] min-w-[44px] touch-manipulation"
-                            onClick={(e) => { e.stopPropagation(); setSheetOpen(true); }}
-                        >
-                            <MoreHorizontal className="w-5 h-5" />
-                        </Button>
-                    ) : (
-                        <TrackActionsMenu track={track} onDelete={onDelete} onDownload={onDownload} />
-                    )}
-                </div>
-            </Card>
-            <TrackActionsSheet track={track} open={sheetOpen} onOpenChange={setSheetOpen} onDelete={onDelete} onDownload={onDownload} />
-        </>
+          {/* Actions & Stats */}
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="hidden sm:flex items-center gap-4 text-sm text-muted-foreground">
+              <span className="flex items-center gap-1.5">
+                <Heart className="w-4 h-4" /> {track.likes_count || 0}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Play className="w-4 h-4" /> {track.play_count || 0}
+              </span>
+            </div>
+            {isMobile ? (
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={(e) => { e.stopPropagation(); setSheetOpen(true); }}
+              >
+                <MoreHorizontal className="w-5 h-5" />
+              </Button>
+            ) : (
+              <TrackActionsMenu track={track} onDelete={onDelete} onDownload={onDownload} />
+            )}
+          </div>
+        </Card>
+        <TrackActionsSheet track={track} open={sheetOpen} onOpenChange={setSheetOpen} onDelete={onDelete} onDownload={onDownload} />
+      </>
     );
-}
+  }
 
 
   return (
@@ -316,81 +307,48 @@ export const TrackCard = ({
         </div>
       </div>
 
-      <div className="p-4">
-        <div className="flex items-start justify-between gap-2 mb-1">
-          <h3 className="font-semibold text-base sm:text-lg truncate flex-1">
-            {track.title || 'Без названия'}
-          </h3>
-          {track.is_public ? (
-            <Globe className="w-4 h-4 text-primary flex-shrink-0 mt-1" />
+        <div className="p-3 sm:p-4">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="font-semibold text-base sm:text-lg truncate">{track.title || 'Без названия'}</h3>
+            {isMobile ? (
+              <Button
+                size="icon"
+                variant="ghost"
+                className="-mr-2"
+                onClick={(e) => { e.stopPropagation(); setSheetOpen(true); }}
+              >
+                <MoreHorizontal className="w-5 h-5" />
+              </Button>
           ) : (
-            <Lock className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-1" />
+              <TrackActionsMenu track={track} onDelete={onDelete} onDownload={onDownload} />
           )}
         </div>
 
-        {track.style && (
-          <p className="text-sm text-muted-foreground mb-2 line-clamp-1 sm:line-clamp-2">
-            {track.style}
-          </p>
-        )}
-
-        {/* Tags - hidden on mobile, shown on sm+ */}
-        {track.tags && (
-          <div className="hidden sm:flex gap-1 mb-3 flex-wrap">
-            {track.tags.split(',').slice(0, 2).map((tag, idx) => (
-              <Badge key={idx} variant="secondary" className="text-xs">
-                {tag.trim()}
-              </Badge>
-            ))}
+          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+             {track.artist_name && (
+                <>
+                  <Avatar className="w-6 h-6">
+                    <AvatarImage src={track.artist_avatar_url || ''} />
+                    <AvatarFallback>{track.artist_name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <span className="truncate">{track.artist_name}</span>
+                </>
+            )}
           </div>
-        )}
 
-        <div className="flex items-center justify-between mt-2">
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center justify-between text-sm text-muted-foreground">
             <Button
-              size="icon"
-              variant={track.is_liked ? 'default' : 'ghost'}
-              onClick={onToggleLike}
-              className="h-10 w-10 min-h-[44px] min-w-[44px] touch-manipulation active:scale-95 transition-transform"
+              variant={track.is_liked ? 'secondary' : 'ghost'}
+              size="sm"
+              onClick={(e) => { e.stopPropagation(); onToggleLike?.(); }}
+              className="flex items-center gap-1.5 px-2 h-8"
             >
-              <Heart
-                className={`w-4 h-4 ${track.is_liked ? 'fill-current' : ''}`}
-              />
+              <Heart className={cn("w-4 h-4", track.is_liked && "fill-primary text-primary")} />
+              <span>{track.likes_count || 0}</span>
             </Button>
-            {track.likes_count !== undefined && track.likes_count > 0 && (
-              <span className="text-sm text-muted-foreground pr-2">
-                {track.likes_count}
-              </span>
-            )}
-          </div>
-
-          <div className="flex items-center gap-1">
-            {track.play_count != null && track.play_count > 0 && (
-              <span className="text-xs text-muted-foreground flex items-center gap-1">
-                <Play className="w-3 h-3" />
-                {track.play_count}
-              </span>
-            )}
-
-            {isMobile ? (
-              <Button 
-                size="icon" 
-                variant="ghost" 
-                className="h-10 w-10 min-h-[44px] min-w-[44px] touch-manipulation active:scale-95 transition-transform"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSheetOpen(true);
-                }}
-              >
-                <MoreHorizontal className="w-4 h-4" />
-              </Button>
-            ) : (
-              <TrackActionsMenu
-                track={track}
-                onDelete={onDelete}
-                onDownload={onDownload}
-              />
-            )}
+            <div className="flex items-center gap-1.5">
+              <Play className="w-4 h-4" />
+              <span>{track.play_count || 0}</span>
           </div>
         </div>
       </div>

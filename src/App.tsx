@@ -7,9 +7,7 @@ import { TelegramProvider, DeepLinkHandler } from "@/contexts/TelegramContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
-import { BottomNavigation } from "@/components/BottomNavigation";
-import { GenerationProgress } from "@/components/GenerationProgress";
-import { ResizablePlayer } from "@/components/ResizablePlayer";
+import { MainLayout } from "@/components/MainLayout";
 
 // Lazy load pages
 const Index = lazy(() => import("./pages/Index"));
@@ -38,14 +36,6 @@ const queryClient = new QueryClient({
   },
 });
 
-const ProtectedLayout = memo(() => (
-  <>
-    <GenerationProgress />
-    <Outlet />
-    <ResizablePlayer />
-    <BottomNavigation />
-  </>
-));
 
 const App = () => (
   <ErrorBoundaryWrapper>
@@ -61,7 +51,7 @@ const App = () => (
                   <Route path="/auth" element={<Auth />} />
 
                   {/* Routes with BottomNavigation */}
-                <Route element={<ProtectedRoute><ProtectedLayout /></ProtectedRoute>}>
+                <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
                   <Route path="/" element={<Index />} />
                   <Route path="/studio" element={<Studio />} />
                   <Route path="/profile" element={<ProfilePage />} />
