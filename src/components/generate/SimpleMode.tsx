@@ -19,7 +19,7 @@ export const SimpleMode = ({ onBack }: SimpleModeProps) => {
       <Button
         variant="ghost"
         onClick={onBack}
-        className="mb-4 sm:mb-6 min-h-[44px] touch-manipulation hover:bg-muted active:scale-95 transition-transform"
+        className="mb-4 sm:mb-6 min-h-[44px] touch-manipulation hover:bg-muted active:scale-95 transition-all"
         aria-label="Вернуться к выбору режима"
       >
         <ArrowLeft className="w-4 h-4 mr-2" />
