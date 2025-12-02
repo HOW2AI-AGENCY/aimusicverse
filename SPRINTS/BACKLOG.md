@@ -22,10 +22,16 @@
 - Модель данных для версионирования
 - API контракты
 
-### 🔄 В работе (Sprint 007)
-- Database migrations для версионирования
-- Обновление TypeScript типов
-- Базовые хуки и queries
+### ✅ Завершено (Sprint 007)
+- Исправлено 25 ESLint ошибок в компонентах
+- Улучшена типизация компонентов (удалены все `any`)
+- Исправлены нарушения React Hooks в компонентах
+- Build и тесты стабилизированы
+
+### 🔄 В Backlog (перенесено из Sprint 007)
+- Database migrations для версионирования (требует Supabase dev environment)
+- Обновление TypeScript типов (зависит от migrations)
+- Базовые хуки и queries (зависит от types)
 - Backend фильтрация для Library
 
 ### ⏳ Запланировано (Sprint 008+)
@@ -67,7 +73,14 @@
 | T025 | Провести ревизию иерархии `BottomNavigation` для оптимизации пользовательского пути | Низкий | To Do | E005 |
 | T026 | Провести полный аудит доступности (a11y) и исправить основные проблемы | Средний | To Do | E005 |
 | T027 | **E007: Аудит и планирование UI/UX** - Создать спецификацию, план, исследование, модель данных | Критический | ✅ Done | E007 |
-| T028 | **E007: Sprint 007 Setup** - Database migrations, типы, хуки (24 задачи) | Критический | 🔄 In Progress | E007 |
+| T028 | **E007: Sprint 007 Frontend Quality** - Component lint fixes, TypeScript improvements | Критический | ✅ Done | E007 |
+| T036 | **Setup Supabase Development Environment** - Настроить локальное окружение для БД работы | Критический | To Do | E007 |
+| T037 | **Database Migrations для Versioning** - 6 миграций: master_version, version_number, changelog, playlists, indexes | Критический | To Do | E007 |
+| T038 | **TypeScript Types Update** - 7 типов: Track, TrackVersion, Changelog, Playlist, PlayerState, Queue, AssistantForm | Критический | To Do | E007 |
+| T039 | **Core Hooks Implementation** - 6 хуков: useTrackVersions, useVersionSwitcher, useTrackChangelog, usePublicContent, usePlayerState, usePlaybackQueue | Критический | To Do | E007 |
+| T040 | **Backend API для версионирования** - Version Management API, Public Content API, Backend Filtering | Критический | To Do | E007 |
+| T041 | **Realtime Subscriptions** - Version updates, Stem generation subscriptions | Высокий | To Do | E007 |
+| T042 | **Fix Remaining Lint Errors** - Hooks/Pages (~106 errors) | Высокий | To Do | E007 |
 | T029 | **E007: US1 Library Redesign** - Mobile-first редизайн библиотеки с версионированием (10 задач) | Высокий | ⏳ Planned | E007 |
 | T030 | **E007: US2 Player Optimization** - Трехрежимный плеер с очередью (12 задач) | Высокий | ⏳ Planned | E007 |
 | T031 | **E007: US3 Track Details** - Панель деталей с лирикой, версиями, стемами (11 задач) | Средний | ⏳ Planned | E007 |
