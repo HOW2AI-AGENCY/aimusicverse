@@ -27,26 +27,28 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   const animationFrameRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
-    if (stems) {
-      const initialStates: Record<string, { muted: boolean; solo: boolean; volume: number }> = {};
-      let maxDuration = 0;
+    if (!stems) return;
+    
+    const initialStates: Record<string, { muted: boolean; solo: boolean; volume: number }> = {};
+    let maxDuration = 0;
 
-      stems.forEach(stem => {
-        initialStates[stem.id] = { muted: false, solo: false, volume: 0.85 };
+    stems.forEach(stem => {
+      initialStates[stem.id] = { muted: false, solo: false, volume: 0.85 };
 
-        const audio = new Audio(stem.audio_url);
-        audio.crossOrigin = 'anonymous';
-        audioRefs.current[stem.id] = audio;
+      const audio = new Audio(stem.audio_url);
+      audio.crossOrigin = 'anonymous';
+      audioRefs.current[stem.id] = audio;
 
-        audio.addEventListener('loadedmetadata', () => {
-          if (audio.duration > maxDuration) {
-            maxDuration = audio.duration;
-            setDuration(maxDuration);
-          }
-        });
+      audio.addEventListener('loadedmetadata', () => {
+        if (audio.duration > maxDuration) {
+          maxDuration = audio.duration;
+          setDuration(maxDuration);
+        }
       });
-      setStemStates(initialStates);
-    }
+    });
+    
+    // Initialize states after all audio elements are created
+    setStemStates(initialStates);
 
     const audioElements = Object.values(audioRefs.current);
     return () => {

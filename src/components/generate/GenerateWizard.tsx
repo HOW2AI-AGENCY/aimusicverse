@@ -44,30 +44,48 @@ const WIZARD_STEPS: Step[] = [
 ];
 const LOCAL_STORAGE_KEY = 'generateWizardState';
 
-// Helper component for progress bar
+// Helper component for progress bar with improved UX
 const WizardProgress = ({ steps, currentStepId, onStepClick }: { steps: Step[], currentStepId: StepId, onStepClick: (stepId: StepId) => void }) => {
   const currentStepIndex = steps.findIndex(s => s.id === currentStepId);
 
   return (
-    <div className="flex items-center justify-between mb-8 px-4">
+    <div className="flex items-center justify-between mb-6 sm:mb-8 px-2 sm:px-4">
       {steps.map((step, index) => (
         <div key={step.id} className="flex items-center w-full">
           <button
             onClick={() => onStepClick(step.id)}
             disabled={index > currentStepIndex}
-            className="flex flex-col items-center disabled:cursor-not-allowed"
+            className="flex flex-col items-center disabled:cursor-not-allowed min-h-[44px] min-w-[44px] touch-manipulation group"
+            aria-label={`Шаг ${index + 1}: ${step.name}`}
+            aria-current={index === currentStepIndex ? 'step' : undefined}
           >
             <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
-                index <= currentStepIndex ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
+              className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all font-semibold ${
+                index === currentStepIndex 
+                  ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/30 scale-110' 
+                  : index < currentStepIndex 
+                  ? 'bg-primary/80 text-primary-foreground hover:bg-primary active:scale-95' 
+                  : 'bg-muted text-muted-foreground'
               }`}
             >
               {index + 1}
             </div>
-            <p className={`mt-2 text-xs font-semibold ${index <= currentStepIndex ? 'text-primary' : 'text-muted-foreground'}`}>{step.name}</p>
+            <p className={`mt-1.5 sm:mt-2 text-[10px] sm:text-xs font-semibold transition-colors ${
+              index === currentStepIndex 
+                ? 'text-primary' 
+                : index < currentStepIndex 
+                ? 'text-primary/70 group-hover:text-primary' 
+                : 'text-muted-foreground'
+            }`}>
+              {step.name}
+            </p>
           </button>
           {index < steps.length - 1 && (
-            <div className={`flex-1 h-1 mx-2 transition-colors ${index < currentStepIndex ? 'bg-primary' : 'bg-muted'}`} />
+            <div className={`flex-1 h-0.5 sm:h-1 mx-1 sm:mx-2 transition-all duration-300 rounded-full ${
+              index < currentStepIndex 
+                ? 'bg-primary shadow-sm' 
+                : 'bg-muted'
+            }`} />
           )}
         </div>
       ))}
@@ -189,26 +207,50 @@ export const GenerateWizard = () => {
 
   return (
     <>
-      <div className="p-4">
+      <div className="p-3 sm:p-4 max-w-3xl mx-auto">
         <WizardProgress steps={WIZARD_STEPS} currentStepId={step} onStepClick={handleStepClick} />
         <AnimatePresence mode="wait">
           {step === 'mode' && (
-            <motion.div key="mode" initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 50 }}>
+            <motion.div 
+              key="mode" 
+              initial={{ opacity: 0, x: -20 }} 
+              animate={{ opacity: 1, x: 0 }} 
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.2 }}
+            >
               <Step1Mode onNext={(mode) => handleNext({ mode }, 'info')} />
             </motion.div>
           )}
           {step === 'info' && (
-            <motion.div key="info" initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 50 }}>
+            <motion.div 
+              key="info" 
+              initial={{ opacity: 0, x: -20 }} 
+              animate={{ opacity: 1, x: 0 }} 
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.2 }}
+            >
               <Step2Info onNext={(data) => handleNext({ info: data }, 'style')} onBack={() => handleBack('mode')} />
             </motion.div>
           )}
           {step === 'style' && (
-            <motion.div key="style" initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 50 }}>
+            <motion.div 
+              key="style" 
+              initial={{ opacity: 0, x: -20 }} 
+              animate={{ opacity: 1, x: 0 }} 
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.2 }}
+            >
               <Step3Style onNext={(data) => handleNext({ style: data }, 'review')} onBack={() => handleBack('info')} />
             </motion.div>
           )}
           {step === 'review' && (
-            <motion.div key="review" initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 50 }}>
+            <motion.div 
+              key="review" 
+              initial={{ opacity: 0, x: -20 }} 
+              animate={{ opacity: 1, x: 0 }} 
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.2 }}
+            >
               <Step4Review formData={formData} onBack={() => handleBack('style')} onSubmit={handleSubmit} isLoading={loading} />
             </motion.div>
           )}

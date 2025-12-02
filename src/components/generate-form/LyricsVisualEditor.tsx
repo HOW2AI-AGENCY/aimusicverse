@@ -99,8 +99,9 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
   };
 
   const handleAddSection = (type: LyricSection['type']) => {
+    const timestamp = Date.now();
     const newSection: LyricSection = {
-      id: `${type}-${Date.now()}`,
+      id: `${type}-${timestamp}`,
       type,
       content: '',
     };
