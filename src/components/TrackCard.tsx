@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, Heart, Mic, Volume2, Globe, Lock, MoreHorizontal, Layers, Music2 } from 'lucide-react';
+import { Play, Pause, Heart, Mic, Volume2, Globe, Lock, MoreHorizontal, Layers, Music2, Trash2 } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
@@ -15,6 +15,18 @@ import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTouchEvents, triggerHapticFeedback } from '@/lib/mobile-utils';
 import { toast } from 'sonner';
+import { motion, PanInfo } from 'framer-motion';
+import { hapticImpact, hapticNotification } from '@/lib/haptic';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 interface TrackCardProps {
   track: Track;
@@ -41,6 +53,8 @@ export const TrackCard = ({
   const [sheetOpen, setSheetOpen] = useState(false);
   const [versionSwitcherOpen, setVersionSwitcherOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [swipeOffset, setSwipeOffset] = useState(0);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -132,6 +146,38 @@ export const TrackCard = ({
       triggerHapticFeedback('light');
       setSheetOpen(true);
     }
+  };
+
+  // Swipe gesture handlers for like/delete actions
+  const handleDragEnd = (_event: any, info: PanInfo) => {
+    const threshold = 50;
+    const offset = info.offset.x;
+    
+    setSwipeOffset(0); // Reset visual offset
+    
+    if (Math.abs(offset) >= threshold) {
+      if (offset < -threshold) {
+        // Swipe left: Like/Unlike
+        hapticImpact('medium');
+        onToggleLike?.();
+        toast.success(track.is_liked ? '💔 Удалено из избранного' : '❤️ Добавлено в избранное');
+      } else if (offset > threshold) {
+        // Swipe right: Delete (with confirmation)
+        hapticImpact('heavy');
+        setDeleteDialogOpen(true);
+      }
+    }
+  };
+
+  const handleDrag = (_event: any, info: PanInfo) => {
+    setSwipeOffset(info.offset.x);
+  };
+
+  const handleDelete = () => {
+    hapticNotification('success');
+    onDelete?.();
+    setDeleteDialogOpen(false);
+    toast.success('Трек удален');
   };
 
   // Touch gesture handlers for mobile interactions
@@ -240,10 +286,41 @@ export const TrackCard = ({
 
   return (
     <>
+      <motion.div
+        drag={isMobile && layout === 'grid' ? 'x' : false}
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.2}
+        onDrag={handleDrag}
+        onDragEnd={handleDragEnd}
+        className="relative"
+      >
+        {/* Swipe action indicators */}
+        {isMobile && layout === 'grid' && (
+          <>
+            {/* Left swipe indicator (Like) */}
+            <motion.div
+              className="absolute left-0 top-0 bottom-0 w-16 bg-red-500/20 flex items-center justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: swipeOffset < -20 ? 1 : 0 }}
+            >
+              <Heart className="w-6 h-6 text-red-500" />
+            </motion.div>
+            
+            {/* Right swipe indicator (Delete) */}
+            <motion.div
+              className="absolute right-0 top-0 bottom-0 w-16 bg-destructive/20 flex items-center justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: swipeOffset > 20 ? 1 : 0 }}
+            >
+              <Trash2 className="w-6 h-6 text-destructive" />
+            </motion.div>
+          </>
+        )}
+        
       <Card 
         className="group overflow-hidden hover:shadow-lg hover:border-primary/30 active:scale-[0.98] active:shadow-md transition-all duration-200 cursor-pointer touch-manipulation"
         onClick={handleCardClick}
-        {...(isMobile ? touchHandlers : {})}
+        {...(isMobile && layout !== 'grid' ? touchHandlers : {})}
       >
         <div className="relative aspect-square" data-play-button>
           {track.cover_url && !imageError ? (
@@ -436,6 +513,27 @@ export const TrackCard = ({
         toast.success('Версия выбрана');
       }}
     />
+    </motion.div>
+    
+    {/* Delete Confirmation Dialog */}
+    <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Удалить трек?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Вы уверены, что хотите удалить "{track.title || 'Без названия'}"? Это действие нельзя отменить.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => hapticImpact('light')}>
+            Отмена
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={handleDelete} className="bg-destructive hover:bg-destructive/90">
+            Удалить
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   </>
   );
 };

@@ -1,18 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CompactPlayer } from './CompactPlayer';
 import { FullscreenPlayer } from './FullscreenPlayer';
+import { ExpandedPlayer } from './player/ExpandedPlayer';
 import { usePlayerStore } from '@/hooks/usePlayerState';
+import { AnimatePresence } from 'framer-motion';
 
 export const ResizablePlayer = () => {
-  const [isMaximized, setIsMaximized] = useState(false);
-  const { activeTrack, closePlayer } = usePlayerStore();
+  const { activeTrack, closePlayer, playerMode, setPlayerMode } = usePlayerStore();
+
+  const handleExpand = () => {
+    setPlayerMode('expanded');
+  };
 
   const handleMaximize = () => {
-    setIsMaximized(true);
+    setPlayerMode('fullscreen');
   };
 
   const handleMinimize = () => {
-    setIsMaximized(false);
+    setPlayerMode('compact');
+  };
+
+  const handleClose = () => {
+    closePlayer();
+    setPlayerMode('compact');
   };
 
   if (!activeTrack) {
@@ -20,20 +30,31 @@ export const ResizablePlayer = () => {
   }
 
   return (
-    <>
-      {!isMaximized && (
+    <AnimatePresence mode="wait">
+      {playerMode === 'compact' && (
         <CompactPlayer
+          key="compact"
           track={activeTrack}
+          onExpand={handleExpand}
           onMaximize={handleMaximize}
-          onClose={closePlayer}
+          onClose={handleClose}
         />
       )}
-      {isMaximized && (
+      {playerMode === 'expanded' && (
+        <ExpandedPlayer
+          key="expanded"
+          track={activeTrack}
+          onClose={handleMinimize}
+          onMaximize={handleMaximize}
+        />
+      )}
+      {playerMode === 'fullscreen' && (
         <FullscreenPlayer
+          key="fullscreen"
           track={activeTrack}
           onClose={handleMinimize}
         />
       )}
-    </>
+    </AnimatePresence>
   );
 };

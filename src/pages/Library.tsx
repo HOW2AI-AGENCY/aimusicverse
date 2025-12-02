@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal } from "lucide-react";
-import { useTracks, type Track } from "@/hooks/useTracksOptimized";
+import { useTracksInfinite } from "@/hooks/useTracksInfinite";
+import { type Track } from "@/hooks/useTracksOptimized";
 import { TrackCard } from "@/components/TrackCard";
 import { Button } from "@/components/ui/button";
 import { GenerationProgress } from "@/components/GenerationProgress";
@@ -24,16 +25,48 @@ export default function Library() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortBy, setSortBy] = useState<"recent" | "popular" | "liked">("recent");
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
 
   useGenerationRealtime();
 
-  const { tracks, isLoading, deleteTrack, toggleLike, logPlay, downloadTrack } = useTracks({
+  const { 
+    tracks, 
+    totalCount,
+    isLoading, 
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    deleteTrack, 
+    toggleLike, 
+    logPlay, 
+    downloadTrack 
+  } = useTracksInfinite({
     searchQuery: debouncedSearchQuery,
     sortBy,
+    pageSize: 20,
   });
 
   const fullscreenTrackId = activeTrack?.id;
   const { data: versions } = useTrackVersions(fullscreenTrackId || "");
+
+  // Intersection Observer for infinite scroll
+  useEffect(() => {
+    if (!loadMoreRef.current || !hasNextPage || isFetchingNextPage) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          console.log('📥 Loading more tracks...');
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.1, rootMargin: '100px' }
+    );
+
+    observer.observe(loadMoreRef.current);
+
+    return () => observer.disconnect();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (authLoading) {
     return (
@@ -76,7 +109,9 @@ export default function Library() {
             <div className="flex items-center justify-between gap-4">
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold">Библиотека</h1>
-                <p className="text-sm text-muted-foreground">{tracks?.length || 0} треков</p>
+                <p className="text-sm text-muted-foreground">
+                  {tracks?.length || 0} из {totalCount} треков
+                </p>
               </div>
 
               <div className="flex items-center gap-1.5 sm:gap-2">
@@ -193,6 +228,40 @@ export default function Library() {
                   ))}
                 </AnimatePresence>
               </motion.div>
+
+              {/* Infinite Scroll Trigger & Loading Indicator */}
+              <div ref={loadMoreRef} className="mt-8 flex justify-center">
+                {isFetchingNextPage && (
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="flex gap-2">
+                      {Array.from({ length: viewMode === 'grid' ? 4 : 2 }).map((_, i) => (
+                        <TrackCardSkeleton key={i} layout={viewMode} />
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span>Загрузка...</span>
+                    </div>
+                  </div>
+                )}
+                
+                {!isFetchingNextPage && hasNextPage && (
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={() => fetchNextPage()}
+                    className="min-h-[44px] touch-manipulation"
+                  >
+                    Загрузить еще
+                  </Button>
+                )}
+                
+                {!hasNextPage && tracks.length > 0 && (
+                  <p className="text-sm text-muted-foreground py-8">
+                    Все треки загружены
+                  </p>
+                )}
+              </div>
             </>
           )}
         </div>

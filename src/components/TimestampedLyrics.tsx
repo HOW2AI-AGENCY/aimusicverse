@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Music2 } from 'lucide-react';
 import { AudioWaveform } from './AudioWaveform';
+import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export interface AlignedWord {
   word: string;
@@ -24,14 +26,25 @@ interface TimestampedLyricsProps {
   currentTime: number;
   isPlaying: boolean;
   duration?: number;
+  fallbackLyrics?: string | null;
+  onSeek?: (time: number) => void;
 }
 
-export function TimestampedLyrics({ taskId, audioId, currentTime, isPlaying, duration = 0 }: TimestampedLyricsProps) {
+export function TimestampedLyrics({ 
+  taskId, 
+  audioId, 
+  currentTime, 
+  isPlaying, 
+  duration = 0,
+  fallbackLyrics,
+  onSeek
+}: TimestampedLyricsProps) {
   const [lyricsData, setLyricsData] = useState<TimestampedLyricsData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const activeLineRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   // Fetch timestamped lyrics
   useEffect(() => {
@@ -71,23 +84,31 @@ export function TimestampedLyrics({ taskId, audioId, currentTime, isPlaying, dur
     fetchLyrics();
   }, [taskId, audioId]);
 
-  // Auto-scroll to active line
+  // Auto-scroll to active line with debouncing for performance
   useEffect(() => {
-    if (isPlaying && activeLineRef.current && scrollRef.current) {
-      const container = scrollRef.current;
-      const activeElement = activeLineRef.current;
-      
-      const containerRect = container.getBoundingClientRect();
-      const activeRect = activeElement.getBoundingClientRect();
-      
-      const scrollTop = activeRect.top - containerRect.top - containerRect.height / 2 + activeRect.height / 2;
-      
-      container.scrollTo({
-        top: container.scrollTop + scrollTop,
-        behavior: 'smooth',
+    if (!isPlaying || !activeLineRef.current || !scrollRef.current) return;
+    
+    const container = scrollRef.current;
+    const activeElement = activeLineRef.current;
+    
+    // Use requestAnimationFrame for better performance
+    const scrollTimeout = setTimeout(() => {
+      requestAnimationFrame(() => {
+        const containerRect = container.getBoundingClientRect();
+        const activeRect = activeElement.getBoundingClientRect();
+        
+        const scrollOffset = isMobile ? containerRect.height / 3 : containerRect.height / 2;
+        const scrollTop = activeRect.top - containerRect.top - scrollOffset + activeRect.height / 2;
+        
+        container.scrollTo({
+          top: container.scrollTop + scrollTop,
+          behavior: 'smooth',
+        });
       });
-    }
-  }, [currentTime, isPlaying]);
+    }, 100);
+    
+    return () => clearTimeout(scrollTimeout);
+  }, [currentTime, isPlaying, isMobile]);
 
   if (loading) {
     return (
@@ -106,9 +127,27 @@ export function TimestampedLyrics({ taskId, audioId, currentTime, isPlaying, dur
   }
 
   if (!lyricsData || !lyricsData.alignedWords.length) {
+    // Show fallback lyrics if available
+    if (fallbackLyrics) {
+      return (
+        <ScrollArea className="flex-1" ref={scrollRef}>
+          <div className="px-4 md:px-6 pb-24 md:pb-6">
+            <div className="flex items-center gap-2 mb-4 text-muted-foreground text-sm">
+              <Music2 className="h-4 w-4" />
+              <span>Текст без временных меток</span>
+            </div>
+            <div className="whitespace-pre-wrap text-base md:text-lg leading-relaxed text-foreground/90">
+              {fallbackLyrics}
+            </div>
+          </div>
+        </ScrollArea>
+      );
+    }
+    
     return (
-      <div className="flex items-center justify-center h-full text-muted-foreground">
-        <p>Текст песни недоступен</p>
+      <div className="flex flex-col items-center justify-center h-full text-muted-foreground gap-3">
+        <Music2 className="h-12 w-12 opacity-50" />
+        <p className="text-center">Текст песни недоступен</p>
       </div>
     );
   }
@@ -156,21 +195,26 @@ export function TimestampedLyrics({ taskId, audioId, currentTime, isPlaying, dur
       )}
 
       <ScrollArea className="flex-1" ref={scrollRef}>
-        <div className="px-4 md:px-6 pb-24 md:pb-6 space-y-3 md:space-y-4">
+        <div className="px-4 md:px-6 pb-24 md:pb-6 space-y-2 md:space-y-3">
           {lines.map((line, lineIndex) => {
           const lineStart = line[0].startS;
           const lineEnd = line[line.length - 1].endS;
           const isActiveLine = currentTime >= lineStart && currentTime <= lineEnd;
+          const isPastLine = currentTime > lineEnd;
           
           return (
             <div
               key={lineIndex}
               ref={isActiveLine ? activeLineRef : null}
-              className={`transition-all duration-300 ${
-                isActiveLine ? 'md:scale-105' : 'scale-100'
-              }`}
+              onClick={() => onSeek?.(lineStart)}
+              className={cn(
+                'transition-all duration-200 cursor-pointer rounded-lg p-2 md:p-3',
+                'hover:bg-muted/50 active:bg-muted touch-manipulation',
+                isActiveLine && 'bg-primary/10 scale-[1.02] md:scale-105',
+                !isActiveLine && 'scale-100'
+              )}
             >
-              <div className="flex flex-wrap gap-1">
+              <div className="flex flex-wrap gap-0.5 md:gap-1 leading-relaxed">
                 {line.map((word, wordIndex) => {
                   const isActiveWord = currentTime >= word.startS && currentTime <= word.endS;
                   const isPast = currentTime > word.endS;
@@ -178,19 +222,26 @@ export function TimestampedLyrics({ taskId, audioId, currentTime, isPlaying, dur
                   return (
                     <span
                       key={`${lineIndex}-${wordIndex}`}
-                      className={`inline-block transition-all duration-200 text-base md:text-lg font-medium ${
-                        isActiveWord
-                          ? 'text-primary scale-105 md:scale-110 font-bold'
-                          : isPast
-                          ? 'text-foreground'
-                          : 'text-muted-foreground'
-                      }`}
+                      className={cn(
+                        'inline-block transition-all duration-150',
+                        'text-sm sm:text-base md:text-lg font-medium',
+                        isActiveWord && 'text-primary scale-110 font-bold drop-shadow-sm',
+                        !isActiveWord && isPast && 'text-foreground/80',
+                        !isActiveWord && !isPast && 'text-muted-foreground/60'
+                      )}
                     >
                       {word.word}
                     </span>
                   );
                 })}
               </div>
+              
+              {/* Mobile: Show timestamp on active line */}
+              {isMobile && isActiveLine && (
+                <div className="text-xs text-primary/70 mt-1">
+                  {Math.floor(lineStart / 60)}:{String(Math.floor(lineStart % 60)).padStart(2, '0')}
+                </div>
+              )}
             </div>
             );
           })}
