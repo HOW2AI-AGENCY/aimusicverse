@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { Track } from '@/hooks/useTracksOptimized';
 
 type RepeatMode = 'off' | 'all' | 'one';
+type PlayerMode = 'compact' | 'expanded' | 'fullscreen' | 'minimized';
 
 interface PlayerState {
   activeTrack: Track | null;
@@ -10,6 +11,7 @@ interface PlayerState {
   currentIndex: number;
   shuffle: boolean;
   repeat: RepeatMode;
+  playerMode: PlayerMode;
   playTrack: (track?: Track) => void;
   pauseTrack: () => void;
   closePlayer: () => void;
@@ -21,6 +23,10 @@ interface PlayerState {
   reorderQueue: (oldIndex: number, newIndex: number) => void;
   toggleShuffle: () => void;
   toggleRepeat: () => void;
+  setPlayerMode: (mode: PlayerMode) => void;
+  expandPlayer: () => void;
+  minimizePlayer: () => void;
+  maximizePlayer: () => void;
 }
 
 export const playerLogic = {
@@ -110,10 +116,18 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   currentIndex: 0,
   shuffle: false,
   repeat: 'off',
+  playerMode: 'minimized',
   
-  playTrack: (track) => playerLogic.playTrack(set, get, track),
+  playTrack: (track) => {
+    playerLogic.playTrack(set, get, track);
+    // Auto-open compact player when playing a track
+    const { playerMode } = get();
+    if (playerMode === 'minimized') {
+      set({ playerMode: 'compact' });
+    }
+  },
   pauseTrack: () => set({ isPlaying: false }),
-  closePlayer: () => set({ activeTrack: null, isPlaying: false }),
+  closePlayer: () => set({ activeTrack: null, isPlaying: false, playerMode: 'minimized' }),
   
   nextTrack: () => playerLogic.nextTrack(set, get),
   previousTrack: () => playerLogic.previousTrack(set, get),
@@ -176,4 +190,10 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       return { repeat: modes[nextIndex] };
     });
   },
+  
+  // Player mode transitions (T043 - Player state management)
+  setPlayerMode: (mode) => set({ playerMode: mode }),
+  expandPlayer: () => set({ playerMode: 'expanded' }),
+  minimizePlayer: () => set({ playerMode: 'compact' }),
+  maximizePlayer: () => set({ playerMode: 'fullscreen' }),
 }));

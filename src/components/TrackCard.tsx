@@ -13,6 +13,7 @@ import { VersionSwitcher } from './library/VersionSwitcher';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useTouchEvents, triggerHapticFeedback } from '@/lib/mobile-utils';
 import { toast } from 'sonner';
 
 interface TrackCardProps {
@@ -128,16 +129,42 @@ export const TrackCard = ({
     }
     
     if (isMobile) {
+      triggerHapticFeedback('light');
       setSheetOpen(true);
     }
   };
+
+  // Touch gesture handlers for mobile interactions
+  const touchHandlers = useTouchEvents({
+    onSwipeLeft: () => {
+      if (isMobile && layout === 'grid') {
+        triggerHapticFeedback('light');
+        setSheetOpen(true);
+      }
+    },
+    onSwipeRight: () => {
+      if (isMobile && sheetOpen) {
+        triggerHapticFeedback('light');
+        setSheetOpen(false);
+      }
+    },
+    onLongPress: () => {
+      if (isMobile) {
+        triggerHapticFeedback('medium');
+        setSheetOpen(true);
+      }
+    },
+    threshold: 50,
+    longPressDelay: 500,
+  });
 
   if (layout === 'list') {
     return (
       <>
         <Card
-          className="group grid grid-cols-[auto,1fr,auto] items-center gap-3 sm:gap-4 p-2 sm:p-3 transition-all hover:bg-muted/50"
+          className="group grid grid-cols-[auto,1fr,auto] items-center gap-3 sm:gap-4 p-2 sm:p-3 transition-all hover:bg-muted/50 active:bg-muted touch-manipulation"
           onClick={handleCardClick}
+          {...(isMobile ? touchHandlers : {})}
         >
           {/* Cover Image & Play Button */}
           <div className="relative w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 rounded-md overflow-hidden" data-play-button>
@@ -149,9 +176,13 @@ export const TrackCard = ({
             />
             <div
               className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
-              onClick={(e) => { e.stopPropagation(); onPlay?.(); }}
+              onClick={(e) => { 
+                e.stopPropagation(); 
+                triggerHapticFeedback('medium');
+                onPlay?.(); 
+              }}
             >
-              <Button size="icon" variant="ghost" className="w-10 h-10 rounded-full text-white">
+              <Button size="icon" variant="ghost" className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full text-white touch-manipulation">
                 {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
               </Button>
             </div>
@@ -187,7 +218,12 @@ export const TrackCard = ({
               <Button
                 size="icon"
                 variant="ghost"
-                onClick={(e) => { e.stopPropagation(); setSheetOpen(true); }}
+                className="w-11 h-11 min-w-[44px] min-h-[44px] touch-manipulation active:scale-95 transition-transform"
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  triggerHapticFeedback('light');
+                  setSheetOpen(true); 
+                }}
               >
                 <MoreHorizontal className="w-5 h-5" />
               </Button>
@@ -205,8 +241,9 @@ export const TrackCard = ({
   return (
     <>
       <Card 
-        className="group overflow-hidden hover:shadow-lg active:scale-[0.98] transition-all cursor-pointer"
+        className="group overflow-hidden hover:shadow-lg hover:border-primary/30 active:scale-[0.98] active:shadow-md transition-all duration-200 cursor-pointer touch-manipulation"
         onClick={handleCardClick}
+        {...(isMobile ? touchHandlers : {})}
       >
         <div className="relative aspect-square" data-play-button>
           {track.cover_url && !imageError ? (
@@ -238,13 +275,18 @@ export const TrackCard = ({
           <div className="absolute inset-0 bg-black/40 opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center justify-center touch-manipulation"
             onClick={(e) => {
               e.stopPropagation();
+              triggerHapticFeedback('medium');
               onPlay?.();
             }}
           >
           <Button
             size="lg"
-            className="rounded-full w-16 h-16 sm:w-14 sm:h-14 min-h-[44px] min-w-[44px] active:scale-95 transition-transform"
-            onClick={onPlay}
+            className="rounded-full w-16 h-16 sm:w-14 sm:h-14 min-h-[44px] min-w-[44px] active:scale-95 transition-transform touch-manipulation"
+            onClick={(e) => {
+              e.stopPropagation();
+              triggerHapticFeedback('medium');
+              onPlay?.();
+            }}
             disabled={!track.audio_url}
           >
             {isPlaying ? (
@@ -304,6 +346,7 @@ export const TrackCard = ({
               isMaster={true}
               onClick={(e) => {
                 e?.stopPropagation();
+                triggerHapticFeedback('light');
                 setVersionSwitcherOpen(true);
               }}
             />
@@ -327,8 +370,12 @@ export const TrackCard = ({
               <Button
                 size="icon"
                 variant="ghost"
-                className="-mr-2 flex-shrink-0"
-                onClick={(e) => { e.stopPropagation(); setSheetOpen(true); }}
+                className="-mr-2 flex-shrink-0 w-11 h-11 min-w-[44px] min-h-[44px] touch-manipulation active:scale-95 transition-transform"
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  triggerHapticFeedback('light');
+                  setSheetOpen(true); 
+                }}
               >
                 <MoreHorizontal className="w-5 h-5" />
               </Button>
@@ -353,8 +400,12 @@ export const TrackCard = ({
             <Button
               variant={track.is_liked ? 'secondary' : 'ghost'}
               size="sm"
-              onClick={(e) => { e.stopPropagation(); onToggleLike?.(); }}
-              className="flex items-center gap-1.5 px-2 h-8"
+              onClick={(e) => { 
+                e.stopPropagation(); 
+                triggerHapticFeedback('light');
+                onToggleLike?.(); 
+              }}
+              className="flex items-center gap-1.5 px-2 h-11 min-h-[44px] touch-manipulation active:scale-95 transition-transform"
             >
               <Heart className={cn("w-4 h-4", track.is_liked && "fill-primary text-primary")} />
               <span>{track.likes_count || 0}</span>

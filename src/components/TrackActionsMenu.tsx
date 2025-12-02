@@ -25,12 +25,14 @@ import { CreatePersonaDialog } from './track-menu/CreatePersonaDialog';
 import { AddToProjectDialog } from './track-menu/AddToProjectDialog';
 import { ShareTrackDialog } from './track-menu/ShareTrackDialog';
 import { PlaylistSelector } from './track-menu/PlaylistSelector';
+import { ConfirmationDialog } from './ConfirmationDialog';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { TrackStudioSection } from './track-menu/TrackStudioSection';
 import { TrackInfoSection } from './track-menu/TrackInfoSection';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { useHapticFeedback } from '@/lib/mobile-utils';
 
 interface TrackActionsMenuProps {
   track: Track;
@@ -48,8 +50,14 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
   const [addToProjectDialogOpen, setAddToProjectDialogOpen] = useState(false);
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [playlistSelectorOpen, setPlaylistSelectorOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false); // T064 - Delete confirmation
   const [stemCount, setStemCount] = useState(0);
   const navigate = useNavigate();
+  
+  // T063 - Haptic feedback for all track actions
+  const triggerSelectionHaptic = useHapticFeedback('selection');
+  const triggerSuccessHaptic = useHapticFeedback('success');
+  const triggerErrorHaptic = useHapticFeedback('error');
 
   const {
     isProcessing,
@@ -101,6 +109,24 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
 
           <DropdownMenuSeparator />
 
+          {/* TODO: T062 - Version Switcher Integration */}
+          {/* Future: Add inline version switcher here for quick version switching */}
+          {/* <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <GitBranch className="w-4 h-4 mr-2" />
+              Версии ({versionCount})
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              {versions.map(version => (
+                <DropdownMenuItem key={version.id} onClick={() => switchVersion(version.id)}>
+                  <Check className={cn("w-4 h-4 mr-2", version.is_master ? "visible" : "invisible")} />
+                  {version.version_type} - v{version.version_number}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+          <DropdownMenuSeparator /> */}
+
           {/* Studio Section */}
           <TrackStudioSection track={track} stemCount={stemCount} />
 
@@ -115,20 +141,29 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                   Редактировать
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent className="bg-background/95 backdrop-blur-sm" sideOffset={8} alignOffset={-4}>
-                  <DropdownMenuItem onClick={() => setExtendDialogOpen(true)}>
+                  <DropdownMenuItem onClick={() => {
+                    triggerSelectionHaptic(); // T063
+                    setExtendDialogOpen(true);
+                  }}>
                     <Plus className="w-4 h-4 mr-2" />
                     Расширить
                   </DropdownMenuItem>
 
                   {track.has_vocals === false && (
-                    <DropdownMenuItem onClick={() => setAddVocalsDialogOpen(true)}>
+                    <DropdownMenuItem onClick={() => {
+                      triggerSelectionHaptic(); // T063
+                      setAddVocalsDialogOpen(true);
+                    }}>
                       <Mic className="w-4 h-4 mr-2" />
                       Добавить вокал
                     </DropdownMenuItem>
                   )}
 
                   {track.has_vocals === true && (
-                    <DropdownMenuItem onClick={() => setAddInstrumentalDialogOpen(true)}>
+                    <DropdownMenuItem onClick={() => {
+                      triggerSelectionHaptic(); // T063
+                      setAddInstrumentalDialogOpen(true);
+                    }}>
                       <Volume2 className="w-4 h-4 mr-2" />
                       Добавить инструментал
                     </DropdownMenuItem>
@@ -246,13 +281,37 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
 
           <DropdownMenuSeparator />
           
-          {/* Delete */}
-          <DropdownMenuItem onClick={onDelete} className="text-destructive">
+          {/* Delete - T064: With confirmation dialog */}
+          <DropdownMenuItem 
+            onClick={() => {
+              triggerSelectionHaptic();
+              setDeleteConfirmOpen(true);
+            }} 
+            className="text-destructive"
+          >
             <Trash2 className="w-4 h-4 mr-2" />
             Удалить
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {/* T064 - Confirmation dialog for destructive delete action */}
+      <ConfirmationDialog
+        open={deleteConfirmOpen}
+        onOpenChange={setDeleteConfirmOpen}
+        title="Удалить трек?"
+        description={`Вы уверены, что хотите удалить трек "${track.title || 'Без названия'}"? Это действие нельзя отменить.`}
+        confirmLabel="Удалить"
+        cancelLabel="Отмена"
+        variant="destructive"
+        onConfirm={() => {
+          triggerSuccessHaptic();
+          onDelete?.();
+        }}
+        onCancel={() => {
+          triggerSelectionHaptic();
+        }}
+      />
 
       <ExtendTrackDialog
         open={extendDialogOpen}

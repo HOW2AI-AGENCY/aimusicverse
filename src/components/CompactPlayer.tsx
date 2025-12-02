@@ -35,6 +35,11 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
   const { toggleLike, downloadTrack } = useTracks();
   const dragControls = useDragControls();
 
+  // TODO: Optimize audio streaming for mobile networks
+  // TODO: Implement adaptive bitrate streaming based on connection quality
+  // TODO: Add preloading for next track in queue
+  // TODO: Implement audio caching for offline playback
+  // TODO: Add network quality indicator and quality selector
   const {
     isPlaying,
     currentTime,

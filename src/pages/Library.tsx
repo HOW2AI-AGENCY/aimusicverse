@@ -160,6 +160,10 @@ export default function Library() {
               </p>
             </Card>
           ) : (
+            {/* TODO: Optimize responsive grid layout for better performance on large libraries */}
+            {/* TODO: Implement virtual scrolling for libraries with 100+ tracks */}
+            {/* TODO: Add dynamic column count based on viewport width and card size */}
+            {/* TODO: Consider implementing masonry layout for varied content heights */}
             <motion.div
               layout
               className={viewMode === 'grid' 

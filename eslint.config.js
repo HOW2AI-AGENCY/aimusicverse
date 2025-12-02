@@ -7,7 +7,16 @@ import prettier from "eslint-config-prettier";
 
 export default tseslint.config(
   {
-    ignores: ["dist", "**/*.stories.tsx"],
+    ignores: [
+      "dist",
+      "build",
+      "coverage",
+      "node_modules",
+      "**/*.stories.tsx",
+      "**/*.min.js",
+      "storybook-static",
+      ".storybook",
+    ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,

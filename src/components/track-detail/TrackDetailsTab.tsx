@@ -8,6 +8,16 @@ interface TrackDetailsTabProps {
 }
 
 export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
+  // TODO: T057 - Lyrics parsing improvements
+  // Current implementation displays raw lyrics text
+  // Future enhancements needed:
+  // 1. Parse structured lyrics format (verse, chorus, bridge markers)
+  // 2. Support for multiple language lyrics (original + translations)
+  // 3. Lyrics editing capability for user corrections
+  // 4. Import/export lyrics in .lrc format
+  // 5. Integration with lyrics APIs (Genius, Musixmatch) for missing lyrics
+  // 6. Support for romanization of non-Latin scripts
+  
   const formatDuration = (seconds: number | null) => {
     if (!seconds) return 'N/A';
     const mins = Math.floor(seconds / 60);
