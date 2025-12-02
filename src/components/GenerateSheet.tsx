@@ -502,7 +502,13 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                 <Switch
                   id="simple-vocals-toggle"
                   checked={hasVocals}
-                  onCheckedChange={setHasVocals}
+                  onCheckedChange={(checked) => {
+                    setHasVocals(checked);
+                    // Clear lyrics when switching to instrumental in case user switches to Custom mode later
+                    if (!checked) {
+                      setLyrics('');
+                    }
+                  }}
                 />
               </div>
             </div>
@@ -566,7 +572,13 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                 <Switch
                   id="vocals-toggle"
                   checked={hasVocals}
-                  onCheckedChange={setHasVocals}
+                  onCheckedChange={(checked) => {
+                    setHasVocals(checked);
+                    // Clear lyrics when switching to instrumental
+                    if (!checked) {
+                      setLyrics('');
+                    }
+                  }}
                 />
               </div>
 
