@@ -68,10 +68,10 @@ export function LyricsView({ track }: LyricsViewProps) {
       (word) => currentTime >= word.startS && currentTime <= word.endS
     );
 
-    if (activeIndex !== -1) {
+    if (activeIndex !== -1 && activeIndex !== activeLineIndex) {
       setActiveLineIndex(activeIndex);
     }
-  }, [currentTime, timestampedLyrics, isPlaying]);
+  }, [currentTime, timestampedLyrics, isPlaying, activeLineIndex]);
 
   if (!track.lyrics) {
     return (

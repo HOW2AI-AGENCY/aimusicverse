@@ -35,7 +35,7 @@ interface TrackAnalysis {
   acousticness: number | null;
   instrumentalness: number | null;
   genre_tags: string[] | null;
-  technical_metadata: any | null;
+  technical_metadata: Record<string, unknown> | null;
   created_at: string;
 }
 
@@ -47,7 +47,7 @@ interface ChangelogEntry {
   description: string;
   changed_by: string | null;
   created_at: string;
-  metadata: any | null;
+  metadata: Record<string, unknown> | null;
 }
 
 interface TrackDetails {

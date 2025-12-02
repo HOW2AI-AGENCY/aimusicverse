@@ -19,7 +19,7 @@ interface TrackAnalysis {
   acousticness: number | null;
   instrumentalness: number | null;
   genre_tags: string[] | null;
-  technical_metadata: any | null;
+  technical_metadata: Record<string, unknown> | null;
   created_at: string;
 }
 
