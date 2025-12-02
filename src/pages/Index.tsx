@@ -173,68 +173,81 @@ const Index = () => {
         )}
 
         {/* Quick Actions */}
-        <Card className="p-6 mb-6 glass-card border-primary/30">
-          <h2 className="text-lg font-semibold mb-4 text-foreground">Быстрые действия</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <Card className="p-5 sm:p-6 mb-6 glass-card border-primary/30">
+          <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-foreground">Быстрые действия</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
             <Button
               onClick={() => navigate('/generate')}
-              className="bg-gradient-telegram hover:opacity-90 h-auto py-6 flex flex-col gap-2 shadow-lg hover:shadow-primary/30 transition-all active:scale-95"
+              className="bg-gradient-telegram hover:opacity-90 h-auto py-5 sm:py-6 flex flex-col gap-2 shadow-lg hover:shadow-primary/30 transition-all touch-manipulation min-h-[80px]"
+              aria-label="Открыть генератор музыки"
             >
-              <Sparkles className="w-6 h-6" />
-              <span className="text-sm font-semibold">Генератор</span>
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
+              <span className="text-xs sm:text-sm font-semibold">Генератор</span>
             </Button>
             <Button
               onClick={() => navigate('/library')}
-              className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 h-auto py-6 flex flex-col gap-2 shadow-lg hover:shadow-purple-500/30 transition-all active:scale-95"
+              className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 h-auto py-5 sm:py-6 flex flex-col gap-2 shadow-lg hover:shadow-purple-500/30 transition-all touch-manipulation min-h-[80px]"
+              aria-label="Открыть библиотеку"
             >
-              <Library className="w-6 h-6" />
-              <span className="text-sm font-semibold">Библиотека</span>
+              <Library className="w-5 h-5 sm:w-6 sm:h-6" />
+              <span className="text-xs sm:text-sm font-semibold">Библиотека</span>
             </Button>
             <Button
               onClick={() => navigate('/tasks')}
               variant="outline"
-              className="glass border-primary/30 hover:border-primary/50 h-auto py-6 flex flex-col gap-2 transition-all active:scale-95"
+              className="glass border-primary/30 hover:border-primary/50 h-auto py-5 sm:py-6 flex flex-col gap-2 transition-all touch-manipulation min-h-[80px]"
+              aria-label="Открыть задачи"
             >
-              <CheckSquare className="w-6 h-6" />
-              <span className="text-sm">Задачи</span>
+              <CheckSquare className="w-5 h-5 sm:w-6 sm:h-6" />
+              <span className="text-xs sm:text-sm">Задачи</span>
             </Button>
             <Button
               onClick={goToProfile}
               variant="outline"
-              className="glass border-primary/30 hover:border-primary/50 h-auto py-6 flex flex-col gap-2 transition-all active:scale-95"
+              className="glass border-primary/30 hover:border-primary/50 h-auto py-5 sm:py-6 flex flex-col gap-2 transition-all touch-manipulation min-h-[80px]"
+              aria-label="Открыть профиль"
             >
-              <UserCircle className="w-6 h-6" />
-              <span className="text-sm">Профиль</span>
+              <UserCircle className="w-5 h-5 sm:w-6 sm:h-6" />
+              <span className="text-xs sm:text-sm">Профиль</span>
             </Button>
           </div>
         </Card>
 
         {/* Public Projects */}
         {publicProjects && publicProjects.length > 0 && (
-          <Card className="p-6 mb-6 glass-card border-primary/20">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
-                <FolderOpen className="w-5 h-5 text-primary" />
+          <Card className="p-5 sm:p-6 mb-6 glass-card border-primary/20">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <h2 className="text-base sm:text-lg font-semibold text-foreground flex items-center gap-2">
+                <FolderOpen className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 Публичные проекты
               </h2>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
               {publicProjects.map((project) => (
                 <Card
                   key={project.id}
                   onClick={() => navigate(`/projects/${project.id}`)}
-                  className="p-4 glass-card border-primary/20 hover:border-primary/40 transition-all cursor-pointer"
+                  className="p-3 sm:p-4 glass-card border-primary/20 hover:border-primary/40 hover:shadow-lg active:scale-[0.98] transition-all cursor-pointer touch-manipulation min-h-[80px]"
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Открыть проект ${project.title}`}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      navigate(`/projects/${project.id}`);
+                    }
+                  }}
                 >
-                  <div className="flex gap-4">
-                    <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0">
+                  <div className="flex gap-3 sm:gap-4">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0">
                       {project.cover_url ? (
                         <img src={project.cover_url} alt={project.title} className="w-full h-full object-cover rounded-lg" />
                       ) : (
-                        <Music className="w-6 h-6 text-primary" />
+                        <Music className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-foreground mb-1 truncate">{project.title}</h3>
+                      <h3 className="font-semibold text-sm sm:text-base text-foreground mb-1 truncate">{project.title}</h3>
                       {project.genre && (
                         <Badge variant="secondary" className="text-xs">
                           {project.genre}
@@ -250,14 +263,14 @@ const Index = () => {
 
         {/* Public Tracks */}
         {publicTracks && publicTracks.filter(t => t.is_public).length > 0 && (
-          <Card className="p-6 mb-6 glass-card border-primary/20">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
-                <Music className="w-5 h-5 text-primary" />
+          <Card className="p-5 sm:p-6 mb-6 glass-card border-primary/20">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <h2 className="text-base sm:text-lg font-semibold text-foreground flex items-center gap-2">
+                <Music className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 Публичные треки
               </h2>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
               {publicTracks
                 .filter(track => track.is_public)
                 .slice(0, 6)
@@ -269,42 +282,42 @@ const Index = () => {
         )}
 
         {/* Recent Activity */}
-        <Card className="p-6 glass-card border-primary/20">
-          <h2 className="text-lg font-semibold mb-4 text-foreground">Последняя активность</h2>
+        <Card className="p-5 sm:p-6 glass-card border-primary/20">
+          <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-foreground">Последняя активность</h2>
           {activitiesLoading ? (
-            <div className="space-y-3">
+            <div className="space-y-2.5 sm:space-y-3">
               {[1, 2, 3].map((i) => (
                 <ActivitySkeleton key={i} />
               ))}
             </div>
           ) : activities && activities.length > 0 ? (
-            <div className="space-y-3">
+            <div className="space-y-2.5 sm:space-y-3">
               {activities.slice(0, 5).map((activity) => (
                 <div
                   key={activity.id}
-                  className="flex items-center justify-between p-3 rounded-lg glass border border-primary/10 hover:border-primary/20 transition-all"
+                  className="flex items-center justify-between p-3 rounded-lg glass border border-primary/10 hover:border-primary/20 hover:shadow-md active:scale-[0.99] transition-all touch-manipulation"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10">
-                      <Activity className="w-4 h-4 text-primary" />
+                  <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+                    <div className="p-1.5 sm:p-2 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex-shrink-0">
+                      <Activity className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-foreground capitalize">
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs sm:text-sm font-medium text-foreground capitalize truncate">
                         {activity.action_type.replace(/_/g, ' ')}
                       </p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-[10px] sm:text-xs text-muted-foreground">
                         {new Date(activity.created_at).toLocaleString('ru-RU')}
                       </p>
                     </div>
                   </div>
-                  <Badge className="bg-primary/20 text-primary border-primary/30">Завершено</Badge>
+                  <Badge className="bg-primary/20 text-primary border-primary/30 text-[10px] sm:text-xs flex-shrink-0">Завершено</Badge>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-8">
-              <Clock className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-50" />
-              <p className="text-sm text-muted-foreground">
+            <div className="text-center py-6 sm:py-8">
+              <Clock className="w-10 h-10 sm:w-12 sm:h-12 text-muted-foreground mx-auto mb-2 sm:mb-3 opacity-50" />
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 Пока нет активности. Выполните действие, чтобы увидеть его здесь.
               </p>
             </div>
