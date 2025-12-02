@@ -1,46 +1,39 @@
-import { useState } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { Navigate } from 'react-router-dom';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal } from 'lucide-react';
-import { useTracks, type Track } from '@/hooks/useTracksOptimized';
-import { TrackCard } from '@/components/TrackCard';
-import { Button } from '@/components/ui/button';
-import { GenerationProgress } from '@/components/GenerationProgress';
-import { useGenerationRealtime } from '@/hooks/useGenerationRealtime';
-import { useTrackVersions } from '@/hooks/useTrackVersions';
-import { usePlayerStore } from '@/hooks/usePlayerState';
-import { AnimatePresence, motion } from 'framer-motion';
-import { ErrorBoundaryWrapper } from '@/components/ErrorBoundaryWrapper';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useDebounce } from 'use-debounce';
-import { TrackCardSkeleton } from '@/components/ui/skeleton-loader';
+import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { Navigate } from "react-router-dom";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal } from "lucide-react";
+import { useTracks, type Track } from "@/hooks/useTracksOptimized";
+import { TrackCard } from "@/components/TrackCard";
+import { Button } from "@/components/ui/button";
+import { GenerationProgress } from "@/components/GenerationProgress";
+import { useGenerationRealtime } from "@/hooks/useGenerationRealtime";
+import { useTrackVersions } from "@/hooks/useTrackVersions";
+import { usePlayerStore } from "@/hooks/usePlayerState";
+import { AnimatePresence, motion } from "framer-motion";
+import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useDebounce } from "use-debounce";
+import { TrackCardSkeleton } from "@/components/ui/skeleton-loader";
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const { activeTrack, playTrack } = usePlayerStore();
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [sortBy, setSortBy] = useState<'recent' | 'popular' | 'liked'>('recent');
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [sortBy, setSortBy] = useState<"recent" | "popular" | "liked">("recent");
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
 
   useGenerationRealtime();
 
-  const {
-    tracks,
-    isLoading,
-    deleteTrack,
-    toggleLike,
-    logPlay,
-    downloadTrack,
-  } = useTracks({
+  const { tracks, isLoading, deleteTrack, toggleLike, logPlay, downloadTrack } = useTracks({
     searchQuery: debouncedSearchQuery,
     sortBy,
   });
 
   const fullscreenTrackId = activeTrack?.id;
-  const { data: versions } = useTrackVersions(fullscreenTrackId || '');
+  const { data: versions } = useTrackVersions(fullscreenTrackId || "");
 
   if (authLoading) {
     return (
@@ -65,8 +58,8 @@ export default function Library() {
   const handleDownload = (trackId: string, audioUrl: string | null, coverUrl: string | null) => {
     if (!audioUrl) return;
     downloadTrack({ trackId, audioUrl, coverUrl: coverUrl || undefined });
-    
-    const link = document.createElement('a');
+
+    const link = document.createElement("a");
     link.href = audioUrl;
     link.download = `track-${trackId}.mp3`;
     link.click();
@@ -76,32 +69,30 @@ export default function Library() {
     <ErrorBoundaryWrapper>
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
         <GenerationProgress />
-      
+
         {/* Page Header */}
         <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-lg border-b border-border/50">
           <div className="container mx-auto px-4 sm:px-6 py-4">
             <div className="flex items-center justify-between gap-4">
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold">Библиотека</h1>
-                <p className="text-sm text-muted-foreground">
-                  {tracks?.length || 0} треков
-                </p>
+                <p className="text-sm text-muted-foreground">{tracks?.length || 0} треков</p>
               </div>
 
               <div className="flex items-center gap-1.5 sm:gap-2">
                 <Button
-                  variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                  variant={viewMode === "grid" ? "default" : "ghost"}
                   size="icon"
-                  onClick={() => setViewMode('grid')}
+                  onClick={() => setViewMode("grid")}
                   className="h-10 w-10 min-h-[44px] min-w-[44px] touch-manipulation active:scale-95 transition-transform"
                   aria-label="Сетка"
                 >
                   <Grid3x3 className="w-4 h-4" />
                 </Button>
                 <Button
-                  variant={viewMode === 'list' ? 'default' : 'ghost'}
+                  variant={viewMode === "list" ? "default" : "ghost"}
                   size="icon"
-                  onClick={() => setViewMode('list')}
+                  onClick={() => setViewMode("list")}
                   className="h-10 w-10 min-h-[44px] min-w-[44px] touch-manipulation active:scale-95 transition-transform"
                   aria-label="Список"
                 >
@@ -121,7 +112,7 @@ export default function Library() {
                   className="pl-11 h-12 text-base"
                 />
               </div>
-              <Select value={sortBy} onValueChange={(v: 'recent' | 'popular' | 'liked') => setSortBy(v)}>
+              <Select value={sortBy} onValueChange={(v: "recent" | "popular" | "liked") => setSortBy(v)}>
                 <SelectTrigger className="w-full sm:w-48 h-12 text-base">
                   <SlidersHorizontal className="w-5 h-5 mr-2.5" />
                   <SelectValue />
@@ -139,10 +130,13 @@ export default function Library() {
         {/* Content */}
         <div className="container mx-auto px-4 sm:px-6 py-6">
           {isLoading ? (
-            <div className={viewMode === 'grid' 
-              ? 'grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'
-              : 'flex flex-col gap-3'
-            }>
+            <div
+              className={
+                viewMode === "grid"
+                  ? "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+                  : "flex flex-col gap-3"
+              }
+            >
               {Array.from({ length: 8 }).map((_, i) => (
                 <TrackCardSkeleton key={i} layout={viewMode} />
               ))}
@@ -151,54 +145,55 @@ export default function Library() {
             <Card className="glass-card border-primary/20 p-8 sm:p-12 text-center">
               <Music2 className="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-muted-foreground/50 mb-4" />
               <h3 className="text-base sm:text-lg font-semibold mb-2">
-                {searchQuery ? 'Ничего не найдено' : 'Пока нет треков'}
+                {searchQuery ? "Ничего не найдено" : "Пока нет треков"}
               </h3>
               <p className="text-sm sm:text-base text-muted-foreground">
-                {searchQuery
-                  ? 'Попробуйте изменить поисковой запрос'
-                  : 'Создайте свой первый трек в генераторе'}
+                {searchQuery ? "Попробуйте изменить поисковой запрос" : "Создайте свой первый трек в генераторе"}
               </p>
             </Card>
           ) : (
-            {/* TODO: Optimize responsive grid layout for better performance on large libraries */}
-            {/* TODO: Implement virtual scrolling for libraries with 100+ tracks */}
-            {/* TODO: Add dynamic column count based on viewport width and card size */}
-            {/* TODO: Consider implementing masonry layout for varied content heights */}
-            <motion.div
-              layout
-              className={viewMode === 'grid' 
-                ? 'grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'
-                : 'flex flex-col gap-3'
-              }
-            >
-              <AnimatePresence mode="popLayout">
-                {tracksToDisplay.map((track) => (
-                  <motion.div
-                    key={track.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <TrackCard
-                      track={track}
-                      layout={viewMode}
-                      isPlaying={activeTrack?.id === track.id}
-                      onPlay={() => handlePlay(track)}
-                      onDelete={() => deleteTrack(track.id)}
-                      onDownload={() => handleDownload(track.id, track.audio_url, track.cover_url)}
-                      onToggleLike={() =>
-                        toggleLike({
-                          trackId: track.id,
-                          isLiked: track.is_liked || false,
-                        })
-                      }
-                    />
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </motion.div>
+            <>
+              {/* TODO: Optimize responsive grid layout for better performance on large libraries */}
+              {/* TODO: Implement virtual scrolling for libraries with 100+ tracks */}
+              {/* TODO: Add dynamic column count based on viewport width and card size */}
+              {/* TODO: Consider implementing masonry layout for varied content heights */}
+              <motion.div
+                layout
+                className={
+                  viewMode === "grid"
+                    ? "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+                    : "flex flex-col gap-3"
+                }
+              >
+                <AnimatePresence mode="popLayout">
+                  {tracksToDisplay.map((track) => (
+                    <motion.div
+                      key={track.id}
+                      layout
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <TrackCard
+                        track={track}
+                        layout={viewMode}
+                        isPlaying={activeTrack?.id === track.id}
+                        onPlay={() => handlePlay(track)}
+                        onDelete={() => deleteTrack(track.id)}
+                        onDownload={() => handleDownload(track.id, track.audio_url, track.cover_url)}
+                        onToggleLike={() =>
+                          toggleLike({
+                            trackId: track.id,
+                            isLiked: track.is_liked || false,
+                          })
+                        }
+                      />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </motion.div>
+            </>
           )}
         </div>
       </div>
