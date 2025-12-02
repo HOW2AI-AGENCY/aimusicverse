@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card } from '@/components/ui/card';
-import { LongPromptAssistant } from '@/components/suno/LongPromptAssistant';
-import { ArtistSelector } from '@/components/generate-form/ArtistSelector';
-import { useArtists } from '@/hooks/useArtists';
-import { User, Sparkles } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card } from "@/components/ui/card";
+import { LongPromptAssistant } from "@/components/suno/LongPromptAssistant";
+import { ArtistSelector } from "@/components/generate-form/ArtistSelector";
+import { useArtists } from "@/hooks/useArtists";
+import { User, Sparkles } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface Step2InfoProps {
   onNext: (data: { title: string; lyrics: string }) => void;
@@ -17,13 +17,13 @@ interface Step2InfoProps {
 }
 
 export const Step2Info = ({ onNext, onBack }: Step2InfoProps) => {
-  const [title, setTitle] = useState('');
-  const [lyrics, setLyrics] = useState('');
+  const [title, setTitle] = useState("");
+  const [lyrics, setLyrics] = useState("");
   const [selectedArtistId, setSelectedArtistId] = useState<string>();
   const [artistSelectorOpen, setArtistSelectorOpen] = useState(false);
-  
+
   const { artists } = useArtists();
-  const selectedArtist = artists?.find(a => a.id === selectedArtistId);
+  const selectedArtist = artists?.find((a) => a.id === selectedArtistId);
 
   const handleNext = () => {
     onNext({ title, lyrics });
@@ -47,12 +47,7 @@ export const Step2Info = ({ onNext, onBack }: Step2InfoProps) => {
               Артист
             </Label>
             {selectedArtist && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setSelectedArtistId(undefined)}
-                className="h-6 text-xs"
-              >
+              <Button variant="ghost" size="sm" onClick={() => setSelectedArtistId(undefined)} className="h-6 text-xs">
                 Очистить
               </Button>
             )}
@@ -62,7 +57,11 @@ export const Step2Info = ({ onNext, onBack }: Step2InfoProps) => {
             <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 border border-border/50">
               <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-primary/20 to-primary/10 flex-shrink-0 border-2 border-primary/20">
                 {selectedArtist.avatar_url ? (
-                  <img src={selectedArtist.avatar_url} alt={selectedArtist.name} className="w-full h-full object-cover" />
+                  <img
+                    src={selectedArtist.avatar_url}
+                    alt={selectedArtist.name}
+                    className="w-full h-full object-cover"
+                  />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <User className="w-6 h-6 text-primary/50" />
@@ -74,7 +73,9 @@ export const Step2Info = ({ onNext, onBack }: Step2InfoProps) => {
                 {selectedArtist.genre_tags && selectedArtist.genre_tags.length > 0 && (
                   <div className="flex gap-1 mt-1">
                     {selectedArtist.genre_tags.slice(0, 2).map((tag) => (
-                      <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
+                      <Badge key={tag} variant="secondary" className="text-xs">
+                        {tag}
+                      </Badge>
                     ))}
                   </div>
                 )}
@@ -112,7 +113,9 @@ export const Step2Info = ({ onNext, onBack }: Step2InfoProps) => {
             <div className="flex items-center justify-between mb-3">
               <Label className="text-sm font-medium">Текст песни</Label>
               <TabsList className="h-9">
-                <TabsTrigger value="manual" className="text-xs">Вручную</TabsTrigger>
+                <TabsTrigger value="manual" className="text-xs">
+                  Вручную
+                </TabsTrigger>
                 <TabsTrigger value="ai" className="text-xs">
                   <Sparkles className="w-3 h-3 mr-1" />
                   AI Ассистент
@@ -132,7 +135,7 @@ export const Step2Info = ({ onNext, onBack }: Step2InfoProps) => {
             </TabsContent>
 
             <TabsContent value="ai" className="mt-0">
-              <LongPromptAssistant onGenerateParts={(parts) => setLyrics(parts.join('\n\n'))} />
+              <LongPromptAssistant onGenerateParts={(parts) => setLyrics(parts.join("\n\n"))} />
             </TabsContent>
           </Tabs>
         </Card>
