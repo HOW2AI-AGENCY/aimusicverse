@@ -193,7 +193,8 @@ export class MusicService {
   }
 
   escapeMarkdown(text: string): string {
-    return text.replace(/([_*\[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
+    // Escape markdown special characters for Telegram MarkdownV2
+    return text.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
   }
 
   getCoverUrl(track: Track): string {

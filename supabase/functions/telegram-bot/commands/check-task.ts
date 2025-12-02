@@ -9,7 +9,8 @@ const supabase = createClient(
 
 // Helper to escape markdown special characters
 function escapeMarkdown(text: string): string {
-  return text.replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1');
+  // Escape markdown special characters for Telegram MarkdownV2
+  return text.replace(/([_*[\]()~`>#+\-=|{}.!])/g, '\\$1');
 }
 
 export async function handleCheckTask(
@@ -129,13 +130,30 @@ export async function handleCheckTask(
       statusText += `\n⚠️ Ошибка: ${escapeMarkdown(taskData.errorMessage)}`;
     }
 
-    const trackButtons: any[] = [];
+    // Define proper types for Suno API response
+    interface SunoClip {
+      id?: string;
+      title?: string;
+      audioUrl?: string;
+      imageUrl?: string;
+      duration?: number;
+      modelName?: string;
+      tags?: string[];
+      lyric?: string;
+    }
+
+    interface InlineKeyboardButton {
+      text: string;
+      callback_data: string;
+    }
+
+    const trackButtons: InlineKeyboardButton[][] = [];
 
     if (taskData.response?.sunoData && taskData.response.sunoData.length > 0) {
-      const clips = taskData.response.sunoData;
+      const clips = taskData.response.sunoData as SunoClip[];
       statusText += `\n\n🎵 *Клипов создано:* ${clips.length}\n`;
       
-      clips.forEach((clip: any, index: number) => {
+      clips.forEach((clip: SunoClip, index: number) => {
         const clipTitle = clip.title || 'Без названия';
         statusText += `\n${index + 1}\\. ${escapeMarkdown(clipTitle)}\n`;
         statusText += `   ⏱️ Длительность: ${clip.duration ? Math.floor(clip.duration) + ' сек' : 'N/A'}\n`;

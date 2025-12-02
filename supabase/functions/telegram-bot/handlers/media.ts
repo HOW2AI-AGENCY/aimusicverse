@@ -43,7 +43,7 @@ export async function handlePlayTrack(
       duration,
       thumbnail: coverUrl,
       caption,
-      replyMarkup: createTrackDetailsKeyboard(trackId) as any
+      replyMarkup: createTrackDetailsKeyboard(trackId)
     });
   } catch (error) {
     console.error('Error sending audio:', error);

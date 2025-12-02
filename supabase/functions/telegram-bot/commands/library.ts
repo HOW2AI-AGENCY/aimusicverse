@@ -58,8 +58,8 @@ export async function handleLibrary(chatId: number, userId: number, messageId?: 
       return;
     }
 
-    // Escape markdown special characters
-    const escapeMarkdown = (text: string) => text.replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1');
+    // Escape markdown special characters for Telegram MarkdownV2
+    const escapeMarkdown = (text: string) => text.replace(/([_*[\]()~`>#+\-=|{}.!])/g, '\\$1');
     
     let message = '🎵 *Ваши треки:*\n\n';
     

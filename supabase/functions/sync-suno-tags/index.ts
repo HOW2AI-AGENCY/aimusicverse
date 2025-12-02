@@ -62,10 +62,11 @@ Deno.serve(async (req) => {
 
     // From style string (extract [Tag] patterns)
     if (trackData.metadata?.style) {
+      // Match patterns like [Genre: Rock] or [Mood: Happy]
       const styleTagMatches = trackData.metadata.style.match(/\[([^\]]+)\]/g);
       if (styleTagMatches) {
         const styleTags = styleTagMatches.map(match => 
-          match.replace(/[\[\]]/g, '').trim()
+          match.replace(/[[\]]/g, '').trim()
         );
         allTags.push(...styleTags);
       }
@@ -73,10 +74,11 @@ Deno.serve(async (req) => {
 
     // From prompt (extract [Tag] patterns)
     if (trackData.metadata?.prompt) {
+      // Match patterns like [Verse] or [Chorus]
       const promptTagMatches = trackData.metadata.prompt.match(/\[([^\]]+)\]/g);
       if (promptTagMatches) {
         const promptTags = promptTagMatches.map(match => 
-          match.replace(/[\[\]]/g, '').trim()
+          match.replace(/[[\]]/g, '').trim()
         );
         allTags.push(...promptTags);
       }
