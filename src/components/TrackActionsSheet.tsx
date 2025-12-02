@@ -67,18 +67,13 @@ export function TrackActionsSheet({
     fetchStemCount();
   }, [track?.id]);
 
-  const handleTranscribeMidi = async () => {
+  const handleTranscribeMidi = () => {
     if (!track?.audio_url) return;
     
-    try {
-      // TODO: Implement MIDI transcription functionality
-      // This requires useMidiTranscription hook to be properly implemented
-      toast.info('MIDI transcription feature coming soon!');
-      onOpenChange(false);
-    } catch (error) {
-      toast.error('Failed to transcribe MIDI');
-      console.error('MIDI transcription error:', error);
-    }
+    // TODO: Implement MIDI transcription functionality
+    // This requires useMidiTranscription hook to be properly implemented
+    toast.info('MIDI transcription feature coming soon!');
+    onOpenChange(false);
   };
   
   if (!track) return null;

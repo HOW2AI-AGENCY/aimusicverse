@@ -16,6 +16,8 @@ interface OnboardingProps {
 
 export const Onboarding = ({ onComplete }: OnboardingProps = {}) => {
   const [isOpen, setIsOpen] = useState(() => {
+    // Safe to use localStorage in Telegram Mini Apps (client-side only, no SSR)
+    if (typeof window === 'undefined') return false;
     const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
     return !hasSeenOnboarding;
   });
