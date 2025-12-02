@@ -294,3 +294,68 @@ export function useDeviceType(): 'mobile' | 'tablet' | 'desktop' {
 
   return deviceType;
 }
+
+/**
+ * Haptic feedback types
+ */
+export type HapticFeedbackType = 'light' | 'medium' | 'heavy' | 'selection' | 'success' | 'warning' | 'error';
+
+/**
+ * Trigger haptic feedback on supported devices
+ * @param type - Type of haptic feedback (default: 'light')
+ * @returns True if haptic feedback was triggered
+ */
+export function triggerHapticFeedback(type: HapticFeedbackType = 'light'): boolean {
+  if (typeof window === 'undefined') return false;
+
+  // Check if Telegram WebApp is available
+  // @ts-expect-error - Telegram WebApp may not be in types
+  if (window.Telegram?.WebApp?.HapticFeedback) {
+    // @ts-expect-error - Telegram WebApp may not be in types
+    const haptic = window.Telegram.WebApp.HapticFeedback;
+    
+    switch (type) {
+      case 'light':
+        haptic.impactOccurred('light');
+        return true;
+      case 'medium':
+        haptic.impactOccurred('medium');
+        return true;
+      case 'heavy':
+        haptic.impactOccurred('heavy');
+        return true;
+      case 'selection':
+        haptic.selectionChanged();
+        return true;
+      case 'success':
+        haptic.notificationOccurred('success');
+        return true;
+      case 'warning':
+        haptic.notificationOccurred('warning');
+        return true;
+      case 'error':
+        haptic.notificationOccurred('error');
+        return true;
+    }
+  }
+
+  // Fallback to standard Vibration API
+  if (navigator.vibrate) {
+    const duration = type === 'heavy' ? 30 : type === 'medium' ? 20 : 10;
+    navigator.vibrate(duration);
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Hook for haptic feedback with memoized callback
+ * @param type - Type of haptic feedback
+ * @returns Callback to trigger haptic feedback
+ */
+export function useHapticFeedback(type: HapticFeedbackType = 'light') {
+  return useCallback(() => {
+    triggerHapticFeedback(type);
+  }, [type]);
+}
