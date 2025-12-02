@@ -5,6 +5,7 @@ import { Slider } from '@/components/ui/slider';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
+import { SUNO_MODELS } from '@/constants/sunoModels';
 
 interface AdvancedSettingsProps {
   open: boolean;
@@ -24,8 +25,6 @@ interface AdvancedSettingsProps {
   model?: string;
   onModelChange?: (value: string) => void;
 }
-
-import { SUNO_MODELS } from '@/constants/sunoModels';
 
 export function AdvancedSettings({
   open,
