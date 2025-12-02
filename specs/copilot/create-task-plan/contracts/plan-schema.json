@@ -56,8 +56,8 @@
         "language": {
           "type": "string",
           "description": "Primary programming language and version",
-          "pattern": "^[A-Za-z]+\\s+\\d+(\\.\\d+)?",
-          "examples": ["TypeScript 5.9", "Python 3.11", "Rust 1.75"]
+          "pattern": "^[A-Za-z+#]+\\s+\\d+(\\.\\d+)?",
+          "examples": ["TypeScript 5.9", "Python 3.11", "Rust 1.75", "C++ 20", "F# 7.0"]
         },
         "dependencies": {
           "type": "array",
