@@ -17,20 +17,6 @@ const Auth = () => {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/', { replace: true });
-    }
-  }, [isAuthenticated, navigate]);
-
-  // Auto-authenticate in development mode
-  useEffect(() => {
-    if (isDevelopmentMode && !isAuthenticated && !loading && !showSplash && !isAuthenticating) {
-      console.log('🔧 Auto-authenticating in dev mode...');
-      handleAuth();
-    }
-  }, [isDevelopmentMode, isAuthenticated, loading, showSplash, isAuthenticating]);
-
   const handleAuth = async () => {
     setIsAuthenticating(true);
     const result = await authenticateWithTelegram();
@@ -46,6 +32,21 @@ const Auth = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
+
+  // Auto-authenticate in development mode
+  useEffect(() => {
+    if (isDevelopmentMode && !isAuthenticated && !loading && !showSplash && !isAuthenticating) {
+      console.log('🔧 Auto-authenticating in dev mode...');
+      handleAuth();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDevelopmentMode, isAuthenticated, loading, showSplash, isAuthenticating]);
 
   const handleSplashComplete = () => {
     setShowSplash(false);
