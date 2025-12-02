@@ -1,0 +1,257 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://musicverse.how2ai.world/schemas/feature-spec.schema.json",
+  "title": "Feature Specification Schema",
+  "description": "Schema for validating feature specification documents (spec.md)",
+  "type": "object",
+  "required": ["frontmatter", "userScenarios", "requirements", "successCriteria"],
+  "properties": {
+    "frontmatter": {
+      "type": "object",
+      "required": ["title", "branch", "created", "status"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Feature name",
+          "minLength": 3,
+          "maxLength": 100
+        },
+        "branch": {
+          "type": "string",
+          "description": "Git branch name",
+          "pattern": "^[a-z0-9-]+/[a-z0-9-]+$"
+        },
+        "created": {
+          "type": "string",
+          "format": "date",
+          "description": "Creation date (ISO 8601)"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Draft", "In Progress", "Complete", "Archived"],
+          "description": "Current specification status"
+        },
+        "input": {
+          "type": "string",
+          "description": "Original user request/description"
+        },
+        "author": {
+          "type": "string",
+          "description": "Creator's GitHub username"
+        },
+        "reviewers": {
+          "type": "array",
+          "description": "GitHub usernames for review",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "userScenarios": {
+      "type": "array",
+      "description": "List of user stories with priorities",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "priority", "description", "acceptanceScenarios"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "User story number"
+          },
+          "title": {
+            "type": "string",
+            "description": "Brief title for the user story",
+            "minLength": 5,
+            "maxLength": 100
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["P1", "P2", "P3"],
+            "description": "Priority level (P1 = highest)"
+          },
+          "description": {
+            "type": "string",
+            "description": "User story description",
+            "minLength": 20
+          },
+          "whyThisPriority": {
+            "type": "string",
+            "description": "Explanation of priority assignment"
+          },
+          "independentTest": {
+            "type": "string",
+            "description": "How this can be tested independently"
+          },
+          "acceptanceScenarios": {
+            "type": "array",
+            "description": "Given/When/Then scenarios",
+            "items": {
+              "type": "object",
+              "required": ["given", "when", "then"],
+              "properties": {
+                "given": {
+                  "type": "string",
+                  "description": "Initial state"
+                },
+                "when": {
+                  "type": "string",
+                  "description": "Action taken"
+                },
+                "then": {
+                  "type": "string",
+                  "description": "Expected outcome"
+                }
+              }
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "edgeCases": {
+      "type": "array",
+      "description": "Edge cases and boundary conditions",
+      "items": {
+        "type": "string"
+      }
+    },
+    "requirements": {
+      "type": "object",
+      "required": ["functional"],
+      "properties": {
+        "contractsRequired": {
+          "type": "boolean",
+          "description": "Whether this feature requires API contracts",
+          "default": true
+        },
+        "functional": {
+          "type": "array",
+          "description": "Functional requirements",
+          "items": {
+            "type": "object",
+            "required": ["id", "requirement"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^FR-\\d{3}$",
+                "description": "Requirement ID (e.g., FR-001)",
+                "examples": ["FR-001", "FR-042"]
+              },
+              "requirement": {
+                "type": "string",
+                "description": "Requirement statement",
+                "minLength": 10
+              },
+              "needsClarification": {
+                "type": "boolean",
+                "description": "Whether this requirement needs clarification",
+                "default": false
+              },
+              "clarificationNote": {
+                "type": "string",
+                "description": "What needs to be clarified"
+              }
+            }
+          },
+          "minItems": 1
+        },
+        "entities": {
+          "type": "array",
+          "description": "Key data entities (if feature involves data)",
+          "items": {
+            "type": "object",
+            "required": ["name", "description"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Entity name"
+              },
+              "description": {
+                "type": "string",
+                "description": "What the entity represents"
+              },
+              "attributes": {
+                "type": "array",
+                "description": "Key attributes",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "relationships": {
+                "type": "array",
+                "description": "Relationships to other entities",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "successCriteria": {
+      "type": "array",
+      "description": "Measurable success outcomes",
+      "items": {
+        "type": "object",
+        "required": ["id", "criterion"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^SC-\\d{3}$",
+            "description": "Success criterion ID (e.g., SC-001)",
+            "examples": ["SC-001", "SC-005"]
+          },
+          "criterion": {
+            "type": "string",
+            "description": "Measurable success metric",
+            "minLength": 20
+          },
+          "target": {
+            "type": "string",
+            "description": "Target value or threshold"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "nonFunctionalRequirements": {
+      "type": "array",
+      "description": "Non-functional requirements (optional)",
+      "items": {
+        "type": "object",
+        "required": ["id", "category", "requirement"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^NFR-\\d{3}$"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["Security", "Performance", "Reliability", "Usability", "Maintainability"]
+          },
+          "requirement": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "technicalConstraints": {
+      "type": "array",
+      "description": "Technical or business constraints",
+      "items": {
+        "type": "string"
+      }
+    },
+    "outOfScope": {
+      "type": "array",
+      "description": "Explicitly out of scope items",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -275,6 +275,48 @@ When working on music generation features:
 - TODO/FIXME scanner creates issues automatically
 - Ensure CI passes before merging
 
+## Planning and Development Tools
+
+<!-- AUTO-GENERATED: START - DO NOT EDIT THIS SECTION MANUALLY -->
+### Feature Planning System
+
+The project uses a structured planning system in `.specify/` for feature development:
+
+**Key Scripts**:
+- `.specify/scripts/powershell/setup-plan.ps1 -Json` - Initialize feature spec and plan
+- PowerShell Core 7+ required (cross-platform)
+
+**Planning Workflow** (Phases 0-2):
+1. **Phase 0 (Research)**: Create `spec.md` → Resolve unknowns → Generate `research.md`
+2. **Phase 1 (Design)**: Generate `data-model.md`, `contracts/*.yaml`, `quickstart.md`
+3. **Phase 2 (Tasks)**: Generate `tasks.md` with INVEST-compliant tasks
+
+**Artifact Structure**:
+```
+specs/[feature-name]/
+├── spec.md          # Feature specification
+├── plan.md          # Implementation plan
+├── research.md      # Technical decisions
+├── data-model.md    # Entity definitions
+├── quickstart.md    # Developer guide
+├── tasks.md         # Granular tasks
+└── contracts/       # JSON Schemas, OpenAPI specs
+```
+
+**Technologies Added**:
+- PowerShell Core 7+ for cross-platform scripting
+- JSON Schema for validation (plan, task, spec schemas)
+- Markdown with YAML frontmatter for structured documentation
+
+**Constitution Compliance**:
+- All plans validated against 8 constitution principles
+- Automatic gates before phase transitions
+- NEEDS CLARIFICATION markers for unknowns
+- TDD requirements enforced for P1 user stories
+
+**Reference**: See `specs/copilot/create-task-plan/quickstart.md` for detailed workflow
+<!-- AUTO-GENERATED: END -->
+
 ## Resources and Documentation
 
 - [Main README](../README.md)
@@ -286,6 +328,7 @@ When working on music generation features:
 - [Telegram Bot Architecture](../docs/TELEGRAM_BOT_ARCHITECTURE.md)
 - [Navigation System](../docs/NAVIGATION_SYSTEM.md)
 - [Project Specification](../docs/PROJECT_SPECIFICATION.md)
+- [Constitution](.specify/memory/constitution.md) - Project principles and standards
 
 ## Questions or Issues?
 
