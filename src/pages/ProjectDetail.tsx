@@ -38,7 +38,7 @@ export default function ProjectDetail() {
 
   const project = projects?.find((p) => p.id === id);
 
-  const handleApplyUpdates = async (updates: Record<string, any>) => {
+  const handleApplyUpdates = async (updates: Record<string, string | number | boolean | null>) => {
     if (!project) return;
     
     try {

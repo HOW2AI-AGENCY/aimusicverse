@@ -163,6 +163,7 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
 
     let reconnectAttempts = 0;
     const maxReconnectAttempts = 3;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let channel: any = null;
 
     const setupChannel = () => {
@@ -243,7 +244,7 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
 
       return { previousTracks };
     },
-    onError: (error: any, _, context) => {
+    onError: (error: Error, _, context) => {
       queryClient.setQueryData(['tracks', user?.id], context?.previousTracks);
       toast.error(error.message || 'Ошибка удаления трека');
     },
@@ -294,7 +295,7 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
 
       return { previousTracks };
     },
-    onError: (error: any, _, context) => {
+    onError: (error: Error, _, context) => {
       queryClient.setQueryData(['tracks', user?.id], context?.previousTracks);
       toast.error(error.message || 'Ошибка');
     },
@@ -321,7 +322,7 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
         track_id_param: trackId,
       });
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       console.error('Play log error:', error);
     },
   });
@@ -353,7 +354,7 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
           });
       });
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast.error(error.message || 'Ошибка скачивания');
     },
     onSuccess: () => {
@@ -376,7 +377,7 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
       queryClient.invalidateQueries({ queryKey: ['tracks', user?.id] });
       toast.success('Теги синхронизированы');
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast.error(error.message || 'Ошибка синхронизации');
     },
   });

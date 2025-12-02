@@ -42,7 +42,7 @@ export const useCreateActivity = () => {
         .insert([{
           user_id: user.id,
           action_type: activity.action_type,
-          action_data: activity.action_data as any,
+          action_data: activity.action_data,
         }])
         .select()
         .single();
