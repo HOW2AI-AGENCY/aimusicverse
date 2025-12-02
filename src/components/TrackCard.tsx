@@ -7,6 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { TrackActionsMenu } from './TrackActionsMenu';
 import { TrackActionsSheet } from './TrackActionsSheet';
+import { VersionBadge } from './library/VersionBadge';
+import { TrackTypeIcons } from './library/TrackTypeIcons';
+import { VersionSwitcher } from './library/VersionSwitcher';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -35,6 +38,7 @@ export const TrackCard = ({
   const [versionCount, setVersionCount] = useState<number>(0);
   const [stemCount, setStemCount] = useState<number>(0);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [versionSwitcherOpen, setVersionSwitcherOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const isMobile = useIsMobile();
 
@@ -291,17 +295,23 @@ export const TrackCard = ({
           )}
         </div>
 
-        {/* Badges */}
+        {/* Badges - Versions and Stems */}
         <div className="absolute top-2 right-2 flex gap-1">
+          {versionCount > 0 && (
+            <VersionBadge
+              versionNumber={1}
+              versionCount={versionCount}
+              isMaster={true}
+              onClick={(e) => {
+                e?.stopPropagation();
+                setVersionSwitcherOpen(true);
+              }}
+            />
+          )}
           {stemCount > 0 && (
             <Badge variant="secondary" className="gap-1">
               <Layers className="w-3 h-3" />
               {stemCount}
-            </Badge>
-          )}
-          {versionCount > 0 && (
-            <Badge variant="secondary">
-              {versionCount} {versionCount === 1 ? 'версия' : versionCount < 5 ? 'версии' : 'версий'}
             </Badge>
           )}
         </div>
@@ -309,12 +319,15 @@ export const TrackCard = ({
 
         <div className="p-3 sm:p-4">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="font-semibold text-base sm:text-lg truncate">{track.title || 'Без названия'}</h3>
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <h3 className="font-semibold text-base sm:text-lg truncate">{track.title || 'Без названия'}</h3>
+              <TrackTypeIcons track={track} />
+            </div>
             {isMobile ? (
               <Button
                 size="icon"
                 variant="ghost"
-                className="-mr-2"
+                className="-mr-2 flex-shrink-0"
                 onClick={(e) => { e.stopPropagation(); setSheetOpen(true); }}
               >
                 <MoreHorizontal className="w-5 h-5" />
@@ -360,6 +373,17 @@ export const TrackCard = ({
       onOpenChange={setSheetOpen}
       onDelete={onDelete}
       onDownload={onDownload}
+    />
+    
+    <VersionSwitcher
+      trackId={track.id}
+      open={versionSwitcherOpen}
+      onOpenChange={setVersionSwitcherOpen}
+      onVersionSelect={(versionId) => {
+        console.log('Selected version:', versionId);
+        // TODO: Implement version switching logic
+        toast.success('Версия выбрана');
+      }}
     />
   </>
   );

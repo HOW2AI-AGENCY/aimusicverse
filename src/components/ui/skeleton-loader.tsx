@@ -93,3 +93,37 @@ export const TrackCardSkeleton = ({ layout = 'grid' }: { layout?: 'grid' | 'list
     </Card>
   );
 };
+
+// Generic skeleton loader for library components
+interface SkeletonLoaderProps {
+  count?: number;
+  type?: 'card' | 'row';
+}
+
+export function SkeletonLoader({ count = 4, type = 'card' }: SkeletonLoaderProps) {
+  return (
+    <>
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i}>
+          {type === 'card' ? (
+            <div className="space-y-2">
+              <Skeleton className="h-48 w-full rounded-lg" />
+              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-3 w-1/2" />
+            </div>
+          ) : (
+            <div className="flex items-center gap-3 h-16 px-4">
+              <Skeleton className="w-12 h-12 rounded" />
+              <div className="flex-1 space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
+              <Skeleton className="w-11 h-11 rounded" />
+              <Skeleton className="w-11 h-11 rounded" />
+            </div>
+          )}
+        </div>
+      ))}
+    </>
+  );
+}
