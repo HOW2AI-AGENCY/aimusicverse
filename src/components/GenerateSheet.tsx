@@ -258,13 +258,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     setAudioFile(null);
   };
 
-  const modelInfo = {
-    V5: { name: 'V5', desc: 'Новейшая модель, быстрая генерация', emoji: '🚀' },
-    V4_5PLUS: { name: 'V4.5+', desc: 'Богатый звук, до 8 мин', emoji: '💎' },
-    V4_5ALL: { name: 'V4.5 All', desc: 'Лучшая структура, до 8 мин', emoji: '🎯' },
-    V4_5: { name: 'V4.5', desc: 'Быстро, качественно, до 8 мин', emoji: '⚡' },
-    V4: { name: 'V4', desc: 'Классика, до 4 мин', emoji: '🎵' },
-  };
+
 
   const projectTracks = selectedProjectId 
     ? allTracks?.filter(t => t.project_id === selectedProjectId) 

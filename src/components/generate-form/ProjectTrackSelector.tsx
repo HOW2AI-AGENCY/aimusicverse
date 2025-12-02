@@ -42,7 +42,7 @@ export function ProjectTrackSelector({
 }: ProjectTrackSelectorProps) {
   const handleSelect = (id: string) => {
     onSelect(id);
-    // Only close dialog if selecting a track, not a project
+    // Keep dialog open for project selection to allow track selection, close for track selection
     if (type === 'track') {
       onOpenChange(false);
     }
