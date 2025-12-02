@@ -85,7 +85,16 @@ export function TrackActionsSheet({
   return (
     <>
       <Sheet open={open} onOpenChange={onOpenChange}>
-        <SheetContent side="bottom" className="h-auto max-h-[80vh] rounded-t-xl overflow-y-auto">
+        {/* T059 - Mobile-optimized bottom sheet with better touch handling */}
+        <SheetContent 
+          side="bottom" 
+          className="h-auto max-h-[80vh] rounded-t-xl overflow-y-auto
+                     /* Mobile optimizations */
+                     touch-pan-y overscroll-contain
+                     /* Safe area insets for notched devices */
+                     pb-safe
+                    "
+        >
           <SheetHeader>
             <SheetTitle className="text-left">
               {track.title || 'Без названия'}
@@ -97,6 +106,7 @@ export function TrackActionsSheet({
             )}
           </SheetHeader>
           
+          {/* T059 - Touch-friendly button spacing (minimum 44x44px) */}
           <div className="mt-6 space-y-1">
             {/* Info Section */}
             <Button

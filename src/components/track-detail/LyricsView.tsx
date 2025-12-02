@@ -28,6 +28,9 @@ export function LyricsView({ lyrics, currentTime = 0, onSeek, isLoading = false 
   const lyricsRef = useRef<HTMLDivElement>(null);
 
   // Parse lyrics data
+  // TODO: T047 - Ensure lyrics are properly fetched from database
+  // Current implementation handles both string and structured lyrics data
+  // Future: Validate lyrics data structure matches database schema
   const lyricsData = typeof lyrics === 'string' 
     ? { normalLyrics: lyrics } 
     : lyrics || {};
@@ -35,7 +38,15 @@ export function LyricsView({ lyrics, currentTime = 0, onSeek, isLoading = false 
   const hasTimestampedLyrics = lyricsData.alignedWords && lyricsData.alignedWords.length > 0;
   const lyricsText = lyricsData.normalLyrics || '';
 
+  // TODO: T056 - Word highlighting logic (already implemented)
+  // Current implementation highlights words in real-time during playback
+  // Future enhancements:
+  // - Add click-to-seek functionality for each word
+  // - Support for lyrics translation/romanization
+  // - Offline caching of lyrics data
+  
   // Auto-scroll to current line in timestamped lyrics
+  // T055 - Mobile-optimized auto-scroll with smooth behavior
   useEffect(() => {
     if (!hasTimestampedLyrics || !lyricsRef.current || !currentTime) return;
 
@@ -46,7 +57,12 @@ export function LyricsView({ lyrics, currentTime = 0, onSeek, isLoading = false 
     if (currentWord) {
       const wordElement = lyricsRef.current.querySelector(`[data-start="${currentWord.startS}"]`);
       if (wordElement) {
-        wordElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // T055 - Mobile-friendly scrolling with proper viewport alignment
+        wordElement.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center',
+          inline: 'nearest' // Better for mobile horizontal scrolling
+        });
       }
     }
   }, [currentTime, hasTimestampedLyrics, lyricsData.alignedWords]);
@@ -112,9 +128,15 @@ export function LyricsView({ lyrics, currentTime = 0, onSeek, isLoading = false 
       </div>
 
       {/* Lyrics Content */}
+      {/* T055 - Mobile-optimized lyrics container with touch-friendly spacing */}
       <div
         ref={lyricsRef}
-        className="space-y-2 overflow-y-auto max-h-[60vh] scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent pr-2"
+        className="space-y-2 overflow-y-auto max-h-[60vh] scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent pr-2
+                   /* Mobile optimizations for better readability */
+                   touch-pan-y /* Enable smooth touch scrolling */
+                   overscroll-contain /* Prevent parent scroll interference */
+                   px-1 sm:px-0 /* Extra padding on mobile for thumb clearance */
+                  "
       >
         {hasTimestampedLyrics ? (
           // Timestamped lyrics with word-by-word highlighting

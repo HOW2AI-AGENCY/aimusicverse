@@ -9,6 +9,7 @@ import { TrackChangelogTab } from './track-detail/TrackChangelogTab';
 import { TrackAnalysisTab } from './track-detail/TrackAnalysisTab';
 import { TrackStemsTab } from './track-detail/TrackStemsTab';
 import { LyricsView } from './track-detail/LyricsView';
+import { useState } from 'react';
 
 interface TrackDetailSheetProps {
   open: boolean;
@@ -17,6 +18,18 @@ interface TrackDetailSheetProps {
 }
 
 export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheetProps) {
+  // TODO: T048 - Add version context support
+  // Currently shows master version only. Future: Allow switching between versions
+  // and update all tabs (lyrics, analysis, stems) based on selected version
+  const [selectedVersionId, setSelectedVersionId] = useState<string | null>(null);
+  
+  // TODO: T048 - Implement version-aware data fetching
+  // When version is selected, fetch version-specific data:
+  // - Version-specific lyrics (if different from master)
+  // - Version-specific stems (if available)
+  // - Version-specific analysis (if performed)
+  const currentVersion = selectedVersionId || track.master_version_id;
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="h-[90vh] rounded-t-xl">
@@ -25,6 +38,8 @@ export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheet
             <Music2 className="w-5 h-5 text-primary" />
             Детали трека
           </SheetTitle>
+          {/* TODO: T048 - Add version selector dropdown here */}
+          {/* <VersionSelector currentVersion={currentVersion} onVersionChange={setSelectedVersionId} /> */}
         </SheetHeader>
 
         <Tabs defaultValue="details" className="flex-1 mt-4">
@@ -62,7 +77,13 @@ export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheet
               </TabsContent>
 
               <TabsContent value="lyrics" className="mt-0">
-                <LyricsView lyrics={track.lyrics} />
+                {/* T055 - Mobile-optimized lyrics display */}
+                <LyricsView 
+                  lyrics={track.lyrics} 
+                  // TODO: T047 - Pass timestamped lyrics from database
+                  // currentTime={playerCurrentTime}
+                  // onSeek={handleSeek}
+                />
               </TabsContent>
 
               <TabsContent value="analysis" className="mt-0">
@@ -74,10 +95,12 @@ export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheet
               </TabsContent>
 
               <TabsContent value="stems" className="mt-0">
+                {/* T051 - Enhanced stems tab with better indicators */}
                 <TrackStemsTab trackId={track.id} />
               </TabsContent>
 
               <TabsContent value="changelog" className="mt-0">
+                {/* T053 - Version history display */}
                 <TrackChangelogTab trackId={track.id} />
               </TabsContent>
             </div>

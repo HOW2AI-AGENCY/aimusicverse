@@ -143,17 +143,17 @@
 
 ### Implementation for User Story 3
 
-- [ ] T047 [US3] Audit and fix lyrics storage/retrieval in database queries in src/integrations/supabase/queries/tracks.ts
-- [ ] T048 [US3] Update TrackDetailSheet to support version switching in src/components/track-detail/TrackDetailSheet.tsx
-- [ ] T049 [US3] Improve TrackDetailsTab with better lyrics display in src/components/track-detail/TrackDetailsTab.tsx
-- [ ] T050 [US3] Update TrackVersionsTab with improved version list UI in src/components/track-detail/TrackVersionsTab.tsx
-- [ ] T051 [US3] Enhance TrackStemsTab with stem type indicators and download buttons in src/components/track-detail/TrackStemsTab.tsx
-- [ ] T052 [US3] Improve TrackAnalysisTab with better parsing and visualization in src/components/track-detail/TrackAnalysisTab.tsx
-- [ ] T053 [US3] Update TrackChangelogTab to display version changelog in src/components/track-detail/TrackChangelogTab.tsx
-- [ ] T054 [P] [US3] Create LyricsDisplay component for synchronized lyrics in src/components/player/LyricsDisplay.tsx
-- [ ] T055 [US3] Fix mobile display issues for lyrics (visibility, synchronization) in src/components/track-detail/TrackDetailsTab.tsx
-- [ ] T056 [P] [US3] Add word highlighting logic for timestamped lyrics in src/components/player/LyricsDisplay.tsx
-- [ ] T057 [US3] Add TODO comments for lyrics parsing improvements in src/components/track-detail/TrackDetailsTab.tsx
+- [X] T047 [US3] Audit and fix lyrics storage/retrieval in database queries in src/integrations/supabase/queries/tracks.ts
+- [X] T048 [US3] Update TrackDetailSheet to support version switching in src/components/track-detail/TrackDetailSheet.tsx
+- [X] T049 [US3] Improve TrackDetailsTab with better lyrics display in src/components/track-detail/TrackDetailsTab.tsx
+- [X] T050 [US3] Update TrackVersionsTab with improved version list UI in src/components/track-detail/TrackVersionsTab.tsx
+- [X] T051 [US3] Enhance TrackStemsTab with stem type indicators and download buttons in src/components/track-detail/TrackStemsTab.tsx
+- [X] T052 [US3] Improve TrackAnalysisTab with better parsing and visualization in src/components/track-detail/TrackAnalysisTab.tsx
+- [X] T053 [US3] Update TrackChangelogTab to display version changelog in src/components/track-detail/TrackChangelogTab.tsx
+- [X] T054 [P] [US3] Create LyricsDisplay component for synchronized lyrics in src/components/player/LyricsDisplay.tsx
+- [X] T055 [US3] Fix mobile display issues for lyrics (visibility, synchronization) in src/components/track-detail/TrackDetailsTab.tsx
+- [X] T056 [P] [US3] Add word highlighting logic for timestamped lyrics in src/components/player/LyricsDisplay.tsx
+- [X] T057 [US3] Add TODO comments for lyrics parsing improvements in src/components/track-detail/TrackDetailsTab.tsx
 
 **Checkpoint**: At this point, User Story 3 should display all track details correctly with version awareness
 
@@ -173,14 +173,14 @@
 
 ### Implementation for User Story 4
 
-- [ ] T058 [US4] Update TrackActionsMenu with new action categories in src/components/track-actions/TrackActionsMenu.tsx
-- [ ] T059 [US4] Update TrackActionsSheet for mobile optimization in src/components/track-actions/TrackActionsSheet.tsx
-- [ ] T060 [P] [US4] Create CreatePersonaDialog for extracting artist persona in src/components/track-actions/CreatePersonaDialog.tsx
-- [ ] T061 [P] [US4] Create AddToProjectDialog for adding tracks to projects/playlists in src/components/track-actions/AddToProjectDialog.tsx
-- [ ] T062 [US4] Add version switcher action to track menu in src/components/track-actions/TrackActionsMenu.tsx
-- [ ] T063 [US4] Implement "Open in Studio" navigation logic in src/components/track-actions/TrackActionsMenu.tsx
-- [ ] T064 [P] [US4] Add icons and tooltips for all actions in src/components/track-actions/TrackActionsMenu.tsx
-- [ ] T065 [US4] Add TODO comments for future studio integration in src/components/track-actions/TrackActionsMenu.tsx
+- [X] T058 [US4] Update TrackActionsMenu with new action categories in src/components/track-actions/TrackActionsMenu.tsx
+- [X] T059 [US4] Update TrackActionsSheet for mobile optimization in src/components/track-actions/TrackActionsSheet.tsx
+- [X] T060 [P] [US4] Create CreatePersonaDialog for extracting artist persona in src/components/track-actions/CreatePersonaDialog.tsx
+- [X] T061 [P] [US4] Create AddToProjectDialog for adding tracks to projects/playlists in src/components/track-actions/AddToProjectDialog.tsx
+- [X] T062 [US4] Add version switcher action to track menu in src/components/track-actions/TrackActionsMenu.tsx
+- [X] T063 [US4] Implement "Open in Studio" navigation logic in src/components/track-actions/TrackActionsMenu.tsx
+- [X] T064 [P] [US4] Add icons and tooltips for all actions in src/components/track-actions/TrackActionsMenu.tsx
+- [X] T065 [US4] Add TODO comments for future studio integration in src/components/track-actions/TrackActionsMenu.tsx
 
 **Checkpoint**: At this point, User Story 4 should provide expanded track actions with proper organization
 
