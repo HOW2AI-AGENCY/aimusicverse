@@ -4,7 +4,19 @@ import { NotificationBadge } from "@/components/NotificationBadge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Music, LogOut, UserCircle, Activity, TrendingUp, Clock, CheckCircle2, CheckSquare, Library, Sparkles, FolderOpen } from "lucide-react";
+import {
+  Music,
+  LogOut,
+  UserCircle,
+  Activity,
+  TrendingUp,
+  Clock,
+  CheckCircle2,
+  CheckSquare,
+  Library,
+  Sparkles,
+  FolderOpen,
+} from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useNavigate } from "react-router-dom";
@@ -26,13 +38,13 @@ const Index = () => {
   const { tracks: publicTracks } = useTracks();
 
   const { data: publicProjects, isLoading: projectsLoading } = useQuery({
-    queryKey: ['public-projects'],
+    queryKey: ["public-projects"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('music_projects')
-        .select('*')
-        .eq('is_public', true)
-        .order('created_at', { ascending: false })
+        .from("music_projects")
+        .select("*")
+        .eq("is_public", true)
+        .order("created_at", { ascending: false })
         .limit(6);
 
       if (error) throw error;
@@ -42,8 +54,8 @@ const Index = () => {
   });
 
   const handleAction = async (actionType: string) => {
-    hapticFeedback('success');
-    
+    hapticFeedback("success");
+
     createActivity.mutate(
       { action_type: actionType, action_data: { timestamp: new Date().toISOString() } },
       {
@@ -51,20 +63,20 @@ const Index = () => {
           toast.success(`Действие "${actionType}" выполнено!`);
         },
         onError: () => {
-          toast.error('Ошибка при выполнении действия');
-        }
-      }
+          toast.error("Ошибка при выполнении действия");
+        },
+      },
     );
   };
 
   const handleLogout = () => {
-    hapticFeedback('medium');
+    hapticFeedback("medium");
     logout();
   };
 
   const goToProfile = () => {
-    hapticFeedback('light');
-    navigate('/profile');
+    hapticFeedback("light");
+    navigate("/profile");
   };
 
   return (
@@ -79,12 +91,8 @@ const Index = () => {
               <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-background animate-pulse-glow"></div>
             </div>
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-telegram bg-clip-text text-transparent">
-                MusicVerse
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                AI Music Studio
-              </p>
+              <h1 className="text-2xl font-bold bg-gradient-telegram bg-clip-text text-transparent">MusicVerse</h1>
+              <p className="text-sm text-muted-foreground">AI Music Studio</p>
             </div>
           </div>
           <div className="flex gap-2">
@@ -177,7 +185,7 @@ const Index = () => {
           <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-foreground">Быстрые действия</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
             <Button
-              onClick={() => navigate('/generate')}
+              onClick={() => navigate("/generate")}
               className="bg-gradient-telegram hover:opacity-90 h-auto py-5 sm:py-6 flex flex-col gap-2 shadow-lg hover:shadow-primary/30 transition-all touch-manipulation min-h-[80px]"
               aria-label="Открыть генератор музыки"
             >
@@ -185,7 +193,7 @@ const Index = () => {
               <span className="text-xs sm:text-sm font-semibold">Генератор</span>
             </Button>
             <Button
-              onClick={() => navigate('/library')}
+              onClick={() => navigate("/library")}
               className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 h-auto py-5 sm:py-6 flex flex-col gap-2 shadow-lg hover:shadow-purple-500/30 transition-all touch-manipulation min-h-[80px]"
               aria-label="Открыть библиотеку"
             >
@@ -193,7 +201,7 @@ const Index = () => {
               <span className="text-xs sm:text-sm font-semibold">Библиотека</span>
             </Button>
             <Button
-              onClick={() => navigate('/tasks')}
+              onClick={() => navigate("/tasks")}
               variant="outline"
               className="glass border-primary/30 hover:border-primary/50 h-auto py-5 sm:py-6 flex flex-col gap-2 transition-all touch-manipulation min-h-[80px]"
               aria-label="Открыть задачи"
@@ -232,7 +240,7 @@ const Index = () => {
                   tabIndex={0}
                   aria-label={`Открыть проект ${project.title}`}
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
+                    if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
                       navigate(`/projects/${project.id}`);
                     }
@@ -241,13 +249,19 @@ const Index = () => {
                   <div className="flex gap-3 sm:gap-4">
                     <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0">
                       {project.cover_url ? (
-                        <img src={project.cover_url} alt={project.title} className="w-full h-full object-cover rounded-lg" />
+                        <img
+                          src={project.cover_url}
+                          alt={project.title}
+                          className="w-full h-full object-cover rounded-lg"
+                        />
                       ) : (
                         <Music className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-sm sm:text-base text-foreground mb-1 truncate">{project.title}</h3>
+                      <h3 className="font-semibold text-sm sm:text-base text-foreground mb-1 truncate">
+                        {project.title}
+                      </h3>
                       {project.genre && (
                         <Badge variant="secondary" className="text-xs">
                           {project.genre}
@@ -262,7 +276,7 @@ const Index = () => {
         )}
 
         {/* Public Tracks */}
-        {publicTracks && publicTracks.filter(t => t.is_public).length > 0 && (
+        {publicTracks && publicTracks.filter((t) => t.is_public).length > 0 && (
           <Card className="p-5 sm:p-6 mb-6 glass-card border-primary/20">
             <div className="flex items-center justify-between mb-3 sm:mb-4">
               <h2 className="text-base sm:text-lg font-semibold text-foreground flex items-center gap-2">
@@ -272,7 +286,7 @@ const Index = () => {
             </div>
             <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
               {publicTracks
-                .filter(track => track.is_public)
+                .filter((track) => track.is_public)
                 .slice(0, 6)
                 .map((track) => (
                   <TrackCard key={track.id} track={track} />
@@ -303,14 +317,16 @@ const Index = () => {
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-xs sm:text-sm font-medium text-foreground capitalize truncate">
-                        {activity.action_type.replace(/_/g, ' ')}
+                        {activity.action_type.replace(/_/g, " ")}
                       </p>
                       <p className="text-[10px] sm:text-xs text-muted-foreground">
-                        {new Date(activity.created_at).toLocaleString('ru-RU')}
+                        {new Date(activity.created_at).toLocaleString("ru-RU")}
                       </p>
                     </div>
                   </div>
-                  <Badge className="bg-primary/20 text-primary border-primary/30 text-[10px] sm:text-xs flex-shrink-0">Завершено</Badge>
+                  <Badge className="bg-primary/20 text-primary border-primary/30 text-[10px] sm:text-xs flex-shrink-0">
+                    Завершено
+                  </Badge>
                 </div>
               ))}
             </div>

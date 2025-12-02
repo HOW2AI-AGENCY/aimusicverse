@@ -1,58 +1,58 @@
-import { useState } from 'react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Sparkles, Wand2, Star, ArrowRight } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { GenerateWizard } from './GenerateWizard';
-import { SimpleMode } from './SimpleMode';
-import { ProMode } from './ProMode';
+import { useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Sparkles, Wand2, Star, ArrowRight } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { GenerateWizard } from "./GenerateWizard";
+import { SimpleMode } from "./SimpleMode";
+import { ProMode } from "./ProMode";
 
-type Mode = 'hub' | 'simple' | 'pro' | 'assistant';
+type Mode = "hub" | "simple" | "pro" | "assistant";
 
 const modes = [
   {
-    id: 'simple',
-    title: 'Простой',
-    description: 'Быстро создайте трек из текстового описания.',
+    id: "simple",
+    title: "Простой",
+    description: "Быстро создайте трек из текстового описания.",
     icon: <Wand2 className="w-6 h-6" />,
-    gradient: 'from-blue-500/20 to-blue-500/5',
-    iconColor: 'text-blue-500',
+    gradient: "from-blue-500/20 to-blue-500/5",
+    iconColor: "text-blue-500",
   },
   {
-    id: 'pro',
-    title: 'Профи',
-    description: 'Полный контроль над генерацией с расширенными параметрами.',
+    id: "pro",
+    title: "Профи",
+    description: "Полный контроль над генерацией с расширенными параметрами.",
     icon: <Star className="w-6 h-6" />,
-    gradient: 'from-purple-500/20 to-purple-500/5',
-    iconColor: 'text-purple-500',
+    gradient: "from-purple-500/20 to-purple-500/5",
+    iconColor: "text-purple-500",
   },
   {
-    id: 'assistant',
-    title: 'ИИ Ассистент',
-    description: 'Пошаговое создание музыки с помощью ИИ.',
+    id: "assistant",
+    title: "ИИ Ассистент",
+    description: "Пошаговое создание музыки с помощью ИИ.",
     icon: <Sparkles className="w-6 h-6" />,
-    gradient: 'from-primary/20 to-primary/5',
-    iconColor: 'text-primary',
+    gradient: "from-primary/20 to-primary/5",
+    iconColor: "text-primary",
   },
 ];
 
 export const GenerateHub = () => {
-  const [mode, setMode] = useState<Mode>('hub');
+  const [mode, setMode] = useState<Mode>("hub");
 
   const renderContent = () => {
     switch (mode) {
-      case 'simple':
-        return <SimpleMode onBack={() => setMode('hub')} />;
-      case 'pro':
-        return <ProMode onBack={() => setMode('hub')} />;
-      case 'assistant':
+      case "simple":
+        return <SimpleMode onBack={() => setMode("hub")} />;
+      case "pro":
+        return <ProMode onBack={() => setMode("hub")} />;
+      case "assistant":
         return <GenerateWizard />; // Wizard has its own navigation
-      case 'hub':
+      case "hub":
       default:
         return (
           <div className="p-3 sm:p-4">
             <div className="mb-6 sm:mb-8 text-center">
-              <motion.h1 
+              <motion.h1
                 className="text-2xl sm:text-3xl font-bold mb-2 bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -60,7 +60,7 @@ export const GenerateHub = () => {
               >
                 Выберите режим генерации
               </motion.h1>
-              <motion.p 
+              <motion.p
                 className="text-sm sm:text-base text-muted-foreground"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -86,14 +86,14 @@ export const GenerateHub = () => {
                     tabIndex={0}
                     aria-label={`${item.title}: ${item.description}`}
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
+                      if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault();
                         setMode(item.id as Mode);
                       }
                     }}
                   >
                     <div className="flex items-start gap-3 sm:gap-4">
-                      <motion.div 
+                      <motion.div
                         className={`p-2.5 sm:p-3 bg-gradient-to-br ${item.gradient} rounded-xl ${item.iconColor} flex-shrink-0`}
                         whileHover={{ rotate: 5 }}
                         transition={{ type: "spring", stiffness: 300 }}
@@ -104,9 +104,7 @@ export const GenerateHub = () => {
                         <h3 className="text-base sm:text-lg font-semibold mb-1 group-hover:text-primary transition-colors">
                           {item.title}
                         </h3>
-                        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                          {item.description}
-                        </p>
+                        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{item.description}</p>
                       </div>
                       <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all mt-1 flex-shrink-0" />
                     </div>

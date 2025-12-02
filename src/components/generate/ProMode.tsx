@@ -1,7 +1,7 @@
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface ProModeProps {
   onBack: () => void;
@@ -9,16 +9,16 @@ interface ProModeProps {
 
 export const ProMode = ({ onBack }: ProModeProps) => {
   return (
-    <motion.div 
+    <motion.div
       className="p-3 sm:p-4"
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
       transition={{ duration: 0.2 }}
     >
-      <Button 
-        variant="ghost" 
-        onClick={onBack} 
+      <Button
+        variant="ghost"
+        onClick={onBack}
         className="mb-4 sm:mb-6 min-h-[44px] touch-manipulation hover:bg-muted active:scale-95 transition-transform"
         aria-label="Вернуться к выбору режима"
       >
@@ -26,7 +26,7 @@ export const ProMode = ({ onBack }: ProModeProps) => {
         Назад к выбору режима
       </Button>
       <Card className="p-6 sm:p-8 text-center">
-        <motion.h2 
+        <motion.h2
           className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -34,7 +34,7 @@ export const ProMode = ({ onBack }: ProModeProps) => {
         >
           Профи режим
         </motion.h2>
-        <motion.p 
+        <motion.p
           className="text-sm sm:text-base text-muted-foreground"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
