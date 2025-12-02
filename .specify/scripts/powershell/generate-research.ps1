@@ -19,8 +19,23 @@ $sb = "# Research Document`n`n"
 $index = 1
 foreach ($m in $matches) {
     $item = $m.Groups[1].Value.Trim()
-    $sb += "## Research Item $index: $item`n`n### Decision: TBD`n`n**Rationale**: TBD`n`n**Alternatives Considered**:`n1. TBD`n`n**Implementation Details**: TBD`n`n---`n`
-"
+    $entry = @'
+## Research Item {IDX}: {ITEM}
+
+### Decision: TBD
+
+**Rationale**: TBD
+
+**Alternatives Considered**:
+1. TBD
+
+**Implementation Details**: TBD
+
+---
+'@
+    $entry = $entry -replace '{IDX}', $index
+    $entry = $entry -replace '{ITEM}', ($item -replace '"','\"')
+    $sb += $entry
     $index++
 }
 Set-Content -Path $research -Value $sb -Force
