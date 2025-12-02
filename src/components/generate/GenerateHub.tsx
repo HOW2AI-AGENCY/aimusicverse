@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { GenerateWizard } from "./GenerateWizard";
 import { SimpleMode } from "./SimpleMode";
 import { ProMode } from "./ProMode";
+import { AssistantWizard } from "./assistant/AssistantWizard";
 
 type Mode = "hub" | "simple" | "pro" | "assistant";
 
@@ -39,6 +40,12 @@ const modes = [
 export const GenerateHub = () => {
   const [mode, setMode] = useState<Mode>("hub");
 
+  const handleAssistantComplete = (formData: any) => {
+    console.log('Generation form data:', formData);
+    // TODO: Implement actual generation logic
+    setMode("hub");
+  };
+
   const renderContent = () => {
     switch (mode) {
       case "simple":
@@ -46,7 +53,14 @@ export const GenerateHub = () => {
       case "pro":
         return <ProMode onBack={() => setMode("hub")} />;
       case "assistant":
-        return <GenerateWizard />; // Wizard has its own navigation
+        return (
+          <div className="p-3 sm:p-4">
+            <AssistantWizard
+              onComplete={handleAssistantComplete}
+              onCancel={() => setMode("hub")}
+            />
+          </div>
+        );
       case "hub":
       default:
         return (

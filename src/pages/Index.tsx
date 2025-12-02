@@ -24,10 +24,14 @@ import { useUserActivity, useCreateActivity } from "@/hooks/useUserActivity";
 import { ActivitySkeleton, StatCardSkeleton } from "@/components/ui/skeleton-loader";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
-import { useTracks } from "@/hooks/useTracksOptimized";
-import { TrackCard } from "@/components/TrackCard";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
+import { FeaturedSection } from "@/components/home/FeaturedSection";
+import { NewReleasesSection } from "@/components/home/NewReleasesSection";
+import { PopularSection } from "@/components/home/PopularSection";
+import { FilterBar } from "@/components/home/FilterBar";
+import type { FilterState } from "@/components/home/FilterBar";
+import { useState } from "react";
 
 const Index = () => {
   const { logout } = useAuth();
@@ -35,7 +39,11 @@ const Index = () => {
   const navigate = useNavigate();
   const { data: activities, isLoading: activitiesLoading } = useUserActivity();
   const createActivity = useCreateActivity();
-  const { tracks: publicTracks } = useTracks();
+  const [filters, setFilters] = useState<FilterState>({
+    genres: [],
+    moods: [],
+    sort: 'recent',
+  });
 
   const { data: publicProjects, isLoading: projectsLoading } = useQuery({
     queryKey: ["public-projects"],
@@ -77,6 +85,16 @@ const Index = () => {
   const goToProfile = () => {
     hapticFeedback("light");
     navigate("/profile");
+  };
+
+  const handleRemix = (trackId: string) => {
+    hapticFeedback("light");
+    navigate(`/generate?remix=${trackId}`);
+  };
+
+  const handleFilterChange = (newFilters: FilterState) => {
+    setFilters(newFilters);
+    // TODO: Implement filter logic with backend queries
   };
 
   return (
@@ -275,25 +293,25 @@ const Index = () => {
           </Card>
         )}
 
-        {/* Public Tracks */}
-        {publicTracks && publicTracks.filter((t) => t.is_public).length > 0 && (
-          <Card className="p-5 sm:p-6 mb-6 glass-card border-primary/20">
-            <div className="flex items-center justify-between mb-3 sm:mb-4">
-              <h2 className="text-base sm:text-lg font-semibold text-foreground flex items-center gap-2">
-                <Music className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
-                Публичные треки
-              </h2>
-            </div>
-            <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {publicTracks
-                .filter((track) => track.is_public)
-                .slice(0, 6)
-                .map((track) => (
-                  <TrackCard key={track.id} track={track} />
-                ))}
-            </div>
-          </Card>
-        )}
+        {/* Discovery Section - Filter Bar */}
+        <div className="mb-6">
+          <FilterBar onFilterChange={handleFilterChange} />
+        </div>
+
+        {/* Featured Section */}
+        <div className="mb-8">
+          <FeaturedSection onRemix={handleRemix} />
+        </div>
+
+        {/* New Releases Section */}
+        <div className="mb-8">
+          <NewReleasesSection onRemix={handleRemix} />
+        </div>
+
+        {/* Popular Section */}
+        <div className="mb-8">
+          <PopularSection onRemix={handleRemix} />
+        </div>
 
         {/* Recent Activity */}
         <Card className="p-5 sm:p-6 glass-card border-primary/20">
