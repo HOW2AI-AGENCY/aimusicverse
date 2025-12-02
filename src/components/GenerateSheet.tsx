@@ -282,57 +282,58 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         <ScrollArea className="flex-1">
           <div className="px-4 pb-4 sm:px-6 sm:pb-6 space-y-3">
             {/* Compact header with credits, mode and model */}
-            <div className="flex items-center gap-2">
-              {credits !== null && (
-                <Badge variant="secondary" className="gap-1.5 px-2.5 py-1">
-                  <Coins className="w-3.5 h-3.5" />
-                  <span className="font-semibold text-xs">{credits.toFixed(2)}</span>
-                </Badge>
-              )}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setHistoryOpen(true)}
-                className="h-8 w-8 p-0"
-              >
-                <History className="w-4 h-4" />
-              </Button>
-            </div>
-
-            <div className="flex items-center gap-1.5">
-              <div className="flex items-center gap-0.5 p-0.5 rounded-md bg-muted">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                {credits !== null && (
+                  <Badge variant="secondary" className="gap-1.5 px-2.5 py-1">
+                    <Coins className="w-3.5 h-3.5" />
+                    <span className="font-semibold text-xs">{credits.toFixed(2)}</span>
+                  </Badge>
+                )}
                 <Button
-                  variant={mode === 'simple' ? 'default' : 'ghost'}
+                  variant="ghost"
                   size="sm"
-                  onClick={() => setMode('simple')}
-                  className="h-7 px-3 text-xs"
+                  onClick={() => setHistoryOpen(true)}
+                  className="h-8 w-8 p-0"
                 >
-                  Simple
-                </Button>
-                <Button
-                  variant={mode === 'custom' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setMode('custom')}
-                  className="h-7 px-3 text-xs"
-                >
-                  Custom
+                  <History className="w-4 h-4" />
                 </Button>
               </div>
 
-              <Select value={model} onValueChange={setModel}>
-                <SelectTrigger className="w-16 h-7 text-xs">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {Object.entries(modelInfo).map(([key, info]) => (
-                    <SelectItem key={key} value={key}>
-                      {info.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-0.5 p-0.5 rounded-md bg-muted">
+                  <Button
+                    variant={mode === 'simple' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setMode('simple')}
+                    className="h-7 px-3 text-xs"
+                  >
+                    Simple
+                  </Button>
+                  <Button
+                    variant={mode === 'custom' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setMode('custom')}
+                    className="h-7 px-3 text-xs"
+                  >
+                    Custom
+                  </Button>
+                </div>
+
+                <Select value={model} onValueChange={setModel}>
+                  <SelectTrigger className="w-16 h-7 text-xs">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.entries(modelInfo).map(([key, info]) => (
+                      <SelectItem key={key} value={key}>
+                        {info.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-          </div>
 
           {/* Compact Quick Action Buttons */}
           <div className="grid grid-cols-4 gap-2">
@@ -562,7 +563,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               />
             </div>
           )}
-
           </div>
         </ScrollArea>
         <SheetFooter className="p-3 sm:p-4 bg-background/95 backdrop-blur-xl border-t">
