@@ -134,10 +134,11 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           description: 'Описание стиля было оптимизировано AI',
         });
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Boost error:', error);
       
-      if (error.message?.includes('429') || error.message?.includes('кредитов')) {
+      const errorMessage = error instanceof Error ? error.message : '';
+      if (errorMessage.includes('429') || errorMessage.includes('кредитов')) {
         toast.error('Недостаточно кредитов', {
           description: 'Пополните баланс SunoAPI',
         });
@@ -220,10 +221,11 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
       if (creditsData?.credits !== undefined) {
         setCredits(creditsData.credits);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Generation error:', error);
       
-      if (error.message?.includes('429') || error.message?.includes('credits')) {
+      const errorMessage = error instanceof Error ? error.message : '';
+      if (errorMessage.includes('429') || errorMessage.includes('credits')) {
         toast.error('Недостаточно кредитов', {
           description: 'Пополните баланс SunoAPI для продолжения',
         });

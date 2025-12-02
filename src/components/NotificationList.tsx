@@ -38,7 +38,7 @@ export const NotificationList = () => {
     markAllAsRead.mutate();
   };
 
-  const renderNotifications = (notifications: any[] | undefined, isLoading: boolean) => {
+  const renderNotifications = (notifications: unknown[] | undefined, isLoading: boolean) => {
     if (isLoading) {
       return (
         <div className="space-y-2 p-3">

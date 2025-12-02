@@ -13,6 +13,12 @@ import { AudioWaveformVisualizer } from '@/components/AudioWaveformVisualizer';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
+interface AlignedWord {
+  word: string;
+  startS: number;
+  endS: number;
+}
+
 interface TrackVersion {
   id: string;
   audio_url: string;
@@ -20,7 +26,7 @@ interface TrackVersion {
   duration_seconds: number | null;
   version_type: string;
   is_primary: boolean;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 interface FullscreenPlayerProps {
@@ -323,7 +329,7 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
                     }
                     lines[lines.length - 1].push(word);
                     return lines;
-                  }, [] as any[][]).map((line, lineIndex) => {
+                  }, [] as AlignedWord[][]).map((line, lineIndex) => {
                     const isActive = line.some(word => currentTime >= word.startS && currentTime <= word.endS);
                     const isPast = line.every(word => currentTime > word.endS);
                     return (

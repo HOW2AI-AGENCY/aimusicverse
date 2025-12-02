@@ -130,10 +130,11 @@ export const UploadExtendDialog = ({ open, onOpenChange, projectId }: UploadExte
       setNegativeTags('');
       setVocalGender('');
       onOpenChange(false);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Extend error:', error);
       
-      if (error.message?.includes('429') || error.message?.includes('кредитов')) {
+      const errorMessage = error instanceof Error ? error.message : '';
+      if (errorMessage.includes('429') || errorMessage.includes('кредитов')) {
         toast.error('Недостаточно кредитов', {
           description: 'Пополните баланс SunoAPI',
         });

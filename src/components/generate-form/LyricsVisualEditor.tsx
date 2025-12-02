@@ -34,56 +34,58 @@ const SECTION_TYPES = [
   { value: 'outro', label: 'Концовка', color: 'bg-red-500/20 text-red-400 border-red-500/30' },
 ] as const;
 
+// Helper function to parse lyrics text into sections
+function parseLyrics(text: string): LyricSection[] {
+  if (!text.trim()) return [];
+
+  const parsed: LyricSection[] = [];
+  const lines = text.split('\n');
+  let currentSection: LyricSection | null = null;
+  const sectionCounter = { verse: 0, chorus: 0 };
+
+  for (const line of lines) {
+    const match = line.match(/\[(\w+)(?:\s+\d+)?\]/i);
+    
+    if (match) {
+      if (currentSection) {
+        parsed.push(currentSection);
+      }
+      
+      const type = match[1].toLowerCase() as LyricSection['type'];
+      const validType = SECTION_TYPES.find(t => t.value === type) ? type : 'verse';
+      
+      if (validType === 'verse' || validType === 'chorus') {
+        sectionCounter[validType]++;
+      }
+      
+      currentSection = {
+        id: `${validType}-${Date.now()}-${Math.random()}`,
+        type: validType,
+        content: '',
+      };
+    } else if (currentSection && line.trim()) {
+      currentSection.content += (currentSection.content ? '\n' : '') + line;
+    }
+  }
+
+  if (currentSection) {
+    parsed.push(currentSection);
+  }
+
+  return parsed.length > 0 ? parsed : [];
+}
+
+// Helper function to convert sections back to lyrics text
+function sectionsToLyrics(sections: LyricSection[]): string {
+  return sections.map(section => {
+    const label = SECTION_TYPES.find(t => t.value === section.type)?.label || section.type;
+    return `[${label}]\n${section.content}`;
+  }).join('\n\n');
+}
+
 export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisualEditorProps) {
   const [sections, setSections] = useState<LyricSection[]>(() => parseLyrics(value));
   const [editingId, setEditingId] = useState<string | null>(null);
-
-  function parseLyrics(text: string): LyricSection[] {
-    if (!text.trim()) return [];
-
-    const parsed: LyricSection[] = [];
-    const lines = text.split('\n');
-    let currentSection: LyricSection | null = null;
-    const sectionCounter = { verse: 0, chorus: 0 };
-
-    for (const line of lines) {
-      const match = line.match(/\[(\w+)(?:\s+\d+)?\]/i);
-      
-      if (match) {
-        if (currentSection) {
-          parsed.push(currentSection);
-        }
-        
-        const type = match[1].toLowerCase() as LyricSection['type'];
-        const validType = SECTION_TYPES.find(t => t.value === type) ? type : 'verse';
-        
-        if (validType === 'verse' || validType === 'chorus') {
-          sectionCounter[validType]++;
-        }
-        
-        currentSection = {
-          id: `${validType}-${Date.now()}-${Math.random()}`,
-          type: validType,
-          content: '',
-        };
-      } else if (currentSection && line.trim()) {
-        currentSection.content += (currentSection.content ? '\n' : '') + line;
-      }
-    }
-
-    if (currentSection) {
-      parsed.push(currentSection);
-    }
-
-    return parsed.length > 0 ? parsed : [];
-  }
-
-  function sectionsToLyrics(sections: LyricSection[]): string {
-    return sections.map(section => {
-      const label = SECTION_TYPES.find(t => t.value === section.type)?.label || section.type;
-      return `[${label}]\n${section.content}`;
-    }).join('\n\n');
-  }
 
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;

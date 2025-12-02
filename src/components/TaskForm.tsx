@@ -92,7 +92,7 @@ export const TaskForm = () => {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="priority">Приоритет</Label>
-              <Select value={priority} onValueChange={(value: any) => setPriority(value)}>
+              <Select value={priority} onValueChange={(value: string) => setPriority(value)}>
                 <SelectTrigger id="priority">
                   <SelectValue />
                 </SelectTrigger>
@@ -107,7 +107,7 @@ export const TaskForm = () => {
 
             <div className="space-y-2">
               <Label htmlFor="status">Статус</Label>
-              <Select value={status} onValueChange={(value: any) => setStatus(value)}>
+              <Select value={status} onValueChange={(value: string) => setStatus(value)}>
                 <SelectTrigger id="status">
                   <SelectValue />
                 </SelectTrigger>

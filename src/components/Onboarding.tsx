@@ -15,14 +15,10 @@ interface OnboardingProps {
 }
 
 export const Onboarding = ({ onComplete }: OnboardingProps = {}) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
+  const [isOpen, setIsOpen] = useState(() => {
     const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
-    if (!hasSeenOnboarding) {
-      setIsOpen(true);
-    }
-  }, []);
+    return !hasSeenOnboarding;
+  });
 
   const handleClose = () => {
     localStorage.setItem('hasSeenOnboarding', 'true');
