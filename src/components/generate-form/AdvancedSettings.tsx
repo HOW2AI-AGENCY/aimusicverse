@@ -7,6 +7,28 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
 import { SUNO_MODELS } from '@/constants/sunoModels';
 
+/**
+ * Get audio weight label based on reference type
+ */
+const getAudioWeightLabel = (hasReferenceAudio: boolean, hasPersona: boolean): string => {
+  if (hasReferenceAudio && hasPersona) return 'Сила аудио / персоны';
+  if (hasReferenceAudio) return 'Вес референс аудио';
+  return 'Сила персоны';
+};
+
+/**
+ * Get audio weight description based on reference type
+ */
+const getAudioWeightDescription = (hasReferenceAudio: boolean, hasPersona: boolean): string => {
+  if (hasReferenceAudio && hasPersona) {
+    return 'Влияние референс аудио и персоны на результат (0 - слабое, 1 - сильное)';
+  }
+  if (hasReferenceAudio) {
+    return 'Влияние референс аудио на результат (0 - слабое, 1 - сильное)';
+  }
+  return 'Влияние персоны на стиль вокала (0 - слабое, 1 - сильное)';
+};
+
 interface AdvancedSettingsProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -174,13 +196,7 @@ export function AdvancedSettings({
         {(hasReferenceAudio || hasPersona) && (
           <div>
             <div className="flex items-center justify-between mb-2">
-              <Label>
-                {hasReferenceAudio && hasPersona 
-                  ? 'Сила аудио / персоны' 
-                  : hasReferenceAudio 
-                    ? 'Вес референс аудио'
-                    : 'Сила персоны'}
-              </Label>
+              <Label>{getAudioWeightLabel(hasReferenceAudio, hasPersona)}</Label>
               <span className="text-sm text-muted-foreground">{audioWeight[0].toFixed(2)}</span>
             </div>
             <Slider
@@ -192,11 +208,7 @@ export function AdvancedSettings({
               className="mt-2"
             />
             <p className="text-xs text-muted-foreground mt-1">
-              {hasReferenceAudio && hasPersona 
-                ? 'Влияние референс аудио и персоны на результат (0 - слабое, 1 - сильное)'
-                : hasReferenceAudio
-                  ? 'Влияние референс аудио на результат (0 - слабое, 1 - сильное)'
-                  : 'Влияние персоны на стиль вокала (0 - слабое, 1 - сильное)'}
+              {getAudioWeightDescription(hasReferenceAudio, hasPersona)}
             </p>
           </div>
         )}

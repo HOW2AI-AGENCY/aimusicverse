@@ -108,7 +108,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
       toast.success('Данные трека загружены');
     }
     setSelectedTrackId(trackId);
-    // Dialog is closed by ProjectTrackSelector handleSelect
+    // Dialog closes automatically for track selection but stays open for project selection to allow sequential track picking
   };
 
   const handleBoostStyle = async () => {
