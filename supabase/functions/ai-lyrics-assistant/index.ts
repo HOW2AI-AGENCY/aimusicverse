@@ -6,14 +6,34 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+type LyricsAction = 
+  | 'generate'           // Full generation
+  | 'improve'            // Improve text
+  | 'add_tags'           // Add tags
+  | 'suggest_structure'  // Suggest structure
+  | 'generate_section'   // Generate one section
+  | 'continue_line'      // Continue line (collaboration)
+  | 'suggest_rhymes'     // Suggest rhymes
+  | 'analyze_lyrics'     // Analyze existing lyrics
+  | 'optimize_for_suno'; // Optimize for Suno API
+
 interface LyricsRequest {
-  action: 'generate' | 'improve' | 'add_tags' | 'suggest_structure';
+  action: LyricsAction;
   theme?: string;
   mood?: string;
   genre?: string;
   language?: string;
   existingLyrics?: string;
+  lyrics?: string;
   structure?: string;
+  // New fields for advanced actions
+  sectionType?: string;
+  sectionName?: string;
+  previousLyrics?: string;
+  linesCount?: number;
+  currentLyrics?: string;
+  word?: string;
+  context?: string;
 }
 
 serve(async (req) => {
@@ -53,82 +73,195 @@ serve(async (req) => {
     }
 
     const body: LyricsRequest = await req.json();
-    const { action, theme, mood, genre, language = 'ru', existingLyrics, structure } = body;
+    const { 
+      action, theme, mood, genre, language = 'ru', existingLyrics, lyrics, structure,
+      sectionType, sectionName, previousLyrics, linesCount, currentLyrics, word, context
+    } = body;
 
-    // Fetch Suno meta tags from database for context
+    // Fetch all Suno meta tags from database for comprehensive context
     const { data: metaTags } = await supabase
       .from('suno_meta_tags')
-      .select('tag_name, category, description, syntax_format')
-      .in('category', ['structure', 'vocal', 'mood_energy']);
+      .select('tag_name, category, description, syntax_format');
 
-    // Build tag reference for AI
-    const structureTags = metaTags?.filter(t => t.category === 'structure').map(t => t.syntax_format || `[${t.tag_name}]`).join(', ') || '';
-    const vocalTags = metaTags?.filter(t => t.category === 'vocal').map(t => t.syntax_format || `[${t.tag_name}]`).join(', ') || '';
+    // Organize tags by category
+    const tagsByCategory: Record<string, string[]> = {};
+    metaTags?.forEach(tag => {
+      if (!tagsByCategory[tag.category]) {
+        tagsByCategory[tag.category] = [];
+      }
+      tagsByCategory[tag.category].push(tag.syntax_format || `[${tag.tag_name}]`);
+    });
 
-    let systemPrompt = `Ты опытный автор песен и музыкальный продюсер. Ты помогаешь создавать тексты песен для AI генерации музыки.
+    const structureTags = tagsByCategory['structure']?.join(', ') || '[Verse], [Chorus], [Bridge], [Intro], [Outro]';
+    const vocalTags = tagsByCategory['vocal']?.join(', ') || '[Male Vocal], [Female Vocal], [Falsetto]';
+    const moodTags = tagsByCategory['mood_energy']?.join(', ') || '';
+    const instrumentTags = tagsByCategory['instrument']?.join(', ') || '';
 
-ВАЖНО: Используй структурные теги Suno в квадратных скобках для разметки текста:
-- Структурные теги: ${structureTags}
-- Вокальные теги: ${vocalTags}
+    const baseSystemPrompt = `Ты опытный автор песен и музыкальный продюсер. Ты помогаешь создавать тексты песен для AI генерации музыки (Suno AI).
 
-Примеры правильного форматирования:
-[Intro]
-(Мягкое начало)
+ДОСТУПНЫЕ ТЕГИ SUNO:
+- Структурные: ${structureTags}
+- Вокальные: ${vocalTags}
+- Настроение: ${moodTags}
+- Инструменты: ${instrumentTags}
 
-[Verse 1]
-Текст куплета здесь...
+ПРАВИЛА ФОРМАТИРОВАНИЯ:
+1. Структурные теги в квадратных скобках: [Verse 1], [Chorus], [Bridge]
+2. Вокальные указания в круглых скобках: (softly), (with passion), (whisper)
+3. Инструментальные вставки: [Guitar Solo], [Piano Break]
+4. Динамические указания: [Build], [Drop], [Breakdown]
 
-[Chorus]
-Текст припева здесь...
+Язык: ${language === 'ru' ? 'русский' : 'английский'}`;
 
-[Bridge]
-Текст бриджа...
-
-[Outro]
-Завершение...
-
-Правила:
-1. Каждая секция должна начинаться с тега в квадратных скобках
-2. Можно добавлять пояснения в круглых скобках для вокальных указаний
-3. Текст должен быть ритмичным и подходить для пения
-4. Учитывай язык: ${language === 'ru' ? 'русский' : 'английский'}`;
-
+    let systemPrompt = baseSystemPrompt;
     let userPrompt = '';
 
     switch (action) {
       case 'generate':
-        userPrompt = `Создай текст песни на тему: "${theme || 'любовь и надежда'}"
+        userPrompt = `Создай полный текст песни.
+
+Тема: "${theme || 'любовь и надежда'}"
 Жанр: ${genre || 'поп'}
 Настроение: ${mood || 'вдохновляющее'}
-${structure ? `Структура: ${structure}` : 'Структура: стандартная (Intro, Verse, Chorus, Verse, Chorus, Bridge, Outro)'}
+${structure ? `Структура: ${structure}` : 'Структура: Intro, Verse 1, Pre-Chorus, Chorus, Verse 2, Pre-Chorus, Chorus, Bridge, Final Chorus, Outro'}
 
-Верни только текст песни с тегами, без дополнительных пояснений.`;
+Требования:
+- Каждая секция начинается с тега в []
+- Текст ритмичный, подходит для пения
+- Используй рифмы
+- Добавь вокальные указания в () где уместно
+
+Верни ТОЛЬКО текст песни с тегами.`;
         break;
 
       case 'improve':
-        userPrompt = `Улучши следующий текст песни, сохраняя общий смысл но делая его более поэтичным и подходящим для пения:
+        userPrompt = `Улучши текст песни, сохраняя смысл:
 
-${existingLyrics}
+${existingLyrics || lyrics}
 
-Добавь структурные теги если их нет. Верни только улучшенный текст.`;
+Задачи:
+1. Сделай текст более поэтичным
+2. Улучши рифмы
+3. Добавь структурные теги если нет
+4. Добавь вокальные указания где уместно
+
+Верни только улучшенный текст.`;
         break;
 
       case 'add_tags':
-        userPrompt = `Добавь структурные теги Suno к следующему тексту песни. Определи секции (куплеты, припевы, бриджи) и добавь соответствующие теги:
+        userPrompt = `Добавь теги Suno к тексту:
 
-${existingLyrics}
+${existingLyrics || lyrics}
 
-Верни текст с добавленными тегами в квадратных скобках.`;
+Задачи:
+1. Определи секции и добавь структурные теги [Verse], [Chorus], etc.
+2. Добавь вокальные указания (softly), (powerfully), etc.
+3. Добавь динамические теги [Build], [Drop] где уместно
+
+Верни текст с тегами.`;
         break;
 
       case 'suggest_structure':
-        userPrompt = `Предложи структуру песни для жанра "${genre || 'поп'}" с настроением "${mood || 'энергичное'}".
-Верни только список секций с тегами, например:
+        userPrompt = `Предложи структуру песни:
+
+Жанр: ${genre || 'поп'}
+Настроение: ${mood || 'энергичное'}
+${theme ? `Тема: ${theme}` : ''}
+
+Верни список секций с тегами, по одному на строку:
 [Intro]
 [Verse 1]
-[Pre-Chorus]
-[Chorus]
 ...`;
+        break;
+
+      case 'generate_section':
+        systemPrompt = baseSystemPrompt + `\n\nТы пишешь одну конкретную секцию песни. Секция должна органично продолжать предыдущий текст.`;
+        userPrompt = `Напиши секцию "${sectionName}" (тип: ${sectionType}) для песни.
+
+Тема: "${theme || 'любовь'}"
+Жанр: ${genre || 'поп'}
+Настроение: ${mood || 'романтичное'}
+Количество строк: примерно ${linesCount || 4}
+
+${previousLyrics ? `Предыдущие секции:\n${previousLyrics}\n` : ''}
+
+Требования:
+- НЕ добавляй тег секции, только текст
+- Текст должен продолжать историю
+- Используй рифмы
+- Можно добавить вокальные указания в ()
+
+Верни ТОЛЬКО текст секции (${linesCount || 4} строк).`;
+        break;
+
+      case 'continue_line':
+        systemPrompt = baseSystemPrompt + `\n\nТы помогаешь в режиме коллаборации - предлагаешь следующую строку текста.`;
+        userPrompt = `Предложи следующую строку для песни.
+
+Текущий текст секции (${sectionType || 'verse'}):
+${currentLyrics}
+
+Тема: ${theme || 'любовь'}
+Жанр: ${genre || 'поп'}  
+Настроение: ${mood || 'романтичное'}
+
+Требования:
+- Одна строка, продолжающая текст
+- Рифма с предыдущей строкой если возможно
+- Сохраняй ритм
+- Можно добавить (указание) если уместно
+
+Верни ТОЛЬКО одну строку.`;
+        break;
+
+      case 'suggest_rhymes':
+        systemPrompt = `Ты эксперт по рифмам на ${language === 'ru' ? 'русском' : 'английском'} языке.`;
+        userPrompt = `Предложи рифмы к слову "${word}".
+
+${context ? `Контекст:\n${context}\n` : ''}
+
+Требования:
+- 6-10 хороших рифм
+- Разнообразные (точные и ассонансные)
+- Подходящие для песенного текста
+
+Верни рифмы через запятую.`;
+        break;
+
+      case 'analyze_lyrics':
+        systemPrompt = baseSystemPrompt + `\n\nТы анализируешь текст песни и предлагаешь улучшения.`;
+        userPrompt = `Проанализируй текст песни и предложи теги:
+
+${lyrics || existingLyrics}
+
+Жанр: ${genre || 'поп'}
+Настроение: ${mood || 'неизвестно'}
+
+Верни анализ в формате:
+ВОКАЛ: рекомендуемые вокальные теги
+ИНСТРУМЕНТЫ: рекомендуемые инструменты
+ДИНАМИКА: рекомендуемые динамические теги
+ЭМОЦИИ: рекомендуемые эмоциональные указания
+
+Используй только теги из доступных.`;
+        break;
+
+      case 'optimize_for_suno':
+        systemPrompt = baseSystemPrompt + `\n\nТы оптимизируешь текст для лучшей генерации в Suno AI.`;
+        userPrompt = `Оптимизируй текст песни для Suno AI:
+
+${lyrics || existingLyrics}
+
+Жанр: ${genre || 'поп'}
+
+Задачи:
+1. Убедись что текст < 3000 символов
+2. Проверь структурные теги
+3. Добавь/улучши вокальные указания
+4. Удали лишние символы
+5. Убедись в правильном форматировании
+
+Верни оптимизированный текст.`;
         break;
 
       default:
@@ -138,7 +271,7 @@ ${existingLyrics}
         );
     }
 
-    console.log('AI Lyrics request:', { action, theme, mood, genre, language });
+    console.log('AI Lyrics request:', { action, theme, mood, genre, language, sectionType });
 
     // Call Lovable AI
     const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
@@ -153,7 +286,7 @@ ${existingLyrics}
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt },
         ],
-        max_tokens: 2000,
+        max_tokens: action === 'suggest_rhymes' ? 200 : action === 'continue_line' ? 100 : 2000,
       }),
     });
 
@@ -168,13 +301,20 @@ ${existingLyrics}
         );
       }
       
+      if (aiResponse.status === 402) {
+        return new Response(
+          JSON.stringify({ success: false, error: 'Необходимо пополнить баланс.' }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 402 }
+        );
+      }
+      
       throw new Error('AI service error');
     }
 
     const aiData = await aiResponse.json();
     const generatedLyrics = aiData.choices?.[0]?.message?.content || '';
 
-    console.log('Generated lyrics length:', generatedLyrics.length);
+    console.log('Generated content length:', generatedLyrics.length, 'action:', action);
 
     return new Response(
       JSON.stringify({
