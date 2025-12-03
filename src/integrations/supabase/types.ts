@@ -493,6 +493,7 @@ export type Database = {
           subscription_tier:
             | Database["public"]["Enums"]["subscription_tier"]
             | null
+          telegram_chat_id: number | null
           telegram_id: number
           updated_at: string
           user_id: string
@@ -508,6 +509,7 @@ export type Database = {
           subscription_tier?:
             | Database["public"]["Enums"]["subscription_tier"]
             | null
+          telegram_chat_id?: number | null
           telegram_id: number
           updated_at?: string
           user_id: string
@@ -523,6 +525,7 @@ export type Database = {
           subscription_tier?:
             | Database["public"]["Enums"]["subscription_tier"]
             | null
+          telegram_chat_id?: number | null
           telegram_id?: number
           updated_at?: string
           user_id?: string
@@ -1367,6 +1370,48 @@ export type Database = {
           action_type?: string
           created_at?: string
           id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_notification_settings: {
+        Row: {
+          created_at: string | null
+          id: string
+          notify_completed: boolean | null
+          notify_failed: boolean | null
+          notify_progress: boolean | null
+          notify_stem_ready: boolean | null
+          quiet_hours_end: string | null
+          quiet_hours_start: string | null
+          telegram_chat_id: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          notify_completed?: boolean | null
+          notify_failed?: boolean | null
+          notify_progress?: boolean | null
+          notify_stem_ready?: boolean | null
+          quiet_hours_end?: string | null
+          quiet_hours_start?: string | null
+          telegram_chat_id?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          notify_completed?: boolean | null
+          notify_failed?: boolean | null
+          notify_progress?: boolean | null
+          notify_stem_ready?: boolean | null
+          quiet_hours_end?: string | null
+          quiet_hours_start?: string | null
+          telegram_chat_id?: number | null
+          updated_at?: string | null
           user_id?: string
         }
         Relationships: []
