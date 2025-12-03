@@ -5,6 +5,19 @@
 - **Цель:** Реализовать панель деталей трека и расширенное меню действий для полноценной работы с треками, версиями, стемами и AI-анализом.
 - **Зависимости:** Sprint 008 (Library & Player MVP) должен быть завершен
 
+## Инфраструктурные заметки
+
+### Используемые таблицы (актуальная схема)
+- `track_versions` - версии треков (поле `is_primary` для главной версии)
+- `track_stems` - стемы треков
+- `track_change_log` - история изменений (НЕ track_changelog!)
+- `audio_analysis` - AI-анализ треков (НЕ track_analysis!)
+
+### Хуки для использования
+- `useTrackVersions` из `src/hooks/useTrackVersions.ts` (НЕ .tsx!)
+- `useVersionSwitcher` из `src/hooks/useVersionSwitcher.ts`
+- `useTrackDetails` из `src/hooks/useTrackDetails.ts`
+
 ## Контекст
 
 Этот спринт реализует User Stories 3 и 4 из детального плана E007 Mobile-First UI/UX Redesign. Фокус - на расширенных возможностях взаимодействия с треками:

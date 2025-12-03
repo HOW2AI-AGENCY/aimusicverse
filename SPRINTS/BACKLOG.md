@@ -29,10 +29,13 @@
 - Build и тесты стабилизированы
 
 ### 🔄 В Backlog (перенесено из Sprint 007)
-- Database migrations для версионирования (требует Supabase dev environment)
-- Обновление TypeScript типов (зависит от migrations)
-- Базовые хуки и queries (зависит от types)
 - Backend фильтрация для Library
+
+### ✅ Завершено (Sprint Infrastructure)
+- Database schema готова: `track_versions.is_primary`, `track_change_log`, `audio_analysis`
+- TypeScript типы синхронизированы из схемы БД (автогенерация)
+- Lovable Cloud подключен и настроен
+- Edge Functions настроены для деплоя
 
 ### ⏳ Запланировано (Sprint 008+)
 - Library Mobile Redesign (US1)
@@ -74,9 +77,9 @@
 | T026 | Провести полный аудит доступности (a11y) и исправить основные проблемы | Средний | To Do | E005 |
 | T027 | **E007: Аудит и планирование UI/UX** - Создать спецификацию, план, исследование, модель данных | Критический | ✅ Done | E007 |
 | T028 | **E007: Sprint 007 Frontend Quality** - Component lint fixes, TypeScript improvements | Критический | ✅ Done | E007 |
-| T036 | **Setup Supabase Development Environment** - Настроить локальное окружение для БД работы | Критический | To Do | E007 |
-| T037 | **Database Migrations для Versioning** - 6 миграций: master_version, version_number, changelog, playlists, indexes | Критический | To Do | E007 |
-| T038 | **TypeScript Types Update** - 7 типов: Track, TrackVersion, Changelog, Playlist, PlayerState, Queue, AssistantForm | Критический | To Do | E007 |
+| T036 | **Setup Lovable Cloud Environment** - Проект уже подключен к Lovable Cloud | ✅ Done | Done | E007 |
+| T037 | **Database Schema Review** - Проверить схему: is_primary (не is_master), track_change_log (не track_changelog) | Критический | ✅ Done | E007 |
+| T038 | **TypeScript Types Sync** - Типы автогенерируются из схемы БД (src/integrations/supabase/types.ts) | Критический | ✅ Done | E007 |
 | T039 | **Core Hooks Implementation** - 6 хуков: useTrackVersions, useVersionSwitcher, useTrackChangelog, usePublicContent, usePlayerState, usePlaybackQueue | Критический | To Do | E007 |
 | T040 | **Backend API для версионирования** - Version Management API, Public Content API, Backend Filtering | Критический | To Do | E007 |
 | T041 | **Realtime Subscriptions** - Version updates, Stem generation subscriptions | Высокий | To Do | E007 |

@@ -351,14 +351,28 @@ MusicVerse AI является профессиональной платформ
 - **Zod 4.1+** - валидация схем
 
 **Backend**:
-- **Supabase** - Backend-as-a-Service
+- **Lovable Cloud** - Backend-as-a-Service (основан на Supabase)
   - PostgreSQL 16 - реляционная база данных
   - Edge Functions - serverless функции на Deno (TypeScript)
   - Realtime - WebSocket subscriptions
   - Storage - файловое хранилище
   - Auth - аутентификация (Telegram OAuth)
+  - **ВАЖНО**: При общении с пользователями использовать "Lovable Cloud", в коде - Supabase SDK
 - **Telegram Bot API** - bot интеграция
 - **Suno AI v5 API** - генерация музыки
+
+### Соглашения о базе данных
+
+**Важные имена таблиц и полей**:
+- `track_versions.is_primary` - флаг основной версии (НЕ `is_master`)
+- `track_change_log` - таблица истории изменений (НЕ `track_changelog`)
+- `audio_analysis` - таблица AI-анализа (НЕ `track_analysis`)
+
+**Автогенерируемые файлы (НЕ редактировать вручную)**:
+- `src/integrations/supabase/client.ts` - клиент Supabase
+- `src/integrations/supabase/types.ts` - типы из схемы БД
+- `supabase/config.toml` - конфигурация проекта
+- `.env` - переменные окружения
 
 ### Инструменты разработки
 

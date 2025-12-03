@@ -7,11 +7,18 @@ MusicVerse AI is a professional AI-powered music creation platform built as a Te
 **Key Technologies:**
 - React 19 + TypeScript 5
 - Vite for build tooling
-- Supabase for backend/database
+- Lovable Cloud (Supabase-based backend) for database, auth, edge functions, storage
 - Telegram Mini App SDK (@twa-dev/sdk)
 - TanStack Query for data management
 - Tailwind CSS + shadcn/ui components
 - Zustand for state management
+
+**Infrastructure Notes:**
+- Backend runs on Lovable Cloud, which provides Supabase functionality
+- Edge Functions deploy automatically on code changes
+- Database uses PostgreSQL with RLS (Row Level Security)
+- Track versioning uses `is_primary` field (not `is_master`)
+- Changelog stored in `track_change_log` table
 
 ## Development Commands
 
@@ -180,10 +187,17 @@ aimusicverse/
 - Ensure mobile-first responsive design
 
 ### API Integration
-- Supabase client in `src/lib/supabase.ts`
+- Supabase client in `src/integrations/supabase/client.ts` (auto-generated, DO NOT EDIT)
+- Types in `src/integrations/supabase/types.ts` (auto-generated, DO NOT EDIT)
 - Use TanStack Query for data fetching
 - Handle loading/error states consistently
 - Implement proper error boundaries
+
+### Database Naming Conventions
+- Track versions: `is_primary` (boolean) - marks the main version
+- Track changelog: `track_change_log` table (not `track_changelog`)
+- Audio analysis: `audio_analysis` table
+- Track stems: `track_stems` table
 
 ## Testing Guidelines
 
