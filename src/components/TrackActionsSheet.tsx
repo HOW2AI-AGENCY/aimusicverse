@@ -295,7 +295,8 @@ export function TrackActionsSheet({
                       <span>Расширить</span>
                     </Button>
 
-                    {track.has_vocals === false && (
+                    {/* Show "Add vocals" only for instrumental tracks */}
+                    {(track.is_instrumental === true || track.has_vocals === false) && (
                       <Button
                         variant="ghost"
                         className="w-full justify-start gap-3 h-11"
@@ -309,6 +310,7 @@ export function TrackActionsSheet({
                       </Button>
                     )}
 
+                    {/* Show "Add instrumental/arrangement" for tracks with vocals */}
                     {track.has_vocals === true && (
                       <Button
                         variant="ghost"
@@ -319,7 +321,7 @@ export function TrackActionsSheet({
                         }}
                       >
                         <Volume2 className="w-4 h-4" />
-                        <span>Добавить инструментал</span>
+                        <span>{stemCount > 0 ? 'Новая аранжировка' : 'Добавить инструментал'}</span>
                       </Button>
                     )}
 
@@ -355,7 +357,8 @@ export function TrackActionsSheet({
                     </Button>
                   </CollapsibleTrigger>
                   <CollapsibleContent className="pl-4 space-y-1">
-                    {track.suno_id && (
+                    {/* Stem separation - only show if track doesn't have stems yet */}
+                    {track.suno_id && stemCount === 0 && (
                       <>
                         <Button
                           variant="ghost"

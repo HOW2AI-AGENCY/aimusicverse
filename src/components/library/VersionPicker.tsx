@@ -132,16 +132,9 @@ export function VersionPicker({
     );
   }
 
-  // Single version - no dropdown
+  // Single version - don't show badge at all
   if (versions.length <= 1) {
-    return (
-      <Badge 
-        variant="secondary" 
-        className={cn("text-xs cursor-default", className)}
-      >
-        {versions[0]?.version_label || 'A'}
-      </Badge>
-    );
+    return null;
   }
 
   // Multiple versions - show dropdown

@@ -12,9 +12,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { 
-  MoreVertical, Trash2, Info, FileText, Plus, Mic, Volume2, Music, 
+  MoreVertical, Trash2, Plus, Mic, Volume2, Music, 
   Wand2, Scissors, ImagePlus, FileAudio, Music2, Download, Share2, 
-  Send, Lock, Globe, Sparkles, Folder, ListMusic 
+  Send, Lock, Globe, Sparkles, Folder, ListMusic, Layers 
 } from 'lucide-react';
 import { ExtendTrackDialog } from './ExtendTrackDialog';
 import { LyricsDialog } from './LyricsDialog';
@@ -28,7 +28,6 @@ import { PlaylistSelector } from './track-menu/PlaylistSelector';
 import { AddToPlaylistDialog } from './track/AddToPlaylistDialog';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { useTrackActions } from '@/hooks/useTrackActions';
-import { TrackStudioSection } from './track-menu/TrackStudioSection';
 import { TrackInfoSection } from './track-menu/TrackInfoSection';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
@@ -129,10 +128,17 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
           </DropdownMenuSub>
           <DropdownMenuSeparator /> */}
 
-          {/* Studio Section */}
-          <TrackStudioSection track={track} stemCount={stemCount} />
-
-          {stemCount > 0 && <DropdownMenuSeparator />}
+          {/* Studio Section - Show if stems available */}
+          {stemCount > 0 && (
+            <>
+              <DropdownMenuItem onClick={() => navigate(`/studio/${track.id}`)}>
+                <Layers className="w-4 h-4 mr-2" />
+                Открыть в студии
+                <span className="ml-auto text-xs text-muted-foreground">{stemCount} стемов</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
+          )}
 
           {/* Edit Section */}
           {track.audio_url && track.status === 'completed' && (
@@ -151,9 +157,10 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                     Расширить
                   </DropdownMenuItem>
 
-                  {track.has_vocals === false && (
+                  {/* Show "Add vocals" only for instrumental tracks (no vocals) */}
+                  {(track.is_instrumental === true || track.has_vocals === false) && (
                     <DropdownMenuItem onClick={() => {
-                      triggerSelectionHaptic(); // T063
+                      triggerSelectionHaptic();
                       setAddVocalsDialogOpen(true);
                     }}>
                       <Mic className="w-4 h-4 mr-2" />
@@ -161,13 +168,14 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                     </DropdownMenuItem>
                   )}
 
+                  {/* Show "Add instrumental/arrangement" for tracks with vocals */}
                   {track.has_vocals === true && (
                     <DropdownMenuItem onClick={() => {
-                      triggerSelectionHaptic(); // T063
+                      triggerSelectionHaptic();
                       setAddInstrumentalDialogOpen(true);
                     }}>
                       <Volume2 className="w-4 h-4 mr-2" />
-                      Добавить инструментал
+                      {stemCount > 0 ? 'Новая аранжировка' : 'Добавить инструментал'}
                     </DropdownMenuItem>
                   )}
 
@@ -192,7 +200,8 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                   Обработка
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent className="bg-background/95 backdrop-blur-sm z-[10000]" sideOffset={8} alignOffset={-4}>
-                  {track.suno_id && (
+                  {/* Stem separation - only show if track doesn't have stems yet */}
+                  {track.suno_id && stemCount === 0 && (
                     <>
                       <DropdownMenuItem onClick={() => handleSeparateVocals(track, 'simple')} disabled={isProcessing}>
                         <Scissors className="w-4 h-4 mr-2" />
