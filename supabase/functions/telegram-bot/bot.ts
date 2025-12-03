@@ -119,9 +119,14 @@ export async function handleUpdate(update: TelegramUpdate) {
 
       if (data?.startsWith('stem_mode_')) {
         const [_, mode, trackId] = data.split('_').slice(1);
-        // TODO: Trigger stem separation with selected mode
+        const { handleStemSeparation } = await import('./commands/stems.ts');
+        await handleStemSeparation(
+          chatId,
+          trackId,
+          mode as 'simple' | 'detailed',
+          messageId
+        );
         await answerCallbackQuery(id, '🎛️ Запуск разделения...');
-        await sendMessage(chatId, `⏳ Запущено ${mode === 'simple' ? 'простое' : 'детальное'} разделение. Это может занять несколько минут.`);
         return;
       }
 
