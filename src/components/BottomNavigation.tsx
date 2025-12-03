@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, FolderOpen, Plus, Library, UserCircle } from 'lucide-react';
+import { Home, FolderOpen, Plus, Library, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { GenerateSheet } from './GenerateSheet';
@@ -78,18 +78,18 @@ export const BottomNavigation = () => {
               <span className="text-xs font-medium">Библиотека</span>
             </button>
 
-            {/* Profile */}
+            {/* Actors (replaced Profile) */}
             <button
-              onClick={() => handleNavigate('/profile')}
+              onClick={() => handleNavigate('/actors')}
               className={cn(
                 "flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all min-h-[44px] min-w-[44px] touch-manipulation active:scale-95",
-                isActive('/profile')
+                isActive('/actors')
                   ? "text-primary bg-primary/10"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/50 active:bg-muted"
               )}
             >
-              <UserCircle className="w-5 h-5" />
-              <span className="text-xs font-medium">Профиль</span>
+              <Users className="w-5 h-5" />
+              <span className="text-xs font-medium">Актёры</span>
             </button>
           </div>
         </div>

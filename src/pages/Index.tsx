@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import { Onboarding } from "@/components/Onboarding";
-import { TelegramInfo } from "@/components/TelegramInfo";
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
   Music,
-  LogOut,
-  UserCircle,
+  User,
   Activity,
   TrendingUp,
   Clock,
@@ -22,6 +20,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserActivity, useCreateActivity } from "@/hooks/useUserActivity";
+import { useProfile } from "@/hooks/useProfile.tsx";
 import { ActivitySkeleton, StatCardSkeleton } from "@/components/ui/skeleton-loader";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
@@ -30,13 +29,15 @@ import { useQuery } from "@tanstack/react-query";
 import { FeaturedSection } from "@/components/home/FeaturedSection";
 import { NewReleasesSection } from "@/components/home/NewReleasesSection";
 import { PopularSection } from "@/components/home/PopularSection";
+import { PublicArtistsSection } from "@/components/home/PublicArtistsSection";
 import { FilterBar } from "@/components/home/FilterBar";
 import type { FilterState } from "@/components/home/FilterBar";
 import { GenerateSheet } from "@/components/GenerateSheet";
 
 const Index = () => {
   const { logout } = useAuth();
-  const { hapticFeedback } = useTelegram();
+  const { hapticFeedback, user: telegramUser } = useTelegram();
+  const { data: profile } = useProfile();
   const navigate = useNavigate();
   const location = useLocation();
   const { data: activities, isLoading: activitiesLoading } = useUserActivity();
@@ -47,6 +48,9 @@ const Index = () => {
     sort: 'recent',
   });
   const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
+
+  // Use profile data from DB if available, fallback to Telegram context
+  const displayUser = profile || telegramUser;
 
   // Handle navigation state for opening GenerateSheet
   useEffect(() => {
@@ -89,11 +93,6 @@ const Index = () => {
     );
   };
 
-  const handleLogout = () => {
-    hapticFeedback("medium");
-    logout();
-  };
-
   const goToProfile = () => {
     hapticFeedback("light");
     navigate("/profile");
@@ -113,101 +112,72 @@ const Index = () => {
     <div className="min-h-screen bg-background pb-24">
       <Onboarding />
       <div className="container max-w-6xl mx-auto px-4 py-6">
-        {/* Header */}
-        <header className="flex items-center justify-between mb-8 glass-card p-4 rounded-2xl">
-          <div className="flex items-center gap-4">
+        {/* Header with User Avatar */}
+        <header className="flex items-center justify-between mb-6 glass-card p-3 rounded-2xl">
+          <div className="flex items-center gap-3">
             <div className="relative">
-              <img src={logo} alt="MusicVerse" className="w-12 h-12 rounded-xl" />
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-background animate-pulse-glow"></div>
+              <img src={logo} alt="MusicVerse" className="w-10 h-10 rounded-xl" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-background animate-pulse-glow"></div>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold bg-gradient-telegram bg-clip-text text-transparent">MusicVerse</h1>
-              <p className="text-sm text-muted-foreground">AI Music Studio</p>
+            <div className="hidden sm:block">
+              <h1 className="text-xl font-bold bg-gradient-telegram bg-clip-text text-transparent">MusicVerse</h1>
+              <p className="text-xs text-muted-foreground">AI Music Studio</p>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
             <NotificationBadge />
-            <Button
-              variant="ghost"
-              size="icon"
+            {/* User Avatar - clickable to profile */}
+            <button
               onClick={goToProfile}
-              className="text-muted-foreground hover:text-foreground glass rounded-full"
+              className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/30 hover:border-primary transition-all"
             >
-              <UserCircle className="w-5 h-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleLogout}
-              className="text-muted-foreground hover:text-destructive glass rounded-full"
-            >
-              <LogOut className="w-5 h-5" />
-            </Button>
+              {displayUser?.photo_url ? (
+                <img
+                  src={displayUser.photo_url}
+                  alt="Avatar"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
+                  <User className="w-5 h-5 text-primary" />
+                </div>
+              )}
+            </button>
           </div>
         </header>
 
-        {/* User Info Card */}
-        <div className="mb-6">
-          <TelegramInfo />
-        </div>
-
-        {/* Stats Grid */}
+        {/* Compact Stats Row */}
         {activitiesLoading ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            {[1, 2, 3, 4].map((i) => (
-              <StatCardSkeleton key={i} />
-            ))}
+          <div className="mb-6">
+            <div className="h-14 rounded-xl bg-muted/50 animate-pulse" />
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <Card className="p-4 glass-card border-primary/20">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10">
-                  <Activity className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-foreground">{activities?.length || 0}</p>
-                  <p className="text-xs text-muted-foreground">Действий</p>
-                </div>
+          <Card className="p-3 mb-6 glass-card border-primary/20">
+            <div className="flex items-center justify-between overflow-x-auto gap-4 scrollbar-hide">
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <Activity className="w-4 h-4 text-primary" />
+                <span className="text-lg font-bold">{activities?.length || 0}</span>
+                <span className="text-xs text-muted-foreground hidden sm:inline">действий</span>
               </div>
-            </Card>
-
-            <Card className="p-4 glass-card border-primary/20">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500/20 to-purple-500/10">
-                  <TrendingUp className="w-5 h-5 text-purple-400" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-foreground">100%</p>
-                  <p className="text-xs text-muted-foreground">Активность</p>
-                </div>
+              <div className="w-px h-6 bg-border" />
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <TrendingUp className="w-4 h-4 text-purple-400" />
+                <span className="text-lg font-bold">100%</span>
+                <span className="text-xs text-muted-foreground hidden sm:inline">активность</span>
               </div>
-            </Card>
-
-            <Card className="p-4 glass-card border-primary/20">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-500/10">
-                  <Clock className="w-5 h-5 text-blue-400" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-foreground">24/7</p>
-                  <p className="text-xs text-muted-foreground">Онлайн</p>
-                </div>
+              <div className="w-px h-6 bg-border" />
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <Clock className="w-4 h-4 text-blue-400" />
+                <span className="text-lg font-bold">24/7</span>
+                <span className="text-xs text-muted-foreground hidden sm:inline">онлайн</span>
               </div>
-            </Card>
-
-            <Card className="p-4 glass-card border-primary/20">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-gradient-to-br from-green-500/20 to-green-500/10">
-                  <CheckCircle2 className="w-5 h-5 text-green-400" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-foreground">OK</p>
-                  <p className="text-xs text-muted-foreground">Статус</p>
-                </div>
+              <div className="w-px h-6 bg-border hidden sm:block" />
+              <div className="hidden sm:flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-green-400" />
+                <span className="text-lg font-bold">OK</span>
               </div>
-            </Card>
-          </div>
+            </div>
+          </Card>
         )}
 
         {/* Quick Actions */}
@@ -240,16 +210,19 @@ const Index = () => {
               <span className="text-xs sm:text-sm">Задачи</span>
             </Button>
             <Button
-              onClick={goToProfile}
+              onClick={() => navigate("/projects")}
               variant="outline"
               className="glass border-primary/30 hover:border-primary/50 h-auto py-5 sm:py-6 flex flex-col gap-2 transition-all touch-manipulation min-h-[80px]"
-              aria-label="Открыть профиль"
+              aria-label="Открыть проекты"
             >
-              <UserCircle className="w-5 h-5 sm:w-6 sm:h-6" />
-              <span className="text-xs sm:text-sm">Профиль</span>
+              <FolderOpen className="w-5 h-5 sm:w-6 sm:h-6" />
+              <span className="text-xs sm:text-sm">Проекты</span>
             </Button>
           </div>
         </Card>
+
+        {/* Public AI Artists Section */}
+        <PublicArtistsSection />
 
         {/* Public Projects */}
         {publicProjects && publicProjects.length > 0 && (

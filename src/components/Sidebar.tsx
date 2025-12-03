@@ -1,7 +1,6 @@
-
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, FolderOpen, Library, UserCircle, Settings, BarChart2, Sparkles } from 'lucide-react';
+import { Home, FolderOpen, Library, Users, Settings, BarChart2, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { GenerateSheet } from './GenerateSheet';
@@ -14,7 +13,7 @@ const navItems = [
 ];
 
 const bottomNavItems = [
-  { path: '/profile', label: 'Профиль', icon: UserCircle },
+  { path: '/actors', label: 'Актёры', icon: Users },
   { path: '/settings', label: 'Настройки', icon: Settings },
 ];
 
