@@ -17,6 +17,7 @@ import { useProjects } from '@/hooks/useProjects';
 import { useProjectTracks } from '@/hooks/useProjectTracks';
 import { cn } from '@/lib/utils';
 import { hapticImpact, hapticNotification } from '@/lib/haptic';
+import { CreateProjectSheet } from '@/components/CreateProjectSheet';
 
 interface AddToProjectDialogProps {
   open: boolean;
@@ -28,6 +29,7 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [createProjectOpen, setCreateProjectOpen] = useState(false);
   
   const { projects, isLoading: projectsLoading } = useProjects();
   const { addTrack } = useProjectTracks(selectedProjectId || '');
@@ -40,7 +42,7 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
 
   const handleAddToProject = async () => {
     if (!selectedProjectId) {
-      toast.error('Please select a project');
+      toast.error('Выберите проект');
       return;
     }
 
@@ -52,13 +54,13 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
       await addTrack({
         project_id: selectedProjectId,
         track_id: track.id,
-        title: track.title || 'Untitled',
+        title: track.title || 'Без названия',
         position: 0,
       });
 
       const project = projects?.find((p: { id: string }) => p.id === selectedProjectId);
       hapticNotification('success');
-      toast.success(`Added to "${project?.title}"`);
+      toast.success(`Добавлено в "${project?.title}"`);
       onOpenChange(false);
       
       // Reset selection
@@ -66,7 +68,7 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
       setSearchQuery('');
     } catch (error) {
       console.error('Failed to add track to project:', error);
-      toast.error('Failed to add track. Please try again.');
+      toast.error('Не удалось добавить трек. Попробуйте еще раз.');
     } finally {
       setLoading(false);
     }
@@ -83,128 +85,133 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
   };
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-[500px] max-h-[80vh]">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Folder className="h-5 w-5 text-primary" />
-            Add to Project
-          </DialogTitle>
-          <DialogDescription>
-            Select a project to add "{track.title}"
-          </DialogDescription>
-        </DialogHeader>
+    <>
+      <Dialog open={open} onOpenChange={handleOpenChange}>
+        <DialogContent className="sm:max-w-[500px] max-h-[80vh]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Folder className="h-5 w-5 text-primary" />
+              Добавить в проект
+            </DialogTitle>
+            <DialogDescription>
+              Выберите проект для трека "{track.title}"
+            </DialogDescription>
+          </DialogHeader>
 
-        <div className="space-y-4 py-4">
-          {/* Search */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search projects..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9"
+          <div className="space-y-4 py-4">
+            {/* Search */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Поиск проектов..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9"
+                disabled={loading}
+              />
+            </div>
+
+            {/* Projects List */}
+            <ScrollArea className="h-[300px] pr-4">
+              {projectsLoading ? (
+                <div className="flex items-center justify-center h-40">
+                  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                </div>
+              ) : filteredProjects.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-40 text-center">
+                  <Folder className="h-12 w-12 text-muted-foreground/50 mb-2" />
+                  <p className="text-muted-foreground">
+                    {searchQuery ? 'Проекты не найдены' : 'Пока нет проектов'}
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Создайте проект, чтобы организовать треки
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {filteredProjects.map((project) => (
+                    <button
+                      key={project.id}
+                      onClick={() => setSelectedProjectId(project.id)}
+                      disabled={loading}
+                      className={cn(
+                        'w-full flex items-center gap-3 p-3 rounded-lg border-2 transition-all',
+                        'hover:bg-accent/50 focus:outline-none focus:ring-2 focus:ring-primary',
+                        selectedProjectId === project.id
+                          ? 'border-primary bg-primary/5'
+                          : 'border-transparent bg-muted/50'
+                      )}
+                    >
+                      <div className={cn(
+                        'h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0',
+                        selectedProjectId === project.id ? 'bg-primary text-primary-foreground' : 'bg-muted'
+                      )}>
+                        {selectedProjectId === project.id ? (
+                          <Check className="h-5 w-5" />
+                        ) : (
+                          <Folder className="h-5 w-5" />
+                        )}
+                      </div>
+                      <div className="flex-1 text-left min-w-0">
+                        <p className="font-medium truncate">{project.title}</p>
+                        {project.description && (
+                          <p className="text-sm text-muted-foreground truncate">
+                            {project.description}
+                          </p>
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </ScrollArea>
+
+            {/* Create New Project Button */}
+            <Button
+              variant="outline"
+              className="w-full gap-2"
+              onClick={() => setCreateProjectOpen(true)}
               disabled={loading}
-            />
+            >
+              <Plus className="h-4 w-4" />
+              Создать новый проект
+            </Button>
           </div>
 
-          {/* Projects List */}
-          <ScrollArea className="h-[300px] pr-4">
-            {projectsLoading ? (
-              <div className="flex items-center justify-center h-40">
-                <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-              </div>
-            ) : filteredProjects.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-40 text-center">
-                <Folder className="h-12 w-12 text-muted-foreground/50 mb-2" />
-                <p className="text-muted-foreground">
-                  {searchQuery ? 'No projects found' : 'No projects yet'}
-                </p>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Create a project first to organize your tracks
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-2">
-                {filteredProjects.map((project) => (
-                  <button
-                    key={project.id}
-                    onClick={() => setSelectedProjectId(project.id)}
-                    disabled={loading}
-                    className={cn(
-                      'w-full flex items-center gap-3 p-3 rounded-lg border-2 transition-all',
-                      'hover:bg-accent/50 focus:outline-none focus:ring-2 focus:ring-primary',
-                      selectedProjectId === project.id
-                        ? 'border-primary bg-primary/5'
-                        : 'border-transparent bg-muted/50'
-                    )}
-                  >
-                    <div className={cn(
-                      'h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0',
-                      selectedProjectId === project.id ? 'bg-primary text-primary-foreground' : 'bg-muted'
-                    )}>
-                      {selectedProjectId === project.id ? (
-                        <Check className="h-5 w-5" />
-                      ) : (
-                        <Folder className="h-5 w-5" />
-                      )}
-                    </div>
-                    <div className="flex-1 text-left min-w-0">
-                      <p className="font-medium truncate">{project.title}</p>
-                      {project.description && (
-                        <p className="text-sm text-muted-foreground truncate">
-                          {project.description}
-                        </p>
-                      )}
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
-          </ScrollArea>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button
+              variant="outline"
+              onClick={() => handleOpenChange(false)}
+              disabled={loading}
+            >
+              Отмена
+            </Button>
+            <Button
+              onClick={handleAddToProject}
+              disabled={loading || !selectedProjectId}
+              className="gap-2"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Добавление...
+                </>
+              ) : (
+                <>
+                  <Plus className="h-4 w-4" />
+                  Добавить
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
-          {/* Create New Project Button */}
-          <Button
-            variant="outline"
-            className="w-full gap-2"
-            onClick={() => {
-              // TODO: Open create project dialog
-              toast.info('Create project feature coming soon');
-            }}
-            disabled={loading}
-          >
-            <Plus className="h-4 w-4" />
-            Create New Project
-          </Button>
-        </div>
-
-        <DialogFooter className="gap-2 sm:gap-0">
-          <Button
-            variant="outline"
-            onClick={() => handleOpenChange(false)}
-            disabled={loading}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleAddToProject}
-            disabled={loading || !selectedProjectId}
-            className="gap-2"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Adding...
-              </>
-            ) : (
-              <>
-                <Plus className="h-4 w-4" />
-                Add to Project
-              </>
-            )}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      {/* Create Project Sheet */}
+      <CreateProjectSheet 
+        open={createProjectOpen} 
+        onOpenChange={setCreateProjectOpen} 
+      />
+    </>
   );
 }

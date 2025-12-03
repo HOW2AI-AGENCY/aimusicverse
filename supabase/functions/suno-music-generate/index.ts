@@ -60,9 +60,18 @@ serve(async (req) => {
       audioWeight,
       personaId,
       projectId,
-      artistId, // New: artist ID for persona
+      artistId,
+      planTrackId, // Link to project_tracks for status update
       language = 'ru',
     } = body;
+    
+    // Update plan track status to in_progress if provided
+    if (planTrackId) {
+      await supabase
+        .from('project_tracks')
+        .update({ status: 'in_progress' })
+        .eq('id', planTrackId);
+    }
 
     // Validate required fields
     if (!prompt) {
