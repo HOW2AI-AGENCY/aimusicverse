@@ -3,12 +3,14 @@ import { Track } from '@/hooks/useTracksOptimized';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Crown, Play, Download } from 'lucide-react';
+import { Crown, Play, Pause, Download, Check } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
+import { usePlayerStore } from '@/hooks/usePlayerState';
+import { cn } from '@/lib/utils';
 
 interface VersionsTabProps {
   track: Track;
@@ -17,6 +19,7 @@ interface VersionsTabProps {
 export function VersionsTab({ track }: VersionsTabProps) {
   const queryClient = useQueryClient();
   const [optimisticMasterId, setOptimisticMasterId] = useState<string | null>(null);
+  const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
 
   const { data: versions, isLoading } = useQuery({
     queryKey: ['track-versions', track.id],
@@ -51,18 +54,58 @@ export function VersionsTab({ track }: VersionsTabProps) {
         .eq('id', versionId);
 
       if (setError) throw setError;
+
+      // Log to changelog
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData.user) {
+        await supabase.from('track_change_log').insert({
+          track_id: track.id,
+          version_id: versionId,
+          change_type: 'master_changed',
+          changed_by: 'user',
+          user_id: userData.user.id,
+          new_value: versionId,
+        });
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['track-versions', track.id] });
-      toast.success('Master version updated');
+      queryClient.invalidateQueries({ queryKey: ['track-change-log', track.id] });
+      toast.success('Мастер-версия обновлена');
       setOptimisticMasterId(null);
     },
     onError: (error) => {
-      toast.error('Failed to set master version');
+      toast.error('Ошибка установки мастер-версии');
       console.error('Set master version error:', error);
       setOptimisticMasterId(null);
     },
   });
+
+  const handlePlayVersion = (version: any) => {
+    // Create a track-like object from the version for playback
+    const versionTrack: Track = {
+      ...track,
+      // Override audio URLs with version-specific ones
+      audio_url: version.audio_url || track.audio_url,
+      streaming_url: version.streaming_url || track.streaming_url,
+      local_audio_url: version.local_audio_url || track.local_audio_url,
+      // Add version identifier to track id for unique identification
+      id: `${track.id}_v${version.id}`,
+    };
+
+    // Check if this version is currently playing
+    const isThisVersionPlaying = activeTrack?.id === versionTrack.id && isPlaying;
+
+    if (isThisVersionPlaying) {
+      pauseTrack();
+    } else {
+      playTrack(versionTrack);
+    }
+  };
+
+  const isVersionPlaying = (versionId: string) => {
+    return activeTrack?.id === `${track.id}_v${versionId}` && isPlaying;
+  };
 
   if (isLoading) {
     return (
@@ -79,7 +122,7 @@ export function VersionsTab({ track }: VersionsTabProps) {
   if (!versions || versions.length === 0) {
     return (
       <Card className="p-8 text-center">
-        <p className="text-muted-foreground">No versions available for this track.</p>
+        <p className="text-muted-foreground">Версии трека отсутствуют</p>
       </Card>
     );
   }
@@ -87,9 +130,9 @@ export function VersionsTab({ track }: VersionsTabProps) {
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Versions</h3>
+        <h3 className="text-lg font-semibold mb-2">Версии</h3>
         <p className="text-sm text-muted-foreground">
-          Manage different versions of this track. The master version is used by default.
+          Управляйте версиями трека. Мастер-версия используется по умолчанию.
         </p>
       </div>
 
@@ -98,25 +141,44 @@ export function VersionsTab({ track }: VersionsTabProps) {
           const isMaster = optimisticMasterId
             ? version.id === optimisticMasterId
             : version.is_primary;
+          const isCurrentlyPlaying = isVersionPlaying(version.id);
 
           return (
             <Card
               key={version.id}
-              className={`p-4 ${isMaster ? 'border-primary' : ''}`}
+              className={cn(
+                'p-4 transition-colors',
+                isMaster && 'border-primary bg-primary/5',
+                isCurrentlyPlaying && 'ring-2 ring-primary'
+              )}
             >
               <div className="flex items-start gap-4">
-                <div className="flex-1 space-y-2">
-                  <div className="flex items-center gap-2">
+                {/* Play button */}
+                <Button
+                  size="icon"
+                  variant={isCurrentlyPlaying ? "default" : "outline"}
+                  className="h-12 w-12 rounded-full flex-shrink-0"
+                  onClick={() => handlePlayVersion(version)}
+                >
+                  {isCurrentlyPlaying ? (
+                    <Pause className="w-5 h-5" />
+                  ) : (
+                    <Play className="w-5 h-5 ml-0.5" />
+                  )}
+                </Button>
+
+                <div className="flex-1 space-y-2 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <h4 className="font-semibold">
-                      Version {versions.length - index}
+                      Версия {versions.length - index}
                     </h4>
                     {isMaster && (
                       <Badge variant="default" className="gap-1">
                         <Crown className="w-3 h-3" />
-                        Master
+                        Мастер
                       </Badge>
                     )}
-                    {version.version_type && (
+                    {version.version_type && version.version_type !== 'original' && (
                       <Badge variant="outline">
                         {version.version_type}
                       </Badge>
@@ -125,51 +187,45 @@ export function VersionsTab({ track }: VersionsTabProps) {
 
                   <div className="text-sm text-muted-foreground space-y-1">
                     {version.created_at && (
-                      <p>Created: {format(new Date(version.created_at), 'MMM dd, yyyy HH:mm')}</p>
+                      <p>Создано: {format(new Date(version.created_at), 'dd.MM.yyyy HH:mm')}</p>
                     )}
                     {version.duration_seconds && (
-                      <p>Duration: {Math.floor(version.duration_seconds / 60)}:{String(version.duration_seconds % 60).padStart(2, '0')}</p>
+                      <p>Длительность: {Math.floor(version.duration_seconds / 60)}:{String(Math.floor(version.duration_seconds % 60)).padStart(2, '0')}</p>
                     )}
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 flex-shrink-0">
                   {!isMaster && (
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => setMasterMutation.mutate(version.id)}
                       disabled={setMasterMutation.isPending}
-                      className="gap-1 min-w-[120px]"
+                      className="gap-1"
                     >
                       <Crown className="w-3 h-3" />
-                      Set as Master
+                      <span className="hidden sm:inline">Сделать мастером</span>
                     </Button>
                   )}
-                  
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    className="gap-1 min-w-[120px]"
-                    onClick={() => {
-                      toast.info('Use version feature coming soon');
-                    }}
-                  >
-                    <Play className="w-3 h-3" />
-                    Use This
-                  </Button>
+                  {isMaster && (
+                    <Badge variant="secondary" className="gap-1 justify-center">
+                      <Check className="w-3 h-3" />
+                      <span className="hidden sm:inline">Активная</span>
+                    </Badge>
+                  )}
 
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="gap-1 min-w-[120px]"
-                    onClick={() => {
-                      window.open(version.audio_url, '_blank');
-                    }}
-                  >
-                    <Download className="w-3 h-3" />
-                    Download
-                  </Button>
+                  {version.audio_url && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="gap-1"
+                      onClick={() => window.open(version.audio_url, '_blank')}
+                    >
+                      <Download className="w-3 h-3" />
+                      <span className="hidden sm:inline">Скачать</span>
+                    </Button>
+                  )}
                 </div>
               </div>
             </Card>

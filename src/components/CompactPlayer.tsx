@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { X, Maximize2, Volume2, VolumeX, Heart, Download, ChevronUp } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { X, Maximize2, Volume2, VolumeX, Heart, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Card } from '@/components/ui/card';
-import { useAudioPlayer } from '@/hooks/useAudioPlayer';
 import { AudioWaveform } from '@/components/AudioWaveform';
+import { useAudioTime, getGlobalAudioRef } from '@/hooks/useAudioTime';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useTracks } from '@/hooks/useTracksOptimized';
 import { PlaybackControls } from '@/components/player/PlaybackControls';
-import { motion, useDragControls } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
 
@@ -33,26 +33,9 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
   const [volume, setVolume] = useState(1);
   const [muted, setMuted] = useState(false);
   const { toggleLike, downloadTrack } = useTracks();
-  const dragControls = useDragControls();
 
-  // TODO: Optimize audio streaming for mobile networks
-  // TODO: Implement adaptive bitrate streaming based on connection quality
-  // TODO: Add preloading for next track in queue
-  // TODO: Implement audio caching for offline playback
-  // TODO: Add network quality indicator and quality selector
-  const {
-    isPlaying,
-    currentTime,
-    duration,
-    togglePlay,
-    seek,
-    setVolume: setAudioVolume,
-  } = useAudioPlayer({
-    trackId: track.id,
-    streamingUrl: track.streaming_url,
-    localAudioUrl: track.local_audio_url,
-    audioUrl: track.audio_url,
-  });
+  // Use global audio time from provider
+  const { currentTime, duration, seek } = useAudioTime();
 
   const { data: lyricsData } = useTimestampedLyrics(
     track.suno_task_id || null,
@@ -66,25 +49,30 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const handleVolumeChange = (value: number[]) => {
+  const handleVolumeChange = useCallback((value: number[]) => {
     const newVolume = value[0];
     setVolume(newVolume);
-    setAudioVolume(newVolume);
+    const audio = getGlobalAudioRef();
+    if (audio) {
+      audio.volume = newVolume;
+    }
     if (newVolume > 0 && muted) setMuted(false);
-  };
+  }, [muted]);
 
-  const toggleMute = () => {
+  const toggleMute = useCallback(() => {
+    const audio = getGlobalAudioRef();
+    if (!audio) return;
+    
     if (muted) {
-      setAudioVolume(volume);
+      audio.volume = volume;
       setMuted(false);
     } else {
-      setAudioVolume(0);
+      audio.volume = 0;
       setMuted(true);
     }
-  };
+  }, [muted, volume]);
 
   const handleDragEnd = (event: any, info: any) => {
-    // Swipe up to expand
     if (info.offset.y < -50 && onExpand) {
       hapticImpact('light');
       onExpand();
@@ -94,7 +82,6 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
   return (
     <motion.div
       drag="y"
-      dragControls={dragControls}
       dragConstraints={{ top: 0, bottom: 0 }}
       dragElastic={0.2}
       onDragEnd={handleDragEnd}
@@ -110,117 +97,143 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
         
         {/* Header */}
         <div className="flex items-center justify-between mb-2 sm:mb-3">
-        <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
-          {track.cover_url && (
-            <img
-              src={track.cover_url}
-              alt={track.title || 'Track cover'}
-              className="w-10 h-10 sm:w-12 sm:h-12 rounded-md object-cover flex-shrink-0"
+          <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+            {track.cover_url && (
+              <img
+                src={track.cover_url}
+                alt={track.title || 'Track cover'}
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-md object-cover flex-shrink-0"
+              />
+            )}
+            <div className="flex-1 min-w-0">
+              <h4 className="text-xs sm:text-sm font-semibold truncate">
+                {track.title || 'Без названия'}
+              </h4>
+              <p className="text-[10px] sm:text-xs text-muted-foreground">
+                {formatTime(currentTime)} / {formatTime(duration)}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onMaximize}
+              className="h-9 w-9 sm:h-8 sm:w-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 touch-manipulation active:scale-95"
+              aria-label="Развернуть плеер"
+            >
+              <Maximize2 className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              className="h-9 w-9 sm:h-8 sm:w-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 touch-manipulation active:scale-95"
+              aria-label="Закрыть плеер"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Waveform with click to seek */}
+        <div className="mb-2 sm:mb-3">
+          {lyricsData?.waveformData && lyricsData.waveformData.length > 0 ? (
+            <AudioWaveform
+              waveformData={lyricsData.waveformData}
+              currentTime={currentTime}
+              duration={duration}
+              onSeek={seek}
             />
+          ) : (
+            // Simple progress bar fallback
+            <div 
+              className="h-16 sm:h-20 bg-muted/20 rounded relative cursor-pointer overflow-hidden"
+              onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const percent = x / rect.width;
+                seek(percent * duration);
+              }}
+            >
+              <div 
+                className="absolute inset-y-0 left-0 bg-primary/30 transition-all"
+                style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
+              />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="flex gap-0.5 items-end h-8">
+                  {Array.from({ length: 40 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className={cn(
+                        "w-1 rounded-full transition-colors",
+                        i / 40 < currentTime / duration ? "bg-primary" : "bg-muted-foreground/30"
+                      )}
+                      style={{ height: `${20 + Math.sin(i * 0.5) * 15 + Math.random() * 10}px` }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
           )}
-          <div className="flex-1 min-w-0">
-            <h4 className="text-xs sm:text-sm font-semibold truncate">
-              {track.title || 'Без названия'}
-            </h4>
-            <p className="text-[10px] sm:text-xs text-muted-foreground">
-              {formatTime(currentTime)} / {formatTime(duration)}
-            </p>
-          </div>
         </div>
-        <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onMaximize}
-            className="h-9 w-9 sm:h-8 sm:w-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 touch-manipulation active:scale-95"
-            aria-label="Развернуть плеер"
-          >
-            <Maximize2 className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className="h-9 w-9 sm:h-8 sm:w-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 touch-manipulation active:scale-95"
-            aria-label="Закрыть плеер"
-          >
-            <X className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
 
-      {/* Waveform with click to seek */}
-      <div className="mb-2 sm:mb-3">
-        {lyricsData?.waveformData && lyricsData.waveformData.length > 0 ? (
-          <AudioWaveform
-            waveformData={lyricsData.waveformData}
-            currentTime={currentTime}
-            duration={duration}
-            onSeek={seek}
-          />
-        ) : (
-          <div className="h-16 sm:h-20 bg-muted/20 rounded flex items-center justify-center text-[10px] sm:text-xs text-muted-foreground">
-            Waveform загружается...
-          </div>
-        )}
-      </div>
-
-      {/* Controls */}
-      <div className="flex items-center justify-between gap-2 sm:gap-3">
-        {/* Left side: Like & Download */}
-        <div className="flex items-center gap-1">
-          <Button
+        {/* Controls */}
+        <div className="flex items-center justify-between gap-2 sm:gap-3">
+          {/* Left side: Like & Download */}
+          <div className="flex items-center gap-1">
+            <Button
               variant="ghost"
               size="icon"
               onClick={() => toggleLike({ trackId: track.id, isLiked: track.is_liked || false })}
               className="h-9 w-9 sm:h-8 sm:w-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex-shrink-0 touch-manipulation active:scale-95"
               aria-label={track.is_liked ? "Убрать из избранного" : "Добавить в избранное"}
               disabled={!track.id}
-          >
+            >
               <Heart className={cn("h-4 w-4", track.is_liked && "fill-current text-red-500")} />
-          </Button>
-          <Button
+            </Button>
+            <Button
               variant="ghost"
               size="icon"
               onClick={() => downloadTrack({ trackId: track.id, audioUrl: track.audio_url!, coverUrl: track.cover_url! })}
               className="h-9 w-9 sm:h-8 sm:w-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex-shrink-0 touch-manipulation active:scale-95"
               aria-label="Скачать трек"
               disabled={!track.audio_url}
-          >
+            >
               <Download className="h-4 w-4" />
-          </Button>
-        </div>
+            </Button>
+          </div>
 
-        {/* Center: Playback Controls */}
-        <div className="flex-1 flex justify-center">
-          <PlaybackControls size="compact" />
-        </div>
+          {/* Center: Playback Controls */}
+          <div className="flex-1 flex justify-center">
+            <PlaybackControls size="compact" />
+          </div>
 
-        {/* Right side: Volume (desktop only) */}
-        <div className="hidden sm:flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleMute}
-            className="h-8 w-8 flex-shrink-0"
-            aria-label={muted ? "Включить звук" : "Выключить звук"}
-          >
-            {muted || volume === 0 ? (
-              <VolumeX className="h-4 w-4" />
-            ) : (
-              <Volume2 className="h-4 w-4" />
-            )}
-          </Button>
-          <Slider
-            value={[muted ? 0 : volume]}
-            max={1}
-            step={0.01}
-            onValueChange={handleVolumeChange}
-            className="w-20"
-            aria-label="Громкость"
-          />
+          {/* Right side: Volume (desktop only) */}
+          <div className="hidden sm:flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleMute}
+              className="h-8 w-8 flex-shrink-0"
+              aria-label={muted ? "Включить звук" : "Выключить звук"}
+            >
+              {muted || volume === 0 ? (
+                <VolumeX className="h-4 w-4" />
+              ) : (
+                <Volume2 className="h-4 w-4" />
+              )}
+            </Button>
+            <Slider
+              value={[muted ? 0 : volume]}
+              max={1}
+              step={0.01}
+              onValueChange={handleVolumeChange}
+              className="w-20"
+              aria-label="Громкость"
+            />
+          </div>
         </div>
-      </div>
       </Card>
     </motion.div>
   );
