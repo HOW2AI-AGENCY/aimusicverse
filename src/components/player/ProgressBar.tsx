@@ -141,7 +141,7 @@ export function ProgressBar({
       <div
         ref={progressRef}
         className="relative h-1 bg-secondary rounded-full cursor-pointer touch-manipulation group"
-        style={{ paddingTop: '21px', paddingBottom: '21px' }}
+        style={{ paddingTop: '12px', paddingBottom: '12px' }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}

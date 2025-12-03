@@ -124,12 +124,22 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     });
   }, [lyricsLines, currentTime]);
 
-  // Auto-scroll to active line
+  // Auto-scroll to active line - keep active line in upper third of screen
   useEffect(() => {
     if (activeLineRef.current && lyricsContainerRef.current) {
-      activeLineRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
+      const container = lyricsContainerRef.current;
+      const activeLine = activeLineRef.current;
+      const containerRect = container.getBoundingClientRect();
+      const lineRect = activeLine.getBoundingClientRect();
+      
+      // Calculate target position - place active line at ~30% from top
+      const targetOffset = containerRect.height * 0.3;
+      const currentOffset = lineRect.top - containerRect.top;
+      const scrollDelta = currentOffset - targetOffset;
+      
+      container.scrollBy({
+        top: scrollDelta,
+        behavior: 'smooth'
       });
     }
   }, [activeLineIndex]);
@@ -223,7 +233,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         >
           {lyricsLines ? (
             // Synchronized lyrics with line grouping and word highlighting
-            <div className="min-h-full flex flex-col items-center justify-center text-center space-y-4">
+            <div className="min-h-full flex flex-col items-center justify-start text-center space-y-1 pt-[40vh] pb-[50vh]">
               {lyricsLines.map((line, lineIndex) => {
                 const isActiveLine = lineIndex === activeLineIndex;
                 const isPastLine = activeLineIndex > -1 && lineIndex < activeLineIndex;
@@ -235,13 +245,13 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                     ref={isActiveLine ? activeLineRef : null}
                     onClick={() => handleWordClick(lineStart)}
                     animate={{
-                      scale: isActiveLine ? 1.05 : 1,
-                      opacity: isActiveLine ? 1 : isPastLine ? 0.4 : 0.6,
+                      scale: isActiveLine ? 1.02 : 1,
+                      opacity: isActiveLine ? 1 : isPastLine ? 0.35 : 0.5,
                     }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.2 }}
                     className={cn(
-                      'px-3 py-2 rounded-xl cursor-pointer transition-colors w-full',
-                      isActiveLine && 'bg-primary/15'
+                      'px-3 py-1 rounded-lg cursor-pointer transition-colors w-full',
+                      isActiveLine && 'bg-primary/10'
                     )}
                   >
                     <div className="flex flex-wrap justify-center gap-x-1.5 gap-y-0.5">
