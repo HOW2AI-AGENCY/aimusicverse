@@ -19,6 +19,7 @@ import { TrackCardSkeleton } from "@/components/ui/skeleton-loader";
 import { GeneratingTrackSkeleton } from "@/components/library/GeneratingTrackSkeleton";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
+import { useSyncStaleTasks } from "@/hooks/useSyncStaleTasks";
 
 interface GenerationTask {
   id: string;
@@ -52,6 +53,9 @@ export default function Library() {
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   useGenerationRealtime();
+  
+  // Auto-sync stale tasks on mount, visibility change, and periodically
+  useSyncStaleTasks();
 
   // Fetch active generation tasks
   const { data: activeGenerations = [] } = useQuery({
