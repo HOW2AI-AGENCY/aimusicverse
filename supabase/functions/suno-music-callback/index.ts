@@ -6,6 +6,11 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Helper to get audio/image URLs - Suno API uses snake_case
+const getAudioUrl = (clip: any) => clip.source_audio_url || clip.audio_url;
+const getStreamUrl = (clip: any) => clip.source_stream_audio_url || clip.stream_audio_url;
+const getImageUrl = (clip: any) => clip.source_image_url || clip.image_url;
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -17,7 +22,7 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const payload = await req.json();
-    console.log('Received callback from SunoAPI:', JSON.stringify(payload, null, 2));
+    console.log('📥 Callback from SunoAPI:', JSON.stringify(payload, null, 2));
 
     const { code, msg, data } = payload;
     const { callbackType, taskId, task_id, data: audioData } = data || {};
@@ -27,7 +32,6 @@ serve(async (req) => {
       throw new Error('No taskId in callback');
     }
 
-    // Find the generation task
     const { data: task, error: taskError } = await supabase
       .from('generation_tasks')
       .select('*, tracks(*)')
@@ -35,217 +39,140 @@ serve(async (req) => {
       .single();
 
     if (taskError || !task) {
-      console.error('Task not found:', sunoTaskId, taskError);
+      console.error('❌ Task not found:', sunoTaskId, taskError);
       throw new Error('Task not found');
     }
 
     const trackId = task.track_id;
+    console.log(`📋 Task: ${task.id}, track: ${trackId}, type: ${callbackType}`);
 
     if (code !== 200) {
-      // Generation failed
-      console.error('SunoAPI generation failed:', msg);
+      console.error('❌ SunoAPI failed:', msg);
+      await supabase.from('generation_tasks').update({
+        status: 'failed',
+        error_message: msg || 'Generation failed',
+        callback_received_at: new Date().toISOString(),
+      }).eq('id', task.id);
 
-      await supabase
-        .from('generation_tasks')
-        .update({
-          status: 'failed',
-          error_message: msg || 'Generation failed',
-          callback_received_at: new Date().toISOString(),
-        })
-        .eq('id', task.id);
+      await supabase.from('tracks').update({
+        status: 'failed',
+        error_message: msg || 'Generation failed',
+      }).eq('id', trackId);
 
-      await supabase
-        .from('tracks')
-        .update({
-          status: 'failed',
-          error_message: msg || 'Generation failed',
-        })
-        .eq('id', trackId);
-
-      if (task.telegram_chat_id) {
-        await supabase.functions.invoke('suno-send-audio', {
-          body: {
-            chatId: task.telegram_chat_id,
-            trackId,
-            status: 'failed',
-            errorMessage: msg,
-          },
-        });
-      }
-
-      return new Response(
-        JSON.stringify({ success: true, status: 'failed' }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ success: true, status: 'failed' }), 
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
     }
 
-    // Handle different callback stages
     if (callbackType === 'first') {
-      // First clip ready - update with streaming URL and create version A
-      console.log('First clip ready for streaming');
-      
+      console.log('🎵 First clip ready for streaming');
       const firstClip = audioData?.[0];
-      if (firstClip?.sourceStreamAudioUrl || firstClip?.streamAudioUrl) {
-        // Update track status
-        await supabase
-          .from('tracks')
-          .update({
-            status: 'streaming_ready',
-            streaming_url: firstClip.sourceStreamAudioUrl || firstClip.streamAudioUrl,
-            cover_url: firstClip.sourceImageUrl || firstClip.imageUrl || null,
-            title: firstClip.title || task.tracks?.title,
-          })
-          .eq('id', trackId);
-
-        // Create version A with clip_index 0
-        const versionLabel = 'A';
+      if (firstClip) {
+        const streamUrl = getStreamUrl(firstClip);
+        const imageUrl = getImageUrl(firstClip);
         
-        // Check if version A already exists
-        const { data: existingVersion } = await supabase
-          .from('track_versions')
-          .select('id')
-          .eq('track_id', trackId)
-          .eq('version_label', versionLabel)
-          .single();
+        console.log('📊 First clip:', { id: firstClip.id, title: firstClip.title, streamUrl: !!streamUrl, imageUrl: !!imageUrl });
 
-        if (!existingVersion) {
-          const { data: newVersion, error: versionError } = await supabase
+        if (streamUrl) {
+          await supabase.from('tracks').update({
+            status: 'streaming_ready',
+            streaming_url: streamUrl,
+            cover_url: imageUrl || null,
+            title: firstClip.title || task.tracks?.title,
+          }).eq('id', trackId);
+
+          const { data: existingVersion } = await supabase
             .from('track_versions')
-            .insert({
-              track_id: trackId,
-              audio_url: firstClip.sourceStreamAudioUrl || firstClip.streamAudioUrl,
-              cover_url: firstClip.sourceImageUrl || firstClip.imageUrl,
-              duration_seconds: null, // Will be updated on complete
-              version_type: 'initial',
-              version_label: versionLabel,
-              clip_index: 0,
-              is_primary: true,
-              metadata: {
-                suno_id: firstClip.id,
-                suno_task_id: sunoTaskId,
-                title: firstClip.title,
-                status: 'streaming',
-              },
-            })
-            .select()
+            .select('id')
+            .eq('track_id', trackId)
+            .eq('version_label', 'A')
             .single();
 
-          if (versionError) {
-            console.error('Error creating version A:', versionError);
-          } else {
-            // Set as active version
-            await supabase
-              .from('tracks')
-              .update({ active_version_id: newVersion?.id })
-              .eq('id', trackId);
+          if (!existingVersion) {
+            const { data: newVersion } = await supabase.from('track_versions').insert({
+              track_id: trackId,
+              audio_url: streamUrl,
+              cover_url: imageUrl,
+              version_type: 'initial',
+              version_label: 'A',
+              clip_index: 0,
+              is_primary: true,
+              metadata: { suno_id: firstClip.id, suno_task_id: sunoTaskId, title: firstClip.title, status: 'streaming' },
+            }).select().single();
 
-            console.log('✅ Version A created:', newVersion?.id);
+            if (newVersion) {
+              await supabase.from('tracks').update({ active_version_id: newVersion.id }).eq('id', trackId);
+              console.log('✅ Version A created:', newVersion.id);
+            }
           }
-        }
 
-        // Update task
-        await supabase
-          .from('generation_tasks')
-          .update({
+          await supabase.from('generation_tasks').update({
             audio_clips: JSON.stringify([firstClip]),
             received_clips: 1,
-          })
-          .eq('id', task.id);
+          }).eq('id', task.id);
+        }
       }
 
     } else if (callbackType === 'complete') {
-      // All clips ready - create/update versions A and B
-      console.log('All clips completed, processing versions:', audioData?.length);
-
+      console.log('🎉 Complete! Clips:', audioData?.length);
       const clips = audioData || [];
       
-      if (clips.length === 0) {
-        throw new Error('No audio clips in completion callback');
-      }
+      if (clips.length === 0) throw new Error('No audio clips in completion callback');
 
-      const createdVersions: { versionId: string; label: string; clipIndex: number }[] = [];
-      const versionLabels = ['A', 'B', 'C', 'D', 'E']; // Support up to 5 versions
+      const versionLabels = ['A', 'B', 'C', 'D', 'E'];
 
       for (let i = 0; i < clips.length; i++) {
         const clip = clips[i];
         const versionLabel = versionLabels[i] || `V${i + 1}`;
+        const audioUrl = getAudioUrl(clip);
+        const streamUrl = getStreamUrl(clip);
+        const imageUrl = getImageUrl(clip);
         
-        console.log(`💾 Processing clip ${i + 1}/${clips.length} as version ${versionLabel}:`, {
-          id: clip.id,
-          title: clip.title,
-          duration: clip.duration,
+        console.log(`💾 Clip ${i + 1}/${clips.length} (${versionLabel}):`, { 
+          id: clip.id, duration: clip.duration, audioUrl: !!audioUrl 
         });
 
-        let localAudioUrl = null;
-        let localCoverUrl = null;
+        if (!audioUrl) {
+          console.error(`❌ No audio URL for clip ${i}`);
+          continue;
+        }
+
+        let localAudioUrl = null, localCoverUrl = null;
 
         try {
-          // Download and save audio to storage
-          const audioUrl = clip.sourceAudioUrl || clip.audioUrl;
-          if (!audioUrl) {
-            console.error(`❌ No audio URL for clip ${i}`);
-            continue;
-          }
-
           const audioResponse = await fetch(audioUrl);
-          if (!audioResponse.ok) {
-            console.error(`❌ Failed to fetch audio for clip ${i}: ${audioResponse.status}`);
-            continue;
-          }
-          
-          const audioBlob = await audioResponse.blob();
-          const audioFileName = `tracks/${task.user_id}/${trackId}_v${versionLabel}_${Date.now()}.mp3`;
-          
-          const { data: audioUpload, error: audioError } = await supabase.storage
-            .from('project-assets')
-            .upload(audioFileName, audioBlob, {
-              contentType: 'audio/mpeg',
-              upsert: true,
-            });
-
-          if (audioError) {
-            console.error(`❌ Audio upload error for clip ${i}:`, audioError);
-          } else if (audioUpload) {
-            const { data: publicData } = supabase.storage
+          if (audioResponse.ok) {
+            const audioBlob = await audioResponse.blob();
+            const audioFileName = `tracks/${task.user_id}/${trackId}_v${versionLabel}_${Date.now()}.mp3`;
+            const { data: audioUpload } = await supabase.storage
               .from('project-assets')
-              .getPublicUrl(audioFileName);
-            localAudioUrl = publicData.publicUrl;
-            console.log(`✅ Audio uploaded for version ${versionLabel}:`, localAudioUrl);
+              .upload(audioFileName, audioBlob, { contentType: 'audio/mpeg', upsert: true });
+            if (audioUpload) {
+              localAudioUrl = supabase.storage.from('project-assets').getPublicUrl(audioFileName).data.publicUrl;
+              console.log(`✅ Audio uploaded: ${versionLabel}`);
+            }
           }
 
-          // Download and save cover image
-          const coverUrl = clip.sourceImageUrl || clip.imageUrl;
-          if (coverUrl) {
-            const coverResponse = await fetch(coverUrl);
+          if (imageUrl) {
+            const coverResponse = await fetch(imageUrl);
             if (coverResponse.ok) {
               const coverBlob = await coverResponse.blob();
               const coverFileName = `covers/${task.user_id}/${trackId}_v${versionLabel}_cover_${Date.now()}.jpg`;
-              
-              const { data: coverUpload, error: coverError } = await supabase.storage
+              const { data: coverUpload } = await supabase.storage
                 .from('project-assets')
-                .upload(coverFileName, coverBlob, {
-                  contentType: 'image/jpeg',
-                  upsert: true,
-                });
-
-              if (coverError) {
-                console.error(`❌ Cover upload error for clip ${i}:`, coverError);
-              } else if (coverUpload) {
-                const { data: publicData } = supabase.storage
-                  .from('project-assets')
-                  .getPublicUrl(coverFileName);
-                localCoverUrl = publicData.publicUrl;
+                .upload(coverFileName, coverBlob, { contentType: 'image/jpeg', upsert: true });
+              if (coverUpload) {
+                localCoverUrl = supabase.storage.from('project-assets').getPublicUrl(coverFileName).data.publicUrl;
               }
             }
           }
-        } catch (downloadError) {
-          console.error(`❌ Error downloading files for clip ${i}:`, downloadError);
+        } catch (e) {
+          console.error(`❌ Download error for clip ${i}:`, e);
         }
 
-        const trackTitle = clip.title || task.prompt?.split('\n')[0]?.substring(0, 100) || `Трек`;
-        const isFirstVersion = i === 0;
+        const trackTitle = clip.title || task.prompt?.split('\n')[0]?.substring(0, 100) || 'Трек';
+        const finalAudioUrl = localAudioUrl || audioUrl;
+        const finalCoverUrl = localCoverUrl || imageUrl;
 
-        // Check if version already exists (from 'first' callback)
         const { data: existingVersion } = await supabase
           .from('track_versions')
           .select('id')
@@ -253,193 +180,103 @@ serve(async (req) => {
           .eq('version_label', versionLabel)
           .single();
 
+        const versionData = {
+          audio_url: finalAudioUrl,
+          cover_url: finalCoverUrl,
+          duration_seconds: Math.round(clip.duration) || null,
+          metadata: {
+            suno_id: clip.id, suno_task_id: sunoTaskId, clip_index: i,
+            title: trackTitle, tags: clip.tags, lyrics: clip.prompt,
+            model_name: clip.model_name, prompt: task.prompt,
+            local_storage: { audio: localAudioUrl, cover: localCoverUrl },
+            status: 'completed',
+          },
+        };
+
         if (existingVersion) {
-          // Update existing version
-          await supabase
-            .from('track_versions')
-            .update({
-              audio_url: localAudioUrl || clip.sourceAudioUrl || clip.audioUrl,
-              cover_url: localCoverUrl || clip.sourceImageUrl || clip.imageUrl,
-              duration_seconds: Math.round(clip.duration) || null,
-              metadata: {
-                suno_id: clip.id,
-                suno_task_id: sunoTaskId,
-                clip_index: i,
-                title: trackTitle,
-                tags: clip.tags,
-                lyrics: clip.lyric,
-                model_name: clip.modelName,
-                prompt: task.prompt,
-                local_storage: { audio: localAudioUrl, cover: localCoverUrl },
-                status: 'completed',
-              },
-            })
-            .eq('id', existingVersion.id);
-
-          createdVersions.push({ versionId: existingVersion.id, label: versionLabel, clipIndex: i });
-          console.log(`✅ Version ${versionLabel} updated:`, existingVersion.id);
+          await supabase.from('track_versions').update(versionData).eq('id', existingVersion.id);
+          console.log(`✅ Version ${versionLabel} updated`);
         } else {
-          // Create new version
-          const { data: newVersion, error: versionError } = await supabase
-            .from('track_versions')
-            .insert({
-              track_id: trackId,
-              audio_url: localAudioUrl || clip.sourceAudioUrl || clip.audioUrl,
-              cover_url: localCoverUrl || clip.sourceImageUrl || clip.imageUrl,
-              duration_seconds: Math.round(clip.duration) || null,
-              version_type: 'initial',
-              version_label: versionLabel,
-              clip_index: i,
-              is_primary: isFirstVersion,
-              metadata: {
-                suno_id: clip.id,
-                suno_task_id: sunoTaskId,
-                clip_index: i,
-                title: trackTitle,
-                tags: clip.tags,
-                lyrics: clip.lyric,
-                model_name: clip.modelName,
-                prompt: task.prompt,
-                local_storage: { audio: localAudioUrl, cover: localCoverUrl },
-                status: 'completed',
-              },
-            })
-            .select()
-            .single();
-
-          if (versionError) {
-            console.error(`❌ Error creating version ${versionLabel}:`, versionError);
-          } else if (newVersion) {
-            createdVersions.push({ versionId: newVersion.id, label: versionLabel, clipIndex: i });
-            console.log(`✅ Version ${versionLabel} created:`, newVersion.id);
-
-            // Set first version as active if not already set
-            if (isFirstVersion) {
-              await supabase
-                .from('tracks')
-                .update({ active_version_id: newVersion.id })
-                .eq('id', trackId)
-                .is('active_version_id', null);
-            }
-          }
-        }
-
-        // Update main track with first clip data
-        if (isFirstVersion) {
-          await supabase
-            .from('tracks')
-            .update({
-              status: 'completed',
-              audio_url: localAudioUrl || clip.sourceAudioUrl || clip.audioUrl,
-              streaming_url: clip.sourceStreamAudioUrl || clip.streamAudioUrl || clip.sourceAudioUrl || clip.audioUrl,
-              local_audio_url: localAudioUrl,
-              cover_url: localCoverUrl || clip.sourceImageUrl || clip.imageUrl || task.tracks?.cover_url,
-              local_cover_url: localCoverUrl,
-              title: trackTitle,
-              duration_seconds: Math.round(clip.duration) || null,
-              tags: clip.tags || task.tracks?.tags,
-              lyrics: clip.lyric || task.tracks?.lyrics,
-              suno_id: clip.id,
-              model_name: clip.modelName || 'chirp-v4',
-              suno_task_id: sunoTaskId,
-            })
-            .eq('id', trackId);
-        }
-
-        // Log version creation
-        await supabase
-          .from('track_change_log')
-          .insert({
+          const { data: newVersion } = await supabase.from('track_versions').insert({
             track_id: trackId,
-            user_id: task.user_id,
-            change_type: 'version_created',
-            changed_by: 'suno_api',
-            ai_model_used: clip.modelName || 'chirp-v4',
-            prompt_used: task.prompt,
-            new_value: versionLabel,
-            metadata: {
-              version_label: versionLabel,
-              clip_index: i,
-              suno_clip_id: clip.id,
-              title: trackTitle,
-            },
-          });
+            ...versionData,
+            version_type: 'initial',
+            version_label: versionLabel,
+            clip_index: i,
+            is_primary: i === 0,
+          }).select().single();
+
+          if (newVersion && i === 0) {
+            await supabase.from('tracks')
+              .update({ active_version_id: newVersion.id })
+              .eq('id', trackId)
+              .is('active_version_id', null);
+          }
+          console.log(`✅ Version ${versionLabel} created`);
+        }
+
+        if (i === 0) {
+          console.log(`📝 Updating main track...`);
+          await supabase.from('tracks').update({
+            status: 'completed',
+            audio_url: finalAudioUrl,
+            streaming_url: streamUrl || finalAudioUrl,
+            local_audio_url: localAudioUrl,
+            cover_url: finalCoverUrl || task.tracks?.cover_url,
+            local_cover_url: localCoverUrl,
+            title: trackTitle,
+            duration_seconds: Math.round(clip.duration) || null,
+            tags: clip.tags || task.tracks?.tags,
+            lyrics: clip.prompt || task.tracks?.lyrics,
+            suno_id: clip.id,
+            model_name: clip.model_name || 'chirp-v4',
+            suno_task_id: sunoTaskId,
+          }).eq('id', trackId);
+          console.log('✅ Main track updated');
+        }
+
+        await supabase.from('track_change_log').insert({
+          track_id: trackId, user_id: task.user_id, change_type: 'version_created',
+          changed_by: 'suno_api', ai_model_used: clip.model_name || 'chirp-v4',
+          prompt_used: task.prompt, new_value: versionLabel,
+          metadata: { version_label: versionLabel, clip_index: i, suno_clip_id: clip.id, title: trackTitle },
+        });
       }
 
-      console.log(`✅ Total versions created: ${createdVersions.length}/${clips.length}`);
+      await supabase.from('generation_tasks').update({
+        status: 'completed',
+        completed_at: new Date().toISOString(),
+        callback_received_at: new Date().toISOString(),
+        audio_clips: JSON.stringify(clips),
+        received_clips: clips.length,
+      }).eq('id', task.id);
 
-      // Update generation task
-      await supabase
-        .from('generation_tasks')
-        .update({
-          status: 'completed',
-          completed_at: new Date().toISOString(),
-          callback_received_at: new Date().toISOString(),
-          audio_clips: JSON.stringify(clips),
-          received_clips: clips.length,
-        })
-        .eq('id', task.id);
-
-      // Send telegram notification
       if (task.telegram_chat_id && clips.length > 0) {
         const firstClip = clips[0];
-        const trackTitle = firstClip.title || task.prompt?.split('\n')[0]?.substring(0, 100) || 'Трек';
-        
-        console.log(`📱 Sending Telegram notification to chat ${task.telegram_chat_id}`);
-        
         supabase.functions.invoke('send-telegram-notification', {
           body: {
-            type: 'generation_complete',
-            chatId: task.telegram_chat_id,
-            trackId: trackId,
-            audioUrl: firstClip.sourceAudioUrl || firstClip.audioUrl,
-            coverUrl: firstClip.sourceImageUrl || firstClip.imageUrl,
-            title: trackTitle,
-            duration: firstClip.duration,
-            tags: firstClip.tags,
-            style: firstClip.tags,
-            versionsCount: clips.length,
-            generationMode: task.generation_mode,
+            type: 'generation_complete', chatId: task.telegram_chat_id, trackId,
+            audioUrl: getAudioUrl(firstClip), coverUrl: getImageUrl(firstClip),
+            title: firstClip.title || 'Трек', duration: firstClip.duration,
+            tags: firstClip.tags, versionsCount: clips.length,
           },
-        }).catch(err => console.error('Error sending to Telegram:', err));
+        }).catch(err => console.error('Telegram error:', err));
       }
 
-      // Create notification
-      const firstClip = clips[0];
-      const versionText = clips.length > 1 
-        ? ` (${clips.length} версии: ${versionLabels.slice(0, clips.length).join('/')})` 
-        : '';
-      
-      await supabase
-        .from('notifications')
-        .insert({
-          user_id: task.user_id,
-          type: 'track_generated',
-          title: `Генерация завершена 🎵`,
-          message: `Ваш трек готов${versionText}`,
-          action_url: `/library`,
-        });
+      const versionText = clips.length > 1 ? ` (${clips.length} версии)` : '';
+      await supabase.from('notifications').insert({
+        user_id: task.user_id, type: 'track_generated',
+        title: 'Генерация завершена 🎵', message: `Ваш трек готов${versionText}`,
+        action_url: '/library',
+      });
     }
 
-    return new Response(
-      JSON.stringify({ success: true, callbackType }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200,
-      }
-    );
+    return new Response(JSON.stringify({ success: true, callbackType }), 
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 });
 
   } catch (error: any) {
-    console.error('Error in suno-music-callback:', error);
-    return new Response(
-      JSON.stringify({ 
-        success: false, 
-        error: error.message || 'Unknown error' 
-      }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 500,
-      }
-    );
+    console.error('❌ Error:', error);
+    return new Response(JSON.stringify({ success: false, error: error.message || 'Unknown error' }), 
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 });
   }
 });

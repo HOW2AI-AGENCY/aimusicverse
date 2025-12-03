@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 
 /**
  * Hook for automatically updating generation status via Supabase Realtime.
- * It refetches the react-query cache when changes occur in generation_tasks or tracks.
+ * Refetches tracks when generation completes or track status changes.
  */
 export const useGenerationRealtime = () => {
   const { user } = useAuth();
@@ -18,90 +18,90 @@ export const useGenerationRealtime = () => {
   useEffect(() => {
     if (!user?.id) return;
 
+    const refetchTracks = () => {
+      console.log('🔄 Refetching tracks...');
+      queryClient.refetchQueries({ queryKey: ['tracks-infinite'] });
+      queryClient.refetchQueries({ queryKey: ['tracks'] });
+      queryClient.invalidateQueries({ queryKey: ['active_generations'] });
+    };
+
     const setupRealtime = () => {
       if (reconnectAttempts.current >= maxReconnectAttempts) {
-        console.warn('Max reconnect attempts for generation status reached.');
+        console.warn('Max reconnect attempts reached.');
         return;
       }
 
       try {
         realtimeChannel.current = supabase
           .channel(`generation_updates_${user.id}`)
-          .on(
-            'postgres_changes',
-            {
-              event: '*',
-              schema: 'public',
-              table: 'generation_tasks',
-              filter: `user_id=eq.${user.id}`
-            },
-            (payload) => {
-              console.log('Realtime update for generation_tasks:', payload);
-              reconnectAttempts.current = 0;
-              
-              // Check if generation completed
-              const newData = payload.new as { status?: string; track_id?: string };
-              if (newData?.status === 'completed') {
-                console.log('🎉 Generation completed, refetching tracks...');
-                toast.success('Трек готов! 🎵');
-                
-                // Force refetch tracks to show the new track
-                queryClient.refetchQueries({ queryKey: ['tracks-infinite'] });
-                queryClient.refetchQueries({ queryKey: ['tracks'] });
-              }
-              
-              // Invalidate active generations query
-              queryClient.invalidateQueries({ queryKey: ['active_generations'] });
-              queryClient.invalidateQueries({ queryKey: ['generation_tasks'] });
+          .on('postgres_changes', {
+            event: '*',
+            schema: 'public',
+            table: 'generation_tasks',
+            filter: `user_id=eq.${user.id}`
+          }, (payload) => {
+            console.log('📡 generation_tasks:', payload.eventType, payload.new);
+            reconnectAttempts.current = 0;
+            
+            const newData = payload.new as { status?: string };
+            if (newData?.status === 'completed') {
+              console.log('🎉 Generation completed!');
+              toast.success('Трек готов! 🎵');
+              refetchTracks();
+              setTimeout(refetchTracks, 1000);
+            } else if (newData?.status === 'failed') {
+              toast.error('Ошибка генерации');
+              refetchTracks();
             }
-          )
-          .on(
-            'postgres_changes',
-            {
-              event: '*',
-              schema: 'public',
-              table: 'tracks',
-              filter: `user_id=eq.${user.id}`
-            },
-            (payload) => {
-              console.log('Realtime update for tracks:', payload);
-              reconnectAttempts.current = 0;
-              
-              // Check if track is now completed with audio
-              const newData = payload.new as { status?: string; audio_url?: string };
-              if (newData?.status === 'completed' && newData?.audio_url) {
-                console.log('🎵 Track completed with audio, refetching...');
-                queryClient.refetchQueries({ queryKey: ['tracks-infinite'] });
-                queryClient.refetchQueries({ queryKey: ['tracks'] });
-              }
-              
-              queryClient.invalidateQueries({ queryKey: ['active_generations'] });
+            queryClient.invalidateQueries({ queryKey: ['generation_tasks'] });
+          })
+          .on('postgres_changes', {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'tracks',
+            filter: `user_id=eq.${user.id}`
+          }, (payload) => {
+            const newData = payload.new as { status?: string; audio_url?: string };
+            const oldData = payload.old as { status?: string };
+            
+            console.log('📡 tracks UPDATE:', { old: oldData?.status, new: newData?.status, audio: !!newData?.audio_url });
+            reconnectAttempts.current = 0;
+            
+            if (newData?.status === 'completed' && oldData?.status !== 'completed') {
+              console.log('🎵 Track completed!');
+              refetchTracks();
+              setTimeout(refetchTracks, 500);
+            } else if (newData?.status === 'streaming_ready') {
+              console.log('🎧 Track streaming ready!');
+              refetchTracks();
             }
-          )
-          .on(
-            'postgres_changes',
-            {
-              event: 'INSERT',
-              schema: 'public',
-              table: 'track_versions',
-            },
-            (payload) => {
-              console.log('Realtime update for track_versions (new version):', payload);
-              // New version created - refetch tracks and versions
-              queryClient.invalidateQueries({ queryKey: ['track_versions'] });
-              queryClient.refetchQueries({ queryKey: ['tracks-infinite'] });
-            }
-          )
+          })
+          .on('postgres_changes', {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'tracks',
+            filter: `user_id=eq.${user.id}`
+          }, (payload) => {
+            console.log('📡 tracks INSERT');
+            reconnectAttempts.current = 0;
+            refetchTracks();
+          })
+          .on('postgres_changes', {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'track_versions',
+          }, (payload) => {
+            console.log('📡 track_versions INSERT');
+            queryClient.invalidateQueries({ queryKey: ['track_versions'] });
+            refetchTracks();
+          })
           .subscribe((status) => {
-            console.log('Generation Realtime status:', status);
-
+            console.log('📡 Realtime status:', status);
             if (status === 'CHANNEL_ERROR') {
               reconnectAttempts.current++;
               const backoffMs = Math.min(1000 * Math.pow(2, reconnectAttempts.current), 30000);
               setTimeout(() => {
-                if (realtimeChannel.current) {
-                  supabase.removeChannel(realtimeChannel.current);
-                }
+                if (realtimeChannel.current) supabase.removeChannel(realtimeChannel.current);
                 setupRealtime();
               }, backoffMs);
             } else if (status === 'SUBSCRIBED') {
@@ -109,7 +109,7 @@ export const useGenerationRealtime = () => {
             }
           });
       } catch (error) {
-        console.error('Error setting up generation realtime:', error);
+        console.error('Realtime setup error:', error);
         reconnectAttempts.current++;
       }
     };
