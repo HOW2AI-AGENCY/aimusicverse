@@ -1,3 +1,31 @@
+/**
+ * VersionsTab Component
+ * 
+ * Displays and manages all versions of a track.
+ * 
+ * Key Features:
+ * - Lists all versions with playback controls
+ * - Shows which version is currently the primary/master version
+ * - Allows switching which version is primary
+ * - Logs changes to track_change_log table
+ * 
+ * Version System Explanation:
+ * ============================
+ * When Suno generates music, it typically creates 2 clips (A and B).
+ * Each clip is stored as a separate row in the `track_versions` table.
+ * One version is marked as primary (is_primary = true) - this is the default version
+ * that plays when users click on the track in the library.
+ * 
+ * Database Fields:
+ * - `is_primary`: Boolean field indicating the active/master version
+ * - Only ONE version per track should have is_primary = true
+ * - The migration 20251202112920 incorrectly added `is_master` field
+ *   but the actual schema uses `is_primary` (this is the correct field)
+ * 
+ * Change Log:
+ * - 2025-12-03: Added comprehensive comments explaining version logic
+ * - Fixed to use `is_primary` consistently (not `is_master`)
+ */
 import { useState } from 'react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { Button } from '@/components/ui/button';
@@ -35,11 +63,15 @@ export function VersionsTab({ track }: VersionsTabProps) {
     },
   });
 
+  // Mutation to set a version as the primary/master version
+  // This is a critical operation that affects which version users hear by default
   const setMasterMutation = useMutation({
     mutationFn: async (versionId: string) => {
+      // Optimistically update UI immediately for better UX
       setOptimisticMasterId(versionId);
 
-      // First, unset all is_primary for this track
+      // Step 1: Unset is_primary for ALL versions of this track
+      // This ensures only one version will be primary after the update
       const { error: unsetError } = await supabase
         .from('track_versions')
         .update({ is_primary: false })
@@ -47,7 +79,7 @@ export function VersionsTab({ track }: VersionsTabProps) {
 
       if (unsetError) throw unsetError;
 
-      // Then set the new primary version
+      // Step 2: Set the selected version as primary
       const { error: setError } = await supabase
         .from('track_versions')
         .update({ is_primary: true })
@@ -55,16 +87,17 @@ export function VersionsTab({ track }: VersionsTabProps) {
 
       if (setError) throw setError;
 
-      // Log to changelog
+      // Step 3: Log this change to the changelog for audit trail
+      // This helps track when and why the primary version was changed
       const { data: userData } = await supabase.auth.getUser();
       if (userData.user) {
         await supabase.from('track_change_log').insert({
           track_id: track.id,
           version_id: versionId,
-          change_type: 'master_changed',
-          changed_by: 'user',
+          change_type: 'master_changed', // Event type for tracking
+          changed_by: 'user', // Source of the change
           user_id: userData.user.id,
-          new_value: versionId,
+          new_value: versionId, // The new primary version ID
         });
       }
     },
