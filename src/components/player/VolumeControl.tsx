@@ -1,20 +1,51 @@
+/**
+ * Volume Control Component
+ * 
+ * Audio volume control with mute toggle and visual slider.
+ * Persists volume preference to localStorage.
+ * 
+ * Features:
+ * - Volume slider (0-100%)
+ * - Mute/unmute toggle button
+ * - Dynamic volume icons (muted/low/high)
+ * - localStorage persistence
+ * - Remembers last volume when unmuting
+ * - Responsive sizing options
+ * - Visual feedback on interaction
+ * 
+ * @module VolumeControl
+ */
+
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Volume2, VolumeX, Volume1 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+/**
+ * Volume control component props
+ */
 interface VolumeControlProps {
-  volume: number;
-  muted: boolean;
-  onVolumeChange: (volume: number) => void;
-  onMutedChange: (muted: boolean) => void;
-  className?: string;
-  size?: 'sm' | 'md' | 'lg';
+  volume: number;                          // Current volume (0-1)
+  muted: boolean;                          // Mute state
+  onVolumeChange: (volume: number) => void; // Volume change callback
+  onMutedChange: (muted: boolean) => void;  // Mute state change callback
+  className?: string;                       // Additional CSS classes
+  size?: 'sm' | 'md' | 'lg';               // Size preset
 }
 
+/**
+ * localStorage key for volume persistence
+ * Allows volume to persist across sessions
+ */
 const STORAGE_KEY = 'musicverse-volume';
 
+/**
+ * Volume Control Component
+ * 
+ * @param props - Component props
+ * @returns Volume control with slider and mute button
+ */
 export function VolumeControl({
   volume: externalVolume,
   muted: externalMuted,
@@ -23,61 +54,96 @@ export function VolumeControl({
   className,
   size = 'md'
 }: VolumeControlProps) {
+  // Local state - allows controlled component behavior
   const [volume, setVolume] = useState(externalVolume);
   const [muted, setMuted] = useState(externalMuted);
+  
+  // Remember last non-zero volume for unmute restoration
   const [lastVolume, setLastVolume] = useState(externalVolume);
 
-  // Load volume from localStorage on mount
+  /**
+   * Load saved volume from localStorage on component mount
+   * Restores user's preferred volume setting
+   * 
+   * Validation: Ensures saved value is a valid number between 0 and 1
+   */
   useEffect(() => {
     const savedVolume = localStorage.getItem(STORAGE_KEY);
     if (savedVolume) {
       const parsedVolume = parseFloat(savedVolume);
+      // Validate saved volume is within acceptable range
       if (!isNaN(parsedVolume) && parsedVolume >= 0 && parsedVolume <= 1) {
         setVolume(parsedVolume);
         setLastVolume(parsedVolume);
-        onVolumeChange(parsedVolume);
+        onVolumeChange(parsedVolume); // Apply to audio element
       }
     }
-  }, []);
+  }, []); // Run once on mount
 
-  // Sync with external props
+  /**
+   * Sync internal state with external props
+   * Allows parent component to control volume programmatically
+   */
   useEffect(() => {
     setVolume(externalVolume);
     setMuted(externalMuted);
   }, [externalVolume, externalMuted]);
 
+  /**
+   * Handle volume slider changes
+   * 
+   * @param values - Array with single volume value (Slider component format)
+   * 
+   * Behavior:
+   * - Saves to localStorage for persistence
+   * - Auto-unmutes when volume increased from 0
+   * - Auto-mutes when volume set to 0
+   * - Updates parent component via callback
+   */
   const handleVolumeChange = (values: number[]) => {
     const newVolume = values[0];
     setVolume(newVolume);
     
-    // Save to localStorage
+    // Persist volume preference
     localStorage.setItem(STORAGE_KEY, newVolume.toString());
     
-    // Unmute if volume is increased
+    // Auto-unmute if user increases volume from muted state
     if (newVolume > 0 && muted) {
       setMuted(false);
       onMutedChange(false);
     }
     
-    // Mute if volume is 0
+    // Auto-mute if user drags volume to 0
     if (newVolume === 0 && !muted) {
       setMuted(true);
       onMutedChange(true);
     }
     
+    // Apply volume change to audio element
     onVolumeChange(newVolume);
   };
 
+  /**
+   * Toggle mute/unmute
+   * 
+   * Unmute behavior:
+   * - Restores last non-zero volume
+   * - Falls back to 50% if last volume was 0
+   * 
+   * Mute behavior:
+   * - Saves current volume for restoration
+   * - Sets volume to 0
+   */
   const toggleMute = () => {
     if (muted) {
-      // Unmute: restore last volume or set to 0.5 if it was 0
+      // Unmute: restore previous volume level
       const restoreVolume = lastVolume > 0 ? lastVolume : 0.5;
       setVolume(restoreVolume);
       setMuted(false);
       onVolumeChange(restoreVolume);
       onMutedChange(false);
     } else {
-      // Mute: save current volume and set to 0
+      // Mute: remember current volume for restoration
       setLastVolume(volume);
       setVolume(0);
       setMuted(true);
@@ -86,6 +152,14 @@ export function VolumeControl({
     }
   };
 
+  /**
+   * Get appropriate volume icon based on current state
+   * 
+   * @returns Icon component matching volume level
+   * - VolumeX: Muted or 0%
+   * - Volume1: Low (< 50%)
+   * - Volume2: High (≥ 50%)
+   */
   const getVolumeIcon = () => {
     if (muted || volume === 0) {
       return VolumeX;
