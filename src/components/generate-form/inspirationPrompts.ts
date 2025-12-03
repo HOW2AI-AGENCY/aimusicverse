@@ -104,7 +104,7 @@ export const INSPIRATION_PROMPTS: InspirationPrompt[] = [
     id: 'pop-3',
     genre: 'Pop',
     mood: 'Танцевальный',
-    description: 'Заводной disco-pop в духе Dua Lipa с фанковыми гитарами и четким грувом. Блестящие синтезаторы и groovy бас-линия. Призыв на танцпол с позитивным посылом. Женский вокал полный уверенности и стиля.',
+    description: 'Заводной disco-pop с фанковыми гитарами и четким грувом в стиле современного ретро. Блестящие синтезаторы и groovy бас-линия. Призыв на танцпол с позитивным посылом. Женский вокал полный уверенности и стиля.',
     style: 'disco pop, funky guitar, groovy bass, dance floor, confident female vocals',
   },
   {
@@ -134,7 +134,7 @@ export const INSPIRATION_PROMPTS: InspirationPrompt[] = [
     id: 'hiphop-3',
     genre: 'Hip-Hop',
     mood: 'Melodic',
-    description: 'Мелодичный trap с эмоциональными piano-мелодиями и auto-tune вокалом. Атмосферные пэды создают пространство для introspective lyrics. Медленный бит с тяжелыми 808, текст о боли и росте. Современное звучание с Drake/Post Malone вайбом.',
+    description: 'Мелодичный trap с эмоциональными piano-мелодиями и auto-tune вокалом. Атмосферные пэды создают пространство для introspective lyrics. Медленный бит с тяжелыми 808, текст о боли и росте. Современное звучание в стиле Toronto/LA melodic rap.',
     style: 'melodic trap, auto-tune, emotional piano, introspective, atmospheric',
   },
   {
@@ -351,7 +351,7 @@ export const INSPIRATION_PROMPTS: InspirationPrompt[] = [
     id: 'metal-3',
     genre: 'Symphonic Metal',
     mood: 'Величественный',
-    description: 'Величественный symphonic metal с оркестровыми аранжировками и оперным женским вокалом. Мощные гитары соседствуют с хором и струнными. Эпические темы битв и фэнтези. Nightwish meets power metal.',
+    description: 'Величественный symphonic metal с оркестровыми аранжировками и оперным женским вокалом. Мощные гитары соседствуют с хором и струнными. Эпические темы битв и фэнтези. Finnish symphonic metal aesthetic.',
     style: 'symphonic metal, orchestral, female opera vocals, epic, fantasy, powerful',
   },
 
@@ -381,7 +381,7 @@ export const INSPIRATION_PROMPTS: InspirationPrompt[] = [
     id: 'folk-2',
     genre: 'Indie Folk',
     mood: 'Меланхоличный',
-    description: 'Меланхоличный indie folk с layered вокальными гармониями и мягкими струнными. Акустическая гитара и banjo создают теплую текстуру. Текст о потере и памяти. Bon Iver meets Fleet Foxes.',
+    description: 'Меланхоличный indie folk с layered вокальными гармониями и мягкими струнными. Акустическая гитара и banjo создают теплую текстуру. Текст о потере и памяти. Wisconsin cabin folk aesthetic.',
     style: 'indie folk, vocal harmonies, acoustic, banjo, melancholic, introspective',
   },
 
@@ -397,7 +397,7 @@ export const INSPIRATION_PROMPTS: InspirationPrompt[] = [
     id: 'synthwave-2',
     genre: 'Darksynth',
     mood: 'Мрачный',
-    description: 'Мрачный darksynth с aggressive синтезаторами и industrial элементами. Тяжелый бит и distorted текстуры. Атмосфера cyberpunk dystopia. John Carpenter meets industrial.',
+    description: 'Мрачный darksynth с aggressive синтезаторами и industrial элементами. Тяжелый бит и distorted текстуры. Атмосфера cyberpunk dystopia. 80s horror movie soundtrack aesthetic meets industrial.',
     style: 'darksynth, industrial synths, heavy, cyberpunk, aggressive, dark',
   },
   {
@@ -441,7 +441,7 @@ export const INSPIRATION_PROMPTS: InspirationPrompt[] = [
     id: 'downtempo-1',
     genre: 'Downtempo',
     mood: 'Расслабленный',
-    description: 'Глубокий downtempo с organic текстурами и мягким грувом. World music элементы встречают electronic продакшн. Идеально для yoga, медитации или creative work. Bonobo meets Thievery Corporation.',
+    description: 'Глубокий downtempo с organic текстурами и мягким грувом. World music элементы встречают electronic продакшн. Идеально для yoga, медитации или creative work. Ninja Tune label aesthetic.',
     style: 'downtempo, organic, world music, chill, creative, sophisticated',
   },
 ];
