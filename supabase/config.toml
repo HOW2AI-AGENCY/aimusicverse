@@ -92,3 +92,30 @@ verify_jwt = true
 
 [functions.analyze-audio-flamingo]
 verify_jwt = true
+
+[functions.suno-add-instrumental]
+verify_jwt = true
+
+[functions.suno-add-vocals]
+verify_jwt = true
+
+[functions.suno-boost-style]
+verify_jwt = true
+
+[functions.suno-upload-extend]
+verify_jwt = true
+
+[functions.suno-upload-cover]
+verify_jwt = true
+
+[functions.suno-convert-wav]
+verify_jwt = true
+
+[functions.suno-wav-callback]
+verify_jwt = false
+
+[functions.suno-cover-callback]
+verify_jwt = false
+
+[functions.suno-generate-cover-image]
+verify_jwt = true
