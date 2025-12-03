@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Sparkles, Wand2, Star, ArrowRight } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { GenerateWizard } from "./GenerateWizard";
 import { SimpleMode } from "./SimpleMode";
 import { ProMode } from "./ProMode";
 import { AssistantWizard } from "./assistant/AssistantWizard";
+import { useGenerate } from "@/hooks/useGenerate";
+import { toast } from "sonner";
 
 type Mode = "hub" | "simple" | "pro" | "assistant";
 
@@ -39,11 +39,52 @@ const modes = [
 
 export const GenerateHub = () => {
   const [mode, setMode] = useState<Mode>("hub");
+  const { mutate: generate, isPending } = useGenerate();
 
   const handleAssistantComplete = (formData: any) => {
-    console.log('Generation form data:', formData);
-    // TODO: Implement actual generation logic
-    setMode("hub");
+    // Build generation params from assistant form data
+    const params: any = {
+      mode: formData.mode === 'prompt' ? 'simple' : 'custom',
+      prompt: formData.lyrics || formData.styleDescription || 'Generate music',
+      instrumental: formData.vocalType === 'instrumental',
+    };
+
+    // Add style from selected styles/moods
+    if (formData.styles?.length > 0 || formData.moods?.length > 0) {
+      const styleParts = [...(formData.styles || []), ...(formData.moods || [])];
+      params.style = styleParts.join(', ');
+      params.mode = 'custom';
+    }
+
+    // Add style description
+    if (formData.styleDescription) {
+      if (params.style) {
+        params.style = `${params.style}, ${formData.styleDescription}`;
+      } else {
+        params.style = formData.styleDescription;
+      }
+    }
+
+    // For simple mode without custom style, use prompt directly
+    if (params.mode === 'simple' && !params.style) {
+      params.prompt = formData.lyrics || formData.styleDescription || formData.prompt || 'Generate music';
+    }
+
+    // Handle lyrics for custom mode
+    if (params.mode === 'custom' && formData.lyrics && !params.instrumental) {
+      params.prompt = formData.lyrics;
+    }
+
+    console.log('Generating with params:', params);
+
+    generate(params, {
+      onSuccess: () => {
+        setMode("hub");
+      },
+      onError: (error) => {
+        console.error('Generation error:', error);
+      },
+    });
   };
 
   const renderContent = () => {
