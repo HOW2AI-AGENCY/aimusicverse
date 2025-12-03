@@ -15,7 +15,7 @@
  */
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { debounce, throttle, markPerformance, preloadAudio } from '@/lib/performance-utils';
+import { debounce, throttle, markPerformance, preloadAudio, requestIdleCallback } from '@/lib/performance-utils';
 
 /**
  * Props for optimized audio player hook
@@ -100,21 +100,12 @@ export const useOptimizedAudioPlayer = ({
       preloadRef.current = null;
     }
 
-    // Start preloading when browser is idle
-    if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(() => {
-        preloadAudio(nextTrackUrl).catch((error) => {
-          console.warn('Failed to preload next track:', error);
-        });
+    // Start preloading when browser is idle using utility function
+    requestIdleCallback(() => {
+      preloadAudio(nextTrackUrl).catch((error) => {
+        console.warn('Failed to preload next track:', error);
       });
-    } else {
-      // Fallback: preload after small delay
-      setTimeout(() => {
-        preloadAudio(nextTrackUrl).catch((error) => {
-          console.warn('Failed to preload next track:', error);
-        });
-      }, 1000);
-    }
+    }, { timeout: 1000 });
   }, [nextTrackUrl, enablePreload]);
 
   /**

@@ -143,14 +143,19 @@ export function PlaybackControls({ size = 'medium', className }: PlaybackControl
         onClick={toggleRepeat}
         className={cn(
           buttonSize,
-          'touch-manipulation transition-colors',
+          'touch-manipulation transition-colors relative',
           repeat !== 'off' && 'text-primary' // Highlight when active
         )}
         aria-label={`Repeat: ${repeat}`}
         aria-pressed={repeat !== 'off'} // Accessibility: indicate toggle state
       >
         <Repeat className={iconSize} />
-        {/* TODO: Add visual indicator for 'one' vs 'all' mode */}
+        {/* Visual indicator for repeat mode - shows small badge for repeat-one */}
+        {repeat === 'one' && (
+          <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+            1
+          </span>
+        )}
       </Button>
     </div>
   );

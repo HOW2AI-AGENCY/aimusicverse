@@ -308,17 +308,32 @@ export function isAudioFormatSupported(mimeType: string): boolean {
 }
 
 /**
+ * Network Information API type definitions
+ */
+interface NetworkInformation {
+  effectiveType?: '4g' | '3g' | '2g' | 'slow-2g';
+  downlink?: number;
+  rtt?: number;
+  saveData?: boolean;
+}
+
+interface NavigatorWithConnection extends Navigator {
+  connection?: NetworkInformation;
+  mozConnection?: NetworkInformation;
+  webkitConnection?: NetworkInformation;
+}
+
+/**
  * Get optimal audio quality based on network connection
  * 
  * @returns Recommended quality ('high' | 'medium' | 'low')
  */
 export function getOptimalAudioQuality(): 'high' | 'medium' | 'low' {
-  // Check Network Information API support
-  const connection = (navigator as any).connection || 
-                     (navigator as any).mozConnection || 
-                     (navigator as any).webkitConnection;
+  // Check Network Information API support with proper typing
+  const nav = navigator as NavigatorWithConnection;
+  const connection = nav.connection || nav.mozConnection || nav.webkitConnection;
 
-  if (!connection) {
+  if (!connection || !connection.effectiveType) {
     return 'medium'; // Default if API not available
   }
 
@@ -338,6 +353,19 @@ export function getOptimalAudioQuality(): 'high' | 'medium' | 'low' {
 }
 
 /**
+ * Performance Memory API type definitions (Chrome-specific)
+ */
+interface PerformanceMemory {
+  jsHeapSizeLimit: number;
+  totalJSHeapSize: number;
+  usedJSHeapSize: number;
+}
+
+interface PerformanceWithMemory extends Performance {
+  memory?: PerformanceMemory;
+}
+
+/**
  * Monitor memory usage and warn if threshold exceeded
  * 
  * @param thresholdMB - Threshold in megabytes
@@ -348,15 +376,17 @@ export function monitorMemoryUsage(
   thresholdMB: number,
   callback: (usage: number) => void
 ): () => void {
+  const perf = performance as PerformanceWithMemory;
+  
   // Check if performance.memory is available (Chrome only)
-  if (!('memory' in performance)) {
+  if (!perf.memory) {
     console.warn('Memory monitoring not available in this browser');
     return () => {};
   }
 
   const check = () => {
-    const memory = (performance as any).memory;
-    const usedMB = memory.usedJSHeapSize / 1024 / 1024;
+    if (!perf.memory) return;
+    const usedMB = perf.memory.usedJSHeapSize / 1024 / 1024;
 
     if (usedMB > thresholdMB) {
       callback(usedMB);
