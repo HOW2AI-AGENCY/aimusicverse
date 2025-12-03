@@ -1,7 +1,10 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
-import { Music2, Mic, Volume2, Wind, Drum, VolumeX, type LucideIcon } from 'lucide-react';
+import { 
+  Music2, Mic, Volume2, Wind, Drum, VolumeX, Guitar, Piano, 
+  Waves, Sparkles, type LucideIcon 
+} from 'lucide-react';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { cn } from '@/lib/utils';
 
@@ -13,20 +16,24 @@ interface StemTrackProps {
   isPlaying: boolean;
 }
 
-const stemIcons: Record<string, LucideIcon> = {
-  vocal: Mic,
-  instrumental: Music2,
-  drums: Drum,
-  bass: Music2,
-  atmosphere: Wind,
-};
-
-const stemColors: Record<string, string> = {
-  vocal: 'emerald',
-  instrumental: 'blue',
-  drums: 'orange',
-  bass: 'violet',
-  atmosphere: 'pink',
+const stemConfig: Record<string, { icon: LucideIcon; color: string; label: string }> = {
+  vocal: { icon: Mic, color: 'emerald', label: 'Вокал' },
+  vocals: { icon: Mic, color: 'emerald', label: 'Вокал' },
+  backing_vocals: { icon: Mic, color: 'teal', label: 'Бэк-вокал' },
+  instrumental: { icon: Music2, color: 'blue', label: 'Инструментал' },
+  drums: { icon: Drum, color: 'orange', label: 'Ударные' },
+  bass: { icon: Waves, color: 'violet', label: 'Бас' },
+  guitar: { icon: Guitar, color: 'amber', label: 'Гитара' },
+  keyboard: { icon: Piano, color: 'pink', label: 'Клавишные' },
+  piano: { icon: Piano, color: 'rose', label: 'Пианино' },
+  strings: { icon: Music2, color: 'indigo', label: 'Струнные' },
+  brass: { icon: Music2, color: 'yellow', label: 'Духовые медные' },
+  woodwinds: { icon: Wind, color: 'cyan', label: 'Духовые деревянные' },
+  percussion: { icon: Drum, color: 'red', label: 'Перкуссия' },
+  synth: { icon: Sparkles, color: 'fuchsia', label: 'Синтезатор' },
+  fx: { icon: Sparkles, color: 'purple', label: 'Эффекты' },
+  atmosphere: { icon: Wind, color: 'sky', label: 'Атмосфера' },
+  other: { icon: Music2, color: 'slate', label: 'Другое' },
 };
 
 // Generate stable waveform heights based on stem type
@@ -34,7 +41,6 @@ const generateWaveformHeights = (stemType: string): number[] => {
   const seed = stemType.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
   const heights: number[] = [];
   for (let i = 0; i < 60; i++) {
-    // Use seed-based pseudo-random generation for consistent heights
     const pseudoRandom = ((seed + i) * 9301 + 49297) % 233280 / 233280;
     heights.push(pseudoRandom * 80 + 20);
   }
@@ -43,21 +49,22 @@ const generateWaveformHeights = (stemType: string): number[] => {
 
 export function StemTrack({ stem, state, onToggle, onVolumeChange, isPlaying }: StemTrackProps) {
   const stemType = stem.stem_type.toLowerCase();
-  const Icon = stemIcons[stemType] || Music2;
-  const color = stemColors[stemType] || 'neutral';
+  const config = stemConfig[stemType] || stemConfig.other;
+  const Icon = config.icon;
+  const color = config.color;
+  const label = config.label;
   const waveformHeights = generateWaveformHeights(stemType);
   
   const isSoloActive = state.solo;
-  const colorClass = `${color}-500`;
 
   return (
     <Card className={cn(
-      "group relative p-4 transition-all duration-300",
-      isSoloActive && `bg-${color}-950/10 border-${color}-500/20`,
+      "group relative p-4 transition-all duration-300 border-border/50",
+      isSoloActive && "ring-1 ring-primary/30 bg-primary/5",
       state.muted && "opacity-50"
     )}>
       {isSoloActive && (
-        <div className={`absolute left-0 top-0 bottom-0 w-1 bg-${color}-500 rounded-l-lg`} />
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-lg" />
       )}
       
       <div className="flex items-center justify-between mb-4">
@@ -70,7 +77,7 @@ export function StemTrack({ stem, state, onToggle, onVolumeChange, isPlaying }: 
             <Icon className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold capitalize">{stem.stem_type}</h3>
+            <h3 className="text-sm font-semibold">{label}</h3>
             <p className="text-xs text-muted-foreground">
               {stem.separation_mode === 'simple' ? 'Простое' : 'Детальное'} разделение
             </p>
@@ -85,7 +92,7 @@ export function StemTrack({ stem, state, onToggle, onVolumeChange, isPlaying }: 
               size="sm"
               className={cn(
                 "w-7 h-7 text-xs font-bold p-0",
-                isSoloActive && "shadow-[0_0_12px_rgba(139,92,246,0.4)]"
+                isSoloActive && "shadow-lg"
               )}
               onClick={() => onToggle('solo')}
             >
@@ -96,7 +103,7 @@ export function StemTrack({ stem, state, onToggle, onVolumeChange, isPlaying }: 
               size="sm"
               className={cn(
                 "w-7 h-7 text-xs font-bold p-0",
-                state.muted && "bg-red-500/10 text-red-500 border-red-500/50"
+                state.muted && "bg-destructive/10 text-destructive"
               )}
               onClick={() => onToggle('mute')}
             >
