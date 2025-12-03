@@ -10,10 +10,12 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Track } from '@/hooks/useTracksOptimized';
-import { Share2, Copy, Check, ExternalLink, Loader2 } from 'lucide-react';
+import { Share2, Copy, Check, ExternalLink, Download, Camera } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { hapticNotification } from '@/lib/haptic';
+import { telegramShareService } from '@/services/telegram-share';
+import { useTelegram } from '@/contexts/TelegramContext';
 
 interface ShareTrackDialogProps {
   open: boolean;
@@ -25,26 +27,18 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
   const [shareUrl, setShareUrl] = useState('');
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { webApp } = useTelegram();
+  
+  const canShareToStory = telegramShareService.canShareToStory();
+  const canDownload = !!track.audio_url;
 
-  // Generate public share URL
+  // Generate public share URL (use Telegram deep link)
   useEffect(() => {
     if (open && track) {
       setLoading(true);
-      
-      // Generate share URL (TODO: replace with actual API call)
-      const baseUrl = window.location.origin;
-      const publicUrl = `${baseUrl}/share/track/${track.id}`;
-      
-      // Simulate API call with Promise-based approach
-      Promise.resolve(publicUrl)
-        .then((url) => {
-          setShareUrl(url);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error('Failed to generate share URL:', error);
-          setLoading(false);
-        });
+      const deepLink = telegramShareService.getTrackDeepLink(track.id);
+      setShareUrl(deepLink);
+      setLoading(false);
     }
   }, [open, track]);
 
@@ -61,31 +55,58 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
     }
   };
 
-  const handleShare = async () => {
-    // Check if Web Share API is available
-    if (navigator.share) {
-      try {
-        await navigator.share({
+  const handleShare = () => {
+    // Use Telegram SDK if available
+    const success = telegramShareService.shareURL(track);
+    if (success) {
+      hapticNotification('success');
+    } else {
+      // Fallback to Web Share API
+      if (navigator.share) {
+        navigator.share({
           title: track.title || 'Check out this track',
           text: `Listen to "${track.title}" on MusicVerse AI`,
           url: shareUrl,
+        }).catch((error) => {
+          if ((error as Error).name !== 'AbortError') {
+            handleCopy();
+          }
         });
-        
-        hapticNotification('success');
-      } catch (error) {
-        if ((error as Error).name !== 'AbortError') {
-          console.error('Error sharing:', error);
-          toast.error('Failed to share');
-        }
+      } else {
+        handleCopy();
       }
+    }
+  };
+
+  const handleShareToStory = () => {
+    if (!track.cover_url) {
+      toast.error('Нет обложки для истории');
+      return;
+    }
+    
+    const success = telegramShareService.shareToStory(track);
+    if (success) {
+      toast.success('Открыта Stories');
     } else {
-      // Fallback to copying
-      handleCopy();
+      toast.error('Stories не поддерживаются');
+    }
+  };
+
+  const handleDownload = async () => {
+    const success = await telegramShareService.downloadFile(track);
+    if (success) {
+      toast.success('Загрузка начата');
+    } else {
+      toast.error('Ошибка загрузки');
     }
   };
 
   const handleOpenInBrowser = () => {
-    window.open(shareUrl, '_blank');
+    if (webApp?.openTelegramLink) {
+      webApp.openTelegramLink(shareUrl);
+    } else {
+      window.open(shareUrl, '_blank');
+    }
   };
 
   return (
@@ -158,26 +179,48 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
           </div>
 
           {/* Share Actions */}
-          <div className="flex flex-col sm:flex-row gap-2">
+          <div className="grid grid-cols-2 gap-2">
             <Button
               variant="outline"
-              className="flex-1 gap-2"
+              className="gap-2"
+              onClick={handleShare}
+              disabled={loading || !shareUrl}
+            >
+              <Share2 className="h-4 w-4" />
+              Поделиться
+            </Button>
+            
+            {canShareToStory && track.cover_url && (
+              <Button
+                variant="outline"
+                className="gap-2"
+                onClick={handleShareToStory}
+              >
+                <Camera className="h-4 w-4" />
+                В историю
+              </Button>
+            )}
+            
+            {canDownload && (
+              <Button
+                variant="outline"
+                className="gap-2"
+                onClick={handleDownload}
+              >
+                <Download className="h-4 w-4" />
+                Скачать
+              </Button>
+            )}
+            
+            <Button
+              variant="outline"
+              className="gap-2"
               onClick={handleOpenInBrowser}
               disabled={loading || !shareUrl}
             >
               <ExternalLink className="h-4 w-4" />
-              Open in Browser
+              Открыть
             </Button>
-            {typeof navigator.share === 'function' && (
-              <Button
-                className="flex-1 gap-2"
-                onClick={handleShare}
-                disabled={loading || !shareUrl}
-              >
-                <Share2 className="h-4 w-4" />
-                Share
-              </Button>
-            )}
           </div>
 
           {/* Social Share Buttons (Optional) */}

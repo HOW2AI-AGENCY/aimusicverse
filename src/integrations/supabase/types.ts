@@ -1258,6 +1258,8 @@ export type Database = {
           suno_model: string | null
           suno_task_id: string | null
           tags: string | null
+          telegram_cover_file_id: string | null
+          telegram_file_id: string | null
           title: string | null
           updated_at: string | null
           user_id: string
@@ -1293,6 +1295,8 @@ export type Database = {
           suno_model?: string | null
           suno_task_id?: string | null
           tags?: string | null
+          telegram_cover_file_id?: string | null
+          telegram_file_id?: string | null
           title?: string | null
           updated_at?: string | null
           user_id: string
@@ -1328,6 +1332,8 @@ export type Database = {
           suno_model?: string | null
           suno_task_id?: string | null
           tags?: string | null
+          telegram_cover_file_id?: string | null
+          telegram_file_id?: string | null
           title?: string | null
           updated_at?: string | null
           user_id?: string

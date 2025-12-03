@@ -58,6 +58,25 @@ interface TelegramWebApp {
   }, callback?: (buttonId: string) => void) => void;
   openLink?: (url: string) => void;
   openTelegramLink?: (url: string) => void;
+  
+  // Share to Story (available in Telegram 7.8+)
+  shareToStory?: (
+    mediaUrl: string,
+    options?: {
+      text?: string;
+      widgetLink?: { url: string; name?: string };
+    }
+  ) => void;
+  
+  // Download file (available in Telegram 8.0+)
+  downloadFile?: (params: { url: string; file_name: string }, callback?: (accepted: boolean) => void) => void;
+  
+  // Share URL (available in Telegram 8.0+)
+  shareURL?: (url: string, text?: string) => void;
+  
+  // Switch inline query
+  switchInlineQuery?: (query: string, chooseChatTypes?: Array<'users' | 'bots' | 'groups' | 'channels'>) => void;
+  
   MainButton: {
     text: string;
     color: string;

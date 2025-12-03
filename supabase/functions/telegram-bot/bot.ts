@@ -9,9 +9,15 @@ import { BOT_CONFIG } from './config.ts';
 import { handleNavigationCallback } from './handlers/navigation.ts';
 import { handleMediaCallback } from './handlers/media.ts';
 import { logger, checkRateLimit } from './utils/index.ts';
+import { handleInlineQuery } from './commands/inline.ts';
 
 export async function handleUpdate(update: TelegramUpdate) {
   try {
+    // Handle inline queries for sharing tracks
+    if (update.inline_query) {
+      await handleInlineQuery(update.inline_query);
+      return;
+    }
     // Handle callback queries from inline buttons
     if (update.callback_query) {
       const { id, data, message, from } = update.callback_query;
