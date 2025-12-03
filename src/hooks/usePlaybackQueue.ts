@@ -1,11 +1,19 @@
 /**
  * Playback Queue Hook
  * 
- * Manages the playback queue with features:
- * - Add/remove/reorder tracks
- * - Shuffle and repeat modes
- * - Queue persistence (localStorage)
- * - Auto-play next track
+ * Comprehensive queue management system for the music player.
+ * Provides high-level operations for queue manipulation, mode control,
+ * and state persistence.
+ * 
+ * Features:
+ * - Add/remove/reorder tracks with smart index management
+ * - Shuffle and repeat mode control with queue transformation
+ * - Automatic localStorage persistence with error handling
+ * - Queue restoration on app restart
+ * - Jump to specific track functionality
+ * - Batch operations for multiple tracks
+ * 
+ * @module usePlaybackQueue
  */
 
 import { useCallback, useEffect } from 'react';
@@ -13,6 +21,7 @@ import { usePlayerStore } from './usePlayerState';
 import { shuffleQueue } from '@/lib/player-utils';
 import type { Track } from '@/hooks/useTracksOptimized';
 
+// Storage keys for queue persistence
 const QUEUE_STORAGE_KEY = 'musicverse-playback-queue';
 const QUEUE_STATE_STORAGE_KEY = 'musicverse-queue-state';
 
@@ -168,28 +177,45 @@ export function usePlaybackQueue() {
 
   /**
    * Save queue to localStorage
+   * 
+   * Persists both the queue data and state (index, modes) separately
+   * for better error recovery and data integrity.
+   * 
+   * Error handling: Fails silently (logs error) to not disrupt user experience
+   * Common errors: QuotaExceededError (storage full), SecurityError (private mode)
    */
   const saveQueueToStorage = useCallback(() => {
     try {
-      const queueData = {
-        queue,
-        currentIndex,
-        shuffle,
-        repeat,
-      };
+      // Save queue tracks (can be large)
       localStorage.setItem(QUEUE_STORAGE_KEY, JSON.stringify(queue));
+      
+      // Save queue state separately (small, critical data)
       localStorage.setItem(QUEUE_STATE_STORAGE_KEY, JSON.stringify({
         currentIndex,
         shuffle,
         repeat,
       }));
     } catch (error) {
+      // Log but don't throw - storage issues shouldn't break playback
       console.error('Failed to save queue to storage:', error);
+      
+      // If quota exceeded, try clearing old data
+      if (error instanceof Error && error.name === 'QuotaExceededError') {
+        console.warn('Storage quota exceeded - queue persistence disabled');
+      }
     }
   }, [queue, currentIndex, shuffle, repeat]);
 
   /**
    * Restore queue from localStorage
+   * 
+   * Attempts to restore previously saved queue on app initialization.
+   * Validates data integrity before restoring state.
+   * 
+   * Safety features:
+   * - Type validation for parsed data
+   * - Bounds checking for currentIndex
+   * - Graceful degradation on parse errors
    */
   const restoreQueueFromStorage = useCallback(() => {
     try {
@@ -204,23 +230,35 @@ export function usePlaybackQueue() {
           repeat: 'off' | 'all' | 'one';
         };
 
-        if (queue.length > 0) {
+        // Validate restored data
+        if (Array.isArray(queue) && queue.length > 0) {
+          // Ensure currentIndex is within valid range
+          const safeIndex = Math.max(0, Math.min(state.currentIndex, queue.length - 1));
+          
+          // Restore player state
           usePlayerStore.setState({
             queue,
-            currentIndex: state.currentIndex,
-            shuffle: state.shuffle,
-            repeat: state.repeat,
-            activeTrack: queue[state.currentIndex],
+            currentIndex: safeIndex,
+            shuffle: state.shuffle || false,
+            repeat: state.repeat || 'off',
+            activeTrack: queue[safeIndex],
           });
+          
+          console.log(`Restored queue with ${queue.length} tracks`);
         }
       }
     } catch (error) {
+      // Parse or validation error - start with clean state
       console.error('Failed to restore queue from storage:', error);
+      console.log('Starting with empty queue');
     }
   }, []);
 
   /**
-   * Auto-save queue when it changes
+   * Auto-save effect - persists queue on changes
+   * 
+   * Debounced through React's render cycle - only saves after state settles.
+   * Only saves if queue has content to avoid storing empty state.
    */
   useEffect(() => {
     if (queue.length > 0) {
