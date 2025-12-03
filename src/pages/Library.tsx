@@ -20,6 +20,7 @@ import { GeneratingTrackSkeleton } from "@/components/library/GeneratingTrackSke
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useSyncStaleTasks } from "@/hooks/useSyncStaleTasks";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface GenerationTask {
   id: string;
@@ -45,12 +46,20 @@ const fetchActiveGenerations = async (userId: string) => {
 
 export default function Library() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
+  const isMobile = useIsMobile();
   const [searchQuery, setSearchQuery] = useState("");
   const { activeTrack, playTrack } = usePlayerStore();
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [viewMode, setViewMode] = useState<"grid" | "list">(() => isMobile ? "list" : "grid");
   const [sortBy, setSortBy] = useState<"recent" | "popular" | "liked">("recent");
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
   const loadMoreRef = useRef<HTMLDivElement>(null);
+
+  // Update view mode when mobile state changes
+  useEffect(() => {
+    if (isMobile && viewMode === "grid") {
+      setViewMode("list");
+    }
+  }, [isMobile]);
 
   useGenerationRealtime();
   

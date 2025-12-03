@@ -1,19 +1,31 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, Play, Pause, SkipBack, SkipForward, Download, Share2 } from 'lucide-react';
+import { 
+  ChevronLeft, Play, Pause, SkipBack, SkipForward, Download, Share2,
+  Volume2, VolumeX
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
 import { useTrackStems } from '@/hooks/useTrackStems';
 import { useTracks } from '@/hooks/useTracks';
-import { StemTrack } from '@/components/stem-studio/StemTrack';
-import { StudioTimeline } from '@/components/stem-studio/StudioTimeline';
+import { StemChannel } from '@/components/stem-studio/StemChannel';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface StemStudioContentProps {
   trackId: string;
 }
 
+interface StemState {
+  muted: boolean;
+  solo: boolean;
+  volume: number;
+}
+
 export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const { data: stems, isLoading: stemsLoading } = useTrackStems(trackId);
   const { tracks } = useTracks();
   const track = tracks?.find(t => t.id === trackId);
@@ -21,58 +33,84 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [stemStates, setStemStates] = useState<Record<string, { muted: boolean; solo: boolean; volume: number }>>({});
+  const [masterVolume, setMasterVolume] = useState(0.85);
+  const [masterMuted, setMasterMuted] = useState(false);
+  const [stemStates, setStemStates] = useState<Record<string, StemState>>({});
 
   const audioRefs = useRef<Record<string, HTMLAudioElement>>({});
   const animationFrameRef = useRef<number | undefined>(undefined);
 
+  // Initialize audio elements and stem states
   useEffect(() => {
-    if (!stems) return;
+    if (!stems || stems.length === 0) return;
     
-    const initialStates: Record<string, { muted: boolean; solo: boolean; volume: number }> = {};
+    const initialStates: Record<string, StemState> = {};
     let maxDuration = 0;
 
     stems.forEach(stem => {
       initialStates[stem.id] = { muted: false, solo: false, volume: 0.85 };
 
-      const audio = new Audio(stem.audio_url);
-      audio.crossOrigin = 'anonymous';
-      audioRefs.current[stem.id] = audio;
+      if (!audioRefs.current[stem.id]) {
+        const audio = new Audio(stem.audio_url);
+        audio.crossOrigin = 'anonymous';
+        audio.preload = 'auto';
+        audioRefs.current[stem.id] = audio;
 
-      audio.addEventListener('loadedmetadata', () => {
-        if (audio.duration > maxDuration) {
-          maxDuration = audio.duration;
-          setDuration(maxDuration);
-        }
-      });
+        audio.addEventListener('loadedmetadata', () => {
+          if (audio.duration > maxDuration) {
+            maxDuration = audio.duration;
+            setDuration(maxDuration);
+          }
+        });
+
+        audio.addEventListener('ended', () => {
+          setIsPlaying(false);
+          setCurrentTime(0);
+        });
+      }
     });
     
-    // Initialize states after all audio elements are created (in a separate effect to avoid cascading renders)
-    requestAnimationFrame(() => {
-      setStemStates(initialStates);
+    setStemStates(prev => {
+      // Only update if we don't have states yet
+      if (Object.keys(prev).length === 0) {
+        return initialStates;
+      }
+      return prev;
     });
 
-    const audioElements = Object.values(audioRefs.current);
     return () => {
-      audioElements.forEach(audio => {
+      Object.values(audioRefs.current).forEach(audio => {
         audio.pause();
         audio.src = '';
       });
+      audioRefs.current = {};
     };
   }, [stems]);
 
-  const updateTime = () => {
-    if (isPlaying) {
-      const firstAudio = Object.values(audioRefs.current)[0];
-      if (firstAudio) {
-        setCurrentTime(firstAudio.currentTime);
-      }
-      animationFrameRef.current = requestAnimationFrame(updateTime);
+  // Update volumes when master or individual volumes change
+  useEffect(() => {
+    const hasSolo = Object.values(stemStates).some(s => s.solo);
+    
+    Object.entries(audioRefs.current).forEach(([id, audio]) => {
+      const state = stemStates[id];
+      if (!state) return;
+      
+      const isMuted = masterMuted || state.muted || (hasSolo && !state.solo);
+      audio.volume = isMuted ? 0 : state.volume * masterVolume;
+    });
+  }, [stemStates, masterVolume, masterMuted]);
+
+  const updateTime = useCallback(() => {
+    const firstAudio = Object.values(audioRefs.current)[0];
+    if (firstAudio) {
+      setCurrentTime(firstAudio.currentTime);
     }
-  };
+    animationFrameRef.current = requestAnimationFrame(updateTime);
+  }, []);
 
   const togglePlay = async () => {
     const audios = Object.values(audioRefs.current);
+    if (audios.length === 0) return;
 
     if (isPlaying) {
       audios.forEach(audio => audio.pause());
@@ -81,24 +119,13 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       }
       setIsPlaying(false);
     } else {
-      // Sync all audio elements
-      const targetTime = currentTime;
+      // Sync all audio elements to current time
       audios.forEach(audio => {
-        audio.currentTime = targetTime;
-      });
-
-      // Play all non-muted stems
-      const playPromises = audios.map((audio, idx) => {
-        const stemId = stems?.[idx]?.id;
-        if (stemId && !stemStates[stemId]?.muted) {
-          audio.volume = stemStates[stemId]?.volume || 0.85;
-          return audio.play();
-        }
-        return Promise.resolve();
+        audio.currentTime = currentTime;
       });
 
       try {
-        await Promise.all(playPromises);
+        await Promise.all(audios.map(audio => audio.play()));
         setIsPlaying(true);
         animationFrameRef.current = requestAnimationFrame(updateTime);
       } catch (error) {
@@ -113,32 +140,22 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       const newStates = { ...prev };
 
       if (type === 'solo') {
-        const isSolo = !prev[stemId].solo;
-
-        // If enabling solo, mute all others
-        if (isSolo) {
+        const wasSolo = prev[stemId]?.solo;
+        
+        // Toggle solo for this stem
+        newStates[stemId] = { ...newStates[stemId], solo: !wasSolo };
+        
+        // If we're enabling solo on this one, disable solo on others
+        if (!wasSolo) {
           Object.keys(newStates).forEach(id => {
-            newStates[id] = { ...newStates[id], muted: id !== stemId };
-          });
-        } else {
-          // If disabling solo, unmute all
-          Object.keys(newStates).forEach(id => {
-            newStates[id] = { ...newStates[id], muted: false };
+            if (id !== stemId) {
+              newStates[id] = { ...newStates[id], solo: false };
+            }
           });
         }
-
-        newStates[stemId] = { ...newStates[stemId], solo: isSolo };
       } else {
-        newStates[stemId] = { ...newStates[stemId], muted: !prev[stemId].muted };
+        newStates[stemId] = { ...newStates[stemId], muted: !prev[stemId]?.muted };
       }
-
-      // Apply mute state to audio
-      Object.keys(newStates).forEach(id => {
-        const audio = audioRefs.current[id];
-        if (audio) {
-          audio.volume = newStates[id].muted ? 0 : (newStates[id].volume || 0.85);
-        }
-      });
 
       return newStates;
     });
@@ -149,18 +166,22 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       ...prev,
       [stemId]: { ...prev[stemId], volume }
     }));
-
-    const audio = audioRefs.current[stemId];
-    if (audio && !stemStates[stemId]?.muted) {
-      audio.volume = volume;
-    }
   };
 
-  const handleSeek = (time: number) => {
+  const handleSeek = (value: number[]) => {
+    const time = value[0];
     setCurrentTime(time);
     Object.values(audioRefs.current).forEach(audio => {
       audio.currentTime = time;
     });
+  };
+
+  const handleSkip = (direction: 'back' | 'forward') => {
+    const skipAmount = 10;
+    const newTime = direction === 'back' 
+      ? Math.max(0, currentTime - skipAmount)
+      : Math.min(duration, currentTime + skipAmount);
+    handleSeek([newTime]);
   };
 
   const formatTime = (seconds: number) => {
@@ -169,9 +190,13 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const handleExport = () => {
+    toast.info('Функция экспорта микса в разработке');
+  };
+
   if (!track || stemsLoading) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-screen bg-background">
         <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full" />
       </div>
     );
@@ -179,7 +204,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
 
   if (!stems || stems.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen gap-4">
+      <div className="flex flex-col items-center justify-center h-screen gap-4 bg-background">
         <p className="text-muted-foreground">У этого трека нет стемов</p>
         <Button onClick={() => navigate('/library')}>Вернуться в библиотеку</Button>
       </div>
@@ -189,44 +214,92 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   return (
     <div className="h-screen flex flex-col bg-background overflow-hidden">
       {/* Header */}
-      <header className="flex items-center justify-between px-6 py-4 border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="flex items-center gap-4">
+      <header className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-border/50 bg-card/50 backdrop-blur">
+        <div className="flex items-center gap-3">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => navigate('/library')}
-            className="rounded-full"
+            className="rounded-full h-10 w-10"
           >
             <ChevronLeft className="w-5 h-5" />
           </Button>
-          <div className="h-6 w-[1px] bg-border" />
           <div className="flex flex-col">
             <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
               Студия стемов
             </span>
-            <h1 className="text-sm font-semibold">{track.title || 'Без названия'}</h1>
+            <h1 className="text-sm font-semibold truncate max-w-[200px] sm:max-w-none">
+              {track.title || 'Без названия'}
+            </h1>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" className="gap-2">
-            <Share2 className="w-4 h-4" />
-            Поделиться
-          </Button>
-        </div>
+        {!isMobile && (
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" className="gap-2">
+              <Share2 className="w-4 h-4" />
+              Поделиться
+            </Button>
+          </div>
+        )}
       </header>
 
-      {/* Timeline */}
-      <StudioTimeline
-        currentTime={currentTime}
-        duration={duration}
-        onSeek={handleSeek}
-      />
+      {/* Timeline / Progress */}
+      <div className="px-4 sm:px-6 py-4 border-b border-border/30 bg-card/30">
+        <div className="flex items-center gap-4">
+          <span className="text-xs text-muted-foreground font-mono tabular-nums w-12">
+            {formatTime(currentTime)}
+          </span>
+          <Slider
+            value={[currentTime]}
+            min={0}
+            max={duration || 100}
+            step={0.1}
+            onValueChange={handleSeek}
+            className="flex-1"
+          />
+          <span className="text-xs text-muted-foreground font-mono tabular-nums w-12 text-right">
+            {formatTime(duration)}
+          </span>
+        </div>
+      </div>
 
-      {/* Tracks */}
-      <main className="flex-1 overflow-y-auto p-6 space-y-4 pb-32">
+      {/* Master Volume */}
+      <div className="px-4 sm:px-6 py-3 border-b border-border/30 bg-gradient-to-r from-primary/5 to-transparent">
+        <div className="flex items-center gap-4">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMasterMuted(!masterMuted)}
+            className={cn(
+              "h-9 w-9 rounded-full",
+              masterMuted && "text-destructive"
+            )}
+          >
+            {masterMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+          </Button>
+          <div className="flex-1">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-xs font-semibold uppercase tracking-wide">Master</span>
+              <span className="text-xs text-muted-foreground">{Math.round(masterVolume * 100)}%</span>
+            </div>
+            <Slider
+              value={[masterVolume]}
+              min={0}
+              max={1}
+              step={0.01}
+              onValueChange={(v) => setMasterVolume(v[0])}
+              className="w-full"
+              disabled={masterMuted}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Stem Channels */}
+      <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-3 pb-32">
         {stems.map((stem) => (
-          <StemTrack
+          <StemChannel
             key={stem.id}
             stem={stem}
             state={stemStates[stem.id] || { muted: false, solo: false, volume: 0.85 }}
@@ -238,51 +311,59 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       </main>
 
       {/* Footer Player */}
-      <footer className="fixed bottom-0 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-t border-border/50 px-6 py-4">
-        <div className="flex items-center justify-between gap-6 max-w-screen-xl mx-auto">
-          {/* Controls */}
-          <div className="flex items-center gap-4 w-1/3">
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <SkipBack className="w-5 h-5" />
+      <footer className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur border-t border-border/50 px-4 sm:px-6 py-4 safe-area-pb">
+        <div className={cn(
+          "flex items-center gap-4 max-w-screen-xl mx-auto",
+          isMobile ? "justify-center" : "justify-between"
+        )}>
+          {/* Playback Controls */}
+          <div className="flex items-center gap-2">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="rounded-full h-10 w-10"
+              onClick={() => handleSkip('back')}
+            >
+              <SkipBack className="w-4 h-4" />
             </Button>
 
             <Button
               onClick={togglePlay}
               size="icon"
-              className="w-12 h-12 rounded-full shadow-lg hover:scale-105 transition-transform"
+              className="w-14 h-14 rounded-full shadow-lg hover:scale-105 transition-transform bg-primary text-primary-foreground"
             >
               {isPlaying ? (
-                <Pause className="w-5 h-5" />
+                <Pause className="w-6 h-6" />
               ) : (
-                <Play className="w-5 h-5 ml-0.5" />
+                <Play className="w-6 h-6 ml-0.5" />
               )}
             </Button>
 
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <SkipForward className="w-5 h-5" />
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="rounded-full h-10 w-10"
+              onClick={() => handleSkip('forward')}
+            >
+              <SkipForward className="w-4 h-4" />
             </Button>
           </div>
 
-          {/* Time Display */}
-          <div className="flex flex-col items-center w-1/3">
-            <span className="text-xs text-muted-foreground font-mono tabular-nums">
-              {formatTime(currentTime)} / {formatTime(duration)}
-            </span>
-          </div>
-
-          {/* Export */}
-          <div className="flex items-center justify-end gap-4 w-1/3">
-            <div className="flex flex-col items-end">
-              <span className="text-xs font-semibold">Экспорт</span>
-              <span className="text-[10px] text-muted-foreground">MP3 • 320kbps</span>
+          {/* Export (desktop only) */}
+          {!isMobile && (
+            <div className="flex items-center gap-4">
+              <div className="flex flex-col items-end">
+                <span className="text-xs font-semibold">Экспорт</span>
+                <span className="text-[10px] text-muted-foreground">MP3 • 320kbps</span>
+              </div>
+              <Button className="gap-2" onClick={handleExport}>
+                <Download className="w-4 h-4" />
+                Микс
+              </Button>
             </div>
-            <Button className="gap-2">
-              <Download className="w-4 h-4" />
-              Микс
-            </Button>
-          </div>
+          )}
         </div>
       </footer>
     </div>
   );
-}
+};
