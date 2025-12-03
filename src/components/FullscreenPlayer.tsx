@@ -5,13 +5,13 @@ import { Slider } from '@/components/ui/slider';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { useAudioPlayer } from '@/hooks/useAudioPlayer';
+import { useAudioTime } from '@/hooks/useAudioTime';
+import { usePlayerStore } from '@/hooks/usePlayerState';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useTracks, Track } from '@/hooks/useTracksOptimized';
 import { useTrackActions } from '@/hooks/useTrackActions';
-import { AudioWaveformVisualizer } from '@/components/AudioWaveformVisualizer';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { PlaybackControls } from '@/components/player/PlaybackControls';
 import { ProgressBar } from '@/components/player/ProgressBar';
 import { QueueSheet } from '@/components/player/QueueSheet';
@@ -42,6 +42,7 @@ interface FullscreenPlayerProps {
 }
 
 export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPlayerProps) {
+  // ALL HOOKS MUST BE CALLED BEFORE ANY CONDITIONAL RETURNS
   const isMobile = useIsMobile();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [volume, setVolume] = useState(1);
@@ -50,39 +51,19 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
   const [selectedVersionId, setSelectedVersionId] = useState<string | null>(
     versions.find(v => v.is_primary)?.id || versions[0]?.id || null
   );
+  
   const { toggleLike, downloadTrack } = useTracks();
   const { handleShare } = useTrackActions();
-
-  // Use mobile-specific player on mobile devices
-  if (isMobile) {
-    return <MobileFullscreenPlayer track={track} onClose={onClose} />;
-  }
-
-  const selectedVersion = versions.find(v => v.id === selectedVersionId);
-  const audioUrl = selectedVersion?.audio_url || track.audio_url;
-  const coverUrl = selectedVersion?.cover_url || track.cover_url;
-
-  const {
-    isPlaying,
-    currentTime,
-    duration,
-    buffered,
-    loading,
-    togglePlay,
-    seek,
-    setVolume: setAudioVolume,
-  } = useAudioPlayer({
-    trackId: track.id,
-    streamingUrl: track.streaming_url,
-    localAudioUrl: track.local_audio_url,
-    audioUrl,
-  });
-
+  
+  // Use global audio system instead of local useAudioPlayer
+  const { currentTime, duration, buffered, seek, setVolume: setAudioVolume } = useAudioTime();
+  const { isPlaying } = usePlayerStore();
+  
   const { data: lyricsData } = useTimestampedLyrics(
     track.suno_task_id || null,
     track.suno_id || null
   );
-
+  
   const lyricsRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll lyrics
@@ -100,6 +81,15 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
       }
     }
   }, [currentTime, lyricsData]);
+
+  // NOW it's safe to do conditional return after all hooks
+  if (isMobile) {
+    return <MobileFullscreenPlayer track={track} onClose={onClose} />;
+  }
+
+  const selectedVersion = versions.find(v => v.id === selectedVersionId);
+  const audioUrl = selectedVersion?.audio_url || track.audio_url;
+  const coverUrl = selectedVersion?.cover_url || track.cover_url;
 
   const formatTime = (seconds: number) => {
     if (!seconds || !isFinite(seconds)) return '0:00';
@@ -206,11 +196,10 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
             {versions.length > 1 && (
               <div className="flex gap-2 flex-wrap justify-center">
                 {versions.map((version, index) => (
-                  <TooltipProvider>
+                  <TooltipProvider key={version.id}>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
-                          key={version.id}
                           variant={selectedVersionId === version.id ? 'default' : 'outline'}
                           size="sm"
                           onClick={() => setSelectedVersionId(version.id)}

@@ -75,5 +75,11 @@ export function useAudioTime() {
     }
   }, []);
 
-  return { currentTime, duration, buffered, seek, isPlaying };
+  const setVolume = useCallback((volume: number) => {
+    if (globalAudio) {
+      globalAudio.volume = Math.max(0, Math.min(1, volume));
+    }
+  }, []);
+
+  return { currentTime, duration, buffered, seek, setVolume, isPlaying };
 }
