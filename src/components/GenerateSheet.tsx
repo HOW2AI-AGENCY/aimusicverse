@@ -24,7 +24,7 @@ import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
 import { AdvancedSettings } from './generate-form/AdvancedSettings';
 import { LyricsVisualEditor } from './generate-form/LyricsVisualEditor';
 import { PromptHistory, savePromptToHistory } from './generate-form/PromptHistory';
-import { AILyricsAssistantDialog } from './generate-form/AILyricsAssistantDialog';
+import { AILyricsWizard } from './generate-form/AILyricsWizard';
 
 interface GenerateSheetProps {
   open: boolean;
@@ -808,12 +808,14 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         }}
       />
 
-      {/* AI Lyrics Assistant */}
-      <AILyricsAssistantDialog
+      {/* AI Lyrics Wizard */}
+      <AILyricsWizard
         open={lyricsAssistantOpen}
         onOpenChange={setLyricsAssistantOpen}
-        existingLyrics={lyrics}
-        onLyricsGenerated={(newLyrics) => setLyrics(newLyrics)}
+        onLyricsGenerated={(newLyrics: string) => setLyrics(newLyrics)}
+        initialArtistId={selectedArtistId}
+        initialArtistName={artists?.find(a => a.id === selectedArtistId)?.name}
+        initialGenre={projects?.find(p => p.id === selectedProjectId)?.genre || undefined}
       />
       
       <UploadExtendDialog 
