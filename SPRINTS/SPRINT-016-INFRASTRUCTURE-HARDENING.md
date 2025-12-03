@@ -6,6 +6,12 @@
 **Estimated Tasks**: 28 задач  
 **Story Points**: 34 SP
 
+**Prerequisite**: Sprint 010 Phase 0 должен быть завершен (базовая storage infrastructure)
+
+**Ключевые документы**:
+- [Infrastructure Audit](../INFRASTRUCTURE_AUDIT_2025-12-03.md) - базовый план, реализованный в Sprint 010
+- [Constitution v2.1.0](../.specify/memory/constitution.md) - Storage standards и performance benchmarks
+
 ---
 
 ## 📋 Обзор

@@ -283,7 +283,7 @@ interface ChangelogEntry {
     {versions.map(v => (
       <SelectItem key={v.id} value={v.id}>
         <div className="flex items-center gap-2">
-          {v.is_master && <Star className="w-3 h-3 text-yellow-500" />}
+          {v.is_primary && <Star className="w-3 h-3 text-yellow-500" />}
           <span>Version {v.version_number}</span>
           <Badge>{v.version_type}</Badge>
         </div>
@@ -308,17 +308,17 @@ interface ChangelogEntry {
 ```sql
 -- Add to tracks table
 ALTER TABLE music_tracks
-ADD COLUMN master_version_id UUID REFERENCES track_versions(id);
+ADD COLUMN primary_version_id UUID REFERENCES track_versions(id);
 
 -- Add to track_versions table  
 ALTER TABLE track_versions
 ADD COLUMN version_number INTEGER NOT NULL,
-ADD COLUMN is_master BOOLEAN DEFAULT false;
+ADD COLUMN is_primary BOOLEAN DEFAULT false;
 
 -- Ensure one master per track
 CREATE UNIQUE INDEX idx_one_master_per_track 
 ON track_versions(track_id) 
-WHERE is_master = true;
+WHERE is_primary = true;
 ```
 
 ---

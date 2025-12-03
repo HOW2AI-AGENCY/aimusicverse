@@ -28,12 +28,12 @@
 
 ### Database Migrations
 
-- [ ] T001 Create migration to add master_version_id to music_tracks table in supabase/migrations/[timestamp]_add_master_version.sql
-- [ ] T002 Create migration to add version_number and is_master fields to track_versions table in supabase/migrations/[timestamp]_add_version_fields.sql
-- [ ] T003 Create migration for track_changelog table with proper indexes in supabase/migrations/[timestamp]_create_changelog_table.sql
+- [ ] T001 Create migration to add primary_version_id to music_tracks table in supabase/migrations/[timestamp]_add_master_version.sql
+- [ ] T002 Create migration to add version_number and is_primary fields to track_versions table in supabase/migrations/[timestamp]_add_version_fields.sql
+- [ ] T003 Create migration for track_change_log table with proper indexes in supabase/migrations/[timestamp]_create_changelog_table.sql
 - [ ] T004 [P] Create migration for playlists and playlist_tracks tables in supabase/migrations/[timestamp]_create_playlists_tables.sql
 - [ ] T005 Create migration to add performance indexes in supabase/migrations/[timestamp]_add_indexes.sql
-- [ ] T006 Create data migration script to populate version_number and is_master for existing data in supabase/migrations/[timestamp]_migrate_existing_data.sql
+- [ ] T006 Create data migration script to populate version_number and is_primary for existing data in supabase/migrations/[timestamp]_migrate_existing_data.sql
 
 ### Type System Updates
 
@@ -47,7 +47,7 @@
 
 ### Core Utility Libraries
 
-- [X] T014 [P] Create versioning utility functions in src/lib/versioning.ts (getVersionNumber, setMasterVersion, etc.)
+- [X] T014 [P] Create versioning utility functions in src/lib/versioning.ts (getVersionNumber, setPrimaryVersion, etc.)
 - [X] T015 [P] Create player utility functions in src/lib/player-utils.ts (formatTime, calculateProgress, etc.)
 - [X] T016 [P] Create mobile detection and responsive utilities in src/lib/mobile-utils.ts (useIsMobile, useTouchEvents, etc.)
 

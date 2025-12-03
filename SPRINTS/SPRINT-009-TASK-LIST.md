@@ -172,7 +172,7 @@ export function TrackDetailsTab({ track, isLoading }: Props) {
           {track.has_vocals && <Badge>Vocals</Badge>}
           {track.is_instrumental && <Badge variant="secondary">Instrumental</Badge>}
           {track.has_stems && <Badge variant="outline">Stems Available</Badge>}
-          {track.is_master && <Badge className="bg-amber-500">⭐ Master</Badge>}
+          {track.is_primary && <Badge className="bg-amber-500">⭐ Primary</Badge>}
         </div>
       </div>
       

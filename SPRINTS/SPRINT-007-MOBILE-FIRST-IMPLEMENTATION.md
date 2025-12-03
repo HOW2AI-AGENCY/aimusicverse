@@ -21,12 +21,12 @@
 
 | ID | Название | Статус | Приоритет | Ответственный |
 |---|---|---|---|---|
-| T001 | **Migration: Master Version Tracking** - Добавить поле `master_version_id` в таблицу `tracks` с FK на `track_versions.id` | To Do | P0 | Backend |
-| T002 | **Migration: Version Numbering** - Добавить поля `version_number` (INTEGER) и `version_label` (VARCHAR) в `track_versions` | To Do | P0 | Backend |
-| T003 | **Migration: Track Changelog Table** - Создать таблицу `track_changelog` для логирования изменений (change_type, field_name, old_value, new_value, changed_by) | To Do | P0 | Backend |
+| T001 | **Migration: Primary Version Tracking** - Добавить поле `primary_version_id` в таблицу `tracks` с FK на `track_versions.id` | To Do | P0 | Backend |
+| T002 | **Migration: Version Numbering** - Добавить поля `version_number` (INTEGER), `is_primary` (BOOLEAN), и `version_label` (VARCHAR) в `track_versions` | To Do | P0 | Backend |
+| T003 | **Migration: Track Change Log Table** - Создать таблицу `track_change_log` для логирования изменений (change_type, field_name, old_value, new_value, changed_by) | To Do | P0 | Backend |
 | T004 | **Migration: Playlists Support** - Создать таблицы `playlists` и `playlist_tracks` с поддержкой публичных плейлистов | To Do | P1 | Backend |
-| T005 | **Migration: Performance Indexes** - Добавить индексы для `is_public`, `master_version_id`, `version_number` | To Do | P0 | Backend |
-| T006 | **Data Migration: Initial Master Versions** - Скрипт для установки `master_version_id` для существующих треков | To Do | P0 | Backend |
+| T005 | **Migration: Performance Indexes** - Добавить индексы для `is_public`, `primary_version_id`, `version_number`, `is_primary` | To Do | P0 | Backend |
+| T006 | **Data Migration: Initial Primary Versions** - Скрипт для установки `primary_version_id` и `is_primary=true` для существующих треков | To Do | P0 | Backend |
 
 ### Type System Updates (7 задач)
 

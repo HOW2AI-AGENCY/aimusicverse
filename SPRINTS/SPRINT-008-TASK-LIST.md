@@ -224,7 +224,7 @@ import { useVersionSwitcher } from '@/hooks/useVersionSwitcher';
 
 export function VersionSwitcher({ trackId, open, onOpenChange }: Props) {
   const { data: versions, isLoading } = useTrackVersions(trackId);
-  const { switchToVersion, setMasterVersion } = useVersionSwitcher(trackId);
+  const { switchToVersion, setPrimaryVersion } = useVersionSwitcher(trackId);
   
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -243,7 +243,7 @@ export function VersionSwitcher({ trackId, open, onOpenChange }: Props) {
                 </p>
               </div>
               
-              {version.is_master && <Badge>Master</Badge>}
+              {version.is_primary && <Badge>Primary</Badge>}
               
               <Button 
                 size="sm"

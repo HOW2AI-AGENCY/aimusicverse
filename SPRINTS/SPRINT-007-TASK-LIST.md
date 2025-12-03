@@ -66,15 +66,17 @@
     ```sql
     ALTER TABLE track_versions 
     ADD COLUMN version_number INTEGER DEFAULT 1,
-    ADD COLUMN is_master BOOLEAN DEFAULT false;
+    ADD COLUMN is_primary BOOLEAN DEFAULT false;
     ```
+    - **ВАЖНО**: Используем `is_primary`, НЕ `is_master` согласно naming conventions
   - Команда: `supabase db diff -f add_version_fields`
 
-- [ ] **T003**: Создать миграцию для таблицы track_changelog
+- [ ] **T003**: Создать миграцию для таблицы track_change_log
   - Файл: `supabase/migrations/[timestamp]_create_changelog_table.sql`
+  - **ВАЖНО**: Таблица называется `track_change_log` (с underscore), НЕ `track_changelog`
   - SQL:
     ```sql
-    CREATE TABLE track_changelog (
+    CREATE TABLE track_change_log (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       track_id UUID REFERENCES music_tracks(id) ON DELETE CASCADE,
       change_type VARCHAR(50) NOT NULL,
@@ -85,8 +87,8 @@
       changed_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
       metadata JSONB
     );
-    CREATE INDEX idx_changelog_track_id ON track_changelog(track_id);
-    CREATE INDEX idx_changelog_changed_at ON track_changelog(changed_at DESC);
+    CREATE INDEX idx_changelog_track_id ON track_change_log(track_id);
+    CREATE INDEX idx_changelog_changed_at ON track_change_log(changed_at DESC);
     ```
 
 - [ ] **T004** [P]: Создать миграцию для таблиц playlists
@@ -119,9 +121,9 @@
   - SQL:
     ```sql
     CREATE INDEX idx_tracks_is_public ON music_tracks(is_public) WHERE is_public = true;
-    CREATE INDEX idx_tracks_master_version ON music_tracks(master_version_id);
+    CREATE INDEX idx_tracks_primary_version ON music_tracks(primary_version_id);
     CREATE INDEX idx_versions_number ON track_versions(version_number);
-    CREATE INDEX idx_versions_is_master ON track_versions(is_master) WHERE is_master = true;
+    CREATE INDEX idx_versions_is_primary ON track_versions(is_primary) WHERE is_primary = true;
     ```
 
 - [ ] **T006**: Создать скрипт миграции существующих данных
@@ -131,8 +133,8 @@
     -- Установить version_number = 1 для всех существующих версий
     UPDATE track_versions SET version_number = 1 WHERE version_number IS NULL;
     
-    -- Установить первую версию как master для каждого трека
-    UPDATE track_versions tv SET is_master = true
+    -- Установить первую версию как primary для каждого трека
+    UPDATE track_versions tv SET is_primary = true
     FROM (
       SELECT DISTINCT ON (track_id) id, track_id
       FROM track_versions
@@ -140,10 +142,10 @@
     ) first_versions
     WHERE tv.id = first_versions.id;
     
-    -- Установить master_version_id для всех треков
-    UPDATE music_tracks mt SET master_version_id = tv.id
+    -- Установить primary_version_id для всех треков
+    UPDATE music_tracks mt SET primary_version_id = tv.id
     FROM track_versions tv
-    WHERE mt.id = tv.track_id AND tv.is_master = true;
+    WHERE mt.id = tv.track_id AND tv.is_primary = true;
     ```
 
 **Проверка миграций**:
@@ -155,7 +157,7 @@ supabase db push
 # Проверка схемы
 psql -h localhost -U postgres -d postgres -c "\d music_tracks"
 psql -h localhost -U postgres -d postgres -c "\d track_versions"
-psql -h localhost -U postgres -d postgres -c "\d track_changelog"
+psql -h localhost -U postgres -d postgres -c "\d track_change_log"
 ```
 
 ---
@@ -171,13 +173,14 @@ psql -h localhost -U postgres -d postgres -c "\d track_changelog"
 
 - [ ] **T008** [P]: Добавить TrackVersion интерфейс с новыми полями
   - Файл: `src/integrations/supabase/types.ts`
+  - **ВАЖНО**: Поле называется `is_primary`, НЕ `is_master`
   - Добавить:
     ```typescript
     interface TrackVersion {
       id: string;
       track_id: string;
       version_number: number;
-      is_master: boolean;
+      is_primary: boolean;
       version_label?: string;
       file_size_bytes?: number;
       format?: string;
@@ -288,7 +291,7 @@ psql -h localhost -U postgres -d postgres -c "\d track_changelog"
   - Функции:
     ```typescript
     export function getVersionNumber(version: TrackVersion): string;
-    export function setMasterVersion(trackId: string, versionId: string): Promise<void>;
+    export function setPrimaryVersion(trackId: string, versionId: string): Promise<void>;
     export function compareVersions(v1: TrackVersion, v2: TrackVersion): number;
     export function formatVersionLabel(version: TrackVersion): string;
     ```
@@ -327,7 +330,7 @@ psql -h localhost -U postgres -d postgres -c "\d track_changelog"
 - [ ] **T018**: Создать useVersionSwitcher хук
   - Файл: `src/hooks/useVersionSwitcher.ts` (создать)
   - Зависимость: T017 (useTrackVersions)
-  - Функции: `switchToVersion`, `setMasterVersion`, `logVersionChange`
+  - Функции: `switchToVersion`, `setPrimaryVersion`, `logVersionChange`
 
 - [ ] **T019** [P]: Создать usePublicContent хук
   - Файл: `src/hooks/usePublicContent.ts` (создать)
@@ -372,7 +375,7 @@ psql -h localhost -U postgres -d postgres -c "\d track_changelog"
   - Функции:
     ```typescript
     export async function getTrackVersions(trackId: string): Promise<TrackVersion[]>;
-    export async function updateMasterVersion(trackId: string, versionId: string): Promise<void>;
+    export async function updatePrimaryVersion(trackId: string, versionId: string): Promise<void>;
     export async function createVersion(trackId: string, data: Partial<TrackVersion>): Promise<TrackVersion>;
     ```
 
