@@ -112,6 +112,8 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
 
           {/* TODO: T062 - Version Switcher Integration */}
           {/* Future: Add inline version switcher here for quick version switching */}
+          {/* NOTE: When implementing, use `is_primary` field, NOT `is_master` */}
+          {/* The database schema uses `is_primary` as the standardized field name */}
           {/* <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <GitBranch className="w-4 h-4 mr-2" />
@@ -120,7 +122,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
             <DropdownMenuSubContent>
               {versions.map(version => (
                 <DropdownMenuItem key={version.id} onClick={() => switchVersion(version.id)}>
-                  <Check className={cn("w-4 h-4 mr-2", version.is_master ? "visible" : "invisible")} />
+                  <Check className={cn("w-4 h-4 mr-2", version.is_primary ? "visible" : "invisible")} />
                   {version.version_type} - v{version.version_number}
                 </DropdownMenuItem>
               ))}
