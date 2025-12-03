@@ -5,10 +5,12 @@
 
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import type { Track } from '@/hooks/useTracksOptimized';
+import type { Database } from '@/integrations/supabase/types';
 
-export type PublicTrackFilter = 'featured' | 'new' | 'popular' | 'trending';
-export type SortOption = 'created_at' | 'likes_count' | 'plays_count';
+type TrackRow = Database['public']['Tables']['tracks']['Row'];
+
+export type PublicTrackFilter = 'new' | 'popular' | 'trending';
+export type SortOption = 'created_at' | 'play_count';
 
 interface UsePublicTracksOptions {
   filter?: PublicTrackFilter;
@@ -18,11 +20,9 @@ interface UsePublicTracksOptions {
   limit?: number;
 }
 
-interface PublicTrack extends Track {
-  likes_count: number;
-  plays_count: number;
-  is_featured: boolean;
-  user_liked?: boolean; // Whether current user has liked this track
+export interface PublicTrack extends TrackRow {
+  user_liked?: boolean;
+  track_likes?: { user_id: string }[];
 }
 
 /**
@@ -44,18 +44,17 @@ export function usePublicTracks(options: UsePublicTracksOptions = {}) {
         .from('tracks')
         .select('*, track_likes!left(user_id)')
         .eq('is_public', true)
+        .eq('status', 'completed')
         .range(pageParam, pageParam + limit - 1);
 
       // Apply filter
-      if (filter === 'featured') {
-        query = query.eq('is_featured', true);
-      } else if (filter === 'trending') {
+      if (filter === 'trending') {
         // Trending: high engagement in last 7 days
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
         query = query
           .gte('created_at', sevenDaysAgo.toISOString())
-          .order('likes_count', { ascending: false });
+          .order('play_count', { ascending: false, nullsFirst: false });
       }
 
       // Apply style filter
@@ -66,24 +65,21 @@ export function usePublicTracks(options: UsePublicTracksOptions = {}) {
       // Apply search
       if (search) {
         query = query.or(
-          `title.ilike.%${search}%,style.ilike.%${search}%,tags.cs.{${search}}`
+          `title.ilike.%${search}%,style.ilike.%${search}%`
         );
       }
 
       // Apply sorting
       switch (sortBy) {
-        case 'likes_count':
-          query = query.order('likes_count', { ascending: false });
-          break;
-        case 'plays_count':
-          query = query.order('plays_count', { ascending: false });
+        case 'play_count':
+          query = query.order('play_count', { ascending: false, nullsFirst: false });
           break;
         case 'created_at':
         default:
           query = query.order('created_at', { ascending: false });
       }
 
-      const { data, error, count } = await query;
+      const { data, error } = await query;
 
       if (error) throw error;
 
@@ -138,7 +134,7 @@ export function useToggleTrackLike() {
 
       return { trackId, isLiked: !isLiked };
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       // Invalidate public tracks queries to refresh likes count
       queryClient.invalidateQueries({ queryKey: ['public-tracks'] });
     },
@@ -151,20 +147,13 @@ export function useToggleTrackLike() {
 export function useIncrementPlayCount() {
   return useMutation({
     mutationFn: async (trackId: string) => {
-      const { error } = await supabase.rpc('increment_play_count', {
-        track_id: trackId,
+      const { error } = await supabase.rpc('increment_track_play_count', {
+        track_id_param: trackId,
       });
       if (error) throw error;
       return trackId;
     },
   });
-}
-
-/**
- * Hook to get featured tracks (shorthand)
- */
-export function useFeaturedTracks(limit = 10) {
-  return usePublicTracks({ filter: 'featured', limit });
 }
 
 /**
@@ -178,7 +167,7 @@ export function useNewTracks(limit = 20) {
  * Hook to get popular tracks (shorthand)
  */
 export function usePopularTracks(limit = 20) {
-  return usePublicTracks({ filter: 'popular', sortBy: 'likes_count', limit });
+  return usePublicTracks({ filter: 'popular', sortBy: 'play_count', limit });
 }
 
 /**

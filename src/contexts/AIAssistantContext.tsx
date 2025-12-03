@@ -4,8 +4,7 @@
  */
 
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface GenerationParams {
   prompt: string;
@@ -15,7 +14,7 @@ interface GenerationParams {
   duration?: number;
   vocals?: 'male' | 'female' | 'instrumental';
   lyrics?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface GenerationHistoryItem {
@@ -55,6 +54,7 @@ interface AIAssistantProviderProps {
 /**
  * AI Assistant Provider component
  * Manages global state for AI-powered music generation assistance
+ * Note: Currently uses local state only. Database table will be added in future sprint.
  */
 export function AIAssistantProvider({ children }: AIAssistantProviderProps) {
   const queryClient = useQueryClient();
@@ -91,32 +91,24 @@ export function AIAssistantProvider({ children }: AIAssistantProviderProps) {
     setState((prev) => ({ ...prev, selectedSuggestions: [] }));
   }, []);
 
-  // Save generation attempt to history
+  // Save generation attempt to history (local state only for now)
   const saveGenerationAttempt = useCallback(
     async (params: GenerationParams, suggestionIds: string[]): Promise<string> => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('User not authenticated');
+      const newItem: GenerationHistoryItem = {
+        id: crypto.randomUUID(),
+        generation_params: params,
+        ai_suggestions_used: suggestionIds,
+        success: null,
+        error_message: null,
+        created_at: new Date().toISOString(),
+      };
 
-      const { data, error } = await supabase
-        .from('user_generation_history')
-        .insert({
-          user_id: user.id,
-          generation_params: params,
-          ai_suggestions_used: suggestionIds,
-          success: null, // Will be updated after generation completes
-        })
-        .select()
-        .single();
-
-      if (error) throw error;
-
-      // Update local state
       setState((prev) => ({
         ...prev,
-        generationHistory: [data, ...prev.generationHistory],
+        generationHistory: [newItem, ...prev.generationHistory].slice(0, 20),
       }));
 
-      return data.id;
+      return newItem.id;
     },
     []
   );
@@ -124,23 +116,11 @@ export function AIAssistantProvider({ children }: AIAssistantProviderProps) {
   // Update generation result after completion
   const updateGenerationResult = useCallback(
     async (historyId: string, success: boolean, trackId?: string, error?: string) => {
-      const { error: updateError } = await supabase
-        .from('user_generation_history')
-        .update({
-          success,
-          track_id: trackId,
-          error_message: error,
-        })
-        .eq('id', historyId);
-
-      if (updateError) throw updateError;
-
-      // Update local state
       setState((prev) => ({
         ...prev,
         generationHistory: prev.generationHistory.map((item) =>
           item.id === historyId
-            ? { ...item, success, track_id: trackId, error_message: error }
+            ? { ...item, success, track_id: trackId, error_message: error ?? null }
             : item
         ),
       }));
@@ -151,27 +131,10 @@ export function AIAssistantProvider({ children }: AIAssistantProviderProps) {
     [queryClient]
   );
 
-  // Load generation history from database
+  // Load generation history (currently no-op as we use local state)
   const loadGenerationHistory = useCallback(async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-
-    const { data, error } = await supabase
-      .from('user_generation_history')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
-      .limit(20);
-
-    if (error) {
-      console.error('Failed to load generation history:', error);
-      return;
-    }
-
-    setState((prev) => ({
-      ...prev,
-      generationHistory: data as GenerationHistoryItem[],
-    }));
+    // TODO: Will load from database when user_generation_history table is created
+    console.log('Generation history loaded from local state');
   }, []);
 
   // Replay a previous generation (return params for reuse)

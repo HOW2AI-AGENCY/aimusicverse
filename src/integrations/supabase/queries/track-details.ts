@@ -29,7 +29,7 @@ export async function fetchTrackDetails({
         .from('track_versions')
         .select('*')
         .eq('track_id', trackId)
-        .order('version_number', { ascending: false })
+        .order('created_at', { ascending: false })
     );
   }
 
@@ -46,7 +46,7 @@ export async function fetchTrackDetails({
   if (includeAnalysis) {
     queries.push(
       supabase
-        .from('track_analysis')
+        .from('audio_analysis')
         .select('*')
         .eq('track_id', trackId)
         .maybeSingle()
@@ -56,7 +56,7 @@ export async function fetchTrackDetails({
   if (includeChangelog) {
     queries.push(
       supabase
-        .from('track_changelog')
+        .from('track_change_log')
         .select('*')
         .eq('track_id', trackId)
         .order('created_at', { ascending: false })
@@ -110,7 +110,7 @@ export async function fetchTrackVersions(trackId: string) {
     .from('track_versions')
     .select('*')
     .eq('track_id', trackId)
-    .order('version_number', { ascending: false });
+    .order('created_at', { ascending: false });
 
   if (error) throw error;
   return data;
@@ -135,7 +135,7 @@ export async function fetchTrackStems(trackId: string) {
  */
 export async function fetchTrackAnalysis(trackId: string) {
   const { data, error } = await supabase
-    .from('track_analysis')
+    .from('audio_analysis')
     .select('*')
     .eq('track_id', trackId)
     .maybeSingle();
@@ -149,7 +149,7 @@ export async function fetchTrackAnalysis(trackId: string) {
  */
 export async function fetchTrackChangelog(trackId: string, limit = 50) {
   const { data, error } = await supabase
-    .from('track_changelog')
+    .from('track_change_log')
     .select('*')
     .eq('track_id', trackId)
     .order('created_at', { ascending: false })
@@ -160,13 +160,23 @@ export async function fetchTrackChangelog(trackId: string, limit = 50) {
 }
 
 /**
- * Set master version for a track
+ * Set primary version for a track
  */
-export async function setMasterVersion(versionId: string, trackId: string) {
-  const { error } = await supabase.rpc('set_master_version', {
-    p_version_id: versionId,
-    p_track_id: trackId,
-  });
+export async function setPrimaryVersion(versionId: string, trackId: string) {
+  // First unset current primary
+  const { error: unsetError } = await supabase
+    .from('track_versions')
+    .update({ is_primary: false })
+    .eq('track_id', trackId)
+    .eq('is_primary', true);
 
-  if (error) throw error;
+  if (unsetError) throw unsetError;
+
+  // Set new primary
+  const { error: setError } = await supabase
+    .from('track_versions')
+    .update({ is_primary: true })
+    .eq('id', versionId);
+
+  if (setError) throw setError;
 }

@@ -240,7 +240,7 @@ export const SunoBlockEditor = ({
                                   onMoveUp={() => handleMoveSection(section.id, 'up')}
                                   onMoveDown={() => handleMoveSection(section.id, 'down')}
                                   onOpenTagMenu={handleOpenTagMenu}
-                                  dragHandleProps={provided.dragHandleProps}
+                                  dragHandleProps={provided.dragHandleProps ?? undefined}
                                 />
                               </div>
                             )}

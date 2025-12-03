@@ -58,7 +58,7 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
 
       const project = projects?.find((p: { id: string }) => p.id === selectedProjectId);
       hapticNotification('success');
-      toast.success(`Added to "${project?.name}"`);
+      toast.success(`Added to "${project?.title}"`);
       onOpenChange(false);
       
       // Reset selection
@@ -150,7 +150,7 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
                       )}
                     </div>
                     <div className="flex-1 text-left min-w-0">
-                      <p className="font-medium truncate">{project.name}</p>
+                      <p className="font-medium truncate">{project.title}</p>
                       {project.description && (
                         <p className="text-sm text-muted-foreground truncate">
                           {project.description}

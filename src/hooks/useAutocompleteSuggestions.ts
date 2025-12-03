@@ -1,6 +1,7 @@
 /**
  * Hook for AI-powered autocomplete suggestions
  * Sprint 010 - Phase 2: Foundational hooks
+ * Uses prompt_templates table for suggestions
  */
 
 import { useQuery } from '@tanstack/react-query';
@@ -9,18 +10,17 @@ import { useState, useEffect } from 'react';
 
 interface PromptSuggestion {
   id: string;
-  text: string;
-  description: string | null;
-  category: string;
-  style: string | null;
+  name: string;
+  template_text: string;
   tags: string[];
-  usage_count: number;
+  style_id: string | null;
+  is_public: boolean;
+  usage_count: number | null;
 }
 
 interface UseAutocompleteSuggestionsOptions {
   query: string;
   style?: string;
-  category?: 'style' | 'mood' | 'instrument' | 'genre' | 'prompt_template';
   limit?: number;
   debounceMs?: number;
 }
@@ -30,7 +30,7 @@ interface UseAutocompleteSuggestionsOptions {
  * Features debouncing to avoid excessive API calls
  */
 export function useAutocompleteSuggestions(options: UseAutocompleteSuggestionsOptions) {
-  const { query, style, category, limit = 10, debounceMs = 300 } = options;
+  const { query, style, limit = 10, debounceMs = 300 } = options;
   const [debouncedQuery, setDebouncedQuery] = useState(query);
 
   // Debounce the query
@@ -43,7 +43,7 @@ export function useAutocompleteSuggestions(options: UseAutocompleteSuggestionsOp
   }, [query, debounceMs]);
 
   return useQuery({
-    queryKey: ['autocomplete-suggestions', debouncedQuery, style, category],
+    queryKey: ['autocomplete-suggestions', debouncedQuery, style],
     queryFn: async () => {
       // Don't query if search term is too short
       if (debouncedQuery.length < 2) {
@@ -51,25 +51,15 @@ export function useAutocompleteSuggestions(options: UseAutocompleteSuggestionsOp
       }
 
       let dbQuery = supabase
-        .from('prompt_suggestions')
+        .from('prompt_templates')
         .select('*')
-        .eq('is_active', true)
-        .order('usage_count', { ascending: false })
+        .or(`is_public.eq.true`)
+        .order('usage_count', { ascending: false, nullsFirst: false })
         .limit(limit);
 
-      // Filter by category if specified
-      if (category) {
-        dbQuery = dbQuery.eq('category', category);
-      }
-
-      // Filter by style if specified
-      if (style) {
-        dbQuery = dbQuery.or(`style.eq.${style},style.is.null`);
-      }
-
-      // Search in text, description, and tags
+      // Search in name, template_text, and tags
       dbQuery = dbQuery.or(
-        `text.ilike.%${debouncedQuery}%,description.ilike.%${debouncedQuery}%,tags.cs.{${debouncedQuery}}`
+        `name.ilike.%${debouncedQuery}%,template_text.ilike.%${debouncedQuery}%`
       );
 
       const { data, error } = await dbQuery;
@@ -88,20 +78,19 @@ export function useAutocompleteSuggestions(options: UseAutocompleteSuggestionsOp
 /**
  * Hook to get style-specific suggestions
  */
-export function useStyleSuggestions(style: string, category?: string) {
+export function useStyleSuggestions(styleId?: string) {
   return useQuery({
-    queryKey: ['style-suggestions', style, category],
+    queryKey: ['style-suggestions', styleId],
     queryFn: async () => {
       let query = supabase
-        .from('prompt_suggestions')
+        .from('prompt_templates')
         .select('*')
-        .eq('is_active', true)
-        .or(`style.eq.${style},style.is.null`)
-        .order('usage_count', { ascending: false })
+        .or('is_public.eq.true')
+        .order('usage_count', { ascending: false, nullsFirst: false })
         .limit(20);
 
-      if (category) {
-        query = query.eq('category', category);
+      if (styleId) {
+        query = query.eq('style_id', styleId);
       }
 
       const { data, error } = await query;
@@ -114,72 +103,22 @@ export function useStyleSuggestions(style: string, category?: string) {
 }
 
 /**
- * Hook to get mood suggestions
- */
-export function useMoodSuggestions() {
-  return useQuery({
-    queryKey: ['mood-suggestions'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('prompt_suggestions')
-        .select('*')
-        .eq('category', 'mood')
-        .eq('is_active', true)
-        .order('usage_count', { ascending: false })
-        .limit(20);
-
-      if (error) throw error;
-      return (data || []) as PromptSuggestion[];
-    },
-    staleTime: 10 * 60 * 1000,
-  });
-}
-
-/**
- * Hook to get instrument suggestions
- */
-export function useInstrumentSuggestions(style?: string) {
-  return useQuery({
-    queryKey: ['instrument-suggestions', style],
-    queryFn: async () => {
-      let query = supabase
-        .from('prompt_suggestions')
-        .select('*')
-        .eq('category', 'instrument')
-        .eq('is_active', true);
-
-      if (style) {
-        query = query.or(`style.eq.${style},style.is.null`);
-      }
-
-      query = query.order('usage_count', { ascending: false }).limit(20);
-
-      const { data, error } = await query;
-      if (error) throw error;
-      return (data || []) as PromptSuggestion[];
-    },
-    staleTime: 10 * 60 * 1000,
-  });
-}
-
-/**
  * Hook to get prompt templates
  */
-export function usePromptTemplates(style?: string) {
+export function usePromptTemplates(styleId?: string) {
   return useQuery({
-    queryKey: ['prompt-templates', style],
+    queryKey: ['prompt-templates', styleId],
     queryFn: async () => {
       let query = supabase
-        .from('prompt_suggestions')
+        .from('prompt_templates')
         .select('*')
-        .eq('category', 'prompt_template')
-        .eq('is_active', true);
+        .or('is_public.eq.true');
 
-      if (style) {
-        query = query.or(`style.eq.${style},style.is.null`);
+      if (styleId) {
+        query = query.eq('style_id', styleId);
       }
 
-      query = query.order('usage_count', { ascending: false }).limit(10);
+      query = query.order('usage_count', { ascending: false, nullsFirst: false }).limit(10);
 
       const { data, error } = await query;
       if (error) throw error;
@@ -191,12 +130,23 @@ export function usePromptTemplates(style?: string) {
 
 /**
  * Increment usage count when a suggestion is used
- * This helps the AI learn which suggestions are most helpful
  */
-export async function incrementSuggestionUsage(suggestionId: string) {
-  const { error } = await supabase.rpc('increment_suggestion_usage', {
-    suggestion_id: suggestionId,
-  });
+export async function incrementSuggestionUsage(templateId: string) {
+  const { data: template, error: fetchError } = await supabase
+    .from('prompt_templates')
+    .select('usage_count')
+    .eq('id', templateId)
+    .single();
+
+  if (fetchError) {
+    console.error('Failed to fetch template:', fetchError);
+    return;
+  }
+
+  const { error } = await supabase
+    .from('prompt_templates')
+    .update({ usage_count: (template?.usage_count || 0) + 1 })
+    .eq('id', templateId);
 
   if (error) {
     console.error('Failed to increment suggestion usage:', error);

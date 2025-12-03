@@ -17,7 +17,7 @@ interface SectionBlockProps {
   onMoveUp: (id: string) => void;
   onMoveDown: (id: string) => void;
   onOpenTagMenu: (sectionId: string, cursorPosition: number) => void;
-  dragHandleProps?: Record<string, unknown>;
+  dragHandleProps?: React.HTMLAttributes<HTMLElement>;
 }
 
 export const SectionBlock = ({

@@ -3,9 +3,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./useAuth";
 import { toast } from "sonner";
 
+import type { Json } from '@/integrations/supabase/types';
+
 interface Activity {
   action_type: string;
-  action_data?: Record<string, unknown>;
+  action_data?: Json;
 }
 
 export const useUserActivity = () => {
