@@ -1,7 +1,9 @@
 import { Track } from '@/hooks/useTracks';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Music2, Clock, Tag, FileText, Mic, Wand2, Heart, Play } from 'lucide-react';
+import { Music2, Clock, Tag, FileText, Mic, Wand2, Heart, Play, BookmarkPlus } from 'lucide-react';
+import { savePromptToBookmarks } from '@/components/generate-form/PromptHistory';
 
 interface TrackDetailsTabProps {
   track: Track;
@@ -146,10 +148,32 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
       {track.prompt && (
         <>
           <div className="space-y-3">
-            <h4 className="font-semibold flex items-center gap-2 text-lg">
-              <Wand2 className="w-5 h-5 text-primary" />
-              Промпт
-            </h4>
+            <div className="flex items-center justify-between">
+              <h4 className="font-semibold flex items-center gap-2 text-lg">
+                <Wand2 className="w-5 h-5 text-primary" />
+                Промпт
+              </h4>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5"
+                onClick={() => {
+                  const promptName = track.title || track.prompt.substring(0, 30);
+                  savePromptToBookmarks({
+                    name: promptName,
+                    mode: track.generation_mode === 'custom' ? 'custom' : 'simple',
+                    description: track.generation_mode === 'simple' ? track.prompt : undefined,
+                    title: track.title || undefined,
+                    style: track.style || undefined,
+                    lyrics: track.lyrics || undefined,
+                    model: track.suno_model || 'V4_5ALL',
+                  });
+                }}
+              >
+                <BookmarkPlus className="w-4 h-4" />
+                <span className="hidden sm:inline">В закладки</span>
+              </Button>
+            </div>
             <div className="p-4 rounded-lg bg-muted/50 border border-border">
               <p className="text-sm whitespace-pre-wrap leading-relaxed">{track.prompt}</p>
             </div>
