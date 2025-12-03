@@ -48,8 +48,8 @@ export function CreatePersonaDialog({ open, onOpenChange, track }: CreatePersona
 
       await createArtist({
         name: name.trim(),
-        description: description.trim() || suggestedDescription,
-        style: track.style || '',
+        bio: description.trim() || suggestedDescription,
+        style_description: track.style || '',
         avatar_url: track.cover_url || null,
       });
 

@@ -9,32 +9,24 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Skeleton } from '@/components/ui/skeleton';
 
-interface TrackStem {
-  id: string;
-  track_id: string;
-  stem_type: 'vocals' | 'bass' | 'drums' | 'other';
-  audio_url: string;
-  file_size_bytes: number | null;
-  format: string | null;
-  created_at: string;
-}
-
 interface StemsTabProps {
   track: Track;
 }
 
-const stemIcons = {
+const stemIcons: Record<string, typeof Mic> = {
   vocals: Mic,
   bass: Music,
   drums: Drum,
   other: Guitar,
+  instrumental: Music,
 };
 
-const stemLabels = {
+const stemLabels: Record<string, string> = {
   vocals: 'Vocals',
   bass: 'Bass',
   drums: 'Drums',
   other: 'Other',
+  instrumental: 'Instrumental',
 };
 
 export function StemsTab({ track }: StemsTabProps) {
@@ -51,7 +43,7 @@ export function StemsTab({ track }: StemsTabProps) {
         .order('stem_type');
 
       if (error) throw error;
-      return data as TrackStem[];
+      return data;
     },
   });
 
@@ -60,7 +52,6 @@ export function StemsTab({ track }: StemsTabProps) {
       setGeneratingStems(true);
       
       // TODO: Integrate with actual stem separation service
-      // For now, show a toast message
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       throw new Error('Stem generation service not yet integrated');
@@ -70,18 +61,11 @@ export function StemsTab({ track }: StemsTabProps) {
       toast.success('Stems generated successfully');
       setGeneratingStems(false);
     },
-    onError: (error) => {
+    onError: () => {
       toast.error('Stem generation feature coming soon');
-      console.error('Generate stems error:', error);
       setGeneratingStems(false);
     },
   });
-
-  const formatFileSize = (bytes: number | null) => {
-    if (!bytes) return 'Unknown';
-    const mb = bytes / (1024 * 1024);
-    return `${mb.toFixed(2)} MB`;
-  };
 
   if (isLoading) {
     return (
@@ -95,7 +79,7 @@ export function StemsTab({ track }: StemsTabProps) {
     );
   }
 
-  const hasStemst = stems && stems.length > 0;
+  const hasStems = stems && stems.length > 0;
 
   return (
     <div className="space-y-4">
@@ -107,7 +91,7 @@ export function StemsTab({ track }: StemsTabProps) {
           </p>
         </div>
 
-        {!hasStemst && (
+        {!hasStems && (
           <Button
             onClick={() => generateStemsMutation.mutate()}
             disabled={generatingStems}
@@ -119,7 +103,7 @@ export function StemsTab({ track }: StemsTabProps) {
         )}
       </div>
 
-      {!hasStemst ? (
+      {!hasStems ? (
         <Card className="p-8 text-center">
           <Wand2 className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
           <p className="text-muted-foreground mb-4">
@@ -132,8 +116,8 @@ export function StemsTab({ track }: StemsTabProps) {
       ) : (
         <div className="space-y-3">
           {stems.map((stem) => {
-            const Icon = stemIcons[stem.stem_type];
-            const label = stemLabels[stem.stem_type];
+            const Icon = stemIcons[stem.stem_type] || Music;
+            const label = stemLabels[stem.stem_type] || stem.stem_type;
 
             return (
               <Card key={stem.id} className="p-4">
@@ -145,14 +129,10 @@ export function StemsTab({ track }: StemsTabProps) {
                   <div className="flex-1">
                     <h4 className="font-semibold">{label}</h4>
                     <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                      <span>{formatFileSize(stem.file_size_bytes)}</span>
-                      {stem.format && (
-                        <>
-                          <span>•</span>
-                          <Badge variant="outline" className="text-xs">
-                            {stem.format.toUpperCase()}
-                          </Badge>
-                        </>
+                      {stem.separation_mode && (
+                        <Badge variant="outline" className="text-xs">
+                          {stem.separation_mode}
+                        </Badge>
                       )}
                     </div>
                   </div>
@@ -163,7 +143,6 @@ export function StemsTab({ track }: StemsTabProps) {
                       variant="secondary"
                       className="gap-1 h-9 w-9 md:w-auto md:px-3"
                       onClick={() => {
-                        // TODO: Implement stem preview
                         toast.info('Stem preview coming soon');
                       }}
                     >

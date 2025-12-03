@@ -8,7 +8,7 @@
 import { useQuery } from '@tanstack/react-query';
 import {
   fetchTrackVersions,
-  fetchMasterVersion,
+  fetchPrimaryVersion,
   getVersionCount,
 } from '@/integrations/supabase/queries/versioning';
 import type { Database } from '@/integrations/supabase/types';

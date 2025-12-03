@@ -3,23 +3,12 @@ import { Track } from '@/hooks/useTracksOptimized';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Crown, Check, Play, Download } from 'lucide-react';
+import { Crown, Play, Download } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
-
-interface TrackVersion {
-  id: string;
-  track_id: string;
-  version_number: number;
-  audio_url: string;
-  is_master: boolean;
-  file_size_bytes: number | null;
-  created_at: string;
-  notes: string | null;
-}
 
 interface VersionsTabProps {
   track: Track;
@@ -36,24 +25,32 @@ export function VersionsTab({ track }: VersionsTabProps) {
         .from('track_versions')
         .select('*')
         .eq('track_id', track.id)
-        .order('version_number', { ascending: false });
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return data as TrackVersion[];
+      return data;
     },
   });
 
   const setMasterMutation = useMutation({
     mutationFn: async (versionId: string) => {
-      // Optimistically update
       setOptimisticMasterId(versionId);
 
-      const { error } = await supabase.rpc('set_master_version', {
-        p_version_id: versionId,
-        p_track_id: track.id,
-      });
+      // First, unset all is_primary for this track
+      const { error: unsetError } = await supabase
+        .from('track_versions')
+        .update({ is_primary: false })
+        .eq('track_id', track.id);
 
-      if (error) throw error;
+      if (unsetError) throw unsetError;
+
+      // Then set the new primary version
+      const { error: setError } = await supabase
+        .from('track_versions')
+        .update({ is_primary: true })
+        .eq('id', versionId);
+
+      if (setError) throw setError;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['track-versions', track.id] });
@@ -66,12 +63,6 @@ export function VersionsTab({ track }: VersionsTabProps) {
       setOptimisticMasterId(null);
     },
   });
-
-  const formatFileSize = (bytes: number | null) => {
-    if (!bytes) return 'Unknown';
-    const mb = bytes / (1024 * 1024);
-    return `${mb.toFixed(2)} MB`;
-  };
 
   if (isLoading) {
     return (
@@ -103,10 +94,10 @@ export function VersionsTab({ track }: VersionsTabProps) {
       </div>
 
       <div className="space-y-3">
-        {versions.map((version) => {
+        {versions.map((version, index) => {
           const isMaster = optimisticMasterId
             ? version.id === optimisticMasterId
-            : version.is_master;
+            : version.is_primary;
 
           return (
             <Card
@@ -117,7 +108,7 @@ export function VersionsTab({ track }: VersionsTabProps) {
                 <div className="flex-1 space-y-2">
                   <div className="flex items-center gap-2">
                     <h4 className="font-semibold">
-                      Version {version.version_number}
+                      Version {versions.length - index}
                     </h4>
                     {isMaster && (
                       <Badge variant="default" className="gap-1">
@@ -125,12 +116,20 @@ export function VersionsTab({ track }: VersionsTabProps) {
                         Master
                       </Badge>
                     )}
+                    {version.version_type && (
+                      <Badge variant="outline">
+                        {version.version_type}
+                      </Badge>
+                    )}
                   </div>
 
                   <div className="text-sm text-muted-foreground space-y-1">
-                    <p>Created: {format(new Date(version.created_at), 'MMM dd, yyyy HH:mm')}</p>
-                    <p>Size: {formatFileSize(version.file_size_bytes)}</p>
-                    {version.notes && <p className="italic">"{version.notes}"</p>}
+                    {version.created_at && (
+                      <p>Created: {format(new Date(version.created_at), 'MMM dd, yyyy HH:mm')}</p>
+                    )}
+                    {version.duration_seconds && (
+                      <p>Duration: {Math.floor(version.duration_seconds / 60)}:{String(version.duration_seconds % 60).padStart(2, '0')}</p>
+                    )}
                   </div>
                 </div>
 
@@ -153,7 +152,6 @@ export function VersionsTab({ track }: VersionsTabProps) {
                     variant="secondary"
                     className="gap-1 min-w-[120px]"
                     onClick={() => {
-                      // TODO: Implement use this version functionality
                       toast.info('Use version feature coming soon');
                     }}
                   >

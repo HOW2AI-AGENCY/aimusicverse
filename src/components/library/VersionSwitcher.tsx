@@ -26,7 +26,7 @@ export function VersionSwitcher({
   onVersionSelect
 }: VersionSwitcherProps) {
   const { data: versions, isLoading } = useTrackVersions(trackId);
-  const { setMasterVersion, isSettingMaster } = useVersionSwitcher();
+  const { setPrimaryVersion, isSettingPrimary } = useVersionSwitcher();
 
   const handleVersionSelect = (versionId: string) => {
     triggerHapticFeedback('light');

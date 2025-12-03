@@ -168,7 +168,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
               <ExternalLink className="h-4 w-4" />
               Open in Browser
             </Button>
-            {navigator.share && (
+            {typeof navigator.share === 'function' && (
               <Button
                 className="flex-1 gap-2"
                 onClick={handleShare}

@@ -19,8 +19,8 @@ export async function fetchTrackVersions(trackId: string) {
     .from('track_versions')
     .select('*')
     .eq('track_id', trackId)
-    .order('is_master', { ascending: false })
-    .order('version_number', { ascending: false });
+    .order('is_primary', { ascending: false })
+    .order('created_at', { ascending: false });
 
   if (error) throw error;
   return (data || []) as TrackVersion[];
@@ -41,23 +41,23 @@ export async function fetchVersion(versionId: string) {
 }
 
 /**
- * Fetch master version for a track
+ * Fetch primary version for a track
  */
-export async function fetchMasterVersion(trackId: string) {
+export async function fetchPrimaryVersion(trackId: string) {
   const { data, error } = await supabase
     .from('track_versions')
     .select('*')
     .eq('track_id', trackId)
-    .eq('is_master', true)
+    .eq('is_primary', true)
     .single();
 
-  // If no master version, get the first version
+  // If no primary version, get the first version
   if (error || !data) {
     const { data: firstVersion, error: firstError } = await supabase
       .from('track_versions')
       .select('*')
       .eq('track_id', trackId)
-      .order('version_number', { ascending: true })
+      .order('created_at', { ascending: true })
       .limit(1)
       .single();
 
@@ -69,33 +69,25 @@ export async function fetchMasterVersion(trackId: string) {
 }
 
 /**
- * Set a version as master
+ * Set a version as primary
  */
-export async function setMasterVersion(trackId: string, versionId: string) {
-  // First, unset current master
+export async function setPrimaryVersion(trackId: string, versionId: string) {
+  // First, unset current primary
   const { error: unsetError } = await supabase
     .from('track_versions')
-    .update({ is_master: false })
+    .update({ is_primary: false })
     .eq('track_id', trackId)
-    .eq('is_master', true);
+    .eq('is_primary', true);
 
   if (unsetError) throw unsetError;
 
-  // Then set new master
+  // Then set new primary
   const { error: setError } = await supabase
     .from('track_versions')
-    .update({ is_master: true })
+    .update({ is_primary: true })
     .eq('id', versionId);
 
   if (setError) throw setError;
-
-  // Update the track's master_version_id
-  const { error: trackError } = await supabase
-    .from('tracks')
-    .update({ master_version_id: versionId })
-    .eq('id', trackId);
-
-  if (trackError) throw trackError;
 
   return { trackId, versionId };
 }
@@ -114,27 +106,22 @@ export async function createVersion(
     metadata?: Record<string, unknown> | null;
   }
 ) {
-  // Get the next version number
+  // Get existing versions count
   const { data: versions, error: versionsError } = await supabase
     .from('track_versions')
-    .select('version_number')
-    .eq('track_id', trackId)
-    .order('version_number', { ascending: false })
-    .limit(1);
+    .select('id')
+    .eq('track_id', trackId);
 
   if (versionsError) throw versionsError;
 
-  const nextVersionNumber = versions && versions.length > 0 
-    ? (versions[0].version_number || 0) + 1 
-    : 1;
+  const isFirst = !versions || versions.length === 0;
 
   // Create the version
   const { data, error } = await supabase
     .from('track_versions')
     .insert({
       track_id: trackId,
-      version_number: nextVersionNumber,
-      is_master: nextVersionNumber === 1, // First version is master
+      is_primary: isFirst, // First version is primary
       ...versionData,
     })
     .select()
@@ -167,20 +154,20 @@ export async function updateVersion(
 }
 
 /**
- * Delete a version (cannot delete master or only version)
+ * Delete a version (cannot delete primary or only version)
  */
 export async function deleteVersion(versionId: string, trackId: string) {
-  // Check if it's the master version
+  // Check if it's the primary version
   const { data: version, error: versionError } = await supabase
     .from('track_versions')
-    .select('is_master')
+    .select('is_primary')
     .eq('id', versionId)
     .single();
 
   if (versionError) throw versionError;
 
-  if (version.is_master) {
-    throw new Error('Cannot delete master version. Set a different version as master first.');
+  if (version.is_primary) {
+    throw new Error('Cannot delete primary version. Set a different version as primary first.');
   }
 
   // Check if it's the only version
@@ -218,19 +205,16 @@ export async function getVersionCount(trackId: string) {
 }
 
 /**
- * Fetch tracks with their master versions
+ * Fetch tracks with their primary versions
  */
-export async function fetchTracksWithMasterVersions(userId: string, limit: number = 20) {
+export async function fetchTracksWithPrimaryVersions(userId: string, limit: number = 20) {
   const { data, error } = await supabase
     .from('tracks')
-    .select(`
-      *,
-      master_version:track_versions!master_version_id(*)
-    `)
+    .select('*')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
     .limit(limit);
 
   if (error) throw error;
-  return data as (Track & { master_version: TrackVersion | null })[];
+  return data as Track[];
 }

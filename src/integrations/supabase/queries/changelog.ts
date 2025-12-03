@@ -2,13 +2,13 @@
  * Changelog Query Functions
  * 
  * Supabase queries for track changelog and audit trail
- * Used by useTrackChangelog hook
+ * Uses track_change_log table
  */
 
 import { supabase } from '../client';
 import type { Database, Json } from '../types';
 
-type TrackChangelog = Database['public']['Tables']['track_changelog']['Row'];
+type TrackChangeLog = Database['public']['Tables']['track_change_log']['Row'];
 
 type ChangeType = 
   | 'version_created'
@@ -23,14 +23,14 @@ type ChangeType =
  */
 export async function fetchTrackChangelog(trackId: string, limit: number = 50) {
   const { data, error } = await supabase
-    .from('track_changelog')
+    .from('track_change_log')
     .select('*')
     .eq('track_id', trackId)
     .order('created_at', { ascending: false })
     .limit(limit);
 
   if (error) throw error;
-  return (data || []) as TrackChangelog[];
+  return (data || []) as TrackChangeLog[];
 }
 
 /**
@@ -38,14 +38,14 @@ export async function fetchTrackChangelog(trackId: string, limit: number = 50) {
  */
 export async function fetchVersionChangelog(versionId: string, limit: number = 50) {
   const { data, error } = await supabase
-    .from('track_changelog')
+    .from('track_change_log')
     .select('*')
     .eq('version_id', versionId)
     .order('created_at', { ascending: false })
     .limit(limit);
 
   if (error) throw error;
-  return (data || []) as TrackChangelog[];
+  return (data || []) as TrackChangeLog[];
 }
 
 /**
@@ -54,8 +54,15 @@ export async function fetchVersionChangelog(versionId: string, limit: number = 5
 export async function createChangelogEntry(
   trackId: string,
   changeType: ChangeType,
-  changeData: Json = {},
-  versionId?: string | null
+  options: {
+    versionId?: string | null;
+    oldValue?: string | null;
+    newValue?: string | null;
+    fieldName?: string | null;
+    metadata?: Json;
+    promptUsed?: string | null;
+    aiModelUsed?: string | null;
+  } = {}
 ) {
   const { data: userData } = await supabase.auth.getUser();
   
@@ -64,19 +71,25 @@ export async function createChangelogEntry(
   }
 
   const { data, error } = await supabase
-    .from('track_changelog')
+    .from('track_change_log')
     .insert({
       track_id: trackId,
-      version_id: versionId || null,
+      version_id: options.versionId || null,
       change_type: changeType,
-      change_data: changeData,
+      changed_by: 'user',
       user_id: userData.user.id,
+      old_value: options.oldValue || null,
+      new_value: options.newValue || null,
+      field_name: options.fieldName || null,
+      metadata: options.metadata || null,
+      prompt_used: options.promptUsed || null,
+      ai_model_used: options.aiModelUsed || null,
     })
     .select()
     .single();
 
   if (error) throw error;
-  return data as TrackChangelog;
+  return data as TrackChangeLog;
 }
 
 /**
@@ -85,18 +98,13 @@ export async function createChangelogEntry(
 export async function logVersionCreated(
   trackId: string,
   versionId: string,
-  versionNumber: number,
   versionType: string | null
 ) {
-  return createChangelogEntry(
-    trackId,
-    'version_created',
-    {
-      version_number: versionNumber,
-      version_type: versionType,
-    },
-    versionId
-  );
+  return createChangelogEntry(trackId, 'version_created', {
+    versionId,
+    newValue: versionType,
+    fieldName: 'version_type',
+  });
 }
 
 /**
@@ -108,16 +116,12 @@ export async function logMasterChanged(
   newVersionId: string,
   reason?: string
 ) {
-  return createChangelogEntry(
-    trackId,
-    'master_changed',
-    {
-      old_value: { version_id: oldVersionId },
-      new_value: { version_id: newVersionId },
-      reason,
-    },
-    newVersionId
-  );
+  return createChangelogEntry(trackId, 'master_changed', {
+    versionId: newVersionId,
+    oldValue: oldVersionId,
+    newValue: newVersionId,
+    fieldName: 'primary_version',
+  });
 }
 
 /**
@@ -125,19 +129,17 @@ export async function logMasterChanged(
  */
 export async function logMetadataUpdated(
   trackId: string,
-  oldMetadata: Record<string, unknown>,
-  newMetadata: Record<string, unknown>,
+  fieldName: string,
+  oldValue: string | null,
+  newValue: string | null,
   versionId?: string | null
 ) {
-  return createChangelogEntry(
-    trackId,
-    'metadata_updated',
-    {
-      old_value: oldMetadata,
-      new_value: newMetadata,
-    },
-    versionId
-  );
+  return createChangelogEntry(trackId, 'metadata_updated', {
+    versionId,
+    oldValue,
+    newValue,
+    fieldName,
+  });
 }
 
 /**
@@ -149,15 +151,11 @@ export async function logStemGenerated(
   stemUrl: string,
   versionId?: string | null
 ) {
-  return createChangelogEntry(
-    trackId,
-    'stem_generated',
-    {
-      stem_type: stemType,
-      stem_url: stemUrl,
-    },
-    versionId
-  );
+  return createChangelogEntry(trackId, 'stem_generated', {
+    versionId,
+    newValue: stemUrl,
+    fieldName: stemType,
+  });
 }
 
 /**
@@ -169,15 +167,12 @@ export async function logCoverUpdated(
   newCoverUrl: string | null,
   versionId?: string | null
 ) {
-  return createChangelogEntry(
-    trackId,
-    'cover_updated',
-    {
-      old_value: { cover_url: oldCoverUrl },
-      new_value: { cover_url: newCoverUrl },
-    },
-    versionId
-  );
+  return createChangelogEntry(trackId, 'cover_updated', {
+    versionId,
+    oldValue: oldCoverUrl,
+    newValue: newCoverUrl,
+    fieldName: 'cover_url',
+  });
 }
 
 /**
@@ -189,15 +184,12 @@ export async function logLyricsUpdated(
   newLyrics: string | null,
   versionId?: string | null
 ) {
-  return createChangelogEntry(
-    trackId,
-    'lyrics_updated',
-    {
-      old_value: { lyrics: oldLyrics },
-      new_value: { lyrics: newLyrics },
-    },
-    versionId
-  );
+  return createChangelogEntry(trackId, 'lyrics_updated', {
+    versionId,
+    oldValue: oldLyrics,
+    newValue: newLyrics,
+    fieldName: 'lyrics',
+  });
 }
 
 /**
@@ -205,7 +197,7 @@ export async function logLyricsUpdated(
  */
 export async function getChangelogCount(trackId: string) {
   const { count, error } = await supabase
-    .from('track_changelog')
+    .from('track_change_log')
     .select('id', { count: 'exact', head: true })
     .eq('track_id', trackId);
 
@@ -218,14 +210,14 @@ export async function getChangelogCount(trackId: string) {
  */
 export async function fetchUserRecentChanges(userId: string, limit: number = 20) {
   const { data, error } = await supabase
-    .from('track_changelog')
+    .from('track_change_log')
     .select('*')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
     .limit(limit);
 
   if (error) throw error;
-  return (data || []) as TrackChangelog[];
+  return (data || []) as TrackChangeLog[];
 }
 
 /**
@@ -237,7 +229,7 @@ export async function fetchChangesByType(
   limit: number = 20
 ) {
   const { data, error } = await supabase
-    .from('track_changelog')
+    .from('track_change_log')
     .select('*')
     .eq('track_id', trackId)
     .eq('change_type', changeType)
@@ -245,5 +237,5 @@ export async function fetchChangesByType(
     .limit(limit);
 
   if (error) throw error;
-  return (data || []) as TrackChangelog[];
+  return (data || []) as TrackChangeLog[];
 }

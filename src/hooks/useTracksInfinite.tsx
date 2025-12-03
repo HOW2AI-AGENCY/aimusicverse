@@ -149,7 +149,7 @@ export const useTracksInfinite = ({
 
   // Flatten pages into single array of tracks
   const tracks = data?.pages.flatMap((page) => page.tracks) || [];
-  const totalCount = data?.pages[0]?.totalCount || 0;
+  const totalCount = data?.pages[0] && 'totalCount' in data.pages[0] ? data.pages[0].totalCount : 0;
 
   // Delete track mutation with optimistic update
   const deleteTrackMutation = useMutation({
@@ -265,8 +265,8 @@ export const useTracksInfinite = ({
   // Log play mutation
   const logPlayMutation = useMutation({
     mutationFn: async (trackId: string) => {
-      const { error } = await supabase.rpc('increment_play_count', {
-        track_id: trackId,
+      const { error } = await supabase.rpc('increment_track_play_count', {
+        track_id_param: trackId,
       });
 
       if (error) throw error;

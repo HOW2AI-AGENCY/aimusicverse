@@ -1,16 +1,18 @@
 /**
  * Version Switcher Hook
  * 
- * Manages switching between track versions and setting master version
+ * Manages switching between track versions and setting primary version
  * Includes optimistic updates for better UX
  */
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import type { TrackVersion } from './useTrackVersions';
+import type { Database } from '@/integrations/supabase/types';
 
-interface SetMasterVersionParams {
+type TrackVersion = Database['public']['Tables']['track_versions']['Row'];
+
+interface SetPrimaryVersionParams {
   trackId: string;
   versionId: string;
 }
@@ -21,49 +23,40 @@ interface SwitchVersionParams {
 }
 
 /**
- * Hook for switching master version with optimistic updates
+ * Hook for switching primary version with optimistic updates
  */
 export function useVersionSwitcher() {
   const queryClient = useQueryClient();
 
-  const setMasterVersionMutation = useMutation({
-    mutationFn: async ({ trackId, versionId }: SetMasterVersionParams) => {
-      // First, unset current master
+  const setPrimaryVersionMutation = useMutation({
+    mutationFn: async ({ trackId, versionId }: SetPrimaryVersionParams) => {
+      // First, unset current primary
       const { error: unsetError } = await supabase
         .from('track_versions')
-        .update({ is_master: false })
+        .update({ is_primary: false })
         .eq('track_id', trackId)
-        .eq('is_master', true);
+        .eq('is_primary', true);
 
       if (unsetError) throw unsetError;
 
-      // Then set new master
+      // Then set new primary
       const { error: setError } = await supabase
         .from('track_versions')
-        .update({ is_master: true })
+        .update({ is_primary: true })
         .eq('id', versionId);
 
       if (setError) throw setError;
 
-      // Update the track's master_version_id
-      const { error: trackError } = await supabase
-        .from('tracks')
-        .update({ master_version_id: versionId })
-        .eq('id', trackId);
-
-      if (trackError) throw trackError;
-
-      // Log the change in changelog
+      // Log the change
       const { data: userData } = await supabase.auth.getUser();
       if (userData.user) {
-        await supabase.from('track_changelog').insert({
+        await supabase.from('track_change_log').insert({
           track_id: trackId,
           version_id: versionId,
           change_type: 'master_changed',
+          changed_by: 'user',
           user_id: userData.user.id,
-          change_data: {
-            new_value: { version_id: versionId },
-          },
+          new_value: versionId,
         });
       }
 
@@ -83,7 +76,7 @@ export function useVersionSwitcher() {
       if (previousVersions) {
         const updatedVersions = previousVersions.map((version) => ({
           ...version,
-          is_master: version.id === versionId,
+          is_primary: version.id === versionId,
         }));
         queryClient.setQueryData(['track-versions', trackId], updatedVersions);
       }
@@ -95,19 +88,19 @@ export function useVersionSwitcher() {
       if (context?.previousVersions) {
         queryClient.setQueryData(['track-versions', trackId], context.previousVersions);
       }
-      toast.error('Failed to set master version', {
+      toast.error('Failed to set primary version', {
         description: error instanceof Error ? error.message : 'Unknown error',
       });
     },
     onSuccess: () => {
-      toast.success('Master version updated successfully');
+      toast.success('Primary version updated successfully');
     },
     onSettled: (data) => {
       // Refetch to sync with server
       if (data) {
         queryClient.invalidateQueries({ queryKey: ['track-versions', data.trackId] });
         queryClient.invalidateQueries({ queryKey: ['tracks'] });
-        queryClient.invalidateQueries({ queryKey: ['track-changelog', data.trackId] });
+        queryClient.invalidateQueries({ queryKey: ['track-change-log', data.trackId] });
       }
     },
   });
@@ -133,11 +126,11 @@ export function useVersionSwitcher() {
   });
 
   return {
-    setMasterVersion: setMasterVersionMutation.mutate,
-    setMasterVersionAsync: setMasterVersionMutation.mutateAsync,
+    setPrimaryVersion: setPrimaryVersionMutation.mutate,
+    setPrimaryVersionAsync: setPrimaryVersionMutation.mutateAsync,
     switchVersion: switchVersionMutation.mutate,
     switchVersionAsync: switchVersionMutation.mutateAsync,
-    isSettingMaster: setMasterVersionMutation.isPending,
+    isSettingPrimary: setPrimaryVersionMutation.isPending,
     isSwitching: switchVersionMutation.isPending,
   };
 }
