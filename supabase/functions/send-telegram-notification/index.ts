@@ -273,8 +273,8 @@ Deno.serve(async (req) => {
         ? `⏱️ ${Math.floor(duration / 60)}:${String(Math.floor(duration % 60)).padStart(2, '0')}`
         : '';
       
-      const tagsText = tags 
-        ? `\n🏷️ ${tags.split(',').slice(0, 3).map(t => `#${t.trim().replace(/\s/g, '_')}`).join(' ')}`
+        const tagsText = tags 
+        ? `\n🏷️ ${tags.split(',').slice(0, 3).map(t => `#${t.trim().replace(/\s+/g, '_').toLowerCase()}`).join(' ')}`
         : '';
       
       const versionsText = versionsCount && versionsCount > 1
@@ -293,12 +293,12 @@ Deno.serve(async (req) => {
         : generationMode === 'add_instrumental' ? 'Инструментал добавлен'
         : 'Генерация завершена';
       
-      const caption = `${modeEmoji} *${modeText}!*\n\n🎵 *${title || 'Новый трек'}*${style ? `\n🎸 ${style.split(',')[0]}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}${versionsText}\n\n✨ _Создано с помощью AI_ ✨`;
+      const caption = `${modeEmoji} *${modeText}\\!*\n\n🎵 *${(title || 'Новый трек').replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}*${style ? `\n🎸 ${style.split(',')[0].replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}${versionsText}\n\n✨ _Создано в_ @AIMusicVerseBot ✨`;
       
       await sendTelegramAudio(finalChatId, audioUrl, {
         caption,
         title: title || 'AI Music Track',
-        performer: 'AIMusicVerse AI',
+        performer: '@AIMusicVerseBot',
         duration: duration ? Math.round(duration) : undefined,
         coverUrl: coverUrl,
         replyMarkup: {
@@ -340,15 +340,15 @@ Deno.serve(async (req) => {
           : '';
         
         const tagsText = track.tags 
-          ? `\n🏷️ ${track.tags.split(',').slice(0, 3).map((t: string) => `#${t.trim()}`).join(' ')}`
+          ? `\n🏷️ ${track.tags.split(',').slice(0, 3).map((t: string) => `#${t.trim().replace(/\s+/g, '_').toLowerCase()}`).join(' ')}`
           : '';
         
-        const caption = `🎵 *${track.title || 'Новый трек'}*${track.style ? `\n🎸 ${track.style}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}\n\n_Создано в AIMusicVerse_ ✨`;
+        const caption = `🎵 *${(track.title || 'Новый трек').replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}*${track.style ? `\n🎸 ${track.style.split(',')[0].replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}\n\n✨ _Создано в_ @AIMusicVerseBot ✨`;
         
         await sendTelegramAudio(finalChatId, track.audio_url, {
           caption,
           title: track.title || 'AIMusicVerse Track',
-          performer: 'AIMusicVerse AI',
+          performer: '@AIMusicVerseBot',
           duration: track.duration_seconds || undefined,
           coverUrl: track.cover_url,
           replyMarkup: {
@@ -382,19 +382,19 @@ Deno.serve(async (req) => {
         const durationText = `${Math.floor(durationSeconds / 60)}:${String(Math.floor(durationSeconds % 60)).padStart(2, '0')}`;
         
         const tagsText = track.tags 
-          ? `\n🏷️ ${track.tags.split(',').slice(0, 3).map((t: string) => `#${t.trim()}`).join(' ')}`
+          ? `\n🏷️ ${track.tags.split(',').slice(0, 3).map((t: string) => `#${t.trim().replace(/\s+/g, '_').toLowerCase()}`).join(' ')}`
           : '';
         
         const lyricsPreview = track.lyrics 
-          ? `\n\n📝 _${track.lyrics.slice(0, 100)}${track.lyrics.length > 100 ? '...' : ''}_`
+          ? `\n\n📝 _${track.lyrics.slice(0, 100).replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}${track.lyrics.length > 100 ? '...' : ''}_`
           : '';
         
-        const caption = `🎉 *Ваш трек готов!*\n\n🎵 *${track.title || 'Новый трек'}*${track.style ? `\n🎸 ${track.style}` : ''}\n⏱️ ${durationText}${tagsText}${lyricsPreview}\n\n✨ _Создано с помощью AI_ ✨`;
+        const caption = `🎉 *Ваш трек готов\\!*\n\n🎵 *${(track.title || 'Новый трек').replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}*${track.style ? `\n🎸 ${track.style.split(',')[0].replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}` : ''}\n⏱️ ${durationText}${tagsText}${lyricsPreview}\n\n✨ _Создано в_ @AIMusicVerseBot ✨`;
         
         await sendTelegramAudio(finalChatId, track.audio_url, {
           caption,
           title: track.title || 'MusicVerse Track',
-          performer: 'MusicVerse AI',
+          performer: '@AIMusicVerseBot',
           duration: durationSeconds,
           coverUrl: track.cover_url,
           replyMarkup: {
