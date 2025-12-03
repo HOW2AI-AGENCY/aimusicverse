@@ -1,14 +1,27 @@
-
 import { useNavigate } from 'react-router-dom';
-import { Settings, ChevronRight, User } from 'lucide-react';
+import { Settings, ChevronRight, User, Users, LogOut } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { useProfile } from '@/hooks/useProfile.tsx';
+import { useAuth } from '@/hooks/useAuth';
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
-  const { hapticFeedback, user } = useTelegram();
+  const { hapticFeedback, user: telegramUser } = useTelegram();
+  const { data: profile } = useProfile();
+  const { logout } = useAuth();
+
+  const displayUser = profile || telegramUser;
 
   const menuItems = [
+    {
+      icon: Users,
+      title: 'Мои AI-артисты',
+      description: 'Управление вашими AI-артистами',
+      path: '/artists',
+      color: 'text-purple-500',
+      bgColor: 'bg-purple-500/10',
+    },
     {
       icon: Settings,
       title: 'Настройки',
@@ -24,19 +37,42 @@ export const ProfilePage = () => {
     navigate(path);
   };
 
-  return (
-    <div className="container mx-auto max-w-4xl py-8">
-      <div className="flex items-center gap-4 mb-8">
-        <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center">
-          <User className="w-8 h-8 text-muted-foreground" />
-        </div>
-        <div>
-          <h1 className="text-3xl font-bold">{user?.first_name} {user?.last_name}</h1>
-          <p className="text-muted-foreground">@{user?.username}</p>
-        </div>
-      </div>
+  const handleLogout = () => {
+    hapticFeedback('medium');
+    logout();
+  };
 
-      <div className="grid gap-4 md:grid-cols-2">
+  return (
+    <div className="container mx-auto max-w-4xl py-8 px-4 pb-24">
+      {/* User Profile Card */}
+      <Card className="p-6 mb-6 glass-card border-primary/20">
+        <div className="flex items-center gap-4">
+          <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-primary/30">
+            {displayUser?.photo_url ? (
+              <img
+                src={displayUser.photo_url}
+                alt="Avatar"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
+                <User className="w-10 h-10 text-primary" />
+              </div>
+            )}
+          </div>
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold">
+              {displayUser?.first_name} {displayUser?.last_name}
+            </h1>
+            {displayUser?.username && (
+              <p className="text-muted-foreground">@{displayUser.username}</p>
+            )}
+          </div>
+        </div>
+      </Card>
+
+      {/* Menu Items */}
+      <div className="grid gap-4 md:grid-cols-2 mb-6">
         {menuItems.map((item) => (
           <Card
             key={item.path}
@@ -56,6 +92,23 @@ export const ProfilePage = () => {
           </Card>
         ))}
       </div>
+
+      {/* Logout Button */}
+      <Card
+        onClick={handleLogout}
+        className="p-4 hover:bg-destructive/10 transition-all cursor-pointer border-destructive/20"
+      >
+        <div className="flex items-center gap-4">
+          <div className="p-3 rounded-lg bg-destructive/10">
+            <LogOut className="w-6 h-6 text-destructive" />
+          </div>
+          <div className="flex-1">
+            <p className="font-semibold text-lg text-destructive">Выйти</p>
+            <p className="text-sm text-muted-foreground">Завершить сеанс</p>
+          </div>
+          <ChevronRight className="w-5 h-5 text-muted-foreground" />
+        </div>
+      </Card>
     </div>
   );
 };

@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { FolderOpen, Search, Plus, Music, Clock, Sparkles } from 'lucide-react';
+import { FolderOpen, Search, Plus, Music, Clock } from 'lucide-react';
 import { CreateProjectSheet } from '@/components/CreateProjectSheet';
 
 export default function Projects() {
@@ -51,7 +51,7 @@ export default function Projects() {
         </div>
 
         {/* Search & Filters */}
-        <div className="mb-6">
+        <div className="mb-4">
           <div className="relative">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
@@ -63,35 +63,23 @@ export default function Projects() {
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-          <Card className="p-4">
-            <div className="flex items-center gap-4">
-              <FolderOpen className="w-8 h-8 text-primary" />
-              <div>
-                <p className="text-2xl font-bold">{projects?.length || 0}</p>
-                <p className="text-sm text-muted-foreground">Всего проектов</p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4">
-            <div className="flex items-center gap-4">
-              <Music className="w-8 h-8 text-green-500" />
-              <div>
-                <p className="text-2xl font-bold">{completedCount}</p>
-                <p className="text-sm text-muted-foreground">Завершено</p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4">
-            <div className="flex items-center gap-4">
-              <Clock className="w-8 h-8 text-blue-500" />
-              <div>
-                <p className="text-2xl font-bold">{inProgressCount}</p>
-                <p className="text-sm text-muted-foreground">В работе</p>
-              </div>
-            </div>
-          </Card>
+        {/* Compact Stats Badges - Single Row */}
+        <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+          <Badge variant="secondary" className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap">
+            <FolderOpen className="w-4 h-4" />
+            <span className="font-bold">{projects?.length || 0}</span>
+            <span className="text-muted-foreground">всего</span>
+          </Badge>
+          <Badge variant="outline" className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-green-500/30">
+            <Music className="w-4 h-4 text-green-500" />
+            <span className="font-bold">{completedCount}</span>
+            <span className="text-muted-foreground">готово</span>
+          </Badge>
+          <Badge variant="outline" className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-blue-500/30">
+            <Clock className="w-4 h-4 text-blue-500" />
+            <span className="font-bold">{inProgressCount}</span>
+            <span className="text-muted-foreground">в работе</span>
+          </Badge>
         </div>
 
         {/* Projects List */}
