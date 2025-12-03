@@ -52,6 +52,11 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   const { lyricsLines, plainLyrics } = useMemo(() => {
     let words: AlignedWord[] = [];
     
+    // Helper to check if word is a structural tag
+    const isStructuralTag = (text: string) => {
+      return /^\[?(Verse|Chorus|Bridge|Outro|Intro|Hook|Pre-Chorus|Post-Chorus|Refrain|Interlude|Break|Solo|Instrumental|Ad-lib|Coda)(\s*\d*)?\]?$/i.test(text.trim());
+    };
+    
     // Helper to clean structural tags from plain text
     const cleanLyrics = (text: string) => {
       return text
@@ -61,13 +66,14 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     };
     
     if (lyricsData?.alignedWords && lyricsData.alignedWords.length > 0) {
-      words = lyricsData.alignedWords as AlignedWord[];
+      // Filter out structural tags from aligned words
+      words = (lyricsData.alignedWords as AlignedWord[]).filter(w => !isStructuralTag(w.word));
     } else if (track.lyrics) {
       try {
         if (track.lyrics.trim().startsWith('{')) {
           const parsed = JSON.parse(track.lyrics);
           if (parsed.alignedWords && Array.isArray(parsed.alignedWords)) {
-            words = parsed.alignedWords as AlignedWord[];
+            words = (parsed.alignedWords as AlignedWord[]).filter(w => !isStructuralTag(w.word));
           }
         }
       } catch {
@@ -88,12 +94,15 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     let currentLine: AlignedWord[] = [];
     
     words.forEach((word) => {
+      // Skip structural tags that might have slipped through
+      if (isStructuralTag(word.word)) return;
+      
       const hasLineBreak = word.word.includes('\n');
       
       if (hasLineBreak) {
         const parts = word.word.split('\n');
         parts.forEach((part, index) => {
-          if (part.trim()) {
+          if (part.trim() && !isStructuralTag(part)) {
             currentLine.push({ ...word, word: part.trim() });
           }
           if (index < parts.length - 1) {
@@ -119,7 +128,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
       lines.push(currentLine);
     }
     
-    return { lyricsLines: lines, plainLyrics: null };
+    return { lyricsLines: lines.length > 0 ? lines : null, plainLyrics: null };
   }, [lyricsData, track.lyrics]);
 
   // Find active line index
@@ -242,11 +251,11 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         {/* Lyrics Section */}
         <div 
           ref={lyricsContainerRef}
-          className="flex-1 overflow-y-auto px-4 py-8 scrollbar-hide"
+          className="flex-1 overflow-y-auto px-4 py-4 scrollbar-hide"
         >
           {lyricsLines ? (
             // Synchronized lyrics with line grouping and word highlighting
-            <div className="min-h-full flex flex-col items-center justify-start text-center space-y-1 pt-[40vh] pb-[50vh]">
+            <div className="flex flex-col items-center text-center space-y-1 pb-[30vh]">
               {lyricsLines.map((line, lineIndex) => {
                 const isActiveLine = lineIndex === activeLineIndex;
                 const isPastLine = activeLineIndex > -1 && lineIndex < activeLineIndex;
