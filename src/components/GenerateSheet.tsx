@@ -25,6 +25,7 @@ import { AdvancedSettings } from './generate-form/AdvancedSettings';
 import { LyricsVisualEditor } from './generate-form/LyricsVisualEditor';
 import { PromptHistory, savePromptToHistory } from './generate-form/PromptHistory';
 import { AILyricsWizard } from './generate-form/AILyricsWizard';
+import { usePlanTrackStore } from '@/stores/planTrackStore';
 
 interface GenerateSheetProps {
   open: boolean;
@@ -37,6 +38,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const { projects } = useProjects();
   const { artists } = useArtists();
   const { tracks: allTracks } = useTracks();
+  const { planTrackContext, clearPlanTrackContext } = usePlanTrackStore();
 
   const [mode, setMode] = useState<'simple' | 'custom'>('simple');
   const [loading, setLoading] = useState(false);
@@ -47,6 +49,9 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [showVisualEditor, setShowVisualEditor] = useState(false);
+  
+  // Plan track reference
+  const [planTrackId, setPlanTrackId] = useState<string | undefined>();
   
   // Simple mode state
   const [description, setDescription] = useState('');
@@ -78,6 +83,40 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [audioDialogOpen, setAudioDialogOpen] = useState(false);
   const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
+
+  // Apply plan track context when available
+  useEffect(() => {
+    if (open && planTrackContext) {
+      setMode('custom');
+      setTitle(planTrackContext.planTrackTitle);
+      setPlanTrackId(planTrackContext.planTrackId);
+      setSelectedProjectId(planTrackContext.projectId);
+      
+      // Build style from plan track data
+      const styleComponents = [
+        planTrackContext.stylePrompt,
+        planTrackContext.projectGenre,
+        planTrackContext.projectMood,
+        planTrackContext.recommendedTags?.join(', '),
+      ].filter(Boolean);
+      
+      if (styleComponents.length > 0) {
+        setStyle(styleComponents.join('. '));
+      }
+      
+      // Set lyrics from notes if available
+      if (planTrackContext.notes) {
+        setLyrics(planTrackContext.notes);
+      }
+      
+      toast.success(`Загружены данные: ${planTrackContext.planTrackTitle}`, {
+        description: 'Форма заполнена из плана проекта',
+      });
+      
+      // Clear context after applying
+      clearPlanTrackContext();
+    }
+  }, [open, planTrackContext, clearPlanTrackContext]);
 
   // Fetch credits
   useEffect(() => {
@@ -251,8 +290,9 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           weirdnessConstraint: weirdnessConstraint[0],
           audioWeight: (audioFile || personaId) ? audioWeight[0] : undefined,
           personaId: personaId,
-          artistId: selectedArtistId, // Pass artist ID to save reference
+          artistId: selectedArtistId,
           projectId: selectedProjectId || initialProjectId,
+          planTrackId: planTrackId, // Link to project plan track
         },
       });
 
@@ -326,6 +366,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     setSelectedTrackId(undefined);
     setSelectedArtistId(undefined);
     setAudioFile(null);
+    setPlanTrackId(undefined);
   };
 
 
@@ -457,8 +498,17 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           </div>
 
           {/* Selected References Indicators */}
-          {(audioFile || selectedArtistId || selectedProjectId) && (
+          {(audioFile || selectedArtistId || selectedProjectId || planTrackId) && (
             <div className="space-y-2">
+              {planTrackId && (
+                <div className="flex items-center gap-2 p-2 rounded-lg bg-green-500/10 border border-green-500/20">
+                  <Music2 className="w-4 h-4 text-green-500" />
+                  <span className="text-xs flex-1 truncate text-green-600 dark:text-green-400">
+                    Из плана проекта: {title}
+                  </span>
+                </div>
+              )}
+              
               {audioFile && (
                 <div className="flex items-center gap-2 p-2 rounded-lg bg-primary/10 border border-primary/20">
                   <FileAudio className="w-4 h-4 text-primary" />
