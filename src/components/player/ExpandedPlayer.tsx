@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, Maximize2, ListMusic, Heart } from 'lucide-react';
-import { useAudioPlayer } from '@/hooks/useAudioPlayer';
+import { useAudioTime } from '@/hooks/useAudioTime';
 import { PlaybackControls } from './PlaybackControls';
 import { ProgressBar } from './ProgressBar';
 import { QueueSheet } from './QueueSheet';
@@ -21,17 +21,8 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
   const { toggleLike } = useTracks();
   const [queueOpen, setQueueOpen] = useState(false);
 
-  const {
-    currentTime,
-    duration,
-    buffered,
-    seek,
-  } = useAudioPlayer({
-    trackId: track.id,
-    streamingUrl: track.streaming_url,
-    localAudioUrl: track.local_audio_url,
-    audioUrl: track.audio_url,
-  });
+  // Use global audio system instead of local useAudioPlayer
+  const { currentTime, duration, buffered, seek } = useAudioTime();
 
   const handleLike = () => {
     hapticImpact('light');
