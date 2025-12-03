@@ -89,7 +89,7 @@ export const BottomNavigation = () => {
               )}
             >
               <Users className="w-5 h-5" />
-              <span className="text-xs font-medium">Актёры</span>
+              <span className="text-xs font-medium">Артисты</span>
             </button>
           </div>
         </div>

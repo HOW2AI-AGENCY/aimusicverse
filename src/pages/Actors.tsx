@@ -44,7 +44,7 @@ export default function Actors() {
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-3 mb-1">
               <Users className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
-              AI Актёры
+              AI Артисты
             </h1>
             <p className="text-sm text-muted-foreground">
               Исследуйте AI-артистов сообщества
@@ -107,12 +107,12 @@ export default function Actors() {
           <div className="text-center py-12">
             <Users className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
             <h3 className="text-lg font-semibold mb-2">
-              {searchQuery || selectedGenre ? "Актёры не найдены" : "Нет публичных актёров"}
+              {searchQuery || selectedGenre ? "Артисты не найдены" : "Нет публичных артистов"}
             </h3>
             <p className="text-sm text-muted-foreground">
               {searchQuery || selectedGenre
                 ? "Попробуйте изменить фильтры"
-                : "Станьте первым, кто создаст AI-актёра!"}
+                : "Станьте первым, кто создаст AI-артиста!"}
             </p>
           </div>
         )}

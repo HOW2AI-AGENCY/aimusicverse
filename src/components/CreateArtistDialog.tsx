@@ -115,6 +115,7 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
       genre_tags: genreTags.length > 0 ? genreTags : null,
       mood_tags: moodTags.length > 0 ? moodTags : null,
       is_ai_generated: true,
+      is_public: true, // Делаем артиста публичным по умолчанию
     });
 
     // Reset form
