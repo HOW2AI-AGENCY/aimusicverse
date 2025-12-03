@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { 
   Download, Share2, Info, Trash2, Eye, EyeOff, Send,
   Scissors, Wand2, ImagePlus, FileAudio, Music2, FileText, Layers,
-  Plus, Mic, Volume2, Music, Globe, Lock, ChevronDown, GitBranch, Check, Star
+  Plus, Mic, Volume2, Music, Globe, Lock, ChevronDown, GitBranch, Check, Star, Users
 } from 'lucide-react';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { useState, useEffect } from 'react';
@@ -16,6 +16,7 @@ import { LyricsSheet } from './LyricsSheet';
 import { ExtendTrackDialog } from './ExtendTrackDialog';
 import { AddVocalsDialog } from './AddVocalsDialog';
 import { AddInstrumentalDialog } from './AddInstrumentalDialog';
+import { CreateArtistDialog } from './CreateArtistDialog';
 import { useNavigate } from 'react-router-dom';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { toast } from 'sonner';
@@ -42,6 +43,7 @@ export function TrackActionsSheet({
   const [extendDialogOpen, setExtendDialogOpen] = useState(false);
   const [addVocalsDialogOpen, setAddVocalsDialogOpen] = useState(false);
   const [addInstrumentalDialogOpen, setAddInstrumentalDialogOpen] = useState(false);
+  const [createArtistDialogOpen, setCreateArtistDialogOpen] = useState(false);
   const [stemCount, setStemCount] = useState(0);
   const [editOpen, setEditOpen] = useState(false);
   const [processOpen, setProcessOpen] = useState(false);
@@ -491,6 +493,20 @@ export function TrackActionsSheet({
                     </>
                   )}
                 </Button>
+
+                <Separator className="my-2" />
+
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start gap-3 h-12"
+                  onClick={() => {
+                    onOpenChange(false);
+                    setCreateArtistDialogOpen(true);
+                  }}
+                >
+                  <Users className="w-5 h-5" />
+                  <span>Создать артиста</span>
+                </Button>
               </>
             )}
 
@@ -542,6 +558,17 @@ export function TrackActionsSheet({
         open={addInstrumentalDialogOpen}
         onOpenChange={setAddInstrumentalDialogOpen}
         track={track}
+      />
+
+      <CreateArtistDialog
+        open={createArtistDialogOpen}
+        onOpenChange={setCreateArtistDialogOpen}
+        fromTrack={{
+          title: track.title,
+          style: track.style,
+          tags: track.tags,
+          cover_url: track.cover_url,
+        }}
       />
     </>
   );

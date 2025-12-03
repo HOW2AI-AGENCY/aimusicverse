@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,12 +10,20 @@ import { useArtists } from '@/hooks/useArtists';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 
+interface TrackData {
+  title?: string | null;
+  style?: string | null;
+  tags?: string | null;
+  cover_url?: string | null;
+}
+
 interface CreateArtistDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  fromTrack?: TrackData | null;
 }
 
-export function CreateArtistDialog({ open, onOpenChange }: CreateArtistDialogProps) {
+export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArtistDialogProps) {
   const [name, setName] = useState('');
   const [bio, setBio] = useState('');
   const [styleDescription, setStyleDescription] = useState('');
@@ -25,6 +33,29 @@ export function CreateArtistDialog({ open, onOpenChange }: CreateArtistDialogPro
   const [newMoodTag, setNewMoodTag] = useState('');
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [isGeneratingPortrait, setIsGeneratingPortrait] = useState(false);
+
+  // Pre-fill from track data when dialog opens
+  useEffect(() => {
+    if (open && fromTrack) {
+      // Extract artist name from track title (before " - " if present)
+      const trackTitle = fromTrack.title || '';
+      const artistName = trackTitle.includes(' - ') 
+        ? trackTitle.split(' - ')[0].trim() 
+        : `Артист "${trackTitle}"`;
+      
+      setName(artistName);
+      setStyleDescription(fromTrack.style || '');
+      setAvatarUrl(fromTrack.cover_url || null);
+      
+      // Parse tags into genre tags
+      if (fromTrack.tags) {
+        const tags = fromTrack.tags.split(',').map(t => t.trim()).filter(Boolean);
+        setGenreTags(tags.slice(0, 5));
+      }
+      
+      setBio(`AI артист, вдохновлённый треком "${trackTitle}"`);
+    }
+  }, [open, fromTrack]);
 
   const { createArtist, isCreating } = useArtists();
 
