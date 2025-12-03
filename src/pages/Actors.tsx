@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { Navigate } from "react-router-dom";
-import { Users, Search, Sparkles } from "lucide-react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { Users, Search, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { usePublicArtists } from "@/hooks/usePublicArtists";
 import { ActorCard } from "@/components/actors/ActorCard";
+import { CreateArtistDialog } from "@/components/CreateArtistDialog";
 
 const GENRES = ["Pop", "Rock", "Hip-Hop", "Electronic", "R&B", "Jazz", "Classical", "Folk"];
 
@@ -14,6 +16,8 @@ export default function Actors() {
   const { data: publicArtists, isLoading } = usePublicArtists(50);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const navigate = useNavigate();
 
   if (authLoading) {
     return (
@@ -37,14 +41,20 @@ export default function Actors() {
     <div className="min-h-screen bg-background pb-24">
       <div className="container max-w-6xl mx-auto px-4 py-6">
         {/* Header */}
-        <header className="mb-6">
-          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-3 mb-2">
-            <Users className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
-            AI Актёры
-          </h1>
-          <p className="text-muted-foreground">
-            Исследуйте AI-артистов сообщества
-          </p>
+        <header className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-3 mb-1">
+              <Users className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
+              AI Актёры
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Исследуйте AI-артистов сообщества
+            </p>
+          </div>
+          <Button onClick={() => setCreateDialogOpen(true)} className="gap-2" size="sm">
+            <Plus className="w-4 h-4" />
+            <span className="hidden sm:inline">Создать</span>
+          </Button>
         </header>
 
         {/* Search */}
@@ -108,6 +118,8 @@ export default function Actors() {
           </div>
         )}
       </div>
+
+      <CreateArtistDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
     </div>
   );
 }

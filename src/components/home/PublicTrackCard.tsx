@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, Pause, Heart, Share2, Copy, MoreVertical } from 'lucide-react';
+import { Play, Pause, Heart, Share2, Copy, MoreVertical, User, Users } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -7,22 +7,16 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { usePlayerStore } from '@/hooks/usePlayerState';
 import { formatDuration } from '@/lib/player-utils';
-import type { Database } from '@/integrations/supabase/types';
-
-type TrackRow = Database['public']['Tables']['tracks']['Row'];
+import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 
 interface PublicTrackCardProps {
-  track: TrackRow;
-  artistName?: string;
-  artistAvatar?: string;
+  track: PublicTrackWithCreator;
   onRemix?: (trackId: string) => void;
   className?: string;
 }
 
 export function PublicTrackCard({
   track,
-  artistName = 'Unknown Artist',
-  artistAvatar,
   onRemix,
   className,
 }: PublicTrackCardProps) {
@@ -31,12 +25,18 @@ export function PublicTrackCard({
   const isCurrentTrack = activeTrack?.id === track.id;
   const isThisTrackPlaying = isCurrentTrack && isPlaying;
 
+  // Display name: use creator username or fallback
+  const creatorName = track.creator_username || 'Аноним';
+  const creatorAvatar = track.creator_photo_url;
+  
+  // Only show artist if actually used (artist_name is set)
+  const hasArtist = !!track.artist_name;
+
   const handlePlayPause = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isThisTrackPlaying) {
       pauseTrack();
     } else {
-      // Cast to Track type for player compatibility
       playTrack(track as any);
     }
   };
@@ -44,15 +44,13 @@ export function PublicTrackCard({
   const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsLiked(!isLiked);
-    // TODO: Implement like functionality with Supabase
   };
 
   const handleShare = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // TODO: Implement share functionality
     navigator.share?.({
       title: track.title || 'Track',
-      text: `Check out "${track.title}" by ${artistName}`,
+      text: `Послушай "${track.title}" от @${creatorName}`,
       url: window.location.href,
     });
   };
@@ -83,103 +81,106 @@ export function PublicTrackCard({
           <Button
             size="icon"
             variant="secondary"
-            className="h-14 w-14 rounded-full"
+            className="h-12 w-12 sm:h-14 sm:w-14 rounded-full"
             onClick={handlePlayPause}
           >
             {isThisTrackPlaying ? (
-              <Pause className="h-6 w-6" />
+              <Pause className="h-5 w-5 sm:h-6 sm:w-6" />
             ) : (
-              <Play className="h-6 w-6 ml-1" />
+              <Play className="h-5 w-5 sm:h-6 sm:w-6 ml-0.5" />
             )}
           </Button>
         </div>
 
-        {/* Track Type Badge */}
-        {track.has_vocals === false && (
-          <Badge
-            variant="secondary"
-            className="absolute top-2 left-2 text-xs"
-          >
-            Instrumental
-          </Badge>
-        )}
+        {/* Track Type Badges */}
+        <div className="absolute top-2 left-2 flex flex-col gap-1">
+          {track.is_instrumental && (
+            <Badge variant="secondary" className="text-[10px] px-1.5 py-0.5">
+              Instrumental
+            </Badge>
+          )}
+          {hasArtist && (
+            <Badge variant="outline" className="text-[10px] px-1.5 py-0.5 bg-background/80 backdrop-blur-sm">
+              <Users className="w-2.5 h-2.5 mr-1" />
+              {track.artist_name}
+            </Badge>
+          )}
+        </div>
       </div>
 
       {/* Track Info */}
-      <div className="p-4 space-y-3">
-        {/* Title and Artist */}
+      <div className="p-3 sm:p-4 space-y-2 sm:space-y-3">
+        {/* Title and Creator */}
         <div className="space-y-1">
-          <h3 className="font-semibold text-sm line-clamp-1 group-hover:text-primary transition-colors">
-            {track.title || 'Untitled'}
+          <h3 className="font-semibold text-xs sm:text-sm line-clamp-1 group-hover:text-primary transition-colors">
+            {track.title || 'Без названия'}
           </h3>
-          <div className="flex items-center gap-2">
-            <Avatar className="h-5 w-5">
-              <AvatarImage src={artistAvatar} />
-              <AvatarFallback className="text-xs">
-                {artistName.substring(0, 2).toUpperCase()}
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <Avatar className="h-4 w-4 sm:h-5 sm:w-5">
+              <AvatarImage src={creatorAvatar} />
+              <AvatarFallback className="text-[8px] sm:text-xs bg-primary/10">
+                <User className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
               </AvatarFallback>
             </Avatar>
-            <p className="text-xs text-muted-foreground truncate">
-              {artistName}
+            <p className="text-[10px] sm:text-xs text-muted-foreground truncate">
+              @{creatorName}
             </p>
           </div>
         </div>
 
         {/* Duration and Stats */}
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
+        <div className="flex items-center justify-between text-[10px] sm:text-xs text-muted-foreground">
           <span>{formatDuration(track.duration_seconds || 0)}</span>
-          <div className="flex items-center gap-3">
-            {/* Play count */}
-            <span className="flex items-center gap-1">
-              <Play className="h-3 w-3" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <span className="flex items-center gap-0.5 sm:gap-1">
+              <Play className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
               {track.play_count || 0}
             </span>
-            {/* Like count - TODO: Add from database */}
-            <span className="flex items-center gap-1">
-              <Heart className="h-3 w-3" />
+            <span className="flex items-center gap-0.5 sm:gap-1">
+              <Heart className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
               0
             </span>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           <Button
             size="sm"
             variant="ghost"
             className={cn(
-              'flex-1 h-8',
+              'flex-1 h-7 sm:h-8 text-xs',
               isLiked && 'text-red-500 hover:text-red-600'
             )}
             onClick={handleLike}
           >
-            <Heart className={cn('h-4 w-4 mr-1', isLiked && 'fill-current')} />
-            Like
+            <Heart className={cn('h-3 w-3 sm:h-4 sm:w-4 mr-1', isLiked && 'fill-current')} />
+            <span className="hidden sm:inline">Like</span>
           </Button>
           <Button
             size="sm"
             variant="ghost"
-            className="h-8"
+            className="h-7 sm:h-8 px-2"
             onClick={handleShare}
           >
-            <Share2 className="h-4 w-4" />
+            <Share2 className="h-3 w-3 sm:h-4 sm:w-4" />
           </Button>
           {onRemix && (
             <Button
               size="sm"
               variant="ghost"
-              className="h-8"
+              className="h-7 sm:h-8 px-2"
               onClick={handleRemix}
             >
-              <Copy className="h-4 w-4" />
+              <Copy className="h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           )}
           <Button
             size="sm"
             variant="ghost"
-            className="h-8"
+            className="h-7 sm:h-8 px-2"
           >
-            <MoreVertical className="h-4 w-4" />
+            <MoreVertical className="h-3 w-3 sm:h-4 sm:w-4" />
           </Button>
         </div>
       </div>

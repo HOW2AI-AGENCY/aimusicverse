@@ -33,6 +33,13 @@ interface UsePublicContentParams {
  * General hook to fetch public content (tracks)
  * Unified interface for different sections
  */
+export interface PublicTrackWithCreator extends PublicTrack {
+  creator_username?: string;
+  creator_photo_url?: string;
+  artist_name?: string;
+  artist_avatar?: string;
+}
+
 export function usePublicContent(params: UsePublicContentParams = {}) {
   const { sort = "recent", limit = 20, offset = 0, genre, mood } = params;
 
@@ -56,19 +63,38 @@ export function usePublicContent(params: UsePublicContentParams = {}) {
           queryBuilder = queryBuilder.order("created_at", { ascending: false });
           break;
         case "popular":
-          // TODO: Add play_count or popularity metric
-          queryBuilder = queryBuilder.order("created_at", { ascending: false });
+          queryBuilder = queryBuilder.order("play_count", { ascending: false });
           break;
         case "trending":
-          // TODO: Add trending algorithm (views in last 7 days)
           queryBuilder = queryBuilder.order("created_at", { ascending: false });
           break;
       }
 
-      const { data, error } = await queryBuilder;
+      const { data: tracks, error } = await queryBuilder;
 
       if (error) throw error;
-      return (data || []) as PublicTrack[];
+      if (!tracks || tracks.length === 0) return [] as PublicTrackWithCreator[];
+
+      // Get unique user_ids from tracks
+      const userIds = [...new Set(tracks.map(t => t.user_id))];
+      
+      // Fetch profiles for creators
+      const { data: profiles } = await supabase
+        .from("profiles")
+        .select("user_id, username, photo_url")
+        .in("user_id", userIds);
+
+      // Create a map for quick lookup
+      const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
+
+      // Enrich tracks with creator info
+      const enrichedTracks: PublicTrackWithCreator[] = tracks.map(track => ({
+        ...track,
+        creator_username: profileMap.get(track.user_id)?.username || undefined,
+        creator_photo_url: profileMap.get(track.user_id)?.photo_url || undefined,
+      }));
+
+      return enrichedTracks;
     },
     staleTime: 1000 * 60 * 5, // 5 minutes
   });

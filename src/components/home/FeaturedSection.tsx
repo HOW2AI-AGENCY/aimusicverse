@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PublicTrackCard } from './PublicTrackCard';
 import { usePublicContent } from '@/hooks/usePublicContent';
@@ -38,11 +38,14 @@ export function FeaturedSection({ onRemix, className }: FeaturedSectionProps) {
     <section className={cn('space-y-4', className)}>
       {/* Section Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">Featured</h2>
-          <p className="text-sm text-muted-foreground">
-            Curated tracks from talented artists
-          </p>
+        <div className="flex items-center gap-2">
+          <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+          <div>
+            <h2 className="text-lg sm:text-2xl font-bold">Избранное</h2>
+            <p className="text-xs sm:text-sm text-muted-foreground">
+              Лучшие треки от сообщества
+            </p>
+          </div>
         </div>
         <div className="hidden md:flex items-center gap-2">
           <Button variant="outline" size="icon" className="h-8 w-8">

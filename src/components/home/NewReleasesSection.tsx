@@ -34,11 +34,11 @@ export function NewReleasesSection({ onRemix, className }: NewReleasesSectionPro
     return (
       <section className={cn('space-y-4', className)}>
         <div className="flex items-center gap-2">
-          <Clock className="h-6 w-6 text-primary" />
-          <h2 className="text-2xl font-bold">New Releases</h2>
+          <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+          <h2 className="text-lg sm:text-2xl font-bold">Новинки</h2>
         </div>
         <div className="text-center py-12 text-muted-foreground">
-          <p>No new releases yet. Be the first to create something!</p>
+          <p>Пока нет новых релизов. Станьте первым!</p>
         </div>
       </section>
     );
@@ -49,11 +49,11 @@ export function NewReleasesSection({ onRemix, className }: NewReleasesSectionPro
       {/* Section Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Clock className="h-6 w-6 text-primary" />
+          <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
           <div>
-            <h2 className="text-2xl font-bold">New Releases</h2>
-            <p className="text-sm text-muted-foreground">
-              Latest tracks from the community
+            <h2 className="text-lg sm:text-2xl font-bold">Новинки</h2>
+            <p className="text-xs sm:text-sm text-muted-foreground">
+              Свежие треки от сообщества
             </p>
           </div>
         </div>
@@ -76,9 +76,9 @@ export function NewReleasesSection({ onRemix, className }: NewReleasesSectionPro
           <Button
             variant="outline"
             onClick={() => fetchNextPage()}
-            className="min-w-[200px]"
+            className="min-w-[160px] sm:min-w-[200px]"
           >
-            Load More
+            Загрузить ещё
           </Button>
         </div>
       )}

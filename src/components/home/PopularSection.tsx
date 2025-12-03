@@ -41,11 +41,11 @@ export function PopularSection({ onRemix, className }: PopularSectionProps) {
     <section className={cn('space-y-4', className)}>
       {/* Section Header */}
       <div className="flex items-center gap-2">
-        <TrendingUp className="h-6 w-6 text-primary" />
+        <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
         <div>
-          <h2 className="text-2xl font-bold">Popular</h2>
-          <p className="text-sm text-muted-foreground">
-            Most played and liked tracks
+          <h2 className="text-lg sm:text-2xl font-bold">Популярное</h2>
+          <p className="text-xs sm:text-sm text-muted-foreground">
+            Самые прослушиваемые треки
           </p>
         </div>
       </div>
@@ -53,12 +53,12 @@ export function PopularSection({ onRemix, className }: PopularSectionProps) {
       {/* Tabs for Trending vs All-Time Popular */}
       <Tabs defaultValue="trending" className="w-full">
         <TabsList className="w-full sm:w-auto">
-          <TabsTrigger value="trending" className="flex items-center gap-2">
-            <Flame className="h-4 w-4" />
-            Trending
+          <TabsTrigger value="trending" className="flex items-center gap-1.5 text-xs sm:text-sm">
+            <Flame className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            Тренды
           </TabsTrigger>
-          <TabsTrigger value="popular">
-            All-Time Popular
+          <TabsTrigger value="popular" className="text-xs sm:text-sm">
+            За всё время
           </TabsTrigger>
         </TabsList>
 
@@ -83,7 +83,7 @@ export function PopularSection({ onRemix, className }: PopularSectionProps) {
             </div>
           ) : (
             <div className="text-center py-12 text-muted-foreground">
-              <p>No trending tracks yet.</p>
+              <p>Пока нет трендовых треков.</p>
             </div>
           )}
         </TabsContent>
@@ -109,7 +109,7 @@ export function PopularSection({ onRemix, className }: PopularSectionProps) {
             </div>
           ) : (
             <div className="text-center py-12 text-muted-foreground">
-              <p>No popular tracks yet.</p>
+              <p>Пока нет популярных треков.</p>
             </div>
           )}
         </TabsContent>
