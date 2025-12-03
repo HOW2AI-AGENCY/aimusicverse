@@ -245,10 +245,12 @@ export type Database = {
           completed_at: string | null
           created_at: string
           error_message: string | null
+          expected_clips: number | null
           generation_mode: string | null
           id: string
           model_used: string | null
           prompt: string
+          received_clips: number | null
           source: string | null
           status: string
           suno_task_id: string | null
@@ -263,10 +265,12 @@ export type Database = {
           completed_at?: string | null
           created_at?: string
           error_message?: string | null
+          expected_clips?: number | null
           generation_mode?: string | null
           id?: string
           model_used?: string | null
           prompt: string
+          received_clips?: number | null
           source?: string | null
           status?: string
           suno_task_id?: string | null
@@ -281,10 +285,12 @@ export type Database = {
           completed_at?: string | null
           created_at?: string
           error_message?: string | null
+          expected_clips?: number | null
           generation_mode?: string | null
           id?: string
           model_used?: string | null
           prompt?: string
+          received_clips?: number | null
           source?: string | null
           status?: string
           suno_task_id?: string | null
@@ -1117,6 +1123,7 @@ export type Database = {
       track_versions: {
         Row: {
           audio_url: string
+          clip_index: number | null
           cover_url: string | null
           created_at: string | null
           duration_seconds: number | null
@@ -1125,10 +1132,12 @@ export type Database = {
           metadata: Json | null
           parent_version_id: string | null
           track_id: string
+          version_label: string | null
           version_type: string | null
         }
         Insert: {
           audio_url: string
+          clip_index?: number | null
           cover_url?: string | null
           created_at?: string | null
           duration_seconds?: number | null
@@ -1137,10 +1146,12 @@ export type Database = {
           metadata?: Json | null
           parent_version_id?: string | null
           track_id: string
+          version_label?: string | null
           version_type?: string | null
         }
         Update: {
           audio_url?: string
+          clip_index?: number | null
           cover_url?: string | null
           created_at?: string | null
           duration_seconds?: number | null
@@ -1149,6 +1160,7 @@ export type Database = {
           metadata?: Json | null
           parent_version_id?: string | null
           track_id?: string
+          version_label?: string | null
           version_type?: string | null
         }
         Relationships: [
@@ -1170,6 +1182,7 @@ export type Database = {
       }
       tracks: {
         Row: {
+          active_version_id: string | null
           audio_url: string | null
           cover_url: string | null
           created_at: string | null
@@ -1202,6 +1215,7 @@ export type Database = {
           vocal_gender: string | null
         }
         Insert: {
+          active_version_id?: string | null
           audio_url?: string | null
           cover_url?: string | null
           created_at?: string | null
@@ -1234,6 +1248,7 @@ export type Database = {
           vocal_gender?: string | null
         }
         Update: {
+          active_version_id?: string | null
           audio_url?: string | null
           cover_url?: string | null
           created_at?: string | null
@@ -1266,6 +1281,13 @@ export type Database = {
           vocal_gender?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "tracks_active_version_id_fkey"
+            columns: ["active_version_id"]
+            isOneToOne: false
+            referencedRelation: "track_versions"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "tracks_project_id_fkey"
             columns: ["project_id"]
