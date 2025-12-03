@@ -291,7 +291,7 @@ psql -h localhost -U postgres -d postgres -c "\d track_change_log"
   - Функции:
     ```typescript
     export function getVersionNumber(version: TrackVersion): string;
-    export function setMasterVersion(trackId: string, versionId: string): Promise<void>;
+    export function setPrimaryVersion(trackId: string, versionId: string): Promise<void>;
     export function compareVersions(v1: TrackVersion, v2: TrackVersion): number;
     export function formatVersionLabel(version: TrackVersion): string;
     ```
@@ -330,7 +330,7 @@ psql -h localhost -U postgres -d postgres -c "\d track_change_log"
 - [ ] **T018**: Создать useVersionSwitcher хук
   - Файл: `src/hooks/useVersionSwitcher.ts` (создать)
   - Зависимость: T017 (useTrackVersions)
-  - Функции: `switchToVersion`, `setMasterVersion`, `logVersionChange`
+  - Функции: `switchToVersion`, `setPrimaryVersion`, `logVersionChange`
 
 - [ ] **T019** [P]: Создать usePublicContent хук
   - Файл: `src/hooks/usePublicContent.ts` (создать)
@@ -375,7 +375,7 @@ psql -h localhost -U postgres -d postgres -c "\d track_change_log"
   - Функции:
     ```typescript
     export async function getTrackVersions(trackId: string): Promise<TrackVersion[]>;
-    export async function updateMasterVersion(trackId: string, versionId: string): Promise<void>;
+    export async function updatePrimaryVersion(trackId: string, versionId: string): Promise<void>;
     export async function createVersion(trackId: string, data: Partial<TrackVersion>): Promise<TrackVersion>;
     ```
 

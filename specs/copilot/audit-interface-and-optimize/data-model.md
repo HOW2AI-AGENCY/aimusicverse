@@ -16,13 +16,13 @@ This document defines the data model for the UI/UX improvements, including datab
 **Add Column**:
 ```sql
 ALTER TABLE music_tracks
-ADD COLUMN master_version_id UUID REFERENCES track_versions(id) ON DELETE SET NULL;
+ADD COLUMN primary_version_id UUID REFERENCES track_versions(id) ON DELETE SET NULL;
 
 -- Index for performance
-CREATE INDEX idx_tracks_master_version ON music_tracks(master_version_id);
+CREATE INDEX idx_tracks_master_version ON music_tracks(primary_version_id);
 
 -- Comment
-COMMENT ON COLUMN music_tracks.master_version_id IS 'References the active/primary version of this track';
+COMMENT ON COLUMN music_tracks.primary_version_id IS 'References the active/primary version of this track';
 ```
 
 **Existing Relevant Columns**:
@@ -44,7 +44,7 @@ COMMENT ON COLUMN music_tracks.master_version_id IS 'References the active/prima
 ```sql
 ALTER TABLE track_versions
 ADD COLUMN version_number INTEGER NOT NULL DEFAULT 1,
-ADD COLUMN is_master BOOLEAN NOT NULL DEFAULT false;
+ADD COLUMN is_primary BOOLEAN NOT NULL DEFAULT false;
 
 -- Ensure sequential version numbers per track
 CREATE UNIQUE INDEX idx_unique_version_number_per_track 
@@ -53,14 +53,14 @@ ON track_versions(track_id, version_number);
 -- Ensure only one master per track
 CREATE UNIQUE INDEX idx_one_master_per_track 
 ON track_versions(track_id) 
-WHERE is_master = true;
+WHERE is_primary = true;
 
 -- Index for queries
-CREATE INDEX idx_track_versions_master ON track_versions(track_id, is_master);
+CREATE INDEX idx_track_versions_master ON track_versions(track_id, is_primary);
 
 -- Comments
 COMMENT ON COLUMN track_versions.version_number IS 'Sequential version number (1, 2, 3...)';
-COMMENT ON COLUMN track_versions.is_master IS 'True if this is the active/primary version';
+COMMENT ON COLUMN track_versions.is_primary IS 'True if this is the active/primary version';
 ```
 
 **Existing Relevant Columns**:
@@ -77,7 +77,7 @@ COMMENT ON COLUMN track_versions.is_master IS 'True if this is the active/primar
 
 **Create Table**:
 ```sql
-CREATE TABLE track_changelog (
+CREATE TABLE track_change_log (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   track_id UUID NOT NULL REFERENCES music_tracks(id) ON DELETE CASCADE,
   version_id UUID REFERENCES track_versions(id) ON DELETE SET NULL,
@@ -95,13 +95,13 @@ CREATE TABLE track_changelog (
 );
 
 -- Indexes
-CREATE INDEX idx_changelog_track ON track_changelog(track_id, created_at DESC);
-CREATE INDEX idx_changelog_user ON track_changelog(user_id, created_at DESC);
-CREATE INDEX idx_changelog_type ON track_changelog(change_type);
+CREATE INDEX idx_changelog_track ON track_change_log(track_id, created_at DESC);
+CREATE INDEX idx_changelog_user ON track_change_log(user_id, created_at DESC);
+CREATE INDEX idx_changelog_type ON track_change_log(change_type);
 
 -- Comments
-COMMENT ON TABLE track_changelog IS 'Audit log for track and version changes';
-COMMENT ON COLUMN track_changelog.change_data IS 'JSON object with old_value, new_value, and optional reason';
+COMMENT ON TABLE track_change_log IS 'Audit log for track and version changes';
+COMMENT ON COLUMN track_change_log.change_data IS 'JSON object with old_value, new_value, and optional reason';
 ```
 
 **Example Change Data**:
@@ -196,7 +196,7 @@ interface Track {
   duration_seconds: number;
   
   // Versioning (NEW)
-  master_version_id: string | null;
+  primary_version_id: string | null;
   
   // Content
   lyrics: string | null;
@@ -238,7 +238,7 @@ interface TrackVersion {
   
   // Versioning (NEW)
   version_number: number;
-  is_master: boolean;
+  is_primary: boolean;
   
   // Type and content
   version_type: 'original' | 'alternative' | 'remix' | 'cover' | 'extended' | 'edit';
@@ -494,7 +494,7 @@ interface AssistantFormState {
 
 2. **Track → TrackVersion (master)** (1:1 optional)
    - One track has one master version
-   - FK: `music_tracks.master_version_id → track_versions.id`
+   - FK: `music_tracks.primary_version_id → track_versions.id`
 
 3. **Track → TrackStem** (1:many)
    - One track has multiple stems (if generated)
@@ -506,11 +506,11 @@ interface AssistantFormState {
 
 5. **Track → TrackChangelog** (1:many)
    - One track has multiple changelog entries
-   - FK: `track_changelog.track_id → music_tracks.id`
+   - FK: `track_change_log.track_id → music_tracks.id`
 
 6. **TrackVersion → TrackChangelog** (1:many optional)
    - Changelog entries may reference a version
-   - FK: `track_changelog.version_id → track_versions.id`
+   - FK: `track_change_log.version_id → track_versions.id`
 
 7. **User → Playlist** (1:many)
    - One user has multiple playlists
@@ -531,12 +531,12 @@ interface AssistantFormState {
 - `audio_url`: Required, valid URL
 - `cover_url`: Optional, valid URL or null
 - `duration_seconds`: Must be > 0
-- `master_version_id`: Must reference existing version, or null
+- `primary_version_id`: Must reference existing version, or null
 - `is_public`: Boolean, default false
 
 ### TrackVersion
 - `version_number`: Required, must be sequential per track
-- `is_master`: Boolean, only one true per track
+- `is_primary`: Boolean, only one true per track
 - `audio_url`: Required, valid URL
 - `duration_seconds`: Must be > 0
 - `version_type`: Must be one of allowed types
@@ -615,7 +615,7 @@ interface AssistantFormState {
 ```sql
 SELECT t.*, v.*
 FROM music_tracks t
-LEFT JOIN track_versions v ON t.master_version_id = v.id
+LEFT JOIN track_versions v ON t.primary_version_id = v.id
 WHERE t.id = $1;
 ```
 
@@ -650,7 +650,7 @@ SELECT
   v.version_number,
   v.version_type,
   u.username
-FROM track_changelog c
+FROM track_change_log c
 LEFT JOIN track_versions v ON c.version_id = v.id
 LEFT JOIN auth.users u ON c.user_id = u.id
 WHERE c.track_id = $1
@@ -662,15 +662,15 @@ ORDER BY c.created_at DESC;
 ## Migration Strategy
 
 ### Phase 1: Schema Changes
-1. Add `master_version_id` to tracks (nullable)
-2. Add `version_number`, `is_master` to track_versions
-3. Create `track_changelog` table
+1. Add `primary_version_id` to tracks (nullable)
+2. Add `version_number`, `is_primary` to track_versions
+3. Create `track_change_log` table
 4. Create `playlists` and `playlist_tracks` tables
 
 ### Phase 2: Data Migration
 1. Set initial `version_number` for existing versions (sequential)
-2. Set first version as master (`is_master = true`)
-3. Populate `master_version_id` in tracks
+2. Set first version as master (`is_primary = true`)
+3. Populate `primary_version_id` in tracks
 4. Add initial changelog entries
 
 ### Phase 3: Validation
@@ -681,9 +681,9 @@ ORDER BY c.created_at DESC;
 ### Rollback Plan
 ```sql
 -- If needed, rollback changes
-ALTER TABLE music_tracks DROP COLUMN master_version_id;
-ALTER TABLE track_versions DROP COLUMN version_number, DROP COLUMN is_master;
-DROP TABLE track_changelog;
+ALTER TABLE music_tracks DROP COLUMN primary_version_id;
+ALTER TABLE track_versions DROP COLUMN version_number, DROP COLUMN is_primary;
+DROP TABLE track_change_log;
 DROP TABLE playlist_tracks;
 DROP TABLE playlists;
 ```
@@ -694,7 +694,7 @@ DROP TABLE playlists;
 
 ### Indexes
 - All foreign keys have indexes
-- Composite index on (track_id, is_master) for fast master lookup
+- Composite index on (track_id, is_primary) for fast master lookup
 - Index on (track_id, version_number) for ordered queries
 - Index on changelog for recent changes
 
