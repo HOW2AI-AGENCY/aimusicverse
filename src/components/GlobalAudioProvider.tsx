@@ -43,13 +43,16 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     return activeTrack.streaming_url || activeTrack.local_audio_url || activeTrack.audio_url;
   }, [activeTrack]);
 
-  // Handle track change - load new source
+  // Combined effect for track changes and play/pause state
+  // This prevents race conditions between separate effects
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
     const source = getAudioSource();
+    const trackChanged = activeTrack?.id !== lastTrackIdRef.current;
 
+    // Handle no source
     if (!source) {
       audio.pause();
       audio.src = '';
@@ -57,38 +60,53 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       return;
     }
 
-    // Only reload if track changed
-    if (activeTrack?.id !== lastTrackIdRef.current) {
+    // Load new track if changed
+    if (trackChanged) {
       lastTrackIdRef.current = activeTrack?.id || null;
+      
+      // Pause before changing source to prevent conflicts
+      audio.pause();
       audio.src = source;
       audio.load();
-      
-      // Auto-play when new track is set with isPlaying=true
-      if (isPlaying) {
-        audio.play().catch((error) => {
-          console.error('Auto-play error:', error);
-        });
-      }
     }
-  }, [activeTrack?.id, getAudioSource]);
 
-  // Handle play/pause state changes
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio || !audio.src) return;
+    // Handle play/pause state
+    if (isPlaying && audio.src) {
+      // Use a small timeout to ensure source is ready after load
+      const playAttempt = () => {
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            // Only log actual errors, not abort errors from track changes
+            if (error.name !== 'AbortError') {
+              console.error('Playback error:', error);
+              pauseTrack();
+            }
+          });
+        }
+      };
 
-    if (isPlaying) {
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          console.error('Playback error:', error);
-          pauseTrack();
-        });
+      if (trackChanged) {
+        // Wait for canplay event after loading new track
+        const handleCanPlay = () => {
+          if (isPlaying) {
+            playAttempt();
+          }
+          audio.removeEventListener('canplay', handleCanPlay);
+        };
+        audio.addEventListener('canplay', handleCanPlay);
+        
+        // Cleanup listener if effect re-runs
+        return () => {
+          audio.removeEventListener('canplay', handleCanPlay);
+        };
+      } else {
+        playAttempt();
       }
-    } else {
+    } else if (!isPlaying) {
       audio.pause();
     }
-  }, [isPlaying, pauseTrack]);
+  }, [activeTrack?.id, isPlaying, getAudioSource, pauseTrack]);
 
   // Handle track ended
   useEffect(() => {
