@@ -11,7 +11,6 @@ import { TrackDetailsTab } from './TrackDetailsTab';
 import { LyricsView } from './LyricsView';
 import { VersionsTab } from './VersionsTab';
 import { StemsTab } from './StemsTab';
-import { AnalysisTab } from './AnalysisTab';
 import { ChangelogTab } from './ChangelogTab';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
@@ -43,8 +42,8 @@ export function TrackDetailsSheet({
         )}
       >
         <SheetHeader className="px-6 pt-6 pb-4">
-          <SheetTitle className="text-lg font-semibold">
-            Track Details
+          <SheetTitle className="text-lg font-semibold truncate">
+            {track.title || 'Track Details'}
           </SheetTitle>
         </SheetHeader>
 
@@ -53,44 +52,40 @@ export function TrackDetailsSheet({
           onValueChange={setActiveTab}
           className="h-[calc(100%-80px)]"
         >
-          <TabsList className="w-full justify-start px-6 border-b rounded-none bg-transparent h-auto">
-            <TabsTrigger
-              value="details"
-              className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none"
-            >
-              Details
-            </TabsTrigger>
-            <TabsTrigger
-              value="lyrics"
-              className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none"
-            >
-              Lyrics
-            </TabsTrigger>
-            <TabsTrigger
-              value="versions"
-              className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none"
-            >
-              Versions
-            </TabsTrigger>
-            <TabsTrigger
-              value="stems"
-              className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none"
-            >
-              Stems
-            </TabsTrigger>
-            <TabsTrigger
-              value="analysis"
-              className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none"
-            >
-              Analysis
-            </TabsTrigger>
-            <TabsTrigger
-              value="changelog"
-              className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none"
-            >
-              Changelog
-            </TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto">
+            <TabsList className="w-max justify-start px-6 border-b rounded-none bg-transparent h-auto">
+              <TabsTrigger
+                value="details"
+                className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none"
+              >
+                Детали
+              </TabsTrigger>
+              <TabsTrigger
+                value="lyrics"
+                className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none"
+              >
+                Текст
+              </TabsTrigger>
+              <TabsTrigger
+                value="versions"
+                className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none"
+              >
+                Версии
+              </TabsTrigger>
+              <TabsTrigger
+                value="stems"
+                className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none"
+              >
+                Стемы
+              </TabsTrigger>
+              <TabsTrigger
+                value="changelog"
+                className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none"
+              >
+                История
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           <ScrollArea className="h-[calc(100%-48px)]">
             <TabsContent value="details" className="p-6 m-0">
@@ -107,10 +102,6 @@ export function TrackDetailsSheet({
 
             <TabsContent value="stems" className="p-6 m-0">
               <StemsTab track={track} />
-            </TabsContent>
-
-            <TabsContent value="analysis" className="p-6 m-0">
-              <AnalysisTab track={track} />
             </TabsContent>
 
             <TabsContent value="changelog" className="p-6 m-0">

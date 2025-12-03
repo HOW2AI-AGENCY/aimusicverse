@@ -8,6 +8,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { MainLayout } from "@/components/MainLayout";
+import { GlobalAudioProvider } from "@/components/GlobalAudioProvider";
 
 // Lazy load pages
 const Index = lazy(() => import("./pages/Index"));
@@ -42,9 +43,10 @@ const App = () => (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <TelegramProvider>
-          <TooltipProvider>
-            <Sonner />
-            <BrowserRouter>
+          <GlobalAudioProvider>
+            <TooltipProvider>
+              <Sonner />
+              <BrowserRouter>
               <DeepLinkHandler />
               <Suspense fallback={<div>Loading...</div>}>
                 <Routes>
@@ -77,8 +79,9 @@ const App = () => (
                 <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
-            </BrowserRouter>
-          </TooltipProvider>
+              </BrowserRouter>
+            </TooltipProvider>
+          </GlobalAudioProvider>
         </TelegramProvider>
       </QueryClientProvider>
     </ErrorBoundary>
