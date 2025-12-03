@@ -1,9 +1,7 @@
-
 import { Outlet } from 'react-router-dom';
 import { BottomNavigation } from './BottomNavigation';
 import { Sidebar } from './Sidebar';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { GenerationProgress } from './GenerationProgress';
 import { ResizablePlayer } from './ResizablePlayer';
 import { cn } from '@/lib/utils';
 
@@ -20,10 +18,9 @@ export const MainLayout = () => {
       <main
         className={cn(
           'flex-1 flex flex-col overflow-y-auto',
-          isDesktop ? 'ml-64' : 'pb-16' // Adjust margin for sidebar or padding for bottom nav
+          isDesktop ? 'ml-64' : 'pb-16'
         )}
       >
-        <GenerationProgress />
         <div className="flex-1 p-4 sm:p-6">
           <Outlet />
         </div>
