@@ -60,6 +60,7 @@ serve(async (req) => {
       audioWeight,
       personaId,
       projectId,
+      artistId, // New: artist ID for persona
       language = 'ru',
     } = body;
 
@@ -90,7 +91,25 @@ serve(async (req) => {
       );
     }
 
-    // Create track record
+    // Fetch artist data if artistId provided
+    let artistData: { id: string; name: string; avatar_url: string | null; suno_persona_id: string | null } | null = null;
+    if (artistId) {
+      const { data: artist, error: artistError } = await supabase
+        .from('artists')
+        .select('id, name, avatar_url, suno_persona_id')
+        .eq('id', artistId)
+        .single();
+      
+      if (!artistError && artist) {
+        artistData = artist;
+        console.log('Found artist:', artist.name, 'with persona:', artist.suno_persona_id);
+      }
+    }
+
+    // Use persona ID from artist if available, otherwise use direct personaId
+    const effectivePersonaId = artistData?.suno_persona_id || personaId;
+
+    // Create track record with artist info
     const { data: track, error: trackError } = await supabase
       .from('tracks')
       .insert({
@@ -107,6 +126,10 @@ serve(async (req) => {
         vocal_gender: vocalGender,
         style_weight: styleWeight,
         negative_tags: negativeTags,
+        // Store artist reference
+        artist_id: artistData?.id || null,
+        artist_name: artistData?.name || null,
+        artist_avatar_url: artistData?.avatar_url || null,
       })
       .select()
       .single();
@@ -169,7 +192,7 @@ serve(async (req) => {
     if (styleWeight !== undefined) sunoPayload.styleWeight = styleWeight;
     if (weirdnessConstraint !== undefined) sunoPayload.weirdnessConstraint = weirdnessConstraint;
     if (audioWeight !== undefined) sunoPayload.audioWeight = audioWeight;
-    if (personaId) sunoPayload.personaId = personaId;
+    if (effectivePersonaId) sunoPayload.personaId = effectivePersonaId;
 
     console.log('Sending to SunoAPI:', JSON.stringify(sunoPayload, null, 2));
 
@@ -299,6 +322,8 @@ serve(async (req) => {
           style,
           model,
           suno_task_id: sunoTaskId,
+          artist_id: artistData?.id,
+          artist_name: artistData?.name,
         },
       });
 

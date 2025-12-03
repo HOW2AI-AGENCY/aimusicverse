@@ -119,3 +119,6 @@ verify_jwt = false
 
 [functions.suno-generate-cover-image]
 verify_jwt = true
+
+[functions.ai-lyrics-assistant]
+verify_jwt = true

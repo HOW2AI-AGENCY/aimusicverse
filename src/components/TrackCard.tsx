@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, Heart, Mic, Volume2, Globe, Lock, MoreHorizontal, Layers, Music2, Trash2 } from 'lucide-react';
+import { Play, Pause, Heart, Mic, Volume2, Globe, Lock, MoreHorizontal, Layers, Music2, Trash2, User } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
@@ -494,12 +494,16 @@ export const TrackCard = ({
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
              {track.artist_name && (
                 <>
-                  <Avatar className="w-6 h-6">
-                    <AvatarImage src={track.artist_avatar_url || ''} />
-                    <AvatarFallback>{track.artist_name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <span className="truncate">{track.artist_name}</span>
+                  <Badge variant="outline" className="gap-1 px-2 py-0.5">
+                    <User className="w-3 h-3" />
+                    {track.artist_name}
+                  </Badge>
                 </>
+            )}
+            {!track.artist_name && (
+              <span className="truncate">
+                {track.style || track.tags?.split(',').slice(0, 2).join(', ') || 'Без стиля'}
+              </span>
             )}
           </div>
 

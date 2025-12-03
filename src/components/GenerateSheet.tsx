@@ -24,6 +24,7 @@ import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
 import { AdvancedSettings } from './generate-form/AdvancedSettings';
 import { LyricsVisualEditor } from './generate-form/LyricsVisualEditor';
 import { PromptHistory, savePromptToHistory } from './generate-form/PromptHistory';
+import { AILyricsAssistantDialog } from './generate-form/AILyricsAssistantDialog';
 
 interface GenerateSheetProps {
   open: boolean;
@@ -76,6 +77,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [trackDialogOpen, setTrackDialogOpen] = useState(false);
   const [audioDialogOpen, setAudioDialogOpen] = useState(false);
   const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
+  const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
 
   // Fetch credits
   useEffect(() => {
@@ -249,6 +251,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           weirdnessConstraint: weirdnessConstraint[0],
           audioWeight: (audioFile || personaId) ? audioWeight[0] : undefined,
           personaId: personaId,
+          artistId: selectedArtistId, // Pass artist ID to save reference
           projectId: selectedProjectId || initialProjectId,
         },
       });
@@ -665,7 +668,12 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                       >
                         <span className="text-xs">{showVisualEditor ? 'Текст' : 'Визуал'}</span>
                       </Button>
-                      <Button variant="ghost" size="sm" className="h-6 px-2">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="h-6 px-2"
+                        onClick={() => setLyricsAssistantOpen(true)}
+                      >
                         <Sparkles className="w-3 h-3" />
                       </Button>
                     </div>
@@ -675,6 +683,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                     <LyricsVisualEditor
                       value={lyrics}
                       onChange={setLyrics}
+                      onAIGenerate={() => setLyricsAssistantOpen(true)}
                     />
                   ) : (
                     <Textarea
@@ -754,7 +763,27 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         onOpenChange={setArtistDialogOpen}
         artists={artists}
         selectedArtistId={selectedArtistId}
-        onSelect={setSelectedArtistId}
+        onSelect={(artistId) => {
+          setSelectedArtistId(artistId);
+          // Auto-switch to custom mode when artist selected
+          if (artistId) {
+            setMode('custom');
+            // Pre-populate style from artist
+            const artist = artists?.find(a => a.id === artistId);
+            if (artist) {
+              const artistStyle = [
+                artist.style_description,
+                artist.genre_tags?.join(', '),
+                artist.mood_tags?.join(', '),
+              ].filter(Boolean).join('. ');
+              
+              if (artistStyle && !style) {
+                setStyle(artistStyle);
+                toast.success('Стиль артиста добавлен');
+              }
+            }
+          }
+        }}
       />
 
       {/* Audio Action Dialog */}
@@ -763,6 +792,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         onOpenChange={setAudioDialogOpen}
         onAudioSelected={(file) => {
           setAudioFile(file);
+          setMode('custom'); // Auto-switch to custom mode
           toast.success('Аудио добавлено');
         }}
         onAnalysisComplete={(styleDescription) => {
@@ -776,6 +806,14 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             });
           }
         }}
+      />
+
+      {/* AI Lyrics Assistant */}
+      <AILyricsAssistantDialog
+        open={lyricsAssistantOpen}
+        onOpenChange={setLyricsAssistantOpen}
+        existingLyrics={lyrics}
+        onLyricsGenerated={(newLyrics) => setLyrics(newLyrics)}
       />
       
       <UploadExtendDialog 
