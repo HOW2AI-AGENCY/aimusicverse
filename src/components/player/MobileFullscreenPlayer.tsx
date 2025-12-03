@@ -215,7 +215,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
       </div>
 
       {/* Content */}
-      <div className="relative flex-1 flex flex-col safe-area-inset">
+      <div className="relative flex-1 flex flex-col safe-area-inset min-h-0 overflow-hidden">
         {/* Header */}
         <header className="flex items-center justify-between p-4 pt-safe">
           <Button
@@ -251,7 +251,11 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         {/* Lyrics Section */}
         <div 
           ref={lyricsContainerRef}
-          className="flex-1 overflow-y-auto px-4 py-4 scrollbar-hide"
+          className="flex-1 overflow-y-auto px-4 py-4 overscroll-contain"
+          style={{ 
+            WebkitOverflowScrolling: 'touch',
+            minHeight: 0 // Critical for flex child scrolling
+          }}
         >
           {lyricsLines ? (
             // Synchronized lyrics with line grouping and word highlighting
