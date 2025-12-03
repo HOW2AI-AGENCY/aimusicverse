@@ -19,82 +19,49 @@ export async function fetchTrackDetails({
   includeAnalysis = true,
   includeChangelog = true,
 }: TrackDetailsParams) {
-  const queries: Promise<any>[] = [
-    supabase.from('tracks').select('*').eq('id', trackId).single(),
-  ];
-
-  if (includeVersions) {
-    queries.push(
-      supabase
-        .from('track_versions')
-        .select('*')
-        .eq('track_id', trackId)
-        .order('created_at', { ascending: false })
-    );
-  }
-
-  if (includeStems) {
-    queries.push(
-      supabase
-        .from('track_stems')
-        .select('*')
-        .eq('track_id', trackId)
-        .order('stem_type')
-    );
-  }
-
-  if (includeAnalysis) {
-    queries.push(
-      supabase
-        .from('audio_analysis')
-        .select('*')
-        .eq('track_id', trackId)
-        .maybeSingle()
-    );
-  }
-
-  if (includeChangelog) {
-    queries.push(
-      supabase
-        .from('track_change_log')
-        .select('*')
-        .eq('track_id', trackId)
-        .order('created_at', { ascending: false })
-        .limit(50)
-    );
-  }
-
-  const results = await Promise.all(queries);
-
-  let index = 0;
-  const trackRes = results[index++];
-  
+  // Fetch track first
+  const trackRes = await supabase.from('tracks').select('*').eq('id', trackId).single();
   if (trackRes.error) throw trackRes.error;
 
-  const response: any = {
-    track: trackRes.data,
-  };
+  const response: any = { track: trackRes.data };
 
   if (includeVersions) {
-    const versionsRes = results[index++];
+    const versionsRes = await supabase
+      .from('track_versions')
+      .select('*')
+      .eq('track_id', trackId)
+      .order('created_at', { ascending: false });
     if (versionsRes.error) throw versionsRes.error;
     response.versions = versionsRes.data;
   }
 
   if (includeStems) {
-    const stemsRes = results[index++];
+    const stemsRes = await supabase
+      .from('track_stems')
+      .select('*')
+      .eq('track_id', trackId)
+      .order('stem_type');
     if (stemsRes.error) throw stemsRes.error;
     response.stems = stemsRes.data;
   }
 
   if (includeAnalysis) {
-    const analysisRes = results[index++];
+    const analysisRes = await supabase
+      .from('audio_analysis')
+      .select('*')
+      .eq('track_id', trackId)
+      .maybeSingle();
     if (analysisRes.error) throw analysisRes.error;
     response.analysis = analysisRes.data;
   }
 
   if (includeChangelog) {
-    const changelogRes = results[index++];
+    const changelogRes = await supabase
+      .from('track_change_log')
+      .select('*')
+      .eq('track_id', trackId)
+      .order('created_at', { ascending: false })
+      .limit(50);
     if (changelogRes.error) throw changelogRes.error;
     response.changelog = changelogRes.data;
   }

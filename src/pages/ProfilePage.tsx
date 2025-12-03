@@ -31,7 +31,7 @@ export const ProfilePage = () => {
           <User className="w-8 h-8 text-muted-foreground" />
         </div>
         <div>
-          <h1 className="text-3xl font-bold">{user?.firstName} {user?.lastName}</h1>
+          <h1 className="text-3xl font-bold">{user?.first_name} {user?.last_name}</h1>
           <p className="text-muted-foreground">@{user?.username}</p>
         </div>
       </div>

@@ -37,7 +37,7 @@ export function VersionSwitcher({
   const handleSetMaster = (versionId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     triggerHapticFeedback('medium');
-    setMasterVersion({ trackId, versionId });
+    setPrimaryVersion({ trackId, versionId });
   };
 
   return (
@@ -86,7 +86,7 @@ export function VersionSwitcher({
                       size="sm"
                       variant="outline"
                       onClick={(e) => handleSetMaster(version.id, e)}
-                      disabled={isSettingMaster}
+                      disabled={isSettingPrimary}
                       className="touch-manipulation min-h-[44px] gap-1"
                     >
                       <Star className="h-3 w-3" />

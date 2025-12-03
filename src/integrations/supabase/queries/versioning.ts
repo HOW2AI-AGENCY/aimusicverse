@@ -121,8 +121,13 @@ export async function createVersion(
     .from('track_versions')
     .insert({
       track_id: trackId,
-      is_primary: isFirst, // First version is primary
-      ...versionData,
+      audio_url: versionData.audio_url,
+      cover_url: versionData.cover_url,
+      duration_seconds: versionData.duration_seconds,
+      version_type: versionData.version_type,
+      parent_version_id: versionData.parent_version_id,
+      metadata: versionData.metadata as any,
+      is_primary: isFirst,
     })
     .select()
     .single();
@@ -144,7 +149,11 @@ export async function updateVersion(
 ) {
   const { data, error } = await supabase
     .from('track_versions')
-    .update(updates)
+    .update({
+      cover_url: updates.cover_url,
+      version_type: updates.version_type,
+      metadata: updates.metadata as any,
+    })
     .eq('id', versionId)
     .select()
     .single();

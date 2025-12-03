@@ -38,7 +38,7 @@ export function useMasterVersion(trackId: string | undefined) {
     queryKey: ['master-version', trackId],
     queryFn: () => {
       if (!trackId) throw new Error('Track ID is required');
-      return fetchMasterVersion(trackId);
+      return fetchPrimaryVersion(trackId);
     },
     enabled: !!trackId,
     staleTime: 5 * 60 * 1000, // 5 minutes
