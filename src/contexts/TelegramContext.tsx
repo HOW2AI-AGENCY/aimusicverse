@@ -382,15 +382,46 @@ export const DeepLinkHandler = () => {
     const startParam = webApp?.initDataUnsafe?.start_param;
     if (startParam) {
       console.log('Processing deep link with router:', startParam);
+      
+      // Track deep links
       if (startParam.startsWith('track_')) {
         const trackId = startParam.replace('track_', '');
         navigate(`/library?track=${trackId}`);
-      } else if (startParam.startsWith('project_')) {
+      } 
+      // Project deep links
+      else if (startParam.startsWith('project_')) {
         const projectId = startParam.replace('project_', '');
         navigate(`/projects/${projectId}`);
-      } else if (startParam.startsWith('generate_')) {
+      } 
+      // Generate with style
+      else if (startParam.startsWith('generate_')) {
         const style = startParam.replace('generate_', '');
         navigate(`/generate?style=${style}`);
+      }
+      // Stem Studio deep link
+      else if (startParam.startsWith('studio_')) {
+        const trackId = startParam.replace('studio_', '');
+        navigate(`/stem-studio/${trackId}`);
+      }
+      // Remix deep link
+      else if (startParam.startsWith('remix_')) {
+        const trackId = startParam.replace('remix_', '');
+        navigate(`/generate?remix=${trackId}`);
+      }
+      // Lyrics view deep link
+      else if (startParam.startsWith('lyrics_')) {
+        const trackId = startParam.replace('lyrics_', '');
+        navigate(`/library?track=${trackId}&view=lyrics`);
+      }
+      // Share deep link - opens track with share dialog
+      else if (startParam.startsWith('share_')) {
+        const trackId = startParam.replace('share_', '');
+        navigate(`/library?track=${trackId}&share=true`);
+      }
+      // Stats deep link
+      else if (startParam.startsWith('stats_')) {
+        const trackId = startParam.replace('stats_', '');
+        navigate(`/library?track=${trackId}&view=stats`);
       }
     }
   }, [webApp, navigate]);

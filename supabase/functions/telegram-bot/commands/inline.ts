@@ -1,5 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { BOT_CONFIG } from '../config.ts';
+import { logger } from '../utils/index.ts';
 
 const supabase = createClient(
   BOT_CONFIG.supabaseUrl,
@@ -8,191 +9,102 @@ const supabase = createClient(
 
 interface InlineQuery {
   id: string;
-  from: {
-    id: number;
-    first_name: string;
-    username?: string;
-  };
+  from: { id: number; first_name: string; username?: string };
   query: string;
   offset: string;
-}
-
-interface InlineKeyboardMarkup {
-  inline_keyboard: Array<Array<{
-    text: string;
-    web_app?: { url: string };
-  }>>;
 }
 
 interface InlineQueryResult {
   type: string;
   id: string;
-  title: string;
-  description?: string;
-  thumb_url?: string;
   audio_url?: string;
+  title: string;
+  performer?: string;
+  audio_duration?: number;
   caption?: string;
   parse_mode?: string;
-  reply_markup?: InlineKeyboardMarkup;
+  thumbnail_url?: string;
+  reply_markup?: { inline_keyboard: Array<Array<{ text: string; url?: string }>> };
 }
 
 export async function handleInlineQuery(inlineQuery: InlineQuery) {
-  const { id, query, from } = inlineQuery;
+  const { id, query, from, offset } = inlineQuery;
   
+  logger.info('inline_query', { userId: from.id, query });
+
   try {
-    // Get user from profiles
     const { data: profile } = await supabase
       .from('profiles')
-      .select('user_id')
+      .select('user_id, username')
       .eq('telegram_id', from.id)
       .single();
 
     if (!profile) {
-      await answerInlineQuery(id, [], {
-        cache_time: 0,
-        is_personal: true,
-        switch_pm_text: 'Войти в приложение',
-        switch_pm_parameter: 'start'
-      });
+      await answerInlineQuery(id, [], { button: { text: '🔑 Войти', web_app: { url: BOT_CONFIG.miniAppUrl } } });
       return;
     }
 
+    const pageSize = 20;
+    const offsetNum = parseInt(offset) || 0;
     let results: InlineQueryResult[] = [];
 
-    // Handle track sharing: track_<id>
+    let tracksQuery = supabase
+      .from('tracks')
+      .select('*')
+      .eq('user_id', profile.user_id)
+      .eq('status', 'completed')
+      .not('audio_url', 'is', null)
+      .order('created_at', { ascending: false })
+      .range(offsetNum, offsetNum + pageSize - 1);
+
     if (query.startsWith('track_')) {
       const trackId = query.replace('track_', '');
-      const { data: track } = await supabase
-        .from('tracks')
-        .select('*')
-        .eq('id', trackId)
-        .single();
-
-      if (track && track.audio_url) {
-        const durationSeconds = track.duration_seconds || 0;
-        results.push({
-          type: 'audio',
-          id: track.id,
-          title: track.title || 'MusicVerse Track',
-          audio_url: track.audio_url,
-          caption: `🎵 *${track.title || 'Новый трек'}*\n${track.style ? `🎸 ${track.style}` : ''}\n\n✨ Создано с помощью MusicVerse AI`,
-          parse_mode: 'Markdown',
-          thumb_url: track.cover_url,
-          reply_markup: {
-            inline_keyboard: [[
-              { text: '🎵 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=track_${trackId}` } }
-            ]]
-          }
-        });
+      const { data: track } = await supabase.from('tracks').select('*').eq('id', trackId).single();
+      if (track?.audio_url) results.push(createResult(track, profile.username));
+    } else {
+      if (query.trim()) {
+        tracksQuery = tracksQuery.or(`title.ilike.%${query}%,style.ilike.%${query}%`);
       }
-    }
-    // Search tracks
-    else if (query.length > 0) {
-      const { data: tracks } = await supabase
-        .from('tracks')
-        .select('*')
-        .eq('user_id', profile.user_id)
-        .eq('status', 'completed')
-        .ilike('title', `%${query}%`)
-        .order('created_at', { ascending: false })
-        .limit(10);
-
-      if (tracks) {
-        results = tracks
-          .filter(track => track.audio_url)
-          .map(track => ({
-            type: 'audio',
-            id: track.id,
-            title: track.title || 'MusicVerse Track',
-            description: track.style || 'AI Generated Music',
-            audio_url: track.audio_url!,
-            caption: `🎵 *${track.title || 'Новый трек'}*\n${track.style ? `🎸 ${track.style}` : ''}\n\n✨ Создано с помощью MusicVerse AI`,
-            parse_mode: 'Markdown',
-            thumb_url: track.cover_url,
-            reply_markup: {
-              inline_keyboard: [[
-                { text: '🎵 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=track_${track.id}` } }
-              ]]
-            }
-          }));
-      }
-    }
-    // Show recent tracks
-    else {
-      const { data: tracks } = await supabase
-        .from('tracks')
-        .select('*')
-        .eq('user_id', profile.user_id)
-        .eq('status', 'completed')
-        .order('created_at', { ascending: false })
-        .limit(10);
-
-      if (tracks) {
-        results = tracks
-          .filter(track => track.audio_url)
-          .map(track => ({
-            type: 'audio',
-            id: track.id,
-            title: track.title || 'MusicVerse Track',
-            description: track.style || 'AI Generated Music',
-            audio_url: track.audio_url!,
-            caption: `🎵 *${track.title || 'Новый трек'}*\n${track.style ? `🎸 ${track.style}` : ''}\n\n✨ Создано с помощью MusicVerse AI`,
-            parse_mode: 'Markdown',
-            thumb_url: track.cover_url,
-            reply_markup: {
-              inline_keyboard: [[
-                { text: '🎵 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=track_${track.id}` } }
-              ]]
-            }
-          }));
-      }
+      const { data: tracks } = await tracksQuery;
+      results = (tracks || []).map(t => createResult(t, profile.username));
     }
 
     await answerInlineQuery(id, results, {
-      cache_time: 30,
-      is_personal: true
-    });
-
-  } catch (error) {
-    console.error('Error handling inline query:', error);
-    await answerInlineQuery(id, [], {
-      cache_time: 0,
+      cache_time: 60,
       is_personal: true,
-      switch_pm_text: 'Ошибка. Попробуйте снова',
-      switch_pm_parameter: 'start'
+      next_offset: results.length === pageSize ? String(offsetNum + pageSize) : ''
     });
+  } catch (error) {
+    logger.error('inline_query_error', error);
+    await answerInlineQuery(id, []);
   }
 }
 
-async function answerInlineQuery(
-  inlineQueryId: string, 
-  results: InlineQueryResult[],
-  options?: {
-    cache_time?: number;
-    is_personal?: boolean;
-    switch_pm_text?: string;
-    switch_pm_parameter?: string;
-  }
-) {
-  const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
-  if (!botToken) {
-    throw new Error('TELEGRAM_BOT_TOKEN not configured');
-  }
+function createResult(track: any, username?: string): InlineQueryResult {
+  const deepLink = `https://t.me/AIMusicVerseBot/app?startapp=track_${track.id}`;
+  const performer = username ? `@${username}` : 'MusicVerse AI';
+  
+  return {
+    type: 'audio',
+    id: track.id,
+    audio_url: track.telegram_file_id || track.audio_url,
+    title: track.title || 'MusicVerse Track',
+    performer,
+    audio_duration: track.duration_seconds || 0,
+    caption: `🎵 *${track.title || 'Трек'}*\n👤 ${performer}\n🔗 ${deepLink}`,
+    parse_mode: 'Markdown',
+    thumbnail_url: track.cover_url,
+    reply_markup: { inline_keyboard: [[{ text: '🎵 Открыть', url: deepLink }]] }
+  };
+}
 
-  const response = await fetch(`https://api.telegram.org/bot${botToken}/answerInlineQuery`, {
+async function answerInlineQuery(id: string, results: InlineQueryResult[], options?: any) {
+  const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
+  if (!botToken) return;
+
+  await fetch(`https://api.telegram.org/bot${botToken}/answerInlineQuery`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      inline_query_id: inlineQueryId,
-      results,
-      ...options
-    }),
+    body: JSON.stringify({ inline_query_id: id, results, cache_time: 60, is_personal: true, ...options }),
   });
-
-  if (!response.ok) {
-    const error = await response.text();
-    console.error('Telegram API error:', error);
-  }
-
-  return response.json();
 }
