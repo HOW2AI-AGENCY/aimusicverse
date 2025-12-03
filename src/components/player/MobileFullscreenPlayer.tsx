@@ -37,7 +37,7 @@ interface AlignedWord {
 export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlayerProps) {
   const [queueOpen, setQueueOpen] = useState(false);
   const lyricsContainerRef = useRef<HTMLDivElement>(null);
-  const activeWordRef = useRef<HTMLSpanElement>(null);
+  const activeLineRef = useRef<HTMLDivElement>(null);
   
   const { toggleLike, downloadTrack } = useTracks();
   const { currentTime, duration, seek } = useAudioTime();
@@ -48,47 +48,91 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     track.suno_id || null
   );
 
-  // Parse lyrics - either timestamped or plain text
-  const { alignedWords, plainLyrics } = useMemo(() => {
-    if (lyricsData?.alignedWords && lyricsData.alignedWords.length > 0) {
-      return { alignedWords: lyricsData.alignedWords as AlignedWord[], plainLyrics: null };
-    }
+  // Parse lyrics and group into lines
+  const { lyricsLines, plainLyrics } = useMemo(() => {
+    let words: AlignedWord[] = [];
     
-    // Try parsing track.lyrics as JSON
-    if (track.lyrics) {
+    if (lyricsData?.alignedWords && lyricsData.alignedWords.length > 0) {
+      words = lyricsData.alignedWords as AlignedWord[];
+    } else if (track.lyrics) {
       try {
         if (track.lyrics.trim().startsWith('{')) {
           const parsed = JSON.parse(track.lyrics);
           if (parsed.alignedWords && Array.isArray(parsed.alignedWords)) {
-            return { alignedWords: parsed.alignedWords as AlignedWord[], plainLyrics: null };
+            words = parsed.alignedWords as AlignedWord[];
           }
         }
       } catch {
         // Not JSON, treat as plain text
+        return { lyricsLines: null, plainLyrics: track.lyrics };
       }
-      return { alignedWords: null, plainLyrics: track.lyrics };
+      if (words.length === 0) {
+        return { lyricsLines: null, plainLyrics: track.lyrics };
+      }
     }
     
-    return { alignedWords: null, plainLyrics: null };
+    if (words.length === 0) {
+      return { lyricsLines: null, plainLyrics: null };
+    }
+
+    // Group words into lines - detect line breaks or group by ~5-8 words
+    const lines: AlignedWord[][] = [];
+    let currentLine: AlignedWord[] = [];
+    
+    words.forEach((word) => {
+      const hasLineBreak = word.word.includes('\n');
+      
+      if (hasLineBreak) {
+        const parts = word.word.split('\n');
+        parts.forEach((part, index) => {
+          if (part.trim()) {
+            currentLine.push({ ...word, word: part.trim() });
+          }
+          if (index < parts.length - 1) {
+            if (currentLine.length > 0) {
+              lines.push([...currentLine]);
+              currentLine = [];
+            }
+          }
+        });
+      } else if (word.word.trim()) {
+        currentLine.push(word);
+        
+        // Create new line at punctuation or every ~6 words for readability
+        const endsWithPunctuation = /[.!?;]$/.test(word.word.trim());
+        if (endsWithPunctuation || currentLine.length >= 6) {
+          lines.push([...currentLine]);
+          currentLine = [];
+        }
+      }
+    });
+    
+    if (currentLine.length > 0) {
+      lines.push(currentLine);
+    }
+    
+    return { lyricsLines: lines, plainLyrics: null };
   }, [lyricsData, track.lyrics]);
 
-  // Find active word index
-  const activeWordIndex = useMemo(() => {
-    if (!alignedWords) return -1;
-    return alignedWords.findIndex(
-      word => currentTime >= word.startS && currentTime <= word.endS
-    );
-  }, [alignedWords, currentTime]);
+  // Find active line index
+  const activeLineIndex = useMemo(() => {
+    if (!lyricsLines) return -1;
+    return lyricsLines.findIndex(line => {
+      const lineStart = line[0]?.startS ?? 0;
+      const lineEnd = line[line.length - 1]?.endS ?? 0;
+      return currentTime >= lineStart && currentTime <= lineEnd;
+    });
+  }, [lyricsLines, currentTime]);
 
-  // Auto-scroll to active word
+  // Auto-scroll to active line
   useEffect(() => {
-    if (activeWordRef.current && lyricsContainerRef.current) {
-      activeWordRef.current.scrollIntoView({
+    if (activeLineRef.current && lyricsContainerRef.current) {
+      activeLineRef.current.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
       });
     }
-  }, [activeWordIndex]);
+  }, [activeLineIndex]);
 
   const formatTime = (seconds: number) => {
     if (!seconds || !isFinite(seconds)) return '0:00';
@@ -175,35 +219,52 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         {/* Lyrics Section */}
         <div 
           ref={lyricsContainerRef}
-          className="flex-1 overflow-y-auto px-6 py-8 scrollbar-hide"
+          className="flex-1 overflow-y-auto px-4 py-8 scrollbar-hide"
         >
-          {alignedWords ? (
-            // Synchronized lyrics with word highlighting
-            <div className="min-h-full flex flex-col items-center justify-center text-center space-y-1">
-              {alignedWords.map((word, index) => {
-                const isActive = index === activeWordIndex;
-                const isPast = activeWordIndex > -1 && index < activeWordIndex;
-                const isFuture = activeWordIndex === -1 || index > activeWordIndex;
+          {lyricsLines ? (
+            // Synchronized lyrics with line grouping and word highlighting
+            <div className="min-h-full flex flex-col items-center justify-center text-center space-y-4">
+              {lyricsLines.map((line, lineIndex) => {
+                const isActiveLine = lineIndex === activeLineIndex;
+                const isPastLine = activeLineIndex > -1 && lineIndex < activeLineIndex;
+                const lineStart = line[0]?.startS ?? 0;
 
                 return (
-                  <motion.span
-                    key={index}
-                    ref={isActive ? activeWordRef : null}
-                    onClick={() => handleWordClick(word.startS)}
+                  <motion.div
+                    key={lineIndex}
+                    ref={isActiveLine ? activeLineRef : null}
+                    onClick={() => handleWordClick(lineStart)}
                     animate={{
-                      scale: isActive ? 1.15 : 1,
-                      opacity: isActive ? 1 : isPast ? 0.5 : 0.7,
+                      scale: isActiveLine ? 1.05 : 1,
+                      opacity: isActiveLine ? 1 : isPastLine ? 0.4 : 0.6,
                     }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.3 }}
                     className={cn(
-                      'inline-block px-1 py-0.5 rounded cursor-pointer transition-colors text-xl font-medium',
-                      isActive && 'text-primary bg-primary/20',
-                      isPast && 'text-muted-foreground',
-                      isFuture && 'text-foreground/70'
+                      'px-3 py-2 rounded-xl cursor-pointer transition-colors w-full',
+                      isActiveLine && 'bg-primary/15'
                     )}
                   >
-                    {word.word}{' '}
-                  </motion.span>
+                    <div className="flex flex-wrap justify-center gap-x-1.5 gap-y-0.5">
+                      {line.map((word, wordIndex) => {
+                        const isActiveWord = currentTime >= word.startS && currentTime <= word.endS;
+                        const isPastWord = currentTime > word.endS;
+
+                        return (
+                          <span
+                            key={`${lineIndex}-${wordIndex}`}
+                            className={cn(
+                              'text-lg font-medium transition-all duration-150',
+                              isActiveWord && 'text-primary scale-110 font-bold',
+                              !isActiveWord && isPastWord && 'text-foreground/70',
+                              !isActiveWord && !isPastWord && 'text-foreground/50'
+                            )}
+                          >
+                            {word.word}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
                 );
               })}
             </div>
