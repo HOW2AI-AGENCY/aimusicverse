@@ -35,6 +35,9 @@ interface TrackCardProps {
   onToggleLike?: () => void;
   isPlaying?: boolean;
   layout?: 'grid' | 'list';
+  // Counts passed from parent to avoid individual subscriptions
+  versionCount?: number;
+  stemCount?: number;
 }
 
 export const TrackCard = ({
@@ -45,75 +48,90 @@ export const TrackCard = ({
   onToggleLike,
   isPlaying,
   layout = 'grid',
+  versionCount: propVersionCount,
+  stemCount: propStemCount,
 }: TrackCardProps) => {
   const [imageError, setImageError] = useState(false);
-  const [versionCount, setVersionCount] = useState<number>(0);
-  const [stemCount, setStemCount] = useState<number>(0);
+  // Use prop counts if provided, otherwise fall back to local state
+  const [localVersionCount, setLocalVersionCount] = useState<number>(0);
+  const [localStemCount, setLocalStemCount] = useState<number>(0);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [swipeOffset, setSwipeOffset] = useState(0);
   const isMobile = useIsMobile();
 
+  // Use prop counts if provided (from Library with useTrackCounts hook)
+  // Otherwise fetch individually (for standalone usage)
+  const versionCount = propVersionCount ?? localVersionCount;
+  const stemCount = propStemCount ?? localStemCount;
+
+  // Only fetch counts locally if not provided via props
   useEffect(() => {
+    // Skip if counts are provided via props
+    if (propVersionCount !== undefined && propStemCount !== undefined) return;
+
     const fetchCounts = async () => {
-      const { count: versionCount } = await supabase
+      const { count: vCount } = await supabase
         .from('track_versions')
         .select('*', { count: 'exact', head: true })
         .eq('track_id', track.id);
-      setVersionCount(versionCount || 0);
+      setLocalVersionCount(vCount || 0);
 
-      const { count: stemsCount } = await supabase
+      const { count: sCount } = await supabase
         .from('track_stems')
         .select('*', { count: 'exact', head: true })
         .eq('track_id', track.id);
-      setStemCount(stemsCount || 0);
+      setLocalStemCount(sCount || 0);
     };
     fetchCounts();
     
-    // Subscribe to track_stems for real-time updates
-    const stemsChannel = supabase
-      .channel(`track-stems-${track.id}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'track_stems',
-          filter: `track_id=eq.${track.id}`,
-        },
-        (payload) => {
-          console.log('✅ New stem added:', payload);
-          fetchCounts();
-          toast.success('Стемы готовы! 🎵');
-          setIsProcessing(false);
-        }
-      )
-      .subscribe();
+    // Only subscribe if no props provided
+    if (propVersionCount === undefined || propStemCount === undefined) {
+      // Subscribe to track_stems for real-time updates
+      const stemsChannel = supabase
+        .channel(`track-stems-${track.id}`)
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'track_stems',
+            filter: `track_id=eq.${track.id}`,
+          },
+          (payload) => {
+            console.log('✅ New stem added:', payload);
+            fetchCounts();
+            toast.success('Стемы готовы! 🎵');
+            setIsProcessing(false);
+          }
+        )
+        .subscribe();
 
-    // Subscribe to track_versions for real-time updates
-    const versionsChannel = supabase
-      .channel(`track-versions-${track.id}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'track_versions',
-          filter: `track_id=eq.${track.id}`,
-        },
-        (payload) => {
-          console.log('✅ New version added:', payload);
-          fetchCounts();
-        }
-      )
-      .subscribe();
+      // Subscribe to track_versions for real-time updates
+      const versionsChannel = supabase
+        .channel(`track-versions-${track.id}`)
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'track_versions',
+            filter: `track_id=eq.${track.id}`,
+          },
+          (payload) => {
+            console.log('✅ New version added:', payload);
+            fetchCounts();
+          }
+        )
+        .subscribe();
 
-    return () => {
-      supabase.removeChannel(stemsChannel);
-      supabase.removeChannel(versionsChannel);
-    };
-  }, [track.id]);
+      return () => {
+        supabase.removeChannel(stemsChannel);
+        supabase.removeChannel(versionsChannel);
+      };
+    }
+  }, [track.id, propVersionCount, propStemCount]);
 
   // Determine track type icon
   const getTrackIcon = () => {

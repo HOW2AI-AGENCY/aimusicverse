@@ -11,6 +11,7 @@
 
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { X, Heart, Download, Share2, ListMusic, SkipBack, SkipForward, Play, Pause, Repeat, Shuffle } from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Track } from '@/hooks/useTracksOptimized';
@@ -442,14 +443,32 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => {
+              onClick={async () => {
                 hapticImpact('light');
-                // Share functionality
-                if (navigator.share) {
-                  navigator.share({
-                    title: track.title || 'Track',
-                    url: window.location.href,
-                  });
+                const shareData = {
+                  title: track.title || 'Track',
+                  text: `🎵 ${track.title || 'Track'} - ${track.style || 'AI Music'}`,
+                  url: window.location.href,
+                };
+                
+                // Try native share, fallback to clipboard
+                if (navigator.share && navigator.canShare?.(shareData)) {
+                  try {
+                    await navigator.share(shareData);
+                  } catch (error) {
+                    // User cancelled or share failed - ignore
+                    if ((error as Error).name !== 'AbortError') {
+                      console.error('Share failed:', error);
+                    }
+                  }
+                } else {
+                  // Fallback: copy link to clipboard
+                  try {
+                    await navigator.clipboard.writeText(window.location.href);
+                    toast.success('Ссылка скопирована');
+                  } catch {
+                    toast.error('Не удалось скопировать ссылку');
+                  }
                 }
               }}
               className="h-11 w-11 touch-manipulation"

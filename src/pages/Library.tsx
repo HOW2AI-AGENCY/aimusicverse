@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
@@ -21,6 +21,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useSyncStaleTasks } from "@/hooks/useSyncStaleTasks";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTrackCounts } from "@/hooks/useTrackCounts";
 
 interface GenerationTask {
   id: string;
@@ -93,6 +94,11 @@ export default function Library() {
 
   const fullscreenTrackId = activeTrack?.id;
   const { data: versions } = useTrackVersions(fullscreenTrackId || "");
+
+  // Batch fetch track counts (versions & stems) for all visible tracks
+  // This replaces individual subscriptions per TrackCard
+  const trackIds = useMemo(() => (tracks || []).map(t => t.id), [tracks]);
+  const { getCountsForTrack } = useTrackCounts(trackIds);
 
   // Intersection Observer for infinite scroll
   useEffect(() => {
@@ -273,31 +279,36 @@ export default function Library() {
                 }
               >
                 <AnimatePresence mode="popLayout">
-                  {tracksToDisplay.map((track) => (
-                    <motion.div
-                      key={track.id}
-                      layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <TrackCard
-                        track={track}
-                        layout={viewMode}
-                        isPlaying={activeTrack?.id === track.id}
-                        onPlay={() => handlePlay(track)}
-                        onDelete={() => deleteTrack(track.id)}
-                        onDownload={() => handleDownload(track.id, track.audio_url, track.cover_url)}
-                        onToggleLike={() =>
-                          toggleLike({
-                            trackId: track.id,
-                            isLiked: track.is_liked || false,
-                          })
-                        }
-                      />
-                    </motion.div>
-                  ))}
+                  {tracksToDisplay.map((track) => {
+                    const counts = getCountsForTrack(track.id);
+                    return (
+                      <motion.div
+                        key={track.id}
+                        layout
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <TrackCard
+                          track={track}
+                          layout={viewMode}
+                          isPlaying={activeTrack?.id === track.id}
+                          onPlay={() => handlePlay(track)}
+                          onDelete={() => deleteTrack(track.id)}
+                          onDownload={() => handleDownload(track.id, track.audio_url, track.cover_url)}
+                          onToggleLike={() =>
+                            toggleLike({
+                              trackId: track.id,
+                              isLiked: track.is_liked || false,
+                            })
+                          }
+                          versionCount={counts.versionCount}
+                          stemCount={counts.stemCount}
+                        />
+                      </motion.div>
+                    );
+                  })}
                 </AnimatePresence>
               </motion.div>
 
