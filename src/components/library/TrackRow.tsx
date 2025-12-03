@@ -74,7 +74,7 @@ export function TrackRow({
           </div>
           <div className="flex items-center gap-2 mt-0.5">
             <p className="text-xs text-muted-foreground truncate">
-              {track.style || 'Unknown Style'}
+              {track.style || track.tags?.split(',').slice(0, 2).join(', ') || 'Без стиля'}
             </p>
             {/* Type Icons */}
             <TrackTypeIcons track={track} />

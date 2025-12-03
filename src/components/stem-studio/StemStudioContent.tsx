@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  ChevronLeft, Play, Pause, SkipBack, SkipForward, Download, Share2,
+  ChevronLeft, Play, Pause, SkipBack, SkipForward,
   Volume2, VolumeX
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,8 @@ import { Slider } from '@/components/ui/slider';
 import { useTrackStems } from '@/hooks/useTrackStems';
 import { useTracks } from '@/hooks/useTracks';
 import { StemChannel } from '@/components/stem-studio/StemChannel';
+import { StemDownloadPanel } from '@/components/stem-studio/StemDownloadPanel';
+import { StemReferenceDialog } from '@/components/stem-studio/StemReferenceDialog';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -190,10 +192,6 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const handleExport = () => {
-    toast.info('Функция экспорта микса в разработке');
-  };
-
   if (!track || stemsLoading) {
     return (
       <div className="flex items-center justify-center h-screen bg-background">
@@ -234,12 +232,10 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           </div>
         </div>
 
-        {!isMobile && (
+        {!isMobile && stems && (
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="gap-2">
-              <Share2 className="w-4 h-4" />
-              Поделиться
-            </Button>
+            <StemReferenceDialog stems={stems} trackTitle={track.title || 'Трек'} />
+            <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
           </div>
         )}
       </header>
@@ -296,6 +292,14 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         </div>
       </div>
 
+      {/* Mobile Actions */}
+      {isMobile && stems && (
+        <div className="px-4 py-3 border-b border-border/30 flex gap-2">
+          <StemReferenceDialog stems={stems} trackTitle={track.title || 'Трек'} />
+          <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
+        </div>
+      )}
+
       {/* Stem Channels */}
       <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-3 pb-32">
         {stems.map((stem) => (
@@ -349,17 +353,11 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
             </Button>
           </div>
 
-          {/* Export (desktop only) */}
-          {!isMobile && (
-            <div className="flex items-center gap-4">
-              <div className="flex flex-col items-end">
-                <span className="text-xs font-semibold">Экспорт</span>
-                <span className="text-[10px] text-muted-foreground">MP3 • 320kbps</span>
-              </div>
-              <Button className="gap-2" onClick={handleExport}>
-                <Download className="w-4 h-4" />
-                Микс
-              </Button>
+          {/* Export/Download (desktop only) */}
+          {!isMobile && stems && (
+            <div className="flex items-center gap-2">
+              <StemReferenceDialog stems={stems} trackTitle={track.title || 'Трек'} />
+              <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
             </div>
           )}
         </div>

@@ -95,6 +95,42 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     }
   }, [open]);
 
+  // Check for stem audio reference from localStorage
+  useEffect(() => {
+    if (open) {
+      const stemReferenceStr = localStorage.getItem('stem_audio_reference');
+      if (stemReferenceStr) {
+        try {
+          const stemReference = JSON.parse(stemReferenceStr);
+          // Only use if less than 5 minutes old
+          if (Date.now() - stemReference.timestamp < 5 * 60 * 1000) {
+            toast.info(`Референс: ${stemReference.name}`, {
+              description: 'Загружаем аудио референс из студии стемов...',
+            });
+            
+            // Fetch the audio and create a File object
+            fetch(stemReference.url)
+              .then(response => response.blob())
+              .then(blob => {
+                const file = new File([blob], `${stemReference.name}.mp3`, { type: 'audio/mpeg' });
+                setAudioFile(file);
+                setMode('custom'); // Switch to custom mode for reference
+                toast.success('Референс загружен!');
+              })
+              .catch(err => {
+                console.error('Failed to load stem reference:', err);
+                toast.error('Не удалось загрузить референс');
+              });
+          }
+          // Clear the reference after use
+          localStorage.removeItem('stem_audio_reference');
+        } catch (e) {
+          console.error('Failed to parse stem reference:', e);
+        }
+      }
+    }
+  }, [open]);
+
   // Auto-fill from selected track
   const handleTrackSelect = (trackId: string) => {
     const track = allTracks?.find(t => t.id === trackId);
