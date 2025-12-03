@@ -2,48 +2,46 @@
 =================================================================================
 SYNC IMPACT REPORT
 =================================================================================
-Version change: 1.0.0 → 2.0.0 (MAJOR)
-Date: 2025-12-02
-Rationale: Complete reconstruction with expanded principles from 5 to 8, 
-           comprehensive tech stack specification, enhanced quality gates,
-           and detailed operational standards for MusicVerse AI platform.
+Version change: 2.0.0 → 2.1.0 (MINOR)
+Date: 2025-12-03
+Rationale: Added Storage и Media Infrastructure section to V. Database и Backend 
+           Standards based on INFRASTRUCTURE_AUDIT_2025-12-03.md findings.
+           Codified storage buckets naming, RLS policies, quotas, and lifecycle
+           management standards.
 
-Modified principles:
-  - I. Тестирование (Test-First) → I. Качество кода и тестирование (expanded)
-  - II. Безопасность и минимизация данных → II. Безопасность и защита данных (expanded)
-  - III. Наблюдаемость и метрики → III. Наблюдаемость и мониторинг (expanded)
-  - IV. Инкрементальная доставка → IV. Инкрементальная доставка (clarified)
-  - V. Простота и документация → V. Архитектурная простота (expanded)
+Previous version changes (2.0.0):
+  - Complete reconstruction with expanded principles from 5 to 8
+  - Comprehensive tech stack specification
+  - Enhanced quality gates and operational standards
 
-Added principles:
-  - VI. Производительность и оптимизация (NEW)
-  - VII. Мультиязычность и доступность (NEW)
-  - VIII. Telegram-first подход и UX (NEW)
+Modified sections (2.1.0):
+  - V. Database и Backend Standards → Added "Storage и Media Infrastructure" subsection
+    - Storage buckets organization and naming conventions
+    - Row Level Security policies for all buckets
+    - Storage quotas per subscription tier
+    - File registry and usage tracking
+    - CDN integration standards
+    - Lifecycle management (cleanup, tiering, deduplication)
 
-Added sections:
-  - Detailed Technical Stack specification
-  - Code Quality Standards (Prettier, ESLint, TypeScript)
-  - Testing Requirements (Jest, React Testing Library, coverage targets)
-  - CI/CD Pipeline requirements
-  - Performance benchmarks and metrics
-  - Accessibility standards (a11y, i18n)
-  - Telegram integration patterns
-  - Deployment and DevOps standards
+Added content:
+  - 6 Storage buckets specification (tracks, covers, stems, uploads, avatars, temp)
+  - Storage quotas: Free (1GB), Pro (50GB), Premium (500GB), Enterprise (unlimited)
+  - Reference to INFRASTRUCTURE_AUDIT_2025-12-03.md for detailed implementation
 
-Removed sections: none (all previous content retained and enhanced)
+Removed sections: none (all content retained and enhanced)
 
 Templates requiring updates:
   ✅ .specify/templates/plan-template.md - already aligned with constitution
   ✅ .specify/templates/tasks-template.md - already aligned with constitution
-  ⚠️  .specify/templates/spec-template.md - requires update to reflect new principles
-  ⚠️  README.md - may need to reference updated constitution
-  ⚠️  CONTRIBUTING.md - should cross-reference constitution principles
+  ⚠️  .specify/templates/spec-template.md - requires update to reflect storage standards
+  ✅ INFRASTRUCTURE_NAMING_CONVENTIONS.md - already documents correct naming
+  ✅ .github/copilot-instructions.md - already documents correct naming
 
 Follow-up TODOs:
-  - Update spec-template.md to include checkboxes for principles VI-VIII
-  - Consider adding automated constitution compliance checker script
-  - Add constitution badge/reference to README
-  - Review existing codebase for compliance with new principles
+  ✅ Update SPRINTS with correct naming (is_primary not is_master)
+  ✅ Update SPRINTS with correct table names (track_change_log not track_changelog)
+  - Ensure all new infrastructure tasks from audit are reflected in SPRINT-010
+  - Ensure SPRINT-016 reflects all optimization tasks
 =================================================================================
 -->
 
@@ -623,6 +621,44 @@ chore(deps): update React to 19.2.0
 { success: false, error: { code: "ERROR_CODE", message: "User-friendly message" } }
 ```
 
+### Storage и Media Infrastructure
+
+**Обязательные требования**:
+- **Storage Buckets**: организованы по типам контента (tracks, covers, stems, uploads, avatars, temp)
+- **Storage Policies (RLS)**: каждый bucket MUST иметь Row Level Security политики
+  - Пользователи видят только свои приватные файлы
+  - Публичные файлы доступны всем
+  - Premium функции (stems) доступны только подписчикам
+- **Storage Quotas**: квоты по тарифам подписки
+  - Free: 1 GB
+  - Pro: 50 GB
+  - Premium: 500 GB
+  - Enterprise: unlimited
+- **Файловый реестр**: таблица `file_registry` для отслеживания всех файлов
+  - Связь с entities (track_id, project_id, user_id)
+  - Размер файла и MIME type
+  - Временные файлы с автоматическим expires_at
+- **Storage Usage Tracking**: таблица `storage_usage` для учета использования по bucket'ам
+  - Автоматическое обновление через triggers
+  - Проверка квот перед upload
+- **CDN Integration**: таблица `cdn_assets` для кэширования и оптимизации
+  - Automatic WebP conversion для изображений
+  - Multiple bitrates для аудио
+  - Geographic distribution
+- **Lifecycle Management**:
+  - Автоматическая очистка временных файлов (expires_at)
+  - Storage tiering (hot/warm/cold)
+  - Deduplication для одинаковых файлов
+- **Naming Conventions для buckets**:
+  - `tracks` - сгенерированные и загруженные треки (private, до 50MB)
+  - `covers` - обложки треков (public, до 5MB)
+  - `stems` - разделенные дорожки (private, до 100MB, premium only)
+  - `uploads` - пользовательские загрузки (private, до 50MB)
+  - `avatars` - аватары и баннеры (public, до 2MB)
+  - `temp` - временные файлы обработки (private, auto-cleanup)
+
+**Reference документ**: [INFRASTRUCTURE_AUDIT_2025-12-03.md](../../INFRASTRUCTURE_AUDIT_2025-12-03.md)
+
 ---
 
 ## VI. Performance Benchmarks
@@ -724,10 +760,10 @@ chore(deps): update React to 19.2.0
 
 ## Метаданные
 
-**Version**: 2.0.0  
+**Version**: 2.1.0  
 **Ratified**: 2025-12-01  
-**Last Amended**: 2025-12-02  
-**Next Review**: 2026-03-02 (quarterly review recommended)
+**Last Amended**: 2025-12-03  
+**Next Review**: 2026-03-03 (quarterly review recommended)
 
 ---
 

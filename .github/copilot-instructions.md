@@ -343,6 +343,8 @@ specs/[feature-name]/
 - [Navigation System](../docs/NAVIGATION_SYSTEM.md)
 - [Project Specification](../docs/PROJECT_SPECIFICATION.md)
 - [Constitution](.specify/memory/constitution.md) - Project principles and standards
+- [Infrastructure Naming Conventions](../INFRASTRUCTURE_NAMING_CONVENTIONS.md) - Correct table/field names
+- [Infrastructure Audit 2025-12-03](../INFRASTRUCTURE_AUDIT_2025-12-03.md) - Storage and media infrastructure
 
 ## Questions or Issues?
 

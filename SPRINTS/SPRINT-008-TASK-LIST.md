@@ -243,7 +243,7 @@ export function VersionSwitcher({ trackId, open, onOpenChange }: Props) {
                 </p>
               </div>
               
-              {version.is_master && <Badge>Master</Badge>}
+              {version.is_primary && <Badge>Primary</Badge>}
               
               <Button 
                 size="sm"
