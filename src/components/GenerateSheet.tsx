@@ -185,6 +185,12 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     });
 
     setLoading(true);
+    
+    // Show submitting toast
+    const toastId = toast.loading('Отправка запроса...', {
+      description: 'Подключаемся к серверу генерации',
+    });
+    
     try {
       // Get persona ID from selected artist
       const personaId = selectedArtistId 
@@ -211,30 +217,50 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
       if (error) throw error;
 
+      // Dismiss loading toast and show success
+      toast.dismiss(toastId);
       toast.success('Генерация началась! 🎵', {
         description: 'Ваш трек появится в библиотеке через 1-3 минуты',
       });
 
-      // Reset form and close
+      // Reset form and close only after successful submission
       resetForm();
       onOpenChange(false);
       
-      // Refresh credits
-      const { data: creditsData } = await supabase.functions.invoke('suno-credits');
-      if (creditsData?.credits !== undefined) {
-        setCredits(creditsData.credits);
-      }
+      // Refresh credits in background
+      supabase.functions.invoke('suno-credits').then(({ data: creditsData }) => {
+        if (creditsData?.credits !== undefined) {
+          setCredits(creditsData.credits);
+        }
+      });
     } catch (error) {
       console.error('Generation error:', error);
+      toast.dismiss(toastId);
       
       const errorMessage = error instanceof Error ? error.message : '';
       if (errorMessage.includes('429') || errorMessage.includes('credits')) {
         toast.error('Недостаточно кредитов', {
           description: 'Пополните баланс SunoAPI для продолжения',
+          action: {
+            label: 'Повторить',
+            onClick: handleGenerate,
+          },
+        });
+      } else if (errorMessage.includes('network') || errorMessage.includes('fetch')) {
+        toast.error('Ошибка сети', {
+          description: 'Проверьте подключение к интернету',
+          action: {
+            label: 'Повторить',
+            onClick: handleGenerate,
+          },
         });
       } else {
         toast.error('Ошибка генерации', {
           description: errorMessage || 'Попробуйте еще раз',
+          action: {
+            label: 'Повторить',
+            onClick: handleGenerate,
+          },
         });
       }
     } finally {
@@ -309,9 +335,11 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   variant="ghost"
                   size="sm"
                   onClick={() => setHistoryOpen(true)}
-                  className="h-8 w-8 p-0"
+                  className="h-11 w-11 p-0 min-w-[44px] min-h-[44px] touch-manipulation"
+                  title="История промптов"
+                  aria-label="Открыть историю промптов"
                 >
-                  <History className="w-4 h-4" />
+                  <History className="w-5 h-5" />
                 </Button>
               </div>
 
