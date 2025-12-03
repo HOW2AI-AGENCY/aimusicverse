@@ -38,6 +38,8 @@ export interface PublicTrackWithCreator extends PublicTrack {
   creator_photo_url?: string;
   artist_name?: string;
   artist_avatar?: string;
+  like_count?: number;
+  user_liked?: boolean;
 }
 
 export function usePublicContent(params: UsePublicContentParams = {}) {
@@ -77,6 +79,7 @@ export function usePublicContent(params: UsePublicContentParams = {}) {
 
       // Get unique user_ids from tracks
       const userIds = [...new Set(tracks.map(t => t.user_id))];
+      const trackIds = tracks.map(t => t.id);
       
       // Fetch profiles for creators
       const { data: profiles } = await supabase
@@ -84,14 +87,38 @@ export function usePublicContent(params: UsePublicContentParams = {}) {
         .select("user_id, username, photo_url")
         .in("user_id", userIds);
 
-      // Create a map for quick lookup
-      const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
+      // Fetch like counts for all tracks
+      const { data: likeCounts } = await supabase
+        .from("track_likes")
+        .select("track_id")
+        .in("track_id", trackIds);
 
-      // Enrich tracks with creator info
+      // Get current user's likes
+      const { data: { user } } = await supabase.auth.getUser();
+      let userLikes: string[] = [];
+      if (user) {
+        const { data: userLikesData } = await supabase
+          .from("track_likes")
+          .select("track_id")
+          .eq("user_id", user.id)
+          .in("track_id", trackIds);
+        userLikes = userLikesData?.map(l => l.track_id) || [];
+      }
+
+      // Create maps for quick lookup
+      const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
+      const likeCountMap = new Map<string, number>();
+      likeCounts?.forEach(l => {
+        likeCountMap.set(l.track_id, (likeCountMap.get(l.track_id) || 0) + 1);
+      });
+
+      // Enrich tracks with creator info and like data
       const enrichedTracks: PublicTrackWithCreator[] = tracks.map(track => ({
         ...track,
         creator_username: profileMap.get(track.user_id)?.username || undefined,
         creator_photo_url: profileMap.get(track.user_id)?.photo_url || undefined,
+        like_count: likeCountMap.get(track.id) || 0,
+        user_liked: userLikes.includes(track.id),
       }));
 
       return enrichedTracks;
