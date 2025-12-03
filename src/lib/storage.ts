@@ -157,7 +157,7 @@ export async function uploadFile(options: UploadFileOptions): Promise<UploadFile
     }
 
     // Check storage quota
-    const fileSize = file instanceof File ? file.size : file.size;
+    const fileSize = file.size;
     const quotaCheck = await checkStorageQuota(user.id, fileSize);
 
     if (!quotaCheck.allowed) {

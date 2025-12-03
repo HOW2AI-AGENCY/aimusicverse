@@ -205,17 +205,10 @@ export function getOptimizedImageUrl(
   height?: number,
   quality: number = 90,
 ): string {
-  // Check browser support for modern formats
-  const supportsWebP =
-    typeof document !== "undefined" &&
-    document.createElement("canvas").toDataURL("image/webp").indexOf("data:image/webp") === 0;
-
-  const supportsAVIF =
-    typeof document !== "undefined" &&
-    document.createElement("canvas").toDataURL("image/avif").indexOf("data:image/avif") === 0;
-
-  // Prefer AVIF > WebP > Original
-  const format: ImageFormat = supportsAVIF ? "avif" : supportsWebP ? "webp" : "origin";
+  // Use WebP as default for modern image optimization
+  // CDN/Supabase will automatically handle format negotiation based on Accept headers
+  // This is more reliable than client-side feature detection
+  const format: ImageFormat = "webp";
 
   return getCDNUrl({
     bucket,
