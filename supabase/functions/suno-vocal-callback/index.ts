@@ -6,6 +6,25 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Map stem types from API to our database format
+const STEM_TYPE_MAP: Record<string, string> = {
+  vocal_url: 'vocal',
+  instrumental_url: 'instrumental',
+  vocals_url: 'vocal',
+  backing_vocals_url: 'backing_vocals',
+  drums_url: 'drums',
+  bass_url: 'bass',
+  guitar_url: 'guitar',
+  keyboard_url: 'keyboard',
+  strings_url: 'strings',
+  brass_url: 'brass',
+  woodwinds_url: 'woodwinds',
+  percussion_url: 'percussion',
+  synth_url: 'synth',
+  fx_url: 'fx',
+  other_url: 'other',
+};
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -17,49 +36,55 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const payload = await req.json();
-    console.log('Received vocal separation callback:', JSON.stringify(payload, null, 2));
+    console.log('🎛️ Received vocal separation callback:', JSON.stringify(payload, null, 2));
 
     const { code, msg, data } = payload;
     
-    // Support multiple data formats from SunoAPI
-    const taskId = data?.taskId || data?.task_id;
-    const audioId = data?.audioId || data?.audio_id;
-    const vocalUrl = data?.vocalUrl || data?.vocal_url;
-    const instrumentalUrl = data?.instrumentalUrl || data?.instrumental_url;
-
-    console.log('Parsed callback data:', { taskId, audioId, vocalUrl, instrumentalUrl });
-
-    if (!taskId || !audioId) {
-      console.error('Missing required data:', { taskId, audioId, fullData: data });
-      throw new Error('Missing taskId or audioId');
+    // Get taskId from callback - this is the SEPARATION task ID, not the original track task
+    const separationTaskId = data?.taskId || data?.task_id;
+    
+    if (!separationTaskId) {
+      console.error('❌ Missing separationTaskId in callback:', data);
+      throw new Error('Missing taskId in callback');
     }
 
-    // Find the track
-    const { data: track, error: trackError } = await supabase
-      .from('tracks')
-      .select('*')
-      .eq('suno_task_id', taskId)
-      .eq('suno_id', audioId)
+    console.log('🔍 Looking up separation task:', separationTaskId);
+
+    // Find track via stem_separation_tasks table
+    const { data: separationTask, error: taskError } = await supabase
+      .from('stem_separation_tasks')
+      .select('*, tracks(*)')
+      .eq('separation_task_id', separationTaskId)
       .single();
 
-    if (trackError || !track) {
-      throw new Error('Track not found');
+    if (taskError || !separationTask) {
+      console.error('❌ Separation task not found:', taskError);
+      throw new Error(`Separation task not found: ${separationTaskId}`);
     }
 
+    const track = separationTask.tracks;
+    if (!track) {
+      throw new Error('Associated track not found');
+    }
+
+    console.log('✅ Found track:', track.id, 'for separation task:', separationTaskId);
+
+    // Handle failure
     if (code !== 200) {
-      console.error('Vocal separation failed:', msg);
+      console.error('❌ Vocal separation failed:', msg);
       
       await supabase
-        .from('track_change_log')
-        .insert({
-          track_id: track.id,
-          user_id: track.user_id,
-          change_type: 'vocal_separation_failed',
-          changed_by: 'suno_api',
-          metadata: {
-            error: msg,
-          },
-        });
+        .from('stem_separation_tasks')
+        .update({ status: 'failed', completed_at: new Date().toISOString() })
+        .eq('id', separationTask.id);
+
+      await supabase.from('track_change_log').insert({
+        track_id: track.id,
+        user_id: track.user_id,
+        change_type: 'vocal_separation_failed',
+        changed_by: 'suno_api',
+        metadata: { error: msg, separation_task_id: separationTaskId },
+      });
 
       return new Response(
         JSON.stringify({ success: true, status: 'failed' }),
@@ -67,126 +92,120 @@ serve(async (req) => {
       );
     }
 
-    // Download and save stems to storage
-    let localVocalUrl = null;
-    let localInstrumentalUrl = null;
+    // FIXED: Parse vocal_removal_info correctly from Suno API response
+    // The structure is: data.vocal_removal_info.{vocal_url, instrumental_url, ...}
+    const vocalRemovalInfo = data?.vocal_removal_info || data;
+    
+    console.log('📦 Parsing vocal_removal_info:', JSON.stringify(vocalRemovalInfo, null, 2));
 
-    try {
-      // Download vocal
-      if (vocalUrl) {
-        const vocalResponse = await fetch(vocalUrl);
-        const vocalBlob = await vocalResponse.blob();
-        const vocalFileName = `${track.id}_vocal_${Date.now()}.mp3`;
+    const stemsToInsert: Array<{
+      track_id: string;
+      stem_type: string;
+      audio_url: string;
+      separation_mode: string;
+    }> = [];
+
+    // Process all stem URLs from the response
+    for (const [key, stemType] of Object.entries(STEM_TYPE_MAP)) {
+      const url = vocalRemovalInfo?.[key];
+      if (url && typeof url === 'string') {
+        console.log(`🎵 Found stem: ${stemType} -> ${url.substring(0, 50)}...`);
         
-        const { data: vocalUpload, error: vocalError } = await supabase.storage
-          .from('project-assets')
-          .upload(`stems/${vocalFileName}`, vocalBlob, {
-            contentType: 'audio/mpeg',
-            upsert: true,
-          });
+        // Download and save to storage
+        let localUrl = url;
+        try {
+          const response = await fetch(url);
+          if (response.ok) {
+            const blob = await response.blob();
+            const fileName = `${track.id}_${stemType}_${Date.now()}.mp3`;
+            
+            const { data: uploadData, error: uploadError } = await supabase.storage
+              .from('project-assets')
+              .upload(`stems/${fileName}`, blob, {
+                contentType: 'audio/mpeg',
+                upsert: true,
+              });
 
-        if (!vocalError && vocalUpload) {
-          const { data: publicData } = supabase.storage
-            .from('project-assets')
-            .getPublicUrl(`stems/${vocalFileName}`);
-          localVocalUrl = publicData.publicUrl;
+            if (!uploadError && uploadData) {
+              const { data: publicData } = supabase.storage
+                .from('project-assets')
+                .getPublicUrl(`stems/${fileName}`);
+              localUrl = publicData.publicUrl;
+              console.log(`✅ Uploaded ${stemType} to storage:`, localUrl.substring(0, 50));
+            }
+          }
+        } catch (downloadError) {
+          console.error(`⚠️ Error downloading ${stemType}:`, downloadError);
+          // Use original URL as fallback
         }
+
+        stemsToInsert.push({
+          track_id: track.id,
+          stem_type: stemType,
+          audio_url: localUrl,
+          separation_mode: separationTask.mode,
+        });
       }
-
-      // Download instrumental
-      if (instrumentalUrl) {
-        const instrumentalResponse = await fetch(instrumentalUrl);
-        const instrumentalBlob = await instrumentalResponse.blob();
-        const instrumentalFileName = `${track.id}_instrumental_${Date.now()}.mp3`;
-        
-        const { data: instrumentalUpload, error: instrumentalError } = await supabase.storage
-          .from('project-assets')
-          .upload(`stems/${instrumentalFileName}`, instrumentalBlob, {
-            contentType: 'audio/mpeg',
-            upsert: true,
-          });
-
-        if (!instrumentalError && instrumentalUpload) {
-          const { data: publicData } = supabase.storage
-            .from('project-assets')
-            .getPublicUrl(`stems/${instrumentalFileName}`);
-          localInstrumentalUrl = publicData.publicUrl;
-        }
-      }
-    } catch (downloadError) {
-      console.error('Error downloading stems:', downloadError);
     }
 
-    // Save stems to track_stems table
-    const stemsToInsert = [];
-
-    if (localVocalUrl || vocalUrl) {
-      stemsToInsert.push({
-        track_id: track.id,
-        stem_type: 'vocal',
-        audio_url: localVocalUrl || vocalUrl,
-        separation_mode: 'simple',
-      });
-    }
-
-    if (localInstrumentalUrl || instrumentalUrl) {
-      stemsToInsert.push({
-        track_id: track.id,
-        stem_type: 'instrumental',
-        audio_url: localInstrumentalUrl || instrumentalUrl,
-        separation_mode: 'simple',
-      });
-    }
+    console.log(`📝 Inserting ${stemsToInsert.length} stems to database`);
 
     if (stemsToInsert.length > 0) {
-      await supabase
+      const { error: insertError } = await supabase
         .from('track_stems')
         .insert(stemsToInsert);
+
+      if (insertError) {
+        console.error('❌ Error inserting stems:', insertError);
+      } else {
+        console.log('✅ Stems inserted successfully');
+      }
+
+      // Update track has_stems flag
+      await supabase
+        .from('tracks')
+        .update({ has_stems: true })
+        .eq('id', track.id);
     }
 
-    // Log completion
+    // Update separation task status
     await supabase
-      .from('track_change_log')
-      .insert({
-        track_id: track.id,
-        user_id: track.user_id,
-        change_type: 'vocal_separation_completed',
-        changed_by: 'suno_api',
-        metadata: {
-          stems_created: stemsToInsert.length,
-        },
-      });
+      .from('stem_separation_tasks')
+      .update({ status: 'completed', completed_at: new Date().toISOString() })
+      .eq('id', separationTask.id);
+
+    // Log completion
+    await supabase.from('track_change_log').insert({
+      track_id: track.id,
+      user_id: track.user_id,
+      change_type: 'vocal_separation_completed',
+      changed_by: 'suno_api',
+      metadata: { 
+        stems_created: stemsToInsert.length,
+        stem_types: stemsToInsert.map(s => s.stem_type),
+        separation_task_id: separationTaskId,
+      },
+    });
 
     // Create notification
-    await supabase
-      .from('notifications')
-      .insert({
-        user_id: track.user_id,
-        type: 'stems_ready',
-        title: 'Стемы готовы! 🎛️',
-        message: `Разделение трека "${track.title || 'Без названия'}" завершено`,
-        action_url: `/library`,
-      });
+    await supabase.from('notifications').insert({
+      user_id: track.user_id,
+      type: 'stems_ready',
+      title: 'Стемы готовы! 🎛️',
+      message: `Разделение трека "${track.title || 'Без названия'}" завершено. Создано ${stemsToInsert.length} стемов.`,
+      action_url: `/studio/${track.id}`,
+    });
 
     return new Response(
-      JSON.stringify({ success: true }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200,
-      }
+      JSON.stringify({ success: true, stems_created: stemsToInsert.length }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }
     );
 
   } catch (error: any) {
-    console.error('Error in suno-vocal-callback:', error);
+    console.error('❌ Error in suno-vocal-callback:', error);
     return new Response(
-      JSON.stringify({ 
-        success: false, 
-        error: error.message || 'Unknown error' 
-      }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 500,
-      }
+      JSON.stringify({ success: false, error: error.message || 'Unknown error' }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
     );
   }
 });

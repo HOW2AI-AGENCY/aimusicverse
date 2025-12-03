@@ -703,6 +703,50 @@ export type Database = {
           },
         ]
       }
+      stem_separation_tasks: {
+        Row: {
+          completed_at: string | null
+          created_at: string | null
+          id: string
+          mode: string
+          original_audio_id: string
+          original_task_id: string
+          separation_task_id: string
+          status: string
+          track_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          mode?: string
+          original_audio_id: string
+          original_task_id: string
+          separation_task_id: string
+          status?: string
+          track_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          mode?: string
+          original_audio_id?: string
+          original_task_id?: string
+          separation_task_id?: string
+          status?: string
+          track_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stem_separation_tasks_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       style_tag_mappings: {
         Row: {
           created_at: string
@@ -1189,8 +1233,10 @@ export type Database = {
           duration_seconds: number | null
           error_message: string | null
           generation_mode: string | null
+          has_stems: boolean | null
           has_vocals: boolean | null
           id: string
+          is_instrumental: boolean | null
           is_public: boolean | null
           local_audio_url: string | null
           local_cover_url: string | null
@@ -1222,8 +1268,10 @@ export type Database = {
           duration_seconds?: number | null
           error_message?: string | null
           generation_mode?: string | null
+          has_stems?: boolean | null
           has_vocals?: boolean | null
           id?: string
+          is_instrumental?: boolean | null
           is_public?: boolean | null
           local_audio_url?: string | null
           local_cover_url?: string | null
@@ -1255,8 +1303,10 @@ export type Database = {
           duration_seconds?: number | null
           error_message?: string | null
           generation_mode?: string | null
+          has_stems?: boolean | null
           has_vocals?: boolean | null
           id?: string
+          is_instrumental?: boolean | null
           is_public?: boolean | null
           local_audio_url?: string | null
           local_cover_url?: string | null

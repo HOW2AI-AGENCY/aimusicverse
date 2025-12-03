@@ -47,10 +47,16 @@ serve(async (req) => {
     console.log('✅ Track verified:', track.id);
 
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-vocal-callback`;
+    
+    // FIXED: Use correct API parameters
+    // mode: 'simple' -> type: 'separate_vocal' (vocal + instrumental)
+    // mode: 'detailed' -> type: 'split_stem' (vocals, drums, bass, etc.)
+    const apiType = mode === 'detailed' ? 'split_stem' : 'separate_vocal';
+    
     const requestBody = {
       taskId,
       audioId,
-      mode: mode === 'detailed' ? 'stems' : 'vocal_and_instrument',
+      type: apiType,
       callBackUrl: callbackUrl,
     };
 
@@ -69,7 +75,7 @@ serve(async (req) => {
     const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
     
-    console.log(`📥 Response (${duration}ms):`, sunoData);
+    console.log(`📥 Response (${duration}ms):`, JSON.stringify(sunoData, null, 2));
     console.log(`💰 Cost: $0.02`);
 
     // Log API call
@@ -93,17 +99,34 @@ serve(async (req) => {
 
     const separationTaskId = sunoData.data?.taskId;
     if (!separationTaskId) {
-      throw new Error('No taskId returned');
+      throw new Error('No taskId returned from separation API');
     }
 
     console.log('✅ Separation initiated:', separationTaskId);
 
+    // Save separation task mapping for callback lookup
+    const { error: taskError } = await supabase
+      .from('stem_separation_tasks')
+      .insert({
+        separation_task_id: separationTaskId,
+        track_id: track.id,
+        original_task_id: taskId,
+        original_audio_id: audioId,
+        mode: mode,
+        status: 'processing',
+      });
+
+    if (taskError) {
+      console.error('⚠️ Failed to save separation task:', taskError);
+    }
+
+    // Log in track changelog
     await supabase.from('track_change_log').insert({
       track_id: track.id,
       user_id: userId,
       change_type: 'vocal_separation_started',
       changed_by: 'suno_api',
-      metadata: { separation_task_id: separationTaskId, mode },
+      metadata: { separation_task_id: separationTaskId, mode, api_type: apiType },
     });
 
     return new Response(

@@ -43,8 +43,8 @@ export interface Track {
   artist_name?: string;
   artist_avatar_url?: string;
   master_version_id?: string;
-  is_instrumental?: boolean;
-  has_stems?: boolean;
+  is_instrumental?: boolean | null;
+  has_stems?: boolean | null;
   metadata?: Record<string, unknown>;
 }
 
