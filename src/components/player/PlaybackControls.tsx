@@ -1,30 +1,60 @@
+/**
+ * Playback Controls Component
+ * 
+ * Main player control buttons for playback management.
+ * Provides play/pause, skip, shuffle, and repeat controls.
+ * 
+ * Features:
+ * - Responsive sizing (compact/medium/large)
+ * - Touch-optimized buttons with proper hit areas
+ * - Visual feedback for active modes (shuffle, repeat)
+ * - Accessibility support with ARIA labels
+ * - Icon-based UI for universal understanding
+ * 
+ * @module PlaybackControls
+ */
+
 import { Button } from '@/components/ui/button';
 import { Play, Pause, SkipBack, SkipForward, Shuffle, Repeat } from 'lucide-react';
 import { usePlayerStore } from '@/hooks/usePlayerState';
 import { cn } from '@/lib/utils';
 
+/**
+ * Playback controls component props
+ */
 interface PlaybackControlsProps {
-  size?: 'compact' | 'medium' | 'large';
-  className?: string;
+  size?: 'compact' | 'medium' | 'large';  // Button size preset
+  className?: string;                      // Additional CSS classes
 }
 
+/**
+ * Playback Controls Component
+ * 
+ * @param props - Component props
+ * @returns Player control buttons
+ */
 export function PlaybackControls({ size = 'medium', className }: PlaybackControlsProps) {
+  // Get player state and actions from store
   const { 
-    isPlaying, 
-    shuffle, 
-    repeat, 
-    playTrack, 
-    pauseTrack, 
-    nextTrack, 
-    previousTrack,
-    toggleShuffle,
-    toggleRepeat
+    isPlaying,        // Current playback status
+    shuffle,          // Shuffle mode enabled
+    repeat,           // Repeat mode (off/all/one)
+    playTrack,        // Play/resume function
+    pauseTrack,       // Pause function
+    nextTrack,        // Skip to next
+    previousTrack,    // Skip to previous
+    toggleShuffle,    // Toggle shuffle mode
+    toggleRepeat      // Cycle repeat modes
   } = usePlayerStore();
 
+  /**
+   * Size presets for buttons and icons
+   * Ensures consistent sizing across different player layouts
+   */
   const buttonSizeClasses = {
-    compact: 'h-8 w-8',
-    medium: 'h-11 w-11',
-    large: 'h-14 w-14'
+    compact: 'h-8 w-8',    // Small player bar
+    medium: 'h-11 w-11',   // Expanded player
+    large: 'h-14 w-14'     // Fullscreen player
   };
 
   const iconSizeClasses = {
@@ -36,17 +66,21 @@ export function PlaybackControls({ size = 'medium', className }: PlaybackControl
   const buttonSize = buttonSizeClasses[size];
   const iconSize = iconSizeClasses[size];
 
+  /**
+   * Handle play/pause toggle
+   * Centralizes play/pause logic with single button
+   */
   const handlePlayPause = () => {
     if (isPlaying) {
       pauseTrack();
     } else {
-      playTrack();
+      playTrack(); // Resumes current track if exists
     }
   };
 
   return (
     <div className={cn('flex items-center justify-center gap-2 sm:gap-4', className)}>
-      {/* Shuffle */}
+      {/* Shuffle Button - Toggle random playback order */}
       <Button
         variant="ghost"
         size="icon"
@@ -54,14 +88,15 @@ export function PlaybackControls({ size = 'medium', className }: PlaybackControl
         className={cn(
           buttonSize,
           'touch-manipulation transition-colors',
-          shuffle && 'text-primary'
+          shuffle && 'text-primary' // Highlight when active
         )}
         aria-label="Shuffle"
+        aria-pressed={shuffle} // Accessibility: indicate toggle state
       >
         <Shuffle className={iconSize} />
       </Button>
 
-      {/* Previous */}
+      {/* Previous Button - Skip to previous track */}
       <Button
         variant="ghost"
         size="icon"
@@ -72,7 +107,7 @@ export function PlaybackControls({ size = 'medium', className }: PlaybackControl
         <SkipBack className={iconSize} />
       </Button>
 
-      {/* Play/Pause */}
+      {/* Play/Pause Button - Main playback control */}
       <Button
         variant="default"
         size="icon"
@@ -90,7 +125,7 @@ export function PlaybackControls({ size = 'medium', className }: PlaybackControl
         )}
       </Button>
 
-      {/* Next */}
+      {/* Next Button - Skip to next track */}
       <Button
         variant="ghost"
         size="icon"
@@ -101,7 +136,7 @@ export function PlaybackControls({ size = 'medium', className }: PlaybackControl
         <SkipForward className={iconSize} />
       </Button>
 
-      {/* Repeat */}
+      {/* Repeat Button - Cycle through repeat modes (off → all → one) */}
       <Button
         variant="ghost"
         size="icon"
@@ -109,11 +144,13 @@ export function PlaybackControls({ size = 'medium', className }: PlaybackControl
         className={cn(
           buttonSize,
           'touch-manipulation transition-colors',
-          repeat !== 'off' && 'text-primary'
+          repeat !== 'off' && 'text-primary' // Highlight when active
         )}
-        aria-label="Repeat"
+        aria-label={`Repeat: ${repeat}`}
+        aria-pressed={repeat !== 'off'} // Accessibility: indicate toggle state
       >
         <Repeat className={iconSize} />
+        {/* TODO: Add visual indicator for 'one' vs 'all' mode */}
       </Button>
     </div>
   );
