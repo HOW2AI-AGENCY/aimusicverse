@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Loader2, Music2, CheckCircle2, XCircle, Radio, RefreshCw, Play, Pause } from 'lucide-react';
+import { Loader2, Music2, CheckCircle2, XCircle, Radio, RefreshCw, Play, Pause, ChevronDown, ChevronUp } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { AudioPlayer } from './AudioPlayer';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useGenerationRealtime } from '@/hooks/useGenerationRealtime';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface GenerationTask {
   id: string;
@@ -59,8 +60,11 @@ const fetchGenerationTasks = async (userId: string) => {
 export const GenerationProgress = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const isMobile = useIsMobile();
   const [checkingStatus, setCheckingStatus] = useState<string | null>(null);
   const [playingTrackId, setPlayingTrackId] = useState<string | null>(null);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [retryCount, setRetryCount] = useState<Record<string, number>>({});
 
   // Set up realtime updates for generation tasks
   useGenerationRealtime();
@@ -81,6 +85,7 @@ export const GenerationProgress = () => {
       case 'completed':
         return <CheckCircle2 className="w-4 h-4 text-green-500" />;
       case 'failed':
+      case 'timeout':
         return <XCircle className="w-4 h-4 text-destructive" />;
       default:
         return <Music2 className="w-4 h-4 text-muted-foreground" />;
@@ -99,6 +104,8 @@ export const GenerationProgress = () => {
         return 'Завершено';
       case 'failed':
         return 'Ошибка';
+      case 'timeout':
+        return 'Таймаут';
       default:
         return status;
     }
@@ -115,28 +122,47 @@ export const GenerationProgress = () => {
       case 'completed':
         return 100;
       case 'failed':
+      case 'timeout':
         return 0;
       default:
         return 0;
     }
   };
 
-  const handleCheckStatus = async (taskId: string) => {
+  const handleCheckStatus = async (taskId: string, useFallback = false) => {
     setCheckingStatus(taskId);
+    const currentRetries = retryCount[taskId] || 0;
     
     try {
-      console.log('Manually checking status for task:', taskId);
+      console.log(`Checking status for task: ${taskId}, retry: ${currentRetries}, useFallback: ${useFallback}`);
       
       const { data, error } = await supabase.functions.invoke('suno-check-status', {
-        body: { taskId },
+        body: { taskId, useFallback: useFallback || currentRetries >= 2 },
       });
 
       console.log('Check status response:', data);
 
       if (error) {
         console.error('Check status error:', error);
+        
+        // Increment retry count and try fallback if needed
+        const newRetries = currentRetries + 1;
+        setRetryCount(prev => ({ ...prev, [taskId]: newRetries }));
+        
+        if (newRetries < 3) {
+          toast.info('Повторная попытка...', {
+            description: `Попытка ${newRetries + 1} из 3`,
+          });
+          // Wait and retry with exponential backoff
+          await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, newRetries)));
+          return handleCheckStatus(taskId, newRetries >= 2);
+        }
+        
         throw error;
       }
+
+      // Reset retry count on success
+      setRetryCount(prev => ({ ...prev, [taskId]: 0 }));
 
       // Invalidate queries to refetch data
       await queryClient.invalidateQueries({ queryKey: ['generation_tasks', user?.id] });
@@ -149,12 +175,12 @@ export const GenerationProgress = () => {
         });
         
         // Trigger automatic audio analysis
-        if (data.track?.audio_url) {
+        if (data.track?.audioUrl) {
           console.log('Triggering automatic audio analysis for track:', data.track.id);
           supabase.functions.invoke('analyze-audio-flamingo', {
             body: {
               track_id: data.track.id,
-              audio_url: data.track.audio_url,
+              audio_url: data.track.audioUrl,
               analysis_type: 'auto',
             },
           }).then(({ data: analysisData, error: analysisError }) => {
@@ -182,6 +208,10 @@ export const GenerationProgress = () => {
       const errorMessage = error instanceof Error ? error.message : 'Не удалось проверить статус';
       toast.error('Ошибка проверки', {
         description: errorMessage,
+        action: {
+          label: 'Повторить',
+          onClick: () => handleCheckStatus(taskId, true),
+        },
       });
     } finally {
       setCheckingStatus(null);
@@ -193,37 +223,30 @@ export const GenerationProgress = () => {
   }
 
   const activeTasks = tasks.filter((t) => {
-    // Показываем только активные задачи
     const taskStatus = t.status;
     const trackStatus = t.tracks?.status;
+    const taskAge = Date.now() - new Date(t.created_at).getTime();
+    const fifteenMinutes = 15 * 60 * 1000;
+    const fiveMinutes = 5 * 60 * 1000;
     
-    // Задача completed но трек все еще processing - показываем с кнопкой refresh
+    // Task completed but track still processing - show with refresh button
     if (taskStatus === 'completed' && trackStatus === 'processing') {
       return true;
     }
     
-    // Не показываем полностью завершенные
+    // Don't show fully completed tasks
     if (taskStatus === 'completed' && trackStatus === 'completed') {
       return false;
     }
     
-    // Не показываем ошибочные старше 5 минут
+    // Show failed tasks for 5 minutes
     if (taskStatus === 'failed') {
-      const taskAge = Date.now() - new Date(t.created_at).getTime();
-      const fiveMinutes = 5 * 60 * 1000;
-      if (taskAge > fiveMinutes) {
-        return false;
-      }
-      return true;
+      return taskAge < fiveMinutes;
     }
     
-    // Не показываем задачи старше 15 минут в статусе processing
-    if (taskStatus === 'processing') {
-      const taskAge = Date.now() - new Date(t.created_at).getTime();
-      const fifteenMinutes = 15 * 60 * 1000;
-      if (taskAge > fifteenMinutes) {
-        return false;
-      }
+    // Mark old processing tasks as timeout but still show them
+    if (taskStatus === 'processing' && taskAge > fifteenMinutes) {
+      return true; // Show as timeout with retry option
     }
     
     return taskStatus === 'pending' || taskStatus === 'processing' || trackStatus === 'streaming_ready';
@@ -233,55 +256,106 @@ export const GenerationProgress = () => {
     return null;
   }
 
+  // Collapsed view for mobile
+  if (isMobile && isCollapsed && activeTasks.length > 0) {
+    return (
+      <div className="fixed bottom-20 left-4 right-4 z-50">
+        <Button
+          variant="default"
+          size="sm"
+          className="w-full gap-2 shadow-lg min-h-[44px]"
+          onClick={() => setIsCollapsed(false)}
+        >
+          <Loader2 className="w-4 h-4 animate-spin" />
+          <span>{activeTasks.length} генерация в процессе</span>
+          <ChevronUp className="w-4 h-4 ml-auto" />
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="fixed top-4 right-4 z-50 w-80 space-y-2 max-h-[80vh] overflow-y-auto">
+      <div className={cn(
+        "fixed z-50 space-y-2 max-h-[60vh] overflow-y-auto",
+        isMobile 
+          ? "bottom-20 left-2 right-2" 
+          : "top-4 right-4 w-80"
+      )}>
+        {/* Collapse button for mobile */}
+        {isMobile && activeTasks.length > 0 && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="w-full mb-1 h-8"
+            onClick={() => setIsCollapsed(true)}
+          >
+            <ChevronDown className="w-4 h-4 mr-2" />
+            Свернуть
+          </Button>
+        )}
+        
         {activeTasks.map((task) => {
           const taskStatus = task.status;
           const trackStatus = task.tracks?.status || task.status;
-          const displayStatus = trackStatus;
+          const taskAge = Date.now() - new Date(task.created_at).getTime();
+          const fifteenMinutes = 15 * 60 * 1000;
+          
+          // Determine display status
+          let displayStatus = trackStatus;
+          if (taskStatus === 'processing' && taskAge > fifteenMinutes) {
+            displayStatus = 'timeout';
+          }
+          
           const progress = getProgress(displayStatus);
 
           return (
             <Card
               key={task.id}
               className={cn(
-                'glass-card border-primary/20 p-4 animate-in slide-in-from-right',
-                displayStatus === 'failed' && 'border-destructive/20'
+                'glass-card border-primary/20 p-3 sm:p-4 animate-in slide-in-from-right',
+                displayStatus === 'failed' && 'border-destructive/20',
+                displayStatus === 'timeout' && 'border-yellow-500/20'
               )}
             >
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-2 sm:gap-3">
                 <div className="mt-0.5">{getStatusIcon(displayStatus)}</div>
                 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <p className="text-sm font-medium truncate">
+                    <p className="text-xs sm:text-sm font-medium truncate">
                       {task.tracks?.title || task.prompt.substring(0, 30)}
                     </p>
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-[10px] sm:text-xs shrink-0">
                       {task.model_used || 'V4'}
                     </Badge>
                   </div>
 
-                  <p className="text-xs text-muted-foreground mb-2">
+                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-2">
                     {getStatusText(displayStatus)}
                     {taskStatus === 'completed' && trackStatus === 'processing' && (
                       <span className="text-yellow-500 ml-1">
                         - синхронизация...
                       </span>
                     )}
+                    {displayStatus === 'timeout' && (
+                      <span className="text-yellow-500 ml-1">
+                        - превышено время ожидания
+                      </span>
+                    )}
                   </p>
 
-                  {displayStatus !== 'failed' && (
-                    <Progress value={progress} className="h-1.5" />
+                  {displayStatus !== 'failed' && displayStatus !== 'timeout' && (
+                    <Progress value={progress} className="h-1 sm:h-1.5" />
                   )}
 
-                  {/* Force refresh button for stuck tasks */}
-                  {(displayStatus === 'processing' || (taskStatus === 'completed' && trackStatus === 'processing')) && (
+                  {/* Refresh button for stuck/timeout tasks */}
+                  {(displayStatus === 'processing' || displayStatus === 'timeout' || 
+                    (taskStatus === 'completed' && trackStatus === 'processing')) && (
                     <Button
                       size="sm"
-                      variant="ghost"
-                      className="h-7 text-xs mt-2"
+                      variant={displayStatus === 'timeout' ? 'default' : 'ghost'}
+                      className="h-7 text-[10px] sm:text-xs mt-2 min-h-[44px] touch-manipulation"
                       onClick={() => handleCheckStatus(task.id)}
                       disabled={checkingStatus === task.id}
                     >
@@ -293,22 +367,22 @@ export const GenerationProgress = () => {
                       ) : (
                         <>
                           <RefreshCw className="w-3 h-3 mr-1" />
-                          Обновить
+                          {displayStatus === 'timeout' ? 'Проверить статус' : 'Обновить'}
                         </>
                       )}
                     </Button>
                   )}
 
-                  {/* Streaming ready - показываем аудиоплеер */}
+                  {/* Streaming ready - show audio player button */}
                   {displayStatus === 'streaming_ready' && task.tracks?.streaming_url && (
                     <div className="mt-2 space-y-1">
-                      <p className="text-xs text-primary">
+                      <p className="text-[10px] sm:text-xs text-primary">
                         ⚡ Можно начинать слушать
                       </p>
                       <Button
                         size="sm"
                         variant="outline"
-                        className="h-7 w-full text-xs gap-1"
+                        className="h-8 sm:h-7 w-full text-[10px] sm:text-xs gap-1 min-h-[44px] touch-manipulation"
                         onClick={() => setPlayingTrackId(
                           playingTrackId === task.tracks?.id ? null : task.tracks?.id || null
                         )}
@@ -340,7 +414,12 @@ export const GenerationProgress = () => {
         const track = task?.tracks;
         
         return track && (
-          <div className="fixed bottom-4 left-4 right-4 z-40 max-w-2xl mx-auto">
+          <div className={cn(
+            "fixed z-40",
+            isMobile 
+              ? "bottom-2 left-2 right-2" 
+              : "bottom-4 left-4 right-4 max-w-2xl mx-auto"
+          )}>
             <AudioPlayer
               trackId={track.id}
               title={track.title || 'Генерируется...'}
