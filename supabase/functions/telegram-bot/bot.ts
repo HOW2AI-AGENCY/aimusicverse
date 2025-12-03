@@ -8,6 +8,7 @@ import { sendMessage, parseCommand, answerCallbackQuery, editMessageText, type T
 import { BOT_CONFIG } from './config.ts';
 import { handleNavigationCallback } from './handlers/navigation.ts';
 import { handleMediaCallback } from './handlers/media.ts';
+import { logger, checkRateLimit } from './utils/index.ts';
 
 export async function handleUpdate(update: TelegramUpdate) {
   try {
@@ -20,6 +21,14 @@ export async function handleUpdate(update: TelegramUpdate) {
 
       const messageId = message?.message_id;
 
+      // Rate limiting
+      if (!checkRateLimit(from.id, 30, 60000)) {
+        await answerCallbackQuery(id, '⏳ Слишком много запросов. Подождите немного.');
+        return;
+      }
+
+      logger.info('callback_query', { userId: from.id, data, chatId });
+
       // New navigation handlers (реактивное обновление)
       if (data?.startsWith('nav_') || data?.startsWith('lib_page_') || data?.startsWith('project_page_')) {
         await handleNavigationCallback(data, chatId, from.id, messageId!, id);
@@ -31,6 +40,106 @@ export async function handleUpdate(update: TelegramUpdate) {
           data?.startsWith('share_') || data?.startsWith('like_') || 
           data?.startsWith('track_') || data?.startsWith('share_link_')) {
         await handleMediaCallback(data, chatId, messageId!, id);
+        return;
+      }
+
+      // Lyrics handler
+      if (data?.startsWith('lyrics_')) {
+        const trackId = data.replace('lyrics_', '');
+        const { handleLyrics } = await import('./commands/lyrics.ts');
+        await handleLyrics(chatId, trackId, messageId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      // Stats handler
+      if (data?.startsWith('stats_')) {
+        const trackId = data.replace('stats_', '');
+        const { handleTrackStats } = await import('./commands/stats.ts');
+        await handleTrackStats(chatId, trackId, messageId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      // Remix handlers
+      if (data?.startsWith('remix_')) {
+        const trackId = data.replace('remix_', '');
+        const { handleRemix } = await import('./commands/remix.ts');
+        await handleRemix(chatId, trackId, messageId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      if (data?.startsWith('add_vocals_')) {
+        const trackId = data.replace('add_vocals_', '');
+        const { handleAddVocals } = await import('./commands/remix.ts');
+        await handleAddVocals(chatId, from.id, trackId, messageId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      if (data?.startsWith('add_instrumental_')) {
+        const trackId = data.replace('add_instrumental_', '');
+        const { handleAddInstrumental } = await import('./commands/remix.ts');
+        await handleAddInstrumental(chatId, from.id, trackId, messageId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      // Studio handlers
+      if (data?.startsWith('studio_')) {
+        const trackId = data.replace('studio_', '');
+        const { handleStudio } = await import('./commands/studio.ts');
+        await handleStudio(chatId, trackId, messageId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      if (data?.startsWith('separate_stems_')) {
+        const trackId = data.replace('separate_stems_', '');
+        const { handleSeparateStems } = await import('./commands/studio.ts');
+        await handleSeparateStems(chatId, from.id, trackId, messageId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      if (data?.startsWith('download_stems_')) {
+        const trackId = data.replace('download_stems_', '');
+        const { handleDownloadStems } = await import('./commands/studio.ts');
+        await handleDownloadStems(chatId, trackId, messageId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      if (data?.startsWith('stem_mode_')) {
+        const [_, mode, trackId] = data.split('_').slice(1);
+        // TODO: Trigger stem separation with selected mode
+        await answerCallbackQuery(id, '🎛️ Запуск разделения...');
+        await sendMessage(chatId, `⏳ Запущено ${mode === 'simple' ? 'простое' : 'детальное'} разделение. Это может занять несколько минут.`);
+        return;
+      }
+
+      // Playlist handlers
+      if (data?.startsWith('add_playlist_')) {
+        const trackId = data.replace('add_playlist_', '');
+        const { handleAddToPlaylist } = await import('./commands/playlist.ts');
+        await handleAddToPlaylist(chatId, from.id, trackId, messageId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      if (data?.startsWith('playlist_add_')) {
+        const [playlistId, trackId] = data.replace('playlist_add_', '').split('_');
+        const { handlePlaylistAdd } = await import('./commands/playlist.ts');
+        await handlePlaylistAdd(chatId, playlistId, trackId, id);
+        return;
+      }
+
+      if (data?.startsWith('playlist_new_')) {
+        const trackId = data.replace('playlist_new_', '');
+        const { handlePlaylistNew } = await import('./commands/playlist.ts');
+        await handlePlaylistNew(chatId, trackId, messageId);
+        await answerCallbackQuery(id);
         return;
       }
 
@@ -124,6 +233,9 @@ export async function handleUpdate(update: TelegramUpdate) {
         } else {
           await handleSetEmojiStatus(chatId, from.id, emojiType, messageId);
         }
+      } else if (data && data.startsWith('notify_')) {
+        // Notification toggle - handled in settings
+        await answerCallbackQuery(id, '⚙️ Настройки сохранены');
       }
 
       await answerCallbackQuery(id);
@@ -135,6 +247,14 @@ export async function handleUpdate(update: TelegramUpdate) {
       const { chat, from, text } = update.message;
       
       if (!from || !text) return;
+
+      // Rate limiting for messages
+      if (!checkRateLimit(from.id, 20, 60000)) {
+        await sendMessage(chat.id, '⏳ Слишком много сообщений. Подождите немного.');
+        return;
+      }
+
+      logger.info('message', { userId: from.id, chatId: chat.id, text: text.substring(0, 50) });
 
       const cmd = parseCommand(text);
 
@@ -189,6 +309,28 @@ export async function handleUpdate(update: TelegramUpdate) {
           break;
         }
 
+        case 'lyrics': {
+          if (args) {
+            const trackId = args.trim();
+            const { handleLyrics } = await import('./commands/lyrics.ts');
+            await handleLyrics(chat.id, trackId);
+          } else {
+            await sendMessage(chat.id, '❌ Укажите ID трека: /lyrics <track_id>');
+          }
+          break;
+        }
+
+        case 'stats': {
+          if (args) {
+            const trackId = args.trim();
+            const { handleTrackStats } = await import('./commands/stats.ts');
+            await handleTrackStats(chat.id, trackId);
+          } else {
+            await sendMessage(chat.id, '❌ Укажите ID трека: /stats <track_id>');
+          }
+          break;
+        }
+
         default:
           await sendMessage(
             chat.id,
@@ -197,7 +339,7 @@ export async function handleUpdate(update: TelegramUpdate) {
       }
     }
   } catch (error) {
-    console.error('Error handling update:', error);
+    logger.error('handleUpdate', error);
     throw error;
   }
 }
