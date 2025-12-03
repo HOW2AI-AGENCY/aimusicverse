@@ -35,6 +35,7 @@ export interface Track {
   vocal_gender: string | null;
   style_weight: number | null;
   negative_tags: string | null;
+  active_version_id: string | null;
   // Computed fields
   likes_count: number;
   is_liked: boolean;

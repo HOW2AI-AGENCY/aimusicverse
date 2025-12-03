@@ -7,9 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { TrackActionsMenu } from './TrackActionsMenu';
 import { TrackActionsSheet } from './TrackActionsSheet';
-import { VersionBadge } from './library/VersionBadge';
+import { VersionPicker } from './library/VersionPicker';
 import { TrackTypeIcons } from './library/TrackTypeIcons';
-import { VersionSwitcher } from './library/VersionSwitcher';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -51,7 +50,6 @@ export const TrackCard = ({
   const [versionCount, setVersionCount] = useState<number>(0);
   const [stemCount, setStemCount] = useState<number>(0);
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [versionSwitcherOpen, setVersionSwitcherOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [swipeOffset, setSwipeOffset] = useState(0);
@@ -419,14 +417,11 @@ export const TrackCard = ({
         {/* Badges - Versions and Stems */}
         <div className="absolute top-2 right-2 flex gap-1">
           {versionCount > 0 && (
-            <VersionBadge
-              versionNumber={1}
-              versionCount={versionCount}
-              isMaster={true}
-              onClick={(e) => {
-                e?.stopPropagation();
-                triggerHapticFeedback('light');
-                setVersionSwitcherOpen(true);
+            <VersionPicker
+              trackId={track.id}
+              activeVersionId={(track as any).active_version_id}
+              onVersionChange={(version) => {
+                console.log('Version changed:', version.version_label);
               }}
             />
           )}
@@ -505,16 +500,6 @@ export const TrackCard = ({
       onDownload={onDownload}
     />
     
-    <VersionSwitcher
-      trackId={track.id}
-      open={versionSwitcherOpen}
-      onOpenChange={setVersionSwitcherOpen}
-      onVersionSelect={(versionId) => {
-        console.log('Selected version:', versionId);
-        // TODO: Implement version switching logic
-        toast.success('Версия выбрана');
-      }}
-    />
     </motion.div>
     
     {/* Delete Confirmation Dialog */}

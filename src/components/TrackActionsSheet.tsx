@@ -2,10 +2,11 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { Track } from '@/hooks/useTracksOptimized';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
 import { 
   Download, Share2, Info, Trash2, Eye, EyeOff, Send,
   Scissors, Wand2, ImagePlus, FileAudio, Music2, FileText, Layers,
-  Plus, Mic, Volume2, Music, Globe, Lock, ChevronDown
+  Plus, Mic, Volume2, Music, Globe, Lock, ChevronDown, GitBranch, Check, Star
 } from 'lucide-react';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { useState, useEffect } from 'react';
@@ -18,6 +19,7 @@ import { AddInstrumentalDialog } from './AddInstrumentalDialog';
 import { useNavigate } from 'react-router-dom';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { toast } from 'sonner';
+import { triggerHapticFeedback } from '@/lib/mobile-utils';
 
 interface TrackActionsSheetProps {
   track: Track | null;
@@ -43,6 +45,17 @@ export function TrackActionsSheet({
   const [stemCount, setStemCount] = useState(0);
   const [editOpen, setEditOpen] = useState(false);
   const [processOpen, setProcessOpen] = useState(false);
+  const [versionsOpen, setVersionsOpen] = useState(false);
+  const [versions, setVersions] = useState<Array<{
+    id: string;
+    version_label: string | null;
+    audio_url: string;
+    cover_url: string | null;
+    duration_seconds: number | null;
+    is_primary: boolean | null;
+  }>>([]);
+  const [activeVersionId, setActiveVersionId] = useState<string | null>(null);
+  const [isVersionSwitching, setIsVersionSwitching] = useState(false);
   
   const { 
     isProcessing, 
@@ -58,15 +71,59 @@ export function TrackActionsSheet({
   useEffect(() => {
     if (!track) return;
     
-    const fetchStemCount = async () => {
-      const { count } = await supabase
+    const fetchData = async () => {
+      // Fetch stem count
+      const { count: stemsCount } = await supabase
         .from('track_stems')
         .select('*', { count: 'exact', head: true })
         .eq('track_id', track.id);
-      setStemCount(count || 0);
+      setStemCount(stemsCount || 0);
+
+      // Fetch versions
+      const { data: versionsData } = await supabase
+        .from('track_versions')
+        .select('id, version_label, audio_url, cover_url, duration_seconds, is_primary')
+        .eq('track_id', track.id)
+        .order('clip_index', { ascending: true });
+      
+      setVersions(versionsData || []);
+      setActiveVersionId((track as any).active_version_id || versionsData?.[0]?.id || null);
     };
-    fetchStemCount();
+    
+    fetchData();
   }, [track?.id]);
+
+  const handleVersionSwitch = async (versionId: string) => {
+    if (!track || versionId === activeVersionId) return;
+    
+    triggerHapticFeedback('light');
+    setIsVersionSwitching(true);
+    
+    try {
+      const { error } = await supabase
+        .from('tracks')
+        .update({ active_version_id: versionId })
+        .eq('id', track.id);
+      
+      if (error) throw error;
+      
+      setActiveVersionId(versionId);
+      const version = versions.find(v => v.id === versionId);
+      toast.success(`Переключено на версию ${version?.version_label || 'A'}`);
+    } catch (error) {
+      console.error('Error switching version:', error);
+      toast.error('Ошибка переключения версии');
+    } finally {
+      setIsVersionSwitching(false);
+    }
+  };
+
+  const formatDuration = (seconds: number | null) => {
+    if (!seconds) return '';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const handleTranscribeMidi = () => {
     if (!track?.audio_url) return;
@@ -108,6 +165,60 @@ export function TrackActionsSheet({
           
           {/* T059 - Touch-friendly button spacing (minimum 44x44px) */}
           <div className="mt-6 space-y-1">
+            {/* Versions Section - Show if multiple versions exist */}
+            {versions.length > 1 && (
+              <>
+                <Collapsible open={versionsOpen} onOpenChange={setVersionsOpen}>
+                  <CollapsibleTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-between gap-3 h-12"
+                    >
+                      <div className="flex items-center gap-3">
+                        <GitBranch className="w-5 h-5" />
+                        <span>Версии</span>
+                        <Badge variant="secondary" className="ml-1">
+                          {versions.length}
+                        </Badge>
+                      </div>
+                      <ChevronDown className={`w-4 h-4 transition-transform ${versionsOpen ? 'rotate-180' : ''}`} />
+                    </Button>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pl-4 space-y-1">
+                    {versions.map((version) => (
+                      <Button
+                        key={version.id}
+                        variant={version.id === activeVersionId ? 'secondary' : 'ghost'}
+                        className="w-full justify-between gap-3 h-11"
+                        onClick={() => handleVersionSwitch(version.id)}
+                        disabled={isVersionSwitching}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">
+                            Версия {version.version_label || 'A'}
+                          </span>
+                          {version.duration_seconds && (
+                            <span className="text-xs text-muted-foreground">
+                              ({formatDuration(version.duration_seconds)})
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {version.is_primary && (
+                            <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
+                          )}
+                          {version.id === activeVersionId && (
+                            <Check className="w-4 h-4 text-primary" />
+                          )}
+                        </div>
+                      </Button>
+                    ))}
+                  </CollapsibleContent>
+                </Collapsible>
+                <Separator className="my-2" />
+              </>
+            )}
+
             {/* Info Section */}
             <Button
               variant="ghost"
