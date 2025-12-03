@@ -7,6 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { usePlayerStore } from '@/hooks/usePlayerState';
 import { formatDuration } from '@/lib/player-utils';
+import { supabase } from '@/integrations/supabase/client';
+import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 
 interface PublicTrackCardProps {
@@ -21,7 +24,10 @@ export function PublicTrackCard({
   className,
 }: PublicTrackCardProps) {
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
-  const [isLiked, setIsLiked] = useState(false);
+  const queryClient = useQueryClient();
+  const [isLiked, setIsLiked] = useState(track.user_liked || false);
+  const [likeCount, setLikeCount] = useState(track.like_count || 0);
+  const [isLiking, setIsLiking] = useState(false);
   const isCurrentTrack = activeTrack?.id === track.id;
   const isThisTrackPlaying = isCurrentTrack && isPlaying;
 
@@ -32,18 +38,58 @@ export function PublicTrackCard({
   // Only show artist if actually used (artist_name is set)
   const hasArtist = !!track.artist_name;
 
-  const handlePlayPause = (e: React.MouseEvent) => {
+  const handlePlayPause = async (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isThisTrackPlaying) {
       pauseTrack();
     } else {
+      // Increment play count
+      try {
+        await supabase.rpc('increment_track_play_count', { track_id_param: track.id });
+      } catch (err) {
+        console.error('Failed to increment play count:', err);
+      }
       playTrack(track as any);
     }
   };
 
-  const handleLike = (e: React.MouseEvent) => {
+  const handleLike = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsLiked(!isLiked);
+    if (isLiking) return;
+    
+    setIsLiking(true);
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      toast.error('Войдите, чтобы ставить лайки');
+      setIsLiking(false);
+      return;
+    }
+
+    try {
+      if (isLiked) {
+        await supabase
+          .from('track_likes')
+          .delete()
+          .eq('track_id', track.id)
+          .eq('user_id', user.id);
+        setIsLiked(false);
+        setLikeCount(prev => Math.max(0, prev - 1));
+      } else {
+        await supabase
+          .from('track_likes')
+          .insert({ track_id: track.id, user_id: user.id });
+        setIsLiked(true);
+        setLikeCount(prev => prev + 1);
+      }
+      // Invalidate queries to refresh data
+      queryClient.invalidateQueries({ queryKey: ['public-content'] });
+    } catch (error) {
+      console.error('Like error:', error);
+      toast.error('Ошибка при обновлении лайка');
+    } finally {
+      setIsLiking(false);
+    }
   };
 
   const handleShare = (e: React.MouseEvent) => {
@@ -137,8 +183,8 @@ export function PublicTrackCard({
               {track.play_count || 0}
             </span>
             <span className="flex items-center gap-0.5 sm:gap-1">
-              <Heart className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-              0
+              <Heart className={cn("h-2.5 w-2.5 sm:h-3 sm:w-3", isLiked && "fill-red-500 text-red-500")} />
+              {likeCount}
             </span>
           </div>
         </div>
@@ -153,6 +199,7 @@ export function PublicTrackCard({
               isLiked && 'text-red-500 hover:text-red-600'
             )}
             onClick={handleLike}
+            disabled={isLiking}
           >
             <Heart className={cn('h-3 w-3 sm:h-4 sm:w-4 mr-1', isLiked && 'fill-current')} />
             <span className="hidden sm:inline">Like</span>
