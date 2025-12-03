@@ -120,7 +120,7 @@ export async function sendPhoto(
 
 export async function sendAudio(
   chatId: number,
-  audioUrl: string,
+  audioSource: string, // URL or file_id
   options: {
     caption?: string;
     title?: string;
@@ -132,28 +132,68 @@ export async function sendAudio(
     };
   } = {}
 ) {
+  const formData = new FormData();
+  formData.append('chat_id', chatId.toString());
+  
+  // If it's a URL (starts with http), download and send as blob for proper filename
+  // If it's a file_id, send as string
+  if (audioSource.startsWith('http')) {
+    try {
+      console.log('Downloading audio from URL for proper metadata...');
+      const audioResponse = await fetch(audioSource);
+      if (audioResponse.ok) {
+        const audioBlob = await audioResponse.blob();
+        const filename = options.title ? `${options.title}.mp3` : 'track.mp3';
+        formData.append('audio', audioBlob, filename);
+      } else {
+        // Fallback to URL if download fails
+        formData.append('audio', audioSource);
+      }
+    } catch (e) {
+      console.warn('Failed to download audio, using URL:', e);
+      formData.append('audio', audioSource);
+    }
+  } else {
+    // file_id - send as string
+    formData.append('audio', audioSource);
+  }
+  
+  if (options.title) formData.append('title', options.title);
+  if (options.performer) formData.append('performer', options.performer);
+  if (options.duration) formData.append('duration', options.duration.toString());
+  if (options.caption) formData.append('caption', options.caption);
+  formData.append('parse_mode', 'Markdown');
+  
+  // Download and attach thumbnail
+  if (options.thumbnail && options.thumbnail.startsWith('http')) {
+    try {
+      const thumbResponse = await fetch(options.thumbnail);
+      if (thumbResponse.ok) {
+        const thumbBlob = await thumbResponse.blob();
+        formData.append('thumbnail', thumbBlob, 'cover.jpg');
+      }
+    } catch (e) {
+      console.warn('Failed to attach thumbnail:', e);
+    }
+  }
+  
+  if (options.replyMarkup) {
+    formData.append('reply_markup', JSON.stringify(options.replyMarkup));
+  }
+  
   const response = await fetch(`${TELEGRAM_API}/sendAudio`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: chatId,
-      audio: audioUrl,
-      caption: options.caption,
-      title: options.title,
-      performer: options.performer,
-      duration: options.duration,
-      thumbnail: options.thumbnail,
-      parse_mode: 'Markdown',
-      reply_markup: options.replyMarkup,
-    }),
+    body: formData,
   });
 
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Telegram API error: ${error}`);
+  const result = await response.json();
+  
+  if (!result.ok) {
+    console.error('sendAudio error:', result);
+    throw new Error(`Telegram API error: ${JSON.stringify(result)}`);
   }
 
-  return response.json();
+  return result;
 }
 
 export async function editMessageText(
@@ -274,7 +314,7 @@ export async function setWebhook(url: string) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       url,
-      allowed_updates: ['message', 'callback_query'],
+      allowed_updates: ['message', 'callback_query', 'inline_query'],
       drop_pending_updates: true,
     }),
   });

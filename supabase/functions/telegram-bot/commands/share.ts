@@ -104,35 +104,54 @@ export async function handleSendTrackToChat(chatId: number, userId: number, trac
   }
 }
 
+// Escape special characters for Telegram Markdown
+function escapeMarkdown(text: string): string {
+  return text.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
+}
+
 function buildTrackCaption(track: any, performer: string, deepLink: string): string {
   const lines: string[] = [];
   
-  lines.push(`🎵 *${track.title || 'Новый трек'}*`);
-  lines.push(`👤 ${performer}`);
+  // Title with emoji
+  const title = track.title || 'Новый трек';
+  lines.push(`🎵 *${escapeMarkdown(title)}*`);
   
-  if (track.style) {
-    const firstStyle = track.style.split(',')[0].trim();
-    lines.push(`🎸 ${firstStyle}`);
+  // Performer - @ usernames are already clickable
+  if (performer.startsWith('@')) {
+    lines.push(`👤 ${performer}`);
+  } else {
+    lines.push(`👤 _${escapeMarkdown(performer)}_`);
   }
   
+  // Style
+  if (track.style) {
+    const firstStyle = track.style.split(',')[0].trim();
+    lines.push(`🎸 ${escapeMarkdown(firstStyle)}`);
+  }
+  
+  // Duration
   if (track.duration_seconds) {
     const mins = Math.floor(track.duration_seconds / 60);
     const secs = Math.floor(track.duration_seconds % 60);
     lines.push(`⏱️ ${mins}:${String(secs).padStart(2, '0')}`);
   }
   
-  // Add hashtags from tags
+  // Hashtags - replace spaces with underscores, lowercase
   if (track.tags) {
     const hashtags = track.tags
       .split(',')
       .slice(0, 3)
-      .map((t: string) => `#${t.trim().replace(/\s+/g, '_')}`)
+      .map((t: string) => `#${t.trim().replace(/\s+/g, '_').toLowerCase()}`)
       .join(' ');
     lines.push(`\n🏷️ ${hashtags}`);
   }
   
+  // Bot link with @ for clickability
   lines.push('');
-  lines.push(`🔗 ${deepLink}`);
+  lines.push(`✨ _Создано в_ @AIMusicVerseBot ✨`);
+  
+  // Deep link
+  lines.push(`\n🔗 [Открыть трек](${deepLink})`);
   
   return lines.join('\n');
 }
