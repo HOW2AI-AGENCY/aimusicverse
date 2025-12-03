@@ -132,20 +132,22 @@ export const TrackCard = ({
   const trackIcon = getTrackIcon();
 
   const handleCardClick = (e: React.MouseEvent) => {
-    // Don't trigger if clicking on buttons or the cover
+    // Don't trigger if clicking on buttons or interactive elements
     const target = e.target as HTMLElement;
     if (
       target.closest('button') || 
       target.closest('[data-play-button]') ||
-      target.closest('img')
+      target.closest('[role="menuitem"]') ||
+      target.closest('[data-radix-collection-item]')
     ) {
       return;
     }
     
+    // Open actions sheet on both mobile and desktop
     if (isMobile) {
       triggerHapticFeedback('light');
-      setSheetOpen(true);
     }
+    setSheetOpen(true);
   };
 
   // Swipe gesture handlers for like/delete actions

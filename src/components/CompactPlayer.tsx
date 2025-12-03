@@ -136,7 +136,7 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
           </div>
         </div>
 
-        {/* Waveform with click to seek */}
+        {/* Waveform / Progress Bar */}
         <div className="mb-2 sm:mb-3">
           {lyricsData?.waveformData && lyricsData.waveformData.length > 0 ? (
             <AudioWaveform
@@ -146,9 +146,9 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
               onSeek={seek}
             />
           ) : (
-            // Simple progress bar fallback
+            // Unified minimal progress bar - no random visuals
             <div 
-              className="h-16 sm:h-20 bg-muted/20 rounded relative cursor-pointer overflow-hidden"
+              className="h-16 sm:h-20 bg-muted/10 rounded-lg relative cursor-pointer overflow-hidden group"
               onClick={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 const x = e.clientX - rect.left;
@@ -156,24 +156,23 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
                 seek(percent * duration);
               }}
             >
+              {/* Background gradient */}
+              <div className="absolute inset-0 bg-gradient-to-r from-muted/20 via-muted/10 to-muted/20" />
+              
+              {/* Progress fill */}
               <div 
-                className="absolute inset-y-0 left-0 bg-primary/30 transition-all"
+                className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary/40 to-primary/20 transition-all duration-100"
                 style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
               />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="flex gap-0.5 items-end h-8">
-                  {Array.from({ length: 40 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className={cn(
-                        "w-1 rounded-full transition-colors",
-                        i / 40 < currentTime / duration ? "bg-primary" : "bg-muted-foreground/30"
-                      )}
-                      style={{ height: `${20 + Math.sin(i * 0.5) * 15 + Math.random() * 10}px` }}
-                    />
-                  ))}
-                </div>
-              </div>
+              
+              {/* Center indicator line */}
+              <div 
+                className="absolute top-0 bottom-0 w-0.5 bg-primary shadow-lg shadow-primary/50 transition-all duration-100"
+                style={{ left: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
+              />
+              
+              {/* Hover effect */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-t from-primary/10 to-transparent" />
             </div>
           )}
         </div>

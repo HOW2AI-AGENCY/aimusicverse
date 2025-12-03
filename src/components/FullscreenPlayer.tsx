@@ -15,6 +15,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { PlaybackControls } from '@/components/player/PlaybackControls';
 import { ProgressBar } from '@/components/player/ProgressBar';
 import { QueueSheet } from '@/components/player/QueueSheet';
+import { MobileFullscreenPlayer } from '@/components/player/MobileFullscreenPlayer';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { hapticImpact } from '@/lib/haptic';
 
 interface AlignedWord {
@@ -40,6 +42,7 @@ interface FullscreenPlayerProps {
 }
 
 export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPlayerProps) {
+  const isMobile = useIsMobile();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [volume, setVolume] = useState(1);
   const [muted, setMuted] = useState(false);
@@ -49,6 +52,11 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
   );
   const { toggleLike, downloadTrack } = useTracks();
   const { handleShare } = useTrackActions();
+
+  // Use mobile-specific player on mobile devices
+  if (isMobile) {
+    return <MobileFullscreenPlayer track={track} onClose={onClose} />;
+  }
 
   const selectedVersion = versions.find(v => v.id === selectedVersionId);
   const audioUrl = selectedVersion?.audio_url || track.audio_url;
