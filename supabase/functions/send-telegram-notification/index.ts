@@ -34,9 +34,15 @@ interface NotificationSettings {
   quiet_hours_end: string | null;
 }
 
-async function sendTelegramMessage(chatId: number, text: string, replyMarkup?: unknown) {
+async function sendTelegramMessage(chatId: number, text: string, replyMarkup?: unknown): Promise<{ ok: boolean; skipped?: boolean; reason?: string; result?: any }> {
   const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
   if (!botToken) throw new Error('TELEGRAM_BOT_TOKEN not configured');
+
+  // Validate chat_id
+  if (!chatId || chatId <= 0) {
+    console.warn('Invalid chat_id:', chatId);
+    return { ok: false, skipped: true, reason: 'invalid_chat_id' };
+  }
 
   const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
     method: 'POST',
@@ -49,12 +55,20 @@ async function sendTelegramMessage(chatId: number, text: string, replyMarkup?: u
     }),
   });
 
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Telegram API error: ${error}`);
+  const result = await response.json();
+  
+  // Handle "chat not found" gracefully - user may have blocked bot or never started conversation
+  if (!result.ok) {
+    const errorDesc = result.description || '';
+    if (errorDesc.includes('chat not found') || errorDesc.includes('bot was blocked') || errorDesc.includes('user is deactivated')) {
+      console.warn(`Chat unavailable (${chatId}): ${errorDesc}`);
+      return { ok: false, skipped: true, reason: 'chat_unavailable' };
+    }
+    console.error('Telegram API error:', result);
+    throw new Error(`Telegram API error: ${JSON.stringify(result)}`);
   }
 
-  return response.json();
+  return { ok: true, result };
 }
 
 async function sendTelegramAudio(
@@ -68,9 +82,15 @@ async function sendTelegramAudio(
     coverUrl?: string;
     replyMarkup?: unknown;
   }
-) {
+): Promise<{ ok: boolean; skipped?: boolean; reason?: string; result?: any }> {
   const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
   if (!botToken) throw new Error('TELEGRAM_BOT_TOKEN not configured');
+
+  // Validate chat_id
+  if (!chatId || chatId <= 0) {
+    console.warn('Invalid chat_id for audio:', chatId);
+    return { ok: false, skipped: true, reason: 'invalid_chat_id' };
+  }
 
   let thumbBlob: Blob | null = null;
   if (options.coverUrl) {
@@ -100,12 +120,20 @@ async function sendTelegramAudio(
     body: formData,
   });
 
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Telegram API error: ${error}`);
+  const result = await response.json();
+  
+  // Handle "chat not found" gracefully
+  if (!result.ok) {
+    const errorDesc = result.description || '';
+    if (errorDesc.includes('chat not found') || errorDesc.includes('bot was blocked') || errorDesc.includes('user is deactivated')) {
+      console.warn(`Chat unavailable for audio (${chatId}): ${errorDesc}`);
+      return { ok: false, skipped: true, reason: 'chat_unavailable' };
+    }
+    console.error('Telegram API error for audio:', result);
+    throw new Error(`Telegram API error: ${JSON.stringify(result)}`);
   }
 
-  return response.json();
+  return { ok: true, result };
 }
 
 /**
