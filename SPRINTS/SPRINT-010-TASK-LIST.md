@@ -8,9 +8,9 @@
 
 ## 📊 Прогресс спринта
 
-**Общий прогресс**: 0% (0/25 задач)
+**Общий прогресс**: 0% (0/37 задач)
 
-- ⏳ **Запланировано**: 25 задач
+- ⏳ **Запланировано**: 37 задач (25 основных + 12 инфраструктурных)
 - 🔄 **В работе**: 0 задач
 - ✅ **Завершено**: 0 задач
 
@@ -47,11 +47,34 @@
 
 ## 📋 Задачи по Чек-листу
 
+### Phase 0: Infrastructure Prerequisites (CRITICAL - BLOCKING) ⚠️
+
+**⚠️ ВНИМАНИЕ**: Эти задачи критичны и блокируют все последующие фичи, использующие медиа-хранилище.
+
+**Estimated**: 12 SP | **Duration**: 2-3 дня | **Priority**: P0 (Highest)
+
+- [ ] INF-010-001 [P] ✅ Create storage buckets migration (tracks, covers, stems, uploads, avatars, banners, temp) - `20251203020000_create_storage_buckets.sql`
+- [ ] INF-010-002 [P] ✅ Create storage management tables (storage_usage, file_registry) - `20251203020001_create_storage_management.sql`
+- [ ] INF-010-003 [P] ✅ Create CDN integration tables (cdn_assets, media_processing_queue, asset_optimization_settings) - `20251203020002_create_cdn_media_cache.sql`
+- [ ] INF-010-004 [P] ✅ Create storage lifecycle management (cleanup, quotas, validation) - `20251203020003_create_storage_lifecycle.sql`
+- [ ] INF-010-005 [P] Apply migrations to Supabase (run all 4 migration files)
+- [ ] INF-010-006 [P] Test storage bucket upload/download with RLS policies
+- [ ] INF-010-007 [P] Create helper functions in src/lib/storage.ts (uploadFile, deleteFile, getFileUrl)
+- [ ] INF-010-008 [P] Create helper functions in src/lib/cdn.ts (getCDNUrl, getOptimizedImageUrl)
+- [ ] INF-010-009 Setup CDN provider account (Cloudflare Images or Bunny CDN)
+- [ ] INF-010-010 [P] Configure CDN environment variables in .env
+- [ ] INF-010-011 [P] Update track upload flow to use new storage system (tracks bucket)
+- [ ] INF-010-012 [P] Update cover upload to use covers bucket with automatic optimization
+
+**Checkpoint**: Storage infrastructure должна быть полностью функциональной перед началом Phase 1
+
+---
+
 ### Phase 1: Setup (Shared Infrastructure)
 
 - [ ] T001 Create project structure for homepage and AI assistant features
-- [ ] T002 [P] Setup database schema for public content (is_public, is_featured, likes_count, plays_count) in supabase/migrations/
-- [ ] T003 [P] Setup database schema for AI assistant (prompt_suggestions table) in supabase/migrations/
+- [ ] T002 [P] Setup database schema for public content (is_public, is_featured, likes_count, plays_count) - ✅ Already in migration 20251202155000
+- [ ] T003 [P] Setup database schema for AI assistant (prompt_suggestions table) - ✅ Already in migration 20251202155001
 
 ---
 
