@@ -13,7 +13,7 @@ const navItems = [
 ];
 
 const bottomNavItems = [
-  { path: '/actors', label: 'Актёры', icon: Users },
+  { path: '/actors', label: 'Артисты', icon: Users },
   { path: '/settings', label: 'Настройки', icon: Settings },
 ];
 

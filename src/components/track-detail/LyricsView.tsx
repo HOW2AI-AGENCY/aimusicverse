@@ -75,10 +75,10 @@ export function LyricsView({ lyrics, currentTime = 0, onSeek, isLoading = false 
       
       await navigator.clipboard.writeText(textToCopy || '');
       setCopied(true);
-      toast.success('Lyrics copied to clipboard');
+      toast.success('Текст скопирован в буфер обмена');
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
-      toast.error('Failed to copy lyrics');
+      toast.error('Не удалось скопировать текст');
     }
   };
 
@@ -94,10 +94,10 @@ export function LyricsView({ lyrics, currentTime = 0, onSeek, isLoading = false 
     return (
       <div className="flex flex-col items-center justify-center h-64 text-center p-4">
         <p className="text-muted-foreground text-lg mb-2">
-          No lyrics available
+          Текст песни недоступен
         </p>
         <p className="text-muted-foreground text-sm">
-          Lyrics will appear here once they are generated
+          Текст появится здесь после генерации
         </p>
       </div>
     );
@@ -113,15 +113,15 @@ export function LyricsView({ lyrics, currentTime = 0, onSeek, isLoading = false 
           onClick={handleCopy}
           className="gap-2"
         >
-          {copied ? (
+        {copied ? (
             <>
               <Check className="h-4 w-4" />
-              Copied!
+              Скопировано!
             </>
           ) : (
             <>
               <Copy className="h-4 w-4" />
-              Copy Lyrics
+              Копировать
             </>
           )}
         </Button>

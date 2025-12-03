@@ -14,7 +14,7 @@ export function PublicArtistsSection() {
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-base sm:text-lg font-semibold flex items-center gap-2">
             <Users className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
-            AI Актёры
+            AI Артисты
           </h2>
         </div>
         <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4">
@@ -35,7 +35,7 @@ export function PublicArtistsSection() {
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-base sm:text-lg font-semibold text-foreground flex items-center gap-2">
           <Users className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
-          AI Актёры
+          AI Артисты
         </h2>
         <Button
           variant="ghost"

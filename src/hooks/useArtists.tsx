@@ -14,6 +14,7 @@ export interface Artist {
   genre_tags: string[] | null;
   mood_tags: string[] | null;
   is_ai_generated: boolean;
+  is_public: boolean | null;
   suno_persona_id: string | null;
   metadata: any | null;
   created_at: string;
@@ -58,6 +59,7 @@ export const useArtists = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['artists', user?.id] });
+      queryClient.invalidateQueries({ queryKey: ['public-artists'] });
       toast.success('Артист создан успешно');
     },
     onError: (error: any) => {
