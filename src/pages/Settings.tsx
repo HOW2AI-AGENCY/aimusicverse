@@ -87,7 +87,10 @@ export default function Profile() {
         .limit(10);
 
       if (error) throw error;
-      setActivities(data || []);
+      setActivities((data || []).map(item => ({
+        ...item,
+        action_data: item.action_data as Record<string, unknown> | null
+      })));
     } catch (error) {
       console.error("Error loading activities:", error);
     }

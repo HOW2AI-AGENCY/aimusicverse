@@ -309,10 +309,8 @@ export function triggerHapticFeedback(type: HapticFeedbackType = 'light'): boole
   if (typeof window === 'undefined') return false;
 
   // Check if Telegram WebApp is available
-  // @ts-expect-error - Telegram WebApp may not be in types
-  if (window.Telegram?.WebApp?.HapticFeedback) {
-    // @ts-expect-error - Telegram WebApp may not be in types
-    const haptic = window.Telegram.WebApp.HapticFeedback;
+  if ((window as any).Telegram?.WebApp?.HapticFeedback) {
+    const haptic = (window as any).Telegram.WebApp.HapticFeedback;
     
     switch (type) {
       case 'light':
