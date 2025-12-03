@@ -21,7 +21,7 @@ import { LyricsDialog } from './LyricsDialog';
 import { TrackDetailDialog } from './TrackDetailDialog';
 import { AddVocalsDialog } from './AddVocalsDialog';
 import { AddInstrumentalDialog } from './AddInstrumentalDialog';
-import { CreatePersonaDialog } from './track-menu/CreatePersonaDialog';
+import { CreateArtistDialog } from './CreateArtistDialog';
 import { AddToProjectDialog } from './track-menu/AddToProjectDialog';
 import { ShareTrackDialog } from './track-menu/ShareTrackDialog';
 import { PlaylistSelector } from './track-menu/PlaylistSelector';
@@ -46,7 +46,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
   const [addVocalsDialogOpen, setAddVocalsDialogOpen] = useState(false);
   const [addInstrumentalDialogOpen, setAddInstrumentalDialogOpen] = useState(false);
-  const [createPersonaDialogOpen, setCreatePersonaDialogOpen] = useState(false);
+  const [createArtistDialogOpen, setCreateArtistDialogOpen] = useState(false);
   const [addToProjectDialogOpen, setAddToProjectDialogOpen] = useState(false);
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [playlistSelectorOpen, setPlaylistSelectorOpen] = useState(false);
@@ -270,9 +270,9 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                 Добавить в плейлист
               </DropdownMenuItem>
 
-              <DropdownMenuItem onClick={() => setCreatePersonaDialogOpen(true)}>
+              <DropdownMenuItem onClick={() => setCreateArtistDialogOpen(true)}>
                 <Sparkles className="w-4 h-4 mr-2" />
-                Создать персону
+                Создать артиста
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />
@@ -357,10 +357,15 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
         track={track}
       />
 
-      <CreatePersonaDialog
-        open={createPersonaDialogOpen}
-        onOpenChange={setCreatePersonaDialogOpen}
-        track={track}
+      <CreateArtistDialog
+        open={createArtistDialogOpen}
+        onOpenChange={setCreateArtistDialogOpen}
+        fromTrack={{
+          title: track.title,
+          style: track.style,
+          tags: track.tags,
+          cover_url: track.cover_url,
+        }}
       />
 
       <AddToProjectDialog
