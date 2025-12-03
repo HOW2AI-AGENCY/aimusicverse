@@ -208,12 +208,12 @@ export const TrackCard = ({
     return (
       <>
         <Card
-          className="group grid grid-cols-[auto,1fr,auto] items-center gap-3 sm:gap-4 p-2 sm:p-3 transition-all hover:bg-muted/50 active:bg-muted touch-manipulation"
+          className="group grid grid-cols-[auto,1fr,auto] items-center gap-3 p-2 sm:p-3 transition-all hover:bg-muted/50 active:bg-muted touch-manipulation rounded-lg"
           onClick={handleCardClick}
           {...(isMobile ? touchHandlers : {})}
         >
           {/* Cover Image & Play Button */}
-          <div className="relative w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 rounded-md overflow-hidden" data-play-button>
+          <div className="relative w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-md overflow-hidden" data-play-button>
             <img
               src={track.cover_url || ''}
               alt={track.title || 'Track cover'}
@@ -221,50 +221,65 @@ export const TrackCard = ({
               onError={(e) => (e.currentTarget.src = 'https://placehold.co/128x128/1a1a1a/ffffff?text=🎵')}
             />
             <div
-              className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+              className={cn(
+                "absolute inset-0 bg-black/50 flex items-center justify-center cursor-pointer transition-opacity",
+                isPlaying ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              )}
               onClick={(e) => { 
                 e.stopPropagation(); 
                 triggerHapticFeedback('medium');
                 onPlay?.(); 
               }}
             >
-              <Button size="icon" variant="ghost" className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full text-white touch-manipulation">
-                {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+              <Button size="icon" variant="ghost" className="w-10 h-10 rounded-full text-white touch-manipulation">
+                {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
               </Button>
             </div>
           </div>
 
           {/* Track Info */}
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-base truncate">{track.title || 'Без названия'}</h3>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground truncate">
-              {track.artist_name && (
-                <>
-                  <Avatar className="w-5 h-5">
-                    <AvatarImage src={track.artist_avatar_url || ''} />
-                    <AvatarFallback>{track.artist_name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <span>{track.artist_name}</span>
-                </>
+            <div className="flex items-center gap-2">
+              <h3 className="font-medium text-sm sm:text-base truncate">{track.title || 'Без названия'}</h3>
+              {/* Version Badge - only show if more than 1 version */}
+              {versionCount > 1 && (
+                <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-5 font-medium flex-shrink-0">
+                  <Layers className="h-2.5 w-2.5 mr-0.5" />
+                  {versionCount}
+                </Badge>
               )}
+            </div>
+            <div className="flex items-center gap-2 mt-0.5">
+              <span className="text-xs text-muted-foreground truncate">
+                {track.style || track.artist_name || 'Unknown'}
+              </span>
+              {/* Type Icons */}
+              <TrackTypeIcons track={track} compact />
             </div>
           </div>
 
-          {/* Actions & Stats */}
-          <div className="flex items-center gap-2 sm:gap-4">
-            <div className="hidden sm:flex items-center gap-4 text-sm text-muted-foreground">
-              <span className="flex items-center gap-1.5">
-                <Heart className="w-4 h-4" /> {track.likes_count || 0}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Play className="w-4 h-4" /> {track.play_count || 0}
-              </span>
-            </div>
+          {/* Actions */}
+          <div className="flex items-center gap-1">
+            <Button
+              size="icon"
+              variant={isPlaying ? "default" : "ghost"}
+              className={cn(
+                "w-10 h-10 rounded-full touch-manipulation transition-colors",
+                isPlaying && "bg-primary text-primary-foreground"
+              )}
+              onClick={(e) => { 
+                e.stopPropagation(); 
+                triggerHapticFeedback('medium');
+                onPlay?.(); 
+              }}
+            >
+              {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
+            </Button>
             {isMobile ? (
               <Button
                 size="icon"
                 variant="ghost"
-                className="w-11 h-11 min-w-[44px] min-h-[44px] touch-manipulation active:scale-95 transition-transform"
+                className="w-10 h-10 touch-manipulation"
                 onClick={(e) => { 
                   e.stopPropagation(); 
                   triggerHapticFeedback('light');

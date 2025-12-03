@@ -1,4 +1,4 @@
-import { Music, Guitar, Sliders } from 'lucide-react';
+import { Mic2, Guitar, Layers } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -6,13 +6,15 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { Track } from '@/hooks/useTracksOptimized';
+import { cn } from '@/lib/utils';
 
 interface TrackTypeIconsProps {
   track: Track;
+  compact?: boolean;
 }
 
-export function TrackTypeIcons({ track }: TrackTypeIconsProps) {
-  const hasVocals = track.has_vocals;
+export function TrackTypeIcons({ track, compact = false }: TrackTypeIconsProps) {
+  const hasVocals = track.has_vocals === true;
   // is_instrumental derived from has_vocals if not explicitly set
   const isInstrumental = track.is_instrumental === true || (track.is_instrumental == null && track.has_vocals === false);
   const hasStems = track.has_stems === true;
@@ -21,18 +23,20 @@ export function TrackTypeIcons({ track }: TrackTypeIconsProps) {
     return null;
   }
 
+  const iconSize = compact ? "w-3 h-3" : "w-3.5 h-3.5";
+
   return (
-    <TooltipProvider>
-      <div className="flex gap-1">
+    <TooltipProvider delayDuration={300}>
+      <div className="flex items-center gap-0.5">
         {hasVocals && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="cursor-help">
-                <Music className="w-4 h-4 text-blue-500" />
+              <div className="cursor-help p-0.5 rounded bg-blue-500/10">
+                <Mic2 className={cn(iconSize, "text-blue-500")} />
               </div>
             </TooltipTrigger>
-            <TooltipContent>
-              <p>Has vocals</p>
+            <TooltipContent side="top" className="text-xs">
+              <p>Вокал</p>
             </TooltipContent>
           </Tooltip>
         )}
@@ -40,12 +44,12 @@ export function TrackTypeIcons({ track }: TrackTypeIconsProps) {
         {isInstrumental && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="cursor-help">
-                <Guitar className="w-4 h-4 text-green-500" />
+              <div className="cursor-help p-0.5 rounded bg-green-500/10">
+                <Guitar className={cn(iconSize, "text-green-500")} />
               </div>
             </TooltipTrigger>
-            <TooltipContent>
-              <p>Instrumental</p>
+            <TooltipContent side="top" className="text-xs">
+              <p>Инструментал</p>
             </TooltipContent>
           </Tooltip>
         )}
@@ -53,12 +57,12 @@ export function TrackTypeIcons({ track }: TrackTypeIconsProps) {
         {hasStems && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="cursor-help">
-                <Sliders className="w-4 h-4 text-purple-500" />
+              <div className="cursor-help p-0.5 rounded bg-purple-500/10">
+                <Layers className={cn(iconSize, "text-purple-500")} />
               </div>
             </TooltipTrigger>
-            <TooltipContent>
-              <p>Stems available</p>
+            <TooltipContent side="top" className="text-xs">
+              <p>Стемы</p>
             </TooltipContent>
           </Tooltip>
         )}
