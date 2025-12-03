@@ -1040,58 +1040,6 @@ export type Database = {
           },
         ]
       }
-      track_changelog: {
-        Row: {
-          change_data: Json
-          change_type: string
-          created_at: string | null
-          id: string
-          track_id: string
-          user_id: string
-          version_id: string | null
-        }
-        Insert: {
-          change_data?: Json
-          change_type: string
-          created_at?: string | null
-          id?: string
-          track_id: string
-          user_id: string
-          version_id?: string | null
-        }
-        Update: {
-          change_data?: Json
-          change_type?: string
-          created_at?: string | null
-          id?: string
-          track_id?: string
-          user_id?: string
-          version_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "track_changelog_track_id_fkey"
-            columns: ["track_id"]
-            isOneToOne: false
-            referencedRelation: "tracks"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "track_changelog_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "track_changelog_version_id_fkey"
-            columns: ["version_id"]
-            isOneToOne: false
-            referencedRelation: "track_versions"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       track_likes: {
         Row: {
           created_at: string
@@ -1173,12 +1121,10 @@ export type Database = {
           created_at: string | null
           duration_seconds: number | null
           id: string
-          is_master: boolean
           is_primary: boolean | null
           metadata: Json | null
           parent_version_id: string | null
           track_id: string
-          version_number: number
           version_type: string | null
         }
         Insert: {
@@ -1187,12 +1133,10 @@ export type Database = {
           created_at?: string | null
           duration_seconds?: number | null
           id?: string
-          is_master?: boolean
           is_primary?: boolean | null
           metadata?: Json | null
           parent_version_id?: string | null
           track_id: string
-          version_number?: number
           version_type?: string | null
         }
         Update: {
@@ -1201,12 +1145,10 @@ export type Database = {
           created_at?: string | null
           duration_seconds?: number | null
           id?: string
-          is_master?: boolean
           is_primary?: boolean | null
           metadata?: Json | null
           parent_version_id?: string | null
           track_id?: string
-          version_number?: number
           version_type?: string | null
         }
         Relationships: [
@@ -1240,7 +1182,6 @@ export type Database = {
           local_audio_url: string | null
           local_cover_url: string | null
           lyrics: string | null
-          master_version_id: string | null
           model_name: string | null
           negative_tags: string | null
           play_count: number | null
@@ -1273,7 +1214,6 @@ export type Database = {
           local_audio_url?: string | null
           local_cover_url?: string | null
           lyrics?: string | null
-          master_version_id?: string | null
           model_name?: string | null
           negative_tags?: string | null
           play_count?: number | null
@@ -1306,7 +1246,6 @@ export type Database = {
           local_audio_url?: string | null
           local_cover_url?: string | null
           lyrics?: string | null
-          master_version_id?: string | null
           model_name?: string | null
           negative_tags?: string | null
           play_count?: number | null
@@ -1461,86 +1400,6 @@ export type Database = {
             columns: ["tag_id"]
             isOneToOne: false
             referencedRelation: "suno_meta_tags"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      playlists: {
-        Row: {
-          cover_url: string | null
-          created_at: string | null
-          description: string | null
-          id: string
-          is_public: boolean
-          title: string
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          cover_url?: string | null
-          created_at?: string | null
-          description?: string | null
-          id?: string
-          is_public?: boolean
-          title: string
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          cover_url?: string | null
-          created_at?: string | null
-          description?: string | null
-          id?: string
-          is_public?: boolean
-          title?: string
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "playlists_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      playlist_tracks: {
-        Row: {
-          added_at: string | null
-          id: string
-          playlist_id: string
-          position: number
-          track_id: string
-        }
-        Insert: {
-          added_at?: string | null
-          id?: string
-          playlist_id: string
-          position: number
-          track_id: string
-        }
-        Update: {
-          added_at?: string | null
-          id?: string
-          playlist_id?: string
-          position?: number
-          track_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "playlist_tracks_playlist_id_fkey"
-            columns: ["playlist_id"]
-            isOneToOne: false
-            referencedRelation: "playlists"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "playlist_tracks_track_id_fkey"
-            columns: ["track_id"]
-            isOneToOne: false
-            referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
         ]

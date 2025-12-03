@@ -29,8 +29,8 @@ export function TrackRow({
       >
         {/* Cover Image */}
         <img
-          src={track.cover_url}
-          alt={track.title}
+          src={track.cover_url || '/placeholder.svg'}
+          alt={track.title || 'Track'}
           className="w-12 h-12 rounded object-cover"
           loading="lazy"
         />

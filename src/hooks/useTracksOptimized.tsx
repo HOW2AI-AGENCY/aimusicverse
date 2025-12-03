@@ -35,8 +35,16 @@ export interface Track {
   vocal_gender: string | null;
   style_weight: number | null;
   negative_tags: string | null;
+  // Computed fields
   likes_count: number;
   is_liked: boolean;
+  // Optional joined/computed fields
+  artist_name?: string;
+  artist_avatar_url?: string;
+  master_version_id?: string;
+  is_instrumental?: boolean;
+  has_stems?: boolean;
+  metadata?: Record<string, unknown>;
 }
 
 const RETRY_ATTEMPTS = 3;

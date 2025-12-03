@@ -65,8 +65,6 @@ export function NewReleasesSection({ onRemix, className }: NewReleasesSectionPro
           <PublicTrackCard
             key={track.id}
             track={track}
-            artistName={(track.metadata as any)?.artist_name}
-            artistAvatar={(track.metadata as any)?.artist_avatar}
             onRemix={onRemix}
           />
         ))}

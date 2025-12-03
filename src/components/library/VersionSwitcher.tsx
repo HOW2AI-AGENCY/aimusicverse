@@ -53,7 +53,7 @@ export function VersionSwitcher({
           ) : versions?.length === 0 ? (
             <div className="text-center text-muted-foreground">No versions found</div>
           ) : (
-            versions?.map((version) => (
+            versions?.map((version, index) => (
               <div
                 key={version.id}
                 className="flex items-center gap-3 p-3 border rounded-lg hover:bg-accent/50 active:bg-accent transition-colors cursor-pointer"
@@ -61,13 +61,13 @@ export function VersionSwitcher({
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <p className="font-medium">Version {version.version_number || 'N/A'}</p>
+                    <p className="font-medium">Version {index + 1}</p>
                     {version.version_type && (
                       <Badge variant="outline" className="text-xs">
                         {version.version_type}
                       </Badge>
                     )}
-                    {version.is_master && (
+                    {version.is_primary && (
                       <Badge variant="default" className="gap-1">
                         <Star className="h-3 w-3 fill-current" />
                         Master
@@ -75,13 +75,13 @@ export function VersionSwitcher({
                     )}
                   </div>
                   <p className="text-xs text-muted-foreground truncate">
-                    {format(new Date(version.created_at), 'MMM d, yyyy')}
+                    {version.created_at ? format(new Date(version.created_at), 'MMM d, yyyy') : 'Unknown date'}
                     {version.duration_seconds && ` • ${Math.floor(version.duration_seconds / 60)}:${String(Math.floor(version.duration_seconds % 60)).padStart(2, '0')}`}
                   </p>
                 </div>
 
                 <div className="flex gap-2">
-                  {!version.is_master && (
+                  {!version.is_primary && (
                     <Button
                       size="sm"
                       variant="outline"
@@ -95,14 +95,14 @@ export function VersionSwitcher({
                   )}
                   <Button
                     size="sm"
-                    variant={version.is_master ? 'default' : 'ghost'}
+                    variant={version.is_primary ? 'default' : 'ghost'}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleVersionSelect(version.id);
                     }}
                     className="touch-manipulation min-h-[44px] gap-1"
                   >
-                    {version.is_master ? (
+                    {version.is_primary ? (
                       <>
                         <Check className="h-3 w-3" />
                         Current

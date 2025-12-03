@@ -29,12 +29,12 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   
-  const { data: projects, isLoading: projectsLoading } = useProjects();
-  const { addTrackToProject } = useProjectTracks();
+  const { projects, isLoading: projectsLoading } = useProjects();
+  const { addTrack } = useProjectTracks(selectedProjectId || '');
 
   // Filter projects by search query
-  const filteredProjects = projects?.filter(project =>
-    project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  const filteredProjects = projects?.filter((project: { title: string; description?: string | null; id: string }) =>
+    project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     project.description?.toLowerCase().includes(searchQuery.toLowerCase())
   ) || [];
 
@@ -49,12 +49,14 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
     try {
       hapticImpact('light');
 
-      await addTrackToProject({
-        projectId: selectedProjectId,
-        trackId: track.id,
+      await addTrack({
+        project_id: selectedProjectId,
+        track_id: track.id,
+        title: track.title || 'Untitled',
+        position: 0,
       });
 
-      const project = projects?.find(p => p.id === selectedProjectId);
+      const project = projects?.find((p: { id: string }) => p.id === selectedProjectId);
       hapticNotification('success');
       toast.success(`Added to "${project?.name}"`);
       onOpenChange(false);
