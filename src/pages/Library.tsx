@@ -8,7 +8,6 @@ import { useTracksInfinite } from "@/hooks/useTracksInfinite";
 import { type Track } from "@/hooks/useTracksOptimized";
 import { TrackCard } from "@/components/TrackCard";
 import { Button } from "@/components/ui/button";
-import { GenerationProgress } from "@/components/GenerationProgress";
 import { useGenerationRealtime } from "@/hooks/useGenerationRealtime";
 import { useTrackVersions } from "@/hooks/useTrackVersions";
 import { usePlayerStore } from "@/hooks/usePlayerState";
@@ -17,9 +16,34 @@ import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useDebounce } from "use-debounce";
 import { TrackCardSkeleton } from "@/components/ui/skeleton-loader";
+import { GeneratingTrackSkeleton } from "@/components/library/GeneratingTrackSkeleton";
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
+
+interface GenerationTask {
+  id: string;
+  prompt: string;
+  status: string;
+  generation_mode: string;
+  model_used: string;
+  created_at: string;
+}
+
+const fetchActiveGenerations = async (userId: string) => {
+  const { data, error } = await supabase
+    .from('generation_tasks')
+    .select('id, prompt, status, generation_mode, model_used, created_at')
+    .eq('user_id', userId)
+    .in('status', ['pending', 'processing', 'streaming_ready'])
+    .order('created_at', { ascending: false })
+    .limit(5);
+
+  if (error) throw new Error(error.message);
+  return data as GenerationTask[];
+};
 
 export default function Library() {
-  const { isAuthenticated, loading: authLoading } = useAuth();
+  const { user, isAuthenticated, loading: authLoading } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const { activeTrack, playTrack } = usePlayerStore();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -28,6 +52,14 @@ export default function Library() {
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   useGenerationRealtime();
+
+  // Fetch active generation tasks
+  const { data: activeGenerations = [] } = useQuery({
+    queryKey: ['active_generations', user?.id],
+    queryFn: () => fetchActiveGenerations(user!.id),
+    enabled: !!user,
+    refetchInterval: 5000, // Poll every 5 seconds for status updates
+  });
 
   const { 
     tracks, 
@@ -81,6 +113,7 @@ export default function Library() {
   }
 
   const tracksToDisplay = tracks || [];
+  const hasActiveGenerations = activeGenerations.length > 0;
 
   const handlePlay = (track: Track) => {
     if (!track.audio_url) return;
@@ -101,8 +134,6 @@ export default function Library() {
   return (
     <ErrorBoundaryWrapper>
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
-        <GenerationProgress />
-
         {/* Page Header */}
         <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-lg border-b border-border/50">
           <div className="container mx-auto px-4 sm:px-6 py-4">
@@ -110,6 +141,11 @@ export default function Library() {
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold">Библиотека</h1>
                 <p className="text-sm text-muted-foreground">
+                  {hasActiveGenerations && (
+                    <span className="text-primary mr-2">
+                      {activeGenerations.length} в процессе •
+                    </span>
+                  )}
                   {tracks?.length || 0} из {totalCount} треков
                 </p>
               </div>
@@ -164,6 +200,33 @@ export default function Library() {
 
         {/* Content */}
         <div className="container mx-auto px-4 sm:px-6 py-6">
+          {/* Active Generations Section */}
+          {hasActiveGenerations && (
+            <div className="mb-6">
+              <h2 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Генерируется ({activeGenerations.length})
+              </h2>
+              <div
+                className={
+                  viewMode === "grid"
+                    ? "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+                    : "flex flex-col gap-3"
+                }
+              >
+                {activeGenerations.map((task) => (
+                  <GeneratingTrackSkeleton
+                    key={task.id}
+                    status={task.status}
+                    prompt={task.prompt}
+                    createdAt={task.created_at}
+                    layout={viewMode}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           {isLoading ? (
             <div
               className={
@@ -176,7 +239,7 @@ export default function Library() {
                 <TrackCardSkeleton key={i} layout={viewMode} />
               ))}
             </div>
-          ) : tracksToDisplay.length === 0 ? (
+          ) : tracksToDisplay.length === 0 && !hasActiveGenerations ? (
             <Card className="glass-card border-primary/20 p-8 sm:p-12 text-center">
               <Music2 className="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-muted-foreground/50 mb-4" />
               <h3 className="text-base sm:text-lg font-semibold mb-2">
@@ -188,10 +251,6 @@ export default function Library() {
             </Card>
           ) : (
             <>
-              {/* TODO: Optimize responsive grid layout for better performance on large libraries */}
-              {/* TODO: Implement virtual scrolling for libraries with 100+ tracks */}
-              {/* TODO: Add dynamic column count based on viewport width and card size */}
-              {/* TODO: Consider implementing masonry layout for varied content heights */}
               <motion.div
                 layout
                 className={

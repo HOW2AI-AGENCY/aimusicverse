@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter, SheetDescription } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
@@ -31,6 +32,7 @@ interface GenerateSheetProps {
 }
 
 export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId }: GenerateSheetProps) => {
+  const navigate = useNavigate();
   const { projects } = useProjects();
   const { artists } = useArtists();
   const { tracks: allTracks } = useTracks();
@@ -220,12 +222,15 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
       // Dismiss loading toast and show success
       toast.dismiss(toastId);
       toast.success('Генерация началась! 🎵', {
-        description: 'Ваш трек появится в библиотеке через 1-3 минуты',
+        description: 'Отслеживайте прогресс в библиотеке',
       });
 
-      // Reset form and close only after successful submission
+      // Reset form and close
       resetForm();
       onOpenChange(false);
+      
+      // Navigate to library to show generation progress
+      navigate('/library');
       
       // Refresh credits in background
       supabase.functions.invoke('suno-credits').then(({ data: creditsData }) => {

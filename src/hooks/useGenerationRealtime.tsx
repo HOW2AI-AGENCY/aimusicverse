@@ -38,7 +38,9 @@ export const useGenerationRealtime = () => {
               console.log('Realtime update for generation_tasks:', payload);
               reconnectAttempts.current = 0;
               queryClient.invalidateQueries({ queryKey: ['generation_tasks'] });
+              queryClient.invalidateQueries({ queryKey: ['active_generations'] });
               queryClient.invalidateQueries({ queryKey: ['tracks'] });
+              queryClient.invalidateQueries({ queryKey: ['tracks-infinite'] });
             }
           )
            .on(
@@ -53,7 +55,9 @@ export const useGenerationRealtime = () => {
               console.log('Realtime update for tracks:', payload);
               reconnectAttempts.current = 0;
               queryClient.invalidateQueries({ queryKey: ['generation_tasks'] });
+              queryClient.invalidateQueries({ queryKey: ['active_generations'] });
               queryClient.invalidateQueries({ queryKey: ['tracks'] });
+              queryClient.invalidateQueries({ queryKey: ['tracks-infinite'] });
             }
           )
           .subscribe((status) => {
