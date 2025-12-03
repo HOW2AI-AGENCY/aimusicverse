@@ -28,7 +28,7 @@ export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheet
   // - Version-specific lyrics (if different from master)
   // - Version-specific stems (if available)
   // - Version-specific analysis (if performed)
-  const currentVersion = selectedVersionId || track.master_version_id;
+  const currentVersion = selectedVersionId || track.master_version_id || undefined;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>

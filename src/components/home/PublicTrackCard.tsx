@@ -7,10 +7,12 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { usePlayerStore } from '@/hooks/usePlayerState';
 import { formatDuration } from '@/lib/player-utils';
-import type { MusicTrack } from '@/integrations/supabase/types';
+import type { Database } from '@/integrations/supabase/types';
+
+type TrackRow = Database['public']['Tables']['tracks']['Row'];
 
 interface PublicTrackCardProps {
-  track: MusicTrack;
+  track: TrackRow;
   artistName?: string;
   artistAvatar?: string;
   onRemix?: (trackId: string) => void;
@@ -24,9 +26,9 @@ export function PublicTrackCard({
   onRemix,
   className,
 }: PublicTrackCardProps) {
-  const { currentTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
+  const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
   const [isLiked, setIsLiked] = useState(false);
-  const isCurrentTrack = currentTrack?.id === track.id;
+  const isCurrentTrack = activeTrack?.id === track.id;
   const isThisTrackPlaying = isCurrentTrack && isPlaying;
 
   const handlePlayPause = (e: React.MouseEvent) => {
@@ -34,7 +36,8 @@ export function PublicTrackCard({
     if (isThisTrackPlaying) {
       pauseTrack();
     } else {
-      playTrack(track);
+      // Cast to Track type for player compatibility
+      playTrack(track as any);
     }
   };
 
@@ -48,7 +51,7 @@ export function PublicTrackCard({
     e.stopPropagation();
     // TODO: Implement share functionality
     navigator.share?.({
-      title: track.title,
+      title: track.title || 'Track',
       text: `Check out "${track.title}" by ${artistName}`,
       url: window.location.href,
     });
@@ -71,7 +74,7 @@ export function PublicTrackCard({
       <div className="relative aspect-square overflow-hidden bg-muted">
         <img
           src={track.cover_url || '/placeholder-cover.jpg'}
-          alt={track.title}
+          alt={track.title || 'Track'}
           className="h-full w-full object-cover transition-transform group-hover:scale-105"
         />
         
@@ -92,12 +95,12 @@ export function PublicTrackCard({
         </div>
 
         {/* Track Type Badge */}
-        {track.metadata && (
+        {track.has_vocals === false && (
           <Badge
             variant="secondary"
             className="absolute top-2 left-2 text-xs"
           >
-            {(track.metadata as any).instrumental ? 'Instrumental' : 'Vocal'}
+            Instrumental
           </Badge>
         )}
       </div>
@@ -107,7 +110,7 @@ export function PublicTrackCard({
         {/* Title and Artist */}
         <div className="space-y-1">
           <h3 className="font-semibold text-sm line-clamp-1 group-hover:text-primary transition-colors">
-            {track.title}
+            {track.title || 'Untitled'}
           </h3>
           <div className="flex items-center gap-2">
             <Avatar className="h-5 w-5">
@@ -126,10 +129,10 @@ export function PublicTrackCard({
         <div className="flex items-center justify-between text-xs text-muted-foreground">
           <span>{formatDuration(track.duration_seconds || 0)}</span>
           <div className="flex items-center gap-3">
-            {/* Play count - TODO: Add from database */}
+            {/* Play count */}
             <span className="flex items-center gap-1">
               <Play className="h-3 w-3" />
-              0
+              {track.play_count || 0}
             </span>
             {/* Like count - TODO: Add from database */}
             <span className="flex items-center gap-1">

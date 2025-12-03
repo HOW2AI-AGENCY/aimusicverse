@@ -5,7 +5,7 @@ interface VersionBadgeProps {
   versionNumber: number;
   versionCount: number;
   isMaster: boolean;
-  onClick?: () => void;
+  onClick?: (e?: React.MouseEvent) => void;
 }
 
 export function VersionBadge({

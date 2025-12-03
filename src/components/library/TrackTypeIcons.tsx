@@ -13,8 +13,9 @@ interface TrackTypeIconsProps {
 
 export function TrackTypeIcons({ track }: TrackTypeIconsProps) {
   const hasVocals = track.has_vocals;
-  const isInstrumental = track.is_instrumental;
-  const hasStems = track.has_stems;
+  // is_instrumental derived from has_vocals if not explicitly set
+  const isInstrumental = track.is_instrumental ?? (track.has_vocals === false);
+  const hasStems = track.has_stems ?? false;
 
   if (!hasVocals && !isInstrumental && !hasStems) {
     return null;

@@ -4,8 +4,8 @@
  */
 
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
-import type { Track } from '@/types/database';
+import { supabase } from '@/integrations/supabase/client';
+import type { Track } from '@/hooks/useTracksOptimized';
 
 export type PublicTrackFilter = 'featured' | 'new' | 'popular' | 'trending';
 export type SortOption = 'created_at' | 'likes_count' | 'plays_count';

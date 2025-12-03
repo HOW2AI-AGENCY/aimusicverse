@@ -10,7 +10,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToggleTrackLike } from '@/hooks/usePublicTracks';
-import { usePlayerState } from '@/hooks/usePlayerState';
+import { usePlayerStore } from '@/hooks/usePlayerState';
 import { cn } from '@/lib/utils';
 
 interface PublicTrack {
@@ -39,17 +39,17 @@ interface PublicTrackCardProps {
  * Features: play/pause, like, share, view count, tags
  */
 export function PublicTrackCard({ track, onPlay, onShare, className }: PublicTrackCardProps) {
-  const { currentTrack, isPlaying, play, pause } = usePlayerState();
+  const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
   const toggleLike = useToggleTrackLike();
 
-  const isCurrentTrack = currentTrack?.id === track.id;
+  const isCurrentTrack = activeTrack?.id === track.id;
   const isTrackPlaying = isCurrentTrack && isPlaying;
 
   const handlePlayPause = () => {
     if (isTrackPlaying) {
-      pause();
+      pauseTrack();
     } else if (isCurrentTrack) {
-      play();
+      playTrack();
     } else if (onPlay) {
       onPlay(track);
     }

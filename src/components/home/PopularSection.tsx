@@ -76,8 +76,6 @@ export function PopularSection({ onRemix, className }: PopularSectionProps) {
                   )}
                   <PublicTrackCard
                     track={track}
-                    artistName={(track.metadata as any)?.artist_name}
-                    artistAvatar={(track.metadata as any)?.artist_avatar}
                     onRemix={onRemix}
                   />
                 </div>
@@ -104,8 +102,6 @@ export function PopularSection({ onRemix, className }: PopularSectionProps) {
                   )}
                   <PublicTrackCard
                     track={track}
-                    artistName={(track.metadata as any)?.artist_name}
-                    artistAvatar={(track.metadata as any)?.artist_avatar}
                     onRemix={onRemix}
                   />
                 </div>

@@ -61,7 +61,7 @@ export const TelegramBotSetup = () => {
           <Alert className="border-green-500/50 bg-green-500/10">
             <CheckCircle2 className="w-4 h-4 text-green-500" />
             <AlertDescription className="text-green-200">
-              Бот активен: {webhookInfo.webhook_info.result.url}
+              Бот активен: {webhookInfo?.webhook_info?.result?.url || 'URL недоступен'}
             </AlertDescription>
           </Alert>
         ) : webhookInfo && !isWebhookActive ? (

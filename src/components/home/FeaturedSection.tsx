@@ -61,8 +61,6 @@ export function FeaturedSection({ onRemix, className }: FeaturedSectionProps) {
           <div className="md:col-span-2 lg:row-span-2">
             <PublicTrackCard
               track={tracks[0]}
-              artistName={(tracks[0].metadata as any)?.artist_name}
-              artistAvatar={(tracks[0].metadata as any)?.artist_avatar}
               onRemix={onRemix}
               className="h-full"
             />
@@ -74,8 +72,6 @@ export function FeaturedSection({ onRemix, className }: FeaturedSectionProps) {
           <PublicTrackCard
             key={track.id}
             track={track}
-            artistName={(track.metadata as any)?.artist_name}
-            artistAvatar={(track.metadata as any)?.artist_avatar}
             onRemix={onRemix}
           />
         ))}
@@ -88,8 +84,6 @@ export function FeaturedSection({ onRemix, className }: FeaturedSectionProps) {
             <div key={track.id} className="w-[280px] flex-shrink-0">
               <PublicTrackCard
                 track={track}
-                artistName={(track.metadata as any)?.artist_name}
-                artistAvatar={(track.metadata as any)?.artist_avatar}
                 onRemix={onRemix}
               />
             </div>
