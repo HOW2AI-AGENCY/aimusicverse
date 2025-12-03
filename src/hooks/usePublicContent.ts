@@ -36,8 +36,6 @@ interface UsePublicContentParams {
 export interface PublicTrackWithCreator extends PublicTrack {
   creator_username?: string;
   creator_photo_url?: string;
-  artist_name?: string;
-  artist_avatar?: string;
   like_count?: number;
   user_liked?: boolean;
 }

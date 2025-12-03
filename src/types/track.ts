@@ -19,10 +19,6 @@ export interface Track extends TrackRow {
   is_liked?: boolean;
   like_count?: number;
   
-  // Artist fields (joined from artists table)
-  artist_name?: string | null;
-  artist_avatar_url?: string | null;
-  
   // Version counts (computed)
   version_count?: number;
   stem_count?: number;

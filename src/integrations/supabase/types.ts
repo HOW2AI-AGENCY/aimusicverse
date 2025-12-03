@@ -1230,6 +1230,9 @@ export type Database = {
       tracks: {
         Row: {
           active_version_id: string | null
+          artist_avatar_url: string | null
+          artist_id: string | null
+          artist_name: string | null
           audio_url: string | null
           cover_url: string | null
           created_at: string | null
@@ -1267,6 +1270,9 @@ export type Database = {
         }
         Insert: {
           active_version_id?: string | null
+          artist_avatar_url?: string | null
+          artist_id?: string | null
+          artist_name?: string | null
           audio_url?: string | null
           cover_url?: string | null
           created_at?: string | null
@@ -1304,6 +1310,9 @@ export type Database = {
         }
         Update: {
           active_version_id?: string | null
+          artist_avatar_url?: string | null
+          artist_id?: string | null
+          artist_name?: string | null
           audio_url?: string | null
           cover_url?: string | null
           created_at?: string | null
@@ -1345,6 +1354,13 @@ export type Database = {
             columns: ["active_version_id"]
             isOneToOne: false
             referencedRelation: "track_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tracks_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "artists"
             referencedColumns: ["id"]
           },
           {

@@ -36,12 +36,14 @@ export interface Track {
   style_weight: number | null;
   negative_tags: string | null;
   active_version_id: string | null;
+  // Artist fields (from DB)
+  artist_id: string | null;
+  artist_name: string | null;
+  artist_avatar_url: string | null;
   // Computed fields
   likes_count: number;
   is_liked: boolean;
-  // Optional joined/computed fields
-  artist_name?: string;
-  artist_avatar_url?: string;
+  // Optional computed fields
   master_version_id?: string;
   is_instrumental?: boolean | null;
   has_stems?: boolean | null;
