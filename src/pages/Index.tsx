@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Onboarding } from "@/components/Onboarding";
 import { TelegramInfo } from "@/components/TelegramInfo";
 import { NotificationBadge } from "@/components/NotificationBadge";
@@ -19,7 +20,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useUserActivity, useCreateActivity } from "@/hooks/useUserActivity";
 import { ActivitySkeleton, StatCardSkeleton } from "@/components/ui/skeleton-loader";
 import { toast } from "sonner";
@@ -31,12 +32,13 @@ import { NewReleasesSection } from "@/components/home/NewReleasesSection";
 import { PopularSection } from "@/components/home/PopularSection";
 import { FilterBar } from "@/components/home/FilterBar";
 import type { FilterState } from "@/components/home/FilterBar";
-import { useState } from "react";
+import { GenerateSheet } from "@/components/GenerateSheet";
 
 const Index = () => {
   const { logout } = useAuth();
   const { hapticFeedback } = useTelegram();
   const navigate = useNavigate();
+  const location = useLocation();
   const { data: activities, isLoading: activitiesLoading } = useUserActivity();
   const createActivity = useCreateActivity();
   const [filters, setFilters] = useState<FilterState>({
@@ -44,6 +46,16 @@ const Index = () => {
     moods: [],
     sort: 'recent',
   });
+  const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
+
+  // Handle navigation state for opening GenerateSheet
+  useEffect(() => {
+    if (location.state?.openGenerate) {
+      setGenerateSheetOpen(true);
+      // Clear the state to prevent re-opening on refresh
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location.state, navigate, location.pathname]);
 
   const { data: publicProjects, isLoading: projectsLoading } = useQuery({
     queryKey: ["public-projects"],
@@ -203,7 +215,7 @@ const Index = () => {
           <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-foreground">Быстрые действия</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
             <Button
-              onClick={() => navigate("/generate")}
+              onClick={() => setGenerateSheetOpen(true)}
               className="bg-gradient-telegram hover:opacity-90 h-auto py-5 sm:py-6 flex flex-col gap-2 shadow-lg hover:shadow-primary/30 transition-all touch-manipulation min-h-[80px]"
               aria-label="Открыть генератор музыки"
             >
@@ -358,6 +370,8 @@ const Index = () => {
           )}
         </Card>
       </div>
+
+      <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
     </div>
   );
 };
