@@ -52,6 +52,14 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   const { lyricsLines, plainLyrics } = useMemo(() => {
     let words: AlignedWord[] = [];
     
+    // Helper to clean structural tags from plain text
+    const cleanLyrics = (text: string) => {
+      return text
+        .replace(/\[(Verse|Chorus|Bridge|Outro|Intro|Hook|Pre-Chorus|Post-Chorus|Refrain|Interlude|Break|Solo|Instrumental|Ad-lib|Coda)(\s*\d*)?\]/gi, '')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+    };
+    
     if (lyricsData?.alignedWords && lyricsData.alignedWords.length > 0) {
       words = lyricsData.alignedWords as AlignedWord[];
     } else if (track.lyrics) {
@@ -64,10 +72,10 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         }
       } catch {
         // Not JSON, treat as plain text
-        return { lyricsLines: null, plainLyrics: track.lyrics };
+        return { lyricsLines: null, plainLyrics: cleanLyrics(track.lyrics) };
       }
       if (words.length === 0) {
-        return { lyricsLines: null, plainLyrics: track.lyrics };
+        return { lyricsLines: null, plainLyrics: cleanLyrics(track.lyrics) };
       }
     }
     
@@ -126,22 +134,27 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
 
   // Auto-scroll to active line - keep active line in upper third of screen
   useEffect(() => {
-    if (activeLineRef.current && lyricsContainerRef.current) {
-      const container = lyricsContainerRef.current;
-      const activeLine = activeLineRef.current;
+    if (activeLineIndex < 0 || !activeLineRef.current || !lyricsContainerRef.current) return;
+    
+    const container = lyricsContainerRef.current;
+    const activeLine = activeLineRef.current;
+    
+    // Use requestAnimationFrame for smoother scroll timing
+    requestAnimationFrame(() => {
       const containerRect = container.getBoundingClientRect();
       const lineRect = activeLine.getBoundingClientRect();
       
-      // Calculate target position - place active line at ~30% from top
-      const targetOffset = containerRect.height * 0.3;
-      const currentOffset = lineRect.top - containerRect.top;
-      const scrollDelta = currentOffset - targetOffset;
+      // Calculate where the line currently is relative to container
+      const lineTopInContainer = lineRect.top - containerRect.top + container.scrollTop;
       
-      container.scrollBy({
-        top: scrollDelta,
+      // Target: position active line at 30% from top of visible area
+      const targetScrollTop = lineTopInContainer - (containerRect.height * 0.3);
+      
+      container.scrollTo({
+        top: Math.max(0, targetScrollTop),
         behavior: 'smooth'
       });
-    }
+    });
   }, [activeLineIndex]);
 
   const formatTime = (seconds: number) => {

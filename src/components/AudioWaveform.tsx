@@ -87,7 +87,7 @@ export function AudioWaveform({ waveformData, currentTime, duration, onSeek, cla
     <canvas
       ref={canvasRef}
       className={`w-full ${onSeek ? 'cursor-pointer' : ''} ${className}`}
-      style={{ height: '80px' }}
+      style={{ height: '48px' }}
       onClick={handleCanvasClick}
     />
   );
