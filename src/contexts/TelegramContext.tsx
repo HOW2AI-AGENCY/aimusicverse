@@ -119,9 +119,47 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
           })
           .catch(err => {
             console.error('❌ Telegram authentication error:', err);
-            // FIXME: Implement a more robust and user-friendly notification system.
-            // Using showAlert for now as a quick solution based on audit feedback.
-            if (tg.showAlert) {
+            
+            // Use showPopup with retry mechanism for better UX
+            if (tg.showPopup) {
+              tg.showPopup({
+                title: '❌ Ошибка аутентификации',
+                message: 'Не удалось войти в систему. Хотите попробовать снова?',
+                buttons: [
+                  { id: 'retry', type: 'default', text: '🔄 Попробовать снова' },
+                  { id: 'cancel', type: 'cancel', text: 'Отмена' },
+                ],
+              }, (buttonId) => {
+                if (buttonId === 'retry') {
+                  // Retry authentication
+                  console.log('🔄 Retrying authentication...');
+                  telegramAuthService.authenticateWithTelegram(tg.initData)
+                    .then(authData => {
+                      if (authData) {
+                        console.log('✅ Retry successful');
+                        tg.showPopup?.({
+                          message: '✅ Успешно вошли в систему!',
+                          buttons: [{ type: 'close' }],
+                        });
+                      } else {
+                        console.log('❌ Retry failed');
+                        tg.showPopup?.({
+                          message: '❌ Не удалось войти. Пожалуйста, перезапустите приложение.',
+                          buttons: [{ type: 'close' }],
+                        });
+                      }
+                    })
+                    .catch(retryErr => {
+                      console.error('❌ Retry failed:', retryErr);
+                      tg.showPopup?.({
+                        message: '❌ Не удалось войти. Пожалуйста, перезапустите приложение.',
+                        buttons: [{ type: 'close' }],
+                      });
+                    });
+                }
+              });
+            } else if (tg.showAlert) {
+              // Fallback for older Telegram versions
               tg.showAlert('Ошибка аутентификации. Пожалуйста, попробуйте перезапустить приложение.');
             }
           });
