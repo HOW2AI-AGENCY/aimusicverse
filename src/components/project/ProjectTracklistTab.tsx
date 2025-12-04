@@ -60,6 +60,7 @@ const STATUS_CONFIG = {
 export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTracklistTabProps) => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  // Use the hook only for mutations, not for data fetching (data comes from props)
   const { addTrack, updateTrack, deleteTrack, reorderTracks, generateTracklist, isGenerating } =
     useProjectTracks(project.id);
   const { setPlanTrackContext } = usePlanTrackStore();
