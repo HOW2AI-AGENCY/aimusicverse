@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter, SheetDescription } from '@/components/ui/sheet';
@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Sparkles, Loader2, Zap as ZapIcon, Sliders, Coins, Mic, FileAudio, FolderOpen, User, Music2, History, Plus } from 'lucide-react';
+import { Sparkles, Loader2, Zap as ZapIcon, Sliders, Coins, Mic, FileAudio, FolderOpen, User, Music2, History, Plus, Trash2, RotateCcw } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
@@ -28,6 +28,7 @@ import { PromptHistory, savePromptToHistory } from './generate-form/PromptHistor
 import { AILyricsWizard } from './generate-form/AILyricsWizard';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { SUNO_MODELS } from '@/constants/sunoModels';
+import { useGenerateDraft } from '@/hooks/useGenerateDraft';
 
 interface GenerateSheetProps {
   open: boolean;
@@ -41,7 +42,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const { artists } = useArtists();
   const { tracks: allTracks } = useTracks();
   const { planTrackContext, clearPlanTrackContext } = usePlanTrackStore();
-
+  const { draft, hasDraft, saveDraft, clearDraft } = useGenerateDraft();
   const [mode, setMode] = useState<'simple' | 'custom'>('simple');
   const [loading, setLoading] = useState(false);
   const [boostLoading, setBoostLoading] = useState(false);
@@ -173,6 +174,55 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
       }
     }
   }, [open]);
+
+  // Restore draft when sheet opens (if no plan track context)
+  useEffect(() => {
+    if (open && hasDraft && draft && !planTrackContext) {
+      setMode(draft.mode);
+      setDescription(draft.description);
+      setTitle(draft.title);
+      setLyrics(draft.lyrics);
+      setStyle(draft.style);
+      setHasVocals(draft.hasVocals);
+      setModel(draft.model);
+      setNegativeTags(draft.negativeTags);
+      setVocalGender(draft.vocalGender);
+      
+      toast.info('Черновик восстановлен', {
+        description: 'Ваши данные сохранены',
+        action: {
+          label: 'Очистить',
+          onClick: () => {
+            clearDraft();
+            resetForm();
+            toast.success('Черновик очищен');
+          },
+        },
+      });
+    }
+  }, [open]); // Only run when sheet opens
+
+  // Auto-save draft when form values change
+  useEffect(() => {
+    if (!open) return;
+    
+    // Debounce auto-save
+    const timer = setTimeout(() => {
+      saveDraft({
+        mode,
+        description,
+        title,
+        lyrics,
+        style,
+        hasVocals,
+        model,
+        negativeTags,
+        vocalGender,
+      });
+    }, 1000); // Save after 1 second of inactivity
+
+    return () => clearTimeout(timer);
+  }, [mode, description, title, lyrics, style, hasVocals, model, negativeTags, vocalGender, open, saveDraft]);
 
   // Auto-fill from selected track
   const handleTrackSelect = (trackId: string) => {
@@ -368,6 +418,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     setSelectedTrackId(undefined);
     setSelectedArtistId(undefined);
     setAudioFile(null);
+    // Clear draft on form reset
+    clearDraft();
     setPlanTrackId(undefined);
   };
 
@@ -432,13 +484,13 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   </Button>
                 </div>
 
-                {/* Center: Mode Toggle */}
-                <div className="flex items-center gap-0.5 p-0.5 rounded-md bg-muted">
+                {/* Center: Mode Toggle - improved touch targets */}
+                <div className="flex items-center gap-0.5 p-0.5 rounded-lg bg-muted">
                   <Button
                     variant={mode === 'simple' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setMode('simple')}
-                    className="h-7 px-3 text-xs"
+                    className="h-9 px-4 text-sm min-w-[72px] touch-manipulation"
                   >
                     Simple
                   </Button>
@@ -446,19 +498,34 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                     variant={mode === 'custom' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setMode('custom')}
-                    className="h-7 px-3 text-xs"
+                    className="h-9 px-4 text-sm min-w-[72px] touch-manipulation"
                   >
                     Custom
                   </Button>
                 </div>
 
-                {/* Right side: Advanced Settings */}
-                <div className="flex items-center gap-2 flex-1 justify-end">
+                {/* Right side: Advanced Settings + Clear Draft */}
+                <div className="flex items-center gap-1 flex-1 justify-end">
+                  {hasDraft && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        clearDraft();
+                        resetForm();
+                        toast.success('Черновик очищен');
+                      }}
+                      className="h-11 w-11 p-0 min-w-[44px] min-h-[44px] touch-manipulation text-muted-foreground hover:text-destructive"
+                      title="Очистить черновик"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  )}
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => setAdvancedOpen(!advancedOpen)}
-                    className="h-8 w-8 p-0"
+                    className="h-11 w-11 p-0 min-w-[44px] min-h-[44px] touch-manipulation"
                   >
                     <Sliders className="w-4 h-4" />
                   </Button>
@@ -494,16 +561,16 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               </div>
             </div>
 
-          {/* Compact Quick Action Buttons */}
+          {/* Compact Quick Action Buttons - improved touch targets */}
           <div className="grid grid-cols-3 gap-2">
             <Button
               type="button"
               variant="outline"
               size="sm"
-              className="h-10 gap-1.5 flex-col py-1"
+              className="min-h-[44px] h-auto py-2 gap-1.5 flex-col touch-manipulation"
               onClick={() => setAudioDialogOpen(true)}
             >
-              <Plus className="w-3.5 h-3.5" />
+              <Plus className="w-4 h-4" />
               <span className="text-xs leading-none">Аудио</span>
             </Button>
 
@@ -511,10 +578,10 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               type="button"
               variant="outline"
               size="sm"
-              className="h-10 gap-1.5 flex-col py-1"
+              className="min-h-[44px] h-auto py-2 gap-1.5 flex-col touch-manipulation"
               onClick={() => setArtistDialogOpen(true)}
             >
-              <Plus className="w-3.5 h-3.5" />
+              <Plus className="w-4 h-4" />
               <span className="text-xs leading-none">Персона</span>
             </Button>
 
@@ -522,10 +589,10 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               type="button"
               variant="outline"
               size="sm"
-              className="h-10 gap-1.5 flex-col py-1"
+              className="min-h-[44px] h-auto py-2 gap-1.5 flex-col touch-manipulation"
               onClick={() => setProjectDialogOpen(true)}
             >
-              <Plus className="w-3.5 h-3.5" />
+              <Plus className="w-4 h-4" />
               <span className="text-xs leading-none">Проект</span>
             </Button>
           </div>
