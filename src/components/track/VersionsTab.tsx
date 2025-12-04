@@ -71,7 +71,6 @@ export function VersionsTab({ track }: VersionsTabProps) {
       setOptimisticMasterId(versionId);
 
       // Step 1: Unset is_primary for ALL versions of this track
-      // This ensures only one version will be primary after the update
       const { error: unsetError } = await supabase
         .from('track_versions')
         .update({ is_primary: false })
@@ -87,23 +86,31 @@ export function VersionsTab({ track }: VersionsTabProps) {
 
       if (setError) throw setError;
 
-      // Step 3: Log this change to the changelog for audit trail
-      // This helps track when and why the primary version was changed
+      // Step 3: Also update active_version_id on tracks table for consistency
+      const { error: trackError } = await supabase
+        .from('tracks')
+        .update({ active_version_id: versionId })
+        .eq('id', track.id);
+
+      if (trackError) throw trackError;
+
+      // Step 4: Log this change to the changelog for audit trail
       const { data: userData } = await supabase.auth.getUser();
       if (userData.user) {
         await supabase.from('track_change_log').insert({
           track_id: track.id,
           version_id: versionId,
-          change_type: 'master_changed', // Event type for tracking
-          changed_by: 'user', // Source of the change
+          change_type: 'master_changed',
+          changed_by: 'user',
           user_id: userData.user.id,
-          new_value: versionId, // The new primary version ID
+          new_value: versionId,
         });
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['track-versions', track.id] });
       queryClient.invalidateQueries({ queryKey: ['track-change-log', track.id] });
+      queryClient.invalidateQueries({ queryKey: ['tracks'] });
       toast.success('Мастер-версия обновлена');
       setOptimisticMasterId(null);
     },

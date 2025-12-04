@@ -37,8 +37,12 @@ interface AlignedWord {
 
 export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlayerProps) {
   const [queueOpen, setQueueOpen] = useState(false);
+  const [userScrolling, setUserScrolling] = useState(false);
   const lyricsContainerRef = useRef<HTMLDivElement>(null);
   const activeLineRef = useRef<HTMLDivElement>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastScrollTopRef = useRef<number>(0);
+  const isProgrammaticScrollRef = useRef(false);
   
   const { toggleLike, downloadTrack } = useTracks();
   const { currentTime, duration, seek } = useAudioTime();
@@ -142,9 +146,63 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     });
   }, [lyricsLines, currentTime]);
 
+  // Handle user scroll detection
+  useEffect(() => {
+    const container = lyricsContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      // Ignore programmatic scrolls
+      if (isProgrammaticScrollRef.current) return;
+      
+      const currentScrollTop = container.scrollTop;
+      const scrollDelta = Math.abs(currentScrollTop - lastScrollTopRef.current);
+      
+      if (scrollDelta > 5) {
+        setUserScrolling(true);
+        
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current);
+        }
+        
+        scrollTimeoutRef.current = setTimeout(() => {
+          setUserScrolling(false);
+        }, 3000);
+      }
+      
+      lastScrollTopRef.current = currentScrollTop;
+    };
+
+    const handleTouchStart = () => {
+      setUserScrolling(true);
+    };
+
+    const handleTouchEnd = () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(() => {
+        setUserScrolling(false);
+      }, 3000);
+    };
+
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchend', handleTouchEnd);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // Auto-scroll to active line - keep active line in upper third of screen
   useEffect(() => {
-    if (activeLineIndex < 0 || !activeLineRef.current || !lyricsContainerRef.current) return;
+    if (activeLineIndex < 0 || !activeLineRef.current || !lyricsContainerRef.current || userScrolling) return;
     
     const container = lyricsContainerRef.current;
     const activeLine = activeLineRef.current;
@@ -160,12 +218,18 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
       // Target: position active line at 30% from top of visible area
       const targetScrollTop = lineTopInContainer - (containerRect.height * 0.3);
       
+      isProgrammaticScrollRef.current = true;
       container.scrollTo({
         top: Math.max(0, targetScrollTop),
         behavior: 'smooth'
       });
+      
+      // Reset programmatic flag after scroll completes
+      setTimeout(() => {
+        isProgrammaticScrollRef.current = false;
+      }, 500);
     });
-  }, [activeLineIndex]);
+  }, [activeLineIndex, userScrolling]);
 
   const formatTime = (seconds: number) => {
     if (!seconds || !isFinite(seconds)) return '0:00';
@@ -250,14 +314,20 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         </header>
 
         {/* Lyrics Section */}
-        <div 
-          ref={lyricsContainerRef}
-          className="flex-1 overflow-y-auto px-4 py-4 overscroll-contain"
-          style={{ 
-            WebkitOverflowScrolling: 'touch',
-            minHeight: 0 // Critical for flex child scrolling
-          }}
-        >
+        <div className="flex-1 overflow-hidden relative min-h-0">
+          {/* User scroll indicator */}
+          {userScrolling && (
+            <div className="absolute top-2 right-2 z-10 px-2 py-1 bg-muted/80 rounded text-xs text-muted-foreground">
+              Автоскролл выкл
+            </div>
+          )}
+          <div 
+            ref={lyricsContainerRef}
+            className="h-full overflow-y-auto px-4 py-4 overscroll-contain touch-pan-y"
+            style={{ 
+              WebkitOverflowScrolling: 'touch',
+            }}
+          >
           {lyricsLines ? (
             // Synchronized lyrics with line grouping and word highlighting
             <div className="flex flex-col items-center text-center space-y-1 pb-[30vh]">
@@ -320,6 +390,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
               </p>
             </div>
           )}
+          </div>
         </div>
 
         {/* Controls Section */}
