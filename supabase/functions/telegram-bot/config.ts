@@ -16,6 +16,7 @@ const telegramConfig = getTelegramConfig();
 
 export const BOT_CONFIG = {
   botToken: Deno.env.get('TELEGRAM_BOT_TOKEN')!,
+  botUsername: telegramConfig.botUsername,
   miniAppUrl: telegramConfig.miniAppUrl,
   deepLinkBase: telegramConfig.deepLinkBase,
   supabaseUrl: Deno.env.get('SUPABASE_URL')!,

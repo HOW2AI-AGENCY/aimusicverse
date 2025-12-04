@@ -15,34 +15,44 @@ const supabase = createClient(
 
 export async function handleAddToPlaylist(
   chatId: number,
-  userId: number,
+  telegramUserId: number,
   trackId: string,
   messageId?: number
 ) {
   try {
-    // Get user's playlists
-    // Note: playlists table may not exist yet, handle gracefully
+    // Get auth user_id from telegram_id via profiles table
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('user_id')
+      .eq('telegram_id', telegramUserId)
+      .single();
+
+    if (!profile?.user_id) {
+      await sendMessage(chatId, '❌ Пользователь не найден');
+      return;
+    }
+
+    // Get user's playlists from the playlists table
     const { data: playlists, error } = await supabase
       .from('playlists')
-      .select('id, title')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
+      .select('id, title, track_count')
+      .eq('user_id', profile.user_id)
+      .order('updated_at', { ascending: false })
       .limit(10);
 
     if (error) {
-      // Playlists feature not available
-      console.warn('Playlists table not found:', error);
-      await sendMessage(chatId, '📁 Функция плейлистов скоро будет доступна!');
+      console.error('Error fetching playlists:', error);
+      await sendMessage(chatId, '❌ Ошибка загрузки плейлистов');
       return;
     }
 
     const message = `📁 *Добавить в плейлист*\n\n` +
       (playlists && playlists.length > 0 
         ? `Выберите плейлист:`
-        : `У вас пока нет плейлистов.\nСоздайте первый!`);
+        : `У вас пока нет плейлистов\\.\nСоздайте первый\\!`);
 
     const playlistButtons = playlists?.map(p => [{
-      text: `📁 ${p.title}`,
+      text: `📁 ${p.title} (${p.track_count || 0})`,
       callback_data: `playlist_add_${p.id}_${trackId}`
     }]) || [];
 
@@ -72,18 +82,27 @@ export async function handlePlaylistAdd(
   queryId: string
 ) {
   try {
+    // Get current max position
+    const { data: existing } = await supabase
+      .from('playlist_tracks')
+      .select('position')
+      .eq('playlist_id', playlistId)
+      .order('position', { ascending: false })
+      .limit(1);
+
+    const nextPosition = existing?.[0]?.position !== undefined ? existing[0].position + 1 : 0;
+
     // Add track to playlist
     const { error } = await supabase
       .from('playlist_tracks')
       .insert({
         playlist_id: playlistId,
         track_id: trackId,
-        position: 0 // Will be updated by trigger
+        position: nextPosition
       });
 
     if (error) {
       if (error.code === '23505') {
-        // Duplicate
         await answerCallbackQuery(queryId, '⚠️ Трек уже в этом плейлисте');
       } else {
         console.error('Error adding to playlist:', error);
@@ -111,7 +130,7 @@ export async function handlePlaylistNew(
     inline_keyboard: [
       [{ 
         text: '📱 Открыть приложение', 
-        web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=new_playlist_${trackId}` }
+        url: `https://t.me/${BOT_CONFIG.botUsername}/app?startapp=new_playlist_${trackId}`
       }],
       [{ text: '⬅️ Назад', callback_data: `add_playlist_${trackId}` }]
     ]

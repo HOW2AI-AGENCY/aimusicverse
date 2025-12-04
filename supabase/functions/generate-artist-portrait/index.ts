@@ -35,17 +35,17 @@ serve(async (req) => {
       throw new Error('Unauthorized');
     }
 
-    const { projectId, prompt, title, genre, mood } = await req.json();
+    const { artistName, styleDescription, artistId } = await req.json();
 
-    if (!prompt || !projectId) {
-      throw new Error('Prompt and projectId are required');
+    if (!artistName) {
+      throw new Error('artistName is required');
     }
 
-    console.log(`Generating cover image for user: ${user.id}`);
+    console.log(`Generating portrait for artist: ${artistName}, user: ${user.id}`);
 
-    // Generate image using Lovable AI (Gemini 3 Pro Image)
-    const imagePrompt = `Create a professional music album cover image. ${prompt}. Style: ${genre || 'modern'}, mood: ${mood || 'dynamic'}. High quality, artistic, suitable for music streaming platforms. Square aspect ratio, visually striking.`;
-    
+    const imagePrompt = `Professional studio portrait photograph of a music artist named "${artistName}". ${styleDescription ? `Style: ${styleDescription}.` : ''} High-end fashion photography, dramatic cinematic lighting, sharp focus on face, professional headshot, 8k quality, artistic composition, music industry aesthetic.`;
+
+    // Use the correct Gemini image generation model
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -71,74 +71,81 @@ serve(async (req) => {
     }
 
     const data = await response.json();
-    console.log('AI Response:', JSON.stringify(data, null, 2));
+    console.log('AI Response structure:', Object.keys(data));
     
-    // Extract image URL from response - prioritize images array
+    // Extract image from response
     let imageUrl: string | null = null;
 
-    // First check images array (most reliable)
+    // Check various response formats
     if (data.choices?.[0]?.message?.images?.[0]) {
-      imageUrl = data.choices[0].message.images[0].image_url?.url || data.choices[0].message.images[0].url;
-    } 
-    // Fallback to content string if no images array
-    else {
-      const content = data.choices?.[0]?.message?.content;
+      const img = data.choices[0].message.images[0];
+      imageUrl = img.image_url?.url || img.url || img.b64_json;
+      if (img.b64_json && !imageUrl?.startsWith('data:')) {
+        imageUrl = `data:image/png;base64,${img.b64_json}`;
+      }
+    } else if (data.choices?.[0]?.message?.content) {
+      const content = data.choices[0].message.content;
       if (typeof content === 'string' && content.includes('data:image')) {
         imageUrl = content.match(/data:image\/[^;]+;base64,[^\s"]+/)?.[0] || null;
       }
     }
 
     if (!imageUrl) {
-      console.error('No image URL found in response');
+      console.error('No image found in response:', JSON.stringify(data, null, 2));
       throw new Error('No image generated');
     }
 
-    // Upload the base64 image to Supabase Storage
-    const base64Data = imageUrl.split(',')[1];
-    const buffer = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+    // Upload to storage if base64
+    let publicUrl = imageUrl;
     
-    const fileName = `${user.id}/covers/${Date.now()}.png`;
-    
-    const { error: uploadError } = await supabase.storage
-      .from('project-assets')
-      .upload(fileName, buffer, {
-        contentType: 'image/png',
-        upsert: false,
-      });
+    if (imageUrl.startsWith('data:image')) {
+      const base64Data = imageUrl.split(',')[1];
+      const buffer = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+      
+      const fileName = `${user.id}/portraits/${Date.now()}.png`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from('project-assets')
+        .upload(fileName, buffer, {
+          contentType: 'image/png',
+          upsert: false,
+        });
 
-    if (uploadError) {
-      console.error('Upload error:', uploadError);
-      // If upload fails, return error (don't use base64 fallback for projects)
-      throw new Error('Failed to upload cover image to storage');
+      if (uploadError) {
+        console.error('Upload error:', uploadError);
+        throw new Error('Failed to upload portrait to storage');
+      }
+
+      const { data: urlData } = supabase.storage
+        .from('project-assets')
+        .getPublicUrl(fileName);
+      
+      publicUrl = urlData.publicUrl;
     }
 
-    // Get public URL
-    const { data: { publicUrl } } = supabase.storage
-      .from('project-assets')
-      .getPublicUrl(fileName);
+    // Update artist if artistId provided
+    if (artistId) {
+      const { error: updateError } = await supabase
+        .from('artists')
+        .update({ avatar_url: publicUrl })
+        .eq('id', artistId)
+        .eq('user_id', user.id);
 
-    // Update project cover_url in database
-    const { error: updateError } = await supabase
-      .from('music_projects')
-      .update({ cover_url: publicUrl })
-      .eq('id', projectId);
-
-    if (updateError) {
-      console.error('Error updating project cover:', updateError);
-      // Continue anyway, return the URL
+      if (updateError) {
+        console.error('Error updating artist:', updateError);
+      }
     }
 
     return new Response(
       JSON.stringify({ 
         success: true,
-        coverUrl: publicUrl,
-        isBase64: false,
+        avatarUrl: publicUrl,
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
 
   } catch (error: any) {
-    console.error('Error in generate-cover-image:', error);
+    console.error('Error in generate-artist-portrait:', error);
     return new Response(
       JSON.stringify({ error: error.message }),
       { 
