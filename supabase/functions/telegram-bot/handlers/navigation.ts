@@ -11,7 +11,7 @@ const MAIN_BANNER = getMainBanner();
 
 export async function handleNavigationMain(chatId: number, messageId?: number) {
   const caption = `🏠 *MusicVerse Studio*\n\n` +
-    `Создавайте музыку с помощью искусственного интеллекта.\n\n` +
+    `Создавайте музыку с помощью искусственного интеллекта\\.\n\n` +
     `🎵 Генерация треков по текстовым промптам\n` +
     `📁 Управление проектами\n` +
     `🎧 Встроенный плеер\n` +
@@ -28,7 +28,7 @@ export async function handleNavigationMain(chatId: number, messageId?: number) {
         type: 'photo',
         media: MAIN_BANNER,
         caption,
-        parse_mode: 'Markdown'
+        parse_mode: 'MarkdownV2'
       },
       keyboard
     );
@@ -90,7 +90,7 @@ export async function handleNavigationLibrary(
         type: 'photo',
         media: coverUrl,
         caption,
-        parse_mode: 'Markdown'
+        parse_mode: 'MarkdownV2'
       },
       keyboard
     );
@@ -158,7 +158,7 @@ export async function handleNavigationProjects(
         type: 'photo',
         media: coverUrl,
         caption,
-        parse_mode: 'Markdown'
+        parse_mode: 'MarkdownV2'
       },
       keyboard
     );

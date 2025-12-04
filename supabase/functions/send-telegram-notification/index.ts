@@ -1,5 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { getTelegramConfig, getTrackDeepLink } from '../_shared/telegram-config.ts';
+import { escapeMarkdown } from '../_shared/telegram-utils.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -54,7 +55,7 @@ async function sendTelegramMessage(chatId: number, text: string, replyMarkup?: u
     body: JSON.stringify({
       chat_id: chatId,
       text,
-      parse_mode: 'Markdown',
+      parse_mode: 'MarkdownV2',
       reply_markup: replyMarkup,
     }),
   });
@@ -116,7 +117,7 @@ async function sendTelegramAudio(
   if (options.performer) formData.append('performer', options.performer);
   if (options.duration) formData.append('duration', options.duration.toString());
   if (thumbBlob) formData.append('thumbnail', thumbBlob, 'cover.jpg');
-  formData.append('parse_mode', 'Markdown');
+  formData.append('parse_mode', 'MarkdownV2');
   if (options.replyMarkup) formData.append('reply_markup', JSON.stringify(options.replyMarkup));
 
   const response = await fetch(`https://api.telegram.org/bot${botToken}/sendAudio`, {
@@ -301,7 +302,7 @@ Deno.serve(async (req) => {
         : generationMode === 'add_instrumental' ? 'Инструментал добавлен'
         : 'Генерация завершена';
       
-      const caption = `${modeEmoji} *${modeText}\\!*\n\n🎵 *${(title || 'Новый трек').replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}*${style ? `\n🎸 ${style.split(',')[0].replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}${versionText}\n\n✨ _Создано в_ @AIMusicVerseBot ✨`;
+      const caption = `${modeEmoji} *${escapeMarkdown(modeText)}\\!*\n\n🎵 *${escapeMarkdown(title || 'Новый трек')}*${style ? `\n🎸 ${escapeMarkdown(style.split(',')[0])}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}${versionText}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
       
       await sendTelegramAudio(finalChatId, audioUrl, {
         caption,
@@ -351,7 +352,7 @@ Deno.serve(async (req) => {
           ? `\n🏷️ ${track.tags.split(',').slice(0, 3).map((t: string) => `#${t.trim().replace(/\s+/g, '_').toLowerCase()}`).join(' ')}`
           : '';
         
-        const caption = `🎵 *${(track.title || 'Новый трек').replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}*${track.style ? `\n🎸 ${track.style.split(',')[0].replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}\n\n✨ _Создано в_ @AIMusicVerseBot ✨`;
+        const caption = `🎵 *${escapeMarkdown(track.title || 'Новый трек')}*${track.style ? `\n🎸 ${escapeMarkdown(track.style.split(',')[0])}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
         
         await sendTelegramAudio(finalChatId, track.audio_url, {
           caption,
@@ -394,10 +395,10 @@ Deno.serve(async (req) => {
           : '';
         
         const lyricsPreview = track.lyrics 
-          ? `\n\n📝 _${track.lyrics.slice(0, 100).replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}${track.lyrics.length > 100 ? '...' : ''}_`
+          ? `\n\n📝 _${escapeMarkdown(track.lyrics.slice(0, 100))}${track.lyrics.length > 100 ? '...' : ''}_`
           : '';
         
-        const caption = `🎉 *Ваш трек готов\\!*\n\n🎵 *${(track.title || 'Новый трек').replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}*${track.style ? `\n🎸 ${track.style.split(',')[0].replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}` : ''}\n⏱️ ${durationText}${tagsText}${lyricsPreview}\n\n✨ _Создано в_ @AIMusicVerseBot ✨`;
+        const caption = `🎉 *Ваш трек готов\\!*\n\n🎵 *${escapeMarkdown(track.title || 'Новый трек')}*${track.style ? `\n🎸 ${escapeMarkdown(track.style.split(',')[0])}` : ''}\n⏱️ ${durationText}${tagsText}${lyricsPreview}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
         
         await sendTelegramAudio(finalChatId, track.audio_url, {
           caption,
@@ -424,7 +425,9 @@ Deno.serve(async (req) => {
           }
         });
       } else {
-        const message = `🎉 *Ваш трек готов!*\n\n🎵 *${track?.title || 'Новый трек'}*\n${track?.style ? `🎸 Стиль: ${track.style}` : ''}\n\nОткройте в приложении для прослушивания! 🎧`;
+        const trackTitle = escapeMarkdown(track?.title || 'Новый трек');
+        const trackStyle = track?.style ? escapeMarkdown(track.style) : '';
+        const message = `🎉 *Ваш трек готов\\!*\n\n🎵 *${trackTitle}*\n${trackStyle ? `🎸 Стиль: ${trackStyle}` : ''}\n\nОткройте в приложении для прослушивания\\! 🎧`;
         
         await sendTelegramMessage(finalChatId, message, {
           inline_keyboard: [
@@ -434,7 +437,8 @@ Deno.serve(async (req) => {
         });
       }
     } else if (status === 'failed') {
-      const message = `😔 *Не удалось создать трек*\n\n${error_message || 'Произошла ошибка при генерации'}\n\n💡 *Попробуйте:*\n• Упростить описание\n• Изменить стиль\n• Попробовать через минуту`;
+      const escapedErrorMessage = escapeMarkdown(error_message || 'Произошла ошибка при генерации');
+      const message = `😔 *Не удалось создать трек*\n\n${escapedErrorMessage}\n\n💡 *Попробуйте:*\n• Упростить описание\n• Изменить стиль\n• Попробовать через минуту`;
       
       await sendTelegramMessage(finalChatId, message, {
         inline_keyboard: [
