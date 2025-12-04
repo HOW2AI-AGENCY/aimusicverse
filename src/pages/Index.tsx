@@ -15,6 +15,7 @@ import {
   Library,
   Sparkles,
   FolderOpen,
+  ListMusic,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
@@ -30,6 +31,7 @@ import { FeaturedSection } from "@/components/home/FeaturedSection";
 import { NewReleasesSection } from "@/components/home/NewReleasesSection";
 import { PopularSection } from "@/components/home/PopularSection";
 import { PublicArtistsSection } from "@/components/home/PublicArtistsSection";
+import { AutoPlaylistsSection } from "@/components/home/AutoPlaylistsSection";
 import { FilterBar } from "@/components/home/FilterBar";
 import type { FilterState } from "@/components/home/FilterBar";
 import { GenerateSheet } from "@/components/GenerateSheet";
@@ -183,46 +185,68 @@ const Index = () => {
         {/* Quick Actions */}
         <Card className="p-5 sm:p-6 mb-6 glass-card border-primary/30">
           <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-foreground">Быстрые действия</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-2.5 sm:gap-3">
             <Button
               onClick={() => setGenerateSheetOpen(true)}
-              className="bg-gradient-telegram hover:opacity-90 h-auto py-5 sm:py-6 flex flex-col gap-2 shadow-lg hover:shadow-primary/30 transition-all touch-manipulation min-h-[80px]"
+              className="bg-gradient-telegram hover:opacity-90 h-auto py-4 sm:py-5 flex flex-col gap-1.5 shadow-lg hover:shadow-primary/30 transition-all touch-manipulation min-h-[70px]"
               aria-label="Открыть генератор музыки"
             >
-              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
-              <span className="text-xs sm:text-sm font-semibold">Генератор</span>
+              <Sparkles className="w-5 h-5" />
+              <span className="text-xs font-semibold">Генератор</span>
             </Button>
             <Button
               onClick={() => navigate("/library")}
-              className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 h-auto py-5 sm:py-6 flex flex-col gap-2 shadow-lg hover:shadow-purple-500/30 transition-all touch-manipulation min-h-[80px]"
+              className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 h-auto py-4 sm:py-5 flex flex-col gap-1.5 shadow-lg hover:shadow-purple-500/30 transition-all touch-manipulation min-h-[70px]"
               aria-label="Открыть библиотеку"
             >
-              <Library className="w-5 h-5 sm:w-6 sm:h-6" />
-              <span className="text-xs sm:text-sm font-semibold">Библиотека</span>
+              <Library className="w-5 h-5" />
+              <span className="text-xs font-semibold">Библиотека</span>
+            </Button>
+            <Button
+              onClick={() => navigate("/playlists")}
+              className="bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 h-auto py-4 sm:py-5 flex flex-col gap-1.5 shadow-lg hover:shadow-teal-500/30 transition-all touch-manipulation min-h-[70px]"
+              aria-label="Открыть плейлисты"
+            >
+              <ListMusic className="w-5 h-5" />
+              <span className="text-xs font-semibold">Плейлисты</span>
             </Button>
             <Button
               onClick={() => navigate("/tasks")}
               variant="outline"
-              className="glass border-primary/30 hover:border-primary/50 h-auto py-5 sm:py-6 flex flex-col gap-2 transition-all touch-manipulation min-h-[80px]"
+              className="glass border-primary/30 hover:border-primary/50 h-auto py-4 sm:py-5 flex flex-col gap-1.5 transition-all touch-manipulation min-h-[70px]"
               aria-label="Открыть задачи"
             >
-              <CheckSquare className="w-5 h-5 sm:w-6 sm:h-6" />
-              <span className="text-xs sm:text-sm">Задачи</span>
+              <CheckSquare className="w-5 h-5" />
+              <span className="text-xs">Задачи</span>
             </Button>
             <Button
               onClick={() => navigate("/projects")}
               variant="outline"
-              className="glass border-primary/30 hover:border-primary/50 h-auto py-5 sm:py-6 flex flex-col gap-2 transition-all touch-manipulation min-h-[80px]"
+              className="glass border-primary/30 hover:border-primary/50 h-auto py-4 sm:py-5 flex flex-col gap-1.5 transition-all touch-manipulation min-h-[70px]"
               aria-label="Открыть проекты"
             >
-              <FolderOpen className="w-5 h-5 sm:w-6 sm:h-6" />
-              <span className="text-xs sm:text-sm">Проекты</span>
+              <FolderOpen className="w-5 h-5" />
+              <span className="text-xs">Проекты</span>
+            </Button>
+            <Button
+              onClick={() => navigate("/actors")}
+              variant="outline"
+              className="glass border-primary/30 hover:border-primary/50 h-auto py-4 sm:py-5 flex flex-col gap-1.5 transition-all touch-manipulation min-h-[70px]"
+              aria-label="Открыть артистов"
+            >
+              <User className="w-5 h-5" />
+              <span className="text-xs">Артисты</span>
             </Button>
           </div>
         </Card>
 
         {/* Public AI Artists Section */}
         <PublicArtistsSection />
+
+        {/* Auto Playlists by Genre */}
+        <div className="mb-6">
+          <AutoPlaylistsSection />
+        </div>
 
         {/* Public Projects */}
         {publicProjects && publicProjects.length > 0 && (

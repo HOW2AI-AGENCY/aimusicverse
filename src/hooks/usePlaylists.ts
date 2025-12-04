@@ -182,6 +182,29 @@ export function usePlaylists() {
     },
   });
 
+  // Reorder tracks in playlist
+  const reorderTracksMutation = useMutation({
+    mutationFn: async (input: { playlistId: string; trackIds: string[] }) => {
+      // Update positions for all tracks
+      const updates = input.trackIds.map((trackId, index) => 
+        supabase
+          .from('playlist_tracks')
+          .update({ position: index })
+          .eq('playlist_id', input.playlistId)
+          .eq('track_id', trackId)
+      );
+      
+      await Promise.all(updates);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['playlist-tracks'] });
+    },
+    onError: (error) => {
+      console.error('Error reordering tracks:', error);
+      toast.error('Ошибка изменения порядка');
+    },
+  });
+
   return {
     playlists: playlists ?? [],
     isLoading,
@@ -191,6 +214,7 @@ export function usePlaylists() {
     deletePlaylist: deletePlaylistMutation.mutateAsync,
     addTrackToPlaylist: addTrackMutation.mutateAsync,
     removeTrackFromPlaylist: removeTrackMutation.mutateAsync,
+    reorderPlaylistTracks: reorderTracksMutation.mutateAsync,
     isCreating: createPlaylistMutation.isPending,
     isAdding: addTrackMutation.isPending,
   };
