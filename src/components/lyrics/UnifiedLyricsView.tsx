@@ -87,6 +87,7 @@ export function UnifiedLyricsView({
   const lyricsRef = useRef<HTMLDivElement>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastScrollTopRef = useRef<number>(0);
+  const isProgrammaticScrollRef = useRef(false);
 
   const { plainText, timestamped } = useMemo(() => {
     if (providedTimestamped) {
@@ -100,14 +101,17 @@ export function UnifiedLyricsView({
 
   // Handle user scroll detection
   const handleScroll = useCallback((e: Event) => {
+    // Ignore programmatic scrolls
+    if (isProgrammaticScrollRef.current) return;
+    
     const target = e.target as HTMLElement;
     const currentScrollTop = target.scrollTop;
     
     // Detect if this is user-initiated scroll (not programmatic)
     const scrollDelta = Math.abs(currentScrollTop - lastScrollTopRef.current);
     
-    // If scroll delta is large and we're not programmatically scrolling, it's user scroll
-    if (scrollDelta > 5) {
+    // If scroll delta is large, it's user scroll
+    if (scrollDelta > 10) {
       setUserScrolling(true);
       
       // Clear existing timeout
@@ -176,14 +180,20 @@ export function UnifiedLyricsView({
     const targetPosition = containerRect.height * 0.3;
     const currentPosition = elementRect.top - containerRect.top;
     const scrollOffset = currentPosition - targetPosition;
+    const targetScrollTop = Math.max(0, container.scrollTop + scrollOffset);
     
-    // Smooth scroll
+    // Smooth scroll with programmatic flag
     requestAnimationFrame(() => {
-      lastScrollTopRef.current = container.scrollTop + scrollOffset;
+      isProgrammaticScrollRef.current = true;
+      lastScrollTopRef.current = targetScrollTop;
       container.scrollTo({
-        top: container.scrollTop + scrollOffset,
+        top: targetScrollTop,
         behavior: 'smooth'
       });
+      // Reset programmatic flag after scroll animation
+      setTimeout(() => {
+        isProgrammaticScrollRef.current = false;
+      }, 500);
     });
   }, [activeWordIndex, hasTimestampedLyrics, isPlaying, userScrolling]);
 

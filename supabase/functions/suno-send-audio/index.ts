@@ -14,13 +14,12 @@ serve(async (req) => {
 
   try {
     const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
-    const miniAppUrl = Deno.env.get('MINI_APP_URL');
 
     if (!botToken) {
       throw new Error('TELEGRAM_BOT_TOKEN not configured');
     }
 
-    const { chatId, trackId, audioUrl, coverUrl, title, duration, status, errorMessage } = await req.json();
+    const { chatId, trackId, audioUrl, coverUrl, title, duration, status, errorMessage, versionLabel } = await req.json();
 
     if (!chatId) {
       throw new Error('chatId is required');
@@ -29,7 +28,6 @@ serve(async (req) => {
     const telegramApiUrl = `https://api.telegram.org/bot${botToken}`;
 
     if (status === 'failed') {
-      // Send error message
       await fetch(`${telegramApiUrl}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -63,51 +61,146 @@ serve(async (req) => {
     };
 
     const durationText = duration ? formatDuration(duration) : '';
-
     const telegramConfig = getTelegramConfig();
     const botDeepLink = telegramConfig.deepLinkBase;
 
-    // Send audio file
-    const audioMessage: any = {
-      chat_id: chatId,
-      audio: audioUrl,
-      caption: `🎵 ${title || 'Новый трек'}\n${durationText ? `⏱ ${durationText}` : ''}\n\n✨ Сгенерировано с помощью MusicVerse AI`,
-      title: title || 'Новый трек',
-      performer: 'MusicVerse AI',
-      reply_markup: {
-        inline_keyboard: [
-          [
-            { text: '▶️ Открыть в приложении', url: `${botDeepLink}?startapp=track_${trackId}` }
-          ],
-          [
-            { text: '🔄 Создать ещё', callback_data: 'generate_new' }
-          ]
-        ]
-      }
+    // Sanitize title for filename
+    const sanitizeFilename = (name: string) => {
+      return name
+        .replace(/[<>:"/\\|?*]/g, '')
+        .replace(/\s+/g, '_')
+        .substring(0, 60);
     };
 
-    // Add thumbnail if available
-    if (coverUrl) {
-      audioMessage.thumb = coverUrl;
+    const trackTitle = title || 'Новый трек';
+    const filename = `${sanitizeFilename(trackTitle)}.mp3`;
+
+    console.log(`📤 Sending audio to Telegram: ${trackTitle}`);
+    console.log(`📎 Audio URL: ${audioUrl.substring(0, 100)}...`);
+
+    // Download audio file as blob for proper title display
+    let audioBlob: Blob | null = null;
+    try {
+      console.log('⬇️ Downloading audio file...');
+      const audioResponse = await fetch(audioUrl);
+      if (audioResponse.ok) {
+        audioBlob = await audioResponse.blob();
+        console.log(`✅ Audio downloaded: ${audioBlob.size} bytes`);
+      } else {
+        console.warn(`⚠️ Failed to download audio: ${audioResponse.status}`);
+      }
+    } catch (downloadError) {
+      console.warn('⚠️ Audio download error:', downloadError);
     }
 
-    const response = await fetch(`${telegramApiUrl}/sendAudio`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(audioMessage),
-    });
+    // Download thumbnail if available
+    let thumbBlob: Blob | null = null;
+    if (coverUrl) {
+      try {
+        const thumbResponse = await fetch(coverUrl);
+        if (thumbResponse.ok) {
+          thumbBlob = await thumbResponse.blob();
+          console.log(`✅ Thumbnail downloaded: ${thumbBlob.size} bytes`);
+        }
+      } catch (thumbError) {
+        console.warn('⚠️ Thumbnail download error:', thumbError);
+      }
+    }
 
-    const result = await response.json();
+    // Build caption with version info
+    let caption = `🎵 ${trackTitle}`;
+    if (durationText) caption += `\n⏱ ${durationText}`;
+    caption += `\n\n✨ Сгенерировано с помощью MusicVerse AI`;
+
+    let response: Response;
+    let result: any;
+
+    // Use FormData for proper title display in Telegram
+    if (audioBlob) {
+      console.log('📦 Sending via FormData (blob)...');
+      const formData = new FormData();
+      formData.append('chat_id', chatId.toString());
+      formData.append('audio', audioBlob, filename);
+      formData.append('title', trackTitle);
+      formData.append('performer', 'MusicVerse AI');
+      formData.append('caption', caption);
+      
+      if (duration) {
+        formData.append('duration', Math.round(duration).toString());
+      }
+
+      if (thumbBlob) {
+        formData.append('thumbnail', thumbBlob, 'cover.jpg');
+      }
+
+      // Add inline keyboard via reply_markup
+      const replyMarkup = {
+        inline_keyboard: [
+          [{ text: '▶️ Открыть в приложении', url: `${botDeepLink}?startapp=track_${trackId}` }],
+          [{ text: '🔄 Создать ещё', callback_data: 'generate_new' }]
+        ]
+      };
+      formData.append('reply_markup', JSON.stringify(replyMarkup));
+
+      response = await fetch(`${telegramApiUrl}/sendAudio`, {
+        method: 'POST',
+        body: formData,
+      });
+      result = await response.json();
+    } else {
+      // Fallback: send URL directly (titles may not display correctly)
+      console.log('📦 Sending via JSON (URL fallback)...');
+      const audioMessage = {
+        chat_id: chatId,
+        audio: audioUrl,
+        caption,
+        title: trackTitle,
+        performer: 'MusicVerse AI',
+        duration: duration ? Math.round(duration) : undefined,
+        thumbnail: coverUrl || undefined,
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: '▶️ Открыть в приложении', url: `${botDeepLink}?startapp=track_${trackId}` }],
+            [{ text: '🔄 Создать ещё', callback_data: 'generate_new' }]
+          ]
+        }
+      };
+
+      response = await fetch(`${telegramApiUrl}/sendAudio`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(audioMessage),
+      });
+      result = await response.json();
+    }
 
     if (!response.ok) {
-      console.error('Telegram API error:', result);
+      console.error('❌ Telegram API error:', result);
       throw new Error(`Telegram API error: ${result.description || 'Unknown error'}`);
     }
 
-    console.log('Audio sent successfully to Telegram');
+    // Cache file_id for future use
+    if (result.result?.audio?.file_id && trackId) {
+      try {
+        const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+        const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+        const supabase = createClient(supabaseUrl, supabaseServiceKey);
+        
+        await supabase
+          .from('tracks')
+          .update({ telegram_file_id: result.result.audio.file_id })
+          .eq('id', trackId);
+        
+        console.log('✅ Cached telegram_file_id');
+      } catch (cacheError) {
+        console.warn('⚠️ Failed to cache file_id:', cacheError);
+      }
+    }
+
+    console.log('✅ Audio sent successfully to Telegram');
 
     return new Response(
-      JSON.stringify({ success: true }),
+      JSON.stringify({ success: true, file_id: result.result?.audio?.file_id }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 200,
@@ -115,7 +208,7 @@ serve(async (req) => {
     );
 
   } catch (error: any) {
-    console.error('Error in suno-send-audio:', error);
+    console.error('❌ Error in suno-send-audio:', error);
     return new Response(
       JSON.stringify({ 
         success: false, 
