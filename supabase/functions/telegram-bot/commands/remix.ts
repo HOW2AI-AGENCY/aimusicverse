@@ -6,13 +6,14 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { sendMessage, editMessageText } from '../telegram-api.ts';
 import { escapeMarkdown } from '../utils/index.ts';
+import { BOT_CONFIG } from '../config.ts';
 
 const supabase = createClient(
   Deno.env.get('SUPABASE_URL')!,
   Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 );
 
-const MINI_APP_URL = Deno.env.get('MINI_APP_URL') || 'https://t.me/AIMusicVerseBot/app';
+const MINI_APP_URL = BOT_CONFIG.miniAppUrl;
 
 export async function handleRemix(
   chatId: number,

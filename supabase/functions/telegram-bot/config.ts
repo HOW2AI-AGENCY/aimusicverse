@@ -1,6 +1,23 @@
+// Import shared Telegram configuration
+const getTelegramConfig = () => {
+  const botUsername = Deno.env.get('TELEGRAM_BOT_USERNAME') || 'AIMusicVerseBot';
+  const appShortName = Deno.env.get('TELEGRAM_APP_SHORT_NAME') || 'app';
+  const miniAppUrl = Deno.env.get('MINI_APP_URL') || `https://t.me/${botUsername}/${appShortName}`;
+  
+  return {
+    botUsername,
+    appShortName,
+    miniAppUrl,
+    deepLinkBase: `https://t.me/${botUsername}/${appShortName}`,
+  };
+};
+
+const telegramConfig = getTelegramConfig();
+
 export const BOT_CONFIG = {
   botToken: Deno.env.get('TELEGRAM_BOT_TOKEN')!,
-  miniAppUrl: Deno.env.get('MINI_APP_URL') || 'https://t.me/your_bot/app',
+  miniAppUrl: telegramConfig.miniAppUrl,
+  deepLinkBase: telegramConfig.deepLinkBase,
   supabaseUrl: Deno.env.get('SUPABASE_URL')!,
   supabaseServiceKey: Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
 };

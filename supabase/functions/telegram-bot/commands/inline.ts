@@ -81,7 +81,7 @@ export async function handleInlineQuery(inlineQuery: InlineQuery) {
 }
 
 function createResult(track: any, username?: string): InlineQueryResult {
-  const deepLink = `https://t.me/AIMusicVerseBot/app?startapp=track_${track.id}`;
+  const deepLink = `${BOT_CONFIG.deepLinkBase}?startapp=track_${track.id}`;
   const performer = username ? `@${username}` : 'MusicVerse AI';
   
   return {

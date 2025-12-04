@@ -6,6 +6,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { sendMessage, editMessageText, answerCallbackQuery } from '../telegram-api.ts';
 import { escapeMarkdown } from '../utils/index.ts';
+import { BOT_CONFIG } from '../config.ts';
 
 const supabase = createClient(
   Deno.env.get('SUPABASE_URL')!,
@@ -106,13 +107,11 @@ export async function handlePlaylistNew(
   const message = `➕ *Создание плейлиста*\n\n` +
     `Для создания плейлиста откройте приложение:`;
 
-  const MINI_APP_URL = Deno.env.get('MINI_APP_URL') || 'https://t.me/AIMusicVerseBot/app';
-
   const keyboard = {
     inline_keyboard: [
       [{ 
         text: '📱 Открыть приложение', 
-        web_app: { url: `${MINI_APP_URL}?startapp=new_playlist_${trackId}` }
+        web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=new_playlist_${trackId}` }
       }],
       [{ text: '⬅️ Назад', callback_data: `add_playlist_${trackId}` }]
     ]
