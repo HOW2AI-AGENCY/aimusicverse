@@ -4,6 +4,16 @@ import { useAuth } from './useAuth';
 import { toast } from 'sonner';
 import { useEffect } from 'react';
 
+export interface LinkedTrack {
+  id: string;
+  title: string | null;
+  lyrics: string | null;
+  audio_url: string | null;
+  cover_url: string | null;
+  duration_seconds: number | null;
+  status: string | null;
+}
+
 export interface ProjectTrack {
   id: string;
   project_id: string;
@@ -19,6 +29,8 @@ export interface ProjectTrack {
   status: string;
   created_at: string;
   updated_at: string;
+  // Linked track data
+  linked_track?: LinkedTrack | null;
 }
 
 export const useProjectTracks = (projectId: string | undefined) => {
@@ -32,7 +44,18 @@ export const useProjectTracks = (projectId: string | undefined) => {
 
       const { data, error } = await supabase
         .from('project_tracks')
-        .select('*')
+        .select(`
+          *,
+          linked_track:tracks!project_tracks_track_id_fkey (
+            id,
+            title,
+            lyrics,
+            audio_url,
+            cover_url,
+            duration_seconds,
+            status
+          )
+        `)
         .eq('project_id', projectId)
         .order('position', { ascending: true });
 

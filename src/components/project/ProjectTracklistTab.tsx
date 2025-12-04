@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import {
   Dialog,
   DialogContent,
@@ -22,6 +21,7 @@ import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea
 import { useIsMobile } from '@/hooks/use-mobile';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { AILyricsWizard } from '@/components/generate-form/AILyricsWizard';
+import { LyricsPreviewSheet } from './LyricsPreviewSheet';
 import { cn } from '@/lib/utils';
 
 interface ProjectTracklistTabProps {
@@ -66,7 +66,8 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
   
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [editingTrack, setEditingTrack] = useState<ProjectTrack | null>(null);
-  const [lyricsEditingTrack, setLyricsEditingTrack] = useState<ProjectTrack | null>(null);
+  const [lyricsPreviewTrack, setLyricsPreviewTrack] = useState<ProjectTrack | null>(null);
+  const [lyricsWizardOpen, setLyricsWizardOpen] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     style_prompt: '',
@@ -176,8 +177,12 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
         notes: newLyrics,
       },
     });
-    setLyricsEditingTrack(null);
+    setLyricsPreviewTrack(null);
     toast.success('Лирика сохранена');
+  };
+
+  const handleOpenWizardFromPreview = () => {
+    setLyricsWizardOpen(true);
   };
 
   const getStatusConfig = (status: string | null) => {
@@ -355,11 +360,29 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
                                   </p>
                                 )}
 
-                                {track.notes && !isMobile && (
-                                  <p className="text-[10px] text-muted-foreground/70 truncate mt-0.5">
-                                    {track.notes.slice(0, 60)}...
-                                  </p>
-                                )}
+                                {/* Display lyrics - from linked track if completed, otherwise from notes */}
+                                {(() => {
+                                  const lyrics = track.linked_track?.lyrics || track.notes;
+                                  const hasGeneratedLyrics = !!track.linked_track?.lyrics;
+                                  
+                                  if (lyrics) {
+                                    return (
+                                      <div className={`${isMobile ? 'mt-1' : 'mt-1.5'}`}>
+                                        <div className="flex items-center gap-1 mb-0.5">
+                                          <FileText className={`${isMobile ? 'w-3 h-3' : 'w-3.5 h-3.5'} text-muted-foreground`} />
+                                          <span className={`${isMobile ? 'text-[9px]' : 'text-[10px]'} text-muted-foreground`}>
+                                            {hasGeneratedLyrics ? 'Сгенерированная лирика' : 'Черновик лирики'}
+                                          </span>
+                                        </div>
+                                        <p className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground/70 line-clamp-2 bg-muted/30 rounded px-2 py-1`}>
+                                          {lyrics.replace(/\[.*?\]/g, '').slice(0, isMobile ? 80 : 120)}
+                                          {lyrics.length > (isMobile ? 80 : 120) && '...'}
+                                        </p>
+                                      </div>
+                                    );
+                                  }
+                                  return null;
+                                })()}
 
                                 {track.recommended_tags && track.recommended_tags.length > 0 && (
                                   <div className={`flex gap-1 ${isMobile ? 'mt-1' : 'mt-1.5'} flex-wrap`}>
@@ -412,7 +435,7 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
                                 <Button
                                   size="sm"
                                   variant="ghost"
-                                  onClick={() => setLyricsEditingTrack(track)}
+                                  onClick={() => setLyricsPreviewTrack(track)}
                                   title="Редактировать лирику"
                                   className={`${isMobile ? 'h-7 w-7' : 'h-9 w-9'} p-0 touch-manipulation`}
                                 >
@@ -523,14 +546,24 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
         </DialogContent>
       </Dialog>
 
+      {/* Lyrics Preview Sheet */}
+      <LyricsPreviewSheet
+        open={!!lyricsPreviewTrack}
+        onOpenChange={(open) => !open && setLyricsPreviewTrack(null)}
+        track={lyricsPreviewTrack}
+        onSave={handleSaveLyrics}
+        onOpenWizard={handleOpenWizardFromPreview}
+      />
+
       {/* AI Lyrics Wizard */}
       <AILyricsWizard
-        open={!!lyricsEditingTrack}
-        onOpenChange={(open) => !open && setLyricsEditingTrack(null)}
+        open={lyricsWizardOpen}
+        onOpenChange={setLyricsWizardOpen}
         onLyricsGenerated={(newLyrics) => {
-          if (lyricsEditingTrack) {
-            handleSaveLyrics(lyricsEditingTrack.id, newLyrics);
+          if (lyricsPreviewTrack) {
+            handleSaveLyrics(lyricsPreviewTrack.id, newLyrics);
           }
+          setLyricsWizardOpen(false);
         }}
         initialGenre={project.genre || undefined}
         initialMood={project.mood ? [project.mood] : undefined}
