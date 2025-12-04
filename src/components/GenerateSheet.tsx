@@ -26,6 +26,7 @@ import { LyricsVisualEditor } from './generate-form/LyricsVisualEditor';
 import { PromptHistory, savePromptToHistory } from './generate-form/PromptHistory';
 import { AILyricsWizard } from './generate-form/AILyricsWizard';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
+import { SUNO_MODELS } from '@/constants/sunoModels';
 
 interface GenerateSheetProps {
   open: boolean;
@@ -402,62 +403,93 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
         <ScrollArea className="flex-1">
           <div className="px-4 pb-4 sm:px-6 sm:pb-6 space-y-3">
-            {/* Centered header with mode toggle */}
-            <div className="flex items-center justify-between gap-2">
-              {/* Left side: Credits and History */}
-              <div className="flex items-center gap-2 flex-1">
-                {credits !== null && (
-                  <Badge 
-                    variant="secondary" 
-                    className="gap-1.5 px-2.5 py-1"
-                    aria-label={`Доступно кредитов: ${credits.toFixed(2)}`}
+            {/* Header with controls */}
+            <div className="space-y-3">
+              {/* Row 1: Credits, Mode Toggle, Settings */}
+              <div className="flex items-center justify-between gap-2">
+                {/* Left side: Credits and History */}
+                <div className="flex items-center gap-2 flex-1">
+                  {credits !== null && (
+                    <Badge 
+                      variant="secondary" 
+                      className="gap-1.5 px-2.5 py-1"
+                      aria-label={`Доступно кредитов: ${credits.toFixed(2)}`}
+                    >
+                      <Coins className="w-3.5 h-3.5" />
+                      <span className="font-semibold text-xs">{credits.toFixed(2)}</span>
+                    </Badge>
+                  )}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setHistoryOpen(true)}
+                    className="h-11 w-11 p-0 min-w-[44px] min-h-[44px] touch-manipulation"
+                    title="История промптов"
+                    aria-label="Открыть историю промптов"
                   >
-                    <Coins className="w-3.5 h-3.5" />
-                    <span className="font-semibold text-xs">{credits.toFixed(2)}</span>
-                  </Badge>
-                )}
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setHistoryOpen(true)}
-                  className="h-11 w-11 p-0 min-w-[44px] min-h-[44px] touch-manipulation"
-                  title="История промптов"
-                  aria-label="Открыть историю промптов"
-                >
-                  <History className="w-5 h-5" />
-                </Button>
+                    <History className="w-5 h-5" />
+                  </Button>
+                </div>
+
+                {/* Center: Mode Toggle */}
+                <div className="flex items-center gap-0.5 p-0.5 rounded-md bg-muted">
+                  <Button
+                    variant={mode === 'simple' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setMode('simple')}
+                    className="h-7 px-3 text-xs"
+                  >
+                    Simple
+                  </Button>
+                  <Button
+                    variant={mode === 'custom' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setMode('custom')}
+                    className="h-7 px-3 text-xs"
+                  >
+                    Custom
+                  </Button>
+                </div>
+
+                {/* Right side: Advanced Settings */}
+                <div className="flex items-center gap-2 flex-1 justify-end">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setAdvancedOpen(!advancedOpen)}
+                    className="h-8 w-8 p-0"
+                  >
+                    <Sliders className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
 
-              {/* Center: Mode Toggle */}
-              <div className="flex items-center gap-0.5 p-0.5 rounded-md bg-muted">
-                <Button
-                  variant={mode === 'simple' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setMode('simple')}
-                  className="h-7 px-3 text-xs"
-                >
-                  Simple
-                </Button>
-                <Button
-                  variant={mode === 'custom' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setMode('custom')}
-                  className="h-7 px-3 text-xs"
-                >
-                  Custom
-                </Button>
-              </div>
-
-              {/* Right side: Advanced Settings */}
-              <div className="flex items-center gap-2 flex-1 justify-end">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setAdvancedOpen(!advancedOpen)}
-                  className="h-8 w-8 p-0"
-                >
-                  <Sliders className="w-4 h-4" />
-                </Button>
+              {/* Row 2: Model Selection */}
+              <div className="flex items-center gap-2">
+                <Label className="text-xs text-muted-foreground shrink-0">Модель:</Label>
+                <Select value={model} onValueChange={setModel}>
+                  <SelectTrigger className="h-9 flex-1">
+                    <SelectValue>
+                      <div className="flex items-center gap-2">
+                        <span>{SUNO_MODELS[model as keyof typeof SUNO_MODELS]?.emoji || '🎵'}</span>
+                        <span className="text-sm">{SUNO_MODELS[model as keyof typeof SUNO_MODELS]?.name || model}</span>
+                      </div>
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent className="z-[9999]">
+                    {Object.entries(SUNO_MODELS).map(([key, info]) => (
+                      <SelectItem key={key} value={key}>
+                        <div className="flex items-center gap-2">
+                          <span>{info.emoji}</span>
+                          <div className="flex flex-col">
+                            <span className="font-medium">{info.name}</span>
+                            <span className="text-xs text-muted-foreground">{info.desc}</span>
+                          </div>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
