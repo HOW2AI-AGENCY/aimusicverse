@@ -82,6 +82,7 @@ export default function Library() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    refetch: refetchTracks,
     deleteTrack, 
     toggleLike, 
     logPlay, 
@@ -91,6 +92,18 @@ export default function Library() {
     sortBy,
     pageSize: 20,
   });
+
+  // Track previous generation count to detect completion
+  const prevGenerationsCount = useRef(activeGenerations.length);
+  
+  // Refetch tracks when a generation completes (count decreases)
+  useEffect(() => {
+    if (prevGenerationsCount.current > 0 && activeGenerations.length < prevGenerationsCount.current) {
+      console.log('🔄 Generation completed, refetching tracks...');
+      refetchTracks();
+    }
+    prevGenerationsCount.current = activeGenerations.length;
+  }, [activeGenerations.length, refetchTracks]);
 
   const fullscreenTrackId = activeTrack?.id;
   const { data: versions } = useTrackVersions(fullscreenTrackId || "");
