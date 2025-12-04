@@ -274,7 +274,7 @@ serve(async (req) => {
           // If still no title, generate a better one from prompt
           if (!trackTitle || trackTitle === 'Untitled' || trackTitle === 'Трек') {
             // Extract first meaningful line from prompt, clean it up
-            const promptLines = (task.prompt || '').split('\n').filter(line => line.trim().length > 0);
+            const promptLines = (task.prompt || '').split('\n').filter((line: string) => line.trim().length > 0);
             if (promptLines.length > 0) {
               trackTitle = promptLines[0].substring(0, 60).trim();
               // Remove common prefixes
