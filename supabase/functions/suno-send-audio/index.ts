@@ -22,8 +22,8 @@ serve(async (req) => {
 
     const { chatId, trackId, audioUrl, coverUrl, title, duration, status, errorMessage } = await req.json();
 
-    // Validate chat_id (note: group chats have negative IDs, so we only check for zero or invalid type)
-    if (!chatId || typeof chatId !== 'number' || chatId === 0) {
+    // Validate chat_id (note: group chats have negative IDs, so we allow negative numbers)
+    if (chatId == null || typeof chatId !== 'number' || chatId === 0) {
       console.error('❌ Invalid or missing chat_id:', chatId);
       return new Response(
         JSON.stringify({ 
