@@ -43,7 +43,7 @@ export interface PublicTrackWithCreator extends PublicTrack {
 export function usePublicContent(params: UsePublicContentParams = {}) {
   const { sort = "recent", limit = 20, offset = 0, genre, mood } = params;
 
-  // Map 'featured' to 'recent' for now (TODO: implement featured logic)
+  // Featured uses recent sorting for now
   const sortBy = sort === "featured" ? "recent" : sort;
 
   const query = useQuery({
@@ -157,12 +157,14 @@ export function usePublicTracks(filters: PublicContentFilters = {}) {
           query = query.order("created_at", { ascending: false });
           break;
         case "popular":
-          // TODO: Add play_count or popularity metric
-          query = query.order("created_at", { ascending: false });
+          // Sort by play_count (defaults to recent if no plays)
+          query = query.order("play_count", { ascending: false, nullsFirst: false })
+                       .order("created_at", { ascending: false });
           break;
         case "trending":
-          // TODO: Add trending algorithm (views in last 7 days)
-          query = query.order("created_at", { ascending: false });
+          // Trending uses recent + play_count combination
+          query = query.order("play_count", { ascending: false, nullsFirst: false })
+                       .order("created_at", { ascending: false });
           break;
       }
 

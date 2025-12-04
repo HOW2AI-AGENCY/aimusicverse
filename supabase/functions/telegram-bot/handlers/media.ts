@@ -131,17 +131,78 @@ export async function handleCopyLink(
 export async function handleLikeTrack(
   chatId: number,
   trackId: string,
+  queryId: string,
+  userId?: string
+) {
+  if (!userId) {
+    await answerCallbackQuery(queryId, '❌ Требуется авторизация');
+    return;
+  }
+
+  try {
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2.39.3');
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    // Check if already liked
+    const { data: existingLike } = await supabase
+      .from('track_likes')
+      .select('id')
+      .eq('track_id', trackId)
+      .eq('user_id', userId)
+      .single();
+
+    if (existingLike) {
+      // Unlike
+      await supabase.from('track_likes').delete().eq('id', existingLike.id);
+      await answerCallbackQuery(queryId, '💔 Удалено из избранного');
+    } else {
+      // Like
+      await supabase.from('track_likes').insert({ track_id: trackId, user_id: userId });
+      await answerCallbackQuery(queryId, '❤️ Добавлено в избранное!');
+    }
+  } catch (error) {
+    console.error('Error toggling like:', error);
+    await answerCallbackQuery(queryId, '❌ Ошибка');
+  }
+}
+
+export async function handleShowTrackDetails(
+  chatId: number,
+  trackId: string,
+  messageId: number,
   queryId: string
 ) {
-  // TODO: Implement like functionality in database
-  await answerCallbackQuery(queryId, '❤️ Добавлено в избранное!');
+  await answerCallbackQuery(queryId);
+
+  const track = await musicService.getTrackById(trackId);
+  if (!track) {
+    await sendMessage(chatId, '❌ Трек не найден');
+    return;
+  }
+
+  const title = track.title || 'Без названия';
+  const style = track.style || 'Не указан';
+  const duration = musicService.formatDuration(track.duration_seconds || 0);
+  const status = track.status === 'completed' ? '✅ Готов' : '⏳ Обрабатывается';
+
+  const caption = `🎵 *${musicService.escapeMarkdown(title)}*\n\n` +
+    `🎸 Стиль: ${musicService.escapeMarkdown(style)}\n` +
+    `⏱️ Длительность: ${duration}\n` +
+    `📊 Статус: ${status}\n` +
+    (track.tags ? `🏷️ Теги: ${musicService.escapeMarkdown(track.tags)}\n` : '') +
+    `\n✨ Создано в MusicVerse AI`;
+
+  await editMessageCaption(chatId, messageId, caption, createTrackDetailsKeyboard(trackId));
 }
 
 export async function handleMediaCallback(
   callbackData: string,
   chatId: number,
   messageId: number,
-  queryId: string
+  queryId: string,
+  userId?: string
 ) {
   if (callbackData.startsWith('play_')) {
     const trackId = callbackData.replace('play_', '');
@@ -157,10 +218,9 @@ export async function handleMediaCallback(
     await handleCopyLink(chatId, trackId, messageId, queryId);
   } else if (callbackData.startsWith('like_')) {
     const trackId = callbackData.replace('like_', '');
-    await handleLikeTrack(chatId, trackId, queryId);
+    await handleLikeTrack(chatId, trackId, queryId, userId);
   } else if (callbackData.startsWith('track_')) {
-    // Возврат к детальному виду трека
-    await answerCallbackQuery(queryId);
-    // TODO: Show track details
+    const trackId = callbackData.replace('track_', '');
+    await handleShowTrackDetails(chatId, trackId, messageId, queryId);
   }
 }

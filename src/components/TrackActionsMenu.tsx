@@ -84,10 +84,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
 
   const handleTranscribeMidi = () => {
     if (!track.audio_url) return;
-    
-    // FIXME: Implement MIDI transcription functionality
-    // This requires useMidiTranscription hook to be properly implemented
-    toast.info('MIDI transcription feature coming soon!');
+    toast.info('Транскрипция в MIDI скоро будет доступна!');
   };
 
 
@@ -110,25 +107,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
 
           <DropdownMenuSeparator />
 
-          {/* TODO: T062 - Version Switcher Integration */}
-          {/* Future: Add inline version switcher here for quick version switching */}
-          {/* NOTE: When implementing, use `is_primary` field, NOT `is_master` */}
-          {/* The database schema uses `is_primary` as the standardized field name */}
-          {/* <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <GitBranch className="w-4 h-4 mr-2" />
-              Версии ({versionCount})
-            </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent>
-              {versions.map(version => (
-                <DropdownMenuItem key={version.id} onClick={() => switchVersion(version.id)}>
-                  <Check className={cn("w-4 h-4 mr-2", version.is_primary ? "visible" : "invisible")} />
-                  {version.version_type} - v{version.version_number}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
-          <DropdownMenuSeparator /> */}
+          {/* Version switcher available in track detail view */}
 
           {/* Studio Section - Show if stems available */}
           {stemCount > 0 && (

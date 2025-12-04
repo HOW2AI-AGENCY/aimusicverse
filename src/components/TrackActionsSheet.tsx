@@ -129,10 +129,7 @@ export function TrackActionsSheet({
 
   const handleTranscribeMidi = () => {
     if (!track?.audio_url) return;
-    
-    // FIXME: Implement MIDI transcription functionality
-    // This requires useMidiTranscription hook to be properly implemented
-    toast.info('MIDI transcription feature coming soon!');
+    toast.info('Транскрипция в MIDI скоро будет доступна!');
     onOpenChange(false);
   };
   
