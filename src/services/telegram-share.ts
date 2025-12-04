@@ -50,6 +50,15 @@ interface Track {
   duration_seconds?: number | null;
 }
 
+interface Playlist {
+  id: string;
+  title: string;
+  description?: string | null;
+  cover_url?: string | null;
+  track_count?: number | null;
+  total_duration?: number | null;
+}
+
 // The username of our Telegram bot
 // Used for constructing deep links to the Mini App
 const BOT_USERNAME = 'AIMusicVerseBot';
@@ -81,6 +90,108 @@ export class TelegramShareService {
    */
   getTrackDeepLink(trackId: string): string {
     return `https://t.me/${BOT_USERNAME}/app?startapp=track_${trackId}`;
+  }
+
+  /**
+   * Get deep link for a playlist
+   */
+  getPlaylistDeepLink(playlistId: string): string {
+    return `https://t.me/${BOT_USERNAME}/app?startapp=playlist_${playlistId}`;
+  }
+
+  /**
+   * Get share URL for sharing playlist via Telegram
+   */
+  getPlaylistShareUrl(playlist: Playlist): string {
+    const url = this.getPlaylistDeepLink(playlist.id);
+    const text = `📁 Плейлист "${playlist.title}"\n${playlist.track_count || 0} треков\n✨ MusicVerse AI`;
+    return `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+  }
+
+  /**
+   * Share playlist to Telegram Story
+   */
+  sharePlaylistToStory(playlist: Playlist): boolean {
+    if (!this.canShareToStory()) {
+      console.warn('shareToStory not available');
+      return false;
+    }
+
+    const mediaUrl = playlist.cover_url || 'https://via.placeholder.com/512x512?text=Playlist';
+
+    try {
+      (this.webApp as any).shareToStory(mediaUrl, {
+        text: `📁 ${playlist.title}\n${playlist.track_count || 0} треков\n✨ MusicVerse AI`,
+        widgetLink: {
+          url: this.getPlaylistDeepLink(playlist.id),
+          name: 'Открыть плейлист',
+        },
+      });
+      
+      hapticNotification('success');
+      return true;
+    } catch (error) {
+      console.error('Error sharing playlist to story:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Share playlist URL using native Telegram SDK
+   */
+  sharePlaylistURL(playlist: Playlist): boolean {
+    const url = this.getPlaylistDeepLink(playlist.id);
+    const text = `📁 Плейлист "${playlist.title}" (${playlist.track_count || 0} треков)`;
+
+    if (this.canShareURL()) {
+      try {
+        (this.webApp as any).shareURL(url, text);
+        hapticNotification('success');
+        return true;
+      } catch (error) {
+        console.error('Error with shareURL:', error);
+      }
+    }
+
+    if (this.webApp?.openTelegramLink) {
+      const shareLink = this.getPlaylistShareUrl(playlist);
+      this.webApp.openTelegramLink(shareLink);
+      hapticNotification('success');
+      return true;
+    }
+
+    window.open(this.getPlaylistShareUrl(playlist), '_blank');
+    return true;
+  }
+
+  /**
+   * Build rich caption for sharing playlist
+   */
+  buildPlaylistShareCaption(playlist: Playlist, creatorUsername?: string): string {
+    const lines: string[] = [];
+
+    lines.push(`📁 *${playlist.title}*`);
+
+    if (creatorUsername) {
+      lines.push(`👤 by @${creatorUsername}`);
+    }
+
+    if (playlist.description) {
+      lines.push(`📝 ${playlist.description.substring(0, 100)}${playlist.description.length > 100 ? '...' : ''}`);
+    }
+
+    lines.push(`🎵 ${playlist.track_count || 0} треков`);
+
+    if (playlist.total_duration) {
+      const hours = Math.floor(playlist.total_duration / 3600);
+      const mins = Math.floor((playlist.total_duration % 3600) / 60);
+      lines.push(`⏱️ ${hours > 0 ? `${hours} ч ` : ''}${mins} мин`);
+    }
+
+    lines.push('');
+    lines.push(`🔗 ${this.getPlaylistDeepLink(playlist.id)}`);
+
+    return lines.join('\n');
   }
 
   /**

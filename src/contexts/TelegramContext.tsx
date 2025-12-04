@@ -467,6 +467,11 @@ export const DeepLinkHandler = () => {
         const trackId = startParam.replace('stats_', '');
         navigate(`/library?track=${trackId}&view=stats`);
       }
+      // Playlist deep link
+      else if (startParam.startsWith('playlist_')) {
+        const playlistId = startParam.replace('playlist_', '');
+        navigate(`/playlists?playlist=${playlistId}`);
+      }
     }
   }, [webApp, navigate]);
 

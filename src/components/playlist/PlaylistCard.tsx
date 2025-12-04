@@ -1,9 +1,10 @@
-import { Music2, Clock, Globe, Lock, MoreVertical, Play, Pencil, Trash2 } from 'lucide-react';
+import { Music2, Clock, Globe, Lock, MoreVertical, Play, Pencil, Trash2, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import type { Playlist } from '@/hooks/usePlaylists';
@@ -14,9 +15,10 @@ interface PlaylistCardProps {
   onOpen: () => void;
   onEdit: () => void;
   onDelete: () => void;
+  onShare?: () => void;
 }
 
-export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelete }: PlaylistCardProps) {
+export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelete, onShare }: PlaylistCardProps) {
   return (
     <div 
       className="bg-card rounded-lg overflow-hidden border border-border hover:border-primary/50 transition-colors cursor-pointer group"
@@ -85,6 +87,13 @@ export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelet
                 <Pencil className="h-4 w-4 mr-2" />
                 Редактировать
               </DropdownMenuItem>
+              {onShare && (
+                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onShare(); }}>
+                  <Share2 className="h-4 w-4 mr-2" />
+                  Поделиться
+                </DropdownMenuItem>
+              )}
+              <DropdownMenuSeparator />
               <DropdownMenuItem 
                 onClick={(e) => { e.stopPropagation(); onDelete(); }}
                 className="text-destructive focus:text-destructive"

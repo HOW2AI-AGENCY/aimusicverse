@@ -1,18 +1,33 @@
-import { useState } from 'react';
-import { Plus, Music2, Clock, Globe, Lock } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { Plus, Music2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { usePlaylists } from '@/hooks/usePlaylists';
 import { PlaylistCard } from '@/components/playlist/PlaylistCard';
 import { CreatePlaylistDialog } from '@/components/playlist/CreatePlaylistDialog';
 import { EditPlaylistDialog } from '@/components/playlist/EditPlaylistDialog';
 import { PlaylistDetailSheet } from '@/components/playlist/PlaylistDetailSheet';
+import { SharePlaylistDialog } from '@/components/playlist/SharePlaylistDialog';
 import type { Playlist } from '@/hooks/usePlaylists';
 
 export default function Playlists() {
+  const [searchParams] = useSearchParams();
   const { playlists, isLoading, deletePlaylist } = usePlaylists();
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editingPlaylist, setEditingPlaylist] = useState<Playlist | null>(null);
   const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(null);
+  const [sharingPlaylist, setSharingPlaylist] = useState<Playlist | null>(null);
+
+  // Handle deep link - open playlist from URL params
+  useEffect(() => {
+    const playlistId = searchParams.get('playlist');
+    if (playlistId && playlists.length > 0) {
+      const playlist = playlists.find(p => p.id === playlistId);
+      if (playlist) {
+        setSelectedPlaylist(playlist);
+      }
+    }
+  }, [searchParams, playlists]);
 
   const handleDelete = async (playlist: Playlist) => {
     if (confirm(`Удалить плейлист "${playlist.title}"?`)) {
@@ -78,6 +93,7 @@ export default function Playlists() {
                 onOpen={() => setSelectedPlaylist(playlist)}
                 onEdit={() => setEditingPlaylist(playlist)}
                 onDelete={() => handleDelete(playlist)}
+                onShare={() => setSharingPlaylist(playlist)}
               />
             ))}
           </div>
@@ -105,6 +121,17 @@ export default function Playlists() {
             setEditingPlaylist(selectedPlaylist);
           }
         }}
+        onShare={() => {
+          if (selectedPlaylist) {
+            setSharingPlaylist(selectedPlaylist);
+          }
+        }}
+      />
+
+      <SharePlaylistDialog
+        playlist={sharingPlaylist}
+        open={!!sharingPlaylist}
+        onOpenChange={(open) => !open && setSharingPlaylist(null)}
       />
     </div>
   );
