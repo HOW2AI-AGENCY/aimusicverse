@@ -23,6 +23,7 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/component
 import { toast } from 'sonner';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { usePlayerStore } from '@/hooks/usePlayerState';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface TrackActionsSheetProps {
   track: Track | null;
@@ -204,33 +205,62 @@ export function TrackActionsSheet({
                     </Button>
                   </CollapsibleTrigger>
                   <CollapsibleContent className="pl-4 space-y-1">
-                    {versions.map((version) => (
-                      <Button
+                    {versions.map((version, index) => (
+                      <motion.div
                         key={version.id}
-                        variant={version.id === activeVersionId ? 'secondary' : 'ghost'}
-                        className="w-full justify-between gap-3 h-11"
-                        onClick={() => handleVersionSwitch(version.id)}
-                        disabled={isVersionSwitching}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.05, duration: 0.2 }}
                       >
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium">
-                            Версия {version.version_label || 'A'}
-                          </span>
-                          {version.duration_seconds && (
-                            <span className="text-xs text-muted-foreground">
-                              ({formatDuration(version.duration_seconds)})
-                            </span>
-                          )}
-                        </div>
-                        <div className="flex items-center gap-2">
-                          {version.is_primary && (
-                            <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
-                          )}
-                          {version.id === activeVersionId && (
-                            <Check className="w-4 h-4 text-primary" />
-                          )}
-                        </div>
-                      </Button>
+                        <Button
+                          variant={version.id === activeVersionId ? 'secondary' : 'ghost'}
+                          className={`w-full justify-between gap-3 h-11 transition-all duration-300 ${
+                            version.id === activeVersionId 
+                              ? 'bg-primary/10 border border-primary/20 shadow-sm' 
+                              : ''
+                          }`}
+                          onClick={() => handleVersionSwitch(version.id)}
+                          disabled={isVersionSwitching}
+                        >
+                          <div className="flex items-center gap-2">
+                            <motion.span 
+                              className="font-medium"
+                              animate={{ 
+                                scale: version.id === activeVersionId ? 1.02 : 1,
+                              }}
+                              transition={{ type: "spring", stiffness: 300 }}
+                            >
+                              Версия {version.version_label || 'A'}
+                            </motion.span>
+                            {version.duration_seconds && (
+                              <span className="text-xs text-muted-foreground">
+                                ({formatDuration(version.duration_seconds)})
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {version.is_primary && (
+                              <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
+                            )}
+                            <AnimatePresence mode="wait">
+                              {version.id === activeVersionId && (
+                                <motion.div
+                                  initial={{ scale: 0, rotate: -180 }}
+                                  animate={{ scale: 1, rotate: 0 }}
+                                  exit={{ scale: 0, rotate: 180 }}
+                                  transition={{ 
+                                    type: "spring", 
+                                    stiffness: 400, 
+                                    damping: 15 
+                                  }}
+                                >
+                                  <Check className="w-4 h-4 text-primary" />
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                        </Button>
+                      </motion.div>
                     ))}
                   </CollapsibleContent>
                 </Collapsible>
