@@ -63,6 +63,8 @@ serve(async (req) => {
 
     const durationText = duration ? formatDuration(duration) : '';
 
+    const botDeepLink = 'https://t.me/AIMusicVerseBot/app';
+
     // Send audio file
     const audioMessage: any = {
       chat_id: chatId,
@@ -73,7 +75,7 @@ serve(async (req) => {
       reply_markup: {
         inline_keyboard: [
           [
-            { text: '▶️ Открыть в приложении', web_app: { url: `${miniAppUrl}?track=${trackId}` } }
+            { text: '▶️ Открыть в приложении', url: `${botDeepLink}?startapp=track_${trackId}` }
           ],
           [
             { text: '🔄 Создать ещё', callback_data: 'generate_new' }

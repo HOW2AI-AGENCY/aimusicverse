@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Copy, Check, Music2 } from 'lucide-react';
@@ -24,7 +24,6 @@ interface UnifiedLyricsViewProps {
   variant?: 'default' | 'compact' | 'fullscreen';
 }
 
-// Parse lyrics from various formats
 function parseLyrics(lyrics: string | null | undefined): {
   plainText: string;
   timestamped: { alignedWords: TimestampedWord[] } | null;
@@ -33,24 +32,20 @@ function parseLyrics(lyrics: string | null | undefined): {
     return { plainText: '', timestamped: null };
   }
 
-  // Try to parse as JSON (timestamped lyrics)
   if (lyrics.trim().startsWith('{') || lyrics.trim().startsWith('[')) {
     try {
       const parsed = JSON.parse(lyrics);
       
-      // Handle { alignedWords: [...] } format
       if (parsed.alignedWords && Array.isArray(parsed.alignedWords)) {
         const plainText = parsed.alignedWords.map((w: TimestampedWord) => w.word).join(' ');
         return { plainText, timestamped: parsed };
       }
       
-      // Handle [ { word, startS, endS }, ... ] format
       if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].word !== undefined) {
         const plainText = parsed.map((w: TimestampedWord) => w.word).join(' ');
         return { plainText, timestamped: { alignedWords: parsed } };
       }
       
-      // Handle { normalLyrics: "...", alignedWords: [...] } format
       if (parsed.normalLyrics) {
         return {
           plainText: parsed.normalLyrics,
@@ -58,11 +53,10 @@ function parseLyrics(lyrics: string | null | undefined): {
         };
       }
     } catch {
-      // Not valid JSON, treat as plain text
+      // Not valid JSON
     }
   }
 
-  // Plain text lyrics - clean up Suno structural tags for display
   const cleanedLyrics = lyrics
     .replace(/\[Verse\s*\d*\]/gi, '\n[Куплет]\n')
     .replace(/\[Chorus\]/gi, '\n[Припев]\n')
@@ -89,9 +83,11 @@ export function UnifiedLyricsView({
 }: UnifiedLyricsViewProps) {
   const [copied, setCopied] = useState(false);
   const [activeWordIndex, setActiveWordIndex] = useState<number | null>(null);
+  const [userScrolling, setUserScrolling] = useState(false);
   const lyricsRef = useRef<HTMLDivElement>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastScrollTopRef = useRef<number>(0);
 
-  // Parse lyrics data
   const { plainText, timestamped } = useMemo(() => {
     if (providedTimestamped) {
       const plain = providedTimestamped.alignedWords.map(w => w.word).join(' ');
@@ -101,6 +97,56 @@ export function UnifiedLyricsView({
   }, [lyrics, providedTimestamped]);
 
   const hasTimestampedLyrics = timestamped && timestamped.alignedWords.length > 0;
+
+  // Handle user scroll detection
+  const handleScroll = useCallback((e: Event) => {
+    const target = e.target as HTMLElement;
+    const currentScrollTop = target.scrollTop;
+    
+    // Detect if this is user-initiated scroll (not programmatic)
+    const scrollDelta = Math.abs(currentScrollTop - lastScrollTopRef.current);
+    
+    // If scroll delta is large and we're not programmatically scrolling, it's user scroll
+    if (scrollDelta > 5) {
+      setUserScrolling(true);
+      
+      // Clear existing timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      
+      // Resume auto-scroll after 3 seconds of no user scroll
+      scrollTimeoutRef.current = setTimeout(() => {
+        setUserScrolling(false);
+      }, 3000);
+    }
+    
+    lastScrollTopRef.current = currentScrollTop;
+  }, []);
+
+  // Attach scroll listener
+  useEffect(() => {
+    const container = lyricsRef.current;
+    if (!container) return;
+
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    container.addEventListener('touchstart', () => setUserScrolling(true), { passive: true });
+    container.addEventListener('touchend', () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(() => {
+        setUserScrolling(false);
+      }, 3000);
+    }, { passive: true });
+
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, [handleScroll]);
 
   // Update active word based on current time
   useEffect(() => {
@@ -114,13 +160,32 @@ export function UnifiedLyricsView({
     }
   }, [currentTime, hasTimestampedLyrics, timestamped, isPlaying, activeWordIndex]);
 
-  // Auto-scroll to active word
+  // Auto-scroll to active word (only if not user scrolling)
   useEffect(() => {
-    if (hasTimestampedLyrics && isPlaying && activeWordIndex !== null && lyricsRef.current) {
-      const el = lyricsRef.current.querySelector(`[data-word-index="${activeWordIndex}"]`);
-      el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }, [activeWordIndex, hasTimestampedLyrics, isPlaying]);
+    if (!hasTimestampedLyrics || !isPlaying || activeWordIndex === null || userScrolling) return;
+    
+    const container = lyricsRef.current;
+    if (!container) return;
+
+    const el = container.querySelector(`[data-word-index="${activeWordIndex}"]`) as HTMLElement;
+    if (!el) return;
+
+    // Calculate scroll position to keep active element at ~30% from top
+    const containerRect = container.getBoundingClientRect();
+    const elementRect = el.getBoundingClientRect();
+    const targetPosition = containerRect.height * 0.3;
+    const currentPosition = elementRect.top - containerRect.top;
+    const scrollOffset = currentPosition - targetPosition;
+    
+    // Smooth scroll
+    requestAnimationFrame(() => {
+      lastScrollTopRef.current = container.scrollTop + scrollOffset;
+      container.scrollTo({
+        top: container.scrollTop + scrollOffset,
+        behavior: 'smooth'
+      });
+    });
+  }, [activeWordIndex, hasTimestampedLyrics, isPlaying, userScrolling]);
 
   const handleCopy = async () => {
     try {
@@ -136,10 +201,10 @@ export function UnifiedLyricsView({
   const handleWordClick = (word: TimestampedWord) => {
     if (onSeek) {
       onSeek(word.startS);
+      setUserScrolling(false); // Resume auto-scroll after manual seek
     }
   };
 
-  // No lyrics available
   if (!plainText && !hasTimestampedLyrics) {
     return (
       <div className={cn(
@@ -154,16 +219,22 @@ export function UnifiedLyricsView({
     );
   }
 
-  // Fullscreen variant - optimized for mobile player
+  // Fullscreen variant
   if (variant === 'fullscreen') {
     return (
-      <div className="h-full overflow-hidden">
+      <div className="h-full overflow-hidden relative">
+        {/* User scroll indicator */}
+        {userScrolling && (
+          <div className="absolute top-2 right-2 z-10 px-2 py-1 bg-muted/80 rounded text-xs text-muted-foreground">
+            Автоскролл выкл
+          </div>
+        )}
         <div
           ref={lyricsRef}
-          className="h-full overflow-y-auto px-4 py-8 touch-pan-y overscroll-contain"
+          className="h-full overflow-y-auto px-4 py-8 touch-pan-y overscroll-contain scroll-smooth"
         >
           {hasTimestampedLyrics ? (
-            <div className="space-y-4">
+            <div className="space-y-1">
               {groupWordsIntoLines(timestamped!.alignedWords).map((line, lineIndex) => {
                 const isLineActive = line.some(w => currentTime >= w.startS && currentTime <= w.endS);
                 const isLinePast = line.every(w => currentTime > w.endS);
@@ -181,7 +252,12 @@ export function UnifiedLyricsView({
                       'text-xl font-medium cursor-pointer py-2 px-3 rounded-lg transition-all',
                       isLineActive && 'text-primary bg-primary/10 font-bold'
                     )}
-                    onClick={() => onSeek && onSeek(line[0].startS)}
+                    onClick={() => {
+                      if (onSeek) {
+                        onSeek(line[0].startS);
+                        setUserScrolling(false);
+                      }
+                    }}
                   >
                     {line.map((word, wordIndex) => {
                       const globalIndex = timestamped!.alignedWords.indexOf(word);
@@ -217,7 +293,6 @@ export function UnifiedLyricsView({
   // Default and compact variants
   return (
     <div className="space-y-4">
-      {/* Header with copy button */}
       {showCopyButton && (
         <div className="flex justify-between items-center">
           <h3 className="text-lg font-semibold">Текст песни</h3>
@@ -237,7 +312,6 @@ export function UnifiedLyricsView({
         </div>
       )}
 
-      {/* Lyrics content */}
       <Card className="p-0">
         <ScrollArea className="h-full" style={{ maxHeight }}>
           <div ref={lyricsRef} className="p-6">
@@ -271,7 +345,6 @@ export function UnifiedLyricsView({
   );
 }
 
-// Helper function to group words into lines for fullscreen display
 function groupWordsIntoLines(words: TimestampedWord[]): TimestampedWord[][] {
   const lines: TimestampedWord[][] = [];
   let currentLine: TimestampedWord[] = [];
@@ -290,7 +363,6 @@ function groupWordsIntoLines(words: TimestampedWord[]): TimestampedWord[][] {
     lines.push(currentLine);
   }
 
-  // If no newlines found, split by time gaps or every ~8 words
   if (lines.length <= 1 && words.length > 8) {
     const result: TimestampedWord[][] = [];
     let line: TimestampedWord[] = [];
@@ -298,7 +370,6 @@ function groupWordsIntoLines(words: TimestampedWord[]): TimestampedWord[][] {
     for (let i = 0; i < words.length; i++) {
       line.push(words[i]);
       
-      // Start new line after ~8 words or if there's a significant time gap
       const nextWord = words[i + 1];
       const timeGap = nextWord ? nextWord.startS - words[i].endS : 0;
       

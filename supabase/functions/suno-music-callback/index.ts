@@ -253,12 +253,22 @@ serve(async (req) => {
 
       if (task.telegram_chat_id && clips.length > 0) {
         const firstClip = clips[0];
+        // Get actual track title from DB or fallback to clip/prompt
+        const { data: trackData } = await supabase
+          .from('tracks')
+          .select('title')
+          .eq('id', trackId)
+          .single();
+        
+        const trackTitle = trackData?.title || firstClip.title || task.prompt?.split('\n')[0]?.substring(0, 50) || 'Новый трек';
+        
         supabase.functions.invoke('send-telegram-notification', {
           body: {
             type: 'generation_complete', chatId: task.telegram_chat_id, trackId,
             audioUrl: getAudioUrl(firstClip), coverUrl: getImageUrl(firstClip),
-            title: firstClip.title || 'Трек', duration: firstClip.duration,
+            title: trackTitle, duration: firstClip.duration,
             tags: firstClip.tags, versionsCount: clips.length,
+            style: task.tracks?.style,
           },
         }).catch(err => console.error('Telegram error:', err));
       }
