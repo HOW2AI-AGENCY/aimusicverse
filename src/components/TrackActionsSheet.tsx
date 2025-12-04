@@ -6,7 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { 
   Download, Share2, Info, Trash2, Eye, EyeOff, Send,
   Scissors, Wand2, ImagePlus, FileAudio, Music2, FileText, Layers,
-  Plus, Mic, Volume2, Music, Globe, Lock, ChevronDown, GitBranch, Check, Star, Users
+  Plus, Mic, Volume2, Music, Globe, Lock, ChevronDown, GitBranch, Check, Star, Users,
+  ListPlus, Play
 } from 'lucide-react';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { useState, useEffect } from 'react';
@@ -21,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { toast } from 'sonner';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
+import { usePlayerStore } from '@/hooks/usePlayerState';
 
 interface TrackActionsSheetProps {
   track: Track | null;
@@ -135,6 +137,24 @@ export function TrackActionsSheet({
   
   if (!track) return null;
 
+  const { addToQueue, queue, currentIndex } = usePlayerStore();
+
+  const handleAddToQueue = () => {
+    triggerHapticFeedback('light');
+    addToQueue(track);
+    toast.success('Добавлено в очередь');
+    onOpenChange(false);
+  };
+
+  const handlePlayNext = () => {
+    triggerHapticFeedback('light');
+    const newQueue = [...queue];
+    newQueue.splice(currentIndex + 1, 0, track);
+    usePlayerStore.setState({ queue: newQueue });
+    toast.success('Будет воспроизведено следующим');
+    onOpenChange(false);
+  };
+
   const hasLyrics = track.audio_url && track.status === 'completed' && (track.lyrics || (track.suno_task_id && track.suno_id));
   const isCompleted = track.audio_url && track.status === 'completed';
 
@@ -243,6 +263,29 @@ export function TrackActionsSheet({
                 <FileText className="w-5 h-5" />
                 <span>Текст песни</span>
               </Button>
+            )}
+
+            {/* Queue Actions */}
+            {isCompleted && (
+              <>
+                <Separator className="my-2" />
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start gap-3 h-12"
+                  onClick={handleAddToQueue}
+                >
+                  <ListPlus className="w-5 h-5" />
+                  <span>Добавить в очередь</span>
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start gap-3 h-12"
+                  onClick={handlePlayNext}
+                >
+                  <Play className="w-5 h-5" />
+                  <span>Воспроизвести следующим</span>
+                </Button>
+              </>
             )}
 
             {stemCount > 0 && (

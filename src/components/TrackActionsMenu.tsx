@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { 
   MoreVertical, Trash2, Plus, Mic, Volume2, Music, 
   Wand2, Scissors, ImagePlus, FileAudio, Music2, Download, Share2, 
-  Send, Lock, Globe, Sparkles, Folder, ListMusic, Layers 
+  Send, Lock, Globe, Sparkles, Folder, ListMusic, Layers, ListPlus, Play
 } from 'lucide-react';
 import { ExtendTrackDialog } from './ExtendTrackDialog';
 import { LyricsDialog } from './LyricsDialog';
@@ -33,6 +33,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { useHapticFeedback } from '@/lib/mobile-utils';
+import { usePlayerStore } from '@/hooks/usePlayerState';
 
 interface TrackActionsMenuProps {
   track: Track;
@@ -71,6 +72,24 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
     handleSendToTelegram,
   } = useTrackActions();
 
+  const { addToQueue, playTrack, queue } = usePlayerStore();
+
+  const handleAddToQueue = () => {
+    triggerSelectionHaptic();
+    addToQueue(track);
+    toast.success('Добавлено в очередь');
+  };
+
+  const handlePlayNext = () => {
+    triggerSelectionHaptic();
+    // Insert after current track in queue
+    const newQueue = [...queue];
+    const currentIndex = usePlayerStore.getState().currentIndex;
+    newQueue.splice(currentIndex + 1, 0, track);
+    usePlayerStore.setState({ queue: newQueue });
+    toast.success('Будет воспроизведено следующим');
+  };
+
   useEffect(() => {
     const fetchStemCount = async () => {
       const { count } = await supabase
@@ -107,7 +126,20 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
 
           <DropdownMenuSeparator />
 
-          {/* Version switcher available in track detail view */}
+          {/* Queue Actions */}
+          {track.audio_url && track.status === 'completed' && (
+            <>
+              <DropdownMenuItem onClick={handleAddToQueue}>
+                <ListPlus className="w-4 h-4 mr-2" />
+                Добавить в очередь
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handlePlayNext}>
+                <Play className="w-4 h-4 mr-2" />
+                Воспроизвести следующим
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
+          )}
 
           {/* Studio Section - Show if stems available */}
           {stemCount > 0 && (

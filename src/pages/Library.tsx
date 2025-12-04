@@ -3,7 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal } from "lucide-react";
+import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle } from "lucide-react";
 import { useTracksInfinite } from "@/hooks/useTracksInfinite";
 import { type Track } from "@/hooks/useTracksOptimized";
 import { TrackCard } from "@/components/TrackCard";
@@ -49,7 +49,7 @@ export default function Library() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
   const [searchQuery, setSearchQuery] = useState("");
-  const { activeTrack, playTrack } = usePlayerStore();
+  const { activeTrack, playTrack, queue } = usePlayerStore();
   const [viewMode, setViewMode] = useState<"grid" | "list">(() => isMobile ? "list" : "grid");
   const [sortBy, setSortBy] = useState<"recent" | "popular" | "liked">("recent");
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
@@ -134,10 +134,62 @@ export default function Library() {
   const tracksToDisplay = tracks || [];
   const hasActiveGenerations = activeGenerations.length > 0;
 
-  const handlePlay = (track: Track) => {
+  const handlePlay = (track: Track, index?: number) => {
     if (!track.audio_url) return;
-    playTrack(track);
+    
+    // Set all loaded tracks as queue starting from clicked track
+    const completedTracks = tracksToDisplay.filter(t => t.audio_url && t.status === 'completed');
+    const trackIndex = index !== undefined ? index : completedTracks.findIndex(t => t.id === track.id);
+    
+    // Only update queue if clicking a different track or queue is empty
+    if (queue.length === 0 || activeTrack?.id !== track.id) {
+      usePlayerStore.setState({
+        queue: completedTracks,
+        currentIndex: trackIndex >= 0 ? trackIndex : 0,
+        activeTrack: track,
+        isPlaying: true,
+        playerMode: 'compact',
+      });
+    } else {
+      // Resume playing the same track
+      playTrack(track);
+    }
+    
     logPlay(track.id);
+  };
+
+  const handlePlayAll = () => {
+    const completedTracks = tracksToDisplay.filter(t => t.audio_url && t.status === 'completed');
+    if (completedTracks.length === 0) return;
+    
+    usePlayerStore.setState({
+      queue: completedTracks,
+      currentIndex: 0,
+      activeTrack: completedTracks[0],
+      isPlaying: true,
+      playerMode: 'compact',
+    });
+  };
+
+  const handleShuffleAll = () => {
+    const completedTracks = tracksToDisplay.filter(t => t.audio_url && t.status === 'completed');
+    if (completedTracks.length === 0) return;
+    
+    // Shuffle tracks using Fisher-Yates
+    const shuffled = [...completedTracks];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    
+    usePlayerStore.setState({
+      queue: shuffled,
+      currentIndex: 0,
+      activeTrack: shuffled[0],
+      isPlaying: true,
+      shuffle: true,
+      playerMode: 'compact',
+    });
   };
 
   const handleDownload = (trackId: string, audioUrl: string | null, coverUrl: string | null) => {
@@ -170,6 +222,29 @@ export default function Library() {
               </div>
 
               <div className="flex items-center gap-1.5 sm:gap-2">
+                {/* Play All / Shuffle buttons */}
+                {tracksToDisplay.length > 0 && (
+                  <>
+                    <Button
+                      variant="default"
+                      size="icon"
+                      onClick={handlePlayAll}
+                      className="h-10 w-10 min-h-[44px] min-w-[44px] touch-manipulation active:scale-95 transition-transform"
+                      aria-label="Воспроизвести все"
+                    >
+                      <Play className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={handleShuffleAll}
+                      className="h-10 w-10 min-h-[44px] min-w-[44px] touch-manipulation active:scale-95 transition-transform"
+                      aria-label="Перемешать"
+                    >
+                      <Shuffle className="w-4 h-4" />
+                    </Button>
+                  </>
+                )}
                 <Button
                   variant={viewMode === "grid" ? "default" : "ghost"}
                   size="icon"
@@ -279,7 +354,7 @@ export default function Library() {
                 }
               >
                 <AnimatePresence mode="popLayout">
-                  {tracksToDisplay.map((track) => {
+                  {tracksToDisplay.map((track, index) => {
                     const counts = getCountsForTrack(track.id);
                     return (
                       <motion.div
@@ -294,7 +369,7 @@ export default function Library() {
                           track={track}
                           layout={viewMode}
                           isPlaying={activeTrack?.id === track.id}
-                          onPlay={() => handlePlay(track)}
+                          onPlay={() => handlePlay(track, index)}
                           onDelete={() => deleteTrack(track.id)}
                           onDownload={() => handleDownload(track.id, track.audio_url, track.cover_url)}
                           onToggleLike={() =>
