@@ -70,7 +70,7 @@ export async function handleSendTrackToChat(chatId: number, userId: number, trac
       : creatorProfile?.first_name || 'MusicVerse AI';
 
     const durationSeconds = track.duration_seconds || 0;
-    const deepLink = `https://t.me/AIMusicVerseBot/app?startapp=track_${trackId}`;
+    const deepLink = `${BOT_CONFIG.deepLinkBase}?startapp=track_${trackId}`;
     
     // Build rich caption
     const caption = buildTrackCaption(track, performer, deepLink);

@@ -1,4 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getTelegramConfig, getTrackDeepLink } from '../_shared/telegram-config.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -22,6 +23,9 @@ interface NotificationPayload {
   tags?: string;
   style?: string;
   versionsCount?: number;
+  versionLabel?: string;
+  currentVersion?: number;
+  totalVersions?: number;
   generationMode?: string;
 }
 
@@ -225,7 +229,8 @@ Deno.serve(async (req) => {
     const payload: NotificationPayload = await req.json();
     const { 
       chat_id, chatId, user_id, status, track_id, trackId, type, error_message,
-      audioUrl, coverUrl, title, duration, tags, style, versionsCount, generationMode
+      audioUrl, coverUrl, title, duration, tags, style, versionsCount, versionLabel,
+      currentVersion, totalVersions, generationMode
     } = payload;
 
     const supabase = createClient(
@@ -263,8 +268,9 @@ Deno.serve(async (req) => {
       );
     }
 
-    const miniAppUrl = Deno.env.get('MINI_APP_URL') || 'https://e2a6a5f1-c3e6-42bc-95c6-fd65dcb9defe.lovableproject.com';
-    const botDeepLink = 'https://t.me/AIMusicVerseBot/app';
+    const telegramConfig = getTelegramConfig();
+    const miniAppUrl = telegramConfig.miniAppUrl;
+    const botDeepLink = telegramConfig.deepLinkBase;
 
     // Handle generation complete with direct data
     if (type === 'generation_complete' && audioUrl) {
@@ -278,9 +284,10 @@ Deno.serve(async (req) => {
         ? `\n🏷️ ${tags.split(',').slice(0, 3).map(t => `#${t.trim().replace(/\s+/g, '_').toLowerCase()}`).join(' ')}`
         : '';
       
-      const versionsText = versionsCount && versionsCount > 1
-        ? `\n🎭 Создано версий: ${versionsCount}`
-        : '';
+      // Version info - show if multiple versions are being sent
+      const versionText = currentVersion && totalVersions && totalVersions > 1
+        ? `\n🎭 Версия ${versionLabel || currentVersion} из ${totalVersions}`
+        : (versionsCount && versionsCount > 1 ? `\n🎭 Создано версий: ${versionsCount}` : '');
       
       const modeEmoji = generationMode === 'upload_cover' ? '🎤' 
         : generationMode === 'upload_extend' ? '⏩'
@@ -294,7 +301,7 @@ Deno.serve(async (req) => {
         : generationMode === 'add_instrumental' ? 'Инструментал добавлен'
         : 'Генерация завершена';
       
-      const caption = `${modeEmoji} *${modeText}\\!*\n\n🎵 *${(title || 'Новый трек').replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}*${style ? `\n🎸 ${style.split(',')[0].replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}${versionsText}\n\n✨ _Создано в_ @AIMusicVerseBot ✨`;
+      const caption = `${modeEmoji} *${modeText}\\!*\n\n🎵 *${(title || 'Новый трек').replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}*${style ? `\n🎸 ${style.split(',')[0].replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}${versionText}\n\n✨ _Создано в_ @AIMusicVerseBot ✨`;
       
       await sendTelegramAudio(finalChatId, audioUrl, {
         caption,

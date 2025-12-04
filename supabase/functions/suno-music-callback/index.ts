@@ -252,25 +252,64 @@ serve(async (req) => {
       }).eq('id', task.id);
 
       if (task.telegram_chat_id && clips.length > 0) {
-        const firstClip = clips[0];
-        // Get actual track title from DB or fallback to clip/prompt
-        const { data: trackData } = await supabase
-          .from('tracks')
-          .select('title')
-          .eq('id', trackId)
-          .single();
+        // Send notification for EACH clip (version A and B)
+        // Suno typically generates 2 versions, and users expect both
+        const maxClipsToSend = Math.min(clips.length, 2); // Send up to 2 clips
+        console.log(`📤 Sending ${maxClipsToSend} track version(s) to Telegram`);
         
-        const trackTitle = trackData?.title || firstClip.title || task.prompt?.split('\n')[0]?.substring(0, 50) || 'Новый трек';
-        
-        supabase.functions.invoke('send-telegram-notification', {
-          body: {
-            type: 'generation_complete', chatId: task.telegram_chat_id, trackId,
-            audioUrl: getAudioUrl(firstClip), coverUrl: getImageUrl(firstClip),
-            title: trackTitle, duration: firstClip.duration,
-            tags: firstClip.tags, versionsCount: clips.length,
-            style: task.tracks?.style,
-          },
-        }).catch(err => console.error('Telegram error:', err));
+        for (let i = 0; i < maxClipsToSend; i++) {
+          const clip = clips[i];
+          const versionLabel = ['A', 'B', 'C', 'D', 'E'][i] || `V${i + 1}`;
+          
+          // Get actual track title from DB or generate a readable one
+          const { data: trackData } = await supabase
+            .from('tracks')
+            .select('title, style')
+            .eq('id', trackId)
+            .single();
+          
+          // Create readable title: use clip title if available, otherwise track title, otherwise generate from prompt
+          let trackTitle = clip.title || trackData?.title;
+          
+          // If still no title, generate a better one from prompt
+          if (!trackTitle || trackTitle === 'Untitled' || trackTitle === 'Трек') {
+            // Extract first meaningful line from prompt, clean it up
+            const promptLines = (task.prompt || '').split('\n').filter(line => line.trim().length > 0);
+            if (promptLines.length > 0) {
+              trackTitle = promptLines[0].substring(0, 60).trim();
+              // Remove common prefixes
+              trackTitle = trackTitle.replace(/^(create|generate|make)\s+/i, '');
+            } else {
+              trackTitle = 'AI Music Track';
+            }
+          }
+          
+          // Add version suffix if sending multiple versions
+          const titleWithVersion = maxClipsToSend > 1 ? `${trackTitle} (версия ${versionLabel})` : trackTitle;
+          
+          // Small delay between messages to avoid rate limiting
+          if (i > 0) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+          }
+          
+          supabase.functions.invoke('send-telegram-notification', {
+            body: {
+              type: 'generation_complete', 
+              chatId: task.telegram_chat_id, 
+              trackId,
+              audioUrl: getAudioUrl(clip), 
+              coverUrl: getImageUrl(clip),
+              title: titleWithVersion, 
+              duration: clip.duration,
+              tags: clip.tags, 
+              versionsCount: clips.length,
+              versionLabel: versionLabel,
+              currentVersion: i + 1,
+              totalVersions: maxClipsToSend,
+              style: trackData?.style || task.tracks?.style,
+            },
+          }).catch(err => console.error(`Telegram error for version ${versionLabel}:`, err));
+        }
       }
 
       const versionText = clips.length > 1 ? ` (${clips.length} версии)` : '';

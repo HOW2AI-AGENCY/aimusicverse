@@ -435,17 +435,50 @@ serve(async (req) => {
             action_url: `/library`,
           });
 
-          // Send Telegram notification if chat_id exists
+          // Send Telegram notification if chat_id exists - send BOTH versions
           if (task.telegram_chat_id) {
             try {
-              await supabase.functions.invoke('send-telegram-notification', {
-                body: {
-                  task_id: task.id,
-                  chat_id: task.telegram_chat_id,
-                  status: 'completed',
-                  track_id: task.track_id,
-                },
-              });
+              const maxClipsToSend = Math.min(clips.length, 2);
+              console.log(`📤 Sending ${maxClipsToSend} track version(s) via sync-stale-tasks`);
+              
+              for (let i = 0; i < maxClipsToSend; i++) {
+                const clip = clips[i];
+                const versionLabel = ['A', 'B', 'C', 'D', 'E'][i] || `V${i + 1}`;
+                
+                // Get readable title
+                let trackTitle = clip.title || firstClip.title;
+                if (!trackTitle || trackTitle === 'Untitled' || trackTitle === 'Трек') {
+                  const promptLines = (task.prompt || '').split('\n').filter((line: string) => line.trim().length > 0);
+                  trackTitle = promptLines.length > 0 ? promptLines[0].substring(0, 60).trim() : 'AI Music Track';
+                  trackTitle = trackTitle.replace(/^(create|generate|make)\s+/i, '');
+                }
+                
+                const titleWithVersion = maxClipsToSend > 1 ? `${trackTitle} (версия ${versionLabel})` : trackTitle;
+                
+                // Delay between messages
+                if (i > 0) {
+                  await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+                
+                await supabase.functions.invoke('send-telegram-notification', {
+                  body: {
+                    type: 'generation_complete',
+                    task_id: task.id,
+                    chat_id: task.telegram_chat_id,
+                    track_id: task.track_id,
+                    audioUrl: getAudioUrl(clip),
+                    coverUrl: getImageUrl(clip),
+                    title: titleWithVersion,
+                    duration: clip.duration,
+                    tags: clip.tags,
+                    versionsCount: clips.length,
+                    versionLabel: versionLabel,
+                    currentVersion: i + 1,
+                    totalVersions: maxClipsToSend,
+                    style: task.tracks?.style,
+                  },
+                });
+              }
             } catch (notifError) {
               console.error('Error sending Telegram notification:', notifError);
             }
