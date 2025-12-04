@@ -67,17 +67,20 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
 
     setIsGeneratingPortrait(true);
     try {
-      const prompt = `Professional studio portrait of ${name}, ${styleDescription || 'music artist'}, high quality, cinematic lighting, detailed face, 4k`;
-      
-      const { data, error } = await supabase.functions.invoke('generate-cover-image', {
-        body: { prompt }
+      const { data, error } = await supabase.functions.invoke('generate-artist-portrait', {
+        body: { 
+          artistName: name.trim(),
+          styleDescription: styleDescription || undefined,
+        }
       });
 
       if (error) throw error;
 
-      if (data?.image) {
-        setAvatarUrl(data.image);
+      if (data?.avatarUrl) {
+        setAvatarUrl(data.avatarUrl);
         toast.success('Портрет сгенерирован');
+      } else {
+        throw new Error('No avatar URL in response');
       }
     } catch (error) {
       console.error('Error generating portrait:', error);
