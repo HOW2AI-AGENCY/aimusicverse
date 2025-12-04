@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { TrackActionsMenu } from './TrackActionsMenu';
 import { TrackActionsSheet } from './TrackActionsSheet';
-import { VersionPicker } from './library/VersionPicker';
+import { InlineVersionToggle } from './library/InlineVersionToggle';
 import { TrackTypeIcons } from './library/TrackTypeIcons';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
@@ -259,12 +259,14 @@ export const TrackCard = ({
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
               <h3 className="font-medium text-sm sm:text-base truncate">{track.title || 'Без названия'}</h3>
-              {/* Version Badge - only show if more than 1 version */}
+              {/* Version Toggle - only show if more than 1 version */}
               {versionCount > 1 && (
-                <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-5 font-medium flex-shrink-0">
-                  <Layers className="h-2.5 w-2.5 mr-0.5" />
-                  {versionCount}
-                </Badge>
+                <InlineVersionToggle
+                  trackId={track.id}
+                  activeVersionId={(track as any).active_version_id}
+                  versionCount={versionCount}
+                  className="flex-shrink-0"
+                />
               )}
             </div>
             <div className="flex items-center gap-2 mt-0.5">
@@ -450,12 +452,10 @@ export const TrackCard = ({
         {/* Badges - Versions and Stems */}
         <div className="absolute top-2 right-2 flex gap-1">
           {versionCount > 1 && (
-            <VersionPicker
+            <InlineVersionToggle
               trackId={track.id}
               activeVersionId={(track as any).active_version_id}
-              onVersionChange={(version) => {
-                console.log('Version changed:', version.version_label);
-              }}
+              versionCount={versionCount}
             />
           )}
           {stemCount > 0 && (
