@@ -862,7 +862,15 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
       <AILyricsWizard
         open={lyricsAssistantOpen}
         onOpenChange={setLyricsAssistantOpen}
-        onLyricsGenerated={(newLyrics: string) => setLyrics(newLyrics)}
+        onLyricsGenerated={(newLyrics: string) => {
+          setLyrics(newLyrics);
+          setShowVisualEditor(true); // Toggle to visual editor to show lyrics
+        }}
+        onStyleGenerated={(generatedStyle: string) => {
+          if (!style || style.length < generatedStyle.length) {
+            setStyle(generatedStyle);
+          }
+        }}
         initialArtistId={selectedArtistId}
         initialArtistName={artists?.find(a => a.id === selectedArtistId)?.name}
         initialGenre={projects?.find(p => p.id === selectedProjectId)?.genre || undefined}

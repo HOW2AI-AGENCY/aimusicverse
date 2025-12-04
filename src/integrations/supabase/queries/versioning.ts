@@ -23,7 +23,22 @@ export async function fetchTrackVersions(trackId: string) {
     .order('created_at', { ascending: false });
 
   if (error) throw error;
-  return (data || []) as TrackVersion[];
+  
+  // Deduplicate by version_label to handle any duplicate versions
+  const uniqueVersions = (data || []).reduce((acc, version) => {
+    const existingIndex = acc.findIndex(v => v.version_label === version.version_label);
+    if (existingIndex === -1) {
+      acc.push(version);
+    } else {
+      // Keep the one with is_primary=true or the newer one
+      if (version.is_primary && !acc[existingIndex].is_primary) {
+        acc[existingIndex] = version;
+      }
+    }
+    return acc;
+  }, [] as TrackVersion[]);
+  
+  return uniqueVersions;
 }
 
 /**

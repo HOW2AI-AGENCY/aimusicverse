@@ -7,11 +7,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sparkles, Wand2, ChevronLeft, ChevronRight, RefreshCw, Lightbulb } from 'lucide-react';
-import { useLyricsWizardStore } from '@/stores/lyricsWizardStore';
+import { useLyricsWizardStore, type LyricsWizardState } from '@/stores/lyricsWizardStore';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
-export function WritingStep() {
+interface WritingStepProps {
+  onStyleGenerated?: (style: string) => void;
+}
+
+export function WritingStep({ onStyleGenerated }: WritingStepProps) {
   const {
     concept,
     structure,
@@ -110,6 +114,20 @@ export function WritingStep() {
         }
         
         toast.success('Все секции сгенерированы');
+        
+        // Also generate style prompt based on concept
+        if (onStyleGenerated) {
+          const styleComponents = [
+            concept.genre,
+            concept.mood.join(', '),
+            concept.referenceArtistName ? `в стиле ${concept.referenceArtistName}` : '',
+            concept.theme ? `тема: ${concept.theme}` : '',
+          ].filter(Boolean);
+          
+          const generatedStyle = styleComponents.join(', ');
+          onStyleGenerated(generatedStyle);
+          toast.success('Стиль также сгенерирован');
+        }
       }
     } catch (err) {
       console.error('Error generating all sections:', err);

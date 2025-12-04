@@ -14,6 +14,7 @@ interface AILyricsWizardProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onLyricsGenerated: (lyrics: string) => void;
+  onStyleGenerated?: (style: string) => void;
   initialArtistId?: string;
   initialArtistName?: string;
   initialGenre?: string;
@@ -32,6 +33,7 @@ export function AILyricsWizard({
   open,
   onOpenChange,
   onLyricsGenerated,
+  onStyleGenerated,
   initialArtistId,
   initialArtistName,
   initialGenre,
@@ -104,7 +106,7 @@ export function AILyricsWizard({
       case 2:
         return <StructureStep />;
       case 3:
-        return <WritingStep />;
+        return <WritingStep onStyleGenerated={onStyleGenerated} />;
       case 4:
         return <EnrichmentStep />;
       case 5:

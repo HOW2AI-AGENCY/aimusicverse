@@ -67,6 +67,12 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       tg.ready();
       tg.expand();
 
+      // Lock orientation to portrait mode (vertical only)
+      if (typeof (tg as any).lockOrientation === 'function') {
+        (tg as any).lockOrientation();
+        console.log('📱 Orientation locked to portrait');
+      }
+
       // Установка цветов header и background
       if (tg.setHeaderColor) {
         tg.setHeaderColor('secondary_bg_color');
