@@ -50,7 +50,7 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
     if (queue.length === 0) return;
     
     clearQueue();
-    toast.success('Queue cleared');
+    toast.success('Очередь очищена');
     onOpenChange(false);
   };
 
@@ -59,7 +59,7 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
       <SheetContent side="bottom" className="h-[70vh]">
         <SheetHeader>
           <div className="flex items-center justify-between">
-            <SheetTitle>Queue ({queue.length} tracks)</SheetTitle>
+            <SheetTitle>Очередь ({queue.length} треков)</SheetTitle>
             {queue.length > 0 && (
               <Button
                 variant="ghost"
@@ -68,7 +68,7 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
                 className="text-destructive hover:text-destructive"
               >
                 <Trash2 className="w-4 h-4 mr-2" />
-                Clear All
+                Очистить
               </Button>
             )}
           </div>
@@ -77,8 +77,8 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
         <div className="mt-4 overflow-auto max-h-[calc(70vh-100px)]">
           {queue.length === 0 ? (
             <div className="text-center text-muted-foreground py-8">
-              <p>No tracks in queue</p>
-              <p className="text-sm mt-2">Add tracks to start playing</p>
+              <p>Очередь пуста</p>
+              <p className="text-sm mt-2">Добавьте треки для воспроизведения</p>
             </div>
           ) : (
             <DndContext
