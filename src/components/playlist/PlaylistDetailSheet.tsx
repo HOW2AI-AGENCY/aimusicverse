@@ -1,4 +1,4 @@
-import { Music2, Clock, Globe, Lock, Play, Pencil, Shuffle, ListPlus, Trash2, GripVertical } from 'lucide-react';
+import { Music2, Clock, Globe, Lock, Play, Pencil, Shuffle, ListPlus, Trash2, GripVertical, Share2 } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -35,6 +35,7 @@ interface PlaylistDetailSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onEdit: () => void;
+  onShare?: () => void;
 }
 
 interface SortableTrackItemProps {
@@ -88,7 +89,7 @@ function SortableTrackItem({ track, index, onPlay, onRemove }: SortableTrackItem
   );
 }
 
-export function PlaylistDetailSheet({ playlist, open, onOpenChange, onEdit }: PlaylistDetailSheetProps) {
+export function PlaylistDetailSheet({ playlist, open, onOpenChange, onEdit, onShare }: PlaylistDetailSheetProps) {
   const { data: playlistTracks, isLoading } = usePlaylistTracks(playlist?.id ?? null);
   const { removeTrackFromPlaylist, reorderPlaylistTracks } = usePlaylists();
   const { setQueue, addTrack } = usePlaybackQueue();
@@ -245,6 +246,12 @@ export function PlaylistDetailSheet({ playlist, open, onOpenChange, onEdit }: Pl
               <Pencil className="h-4 w-4 mr-2" />
               Редактировать
             </Button>
+            {onShare && (
+              <Button variant="outline" onClick={onShare}>
+                <Share2 className="h-4 w-4 mr-2" />
+                Поделиться
+              </Button>
+            )}
           </div>
 
           {/* Tracks with Drag & Drop */}
