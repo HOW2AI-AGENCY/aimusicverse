@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ImagePlus, Loader2 } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -11,6 +12,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { usePlaylists, type Playlist } from '@/hooks/usePlaylists';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 interface EditPlaylistDialogProps {
   playlist: Playlist | null;
@@ -23,15 +26,46 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(false);
+  const [coverUrl, setCoverUrl] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGeneratingCover, setIsGeneratingCover] = useState(false);
 
   useEffect(() => {
     if (playlist) {
       setTitle(playlist.title);
       setDescription(playlist.description || '');
       setIsPublic(playlist.is_public);
+      setCoverUrl(playlist.cover_url);
     }
   }, [playlist]);
+
+  const handleGenerateCover = async () => {
+    if (!title.trim()) {
+      toast.error('Введите название плейлиста');
+      return;
+    }
+
+    setIsGeneratingCover(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('generate-playlist-cover', {
+        body: { 
+          playlistTitle: title,
+          trackCount: playlist?.track_count,
+        },
+      });
+
+      if (error) throw error;
+      if (data?.imageUrl) {
+        setCoverUrl(data.imageUrl);
+        toast.success('Обложка сгенерирована');
+      }
+    } catch (error) {
+      console.error('Error generating cover:', error);
+      toast.error('Ошибка генерации обложки');
+    } finally {
+      setIsGeneratingCover(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,6 +77,7 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
         id: playlist.id,
         title: title.trim(),
         description: description.trim() || undefined,
+        cover_url: coverUrl || undefined,
         is_public: isPublic,
       });
       onOpenChange(false);
@@ -61,6 +96,38 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Cover */}
+          <div className="space-y-2">
+            <Label>Обложка</Label>
+            <div className="flex gap-3 items-center">
+              <div className="w-20 h-20 rounded-lg overflow-hidden bg-muted shrink-0">
+                {coverUrl ? (
+                  <img src={coverUrl} alt="Cover" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                    <ImagePlus className="h-8 w-8" />
+                  </div>
+                )}
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleGenerateCover}
+                disabled={isGeneratingCover}
+              >
+                {isGeneratingCover ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Генерация...
+                  </>
+                ) : (
+                  'Сгенерировать обложку'
+                )}
+              </Button>
+            </div>
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="edit-title">Название</Label>
             <Input

@@ -1,4 +1,4 @@
-import { Music2, Clock, Globe, Lock, Play, Pencil, Shuffle, ListPlus, Trash2 } from 'lucide-react';
+import { Music2, Clock, Globe, Lock, Play, Pencil, Shuffle, ListPlus, Trash2, GripVertical } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -11,6 +11,24 @@ import { usePlaylistTracks, usePlaylists, type Playlist } from '@/hooks/usePlayl
 import { usePlaybackQueue } from '@/hooks/usePlaybackQueue';
 import { TrackRow } from '@/components/library/TrackRow';
 import { toast } from 'sonner';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { useState, useEffect } from 'react';
 
 interface PlaylistDetailSheetProps {
   playlist: Playlist | null;
@@ -19,38 +37,126 @@ interface PlaylistDetailSheetProps {
   onEdit: () => void;
 }
 
+interface SortableTrackItemProps {
+  track: any;
+  index: number;
+  onPlay: () => void;
+  onRemove: () => void;
+}
+
+function SortableTrackItem({ track, index, onPlay, onRemove }: SortableTrackItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: track.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="group relative flex items-center gap-2"
+    >
+      <button
+        {...attributes}
+        {...listeners}
+        className="touch-none p-2 text-muted-foreground hover:text-foreground cursor-grab active:cursor-grabbing"
+      >
+        <GripVertical className="h-4 w-4" />
+      </button>
+      <div className="flex-1 min-w-0">
+        <TrackRow track={track} onPlay={onPlay} />
+      </div>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+        onClick={onRemove}
+      >
+        <Trash2 className="h-4 w-4 text-destructive" />
+      </Button>
+    </div>
+  );
+}
+
 export function PlaylistDetailSheet({ playlist, open, onOpenChange, onEdit }: PlaylistDetailSheetProps) {
   const { data: playlistTracks, isLoading } = usePlaylistTracks(playlist?.id ?? null);
-  const { removeTrackFromPlaylist } = usePlaylists();
+  const { removeTrackFromPlaylist, reorderPlaylistTracks } = usePlaylists();
   const { setQueue, addTrack } = usePlaybackQueue();
+  const [orderedTracks, setOrderedTracks] = useState<any[]>([]);
 
-  const tracks = playlistTracks?.map(pt => ({
-    ...pt.track,
-    likes_count: 0,
-    is_liked: false,
-  })).filter(Boolean) ?? [];
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  useEffect(() => {
+    if (playlistTracks) {
+      setOrderedTracks(
+        playlistTracks.map(pt => ({
+          ...pt.track,
+          likes_count: 0,
+          is_liked: false,
+          _playlistTrackId: pt.id,
+          _position: pt.position,
+        })).filter(Boolean)
+      );
+    }
+  }, [playlistTracks]);
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id || !playlist) return;
+
+    const oldIndex = orderedTracks.findIndex(t => t.id === active.id);
+    const newIndex = orderedTracks.findIndex(t => t.id === over.id);
+
+    const newOrder = arrayMove(orderedTracks, oldIndex, newIndex);
+    setOrderedTracks(newOrder);
+
+    // Update positions in database
+    try {
+      await reorderPlaylistTracks({
+        playlistId: playlist.id,
+        trackIds: newOrder.map(t => t.id),
+      });
+    } catch (error) {
+      // Revert on error
+      setOrderedTracks(orderedTracks);
+      toast.error('Ошибка изменения порядка');
+    }
+  };
 
   const handlePlayAll = () => {
-    if (tracks.length === 0) return;
-    setQueue(tracks, 0);
+    if (orderedTracks.length === 0) return;
+    setQueue(orderedTracks, 0);
     toast.success('Воспроизведение плейлиста');
   };
 
   const handleShuffle = () => {
-    if (tracks.length === 0) return;
-    const shuffled = [...tracks].sort(() => Math.random() - 0.5);
+    if (orderedTracks.length === 0) return;
+    const shuffled = [...orderedTracks].sort(() => Math.random() - 0.5);
     setQueue(shuffled, 0);
     toast.success('Перемешанное воспроизведение');
   };
 
   const handleAddAllToQueue = () => {
-    if (tracks.length === 0) return;
-    tracks.forEach(track => addTrack(track));
-    toast.success(`Добавлено ${tracks.length} треков в очередь`);
+    if (orderedTracks.length === 0) return;
+    orderedTracks.forEach(track => addTrack(track));
+    toast.success(`Добавлено ${orderedTracks.length} треков в очередь`);
   };
 
   const handlePlayTrack = (track: any, index: number) => {
-    setQueue(tracks, index);
+    setQueue(orderedTracks, index);
   };
 
   const handleRemoveTrack = async (trackId: string) => {
@@ -79,7 +185,6 @@ export function PlaylistDetailSheet({ playlist, open, onOpenChange, onEdit }: Pl
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex gap-4 pb-4 border-b border-border">
-            {/* Cover */}
             <div className="w-24 h-24 rounded-lg overflow-hidden bg-muted shrink-0">
               {playlist.cover_url ? (
                 <img
@@ -94,7 +199,6 @@ export function PlaylistDetailSheet({ playlist, open, onOpenChange, onEdit }: Pl
               )}
             </div>
 
-            {/* Info */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <h2 className="text-lg font-bold truncate">{playlist.title}</h2>
@@ -125,15 +229,15 @@ export function PlaylistDetailSheet({ playlist, open, onOpenChange, onEdit }: Pl
 
           {/* Actions */}
           <div className="flex gap-2 py-3 overflow-x-auto">
-            <Button onClick={handlePlayAll} disabled={tracks.length === 0}>
+            <Button onClick={handlePlayAll} disabled={orderedTracks.length === 0}>
               <Play className="h-4 w-4 mr-2" />
               Воспроизвести
             </Button>
-            <Button variant="outline" onClick={handleShuffle} disabled={tracks.length === 0}>
+            <Button variant="outline" onClick={handleShuffle} disabled={orderedTracks.length === 0}>
               <Shuffle className="h-4 w-4 mr-2" />
               Перемешать
             </Button>
-            <Button variant="outline" onClick={handleAddAllToQueue} disabled={tracks.length === 0}>
+            <Button variant="outline" onClick={handleAddAllToQueue} disabled={orderedTracks.length === 0}>
               <ListPlus className="h-4 w-4 mr-2" />
               В очередь
             </Button>
@@ -143,7 +247,7 @@ export function PlaylistDetailSheet({ playlist, open, onOpenChange, onEdit }: Pl
             </Button>
           </div>
 
-          {/* Tracks */}
+          {/* Tracks with Drag & Drop */}
           <ScrollArea className="flex-1 -mx-4 px-4">
             {isLoading ? (
               <div className="space-y-2">
@@ -157,7 +261,7 @@ export function PlaylistDetailSheet({ playlist, open, onOpenChange, onEdit }: Pl
                   </div>
                 ))}
               </div>
-            ) : tracks.length === 0 ? (
+            ) : orderedTracks.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <Music2 className="h-12 w-12 text-muted-foreground mb-3" />
                 <p className="text-muted-foreground">Плейлист пуст</p>
@@ -166,24 +270,28 @@ export function PlaylistDetailSheet({ playlist, open, onOpenChange, onEdit }: Pl
                 </p>
               </div>
             ) : (
-              <div className="space-y-1 pb-4">
-                {tracks.map((track, index) => (
-                  <div key={track.id} className="group relative">
-                    <TrackRow
-                      track={track}
-                      onPlay={() => handlePlayTrack(track, index)}
-                    />
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
-                      onClick={() => handleRemoveTrack(track.id)}
-                    >
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext
+                  items={orderedTracks.map(t => t.id)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  <div className="space-y-1 pb-4">
+                    {orderedTracks.map((track, index) => (
+                      <SortableTrackItem
+                        key={track.id}
+                        track={track}
+                        index={index}
+                        onPlay={() => handlePlayTrack(track, index)}
+                        onRemove={() => handleRemoveTrack(track.id)}
+                      />
+                    ))}
                   </div>
-                ))}
-              </div>
+                </SortableContext>
+              </DndContext>
             )}
           </ScrollArea>
         </div>
