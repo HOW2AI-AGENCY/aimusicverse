@@ -1,5 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { getTelegramConfig, getTrackDeepLink } from '../_shared/telegram-config.ts';
+import { escapeMarkdown } from '../_shared/telegram-utils.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -301,7 +302,7 @@ Deno.serve(async (req) => {
         : generationMode === 'add_instrumental' ? 'Инструментал добавлен'
         : 'Генерация завершена';
       
-      const caption = `${modeEmoji} *${modeText.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}\\!*\n\n🎵 *${(title || 'Новый трек').replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}*${style ? `\n🎸 ${style.split(',')[0].replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}${versionText}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
+      const caption = `${modeEmoji} *${escapeMarkdown(modeText)}\\!*\n\n🎵 *${escapeMarkdown(title || 'Новый трек')}*${style ? `\n🎸 ${escapeMarkdown(style.split(',')[0])}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}${versionText}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
       
       await sendTelegramAudio(finalChatId, audioUrl, {
         caption,
@@ -351,7 +352,7 @@ Deno.serve(async (req) => {
           ? `\n🏷️ ${track.tags.split(',').slice(0, 3).map((t: string) => `#${t.trim().replace(/\s+/g, '_').toLowerCase()}`).join(' ')}`
           : '';
         
-        const caption = `🎵 *${(track.title || 'Новый трек').replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}*${track.style ? `\n🎸 ${track.style.split(',')[0].replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
+        const caption = `🎵 *${escapeMarkdown(track.title || 'Новый трек')}*${track.style ? `\n🎸 ${escapeMarkdown(track.style.split(',')[0])}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
         
         await sendTelegramAudio(finalChatId, track.audio_url, {
           caption,
@@ -394,10 +395,10 @@ Deno.serve(async (req) => {
           : '';
         
         const lyricsPreview = track.lyrics 
-          ? `\n\n📝 _${track.lyrics.slice(0, 100).replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}${track.lyrics.length > 100 ? '...' : ''}_`
+          ? `\n\n📝 _${escapeMarkdown(track.lyrics.slice(0, 100))}${track.lyrics.length > 100 ? '...' : ''}_`
           : '';
         
-        const caption = `🎉 *Ваш трек готов\\!*\n\n🎵 *${(track.title || 'Новый трек').replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}*${track.style ? `\n🎸 ${track.style.split(',')[0].replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}` : ''}\n⏱️ ${durationText}${tagsText}${lyricsPreview}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
+        const caption = `🎉 *Ваш трек готов\\!*\n\n🎵 *${escapeMarkdown(track.title || 'Новый трек')}*${track.style ? `\n🎸 ${escapeMarkdown(track.style.split(',')[0])}` : ''}\n⏱️ ${durationText}${tagsText}${lyricsPreview}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
         
         await sendTelegramAudio(finalChatId, track.audio_url, {
           caption,
@@ -424,8 +425,8 @@ Deno.serve(async (req) => {
           }
         });
       } else {
-        const trackTitle = (track?.title || 'Новый трек').replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
-        const trackStyle = track?.style ? track.style.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1') : '';
+        const trackTitle = escapeMarkdown(track?.title || 'Новый трек');
+        const trackStyle = track?.style ? escapeMarkdown(track.style) : '';
         const message = `🎉 *Ваш трек готов\\!*\n\n🎵 *${trackTitle}*\n${trackStyle ? `🎸 Стиль: ${trackStyle}` : ''}\n\nОткройте в приложении для прослушивания\\! 🎧`;
         
         await sendTelegramMessage(finalChatId, message, {
@@ -436,7 +437,7 @@ Deno.serve(async (req) => {
         });
       }
     } else if (status === 'failed') {
-      const escapedErrorMessage = (error_message || 'Произошла ошибка при генерации').replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
+      const escapedErrorMessage = escapeMarkdown(error_message || 'Произошла ошибка при генерации');
       const message = `😔 *Не удалось создать трек*\n\n${escapedErrorMessage}\n\n💡 *Попробуйте:*\n• Упростить описание\n• Изменить стиль\n• Попробовать через минуту`;
       
       await sendTelegramMessage(finalChatId, message, {
