@@ -74,6 +74,9 @@ interface TelegramWebApp {
   // Share URL (available in Telegram 8.0+)
   shareURL?: (url: string, text?: string) => void;
   
+  // Lock orientation to portrait mode (prevents rotation)
+  lockOrientation?: () => void;
+  
   // Switch inline query
   switchInlineQuery?: (query: string, chooseChatTypes?: Array<'users' | 'bots' | 'groups' | 'channels'>) => void;
   
