@@ -22,8 +22,8 @@ serve(async (req) => {
 
     const { chatId, trackId, audioUrl, coverUrl, title, duration, status, errorMessage } = await req.json();
 
-    // Validate chat_id
-    if (!chatId || typeof chatId !== 'number' || chatId <= 0) {
+    // Validate chat_id (note: group chats have negative IDs, so we only check for zero or invalid type)
+    if (!chatId || typeof chatId !== 'number' || chatId === 0) {
       console.error('❌ Invalid or missing chat_id:', chatId);
       return new Response(
         JSON.stringify({ 
@@ -112,18 +112,25 @@ serve(async (req) => {
     const result = await response.json();
 
     if (!response.ok || !result.ok) {
+      const errorCode = result.error_code;
       const errorDesc = result.description || result.error || 'Unknown error';
       console.error('❌ Telegram API error:', {
         status: response.status,
         statusText: response.statusText,
+        errorCode: errorCode,
         error: errorDesc,
         chatId: chatId
       });
 
-      // Handle specific Telegram errors gracefully
-      if (errorDesc.includes('chat not found') || 
-          errorDesc.includes('bot was blocked') || 
-          errorDesc.includes('user is deactivated')) {
+      // Handle specific Telegram errors gracefully using error codes when available
+      // Error codes: 400 (chat not found, bot blocked), 403 (bot blocked), 404 (not found)
+      const isUnavailableChat = 
+        errorCode === 400 || errorCode === 403 || errorCode === 404 ||
+        errorDesc.includes('chat not found') || 
+        errorDesc.includes('bot was blocked') || 
+        errorDesc.includes('user is deactivated');
+      
+      if (isUnavailableChat) {
         console.warn('⚠️ Chat unavailable, user may have blocked bot or deleted account');
         return new Response(
           JSON.stringify({ 

@@ -51,7 +51,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
     },
     enabled: !!projectId && !!user?.id,
     retry: 2,
-    staleTime: 30000, // Consider data fresh for 30 seconds
+    staleTime: 300000, // Consider data fresh for 5 minutes (project tracks don't change frequently)
   });
 
   // Realtime subscription for project tracks updates
