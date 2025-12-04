@@ -28,7 +28,12 @@ export const useProjectTracks = (projectId: string | undefined) => {
   const { data: tracks, isLoading, error } = useQuery({
     queryKey: ['project-tracks', projectId],
     queryFn: async () => {
-      if (!projectId) return [];
+      if (!projectId) {
+        console.log('⚠️ useProjectTracks: No projectId provided');
+        return [];
+      }
+
+      console.log('🔍 Fetching project tracks for project:', projectId);
 
       const { data, error } = await supabase
         .from('project_tracks')
@@ -36,10 +41,17 @@ export const useProjectTracks = (projectId: string | undefined) => {
         .eq('project_id', projectId)
         .order('position', { ascending: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Error fetching project tracks:', error);
+        throw error;
+      }
+      
+      console.log(`✅ Loaded ${data?.length || 0} project tracks`);
       return data as ProjectTrack[];
     },
     enabled: !!projectId && !!user?.id,
+    retry: 2,
+    staleTime: 30000, // Consider data fresh for 30 seconds
   });
 
   // Realtime subscription for project tracks updates

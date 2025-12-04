@@ -22,8 +22,20 @@ serve(async (req) => {
 
     const { chatId, trackId, audioUrl, coverUrl, title, duration, status, errorMessage } = await req.json();
 
-    if (!chatId) {
-      throw new Error('chatId is required');
+    // Validate chat_id
+    if (!chatId || typeof chatId !== 'number' || chatId <= 0) {
+      console.error('❌ Invalid or missing chat_id:', chatId);
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: 'Invalid or missing chat_id',
+          skipped: true 
+        }),
+        { 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 400,
+        }
+      );
     }
 
     const telegramApiUrl = `https://api.telegram.org/bot${botToken}`;
@@ -99,12 +111,39 @@ serve(async (req) => {
 
     const result = await response.json();
 
-    if (!response.ok) {
-      console.error('Telegram API error:', result);
-      throw new Error(`Telegram API error: ${result.description || 'Unknown error'}`);
+    if (!response.ok || !result.ok) {
+      const errorDesc = result.description || result.error || 'Unknown error';
+      console.error('❌ Telegram API error:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorDesc,
+        chatId: chatId
+      });
+
+      // Handle specific Telegram errors gracefully
+      if (errorDesc.includes('chat not found') || 
+          errorDesc.includes('bot was blocked') || 
+          errorDesc.includes('user is deactivated')) {
+        console.warn('⚠️ Chat unavailable, user may have blocked bot or deleted account');
+        return new Response(
+          JSON.stringify({ 
+            success: false, 
+            error: 'Chat unavailable',
+            skipped: true,
+            reason: 'chat_unavailable'
+          }),
+          { 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            status: 200, // Return 200 to avoid retries
+          }
+        );
+      }
+
+      throw new Error(`Telegram API error (${response.status}): ${errorDesc}`);
     }
 
-    console.log('Audio sent successfully to Telegram');
+    console.log('✅ Audio sent successfully to Telegram');
+    
 
     return new Response(
       JSON.stringify({ success: true }),

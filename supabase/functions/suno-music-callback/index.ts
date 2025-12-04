@@ -251,11 +251,12 @@ serve(async (req) => {
         received_clips: clips.length,
       }).eq('id', task.id);
 
-      if (task.telegram_chat_id && clips.length > 0) {
+      // Validate telegram_chat_id before attempting to send
+      if (task.telegram_chat_id && typeof task.telegram_chat_id === 'number' && task.telegram_chat_id > 0 && clips.length > 0) {
         // Send notification for EACH clip (version A and B)
         // Suno typically generates 2 versions, and users expect both
         const maxClipsToSend = Math.min(clips.length, 2); // Send up to 2 clips
-        console.log(`📤 Sending ${maxClipsToSend} track version(s) to Telegram`);
+        console.log(`📤 Sending ${maxClipsToSend} track version(s) to Telegram (chat_id: ${task.telegram_chat_id})`);
         
         for (let i = 0; i < maxClipsToSend; i++) {
           const clip = clips[i];
