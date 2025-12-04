@@ -54,7 +54,7 @@ async function sendTelegramMessage(chatId: number, text: string, replyMarkup?: u
     body: JSON.stringify({
       chat_id: chatId,
       text,
-      parse_mode: 'Markdown',
+      parse_mode: 'MarkdownV2',
       reply_markup: replyMarkup,
     }),
   });
@@ -116,7 +116,7 @@ async function sendTelegramAudio(
   if (options.performer) formData.append('performer', options.performer);
   if (options.duration) formData.append('duration', options.duration.toString());
   if (thumbBlob) formData.append('thumbnail', thumbBlob, 'cover.jpg');
-  formData.append('parse_mode', 'Markdown');
+  formData.append('parse_mode', 'MarkdownV2');
   if (options.replyMarkup) formData.append('reply_markup', JSON.stringify(options.replyMarkup));
 
   const response = await fetch(`https://api.telegram.org/bot${botToken}/sendAudio`, {

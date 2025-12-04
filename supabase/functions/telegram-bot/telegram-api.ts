@@ -65,7 +65,7 @@ export async function sendMessage(
     body: JSON.stringify({
       chat_id: chatId,
       text,
-      parse_mode: 'Markdown',
+      parse_mode: 'MarkdownV2',
       reply_markup: replyMarkup,
     }),
   });
@@ -98,7 +98,7 @@ export async function sendPhoto(
         chat_id: chatId,
         photo: photoUrl,
         caption: options.caption,
-        parse_mode: 'Markdown',
+        parse_mode: 'MarkdownV2',
         reply_markup: options.replyMarkup,
       }),
     });
@@ -162,7 +162,7 @@ export async function sendAudio(
   if (options.performer) formData.append('performer', options.performer);
   if (options.duration) formData.append('duration', options.duration.toString());
   if (options.caption) formData.append('caption', options.caption);
-  formData.append('parse_mode', 'Markdown');
+  formData.append('parse_mode', 'MarkdownV2');
   
   // Download and attach thumbnail
   if (options.thumbnail && options.thumbnail.startsWith('http')) {
@@ -211,7 +211,7 @@ export async function editMessageText(
       chat_id: chatId,
       message_id: messageId,
       text,
-      parse_mode: 'Markdown',
+      parse_mode: 'MarkdownV2',
       reply_markup: replyMarkup,
     }),
   });
@@ -235,7 +235,7 @@ export async function editMessageMedia(
     type: 'photo';
     media: string;
     caption?: string;
-    parse_mode?: 'Markdown' | 'HTML';
+    parse_mode?: 'MarkdownV2' | 'HTML';
   },
   replyMarkup?: {
     inline_keyboard?: InlineKeyboardButton[][];
@@ -279,7 +279,7 @@ export async function editMessageCaption(
       chat_id: chatId,
       message_id: messageId,
       caption,
-      parse_mode: 'Markdown',
+      parse_mode: 'MarkdownV2',
       reply_markup: replyMarkup,
     }),
   });

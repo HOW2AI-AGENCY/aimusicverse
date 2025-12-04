@@ -83,6 +83,9 @@ export async function handleInlineQuery(inlineQuery: InlineQuery) {
 function createResult(track: any, username?: string): InlineQueryResult {
   const deepLink = `${BOT_CONFIG.deepLinkBase}?startapp=track_${track.id}`;
   const performer = username ? `@${username}` : 'MusicVerse AI';
+  const escapedTitle = (track.title || 'Трек').replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
+  const escapedPerformer = performer.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
+  const escapedDeepLink = deepLink.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
   
   return {
     type: 'audio',
@@ -91,8 +94,8 @@ function createResult(track: any, username?: string): InlineQueryResult {
     title: track.title || 'MusicVerse Track',
     performer,
     audio_duration: track.duration_seconds || 0,
-    caption: `🎵 *${track.title || 'Трек'}*\n👤 ${performer}\n🔗 ${deepLink}`,
-    parse_mode: 'Markdown',
+    caption: `🎵 *${escapedTitle}*\n👤 ${escapedPerformer}\n🔗 ${escapedDeepLink}`,
+    parse_mode: 'MarkdownV2',
     thumbnail_url: track.cover_url,
     reply_markup: { inline_keyboard: [[{ text: '🎵 Открыть', url: deepLink }]] }
   };
