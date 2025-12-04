@@ -77,7 +77,7 @@ serve(async (req) => {
     if (!prompt) {
       console.error('Prompt is required');
       return new Response(
-        JSON.stringify({ success: false, error: 'Prompt is required' }),
+        JSON.stringify({ success: false, error: 'Требуется описание музыки' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
       );
     }
@@ -87,7 +87,19 @@ serve(async (req) => {
     if (customMode && !style) {
       console.error('Style is required in custom mode');
       return new Response(
-        JSON.stringify({ success: false, error: 'Style is required in custom mode' }),
+        JSON.stringify({ success: false, error: 'Укажите стиль музыки в custom режиме' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
+    }
+
+    // Validate prompt length for non-custom mode (Suno limit: 500 chars)
+    if (!customMode && prompt.length > 500) {
+      console.error(`Prompt too long for simple mode: ${prompt.length} chars`);
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: `Описание слишком длинное (${prompt.length}/500 символов). Сократите текст или используйте Custom режим.` 
+        }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
       );
     }
@@ -95,7 +107,7 @@ serve(async (req) => {
     if (customMode && !instrumental && prompt.length > 5000) {
       console.error('Prompt too long');
       return new Response(
-        JSON.stringify({ success: false, error: 'Prompt too long (max 5000 characters)' }),
+        JSON.stringify({ success: false, error: 'Текст слишком длинный (макс. 5000 символов)' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
       );
     }

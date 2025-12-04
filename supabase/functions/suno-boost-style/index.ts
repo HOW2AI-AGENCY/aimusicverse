@@ -6,6 +6,9 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Максимум символов для промпта (оставляем запас до 500)
+const MAX_PROMPT_LENGTH = 450;
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -46,7 +49,7 @@ serve(async (req) => {
       );
     }
 
-    const { content } = await req.json();
+    const { content, targetLength = MAX_PROMPT_LENGTH } = await req.json();
 
     if (!content) {
       return new Response(
@@ -69,27 +72,35 @@ serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: `Ты профессиональный музыкальный продюсер. Твоя задача - улучшить описание музыкального стиля для Suno AI v5.
+            content: `Ты эксперт по AI музыке и Suno API v5. Улучши описание музыкального стиля.
 
-Правила улучшения:
-1. Используй формат Suno v5: [Category: Value]
-2. Добавь 5-8 релевантных мета-тегов из категорий: Genre, Mood, Instrument, Vocal Style, Production, Texture, Energy
-3. Сделай описание более детальным и профессиональным
-4. Убери противоречивые элементы
-5. Максимум 2 жанра, 3-4 инструмента
-6. Отвечай ТОЛЬКО улучшенным текстом стиля, без пояснений
+КРИТИЧЕСКИ ВАЖНО:
+- Результат СТРОГО до ${targetLength} символов (сейчас лимит API = 500)
+- Пиши на РУССКОМ языке
+- Используй компактный формат: описание + теги в квадратных скобках
+- Максимум 4-5 тегов, только самые важные
 
-Пример улучшения:
-Вход: "грустная медленная песня"
-Выход: "[Genre: Indie Folk, Acoustic] [Mood: Melancholic, Introspective] [Instrument: Acoustic Guitar, Piano, Cello] [Vocal Style: Soft, Breathy] [Production: Intimate, Lo-Fi] [Texture: Sparse, Reverb-Light] [Energy: Low] [BPM: 65-75]"`,
+ФОРМАТ ОТВЕТА:
+Краткое описание музыки [Жанр: X] [Настроение: X] [Вокал: X] [Темп: X]
+
+ПРИМЕРЫ:
+"грустная песня" → "Меланхоличная баллада с мягким вокалом [Жанр: Инди-фолк] [Настроение: Грустный] [Вокал: Нежный] [Темп: Медленный]"
+
+"энергичный рок" → "Мощный рок с драйвовыми гитарами [Жанр: Рок] [Настроение: Энергичный] [Инструменты: Гитары, ударные] [Темп: Быстрый]"
+
+НИКОГДА:
+- Не превышай ${targetLength} символов
+- Не используй английские слова
+- Не добавляй лишние теги
+- Не пиши пояснений, только результат`,
           },
           {
             role: 'user',
-            content: `Улучши это описание стиля:\n\n${content}`,
+            content: `Улучши это описание (макс ${targetLength} символов):\n\n${content}`,
           },
         ],
         temperature: 0.7,
-        max_tokens: 500,
+        max_tokens: 300,
       }),
     });
 
@@ -100,7 +111,7 @@ serve(async (req) => {
     }
 
     const aiData = await aiResponse.json();
-    const boostedStyle = aiData.choices?.[0]?.message?.content?.trim();
+    let boostedStyle = aiData.choices?.[0]?.message?.content?.trim();
 
     if (!boostedStyle) {
       console.error('No style in AI response:', aiData);
@@ -110,12 +121,25 @@ serve(async (req) => {
       );
     }
 
-    console.log('Style boosted successfully');
+    // Ensure the result doesn't exceed the target length
+    if (boostedStyle.length > targetLength) {
+      console.log(`Trimming boosted style from ${boostedStyle.length} to ${targetLength}`);
+      // Try to trim intelligently - find last complete tag
+      const lastBracket = boostedStyle.lastIndexOf(']', targetLength);
+      if (lastBracket > 100) {
+        boostedStyle = boostedStyle.substring(0, lastBracket + 1);
+      } else {
+        boostedStyle = boostedStyle.substring(0, targetLength);
+      }
+    }
+
+    console.log(`Style boosted: ${boostedStyle.length} chars`);
 
     return new Response(
       JSON.stringify({ 
         boostedStyle,
         original: content,
+        length: boostedStyle.length,
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );

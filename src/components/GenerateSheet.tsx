@@ -291,17 +291,24 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     const prompt = mode === 'simple' ? description : (instrumental ? '' : lyrics);
     
     if (mode === 'simple' && !description) {
-      toast.error('Пожалуйста, опишите музыку');
+      toast.error('Опишите музыку');
+      return;
+    }
+
+    if (mode === 'simple' && description.length > 500) {
+      toast.error(`Описание слишком длинное (${description.length}/500)`, {
+        description: 'Сократите текст или переключитесь в Custom режим',
+      });
       return;
     }
 
     if (mode === 'custom' && !style) {
-      toast.error('Пожалуйста, укажите стиль музыки');
+      toast.error('Укажите стиль музыки');
       return;
     }
 
     if (mode === 'custom' && hasVocals && !lyrics) {
-      toast.error('Пожалуйста, добавьте лирику или отключите вокал');
+      toast.error('Добавьте лирику или отключите вокал');
       return;
     }
 
@@ -682,30 +689,40 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   <Label htmlFor="description" className="text-xs font-medium">
                     Описание музыки
                   </Label>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleBoostStyle}
-                    disabled={boostLoading || !description}
-                    className="h-6 px-2 gap-1"
-                  >
-                    {boostLoading ? (
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                    ) : (
-                      <Sparkles className="w-3 h-3" />
-                    )}
-                    <span className="text-xs">AI</span>
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-xs ${description.length > 500 ? 'text-destructive font-medium' : description.length > 400 ? 'text-yellow-500' : 'text-muted-foreground'}`}>
+                      {description.length}/500
+                    </span>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBoostStyle}
+                      disabled={boostLoading || !description}
+                      className="h-6 px-2 gap-1"
+                    >
+                      {boostLoading ? (
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                      ) : (
+                        <Sparkles className="w-3 h-3" />
+                      )}
+                      <span className="text-xs">AI</span>
+                    </Button>
+                  </div>
                 </div>
                 <Textarea
                   id="description"
-                  placeholder="Например: Спокойный лоу-фай бит с джазовым пианино..."
+                  placeholder="Энергичный рок с мощными гитарами [Жанр: Рок] [Настроение: Драйв]"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={5}
-                  className="resize-none text-sm"
+                  className={`resize-none text-sm ${description.length > 500 ? 'border-destructive focus-visible:ring-destructive' : ''}`}
                 />
+                {description.length > 500 && (
+                  <p className="text-xs text-destructive mt-1">
+                    Сократите описание или переключитесь в Custom режим
+                  </p>
+                )}
               </div>
 
               <div>
