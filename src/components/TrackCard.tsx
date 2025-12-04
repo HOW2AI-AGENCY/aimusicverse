@@ -3,12 +3,14 @@ import { Button } from '@/components/ui/button';
 import { Play, Pause, Heart, Mic, Volume2, Globe, Lock, MoreHorizontal, Layers, Music2, Trash2, User } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { useState, useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { TrackActionsMenu } from './TrackActionsMenu';
 import { TrackActionsSheet } from './TrackActionsSheet';
 import { InlineVersionToggle } from './library/InlineVersionToggle';
 import { TrackTypeIcons } from './library/TrackTypeIcons';
+import { SwipeableTrackItem } from './library/SwipeableTrackItem';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -16,6 +18,7 @@ import { useTouchEvents, triggerHapticFeedback } from '@/lib/mobile-utils';
 import { toast } from 'sonner';
 import { motion, PanInfo } from 'framer-motion';
 import { hapticImpact, hapticNotification } from '@/lib/haptic';
+import { usePlayerStore } from '@/hooks/usePlayerState';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -60,6 +63,8 @@ export const TrackCard = ({
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [swipeOffset, setSwipeOffset] = useState(0);
   const isMobile = useIsMobile();
+  const { addToQueue } = usePlayerStore();
+  const queryClient = useQueryClient();
 
   // Use prop counts if provided (from Library with useTrackCounts hook)
   // Otherwise fetch individually (for standalone usage)
@@ -222,97 +227,147 @@ export const TrackCard = ({
     longPressDelay: 500,
   });
 
+  // Swipe action handlers
+  const handleSwipeAddToQueue = () => {
+    if (track.audio_url && track.status === 'completed') {
+      addToQueue(track);
+      toast.success('Добавлено в очередь');
+    }
+  };
+
+  const handleSwipeSwitchVersion = async () => {
+    if (versionCount <= 1) return;
+    
+    // Fetch versions and switch to next one
+    const { data: versions } = await supabase
+      .from('track_versions')
+      .select('id, version_label')
+      .eq('track_id', track.id)
+      .order('clip_index', { ascending: true });
+    
+    if (!versions || versions.length <= 1) return;
+    
+    const currentActiveId = (track as any).active_version_id;
+    const currentIndex = versions.findIndex(v => v.id === currentActiveId);
+    const nextIndex = (currentIndex + 1) % versions.length;
+    const nextVersion = versions[nextIndex];
+    
+    const { error } = await supabase
+      .from('tracks')
+      .update({ active_version_id: nextVersion.id })
+      .eq('id', track.id);
+    
+    if (!error) {
+      queryClient.invalidateQueries({ queryKey: ['tracks'] });
+      toast.success(`Версия ${nextVersion.version_label || 'A'}`);
+    }
+  };
+
   if (layout === 'list') {
-    return (
-      <>
-        <Card
-          className="group grid grid-cols-[auto,1fr,auto] items-center gap-3 p-2 sm:p-3 transition-all hover:bg-muted/50 active:bg-muted touch-manipulation rounded-lg"
-          onClick={handleCardClick}
-          {...(isMobile ? touchHandlers : {})}
-        >
-          {/* Cover Image & Play Button */}
-          <div className="relative w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-md overflow-hidden" data-play-button>
-            <img
-              src={track.cover_url || ''}
-              alt={track.title || 'Track cover'}
-              className="w-full h-full object-cover"
-              onError={(e) => (e.currentTarget.src = 'https://placehold.co/128x128/1a1a1a/ffffff?text=🎵')}
-            />
-            <div
-              className={cn(
-                "absolute inset-0 bg-black/50 flex items-center justify-center cursor-pointer transition-opacity",
-                isPlaying ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-              )}
-              onClick={(e) => { 
-                e.stopPropagation(); 
-                triggerHapticFeedback('medium');
-                onPlay?.(); 
-              }}
-            >
-              <Button size="icon" variant="ghost" className="w-10 h-10 rounded-full text-white touch-manipulation">
-                {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
-              </Button>
-            </div>
-          </div>
-
-          {/* Track Info */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2">
-              <h3 className="font-medium text-sm sm:text-base truncate">{track.title || 'Без названия'}</h3>
-              {/* Version Toggle - only show if more than 1 version */}
-              {versionCount > 1 && (
-                <InlineVersionToggle
-                  trackId={track.id}
-                  activeVersionId={(track as any).active_version_id}
-                  versionCount={versionCount}
-                  className="flex-shrink-0"
-                />
-              )}
-            </div>
-            <div className="flex items-center gap-2 mt-0.5">
-              <span className="text-xs text-muted-foreground truncate">
-                {track.style || track.tags?.split(',').slice(0, 2).join(', ') || 'Без стиля'}
-              </span>
-              {/* Type Icons */}
-              <TrackTypeIcons track={track} compact />
-            </div>
-          </div>
-
-          {/* Actions */}
-          <div className="flex items-center gap-1">
-            <Button
-              size="icon"
-              variant={isPlaying ? "default" : "ghost"}
-              className={cn(
-                "w-10 h-10 rounded-full touch-manipulation transition-colors",
-                isPlaying && "bg-primary text-primary-foreground"
-              )}
-              onClick={(e) => { 
-                e.stopPropagation(); 
-                triggerHapticFeedback('medium');
-                onPlay?.(); 
-              }}
-            >
+    const listContent = (
+      <Card
+        className="group grid grid-cols-[auto,1fr,auto] items-center gap-3 p-2 sm:p-3 transition-all hover:bg-muted/50 active:bg-muted touch-manipulation rounded-lg"
+        onClick={handleCardClick}
+        {...(!isMobile ? {} : {})}
+      >
+        {/* Cover Image & Play Button */}
+        <div className="relative w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-md overflow-hidden" data-play-button>
+          <img
+            src={track.cover_url || ''}
+            alt={track.title || 'Track cover'}
+            className="w-full h-full object-cover"
+            onError={(e) => (e.currentTarget.src = 'https://placehold.co/128x128/1a1a1a/ffffff?text=🎵')}
+          />
+          <div
+            className={cn(
+              "absolute inset-0 bg-black/50 flex items-center justify-center cursor-pointer transition-opacity",
+              isPlaying ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+            )}
+            onClick={(e) => { 
+              e.stopPropagation(); 
+              triggerHapticFeedback('medium');
+              onPlay?.(); 
+            }}
+          >
+            <Button size="icon" variant="ghost" className="w-10 h-10 rounded-full text-white touch-manipulation">
               {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
             </Button>
-            {isMobile ? (
-              <Button
-                size="icon"
-                variant="ghost"
-                className="w-10 h-10 touch-manipulation"
-                onClick={(e) => { 
-                  e.stopPropagation(); 
-                  triggerHapticFeedback('light');
-                  setSheetOpen(true); 
-                }}
-              >
-                <MoreHorizontal className="w-5 h-5" />
-              </Button>
-            ) : (
-              <TrackActionsMenu track={track} onDelete={onDelete} onDownload={onDownload} />
+          </div>
+        </div>
+
+        {/* Track Info */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h3 className="font-medium text-sm sm:text-base truncate">{track.title || 'Без названия'}</h3>
+            {/* Version Toggle - only show if more than 1 version */}
+            {versionCount > 1 && (
+              <InlineVersionToggle
+                trackId={track.id}
+                activeVersionId={(track as any).active_version_id}
+                versionCount={versionCount}
+                className="flex-shrink-0"
+              />
             )}
           </div>
-        </Card>
+          <div className="flex items-center gap-2 mt-0.5">
+            <span className="text-xs text-muted-foreground truncate">
+              {track.style || track.tags?.split(',').slice(0, 2).join(', ') || 'Без стиля'}
+            </span>
+            {/* Type Icons */}
+            <TrackTypeIcons track={track} compact />
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="flex items-center gap-1">
+          <Button
+            size="icon"
+            variant={isPlaying ? "default" : "ghost"}
+            className={cn(
+              "w-10 h-10 rounded-full touch-manipulation transition-colors",
+              isPlaying && "bg-primary text-primary-foreground"
+            )}
+            onClick={(e) => { 
+              e.stopPropagation(); 
+              triggerHapticFeedback('medium');
+              onPlay?.(); 
+            }}
+          >
+            {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
+          </Button>
+          {isMobile ? (
+            <Button
+              size="icon"
+              variant="ghost"
+              className="w-10 h-10 touch-manipulation"
+              onClick={(e) => { 
+                e.stopPropagation(); 
+                triggerHapticFeedback('light');
+                setSheetOpen(true); 
+              }}
+            >
+              <MoreHorizontal className="w-5 h-5" />
+            </Button>
+          ) : (
+            <TrackActionsMenu track={track} onDelete={onDelete} onDownload={onDownload} />
+          )}
+        </div>
+      </Card>
+    );
+
+    return (
+      <>
+        {isMobile ? (
+          <SwipeableTrackItem
+            onAddToQueue={handleSwipeAddToQueue}
+            onSwitchVersion={handleSwipeSwitchVersion}
+            hasMultipleVersions={versionCount > 1}
+          >
+            {listContent}
+          </SwipeableTrackItem>
+        ) : (
+          listContent
+        )}
         <TrackActionsSheet track={track} open={sheetOpen} onOpenChange={setSheetOpen} onDelete={onDelete} onDownload={onDownload} />
       </>
     );
