@@ -30,16 +30,15 @@ export function useVersionSwitcher() {
 
   const setPrimaryVersionMutation = useMutation({
     mutationFn: async ({ trackId, versionId }: SetPrimaryVersionParams) => {
-      // First, unset current primary
+      // Step 1: Unset is_primary for ALL versions of this track
       const { error: unsetError } = await supabase
         .from('track_versions')
         .update({ is_primary: false })
-        .eq('track_id', trackId)
-        .eq('is_primary', true);
+        .eq('track_id', trackId);
 
       if (unsetError) throw unsetError;
 
-      // Then set new primary
+      // Step 2: Set the selected version as primary
       const { error: setError } = await supabase
         .from('track_versions')
         .update({ is_primary: true })
@@ -47,7 +46,15 @@ export function useVersionSwitcher() {
 
       if (setError) throw setError;
 
-      // Log the change
+      // Step 3: Also update active_version_id on tracks table for consistency
+      const { error: trackError } = await supabase
+        .from('tracks')
+        .update({ active_version_id: versionId })
+        .eq('id', trackId);
+
+      if (trackError) throw trackError;
+
+      // Step 4: Log the change
       const { data: userData } = await supabase.auth.getUser();
       if (userData.user) {
         await supabase.from('track_change_log').insert({
