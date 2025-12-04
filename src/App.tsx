@@ -24,6 +24,7 @@ const Projects = lazy(() => import("./pages/Projects"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
 const Artists = lazy(() => import("./pages/Artists"));
 const Actors = lazy(() => import("./pages/Actors"));
+const Playlists = lazy(() => import("./pages/Playlists"));
 const Blog = lazy(() => import("./pages/Blog"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -66,6 +67,7 @@ const App = () => (
                   <Route path="/projects/:id" element={<ProjectDetail />} />
                 <Route path="/artists" element={<Artists />} />
                 <Route path="/actors" element={<Actors />} />
+                <Route path="/playlists" element={<Playlists />} />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/analytics" element={<Analytics />} />
                 </Route>
