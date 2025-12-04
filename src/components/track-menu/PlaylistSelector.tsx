@@ -35,8 +35,7 @@ export function PlaylistSelector({ open, onOpenChange, track }: PlaylistSelector
   const [selectedPlaylistId, setSelectedPlaylistId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // TODO: Replace with actual playlists hook when implemented
-  // Example: const { data: playlists, isLoading: playlistsLoading } = usePlaylists();
+  // Playlists feature coming soon - tables not yet created
   const playlists: Playlist[] = [];
   const playlistsLoading = false;
 
@@ -56,13 +55,7 @@ export function PlaylistSelector({ open, onOpenChange, track }: PlaylistSelector
 
     try {
       hapticImpact('light');
-
-      // TODO: Implement actual add to playlist API call
-      // await addTrackToPlaylist({
-      //   playlistId: selectedPlaylistId,
-      //   trackId: track.id,
-      // });
-
+      // Playlists feature coming soon
       const playlist = playlists.find(p => p.id === selectedPlaylistId);
       hapticNotification('success');
       toast.success(`Added to "${playlist?.name}"`);
@@ -80,8 +73,7 @@ export function PlaylistSelector({ open, onOpenChange, track }: PlaylistSelector
   };
 
   const handleCreatePlaylist = () => {
-    // TODO: Open create playlist dialog
-    toast.info('Create playlist feature coming soon');
+    toast.info('Создание плейлистов скоро будет доступно');
   };
 
   const handleOpenChange = (open: boolean) => {

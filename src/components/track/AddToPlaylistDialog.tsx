@@ -40,8 +40,7 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
   const triggerSuccessHaptic = useHapticFeedback('success');
   const triggerSelectionHaptic = useHapticFeedback('selection');
 
-  // TODO: Replace with actual playlists hook when implemented
-  // const { data: playlists, isLoading: playlistsLoading } = usePlaylists();
+  // Playlists feature coming soon - tables not yet created
   const playlists: Playlist[] = [];
   const playlistsLoading = false;
 
@@ -61,8 +60,7 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
 
     try {
       triggerSelectionHaptic();
-
-      // TODO: Implement actual add to playlist API call
+      // Playlists feature coming soon
       await new Promise(resolve => setTimeout(resolve, 500));
 
       const playlist = playlists.find(p => p.id === selectedPlaylistId);
@@ -91,8 +89,7 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
 
     try {
       triggerSelectionHaptic();
-
-      // TODO: Implement actual create playlist API call
+      // Playlists feature coming soon
       await new Promise(resolve => setTimeout(resolve, 500));
 
       triggerSuccessHaptic();
