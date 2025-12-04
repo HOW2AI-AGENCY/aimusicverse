@@ -1,6 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { BOT_CONFIG } from '../config.ts';
-import { logger } from '../utils/index.ts';
+import { logger, escapeMarkdown } from '../utils/index.ts';
 
 const supabase = createClient(
   BOT_CONFIG.supabaseUrl,
@@ -83,9 +83,9 @@ export async function handleInlineQuery(inlineQuery: InlineQuery) {
 function createResult(track: any, username?: string): InlineQueryResult {
   const deepLink = `${BOT_CONFIG.deepLinkBase}?startapp=track_${track.id}`;
   const performer = username ? `@${username}` : 'MusicVerse AI';
-  const escapedTitle = (track.title || 'Трек').replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
-  const escapedPerformer = performer.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
-  const escapedDeepLink = deepLink.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
+  const escapedTitle = escapeMarkdown(track.title || 'Трек');
+  const escapedPerformer = escapeMarkdown(performer);
+  const escapedDeepLink = escapeMarkdown(deepLink);
   
   return {
     type: 'audio',
