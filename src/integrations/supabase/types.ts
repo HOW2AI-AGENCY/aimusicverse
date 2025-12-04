@@ -487,6 +487,7 @@ export type Database = {
           created_at: string
           first_name: string
           id: string
+          is_public: boolean | null
           language_code: string | null
           last_name: string | null
           photo_url: string | null
@@ -503,6 +504,7 @@ export type Database = {
           created_at?: string
           first_name: string
           id?: string
+          is_public?: boolean | null
           language_code?: string | null
           last_name?: string | null
           photo_url?: string | null
@@ -519,6 +521,7 @@ export type Database = {
           created_at?: string
           first_name?: string
           id?: string
+          is_public?: boolean | null
           language_code?: string | null
           last_name?: string | null
           photo_url?: string | null
