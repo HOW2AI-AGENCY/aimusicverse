@@ -263,7 +263,8 @@ Deno.serve(async (req) => {
       );
     }
 
-    const miniAppUrl = Deno.env.get('MINI_APP_URL') || 'https://t.me/AIMusicVerseBot/app';
+    const miniAppUrl = Deno.env.get('MINI_APP_URL') || 'https://e2a6a5f1-c3e6-42bc-95c6-fd65dcb9defe.lovableproject.com';
+    const botDeepLink = 'https://t.me/AIMusicVerseBot/app';
 
     // Handle generation complete with direct data
     if (type === 'generation_complete' && audioUrl) {
@@ -303,7 +304,7 @@ Deno.serve(async (req) => {
         coverUrl: coverUrl,
         replyMarkup: {
           inline_keyboard: [
-            [{ text: '🎵 Открыть в приложении', web_app: { url: `${miniAppUrl}?startapp=track_${finalTrackId}` } }],
+            [{ text: '🎵 Открыть в приложении', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
             [
               { text: '📝 Текст', callback_data: `lyrics_${finalTrackId}` },
               { text: '📊 Статистика', callback_data: `stats_${finalTrackId}` }
@@ -353,7 +354,7 @@ Deno.serve(async (req) => {
           coverUrl: track.cover_url,
           replyMarkup: {
             inline_keyboard: [
-              [{ text: '🎵 Открыть в приложении', web_app: { url: `${miniAppUrl}?startapp=track_${finalTrackId}` } }],
+              [{ text: '🎵 Открыть в приложении', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
               [
                 { text: '🔄 Создать ремикс', callback_data: `remix_${finalTrackId}` },
                 { text: '📤 Поделиться', callback_data: `share_${finalTrackId}` }
@@ -399,7 +400,7 @@ Deno.serve(async (req) => {
           coverUrl: track.cover_url,
           replyMarkup: {
             inline_keyboard: [
-              [{ text: '🎵 Открыть в приложении', web_app: { url: `${miniAppUrl}?startapp=track_${finalTrackId}` } }],
+              [{ text: '🎵 Открыть в приложении', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
               [
                 { text: '📝 Текст', callback_data: `lyrics_${finalTrackId}` },
                 { text: '📊 Статистика', callback_data: `stats_${finalTrackId}` }
@@ -420,7 +421,7 @@ Deno.serve(async (req) => {
         
         await sendTelegramMessage(finalChatId, message, {
           inline_keyboard: [
-            [{ text: '🎧 Открыть трек', web_app: { url: `${miniAppUrl}?startapp=track_${finalTrackId}` } }],
+            [{ text: '🎧 Открыть трек', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
             [{ text: '🔄 Создать еще', callback_data: 'generate' }]
           ]
         });
