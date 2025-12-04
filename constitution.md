@@ -1,44 +1,38 @@
-# Introduction
-## Purpose and Scope
-## Definition of Key Terms
+# MusicVerse AI - Project Constitution
 
-# Project Organization
-## Structure of the Project Team
-## Roles and Responsibilities of Team Members
+**Note:** This file is a reference stub. The complete project constitution is located at:
+`.specify/memory/constitution.md`
 
-# Decision-Making Process
-## Introduction
-The purpose of this constitution is to establish the rules and guidelines for the development and maintenance of the MusicVerse AI project.
+## Quick Reference
 
-## Scope
-This constitution applies to all members of the project team, including developers, designers, and other contributors.
+### Key Principles
+1. **Quality & Testing** - TDD approach, 80% coverage minimum
+2. **Security & Privacy** - Security by design, data minimization
+3. **Observability** - Comprehensive logging and monitoring
+4. **Incremental Delivery** - Small PRs, semantic versioning
+5. **Architectural Simplicity** - KISS, explicit contracts
+6. **Performance** - Mobile-first, optimized bundle sizes
+7. **i18n & a11y** - 75+ languages, WCAG AA compliance
+8. **Telegram-first** - Native UX, deep integration
 
-## Roles and Responsibilities
-The project team will consist of the following roles:
-- Project Manager: responsible for overseeing the project and making key decisions
-- Developers: responsible for writing code and implementing features
-- Designers: responsible for creating user interfaces and user experiences
-- Contributors: responsible for providing input and feedback on the project
+### Architecture Stack
+- **Frontend:** React 19 + TypeScript 5 + Vite
+- **Backend:** Lovable Cloud (Supabase-based) - PostgreSQL + Edge Functions
+- **State:** Zustand + TanStack Query
+- **UI:** Tailwind CSS + shadcn/ui
+- **Platform:** Telegram Mini App (@twa-dev/sdk)
 
-## Decision-Making Process
-Decisions will be made through a consensus-based process, where all team members have an equal say in the decision-making process.
+### Important Naming Conventions
+- Database field: `is_primary` (NOT `is_master`)
+- Table: `track_change_log` (NOT `track_changelog`)
+- Table: `audio_analysis` (NOT `track_analysis`)
+- Backend: "Lovable Cloud" in docs (Supabase SDK in code)
 
-## Communication Plan
-The team will communicate through regular meetings, email, and instant messaging.
+### Key Documents
+- Full Constitution: `.specify/memory/constitution.md`
+- Naming Conventions: `INFRASTRUCTURE_NAMING_CONVENTIONS.md`
+- Copilot Instructions: `.github/copilot-instructions.md`
+- Development Workflow: `DEVELOPMENT_WORKFLOW.md`
+- Contributing Guide: `CONTRIBUTING.md`
 
-## Conflict Resolution
-Conflicts will be resolved through open and honest communication, with a focus on finding a solution that benefits the project as a whole.
-## How Decisions Will Be Made
-## Who Will Be Involved in the Decision-Making Process
-
-# Communication Plan
-## How Team Members Will Communicate with Each Other
-## How the Team Will Communicate with Stakeholders
-
-# Conflict Resolution
-## How Conflicts Will Be Resolved
-## Who Will Be Involved in the Conflict Resolution Process
-
-# Conclusion
-## Summary of the Constitution
-## How the Constitution Will Be Updated and Maintained
+For complete details, principles, and standards, please refer to the full constitution at `.specify/memory/constitution.md`.

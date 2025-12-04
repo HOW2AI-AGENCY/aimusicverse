@@ -42,7 +42,7 @@
 
 ### Компоненты
 - [**📱 Frontend Architecture**](FRONTEND_ARCHITECTURE.md) - React, TypeScript, Vite
-- [**🔧 Backend Architecture**](BACKEND_ARCHITECTURE.md) - Supabase, Edge Functions
+- [**🔧 Backend Architecture**](BACKEND_ARCHITECTURE.md) - Lovable Cloud, Edge Functions
 - [**💾 База данных**](DATABASE.md) - PostgreSQL схема и миграции
 - [**🤖 Telegram Bot**](TELEGRAM_BOT_ARCHITECTURE.md) - Архитектура бота
 
@@ -56,8 +56,8 @@
 - [**📡 WebSocket API**](WEBSOCKET_API.md) - Real-time обновления
 - [**🔐 Authentication API**](AUTH_API.md) - Telegram OAuth
 
-### Supabase
-- [**💾 Supabase Integration**](SUPABASE_GUIDE.md) - Работа с Supabase
+### Backend Integration
+- [**💾 Lovable Cloud Integration**](SUPABASE_GUIDE.md) - Работа с backend (Supabase SDK)
 - [**🔄 Realtime Subscriptions**](SUPABASE_REALTIME.md) - Real-time данные
 - [**📦 Storage API**](SUPABASE_STORAGE.md) - Управление файлами
 - [**🔒 Row Level Security**](SUPABASE_RLS.md) - Безопасность данных
@@ -149,7 +149,7 @@
 - [**🎯 Performance**](tech/PERFORMANCE.md) - Оптимизация производительности
 
 ### Backend
-- [**🔧 Edge Functions**](tech/EDGE_FUNCTIONS.md) - Supabase Functions
+- [**🔧 Edge Functions**](tech/EDGE_FUNCTIONS.md) - Serverless Functions
 - [**💾 Database Queries**](tech/DATABASE_QUERIES.md) - Оптимизация запросов
 - [**🔐 Security**](tech/SECURITY.md) - Лучшие практики безопасности
 - [**📊 Monitoring**](tech/MONITORING.md) - Мониторинг и логирование
@@ -163,7 +163,7 @@
 - [**React 19**](https://react.dev/) - UI библиотека
 - [**TypeScript 5**](https://www.typescriptlang.org/) - Типизированный JavaScript
 - [**Vite**](https://vitejs.dev/) - Build tool
-- [**Supabase**](https://supabase.com/docs) - Backend платформа
+- [**Lovable Cloud**](https://supabase.com/docs) - Backend платформа (на базе Supabase)
 - [**Telegram Mini Apps**](https://core.telegram.org/bots/webapps) - Telegram интеграция
 - [**Tailwind CSS**](https://tailwindcss.com/docs) - CSS фреймворк
 
