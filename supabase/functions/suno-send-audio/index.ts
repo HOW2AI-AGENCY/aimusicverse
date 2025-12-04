@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getTelegramConfig } from '../_shared/telegram-config.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -63,7 +64,8 @@ serve(async (req) => {
 
     const durationText = duration ? formatDuration(duration) : '';
 
-    const botDeepLink = 'https://t.me/AIMusicVerseBot/app';
+    const telegramConfig = getTelegramConfig();
+    const botDeepLink = telegramConfig.deepLinkBase;
 
     // Send audio file
     const audioMessage: any = {
