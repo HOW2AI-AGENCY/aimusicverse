@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter, SheetDescription } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -598,9 +599,17 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             </div>
           )}
 
-          {/* Simple Mode */}
-          {mode === 'simple' && (
-            <div className="space-y-3">
+          {/* Mode Content with Animation */}
+          <AnimatePresence mode="wait">
+            {mode === 'simple' && (
+              <motion.div
+                key="simple"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                className="space-y-3"
+              >
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <Label htmlFor="description" className="text-xs font-medium">
@@ -665,12 +674,18 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   }}
                 />
               </div>
-            </div>
-          )}
+              </motion.div>
+            )}
 
-          {/* Custom Mode */}
-          {mode === 'custom' && (
-            <div className="space-y-3">
+            {mode === 'custom' && (
+              <motion.div
+                key="custom"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                className="space-y-3"
+              >
               <div>
                 <Label htmlFor="title" className="text-xs font-medium mb-1.5 block">
                   Название
@@ -798,8 +813,9 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                 model={model}
                 onModelChange={setModel}
               />
-            </div>
-          )}
+              </motion.div>
+            )}
+          </AnimatePresence>
           </div>
         </ScrollArea>
         <SheetFooter className="p-3 sm:p-4 bg-background/95 backdrop-blur-xl border-t">
