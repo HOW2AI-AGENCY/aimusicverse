@@ -49,9 +49,12 @@ export const useTracksInfinite = ({
   } = useInfiniteQuery({
     queryKey: ['tracks-infinite', user?.id, projectId, searchQuery, sortBy, pageSize],
     queryFn: async ({ pageParam = 0 }) => {
-      if (!user?.id) return { tracks: [], nextPage: null };
+      if (!user?.id) {
+        console.warn('⚠️ useTracksInfinite: No user ID available');
+        return { tracks: [], nextPage: null, totalCount: 0 };
+      }
 
-      console.log(`🔄 Fetching tracks page ${pageParam} for user: ${user.id}`);
+      console.log(`🔄 Fetching tracks page ${pageParam} for user: ${user.id}, sortBy: ${sortBy}`);
 
       return retryWithBackoff(async () => {
         const from = pageParam * pageSize;

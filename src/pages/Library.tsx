@@ -76,7 +76,8 @@ export default function Library() {
   const { 
     tracks, 
     totalCount,
-    isLoading, 
+    isLoading,
+    error: tracksError,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -90,6 +91,9 @@ export default function Library() {
     sortBy,
     pageSize: 20,
   });
+
+  // Debug logging for tracks
+  console.log('📚 Library tracks:', { count: tracks?.length, totalCount, isLoading, error: tracksError?.message });
 
   // Track previous generation count to detect completion
   const prevGenerationsCount = useRef(activeGenerations.length);
