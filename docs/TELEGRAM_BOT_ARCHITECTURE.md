@@ -1,6 +1,11 @@
 # 🤖 Telegram Bot Architecture (MusicVerse)
 
-## Версия: 2.0 (Native App Interface)
+## Версия: 2.1 (Native Telegram API)
+
+> **Note:** For the latest technical audit of the implementation, see [TELEGRAM_BOT_AUDIT_2025-12-05.md](./TELEGRAM_BOT_AUDIT_2025-12-05.md)
+
+**Last Updated:** 2025-12-05  
+**Bot:** @AIMusicVerseBot
 
 ## 📋 Оглавление
 - [Обзор](#обзор)
