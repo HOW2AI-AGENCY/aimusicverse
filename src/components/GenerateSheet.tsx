@@ -149,8 +149,23 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           // Only use if less than 5 minutes old
           if (Date.now() - stemReference.timestamp < 5 * 60 * 1000) {
             toast.info(`Референс: ${stemReference.name}`, {
-              description: 'Загружаем аудио референс из студии стемов...',
+              description: 'Загружаем контекст из оригинального трека...',
             });
+            
+            // Switch to custom mode for reference
+            setMode('custom');
+            
+            // Pre-fill lyrics and style from original track if available
+            if (stemReference.lyrics) {
+              setLyrics(stemReference.lyrics);
+            }
+            if (stemReference.style) {
+              setStyle(stemReference.style);
+            }
+            // Use original title as base for new track
+            if (stemReference.originalTitle) {
+              setTitle(`${stemReference.originalTitle} (ремикс)`);
+            }
             
             // Fetch the audio and create a File object
             fetch(stemReference.url)
@@ -158,12 +173,13 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               .then(blob => {
                 const file = new File([blob], `${stemReference.name}.mp3`, { type: 'audio/mpeg' });
                 setAudioFile(file);
-                setMode('custom'); // Switch to custom mode for reference
-                toast.success('Референс загружен!');
+                toast.success('Референс и контекст загружены!', {
+                  description: 'Текст и стиль скопированы из оригинального трека'
+                });
               })
               .catch(err => {
                 console.error('Failed to load stem reference:', err);
-                toast.error('Не удалось загрузить референс');
+                toast.error('Не удалось загрузить аудио референс');
               });
           }
           // Clear the reference after use

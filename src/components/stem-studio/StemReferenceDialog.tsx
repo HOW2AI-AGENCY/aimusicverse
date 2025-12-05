@@ -17,6 +17,9 @@ import { toast } from 'sonner';
 interface StemReferenceDialogProps {
   stems: TrackStem[];
   trackTitle: string;
+  trackLyrics?: string | null;
+  trackStyle?: string | null;
+  trackPrompt?: string | null;
 }
 
 const stemLabels: Record<string, string> = {
@@ -67,7 +70,13 @@ const getStemColor = (stemType: string): string => {
   return stemColors[stemType.toLowerCase()] || stemColors.other;
 };
 
-export const StemReferenceDialog = ({ stems, trackTitle }: StemReferenceDialogProps) => {
+export const StemReferenceDialog = ({ 
+  stems, 
+  trackTitle, 
+  trackLyrics, 
+  trackStyle, 
+  trackPrompt 
+}: StemReferenceDialogProps) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [selectedStem, setSelectedStem] = useState<TrackStem | null>(null);
@@ -78,16 +87,21 @@ export const StemReferenceDialog = ({ stems, trackTitle }: StemReferenceDialogPr
     
     setIsLoading(true);
     try {
-      // Store the audio reference info in localStorage for the GenerateSheet to pick up
+      // Store the audio reference info with track context for GenerateSheet
       const referenceData = {
         url: selectedStem.audio_url,
         name: `${trackTitle} - ${getStemLabel(selectedStem.stem_type)}`,
         stemType: selectedStem.stem_type,
         timestamp: Date.now(),
+        // Include original track context
+        lyrics: trackLyrics || null,
+        style: trackStyle || null,
+        prompt: trackPrompt || null,
+        originalTitle: trackTitle,
       };
       localStorage.setItem('stem_audio_reference', JSON.stringify(referenceData));
       
-      toast.success('Референс сохранён! Открываю генератор...');
+      toast.success('Референс и контекст трека сохранены!');
       setOpen(false);
       
       // Navigate to home with flag to open generate sheet
