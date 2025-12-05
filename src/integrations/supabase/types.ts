@@ -1436,6 +1436,7 @@ export type Database = {
           id: string
           is_instrumental: boolean | null
           is_public: boolean | null
+          likes_count: number | null
           local_audio_url: string | null
           local_cover_url: string | null
           lyrics: string | null
@@ -1476,6 +1477,7 @@ export type Database = {
           id?: string
           is_instrumental?: boolean | null
           is_public?: boolean | null
+          likes_count?: number | null
           local_audio_url?: string | null
           local_cover_url?: string | null
           lyrics?: string | null
@@ -1516,6 +1518,7 @@ export type Database = {
           id?: string
           is_instrumental?: boolean | null
           is_public?: boolean | null
+          likes_count?: number | null
           local_audio_url?: string | null
           local_cover_url?: string | null
           lyrics?: string | null
