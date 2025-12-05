@@ -4,6 +4,8 @@ import { Sidebar } from './Sidebar';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { ResizablePlayer } from './ResizablePlayer';
 import { GlobalGenerationIndicator } from './GlobalGenerationIndicator';
+import { OnboardingOverlay } from './onboarding/OnboardingOverlay';
+import { OnboardingTrigger } from './onboarding/OnboardingTrigger';
 import { cn } from '@/lib/utils';
 
 export const MainLayout = () => {
@@ -11,6 +13,10 @@ export const MainLayout = () => {
 
   return (
     <div className="flex h-screen bg-background">
+      {/* Onboarding system */}
+      <OnboardingTrigger />
+      <OnboardingOverlay />
+      
       {/* Global Generation Indicator - shows on all pages */}
       <GlobalGenerationIndicator />
       

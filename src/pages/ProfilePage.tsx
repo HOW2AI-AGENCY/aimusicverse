@@ -1,17 +1,24 @@
 import { useNavigate } from 'react-router-dom';
-import { Settings, ChevronRight, User, Users, LogOut } from 'lucide-react';
+import { Settings, ChevronRight, User, Users, LogOut, GraduationCap } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useProfile } from '@/hooks/useProfile.tsx';
 import { useAuth } from '@/hooks/useAuth';
+import { useOnboarding } from '@/hooks/useOnboarding';
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
   const { hapticFeedback, user: telegramUser } = useTelegram();
   const { data: profile } = useProfile();
   const { logout } = useAuth();
+  const { startOnboarding } = useOnboarding();
 
   const displayUser = profile || telegramUser;
+
+  const handleStartOnboarding = () => {
+    hapticFeedback('medium');
+    startOnboarding();
+  };
 
   const menuItems = [
     {
@@ -92,6 +99,23 @@ export const ProfilePage = () => {
           </Card>
         ))}
       </div>
+
+      {/* Onboarding Button */}
+      <Card
+        onClick={handleStartOnboarding}
+        className="p-4 mb-4 hover:bg-primary/10 transition-all cursor-pointer border-primary/20"
+      >
+        <div className="flex items-center gap-4">
+          <div className="p-3 rounded-lg bg-primary/10">
+            <GraduationCap className="w-6 h-6 text-primary" />
+          </div>
+          <div className="flex-1">
+            <p className="font-semibold text-lg">Обучение</p>
+            <p className="text-sm text-muted-foreground">Пройти тур по возможностям</p>
+          </div>
+          <ChevronRight className="w-5 h-5 text-muted-foreground" />
+        </div>
+      </Card>
 
       {/* Logout Button */}
       <Card
