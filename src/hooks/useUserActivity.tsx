@@ -28,6 +28,9 @@ export const useUserActivity = () => {
       return data;
     },
     enabled: !!user?.id,
+    staleTime: 60000, // 1 minute - activity doesn't change often
+    gcTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 };
 

@@ -1,0 +1,143 @@
+/**
+ * Optimized Public Content Hook
+ * Single query that fetches all public content for homepage
+ * Prevents multiple separate database calls
+ */
+
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
+import { useAuth } from "./useAuth";
+
+type Track = Database["public"]["Tables"]["tracks"]["Row"];
+
+export interface PublicTrackWithCreator extends Track {
+  creator_username?: string;
+  creator_photo_url?: string;
+  like_count?: number;
+  user_liked?: boolean;
+}
+
+interface PublicContentData {
+  featuredTracks: PublicTrackWithCreator[];
+  recentTracks: PublicTrackWithCreator[];
+  popularTracks: PublicTrackWithCreator[];
+  allTracks: PublicTrackWithCreator[];
+}
+
+const GENRE_KEYWORDS = ['electronic', 'hip-hop', 'pop', 'rock', 'ambient', 'jazz'];
+
+/**
+ * Single optimized hook that fetches all public content in one query
+ * Used by homepage sections to avoid multiple database calls
+ */
+export function usePublicContentOptimized() {
+  const { user } = useAuth();
+
+  return useQuery({
+    queryKey: ['public-content-optimized', user?.id],
+    queryFn: async (): Promise<PublicContentData> => {
+      // Single query to get all public tracks (max 100 for performance)
+      const { data: tracks, error } = await supabase
+        .from("tracks")
+        .select("*")
+        .eq("is_public", true)
+        .eq("status", "completed")
+        .not("audio_url", "is", null)
+        .order("created_at", { ascending: false })
+        .limit(100);
+
+      if (error) throw error;
+      if (!tracks || tracks.length === 0) {
+        return {
+          featuredTracks: [],
+          recentTracks: [],
+          popularTracks: [],
+          allTracks: [],
+        };
+      }
+
+      // Get unique user_ids from tracks
+      const userIds = [...new Set(tracks.map(t => t.user_id))];
+      const trackIds = tracks.map(t => t.id);
+
+      // Batch fetch profiles and likes in parallel
+      const [profilesResult, likesResult, userLikesResult] = await Promise.all([
+        supabase
+          .from("profiles")
+          .select("user_id, username, photo_url")
+          .in("user_id", userIds),
+        supabase
+          .from("track_likes")
+          .select("track_id")
+          .in("track_id", trackIds),
+        user ? supabase
+          .from("track_likes")
+          .select("track_id")
+          .eq("user_id", user.id)
+          .in("track_id", trackIds) : Promise.resolve({ data: [] }),
+      ]);
+
+      // Create lookup maps
+      const profileMap = new Map(profilesResult.data?.map(p => [p.user_id, p]) || []);
+      const likeCountMap = new Map<string, number>();
+      likesResult.data?.forEach(l => {
+        likeCountMap.set(l.track_id, (likeCountMap.get(l.track_id) || 0) + 1);
+      });
+      const userLikes = new Set(userLikesResult.data?.map(l => l.track_id) || []);
+
+      // Enrich all tracks with creator info and likes
+      const enrichedTracks: PublicTrackWithCreator[] = tracks.map(track => ({
+        ...track,
+        creator_username: profileMap.get(track.user_id)?.username || undefined,
+        creator_photo_url: profileMap.get(track.user_id)?.photo_url || undefined,
+        like_count: likeCountMap.get(track.id) || 0,
+        user_liked: userLikes.has(track.id),
+      }));
+
+      // Sort for different views (all from same dataset)
+      const sortedByPopular = [...enrichedTracks].sort((a, b) => 
+        (b.play_count || 0) - (a.play_count || 0)
+      );
+
+      return {
+        featuredTracks: sortedByPopular.slice(0, 10), // Top 10 by plays
+        recentTracks: enrichedTracks.slice(0, 20), // First 20 (already sorted by date)
+        popularTracks: sortedByPopular.slice(0, 20), // Top 20 by plays
+        allTracks: enrichedTracks, // All for auto-playlists
+      };
+    },
+    staleTime: 2 * 60 * 1000, // 2 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+  });
+}
+
+/**
+ * Get auto-generated playlists from pre-fetched public content
+ */
+export function getGenrePlaylists(tracks: PublicTrackWithCreator[]) {
+  const GENRE_PLAYLISTS = [
+    { genre: 'electronic', title: 'Электроника', description: 'Лучшие электронные треки' },
+    { genre: 'hip-hop', title: 'Хип-Хоп', description: 'Свежий хип-хоп и рэп' },
+    { genre: 'pop', title: 'Поп', description: 'Популярная музыка' },
+    { genre: 'rock', title: 'Рок', description: 'Энергичный рок' },
+    { genre: 'ambient', title: 'Амбиент', description: 'Атмосферная музыка' },
+    { genre: 'jazz', title: 'Джаз', description: 'Классический и современный джаз' },
+  ];
+
+  return GENRE_PLAYLISTS.map(({ genre, title, description }) => {
+    const genreTracks = tracks.filter(track => {
+      const style = (track.style || '').toLowerCase();
+      const tags = (track.tags || '').toLowerCase();
+      return style.includes(genre) || tags.includes(genre);
+    }).slice(0, 20);
+
+    return {
+      id: `auto-${genre}`,
+      genre,
+      title,
+      description,
+      tracks: genreTracks,
+    };
+  }).filter(p => p.tracks.length >= 3);
+}

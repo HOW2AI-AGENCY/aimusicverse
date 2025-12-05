@@ -44,6 +44,9 @@ export function usePlaylists() {
       return data as Playlist[];
     },
     enabled: !!user,
+    staleTime: 60000, // 1 minute
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    refetchOnWindowFocus: false,
   });
 
   // Create playlist

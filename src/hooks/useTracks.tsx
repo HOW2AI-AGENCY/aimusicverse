@@ -60,6 +60,9 @@ export const useTracks = (projectId?: string) => {
       }));
     },
     enabled: !!user?.id,
+    staleTime: 30000, // 30 seconds
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    refetchOnWindowFocus: false,
   });
 
   const deleteTrack = useMutation({
