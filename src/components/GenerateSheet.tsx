@@ -45,6 +45,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const { draft, hasDraft, saveDraft, clearDraft } = useGenerateDraft();
   const [mode, setMode] = useState<'simple' | 'custom'>('simple');
   const [loading, setLoading] = useState(false);
+  const [audioReferenceLoading, setAudioReferenceLoading] = useState(false);
   const [boostLoading, setBoostLoading] = useState(false);
   const [uploadExtendOpen, setUploadExtendOpen] = useState(false);
   const [uploadCoverOpen, setUploadCoverOpen] = useState(false);
@@ -148,14 +149,10 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           const stemReference = JSON.parse(stemReferenceStr);
           // Only use if less than 5 minutes old
           if (Date.now() - stemReference.timestamp < 5 * 60 * 1000) {
-            toast.info(`Референс: ${stemReference.name}`, {
-              description: 'Загружаем контекст из оригинального трека...',
-            });
-            
-            // Switch to custom mode for reference
+            // Immediately switch to custom mode and set data BEFORE async fetch
             setMode('custom');
             
-            // Pre-fill lyrics and style from original track if available
+            // Pre-fill lyrics and style from original track IMMEDIATELY
             if (stemReference.lyrics) {
               setLyrics(stemReference.lyrics);
             }
@@ -167,19 +164,30 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               setTitle(`${stemReference.originalTitle} (ремикс)`);
             }
             
+            // Show what was loaded immediately
+            toast.success('Контекст загружен из студии', {
+              description: stemReference.lyrics ? 'Текст и стиль скопированы' : 'Стиль скопирован',
+            });
+            
+            // Start loading audio reference in background
+            setAudioReferenceLoading(true);
+            
             // Fetch the audio and create a File object
             fetch(stemReference.url)
               .then(response => response.blob())
               .then(blob => {
                 const file = new File([blob], `${stemReference.name}.mp3`, { type: 'audio/mpeg' });
                 setAudioFile(file);
-                toast.success('Референс и контекст загружены!', {
-                  description: 'Текст и стиль скопированы из оригинального трека'
+                toast.success('Аудио референс загружен!', {
+                  description: stemReference.name,
                 });
               })
               .catch(err => {
                 console.error('Failed to load stem reference:', err);
                 toast.error('Не удалось загрузить аудио референс');
+              })
+              .finally(() => {
+                setAudioReferenceLoading(false);
               });
           }
           // Clear the reference after use
@@ -621,13 +629,22 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           </div>
 
           {/* Selected References Indicators */}
-          {(audioFile || selectedArtistId || selectedProjectId || planTrackId) && (
+          {(audioFile || audioReferenceLoading || selectedArtistId || selectedProjectId || planTrackId) && (
             <div className="space-y-2">
               {planTrackId && (
                 <div className="flex items-center gap-2 p-2 rounded-lg bg-green-500/10 border border-green-500/20">
                   <Music2 className="w-4 h-4 text-green-500" />
                   <span className="text-xs flex-1 truncate text-green-600 dark:text-green-400">
                     Из плана проекта: {title}
+                  </span>
+                </div>
+              )}
+              
+              {audioReferenceLoading && !audioFile && (
+                <div className="flex items-center gap-2 p-2 rounded-lg bg-amber-500/10 border border-amber-500/20 animate-pulse">
+                  <Loader2 className="w-4 h-4 text-amber-500 animate-spin" />
+                  <span className="text-xs flex-1 text-amber-600 dark:text-amber-400">
+                    Загрузка аудио референса...
                   </span>
                 </div>
               )}
