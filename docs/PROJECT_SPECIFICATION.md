@@ -1,71 +1,174 @@
-# Feature Specification: MusicVerse AI Platform (Current State)
+# MusicVerse AI Platform Specification
 
-**Feature Branch**: `main`
-**Created**: 2025-11-30
-**Status**: Active / Production
-**Input**: Existing Codebase & Documentation
+**Version:** 2.0  
+**Last Updated:** 2025-12-05  
+**Status:** Active / Production
 
-## User Scenarios & Testing
+## Overview
 
-### User Story 1 - Generate Music (Priority: P1)
-As a user, I want to generate music tracks using AI by providing a text prompt, so that I can create unique songs without musical expertise.
+MusicVerse AI is a Telegram Mini App for AI-powered music creation using Suno AI v5. The platform enables users to generate, organize, and share music with advanced AI features.
 
-**Why this priority**: Core value proposition of the platform.
+## Core Features
 
-**Acceptance Scenarios**:
-1. **Given** a user is logged in, **When** they enter a prompt and click "Generate", **Then** a request is sent to Suno AI and a task is created.
-2. **Given** a generation task is in progress, **When** the user views the "Tasks" page, **Then** they see a progress bar and status updates.
-3. **Given** a task completes, **When** the user checks their library, **Then** the new track is available for playback.
+### 1. Music Generation (P1)
+- Text prompt to music generation via Suno AI v5
+- A/B versioning - each generation creates two versions
+- Streaming preview during generation
+- Custom mode with full lyrics/style control
+- AI-assisted lyrics wizard (5-step pipeline)
+- Style prompt boost (Russian language, 450 char limit)
+- Form draft auto-save with 30-minute expiry
 
-### User Story 2 - Telegram Integration (Priority: P1)
-As a user, I want to access the platform via a Telegram Mini App, so that I can use it seamlessly within my messenger.
+### 2. Track Library (P1)
+- Virtualized infinite scroll (react-virtuoso)
+- Grid/List view toggle (list default on mobile)
+- Lazy-loaded cover images with blur placeholder
+- Real-time generation progress skeletons
+- A/B version inline switcher
+- Swipe actions on mobile (queue, version switch)
+- Like/unlike with optimistic updates
 
-**Why this priority**: Primary distribution channel.
+### 3. Playlist System (P2)
+- Create, edit, delete playlists
+- Drag-drop track reordering
+- AI-generated playlist covers
+- Auto-generated genre playlists from community
+- Telegram deep link sharing
+- Auto-updated stats (track count, duration)
 
-**Acceptance Scenarios**:
-1. **Given** a user opens the bot, **When** they click "Open App", **Then** the Mini App launches with their Telegram identity authenticated.
-2. **Given** a track is generated, **When** the user clicks "Share", **Then** they can post it to their Telegram Stories.
+### 4. AI Artist System (P2)
+- Create AI artist personas
+- AI portrait generation
+- Artist-linked track generation
+- Public artist discovery page
 
-### User Story 3 - Music Library Management (Priority: P2)
-As a user, I want to organize my generated tracks into projects and albums, so that I can manage my portfolio.
+### 5. Stem Separation Studio (P2)
+- Vocal/instrumental separation
+- Multi-stem mode (drums, bass, guitar, etc.)
+- Per-stem volume/mute controls
+- Stem download (MP3/WAV, ZIP)
+- Use stem as generation reference
 
-**Why this priority**: Essential for retention and power users.
+### 6. Audio Player (P1)
+- Global audio provider (single audio element)
+- Compact/Expanded/Fullscreen modes
+- Mobile-optimized fullscreen with lyrics
+- Synchronized lyrics with auto-scroll
+- Play queue with Play Next/Add to Queue
+- Version playback modes (active-only, all-versions)
 
-**Acceptance Scenarios**:
-1. **Given** a list of tracks, **When** a user selects "Create Album", **Then** they can group tracks into a new collection.
-2. **Given** a track, **When** a user edits metadata (title, tags), **Then** the changes are saved to the database.
+### 7. Telegram Integration (P1)
+- Mini App SDK integration
+- Native sharing (Stories, Messages)
+- Deep linking (tracks, playlists, studio)
+- Inline query track search
+- Bot notifications for generation completion
+- File ID caching for media reuse
+- Portrait orientation lock
 
-## Requirements
+### 8. Music Projects (P2)
+- Project-based track organization
+- Plan tracks with style/tags/notes
+- Generate from plan with pre-filled data
+- Track status progression (draft → in_progress → completed)
 
-### Functional Requirements
+### 9. User Onboarding (P3)
+- 9-step guided tour
+- Feature highlights with navigation
+- One-time display with manual restart option
 
-- **FR-001**: System MUST integrate with Suno AI v5 API for music generation.
-- **FR-002**: System MUST support Telegram Mini App authentication (initData validation).
-- **FR-003**: System MUST allow users to input prompts up to 5000 characters.
-- **FR-004**: System MUST support "Instrumental" mode toggle.
-- **FR-005**: System MUST provide real-time status updates via WebSockets or Polling.
-- **FR-006**: System MUST store user data and tracks in Supabase (PostgreSQL).
-- **FR-007**: System MUST support multi-language interface (75+ languages).
-- **FR-008**: System MUST allow downloading tracks in MP3/WAV formats.
+## Technical Architecture
 
-### Key Entities
+### Frontend Stack
+- React 19 + TypeScript 5
+- Vite build system
+- Tailwind CSS + shadcn/ui
+- TanStack Query (optimized caching)
+- Zustand state management
+- Framer Motion animations
+- react-virtuoso list virtualization
 
-- **User**: Telegram ID, Credits, Settings.
-- **Track**: ID, Suno Task ID, Audio URL, Image URL, Prompt, Duration, Status.
-- **Project**: ID, Name, Description, List of Tracks.
-- **Task**: ID, Type (Generate, Extend, Remix), Status, Progress.
+### Backend (Lovable Cloud)
+- PostgreSQL database with RLS
+- Supabase Edge Functions
+- Supabase Storage for media
+- Realtime subscriptions
 
-## Success Criteria
+### Key Optimizations
+- Single consolidated public content query
+- 30-60s staleTime, 10-15min gcTime
+- Lazy image loading with blur
+- Virtualized lists for 100+ items
+- Batch version/stem count queries
 
-### Measurable Outcomes
+## Database Schema
 
-- **SC-001**: 95% of generation requests are successfully submitted to Suno API.
-- **SC-002**: Mini App loads in under 2 seconds on 4G networks.
-- **SC-003**: Audio playback starts within 500ms of user interaction.
-- **SC-004**: System handles 100 concurrent users without database timeout.
+### Core Tables
+| Table | Purpose |
+|-------|---------|
+| tracks | Main track data |
+| track_versions | A/B versions |
+| track_stems | Separated stems |
+| track_change_log | Audit trail |
+| playlists | User playlists |
+| playlist_tracks | Playlist associations |
+| artists | AI artist personas |
+| audio_analysis | Music analysis |
+| generation_tasks | Job tracking |
+| profiles | User data |
+| track_likes | Like tracking |
 
-## Non-Functional Requirements
+### Key Fields
+- `tracks.active_version_id` - Current active version
+- `track_versions.is_primary` - Primary version flag
+- `track_versions.version_label` - A/B label
+- `tracks.has_stems` - Stems available
+- `profiles.is_public` - Profile visibility
 
-- **NFR-001 (Security)**: All API requests must be authenticated via Supabase RLS.
-- **NFR-002 (Performance)**: UI must be responsive (60fps) on mobile devices.
-- **NFR-003 (Reliability)**: Background jobs (generation polling) must automatically retry on failure.
+## API Integrations
+
+### Suno AI v5
+- Music generation with prompts
+- Stem separation
+- Streaming preview
+- 500 char prompt limit (non-custom mode)
+
+### Telegram Bot API
+- SendAudio with FormData
+- MarkdownV2 formatting
+- Inline query results
+- Deep link handling
+
+### Lovable AI
+- Playlist cover generation (gemini-3-pro-image-preview)
+- Artist portrait generation
+- Style prompt boost (gemini-2.5-flash)
+
+## Success Metrics
+
+| Metric | Target |
+|--------|--------|
+| Page load | < 2s on 4G |
+| Audio start | < 500ms |
+| Generation submit | 95% success |
+| Concurrent users | 100+ |
+
+## Security Requirements
+
+- RLS on all user tables
+- `is_public` field for visibility control
+- Telegram auth validation
+- Input validation client + server
+- No secrets in client code
+
+## Mobile-First Design
+
+- 44px minimum touch targets
+- Portrait orientation lock
+- Swipe gestures for quick actions
+- Compact list view default
+- Responsive breakpoints
+
+---
+
+**Contact:** @AIMusicVerseBot on Telegram
