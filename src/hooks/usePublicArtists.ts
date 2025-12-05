@@ -51,6 +51,8 @@ export const usePublicArtists = (limit: number = 20) => {
         profiles: profilesMap.get(artist.user_id) || undefined,
       })) as PublicArtist[];
     },
-    staleTime: 60000,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 15 * 60 * 1000, // 15 minutes cache
+    refetchOnWindowFocus: false,
   });
 };

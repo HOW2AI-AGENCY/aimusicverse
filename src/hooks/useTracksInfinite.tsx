@@ -143,9 +143,10 @@ export const useTracksInfinite = ({
     },
     getNextPageParam: (lastPage) => lastPage.nextPage,
     enabled: !!user?.id,
-    staleTime: 10000, // 10 seconds
-    gcTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 30000, // 30 seconds - reduced refetching
+    gcTime: 10 * 60 * 1000, // 10 minutes cache
     initialPageParam: 0,
+    refetchOnWindowFocus: false, // Prevent refetch on tab switch
   });
 
   // Flatten pages into single array of tracks
