@@ -1,28 +1,34 @@
+import { useState } from "react";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { useBotMetrics, useRecentMetricEvents } from "@/hooks/useBotMetrics";
 import { useAdminUsers, useAdminStats, useToggleUserRole } from "@/hooks/useAdminUsers";
+import { useAdminTracks } from "@/hooks/useAdminTracks";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { 
   Users, Music, FolderKanban, ListMusic, Activity, 
   TrendingUp, AlertTriangle, Clock, CheckCircle, XCircle,
-  Shield, RefreshCw, Megaphone, BookOpen
+  Shield, RefreshCw, BookOpen, Search, Play, Globe, Lock
 } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { Navigate, useNavigate } from "react-router-dom";
 import { BroadcastPanel } from "@/components/admin/BroadcastPanel";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
+  const [trackSearch, setTrackSearch] = useState("");
   const { data: auth, isLoading: authLoading } = useAdminAuth();
-  const { data: metrics, isLoading: metricsLoading, refetch: refetchMetrics } = useBotMetrics("24 hours");
+  const { data: metrics, refetch: refetchMetrics } = useBotMetrics("24 hours");
   const { data: recentEvents } = useRecentMetricEvents(100);
   const { data: users } = useAdminUsers();
   const { data: stats } = useAdminStats();
+  const { data: tracks, isLoading: tracksLoading } = useAdminTracks(trackSearch, 100);
   const toggleRole = useToggleUserRole();
 
   if (authLoading) {
@@ -51,8 +57,9 @@ export default function AdminDashboard() {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList className="grid grid-cols-5 w-full">
+        <TabsList className="grid grid-cols-6 w-full">
           <TabsTrigger value="overview">Обзор</TabsTrigger>
+          <TabsTrigger value="tracks">Треки</TabsTrigger>
           <TabsTrigger value="bot">Бот</TabsTrigger>
           <TabsTrigger value="broadcast">Рассылка</TabsTrigger>
           <TabsTrigger value="users">Юзеры</TabsTrigger>
@@ -115,6 +122,86 @@ export default function AdminDashboard() {
                 <span>Среднее время ответа</span>
                 <span className="font-mono">{(metrics?.avg_response_time_ms || 0).toFixed(0)}ms</span>
               </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Tracks Tab */}
+        <TabsContent value="tracks" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Music className="h-5 w-5" />
+                Все треки ({tracks?.length || 0})
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Поиск по названию или стилю..."
+                  value={trackSearch}
+                  onChange={(e) => setTrackSearch(e.target.value)}
+                  className="pl-9"
+                />
+              </div>
+              <ScrollArea className="h-[500px]">
+                {tracksLoading ? (
+                  <div className="text-center py-8 text-muted-foreground">Загрузка...</div>
+                ) : (
+                  <div className="space-y-2">
+                    {tracks?.map((track) => (
+                      <div
+                        key={track.id}
+                        className="flex items-center gap-3 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
+                      >
+                        <div className="relative w-12 h-12 rounded-md overflow-hidden bg-muted flex-shrink-0">
+                          {track.cover_url ? (
+                            <img src={track.cover_url} alt="" className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="flex items-center justify-center h-full">
+                              <Music className="h-5 w-5 text-muted-foreground" />
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium truncate">{track.title || "Без названия"}</div>
+                          <div className="text-sm text-muted-foreground truncate">
+                            {track.style || "—"}
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
+                            <Avatar className="h-4 w-4">
+                              <AvatarImage src={track.creator_photo_url || undefined} />
+                              <AvatarFallback className="text-[8px]">
+                                {track.creator_username?.[0]?.toUpperCase() || "?"}
+                              </AvatarFallback>
+                            </Avatar>
+                            <span>@{track.creator_username || "—"}</span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end gap-1">
+                          <div className="flex items-center gap-2">
+                            {track.is_public ? (
+                              <Globe className="h-4 w-4 text-green-500" />
+                            ) : (
+                              <Lock className="h-4 w-4 text-muted-foreground" />
+                            )}
+                            <Badge variant={track.status === "completed" ? "default" : "secondary"}>
+                              {track.status}
+                            </Badge>
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <Play className="h-3 w-3" />
+                            {track.play_count || 0}
+                            <span>•</span>
+                            {track.created_at && format(new Date(track.created_at), "dd.MM.yy")}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </ScrollArea>
             </CardContent>
           </Card>
         </TabsContent>
