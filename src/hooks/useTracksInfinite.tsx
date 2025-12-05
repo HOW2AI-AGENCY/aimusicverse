@@ -61,7 +61,7 @@ export const useTracksInfinite = ({
           .from('tracks')
           .select('*', { count: 'exact' })
           .eq('user_id', user.id)
-          .not('status', 'in', '("pending","processing")') // Only show completed tracks
+          .in('status', ['completed', 'streaming_ready']) // Only show ready tracks
           .range(from, to);
 
         // Server-side search
