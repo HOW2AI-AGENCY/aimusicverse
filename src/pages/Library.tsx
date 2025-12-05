@@ -393,6 +393,7 @@ export default function Library() {
                           }
                           versionCount={counts.versionCount}
                           stemCount={counts.stemCount}
+                          isFirstSwipeableItem={index === 0 && viewMode === 'list'}
                         />
                       </motion.div>
                     );
