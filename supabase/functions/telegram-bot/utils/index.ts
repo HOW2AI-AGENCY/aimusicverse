@@ -3,6 +3,9 @@
  * Centralized utility functions for the bot
  */
 
+// Re-export metrics utilities
+export { trackMetric, withMetrics, flushMetrics, checkAlerts, type MetricEventType } from './metrics.ts';
+
 /**
  * Escape special characters for Telegram Markdown
  */

@@ -1076,6 +1076,42 @@ export type Database = {
           },
         ]
       }
+      telegram_bot_metrics: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          event_type: string
+          id: string
+          metadata: Json | null
+          response_time_ms: number | null
+          success: boolean
+          telegram_chat_id: number | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          response_time_ms?: number | null
+          success?: boolean
+          telegram_chat_id?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          response_time_ms?: number | null
+          success?: boolean
+          telegram_chat_id?: number | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       track_analytics: {
         Row: {
           created_at: string
@@ -1641,6 +1677,17 @@ export type Database = {
           strength: number
           tag_id: string
           tag_name: string
+        }[]
+      }
+      get_telegram_bot_metrics: {
+        Args: { _time_period?: unknown }
+        Returns: {
+          avg_response_time_ms: number
+          events_by_type: Json
+          failed_events: number
+          success_rate: number
+          successful_events: number
+          total_events: number
         }[]
       }
       get_track_analytics_summary: {
