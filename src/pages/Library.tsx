@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
@@ -6,12 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle } from "lucide-react";
 import { useTracksInfinite } from "@/hooks/useTracksInfinite";
 import { type Track } from "@/hooks/useTracksOptimized";
-import { TrackCard } from "@/components/TrackCard";
 import { Button } from "@/components/ui/button";
 import { useGenerationRealtime } from "@/hooks/useGenerationRealtime";
 import { useTrackVersions } from "@/hooks/useTrackVersions";
 import { usePlayerStore } from "@/hooks/usePlayerState";
-import { AnimatePresence, motion } from "framer-motion";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useDebounce } from "use-debounce";
@@ -22,6 +20,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSyncStaleTasks } from "@/hooks/useSyncStaleTasks";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrackCounts } from "@/hooks/useTrackCounts";
+import { VirtualizedTrackList } from "@/components/library/VirtualizedTrackList";
 
 interface GenerationTask {
   id: string;
@@ -53,7 +52,6 @@ export default function Library() {
   const [viewMode, setViewMode] = useState<"grid" | "list">(() => isMobile ? "list" : "grid");
   const [sortBy, setSortBy] = useState<"recent" | "popular" | "liked">("recent");
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
-  const loadMoreRef = useRef<HTMLDivElement>(null);
 
   // Update view mode when mobile state changes
   useEffect(() => {
@@ -112,25 +110,6 @@ export default function Library() {
   // This replaces individual subscriptions per TrackCard
   const trackIds = useMemo(() => (tracks || []).map(t => t.id), [tracks]);
   const { getCountsForTrack } = useTrackCounts(trackIds);
-
-  // Intersection Observer for infinite scroll
-  useEffect(() => {
-    if (!loadMoreRef.current || !hasNextPage || isFetchingNextPage) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          console.log('📥 Loading more tracks...');
-          fetchNextPage();
-        }
-      },
-      { threshold: 0.1, rootMargin: '100px' }
-    );
-
-    observer.observe(loadMoreRef.current);
-
-    return () => observer.disconnect();
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (authLoading) {
     return (
@@ -358,82 +337,35 @@ export default function Library() {
             </Card>
           ) : (
             <>
-              <motion.div
-                layout
-                className={
-                  viewMode === "grid"
-                    ? "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
-                    : "flex flex-col gap-3"
-                }
-              >
-                <AnimatePresence mode="popLayout">
-                  {tracksToDisplay.map((track, index) => {
-                    const counts = getCountsForTrack(track.id);
-                    return (
-                      <motion.div
-                        key={track.id}
-                        layout
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <TrackCard
-                          track={track}
-                          layout={viewMode}
-                          isPlaying={activeTrack?.id === track.id}
-                          onPlay={() => handlePlay(track, index)}
-                          onDelete={() => deleteTrack(track.id)}
-                          onDownload={() => handleDownload(track.id, track.audio_url, track.cover_url)}
-                          onToggleLike={() =>
-                            toggleLike({
-                              trackId: track.id,
-                              isLiked: track.is_liked || false,
-                            })
-                          }
-                          versionCount={counts.versionCount}
-                          stemCount={counts.stemCount}
-                          isFirstSwipeableItem={index === 0 && viewMode === 'list'}
-                        />
-                      </motion.div>
-                    );
-                  })}
-                </AnimatePresence>
-              </motion.div>
+              <VirtualizedTrackList
+                tracks={tracksToDisplay}
+                viewMode={viewMode}
+                activeTrackId={activeTrack?.id}
+                getCountsForTrack={getCountsForTrack}
+                onPlay={handlePlay}
+                onDelete={deleteTrack}
+                onDownload={handleDownload}
+                onToggleLike={(trackId, isLiked) => toggleLike({ trackId, isLiked })}
+                onLoadMore={fetchNextPage}
+                hasMore={hasNextPage}
+                isLoadingMore={isFetchingNextPage}
+              />
 
-              {/* Infinite Scroll Trigger & Loading Indicator */}
-              <div ref={loadMoreRef} className="mt-8 flex justify-center">
-                {isFetchingNextPage && (
-                  <div className="flex flex-col items-center gap-4">
-                    <div className="flex gap-2">
-                      {Array.from({ length: viewMode === 'grid' ? 4 : 2 }).map((_, i) => (
-                        <TrackCardSkeleton key={i} layout={viewMode} />
-                      ))}
-                    </div>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      <span>Загрузка...</span>
-                    </div>
+              {/* Loading indicator at bottom */}
+              {isFetchingNextPage && (
+                <div className="mt-8 flex justify-center">
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span>Загрузка...</span>
                   </div>
-                )}
-                
-                {!isFetchingNextPage && hasNextPage && (
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    onClick={() => fetchNextPage()}
-                    className="min-h-[44px] touch-manipulation"
-                  >
-                    Загрузить еще
-                  </Button>
-                )}
-                
-                {!hasNextPage && tracks.length > 0 && (
-                  <p className="text-sm text-muted-foreground py-8">
-                    Все треки загружены
-                  </p>
-                )}
-              </div>
+                </div>
+              )}
+              
+              {!hasNextPage && tracks.length > 0 && (
+                <p className="text-sm text-muted-foreground py-8 text-center">
+                  Все треки загружены
+                </p>
+              )}
             </>
           )}
         </div>
