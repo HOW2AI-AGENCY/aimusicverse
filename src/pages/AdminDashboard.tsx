@@ -9,13 +9,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Users, Music, FolderKanban, ListMusic, Activity, 
   TrendingUp, AlertTriangle, Clock, CheckCircle, XCircle,
-  Shield, RefreshCw
+  Shield, RefreshCw, Megaphone, BookOpen
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { BroadcastPanel } from "@/components/admin/BroadcastPanel";
 
 export default function AdminDashboard() {
+  const navigate = useNavigate();
   const { data: auth, isLoading: authLoading } = useAdminAuth();
   const { data: metrics, isLoading: metricsLoading, refetch: refetchMetrics } = useBotMetrics("24 hours");
   const { data: recentEvents } = useRecentMetricEvents(100);
@@ -49,10 +51,11 @@ export default function AdminDashboard() {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList className="grid grid-cols-4 w-full">
+        <TabsList className="grid grid-cols-5 w-full">
           <TabsTrigger value="overview">Обзор</TabsTrigger>
           <TabsTrigger value="bot">Бот</TabsTrigger>
-          <TabsTrigger value="users">Пользователи</TabsTrigger>
+          <TabsTrigger value="broadcast">Рассылка</TabsTrigger>
+          <TabsTrigger value="users">Юзеры</TabsTrigger>
           <TabsTrigger value="events">События</TabsTrigger>
         </TabsList>
 
@@ -166,7 +169,29 @@ export default function AdminDashboard() {
           </Card>
         </TabsContent>
 
-        {/* Users Tab */}
+        {/* Broadcast Tab */}
+        <TabsContent value="broadcast" className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <BroadcastPanel />
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <BookOpen className="h-5 w-5" />
+                  Блог
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  Создавайте статьи и отправляйте их пользователям через рассылку
+                </p>
+                <Button onClick={() => navigate("/blog")} className="w-full">
+                  <BookOpen className="h-4 w-4 mr-2" />
+                  Открыть блог
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
         <TabsContent value="users" className="space-y-4">
           <Card>
             <CardHeader>

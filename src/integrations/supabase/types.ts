@@ -190,6 +190,81 @@ export type Database = {
           },
         ]
       }
+      blog_posts: {
+        Row: {
+          author_id: string
+          content: string
+          cover_url: string | null
+          created_at: string
+          excerpt: string | null
+          id: string
+          is_published: boolean | null
+          published_at: string | null
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          content: string
+          cover_url?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          is_published?: boolean | null
+          published_at?: string | null
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          content?: string
+          cover_url?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          is_published?: boolean | null
+          published_at?: string | null
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      broadcast_messages: {
+        Row: {
+          created_at: string
+          failed_count: number | null
+          id: string
+          message: string
+          sender_id: string
+          sent_count: number | null
+          target_type: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          failed_count?: number | null
+          id?: string
+          message: string
+          sender_id: string
+          sent_count?: number | null
+          target_type?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string
+          failed_count?: number | null
+          id?: string
+          message?: string
+          sender_id?: string
+          sent_count?: number | null
+          target_type?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
       generation_tag_usage: {
         Row: {
           created_at: string

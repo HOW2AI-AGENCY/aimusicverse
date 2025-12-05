@@ -122,3 +122,9 @@ verify_jwt = true
 
 [functions.ai-lyrics-assistant]
 verify_jwt = true
+
+[functions.broadcast-notification]
+verify_jwt = true
+
+[functions.ai-blog-assistant]
+verify_jwt = true
