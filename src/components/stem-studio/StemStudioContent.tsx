@@ -234,7 +234,13 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
 
         {!isMobile && stems && (
           <div className="flex items-center gap-2">
-            <StemReferenceDialog stems={stems} trackTitle={track.title || 'Трек'} />
+            <StemReferenceDialog 
+              stems={stems} 
+              trackTitle={track.title || 'Трек'} 
+              trackLyrics={track.lyrics}
+              trackStyle={track.style}
+              trackPrompt={track.prompt}
+            />
             <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
           </div>
         )}
@@ -295,7 +301,13 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       {/* Mobile Actions */}
       {isMobile && stems && (
         <div className="px-4 py-3 border-b border-border/30 flex gap-2">
-          <StemReferenceDialog stems={stems} trackTitle={track.title || 'Трек'} />
+          <StemReferenceDialog 
+            stems={stems} 
+            trackTitle={track.title || 'Трек'} 
+            trackLyrics={track.lyrics}
+            trackStyle={track.style}
+            trackPrompt={track.prompt}
+          />
           <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
         </div>
       )}
@@ -356,7 +368,13 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           {/* Export/Download (desktop only) */}
           {!isMobile && stems && (
             <div className="flex items-center gap-2">
-              <StemReferenceDialog stems={stems} trackTitle={track.title || 'Трек'} />
+              <StemReferenceDialog 
+                stems={stems} 
+                trackTitle={track.title || 'Трек'} 
+                trackLyrics={track.lyrics}
+                trackStyle={track.style}
+                trackPrompt={track.prompt}
+              />
               <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
             </div>
           )}
