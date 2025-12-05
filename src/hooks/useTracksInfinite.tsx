@@ -75,9 +75,7 @@ export const useTracksInfinite = ({
             query = query.order('play_count', { ascending: false, nullsFirst: false });
             break;
           case 'liked':
-            // likes_count doesn't exist in tracks table, sort by created_at as fallback
-            // The actual likes sorting happens client-side after enrichment
-            query = query.order('created_at', { ascending: false });
+            query = query.order('likes_count', { ascending: false, nullsFirst: false });
             break;
           case 'recent':
           default:
@@ -128,16 +126,12 @@ export const useTracksInfinite = ({
 
         const userLikes = new Set(userLikesData.data?.map(l => l.track_id) || []);
 
-        let enrichedTracks = data?.map(track => ({
+        // Use DB likes_count but override with computed count for accuracy + add is_liked
+        const enrichedTracks = data?.map(track => ({
           ...track,
-          likes_count: likesCounts[track.id] || 0,
+          likes_count: likesCounts[track.id] ?? track.likes_count ?? 0,
           is_liked: userLikes.has(track.id),
         })) || [];
-
-        // Client-side sorting for likes (since likes_count is computed, not in DB)
-        if (sortBy === 'liked') {
-          enrichedTracks = enrichedTracks.sort((a, b) => (b.likes_count || 0) - (a.likes_count || 0));
-        }
 
         const hasMore = count ? (pageParam + 1) * pageSize < count : false;
 
