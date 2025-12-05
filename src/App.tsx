@@ -27,6 +27,7 @@ const Actors = lazy(() => import("./pages/Actors"));
 const Playlists = lazy(() => import("./pages/Playlists"));
 const Blog = lazy(() => import("./pages/Blog"));
 const Analytics = lazy(() => import("./pages/Analytics"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 
@@ -70,6 +71,7 @@ const App = () => (
                 <Route path="/playlists" element={<Playlists />} />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/analytics" element={<Analytics />} />
+                <Route path="/admin" element={<AdminDashboard />} />
                 </Route>
 
                 {/* Routes without BottomNavigation */}
