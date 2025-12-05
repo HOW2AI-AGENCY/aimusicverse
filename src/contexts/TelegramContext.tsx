@@ -472,6 +472,11 @@ export const DeepLinkHandler = () => {
         const playlistId = startParam.replace('playlist_', '');
         navigate(`/playlists?playlist=${playlistId}`);
       }
+      // Blog post deep link
+      else if (startParam.startsWith('blog_')) {
+        const postId = startParam.replace('blog_', '');
+        navigate(`/blog?post=${postId}`);
+      }
     }
   }, [webApp, navigate]);
 
