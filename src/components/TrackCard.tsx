@@ -11,6 +11,7 @@ import { TrackActionsSheet } from './TrackActionsSheet';
 import { InlineVersionToggle } from './library/InlineVersionToggle';
 import { TrackTypeIcons } from './library/TrackTypeIcons';
 import { SwipeableTrackItem } from './library/SwipeableTrackItem';
+import { SwipeOnboardingTooltip } from './library/SwipeOnboardingTooltip';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -41,6 +42,8 @@ interface TrackCardProps {
   // Counts passed from parent to avoid individual subscriptions
   versionCount?: number;
   stemCount?: number;
+  // For swipe onboarding tooltip
+  isFirstSwipeableItem?: boolean;
 }
 
 export const TrackCard = ({
@@ -53,6 +56,7 @@ export const TrackCard = ({
   layout = 'grid',
   versionCount: propVersionCount,
   stemCount: propStemCount,
+  isFirstSwipeableItem = false,
 }: TrackCardProps) => {
   const [imageError, setImageError] = useState(false);
   // Use prop counts if provided, otherwise fall back to local state
@@ -358,13 +362,15 @@ export const TrackCard = ({
     return (
       <>
         {isMobile ? (
-          <SwipeableTrackItem
-            onAddToQueue={handleSwipeAddToQueue}
-            onSwitchVersion={handleSwipeSwitchVersion}
-            hasMultipleVersions={versionCount > 1}
-          >
-            {listContent}
-          </SwipeableTrackItem>
+          <SwipeOnboardingTooltip isFirstSwipeableItem={isFirstSwipeableItem}>
+            <SwipeableTrackItem
+              onAddToQueue={handleSwipeAddToQueue}
+              onSwitchVersion={handleSwipeSwitchVersion}
+              hasMultipleVersions={versionCount > 1}
+            >
+              {listContent}
+            </SwipeableTrackItem>
+          </SwipeOnboardingTooltip>
         ) : (
           listContent
         )}
