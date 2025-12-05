@@ -12,6 +12,7 @@ import { InlineVersionToggle } from './library/InlineVersionToggle';
 import { TrackTypeIcons } from './library/TrackTypeIcons';
 import { SwipeableTrackItem } from './library/SwipeableTrackItem';
 import { SwipeOnboardingTooltip } from './library/SwipeOnboardingTooltip';
+import { LazyImage } from '@/components/ui/lazy-image';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -58,8 +59,6 @@ export const TrackCard = ({
   stemCount: propStemCount,
   isFirstSwipeableItem = false,
 }: TrackCardProps) => {
-  const [imageError, setImageError] = useState(false);
-  // Use prop counts if provided, otherwise fall back to local state
   const [localVersionCount, setLocalVersionCount] = useState<number>(0);
   const [localStemCount, setLocalStemCount] = useState<number>(0);
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -276,11 +275,16 @@ export const TrackCard = ({
       >
         {/* Cover Image & Play Button */}
         <div className="relative w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-md overflow-hidden" data-play-button>
-          <img
+          <LazyImage
             src={track.cover_url || ''}
             alt={track.title || 'Track cover'}
             className="w-full h-full object-cover"
-            onError={(e) => (e.currentTarget.src = 'https://placehold.co/128x128/1a1a1a/ffffff?text=🎵')}
+            containerClassName="w-full h-full"
+            fallback={
+              <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary/30">
+                🎵
+              </div>
+            }
           />
           <div
             className={cn(
@@ -419,30 +423,29 @@ export const TrackCard = ({
         {...(isMobile && layout !== 'grid' ? touchHandlers : {})}
       >
         <div className="relative aspect-square" data-play-button>
-          {track.cover_url && !imageError ? (
-            <img
-              src={track.cover_url}
-              alt={track.title || 'Track cover'}
-              className="w-full h-full object-cover cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation();
-                onPlay?.();
-              }}
-              onError={() => setImageError(true)}
-            />
-          ) : (
-            <div 
-              className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation();
-                onPlay?.();
-              }}
-            >
-              <div className="text-4xl font-bold text-primary/20">
-                {track.title?.charAt(0) || '♪'}
+          <LazyImage
+            src={track.cover_url || ''}
+            alt={track.title || 'Track cover'}
+            className="w-full h-full object-cover cursor-pointer"
+            containerClassName="w-full h-full"
+            onClick={(e) => {
+              e.stopPropagation();
+              onPlay?.();
+            }}
+            fallback={
+              <div 
+                className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onPlay?.();
+                }}
+              >
+                <div className="text-4xl font-bold text-primary/20">
+                  {track.title?.charAt(0) || '♪'}
+                </div>
               </div>
-            </div>
-          )}
+            }
+          />
 
           {/* Play button overlay - larger touch target on mobile */}
           <div className="absolute inset-0 bg-black/40 opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center justify-center touch-manipulation"
