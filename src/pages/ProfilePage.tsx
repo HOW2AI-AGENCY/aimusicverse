@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import { Settings, ChevronRight, User, Users, LogOut, GraduationCap } from 'lucide-react';
+import { Settings, ChevronRight, User, Users, LogOut, GraduationCap, Shield } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useProfile } from '@/hooks/useProfile.tsx';
 import { useAuth } from '@/hooks/useAuth';
 import { useOnboarding } from '@/hooks/useOnboarding';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ export const ProfilePage = () => {
   const { data: profile } = useProfile();
   const { logout } = useAuth();
   const { startOnboarding } = useOnboarding();
+  const { data: adminAuth } = useAdminAuth();
 
   const displayUser = profile || telegramUser;
 
@@ -77,6 +79,25 @@ export const ProfilePage = () => {
           </div>
         </div>
       </Card>
+
+      {/* Admin Panel Link - only for admins */}
+      {adminAuth?.isAdmin && (
+        <Card
+          onClick={() => handleNavigate('/admin')}
+          className="p-4 mb-4 hover:bg-red-500/10 transition-all cursor-pointer border-red-500/30 bg-red-500/5"
+        >
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-lg bg-red-500/10">
+              <Shield className="w-6 h-6 text-red-500" />
+            </div>
+            <div className="flex-1">
+              <p className="font-semibold text-lg">Админ-панель</p>
+              <p className="text-sm text-muted-foreground">Метрики, пользователи, аналитика</p>
+            </div>
+            <ChevronRight className="w-5 h-5 text-muted-foreground" />
+          </div>
+        </Card>
+      )}
 
       {/* Menu Items */}
       <div className="grid gap-4 md:grid-cols-2 mb-6">
