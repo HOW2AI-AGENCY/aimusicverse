@@ -49,7 +49,9 @@ export function usePlaylists() {
   // Create playlist
   const createPlaylistMutation = useMutation({
     mutationFn: async (input: { title: string; description?: string; is_public?: boolean }) => {
-      if (!user) throw new Error('Not authenticated');
+      if (!user) {
+        throw new Error('Необходимо авторизоваться');
+      }
 
       const { data, error } = await supabase
         .from('playlists')
@@ -62,16 +64,19 @@ export function usePlaylists() {
         .select()
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error:', error);
+        throw new Error(error.message || 'Ошибка базы данных');
+      }
       return data as Playlist;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['playlists'] });
       toast.success('Плейлист создан');
     },
-    onError: (error) => {
+    onError: (error: Error) => {
       console.error('Error creating playlist:', error);
-      toast.error('Ошибка создания плейлиста');
+      toast.error(error.message || 'Ошибка создания плейлиста');
     },
   });
 
