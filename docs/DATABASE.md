@@ -1,13 +1,222 @@
 # 🗄️ Database Schema - MusicVerse AI
 
+**Last Updated:** 2025-12-05
+
 ## Обзор
 
-MusicVerse использует **PostgreSQL** с **графовой структурой данных** для управления:
+MusicVerse использует **PostgreSQL** с **Row Level Security (RLS)** для управления:
+- Треками и версиями (A/B versioning)
+- Плейлистами пользователей
+- AI-артистами
+- Stem-разделением
 - 174+ мета-тегов Suno
 - 277+ музыкальных стилей
 - 500+ связей между тегами
-- Пользовательские предпочтения
-- История генераций
+- Пользовательскими предпочтениями
+- Историей генераций
+
+## Основные таблицы приложения
+
+### tracks
+Основная таблица треков.
+
+```sql
+CREATE TABLE public.tracks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL,
+  prompt TEXT NOT NULL,
+  title VARCHAR(255),
+  style VARCHAR(500),
+  lyrics TEXT,
+  audio_url TEXT,
+  cover_url TEXT,
+  streaming_url TEXT,                    -- Превью во время генерации
+  duration_seconds INTEGER,
+  status VARCHAR(50) DEFAULT 'pending',  -- pending, processing, streaming_ready, completed, failed
+  is_public BOOLEAN DEFAULT false,
+  is_instrumental BOOLEAN DEFAULT false,
+  has_vocals BOOLEAN DEFAULT true,
+  has_stems BOOLEAN DEFAULT false,
+  active_version_id UUID,                -- Текущая активная версия
+  artist_id UUID REFERENCES artists(id),
+  artist_name VARCHAR(255),
+  project_id UUID REFERENCES music_projects(id),
+  suno_id VARCHAR(100),
+  suno_task_id VARCHAR(100),
+  model_name VARCHAR(50),
+  play_count INTEGER DEFAULT 0,
+  telegram_file_id VARCHAR(255),          -- Кэш Telegram file ID
+  telegram_cover_file_id VARCHAR(255),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### track_versions
+A/B версии треков. Каждая генерация создает 2 версии.
+
+```sql
+CREATE TABLE public.track_versions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  track_id UUID NOT NULL REFERENCES tracks(id) ON DELETE CASCADE,
+  audio_url TEXT NOT NULL,
+  cover_url TEXT,
+  duration_seconds INTEGER,
+  version_label VARCHAR(10),             -- 'A', 'B', 'A-1', 'A-2'
+  clip_index INTEGER,                    -- 0 или 1
+  is_primary BOOLEAN DEFAULT false,      -- Первичная версия
+  version_type VARCHAR(50),              -- initial, extend, remix, vocal_add
+  parent_version_id UUID,                -- Для вложенных версий
+  metadata JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### track_stems
+Разделенные стемы трека.
+
+```sql
+CREATE TABLE public.track_stems (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  track_id UUID NOT NULL REFERENCES tracks(id) ON DELETE CASCADE,
+  version_id UUID REFERENCES track_versions(id),
+  stem_type VARCHAR(50) NOT NULL,        -- vocals, drums, bass, guitar, etc.
+  audio_url TEXT NOT NULL,
+  separation_mode VARCHAR(50),           -- separate_vocal, split_stem
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### playlists
+Пользовательские плейлисты.
+
+```sql
+CREATE TABLE public.playlists (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  cover_url TEXT,
+  is_public BOOLEAN DEFAULT false,
+  track_count INTEGER DEFAULT 0,          -- Автообновляется триггером
+  total_duration INTEGER DEFAULT 0,       -- Автообновляется триггером
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### playlist_tracks
+Связь плейлистов и треков.
+
+```sql
+CREATE TABLE public.playlist_tracks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  playlist_id UUID NOT NULL REFERENCES playlists(id) ON DELETE CASCADE,
+  track_id UUID NOT NULL REFERENCES tracks(id) ON DELETE CASCADE,
+  position INTEGER NOT NULL,              -- Для drag-drop ordering
+  added_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(playlist_id, track_id)
+);
+```
+
+### artists
+AI-артисты/персоны.
+
+```sql
+CREATE TABLE public.artists (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  bio TEXT,
+  avatar_url TEXT,                        -- AI-generated portrait
+  style_description TEXT,
+  genre_tags TEXT[],
+  mood_tags TEXT[],
+  is_public BOOLEAN DEFAULT false,
+  is_ai_generated BOOLEAN DEFAULT true,
+  suno_persona_id VARCHAR(100),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### profiles
+Профили пользователей (связаны с Telegram).
+
+```sql
+CREATE TABLE public.profiles (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL UNIQUE,
+  telegram_id BIGINT NOT NULL UNIQUE,
+  telegram_chat_id BIGINT,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255),
+  username VARCHAR(255),
+  photo_url TEXT,
+  language_code VARCHAR(10),
+  is_public BOOLEAN DEFAULT false,        -- Контроль видимости профиля
+  subscription_tier subscription_tier DEFAULT 'free',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### generation_tasks
+Отслеживание задач генерации.
+
+```sql
+CREATE TABLE public.generation_tasks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL,
+  track_id UUID REFERENCES tracks(id),
+  prompt TEXT NOT NULL,
+  status VARCHAR(50) DEFAULT 'pending',   -- pending, processing, completed, failed
+  suno_task_id VARCHAR(100),
+  audio_clips JSONB,                      -- Данные от Suno API
+  expected_clips INTEGER DEFAULT 2,
+  received_clips INTEGER DEFAULT 0,
+  error_message TEXT,
+  source VARCHAR(50),                     -- web, telegram
+  telegram_chat_id BIGINT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  completed_at TIMESTAMPTZ
+);
+```
+
+### track_change_log
+Аудит изменений треков.
+
+```sql
+CREATE TABLE public.track_change_log (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  track_id UUID NOT NULL REFERENCES tracks(id) ON DELETE CASCADE,
+  version_id UUID REFERENCES track_versions(id),
+  user_id UUID NOT NULL,
+  change_type VARCHAR(50) NOT NULL,       -- create, update, version_add, stem_add
+  field_name VARCHAR(100),
+  old_value TEXT,
+  new_value TEXT,
+  changed_by VARCHAR(50),                 -- user, system, ai
+  prompt_used TEXT,
+  ai_model_used VARCHAR(100),
+  metadata JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### track_likes
+Лайки треков.
+
+```sql
+CREATE TABLE public.track_likes (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  track_id UUID NOT NULL REFERENCES tracks(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(track_id, user_id)
+);
+```
 
 ## Архитектура базы данных
 
