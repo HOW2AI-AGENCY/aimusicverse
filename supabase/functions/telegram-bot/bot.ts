@@ -8,10 +8,12 @@ import { sendMessage, parseCommand, answerCallbackQuery, editMessageText, type T
 import { BOT_CONFIG } from './config.ts';
 import { handleNavigationCallback } from './handlers/navigation.ts';
 import { handleMediaCallback } from './handlers/media.ts';
-import { logger, checkRateLimit } from './utils/index.ts';
+import { logger, checkRateLimit, trackMetric, flushMetrics } from './utils/index.ts';
 import { handleInlineQuery } from './commands/inline.ts';
 
 export async function handleUpdate(update: TelegramUpdate) {
+  const startTime = Date.now();
+  
   try {
     // Handle inline queries for sharing tracks
     if (update.inline_query) {
@@ -30,6 +32,12 @@ export async function handleUpdate(update: TelegramUpdate) {
       // Rate limiting
       if (!checkRateLimit(from.id, 30, 60000)) {
         await answerCallbackQuery(id, '⏳ Слишком много запросов. Подождите немного.');
+        trackMetric({
+          eventType: 'rate_limited',
+          success: false,
+          telegramChatId: chatId,
+          metadata: { type: 'callback' },
+        });
         return;
       }
 
@@ -262,6 +270,12 @@ export async function handleUpdate(update: TelegramUpdate) {
       // Rate limiting for messages
       if (!checkRateLimit(from.id, 20, 60000)) {
         await sendMessage(chat.id, '⏳ Слишком много сообщений. Подождите немного.');
+        trackMetric({
+          eventType: 'rate_limited',
+          success: false,
+          telegramChatId: chat.id,
+          metadata: { type: 'message' },
+        });
         return;
       }
 

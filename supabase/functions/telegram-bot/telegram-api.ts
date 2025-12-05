@@ -1,3 +1,5 @@
+import { trackMetric, type MetricEventType } from './utils/metrics.ts';
+
 const BOT_TOKEN = Deno.env.get('TELEGRAM_BOT_TOKEN')!;
 const TELEGRAM_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
 
@@ -59,23 +61,53 @@ export async function sendMessage(
     inline_keyboard?: InlineKeyboardButton[][];
   }
 ) {
-  const response = await fetch(`${TELEGRAM_API}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text,
-      parse_mode: 'MarkdownV2',
-      reply_markup: replyMarkup,
-    }),
-  });
+  const startTime = Date.now();
+  
+  try {
+    const response = await fetch(`${TELEGRAM_API}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        parse_mode: 'MarkdownV2',
+        reply_markup: replyMarkup,
+      }),
+    });
 
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Telegram API error: ${error}`);
+    const responseTimeMs = Date.now() - startTime;
+
+    if (!response.ok) {
+      const error = await response.text();
+      trackMetric({
+        eventType: 'message_failed',
+        success: false,
+        telegramChatId: chatId,
+        errorMessage: error,
+        responseTimeMs,
+      });
+      throw new Error(`Telegram API error: ${error}`);
+    }
+
+    trackMetric({
+      eventType: 'message_sent',
+      success: true,
+      telegramChatId: chatId,
+      responseTimeMs,
+    });
+
+    return response.json();
+  } catch (error) {
+    const responseTimeMs = Date.now() - startTime;
+    trackMetric({
+      eventType: 'message_failed',
+      success: false,
+      telegramChatId: chatId,
+      errorMessage: error instanceof Error ? error.message : String(error),
+      responseTimeMs,
+    });
+    throw error;
   }
-
-  return response.json();
 }
 
 export async function sendPhoto(
@@ -132,6 +164,7 @@ export async function sendAudio(
     };
   } = {}
 ) {
+  const startTime = Date.now();
   const formData = new FormData();
   formData.append('chat_id', chatId.toString());
   
@@ -181,19 +214,49 @@ export async function sendAudio(
     formData.append('reply_markup', JSON.stringify(options.replyMarkup));
   }
   
-  const response = await fetch(`${TELEGRAM_API}/sendAudio`, {
-    method: 'POST',
-    body: formData,
-  });
+  try {
+    const response = await fetch(`${TELEGRAM_API}/sendAudio`, {
+      method: 'POST',
+      body: formData,
+    });
 
-  const result = await response.json();
-  
-  if (!result.ok) {
-    console.error('sendAudio error:', result);
-    throw new Error(`Telegram API error: ${JSON.stringify(result)}`);
+    const result = await response.json();
+    const responseTimeMs = Date.now() - startTime;
+    
+    if (!result.ok) {
+      console.error('sendAudio error:', result);
+      trackMetric({
+        eventType: 'audio_failed',
+        success: false,
+        telegramChatId: chatId,
+        errorMessage: JSON.stringify(result),
+        responseTimeMs,
+        metadata: { title: options.title },
+      });
+      throw new Error(`Telegram API error: ${JSON.stringify(result)}`);
+    }
+
+    trackMetric({
+      eventType: 'audio_sent',
+      success: true,
+      telegramChatId: chatId,
+      responseTimeMs,
+      metadata: { title: options.title },
+    });
+
+    return result;
+  } catch (error) {
+    const responseTimeMs = Date.now() - startTime;
+    trackMetric({
+      eventType: 'audio_failed',
+      success: false,
+      telegramChatId: chatId,
+      errorMessage: error instanceof Error ? error.message : String(error),
+      responseTimeMs,
+      metadata: { title: options.title },
+    });
+    throw error;
   }
-
-  return result;
 }
 
 export async function editMessageText(

@@ -1,6 +1,8 @@
 import { handleUpdate } from './bot.ts';
 import type { TelegramUpdate } from './telegram-api.ts';
 import { handleInlineQuery } from './commands/inline.ts';
+import { flushMetrics, checkAlerts } from './utils/metrics.ts';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -23,6 +25,36 @@ Deno.serve(async (req) => {
       });
     }
 
+    // Metrics endpoint
+    if (url.pathname === '/metrics') {
+      const supabase = createClient(
+        Deno.env.get('SUPABASE_URL')!,
+        Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+      );
+      
+      const { data, error } = await supabase.rpc('get_telegram_bot_metrics', { 
+        _time_period: url.searchParams.get('period') || '24 hours' 
+      });
+      
+      if (error) {
+        return new Response(JSON.stringify({ error: error.message }), {
+          status: 500,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      
+      // Check for alerts
+      const alertStatus = await checkAlerts();
+      
+      return new Response(JSON.stringify({
+        metrics: data?.[0] || null,
+        alerts: alertStatus,
+        timestamp: new Date().toISOString(),
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     // Handle webhook updates
     if (req.method === 'POST') {
       const update: TelegramUpdate = await req.json();
@@ -35,6 +67,9 @@ Deno.serve(async (req) => {
       } else {
         await handleUpdate(update);
       }
+      
+      // Flush metrics after processing
+      await flushMetrics();
 
       return new Response(JSON.stringify({ ok: true }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -47,6 +82,10 @@ Deno.serve(async (req) => {
     });
   } catch (error) {
     console.error('Error handling request:', error);
+    
+    // Ensure metrics are flushed even on error
+    await flushMetrics();
+    
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return new Response(
       JSON.stringify({ error: errorMessage }),
