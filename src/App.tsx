@@ -28,6 +28,7 @@ const Playlists = lazy(() => import("./pages/Playlists"));
 const Blog = lazy(() => import("./pages/Blog"));
 const Community = lazy(() => import("./pages/Community"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
+const Rewards = lazy(() => import("./pages/Rewards"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -74,6 +75,7 @@ const App = () => (
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/community" element={<Community />} />
                 <Route path="/onboarding" element={<Onboarding />} />
+                <Route path="/rewards" element={<Rewards />} />
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/admin" element={<AdminDashboard />} />
                 </Route>

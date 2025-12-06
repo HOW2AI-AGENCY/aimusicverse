@@ -13,7 +13,8 @@ import {
   HelpCircle,
   LogOut,
   ChevronRight,
-  Sparkles
+  Sparkles,
+  Gift
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
@@ -45,6 +46,7 @@ const menuSections: { title: string; items: MenuItem[] }[] = [
     title: 'Аккаунт',
     items: [
       { icon: User, label: 'Профиль', path: '/profile' },
+      { icon: Gift, label: 'Награды', path: '/rewards', badge: 'NEW', badgeVariant: 'new' },
       { icon: Settings, label: 'Настройки', path: '/settings' },
       { icon: HelpCircle, label: 'Обучение', path: '/onboarding' },
     ]
