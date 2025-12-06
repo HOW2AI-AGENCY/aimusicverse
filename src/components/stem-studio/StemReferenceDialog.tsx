@@ -20,6 +20,7 @@ interface StemReferenceDialogProps {
   trackLyrics?: string | null;
   trackStyle?: string | null;
   trackPrompt?: string | null;
+  trackTags?: string | null;
 }
 
 const stemLabels: Record<string, string> = {
@@ -75,7 +76,8 @@ export const StemReferenceDialog = ({
   trackTitle, 
   trackLyrics, 
   trackStyle, 
-  trackPrompt 
+  trackPrompt,
+  trackTags
 }: StemReferenceDialogProps) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -97,6 +99,7 @@ export const StemReferenceDialog = ({
         lyrics: trackLyrics || null,
         style: trackStyle || null,
         prompt: trackPrompt || null,
+        tags: trackTags || null, // Fallback for simple mode (no separate style)
         originalTitle: trackTitle,
       };
       localStorage.setItem('stem_audio_reference', JSON.stringify(referenceData));

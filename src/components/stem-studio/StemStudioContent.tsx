@@ -240,6 +240,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
               trackLyrics={track.lyrics}
               trackStyle={track.style}
               trackPrompt={track.prompt}
+              trackTags={track.tags}
             />
             <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
           </div>
@@ -307,6 +308,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
             trackLyrics={track.lyrics}
             trackStyle={track.style}
             trackPrompt={track.prompt}
+            trackTags={track.tags}
           />
           <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
         </div>
@@ -374,6 +376,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
                 trackLyrics={track.lyrics}
                 trackStyle={track.style}
                 trackPrompt={track.prompt}
+                trackTags={track.tags}
               />
               <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
             </div>
