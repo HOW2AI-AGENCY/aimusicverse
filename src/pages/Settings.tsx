@@ -293,6 +293,54 @@ export default function Settings() {
                       disabled={isUpdating}
                     />
                   </div>
+
+                  <Separator />
+
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label className="text-base">Новые лайки</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Уведомлять когда кто-то лайкнул ваш трек
+                      </p>
+                    </div>
+                    <Switch
+                      checked={(settings as any)?.notify_likes ?? true}
+                      onCheckedChange={(v) => handleNotificationToggle('notify_likes', v)}
+                      disabled={isUpdating}
+                    />
+                  </div>
+
+                  <Separator />
+
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label className="text-base">Достижения</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Уведомлять о полученных достижениях
+                      </p>
+                    </div>
+                    <Switch
+                      checked={(settings as any)?.notify_achievements ?? true}
+                      onCheckedChange={(v) => handleNotificationToggle('notify_achievements', v)}
+                      disabled={isUpdating}
+                    />
+                  </div>
+
+                  <Separator />
+
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label className="text-base">Ежедневное напоминание</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Напоминать о ежедневном чекине
+                      </p>
+                    </div>
+                    <Switch
+                      checked={(settings as any)?.notify_daily_reminder ?? false}
+                      onCheckedChange={(v) => handleNotificationToggle('notify_daily_reminder', v)}
+                      disabled={isUpdating}
+                    />
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>

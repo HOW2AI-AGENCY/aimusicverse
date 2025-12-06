@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      achievements: {
+        Row: {
+          category: string
+          code: string
+          created_at: string | null
+          credits_reward: number
+          description: string
+          experience_reward: number
+          icon: string
+          id: string
+          is_hidden: boolean | null
+          name: string
+          requirement_type: string
+          requirement_value: number
+        }
+        Insert: {
+          category: string
+          code: string
+          created_at?: string | null
+          credits_reward?: number
+          description: string
+          experience_reward?: number
+          icon: string
+          id?: string
+          is_hidden?: boolean | null
+          name: string
+          requirement_type: string
+          requirement_value?: number
+        }
+        Update: {
+          category?: string
+          code?: string
+          created_at?: string | null
+          credits_reward?: number
+          description?: string
+          experience_reward?: number
+          icon?: string
+          id?: string
+          is_hidden?: boolean | null
+          name?: string
+          requirement_type?: string
+          requirement_value?: number
+        }
+        Relationships: []
+      }
       api_usage_logs: {
         Row: {
           created_at: string | null
@@ -262,6 +307,39 @@ export type Database = {
           sent_count?: number | null
           target_type?: string | null
           title?: string
+        }
+        Relationships: []
+      }
+      credit_transactions: {
+        Row: {
+          action_type: string
+          amount: number
+          created_at: string | null
+          description: string | null
+          id: string
+          metadata: Json | null
+          transaction_type: string
+          user_id: string
+        }
+        Insert: {
+          action_type: string
+          amount: number
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          transaction_type: string
+          user_id: string
+        }
+        Update: {
+          action_type?: string
+          amount?: number
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          transaction_type?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -1573,6 +1651,35 @@ export type Database = {
           },
         ]
       }
+      user_achievements: {
+        Row: {
+          achievement_id: string
+          id: string
+          unlocked_at: string | null
+          user_id: string
+        }
+        Insert: {
+          achievement_id: string
+          id?: string
+          unlocked_at?: string | null
+          user_id: string
+        }
+        Update: {
+          achievement_id?: string
+          id?: string
+          unlocked_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_achievements_achievement_id_fkey"
+            columns: ["achievement_id"]
+            isOneToOne: false
+            referencedRelation: "achievements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_activity: {
         Row: {
           action_data: Json | null
@@ -1597,12 +1704,88 @@ export type Database = {
         }
         Relationships: []
       }
+      user_checkins: {
+        Row: {
+          checkin_date: string
+          created_at: string | null
+          credits_earned: number
+          id: string
+          streak_day: number
+          user_id: string
+        }
+        Insert: {
+          checkin_date?: string
+          created_at?: string | null
+          credits_earned?: number
+          id?: string
+          streak_day?: number
+          user_id: string
+        }
+        Update: {
+          checkin_date?: string
+          created_at?: string | null
+          credits_earned?: number
+          id?: string
+          streak_day?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_credits: {
+        Row: {
+          balance: number
+          created_at: string | null
+          current_streak: number
+          experience: number
+          id: string
+          last_checkin_date: string | null
+          level: number
+          longest_streak: number
+          total_earned: number
+          total_spent: number
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string | null
+          current_streak?: number
+          experience?: number
+          id?: string
+          last_checkin_date?: string | null
+          level?: number
+          longest_streak?: number
+          total_earned?: number
+          total_spent?: number
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string | null
+          current_streak?: number
+          experience?: number
+          id?: string
+          last_checkin_date?: string | null
+          level?: number
+          longest_streak?: number
+          total_earned?: number
+          total_spent?: number
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_notification_settings: {
         Row: {
           created_at: string | null
           id: string
+          notify_achievements: boolean | null
+          notify_comments: boolean | null
           notify_completed: boolean | null
+          notify_daily_reminder: boolean | null
           notify_failed: boolean | null
+          notify_likes: boolean | null
           notify_progress: boolean | null
           notify_stem_ready: boolean | null
           quiet_hours_end: string | null
@@ -1614,8 +1797,12 @@ export type Database = {
         Insert: {
           created_at?: string | null
           id?: string
+          notify_achievements?: boolean | null
+          notify_comments?: boolean | null
           notify_completed?: boolean | null
+          notify_daily_reminder?: boolean | null
           notify_failed?: boolean | null
+          notify_likes?: boolean | null
           notify_progress?: boolean | null
           notify_stem_ready?: boolean | null
           quiet_hours_end?: string | null
@@ -1627,8 +1814,12 @@ export type Database = {
         Update: {
           created_at?: string | null
           id?: string
+          notify_achievements?: boolean | null
+          notify_comments?: boolean | null
           notify_completed?: boolean | null
+          notify_daily_reminder?: boolean | null
           notify_failed?: boolean | null
+          notify_likes?: boolean | null
           notify_progress?: boolean | null
           notify_stem_ready?: boolean | null
           quiet_hours_end?: string | null
@@ -1836,6 +2027,25 @@ export type Database = {
           tag_id: string
           tag_name: string
         }[]
+      }
+      get_experience_for_level: { Args: { _level: number }; Returns: number }
+      get_leaderboard: {
+        Args: { _limit?: number }
+        Returns: {
+          achievements_count: number
+          current_streak: number
+          experience: number
+          level: number
+          photo_url: string
+          rank: number
+          total_earned: number
+          user_id: string
+          username: string
+        }[]
+      }
+      get_level_from_experience: {
+        Args: { _experience: number }
+        Returns: number
       }
       get_public_profile_info: {
         Args: { profile_user_id: string }
