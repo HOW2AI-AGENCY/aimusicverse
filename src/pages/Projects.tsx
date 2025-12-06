@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useProjects } from '@/hooks/useProjectsOptimized';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { FolderOpen, Search, Plus, Music, Clock } from 'lucide-react';
+import { FolderOpen, Search, Plus, Music, ChevronRight } from 'lucide-react';
 import { CreateProjectSheet } from '@/components/CreateProjectSheet';
+import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function Projects() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -15,10 +16,11 @@ export default function Projects() {
   const [searchQuery, setSearchQuery] = useState('');
   const [createSheetOpen, setCreateSheetOpen] = useState(false);
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
@@ -32,101 +34,94 @@ export default function Projects() {
     project.title.toLowerCase().includes(searchQuery.toLowerCase())
   ) || [];
 
-  const completedCount = projects?.filter(p => p.status === 'completed').length || 0;
-  const inProgressCount = projects?.filter(p => p.status === 'in_progress').length || 0;
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
-      <div className="container max-w-6xl mx-auto px-4 py-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-          <div>
-            <h1 className="text-3xl font-bold">Проекты</h1>
-            <p className="text-muted-foreground">Управляйте вашими музыкальными альбомами, EP и синглами.</p>
-          </div>
-          <Button onClick={() => setCreateSheetOpen(true)} className="w-full sm:w-auto">
-            <Plus className="w-4 h-4 mr-2" />
-            Создать проект
+    <div className="min-h-screen pb-24">
+      {/* Sticky Header */}
+      <div className={cn(
+        "sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border/50",
+        isMobile ? "px-3 py-3" : "px-4 py-4"
+      )}>
+        <div className="flex items-center justify-between gap-3 max-w-6xl mx-auto">
+          <h1 className="text-xl font-bold">Проекты</h1>
+          <Button 
+            size="sm" 
+            onClick={() => setCreateSheetOpen(true)}
+            className="gap-1.5"
+          >
+            <Plus className="w-4 h-4" />
+            {!isMobile && 'Создать'}
           </Button>
         </div>
+      </div>
 
-        {/* Search & Filters */}
-        <div className="mb-4">
-          <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-            <Input
-              placeholder="Поиск по названию..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-11 h-12 text-base"
-            />
-          </div>
+      <div className={cn("max-w-6xl mx-auto", isMobile ? "px-3 py-3" : "px-4 py-4")}>
+        {/* Search */}
+        <div className="relative mb-4">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input
+            placeholder="Поиск..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-9 h-10"
+          />
         </div>
 
-        {/* Compact Stats Badges - Single Row */}
-        <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
-          <Badge variant="secondary" className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap">
-            <FolderOpen className="w-4 h-4" />
-            <span className="font-bold">{projects?.length || 0}</span>
-            <span className="text-muted-foreground">всего</span>
-          </Badge>
-          <Badge variant="outline" className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-green-500/30">
-            <Music className="w-4 h-4 text-green-500" />
-            <span className="font-bold">{completedCount}</span>
-            <span className="text-muted-foreground">готово</span>
-          </Badge>
-          <Badge variant="outline" className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-blue-500/30">
-            <Clock className="w-4 h-4 text-blue-500" />
-            <span className="font-bold">{inProgressCount}</span>
-            <span className="text-muted-foreground">в работе</span>
-          </Badge>
+        {/* Stats */}
+        <div className="flex gap-2 mb-4 text-sm text-muted-foreground">
+          <span>{projects?.length || 0} проектов</span>
+          <span>•</span>
+          <span>{projects?.filter(p => p.status === 'completed').length || 0} завершено</span>
         </div>
 
         {/* Projects List */}
         {isLoading ? (
           <div className="flex items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
           </div>
         ) : filteredProjects.length > 0 ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="space-y-2">
             {filteredProjects.map((project) => (
-              <Card
+              <div
                 key={project.id}
                 onClick={() => navigate(`/projects/${project.id}`)}
-                className="p-4 hover:bg-muted/50 transition-all cursor-pointer"
+                className={cn(
+                  "flex items-center gap-3 p-3 rounded-xl bg-card/50 border border-border/50",
+                  "hover:bg-card hover:border-border cursor-pointer transition-all",
+                  "active:scale-[0.99]"
+                )}
               >
-                <div className="flex gap-4">
-                  <div className="w-24 h-24 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
-                    <img
-                      src={project.cover_url || `https://placehold.co/128x128/1a1a1a/ffffff?text=${project.title.charAt(0)}`}
-                      alt={project.title}
-                      className="w-full h-full object-cover rounded-lg"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-lg truncate mb-1">{project.title}</h3>
-                    <div className="flex gap-2 mb-2 flex-wrap">
-                      <Badge variant="secondary">{project.genre || 'Без жанра'}</Badge>
-                      <Badge variant="outline">{project.mood || 'Без настроения'}</Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      Создан: {project.created_at && new Date(project.created_at).toLocaleDateString()}
-                    </p>
+                {/* Cover */}
+                <div className="w-14 h-14 rounded-lg bg-secondary overflow-hidden shrink-0">
+                  <img
+                    src={project.cover_url || `https://placehold.co/56x56/1a1a1a/ffffff?text=${project.title.charAt(0)}`}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Info */}
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-medium text-sm truncate">{project.title}</h3>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <Badge variant="secondary" className="text-[10px] h-4 px-1.5">
+                      {project.genre || 'Без жанра'}
+                    </Badge>
+                    <span className="text-xs text-muted-foreground">
+                      {project.project_type?.replace('_', ' ') || 'album'}
+                    </span>
                   </div>
                 </div>
-              </Card>
+
+                {/* Arrow */}
+                <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
+              </div>
             ))}
           </div>
         ) : (
-          <Card className="p-12 text-center">
-            <FolderOpen className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
-            <h3 className="text-lg font-semibold mb-2 text-foreground">
-              {searchQuery ? 'Проекты не найдены' : 'Нет проектов'}
-            </h3>
-            <p className="text-sm text-muted-foreground mb-6">
-              {searchQuery
-                ? 'Попробуйте изменить поисковый запрос'
-                : 'Создайте свой первый музыкальный проект'}
+          <div className="text-center py-12">
+            <FolderOpen className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
+            <p className="text-muted-foreground mb-4">
+              {searchQuery ? 'Ничего не найдено' : 'Нет проектов'}
             </p>
             {!searchQuery && (
               <Button onClick={() => setCreateSheetOpen(true)} className="gap-2">
@@ -134,7 +129,7 @@ export default function Projects() {
                 Создать проект
               </Button>
             )}
-          </Card>
+          </div>
         )}
       </div>
 
