@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { TelegramBotSetup } from "@/components/TelegramBotSetup";
+import { AddToHomeScreen } from "@/components/telegram/AddToHomeScreen";
 import { motion } from "framer-motion";
 
 export default function Settings() {
@@ -407,6 +408,27 @@ export default function Settings() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Smartphone className="w-5 h-5" />
+                    Быстрый доступ
+                  </CardTitle>
+                  <CardDescription>
+                    Добавьте приложение на главный экран
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <AddToHomeScreen />
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Send className="w-5 h-5" />
                     Telegram интеграция
                   </CardTitle>
                   <CardDescription>
