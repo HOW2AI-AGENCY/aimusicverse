@@ -97,21 +97,59 @@ async function sendTelegramAudio(
     return { ok: false, skipped: true, reason: 'invalid_chat_id' };
   }
 
+  console.log(`📤 sendTelegramAudio: chatId=${chatId}, title="${options.title}", audioUrl=${audioUrl.substring(0, 80)}...`);
+
+  // Download audio file as blob for proper title display in Telegram
+  let audioBlob: Blob | null = null;
+  try {
+    console.log('⬇️ Downloading audio file...');
+    const audioResponse = await fetch(audioUrl);
+    if (audioResponse.ok) {
+      audioBlob = await audioResponse.blob();
+      console.log(`✅ Audio downloaded: ${audioBlob.size} bytes`);
+    } else {
+      console.warn(`⚠️ Failed to download audio: ${audioResponse.status}`);
+    }
+  } catch (downloadError) {
+    console.warn('⚠️ Audio download error:', downloadError);
+  }
+
+  // Download thumbnail if available
   let thumbBlob: Blob | null = null;
   if (options.coverUrl) {
     try {
       const thumbResponse = await fetch(options.coverUrl);
       if (thumbResponse.ok) {
         thumbBlob = await thumbResponse.blob();
+        console.log(`✅ Thumbnail downloaded: ${thumbBlob.size} bytes`);
       }
     } catch (error) {
-      console.error('Error downloading cover:', error);
+      console.warn('⚠️ Error downloading cover:', error);
     }
   }
 
+  // Sanitize title for filename
+  const sanitizeFilename = (name: string) => {
+    return name
+      .replace(/[<>:"/\\|?*]/g, '')
+      .replace(/\s+/g, '_')
+      .substring(0, 60);
+  };
+
+  const filename = `${sanitizeFilename(options.title || 'track')}.mp3`;
+
   const formData = new FormData();
   formData.append('chat_id', chatId.toString());
-  formData.append('audio', audioUrl);
+  
+  // Use blob if downloaded, otherwise fallback to URL
+  if (audioBlob) {
+    formData.append('audio', audioBlob, filename);
+    console.log('📦 Sending via FormData (blob)...');
+  } else {
+    formData.append('audio', audioUrl);
+    console.log('📦 Sending via FormData (URL fallback)...');
+  }
+  
   if (options.caption) formData.append('caption', options.caption);
   if (options.title) formData.append('title', options.title);
   if (options.performer) formData.append('performer', options.performer);
@@ -134,10 +172,11 @@ async function sendTelegramAudio(
       console.warn(`Chat unavailable for audio (${chatId}): ${errorDesc}`);
       return { ok: false, skipped: true, reason: 'chat_unavailable' };
     }
-    console.error('Telegram API error for audio:', result);
+    console.error('❌ Telegram API error for audio:', result);
     throw new Error(`Telegram API error: ${JSON.stringify(result)}`);
   }
 
+  console.log('✅ Audio sent successfully to Telegram');
   return { ok: true, result };
 }
 
