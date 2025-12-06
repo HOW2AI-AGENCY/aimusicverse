@@ -20,7 +20,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSyncStaleTasks } from "@/hooks/useSyncStaleTasks";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrackCounts } from "@/hooks/useTrackCounts";
-import { VirtualizedTrackList } from "@/components/library/VirtualizedTrackList";
+import { TrackCard } from "@/components/TrackCard";
 
 interface GenerationTask {
   id: string;
@@ -340,20 +340,32 @@ export default function Library() {
               </p>
             </Card>
           ) : (
-            <>
-              <VirtualizedTrackList
-                tracks={tracksToDisplay}
-                viewMode={viewMode}
-                activeTrackId={activeTrack?.id}
-                getCountsForTrack={getCountsForTrack}
-                onPlay={handlePlay}
-                onDelete={deleteTrack}
-                onDownload={handleDownload}
-                onToggleLike={(trackId, isLiked) => toggleLike({ trackId, isLiked })}
-                onLoadMore={fetchNextPage}
-                hasMore={hasNextPage}
-                isLoadingMore={isFetchingNextPage}
-              />
+          <>
+              {/* Fallback to regular rendering for debugging */}
+              <div className={
+                viewMode === "grid"
+                  ? "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+                  : "flex flex-col gap-3"
+              }>
+                {tracksToDisplay.map((track, index) => {
+                  const counts = getCountsForTrack(track.id);
+                  return (
+                    <TrackCard
+                      key={track.id}
+                      track={track}
+                      layout={viewMode}
+                      isPlaying={activeTrack?.id === track.id}
+                      onPlay={() => handlePlay(track, index)}
+                      onDelete={() => deleteTrack(track.id)}
+                      onDownload={() => handleDownload(track.id, track.audio_url, track.cover_url)}
+                      onToggleLike={() => toggleLike({ trackId: track.id, isLiked: track.is_liked || false })}
+                      versionCount={counts.versionCount}
+                      stemCount={counts.stemCount}
+                      isFirstSwipeableItem={index === 0 && viewMode === "list"}
+                    />
+                  );
+                })}
+              </div>
 
               {/* Loading indicator at bottom */}
               {isFetchingNextPage && (
