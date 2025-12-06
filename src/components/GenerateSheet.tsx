@@ -157,8 +157,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               setLyrics(stemReference.lyrics);
             }
             
-            // Pre-fill style - use style first, fallback to prompt for description
-            const styleToUse = stemReference.style || stemReference.prompt || '';
+            // Pre-fill style - priority: style > tags (for simple mode) > prompt
+            const styleToUse = stemReference.style || stemReference.tags || stemReference.prompt || '';
             if (styleToUse) {
               setStyle(styleToUse);
             }
