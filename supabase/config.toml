@@ -140,3 +140,6 @@ verify_jwt = true
 
 [functions.suno-video-callback]
 verify_jwt = false
+
+[functions.generate-track-cover]
+verify_jwt = false

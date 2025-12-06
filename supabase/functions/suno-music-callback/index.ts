@@ -119,13 +119,13 @@ serve(async (req) => {
       if (clips.length === 0) throw new Error('No audio clips in completion callback');
 
       const versionLabels = ['A', 'B', 'C', 'D', 'E'];
+      let trackTitle = '';
 
       for (let i = 0; i < clips.length; i++) {
         const clip = clips[i];
         const versionLabel = versionLabels[i] || `V${i + 1}`;
         const audioUrl = getAudioUrl(clip);
         const streamUrl = getStreamUrl(clip);
-        const imageUrl = getImageUrl(clip);
         
         console.log(`💾 Clip ${i + 1}/${clips.length} (${versionLabel}):`, { 
           id: clip.id, duration: clip.duration, audioUrl: !!audioUrl 
@@ -136,7 +136,7 @@ serve(async (req) => {
           continue;
         }
 
-        let localAudioUrl = null, localCoverUrl = null;
+        let localAudioUrl = null;
 
         try {
           const audioResponse = await fetch(audioUrl);
@@ -151,27 +151,12 @@ serve(async (req) => {
               console.log(`✅ Audio uploaded: ${versionLabel}`);
             }
           }
-
-          if (imageUrl) {
-            const coverResponse = await fetch(imageUrl);
-            if (coverResponse.ok) {
-              const coverBlob = await coverResponse.blob();
-              const coverFileName = `covers/${task.user_id}/${trackId}_v${versionLabel}_cover_${Date.now()}.jpg`;
-              const { data: coverUpload } = await supabase.storage
-                .from('project-assets')
-                .upload(coverFileName, coverBlob, { contentType: 'image/jpeg', upsert: true });
-              if (coverUpload) {
-                localCoverUrl = supabase.storage.from('project-assets').getPublicUrl(coverFileName).data.publicUrl;
-              }
-            }
-          }
         } catch (e) {
           console.error(`❌ Download error for clip ${i}:`, e);
         }
 
-        const trackTitle = clip.title || task.prompt?.split('\n')[0]?.substring(0, 100) || 'Трек';
+        trackTitle = clip.title || task.prompt?.split('\n')[0]?.substring(0, 100) || 'Трек';
         const finalAudioUrl = localAudioUrl || audioUrl;
-        const finalCoverUrl = localCoverUrl || imageUrl;
 
         const { data: existingVersion } = await supabase
           .from('track_versions')
@@ -182,13 +167,13 @@ serve(async (req) => {
 
         const versionData = {
           audio_url: finalAudioUrl,
-          cover_url: finalCoverUrl,
+          cover_url: null, // Will be set by generate-track-cover
           duration_seconds: Math.round(clip.duration) || null,
           metadata: {
             suno_id: clip.id, suno_task_id: sunoTaskId, clip_index: i,
             title: trackTitle, tags: clip.tags, lyrics: clip.prompt,
             model_name: clip.model_name, prompt: task.prompt,
-            local_storage: { audio: localAudioUrl, cover: localCoverUrl },
+            local_storage: { audio: localAudioUrl },
             status: 'completed',
           },
         };
@@ -216,14 +201,12 @@ serve(async (req) => {
         }
 
         if (i === 0) {
-          console.log(`📝 Updating main track...`);
+          console.log(`📝 Updating main track (without cover - will be generated)...`);
           await supabase.from('tracks').update({
             status: 'completed',
             audio_url: finalAudioUrl,
             streaming_url: streamUrl || finalAudioUrl,
             local_audio_url: localAudioUrl,
-            cover_url: finalCoverUrl || task.tracks?.cover_url,
-            local_cover_url: localCoverUrl,
             title: trackTitle,
             duration_seconds: Math.round(clip.duration) || null,
             tags: clip.tags || task.tracks?.tags,
@@ -243,6 +226,28 @@ serve(async (req) => {
         });
       }
 
+      // Generate custom MusicVerse cover (one cover for all versions)
+      console.log('🎨 Generating MusicVerse cover...');
+      try {
+        const { error: coverError } = await supabase.functions.invoke('generate-track-cover', {
+          body: {
+            trackId,
+            title: trackTitle,
+            style: task.tracks?.style || clips[0]?.tags || '',
+            lyrics: clips[0]?.prompt || task.prompt || '',
+            userId: task.user_id,
+          },
+        });
+        
+        if (coverError) {
+          console.error('❌ Cover generation error:', coverError);
+        } else {
+          console.log('✅ MusicVerse cover generated');
+        }
+      } catch (coverErr) {
+        console.error('❌ Cover generation invoke error:', coverErr);
+      }
+
       await supabase.from('generation_tasks').update({
         status: 'completed',
         completed_at: new Date().toISOString(),
@@ -252,6 +257,18 @@ serve(async (req) => {
       }).eq('id', task.id);
 
       if (task.telegram_chat_id && clips.length > 0) {
+        // Small delay to ensure cover generation completes
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Fetch fresh track data with generated cover
+        const { data: freshTrackData } = await supabase
+          .from('tracks')
+          .select('title, style, cover_url, local_cover_url')
+          .eq('id', trackId)
+          .single();
+        
+        const generatedCoverUrl = freshTrackData?.local_cover_url || freshTrackData?.cover_url;
+        
         // Send notification for EACH clip (version A and B)
         const maxClipsToSend = Math.min(clips.length, 2);
         console.log(`📤 Sending ${maxClipsToSend} track version(s) to Telegram chat: ${task.telegram_chat_id}`);
@@ -260,24 +277,18 @@ serve(async (req) => {
           const clip = clips[i];
           const versionLabel = ['A', 'B', 'C', 'D', 'E'][i] || `V${i + 1}`;
           
-          const { data: trackData } = await supabase
-            .from('tracks')
-            .select('title, style')
-            .eq('id', trackId)
-            .single();
+          let notifyTitle = clip.title || freshTrackData?.title;
           
-          let trackTitle = clip.title || trackData?.title;
-          
-          if (!trackTitle || trackTitle === 'Untitled' || trackTitle === 'Трек') {
+          if (!notifyTitle || notifyTitle === 'Untitled' || notifyTitle === 'Трек') {
             const promptLines = (task.prompt || '').split('\n').filter((line: string) => line.trim().length > 0);
             if (promptLines.length > 0) {
-              trackTitle = promptLines[0].substring(0, 60).trim().replace(/^(create|generate|make)\s+/i, '');
+              notifyTitle = promptLines[0].substring(0, 60).trim().replace(/^(create|generate|make)\s+/i, '');
             } else {
-              trackTitle = 'AI Music Track';
+              notifyTitle = 'AI Music Track';
             }
           }
           
-          const titleWithVersion = maxClipsToSend > 1 ? `${trackTitle} (версия ${versionLabel})` : trackTitle;
+          const titleWithVersion = maxClipsToSend > 1 ? `${notifyTitle} (версия ${versionLabel})` : notifyTitle;
           
           if (i > 0) {
             await new Promise(resolve => setTimeout(resolve, 1000));
@@ -290,7 +301,7 @@ serve(async (req) => {
                 chatId: task.telegram_chat_id, 
                 trackId,
                 audioUrl: getAudioUrl(clip), 
-                coverUrl: getImageUrl(clip),
+                coverUrl: generatedCoverUrl, // Use MusicVerse generated cover
                 title: titleWithVersion, 
                 duration: clip.duration,
                 tags: clip.tags, 
@@ -298,7 +309,7 @@ serve(async (req) => {
                 versionLabel: versionLabel,
                 currentVersion: i + 1,
                 totalVersions: maxClipsToSend,
-                style: trackData?.style || task.tracks?.style,
+                style: freshTrackData?.style || task.tracks?.style,
               },
             });
             
