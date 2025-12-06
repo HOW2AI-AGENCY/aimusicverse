@@ -7,7 +7,7 @@ import {
   Download, Share2, Info, Trash2, Eye, EyeOff, Send,
   Scissors, Wand2, ImagePlus, FileAudio, Music2, FileText, Layers,
   Plus, Mic, Volume2, Music, Globe, Lock, ChevronDown, GitBranch, Check, Star, Users,
-  ListPlus, Play
+  ListPlus, Play, Video
 } from 'lucide-react';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { useState, useEffect } from 'react';
@@ -67,6 +67,7 @@ export function TrackActionsSheet({
     handleTogglePublic, 
     handleSeparateVocals,
     handleGenerateCover,
+    handleGenerateVideo,
     handleConvertToWav,
     handleShare,
     handleRemix,
@@ -497,6 +498,21 @@ export function TrackActionsSheet({
                       <Music2 className="w-4 h-4" />
                       <span>MIDI файл</span>
                     </Button>
+
+                    {track.suno_id && track.suno_task_id && (
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-start gap-3 h-11"
+                        onClick={async () => {
+                          await handleGenerateVideo(track);
+                          onOpenChange(false);
+                        }}
+                        disabled={isProcessing}
+                      >
+                        <Video className="w-4 h-4" />
+                        <span>Создать видеоклип</span>
+                      </Button>
+                    )}
                   </CollapsibleContent>
                 </Collapsible>
 

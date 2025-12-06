@@ -1439,6 +1439,7 @@ export type Database = {
           likes_count: number | null
           local_audio_url: string | null
           local_cover_url: string | null
+          local_video_url: string | null
           lyrics: string | null
           model_name: string | null
           negative_tags: string | null
@@ -1459,6 +1460,7 @@ export type Database = {
           title: string | null
           updated_at: string | null
           user_id: string
+          video_url: string | null
           vocal_gender: string | null
         }
         Insert: {
@@ -1480,6 +1482,7 @@ export type Database = {
           likes_count?: number | null
           local_audio_url?: string | null
           local_cover_url?: string | null
+          local_video_url?: string | null
           lyrics?: string | null
           model_name?: string | null
           negative_tags?: string | null
@@ -1500,6 +1503,7 @@ export type Database = {
           title?: string | null
           updated_at?: string | null
           user_id: string
+          video_url?: string | null
           vocal_gender?: string | null
         }
         Update: {
@@ -1521,6 +1525,7 @@ export type Database = {
           likes_count?: number | null
           local_audio_url?: string | null
           local_cover_url?: string | null
+          local_video_url?: string | null
           lyrics?: string | null
           model_name?: string | null
           negative_tags?: string | null
@@ -1541,6 +1546,7 @@ export type Database = {
           title?: string | null
           updated_at?: string | null
           user_id?: string
+          video_url?: string | null
           vocal_gender?: string | null
         }
         Relationships: [
@@ -1734,6 +1740,80 @@ export type Database = {
             columns: ["tag_id"]
             isOneToOne: false
             referencedRelation: "suno_meta_tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      video_generation_tasks: {
+        Row: {
+          aspect_ratio: string | null
+          completed_at: string | null
+          created_at: string | null
+          duration: string | null
+          error_message: string | null
+          fal_request_id: string | null
+          generate_audio: boolean | null
+          id: string
+          local_video_url: string | null
+          metadata: Json | null
+          prompt: string
+          status: string
+          suno_audio_id: string | null
+          suno_task_id: string | null
+          thumbnail_url: string | null
+          track_id: string | null
+          user_id: string
+          video_task_id: string | null
+          video_url: string | null
+        }
+        Insert: {
+          aspect_ratio?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          duration?: string | null
+          error_message?: string | null
+          fal_request_id?: string | null
+          generate_audio?: boolean | null
+          id?: string
+          local_video_url?: string | null
+          metadata?: Json | null
+          prompt: string
+          status?: string
+          suno_audio_id?: string | null
+          suno_task_id?: string | null
+          thumbnail_url?: string | null
+          track_id?: string | null
+          user_id: string
+          video_task_id?: string | null
+          video_url?: string | null
+        }
+        Update: {
+          aspect_ratio?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          duration?: string | null
+          error_message?: string | null
+          fal_request_id?: string | null
+          generate_audio?: boolean | null
+          id?: string
+          local_video_url?: string | null
+          metadata?: Json | null
+          prompt?: string
+          status?: string
+          suno_audio_id?: string | null
+          suno_task_id?: string | null
+          thumbnail_url?: string | null
+          track_id?: string | null
+          user_id?: string
+          video_task_id?: string | null
+          video_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "video_generation_tasks_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
         ]

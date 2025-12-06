@@ -147,6 +147,31 @@ export function useTrackActions() {
     }
   };
 
+  const handleGenerateVideo = async (track: Track) => {
+    if (!track.suno_task_id || !track.suno_id) {
+      toast.error('Невозможно создать видео для этого трека');
+      return;
+    }
+
+    setIsProcessing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('suno-generate-video', {
+        body: { trackId: track.id },
+      });
+
+      if (error) throw error;
+
+      toast.success('Генерация видео началась! 🎬', {
+        description: 'Клип будет готов через несколько минут',
+      });
+    } catch (error: any) {
+      console.error('Video generation error:', error);
+      toast.error(error.message || 'Ошибка генерации видео');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   const handleSendToTelegram = async (track: Track) => {
     if (!track.audio_url) {
       toast.error('Трек ещё не готов');
@@ -197,6 +222,7 @@ export function useTrackActions() {
     handleTogglePublic,
     handleConvertToWav,
     handleGenerateCover,
+    handleGenerateVideo,
     handleSendToTelegram,
   };
 }
