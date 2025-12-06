@@ -67,7 +67,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [hasVocals, setHasVocals] = useState(true);
   
   // Advanced settings
-  const [model, setModel] = useState('V4_5ALL');
+  const [model, setModel] = useState('V4AUK');
   const [negativeTags, setNegativeTags] = useState('');
   const [vocalGender, setVocalGender] = useState<'m' | 'f' | ''>('');
   const [styleWeight, setStyleWeight] = useState([0.65]);

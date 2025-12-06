@@ -34,6 +34,8 @@ interface MinimalProjectTrackItemProps {
   dragHandleProps?: any;
   isDragging?: boolean;
   onGenerate: () => void;
+  onOpenLyrics?: () => void;
+  onOpenLyricsWizard?: () => void;
 }
 
 const STATUS_CONFIG = {
@@ -67,7 +69,9 @@ export const MinimalProjectTrackItem = ({
   track, 
   dragHandleProps,
   isDragging,
-  onGenerate 
+  onGenerate,
+  onOpenLyrics,
+  onOpenLyricsWizard,
 }: MinimalProjectTrackItemProps) => {
   const isMobile = useIsMobile();
   const [editOpen, setEditOpen] = useState(false);
@@ -177,6 +181,20 @@ export const MinimalProjectTrackItem = ({
 
         {/* Actions */}
         <div className="flex items-center gap-1 shrink-0">
+          {/* Lyrics Button */}
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpenLyrics?.();
+            }}
+            className="h-8 w-8"
+            title={track.notes || linkedTrack?.lyrics ? 'Просмотр лирики' : 'Написать лирику'}
+          >
+            <FileText className="w-4 h-4" />
+          </Button>
+
           {hasLinkedTrack ? (
             <Button
               size="icon"
@@ -211,6 +229,14 @@ export const MinimalProjectTrackItem = ({
               <DropdownMenuItem onClick={() => setEditOpen(true)}>
                 <Edit className="w-4 h-4 mr-2" />
                 Редактировать
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={onOpenLyrics}>
+                <FileText className="w-4 h-4 mr-2" />
+                {track.notes || linkedTrack?.lyrics ? 'Просмотр лирики' : 'Написать лирику'}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={onOpenLyricsWizard}>
+                <Sparkles className="w-4 h-4 mr-2" />
+                AI Lyrics Wizard
               </DropdownMenuItem>
               {!hasLinkedTrack && (
                 <DropdownMenuItem onClick={onGenerate}>

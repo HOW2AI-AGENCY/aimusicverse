@@ -3,7 +3,7 @@ import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/hooks/useAuth';
 import { useProjects } from '@/hooks/useProjects';
-import { useProjectTracks } from '@/hooks/useProjectTracks';
+import { useProjectTracks, ProjectTrack } from '@/hooks/useProjectTracks';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Sparkles, Music, MoreVertical, Play, Plus, Settings } from 'lucide-react';
@@ -13,9 +13,13 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { MinimalProjectTrackItem } from '@/components/project/MinimalProjectTrackItem';
 import { ProjectSettingsSheet } from '@/components/project/ProjectSettingsSheet';
 import { AddTrackDialog } from '@/components/project/AddTrackDialog';
+import { ProjectInfoCard } from '@/components/project/ProjectInfoCard';
+import { LyricsPreviewSheet } from '@/components/project/LyricsPreviewSheet';
+import { AILyricsWizard } from '@/components/generate-form/AILyricsWizard';
 import { cn } from '@/lib/utils';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
+import { toast } from 'sonner';
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
@@ -27,8 +31,12 @@ export default function ProjectDetail() {
   const [aiDialogOpen, setAiDialogOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [addTrackOpen, setAddTrackOpen] = useState(false);
+  const [lyricsSheetOpen, setLyricsSheetOpen] = useState(false);
+  const [lyricsWizardOpen, setLyricsWizardOpen] = useState(false);
+  const [selectedTrackForLyrics, setSelectedTrackForLyrics] = useState<ProjectTrack | null>(null);
   const isMobile = useIsMobile();
   const { setPlanTrackContext } = usePlanTrackStore();
+  const { updateTrack } = useProjectTracks(id);
 
   if (authLoading || isLoading) {
     return (
@@ -93,6 +101,31 @@ export default function ProjectDetail() {
     navigate('/generate');
   };
 
+  const handleOpenLyrics = (track: ProjectTrack) => {
+    setSelectedTrackForLyrics(track);
+    setLyricsSheetOpen(true);
+  };
+
+  const handleOpenLyricsWizard = (track: ProjectTrack) => {
+    setSelectedTrackForLyrics(track);
+    setLyricsWizardOpen(true);
+  };
+
+  const handleSaveLyrics = async (trackId: string, lyrics: string) => {
+    try {
+      updateTrack({ id: trackId, updates: { notes: lyrics } });
+    } catch (error) {
+      console.error('Error saving lyrics:', error);
+      toast.error('Ошибка сохранения');
+    }
+  };
+
+  const handleLyricsGenerated = (lyrics: string) => {
+    if (selectedTrackForLyrics) {
+      handleSaveLyrics(selectedTrackForLyrics.id, lyrics);
+    }
+  };
+
   if (!project) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
@@ -143,8 +176,16 @@ export default function ProjectDetail() {
                 <span>{project.genre || 'Без жанра'}</span>
                 <span>•</span>
                 <span>{completedTracks}/{totalTracks} треков</span>
-              </div>
-            </div>
+        </div>
+      </div>
+
+      {/* Project Info Card */}
+      <div className={cn(isMobile ? "px-3 pb-2" : "px-4 pb-2")}>
+        <ProjectInfoCard 
+          project={project} 
+          onEdit={() => setSettingsOpen(true)}
+        />
+      </div>
           </div>
 
           {/* Actions */}
@@ -228,6 +269,8 @@ export default function ProjectDetail() {
                             dragHandleProps={provided.dragHandleProps}
                             isDragging={snapshot.isDragging}
                             onGenerate={() => handleGenerateFromPlan(track)}
+                            onOpenLyrics={() => handleOpenLyrics(track)}
+                            onOpenLyricsWizard={() => handleOpenLyricsWizard(track)}
                           />
                         </div>
                       )}
@@ -286,6 +329,28 @@ export default function ProjectDetail() {
         onOpenChange={setAddTrackOpen}
         projectId={project.id}
         tracksCount={totalTracks}
+      />
+
+      {/* Lyrics Preview Sheet */}
+      <LyricsPreviewSheet
+        open={lyricsSheetOpen}
+        onOpenChange={setLyricsSheetOpen}
+        track={selectedTrackForLyrics}
+        onSave={handleSaveLyrics}
+        onOpenWizard={() => {
+          setLyricsSheetOpen(false);
+          setLyricsWizardOpen(true);
+        }}
+      />
+
+      {/* AI Lyrics Wizard with project context */}
+      <AILyricsWizard
+        open={lyricsWizardOpen}
+        onOpenChange={setLyricsWizardOpen}
+        onLyricsGenerated={handleLyricsGenerated}
+        initialGenre={project.genre || undefined}
+        initialMood={project.mood ? [project.mood] : undefined}
+        initialLanguage={project.language as 'ru' | 'en' | undefined}
       />
     </div>
   );
