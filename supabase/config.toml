@@ -128,3 +128,15 @@ verify_jwt = true
 
 [functions.ai-blog-assistant]
 verify_jwt = true
+
+[functions.generate-artist-portrait]
+verify_jwt = true
+
+[functions.generate-playlist-cover]
+verify_jwt = true
+
+[functions.suno-generate-video]
+verify_jwt = true
+
+[functions.suno-video-callback]
+verify_jwt = false

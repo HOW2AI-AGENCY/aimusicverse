@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { 
   MoreVertical, Trash2, Plus, Mic, Volume2, Music, 
   Wand2, Scissors, ImagePlus, FileAudio, Music2, Download, Share2, 
-  Send, Lock, Globe, Sparkles, Folder, ListMusic, Layers, ListPlus, Play
+  Send, Lock, Globe, Sparkles, Folder, ListMusic, Layers, ListPlus, Play, Video
 } from 'lucide-react';
 import { ExtendTrackDialog } from './ExtendTrackDialog';
 import { LyricsDialog } from './LyricsDialog';
@@ -69,6 +69,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
     handleTogglePublic,
     handleConvertToWav,
     handleGenerateCover,
+    handleGenerateVideo,
     handleSendToTelegram,
   } = useTrackActions();
 
@@ -244,6 +245,13 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                     <Music2 className="w-4 h-4 mr-2" />
                     MIDI файл
                   </DropdownMenuItem>
+
+                  {track.suno_id && track.suno_task_id && (
+                    <DropdownMenuItem onClick={() => handleGenerateVideo(track)} disabled={isProcessing}>
+                      <Video className="w-4 h-4 mr-2" />
+                      Создать видеоклип
+                    </DropdownMenuItem>
+                  )}
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
               <DropdownMenuSeparator />
