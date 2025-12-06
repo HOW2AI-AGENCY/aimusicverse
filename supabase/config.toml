@@ -149,3 +149,9 @@ verify_jwt = false
 
 [functions.generate-blog-cover]
 verify_jwt = true
+
+[functions.speech-to-text]
+verify_jwt = true
+
+[functions.correct-text]
+verify_jwt = true

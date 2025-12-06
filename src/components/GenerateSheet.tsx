@@ -29,6 +29,7 @@ import { AILyricsWizard } from './generate-form/AILyricsWizard';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { SUNO_MODELS } from '@/constants/sunoModels';
 import { useGenerateDraft } from '@/hooks/useGenerateDraft';
+import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
 
 interface GenerateSheetProps {
   open: boolean;
@@ -734,6 +735,13 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                     <span className={`text-xs ${description.length > 500 ? 'text-destructive font-medium' : description.length > 400 ? 'text-yellow-500' : 'text-muted-foreground'}`}>
                       {description.length}/500
                     </span>
+                    <VoiceInputButton
+                      onResult={setDescription}
+                      context="description"
+                      currentValue={description}
+                      appendMode
+                      className="h-6 w-6 p-0"
+                    />
                     <Button
                       type="button"
                       variant="ghost"
@@ -829,21 +837,30 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   <Label htmlFor="style" className="text-xs font-medium">
                     Стиль
                   </Label>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleBoostStyle}
-                    disabled={boostLoading || !style}
-                    className="h-6 px-2 gap-1"
-                  >
-                    {boostLoading ? (
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                    ) : (
-                      <Sparkles className="w-3 h-3" />
-                    )}
-                    <span className="text-xs">AI</span>
-                  </Button>
+                  <div className="flex items-center gap-1">
+                    <VoiceInputButton
+                      onResult={setStyle}
+                      context="style"
+                      currentValue={style}
+                      appendMode
+                      className="h-6 w-6 p-0"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBoostStyle}
+                      disabled={boostLoading || !style}
+                      className="h-6 px-2 gap-1"
+                    >
+                      {boostLoading ? (
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                      ) : (
+                        <Sparkles className="w-3 h-3" />
+                      )}
+                      <span className="text-xs">AI</span>
+                    </Button>
+                  </div>
                 </div>
                 <Textarea
                   id="style"
@@ -882,6 +899,13 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   <div className="flex items-center justify-between mb-1.5">
                     <Label className="text-xs font-medium">Текст песни</Label>
                     <div className="flex gap-1">
+                      <VoiceInputButton
+                        onResult={setLyrics}
+                        context="lyrics"
+                        currentValue={lyrics}
+                        appendMode
+                        className="h-6 w-6 p-0"
+                      />
                       <Button 
                         variant="ghost" 
                         size="sm" 
