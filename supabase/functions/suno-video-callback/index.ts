@@ -167,25 +167,36 @@ serve(async (req) => {
     // Send Telegram notification if user has telegram_chat_id
     const { data: profile } = await supabase
       .from('profiles')
-      .select('telegram_id')
+      .select('telegram_chat_id, telegram_id')
       .eq('user_id', videoTask.user_id)
       .single();
 
-    if (profile?.telegram_id) {
+    const chatId = profile?.telegram_chat_id || profile?.telegram_id;
+    
+    if (chatId) {
       try {
-        await supabase.functions.invoke('send-telegram-notification', {
+        console.log('📤 Sending Telegram video notification to chat:', chatId);
+        const { error: notifyError } = await supabase.functions.invoke('send-telegram-notification', {
           body: {
             type: 'video_ready',
-            chatId: profile.telegram_id,
+            chatId: chatId,
             trackId: track.id,
             videoUrl: localVideoUrl || videoUrl,
             title: track.title || 'Видео клип',
+            coverUrl: track.cover_url,
           },
         });
-        console.log('✅ Telegram notification sent');
+        
+        if (notifyError) {
+          console.error('⚠️ Telegram notification error:', notifyError);
+        } else {
+          console.log('✅ Telegram notification sent');
+        }
       } catch (err) {
-        console.error('⚠️ Telegram notification error:', err);
+        console.error('⚠️ Telegram notification invoke error:', err);
       }
+    } else {
+      console.log('ℹ️ No Telegram chat ID for user, skipping notification');
     }
 
     return new Response(
