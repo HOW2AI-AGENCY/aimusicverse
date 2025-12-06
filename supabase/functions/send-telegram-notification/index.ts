@@ -7,6 +7,13 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+interface AudioClipData {
+  audioUrl: string;
+  title: string;
+  duration?: number;
+  versionLabel: string;
+}
+
 interface NotificationPayload {
   task_id?: string;
   chat_id?: number;
@@ -29,6 +36,7 @@ interface NotificationPayload {
   currentVersion?: number;
   totalVersions?: number;
   generationMode?: string;
+  audioClips?: AudioClipData[];
 }
 
 interface NotificationSettings {
@@ -372,7 +380,7 @@ Deno.serve(async (req) => {
     const { 
       chat_id, chatId, user_id, status, track_id, trackId, type, error_message,
       audioUrl, coverUrl, videoUrl, title, duration, tags, style, versionsCount, versionLabel,
-      currentVersion, totalVersions, generationMode
+      currentVersion, totalVersions, generationMode, audioClips
     } = payload;
 
     const supabase = createClient(
@@ -414,7 +422,72 @@ Deno.serve(async (req) => {
     const miniAppUrl = telegramConfig.miniAppUrl;
     const botDeepLink = telegramConfig.deepLinkBase;
 
-    // Handle generation complete with direct data
+    // Handle multi-version generation complete (both A and B in sequence)
+    if (type === 'generation_complete_multi' && audioClips && audioClips.length > 0) {
+      console.log(`📤 Sending multi-version notification with ${audioClips.length} audio clips`);
+      
+      // Format tags without # prefix (cleaner look)
+      const tagsText = tags 
+        ? `\n🏷️ ${tags.split(',').slice(0, 3).map(t => escapeMarkdown(t.trim())).join(', ')}`
+        : '';
+      
+      const versionText = audioClips.length > 1 ? `\n🎭 Версий: ${audioClips.length}` : '';
+      
+      // Send each audio with caption only on first
+      for (let i = 0; i < audioClips.length; i++) {
+        const clip = audioClips[i];
+        const isFirst = i === 0;
+        const isLast = i === audioClips.length - 1;
+        
+        const durationText = clip.duration 
+          ? `⏱️ ${Math.floor(clip.duration / 60)}:${String(Math.floor(clip.duration % 60)).padStart(2, '0')}`
+          : '';
+        
+        // Only first message has full caption, others just version label
+        const caption = isFirst
+          ? `🎵 *${escapeMarkdown('Генерация завершена!')}*\n\n🎶 *${escapeMarkdown(title || 'Новый трек')}*${style ? `\n🎸 ${escapeMarkdown(style.split(',')[0])}` : ''}${tagsText}${versionText}\n\n_Версия ${clip.versionLabel}_ ${durationText ? `\\| ${durationText}` : ''}`
+          : `_Версия ${clip.versionLabel}_ ${durationText ? `\\| ${durationText}` : ''}`;
+        
+        const audioResult = await sendTelegramAudio(finalChatId, clip.audioUrl, {
+          caption,
+          title: clip.title,
+          performer: '@AIMusicVerseBot',
+          duration: clip.duration ? Math.round(clip.duration) : undefined,
+          coverUrl: isFirst ? coverUrl : undefined, // Cover only on first
+          replyMarkup: isLast ? {
+            inline_keyboard: [
+              [{ text: '🎵 Открыть в приложении', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
+              [
+                { text: '📝 Текст', callback_data: `lyrics_${finalTrackId}` },
+                { text: '🎨 Студия', callback_data: `studio_${finalTrackId}` }
+              ],
+              [
+                { text: '🎵 Создать еще', callback_data: 'generate' },
+                { text: '📚 Библиотека', callback_data: 'library' }
+              ]
+            ]
+          } : undefined
+        });
+        
+        if (!audioResult.ok) {
+          console.error(`❌ Failed to send audio ${clip.versionLabel}:`, audioResult);
+        } else {
+          console.log(`✅ Audio ${clip.versionLabel} sent`);
+        }
+        
+        // Small delay between messages
+        if (!isLast) {
+          await new Promise(r => setTimeout(r, 500));
+        }
+      }
+
+      return new Response(
+        JSON.stringify({ success: true, type: 'generation_complete_multi' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Handle generation complete with direct data (single version)
     if (type === 'generation_complete' && audioUrl) {
       console.log('📤 Sending generation complete notification with audio');
       
@@ -422,9 +495,9 @@ Deno.serve(async (req) => {
         ? `⏱️ ${Math.floor(duration / 60)}:${String(Math.floor(duration % 60)).padStart(2, '0')}`
         : '';
       
-        // Escape tags properly - # is a reserved character in MarkdownV2
-        const tagsText = tags 
-        ? `\n🏷️ ${tags.split(',').slice(0, 3).map(t => escapeMarkdown(`#${t.trim().replace(/\s+/g, '_').toLowerCase()}`)).join(' ')}`
+      // Format tags without # prefix for cleaner look
+      const tagsText = tags 
+        ? `\n🏷️ ${tags.split(',').slice(0, 3).map(t => escapeMarkdown(t.trim())).join(', ')}`
         : '';
       
       // Version info - show if multiple versions are being sent
