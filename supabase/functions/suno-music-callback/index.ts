@@ -257,14 +257,14 @@ serve(async (req) => {
       }).eq('id', task.id);
 
       if (task.telegram_chat_id && clips.length > 0) {
-        // Wait for cover generation to complete (increased delay)
+        // Wait for cover generation to complete
         console.log('⏳ Waiting for cover generation to complete...');
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        await new Promise(resolve => setTimeout(resolve, 6000));
         
         // Fetch fresh track data with generated cover
         const { data: freshTrackData, error: freshTrackError } = await supabase
           .from('tracks')
-          .select('title, style, cover_url, local_cover_url')
+          .select('title, style, cover_url, local_cover_url, tags')
           .eq('id', trackId)
           .single();
         
@@ -275,60 +275,80 @@ serve(async (req) => {
           error: freshTrackError
         });
         
+        // Use our generated cover (local_cover_url) - NOT Suno's cover
         const generatedCoverUrl = freshTrackData?.local_cover_url || freshTrackData?.cover_url;
         
-        // Send notification for EACH clip (version A and B)
-        const maxClipsToSend = Math.min(clips.length, 2);
-        console.log(`📤 Sending ${maxClipsToSend} track version(s) to Telegram chat: ${task.telegram_chat_id}`);
+        // Get track title
+        let notifyTitle = freshTrackData?.title || clips[0]?.title;
+        if (!notifyTitle || notifyTitle === 'Untitled' || notifyTitle === 'Трек') {
+          const promptLines = (task.prompt || '').split('\n').filter((line: string) => line.trim().length > 0);
+          if (promptLines.length > 0) {
+            notifyTitle = promptLines[0].substring(0, 60).trim().replace(/^(create|generate|make)\s+/i, '');
+          } else {
+            notifyTitle = 'AI Music Track';
+          }
+        }
         
+        // Send both versions in a single notification using media group type
+        const maxClipsToSend = Math.min(clips.length, 2);
+        console.log(`📤 Sending ${maxClipsToSend} track version(s) as media group to Telegram chat: ${task.telegram_chat_id}`);
+        
+        // Prepare all audio clips data
+        const audioClipsData = [];
         for (let i = 0; i < maxClipsToSend; i++) {
           const clip = clips[i];
           const versionLabel = ['A', 'B', 'C', 'D', 'E'][i] || `V${i + 1}`;
+          audioClipsData.push({
+            audioUrl: getAudioUrl(clip),
+            title: `${notifyTitle} (${versionLabel})`,
+            duration: clip.duration,
+            versionLabel,
+          });
+        }
+        
+        try {
+          const { error: notifyError } = await supabase.functions.invoke('send-telegram-notification', {
+            body: {
+              type: 'generation_complete_multi',
+              chatId: task.telegram_chat_id,
+              trackId,
+              coverUrl: generatedCoverUrl,
+              title: notifyTitle,
+              audioClips: audioClipsData,
+              tags: freshTrackData?.tags || clips[0]?.tags,
+              style: freshTrackData?.style || task.tracks?.style,
+              versionsCount: clips.length,
+            },
+          });
           
-          let notifyTitle = clip.title || freshTrackData?.title;
-          
-          if (!notifyTitle || notifyTitle === 'Untitled' || notifyTitle === 'Трек') {
-            const promptLines = (task.prompt || '').split('\n').filter((line: string) => line.trim().length > 0);
-            if (promptLines.length > 0) {
-              notifyTitle = promptLines[0].substring(0, 60).trim().replace(/^(create|generate|make)\s+/i, '');
-            } else {
-              notifyTitle = 'AI Music Track';
+          if (notifyError) {
+            console.error('❌ Telegram multi notification error:', notifyError);
+            // Fallback to single notifications
+            for (let i = 0; i < maxClipsToSend; i++) {
+              const clip = audioClipsData[i];
+              await supabase.functions.invoke('send-telegram-notification', {
+                body: {
+                  type: 'generation_complete',
+                  chatId: task.telegram_chat_id,
+                  trackId,
+                  audioUrl: clip.audioUrl,
+                  coverUrl: generatedCoverUrl,
+                  title: clip.title,
+                  duration: clip.duration,
+                  tags: freshTrackData?.tags || clips[0]?.tags,
+                  style: freshTrackData?.style,
+                  versionLabel: clip.versionLabel,
+                  currentVersion: i + 1,
+                  totalVersions: maxClipsToSend,
+                },
+              });
+              if (i < maxClipsToSend - 1) await new Promise(r => setTimeout(r, 1000));
             }
+          } else {
+            console.log('✅ Telegram multi notification sent');
           }
-          
-          const titleWithVersion = maxClipsToSend > 1 ? `${notifyTitle} (версия ${versionLabel})` : notifyTitle;
-          
-          if (i > 0) {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-          }
-          
-          try {
-            const { error: notifyError } = await supabase.functions.invoke('send-telegram-notification', {
-              body: {
-                type: 'generation_complete', 
-                chatId: task.telegram_chat_id, 
-                trackId,
-                audioUrl: getAudioUrl(clip), 
-                coverUrl: generatedCoverUrl, // Use MusicVerse generated cover
-                title: titleWithVersion, 
-                duration: clip.duration,
-                tags: clip.tags, 
-                versionsCount: clips.length,
-                versionLabel: versionLabel,
-                currentVersion: i + 1,
-                totalVersions: maxClipsToSend,
-                style: freshTrackData?.style || task.tracks?.style,
-              },
-            });
-            
-            if (notifyError) {
-              console.error(`❌ Telegram notification error for version ${versionLabel}:`, notifyError);
-            } else {
-              console.log(`✅ Telegram notification sent for version ${versionLabel}`);
-            }
-          } catch (err) {
-            console.error(`❌ Telegram invoke error for version ${versionLabel}:`, err);
-          }
+        } catch (err) {
+          console.error('❌ Telegram invoke error:', err);
         }
       } else {
         console.log(`ℹ️ No Telegram notification: chat_id=${task.telegram_chat_id}, clips=${clips.length}`);
