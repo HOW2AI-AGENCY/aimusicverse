@@ -4,29 +4,35 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/hooks/useAuth';
 import { useProjects } from '@/hooks/useProjects';
 import { useProjectTracks } from '@/hooks/useProjectTracks';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Sparkles, Music, Settings, FileText } from 'lucide-react';
-import { ProjectDetailsTab } from '@/components/project/ProjectDetailsTab';
-import { ProjectAnalysisTab } from '@/components/project/ProjectAnalysisTab';
-import { ProjectTracklistTab } from '@/components/project/ProjectTracklistTab';
+import { ArrowLeft, Sparkles, Music, MoreVertical, Play, Plus, Settings } from 'lucide-react';
 import { AIActionsDialog } from '@/components/project/AIActionsDialog';
 import { supabase } from '@/integrations/supabase/client';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { MinimalProjectTrackItem } from '@/components/project/MinimalProjectTrackItem';
+import { ProjectSettingsSheet } from '@/components/project/ProjectSettingsSheet';
+import { AddTrackDialog } from '@/components/project/AddTrackDialog';
+import { cn } from '@/lib/utils';
+import { usePlanTrackStore } from '@/stores/planTrackStore';
+import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
+
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isAuthenticated, loading: authLoading } = useAuth();
   const { projects, isLoading } = useProjects();
-  const { tracks, isLoading: tracksLoading } = useProjectTracks(id);
-  const [activeTab, setActiveTab] = useState('details');
+  const { tracks, isLoading: tracksLoading, reorderTracks, generateTracklist, isGenerating } = useProjectTracks(id);
   const [aiDialogOpen, setAiDialogOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [addTrackOpen, setAddTrackOpen] = useState(false);
+  const isMobile = useIsMobile();
+  const { setPlanTrackContext } = usePlanTrackStore();
 
   if (authLoading || isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
@@ -48,7 +54,6 @@ export default function ProjectDetail() {
         .eq('id', project.id);
 
       if (error) throw error;
-
       queryClient.invalidateQueries({ queryKey: ['projects'] });
     } catch (error) {
       console.error('Error updating project:', error);
@@ -56,99 +61,231 @@ export default function ProjectDetail() {
     }
   };
 
+  const handleDragEnd = (result: DropResult) => {
+    if (!result.destination || !tracks) return;
+
+    const items = Array.from(tracks);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    const updates = items.map((track, index) => ({
+      id: track.id,
+      position: index + 1,
+    }));
+
+    reorderTracks(updates);
+  };
+
+  const handleGenerateFromPlan = (track: any) => {
+    if (!project) return;
+    
+    setPlanTrackContext({
+      planTrackId: track.id,
+      planTrackTitle: track.title,
+      stylePrompt: track.style_prompt,
+      notes: track.notes,
+      recommendedTags: track.recommended_tags,
+      projectId: project.id,
+      projectGenre: project.genre || undefined,
+      projectMood: project.mood || undefined,
+      projectLanguage: project.language || undefined,
+    });
+    navigate('/generate');
+  };
+
   if (!project) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Card className="p-8 text-center max-w-md">
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="text-center">
           <Music className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
           <h3 className="text-xl font-semibold mb-2">Проект не найден</h3>
-          <p className="text-muted-foreground mb-6">Проект с таким ID не существует или был удален.</p>
-          <Button onClick={() => navigate('/projects')}>
+          <Button onClick={() => navigate('/projects')} variant="outline">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Вернуться к проектам
+            К проектам
           </Button>
-        </Card>
+        </div>
       </div>
     );
   }
 
+  const completedTracks = tracks?.filter(t => t.status === 'completed').length || 0;
+  const totalTracks = tracks?.length || 0;
+
   return (
     <div className="pb-24">
-      <div className="container mx-auto max-w-6xl px-4 py-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6 mb-6">
-          <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-xl bg-secondary flex items-center justify-center flex-shrink-0">
-            <img
-              src={project.cover_url || `https://placehold.co/128x128/1a1a1a/ffffff?text=${project.title.charAt(0)}`}
-              alt={project.title}
-              className="w-full h-full object-cover rounded-xl"
-            />
-          </div>
-          <div className="flex-1">
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start">
-              <div>
-                <h1 className="text-3xl sm:text-4xl font-bold mb-2">{project.title}</h1>
-                <div className="flex gap-2 mb-2 flex-wrap">
-                  <Badge variant="default" className="capitalize">{project.project_type?.replace('_', ' ') || 'N/A'}</Badge>
-                  <Badge variant="secondary">{project.genre || 'Без жанра'}</Badge>
-                  <Badge variant="outline">{project.mood || 'Без настроения'}</Badge>
-                </div>
-                {project.description && (
-                  <p className="text-muted-foreground mt-2 max-w-prose">{project.description}</p>
-                )}
-              </div>
-              <div className="mt-4 sm:mt-0 flex gap-2 flex-shrink-0">
-                <Button variant="outline" onClick={() => navigate('/projects')}>
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Назад
-                </Button>
-                <Button onClick={() => setAiDialogOpen(true)}>
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  AI Действия
-                </Button>
+      {/* Compact Header */}
+      <div className={cn(
+        "sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border/50",
+        isMobile ? "px-3 py-3" : "px-4 py-4"
+      )}>
+        <div className="flex items-center gap-3">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => navigate('/projects')}
+            className="h-9 w-9 shrink-0"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+          
+          {/* Cover + Info */}
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div className="w-12 h-12 rounded-lg bg-secondary overflow-hidden shrink-0">
+              <img
+                src={project.cover_url || `https://placehold.co/48x48/1a1a1a/ffffff?text=${project.title.charAt(0)}`}
+                alt={project.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="min-w-0">
+              <h1 className="font-semibold text-base truncate">{project.title}</h1>
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <span>{project.genre || 'Без жанра'}</span>
+                <span>•</span>
+                <span>{completedTracks}/{totalTracks} треков</span>
               </div>
             </div>
           </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-1">
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => setSettingsOpen(true)}
+              className="h-9 w-9"
+            >
+              <Settings className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
-
-        {/* Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="w-full grid grid-cols-3 mb-6">
-            <TabsTrigger value="details" className="gap-2 text-base py-3">
-              <FileText className="w-5 h-5" />
-              Детали
-            </TabsTrigger>
-            <TabsTrigger value="analysis" className="gap-2 text-base py-3">
-              <Sparkles className="w-5 h-5" />
-              Анализ
-            </TabsTrigger>
-            <TabsTrigger value="tracklist" className="gap-2 text-base py-3">
-              <Music className="w-5 h-5" />
-              Треклист
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="details">
-            <ProjectDetailsTab project={project} />
-          </TabsContent>
-          <TabsContent value="analysis">
-            <ProjectAnalysisTab project={project} />
-          </TabsContent>
-          <TabsContent value="tracklist">
-            <ProjectTracklistTab 
-              project={project} 
-              tracks={tracks || []} 
-              isLoading={tracksLoading}
-            />
-          </TabsContent>
-        </Tabs>
       </div>
 
+      {/* Quick Actions Bar */}
+      <div className={cn(
+        "flex gap-2 overflow-x-auto scrollbar-hide",
+        isMobile ? "px-3 py-3" : "px-4 py-4"
+      )}>
+        <Button 
+          size="sm"
+          onClick={() => setAddTrackOpen(true)}
+          className="gap-1.5 shrink-0"
+        >
+          <Plus className="w-4 h-4" />
+          Добавить
+        </Button>
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={() => generateTracklist({
+            projectType: project.project_type || 'album',
+            genre: project.genre || undefined,
+            mood: project.mood || undefined,
+            theme: project.concept || undefined,
+            trackCount: 10,
+          })}
+          disabled={isGenerating}
+          className="gap-1.5 shrink-0"
+        >
+          <Sparkles className="w-4 h-4" />
+          {isGenerating ? 'Генерация...' : 'AI Треклист'}
+        </Button>
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={() => setAiDialogOpen(true)}
+          className="gap-1.5 shrink-0"
+        >
+          <Sparkles className="w-4 h-4" />
+          AI Действия
+        </Button>
+      </div>
+
+      {/* Tracklist */}
+      <div className={cn(isMobile ? "px-3" : "px-4")}>
+        {tracksLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+          </div>
+        ) : tracks && tracks.length > 0 ? (
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="project-tracks">
+              {(provided) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="space-y-2"
+                >
+                  {tracks.map((track, index) => (
+                    <Draggable key={track.id} draggableId={track.id} index={index}>
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                        >
+                          <MinimalProjectTrackItem
+                            track={track}
+                            dragHandleProps={provided.dragHandleProps}
+                            isDragging={snapshot.isDragging}
+                            onGenerate={() => handleGenerateFromPlan(track)}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        ) : (
+          <div className="text-center py-12">
+            <Music className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
+            <p className="text-muted-foreground mb-4">Треклист пуст</p>
+            <div className="flex flex-col gap-2 max-w-xs mx-auto">
+              <Button onClick={() => setAddTrackOpen(true)} className="gap-2">
+                <Plus className="w-4 h-4" />
+                Добавить трек
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => generateTracklist({
+                  projectType: project.project_type || 'album',
+                  genre: project.genre || undefined,
+                  mood: project.mood || undefined,
+                  theme: project.concept || undefined,
+                  trackCount: 10,
+                })}
+                disabled={isGenerating}
+                className="gap-2"
+              >
+                <Sparkles className="w-4 h-4" />
+                Сгенерировать AI
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Dialogs */}
       <AIActionsDialog
         open={aiDialogOpen}
         onOpenChange={setAiDialogOpen}
         projectId={project.id}
         onApply={handleApplyUpdates}
+      />
+      
+      <ProjectSettingsSheet
+        open={settingsOpen}
+        onOpenChange={setSettingsOpen}
+        project={project}
+      />
+
+      <AddTrackDialog
+        open={addTrackOpen}
+        onOpenChange={setAddTrackOpen}
+        projectId={project.id}
+        tracksCount={totalTracks}
       />
     </div>
   );
