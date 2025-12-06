@@ -2,29 +2,65 @@ import { Track } from '@/hooks/useTracks';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Music2, Clock, Tag, FileText, Mic, Wand2, Heart, Play, BookmarkPlus } from 'lucide-react';
+import { Music2, Clock, Tag, FileText, Mic, Wand2, Heart, Play, BookmarkPlus, User, FolderOpen, FileAudio, Cpu } from 'lucide-react';
 import { savePromptToBookmarks } from '@/components/generate-form/PromptHistory';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 
 interface TrackDetailsTabProps {
   track: Track;
 }
 
 export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
-  // TODO: T057 - Lyrics parsing improvements
-  // Current implementation displays raw lyrics text
-  // Future enhancements needed:
-  // 1. Parse structured lyrics format (verse, chorus, bridge markers)
-  // 2. Support for multiple language lyrics (original + translations)
-  // 3. Lyrics editing capability for user corrections
-  // 4. Import/export lyrics in .lrc format
-  // 5. Integration with lyrics APIs (Genius, Musixmatch) for missing lyrics
-  // 6. Support for romanization of non-Latin scripts
+  // Fetch artist info if track has artist_id
+  const { data: artist } = useQuery({
+    queryKey: ['artist', track.artist_id],
+    queryFn: async () => {
+      if (!track.artist_id) return null;
+      const { data, error } = await supabase
+        .from('artists')
+        .select('id, name, avatar_url, genre_tags')
+        .eq('id', track.artist_id)
+        .single();
+      if (error) return null;
+      return data;
+    },
+    enabled: !!track.artist_id,
+  });
+
+  // Fetch project info if track has project_id
+  const { data: project } = useQuery({
+    queryKey: ['project', track.project_id],
+    queryFn: async () => {
+      if (!track.project_id) return null;
+      const { data, error } = await supabase
+        .from('music_projects')
+        .select('id, title, cover_url, genre')
+        .eq('id', track.project_id)
+        .single();
+      if (error) return null;
+      return data;
+    },
+    enabled: !!track.project_id,
+  });
   
   const formatDuration = (seconds: number | null) => {
     if (!seconds) return 'N/A';
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Format model name for display
+  const formatModelName = (model: string | null) => {
+    if (!model) return null;
+    const modelLabels: Record<string, string> = {
+      'V5': 'Suno V5 (Crow)',
+      'V4_5ALL': 'Suno V4.5',
+      'V4': 'Suno V4',
+      'V3_5': 'Suno V3.5',
+    };
+    return modelLabels[model] || model;
   };
 
   return (
@@ -98,6 +134,65 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
           </div>
         </div>
       </div>
+
+      {/* References Section - Artist, Project, Audio Reference */}
+      {(artist || project || track.streaming_url) && (
+        <>
+          <Separator />
+          <div className="space-y-4">
+            <h4 className="font-semibold flex items-center gap-2 text-lg">
+              <FileAudio className="w-5 h-5 text-primary" />
+              Референсы
+            </h4>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Artist Reference */}
+              {artist && (
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-blue-500/10 to-blue-500/5 border border-blue-500/20">
+                  <div className="w-12 h-12 rounded-full overflow-hidden bg-muted flex-shrink-0">
+                    {artist.avatar_url ? (
+                      <img src={artist.avatar_url} alt={artist.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <User className="w-6 h-6 text-muted-foreground" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs text-muted-foreground">AI Артист</p>
+                    <p className="font-medium truncate">{artist.name}</p>
+                    {artist.genre_tags && artist.genre_tags.length > 0 && (
+                      <p className="text-xs text-muted-foreground truncate">{artist.genre_tags.slice(0, 2).join(', ')}</p>
+                    )}
+                  </div>
+                </div>
+              )}
+              
+              {/* Project Reference */}
+              {project && (
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-purple-500/10 to-purple-500/5 border border-purple-500/20">
+                  <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted flex-shrink-0">
+                    {project.cover_url ? (
+                      <img src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <FolderOpen className="w-6 h-6 text-muted-foreground" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs text-muted-foreground">Проект</p>
+                    <p className="font-medium truncate">{project.title}</p>
+                    {project.genre && (
+                      <p className="text-xs text-muted-foreground truncate">{project.genre}</p>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      )}
 
       <Separator />
 
@@ -207,7 +302,10 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
           {track.suno_model && (
             <div className="p-3 rounded-lg bg-muted/30">
               <p className="text-xs text-muted-foreground mb-1">Модель</p>
-              <p className="font-mono text-sm">{track.suno_model}</p>
+              <div className="flex items-center gap-2">
+                <Cpu className="w-4 h-4 text-primary" />
+                <p className="font-medium text-sm">{formatModelName(track.suno_model)}</p>
+              </div>
             </div>
           )}
 

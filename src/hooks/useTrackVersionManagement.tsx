@@ -92,15 +92,19 @@ export function useTrackVersionManagement() {
       const metadata = version.metadata as any;
       const versionTitle = metadata?.title || (typeof metadata?.prompt === 'string' ? metadata.prompt.split('\n')[0] : null) || null;
       
+      // Also update active_version_id for proper synchronization
       const { error: trackError } = await supabase
         .from('tracks')
         .update({
           audio_url: version.audio_url,
           cover_url: version.cover_url,
           duration_seconds: version.duration_seconds,
+          active_version_id: versionId,
           title: versionTitle,
           tags: metadata?.tags || null,
           lyrics: metadata?.lyrics || null,
+          style: metadata?.style || null,
+          suno_model: metadata?.model_name || null,
         })
         .eq('id', trackId);
 
@@ -125,6 +129,8 @@ export function useTrackVersionManagement() {
       }
 
       toast.success('Версия установлена как основная');
+      
+      // Force refetch instead of full page reload for better UX
       window.location.reload();
     } catch (error: any) {
       console.error('Set primary error:', error);
