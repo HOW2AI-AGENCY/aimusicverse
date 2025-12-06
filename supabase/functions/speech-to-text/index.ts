@@ -19,7 +19,23 @@ serve(async (req) => {
       throw new Error('No audio data provided')
     }
 
-    console.log('Processing audio for speech-to-text, language:', language);
+    // Map language codes to full names for Whisper API
+    const languageMap: Record<string, string> = {
+      'ru': 'russian',
+      'en': 'english',
+      'uk': 'ukrainian',
+      'de': 'german',
+      'fr': 'french',
+      'es': 'spanish',
+      'it': 'italian',
+      'pt': 'portuguese',
+      'zh': 'chinese',
+      'ja': 'japanese',
+      'ko': 'korean'
+    };
+    
+    const whisperLanguage = languageMap[language] || 'russian';
+    console.log('Processing audio for speech-to-text, language:', whisperLanguage);
 
     const REPLICATE_API_KEY = Deno.env.get('REPLICATE_API_KEY');
     if (!REPLICATE_API_KEY) {
@@ -30,13 +46,13 @@ serve(async (req) => {
       auth: REPLICATE_API_KEY,
     });
 
-    // Use incredibly-fast-whisper model (popular and reliable)
+    // Use incredibly-fast-whisper model
     const output = await replicate.run(
       "vaibhavs10/incredibly-fast-whisper:3ab86df6c8f54c11309d4d1f930ac292bad43ace52d10c80d87eb258b3c9f79c",
       {
         input: {
           audio: `data:audio/webm;base64,${audio}`,
-          language: language,
+          language: whisperLanguage,
           task: "transcribe",
           batch_size: 64
         }
