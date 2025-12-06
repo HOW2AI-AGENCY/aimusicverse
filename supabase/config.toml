@@ -146,3 +146,6 @@ verify_jwt = false
 
 [functions.reward-action]
 verify_jwt = false
+
+[functions.generate-blog-cover]
+verify_jwt = true

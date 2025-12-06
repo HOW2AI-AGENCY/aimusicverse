@@ -7,11 +7,11 @@ import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   Sparkles, Wand2, FileText, Send, Loader2, 
-  Save, Eye, ArrowLeft 
+  Save, Eye, ArrowLeft, ImagePlus
 } from "lucide-react";
 import { 
   useCreateBlogPost, useUpdateBlogPost, useAIBlogAssistant, 
-  useBroadcastNotification, generateSlug, type BlogPost 
+  useBroadcastNotification, useGenerateBlogCover, generateSlug, type BlogPost 
 } from "@/hooks/useBlog";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -26,6 +26,7 @@ export function BlogEditor({ post, onBack }: BlogEditorProps) {
   const updatePost = useUpdateBlogPost();
   const aiAssistant = useAIBlogAssistant();
   const broadcast = useBroadcastNotification();
+  const generateCover = useGenerateBlogCover();
 
   const [title, setTitle] = useState(post?.title || "");
   const [slug, setSlug] = useState(post?.slug || "");
@@ -110,7 +111,18 @@ export function BlogEditor({ post, onBack }: BlogEditorProps) {
     });
   };
 
-  const isLoading = createPost.isPending || updatePost.isPending || aiAssistant.isPending;
+  const handleGenerateCover = async () => {
+    if (!title) return;
+    const newCoverUrl = await generateCover.mutateAsync({
+      title,
+      excerpt: excerpt || undefined,
+      content: content || undefined,
+      blogPostId: post?.id,
+    });
+    setCoverUrl(newCoverUrl);
+  };
+
+  const isLoading = createPost.isPending || updatePost.isPending || aiAssistant.isPending || generateCover.isPending;
 
   return (
     <div className="space-y-4">
@@ -213,13 +225,36 @@ export function BlogEditor({ post, onBack }: BlogEditorProps) {
           />
         </div>
 
-        <div>
-          <Label>URL обложки</Label>
-          <Input
-            value={coverUrl}
-            onChange={(e) => setCoverUrl(e.target.value)}
-            placeholder="https://..."
-          />
+        <div className="space-y-2">
+          <Label>Обложка</Label>
+          <div className="flex gap-2">
+            <Input
+              value={coverUrl}
+              onChange={(e) => setCoverUrl(e.target.value)}
+              placeholder="https://... или сгенерируйте AI"
+              className="flex-1"
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleGenerateCover}
+              disabled={generateCover.isPending || !title}
+              title="Сгенерировать обложку с помощью AI"
+            >
+              {generateCover.isPending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <ImagePlus className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
+          {coverUrl && (
+            <img
+              src={coverUrl}
+              alt="Обложка статьи"
+              className="w-full max-w-md h-32 object-cover rounded-md border"
+            />
+          )}
         </div>
 
         <div>
