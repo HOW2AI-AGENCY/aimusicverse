@@ -15,7 +15,7 @@ import { ProjectSettingsSheet } from '@/components/project/ProjectSettingsSheet'
 import { AddTrackDialog } from '@/components/project/AddTrackDialog';
 import { ProjectInfoCard } from '@/components/project/ProjectInfoCard';
 import { LyricsPreviewSheet } from '@/components/project/LyricsPreviewSheet';
-import { AILyricsWizard } from '@/components/generate-form/AILyricsWizard';
+import { LyricsChatAssistant } from '@/components/generate-form/LyricsChatAssistant';
 import { cn } from '@/lib/utils';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
@@ -346,8 +346,8 @@ export default function ProjectDetail() {
         }}
       />
 
-      {/* AI Lyrics Wizard with project context */}
-      <AILyricsWizard
+      {/* AI Lyrics Chat Assistant with project context */}
+      <LyricsChatAssistant
         open={lyricsWizardOpen}
         onOpenChange={setLyricsWizardOpen}
         onLyricsGenerated={handleLyricsGenerated}

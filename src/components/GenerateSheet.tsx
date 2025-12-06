@@ -25,7 +25,7 @@ import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
 import { AdvancedSettings } from './generate-form/AdvancedSettings';
 import { LyricsVisualEditor } from './generate-form/LyricsVisualEditor';
 import { PromptHistory, savePromptToHistory } from './generate-form/PromptHistory';
-import { AILyricsWizard } from './generate-form/AILyricsWizard';
+import { LyricsChatAssistant } from './generate-form/LyricsChatAssistant';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { SUNO_MODELS } from '@/constants/sunoModels';
 import { useGenerateDraft } from '@/hooks/useGenerateDraft';
@@ -1055,21 +1055,19 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         }}
       />
 
-      {/* AI Lyrics Wizard */}
-      <AILyricsWizard
+      {/* AI Lyrics Chat Assistant */}
+      <LyricsChatAssistant
         open={lyricsAssistantOpen}
         onOpenChange={setLyricsAssistantOpen}
         onLyricsGenerated={(newLyrics: string) => {
           setLyrics(newLyrics);
-          setShowVisualEditor(true); // Toggle to visual editor to show lyrics
+          setShowVisualEditor(true);
         }}
         onStyleGenerated={(generatedStyle: string) => {
           if (!style || style.length < generatedStyle.length) {
             setStyle(generatedStyle);
           }
         }}
-        initialArtistId={selectedArtistId}
-        initialArtistName={artists?.find(a => a.id === selectedArtistId)?.name}
         initialGenre={projects?.find(p => p.id === selectedProjectId)?.genre || undefined}
       />
       
