@@ -25,16 +25,14 @@ serve(async (req) => {
       throw new Error('REPLICATE_API_KEY not configured');
     }
 
-    // Use Replicate's Whisper model for transcription
-    // Create prediction
-    const createResponse = await fetch('https://api.replicate.com/v1/predictions', {
+    // Use Replicate's Whisper model for transcription with the official model identifier
+    const createResponse = await fetch('https://api.replicate.com/v1/models/openai/whisper/predictions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${REPLICATE_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        version: "cdd97b257f93cb89dede1c7584df3920c3b02a6c7f77a7b99c00c154e3efc00d", // openai/whisper
         input: {
           audio: `data:audio/webm;base64,${audio}`,
           language: language,
