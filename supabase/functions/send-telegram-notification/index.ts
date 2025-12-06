@@ -320,8 +320,9 @@ Deno.serve(async (req) => {
         ? `⏱️ ${Math.floor(duration / 60)}:${String(Math.floor(duration % 60)).padStart(2, '0')}`
         : '';
       
+        // Escape tags properly - # is a reserved character in MarkdownV2
         const tagsText = tags 
-        ? `\n🏷️ ${tags.split(',').slice(0, 3).map(t => `#${t.trim().replace(/\s+/g, '_').toLowerCase()}`).join(' ')}`
+        ? `\n🏷️ ${tags.split(',').slice(0, 3).map(t => escapeMarkdown(`#${t.trim().replace(/\s+/g, '_').toLowerCase()}`)).join(' ')}`
         : '';
       
       // Version info - show if multiple versions are being sent
@@ -376,19 +377,30 @@ Deno.serve(async (req) => {
 
     // Handle track share type
     if (type === 'track_share' && finalTrackId) {
-      const { data: track } = await supabase
+      console.log(`📤 Processing track_share for track: ${finalTrackId}, chat: ${finalChatId}`);
+      
+      const { data: track, error: trackError } = await supabase
         .from('tracks')
         .select('*')
         .eq('id', finalTrackId)
         .single();
+
+      if (trackError) {
+        console.error('❌ Error fetching track:', trackError);
+        return new Response(
+          JSON.stringify({ success: false, error: 'Track not found' }),
+          { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
 
       if (track?.audio_url) {
         const durationText = track.duration_seconds 
           ? `⏱️ ${Math.floor(track.duration_seconds / 60)}:${String(Math.floor(track.duration_seconds % 60)).padStart(2, '0')}`
           : '';
         
+        // Escape tags properly - # is a reserved character in MarkdownV2
         const tagsText = track.tags 
-          ? `\n🏷️ ${track.tags.split(',').slice(0, 3).map((t: string) => `#${t.trim().replace(/\s+/g, '_').toLowerCase()}`).join(' ')}`
+          ? `\n🏷️ ${track.tags.split(',').slice(0, 3).map((t: string) => escapeMarkdown(`#${t.trim().replace(/\s+/g, '_').toLowerCase()}`)).join(' ')}`
           : '';
         
         const caption = `🎵 *${escapeMarkdown(track.title || 'Новый трек')}*${track.style ? `\n🎸 ${escapeMarkdown(track.style.split(',')[0])}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
@@ -430,8 +442,8 @@ Deno.serve(async (req) => {
         const durationText = `${Math.floor(durationSeconds / 60)}:${String(Math.floor(durationSeconds % 60)).padStart(2, '0')}`;
         
         const tagsText = track.tags 
-          ? `\n🏷️ ${track.tags.split(',').slice(0, 3).map((t: string) => `#${t.trim().replace(/\s+/g, '_').toLowerCase()}`).join(' ')}`
-          : '';
+        ? `\n🏷️ ${track.tags.split(',').slice(0, 3).map((t: string) => escapeMarkdown(`#${t.trim().replace(/\s+/g, '_').toLowerCase()}`)).join(' ')}`
+        : '';
         
         const lyricsPreview = track.lyrics 
           ? `\n\n📝 _${escapeMarkdown(track.lyrics.slice(0, 100))}${track.lyrics.length > 100 ? '...' : ''}_`
