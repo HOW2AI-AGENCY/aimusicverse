@@ -75,55 +75,55 @@ All colors MUST be HSL.
   }
 
   .dark {
-    /* Dark theme - MusicVerse Studio (ТЗ: #0e0e0e background, Telegram Blue #3390ec) */
-    --background: 222.2 47.4% 11.2%;
-    --foreground: 0 0% 100%;
+    /* Dark theme - MusicVerse Studio (Clean, minimal dark) */
+    --background: 240 10% 6%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 11.8%;
-    --card-foreground: 0 0% 100%;
+    --card: 240 10% 8%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 11.8%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 240 10% 8%;
+    --popover-foreground: 0 0% 98%;
 
     --primary: 207 90% 56%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 16.5%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 240 8% 14%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 0 0% 16.5%;
-    --muted-foreground: 0 0% 100% / 0.65;
+    --muted: 240 8% 14%;
+    --muted-foreground: 240 5% 55%;
 
-    --accent: 0 0% 16.5%;
+    --accent: 240 8% 18%;
     --accent-foreground: 207 90% 56%;
 
     --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 16.5%;
-    --input: 0 0% 16.5%;
+    --border: 240 8% 16%;
+    --input: 240 8% 16%;
     --ring: 207 90% 56%;
     
-    /* Glassmorphism variables - MusicVerse style */
-    --glass-bg: rgba(30, 30, 30, 0.7);
-    --glass-border: rgba(42, 42, 42, 1);
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    /* Glassmorphism variables - Minimal dark style */
+    --glass-bg: hsla(240, 10%, 8%, 0.8);
+    --glass-border: hsla(240, 8%, 20%, 1);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
     
-    --gradient-primary: linear-gradient(135deg, hsl(207 90% 56%), hsl(270 70% 60%));
-    --gradient-card: linear-gradient(135deg, rgba(30, 30, 30, 0.4), rgba(20, 20, 20, 0.3));
-    --gradient-hero: linear-gradient(135deg, hsl(207 90% 56% / 0.2), hsl(270 70% 60% / 0.2));
-    --gradient-telegram: linear-gradient(135deg, #3390ec, #8e77ec);
+    --gradient-primary: linear-gradient(135deg, hsl(207 90% 56%), hsl(250 80% 65%));
+    --gradient-card: linear-gradient(135deg, hsla(240, 10%, 10%, 0.6), hsla(240, 10%, 6%, 0.4));
+    --gradient-hero: linear-gradient(135deg, hsl(207 90% 56% / 0.15), hsl(250 80% 65% / 0.15));
+    --gradient-telegram: linear-gradient(135deg, #3390ec, #7c5ce7);
     
-    --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-    --shadow-hover: 0 12px 40px 0 rgba(51, 144, 236, 0.3);
+    --shadow-glass: 0 4px 24px 0 rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 8px 32px 0 rgba(51, 144, 236, 0.2);
 
-    --sidebar-background: 0 0% 8.2%;
+    --sidebar-background: 240 10% 5%;
     --sidebar-foreground: 0 0% 95%;
     --sidebar-primary: 207 90% 56%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 14%;
+    --sidebar-accent: 240 8% 12%;
     --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 0 0% 16.5%;
+    --sidebar-border: 240 8% 16%;
     --sidebar-ring: 207 90% 56%;
   }
 }

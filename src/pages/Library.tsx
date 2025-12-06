@@ -21,6 +21,11 @@ import { useSyncStaleTasks } from "@/hooks/useSyncStaleTasks";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrackCounts } from "@/hooks/useTrackCounts";
 import { TrackCard } from "@/components/TrackCard";
+import { MinimalTrackCard } from "@/components/library/MinimalTrackCard";
+import { LibraryFilterChips } from "@/components/library/LibraryFilterChips";
+import { motion } from "framer-motion";
+
+type FilterOption = 'all' | 'vocals' | 'instrumental' | 'stems';
 
 interface GenerationTask {
   id: string;
@@ -43,7 +48,6 @@ const fetchActiveGenerations = async (userId: string) => {
   if (error) throw new Error(error.message);
   return data as GenerationTask[];
 };
-
 export default function Library() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
@@ -51,6 +55,8 @@ export default function Library() {
   const { activeTrack, playTrack, queue } = usePlayerStore();
   const [viewMode, setViewMode] = useState<"grid" | "list">(() => isMobile ? "list" : "grid");
   const [sortBy, setSortBy] = useState<"recent" | "popular" | "liked">("recent");
+  const [typeFilter, setTypeFilter] = useState<FilterOption>('all');
+  const [useMinimalCards, setUseMinimalCards] = useState(true);
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
 
   // Update view mode when mobile state changes
@@ -127,7 +133,30 @@ export default function Library() {
     return <Navigate to="/auth" replace />;
   }
 
-  const tracksToDisplay = tracks || [];
+  // Filter tracks based on type filter
+  const filteredTracks = useMemo(() => {
+    const allTracks = tracks || [];
+    switch (typeFilter) {
+      case 'vocals':
+        return allTracks.filter(t => t.has_vocals === true);
+      case 'instrumental':
+        return allTracks.filter(t => t.is_instrumental === true || t.has_vocals === false);
+      case 'stems':
+        return allTracks.filter(t => t.has_stems === true);
+      default:
+        return allTracks;
+    }
+  }, [tracks, typeFilter]);
+
+  // Count tracks for filter badges
+  const filterCounts = useMemo(() => ({
+    all: (tracks || []).length,
+    vocals: (tracks || []).filter(t => t.has_vocals === true).length,
+    instrumental: (tracks || []).filter(t => t.is_instrumental === true || t.has_vocals === false).length,
+    stems: (tracks || []).filter(t => t.has_stems === true).length,
+  }), [tracks]);
+
+  const tracksToDisplay = filteredTracks;
   const hasActiveGenerations = activeGenerations.length > 0;
 
   const handlePlay = (track: Track, index?: number) => {
@@ -289,7 +318,16 @@ export default function Library() {
         </header>
 
         {/* Content */}
-        <div className="container mx-auto px-4 sm:px-6 py-6">
+        <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
+          {/* Filter Chips */}
+          <div className="mb-4">
+            <LibraryFilterChips 
+              activeFilter={typeFilter} 
+              onFilterChange={setTypeFilter}
+              counts={filterCounts}
+            />
+          </div>
+
           {/* Active Generations Section */}
           {hasActiveGenerations && (
             <div className="mb-6">
