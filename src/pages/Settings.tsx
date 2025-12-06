@@ -1,355 +1,399 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
-import { supabase } from "@/integrations/supabase/client";
+import { useProfile, useUpdateProfile, ProfileUpdate } from "@/hooks/useProfile";
+import { useNotificationSettings } from "@/hooks/useNotificationSettings";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, User, Settings, Activity, RefreshCw, Loader2 } from "lucide-react";
+import { 
+  ArrowLeft, 
+  Bell, 
+  User, 
+  Shield, 
+  Smartphone,
+  Moon,
+  Sun,
+  Globe,
+  Clock,
+  Music,
+  Loader2,
+  CheckCircle2,
+  Send
+} from "lucide-react";
 import { toast } from "sonner";
 import { TelegramBotSetup } from "@/components/TelegramBotSetup";
+import { motion } from "framer-motion";
 
-interface Profile {
-  id: string;
-  telegram_id: number;
-  username?: string;
-  first_name: string;
-  last_name?: string;
-  language_code?: string;
-  photo_url?: string;
-}
-
-interface UserActivity {
-  id: string;
-  action_type: string;
-  action_data?: Record<string, unknown> | null;
-  created_at: string;
-}
-
-export default function Profile() {
+export default function Settings() {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
-  const { hapticFeedback, showBackButton, hideBackButton } = useTelegram();
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [activities, setActivities] = useState<UserActivity[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [sunoCredits, setSunoCredits] = useState<number | null>(null);
-  const [isLoadingCredits, setIsLoadingCredits] = useState(false);
+  const { hapticFeedback } = useTelegram();
+  const { data: profile, isLoading: profileLoading } = useProfile();
+  const updateProfile = useUpdateProfile();
+  const { settings, updateSettings, isLoading: settingsLoading, isUpdating } = useNotificationSettings();
 
-  useEffect(() => {
-    showBackButton(() => navigate("/"));
-    return () => hideBackButton();
-  }, [navigate, showBackButton, hideBackButton]);
+  const [firstName, setFirstName] = useState(profile?.first_name || "");
+  const [lastName, setLastName] = useState(profile?.last_name || "");
+  const [isPublic, setIsPublic] = useState(profile?.is_public || false);
 
-  useEffect(() => {
-    if (user) {
-      loadProfile();
-      loadActivities();
-      fetchSunoCredits();
+  // Initialize form when profile loads
+  useState(() => {
+    if (profile) {
+      setFirstName(profile.first_name || "");
+      setLastName(profile.last_name || "");
+      setIsPublic(profile.is_public || false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  });
 
-  const loadProfile = async () => {
+  const handleSaveProfile = async () => {
+    hapticFeedback('light');
     try {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("user_id", user?.id ?? "")
-        .single();
-
-      if (error) throw error;
-      
-      setProfile(data as Profile);
-      setFirstName(data.first_name || "");
-      setLastName(data.last_name || "");
+      await updateProfile.mutateAsync({
+        first_name: firstName,
+        last_name: lastName || undefined,
+        is_public: isPublic,
+      });
+      toast.success('Профиль сохранён');
     } catch (error) {
-      console.error("Error loading profile:", error);
-      toast.error("Ошибка загрузки профиля");
-    } finally {
-      setLoading(false);
+      toast.error('Ошибка сохранения');
     }
   };
 
-  const loadActivities = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("user_activity")
-        .select("*")
-        .eq("user_id", user?.id ?? "")
-        .order("created_at", { ascending: false })
-        .limit(10);
-
-      if (error) throw error;
-      setActivities((data || []).map(item => ({
-        ...item,
-        action_data: item.action_data as Record<string, unknown> | null
-      })));
-    } catch (error) {
-      console.error("Error loading activities:", error);
-    }
+  const handleNotificationToggle = (key: string, value: boolean) => {
+    hapticFeedback('light');
+    updateSettings({ [key]: value });
   };
 
-  const fetchSunoCredits = async () => {
-    setIsLoadingCredits(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('suno-credits');
-      
-      if (error) throw error;
-      
-      if (data?.success) {
-        setSunoCredits(data.credits);
-      }
-    } catch (error) {
-      console.error('Error fetching Suno credits:', error);
-      toast.error("Не удалось загрузить кредиты SunoAPI");
-    } finally {
-      setIsLoadingCredits(false);
-    }
+  const handlePrivacyToggle = (value: boolean) => {
+    hapticFeedback('light');
+    setIsPublic(value);
+    updateProfile.mutate({ is_public: value });
   };
 
-  const handleSaveSettings = async () => {
-    hapticFeedback("light");
-    
-    try {
-      const { error } = await supabase
-        .from("profiles")
-        .update({
-          first_name: firstName,
-          last_name: lastName,
-        })
-        .eq("user_id", user?.id ?? "");
-
-      if (error) throw error;
-
-      // Log activity
-      await supabase.from("user_activity").insert([{
-        user_id: user?.id ?? "",
-        action_type: "profile_updated",
-        action_data: { first_name: firstName, last_name: lastName },
-      }]);
-
-      hapticFeedback("success");
-      toast.success("Настройки сохранены!");
-      loadProfile();
-      loadActivities();
-    } catch (error) {
-      console.error("Error saving settings:", error);
-      hapticFeedback("error");
-      toast.error("Ошибка сохранения настроек");
-    }
-  };
-
-  const handleLogout = async () => {
-    hapticFeedback("medium");
-    await logout();
-    navigate("/auth");
-  };
-
-  if (loading) {
+  if (profileLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5">
-        <div className="text-foreground">Загрузка...</div>
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto max-w-4xl py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">Настройки</h1>
-        <p className="text-muted-foreground">Управляйте вашим аккаунтом и настройками Telegram.</p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
+      <div className="container max-w-2xl mx-auto px-4 py-6">
+        {/* Header */}
+        <motion.div 
+          className="flex items-center gap-3 mb-6"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+          <div>
+            <h1 className="text-2xl font-bold">Настройки</h1>
+            <p className="text-sm text-muted-foreground">Управление аккаунтом и уведомлениями</p>
+          </div>
+        </motion.div>
 
-      <Tabs defaultValue="info" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="info">
-            <User className="w-4 h-4 mr-2" />
-            Инфо
-          </TabsTrigger>
-          <TabsTrigger value="settings">
-            <Settings className="w-4 h-4 mr-2" />
-            Настройки
-          </TabsTrigger>
-          <TabsTrigger value="activity">
-            <Activity className="w-4 h-4 mr-2" />
-            Активность
-          </TabsTrigger>
-        </TabsList>
+        <Tabs defaultValue="profile" className="w-full">
+          <TabsList className="grid w-full grid-cols-3 mb-6">
+            <TabsTrigger value="profile" className="gap-2">
+              <User className="w-4 h-4" />
+              <span className="hidden sm:inline">Профиль</span>
+            </TabsTrigger>
+            <TabsTrigger value="notifications" className="gap-2">
+              <Bell className="w-4 h-4" />
+              <span className="hidden sm:inline">Уведомления</span>
+            </TabsTrigger>
+            <TabsTrigger value="telegram" className="gap-2">
+              <Send className="w-4 h-4" />
+              <span className="hidden sm:inline">Telegram</span>
+            </TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="info" className="space-y-4 mt-6">
-          <Card>
-              <CardHeader>
-                <CardTitle>Telegram Данные</CardTitle>
-                <CardDescription>
-                  Информация из вашего Telegram аккаунта
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <Avatar className="w-20 h-20 border-2 border-primary/30">
-                    <AvatarImage src={profile?.photo_url} />
-                    <AvatarFallback className="bg-gradient-to-br from-primary/20 to-primary/10 text-primary">
-                      {profile?.first_name?.[0]}{profile?.last_name?.[0]}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <h3 className="text-xl font-semibold">
-                      {profile?.first_name} {profile?.last_name}
-                    </h3>
-                    {profile?.username && (
-                      <p className="text-sm text-muted-foreground">
-                        @{profile.username}
-                      </p>
-                    )}
+          {/* Profile Tab */}
+          <TabsContent value="profile" className="space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <User className="w-5 h-5" />
+                    Личные данные
+                  </CardTitle>
+                  <CardDescription>
+                    Информация отображаемая в вашем профиле
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">Имя</Label>
+                    <Input
+                      id="firstName"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="Введите имя"
+                    />
                   </div>
-                </div>
 
-                <div className="space-y-2">
-                  <div className="flex justify-between py-2 border-b border-primary/10">
-                    <span className="text-muted-foreground">Telegram ID:</span>
-                    <span className="font-medium">{profile?.telegram_id}</span>
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName">Фамилия</Label>
+                    <Input
+                      id="lastName"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="Введите фамилию"
+                    />
                   </div>
-                  {profile?.language_code && (
-                    <div className="flex justify-between py-2 border-b border-primary/10">
-                      <span className="text-muted-foreground">Язык:</span>
-                      <span className="font-medium">{profile.language_code}</span>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>SunoAPI Кредиты</CardTitle>
-                <CardDescription>
-                  Количество доступных кредитов для генерации музыки и лирики
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label>Доступно кредитов</Label>
-                    <p className="text-2xl font-bold mt-1">
-                      {isLoadingCredits ? (
-                        <Loader2 className="h-6 w-6 animate-spin" />
-                      ) : sunoCredits !== null ? (
-                        sunoCredits
-                      ) : (
-                        '—'
-                      )}
-                    </p>
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={fetchSunoCredits}
-                    disabled={isLoadingCredits}
+                  <Button 
+                    onClick={handleSaveProfile} 
+                    className="w-full"
+                    disabled={updateProfile.isPending}
                   >
-                    <RefreshCw className={`h-4 w-4 ${isLoadingCredits ? 'animate-spin' : ''}`} />
+                    {updateProfile.isPending ? (
+                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                    ) : (
+                      <CheckCircle2 className="w-4 h-4 mr-2" />
+                    )}
+                    Сохранить изменения
                   </Button>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-            <TelegramBotSetup />
-          </TabsContent>
-
-          <TabsContent value="settings" className="space-y-4 mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Настройки профиля</CardTitle>
-                <CardDescription>
-                  Измените информацию о своём профиле
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName">Имя</Label>
-                  <Input
-                    id="firstName"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    placeholder="Введите имя"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">Фамилия</Label>
-                  <Input
-                    id="lastName"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    placeholder="Введите фамилию"
-                  />
-                </div>
-
-                <Button 
-                  onClick={handleSaveSettings} 
-                  className="w-full"
-                >
-                  Сохранить изменения
-                </Button>
-
-                <Button
-                  onClick={handleLogout}
-                  variant="destructive"
-                  className="w-full"
-                >
-                  Выйти из аккаунта
-                </Button>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="activity" className="space-y-4 mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>История активности</CardTitle>
-                <CardDescription>
-                  Ваши последние действия в приложении
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {activities.length === 0 ? (
-                  <p className="text-center text-muted-foreground py-8">
-                    Пока нет активности
-                  </p>
-                ) : (
-                  <div className="space-y-3">
-                    {activities.map((activity) => (
-                      <div
-                        key={activity.id}
-                        className="flex justify-between items-center p-3 rounded-lg border"
-                      >
-                        <div>
-                          <p className="font-medium">
-                            {activity.action_type === "profile_updated"
-                              ? "Профиль обновлён"
-                              : activity.action_type === "login"
-                              ? "Вход в систему"
-                              : activity.action_type}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {new Date(activity.created_at).toLocaleString("ru-RU")}
-                          </p>
-                        </div>
-                        <Activity className="w-4 h-4 text-muted-foreground" />
-                      </div>
-                    ))}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Shield className="w-5 h-5" />
+                    Приватность
+                  </CardTitle>
+                  <CardDescription>
+                    Управление видимостью вашего профиля
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label className="text-base">Публичный профиль</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Другие пользователи смогут видеть ваш профиль и контент
+                      </p>
+                    </div>
+                    <Switch
+                      checked={isPublic}
+                      onCheckedChange={handlePrivacyToggle}
+                    />
                   </div>
-                )}
-              </CardContent>
-            </Card>
+
+                  <Separator />
+
+                  <div className="flex items-center justify-between opacity-60">
+                    <div className="space-y-0.5">
+                      <Label className="text-base">Показывать статистику</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Отображать количество прослушиваний и лайков
+                      </p>
+                    </div>
+                    <Switch checked={true} disabled />
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </TabsContent>
+
+          {/* Notifications Tab */}
+          <TabsContent value="notifications" className="space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Music className="w-5 h-5" />
+                    Уведомления о генерации
+                  </CardTitle>
+                  <CardDescription>
+                    Настройте какие уведомления вы хотите получать
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label className="text-base">Завершение генерации</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Уведомлять когда трек готов
+                      </p>
+                    </div>
+                    <Switch
+                      checked={settings?.notify_completed ?? true}
+                      onCheckedChange={(v) => handleNotificationToggle('notify_completed', v)}
+                      disabled={isUpdating}
+                    />
+                  </div>
+
+                  <Separator />
+
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label className="text-base">Ошибки генерации</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Уведомлять при неудачной генерации
+                      </p>
+                    </div>
+                    <Switch
+                      checked={settings?.notify_failed ?? true}
+                      onCheckedChange={(v) => handleNotificationToggle('notify_failed', v)}
+                      disabled={isUpdating}
+                    />
+                  </div>
+
+                  <Separator />
+
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label className="text-base">Прогресс генерации</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Уведомлять о промежуточных этапах
+                      </p>
+                    </div>
+                    <Switch
+                      checked={settings?.notify_progress ?? false}
+                      onCheckedChange={(v) => handleNotificationToggle('notify_progress', v)}
+                      disabled={isUpdating}
+                    />
+                  </div>
+
+                  <Separator />
+
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label className="text-base">Готовность стемов</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Уведомлять когда разделение завершено
+                      </p>
+                    </div>
+                    <Switch
+                      checked={settings?.notify_stem_ready ?? true}
+                      onCheckedChange={(v) => handleNotificationToggle('notify_stem_ready', v)}
+                      disabled={isUpdating}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Clock className="w-5 h-5" />
+                    Тихие часы
+                  </CardTitle>
+                  <CardDescription>
+                    Период когда уведомления не отправляются
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label>Начало</Label>
+                      <Input
+                        type="time"
+                        value={settings?.quiet_hours_start || ""}
+                        onChange={(e) => updateSettings({ quiet_hours_start: e.target.value || null })}
+                        disabled={isUpdating}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Конец</Label>
+                      <Input
+                        type="time"
+                        value={settings?.quiet_hours_end || ""}
+                        onChange={(e) => updateSettings({ quiet_hours_end: e.target.value || null })}
+                        disabled={isUpdating}
+                      />
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Оставьте пустым чтобы отключить тихие часы
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </TabsContent>
+
+          {/* Telegram Tab */}
+          <TabsContent value="telegram" className="space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <TelegramBotSetup />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Smartphone className="w-5 h-5" />
+                    Telegram интеграция
+                  </CardTitle>
+                  <CardDescription>
+                    Возможности бота @AIMusicVerseBot
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3 text-sm">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span>Уведомления о готовых треках с аудио</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span>Быстрый доступ к библиотеке через deep-links</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span>Шеринг треков и плейлистов в чаты</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span>Inline-режим для поиска треков</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span>Публикация в Stories</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </motion.div>
           </TabsContent>
         </Tabs>
+      </div>
     </div>
   );
 }
