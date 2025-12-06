@@ -1757,6 +1757,26 @@ export type Database = {
           tag_name: string
         }[]
       }
+      get_public_profile_info: {
+        Args: { profile_user_id: string }
+        Returns: {
+          id: string
+          is_public: boolean
+          photo_url: string
+          user_id: string
+          username: string
+        }[]
+      }
+      get_public_profiles: {
+        Args: { user_ids: string[] }
+        Returns: {
+          id: string
+          is_public: boolean
+          photo_url: string
+          user_id: string
+          username: string
+        }[]
+      }
       get_telegram_bot_metrics: {
         Args: { _time_period?: unknown }
         Returns: {
