@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { 
   MoreVertical, Trash2, Plus, Mic, Volume2, Music, 
   Wand2, Scissors, ImagePlus, FileAudio, Music2, Download, Share2, 
-  Send, Lock, Globe, Sparkles, Folder, ListMusic, Layers, ListPlus, Play, Video
+  Send, Lock, Globe, Sparkles, Folder, ListMusic, Layers, ListPlus, Play, Video, Loader2, CheckCircle2
 } from 'lucide-react';
 import { ExtendTrackDialog } from './ExtendTrackDialog';
 import { LyricsDialog } from './LyricsDialog';
@@ -34,6 +34,7 @@ import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { useHapticFeedback } from '@/lib/mobile-utils';
 import { usePlayerStore } from '@/hooks/usePlayerState';
+import { useVideoGenerationStatus } from '@/hooks/useVideoGenerationStatus';
 
 interface TrackActionsMenuProps {
   track: Track;
@@ -74,6 +75,7 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
   } = useTrackActions();
 
   const { addToQueue, playTrack, queue } = usePlayerStore();
+  const { isGenerating: isVideoGenerating, hasVideo } = useVideoGenerationStatus(track.id);
 
   const handleAddToQueue = () => {
     triggerSelectionHaptic();
@@ -138,6 +140,14 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                 <Play className="w-4 h-4 mr-2" />
                 Воспроизвести следующим
               </DropdownMenuItem>
+              
+              {/* Watch Video - Show if video exists */}
+              {hasVideo && (
+                <DropdownMenuItem onClick={() => setDetailDialogOpen(true)}>
+                  <Video className="w-4 h-4 mr-2" />
+                  Смотреть видео
+                </DropdownMenuItem>
+              )}
               <DropdownMenuSeparator />
             </>
           )}
@@ -247,9 +257,26 @@ export function TrackActionsMenu({ track, onDelete, onDownload }: TrackActionsMe
                   </DropdownMenuItem>
 
                   {track.suno_id && track.suno_task_id && (
-                    <DropdownMenuItem onClick={() => handleGenerateVideo(track)} disabled={isProcessing}>
-                      <Video className="w-4 h-4 mr-2" />
-                      Создать видеоклип
+                    <DropdownMenuItem 
+                      onClick={() => handleGenerateVideo(track)} 
+                      disabled={isProcessing || isVideoGenerating || hasVideo}
+                    >
+                      {isVideoGenerating ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Видео создаётся...
+                        </>
+                      ) : hasVideo ? (
+                        <>
+                          <CheckCircle2 className="w-4 h-4 mr-2 text-green-500" />
+                          Видео готово
+                        </>
+                      ) : (
+                        <>
+                          <Video className="w-4 h-4 mr-2" />
+                          Создать видеоклип
+                        </>
+                      )}
                     </DropdownMenuItem>
                   )}
                 </DropdownMenuSubContent>
