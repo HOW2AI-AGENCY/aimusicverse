@@ -3,10 +3,27 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./useAuth";
 import { toast } from "sonner";
 
-interface Profile {
-  username?: string;
-  avatar_url?: string;
-  // Add other profile fields here
+export interface Profile {
+  id: string;
+  user_id: string;
+  telegram_id: number;
+  first_name: string;
+  last_name?: string | null;
+  username?: string | null;
+  language_code?: string | null;
+  photo_url?: string | null;
+  is_public?: boolean | null;
+  subscription_tier?: string | null;
+  telegram_chat_id?: number | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface ProfileUpdate {
+  first_name?: string;
+  last_name?: string | null;
+  username?: string | null;
+  is_public?: boolean;
 }
 
 export const useProfile = () => {
@@ -14,7 +31,7 @@ export const useProfile = () => {
 
   return useQuery({
     queryKey: ['profile', user?.id],
-    queryFn: async () => {
+    queryFn: async (): Promise<Profile | null> => {
       if (!user?.id) return null;
 
       const { data, error } = await supabase
@@ -24,7 +41,7 @@ export const useProfile = () => {
         .maybeSingle();
 
       if (error) throw error;
-      return data;
+      return data as Profile | null;
     },
     enabled: !!user?.id,
   });
@@ -35,12 +52,15 @@ export const useUpdateProfile = () => {
   const { user } = useAuth();
 
   return useMutation({
-    mutationFn: async (updates: Profile) => {
+    mutationFn: async (updates: ProfileUpdate) => {
       if (!user?.id) throw new Error("No user");
 
       const { data, error } = await supabase
         .from('profiles')
-        .update(updates)
+        .update({
+          ...updates,
+          updated_at: new Date().toISOString(),
+        })
         .eq('user_id', user.id)
         .select()
         .single();
@@ -50,9 +70,6 @@ export const useUpdateProfile = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['profile', user?.id] });
-      toast.success("Профиль обновлен", {
-        description: "Ваши изменения сохранены",
-      });
     },
     onError: (error) => {
       toast.error("Не удалось обновить профиль", {
