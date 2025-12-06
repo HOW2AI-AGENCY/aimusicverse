@@ -256,6 +256,21 @@ serve(async (req) => {
         received_clips: clips.length,
       }).eq('id', task.id);
 
+      // Reward user for completing generation
+      try {
+        console.log('🎁 Rewarding user for generation completion...');
+        await supabase.functions.invoke('reward-action', {
+          body: {
+            userId: task.user_id,
+            actionType: 'generation_complete',
+            metadata: { trackId, clips: clips.length },
+          },
+        });
+        console.log('✅ Generation reward granted');
+      } catch (rewardErr) {
+        console.error('❌ Reward action error:', rewardErr);
+      }
+
       if (task.telegram_chat_id && clips.length > 0) {
         // Wait for cover generation to complete
         console.log('⏳ Waiting for cover generation to complete...');

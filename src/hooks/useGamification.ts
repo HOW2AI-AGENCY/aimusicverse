@@ -427,3 +427,29 @@ export function useCanCheckinToday() {
     staleTime: 60000,
   });
 }
+
+export function useRewardShare() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ trackId }: { trackId: string }) => {
+      if (!user?.id) throw new Error('Not authenticated');
+
+      const { data, error } = await supabase.functions.invoke('reward-action', {
+        body: {
+          userId: user.id,
+          actionType: 'share',
+          metadata: { trackId },
+        },
+      });
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user-credits'] });
+      queryClient.invalidateQueries({ queryKey: ['credit-transactions'] });
+    },
+  });
+}
