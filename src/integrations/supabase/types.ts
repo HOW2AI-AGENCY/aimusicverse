@@ -1742,7 +1742,11 @@ export type Database = {
           level: number
           longest_streak: number
           total_earned: number
+          total_likes_received: number | null
+          total_plays: number | null
+          total_shares: number | null
           total_spent: number
+          total_tracks: number | null
           updated_at: string | null
           user_id: string
         }
@@ -1756,7 +1760,11 @@ export type Database = {
           level?: number
           longest_streak?: number
           total_earned?: number
+          total_likes_received?: number | null
+          total_plays?: number | null
+          total_shares?: number | null
           total_spent?: number
+          total_tracks?: number | null
           updated_at?: string | null
           user_id: string
         }
@@ -1770,7 +1778,11 @@ export type Database = {
           level?: number
           longest_streak?: number
           total_earned?: number
+          total_likes_received?: number | null
+          total_plays?: number | null
+          total_shares?: number | null
           total_spent?: number
+          total_tracks?: number | null
           updated_at?: string | null
           user_id?: string
         }
@@ -2029,20 +2041,39 @@ export type Database = {
         }[]
       }
       get_experience_for_level: { Args: { _level: number }; Returns: number }
-      get_leaderboard: {
-        Args: { _limit?: number }
-        Returns: {
-          achievements_count: number
-          current_streak: number
-          experience: number
-          level: number
-          photo_url: string
-          rank: number
-          total_earned: number
-          user_id: string
-          username: string
-        }[]
-      }
+      get_leaderboard:
+        | {
+            Args: { _limit?: number }
+            Returns: {
+              achievements_count: number
+              current_streak: number
+              experience: number
+              level: number
+              photo_url: string
+              rank: number
+              total_earned: number
+              user_id: string
+              username: string
+            }[]
+          }
+        | {
+            Args: { _category?: string; _limit?: number }
+            Returns: {
+              achievements_count: number
+              current_streak: number
+              experience: number
+              level: number
+              photo_url: string
+              rank: number
+              total_earned: number
+              total_likes_received: number
+              total_plays: number
+              total_shares: number
+              total_tracks: number
+              user_id: string
+              username: string
+            }[]
+          }
       get_level_from_experience: {
         Args: { _experience: number }
         Returns: number

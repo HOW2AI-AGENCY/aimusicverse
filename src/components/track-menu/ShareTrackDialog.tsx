@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -10,12 +10,13 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Track } from '@/hooks/useTracksOptimized';
-import { Share2, Copy, Check, ExternalLink, Download, Camera } from 'lucide-react';
+import { Share2, Copy, Check, ExternalLink, Download, Camera, Gift } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { hapticNotification } from '@/lib/haptic';
 import { telegramShareService } from '@/services/telegram-share';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { useRewardShare } from '@/hooks/useGamification';
 
 interface ShareTrackDialogProps {
   open: boolean;
@@ -27,10 +28,37 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
   const [shareUrl, setShareUrl] = useState('');
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [rewarded, setRewarded] = useState(false);
   const { webApp } = useTelegram();
+  const rewardShare = useRewardShare();
+  const rewardedRef = useRef(false);
   
   const canShareToStory = telegramShareService.canShareToStory();
   const canDownload = !!track.audio_url;
+
+  // Reset rewarded state when dialog opens with new track
+  useEffect(() => {
+    if (open) {
+      setRewarded(false);
+      rewardedRef.current = false;
+    }
+  }, [open, track.id]);
+
+  const handleRewardShare = async () => {
+    if (rewardedRef.current) return;
+    rewardedRef.current = true;
+    setRewarded(true);
+    
+    try {
+      await rewardShare.mutateAsync({ trackId: track.id });
+      hapticNotification('success');
+      toast.success('+3 кредита за шеринг! 🎉', {
+        description: '+15 опыта',
+      });
+    } catch (err) {
+      console.error('Error rewarding share:', err);
+    }
+  };
 
   // Generate public share URL (use Telegram deep link)
   useEffect(() => {
@@ -48,30 +76,37 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
       setCopied(true);
       
       hapticNotification('success');
-      toast.success('Link copied to clipboard');
+      toast.success('Ссылка скопирована');
       setTimeout(() => setCopied(false), 2000);
+      
+      // Reward for sharing
+      await handleRewardShare();
     } catch (error) {
-      toast.error('Failed to copy link');
+      toast.error('Не удалось скопировать');
     }
   };
 
-  const handleShare = () => {
+  const handleShare = async () => {
     // Use Telegram SDK if available
     const success = telegramShareService.shareURL(track);
     if (success) {
       hapticNotification('success');
+      await handleRewardShare();
     } else {
       // Fallback to Web Share API
       if (navigator.share) {
-        navigator.share({
-          title: track.title || 'Check out this track',
-          text: `Listen to "${track.title}" on MusicVerse AI`,
-          url: shareUrl,
-        }).catch((error) => {
+        try {
+          await navigator.share({
+            title: track.title || 'Check out this track',
+            text: `Listen to "${track.title}" on MusicVerse AI`,
+            url: shareUrl,
+          });
+          await handleRewardShare();
+        } catch (error) {
           if ((error as Error).name !== 'AbortError') {
             handleCopy();
           }
-        });
+        }
       } else {
         handleCopy();
       }

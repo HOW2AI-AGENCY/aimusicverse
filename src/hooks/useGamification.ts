@@ -49,7 +49,21 @@ export interface LeaderboardEntry {
   total_earned: number;
   current_streak: number;
   achievements_count: number;
+  total_tracks: number;
+  total_shares: number;
+  total_likes_received: number;
+  total_plays: number;
 }
+
+export type LeaderboardCategory = 'overall' | 'generators' | 'sharers' | 'popular' | 'listeners';
+
+export const LEADERBOARD_CATEGORIES = {
+  overall: { label: 'Общий', icon: '👑', stat: 'experience' },
+  generators: { label: 'Генераторы', icon: '🎵', stat: 'total_tracks' },
+  sharers: { label: 'Промоутеры', icon: '🔗', stat: 'total_shares' },
+  popular: { label: 'Популярные', icon: '❤️', stat: 'total_likes_received' },
+  listeners: { label: 'Прослушивания', icon: '👂', stat: 'total_plays' },
+} as const;
 
 export interface CreditTransaction {
   id: string;
@@ -165,12 +179,12 @@ export function useUserAchievements() {
   });
 }
 
-export function useLeaderboard(limit = 50) {
+export function useLeaderboard(limit = 50, category: LeaderboardCategory = 'overall') {
   return useQuery({
-    queryKey: ['leaderboard', limit],
+    queryKey: ['leaderboard', limit, category],
     queryFn: async (): Promise<LeaderboardEntry[]> => {
       const { data, error } = await supabase
-        .rpc('get_leaderboard', { _limit: limit });
+        .rpc('get_leaderboard', { _limit: limit, _category: category });
 
       if (error) throw error;
       return data as LeaderboardEntry[];
