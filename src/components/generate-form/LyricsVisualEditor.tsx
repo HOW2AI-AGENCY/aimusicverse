@@ -1,20 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { 
-  GripVertical, Plus, Trash2, Edit2, Check, X, 
-  Sparkles, Music2 
+  GripVertical, Plus, Trash2, Edit2, Check, 
+  Sparkles, Music2, ChevronDown, Mic
 } from 'lucide-react';
 import { toast } from 'sonner';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
+import { cn } from '@/lib/utils';
 
 interface LyricSection {
   id: string;
-  type: 'intro' | 'verse' | 'chorus' | 'bridge' | 'outro' | 'hook' | 'pre';
+  type: 'intro' | 'verse' | 'chorus' | 'bridge' | 'outro' | 'hook' | 'pre' | 'drop' | 'breakdown';
   content: string;
 }
 
@@ -25,13 +31,15 @@ interface LyricsVisualEditorProps {
 }
 
 const SECTION_TYPES = [
-  { value: 'intro', label: 'Вступление', color: 'bg-green-500/20 text-green-400 border-green-500/30' },
-  { value: 'verse', label: 'Куплет', color: 'bg-blue-500/20 text-blue-400 border-blue-500/30' },
-  { value: 'chorus', label: 'Припев', color: 'bg-purple-500/20 text-purple-400 border-purple-500/30' },
-  { value: 'bridge', label: 'Бридж', color: 'bg-orange-500/20 text-orange-400 border-orange-500/30' },
-  { value: 'hook', label: 'Хук', color: 'bg-pink-500/20 text-pink-400 border-pink-500/30' },
-  { value: 'pre', label: 'Пре-припев', color: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' },
-  { value: 'outro', label: 'Концовка', color: 'bg-red-500/20 text-red-400 border-red-500/30' },
+  { value: 'intro', label: 'Вступление', icon: '🎬', color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' },
+  { value: 'verse', label: 'Куплет', icon: '📝', color: 'bg-sky-500/20 text-sky-400 border-sky-500/40' },
+  { value: 'pre', label: 'Пре-припев', icon: '⬆️', color: 'bg-amber-500/20 text-amber-400 border-amber-500/40' },
+  { value: 'chorus', label: 'Припев', icon: '🎵', color: 'bg-violet-500/20 text-violet-400 border-violet-500/40' },
+  { value: 'hook', label: 'Хук', icon: '🎤', color: 'bg-pink-500/20 text-pink-400 border-pink-500/40' },
+  { value: 'bridge', label: 'Бридж', icon: '🌉', color: 'bg-orange-500/20 text-orange-400 border-orange-500/40' },
+  { value: 'drop', label: 'Дроп', icon: '💥', color: 'bg-red-500/20 text-red-400 border-red-500/40' },
+  { value: 'breakdown', label: 'Брейкдаун', icon: '🔊', color: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/40' },
+  { value: 'outro', label: 'Концовка', icon: '🔚', color: 'bg-slate-500/20 text-slate-400 border-slate-500/40' },
 ] as const;
 
 // Helper function to parse lyrics text into sections
@@ -41,7 +49,6 @@ function parseLyrics(text: string): LyricSection[] {
   const parsed: LyricSection[] = [];
   const lines = text.split('\n');
   let currentSection: LyricSection | null = null;
-  const sectionCounter = { verse: 0, chorus: 0 };
 
   for (const line of lines) {
     const match = line.match(/\[(\w+)(?:\s+\d+)?\]/i);
@@ -53,10 +60,6 @@ function parseLyrics(text: string): LyricSection[] {
       
       const type = match[1].toLowerCase() as LyricSection['type'];
       const validType = SECTION_TYPES.find(t => t.value === type) ? type : 'verse';
-      
-      if (validType === 'verse' || validType === 'chorus') {
-        sectionCounter[validType]++;
-      }
       
       currentSection = {
         id: `${validType}-${Date.now()}-${Math.random()}`,
@@ -87,6 +90,14 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
   const [sections, setSections] = useState<LyricSection[]>(() => parseLyrics(value));
   const [editingId, setEditingId] = useState<string | null>(null);
 
+  // Sync sections when value changes externally
+  useEffect(() => {
+    const parsed = parseLyrics(value);
+    if (JSON.stringify(parsed) !== JSON.stringify(sections)) {
+      setSections(parsed);
+    }
+  }, [value]);
+
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
@@ -109,14 +120,12 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
     const updated = [...sections, newSection];
     setSections(updated);
     setEditingId(newSection.id);
-    toast.success('Секция добавлена');
   };
 
   const handleDeleteSection = (id: string) => {
     const updated = sections.filter(s => s.id !== id);
     setSections(updated);
     onChange(sectionsToLyrics(updated));
-    toast.success('Секция удалена');
   };
 
   const handleUpdateSection = (id: string, content: string) => {
@@ -124,7 +133,6 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
       s.id === id ? { ...s, content } : s
     );
     setSections(updated);
-    onChange(sectionsToLyrics(updated));
   };
 
   const handleSaveEdit = (id: string) => {
@@ -132,113 +140,131 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
     onChange(sectionsToLyrics(sections));
   };
 
-  const getSectionColor = (type: string) => {
-    return SECTION_TYPES.find(t => t.value === type)?.color || 'bg-gray-500/20 text-gray-400';
+  const handleVoiceInput = (id: string, text: string) => {
+    const section = sections.find(s => s.id === id);
+    if (section) {
+      const newContent = section.content ? `${section.content}\n${text}` : text;
+      handleUpdateSection(id, newContent);
+      onChange(sectionsToLyrics(sections.map(s => s.id === id ? { ...s, content: newContent } : s)));
+    }
   };
 
-  const getSectionLabel = (type: string) => {
-    return SECTION_TYPES.find(t => t.value === type)?.label || type;
+  const getSectionConfig = (type: string) => {
+    return SECTION_TYPES.find(t => t.value === type) || SECTION_TYPES[1];
   };
 
   return (
-    <div className="space-y-4">
-      {/* Header with AI button */}
-      <div className="flex items-center justify-between">
-        <Label className="text-sm text-muted-foreground">Визуальный редактор</Label>
+    <div className="space-y-3">
+      {/* Compact Header */}
+      <div className="flex items-center justify-between gap-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="gap-2 h-9"
+            >
+              <Plus className="w-4 h-4" />
+              Добавить
+              <ChevronDown className="w-3 h-3 opacity-50" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="w-48">
+            {SECTION_TYPES.map((type) => (
+              <DropdownMenuItem
+                key={type.value}
+                onClick={() => handleAddSection(type.value as LyricSection['type'])}
+                className="gap-2"
+              >
+                <span>{type.icon}</span>
+                <span>{type.label}</span>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         {onAIGenerate && (
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={onAIGenerate}
-            className="gap-2"
+            className="gap-2 h-9"
           >
-            <Sparkles className="w-3 h-3" />
-            AI Generate
+            <Sparkles className="w-4 h-4" />
+            AI Лирика
           </Button>
         )}
       </div>
 
-      {/* Add Section Buttons */}
-      <Card className="glass-card border-primary/20">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm flex items-center gap-2">
-            <Plus className="w-4 h-4" />
-            Добавить секцию
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {SECTION_TYPES.map((type) => (
-              <Button
-                key={type.value}
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => handleAddSection(type.value as LyricSection['type'])}
-                className={`${getSectionColor(type.value)} border-2`}
-              >
-                {type.label}
-              </Button>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Sections List */}
-      {sections.length > 0 ? (
-        <DragDropContext onDragEnd={handleDragEnd}>
-          <Droppable droppableId="lyrics-sections">
-            {(provided) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                className="space-y-3"
-              >
-                {sections.map((section, index) => (
-                  <Draggable key={section.id} draggableId={section.id} index={index}>
-                    {(provided, snapshot) => (
-                      <Card
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        className={`glass-card border-2 transition-all ${
-                          snapshot.isDragging 
-                            ? 'shadow-lg scale-105 border-primary' 
-                            : 'border-border/50'
-                        }`}
-                      >
-                        <CardContent className="p-4">
-                          <div className="flex items-start gap-3">
-                            {/* Drag Handle */}
-                            <div
-                              {...provided.dragHandleProps}
-                              className="mt-1 cursor-grab active:cursor-grabbing"
-                            >
-                              <GripVertical className="w-4 h-4 text-muted-foreground" />
-                            </div>
+      <ScrollArea className="max-h-[400px]">
+        {sections.length > 0 ? (
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="lyrics-sections">
+              {(provided) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="space-y-2 pr-2"
+                >
+                  {sections.map((section, index) => {
+                    const config = getSectionConfig(section.type);
+                    const isEditing = editingId === section.id;
+                    
+                    return (
+                      <Draggable key={section.id} draggableId={section.id} index={index}>
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            className={cn(
+                              "rounded-lg border-2 bg-card/50 backdrop-blur-sm transition-all",
+                              snapshot.isDragging 
+                                ? 'shadow-lg scale-[1.02] border-primary' 
+                                : 'border-border/30 hover:border-border/50',
+                              config.color.split(' ')[0] // Use the bg color
+                            )}
+                          >
+                            {/* Section Header */}
+                            <div className="flex items-center gap-2 px-3 py-2 border-b border-border/20">
+                              <div
+                                {...provided.dragHandleProps}
+                                className="cursor-grab active:cursor-grabbing touch-none"
+                              >
+                                <GripVertical className="w-4 h-4 text-muted-foreground/50" />
+                              </div>
 
-                            <div className="flex-1 space-y-2">
-                              {/* Section Header */}
-                              <div className="flex items-center justify-between">
-                                <Badge 
-                                  variant="outline"
-                                  className={`${getSectionColor(section.type)} border-2`}
-                                >
-                                  {getSectionLabel(section.type)}
-                                </Badge>
-                                
-                                <div className="flex gap-1">
-                                  {editingId === section.id ? (
-                                    <Button
-                                      type="button"
-                                      variant="ghost"
+                              <Badge 
+                                variant="outline"
+                                className={cn("border-2 text-xs font-medium", config.color)}
+                              >
+                                <span className="mr-1">{config.icon}</span>
+                                {config.label}
+                              </Badge>
+                              
+                              <div className="flex-1" />
+
+                              <div className="flex items-center gap-1">
+                                {isEditing ? (
+                                  <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-7 w-7 text-primary"
+                                    onClick={() => handleSaveEdit(section.id)}
+                                  >
+                                    <Check className="w-4 h-4" />
+                                  </Button>
+                                ) : (
+                                  <>
+                                    <VoiceInputButton
+                                      onResult={(text) => handleVoiceInput(section.id, text)}
+                                      context="lyrics"
                                       size="icon"
                                       className="h-7 w-7"
-                                      onClick={() => handleSaveEdit(section.id)}
-                                    >
-                                      <Check className="w-3 h-3" />
-                                    </Button>
-                                  ) : (
+                                    />
                                     <Button
                                       type="button"
                                       variant="ghost"
@@ -246,64 +272,101 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
                                       className="h-7 w-7"
                                       onClick={() => setEditingId(section.id)}
                                     >
-                                      <Edit2 className="w-3 h-3" />
+                                      <Edit2 className="w-4 h-4" />
                                     </Button>
-                                  )}
-                                  <Button
-                                    type="button"
-                                    variant="ghost"
-                                    size="icon"
-                                    className="h-7 w-7 text-destructive"
-                                    onClick={() => handleDeleteSection(section.id)}
-                                  >
-                                    <Trash2 className="w-3 h-3" />
-                                  </Button>
-                                </div>
+                                  </>
+                                )}
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-7 w-7 text-destructive hover:text-destructive"
+                                  onClick={() => handleDeleteSection(section.id)}
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </Button>
                               </div>
+                            </div>
 
-                              {/* Content */}
-                              {editingId === section.id ? (
+                            {/* Content */}
+                            <div className="p-3">
+                              {isEditing ? (
                                 <Textarea
                                   value={section.content}
                                   onChange={(e) => handleUpdateSection(section.id, e.target.value)}
-                                  placeholder="Введите текст..."
+                                  placeholder="Введите текст секции..."
                                   rows={4}
-                                  className="resize-none text-sm"
+                                  className="resize-none text-sm bg-background/50 border-border/30"
                                   autoFocus
+                                  onBlur={() => handleSaveEdit(section.id)}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Escape') {
+                                      handleSaveEdit(section.id);
+                                    }
+                                  }}
                                 />
                               ) : (
                                 <div 
-                                  className="text-sm whitespace-pre-wrap cursor-pointer hover:bg-secondary/50 p-2 rounded-md transition-colors"
+                                  className={cn(
+                                    "text-sm whitespace-pre-wrap cursor-pointer rounded-md p-2 transition-colors min-h-[60px]",
+                                    section.content 
+                                      ? "hover:bg-background/30" 
+                                      : "bg-background/20"
+                                  )}
                                   onClick={() => setEditingId(section.id)}
                                 >
                                   {section.content || (
-                                    <span className="text-muted-foreground italic">
-                                      Нажмите для редактирования...
+                                    <span className="text-muted-foreground/60 italic flex items-center gap-2">
+                                      <Edit2 className="w-3 h-3" />
+                                      Нажмите для ввода текста...
                                     </span>
                                   )}
                                 </div>
                               )}
                             </div>
                           </div>
-                        </CardContent>
-                      </Card>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-      ) : (
-        <Card className="glass-card border-primary/20 border-dashed">
-          <CardContent className="p-12 text-center">
-            <Music2 className="w-12 h-12 text-muted-foreground mx-auto mb-4 opacity-50" />
-            <p className="text-sm text-muted-foreground mb-4">
-              Добавьте первую секцию лирики
+                        )}
+                      </Draggable>
+                    );
+                  })}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        ) : (
+          <div className="rounded-xl border-2 border-dashed border-border/30 bg-muted/20 p-8 text-center">
+            <Music2 className="w-10 h-10 text-muted-foreground/40 mx-auto mb-3" />
+            <p className="text-sm text-muted-foreground mb-3">
+              Начните создавать текст песни
             </p>
-          </CardContent>
-        </Card>
+            <div className="flex flex-wrap justify-center gap-2">
+              {SECTION_TYPES.slice(0, 4).map((type) => (
+                <Button
+                  key={type.value}
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleAddSection(type.value as LyricSection['type'])}
+                  className={cn("gap-1 text-xs", type.color)}
+                >
+                  <span>{type.icon}</span>
+                  {type.label}
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
+      </ScrollArea>
+
+      {/* Section count indicator */}
+      {sections.length > 0 && (
+        <div className="flex items-center justify-between text-xs text-muted-foreground px-1">
+          <span>{sections.length} {sections.length === 1 ? 'секция' : 'секций'}</span>
+          <span className="text-muted-foreground/60">
+            Перетащите для изменения порядка
+          </span>
+        </div>
       )}
     </div>
   );

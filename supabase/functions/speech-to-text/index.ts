@@ -53,26 +53,47 @@ serve(async (req) => {
     // Process audio in chunks
     const binaryAudio = processBase64Chunks(audio)
     
-    // Prepare form data for Whisper API
-    const formData = new FormData()
-    const blob = new Blob([new Uint8Array(binaryAudio)], { type: 'audio/webm' })
-    formData.append('file', blob, 'audio.webm')
-    formData.append('model', 'whisper-1')
-    formData.append('language', language)
-
-    // Send to OpenAI Whisper
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {
       throw new Error('LOVABLE_API_KEY not configured');
     }
 
-    // Use Lovable AI gateway for transcription
-    const response = await fetch('https://ai.gateway.lovable.dev/v1/audio/transcriptions', {
+    // Use Lovable AI gateway with chat completions for audio transcription
+    // Since the direct audio/transcriptions endpoint has different format requirements,
+    // we'll use the chat completions API with the audio as base64
+    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+        'Content-Type': 'application/json',
       },
-      body: formData,
+      body: JSON.stringify({
+        model: 'google/gemini-2.5-flash',
+        messages: [
+          {
+            role: 'system',
+            content: `You are a speech-to-text transcription assistant. Transcribe the audio content accurately in ${language === 'ru' ? 'Russian' : 'English'}. Return ONLY the transcribed text, nothing else. No explanations, no formatting, just the raw transcription.`
+          },
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: 'Transcribe this audio recording:'
+              },
+              {
+                type: 'input_audio',
+                input_audio: {
+                  data: audio,
+                  format: 'webm'
+                }
+              }
+            ]
+          }
+        ],
+        max_tokens: 2000,
+        temperature: 0.1
+      }),
     })
 
     if (!response.ok) {
@@ -82,10 +103,11 @@ serve(async (req) => {
     }
 
     const result = await response.json()
-    console.log('Transcription result:', result.text?.substring(0, 100));
+    const transcribedText = result.choices?.[0]?.message?.content || '';
+    console.log('Transcription result:', transcribedText?.substring(0, 100));
 
     return new Response(
-      JSON.stringify({ text: result.text }),
+      JSON.stringify({ text: transcribedText }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
 
