@@ -80,6 +80,16 @@ interface TelegramWebApp {
   // Switch inline query
   switchInlineQuery?: (query: string, chooseChatTypes?: Array<'users' | 'bots' | 'groups' | 'channels'>) => void;
   
+  // Add to Home Screen (available in Telegram 8.0+)
+  addToHomeScreen?: () => void;
+  checkHomeScreenStatus?: (callback: (status: 'unsupported' | 'unknown' | 'added' | 'missed') => void) => void;
+  
+  // Emoji Status for Premium users (available in Telegram 8.0+)
+  setEmojiStatus?: (customEmojiId: string, params?: { duration?: number }, callback?: (success: boolean) => void) => void;
+  
+  // Request emoji status access
+  requestEmojiStatusAccess?: (callback: (granted: boolean) => void) => void;
+  
   MainButton: {
     text: string;
     color: string;

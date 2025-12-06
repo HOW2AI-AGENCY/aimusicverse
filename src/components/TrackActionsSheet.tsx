@@ -26,6 +26,7 @@ import { usePlayerStore } from '@/hooks/usePlayerState';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useVideoGenerationStatus } from '@/hooks/useVideoGenerationStatus';
 import { useStemReferenceStore } from '@/stores/stemReferenceStore';
+import { MusicToProfile } from './telegram/MusicToProfile';
 
 interface StemInfo {
   id: string;
@@ -681,6 +682,12 @@ export function TrackActionsSheet({
                   <Send className="w-5 h-5" />
                   <span>Отправить в Telegram</span>
                 </Button>
+
+                <MusicToProfile 
+                  trackTitle={track.title || 'Без названия'}
+                  trackUrl={track.audio_url || ''}
+                  artistName={track.artist_name || undefined}
+                />
 
                 <Separator className="my-2" />
 
