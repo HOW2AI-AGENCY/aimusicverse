@@ -147,6 +147,7 @@ serve(async (req) => {
       .insert({
         track_id: track.id,
         user_id: user.id,
+        prompt: track.prompt || track.title || 'Video generation',
         suno_task_id: track.suno_task_id,
         video_task_id: videoTaskId,
         suno_audio_id: track.suno_id,
@@ -155,6 +156,9 @@ serve(async (req) => {
 
     if (taskError) {
       console.error('⚠️ Failed to save video task:', taskError);
+      // Don't throw - video generation was already initiated
+    } else {
+      console.log('✅ Video task saved to database');
     }
 
     // Log in track changelog
