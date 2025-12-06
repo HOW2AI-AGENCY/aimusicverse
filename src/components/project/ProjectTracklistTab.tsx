@@ -20,7 +20,7 @@ import { toast } from 'sonner';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
-import { AILyricsWizard } from '@/components/generate-form/AILyricsWizard';
+import { LyricsChatAssistant } from '@/components/generate-form/LyricsChatAssistant';
 import { LyricsPreviewSheet } from './LyricsPreviewSheet';
 import { cn } from '@/lib/utils';
 
@@ -555,8 +555,8 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
         onOpenWizard={handleOpenWizardFromPreview}
       />
 
-      {/* AI Lyrics Wizard */}
-      <AILyricsWizard
+      {/* AI Lyrics Chat Assistant */}
+      <LyricsChatAssistant
         open={lyricsWizardOpen}
         onOpenChange={setLyricsWizardOpen}
         onLyricsGenerated={(newLyrics) => {
