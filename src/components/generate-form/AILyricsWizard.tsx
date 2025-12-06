@@ -19,6 +19,7 @@ interface AILyricsWizardProps {
   initialArtistName?: string;
   initialGenre?: string;
   initialMood?: string[];
+  initialLanguage?: 'ru' | 'en';
 }
 
 const STEPS = [
@@ -38,6 +39,7 @@ export function AILyricsWizard({
   initialArtistName,
   initialGenre,
   initialMood,
+  initialLanguage,
 }: AILyricsWizardProps) {
   const {
     step,
@@ -50,6 +52,7 @@ export function AILyricsWizard({
     prevStep,
     setGenre,
     setMood,
+    setLanguage,
     setReferenceArtist,
     getFinalLyrics,
     reset,
@@ -68,8 +71,11 @@ export function AILyricsWizard({
       if (initialMood && initialMood.length > 0) {
         setMood(initialMood);
       }
+      if (initialLanguage) {
+        setLanguage(initialLanguage);
+      }
     }
-  }, [open, initialArtistId, initialArtistName, initialGenre, initialMood, setReferenceArtist, setGenre, setMood]);
+  }, [open, initialArtistId, initialArtistName, initialGenre, initialMood, initialLanguage, setReferenceArtist, setGenre, setMood, setLanguage]);
 
   const handleClose = () => {
     onOpenChange(false);
