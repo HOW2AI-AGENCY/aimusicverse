@@ -152,21 +152,29 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             // Immediately switch to custom mode and set data BEFORE async fetch
             setMode('custom');
             
-            // Pre-fill lyrics and style from original track IMMEDIATELY
+            // Pre-fill lyrics from original track
             if (stemReference.lyrics) {
               setLyrics(stemReference.lyrics);
             }
-            if (stemReference.style) {
-              setStyle(stemReference.style);
+            
+            // Pre-fill style - use style first, fallback to prompt for description
+            const styleToUse = stemReference.style || stemReference.prompt || '';
+            if (styleToUse) {
+              setStyle(styleToUse);
             }
+            
             // Use original title as base for new track
             if (stemReference.originalTitle) {
               setTitle(`${stemReference.originalTitle} (ремикс)`);
             }
             
-            // Show what was loaded immediately
+            // Build detailed message about what was loaded
+            const loadedParts = [];
+            if (stemReference.lyrics) loadedParts.push('текст');
+            if (styleToUse) loadedParts.push('стиль');
+            
             toast.success('Контекст загружен из студии', {
-              description: stemReference.lyrics ? 'Текст и стиль скопированы' : 'Стиль скопирован',
+              description: loadedParts.length > 0 ? `Скопировано: ${loadedParts.join(', ')}` : 'Готово к генерации',
             });
             
             // Start loading audio reference in background

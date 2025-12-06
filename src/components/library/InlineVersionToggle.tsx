@@ -80,18 +80,45 @@ export function InlineVersionToggle({
     setIsUpdating(true);
 
     try {
+      // Fetch the full version data to get cover_url and duration
+      const { data: fullVersion, error: fetchError } = await supabase
+        .from('track_versions')
+        .select('*')
+        .eq('id', version.id)
+        .single();
+
+      if (fetchError) throw fetchError;
+
+      // Update both active_version_id AND sync track fields for immediate UI update
       const { error } = await supabase
         .from('tracks')
-        .update({ active_version_id: version.id })
+        .update({ 
+          active_version_id: version.id,
+          audio_url: fullVersion.audio_url,
+          cover_url: fullVersion.cover_url,
+          duration_seconds: fullVersion.duration_seconds,
+        })
         .eq('id', trackId);
 
       if (error) throw error;
 
+      // Also update is_primary for consistency
+      await supabase
+        .from('track_versions')
+        .update({ is_primary: false })
+        .eq('track_id', trackId);
+      
+      await supabase
+        .from('track_versions')
+        .update({ is_primary: true })
+        .eq('id', version.id);
+
       setActiveId(version.id);
       onVersionChange?.(version);
       
-      // Invalidate queries to refresh player if needed
-      queryClient.invalidateQueries({ queryKey: ['tracks'] });
+      // Invalidate queries to refresh UI with new cover/duration
+      await queryClient.invalidateQueries({ queryKey: ['tracks'] });
+      await queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
       
       toast.success(`Версия ${version.version_label || 'A'}`);
     } catch (error) {
