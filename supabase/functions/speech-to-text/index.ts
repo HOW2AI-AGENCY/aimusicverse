@@ -1,5 +1,6 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts"
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import Replicate from "https://esm.sh/replicate@0.25.2"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -25,14 +26,14 @@ serve(async (req) => {
       throw new Error('REPLICATE_API_KEY not configured');
     }
 
-    // Use Replicate's Whisper model for transcription with the official model identifier
-    const createResponse = await fetch('https://api.replicate.com/v1/models/openai/whisper/predictions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${REPLICATE_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    const replicate = new Replicate({
+      auth: REPLICATE_API_KEY,
+    });
+
+    // Use Replicate SDK to run Whisper model
+    const output = await replicate.run(
+      "openai/whisper",
+      {
         input: {
           audio: `data:audio/webm;base64,${audio}`,
           language: language,
@@ -40,50 +41,16 @@ serve(async (req) => {
           translate: false,
           transcription: "plain text"
         }
-      }),
-    });
-
-    if (!createResponse.ok) {
-      const errorText = await createResponse.text();
-      console.error('Replicate API error:', createResponse.status, errorText);
-      throw new Error(`Replicate API error: ${createResponse.status}`);
-    }
-
-    const prediction = await createResponse.json();
-    console.log('Prediction created:', prediction.id);
-
-    // Poll for completion
-    let result = prediction;
-    let attempts = 0;
-    const maxAttempts = 60; // 60 seconds max
-
-    while (result.status !== 'succeeded' && result.status !== 'failed' && attempts < maxAttempts) {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const pollResponse = await fetch(`https://api.replicate.com/v1/predictions/${prediction.id}`, {
-        headers: {
-          'Authorization': `Bearer ${REPLICATE_API_KEY}`,
-        },
-      });
-
-      if (!pollResponse.ok) {
-        throw new Error(`Poll error: ${pollResponse.status}`);
       }
+    );
 
-      result = await pollResponse.json();
-      attempts++;
-      console.log(`Poll attempt ${attempts}: ${result.status}`);
-    }
+    console.log('Whisper output:', output);
 
-    if (result.status === 'failed') {
-      throw new Error(`Transcription failed: ${result.error || 'Unknown error'}`);
-    }
-
-    if (result.status !== 'succeeded') {
-      throw new Error('Transcription timed out');
-    }
-
-    const transcribedText = result.output?.transcription || result.output?.text || result.output || '';
+    // Extract transcription from output
+    const transcribedText = typeof output === 'string' 
+      ? output 
+      : (output as any)?.transcription || (output as any)?.text || '';
+    
     console.log('Transcription result:', transcribedText?.substring(0, 100));
 
     return new Response(
