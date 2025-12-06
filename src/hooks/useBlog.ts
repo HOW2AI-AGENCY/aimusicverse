@@ -179,6 +179,36 @@ export function useAIBlogAssistant() {
   });
 }
 
+export function useGenerateBlogCover() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: { 
+      title: string;
+      excerpt?: string;
+      content?: string;
+      blogPostId?: string;
+    }) => {
+      const { data: result, error } = await supabase.functions.invoke("generate-blog-cover", {
+        body: data,
+      });
+
+      if (error) throw error;
+      return result.coverUrl as string;
+    },
+    onSuccess: (_, variables) => {
+      if (variables.blogPostId) {
+        queryClient.invalidateQueries({ queryKey: ["blog-posts"] });
+        queryClient.invalidateQueries({ queryKey: ["blog-post", variables.blogPostId] });
+      }
+      toast.success("Обложка сгенерирована");
+    },
+    onError: (error) => {
+      toast.error("Ошибка генерации обложки: " + error.message);
+    },
+  });
+}
+
 // Generate slug from title
 export function generateSlug(title: string): string {
   return title
