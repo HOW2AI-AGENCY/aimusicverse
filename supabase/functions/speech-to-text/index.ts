@@ -30,26 +30,28 @@ serve(async (req) => {
       auth: REPLICATE_API_KEY,
     });
 
-    // Use Replicate SDK to run Whisper model
+    // Use incredibly-fast-whisper model (popular and reliable)
     const output = await replicate.run(
-      "openai/whisper",
+      "vaibhavs10/incredibly-fast-whisper:3ab86df6c8f54c11309d4d1f930ac292bad43ace52d10c80d87eb258b3c9f79c",
       {
         input: {
           audio: `data:audio/webm;base64,${audio}`,
           language: language,
-          model: "large-v3",
-          translate: false,
-          transcription: "plain text"
+          task: "transcribe",
+          batch_size: 64
         }
       }
     );
 
-    console.log('Whisper output:', output);
+    console.log('Whisper output:', JSON.stringify(output));
 
     // Extract transcription from output
-    const transcribedText = typeof output === 'string' 
-      ? output 
-      : (output as any)?.transcription || (output as any)?.text || '';
+    let transcribedText = '';
+    if (typeof output === 'string') {
+      transcribedText = output;
+    } else if (output && typeof output === 'object') {
+      transcribedText = (output as any).text || (output as any).transcription || '';
+    }
     
     console.log('Transcription result:', transcribedText?.substring(0, 100));
 
