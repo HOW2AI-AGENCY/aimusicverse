@@ -5,6 +5,7 @@ import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
+import { usePlayerStore } from '@/hooks/usePlayerState';
 
 interface Version {
   id: string;
@@ -33,6 +34,7 @@ export function InlineVersionToggle({
   const [isUpdating, setIsUpdating] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(activeVersionId || null);
   const queryClient = useQueryClient();
+  const { activeTrack, playTrack, isPlaying } = usePlayerStore();
 
   useEffect(() => {
     // Skip fetch if we know there's only 1 or 0 versions
@@ -115,6 +117,19 @@ export function InlineVersionToggle({
 
       setActiveId(version.id);
       onVersionChange?.(version);
+      
+      // Update player if this track is currently playing
+      if (activeTrack?.id === trackId) {
+        const updatedTrack = {
+          ...activeTrack,
+          audio_url: fullVersion.audio_url,
+          cover_url: fullVersion.cover_url,
+          duration_seconds: fullVersion.duration_seconds,
+          active_version_id: version.id,
+        };
+        // Play with updated audio URL
+        playTrack(updatedTrack);
+      }
       
       // Invalidate queries to refresh UI with new cover/duration
       await queryClient.invalidateQueries({ queryKey: ['tracks'] });

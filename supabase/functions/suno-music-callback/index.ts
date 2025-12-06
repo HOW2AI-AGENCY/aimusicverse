@@ -257,15 +257,23 @@ serve(async (req) => {
       }).eq('id', task.id);
 
       if (task.telegram_chat_id && clips.length > 0) {
-        // Small delay to ensure cover generation completes
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // Wait for cover generation to complete (increased delay)
+        console.log('⏳ Waiting for cover generation to complete...');
+        await new Promise(resolve => setTimeout(resolve, 5000));
         
         // Fetch fresh track data with generated cover
-        const { data: freshTrackData } = await supabase
+        const { data: freshTrackData, error: freshTrackError } = await supabase
           .from('tracks')
           .select('title, style, cover_url, local_cover_url')
           .eq('id', trackId)
           .single();
+        
+        console.log('📸 Fresh track data:', {
+          title: freshTrackData?.title,
+          cover_url: freshTrackData?.cover_url?.substring(0, 80),
+          local_cover_url: freshTrackData?.local_cover_url?.substring(0, 80),
+          error: freshTrackError
+        });
         
         const generatedCoverUrl = freshTrackData?.local_cover_url || freshTrackData?.cover_url;
         
