@@ -144,6 +144,9 @@ export default function ProjectDetail() {
   const completedTracks = tracks?.filter(t => t.status === 'completed').length || 0;
   const totalTracks = tracks?.length || 0;
 
+  const draftTracks = tracks?.filter(t => t.status === 'draft' && !t.track_id) || [];
+  const draftCount = draftTracks.length;
+
   return (
     <div className="pb-24">
       {/* Compact Header */}
@@ -176,16 +179,8 @@ export default function ProjectDetail() {
                 <span>{project.genre || 'Без жанра'}</span>
                 <span>•</span>
                 <span>{completedTracks}/{totalTracks} треков</span>
-        </div>
-      </div>
-
-      {/* Project Info Card */}
-      <div className={cn(isMobile ? "px-3 pb-2" : "px-4 pb-2")}>
-        <ProjectInfoCard 
-          project={project} 
-          onEdit={() => setSettingsOpen(true)}
-        />
-      </div>
+              </div>
+            </div>
           </div>
 
           {/* Actions */}
@@ -202,10 +197,18 @@ export default function ProjectDetail() {
         </div>
       </div>
 
+      {/* Project Info Card */}
+      <div className={cn(isMobile ? "px-3 py-2" : "px-4 py-2")}>
+        <ProjectInfoCard 
+          project={project} 
+          onEdit={() => setSettingsOpen(true)}
+        />
+      </div>
+
       {/* Quick Actions Bar */}
       <div className={cn(
         "flex gap-2 overflow-x-auto scrollbar-hide",
-        isMobile ? "px-3 py-3" : "px-4 py-4"
+        isMobile ? "px-3 pb-3" : "px-4 pb-4"
       )}>
         <Button 
           size="sm"
