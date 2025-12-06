@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Track } from './useTracksOptimized';
+import { useRewardShare } from './useGamification';
 
 export function useTrackActions() {
   const [isProcessing, setIsProcessing] = useState(false);
+  const rewardShare = useRewardShare();
 
-  const handleShare = async (track: Track) => {
+  const handleShare = async (track: Track, onSuccess?: () => void) => {
     if (navigator.share && track.audio_url) {
       try {
         await navigator.share({
@@ -14,6 +16,18 @@ export function useTrackActions() {
           text: `Послушай ${track.title || 'этот трек'}`,
           url: track.audio_url,
         });
+        
+        // Reward for sharing
+        try {
+          await rewardShare.mutateAsync({ trackId: track.id });
+          toast.success('+3 кредита за шеринг! 🎉', {
+            description: '+15 опыта',
+          });
+        } catch (err) {
+          console.error('Error rewarding share:', err);
+        }
+        
+        onSuccess?.();
       } catch (error) {
         console.error('Error sharing:', error);
       }
