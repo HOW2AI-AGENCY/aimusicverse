@@ -12,6 +12,7 @@ import { PublicArtistsSection } from "@/components/home/PublicArtistsSection";
 import { AutoPlaylistsSectionOptimized } from "@/components/home/AutoPlaylistsSectionOptimized";
 import { UnifiedDiscoverySection } from "@/components/home/UnifiedDiscoverySection";
 import { HeroQuickActions } from "@/components/home/HeroQuickActions";
+import { GamificationWidget } from "@/components/gamification/GamificationWidget";
 import { GenerateSheet } from "@/components/GenerateSheet";
 import { motion } from "framer-motion";
 
@@ -94,12 +95,22 @@ const Index = () => {
           </div>
         </motion.header>
 
+        {/* Gamification Widget - Checkin & Credits */}
+        <motion.section 
+          className="mb-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.3 }}
+        >
+          <GamificationWidget />
+        </motion.section>
+
         {/* Hero Quick Actions */}
         <motion.section 
           className="mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.3 }}
+          transition={{ delay: 0.15, duration: 0.3 }}
         >
           <HeroQuickActions onGenerateClick={() => setGenerateSheetOpen(true)} />
         </motion.section>

@@ -143,3 +143,6 @@ verify_jwt = false
 
 [functions.generate-track-cover]
 verify_jwt = false
+
+[functions.reward-action]
+verify_jwt = false

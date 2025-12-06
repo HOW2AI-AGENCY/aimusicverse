@@ -2105,6 +2105,7 @@ export type Database = {
         Returns: undefined
       }
       is_premium_or_admin: { Args: { _user_id: string }; Returns: boolean }
+      log_share_reward: { Args: never; Returns: undefined }
       recommend_styles_for_user: {
         Args: { _limit?: number; _user_id: string }
         Returns: {
