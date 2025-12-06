@@ -26,6 +26,8 @@ const Artists = lazy(() => import("./pages/Artists"));
 const Actors = lazy(() => import("./pages/Actors"));
 const Playlists = lazy(() => import("./pages/Playlists"));
 const Blog = lazy(() => import("./pages/Blog"));
+const Community = lazy(() => import("./pages/Community"));
+const Onboarding = lazy(() => import("./pages/Onboarding"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -70,6 +72,8 @@ const App = () => (
                 <Route path="/actors" element={<Actors />} />
                 <Route path="/playlists" element={<Playlists />} />
                 <Route path="/blog" element={<Blog />} />
+                <Route path="/community" element={<Community />} />
+                <Route path="/onboarding" element={<Onboarding />} />
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/admin" element={<AdminDashboard />} />
                 </Route>
