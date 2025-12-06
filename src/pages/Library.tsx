@@ -21,9 +21,7 @@ import { useSyncStaleTasks } from "@/hooks/useSyncStaleTasks";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrackCounts } from "@/hooks/useTrackCounts";
 import { TrackCard } from "@/components/TrackCard";
-import { MinimalTrackCard } from "@/components/library/MinimalTrackCard";
 import { LibraryFilterChips } from "@/components/library/LibraryFilterChips";
-import { motion } from "framer-motion";
 
 type FilterOption = 'all' | 'vocals' | 'instrumental' | 'stems';
 
@@ -48,23 +46,23 @@ const fetchActiveGenerations = async (userId: string) => {
   if (error) throw new Error(error.message);
   return data as GenerationTask[];
 };
+
 export default function Library() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
   const [searchQuery, setSearchQuery] = useState("");
   const { activeTrack, playTrack, queue } = usePlayerStore();
-  const [viewMode, setViewMode] = useState<"grid" | "list">(() => isMobile ? "list" : "grid");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("list");
   const [sortBy, setSortBy] = useState<"recent" | "popular" | "liked">("recent");
   const [typeFilter, setTypeFilter] = useState<FilterOption>('all');
-  const [useMinimalCards, setUseMinimalCards] = useState(true);
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
 
   // Update view mode when mobile state changes
   useEffect(() => {
-    if (isMobile && viewMode === "grid") {
-      setViewMode("list");
+    if (!isMobile && viewMode === "list") {
+      setViewMode("grid");
     }
-  }, [isMobile]);
+  }, [isMobile, viewMode]);
 
   useGenerationRealtime();
   
@@ -76,7 +74,7 @@ export default function Library() {
     queryKey: ['active_generations', user?.id],
     queryFn: () => fetchActiveGenerations(user!.id),
     enabled: !!user,
-    refetchInterval: 5000, // Poll every 5 seconds for status updates
+    refetchInterval: 5000,
   });
 
   const { 
@@ -98,9 +96,6 @@ export default function Library() {
     pageSize: 20,
   });
 
-  // Debug logging for tracks
-  console.log('📚 Library tracks:', { count: tracks?.length, totalCount, isLoading, error: tracksError?.message });
-
   // Track previous generation count to detect completion
   const prevGenerationsCount = useRef(activeGenerations.length);
   
@@ -117,23 +112,10 @@ export default function Library() {
   const { data: versions } = useTrackVersions(fullscreenTrackId || "");
 
   // Batch fetch track counts (versions & stems) for all visible tracks
-  // This replaces individual subscriptions per TrackCard
   const trackIds = useMemo(() => (tracks || []).map(t => t.id), [tracks]);
   const { getCountsForTrack } = useTrackCounts(trackIds);
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/auth" replace />;
-  }
-
-  // Filter tracks based on type filter
+  // Filter tracks based on type filter - MUST be before any conditional returns
   const filteredTracks = useMemo(() => {
     const allTracks = tracks || [];
     switch (typeFilter) {
@@ -159,14 +141,12 @@ export default function Library() {
   const tracksToDisplay = filteredTracks;
   const hasActiveGenerations = activeGenerations.length > 0;
 
-  const handlePlay = (track: Track, index?: number) => {
+  const handlePlay = useCallback((track: Track, index?: number) => {
     if (!track.audio_url) return;
     
-    // Set all loaded tracks as queue starting from clicked track
     const completedTracks = tracksToDisplay.filter(t => t.audio_url && t.status === 'completed');
     const trackIndex = index !== undefined ? index : completedTracks.findIndex(t => t.id === track.id);
     
-    // Only update queue if clicking a different track or queue is empty
     if (queue.length === 0 || activeTrack?.id !== track.id) {
       usePlayerStore.setState({
         queue: completedTracks,
@@ -176,14 +156,13 @@ export default function Library() {
         playerMode: 'compact',
       });
     } else {
-      // Resume playing the same track
       playTrack(track);
     }
     
     logPlay(track.id);
-  };
+  }, [tracksToDisplay, queue.length, activeTrack?.id, playTrack, logPlay]);
 
-  const handlePlayAll = () => {
+  const handlePlayAll = useCallback(() => {
     const completedTracks = tracksToDisplay.filter(t => t.audio_url && t.status === 'completed');
     if (completedTracks.length === 0) return;
     
@@ -194,13 +173,12 @@ export default function Library() {
       isPlaying: true,
       playerMode: 'compact',
     });
-  };
+  }, [tracksToDisplay]);
 
-  const handleShuffleAll = () => {
+  const handleShuffleAll = useCallback(() => {
     const completedTracks = tracksToDisplay.filter(t => t.audio_url && t.status === 'completed');
     if (completedTracks.length === 0) return;
     
-    // Shuffle tracks using Fisher-Yates
     const shuffled = [...completedTracks];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -215,9 +193,9 @@ export default function Library() {
       shuffle: true,
       playerMode: 'compact',
     });
-  };
+  }, [tracksToDisplay]);
 
-  const handleDownload = (trackId: string, audioUrl: string | null, coverUrl: string | null) => {
+  const handleDownload = useCallback((trackId: string, audioUrl: string | null, coverUrl: string | null) => {
     if (!audioUrl) return;
     downloadTrack({ trackId, audioUrl, coverUrl: coverUrl || undefined });
 
@@ -225,11 +203,24 @@ export default function Library() {
     link.href = audioUrl;
     link.download = `track-${trackId}.mp3`;
     link.click();
-  };
+  }, [downloadTrack]);
+
+  // Conditional returns AFTER all hooks
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/auth" replace />;
+  }
 
   return (
     <ErrorBoundaryWrapper>
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
+      <div className="min-h-screen pb-24">
         {/* Page Header */}
         <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-lg border-b border-border/50">
           <div className="container mx-auto px-4 sm:px-6 py-4">
@@ -247,14 +238,13 @@ export default function Library() {
               </div>
 
               <div className="flex items-center gap-1.5 sm:gap-2">
-                {/* Play All / Shuffle buttons */}
                 {tracksToDisplay.length > 0 && (
                   <>
                     <Button
                       variant="default"
                       size="icon"
                       onClick={handlePlayAll}
-                      className="h-10 w-10 min-h-[44px] min-w-[44px] touch-manipulation active:scale-95 transition-transform"
+                      className="h-10 w-10 min-h-[44px] min-w-[44px]"
                       aria-label="Воспроизвести все"
                     >
                       <Play className="w-4 h-4" />
@@ -263,7 +253,7 @@ export default function Library() {
                       variant="ghost"
                       size="icon"
                       onClick={handleShuffleAll}
-                      className="h-10 w-10 min-h-[44px] min-w-[44px] touch-manipulation active:scale-95 transition-transform"
+                      className="h-10 w-10 min-h-[44px] min-w-[44px]"
                       aria-label="Перемешать"
                     >
                       <Shuffle className="w-4 h-4" />
@@ -274,7 +264,7 @@ export default function Library() {
                   variant={viewMode === "grid" ? "default" : "ghost"}
                   size="icon"
                   onClick={() => setViewMode("grid")}
-                  className="h-10 w-10 min-h-[44px] min-w-[44px] touch-manipulation active:scale-95 transition-transform"
+                  className="h-10 w-10 min-h-[44px] min-w-[44px]"
                   aria-label="Сетка"
                 >
                   <Grid3x3 className="w-4 h-4" />
@@ -283,7 +273,7 @@ export default function Library() {
                   variant={viewMode === "list" ? "default" : "ghost"}
                   size="icon"
                   onClick={() => setViewMode("list")}
-                  className="h-10 w-10 min-h-[44px] min-w-[44px] touch-manipulation active:scale-95 transition-transform"
+                  className="h-10 w-10 min-h-[44px] min-w-[44px]"
                   aria-label="Список"
                 >
                   <List className="w-4 h-4" />
@@ -308,9 +298,9 @@ export default function Library() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="recent">Сортировать: Недавние</SelectItem>
-                  <SelectItem value="popular">Сортировать: Популярные</SelectItem>
-                  <SelectItem value="liked">Сортировать: Понравившиеся</SelectItem>
+                  <SelectItem value="recent">Недавние</SelectItem>
+                  <SelectItem value="popular">Популярные</SelectItem>
+                  <SelectItem value="liked">Понравившиеся</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -335,13 +325,10 @@ export default function Library() {
                 <Loader2 className="w-4 h-4 animate-spin" />
                 Генерируется ({activeGenerations.length})
               </h2>
-              <div
-                className={
-                  viewMode === "grid"
-                    ? "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
-                    : "flex flex-col gap-3"
-                }
-              >
+              <div className={viewMode === "grid"
+                ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+                : "flex flex-col gap-2"
+              }>
                 {activeGenerations.map((task) => (
                   <GeneratingTrackSkeleton
                     key={task.id}
@@ -356,34 +343,29 @@ export default function Library() {
           )}
 
           {isLoading ? (
-            <div
-              className={
-                viewMode === "grid"
-                  ? "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
-                  : "flex flex-col gap-3"
-              }
-            >
+            <div className={viewMode === "grid"
+              ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+              : "flex flex-col gap-2"
+            }>
               {Array.from({ length: 8 }).map((_, i) => (
                 <TrackCardSkeleton key={i} layout={viewMode} />
               ))}
             </div>
           ) : tracksToDisplay.length === 0 && !hasActiveGenerations ? (
-            <Card className="glass-card border-primary/20 p-8 sm:p-12 text-center">
-              <Music2 className="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-muted-foreground/50 mb-4" />
+            <Card className="p-8 sm:p-12 text-center border-border/50">
+              <Music2 className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
               <h3 className="text-base sm:text-lg font-semibold mb-2">
                 {searchQuery ? "Ничего не найдено" : "Пока нет треков"}
               </h3>
-              <p className="text-sm sm:text-base text-muted-foreground">
-                {searchQuery ? "Попробуйте изменить поисковой запрос" : "Создайте свой первый трек в генераторе"}
+              <p className="text-sm text-muted-foreground">
+                {searchQuery ? "Попробуйте изменить поисковой запрос" : "Создайте свой первый трек"}
               </p>
             </Card>
           ) : (
-          <>
-              {/* Fallback to regular rendering for debugging */}
-              <div className={
-                viewMode === "grid"
-                  ? "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
-                  : "flex flex-col gap-3"
+            <>
+              <div className={viewMode === "grid"
+                ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+                : "flex flex-col gap-2"
               }>
                 {tracksToDisplay.map((track, index) => {
                   const counts = getCountsForTrack(track.id);
@@ -405,7 +387,6 @@ export default function Library() {
                 })}
               </div>
 
-              {/* Loading indicator at bottom */}
               {isFetchingNextPage && (
                 <div className="mt-8 flex justify-center">
                   <div className="flex items-center gap-2 text-muted-foreground">
