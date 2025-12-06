@@ -36,6 +36,9 @@ export interface Track {
   style_weight: number | null;
   negative_tags: string | null;
   active_version_id: string | null;
+  // Video fields
+  video_url: string | null;
+  local_video_url: string | null;
   // Artist fields (from DB)
   artist_id: string | null;
   artist_name: string | null;

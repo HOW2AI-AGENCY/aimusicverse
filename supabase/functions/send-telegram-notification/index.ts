@@ -19,6 +19,7 @@ interface NotificationPayload {
   error_message?: string;
   audioUrl?: string;
   coverUrl?: string;
+  videoUrl?: string;
   title?: string;
   duration?: number;
   tags?: string;
@@ -181,6 +182,107 @@ async function sendTelegramAudio(
 }
 
 /**
+ * Send video to Telegram chat
+ */
+async function sendTelegramVideo(
+  chatId: number, 
+  videoUrl: string, 
+  options: {
+    caption?: string;
+    title?: string;
+    coverUrl?: string;
+    replyMarkup?: unknown;
+  }
+): Promise<{ ok: boolean; skipped?: boolean; reason?: string; result?: any }> {
+  const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
+  if (!botToken) throw new Error('TELEGRAM_BOT_TOKEN not configured');
+
+  // Validate chat_id
+  if (!chatId || chatId <= 0) {
+    console.warn('Invalid chat_id for video:', chatId);
+    return { ok: false, skipped: true, reason: 'invalid_chat_id' };
+  }
+
+  console.log(`🎬 sendTelegramVideo: chatId=${chatId}, title="${options.title}"`);
+
+  // Download video file as blob
+  let videoBlob: Blob | null = null;
+  try {
+    console.log('⬇️ Downloading video file...');
+    const videoResponse = await fetch(videoUrl);
+    if (videoResponse.ok) {
+      videoBlob = await videoResponse.blob();
+      console.log(`✅ Video downloaded: ${videoBlob.size} bytes`);
+    } else {
+      console.warn(`⚠️ Failed to download video: ${videoResponse.status}`);
+    }
+  } catch (downloadError) {
+    console.warn('⚠️ Video download error:', downloadError);
+  }
+
+  // Download thumbnail if available
+  let thumbBlob: Blob | null = null;
+  if (options.coverUrl) {
+    try {
+      const thumbResponse = await fetch(options.coverUrl);
+      if (thumbResponse.ok) {
+        thumbBlob = await thumbResponse.blob();
+        console.log(`✅ Thumbnail downloaded: ${thumbBlob.size} bytes`);
+      }
+    } catch (error) {
+      console.warn('⚠️ Error downloading cover:', error);
+    }
+  }
+
+  const sanitizeFilename = (name: string) => {
+    return name
+      .replace(/[<>:"/\\|?*]/g, '')
+      .replace(/\s+/g, '_')
+      .substring(0, 60);
+  };
+
+  const filename = `${sanitizeFilename(options.title || 'video')}.mp4`;
+
+  const formData = new FormData();
+  formData.append('chat_id', chatId.toString());
+  
+  if (videoBlob) {
+    formData.append('video', videoBlob, filename);
+    console.log('📦 Sending video via FormData (blob)...');
+  } else {
+    formData.append('video', videoUrl);
+    console.log('📦 Sending video via FormData (URL fallback)...');
+  }
+  
+  if (options.caption) formData.append('caption', options.caption);
+  if (thumbBlob) formData.append('thumbnail', thumbBlob, 'cover.jpg');
+  formData.append('parse_mode', 'MarkdownV2');
+  formData.append('supports_streaming', 'true');
+  if (options.replyMarkup) formData.append('reply_markup', JSON.stringify(options.replyMarkup));
+
+  const response = await fetch(`https://api.telegram.org/bot${botToken}/sendVideo`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  const result = await response.json();
+  
+  // Handle errors gracefully
+  if (!result.ok) {
+    const errorDesc = result.description || '';
+    if (errorDesc.includes('chat not found') || errorDesc.includes('bot was blocked') || errorDesc.includes('user is deactivated')) {
+      console.warn(`Chat unavailable for video (${chatId}): ${errorDesc}`);
+      return { ok: false, skipped: true, reason: 'chat_unavailable' };
+    }
+    console.error('❌ Telegram API error for video:', result);
+    throw new Error(`Telegram API error: ${JSON.stringify(result)}`);
+  }
+
+  console.log('✅ Video sent successfully to Telegram');
+  return { ok: true, result };
+}
+
+/**
  * Check if notification should be sent based on user settings
  */
 async function canSendNotification(
@@ -269,7 +371,7 @@ Deno.serve(async (req) => {
     const payload: NotificationPayload = await req.json();
     const { 
       chat_id, chatId, user_id, status, track_id, trackId, type, error_message,
-      audioUrl, coverUrl, title, duration, tags, style, versionsCount, versionLabel,
+      audioUrl, coverUrl, videoUrl, title, duration, tags, style, versionsCount, versionLabel,
       currentVersion, totalVersions, generationMode
     } = payload;
 
@@ -373,6 +475,57 @@ Deno.serve(async (req) => {
         JSON.stringify({ success: true, type: 'generation_complete' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
+    }
+
+    // Handle video ready notification
+    if ((type === 'video_ready' || type === 'video_share') && (videoUrl || finalTrackId)) {
+      console.log(`🎬 Processing ${type} notification`);
+      
+      let trackData = null;
+      let finalVideoUrl = videoUrl;
+      
+      // Fetch track data if we have trackId
+      if (finalTrackId) {
+        const { data: track } = await supabase
+          .from('tracks')
+          .select('title, style, cover_url, video_url, local_video_url')
+          .eq('id', finalTrackId)
+          .single();
+        trackData = track;
+        
+        // Use track video if no videoUrl provided
+        if (!finalVideoUrl && track) {
+          finalVideoUrl = track.local_video_url || track.video_url;
+        }
+      }
+      
+      if (finalVideoUrl) {
+        const trackTitle = escapeMarkdown(title || trackData?.title || 'Видео клип');
+        const trackStyle = trackData?.style ? escapeMarkdown(trackData.style.split(',')[0]) : '';
+        
+        const caption = `🎬 *${type === 'video_ready' ? 'Ваш видеоклип готов\\!' : 'Видеоклип'}*\n\n🎵 *${trackTitle}*${trackStyle ? `\n🎸 ${trackStyle}` : ''}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
+        
+        await sendTelegramVideo(finalChatId, finalVideoUrl, {
+          caption,
+          title: title || trackData?.title || 'Video Clip',
+          coverUrl: trackData?.cover_url,
+          replyMarkup: {
+            inline_keyboard: [
+              [{ text: '🎵 Открыть в приложении', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
+              [
+                { text: '📥 Скачать видео', callback_data: `dl_video_${finalTrackId}` },
+                { text: '📤 Поделиться', callback_data: `share_video_${finalTrackId}` }
+              ],
+              [{ text: '🎵 Создать ещё', callback_data: 'generate' }]
+            ]
+          }
+        });
+
+        return new Response(
+          JSON.stringify({ success: true, type: type }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
     }
 
     // Handle track share type

@@ -1,17 +1,20 @@
-import { Track } from '@/hooks/useTracks';
+import { Track } from '@/hooks/useTracksOptimized';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Music2, Clock, Tag, FileText, Mic, Wand2, Heart, Play, BookmarkPlus, User, FolderOpen, FileAudio, Cpu, Video } from 'lucide-react';
+import { Music2, Clock, Tag, FileText, Mic, Wand2, Heart, Play, BookmarkPlus, User, FolderOpen, FileAudio, Cpu } from 'lucide-react';
 import { savePromptToBookmarks } from '@/components/generate-form/PromptHistory';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { VideoSection } from './VideoSection';
+import { useTrackActions } from '@/hooks/useTrackActions';
 
 interface TrackDetailsTabProps {
   track: Track;
 }
 
 export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
+  const { handleGenerateVideo, isProcessing } = useTrackActions();
   // Fetch artist info if track has artist_id
   const { data: artist } = useQuery({
     queryKey: ['artist', track.artist_id],
@@ -291,6 +294,17 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
             </div>
           </div>
 
+          <Separator />
+        </>
+      )}
+
+      {/* Video Section - Show for tracks with suno_id */}
+      {track.suno_id && track.suno_task_id && (
+        <>
+          <VideoSection 
+            track={track} 
+            onGenerateVideo={() => handleGenerateVideo(track)} 
+          />
           <Separator />
         </>
       )}

@@ -7,7 +7,7 @@ import {
   Download, Share2, Info, Trash2, Eye, EyeOff, Send,
   Scissors, Wand2, ImagePlus, FileAudio, Music2, FileText, Layers,
   Plus, Mic, Volume2, Music, Globe, Lock, ChevronDown, GitBranch, Check, Star, Users,
-  ListPlus, Play, Video
+  ListPlus, Play, Video, Loader2, CheckCircle2
 } from 'lucide-react';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { useState, useEffect } from 'react';
@@ -24,6 +24,7 @@ import { toast } from 'sonner';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { usePlayerStore } from '@/hooks/usePlayerState';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useVideoGenerationStatus } from '@/hooks/useVideoGenerationStatus';
 
 interface TrackActionsSheetProps {
   track: Track | null;
@@ -140,6 +141,7 @@ export function TrackActionsSheet({
   if (!track) return null;
 
   const { addToQueue, queue, currentIndex } = usePlayerStore();
+  const { isGenerating: isVideoGenerating, hasVideo } = useVideoGenerationStatus(track?.id);
 
   const handleAddToQueue = () => {
     triggerHapticFeedback('light');
@@ -316,6 +318,24 @@ export function TrackActionsSheet({
                   <Play className="w-5 h-5" />
                   <span>Воспроизвести следующим</span>
                 </Button>
+                
+                {/* Watch Video - Show if video exists */}
+                {hasVideo && (
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start gap-3 h-12"
+                    onClick={() => {
+                      onOpenChange(false);
+                      setDetailSheetOpen(true);
+                    }}
+                  >
+                    <Video className="w-5 h-5 text-green-500" />
+                    <span>Смотреть видео</span>
+                    <Badge variant="secondary" className="ml-auto bg-green-500/20 text-green-600">
+                      Готово
+                    </Badge>
+                  </Button>
+                )}
               </>
             )}
 
@@ -507,10 +527,24 @@ export function TrackActionsSheet({
                           await handleGenerateVideo(track);
                           onOpenChange(false);
                         }}
-                        disabled={isProcessing}
+                        disabled={isProcessing || isVideoGenerating || hasVideo}
                       >
-                        <Video className="w-4 h-4" />
-                        <span>Создать видеоклип</span>
+                        {isVideoGenerating ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span>Видео создаётся...</span>
+                          </>
+                        ) : hasVideo ? (
+                          <>
+                            <CheckCircle2 className="w-4 h-4 text-green-500" />
+                            <span>Видео готово</span>
+                          </>
+                        ) : (
+                          <>
+                            <Video className="w-4 h-4" />
+                            <span>Создать видеоклип</span>
+                          </>
+                        )}
                       </Button>
                     )}
                   </CollapsibleContent>
