@@ -1,5 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
+import { useEffect, useRef } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+import { hapticImpact } from '@/lib/haptic';
 
 interface VideoGenerationStatus {
   isGenerating: boolean;
@@ -10,6 +13,9 @@ interface VideoGenerationStatus {
 }
 
 export function useVideoGenerationStatus(trackId: string | undefined): VideoGenerationStatus {
+  const queryClient = useQueryClient();
+  const prevStatusRef = useRef<string>('idle');
+
   const { data } = useQuery({
     queryKey: ['video-generation-status', trackId],
     queryFn: async () => {
@@ -92,12 +98,46 @@ export function useVideoGenerationStatus(trackId: string | undefined): VideoGene
     enabled: !!trackId,
     staleTime: 5000,
     refetchInterval: (query) => {
-      // Refetch more frequently if generating
       const data = query.state.data;
       if (data?.isGenerating) return 5000;
-      return false;
+      // Check periodically even when not generating to catch updates
+      return 60000;
     },
   });
+
+  // Realtime subscription for video updates
+  useEffect(() => {
+    if (!trackId) return;
+
+    const channel = supabase
+      .channel(`video-track-${trackId}`)
+      .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'tracks',
+        filter: `id=eq.${trackId}`,
+      }, (payload: any) => {
+        if (payload.new?.video_url || payload.new?.local_video_url) {
+          queryClient.invalidateQueries({ queryKey: ['video-generation-status', trackId] });
+          queryClient.invalidateQueries({ queryKey: ['tracks'] });
+        }
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [trackId, queryClient]);
+
+  // Toast notification when video completes
+  useEffect(() => {
+    const currentStatus = data?.status || 'idle';
+    if (prevStatusRef.current === 'processing' && currentStatus === 'completed') {
+      toast.success('Видеоклип готов! 🎬');
+      hapticImpact('medium');
+    }
+    prevStatusRef.current = currentStatus;
+  }, [data?.status]);
 
   return data || {
     isGenerating: false,

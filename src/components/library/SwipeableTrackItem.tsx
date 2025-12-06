@@ -12,8 +12,10 @@ interface SwipeableTrackItemProps {
   className?: string;
 }
 
-const SWIPE_THRESHOLD = 50;
+const SWIPE_THRESHOLD = 60;
 const ACTION_WIDTH = 64;
+const MIN_DRAG_DISTANCE = 10;
+const VERTICAL_DOMINANCE_RATIO = 1.5;
 
 export function SwipeableTrackItem({
   children,
@@ -24,14 +26,46 @@ export function SwipeableTrackItem({
 }: SwipeableTrackItemProps) {
   const [isOpen, setIsOpen] = useState<'left' | 'right' | null>(null);
   const x = useMotionValue(0);
+  const dragDirectionRef = useRef<'x' | 'y' | null>(null);
   
   // Transform for action button opacity and scale
   const leftOpacity = useTransform(x, [-ACTION_WIDTH, -20, 0], [1, 0.5, 0]);
   const leftScale = useTransform(x, [-ACTION_WIDTH, -20, 0], [1, 0.8, 0.6]);
   const rightOpacity = useTransform(x, [0, 20, ACTION_WIDTH], [0, 0.5, 1]);
   const rightScale = useTransform(x, [0, 20, ACTION_WIDTH], [0.6, 0.8, 1]);
+
+  const handleDragStart = () => {
+    dragDirectionRef.current = null;
+  };
+
+  const handleDrag = (_: any, info: PanInfo) => {
+    const absX = Math.abs(info.offset.x);
+    const absY = Math.abs(info.offset.y);
+
+    // Determine direction after minimal movement
+    if (!dragDirectionRef.current && (absX > MIN_DRAG_DISTANCE || absY > MIN_DRAG_DISTANCE)) {
+      // If vertical movement dominates - lock as vertical
+      if (absY > absX * VERTICAL_DOMINANCE_RATIO) {
+        dragDirectionRef.current = 'y';
+      } else if (absX > absY) {
+        dragDirectionRef.current = 'x';
+      }
+    }
+
+    // If vertical - reset horizontal position
+    if (dragDirectionRef.current === 'y') {
+      x.set(0);
+    }
+  };
   
   const handleDragEnd = (_: any, info: PanInfo) => {
+    // If was vertical scroll - just reset
+    if (dragDirectionRef.current === 'y') {
+      setIsOpen(null);
+      x.set(0);
+      return;
+    }
+
     const offset = info.offset.x;
     const velocity = info.velocity.x;
     
@@ -113,11 +147,15 @@ export function SwipeableTrackItem({
       {/* Main content */}
       <motion.div
         drag="x"
+        dragDirectionLock
         dragConstraints={{ 
           left: -ACTION_WIDTH, 
           right: hasMultipleVersions ? ACTION_WIDTH : 0 
         }}
-        dragElastic={0.15}
+        dragElastic={0.1}
+        dragMomentum={false}
+        onDragStart={handleDragStart}
+        onDrag={handleDrag}
         onDragEnd={handleDragEnd}
         style={{ x }}
         onTap={() => {
@@ -125,7 +163,7 @@ export function SwipeableTrackItem({
             closeSwipe();
           }
         }}
-        className="relative bg-background touch-pan-y"
+        className="relative bg-background"
       >
         {children}
       </motion.div>
