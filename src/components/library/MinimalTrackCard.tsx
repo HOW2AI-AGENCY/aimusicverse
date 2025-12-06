@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, MoreHorizontal } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Play, Pause, MoreHorizontal, Volume2, Mic, Layers } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { useState } from 'react';
 import { TrackActionsSheet } from '../TrackActionsSheet';
@@ -20,6 +21,7 @@ interface MinimalTrackCardProps {
   isPlaying?: boolean;
   layout?: 'grid' | 'list';
   versionCount?: number;
+  stemCount?: number;
   index?: number;
 }
 
@@ -32,6 +34,7 @@ export const MinimalTrackCard = ({
   isPlaying,
   layout = 'grid',
   versionCount = 0,
+  stemCount = 0,
   index = 0,
 }: MinimalTrackCardProps) => {
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -119,9 +122,21 @@ export const MinimalTrackCard = ({
 
             {/* Title & Style */}
             <div className="flex-1 min-w-0">
-              <h3 className="font-medium text-sm truncate">
-                {track.title || 'Без названия'}
-              </h3>
+              <div className="flex items-center gap-1.5">
+                <h3 className="font-medium text-sm truncate">
+                  {track.title || 'Без названия'}
+                </h3>
+                {/* Type icons inline */}
+                {track.is_instrumental && (
+                  <Volume2 className="w-3 h-3 text-muted-foreground flex-shrink-0" />
+                )}
+                {!track.has_vocals && !track.is_instrumental && (
+                  <Volume2 className="w-3 h-3 text-muted-foreground flex-shrink-0" />
+                )}
+                {stemCount > 0 && (
+                  <Layers className="w-3 h-3 text-primary flex-shrink-0" />
+                )}
+              </div>
               <p className="text-xs text-muted-foreground truncate">
                 {track.style || track.tags?.split(',')[0] || '--'}
               </p>
@@ -230,16 +245,33 @@ export const MinimalTrackCard = ({
               </span>
             </motion.div>
 
-            {/* Version badge - top right */}
-            {versionCount > 1 && (
-              <div className="absolute top-2 right-2">
+            {/* Top badges - version and type */}
+            <div className="absolute top-2 left-2 right-2 flex justify-between items-start">
+              {/* Type badges */}
+              <div className="flex gap-1">
+                {track.is_instrumental && (
+                  <Badge variant="secondary" className="text-[10px] px-1.5 py-0.5 bg-background/80 backdrop-blur-sm">
+                    <Volume2 className="w-2.5 h-2.5 mr-0.5" />
+                    Инстр
+                  </Badge>
+                )}
+                {stemCount > 0 && (
+                  <Badge variant="outline" className="text-[10px] px-1.5 py-0.5 bg-background/80 backdrop-blur-sm border-primary/50">
+                    <Layers className="w-2.5 h-2.5 mr-0.5" />
+                    {stemCount}
+                  </Badge>
+                )}
+              </div>
+              
+              {/* Version toggle */}
+              {versionCount > 1 && (
                 <InlineVersionToggle
                   trackId={track.id}
                   activeVersionId={(track as any).active_version_id}
                   versionCount={versionCount}
                 />
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
           {/* Title only - ultra minimal */}

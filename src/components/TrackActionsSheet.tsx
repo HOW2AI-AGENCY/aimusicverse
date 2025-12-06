@@ -7,7 +7,7 @@ import {
   Download, Share2, Info, Trash2, Eye, EyeOff, Send,
   Scissors, Wand2, ImagePlus, FileAudio, Music2, FileText, Layers,
   Plus, Mic, Volume2, Music, Globe, Lock, ChevronDown, GitBranch, Check, Star, Users,
-  ListPlus, Play, Video, Loader2, CheckCircle2
+  ListPlus, Play, Video, Loader2, CheckCircle2, ArrowRight
 } from 'lucide-react';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { useState, useEffect } from 'react';
@@ -25,6 +25,13 @@ import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { usePlayerStore } from '@/hooks/usePlayerState';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useVideoGenerationStatus } from '@/hooks/useVideoGenerationStatus';
+import { useStemReferenceStore } from '@/stores/stemReferenceStore';
+
+interface StemInfo {
+  id: string;
+  stem_type: string;
+  audio_url: string;
+}
 
 interface TrackActionsSheetProps {
   track: Track | null;
@@ -49,9 +56,11 @@ export function TrackActionsSheet({
   const [addInstrumentalDialogOpen, setAddInstrumentalDialogOpen] = useState(false);
   const [createArtistDialogOpen, setCreateArtistDialogOpen] = useState(false);
   const [stemCount, setStemCount] = useState(0);
+  const [stems, setStems] = useState<StemInfo[]>([]);
   const [editOpen, setEditOpen] = useState(false);
   const [processOpen, setProcessOpen] = useState(false);
   const [versionsOpen, setVersionsOpen] = useState(false);
+  const [stemsOpen, setStemsOpen] = useState(false);
   const [versions, setVersions] = useState<Array<{
     id: string;
     version_label: string | null;
@@ -75,16 +84,19 @@ export function TrackActionsSheet({
     handleSendToTelegram,
   } = useTrackActions();
 
+  const { setStemReference } = useStemReferenceStore();
+
   useEffect(() => {
     if (!track) return;
     
     const fetchData = async () => {
-      // Fetch stem count
-      const { count: stemsCount } = await supabase
+      // Fetch stems with types
+      const { data: stemsData, count: stemsCount } = await supabase
         .from('track_stems')
-        .select('*', { count: 'exact', head: true })
+        .select('id, stem_type, audio_url', { count: 'exact' })
         .eq('track_id', track.id);
       setStemCount(stemsCount || 0);
+      setStems((stemsData || []) as StemInfo[]);
 
       // Fetch versions
       const { data: versionsData } = await supabase
@@ -354,6 +366,70 @@ export function TrackActionsSheet({
                   <span>Открыть в студии</span>
                   <span className="ml-auto text-xs text-muted-foreground">{stemCount} стемов</span>
                 </Button>
+
+                {/* Stem Actions Section - show specific actions based on stem types */}
+                <Collapsible open={stemsOpen} onOpenChange={setStemsOpen}>
+                  <CollapsibleTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-between gap-3 h-12"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Wand2 className="w-5 h-5" />
+                        <span>Действия со стемами</span>
+                      </div>
+                      <ChevronDown className={`w-4 h-4 transition-transform ${stemsOpen ? 'rotate-180' : ''}`} />
+                    </Button>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pl-4 space-y-1">
+                    {stems.map((stem) => {
+                      const isVocal = stem.stem_type === 'vocal' || stem.stem_type === 'vocals';
+                      const isInstrumental = stem.stem_type === 'instrumental' || 
+                        stem.stem_type === 'backing' || 
+                        stem.stem_type === 'accompaniment';
+                      
+                      const stemLabel = isVocal ? 'Вокал' : 
+                        isInstrumental ? 'Инструментал' : 
+                        stem.stem_type.charAt(0).toUpperCase() + stem.stem_type.slice(1);
+                      
+                      const actionLabel = isVocal ? 'Новая аранжировка' : 
+                        isInstrumental ? 'Наложить вокал' : 
+                        'Использовать';
+                      
+                      return (
+                        <Button
+                          key={stem.id}
+                          variant="ghost"
+                          className="w-full justify-between gap-3 h-11"
+                          onClick={() => {
+                            // Set stem as reference for generation
+                            setStemReference({
+                              url: stem.audio_url,
+                              name: `${track.title || 'Трек'} - ${stemLabel}`,
+                              type: stem.stem_type,
+                              trackId: track.id,
+                              trackTitle: track.title || undefined,
+                              trackLyrics: track.lyrics || undefined,
+                              trackStyle: track.style || undefined,
+                            });
+                            onOpenChange(false);
+                            navigate('/');
+                            toast.success(`${stemLabel} выбран для генерации`);
+                          }}
+                        >
+                          <div className="flex items-center gap-2">
+                            {isVocal ? <Mic className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                            <span>{stemLabel}</span>
+                          </div>
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <span>{actionLabel}</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </div>
+                        </Button>
+                      );
+                    })}
+                  </CollapsibleContent>
+                </Collapsible>
               </>
             )}
 
@@ -388,8 +464,9 @@ export function TrackActionsSheet({
                       <span>Расширить</span>
                     </Button>
 
-                    {/* Show "Add vocals" only for instrumental tracks */}
-                    {(track.is_instrumental === true || track.has_vocals === false) && (
+                    {/* Show "Add vocals" for instrumental tracks OR if has instrumental stem */}
+                    {(track.is_instrumental === true || track.has_vocals === false || 
+                      stems.some(s => s.stem_type === 'instrumental' || s.stem_type === 'backing' || s.stem_type === 'accompaniment')) && (
                       <Button
                         variant="ghost"
                         className="w-full justify-start gap-3 h-11"
@@ -403,8 +480,8 @@ export function TrackActionsSheet({
                       </Button>
                     )}
 
-                    {/* Show "Add instrumental/arrangement" for tracks with vocals */}
-                    {track.has_vocals === true && (
+                    {/* Show "New arrangement" if has vocal stem */}
+                    {stems.some(s => s.stem_type === 'vocal' || s.stem_type === 'vocals') && (
                       <Button
                         variant="ghost"
                         className="w-full justify-start gap-3 h-11"
@@ -414,7 +491,22 @@ export function TrackActionsSheet({
                         }}
                       >
                         <Volume2 className="w-4 h-4" />
-                        <span>{stemCount > 0 ? 'Новая аранжировка' : 'Добавить инструментал'}</span>
+                        <span>Новая аранжировка</span>
+                      </Button>
+                    )}
+
+                    {/* Show "Add instrumental" for tracks with vocals but no stems */}
+                    {track.has_vocals === true && stemCount === 0 && (
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-start gap-3 h-11"
+                        onClick={() => {
+                          onOpenChange(false);
+                          setAddInstrumentalDialogOpen(true);
+                        }}
+                      >
+                        <Volume2 className="w-4 h-4" />
+                        <span>Добавить инструментал</span>
                       </Button>
                     )}
 
