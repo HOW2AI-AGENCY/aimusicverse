@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, FolderOpen, Plus, Library, Users } from 'lucide-react';
+import { Home, FolderOpen, Plus, Library, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { GenerateSheet } from './GenerateSheet';
+import { NavigationMenuSheet } from './NavigationMenuSheet';
 
 export const BottomNavigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { hapticFeedback } = useTelegram();
   const [generateOpen, setGenerateOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleNavigate = (path: string) => {
     hapticFeedback('light');
@@ -19,6 +21,11 @@ export const BottomNavigation = () => {
   const handleGenerateClick = () => {
     hapticFeedback('medium');
     setGenerateOpen(true);
+  };
+
+  const handleMenuClick = () => {
+    hapticFeedback('light');
+    setMenuOpen(true);
   };
 
   const isActive = (path: string) => location.pathname === path;
@@ -78,24 +85,25 @@ export const BottomNavigation = () => {
               <span className="text-xs font-medium">Библиотека</span>
             </button>
 
-            {/* Actors (replaced Profile) */}
+            {/* Menu */}
             <button
-              onClick={() => handleNavigate('/actors')}
+              onClick={handleMenuClick}
               className={cn(
                 "flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all min-h-[44px] min-w-[44px] touch-manipulation active:scale-95",
-                isActive('/actors')
+                menuOpen
                   ? "text-primary bg-primary/10"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/50 active:bg-muted"
               )}
             >
-              <Users className="w-5 h-5" />
-              <span className="text-xs font-medium">Артисты</span>
+              <Menu className="w-5 h-5" />
+              <span className="text-xs font-medium">Меню</span>
             </button>
           </div>
         </div>
       </nav>
 
       <GenerateSheet open={generateOpen} onOpenChange={setGenerateOpen} />
+      <NavigationMenuSheet open={menuOpen} onOpenChange={setMenuOpen} />
     </>
   );
 };
