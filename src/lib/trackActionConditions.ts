@@ -1,5 +1,7 @@
+import React from 'react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { ActionId, TRACK_ACTIONS } from '@/config/trackActionsConfig';
+import { Lock, Globe, Loader2, CheckCircle2 } from 'lucide-react';
 
 export interface TrackActionState {
   stemCount: number;
@@ -92,25 +94,23 @@ export function getActionIcon(
   actionId: ActionId,
   track: Track,
   state: TrackActionState
-): { icon: any; className?: string } | null {
+): { icon: React.ComponentType<any>; className?: string } | null {
   switch (actionId) {
     case 'toggle_public':
       return {
-        icon: track.is_public ? 
-          require('lucide-react').Lock : 
-          require('lucide-react').Globe,
+        icon: track.is_public ? Lock : Globe,
       };
 
     case 'generate_video':
       if (state.isVideoGenerating) {
         return {
-          icon: require('lucide-react').Loader2,
+          icon: Loader2,
           className: 'animate-spin',
         };
       }
       if (state.hasVideo) {
         return {
-          icon: require('lucide-react').CheckCircle2,
+          icon: CheckCircle2,
           className: 'text-green-500',
         };
       }

@@ -4,7 +4,7 @@ import { Play, Pause } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { TrackDetailsSheet } from '@/components/track/TrackDetailsSheet';
-import { TrackActionsMenu } from '@/components/TrackActionsMenu';
+import { UnifiedTrackMenu } from '@/components/track-actions';
 import { TrackTypeIcons } from '@/components/library/TrackTypeIcons';
 import { VersionBadge } from '@/components/library/VersionBadge';
 import { useTrackVersions } from '@/hooks/useTrackVersions';
@@ -15,13 +15,17 @@ interface TrackRowProps {
   isPlaying?: boolean;
   onPlay?: () => void;
   onMoreActions?: () => void;
+  onDelete?: () => void;
+  onDownload?: () => void;
 }
 
 export function TrackRow({ 
   track, 
   isPlaying, 
   onPlay, 
-  onMoreActions 
+  onMoreActions,
+  onDelete,
+  onDownload
 }: TrackRowProps) {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const { data: versions = [] } = useTrackVersions(track.id);
@@ -99,7 +103,11 @@ export function TrackRow({
           </Button>
           
           <div onClick={(e) => e.stopPropagation()}>
-            <TrackActionsMenu track={track} />
+            <UnifiedTrackMenu 
+              track={track} 
+              onDelete={onDelete}
+              onDownload={onDownload}
+            />
           </div>
         </div>
       </div>
