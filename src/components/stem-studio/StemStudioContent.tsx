@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   ChevronLeft, Play, Pause, SkipBack, SkipForward,
-  Volume2, VolumeX
+  Volume2, VolumeX, HelpCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -12,6 +12,7 @@ import { StemChannel } from '@/components/stem-studio/StemChannel';
 import { StemDownloadPanel } from '@/components/stem-studio/StemDownloadPanel';
 import { StemReferenceDialog } from '@/components/stem-studio/StemReferenceDialog';
 import { MidiSection } from '@/components/stem-studio/MidiSection';
+import { StemStudioTutorial, useStemStudioTutorial } from '@/components/stem-studio/StemStudioTutorial';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -32,6 +33,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   const { data: stems, isLoading: stemsLoading } = useTrackStems(trackId);
   const { tracks } = useTracks();
   const track = tracks?.find(t => t.id === trackId);
+  const { showTutorial, setShowTutorial, startTutorial } = useStemStudioTutorial();
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -235,6 +237,12 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
 
   return (
     <div className="h-screen flex flex-col bg-background overflow-hidden">
+      {/* Tutorial Overlay */}
+      <StemStudioTutorial 
+        forceShow={showTutorial} 
+        onComplete={() => setShowTutorial(false)} 
+      />
+
       {/* Header */}
       <header className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-border/50 bg-card/50 backdrop-blur">
         <div className="flex items-center gap-3">
@@ -256,24 +264,37 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           </div>
         </div>
 
-        {!isMobile && stems && track.audio_url && (
-          <div className="flex items-center gap-2">
-            <MidiSection 
-              trackId={trackId} 
-              trackTitle={track.title || 'Трек'} 
-              audioUrl={track.audio_url}
-            />
-            <StemReferenceDialog 
-              stems={stems} 
-              trackTitle={track.title || 'Трек'} 
-              trackLyrics={track.lyrics}
-              trackStyle={track.style}
-              trackPrompt={track.prompt}
-              trackTags={track.tags}
-            />
-            <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          {/* Help button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={startTutorial}
+            className="h-9 w-9 rounded-full"
+            title="Показать обучение"
+          >
+            <HelpCircle className="w-4 h-4" />
+          </Button>
+
+          {!isMobile && stems && track.audio_url && (
+            <>
+              <MidiSection 
+                trackId={trackId} 
+                trackTitle={track.title || 'Трек'} 
+                audioUrl={track.audio_url}
+              />
+              <StemReferenceDialog 
+                stems={stems} 
+                trackTitle={track.title || 'Трек'} 
+                trackLyrics={track.lyrics}
+                trackStyle={track.style}
+                trackPrompt={track.prompt}
+                trackTags={track.tags}
+              />
+              <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
+            </>
+          )}
+        </div>
       </header>
 
       {/* Timeline / Progress */}
