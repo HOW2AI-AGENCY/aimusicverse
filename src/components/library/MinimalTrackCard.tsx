@@ -1,10 +1,10 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Play, Pause, MoreHorizontal, Volume2, Mic, Layers } from 'lucide-react';
+import { Play, Pause, MoreHorizontal, Volume2, Layers } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { useState } from 'react';
-import { TrackActionsSheet } from '../TrackActionsSheet';
+import { UnifiedTrackSheet } from '@/components/track-actions';
 import { InlineVersionToggle } from './InlineVersionToggle';
 import { LazyImage } from '@/components/ui/lazy-image';
 import { cn } from '@/lib/utils';
@@ -173,7 +173,7 @@ export const MinimalTrackCard = ({
           </Card>
         </motion.div>
         
-        <TrackActionsSheet
+        <UnifiedTrackSheet
           track={track}
           open={sheetOpen}
           onOpenChange={setSheetOpen}
@@ -284,7 +284,7 @@ export const MinimalTrackCard = ({
         </Card>
       </motion.div>
 
-      <TrackActionsSheet
+      <UnifiedTrackSheet
         track={track}
         open={sheetOpen}
         onOpenChange={setSheetOpen}
