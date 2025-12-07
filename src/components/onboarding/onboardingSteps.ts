@@ -1,4 +1,4 @@
-import { Music2, Mic2, Library, Layers, FolderKanban, UserCircle, ListMusic, Sparkles, Hand } from 'lucide-react';
+import { Music2, Mic2, Library, Layers, FolderKanban, UserCircle, ListMusic, Sparkles, Hand, Waves, FileMusic } from 'lucide-react';
 
 export interface OnboardingStep {
   id: string;
@@ -47,6 +47,19 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     title: 'Быстрые действия',
     description: 'На мобильных: свайп влево — добавить в очередь, свайп вправо — сменить версию. Быстро и удобно!',
     icon: Hand,
+  },
+  {
+    id: 'stem-studio',
+    title: 'Stem Studio',
+    description: 'Разделяйте треки на отдельные дорожки (вокал, ударные, бас). Управляйте громкостью каждого стема, используйте mute/solo, видите waveform визуализацию.',
+    icon: Waves,
+    route: '/stem-studio',
+  },
+  {
+    id: 'midi',
+    title: 'MIDI Транскрипция',
+    description: 'Конвертируйте аудио в MIDI файлы для использования в DAW. Выбирайте между моделями MT3 (точная) или Basic Pitch (быстрая).',
+    icon: FileMusic,
   },
   {
     id: 'projects',
