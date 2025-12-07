@@ -7,8 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { 
   Sparkles, Send, RotateCcw, Copy, Check,
-  ChevronRight, Loader2
+  ChevronRight, Loader2, Bookmark, BookmarkCheck
 } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -102,10 +103,13 @@ export function LyricsChatAssistant({
   initialLanguage = 'ru',
 }: LyricsChatAssistantProps) {
   const isMobile = useIsMobile();
+  const { user } = useAuth();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   
   const [theme, setTheme] = useState('');
@@ -382,6 +386,40 @@ export function LyricsChatAssistant({
     toast.success('Скопировано');
   };
 
+  const handleSaveToLibrary = async () => {
+    if (!generatedLyrics || !user) {
+      toast.error('Войдите в аккаунт для сохранения');
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const genreLabel = GENRES.find(g => g.value === genre)?.label || genre || 'Общий';
+      const moodLabels = mood.map(m => MOODS.find(mo => mo.value === m)?.label || m);
+      const templateName = theme 
+        ? `${theme.slice(0, 50)}${theme.length > 50 ? '...' : ''}`
+        : `Текст песни (${genreLabel})`;
+
+      const { error } = await supabase.from('prompt_templates').insert({
+        user_id: user.id,
+        name: templateName,
+        template_text: generatedLyrics,
+        tags: [genreLabel, ...moodLabels].filter(Boolean),
+        is_public: false,
+      });
+
+      if (error) throw error;
+
+      setSaved(true);
+      toast.success('Сохранено в библиотеку шаблонов');
+    } catch (err) {
+      console.error('Error saving template:', err);
+      toast.error('Ошибка сохранения');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const handleClose = () => {
     setMessages([]);
     setTheme('');
@@ -389,6 +427,7 @@ export function LyricsChatAssistant({
     setMood(initialMood || []);
     setStructure('standard');
     setGeneratedLyrics('');
+    setSaved(false);
     onOpenChange(false);
   };
 
@@ -566,6 +605,29 @@ export function LyricsChatAssistant({
                 initial="idle"
                 whileHover="hover"
                 whileTap="tap"
+                className={cn(
+                  "inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50",
+                  saved 
+                    ? "bg-green-500/20 text-green-600 dark:text-green-400" 
+                    : "bg-secondary/50 hover:bg-secondary"
+                )}
+                onClick={handleSaveToLibrary}
+                disabled={isSaving || saved}
+              >
+                {isSaving ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : saved ? (
+                  <BookmarkCheck className="h-3.5 w-3.5" />
+                ) : (
+                  <Bookmark className="h-3.5 w-3.5" />
+                )}
+                {saved ? 'Сохранено' : 'В библиотеку'}
+              </motion.button>
+              <motion.button
+                variants={buttonVariants}
+                initial="idle"
+                whileHover="hover"
+                whileTap="tap"
                 className="inline-flex items-center gap-1.5 px-3 py-2 bg-secondary/50 hover:bg-secondary rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
                 onClick={regenerateLyrics}
                 disabled={isLoading}
@@ -586,7 +648,7 @@ export function LyricsChatAssistant({
               </motion.button>
             </div>
             <p className="text-xs text-muted-foreground px-1">
-              💡 Напишите, что изменить, например: "сделай припев короче"
+              💡 Напишите, что изменить, или сохраните текст в библиотеку
             </p>
           </motion.div>
         );
