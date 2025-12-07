@@ -8,36 +8,53 @@ import { TransactionHistory } from '@/components/gamification/TransactionHistory
 import { StreakCalendar } from '@/components/gamification/StreakCalendar';
 import { DailyMissions } from '@/components/gamification/DailyMissions';
 import { QuickStats } from '@/components/gamification/QuickStats';
-import { Trophy, Crown, History, Target } from 'lucide-react';
+import { CreditsBalance } from '@/components/gamification/CreditsBalance';
+import { Trophy, Crown, History, Target, Coins, Gift } from 'lucide-react';
 
 export default function Rewards() {
   return (
     <div className="min-h-screen pb-24">
       <div className="container max-w-lg mx-auto px-4 py-6">
-        {/* Header */}
+        {/* Header with gradient */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6"
+          className="mb-6 relative"
         >
-          <h1 className="text-2xl font-bold mb-1">Награды</h1>
-          <p className="text-muted-foreground text-sm">
-            Выполняй миссии и открывай достижения
-          </p>
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-yellow-500/10 to-primary/10 rounded-2xl blur-xl" />
+          <div className="relative bg-card/50 backdrop-blur-sm rounded-2xl p-4 border border-primary/10">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-bold flex items-center gap-2">
+                  <Gift className="w-6 h-6 text-primary" />
+                  Награды
+                </h1>
+                <p className="text-muted-foreground text-sm mt-1">
+                  Выполняй миссии и открывай достижения
+                </p>
+              </div>
+              <CreditsBalance compact />
+            </div>
+          </div>
         </motion.div>
 
         {/* Level & Check-in Section */}
-        <div className="space-y-4 mb-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="space-y-4 mb-6"
+        >
           <UserLevel />
           <DailyCheckin />
           <StreakCalendar />
-        </div>
+        </motion.div>
 
         {/* Quick Stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
+          transition={{ delay: 0.2 }}
           className="mb-6"
         >
           <QuickStats />
@@ -47,49 +64,55 @@ export default function Rewards() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.3 }}
           className="mb-6"
         >
           <DailyMissions />
         </motion.div>
 
         {/* Tabs Section */}
-        <Tabs defaultValue="achievements" className="w-full">
-          <TabsList className="w-full grid grid-cols-4 mb-4">
-            <TabsTrigger value="achievements" className="gap-1 text-xs">
-              <Trophy className="w-4 h-4" />
-              <span className="hidden sm:inline">Мои</span>
-            </TabsTrigger>
-            <TabsTrigger value="all" className="gap-1 text-xs">
-              <Target className="w-4 h-4" />
-              <span className="hidden sm:inline">Все</span>
-            </TabsTrigger>
-            <TabsTrigger value="leaderboard" className="gap-1 text-xs">
-              <Crown className="w-4 h-4" />
-              <span className="hidden sm:inline">Топ</span>
-            </TabsTrigger>
-            <TabsTrigger value="history" className="gap-1 text-xs">
-              <History className="w-4 h-4" />
-              <span className="hidden sm:inline">История</span>
-            </TabsTrigger>
-          </TabsList>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
+          <Tabs defaultValue="achievements" className="w-full">
+            <TabsList className="w-full grid grid-cols-4 mb-4 bg-muted/50">
+              <TabsTrigger value="achievements" className="gap-1 text-xs data-[state=active]:bg-primary/10">
+                <Trophy className="w-4 h-4" />
+                <span className="hidden sm:inline">Мои</span>
+              </TabsTrigger>
+              <TabsTrigger value="all" className="gap-1 text-xs data-[state=active]:bg-primary/10">
+                <Target className="w-4 h-4" />
+                <span className="hidden sm:inline">Все</span>
+              </TabsTrigger>
+              <TabsTrigger value="leaderboard" className="gap-1 text-xs data-[state=active]:bg-primary/10">
+                <Crown className="w-4 h-4" />
+                <span className="hidden sm:inline">Топ</span>
+              </TabsTrigger>
+              <TabsTrigger value="history" className="gap-1 text-xs data-[state=active]:bg-primary/10">
+                <History className="w-4 h-4" />
+                <span className="hidden sm:inline">История</span>
+              </TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="achievements" className="mt-0">
-            <AchievementsList showAll={false} />
-          </TabsContent>
+            <TabsContent value="achievements" className="mt-0">
+              <AchievementsList showAll={false} />
+            </TabsContent>
 
-          <TabsContent value="all" className="mt-0">
-            <AchievementsList showAll={true} />
-          </TabsContent>
+            <TabsContent value="all" className="mt-0">
+              <AchievementsList showAll={true} />
+            </TabsContent>
 
-          <TabsContent value="leaderboard" className="mt-0">
-            <Leaderboard />
-          </TabsContent>
+            <TabsContent value="leaderboard" className="mt-0">
+              <Leaderboard />
+            </TabsContent>
 
-          <TabsContent value="history" className="mt-0">
-            <TransactionHistory />
-          </TabsContent>
-        </Tabs>
+            <TabsContent value="history" className="mt-0">
+              <TransactionHistory />
+            </TabsContent>
+          </Tabs>
+        </motion.div>
       </div>
     </div>
   );
