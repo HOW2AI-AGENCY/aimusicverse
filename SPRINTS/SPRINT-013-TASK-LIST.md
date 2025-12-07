@@ -71,6 +71,10 @@ Implementing advanced audio features for Stem Studio including waveform visualiz
 - [x] **T040** Enhance `DailyCheckin` with reward celebration
 - [x] **T041** Improve `CreditsBalance` with animations
 - [x] **T042** Improve `TransactionHistory` with grouped view and colors
+- [x] **T043** Create `sound-effects.ts` engine with Web Audio API
+- [x] **T044** Create `useRewards` hook for credits/XP/achievements
+- [x] **T045** Create `SoundToggle` component
+- [x] **T046** Create `WeeklyChallenges` component with difficulty badges
 
 ---
 

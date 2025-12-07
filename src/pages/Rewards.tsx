@@ -7,9 +7,11 @@ import { Leaderboard } from '@/components/gamification/Leaderboard';
 import { TransactionHistory } from '@/components/gamification/TransactionHistory';
 import { StreakCalendar } from '@/components/gamification/StreakCalendar';
 import { DailyMissions } from '@/components/gamification/DailyMissions';
+import { WeeklyChallenges } from '@/components/gamification/WeeklyChallenges';
 import { QuickStats } from '@/components/gamification/QuickStats';
 import { CreditsBalance } from '@/components/gamification/CreditsBalance';
-import { Trophy, Crown, History, Target, Coins, Gift } from 'lucide-react';
+import { SoundToggle } from '@/components/gamification/SoundToggle';
+import { Trophy, Crown, History, Target, Gift, Calendar } from 'lucide-react';
 
 export default function Rewards() {
   return (
@@ -33,7 +35,10 @@ export default function Rewards() {
                   Выполняй миссии и открывай достижения
                 </p>
               </div>
-              <CreditsBalance compact />
+              <div className="flex items-center gap-2">
+                <SoundToggle size="sm" />
+                <CreditsBalance compact />
+              </div>
             </div>
           </div>
         </motion.div>
@@ -60,17 +65,36 @@ export default function Rewards() {
           <QuickStats />
         </motion.div>
 
-        {/* Daily Missions */}
+        {/* Missions Tabs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           className="mb-6"
         >
-          <DailyMissions />
+          <Tabs defaultValue="daily" className="w-full">
+            <TabsList className="w-full grid grid-cols-2 mb-3 bg-muted/50">
+              <TabsTrigger value="daily" className="gap-1.5 text-xs data-[state=active]:bg-primary/10">
+                <Target className="w-4 h-4" />
+                Ежедневные
+              </TabsTrigger>
+              <TabsTrigger value="weekly" className="gap-1.5 text-xs data-[state=active]:bg-primary/10">
+                <Calendar className="w-4 h-4" />
+                Еженедельные
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="daily" className="mt-0">
+              <DailyMissions />
+            </TabsContent>
+            
+            <TabsContent value="weekly" className="mt-0">
+              <WeeklyChallenges />
+            </TabsContent>
+          </Tabs>
         </motion.div>
 
-        {/* Tabs Section */}
+        {/* Achievements & Leaderboard Tabs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
