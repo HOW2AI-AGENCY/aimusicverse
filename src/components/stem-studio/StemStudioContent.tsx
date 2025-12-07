@@ -11,6 +11,7 @@ import { useTracks } from '@/hooks/useTracks';
 import { StemChannel } from '@/components/stem-studio/StemChannel';
 import { StemDownloadPanel } from '@/components/stem-studio/StemDownloadPanel';
 import { StemReferenceDialog } from '@/components/stem-studio/StemReferenceDialog';
+import { MidiSection } from '@/components/stem-studio/MidiSection';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -73,7 +74,6 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     });
     
     setStemStates(prev => {
-      // Only update if we don't have states yet
       if (Object.keys(prev).length === 0) {
         return initialStates;
       }
@@ -121,7 +121,6 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       }
       setIsPlaying(false);
     } else {
-      // Sync all audio elements to current time
       audios.forEach(audio => {
         audio.currentTime = currentTime;
       });
@@ -143,11 +142,8 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
 
       if (type === 'solo') {
         const wasSolo = prev[stemId]?.solo;
-        
-        // Toggle solo for this stem
         newStates[stemId] = { ...newStates[stemId], solo: !wasSolo };
         
-        // If we're enabling solo on this one, disable solo on others
         if (!wasSolo) {
           Object.keys(newStates).forEach(id => {
             if (id !== stemId) {
@@ -170,13 +166,13 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     }));
   };
 
-  const handleSeek = (value: number[]) => {
-    const time = value[0];
+  const handleSeek = useCallback((value: number[] | number) => {
+    const time = Array.isArray(value) ? value[0] : value;
     setCurrentTime(time);
     Object.values(audioRefs.current).forEach(audio => {
       audio.currentTime = time;
     });
-  };
+  }, []);
 
   const handleSkip = (direction: 'back' | 'forward') => {
     const skipAmount = 10;
@@ -191,6 +187,34 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     const secs = Math.floor(seconds % 60);
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+      
+      switch (e.code) {
+        case 'Space':
+          e.preventDefault();
+          togglePlay();
+          break;
+        case 'ArrowLeft':
+          handleSkip('back');
+          break;
+        case 'ArrowRight':
+          handleSkip('forward');
+          break;
+        case 'KeyM':
+          setMasterMuted(prev => !prev);
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [togglePlay, handleSkip]);
 
   if (!track || stemsLoading) {
     return (
@@ -232,8 +256,13 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           </div>
         </div>
 
-        {!isMobile && stems && (
+        {!isMobile && stems && track.audio_url && (
           <div className="flex items-center gap-2">
+            <MidiSection 
+              trackId={trackId} 
+              trackTitle={track.title || 'Трек'} 
+              audioUrl={track.audio_url}
+            />
             <StemReferenceDialog 
               stems={stems} 
               trackTitle={track.title || 'Трек'} 
@@ -301,7 +330,14 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
 
       {/* Mobile Actions */}
       {isMobile && stems && (
-        <div className="px-4 py-3 border-b border-border/30 flex gap-2">
+        <div className="px-4 py-3 border-b border-border/30 flex gap-2 overflow-x-auto">
+          {track.audio_url && (
+            <MidiSection 
+              trackId={trackId} 
+              trackTitle={track.title || 'Трек'} 
+              audioUrl={track.audio_url}
+            />
+          )}
           <StemReferenceDialog 
             stems={stems} 
             trackTitle={track.title || 'Трек'} 
@@ -324,12 +360,15 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
             onToggle={(type) => handleStemToggle(stem.id, type)}
             onVolumeChange={(vol) => handleVolumeChange(stem.id, vol)}
             isPlaying={isPlaying}
+            currentTime={currentTime}
+            duration={duration}
+            onSeek={handleSeek}
           />
         ))}
       </main>
 
       {/* Footer Player */}
-      <footer className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur border-t border-border/50 px-4 sm:px-6 py-4 safe-area-pb">
+      <footer className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur border-t border-border/50 px-4 sm:px-6 py-4 safe-area-pb z-50">
         <div className={cn(
           "flex items-center gap-4 max-w-screen-xl mx-auto",
           isMobile ? "justify-center" : "justify-between"
@@ -367,18 +406,12 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
             </Button>
           </div>
 
-          {/* Export/Download (desktop only) */}
-          {!isMobile && stems && (
-            <div className="flex items-center gap-2">
-              <StemReferenceDialog 
-                stems={stems} 
-                trackTitle={track.title || 'Трек'} 
-                trackLyrics={track.lyrics}
-                trackStyle={track.style}
-                trackPrompt={track.prompt}
-                trackTags={track.tags}
-              />
-              <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
+          {/* Keyboard Shortcuts Hint (desktop only) */}
+          {!isMobile && (
+            <div className="text-xs text-muted-foreground hidden lg:flex items-center gap-4">
+              <span><kbd className="px-1.5 py-0.5 rounded bg-muted">Space</kbd> Play/Pause</span>
+              <span><kbd className="px-1.5 py-0.5 rounded bg-muted">M</kbd> Mute</span>
+              <span><kbd className="px-1.5 py-0.5 rounded bg-muted">←</kbd><kbd className="px-1.5 py-0.5 rounded bg-muted ml-1">→</kbd> Skip</span>
             </div>
           )}
         </div>
