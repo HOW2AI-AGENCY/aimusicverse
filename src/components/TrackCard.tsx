@@ -599,7 +599,6 @@ export const TrackCard = ({
       onDelete={onDelete}
       onDownload={onDownload}
     />
-    />
     
     </motion.div>
     
