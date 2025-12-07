@@ -55,19 +55,57 @@ serve(async (req) => {
       }
     ) as string;
 
-    console.log('MIDI transcription completed:', midiUrl);
+    console.log('MIDI transcription completed, downloading file...');
+
+    // Download MIDI from Replicate
+    const midiResponse = await fetch(midiUrl);
+    if (!midiResponse.ok) {
+      throw new Error(`Failed to download MIDI: ${midiResponse.statusText}`);
+    }
+    
+    const midiArrayBuffer = await midiResponse.arrayBuffer();
+    const midiBlob = new Uint8Array(midiArrayBuffer);
+
+    // Generate unique filename
+    const timestamp = Date.now();
+    const sanitizedTitle = (track.title || 'track').replace(/[^\w\s-]/g, '').replace(/\s+/g, '_');
+    const midiPath = `midi/${track.user_id}/${track_id}_${sanitizedTitle}_${timestamp}.mid`;
+
+    console.log('Uploading MIDI to Storage:', midiPath);
+
+    // Upload to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('project-assets')
+      .upload(midiPath, midiBlob, {
+        contentType: 'audio/midi',
+        upsert: false,
+      });
+
+    if (uploadError) {
+      console.error('Storage upload error:', uploadError);
+      throw new Error(`Failed to upload MIDI: ${uploadError.message}`);
+    }
+
+    // Get public URL
+    const { data: urlData } = supabase.storage
+      .from('project-assets')
+      .getPublicUrl(midiPath);
+
+    const permanentMidiUrl = urlData.publicUrl;
+    console.log('MIDI uploaded successfully:', permanentMidiUrl);
 
     // Create a track version for the MIDI file
     const { data: version, error: versionError } = await supabase
       .from('track_versions')
       .insert({
         track_id,
-        audio_url: midiUrl,
+        audio_url: permanentMidiUrl,
         version_type: 'midi_transcription',
         metadata: {
           model_type,
           original_audio_url: audio_url,
           transcribed_at: new Date().toISOString(),
+          storage_path: midiPath,
         },
       })
       .select()
@@ -91,14 +129,15 @@ serve(async (req) => {
         version_id: version.id,
         metadata: {
           model_type,
-          midi_url: midiUrl,
+          midi_url: permanentMidiUrl,
+          storage_path: midiPath,
         },
       });
 
     return new Response(
       JSON.stringify({
         success: true,
-        midi_url: midiUrl,
+        midi_url: permanentMidiUrl,
         version,
       }),
       {
