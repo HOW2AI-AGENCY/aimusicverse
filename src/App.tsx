@@ -31,6 +31,7 @@ const Onboarding = lazy(() => import("./pages/Onboarding"));
 const Rewards = lazy(() => import("./pages/Rewards"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const Templates = lazy(() => import("./pages/Templates"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 
@@ -78,6 +79,7 @@ const App = () => (
                 <Route path="/rewards" element={<Rewards />} />
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/templates" element={<Templates />} />
                 </Route>
 
                 {/* Routes without BottomNavigation */}

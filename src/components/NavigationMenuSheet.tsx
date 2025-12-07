@@ -14,7 +14,8 @@ import {
   LogOut,
   ChevronRight,
   Sparkles,
-  Gift
+  Gift,
+  FileText
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
@@ -37,6 +38,7 @@ const menuSections: { title: string; items: MenuItem[] }[] = [
     title: 'Музыка',
     items: [
       { icon: ListMusic, label: 'Плейлисты', path: '/playlists', badgeVariant: 'count' },
+      { icon: FileText, label: 'Шаблоны текстов', path: '/templates' },
       { icon: Users, label: 'Мои AI-артисты', path: '/actors' },
       { icon: Globe, label: 'Сообщество', path: '/community' },
       { icon: BookOpen, label: 'Блог', path: '/blog', badge: 'NEW', badgeVariant: 'new' },
