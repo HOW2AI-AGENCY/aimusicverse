@@ -208,9 +208,33 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     }
   }, [open]);
 
+  // Check for template lyrics from sessionStorage
+  useEffect(() => {
+    if (open) {
+      const templateLyrics = sessionStorage.getItem('templateLyrics');
+      const templateName = sessionStorage.getItem('templateName');
+      if (templateLyrics) {
+        setMode('custom');
+        setLyrics(templateLyrics);
+        if (templateName) {
+          setTitle(templateName.slice(0, 80));
+        }
+        sessionStorage.removeItem('templateLyrics');
+        sessionStorage.removeItem('templateName');
+        toast.success('Шаблон загружен', {
+          description: 'Текст добавлен в форму',
+        });
+      }
+    }
+  }, [open]);
+
   // Restore draft when sheet opens (if no plan track context)
   useEffect(() => {
     if (open && hasDraft && draft && !planTrackContext) {
+      // Don't restore if we just loaded a template
+      const hasTemplate = sessionStorage.getItem('templateLyrics');
+      if (hasTemplate) return;
+      
       setMode(draft.mode);
       setDescription(draft.description);
       setTitle(draft.title);
