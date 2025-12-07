@@ -43,13 +43,39 @@ Implementing advanced audio features for Stem Studio including waveform visualiz
 
 ---
 
+## Completed Tasks (Phase 2) ✅
+
+### Phase 5: Track Actions Unification
+- [x] **T020** Create unified track actions config (`trackActionsConfig.ts`)
+- [x] **T021** Create action conditions logic (`trackActionConditions.ts`)
+- [x] **T022** Create `useTrackActionsState` hook
+- [x] **T023** Create unified action sections (Queue, Share, Organize, Studio, Edit, Info, Danger)
+- [x] **T024** Create `TrackDialogsPortal` for centralized dialog management
+- [x] **T025** Create `UnifiedTrackMenu` (dropdown for desktop)
+- [x] **T026** Create `UnifiedTrackSheet` (bottom sheet for mobile)
+- [x] **T027** Integrate unified components into TrackCard
+- [x] **T028** Integrate unified components into TrackRow
+- [x] **T029** Integrate unified components into MinimalTrackCard
+- [x] **T030** Delete deprecated TrackActionsMenu.tsx
+- [x] **T031** Delete deprecated TrackActionsSheet.tsx
+
+### Phase 6: Gamification System Improvements
+- [x] **T032** Create `StreakCalendar` component (7-day activity view)
+- [x] **T033** Create `DailyMissions` component with progress tracking
+- [x] **T034** Create `QuickStats` component (credits, streak, tracks, achievements)
+- [x] **T035** Update Rewards page with new layout
+- [x] **T036** Add mission action buttons with navigation
+
+---
+
 ## In Progress 🔄
 
-- [ ] **T020** Add audio effects panel (EQ, Reverb, Compressor)
-- [ ] **T021** Create effect presets system
-- [ ] **T022** Implement mix export functionality
-- [ ] **T023** Add loop region selection
-- [ ] **T024** Create Piano Roll MIDI visualization
+- [ ] **T040** Add audio effects panel (EQ, Reverb, Compressor)
+- [ ] **T041** Create effect presets system
+- [ ] **T042** Implement mix export functionality
+- [ ] **T043** Add loop region selection
+- [ ] **T044** Create Piano Roll MIDI visualization
+- [ ] **T045** Add keyboard shortcuts for track actions
 
 ---
 
