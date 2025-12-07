@@ -6,8 +6,7 @@ import { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { TrackActionsMenu } from './TrackActionsMenu';
-import { TrackActionsSheet } from './TrackActionsSheet';
+import { UnifiedTrackMenu, UnifiedTrackSheet } from './track-actions';
 import { InlineVersionToggle } from './library/InlineVersionToggle';
 import { TrackTypeIcons } from './library/TrackTypeIcons';
 import { SwipeableTrackItem } from './library/SwipeableTrackItem';
@@ -357,7 +356,7 @@ export const TrackCard = ({
               <MoreHorizontal className="w-5 h-5" />
             </Button>
           ) : (
-            <TrackActionsMenu track={track} onDelete={onDelete} onDownload={onDownload} />
+            <UnifiedTrackMenu track={track} onDelete={onDelete} onDownload={onDownload} />
           )}
         </div>
       </Card>
@@ -378,7 +377,7 @@ export const TrackCard = ({
         ) : (
           listContent
         )}
-        <TrackActionsSheet track={track} open={sheetOpen} onOpenChange={setSheetOpen} onDelete={onDelete} onDownload={onDownload} />
+        <UnifiedTrackSheet track={track} open={sheetOpen} onOpenChange={setSheetOpen} onDelete={onDelete} onDownload={onDownload} />
       </>
     );
   }
@@ -551,7 +550,7 @@ export const TrackCard = ({
                 <MoreHorizontal className="w-5 h-5" />
               </Button>
           ) : (
-              <TrackActionsMenu track={track} onDelete={onDelete} onDownload={onDownload} />
+              <UnifiedTrackMenu track={track} onDelete={onDelete} onDownload={onDownload} />
           )}
         </div>
 
@@ -593,12 +592,13 @@ export const TrackCard = ({
       </div>
     </Card>
 
-    <TrackActionsSheet
+    <UnifiedTrackSheet
       track={track}
       open={sheetOpen}
       onOpenChange={setSheetOpen}
       onDelete={onDelete}
       onDownload={onDownload}
+    />
     />
     
     </motion.div>

@@ -1,0 +1,152 @@
+import { Track } from '@/hooks/useTracksOptimized';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Separator } from '@/components/ui/separator';
+import { useTrackActionsState } from '@/hooks/useTrackActionsState';
+import { QueueActions } from './sections/QueueActions';
+import { ShareActions } from './sections/ShareActions';
+import { OrganizeActions } from './sections/OrganizeActions';
+import { StudioActions } from './sections/StudioActions';
+import { EditActions } from './sections/EditActions';
+import { InfoActions } from './sections/InfoActions';
+import { DangerActions } from './sections/DangerActions';
+import { TrackDialogsPortal } from './TrackDialogsPortal';
+import { VersionsSection } from './sections/VersionsSection';
+
+interface UnifiedTrackSheetProps {
+  track: Track | null;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onDelete?: () => void;
+  onDownload?: () => void;
+}
+
+export function UnifiedTrackSheet({ 
+  track, 
+  open, 
+  onOpenChange,
+  onDelete,
+  onDownload 
+}: UnifiedTrackSheetProps) {
+  const {
+    actionState,
+    isProcessing,
+    dialogs,
+    closeDialog,
+    executeAction,
+    handleConfirmDelete,
+    versionCount,
+  } = useTrackActionsState({
+    track: track!,
+    onDelete,
+    onDownload,
+    onClose: () => onOpenChange(false),
+  });
+
+  if (!track) return null;
+
+  return (
+    <>
+      <Sheet open={open} onOpenChange={onOpenChange}>
+        <SheetContent 
+          side="bottom" 
+          className="h-auto max-h-[80vh] rounded-t-xl overflow-y-auto touch-pan-y overscroll-contain pb-safe"
+        >
+          <SheetHeader>
+            <SheetTitle className="text-left">
+              {track.title || 'Без названия'}
+            </SheetTitle>
+            {track.style && (
+              <p className="text-sm text-muted-foreground text-left">
+                {track.style}
+              </p>
+            )}
+          </SheetHeader>
+          
+          <div className="mt-6 space-y-1">
+            {/* Versions Section - if multiple versions exist */}
+            {versionCount > 1 && (
+              <>
+                <VersionsSection track={track} />
+                <Separator className="my-2" />
+              </>
+            )}
+
+            {/* Info Actions */}
+            <InfoActions
+              track={track}
+              state={actionState}
+              onAction={executeAction}
+              variant="sheet"
+              isProcessing={isProcessing}
+            />
+
+            <Separator className="my-2" />
+
+            {/* Queue Actions */}
+            <QueueActions
+              track={track}
+              state={actionState}
+              onAction={executeAction}
+              variant="sheet"
+            />
+
+            <Separator className="my-2" />
+
+            {/* Share Actions */}
+            <ShareActions
+              track={track}
+              state={actionState}
+              onAction={executeAction}
+              variant="sheet"
+              isProcessing={isProcessing}
+            />
+
+            <Separator className="my-2" />
+
+            {/* Organize Actions (collapsible) */}
+            <OrganizeActions
+              track={track}
+              state={actionState}
+              onAction={executeAction}
+              variant="sheet"
+            />
+
+            {/* Studio Actions (collapsible) */}
+            <StudioActions
+              track={track}
+              state={actionState}
+              onAction={executeAction}
+              variant="sheet"
+              isProcessing={isProcessing}
+            />
+
+            {/* Edit Actions (collapsible) */}
+            <EditActions
+              track={track}
+              state={actionState}
+              onAction={executeAction}
+              variant="sheet"
+              isProcessing={isProcessing}
+            />
+
+            <Separator className="my-2" />
+
+            {/* Danger Actions */}
+            <DangerActions
+              onAction={executeAction}
+              variant="sheet"
+            />
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      {/* Dialogs Portal */}
+      <TrackDialogsPortal
+        track={track}
+        dialogs={dialogs}
+        onCloseDialog={closeDialog}
+        onConfirmDelete={handleConfirmDelete}
+      />
+    </>
+  );
+}

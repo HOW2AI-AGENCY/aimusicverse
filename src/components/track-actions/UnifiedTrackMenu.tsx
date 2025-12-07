@@ -1,0 +1,131 @@
+import { Track } from '@/hooks/useTracksOptimized';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { MoreVertical } from 'lucide-react';
+import { useTrackActionsState } from '@/hooks/useTrackActionsState';
+import { QueueActions } from './sections/QueueActions';
+import { ShareActions } from './sections/ShareActions';
+import { OrganizeActions } from './sections/OrganizeActions';
+import { StudioActions } from './sections/StudioActions';
+import { EditActions } from './sections/EditActions';
+import { InfoActions } from './sections/InfoActions';
+import { DangerActions } from './sections/DangerActions';
+import { TrackDialogsPortal } from './TrackDialogsPortal';
+
+interface UnifiedTrackMenuProps {
+  track: Track;
+  onDelete?: () => void;
+  onDownload?: () => void;
+}
+
+export function UnifiedTrackMenu({ track, onDelete, onDownload }: UnifiedTrackMenuProps) {
+  const {
+    actionState,
+    isProcessing,
+    dialogs,
+    closeDialog,
+    executeAction,
+    handleConfirmDelete,
+  } = useTrackActionsState({
+    track,
+    onDelete,
+    onDownload,
+  });
+
+  return (
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button size="icon" variant="ghost" className="h-8 w-8">
+            <MoreVertical className="w-4 h-4" />
+          </Button>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent 
+          align="end" 
+          className="w-56 max-h-[70vh] bg-background/95 backdrop-blur-sm overflow-y-auto" 
+          style={{ zIndex: 9999 }}
+        >
+          {/* Info Actions (always visible at top) */}
+          <InfoActions
+            track={track}
+            state={actionState}
+            onAction={executeAction}
+            variant="dropdown"
+            isProcessing={isProcessing}
+          />
+
+          <DropdownMenuSeparator />
+
+          {/* Queue Actions */}
+          <QueueActions
+            track={track}
+            state={actionState}
+            onAction={executeAction}
+            variant="dropdown"
+          />
+
+          <DropdownMenuSeparator />
+
+          {/* Share Actions */}
+          <ShareActions
+            track={track}
+            state={actionState}
+            onAction={executeAction}
+            variant="dropdown"
+            isProcessing={isProcessing}
+          />
+
+          <DropdownMenuSeparator />
+
+          {/* Organize Actions (submenu) */}
+          <OrganizeActions
+            track={track}
+            state={actionState}
+            onAction={executeAction}
+            variant="dropdown"
+          />
+
+          {/* Studio Actions (submenu) */}
+          <StudioActions
+            track={track}
+            state={actionState}
+            onAction={executeAction}
+            variant="dropdown"
+            isProcessing={isProcessing}
+          />
+
+          {/* Edit Actions (submenu) */}
+          <EditActions
+            track={track}
+            state={actionState}
+            onAction={executeAction}
+            variant="dropdown"
+            isProcessing={isProcessing}
+          />
+
+          <DropdownMenuSeparator />
+
+          {/* Danger Actions */}
+          <DangerActions
+            onAction={executeAction}
+            variant="dropdown"
+          />
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      {/* Dialogs Portal */}
+      <TrackDialogsPortal
+        track={track}
+        dialogs={dialogs}
+        onCloseDialog={closeDialog}
+        onConfirmDelete={handleConfirmDelete}
+      />
+    </>
+  );
+}
