@@ -30,6 +30,8 @@ import { MobileSectionTimelineCompact } from '@/components/stem-studio/MobileSec
 import { MobileStudioHeader } from '@/components/stem-studio/MobileStudioHeader';
 import { MobileMasterVolume } from '@/components/stem-studio/MobileMasterVolume';
 import { SectionQuickActions } from '@/components/stem-studio/SectionQuickActions';
+import { StudioQuickActions } from '@/components/stem-studio/StudioQuickActions';
+import { StudioContextTips } from '@/components/stem-studio/StudioContextTips';
 import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
 import { QuickComparePanel } from '@/components/stem-studio/QuickComparePanel';
 import { QuickCompareMobile } from '@/components/stem-studio/QuickCompareMobile';
@@ -392,13 +394,10 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     );
   }
 
+  // Note: Stem check is now handled in StemStudio.tsx page
+  // This component only renders when stems are available
   if (!stems || stems.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen gap-4 bg-background">
-        <p className="text-muted-foreground">У этого трека нет стемов</p>
-        <Button onClick={() => navigate('/library')}>Вернуться в библиотеку</Button>
-      </div>
-    );
+    return null;
   }
 
   return (

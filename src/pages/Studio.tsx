@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { MessageBubble } from "@/components/MessageBubble";
 import { TelegramButton } from "@/components/TelegramButton";
-import { useNavigate } from "react-router-dom";
-import { Music, Library, Folder, Settings, Info, Sparkles } from "lucide-react";
+import { Music, Library, Folder, Settings, Info, Sparkles, Layers, Scissors, Mic, ArrowRight } from "lucide-react";
 import logo from "@/assets/logo.png";
+import { useTracks } from "@/hooks/useTracksOptimized";
 
 const Studio = () => {
   const navigate = useNavigate();
+  const { tracks } = useTracks();
+  
+  // Get recent tracks with audio for studio quick access
+  const recentTracks = tracks
+    ?.filter(t => t.audio_url && t.status === 'completed')
+    .slice(0, 3) || [];
 
   return (
     <div className="min-h-screen bg-background pb-24">
@@ -26,7 +32,7 @@ const Studio = () => {
               haptic="success"
               onClick={() => navigate("/generate")}
             >
-              ОТКРЫТЬ СТУДИЮ
+              СОЗДАТЬ ТРЕК
             </TelegramButton>
 
             {/* Navigation Grid */}
@@ -94,24 +100,59 @@ const Studio = () => {
           </MessageBubble>
         </div>
 
-        {/* Info Section */}
-        <MessageBubble title="Возможности" className="text-sm">
+        {/* Recent Tracks for Studio */}
+        {recentTracks.length > 0 && (
+          <MessageBubble title="Недавние треки" className="text-sm">
+            <div className="space-y-2">
+              {recentTracks.map(track => (
+                <TelegramButton
+                  key={track.id}
+                  variant="ghost"
+                  className="w-full justify-start glass h-auto py-2"
+                  onClick={() => navigate(`/studio/${track.id}`)}
+                >
+                  <div className="flex items-center gap-3 w-full">
+                    {track.cover_url ? (
+                      <img 
+                        src={track.cover_url} 
+                        alt="" 
+                        className="w-10 h-10 rounded object-cover"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 rounded bg-primary/20 flex items-center justify-center">
+                        <Music className="w-5 h-5 text-primary" />
+                      </div>
+                    )}
+                    <div className="flex-1 text-left min-w-0">
+                      <p className="font-medium truncate">{track.title || 'Без названия'}</p>
+                      <p className="text-xs text-muted-foreground truncate">{track.style || track.prompt}</p>
+                    </div>
+                    <Layers className="w-4 h-4 text-muted-foreground shrink-0" />
+                  </div>
+                </TelegramButton>
+              ))}
+            </div>
+          </MessageBubble>
+        )}
+
+        {/* Studio Features Info */}
+        <MessageBubble title="Возможности студии" className="text-sm">
           <ul className="space-y-2 text-muted-foreground">
             <li className="flex items-start gap-2">
-              <span className="text-primary">•</span>
-              <span>Генерация музыки по текстовым промптам</span>
+              <Layers className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+              <span>Разделение трека на стемы (вокал, ударные, бас, мелодия)</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-primary">•</span>
-              <span>Управление проектами и треками</span>
+              <Scissors className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+              <span>Замена секций трека (куплет, припев, бридж)</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-primary">•</span>
-              <span>Встроенный плеер с визуализацией</span>
+              <Mic className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+              <span>Управление громкостью и эффектами каждого стема</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-primary">•</span>
-              <span>Разделение треков на стемы (Voice, Bass, Drums)</span>
+              <ArrowRight className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+              <span>Экспорт микса в MP3 или WAV формате</span>
             </li>
           </ul>
         </MessageBubble>
