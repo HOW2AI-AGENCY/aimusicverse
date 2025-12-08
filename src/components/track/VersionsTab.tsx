@@ -124,18 +124,19 @@ export function VersionsTab({ track }: VersionsTabProps) {
 
   const handlePlayVersion = (version: any) => {
     // Create a track-like object from the version for playback
+    // Use version's audio_url which always exists in track_versions table
     const versionTrack: Track = {
       ...track,
-      // Override audio URLs with version-specific ones
-      audio_url: version.audio_url || track.audio_url,
-      streaming_url: version.streaming_url || track.streaming_url,
-      local_audio_url: version.local_audio_url || track.local_audio_url,
-      // Add version identifier to track id for unique identification
-      id: `${track.id}_v${version.id}`,
+      // Override audio URL with version-specific one
+      audio_url: version.audio_url,
+      // Version may have its own cover
+      cover_url: version.cover_url || track.cover_url,
+      // Use version ID directly for tracking
+      id: version.id,
     };
 
     // Check if this version is currently playing
-    const isThisVersionPlaying = activeTrack?.id === versionTrack.id && isPlaying;
+    const isThisVersionPlaying = activeTrack?.id === version.id && isPlaying;
 
     if (isThisVersionPlaying) {
       pauseTrack();
@@ -145,7 +146,7 @@ export function VersionsTab({ track }: VersionsTabProps) {
   };
 
   const isVersionPlaying = (versionId: string) => {
-    return activeTrack?.id === `${track.id}_v${versionId}` && isPlaying;
+    return activeTrack?.id === versionId && isPlaying;
   };
 
   if (isLoading) {
