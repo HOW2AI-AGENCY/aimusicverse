@@ -7,6 +7,9 @@ import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, sendAudio } from '../telegram-api.ts';
 import { consumePendingUpload, type PendingUpload } from '../core/session-store.ts';
 import { escapeMarkdown, trackMetric } from '../utils/index.ts';
+import { createLogger } from '../../_shared/logger.ts';
+
+const logger = createLogger('telegram-audio-handler');
 
 const supabase = createClient(
   BOT_CONFIG.supabaseUrl,
@@ -172,7 +175,7 @@ ${escapeMarkdown(result.error || 'Неизвестная ошибка')}
     }
     
   } catch (error) {
-    console.error('Error handling audio message:', error);
+    logger.error('Error handling audio message', error);
     
     await sendMessage(chatId, `❌ Произошла ошибка при обработке аудио\\. Попробуйте ещё раз\\.`);
     
@@ -202,13 +205,13 @@ async function getFileUrl(fileId: string): Promise<string | null> {
     const data = await response.json();
     
     if (!data.ok || !data.result?.file_path) {
-      console.error('getFile failed:', data);
+      logger.warn('getFile failed', { data });
       return null;
     }
     
     return `https://api.telegram.org/file/bot${botToken}/${data.result.file_path}`;
   } catch (error) {
-    console.error('Error getting file URL:', error);
+    logger.error('Error getting file URL', error);
     return null;
   }
 }
@@ -247,7 +250,7 @@ async function processAudioUpload(
       });
     
     if (uploadError) {
-      console.error('Upload error:', uploadError);
+      logger.error('Upload error', uploadError);
       return { success: false, error: 'Failed to upload audio file' };
     }
     
@@ -256,7 +259,7 @@ async function processAudioUpload(
       .from('project-assets')
       .getPublicUrl(fileName);
     
-    console.log('Audio uploaded to:', publicUrl);
+    logger.info('Audio uploaded', { publicUrl });
     
     // Determine API endpoint and prepare body
     const isExtend = pendingUpload.mode === 'extend';
@@ -289,7 +292,7 @@ async function processAudioUpload(
       if (pendingUpload.title) requestBody.title = pendingUpload.title;
     }
     
-    console.log('Calling Suno API:', endpoint, JSON.stringify(requestBody, null, 2));
+    logger.apiCall('SunoAPI', isExtend ? 'upload-extend' : 'upload-cover', { model: apiModel });
     
     // Call Suno API
     const response = await fetch(endpoint, {
@@ -302,7 +305,7 @@ async function processAudioUpload(
     });
     
     const data = await response.json();
-    console.log('Suno API response:', JSON.stringify(data, null, 2));
+    logger.info('Suno API response', { code: data.code, taskId: data.data?.taskId });
     
     if (!response.ok || data.code !== 200) {
       if (data.code === 429) {
@@ -337,7 +340,7 @@ async function processAudioUpload(
       });
     
     if (taskError) {
-      console.error('Error creating task:', taskError);
+      logger.error('Error creating task', taskError);
     }
     
     // Create placeholder track
@@ -357,13 +360,14 @@ async function processAudioUpload(
       });
     
     if (trackError) {
-      console.error('Error creating track:', trackError);
+      logger.error('Error creating track', trackError);
     }
     
+    logger.success(`${pendingUpload.mode} generation started`, { taskId });
     return { success: true, taskId };
     
   } catch (error) {
-    console.error('Error in processAudioUpload:', error);
+    logger.error('Error in processAudioUpload', error);
     return { 
       success: false, 
       error: error instanceof Error ? error.message : 'Internal error' 

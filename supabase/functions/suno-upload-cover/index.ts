@@ -1,5 +1,8 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createLogger } from "../_shared/logger.ts";
+
+const logger = createLogger('suno-upload-cover');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -28,7 +31,7 @@ serve(async (req) => {
     const sunoApiKey = Deno.env.get('SUNO_API_KEY');
 
     if (!sunoApiKey) {
-      console.error('SUNO_API_KEY not configured');
+      logger.error('SUNO_API_KEY not configured');
       return new Response(
         JSON.stringify({ error: 'API key not configured' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -81,7 +84,7 @@ serve(async (req) => {
       );
     }
 
-    console.log('Uploading and covering audio:', { customMode, model, instrumental });
+    logger.info('Uploading and covering audio', { customMode, model, instrumental });
 
     // Upload audio to Supabase Storage
     const fileName = `${user.id}/uploads/${Date.now()}-${audioFile.name || 'audio.mp3'}`;
@@ -103,7 +106,7 @@ serve(async (req) => {
       });
 
     if (uploadError) {
-      console.error('Upload error:', uploadError);
+      logger.error('Upload error', uploadError);
       return new Response(
         JSON.stringify({ error: 'Failed to upload audio' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -115,11 +118,11 @@ serve(async (req) => {
       .from('project-assets')
       .getPublicUrl(fileName);
 
-    console.log('Audio uploaded to:', publicUrl);
+    logger.info('Audio uploaded', { publicUrl });
 
     // Map UI model key to API model name
     const apiModel = getApiModelName(model);
-    console.log(`Model mapping: ${model} -> ${apiModel}`);
+    logger.debug('Model mapping', { from: model, to: apiModel });
 
     // Prepare request body for Suno API
     const requestBody: any = {
@@ -163,7 +166,7 @@ serve(async (req) => {
       requestBody.prompt = prompt;
     }
 
-    console.log('Calling Suno API with:', JSON.stringify(requestBody, null, 2));
+    logger.apiCall('SunoAPI', 'upload-cover', { model: apiModel, customMode, instrumental });
 
     // Call Suno API
     const response = await fetch('https://api.sunoapi.org/api/v1/generate/upload-cover', {
@@ -176,10 +179,10 @@ serve(async (req) => {
     });
 
     const data = await response.json();
-    console.log('Suno API response:', JSON.stringify(data, null, 2));
+    logger.info('Suno API response', { code: data.code, taskId: data.data?.taskId });
 
     if (!response.ok || data.code !== 200) {
-      console.error('Suno API error:', data);
+      logger.error('Suno API error', null, { code: data.code, msg: data.msg });
       
       if (data.code === 429) {
         return new Response(
@@ -210,7 +213,7 @@ serve(async (req) => {
     const taskId = data.data?.taskId;
     
     if (!taskId) {
-      console.error('No task ID in response:', data);
+      logger.error('No task ID in response', null, { data });
       return new Response(
         JSON.stringify({ error: 'No task ID received' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -231,7 +234,7 @@ serve(async (req) => {
       });
 
     if (taskError) {
-      console.error('Error creating task:', taskError);
+      logger.error('Error creating task', taskError);
     }
 
     // Create placeholder track
@@ -257,8 +260,10 @@ serve(async (req) => {
       .single();
 
     if (trackError) {
-      console.error('Error creating track:', trackError);
+      logger.error('Error creating track', trackError);
     }
+    
+    logger.success('Cover generation started', { taskId, trackId: trackData?.id });
 
     return new Response(
       JSON.stringify({ 
@@ -270,7 +275,7 @@ serve(async (req) => {
     );
 
   } catch (error: any) {
-    console.error('Error in suno-upload-cover:', error);
+    logger.error('Error in suno-upload-cover', error);
     return new Response(
       JSON.stringify({ error: error.message || 'Internal server error' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
