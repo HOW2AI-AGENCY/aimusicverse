@@ -5,6 +5,9 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { CheckCircle2, AlertCircle, Loader2, Send } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
+
+const botLogger = logger.child({ module: 'TelegramBotSetup' });
 
 interface WebhookInfo {
   webhook_url?: string;
@@ -25,17 +28,17 @@ export const TelegramBotSetup = () => {
   const setupWebhook = async () => {
     setLoading(true);
     try {
-      console.log('🤖 Настройка Telegram вебхука...');
+      botLogger.info('Setting up Telegram webhook...');
       
       const { data, error } = await supabase.functions.invoke('telegram-webhook-setup');
 
       if (error) throw error;
 
-      console.log('✅ Вебхук настроен:', data);
+      botLogger.info('Webhook configured successfully');
       setWebhookInfo(data);
       toast.success('Telegram бот успешно настроен!');
     } catch (error) {
-      console.error('❌ Ошибка настройки вебхука:', error);
+      botLogger.error('Webhook setup error', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       toast.error('Ошибка настройки бота: ' + errorMessage);
     } finally {

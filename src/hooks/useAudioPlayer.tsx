@@ -18,6 +18,9 @@
  */
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { logger } from '@/lib/logger';
+
+const audioLogger = logger.child({ module: 'AudioPlayer' });
 
 /**
  * Props for audio player hook
@@ -166,7 +169,7 @@ export const useAudioPlayer = ({
      * Implements automatic fallback strategy
      */
     const handleError = (e: ErrorEvent) => {
-      console.error('Audio playback error:', e);
+      audioLogger.error('Audio playback error', e);
       setLoading(false);
       setIsPlaying(false);
       
@@ -177,15 +180,15 @@ export const useAudioPlayer = ({
        * 3. If all fail → error state (handled by loading=false, isPlaying=false)
        */
       if (audio.src === streamingUrl && localAudioUrl) {
-        console.log('Streaming failed, attempting local source fallback');
+        audioLogger.debug('Streaming failed, attempting local source fallback');
         audio.src = localAudioUrl;
         audio.load(); // Reload with new source
       } else if (audio.src === localAudioUrl && audioUrl && audioUrl !== localAudioUrl) {
-        console.log('Local source failed, attempting original URL fallback');
+        audioLogger.debug('Local source failed, attempting original URL fallback');
         audio.src = audioUrl;
         audio.load(); // Reload with new source
       } else {
-        console.error('All audio sources failed');
+        audioLogger.error('All audio sources failed');
       }
     };
 
@@ -232,7 +235,7 @@ export const useAudioPlayer = ({
       await audioRef.current.play();
     } catch (error) {
       // Common errors: NotAllowedError (user interaction required), NotSupportedError
-      console.error('Play error:', error);
+      audioLogger.warn('Play error', { error });
       setLoading(false);
     }
   }, [audioSource]);

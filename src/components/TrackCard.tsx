@@ -107,7 +107,7 @@ export const TrackCard = ({
             filter: `track_id=eq.${track.id}`,
           },
           (payload) => {
-            console.log('✅ New stem added:', payload);
+            // Stem added - refresh counts
             fetchCounts();
             toast.success('Стемы готовы! 🎵');
             setIsProcessing(false);
@@ -127,7 +127,7 @@ export const TrackCard = ({
             filter: `track_id=eq.${track.id}`,
           },
           (payload) => {
-            console.log('✅ New version added:', payload);
+            // Version added - refresh counts
             fetchCounts();
           }
         )

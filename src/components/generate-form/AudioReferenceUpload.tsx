@@ -5,6 +5,9 @@ import { Card } from '@/components/ui/card';
 import { FileAudio, Mic, X, Play, Pause, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
+
+const refLogger = logger.child({ module: 'AudioReferenceUpload' });
 
 interface AudioReferenceUploadProps {
   audioFile: File | null;
@@ -24,7 +27,7 @@ export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisCompl
   const analyzeAudio = async (file: File) => {
     setIsAnalyzing(true);
     try {
-      console.log('Uploading reference audio for analysis...');
+      refLogger.debug('Uploading reference audio for analysis');
       
       // Get current user
       const { data: { user } } = await supabase.auth.getUser();
@@ -45,7 +48,7 @@ export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisCompl
         .from('project-assets')
         .getPublicUrl(fileName);
 
-      console.log('Analyzing reference audio:', publicUrl);
+      refLogger.debug('Analyzing reference audio');
       toast.info('Анализируем референс...', { icon: <Sparkles className="w-4 h-4" /> });
 
       // Create temporary track for analysis
@@ -86,7 +89,7 @@ export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisCompl
       await supabase.from('tracks').delete().eq('id', tempTrack.id);
 
     } catch (error) {
-      console.error('Audio analysis error:', error);
+      refLogger.error('Audio analysis error', error);
       toast.error('Ошибка анализа аудио');
     } finally {
       setIsAnalyzing(false);
@@ -125,7 +128,7 @@ export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisCompl
       setIsRecording(true);
       toast.success('Запись началась');
     } catch (error) {
-      console.error('Recording error:', error);
+      refLogger.error('Recording error', error);
       toast.error('Не удалось начать запись');
     }
   };
