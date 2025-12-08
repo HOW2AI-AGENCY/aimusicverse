@@ -17,6 +17,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuth } from '@/hooks/useAuth';
+import { logger } from '@/lib/logger';
 
 interface CreateProjectSheetProps {
   open: boolean;
@@ -109,7 +110,7 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
       setCoverUrl(publicUrl);
       toast.success('Обложка загружена');
     } catch (error) {
-      console.error('Upload error:', error);
+      logger.error('Upload error', { error });
       toast.error('Ошибка загрузки обложки');
     } finally {
       setIsUploadingCover(false);
@@ -148,7 +149,7 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
         toast.success('Обложка сгенерирована');
       }
     } catch (error) {
-      console.error('Generate error:', error);
+      logger.error('Generate cover error', { error });
       const errorMessage = error instanceof Error ? error.message : 'Ошибка генерации обложки';
       toast.error(errorMessage);
     } finally {
@@ -201,7 +202,7 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
             finalCoverUrl = coverData.coverUrl;
           }
         } catch (err) {
-          console.error('Auto-generate cover error:', err);
+          logger.error('Auto-generate cover error', { error: err });
           // Continue without cover
         } finally {
           setIsGeneratingCover(false);
@@ -233,7 +234,7 @@ export function CreateProjectSheet({ open, onOpenChange }: CreateProjectSheetPro
         }
       );
     } catch (error) {
-      console.error('Create project error:', error);
+      logger.error('Create project error', { error });
       toast.error('Ошибка создания проекта');
     }
   };

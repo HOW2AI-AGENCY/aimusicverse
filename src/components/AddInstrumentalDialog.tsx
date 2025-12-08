@@ -9,6 +9,7 @@ import { Loader2, Upload, Music } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Track } from '@/hooks/useTracksOptimized';
+import { logger } from '@/lib/logger';
 
 interface AddInstrumentalDialogProps {
   open: boolean;
@@ -55,7 +56,7 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
 
       onOpenChange(false);
     } catch (error) {
-      console.error('Add instrumental error:', error);
+      logger.error('Add instrumental error', { error });
       const errorMessage = error instanceof Error ? error.message : 'Ошибка добавления инструментала';
       toast.error(errorMessage);
     } finally {

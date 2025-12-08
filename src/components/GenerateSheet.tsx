@@ -29,6 +29,7 @@ import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { SUNO_MODELS, validateModel, DEFAULT_SUNO_MODEL } from '@/constants/sunoModels';
 import { useGenerateDraft } from '@/hooks/useGenerateDraft';
 import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
+import { logger } from '@/lib/logger';
 
 interface GenerateSheetProps {
   open: boolean;
@@ -131,7 +132,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           setCredits(data.credits);
         }
       } catch (error) {
-        console.error('Error fetching credits:', error);
+        logger.error('Error fetching credits', { error });
       }
     };
 
@@ -191,7 +192,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                 });
               })
               .catch(err => {
-                console.error('Failed to load stem reference:', err);
+                logger.error('Failed to load stem reference', { error: err });
                 toast.error('Не удалось загрузить аудио референс');
               })
               .finally(() => {
@@ -201,7 +202,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           // Clear the reference after use
           localStorage.removeItem('stem_audio_reference');
         } catch (e) {
-          console.error('Failed to parse stem reference:', e);
+          logger.error('Failed to parse stem reference', { error: e });
         }
       }
     }
@@ -325,7 +326,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         });
       }
     } catch (error) {
-      console.error('Boost error:', error);
+      logger.error('Boost error', { error });
       
       const errorMessage = error instanceof Error ? error.message : '';
       if (errorMessage.includes('429') || errorMessage.includes('кредитов')) {
@@ -488,7 +489,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         }
       });
     } catch (error) {
-      console.error('Generation error:', error);
+      logger.error('Generation error', { error });
       toast.dismiss(toastId);
       
       const errorMessage = error instanceof Error ? error.message : '';

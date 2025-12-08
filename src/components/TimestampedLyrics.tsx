@@ -4,6 +4,7 @@ import { Loader2, Music2 } from 'lucide-react';
 import { AudioWaveform } from './AudioWaveform';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { logger } from '@/lib/logger';
 
 export interface AlignedWord {
   word: string;
@@ -74,7 +75,7 @@ export function TimestampedLyrics({
         const data = await response.json();
         setLyricsData(data);
       } catch (err) {
-        console.error('Error fetching lyrics:', err);
+        logger.error('Error fetching lyrics', { error: err });
         setError(err instanceof Error ? err.message : 'Failed to load lyrics');
       } finally {
         setLoading(false);

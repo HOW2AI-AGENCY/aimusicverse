@@ -12,6 +12,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 import { Track } from '@/hooks/useTracks';
+import { logger } from '@/lib/logger';
 
 interface ExtendTrackDialogProps {
   open: boolean;
@@ -85,7 +86,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
 
       onOpenChange(false);
     } catch (error) {
-      console.error('Extend error:', error);
+      logger.error('Extend error', { error });
       
       const errorMessage = error instanceof Error ? error.message : '';
       if (errorMessage.includes('429') || errorMessage.includes('credits')) {

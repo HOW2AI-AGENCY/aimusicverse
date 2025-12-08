@@ -10,6 +10,7 @@ import { Slider } from "@/components/ui/slider";
 import { Upload, Loader2, Music } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 interface UploadCoverDialogProps {
   open: boolean;
@@ -123,7 +124,7 @@ export const UploadCoverDialog = ({ open, onOpenChange, projectId }: UploadCover
           setTitle("");
           setNegativeTags("");
         } catch (error) {
-          console.error('Error:', error);
+          logger.error('Cover creation error', { error });
           toast.error('Не удалось создать кавер');
         } finally {
           setIsLoading(false);
@@ -135,7 +136,7 @@ export const UploadCoverDialog = ({ open, onOpenChange, projectId }: UploadCover
         setIsLoading(false);
       };
     } catch (error) {
-      console.error('Error:', error);
+      logger.error('Cover creation error', { error });
       toast.error('Не удалось создать кавер');
       setIsLoading(false);
     }
