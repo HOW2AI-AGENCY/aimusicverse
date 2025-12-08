@@ -123,31 +123,27 @@ serve(async (req) => {
           continue;
         }
 
-        // Prepare Suno API payload - use 'mv' for model per API docs
+        // Prepare Suno API payload - use same format as suno-music-generate
         const sunoPayload: any = {
-          mv: apiModel, // API docs specify 'mv' not 'model'
+          customMode,
+          instrumental,
+          model: apiModel, // Use 'model' like in working suno-music-generate
           callBackUrl: callbackUrl,
           prompt: task.prompt,
         };
 
-        // For custom mode use custom_generate endpoint params
         if (customMode) {
           if (track?.style) sunoPayload.style = track.style;
           if (track?.title) sunoPayload.title = track.title;
-          sunoPayload.instrumental = instrumental;
-        } else {
-          // For simple mode
-          sunoPayload.make_instrumental = instrumental;
         }
+
+        if (track?.negative_tags) sunoPayload.negativeTags = track.negative_tags;
+        if (track?.vocal_gender) sunoPayload.vocalGender = track.vocal_gender;
 
         console.log(`Calling Suno API for task ${task.id} with model ${apiModel}, payload:`, JSON.stringify(sunoPayload));
 
-        // Use correct endpoint based on mode per API docs
-        const endpoint = customMode 
-          ? 'https://api.sunoapi.org/api/custom_generate'
-          : 'https://api.sunoapi.org/api/generate';
-
-        const sunoResponse = await fetch(endpoint, {
+        // Use /api/v1/generate like in working suno-music-generate
+        const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${sunoApiKey}`,
@@ -168,8 +164,8 @@ serve(async (req) => {
           continue;
         }
 
-        // API docs say successful response has code: "success", not 200
-        if (!sunoResponse.ok || (sunoData.code !== 'success' && sunoData.code !== 200)) {
+        // Check for success - code 200 means success
+        if (!sunoResponse.ok || sunoData.code !== 200) {
           console.error('Suno API error:', sunoData);
           
           // Update task with error
