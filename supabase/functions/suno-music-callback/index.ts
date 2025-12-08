@@ -28,10 +28,16 @@ serve(async (req) => {
     const { callbackType, taskId, task_id, data: audioData } = data || {};
     const sunoTaskId = taskId || task_id;
 
+    // Validate required taskId
     if (!sunoTaskId) {
-      throw new Error('No taskId in callback');
+      console.error('❌ No taskId in callback payload');
+      return new Response(
+        JSON.stringify({ success: false, error: 'Missing taskId' }), 
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
     }
 
+    // Validate taskId exists in database (prevents spoofed callbacks)
     const { data: task, error: taskError } = await supabase
       .from('generation_tasks')
       .select('*, tracks(*)')
@@ -39,12 +45,24 @@ serve(async (req) => {
       .single();
 
     if (taskError || !task) {
-      console.error('❌ Task not found:', sunoTaskId, taskError);
-      throw new Error('Task not found');
+      console.error('❌ Task not found in database:', sunoTaskId, taskError);
+      return new Response(
+        JSON.stringify({ success: false, error: 'Invalid or unknown taskId' }), 
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 404 }
+      );
+    }
+
+    // Validate task is in expected state (not already completed/failed)
+    if (task.status === 'completed' && callbackType === 'complete') {
+      console.warn('⚠️ Duplicate completion callback for task:', sunoTaskId);
+      return new Response(
+        JSON.stringify({ success: true, status: 'already_processed' }), 
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     const trackId = task.track_id;
-    console.log(`📋 Task: ${task.id}, track: ${trackId}, type: ${callbackType}`);
+    console.log(`📋 Task: ${task.id}, track: ${trackId}, type: ${callbackType}, status: ${task.status}`);
 
     if (code !== 200) {
       console.error('❌ SunoAPI failed:', msg);
