@@ -20,12 +20,13 @@ import { MidiSection } from '@/components/stem-studio/MidiSection';
 import { MixExportDialog } from '@/components/stem-studio/MixExportDialog';
 import { MixPresetsMenu } from '@/components/stem-studio/MixPresetsMenu';
 import { StudioLyricsPanel } from '@/components/stem-studio/StudioLyricsPanel';
+import { StudioLyricsPanelCompact } from '@/components/stem-studio/StudioLyricsPanelCompact';
 import { StemStudioTutorial, useStemStudioTutorial } from '@/components/stem-studio/StemStudioTutorial';
 import { ReplacementHistoryPanel } from '@/components/stem-studio/ReplacementHistoryPanel';
 import { SectionTimelineVisualization } from '@/components/stem-studio/SectionTimelineVisualization';
 import { SectionEditorPanel } from '@/components/stem-studio/SectionEditorPanel';
 import { SectionEditorMobile } from '@/components/stem-studio/SectionEditorMobile';
-import { MobileSectionTimeline } from '@/components/stem-studio/MobileSectionTimeline';
+import { MobileSectionTimelineCompact } from '@/components/stem-studio/MobileSectionTimelineCompact';
 import { SectionQuickActions } from '@/components/stem-studio/SectionQuickActions';
 import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
 import { QuickComparePanel } from '@/components/stem-studio/QuickComparePanel';
@@ -557,8 +558,8 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
 
       {/* Section Timeline Visualization - Mobile */}
       {isMobile && canReplaceSection && detectedSections.length > 0 && (
-        <div className="px-4 py-3 border-b border-border/30 bg-card/30">
-          <MobileSectionTimeline
+        <div className="px-4 py-2 border-b border-border/30 bg-card/30">
+          <MobileSectionTimelineCompact
             sections={detectedSections}
             duration={duration}
             currentTime={currentTime}
@@ -679,21 +680,32 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         </div>
       </div>
 
-      {/* Synchronized Lyrics */}
-      <StudioLyricsPanel
-        taskId={track.suno_task_id}
-        audioId={track.suno_id}
-        plainLyrics={track.lyrics}
-        currentTime={currentTime}
-        isPlaying={isPlaying}
-        onSeek={handleSeek}
-        selectionMode={editMode === 'selecting' && !isMobile}
-        onSectionSelect={!isMobile ? (start, end, lyrics) => {
-          setCustomRange(start, end);
-          setEditMode('editing');
-        } : undefined}
-        highlightedSection={customRange}
-      />
+      {/* Synchronized Lyrics - Compact on mobile, Full on desktop */}
+      {isMobile ? (
+        <StudioLyricsPanelCompact
+          taskId={track.suno_task_id}
+          audioId={track.suno_id}
+          plainLyrics={track.lyrics}
+          currentTime={currentTime}
+          isPlaying={isPlaying}
+          onSeek={handleSeek}
+        />
+      ) : (
+        <StudioLyricsPanel
+          taskId={track.suno_task_id}
+          audioId={track.suno_id}
+          plainLyrics={track.lyrics}
+          currentTime={currentTime}
+          isPlaying={isPlaying}
+          onSeek={handleSeek}
+          selectionMode={editMode === 'selecting'}
+          onSectionSelect={(start, end, lyrics) => {
+            setCustomRange(start, end);
+            setEditMode('editing');
+          }}
+          highlightedSection={customRange}
+        />
+      )}
 
       {/* Mobile Actions */}
       {isMobile && stems && (
