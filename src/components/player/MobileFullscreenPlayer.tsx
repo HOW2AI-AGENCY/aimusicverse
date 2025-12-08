@@ -258,60 +258,123 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[60] flex flex-col bg-background"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
+      className="fixed inset-0 z-[60] flex flex-col bg-background overflow-hidden"
     >
-      {/* Blurred Background */}
+      {/* Animated Blurred Background */}
       <div className="absolute inset-0 overflow-hidden">
         {track.cover_url ? (
           <>
-            <img
+            {/* Primary blurred cover */}
+            <motion.img
               src={track.cover_url}
               alt=""
-              className="absolute inset-0 w-full h-full object-cover scale-110 blur-3xl"
+              className="absolute inset-0 w-full h-full object-cover blur-3xl"
+              initial={{ scale: 1.2, opacity: 0 }}
+              animate={{ 
+                scale: [1.1, 1.15, 1.1],
+                opacity: 1 
+              }}
+              transition={{ 
+                scale: { duration: 8, repeat: Infinity, ease: 'easeInOut' },
+                opacity: { duration: 0.5 }
+              }}
             />
-            <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+            {/* Secondary pulsing glow */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-b from-primary/20 via-transparent to-background"
+              animate={{ opacity: [0.3, 0.5, 0.3] }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            {/* Dark overlay for readability */}
+            <div className="absolute inset-0 bg-background/70 backdrop-blur-sm" />
+            
+            {/* Animated particles */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              {[...Array(6)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-2 h-2 rounded-full bg-primary/20"
+                  style={{
+                    left: `${15 + i * 15}%`,
+                    top: `${20 + (i % 3) * 25}%`,
+                  }}
+                  animate={{
+                    y: [0, -30, 0],
+                    opacity: [0.2, 0.5, 0.2],
+                    scale: [1, 1.5, 1],
+                  }}
+                  transition={{
+                    duration: 3 + i * 0.5,
+                    repeat: Infinity,
+                    delay: i * 0.3,
+                    ease: 'easeInOut',
+                  }}
+                />
+              ))}
+            </div>
           </>
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/20 to-background" />
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-b from-primary/30 via-primary/10 to-background"
+            animate={{ 
+              backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'] 
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+          />
         )}
       </div>
 
       {/* Content */}
       <div className="relative flex-1 flex flex-col safe-area-inset min-h-0 overflow-hidden">
-        {/* Header */}
-        <header className="flex items-center justify-between p-4 pt-safe">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => {
-              hapticImpact('light');
-              onClose();
-            }}
-            className="h-11 w-11 rounded-full bg-background/30 backdrop-blur-sm touch-manipulation"
-          >
-            <X className="h-5 w-5" />
-          </Button>
+        {/* Header with glass effect */}
+        <motion.header 
+          className="flex items-center justify-between p-4 pt-safe"
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1, duration: 0.3 }}
+        >
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                hapticImpact('light');
+                onClose();
+              }}
+              className="h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors"
+            >
+              <X className="h-5 w-5" />
+            </Button>
+          </motion.div>
           
-          <div className="text-center flex-1 px-4">
-            <h2 className="font-semibold text-lg truncate">{track.title || 'Без названия'}</h2>
+          <motion.div 
+            className="text-center flex-1 px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            <h2 className="font-bold text-lg truncate text-gradient">{track.title || 'Без названия'}</h2>
             <p className="text-sm text-muted-foreground truncate">{track.style || ''}</p>
-          </div>
+          </motion.div>
           
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => {
-              hapticImpact('light');
-              setQueueOpen(true);
-            }}
-            className="h-11 w-11 rounded-full bg-background/30 backdrop-blur-sm touch-manipulation"
-          >
-            <ListMusic className="h-5 w-5" />
-          </Button>
-        </header>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                hapticImpact('light');
+                setQueueOpen(true);
+              }}
+              className="h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors"
+            >
+              <ListMusic className="h-5 w-5" />
+            </Button>
+          </motion.div>
+        </motion.header>
 
         {/* Lyrics Section */}
         <div className="flex-1 overflow-hidden relative min-h-0">
@@ -393,161 +456,224 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
           </div>
         </div>
 
-        {/* Controls Section */}
-        <div className="bg-background/60 backdrop-blur-xl border-t border-border/50 p-4 pb-safe space-y-4">
-          {/* Timeline */}
+        {/* Controls Section with enhanced glass effect */}
+        <motion.div 
+          className="bg-background/50 backdrop-blur-xl border-t border-white/10 p-4 pb-safe space-y-4"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.3 }}
+        >
+          {/* Timeline with glow effect */}
           <div className="space-y-2">
-            <Slider
-              value={[currentTime]}
-              max={duration || 100}
-              step={0.1}
-              onValueChange={handleSeek}
-              className="w-full"
-            />
+            <div className="relative">
+              <Slider
+                value={[currentTime]}
+                max={duration || 100}
+                step={0.1}
+                onValueChange={handleSeek}
+                className="w-full"
+              />
+              {/* Progress glow */}
+              <motion.div
+                className="absolute -bottom-1 left-0 h-1 bg-primary/30 blur-md rounded-full"
+                style={{ width: `${(currentTime / (duration || 100)) * 100}%` }}
+              />
+            </div>
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>{formatTime(currentTime)}</span>
               <span>{formatTime(duration)}</span>
             </div>
           </div>
 
-          {/* Main Controls */}
+          {/* Main Controls with animations */}
           <div className="flex items-center justify-center gap-6">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {
-                hapticImpact('light');
-                toggleShuffle();
-              }}
-              className={cn(
-                'h-11 w-11 touch-manipulation',
-                shuffle && 'text-primary'
-              )}
-            >
-              <Shuffle className="h-5 w-5" />
-            </Button>
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  hapticImpact('light');
+                  toggleShuffle();
+                }}
+                className={cn(
+                  'h-11 w-11 touch-manipulation rounded-full transition-all',
+                  shuffle && 'text-primary bg-primary/10'
+                )}
+              >
+                <Shuffle className="h-5 w-5" />
+              </Button>
+            </motion.div>
 
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {
-                hapticImpact('light');
-                previousTrack();
-              }}
-              className="h-12 w-12 touch-manipulation"
-            >
-              <SkipBack className="h-6 w-6" />
-            </Button>
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  hapticImpact('light');
+                  previousTrack();
+                }}
+                className="h-12 w-12 touch-manipulation rounded-full hover:bg-white/10"
+              >
+                <SkipBack className="h-6 w-6" />
+              </Button>
+            </motion.div>
 
-            <Button
-              size="icon"
-              onClick={handlePlayPause}
-              className="h-16 w-16 rounded-full touch-manipulation"
+            {/* Main play button with glow */}
+            <motion.div 
+              className="relative"
+              whileHover={{ scale: 1.05 }} 
+              whileTap={{ scale: 0.95 }}
             >
-              {isPlaying ? (
-                <Pause className="h-8 w-8" />
-              ) : (
-                <Play className="h-8 w-8 ml-1" />
-              )}
-            </Button>
+              {/* Glow ring */}
+              <motion.div
+                className="absolute inset-0 rounded-full bg-primary/30 blur-xl"
+                animate={isPlaying ? { 
+                  scale: [1, 1.3, 1],
+                  opacity: [0.5, 0.2, 0.5]
+                } : { scale: 1, opacity: 0.3 }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              <Button
+                size="icon"
+                onClick={handlePlayPause}
+                className="relative h-16 w-16 rounded-full touch-manipulation bg-primary shadow-lg shadow-primary/30 hover:bg-primary/90"
+              >
+                <AnimatePresence mode="wait">
+                  {isPlaying ? (
+                    <motion.div
+                      key="pause"
+                      initial={{ scale: 0, rotate: -90 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      exit={{ scale: 0, rotate: 90 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Pause className="h-8 w-8" />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="play"
+                      initial={{ scale: 0, rotate: 90 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      exit={{ scale: 0, rotate: -90 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Play className="h-8 w-8 ml-1" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </Button>
+            </motion.div>
 
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {
-                hapticImpact('light');
-                nextTrack();
-              }}
-              className="h-12 w-12 touch-manipulation"
-            >
-              <SkipForward className="h-6 w-6" />
-            </Button>
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  hapticImpact('light');
+                  nextTrack();
+                }}
+                className="h-12 w-12 touch-manipulation rounded-full hover:bg-white/10"
+              >
+                <SkipForward className="h-6 w-6" />
+              </Button>
+            </motion.div>
 
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {
-                hapticImpact('light');
-                toggleRepeat();
-              }}
-              className={cn(
-                'h-11 w-11 touch-manipulation',
-                repeat !== 'off' && 'text-primary'
-              )}
-            >
-              <Repeat className="h-5 w-5" />
-              {repeat === 'one' && (
-                <span className="absolute text-[10px] font-bold">1</span>
-              )}
-            </Button>
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  hapticImpact('light');
+                  toggleRepeat();
+                }}
+                className={cn(
+                  'h-11 w-11 touch-manipulation rounded-full relative transition-all',
+                  repeat !== 'off' && 'text-primary bg-primary/10'
+                )}
+              >
+                <Repeat className="h-5 w-5" />
+                {repeat === 'one' && (
+                  <span className="absolute text-[10px] font-bold">1</span>
+                )}
+              </Button>
+            </motion.div>
           </div>
 
-          {/* Secondary Actions */}
+          {/* Secondary Actions with hover effects */}
           <div className="flex items-center justify-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {
-                hapticImpact('light');
-                toggleLike({ trackId: track.id, isLiked: track.is_liked || false });
-              }}
-              className="h-11 w-11 touch-manipulation"
-            >
-              <Heart className={cn('h-5 w-5', track.is_liked && 'fill-red-500 text-red-500')} />
-            </Button>
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  hapticImpact('light');
+                  toggleLike({ trackId: track.id, isLiked: track.is_liked || false });
+                }}
+                className={cn(
+                  'h-11 w-11 touch-manipulation rounded-full transition-all',
+                  track.is_liked && 'bg-red-500/10'
+                )}
+              >
+                <Heart className={cn(
+                  'h-5 w-5 transition-all',
+                  track.is_liked && 'fill-red-500 text-red-500 scale-110'
+                )} />
+              </Button>
+            </motion.div>
 
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {
-                hapticImpact('light');
-                if (track.audio_url) {
-                  downloadTrack({ trackId: track.id, audioUrl: track.audio_url, coverUrl: track.cover_url || undefined });
-                }
-              }}
-              className="h-11 w-11 touch-manipulation"
-              disabled={!track.audio_url}
-            >
-              <Download className="h-5 w-5" />
-            </Button>
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  hapticImpact('light');
+                  if (track.audio_url) {
+                    downloadTrack({ trackId: track.id, audioUrl: track.audio_url, coverUrl: track.cover_url || undefined });
+                  }
+                }}
+                className="h-11 w-11 touch-manipulation rounded-full hover:bg-white/10"
+                disabled={!track.audio_url}
+              >
+                <Download className="h-5 w-5" />
+              </Button>
+            </motion.div>
 
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={async () => {
-                hapticImpact('light');
-                const shareData = {
-                  title: track.title || 'Track',
-                  text: `🎵 ${track.title || 'Track'} - ${track.style || 'AI Music'}`,
-                  url: window.location.href,
-                };
-                
-                // Try native share, fallback to clipboard
-                if (navigator.share && navigator.canShare?.(shareData)) {
-                  try {
-                    await navigator.share(shareData);
-                  } catch (error) {
-                    // User cancelled or share failed - ignore
-                    if ((error as Error).name !== 'AbortError') {
-                      console.error('Share failed:', error);
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={async () => {
+                  hapticImpact('light');
+                  const shareData = {
+                    title: track.title || 'Track',
+                    text: `🎵 ${track.title || 'Track'} - ${track.style || 'AI Music'}`,
+                    url: window.location.href,
+                  };
+                  
+                  if (navigator.share && navigator.canShare?.(shareData)) {
+                    try {
+                      await navigator.share(shareData);
+                    } catch (error) {
+                      if ((error as Error).name !== 'AbortError') {
+                        console.error('Share failed:', error);
+                      }
+                    }
+                  } else {
+                    try {
+                      await navigator.clipboard.writeText(window.location.href);
+                      toast.success('Ссылка скопирована');
+                    } catch {
+                      toast.error('Не удалось скопировать ссылку');
                     }
                   }
-                } else {
-                  // Fallback: copy link to clipboard
-                  try {
-                    await navigator.clipboard.writeText(window.location.href);
-                    toast.success('Ссылка скопирована');
-                  } catch {
-                    toast.error('Не удалось скопировать ссылку');
-                  }
-                }
-              }}
-              className="h-11 w-11 touch-manipulation"
-            >
-              <Share2 className="h-5 w-5" />
-            </Button>
+                }}
+                className="h-11 w-11 touch-manipulation rounded-full hover:bg-white/10"
+              >
+                <Share2 className="h-5 w-5" />
+              </Button>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Queue Sheet */}
