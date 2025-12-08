@@ -85,11 +85,20 @@ serve(async (req) => {
       });
     }
 
-    // If test mode, send test alert
+    // If test mode, send test alert and log
     if (test) {
       const testMessage = `🧪 *Тестовый алерт*\n\nСистема мониторинга работает корректно\\.\n\n_${new Date().toISOString()}_`;
       
       await sendAlertToAdmins(adminChatIds, testMessage);
+      
+      // Log test alert to database
+      await supabase.from('health_alerts').insert({
+        overall_status: 'healthy',
+        alert_type: 'test',
+        is_test: true,
+        recipients_count: adminChatIds.length,
+        metrics: {},
+      });
       
       return new Response(JSON.stringify({ 
         success: true, 
@@ -158,6 +167,21 @@ serve(async (req) => {
     // Send alerts
     await sendAlertToAdmins(adminChatIds, alertMessage);
     lastAlertTime = now;
+
+    // Log alert to database
+    const { error: insertError } = await supabase.from('health_alerts').insert({
+      overall_status: healthData.overall_status,
+      alert_type: force ? 'forced' : 'automatic',
+      unhealthy_services: unhealthyChecks.map(c => c.name),
+      degraded_services: degradedChecks.map(c => c.name),
+      metrics: healthData.metrics,
+      recipients_count: adminChatIds.length,
+      is_test: false,
+    });
+
+    if (insertError) {
+      logger.warn('Failed to log alert to database', { error: insertError.message });
+    }
 
     logger.success('Health alert sent', { 
       recipients: adminChatIds.length,

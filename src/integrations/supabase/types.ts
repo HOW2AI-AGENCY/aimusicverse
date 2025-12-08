@@ -462,6 +462,48 @@ export type Database = {
           },
         ]
       }
+      health_alerts: {
+        Row: {
+          alert_type: string
+          created_at: string
+          degraded_services: string[] | null
+          id: string
+          is_test: boolean | null
+          metrics: Json | null
+          overall_status: string
+          recipients_count: number | null
+          resolution_note: string | null
+          resolved_at: string | null
+          unhealthy_services: string[] | null
+        }
+        Insert: {
+          alert_type?: string
+          created_at?: string
+          degraded_services?: string[] | null
+          id?: string
+          is_test?: boolean | null
+          metrics?: Json | null
+          overall_status: string
+          recipients_count?: number | null
+          resolution_note?: string | null
+          resolved_at?: string | null
+          unhealthy_services?: string[] | null
+        }
+        Update: {
+          alert_type?: string
+          created_at?: string
+          degraded_services?: string[] | null
+          id?: string
+          is_test?: boolean | null
+          metrics?: Json | null
+          overall_status?: string
+          recipients_count?: number | null
+          resolution_note?: string | null
+          resolved_at?: string | null
+          unhealthy_services?: string[] | null
+        }
+        Relationships: []
+      }
       music_projects: {
         Row: {
           ai_context: Json | null
