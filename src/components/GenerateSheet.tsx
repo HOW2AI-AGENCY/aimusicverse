@@ -406,25 +406,66 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         ? artists?.find(a => a.id === selectedArtistId)?.suno_persona_id 
         : undefined;
 
-      const { data, error } = await supabase.functions.invoke('suno-music-generate', {
-        body: {
-          mode,
-          prompt: mode === 'simple' ? description : prompt,
-          title: mode === 'custom' ? title : undefined,
-          style: mode === 'custom' ? style : undefined,
-          instrumental,
-          model: finalModel,
-          negativeTags: negativeTags || undefined,
-          vocalGender: vocalGender || undefined,
-          styleWeight: styleWeight[0],
-          weirdnessConstraint: weirdnessConstraint[0],
-          audioWeight: (audioFile || personaId) ? audioWeight[0] : undefined,
-          personaId: personaId,
-          artistId: selectedArtistId,
-          projectId: selectedProjectId || initialProjectId,
-          planTrackId: planTrackId, // Link to project plan track
-        },
-      });
+      let data, error;
+
+      // If we have an audio file reference, use upload-extend endpoint
+      if (audioFile) {
+        // Convert file to base64
+        const fileData = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(audioFile);
+        });
+
+        const result = await supabase.functions.invoke('suno-upload-extend', {
+          body: {
+            audioFile: {
+              name: audioFile.name,
+              type: audioFile.type,
+              data: fileData,
+            },
+            defaultParamFlag: mode === 'custom', // true = custom params, false = use original
+            prompt: mode === 'custom' && hasVocals ? lyrics : undefined,
+            style: mode === 'custom' ? style : undefined,
+            title: title || undefined,
+            instrumental: !hasVocals,
+            model: finalModel,
+            personaId: personaId,
+            negativeTags: negativeTags || undefined,
+            vocalGender: vocalGender || undefined,
+            styleWeight: styleWeight[0],
+            weirdnessConstraint: weirdnessConstraint[0],
+            audioWeight: audioWeight[0],
+            projectId: selectedProjectId || initialProjectId,
+          },
+        });
+        data = result.data;
+        error = result.error;
+      } else {
+        // Standard generation without audio reference
+        const result = await supabase.functions.invoke('suno-music-generate', {
+          body: {
+            mode,
+            prompt: mode === 'simple' ? description : prompt,
+            title: mode === 'custom' ? title : undefined,
+            style: mode === 'custom' ? style : undefined,
+            instrumental,
+            model: finalModel,
+            negativeTags: negativeTags || undefined,
+            vocalGender: vocalGender || undefined,
+            styleWeight: styleWeight[0],
+            weirdnessConstraint: weirdnessConstraint[0],
+            audioWeight: personaId ? audioWeight[0] : undefined,
+            personaId: personaId,
+            artistId: selectedArtistId,
+            projectId: selectedProjectId || initialProjectId,
+            planTrackId: planTrackId,
+          },
+        });
+        data = result.data;
+        error = result.error;
+      }
 
       if (error) throw error;
 
