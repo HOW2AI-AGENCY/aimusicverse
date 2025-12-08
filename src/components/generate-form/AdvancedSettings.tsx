@@ -92,28 +92,28 @@ export function AdvancedSettings({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {Object.entries(getAvailableModels()).map(([key, info]) => (
-                  <SelectItem key={key} value={key}>
+                {getAvailableModels().map((modelInfo) => (
+                  <SelectItem key={modelInfo.key} value={modelInfo.key}>
                     <div className="flex items-center gap-2">
-                      <span>{info.emoji}</span>
+                      <span>{modelInfo.emoji}</span>
                       <div className="flex flex-col">
                         <div className="flex items-center gap-2">
-                          <span className="font-medium">{info.name}</span>
-                          {info.status === 'latest' && (
+                          <span className="font-medium">{modelInfo.name}</span>
+                          {modelInfo.status === 'latest' && (
                             <Badge variant="default" className="text-[10px] px-1.5 py-0 h-4">
                               NEW
                             </Badge>
                           )}
                         </div>
-                        <span className="text-xs text-muted-foreground">{info.desc}</span>
+                        <span className="text-xs text-muted-foreground">{modelInfo.desc}</span>
                       </div>
                     </div>
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            {/* Show warning if selected model is not in available models */}
-            {model && !getAvailableModels()[model] && SUNO_MODELS[model] && (
+            {/* Show warning if selected model is deprecated */}
+            {model && SUNO_MODELS[model]?.status === 'deprecated' && (
               <div className="flex items-center gap-2 mt-2 p-2 bg-destructive/10 border border-destructive/20 rounded-md">
                 <AlertTriangle className="w-4 h-4 text-destructive" />
                 <p className="text-xs text-destructive">

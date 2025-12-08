@@ -6,6 +6,22 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+/**
+ * Model mapping from UI keys to Suno API model names
+ */
+const MODEL_MAP: Record<string, string> = {
+  'V5': 'chirp-crow',
+  'V4_5PLUS': 'chirp-bluejay',
+  'V4_5ALL': 'chirp-auk',
+  'V4': 'chirp-v4',
+};
+
+const DEFAULT_API_MODEL = 'chirp-auk';
+
+function getApiModelName(uiKey: string): string {
+  return MODEL_MAP[uiKey] || DEFAULT_API_MODEL;
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -106,12 +122,16 @@ serve(async (req) => {
 
     console.log('Audio uploaded to:', publicUrl);
 
+    // Map UI model key to API model name
+    const apiModel = getApiModelName(model);
+    console.log(`Model mapping: ${model} -> ${apiModel}`);
+
     // Prepare request body for Suno API
     const requestBody: any = {
       uploadUrl: publicUrl,
       customMode,
       instrumental,
-      model,
+      model: apiModel,
       callBackUrl: `${supabaseUrl}/functions/v1/suno-music-callback`,
     };
 

@@ -71,11 +71,15 @@ export const isModelAvailable = (key: string): boolean => {
   return model ? model.status !== 'deprecated' : false;
 };
 
-// Get available models only (filter out deprecated)
-export const getAvailableModels = (): Record<string, SunoModelInfo> => {
-  return Object.fromEntries(
-    Object.entries(SUNO_MODELS).filter(([_, info]) => info.status !== 'deprecated')
-  );
+// Get available models as array with keys
+export const getAvailableModels = (): Array<SunoModelInfo & { key: string; label: string }> => {
+  return Object.entries(SUNO_MODELS)
+    .filter(([_, info]) => info.status !== 'deprecated')
+    .map(([key, info]) => ({
+      ...info,
+      key,
+      label: `${info.name} - ${info.desc}`,
+    }));
 };
 
 // Validate and fallback to default if model unavailable
