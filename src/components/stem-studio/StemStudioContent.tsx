@@ -646,6 +646,8 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         duration={duration}
         currentTime={currentTime}
         onSeek={handleSeek}
+        taskId={track.suno_task_id}
+        audioId={track.suno_id}
       />
     </div>
   );
