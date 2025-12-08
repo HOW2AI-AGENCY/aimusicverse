@@ -55,16 +55,14 @@ export function useReplaceSectionRealtime(trackId: string) {
               logger.error('Failed to parse audio clips', e);
             }
 
-            // If this is the active task, update completion state
-            if (task.id === activeTaskId) {
-              setLatestCompletion({
-                taskId: task.id,
-                originalAudioUrl: '', // Will be fetched from track
-                newAudioUrl,
-                section: { start: 0, end: 0 }, // Will be updated from metadata
-                status: 'completed',
-              });
-            }
+            // Update completion state for any completed replace_section task
+            setLatestCompletion({
+              taskId: task.id,
+              originalAudioUrl: '', // Will be fetched from track
+              newAudioUrl,
+              section: { start: 0, end: 0 }, // Will be fetched from track_change_log
+              status: 'completed',
+            });
           } else if (task.status === 'failed') {
             error();
             toast.error('Ошибка замены секции', {

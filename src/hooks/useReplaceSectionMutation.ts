@@ -44,13 +44,14 @@ export function useReplaceSectionMutation() {
 
       return data;
     },
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       toast.success('Замена секции запущена', {
         description: 'Ожидайте, это займёт 1-2 минуты'
       });
       
       // Invalidate queries to show the new task
       queryClient.invalidateQueries({ queryKey: ['generation-tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['replaced-sections', variables.trackId] });
     },
     onError: (error: Error) => {
       logger.error('Replace section mutation error', error);

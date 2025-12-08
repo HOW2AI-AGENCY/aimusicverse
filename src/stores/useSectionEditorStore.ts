@@ -81,6 +81,7 @@ export const useSectionEditorStore = create<SectionEditorState>((set) => ({
   setLatestCompletion: (result) => set({ 
     latestCompletion: result,
     editMode: result ? 'comparing' : 'none',
+    activeTaskId: result ? null : null, // Clear active task on completion
   }),
   
   clearSelection: () => set({
