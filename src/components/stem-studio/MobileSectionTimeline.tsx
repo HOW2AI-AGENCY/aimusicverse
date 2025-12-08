@@ -1,9 +1,10 @@
 import { useRef, useState, useCallback } from 'react';
-import { motion, PanInfo, useMotionValue, useTransform, AnimatePresence, Variants } from 'framer-motion';
+import { motion, PanInfo, AnimatePresence, Variants, useAnimation } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { DetectedSection } from '@/hooks/useSectionDetection';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
 // Animation variants
 const activeSectionVariants: Variants = {
@@ -50,6 +51,15 @@ const playheadVariants: Variants = {
   }
 };
 
+const swipeIndicatorVariants: Variants = {
+  hidden: { opacity: 0, x: 0 },
+  visible: (direction: number) => ({
+    opacity: 1,
+    x: direction * 20,
+    transition: { type: 'spring', stiffness: 300, damping: 20 }
+  })
+};
+
 interface MobileSectionTimelineProps {
   sections: DetectedSection[];
   duration: number;
@@ -81,8 +91,12 @@ export function MobileSectionTimeline({
   onSeek,
 }: MobileSectionTimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const pillsContainerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [swipeDirection, setSwipeDirection] = useState<number>(0);
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+  const haptic = useHapticFeedback();
+  const controls = useAnimation();
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -90,8 +104,8 @@ export function MobileSectionTimeline({
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Handle touch/drag seek
-  const handleDrag = useCallback((e: React.TouchEvent | React.MouseEvent, info?: PanInfo) => {
+  // Handle touch/drag seek with haptic feedback
+  const handleDrag = useCallback((e: React.TouchEvent | React.MouseEvent) => {
     if (!containerRef.current) return;
     
     const rect = containerRef.current.getBoundingClientRect();
@@ -105,14 +119,29 @@ export function MobileSectionTimeline({
     
     const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
     const time = (x / rect.width) * duration;
+    
+    // Haptic when crossing section boundaries
+    const prevSection = sections.find(s => currentTime >= s.startTime && currentTime <= s.endTime);
+    const newSection = sections.find(s => time >= s.startTime && time <= s.endTime);
+    if (prevSection !== newSection && newSection) {
+      haptic.selectionChanged();
+    }
+    
     onSeek(time);
-  }, [duration, onSeek]);
+  }, [duration, onSeek, sections, currentTime, haptic]);
 
-  const handleDragStart = () => setIsDragging(true);
-  const handleDragEnd = () => setIsDragging(false);
+  const handleDragStart = () => {
+    setIsDragging(true);
+    haptic.impact('light');
+  };
+  
+  const handleDragEnd = () => {
+    setIsDragging(false);
+    haptic.impact('medium');
+  };
 
-  // Navigate to prev/next section
-  const navigateSection = (direction: 'prev' | 'next') => {
+  // Navigate to prev/next section with haptic and animation
+  const navigateSection = useCallback((direction: 'prev' | 'next') => {
     if (sections.length === 0) return;
     
     const currentIdx = sections.findIndex(
@@ -126,39 +155,95 @@ export function MobileSectionTimeline({
       newIdx = currentIdx >= sections.length - 1 ? 0 : currentIdx + 1;
     }
     
+    // Haptic feedback
+    haptic.impact('medium');
+    
+    // Swipe animation indicator
+    setSwipeDirection(direction === 'prev' ? -1 : 1);
+    setTimeout(() => setSwipeDirection(0), 300);
+    
+    // Auto-scroll to selected pill
+    if (pillsContainerRef.current) {
+      const pill = pillsContainerRef.current.children[newIdx] as HTMLElement;
+      pill?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+    
     onSeek(sections[newIdx].startTime);
-  };
+  }, [sections, currentTime, onSeek, haptic]);
+
+  // Swipe gesture handler
+  const handleSwipe = useCallback((info: PanInfo) => {
+    const swipeThreshold = 50;
+    if (Math.abs(info.offset.x) > swipeThreshold) {
+      navigateSection(info.offset.x > 0 ? 'prev' : 'next');
+    }
+  }, [navigateSection]);
 
   // Find active section
   const activeSection = sections.find(
     s => currentTime >= s.startTime && currentTime <= s.endTime
   );
 
+  // Handle section click with haptic
+  const handleSectionClick = useCallback((section: DetectedSection, index: number) => {
+    haptic.select();
+    onSectionClick(section, index);
+  }, [onSectionClick, haptic]);
+
   return (
-    <div className="space-y-3">
-      {/* Active Section Display */}
+    <motion.div 
+      className="space-y-3"
+      drag="x"
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.1}
+      onDragEnd={(_, info) => handleSwipe(info)}
+    >
+      {/* Active Section Display with Swipe Hint */}
       <AnimatePresence mode="wait">
         {activeSection && (
           <motion.div 
             key={activeSection.label}
-            className="flex items-center justify-between px-1"
+            className="flex items-center justify-between px-1 relative"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+            {/* Swipe indicators */}
+            <motion.div
+              className="absolute left-12 top-1/2 -translate-y-1/2 text-muted-foreground/50"
+              variants={swipeIndicatorVariants}
+              initial="hidden"
+              animate={swipeDirection === -1 ? "visible" : "hidden"}
+              custom={-1}
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </motion.div>
+            <motion.div
+              className="absolute right-12 top-1/2 -translate-y-1/2 text-muted-foreground/50"
+              variants={swipeIndicatorVariants}
+              initial="hidden"
+              animate={swipeDirection === 1 ? "visible" : "hidden"}
+              custom={1}
+            >
+              <ChevronRight className="w-6 h-6" />
+            </motion.div>
+
+            <motion.div 
+              whileHover={{ scale: 1.1 }} 
+              whileTap={{ scale: 0.9 }}
+            >
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-10 w-10 rounded-full"
+                className="h-12 w-12 rounded-full active:bg-primary/20"
                 onClick={() => navigateSection('prev')}
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-6 h-6" />
               </Button>
             </motion.div>
             
             <motion.div 
-              className="text-center"
+              className="text-center flex-1"
               variants={activeSectionVariants}
               initial="initial"
               animate="animate"
@@ -166,36 +251,53 @@ export function MobileSectionTimeline({
             >
               <motion.span 
                 className={cn(
-                  'inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium',
-                  'bg-primary/10 text-primary border border-primary/20'
+                  'inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium',
+                  'bg-primary/10 text-primary border border-primary/20',
+                  'shadow-lg shadow-primary/10'
                 )}
                 layoutId="activeSectionBadge"
+                whileTap={{ scale: 0.95 }}
               >
                 <motion.span 
                   className={cn('w-2.5 h-2.5 rounded-full', SECTION_COLORS[activeSection.type])}
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 1, repeat: Infinity }}
+                  animate={{ scale: [1, 1.3, 1] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
                 />
                 {activeSection.label}
+                <Sparkles className="w-3.5 h-3.5 text-primary/60" />
               </motion.span>
+              <motion.p 
+                className="text-xs text-muted-foreground mt-1"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                Свайп ← → для навигации
+              </motion.p>
             </motion.div>
             
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+            <motion.div 
+              whileHover={{ scale: 1.1 }} 
+              whileTap={{ scale: 0.9 }}
+            >
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-10 w-10 rounded-full"
+                className="h-12 w-12 rounded-full active:bg-primary/20"
                 onClick={() => navigateSection('next')}
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="w-6 h-6" />
               </Button>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Compact Section Pills */}
-      <div className="flex gap-1.5 overflow-x-auto pb-2 px-1 -mx-1 scrollbar-hide">
+      {/* Compact Section Pills with Scroll Snap */}
+      <div 
+        ref={pillsContainerRef}
+        className="flex gap-2 overflow-x-auto pb-2 px-1 -mx-1 scrollbar-hide snap-x snap-mandatory"
+      >
         {sections.map((section, idx) => {
           const isSelected = selectedIndex === idx;
           const isActive = currentTime >= section.startTime && currentTime <= section.endTime;
@@ -206,36 +308,36 @@ export function MobileSectionTimeline({
           return (
             <motion.button
               key={idx}
-              onClick={() => onSectionClick(section, idx)}
+              onClick={() => handleSectionClick(section, idx)}
               variants={pillVariants}
               initial="initial"
               animate={isSelected ? "selected" : "animate"}
               whileTap="tap"
               custom={idx}
               className={cn(
-                'flex-shrink-0 px-3 py-2 rounded-full text-xs font-medium',
-                'border-2 min-h-[44px] transition-colors',
-                isSelected && 'border-primary bg-primary/20 text-primary shadow-lg shadow-primary/20',
+                'flex-shrink-0 px-4 py-2.5 rounded-2xl text-xs font-medium snap-center',
+                'border-2 min-h-[48px] transition-all duration-200',
+                isSelected && 'border-primary bg-primary/20 text-primary shadow-lg shadow-primary/20 scale-105',
                 isActive && !isSelected && 'border-primary/50 bg-primary/10',
-                !isSelected && !isActive && 'border-transparent bg-muted/50 text-muted-foreground',
-                isReplaced && 'ring-2 ring-success/50 ring-offset-1 ring-offset-background'
+                !isSelected && !isActive && 'border-border/50 bg-card/80 text-muted-foreground hover:bg-muted/50',
+                isReplaced && 'ring-2 ring-success/50 ring-offset-2 ring-offset-background'
               )}
             >
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-2">
                 <motion.span 
-                  className={cn('w-2 h-2 rounded-full', SECTION_COLORS[section.type])}
-                  animate={isActive ? { scale: [1, 1.3, 1] } : {}}
-                  transition={{ duration: 0.8, repeat: isActive ? Infinity : 0 }}
+                  className={cn('w-2.5 h-2.5 rounded-full', SECTION_COLORS[section.type])}
+                  animate={isActive ? { scale: [1, 1.4, 1], opacity: [1, 0.7, 1] } : {}}
+                  transition={{ duration: 0.6, repeat: isActive ? Infinity : 0 }}
                 />
-                {section.label}
+                <span className="whitespace-nowrap">{section.label}</span>
                 {isReplaced && (
                   <motion.span 
-                    className="text-success"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
+                    className="text-success flex items-center"
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
                     transition={{ type: 'spring', stiffness: 500, damping: 15 }}
                   >
-                    ✓
+                    <Sparkles className="w-3 h-3" />
                   </motion.span>
                 )}
               </span>
@@ -343,6 +445,6 @@ export function MobileSectionTimeline({
         </motion.span>
         <span>{formatTime(duration)}</span>
       </div>
-    </div>
+    </motion.div>
   );
 }

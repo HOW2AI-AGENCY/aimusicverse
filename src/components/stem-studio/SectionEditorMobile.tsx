@@ -2,8 +2,9 @@ import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { 
   X, Wand2, Loader2, FileText, ChevronDown, 
-  Music, AlertTriangle, Sparkles, RotateCcw, GripVertical
+  AlertTriangle, Sparkles
 } from 'lucide-react';
+import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -105,6 +106,7 @@ export function SectionEditorMobile({
   const [showLyricsEditor, setShowLyricsEditor] = useState(false);
   const [localStart, setLocalStart] = useState(0);
   const [localEnd, setLocalEnd] = useState(0);
+  const haptic = useHapticFeedback();
   
   const {
     selectedSection,
@@ -159,19 +161,23 @@ export function SectionEditorMobile({
     setLocalStart(start);
     setLocalEnd(end);
     setCustomRange(start, end);
-  }, [setCustomRange]);
+    haptic.selectionChanged();
+  }, [setCustomRange, haptic]);
 
   const handleSectionSelect = useCallback((section: DetectedSection, index: number) => {
+    haptic.select();
     const sectionLen = section.endTime - section.startTime;
     if (sectionLen > maxDuration) {
       selectSection({ ...section, endTime: section.startTime + maxDuration }, index);
     } else {
       selectSection(section, index);
     }
-  }, [selectSection, maxDuration]);
+  }, [selectSection, maxDuration, haptic]);
 
   const handleReplace = async () => {
     if (!isValid) return;
+    
+    haptic.impact('medium');
 
     let finalPrompt = prompt;
     if (editedLyrics && editedLyrics !== selectedSection?.lyrics) {
@@ -188,6 +194,7 @@ export function SectionEditorMobile({
 
     if (result?.taskId) {
       setActiveTask(result.taskId);
+      haptic.success();
     }
     
     onOpenChange(false);
@@ -195,6 +202,7 @@ export function SectionEditorMobile({
   };
 
   const handlePresetClick = (presetPrompt: string) => {
+    haptic.tap();
     setPrompt(prompt ? `${prompt}, ${presetPrompt}` : presetPrompt);
   };
 
