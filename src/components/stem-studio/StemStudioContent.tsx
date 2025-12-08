@@ -13,6 +13,7 @@ import { StemChannel } from '@/components/stem-studio/StemChannel';
 import { StemDownloadPanel } from '@/components/stem-studio/StemDownloadPanel';
 import { StemReferenceDialog } from '@/components/stem-studio/StemReferenceDialog';
 import { MidiSection } from '@/components/stem-studio/MidiSection';
+import { MixExportDialog } from '@/components/stem-studio/MixExportDialog';
 import { StemStudioTutorial, useStemStudioTutorial } from '@/components/stem-studio/StemStudioTutorial';
 import { useStemStudioEngine } from '@/hooks/useStemStudioEngine';
 import { defaultStemEffects } from '@/hooks/useStemAudioEngine';
@@ -354,6 +355,14 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
                 trackTags={track.tags}
               />
               <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
+              <MixExportDialog
+                stems={stems}
+                stemStates={stemStates}
+                stemEffects={enginesState}
+                masterVolume={masterVolume}
+                trackTitle={track.title || 'Трек'}
+                effectsEnabled={effectsEnabled}
+              />
             </>
           )}
         </div>
@@ -430,6 +439,14 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
             trackTags={track.tags}
           />
           <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
+          <MixExportDialog
+            stems={stems}
+            stemStates={stemStates}
+            stemEffects={enginesState}
+            masterVolume={masterVolume}
+            trackTitle={track.title || 'Трек'}
+            effectsEnabled={effectsEnabled}
+          />
         </div>
       )}
 
