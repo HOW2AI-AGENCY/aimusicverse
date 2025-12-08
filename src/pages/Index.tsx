@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from "react";
-import { Onboarding } from "@/components/Onboarding";
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { User } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -61,7 +60,7 @@ const Index = () => {
         <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl" />
       </div>
       
-      <Onboarding />
+      
       <div className="container max-w-6xl mx-auto px-4 py-4 sm:py-6 relative z-10">
         {/* Compact Header with glass effect */}
         <motion.header 

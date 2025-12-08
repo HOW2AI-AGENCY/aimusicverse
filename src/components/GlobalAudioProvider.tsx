@@ -143,6 +143,11 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     };
 
     const handleError = () => {
+      // Ignore errors when src is empty or not set
+      if (!audio.src || audio.src === '' || audio.src === window.location.href) {
+        return;
+      }
+      
       const errorCode = audio.error?.code || 0;
       const errorInfo = AUDIO_ERROR_MESSAGES[errorCode] || { 
         ru: 'Ошибка воспроизведения' 

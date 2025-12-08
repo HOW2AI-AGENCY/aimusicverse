@@ -39,16 +39,16 @@ const menuSections: { title: string; items: MenuItem[] }[] = [
     items: [
       { icon: ListMusic, label: 'Плейлисты', path: '/playlists', badgeVariant: 'count' },
       { icon: FileText, label: 'Шаблоны текстов', path: '/templates' },
-      { icon: Users, label: 'Мои AI-артисты', path: '/actors' },
+      { icon: Users, label: 'AI-артисты', path: '/artists' },
       { icon: Globe, label: 'Сообщество', path: '/community' },
-      { icon: BookOpen, label: 'Блог', path: '/blog', badge: 'NEW', badgeVariant: 'new' },
+      { icon: BookOpen, label: 'Блог', path: '/blog' },
     ]
   },
   {
     title: 'Аккаунт',
     items: [
       { icon: User, label: 'Профиль', path: '/profile' },
-      { icon: Gift, label: 'Награды', path: '/rewards', badge: 'NEW', badgeVariant: 'new' },
+      { icon: Gift, label: 'Награды', path: '/rewards' },
       { icon: Settings, label: 'Настройки', path: '/settings' },
       { icon: HelpCircle, label: 'Обучение', path: '/onboarding' },
     ]

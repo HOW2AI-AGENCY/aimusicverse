@@ -6,7 +6,6 @@ import { Loader2, Music } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { SplashScreen } from '@/components/SplashScreen';
-import { Onboarding } from '@/components/Onboarding';
 import logo from '@/assets/logo.png';
 import { logger } from '@/lib/logger';
 
@@ -15,7 +14,6 @@ const Auth = () => {
   const { isAuthenticated, loading, authenticateWithTelegram } = useAuth();
   const { webApp, user, isInitialized, isDevelopmentMode } = useTelegram();
   const [showSplash, setShowSplash] = useState(true);
-  const [showOnboarding, setShowOnboarding] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const handleAuth = async () => {
@@ -24,13 +22,8 @@ const Auth = () => {
     setIsAuthenticating(false);
     
     if (result?.session) {
-      // Если профиля нет в БД - показать онбординг
-      if (!result.hasProfile) {
-        setShowOnboarding(true);
-      } else {
-        // Если профиль есть - перейти на главную
-        navigate('/', { replace: true });
-      }
+      // Navigate to main page - onboarding is handled via OnboardingOverlay
+      navigate('/', { replace: true });
     }
   };
 
@@ -53,19 +46,9 @@ const Auth = () => {
     setShowSplash(false);
   };
 
-  const handleOnboardingComplete = () => {
-    // После завершения онбординга перейти на главную
-    navigate('/', { replace: true });
-  };
-
   // Show splash screen on first load
   if (showSplash) {
     return <SplashScreen onComplete={handleSplashComplete} />;
-  }
-
-  // Show onboarding for new users
-  if (showOnboarding) {
-    return <Onboarding onComplete={handleOnboardingComplete} />;
   }
 
   // Show loading while initializing
