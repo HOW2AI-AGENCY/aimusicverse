@@ -27,6 +27,8 @@ import { SectionTimelineVisualization } from '@/components/stem-studio/SectionTi
 import { SectionEditorPanel } from '@/components/stem-studio/SectionEditorPanel';
 import { SectionEditorMobile } from '@/components/stem-studio/SectionEditorMobile';
 import { MobileSectionTimelineCompact } from '@/components/stem-studio/MobileSectionTimelineCompact';
+import { MobileStudioHeader } from '@/components/stem-studio/MobileStudioHeader';
+import { MobileMasterVolume } from '@/components/stem-studio/MobileMasterVolume';
 import { SectionQuickActions } from '@/components/stem-studio/SectionQuickActions';
 import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
 import { QuickComparePanel } from '@/components/stem-studio/QuickComparePanel';
@@ -407,127 +409,140 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         onComplete={() => setShowTutorial(false)} 
       />
 
-      {/* Header */}
-      <header className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-border/50 bg-card/50 backdrop-blur">
-        <div className="flex items-center gap-3">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => navigate('/library')}
-            className="rounded-full h-10 w-10"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </Button>
-          <div className="flex flex-col">
-            <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
-              Студия стемов
-            </span>
-            <h1 className="text-sm font-semibold truncate max-w-[200px] sm:max-w-none">
-              {track.title || 'Без названия'}
-            </h1>
+      {/* Mobile Header */}
+      {isMobile ? (
+        <MobileStudioHeader
+          title={track.title || 'Без названия'}
+          onBack={() => navigate('/library')}
+          canReplace={!!canReplaceSection}
+          effectsEnabled={effectsEnabled}
+          onEnableEffects={handleEnableEffects}
+          onStartReplace={() => setEditMode('selecting')}
+          onHelp={startTutorial}
+          editMode={editMode}
+        />
+      ) : (
+        /* Desktop Header */
+        <header className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-border/50 bg-card/50 backdrop-blur">
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate('/library')}
+              className="rounded-full h-10 w-10"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </Button>
+            <div className="flex flex-col">
+              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+                Студия стемов
+              </span>
+              <h1 className="text-sm font-semibold truncate max-w-[200px] sm:max-w-none">
+                {track.title || 'Без названия'}
+              </h1>
+            </div>
           </div>
-        </div>
 
-        <div className="flex items-center gap-2">
-          {/* Replacement Progress */}
-          <ReplacementProgressIndicator 
-            trackId={trackId}
-            onViewResult={(taskId) => {
-              // Find the completion and show compare panel
-              const replaced = replacedSections?.find(s => s.taskId === taskId);
-              if (replaced && track.audio_url && replaced.audioUrl) {
-                setLatestCompletion({
-                  taskId,
-                  originalAudioUrl: track.audio_url,
-                  newAudioUrl: replaced.audioUrl,
-                  section: { start: replaced.start, end: replaced.end },
-                  status: 'completed',
-                });
-              }
-            }}
-          />
+          <div className="flex items-center gap-2">
+            {/* Replacement Progress */}
+            <ReplacementProgressIndicator 
+              trackId={trackId}
+              onViewResult={(taskId) => {
+                const replaced = replacedSections?.find(s => s.taskId === taskId);
+                if (replaced && track.audio_url && replaced.audioUrl) {
+                  setLatestCompletion({
+                    taskId,
+                    originalAudioUrl: track.audio_url,
+                    newAudioUrl: replaced.audioUrl,
+                    section: { start: replaced.start, end: replaced.end },
+                    status: 'completed',
+                  });
+                }
+              }}
+            />
 
-          {/* Replace Section Button */}
-          {canReplaceSection && editMode === 'none' && (
-            <>
+            {/* Replace Section Button */}
+            {canReplaceSection && editMode === 'none' && (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setEditMode('selecting')}
+                  className="h-9 gap-1.5"
+                >
+                  <Scissors className="w-4 h-4" />
+                  <span className="hidden sm:inline">Заменить</span>
+                </Button>
+                <ReplacementHistoryPanel trackId={trackId} trackAudioUrl={track.audio_url} />
+              </>
+            )}
+
+            {/* Effects Mode Toggle */}
+            {!effectsEnabled ? (
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setEditMode('selecting')}
+                onClick={handleEnableEffects}
                 className="h-9 gap-1.5"
               >
-                <Scissors className="w-4 h-4" />
-                <span className="hidden sm:inline">Заменить</span>
+                <Sliders className="w-4 h-4" />
+                <span className="hidden sm:inline">Эффекты</span>
               </Button>
-              <ReplacementHistoryPanel trackId={trackId} trackAudioUrl={track.audio_url} />
-            </>
-          )}
+            ) : (
+              <Badge variant="secondary" className="h-9 px-3 gap-1.5">
+                <Sliders className="w-3.5 h-3.5" />
+                <span className="text-xs">FX</span>
+              </Badge>
+            )}
 
-          {/* Effects Mode Toggle */}
-          {!effectsEnabled ? (
+            {/* Help button */}
             <Button
-              variant="outline"
-              size="sm"
-              onClick={handleEnableEffects}
-              className="h-9 gap-1.5"
+              variant="ghost"
+              size="icon"
+              onClick={startTutorial}
+              className="h-9 w-9 rounded-full"
+              title="Показать обучение"
             >
-              <Sliders className="w-4 h-4" />
-              <span className="hidden sm:inline">Эффекты</span>
+              <HelpCircle className="w-4 h-4" />
             </Button>
-          ) : (
-            <Badge variant="secondary" className="h-9 px-3 gap-1.5">
-              <Sliders className="w-3.5 h-3.5" />
-              <span className="text-xs">FX</span>
-            </Badge>
-          )}
 
-          {/* Help button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={startTutorial}
-            className="h-9 w-9 rounded-full"
-            title="Показать обучение"
-          >
-            <HelpCircle className="w-4 h-4" />
-          </Button>
-
-          {!isMobile && stems && track.audio_url && (
-            <>
-              <MixPresetsMenu
-                trackId={trackId}
-                masterVolume={masterVolume}
-                stemStates={stemStates}
-                stemEffects={enginesState}
-                onLoadPreset={handleLoadPreset}
-                effectsEnabled={effectsEnabled}
-              />
-              <MidiSection 
-                trackId={trackId} 
-                trackTitle={track.title || 'Трек'} 
-                audioUrl={track.audio_url}
-              />
-              <StemReferenceDialog 
-                stems={stems} 
-                trackTitle={track.title || 'Трек'} 
-                trackLyrics={track.lyrics}
-                trackStyle={track.style}
-                trackPrompt={track.prompt}
-                trackTags={track.tags}
-              />
-              <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
-              <MixExportDialog
-                stems={stems}
-                stemStates={stemStates}
-                stemEffects={enginesState}
-                masterVolume={masterVolume}
-                trackTitle={track.title || 'Трек'}
-                effectsEnabled={effectsEnabled}
-              />
-            </>
-          )}
-        </div>
-      </header>
+            {stems && track.audio_url && (
+              <>
+                <MixPresetsMenu
+                  trackId={trackId}
+                  masterVolume={masterVolume}
+                  stemStates={stemStates}
+                  stemEffects={enginesState}
+                  onLoadPreset={handleLoadPreset}
+                  effectsEnabled={effectsEnabled}
+                />
+                <MidiSection 
+                  trackId={trackId} 
+                  trackTitle={track.title || 'Трек'} 
+                  audioUrl={track.audio_url}
+                />
+                <StemReferenceDialog 
+                  stems={stems} 
+                  trackTitle={track.title || 'Трек'} 
+                  trackLyrics={track.lyrics}
+                  trackStyle={track.style}
+                  trackPrompt={track.prompt}
+                  trackTags={track.tags}
+                />
+                <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
+                <MixExportDialog
+                  stems={stems}
+                  stemStates={stemStates}
+                  stemEffects={enginesState}
+                  masterVolume={masterVolume}
+                  trackTitle={track.title || 'Трек'}
+                  effectsEnabled={effectsEnabled}
+                />
+              </>
+            )}
+          </div>
+        </header>
+      )}
 
       {/* Section Timeline Visualization - Desktop */}
       {!isMobile && canReplaceSection && detectedSections.length > 0 && (
@@ -649,36 +664,45 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       )}
 
       {/* Master Volume */}
-      <div className="px-4 sm:px-6 py-3 border-b border-border/30 bg-gradient-to-r from-primary/5 to-transparent">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMasterMuted(!masterMuted)}
-            className={cn(
-              "h-9 w-9 rounded-full",
-              masterMuted && "text-destructive"
-            )}
-          >
-            {masterMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-          </Button>
-          <div className="flex-1">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-xs font-semibold uppercase tracking-wide">Master</span>
-              <span className="text-xs text-muted-foreground">{Math.round(masterVolume * 100)}%</span>
+      {isMobile ? (
+        <MobileMasterVolume
+          volume={masterVolume}
+          muted={masterMuted}
+          onVolumeChange={setMasterVolume}
+          onMuteToggle={() => setMasterMuted(!masterMuted)}
+        />
+      ) : (
+        <div className="px-4 sm:px-6 py-3 border-b border-border/30 bg-gradient-to-r from-primary/5 to-transparent">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMasterMuted(!masterMuted)}
+              className={cn(
+                "h-9 w-9 rounded-full",
+                masterMuted && "text-destructive"
+              )}
+            >
+              {masterMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+            </Button>
+            <div className="flex-1">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs font-semibold uppercase tracking-wide">Master</span>
+                <span className="text-xs text-muted-foreground">{Math.round(masterVolume * 100)}%</span>
+              </div>
+              <Slider
+                value={[masterVolume]}
+                min={0}
+                max={1}
+                step={0.01}
+                onValueChange={(v) => setMasterVolume(v[0])}
+                className="w-full"
+                disabled={masterMuted}
+              />
             </div>
-            <Slider
-              value={[masterVolume]}
-              min={0}
-              max={1}
-              step={0.01}
-              onValueChange={(v) => setMasterVolume(v[0])}
-              className="w-full"
-              disabled={masterMuted}
-            />
           </div>
         </div>
-      </div>
+      )}
 
       {/* Synchronized Lyrics - Compact on mobile, Full on desktop */}
       {isMobile ? (
@@ -708,19 +732,9 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       )}
 
       {/* Mobile Actions */}
+      {/* Mobile Actions - Compact buttons */}
       {isMobile && stems && (
-        <div className="px-4 py-3 border-b border-border/30 flex gap-2 overflow-x-auto">
-          {canReplaceSection && editMode === 'none' && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setEditMode('selecting')}
-              className="h-9 gap-1.5 flex-shrink-0"
-            >
-              <Scissors className="w-4 h-4" />
-              Заменить
-            </Button>
-          )}
+        <div className="px-4 py-2 border-b border-border/30 flex gap-2 overflow-x-auto scrollbar-hide">
           <MixPresetsMenu
             trackId={trackId}
             masterVolume={masterVolume}
