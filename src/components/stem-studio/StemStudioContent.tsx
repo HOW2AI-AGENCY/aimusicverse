@@ -12,6 +12,7 @@ import { useTracks } from '@/hooks/useTracksOptimized';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useSectionDetection } from '@/hooks/useSectionDetection';
 import { useReplacedSections } from '@/hooks/useReplacedSections';
+import { useReplaceSectionRealtime } from '@/hooks/useReplaceSectionRealtime';
 import { StemChannel } from '@/components/stem-studio/StemChannel';
 import { StemDownloadPanel } from '@/components/stem-studio/StemDownloadPanel';
 import { StemReferenceDialog } from '@/components/stem-studio/StemReferenceDialog';
@@ -81,6 +82,9 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   const { data: lyricsData } = useTimestampedLyrics(track?.suno_task_id || null, track?.suno_id || null);
   const detectedSections = useSectionDetection(lyricsData?.alignedWords, duration);
   const { data: replacedSections } = useReplacedSections(trackId);
+  
+  // Realtime updates for section replacements
+  useReplaceSectionRealtime(trackId);
 
   const audioRefs = useRef<Record<string, HTMLAudioElement>>({});
   const animationFrameRef = useRef<number | undefined>(undefined);
