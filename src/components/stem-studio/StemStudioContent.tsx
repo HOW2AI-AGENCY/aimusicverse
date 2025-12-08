@@ -28,6 +28,7 @@ import { MobileSectionTimeline } from '@/components/stem-studio/MobileSectionTim
 import { SectionQuickActions } from '@/components/stem-studio/SectionQuickActions';
 import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
 import { QuickComparePanel } from '@/components/stem-studio/QuickComparePanel';
+import { QuickCompareMobile } from '@/components/stem-studio/QuickCompareMobile';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useStemStudioEngine } from '@/hooks/useStemStudioEngine';
 import { defaultStemEffects, StemEffects } from '@/hooks/useStemAudioEngine';
@@ -613,8 +614,8 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         />
       )}
 
-      {/* Quick Compare Panel (after replacement) */}
-      {editMode === 'comparing' && latestCompletion?.newAudioUrl && track.audio_url && (
+      {/* Quick Compare Panel (after replacement) - Desktop */}
+      {!isMobile && editMode === 'comparing' && latestCompletion?.newAudioUrl && track.audio_url && (
         <QuickComparePanel
           originalAudioUrl={track.audio_url}
           replacementAudioUrl={latestCompletion.newAudioUrl}
@@ -623,6 +624,22 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           onApply={handleApplyReplacement}
           onDiscard={handleDiscardReplacement}
           onClose={() => setLatestCompletion(null)}
+        />
+      )}
+
+      {/* Quick Compare Panel - Mobile */}
+      {isMobile && latestCompletion?.newAudioUrl && track.audio_url && (
+        <QuickCompareMobile
+          open={editMode === 'comparing'}
+          onOpenChange={(open) => {
+            if (!open) setLatestCompletion(null);
+          }}
+          originalAudioUrl={track.audio_url}
+          replacementAudioUrl={latestCompletion.newAudioUrl}
+          sectionStart={latestCompletion.section.start}
+          sectionEnd={latestCompletion.section.end}
+          onApply={handleApplyReplacement}
+          onDiscard={handleDiscardReplacement}
         />
       )}
 
@@ -666,6 +683,12 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         currentTime={currentTime}
         isPlaying={isPlaying}
         onSeek={handleSeek}
+        selectionMode={editMode === 'selecting' && !isMobile}
+        onSectionSelect={!isMobile ? (start, end, lyrics) => {
+          setCustomRange(start, end);
+          setEditMode('editing');
+        } : undefined}
+        highlightedSection={customRange}
       />
 
       {/* Mobile Actions */}
