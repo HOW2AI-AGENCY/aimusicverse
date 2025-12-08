@@ -72,7 +72,7 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
         <div className="flex gap-2">
           <Button 
             onClick={handleAnalyze}
-            disabled={isPending || !track.audio_url}
+            disabled={isPending || !(track.audio_url || track.streaming_url || track.local_audio_url)}
             className="gap-2"
             variant="default"
           >
@@ -90,7 +90,7 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
           </Button>
           <Button 
             onClick={handleAdvancedAnalyze}
-            disabled={isReplicatePending || !track.audio_url}
+            disabled={isReplicatePending || !(track.audio_url || track.streaming_url || track.local_audio_url)}
             className="gap-2"
             variant="secondary"
           >
