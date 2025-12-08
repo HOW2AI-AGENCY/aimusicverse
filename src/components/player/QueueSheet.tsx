@@ -5,12 +5,13 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { Trash2 } from 'lucide-react';
+import { Trash2, ListMusic, Sparkles } from 'lucide-react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { QueueItem } from './QueueItem';
 import { usePlayerStore } from '@/hooks/usePlayerState';
 import { toast } from 'sonner';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface QueueSheetProps {
   open: boolean;
@@ -56,50 +57,84 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="h-[70vh]">
-        <SheetHeader>
+      <SheetContent 
+        side="bottom" 
+        className="h-[70vh] rounded-t-3xl border-t border-border/50 bg-background/95 backdrop-blur-xl"
+      >
+        <SheetHeader className="pb-4 border-b border-border/30">
           <div className="flex items-center justify-between">
-            <SheetTitle>Очередь ({queue.length} треков)</SheetTitle>
-            {queue.length > 0 && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleClearQueue}
-                className="text-destructive hover:text-destructive"
+            <div className="flex items-center gap-3">
+              <motion.div 
+                className="p-2 rounded-xl bg-primary/10"
+                animate={{ rotate: [0, 5, -5, 0] }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
               >
-                <Trash2 className="w-4 h-4 mr-2" />
-                Очистить
-              </Button>
+                <ListMusic className="w-5 h-5 text-primary" />
+              </motion.div>
+              <div>
+                <SheetTitle className="text-left">Очередь</SheetTitle>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  {queue.length} {queue.length === 1 ? 'трек' : queue.length < 5 ? 'трека' : 'треков'}
+                </p>
+              </div>
+            </div>
+            {queue.length > 0 && (
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleClearQueue}
+                  className="text-destructive hover:text-destructive hover:bg-destructive/10 rounded-xl"
+                >
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Очистить
+                </Button>
+              </motion.div>
             )}
           </div>
         </SheetHeader>
 
-        <div className="mt-4 overflow-auto max-h-[calc(70vh-100px)]">
-          {queue.length === 0 ? (
-            <div className="text-center text-muted-foreground py-8">
-              <p>Очередь пуста</p>
-              <p className="text-sm mt-2">Добавьте треки для воспроизведения</p>
-            </div>
-          ) : (
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext items={queue.map(t => t.id)} strategy={verticalListSortingStrategy}>
-                <div className="space-y-2">
-                  {queue.map((track, index) => (
-                    <QueueItem
-                      key={track.id}
-                      track={track}
-                      isCurrentTrack={index === currentIndex}
-                      onRemove={() => removeFromQueue(index)}
-                    />
-                  ))}
-                </div>
-              </SortableContext>
-            </DndContext>
-          )}
+        <div className="mt-4 overflow-auto max-h-[calc(70vh-120px)] scrollbar-thin">
+          <AnimatePresence mode="popLayout">
+            {queue.length === 0 ? (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex flex-col items-center justify-center text-center py-12"
+              >
+                <motion.div
+                  className="p-4 rounded-2xl bg-muted/50 mb-4"
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <Sparkles className="w-8 h-8 text-muted-foreground" />
+                </motion.div>
+                <p className="text-muted-foreground font-medium">Очередь пуста</p>
+                <p className="text-sm text-muted-foreground/70 mt-1">
+                  Добавьте треки для воспроизведения
+                </p>
+              </motion.div>
+            ) : (
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext items={queue.map(t => t.id)} strategy={verticalListSortingStrategy}>
+                  <div className="space-y-2">
+                    {queue.map((track, index) => (
+                      <QueueItem
+                        key={track.id}
+                        track={track}
+                        isCurrentTrack={index === currentIndex}
+                        onRemove={() => removeFromQueue(index)}
+                      />
+                    ))}
+                  </div>
+                </SortableContext>
+              </DndContext>
+            )}
+          </AnimatePresence>
         </div>
       </SheetContent>
     </Sheet>

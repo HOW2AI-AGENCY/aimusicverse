@@ -140,7 +140,7 @@ export function ProgressBar({
       {/* Progress Bar */}
       <div
         ref={progressRef}
-        className="relative h-1 bg-secondary rounded-full cursor-pointer touch-manipulation group"
+        className="relative h-2 bg-secondary/50 rounded-full cursor-pointer touch-manipulation group"
         style={{ paddingTop: '12px', paddingBottom: '12px' }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
@@ -152,31 +152,39 @@ export function ProgressBar({
         aria-valuemax={duration}
         aria-valuenow={localTime}
       >
-        <div className="absolute top-1/2 left-0 right-0 h-1 -translate-y-1/2 bg-secondary rounded-full overflow-hidden">
+        <div className="absolute top-1/2 left-0 right-0 h-1.5 -translate-y-1/2 bg-secondary/50 rounded-full overflow-hidden group-hover:h-2 transition-all duration-200">
           {/* Buffered Progress */}
           <div
             className="absolute left-0 top-0 h-full bg-muted-foreground/20 transition-all"
             style={{ width: `${bufferedPercent}%` }}
           />
           
-          {/* Current Progress */}
+          {/* Current Progress with gradient */}
           <div
-            className="absolute left-0 top-0 h-full bg-primary transition-all rounded-full"
+            className="absolute left-0 top-0 h-full bg-gradient-to-r from-primary via-primary to-primary/80 transition-all rounded-full"
             style={{ width: `${progress}%` }}
-          />
+          >
+            {/* Shimmer effect on progress */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+          </div>
           
-          {/* Progress Handle */}
+          {/* Progress Handle with glow */}
           <div
-            className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-primary rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
-            style={{ left: `calc(${progress}% - 6px)` }}
-          />
+            className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-primary rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-200 scale-75 group-hover:scale-100"
+            style={{ 
+              left: `calc(${progress}% - 8px)`,
+              boxShadow: '0 0 12px hsl(var(--primary) / 0.5)'
+            }}
+          >
+            <div className="absolute inset-1 bg-white rounded-full" />
+          </div>
         </div>
       </div>
 
       {/* Time Labels */}
-      <div className="flex justify-between text-xs text-muted-foreground">
-        <span>{formatTime(localTime)}</span>
-        <span>{formatTime(duration)}</span>
+      <div className="flex justify-between text-xs text-muted-foreground font-medium">
+        <span className="tabular-nums">{formatTime(localTime)}</span>
+        <span className="tabular-nums">{formatTime(duration)}</span>
       </div>
     </div>
   );

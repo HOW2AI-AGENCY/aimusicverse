@@ -1,8 +1,9 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, X } from 'lucide-react';
+import { GripVertical, X, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { Track } from '@/hooks/useTracksOptimized';
 
 interface QueueItemProps {
@@ -27,55 +28,82 @@ export function QueueItem({ track, isCurrentTrack, onRemove }: QueueItemProps) {
   };
 
   return (
-    <div
+    <motion.div
       ref={setNodeRef}
       style={style}
+      layout
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 20, height: 0 }}
       className={cn(
-        'flex items-center gap-3 p-3 rounded-lg transition-colors',
-        isCurrentTrack && 'bg-accent',
-        isDragging && 'opacity-50'
+        'flex items-center gap-3 p-3 rounded-xl transition-all duration-200',
+        'border border-transparent',
+        isCurrentTrack && 'bg-primary/10 border-primary/30',
+        !isCurrentTrack && 'hover:bg-muted/50',
+        isDragging && 'opacity-60 scale-[1.02] shadow-lg bg-card z-50'
       )}
     >
       {/* Drag Handle */}
       <div
         {...attributes}
         {...listeners}
-        className="touch-manipulation cursor-grab active:cursor-grabbing flex-shrink-0"
+        className="touch-manipulation cursor-grab active:cursor-grabbing flex-shrink-0 p-1 -m-1 rounded-md hover:bg-muted/50 transition-colors"
         aria-label="Drag to reorder"
       >
         <GripVertical className="w-5 h-5 text-muted-foreground" />
       </div>
 
-      {/* Cover Image */}
-      <img
-        src={track.cover_url || '/placeholder-cover.png'}
-        alt={track.title || 'Track'}
-        className="w-10 h-10 rounded object-cover flex-shrink-0"
-      />
+      {/* Cover Image with playing indicator */}
+      <div className="relative flex-shrink-0">
+        <img
+          src={track.cover_url || '/placeholder-cover.png'}
+          alt={track.title || 'Track'}
+          className={cn(
+            "w-11 h-11 rounded-lg object-cover transition-all duration-300",
+            isCurrentTrack && "ring-2 ring-primary ring-offset-2 ring-offset-background"
+          )}
+        />
+        {isCurrentTrack && (
+          <motion.div 
+            className="absolute inset-0 flex items-center justify-center bg-primary/80 rounded-lg"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <motion.div
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 1, repeat: Infinity }}
+            >
+              <Play className="w-4 h-4 text-primary-foreground fill-current" />
+            </motion.div>
+          </motion.div>
+        )}
+      </div>
 
       {/* Track Info */}
       <div className="flex-1 min-w-0">
         <p className={cn(
-          'text-sm font-medium truncate',
-          isCurrentTrack && 'text-primary'
+          'text-sm font-medium truncate transition-colors',
+          isCurrentTrack ? 'text-primary' : 'text-foreground'
         )}>
           {track.title || 'Untitled Track'}
         </p>
-        <p className="text-xs text-muted-foreground truncate">
+        <p className="text-xs text-muted-foreground truncate mt-0.5">
           {track.style || 'Unknown Style'}
         </p>
       </div>
 
       {/* Remove Button */}
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={onRemove}
-        className="h-9 w-9 touch-manipulation flex-shrink-0"
-        aria-label="Remove from queue"
-      >
-        <X className="w-4 h-4" />
-      </Button>
-    </div>
+      <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onRemove}
+          className="h-9 w-9 touch-manipulation flex-shrink-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+          aria-label="Remove from queue"
+        >
+          <X className="w-4 h-4" />
+        </Button>
+      </motion.div>
+    </motion.div>
   );
 }
