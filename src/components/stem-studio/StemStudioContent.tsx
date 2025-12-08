@@ -2,10 +2,11 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   ChevronLeft, Play, Pause, SkipBack, SkipForward,
-  Volume2, VolumeX, HelpCircle
+  Volume2, VolumeX, HelpCircle, Sliders
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
+import { Badge } from '@/components/ui/badge';
 import { useTrackStems } from '@/hooks/useTrackStems';
 import { useTracks } from '@/hooks/useTracksOptimized';
 import { StemChannel } from '@/components/stem-studio/StemChannel';
@@ -13,6 +14,8 @@ import { StemDownloadPanel } from '@/components/stem-studio/StemDownloadPanel';
 import { StemReferenceDialog } from '@/components/stem-studio/StemReferenceDialog';
 import { MidiSection } from '@/components/stem-studio/MidiSection';
 import { StemStudioTutorial, useStemStudioTutorial } from '@/components/stem-studio/StemStudioTutorial';
+import { useStemStudioEngine } from '@/hooks/useStemStudioEngine';
+import { defaultStemEffects } from '@/hooks/useStemAudioEngine';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
@@ -42,9 +45,27 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   const [masterVolume, setMasterVolume] = useState(0.85);
   const [masterMuted, setMasterMuted] = useState(false);
   const [stemStates, setStemStates] = useState<Record<string, StemState>>({});
+  const [effectsEnabled, setEffectsEnabled] = useState(false);
 
   const audioRefs = useRef<Record<string, HTMLAudioElement>>({});
   const animationFrameRef = useRef<number | undefined>(undefined);
+
+  // Audio effects engine
+  const stemIds = stems?.map(s => s.id) || [];
+  const {
+    enginesState,
+    isInitialized: engineReady,
+    initializeStemEngine,
+    updateStemEQ,
+    updateStemCompressor,
+    updateStemReverb,
+    applyStemEQPreset,
+    applyStemCompressorPreset,
+    applyStemReverbPreset,
+    resetStemEffects,
+    getCompressorReduction,
+    resumeContext,
+  } = useStemStudioEngine(stemIds);
 
   // Initialize audio elements and stem states
   useEffect(() => {
@@ -73,6 +94,11 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           setIsPlaying(false);
           setCurrentTime(0);
         });
+
+        // Initialize audio engine for this stem when effects enabled
+        if (effectsEnabled) {
+          initializeStemEngine(stem.id, audio);
+        }
       }
     });
     
@@ -90,7 +116,24 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       });
       audioRefs.current = {};
     };
-  }, [stems]);
+  }, [stems, effectsEnabled, initializeStemEngine]);
+
+  // Enable effects mode - initialize all engines
+  const handleEnableEffects = useCallback(async () => {
+    if (!stems) return;
+    
+    await resumeContext();
+    
+    stems.forEach(stem => {
+      const audio = audioRefs.current[stem.id];
+      if (audio) {
+        initializeStemEngine(stem.id, audio);
+      }
+    });
+    
+    setEffectsEnabled(true);
+    toast.success('Режим эффектов активирован');
+  }, [stems, initializeStemEngine, resumeContext]);
 
   // Update volumes when master or individual volumes change
   useEffect(() => {
@@ -266,6 +309,24 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Effects Mode Toggle */}
+          {!effectsEnabled ? (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleEnableEffects}
+              className="h-9 gap-1.5"
+            >
+              <Sliders className="w-4 h-4" />
+              <span className="hidden sm:inline">Эффекты</span>
+            </Button>
+          ) : (
+            <Badge variant="secondary" className="h-9 px-3 gap-1.5">
+              <Sliders className="w-3.5 h-3.5" />
+              <span className="text-xs">FX</span>
+            </Badge>
+          )}
+
           {/* Help button */}
           <Button
             variant="ghost"
@@ -379,12 +440,22 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
             key={stem.id}
             stem={stem}
             state={stemStates[stem.id] || { muted: false, solo: false, volume: 0.85 }}
+            effects={enginesState[stem.id]?.effects || defaultStemEffects}
             onToggle={(type) => handleStemToggle(stem.id, type)}
             onVolumeChange={(vol) => handleVolumeChange(stem.id, vol)}
+            onEQChange={effectsEnabled ? (s) => updateStemEQ(stem.id, s) : undefined}
+            onCompressorChange={effectsEnabled ? (s) => updateStemCompressor(stem.id, s) : undefined}
+            onReverbChange={effectsEnabled ? (s) => updateStemReverb(stem.id, s) : undefined}
+            onEQPreset={effectsEnabled ? (p) => applyStemEQPreset(stem.id, p) : undefined}
+            onCompressorPreset={effectsEnabled ? (p) => applyStemCompressorPreset(stem.id, p) : undefined}
+            onReverbPreset={effectsEnabled ? (p) => applyStemReverbPreset(stem.id, p) : undefined}
+            onResetEffects={effectsEnabled ? () => resetStemEffects(stem.id) : undefined}
+            getCompressorReduction={effectsEnabled ? () => getCompressorReduction(stem.id) : undefined}
             isPlaying={isPlaying}
             currentTime={currentTime}
             duration={duration}
             onSeek={handleSeek}
+            isEngineReady={effectsEnabled && engineReady}
           />
         ))}
       </main>
