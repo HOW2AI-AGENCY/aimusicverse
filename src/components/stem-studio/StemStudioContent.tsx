@@ -9,6 +9,9 @@ import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { useTrackStems } from '@/hooks/useTrackStems';
 import { useTracks } from '@/hooks/useTracksOptimized';
+import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
+import { useSectionDetection } from '@/hooks/useSectionDetection';
+import { useReplacedSections } from '@/hooks/useReplacedSections';
 import { StemChannel } from '@/components/stem-studio/StemChannel';
 import { StemDownloadPanel } from '@/components/stem-studio/StemDownloadPanel';
 import { StemReferenceDialog } from '@/components/stem-studio/StemReferenceDialog';
@@ -16,9 +19,14 @@ import { MidiSection } from '@/components/stem-studio/MidiSection';
 import { MixExportDialog } from '@/components/stem-studio/MixExportDialog';
 import { MixPresetsMenu } from '@/components/stem-studio/MixPresetsMenu';
 import { StudioLyricsPanel } from '@/components/stem-studio/StudioLyricsPanel';
-import { ReplaceSectionDialog } from '@/components/stem-studio/ReplaceSectionDialog';
 import { StemStudioTutorial, useStemStudioTutorial } from '@/components/stem-studio/StemStudioTutorial';
 import { ReplacementHistoryPanel } from '@/components/stem-studio/ReplacementHistoryPanel';
+import { SectionTimelineVisualization } from '@/components/stem-studio/SectionTimelineVisualization';
+import { SectionEditorPanel } from '@/components/stem-studio/SectionEditorPanel';
+import { SectionQuickActions } from '@/components/stem-studio/SectionQuickActions';
+import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
+import { QuickComparePanel } from '@/components/stem-studio/QuickComparePanel';
+import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useStemStudioEngine } from '@/hooks/useStemStudioEngine';
 import { defaultStemEffects, StemEffects } from '@/hooks/useStemAudioEngine';
 import { toast } from 'sonner';
@@ -51,7 +59,25 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   const [masterMuted, setMasterMuted] = useState(false);
   const [stemStates, setStemStates] = useState<Record<string, StemState>>({});
   const [effectsEnabled, setEffectsEnabled] = useState(false);
-  const [replaceSectionOpen, setReplaceSectionOpen] = useState(false);
+  
+  // Section Editor State
+  const { 
+    editMode, 
+    selectedSectionIndex, 
+    customRange,
+    latestCompletion,
+    selectSection, 
+    setCustomRange,
+    setEditMode,
+    setLatestCompletion,
+    clearSelection,
+    reset: resetSectionEditor,
+  } = useSectionEditorStore();
+
+  // Fetch timestamped lyrics and detect sections
+  const { data: lyricsData } = useTimestampedLyrics(track?.suno_task_id || null, track?.suno_id || null);
+  const detectedSections = useSectionDetection(lyricsData?.alignedWords, duration);
+  const { data: replacedSections } = useReplacedSections(trackId);
 
   const audioRefs = useRef<Record<string, HTMLAudioElement>>({});
   const animationFrameRef = useRef<number | undefined>(undefined);
@@ -75,6 +101,11 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     resumeContext,
   } = useStemStudioEngine(stemIds);
 
+  // Reset section editor when track changes
+  useEffect(() => {
+    resetSectionEditor();
+  }, [trackId, resetSectionEditor]);
+
   // Sync volumes to Web Audio when effects enabled
   useEffect(() => {
     if (!effectsEnabled) return;
@@ -92,6 +123,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     
     setEngineMasterVolume(masterVolume);
   }, [effectsEnabled, stemStates, masterVolume, masterMuted, setStemVolume, setEngineMasterVolume]);
+
   // Initialize audio elements and stem states
   useEffect(() => {
     if (!stems || stems.length === 0) return;
@@ -120,7 +152,6 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           setCurrentTime(0);
         });
 
-        // Initialize audio engine for this stem when effects enabled
         if (effectsEnabled) {
           initializeStemEngine(stem.id, audio);
         }
@@ -143,7 +174,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     };
   }, [stems, effectsEnabled, initializeStemEngine]);
 
-  // Enable effects mode - initialize all engines
+  // Enable effects mode
   const handleEnableEffects = useCallback(async () => {
     if (!stems) return;
     
@@ -175,7 +206,6 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         solo: stemData.solo,
       };
       
-      // Apply effects if enabled
       if (effectsEnabled && stemData.effects) {
         updateStemEQ(stemId, stemData.effects.eq);
         updateStemCompressor(stemId, stemData.effects.compressor);
@@ -197,10 +227,8 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       const isMuted = masterMuted || state.muted || (hasSolo && !state.solo);
       const volume = isMuted ? 0 : state.volume * masterVolume;
       
-      // When effects are enabled, audio goes through Web Audio API
-      // HTMLAudioElement volume should be 1 (controlled by gainNode)
       if (effectsEnabled && enginesState[id]) {
-        audio.volume = 1; // Let Web Audio handle volume
+        audio.volume = 1;
       } else {
         audio.volume = volume;
       }
@@ -293,6 +321,22 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
+  // Handle section selection from timeline
+  const handleSectionSelect = useCallback((section: typeof detectedSections[0], index: number) => {
+    selectSection(section, index);
+  }, [selectSection]);
+
+  // Handle compare panel actions
+  const handleApplyReplacement = useCallback(() => {
+    setLatestCompletion(null);
+    toast.success('Замена применена');
+  }, [setLatestCompletion]);
+
+  const handleDiscardReplacement = useCallback(() => {
+    setLatestCompletion(null);
+    toast.info('Замена отменена');
+  }, [setLatestCompletion]);
+
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -314,12 +358,21 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         case 'KeyM':
           setMasterMuted(prev => !prev);
           break;
+        case 'Escape':
+          if (editMode !== 'none') {
+            clearSelection();
+          }
+          break;
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [togglePlay, handleSkip]);
+  }, [togglePlay, handleSkip, editMode, clearSelection]);
+
+  const canReplaceSection = track?.suno_id && track?.suno_task_id;
+  const maxSectionDuration = duration * 0.5;
+  const replacedRanges = replacedSections?.map(s => ({ start: s.start, end: s.end })) || [];
 
   if (!track || stemsLoading) {
     return (
@@ -368,13 +421,31 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Replacement Progress */}
+          <ReplacementProgressIndicator 
+            trackId={trackId}
+            onViewResult={(taskId) => {
+              // Find the completion and show compare panel
+              const replaced = replacedSections?.find(s => s.taskId === taskId);
+              if (replaced && track.audio_url && replaced.audioUrl) {
+                setLatestCompletion({
+                  taskId,
+                  originalAudioUrl: track.audio_url,
+                  newAudioUrl: replaced.audioUrl,
+                  section: { start: replaced.start, end: replaced.end },
+                  status: 'completed',
+                });
+              }
+            }}
+          />
+
           {/* Replace Section Button */}
-          {track.suno_id && track.suno_task_id && (
+          {canReplaceSection && editMode === 'none' && (
             <>
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setReplaceSectionOpen(true)}
+                onClick={() => setEditMode('selecting')}
                 className="h-9 gap-1.5"
               >
                 <Scissors className="w-4 h-4" />
@@ -450,25 +521,78 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         </div>
       </header>
 
-      {/* Timeline / Progress */}
-      <div className="px-4 sm:px-6 py-4 border-b border-border/30 bg-card/30">
-        <div className="flex items-center gap-4">
-          <span className="text-xs text-muted-foreground font-mono tabular-nums w-12">
-            {formatTime(currentTime)}
-          </span>
-          <Slider
-            value={[currentTime]}
-            min={0}
-            max={duration || 100}
-            step={0.1}
-            onValueChange={handleSeek}
-            className="flex-1"
+      {/* Section Timeline Visualization */}
+      {canReplaceSection && detectedSections.length > 0 && (
+        <div className="px-4 sm:px-6 py-3 border-b border-border/30 bg-card/30">
+          <SectionTimelineVisualization
+            sections={detectedSections}
+            duration={duration}
+            currentTime={currentTime}
+            selectedIndex={selectedSectionIndex}
+            customRange={customRange}
+            replacedRanges={replacedRanges}
+            onSectionClick={handleSectionSelect}
+            onSeek={(time) => handleSeek([time])}
           />
-          <span className="text-xs text-muted-foreground font-mono tabular-nums w-12 text-right">
-            {formatTime(duration)}
-          </span>
+          
+          {/* Quick Actions */}
+          {editMode !== 'none' && editMode !== 'comparing' && (
+            <div className="mt-3">
+              <SectionQuickActions
+                sections={detectedSections}
+                maxDuration={maxSectionDuration}
+                onSelectSection={handleSectionSelect}
+              />
+            </div>
+          )}
         </div>
-      </div>
+      )}
+
+      {/* Fallback Timeline without sections */}
+      {(!canReplaceSection || detectedSections.length === 0) && (
+        <div className="px-4 sm:px-6 py-4 border-b border-border/30 bg-card/30">
+          <div className="flex items-center gap-4">
+            <span className="text-xs text-muted-foreground font-mono tabular-nums w-12">
+              {formatTime(currentTime)}
+            </span>
+            <Slider
+              value={[currentTime]}
+              min={0}
+              max={duration || 100}
+              step={0.1}
+              onValueChange={handleSeek}
+              className="flex-1"
+            />
+            <span className="text-xs text-muted-foreground font-mono tabular-nums w-12 text-right">
+              {formatTime(duration)}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Section Editor Panel (Inline) */}
+      {editMode === 'editing' && (
+        <SectionEditorPanel
+          trackId={trackId}
+          trackTitle={track.title || 'Трек'}
+          trackTags={track.tags}
+          duration={duration}
+          onClose={clearSelection}
+        />
+      )}
+
+      {/* Quick Compare Panel (after replacement) */}
+      {editMode === 'comparing' && latestCompletion?.newAudioUrl && track.audio_url && (
+        <QuickComparePanel
+          originalAudioUrl={track.audio_url}
+          replacementAudioUrl={latestCompletion.newAudioUrl}
+          sectionStart={latestCompletion.section.start}
+          sectionEnd={latestCompletion.section.end}
+          onApply={handleApplyReplacement}
+          onDiscard={handleDiscardReplacement}
+          onClose={() => setLatestCompletion(null)}
+        />
+      )}
 
       {/* Master Volume */}
       <div className="px-4 sm:px-6 py-3 border-b border-border/30 bg-gradient-to-r from-primary/5 to-transparent">
@@ -515,12 +639,11 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       {/* Mobile Actions */}
       {isMobile && stems && (
         <div className="px-4 py-3 border-b border-border/30 flex gap-2 overflow-x-auto">
-          {/* Replace Section Button (mobile) */}
-          {track.suno_id && track.suno_task_id && (
+          {canReplaceSection && editMode === 'none' && (
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setReplaceSectionOpen(true)}
+              onClick={() => setEditMode('selecting')}
               className="h-9 gap-1.5 flex-shrink-0"
             >
               <Scissors className="w-4 h-4" />
@@ -634,25 +757,11 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
               <span><kbd className="px-1.5 py-0.5 rounded bg-muted">Space</kbd> Play/Pause</span>
               <span><kbd className="px-1.5 py-0.5 rounded bg-muted">M</kbd> Mute</span>
               <span><kbd className="px-1.5 py-0.5 rounded bg-muted">←</kbd><kbd className="px-1.5 py-0.5 rounded bg-muted ml-1">→</kbd> Skip</span>
+              <span><kbd className="px-1.5 py-0.5 rounded bg-muted">Esc</kbd> Cancel</span>
             </div>
           )}
         </div>
       </footer>
-
-      {/* Replace Section Dialog */}
-      <ReplaceSectionDialog
-        open={replaceSectionOpen}
-        onOpenChange={setReplaceSectionOpen}
-        trackId={trackId}
-        trackTitle={track.title || 'Трек'}
-        trackTags={track.tags}
-        trackLyrics={track.lyrics}
-        duration={duration}
-        currentTime={currentTime}
-        onSeek={handleSeek}
-        taskId={track.suno_task_id}
-        audioId={track.suno_id}
-      />
     </div>
   );
 };
