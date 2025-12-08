@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { telegramAuthService } from '@/services/telegram-auth';
+import { logger } from '@/lib/logger';
 
 export interface TelegramUser {
   telegram_id: number;
@@ -30,6 +31,9 @@ interface TelegramContextType {
 
 const TelegramContext = createContext<TelegramContextType | undefined>(undefined);
 
+// Create a child logger for Telegram context
+const telegramLogger = logger.child({ module: 'TelegramContext' });
+
 export const TelegramProvider = ({ children }: { children: ReactNode }) => {
   const [webApp, setWebApp] = useState<TelegramWebApp | null>(null);
   const [user, setUser] = useState<TelegramUser | null>(null);
@@ -46,7 +50,7 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
                     window.location.hostname === 'localhost' ||
                     window.location.search.includes('dev=1');
     
-    console.log('🔍 Development mode check:', {
+    telegramLogger.debug('Development mode check', {
       hostname: window.location.hostname,
       devMode,
       hasTelegram: !!window.Telegram?.WebApp
@@ -58,10 +62,11 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       const tg = window.Telegram.WebApp;
       setWebApp(tg);
 
-      console.log('🤖 Telegram WebApp обнаружен');
-      console.log('📱 Platform:', tg.platform);
-      console.log('📊 Version:', tg.version);
-      console.log('🎨 Color scheme:', tg.colorScheme);
+      telegramLogger.info('Telegram WebApp detected', {
+        platform: tg.platform,
+        version: tg.version,
+        colorScheme: tg.colorScheme
+      });
 
       // Развернуть приложение на весь экран и инициализировать
       tg.ready();
@@ -70,7 +75,7 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       // Lock orientation to portrait mode (vertical only)
       if (typeof (tg as any).lockOrientation === 'function') {
         (tg as any).lockOrientation();
-        console.log('📱 Orientation locked to portrait');
+        telegramLogger.debug('Orientation locked to portrait');
       }
 
       // Установка цветов header и background
@@ -82,7 +87,7 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       }
 
       if (tg.initDataUnsafe?.user) {
-        console.log('👤 Telegram пользователь:', {
+        telegramLogger.debug('Telegram user found', {
           id: tg.initDataUnsafe.user.id,
           firstName: tg.initDataUnsafe.user.first_name,
           username: tg.initDataUnsafe.user.username
@@ -96,35 +101,33 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
           photo_url: tg.initDataUnsafe.user.photo_url,
         });
       } else {
-        console.warn('⚠️ initDataUnsafe.user не найден');
+        telegramLogger.warn('initDataUnsafe.user not found');
       }
 
       setPlatform(tg.platform);
 
       if (tg.initData) {
-        console.log('✅ InitData получен, длина:', tg.initData.length);
-        console.log('📄 InitData preview:', tg.initData.substring(0, 100) + '...');
+        telegramLogger.debug('InitData received', { length: tg.initData.length });
 
         // Парсим и показываем параметры для диагностики
         const params = new URLSearchParams(tg.initData);
-        console.log('🔑 InitData параметры:', {
+        telegramLogger.debug('InitData params', {
           hasHash: !!params.get('hash'),
           hasUser: !!params.get('user'),
-          hasAuthDate: !!params.get('auth_date'),
-          authDate: params.get('auth_date') ? new Date(parseInt(params.get('auth_date')!) * 1000).toISOString() : 'N/A'
+          hasAuthDate: !!params.get('auth_date')
         });
 
         // Seamless authentication with backend
         telegramAuthService.authenticateWithTelegram(tg.initData)
           .then(authData => {
             if (authData) {
-              console.log('✅ Telegram authentication successful:', authData.user);
+              telegramLogger.info('Telegram authentication successful');
             } else {
-              console.warn('⚠️ Telegram authentication failed');
+              telegramLogger.warn('Telegram authentication failed');
             }
           })
           .catch(err => {
-            console.error('❌ Telegram authentication error:', err);
+            telegramLogger.error('Telegram authentication error', err);
             
             // Use showPopup with retry mechanism for better UX
             if (tg.showPopup) {
@@ -137,18 +140,17 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
                 ],
               }, (buttonId) => {
                 if (buttonId === 'retry') {
-                  // Retry authentication
-                  console.log('🔄 Retrying authentication...');
+                  telegramLogger.debug('Retrying authentication...');
                   telegramAuthService.authenticateWithTelegram(tg.initData)
                     .then(authData => {
                       if (authData) {
-                        console.log('✅ Retry successful');
+                        telegramLogger.info('Retry successful');
                         tg.showPopup?.({
                           message: '✅ Успешно вошли в систему!',
                           buttons: [{ type: 'close' }],
                         });
                       } else {
-                        console.log('❌ Retry failed');
+                        telegramLogger.warn('Retry failed');
                         tg.showPopup?.({
                           message: '❌ Не удалось войти. Пожалуйста, перезапустите приложение.',
                           buttons: [{ type: 'close' }],
@@ -156,7 +158,7 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
                       }
                     })
                     .catch(retryErr => {
-                      console.error('❌ Retry failed:', retryErr);
+                      telegramLogger.error('Retry failed', retryErr);
                       tg.showPopup?.({
                         message: '❌ Не удалось войти. Пожалуйста, перезапустите приложение.',
                         buttons: [{ type: 'close' }],
@@ -170,7 +172,7 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
             }
           });
       } else {
-        console.error('❌ InitData не получен от Telegram!');
+        telegramLogger.error('InitData not received from Telegram');
       }
 
       setInitData(tg.initData);
@@ -196,21 +198,12 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       }
 
       // Apply Safe Area Insets для iOS и Android
-      // Telegram предоставляет safe area через CSS переменные автоматически,
-      // но мы также можем установить их явно для совместимости
       const applySafeAreaInsets = () => {
-        // Для iOS устройств с notch (44px сверху, 34px снизу)
-        // Для Android устройств с punch-hole камерой
         const isIOS = tg.platform === 'ios';
         const isAndroid = tg.platform === 'android';
         
-        // Telegram автоматически устанавливает CSS переменные:
-        // --tg-safe-area-inset-top, --tg-safe-area-inset-bottom, etc.
-        // Мы просто убеждаемся, что они применяются
+        telegramLogger.debug('Safe Area setup', { platform: tg.platform });
         
-        console.log('📐 Safe Area setup for platform:', tg.platform);
-        
-        // Установка минимальных safe areas для разных платформ
         if (isIOS) {
           root.style.setProperty('--safe-area-top', 'env(safe-area-inset-top, 44px)');
           root.style.setProperty('--safe-area-bottom', 'env(safe-area-inset-bottom, 34px)');
@@ -234,7 +227,7 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       setIsInitialized(true);
     } else if (devMode) {
       // Development mode: Create mock Telegram environment for testing in Lovable
-      console.log('🔧 Development mode: Using mock Telegram data');
+      telegramLogger.info('Development mode: Using mock Telegram data');
       
       const mockUser: TelegramUser = {
         telegram_id: 123456789,
@@ -248,54 +241,54 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       setPlatform('web');
       setInitData('development_mode');
       
-      // Create mock webApp object
+      // Create mock webApp object with silent logging
       const mockWebApp = {
-        ready: () => console.log('Mock: ready()'),
-        expand: () => console.log('Mock: expand()'),
-        close: () => console.log('Mock: close()'),
+        ready: () => telegramLogger.debug('Mock: ready()'),
+        expand: () => telegramLogger.debug('Mock: expand()'),
+        close: () => telegramLogger.debug('Mock: close()'),
         MainButton: {
-          setText: (text: string) => console.log('Mock MainButton:', text),
-          show: () => console.log('Mock MainButton: show()'),
-          hide: () => console.log('Mock MainButton: hide()'),
-          onClick: (fn: () => void) => console.log('Mock MainButton: onClick set'),
-          offClick: (fn: () => void) => console.log('Mock MainButton: offClick'),
+          setText: (text: string) => telegramLogger.debug('Mock MainButton', { text }),
+          show: () => telegramLogger.debug('Mock MainButton: show()'),
+          hide: () => telegramLogger.debug('Mock MainButton: hide()'),
+          onClick: (fn: () => void) => telegramLogger.debug('Mock MainButton: onClick set'),
+          offClick: (fn: () => void) => telegramLogger.debug('Mock MainButton: offClick'),
         },
         BackButton: {
-          show: () => console.log('Mock BackButton: show()'),
-          hide: () => console.log('Mock BackButton: hide()'),
-          onClick: (fn: () => void) => console.log('Mock BackButton: onClick set'),
-          offClick: (fn: () => void) => console.log('Mock BackButton: offClick'),
+          show: () => telegramLogger.debug('Mock BackButton: show()'),
+          hide: () => telegramLogger.debug('Mock BackButton: hide()'),
+          onClick: (fn: () => void) => telegramLogger.debug('Mock BackButton: onClick set'),
+          offClick: (fn: () => void) => telegramLogger.debug('Mock BackButton: offClick'),
         },
         HapticFeedback: {
-          impactOccurred: (type: string) => console.log('Mock Haptic:', type),
-          notificationOccurred: (type: string) => console.log('Mock Notification:', type),
-          selectionChanged: () => console.log('Mock Selection changed'),
+          impactOccurred: (type: string) => telegramLogger.debug('Mock Haptic', { type }),
+          notificationOccurred: (type: string) => telegramLogger.debug('Mock Notification', { type }),
+          selectionChanged: () => telegramLogger.debug('Mock Selection changed'),
         },
         CloudStorage: {
           setItem: (key: string, value: string, callback?: (error: string | null, success: boolean) => void) => {
-            console.log('Mock CloudStorage.setItem:', key);
+            telegramLogger.debug('Mock CloudStorage.setItem', { key });
             localStorage.setItem(`mock_cloud_${key}`, value);
             callback?.(null, true);
           },
           getItem: (key: string, callback: (error: string | null, value: string) => void) => {
-            console.log('Mock CloudStorage.getItem:', key);
+            telegramLogger.debug('Mock CloudStorage.getItem', { key });
             const value = localStorage.getItem(`mock_cloud_${key}`) || '';
             callback(null, value);
           },
           removeItem: (key: string, callback?: (error: string | null, success: boolean) => void) => {
-            console.log('Mock CloudStorage.removeItem:', key);
+            telegramLogger.debug('Mock CloudStorage.removeItem', { key });
             localStorage.removeItem(`mock_cloud_${key}`);
             callback?.(null, true);
           },
           getKeys: (callback: (error: string | null, keys: string[]) => void) => {
-            console.log('Mock CloudStorage.getKeys');
+            telegramLogger.debug('Mock CloudStorage.getKeys');
             const keys = Object.keys(localStorage)
               .filter(k => k.startsWith('mock_cloud_'))
               .map(k => k.replace('mock_cloud_', ''));
             callback(null, keys);
           },
           getItems: (keys: string[], callback: (error: string | null, values: Record<string, string>) => void) => {
-            console.log('Mock CloudStorage.getItems:', keys);
+            telegramLogger.debug('Mock CloudStorage.getItems', { keys });
             const values: Record<string, string> = {};
             keys.forEach(key => {
               values[key] = localStorage.getItem(`mock_cloud_${key}`) || '';
@@ -303,7 +296,7 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
             callback(null, values);
           },
           removeItems: (keys: string[], callback?: (error: string | null, success: boolean) => void) => {
-            console.log('Mock CloudStorage.removeItems:', keys);
+            telegramLogger.debug('Mock CloudStorage.removeItems', { keys });
             keys.forEach(key => localStorage.removeItem(`mock_cloud_${key}`));
             callback?.(null, true);
           },
@@ -425,7 +418,7 @@ export const DeepLinkHandler = () => {
   useEffect(() => {
     const startParam = webApp?.initDataUnsafe?.start_param;
     if (startParam) {
-      console.log('Processing deep link with router:', startParam);
+      telegramLogger.debug('Processing deep link', { startParam });
       
       // Track deep links
       if (startParam.startsWith('track_')) {
@@ -457,28 +450,28 @@ export const DeepLinkHandler = () => {
         const trackId = startParam.replace('lyrics_', '');
         navigate(`/library?track=${trackId}&view=lyrics`);
       }
-      // Share deep link - opens track with share dialog
-      else if (startParam.startsWith('share_')) {
-        const trackId = startParam.replace('share_', '');
-        navigate(`/library?track=${trackId}&share=true`);
-      }
       // Stats deep link
       else if (startParam.startsWith('stats_')) {
         const trackId = startParam.replace('stats_', '');
         navigate(`/library?track=${trackId}&view=stats`);
       }
-      // Playlist deep link
-      else if (startParam.startsWith('playlist_')) {
-        const playlistId = startParam.replace('playlist_', '');
-        navigate(`/playlists?playlist=${playlistId}`);
+      // Share tracking deep link
+      else if (startParam.startsWith('share_')) {
+        const trackId = startParam.replace('share_', '');
+        navigate(`/library?track=${trackId}`);
       }
       // Blog post deep link
       else if (startParam.startsWith('blog_')) {
         const postId = startParam.replace('blog_', '');
-        navigate(`/blog?post=${postId}`);
+        navigate(`/blog/${postId}`);
+      }
+      // User profile deep link
+      else if (startParam.startsWith('user_')) {
+        const userId = startParam.replace('user_', '');
+        navigate(`/user/${userId}`);
       }
     }
-  }, [webApp, navigate]);
+  }, [webApp?.initDataUnsafe?.start_param, navigate]);
 
-  return null; // This component does not render anything
+  return null;
 };

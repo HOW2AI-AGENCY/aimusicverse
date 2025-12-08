@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { User, Session } from '@supabase/supabase-js';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 export interface AuthResult {
   user: User | null;
@@ -10,6 +11,8 @@ export interface AuthResult {
   hasProfile: boolean;
   error?: Error | null;
 }
+
+const authLogger = logger.child({ module: 'useAuth' });
 
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -37,9 +40,6 @@ export const useAuth = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Removed auto-authentication to prevent infinite loops
-  // Users must explicitly click the auth button
-
   const checkProfile = async (userId: string): Promise<boolean> => {
     try {
       const { data, error } = await supabase
@@ -49,13 +49,13 @@ export const useAuth = () => {
         .maybeSingle();
 
       if (error) {
-        console.error('Error checking profile:', error);
+        authLogger.error('Error checking profile', error);
         return false;
       }
 
       return !!data;
     } catch (error) {
-      console.error('Unexpected error checking profile:', error);
+      authLogger.error('Unexpected error checking profile', error);
       return false;
     }
   };
@@ -66,7 +66,7 @@ export const useAuth = () => {
       
       // Development mode: Use email/password auth for testing
       if (isDevelopmentMode) {
-        console.log('🔧 Development mode: Using test credentials');
+        authLogger.info('Development mode: Using test credentials');
         
         const testEmail = 'test@lovable.dev';
         const testPassword = 'testpassword123';
@@ -89,7 +89,7 @@ export const useAuth = () => {
         
         // If user doesn't exist, create account
         if (signInError?.message.includes('Invalid login credentials')) {
-          console.log('🔧 Creating test account with Telegram-like metadata...');
+          authLogger.info('Creating test account with Telegram-like metadata...');
           const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
             email: testEmail,
             password: testPassword,
@@ -99,21 +99,21 @@ export const useAuth = () => {
           });
           
           if (signUpError) {
-            console.error('Sign up error:', signUpError);
+            authLogger.error('Sign up error', signUpError);
             toast.error('Ошибка создания тестового аккаунта');
             return { user: null, session: null, hasProfile: false, error: signUpError };
           }
           
           if (!signUpData.user || !signUpData.session) {
-            console.error('Sign up did not return user or session');
+            authLogger.error('Sign up did not return user or session');
             return { user: null, session: null, hasProfile: false, error: new Error('Sign up failed') };
           }
           
           signInData = { user: signUpData.user, session: signUpData.session };
           signInError = null;
-          console.log('🔧 Test account created successfully with profile');
+          authLogger.info('Test account created successfully with profile');
         } else if (signInError) {
-          console.error('Sign in error:', signInError);
+          authLogger.error('Sign in error', signInError);
           toast.error('Ошибка входа в тестовый аккаунт');
           return { user: null, session: null, hasProfile: false, error: signInError };
         }
@@ -127,32 +127,29 @@ export const useAuth = () => {
         
         const hasProfile = signInData.user ? await checkProfile(signInData.user.id) : false;
         
-        console.log('🔧 Development authentication successful, hasProfile:', hasProfile);
+        authLogger.info('Development authentication successful', { hasProfile });
         toast.success('Режим разработки: вход выполнен!');
         return { user: signInData.user, session: signInData.session, hasProfile };
       }
       
       // Production mode: Use Telegram authentication
-      console.log('🔐 Starting Telegram authentication...');
-      console.log('📊 InitData length:', initData?.length || 0);
+      authLogger.info('Starting Telegram authentication', { initDataLength: initData?.length || 0 });
 
       if (!initData) {
-        console.error('❌ No initData available');
+        authLogger.error('No initData available');
         toast.error('Ошибка: нет данных для аутентификации');
         return { user: null, session: null, hasProfile: false, error: new Error('No initData') };
       }
 
       // Call the telegram-auth edge function
-      console.log('📡 Calling telegram-auth edge function...');
-      console.log('📊 InitData preview:', initData?.substring(0, 100) + '...');
+      authLogger.debug('Calling telegram-auth edge function');
 
       const { data, error } = await supabase.functions.invoke('telegram-auth', {
         body: { initData },
       });
 
       if (error) {
-        console.error('❌ Edge function error:', error);
-        console.error('❌ Error details:', JSON.stringify(error, null, 2));
+        authLogger.error('Edge function error', error);
 
         // Детальная диагностика ошибок
         let errorMessage = 'Ошибка аутентификации';
@@ -163,7 +160,6 @@ export const useAuth = () => {
         } else if (error.message?.includes('old') || error.message?.includes('expired')) {
           errorMessage = '⚠️ InitData устарел (перезапустите Mini App)';
         } else if (error.context?.body) {
-          // Если есть тело ответа, попробуем его распарсить
           try {
             const errorBody = JSON.parse(error.context.body);
             errorMessage = `⚠️ ${errorBody.error || errorBody.message || error.message}`;
@@ -173,21 +169,24 @@ export const useAuth = () => {
         }
 
         toast.error(errorMessage, { duration: 5000 });
-        console.error('💡 Возможные решения:');
-        console.error('1. Проверьте TELEGRAM_BOT_TOKEN в Supabase → Settings → Secrets');
-        console.error('2. Убедитесь, что приложение открыто через Telegram');
-        console.error('3. Перезапустите Mini App для получения свежего initData');
+        authLogger.warn('Auth troubleshooting hints', {
+          hints: [
+            'Check TELEGRAM_BOT_TOKEN in Supabase Secrets',
+            'Ensure app is opened via Telegram',
+            'Restart Mini App for fresh initData'
+          ]
+        });
 
         return { user: null, session: null, hasProfile: false, error };
       }
 
       if (!data?.session) {
-        console.error('❌ No session in response:', data);
+        authLogger.error('No session in response', { data });
         toast.error('Не удалось создать сессию');
         return { user: null, session: null, hasProfile: false, error: new Error('No session received') };
       }
 
-      console.log('✅ Edge function response received');
+      authLogger.debug('Edge function response received');
 
       // Set the session using the tokens from the edge function
       const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
@@ -196,7 +195,7 @@ export const useAuth = () => {
       });
 
       if (sessionError) {
-        console.error('❌ Session error:', sessionError);
+        authLogger.error('Session error', sessionError);
         toast.error('Ошибка создания сессии');
         return { user: null, session: null, hasProfile: false, error: sessionError };
       }
@@ -206,11 +205,11 @@ export const useAuth = () => {
       
       const hasProfile = sessionData.user ? await checkProfile(sessionData.user.id) : false;
       
-      console.log('✅ Authentication successful, hasProfile:', hasProfile);
+      authLogger.info('Authentication successful', { hasProfile });
       toast.success('Успешная авторизация!');
       return { user: sessionData.user, session: sessionData.session, hasProfile };
     } catch (error) {
-      console.error('❌ Unexpected auth error:', error);
+      authLogger.error('Unexpected auth error', error);
       toast.error('Ошибка авторизации');
       return { user: null, session: null, hasProfile: false, error: error instanceof Error ? error : new Error(String(error)) };
     } finally {
