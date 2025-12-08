@@ -3,6 +3,9 @@ import type { TelegramUpdate } from './telegram-api.ts';
 import { handleInlineQuery } from './commands/inline.ts';
 import { flushMetrics, checkAlerts } from './utils/metrics.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { createLogger } from '../_shared/logger.ts';
+
+const logger = createLogger('telegram-bot');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -59,7 +62,12 @@ Deno.serve(async (req) => {
     if (req.method === 'POST') {
       const update: TelegramUpdate = await req.json();
       
-      console.log('Received update:', JSON.stringify(update, null, 2));
+      logger.debug('Received update', { 
+        updateId: update.update_id,
+        hasMessage: !!update.message,
+        hasCallback: !!update.callback_query,
+        hasInline: !!update.inline_query
+      });
 
       // Handle inline queries
       if (update.inline_query) {
@@ -81,7 +89,7 @@ Deno.serve(async (req) => {
       headers: corsHeaders,
     });
   } catch (error) {
-    console.error('Error handling request:', error);
+    logger.error('Error handling request', error);
     
     // Ensure metrics are flushed even on error
     await flushMetrics();

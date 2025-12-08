@@ -1,6 +1,9 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { getTelegramConfig, getTrackDeepLink } from '../_shared/telegram-config.ts';
 import { escapeMarkdown } from '../_shared/telegram-utils.ts';
+import { createLogger } from '../_shared/logger.ts';
+
+const logger = createLogger('send-telegram-notification');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -54,7 +57,7 @@ async function sendTelegramMessage(chatId: number, text: string, replyMarkup?: u
 
   // Validate chat_id
   if (!chatId || chatId <= 0) {
-    console.warn('Invalid chat_id:', chatId);
+    logger.warn('Invalid chat_id', { chatId });
     return { ok: false, skipped: true, reason: 'invalid_chat_id' };
   }
 
@@ -75,10 +78,10 @@ async function sendTelegramMessage(chatId: number, text: string, replyMarkup?: u
   if (!result.ok) {
     const errorDesc = result.description || '';
     if (errorDesc.includes('chat not found') || errorDesc.includes('bot was blocked') || errorDesc.includes('user is deactivated')) {
-      console.warn(`Chat unavailable (${chatId}): ${errorDesc}`);
+      logger.warn('Chat unavailable', { chatId, reason: errorDesc });
       return { ok: false, skipped: true, reason: 'chat_unavailable' };
     }
-    console.error('Telegram API error:', result);
+    logger.error('Telegram API error', null, { result });
     throw new Error(`Telegram API error: ${JSON.stringify(result)}`);
   }
 
@@ -102,25 +105,25 @@ async function sendTelegramAudio(
 
   // Validate chat_id
   if (!chatId || chatId <= 0) {
-    console.warn('Invalid chat_id for audio:', chatId);
+    logger.warn('Invalid chat_id for audio', { chatId });
     return { ok: false, skipped: true, reason: 'invalid_chat_id' };
   }
 
-  console.log(`📤 sendTelegramAudio: chatId=${chatId}, title="${options.title}", audioUrl=${audioUrl.substring(0, 80)}...`);
+  logger.info('Sending audio to Telegram', { chatId, title: options.title });
 
   // Download audio file as blob for proper title display in Telegram
   let audioBlob: Blob | null = null;
   try {
-    console.log('⬇️ Downloading audio file...');
+    logger.debug('Downloading audio file');
     const audioResponse = await fetch(audioUrl);
     if (audioResponse.ok) {
       audioBlob = await audioResponse.blob();
-      console.log(`✅ Audio downloaded: ${audioBlob.size} bytes`);
+      logger.debug('Audio downloaded', { size: audioBlob.size });
     } else {
-      console.warn(`⚠️ Failed to download audio: ${audioResponse.status}`);
+      logger.warn('Failed to download audio', { status: audioResponse.status });
     }
   } catch (downloadError) {
-    console.warn('⚠️ Audio download error:', downloadError);
+    logger.warn('Audio download error', { error: downloadError });
   }
 
   // Download thumbnail if available
@@ -130,10 +133,10 @@ async function sendTelegramAudio(
       const thumbResponse = await fetch(options.coverUrl);
       if (thumbResponse.ok) {
         thumbBlob = await thumbResponse.blob();
-        console.log(`✅ Thumbnail downloaded: ${thumbBlob.size} bytes`);
+        logger.debug('Thumbnail downloaded', { size: thumbBlob.size });
       }
     } catch (error) {
-      console.warn('⚠️ Error downloading cover:', error);
+      logger.warn('Error downloading cover', { error });
     }
   }
 
@@ -153,10 +156,10 @@ async function sendTelegramAudio(
   // Use blob if downloaded, otherwise fallback to URL
   if (audioBlob) {
     formData.append('audio', audioBlob, filename);
-    console.log('📦 Sending via FormData (blob)...');
+    logger.debug('Sending via FormData (blob)');
   } else {
     formData.append('audio', audioUrl);
-    console.log('📦 Sending via FormData (URL fallback)...');
+    logger.debug('Sending via FormData (URL fallback)');
   }
   
   if (options.caption) formData.append('caption', options.caption);
@@ -178,14 +181,14 @@ async function sendTelegramAudio(
   if (!result.ok) {
     const errorDesc = result.description || '';
     if (errorDesc.includes('chat not found') || errorDesc.includes('bot was blocked') || errorDesc.includes('user is deactivated')) {
-      console.warn(`Chat unavailable for audio (${chatId}): ${errorDesc}`);
+      logger.warn('Chat unavailable for audio', { chatId, reason: errorDesc });
       return { ok: false, skipped: true, reason: 'chat_unavailable' };
     }
-    console.error('❌ Telegram API error for audio:', result);
+    logger.error('Telegram API error for audio', null, { result });
     throw new Error(`Telegram API error: ${JSON.stringify(result)}`);
   }
 
-  console.log('✅ Audio sent successfully to Telegram');
+  logger.success('Audio sent successfully');
   return { ok: true, result };
 }
 
@@ -207,25 +210,25 @@ async function sendTelegramVideo(
 
   // Validate chat_id
   if (!chatId || chatId <= 0) {
-    console.warn('Invalid chat_id for video:', chatId);
+    logger.warn('Invalid chat_id for video', { chatId });
     return { ok: false, skipped: true, reason: 'invalid_chat_id' };
   }
 
-  console.log(`🎬 sendTelegramVideo: chatId=${chatId}, title="${options.title}"`);
+  logger.info('Sending video to Telegram', { chatId, title: options.title });
 
   // Download video file as blob
   let videoBlob: Blob | null = null;
   try {
-    console.log('⬇️ Downloading video file...');
+    logger.debug('Downloading video file');
     const videoResponse = await fetch(videoUrl);
     if (videoResponse.ok) {
       videoBlob = await videoResponse.blob();
-      console.log(`✅ Video downloaded: ${videoBlob.size} bytes`);
+      logger.debug('Video downloaded', { size: videoBlob.size });
     } else {
-      console.warn(`⚠️ Failed to download video: ${videoResponse.status}`);
+      logger.warn('Failed to download video', { status: videoResponse.status });
     }
   } catch (downloadError) {
-    console.warn('⚠️ Video download error:', downloadError);
+    logger.warn('Video download error', { error: downloadError });
   }
 
   // Download thumbnail if available
@@ -235,10 +238,10 @@ async function sendTelegramVideo(
       const thumbResponse = await fetch(options.coverUrl);
       if (thumbResponse.ok) {
         thumbBlob = await thumbResponse.blob();
-        console.log(`✅ Thumbnail downloaded: ${thumbBlob.size} bytes`);
+        logger.debug('Video thumbnail downloaded', { size: thumbBlob.size });
       }
     } catch (error) {
-      console.warn('⚠️ Error downloading cover:', error);
+      logger.warn('Error downloading video cover', { error });
     }
   }
 
@@ -256,10 +259,10 @@ async function sendTelegramVideo(
   
   if (videoBlob) {
     formData.append('video', videoBlob, filename);
-    console.log('📦 Sending video via FormData (blob)...');
+    logger.debug('Sending video via FormData (blob)');
   } else {
     formData.append('video', videoUrl);
-    console.log('📦 Sending video via FormData (URL fallback)...');
+    logger.debug('Sending video via FormData (URL fallback)');
   }
   
   if (options.caption) formData.append('caption', options.caption);
@@ -279,14 +282,14 @@ async function sendTelegramVideo(
   if (!result.ok) {
     const errorDesc = result.description || '';
     if (errorDesc.includes('chat not found') || errorDesc.includes('bot was blocked') || errorDesc.includes('user is deactivated')) {
-      console.warn(`Chat unavailable for video (${chatId}): ${errorDesc}`);
+      logger.warn('Chat unavailable for video', { chatId, reason: errorDesc });
       return { ok: false, skipped: true, reason: 'chat_unavailable' };
     }
-    console.error('❌ Telegram API error for video:', result);
+    logger.error('Telegram API error for video', null, { result });
     throw new Error(`Telegram API error: ${JSON.stringify(result)}`);
   }
 
-  console.log('✅ Video sent successfully to Telegram');
+  logger.success('Video sent successfully');
   return { ok: true, result };
 }
 
@@ -399,7 +402,7 @@ Deno.serve(async (req) => {
     const finalTrackId = track_id || trackId;
 
     if (!finalChatId) {
-      console.warn('No chat_id available for notification');
+      logger.warn('No chat_id available for notification');
       return new Response(
         JSON.stringify({ success: false, error: 'No chat_id available' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -411,7 +414,7 @@ Deno.serve(async (req) => {
     const canSend = await canSendNotification(supabase, user_id, finalChatId, notificationType);
     
     if (!canSend) {
-      console.log('Notification blocked by user settings:', { chatId: finalChatId, type: notificationType });
+      logger.info('Notification blocked by user settings', { chatId: finalChatId, type: notificationType });
       return new Response(
         JSON.stringify({ success: true, skipped: true, reason: 'user_settings' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -424,7 +427,7 @@ Deno.serve(async (req) => {
 
     // Handle multi-version generation complete (both A and B in sequence)
     if (type === 'generation_complete_multi' && audioClips && audioClips.length > 0) {
-      console.log(`📤 Sending multi-version notification with ${audioClips.length} audio clips`);
+      logger.info('Sending multi-version notification', { clipsCount: audioClips.length });
       
       // Format tags without # prefix (cleaner look)
       const tagsText = tags 
@@ -470,9 +473,9 @@ Deno.serve(async (req) => {
         });
         
         if (!audioResult.ok) {
-          console.error(`❌ Failed to send audio ${clip.versionLabel}:`, audioResult);
+          logger.error('Failed to send audio', null, { versionLabel: clip.versionLabel, result: audioResult });
         } else {
-          console.log(`✅ Audio ${clip.versionLabel} sent`);
+          logger.success('Audio sent', { versionLabel: clip.versionLabel });
         }
         
         // Small delay between messages
@@ -489,7 +492,7 @@ Deno.serve(async (req) => {
 
     // Handle generation complete with direct data (single version)
     if (type === 'generation_complete' && audioUrl) {
-      console.log('📤 Sending generation complete notification with audio');
+      logger.info('Sending generation complete notification');
       
       const durationText = duration 
         ? `⏱️ ${Math.floor(duration / 60)}:${String(Math.floor(duration % 60)).padStart(2, '0')}`
@@ -552,7 +555,7 @@ Deno.serve(async (req) => {
 
     // Handle video ready notification
     if ((type === 'video_ready' || type === 'video_share') && (videoUrl || finalTrackId)) {
-      console.log(`🎬 Processing ${type} notification`);
+      logger.info('Processing video notification', { type });
       
       let trackData = null;
       let finalVideoUrl = videoUrl;
@@ -603,7 +606,7 @@ Deno.serve(async (req) => {
 
     // Handle track share type
     if (type === 'track_share' && finalTrackId) {
-      console.log(`📤 Processing track_share for track: ${finalTrackId}, chat: ${finalChatId}`);
+      logger.info('Processing track_share', { trackId: finalTrackId });
       
       const { data: track, error: trackError } = await supabase
         .from('tracks')
@@ -612,7 +615,7 @@ Deno.serve(async (req) => {
         .single();
 
       if (trackError) {
-        console.error('❌ Error fetching track:', trackError);
+        logger.error('Error fetching track', trackError);
         return new Response(
           JSON.stringify({ success: false, error: 'Track not found' }),
           { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -733,7 +736,7 @@ Deno.serve(async (req) => {
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error) {
-    console.error('Error sending notification:', error);
+    logger.error('Error sending notification', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return new Response(
       JSON.stringify({ success: false, error: errorMessage }),
