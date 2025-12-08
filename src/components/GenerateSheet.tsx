@@ -5,9 +5,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Sparkles, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { useProjects } from '@/hooks/useProjects';
+import { useProjects } from '@/hooks/useProjectsOptimized';
 import { useArtists } from '@/hooks/useArtists';
-import { useTracks } from '@/hooks/useTracks';
+import { useTracks } from '@/hooks/useTracksOptimized';
 import { useGenerateForm } from '@/hooks/useGenerateForm';
 
 // Form components
