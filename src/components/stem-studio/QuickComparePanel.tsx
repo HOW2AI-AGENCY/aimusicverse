@@ -1,10 +1,31 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, RotateCcw, Check, X, Volume2 } from 'lucide-react';
+import { Play, Pause, RotateCcw, Check, X, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
+import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { cn } from '@/lib/utils';
+
+const panelVariants = {
+  hidden: { height: 0, opacity: 0 },
+  visible: { 
+    height: 'auto', 
+    opacity: 1,
+    transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const }
+  },
+  exit: { 
+    height: 0, 
+    opacity: 0,
+    transition: { duration: 0.2, ease: [0.4, 0, 1, 1] as const }
+  },
+};
+
+const buttonVariants = {
+  idle: { scale: 1 },
+  tap: { scale: 0.95 },
+  hover: { scale: 1.02 },
+};
 
 interface QuickComparePanelProps {
   originalAudioUrl: string;
@@ -29,10 +50,12 @@ export function QuickComparePanel({
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(sectionStart);
   const [volume, setVolume] = useState(0.8);
+  const [isMuted, setIsMuted] = useState(false);
   
   const originalRef = useRef<HTMLAudioElement | null>(null);
   const newRef = useRef<HTMLAudioElement | null>(null);
   const animationRef = useRef<number | undefined>(undefined);
+  const { tap, success, select } = useHapticFeedback();
 
   const sectionDuration = sectionEnd - sectionStart;
 
@@ -53,11 +76,12 @@ export function QuickComparePanel({
     };
   }, [originalAudioUrl, replacementAudioUrl]);
 
-  // Update volume
+  // Update volume and mute
   useEffect(() => {
-    if (originalRef.current) originalRef.current.volume = volume;
-    if (newRef.current) newRef.current.volume = volume;
-  }, [volume]);
+    const effectiveVolume = isMuted ? 0 : volume;
+    if (originalRef.current) originalRef.current.volume = effectiveVolume;
+    if (newRef.current) newRef.current.volume = effectiveVolume;
+  }, [volume, isMuted]);
 
   const updateProgress = useCallback(() => {
     const audio = activeVersion === 'original' ? originalRef.current : newRef.current;
@@ -90,6 +114,7 @@ export function QuickComparePanel({
     const other = activeVersion === 'original' ? newRef.current : originalRef.current;
 
     if (!audio) return;
+    tap();
 
     // Pause other audio
     other?.pause();
@@ -108,6 +133,7 @@ export function QuickComparePanel({
 
   const switchVersion = (version: 'original' | 'new') => {
     if (version === activeVersion) return;
+    select();
 
     const currentAudio = activeVersion === 'original' ? originalRef.current : newRef.current;
     const newAudio = version === 'original' ? originalRef.current : newRef.current;
@@ -123,11 +149,27 @@ export function QuickComparePanel({
   };
 
   const restart = () => {
+    tap();
     const audio = activeVersion === 'original' ? originalRef.current : newRef.current;
     if (audio) {
       audio.currentTime = sectionStart;
       setCurrentTime(sectionStart);
     }
+  };
+
+  const toggleMute = () => {
+    tap();
+    setIsMuted(!isMuted);
+  };
+
+  const handleApply = () => {
+    success();
+    onApply();
+  };
+
+  const handleDiscard = () => {
+    tap();
+    onDiscard();
   };
 
   const formatTime = (seconds: number) => {
@@ -141,9 +183,10 @@ export function QuickComparePanel({
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ height: 0, opacity: 0 }}
-        animate={{ height: 'auto', opacity: 1 }}
-        exit={{ height: 0, opacity: 0 }}
+        variants={panelVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
         className="border-b border-success/30 bg-gradient-to-r from-success/5 via-background to-success/5 overflow-hidden"
       >
         <div className="px-4 sm:px-6 py-4 space-y-4">
@@ -164,34 +207,44 @@ export function QuickComparePanel({
 
           {/* Version Toggle */}
           <div className="flex items-center gap-2">
-            <Button
-              variant={activeVersion === 'original' ? 'default' : 'outline'}
-              size="sm"
-              className={cn(
-                'flex-1 h-10 text-sm font-medium',
-                activeVersion === 'original' && 'bg-muted text-foreground'
-              )}
-              onClick={() => switchVersion('original')}
-            >
-              <span className="w-5 h-5 rounded-full bg-muted-foreground/20 flex items-center justify-center text-xs mr-2">
-                A
-              </span>
-              Оригинал
-            </Button>
-            <Button
-              variant={activeVersion === 'new' ? 'default' : 'outline'}
-              size="sm"
-              className={cn(
-                'flex-1 h-10 text-sm font-medium',
-                activeVersion === 'new' && 'bg-primary text-primary-foreground'
-              )}
-              onClick={() => switchVersion('new')}
-            >
-              <span className="w-5 h-5 rounded-full bg-primary-foreground/20 flex items-center justify-center text-xs mr-2">
-                B
-              </span>
-              Новая версия
-            </Button>
+            <motion.div className="flex-1" whileTap={{ scale: 0.98 }}>
+              <Button
+                variant={activeVersion === 'original' ? 'default' : 'outline'}
+                size="sm"
+                className={cn(
+                  'w-full h-10 text-sm font-medium transition-all',
+                  activeVersion === 'original' && 'bg-muted text-foreground ring-2 ring-muted-foreground/20'
+                )}
+                onClick={() => switchVersion('original')}
+              >
+                <motion.span 
+                  className="w-5 h-5 rounded-full bg-muted-foreground/20 flex items-center justify-center text-xs mr-2"
+                  animate={{ scale: activeVersion === 'original' ? 1.1 : 1 }}
+                >
+                  A
+                </motion.span>
+                Оригинал
+              </Button>
+            </motion.div>
+            <motion.div className="flex-1" whileTap={{ scale: 0.98 }}>
+              <Button
+                variant={activeVersion === 'new' ? 'default' : 'outline'}
+                size="sm"
+                className={cn(
+                  'w-full h-10 text-sm font-medium transition-all',
+                  activeVersion === 'new' && 'bg-primary text-primary-foreground ring-2 ring-primary/30'
+                )}
+                onClick={() => switchVersion('new')}
+              >
+                <motion.span 
+                  className="w-5 h-5 rounded-full bg-primary-foreground/20 flex items-center justify-center text-xs mr-2"
+                  animate={{ scale: activeVersion === 'new' ? 1.1 : 1 }}
+                >
+                  B
+                </motion.span>
+                Новая версия
+              </Button>
+            </motion.div>
           </div>
 
           {/* Progress */}
@@ -219,47 +272,75 @@ export function QuickComparePanel({
           {/* Controls */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" onClick={restart} className="h-9 w-9">
-                <RotateCcw className="w-4 h-4" />
-              </Button>
-              <Button
-                onClick={togglePlay}
-                size="icon"
-                className="h-12 w-12 rounded-full"
+              <motion.div whileTap={{ scale: 0.9 }}>
+                <Button variant="ghost" size="icon" onClick={restart} className="h-9 w-9">
+                  <RotateCcw className="w-4 h-4" />
+                </Button>
+              </motion.div>
+              <motion.div
+                whileTap={{ scale: 0.95 }}
+                animate={isPlaying ? { boxShadow: '0 0 20px hsl(var(--primary) / 0.3)' } : {}}
               >
-                {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
-              </Button>
+                <Button
+                  onClick={togglePlay}
+                  size="icon"
+                  className="h-12 w-12 rounded-full"
+                >
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={isPlaying ? 'pause' : 'play'}
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0, opacity: 0 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
+                    </motion.div>
+                  </AnimatePresence>
+                </Button>
+              </motion.div>
               <div className="flex items-center gap-2 ml-2">
-                <Volume2 className="w-4 h-4 text-muted-foreground" />
+                <motion.div whileTap={{ scale: 0.9 }}>
+                  <Button variant="ghost" size="icon" onClick={toggleMute} className="h-9 w-9">
+                    {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                  </Button>
+                </motion.div>
                 <Slider
-                  value={[volume]}
+                  value={[isMuted ? 0 : volume]}
                   min={0}
                   max={1}
                   step={0.01}
-                  onValueChange={([v]) => setVolume(v)}
+                  onValueChange={([v]) => {
+                    setVolume(v);
+                    if (v > 0 && isMuted) setIsMuted(false);
+                  }}
                   className="w-20"
                 />
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={onDiscard}
-                className="h-9 gap-1 text-destructive hover:text-destructive"
-              >
-                <X className="w-4 h-4" />
-                Отменить
-              </Button>
-              <Button
-                size="sm"
-                onClick={onApply}
-                className="h-9 gap-1 bg-success hover:bg-success/90"
-              >
-                <Check className="w-4 h-4" />
-                Применить
-              </Button>
+              <motion.div whileTap={{ scale: 0.95 }}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleDiscard}
+                  className="h-9 gap-1 text-destructive hover:text-destructive"
+                >
+                  <X className="w-4 h-4" />
+                  Отменить
+                </Button>
+              </motion.div>
+              <motion.div whileTap={{ scale: 0.95 }}>
+                <Button
+                  size="sm"
+                  onClick={handleApply}
+                  className="h-9 gap-1 bg-success hover:bg-success/90"
+                >
+                  <Check className="w-4 h-4" />
+                  Применить
+                </Button>
+              </motion.div>
             </div>
           </div>
         </div>

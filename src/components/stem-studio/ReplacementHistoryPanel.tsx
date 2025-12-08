@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { History, Play, ChevronRight, Clock, Music, FileText } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { History, ChevronRight, Clock, Music, Loader2, CheckCircle2, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -23,12 +24,17 @@ interface ReplacementRecord {
   change_type: string;
   prompt_used: string | null;
   metadata: {
+    infillStartS?: number;
+    infillEndS?: number;
     infill_start_s?: number;
     infill_end_s?: number;
+    taskId?: string;
     tags?: string;
     new_version_id?: string;
     original_audio_url?: string;
     new_audio_url?: string;
+    audioUrl?: string;
+    versionLabel?: string;
   } | null;
   version_id: string | null;
   track_versions?: {
@@ -36,6 +42,12 @@ interface ReplacementRecord {
     version_label: string | null;
   } | null;
 }
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+  exit: { opacity: 0, x: -20 },
+};
 
 interface ReplacementHistoryPanelProps {
   trackId: string;
@@ -64,13 +76,29 @@ export function ReplacementHistoryPanel({ trackId, trackAudioUrl }: ReplacementH
           )
         `)
         .eq('track_id', trackId)
-        .eq('change_type', 'section_replace')
+        .in('change_type', ['replace_section_started', 'replace_section_completed'])
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return data as ReplacementRecord[];
+      
+      // Group by taskId to show both started and completed
+      const grouped = new Map<string, ReplacementRecord[]>();
+      for (const record of (data as ReplacementRecord[]) || []) {
+        const taskId = record.metadata?.taskId || record.id;
+        if (!grouped.has(taskId)) {
+          grouped.set(taskId, []);
+        }
+        grouped.get(taskId)!.push(record);
+      }
+      
+      // Return latest record per task
+      return Array.from(grouped.values()).map(records => {
+        const completed = records.find(r => r.change_type === 'replace_section_completed');
+        return completed || records[0];
+      });
     },
     enabled: open,
+    refetchInterval: 5000,
   });
 
   const formatTime = (seconds: number) => {
@@ -107,78 +135,122 @@ export function ReplacementHistoryPanel({ trackId, trackAudioUrl }: ReplacementH
               <p className="text-xs mt-1">Замены секций будут отображаться здесь</p>
             </div>
           ) : (
-            <div className="space-y-3">
-              {history.map((record) => {
-                const isSelected = selectedRecord?.id === record.id;
-                const startTime = record.metadata?.infill_start_s ?? 0;
-                const endTime = record.metadata?.infill_end_s ?? 0;
-                const newAudioUrl = record.track_versions?.audio_url || record.metadata?.new_audio_url;
+            <motion.div 
+              className="space-y-3"
+              initial="hidden"
+              animate="visible"
+              variants={{
+                visible: { transition: { staggerChildren: 0.05 } }
+              }}
+            >
+              <AnimatePresence mode="popLayout">
+                {history.map((record) => {
+                  const isSelected = selectedRecord?.id === record.id;
+                  const startTime = record.metadata?.infillStartS ?? record.metadata?.infill_start_s ?? 0;
+                  const endTime = record.metadata?.infillEndS ?? record.metadata?.infill_end_s ?? 0;
+                  const newAudioUrl = record.track_versions?.audio_url || 
+                    record.metadata?.audioUrl || 
+                    record.metadata?.new_audio_url;
+                  const isCompleted = record.change_type === 'replace_section_completed';
+                  const isPending = record.change_type === 'replace_section_started';
 
-                return (
-                  <div key={record.id} className="space-y-3">
-                    <button
-                      onClick={() => setSelectedRecord(isSelected ? null : record)}
-                      className={cn(
-                        'w-full p-3 rounded-lg border text-left transition-all',
-                        'hover:border-primary/50 hover:bg-accent/50',
-                        isSelected && 'border-primary bg-accent'
-                      )}
+                  return (
+                    <motion.div 
+                      key={record.id} 
+                      className="space-y-3"
+                      variants={itemVariants}
+                      layout
                     >
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <Badge variant="secondary" className="text-xs">
-                              {formatTime(startTime)} - {formatTime(endTime)}
-                            </Badge>
-                            {record.track_versions?.version_label && (
-                              <Badge variant="outline" className="text-xs">
-                                {record.track_versions.version_label}
-                              </Badge>
+                      <motion.button
+                        onClick={() => setSelectedRecord(isSelected ? null : record)}
+                        className={cn(
+                          'w-full p-3 rounded-lg border text-left transition-all',
+                          'hover:border-primary/50 hover:bg-accent/50',
+                          isSelected && 'border-primary bg-accent',
+                          isPending && 'border-warning/50 bg-warning/5',
+                          isCompleted && 'border-success/50'
+                        )}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              {isPending ? (
+                                <Badge variant="secondary" className="text-xs bg-warning/10 text-warning border-warning/30 gap-1">
+                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                  Обработка...
+                                </Badge>
+                              ) : isCompleted ? (
+                                <Badge variant="secondary" className="text-xs bg-success/10 text-success border-success/30 gap-1">
+                                  <CheckCircle2 className="w-3 h-3" />
+                                  {formatTime(startTime)} - {formatTime(endTime)}
+                                </Badge>
+                              ) : (
+                                <Badge variant="secondary" className="text-xs">
+                                  {formatTime(startTime)} - {formatTime(endTime)}
+                                </Badge>
+                              )}
+                              {(record.track_versions?.version_label || record.metadata?.versionLabel) && (
+                                <Badge variant="outline" className="text-xs">
+                                  {record.track_versions?.version_label || record.metadata?.versionLabel}
+                                </Badge>
+                              )}
+                            </div>
+
+                            {record.prompt_used && (
+                              <p className="text-sm text-muted-foreground line-clamp-2 mb-1">
+                                {record.prompt_used}
+                              </p>
                             )}
-                          </div>
 
-                          {record.prompt_used && (
-                            <p className="text-sm text-muted-foreground line-clamp-2 mb-1">
-                              {record.prompt_used}
-                            </p>
-                          )}
-
-                          <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                            <span className="flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
-                              {format(new Date(record.created_at), 'd MMM, HH:mm', { locale: ru })}
-                            </span>
-                            {record.metadata?.tags && (
-                              <span className="flex items-center gap-1 truncate">
-                                <Music className="w-3 h-3" />
-                                {record.metadata.tags.slice(0, 30)}...
+                            <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                              <span className="flex items-center gap-1">
+                                <Clock className="w-3 h-3" />
+                                {format(new Date(record.created_at), 'd MMM, HH:mm', { locale: ru })}
                               </span>
-                            )}
+                              {record.metadata?.tags && (
+                                <span className="flex items-center gap-1 truncate">
+                                  <Music className="w-3 h-3" />
+                                  {record.metadata.tags.slice(0, 30)}...
+                                </span>
+                              )}
+                            </div>
                           </div>
+
+                          <motion.div
+                            animate={{ rotate: isSelected ? 90 : 0 }}
+                            transition={{ type: 'spring', stiffness: 300 }}
+                          >
+                            <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                          </motion.div>
                         </div>
+                      </motion.button>
 
-                        <ChevronRight className={cn(
-                          'w-5 h-5 text-muted-foreground transition-transform',
-                          isSelected && 'rotate-90'
-                        )} />
-                      </div>
-                    </button>
-
-                    {/* A/B Compare Panel */}
-                    {isSelected && trackAudioUrl && newAudioUrl && (
-                      <SectionComparePanel
-                        originalUrl={trackAudioUrl}
-                        replacedUrl={newAudioUrl}
-                        sectionStart={startTime}
-                        sectionEnd={endTime}
-                        originalLabel="Оригинал"
-                        replacedLabel={record.track_versions?.version_label || 'Замена'}
-                      />
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+                      {/* A/B Compare Panel */}
+                      <AnimatePresence>
+                        {isSelected && trackAudioUrl && newAudioUrl && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <SectionComparePanel
+                              originalUrl={trackAudioUrl}
+                              replacedUrl={newAudioUrl}
+                              sectionStart={startTime}
+                              sectionEnd={endTime}
+                              originalLabel="Оригинал"
+                              replacedLabel={record.track_versions?.version_label || record.metadata?.versionLabel || 'Замена'}
+                            />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            </motion.div>
           )}
         </ScrollArea>
       </SheetContent>
