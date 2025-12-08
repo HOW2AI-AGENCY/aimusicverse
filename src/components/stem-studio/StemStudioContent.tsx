@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   ChevronLeft, Play, Pause, SkipBack, SkipForward,
-  Volume2, VolumeX, HelpCircle, Sliders
+  Volume2, VolumeX, HelpCircle, Sliders, Scissors
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -16,6 +16,7 @@ import { MidiSection } from '@/components/stem-studio/MidiSection';
 import { MixExportDialog } from '@/components/stem-studio/MixExportDialog';
 import { MixPresetsMenu } from '@/components/stem-studio/MixPresetsMenu';
 import { StudioLyricsPanel } from '@/components/stem-studio/StudioLyricsPanel';
+import { ReplaceSectionDialog } from '@/components/stem-studio/ReplaceSectionDialog';
 import { StemStudioTutorial, useStemStudioTutorial } from '@/components/stem-studio/StemStudioTutorial';
 import { useStemStudioEngine } from '@/hooks/useStemStudioEngine';
 import { defaultStemEffects, StemEffects } from '@/hooks/useStemAudioEngine';
@@ -49,6 +50,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   const [masterMuted, setMasterMuted] = useState(false);
   const [stemStates, setStemStates] = useState<Record<string, StemState>>({});
   const [effectsEnabled, setEffectsEnabled] = useState(false);
+  const [replaceSectionOpen, setReplaceSectionOpen] = useState(false);
 
   const audioRefs = useRef<Record<string, HTMLAudioElement>>({});
   const animationFrameRef = useRef<number | undefined>(undefined);
@@ -365,6 +367,19 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Replace Section Button */}
+          {track.suno_id && track.suno_task_id && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setReplaceSectionOpen(true)}
+              className="h-9 gap-1.5"
+            >
+              <Scissors className="w-4 h-4" />
+              <span className="hidden sm:inline">Заменить</span>
+            </Button>
+          )}
+
           {/* Effects Mode Toggle */}
           {!effectsEnabled ? (
             <Button
@@ -496,6 +511,18 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       {/* Mobile Actions */}
       {isMobile && stems && (
         <div className="px-4 py-3 border-b border-border/30 flex gap-2 overflow-x-auto">
+          {/* Replace Section Button (mobile) */}
+          {track.suno_id && track.suno_task_id && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setReplaceSectionOpen(true)}
+              className="h-9 gap-1.5 flex-shrink-0"
+            >
+              <Scissors className="w-4 h-4" />
+              Заменить
+            </Button>
+          )}
           <MixPresetsMenu
             trackId={trackId}
             masterVolume={masterVolume}
@@ -607,6 +634,19 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           )}
         </div>
       </footer>
+
+      {/* Replace Section Dialog */}
+      <ReplaceSectionDialog
+        open={replaceSectionOpen}
+        onOpenChange={setReplaceSectionOpen}
+        trackId={trackId}
+        trackTitle={track.title || 'Трек'}
+        trackTags={track.tags}
+        trackLyrics={track.lyrics}
+        duration={duration}
+        currentTime={currentTime}
+        onSeek={handleSeek}
+      />
     </div>
   );
 };

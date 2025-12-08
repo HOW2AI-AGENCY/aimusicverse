@@ -167,3 +167,6 @@ verify_jwt = false
 
 [functions.health-alert]
 verify_jwt = false
+
+[functions.suno-replace-section]
+verify_jwt = true
