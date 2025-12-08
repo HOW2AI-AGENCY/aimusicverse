@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Volume2, VolumeX, Volume1 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
 
 /**
  * Volume control component props
@@ -185,20 +186,48 @@ export function VolumeControl({
   };
 
   return (
-    <div className={cn('flex items-center gap-2 sm:gap-3', className)}>
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={toggleMute}
-        className={cn(
-          buttonSizeClasses[size],
-          'flex-shrink-0 touch-manipulation transition-colors',
-          muted && 'text-muted-foreground'
-        )}
-        aria-label={muted ? 'Включить звук' : 'Выключить звук'}
+    <div className={cn('flex items-center gap-2 sm:gap-3 group', className)}>
+      <motion.div
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        animate={muted ? { rotate: [0, -10, 10, 0] } : {}}
+        transition={{ duration: 0.3 }}
       >
-        <VolumeIcon className={iconSizeClasses[size]} />
-      </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={toggleMute}
+          className={cn(
+            buttonSizeClasses[size],
+            'flex-shrink-0 touch-manipulation transition-all duration-300 relative',
+            muted && 'text-muted-foreground'
+          )}
+          aria-label={muted ? 'Включить звук' : 'Выключить звук'}
+        >
+          {/* Glow effect when not muted */}
+          <AnimatePresence>
+            {!muted && volume > 0.5 && (
+              <motion.div
+                className="absolute inset-0 bg-primary/20 rounded-full blur-md"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1.3, opacity: 1 }}
+                exit={{ scale: 0, opacity: 0 }}
+              />
+            )}
+          </AnimatePresence>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={muted ? 'muted' : volume < 0.5 ? 'low' : 'high'}
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.5, opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
+              <VolumeIcon className={cn(iconSizeClasses[size], 'relative z-10')} />
+            </motion.div>
+          </AnimatePresence>
+        </Button>
+      </motion.div>
       
       <div className="flex-1 relative">
         <Slider
@@ -207,24 +236,22 @@ export function VolumeControl({
           step={0.01}
           onValueChange={handleVolumeChange}
           className={cn(
-            'w-full cursor-pointer',
+            'w-full cursor-pointer transition-opacity duration-300',
             muted && 'opacity-50'
           )}
           aria-label="Громкость"
         />
         
-        {/* Visual feedback indicator */}
-        <div 
-          className="absolute -top-8 left-0 right-0 pointer-events-none opacity-0 transition-opacity duration-200 peer-active:opacity-100"
-          style={{
-            left: `${(muted ? 0 : volume) * 100}%`,
-            transform: 'translateX(-50%)'
+        {/* Volume level glow indicator */}
+        <motion.div
+          className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-primary/50 to-primary rounded-full pointer-events-none"
+          style={{ width: `${(muted ? 0 : volume) * 100}%` }}
+          animate={{
+            boxShadow: volume > 0.7 
+              ? '0 0 10px hsl(var(--primary) / 0.5)' 
+              : '0 0 0px transparent'
           }}
-        >
-          <div className="bg-primary text-primary-foreground text-xs px-2 py-1 rounded">
-            {Math.round((muted ? 0 : volume) * 100)}%
-          </div>
-        </div>
+        />
       </div>
     </div>
   );
