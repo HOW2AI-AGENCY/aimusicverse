@@ -14,18 +14,27 @@ import { toast } from 'sonner';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { SUNO_MODELS, getAvailableModels } from '@/constants/sunoModels';
 
+interface PrefillData {
+  title?: string | null;
+  style?: string | null;
+  lyrics?: string | null;
+  isInstrumental?: boolean;
+}
+
 interface UploadAudioDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   projectId?: string;
   defaultMode?: 'cover' | 'extend';
+  prefillData?: PrefillData;
 }
 
 export const UploadAudioDialog = ({ 
   open, 
   onOpenChange, 
   projectId,
-  defaultMode = 'cover'
+  defaultMode = 'cover',
+  prefillData
 }: UploadAudioDialogProps) => {
   const [mode, setMode] = useState<'cover' | 'extend'>(defaultMode);
   const [loading, setLoading] = useState(false);
@@ -34,10 +43,10 @@ export const UploadAudioDialog = ({
   
   // Settings
   const [customMode, setCustomMode] = useState(true);
-  const [instrumental, setInstrumental] = useState(false);
-  const [prompt, setPrompt] = useState('');
-  const [style, setStyle] = useState('');
-  const [title, setTitle] = useState('');
+  const [instrumental, setInstrumental] = useState(prefillData?.isInstrumental ?? false);
+  const [prompt, setPrompt] = useState(prefillData?.lyrics || '');
+  const [style, setStyle] = useState(prefillData?.style || '');
+  const [title, setTitle] = useState(prefillData?.title ? `${prefillData.title} (кавер)` : '');
   const [continueAt, setContinueAt] = useState<number>(0);
   const [model, setModel] = useState('V4_5ALL');
   
