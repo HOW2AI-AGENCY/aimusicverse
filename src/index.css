@@ -20,148 +20,150 @@ All colors MUST be HSL.
     --tg-safe-area-inset-left: 0px;
     --tg-safe-area-inset-right: 0px;
 
-    /* Light theme (fallback) */
-    --background: 0 0% 100%;
-    --foreground: 222.2 47.4% 11.2%;
+    /* Light theme - Unified Blue-based palette */
+    --background: 220 20% 98%;
+    --foreground: 220 25% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
+    --card-foreground: 220 25% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
+    --popover-foreground: 220 25% 10%;
 
-    --primary: 207 90% 56%;
+    /* Primary - Telegram Blue */
+    --primary: 207 90% 54%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 15% 90%;
-    --secondary-foreground: 240 10% 15%;
+    --secondary: 220 15% 92%;
+    --secondary-foreground: 220 20% 20%;
 
-    --muted: 240 10% 92%;
-    --muted-foreground: 240 5% 45%;
+    --muted: 220 15% 94%;
+    --muted-foreground: 220 10% 45%;
 
-    --accent: 270 70% 95%;
-    --accent-foreground: 270 70% 60%;
+    --accent: 207 80% 95%;
+    --accent-foreground: 207 90% 45%;
 
-    --destructive: 0 70% 55%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 207 90% 56%;
+    --border: 220 15% 90%;
+    --input: 220 15% 90%;
+    --ring: 207 90% 54%;
 
-    --radius: 1.25rem;
+    --radius: 1rem;
     
-    /* NEW: Section-specific accent colors */
-    --generate: 280 80% 60%;
-    --generate-glow: 280 80% 70%;
-    --library: 200 90% 50%;
-    --library-glow: 200 90% 60%;
-    --projects: 160 70% 50%;
-    --projects-glow: 160 70% 60%;
-    --community: 340 80% 55%;
-    --community-glow: 340 80% 65%;
-    --success: 145 70% 45%;
-    --success-glow: 145 70% 55%;
-    --warning: 38 92% 50%;
-    --warning-glow: 38 92% 60%;
+    /* Section-specific accent colors - harmonized with primary */
+    --generate: 250 80% 60%;
+    --generate-glow: 250 80% 70%;
+    --library: 207 90% 54%;
+    --library-glow: 207 90% 64%;
+    --projects: 175 70% 45%;
+    --projects-glow: 175 70% 55%;
+    --community: 330 75% 55%;
+    --community-glow: 330 75% 65%;
+    --success: 160 70% 42%;
+    --success-glow: 160 70% 52%;
+    --warning: 38 95% 50%;
+    --warning-glow: 38 95% 60%;
     
     /* Glassmorphism variables */
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.18);
-    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    --glass-bg: 0 0% 100% / 0.8;
+    --glass-border: 220 15% 90%;
+    --glass-shadow: 0 8px 32px 0 hsl(220 40% 20% / 0.1);
     
-    --gradient-primary: linear-gradient(135deg, hsl(270 70% 60%), hsl(280 70% 70%));
-    --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-    --gradient-hero: linear-gradient(135deg, hsl(270 70% 60% / 0.2), hsl(280 70% 70% / 0.2));
-    --gradient-generate: linear-gradient(135deg, hsl(280 80% 60%), hsl(320 80% 65%));
-    --gradient-success: linear-gradient(135deg, hsl(145 70% 45%), hsl(160 70% 50%));
+    --gradient-primary: linear-gradient(135deg, hsl(207 90% 54%), hsl(250 80% 60%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100% / 0.9), hsl(0 0% 100% / 0.7));
+    --gradient-hero: linear-gradient(135deg, hsl(207 90% 54% / 0.1), hsl(250 80% 60% / 0.1));
+    --gradient-generate: linear-gradient(135deg, hsl(250 80% 60%), hsl(280 75% 55%));
+    --gradient-success: linear-gradient(135deg, hsl(160 70% 42%), hsl(175 70% 45%));
     
-    --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-    --shadow-hover: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
-    --shadow-glow: 0 0 30px 0 rgba(51, 144, 236, 0.3);
+    --shadow-glass: 0 8px 32px 0 hsl(220 40% 20% / 0.08);
+    --shadow-hover: 0 12px 40px 0 hsl(207 90% 54% / 0.15);
+    --shadow-glow: 0 0 30px 0 hsl(207 90% 54% / 0.25);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 
-    --sidebar-background: 240 10% 98%;
-    --sidebar-foreground: 240 10% 20%;
-    --sidebar-primary: 270 70% 60%;
+    --sidebar-background: 220 20% 98%;
+    --sidebar-foreground: 220 25% 15%;
+    --sidebar-primary: 207 90% 54%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 10% 94%;
-    --sidebar-accent-foreground: 240 10% 20%;
-    --sidebar-border: 240 10% 88%;
-    --sidebar-ring: 270 70% 60%;
+    --sidebar-accent: 220 15% 94%;
+    --sidebar-accent-foreground: 220 25% 15%;
+    --sidebar-border: 220 15% 88%;
+    --sidebar-ring: 207 90% 54%;
   }
 
   .dark {
-    /* Dark theme - MusicVerse Studio (Clean, minimal dark) */
-    --background: 240 10% 6%;
-    --foreground: 0 0% 98%;
+    /* Dark theme - MusicVerse Studio (Clean, professional dark) */
+    --background: 220 20% 7%;
+    --foreground: 220 10% 98%;
 
-    --card: 240 10% 8%;
-    --card-foreground: 0 0% 98%;
+    --card: 220 18% 10%;
+    --card-foreground: 220 10% 98%;
 
-    --popover: 240 10% 8%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 220 18% 10%;
+    --popover-foreground: 220 10% 98%;
 
-    --primary: 207 90% 56%;
+    /* Primary - Telegram Blue */
+    --primary: 207 90% 54%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 8% 14%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 220 10% 95%;
 
-    --muted: 240 8% 14%;
-    --muted-foreground: 240 5% 55%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 220 10% 55%;
 
-    --accent: 240 8% 18%;
-    --accent-foreground: 207 90% 56%;
+    --accent: 220 15% 18%;
+    --accent-foreground: 207 90% 60%;
 
-    --destructive: 0 70% 55%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 8% 16%;
-    --input: 240 8% 16%;
-    --ring: 207 90% 56%;
+    --border: 220 15% 18%;
+    --input: 220 15% 18%;
+    --ring: 207 90% 54%;
     
-    /* NEW: Section-specific accent colors (dark mode) */
-    --generate: 280 80% 65%;
-    --generate-glow: 280 80% 50%;
-    --library: 200 90% 55%;
-    --library-glow: 200 90% 45%;
-    --projects: 160 70% 55%;
-    --projects-glow: 160 70% 45%;
-    --community: 340 80% 60%;
-    --community-glow: 340 80% 50%;
-    --success: 145 70% 50%;
-    --success-glow: 145 70% 40%;
-    --warning: 38 92% 55%;
-    --warning-glow: 38 92% 45%;
+    /* Section-specific accent colors (dark mode) */
+    --generate: 250 80% 65%;
+    --generate-glow: 250 80% 50%;
+    --library: 207 90% 58%;
+    --library-glow: 207 90% 45%;
+    --projects: 175 70% 50%;
+    --projects-glow: 175 70% 40%;
+    --community: 330 75% 60%;
+    --community-glow: 330 75% 48%;
+    --success: 160 70% 48%;
+    --success-glow: 160 70% 38%;
+    --warning: 38 95% 55%;
+    --warning-glow: 38 95% 45%;
     
-    /* Glassmorphism variables - Minimal dark style */
-    --glass-bg: hsla(240, 10%, 8%, 0.8);
-    --glass-border: hsla(240, 8%, 20%, 1);
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    /* Glassmorphism variables - Professional dark */
+    --glass-bg: 220 18% 10% / 0.85;
+    --glass-border: 220 15% 22%;
+    --glass-shadow: 0 8px 32px 0 hsl(220 50% 5% / 0.5);
     
-    --gradient-primary: linear-gradient(135deg, hsl(207 90% 56%), hsl(250 80% 65%));
-    --gradient-card: linear-gradient(135deg, hsla(240, 10%, 10%, 0.6), hsla(240, 10%, 6%, 0.4));
-    --gradient-hero: linear-gradient(135deg, hsl(207 90% 56% / 0.15), hsl(250 80% 65% / 0.15));
-    --gradient-telegram: linear-gradient(135deg, #3390ec, #7c5ce7);
-    --gradient-generate: linear-gradient(135deg, hsl(280 80% 60%), hsl(320 80% 55%));
-    --gradient-success: linear-gradient(135deg, hsl(145 70% 50%), hsl(160 70% 55%));
+    --gradient-primary: linear-gradient(135deg, hsl(207 90% 54%), hsl(250 80% 60%));
+    --gradient-card: linear-gradient(135deg, hsl(220 18% 12% / 0.8), hsl(220 18% 8% / 0.6));
+    --gradient-hero: linear-gradient(135deg, hsl(207 90% 54% / 0.12), hsl(250 80% 60% / 0.12));
+    --gradient-telegram: linear-gradient(135deg, hsl(207 90% 54%), hsl(250 80% 60%));
+    --gradient-generate: linear-gradient(135deg, hsl(250 80% 60%), hsl(280 75% 55%));
+    --gradient-success: linear-gradient(135deg, hsl(160 70% 48%), hsl(175 70% 50%));
     
-    --shadow-glass: 0 4px 24px 0 rgba(0, 0, 0, 0.3);
-    --shadow-hover: 0 8px 32px 0 rgba(51, 144, 236, 0.2);
-    --shadow-glow: 0 0 40px 0 rgba(51, 144, 236, 0.4);
+    --shadow-glass: 0 4px 24px 0 hsl(220 50% 5% / 0.4);
+    --shadow-hover: 0 8px 32px 0 hsl(207 90% 54% / 0.2);
+    --shadow-glow: 0 0 40px 0 hsl(207 90% 54% / 0.35);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 
-    --sidebar-background: 240 10% 5%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 207 90% 56%;
+    --sidebar-background: 220 20% 6%;
+    --sidebar-foreground: 220 10% 95%;
+    --sidebar-primary: 207 90% 54%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 8% 12%;
-    --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 240 8% 16%;
-    --sidebar-ring: 207 90% 56%;
+    --sidebar-accent: 220 15% 14%;
+    --sidebar-accent-foreground: 220 10% 95%;
+    --sidebar-border: 220 15% 18%;
+    --sidebar-ring: 207 90% 54%;
   }
 }
 
