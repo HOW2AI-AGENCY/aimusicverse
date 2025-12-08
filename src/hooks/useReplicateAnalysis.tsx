@@ -1,6 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
+
+const log = logger.child({ module: 'ReplicateAnalysis' });
 
 export function useReplicateAnalysis() {
   const queryClient = useQueryClient();
@@ -15,7 +18,7 @@ export function useReplicateAnalysis() {
       audioUrl: string;
       analysisTypes?: string[];
     }) => {
-      console.log('Starting Replicate analysis:', { trackId, audioUrl, analysisTypes });
+      log.info('Starting Replicate analysis', { trackId, analysisTypes });
       
       const { data, error } = await supabase.functions.invoke('replicate-music-analysis', {
         body: {
@@ -26,7 +29,7 @@ export function useReplicateAnalysis() {
       });
 
       if (error) {
-        console.error('Replicate analysis error:', error);
+        log.error('Replicate analysis error', { error });
         throw error;
       }
 
@@ -34,7 +37,7 @@ export function useReplicateAnalysis() {
         throw new Error(data.error || 'Analysis failed');
       }
 
-      console.log('Replicate analysis completed:', data);
+      log.info('Replicate analysis completed', { trackId });
       return data;
     },
     onSuccess: (data, variables) => {
@@ -43,7 +46,7 @@ export function useReplicateAnalysis() {
       queryClient.invalidateQueries({ queryKey: ['tracks'] });
     },
     onError: (error: Error) => {
-      console.error('Error analyzing with Replicate:', error);
+      log.error('Error analyzing with Replicate', { error: error.message });
       toast.error(`Ошибка анализа: ${error.message}`);
     },
   });

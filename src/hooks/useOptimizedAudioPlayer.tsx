@@ -16,6 +16,9 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { debounce, throttle, markPerformance, preloadAudio, requestIdleCallback } from '@/lib/performance-utils';
+import { logger } from '@/lib/logger';
+
+const log = logger.child({ module: 'OptimizedAudioPlayer' });
 
 /**
  * Props for optimized audio player hook
@@ -103,7 +106,7 @@ export const useOptimizedAudioPlayer = ({
     // Start preloading when browser is idle using utility function
     requestIdleCallback(() => {
       preloadAudio(nextTrackUrl).catch((error) => {
-        console.warn('Failed to preload next track:', error);
+        log.warn('Failed to preload next track', { error });
       });
     }, { timeout: 1000 });
   }, [nextTrackUrl, enablePreload]);
@@ -174,7 +177,7 @@ export const useOptimizedAudioPlayer = ({
       
       // End performance measurement
       const loadTime = measure.end();
-      console.log(`Audio loaded in ${loadTime.toFixed(2)}ms`);
+      log.debug('Audio loaded', { loadTimeMs: loadTime.toFixed(2) });
     };
 
     const handleCanPlay = () => {
@@ -225,18 +228,18 @@ export const useOptimizedAudioPlayer = ({
         }
       }
 
-      console.error(errorMessage, audioError);
+      log.error('Audio playback error', { error: errorMessage, audioError });
       setError(errorMessage);
       setLoading(false);
       setIsPlaying(false);
 
       // Attempt fallback
       if (audio.src === streamingUrl && localAudioUrl) {
-        console.log('Attempting local source fallback');
+        log.info('Attempting local source fallback');
         audio.src = localAudioUrl;
         audio.load();
       } else if (audio.src === localAudioUrl && audioUrl && audioUrl !== localAudioUrl) {
-        console.log('Attempting original URL fallback');
+        log.info('Attempting original URL fallback');
         audio.src = audioUrl;
         audio.load();
       }

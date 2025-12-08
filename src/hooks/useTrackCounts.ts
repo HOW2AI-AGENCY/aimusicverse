@@ -9,6 +9,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
+
+const log = logger.child({ module: 'TrackCounts' });
 
 export interface TrackCounts {
   versionCount: number;
@@ -51,7 +54,7 @@ export function useTrackCounts(trackIds: string[]) {
 
       setCountsMap(prev => ({ ...prev, ...newCounts }));
     } catch (error) {
-      console.error('Error fetching track counts:', error);
+      log.error('Error fetching track counts', { error });
     }
   }, []);
 
@@ -88,7 +91,7 @@ export function useTrackCounts(trackIds: string[]) {
         (payload) => {
           const trackId = payload.new.track_id;
           if (trackIds.includes(trackId)) {
-            console.log('✅ New stem added for track:', trackId);
+            log.info('New stem added for track', { trackId });
             setCountsMap(prev => ({
               ...prev,
               [trackId]: {
@@ -110,7 +113,7 @@ export function useTrackCounts(trackIds: string[]) {
         (payload) => {
           const trackId = payload.new.track_id;
           if (trackIds.includes(trackId)) {
-            console.log('✅ New version added for track:', trackId);
+            log.info('New version added for track', { trackId });
             setCountsMap(prev => ({
               ...prev,
               [trackId]: {

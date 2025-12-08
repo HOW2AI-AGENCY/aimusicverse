@@ -3,7 +3,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
 import { Track } from './useTracksOptimized';
+import { logger } from '@/lib/logger';
 
+const log = logger.child({ module: 'TracksInfinite' });
 const PAGE_SIZE = 20;
 const RETRY_ATTEMPTS = 3;
 const RETRY_DELAY = 1000;
@@ -50,11 +52,11 @@ export const useTracksInfinite = ({
     queryKey: ['tracks-infinite', user?.id, projectId, searchQuery, sortBy, pageSize],
     queryFn: async ({ pageParam = 0 }) => {
       if (!user?.id) {
-        console.warn('⚠️ useTracksInfinite: No user ID available');
+        log.warn('No user ID available');
         return { tracks: [], nextPage: null, totalCount: 0 };
       }
 
-      console.log(`🔄 Fetching tracks page ${pageParam} for user: ${user.id}, sortBy: ${sortBy}`);
+      log.debug('Fetching tracks page', { page: pageParam, sortBy });
 
       return retryWithBackoff(async () => {
         const from = pageParam * pageSize;
@@ -93,11 +95,11 @@ export const useTracksInfinite = ({
         const { data, error, count } = await query;
 
         if (error) {
-          console.error('❌ Error fetching tracks:', error);
+          log.error('Error fetching tracks', { error });
           throw error;
         }
 
-        console.log(`✅ Fetched ${data?.length || 0} tracks (page ${pageParam})`);
+        log.debug('Fetched tracks', { count: data?.length, page: pageParam });
 
         const trackIds = data?.map(t => t.id) || [];
 

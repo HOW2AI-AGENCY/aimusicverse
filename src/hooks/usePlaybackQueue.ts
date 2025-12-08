@@ -20,6 +20,9 @@ import { useCallback, useEffect } from 'react';
 import { usePlayerStore } from './usePlayerState';
 import { shuffleQueue } from '@/lib/player-utils';
 import type { Track } from '@/hooks/useTracksOptimized';
+import { logger } from '@/lib/logger';
+
+const log = logger.child({ module: 'PlaybackQueue' });
 
 // Storage keys for queue persistence
 const QUEUE_STORAGE_KEY = 'musicverse-playback-queue';
@@ -197,11 +200,11 @@ export function usePlaybackQueue() {
       }));
     } catch (error) {
       // Log but don't throw - storage issues shouldn't break playback
-      console.error('Failed to save queue to storage:', error);
+      log.error('Failed to save queue to storage', { error });
       
       // If quota exceeded, try clearing old data
       if (error instanceof Error && error.name === 'QuotaExceededError') {
-        console.warn('Storage quota exceeded - queue persistence disabled');
+        log.warn('Storage quota exceeded - queue persistence disabled');
       }
     }
   }, [queue, currentIndex, shuffle, repeat]);
@@ -244,13 +247,13 @@ export function usePlaybackQueue() {
             activeTrack: queue[safeIndex],
           });
           
-          console.log(`Restored queue with ${queue.length} tracks`);
+          log.info('Restored queue', { trackCount: queue.length });
         }
       }
     } catch (error) {
       // Parse or validation error - start with clean state
-      console.error('Failed to restore queue from storage:', error);
-      console.log('Starting with empty queue');
+      log.error('Failed to restore queue from storage', { error });
+      log.info('Starting with empty queue');
     }
   }, []);
 

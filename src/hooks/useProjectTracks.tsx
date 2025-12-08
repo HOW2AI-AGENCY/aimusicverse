@@ -3,6 +3,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
 import { useEffect } from 'react';
+import { logger } from '@/lib/logger';
+
+const log = logger.child({ module: 'ProjectTracks' });
 
 export interface LinkedTrack {
   id: string;
@@ -69,7 +72,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
   useEffect(() => {
     if (!projectId) return;
 
-    console.log('🔄 Setting up realtime subscription for project tracks:', projectId);
+    log.debug('Setting up realtime subscription for project tracks', { projectId });
 
     const channel = supabase
       .channel(`project-tracks-${projectId}`)
@@ -82,14 +85,14 @@ export const useProjectTracks = (projectId: string | undefined) => {
           filter: `project_id=eq.${projectId}`,
         },
         (payload) => {
-          console.log('📊 Project tracks change received:', payload);
+          log.debug('Project tracks change received', { event: payload.eventType });
           queryClient.invalidateQueries({ queryKey: ['project-tracks', projectId] });
         }
       )
       .subscribe();
 
     return () => {
-      console.log('🔌 Unsubscribing from project tracks realtime');
+      log.debug('Unsubscribing from project tracks realtime');
       supabase.removeChannel(channel);
     };
   }, [projectId, queryClient]);

@@ -22,6 +22,9 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrackCounts } from "@/hooks/useTrackCounts";
 import { TrackCard } from "@/components/TrackCard";
 import { LibraryFilterChips } from "@/components/library/LibraryFilterChips";
+import { logger } from "@/lib/logger";
+
+const log = logger.child({ module: 'Library' });
 
 type FilterOption = 'all' | 'vocals' | 'instrumental' | 'stems';
 
@@ -102,7 +105,7 @@ export default function Library() {
   // Refetch tracks when a generation completes (count decreases)
   useEffect(() => {
     if (prevGenerationsCount.current > 0 && activeGenerations.length < prevGenerationsCount.current) {
-      console.log('🔄 Generation completed, refetching tracks...');
+      log.info('Generation completed, refetching tracks');
       refetchTracks();
     }
     prevGenerationsCount.current = activeGenerations.length;
