@@ -1,0 +1,114 @@
+import { useEffect, useRef, useState } from 'react';
+import WaveSurfer from 'wavesurfer.js';
+import { Button } from '@/components/ui/button';
+import { Play, Pause, Loader2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+interface AudioWaveformPreviewProps {
+  audioUrl: string;
+  className?: string;
+}
+
+export const AudioWaveformPreview = ({ audioUrl, className }: AudioWaveformPreviewProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const wavesurferRef = useRef<WaveSurfer | null>(null);
+  const [isReady, setIsReady] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  useEffect(() => {
+    if (!containerRef.current || !audioUrl) return;
+
+    setIsLoading(true);
+    setIsReady(false);
+
+    const wavesurfer = WaveSurfer.create({
+      container: containerRef.current,
+      height: 48,
+      waveColor: 'hsl(var(--muted-foreground) / 0.4)',
+      progressColor: 'hsl(var(--primary))',
+      barWidth: 2,
+      barGap: 2,
+      barRadius: 2,
+      cursorWidth: 1,
+      cursorColor: 'hsl(var(--primary))',
+      normalize: true,
+      backend: 'WebAudio',
+      interact: true,
+      hideScrollbar: true,
+      fillParent: true,
+    });
+
+    wavesurferRef.current = wavesurfer;
+
+    wavesurfer.on('ready', () => {
+      setIsReady(true);
+      setIsLoading(false);
+      setDuration(wavesurfer.getDuration());
+    });
+
+    wavesurfer.on('error', (err) => {
+      console.error('Waveform error:', err);
+      setIsLoading(false);
+    });
+
+    wavesurfer.on('audioprocess', () => {
+      setCurrentTime(wavesurfer.getCurrentTime());
+    });
+
+    wavesurfer.on('play', () => setIsPlaying(true));
+    wavesurfer.on('pause', () => setIsPlaying(false));
+    wavesurfer.on('finish', () => setIsPlaying(false));
+
+    wavesurfer.load(audioUrl);
+
+    return () => {
+      wavesurfer.destroy();
+      wavesurferRef.current = null;
+    };
+  }, [audioUrl]);
+
+  const togglePlayPause = () => {
+    if (wavesurferRef.current) {
+      wavesurferRef.current.playPause();
+    }
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  return (
+    <div className={cn('rounded-lg bg-muted/30 p-3', className)}>
+      <div className="flex items-center gap-3">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 shrink-0"
+          onClick={togglePlayPause}
+          disabled={!isReady}
+        >
+          {isLoading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : isPlaying ? (
+            <Pause className="h-4 w-4" />
+          ) : (
+            <Play className="h-4 w-4" />
+          )}
+        </Button>
+        
+        <div className="flex-1 min-w-0">
+          <div ref={containerRef} className="w-full" />
+        </div>
+        
+        <div className="text-xs text-muted-foreground shrink-0 tabular-nums">
+          {formatTime(currentTime)} / {formatTime(duration)}
+        </div>
+      </div>
+    </div>
+  );
+};

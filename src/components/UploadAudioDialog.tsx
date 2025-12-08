@@ -17,6 +17,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/hooks/useAuth';
 import { Tables } from '@/integrations/supabase/types';
+import { AudioWaveformPreview } from '@/components/AudioWaveformPreview';
 
 interface PrefillData {
   title?: string | null;
@@ -45,6 +46,7 @@ export const UploadAudioDialog = ({
   const [loading, setLoading] = useState(false);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [audioDuration, setAudioDuration] = useState<number | null>(null);
+  const [audioPreviewUrl, setAudioPreviewUrl] = useState<string | null>(null);
   
   // Library selection
   const [libraryOpen, setLibraryOpen] = useState(false);
@@ -136,19 +138,31 @@ export const UploadAudioDialog = ({
       setTitle(file.name.replace(/\.[^/.]+$/, ''));
     }
 
+    // Create preview URL for waveform
+    const previewUrl = URL.createObjectURL(file);
+    setAudioPreviewUrl(previewUrl);
+
     // Get audio duration
     const audio = new Audio();
-    audio.src = URL.createObjectURL(file);
+    audio.src = previewUrl;
     audio.onloadedmetadata = () => {
       setAudioDuration(audio.duration);
       if (mode === 'extend') {
         setContinueAt(Math.floor(audio.duration * 0.8));
       }
-      URL.revokeObjectURL(audio.src);
     };
 
     toast.success('Аудио загружено');
   };
+
+  // Cleanup preview URL on unmount or file change
+  useEffect(() => {
+    return () => {
+      if (audioPreviewUrl) {
+        URL.revokeObjectURL(audioPreviewUrl);
+      }
+    };
+  }, [audioPreviewUrl]);
 
   const handleSubmit = async () => {
     if (!audioFile) {
@@ -254,8 +268,12 @@ export const UploadAudioDialog = ({
   };
 
   const resetForm = () => {
+    if (audioPreviewUrl) {
+      URL.revokeObjectURL(audioPreviewUrl);
+    }
     setAudioFile(null);
     setAudioDuration(null);
+    setAudioPreviewUrl(null);
     setPrompt('');
     setStyle('');
     setTitle('');
@@ -306,37 +324,48 @@ export const UploadAudioDialog = ({
               <Label>Аудиофайл</Label>
               <div className="mt-2 space-y-2">
                 {audioFile ? (
-                  <div className="p-4 rounded-lg glass border border-primary/20 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      {selectedTrack?.cover_url || selectedTrack?.local_cover_url ? (
-                        <img 
-                          src={selectedTrack.local_cover_url || selectedTrack.cover_url || ''} 
-                          alt="" 
-                          className="w-10 h-10 rounded object-cover"
-                        />
-                      ) : (
-                        <Music className="w-5 h-5 text-primary" />
-                      )}
-                      <div>
-                        <p className="font-medium line-clamp-1">{selectedTrack?.title || audioFile.name}</p>
-                        {audioDuration && (
-                          <p className="text-xs text-muted-foreground">
-                            {Math.floor(audioDuration / 60)}:{String(Math.floor(audioDuration % 60)).padStart(2, '0')}
-                          </p>
+                  <div className="space-y-3">
+                    <div className="p-3 rounded-lg glass border border-primary/20 flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        {selectedTrack?.cover_url || selectedTrack?.local_cover_url ? (
+                          <img 
+                            src={selectedTrack.local_cover_url || selectedTrack.cover_url || ''} 
+                            alt="" 
+                            className="w-10 h-10 rounded object-cover"
+                          />
+                        ) : (
+                          <Music className="w-5 h-5 text-primary" />
                         )}
+                        <div>
+                          <p className="font-medium line-clamp-1 text-sm">{selectedTrack?.title || audioFile.name}</p>
+                          {audioDuration && (
+                            <p className="text-xs text-muted-foreground">
+                              {Math.floor(audioDuration / 60)}:{String(Math.floor(audioDuration % 60)).padStart(2, '0')}
+                            </p>
+                          )}
+                        </div>
                       </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          if (audioPreviewUrl) {
+                            URL.revokeObjectURL(audioPreviewUrl);
+                          }
+                          setAudioFile(null);
+                          setAudioDuration(null);
+                          setAudioPreviewUrl(null);
+                          setSelectedTrack(null);
+                        }}
+                      >
+                        Удалить
+                      </Button>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        setAudioFile(null);
-                        setAudioDuration(null);
-                        setSelectedTrack(null);
-                      }}
-                    >
-                      Удалить
-                    </Button>
+                    
+                    {/* Waveform Preview */}
+                    {audioPreviewUrl && (
+                      <AudioWaveformPreview audioUrl={audioPreviewUrl} />
+                    )}
                   </div>
                 ) : (
                   <div className="flex gap-2">
