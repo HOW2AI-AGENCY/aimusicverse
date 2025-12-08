@@ -14,22 +14,23 @@ interface StemWaveformProps {
   onSeek?: (time: number) => void;
 }
 
+// HSL-based color map for design system consistency
 const colorMap: Record<string, { wave: string; progress: string }> = {
-  blue: { wave: 'rgba(59, 130, 246, 0.4)', progress: 'rgba(59, 130, 246, 0.8)' },
-  cyan: { wave: 'rgba(6, 182, 212, 0.4)', progress: 'rgba(6, 182, 212, 0.8)' },
-  orange: { wave: 'rgba(249, 115, 22, 0.4)', progress: 'rgba(249, 115, 22, 0.8)' },
-  purple: { wave: 'rgba(168, 85, 247, 0.4)', progress: 'rgba(168, 85, 247, 0.8)' },
-  amber: { wave: 'rgba(245, 158, 11, 0.4)', progress: 'rgba(245, 158, 11, 0.8)' },
-  pink: { wave: 'rgba(236, 72, 153, 0.4)', progress: 'rgba(236, 72, 153, 0.8)' },
-  emerald: { wave: 'rgba(16, 185, 129, 0.4)', progress: 'rgba(16, 185, 129, 0.8)' },
-  yellow: { wave: 'rgba(234, 179, 8, 0.4)', progress: 'rgba(234, 179, 8, 0.8)' },
-  lime: { wave: 'rgba(132, 204, 22, 0.4)', progress: 'rgba(132, 204, 22, 0.8)' },
-  red: { wave: 'rgba(239, 68, 68, 0.4)', progress: 'rgba(239, 68, 68, 0.8)' },
-  violet: { wave: 'rgba(139, 92, 246, 0.4)', progress: 'rgba(139, 92, 246, 0.8)' },
-  teal: { wave: 'rgba(20, 184, 166, 0.4)', progress: 'rgba(20, 184, 166, 0.8)' },
-  sky: { wave: 'rgba(14, 165, 233, 0.4)', progress: 'rgba(14, 165, 233, 0.8)' },
-  green: { wave: 'rgba(34, 197, 94, 0.4)', progress: 'rgba(34, 197, 94, 0.8)' },
-  gray: { wave: 'rgba(156, 163, 175, 0.4)', progress: 'rgba(156, 163, 175, 0.8)' },
+  blue: { wave: 'hsl(207 90% 54% / 0.4)', progress: 'hsl(207 90% 54% / 0.8)' },
+  cyan: { wave: 'hsl(188 80% 43% / 0.4)', progress: 'hsl(188 80% 43% / 0.8)' },
+  orange: { wave: 'hsl(25 95% 53% / 0.4)', progress: 'hsl(25 95% 53% / 0.8)' },
+  purple: { wave: 'hsl(270 70% 65% / 0.4)', progress: 'hsl(270 70% 65% / 0.8)' },
+  amber: { wave: 'hsl(38 95% 50% / 0.4)', progress: 'hsl(38 95% 50% / 0.8)' },
+  pink: { wave: 'hsl(330 75% 60% / 0.4)', progress: 'hsl(330 75% 60% / 0.8)' },
+  emerald: { wave: 'hsl(160 70% 40% / 0.4)', progress: 'hsl(160 70% 40% / 0.8)' },
+  yellow: { wave: 'hsl(48 95% 48% / 0.4)', progress: 'hsl(48 95% 48% / 0.8)' },
+  lime: { wave: 'hsl(84 80% 44% / 0.4)', progress: 'hsl(84 80% 44% / 0.8)' },
+  red: { wave: 'hsl(0 72% 51% / 0.4)', progress: 'hsl(0 72% 51% / 0.8)' },
+  violet: { wave: 'hsl(250 80% 60% / 0.4)', progress: 'hsl(250 80% 60% / 0.8)' },
+  teal: { wave: 'hsl(175 70% 40% / 0.4)', progress: 'hsl(175 70% 40% / 0.8)' },
+  sky: { wave: 'hsl(200 90% 48% / 0.4)', progress: 'hsl(200 90% 48% / 0.8)' },
+  green: { wave: 'hsl(145 65% 45% / 0.4)', progress: 'hsl(145 65% 45% / 0.8)' },
+  gray: { wave: 'hsl(220 10% 55% / 0.4)', progress: 'hsl(220 10% 55% / 0.8)' },
 };
 
 export const StemWaveform = memo(({
@@ -110,8 +111,8 @@ export const StemWaveform = memo(({
   useEffect(() => {
     if (wavesurferRef.current && isReady) {
       wavesurferRef.current.setOptions({
-        waveColor: isMuted ? 'rgba(100, 100, 100, 0.2)' : colors.wave,
-        progressColor: isMuted ? 'rgba(100, 100, 100, 0.4)' : colors.progress,
+        waveColor: isMuted ? 'hsl(220 10% 40% / 0.2)' : colors.wave,
+        progressColor: isMuted ? 'hsl(220 10% 40% / 0.4)' : colors.progress,
       });
     }
   }, [isMuted, colors, isReady]);
