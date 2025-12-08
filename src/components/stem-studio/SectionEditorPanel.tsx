@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { 
   X, Wand2, Loader2, FileText, ChevronDown, 
   Music, AlertTriangle, Sparkles, RotateCcw
@@ -14,6 +14,48 @@ import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useReplaceSectionMutation } from '@/hooks/useReplaceSectionMutation';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 import { cn } from '@/lib/utils';
+
+// Animation variants
+const containerVariants: Variants = {
+  hidden: { height: 0, opacity: 0 },
+  visible: { 
+    height: 'auto', 
+    opacity: 1,
+    transition: { 
+      height: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+      opacity: { duration: 0.2 },
+      staggerChildren: 0.05,
+      delayChildren: 0.1 
+    }
+  },
+  exit: { 
+    height: 0, 
+    opacity: 0,
+    transition: { 
+      height: { duration: 0.2 },
+      opacity: { duration: 0.15 }
+    }
+  }
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { type: 'spring', stiffness: 300, damping: 24 }
+  }
+};
+
+const presetVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    transition: { type: 'spring', stiffness: 400, damping: 20 }
+  },
+  tap: { scale: 0.95 }
+};
 
 interface SectionEditorPanelProps {
   trackId: string;
@@ -110,27 +152,41 @@ export function SectionEditorPanel({
   if (!customRange && !selectedSection) return null;
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       <motion.div
-        initial={{ height: 0, opacity: 0 }}
-        animate={{ height: 'auto', opacity: 1 }}
-        exit={{ height: 0, opacity: 0 }}
+        key="section-editor"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
         className="border-b border-primary/30 bg-gradient-to-r from-primary/5 via-background to-primary/5 overflow-hidden"
       >
         <div className="px-4 sm:px-6 py-4 space-y-4">
           {/* Header */}
-          <div className="flex items-center justify-between">
+          <motion.div variants={itemVariants} className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+              <motion.div 
+                className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center"
+                animate={{ 
+                  boxShadow: ['0 0 0 0 hsl(var(--primary) / 0.3)', '0 0 0 8px hsl(var(--primary) / 0)', '0 0 0 0 hsl(var(--primary) / 0)'] 
+                }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+              >
                 <Sparkles className="w-4 h-4 text-primary" />
-              </div>
+              </motion.div>
               <div>
                 <h3 className="font-semibold text-sm flex items-center gap-2">
                   Редактирование секции
                   {selectedSection && (
-                    <Badge variant="secondary" className="text-xs">
-                      {selectedSection.label}
-                    </Badge>
+                    <motion.span
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                    >
+                      <Badge variant="secondary" className="text-xs">
+                        {selectedSection.label}
+                      </Badge>
+                    </motion.span>
                   )}
                 </h3>
                 <p className="text-xs text-muted-foreground">
@@ -138,41 +194,62 @@ export function SectionEditorPanel({
                 </p>
               </div>
             </div>
-            <Button variant="ghost" size="icon" onClick={handleClose} className="h-8 w-8">
-              <X className="w-4 h-4" />
-            </Button>
-          </div>
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button variant="ghost" size="icon" onClick={handleClose} className="h-8 w-8">
+                <X className="w-4 h-4" />
+              </Button>
+            </motion.div>
+          </motion.div>
 
           {/* Validation Warning */}
-          {!isValid && (
-            <div className="flex items-start gap-2 p-2 bg-destructive/10 border border-destructive/30 rounded-lg text-xs">
-              <AlertTriangle className="w-4 h-4 text-destructive flex-shrink-0" />
-              <div>
-                <p className="font-medium text-destructive">Секция слишком длинная</p>
-                <p className="text-muted-foreground">
-                  Максимум: {formatTime(maxDuration)} (50% трека)
-                </p>
-              </div>
-            </div>
-          )}
+          <AnimatePresence>
+            {!isValid && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0, y: -10 }}
+                animate={{ opacity: 1, height: 'auto', y: 0 }}
+                exit={{ opacity: 0, height: 0, y: -10 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                className="flex items-start gap-2 p-2 bg-destructive/10 border border-destructive/30 rounded-lg text-xs overflow-hidden"
+              >
+                <motion.div
+                  animate={{ rotate: [0, -10, 10, -10, 0] }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  <AlertTriangle className="w-4 h-4 text-destructive flex-shrink-0" />
+                </motion.div>
+                <div>
+                  <p className="font-medium text-destructive">Секция слишком длинная</p>
+                  <p className="text-muted-foreground">
+                    Максимум: {formatTime(maxDuration)} (50% трека)
+                  </p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Quick Presets */}
-          <div className="flex flex-wrap gap-2">
-            {PROMPT_PRESETS.map((preset) => (
-              <Button
+          <motion.div variants={itemVariants} className="flex flex-wrap gap-2">
+            {PROMPT_PRESETS.map((preset, idx) => (
+              <motion.div
                 key={preset.label}
-                variant="outline"
-                size="sm"
-                className="h-7 text-xs"
-                onClick={() => handlePresetClick(preset.prompt)}
+                variants={presetVariants}
+                whileTap="tap"
+                custom={idx}
               >
-                {preset.label}
-              </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 text-xs transition-colors hover:bg-primary/10 hover:border-primary/50"
+                  onClick={() => handlePresetClick(preset.prompt)}
+                >
+                  {preset.label}
+                </Button>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Prompt Input */}
-          <div className="space-y-2">
+          <motion.div variants={itemVariants} className="space-y-2">
             <Label htmlFor="prompt" className="text-xs">
               Описание новой секции
             </Label>
@@ -181,33 +258,46 @@ export function SectionEditorPanel({
               placeholder="Опишите стиль... Например: более энергичный, с электро-гитарой..."
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              className="min-h-[60px] resize-none text-sm"
+              className="min-h-[60px] resize-none text-sm transition-shadow focus:shadow-[0_0_0_2px_hsl(var(--primary)/0.2)]"
             />
-          </div>
+          </motion.div>
 
           {/* Collapsible Lyrics Editor */}
-          <Collapsible open={showLyricsEditor} onOpenChange={setShowLyricsEditor}>
-            <CollapsibleTrigger asChild>
-              <Button variant="ghost" size="sm" className="w-full justify-between h-8 text-xs">
-                <span className="flex items-center gap-2">
-                  <FileText className="w-3 h-3" />
-                  Изменить текст секции
-                </span>
-                <ChevronDown className={cn("w-3 h-3 transition-transform", showLyricsEditor && "rotate-180")} />
-              </Button>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="pt-2">
-              <Textarea
-                placeholder="Новый текст для секции..."
-                value={editedLyrics}
-                onChange={(e) => setEditedLyrics(e.target.value)}
-                className="min-h-[80px] resize-none text-sm font-mono"
-              />
-            </CollapsibleContent>
-          </Collapsible>
+          <motion.div variants={itemVariants}>
+            <Collapsible open={showLyricsEditor} onOpenChange={setShowLyricsEditor}>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" size="sm" className="w-full justify-between h-8 text-xs group">
+                  <span className="flex items-center gap-2">
+                    <FileText className="w-3 h-3" />
+                    Изменить текст секции
+                  </span>
+                  <motion.span
+                    animate={{ rotate: showLyricsEditor ? 180 : 0 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  >
+                    <ChevronDown className="w-3 h-3" />
+                  </motion.span>
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="pt-2">
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Textarea
+                    placeholder="Новый текст для секции..."
+                    value={editedLyrics}
+                    onChange={(e) => setEditedLyrics(e.target.value)}
+                    className="min-h-[80px] resize-none text-sm font-mono"
+                  />
+                </motion.div>
+              </CollapsibleContent>
+            </Collapsible>
+          </motion.div>
 
           {/* Tags */}
-          <div className="space-y-1.5">
+          <motion.div variants={itemVariants} className="space-y-1.5">
             <Label htmlFor="tags" className="text-xs">Стиль музыки</Label>
             <Input
               id="tags"
@@ -216,38 +306,56 @@ export function SectionEditorPanel({
               onChange={(e) => setTags(e.target.value)}
               className="h-8 text-sm"
             />
-          </div>
+          </motion.div>
 
           {/* Actions */}
-          <div className="flex items-center gap-2 pt-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleClose}
-              disabled={replaceMutation.isPending}
-              className="h-9"
+          <motion.div variants={itemVariants} className="flex items-center gap-2 pt-2">
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleClose}
+                disabled={replaceMutation.isPending}
+                className="h-9"
+              >
+                <RotateCcw className="w-4 h-4 mr-1" />
+                Отмена
+              </Button>
+            </motion.div>
+            <motion.div 
+              className="flex-1"
+              whileHover={{ scale: 1.02 }} 
+              whileTap={{ scale: 0.98 }}
             >
-              <RotateCcw className="w-4 h-4 mr-1" />
-              Отмена
-            </Button>
-            <Button
-              onClick={handleReplace}
-              disabled={!isValid || replaceMutation.isPending}
-              className="flex-1 h-9 gap-2"
-            >
-              {replaceMutation.isPending ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Генерация...
-                </>
-              ) : (
-                <>
-                  <Wand2 className="w-4 h-4" />
-                  Заменить секцию
-                </>
-              )}
-            </Button>
-          </div>
+              <Button
+                onClick={handleReplace}
+                disabled={!isValid || replaceMutation.isPending}
+                className="w-full h-9 gap-2"
+              >
+                {replaceMutation.isPending ? (
+                  <>
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                    >
+                      <Loader2 className="w-4 h-4" />
+                    </motion.div>
+                    Генерация...
+                  </>
+                ) : (
+                  <>
+                    <motion.div
+                      animate={{ rotate: [0, 15, -15, 0] }}
+                      transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 2 }}
+                    >
+                      <Wand2 className="w-4 h-4" />
+                    </motion.div>
+                    Заменить секцию
+                  </>
+                )}
+              </Button>
+            </motion.div>
+          </motion.div>
         </div>
       </motion.div>
     </AnimatePresence>
