@@ -307,7 +307,7 @@ export default function Settings() {
                       </p>
                     </div>
                     <Switch
-                      checked={(settings as any)?.notify_likes ?? true}
+                      checked={settings?.notify_likes ?? true}
                       onCheckedChange={(v) => handleNotificationToggle('notify_likes', v)}
                       disabled={isUpdating}
                     />
@@ -323,7 +323,7 @@ export default function Settings() {
                       </p>
                     </div>
                     <Switch
-                      checked={(settings as any)?.notify_achievements ?? true}
+                      checked={settings?.notify_achievements ?? true}
                       onCheckedChange={(v) => handleNotificationToggle('notify_achievements', v)}
                       disabled={isUpdating}
                     />
@@ -339,7 +339,7 @@ export default function Settings() {
                       </p>
                     </div>
                     <Switch
-                      checked={(settings as any)?.notify_daily_reminder ?? false}
+                      checked={settings?.notify_daily_reminder ?? false}
                       onCheckedChange={(v) => handleNotificationToggle('notify_daily_reminder', v)}
                       disabled={isUpdating}
                     />
