@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { GripVertical, AlertCircle, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { DetectedSection } from '@/hooks/useSectionDetection';
 
 interface SectionSelectorProps {
   duration: number;
@@ -11,7 +12,21 @@ interface SectionSelectorProps {
   initialStart?: number;
   initialEnd?: number;
   maxSectionPercent?: number;
+  detectedSections?: DetectedSection[];
+  onSectionClick?: (section: DetectedSection, index: number) => void;
 }
+
+// Section type colors for visualization
+const SECTION_COLORS: Record<string, { bg: string; border: string; label: string }> = {
+  'verse': { bg: 'bg-blue-500/40', border: 'border-blue-500', label: 'К' },
+  'chorus': { bg: 'bg-purple-500/40', border: 'border-purple-500', label: 'П' },
+  'bridge': { bg: 'bg-amber-500/40', border: 'border-amber-500', label: 'Б' },
+  'intro': { bg: 'bg-green-500/40', border: 'border-green-500', label: 'И' },
+  'outro': { bg: 'bg-rose-500/40', border: 'border-rose-500', label: 'А' },
+  'pre-chorus': { bg: 'bg-cyan-500/40', border: 'border-cyan-500', label: 'ПП' },
+  'hook': { bg: 'bg-orange-500/40', border: 'border-orange-500', label: 'Х' },
+  'unknown': { bg: 'bg-muted/60', border: 'border-muted-foreground', label: '?' },
+};
 
 export function SectionSelector({
   duration,
@@ -21,15 +36,24 @@ export function SectionSelector({
   initialStart,
   initialEnd,
   maxSectionPercent = 50,
+  detectedSections = [],
+  onSectionClick,
 }: SectionSelectorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [startTime, setStartTime] = useState(initialStart ?? duration * 0.2);
   const [endTime, setEndTime] = useState(initialEnd ?? duration * 0.4);
   const [isDragging, setIsDragging] = useState<'start' | 'end' | null>(null);
+  const [hoveredSection, setHoveredSection] = useState<number | null>(null);
 
   const maxDuration = (duration * maxSectionPercent) / 100;
   const sectionDuration = endTime - startTime;
   const isValid = sectionDuration <= maxDuration && sectionDuration > 0;
+
+  // Sync with external initialStart/initialEnd changes
+  useEffect(() => {
+    if (initialStart !== undefined) setStartTime(initialStart);
+    if (initialEnd !== undefined) setEndTime(initialEnd);
+  }, [initialStart, initialEnd]);
 
   // Update parent when selection changes
   useEffect(() => {
@@ -127,7 +151,7 @@ export function SectionSelector({
       {/* Timeline */}
       <div 
         ref={containerRef}
-        className="relative h-16 bg-muted/50 rounded-lg overflow-hidden cursor-pointer"
+        className="relative h-20 bg-muted/50 rounded-lg overflow-hidden cursor-pointer"
         onClick={(e) => {
           if (isDragging) return;
           const rect = containerRef.current?.getBoundingClientRect();
@@ -146,6 +170,56 @@ export function SectionSelector({
           ))}
         </div>
 
+        {/* Detected Sections Visualization */}
+        {detectedSections.length > 0 && (
+          <div className="absolute top-0 left-0 right-0 h-6">
+            {detectedSections.map((section, idx) => {
+              const leftPercent = (section.startTime / duration) * 100;
+              const widthPercent = ((section.endTime - section.startTime) / duration) * 100;
+              const colors = SECTION_COLORS[section.type] || SECTION_COLORS.unknown;
+              const isHovered = hoveredSection === idx;
+
+              return (
+                <motion.div
+                  key={idx}
+                  className={cn(
+                    "absolute top-0 h-full border-b-2 cursor-pointer transition-all",
+                    colors.bg,
+                    colors.border,
+                    isHovered && "brightness-125 z-10"
+                  )}
+                  style={{
+                    left: `${leftPercent}%`,
+                    width: `${widthPercent}%`,
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSectionClick?.(section, idx);
+                  }}
+                  onMouseEnter={() => setHoveredSection(idx)}
+                  onMouseLeave={() => setHoveredSection(null)}
+                  whileHover={{ y: -1 }}
+                >
+                  <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-foreground/80 truncate px-1">
+                    {section.label}
+                  </span>
+                  
+                  {/* Tooltip on hover */}
+                  {isHovered && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-popover border rounded shadow-lg text-xs whitespace-nowrap z-50"
+                    >
+                      {section.label} ({formatTime(section.startTime)} - {formatTime(section.endTime)})
+                    </motion.div>
+                  )}
+                </motion.div>
+              );
+            })}
+          </div>
+        )}
+
         {/* Time markers */}
         <div className="absolute bottom-0 left-0 right-0 flex justify-between px-1 py-0.5 text-[10px] text-muted-foreground font-mono">
           <span>0:00</span>
@@ -156,7 +230,8 @@ export function SectionSelector({
         {/* Selected Region */}
         <motion.div
           className={cn(
-            "absolute top-0 bottom-6 rounded",
+            "absolute rounded",
+            detectedSections.length > 0 ? "top-6 bottom-6" : "top-0 bottom-6",
             isValid 
               ? "bg-primary/30 border-y-2 border-primary" 
               : "bg-destructive/30 border-y-2 border-destructive"
@@ -172,9 +247,10 @@ export function SectionSelector({
         {/* Start Handle */}
         <motion.div
           className={cn(
-            "absolute top-0 bottom-6 w-3 cursor-ew-resize flex items-center justify-center z-10",
+            "absolute w-3 cursor-ew-resize flex items-center justify-center z-10",
             "bg-primary rounded-l border-2 border-primary-foreground shadow-lg",
-            isDragging === 'start' && "ring-2 ring-primary ring-offset-2"
+            isDragging === 'start' && "ring-2 ring-primary ring-offset-2",
+            detectedSections.length > 0 ? "top-6 bottom-6" : "top-0 bottom-6"
           )}
           style={{ left: `calc(${startPercent}% - 6px)` }}
           onMouseDown={handleDragStart('start')}
@@ -188,9 +264,10 @@ export function SectionSelector({
         {/* End Handle */}
         <motion.div
           className={cn(
-            "absolute top-0 bottom-6 w-3 cursor-ew-resize flex items-center justify-center z-10",
+            "absolute w-3 cursor-ew-resize flex items-center justify-center z-10",
             "bg-primary rounded-r border-2 border-primary-foreground shadow-lg",
-            isDragging === 'end' && "ring-2 ring-primary ring-offset-2"
+            isDragging === 'end' && "ring-2 ring-primary ring-offset-2",
+            detectedSections.length > 0 ? "top-6 bottom-6" : "top-0 bottom-6"
           )}
           style={{ left: `calc(${endPercent}% - 6px)` }}
           onMouseDown={handleDragStart('end')}
@@ -209,6 +286,31 @@ export function SectionSelector({
           animate={{ left: `${currentPercent}%` }}
         />
       </div>
+
+      {/* Section Legend */}
+      {detectedSections.length > 0 && (
+        <div className="flex flex-wrap gap-2 text-[10px]">
+          {Object.entries(SECTION_COLORS).slice(0, -1).map(([type, colors]) => {
+            const hasType = detectedSections.some(s => s.type === type);
+            if (!hasType) return null;
+            
+            return (
+              <div key={type} className="flex items-center gap-1">
+                <div className={cn("w-3 h-3 rounded", colors.bg, "border", colors.border)} />
+                <span className="text-muted-foreground capitalize">
+                  {type === 'verse' && 'Куплет'}
+                  {type === 'chorus' && 'Припев'}
+                  {type === 'bridge' && 'Бридж'}
+                  {type === 'intro' && 'Интро'}
+                  {type === 'outro' && 'Аутро'}
+                  {type === 'pre-chorus' && 'Пре-припев'}
+                  {type === 'hook' && 'Хук'}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
