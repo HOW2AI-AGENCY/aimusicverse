@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { 
   X, Wand2, Loader2, FileText, ChevronDown, 
-  AlertTriangle, Sparkles
+  AlertTriangle, Sparkles, Zap
 } from 'lucide-react';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
@@ -17,6 +17,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useReplaceSectionMutation } from '@/hooks/useReplaceSectionMutation';
 import { DetectedSection } from '@/hooks/useSectionDetection';
+import { SectionWaveformPreview } from './SectionWaveformPreview';
 import { cn } from '@/lib/utils';
 
 // Animation variants
@@ -320,12 +321,23 @@ export function SectionEditorMobile({
               </motion.div>
             )}
 
+            {/* Waveform Preview */}
+            <motion.div variants={itemVariants}>
+              <SectionWaveformPreview
+                duration={duration}
+                startTime={localStart}
+                endTime={localEnd}
+                isValid={isValid}
+                className="mb-4"
+              />
+            </motion.div>
+
             {/* Time Range Slider */}
             <motion.div variants={itemVariants} className="space-y-3">
               <div className="flex items-center justify-between">
                 <Label className="text-xs text-muted-foreground">Диапазон времени</Label>
                 <div className="flex items-center gap-2">
-                  <Badge variant={isValid ? 'secondary' : 'destructive'} className="text-xs">
+                  <Badge variant={isValid ? 'secondary' : 'destructive'} className="text-xs font-mono">
                     {formatTime(sectionDuration)} / {formatTime(maxDuration)}
                   </Badge>
                 </div>
@@ -344,11 +356,25 @@ export function SectionEditorMobile({
                 <div className="flex justify-between text-sm font-mono">
                   <div className="text-center">
                     <span className="text-xs text-muted-foreground block">Начало</span>
-                    <span className="font-semibold">{formatTime(localStart)}</span>
+                    <motion.span 
+                      key={localStart}
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="font-semibold"
+                    >
+                      {formatTime(localStart)}
+                    </motion.span>
                   </div>
                   <div className="text-center">
                     <span className="text-xs text-muted-foreground block">Конец</span>
-                    <span className="font-semibold">{formatTime(localEnd)}</span>
+                    <motion.span 
+                      key={localEnd}
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="font-semibold"
+                    >
+                      {formatTime(localEnd)}
+                    </motion.span>
                   </div>
                 </div>
               </div>

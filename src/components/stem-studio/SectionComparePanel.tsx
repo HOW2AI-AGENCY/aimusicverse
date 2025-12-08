@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Play, Pause, RotateCcw, Volume2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Play, Pause, RotateCcw, Volume2, VolumeX, Shuffle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
@@ -22,10 +23,11 @@ export function SectionComparePanel({
   originalLabel = 'Оригинал',
   replacedLabel = 'Новая версия',
 }: SectionCompareProps) {
-  const [activeVersion, setActiveVersion] = useState<'original' | 'replaced'>('original');
+  const [activeVersion, setActiveVersion] = useState<'original' | 'replaced'>('replaced');
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [volume, setVolume] = useState(0.8);
+  const [isMuted, setIsMuted] = useState(false);
   
   const originalRef = useRef<HTMLAudioElement | null>(null);
   const replacedRef = useRef<HTMLAudioElement | null>(null);
@@ -38,8 +40,9 @@ export function SectionComparePanel({
     const origAudio = new Audio(originalUrl);
     const replAudio = new Audio(replacedUrl);
     
-    origAudio.volume = volume;
-    replAudio.volume = volume;
+    const effectiveVolume = isMuted ? 0 : volume;
+    origAudio.volume = effectiveVolume;
+    replAudio.volume = effectiveVolume;
     
     originalRef.current = origAudio;
     replacedRef.current = replAudio;
@@ -48,12 +51,13 @@ export function SectionComparePanel({
       origAudio.pause();
       replAudio.pause();
     };
-  }, [originalUrl, replacedUrl, volume]);
+  }, [originalUrl, replacedUrl]);
 
   useEffect(() => {
-    if (originalRef.current) originalRef.current.volume = volume;
-    if (replacedRef.current) replacedRef.current.volume = volume;
-  }, [volume]);
+    const effectiveVolume = isMuted ? 0 : volume;
+    if (originalRef.current) originalRef.current.volume = effectiveVolume;
+    if (replacedRef.current) replacedRef.current.volume = effectiveVolume;
+  }, [volume, isMuted]);
 
   const updateProgress = useCallback(() => {
     if (activeAudio) {
@@ -96,7 +100,6 @@ export function SectionComparePanel({
   const switchVersion = (version: 'original' | 'replaced') => {
     if (version === activeVersion) return;
 
-    // Stop current audio
     if (activeAudio) {
       activeAudio.pause();
     }
@@ -121,45 +124,147 @@ export function SectionComparePanel({
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const progress = (currentTime / duration) * 100;
+
   return (
-    <div className="border rounded-lg p-4 bg-card/50 space-y-4">
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="rounded-xl border border-border/50 bg-gradient-to-br from-card/80 to-muted/30 p-4 space-y-4 backdrop-blur-sm"
+    >
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <h4 className="text-sm font-medium">A/B Сравнение секций</h4>
-        <Badge variant="outline" className="text-xs">
-          {formatTime(sectionStart)} - {formatTime(sectionEnd)}
+        <div className="flex items-center gap-2">
+          <motion.div
+            animate={{ rotate: isPlaying ? 360 : 0 }}
+            transition={{ duration: 2, repeat: isPlaying ? Infinity : 0, ease: 'linear' }}
+          >
+            <Shuffle className="w-4 h-4 text-primary" />
+          </motion.div>
+          <h4 className="text-sm font-medium">A/B Сравнение</h4>
+        </div>
+        <Badge variant="outline" className="text-xs font-mono bg-background/50">
+          {formatTime(sectionStart)} — {formatTime(sectionEnd)}
         </Badge>
       </div>
 
-      {/* Version Toggle */}
-      <div className="flex gap-2">
-        <Button
-          variant={activeVersion === 'original' ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => switchVersion('original')}
-          className={cn(
-            'flex-1 transition-all',
-            activeVersion === 'original' && 'ring-2 ring-primary/50'
-          )}
-        >
-          <span className="text-lg mr-2">A</span>
-          {originalLabel}
-        </Button>
-        <Button
-          variant={activeVersion === 'replaced' ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => switchVersion('replaced')}
-          className={cn(
-            'flex-1 transition-all',
-            activeVersion === 'replaced' && 'ring-2 ring-primary/50'
-          )}
-        >
-          <span className="text-lg mr-2">B</span>
-          {replacedLabel}
-        </Button>
+      {/* Version Toggle with visual indicator */}
+      <div className="relative">
+        <div className="grid grid-cols-2 gap-2">
+          <motion.button
+            onClick={() => switchVersion('original')}
+            className={cn(
+              'relative h-14 rounded-xl border-2 transition-all duration-200',
+              'flex items-center justify-center gap-2',
+              activeVersion === 'original'
+                ? 'border-muted-foreground/50 bg-muted/50 shadow-lg'
+                : 'border-border bg-card/50 hover:border-muted-foreground/30'
+            )}
+            whileTap={{ scale: 0.98 }}
+          >
+            <motion.div
+              className={cn(
+                'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold',
+                activeVersion === 'original' 
+                  ? 'bg-muted-foreground/20 text-foreground' 
+                  : 'bg-muted text-muted-foreground'
+              )}
+              animate={{ scale: activeVersion === 'original' ? 1.1 : 1 }}
+            >
+              A
+            </motion.div>
+            <span className={cn(
+              'text-sm font-medium',
+              activeVersion === 'original' ? 'text-foreground' : 'text-muted-foreground'
+            )}>
+              {originalLabel}
+            </span>
+            {activeVersion === 'original' && (
+              <motion.div
+                layoutId="versionIndicator"
+                className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-12 h-1 bg-muted-foreground rounded-full"
+              />
+            )}
+          </motion.button>
+
+          <motion.button
+            onClick={() => switchVersion('replaced')}
+            className={cn(
+              'relative h-14 rounded-xl border-2 transition-all duration-200',
+              'flex items-center justify-center gap-2',
+              activeVersion === 'replaced'
+                ? 'border-primary bg-primary/10 shadow-lg shadow-primary/20'
+                : 'border-border bg-card/50 hover:border-primary/30'
+            )}
+            whileTap={{ scale: 0.98 }}
+          >
+            <motion.div
+              className={cn(
+                'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold',
+                activeVersion === 'replaced' 
+                  ? 'bg-primary/20 text-primary' 
+                  : 'bg-muted text-muted-foreground'
+              )}
+              animate={{ scale: activeVersion === 'replaced' ? 1.1 : 1 }}
+            >
+              B
+            </motion.div>
+            <span className={cn(
+              'text-sm font-medium',
+              activeVersion === 'replaced' ? 'text-primary' : 'text-muted-foreground'
+            )}>
+              {replacedLabel}
+            </span>
+            {activeVersion === 'replaced' && (
+              <motion.div
+                layoutId="versionIndicator"
+                className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-12 h-1 bg-primary rounded-full"
+              />
+            )}
+          </motion.button>
+        </div>
       </div>
 
-      {/* Progress Bar */}
+      {/* Waveform-like Progress Bar */}
       <div className="space-y-2">
+        <div className="relative h-10 bg-muted/30 rounded-lg overflow-hidden">
+          {/* Waveform visualization placeholder */}
+          <div className="absolute inset-0 flex items-center justify-around px-1">
+            {Array.from({ length: 40 }).map((_, i) => (
+              <motion.div
+                key={i}
+                className={cn(
+                  'w-1 rounded-full',
+                  activeVersion === 'replaced' ? 'bg-primary/40' : 'bg-muted-foreground/40'
+                )}
+                style={{ height: `${20 + Math.sin(i * 0.5) * 15 + Math.random() * 10}%` }}
+                animate={isPlaying && (i / 40) * 100 <= progress ? {
+                  scaleY: [1, 1.3, 1],
+                  opacity: [0.4, 0.8, 0.4]
+                } : {}}
+                transition={{ duration: 0.3, delay: i * 0.02 }}
+              />
+            ))}
+          </div>
+          {/* Progress overlay */}
+          <motion.div
+            className={cn(
+              'absolute inset-y-0 left-0',
+              activeVersion === 'replaced' ? 'bg-primary/20' : 'bg-muted-foreground/20'
+            )}
+            style={{ width: `${progress}%` }}
+          />
+          {/* Playhead */}
+          <motion.div
+            className={cn(
+              'absolute top-0 bottom-0 w-0.5',
+              activeVersion === 'replaced' ? 'bg-primary' : 'bg-muted-foreground'
+            )}
+            style={{ left: `${progress}%` }}
+            animate={isPlaying ? { opacity: [1, 0.5, 1] } : { opacity: 1 }}
+            transition={{ duration: 0.5, repeat: Infinity }}
+          />
+        </div>
         <Slider
           value={[currentTime]}
           min={0}
@@ -173,7 +278,7 @@ export function SectionComparePanel({
           }}
           className="w-full"
         />
-        <div className="flex justify-between text-xs text-muted-foreground">
+        <div className="flex justify-between text-xs text-muted-foreground font-mono">
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
         </div>
@@ -181,40 +286,74 @@ export function SectionComparePanel({
 
       {/* Controls */}
       <div className="flex items-center gap-3">
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={restart}
-          className="h-9 w-9"
-        >
-          <RotateCcw className="w-4 h-4" />
-        </Button>
+        <motion.div whileTap={{ scale: 0.9 }}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={restart}
+            className="h-10 w-10 rounded-full"
+          >
+            <RotateCcw className="w-4 h-4" />
+          </Button>
+        </motion.div>
 
-        <Button
-          variant="default"
-          size="icon"
-          onClick={togglePlay}
-          className="h-10 w-10"
+        <motion.div
+          whileTap={{ scale: 0.95 }}
+          animate={isPlaying ? { 
+            boxShadow: `0 0 20px hsl(var(--${activeVersion === 'replaced' ? 'primary' : 'foreground'}) / 0.3)` 
+          } : {}}
         >
-          {isPlaying ? (
-            <Pause className="w-5 h-5" />
-          ) : (
-            <Play className="w-5 h-5 ml-0.5" />
-          )}
-        </Button>
+          <Button
+            variant="default"
+            size="icon"
+            onClick={togglePlay}
+            className={cn(
+              "h-12 w-12 rounded-full",
+              activeVersion === 'replaced' ? 'bg-primary hover:bg-primary/90' : ''
+            )}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={isPlaying ? 'pause' : 'play'}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0, opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                {isPlaying ? (
+                  <Pause className="w-5 h-5" />
+                ) : (
+                  <Play className="w-5 h-5 ml-0.5" />
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </Button>
+        </motion.div>
 
         <div className="flex items-center gap-2 flex-1">
-          <Volume2 className="w-4 h-4 text-muted-foreground" />
+          <motion.div whileTap={{ scale: 0.9 }}>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setIsMuted(!isMuted)}
+              className="h-10 w-10 rounded-full"
+            >
+              {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+            </Button>
+          </motion.div>
           <Slider
-            value={[volume]}
+            value={[isMuted ? 0 : volume]}
             min={0}
             max={1}
             step={0.01}
-            onValueChange={(v) => setVolume(v[0])}
+            onValueChange={(v) => {
+              setVolume(v[0]);
+              if (v[0] > 0 && isMuted) setIsMuted(false);
+            }}
             className="flex-1 max-w-[100px]"
           />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
