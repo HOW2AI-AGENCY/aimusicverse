@@ -1,4 +1,4 @@
-import { Sparkles, Library, FolderOpen, Users, ListMusic, BookOpen, Upload, Mic2 } from 'lucide-react';
+import { Sparkles, Library, FolderOpen, ListMusic, Upload } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion } from 'framer-motion';
@@ -14,9 +14,6 @@ const quickActions = [
   { icon: Library, label: 'Библиотека', path: '/library', gradient: 'from-library/20 to-library/5' },
   { icon: FolderOpen, label: 'Проекты', path: '/projects', gradient: 'from-projects/20 to-projects/5' },
   { icon: ListMusic, label: 'Плейлисты', path: '/playlists', gradient: 'from-primary/20 to-primary/5' },
-  { icon: Users, label: 'Артисты', path: '/actors', gradient: 'from-community/20 to-community/5' },
-  { icon: Users, label: 'Сообщество', path: '/community', gradient: 'from-generate/20 to-generate/5' },
-  { icon: BookOpen, label: 'Блог', path: '/blog', gradient: 'from-primary/20 to-primary/5' },
 ] as const;
 
 export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
@@ -65,7 +62,7 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-generate/20 rounded-full blur-2xl" />
       </motion.button>
 
-      {/* Secondary Actions Grid with stagger animation */}
+      {/* Secondary Actions Grid - simplified to 4 items */}
       <motion.div
         className="grid grid-cols-4 gap-2"
         initial="hidden"
@@ -74,7 +71,7 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
           visible: { transition: { staggerChildren: 0.04 } }
         }}
       >
-        {quickActions.slice(0, 4).map((action) => (
+        {quickActions.map((action) => (
           <motion.button
             key={action.path}
             onClick={() => handleAction(() => navigate(action.path))}
@@ -97,47 +94,24 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
             </span>
           </motion.button>
         ))}
-      </motion.div>
-
-      {/* Tertiary Actions Row */}
-      <motion.div
-        className="grid grid-cols-3 gap-2"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-      >
-        {quickActions.slice(4).map((action) => (
-          <motion.button
-            key={action.path}
-            onClick={() => handleAction(() => navigate(action.path))}
-            className={cn(
-              "group flex items-center justify-center gap-2 py-2.5 rounded-xl",
-              "bg-card/30 border border-border/30",
-              "hover:border-primary/30 hover:bg-primary/5",
-              "active:scale-[0.97] transition-all duration-200 touch-manipulation"
-            )}
-            whileHover={{ y: -1 }}
-          >
-            <action.icon className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-            <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-              {action.label}
-            </span>
-          </motion.button>
-        ))}
 
         {/* Upload Audio Button with NEW badge */}
         <motion.button
           onClick={() => handleAction(() => setUploadDialogOpen(true))}
           className={cn(
-            "group relative flex items-center justify-center gap-2 py-2.5 rounded-xl",
-            "bg-gradient-to-r from-generate/10 to-generate/5 border border-generate/30",
+            "group relative flex flex-col items-center justify-center gap-1 py-3 rounded-xl",
+            "bg-gradient-to-b from-generate/10 to-generate/5 border border-generate/30",
             "hover:border-generate/50 hover:from-generate/15 hover:to-generate/10",
-            "active:scale-[0.97] transition-all duration-200 touch-manipulation"
+            "active:scale-[0.96] transition-all duration-200 touch-manipulation"
           )}
-          whileHover={{ y: -1 }}
+          variants={{
+            hidden: { opacity: 0, y: 15, scale: 0.9 },
+            visible: { opacity: 1, y: 0, scale: 1 }
+          }}
+          whileHover={{ y: -2 }}
         >
-          <Upload className="w-4 h-4 text-generate" />
-          <span className="text-xs font-medium text-generate">Аудио</span>
+          <Upload className="w-5 h-5 text-generate" />
+          <span className="text-[10px] font-medium text-generate">Аудио</span>
           
           {/* NEW Badge */}
           <motion.span 

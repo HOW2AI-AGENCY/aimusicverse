@@ -2,7 +2,7 @@ import { lazy, Suspense, memo } from "react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
 import { TelegramProvider, DeepLinkHandler } from "@/contexts/TelegramContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -23,7 +23,7 @@ const Library = lazy(() => import("./pages/Library"));
 const Projects = lazy(() => import("./pages/Projects"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
 const Artists = lazy(() => import("./pages/Artists"));
-const Actors = lazy(() => import("./pages/Actors"));
+// Actors removed - unified with Artists page
 const Playlists = lazy(() => import("./pages/Playlists"));
 const Blog = lazy(() => import("./pages/Blog"));
 const Community = lazy(() => import("./pages/Community"));
@@ -71,7 +71,7 @@ const App = () => (
                   <Route path="/projects" element={<Projects />} />
                   <Route path="/projects/:id" element={<ProjectDetail />} />
                 <Route path="/artists" element={<Artists />} />
-                <Route path="/actors" element={<Actors />} />
+                <Route path="/actors" element={<Navigate to="/artists?tab=community" replace />} />
                 <Route path="/playlists" element={<Playlists />} />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/community" element={<Community />} />
