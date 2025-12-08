@@ -21,6 +21,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { BroadcastPanel } from "@/components/admin/BroadcastPanel";
 import { HealthCheckPanel } from "@/components/admin/HealthCheckPanel";
 import { AlertHistoryPanel } from "@/components/admin/AlertHistoryPanel";
+import { AlertAnalyticsPanel } from "@/components/admin/AlertAnalyticsPanel";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -108,7 +109,8 @@ export default function AdminDashboard() {
         </TabsContent>
 
         {/* Alerts Tab */}
-        <TabsContent value="alerts" className="space-y-4">
+        <TabsContent value="alerts" className="space-y-6">
+          <AlertAnalyticsPanel />
           <AlertHistoryPanel />
         </TabsContent>
 
