@@ -17,30 +17,29 @@ export interface DetectedSection {
   words: AlignedWord[];
 }
 
-// Section tag patterns - English and Russian
-const SECTION_PATTERNS: Array<{ pattern: RegExp; type: DetectedSection['type'] }> = [
-  // English
-  { pattern: /\[(verse|куплет)(?:\s*\d+)?\]/gi, type: 'verse' },
-  { pattern: /\[(chorus|припев)(?:\s*\d+)?\]/gi, type: 'chorus' },
-  { pattern: /\[(bridge|бридж)(?:\s*\d+)?\]/gi, type: 'bridge' },
-  { pattern: /\[(intro|интро)\]/gi, type: 'intro' },
-  { pattern: /\[(outro|аутро|концовка)\]/gi, type: 'outro' },
-  { pattern: /\[(pre-?chorus|пре-?припев)(?:\s*\d+)?\]/gi, type: 'pre-chorus' },
-  { pattern: /\[(hook|хук)(?:\s*\d+)?\]/gi, type: 'hook' },
-  // With parentheses
-  { pattern: /\((verse|куплет)(?:\s*\d+)?\)/gi, type: 'verse' },
-  { pattern: /\((chorus|припев)(?:\s*\d+)?\)/gi, type: 'chorus' },
-  { pattern: /\((bridge|бридж)(?:\s*\d+)?\)/gi, type: 'bridge' },
-];
+// Unified section tag pattern - matches [Tag], [Tag 1], (Tag), etc.
+const TAG_PATTERN = /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|концовка|пре-?припев|хук|instrumental|инструментал|solo|соло)(?:\s*\d+)?[\]\)]/i;
 
-// Master regex for any section tag
-const SECTION_TAG_REGEX = /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|концовка|пре-?припев|хук|instrumental|инструментал|solo|соло)(?:\s*\d+)?[\]\)]/gi;
+// Get section type from tag text
+function getTypeFromTag(tagText: string): DetectedSection['type'] {
+  const lower = tagText.toLowerCase();
+  
+  if (/verse|куплет/i.test(lower)) return 'verse';
+  if (/chorus|припев/i.test(lower)) return 'chorus';
+  if (/bridge|бридж/i.test(lower)) return 'bridge';
+  if (/intro|интро/i.test(lower)) return 'intro';
+  if (/outro|аутро|концовка/i.test(lower)) return 'outro';
+  if (/pre-?chorus|пре-?припев/i.test(lower)) return 'pre-chorus';
+  if (/hook|хук/i.test(lower)) return 'hook';
+  
+  return 'unknown';
+}
 
 interface ParsedSection {
   type: DetectedSection['type'];
-  originalTag: string;
+  tag: string;
   lyrics: string;
-  startIndex: number;
+  index: number;
 }
 
 // Parse sections from original lyrics text
@@ -48,126 +47,43 @@ function parseSectionsFromLyrics(lyrics: string): ParsedSection[] {
   if (!lyrics?.trim()) return [];
 
   const sections: ParsedSection[] = [];
-  const matches: Array<{ tag: string; index: number; type: DetectedSection['type'] }> = [];
-
-  // Find all section tags
+  
+  // Find all tag positions using global regex
+  const globalTagRegex = /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|концовка|пре-?припев|хук|instrumental|инструментал|solo|соло)(?:\s*\d+)?[\]\)]/gi;
+  
+  const tagMatches: Array<{ tag: string; index: number; endIndex: number }> = [];
   let match;
-  SECTION_TAG_REGEX.lastIndex = 0;
-  while ((match = SECTION_TAG_REGEX.exec(lyrics)) !== null) {
-    const tagContent = match[1].toLowerCase().replace(/\d+/g, '').trim();
-    let type: DetectedSection['type'] = 'unknown';
-
-    if (/verse|куплет/i.test(tagContent)) type = 'verse';
-    else if (/chorus|припев/i.test(tagContent)) type = 'chorus';
-    else if (/bridge|бридж/i.test(tagContent)) type = 'bridge';
-    else if (/intro|интро/i.test(tagContent)) type = 'intro';
-    else if (/outro|аутро|концовка/i.test(tagContent)) type = 'outro';
-    else if (/pre-?chorus|пре-?припев/i.test(tagContent)) type = 'pre-chorus';
-    else if (/hook|хук/i.test(tagContent)) type = 'hook';
-
-    matches.push({ tag: match[0], index: match.index, type });
+  
+  while ((match = globalTagRegex.exec(lyrics)) !== null) {
+    tagMatches.push({
+      tag: match[0],
+      index: match.index,
+      endIndex: match.index + match[0].length,
+    });
   }
 
-  if (matches.length === 0) return [];
+  if (tagMatches.length === 0) return [];
 
   // Extract text between tags
-  for (let i = 0; i < matches.length; i++) {
-    const current = matches[i];
-    const next = matches[i + 1];
-    const endIndex = next ? next.index : lyrics.length;
-    const startIndex = current.index + current.tag.length;
-
-    const sectionLyrics = lyrics.slice(startIndex, endIndex).trim();
+  for (let i = 0; i < tagMatches.length; i++) {
+    const current = tagMatches[i];
+    const next = tagMatches[i + 1];
+    
+    const textStart = current.endIndex;
+    const textEnd = next ? next.index : lyrics.length;
+    const sectionLyrics = lyrics.slice(textStart, textEnd).trim();
 
     if (sectionLyrics) {
       sections.push({
-        type: current.type,
-        originalTag: current.tag,
+        type: getTypeFromTag(current.tag),
+        tag: current.tag,
         lyrics: sectionLyrics,
-        startIndex: current.index,
+        index: i,
       });
     }
   }
 
   return sections;
-}
-
-// Normalize text for comparison
-function normalizeText(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[\[\]()]/g, '')
-    .replace(/[^\wа-яё\s]/gi, '')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-// Match section lyrics to aligned words
-function matchSectionToTimestamps(
-  sectionLyrics: string,
-  alignedWords: AlignedWord[],
-  searchStartIndex: number
-): { startTime: number; endTime: number; words: AlignedWord[]; nextSearchIndex: number } | null {
-  if (!alignedWords.length || !sectionLyrics) return null;
-
-  const normalizedSection = normalizeText(sectionLyrics);
-  const sectionWords = normalizedSection.split(/\s+/).filter(Boolean);
-
-  if (sectionWords.length === 0) return null;
-
-  // Find first word match (start from searchStartIndex for sequential matching)
-  let startWordIndex = -1;
-  const firstWord = sectionWords[0];
-
-  for (let i = searchStartIndex; i < alignedWords.length; i++) {
-    const normalizedAligned = normalizeText(alignedWords[i].word);
-    if (normalizedAligned.includes(firstWord) || firstWord.includes(normalizedAligned)) {
-      startWordIndex = i;
-      break;
-    }
-  }
-
-  if (startWordIndex === -1) {
-    // Fallback: search from beginning
-    for (let i = 0; i < searchStartIndex; i++) {
-      const normalizedAligned = normalizeText(alignedWords[i].word);
-      if (normalizedAligned.includes(firstWord) || firstWord.includes(normalizedAligned)) {
-        startWordIndex = i;
-        break;
-      }
-    }
-  }
-
-  if (startWordIndex === -1) return null;
-
-  // Find end word - match last few words of section
-  let endWordIndex = startWordIndex;
-  const lastWord = sectionWords[sectionWords.length - 1];
-
-  // Search for last word starting from startWordIndex
-  for (let i = startWordIndex; i < alignedWords.length; i++) {
-    const normalizedAligned = normalizeText(alignedWords[i].word);
-    
-    // Check if this could be the last word
-    if (normalizedAligned.includes(lastWord) || lastWord.includes(normalizedAligned)) {
-      endWordIndex = i;
-    }
-    
-    // Stop if we've gone too far (more than 3x the expected words)
-    if (i > startWordIndex + sectionWords.length * 3) break;
-  }
-
-  // Collect all words in range
-  const matchedWords = alignedWords.slice(startWordIndex, endWordIndex + 1);
-
-  if (matchedWords.length === 0) return null;
-
-  return {
-    startTime: matchedWords[0].startS,
-    endTime: matchedWords[matchedWords.length - 1].endS,
-    words: matchedWords,
-    nextSearchIndex: endWordIndex + 1,
-  };
 }
 
 // Get Russian label for section type
@@ -183,6 +99,99 @@ function getSectionLabel(type: DetectedSection['type'], counter: number): string
     'unknown': `Секция ${counter}`,
   };
   return labels[type];
+}
+
+// Normalize text for comparison
+function normalizeText(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[\[\]()]/g, '')
+    .replace(/[^\wа-яё\s]/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// Check if word is a section tag
+function isTagWord(word: string): boolean {
+  return TAG_PATTERN.test(word.trim());
+}
+
+// Filter out section tags from aligned words
+function filterTagWords(words: AlignedWord[]): AlignedWord[] {
+  return words.filter(w => !isTagWord(w.word));
+}
+
+// Match section lyrics to aligned words for timing
+function matchSectionToTimestamps(
+  sectionLyrics: string,
+  alignedWords: AlignedWord[],
+  searchStartIndex: number
+): { startTime: number; endTime: number; words: AlignedWord[]; nextSearchIndex: number } | null {
+  if (!alignedWords.length || !sectionLyrics) return null;
+
+  const normalizedSection = normalizeText(sectionLyrics);
+  const sectionWordList = normalizedSection.split(/\s+/).filter(Boolean);
+
+  if (sectionWordList.length === 0) return null;
+
+  const firstSectionWord = sectionWordList[0];
+  const lastSectionWord = sectionWordList[sectionWordList.length - 1];
+
+  // Find first word match
+  let startWordIndex = -1;
+  for (let i = searchStartIndex; i < alignedWords.length; i++) {
+    const normalizedAligned = normalizeText(alignedWords[i].word);
+    if (normalizedAligned === firstSectionWord || 
+        normalizedAligned.startsWith(firstSectionWord) || 
+        firstSectionWord.startsWith(normalizedAligned)) {
+      startWordIndex = i;
+      break;
+    }
+  }
+
+  // Fallback: search from beginning if not found after searchStartIndex
+  if (startWordIndex === -1) {
+    for (let i = 0; i < searchStartIndex && i < alignedWords.length; i++) {
+      const normalizedAligned = normalizeText(alignedWords[i].word);
+      if (normalizedAligned === firstSectionWord || 
+          normalizedAligned.startsWith(firstSectionWord) || 
+          firstSectionWord.startsWith(normalizedAligned)) {
+        startWordIndex = i;
+        break;
+      }
+    }
+  }
+
+  if (startWordIndex === -1) return null;
+
+  // Find end word - search for last word of section
+  let endWordIndex = startWordIndex;
+  const maxSearchLength = Math.min(alignedWords.length, startWordIndex + sectionWordList.length * 4);
+
+  for (let i = startWordIndex; i < maxSearchLength; i++) {
+    const normalizedAligned = normalizeText(alignedWords[i].word);
+    
+    if (normalizedAligned === lastSectionWord || 
+        normalizedAligned.endsWith(lastSectionWord) || 
+        lastSectionWord.endsWith(normalizedAligned)) {
+      endWordIndex = i;
+    }
+  }
+
+  // If we couldn't find the end word, estimate based on word count
+  if (endWordIndex === startWordIndex && sectionWordList.length > 1) {
+    endWordIndex = Math.min(alignedWords.length - 1, startWordIndex + sectionWordList.length - 1);
+  }
+
+  const matchedWords = alignedWords.slice(startWordIndex, endWordIndex + 1);
+  if (matchedWords.length === 0) return null;
+
+  return {
+    startTime: matchedWords[0].startS,
+    endTime: matchedWords[matchedWords.length - 1].endS,
+    words: matchedWords,
+    nextSearchIndex: endWordIndex + 1,
+  };
 }
 
 // Create sections based on time when no tags present
@@ -240,13 +249,12 @@ function createTimeBasedSections(words: AlignedWord[], duration: number): Detect
   return sections;
 }
 
-// Filter out section tags from aligned words
-function filterTagWords(words: AlignedWord[]): AlignedWord[] {
-  return words.filter(w => !SECTION_TAG_REGEX.test(w.word.trim()));
-}
-
 /**
  * Main hook - uses originalLyrics as single source of truth
+ * 
+ * @param originalLyrics - track.lyrics (source of section tags)
+ * @param alignedWords - timestamped words from API (source of timing)
+ * @param duration - total track duration
  */
 export function useSectionDetection(
   originalLyrics: string | null | undefined,
@@ -281,6 +289,19 @@ export function useSectionDetection(
             words: match.words,
           });
           searchIndex = match.nextSearchIndex;
+        } else {
+          // Even if we can't match timestamps, add the section with estimated timing
+          const estimatedStart = duration * (parsed.index / parsedSections.length);
+          const estimatedEnd = duration * ((parsed.index + 1) / parsedSections.length);
+          
+          sections.push({
+            type: parsed.type,
+            label: getSectionLabel(parsed.type, typeCounters[parsed.type]),
+            startTime: estimatedStart,
+            endTime: estimatedEnd,
+            lyrics: parsed.lyrics.replace(/\n/g, ' ').trim(),
+            words: [],
+          });
         }
       }
 
