@@ -18,6 +18,7 @@ import { MixPresetsMenu } from '@/components/stem-studio/MixPresetsMenu';
 import { StudioLyricsPanel } from '@/components/stem-studio/StudioLyricsPanel';
 import { ReplaceSectionDialog } from '@/components/stem-studio/ReplaceSectionDialog';
 import { StemStudioTutorial, useStemStudioTutorial } from '@/components/stem-studio/StemStudioTutorial';
+import { ReplacementHistoryPanel } from '@/components/stem-studio/ReplacementHistoryPanel';
 import { useStemStudioEngine } from '@/hooks/useStemStudioEngine';
 import { defaultStemEffects, StemEffects } from '@/hooks/useStemAudioEngine';
 import { toast } from 'sonner';
@@ -369,15 +370,18 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         <div className="flex items-center gap-2">
           {/* Replace Section Button */}
           {track.suno_id && track.suno_task_id && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setReplaceSectionOpen(true)}
-              className="h-9 gap-1.5"
-            >
-              <Scissors className="w-4 h-4" />
-              <span className="hidden sm:inline">Заменить</span>
-            </Button>
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setReplaceSectionOpen(true)}
+                className="h-9 gap-1.5"
+              >
+                <Scissors className="w-4 h-4" />
+                <span className="hidden sm:inline">Заменить</span>
+              </Button>
+              <ReplacementHistoryPanel trackId={trackId} trackAudioUrl={track.audio_url} />
+            </>
           )}
 
           {/* Effects Mode Toggle */}
