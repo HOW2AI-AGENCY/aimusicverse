@@ -251,14 +251,16 @@ export function ReplaceSectionDialog({
               <Label className="text-xs text-muted-foreground mb-2 block">
                 Выберите диапазон для замены
               </Label>
-              <SectionSelector
-                duration={duration}
-                currentTime={currentTime}
-                onSelectionChange={handleSelectionChange}
-                onSeek={onSeek}
-                initialStart={startTime}
-                initialEnd={endTime}
-              />
+            <SectionSelector
+              duration={duration}
+              currentTime={currentTime}
+              onSelectionChange={handleSelectionChange}
+              onSeek={onSeek}
+              initialStart={startTime}
+              initialEnd={endTime}
+              detectedSections={detectedSections}
+              onSectionClick={(section, idx) => handleSectionSelect(idx)}
+            />
             </div>
 
             {/* Selection Info */}
