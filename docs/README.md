@@ -19,6 +19,7 @@ Welcome to the MusicVerse AI documentation hub! This directory contains all proj
 | Document | Description |
 |----------|-------------|
 | [README.md](../README.md) | Main project README |
+| [**QUICK_REFERENCE.md**](./QUICK_REFERENCE.md) | ⚡ **Quick reference guide** |
 | [CONTRIBUTING.md](../CONTRIBUTING.md) | Contribution guidelines |
 | [DEVELOPMENT_WORKFLOW.md](../DEVELOPMENT_WORKFLOW.md) | Development process |
 | [PROJECT_MANAGEMENT.md](../PROJECT_MANAGEMENT.md) | Project management guide |
@@ -97,8 +98,13 @@ Based on [Comprehensive Audit (Dec 3, 2025)](./COMPREHENSIVE_AUDIT_2025-12-03.md
 
 ### 🏗️ Architecture & Infrastructure
 
+- [**ARCHITECTURE_DIAGRAMS.md**](./ARCHITECTURE_DIAGRAMS.md) - **Comprehensive visual diagrams**
+- [DATABASE.md](./DATABASE.md) - Database schema with ERD diagrams
+- [PLAYER_ARCHITECTURE.md](./PLAYER_ARCHITECTURE.md) - Audio player architecture
+- [TELEGRAM_BOT_ARCHITECTURE.md](./TELEGRAM_BOT_ARCHITECTURE.md) - Bot architecture
+- [SUNO_API.md](./SUNO_API.md) - Suno AI integration
 - [INFRASTRUCTURE_NAMING_CONVENTIONS.md](../INFRASTRUCTURE_NAMING_CONVENTIONS.md)
-- [NAVIGATION.md](../NAVIGATION.md)
+- [NAVIGATION.md](../NAVIGATION.md) - Repository navigation guide
 - [MUSICVERSE_DATA_STRUCTURE_DIAGRAM.md](../MUSICVERSE_DATA_STRUCTURE_DIAGRAM.md)
 - Archive: [INFRASTRUCTURE_AUDIT_2025-12-03.md](./archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md)
 
