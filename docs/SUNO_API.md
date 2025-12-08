@@ -2,12 +2,12 @@
 
 ## Обзор
 
-Suno AI API v5 (chirp-crow) - это самая продвинутая версия API для генерации музыки с AI, поддерживающая:
+Suno AI API v5 - это самая продвинутая версия API для генерации музыки с AI, поддерживающая:
 - ✅ 174+ мета-тегов для точного контроля
 - ✅ 277+ музыкальных стилей
 - ✅ 75+ языков вокала
 - ✅ Промпты до 5000 символов
-- ✅ Стили до 1000 символов
+- ✅ Стили до 1000 символов (до 500 для non-custom режима)
 
 ## API Endpoint
 
@@ -34,8 +34,8 @@ Content-Type: application/json
 
 | Параметр | Тип | Обязательный | Max | Описание |
 |----------|-----|--------------|-----|----------|
-| `prompt` | string | ✓ | 5000 | Описание желаемой музыки |
-| `mv` | string | ✗ | - | Версия модели (chirp-crow) |
+| `prompt` | string | ✓ | 500 | Описание желаемой музыки |
+| `model` | string | ✗ | - | Версия модели (V5, V4_5, V4) |
 | `make_instrumental` | boolean | ✗ | - | Без вокала |
 | `wait_audio` | boolean | ✗ | - | Ждать завершения |
 
@@ -47,7 +47,7 @@ curl -X POST 'https://api.sunoapi.org/api/generate' \
   -H 'Content-Type: application/json' \
   -d '{
     "prompt": "Upbeat electronic dance music with strong bass and catchy melodies",
-    "mv": "chirp-crow",
+    "model": "V5",
     "make_instrumental": false
   }'
 ```
@@ -74,7 +74,7 @@ curl -X POST 'https://api.sunoapi.org/api/generate' \
 | `prompt` | string | ✓ | 5000 | Лирика с секциями |
 | `style` | string | ✓ | 1000 | Meta tags и стиль |
 | `instrumental` | boolean | ✗ | - | Без вокала |
-| `mv` | string | ✗ | - | chirp-crow (default) |
+| `model` | string | ✗ | - | V5 (default) |
 
 **Пример запроса:**
 
@@ -102,7 +102,7 @@ Colors that you've never seen
 Fading into starlight`,
     style: "[Genre: Ambient Electronic] [Mood: Ethereal, Dreamy] [Instrument: Synthesizer, Pad, Piano] [Vocal Style: Breathy] [Language: English] [Texture: Wide Stereo, Reverb-Soaked]",
     instrumental: false,
-    mv: "chirp-crow"
+    model: "V5"
   })
 });
 
@@ -185,7 +185,7 @@ curl 'https://api.sunoapi.org/api/get?ids=task1,task2,task3' \
       "audio_url": "https://cdn.suno.ai/audio.mp3",
       "image_url": "https://cdn.suno.ai/cover.png",
       "video_url": "https://cdn.suno.ai/video.mp4",
-      "model_name": "chirp-crow",
+      "model_name": "V5",
       "metadata": {
         "tags": ["[Genre: Ambient Electronic]", "[Mood: Dreamy]"],
         "prompt": "Original prompt text",
@@ -256,17 +256,20 @@ const response = await fetch('https://api.sunoapi.org/api/extend_audio', {
 
 | Модель | ID | Статус | Промпт | Стиль | Особенности |
 |--------|---|--------|--------|-------|-------------|
-| v3.5 | chirp-v3.5 | Deprecated | 3000 | 200 | Устарела |
-| v4 | chirp-v4 | Stable | 3000 | 200 | Надежная |
-| v4.5 | chirp-auk | Active | 5000 | 1000 | Улучшенная |
-| v4.5+ | chirp-bluejay | Active | 5000 | 1000 | Стабильная |
-| **v5** | **chirp-crow** | **Latest** | **5000** | **1000** | **Лучшая** |
+| v3.5 | V3_5 | Deprecated | 3000 | 200 | Устарела |
+| v4 | V4 | Active | 3000 | 200 | Надежная |
+| v4.5 | V4_5 | Active | 5000 | 1000 | Улучшенная |
+| v4.5+ | V4_5PLUS | Active | 5000 | 1000 | Стабильная |
+| **v5** | **V5** | **Latest** | **5000** | **1000** | **Лучшая** |
+
+> **ВАЖНО:** Параметр `mv` устарел. Используйте `model` с значениями V5, V4_5PLUS, V4_5, V4, V3_5.
+> Устаревшие chirp-* идентификаторы (chirp-crow, chirp-bluejay, chirp-auk, chirp-v4) больше не поддерживаются.
 
 ## Лучшие практики
 
 ### ✅ DO
 
-- Используйте v5 (chirp-crow) для максимального качества
+- Используйте V5 для максимального качества
 - Начинайте с 1-2 тегов на категорию
 - Размещайте теги ПЕРЕД секцией, к которой они относятся
 - Используйте формат `[Category: Value]` для v4.5+
@@ -280,6 +283,8 @@ const response = await fetch('https://api.sunoapi.org/api/extend_audio', {
 - Не перегружайте эффектами (max 2-3)
 - Не размещайте теги ПОСЛЕ лирики
 - Не используйте устаревшие модели без необходимости
+- Не используйте устаревший параметр `mv` - используйте `model`
+- Не используйте chirp-* идентификаторы - используйте V5, V4_5, V4, etc.
 
 ## Примеры использования
 
@@ -288,7 +293,7 @@ const response = await fetch('https://api.sunoapi.org/api/extend_audio', {
 ```typescript
 const simpleTrack = {
   prompt: "Energetic pop music with catchy melodies and upbeat rhythm",
-  mv: "chirp-crow"
+  model: "V5"
 };
 ```
 
@@ -319,7 +324,7 @@ Logging off, back to life`,
 [Production: Layered, Polished]
 [Energy: High]
 [BPM: 128]`,
-  mv: "chirp-crow"
+  model: "V5"
 };
 ```
 
@@ -337,7 +342,7 @@ const instrumentalTrack = {
 [Build]
 [Crescendo]`,
   instrumental: true,
-  mv: "chirp-crow"
+  model: "V5"
 };
 ```
 
@@ -358,7 +363,7 @@ Unity, Unidad, Единство`,
 [Mood: Uplifting, Inspiring]
 [Instrument: Guitar, Piano, Strings]
 [Vocal Style: Powerful, Emotional]`,
-  mv: "chirp-crow"
+  model: "V5"
 };
 ```
 
@@ -449,6 +454,13 @@ async function pollTrackStatus(taskId: string): Promise<Track> {
   throw new Error('Timeout waiting for track');
 }
 ```
+
+## История изменений
+
+### 2025-12-08
+- **BREAKING**: Параметр `mv` заменен на `model`
+- **BREAKING**: Идентификаторы chirp-* заменены на V5, V4_5PLUS, V4_5, V4, V3_5
+- Обновлены все примеры кода
 
 ## Дополнительные ресурсы
 
