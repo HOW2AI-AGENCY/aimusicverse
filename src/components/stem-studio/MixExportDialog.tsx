@@ -209,10 +209,9 @@ export function MixExportDialog({
                 className="flex-1"
               >
                 <Download className="w-4 h-4 mr-2" />
-                WAV (без сжатия)
+                WAV
               </Button>
-              {/* MP3 export would require additional library like lamejs */}
-              {/* <Button
+              <Button
                 variant="default"
                 onClick={() => handleExport('mp3')}
                 disabled={activeStems.length === 0}
@@ -220,7 +219,7 @@ export function MixExportDialog({
               >
                 <Download className="w-4 h-4 mr-2" />
                 MP3
-              </Button> */}
+              </Button>
             </>
           )}
 

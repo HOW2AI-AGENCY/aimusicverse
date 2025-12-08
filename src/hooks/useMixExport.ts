@@ -3,6 +3,7 @@
  * 
  * Exports the mixed stems with effects to a single audio file
  * Uses OfflineAudioContext for rendering
+ * Supports WAV and MP3 formats
  */
 
 import { useState, useCallback, useRef } from 'react';
@@ -11,6 +12,8 @@ import {
   StemEffects, 
   defaultStemEffects 
 } from './useStemAudioEngine';
+// @ts-ignore - lamejs doesn't have types
+import lamejs from 'lamejs';
 
 interface StemMixData {
   id: string;
@@ -24,7 +27,7 @@ interface StemMixData {
 interface ExportOptions {
   format: 'wav' | 'mp3';
   sampleRate?: number;
-  bitDepth?: number;
+  bitRate?: number; // For MP3
 }
 
 // Generate impulse response for reverb
@@ -74,7 +77,7 @@ function audioBufferToWav(buffer: AudioBuffer): Blob {
   view.setUint32(4, bufferLength - 8, true);
   writeString(8, 'WAVE');
   writeString(12, 'fmt ');
-  view.setUint32(16, 16, true); // fmt chunk size
+  view.setUint32(16, 16, true);
   view.setUint16(20, format, true);
   view.setUint16(22, numChannels, true);
   view.setUint32(24, sampleRate, true);
@@ -101,6 +104,50 @@ function audioBufferToWav(buffer: AudioBuffer): Blob {
   }
   
   return new Blob([arrayBuffer], { type: 'audio/wav' });
+}
+
+// Convert AudioBuffer to MP3 using lamejs
+function audioBufferToMp3(buffer: AudioBuffer, bitRate: number = 192): Blob {
+  const numChannels = buffer.numberOfChannels;
+  const sampleRate = buffer.sampleRate;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(numChannels, sampleRate, bitRate);
+  const mp3Data: number[][] = [];
+  
+  const left = buffer.getChannelData(0);
+  const right = numChannels > 1 ? buffer.getChannelData(1) : left;
+  
+  // Convert Float32Array to Int16Array
+  const leftInt16 = new Int16Array(left.length);
+  const rightInt16 = new Int16Array(right.length);
+  
+  for (let i = 0; i < left.length; i++) {
+    leftInt16[i] = Math.max(-32768, Math.min(32767, Math.round(left[i] * 32767)));
+    rightInt16[i] = Math.max(-32768, Math.min(32767, Math.round(right[i] * 32767)));
+  }
+  
+  // Encode in chunks
+  const blockSize = 1152;
+  for (let i = 0; i < leftInt16.length; i += blockSize) {
+    const leftChunk = leftInt16.subarray(i, i + blockSize);
+    const rightChunk = rightInt16.subarray(i, i + blockSize);
+    const mp3buf = mp3encoder.encodeBuffer(leftChunk, rightChunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(Array.from(mp3buf));
+    }
+  }
+  
+  // Flush remaining data
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(Array.from(mp3buf));
+  }
+  
+  // Combine all chunks into single array
+  const combined = mp3Data.flat();
+  const uint8Array = new Uint8Array(combined);
+  
+  return new Blob([uint8Array.buffer], { type: 'audio/mp3' });
 }
 
 export function useMixExport() {
@@ -256,8 +303,14 @@ export function useMixExport() {
       setProgressMessage('Создание файла...');
       setProgress(95);
 
-      // Convert to WAV
-      const wavBlob = audioBufferToWav(renderedBuffer);
+      // Convert to desired format
+      let outputBlob: Blob;
+      if (options.format === 'mp3') {
+        setProgressMessage('Кодирование в MP3...');
+        outputBlob = audioBufferToMp3(renderedBuffer, options.bitRate || 192);
+      } else {
+        outputBlob = audioBufferToWav(renderedBuffer);
+      }
 
       // Clean up
       await audioContext.close();
@@ -265,7 +318,7 @@ export function useMixExport() {
       setProgress(100);
       setProgressMessage('Готово!');
       
-      return wavBlob;
+      return outputBlob;
     } catch (error) {
       logger.error('Mix export error', error);
       throw error;
