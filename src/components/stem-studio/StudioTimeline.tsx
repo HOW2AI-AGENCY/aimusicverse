@@ -95,7 +95,7 @@ export function StudioTimeline({ currentTime, duration, onSeek }: StudioTimeline
         
         {/* Playhead Cursor */}
         <div
-          className="absolute -top-1 bottom-0 w-[2px] bg-primary z-20 shadow-[0_0_12px_rgba(139,92,246,1)] transition-none pointer-events-none"
+          className="absolute -top-1 bottom-0 w-[2px] bg-primary z-20 shadow-glow transition-none pointer-events-none"
           style={{ left: `${progress}%` }}
         >
           <div className="absolute -top-1.5 -left-[4px] w-2.5 h-2.5 bg-primary rounded-sm rotate-45 shadow-sm" />

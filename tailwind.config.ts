@@ -106,7 +106,7 @@ export default {
         "3xl": "2rem",
       },
       backgroundImage: {
-        'gradient-telegram': 'linear-gradient(135deg, #3390ec, #8e77ec)',
+        'gradient-telegram': 'linear-gradient(135deg, hsl(207 90% 54%), hsl(250 80% 60%))',
         'gradient-primary': 'var(--gradient-primary)',
         'gradient-card': 'var(--gradient-card)',
         'gradient-hero': 'var(--gradient-hero)',
@@ -115,8 +115,8 @@ export default {
       },
       boxShadow: {
         'glow': 'var(--shadow-glow)',
-        'glow-sm': '0 0 15px 0 rgba(51, 144, 236, 0.2)',
-        'glow-lg': '0 0 50px 0 rgba(51, 144, 236, 0.4)',
+        'glow-sm': '0 0 15px 0 hsl(207 90% 54% / 0.2)',
+        'glow-lg': '0 0 50px 0 hsl(207 90% 54% / 0.4)',
         'glow-generate': '0 0 30px 0 hsl(var(--generate) / 0.4)',
       },
       keyframes: {
@@ -138,10 +138,10 @@ export default {
         },
         "pulse-glow": {
           "0%, 100%": {
-            boxShadow: "0 0 20px rgba(51, 144, 236, 0.4)",
+            boxShadow: "0 0 20px hsl(207 90% 54% / 0.4)",
           },
           "50%": {
-            boxShadow: "0 0 30px rgba(51, 144, 236, 0.6)",
+            boxShadow: "0 0 30px hsl(207 90% 54% / 0.6)",
           },
         },
         "shimmer": {

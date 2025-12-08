@@ -226,8 +226,7 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
                 </div>
               )}
               <motion.div 
-                className="absolute inset-0 bg-black/0 rounded-xl transition-colors"
-                whileHover={{ backgroundColor: 'rgba(0,0,0,0.1)' }}
+                className="absolute inset-0 rounded-xl transition-colors hover:bg-foreground/10"
               />
               
               {/* Playing indicator sparkle */}
