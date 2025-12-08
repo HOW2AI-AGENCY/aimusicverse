@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContentOptimized';
 import { motion, AnimatePresence } from 'framer-motion';
+import { GlassCard } from '@/components/ui/glass-card';
 
 type DiscoveryTab = 'featured' | 'new' | 'popular';
 
@@ -51,10 +52,14 @@ export function UnifiedDiscoverySection({
   if (isLoading) {
     return (
       <section className={cn('space-y-4', className)}>
-        <div className="h-10 w-64 bg-muted animate-pulse rounded-full" />
+        <div className="h-10 w-64 bg-muted/50 animate-pulse rounded-full" />
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="aspect-square bg-muted animate-pulse rounded-xl" />
+            <div 
+              key={i} 
+              className="aspect-square bg-muted/50 animate-pulse rounded-xl"
+              style={{ animationDelay: `${i * 100}ms` }}
+            />
           ))}
         </div>
       </section>
@@ -69,13 +74,13 @@ export function UnifiedDiscoverySection({
     <section className={cn('space-y-4', className)}>
       {/* Section Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-lg sm:text-xl font-bold">Открытия</h2>
-        <Button variant="ghost" size="sm" className="text-muted-foreground gap-1">
-          Все <ChevronRight className="w-4 h-4" />
+        <h2 className="text-lg sm:text-xl font-bold text-gradient">Открытия</h2>
+        <Button variant="ghost" size="sm" className="text-muted-foreground gap-1 group hover:text-foreground">
+          Все <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
         </Button>
       </div>
 
-      {/* Tab Pills */}
+      {/* Tab Pills with glass effect */}
       <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4 pb-2">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
@@ -84,19 +89,35 @@ export function UnifiedDiscoverySection({
           if (!tabTracks.length) return null;
 
           return (
-            <Button
+            <motion.div
               key={tab.id}
-              variant={isActive ? 'default' : 'outline'}
-              size="sm"
-              className={cn(
-                "gap-2 rounded-full whitespace-nowrap transition-all",
-                isActive && "bg-primary shadow-lg shadow-primary/20"
-              )}
-              onClick={() => setActiveTab(tab.id)}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              {tab.icon}
-              {tab.label}
-            </Button>
+              <Button
+                variant={isActive ? 'default' : 'outline'}
+                size="sm"
+                className={cn(
+                  "gap-2 rounded-full whitespace-nowrap transition-all relative overflow-hidden",
+                  isActive && "bg-primary shadow-lg shadow-primary/30",
+                  !isActive && "bg-background/50 backdrop-blur-sm border-border/50 hover:border-primary/50"
+                )}
+                onClick={() => setActiveTab(tab.id)}
+              >
+                {isActive && (
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    initial={{ x: '-100%' }}
+                    animate={{ x: '100%' }}
+                    transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
+                  />
+                )}
+                <span className="relative z-10 flex items-center gap-2">
+                  {tab.icon}
+                  {tab.label}
+                </span>
+              </Button>
+            </motion.div>
           );
         })}
       </div>

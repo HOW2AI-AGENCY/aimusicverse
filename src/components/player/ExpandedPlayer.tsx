@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, Maximize2, ListMusic, Heart } from 'lucide-react';
 import { useAudioTime } from '@/hooks/useAudioTime';
@@ -10,6 +9,7 @@ import { useTracks, Track } from '@/hooks/useTracksOptimized';
 import { cn } from '@/lib/utils';
 import { motion, PanInfo } from 'framer-motion';
 import { hapticImpact } from '@/lib/haptic';
+import { GlassCard } from '@/components/ui/glass-card';
 
 interface ExpandedPlayerProps {
   track: Track;
@@ -21,7 +21,6 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
   const { toggleLike } = useTracks();
   const [queueOpen, setQueueOpen] = useState(false);
 
-  // Use global audio system instead of local useAudioPlayer
   const { currentTime, duration, buffered, seek } = useAudioTime();
 
   const handleLike = () => {
@@ -33,7 +32,6 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
   };
 
   const handleDragEnd = (_event: any, info: PanInfo) => {
-    // Swipe down to close
     if (info.offset.y > 50) {
       hapticImpact('light');
       onClose();
@@ -53,10 +51,13 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         className="fixed bottom-20 sm:bottom-20 md:bottom-4 left-0 right-0 z-40 px-2 sm:px-4 bottom-nav-safe"
       >
-        <Card className="glass-card border-primary/20 p-4 sm:p-6 shadow-2xl rounded-2xl max-w-2xl mx-auto">
+        <GlassCard className="p-4 sm:p-6 shadow-2xl rounded-2xl max-w-2xl mx-auto border-primary/20">
           {/* Swipe indicator */}
           <div className="flex justify-center mb-4">
-            <div className="w-12 h-1 bg-muted-foreground/30 rounded-full" />
+            <motion.div 
+              className="w-12 h-1 bg-muted-foreground/30 rounded-full"
+              whileHover={{ width: 48, backgroundColor: 'hsl(var(--primary) / 0.5)' }}
+            />
           </div>
 
           {/* Header */}
@@ -68,7 +69,7 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
                 hapticImpact('light');
                 onClose();
               }}
-              className="h-11 w-11 touch-manipulation"
+              className="h-11 w-11 touch-manipulation hover:bg-primary/10"
               aria-label="Close"
             >
               <ChevronDown className="h-5 w-5" />
@@ -82,7 +83,7 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
                   hapticImpact('light');
                   setQueueOpen(true);
                 }}
-                className="h-11 w-11 touch-manipulation"
+                className="h-11 w-11 touch-manipulation hover:bg-primary/10"
                 aria-label="Queue"
               >
                 <ListMusic className="h-5 w-5" />
@@ -94,7 +95,7 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
                   hapticImpact('light');
                   onMaximize();
                 }}
-                className="h-11 w-11 touch-manipulation"
+                className="h-11 w-11 touch-manipulation hover:bg-primary/10"
                 aria-label="Fullscreen"
               >
                 <Maximize2 className="h-5 w-5" />
@@ -102,36 +103,53 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
             </div>
           </div>
 
-          {/* Cover Art */}
+          {/* Cover Art with glow effect */}
           <div className="flex justify-center mb-6">
-            <button
+            <motion.button
               onClick={() => {
                 hapticImpact('medium');
                 onMaximize();
               }}
               className="relative group cursor-pointer"
               aria-label="Expand to fullscreen"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               {track.cover_url ? (
-                <img
-                  src={track.cover_url}
-                  alt={track.title || 'Track cover'}
-                  className="w-40 h-40 sm:w-48 sm:h-48 rounded-xl shadow-lg object-cover transition-transform group-hover:scale-105 group-active:scale-95"
-                />
+                <>
+                  {/* Glow effect behind cover */}
+                  <div 
+                    className="absolute inset-0 blur-2xl opacity-50 scale-110 rounded-xl transition-opacity group-hover:opacity-70"
+                    style={{ 
+                      backgroundImage: `url(${track.cover_url})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
+                    }}
+                  />
+                  <img
+                    src={track.cover_url}
+                    alt={track.title || 'Track cover'}
+                    className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-xl shadow-lg object-cover ring-2 ring-white/10"
+                  />
+                </>
               ) : (
-                <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-xl shadow-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                  <div className="text-4xl font-bold text-primary/20">
+                <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-xl shadow-lg bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center ring-2 ring-white/10">
+                  <motion.div 
+                    className="text-4xl font-bold text-primary/40"
+                    animate={{ rotate: [0, 5, -5, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
                     {track.title?.charAt(0) || '♪'}
-                  </div>
+                  </motion.div>
                 </div>
               )}
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 rounded-xl transition-colors" />
-            </button>
+            </motion.button>
           </div>
 
           {/* Track Info */}
           <div className="text-center mb-6">
-            <h3 className="font-semibold text-xl sm:text-2xl line-clamp-1 mb-1">
+            <h3 className="font-semibold text-xl sm:text-2xl line-clamp-1 mb-1 text-gradient">
               {track.title || 'Untitled Track'}
             </h3>
             <p className="text-sm sm:text-base text-muted-foreground line-clamp-1">
@@ -151,29 +169,30 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
 
           {/* Playback Controls */}
           <div className="flex items-center justify-center gap-4 mb-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleLike}
-              className={cn(
-                'h-11 w-11 touch-manipulation',
-                track.is_liked && 'text-red-500'
-              )}
-              aria-label={track.is_liked ? 'Unlike' : 'Like'}
-            >
-              <Heart className="h-5 w-5" fill={track.is_liked ? 'currentColor' : 'none'} />
-            </Button>
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleLike}
+                className={cn(
+                  'h-11 w-11 touch-manipulation transition-colors',
+                  track.is_liked && 'text-red-500'
+                )}
+                aria-label={track.is_liked ? 'Unlike' : 'Like'}
+              >
+                <Heart className="h-5 w-5" fill={track.is_liked ? 'currentColor' : 'none'} />
+              </Button>
+            </motion.div>
 
             <div className="flex-1 max-w-md">
               <PlaybackControls size="medium" />
             </div>
 
-            <div className="w-11" /> {/* Spacer for symmetry */}
+            <div className="w-11" />
           </div>
-        </Card>
+        </GlassCard>
       </motion.div>
 
-      {/* Queue Sheet */}
       <QueueSheet open={queueOpen} onOpenChange={setQueueOpen} />
     </>
   );
