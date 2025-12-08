@@ -3,11 +3,12 @@
  */
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, RotateCcw, Check, X, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
 interface QuickCompareMobileProps {
   open: boolean;
@@ -34,6 +35,7 @@ export function QuickCompareMobile({
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(sectionStart);
   const [isMuted, setIsMuted] = useState(false);
+  const haptic = useHapticFeedback();
   
   const originalRef = useRef<HTMLAudioElement | null>(null);
   const newRef = useRef<HTMLAudioElement | null>(null);
@@ -94,7 +96,8 @@ export function QuickCompareMobile({
     const other = activeVersion === 'original' ? newRef.current : originalRef.current;
 
     if (!audio) return;
-
+    
+    haptic.tap();
     other?.pause();
 
     if (isPlaying) {
@@ -111,6 +114,8 @@ export function QuickCompareMobile({
 
   const switchVersion = (version: 'original' | 'new') => {
     if (version === activeVersion) return;
+    
+    haptic.select();
 
     const currentAudio = activeVersion === 'original' ? originalRef.current : newRef.current;
     const newAudio = version === 'original' ? originalRef.current : newRef.current;
@@ -126,6 +131,7 @@ export function QuickCompareMobile({
   };
 
   const restart = () => {
+    haptic.tap();
     const audio = activeVersion === 'original' ? originalRef.current : newRef.current;
     if (audio) {
       audio.currentTime = sectionStart;
@@ -142,11 +148,13 @@ export function QuickCompareMobile({
   const progress = ((currentTime - sectionStart) / sectionDuration) * 100;
 
   const handleApply = () => {
+    haptic.success();
     onApply();
     onOpenChange(false);
   };
 
   const handleDiscard = () => {
+    haptic.warning();
     onDiscard();
     onOpenChange(false);
   };
