@@ -23,6 +23,8 @@ import { StemStudioTutorial, useStemStudioTutorial } from '@/components/stem-stu
 import { ReplacementHistoryPanel } from '@/components/stem-studio/ReplacementHistoryPanel';
 import { SectionTimelineVisualization } from '@/components/stem-studio/SectionTimelineVisualization';
 import { SectionEditorPanel } from '@/components/stem-studio/SectionEditorPanel';
+import { SectionEditorMobile } from '@/components/stem-studio/SectionEditorMobile';
+import { MobileSectionTimeline } from '@/components/stem-studio/MobileSectionTimeline';
 import { SectionQuickActions } from '@/components/stem-studio/SectionQuickActions';
 import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
 import { QuickComparePanel } from '@/components/stem-studio/QuickComparePanel';
@@ -521,8 +523,8 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         </div>
       </header>
 
-      {/* Section Timeline Visualization */}
-      {canReplaceSection && detectedSections.length > 0 && (
+      {/* Section Timeline Visualization - Desktop */}
+      {!isMobile && canReplaceSection && detectedSections.length > 0 && (
         <div className="px-4 sm:px-6 py-3 border-b border-border/30 bg-card/30">
           <SectionTimelineVisualization
             sections={detectedSections}
@@ -548,6 +550,21 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         </div>
       )}
 
+      {/* Section Timeline Visualization - Mobile */}
+      {isMobile && canReplaceSection && detectedSections.length > 0 && (
+        <div className="px-4 py-3 border-b border-border/30 bg-card/30">
+          <MobileSectionTimeline
+            sections={detectedSections}
+            duration={duration}
+            currentTime={currentTime}
+            selectedIndex={selectedSectionIndex}
+            replacedRanges={replacedRanges}
+            onSectionClick={handleSectionSelect}
+            onSeek={(time) => handleSeek([time])}
+          />
+        </div>
+      )}
+
       {/* Fallback Timeline without sections */}
       {(!canReplaceSection || detectedSections.length === 0) && (
         <div className="px-4 sm:px-6 py-4 border-b border-border/30 bg-card/30">
@@ -570,14 +587,29 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         </div>
       )}
 
-      {/* Section Editor Panel (Inline) */}
-      {editMode === 'editing' && (
+      {/* Section Editor Panel - Desktop (Inline) */}
+      {!isMobile && editMode === 'editing' && (
         <SectionEditorPanel
           trackId={trackId}
           trackTitle={track.title || 'Трек'}
           trackTags={track.tags}
           duration={duration}
           onClose={clearSelection}
+        />
+      )}
+
+      {/* Section Editor - Mobile (Sheet) */}
+      {isMobile && (
+        <SectionEditorMobile
+          open={editMode === 'selecting' || editMode === 'editing'}
+          onOpenChange={(open) => {
+            if (!open) clearSelection();
+          }}
+          trackId={trackId}
+          trackTitle={track.title || 'Трек'}
+          trackTags={track.tags}
+          duration={duration}
+          sections={detectedSections}
         />
       )}
 
@@ -713,41 +745,50 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       </main>
 
       {/* Footer Player */}
-      <footer className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur border-t border-border/50 px-4 sm:px-6 py-4 safe-area-pb z-50">
+      <footer className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur border-t border-border/50 px-4 sm:px-6 py-3 sm:py-4 safe-area-pb z-50">
         <div className={cn(
-          "flex items-center gap-4 max-w-screen-xl mx-auto",
+          "flex items-center gap-3 sm:gap-4 max-w-screen-xl mx-auto",
           isMobile ? "justify-center" : "justify-between"
         )}>
           {/* Playback Controls */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             <Button 
               variant="ghost" 
               size="icon" 
-              className="rounded-full h-10 w-10"
+              className={cn(
+                "rounded-full",
+                isMobile ? "h-12 w-12" : "h-10 w-10"
+              )}
               onClick={() => handleSkip('back')}
             >
-              <SkipBack className="w-4 h-4" />
+              <SkipBack className={cn(isMobile ? "w-5 h-5" : "w-4 h-4")} />
             </Button>
 
             <Button
               onClick={togglePlay}
               size="icon"
-              className="w-14 h-14 rounded-full shadow-lg hover:scale-105 transition-transform bg-primary text-primary-foreground"
+              className={cn(
+                "rounded-full shadow-lg hover:scale-105 transition-transform bg-primary text-primary-foreground",
+                isMobile ? "w-16 h-16" : "w-14 h-14"
+              )}
             >
               {isPlaying ? (
-                <Pause className="w-6 h-6" />
+                <Pause className={cn(isMobile ? "w-7 h-7" : "w-6 h-6")} />
               ) : (
-                <Play className="w-6 h-6 ml-0.5" />
+                <Play className={cn(isMobile ? "w-7 h-7 ml-0.5" : "w-6 h-6 ml-0.5")} />
               )}
             </Button>
 
             <Button 
               variant="ghost" 
               size="icon" 
-              className="rounded-full h-10 w-10"
+              className={cn(
+                "rounded-full",
+                isMobile ? "h-12 w-12" : "h-10 w-10"
+              )}
               onClick={() => handleSkip('forward')}
             >
-              <SkipForward className="w-4 h-4" />
+              <SkipForward className={cn(isMobile ? "w-5 h-5" : "w-4 h-4")} />
             </Button>
           </div>
 
