@@ -67,7 +67,16 @@ function groupWordsIntoLines(words: AlignedWord[]): LyricLine[] {
 
 // Filter out structural tags
 function isStructuralTag(word: string): boolean {
-  return /^[\[\(].*[\]\)]$/.test(word.trim());
+  const trimmed = word.trim();
+  // Match [Tag], (Tag), [Tag 1], etc.
+  return /^[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)]$/i.test(trimmed);
+}
+
+// Clean lyrics text from tags
+function cleanLyricsText(text: string): string {
+  return text
+    .replace(/[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)]/gi, '')
+    .trim();
 }
 
 export function StudioLyricsPanelCompact({
@@ -134,8 +143,11 @@ export function StudioLyricsPanelCompact({
     );
   }
 
-  // No timestamped lyrics - show plain text preview
+  // No timestamped lyrics - show plain text preview (cleaned from tags)
   if (!lines.length && plainLyrics) {
+    const cleanedLyrics = cleanLyricsText(plainLyrics);
+    const firstLine = cleanedLyrics.split('\n').find(l => l.trim()) || '';
+    
     return (
       <div className="px-4 py-2 border-b border-border/30">
         <button 
@@ -144,7 +156,7 @@ export function StudioLyricsPanelCompact({
         >
           <Music2 className="w-3.5 h-3.5" />
           <span className="truncate flex-1 text-left">
-            {plainLyrics.split('\n')[0]}...
+            {firstLine}...
           </span>
           <ChevronRight className={cn(
             "w-3.5 h-3.5 transition-transform",
@@ -160,7 +172,7 @@ export function StudioLyricsPanelCompact({
               className="overflow-hidden mt-2"
             >
               <p className="text-xs text-muted-foreground whitespace-pre-wrap line-clamp-6">
-                {plainLyrics}
+                {cleanedLyrics}
               </p>
             </motion.div>
           )}
@@ -193,10 +205,16 @@ export function StudioLyricsPanelCompact({
               'bg-primary/10 font-medium'
             )}
           >
-            {currentLine.words.map((word, wordIdx) => {
+          {currentLine.words.map((word, wordIdx) => {
               const isWordActive = isPlaying && 
                 currentTime >= word.startS && 
                 currentTime <= word.endS;
+              
+              // Skip structural tags
+              if (isStructuralTag(word.word)) return null;
+              
+              const cleanWord = word.word.replace('\n', '').trim();
+              if (!cleanWord) return null;
 
               return (
                 <span
@@ -206,7 +224,7 @@ export function StudioLyricsPanelCompact({
                     isWordActive && 'text-primary font-bold'
                   )}
                 >
-                  {word.word.replace('\n', '')}{' '}
+                  {cleanWord}{' '}
                 </span>
               );
             })}
