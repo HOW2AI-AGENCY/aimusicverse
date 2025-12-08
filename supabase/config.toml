@@ -164,3 +164,6 @@ verify_jwt = false
 
 [functions.health-check]
 verify_jwt = false
+
+[functions.health-alert]
+verify_jwt = false
