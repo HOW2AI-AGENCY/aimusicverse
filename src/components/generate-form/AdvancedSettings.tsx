@@ -4,8 +4,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Slider } from '@/components/ui/slider';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Button } from '@/components/ui/button';
-import { ChevronDown } from 'lucide-react';
-import { SUNO_MODELS } from '@/constants/sunoModels';
+import { Badge } from '@/components/ui/badge';
+import { ChevronDown, AlertTriangle } from 'lucide-react';
+import { SUNO_MODELS, getAvailableModels } from '@/constants/sunoModels';
 
 /**
  * Get audio weight label based on reference type
@@ -91,12 +92,19 @@ export function AdvancedSettings({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {Object.entries(SUNO_MODELS).map(([key, info]) => (
+                {Object.entries(getAvailableModels()).map(([key, info]) => (
                   <SelectItem key={key} value={key}>
                     <div className="flex items-center gap-2">
                       <span>{info.emoji}</span>
                       <div className="flex flex-col">
-                        <span className="font-medium">{info.name}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">{info.name}</span>
+                          {info.status === 'latest' && (
+                            <Badge variant="default" className="text-[10px] px-1.5 py-0 h-4">
+                              NEW
+                            </Badge>
+                          )}
+                        </div>
                         <span className="text-xs text-muted-foreground">{info.desc}</span>
                       </div>
                     </div>
@@ -104,6 +112,15 @@ export function AdvancedSettings({
                 ))}
               </SelectContent>
             </Select>
+            {/* Show warning if selected model is not in available models */}
+            {model && !getAvailableModels()[model] && SUNO_MODELS[model] && (
+              <div className="flex items-center gap-2 mt-2 p-2 bg-destructive/10 border border-destructive/20 rounded-md">
+                <AlertTriangle className="w-4 h-4 text-destructive" />
+                <p className="text-xs text-destructive">
+                  Модель {SUNO_MODELS[model].name} больше недоступна. Выберите другую модель.
+                </p>
+              </div>
+            )}
           </div>
         )}
         <div>

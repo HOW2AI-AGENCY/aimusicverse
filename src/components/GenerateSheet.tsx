@@ -27,7 +27,7 @@ import { LyricsVisualEditor } from './generate-form/LyricsVisualEditor';
 import { PromptHistory, savePromptToHistory } from './generate-form/PromptHistory';
 import { LyricsChatAssistant } from './generate-form/LyricsChatAssistant';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
-import { SUNO_MODELS } from '@/constants/sunoModels';
+import { SUNO_MODELS, validateModel, DEFAULT_SUNO_MODEL } from '@/constants/sunoModels';
 import { useGenerateDraft } from '@/hooks/useGenerateDraft';
 import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
 
@@ -369,6 +369,20 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
       return;
     }
 
+    // Validate model availability with auto-fallback
+    const { validKey, wasChanged, originalKey } = validateModel(model);
+    let finalModel = model;
+    
+    if (wasChanged) {
+      const originalName = SUNO_MODELS[originalKey]?.name || originalKey;
+      const newName = SUNO_MODELS[validKey]?.name || validKey;
+      toast.warning(`Модель ${originalName} недоступна`, {
+        description: `Используем ${newName} вместо неё`,
+      });
+      setModel(validKey);
+      finalModel = validKey;
+    }
+
     // Save to history before generating
     savePromptToHistory({
       mode,
@@ -376,7 +390,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
       title: mode === 'custom' ? title : undefined,
       style: mode === 'custom' ? style : undefined,
       lyrics: mode === 'custom' && hasVocals ? lyrics : undefined,
-      model,
+      model: finalModel,
     });
 
     setLoading(true);
@@ -399,7 +413,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           title: mode === 'custom' ? title : undefined,
           style: mode === 'custom' ? style : undefined,
           instrumental,
-          model,
+          model: finalModel,
           negativeTags: negativeTags || undefined,
           vocalGender: vocalGender || undefined,
           styleWeight: styleWeight[0],
