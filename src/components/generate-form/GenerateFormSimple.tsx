@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { Sparkles, Loader2, Mic } from 'lucide-react';
+import { Sparkles, Loader2, Mic, HelpCircle } from 'lucide-react';
 import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
+import { GenerateFormHint, FORM_HINTS } from './GenerateFormHint';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface GenerateFormSimpleProps {
   description: string;
@@ -28,6 +31,8 @@ export function GenerateFormSimple({
   onBoostStyle,
   boostLoading,
 }: GenerateFormSimpleProps) {
+  const [showHint, setShowHint] = useState(true);
+
   return (
     <motion.div
       key="simple"
@@ -39,9 +44,27 @@ export function GenerateFormSimple({
     >
       <div>
         <div className="flex items-center justify-between mb-1.5">
-          <Label htmlFor="description" className="text-xs font-medium">
-            Описание музыки
-          </Label>
+          <div className="flex items-center gap-1.5">
+            <Label htmlFor="description" className="text-xs font-medium">
+              Описание музыки
+            </Label>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button 
+                    type="button" 
+                    className="text-muted-foreground hover:text-foreground transition-colors"
+                    onClick={() => setShowHint(!showHint)}
+                  >
+                    <HelpCircle className="w-3.5 h-3.5" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="max-w-xs text-xs">
+                  {FORM_HINTS.description.tip}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <div className="flex items-center gap-2">
             <span className={`text-xs ${description.length > 500 ? 'text-destructive font-medium' : description.length > 400 ? 'text-yellow-500' : 'text-muted-foreground'}`}>
               {description.length}/500
@@ -59,29 +82,56 @@ export function GenerateFormSimple({
               size="sm"
               onClick={onBoostStyle}
               disabled={boostLoading || !description}
-              className="h-6 px-2 gap-1"
+              className="h-6 px-2 gap-1 text-primary hover:text-primary/80"
             >
               {boostLoading ? (
                 <Loader2 className="w-3 h-3 animate-spin" />
               ) : (
                 <Sparkles className="w-3 h-3" />
               )}
-              <span className="text-xs">AI</span>
+              <span className="text-xs">AI Boost</span>
             </Button>
           </div>
         </div>
+        
+        {/* Contextual hint */}
+        <GenerateFormHint type="tip" show={showHint && !description}>
+          {FORM_HINTS.description.empty}
+        </GenerateFormHint>
+        
         <Textarea
           id="description"
-          placeholder="Энергичный рок с мощными гитарами [Жанр: Рок] [Настроение: Драйв]"
+          placeholder="Энергичный рок с мощными гитарами..."
           value={description}
           onChange={(e) => onDescriptionChange(e.target.value)}
-          rows={5}
-          className={`resize-none text-sm ${description.length > 500 ? 'border-destructive focus-visible:ring-destructive' : ''}`}
+          rows={4}
+          className={`resize-none text-sm mt-2 ${description.length > 500 ? 'border-destructive focus-visible:ring-destructive' : ''}`}
         />
+        
         {description.length > 500 && (
           <p className="text-xs text-destructive mt-1">
             Сократите описание или переключитесь в Custom режим
           </p>
+        )}
+
+        {/* Quick style suggestions */}
+        {!description && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex flex-wrap gap-1.5 mt-2"
+          >
+            {['Поп хит 🎤', 'Рок драйв 🎸', 'Lo-fi chill 🎧', 'Электро 🎹'].map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => onDescriptionChange(tag.split(' ')[0] + ' ' + tag.split(' ')[1].replace(/[^\w\s]/gi, ''))}
+                className="px-2.5 py-1 rounded-full text-xs bg-muted/50 hover:bg-primary/10 hover:text-primary transition-colors"
+              >
+                {tag}
+              </button>
+            ))}
+          </motion.div>
         )}
       </div>
 
@@ -99,19 +149,31 @@ export function GenerateFormSimple({
       </div>
 
       {/* Vocals Toggle for Simple Mode */}
-      <div className="flex items-center justify-between p-3 rounded-lg border">
-        <div className="flex items-center gap-2">
-          <Mic className="w-4 h-4" />
-          <Label htmlFor="simple-vocals-toggle" className="cursor-pointer text-sm font-medium">
-            С вокалом
-          </Label>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.1 }}
+        className="flex items-center justify-between p-3 rounded-xl bg-muted/30 border border-border/50"
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+            <Mic className="w-4 h-4 text-primary" />
+          </div>
+          <div>
+            <Label htmlFor="simple-vocals-toggle" className="cursor-pointer text-sm font-medium">
+              С вокалом
+            </Label>
+            <p className="text-xs text-muted-foreground">
+              {hasVocals ? 'AI сгенерирует голос' : 'Инструментал без вокала'}
+            </p>
+          </div>
         </div>
         <Switch
           id="simple-vocals-toggle"
           checked={hasVocals}
           onCheckedChange={onHasVocalsChange}
         />
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
