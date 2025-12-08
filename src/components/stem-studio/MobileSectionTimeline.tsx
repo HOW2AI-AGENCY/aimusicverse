@@ -1,9 +1,54 @@
 import { useRef, useState, useCallback } from 'react';
-import { motion, PanInfo, useMotionValue, useTransform } from 'framer-motion';
+import { motion, PanInfo, useMotionValue, useTransform, AnimatePresence, Variants } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+
+// Animation variants
+const activeSectionVariants: Variants = {
+  initial: { opacity: 0, y: -20, scale: 0.8 },
+  animate: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { type: 'spring', stiffness: 400, damping: 25 }
+  },
+  exit: { 
+    opacity: 0, 
+    y: 20, 
+    scale: 0.8,
+    transition: { duration: 0.15 }
+  }
+};
+
+const pillVariants: Variants = {
+  initial: { opacity: 0, scale: 0.8, x: -10 },
+  animate: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    x: 0,
+    transition: {
+      delay: i * 0.03,
+      type: 'spring',
+      stiffness: 350,
+      damping: 25
+    }
+  }),
+  tap: { scale: 0.92 },
+  selected: { 
+    scale: 1.05,
+    transition: { type: 'spring', stiffness: 400, damping: 15 }
+  }
+};
+
+const playheadVariants: Variants = {
+  idle: { scale: 1 },
+  dragging: { 
+    scale: 1.3,
+    transition: { type: 'spring', stiffness: 400, damping: 15 }
+  }
+};
 
 interface MobileSectionTimelineProps {
   sections: DetectedSection[];
@@ -92,42 +137,62 @@ export function MobileSectionTimeline({
   return (
     <div className="space-y-3">
       {/* Active Section Display */}
-      {activeSection && (
-        <div className="flex items-center justify-between px-1">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 rounded-full"
-            onClick={() => navigateSection('prev')}
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </Button>
-          
+      <AnimatePresence mode="wait">
+        {activeSection && (
           <motion.div 
-            className="text-center"
             key={activeSection.label}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center justify-between px-1"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
-            <span className={cn(
-              'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium',
-              'bg-primary/10 text-primary'
-            )}>
-              <span className={cn('w-2 h-2 rounded-full', SECTION_COLORS[activeSection.type])} />
-              {activeSection.label}
-            </span>
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-10 w-10 rounded-full"
+                onClick={() => navigateSection('prev')}
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </Button>
+            </motion.div>
+            
+            <motion.div 
+              className="text-center"
+              variants={activeSectionVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <motion.span 
+                className={cn(
+                  'inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium',
+                  'bg-primary/10 text-primary border border-primary/20'
+                )}
+                layoutId="activeSectionBadge"
+              >
+                <motion.span 
+                  className={cn('w-2.5 h-2.5 rounded-full', SECTION_COLORS[activeSection.type])}
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                />
+                {activeSection.label}
+              </motion.span>
+            </motion.div>
+            
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-10 w-10 rounded-full"
+                onClick={() => navigateSection('next')}
+              >
+                <ChevronRight className="w-5 h-5" />
+              </Button>
+            </motion.div>
           </motion.div>
-          
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 rounded-full"
-            onClick={() => navigateSection('next')}
-          >
-            <ChevronRight className="w-4 h-4" />
-          </Button>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
 
       {/* Compact Section Pills */}
       <div className="flex gap-1.5 overflow-x-auto pb-2 px-1 -mx-1 scrollbar-hide">
@@ -142,20 +207,37 @@ export function MobileSectionTimeline({
             <motion.button
               key={idx}
               onClick={() => onSectionClick(section, idx)}
+              variants={pillVariants}
+              initial="initial"
+              animate={isSelected ? "selected" : "animate"}
+              whileTap="tap"
+              custom={idx}
               className={cn(
-                'flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-all',
-                'border-2 min-h-[36px] active:scale-95',
-                isSelected && 'border-primary bg-primary/20 text-primary',
+                'flex-shrink-0 px-3 py-2 rounded-full text-xs font-medium',
+                'border-2 min-h-[44px] transition-colors',
+                isSelected && 'border-primary bg-primary/20 text-primary shadow-lg shadow-primary/20',
                 isActive && !isSelected && 'border-primary/50 bg-primary/10',
                 !isSelected && !isActive && 'border-transparent bg-muted/50 text-muted-foreground',
-                isReplaced && 'ring-2 ring-success/50'
+                isReplaced && 'ring-2 ring-success/50 ring-offset-1 ring-offset-background'
               )}
-              whileTap={{ scale: 0.95 }}
             >
               <span className="flex items-center gap-1.5">
-                <span className={cn('w-1.5 h-1.5 rounded-full', SECTION_COLORS[section.type])} />
+                <motion.span 
+                  className={cn('w-2 h-2 rounded-full', SECTION_COLORS[section.type])}
+                  animate={isActive ? { scale: [1, 1.3, 1] } : {}}
+                  transition={{ duration: 0.8, repeat: isActive ? Infinity : 0 }}
+                />
                 {section.label}
-                {isReplaced && <span className="text-success">✓</span>}
+                {isReplaced && (
+                  <motion.span 
+                    className="text-success"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 500, damping: 15 }}
+                  >
+                    ✓
+                  </motion.span>
+                )}
               </span>
             </motion.button>
           );
@@ -165,7 +247,7 @@ export function MobileSectionTimeline({
       {/* Touch-Optimized Progress Bar */}
       <div 
         ref={containerRef}
-        className="relative h-12 touch-none"
+        className="relative h-14 touch-none"
         onTouchStart={handleDragStart}
         onTouchMove={handleDrag}
         onTouchEnd={handleDragEnd}
@@ -179,12 +261,15 @@ export function MobileSectionTimeline({
           {sections.map((section, idx) => {
             const left = (section.startTime / duration) * 100;
             const width = ((section.endTime - section.startTime) / duration) * 100;
+            const isActive = currentTime >= section.startTime && currentTime <= section.endTime;
             
             return (
-              <div
+              <motion.div
                 key={idx}
-                className={cn(SECTION_COLORS[section.type], 'absolute h-full opacity-30')}
+                className={cn(SECTION_COLORS[section.type], 'absolute h-full')}
                 style={{ left: `${left}%`, width: `${width}%` }}
+                animate={{ opacity: isActive ? 0.5 : 0.25 }}
+                transition={{ duration: 0.3 }}
               />
             );
           })}
@@ -193,49 +278,69 @@ export function MobileSectionTimeline({
           <motion.div 
             className="absolute top-0 left-0 h-full bg-primary rounded-full"
             style={{ width: `${progress}%` }}
-            layout
+            transition={{ duration: isDragging ? 0 : 0.1 }}
           />
         </div>
 
         {/* Enlarged touch target for playhead */}
         <motion.div
-          className={cn(
-            'absolute top-1/2 -translate-y-1/2 w-8 h-8 -ml-4',
-            'flex items-center justify-center',
-            isDragging && 'scale-125'
-          )}
+          className="absolute top-1/2 -translate-y-1/2 w-10 h-10 -ml-5 flex items-center justify-center"
           style={{ left: `${progress}%` }}
-          animate={{ scale: isDragging ? 1.2 : 1 }}
+          variants={playheadVariants}
+          animate={isDragging ? "dragging" : "idle"}
         >
-          <div className={cn(
-            'w-5 h-5 bg-primary rounded-full shadow-lg border-3 border-background',
-            'flex items-center justify-center',
-            isDragging && 'ring-4 ring-primary/30'
-          )}>
+          <motion.div 
+            className={cn(
+              'w-6 h-6 bg-primary rounded-full shadow-lg border-[3px] border-background',
+              'flex items-center justify-center'
+            )}
+            animate={isDragging ? { 
+              boxShadow: '0 0 0 8px hsl(var(--primary) / 0.2)'
+            } : {
+              boxShadow: '0 4px 12px hsl(var(--primary) / 0.3)'
+            }}
+          >
             <div className="w-2 h-2 bg-background rounded-full" />
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Replaced section indicators */}
         {replacedRanges.map((range, idx) => (
-          <div
+          <motion.div
             key={`replaced-${idx}`}
             className="absolute top-0 h-full pointer-events-none"
             style={{
               left: `${(range.start / duration) * 100}%`,
               width: `${((range.end - range.start) / duration) * 100}%`,
             }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
           >
-            <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-4 h-4 bg-success rounded-full flex items-center justify-center">
-              <span className="text-[8px] text-success-foreground font-bold">✓</span>
-            </div>
-          </div>
+            <motion.div 
+              className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-5 h-5 bg-success rounded-full flex items-center justify-center shadow-lg"
+              animate={{ 
+                scale: [1, 1.1, 1],
+                boxShadow: ['0 0 0 0 hsl(var(--success) / 0.3)', '0 0 0 4px hsl(var(--success) / 0)', '0 0 0 0 hsl(var(--success) / 0)']
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <span className="text-[10px] text-success-foreground font-bold">✓</span>
+            </motion.div>
+          </motion.div>
         ))}
       </div>
 
       {/* Time display */}
       <div className="flex justify-between text-xs text-muted-foreground font-mono px-1">
-        <span>{formatTime(currentTime)}</span>
+        <motion.span
+          key={Math.floor(currentTime)}
+          initial={{ opacity: 0.5, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.15 }}
+        >
+          {formatTime(currentTime)}
+        </motion.span>
         <span>{formatTime(duration)}</span>
       </div>
     </div>

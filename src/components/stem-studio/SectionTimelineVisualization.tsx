@@ -1,8 +1,43 @@
 import { useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+
+// Animation variants
+const sectionVariants: Variants = {
+  initial: { opacity: 0, scaleY: 0 },
+  animate: (i: number) => ({
+    opacity: 1,
+    scaleY: 1,
+    transition: {
+      delay: i * 0.05,
+      type: 'spring',
+      stiffness: 300,
+      damping: 20
+    }
+  }),
+  selected: {
+    scale: 1.05,
+    transition: { type: 'spring', stiffness: 400, damping: 15 }
+  }
+};
+
+const playheadVariants: Variants = {
+  initial: { scale: 0 },
+  animate: { 
+    scale: 1,
+    transition: { type: 'spring', stiffness: 400, damping: 20 }
+  }
+};
+
+const pulseVariants: Variants = {
+  animate: {
+    scale: [1, 1.2, 1],
+    opacity: [1, 0.5, 1],
+    transition: { duration: 1.5, repeat: Infinity }
+  }
+};
 
 interface SectionTimelineVisualizationProps {
   sections: DetectedSection[];
@@ -67,19 +102,30 @@ export function SectionTimelineVisualization({
               <Tooltip key={idx}>
                 <TooltipTrigger asChild>
                   <motion.button
+                    variants={sectionVariants}
+                    initial="initial"
+                    animate={isSelected ? "selected" : "animate"}
+                    custom={idx}
                     className={cn(
-                      'absolute top-0 h-full border-x transition-all',
+                      'absolute top-0 h-full border-x',
                       colors.bg,
                       colors.border,
                       isSelected && 'ring-2 ring-primary ring-offset-1 ring-offset-background z-10',
-                      isActive && 'brightness-125',
-                      'hover:brightness-110 cursor-pointer'
+                      'cursor-pointer origin-bottom hover:brightness-110'
                     )}
                     style={{ left: `${pos.left}%`, width: `${pos.width}%` }}
                     onClick={() => onSectionClick(section, idx)}
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.98 }}
                   >
+                    {/* Active pulse indicator */}
+                    {isActive && (
+                      <motion.div 
+                        className="absolute inset-0 bg-white/20"
+                        variants={pulseVariants}
+                        animate="animate"
+                      />
+                    )}
                     <span className={cn(
                       'absolute inset-0 flex items-center justify-center text-[10px] font-medium truncate px-1',
                       colors.text
@@ -100,33 +146,55 @@ export function SectionTimelineVisualization({
         </TooltipProvider>
 
         {/* Replaced sections markers */}
-        {replacedRanges.map((range, idx) => (
-          <div
-            key={`replaced-${idx}`}
-            className="absolute top-0 h-full bg-success/20 border-x border-success/50 pointer-events-none"
-            style={{
-              left: `${(range.start / duration) * 100}%`,
-              width: `${((range.end - range.start) / duration) * 100}%`,
-            }}
-          >
-            <div className="absolute -top-1 left-1/2 -translate-x-1/2 px-1 py-0.5 bg-success text-success-foreground text-[8px] font-bold rounded">
-              ✓
-            </div>
-          </div>
-        ))}
+        <AnimatePresence>
+          {replacedRanges.map((range, idx) => (
+            <motion.div
+              key={`replaced-${idx}`}
+              initial={{ opacity: 0, scaleY: 0 }}
+              animate={{ opacity: 1, scaleY: 1 }}
+              exit={{ opacity: 0, scaleY: 0 }}
+              className="absolute top-0 h-full bg-success/20 border-x border-success/50 pointer-events-none origin-bottom"
+              style={{
+                left: `${(range.start / duration) * 100}%`,
+                width: `${((range.end - range.start) / duration) * 100}%`,
+              }}
+            >
+              <motion.div 
+                className="absolute -top-1 left-1/2 -translate-x-1/2 px-1 py-0.5 bg-success text-success-foreground text-[8px] font-bold rounded"
+                initial={{ scale: 0, y: 10 }}
+                animate={{ scale: 1, y: 0 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 15, delay: 0.1 }}
+              >
+                ✓
+              </motion.div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
 
         {/* Custom selection overlay */}
-        {customRange && selectedIndex === null && (
-          <motion.div
-            className="absolute top-0 h-full bg-primary/30 border-x-2 border-primary pointer-events-none z-20"
-            style={{
-              left: `${(customRange.start / duration) * 100}%`,
-              width: `${((customRange.end - customRange.start) / duration) * 100}%`,
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          />
-        )}
+        <AnimatePresence>
+          {customRange && selectedIndex === null && (
+            <motion.div
+              className="absolute top-0 h-full bg-primary/30 border-x-2 border-primary pointer-events-none z-20"
+              style={{
+                left: `${(customRange.start / duration) * 100}%`,
+                width: `${((customRange.end - customRange.start) / duration) * 100}%`,
+              }}
+              initial={{ opacity: 0, scaleY: 0.5 }}
+              animate={{ 
+                opacity: 1, 
+                scaleY: 1,
+                boxShadow: ['0 0 0 0 hsl(var(--primary) / 0.3)', '0 0 0 4px hsl(var(--primary) / 0)', '0 0 0 0 hsl(var(--primary) / 0)']
+              }}
+              exit={{ opacity: 0, scaleY: 0.5 }}
+              transition={{ 
+                opacity: { duration: 0.2 },
+                scaleY: { type: 'spring', stiffness: 300, damping: 20 },
+                boxShadow: { duration: 1.5, repeat: Infinity }
+              }}
+            />
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Progress bar */}
@@ -140,16 +208,20 @@ export function SectionTimelineVisualization({
         }}
       >
         {/* Progress fill */}
-        <div 
-          className="absolute top-0 left-0 h-full bg-primary/50 rounded-full transition-all"
+        <motion.div 
+          className="absolute top-0 left-0 h-full bg-primary/50 rounded-full"
           style={{ width: `${progress}%` }}
+          transition={{ duration: 0.1 }}
         />
         
         {/* Playhead */}
         <motion.div
           className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-primary rounded-full shadow-lg border-2 border-background z-30"
           style={{ left: `${progress}%`, marginLeft: '-6px' }}
-          whileHover={{ scale: 1.3 }}
+          variants={playheadVariants}
+          initial="initial"
+          animate="animate"
+          whileHover={{ scale: 1.4 }}
         />
         
         {/* Hover effect */}
@@ -158,7 +230,14 @@ export function SectionTimelineVisualization({
 
       {/* Time markers */}
       <div className="flex justify-between mt-1 text-[10px] text-muted-foreground font-mono">
-        <span>{formatTime(currentTime)}</span>
+        <motion.span
+          key={Math.floor(currentTime)}
+          initial={{ opacity: 0.5 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.1 }}
+        >
+          {formatTime(currentTime)}
+        </motion.span>
         <span>{formatTime(duration)}</span>
       </div>
     </div>
