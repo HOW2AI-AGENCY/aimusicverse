@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button';
-import { Sparkles, Library, FolderOpen, Users, ListMusic, BookOpen } from 'lucide-react';
+import { Sparkles, Library, FolderOpen, Users, ListMusic, BookOpen, Upload } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { UploadAudioDialog } from '@/components/UploadAudioDialog';
 
 interface HeroQuickActionsProps {
   onGenerateClick: () => void;
@@ -11,6 +13,7 @@ interface HeroQuickActionsProps {
 export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
   const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
 
   const handleAction = (action: () => void) => {
     hapticFeedback?.('light');
@@ -93,11 +96,25 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         >
           <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
           <span className="text-[10px] sm:text-xs">Блог</span>
+        </Button>
+
+        <Button
+          variant="outline"
+          onClick={() => handleAction(() => setUploadDialogOpen(true))}
+          className="h-12 sm:h-14 flex-col gap-1 rounded-xl glass border-border/50 hover:border-primary/50 hover:bg-primary/5 touch-manipulation active:scale-[0.98] transition-all relative"
+        >
+          <Upload className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span className="text-[10px] sm:text-xs">Аудио</span>
           <span className="absolute -top-1 -right-1 px-1.5 py-0.5 text-[8px] font-bold rounded-full bg-primary text-primary-foreground">
             NEW
           </span>
         </Button>
       </motion.div>
+
+      <UploadAudioDialog
+        open={uploadDialogOpen}
+        onOpenChange={setUploadDialogOpen}
+      />
     </div>
   );
 }
