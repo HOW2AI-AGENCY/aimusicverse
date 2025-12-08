@@ -14,9 +14,10 @@ import { StemDownloadPanel } from '@/components/stem-studio/StemDownloadPanel';
 import { StemReferenceDialog } from '@/components/stem-studio/StemReferenceDialog';
 import { MidiSection } from '@/components/stem-studio/MidiSection';
 import { MixExportDialog } from '@/components/stem-studio/MixExportDialog';
+import { MixPresetsMenu } from '@/components/stem-studio/MixPresetsMenu';
 import { StemStudioTutorial, useStemStudioTutorial } from '@/components/stem-studio/StemStudioTutorial';
 import { useStemStudioEngine } from '@/hooks/useStemStudioEngine';
-import { defaultStemEffects } from '@/hooks/useStemAudioEngine';
+import { defaultStemEffects, StemEffects } from '@/hooks/useStemAudioEngine';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
@@ -65,9 +66,28 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     applyStemReverbPreset,
     resetStemEffects,
     getCompressorReduction,
+    setStemVolume,
+    setMasterVolume: setEngineMasterVolume,
     resumeContext,
   } = useStemStudioEngine(stemIds);
 
+  // Sync volumes to Web Audio when effects enabled
+  useEffect(() => {
+    if (!effectsEnabled) return;
+    
+    const hasSolo = Object.values(stemStates).some(s => s.solo);
+    
+    Object.keys(stemStates).forEach(stemId => {
+      const state = stemStates[stemId];
+      if (!state) return;
+      
+      const isMuted = masterMuted || state.muted || (hasSolo && !state.solo);
+      const volume = isMuted ? 0 : state.volume;
+      setStemVolume(stemId, volume);
+    });
+    
+    setEngineMasterVolume(masterVolume);
+  }, [effectsEnabled, stemStates, masterVolume, masterMuted, setStemVolume, setEngineMasterVolume]);
   // Initialize audio elements and stem states
   useEffect(() => {
     if (!stems || stems.length === 0) return;
@@ -136,6 +156,32 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     toast.success('Режим эффектов активирован');
   }, [stems, initializeStemEngine, resumeContext]);
 
+  // Load mix preset
+  const handleLoadPreset = useCallback((preset: {
+    masterVolume: number;
+    stems: Record<string, { volume: number; muted: boolean; solo: boolean; effects: StemEffects }>;
+  }) => {
+    setMasterVolume(preset.masterVolume);
+    
+    const newStates: Record<string, StemState> = {};
+    Object.entries(preset.stems).forEach(([stemId, stemData]) => {
+      newStates[stemId] = {
+        volume: stemData.volume,
+        muted: stemData.muted,
+        solo: stemData.solo,
+      };
+      
+      // Apply effects if enabled
+      if (effectsEnabled && stemData.effects) {
+        updateStemEQ(stemId, stemData.effects.eq);
+        updateStemCompressor(stemId, stemData.effects.compressor);
+        updateStemReverb(stemId, stemData.effects.reverb);
+      }
+    });
+    
+    setStemStates(newStates);
+  }, [effectsEnabled, updateStemEQ, updateStemCompressor, updateStemReverb]);
+
   // Update volumes when master or individual volumes change
   useEffect(() => {
     const hasSolo = Object.values(stemStates).some(s => s.solo);
@@ -145,9 +191,17 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       if (!state) return;
       
       const isMuted = masterMuted || state.muted || (hasSolo && !state.solo);
-      audio.volume = isMuted ? 0 : state.volume * masterVolume;
+      const volume = isMuted ? 0 : state.volume * masterVolume;
+      
+      // When effects are enabled, audio goes through Web Audio API
+      // HTMLAudioElement volume should be 1 (controlled by gainNode)
+      if (effectsEnabled && enginesState[id]) {
+        audio.volume = 1; // Let Web Audio handle volume
+      } else {
+        audio.volume = volume;
+      }
     });
-  }, [stemStates, masterVolume, masterMuted]);
+  }, [stemStates, masterVolume, masterMuted, effectsEnabled, enginesState]);
 
   const updateTime = useCallback(() => {
     const firstAudio = Object.values(audioRefs.current)[0];
@@ -341,6 +395,14 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
 
           {!isMobile && stems && track.audio_url && (
             <>
+              <MixPresetsMenu
+                trackId={trackId}
+                masterVolume={masterVolume}
+                stemStates={stemStates}
+                stemEffects={enginesState}
+                onLoadPreset={handleLoadPreset}
+                effectsEnabled={effectsEnabled}
+              />
               <MidiSection 
                 trackId={trackId} 
                 trackTitle={track.title || 'Трек'} 
@@ -423,6 +485,14 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       {/* Mobile Actions */}
       {isMobile && stems && (
         <div className="px-4 py-3 border-b border-border/30 flex gap-2 overflow-x-auto">
+          <MixPresetsMenu
+            trackId={trackId}
+            masterVolume={masterVolume}
+            stemStates={stemStates}
+            stemEffects={enginesState}
+            onLoadPreset={handleLoadPreset}
+            effectsEnabled={effectsEnabled}
+          />
           {track.audio_url && (
             <MidiSection 
               trackId={trackId} 
