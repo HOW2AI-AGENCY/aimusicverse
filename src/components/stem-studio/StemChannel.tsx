@@ -7,6 +7,17 @@ import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { StemWaveform } from './StemWaveform';
+import { StemEffectsPanel } from './effects/StemEffectsPanel';
+import { 
+  StemEffects, 
+  EQSettings, 
+  CompressorSettings, 
+  ReverbSettings,
+  eqPresets,
+  compressorPresets,
+  reverbPresets,
+  defaultStemEffects,
+} from '@/hooks/useStemAudioEngine';
 
 interface StemChannelProps {
   stem: TrackStem;
@@ -15,12 +26,22 @@ interface StemChannelProps {
     solo: boolean;
     volume: number;
   };
+  effects?: StemEffects;
   onToggle: (type: 'mute' | 'solo') => void;
   onVolumeChange: (volume: number) => void;
+  onEQChange?: (settings: Partial<EQSettings>) => void;
+  onCompressorChange?: (settings: Partial<CompressorSettings>) => void;
+  onReverbChange?: (settings: Partial<ReverbSettings>) => void;
+  onEQPreset?: (preset: keyof typeof eqPresets) => void;
+  onCompressorPreset?: (preset: keyof typeof compressorPresets) => void;
+  onReverbPreset?: (preset: keyof typeof reverbPresets) => void;
+  onResetEffects?: () => void;
+  getCompressorReduction?: () => number;
   isPlaying: boolean;
   currentTime: number;
   duration: number;
   onSeek?: (time: number) => void;
+  isEngineReady?: boolean;
 }
 
 const stemConfig: Record<string, { icon: React.ComponentType<any>; label: string; color: string; waveColor: string }> = {
@@ -46,18 +67,31 @@ const stemConfig: Record<string, { icon: React.ComponentType<any>; label: string
 export const StemChannel = ({ 
   stem, 
   state, 
+  effects = defaultStemEffects,
   onToggle, 
   onVolumeChange,
+  onEQChange,
+  onCompressorChange,
+  onReverbChange,
+  onEQPreset,
+  onCompressorPreset,
+  onReverbPreset,
+  onResetEffects,
+  getCompressorReduction,
   isPlaying,
   currentTime,
   duration,
   onSeek,
+  isEngineReady = false,
 }: StemChannelProps) => {
   const config = stemConfig[stem.stem_type.toLowerCase()] || stemConfig.other;
   const Icon = config.icon;
   
   const hasSolo = state.solo;
   const isMuted = state.muted || (!state.solo && hasSolo);
+
+  // Check if effects are available
+  const hasEffectsSupport = onEQChange && onCompressorChange && onReverbChange;
 
   return (
     <div className={cn(
@@ -136,6 +170,22 @@ export const StemChannel = ({
         height={40}
         onSeek={onSeek}
       />
+
+      {/* Effects Panel */}
+      {hasEffectsSupport && (
+        <StemEffectsPanel
+          effects={effects}
+          onEQChange={onEQChange}
+          onCompressorChange={onCompressorChange}
+          onReverbChange={onReverbChange}
+          onEQPreset={onEQPreset!}
+          onCompressorPreset={onCompressorPreset!}
+          onReverbPreset={onReverbPreset!}
+          onReset={onResetEffects!}
+          getCompressorReduction={getCompressorReduction}
+          disabled={!isEngineReady}
+        />
+      )}
     </div>
   );
 };
