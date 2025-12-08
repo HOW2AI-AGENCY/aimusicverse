@@ -1,11 +1,9 @@
-import { Sparkles, Library, FolderOpen, Users, ListMusic, BookOpen, Upload } from 'lucide-react';
+import { Sparkles, Library, FolderOpen, Users, ListMusic, BookOpen, Upload, Mic2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { UploadAudioDialog } from '@/components/UploadAudioDialog';
-import { GlowButton } from '@/components/ui/glow-button';
-import { GlassCard } from '@/components/ui/glass-card';
 import { cn } from '@/lib/utils';
 
 interface HeroQuickActionsProps {
@@ -13,12 +11,12 @@ interface HeroQuickActionsProps {
 }
 
 const quickActions = [
-  { icon: Library, label: 'Библиотека', path: '/library', color: 'library' },
-  { icon: FolderOpen, label: 'Проекты', path: '/projects', color: 'projects' },
-  { icon: ListMusic, label: 'Плейлисты', path: '/playlists', color: 'primary' },
-  { icon: Users, label: 'Артисты', path: '/actors', color: 'community' },
-  { icon: Users, label: 'Сообщество', path: '/community', color: 'generate' },
-  { icon: BookOpen, label: 'Блог', path: '/blog', color: 'primary' },
+  { icon: Library, label: 'Библиотека', path: '/library', gradient: 'from-library/20 to-library/5' },
+  { icon: FolderOpen, label: 'Проекты', path: '/projects', gradient: 'from-projects/20 to-projects/5' },
+  { icon: ListMusic, label: 'Плейлисты', path: '/playlists', gradient: 'from-primary/20 to-primary/5' },
+  { icon: Users, label: 'Артисты', path: '/actors', gradient: 'from-community/20 to-community/5' },
+  { icon: Users, label: 'Сообщество', path: '/community', gradient: 'from-generate/20 to-generate/5' },
+  { icon: BookOpen, label: 'Блог', path: '/blog', gradient: 'from-primary/20 to-primary/5' },
 ] as const;
 
 export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
@@ -33,51 +31,95 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
 
   return (
     <div className="space-y-4">
-      {/* Primary CTA - Generate with Glow Effect */}
-      <motion.div
+      {/* Primary CTA - Generate with enhanced design */}
+      <motion.button
+        onClick={() => handleAction(onGenerateClick)}
+        className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-primary via-primary to-generate p-4 shadow-glow touch-manipulation"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
+        whileHover={{ scale: 1.01, boxShadow: '0 0 40px hsl(207 90% 54% / 0.4)' }}
+        whileTap={{ scale: 0.98 }}
         transition={{ delay: 0.1 }}
       >
-        <GlowButton
-          variant="generate"
-          size="xl"
-          glow="static"
-          onClick={() => handleAction(onGenerateClick)}
-          className="w-full touch-manipulation"
-        >
-          <Sparkles className="w-6 h-6" />
-          Создать музыку
-        </GlowButton>
-      </motion.div>
+        {/* Animated background shimmer */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+          initial={{ x: '-100%' }}
+          animate={{ x: '200%' }}
+          transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+        />
+        
+        {/* Content */}
+        <div className="relative flex items-center justify-center gap-3">
+          <motion.div
+            animate={{ rotate: [0, 15, -15, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <Sparkles className="w-6 h-6 text-primary-foreground" />
+          </motion.div>
+          <span className="text-lg font-bold text-primary-foreground">Создать музыку</span>
+        </div>
+        
+        {/* Subtle glow orbs */}
+        <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-2xl" />
+        <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-generate/20 rounded-full blur-2xl" />
+      </motion.button>
 
-      {/* Secondary Actions Grid */}
+      {/* Secondary Actions Grid with stagger animation */}
       <motion.div
-        className="grid grid-cols-3 gap-2 sm:gap-3"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+        className="grid grid-cols-4 gap-2"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          visible: { transition: { staggerChildren: 0.04 } }
+        }}
       >
-        {quickActions.map((action, index) => (
+        {quickActions.slice(0, 4).map((action) => (
           <motion.button
             key={action.path}
             onClick={() => handleAction(() => navigate(action.path))}
             className={cn(
-              "group relative flex flex-col items-center justify-center gap-1.5 h-14 sm:h-16 rounded-xl",
-              "bg-card/50 backdrop-blur-sm border border-border/50",
-              "hover:border-primary/50 hover:bg-primary/5",
+              "group relative flex flex-col items-center justify-center gap-1 py-3 rounded-xl",
+              "bg-card/40 backdrop-blur-sm border border-border/40",
+              "hover:border-primary/40 hover:bg-gradient-to-b",
+              action.gradient,
+              "active:scale-[0.96] transition-all duration-200 touch-manipulation"
+            )}
+            variants={{
+              hidden: { opacity: 0, y: 15, scale: 0.9 },
+              visible: { opacity: 1, y: 0, scale: 1 }
+            }}
+            whileHover={{ y: -2 }}
+          >
+            <action.icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+            <span className="text-[10px] font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+              {action.label}
+            </span>
+          </motion.button>
+        ))}
+      </motion.div>
+
+      {/* Tertiary Actions Row */}
+      <motion.div
+        className="grid grid-cols-3 gap-2"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+        {quickActions.slice(4).map((action) => (
+          <motion.button
+            key={action.path}
+            onClick={() => handleAction(() => navigate(action.path))}
+            className={cn(
+              "group flex items-center justify-center gap-2 py-2.5 rounded-xl",
+              "bg-card/30 border border-border/30",
+              "hover:border-primary/30 hover:bg-primary/5",
               "active:scale-[0.97] transition-all duration-200 touch-manipulation"
             )}
-            whileHover={{ y: -2 }}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 + index * 0.03 }}
+            whileHover={{ y: -1 }}
           >
-            <action.icon className={cn(
-              "w-5 h-5 transition-colors duration-200",
-              "text-muted-foreground group-hover:text-primary"
-            )} />
-            <span className="text-[10px] sm:text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+            <action.icon className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+            <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
               {action.label}
             </span>
           </motion.button>
@@ -87,24 +129,24 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         <motion.button
           onClick={() => handleAction(() => setUploadDialogOpen(true))}
           className={cn(
-            "group relative flex flex-col items-center justify-center gap-1.5 h-14 sm:h-16 rounded-xl",
-            "bg-card/50 backdrop-blur-sm border border-border/50",
-            "hover:border-generate/50 hover:bg-generate/5",
+            "group relative flex items-center justify-center gap-2 py-2.5 rounded-xl",
+            "bg-gradient-to-r from-generate/10 to-generate/5 border border-generate/30",
+            "hover:border-generate/50 hover:from-generate/15 hover:to-generate/10",
             "active:scale-[0.97] transition-all duration-200 touch-manipulation"
           )}
-          whileHover={{ y: -2 }}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.43 }}
+          whileHover={{ y: -1 }}
         >
-          <Upload className="w-5 h-5 text-muted-foreground group-hover:text-generate transition-colors" />
-          <span className="text-[10px] sm:text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-            Аудио
-          </span>
+          <Upload className="w-4 h-4 text-generate" />
+          <span className="text-xs font-medium text-generate">Аудио</span>
+          
           {/* NEW Badge */}
-          <span className="absolute -top-1 -right-1 px-1.5 py-0.5 text-[8px] font-bold rounded-full bg-generate text-white animate-pulse-glow">
+          <motion.span 
+            className="absolute -top-1.5 -right-1.5 px-1.5 py-0.5 text-[8px] font-bold rounded-full bg-generate text-white shadow-sm"
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
             NEW
-          </span>
+          </motion.span>
         </motion.button>
       </motion.div>
 
