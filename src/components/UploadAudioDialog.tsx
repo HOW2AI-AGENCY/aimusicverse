@@ -7,8 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Upload, Loader2, Music, Mic, FileAudio, AlertCircle, Disc, Plus, Library, ChevronDown } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Upload, Loader2, Music, Mic, FileAudio, AlertCircle, Disc, Plus, Library, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -18,6 +18,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/hooks/useAuth';
 import { Tables } from '@/integrations/supabase/types';
 import { AudioWaveformPreview } from '@/components/AudioWaveformPreview';
+import { LyricsChatAssistant } from '@/components/generate-form/LyricsChatAssistant';
 import { logger } from '@/lib/logger';
 
 interface PrefillData {
@@ -70,6 +71,7 @@ export const UploadAudioDialog = ({
   const [styleWeight, setStyleWeight] = useState([0.65]);
   const [weirdnessConstraint, setWeirdnessConstraint] = useState([0.65]);
   const [audioWeight, setAudioWeight] = useState([0.65]);
+  const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
 
   // Load user tracks when library panel opens
   useEffect(() => {
@@ -558,16 +560,31 @@ export const UploadAudioDialog = ({
 
                 {!instrumental && (
                   <div>
-                    <Label htmlFor="prompt">Лирика</Label>
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="prompt">Лирика</Label>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setLyricsAssistantOpen(true)}
+                        className="h-7 gap-1.5 text-xs text-primary hover:text-primary"
+                      >
+                        <Sparkles className="w-3.5 h-3.5" />
+                        AI помощник
+                      </Button>
+                    </div>
                     <Textarea
                       id="prompt"
-                      placeholder="[VERSE]&#10;Your lyrics here..."
+                      placeholder="[VERSE]&#10;Текст песни..."
                       value={prompt}
                       onChange={(e) => setPrompt(e.target.value)}
                       rows={6}
                       className="mt-2 font-mono text-sm"
                       maxLength={5000}
                     />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {prompt.length}/5000 символов
+                    </p>
                   </div>
                 )}
 
@@ -687,6 +704,18 @@ export const UploadAudioDialog = ({
           </div>
         </Tabs>
       </DialogContent>
+
+      <LyricsChatAssistant
+        open={lyricsAssistantOpen}
+        onOpenChange={setLyricsAssistantOpen}
+        onLyricsGenerated={(lyrics) => {
+          setPrompt(lyrics);
+          setLyricsAssistantOpen(false);
+        }}
+        onStyleGenerated={(generatedStyle) => {
+          if (!style) setStyle(generatedStyle);
+        }}
+      />
     </Dialog>
   );
 };
