@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Scissors, Wand2, Loader2, AlertTriangle, Music, FileText, ChevronDown, Sparkles, Clock } from 'lucide-react';
+import { Scissors, Wand2, Loader2, AlertTriangle, Music, FileText, ChevronDown, Sparkles, Clock, Headphones } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/collapsible';
 import { SectionSelector } from './SectionSelector';
 import { SectionWaveformPreview } from './SectionWaveformPreview';
+import { SectionPreviewPlayer } from './SectionPreviewPlayer';
 import { useReplaceSectionMutation } from '@/hooks/useReplaceSectionMutation';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useSectionDetection, DetectedSection } from '@/hooks/useSectionDetection';
@@ -35,6 +36,7 @@ interface ReplaceSectionDialogProps {
   trackTitle: string;
   trackTags?: string | null;
   trackLyrics?: string | null;
+  audioUrl?: string | null;
   duration: number;
   currentTime: number;
   onSeek: (time: number) => void;
@@ -49,6 +51,7 @@ export function ReplaceSectionDialog({
   trackTitle,
   trackTags,
   trackLyrics,
+  audioUrl,
   duration,
   currentTime,
   onSeek,
@@ -227,6 +230,26 @@ export function ReplaceSectionDialog({
                 isValid={isValid}
               />
             </motion.div>
+
+            {/* Section Preview Player */}
+            {audioUrl && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <Label className="text-xs text-muted-foreground mb-2 flex items-center gap-1.5">
+                  <Headphones className="w-3 h-3" />
+                  Предпрослушивание секции
+                </Label>
+                <SectionPreviewPlayer
+                  audioUrl={audioUrl}
+                  startTime={startTime}
+                  endTime={endTime}
+                  onTimeUpdate={onSeek}
+                />
+              </motion.div>
+            )}
 
             {/* Detected Sections from Lyrics */}
             <AnimatePresence>

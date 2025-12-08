@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { 
   X, Wand2, Loader2, FileText, ChevronDown, 
-  AlertTriangle, Sparkles, Zap
+  AlertTriangle, Sparkles, Zap, Headphones
 } from 'lucide-react';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
@@ -18,6 +18,7 @@ import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useReplaceSectionMutation } from '@/hooks/useReplaceSectionMutation';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 import { SectionWaveformPreview } from './SectionWaveformPreview';
+import { SectionPreviewPlayer } from './SectionPreviewPlayer';
 import { cn } from '@/lib/utils';
 
 // Animation variants
@@ -82,6 +83,7 @@ interface SectionEditorMobileProps {
   trackId: string;
   trackTitle: string;
   trackTags?: string | null;
+  audioUrl?: string | null;
   duration: number;
   sections: DetectedSection[];
 }
@@ -101,6 +103,7 @@ export function SectionEditorMobile({
   trackId,
   trackTitle,
   trackTags,
+  audioUrl,
   duration,
   sections,
 }: SectionEditorMobileProps) {
@@ -328,9 +331,24 @@ export function SectionEditorMobile({
                 startTime={localStart}
                 endTime={localEnd}
                 isValid={isValid}
-                className="mb-4"
+                className="mb-2"
               />
             </motion.div>
+
+            {/* Section Preview Player */}
+            {audioUrl && (
+              <motion.div variants={itemVariants} className="mb-4">
+                <Label className="text-xs text-muted-foreground mb-2 flex items-center gap-1.5">
+                  <Headphones className="w-3 h-3" />
+                  Предпрослушивание
+                </Label>
+                <SectionPreviewPlayer
+                  audioUrl={audioUrl}
+                  startTime={localStart}
+                  endTime={localEnd}
+                />
+              </motion.div>
+            )}
 
             {/* Time Range Slider */}
             <motion.div variants={itemVariants} className="space-y-3">
