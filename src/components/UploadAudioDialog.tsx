@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,11 +8,15 @@ import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Upload, Loader2, Music, Mic, FileAudio, AlertCircle, Disc, Plus } from 'lucide-react';
+import { Upload, Loader2, Music, Mic, FileAudio, AlertCircle, Disc, Plus, Library, ChevronDown } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { SUNO_MODELS, getAvailableModels } from '@/constants/sunoModels';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { useAuth } from '@/hooks/useAuth';
+import { Tables } from '@/integrations/supabase/types';
 
 interface PrefillData {
   title?: string | null;
@@ -36,10 +40,17 @@ export const UploadAudioDialog = ({
   defaultMode = 'cover',
   prefillData
 }: UploadAudioDialogProps) => {
+  const { user } = useAuth();
   const [mode, setMode] = useState<'cover' | 'extend'>(defaultMode);
   const [loading, setLoading] = useState(false);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [audioDuration, setAudioDuration] = useState<number | null>(null);
+  
+  // Library selection
+  const [libraryOpen, setLibraryOpen] = useState(false);
+  const [userTracks, setUserTracks] = useState<Tables<'tracks'>[]>([]);
+  const [loadingTracks, setLoadingTracks] = useState(false);
+  const [selectedTrack, setSelectedTrack] = useState<Tables<'tracks'> | null>(null);
   
   // Settings
   const [customMode, setCustomMode] = useState(true);
@@ -56,6 +67,61 @@ export const UploadAudioDialog = ({
   const [styleWeight, setStyleWeight] = useState([0.65]);
   const [weirdnessConstraint, setWeirdnessConstraint] = useState([0.65]);
   const [audioWeight, setAudioWeight] = useState([0.65]);
+
+  // Load user tracks when library panel opens
+  useEffect(() => {
+    if (libraryOpen && user && userTracks.length === 0) {
+      loadUserTracks();
+    }
+  }, [libraryOpen, user]);
+
+  const loadUserTracks = async () => {
+    if (!user) return;
+    setLoadingTracks(true);
+    try {
+      const { data, error } = await supabase
+        .from('tracks')
+        .select('*')
+        .eq('user_id', user.id)
+        .in('status', ['completed', 'streaming_ready'])
+        .order('created_at', { ascending: false })
+        .limit(50);
+      
+      if (error) throw error;
+      setUserTracks(data || []);
+    } catch (error) {
+      console.error('Error loading tracks:', error);
+    } finally {
+      setLoadingTracks(false);
+    }
+  };
+
+  const handleTrackSelect = async (track: Tables<'tracks'>) => {
+    setSelectedTrack(track);
+    setLibraryOpen(false);
+    
+    // Pre-fill form with track data
+    setTitle(track.title ? `${track.title} (${mode === 'cover' ? 'кавер' : 'расширение'})` : '');
+    setStyle(track.style || '');
+    setPrompt(track.lyrics || '');
+    setInstrumental(track.is_instrumental ?? false);
+    
+    // Fetch audio file from track URL
+    if (track.audio_url || track.local_audio_url) {
+      const audioUrl = track.local_audio_url || track.audio_url;
+      try {
+        toast.loading('Загрузка аудио...', { id: 'audio-load' });
+        const response = await fetch(audioUrl!);
+        const blob = await response.blob();
+        const file = new File([blob], `${track.title || 'track'}.mp3`, { type: 'audio/mpeg' });
+        handleFileSelect(file);
+        toast.success('Трек загружен', { id: 'audio-load' });
+      } catch (error) {
+        console.error('Error fetching track audio:', error);
+        toast.error('Не удалось загрузить аудио трека', { id: 'audio-load' });
+      }
+    }
+  };
 
   const availableModels = getAvailableModels();
 
@@ -238,13 +304,21 @@ export const UploadAudioDialog = ({
             {/* File Upload */}
             <div>
               <Label>Аудиофайл</Label>
-              <div className="mt-2">
+              <div className="mt-2 space-y-2">
                 {audioFile ? (
                   <div className="p-4 rounded-lg glass border border-primary/20 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <Music className="w-5 h-5 text-primary" />
+                      {selectedTrack?.cover_url || selectedTrack?.local_cover_url ? (
+                        <img 
+                          src={selectedTrack.local_cover_url || selectedTrack.cover_url || ''} 
+                          alt="" 
+                          className="w-10 h-10 rounded object-cover"
+                        />
+                      ) : (
+                        <Music className="w-5 h-5 text-primary" />
+                      )}
                       <div>
-                        <p className="font-medium">{audioFile.name}</p>
+                        <p className="font-medium line-clamp-1">{selectedTrack?.title || audioFile.name}</p>
                         {audioDuration && (
                           <p className="text-xs text-muted-foreground">
                             {Math.floor(audioDuration / 60)}:{String(Math.floor(audioDuration % 60)).padStart(2, '0')}
@@ -258,21 +332,79 @@ export const UploadAudioDialog = ({
                       onClick={() => {
                         setAudioFile(null);
                         setAudioDuration(null);
+                        setSelectedTrack(null);
                       }}
                     >
                       Удалить
                     </Button>
                   </div>
                 ) : (
-                  <Button
-                    variant="outline"
-                    className="w-full gap-2"
-                    onClick={() => document.getElementById('audio-upload-unified')?.click()}
-                  >
-                    <Upload className="w-4 h-4" />
-                    Загрузить аудио
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      className="flex-1 gap-2"
+                      onClick={() => document.getElementById('audio-upload-unified')?.click()}
+                    >
+                      <Upload className="w-4 h-4" />
+                      Загрузить файл
+                    </Button>
+                    {user && (
+                      <Button
+                        variant="outline"
+                        className="flex-1 gap-2"
+                        onClick={() => setLibraryOpen(!libraryOpen)}
+                      >
+                        <Library className="w-4 h-4" />
+                        Из библиотеки
+                      </Button>
+                    )}
+                  </div>
                 )}
+                
+                {/* Library Track Selection */}
+                <Collapsible open={libraryOpen} onOpenChange={setLibraryOpen}>
+                  <CollapsibleContent>
+                    <div className="rounded-lg border border-border/50 overflow-hidden">
+                      <ScrollArea className="h-[200px]">
+                        {loadingTracks ? (
+                          <div className="flex items-center justify-center h-full p-4">
+                            <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+                          </div>
+                        ) : userTracks.length === 0 ? (
+                          <div className="flex items-center justify-center h-full p-4 text-muted-foreground text-sm">
+                            Нет треков в библиотеке
+                          </div>
+                        ) : (
+                          <div className="divide-y divide-border/50">
+                            {userTracks.map((track) => (
+                              <button
+                                key={track.id}
+                                onClick={() => handleTrackSelect(track)}
+                                className="w-full p-3 flex items-center gap-3 hover:bg-muted/50 transition-colors text-left"
+                              >
+                                <img
+                                  src={track.local_cover_url || track.cover_url || '/placeholder.svg'}
+                                  alt=""
+                                  className="w-10 h-10 rounded object-cover flex-shrink-0"
+                                />
+                                <div className="flex-1 min-w-0">
+                                  <p className="font-medium text-sm line-clamp-1">{track.title || 'Без названия'}</p>
+                                  <p className="text-xs text-muted-foreground line-clamp-1">{track.style || track.prompt}</p>
+                                </div>
+                                {track.duration_seconds && (
+                                  <span className="text-xs text-muted-foreground">
+                                    {Math.floor(track.duration_seconds / 60)}:{String(Math.floor(track.duration_seconds % 60)).padStart(2, '0')}
+                                  </span>
+                                )}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </ScrollArea>
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
+                
                 <input
                   id="audio-upload-unified"
                   type="file"
