@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -10,8 +10,15 @@ import { CheckCircle2, AlertTriangle, Lightbulb, Copy, Sparkles } from 'lucide-r
 import { useLyricsWizardStore } from '@/stores/lyricsWizardStore';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import DOMPurify from 'dompurify';
 
 const MAX_LYRICS_LENGTH = 3000;
+
+// Configure DOMPurify for safe HTML rendering
+const sanitizeConfig = {
+  ALLOWED_TAGS: ['span'],
+  ALLOWED_ATTR: ['class'],
+};
 
 export function FinalizeStep() {
   const {
@@ -53,8 +60,6 @@ export function FinalizeStep() {
       
       if (data?.lyrics) {
         toast.success('Текст оптимизирован для Suno');
-        // The optimized lyrics would need to be parsed and updated in sections
-        // For now, just show a notification
       }
     } catch (err) {
       console.error('Error optimizing lyrics:', err);
@@ -64,10 +69,22 @@ export function FinalizeStep() {
     }
   };
 
-  // Highlight tags in lyrics
-  const highlightedLyrics = finalLyrics
-    .replace(/\[([^\]]+)\]/g, '<span class="text-primary font-semibold">[$1]</span>')
-    .replace(/\(([^)]+)\)/g, '<span class="text-muted-foreground italic">($1)</span>');
+  // Safely highlight tags in lyrics with DOMPurify sanitization
+  const highlightedLyrics = useMemo(() => {
+    // First escape any existing HTML to prevent XSS
+    const escaped = finalLyrics
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    
+    // Then add our safe highlighting spans
+    const highlighted = escaped
+      .replace(/\[([^\]]+)\]/g, '<span class="text-primary font-semibold">[$1]</span>')
+      .replace(/\(([^)]+)\)/g, '<span class="text-muted-foreground italic">($1)</span>');
+    
+    // Sanitize the final output
+    return DOMPurify.sanitize(highlighted, sanitizeConfig);
+  }, [finalLyrics]);
 
   return (
     <div className="space-y-4">

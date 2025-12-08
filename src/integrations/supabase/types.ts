@@ -2023,7 +2023,33 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_profile_view: {
+        Row: {
+          first_name: string | null
+          id: string | null
+          is_public: boolean | null
+          photo_url: string | null
+          user_id: string | null
+          username: string | null
+        }
+        Insert: {
+          first_name?: string | null
+          id?: string | null
+          is_public?: boolean | null
+          photo_url?: string | null
+          user_id?: string | null
+          username?: string | null
+        }
+        Update: {
+          first_name?: string | null
+          id?: string | null
+          is_public?: boolean | null
+          photo_url?: string | null
+          user_id?: string | null
+          username?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       build_suno_prompt: {

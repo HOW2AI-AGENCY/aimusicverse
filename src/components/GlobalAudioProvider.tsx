@@ -8,6 +8,16 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { usePlayerStore } from '@/hooks/usePlayerState';
 import { setGlobalAudioRef } from '@/hooks/useAudioTime';
+import { logger } from '@/lib/logger';
+import { toast } from 'sonner';
+
+// Audio error messages by error code
+const AUDIO_ERROR_MESSAGES: Record<number, { ru: string; action?: string }> = {
+  1: { ru: 'Загрузка аудио прервана', action: 'Попробуйте еще раз' },
+  2: { ru: 'Сетевая ошибка при загрузке', action: 'Проверьте подключение' },
+  3: { ru: 'Ошибка декодирования аудио', action: 'Файл может быть поврежден' },
+  4: { ru: 'Формат аудио не поддерживается', action: 'Попробуйте другой трек' },
+};
 
 export function GlobalAudioProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -27,12 +37,14 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       audioRef.current = new Audio();
       audioRef.current.preload = 'auto';
       setGlobalAudioRef(audioRef.current);
+      logger.debug('Audio element initialized');
     }
 
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.src = '';
+        logger.debug('Audio element cleaned up');
       }
     };
   }, []);
@@ -63,6 +75,10 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     // Load new track if changed
     if (trackChanged) {
       lastTrackIdRef.current = activeTrack?.id || null;
+      logger.debug('Loading new track', { 
+        trackId: activeTrack?.id,
+        title: activeTrack?.title 
+      });
       
       // Pause before changing source to prevent conflicts
       audio.pause();
@@ -79,7 +95,10 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
           playPromise.catch((error) => {
             // Only log actual errors, not abort errors from track changes
             if (error.name !== 'AbortError') {
-              console.error('Playback error:', error);
+              logger.warn('Playback interrupted', { 
+                errorName: error.name,
+                trackId: activeTrack?.id 
+              });
               pauseTrack();
             }
           });
@@ -108,22 +127,40 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     }
   }, [activeTrack?.id, isPlaying, getAudioSource, pauseTrack]);
 
-  // Handle track ended
+  // Handle track ended and errors
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
     const handleEnded = () => {
+      logger.debug('Track ended', { trackId: activeTrack?.id });
       if (repeat === 'one') {
         audio.currentTime = 0;
-        audio.play().catch(console.error);
+        audio.play().catch((err) => logger.warn('Repeat play failed', err));
       } else {
         nextTrack();
       }
     };
 
-    const handleError = (e: Event) => {
-      console.error('Audio error:', e);
+    const handleError = () => {
+      const errorCode = audio.error?.code || 0;
+      const errorInfo = AUDIO_ERROR_MESSAGES[errorCode] || { 
+        ru: 'Ошибка воспроизведения' 
+      };
+      
+      logger.error('Audio playback error', null, {
+        errorCode,
+        errorMessage: audio.error?.message,
+        trackId: activeTrack?.id,
+        title: activeTrack?.title,
+        source: audio.src?.substring(0, 100),
+      });
+      
+      // Show user-friendly error message
+      toast.error(errorInfo.ru, {
+        description: errorInfo.action,
+      });
+      
       pauseTrack();
     };
 
@@ -134,7 +171,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       audio.removeEventListener('ended', handleEnded);
       audio.removeEventListener('error', handleError);
     };
-  }, [repeat, nextTrack, pauseTrack]);
+  }, [repeat, nextTrack, pauseTrack, activeTrack]);
 
   return <>{children}</>;
 }
