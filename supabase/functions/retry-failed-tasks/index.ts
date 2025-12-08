@@ -140,7 +140,7 @@ serve(async (req) => {
         if (track?.negative_tags) sunoPayload.negativeTags = track.negative_tags;
         if (track?.vocal_gender) sunoPayload.vocalGender = track.vocal_gender;
 
-        console.log(`Calling Suno API for task ${task.id} with model ${apiModel}`);
+        console.log(`Calling Suno API for task ${task.id} with model ${apiModel}, payload:`, JSON.stringify(sunoPayload));
 
         // Call Suno API directly
         const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate', {
@@ -152,7 +152,17 @@ serve(async (req) => {
           body: JSON.stringify(sunoPayload),
         });
 
-        const sunoData = await sunoResponse.json();
+        const sunoText = await sunoResponse.text();
+        console.log(`Suno API response for task ${task.id}:`, sunoText);
+        
+        let sunoData;
+        try {
+          sunoData = JSON.parse(sunoText);
+        } catch (e) {
+          console.error('Failed to parse Suno response:', sunoText);
+          results.push({ taskId: task.id, success: false, error: 'Invalid Suno response' });
+          continue;
+        }
 
         if (!sunoResponse.ok || sunoData.code !== 200) {
           console.error('Suno API error:', sunoData);
@@ -162,20 +172,20 @@ serve(async (req) => {
             .from('generation_tasks')
             .update({ 
               status: 'failed', 
-              error_message: sunoData.message || 'Suno API error' 
+              error_message: sunoData.msg || sunoData.message || 'Suno API error' 
             })
             .eq('id', newTask.id);
           
           await supabase
             .from('tracks')
-            .update({ status: 'failed', error_message: sunoData.message })
+            .update({ status: 'failed', error_message: sunoData.msg || sunoData.message })
             .eq('id', newTrack.id);
 
           results.push({ 
             taskId: task.id, 
             newTaskId: newTask.id, 
             success: false, 
-            error: sunoData.message || 'Suno API error' 
+            error: sunoData.msg || sunoData.message || 'Suno API error' 
           });
           continue;
         }
