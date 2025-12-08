@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { DropdownMenuItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from '@/components/ui/dropdown-menu';
-import { Plus, Mic, Volume2, Music, Pencil } from 'lucide-react';
+import { Plus, Mic, Volume2, Music, Pencil, Disc } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { ActionId } from '@/config/trackActionsConfig';
 import { TrackActionState, isActionAvailable, getActionLabel } from '@/lib/trackActionConditions';
@@ -20,11 +20,12 @@ export function EditActions({ track, state, onAction, variant, isProcessing }: E
   const [isOpen, setIsOpen] = useState(false);
   
   const showExtend = isActionAvailable('extend', track, state);
+  const showCover = isActionAvailable('cover', track, state);
   const showAddVocals = isActionAvailable('add_vocals', track, state);
   const showAddInstrumental = isActionAvailable('add_instrumental', track, state);
   const showRemix = isActionAvailable('remix', track, state);
 
-  const hasAnyEditAction = showExtend || showAddVocals || showAddInstrumental || showRemix;
+  const hasAnyEditAction = showExtend || showCover || showAddVocals || showAddInstrumental || showRemix;
   if (!hasAnyEditAction) return null;
 
   if (variant === 'dropdown') {
@@ -39,6 +40,12 @@ export function EditActions({ track, state, onAction, variant, isProcessing }: E
             <DropdownMenuItem onClick={() => onAction('extend')}>
               <Plus className="w-4 h-4 mr-2" />
               Расширить
+            </DropdownMenuItem>
+          )}
+          {showCover && (
+            <DropdownMenuItem onClick={() => onAction('cover')}>
+              <Disc className="w-4 h-4 mr-2" />
+              Кавер
             </DropdownMenuItem>
           )}
           {showAddVocals && (
@@ -88,6 +95,16 @@ export function EditActions({ track, state, onAction, variant, isProcessing }: E
           >
             <Plus className="w-4 h-4" />
             <span>Расширить</span>
+          </Button>
+        )}
+        {showCover && (
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-3 h-11"
+            onClick={() => onAction('cover')}
+          >
+            <Disc className="w-4 h-4" />
+            <span>Кавер</span>
           </Button>
         )}
         {showAddVocals && (

@@ -11,12 +11,14 @@ import { TrackDetailSheet } from '@/components/TrackDetailSheet';
 import { LyricsSheet } from '@/components/LyricsSheet';
 import { TrackDetailDialog } from '@/components/TrackDetailDialog';
 import { LyricsDialog } from '@/components/LyricsDialog';
+import { UploadAudioDialog } from '@/components/UploadAudioDialog';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface DialogStates {
   details: boolean;
   lyrics: boolean;
   extend: boolean;
+  cover: boolean;
   addVocals: boolean;
   addInstrumental: boolean;
   createArtist: boolean;
@@ -78,6 +80,12 @@ export function TrackDialogsPortal({
         open={dialogs.extend}
         onOpenChange={(open) => !open && onCloseDialog('extend')}
         track={track}
+      />
+
+      <UploadAudioDialog
+        open={dialogs.cover}
+        onOpenChange={(open) => !open && onCloseDialog('cover')}
+        defaultMode="cover"
       />
 
       <AddVocalsDialog

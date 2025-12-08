@@ -11,7 +11,7 @@ export type ActionId =
   | 'download' | 'share' | 'send_telegram'
   | 'add_to_playlist' | 'add_to_project' | 'create_artist'
   | 'open_studio' | 'stems_simple' | 'stems_detailed' | 'generate_cover' | 'convert_wav' | 'transcribe_midi' | 'generate_video'
-  | 'extend' | 'add_vocals' | 'add_instrumental' | 'remix'
+  | 'extend' | 'cover' | 'add_vocals' | 'add_instrumental' | 'remix'
   | 'details' | 'lyrics' | 'toggle_public'
   | 'delete';
 
@@ -189,12 +189,21 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     priority: 41,
     requiresCompleted: true,
   },
+  cover: {
+    id: 'cover',
+    label: 'Кавер',
+    icon: Music,
+    category: 'edit',
+    priority: 42,
+    requiresCompleted: true,
+    requiresAudio: true,
+  },
   add_vocals: {
     id: 'add_vocals',
     label: 'Добавить вокал',
     icon: Mic,
     category: 'edit',
-    priority: 42,
+    priority: 43,
     requiresCompleted: true,
   },
   add_instrumental: {
@@ -202,7 +211,7 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     label: 'Добавить инструментал',
     icon: Volume2,
     category: 'edit',
-    priority: 43,
+    priority: 44,
     requiresCompleted: true,
   },
   remix: {
@@ -210,7 +219,7 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     label: 'Ремикс',
     icon: Music,
     category: 'edit',
-    priority: 44,
+    priority: 45,
     requiresSunoId: true,
   },
 

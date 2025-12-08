@@ -17,8 +17,7 @@ import { Badge } from '@/components/ui/badge';
 import { useProjects } from '@/hooks/useProjects';
 import { useArtists } from '@/hooks/useArtists';
 import { useTracks } from '@/hooks/useTracks';
-import { UploadExtendDialog } from './UploadExtendDialog';
-import { UploadCoverDialog } from './UploadCoverDialog';
+import { UploadAudioDialog } from './UploadAudioDialog';
 import { AudioActionDialog } from './generate-form/AudioActionDialog';
 import { ArtistSelector } from './generate-form/ArtistSelector';
 import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
@@ -48,8 +47,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [loading, setLoading] = useState(false);
   const [audioReferenceLoading, setAudioReferenceLoading] = useState(false);
   const [boostLoading, setBoostLoading] = useState(false);
-  const [uploadExtendOpen, setUploadExtendOpen] = useState(false);
-  const [uploadCoverOpen, setUploadCoverOpen] = useState(false);
+  const [uploadAudioOpen, setUploadAudioOpen] = useState(false);
+  const [uploadAudioMode, setUploadAudioMode] = useState<'extend' | 'cover'>('extend');
   const [credits, setCredits] = useState<number | null>(null);
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
@@ -1150,16 +1149,11 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         initialGenre={projects?.find(p => p.id === selectedProjectId)?.genre || undefined}
       />
       
-      <UploadExtendDialog 
-        open={uploadExtendOpen}
-        onOpenChange={setUploadExtendOpen}
+      <UploadAudioDialog 
+        open={uploadAudioOpen}
+        onOpenChange={setUploadAudioOpen}
         projectId={selectedProjectId || initialProjectId}
-      />
-      
-      <UploadCoverDialog 
-        open={uploadCoverOpen}
-        onOpenChange={setUploadCoverOpen}
-        projectId={selectedProjectId || initialProjectId}
+        defaultMode={uploadAudioMode}
       />
 
       {/* Prompt History */}
