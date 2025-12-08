@@ -168,6 +168,13 @@ export function SectionEditorMobile({
     haptic.selectionChanged();
   }, [setCustomRange, haptic]);
 
+  const handleWaveformSelectionChange = useCallback((start: number, end: number) => {
+    setLocalStart(start);
+    setLocalEnd(end);
+    setCustomRange(start, end);
+    haptic.selectionChanged();
+  }, [setCustomRange, haptic]);
+
   const handleSectionSelect = useCallback((section: DetectedSection, index: number) => {
     haptic.select();
     const sectionLen = section.endTime - section.startTime;
@@ -332,6 +339,8 @@ export function SectionEditorMobile({
                 endTime={localEnd}
                 isValid={isValid}
                 className="mb-2"
+                interactive
+                onSelectionChange={handleWaveformSelectionChange}
               />
             </motion.div>
 

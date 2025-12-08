@@ -97,6 +97,7 @@ export function SectionEditorPanel({
     setPrompt,
     setTags,
     setActiveTask,
+    setCustomRange,
     clearSelection,
   } = useSectionEditorStore();
 
@@ -120,6 +121,10 @@ export function SectionEditorPanel({
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
+
+  const handleWaveformSelectionChange = useCallback((start: number, end: number) => {
+    setCustomRange(start, end);
+  }, [setCustomRange]);
 
   const handleReplace = async () => {
     if (!isValid) return;
@@ -214,6 +219,8 @@ export function SectionEditorPanel({
               startTime={startTime}
               endTime={endTime}
               isValid={isValid}
+              interactive
+              onSelectionChange={handleWaveformSelectionChange}
             />
           </motion.div>
 
