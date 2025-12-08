@@ -118,13 +118,21 @@
 - [Sprint 005: Hardening](../SPRINTS/SPRINT-005-PRODUCTION-HARDENING.md) ✅ Завершен
 - [Sprint 006: UI/UX Planning](../SPRINTS/SPRINT-006-UI-UX-IMPROVEMENTS.md) ✅ Завершен
 - [Sprint 007: Mobile-First](../SPRINTS/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md) ✅ Завершен
-- [Sprint 008: Library & Player](../SPRINTS/SPRINT-008-LIBRARY-PLAYER-MVP.md) ⏳ Готов к запуску
+- [Sprint 008: Library & Player](../SPRINTS/SPRINT-008-LIBRARY-PLAYER-MVP.md) ✅ Завершен
+- [Sprint 009: Refactoring](../SPRINTS/SPRINT-009-REFACTORING.md) ⏳ В процессе
 
 ### Процессы
 - [**📖 Onboarding**](../ONBOARDING.md) - Введение новых участников
 - [**🔄 Development Workflow**](../DEVELOPMENT_WORKFLOW.md) - Процесс разработки
 - [**📋 Project Management**](../PROJECT_MANAGEMENT.md) - Управление проектом
 - [**🎯 Roadmap**](../ROADMAP.md) - Дорожная карта
+
+### Недавние обновления (Декабрь 2025)
+- ✅ Рефакторинг GenerateSheet (1178→250 строк)
+- ✅ Рефакторинг LyricsChatAssistant (833→200 строк)
+- ✅ AnalysisQuickStats для визуализации анализа
+- ✅ Объединены страницы Artists/Actors
+- ✅ Обновлены README.md и NAVIGATION.md
 
 ---
 
@@ -224,25 +232,29 @@
 aimusicverse/
 ├── 📁 docs/                    # Документация (вы здесь)
 │   ├── INDEX.md               # Этот файл
-│   ├── ARCHITECTURE.md        # Архитектура системы
-│   ├── API.md                 # API справочник
+│   ├── PROJECT_SPECIFICATION  # Спецификация проекта
 │   ├── DATABASE.md            # База данных
-│   └── guides/                # Руководства пользователей
+│   ├── SUNO_API.md            # Suno API интеграция
+│   └── TELEGRAM_BOT_*.md      # Telegram документация
 ├── 📁 src/                     # Исходный код
-│   ├── components/            # React компоненты
+│   ├── components/            # React компоненты (150+)
+│   │   ├── ui/               # shadcn + custom (GlowButton, GlassCard)
+│   │   ├── player/           # Плеер (Compact/Expanded/Fullscreen)
+│   │   ├── generate-form/    # Форма генерации (модули)
+│   │   │   └── lyrics-chat/  # AI Lyrics Assistant
+│   │   ├── track-detail/     # Анализ, версии, стемы
+│   │   └── ...
+│   ├── hooks/                 # 60+ кастомных хуков
+│   ├── stores/                # Zustand stores
 │   ├── pages/                 # Страницы приложения
-│   ├── hooks/                 # Кастомные хуки
-│   ├── services/              # Сервисы и API
-│   └── utils/                 # Утилиты
-├── 📁 supabase/                # Backend конфигурация
-│   ├── functions/             # Edge Functions
-│   └── migrations/            # Database migrations
+│   └── lib/                   # Утилиты (logger, utils)
+├── 📁 supabase/                # Backend
+│   └── functions/             # 45+ Edge Functions
+├── 📁 ADR/                     # Архитектурные решения
 ├── 📁 SPRINTS/                 # Управление спринтами
-│   ├── BACKLOG.md            # Бэклог задач
-│   └── SPRINT-XXX-*.md       # Документация спринтов
 ├── README.md                  # Главная страница
-├── CONTRIBUTING.md            # Руководство по участию
-└── package.json               # Зависимости проекта
+├── NAVIGATION.md              # Путеводитель по репозиторию
+└── CONTRIBUTING.md            # Руководство по участию
 ```
 
 ---
