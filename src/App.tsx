@@ -4,12 +4,12 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
 import { TelegramProvider, DeepLinkHandler } from "@/contexts/TelegramContext";
+import { GamificationProvider } from "@/contexts/GamificationContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { MainLayout } from "@/components/MainLayout";
 import { GlobalAudioProvider } from "@/components/GlobalAudioProvider";
-
 // Lazy load pages
 const Index = lazy(() => import("./pages/Index"));
 const Auth = lazy(() => import("./pages/Auth"));
@@ -51,10 +51,11 @@ const App = () => (
       <QueryClientProvider client={queryClient}>
         <TelegramProvider>
           <GlobalAudioProvider>
-            <TooltipProvider>
-              <Sonner />
-              <BrowserRouter>
-              <DeepLinkHandler />
+            <GamificationProvider>
+              <TooltipProvider>
+                <Sonner />
+                <BrowserRouter>
+                <DeepLinkHandler />
               <Suspense fallback={<div>Loading...</div>}>
                 <Routes>
                   <Route path="/auth" element={<Auth />} />
@@ -95,6 +96,7 @@ const App = () => (
               </Suspense>
               </BrowserRouter>
             </TooltipProvider>
+          </GamificationProvider>
           </GlobalAudioProvider>
         </TelegramProvider>
       </QueryClientProvider>
