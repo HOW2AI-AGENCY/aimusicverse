@@ -91,8 +91,9 @@ flowchart TB
 1. [ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md) - Визуальные схемы
 2. [DATABASE.md](./DATABASE.md) - Схема БД
 3. [PLAYER_ARCHITECTURE.md](./PLAYER_ARCHITECTURE.md) - Плеер
-4. [TELEGRAM_BOT_ARCHITECTURE.md](./TELEGRAM_BOT_ARCHITECTURE.md) - Telegram бот
-5. [SUNO_API.md](./SUNO_API.md) - Suno интеграция
+4. [SECTION_REPLACEMENT.md](./SECTION_REPLACEMENT.md) - Замена секций
+5. [TELEGRAM_BOT_ARCHITECTURE.md](./TELEGRAM_BOT_ARCHITECTURE.md) - Telegram бот
+6. [SUNO_API.md](./SUNO_API.md) - Suno интеграция
 
 ### 💻 Хочу написать код
 
@@ -288,8 +289,9 @@ graph TB
 
 ```
 1. Architecture: ARCHITECTURE_DIAGRAMS.md § Stem Studio
-2. Database: DATABASE.md § track_stems
-3. Components: NAVIGATION.md § Stem Studio
+2. Section Replacement: SECTION_REPLACEMENT.md
+3. Database: DATABASE.md § track_stems, track_change_log
+4. Components: NAVIGATION.md § Stem Studio
 ```
 
 ### Telegram бот
