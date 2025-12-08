@@ -31,6 +31,24 @@
 
 ---
 
+## 📑 Содержание
+
+- [✨ Возможности](#-возможности)
+- [🏗️ Архитектура](#️-архитектура)
+- [📊 Системная архитектура](#-системная-архитектура)
+- [🔄 Поток данных](#-поток-данных)
+- [🎯 Архитектура компонентов](#-архитектура-компонентов)
+- [🚀 Быстрый старт](#-быстрый-старт)
+- [📊 Ключевые метрики](#-ключевые-метрики)
+- [📁 Структура проекта](#-структура-проекта)
+- [📖 Документация](#-документация)
+- [🔒 Безопасность](#-безопасность)
+- [🛠️ Недавние улучшения](#️-недавние-улучшения)
+
+> 💡 **Навигация:** См. [NAVIGATION_INDEX.md](docs/NAVIGATION_INDEX.md) для интерактивной карты всей документации
+
+---
+
 ## ✨ Возможности
 
 ### 🎹 Генерация музыки
@@ -107,6 +125,252 @@
 - **User Management** — управление ролями
 - **Broadcast** — рассылка уведомлений
 - **Blog** — AI-ассистент для статей
+
+---
+
+## 📊 Системная архитектура
+
+### Общая схема системы
+
+```mermaid
+graph TB
+    subgraph "Frontend Layer"
+        A[Telegram Mini App<br/>React 19 + TypeScript]
+        B[State Management<br/>Zustand + TanStack Query]
+        C[UI Components<br/>shadcn/ui + Tailwind]
+    end
+    
+    subgraph "Backend Layer - Lovable Cloud"
+        D[PostgreSQL Database<br/>30+ Tables with RLS]
+        E[Edge Functions<br/>45+ Serverless Functions]
+        F[Storage<br/>Audio Files & Covers]
+    end
+    
+    subgraph "External Services"
+        G[Suno AI v5<br/>Music Generation]
+        H[Telegram API<br/>Bot & Notifications]
+        I[Gemini AI<br/>Artist Portraits]
+    end
+    
+    A --> B
+    B --> C
+    A <--> E
+    E <--> D
+    E <--> F
+    E <--> G
+    E <--> H
+    E <--> I
+    
+    style A fill:#61DAFB
+    style D fill:#336791
+    style G fill:#e74c3c
+    style H fill:#26A5E4
+```
+
+### Архитектура базы данных
+
+```mermaid
+erDiagram
+    users ||--o{ tracks : creates
+    users ||--o{ playlists : owns
+    users ||--o{ artists : creates
+    
+    tracks ||--o{ track_versions : "has versions"
+    tracks ||--|| audio_analysis : "has analysis"
+    tracks ||--o{ track_stems : "has stems"
+    tracks ||--o{ track_likes : "receives"
+    tracks }o--|| artists : "by artist"
+    tracks }o--o| music_projects : "belongs to"
+    
+    playlists ||--o{ playlist_tracks : contains
+    playlist_tracks }o--|| tracks : references
+    
+    track_versions ||--o{ track_change_log : "has changelog"
+    
+    generation_tasks ||--|| tracks : generates
+    stem_separation_tasks ||--|| track_stems : creates
+    
+    users {
+        uuid id PK
+        text telegram_id
+        text username
+        boolean is_public
+    }
+    
+    tracks {
+        uuid id PK
+        uuid user_id FK
+        uuid active_version_id FK
+        text title
+        text prompt
+        boolean is_public
+        boolean has_stems
+        int play_count
+    }
+    
+    track_versions {
+        uuid id PK
+        uuid track_id FK
+        text version_label
+        boolean is_primary
+        text audio_url
+    }
+    
+    playlists {
+        uuid id PK
+        uuid user_id FK
+        text title
+        int track_count
+        int total_duration
+    }
+```
+
+---
+
+## 🔄 Поток данных
+
+### Процесс генерации музыки
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant TG as Telegram
+    participant App as MusicVerse App
+    participant Edge as Edge Functions
+    participant DB as PostgreSQL
+    participant Suno as Suno AI v5
+    
+    User->>TG: Открывает Mini App
+    TG->>App: initData + auth
+    App->>Edge: Validate auth
+    Edge->>DB: Get/Create user
+    DB-->>App: User profile
+    
+    User->>App: Заполняет форму генерации
+    App->>App: Auto-save draft (localStorage)
+    User->>App: Отправить генерацию
+    
+    App->>Edge: POST /suno-music-generate
+    Edge->>DB: Create generation_task
+    Edge->>Suno: Start generation
+    Suno-->>Edge: Task ID
+    Edge-->>App: Task created
+    
+    loop Streaming Progress
+        Suno-->>Edge: Streaming URL ready
+        Edge->>DB: Update streaming_url
+        DB-->>App: Realtime update
+        App->>User: Show streaming preview
+    end
+    
+    Suno->>Edge: Webhook: Generation complete
+    Edge->>DB: Create track + 2 versions
+    Edge->>TG: Send notification
+    TG->>User: "Ваш трек готов!"
+    
+    User->>App: Открывает трек
+    App->>DB: Increment play_count
+    App->>User: Начать воспроизведение
+```
+
+### Система версионирования (A/B)
+
+```mermaid
+graph LR
+    A[Generation Request] --> B[Suno AI]
+    B --> C[Clip 0 - Version A]
+    B --> D[Clip 1 - Version B]
+    
+    C --> E[track_versions<br/>is_primary = true]
+    D --> F[track_versions<br/>is_primary = false]
+    
+    E --> G[tracks.active_version_id<br/>points to Version A]
+    
+    style C fill:#90EE90
+    style D fill:#FFB6C1
+    style E fill:#90EE90
+    style F fill:#FFB6C1
+```
+
+---
+
+## 🎯 Архитектура компонентов
+
+### Frontend структура
+
+```mermaid
+graph TB
+    subgraph "App Shell"
+        A[App.tsx<br/>Router + Layout]
+        B[GlobalAudioProvider<br/>Single Audio Element]
+        C[TelegramContext<br/>Mini App SDK]
+    end
+    
+    subgraph "Pages"
+        D[Index - Homepage]
+        E[Library - Track List]
+        F[Artists - AI Personas]
+        G[Projects - Organization]
+        H[Playlists - Collections]
+    end
+    
+    subgraph "Core Features"
+        I[Player<br/>Compact/Expanded/Fullscreen]
+        J[GenerateSheet<br/>Music Creation Form]
+        K[Stem Studio<br/>Stem Separation & Mix]
+        L[Track Actions<br/>Unified Menus]
+    end
+    
+    subgraph "State Management"
+        M[playerStore<br/>Zustand]
+        N[TanStack Query<br/>Server State Cache]
+    end
+    
+    A --> B
+    A --> C
+    A --> D
+    A --> E
+    A --> F
+    A --> G
+    A --> H
+    
+    D --> I
+    E --> I
+    E --> J
+    E --> K
+    E --> L
+    
+    I --> M
+    J --> N
+    K --> N
+    L --> N
+    
+    style A fill:#61DAFB
+    style M fill:#764ABC
+    style N fill:#FF4154
+```
+
+### Архитектура плеера
+
+```mermaid
+stateDiagram-v2
+    [*] --> Idle
+    Idle --> Loading: User clicks play
+    Loading --> Playing: Audio ready
+    Playing --> Paused: User pauses
+    Paused --> Playing: User resumes
+    Playing --> Loading: Change track
+    Playing --> Idle: Track ends
+    Paused --> Idle: User stops
+    
+    state Playing {
+        [*] --> Compact
+        Compact --> Expanded: User expands
+        Expanded --> Fullscreen: User taps fullscreen
+        Fullscreen --> Expanded: User exits
+        Expanded --> Compact: User minimizes
+    }
+```
 
 ---
 
@@ -221,14 +485,15 @@ npm run dev
 
 | Документ | Описание |
 |----------|----------|
-| [NAVIGATION.md](NAVIGATION.md) | Путеводитель по репозиторию |
-| [docs/PROJECT_SPECIFICATION.md](docs/PROJECT_SPECIFICATION.md) | Спецификация проекта |
-| [docs/DATABASE.md](docs/DATABASE.md) | Схема базы данных |
-| [docs/SUNO_API.md](docs/SUNO_API.md) | Интеграция Suno API |
-| [docs/TELEGRAM_BOT_ARCHITECTURE.md](docs/TELEGRAM_BOT_ARCHITECTURE.md) | Архитектура бота |
-| [docs/PLAYER_ARCHITECTURE.md](docs/PLAYER_ARCHITECTURE.md) | Архитектура плеера |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Правила контрибуции |
-| [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md) | Рабочий процесс |
+| [NAVIGATION.md](NAVIGATION.md) | 🗺️ Путеводитель по репозиторию |
+| [docs/ARCHITECTURE_DIAGRAMS.md](docs/ARCHITECTURE_DIAGRAMS.md) | 🏗️ **Визуальные диаграммы архитектуры** |
+| [docs/PROJECT_SPECIFICATION.md](docs/PROJECT_SPECIFICATION.md) | 📋 Спецификация проекта |
+| [docs/DATABASE.md](docs/DATABASE.md) | 🗄️ Схема базы данных с ERD |
+| [docs/SUNO_API.md](docs/SUNO_API.md) | 🎵 Интеграция Suno API |
+| [docs/TELEGRAM_BOT_ARCHITECTURE.md](docs/TELEGRAM_BOT_ARCHITECTURE.md) | 🤖 Архитектура бота |
+| [docs/PLAYER_ARCHITECTURE.md](docs/PLAYER_ARCHITECTURE.md) | 🎧 Архитектура плеера |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | 🤝 Правила контрибуции |
+| [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md) | 🔄 Рабочий процесс |
 
 ---
 

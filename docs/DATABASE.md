@@ -1,6 +1,20 @@
 # 🗄️ Database Schema - MusicVerse AI
 
-**Last Updated:** 2025-12-05
+**Last Updated:** 2025-12-08
+
+---
+
+## 📑 Содержание
+
+- [Обзор](#обзор)
+- [Схема связей таблиц](#схема-связей-таблиц)
+- [Основные таблицы приложения](#основные-таблицы-приложения)
+- [Система версионирования](#система-версионирования)
+- [Система плейлистов](#система-плейлистов)
+- [RLS Policies](#rls-policies)
+- [Индексы и оптимизация](#индексы-и-оптимизация)
+
+---
 
 ## Обзор
 
@@ -14,6 +28,118 @@ MusicVerse использует **PostgreSQL** с **Row Level Security (RLS)** �
 - 500+ связей между тегами
 - Пользовательскими предпочтениями
 - Историей генераций
+
+### Ключевые статистики
+
+| Метрика | Значение |
+|---------|----------|
+| Всего таблиц | 30+ |
+| RLS политик | 50+ |
+| Индексов | 60+ |
+| Триггеров | 15+ |
+| Edge Functions | 45+ |
+
+---
+
+## Схема связей таблиц
+
+### Основная ERD диаграмма
+
+```mermaid
+erDiagram
+    profiles ||--o{ tracks : creates
+    profiles ||--o{ playlists : owns
+    profiles ||--o{ artists : creates
+    profiles ||--o{ generation_tasks : initiates
+    
+    tracks ||--|| audio_analysis : "has"
+    tracks ||--o{ track_versions : "has versions"
+    tracks ||--o{ track_stems : "has stems"
+    tracks ||--o{ track_likes : "receives"
+    tracks ||--o{ track_change_log : "has changelog"
+    tracks }o--o| artists : "by artist"
+    tracks }o--o| music_projects : "belongs to"
+    
+    track_versions ||--|| tracks : "is active version"
+    
+    playlists ||--o{ playlist_tracks : contains
+    playlist_tracks }o--|| tracks : references
+    
+    generation_tasks ||--o| tracks : generates
+    stem_separation_tasks ||--o{ track_stems : creates
+    
+    suno_meta_tags ||--o{ generation_tag_usage : "used in"
+    music_styles ||--o{ generation_tag_usage : "used in"
+    
+    profiles {
+        uuid id PK
+        uuid user_id FK
+        text telegram_username
+        boolean is_public
+        integer credits
+        text app_role
+    }
+    
+    tracks {
+        uuid id PK
+        uuid user_id FK
+        uuid active_version_id FK
+        text title
+        text prompt
+        boolean is_public
+        boolean has_stems
+        int play_count
+        int likes_count
+    }
+    
+    track_versions {
+        uuid id PK
+        uuid track_id FK
+        text version_label
+        boolean is_primary
+        int clip_index
+        text audio_url
+    }
+    
+    playlists {
+        uuid id PK
+        uuid user_id FK
+        text title
+        int track_count
+        int total_duration
+    }
+    
+    artists {
+        uuid id PK
+        uuid user_id FK
+        text name
+        text style
+        boolean is_public
+    }
+```
+
+### Система генерации треков
+
+```mermaid
+flowchart TB
+    A[generation_tasks] -->|creates| B[tracks]
+    B -->|creates 2x| C[track_versions]
+    C -->|version A| D[is_primary = true]
+    C -->|version B| E[is_primary = false]
+    D -->|points back| F[tracks.active_version_id]
+    
+    B -->|optional| G[track_stems]
+    B -->|creates| H[audio_analysis]
+    B -->|logs changes| I[track_change_log]
+    
+    style A fill:#FFE4B5
+    style B fill:#90EE90
+    style C fill:#87CEEB
+    style D fill:#98FB98
+    style E fill:#FFB6C1
+```
+
+---
 
 ## Основные таблицы приложения
 
@@ -745,3 +871,191 @@ supabase/migrations/
 - Ежедневный backup всей БД
 - Point-in-time recovery (7 дней)
 - Manual backup перед мажорными изменениями
+
+---
+
+## Диаграммы взаимодействия
+
+### Жизненный цикл трека
+
+```mermaid
+stateDiagram-v2
+    [*] --> pending: User submits generation
+    pending --> processing: Suno accepts task
+    processing --> streaming_ready: Streaming URL available
+    streaming_ready --> completed: Final audio ready
+    processing --> failed: Generation error
+    failed --> [*]
+    
+    completed --> has_stems: User requests stems
+    has_stems --> completed: Stems processed
+    
+    completed --> extended: User extends track
+    extended --> completed: Extension added
+```
+
+### Процесс версионирования
+
+```mermaid
+flowchart LR
+    A[User generates track] --> B[Suno returns 2 clips]
+    B --> C[Create track record]
+    C --> D[Create Version A<br/>clip_index=0<br/>is_primary=true]
+    C --> E[Create Version B<br/>clip_index=1<br/>is_primary=false]
+    D --> F[Set active_version_id<br/>to Version A]
+    
+    G[User switches to B] --> H[Update is_primary flags]
+    H --> I[Update active_version_id]
+    H --> J[Log change in<br/>track_change_log]
+    
+    style D fill:#98FB98
+    style E fill:#FFB6C1
+    style F fill:#FFD700
+```
+
+### Система лайков с denormalized счётчиками
+
+```mermaid
+flowchart TB
+    A[User clicks like] --> B{Already liked?}
+    B -->|No| C[INSERT track_likes]
+    B -->|Yes| D[DELETE track_likes]
+    
+    C --> E[Trigger: increment_likes_count]
+    D --> F[Trigger: decrement_likes_count]
+    
+    E --> G[UPDATE tracks<br/>SET likes_count = likes_count + 1]
+    F --> H[UPDATE tracks<br/>SET likes_count = likes_count - 1]
+    
+    G --> I[Optimistic UI update]
+    H --> I
+    
+    style C fill:#90EE90
+    style D fill:#FFB6C1
+    style I fill:#61DAFB
+```
+
+### RLS Policy Flow
+
+```mermaid
+flowchart TB
+    A[Client Query] --> B{Authenticated?}
+    B -->|No| C[Anonymous Policy]
+    B -->|Yes| D{Check table}
+    
+    C --> E{is_public = true?}
+    E -->|Yes| F[Allow SELECT]
+    E -->|No| G[Deny]
+    
+    D --> H{tracks}
+    D --> I{playlists}
+    D --> J{artists}
+    
+    H --> K{user_id = auth.uid?}
+    K -->|Yes| L[Full access]
+    K -->|No| E
+    
+    I --> M{user_id = auth.uid?}
+    M -->|Yes| L
+    M -->|No| E
+    
+    J --> N{user_id = auth.uid?}
+    N -->|Yes| L
+    N -->|No| E
+    
+    style B fill:#FFE4B5
+    style L fill:#90EE90
+    style G fill:#FFB6C1
+```
+
+---
+
+## Performance Tips
+
+### Оптимизация запросов
+
+```sql
+-- ✅ GOOD: Используем индексы и лимиты
+SELECT t.*, tv.audio_url, tv.version_label
+FROM tracks t
+JOIN track_versions tv ON tv.id = t.active_version_id
+WHERE t.user_id = 'user-uuid'
+  AND t.is_public = true
+ORDER BY t.created_at DESC
+LIMIT 20;
+
+-- ❌ BAD: N+1 queries без JOIN
+SELECT * FROM tracks WHERE user_id = 'user-uuid';
+-- Затем для каждого трека:
+SELECT * FROM track_versions WHERE track_id = 'track-uuid';
+
+-- ✅ GOOD: Batch операции
+UPDATE tracks 
+SET play_count = play_count + 1 
+WHERE id = ANY(ARRAY['id1', 'id2', 'id3']);
+
+-- ❌ BAD: Множественные UPDATE
+UPDATE tracks SET play_count = play_count + 1 WHERE id = 'id1';
+UPDATE tracks SET play_count = play_count + 1 WHERE id = 'id2';
+UPDATE tracks SET play_count = play_count + 1 WHERE id = 'id3';
+```
+
+### Использование индексов
+
+```sql
+-- Composite индексы для частых запросов
+CREATE INDEX idx_tracks_user_public_created 
+ON tracks(user_id, is_public, created_at DESC);
+
+-- Partial индексы для фильтрации
+CREATE INDEX idx_tracks_public 
+ON tracks(created_at DESC) 
+WHERE is_public = true;
+
+-- GIN индексы для JSONB
+CREATE INDEX idx_audio_analysis_metadata 
+ON audio_analysis USING GIN(metadata);
+```
+
+---
+
+## Troubleshooting
+
+### Часто встречающиеся проблемы
+
+1. **Несинхронизированные счётчики**
+   ```sql
+   -- Пересчитать likes_count
+   UPDATE tracks t
+   SET likes_count = (
+     SELECT COUNT(*) FROM track_likes 
+     WHERE track_id = t.id
+   );
+   ```
+
+2. **Потерянные active_version_id**
+   ```sql
+   -- Восстановить active_version_id
+   UPDATE tracks t
+   SET active_version_id = (
+     SELECT id FROM track_versions 
+     WHERE track_id = t.id AND is_primary = true
+     LIMIT 1
+   )
+   WHERE active_version_id IS NULL;
+   ```
+
+3. **Дублирующиеся is_primary флаги**
+   ```sql
+   -- Найти треки с несколькими primary версиями
+   SELECT track_id, COUNT(*) 
+   FROM track_versions 
+   WHERE is_primary = true
+   GROUP BY track_id 
+   HAVING COUNT(*) > 1;
+   ```
+
+---
+
+**Документ последний раз обновлён:** 2025-12-08  
+**Версия схемы:** 2.1
