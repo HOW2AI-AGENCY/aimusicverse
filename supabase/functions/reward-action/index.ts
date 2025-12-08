@@ -145,16 +145,22 @@ serve(async (req) => {
 
     // Update total_shares counter if this is a share action
     if (actionType === 'share' && currentCredits) {
-      const { error: sharesError } = await supabase
+      await supabase
         .from('user_credits')
         .update({
           total_shares: (currentCredits.total_shares || 0) + 1,
         })
         .eq('user_id', userId);
+    }
 
-      if (sharesError) {
-        console.error('Error updating total_shares:', sharesError);
-      }
+    // Update total_likes_received counter if this is a like_received action
+    if (actionType === 'like_received' && currentCredits) {
+      await supabase
+        .from('user_credits')
+        .update({
+          total_likes_received: (currentCredits.total_likes_received || 0) + 1,
+        })
+        .eq('user_id', userId);
     }
 
     // Check for achievements
@@ -187,13 +193,11 @@ async function checkAndUnlockAchievements(supabase: any, userId: string, actionT
     // Get user stats for achievement checking
     const [
       { count: trackCount },
-      { count: likeCount },
       { data: credits },
       { data: unlockedAchievements }
     ] = await Promise.all([
       supabase.from('tracks').select('*', { count: 'exact', head: true }).eq('user_id', userId).eq('status', 'completed'),
-      supabase.from('track_likes').select('*', { count: 'exact', head: true }).eq('user_id', userId),
-      supabase.from('user_credits').select('current_streak, level').eq('user_id', userId).single(),
+      supabase.from('user_credits').select('*').eq('user_id', userId).single(),
       supabase.from('user_achievements').select('achievement_id').eq('user_id', userId),
     ]);
 
@@ -209,57 +213,46 @@ async function checkAndUnlockAchievements(supabase: any, userId: string, actionT
       if (unlockedIds.has(achievement.id)) continue;
 
       let shouldUnlock = false;
+      const code = achievement.code;
 
-      switch (achievement.code) {
-        // Track achievements
-        case 'tracks_1':
-          shouldUnlock = (trackCount || 0) >= 1;
-          break;
-        case 'tracks_10':
-          shouldUnlock = (trackCount || 0) >= 10;
-          break;
-        case 'tracks_50':
-          shouldUnlock = (trackCount || 0) >= 50;
-          break;
-        case 'tracks_100':
-          shouldUnlock = (trackCount || 0) >= 100;
-          break;
-
-        // Streak achievements
-        case 'streak_3':
-          shouldUnlock = (credits?.current_streak || 0) >= 3;
-          break;
-        case 'streak_7':
-          shouldUnlock = (credits?.current_streak || 0) >= 7;
-          break;
-        case 'streak_14':
-          shouldUnlock = (credits?.current_streak || 0) >= 14;
-          break;
-        case 'streak_30':
-          shouldUnlock = (credits?.current_streak || 0) >= 30;
-          break;
-
-        // Level achievements
-        case 'level_5':
-          shouldUnlock = (credits?.level || 1) >= 5;
-          break;
-        case 'level_10':
-          shouldUnlock = (credits?.level || 1) >= 10;
-          break;
-        case 'level_25':
-          shouldUnlock = (credits?.level || 1) >= 25;
-          break;
-
-        // Special achievements
-        case 'first_public':
-          if (actionType === 'public_track') shouldUnlock = true;
-          break;
-        case 'first_artist':
-          if (actionType === 'artist_created') shouldUnlock = true;
-          break;
-        case 'first_project':
-          if (actionType === 'project_created') shouldUnlock = true;
-          break;
+      // Track achievements
+      if (code.startsWith('tracks_')) {
+        const required = parseInt(code.split('_')[1]) || 0;
+        shouldUnlock = (trackCount || 0) >= required;
+      }
+      // Streak achievements
+      else if (code.startsWith('streak_')) {
+        const required = parseInt(code.split('_')[1]) || 0;
+        shouldUnlock = (credits?.current_streak || 0) >= required;
+      }
+      // Level achievements
+      else if (code.startsWith('level_')) {
+        const required = parseInt(code.split('_')[1]) || 0;
+        shouldUnlock = (credits?.level || 1) >= required;
+      }
+      // Likes received achievements
+      else if (code.startsWith('likes_')) {
+        const required = parseInt(code.split('_')[1]) || 0;
+        shouldUnlock = (credits?.total_likes_received || 0) >= required;
+      }
+      // Shares achievements
+      else if (code.startsWith('shares_')) {
+        const required = parseInt(code.split('_')[1]) || 0;
+        shouldUnlock = (credits?.total_shares || 0) >= required;
+      }
+      // Special achievements based on action
+      else {
+        switch (code) {
+          case 'first_public':
+            if (actionType === 'public_track') shouldUnlock = true;
+            break;
+          case 'first_artist':
+            if (actionType === 'artist_created') shouldUnlock = true;
+            break;
+          case 'first_project':
+            if (actionType === 'project_created') shouldUnlock = true;
+            break;
+        }
       }
 
       if (shouldUnlock) {
@@ -271,10 +264,15 @@ async function checkAndUnlockAchievements(supabase: any, userId: string, actionT
     for (const achievement of achievementsToUnlock) {
       console.log(`🏆 Unlocking achievement: ${achievement.name} for user ${userId}`);
 
-      await supabase.from('user_achievements').insert({
+      const { error: insertError } = await supabase.from('user_achievements').insert({
         user_id: userId,
         achievement_id: achievement.id,
       });
+
+      if (insertError) {
+        console.error(`Failed to unlock achievement ${achievement.code}:`, insertError);
+        continue;
+      }
 
       // Grant achievement rewards
       if (achievement.credits_reward > 0 || achievement.experience_reward > 0) {
