@@ -25,6 +25,9 @@ import { QuickComparePanel } from '@/components/stem-studio/QuickComparePanel';
 import { QuickCompareMobile } from '@/components/stem-studio/QuickCompareMobile';
 import { StudioQuickActions } from '@/components/stem-studio/StudioQuickActions';
 import { StudioContextTips } from '@/components/stem-studio/StudioContextTips';
+import { TrimDialog } from '@/components/stem-studio/TrimDialog';
+import { VocalReplacementDialog } from '@/components/stem-studio/VocalReplacementDialog';
+import { ArrangementReplacementDialog } from '@/components/stem-studio/ArrangementReplacementDialog';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -48,6 +51,9 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
   const [volume, setVolume] = useState(0.85);
   const [muted, setMuted] = useState(false);
   const [isSeparating, setIsSeparating] = useState(false);
+  const [trimDialogOpen, setTrimDialogOpen] = useState(false);
+  const [vocalDialogOpen, setVocalDialogOpen] = useState(false);
+  const [arrangementDialogOpen, setArrangementDialogOpen] = useState(false);
   
   // Section Editor State
   const { 
@@ -324,6 +330,9 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
         isSeparating={isSeparating}
         onSeparate={handleSeparateStems}
         onReplaceSection={canReplaceSection ? () => setEditMode('selecting') : undefined}
+        onTrim={() => setTrimDialogOpen(true)}
+        onReplaceVocal={() => setVocalDialogOpen(true)}
+        onReplaceArrangement={() => setArrangementDialogOpen(true)}
       />
 
       {/* Contextual Tips */}
@@ -593,6 +602,28 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
           )}
         </div>
       </footer>
+
+      {/* Dialogs */}
+      <TrimDialog
+        open={trimDialogOpen}
+        onOpenChange={setTrimDialogOpen}
+        track={track}
+        onTrimComplete={() => {}}
+      />
+      
+      <VocalReplacementDialog
+        open={vocalDialogOpen}
+        onOpenChange={setVocalDialogOpen}
+        track={track}
+        hasStems={false}
+      />
+      
+      <ArrangementReplacementDialog
+        open={arrangementDialogOpen}
+        onOpenChange={setArrangementDialogOpen}
+        track={track}
+        hasStems={false}
+      />
     </div>
   );
 };

@@ -88,16 +88,14 @@ export const StudioQuickActions = ({
       label: 'Заменить вокал',
       shortLabel: 'Вокал',
       available: canReplace && hasVocals,
-      badge: 'SOON',
-      onClick: () => handleComingSoon('Замена вокала'),
+      onClick: onReplaceVocal,
     },
     {
       icon: <Music className="w-4 h-4" />,
       label: 'Заменить аранжировку',
       shortLabel: 'Аранж.',
       available: canReplace,
-      badge: 'SOON',
-      onClick: () => handleComingSoon('Замена аранжировки'),
+      onClick: onReplaceArrangement,
     },
     {
       icon: <Shuffle className="w-4 h-4" />,
@@ -105,7 +103,7 @@ export const StudioQuickActions = ({
       shortLabel: 'Ремикс',
       available: canRemix,
       badge: 'SOON',
-      onClick: () => handleComingSoon('Создание ремикса'),
+      onClick: onRemix || (() => handleComingSoon('Создание ремикса')),
     },
     {
       icon: <ArrowRight className="w-4 h-4" />,
@@ -113,15 +111,14 @@ export const StudioQuickActions = ({
       shortLabel: 'Расширить',
       available: canExtend,
       badge: 'SOON',
-      onClick: () => handleComingSoon('Расширение трека'),
+      onClick: onExtend || (() => handleComingSoon('Расширение трека')),
     },
     {
       icon: <Clock className="w-4 h-4" />,
       label: 'Обрезать трек',
       shortLabel: 'Обрезать',
       available: !!track.audio_url,
-      badge: 'SOON',
-      onClick: () => handleComingSoon('Обрезка трека'),
+      onClick: onTrim,
     },
   ];
 
