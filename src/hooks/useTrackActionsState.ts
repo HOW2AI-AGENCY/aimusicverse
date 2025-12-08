@@ -21,6 +21,7 @@ interface DialogStates {
   details: boolean;
   lyrics: boolean;
   extend: boolean;
+  cover: boolean;
   addVocals: boolean;
   addInstrumental: boolean;
   createArtist: boolean;
@@ -45,6 +46,7 @@ export function useTrackActionsState({
     details: false,
     lyrics: false,
     extend: false,
+    cover: false,
     addVocals: false,
     addInstrumental: false,
     createArtist: false,
@@ -204,6 +206,9 @@ export function useTrackActionsState({
       // Edit actions
       case 'extend':
         openDialog('extend');
+        break;
+      case 'cover':
+        openDialog('cover');
         break;
       case 'add_vocals':
         openDialog('addVocals');

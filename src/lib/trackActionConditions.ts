@@ -42,6 +42,9 @@ export function isActionAvailable(
     case 'stems_detailed':
       return !!track.suno_id && state.stemCount === 0;
 
+    case 'cover':
+      return isCompleted && hasAudio;
+
     case 'add_vocals':
       return isCompleted && (track.is_instrumental === true || track.has_vocals === false);
 
