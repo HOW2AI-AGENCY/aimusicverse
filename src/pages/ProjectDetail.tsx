@@ -20,6 +20,7 @@ import { cn } from '@/lib/utils';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
@@ -64,7 +65,7 @@ export default function ProjectDetail() {
       if (error) throw error;
       queryClient.invalidateQueries({ queryKey: ['projects'] });
     } catch (error) {
-      console.error('Error updating project:', error);
+      logger.error('Error updating project', error);
       throw error;
     }
   };
@@ -115,7 +116,7 @@ export default function ProjectDetail() {
     try {
       updateTrack({ id: trackId, updates: { notes: lyrics } });
     } catch (error) {
-      console.error('Error saving lyrics:', error);
+      logger.error('Error saving lyrics', error);
       toast.error('Ошибка сохранения');
     }
   };

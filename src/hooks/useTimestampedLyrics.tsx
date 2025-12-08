@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 
 export interface AlignedWord {
   word: string;
@@ -45,7 +46,7 @@ export function useTimestampedLyrics(taskId: string | null, audioId: string | nu
 
         setData(responseData);
       } catch (err) {
-        console.error('Error fetching timestamped lyrics:', err);
+        logger.error('Error fetching timestamped lyrics', err);
         setError(err instanceof Error ? err.message : 'Failed to load lyrics');
       } finally {
         setLoading(false);

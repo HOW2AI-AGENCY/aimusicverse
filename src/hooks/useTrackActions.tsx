@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Track } from './useTracksOptimized';
 import { useRewardShare } from './useGamification';
+import { logger } from '@/lib/logger';
 
 export function useTrackActions() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -24,12 +25,12 @@ export function useTrackActions() {
             description: '+15 опыта',
           });
         } catch (err) {
-          console.error('Error rewarding share:', err);
+          logger.error('Error rewarding share', err);
         }
         
         onSuccess?.();
       } catch (error) {
-        console.error('Error sharing:', error);
+        logger.error('Error sharing', error);
       }
     }
   };
@@ -54,7 +55,7 @@ export function useTrackActions() {
 
       toast.success('Ремикс начат! Трек появится в библиотеке после завершения');
     } catch (error: any) {
-      console.error('Remix error:', error);
+      logger.error('Remix error', error);
       toast.error(error.message || 'Ошибка создания ремикса');
     } finally {
       setIsProcessing(false);
@@ -85,7 +86,7 @@ export function useTrackActions() {
 
       toast.success('Разделение началось! Стемы появятся после завершения');
     } catch (error: any) {
-      console.error('Separation error:', error);
+      logger.error('Separation error', error);
       toast.error(error.message || 'Ошибка разделения');
     } finally {
       setIsProcessing(false);
@@ -105,7 +106,7 @@ export function useTrackActions() {
       toast.success(track.is_public ? 'Трек теперь приватный' : 'Трек теперь публичный');
       window.location.reload();
     } catch (error: any) {
-      console.error('Toggle public error:', error);
+      logger.error('Toggle public error', error);
       toast.error('Ошибка изменения видимости');
     } finally {
       setIsProcessing(false);
@@ -130,7 +131,7 @@ export function useTrackActions() {
         description: 'Файл будет готов через несколько минут',
       });
     } catch (error: any) {
-      console.error('WAV conversion error:', error);
+      logger.error('WAV conversion error', error);
       toast.error(error.message || 'Ошибка конвертации');
     } finally {
       setIsProcessing(false);
@@ -154,7 +155,7 @@ export function useTrackActions() {
         description: 'Новая обложка будет готова через минуту',
       });
     } catch (error: any) {
-      console.error('Cover generation error:', error);
+      logger.error('Cover generation error', error);
       toast.error(error.message || 'Ошибка генерации обложки');
     } finally {
       setIsProcessing(false);
@@ -179,7 +180,7 @@ export function useTrackActions() {
         description: 'Клип будет готов через несколько минут',
       });
     } catch (error: any) {
-      console.error('Video generation error:', error);
+      logger.error('Video generation error', error);
       toast.error(error.message || 'Ошибка генерации видео');
     } finally {
       setIsProcessing(false);
@@ -221,7 +222,7 @@ export function useTrackActions() {
 
       toast.success('Трек отправлен в Telegram!');
     } catch (error: any) {
-      console.error('Send to Telegram error:', error);
+      logger.error('Send to Telegram error', error);
       toast.error(error.message || 'Ошибка отправки в Telegram');
     } finally {
       setIsProcessing(false);

@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
 import type { Track } from './useTracksOptimized';
+import { logger } from '@/lib/logger';
 
 export type { Track } from './useTracksOptimized';
 
@@ -122,14 +123,14 @@ export const useTracks = (projectId?: string) => {
           event_type: 'play',
         });
 
-      if (analyticsError) console.error('Analytics error:', analyticsError);
+      if (analyticsError) logger.error('Analytics error', analyticsError);
 
       await supabase.rpc('increment_track_play_count', {
         track_id_param: trackId,
       });
     },
     onError: (error: Error) => {
-      console.error('Play log error:', error);
+      logger.error('Play log error', error);
     },
   });
 

@@ -30,7 +30,7 @@ export const useGenerationRealtime = () => {
 
     const setupRealtime = () => {
       if (reconnectAttempts.current >= maxReconnectAttempts) {
-        console.warn('Max reconnect attempts reached.');
+        log.warn('Max reconnect attempts reached');
         return;
       }
 
@@ -112,7 +112,7 @@ export const useGenerationRealtime = () => {
             }
           });
       } catch (error) {
-        console.error('Realtime setup error:', error);
+        log.error('Realtime setup error', error);
         reconnectAttempts.current++;
       }
     };

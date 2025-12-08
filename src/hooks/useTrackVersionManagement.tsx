@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Track } from './useTracksOptimized';
+import { logger } from '@/lib/logger';
 
 export function useTrackVersionManagement() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -53,7 +54,7 @@ export function useTrackVersionManagement() {
 
       toast.success('Версия создана из основного трека');
     } catch (error: any) {
-      console.error('Create version error:', error);
+      logger.error('Create version error', error);
       toast.error(error.message || 'Ошибка создания версии');
     } finally {
       setIsProcessing(false);
@@ -133,7 +134,7 @@ export function useTrackVersionManagement() {
       // Force refetch instead of full page reload for better UX
       window.location.reload();
     } catch (error: any) {
-      console.error('Set primary error:', error);
+      logger.error('Set primary error', error);
       toast.error(error.message || 'Ошибка установки версии');
     } finally {
       setIsProcessing(false);
@@ -152,7 +153,7 @@ export function useTrackVersionManagement() {
 
       toast.success('Версия удалена');
     } catch (error: any) {
-      console.error('Delete version error:', error);
+      logger.error('Delete version error', error);
       toast.error(error.message || 'Ошибка удаления версии');
     } finally {
       setIsProcessing(false);

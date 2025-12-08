@@ -5,6 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { soundEffects } from '@/lib/sound-effects';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface RewardResult {
   success: boolean;
@@ -72,7 +73,7 @@ export function useRewards() {
 
       return { success: true, credits: amount };
     } catch (error) {
-      console.error('Failed to award credits:', error);
+      logger.error('Failed to award credits', error);
       return { success: false };
     } finally {
       setIsProcessing(false);
@@ -137,7 +138,7 @@ export function useRewards() {
         newLevel: leveledUp ? newLevel : undefined 
       };
     } catch (error) {
-      console.error('Failed to award experience:', error);
+      logger.error('Failed to award experience', error);
       return { success: false };
     } finally {
       setIsProcessing(false);
@@ -217,7 +218,7 @@ export function useRewards() {
 
       return results;
     } catch (error) {
-      console.error('Failed to check achievements:', error);
+      logger.error('Failed to check achievements', error);
       return [];
     }
   }, [user?.id, awardCredits, awardExperience, queryClient]);

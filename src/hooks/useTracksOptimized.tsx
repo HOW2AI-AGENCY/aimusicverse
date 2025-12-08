@@ -185,7 +185,7 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
 
     const setupChannel = () => {
       if (reconnectAttempts >= maxReconnectAttempts) {
-        console.warn('Max reconnect attempts reached for tracks channel');
+        log.warn('Max reconnect attempts reached for tracks channel');
         return;
       }
 
@@ -212,7 +212,7 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
           .subscribe((status) => {
             if (status === 'CHANNEL_ERROR') {
               reconnectAttempts++;
-              console.error('Tracks channel error, attempt:', reconnectAttempts);
+              log.error('Tracks channel error', { attempt: reconnectAttempts });
               
               const backoffMs = Math.min(1000 * Math.pow(2, reconnectAttempts), 15000);
               setTimeout(() => {
@@ -224,7 +224,7 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
             }
           });
       } catch (error) {
-        console.error('Error setting up tracks channel:', error);
+        log.error('Error setting up tracks channel', error);
         reconnectAttempts++;
       }
     };
@@ -332,7 +332,7 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
           event_type: 'play',
         });
 
-      if (analyticsError) console.error('Analytics error:', analyticsError);
+      if (analyticsError) log.error('Analytics error', analyticsError);
 
       // Use atomic increment function
       await supabase.rpc('increment_track_play_count', {
@@ -340,7 +340,7 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
       });
     },
     onError: (error: Error) => {
-      console.error('Play log error:', error);
+      log.error('Play log error', error);
     },
   });
 
