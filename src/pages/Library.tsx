@@ -221,19 +221,20 @@ export default function Library() {
   return (
     <ErrorBoundaryWrapper>
       <div className="min-h-screen pb-24">
-        {/* Page Header */}
-        <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-lg border-b border-border/50">
+        {/* Page Header - Enhanced with glassmorphism */}
+        <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-xl border-b border-border/30">
           <div className="container mx-auto px-4 sm:px-6 py-4">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold">Библиотека</h1>
-                <p className="text-sm text-muted-foreground">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gradient-telegram">Библиотека</h1>
+                <p className="text-sm text-muted-foreground mt-0.5">
                   {hasActiveGenerations && (
-                    <span className="text-primary mr-2">
+                    <span className="inline-flex items-center gap-1.5 text-generate mr-2">
+                      <span className="w-2 h-2 rounded-full bg-generate animate-pulse" />
                       {activeGenerations.length} в процессе •
                     </span>
                   )}
-                  {tracks?.length || 0} из {totalCount} треков
+                  <span className="tabular-nums">{tracks?.length || 0}</span> из <span className="tabular-nums">{totalCount}</span> треков
                 </p>
               </div>
 
@@ -244,7 +245,7 @@ export default function Library() {
                       variant="default"
                       size="icon"
                       onClick={handlePlayAll}
-                      className="h-10 w-10 min-h-[44px] min-w-[44px]"
+                      className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-xl shadow-glow-sm"
                       aria-label="Воспроизвести все"
                     >
                       <Play className="w-4 h-4" />
@@ -253,51 +254,53 @@ export default function Library() {
                       variant="ghost"
                       size="icon"
                       onClick={handleShuffleAll}
-                      className="h-10 w-10 min-h-[44px] min-w-[44px]"
+                      className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-xl"
                       aria-label="Перемешать"
                     >
                       <Shuffle className="w-4 h-4" />
                     </Button>
                   </>
                 )}
-                <Button
-                  variant={viewMode === "grid" ? "default" : "ghost"}
-                  size="icon"
-                  onClick={() => setViewMode("grid")}
-                  className="h-10 w-10 min-h-[44px] min-w-[44px]"
-                  aria-label="Сетка"
-                >
-                  <Grid3x3 className="w-4 h-4" />
-                </Button>
-                <Button
-                  variant={viewMode === "list" ? "default" : "ghost"}
-                  size="icon"
-                  onClick={() => setViewMode("list")}
-                  className="h-10 w-10 min-h-[44px] min-w-[44px]"
-                  aria-label="Список"
-                >
-                  <List className="w-4 h-4" />
-                </Button>
+                <div className="flex items-center bg-muted/50 rounded-xl p-1">
+                  <Button
+                    variant={viewMode === "grid" ? "default" : "ghost"}
+                    size="icon"
+                    onClick={() => setViewMode("grid")}
+                    className="h-9 w-9 rounded-lg"
+                    aria-label="Сетка"
+                  >
+                    <Grid3x3 className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant={viewMode === "list" ? "default" : "ghost"}
+                    size="icon"
+                    onClick={() => setViewMode("list")}
+                    className="h-9 w-9 rounded-lg"
+                    aria-label="Список"
+                  >
+                    <List className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
             </div>
 
-            {/* Search and Filters */}
-            <div className="mt-4 flex flex-col sm:flex-row gap-2 sm:gap-4">
-              <div className="relative flex-1">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
+            {/* Search and Filters - Enhanced */}
+            <div className="mt-4 flex flex-col sm:flex-row gap-2 sm:gap-3">
+              <div className="relative flex-1 group">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5 transition-colors group-focus-within:text-primary" />
                 <Input
                   placeholder="Поиск по названию, стилю..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-11 h-12 text-base"
+                  className="pl-11 h-12 text-base rounded-xl border-border/50 bg-muted/30 focus:bg-background transition-colors"
                 />
               </div>
               <Select value={sortBy} onValueChange={(v: "recent" | "popular" | "liked") => setSortBy(v)}>
-                <SelectTrigger className="w-full sm:w-48 h-12 text-base">
-                  <SlidersHorizontal className="w-5 h-5 mr-2.5" />
+                <SelectTrigger className="w-full sm:w-48 h-12 text-base rounded-xl border-border/50 bg-muted/30">
+                  <SlidersHorizontal className="w-5 h-5 mr-2.5 text-muted-foreground" />
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="rounded-xl">
                   <SelectItem value="recent">Недавние</SelectItem>
                   <SelectItem value="popular">Популярные</SelectItem>
                   <SelectItem value="liked">Понравившиеся</SelectItem>

@@ -417,15 +417,23 @@ export const TrackCard = ({
         )}
         
       <Card 
-        className="group overflow-hidden hover:shadow-lg hover:border-primary/30 active:scale-[0.98] active:shadow-md transition-all duration-200 cursor-pointer touch-manipulation"
+        className={cn(
+          "group overflow-hidden cursor-pointer touch-manipulation transition-all duration-300",
+          "hover:shadow-xl hover:shadow-primary/10 hover:border-primary/30",
+          "active:scale-[0.98] active:shadow-md rounded-2xl",
+          isPlaying && "ring-2 ring-primary shadow-glow"
+        )}
         onClick={handleCardClick}
         {...(isMobile && layout !== 'grid' ? touchHandlers : {})}
       >
-        <div className="relative aspect-square" data-play-button>
+        <div className="relative aspect-square overflow-hidden" data-play-button>
           <LazyImage
             src={track.cover_url || ''}
             alt={track.title || 'Track cover'}
-            className="w-full h-full object-cover cursor-pointer"
+            className={cn(
+              "w-full h-full object-cover cursor-pointer transition-transform duration-500",
+              "group-hover:scale-105"
+            )}
             containerClassName="w-full h-full"
             onClick={(e) => {
               e.stopPropagation();
@@ -433,21 +441,27 @@ export const TrackCard = ({
             }}
             fallback={
               <div 
-                className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center cursor-pointer"
+                className="w-full h-full bg-gradient-to-br from-primary/20 via-generate/10 to-primary/5 flex items-center justify-center cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
                   onPlay?.();
                 }}
               >
-                <div className="text-4xl font-bold text-primary/20">
+                <div className="text-5xl font-bold text-primary/30">
                   {track.title?.charAt(0) || '♪'}
                 </div>
               </div>
             }
           />
 
-          {/* Play button overlay - larger touch target on mobile */}
-          <div className="absolute inset-0 bg-black/40 opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center justify-center touch-manipulation"
+          {/* Play button overlay - gradient fade from bottom */}
+          <div 
+            className={cn(
+              "absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent",
+              "opacity-0 group-hover:opacity-100 transition-all duration-300",
+              "flex items-center justify-center",
+              isPlaying && "opacity-100"
+            )}
             onClick={(e) => {
               e.stopPropagation();
               triggerHapticFeedback('medium');
@@ -456,7 +470,13 @@ export const TrackCard = ({
           >
           <Button
             size="lg"
-            className="rounded-full w-16 h-16 sm:w-14 sm:h-14 min-h-[44px] min-w-[44px] active:scale-95 transition-transform touch-manipulation"
+            className={cn(
+              "rounded-full w-14 h-14 sm:w-12 sm:h-12 min-h-[44px] min-w-[44px]",
+              "active:scale-90 transition-all duration-200 touch-manipulation shadow-lg",
+              isPlaying 
+                ? "bg-primary text-primary-foreground" 
+                : "bg-white/95 text-black hover:bg-white hover:scale-105"
+            )}
             onClick={(e) => {
               e.stopPropagation();
               triggerHapticFeedback('medium');
@@ -465,18 +485,18 @@ export const TrackCard = ({
             disabled={!track.audio_url}
           >
             {isPlaying ? (
-              <Pause className="w-6 h-6 sm:w-5 sm:h-5" />
+              <Pause className="w-5 h-5" />
             ) : (
-              <Play className="w-6 h-6 sm:w-5 sm:h-5" />
+              <Play className="w-5 h-5 ml-0.5" />
             )}
           </Button>
         </div>
 
-        {/* Badges */}
-        <div className="absolute top-2 left-2 flex gap-1">
+        {/* Badges - Status and Type */}
+        <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5">
           {isProcessing && (
-            <Badge variant="secondary" className="animate-pulse">
-              ⚙️ Обработка...
+            <Badge variant="warning" size="sm" className="animate-pulse">
+              ⚙️ Обработка
             </Badge>
           )}
           
@@ -484,18 +504,19 @@ export const TrackCard = ({
             <Badge
               variant={
                 track.status === 'streaming_ready'
-                  ? 'default'
+                  ? 'success'
                   : track.status === 'failed' || track.status === 'error'
                   ? 'destructive'
-                  : 'secondary'
+                  : 'muted'
               }
+              size="sm"
             >
               {track.status === 'pending'
                 ? 'В очереди'
                 : track.status === 'processing'
                 ? '⚡ Генерация'
                 : track.status === 'streaming_ready'
-                ? '🎵 Готов к стримингу'
+                ? '🎵 Превью'
                 : track.status === 'completed'
                 ? 'Готов'
                 : track.status === 'failed'
@@ -505,7 +526,7 @@ export const TrackCard = ({
           )}
           
           {trackIcon && (
-            <Badge variant="secondary" className="gap-1">
+            <Badge variant="glass" size="sm" className="gap-1">
               {trackIcon}
               {!track.has_vocals ? 'Инстр.' : 'Вокал'}
             </Badge>
