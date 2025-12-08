@@ -386,7 +386,7 @@ export const TrackCard = ({
   return (
     <>
       <motion.div
-        drag={isMobile && layout === 'grid' ? 'x' : false}
+        drag={isMobile && layout === 'grid' && !sheetOpen ? 'x' : false}
         dragConstraints={{ left: 0, right: 0 }}
         dragElastic={0.2}
         onDrag={handleDrag}
@@ -612,7 +612,9 @@ export const TrackCard = ({
         </div>
       </div>
     </Card>
-
+    
+    </motion.div>
+    
     <UnifiedTrackSheet
       track={track}
       open={sheetOpen}
@@ -620,8 +622,6 @@ export const TrackCard = ({
       onDelete={onDelete}
       onDownload={onDownload}
     />
-    
-    </motion.div>
     
     {/* Delete Confirmation Dialog */}
     <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
