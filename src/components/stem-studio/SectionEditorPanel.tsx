@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { 
   X, Wand2, Loader2, FileText, ChevronDown, 
-  Music, AlertTriangle, Sparkles, RotateCcw, Zap
+  Music, AlertTriangle, Sparkles, RotateCcw, Zap, Headphones
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -14,6 +14,7 @@ import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useReplaceSectionMutation } from '@/hooks/useReplaceSectionMutation';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 import { SectionWaveformPreview } from './SectionWaveformPreview';
+import { SectionPreviewPlayer } from './SectionPreviewPlayer';
 import { cn } from '@/lib/utils';
 
 // Animation variants
@@ -62,6 +63,7 @@ interface SectionEditorPanelProps {
   trackId: string;
   trackTitle: string;
   trackTags?: string | null;
+  audioUrl?: string | null;
   duration: number;
   onClose: () => void;
 }
@@ -79,6 +81,7 @@ export function SectionEditorPanel({
   trackId,
   trackTitle,
   trackTags,
+  audioUrl,
   duration,
   onClose,
 }: SectionEditorPanelProps) {
@@ -213,6 +216,21 @@ export function SectionEditorPanel({
               isValid={isValid}
             />
           </motion.div>
+
+          {/* Section Preview Player */}
+          {audioUrl && (
+            <motion.div variants={itemVariants}>
+              <Label className="text-xs text-muted-foreground mb-2 flex items-center gap-1.5">
+                <Headphones className="w-3 h-3" />
+                Предпрослушивание секции
+              </Label>
+              <SectionPreviewPlayer
+                audioUrl={audioUrl}
+                startTime={startTime}
+                endTime={endTime}
+              />
+            </motion.div>
+          )}
 
           {/* Validation Warning */}
           <AnimatePresence>
