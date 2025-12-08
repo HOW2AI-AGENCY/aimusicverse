@@ -119,34 +119,59 @@ export function SectionSelector({
   return (
     <div className="space-y-3">
       {/* Selection Info */}
-      <div className="flex items-center justify-between text-sm">
+      <motion.div 
+        className="flex items-center justify-between text-sm"
+        initial={{ opacity: 0, y: -5 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
         <div className="flex items-center gap-2">
-          <span className="text-muted-foreground">Секция:</span>
-          <span className="font-mono font-medium">
+          <motion.div
+            className={cn(
+              "px-2.5 py-1 rounded-md font-mono text-sm",
+              isValid 
+                ? "bg-primary/10 text-primary border border-primary/20" 
+                : "bg-destructive/10 text-destructive border border-destructive/20"
+            )}
+            animate={{ scale: isDragging ? 1.02 : 1 }}
+          >
             {formatTime(startTime)} — {formatTime(endTime)}
-          </span>
-          <span className="text-muted-foreground">
+          </motion.div>
+          <span className="text-muted-foreground text-xs">
             ({formatTime(sectionDuration)})
           </span>
         </div>
         
-        <div className={cn(
-          "flex items-center gap-1.5 text-xs",
-          isValid ? "text-green-500" : "text-destructive"
-        )}>
+        <motion.div 
+          className={cn(
+            "flex items-center gap-1.5 px-2 py-1 rounded-md text-xs",
+            isValid 
+              ? "bg-green-500/10 text-green-600 dark:text-green-400" 
+              : "bg-destructive/10 text-destructive"
+          )}
+          animate={{ 
+            scale: isValid ? [1, 1.02, 1] : 1,
+          }}
+          transition={{ duration: 0.3 }}
+        >
           {isValid ? (
             <>
-              <Check className="w-3.5 h-3.5" />
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: 'spring', bounce: 0.5 }}
+              >
+                <Check className="w-3.5 h-3.5" />
+              </motion.div>
               <span>Можно заменить</span>
             </>
           ) : (
             <>
-              <AlertCircle className="w-3.5 h-3.5" />
+              <AlertCircle className="w-3.5 h-3.5 animate-pulse" />
               <span>Макс. {maxSectionPercent}% ({formatTime(maxDuration)})</span>
             </>
           )}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Timeline */}
       <div 

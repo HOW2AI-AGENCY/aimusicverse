@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
-import { Scissors, Wand2, Loader2, AlertTriangle, Music, FileText, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Scissors, Wand2, Loader2, AlertTriangle, Music, FileText, ChevronDown, Sparkles, Clock } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -14,12 +15,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Progress } from '@/components/ui/progress';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import { SectionSelector } from './SectionSelector';
+import { SectionWaveformPreview } from './SectionWaveformPreview';
 import { useReplaceSectionMutation } from '@/hooks/useReplaceSectionMutation';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useSectionDetection, DetectedSection } from '@/hooks/useSectionDetection';
@@ -179,7 +182,13 @@ export function ReplaceSectionDialog({
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Scissors className="w-5 h-5 text-primary" />
+            <motion.div
+              initial={{ rotate: -10 }}
+              animate={{ rotate: 0 }}
+              transition={{ type: 'spring', bounce: 0.5 }}
+            >
+              <Scissors className="w-5 h-5 text-primary" />
+            </motion.div>
             Заменить секцию трека
           </DialogTitle>
           <DialogDescription>
@@ -189,62 +198,100 @@ export function ReplaceSectionDialog({
 
         <ScrollArea className="flex-1 pr-4">
           <div className="space-y-6 py-4">
-            {/* Track Info */}
-            <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-              <div className="w-10 h-10 rounded bg-primary/20 flex items-center justify-center">
-                <Music className="w-5 h-5 text-primary" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="font-medium truncate">{trackTitle}</p>
-                <p className="text-xs text-muted-foreground">
-                  Длительность: {formatTime(duration)}
-                </p>
-              </div>
-            </div>
-
-            {/* Detected Sections from Lyrics */}
-            {detectedSections.length > 0 && (
-              <div>
-                <Label className="text-xs text-muted-foreground mb-2 block">
-                  Секции из текста песни
-                </Label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  {detectedSections.map((section, idx) => {
-                    const isSelected = selectedSectionIndex === idx;
-                    const sectionLen = section.endTime - section.startTime;
-                    const isTooLong = sectionLen > maxDuration;
-
-                    return (
-                      <button
-                        key={idx}
-                        onClick={() => handleSectionSelect(idx)}
-                        className={cn(
-                          'p-2 rounded-lg border text-left transition-all',
-                          'hover:ring-2 hover:ring-primary/50',
-                          isSelected && 'ring-2 ring-primary',
-                          getSectionColor(section.type)
-                        )}
-                      >
-                        <div className="flex items-center justify-between gap-1">
-                          <span className="font-medium text-sm truncate">
-                            {section.label}
-                          </span>
-                          {isTooLong && (
-                            <AlertTriangle className="w-3 h-3 text-amber-500 flex-shrink-0" />
-                          )}
-                        </div>
-                        <p className="text-xs opacity-70 mt-0.5">
-                          {formatTime(section.startTime)} - {formatTime(section.endTime)}
-                        </p>
-                        <p className="text-[10px] opacity-50 truncate mt-1">
-                          {section.lyrics.slice(0, 40)}...
-                        </p>
-                      </button>
-                    );
-                  })}
+            {/* Track Info with Waveform Preview */}
+            <motion.div 
+              className="p-4 bg-gradient-to-br from-muted/50 to-muted/30 rounded-xl border border-border/50"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center border border-primary/20">
+                  <Music className="w-6 h-6 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold truncate">{trackTitle}</p>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Clock className="w-3 h-3" />
+                    <span>{formatTime(duration)}</span>
+                    <span className="text-muted-foreground/50">•</span>
+                    <span>Макс. секция: {formatTime(maxDuration)}</span>
+                  </div>
                 </div>
               </div>
-            )}
+              
+              {/* Waveform Preview */}
+              <SectionWaveformPreview
+                duration={duration}
+                startTime={startTime}
+                endTime={endTime}
+                isValid={isValid}
+              />
+            </motion.div>
+
+            {/* Detected Sections from Lyrics */}
+            <AnimatePresence>
+              {detectedSections.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                >
+                  <Label className="text-xs text-muted-foreground mb-2 flex items-center gap-1.5">
+                    <Sparkles className="w-3 h-3" />
+                    Секции из текста песни
+                  </Label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {detectedSections.map((section, idx) => {
+                      const isSelected = selectedSectionIndex === idx;
+                      const sectionLen = section.endTime - section.startTime;
+                      const isTooLong = sectionLen > maxDuration;
+
+                      return (
+                        <motion.button
+                          key={idx}
+                          onClick={() => handleSectionSelect(idx)}
+                          className={cn(
+                            'p-2.5 rounded-lg border text-left transition-all relative overflow-hidden',
+                            'hover:ring-2 hover:ring-primary/50',
+                            isSelected && 'ring-2 ring-primary shadow-lg shadow-primary/20',
+                            getSectionColor(section.type)
+                          )}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: idx * 0.05 }}
+                        >
+                          {isSelected && (
+                            <motion.div
+                              className="absolute inset-0 bg-primary/10"
+                              layoutId="selected-section"
+                              transition={{ type: 'spring', bounce: 0.2 }}
+                            />
+                          )}
+                          <div className="relative z-10">
+                            <div className="flex items-center justify-between gap-1">
+                              <span className="font-medium text-sm truncate">
+                                {section.label}
+                              </span>
+                              {isTooLong && (
+                                <AlertTriangle className="w-3 h-3 text-amber-500 flex-shrink-0 animate-pulse" />
+                              )}
+                            </div>
+                            <p className="text-xs opacity-70 mt-0.5 font-mono">
+                              {formatTime(section.startTime)} - {formatTime(section.endTime)}
+                            </p>
+                            <p className="text-[10px] opacity-50 truncate mt-1 line-clamp-1">
+                              {section.lyrics.slice(0, 40)}...
+                            </p>
+                          </div>
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Section Selector */}
             <div>
@@ -378,16 +425,30 @@ export function ReplaceSectionDialog({
           <Button
             onClick={handleReplace}
             disabled={!isValid || replaceMutation.isPending}
-            className="gap-2"
+            className={cn(
+              "gap-2 relative overflow-hidden",
+              isValid && !replaceMutation.isPending && "bg-gradient-to-r from-primary to-primary/80"
+            )}
           >
             {replaceMutation.isPending ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                Запуск...
+                <span>Запуск...</span>
+                <motion.div
+                  className="absolute bottom-0 left-0 h-0.5 bg-primary-foreground/50"
+                  initial={{ width: 0 }}
+                  animate={{ width: '100%' }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
               </>
             ) : (
               <>
-                <Wand2 className="w-4 h-4" />
+                <motion.div
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 2 }}
+                >
+                  <Wand2 className="w-4 h-4" />
+                </motion.div>
                 Заменить секцию
               </>
             )}
