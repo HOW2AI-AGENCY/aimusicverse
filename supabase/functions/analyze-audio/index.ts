@@ -1,5 +1,8 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createLogger } from '../_shared/logger.ts';
+
+const logger = createLogger('analyze-audio');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -42,14 +45,14 @@ serve(async (req) => {
       throw new Error('audioUrl is required');
     }
 
-    console.log(`Analyzing audio for user: ${user.id}, type: ${analysisType}`);
+    logger.info('Starting audio analysis', { userId: user.id, analysisType, trackId });
 
     let transcription = null;
     let styleAnalysis = null;
 
     // Step 1: Transcribe lyrics using fal.ai/wizper
     if (analysisType === 'full' || analysisType === 'lyrics') {
-      console.log('Transcribing audio with fal.ai/wizper...');
+      logger.info('Transcribing audio with fal.ai/wizper');
       const transcriptionResponse = await fetch('https://fal.run/fal-ai/wizper', {
         method: 'POST',
         headers: {
@@ -67,7 +70,7 @@ serve(async (req) => {
 
       if (!transcriptionResponse.ok) {
         const errorText = await transcriptionResponse.text();
-        console.error('Fal.ai transcription error:', errorText);
+        logger.error('Fal.ai transcription error', null, { status: transcriptionResponse.status, error: errorText });
       } else {
         const transcriptionData = await transcriptionResponse.json();
         transcription = {
@@ -75,12 +78,13 @@ serve(async (req) => {
           chunks: transcriptionData.chunks || [],
           language: transcriptionData.language || 'unknown',
         };
+        logger.success('Transcription completed', { language: transcription.language, textLength: transcription.text.length });
       }
     }
 
     // Step 2: Analyze style, genre, mood using Lovable AI (with Russian translation)
     if (analysisType === 'full' || analysisType === 'style') {
-      console.log('Analyzing style with Lovable AI...');
+      logger.info('Analyzing style with Lovable AI');
       
       const analysisPrompt = `Проанализируй этот музыкальный трек и предоставь детальный анализ в формате JSON.
 
@@ -139,7 +143,7 @@ ${transcription ? `Текст песни:\n${transcription.text}\n\n` : ''}
 
       if (!styleResponse.ok) {
         const errorText = await styleResponse.text();
-        console.error('Lovable AI analysis error:', errorText);
+        logger.error('Lovable AI analysis error', null, { status: styleResponse.status, error: errorText });
       } else {
         const styleData = await styleResponse.json();
         const analysisText = styleData.choices?.[0]?.message?.content || '{}';
@@ -151,11 +155,10 @@ ${transcription ? `Текст песни:\n${transcription.text}\n\n` : ''}
           const jsonText = jsonMatch ? jsonMatch[1] : analysisText;
           styleAnalysis = JSON.parse(jsonText);
           
-          console.log('✅ Style analysis parsed successfully:', styleAnalysis);
+          logger.success('Style analysis parsed', { genre: styleAnalysis.genre, mood: styleAnalysis.mood });
         } catch (e) {
           const error = e as Error;
-          console.error('Failed to parse style analysis JSON:', error);
-          console.error('Raw analysis text:', analysisText);
+          logger.error('Failed to parse style analysis JSON', error, { rawTextLength: analysisText.length });
           styleAnalysis = { raw: analysisText, parse_error: error.message };
         }
       }
@@ -193,9 +196,9 @@ ${transcription ? `Текст песни:\n${transcription.text}\n\n` : ''}
         .insert(analysisData);
 
       if (analysisError) {
-        console.error('Failed to save audio analysis:', analysisError);
+        logger.error('Failed to save audio analysis', analysisError);
       } else {
-        console.log('✅ Audio analysis saved to database');
+        logger.db('INSERT', 'audio_analysis');
       }
 
       // Update track with lyrics and tags
@@ -214,6 +217,7 @@ ${transcription ? `Текст песни:\n${transcription.text}\n\n` : ''}
           .from('tracks')
           .update(trackUpdates)
           .eq('id', trackId);
+        logger.db('UPDATE', 'tracks');
       }
 
       // Log the analysis action
@@ -232,6 +236,8 @@ ${transcription ? `Текст песни:\n${transcription.text}\n\n` : ''}
       });
     }
 
+    logger.success('Audio analysis completed');
+
     return new Response(
       JSON.stringify({ 
         success: true,
@@ -242,7 +248,7 @@ ${transcription ? `Текст песни:\n${transcription.text}\n\n` : ''}
     );
 
   } catch (error: any) {
-    console.error('Error in analyze-audio:', error);
+    logger.error('Error in analyze-audio', error);
     return new Response(
       JSON.stringify({ error: error.message }),
       { 

@@ -1,5 +1,8 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { createLogger } from '../_shared/logger.ts';
+
+const logger = createLogger('ai-lyrics-assistant');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -271,7 +274,7 @@ ${lyrics || existingLyrics}
         );
     }
 
-    console.log('AI Lyrics request:', { action, theme, mood, genre, language, sectionType });
+    logger.info('AI Lyrics request', { action, theme, mood, genre, language, sectionType });
 
     // Call Lovable AI
     const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
@@ -292,7 +295,7 @@ ${lyrics || existingLyrics}
 
     if (!aiResponse.ok) {
       const errorText = await aiResponse.text();
-      console.error('AI Gateway error:', aiResponse.status, errorText);
+      logger.error('AI Gateway error', null, { status: aiResponse.status, error: errorText });
       
       if (aiResponse.status === 429) {
         return new Response(
@@ -314,7 +317,7 @@ ${lyrics || existingLyrics}
     const aiData = await aiResponse.json();
     const generatedLyrics = aiData.choices?.[0]?.message?.content || '';
 
-    console.log('Generated content length:', generatedLyrics.length, 'action:', action);
+    logger.success('Lyrics generated', { action, contentLength: generatedLyrics.length });
 
     return new Response(
       JSON.stringify({
@@ -326,7 +329,7 @@ ${lyrics || existingLyrics}
     );
 
   } catch (error: any) {
-    console.error('Error in ai-lyrics-assistant:', error);
+    logger.error('Error in ai-lyrics-assistant', error);
     return new Response(
       JSON.stringify({ success: false, error: error.message || 'Unknown error' }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
