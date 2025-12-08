@@ -22,6 +22,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrackCounts } from "@/hooks/useTrackCounts";
 import { TrackCard } from "@/components/TrackCard";
 import { LibraryFilterChips } from "@/components/library/LibraryFilterChips";
+import { EmptyLibraryState } from "@/components/library/EmptyLibraryState";
 import { logger } from "@/lib/logger";
 
 const log = logger.child({ module: 'Library' });
@@ -358,15 +359,7 @@ export default function Library() {
               ))}
             </div>
           ) : tracksToDisplay.length === 0 && !hasActiveGenerations ? (
-            <Card className="p-8 sm:p-12 text-center border-border/50">
-              <Music2 className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
-              <h3 className="text-base sm:text-lg font-semibold mb-2">
-                {searchQuery ? "Ничего не найдено" : "Пока нет треков"}
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                {searchQuery ? "Попробуйте изменить поисковой запрос" : "Создайте свой первый трек"}
-              </p>
-            </Card>
+            <EmptyLibraryState searchQuery={searchQuery} />
           ) : (
             <>
               <div className={viewMode === "grid"

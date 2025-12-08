@@ -11,11 +11,13 @@ import { PublicArtistsSection } from "@/components/home/PublicArtistsSection";
 import { AutoPlaylistsSectionOptimized } from "@/components/home/AutoPlaylistsSectionOptimized";
 import { UnifiedDiscoverySection } from "@/components/home/UnifiedDiscoverySection";
 import { HeroQuickActions } from "@/components/home/HeroQuickActions";
-import { GamificationWidget } from "@/components/gamification/GamificationWidget";
+import { RecentTracksSection } from "@/components/home/RecentTracksSection";
+import { GamificationWidgetCompact } from "@/components/gamification/GamificationWidgetCompact";
 import { GenerateSheet } from "@/components/GenerateSheet";
 import { motion } from "framer-motion";
 
 const Index = () => {
+  const { user } = useAuth();
   const { hapticFeedback, user: telegramUser } = useTelegram();
   const { data: profile } = useProfile();
   const navigate = useNavigate();
@@ -110,25 +112,37 @@ const Index = () => {
           </div>
         </motion.header>
 
-        {/* Gamification Widget - Checkin & Credits */}
+        {/* Compact Gamification Widget */}
         <motion.section 
           className="mb-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3 }}
         >
-          <GamificationWidget />
+          <GamificationWidgetCompact />
         </motion.section>
 
         {/* Hero Quick Actions */}
         <motion.section 
-          className="mb-8"
+          className="mb-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.3 }}
         >
           <HeroQuickActions onGenerateClick={() => setGenerateSheetOpen(true)} />
         </motion.section>
+
+        {/* Recent Tracks for logged-in users */}
+        {user && (
+          <motion.section
+            className="mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.18, duration: 0.3 }}
+          >
+            <RecentTracksSection maxTracks={4} />
+          </motion.section>
+        )}
 
         {/* Public AI Artists Section */}
         <motion.div
