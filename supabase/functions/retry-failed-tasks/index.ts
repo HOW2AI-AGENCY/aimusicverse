@@ -6,15 +6,16 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const MODEL_MAP: Record<string, string> = {
-  'V5': 'chirp-crow',
-  'V4_5PLUS': 'chirp-bluejay',
-  'V4_5ALL': 'chirp-auk',
-  'V4': 'chirp-v4',
-};
+// Per SunoAPI docs (https://docs.sunoapi.org/suno-api/generate-music):
+// Model values are: V5, V4_5PLUS, V4_5, V4, V3_5 - NOT chirp-* names
+const VALID_MODELS = ['V5', 'V4_5PLUS', 'V4_5', 'V4', 'V3_5'];
+const DEFAULT_MODEL = 'V4_5';
 
 function getApiModelName(uiKey: string): string {
-  return MODEL_MAP[uiKey] || uiKey;
+  // Map V4_5ALL to V4_5 (legacy key)
+  if (uiKey === 'V4_5ALL') return 'V4_5';
+  // Return as-is if valid, otherwise default
+  return VALID_MODELS.includes(uiKey) ? uiKey : DEFAULT_MODEL;
 }
 
 serve(async (req) => {
