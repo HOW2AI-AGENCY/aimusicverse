@@ -81,7 +81,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
 
   // Fetch timestamped lyrics and detect sections
   const { data: lyricsData } = useTimestampedLyrics(track?.suno_task_id || null, track?.suno_id || null);
-  const detectedSections = useSectionDetection(lyricsData?.alignedWords, duration);
+  const detectedSections = useSectionDetection(track?.lyrics, lyricsData?.alignedWords, duration);
   const { data: replacedSections } = useReplacedSections(trackId);
   
   // Realtime updates for section replacements

@@ -70,7 +70,7 @@ export function ReplaceSectionDialog({
   const { data: lyricsData } = useTimestampedLyrics(taskId || null, audioId || null);
   
   // Detect sections from lyrics
-  const detectedSections = useSectionDetection(lyricsData?.alignedWords, duration);
+  const detectedSections = useSectionDetection(trackLyrics, lyricsData?.alignedWords, duration);
 
   const replaceMutation = useReplaceSectionMutation();
 
