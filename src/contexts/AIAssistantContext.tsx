@@ -5,6 +5,7 @@
 
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { logger } from '@/lib/logger';
 
 interface GenerationParams {
   prompt: string;
@@ -134,7 +135,7 @@ export function AIAssistantProvider({ children }: AIAssistantProviderProps) {
   // Load generation history (currently no-op as we use local state)
   const loadGenerationHistory = useCallback(async () => {
     // TODO: Will load from database when user_generation_history table is created
-    console.log('Generation history loaded from local state');
+    logger.debug('Generation history loaded from local state');
   }, []);
 
   // Replay a previous generation (return params for reuse)

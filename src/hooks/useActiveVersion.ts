@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useQueryClient } from '@tanstack/react-query';
+import { logger } from '@/lib/logger';
 
 interface Version {
   id: string;
@@ -47,7 +48,7 @@ export function useActiveVersion(trackId: string, activeVersionId?: string | nul
         .order('clip_index', { ascending: true });
 
       if (error) {
-        console.error('Error fetching versions:', error);
+        logger.error('Error fetching versions', error);
         setIsLoading(false);
         return;
       }
@@ -109,7 +110,7 @@ export function useActiveVersion(trackId: string, activeVersionId?: string | nul
       // Invalidate tracks query to refresh UI
       queryClient.invalidateQueries({ queryKey: ['tracks'] });
     } catch (error) {
-      console.error('Error switching version:', error);
+      logger.error('Error switching version', error);
       throw error;
     } finally {
       setIsSwitching(false);

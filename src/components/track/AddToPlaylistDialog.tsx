@@ -15,6 +15,7 @@ import { ListMusic, Plus, Search, Check, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useHapticFeedback } from '@/lib/mobile-utils';
+import { logger } from '@/lib/logger';
 
 interface Playlist {
   id: string;
@@ -72,7 +73,7 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
       setSelectedPlaylistId(null);
       setSearchQuery('');
     } catch (error) {
-      console.error('Failed to add track to playlist:', error);
+      logger.error('Failed to add track to playlist', error);
       toast.error('Failed to add track. Please try again.');
     } finally {
       setLoading(false);
@@ -101,7 +102,7 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
       setNewPlaylistName('');
       setSearchQuery('');
     } catch (error) {
-      console.error('Failed to create playlist:', error);
+      logger.error('Failed to create playlist', error);
       toast.error('Failed to create playlist. Please try again.');
     } finally {
       setLoading(false);

@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/select';
 import { useMidi } from '@/hooks/useMidi';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
@@ -44,7 +45,7 @@ export const MidiSection = ({ trackId, trackTitle, audioUrl }: MidiSectionProps)
     try {
       await transcribeToMidi(audioUrl, modelType);
     } catch (error) {
-      console.error('Transcription error:', error);
+      logger.error('Transcription error', error);
     }
   };
 

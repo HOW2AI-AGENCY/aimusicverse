@@ -14,6 +14,7 @@ import { Track } from '@/hooks/useTracksOptimized';
 import { Folder, Plus, Search, Check, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useProjects } from '@/hooks/useProjects';
+import { logger } from '@/lib/logger';
 import { useProjectTracks } from '@/hooks/useProjectTracks';
 import { cn } from '@/lib/utils';
 import { hapticImpact, hapticNotification } from '@/lib/haptic';
@@ -67,7 +68,7 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
       setSelectedProjectId(null);
       setSearchQuery('');
     } catch (error) {
-      console.error('Failed to add track to project:', error);
+      logger.error('Failed to add track to project', error);
       toast.error('Не удалось добавить трек. Попробуйте еще раз.');
     } finally {
       setLoading(false);

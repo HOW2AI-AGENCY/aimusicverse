@@ -14,6 +14,7 @@ import { Switch } from '@/components/ui/switch';
 import { usePlaylists, type Playlist } from '@/hooks/usePlaylists';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface EditPlaylistDialogProps {
   playlist: Playlist | null;
@@ -60,7 +61,7 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
         toast.success('Обложка сгенерирована');
       }
     } catch (error) {
-      console.error('Error generating cover:', error);
+      logger.error('Error generating cover', error);
       toast.error('Ошибка генерации обложки');
     } finally {
       setIsGeneratingCover(false);

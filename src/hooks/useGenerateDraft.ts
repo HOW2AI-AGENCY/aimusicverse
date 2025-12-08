@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { logger } from '@/lib/logger';
 
 const DRAFT_KEY = 'generate_form_draft';
 const DRAFT_EXPIRY_MS = 30 * 60 * 1000; // 30 minutes
@@ -55,7 +56,7 @@ export function useGenerateDraft() {
         }
       }
     } catch (e) {
-      console.error('Failed to load draft:', e);
+      logger.error('Failed to load draft', e);
       localStorage.removeItem(DRAFT_KEY);
     }
   }, []);
@@ -76,7 +77,7 @@ export function useGenerateDraft() {
         setDraft(newDraft);
         setHasDraft(true);
       } catch (e) {
-        console.error('Failed to save draft:', e);
+        logger.error('Failed to save draft', e);
       }
     }
   }, []);

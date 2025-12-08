@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 import { useVideoGenerationStatus } from '@/hooks/useVideoGenerationStatus';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { Track } from '@/hooks/useTracksOptimized';
@@ -49,7 +50,7 @@ export function VideoSection({ track, onGenerateVideo }: VideoSectionProps) {
         setIsFullscreen(false);
       }
     } catch (err) {
-      console.error('Fullscreen error:', err);
+      logger.error('Fullscreen error', err);
     }
   };
 
@@ -70,7 +71,7 @@ export function VideoSection({ track, onGenerateVideo }: VideoSectionProps) {
       URL.revokeObjectURL(url);
       toast.success('Видео скачивается');
     } catch (err) {
-      console.error('Download error:', err);
+      logger.error('Download error', err);
       toast.error('Ошибка скачивания видео');
     }
   };
@@ -93,7 +94,7 @@ export function VideoSection({ track, onGenerateVideo }: VideoSectionProps) {
       if (error) throw error;
       toast.success('Видео отправлено в Telegram');
     } catch (err) {
-      console.error('Telegram send error:', err);
+      logger.error('Telegram send error', err);
       toast.error('Ошибка отправки в Telegram');
     } finally {
       setIsSendingToTelegram(false);

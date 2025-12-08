@@ -13,6 +13,7 @@ import {
 import { TrackStem } from '@/hooks/useTrackStems';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface StemReferenceDialogProps {
   stems: TrackStem[];
@@ -110,7 +111,7 @@ export const StemReferenceDialog = ({
       // Navigate to home with flag to open generate sheet
       navigate('/', { state: { openGenerate: true, fromStemReference: true } });
     } catch (error) {
-      console.error('Error setting reference:', error);
+      logger.error('Error setting reference', error);
       toast.error('Ошибка при установке референса');
     } finally {
       setIsLoading(false);

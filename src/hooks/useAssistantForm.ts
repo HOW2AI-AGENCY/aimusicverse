@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { logger } from '@/lib/logger';
 
 export interface AssistantFormState {
   mode: string;
@@ -38,7 +39,7 @@ export function useAssistantForm() {
         try {
           return { ...INITIAL_STATE, ...JSON.parse(saved) };
         } catch (error) {
-          console.error('Failed to parse saved form state:', error);
+          logger.error('Failed to parse saved form state', error);
         }
       }
     }
@@ -51,7 +52,7 @@ export function useAssistantForm() {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(formState));
       } catch (error) {
-        console.error('Failed to save form state:', error);
+        logger.error('Failed to save form state', error);
       }
     }
   }, [formState]);

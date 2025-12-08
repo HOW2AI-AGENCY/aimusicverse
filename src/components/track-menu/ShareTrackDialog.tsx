@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { hapticNotification } from '@/lib/haptic';
 import { telegramShareService } from '@/services/telegram-share';
+import { logger } from '@/lib/logger';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useRewardShare } from '@/hooks/useGamification';
 
@@ -56,7 +57,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
         description: '+15 опыта',
       });
     } catch (err) {
-      console.error('Error rewarding share:', err);
+      logger.error('Error rewarding share', err);
     }
   };
 
