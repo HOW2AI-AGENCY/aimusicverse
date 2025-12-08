@@ -3,6 +3,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
+
+const log = logger.child({ module: 'SyncStaleTasks' });
 
 interface SyncResult {
   success: boolean;
@@ -25,14 +28,14 @@ export function useSyncStaleTasks() {
     
     // Prevent concurrent syncs
     if (isSyncingRef.current) {
-      console.log('🔄 Sync already in progress, skipping...');
+      log.debug('Sync already in progress, skipping');
       return null;
     }
 
     // Rate limit: at least 30 seconds between syncs
     const now = Date.now();
     if (now - lastSyncRef.current < 30000) {
-      console.log('🔄 Sync rate limited, skipping...');
+      log.debug('Sync rate limited, skipping');
       return null;
     }
 
@@ -40,19 +43,19 @@ export function useSyncStaleTasks() {
       isSyncingRef.current = true;
       lastSyncRef.current = now;
       
-      console.log('🔄 Syncing stale tasks...');
+      log.info('Syncing stale tasks');
       
       const { data, error } = await supabase.functions.invoke('sync-stale-tasks', {
         body: { user_id: user.id },
       });
 
       if (error) {
-        console.error('❌ Sync error:', error);
+        log.error('Sync error', { error: error.message });
         return { success: false, error: error.message };
       }
 
       const result = data as SyncResult;
-      console.log('✅ Sync result:', result);
+      log.info('Sync completed', { result });
 
       // If any tracks were recovered or completed, refresh the queries
       if (result.completed && result.completed > 0) {
@@ -81,7 +84,7 @@ export function useSyncStaleTasks() {
 
       return result;
     } catch (error: any) {
-      console.error('❌ Sync error:', error);
+      log.error('Sync error', { error: error.message });
       return { success: false, error: error.message };
     } finally {
       isSyncingRef.current = false;
@@ -100,7 +103,7 @@ export function useSyncStaleTasks() {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible' && user?.id) {
-        console.log('👁️ App became visible, syncing...');
+        log.info('App became visible, syncing');
         syncStaleTasks(true);
       }
     };
@@ -123,7 +126,7 @@ export function useSyncStaleTasks() {
         .limit(1);
 
       if (pendingTasks && pendingTasks.length > 0) {
-        console.log('🔄 Periodic sync (pending tasks found)...');
+        log.debug('Periodic sync - pending tasks found');
         syncStaleTasks(false);
       }
     }, 2 * 60 * 1000); // 2 minutes

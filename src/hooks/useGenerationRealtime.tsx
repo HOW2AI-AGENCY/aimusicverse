@@ -3,6 +3,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
+
+const log = logger.child({ module: 'GenerationRealtime' });
 
 /**
  * Hook for automatically updating generation status via Supabase Realtime.
@@ -19,7 +22,7 @@ export const useGenerationRealtime = () => {
     if (!user?.id) return;
 
     const refetchTracks = () => {
-      console.log('🔄 Refetching tracks...');
+      log.info('Refetching tracks...');
       queryClient.refetchQueries({ queryKey: ['tracks-infinite'] });
       queryClient.refetchQueries({ queryKey: ['tracks'] });
       queryClient.invalidateQueries({ queryKey: ['active_generations'] });
@@ -40,12 +43,12 @@ export const useGenerationRealtime = () => {
             table: 'generation_tasks',
             filter: `user_id=eq.${user.id}`
           }, (payload) => {
-            console.log('📡 generation_tasks:', payload.eventType, payload.new);
+            log.debug('generation_tasks change', { event: payload.eventType, data: payload.new });
             reconnectAttempts.current = 0;
             
             const newData = payload.new as { status?: string };
             if (newData?.status === 'completed') {
-              console.log('🎉 Generation completed!');
+              log.info('Generation completed');
               toast.success('Трек готов! 🎵');
               refetchTracks();
               setTimeout(refetchTracks, 1000);
@@ -64,15 +67,15 @@ export const useGenerationRealtime = () => {
             const newData = payload.new as { status?: string; audio_url?: string };
             const oldData = payload.old as { status?: string };
             
-            console.log('📡 tracks UPDATE:', { old: oldData?.status, new: newData?.status, audio: !!newData?.audio_url });
+            log.debug('tracks UPDATE', { oldStatus: oldData?.status, newStatus: newData?.status, hasAudio: !!newData?.audio_url });
             reconnectAttempts.current = 0;
             
             if (newData?.status === 'completed' && oldData?.status !== 'completed') {
-              console.log('🎵 Track completed!');
+              log.info('Track completed');
               refetchTracks();
               setTimeout(refetchTracks, 500);
             } else if (newData?.status === 'streaming_ready') {
-              console.log('🎧 Track streaming ready!');
+              log.info('Track streaming ready');
               refetchTracks();
             }
           })
@@ -82,7 +85,7 @@ export const useGenerationRealtime = () => {
             table: 'tracks',
             filter: `user_id=eq.${user.id}`
           }, (payload) => {
-            console.log('📡 tracks INSERT');
+            log.debug('tracks INSERT');
             reconnectAttempts.current = 0;
             refetchTracks();
           })
@@ -91,12 +94,12 @@ export const useGenerationRealtime = () => {
             schema: 'public',
             table: 'track_versions',
           }, (payload) => {
-            console.log('📡 track_versions INSERT');
+            log.debug('track_versions INSERT');
             queryClient.invalidateQueries({ queryKey: ['track_versions'] });
             refetchTracks();
           })
           .subscribe((status) => {
-            console.log('📡 Realtime status:', status);
+            log.debug('Realtime status', { status });
             if (status === 'CHANNEL_ERROR') {
               reconnectAttempts.current++;
               const backoffMs = Math.min(1000 * Math.pow(2, reconnectAttempts.current), 30000);

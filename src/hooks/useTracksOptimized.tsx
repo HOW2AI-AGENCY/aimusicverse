@@ -3,6 +3,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
 import { useEffect, useCallback } from 'react';
+import { logger } from '@/lib/logger';
+
+const log = logger.child({ module: 'TracksOptimized' });
 
 export interface Track {
   id: string;
@@ -85,7 +88,7 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
     queryFn: async () => {
       if (!user?.id) return [];
 
-      console.log(`🔄 Fetching tracks for user: ${user.id} with query: "${searchQuery}" sorted by: "${sortBy}"`);
+      log.debug('Fetching tracks', { userId: user.id, searchQuery, sortBy });
 
       return retryWithBackoff(async () => {
         let query = supabase
@@ -122,11 +125,11 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
         const { data, error } = await query;
 
         if (error) {
-          console.error('❌ Error fetching tracks:', error);
+          log.error('Error fetching tracks', { error });
           throw error;
         }
 
-        console.log(`✅ Fetched ${data?.length || 0} tracks`);
+        log.debug('Fetched tracks', { count: data?.length });
 
         const trackIds = data?.map(t => t.id) || [];
 
@@ -160,7 +163,7 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
           is_liked: userLikes.has(track.id),
         })) || [];
 
-        console.log('✅ Tracks enriched with likes');
+        log.debug('Tracks enriched with likes');
         return enrichedTracks;
       });
     },
