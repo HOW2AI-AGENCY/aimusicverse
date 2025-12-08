@@ -72,17 +72,52 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // NEW: Section-specific colors
+        generate: {
+          DEFAULT: "hsl(var(--generate))",
+          glow: "hsl(var(--generate-glow))",
+        },
+        library: {
+          DEFAULT: "hsl(var(--library))",
+          glow: "hsl(var(--library-glow))",
+        },
+        projects: {
+          DEFAULT: "hsl(var(--projects))",
+          glow: "hsl(var(--projects-glow))",
+        },
+        community: {
+          DEFAULT: "hsl(var(--community))",
+          glow: "hsl(var(--community-glow))",
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          glow: "hsl(var(--success-glow))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          glow: "hsl(var(--warning-glow))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        "2xl": "1.5rem",
+        "3xl": "2rem",
       },
       backgroundImage: {
         'gradient-telegram': 'linear-gradient(135deg, #3390ec, #8e77ec)',
         'gradient-primary': 'var(--gradient-primary)',
         'gradient-card': 'var(--gradient-card)',
         'gradient-hero': 'var(--gradient-hero)',
+        'gradient-generate': 'var(--gradient-generate)',
+        'gradient-success': 'var(--gradient-success)',
+      },
+      boxShadow: {
+        'glow': 'var(--shadow-glow)',
+        'glow-sm': '0 0 15px 0 rgba(51, 144, 236, 0.2)',
+        'glow-lg': '0 0 50px 0 rgba(51, 144, 236, 0.4)',
+        'glow-generate': '0 0 30px 0 hsl(var(--generate) / 0.4)',
       },
       keyframes: {
         "accordion-down": {
@@ -123,6 +158,11 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         "shimmer": "shimmer 1.5s infinite",
+        "float": "float 3s ease-in-out infinite",
+        "slide-up": "slide-up-fade 0.4s ease-out forwards",
+        "vinyl-spin": "vinyl-spin 3s linear infinite",
+        "vinyl-spin-slow": "vinyl-spin 8s linear infinite",
+        "pulse-ring": "pulse-ring 2s ease-in-out infinite",
       },
     },
   },
