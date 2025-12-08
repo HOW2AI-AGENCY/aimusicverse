@@ -19,6 +19,8 @@ interface StudioLyricsPanelProps {
   currentTime: number;
   isPlaying: boolean;
   onSeek?: (time: number) => void;
+  selectionMode?: boolean;
+  onSectionSelect?: (startTime: number, endTime: number, lyrics: string) => void;
 }
 
 interface LyricLine {
@@ -73,6 +75,8 @@ export function StudioLyricsPanel({
   currentTime,
   isPlaying,
   onSeek,
+  selectionMode,
+  onSectionSelect,
 }: StudioLyricsPanelProps) {
   const { data: lyricsData, loading } = useTimestampedLyrics(taskId, audioId);
   const [isCollapsed, setIsCollapsed] = useState(false);
