@@ -16,9 +16,14 @@ export const AddToHomeScreen = () => {
       return;
     }
 
-    webApp.checkHomeScreenStatus((result) => {
-      setStatus(result);
-    });
+    try {
+      webApp.checkHomeScreenStatus((result) => {
+        setStatus(result);
+      });
+    } catch (error) {
+      // Method not supported in this environment (e.g., browser preview)
+      setStatus('unsupported');
+    }
   }, [webApp]);
 
   const handleAddToHomeScreen = () => {
@@ -31,12 +36,16 @@ export const AddToHomeScreen = () => {
     
     // Check status after a delay
     setTimeout(() => {
-      webApp.checkHomeScreenStatus?.((result) => {
-        setStatus(result);
-        if (result === 'added') {
-          toast.success('Приложение добавлено на главный экран!');
-        }
-      });
+      try {
+        webApp.checkHomeScreenStatus?.((result) => {
+          setStatus(result);
+          if (result === 'added') {
+            toast.success('Приложение добавлено на главный экран!');
+          }
+        });
+      } catch {
+        // Ignore errors in unsupported environments
+      }
     }, 2000);
   };
 
