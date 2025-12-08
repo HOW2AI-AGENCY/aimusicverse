@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
@@ -38,18 +38,20 @@ export default function Settings() {
   const updateProfile = useUpdateProfile();
   const { settings, updateSettings, isLoading: settingsLoading, isUpdating } = useNotificationSettings();
 
-  const [firstName, setFirstName] = useState(profile?.first_name || "");
-  const [lastName, setLastName] = useState(profile?.last_name || "");
-  const [isPublic, setIsPublic] = useState(profile?.is_public || false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [isPublic, setIsPublic] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Initialize form when profile loads
-  useState(() => {
-    if (profile) {
+  useEffect(() => {
+    if (profile && !isInitialized) {
       setFirstName(profile.first_name || "");
       setLastName(profile.last_name || "");
       setIsPublic(profile.is_public || false);
+      setIsInitialized(true);
     }
-  });
+  }, [profile, isInitialized]);
 
   const handleSaveProfile = async () => {
     hapticFeedback('light');
