@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { Check, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
+import { logger } from '@/lib/logger';
 
 interface Version {
   id: string;
@@ -50,7 +51,7 @@ export function VersionPicker({
         .order('clip_index', { ascending: true });
 
       if (error) {
-        console.error('Error fetching versions:', error);
+        logger.error('Error fetching versions', { error });
         setIsLoading(false);
         return;
       }
@@ -110,7 +111,7 @@ export function VersionPicker({
       onVersionChange?.(version);
       toast.success(`Переключено на версию ${version.version_label || 'A'}`);
     } catch (error) {
-      console.error('Error switching version:', error);
+      logger.error('Error switching version', { error });
       toast.error('Ошибка переключения версии');
     } finally {
       setIsUpdating(false);

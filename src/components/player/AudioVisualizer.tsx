@@ -8,6 +8,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 
 interface AudioVisualizerProps {
   audioElement: HTMLAudioElement | null;
@@ -81,7 +82,7 @@ export function AudioVisualizer({
 
       return sharedAnalyser;
     } catch (error) {
-      console.error('Error initializing audio visualizer:', error);
+      logger.error('Error initializing audio visualizer', { error });
       return null;
     }
   }, [audioElement]);

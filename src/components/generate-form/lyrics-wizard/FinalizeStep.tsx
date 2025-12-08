@@ -11,6 +11,7 @@ import { useLyricsWizardStore } from '@/stores/lyricsWizardStore';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import DOMPurify from 'dompurify';
+import { logger } from '@/lib/logger';
 
 const MAX_LYRICS_LENGTH = 3000;
 
@@ -62,7 +63,7 @@ export function FinalizeStep() {
         toast.success('Текст оптимизирован для Suno');
       }
     } catch (err) {
-      console.error('Error optimizing lyrics:', err);
+      logger.error('Error optimizing lyrics', { error: err });
       toast.error('Не удалось оптимизировать текст');
     } finally {
       setIsGenerating(false);

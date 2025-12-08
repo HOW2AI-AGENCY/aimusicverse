@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { logger } from '@/lib/logger';
 
 interface LyricsChatAssistantProps {
   open: boolean;
@@ -285,7 +286,7 @@ export function LyricsChatAssistant({
         });
       }
     } catch (err) {
-      console.error('Error generating lyrics:', err);
+      logger.error('Error generating lyrics', { error: err });
       setMessages(prev => prev.filter(m => !m.id.startsWith('loading-')));
       addMessage({
         id: Date.now().toString(),
@@ -352,7 +353,7 @@ export function LyricsChatAssistant({
         });
       }
     } catch (err) {
-      console.error('Error modifying lyrics:', err);
+      logger.error('Error modifying lyrics', { error: err });
       setMessages(prev => prev.filter(m => !m.id.startsWith('loading-')));
       toast.error('Ошибка при изменении');
     } finally {
@@ -413,7 +414,7 @@ export function LyricsChatAssistant({
       setSaved(true);
       toast.success('Сохранено в библиотеку шаблонов');
     } catch (err) {
-      console.error('Error saving template:', err);
+      logger.error('Error saving template', { error: err });
       toast.error('Ошибка сохранения');
     } finally {
       setIsSaving(false);

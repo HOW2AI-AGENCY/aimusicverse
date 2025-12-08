@@ -10,6 +10,7 @@ import { Sparkles, Wand2, ChevronLeft, ChevronRight, RefreshCw, Lightbulb } from
 import { useLyricsWizardStore, type LyricsWizardState } from '@/stores/lyricsWizardStore';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface WritingStepProps {
   onStyleGenerated?: (style: string) => void;
@@ -70,7 +71,7 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
         toast.success(`${currentSection.name} сгенерирован`);
       }
     } catch (err) {
-      console.error('Error generating section:', err);
+      logger.error('Error generating section', { error: err });
       toast.error('Не удалось сгенерировать секцию');
     } finally {
       setIsGenerating(false);
@@ -130,7 +131,7 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
         }
       }
     } catch (err) {
-      console.error('Error generating all sections:', err);
+      logger.error('Error generating all sections', { error: err });
       toast.error('Не удалось сгенерировать текст');
     } finally {
       setIsGenerating(false);
@@ -159,7 +160,7 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
         setLineSuggestion(data.lyrics.trim());
       }
     } catch (err) {
-      console.error('Error suggesting line:', err);
+      logger.error('Error suggesting line', { error: err });
       toast.error('Не удалось предложить строку');
     } finally {
       setIsGenerating(false);
@@ -192,7 +193,7 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
         setRhymeSuggestions(rhymes.slice(0, 8));
       }
     } catch (err) {
-      console.error('Error suggesting rhymes:', err);
+      logger.error('Error suggesting rhymes', { error: err });
     } finally {
       setIsGenerating(false);
     }

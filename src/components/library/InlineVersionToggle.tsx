@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { usePlayerStore } from '@/hooks/usePlayerState';
+import { logger } from '@/lib/logger';
 
 interface Version {
   id: string;
@@ -52,7 +53,7 @@ export function InlineVersionToggle({
         .order('clip_index', { ascending: true });
 
       if (error) {
-        console.error('Error fetching versions:', error);
+        logger.error('Error fetching versions', { error });
         setIsLoading(false);
         return;
       }
@@ -137,7 +138,7 @@ export function InlineVersionToggle({
       
       toast.success(`Версия ${version.version_label || 'A'}`);
     } catch (error) {
-      console.error('Error switching version:', error);
+      logger.error('Error switching version', { error });
       toast.error('Ошибка переключения');
     } finally {
       setIsUpdating(false);

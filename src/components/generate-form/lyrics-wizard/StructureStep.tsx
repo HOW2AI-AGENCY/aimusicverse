@@ -8,6 +8,7 @@ import { Plus, Trash2, GripVertical, Sparkles, Music2 } from 'lucide-react';
 import { useLyricsWizardStore, SectionDefinition } from '@/stores/lyricsWizardStore';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 const STRUCTURE_TEMPLATES: Record<string, { name: string; description: string; sections: Omit<SectionDefinition, 'id'>[] }> = {
   pop: {
@@ -167,7 +168,7 @@ export function StructureStep() {
         }
       }
     } catch (err) {
-      console.error('Error generating structure:', err);
+      logger.error('Error generating structure', { error: err });
       toast.error('Не удалось сгенерировать структуру');
     } finally {
       setIsGenerating(false);

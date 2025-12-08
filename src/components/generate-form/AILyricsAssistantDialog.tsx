@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Loader2, Sparkles, Wand2, Tags, LayoutList, Copy, Check } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface AILyricsAssistantDialogProps {
   open: boolean;
@@ -93,7 +94,7 @@ export const AILyricsAssistantDialog = ({
         toast.success('Текст сгенерирован!');
       }
     } catch (error: any) {
-      console.error('Generate lyrics error:', error);
+      logger.error('Generate lyrics error', { error });
       toast.error(error.message || 'Ошибка генерации');
     } finally {
       setLoading(false);
@@ -124,7 +125,7 @@ export const AILyricsAssistantDialog = ({
         toast.success('Текст улучшен!');
       }
     } catch (error: any) {
-      console.error('Improve lyrics error:', error);
+      logger.error('Improve lyrics error', { error });
       toast.error(error.message || 'Ошибка улучшения');
     } finally {
       setLoading(false);
@@ -154,7 +155,7 @@ export const AILyricsAssistantDialog = ({
         toast.success('Теги добавлены!');
       }
     } catch (error: any) {
-      console.error('Add tags error:', error);
+      logger.error('Add tags error', { error });
       toast.error(error.message || 'Ошибка добавления тегов');
     } finally {
       setLoading(false);

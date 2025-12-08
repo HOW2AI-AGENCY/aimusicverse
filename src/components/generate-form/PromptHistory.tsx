@@ -16,6 +16,7 @@ import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { INSPIRATION_PROMPTS, getPromptUsageCount, incrementPromptUsage } from './inspirationPrompts';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 
 export interface PromptHistoryItem {
   id: string;
@@ -116,7 +117,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
         });
         setInspirationUsage(usage);
       } catch (error) {
-        console.error('Failed to load data:', error);
+        logger.error('Failed to load data', { error });
       }
     };
 
@@ -723,7 +724,7 @@ export function savePromptToHistory(prompt: Omit<PromptHistoryItem, 'id' | 'time
     const updated = [newItem, ...history].slice(0, 50); // Keep last 50 prompts
     localStorage.setItem('musicverse_prompt_history', JSON.stringify(updated));
   } catch (error) {
-    console.error('Failed to save prompt to history:', error);
+    logger.error('Failed to save prompt to history', { error });
   }
 }
 
@@ -742,7 +743,7 @@ export function savePromptToBookmarks(prompt: Omit<SavedPrompt, 'id' | 'createdA
     localStorage.setItem('musicverse_saved_prompts', JSON.stringify(updated));
     toast.success('Промпт сохранен в закладки');
   } catch (error) {
-    console.error('Failed to save prompt to bookmarks:', error);
+    logger.error('Failed to save prompt to bookmarks', { error });
     toast.error('Не удалось сохранить промпт');
   }
 }
