@@ -11,7 +11,7 @@ import { Loader2, Plus, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
-import { Track } from '@/hooks/useTracks';
+import { Track } from '@/hooks/useTracksOptimized';
 import { logger } from '@/lib/logger';
 
 interface ExtendTrackDialogProps {
