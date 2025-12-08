@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { History, ChevronRight, Clock, Music, Loader2, CheckCircle2, XCircle } from 'lucide-react';
+import { History, ChevronRight, Clock, Music, Loader2, CheckCircle2, XCircle, Sparkles, PlayCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -110,30 +110,56 @@ export function ReplacementHistoryPanel({ trackId, trackAudioUrl }: ReplacementH
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="sm" className="h-9 gap-1.5">
-          <History className="w-4 h-4" />
+        <Button variant="outline" size="sm" className="h-9 gap-1.5 group">
+          <History className="w-4 h-4 group-hover:rotate-[-20deg] transition-transform" />
           <span className="hidden sm:inline">История</span>
         </Button>
       </SheetTrigger>
       <SheetContent className="w-full sm:max-w-lg">
-        <SheetHeader>
+        <SheetHeader className="pb-4 border-b border-border/50">
           <SheetTitle className="flex items-center gap-2">
-            <History className="w-5 h-5" />
+            <motion.div
+              initial={{ rotate: 0 }}
+              animate={{ rotate: open ? 360 : 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <History className="w-5 h-5 text-primary" />
+            </motion.div>
             История замен секций
           </SheetTitle>
         </SheetHeader>
 
         <ScrollArea className="h-[calc(100vh-120px)] mt-4 -mx-6 px-6">
           {isLoading ? (
-            <div className="flex items-center justify-center py-12">
-              <div className="animate-spin w-6 h-6 border-2 border-primary border-t-transparent rounded-full" />
+            <div className="flex flex-col items-center justify-center py-12 gap-3">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+              >
+                <Loader2 className="w-8 h-8 text-primary" />
+              </motion.div>
+              <p className="text-sm text-muted-foreground">Загрузка истории...</p>
             </div>
           ) : !history || history.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
-              <History className="w-12 h-12 mx-auto mb-3 opacity-20" />
-              <p>Нет истории замен</p>
-              <p className="text-xs mt-1">Замены секций будут отображаться здесь</p>
-            </div>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center py-12"
+            >
+              <motion.div
+                animate={{ 
+                  scale: [1, 1.05, 1],
+                  opacity: [0.2, 0.3, 0.2]
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                <History className="w-16 h-16 mx-auto mb-4 text-muted-foreground/20" />
+              </motion.div>
+              <p className="text-muted-foreground font-medium">Нет истории замен</p>
+              <p className="text-xs text-muted-foreground/70 mt-1">
+                Замены секций будут отображаться здесь
+              </p>
+            </motion.div>
           ) : (
             <motion.div 
               className="space-y-3"
@@ -144,7 +170,7 @@ export function ReplacementHistoryPanel({ trackId, trackAudioUrl }: ReplacementH
               }}
             >
               <AnimatePresence mode="popLayout">
-                {history.map((record) => {
+                {history.map((record, index) => {
                   const isSelected = selectedRecord?.id === record.id;
                   const startTime = record.metadata?.infillStartS ?? record.metadata?.infill_start_s ?? 0;
                   const endTime = record.metadata?.infillEndS ?? record.metadata?.infill_end_s ?? 0;
@@ -164,42 +190,45 @@ export function ReplacementHistoryPanel({ trackId, trackAudioUrl }: ReplacementH
                       <motion.button
                         onClick={() => setSelectedRecord(isSelected ? null : record)}
                         className={cn(
-                          'w-full p-3 rounded-lg border text-left transition-all',
+                          'w-full p-4 rounded-xl border text-left transition-all',
                           'hover:border-primary/50 hover:bg-accent/50',
-                          isSelected && 'border-primary bg-accent',
+                          'focus:outline-none focus:ring-2 focus:ring-primary/20',
+                          isSelected && 'border-primary bg-primary/5 shadow-lg shadow-primary/10',
                           isPending && 'border-warning/50 bg-warning/5',
-                          isCompleted && 'border-success/50'
+                          isCompleted && !isSelected && 'border-success/30 bg-success/5'
                         )}
-                        whileTap={{ scale: 0.98 }}
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
                       >
-                        <div className="flex items-start justify-between gap-2">
+                        <div className="flex items-start justify-between gap-3">
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-1">
+                            <div className="flex items-center gap-2 mb-2 flex-wrap">
                               {isPending ? (
                                 <Badge variant="secondary" className="text-xs bg-warning/10 text-warning border-warning/30 gap-1">
                                   <Loader2 className="w-3 h-3 animate-spin" />
                                   Обработка...
                                 </Badge>
                               ) : isCompleted ? (
-                                <Badge variant="secondary" className="text-xs bg-success/10 text-success border-success/30 gap-1">
+                                <Badge variant="secondary" className="text-xs bg-success/10 text-success border-success/30 gap-1 font-mono">
                                   <CheckCircle2 className="w-3 h-3" />
-                                  {formatTime(startTime)} - {formatTime(endTime)}
+                                  {formatTime(startTime)} — {formatTime(endTime)}
                                 </Badge>
                               ) : (
-                                <Badge variant="secondary" className="text-xs">
-                                  {formatTime(startTime)} - {formatTime(endTime)}
+                                <Badge variant="secondary" className="text-xs font-mono">
+                                  {formatTime(startTime)} — {formatTime(endTime)}
                                 </Badge>
                               )}
                               {(record.track_versions?.version_label || record.metadata?.versionLabel) && (
                                 <Badge variant="outline" className="text-xs">
+                                  <Sparkles className="w-3 h-3 mr-1" />
                                   {record.track_versions?.version_label || record.metadata?.versionLabel}
                                 </Badge>
                               )}
                             </div>
 
                             {record.prompt_used && (
-                              <p className="text-sm text-muted-foreground line-clamp-2 mb-1">
-                                {record.prompt_used}
+                              <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
+                                "{record.prompt_used}"
                               </p>
                             )}
 
@@ -211,18 +240,29 @@ export function ReplacementHistoryPanel({ trackId, trackAudioUrl }: ReplacementH
                               {record.metadata?.tags && (
                                 <span className="flex items-center gap-1 truncate">
                                   <Music className="w-3 h-3" />
-                                  {record.metadata.tags.slice(0, 30)}...
+                                  {record.metadata.tags.slice(0, 25)}...
                                 </span>
                               )}
                             </div>
                           </div>
 
-                          <motion.div
-                            animate={{ rotate: isSelected ? 90 : 0 }}
-                            transition={{ type: 'spring', stiffness: 300 }}
-                          >
-                            <ChevronRight className="w-5 h-5 text-muted-foreground" />
-                          </motion.div>
+                          <div className="flex items-center gap-2">
+                            {isCompleted && newAudioUrl && (
+                              <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center"
+                              >
+                                <PlayCircle className="w-4 h-4 text-primary" />
+                              </motion.div>
+                            )}
+                            <motion.div
+                              animate={{ rotate: isSelected ? 90 : 0 }}
+                              transition={{ type: 'spring', stiffness: 300 }}
+                            >
+                              <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                            </motion.div>
+                          </div>
                         </div>
                       </motion.button>
 

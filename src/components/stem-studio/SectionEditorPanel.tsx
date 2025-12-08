@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { 
   X, Wand2, Loader2, FileText, ChevronDown, 
-  Music, AlertTriangle, Sparkles, RotateCcw
+  Music, AlertTriangle, Sparkles, RotateCcw, Zap
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -13,6 +13,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useReplaceSectionMutation } from '@/hooks/useReplaceSectionMutation';
 import { DetectedSection } from '@/hooks/useSectionDetection';
+import { SectionWaveformPreview } from './SectionWaveformPreview';
 import { cn } from '@/lib/utils';
 
 // Animation variants
@@ -66,10 +67,12 @@ interface SectionEditorPanelProps {
 }
 
 const PROMPT_PRESETS = [
-  { label: '⚡ Энергичнее', prompt: 'more energetic, higher tempo, powerful' },
+  { label: '⚡ Энергичнее', prompt: 'more energetic, higher tempo, powerful', icon: Zap },
   { label: '🎵 Мягче', prompt: 'softer, gentler, acoustic feel' },
   { label: '🎬 Эпичнее', prompt: 'epic, orchestral, cinematic' },
   { label: '🎹 Минимал', prompt: 'minimal, stripped down, simple' },
+  { label: '🎸 Рок', prompt: 'rock style, distorted guitar, drums' },
+  { label: '🎤 Акустика', prompt: 'acoustic, unplugged, natural' },
 ];
 
 export function SectionEditorPanel({
@@ -199,6 +202,16 @@ export function SectionEditorPanel({
                 <X className="w-4 h-4" />
               </Button>
             </motion.div>
+          </motion.div>
+
+          {/* Waveform Preview */}
+          <motion.div variants={itemVariants}>
+            <SectionWaveformPreview
+              duration={duration}
+              startTime={startTime}
+              endTime={endTime}
+              isValid={isValid}
+            />
           </motion.div>
 
           {/* Validation Warning */}
