@@ -380,7 +380,7 @@ export function monitorMemoryUsage(
   
   // Check if performance.memory is available (Chrome only)
   if (!perf.memory) {
-    console.warn('Memory monitoring not available in this browser');
+    // Memory monitoring not available - silently return noop
     return () => {};
   }
 
