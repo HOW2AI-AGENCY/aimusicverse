@@ -158,3 +158,6 @@ verify_jwt = true
 
 [functions.retry-failed-tasks]
 verify_jwt = false
+
+[functions.cleanup-orphaned-data]
+verify_jwt = false
