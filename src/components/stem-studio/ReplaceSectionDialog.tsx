@@ -228,6 +228,8 @@ export function ReplaceSectionDialog({
                 startTime={startTime}
                 endTime={endTime}
                 isValid={isValid}
+                interactive
+                onSelectionChange={handleSelectionChange}
               />
             </motion.div>
 
