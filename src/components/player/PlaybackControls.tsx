@@ -87,13 +87,13 @@ export function PlaybackControls({ size = 'medium', className }: PlaybackControl
         onClick={toggleShuffle}
         className={cn(
           buttonSize,
-          'touch-manipulation transition-colors',
-          shuffle && 'text-primary' // Highlight when active
+          'touch-manipulation transition-all duration-200 rounded-xl',
+          shuffle ? 'text-primary bg-primary/10' : 'hover:bg-muted/50'
         )}
         aria-label="Shuffle"
-        aria-pressed={shuffle} // Accessibility: indicate toggle state
+        aria-pressed={shuffle}
       >
-        <Shuffle className={iconSize} />
+        <Shuffle className={cn(iconSize, shuffle && 'drop-shadow-glow')} />
       </Button>
 
       {/* Previous Button - Skip to previous track */}
@@ -101,36 +101,43 @@ export function PlaybackControls({ size = 'medium', className }: PlaybackControl
         variant="ghost"
         size="icon"
         onClick={previousTrack}
-        className={cn(buttonSize, 'touch-manipulation')}
+        className={cn(buttonSize, 'touch-manipulation rounded-xl hover:bg-muted/50 active:scale-95 transition-all')}
         aria-label="Previous track"
       >
         <SkipBack className={iconSize} />
       </Button>
 
-      {/* Play/Pause Button - Main playback control */}
-      <Button
-        variant="default"
-        size="icon"
-        onClick={handlePlayPause}
-        className={cn(
-          buttonSize,
-          'touch-manipulation rounded-full bg-primary hover:bg-primary/90'
+      {/* Play/Pause Button - Main playback control with glow */}
+      <div className="relative">
+        {isPlaying && (
+          <div className="absolute inset-0 bg-primary/30 rounded-full blur-xl animate-pulse" />
         )}
-        aria-label={isPlaying ? 'Pause' : 'Play'}
-      >
-        {isPlaying ? (
-          <Pause className={iconSize} fill="currentColor" />
-        ) : (
-          <Play className={iconSize} fill="currentColor" />
-        )}
-      </Button>
+        <Button
+          variant="default"
+          size="icon"
+          onClick={handlePlayPause}
+          className={cn(
+            buttonSize,
+            'touch-manipulation rounded-full bg-primary hover:bg-primary/90 relative z-10',
+            'shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30',
+            'active:scale-95 transition-all duration-200'
+          )}
+          aria-label={isPlaying ? 'Pause' : 'Play'}
+        >
+          {isPlaying ? (
+            <Pause className={iconSize} fill="currentColor" />
+          ) : (
+            <Play className={cn(iconSize, 'ml-0.5')} fill="currentColor" />
+          )}
+        </Button>
+      </div>
 
       {/* Next Button - Skip to next track */}
       <Button
         variant="ghost"
         size="icon"
         onClick={nextTrack}
-        className={cn(buttonSize, 'touch-manipulation')}
+        className={cn(buttonSize, 'touch-manipulation rounded-xl hover:bg-muted/50 active:scale-95 transition-all')}
         aria-label="Next track"
       >
         <SkipForward className={iconSize} />
@@ -143,16 +150,16 @@ export function PlaybackControls({ size = 'medium', className }: PlaybackControl
         onClick={toggleRepeat}
         className={cn(
           buttonSize,
-          'touch-manipulation transition-colors relative',
-          repeat !== 'off' && 'text-primary' // Highlight when active
+          'touch-manipulation transition-all duration-200 relative rounded-xl',
+          repeat !== 'off' ? 'text-primary bg-primary/10' : 'hover:bg-muted/50'
         )}
         aria-label={`Repeat: ${repeat}`}
-        aria-pressed={repeat !== 'off'} // Accessibility: indicate toggle state
+        aria-pressed={repeat !== 'off'}
       >
-        <Repeat className={iconSize} />
+        <Repeat className={cn(iconSize, repeat !== 'off' && 'drop-shadow-glow')} />
         {/* Visual indicator for repeat mode - shows small badge for repeat-one */}
         {repeat === 'one' && (
-          <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+          <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground shadow-sm">
             1
           </span>
         )}
