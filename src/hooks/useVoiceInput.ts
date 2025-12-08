@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 export type VoiceInputContext = 'description' | 'style' | 'lyrics' | 'title' | 'general';
 
@@ -105,7 +106,7 @@ export function useVoiceInput({
           toast.success('Голос распознан');
 
         } catch (error) {
-          console.error('Voice processing error:', error);
+          logger.error('Voice processing error', error);
           toast.error('Ошибка обработки голоса', {
             description: error instanceof Error ? error.message : 'Попробуйте снова'
           });
@@ -124,7 +125,7 @@ export function useVoiceInput({
       }
 
     } catch (error) {
-      console.error('Microphone access error:', error);
+      logger.error('Microphone access error', error);
       toast.error('Нет доступа к микрофону', {
         description: 'Разрешите доступ в настройках браузера'
       });

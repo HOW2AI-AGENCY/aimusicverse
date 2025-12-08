@@ -286,7 +286,7 @@ export const useOptimizedAudioPlayer = ({
       await audioRef.current.play();
       setError(null);
     } catch (error: any) {
-      console.error('Play error:', error);
+      log.error('Play error', error);
       setError(error.message || 'Failed to play audio');
       setLoading(false);
     }

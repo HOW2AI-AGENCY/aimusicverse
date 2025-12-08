@@ -1,5 +1,6 @@
 // Telegram Authentication Service for Mini App
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 
 interface TelegramAuthResponse {
   user: {
@@ -23,7 +24,7 @@ export class TelegramAuthService {
       });
 
       if (error) {
-        console.error('Telegram auth error:', error);
+        logger.error('Telegram auth error', error);
         return null;
       }
 
@@ -34,7 +35,7 @@ export class TelegramAuthService {
 
       return data;
     } catch (error) {
-      console.error('Error in Telegram auth:', error);
+      logger.error('Error in Telegram auth', error);
       return null;
     }
   }
@@ -48,10 +49,10 @@ export class TelegramAuthService {
       });
 
       if (error) {
-        console.error('Error setting session:', error);
+        logger.error('Error setting session', error);
       }
     } catch (error) {
-      console.error('Error setting session:', error);
+      logger.error('Error setting session', error);
     }
   }
 }

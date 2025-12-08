@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 
 export interface StemInfo {
   id: string;
@@ -18,7 +19,7 @@ export function useTrackStemTypes(trackId: string | undefined) {
         .eq('track_id', trackId);
       
       if (error) {
-        console.error('Error fetching stem types:', error);
+        logger.error('Error fetching stem types', error);
         return [];
       }
       return (data || []) as StemInfo[];

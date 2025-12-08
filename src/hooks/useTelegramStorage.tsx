@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { logger } from '@/lib/logger';
 
 interface StorageOptions {
   fallbackToLocalStorage?: boolean;
@@ -25,7 +26,7 @@ export function useTelegramStorage<T>(
           // Use Telegram CloudStorage
           (webApp as any).CloudStorage.getItem(key, (error: Error | null, result: string) => {
             if (error) {
-              console.error('CloudStorage getItem error:', error);
+              logger.error('CloudStorage getItem error', error);
               if (options.fallbackToLocalStorage) {
                 loadFromLocalStorage();
               }
@@ -45,7 +46,7 @@ export function useTelegramStorage<T>(
           setIsLoading(false);
         }
       } catch (error) {
-        console.error('Error loading from storage:', error);
+        logger.error('Error loading from storage', error);
         setIsLoading(false);
       }
     };
@@ -76,7 +77,7 @@ export function useTelegramStorage<T>(
 
       (webApp as any).CloudStorage.setItem(key, stringValue, (error: Error | null) => {
         if (error) {
-          console.error('CloudStorage setItem error:', error);
+          logger.error('CloudStorage setItem error', error);
           if (options.fallbackToLocalStorage) {
             localStorage.setItem(`telegram_storage_${key}`, stringValue);
           }
@@ -98,7 +99,7 @@ export function useTelegramStorage<T>(
     if (hasCloudStorage) {
       (webApp as any).CloudStorage.removeItem(key, (error: Error | null) => {
         if (error) {
-          console.error('CloudStorage removeItem error:', error);
+          logger.error('CloudStorage removeItem error', error);
           if (options.fallbackToLocalStorage) {
             localStorage.removeItem(`telegram_storage_${key}`);
           }

@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 export interface Playlist {
   id: string;
@@ -68,7 +69,7 @@ export function usePlaylists() {
         .single();
 
       if (error) {
-        console.error('Supabase error:', error);
+        logger.error('Supabase error', error);
         throw new Error(error.message || 'Ошибка базы данных');
       }
       return data as Playlist;
@@ -78,7 +79,7 @@ export function usePlaylists() {
       toast.success('Плейлист создан');
     },
     onError: (error: Error) => {
-      console.error('Error creating playlist:', error);
+      logger.error('Error creating playlist', error);
       toast.error(error.message || 'Ошибка создания плейлиста');
     },
   });
@@ -103,7 +104,7 @@ export function usePlaylists() {
       toast.success('Плейлист обновлён');
     },
     onError: (error) => {
-      console.error('Error updating playlist:', error);
+      logger.error('Error updating playlist', error);
       toast.error('Ошибка обновления плейлиста');
     },
   });
@@ -123,7 +124,7 @@ export function usePlaylists() {
       toast.success('Плейлист удалён');
     },
     onError: (error) => {
-      console.error('Error deleting playlist:', error);
+      logger.error('Error deleting playlist', error);
       toast.error('Ошибка удаления плейлиста');
     },
   });
@@ -164,7 +165,7 @@ export function usePlaylists() {
       toast.success('Трек добавлен в плейлист');
     },
     onError: (error: Error) => {
-      console.error('Error adding track:', error);
+      logger.error('Error adding track to playlist', error);
       toast.error(error.message || 'Ошибка добавления трека');
     },
   });
@@ -185,7 +186,7 @@ export function usePlaylists() {
       toast.success('Трек удалён из плейлиста');
     },
     onError: (error) => {
-      console.error('Error removing track:', error);
+      logger.error('Error removing track from playlist', error);
       toast.error('Ошибка удаления трека');
     },
   });
@@ -208,7 +209,7 @@ export function usePlaylists() {
       queryClient.invalidateQueries({ queryKey: ['playlist-tracks'] });
     },
     onError: (error) => {
-      console.error('Error reordering tracks:', error);
+      logger.error('Error reordering tracks', error);
       toast.error('Ошибка изменения порядка');
     },
   });

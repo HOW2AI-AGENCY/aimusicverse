@@ -1,6 +1,7 @@
 /**
  * Haptic feedback utilities for Telegram Mini App
  */
+import { logger } from '@/lib/logger';
 
 type ImpactStyle = 'light' | 'medium' | 'heavy' | 'rigid' | 'soft';
 type NotificationType = 'error' | 'success' | 'warning';
@@ -14,7 +15,7 @@ export const hapticImpact = (style: ImpactStyle = 'medium') => {
       window.Telegram.WebApp.HapticFeedback.impactOccurred(style);
     }
   } catch (error) {
-    console.warn('Haptic feedback not available:', error);
+    logger.warn('Haptic feedback not available', { error });
   }
 };
 
@@ -27,7 +28,7 @@ export const hapticNotification = (type: NotificationType = 'success') => {
       window.Telegram.WebApp.HapticFeedback.notificationOccurred(type);
     }
   } catch (error) {
-    console.warn('Haptic feedback not available:', error);
+    logger.warn('Haptic feedback not available', { error });
   }
 };
 
@@ -40,7 +41,7 @@ export const hapticSelectionChanged = () => {
       window.Telegram.WebApp.HapticFeedback.selectionChanged();
     }
   } catch (error) {
-    console.warn('Haptic feedback not available:', error);
+    logger.warn('Haptic feedback not available', { error });
   }
 };
 

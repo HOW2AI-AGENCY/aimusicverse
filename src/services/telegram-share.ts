@@ -40,6 +40,7 @@
  * - 2025-12-03: Verified all share/download paths work
  */
 import { hapticNotification } from '@/lib/haptic';
+import { logger } from '@/lib/logger';
 
 interface Track {
   id: string;
@@ -113,7 +114,7 @@ export class TelegramShareService {
    */
   sharePlaylistToStory(playlist: Playlist): boolean {
     if (!this.canShareToStory()) {
-      console.warn('shareToStory not available');
+      logger.warn('shareToStory not available');
       return false;
     }
 
@@ -131,7 +132,7 @@ export class TelegramShareService {
       hapticNotification('success');
       return true;
     } catch (error) {
-      console.error('Error sharing playlist to story:', error);
+      logger.error('Error sharing playlist to story', error);
       return false;
     }
   }
@@ -149,7 +150,7 @@ export class TelegramShareService {
         hapticNotification('success');
         return true;
       } catch (error) {
-        console.error('Error with shareURL:', error);
+        logger.error('Error with shareURL', error);
       }
     }
 
@@ -255,7 +256,7 @@ export class TelegramShareService {
    */
   shareToStory(track: Track): boolean {
     if (!this.canShareToStory() || !track.cover_url) {
-      console.warn('shareToStory not available or no cover URL');
+      logger.warn('shareToStory not available or no cover URL');
       return false;
     }
 
@@ -271,7 +272,7 @@ export class TelegramShareService {
       hapticNotification('success');
       return true;
     } catch (error) {
-      console.error('Error sharing to story:', error);
+      logger.error('Error sharing to story', error);
       return false;
     }
   }
@@ -315,7 +316,7 @@ export class TelegramShareService {
         hapticNotification('success');
         return true;
       } catch (error) {
-        console.error('Error with shareURL:', error);
+        logger.error('Error with shareURL', error);
       }
     }
 
@@ -370,7 +371,7 @@ export class TelegramShareService {
   downloadFile(track: Track): Promise<boolean> {
     return new Promise((resolve) => {
       if (!track.audio_url) {
-        console.warn('No audio URL for download');
+        logger.warn('No audio URL for download');
         resolve(false);
         return;
       }
@@ -391,7 +392,7 @@ export class TelegramShareService {
           );
           return;
         } catch (error) {
-          console.error('Error with downloadFile:', error);
+          logger.error('Error with downloadFile', error);
         }
       }
 
@@ -407,7 +408,7 @@ export class TelegramShareService {
         hapticNotification('success');
         resolve(true);
       } catch (error) {
-        console.error('Error downloading file:', error);
+        logger.error('Error downloading file', error);
         resolve(false);
       }
     });
@@ -418,7 +419,7 @@ export class TelegramShareService {
    */
   switchInlineQuery(query: string = ''): boolean {
     if (!this.webApp?.switchInlineQuery) {
-      console.warn('switchInlineQuery not available');
+      logger.warn('switchInlineQuery not available');
       return false;
     }
 
@@ -426,7 +427,7 @@ export class TelegramShareService {
       this.webApp.switchInlineQuery(query, ['users', 'groups', 'channels']);
       return true;
     } catch (error) {
-      console.error('Error switching to inline query:', error);
+      logger.error('Error switching to inline query', error);
       return false;
     }
   }

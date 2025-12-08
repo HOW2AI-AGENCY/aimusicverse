@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 export interface Project {
   id: string;
@@ -78,7 +79,7 @@ export const useProjects = () => {
       toast.success('Проект создан успешно');
     },
     onError: (error: any) => {
-      console.error('Error creating project:', error);
+      logger.error('Error creating project', error);
       toast.error('Ошибка создания проекта');
     },
   });
@@ -100,7 +101,7 @@ export const useProjects = () => {
       toast.success('Проект обновлен');
     },
     onError: (error: any) => {
-      console.error('Error updating project:', error);
+      logger.error('Error updating project', error);
       toast.error('Ошибка обновления проекта');
     },
   });
@@ -119,7 +120,7 @@ export const useProjects = () => {
       toast.success('Проект удален');
     },
     onError: (error: any) => {
-      console.error('Error deleting project:', error);
+      logger.error('Error deleting project', error);
       toast.error('Ошибка удаления проекта');
     },
   });
@@ -147,7 +148,7 @@ export const useProjects = () => {
       toast.success('Концепция проекта создана');
     },
     onError: (error: any) => {
-      console.error('Error generating concept:', error);
+      logger.error('Error generating concept', error);
       toast.error('Ошибка генерации концепции');
     },
   });

@@ -118,7 +118,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
       toast.success('Трек добавлен');
     },
     onError: (error: any) => {
-      console.error('Error adding track:', error);
+      log.error('Error adding track', error);
       toast.error('Ошибка добавления трека');
     },
   });
@@ -140,7 +140,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
       toast.success('Трек обновлен');
     },
     onError: (error: any) => {
-      console.error('Error updating track:', error);
+      log.error('Error updating track', error);
       toast.error('Ошибка обновления трека');
     },
   });
@@ -159,7 +159,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
       toast.success('Трек удален');
     },
     onError: (error: any) => {
-      console.error('Error deleting track:', error);
+      log.error('Error deleting track', error);
       toast.error('Ошибка удаления трека');
     },
   });
@@ -180,7 +180,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
       toast.success('Порядок треков обновлен');
     },
     onError: (error: any) => {
-      console.error('Error reordering tracks:', error);
+      log.error('Error reordering tracks', error);
       toast.error('Ошибка изменения порядка');
     },
   });
@@ -217,7 +217,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
       toast.success('Трек-лист создан с помощью AI');
     },
     onError: (error: any) => {
-      console.error('Error generating tracklist:', error);
+      log.error('Error generating tracklist', error);
       toast.error('Ошибка генерации трек-листа');
     },
   });

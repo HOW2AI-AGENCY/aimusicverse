@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/card';
 import { SplashScreen } from '@/components/SplashScreen';
 import { Onboarding } from '@/components/Onboarding';
 import logo from '@/assets/logo.png';
+import { logger } from '@/lib/logger';
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ const Auth = () => {
   // Auto-authenticate in development mode
   useEffect(() => {
     if (isDevelopmentMode && !isAuthenticated && !loading && !showSplash && !isAuthenticating) {
-      console.log('🔧 Auto-authenticating in dev mode...');
+      logger.debug('Auto-authenticating in dev mode...');
       handleAuth();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

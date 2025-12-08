@@ -6,6 +6,7 @@
  */
 
 import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
 
 /**
  * Storage bucket names
@@ -129,7 +130,7 @@ export async function uploadFile(options: UploadFileOptions): Promise<UploadFile
       publicUrl: urlData.publicUrl,
     };
   } catch (error) {
-    console.error("Error uploading file:", error);
+    logger.error("Error uploading file", error);
     return {
       success: false,
       path: "",
@@ -157,7 +158,7 @@ export async function deleteFile(options: DeleteFileOptions): Promise<{ success:
 
     return { success: true };
   } catch (error) {
-    console.error("Error deleting file:", error);
+    logger.error("Error deleting file", error);
     return {
       success: false,
       error: error instanceof Error ? error.message : "Unknown error",

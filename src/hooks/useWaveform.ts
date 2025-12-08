@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import WaveSurfer from 'wavesurfer.js';
+import { logger } from '@/lib/logger';
 
 interface UseWaveformOptions {
   audioUrl: string;
@@ -74,7 +75,7 @@ export const useWaveform = ({
     });
 
     wavesurfer.on('error', (err) => {
-      console.error('Waveform error:', err);
+      logger.error('Waveform error', err);
       setIsLoading(false);
     });
 

@@ -2,6 +2,7 @@
  * Sound Effects Engine for Gamification
  * Uses Web Audio API for lightweight, synthesized sounds
  */
+import { logger } from '@/lib/logger';
 
 class SoundEffects {
   private audioContext: AudioContext | null = null;
@@ -47,7 +48,7 @@ class SoundEffects {
       oscillator.start(ctx.currentTime);
       oscillator.stop(ctx.currentTime + duration);
     } catch (e) {
-      console.warn('Sound effect failed:', e);
+      logger.warn('Sound effect failed', { error: e });
     }
   }
 
