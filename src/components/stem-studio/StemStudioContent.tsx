@@ -15,6 +15,7 @@ import { StemReferenceDialog } from '@/components/stem-studio/StemReferenceDialo
 import { MidiSection } from '@/components/stem-studio/MidiSection';
 import { MixExportDialog } from '@/components/stem-studio/MixExportDialog';
 import { MixPresetsMenu } from '@/components/stem-studio/MixPresetsMenu';
+import { StudioLyricsPanel } from '@/components/stem-studio/StudioLyricsPanel';
 import { StemStudioTutorial, useStemStudioTutorial } from '@/components/stem-studio/StemStudioTutorial';
 import { useStemStudioEngine } from '@/hooks/useStemStudioEngine';
 import { defaultStemEffects, StemEffects } from '@/hooks/useStemAudioEngine';
@@ -481,6 +482,16 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           </div>
         </div>
       </div>
+
+      {/* Synchronized Lyrics */}
+      <StudioLyricsPanel
+        taskId={track.suno_task_id}
+        audioId={track.suno_id}
+        plainLyrics={track.lyrics}
+        currentTime={currentTime}
+        isPlaying={isPlaying}
+        onSeek={handleSeek}
+      />
 
       {/* Mobile Actions */}
       {isMobile && stems && (
