@@ -7,13 +7,33 @@ interface ReplacedSection {
   taskId: string;
   createdAt: string;
   audioUrl?: string;
+  status: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
 export function useReplacedSections(trackId: string) {
   return useQuery({
     queryKey: ['replaced-sections', trackId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      // Query generation_tasks for replace_section mode
+      const { data: tasks, error: tasksError } = await supabase
+        .from('generation_tasks')
+        .select(`
+          id,
+          suno_task_id,
+          status,
+          prompt,
+          created_at,
+          completed_at,
+          audio_clips
+        `)
+        .eq('track_id', trackId)
+        .eq('generation_mode', 'replace_section')
+        .order('created_at', { ascending: false });
+
+      if (tasksError) throw tasksError;
+
+      // Also query change log for metadata
+      const { data: logs, error: logsError } = await supabase
         .from('track_change_log')
         .select(`
           id,
@@ -25,22 +45,48 @@ export function useReplacedSections(trackId: string) {
           )
         `)
         .eq('track_id', trackId)
-        .eq('change_type', 'section_replace')
+        .eq('change_type', 'replace_section_started')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (logsError) throw logsError;
 
       const sections: ReplacedSection[] = [];
       
-      for (const record of data || []) {
-        const metadata = record.metadata as { infill_start_s?: number; infill_end_s?: number } | null;
-        if (metadata?.infill_start_s !== undefined && metadata?.infill_end_s !== undefined) {
+      // Match tasks with their log entries for full metadata
+      for (const task of tasks || []) {
+        // Find matching log entry
+        const matchingLog = logs?.find(log => {
+          const metadata = log.metadata as { taskId?: string } | null;
+          return metadata?.taskId === task.suno_task_id;
+        });
+
+        const metadata = matchingLog?.metadata as { 
+          infillStartS?: number; 
+          infillEndS?: number;
+        } | null;
+        
+        if (metadata?.infillStartS !== undefined && metadata?.infillEndS !== undefined) {
+          // Get audio URL from completed clips or version
+          let audioUrl: string | undefined;
+          
+          if (task.status === 'completed' && task.audio_clips) {
+            try {
+              const clips = typeof task.audio_clips === 'string' 
+                ? JSON.parse(task.audio_clips) 
+                : task.audio_clips;
+              audioUrl = clips?.[0]?.source_audio_url || clips?.[0]?.audio_url;
+            } catch {}
+          }
+          
+          audioUrl = audioUrl || matchingLog?.track_versions?.audio_url;
+
           sections.push({
-            start: metadata.infill_start_s,
-            end: metadata.infill_end_s,
-            taskId: record.id,
-            createdAt: record.created_at || '',
-            audioUrl: record.track_versions?.audio_url,
+            start: metadata.infillStartS,
+            end: metadata.infillEndS,
+            taskId: task.id,
+            createdAt: task.created_at || '',
+            audioUrl,
+            status: task.status as ReplacedSection['status'],
           });
         }
       }
@@ -49,5 +95,13 @@ export function useReplacedSections(trackId: string) {
     },
     enabled: !!trackId,
     staleTime: 30000,
+    refetchInterval: (query) => {
+      // Refetch more often if there are pending tasks
+      const data = query.state.data;
+      if (data?.some(s => s.status === 'pending' || s.status === 'processing')) {
+        return 5000;
+      }
+      return false;
+    },
   });
 }
