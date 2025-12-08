@@ -19,6 +19,7 @@ Welcome to the MusicVerse AI documentation hub! This directory contains all proj
 | Document | Description |
 |----------|-------------|
 | [README.md](../README.md) | Main project README |
+| [**NAVIGATION_INDEX.md**](./NAVIGATION_INDEX.md) | 🗂️ **Interactive documentation map** |
 | [**QUICK_REFERENCE.md**](./QUICK_REFERENCE.md) | ⚡ **Quick reference guide** |
 | [CONTRIBUTING.md](../CONTRIBUTING.md) | Contribution guidelines |
 | [DEVELOPMENT_WORKFLOW.md](../DEVELOPMENT_WORKFLOW.md) | Development process |
