@@ -130,6 +130,33 @@ serve(async (req) => {
       }
     }
 
+    // Log to user_activity for mission tracking
+    const { error: activityError } = await supabase
+      .from('user_activity')
+      .insert({
+        user_id: userId,
+        action_type: actionType,
+        action_data: metadata || {},
+      });
+
+    if (activityError) {
+      console.error('Error logging activity:', activityError);
+    }
+
+    // Update total_shares counter if this is a share action
+    if (actionType === 'share' && currentCredits) {
+      const { error: sharesError } = await supabase
+        .from('user_credits')
+        .update({
+          total_shares: (currentCredits.total_shares || 0) + 1,
+        })
+        .eq('user_id', userId);
+
+      if (sharesError) {
+        console.error('Error updating total_shares:', sharesError);
+      }
+    }
+
     // Check for achievements
     await checkAndUnlockAchievements(supabase, userId, actionType, metadata);
 
