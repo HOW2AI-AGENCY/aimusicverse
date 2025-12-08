@@ -512,4 +512,40 @@ All colors MUST be HSL.
   [data-stagger-index="4"] { animation-delay: 200ms; }
   [data-stagger-index="5"] { animation-delay: 250ms; }
   [data-stagger-index="6"] { animation-delay: 300ms; }
+
+  /* NEW: Skeleton shimmer effect */
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .skeleton-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skeleton-shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--foreground) / 0.04) 20%,
+      hsl(var(--foreground) / 0.08) 50%,
+      hsl(var(--foreground) / 0.04) 80%,
+      transparent 100%
+    );
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* NEW: Slow spin for version switch icon */
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 3s linear infinite;
+  }
 }
