@@ -21,7 +21,12 @@ export type MetricEventType =
   | 'photo_sent'
   | 'photo_failed'
   | 'inline_query_processed'
-  | 'rate_limited';
+  | 'rate_limited'
+  | 'cover_started'
+  | 'cover_failed'
+  | 'extend_started'
+  | 'extend_failed'
+  | 'audio_processing_error';
 
 interface MetricData {
   eventType: MetricEventType;

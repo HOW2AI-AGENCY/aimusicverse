@@ -1,0 +1,210 @@
+/**
+ * Audio upload commands for creating covers and extending tracks via Telegram bot
+ */
+
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { BOT_CONFIG } from '../config.ts';
+import { sendMessage, editMessageText } from '../telegram-api.ts';
+import { setPendingUpload, cancelPendingUpload, hasPendingUpload } from '../core/session-store.ts';
+import { escapeMarkdown } from '../utils/index.ts';
+
+const supabase = createClient(
+  BOT_CONFIG.supabaseUrl,
+  BOT_CONFIG.supabaseServiceKey
+);
+
+/**
+ * /cover command - initiate cover creation from audio
+ */
+export async function handleCoverCommand(
+  chatId: number, 
+  userId: number, 
+  args: string,
+  messageId?: number
+): Promise<void> {
+  // Parse arguments for options
+  const options = parseAudioOptions(args);
+  
+  // Set pending upload for user
+  setPendingUpload(userId, 'cover', options);
+  
+  const text = `🎵 *Создание кавера*
+
+Отправьте аудиофайл \\(MP3, WAV, OGG\\) для создания кавер\\-версии\\.
+
+${options.prompt ? `📝 Описание: _${escapeMarkdown(options.prompt)}_\n` : ''}${options.style ? `🎨 Стиль: _${escapeMarkdown(options.style)}_\n` : ''}${options.instrumental ? '🎸 Режим: _Инструментал_\n' : ''}
+
+⏳ Ожидание аудио\\.\\.\\. \\(15 минут\\)
+❌ Отмена: /cancel`;
+
+  const keyboard = {
+    inline_keyboard: [
+      [
+        { text: '❌ Отмена', callback_data: 'cancel_upload' },
+        { text: '📱 Открыть в приложении', url: `${BOT_CONFIG.deepLinkBase}?startapp=upload_cover` }
+      ]
+    ]
+  };
+
+  if (messageId) {
+    await editMessageText(chatId, messageId, text, keyboard);
+  } else {
+    await sendMessage(chatId, text, keyboard);
+  }
+}
+
+/**
+ * /extend command - initiate track extension from audio
+ */
+export async function handleExtendCommand(
+  chatId: number, 
+  userId: number, 
+  args: string,
+  messageId?: number
+): Promise<void> {
+  const options = parseAudioOptions(args);
+  
+  setPendingUpload(userId, 'extend', options);
+  
+  const text = `🔄 *Расширение трека*
+
+Отправьте аудиофайл \\(MP3, WAV, OGG\\) для продолжения/расширения\\.
+
+${options.prompt ? `📝 Текст: _${escapeMarkdown(options.prompt)}_\n` : ''}${options.style ? `🎨 Стиль: _${escapeMarkdown(options.style)}_\n` : ''}${options.title ? `📛 Название: _${escapeMarkdown(options.title)}_\n` : ''}
+
+⏳ Ожидание аудио\\.\\.\\. \\(15 минут\\)
+❌ Отмена: /cancel`;
+
+  const keyboard = {
+    inline_keyboard: [
+      [
+        { text: '❌ Отмена', callback_data: 'cancel_upload' },
+        { text: '📱 Открыть в приложении', url: `${BOT_CONFIG.deepLinkBase}?startapp=upload_extend` }
+      ]
+    ]
+  };
+
+  if (messageId) {
+    await editMessageText(chatId, messageId, text, keyboard);
+  } else {
+    await sendMessage(chatId, text, keyboard);
+  }
+}
+
+/**
+ * /cancel command - cancel pending upload
+ */
+export async function handleCancelCommand(
+  chatId: number,
+  userId: number
+): Promise<void> {
+  if (cancelPendingUpload(userId)) {
+    await sendMessage(chatId, '✅ Загрузка аудио отменена\\.');
+  } else {
+    await sendMessage(chatId, 'ℹ️ Нет активных ожиданий загрузки\\.');
+  }
+}
+
+/**
+ * Handle cancel_upload callback
+ */
+export async function handleCancelUploadCallback(
+  chatId: number,
+  userId: number,
+  messageId: number,
+  callbackId: string
+): Promise<void> {
+  cancelPendingUpload(userId);
+  
+  const { answerCallbackQuery } = await import('../telegram-api.ts');
+  await answerCallbackQuery(callbackId, '✅ Загрузка отменена');
+  
+  await editMessageText(chatId, messageId, '✅ Загрузка аудио отменена\\.');
+}
+
+/**
+ * Check upload status for a user
+ */
+export function checkUploadPending(userId: number): boolean {
+  return hasPendingUpload(userId);
+}
+
+/**
+ * Parse audio options from command arguments
+ */
+function parseAudioOptions(args: string): {
+  prompt?: string;
+  style?: string;
+  title?: string;
+  instrumental?: boolean;
+  model?: string;
+} {
+  const options: {
+    prompt?: string;
+    style?: string;
+    title?: string;
+    instrumental?: boolean;
+    model?: string;
+  } = {};
+  
+  let remaining = args;
+  
+  // Parse flags
+  const flagRegex = /--([\w]+)(?:=("[^"]+"|'[^']+'|\S+))?/g;
+  let match;
+  
+  while ((match = flagRegex.exec(args)) !== null) {
+    const flag = match[1];
+    let value = match[2]?.replace(/^["']|["']$/g, '') || 'true';
+    
+    switch (flag) {
+      case 'instrumental':
+        options.instrumental = true;
+        break;
+      case 'style':
+        options.style = value;
+        break;
+      case 'title':
+        options.title = value;
+        break;
+      case 'model':
+        options.model = value.toUpperCase();
+        break;
+    }
+    
+    remaining = remaining.replace(match[0], '').trim();
+  }
+  
+  // Remaining text is the prompt/description
+  if (remaining.trim()) {
+    options.prompt = remaining.trim();
+  }
+  
+  return options;
+}
+
+/**
+ * Get help text for audio upload commands
+ */
+export function getAudioUploadHelp(): string {
+  return `🎵 *Загрузка аудио*
+
+*Создание кавера:*
+/cover \\- базовая команда
+/cover энергичный рок \\- с описанием
+/cover \\-\\-style="indie rock" \\-\\-instrumental \\- с параметрами
+
+*Расширение трека:*
+/extend \\- базовая команда  
+/extend \\-\\-title="My Song Part 2" продолжение песни
+/extend \\-\\-style="epic orchestra" \\-\\-model=V5
+
+*Параметры:*
+\\-\\-style="стиль" \\- музыкальный стиль
+\\-\\-title="название" \\- название трека
+\\-\\-instrumental \\- без вокала
+\\-\\-model=V5 \\- модель генерации
+
+*Поддерживаемые форматы:*
+MP3, WAV, OGG, M4A \\(до 25MB\\)`;
+}

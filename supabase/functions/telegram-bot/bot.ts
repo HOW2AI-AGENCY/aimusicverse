@@ -4,6 +4,8 @@ import { handleGenerate } from './commands/generate.ts';
 import { handleLibrary } from './commands/library.ts';
 import { handleProjects } from './commands/projects.ts';
 import { handleStatus } from './commands/status.ts';
+import { handleCoverCommand, handleExtendCommand, handleCancelCommand, handleCancelUploadCallback, getAudioUploadHelp } from './commands/audio-upload.ts';
+import { handleAudioMessage, isAudioMessage } from './handlers/audio.ts';
 import { sendMessage, parseCommand, answerCallbackQuery, editMessageText, type TelegramUpdate } from './telegram-api.ts';
 import { BOT_CONFIG } from './config.ts';
 import { handleNavigationCallback } from './handlers/navigation.ts';
@@ -162,6 +164,12 @@ export async function handleUpdate(update: TelegramUpdate) {
         return;
       }
 
+      // Cancel upload handler
+      if (data === 'cancel_upload') {
+        await handleCancelUploadCallback(chatId, from.id, messageId!, id);
+        return;
+      }
+
       // Legacy handlers
       if (data === 'library') {
         await handleLibrary(chatId, from.id, messageId);
@@ -264,8 +272,22 @@ export async function handleUpdate(update: TelegramUpdate) {
     // Handle messages
     if (update.message) {
       const { chat, from, text } = update.message;
+      const message = update.message;
       
-      if (!from || !text) return;
+      if (!from) return;
+
+      // Check for audio messages first (before text check)
+      if (isAudioMessage(message)) {
+        const audioData = message.audio || message.voice || message.document;
+        if (audioData) {
+          const audioType = message.audio ? 'audio' : message.voice ? 'voice' : 'document';
+          await handleAudioMessage(chat.id, from.id, audioData as any, audioType);
+          return;
+        }
+      }
+
+      // Skip non-text messages after audio check
+      if (!text) return;
 
       // Rate limiting for messages
       if (!checkRateLimit(from.id, 20, 60000)) {
@@ -355,6 +377,22 @@ export async function handleUpdate(update: TelegramUpdate) {
           }
           break;
         }
+
+        case 'cover':
+          await handleCoverCommand(chat.id, from.id, args);
+          break;
+
+        case 'extend':
+          await handleExtendCommand(chat.id, from.id, args);
+          break;
+
+        case 'cancel':
+          await handleCancelCommand(chat.id, from.id);
+          break;
+
+        case 'audio':
+          await sendMessage(chat.id, getAudioUploadHelp());
+          break;
 
         default:
           await sendMessage(
