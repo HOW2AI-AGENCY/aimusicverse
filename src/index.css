@@ -51,6 +51,20 @@ All colors MUST be HSL.
 
     --radius: 1.25rem;
     
+    /* NEW: Section-specific accent colors */
+    --generate: 280 80% 60%;
+    --generate-glow: 280 80% 70%;
+    --library: 200 90% 50%;
+    --library-glow: 200 90% 60%;
+    --projects: 160 70% 50%;
+    --projects-glow: 160 70% 60%;
+    --community: 340 80% 55%;
+    --community-glow: 340 80% 65%;
+    --success: 145 70% 45%;
+    --success-glow: 145 70% 55%;
+    --warning: 38 92% 50%;
+    --warning-glow: 38 92% 60%;
+    
     /* Glassmorphism variables */
     --glass-bg: rgba(255, 255, 255, 0.7);
     --glass-border: rgba(255, 255, 255, 0.18);
@@ -59,10 +73,14 @@ All colors MUST be HSL.
     --gradient-primary: linear-gradient(135deg, hsl(270 70% 60%), hsl(280 70% 70%));
     --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
     --gradient-hero: linear-gradient(135deg, hsl(270 70% 60% / 0.2), hsl(280 70% 70% / 0.2));
+    --gradient-generate: linear-gradient(135deg, hsl(280 80% 60%), hsl(320 80% 65%));
+    --gradient-success: linear-gradient(135deg, hsl(145 70% 45%), hsl(160 70% 50%));
     
     --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
     --shadow-hover: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+    --shadow-glow: 0 0 30px 0 rgba(51, 144, 236, 0.3);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 
     --sidebar-background: 240 10% 98%;
     --sidebar-foreground: 240 10% 20%;
@@ -104,6 +122,20 @@ All colors MUST be HSL.
     --input: 240 8% 16%;
     --ring: 207 90% 56%;
     
+    /* NEW: Section-specific accent colors (dark mode) */
+    --generate: 280 80% 65%;
+    --generate-glow: 280 80% 50%;
+    --library: 200 90% 55%;
+    --library-glow: 200 90% 45%;
+    --projects: 160 70% 55%;
+    --projects-glow: 160 70% 45%;
+    --community: 340 80% 60%;
+    --community-glow: 340 80% 50%;
+    --success: 145 70% 50%;
+    --success-glow: 145 70% 40%;
+    --warning: 38 92% 55%;
+    --warning-glow: 38 92% 45%;
+    
     /* Glassmorphism variables - Minimal dark style */
     --glass-bg: hsla(240, 10%, 8%, 0.8);
     --glass-border: hsla(240, 8%, 20%, 1);
@@ -113,9 +145,14 @@ All colors MUST be HSL.
     --gradient-card: linear-gradient(135deg, hsla(240, 10%, 10%, 0.6), hsla(240, 10%, 6%, 0.4));
     --gradient-hero: linear-gradient(135deg, hsl(207 90% 56% / 0.15), hsl(250 80% 65% / 0.15));
     --gradient-telegram: linear-gradient(135deg, #3390ec, #7c5ce7);
+    --gradient-generate: linear-gradient(135deg, hsl(280 80% 60%), hsl(320 80% 55%));
+    --gradient-success: linear-gradient(135deg, hsl(145 70% 50%), hsl(160 70% 55%));
     
     --shadow-glass: 0 4px 24px 0 rgba(0, 0, 0, 0.3);
     --shadow-hover: 0 8px 32px 0 rgba(51, 144, 236, 0.2);
+    --shadow-glow: 0 0 40px 0 rgba(51, 144, 236, 0.4);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 
     --sidebar-background: 240 10% 5%;
     --sidebar-foreground: 0 0% 95%;
@@ -334,4 +371,145 @@ All colors MUST be HSL.
   .animate-shimmer {
     animation: shimmer 2s infinite;
   }
+
+  /* NEW: Glow button effect */
+  .glow-button {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glow-button::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: var(--gradient-generate);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+    filter: blur(12px);
+  }
+
+  .glow-button:hover::before {
+    opacity: 0.6;
+  }
+
+  .glow-button:active::before {
+    opacity: 0.8;
+  }
+
+  /* NEW: Ripple effect */
+  @keyframes ripple {
+    0% { transform: scale(0); opacity: 0.5; }
+    100% { transform: scale(4); opacity: 0; }
+  }
+
+  .ripple-effect {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ripple-effect::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, hsl(var(--primary) / 0.3) 0%, transparent 70%);
+    transform: scale(0);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .ripple-effect:active::after {
+    animation: ripple 0.6s ease-out;
+  }
+
+  /* NEW: Vinyl record rotation effect */
+  @keyframes vinyl-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .vinyl-spin {
+    animation: vinyl-spin 3s linear infinite;
+  }
+
+  .vinyl-spin-slow {
+    animation: vinyl-spin 8s linear infinite;
+  }
+
+  /* NEW: Pulse ring animation */
+  @keyframes pulse-ring {
+    0% { transform: scale(0.95); opacity: 0.7; }
+    50% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.7; }
+  }
+
+  .pulse-ring {
+    animation: pulse-ring 2s ease-in-out infinite;
+  }
+
+  /* NEW: Gradient text utility */
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-telegram {
+    background: var(--gradient-telegram);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* NEW: Card hover glow */
+  .card-glow {
+    position: relative;
+    transition: var(--transition-smooth);
+  }
+
+  .card-glow::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: radial-gradient(ellipse at center, hsl(var(--primary) / 0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .card-glow:hover::after {
+    opacity: 1;
+  }
+
+  /* NEW: Floating animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* NEW: Slide up fade animation */
+  @keyframes slide-up-fade {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-slide-up {
+    animation: slide-up-fade 0.4s ease-out forwards;
+  }
+
+  /* NEW: Stagger children utility (use with data-stagger-index) */
+  [data-stagger-index="0"] { animation-delay: 0ms; }
+  [data-stagger-index="1"] { animation-delay: 50ms; }
+  [data-stagger-index="2"] { animation-delay: 100ms; }
+  [data-stagger-index="3"] { animation-delay: 150ms; }
+  [data-stagger-index="4"] { animation-delay: 200ms; }
+  [data-stagger-index="5"] { animation-delay: 250ms; }
+  [data-stagger-index="6"] { animation-delay: 300ms; }
 }
