@@ -19,6 +19,7 @@ import { formatDistanceToNow, format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { Navigate, useNavigate } from "react-router-dom";
 import { BroadcastPanel } from "@/components/admin/BroadcastPanel";
+import { HealthCheckPanel } from "@/components/admin/HealthCheckPanel";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -101,29 +102,7 @@ export default function AdminDashboard() {
             />
           </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Статус системы</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span>Telegram бот</span>
-                <Badge variant={isHealthy ? "default" : isWarning ? "secondary" : "destructive"}>
-                  {isHealthy ? "Работает" : isWarning ? "Внимание" : "Проблемы"}
-                </Badge>
-              </div>
-              <div className="flex items-center justify-between">
-                <span>Success Rate (24ч)</span>
-                <span className={`font-mono ${isHealthy ? "text-green-500" : isWarning ? "text-yellow-500" : "text-red-500"}`}>
-                  {successRate.toFixed(1)}%
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span>Среднее время ответа</span>
-                <span className="font-mono">{(metrics?.avg_response_time_ms || 0).toFixed(0)}ms</span>
-              </div>
-            </CardContent>
-          </Card>
+          <HealthCheckPanel />
         </TabsContent>
 
         {/* Tracks Tab */}
