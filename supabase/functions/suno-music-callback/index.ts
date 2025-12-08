@@ -1,5 +1,8 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { createLogger } from '../_shared/logger.ts';
+
+const logger = createLogger('suno-music-callback');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -22,7 +25,7 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const payload = await req.json();
-    console.log('📥 Callback from SunoAPI:', JSON.stringify(payload, null, 2));
+    logger.info('Callback received from SunoAPI', { code: payload.code, callbackType: payload.data?.callbackType });
 
     const { code, msg, data } = payload;
     const { callbackType, taskId, task_id, data: audioData } = data || {};
@@ -30,7 +33,7 @@ serve(async (req) => {
 
     // Validate required taskId
     if (!sunoTaskId) {
-      console.error('❌ No taskId in callback payload');
+      logger.error('No taskId in callback payload');
       return new Response(
         JSON.stringify({ success: false, error: 'Missing taskId' }), 
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
@@ -45,7 +48,7 @@ serve(async (req) => {
       .single();
 
     if (taskError || !task) {
-      console.error('❌ Task not found in database:', sunoTaskId, taskError);
+      logger.error('Task not found in database', taskError, { sunoTaskId });
       return new Response(
         JSON.stringify({ success: false, error: 'Invalid or unknown taskId' }), 
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 404 }
@@ -54,7 +57,7 @@ serve(async (req) => {
 
     // Validate task is in expected state (not already completed/failed)
     if (task.status === 'completed' && callbackType === 'complete') {
-      console.warn('⚠️ Duplicate completion callback for task:', sunoTaskId);
+      logger.warn('Duplicate completion callback', { sunoTaskId });
       return new Response(
         JSON.stringify({ success: true, status: 'already_processed' }), 
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -62,10 +65,10 @@ serve(async (req) => {
     }
 
     const trackId = task.track_id;
-    console.log(`📋 Task: ${task.id}, track: ${trackId}, type: ${callbackType}, status: ${task.status}`);
+    logger.info('Processing callback', { taskId: task.id, trackId, callbackType, status: task.status });
 
     if (code !== 200) {
-      console.error('❌ SunoAPI failed:', msg);
+      logger.error('SunoAPI generation failed', null, { msg });
       await supabase.from('generation_tasks').update({
         status: 'failed',
         error_message: msg || 'Generation failed',
@@ -82,13 +85,13 @@ serve(async (req) => {
     }
 
     if (callbackType === 'first') {
-      console.log('🎵 First clip ready for streaming');
+      logger.info('First clip ready for streaming');
       const firstClip = audioData?.[0];
       if (firstClip) {
         const streamUrl = getStreamUrl(firstClip);
         const imageUrl = getImageUrl(firstClip);
         
-        console.log('📊 First clip:', { id: firstClip.id, title: firstClip.title, streamUrl: !!streamUrl, imageUrl: !!imageUrl });
+        logger.debug('First clip data', { id: firstClip.id, title: firstClip.title, hasStream: !!streamUrl, hasImage: !!imageUrl });
 
         if (streamUrl) {
           await supabase.from('tracks').update({
@@ -119,7 +122,7 @@ serve(async (req) => {
 
             if (newVersion) {
               await supabase.from('tracks').update({ active_version_id: newVersion.id }).eq('id', trackId);
-              console.log('✅ Version A created:', newVersion.id);
+              logger.success('Version A created', { versionId: newVersion.id });
             }
           }
 
@@ -131,7 +134,7 @@ serve(async (req) => {
       }
 
     } else if (callbackType === 'complete') {
-      console.log('🎉 Complete! Clips:', audioData?.length);
+      logger.info('Generation complete', { clipsCount: audioData?.length });
       const clips = audioData || [];
       
       if (clips.length === 0) throw new Error('No audio clips in completion callback');
@@ -145,12 +148,10 @@ serve(async (req) => {
         const audioUrl = getAudioUrl(clip);
         const streamUrl = getStreamUrl(clip);
         
-        console.log(`💾 Clip ${i + 1}/${clips.length} (${versionLabel}):`, { 
-          id: clip.id, duration: clip.duration, audioUrl: !!audioUrl 
-        });
+        logger.debug('Processing clip', { index: i, versionLabel, id: clip.id, duration: clip.duration, hasAudio: !!audioUrl });
 
         if (!audioUrl) {
-          console.error(`❌ No audio URL for clip ${i}`);
+          logger.error('No audio URL for clip', null, { clipIndex: i });
           continue;
         }
 
@@ -166,11 +167,11 @@ serve(async (req) => {
               .upload(audioFileName, audioBlob, { contentType: 'audio/mpeg', upsert: true });
             if (audioUpload) {
               localAudioUrl = supabase.storage.from('project-assets').getPublicUrl(audioFileName).data.publicUrl;
-              console.log(`✅ Audio uploaded: ${versionLabel}`);
+              logger.success('Audio uploaded', { versionLabel });
             }
           }
         } catch (e) {
-          console.error(`❌ Download error for clip ${i}:`, e);
+          logger.error('Download error for clip', e, { clipIndex: i });
         }
 
         trackTitle = clip.title || task.prompt?.split('\n')[0]?.substring(0, 100) || 'Трек';
@@ -198,7 +199,7 @@ serve(async (req) => {
 
         if (existingVersion) {
           await supabase.from('track_versions').update(versionData).eq('id', existingVersion.id);
-          console.log(`✅ Version ${versionLabel} updated`);
+          logger.success('Version updated', { versionLabel });
         } else {
           const { data: newVersion } = await supabase.from('track_versions').insert({
             track_id: trackId,
@@ -215,11 +216,11 @@ serve(async (req) => {
               .eq('id', trackId)
               .is('active_version_id', null);
           }
-          console.log(`✅ Version ${versionLabel} created`);
+          logger.success('Version created', { versionLabel });
         }
 
         if (i === 0) {
-          console.log(`📝 Updating main track (without cover - will be generated)...`);
+          logger.db('UPDATE', 'tracks');
           await supabase.from('tracks').update({
             status: 'completed',
             audio_url: finalAudioUrl,
@@ -233,7 +234,7 @@ serve(async (req) => {
             model_name: clip.model_name || 'chirp-v4',
             suno_task_id: sunoTaskId,
           }).eq('id', trackId);
-          console.log('✅ Main track updated');
+          logger.success('Main track updated');
         }
 
         await supabase.from('track_change_log').insert({
@@ -245,7 +246,7 @@ serve(async (req) => {
       }
 
       // Generate custom MusicVerse cover (one cover for all versions)
-      console.log('🎨 Generating MusicVerse cover...');
+      logger.info('Generating MusicVerse cover');
       try {
         const { error: coverError } = await supabase.functions.invoke('generate-track-cover', {
           body: {
@@ -258,12 +259,12 @@ serve(async (req) => {
         });
         
         if (coverError) {
-          console.error('❌ Cover generation error:', coverError);
+          logger.error('Cover generation error', coverError);
         } else {
-          console.log('✅ MusicVerse cover generated');
+          logger.success('MusicVerse cover generated');
         }
       } catch (coverErr) {
-        console.error('❌ Cover generation invoke error:', coverErr);
+        logger.error('Cover generation invoke error', coverErr);
       }
 
       await supabase.from('generation_tasks').update({
@@ -276,7 +277,7 @@ serve(async (req) => {
 
       // Reward user for completing generation
       try {
-        console.log('🎁 Rewarding user for generation completion...');
+        logger.info('Rewarding user for generation completion');
         await supabase.functions.invoke('reward-action', {
           body: {
             userId: task.user_id,
@@ -284,14 +285,14 @@ serve(async (req) => {
             metadata: { trackId, clips: clips.length },
           },
         });
-        console.log('✅ Generation reward granted');
+        logger.success('Generation reward granted');
       } catch (rewardErr) {
-        console.error('❌ Reward action error:', rewardErr);
+        logger.error('Reward action error', rewardErr);
       }
 
       if (task.telegram_chat_id && clips.length > 0) {
         // Wait for cover generation to complete
-        console.log('⏳ Waiting for cover generation to complete...');
+        logger.info('Waiting for cover generation to complete');
         await new Promise(resolve => setTimeout(resolve, 6000));
         
         // Fetch fresh track data with generated cover
@@ -301,11 +302,10 @@ serve(async (req) => {
           .eq('id', trackId)
           .single();
         
-        console.log('📸 Fresh track data:', {
+        logger.debug('Fresh track data', {
           title: freshTrackData?.title,
-          cover_url: freshTrackData?.cover_url?.substring(0, 80),
-          local_cover_url: freshTrackData?.local_cover_url?.substring(0, 80),
-          error: freshTrackError
+          hasCover: !!freshTrackData?.cover_url,
+          hasLocalCover: !!freshTrackData?.local_cover_url,
         });
         
         // Use our generated cover (local_cover_url) - NOT Suno's cover
@@ -324,7 +324,7 @@ serve(async (req) => {
         
         // Send both versions in a single notification using media group type
         const maxClipsToSend = Math.min(clips.length, 2);
-        console.log(`📤 Sending ${maxClipsToSend} track version(s) as media group to Telegram chat: ${task.telegram_chat_id}`);
+        logger.info('Sending track versions to Telegram', { count: maxClipsToSend });
         
         // Prepare all audio clips data
         const audioClipsData = [];
@@ -355,7 +355,7 @@ serve(async (req) => {
           });
           
           if (notifyError) {
-            console.error('❌ Telegram multi notification error:', notifyError);
+            logger.error('Telegram multi notification error', notifyError);
             // Fallback to single notifications
             for (let i = 0; i < maxClipsToSend; i++) {
               const clip = audioClipsData[i];
@@ -378,13 +378,13 @@ serve(async (req) => {
               if (i < maxClipsToSend - 1) await new Promise(r => setTimeout(r, 1000));
             }
           } else {
-            console.log('✅ Telegram multi notification sent');
+            logger.success('Telegram multi notification sent');
           }
         } catch (err) {
-          console.error('❌ Telegram invoke error:', err);
+          logger.error('Telegram invoke error', err);
         }
       } else {
-        console.log(`ℹ️ No Telegram notification: chat_id=${task.telegram_chat_id}, clips=${clips.length}`);
+        logger.info('No Telegram notification', { hasChatId: !!task.telegram_chat_id, clipsCount: clips.length });
       }
 
       const versionText = clips.length > 1 ? ` (${clips.length} версии)` : '';
@@ -399,7 +399,7 @@ serve(async (req) => {
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 });
 
   } catch (error: any) {
-    console.error('❌ Error:', error);
+    logger.error('Callback processing error', error);
     return new Response(JSON.stringify({ success: false, error: error.message || 'Unknown error' }), 
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 });
   }
