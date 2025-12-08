@@ -1,6 +1,7 @@
 /**
- * Hook for detecting song sections from timestamped lyrics
- * Parses [Verse], [Chorus], [Bridge] etc. tags and calculates time ranges
+ * Hook for detecting song sections from original lyrics (single source of truth)
+ * Parses [Verse], [Chorus], [Bridge] tags from track.lyrics
+ * Matches to alignedWords for precise timing
  * Falls back to time-based segmentation if no tags present
  */
 
@@ -16,97 +17,206 @@ export interface DetectedSection {
   words: AlignedWord[];
 }
 
-// Map common section tags to types (both English and Russian)
-const SECTION_TAG_MAP: Record<string, DetectedSection['type']> = {
-  'verse': 'verse',
-  'куплет': 'verse',
-  'chorus': 'chorus',
-  'припев': 'chorus',
-  'bridge': 'bridge',
-  'бридж': 'bridge',
-  'intro': 'intro',
-  'интро': 'intro',
-  'outro': 'outro',
-  'аутро': 'outro',
-  'pre-chorus': 'pre-chorus',
-  'пре-припев': 'pre-chorus',
-  'hook': 'hook',
-  'хук': 'hook',
-  'instrumental': 'unknown',
-  'инструментал': 'unknown',
-  'solo': 'unknown',
-  'соло': 'unknown',
-};
+// Section tag patterns - English and Russian
+const SECTION_PATTERNS: Array<{ pattern: RegExp; type: DetectedSection['type'] }> = [
+  // English
+  { pattern: /\[(verse|куплет)(?:\s*\d+)?\]/gi, type: 'verse' },
+  { pattern: /\[(chorus|припев)(?:\s*\d+)?\]/gi, type: 'chorus' },
+  { pattern: /\[(bridge|бридж)(?:\s*\d+)?\]/gi, type: 'bridge' },
+  { pattern: /\[(intro|интро)\]/gi, type: 'intro' },
+  { pattern: /\[(outro|аутро|концовка)\]/gi, type: 'outro' },
+  { pattern: /\[(pre-?chorus|пре-?припев)(?:\s*\d+)?\]/gi, type: 'pre-chorus' },
+  { pattern: /\[(hook|хук)(?:\s*\d+)?\]/gi, type: 'hook' },
+  // With parentheses
+  { pattern: /\((verse|куплет)(?:\s*\d+)?\)/gi, type: 'verse' },
+  { pattern: /\((chorus|припев)(?:\s*\d+)?\)/gi, type: 'chorus' },
+  { pattern: /\((bridge|бридж)(?:\s*\d+)?\)/gi, type: 'bridge' },
+];
 
-// Get section type from tag text - improved parsing
-function getSectionType(tag: string): DetectedSection['type'] {
-  // Remove brackets and numbers, normalize
-  const normalized = tag.toLowerCase()
-    .replace(/[\[\]()]/g, '')
-    .replace(/\d+/g, '')
-    .replace(/[:\-_]/g, ' ')
-    .trim()
-    .split(/\s+/)[0]; // Take first word
-  
-  return SECTION_TAG_MAP[normalized] || 'unknown';
+// Master regex for any section tag
+const SECTION_TAG_REGEX = /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|концовка|пре-?припев|хук|instrumental|инструментал|solo|соло)(?:\s*\d+)?[\]\)]/gi;
+
+interface ParsedSection {
+  type: DetectedSection['type'];
+  originalTag: string;
+  lyrics: string;
+  startIndex: number;
 }
 
-// Get Russian label for section type with counter
-function getSectionLabel(type: DetectedSection['type'], index: number): string {
+// Parse sections from original lyrics text
+function parseSectionsFromLyrics(lyrics: string): ParsedSection[] {
+  if (!lyrics?.trim()) return [];
+
+  const sections: ParsedSection[] = [];
+  const matches: Array<{ tag: string; index: number; type: DetectedSection['type'] }> = [];
+
+  // Find all section tags
+  let match;
+  SECTION_TAG_REGEX.lastIndex = 0;
+  while ((match = SECTION_TAG_REGEX.exec(lyrics)) !== null) {
+    const tagContent = match[1].toLowerCase().replace(/\d+/g, '').trim();
+    let type: DetectedSection['type'] = 'unknown';
+
+    if (/verse|куплет/i.test(tagContent)) type = 'verse';
+    else if (/chorus|припев/i.test(tagContent)) type = 'chorus';
+    else if (/bridge|бридж/i.test(tagContent)) type = 'bridge';
+    else if (/intro|интро/i.test(tagContent)) type = 'intro';
+    else if (/outro|аутро|концовка/i.test(tagContent)) type = 'outro';
+    else if (/pre-?chorus|пре-?припев/i.test(tagContent)) type = 'pre-chorus';
+    else if (/hook|хук/i.test(tagContent)) type = 'hook';
+
+    matches.push({ tag: match[0], index: match.index, type });
+  }
+
+  if (matches.length === 0) return [];
+
+  // Extract text between tags
+  for (let i = 0; i < matches.length; i++) {
+    const current = matches[i];
+    const next = matches[i + 1];
+    const endIndex = next ? next.index : lyrics.length;
+    const startIndex = current.index + current.tag.length;
+
+    const sectionLyrics = lyrics.slice(startIndex, endIndex).trim();
+
+    if (sectionLyrics) {
+      sections.push({
+        type: current.type,
+        originalTag: current.tag,
+        lyrics: sectionLyrics,
+        startIndex: current.index,
+      });
+    }
+  }
+
+  return sections;
+}
+
+// Normalize text for comparison
+function normalizeText(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[\[\]()]/g, '')
+    .replace(/[^\wа-яё\s]/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// Match section lyrics to aligned words
+function matchSectionToTimestamps(
+  sectionLyrics: string,
+  alignedWords: AlignedWord[],
+  searchStartIndex: number
+): { startTime: number; endTime: number; words: AlignedWord[]; nextSearchIndex: number } | null {
+  if (!alignedWords.length || !sectionLyrics) return null;
+
+  const normalizedSection = normalizeText(sectionLyrics);
+  const sectionWords = normalizedSection.split(/\s+/).filter(Boolean);
+
+  if (sectionWords.length === 0) return null;
+
+  // Find first word match (start from searchStartIndex for sequential matching)
+  let startWordIndex = -1;
+  const firstWord = sectionWords[0];
+
+  for (let i = searchStartIndex; i < alignedWords.length; i++) {
+    const normalizedAligned = normalizeText(alignedWords[i].word);
+    if (normalizedAligned.includes(firstWord) || firstWord.includes(normalizedAligned)) {
+      startWordIndex = i;
+      break;
+    }
+  }
+
+  if (startWordIndex === -1) {
+    // Fallback: search from beginning
+    for (let i = 0; i < searchStartIndex; i++) {
+      const normalizedAligned = normalizeText(alignedWords[i].word);
+      if (normalizedAligned.includes(firstWord) || firstWord.includes(normalizedAligned)) {
+        startWordIndex = i;
+        break;
+      }
+    }
+  }
+
+  if (startWordIndex === -1) return null;
+
+  // Find end word - match last few words of section
+  let endWordIndex = startWordIndex;
+  const lastWord = sectionWords[sectionWords.length - 1];
+
+  // Search for last word starting from startWordIndex
+  for (let i = startWordIndex; i < alignedWords.length; i++) {
+    const normalizedAligned = normalizeText(alignedWords[i].word);
+    
+    // Check if this could be the last word
+    if (normalizedAligned.includes(lastWord) || lastWord.includes(normalizedAligned)) {
+      endWordIndex = i;
+    }
+    
+    // Stop if we've gone too far (more than 3x the expected words)
+    if (i > startWordIndex + sectionWords.length * 3) break;
+  }
+
+  // Collect all words in range
+  const matchedWords = alignedWords.slice(startWordIndex, endWordIndex + 1);
+
+  if (matchedWords.length === 0) return null;
+
+  return {
+    startTime: matchedWords[0].startS,
+    endTime: matchedWords[matchedWords.length - 1].endS,
+    words: matchedWords,
+    nextSearchIndex: endWordIndex + 1,
+  };
+}
+
+// Get Russian label for section type
+function getSectionLabel(type: DetectedSection['type'], counter: number): string {
   const labels: Record<DetectedSection['type'], string> = {
-    'verse': `Куплет ${index}`,
-    'chorus': `Припев ${index}`,
-    'bridge': `Бридж ${index}`,
+    'verse': `Куплет ${counter}`,
+    'chorus': `Припев ${counter}`,
+    'bridge': `Бридж ${counter}`,
     'intro': 'Интро',
     'outro': 'Аутро',
-    'pre-chorus': `Пре-припев ${index}`,
-    'hook': `Хук ${index}`,
-    'unknown': `Секция ${index}`,
+    'pre-chorus': `Пре-припев ${counter}`,
+    'hook': `Хук ${counter}`,
+    'unknown': `Секция ${counter}`,
   };
   return labels[type];
 }
 
-// Check if word is a section tag - improved pattern matching
-function isSectionTag(word: string): boolean {
-  const trimmed = word.trim();
-  // Match [Tag], (Tag), [Tag 1], etc.
-  return /^[\[\(].*[\]\)]$/.test(trimmed);
-}
-
-// Create sections based on time gaps when no tags present
+// Create sections based on time when no tags present
 function createTimeBasedSections(words: AlignedWord[], duration: number): DetectedSection[] {
   if (!words.length) return [];
-  
+
+  const MIN_SECTION_DURATION = 10;
+  const MAX_SECTIONS = 6;
+  const TIME_GAP_THRESHOLD = 2;
+
   const sections: DetectedSection[] = [];
-  const MIN_SECTION_DURATION = 8; // Minimum 8 seconds per section
-  const MAX_SECTIONS = 8; // Maximum number of sections
-  const TIME_GAP_THRESHOLD = 1.5; // Gap in seconds to consider section break
-  
   let currentWords: AlignedWord[] = [];
   let sectionStart = words[0].startS;
   let sectionIndex = 1;
-  
+
   for (let i = 0; i < words.length; i++) {
     const word = words[i];
     const nextWord = words[i + 1];
-    
+
     currentWords.push(word);
-    
-    // Check for natural break points
+
     const hasLargeGap = nextWord ? (nextWord.startS - word.endS) > TIME_GAP_THRESHOLD : true;
     const currentDuration = word.endS - sectionStart;
     const isLongEnough = currentDuration >= MIN_SECTION_DURATION;
     const hasNewline = word.word.includes('\n\n');
     const isLastWord = !nextWord;
-    
-    // Create section at natural break if long enough
+
     if ((isLongEnough && (hasLargeGap || hasNewline)) || isLastWord) {
       if (currentWords.length > 0 && sections.length < MAX_SECTIONS) {
         const lyrics = currentWords
           .map(w => w.word.replace(/\n/g, ' '))
           .join(' ')
           .trim();
-        
+
         if (lyrics) {
           sections.push({
             type: 'unknown',
@@ -119,145 +229,73 @@ function createTimeBasedSections(words: AlignedWord[], duration: number): Detect
           sectionIndex++;
         }
       }
-      
+
       currentWords = [];
       if (nextWord) {
         sectionStart = nextWord.startS;
       }
     }
   }
-  
-  // If we only have one very long section, try to split it
-  if (sections.length === 1 && duration > 60) {
-    const targetSectionCount = Math.min(4, Math.floor(duration / 30));
-    if (targetSectionCount > 1) {
-      return splitIntoEqualSections(words, duration, targetSectionCount);
-    }
-  }
-  
+
   return sections;
 }
 
-// Split words into roughly equal time sections
-function splitIntoEqualSections(words: AlignedWord[], duration: number, count: number): DetectedSection[] {
-  const sections: DetectedSection[] = [];
-  const sectionDuration = duration / count;
-  
-  for (let i = 0; i < count; i++) {
-    const startTime = i * sectionDuration;
-    const endTime = (i + 1) * sectionDuration;
-    
-    const sectionWords = words.filter(w => 
-      w.startS >= startTime && w.startS < endTime
-    );
-    
-    if (sectionWords.length > 0) {
-      const lyrics = sectionWords
-        .map(w => w.word.replace(/\n/g, ' '))
-        .join(' ')
-        .trim();
-      
-      sections.push({
-        type: 'unknown',
-        label: `Секция ${i + 1}`,
-        startTime: sectionWords[0].startS,
-        endTime: sectionWords[sectionWords.length - 1].endS,
-        lyrics,
-        words: sectionWords,
-      });
-    }
-  }
-  
-  return sections;
+// Filter out section tags from aligned words
+function filterTagWords(words: AlignedWord[]): AlignedWord[] {
+  return words.filter(w => !SECTION_TAG_REGEX.test(w.word.trim()));
 }
 
+/**
+ * Main hook - uses originalLyrics as single source of truth
+ */
 export function useSectionDetection(
+  originalLyrics: string | null | undefined,
   alignedWords: AlignedWord[] | undefined,
   duration: number
 ): DetectedSection[] {
   return useMemo(() => {
-    if (!alignedWords?.length) return [];
+    // Filter out tag words from aligned data
+    const filteredWords = alignedWords ? filterTagWords(alignedWords) : [];
 
-    const sections: DetectedSection[] = [];
-    let currentSectionWords: AlignedWord[] = [];
-    let currentSectionType: DetectedSection['type'] | null = null;
-    let currentSectionStartTime = 0;
-    const typeCounters: Record<string, number> = {};
-    let hasFoundTags = false;
+    // 1. Try to parse sections from original lyrics
+    const parsedSections = parseSectionsFromLyrics(originalLyrics || '');
 
-    // Filter out structural tags from content words
-    const filteredWords = alignedWords.filter(w => !isSectionTag(w.word.trim()));
+    if (parsedSections.length > 0 && filteredWords.length > 0) {
+      // Match parsed sections to timestamps
+      const sections: DetectedSection[] = [];
+      const typeCounters: Record<string, number> = {};
+      let searchIndex = 0;
 
-    for (let i = 0; i < alignedWords.length; i++) {
-      const word = alignedWords[i];
-      const wordText = word.word.trim();
+      for (const parsed of parsedSections) {
+        typeCounters[parsed.type] = (typeCounters[parsed.type] || 0) + 1;
 
-      if (isSectionTag(wordText)) {
-        hasFoundTags = true;
-        
-        // Save previous section if exists
-        if (currentSectionWords.length > 0 && currentSectionType) {
-          const endTime = currentSectionWords[currentSectionWords.length - 1].endS;
-          const lyrics = currentSectionWords
-            .map(w => w.word.replace('\n', ' '))
-            .join(' ')
-            .trim();
+        const match = matchSectionToTimestamps(parsed.lyrics, filteredWords, searchIndex);
 
-          if (lyrics) {
-            sections.push({
-              type: currentSectionType,
-              label: getSectionLabel(currentSectionType, typeCounters[currentSectionType] || 1),
-              startTime: currentSectionStartTime,
-              endTime,
-              lyrics,
-              words: [...currentSectionWords],
-            });
-          }
+        if (match) {
+          sections.push({
+            type: parsed.type,
+            label: getSectionLabel(parsed.type, typeCounters[parsed.type]),
+            startTime: match.startTime,
+            endTime: match.endTime,
+            lyrics: parsed.lyrics.replace(/\n/g, ' ').trim(),
+            words: match.words,
+          });
+          searchIndex = match.nextSearchIndex;
         }
+      }
 
-        // Start new section
-        currentSectionType = getSectionType(wordText);
-        typeCounters[currentSectionType] = (typeCounters[currentSectionType] || 0) + 1;
-        currentSectionWords = [];
-        currentSectionStartTime = word.endS; // Start after the tag
-      } else {
-        // Add word to current section
-        if (currentSectionType) {
-          if (currentSectionWords.length === 0) {
-            currentSectionStartTime = word.startS;
-          }
-          currentSectionWords.push(word);
-        }
+      if (sections.length > 0) {
+        return sections;
       }
     }
 
-    // Save last section
-    if (currentSectionWords.length > 0 && currentSectionType) {
-      const endTime = currentSectionWords[currentSectionWords.length - 1].endS;
-      const lyrics = currentSectionWords
-        .map(w => w.word.replace('\n', ' '))
-        .join(' ')
-        .trim();
-
-      if (lyrics) {
-        sections.push({
-          type: currentSectionType,
-          label: getSectionLabel(currentSectionType, typeCounters[currentSectionType] || 1),
-          startTime: currentSectionStartTime,
-          endTime,
-          lyrics,
-          words: [...currentSectionWords],
-        });
-      }
-    }
-
-    // If no tags found, use time-based section detection
-    if (!hasFoundTags || sections.length === 0) {
+    // 2. Fallback: time-based detection from aligned words
+    if (filteredWords.length > 0) {
       return createTimeBasedSections(filteredWords, duration);
     }
 
-    return sections;
-  }, [alignedWords, duration]);
+    return [];
+  }, [originalLyrics, alignedWords, duration]);
 }
 
 export default useSectionDetection;
