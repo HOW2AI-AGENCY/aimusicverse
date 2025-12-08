@@ -54,31 +54,47 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-background pb-24 relative overflow-hidden">
+      {/* Background gradient effects */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl" />
+      </div>
+      
       <Onboarding />
-      <div className="container max-w-6xl mx-auto px-4 py-4 sm:py-6">
-        {/* Compact Header */}
+      <div className="container max-w-6xl mx-auto px-4 py-4 sm:py-6 relative z-10">
+        {/* Compact Header with glass effect */}
         <motion.header 
-          className="flex items-center justify-between mb-6"
+          className="flex items-center justify-between mb-6 sticky top-0 z-20 -mx-4 px-4 py-3 backdrop-blur-md bg-background/60"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
           <div className="flex items-center gap-3">
-            <div className="relative">
-              <img src={logo} alt="MusicVerse" className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl" />
-              <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-background"></div>
-            </div>
+            <motion.div 
+              className="relative"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <img src={logo} alt="MusicVerse" className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl shadow-lg" />
+              <motion.div 
+                className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-background"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+            </motion.div>
             <div>
-              <h1 className="text-lg sm:text-xl font-bold bg-gradient-telegram bg-clip-text text-transparent">MusicVerse</h1>
+              <h1 className="text-lg sm:text-xl font-bold text-gradient">MusicVerse</h1>
               <p className="text-[10px] sm:text-xs text-muted-foreground">AI Music Studio</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <NotificationBadge />
-            <button
+            <motion.button
               onClick={goToProfile}
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 border-primary/30 hover:border-primary transition-all touch-manipulation"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 border-primary/30 hover:border-primary transition-all touch-manipulation ring-2 ring-primary/10 hover:ring-primary/30"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               {displayUser?.photo_url ? (
                 <img
@@ -91,7 +107,7 @@ const Index = () => {
                   <User className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 </div>
               )}
-            </button>
+            </motion.button>
           </div>
         </motion.header>
 
