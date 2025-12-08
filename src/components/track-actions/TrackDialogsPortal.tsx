@@ -86,6 +86,12 @@ export function TrackDialogsPortal({
         open={dialogs.cover}
         onOpenChange={(open) => !open && onCloseDialog('cover')}
         defaultMode="cover"
+        prefillData={{
+          title: track.title,
+          style: track.style,
+          lyrics: track.lyrics,
+          isInstrumental: track.is_instrumental ?? false,
+        }}
       />
 
       <AddVocalsDialog
