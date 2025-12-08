@@ -169,26 +169,64 @@ export function useRewards() {
         .from('achievements')
         .select('*');
 
-      if (!achievements) return [];
+      if (!achievements || !credits) return [];
 
       const results: RewardResult[] = [];
+
+      // Map achievement codes to user stats
+      const getStatValue = (achievement: typeof achievements[0]): number => {
+        const { code, requirement_type } = achievement;
+        
+        // Streak achievements
+        if (requirement_type === 'streak' || code.startsWith('streak_')) {
+          return credits.current_streak || 0;
+        }
+        
+        // Creation achievements (tracks count)
+        if (code.startsWith('tracks_')) {
+          return credits.total_tracks || 0;
+        }
+        
+        // Social achievements (likes received)
+        if (code.startsWith('likes_')) {
+          return credits.total_likes_received || 0;
+        }
+        
+        // Sharing achievements
+        if (code.startsWith('shares_')) {
+          return credits.total_shares || 0;
+        }
+        
+        // Plays achievements
+        if (code.startsWith('plays_')) {
+          return credits.total_plays || 0;
+        }
+        
+        // Level achievements
+        if (code.startsWith('level_')) {
+          return credits.level || 1;
+        }
+        
+        return 0;
+      };
 
       for (const achievement of achievements) {
         if (unlockedIds.has(achievement.id)) continue;
 
-        let shouldUnlock = false;
-        const value = credits?.[achievement.requirement_type as keyof typeof credits] || 0;
-
-        if (typeof value === 'number' && value >= achievement.requirement_value) {
-          shouldUnlock = true;
-        }
+        const currentValue = getStatValue(achievement);
+        const shouldUnlock = currentValue >= achievement.requirement_value;
 
         if (shouldUnlock) {
           // Unlock achievement
-          await supabase.from('user_achievements').insert({
+          const { error } = await supabase.from('user_achievements').insert({
             user_id: user.id,
             achievement_id: achievement.id,
           });
+
+          if (error) {
+            logger.error('Failed to unlock achievement', { achievement: achievement.code, error });
+            continue;
+          }
 
           // Award credits and XP
           if (achievement.credits_reward > 0) {
