@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { FileAudio, Mic, X, Play, Pause, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 
 interface AudioActionDialogProps {
   open: boolean;
@@ -36,7 +37,7 @@ export function AudioActionDialog({
   const analyzeAudio = async (file: File) => {
     setIsAnalyzing(true);
     try {
-      console.log('Uploading reference audio for analysis...');
+      logger.info('Uploading reference audio for analysis');
       
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Пользователь не авторизован. Войдите в систему для загрузки аудио.');
@@ -55,7 +56,7 @@ export function AudioActionDialog({
         .from('project-assets')
         .getPublicUrl(fileName);
 
-      console.log('Analyzing reference audio:', publicUrl);
+      logger.info('Analyzing reference audio', { url: publicUrl });
       toast.info('Анализируем референс...', { icon: <Sparkles className="w-4 h-4" /> });
 
       const { data: tempTrack, error: trackError } = await supabase
@@ -93,7 +94,7 @@ export function AudioActionDialog({
       await supabase.from('tracks').delete().eq('id', tempTrack.id);
 
     } catch (error) {
-      console.error('Audio analysis error:', error);
+      logger.error('Audio analysis error', { error });
       toast.error('Ошибка анализа аудио');
     } finally {
       setIsAnalyzing(false);
@@ -131,7 +132,7 @@ export function AudioActionDialog({
       setIsRecording(true);
       toast.success('Запись началась');
     } catch (error) {
-      console.error('Recording error:', error);
+      logger.error('Recording error', { error });
       toast.error('Не удалось начать запись');
     }
   };

@@ -8,6 +8,7 @@ import { Sparkles, X } from 'lucide-react';
 import { useLyricsWizardStore } from '@/stores/lyricsWizardStore';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 const GENRES = [
   { value: 'pop', label: 'Поп' },
@@ -82,7 +83,7 @@ export function ConceptStep() {
         setTheme(data.lyrics.trim());
       }
     } catch (err) {
-      console.error('Error generating theme:', err);
+      logger.error('Error generating theme', { error: err });
       toast.error('Не удалось сгенерировать тему');
     } finally {
       setIsGeneratingTheme(false);

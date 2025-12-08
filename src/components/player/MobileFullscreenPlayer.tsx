@@ -26,6 +26,7 @@ import { QueueSheet } from './QueueSheet';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { hapticImpact } from '@/lib/haptic';
+import { logger } from '@/lib/logger';
 
 interface MobileFullscreenPlayerProps {
   track: Track;
@@ -734,7 +735,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                       await navigator.share(shareData);
                     } catch (error) {
                       if ((error as Error).name !== 'AbortError') {
-                        console.error('Share failed:', error);
+                        logger.error('Share failed', { error });
                       }
                     }
                   } else {

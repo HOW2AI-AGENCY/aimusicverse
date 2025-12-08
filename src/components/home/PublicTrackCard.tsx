@@ -12,6 +12,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContentOptimized';
+import { logger } from '@/lib/logger';
 
 interface PublicTrackCardProps {
   track: PublicTrackWithCreator;
@@ -47,7 +48,7 @@ export function PublicTrackCard({
       try {
         await supabase.rpc('increment_track_play_count', { track_id_param: track.id });
       } catch (err) {
-        console.error('Failed to increment play count:', err);
+        logger.error('Failed to increment play count', { error: err });
       }
       playTrack(track as any);
     }
@@ -84,7 +85,7 @@ export function PublicTrackCard({
       }
       queryClient.invalidateQueries({ queryKey: ['public-content'] });
     } catch (error) {
-      console.error('Like error:', error);
+      logger.error('Like error', { error });
       toast.error('Ошибка при обновлении лайка');
     } finally {
       setIsLiking(false);

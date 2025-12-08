@@ -8,6 +8,7 @@ import { Sparkles, Mic, Guitar, Zap, Heart } from 'lucide-react';
 import { useLyricsWizardStore } from '@/stores/lyricsWizardStore';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface TagCategory {
   id: string;
@@ -152,7 +153,7 @@ export function EnrichmentStep() {
         toast.success('Теги проанализированы');
       }
     } catch (err) {
-      console.error('Error analyzing lyrics:', err);
+      logger.error('Error analyzing lyrics', { error: err });
       toast.error('Не удалось проанализировать текст');
     } finally {
       setIsGenerating(false);
