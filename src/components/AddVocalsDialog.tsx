@@ -9,6 +9,7 @@ import { Loader2, Upload, Music } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Track } from '@/hooks/useTracksOptimized';
+import { logger } from '@/lib/logger';
 
 interface AddVocalsDialogProps {
   open: boolean;
@@ -55,7 +56,7 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
 
       onOpenChange(false);
     } catch (error) {
-      console.error('Add vocals error:', error);
+      logger.error('Add vocals error', { error });
       const errorMessage = error instanceof Error ? error.message : 'Ошибка добавления вокала';
       toast.error(errorMessage);
     } finally {

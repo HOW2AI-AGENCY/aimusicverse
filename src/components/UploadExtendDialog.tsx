@@ -11,6 +11,7 @@ import { Upload, Loader2, Music, Mic, FileAudio, AlertCircle } from 'lucide-reac
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { logger } from '@/lib/logger';
 
 interface UploadExtendDialogProps {
   open: boolean;
@@ -131,7 +132,7 @@ export const UploadExtendDialog = ({ open, onOpenChange, projectId }: UploadExte
       setVocalGender('');
       onOpenChange(false);
     } catch (error) {
-      console.error('Extend error:', error);
+      logger.error('Extend error', { error });
       
       const errorMessage = error instanceof Error ? error.message : '';
       if (errorMessage.includes('429') || errorMessage.includes('кредитов')) {

@@ -3,6 +3,7 @@ import WaveSurfer from 'wavesurfer.js';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 
 interface AudioWaveformPreviewProps {
   audioUrl: string;
@@ -50,7 +51,7 @@ export const AudioWaveformPreview = ({ audioUrl, className }: AudioWaveformPrevi
     });
 
     wavesurfer.on('error', (err) => {
-      console.error('Waveform error:', err);
+      logger.error('Waveform error', { error: err });
       setIsLoading(false);
     });
 

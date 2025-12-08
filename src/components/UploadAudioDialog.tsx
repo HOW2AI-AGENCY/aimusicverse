@@ -18,6 +18,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/hooks/useAuth';
 import { Tables } from '@/integrations/supabase/types';
 import { AudioWaveformPreview } from '@/components/AudioWaveformPreview';
+import { logger } from '@/lib/logger';
 
 interface PrefillData {
   title?: string | null;
@@ -92,7 +93,7 @@ export const UploadAudioDialog = ({
       if (error) throw error;
       setUserTracks(data || []);
     } catch (error) {
-      console.error('Error loading tracks:', error);
+      logger.error('Error loading tracks', { error });
     } finally {
       setLoadingTracks(false);
     }
@@ -119,7 +120,7 @@ export const UploadAudioDialog = ({
         handleFileSelect(file);
         toast.success('Трек загружен', { id: 'audio-load' });
       } catch (error) {
-        console.error('Error fetching track audio:', error);
+        logger.error('Error fetching track audio', { error });
         toast.error('Не удалось загрузить аудио трека', { id: 'audio-load' });
       }
     }
@@ -250,7 +251,7 @@ export const UploadAudioDialog = ({
       resetForm();
       onOpenChange(false);
     } catch (error) {
-      console.error('Submit error:', error);
+      logger.error('Submit error', { error });
       
       const errorMessage = error instanceof Error ? error.message : '';
       if (errorMessage.includes('429') || errorMessage.includes('кредитов')) {

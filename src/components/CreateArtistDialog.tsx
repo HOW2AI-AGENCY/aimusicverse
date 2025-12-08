@@ -9,6 +9,7 @@ import { User, Sparkles, Image as ImageIcon, X, Plus } from 'lucide-react';
 import { useArtists } from '@/hooks/useArtists';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 
 interface TrackData {
   title?: string | null;
@@ -83,7 +84,7 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
         throw new Error('No avatar URL in response');
       }
     } catch (error) {
-      console.error('Error generating portrait:', error);
+      logger.error('Error generating portrait', { error });
       toast.error('Ошибка генерации портрета');
     } finally {
       setIsGeneratingPortrait(false);

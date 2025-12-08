@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 
 interface AudioWaveformVisualizerProps {
   audioUrl?: string | null;
@@ -73,7 +74,7 @@ export function AudioWaveformVisualizer({
         // Close audio context to free resources
         audioContext.close();
       } catch (error) {
-        console.error('Error generating waveform:', error);
+        logger.error('Error generating waveform', { error });
       } finally {
         setIsLoading(false);
       }
