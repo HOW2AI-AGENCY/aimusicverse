@@ -224,7 +224,7 @@ export function SectionEditorMobile({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="h-[90vh] px-0 rounded-t-3xl">
+      <SheetContent side="bottom" className="h-[70vh] px-0 rounded-t-3xl">
         {/* Drag Handle */}
         <motion.div 
           className="flex justify-center pt-2 pb-4"
@@ -275,7 +275,7 @@ export function SectionEditorMobile({
           </div>
         </SheetHeader>
 
-        <ScrollArea className="flex-1 h-[calc(90vh-180px)]">
+        <ScrollArea className="flex-1 h-[calc(70vh-160px)]">
           <motion.div 
             className="px-4 py-4 space-y-5"
             variants={contentVariants}
