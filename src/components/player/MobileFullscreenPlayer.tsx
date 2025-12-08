@@ -23,6 +23,7 @@ import { usePlayerStore } from '@/hooks/usePlayerState';
 import { useGlobalAudioPlayer } from '@/hooks/useGlobalAudioPlayer';
 import { useAudioVisualizer } from '@/hooks/useAudioVisualizer';
 import { QueueSheet } from './QueueSheet';
+import { VersionSwitcher } from './VersionSwitcher';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { hapticImpact } from '@/lib/haptic';
@@ -368,6 +369,10 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
           >
             <h2 className="font-bold text-lg truncate text-gradient">{track.title || 'Без названия'}</h2>
             <p className="text-sm text-muted-foreground truncate">{track.style || ''}</p>
+            {/* Version Switcher */}
+            <div className="flex justify-center mt-2">
+              <VersionSwitcher track={track} size="compact" />
+            </div>
           </motion.div>
           
           <div className="flex items-center gap-2">

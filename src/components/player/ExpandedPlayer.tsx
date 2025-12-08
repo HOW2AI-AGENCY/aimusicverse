@@ -5,6 +5,7 @@ import { useAudioTime } from '@/hooks/useAudioTime';
 import { PlaybackControls } from './PlaybackControls';
 import { ProgressBar } from './ProgressBar';
 import { QueueSheet } from './QueueSheet';
+import { VersionSwitcher } from './VersionSwitcher';
 import { useTracks, Track } from '@/hooks/useTracksOptimized';
 import { cn } from '@/lib/utils';
 import { motion, PanInfo, AnimatePresence } from 'framer-motion';
@@ -247,7 +248,7 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
 
           {/* Track Info with gradient text */}
           <motion.div 
-            className="text-center mb-6"
+            className="text-center mb-4"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -265,6 +266,11 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
               {track.style || 'Unknown Style'}
             </motion.p>
           </motion.div>
+
+          {/* Version Switcher */}
+          <div className="flex justify-center mb-4">
+            <VersionSwitcher track={track} size="medium" />
+          </div>
 
           {/* Progress Bar */}
           <div className="mb-6">
