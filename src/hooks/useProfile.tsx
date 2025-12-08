@@ -24,6 +24,7 @@ export interface ProfileUpdate {
   last_name?: string | null;
   username?: string | null;
   is_public?: boolean;
+  photo_url?: string | null;
 }
 
 export const useProfile = () => {

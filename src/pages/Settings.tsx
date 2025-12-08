@@ -29,6 +29,7 @@ import {
 import { toast } from "sonner";
 import { TelegramBotSetup } from "@/components/TelegramBotSetup";
 import { AddToHomeScreen } from "@/components/telegram/AddToHomeScreen";
+import { AvatarUpload } from "@/components/settings/AvatarUpload";
 import { motion } from "framer-motion";
 
 export default function Settings() {
@@ -136,7 +137,17 @@ export default function Settings() {
                     Информация отображаемая в вашем профиле
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-6">
+                  <AvatarUpload
+                    currentUrl={profile?.photo_url}
+                    firstName={firstName}
+                    onUpload={(url) => {
+                      updateProfile.mutate({ photo_url: url || null });
+                    }}
+                  />
+
+                  <Separator />
+
                   <div className="space-y-2">
                     <Label htmlFor="firstName">Имя</Label>
                     <Input
