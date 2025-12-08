@@ -8,9 +8,11 @@ import { useAudioTime, getGlobalAudioRef } from '@/hooks/useAudioTime';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useTracks } from '@/hooks/useTracksOptimized';
 import { PlaybackControls } from '@/components/player/PlaybackControls';
+import { VersionSwitcher } from '@/components/player/VersionSwitcher';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
+import { Track } from '@/hooks/useTracksOptimized';
 
 interface CompactPlayerProps {
   track: {
@@ -203,9 +205,10 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
             </Button>
           </div>
 
-          {/* Center: Playback Controls */}
-          <div className="flex-1 flex justify-center">
+          {/* Center: Playback Controls + Version Switcher */}
+          <div className="flex-1 flex items-center justify-center gap-2">
             <PlaybackControls size="compact" />
+            <VersionSwitcher track={track as Track} size="compact" />
           </div>
 
           {/* Right side: Volume (desktop only) */}
