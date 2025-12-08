@@ -7,19 +7,14 @@ const corsHeaders = {
 };
 
 /**
- * Model mapping from UI keys to Suno API model names
+ * Per SunoAPI docs: Model values are V5, V4_5PLUS, V4_5, V4, V3_5
  */
-const MODEL_MAP: Record<string, string> = {
-  'V5': 'chirp-crow',
-  'V4_5PLUS': 'chirp-bluejay',
-  'V4_5ALL': 'chirp-auk',
-  'V4': 'chirp-v4',
-};
-
-const DEFAULT_API_MODEL = 'chirp-auk';
+const VALID_MODELS = ['V5', 'V4_5PLUS', 'V4_5', 'V4', 'V3_5'];
+const DEFAULT_MODEL = 'V4_5';
 
 function getApiModelName(uiKey: string): string {
-  return MODEL_MAP[uiKey] || DEFAULT_API_MODEL;
+  if (uiKey === 'V4_5ALL') return 'V4_5';
+  return VALID_MODELS.includes(uiKey) ? uiKey : DEFAULT_MODEL;
 }
 
 serve(async (req) => {
