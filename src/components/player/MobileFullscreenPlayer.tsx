@@ -6,11 +6,12 @@
  * - Blurred album cover background
  * - Synchronized lyrics with word highlighting
  * - Large touch-friendly controls
+ * - Audio visualizer with equalizer
  * - Clear timeline visualization
  */
 
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { X, Heart, Download, Share2, ListMusic, SkipBack, SkipForward, Play, Pause, Repeat, Shuffle } from 'lucide-react';
+import { X, Heart, Download, Share2, ListMusic, SkipBack, SkipForward, Play, Pause, Repeat, Shuffle, BarChart3 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -19,6 +20,8 @@ import { useTracks } from '@/hooks/useTracksOptimized';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useAudioTime } from '@/hooks/useAudioTime';
 import { usePlayerStore } from '@/hooks/usePlayerState';
+import { useGlobalAudioPlayer } from '@/hooks/useGlobalAudioPlayer';
+import { useAudioVisualizer } from '@/hooks/useAudioVisualizer';
 import { QueueSheet } from './QueueSheet';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -38,6 +41,7 @@ interface AlignedWord {
 export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlayerProps) {
   const [queueOpen, setQueueOpen] = useState(false);
   const [userScrolling, setUserScrolling] = useState(false);
+  const [showVisualizer, setShowVisualizer] = useState(true);
   const lyricsContainerRef = useRef<HTMLDivElement>(null);
   const activeLineRef = useRef<HTMLDivElement>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -47,6 +51,10 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   const { toggleLike, downloadTrack } = useTracks();
   const { currentTime, duration, seek } = useAudioTime();
   const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, repeat, shuffle, toggleRepeat, toggleShuffle } = usePlayerStore();
+  const { audioElement } = useGlobalAudioPlayer();
+  
+  // Audio visualizer data
+  const visualizerData = useAudioVisualizer(audioElement, isPlaying, { barCount: 48, smoothing: 0.75 });
 
   const { data: lyricsData } = useTimestampedLyrics(
     track.suno_task_id || null,
@@ -361,19 +369,40 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
             <p className="text-sm text-muted-foreground truncate">{track.style || ''}</p>
           </motion.div>
           
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {
-                hapticImpact('light');
-                setQueueOpen(true);
-              }}
-              className="h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors"
-            >
-              <ListMusic className="h-5 w-5" />
-            </Button>
-          </motion.div>
+          <div className="flex items-center gap-2">
+            {/* Visualizer toggle */}
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  hapticImpact('light');
+                  setShowVisualizer(prev => !prev);
+                }}
+                className={cn(
+                  'h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors',
+                  showVisualizer && 'bg-primary/20 border-primary/30'
+                )}
+              >
+                <BarChart3 className="h-5 w-5" />
+              </Button>
+            </motion.div>
+            
+            {/* Queue button */}
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  hapticImpact('light');
+                  setQueueOpen(true);
+                }}
+                className="h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors"
+              >
+                <ListMusic className="h-5 w-5" />
+              </Button>
+            </motion.div>
+          </div>
         </motion.header>
 
         {/* Lyrics Section */}
@@ -455,6 +484,56 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
           )}
           </div>
         </div>
+
+        {/* Audio Visualizer Section */}
+        <AnimatePresence>
+          {showVisualizer && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="relative overflow-hidden"
+            >
+              <div className="px-4 py-3 bg-gradient-to-t from-background/80 to-transparent">
+                {/* Visualizer bars */}
+                <div className="flex items-end justify-center gap-[2px] h-16">
+                  {visualizerData.frequencies.map((freq, index) => {
+                    const isCenter = Math.abs(index - visualizerData.frequencies.length / 2) < 8;
+                    const heightPercent = Math.max(8, freq * 100);
+                    
+                    return (
+                      <motion.div
+                        key={index}
+                        className="rounded-full"
+                        style={{
+                          width: isCenter ? '3px' : '2px',
+                          backgroundColor: `hsl(var(--primary) / ${0.3 + freq * 0.7})`,
+                          boxShadow: freq > 0.6 ? `0 0 8px hsl(var(--primary) / 0.5)` : 'none',
+                        }}
+                        animate={{
+                          height: `${heightPercent}%`,
+                          opacity: isPlaying ? 0.6 + freq * 0.4 : 0.3,
+                        }}
+                        transition={{ duration: 0.05 }}
+                      />
+                    );
+                  })}
+                </div>
+                
+                {/* Visualizer average indicator */}
+                <motion.div
+                  className="mt-2 mx-auto h-0.5 rounded-full bg-gradient-to-r from-transparent via-primary to-transparent"
+                  animate={{
+                    width: `${30 + visualizerData.average * 70}%`,
+                    opacity: isPlaying ? 0.4 + visualizerData.average * 0.6 : 0.2,
+                  }}
+                  transition={{ duration: 0.1 }}
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Controls Section with enhanced glass effect */}
         <motion.div 
