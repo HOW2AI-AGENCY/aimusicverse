@@ -1,5 +1,8 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { createLogger } from '../_shared/logger.ts';
+
+const logger = createLogger('suno-music-generate');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -43,7 +46,7 @@ serve(async (req) => {
     // Get user from auth header
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
-      console.error('No authorization header');
+      logger.warn('No authorization header');
       return new Response(
         JSON.stringify({ success: false, error: 'Unauthorized' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 401 }
@@ -55,7 +58,7 @@ serve(async (req) => {
     );
 
     if (userError || !user) {
-      console.error('User authentication failed:', userError);
+      logger.error('User authentication failed', userError);
       return new Response(
         JSON.stringify({ success: false, error: 'Unauthorized' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 401 }
@@ -92,7 +95,7 @@ serve(async (req) => {
 
     // Validate required fields
     if (!prompt) {
-      console.error('Prompt is required');
+      logger.warn('Prompt is required');
       return new Response(
         JSON.stringify({ success: false, error: 'Требуется описание музыки' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
@@ -102,7 +105,7 @@ serve(async (req) => {
     const customMode = mode === 'custom';
 
     if (customMode && !style) {
-      console.error('Style is required in custom mode');
+      logger.warn('Style is required in custom mode');
       return new Response(
         JSON.stringify({ success: false, error: 'Укажите стиль музыки в custom режиме' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
@@ -111,7 +114,7 @@ serve(async (req) => {
 
     // Validate prompt length for non-custom mode (Suno limit: 500 chars)
     if (!customMode && prompt.length > 500) {
-      console.error(`Prompt too long for simple mode: ${prompt.length} chars`);
+      logger.warn('Prompt too long for simple mode', { promptLength: prompt.length });
       return new Response(
         JSON.stringify({ 
           success: false, 
@@ -122,7 +125,7 @@ serve(async (req) => {
     }
 
     if (customMode && !instrumental && prompt.length > 5000) {
-      console.error('Prompt too long');
+      logger.warn('Prompt too long', { promptLength: prompt.length });
       return new Response(
         JSON.stringify({ success: false, error: 'Текст слишком длинный (макс. 5000 символов)' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
@@ -140,7 +143,7 @@ serve(async (req) => {
       
       if (!artistError && artist) {
         artistData = artist;
-        console.log('Found artist:', artist.name, 'with persona:', artist.suno_persona_id);
+        logger.info('Found artist', { name: artist.name, hasPersona: !!artist.suno_persona_id });
       }
     }
 
@@ -173,7 +176,7 @@ serve(async (req) => {
       .single();
 
     if (trackError || !track) {
-      console.error('Track creation error:', trackError);
+      logger.error('Track creation error', trackError);
       throw new Error('Failed to create track record');
     }
 
@@ -203,7 +206,7 @@ serve(async (req) => {
       .single();
 
     if (taskError || !task) {
-      console.error('Task creation error:', taskError);
+      logger.error('Task creation error', taskError);
       throw new Error('Failed to create generation task');
     }
 
@@ -212,7 +215,7 @@ serve(async (req) => {
     
     // Map UI model key to API model name
     const apiModel = getApiModelName(model);
-    console.log(`Model mapping: ${model} -> ${apiModel}`);
+    logger.info('Model mapping', { from: model, to: apiModel });
     
     const sunoPayload: any = {
       customMode,
@@ -236,7 +239,7 @@ serve(async (req) => {
     if (audioWeight !== undefined) sunoPayload.audioWeight = audioWeight;
     if (effectivePersonaId) sunoPayload.personaId = effectivePersonaId;
 
-    console.log('Sending to SunoAPI:', JSON.stringify(sunoPayload, null, 2));
+    logger.apiCall('suno', '/api/v1/generate', { mode, model: apiModel, instrumental });
 
     // Call SunoAPI
     const startTime = Date.now();
@@ -252,7 +255,7 @@ serve(async (req) => {
     const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
     
-    console.log(`📥 Suno response (${duration}ms, $0.05)`);
+    logger.info('Suno API response', { durationMs: duration, status: sunoResponse.status });
 
     // Log API call
     await supabase.from('api_usage_logs').insert({
@@ -268,7 +271,7 @@ serve(async (req) => {
     });
 
     if (!sunoResponse.ok || sunoData.code !== 200) {
-      console.error('SunoAPI error:', sunoResponse.status, sunoData);
+      logger.error('SunoAPI error', null, { status: sunoResponse.status, data: sunoData });
       
       const errorMsg = sunoData.msg || 'SunoAPI request failed';
       
@@ -369,6 +372,8 @@ serve(async (req) => {
         },
       });
 
+    logger.success('Generation started', { trackId: track.id, taskId: task.id, sunoTaskId });
+
     return new Response(
       JSON.stringify({
         success: true,
@@ -383,7 +388,7 @@ serve(async (req) => {
     );
 
   } catch (error: any) {
-    console.error('Error in suno-music-generate:', error);
+    logger.error('Error in suno-music-generate', error);
     
     // Try to log error to database if we have context
     try {
@@ -409,7 +414,7 @@ serve(async (req) => {
         }
       }
     } catch (logError) {
-      console.error('Failed to log error:', logError);
+      logger.error('Failed to log error notification', logError);
     }
     
     return new Response(
