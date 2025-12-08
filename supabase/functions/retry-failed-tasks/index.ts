@@ -123,27 +123,31 @@ serve(async (req) => {
           continue;
         }
 
-        // Prepare Suno API payload
+        // Prepare Suno API payload - use 'mv' for model per API docs
         const sunoPayload: any = {
-          customMode,
-          instrumental,
-          model: apiModel,
+          mv: apiModel, // API docs specify 'mv' not 'model'
           callBackUrl: callbackUrl,
           prompt: task.prompt,
         };
 
+        // For custom mode use custom_generate endpoint params
         if (customMode) {
           if (track?.style) sunoPayload.style = track.style;
           if (track?.title) sunoPayload.title = track.title;
+          sunoPayload.instrumental = instrumental;
+        } else {
+          // For simple mode
+          sunoPayload.make_instrumental = instrumental;
         }
-
-        if (track?.negative_tags) sunoPayload.negativeTags = track.negative_tags;
-        if (track?.vocal_gender) sunoPayload.vocalGender = track.vocal_gender;
 
         console.log(`Calling Suno API for task ${task.id} with model ${apiModel}, payload:`, JSON.stringify(sunoPayload));
 
-        // Call Suno API directly
-        const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate', {
+        // Use correct endpoint based on mode per API docs
+        const endpoint = customMode 
+          ? 'https://api.sunoapi.org/api/custom_generate'
+          : 'https://api.sunoapi.org/api/generate';
+
+        const sunoResponse = await fetch(endpoint, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${sunoApiKey}`,
@@ -164,7 +168,8 @@ serve(async (req) => {
           continue;
         }
 
-        if (!sunoResponse.ok || sunoData.code !== 200) {
+        // API docs say successful response has code: "success", not 200
+        if (!sunoResponse.ok || (sunoData.code !== 'success' && sunoData.code !== 200)) {
           console.error('Suno API error:', sunoData);
           
           // Update task with error
@@ -190,8 +195,8 @@ serve(async (req) => {
           continue;
         }
 
-        // Update task with Suno task ID
-        const sunoTaskId = sunoData.data?.taskId;
+        // Update task with Suno task ID - data is the taskId string directly per docs
+        const sunoTaskId = typeof sunoData.data === 'string' ? sunoData.data : sunoData.data?.taskId;
         if (sunoTaskId) {
           await supabase
             .from('generation_tasks')
