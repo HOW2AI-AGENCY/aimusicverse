@@ -20,6 +20,7 @@ import { ru } from "date-fns/locale";
 import { Navigate, useNavigate } from "react-router-dom";
 import { BroadcastPanel } from "@/components/admin/BroadcastPanel";
 import { HealthCheckPanel } from "@/components/admin/HealthCheckPanel";
+import { AlertHistoryPanel } from "@/components/admin/AlertHistoryPanel";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -58,10 +59,11 @@ export default function AdminDashboard() {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList className="grid grid-cols-6 w-full">
+        <TabsList className="grid grid-cols-7 w-full">
           <TabsTrigger value="overview">Обзор</TabsTrigger>
           <TabsTrigger value="tracks">Треки</TabsTrigger>
           <TabsTrigger value="bot">Бот</TabsTrigger>
+          <TabsTrigger value="alerts">Алерты</TabsTrigger>
           <TabsTrigger value="broadcast">Рассылка</TabsTrigger>
           <TabsTrigger value="users">Юзеры</TabsTrigger>
           <TabsTrigger value="events">События</TabsTrigger>
@@ -103,6 +105,11 @@ export default function AdminDashboard() {
           </div>
 
           <HealthCheckPanel />
+        </TabsContent>
+
+        {/* Alerts Tab */}
+        <TabsContent value="alerts" className="space-y-4">
+          <AlertHistoryPanel />
         </TabsContent>
 
         {/* Tracks Tab */}
