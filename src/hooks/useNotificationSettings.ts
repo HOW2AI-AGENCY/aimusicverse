@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 export interface NotificationSettings {
   id: string;
@@ -72,7 +73,7 @@ export function useNotificationSettings() {
       toast.success('Настройки сохранены');
     },
     onError: (error) => {
-      console.error('Error updating notification settings:', error);
+      logger.error('Error updating notification settings', error);
       toast.error('Ошибка сохранения настроек');
     },
   });

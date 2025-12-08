@@ -7,6 +7,7 @@ import { GitBranch, ChevronDown, Check, Star } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
+import { logger } from '@/lib/logger';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface VersionsSectionProps {
@@ -74,7 +75,7 @@ export function VersionsSection({ track }: VersionsSectionProps) {
       const version = versions.find(v => v.id === versionId);
       toast.success(`Переключено на версию ${version?.version_label || 'A'}`);
     } catch (error) {
-      console.error('Error switching version:', error);
+      logger.error('Error switching version', error);
       toast.error('Ошибка переключения версии');
     } finally {
       setIsVersionSwitching(false);

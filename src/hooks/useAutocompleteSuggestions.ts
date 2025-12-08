@@ -7,6 +7,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useState, useEffect } from 'react';
+import { logger } from '@/lib/logger';
 
 interface PromptSuggestion {
   id: string;
@@ -139,7 +140,7 @@ export async function incrementSuggestionUsage(templateId: string) {
     .single();
 
   if (fetchError) {
-    console.error('Failed to fetch template:', fetchError);
+    logger.error('Failed to fetch template', fetchError);
     return;
   }
 
@@ -149,6 +150,6 @@ export async function incrementSuggestionUsage(templateId: string) {
     .eq('id', templateId);
 
   if (error) {
-    console.error('Failed to increment suggestion usage:', error);
+    logger.error('Failed to increment suggestion usage', error);
   }
 }

@@ -14,6 +14,7 @@ import { Track } from '@/hooks/useTracksOptimized';
 import { ListMusic, Plus, Search, Check, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 import { hapticImpact, hapticNotification } from '@/lib/haptic';
 
 interface Playlist {
@@ -65,7 +66,7 @@ export function PlaylistSelector({ open, onOpenChange, track }: PlaylistSelector
       setSelectedPlaylistId(null);
       setSearchQuery('');
     } catch (error) {
-      console.error('Failed to add track to playlist:', error);
+      logger.error('Failed to add track to playlist', error);
       toast.error('Failed to add track. Please try again.');
     } finally {
       setLoading(false);

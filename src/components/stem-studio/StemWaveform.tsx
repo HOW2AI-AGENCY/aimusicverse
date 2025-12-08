@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback, memo } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
+import { logger } from '@/lib/logger';
 
 interface StemWaveformProps {
   audioUrl: string;
@@ -81,7 +82,7 @@ export const StemWaveform = memo(({
     });
 
     wavesurfer.on('error', (err) => {
-      console.error('Waveform error:', err);
+      logger.error('Waveform error', err);
       setIsLoading(false);
     });
 

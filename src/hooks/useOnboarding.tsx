@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface OnboardingStatus {
   id: string;
@@ -75,7 +76,7 @@ export const useOnboarding = () => {
       });
     },
     onError: (error) => {
-      console.error('Error completing onboarding:', error);
+      logger.error('Error completing onboarding', error);
       toast.error('Ошибка', {
         description: 'Не удалось завершить онбординг',
       });
@@ -105,7 +106,7 @@ export const useOnboarding = () => {
       queryClient.invalidateQueries({ queryKey: ['onboarding', user?.id] });
     },
     onError: (error) => {
-      console.error('Error skipping onboarding:', error);
+      logger.error('Error skipping onboarding', error);
       toast.error('Ошибка', {
         description: 'Не удалось пропустить онбординг',
       });
@@ -131,7 +132,7 @@ export const useOnboarding = () => {
       queryClient.invalidateQueries({ queryKey: ['onboarding', user?.id] });
     },
     onError: (error) => {
-      console.error('Error updating onboarding step:', error);
+      logger.error('Error updating onboarding step', error);
     },
   });
 

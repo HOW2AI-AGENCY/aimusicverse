@@ -12,6 +12,7 @@ import {
 import { TrackStem } from '@/hooks/useTrackStems';
 import { toast } from 'sonner';
 import JSZip from 'jszip';
+import { logger } from '@/lib/logger';
 
 interface StemDownloadPanelProps {
   stems: TrackStem[];
@@ -73,7 +74,7 @@ export const StemDownloadPanel = ({ stems, trackTitle }: StemDownloadPanelProps)
       
       toast.success(`${stemLabel} скачан`);
     } catch (error) {
-      console.error('Download error:', error);
+      logger.error('Download error', error);
       toast.error('Ошибка скачивания');
     } finally {
       setIsDownloading(false);
@@ -116,7 +117,7 @@ export const StemDownloadPanel = ({ stems, trackTitle }: StemDownloadPanelProps)
       
       toast.success('Все стемы скачаны');
     } catch (error) {
-      console.error('Download error:', error);
+      logger.error('Download error', error);
       toast.error('Ошибка скачивания');
     } finally {
       setIsDownloading(false);

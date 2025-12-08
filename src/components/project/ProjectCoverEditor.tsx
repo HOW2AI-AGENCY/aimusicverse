@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Upload, Wand2, Loader2, X, Image as ImageIcon } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 import {
   Dialog,
   DialogContent,
@@ -90,7 +91,7 @@ export function ProjectCoverEditor({
       toast.success('Обложка загружена');
       setIsOpen(false);
     } catch (error) {
-      console.error('Error uploading cover:', error);
+      logger.error('Error uploading cover', error);
       toast.error('Ошибка загрузки обложки');
     } finally {
       setUploading(false);
@@ -123,7 +124,7 @@ export function ProjectCoverEditor({
         throw new Error('No cover URL returned');
       }
     } catch (error) {
-      console.error('Error generating cover:', error);
+      logger.error('Error generating cover', error);
       toast.error('Ошибка генерации обложки');
     } finally {
       setGenerating(false);
@@ -142,7 +143,7 @@ export function ProjectCoverEditor({
       onCoverUpdate('');
       toast.success('Обложка удалена');
     } catch (error) {
-      console.error('Error removing cover:', error);
+      logger.error('Error removing cover', error);
       toast.error('Ошибка удаления обложки');
     }
   };

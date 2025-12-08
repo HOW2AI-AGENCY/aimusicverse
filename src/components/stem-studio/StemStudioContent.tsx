@@ -15,6 +15,7 @@ import { MidiSection } from '@/components/stem-studio/MidiSection';
 import { StemStudioTutorial, useStemStudioTutorial } from '@/components/stem-studio/StemStudioTutorial';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface StemStudioContentProps {
@@ -132,7 +133,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         setIsPlaying(true);
         animationFrameRef.current = requestAnimationFrame(updateTime);
       } catch (error) {
-        console.error('Error playing audio:', error);
+        logger.error('Error playing audio', error);
         toast.error('Ошибка воспроизведения');
       }
     }

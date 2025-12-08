@@ -7,6 +7,7 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import { usePlayerStore } from '@/hooks/usePlayerState';
+import { logger } from '@/lib/logger';
 
 // Global audio element singleton
 let globalAudioElement: HTMLAudioElement | null = null;
@@ -60,7 +61,7 @@ export function useGlobalAudioPlayer() {
     
     if (isPlaying && audio.src) {
       audio.play().catch((error) => {
-        console.error('Playback error:', error);
+        logger.error('Playback error', error);
         pauseTrack();
       });
     } else {

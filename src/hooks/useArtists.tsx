@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 export interface Artist {
   id: string;
@@ -63,7 +64,7 @@ export const useArtists = () => {
       toast.success('Артист создан успешно');
     },
     onError: (error: any) => {
-      console.error('Error creating artist:', error);
+      logger.error('Error creating artist', error);
       toast.error('Ошибка создания артиста');
     },
   });
@@ -85,7 +86,7 @@ export const useArtists = () => {
       toast.success('Артист обновлен');
     },
     onError: (error: any) => {
-      console.error('Error updating artist:', error);
+      logger.error('Error updating artist', error);
       toast.error('Ошибка обновления артиста');
     },
   });
@@ -104,7 +105,7 @@ export const useArtists = () => {
       toast.success('Артист удален');
     },
     onError: (error: any) => {
-      console.error('Error deleting artist:', error);
+      logger.error('Error deleting artist', error);
       toast.error('Ошибка удаления артиста');
     },
   });

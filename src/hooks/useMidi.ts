@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface MidiVersion {
   id: string;
@@ -66,7 +67,7 @@ export const useMidi = (trackId: string) => {
       toast.success('MIDI файл создан успешно');
     },
     onError: (error) => {
-      console.error('MIDI transcription error:', error);
+      logger.error('MIDI transcription error', error);
       toast.error('Ошибка создания MIDI');
     },
     onSettled: () => {

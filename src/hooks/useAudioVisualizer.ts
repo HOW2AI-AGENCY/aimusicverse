@@ -6,6 +6,7 @@
  */
 
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { logger } from '@/lib/logger';
 
 interface UseAudioVisualizerOptions {
   barCount?: number;
@@ -87,7 +88,7 @@ export function useAudioVisualizer(
 
       return analyserRef.current;
     } catch (error) {
-      console.error('Failed to initialize audio analyser:', error);
+      logger.error('Failed to initialize audio analyser', error);
       return null;
     }
   }, [audioElement, fftSize, smoothing]);
