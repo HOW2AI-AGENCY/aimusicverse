@@ -4,12 +4,15 @@ import { Track } from '@/hooks/useTracks';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Sparkles, Music, Mic2, Activity, Key, Box, Zap } from 'lucide-react';
+import { Loader2, Sparkles, Music, Mic2, Activity, Key, Box, Zap, ChevronDown } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { AdvancedMusicAnalytics } from './AdvancedMusicAnalytics';
 import { EmotionalMap } from './EmotionalMap';
 import { BeatsVisualization } from './BeatsVisualization';
+import { AnalysisQuickStats } from './AnalysisQuickStats';
 import { useState } from 'react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { cn } from '@/lib/utils';
 
 interface TrackAnalysisTabProps {
   track: Track;
@@ -108,10 +111,12 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
     );
   }
 
+  const [showDetails, setShowDetails] = useState(false);
+
   return (
     <div className="space-y-6">
       {/* Analysis Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-primary" />
           <h3 className="text-lg font-semibold">AI Анализ</h3>
@@ -125,41 +130,34 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
             size="sm"
             onClick={handleAnalyze}
             disabled={isPending}
-            className="gap-2"
+            className="gap-1.5"
           >
             {isPending ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Базовый...
-              </>
+              <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
-              <>
-                <Sparkles className="w-4 h-4" />
-                Базовый
-              </>
+              <Sparkles className="w-4 h-4" />
             )}
+            <span className="hidden sm:inline">Базовый</span>
           </Button>
           <Button
             variant="secondary"
             size="sm"
             onClick={handleAdvancedAnalyze}
             disabled={isReplicatePending}
-            className="gap-2"
+            className="gap-1.5"
           >
             {isReplicatePending ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Продвинутый...
-              </>
+              <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
-              <>
-                <Zap className="w-4 h-4" />
-                Продвинутый
-              </>
+              <Zap className="w-4 h-4" />
             )}
+            <span className="hidden sm:inline">Продвинутый</span>
           </Button>
         </div>
       </div>
+
+      {/* Quick Stats Overview */}
+      <AnalysisQuickStats analysis={analysis} />
 
       <Separator />
 
@@ -183,117 +181,75 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
       {/* Advanced Music Analytics */}
       <AdvancedMusicAnalytics analysis={analysis} />
 
-      {/* Structured Analysis */}
-      <div className="grid gap-4">
-        {analysis.genre && (
-          <Card className="p-4 border-primary/20">
-            <div className="flex items-start gap-3">
-              <Music className="w-5 h-5 text-primary mt-0.5" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground mb-1">Жанр</p>
-                <Badge variant="default" className="text-base">
-                  {analysis.genre}
-                </Badge>
-              </div>
-            </div>
-          </Card>
-        )}
-
-        {analysis.mood && (
-          <Card className="p-4 border-primary/20">
-            <div className="flex items-start gap-3">
-              <Activity className="w-5 h-5 text-primary mt-0.5" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground mb-1">Настроение</p>
-                <p className="text-base font-medium">{analysis.mood}</p>
-              </div>
-            </div>
-          </Card>
-        )}
-
-        {analysis.tempo && (
-          <Card className="p-4 border-primary/20">
-            <div className="flex items-start gap-3">
-              <Activity className="w-5 h-5 text-primary mt-0.5" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground mb-1">Темп</p>
-                <p className="text-base font-medium">{analysis.tempo}</p>
-              </div>
-            </div>
-          </Card>
-        )}
-
-        {analysis.key_signature && (
-          <Card className="p-4 border-primary/20">
-            <div className="flex items-start gap-3">
-              <Key className="w-5 h-5 text-primary mt-0.5" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground mb-1">Тональность</p>
-                <p className="text-base font-medium">{analysis.key_signature}</p>
-              </div>
-            </div>
-          </Card>
-        )}
-
-        {analysis.instruments && analysis.instruments.length > 0 && (
-          <Card className="p-4 border-primary/20">
-            <div className="flex items-start gap-3">
-              <Mic2 className="w-5 h-5 text-primary mt-0.5" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground mb-2">Инструменты</p>
-                <div className="flex flex-wrap gap-2">
-                  {analysis.instruments.map((instrument, i) => (
-                    <Badge key={i} variant="secondary">
-                      {instrument}
-                    </Badge>
-                  ))}
+      {/* Detailed Analysis - Collapsible */}
+      <Collapsible open={showDetails} onOpenChange={setShowDetails}>
+        <CollapsibleTrigger asChild>
+          <Button variant="ghost" className="w-full justify-between gap-2 h-auto py-3">
+            <span className="text-sm font-medium">Подробный анализ</span>
+            <ChevronDown className={cn(
+              "w-4 h-4 transition-transform",
+              showDetails && "rotate-180"
+            )} />
+          </Button>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="space-y-4 pt-2">
+          {analysis.instruments && analysis.instruments.length > 0 && (
+            <Card className="p-4 border-primary/20">
+              <div className="flex items-start gap-3">
+                <Mic2 className="w-5 h-5 text-primary mt-0.5" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-muted-foreground mb-2">Инструменты</p>
+                  <div className="flex flex-wrap gap-2">
+                    {analysis.instruments.map((instrument, i) => (
+                      <Badge key={i} variant="secondary">
+                        {instrument}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          </Card>
-        )}
-
-        {analysis.structure && (
-          <Card className="p-4 border-primary/20">
-            <div className="flex items-start gap-3">
-              <Box className="w-5 h-5 text-primary mt-0.5" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground mb-2">Структура</p>
-                <p className="text-sm leading-relaxed">{analysis.structure}</p>
-              </div>
-            </div>
-          </Card>
-        )}
-
-        {analysis.style_description && (
-          <Card className="p-4 border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
-            <div className="flex items-start gap-3">
-              <Sparkles className="w-5 h-5 text-primary mt-0.5" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground mb-2">Описание стиля</p>
-                <p className="text-sm leading-relaxed">{analysis.style_description}</p>
-              </div>
-            </div>
-          </Card>
-        )}
-      </div>
-
-      {/* Full Response */}
-      {analysis.full_response && (
-        <>
-          <Separator />
-          <details className="space-y-3">
-            <summary className="cursor-pointer text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Полный ответ AI
-            </summary>
-            <Card className="p-4 bg-muted/30 border border-border">
-              <pre className="text-xs whitespace-pre-wrap font-mono leading-relaxed">
-                {analysis.full_response}
-              </pre>
             </Card>
-          </details>
-        </>
-      )}
+          )}
+
+          {analysis.structure && (
+            <Card className="p-4 border-primary/20">
+              <div className="flex items-start gap-3">
+                <Box className="w-5 h-5 text-primary mt-0.5" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-muted-foreground mb-2">Структура</p>
+                  <p className="text-sm leading-relaxed">{analysis.structure}</p>
+                </div>
+              </div>
+            </Card>
+          )}
+
+          {analysis.style_description && (
+            <Card className="p-4 border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
+              <div className="flex items-start gap-3">
+                <Sparkles className="w-5 h-5 text-primary mt-0.5" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-muted-foreground mb-2">Описание стиля</p>
+                  <p className="text-sm leading-relaxed">{analysis.style_description}</p>
+                </div>
+              </div>
+            </Card>
+          )}
+
+          {/* Full Response */}
+          {analysis.full_response && (
+            <details className="space-y-3">
+              <summary className="cursor-pointer text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                Полный ответ AI
+              </summary>
+              <Card className="p-4 bg-muted/30 border border-border">
+                <pre className="text-xs whitespace-pre-wrap font-mono leading-relaxed">
+                  {analysis.full_response}
+                </pre>
+              </Card>
+            </details>
+          )}
+        </CollapsibleContent>
+      </Collapsible>
     </div>
   );
 }
