@@ -165,7 +165,29 @@ serve(async (req) => {
           received_clips: 1,
         }).eq('id', task.id);
 
-        // Log completion
+        // Get section timing from started log
+        let sectionStart = 0;
+        let sectionEnd = 0;
+        try {
+          const { data: startedLog } = await supabase
+            .from('track_change_log')
+            .select('metadata')
+            .eq('track_id', trackId)
+            .eq('change_type', 'replace_section_started')
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single();
+          
+          if (startedLog?.metadata) {
+            const meta = startedLog.metadata as { infillStartS?: number; infillEndS?: number };
+            sectionStart = meta.infillStartS ?? 0;
+            sectionEnd = meta.infillEndS ?? 0;
+          }
+        } catch (e) {
+          logger.warn('Could not fetch section timing from started log');
+        }
+
+        // Log completion with timing info
         await supabase.from('track_change_log').insert({
           track_id: trackId,
           user_id: task.user_id,
@@ -176,6 +198,8 @@ serve(async (req) => {
             taskId: task.suno_task_id,
             audioUrl: finalAudioUrl,
             versionLabel: nextLabel,
+            infillStartS: sectionStart,
+            infillEndS: sectionEnd,
           },
         });
 

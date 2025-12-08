@@ -8,7 +8,7 @@ import { logger } from '@/lib/logger';
 
 export function useReplaceSectionRealtime(trackId: string) {
   const queryClient = useQueryClient();
-  const { setLatestCompletion, activeTaskId } = useSectionEditorStore();
+  const { setLatestCompletion } = useSectionEditorStore();
   const { success, error } = useHapticFeedback();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export function useReplaceSectionRealtime(trackId: string) {
           table: 'generation_tasks',
           filter: `track_id=eq.${trackId}`,
         },
-        (payload) => {
+        async (payload) => {
           const task = payload.new as any;
           
           // Only handle replace_section tasks
@@ -55,12 +55,33 @@ export function useReplaceSectionRealtime(trackId: string) {
               logger.error('Failed to parse audio clips', e);
             }
 
-            // Update completion state for any completed replace_section task
+            // Fetch section timing from track_change_log
+            let sectionStart = 0;
+            let sectionEnd = 0;
+            
+            try {
+              const { data: logEntry } = await supabase
+                .from('track_change_log')
+                .select('metadata')
+                .eq('track_id', trackId)
+                .eq('change_type', 'replace_section_started')
+                .order('created_at', { ascending: false })
+                .limit(1)
+                .single();
+              
+              const metadata = logEntry?.metadata as { infillStartS?: number; infillEndS?: number } | null;
+              sectionStart = metadata?.infillStartS ?? 0;
+              sectionEnd = metadata?.infillEndS ?? 0;
+            } catch (e) {
+              logger.error('Failed to fetch section timing', e);
+            }
+
+            // Update completion state for compare panel
             setLatestCompletion({
               taskId: task.id,
               originalAudioUrl: '', // Will be fetched from track
               newAudioUrl,
-              section: { start: 0, end: 0 }, // Will be fetched from track_change_log
+              section: { start: sectionStart, end: sectionEnd },
               status: 'completed',
             });
           } else if (task.status === 'failed') {
@@ -76,5 +97,5 @@ export function useReplaceSectionRealtime(trackId: string) {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [trackId, queryClient, setLatestCompletion, activeTaskId, success, error]);
+  }, [trackId, queryClient, setLatestCompletion, success, error]);
 }
