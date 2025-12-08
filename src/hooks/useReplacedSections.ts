@@ -32,12 +32,21 @@ export function useReplacedSections(trackId: string) {
 
       if (tasksError) throw tasksError;
 
-      // Also query change log for metadata
-      const { data: logs, error: logsError } = await supabase
+      // Query started logs for timing metadata
+      const { data: startedLogs, error: startedLogsError } = await supabase
+        .from('track_change_log')
+        .select('id, created_at, metadata')
+        .eq('track_id', trackId)
+        .eq('change_type', 'replace_section_started')
+        .order('created_at', { ascending: false });
+
+      if (startedLogsError) throw startedLogsError;
+
+      // Query completed logs for version audio URLs
+      const { data: completedLogs, error: completedLogsError } = await supabase
         .from('track_change_log')
         .select(`
           id,
-          created_at,
           metadata,
           version_id,
           track_versions (
@@ -45,31 +54,40 @@ export function useReplacedSections(trackId: string) {
           )
         `)
         .eq('track_id', trackId)
-        .eq('change_type', 'replace_section_started')
+        .eq('change_type', 'replace_section_completed')
         .order('created_at', { ascending: false });
 
-      if (logsError) throw logsError;
+      if (completedLogsError) throw completedLogsError;
 
       const sections: ReplacedSection[] = [];
       
       // Match tasks with their log entries for full metadata
       for (const task of tasks || []) {
-        // Find matching log entry
-        const matchingLog = logs?.find(log => {
+        // Find matching started log entry for timing
+        const matchingStartLog = startedLogs?.find((log) => {
           const metadata = log.metadata as { taskId?: string } | null;
           return metadata?.taskId === task.suno_task_id;
         });
 
-        const metadata = matchingLog?.metadata as { 
+        const startMetadata = matchingStartLog?.metadata as { 
           infillStartS?: number; 
           infillEndS?: number;
         } | null;
         
-        if (metadata?.infillStartS !== undefined && metadata?.infillEndS !== undefined) {
-          // Get audio URL from completed clips or version
+        if (startMetadata?.infillStartS !== undefined && startMetadata?.infillEndS !== undefined) {
+          // Get audio URL from completed log or clips
           let audioUrl: string | undefined;
           
-          if (task.status === 'completed' && task.audio_clips) {
+          // First try to get from completed log's version
+          const matchingCompletedLog = completedLogs?.find((log) => {
+            const metadata = log.metadata as { taskId?: string } | null;
+            return metadata?.taskId === task.suno_task_id;
+          });
+          
+          audioUrl = (matchingCompletedLog?.track_versions as { audio_url?: string } | null)?.audio_url;
+          
+          // Fallback to audio_clips
+          if (!audioUrl && task.status === 'completed' && task.audio_clips) {
             try {
               const clips = typeof task.audio_clips === 'string' 
                 ? JSON.parse(task.audio_clips) 
@@ -77,12 +95,10 @@ export function useReplacedSections(trackId: string) {
               audioUrl = clips?.[0]?.source_audio_url || clips?.[0]?.audio_url;
             } catch {}
           }
-          
-          audioUrl = audioUrl || matchingLog?.track_versions?.audio_url;
 
           sections.push({
-            start: metadata.infillStartS,
-            end: metadata.infillEndS,
+            start: startMetadata.infillStartS,
+            end: startMetadata.infillEndS,
             taskId: task.id,
             createdAt: task.created_at || '',
             audioUrl,
