@@ -25,7 +25,7 @@
   <img src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=flat-square&logo=telegram" alt="Telegram" />
   <img src="https://img.shields.io/badge/Lovable_Cloud-Backend-8B5CF6?style=flat-square" alt="Lovable Cloud" />
   <img src="https://img.shields.io/badge/Suno_AI-v5-e74c3c?style=flat-square" alt="Suno AI" />
-  <img src="https://img.shields.io/badge/Sprint-023-green?style=flat-square" alt="Current Sprint" />
+  <img src="https://img.shields.io/badge/Sprint-024-green?style=flat-square" alt="Current Sprint" />
 </p>
 
 </div>
@@ -51,6 +51,7 @@
 > 📚 **Ключевая документация:**
 > - [AI Lyrics Assistant](docs/AI_LYRICS_ASSISTANT.md) - Чат-интерфейс для написания текстов
 > - [Stem Studio](docs/STEM_STUDIO.md) - Работа со стемами и MIDI
+> - [Creative Tools](docs/CREATIVE_TOOLS.md) - Chord Detection, Tab Editor, Melody Mixer
 > - [Generation System](docs/GENERATION_SYSTEM.md) - Система генерации музыки
 > - [TG Mini App Fixes](docs/TELEGRAM_MINI_APP_CRITICAL_FIXES.md) - Критические исправления
 > - [Known Issues](docs/KNOWN_ISSUES.md) - Известные проблемы
@@ -110,6 +111,13 @@
 - **Genre/Mood** — классификация жанра и настроения
 - **Emotional map** — arousal/valence визуализация
 - **Structure analysis** — анализ структуры трека
+
+### 🎸 Creative Tools (NEW)
+- **Realtime Chord Detection** — распознавание аккордов через микрофон
+- **Guitar Tab Editor** — интерактивный редактор табулатур
+- **Melody Mixer** — DJ-style инструмент для создания референсов
+- **Export** — GP5, PDF, MIDI форматы
+- **Audio Reference** — использование созданных мелодий для генерации
 
 ### 🤖 Telegram интеграция
 - **Mini App SDK 2.0** — нативное приложение в Telegram

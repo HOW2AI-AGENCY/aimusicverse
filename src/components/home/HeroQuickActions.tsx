@@ -1,4 +1,4 @@
-import { Sparkles, Library, FolderOpen, ListMusic, Upload, Music2, Guitar } from 'lucide-react';
+import { Sparkles, Library, FolderOpen, ListMusic, Upload, Music2, Guitar, Wand2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion } from 'framer-motion';
@@ -179,6 +179,47 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         >
           <Music2 className="w-5 h-5 text-purple-400 shrink-0" />
           <span className="text-xs font-medium text-purple-400 truncate">Shazam</span>
+        </motion.button>
+      </motion.div>
+
+      {/* Creative Tools Row */}
+      <motion.div
+        className="grid grid-cols-1 gap-2"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          visible: { transition: { staggerChildren: 0.04, delayChildren: 0.2 } }
+        }}
+      >
+        <motion.button
+          onClick={() => handleAction(() => navigate('/creative-tools'))}
+          className={cn(
+            "group relative flex items-center justify-center gap-2.5 px-4 py-3 rounded-xl",
+            "bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-indigo-500/10",
+            "hover:from-pink-500/20 hover:via-purple-500/20 hover:to-indigo-500/20",
+            "border border-pink-500/20",
+            "active:scale-[0.97] transition-all duration-200 touch-manipulation"
+          )}
+          variants={{
+            hidden: { opacity: 0, y: 15, scale: 0.9 },
+            visible: { opacity: 1, y: 0, scale: 1 }
+          }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.97 }}
+        >
+          <Wand2 className="w-5 h-5 text-pink-400 shrink-0" />
+          <span className="text-sm font-medium bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+            Creative Tools
+          </span>
+          
+          {/* NEW Badge */}
+          <motion.span 
+            className="px-1.5 py-0.5 text-[8px] font-bold rounded-full bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-sm"
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            NEW
+          </motion.span>
         </motion.button>
       </motion.div>
 
