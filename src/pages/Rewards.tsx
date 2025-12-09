@@ -8,10 +8,11 @@ import { TransactionHistory } from '@/components/gamification/TransactionHistory
 import { StreakCalendar } from '@/components/gamification/StreakCalendar';
 import { DailyMissions } from '@/components/gamification/DailyMissions';
 import { WeeklyChallenges } from '@/components/gamification/WeeklyChallenges';
+import { SpecialChallenges } from '@/components/gamification/SpecialChallenges';
 import { QuickStats } from '@/components/gamification/QuickStats';
 import { CreditsBalance } from '@/components/gamification/CreditsBalance';
 import { SoundToggle } from '@/components/gamification/SoundToggle';
-import { Trophy, Crown, History, Target, Gift, Calendar } from 'lucide-react';
+import { Trophy, Crown, History, Target, Gift, Calendar, Gem } from 'lucide-react';
 
 export default function Rewards() {
   return (
@@ -73,14 +74,21 @@ export default function Rewards() {
           className="mb-6"
         >
           <Tabs defaultValue="daily" className="w-full">
-            <TabsList className="w-full grid grid-cols-2 mb-3 bg-muted/50">
-              <TabsTrigger value="daily" className="gap-1.5 text-xs data-[state=active]:bg-primary/10">
-                <Target className="w-4 h-4" />
-                Ежедневные
+            <TabsList className="w-full grid grid-cols-3 mb-3 bg-muted/50">
+              <TabsTrigger value="daily" className="gap-1 text-xs data-[state=active]:bg-primary/10">
+                <Target className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Ежедневные</span>
+                <span className="sm:hidden">День</span>
               </TabsTrigger>
-              <TabsTrigger value="weekly" className="gap-1.5 text-xs data-[state=active]:bg-primary/10">
-                <Calendar className="w-4 h-4" />
-                Еженедельные
+              <TabsTrigger value="weekly" className="gap-1 text-xs data-[state=active]:bg-primary/10">
+                <Calendar className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Еженедельные</span>
+                <span className="sm:hidden">Неделя</span>
+              </TabsTrigger>
+              <TabsTrigger value="special" className="gap-1 text-xs data-[state=active]:bg-primary/10">
+                <Gem className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Особые</span>
+                <span className="sm:hidden">VIP</span>
               </TabsTrigger>
             </TabsList>
             
@@ -90,6 +98,10 @@ export default function Rewards() {
             
             <TabsContent value="weekly" className="mt-0">
               <WeeklyChallenges />
+            </TabsContent>
+            
+            <TabsContent value="special" className="mt-0">
+              <SpecialChallenges />
             </TabsContent>
           </Tabs>
         </motion.div>

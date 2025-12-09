@@ -14,6 +14,12 @@ import { MainLayout } from "@/components/MainLayout";
 import { GlobalAudioProvider } from "@/components/GlobalAudioProvider";
 import { LoadingScreen } from "@/components/ui/loading-screen";
 import { InitializationGuard } from "@/components/InitializationGuard";
+import { ProfileSetupGuard } from "@/components/profile/ProfileSetupGuard";
+
+// Wrapper to use ProfileSetupGuard with Outlet
+function ProfileSetupGuardWrapper({ children }: { children: React.ReactNode }) {
+  return <ProfileSetupGuard>{children}</ProfileSetupGuard>;
+}
 // Lazy load pages
 const Index = lazy(() => import("./pages/Index"));
 const Auth = lazy(() => import("./pages/Auth"));
@@ -72,7 +78,13 @@ const App = () => (
                   <Route path="/auth" element={<Auth />} />
 
                   {/* Routes with BottomNavigation */}
-                <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
+                <Route element={
+                  <ProtectedRoute>
+                    <ProfileSetupGuardWrapper>
+                      <MainLayout />
+                    </ProfileSetupGuardWrapper>
+                  </ProtectedRoute>
+                }>
                   <Route path="/" element={<Index />} />
                   <Route path="/studio" element={<Studio />} />
                   <Route path="/profile" element={<ProfilePage />} />
