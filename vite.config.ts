@@ -115,8 +115,9 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("wavesurfer") || id.includes("tone") || id.includes("audiomotion")) {
               return "vendor-audio";
             }
-            // TanStack Query
-            if (id.includes("@tanstack/react-query")) {
+            // TanStack Query - MUST include both react-query AND query-core
+            // query-core utilities must be with react-query to prevent circular dependencies
+            if (id.includes("@tanstack/react-query") || id.includes("@tanstack/query-core")) {
               return "vendor-query";
             }
             // UI libraries (shadcn dependencies) - all Radix UI components depend on React
