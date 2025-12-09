@@ -900,10 +900,9 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         </div>
       )}
 
-      {/* Mobile Actions */}
-      {/* Mobile Actions - Compact buttons */}
+      {/* Mobile Actions - Compact buttons with improved touch targets */}
       {isMobile && stems && (
-        <div className="px-4 py-2 border-b border-border/30 flex gap-2 overflow-x-auto scrollbar-hide">
+        <div className="px-3 py-2 border-b border-border/30 flex gap-2 overflow-x-auto scrollbar-hide touch-pan-x snap-x snap-mandatory">
           <MixPresetsMenu
             trackId={trackId}
             masterVolume={masterVolume}
@@ -992,8 +991,8 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         </div>
       )}
 
-      {/* Stem Channels */}
-      <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-3 pb-32">
+      {/* Stem Channels - Optimized mobile scroll */}
+      <main className="flex-1 overflow-y-auto overscroll-contain px-3 sm:px-6 py-3 space-y-2 sm:space-y-3 pb-36">
         {stems.map((stem) => (
           <StemChannel
             key={stem.id}

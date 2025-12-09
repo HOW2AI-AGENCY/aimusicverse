@@ -343,12 +343,12 @@ export const MidiVisualizationMobile = ({
           )}
         </div>
 
-        {/* Action Buttons - Touch optimized */}
+        {/* Action Buttons - Touch optimized with 44px minimum */}
         <div className="flex gap-2 mb-3 flex-wrap">
           <Button
             variant="outline"
             size="sm"
-            className="flex-1 h-11 min-h-[44px] text-sm"
+            className="flex-1 h-12 min-h-[48px] text-sm touch-manipulation"
             onClick={handleTranscribe}
             disabled={!selectedStemId || isTranscribing}
           >

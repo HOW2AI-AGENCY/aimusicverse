@@ -98,11 +98,12 @@ export const StemMidiPanel = ({ trackId, trackTitle, trackAudioUrl, stems }: Ste
     const audioUrl = trackAudioUrl || stems[0]?.audio_url;
     if (!audioUrl) return;
     
+    // Use bytedance-piano for piano transcription instead of deprecated pop2piano
     await transcribeToMidi(
       audioUrl,
-      'pop2piano',
+      'bytedance-piano',
       undefined,
-      { autoSelect: false, pop2pianoComposer }
+      { autoSelect: false }
     );
   };
 
