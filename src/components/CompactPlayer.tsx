@@ -146,6 +146,8 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
               currentTime={currentTime}
               duration={duration}
               onSeek={seek}
+              height={12}
+              className="sm:h-4"
             />
           ) : (
             // Unified minimal progress bar - no random visuals
