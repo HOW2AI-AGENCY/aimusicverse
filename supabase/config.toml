@@ -173,3 +173,6 @@ verify_jwt = true
 
 [functions.recognize-music]
 verify_jwt = true
+
+[functions.analyze-music-emotion]
+verify_jwt = true
