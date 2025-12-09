@@ -8,7 +8,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { usePlaylistTracks, usePlaylists, type Playlist } from '@/hooks/usePlaylists';
-import { usePlaybackQueue } from '@/hooks/usePlaybackQueue';
+import { usePlaybackQueue } from '@/hooks/audio';
 import { TrackRow } from '@/components/library/TrackRow';
 import { toast } from 'sonner';
 import {

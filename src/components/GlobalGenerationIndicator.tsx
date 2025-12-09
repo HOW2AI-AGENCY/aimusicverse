@@ -5,7 +5,7 @@ import { Loader2, Music2, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { useActiveGenerations } from '@/hooks/useActiveGenerations';
+import { useActiveGenerations } from '@/hooks/generation';
 
 export function GlobalGenerationIndicator() {
   const navigate = useNavigate();

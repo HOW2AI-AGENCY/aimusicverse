@@ -3,7 +3,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { useAutoPlaylists, type GenrePlaylist } from '@/hooks/useAutoPlaylists';
-import { usePlaybackQueue } from '@/hooks/usePlaybackQueue';
+import { usePlaybackQueue } from '@/hooks/audio';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 

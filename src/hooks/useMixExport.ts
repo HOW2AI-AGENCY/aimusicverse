@@ -11,7 +11,7 @@ import { logger } from '@/lib/logger';
 import { 
   StemEffects, 
   defaultStemEffects 
-} from './useStemAudioEngine';
+} from './studio/useStemAudioEngine';
 // @ts-ignore - lamejs doesn't have types
 import lamejs from 'lamejs';
 

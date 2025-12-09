@@ -7,6 +7,7 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { logger } from '@/lib/logger';
+import { AudioError, ErrorCode } from '@/lib/errors/AppError';
 import {
   StemEffects,
   EQSettings,
@@ -73,8 +74,27 @@ export function useStemStudioEngine(stemIds: string[]) {
   const nodesMapRef = useRef<Record<string, StemAudioNodes>>({});
   const masterGainRef = useRef<GainNode | null>(null);
 
+  // Ensure AudioContext is in a valid state (IMP015)
+  const ensureAudioContext = useCallback(async () => {
+    const ctx = audioContextRef.current;
+    if (!ctx) {
+      throw new AudioError('AudioContext not initialized', ErrorCode.AUDIO_CONTEXT_ERROR);
+    }
+    
+    if (ctx.state === 'suspended') {
+      await ctx.resume();
+      logger.info('AudioContext resumed from suspended state');
+    }
+    
+    if (ctx.state === 'closed') {
+      throw new AudioError('AudioContext is closed and cannot be used', ErrorCode.AUDIO_CONTEXT_ERROR);
+    }
+    
+    return ctx;
+  }, []);
+
   // Initialize engine for a stem
-  const initializeStemEngine = useCallback((
+  const initializeStemEngine = useCallback(async (
     stemId: string, 
     audioElement: HTMLAudioElement
   ) => {
@@ -86,6 +106,9 @@ export function useStemStudioEngine(stemIds: string[]) {
     try {
       const ctx = getAudioContext();
       audioContextRef.current = ctx;
+      
+      // Ensure AudioContext is ready
+      await ensureAudioContext();
 
       // Create master gain if not exists
       if (!masterGainRef.current) {
@@ -180,7 +203,7 @@ export function useStemStudioEngine(stemIds: string[]) {
       logger.error('Failed to initialize stem engine', { stemId, error });
       return null;
     }
-  }, []);
+  }, [ensureAudioContext]);
 
   // Update EQ for a stem
   const updateStemEQ = useCallback((stemId: string, settings: Partial<EQSettings>) => {
@@ -375,10 +398,11 @@ export function useStemStudioEngine(stemIds: string[]) {
     }
   }, [stemIds, enginesState]);
 
-  // Cleanup on unmount
+  // Comprehensive cleanup on unmount (IMP016, IMP097)
   useEffect(() => {
     return () => {
-      Object.values(nodesMapRef.current).forEach(nodes => {
+      // Disconnect all audio nodes to prevent memory leaks
+      Object.entries(nodesMapRef.current).forEach(([stemId, nodes]) => {
         try {
           nodes.source.disconnect();
           nodes.gainNode.disconnect();
@@ -390,8 +414,10 @@ export function useStemStudioEngine(stemIds: string[]) {
           nodes.wetGain.disconnect();
           nodes.convolver.disconnect();
           nodes.outputGain.disconnect();
+          logger.info('Stem audio nodes disconnected', { stemId });
         } catch (e) {
           // Nodes might already be disconnected
+          logger.warn('Error disconnecting stem nodes', { stemId, error: e });
         }
       });
       nodesMapRef.current = {};
@@ -399,8 +425,20 @@ export function useStemStudioEngine(stemIds: string[]) {
       if (masterGainRef.current) {
         try {
           masterGainRef.current.disconnect();
-        } catch (e) {}
-        masterGainRef.current = null;
+          masterGainRef.current = null;
+        } catch (e) {
+          logger.warn('Error disconnecting master gain', { error: e });
+        }
+      }
+      
+      // Close AudioContext if no other instances are using it
+      if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
+        try {
+          audioContextRef.current.close();
+          logger.info('AudioContext closed');
+        } catch (e) {
+          logger.warn('Error closing AudioContext', { error: e });
+        }
       }
     };
   }, []);

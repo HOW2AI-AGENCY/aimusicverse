@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Card } from '@/components/ui/card';
 import { AudioWaveform } from '@/components/AudioWaveform';
-import { useAudioTime, getGlobalAudioRef } from '@/hooks/useAudioTime';
+import { useAudioTime, getGlobalAudioRef } from '@/hooks/audio';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useTracks } from '@/hooks/useTracksOptimized';
 import { PlaybackControls } from '@/components/player/PlaybackControls';

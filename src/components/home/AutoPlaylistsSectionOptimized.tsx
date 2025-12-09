@@ -1,7 +1,7 @@
 import { Music2, Play, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { usePlaybackQueue } from '@/hooks/usePlaybackQueue';
+import { usePlaybackQueue } from '@/hooks/audio';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';

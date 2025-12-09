@@ -6,8 +6,8 @@
  */
 
 import { useEffect, useRef, useCallback } from 'react';
-import { usePlayerStore } from '@/hooks/usePlayerState';
-import { setGlobalAudioRef } from '@/hooks/useAudioTime';
+import { usePlayerStore } from '@/hooks/audio';
+import { setGlobalAudioRef } from '@/hooks/audio';
 import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
 

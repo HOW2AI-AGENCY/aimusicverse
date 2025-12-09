@@ -19,7 +19,7 @@ import { useTouchEvents, triggerHapticFeedback } from '@/lib/mobile-utils';
 import { toast } from 'sonner';
 import { motion, PanInfo } from 'framer-motion';
 import { hapticImpact, hapticNotification } from '@/lib/haptic';
-import { usePlayerStore } from '@/hooks/usePlayerState';
+import { usePlayerStore } from '@/hooks/audio';
 import {
   AlertDialog,
   AlertDialogAction,

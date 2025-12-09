@@ -17,7 +17,7 @@ import {
   compressorPresets,
   reverbPresets,
   defaultStemEffects,
-} from '@/hooks/useStemAudioEngine';
+} from '@/hooks/studio';
 
 interface StemChannelProps {
   stem: TrackStem;

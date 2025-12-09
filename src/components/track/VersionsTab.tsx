@@ -38,7 +38,7 @@ import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { logger } from '@/lib/logger';
 import { Skeleton } from '@/components/ui/skeleton';
-import { usePlayerStore } from '@/hooks/usePlayerState';
+import { usePlayerStore } from '@/hooks/audio';
 import { cn } from '@/lib/utils';
 
 interface VersionsTabProps {

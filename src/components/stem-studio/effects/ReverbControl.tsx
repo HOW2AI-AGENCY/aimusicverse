@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/select';
 import { RotateCcw, Waves } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { ReverbSettings, reverbPresets, defaultReverbSettings } from '@/hooks/useStemAudioEngine';
+import { ReverbSettings, reverbPresets, defaultReverbSettings } from '@/hooks/studio';
 
 interface ReverbControlProps {
   settings: ReverbSettings;

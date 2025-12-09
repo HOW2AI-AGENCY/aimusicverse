@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useMixExport } from '@/hooks/useMixExport';
-import { StemEffects, defaultStemEffects } from '@/hooks/useStemAudioEngine';
+import { StemEffects, defaultStemEffects } from '@/hooks/studio';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { toast } from 'sonner';
 

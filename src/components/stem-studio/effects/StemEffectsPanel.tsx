@@ -25,7 +25,7 @@ import {
   eqPresets,
   compressorPresets,
   reverbPresets,
-} from '@/hooks/useStemAudioEngine';
+} from '@/hooks/studio';
 
 interface StemEffectsPanelProps {
   effects: StemEffects;

@@ -1,0 +1,25 @@
+/**
+ * Stem Studio hooks export
+ * Hooks for stem separation and audio studio functionality (IMP046)
+ */
+
+export { useStemStudioEngine } from './useStemStudioEngine';
+export { 
+  useStemAudioEngine,
+  defaultStemEffects,
+  eqPresets,
+  compressorPresets,
+  reverbPresets,
+  defaultEQSettings,
+  defaultCompressorSettings,
+  defaultReverbSettings,
+} from './useStemAudioEngine';
+export type {
+  StemEffects,
+  EQSettings,
+  CompressorSettings,
+  ReverbSettings,
+} from './useStemAudioEngine';
+export { useStudioPlayer } from './useStudioPlayer';
+export { useStudioDialogs } from './useStudioDialogs';
+export { useTrimExport } from './useTrimExport';

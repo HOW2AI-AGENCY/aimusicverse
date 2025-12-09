@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { usePlayerStore } from '@/hooks/usePlayerState';
+import { usePlayerStore } from '@/hooks/audio';
 
 // Singleton reference to global audio
 let globalAudio: HTMLAudioElement | null = null;
