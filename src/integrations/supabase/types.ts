@@ -1832,6 +1832,9 @@ export type Database = {
       }
       user_notification_settings: {
         Row: {
+          auto_midi_enabled: boolean | null
+          auto_midi_model: string | null
+          auto_midi_stems_only: boolean | null
           created_at: string | null
           id: string
           notify_achievements: boolean | null
@@ -1849,6 +1852,9 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          auto_midi_enabled?: boolean | null
+          auto_midi_model?: string | null
+          auto_midi_stems_only?: boolean | null
           created_at?: string | null
           id?: string
           notify_achievements?: boolean | null
@@ -1866,6 +1872,9 @@ export type Database = {
           user_id: string
         }
         Update: {
+          auto_midi_enabled?: boolean | null
+          auto_midi_model?: string | null
+          auto_midi_stems_only?: boolean | null
           created_at?: string | null
           id?: string
           notify_achievements?: boolean | null

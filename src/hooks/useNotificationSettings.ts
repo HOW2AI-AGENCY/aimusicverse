@@ -18,6 +18,10 @@ export interface NotificationSettings {
   notify_comments: boolean;
   quiet_hours_start: string | null;
   quiet_hours_end: string | null;
+  // MIDI settings
+  auto_midi_enabled: boolean;
+  auto_midi_model: string;
+  auto_midi_stems_only: boolean;
 }
 
 export function useNotificationSettings() {
@@ -54,6 +58,10 @@ export function useNotificationSettings() {
         notify_comments: data.notify_comments ?? true,
         quiet_hours_start: data.quiet_hours_start,
         quiet_hours_end: data.quiet_hours_end,
+        // MIDI settings
+        auto_midi_enabled: (data as any).auto_midi_enabled ?? false,
+        auto_midi_model: (data as any).auto_midi_model ?? 'basic-pitch',
+        auto_midi_stems_only: (data as any).auto_midi_stems_only ?? false,
       };
     },
     enabled: !!user?.id,
