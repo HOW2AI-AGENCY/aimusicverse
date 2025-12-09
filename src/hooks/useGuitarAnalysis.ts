@@ -466,7 +466,7 @@ export function useGuitarAnalysis() {
       return result;
     } catch (error) {
       log.error('Guitar analysis error', error);
-      toast.error('Ошибка анализа. Проверьте API ключ Klangio.');
+      toast.error('Ошибка анализа. Попробуйте снова.');
       setProgress('');
       setProgressPercent(0);
       return null;

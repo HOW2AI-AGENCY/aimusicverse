@@ -258,11 +258,7 @@ export function GuitarAnalysisReport({
           </TabsList>
 
           <TabsContent value="tab" className="mt-3">
-            <Card>
-              <CardContent className="p-4">
-                <GuitarTabVisualization notes={analysis.notes} bpm={analysis.bpm} />
-              </CardContent>
-            </Card>
+            <GuitarTabVisualization notes={analysis.notes} bpm={analysis.bpm} />
           </TabsContent>
 
           <TabsContent value="strum" className="mt-3">
@@ -293,16 +289,12 @@ export function GuitarAnalysisReport({
           </TabsContent>
 
           <TabsContent value="notes" className="mt-3">
-            <Card>
-              <CardContent className="p-4">
-                <PianoRollPreview
-                  notes={analysis.notes}
-                  duration={analysis.totalDuration}
-                  currentTime={currentTime}
-                  height={150}
-                />
-              </CardContent>
-            </Card>
+            <PianoRollPreview
+              notes={analysis.notes}
+              duration={analysis.totalDuration}
+              currentTime={currentTime}
+              height={180}
+            />
           </TabsContent>
         </Tabs>
       </motion.div>

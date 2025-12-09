@@ -446,7 +446,7 @@ export function GuitarRecordDialog({
           <DrawerHeader className="pb-2">
             <DrawerTitle className="flex items-center gap-2">
               <Guitar className="w-5 h-5 text-primary" />
-              Анализ музыки с Klang.io
+              Анализ гитарной записи
             </DrawerTitle>
           </DrawerHeader>
           <div className="px-4 pb-6 overflow-y-auto">
@@ -466,7 +466,7 @@ export function GuitarRecordDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Guitar className="w-5 h-5 text-primary" />
-            Анализ музыки с Klang.io
+            Анализ гитарной записи
           </DialogTitle>
         </DialogHeader>
         {content}
