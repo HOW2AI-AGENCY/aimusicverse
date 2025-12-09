@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { useGuitarAnalysis, type GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
 import { useGuitarRecordings } from '@/hooks/useGuitarRecordings';
-import { GuitarAnalysisPanel } from '@/components/analysis/GuitarAnalysisPanel';
+import { GuitarAnalysisReport } from '@/components/guitar/GuitarAnalysisReport';
 import { SavedRecordingsList } from '@/components/guitar/SavedRecordingsList';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -339,7 +339,7 @@ export function GuitarRecordDialog({
                       ) : (
                         <>
                           <Guitar className="w-5 h-5" />
-                          Анализировать с Klang.io
+                          Анализировать
                         </>
                       )}
                     </Button>
@@ -412,40 +412,11 @@ export function GuitarRecordDialog({
                 </div>
               </Card>
 
-              {/* Save Recording Section */}
-              <Card className="p-4 space-y-3">
-                <div className="flex items-center gap-2 text-sm font-medium">
-                  <Save className="w-4 h-4" />
-                  Сохранить запись
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="recording-title">Название (опционально)</Label>
-                  <Input
-                    id="recording-title"
-                    value={recordingTitle}
-                    onChange={(e) => setRecordingTitle(e.target.value)}
-                    placeholder="Моя гитарная мелодия"
-                  />
-                </div>
-                <Button
-                  onClick={handleSaveRecording}
-                  disabled={saveRecording.isPending}
-                  variant="outline"
-                  className="w-full gap-2"
-                >
-                  {saveRecording.isPending ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Save className="w-4 h-4" />
-                  )}
-                  Сохранить для будущего использования
-                </Button>
-              </Card>
-              
-              <GuitarAnalysisPanel
+              <GuitarAnalysisReport
                 analysis={analysisResult}
                 audioUrl={recordedAudioUrl}
                 onCreateTrack={handleComplete}
+                onSave={handleSaveRecording}
               />
             </motion.div>
           )}
