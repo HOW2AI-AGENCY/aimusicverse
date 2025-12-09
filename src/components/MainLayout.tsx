@@ -37,7 +37,7 @@ export const MainLayout = () => {
         id="main-content"
         className={cn(
           'flex-1 flex flex-col overflow-y-auto',
-          isDesktop ? 'ml-64' : 'pb-16'
+          isDesktop ? 'ml-64' : 'pb-[calc(4rem+env(safe-area-inset-bottom,0px))]'
         )}
       >
         <div className="flex-1 p-4 sm:p-6">
