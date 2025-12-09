@@ -57,8 +57,8 @@ export function WaveformWithChords({
         const max = Math.max(...waveform);
         setWaveformData(waveform.map(v => v / max));
         audioContext.close();
-      } catch (e) {
-        console.error('Waveform generation failed:', e);
+      } catch {
+        // Fallback: generate placeholder waveform
         // Fallback: generate placeholder waveform
         setWaveformData(Array(200).fill(0).map(() => Math.random() * 0.5 + 0.3));
       } finally {
