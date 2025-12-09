@@ -11,6 +11,14 @@ import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
+// Performance optimization: Only show compression indicator for significant reduction
+// 1dB threshold avoids constant updates from minor compression fluctuations
+const COMPRESSION_DISPLAY_THRESHOLD = 1; // dB
+
+// Comparison tolerance: Prevent re-renders from minor compression changes
+// 0.5dB tolerance balances visual accuracy with performance
+const COMPRESSION_COMPARISON_TOLERANCE = 0.5; // dB
+
 interface StemStateIndicatorProps {
   isMuted: boolean;
   isSolo: boolean;
@@ -24,7 +32,7 @@ export const StemStateIndicator = memo(({
   hasActiveEffects,
   compressorReduction = 0,
 }: StemStateIndicatorProps) => {
-  const showCompression = compressorReduction > 1; // Show if reducing by more than 1dB
+  const showCompression = compressorReduction > COMPRESSION_DISPLAY_THRESHOLD;
 
   return (
     <div className="flex items-center gap-1.5">
@@ -98,11 +106,15 @@ export const StemStateIndicator = memo(({
     </div>
   );
 }, (prevProps, nextProps) => {
+  const compressionDiff = Math.abs(
+    (prevProps.compressorReduction || 0) - (nextProps.compressorReduction || 0)
+  );
+  
   return (
     prevProps.isMuted === nextProps.isMuted &&
     prevProps.isSolo === nextProps.isSolo &&
     prevProps.hasActiveEffects === nextProps.hasActiveEffects &&
-    Math.abs((prevProps.compressorReduction || 0) - (nextProps.compressorReduction || 0)) < 0.5
+    compressionDiff < COMPRESSION_COMPARISON_TOLERANCE
   );
 });
 

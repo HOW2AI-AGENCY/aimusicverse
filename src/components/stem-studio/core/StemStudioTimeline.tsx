@@ -20,6 +20,10 @@ const formatTime = (seconds: number) => {
   return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 };
 
+// Performance optimization: Only re-render when time changes significantly
+// 0.5s threshold balances visual smoothness with performance
+const TIME_UPDATE_THRESHOLD = 0.5; // seconds
+
 export const StemStudioTimeline = memo(({
   currentTime,
   duration,
@@ -46,8 +50,8 @@ export const StemStudioTimeline = memo(({
     </div>
   );
 }, (prevProps, nextProps) => {
-  // Only re-render if time changed significantly (>0.5s) or duration changed
-  const timeChanged = Math.abs(prevProps.currentTime - nextProps.currentTime) > 0.5;
+  // Only re-render if time changed significantly or duration changed
+  const timeChanged = Math.abs(prevProps.currentTime - nextProps.currentTime) > TIME_UPDATE_THRESHOLD;
   const durationChanged = prevProps.duration !== nextProps.duration;
   return !timeChanged && !durationChanged;
 });

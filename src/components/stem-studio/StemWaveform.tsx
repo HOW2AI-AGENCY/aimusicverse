@@ -100,15 +100,19 @@ export const StemWaveform = memo(({
     };
   }, [audioUrl, height]);
 
+  // Performance optimization: Only update waveform progress when needed
+  // 1% threshold (0.01) reduces unnecessary updates during playback
+  const PROGRESS_UPDATE_THRESHOLD = 0.01; // 1% of duration
+
   // Sync time with external audio - optimized with throttling
   useEffect(() => {
     if (wavesurferRef.current && isReady && duration > 0) {
       const progress = currentTime / duration;
       const clampedProgress = Math.max(0, Math.min(1, progress));
       
-      // Only update if playing or significant change (>1% or seeking)
+      // Only update if playing or significant change
       const currentProgress = (wavesurferRef.current.getCurrentTime() || 0) / duration;
-      if (isPlaying || Math.abs(clampedProgress - currentProgress) > 0.01) {
+      if (isPlaying || Math.abs(clampedProgress - currentProgress) > PROGRESS_UPDATE_THRESHOLD) {
         wavesurferRef.current.seekTo(clampedProgress);
       }
     }

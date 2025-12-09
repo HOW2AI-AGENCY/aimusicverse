@@ -32,12 +32,14 @@ export function useStudioKeyboardShortcuts({
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (!enabled) return;
 
-    // Skip if user is typing in input/textarea
-    if (excludeInputs && (
-      event.target instanceof HTMLInputElement || 
-      event.target instanceof HTMLTextAreaElement
-    )) {
-      return;
+    // Skip if user is typing in input/textarea or contenteditable
+    if (excludeInputs && event.target instanceof Element) {
+      const isEditable = event.target instanceof HTMLInputElement ||
+        event.target instanceof HTMLTextAreaElement ||
+        event.target.getAttribute('contenteditable') === 'true' ||
+        event.target.closest('[contenteditable="true"]');
+      
+      if (isEditable) return;
     }
 
     // Find matching shortcut

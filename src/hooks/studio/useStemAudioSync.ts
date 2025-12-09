@@ -14,8 +14,13 @@ interface UseStemAudioSyncProps {
   onTimeUpdate: (time: number) => void;
 }
 
+// Optimal drift threshold: 0.1s is noticeable to human ear but prevents constant corrections
+// Lower values cause jittery playback, higher values cause audible desync
 const DRIFT_THRESHOLD = 0.1; // seconds
-const ANIMATION_FRAME_INTERVAL = 1000 / 60; // 60fps
+
+// Update rate: 60fps provides smooth visual updates without excessive CPU usage
+// Higher rates don't improve perceived smoothness but increase overhead
+const ANIMATION_FRAME_INTERVAL = 1000 / 60; // 60fps (~16.67ms)
 
 export function useStemAudioSync({
   audioRefs,
