@@ -24,6 +24,7 @@ import { AlertHistoryPanel } from "@/components/admin/AlertHistoryPanel";
 import { AlertAnalyticsPanel } from "@/components/admin/AlertAnalyticsPanel";
 import { TelegramBotSettingsPanel } from "@/components/admin/TelegramBotSettingsPanel";
 import { GenerationLogsPanel } from "@/components/admin/GenerationLogsPanel";
+import { StarsPaymentsPanel } from "@/components/admin/StarsPaymentsPanel";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -62,11 +63,12 @@ export default function AdminDashboard() {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList className="grid grid-cols-5 lg:grid-cols-9 w-full">
+        <TabsList className="grid grid-cols-5 lg:grid-cols-10 w-full">
           <TabsTrigger value="overview">Обзор</TabsTrigger>
           <TabsTrigger value="tracks">Треки</TabsTrigger>
           <TabsTrigger value="bot">Бот</TabsTrigger>
           <TabsTrigger value="telegram">Telegram</TabsTrigger>
+          <TabsTrigger value="payments">Платежи</TabsTrigger>
           <TabsTrigger value="logs">Логи</TabsTrigger>
           <TabsTrigger value="alerts">Алерты</TabsTrigger>
           <TabsTrigger value="broadcast">Рассылка</TabsTrigger>
@@ -251,6 +253,11 @@ export default function AdminDashboard() {
         {/* Telegram Settings Tab */}
         <TabsContent value="telegram" className="space-y-4">
           <TelegramBotSettingsPanel />
+        </TabsContent>
+
+        {/* Stars Payments Tab */}
+        <TabsContent value="payments" className="space-y-4">
+          <StarsPaymentsPanel />
         </TabsContent>
 
         {/* Generation Logs Tab */}
