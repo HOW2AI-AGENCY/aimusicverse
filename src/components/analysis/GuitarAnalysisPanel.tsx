@@ -15,10 +15,12 @@ import {
   Copy,
   Sparkles,
   ArrowRight,
+  FileText,
 } from 'lucide-react';
 import { PianoRollPreview } from './PianoRollPreview';
 import { BeatGridVisualization } from './BeatGridVisualization';
 import { ChordProgressionDisplay } from './ChordProgressionDisplay';
+import { GuitarTabVisualization } from './GuitarTabVisualization';
 import type { GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -139,10 +141,14 @@ export function GuitarAnalysisPanel({
 
       {/* Tabs for different visualizations */}
       <Tabs defaultValue="chords" className="w-full">
-        <TabsList className="w-full grid grid-cols-3">
+        <TabsList className="w-full grid grid-cols-4">
           <TabsTrigger value="chords" className="gap-1">
             <Guitar className="w-4 h-4" />
             <span className="hidden sm:inline">Аккорды</span>
+          </TabsTrigger>
+          <TabsTrigger value="tab" className="gap-1">
+            <FileText className="w-4 h-4" />
+            <span className="hidden sm:inline">TAB</span>
           </TabsTrigger>
           <TabsTrigger value="beats" className="gap-1">
             <Drum className="w-4 h-4" />
@@ -165,6 +171,13 @@ export function GuitarAnalysisPanel({
               />
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="tab" className="mt-4">
+          <GuitarTabVisualization
+            notes={analysis.notes}
+            bpm={analysis.bpm}
+          />
         </TabsContent>
 
         <TabsContent value="beats" className="mt-4">
