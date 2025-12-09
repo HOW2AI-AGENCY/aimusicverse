@@ -35,6 +35,18 @@ export interface StyleAnalysis {
   fullResponse?: string;
 }
 
+export interface StrumData {
+  time: number;
+  direction: 'U' | 'D';
+}
+
+export interface TranscriptionFiles {
+  midiUrl?: string;
+  pdfUrl?: string;
+  gp5Url?: string;
+  musicXmlUrl?: string;
+}
+
 export interface GuitarAnalysisResult {
   // Beat detection
   beats: BeatData[];
@@ -50,6 +62,11 @@ export interface GuitarAnalysisResult {
   style: StyleAnalysis;
   chords: ChordData[];
   key: string;
+  
+  // Klangio extended data
+  klangioKey?: string;
+  strumming?: StrumData[];
+  transcriptionFiles?: TranscriptionFiles;
   
   // Generated tags
   generatedTags: string[];
@@ -252,7 +269,7 @@ export function useGuitarAnalysis() {
       // Run all analyses in parallel
       setProgress('Анализируем биты, ноты и стиль...');
       
-      const [beatResult, midiResult, styleResult] = await Promise.all([
+      const [beatResult, midiResult, styleResult, klangioChords, klangioTranscription] = await Promise.all([
         // Beat detection
         supabase.functions.invoke('detect-beats', {
           body: { audio_url: publicUrl, constant_tempo: false },
@@ -282,6 +299,33 @@ Notable Features: [bends, slides, hammer-ons, pull-offs, harmonics, etc.]
 Be precise with chord names including extensions (e.g., Am7, Cmaj7, Dsus4).
 Provide timing estimates in MM:SS format.`,
           },
+        }),
+        
+        // Klangio chord recognition extended (for strumming detection)
+        supabase.functions.invoke('klangio-analyze', {
+          body: { 
+            audio_url: publicUrl, 
+            mode: 'chord-recognition-extended',
+            vocabulary: 'full',
+            user_id: user.id,
+          },
+        }).catch(e => {
+          log.warn('Klangio chord recognition failed', e);
+          return { data: null };
+        }),
+        
+        // Klangio transcription (for Guitar Pro export)
+        supabase.functions.invoke('klangio-analyze', {
+          body: { 
+            audio_url: publicUrl, 
+            mode: 'transcription',
+            model: 'guitar',
+            outputs: ['midi', 'gp5'],
+            user_id: user.id,
+          },
+        }).catch(e => {
+          log.warn('Klangio transcription failed', e);
+          return { data: null };
         }),
       ]);
 
@@ -324,6 +368,46 @@ Provide timing estimates in MM:SS format.`,
         key = style.key || styleResult.data?.parsed?.key_signature || 'Unknown';
       }
 
+      // Process Klangio results
+      let klangioKey: string | undefined;
+      let strumming: StrumData[] = [];
+      let transcriptionFiles: TranscriptionFiles = {};
+
+      if (klangioChords.data?.status === 'completed') {
+        klangioKey = klangioChords.data.key;
+        if (klangioChords.data.strumming) {
+          strumming = klangioChords.data.strumming.map((s: any) => ({
+            time: s.time || s.timestamp || 0,
+            direction: s.direction === 'up' || s.direction === 'U' ? 'U' : 'D',
+          }));
+        }
+        // Merge Klangio chords if available
+        if (klangioChords.data.chords?.length > 0 && chords.length === 0) {
+          chords = klangioChords.data.chords.map((c: any) => ({
+            chord: c.chord || c.name,
+            startTime: c.start_time || c.time || 0,
+            endTime: c.end_time || (c.time + 2),
+          }));
+        }
+        // Use Klangio key if more reliable
+        if (klangioKey && key === 'Unknown') {
+          key = klangioKey;
+        }
+      }
+
+      if (klangioTranscription.data?.status === 'completed' && klangioTranscription.data.files) {
+        transcriptionFiles = {
+          midiUrl: klangioTranscription.data.files.midi,
+          gp5Url: klangioTranscription.data.files.gp5,
+          pdfUrl: klangioTranscription.data.files.pdf,
+          musicXmlUrl: klangioTranscription.data.files.musicxml,
+        };
+        // Prefer Klangio MIDI if available
+        if (transcriptionFiles.midiUrl && !midiUrl) {
+          midiUrl = transcriptionFiles.midiUrl;
+        }
+      }
+
       // Generate tags using melody-to-tags
       setProgress('Генерируем теги...');
       
@@ -351,6 +435,9 @@ Provide timing estimates in MM:SS format.`,
         style,
         chords,
         key,
+        klangioKey,
+        strumming,
+        transcriptionFiles,
         generatedTags,
         styleDescription,
         totalDuration,

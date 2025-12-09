@@ -182,3 +182,6 @@ verify_jwt = true
 
 [functions.detect-beats]
 verify_jwt = true
+
+[functions.klangio-analyze]
+verify_jwt = true
