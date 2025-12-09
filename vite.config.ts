@@ -78,16 +78,24 @@ export default defineConfig(({ mode }) => ({
     dedupe: ["react", "react-dom"],
   },
   build: {
-    target: "es2015",
+    target: "esnext",
     minify: "terser",
     terserOptions: {
       compress: {
         drop_console: mode === "production",
         drop_debugger: true,
         pure_funcs: mode === "production" ? ["console.log", "console.info", "console.debug"] : [],
+        passes: 2,
+      },
+      mangle: {
+        safari10: true,
       },
     },
     rollupOptions: {
+      treeshake: {
+        moduleSideEffects: false,
+        preset: "recommended",
+      },
       output: {
         manualChunks: (id) => {
           // Vendor chunks for better caching
@@ -131,8 +139,12 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("lucide-react")) {
               return "vendor-icons";
             }
-            // Date utilities
+            // Date utilities - import only needed functions
             if (id.includes("date-fns")) {
+              // Split date-fns by locale vs core
+              if (id.includes("date-fns/locale")) {
+                return "vendor-date-locale";
+              }
               return "vendor-date";
             }
             // Supabase
