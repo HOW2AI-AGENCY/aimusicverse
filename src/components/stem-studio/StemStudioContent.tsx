@@ -813,6 +813,17 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
             effectsEnabled={effectsEnabled}
           />
           
+          {/* Trim Button - Mobile */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowTrimDialog(true)}
+            className="h-9 gap-1.5 shrink-0"
+          >
+            <Scissors className="w-4 h-4" />
+            <span>Обрезать</span>
+          </Button>
+          
           {/* Remix Button - Mobile */}
           {track.suno_id && (
             <Button
