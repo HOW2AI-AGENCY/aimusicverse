@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Volume2, VolumeX } from 'lucide-react';
 import { soundEffects } from '@/lib/sound-effects';
@@ -11,15 +11,6 @@ interface SoundToggleProps {
 
 export function SoundToggle({ className, size = 'default' }: SoundToggleProps) {
   const [enabled, setEnabled] = useState(() => soundEffects.isEnabled());
-
-  useEffect(() => {
-    // Update state if soundEffects state changes externally
-    const updateEnabled = () => {
-      setEnabled(soundEffects.isEnabled());
-    };
-    
-    updateEnabled();
-  }, []);
 
   const toggle = () => {
     const newValue = !enabled;

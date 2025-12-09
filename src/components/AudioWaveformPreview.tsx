@@ -24,17 +24,15 @@ export const AudioWaveformPreview = ({ audioUrl, className }: AudioWaveformPrevi
     let mounted = true;
     
     const initWavesurfer = () => {
+      if (!mounted) return;
+      
       if (!containerRef.current || !audioUrl) {
-        if (mounted) {
-          setIsLoading(false);
-        }
+        setIsLoading(false);
         return;
       }
 
-      if (mounted) {
-        setIsLoading(true);
-        setIsReady(false);
-      }
+      setIsLoading(true);
+      setIsReady(false);
 
       const wavesurfer = WaveSurfer.create({
       container: containerRef.current,
