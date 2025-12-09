@@ -2,20 +2,6 @@ import { motion } from 'framer-motion';
 import { Check, Play, ChevronRight, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-
-// Import tutorial images
-import generateScreen from '@/assets/onboarding/generate-screen.png';
-import libraryScreen from '@/assets/onboarding/library-screen.png';
-import stemStudioScreen from '@/assets/onboarding/stem-studio-screen.png';
-import projectsScreen from '@/assets/onboarding/projects-screen.png';
-
-export const TUTORIAL_IMAGES: Record<string, string> = {
-  'generate': generateScreen,
-  'library': libraryScreen,
-  'stem-studio': stemStudioScreen,
-  'projects': projectsScreen,
-};
 
 interface TutorialStepProps {
   step: {
@@ -36,41 +22,9 @@ interface TutorialStepProps {
 
 export function TutorialStep({ step, stepNumber, totalSteps, onTryNow }: TutorialStepProps) {
   const StepIcon = step.icon;
-  const tutorialImage = step.imageId ? TUTORIAL_IMAGES[step.imageId] : null;
 
   return (
     <div className="max-w-lg w-full mx-auto">
-      {/* Image preview */}
-      {tutorialImage && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.1 }}
-          className="mb-4 rounded-xl overflow-hidden border border-border/50 shadow-lg"
-        >
-          <div className="relative aspect-[16/10] bg-card">
-            <img
-              src={tutorialImage}
-              alt={step.title}
-              className="w-full h-full object-cover"
-            />
-            {/* Overlay gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-            
-            {/* Step indicator on image */}
-            <div className="absolute top-3 left-3">
-              <Badge 
-                variant="secondary" 
-                className="bg-background/90 backdrop-blur-sm border-border/50"
-              >
-                <StepIcon className="w-3 h-3 mr-1" />
-                {step.title}
-              </Badge>
-            </div>
-          </div>
-        </motion.div>
-      )}
-
       {/* Content card */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}

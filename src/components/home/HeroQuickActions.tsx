@@ -4,6 +4,7 @@ import { useTelegram } from '@/contexts/TelegramContext';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { UploadAudioDialog } from '@/components/UploadAudioDialog';
+import { TooltipWrapper } from '@/components/tooltips';
 import { cn } from '@/lib/utils';
 
 interface HeroQuickActionsProps {
@@ -29,38 +30,40 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
   return (
     <div className="space-y-4">
       {/* Primary CTA - Generate with enhanced design */}
-      <motion.button
-        onClick={() => handleAction(onGenerateClick)}
-        className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-primary via-primary to-generate p-4 shadow-glow touch-manipulation"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        whileHover={{ scale: 1.01, boxShadow: '0 0 40px hsl(207 90% 54% / 0.4)' }}
-        whileTap={{ scale: 0.98 }}
-        transition={{ delay: 0.1 }}
-      >
-        {/* Animated background shimmer */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-          initial={{ x: '-100%' }}
-          animate={{ x: '200%' }}
-          transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-        />
-        
-        {/* Content */}
-        <div className="relative flex items-center justify-center gap-3">
+      <TooltipWrapper tooltipId="generate-button">
+        <motion.button
+          onClick={() => handleAction(onGenerateClick)}
+          className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-primary via-primary to-generate p-4 shadow-glow touch-manipulation"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          whileHover={{ scale: 1.01, boxShadow: '0 0 40px hsl(207 90% 54% / 0.4)' }}
+          whileTap={{ scale: 0.98 }}
+          transition={{ delay: 0.1 }}
+        >
+          {/* Animated background shimmer */}
           <motion.div
-            animate={{ rotate: [0, 15, -15, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <Sparkles className="w-6 h-6 text-primary-foreground" />
-          </motion.div>
-          <span className="text-lg font-bold text-primary-foreground">Создать музыку</span>
-        </div>
-        
-        {/* Subtle glow orbs */}
-        <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-2xl" />
-        <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-generate/20 rounded-full blur-2xl" />
-      </motion.button>
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+            initial={{ x: '-100%' }}
+            animate={{ x: '200%' }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+          />
+          
+          {/* Content */}
+          <div className="relative flex items-center justify-center gap-3">
+            <motion.div
+              animate={{ rotate: [0, 15, -15, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <Sparkles className="w-6 h-6 text-primary-foreground" />
+            </motion.div>
+            <span className="text-lg font-bold text-primary-foreground">Создать музыку</span>
+          </div>
+          
+          {/* Subtle glow orbs */}
+          <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-2xl" />
+          <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-generate/20 rounded-full blur-2xl" />
+        </motion.button>
+      </TooltipWrapper>
 
       {/* Secondary Actions Grid - simplified to 4 items */}
       <motion.div

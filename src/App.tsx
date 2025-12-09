@@ -1,6 +1,7 @@
 import { lazy, Suspense, memo } from "react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { TooltipProvider as InteractiveTooltipProvider } from "@/components/tooltips";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
 import { TelegramProvider, DeepLinkHandler } from "@/contexts/TelegramContext";
@@ -56,8 +57,9 @@ const App = () => (
               <TooltipProvider>
                 <Sonner />
                 <BrowserRouter>
-                <DeepLinkHandler />
-              <Suspense fallback={<div>Loading...</div>}>
+                  <InteractiveTooltipProvider>
+                    <DeepLinkHandler />
+                    <Suspense fallback={<div>Loading...</div>}>
                 <Routes>
                   <Route path="/auth" element={<Auth />} />
 
@@ -82,6 +84,7 @@ const App = () => (
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/templates" element={<Templates />} />
+                <Route path="/music-graph" element={<MusicGraph />} />
                 </Route>
 
                 {/* Routes without BottomNavigation */}
@@ -94,8 +97,9 @@ const App = () => (
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
                 </Routes>
-              </Suspense>
-              </BrowserRouter>
+                    </Suspense>
+                  </InteractiveTooltipProvider>
+                </BrowserRouter>
             </TooltipProvider>
           </GamificationProvider>
           </GlobalAudioProvider>
