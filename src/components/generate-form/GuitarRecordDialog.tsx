@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface GuitarRecordDialogProps {
-  onComplete: (data: {
+  onComplete?: (data: {
     audioFile: File;
     audioUrl: string;
     analysis: GuitarAnalysisResult;
@@ -19,10 +19,19 @@ interface GuitarRecordDialogProps {
     styleDescription: string;
   }) => void;
   trigger?: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export function GuitarRecordDialog({ onComplete, trigger }: GuitarRecordDialogProps) {
-  const [open, setOpen] = useState(false);
+export function GuitarRecordDialog({ 
+  onComplete, 
+  trigger,
+  open: controlledOpen,
+  onOpenChange: controlledOnOpenChange,
+}: GuitarRecordDialogProps) {
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+  const open = controlledOpen ?? uncontrolledOpen;
+  const setOpen = controlledOnOpenChange ?? setUncontrolledOpen;
   const [isPlaying, setIsPlaying] = useState(false);
   const [recordingDuration, setRecordingDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -88,7 +97,7 @@ export function GuitarRecordDialog({ onComplete, trigger }: GuitarRecordDialogPr
 
   const handleComplete = () => {
     if (analysisResult && recordedFile && recordedAudioUrl) {
-      onComplete({
+      onComplete?.({
         audioFile: recordedFile,
         audioUrl: recordedAudioUrl,
         analysis: analysisResult,

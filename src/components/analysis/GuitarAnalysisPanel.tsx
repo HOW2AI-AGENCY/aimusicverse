@@ -16,11 +16,14 @@ import {
   Sparkles,
   ArrowRight,
   FileText,
+  ArrowUpDown,
+  FileMusic,
 } from 'lucide-react';
 import { PianoRollPreview } from './PianoRollPreview';
 import { BeatGridVisualization } from './BeatGridVisualization';
 import { ChordProgressionDisplay } from './ChordProgressionDisplay';
 import { GuitarTabVisualization } from './GuitarTabVisualization';
+import { StrummingPatternVisualization } from './StrummingPatternVisualization';
 import type { GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -82,11 +85,30 @@ export function GuitarAnalysisPanel({
   };
 
   const handleDownloadMidi = () => {
-    if (analysis.midiUrl) {
-      window.open(analysis.midiUrl, '_blank');
+    const midiUrl = analysis.transcriptionFiles?.midiUrl || analysis.midiUrl;
+    if (midiUrl) {
+      window.open(midiUrl, '_blank');
       toast.success('Скачивание MIDI...');
     } else {
       toast.error('MIDI файл недоступен');
+    }
+  };
+
+  const handleDownloadGP5 = () => {
+    if (analysis.transcriptionFiles?.gp5Url) {
+      window.open(analysis.transcriptionFiles.gp5Url, '_blank');
+      toast.success('Скачивание Guitar Pro...');
+    } else {
+      toast.error('Guitar Pro файл недоступен');
+    }
+  };
+
+  const handleDownloadPDF = () => {
+    if (analysis.transcriptionFiles?.pdfUrl) {
+      window.open(analysis.transcriptionFiles.pdfUrl, '_blank');
+      toast.success('Скачивание PDF...');
+    } else {
+      toast.error('PDF файл недоступен');
     }
   };
 
@@ -141,7 +163,7 @@ export function GuitarAnalysisPanel({
 
       {/* Tabs for different visualizations */}
       <Tabs defaultValue="chords" className="w-full">
-        <TabsList className="w-full grid grid-cols-4">
+        <TabsList className="w-full grid grid-cols-5">
           <TabsTrigger value="chords" className="gap-1">
             <Guitar className="w-4 h-4" />
             <span className="hidden sm:inline">Аккорды</span>
@@ -149,6 +171,10 @@ export function GuitarAnalysisPanel({
           <TabsTrigger value="tab" className="gap-1">
             <FileText className="w-4 h-4" />
             <span className="hidden sm:inline">TAB</span>
+          </TabsTrigger>
+          <TabsTrigger value="strum" className="gap-1">
+            <ArrowUpDown className="w-4 h-4" />
+            <span className="hidden sm:inline">Бой</span>
           </TabsTrigger>
           <TabsTrigger value="beats" className="gap-1">
             <Drum className="w-4 h-4" />
@@ -176,6 +202,13 @@ export function GuitarAnalysisPanel({
         <TabsContent value="tab" className="mt-4">
           <GuitarTabVisualization
             notes={analysis.notes}
+            bpm={analysis.bpm}
+          />
+        </TabsContent>
+
+        <TabsContent value="strum" className="mt-4">
+          <StrummingPatternVisualization
+            strumming={analysis.strumming || []}
             bpm={analysis.bpm}
           />
         </TabsContent>
@@ -255,15 +288,27 @@ export function GuitarAnalysisPanel({
       </Card>
 
       {/* Actions */}
-      <div className="flex gap-2">
-        {analysis.midiUrl && (
-          <Button variant="outline" onClick={handleDownloadMidi} className="flex-1">
-            <Download className="w-4 h-4 mr-2" />
-            Скачать MIDI
+      <div className="flex flex-wrap gap-2">
+        {(analysis.transcriptionFiles?.midiUrl || analysis.midiUrl) && (
+          <Button variant="outline" size="sm" onClick={handleDownloadMidi} className="gap-1.5">
+            <Download className="w-4 h-4" />
+            MIDI
+          </Button>
+        )}
+        {analysis.transcriptionFiles?.gp5Url && (
+          <Button variant="outline" size="sm" onClick={handleDownloadGP5} className="gap-1.5">
+            <FileMusic className="w-4 h-4" />
+            Guitar Pro
+          </Button>
+        )}
+        {analysis.transcriptionFiles?.pdfUrl && (
+          <Button variant="outline" size="sm" onClick={handleDownloadPDF} className="gap-1.5">
+            <FileText className="w-4 h-4" />
+            PDF
           </Button>
         )}
         {onCreateTrack && (
-          <Button onClick={onCreateTrack} className="flex-1">
+          <Button onClick={onCreateTrack} className="flex-1 min-w-32">
             Создать трек
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
