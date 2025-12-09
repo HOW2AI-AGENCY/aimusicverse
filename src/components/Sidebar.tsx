@@ -4,6 +4,7 @@ import { Home, FolderOpen, Library, Users, Settings, BarChart2, Sparkles } from 
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { GenerateSheet } from './GenerateSheet';
+import { NotificationCenter } from './notifications';
 
 const navItems = [
   { path: '/', label: 'Главная', icon: Home },
@@ -27,8 +28,9 @@ export const Sidebar = () => {
   return (
     <>
       <aside className="h-full flex flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
-        <div className="p-4">
+        <div className="p-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-sidebar-primary">MusicVerse</h1>
+          <NotificationCenter />
         </div>
         
         {/* Create/Generate Button */}
