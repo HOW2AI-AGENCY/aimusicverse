@@ -14,6 +14,7 @@ import { HeroQuickActions } from "@/components/home/HeroQuickActions";
 import { RecentTracksSection } from "@/components/home/RecentTracksSection";
 import { GamificationWidgetCompact } from "@/components/gamification/GamificationWidgetCompact";
 import { BlogSection } from "@/components/home/BlogSection";
+import { GraphPreview } from "@/components/home/GraphPreview";
 import { GenerateSheet } from "@/components/GenerateSheet";
 import { motion } from "framer-motion";
 
@@ -183,11 +184,20 @@ const Index = () => {
           />
         </motion.div>
 
-        {/* Blog Section */}
+        {/* Graph Preview */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.35, duration: 0.3 }}
+        >
+          <GraphPreview />
+        </motion.div>
+
+        {/* Blog Section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.3 }}
         >
           <BlogSection />
         </motion.div>
