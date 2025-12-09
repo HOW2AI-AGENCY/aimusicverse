@@ -54,7 +54,7 @@ Deno.serve(async (req) => {
     };
 
     // Build message with optional blog link
-    let fullMessage = `📢 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}`;
+    const fullMessage = `📢 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}`;
     
     const inlineKeyboard: { text: string; url: string }[][] = [];
     

@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Trophy, Coins, Sparkles, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useMemo } from 'react';
 
 interface AchievementUnlockNotificationProps {
   show: boolean;
@@ -21,6 +22,14 @@ export function AchievementUnlockNotification({
   experienceReward,
   onClose,
 }: AchievementUnlockNotificationProps) {
+  // Generate random positions for stars once and memoize them
+  const starPositions = useMemo(() => 
+    Array.from({ length: 6 }, () => ({
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+    })),
+    []
+  );
   return (
     <AnimatePresence>
       {show && (
@@ -131,14 +140,14 @@ export function AchievementUnlockNotification({
             </motion.div>
 
             {/* Floating stars */}
-            {[...Array(6)].map((_, i) => (
+            {starPositions.map((pos, i) => (
               <motion.div
                 key={i}
                 initial={{ scale: 0, x: '50%', y: '50%' }}
                 animate={{
                   scale: [0, 1, 0],
-                  x: `${Math.random() * 100}%`,
-                  y: `${Math.random() * 100}%`,
+                  x: `${pos.x}%`,
+                  y: `${pos.y}%`,
                   opacity: [0, 1, 0],
                 }}
                 transition={{

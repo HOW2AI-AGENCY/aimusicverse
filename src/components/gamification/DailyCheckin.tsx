@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useCheckin, useCanCheckinToday, useUserCredits, ACTION_REWARDS } from '@/hooks/useGamification';
@@ -7,6 +7,14 @@ import { Flame, Gift, Sparkles, Check, Coins, Star } from 'lucide-react';
 import { RewardCelebration } from './RewardCelebration';
 
 export function DailyCheckin() {
+  // Generate random star movements once and memoize them
+  const starMovements = useMemo(() => 
+    Array.from({ length: 3 }, () => ({
+      x: Math.random() * 50 - 25,
+      y: Math.random() * -30,
+    })),
+    []
+  );
   const { data: canCheckin, isLoading: checkingStatus } = useCanCheckinToday();
   const { data: credits } = useUserCredits();
   const checkin = useCheckin();
@@ -150,15 +158,15 @@ export function DailyCheckin() {
         {/* Decorative stars */}
         {canCheckin && (
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            {[...Array(3)].map((_, i) => (
+            {starMovements.map((movement, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ 
                   opacity: [0, 0.5, 0],
                   scale: [0, 1, 0],
-                  x: [0, Math.random() * 50 - 25],
-                  y: [0, Math.random() * -30],
+                  x: [0, movement.x],
+                  y: [0, movement.y],
                 }}
                 transition={{
                   duration: 2,

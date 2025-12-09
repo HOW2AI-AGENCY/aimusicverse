@@ -123,10 +123,12 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "eslint-plugin-storybook": "^0.8.0",
     "playwright": "^1.57.0",
+    "rollup-plugin-visualizer": "^6.0.5",
     "storybook": "^8.1.0",
     "ts-jest": "^29.4.5",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.48.0",
+    "vite-plugin-compression": "^0.5.1",
     "vitest": "^4.0.14"
   }
 }

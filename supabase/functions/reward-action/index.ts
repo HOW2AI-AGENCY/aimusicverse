@@ -63,7 +63,7 @@ serve(async (req) => {
     console.log(`🎁 Rewarding user ${userId}: ${actionType} = +${credits} credits, +${experience} XP`);
 
     // Get or create user credits record
-    let { data: currentCredits, error: fetchError } = await supabase
+    const { data: currentCredits, error: fetchError } = await supabase
       .from('user_credits')
       .select('*')
       .eq('user_id', userId)
