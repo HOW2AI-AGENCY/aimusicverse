@@ -23,3 +23,4 @@ export type {
 export { useStudioPlayer } from './useStudioPlayer';
 export { useStudioDialogs } from './useStudioDialogs';
 export { useTrimExport } from './useTrimExport';
+export { useMidiSync } from './useMidiSync';
