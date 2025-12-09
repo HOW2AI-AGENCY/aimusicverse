@@ -7,43 +7,39 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// MIDI Transcription Models - Updated December 2024
+// MIDI Transcription Models - Updated June 2025
 const MODELS = {
-  // Spotify Basic Pitch - Best for polyphonic pitch detection (vocals, guitar, melody)
+  // rhelsing/basic-pitch - Spotify's Basic Pitch on Replicate
   'basic-pitch': {
-    replicateId: "spotify/basic-pitch",
+    replicateId: "rhelsing/basic-pitch",
     name: "Spotify Basic Pitch",
     description: "Polyphonic pitch detection - best for vocals, guitar, melody",
-    inputKey: "audio",
+    inputKey: "audio_file",
     supportedInstruments: ['vocals', 'voice', 'guitar', 'melody', 'lead', 'piano', 'keys'],
-    outputFormat: 'object', // Returns { midi: "url", ... }
   },
-  // MT3 fallback - Multi-instrument (if basic-pitch fails)
+  // MT3 fallback - Multi-instrument (using basic-pitch)
   'mt3': {
-    replicateId: "spotify/basic-pitch", // Using basic-pitch as MT3 is deprecated
+    replicateId: "rhelsing/basic-pitch",
     name: "Multi-Instrument (Basic Pitch)",
     description: "Multi-instrument transcription via Basic Pitch",
-    inputKey: "audio",
+    inputKey: "audio_file",
     supportedInstruments: ['drums', 'bass', 'piano', 'guitar', 'strings', 'synth', 'other'],
-    outputFormat: 'object',
   },
-  // Drums - use basic pitch with specialized handling
+  // Drums - use basic pitch
   'drums': {
-    replicateId: "spotify/basic-pitch",
+    replicateId: "rhelsing/basic-pitch",
     name: "Drums (Basic Pitch)",
     description: "Drum transcription via Basic Pitch",
-    inputKey: "audio",
+    inputKey: "audio_file",
     supportedInstruments: ['drums', 'percussion'],
-    outputFormat: 'object',
   },
   // Vocal - best for melodic content
   'vocal': {
-    replicateId: "spotify/basic-pitch",
+    replicateId: "rhelsing/basic-pitch",
     name: "Vocal (Basic Pitch)",
     description: "Vocal melody transcription",
-    inputKey: "audio",
+    inputKey: "audio_file",
     supportedInstruments: ['vocals', 'voice', 'melody', 'lead'],
-    outputFormat: 'object',
   },
 } as const;
 
@@ -162,24 +158,18 @@ serve(async (req) => {
 
     console.log(`Starting MIDI transcription with ${modelConfig.name}...`);
 
-    // Prepare input for Spotify Basic Pitch
+    // Prepare input for rhelsing/basic-pitch
     const input = {
-      audio: audio_url,
-      // Optional parameters for Basic Pitch
-      onset_threshold: 0.5,
-      frame_threshold: 0.3,
-      minimum_note_length: 58, // milliseconds
-      minimum_frequency: 32, // Hz
-      maximum_frequency: 2000, // Hz
+      audio_file: audio_url,
     };
 
-    console.log('Running transcription with input:', input);
+    console.log('Running transcription with model:', modelConfig.replicateId, 'input:', input);
 
     // Run transcription with retry
     let output: unknown;
     try {
       output = await retryWithBackoff(async () => {
-        return await replicate.run("spotify/basic-pitch", { input });
+        return await replicate.run(modelConfig.replicateId, { input });
       }, 3, 2000);
     } catch (modelError) {
       console.error('Model error:', modelError);
@@ -188,26 +178,23 @@ serve(async (req) => {
     
     console.log('Model output:', typeof output, JSON.stringify(output).slice(0, 500));
 
-    // Handle Spotify Basic Pitch output format
-    // Output is: { midi: "url", notes_sonified: "url", notes_csv: "url" }
+    // Handle rhelsing/basic-pitch output format
+    // Output is a string URL to the MIDI file (e.g., "https://replicate.delivery/.../transcribed.mid")
     let midiUrl: string | undefined;
 
-    if (output && typeof output === 'object') {
+    if (typeof output === 'string') {
+      midiUrl = output;
+    } else if (output && typeof output === 'object') {
       const outputObj = output as Record<string, unknown>;
       
-      // Basic Pitch returns { midi: "url", ... }
+      // Check various possible output keys
       if (typeof outputObj.midi === 'string') {
         midiUrl = outputObj.midi;
       } else if (typeof outputObj.output === 'string') {
         midiUrl = outputObj.output;
-      } else if (Array.isArray(outputObj.midi) && outputObj.midi.length > 0) {
-        midiUrl = outputObj.midi[0];
+      } else if (Array.isArray(output) && output.length > 0 && typeof output[0] === 'string') {
+        midiUrl = output[0];
       }
-    } else if (typeof output === 'string') {
-      midiUrl = output;
-    } else if (Array.isArray(output) && output.length > 0) {
-      const first = output[0];
-      midiUrl = typeof first === 'string' ? first : (first as any)?.file || (first as any)?.midi;
     }
 
     if (!midiUrl || typeof midiUrl !== 'string') {
