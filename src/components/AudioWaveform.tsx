@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo } from 'react';
+import { useEffect, useRef, useMemo, useCallback } from 'react';
 
 interface AudioWaveformProps {
   waveformData: number[];
@@ -6,15 +6,42 @@ interface AudioWaveformProps {
   duration: number;
   onSeek?: (time: number) => void;
   className?: string;
+  height?: number;
 }
 
-export function AudioWaveform({ waveformData, currentTime, duration, onSeek, className = '' }: AudioWaveformProps) {
+// Get actual CSS color value from CSS variable
+const getCSSColor = (cssVar: string, fallback: string): string => {
+  if (typeof window === 'undefined') return fallback;
+  const root = document.documentElement;
+  const computed = getComputedStyle(root);
+  const value = computed.getPropertyValue(cssVar).trim();
+  if (!value) return fallback;
+  return `hsl(${value})`;
+};
+
+export function AudioWaveform({ 
+  waveformData, 
+  currentTime, 
+  duration, 
+  onSeek, 
+  className = '',
+  height = 12 // Default height matching fallback progress bar
+}: AudioWaveformProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const colorsRef = useRef<{ primary: string; muted: string } | null>(null);
   
   // Cache the waveform data to prevent re-generation
   const cachedWaveformData = useMemo(() => waveformData, [waveformData]);
 
-  const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  // Get colors once on mount
+  useEffect(() => {
+    colorsRef.current = {
+      primary: getCSSColor('--primary', '220 90% 56%'),
+      muted: getCSSColor('--muted-foreground', '220 9% 46%')
+    };
+  }, []);
+
+  const handleCanvasClick = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!onSeek || !canvasRef.current) return;
     
     const rect = canvasRef.current.getBoundingClientRect();
@@ -23,7 +50,7 @@ export function AudioWaveform({ waveformData, currentTime, duration, onSeek, cla
     const seekTime = progress * duration;
     
     onSeek(Math.max(0, Math.min(duration, seekTime)));
-  };
+  }, [onSeek, duration]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -41,53 +68,67 @@ export function AudioWaveform({ waveformData, currentTime, duration, onSeek, cla
     ctx.scale(dpr, dpr);
 
     const width = rect.width;
-    const height = rect.height;
-    const barWidth = width / cachedWaveformData.length;
-    const centerY = height / 2;
+    const canvasHeight = rect.height;
+    const barWidth = Math.max(1, width / cachedWaveformData.length - 1);
+    const barGap = 1;
+    const centerY = canvasHeight / 2;
     
     // Clear canvas
-    ctx.clearRect(0, 0, width, height);
+    ctx.clearRect(0, 0, width, canvasHeight);
 
     // Calculate progress
     const progress = duration > 0 ? currentTime / duration : 0;
-    const progressBarCount = Math.floor(cachedWaveformData.length * progress);
+    const progressX = width * progress;
+
+    // Get colors
+    const primaryColor = colorsRef.current?.primary || 'hsl(220, 90%, 56%)';
+    const mutedColor = colorsRef.current?.muted || 'hsl(220, 9%, 46%)';
 
     // Draw waveform bars
     cachedWaveformData.forEach((value, index) => {
-      const barHeight = value * height * 0.8;
-      const x = index * barWidth;
+      const barHeight = Math.max(2, value * canvasHeight * 0.9);
+      const x = index * (barWidth + barGap);
       const y = centerY - barHeight / 2;
 
-      // Create gradient for played and unplayed sections
-      const isPassed = index < progressBarCount;
+      const isPassed = x < progressX;
       
       if (isPassed) {
-        // Played section - blue/primary color
-        ctx.fillStyle = 'hsl(var(--primary))';
+        // Played section - primary color with gradient
+        const gradient = ctx.createLinearGradient(x, y, x, y + barHeight);
+        gradient.addColorStop(0, primaryColor);
+        gradient.addColorStop(0.5, primaryColor);
+        gradient.addColorStop(1, primaryColor.replace(')', ', 0.7)').replace('hsl', 'hsla'));
+        ctx.fillStyle = gradient;
       } else {
-        // Unplayed section - muted color
-        ctx.fillStyle = 'hsl(var(--muted-foreground) / 0.3)';
+        // Unplayed section - muted color with transparency
+        ctx.fillStyle = mutedColor.replace(')', ', 0.3)').replace('hsl', 'hsla');
       }
 
-      ctx.fillRect(x, y, barWidth - 1, barHeight);
+      // Draw rounded bar
+      const radius = Math.min(barWidth / 2, 1);
+      ctx.beginPath();
+      ctx.roundRect(x, y, barWidth, barHeight, radius);
+      ctx.fill();
     });
 
-    // Draw progress indicator line
-    const progressX = width * progress;
+    // Draw progress indicator line with glow
+    ctx.shadowColor = primaryColor;
+    ctx.shadowBlur = 4;
     ctx.beginPath();
     ctx.moveTo(progressX, 0);
-    ctx.lineTo(progressX, height);
-    ctx.strokeStyle = 'hsl(var(--primary))';
-    ctx.lineWidth = 2;
+    ctx.lineTo(progressX, canvasHeight);
+    ctx.strokeStyle = primaryColor;
+    ctx.lineWidth = 1.5;
     ctx.stroke();
+    ctx.shadowBlur = 0;
 
   }, [cachedWaveformData, currentTime, duration]);
 
   return (
     <canvas
       ref={canvasRef}
-      className={`w-full ${onSeek ? 'cursor-pointer' : ''} ${className}`}
-      style={{ height: '48px' }}
+      className={`w-full rounded-lg ${onSeek ? 'cursor-pointer' : ''} ${className}`}
+      style={{ height: `${height}px` }}
       onClick={handleCanvasClick}
     />
   );
