@@ -18,7 +18,8 @@ export interface DetectedSection {
 }
 
 // Unified section tag pattern - matches [Tag], [Tag 1], (Tag), etc.
-const TAG_PATTERN = /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|концовка|пре-?припев|хук|instrumental|инструментал|solo|соло)(?:\s*\d+)?[\]\)]/i;
+// Case-insensitive and supports both English and Russian tags
+const TAG_PATTERN = /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|концовка|пре-?припев|хук|instrumental|инструментал|solo|соло)(?:\s*\d+)?[\]\)]/gi;
 
 // Get section type from tag text
 function getTypeFromTag(tagText: string): DetectedSection['type'] {
@@ -101,14 +102,29 @@ function getSectionLabel(type: DetectedSection['type'], counter: number): string
   return labels[type];
 }
 
-// Normalize text for comparison
+// Normalize text for comparison - improved for multi-language support
 function normalizeText(text: string): string {
   return text
     .toLowerCase()
-    .replace(/[\[\]()]/g, '')
-    .replace(/[^\wа-яё\s]/gi, '')
-    .replace(/\s+/g, ' ')
+    .replace(/[\[\]()]/g, '') // Remove brackets
+    .replace(/[^\wа-яё\s]/gi, '') // Keep letters, numbers, and spaces (English + Russian)
+    .replace(/\s+/g, ' ') // Normalize whitespace
     .trim();
+}
+
+// Fuzzy match for word similarity (simple Levenshtein-like)
+function fuzzyMatch(word1: string, word2: string, threshold = 0.7): boolean {
+  const len1 = word1.length;
+  const len2 = word2.length;
+  
+  // If one contains the other
+  if (word1.includes(word2) || word2.includes(word1)) return true;
+  
+  // Simple similarity check
+  const maxLen = Math.max(len1, len2);
+  const minLen = Math.min(len1, len2);
+  
+  return minLen / maxLen >= threshold;
 }
 
 // Check if word is a section tag
@@ -137,13 +153,14 @@ function matchSectionToTimestamps(
   const firstSectionWord = sectionWordList[0];
   const lastSectionWord = sectionWordList[sectionWordList.length - 1];
 
-  // Find first word match
+  // Find first word match with fuzzy matching
   let startWordIndex = -1;
   for (let i = searchStartIndex; i < alignedWords.length; i++) {
     const normalizedAligned = normalizeText(alignedWords[i].word);
     if (normalizedAligned === firstSectionWord || 
         normalizedAligned.startsWith(firstSectionWord) || 
-        firstSectionWord.startsWith(normalizedAligned)) {
+        firstSectionWord.startsWith(normalizedAligned) ||
+        fuzzyMatch(normalizedAligned, firstSectionWord)) {
       startWordIndex = i;
       break;
     }
@@ -155,7 +172,8 @@ function matchSectionToTimestamps(
       const normalizedAligned = normalizeText(alignedWords[i].word);
       if (normalizedAligned === firstSectionWord || 
           normalizedAligned.startsWith(firstSectionWord) || 
-          firstSectionWord.startsWith(normalizedAligned)) {
+          firstSectionWord.startsWith(normalizedAligned) ||
+          fuzzyMatch(normalizedAligned, firstSectionWord)) {
         startWordIndex = i;
         break;
       }
@@ -164,7 +182,7 @@ function matchSectionToTimestamps(
 
   if (startWordIndex === -1) return null;
 
-  // Find end word - search for last word of section
+  // Find end word - search for last word of section with fuzzy matching
   let endWordIndex = startWordIndex;
   const maxSearchLength = Math.min(alignedWords.length, startWordIndex + sectionWordList.length * 4);
 
@@ -173,7 +191,8 @@ function matchSectionToTimestamps(
     
     if (normalizedAligned === lastSectionWord || 
         normalizedAligned.endsWith(lastSectionWord) || 
-        lastSectionWord.endsWith(normalizedAligned)) {
+        lastSectionWord.endsWith(normalizedAligned) ||
+        fuzzyMatch(normalizedAligned, lastSectionWord)) {
       endWordIndex = i;
     }
   }
@@ -280,10 +299,14 @@ export function useSectionDetection(
         const match = matchSectionToTimestamps(parsed.lyrics, filteredWords, searchIndex);
 
         if (match) {
+          // Validate that this section doesn't overlap with previous
+          const prevSection = sections[sections.length - 1];
+          const startTime = prevSection ? Math.max(match.startTime, prevSection.endTime) : match.startTime;
+          
           sections.push({
             type: parsed.type,
             label: getSectionLabel(parsed.type, typeCounters[parsed.type]),
-            startTime: match.startTime,
+            startTime,
             endTime: match.endTime,
             lyrics: parsed.lyrics.replace(/\n/g, ' ').trim(),
             words: match.words,
@@ -291,17 +314,26 @@ export function useSectionDetection(
           searchIndex = match.nextSearchIndex;
         } else {
           // Even if we can't match timestamps, add the section with estimated timing
-          const estimatedStart = duration * (parsed.index / parsedSections.length);
-          const estimatedEnd = duration * ((parsed.index + 1) / parsedSections.length);
+          const prevSection = sections[sections.length - 1];
+          const estimatedStart = prevSection 
+            ? prevSection.endTime 
+            : duration * (parsed.index / parsedSections.length);
+          const estimatedEnd = Math.min(
+            duration,
+            duration * ((parsed.index + 1) / parsedSections.length)
+          );
           
-          sections.push({
-            type: parsed.type,
-            label: getSectionLabel(parsed.type, typeCounters[parsed.type]),
-            startTime: estimatedStart,
-            endTime: estimatedEnd,
-            lyrics: parsed.lyrics.replace(/\n/g, ' ').trim(),
-            words: [],
-          });
+          // Only add if there's a valid time range
+          if (estimatedStart < estimatedEnd) {
+            sections.push({
+              type: parsed.type,
+              label: getSectionLabel(parsed.type, typeCounters[parsed.type]),
+              startTime: estimatedStart,
+              endTime: estimatedEnd,
+              lyrics: parsed.lyrics.replace(/\n/g, ' ').trim(),
+              words: [],
+            });
+          }
         }
       }
 

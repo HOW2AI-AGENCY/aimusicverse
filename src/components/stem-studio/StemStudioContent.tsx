@@ -199,17 +199,30 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   const handleEnableEffects = useCallback(async () => {
     if (!stems) return;
     
-    await resumeContext();
-    
-    stems.forEach(stem => {
-      const audio = audioRefs.current[stem.id];
-      if (audio) {
-        initializeStemEngine(stem.id, audio);
-      }
-    });
-    
-    setEffectsEnabled(true);
-    toast.success('Режим эффектов активирован');
+    try {
+      // Resume audio context first
+      await resumeContext();
+      
+      // Initialize all engines
+      const initPromises = stems.map(stem => {
+        const audio = audioRefs.current[stem.id];
+        if (audio) {
+          return initializeStemEngine(stem.id, audio);
+        }
+        return Promise.resolve();
+      });
+      
+      await Promise.all(initPromises);
+      
+      // Wait for engines to be ready
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      setEffectsEnabled(true);
+      toast.success('Режим эффектов активирован');
+    } catch (error) {
+      logger.error('Error enabling effects', error);
+      toast.error('Ошибка активации эффектов');
+    }
   }, [stems, initializeStemEngine, resumeContext]);
 
   // Load mix preset
@@ -257,10 +270,21 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   }, [stemStates, masterVolume, masterMuted, effectsEnabled, enginesState]);
 
   const updateTime = useCallback(() => {
-    const firstAudio = Object.values(audioRefs.current)[0];
-    if (firstAudio) {
-      setCurrentTime(firstAudio.currentTime);
+    const audios = Object.values(audioRefs.current);
+    if (audios.length === 0) return;
+    
+    // Use average time from all audios for more accurate sync
+    const avgTime = audios.reduce((sum, audio) => sum + audio.currentTime, 0) / audios.length;
+    setCurrentTime(avgTime);
+    
+    // Check sync drift and re-sync if needed (>0.1s drift)
+    const maxDrift = Math.max(...audios.map(a => Math.abs(a.currentTime - avgTime)));
+    if (maxDrift > 0.1) {
+      audios.forEach(audio => {
+        audio.currentTime = avgTime;
+      });
     }
+    
     animationFrameRef.current = requestAnimationFrame(updateTime);
   }, []);
 
@@ -269,23 +293,37 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     if (audios.length === 0) return;
 
     if (isPlaying) {
+      // Pause all audios simultaneously
       audios.forEach(audio => audio.pause());
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
       setIsPlaying(false);
     } else {
+      // Ensure all audios are at the same position before playing
       audios.forEach(audio => {
         audio.currentTime = currentTime;
       });
 
       try {
-        await Promise.all(audios.map(audio => audio.play()));
+        // Play all audios as close to simultaneously as possible
+        const playPromises = audios.map(audio => {
+          // Reset any previous errors
+          if (audio.error) {
+            audio.load();
+          }
+          return audio.play();
+        });
+        
+        await Promise.all(playPromises);
         setIsPlaying(true);
         animationFrameRef.current = requestAnimationFrame(updateTime);
       } catch (error) {
         logger.error('Error playing audio', error);
         toast.error('Ошибка воспроизведения');
+        // Ensure all audios are paused on error
+        audios.forEach(audio => audio.pause());
+        setIsPlaying(false);
       }
     }
   };
@@ -322,11 +360,36 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
 
   const handleSeek = useCallback((value: number[] | number) => {
     const time = Array.isArray(value) ? value[0] : value;
+    const audios = Object.values(audioRefs.current);
+    
+    // Pause if playing to avoid glitches during seek
+    const wasPlaying = isPlaying;
+    if (wasPlaying) {
+      audios.forEach(audio => audio.pause());
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    }
+    
+    // Set all audios to the same time
     setCurrentTime(time);
-    Object.values(audioRefs.current).forEach(audio => {
+    audios.forEach(audio => {
       audio.currentTime = time;
     });
-  }, []);
+    
+    // Resume if was playing
+    if (wasPlaying) {
+      Promise.all(audios.map(audio => audio.play()))
+        .then(() => {
+          setIsPlaying(true);
+          animationFrameRef.current = requestAnimationFrame(updateTime);
+        })
+        .catch(error => {
+          logger.error('Error resuming after seek', error);
+          setIsPlaying(false);
+        });
+    }
+  }, [isPlaying, updateTime]);
 
   const handleSkip = (direction: 'back' | 'forward') => {
     const skipAmount = 10;
