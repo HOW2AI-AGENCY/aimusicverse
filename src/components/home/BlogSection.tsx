@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { FileText, ChevronRight, Sparkles, Clock, ArrowRight } from 'lucide-react';
 import { useBlogPosts } from '@/hooks/useBlog';
 import { Skeleton } from '@/components/ui/skeleton';

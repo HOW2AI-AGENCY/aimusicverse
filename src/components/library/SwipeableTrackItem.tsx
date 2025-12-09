@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
-import { motion, useMotionValue, useTransform, PanInfo, AnimatePresence } from 'framer-motion';
+import { motion, useMotionValue, useTransform, AnimatePresence } from '@/lib/motion';
+import type { PanInfo } from '@/lib/motion';
 import { ListPlus, RefreshCw, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';

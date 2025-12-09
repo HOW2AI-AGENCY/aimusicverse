@@ -1,5 +1,5 @@
 import { memo, useState, useCallback, ReactNode } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { useIntersectionObserver, useReducedMotion } from '@/hooks/usePerformanceOptimization';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';

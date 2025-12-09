@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 import { Music2, Mic, Volume2, Layers } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 type FilterOption = 'all' | 'vocals' | 'instrumental' | 'stems';
 

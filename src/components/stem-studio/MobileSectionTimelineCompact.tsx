@@ -6,7 +6,7 @@
  */
 
 import { useRef, useState, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';

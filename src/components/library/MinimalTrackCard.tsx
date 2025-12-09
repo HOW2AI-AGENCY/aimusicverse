@@ -10,7 +10,7 @@ import { LazyImage } from '@/components/ui/lazy-image';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 interface MinimalTrackCardProps {
   track: Track;

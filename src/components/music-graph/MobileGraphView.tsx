@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
-import { motion, AnimatePresence, PanInfo } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
+import type { PanInfo } from '@/lib/motion';
 import { ChevronRight, Disc, Music, Tag, Folder, X, Search, ArrowLeft } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';

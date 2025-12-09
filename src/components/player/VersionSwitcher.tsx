@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Track } from '@/hooks/useTracksOptimized';
 import { usePlayerStore } from '@/hooks/audio';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
 
 interface VersionSwitcherProps {
