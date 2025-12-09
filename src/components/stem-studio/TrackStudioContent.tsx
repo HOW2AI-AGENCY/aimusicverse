@@ -17,7 +17,7 @@ import { StudioLyricsPanel } from '@/components/stem-studio/StudioLyricsPanel';
 import { StudioLyricsPanelCompact } from '@/components/stem-studio/StudioLyricsPanelCompact';
 import { SectionTimelineVisualization } from '@/components/stem-studio/SectionTimelineVisualization';
 import { SectionEditorPanel } from '@/components/stem-studio/SectionEditorPanel';
-import { SectionEditorMobile } from '@/components/stem-studio/SectionEditorMobile';
+import { SectionEditorMobile } from '@/components/stem-studio/mobile/SectionEditorMobile';
 import { MobileSectionTimelineCompact } from '@/components/stem-studio/MobileSectionTimelineCompact';
 import { ReplacementHistoryPanel } from '@/components/stem-studio/ReplacementHistoryPanel';
 import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
@@ -338,14 +338,17 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
         {/* Mobile Section Editor */}
         <SectionEditorMobile
           open={editMode === 'selecting' || editMode === 'editing'}
-          onOpenChange={(open) => {
+          onOpenChange={(open: boolean) => {
             if (!open) clearSelection();
           }}
           trackId={trackId}
           trackTitle={track.title || 'Трек'}
           trackTags={track.tags}
+          trackLyrics={track.lyrics}
+          audioUrl={track.audio_url}
           duration={duration}
-          sections={detectedSections}
+          taskId={track.suno_task_id}
+          audioId={track.suno_id}
         />
 
         {/* Mobile Compare Panel */}
@@ -546,14 +549,17 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
       {isMobile && (
         <SectionEditorMobile
           open={editMode === 'selecting' || editMode === 'editing'}
-          onOpenChange={(open) => {
+          onOpenChange={(open: boolean) => {
             if (!open) clearSelection();
           }}
           trackId={trackId}
           trackTitle={track.title || 'Трек'}
           trackTags={track.tags}
+          trackLyrics={track.lyrics}
+          audioUrl={track.audio_url}
           duration={duration}
-          sections={detectedSections}
+          taskId={track.suno_task_id}
+          audioId={track.suno_id}
         />
       )}
 

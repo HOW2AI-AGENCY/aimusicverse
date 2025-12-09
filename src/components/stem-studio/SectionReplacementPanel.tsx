@@ -1,11 +1,12 @@
 /**
- * Section Editor Panel - Refactored
- * Uses modular components for clean architecture
+ * Unified Section Replacement Panel
+ * Modular, clean design for both desktop and mobile
  */
 
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useSectionReplacement } from '@/hooks/useSectionReplacement';
+import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
+import { useSectionDetection, DetectedSection } from '@/hooks/useSectionDetection';
 import { SectionWaveformPreview } from './SectionWaveformPreview';
 import { SectionPreviewPlayer } from './SectionPreviewPlayer';
 import {
@@ -15,6 +16,7 @@ import {
   SectionValidation,
   SectionActions,
 } from './section-editor';
+import { SectionPicker } from './SectionPicker';
 
 const containerVariants: Variants = {
   hidden: { height: 0, opacity: 0 },
@@ -47,24 +49,32 @@ const itemVariants: Variants = {
   }
 };
 
-interface SectionEditorPanelProps {
+interface SectionReplacementPanelProps {
   trackId: string;
   trackTitle: string;
   trackTags?: string | null;
+  trackLyrics?: string | null;
   audioUrl?: string | null;
   duration: number;
+  taskId?: string | null;
+  audioId?: string | null;
   onClose: () => void;
 }
 
-export function SectionEditorPanel({
+export function SectionReplacementPanel({
   trackId,
   trackTitle,
   trackTags,
+  trackLyrics,
   audioUrl,
   duration,
+  taskId,
+  audioId,
   onClose,
-}: SectionEditorPanelProps) {
-  const { selectedSection, customRange, clearSelection } = useSectionEditorStore();
+}: SectionReplacementPanelProps) {
+  // Fetch lyrics for section detection
+  const { data: lyricsData } = useTimestampedLyrics(taskId || null, audioId || null);
+  const detectedSections = useSectionDetection(trackLyrics, lyricsData?.alignedWords, duration);
 
   const {
     startTime,
@@ -72,6 +82,7 @@ export function SectionEditorPanel({
     sectionDuration,
     maxDuration,
     hasSelection,
+    selectedSection,
     isValidDuration,
     isSubmitting,
     prompt,
@@ -80,6 +91,7 @@ export function SectionEditorPanel({
     setTags,
     lyrics,
     setLyrics,
+    selectSection,
     updateRange,
     addPreset,
     executeReplacement,
@@ -88,28 +100,28 @@ export function SectionEditorPanel({
     trackId,
     trackTags,
     duration,
+    detectedSections,
     onSuccess: onClose,
   });
 
   const handleClose = () => {
     reset();
-    clearSelection();
     onClose();
   };
 
-  if (!customRange && !selectedSection) return null;
+  if (!hasSelection) return null;
 
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        key="section-editor"
+        key="section-replacement-panel"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
         exit="exit"
         className="border-b border-primary/30 bg-gradient-to-r from-primary/5 via-background to-primary/5 overflow-hidden"
       >
-        <div className="px-4 sm:px-6 py-4 space-y-4">
+        <div className="px-4 py-4 space-y-4">
           {/* Header */}
           <motion.div variants={itemVariants}>
             <SectionEditorHeader
@@ -131,6 +143,20 @@ export function SectionEditorPanel({
               onSelectionChange={updateRange}
             />
           </motion.div>
+
+          {/* Section Picker */}
+          {detectedSections.length > 0 && (
+            <motion.div variants={itemVariants}>
+              <SectionPicker
+                sections={detectedSections}
+                selectedIndex={detectedSections.findIndex(
+                  s => Math.abs(s.startTime - startTime) < 0.5 && Math.abs(s.endTime - endTime) < 0.5
+                )}
+                maxDuration={maxDuration}
+                onSelect={selectSection}
+              />
+            </motion.div>
+          )}
 
           {/* Audio Preview */}
           {audioUrl && (
