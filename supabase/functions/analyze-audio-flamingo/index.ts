@@ -52,6 +52,8 @@ Key: [musical key if identifiable]
 Instruments: [comma-separated list of instruments]
 Structure: [song structure, e.g., "Intro, Verse, Chorus, Bridge, Outro"]
 Style: [detailed style description for music generation, include vocal characteristics, production techniques, and distinctive elements]
+Energy Level: [0-100, how energetic/arousing the track is]
+Positivity: [0-100, how positive/happy vs negative/sad]
 
 Provide concise, accurate information suitable for music generation AI.`;
 
@@ -82,6 +84,13 @@ Provide concise, accurate information suitable for music generation AI.`;
       return match ? match[1].trim() : null;
     };
 
+    const parseNumber = (text: string, fieldName: string): number | null => {
+      const value = parseField(text, fieldName);
+      if (!value) return null;
+      const num = parseInt(value.match(/\d+/)?.[0] || '', 10);
+      return isNaN(num) ? null : Math.max(0, Math.min(100, num)) / 100;
+    };
+
     const genre = parseField(fullResponse, 'Genre');
     const mood = parseField(fullResponse, 'Mood');
     const tempo = parseField(fullResponse, 'Tempo');
@@ -90,6 +99,8 @@ Provide concise, accurate information suitable for music generation AI.`;
     const instruments = instrumentsText ? instrumentsText.split(',').map(i => i.trim()) : [];
     const structure = parseField(fullResponse, 'Structure');
     const styleDescription = parseField(fullResponse, 'Style');
+    const arousal = parseNumber(fullResponse, 'Energy Level');
+    const valence = parseNumber(fullResponse, 'Positivity');
 
     // Save analysis to database
     const { data: analysis, error: insertError } = await supabase
@@ -106,6 +117,13 @@ Provide concise, accurate information suitable for music generation AI.`;
         instruments,
         structure,
         style_description: styleDescription,
+        arousal,
+        valence,
+        analysis_metadata: {
+          flamingo_arousal: arousal,
+          flamingo_valence: valence,
+          analyzed_at: new Date().toISOString()
+        }
       })
       .select()
       .single();

@@ -15,6 +15,7 @@ import {
   FileText,
   Clock,
   CheckCircle2,
+  RefreshCw,
 } from 'lucide-react';
 import {
   Sheet,
@@ -36,6 +37,10 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useMidi } from '@/hooks/useMidi';
+import { useAudioAnalysis, useAnalyzeAudio } from '@/hooks/useAudioAnalysis';
+import { useEmotionAnalysis } from '@/hooks/useEmotionAnalysis';
+import { EmotionalMap } from '@/components/track-detail/EmotionalMap';
+import { EmotionBadge } from '@/components/ui/EmotionBadge';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
@@ -60,8 +65,6 @@ export const StemAnalysisSheet = ({
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<AnalysisTab>('midi');
   const [modelType, setModelType] = useState<'mt3' | 'basic-pitch'>('mt3');
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [analysisProgress, setAnalysisProgress] = useState(0);
 
   const { 
     midiVersions, 
@@ -71,6 +74,13 @@ export const StemAnalysisSheet = ({
     downloadMidi,
     hasMidi,
   } = useMidi(trackId);
+
+  const { data: analysis, isLoading: analysisLoading } = useAudioAnalysis(trackId);
+  const analyzeAudio = useAnalyzeAudio();
+  const analyzeEmotion = useEmotionAnalysis();
+  
+  const hasEmotionData = analysis?.arousal !== null && analysis?.valence !== null;
+  const isAnalyzing = analyzeAudio.isPending || analyzeEmotion.isPending;
 
   const handleTranscribe = async () => {
     try {
@@ -83,34 +93,13 @@ export const StemAnalysisSheet = ({
   };
 
   const handleAudioAnalysis = async () => {
-    setIsAnalyzing(true);
-    setAnalysisProgress(0);
-
     try {
-      // Simulate progress for now
-      const interval = setInterval(() => {
-        setAnalysisProgress(prev => {
-          if (prev >= 90) {
-            clearInterval(interval);
-            return prev;
-          }
-          return prev + 10;
-        });
-      }, 300);
-
-      // TODO: Call actual audio analysis edge function
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      
-      clearInterval(interval);
-      setAnalysisProgress(100);
-      
-      toast.success('Анализ аудио завершён');
+      await Promise.all([
+        analyzeAudio.mutateAsync({ trackId, audioUrl }),
+        analyzeEmotion.mutateAsync({ trackId, audioUrl })
+      ]);
     } catch (error) {
       logger.error('Audio analysis error', error);
-      toast.error('Ошибка анализа аудио');
-    } finally {
-      setIsAnalyzing(false);
-      setAnalysisProgress(0);
     }
   };
 
@@ -245,22 +234,21 @@ export const StemAnalysisSheet = ({
             <Activity className="w-5 h-5 text-blue-500" />
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-sm mb-1">Анализ аудио</h3>
+            <div className="flex items-center gap-2">
+              <h3 className="font-semibold text-sm">Анализ аудио</h3>
+              {hasEmotionData && analysis && (
+                <EmotionBadge 
+                  arousal={analysis.arousal ?? 0.5} 
+                  valence={analysis.valence ?? 0.5}
+                  size="sm"
+                />
+              )}
+            </div>
             <p className="text-xs text-muted-foreground">
               AI-анализ музыкальных характеристик
             </p>
           </div>
         </div>
-
-        {isAnalyzing && (
-          <div className="space-y-2 mb-4">
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>Анализ...</span>
-              <span>{analysisProgress}%</span>
-            </div>
-            <Progress value={analysisProgress} className="h-1.5" />
-          </div>
-        )}
 
         <Button 
           onClick={handleAudioAnalysis} 
@@ -275,46 +263,92 @@ export const StemAnalysisSheet = ({
             </>
           ) : (
             <>
-              <BrainCircuit className="w-4 h-4" />
-              Анализировать аудио
+              {analysis ? <RefreshCw className="w-4 h-4" /> : <BrainCircuit className="w-4 h-4" />}
+              {analysis ? 'Обновить анализ' : 'Анализировать аудио'}
             </>
           )}
         </Button>
       </div>
 
-      {/* Analysis features placeholder */}
-      <div className="grid grid-cols-2 gap-2">
-        {[
-          { icon: Music2, label: 'Темп (BPM)', value: 'Скоро' },
-          { icon: Music2, label: 'Тональность', value: 'Скоро' },
-          { icon: Activity, label: 'Динамика', value: 'Скоро' },
-          { icon: Clock, label: 'Длительность', value: 'Скоро' },
-        ].map((item, idx) => {
-          const Icon = item.icon;
-          return (
-            <div 
-              key={idx}
-              className="p-3 rounded-lg bg-muted/50 border border-border/50"
-            >
-              <div className="flex items-center gap-2 mb-1">
-                <Icon className="w-3 h-3 text-muted-foreground" />
-                <span className="text-xs font-medium">{item.label}</span>
-              </div>
-              <p className="text-xs text-muted-foreground">{item.value}</p>
-            </div>
-          );
-        })}
-      </div>
+      {/* Emotional Map */}
+      {hasEmotionData && analysis && (
+        <EmotionalMap analysis={analysis} />
+      )}
 
-      <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
-        <p className="text-xs text-muted-foreground flex items-start gap-2">
-          <Sparkles className="w-3 h-3 mt-0.5 shrink-0 text-amber-500" />
-          <span>
-            Функция AI-анализа аудио находится в разработке. Скоро будут доступны
-            определение темпа, тональности, динамики и других характеристик.
-          </span>
-        </p>
-      </div>
+      {/* Analysis Details */}
+      {analysis && (
+        <div className="space-y-3">
+          <div className="grid grid-cols-2 gap-2">
+            {analysis.genre && (
+              <div className="p-3 rounded-lg bg-muted/50 border border-border/50">
+                <div className="flex items-center gap-2 mb-1">
+                  <Music2 className="w-3 h-3 text-muted-foreground" />
+                  <span className="text-xs font-medium">Жанр</span>
+                </div>
+                <p className="text-sm font-medium">{analysis.genre}</p>
+              </div>
+            )}
+            {analysis.mood && (
+              <div className="p-3 rounded-lg bg-muted/50 border border-border/50">
+                <div className="flex items-center gap-2 mb-1">
+                  <Activity className="w-3 h-3 text-muted-foreground" />
+                  <span className="text-xs font-medium">Настроение</span>
+                </div>
+                <p className="text-sm font-medium">{analysis.mood}</p>
+              </div>
+            )}
+            {analysis.tempo && (
+              <div className="p-3 rounded-lg bg-muted/50 border border-border/50">
+                <div className="flex items-center gap-2 mb-1">
+                  <Clock className="w-3 h-3 text-muted-foreground" />
+                  <span className="text-xs font-medium">Темп</span>
+                </div>
+                <p className="text-sm font-medium">{analysis.tempo}</p>
+              </div>
+            )}
+            {analysis.key_signature && (
+              <div className="p-3 rounded-lg bg-muted/50 border border-border/50">
+                <div className="flex items-center gap-2 mb-1">
+                  <Music2 className="w-3 h-3 text-muted-foreground" />
+                  <span className="text-xs font-medium">Тональность</span>
+                </div>
+                <p className="text-sm font-medium">{analysis.key_signature}</p>
+              </div>
+            )}
+          </div>
+
+          {/* Instruments */}
+          {analysis.instruments && analysis.instruments.length > 0 && (
+            <div className="p-3 rounded-lg bg-muted/50 border border-border/50">
+              <span className="text-xs font-medium">Инструменты</span>
+              <div className="flex flex-wrap gap-1 mt-2">
+                {analysis.instruments.map((instrument, i) => (
+                  <Badge key={i} variant="secondary" className="text-xs">
+                    {instrument}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Structure */}
+          {analysis.structure && (
+            <div className="p-3 rounded-lg bg-muted/50 border border-border/50">
+              <span className="text-xs font-medium">Структура</span>
+              <p className="text-sm mt-1">{analysis.structure}</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* No analysis yet */}
+      {!analysis && !analysisLoading && !isAnalyzing && (
+        <div className="text-center py-6 text-muted-foreground">
+          <Activity className="w-10 h-10 mx-auto mb-2 opacity-30" />
+          <p className="text-sm">Анализ ещё не выполнен</p>
+          <p className="text-xs mt-1">Нажмите кнопку выше для анализа</p>
+        </div>
+      )}
     </div>
   );
 
