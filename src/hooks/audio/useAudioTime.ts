@@ -26,7 +26,9 @@ export function useAudioTime() {
   const { isPlaying, activeTrack } = usePlayerStore();
 
   useEffect(() => {
-    // Capture audio reference for this effect execution
+    // Capture audio reference at effect setup to ensure cleanup uses same reference.
+    // globalAudio is set once by GlobalAudioProvider and never changes, but capturing
+    // it here follows React best practices for stable effect cleanup.
     const audio = globalAudio;
     
     if (!audio) {
