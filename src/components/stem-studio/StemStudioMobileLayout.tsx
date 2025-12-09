@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Music2, Sliders, FileText, Scissors, 
+  Music2, Sliders, FileText, Scissors, Zap,
   ChevronLeft, Play, Pause, SkipBack, SkipForward
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-type MobileTab = 'stems' | 'effects' | 'lyrics' | 'edit';
+type MobileTab = 'stems' | 'effects' | 'lyrics' | 'edit' | 'actions';
 
 interface StemStudioMobileLayoutProps {
   trackTitle: string;
@@ -22,6 +22,7 @@ interface StemStudioMobileLayoutProps {
   effectsPanelContent: React.ReactNode;
   lyricsPanelContent: React.ReactNode;
   editPanelContent: React.ReactNode;
+  actionsPanelContent?: React.ReactNode;
 }
 
 const tabs: { id: MobileTab; label: string; icon: React.ElementType }[] = [
@@ -29,6 +30,7 @@ const tabs: { id: MobileTab; label: string; icon: React.ElementType }[] = [
   { id: 'effects', label: 'Эффекты', icon: Sliders },
   { id: 'lyrics', label: 'Текст', icon: FileText },
   { id: 'edit', label: 'Редактор', icon: Scissors },
+  { id: 'actions', label: 'Действия', icon: Zap },
 ];
 
 export function StemStudioMobileLayout({
@@ -44,6 +46,7 @@ export function StemStudioMobileLayout({
   effectsPanelContent,
   lyricsPanelContent,
   editPanelContent,
+  actionsPanelContent,
 }: StemStudioMobileLayoutProps) {
   const [activeTab, setActiveTab] = useState<MobileTab>('stems');
 
@@ -56,7 +59,8 @@ export function StemStudioMobileLayout({
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   const availableTabs = tabs.filter(tab => 
-    tab.id !== 'edit' || canReplaceSection
+    (tab.id !== 'edit' || canReplaceSection) && 
+    (tab.id !== 'actions' || actionsPanelContent)
   );
 
   const renderContent = () => {
@@ -69,6 +73,8 @@ export function StemStudioMobileLayout({
         return lyricsPanelContent;
       case 'edit':
         return editPanelContent;
+      case 'actions':
+        return actionsPanelContent;
       default:
         return null;
     }
