@@ -3,7 +3,7 @@
 # Build verification script to prevent empty vendor chunks
 # This script ensures that the Vite build produces proper chunk sizes
 
-set -e  # Exit on error
+set -euo pipefail  # Exit on error, undefined variables, and pipe failures
 
 echo "🔍 Verifying build output..."
 
@@ -23,8 +23,12 @@ fi
 # Check each vendor chunk
 echo ""
 echo "Checking vendor chunks..."
-for file in dist/assets/vendor-*.js; do
-  if [ -f "$file" ]; then
+shopt -s nullglob  # Make glob return empty if no matches
+vendor_files=(dist/assets/vendor-*.js)
+if [ ${#vendor_files[@]} -eq 0 ]; then
+  echo "⚠️  Warning: No vendor chunks found"
+else
+  for file in "${vendor_files[@]}"; do
     # Get file size (works on both macOS and Linux)
     if [[ "$OSTYPE" == "darwin"* ]]; then
       size=$(stat -f%z "$file")
@@ -42,8 +46,8 @@ for file in dist/assets/vendor-*.js; do
       size_kb=$((size / 1024))
       echo "✅ PASS: $filename ($size_kb KB)"
     fi
-  fi
-done
+  done
+fi
 
 # Check main index chunk
 echo ""

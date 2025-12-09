@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:verify": "npm run build && ./scripts/verify-build.sh",
+    "build:verify": "npm run build && bash ./scripts/verify-build.sh",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:e2e": "playwright test",
