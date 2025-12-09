@@ -7,11 +7,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ForceGraph } from '@/components/music-graph/ForceGraph';
+import { MobileGraphView } from '@/components/music-graph/MobileGraphView';
 import { NodeDetails } from '@/components/music-graph/NodeDetails';
 import { GraphFilters } from '@/components/music-graph/GraphFilters';
 import { useMusicGraphData, type GraphNode } from '@/hooks/useMusicGraph';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function MusicGraph() {
+  const isMobile = useIsMobile();
   const { graphData, isLoading, tags, styles } = useMusicGraphData();
   
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
@@ -167,25 +170,34 @@ export default function MusicGraph() {
 
           {/* Graph View */}
           <TabsContent value="graph" className="mt-0">
-            <div className="relative h-[600px]">
-              <ForceGraph
+            {isMobile ? (
+              <MobileGraphView
                 data={graphData}
                 onNodeClick={handleNodeClick}
                 selectedNode={selectedNode}
                 filter={graphFilter}
               />
+            ) : (
+              <div className="relative h-[600px]">
+                <ForceGraph
+                  data={graphData}
+                  onNodeClick={handleNodeClick}
+                  selectedNode={selectedNode}
+                  filter={graphFilter}
+                />
 
-              {/* Node Details Panel */}
-              <AnimatePresence>
-                {selectedNode && (
-                  <NodeDetails
-                    node={selectedNode}
-                    onClose={() => setSelectedNode(null)}
-                    relatedNodes={relatedNodes}
-                  />
-                )}
-              </AnimatePresence>
-            </div>
+                {/* Node Details Panel */}
+                <AnimatePresence>
+                  {selectedNode && (
+                    <NodeDetails
+                      node={selectedNode}
+                      onClose={() => setSelectedNode(null)}
+                      relatedNodes={relatedNodes}
+                    />
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
           </TabsContent>
 
           {/* List View */}
