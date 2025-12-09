@@ -24,3 +24,6 @@ export { useStudioPlayer } from './useStudioPlayer';
 export { useStudioDialogs } from './useStudioDialogs';
 export { useTrimExport } from './useTrimExport';
 export { useMidiSync } from './useMidiSync';
+export { useStemAudioSync } from './useStemAudioSync';
+export { useStemControls } from './useStemControls';
+export type { StemState } from './useStemControls';

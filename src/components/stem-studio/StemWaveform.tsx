@@ -100,13 +100,19 @@ export const StemWaveform = memo(({
     };
   }, [audioUrl, height]);
 
-  // Sync time with external audio
+  // Sync time with external audio - optimized with throttling
   useEffect(() => {
     if (wavesurferRef.current && isReady && duration > 0) {
       const progress = currentTime / duration;
-      wavesurferRef.current.seekTo(Math.max(0, Math.min(1, progress)));
+      const clampedProgress = Math.max(0, Math.min(1, progress));
+      
+      // Only update if playing or significant change (>1% or seeking)
+      const currentProgress = (wavesurferRef.current.getCurrentTime() || 0) / duration;
+      if (isPlaying || Math.abs(clampedProgress - currentProgress) > 0.01) {
+        wavesurferRef.current.seekTo(clampedProgress);
+      }
     }
-  }, [currentTime, duration, isReady]);
+  }, [currentTime, duration, isReady, isPlaying]);
 
   // Update colors when they change
   useEffect(() => {
