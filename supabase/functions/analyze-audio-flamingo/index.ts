@@ -31,15 +31,18 @@ serve(async (req) => {
       throw new Error('audio_url is required');
     }
 
-    // Get track info
-    const { data: track, error: trackError } = await supabase
-      .from('tracks')
-      .select('user_id, title, style, lyrics')
-      .eq('id', track_id)
-      .single();
+    // Get track info if track_id provided, otherwise use defaults for standalone analysis
+    let track = { user_id: 'anonymous', title: 'audio', style: null, lyrics: null };
+    if (track_id) {
+      const { data: trackData, error: trackError } = await supabase
+        .from('tracks')
+        .select('user_id, title, style, lyrics')
+        .eq('id', track_id)
+        .single();
 
-    if (trackError || !track) {
-      throw new Error('Track not found');
+      if (trackData) {
+        track = trackData;
+      }
     }
 
     // Default prompt for automatic analysis
@@ -102,51 +105,54 @@ Provide concise, accurate information suitable for music generation AI.`;
     const arousal = parseNumber(fullResponse, 'Energy Level');
     const valence = parseNumber(fullResponse, 'Positivity');
 
-    // Save analysis to database
-    const { data: analysis, error: insertError } = await supabase
-      .from('audio_analysis')
-      .insert({
-        track_id,
-        user_id: track.user_id,
-        analysis_type,
-        full_response: fullResponse,
-        genre,
-        mood,
-        tempo,
-        key_signature: keySignature,
-        instruments,
-        structure,
-        style_description: styleDescription,
-        arousal,
-        valence,
-        analysis_metadata: {
-          flamingo_arousal: arousal,
-          flamingo_valence: valence,
-          analyzed_at: new Date().toISOString()
-        }
-      })
-      .select()
-      .single();
+    // Save analysis to database only if track_id is provided
+    let analysis = null;
+    if (track_id) {
+      const { data: savedAnalysis, error: insertError } = await supabase
+        .from('audio_analysis')
+        .insert({
+          track_id,
+          user_id: track.user_id,
+          analysis_type,
+          full_response: fullResponse,
+          genre,
+          mood,
+          tempo,
+          key_signature: keySignature,
+          instruments,
+          structure,
+          style_description: styleDescription,
+          arousal,
+          valence,
+          analysis_metadata: {
+            flamingo_arousal: arousal,
+            flamingo_valence: valence,
+            analyzed_at: new Date().toISOString()
+          }
+        })
+        .select()
+        .single();
 
-    if (insertError) {
-      console.error('Error saving analysis:', insertError);
-      throw insertError;
-    }
+      if (insertError) {
+        console.error('Error saving analysis:', insertError);
+      } else {
+        analysis = savedAnalysis;
+        console.log('Analysis saved:', analysis.id);
+      }
 
-    console.log('Analysis saved:', analysis.id);
+      // Update track with analyzed data if it's empty
+      const updates: any = {};
+      if (!track.style && styleDescription) {
+        updates.style = styleDescription;
+      }
 
-    // Update track with analyzed data if it's empty
-    const updates: any = {};
-    if (!track.style && styleDescription) {
-      updates.style = styleDescription;
-    }
-
-    if (Object.keys(updates).length > 0) {
-      await supabase
-        .from('tracks')
-        .update(updates)
-        .eq('id', track_id);
-      console.log('Track updated with analysis');
+      if (Object.keys(updates).length > 0) {
+        await supabase
+          .from('tracks')
+          .update(updates)
+          .eq('id', track_id);
+        console.log('Track updated with analysis');
+      }
     }
 
     return new Response(

@@ -133,15 +133,18 @@ serve(async (req) => {
       throw new Error('audio_url is required');
     }
 
-    // Get track info
-    const { data: track, error: trackError } = await supabase
-      .from('tracks')
-      .select('user_id, title')
-      .eq('id', track_id)
-      .single();
+    // Get track info if track_id provided, otherwise use defaults
+    let track = { user_id: 'anonymous', title: 'audio' };
+    if (track_id) {
+      const { data: trackData, error: trackError } = await supabase
+        .from('tracks')
+        .select('user_id, title')
+        .eq('id', track_id)
+        .single();
 
-    if (trackError || !track) {
-      throw new Error('Track not found');
+      if (trackData) {
+        track = trackData;
+      }
     }
 
     // Determine which model to use
