@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { 
   GripVertical, Plus, Trash2, Edit2, Check, 
-  Sparkles, Music2, ChevronDown, Mic
+  Sparkles, Music2, ChevronDown, Mic, Tag
 } from 'lucide-react';
 import { toast } from 'sonner';
 import {
@@ -16,12 +16,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
+import { SectionTagSelector } from './SectionTagSelector';
 import { cn } from '@/lib/utils';
 
 interface LyricSection {
   id: string;
   type: 'intro' | 'verse' | 'chorus' | 'bridge' | 'outro' | 'hook' | 'pre' | 'drop' | 'breakdown';
   content: string;
+  tags?: string[];
 }
 
 interface LyricsVisualEditorProps {
@@ -65,6 +67,7 @@ function parseLyrics(text: string): LyricSection[] {
         id: `${validType}-${Date.now()}-${Math.random()}`,
         type: validType,
         content: '',
+        tags: [],
       };
     } else if (currentSection && line.trim()) {
       currentSection.content += (currentSection.content ? '\n' : '') + line;
@@ -116,6 +119,7 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
       id: newSectionId,
       type,
       content: '',
+      tags: [],
     };
     const updated = [...sections, newSection];
     setSections(updated);
@@ -133,6 +137,14 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
       s.id === id ? { ...s, content } : s
     );
     setSections(updated);
+  };
+
+  const handleUpdateSectionTags = (id: string, tags: string[]) => {
+    const updated = sections.map(s => 
+      s.id === id ? { ...s, tags } : s
+    );
+    setSections(updated);
+    onChange(sectionsToLyrics(updated));
   };
 
   const handleSaveEdit = (id: string) => {
@@ -289,7 +301,7 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
                             </div>
 
                             {/* Content */}
-                            <div className="p-3">
+                            <div className="p-3 space-y-2">
                               {isEditing ? (
                                 <Textarea
                                   value={section.content}
@@ -323,6 +335,16 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
                                   )}
                                 </div>
                               )}
+                              
+                              {/* Tags Section */}
+                              <div className="pt-2 border-t border-border/20">
+                                <SectionTagSelector
+                                  selectedTags={section.tags || []}
+                                  onChange={(tags) => handleUpdateSectionTags(section.id, tags)}
+                                  sectionName={config.label}
+                                  compact={true}
+                                />
+                              </div>
                             </div>
                           </div>
                         )}
