@@ -157,7 +157,28 @@ export const useLyricsWizardStore = create<LyricsWizardState>()(
       
       // Navigation
       setStep: (step) => set({ step }),
-      nextStep: () => set((state) => ({ step: Math.min(state.step + 1, 5) })),
+      nextStep: () => {
+        const state = get();
+        
+        // Validate section content before allowing step transition (IMP010)
+        if (state.step === 3) {
+          const hasEmptySections = state.writing.sections.some(s => !s.content.trim());
+          if (hasEmptySections) {
+            // Don't prevent transition but store warning
+            set((state) => ({
+              validation: {
+                ...state.validation,
+                warnings: [
+                  ...state.validation.warnings,
+                  'Некоторые секции пусты. Рекомендуется заполнить все секции перед продолжением.'
+                ]
+              }
+            }));
+          }
+        }
+        
+        set((state) => ({ step: Math.min(state.step + 1, 5) }));
+      },
       prevStep: () => set((state) => ({ step: Math.max(state.step - 1, 1) })),
   
   // Concept
