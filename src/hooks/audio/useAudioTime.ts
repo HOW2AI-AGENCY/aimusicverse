@@ -26,7 +26,10 @@ export function useAudioTime() {
   const { isPlaying, activeTrack } = usePlayerStore();
 
   useEffect(() => {
-    if (!globalAudio) {
+    // Capture audio reference for this effect execution
+    const audio = globalAudio;
+    
+    if (!audio) {
       // Reset state if audio not available
       setCurrentTime(0);
       setDuration(0);
@@ -35,48 +38,47 @@ export function useAudioTime() {
     }
 
     const handleTimeUpdate = () => {
-      if (globalAudio) {
-        setCurrentTime(globalAudio.currentTime);
+      if (audio) {
+        setCurrentTime(audio.currentTime);
       }
     };
 
     const handleLoadedMetadata = () => {
-      if (globalAudio) {
-        setDuration(globalAudio.duration || 0);
+      if (audio) {
+        setDuration(audio.duration || 0);
       }
     };
 
     const handleProgress = () => {
-      if (globalAudio && globalAudio.buffered.length > 0 && globalAudio.duration) {
-        const bufferedEnd = globalAudio.buffered.end(globalAudio.buffered.length - 1);
-        setBuffered((bufferedEnd / globalAudio.duration) * 100);
+      if (audio && audio.buffered.length > 0 && audio.duration) {
+        const bufferedEnd = audio.buffered.end(audio.buffered.length - 1);
+        setBuffered((bufferedEnd / audio.duration) * 100);
       }
     };
 
     const handleDurationChange = () => {
-      if (globalAudio) {
-        setDuration(globalAudio.duration || 0);
+      if (audio) {
+        setDuration(audio.duration || 0);
       }
     };
 
-    globalAudio.addEventListener('timeupdate', handleTimeUpdate);
-    globalAudio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    globalAudio.addEventListener('durationchange', handleDurationChange);
-    globalAudio.addEventListener('progress', handleProgress);
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audio.addEventListener('durationchange', handleDurationChange);
+    audio.addEventListener('progress', handleProgress);
 
     // Get initial values
-    if (globalAudio.duration) {
-      setDuration(globalAudio.duration);
+    if (audio.duration) {
+      setDuration(audio.duration);
     }
-    setCurrentTime(globalAudio.currentTime);
+    setCurrentTime(audio.currentTime);
 
     return () => {
-      if (globalAudio) {
-        globalAudio.removeEventListener('timeupdate', handleTimeUpdate);
-        globalAudio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-        globalAudio.removeEventListener('durationchange', handleDurationChange);
-        globalAudio.removeEventListener('progress', handleProgress);
-      }
+      // Cleanup uses captured reference
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.removeEventListener('durationchange', handleDurationChange);
+      audio.removeEventListener('progress', handleProgress);
     };
   }, [activeTrack?.id]);
 
