@@ -255,7 +255,7 @@ export function useGuitarAnalysis() {
       if (!user) throw new Error('Not authenticated');
       
       // Upload audio
-      const fileName = `guitar-analysis/${user.id}/${Date.now()}-${audioFile.name}`;
+      const fileName = `${user.id}/guitar-analysis/${Date.now()}-${audioFile.name}`;
       const { error: uploadError } = await supabase.storage
         .from('project-assets')
         .upload(fileName, audioFile, { cacheControl: '3600' });
