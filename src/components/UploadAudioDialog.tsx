@@ -73,13 +73,6 @@ export const UploadAudioDialog = ({
   const [audioWeight, setAudioWeight] = useState([0.65]);
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
 
-  // Load user tracks when library panel opens
-  useEffect(() => {
-    if (libraryOpen && user && userTracks.length === 0) {
-      loadUserTracks();
-    }
-  }, [libraryOpen, user, userTracks.length, loadUserTracks]);
-
   const loadUserTracks = useCallback(async () => {
     if (!user) return;
     setLoadingTracks(true);
@@ -100,6 +93,13 @@ export const UploadAudioDialog = ({
       setLoadingTracks(false);
     }
   }, [user]);
+
+  // Load user tracks when library panel opens
+  useEffect(() => {
+    if (libraryOpen && user && userTracks.length === 0) {
+      loadUserTracks();
+    }
+  }, [libraryOpen, user, userTracks.length, loadUserTracks]);
 
   const handleTrackSelect = async (track: Tables<'tracks'>) => {
     setSelectedTrack(track);
