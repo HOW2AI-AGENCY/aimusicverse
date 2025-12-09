@@ -436,12 +436,18 @@ export function GuitarRecordDialog({
     </Button>
   );
 
+  // If using controlled open without trigger, don't render trigger
+  const isControlled = controlledOpen !== undefined;
+  const triggerElement = isControlled ? null : (trigger || defaultTrigger);
+
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={setOpen}>
-        <DrawerTrigger asChild>
-          {trigger || defaultTrigger}
-        </DrawerTrigger>
+        {triggerElement && (
+          <DrawerTrigger asChild>
+            {triggerElement}
+          </DrawerTrigger>
+        )}
         <DrawerContent className="max-h-[90vh]">
           <DrawerHeader className="pb-2">
             <DrawerTitle className="flex items-center gap-2">
@@ -459,9 +465,11 @@ export function GuitarRecordDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {trigger || defaultTrigger}
-      </DialogTrigger>
+      {triggerElement && (
+        <DialogTrigger asChild>
+          {triggerElement}
+        </DialogTrigger>
+      )}
       <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
