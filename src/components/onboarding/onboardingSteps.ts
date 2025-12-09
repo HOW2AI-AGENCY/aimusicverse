@@ -24,6 +24,8 @@ export interface OnboardingStep {
   route?: string;
   features?: string[];
   tip?: string;
+  imageId?: string;
+  videoUrl?: string;
 }
 
 export const ONBOARDING_STEPS: OnboardingStep[] = [
@@ -45,6 +47,7 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     description: 'Опишите желаемый трек словами — AI создаст уникальную композицию за 2-3 минуты.',
     icon: Music2,
     route: '/',
+    imageId: 'generate',
     features: [
       'Простой режим — опишите идею',
       'Кастомный режим — полный контроль',
@@ -70,6 +73,7 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     description: 'Все созданные треки хранятся в вашей личной библиотеке с удобным доступом.',
     icon: Library,
     route: '/library',
+    imageId: 'library',
     features: [
       'Фильтрация и сортировка',
       'Быстрые действия свайпом',
@@ -118,6 +122,7 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     description: 'Разделяйте треки на дорожки: вокал, ударные, бас, инструменты.',
     icon: Waves,
     route: '/library',
+    imageId: 'stem-studio',
     features: [
       'AI-разделение на стемы',
       'Mute/Solo для каждого стема',
@@ -131,6 +136,7 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     description: 'Организуйте работу над альбомами, EP и синглами в единой системе.',
     icon: FolderKanban,
     route: '/projects',
+    imageId: 'projects',
     features: [
       'Планирование треклиста',
       'Единый стиль проекта',
