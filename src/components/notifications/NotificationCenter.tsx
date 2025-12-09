@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Bell, Volume2, VolumeX, CheckCheck, Trash2, ExternalLink } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';

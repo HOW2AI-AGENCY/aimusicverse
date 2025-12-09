@@ -25,7 +25,7 @@ import { useAudioVisualizer } from '@/hooks/audio';
 import { QueueSheet } from './QueueSheet';
 import { VersionSwitcher } from './VersionSwitcher';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
 import { logger } from '@/lib/logger';
 

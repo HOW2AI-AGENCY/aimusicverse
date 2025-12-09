@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { Play, Pause, SkipForward, X, Music2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { usePlayerStore } from '@/hooks/audio';

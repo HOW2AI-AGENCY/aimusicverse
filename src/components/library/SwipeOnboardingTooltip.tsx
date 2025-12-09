@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { ChevronLeft, ChevronRight, X, Lightbulb } from 'lucide-react';
 
 const STORAGE_KEY = 'swipe-onboarding-shown';

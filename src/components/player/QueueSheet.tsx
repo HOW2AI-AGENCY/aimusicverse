@@ -11,7 +11,7 @@ import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrate
 import { QueueItem } from './QueueItem';
 import { usePlayerStore } from '@/hooks/audio';
 import { toast } from 'sonner';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 
 interface QueueSheetProps {
   open: boolean;

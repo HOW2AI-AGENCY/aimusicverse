@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { useUserCredits } from '@/hooks/useGamification';
 import { Coins, TrendingUp, Flame, Sparkles, Star } from 'lucide-react';
 

@@ -2,7 +2,7 @@
  * Header for section editor with title and close button
  */
 
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Sparkles, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';

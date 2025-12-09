@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { useNavigate } from 'react-router-dom';
 import { Sparkles, Music2, Wand2, Upload, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
