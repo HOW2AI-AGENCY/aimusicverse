@@ -1,6 +1,7 @@
 import React from 'react';
 import DOMPurify from 'dompurify';
 import { cn } from '@/lib/utils';
+import { Info, AlertTriangle, Lightbulb, CheckCircle } from 'lucide-react';
 
 interface BlogContentRendererProps {
   content: string;
@@ -16,6 +17,10 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
     let codeBlockLang = '';
     let listItems: React.ReactNode[] = [];
     let inList = false;
+    let tableRows: string[][] = [];
+    let inTable = false;
+    let calloutType: string | null = null;
+    let calloutContent: string[] = [];
 
     const flushList = () => {
       if (listItems.length > 0) {
@@ -29,7 +34,106 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
       }
     };
 
+    const flushTable = () => {
+      if (tableRows.length > 0) {
+        const [header, ...body] = tableRows;
+        elements.push(
+          <div key={`table-${elements.length}`} className="my-6 overflow-x-auto rounded-lg border border-border">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/50">
+                <tr>
+                  {header.map((cell, i) => (
+                    <th key={i} className="px-4 py-3 text-left font-semibold text-foreground border-b border-border">
+                      {parseInlineFormatting(cell.trim())}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {body.map((row, rowIndex) => (
+                  <tr key={rowIndex} className="border-b border-border/50 hover:bg-muted/30 transition-colors">
+                    {row.map((cell, cellIndex) => (
+                      <td key={cellIndex} className="px-4 py-3 text-foreground/90">
+                        {parseInlineFormatting(cell.trim())}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+        tableRows = [];
+        inTable = false;
+      }
+    };
+
+    const flushCallout = () => {
+      if (calloutType && calloutContent.length > 0) {
+        const calloutConfig = {
+          info: { icon: Info, bg: 'bg-blue-500/10', border: 'border-blue-500/30', text: 'text-blue-600 dark:text-blue-400' },
+          warning: { icon: AlertTriangle, bg: 'bg-yellow-500/10', border: 'border-yellow-500/30', text: 'text-yellow-600 dark:text-yellow-400' },
+          tip: { icon: Lightbulb, bg: 'bg-green-500/10', border: 'border-green-500/30', text: 'text-green-600 dark:text-green-400' },
+          success: { icon: CheckCircle, bg: 'bg-green-500/10', border: 'border-green-500/30', text: 'text-green-600 dark:text-green-400' },
+        };
+        const config = calloutConfig[calloutType as keyof typeof calloutConfig] || calloutConfig.info;
+        const Icon = config.icon;
+
+        elements.push(
+          <div key={`callout-${elements.length}`} className={cn(
+            'my-6 p-4 rounded-lg border flex gap-3',
+            config.bg, config.border
+          )}>
+            <Icon className={cn('w-5 h-5 flex-shrink-0 mt-0.5', config.text)} />
+            <div className="flex-1 space-y-2">
+              {calloutContent.map((line, i) => (
+                <p key={i} className="text-sm text-foreground/90">{parseInlineFormatting(line)}</p>
+              ))}
+            </div>
+          </div>
+        );
+        calloutType = null;
+        calloutContent = [];
+      }
+    };
+
     lines.forEach((line, index) => {
+      // Callout start: :::info, :::warning, :::tip
+      const calloutStart = line.match(/^:::(info|warning|tip|success)$/);
+      if (calloutStart) {
+        flushList();
+        flushTable();
+        calloutType = calloutStart[1];
+        return;
+      }
+
+      // Callout end
+      if (line.trim() === ':::' && calloutType) {
+        flushCallout();
+        return;
+      }
+
+      // Inside callout
+      if (calloutType) {
+        calloutContent.push(line);
+        return;
+      }
+
+      // Table row detection
+      if (line.startsWith('|') && line.endsWith('|')) {
+        flushList();
+        const cells = line.slice(1, -1).split('|');
+        // Skip separator row (|---|---|)
+        if (cells.every(cell => cell.trim().match(/^[-:]+$/))) {
+          return;
+        }
+        tableRows.push(cells);
+        inTable = true;
+        return;
+      } else if (inTable) {
+        flushTable();
+      }
+
       // Code block handling
       if (line.startsWith('```')) {
         if (!inCodeBlock) {
@@ -43,6 +147,11 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
               key={`code-${index}`}
               className="bg-muted/50 border border-border/50 rounded-lg p-4 overflow-x-auto mb-4 text-sm font-mono"
             >
+              {codeBlockLang && (
+                <div className="text-xs text-muted-foreground mb-2 pb-2 border-b border-border/30">
+                  {codeBlockLang}
+                </div>
+              )}
               <code className="text-foreground/90">{codeBlockContent.join('\n')}</code>
             </pre>
           );
@@ -69,6 +178,10 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
               alt={alt}
               className="w-full rounded-lg border border-border/30 shadow-lg"
               loading="lazy"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
             />
             {alt && (
               <figcaption className="text-center text-sm text-muted-foreground mt-2 italic">
@@ -84,7 +197,7 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
       if (line.trim() === '---' || line.trim() === '***') {
         flushList();
         elements.push(
-          <hr key={`hr-${index}`} className="my-6 border-border/50" />
+          <hr key={`hr-${index}`} className="my-8 border-border/50" />
         );
         return;
       }
@@ -183,8 +296,10 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
       );
     });
 
-    // Flush any remaining list items
+    // Flush any remaining content
     flushList();
+    flushTable();
+    flushCallout();
 
     return elements;
   };
@@ -196,13 +311,25 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
   );
 }
 
-// Parse inline formatting: **bold**, *italic*, `code`, [link](url)
+// Parse inline formatting: **bold**, *italic*, `code`, [link](url), ~~strikethrough~~
 function parseInlineFormatting(text: string): React.ReactNode {
   const elements: React.ReactNode[] = [];
   let remaining = text;
   let keyIndex = 0;
 
   while (remaining.length > 0) {
+    // Strikethrough: ~~text~~
+    const strikeMatch = remaining.match(/^~~(.+?)~~/);
+    if (strikeMatch) {
+      elements.push(
+        <del key={`strike-${keyIndex++}`} className="text-muted-foreground">
+          {strikeMatch[1]}
+        </del>
+      );
+      remaining = remaining.slice(strikeMatch[0].length);
+      continue;
+    }
+
     // Bold: **text**
     const boldMatch = remaining.match(/^\*\*(.+?)\*\*/);
     if (boldMatch) {
@@ -261,7 +388,7 @@ function parseInlineFormatting(text: string): React.ReactNode {
     }
 
     // Regular character - find next special character or end
-    const nextSpecial = remaining.search(/\*|`|\[/);
+    const nextSpecial = remaining.search(/\*|`|\[|~/);
     if (nextSpecial === -1) {
       elements.push(remaining);
       break;
