@@ -120,7 +120,7 @@ export const GuitarAnalysisFullscreen = memo(function GuitarAnalysisFullscreen({
       setCurrentChord(chord.chord);
       haptic.selectionChanged();
     }
-  }, [currentTime, chords, currentChord, trigger]);
+  }, [currentTime, chords, currentChord, haptic]);
 
   const togglePlay = useCallback(() => {
     const audio = audioRef.current;

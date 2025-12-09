@@ -63,7 +63,7 @@ export const NoteFlowVisualization = memo(function NoteFlowVisualization({
   const haptic = useHapticFeedback();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
   const lastHitNoteRef = useRef<Note | null>(null);
   const [dimensions, setDimensions] = useState({ width: 300, height: 400 });
   const [hitNotes, setHitNotes] = useState<Set<string>>(new Set());
@@ -100,7 +100,7 @@ export const NoteFlowVisualization = memo(function NoteFlowVisualization({
         haptic.impact('light');
       }
     });
-  }, [currentTime, notes, hitNotes, onNoteHit, trigger]);
+  }, [currentTime, notes, hitNotes, onNoteHit, haptic]);
 
   // Clear hit notes when seeking backwards
   useEffect(() => {
