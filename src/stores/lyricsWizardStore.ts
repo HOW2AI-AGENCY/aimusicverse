@@ -1,6 +1,8 @@
 // Zustand store for AI Lyrics Wizard state management
 import { create } from 'zustand';
 import { LYRICS_MAX_LENGTH, LYRICS_MIN_LENGTH } from '@/constants/generationConstants';
+import { LyricsFormatter } from '@/lib/lyrics/LyricsFormatter';
+import { LyricsValidator } from '@/lib/lyrics/LyricsValidator';
 
 export interface SectionDefinition {
   id: string;
@@ -215,95 +217,24 @@ export const useLyricsWizardStore = create<LyricsWizardState>((set, get) => ({
   setDynamicTags: (tags) => set((state) => ({ enrichment: { ...state.enrichment, dynamicTags: tags } })),
   setEmotionalCues: (cues) => set((state) => ({ enrichment: { ...state.enrichment, emotionalCues: cues } })),
   
-  // Validation
+  // Validation using centralized utilities (IMP029)
   validateLyrics: () => {
     const state = get();
     const finalLyrics = state.getFinalLyrics();
-    const warnings: string[] = [];
-    const suggestions: string[] = [];
-    
-    // Fix character count calculation to exclude structural tags (IMP011)
-    const lyricsWithoutTags = finalLyrics.replace(/\[.*?\]/g, '').replace(/\(.*?\)/g, '');
-    const charCount = lyricsWithoutTags.length;
-    const totalCharCount = finalLyrics.length;
-    
-    if (totalCharCount > LYRICS_MAX_LENGTH) {
-      warnings.push(`Текст слишком длинный (${totalCharCount}/${LYRICS_MAX_LENGTH} символов)`);
-    }
-    if (charCount < LYRICS_MIN_LENGTH) {
-      warnings.push(`Текст слишком короткий (${charCount}/${LYRICS_MIN_LENGTH} символов без тегов)`);
-    }
-    
-    // Check for structure tags
-    if (!finalLyrics.includes('[')) {
-      suggestions.push('Рекомендуется добавить структурные теги [Verse], [Chorus]');
-    }
-    
-    // Check balance
-    const sections = state.writing.sections;
-    const emptySections = sections.filter(s => !s.content.trim());
-    if (emptySections.length > 0) {
-      warnings.push(`${emptySections.length} секций без текста`);
-    }
-    
-    set({
-      validation: {
-        isValid: warnings.length === 0,
-        warnings,
-        suggestions,
-        characterCount: charCount,
-      },
-    });
+    const validation = LyricsValidator.validate(finalLyrics, state.writing.sections);
+    set({ validation });
   },
   
   // Generation state
   setIsGenerating: (isGenerating) => set({ isGenerating }),
   
-  // Get final formatted lyrics
+  // Get final formatted lyrics using LyricsFormatter utility (IMP028)
   getFinalLyrics: () => {
     const state = get();
-    const { sections } = state.writing;
-    const { vocalTags, instrumentTags, dynamicTags, emotionalCues } = state.enrichment;
-    
-    let lyrics = '';
-    
-    // Add global tags at the beginning
-    if (vocalTags.length > 0) {
-      lyrics += vocalTags.map(t => `[${t}]`).join(' ') + '\n\n';
-    }
-    
-    // Add each section with its tags
-    sections.forEach((section, index) => {
-      if (section.content.trim()) {
-        // Add section header
-        lyrics += `[${section.name}]\n`;
-        
-        // Add dynamic tags if applicable
-        if (index === 0 && dynamicTags.includes('Soft Start')) {
-          lyrics += '(softly)\n';
-        }
-        
-        // Add content with emotional cues
-        let content = section.content;
-        emotionalCues.forEach(cue => {
-          if (section.tags.includes(cue)) {
-            content = `(${cue.toLowerCase()}) ${content}`;
-          }
-        });
-        
-        lyrics += content + '\n\n';
-        
-        // Add instrument breaks between sections
-        if (instrumentTags.length > 0 && index < sections.length - 1) {
-          const breakTag = instrumentTags.find(t => t.toLowerCase().includes('break') || t.toLowerCase().includes('solo'));
-          if (breakTag && Math.random() > 0.7) {
-            lyrics += `[${breakTag}]\n\n`;
-          }
-        }
-      }
-    });
-    
-    return lyrics.trim();
+    return LyricsFormatter.formatFinal(
+      state.writing.sections,
+      state.enrichment
+    );
   },
   
   // Reset

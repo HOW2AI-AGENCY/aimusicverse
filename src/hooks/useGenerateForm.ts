@@ -297,6 +297,11 @@ export function useGenerateForm({
       return;
     }
 
+    // Prevent double-click submissions (IMP005)
+    if (boostLoading) {
+      return;
+    }
+
     setBoostLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('suno-boost-style', {
@@ -331,10 +336,15 @@ export function useGenerateForm({
     } finally {
       setBoostLoading(false);
     }
-  }, [mode, description, style]);
+  }, [mode, description, style, boostLoading]);
 
   // Generate track
   const handleGenerate = useCallback(async () => {
+    // Prevent double-click submissions (IMP005)
+    if (loading) {
+      return;
+    }
+
     const instrumental = !hasVocals;
     const prompt = mode === 'simple' ? description : (instrumental ? '' : lyrics);
 
