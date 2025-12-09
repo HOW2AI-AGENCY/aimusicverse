@@ -13,6 +13,7 @@ import { UnifiedDiscoverySection } from "@/components/home/UnifiedDiscoverySecti
 import { HeroQuickActions } from "@/components/home/HeroQuickActions";
 import { RecentTracksSection } from "@/components/home/RecentTracksSection";
 import { GamificationWidgetCompact } from "@/components/gamification/GamificationWidgetCompact";
+import { BlogSection } from "@/components/home/BlogSection";
 import { GenerateSheet } from "@/components/GenerateSheet";
 import { motion } from "framer-motion";
 
@@ -168,7 +169,7 @@ const Index = () => {
 
         {/* Unified Discovery Section - Combines Featured, New, Popular */}
         <motion.div 
-          className="mb-8"
+          className="mb-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.3 }}
@@ -180,6 +181,15 @@ const Index = () => {
             isLoading={contentLoading}
             onRemix={handleRemix}
           />
+        </motion.div>
+
+        {/* Blog Section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.35, duration: 0.3 }}
+        >
+          <BlogSection />
         </motion.div>
       </div>
 
