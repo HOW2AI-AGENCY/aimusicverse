@@ -18,6 +18,7 @@ import { BlogSection } from "@/components/home/BlogSection";
 import { GraphPreview } from "@/components/home/GraphPreview";
 import { GenerateSheet } from "@/components/GenerateSheet";
 import { MusicRecognitionDialog } from "@/components/music-recognition/MusicRecognitionDialog";
+import { HomeSkeletonEnhanced } from "@/components/home/HomeSkeletonEnhanced";
 import { motion } from "framer-motion";
 
 const Index = () => {
@@ -142,6 +143,11 @@ const Index = () => {
             className="flex-1"
           />
         </div>
+
+        {/* Loading Skeleton */}
+        {contentLoading && !publicContent && (
+          <HomeSkeletonEnhanced />
+        )}
 
         {/* Compact Gamification Widget */}
         <motion.section 

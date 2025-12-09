@@ -21,6 +21,8 @@ import { useGuitarRecordings, type GuitarRecording } from '@/hooks/useGuitarReco
 import { GuitarTabVisualization } from '@/components/analysis/GuitarTabVisualization';
 import { PianoRollWithMidiSync } from './PianoRollWithMidiSync';
 import { ExportFilesPanel } from './ExportFilesPanel';
+import { ChordTimelineMobile } from './ChordTimelineMobile';
+import { ChordDiagramEnhanced } from './ChordDiagramEnhanced';
 
 interface SavedRecordingDetailSheetProps {
   recording: GuitarRecording | null;
@@ -259,20 +261,33 @@ export function SavedRecordingDetailSheet({
               )}
             </Card>
 
-            {/* Chords */}
+            {/* Chords with Enhanced Visualization */}
             {recording.chords && recording.chords.length > 0 && (
               <Card className="p-4">
                 <h3 className="font-medium mb-3 flex items-center gap-2">
                   <Music className="w-4 h-4 text-primary" />
                   Аккорды
                 </h3>
-                <div className="flex flex-wrap gap-2">
-                  {[...new Set(recording.chords.map((c: any) => c.chord || c))].map((chord, i) => (
-                    <Badge key={i} variant="outline" className="text-sm px-3 py-1">
-                      {String(chord)}
-                    </Badge>
+                <div className="flex flex-wrap gap-2 justify-center mb-4">
+                  {[...new Set(recording.chords.map((c: any) => c.chord || c))].slice(0, 8).map((chord, i) => (
+                    <ChordDiagramEnhanced 
+                      key={i} 
+                      chord={String(chord)} 
+                      size="sm"
+                      animated
+                    />
                   ))}
                 </div>
+                {/* Chord Timeline */}
+                <ChordTimelineMobile
+                  chords={recording.chords.map((c: any, idx: number) => ({
+                    chord: c.chord || c,
+                    startTime: c.startTime || c.time || idx * 2,
+                    endTime: c.endTime || (c.time ? c.time + 2 : (idx + 1) * 2),
+                  }))}
+                  duration={recording.duration_seconds || 30}
+                  currentTime={0}
+                />
               </Card>
             )}
 
