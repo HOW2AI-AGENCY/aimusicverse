@@ -12,6 +12,7 @@ import { AutoPlaylistsSectionOptimized } from "@/components/home/AutoPlaylistsSe
 import { UnifiedDiscoverySection } from "@/components/home/UnifiedDiscoverySection";
 import { HeroQuickActions } from "@/components/home/HeroQuickActions";
 import { RecentTracksSection } from "@/components/home/RecentTracksSection";
+import { WelcomeSection } from "@/components/home/WelcomeSection";
 import { GamificationWidgetCompact } from "@/components/gamification/GamificationWidgetCompact";
 import { BlogSection } from "@/components/home/BlogSection";
 import { GraphPreview } from "@/components/home/GraphPreview";
@@ -85,38 +86,37 @@ const Index = () => {
         <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl" />
       </div>
       
-      
-      <div className="container max-w-6xl mx-auto px-4 py-4 sm:py-6 relative z-10">
+      <div className="container max-w-6xl mx-auto px-4 pt-2 pb-4 sm:py-6 relative z-10">
         {/* Compact Header with glass effect */}
         <motion.header 
-          className="flex items-center justify-between mb-6 sticky top-0 z-20 -mx-4 px-4 py-3 backdrop-blur-md bg-background/60"
+          className="flex items-center justify-between mb-4 sticky top-0 z-20 -mx-4 px-4 py-2 backdrop-blur-md bg-background/60"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <motion.div 
               className="relative"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <img src={logo} alt="MusicVerse" className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl shadow-lg" />
+              <img src={logo} alt="MusicVerse" className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl shadow-lg" />
               <motion.div 
-                className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-background"
+                className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-green-500 rounded-full border-2 border-background"
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
             </motion.div>
             <div>
-              <h1 className="text-lg sm:text-xl font-bold text-gradient">MusicVerse</h1>
-              <p className="text-[10px] sm:text-xs text-muted-foreground">AI Music Studio</p>
+              <h1 className="text-base sm:text-xl font-bold text-gradient leading-tight">MusicVerse</h1>
+              <p className="text-[9px] sm:text-xs text-muted-foreground leading-tight">AI Music Studio</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <NotificationBadge />
             <motion.button
               onClick={goToProfile}
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 border-primary/30 hover:border-primary transition-all touch-manipulation ring-2 ring-primary/10 hover:ring-primary/30"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 border-primary/30 hover:border-primary transition-all touch-manipulation ring-2 ring-primary/10 hover:ring-primary/30"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -128,12 +128,20 @@ const Index = () => {
                 />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
-                  <User className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                  <User className="w-4 h-4 text-primary" />
                 </div>
               )}
             </motion.button>
           </div>
         </motion.header>
+
+        {/* Welcome + Stats Row */}
+        <div className="flex items-start justify-between gap-4 mb-4">
+          <WelcomeSection 
+            userName={displayUser?.first_name || displayUser?.username?.split('@')[0]} 
+            className="flex-1"
+          />
+        </div>
 
         {/* Compact Gamification Widget */}
         <motion.section 
@@ -147,7 +155,7 @@ const Index = () => {
 
         {/* Hero Quick Actions */}
         <motion.section 
-          className="mb-6"
+          className="mb-5"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.3 }}
@@ -168,17 +176,18 @@ const Index = () => {
         )}
 
         {/* Public AI Artists Section */}
-        <motion.div
+        <motion.section
+          className="mb-5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.3 }}
         >
           <PublicArtistsSection />
-        </motion.div>
+        </motion.section>
 
         {/* Auto Playlists by Genre */}
-        <motion.div 
-          className="mb-6"
+        <motion.section 
+          className="mb-5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.25, duration: 0.3 }}
@@ -187,11 +196,11 @@ const Index = () => {
             playlists={autoPlaylists} 
             isLoading={contentLoading} 
           />
-        </motion.div>
+        </motion.section>
 
         {/* Unified Discovery Section - Combines Featured, New, Popular */}
-        <motion.div 
-          className="mb-6"
+        <motion.section 
+          className="mb-5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.3 }}
@@ -203,25 +212,26 @@ const Index = () => {
             isLoading={contentLoading}
             onRemix={handleRemix}
           />
-        </motion.div>
+        </motion.section>
 
         {/* Graph Preview */}
-        <motion.div
+        <motion.section
+          className="mb-5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.35, duration: 0.3 }}
         >
           <GraphPreview />
-        </motion.div>
+        </motion.section>
 
         {/* Blog Section */}
-        <motion.div
+        <motion.section
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.3 }}
         >
           <BlogSection />
-        </motion.div>
+        </motion.section>
       </div>
 
       <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />

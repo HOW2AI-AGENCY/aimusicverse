@@ -145,18 +145,18 @@ export function UnifiedDiscoverySection({
             ))}
           </div>
 
-          {/* Mobile Horizontal Scroll */}
+          {/* Mobile Horizontal Scroll - improved sizing */}
           <div className="sm:hidden overflow-x-auto scrollbar-hide -mx-4 px-4">
             <div className="flex gap-3 pb-2">
               {tracks.slice(0, 10).map((track, index) => (
                 <motion.div
                   key={track.id}
-                  className="w-[200px] flex-shrink-0"
+                  className="w-[160px] flex-shrink-0"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <PublicTrackCard track={track} onRemix={onRemix} />
+                  <PublicTrackCard track={track} onRemix={onRemix} compact />
                 </motion.div>
               ))}
             </div>
