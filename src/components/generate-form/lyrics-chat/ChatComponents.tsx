@@ -11,7 +11,7 @@ interface GenreSelectorProps {
 export function GenreSelector({ selectedGenre, onSelect }: GenreSelectorProps) {
   return (
     <motion.div 
-      className="grid grid-cols-2 gap-2 mt-3"
+      className="grid grid-cols-3 gap-1.5 mt-3"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 }}
@@ -29,15 +29,15 @@ export function GenreSelector({ selectedGenre, onSelect }: GenreSelectorProps) {
             whileHover="hover"
             whileTap="tap"
             className={cn(
-              "w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium transition-all",
+              "w-full flex items-center justify-center gap-1 px-2 py-2 rounded-lg text-xs font-medium transition-all",
               selectedGenre === g.value
                 ? "bg-primary text-primary-foreground shadow-lg"
                 : "bg-secondary/50 hover:bg-secondary text-foreground"
             )}
             onClick={() => onSelect(g.value)}
           >
-            <span className="text-base">{g.emoji}</span>
-            <span>{g.label}</span>
+            <span className="text-sm">{g.emoji}</span>
+            <span className="truncate">{g.label}</span>
           </motion.button>
         </motion.div>
       ))}

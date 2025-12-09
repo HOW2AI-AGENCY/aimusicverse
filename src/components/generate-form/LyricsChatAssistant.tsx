@@ -86,9 +86,9 @@ export function LyricsChatAssistant({
   };
 
   const chatContent = (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full min-h-0">
       {/* Chat Area */}
-      <ScrollArea className="flex-1 px-4 py-3" ref={chat.scrollRef}>
+      <ScrollArea className="flex-1 min-h-0 px-4 py-3" ref={chat.scrollRef}>
         <div className="space-y-3">
           <AnimatePresence mode="popLayout">
             {chat.messages.map((msg) => (
@@ -186,8 +186,8 @@ export function LyricsChatAssistant({
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="max-h-[90vh] flex flex-col">
-          <DrawerHeader className="pb-2 border-b border-border/50">
+        <DrawerContent className="h-[85vh] max-h-[85vh] flex flex-col">
+          <DrawerHeader className="pb-2 border-b border-border/50 shrink-0">
             <DrawerTitle className="flex items-center gap-2 text-base">
               <motion.div
                 animate={{ rotate: [0, 10, -10, 0] }}
@@ -198,7 +198,7 @@ export function LyricsChatAssistant({
               AI Помощник
             </DrawerTitle>
           </DrawerHeader>
-          <div className="flex-1 overflow-hidden">
+          <div className="flex-1 min-h-0 overflow-hidden">
             {chatContent}
           </div>
         </DrawerContent>
