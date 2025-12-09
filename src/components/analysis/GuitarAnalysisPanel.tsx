@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Music2, 
@@ -18,12 +17,15 @@ import {
   FileText,
   ArrowUpDown,
   FileMusic,
+  Waves,
+  AlertTriangle,
 } from 'lucide-react';
 import { PianoRollPreview } from './PianoRollPreview';
 import { BeatGridVisualization } from './BeatGridVisualization';
 import { ChordProgressionDisplay } from './ChordProgressionDisplay';
 import { GuitarTabVisualization } from './GuitarTabVisualization';
 import { StrummingPatternVisualization } from './StrummingPatternVisualization';
+import { WaveformWithChords } from '@/components/guitar/WaveformWithChords';
 import type { GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -161,6 +163,15 @@ export function GuitarAnalysisPanel({
         </CardContent>
       </Card>
 
+      {/* Waveform with Chords Visualization */}
+      {analysis.chords.length > 0 && (
+        <WaveformWithChords
+          audioUrl={audioUrl}
+          chords={analysis.chords}
+          duration={analysis.totalDuration}
+        />
+      )}
+
       {/* Tabs for different visualizations */}
       <Tabs defaultValue="chords" className="w-full">
         <TabsList className="w-full grid grid-cols-5">
@@ -187,16 +198,26 @@ export function GuitarAnalysisPanel({
         </TabsList>
 
         <TabsContent value="chords" className="mt-4">
-          <Card>
-            <CardContent className="pt-4">
-              <ChordProgressionDisplay
-                chords={analysis.chords}
-                duration={analysis.totalDuration}
-                currentTime={currentTime}
-                showTimeline
-              />
-            </CardContent>
-          </Card>
+          {analysis.chords.length > 0 ? (
+            <Card>
+              <CardContent className="pt-4">
+                <ChordProgressionDisplay
+                  chords={analysis.chords}
+                  duration={analysis.totalDuration}
+                  currentTime={currentTime}
+                  showTimeline
+                />
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="p-6 text-center">
+              <AlertTriangle className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+              <p className="text-muted-foreground">Аккорды не обнаружены</p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Попробуйте записать более длинный фрагмент
+              </p>
+            </Card>
+          )}
         </TabsContent>
 
         <TabsContent value="tab" className="mt-4">

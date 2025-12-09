@@ -344,15 +344,16 @@ export function useGuitarAnalysis() {
       if (chordResult.data?.status === 'completed') {
         key = chordResult.data.key || 'Unknown';
         
-        if (chordResult.data.chords) {
+        if (chordResult.data.chords && Array.isArray(chordResult.data.chords)) {
+          // Edge function already converts to objects with chord, startTime, endTime
           chords = chordResult.data.chords.map((c: any) => ({
-            chord: c.chord || c.name || c.label || 'Unknown',
-            startTime: c.start_time ?? c.time ?? 0,
-            endTime: c.end_time ?? (c.start_time ? c.start_time + 2 : 2),
+            chord: c.chord || c.name || c.label || 'N',
+            startTime: c.startTime ?? c.start_time ?? c.time ?? 0,
+            endTime: c.endTime ?? c.end_time ?? (c.startTime ? c.startTime + 2 : 2),
           }));
         }
         
-        if (chordResult.data.strumming) {
+        if (chordResult.data.strumming && Array.isArray(chordResult.data.strumming)) {
           strumming = chordResult.data.strumming.map((s: any) => ({
             time: s.time || s.timestamp || 0,
             direction: s.direction === 'up' || s.direction === 'U' ? 'U' : 'D',
