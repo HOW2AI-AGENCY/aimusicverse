@@ -8,6 +8,7 @@ import { handleCoverCommand, handleExtendCommand, handleCancelCommand, handleCan
 import { handleAudioMessage, isAudioMessage } from './handlers/audio.ts';
 import { handleRecognizeCommand, hasRecognitionSession, handleRecognizeAudio, handleCancelRecognize, handleRecognizeAgain } from './commands/recognize.ts';
 import { handleMidiCommand, handlePianoCommand, hasMidiSession, handleCancelMidi, handleMidiTrackCallback, handleMidiModelCallback, handleMidiUploadCallback, handleMidiAgainCallback } from './commands/midi.ts';
+import { handleGuitarCommand, hasGuitarSession, handleGuitarAudio, handleCancelGuitar, handleGuitarAgain } from './commands/guitar.ts';
 import { sendMessage, parseCommand, answerCallbackQuery, editMessageText, type TelegramUpdate } from './telegram-api.ts';
 import { BOT_CONFIG } from './config.ts';
 import { handleNavigationCallback } from './handlers/navigation.ts';
@@ -226,6 +227,19 @@ export async function handleUpdate(update: TelegramUpdate) {
         return;
       }
 
+      // Guitar analysis handlers
+      if (data === 'cancel_guitar') {
+        await handleCancelGuitar(chatId, from.id, messageId, id);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      if (data === 'guitar_again') {
+        await handleGuitarAgain(chatId, from.id);
+        await answerCallbackQuery(id);
+        return;
+      }
+
       // Legal/info handlers
       if (data === 'legal_terms') {
         await handleTerms(chatId, messageId);
@@ -360,6 +374,12 @@ export async function handleUpdate(update: TelegramUpdate) {
           // Check if user has recognition session
           if (hasRecognitionSession(from.id)) {
             await handleRecognizeAudio(chat.id, from.id, audioData.file_id, audioType);
+            return;
+          }
+          
+          // Check if user has guitar analysis session
+          if (hasGuitarSession(from.id)) {
+            await handleGuitarAudio(chat.id, from.id, audioData.file_id, audioType);
             return;
           }
           
@@ -499,6 +519,10 @@ export async function handleUpdate(update: TelegramUpdate) {
 
         case 'piano':
           await handlePianoCommand(chat.id, from.id, args);
+          break;
+
+        case 'guitar':
+          await handleGuitarCommand(chat.id, from.id);
           break;
 
         default:
