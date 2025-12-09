@@ -243,4 +243,17 @@ export const StemChannel = memo(({
       )}
     </div>
   );
+}, (prevProps, nextProps) => {
+  // Custom comparison function for better performance
+  return (
+    prevProps.stem.id === nextProps.stem.id &&
+    prevProps.state.muted === nextProps.state.muted &&
+    prevProps.state.solo === nextProps.state.solo &&
+    prevProps.state.volume === nextProps.state.volume &&
+    prevProps.isPlaying === nextProps.isPlaying &&
+    prevProps.currentTime === nextProps.currentTime &&
+    prevProps.duration === nextProps.duration &&
+    prevProps.isEngineReady === nextProps.isEngineReady &&
+    prevProps.effects === nextProps.effects
+  );
 });
