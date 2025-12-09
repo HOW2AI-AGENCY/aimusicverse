@@ -392,13 +392,13 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const enableClosingConfirmation = () => {
-    if (webApp) {
+    if (webApp?.enableClosingConfirmation) {
       webApp.enableClosingConfirmation();
     }
   };
 
   const disableClosingConfirmation = () => {
-    if (webApp) {
+    if (webApp?.disableClosingConfirmation) {
       webApp.disableClosingConfirmation();
     }
   };
@@ -465,15 +465,15 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const openLink = (url: string, options?: { try_instant_view?: boolean }) => {
-    if (webApp) {
-      webApp.openLink(url, options);
+    if (webApp?.openLink) {
+      (webApp.openLink as (url: string, options?: { try_instant_view?: boolean }) => void)(url, options);
     } else {
       window.open(url, '_blank');
     }
   };
 
   const openTelegramLink = (url: string) => {
-    if (webApp) {
+    if (webApp?.openTelegramLink) {
       webApp.openTelegramLink(url);
     } else {
       window.open(url, '_blank');
