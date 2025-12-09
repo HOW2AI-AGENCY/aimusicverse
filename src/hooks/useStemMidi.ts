@@ -6,7 +6,7 @@ import { logger } from '@/lib/logger';
 
 const log = logger.child({ module: 'StemMidi' });
 
-export type MidiModelType = 'mt3' | 'basic-pitch' | 'pop2piano';
+export type MidiModelType = 'mt3' | 'ismir2021' | 'basic-pitch' | 'pop2piano';
 
 interface StemMidiVersion {
   id: string;
@@ -26,16 +26,22 @@ interface StemMidiVersion {
 
 export const MIDI_MODELS = {
   'mt3': {
-    name: 'MT3 (Multi-Task)',
-    description: 'Высокая точность для барабанов и сложных партий',
+    name: 'MT3 (Multi-Instrument)',
+    description: 'Мульти-инструментальная транскрипция: барабаны, бас, piano, гитара, синтезаторы',
+    icon: '🎼',
+    bestFor: ['drums', 'bass', 'piano', 'guitar', 'synth', 'other'],
+  },
+  'ismir2021': {
+    name: 'ISMIR2021 (Piano)',
+    description: 'Специализированная модель для пианино',
     icon: '🎹',
-    bestFor: ['drums', 'percussion', 'complex'],
+    bestFor: ['piano', 'keys', 'keyboard'],
   },
   'basic-pitch': {
     name: 'Basic Pitch (Spotify)',
-    description: 'Быстрый и точный для мелодических инструментов',
+    description: 'Быстрый и точный для вокала и мелодических инструментов',
     icon: '⚡',
-    bestFor: ['vocals', 'guitar', 'bass', 'melody'],
+    bestFor: ['vocals', 'guitar', 'melody', 'lead'],
   },
   'pop2piano': {
     name: 'Pop2Piano',

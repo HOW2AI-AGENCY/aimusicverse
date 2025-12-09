@@ -12,19 +12,28 @@ export function useMidiTranscription() {
     mutationFn: async ({ 
       trackId, 
       audioUrl,
-      modelType = 'mt3'
+      modelType = 'mt3',
+      stemId,
+      stemType,
+      autoSelect = true,
     }: { 
       trackId: string; 
       audioUrl: string;
-      modelType?: 'ismir2021' | 'mt3';
+      modelType?: 'ismir2021' | 'mt3' | 'basic-pitch';
+      stemId?: string;
+      stemType?: string;
+      autoSelect?: boolean;
     }) => {
-      log.info('Starting MIDI transcription', { trackId, modelType });
+      log.info('Starting MIDI transcription', { trackId, modelType, stemType, autoSelect });
       
       const { data, error } = await supabase.functions.invoke('transcribe-midi', {
         body: {
           track_id: trackId,
           audio_url: audioUrl,
           model_type: modelType,
+          stem_id: stemId,
+          stem_type: stemType,
+          auto_select: autoSelect,
         },
       });
 
