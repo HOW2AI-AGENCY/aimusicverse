@@ -7,3 +7,5 @@
 
 export { StemStudioHeader } from './StemStudioHeader';
 export { StemStudioPlayer } from './StemStudioPlayer';
+export { StemStudioMixer } from './StemStudioMixer';
+export { StemStudioTimeline } from './StemStudioTimeline';

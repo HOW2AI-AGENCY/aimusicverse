@@ -27,3 +27,5 @@ export { useMidiSync } from './useMidiSync';
 export { useStemAudioSync } from './useStemAudioSync';
 export { useStemControls } from './useStemControls';
 export type { StemState } from './useStemControls';
+export { useStudioKeyboardShortcuts, formatShortcut } from './useStudioKeyboardShortcuts';
+export type { KeyboardShortcut } from './useStudioKeyboardShortcuts';
