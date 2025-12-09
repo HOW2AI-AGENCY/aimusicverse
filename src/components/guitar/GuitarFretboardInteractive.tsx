@@ -113,7 +113,7 @@ export const GuitarFretboardInteractive = memo(function GuitarFretboardInteracti
       onNotePress?.(note);
     }
     haptic.impact('medium');
-  }, [noteMap, onNotePress, trigger]);
+  }, [noteMap, onNotePress, haptic]);
 
   // Fret markers positions (standard)
   const fretMarkers = [3, 5, 7, 9, 12, 15, 17, 19, 21, 24];

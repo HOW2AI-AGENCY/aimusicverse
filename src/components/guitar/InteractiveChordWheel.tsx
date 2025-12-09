@@ -43,7 +43,7 @@ export const InteractiveChordWheel = memo(function InteractiveChordWheel({
       setActiveChord(current);
       haptic.selectionChanged();
     }
-  }, [currentTime, chords, activeChord, trigger]);
+  }, [currentTime, chords, activeChord, haptic]);
 
   // Calculate segment data
   const segments = useMemo(() => {

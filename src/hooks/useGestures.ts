@@ -87,7 +87,7 @@ export function useGestures(config: GestureConfig) {
     if (e.touches.length >= 2) {
       setIsPinching(true);
     }
-  }, [onDoubleTap, onLongPress, longPressDelay, trigger]);
+  }, [onDoubleTap, onLongPress, longPressDelay, haptic]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     // Cancel long press on movement
@@ -148,7 +148,7 @@ export function useGestures(config: GestureConfig) {
 
     setIsPinching(false);
     touchRef.current = null;
-  }, [swipeThreshold, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, trigger]);
+  }, [swipeThreshold, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, haptic]);
 
   const gestureHandlers = {
     onTouchStart: handleTouchStart,
