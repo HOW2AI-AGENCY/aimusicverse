@@ -12,6 +12,7 @@ import { handleNavigationCallback } from './handlers/navigation.ts';
 import { handleMediaCallback } from './handlers/media.ts';
 import { logger, checkRateLimit, trackMetric, flushMetrics } from './utils/index.ts';
 import { handleInlineQuery } from './commands/inline.ts';
+import { handleTerms, handlePrivacy, handleAbout } from './commands/legal.ts';
 
 export async function handleUpdate(update: TelegramUpdate) {
   const startTime = Date.now();
@@ -167,6 +168,25 @@ export async function handleUpdate(update: TelegramUpdate) {
       // Cancel upload handler
       if (data === 'cancel_upload') {
         await handleCancelUploadCallback(chatId, from.id, messageId!, id);
+        return;
+      }
+
+      // Legal/info handlers
+      if (data === 'legal_terms') {
+        await handleTerms(chatId, messageId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      if (data === 'legal_privacy') {
+        await handlePrivacy(chatId, messageId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      if (data === 'about') {
+        await handleAbout(chatId, messageId);
+        await answerCallbackQuery(id);
         return;
       }
 
@@ -392,6 +412,18 @@ export async function handleUpdate(update: TelegramUpdate) {
 
         case 'audio':
           await sendMessage(chat.id, getAudioUploadHelp());
+          break;
+
+        case 'terms':
+          await handleTerms(chat.id);
+          break;
+
+        case 'privacy':
+          await handlePrivacy(chat.id);
+          break;
+
+        case 'about':
+          await handleAbout(chat.id);
           break;
 
         default:

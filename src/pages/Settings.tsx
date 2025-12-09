@@ -476,6 +476,41 @@ export default function Settings() {
             </motion.div>
           </TabsContent>
         </Tabs>
+
+        {/* Footer with legal links */}
+        <motion.div
+          className="mt-6 text-center text-sm text-muted-foreground"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          <div className="flex items-center justify-center gap-4">
+            <Button
+              variant="link"
+              className="h-auto p-0 text-muted-foreground hover:text-primary"
+              onClick={() => {
+                hapticFeedback('light');
+                navigate('/terms');
+              }}
+            >
+              Условия использования
+            </Button>
+            <span>•</span>
+            <Button
+              variant="link"
+              className="h-auto p-0 text-muted-foreground hover:text-primary"
+              onClick={() => {
+                hapticFeedback('light');
+                navigate('/privacy');
+              }}
+            >
+              Конфиденциальность
+            </Button>
+          </div>
+          <p className="mt-2 text-xs">
+            MusicVerse AI © 2025
+          </p>
+        </motion.div>
       </div>
     </div>
   );

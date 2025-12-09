@@ -1,20 +1,36 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useRouteError, isRouteErrorResponse } from "react-router-dom";
 import { useEffect } from "react";
 import { logger } from "@/lib/logger";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Home, ArrowLeft, Search, AlertCircle } from "lucide-react";
+import { Home, ArrowLeft, RefreshCw, AlertTriangle } from "lucide-react";
 import { motion } from "framer-motion";
 
-const NotFound = () => {
+export default function ErrorPage() {
   const navigate = useNavigate();
-  const location = useLocation();
+  const error = useRouteError();
   const { hapticFeedback, showBackButton, hideBackButton } = useTelegram();
 
+  let errorMessage = "Произошла неизвестная ошибка";
+  let errorDetails = "";
+  let statusCode = 500;
+
+  if (isRouteErrorResponse(error)) {
+    errorMessage = error.statusText || error.data?.message || "Ошибка маршрутизации";
+    errorDetails = error.data?.details || "";
+    statusCode = error.status;
+  } else if (error instanceof Error) {
+    errorMessage = error.message;
+    errorDetails = error.stack?.split('\n')[0] || "";
+  }
+
   useEffect(() => {
-    logger.error("404 Error: User attempted to access non-existent route", undefined, { path: location.pathname });
-    
+    logger.error("Route Error", error, { 
+      message: errorMessage,
+      statusCode,
+    });
+
     // Show Telegram back button
     showBackButton(() => {
       hapticFeedback('light');
@@ -24,10 +40,15 @@ const NotFound = () => {
     return () => {
       hideBackButton();
     };
-  }, [location.pathname, showBackButton, hideBackButton, hapticFeedback, navigate]);
+  }, [error, errorMessage, statusCode, showBackButton, hideBackButton, hapticFeedback, navigate]);
+
+  const handleRefresh = () => {
+    hapticFeedback('light');
+    window.location.reload();
+  };
 
   const handleGoHome = () => {
-    hapticFeedback('light');
+    hapticFeedback('success');
     navigate('/');
   };
 
@@ -37,34 +58,36 @@ const NotFound = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-background to-destructive/5 p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
         className="w-full max-w-md"
       >
-        <Card className="border-2">
+        <Card className="border-2 border-destructive/20">
           <CardContent className="pt-6 text-center">
             {/* Icon */}
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-primary/10"
+              className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-destructive/10"
             >
-              <AlertCircle className="h-12 w-12 text-primary" />
+              <AlertTriangle className="h-12 w-12 text-destructive" />
             </motion.div>
 
             {/* Error code */}
-            <motion.h1
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="mb-2 text-6xl font-bold text-primary"
-            >
-              404
-            </motion.h1>
+            {statusCode !== 500 && (
+              <motion.h1
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="mb-2 text-6xl font-bold text-destructive"
+              >
+                {statusCode}
+              </motion.h1>
+            )}
 
             {/* Title */}
             <motion.h2
@@ -73,29 +96,29 @@ const NotFound = () => {
               transition={{ delay: 0.4 }}
               className="mb-2 text-2xl font-bold"
             >
-              Страница не найдена
+              Что-то пошло не так
             </motion.h2>
 
-            {/* Description */}
+            {/* Error message */}
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="mb-6 text-muted-foreground"
+              className="mb-4 text-muted-foreground"
             >
-              К сожалению, запрашиваемая страница не существует или была перемещена
+              {errorMessage}
             </motion.p>
 
-            {/* Attempted path */}
-            {location.pathname && location.pathname !== '/' && (
+            {/* Error details (only in development) */}
+            {import.meta.env.DEV && errorDetails && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
-                className="mb-6 rounded-lg bg-muted p-3"
+                className="mb-6 rounded-lg bg-destructive/10 p-3 text-left"
               >
-                <p className="text-xs text-muted-foreground break-all">
-                  Путь: <code className="font-mono">{location.pathname}</code>
+                <p className="text-xs font-mono text-destructive break-all">
+                  {errorDetails}
                 </p>
               </motion.div>
             )}
@@ -108,12 +131,13 @@ const NotFound = () => {
               className="space-y-3"
             >
               <Button 
-                onClick={handleGoHome} 
+                onClick={handleRefresh} 
                 className="w-full"
                 size="lg"
+                variant="default"
               >
-                <Home className="mr-2 h-5 w-5" />
-                На главную
+                <RefreshCw className="mr-2 h-5 w-5" />
+                Обновить страницу
               </Button>
               
               <div className="grid grid-cols-2 gap-3">
@@ -126,14 +150,11 @@ const NotFound = () => {
                 </Button>
                 
                 <Button 
-                  onClick={() => {
-                    hapticFeedback('light');
-                    navigate('/library');
-                  }} 
+                  onClick={handleGoHome} 
                   variant="outline"
                 >
-                  <Search className="mr-2 h-4 w-4" />
-                  Библиотека
+                  <Home className="mr-2 h-4 w-4" />
+                  Главная
                 </Button>
               </div>
             </motion.div>
@@ -145,13 +166,11 @@ const NotFound = () => {
               transition={{ delay: 0.8 }}
               className="mt-6 text-xs text-muted-foreground"
             >
-              Если проблема повторяется, свяжитесь с поддержкой через @AIMusicVerseBot
+              Если ошибка повторяется, сообщите о ней в поддержку через @AIMusicVerseBot
             </motion.p>
           </CardContent>
         </Card>
       </motion.div>
     </div>
   );
-};
-
-export default NotFound;
+}

@@ -3,5 +3,12 @@ import { createMainMenuKeyboard } from '../keyboards/main-menu.ts';
 import { sendMessage } from '../telegram-api.ts';
 
 export async function handleHelp(chatId: number) {
-  await sendMessage(chatId, MESSAGES.help, createMainMenuKeyboard());
+  const enhancedHelp = `${MESSAGES.help}
+
+ℹ️ *Дополнительные команды:*
+/about \\- Информация о приложении
+/terms \\- Условия использования
+/privacy \\- Политика конфиденциальности`;
+
+  await sendMessage(chatId, enhancedHelp, createMainMenuKeyboard());
 }

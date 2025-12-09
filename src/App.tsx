@@ -37,7 +37,10 @@ const Analytics = lazy(() => import("./pages/Analytics"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const Templates = lazy(() => import("./pages/Templates"));
 const MusicGraph = lazy(() => import("./pages/MusicGraph"));
+const Terms = lazy(() => import("./pages/Terms"));
+const Privacy = lazy(() => import("./pages/Privacy"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
 
 const queryClient = new QueryClient({
@@ -90,6 +93,8 @@ const App = () => (
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/templates" element={<Templates />} />
                 <Route path="/music-graph" element={<MusicGraph />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
                 </Route>
 
                 {/* Routes without BottomNavigation */}
@@ -98,6 +103,9 @@ const App = () => (
                     <StemStudio />
                   </ProtectedRoute>
                 } />
+
+                {/* Error route */}
+                <Route path="/error" element={<ErrorPage />} />
 
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
