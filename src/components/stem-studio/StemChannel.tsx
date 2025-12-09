@@ -1,14 +1,20 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { 
   Mic2, Guitar, Drum, Music, Piano, Radio, Waves,
-  Volume2, VolumeX
+  Volume2, VolumeX, FileMusic, Loader2, Download
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { StemWaveform } from './StemWaveform';
 import { StemEffectsPanel } from './effects/StemEffectsPanel';
+import { useStemMidi } from '@/hooks/useStemMidi';
 import { 
   StemEffects, 
   EQSettings, 
@@ -22,6 +28,8 @@ import {
 
 interface StemChannelProps {
   stem: TrackStem;
+  trackId: string;
+  trackTitle: string;
   state: {
     muted: boolean;
     solo: boolean;
@@ -67,6 +75,8 @@ const stemConfig: Record<string, { icon: React.ComponentType<any>; label: string
 
 export const StemChannel = memo(({ 
   stem, 
+  trackId,
+  trackTitle,
   state, 
   effects = defaultStemEffects,
   onToggle, 
@@ -93,6 +103,19 @@ export const StemChannel = memo(({
 
   // Check if effects are available
   const hasEffectsSupport = onEQChange && onCompressorChange && onReverbChange;
+
+  // MIDI transcription for this stem
+  const {
+    isTranscribing,
+    transcribeToMidi,
+    downloadMidi,
+    hasMidi,
+    latestMidi,
+  } = useStemMidi(trackId, stem.id);
+
+  const handleMidiTranscribe = async () => {
+    await transcribeToMidi(stem.audio_url, 'mt3', stem.stem_type);
+  };
 
   return (
     <div className={cn(
@@ -134,6 +157,37 @@ export const StemChannel = memo(({
 
         {/* Controls */}
         <div className="flex items-center gap-1 flex-shrink-0">
+          {/* MIDI Button */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant={hasMidi ? "secondary" : "ghost"}
+                size="sm"
+                onClick={hasMidi ? () => downloadMidi(latestMidi!.audio_url, `${trackTitle}_${stem.stem_type}`) : handleMidiTranscribe}
+                disabled={isTranscribing}
+                className={cn(
+                  "h-8 w-8 p-0",
+                  hasMidi && "text-primary"
+                )}
+              >
+                {isTranscribing ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : hasMidi ? (
+                  <Download className="w-4 h-4" />
+                ) : (
+                  <FileMusic className="w-4 h-4" />
+                )}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              {isTranscribing 
+                ? 'Создание MIDI...' 
+                : hasMidi 
+                  ? 'Скачать MIDI' 
+                  : 'Создать MIDI'}
+            </TooltipContent>
+          </Tooltip>
+
           <Button
             variant={state.solo ? "default" : "outline"}
             size="sm"
