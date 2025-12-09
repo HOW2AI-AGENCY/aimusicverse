@@ -9,11 +9,12 @@ const corsHeaders = {
 interface KlangioRequest {
   audio_url: string;
   mode: 'transcription' | 'chord-recognition' | 'chord-recognition-extended' | 'beat-tracking';
-  // Transcription options
-  model?: 'guitar' | 'piano' | 'drums' | 'vocal' | 'bass' | 'universal' | 'lead' | 'multi' | 'wind' | 'string';
-  outputs?: ('midi' | 'mxml' | 'gp5' | 'pdf' | 'midi_quant')[];
+  // Transcription options - models from OpenAPI: piano, guitar, bass, vocal, universal, lead, detect, drums, multi, wind, string, piano_arrangement
+  model?: 'guitar' | 'piano' | 'drums' | 'vocal' | 'bass' | 'universal' | 'lead' | 'detect' | 'multi' | 'wind' | 'string' | 'piano_arrangement';
+  // Outputs from OpenAPI: mxml, midi, pdf, gp5, json, midi_quant
+  outputs?: ('midi' | 'mxml' | 'gp5' | 'pdf' | 'midi_quant' | 'json')[];
   title?: string;
-  // Chord recognition options
+  // Chord recognition options - vocabulary: major-minor or full
   vocabulary?: 'major-minor' | 'full';
   user_id?: string;
 }
@@ -60,6 +61,7 @@ serve(async (req) => {
     switch (mode) {
       case 'transcription':
         baseEndpoint = `${API_BASE}/transcription`;
+        // Model is required in query params for transcription
         queryParams.set('model', model || 'guitar');
         if (title) queryParams.set('title', title);
         // Add outputs to form data (array format as per OpenAPI spec)
@@ -69,11 +71,13 @@ serve(async (req) => {
         
       case 'chord-recognition':
         baseEndpoint = `${API_BASE}/chord-recognition`;
+        // Vocabulary is required for chord recognition
         queryParams.set('vocabulary', vocabulary || 'major-minor');
         break;
         
       case 'chord-recognition-extended':
         baseEndpoint = `${API_BASE}/chord-recognition-extended`;
+        // Vocabulary is required for extended chord recognition
         queryParams.set('vocabulary', vocabulary || 'full');
         break;
         
@@ -106,12 +110,15 @@ serve(async (req) => {
       if (submitResponse.status === 401) {
         throw new Error("Invalid Klangio API key. Please check your KLANGIO_API_KEY.");
       }
+      if (submitResponse.status === 422) {
+        throw new Error(`Klangio validation error: ${errorText}`);
+      }
       throw new Error(`Klangio API error: ${submitResponse.status}`);
     }
 
     const jobResponse = await submitResponse.json();
     const jobId = jobResponse.job_id;
-    console.log(`[klangio] Job created: ${jobId}`);
+    console.log(`[klangio] Job created: ${jobId}`, jobResponse);
 
     // Poll for job completion (max 180 seconds for transcription)
     const maxAttempts = mode === 'transcription' ? 90 : 60;
@@ -165,13 +172,22 @@ serve(async (req) => {
       const outputFormats = outputs || ['midi'];
       const files: Record<string, string> = {};
 
+      // Map output format names to API endpoints
+      const formatToEndpoint: Record<string, string> = {
+        'midi': 'midi',
+        'midi_quant': 'midi_quant',
+        'mxml': 'xml',  // API uses /xml for MusicXML
+        'gp5': 'gp5',
+        'pdf': 'pdf',
+        'json': 'json',
+      };
+
       for (const format of outputFormats) {
         try {
-          // Map format names to API endpoints
-          const apiFormat = format === 'mxml' ? 'xml' : format;
+          const apiEndpoint = formatToEndpoint[format] || format;
           
-          console.log(`[klangio] Fetching ${format} file...`);
-          const fileResponse = await fetch(`${API_BASE}/job/${jobId}/${apiFormat}`, {
+          console.log(`[klangio] Fetching ${format} file from /job/${jobId}/${apiEndpoint}...`);
+          const fileResponse = await fetch(`${API_BASE}/job/${jobId}/${apiEndpoint}`, {
             headers: {
               "kl-api-key": KLANGIO_API_KEY,
             },
@@ -179,9 +195,10 @@ serve(async (req) => {
 
           if (fileResponse.ok) {
             const fileBlob = await fileResponse.blob();
-            console.log(`[klangio] Downloaded ${format}: ${fileBlob.size} bytes`);
+            console.log(`[klangio] Downloaded ${format}: ${fileBlob.size} bytes, type: ${fileBlob.type}`);
             
-            const extension = format === 'mxml' ? 'xml' : format;
+            // Determine file extension
+            const extension = format === 'mxml' ? 'xml' : format === 'midi_quant' ? 'mid' : format === 'midi' ? 'mid' : format;
             const fileName = `${user_id || 'anonymous'}/klangio/${jobId}_${format}.${extension}`;
             
             const { error: uploadError } = await supabase.storage
@@ -201,7 +218,8 @@ serve(async (req) => {
               console.log(`[klangio] Uploaded ${format} to: ${publicUrl}`);
             }
           } else {
-            console.warn(`[klangio] Failed to fetch ${format}: ${fileResponse.status}`);
+            const errorText = await fileResponse.text();
+            console.warn(`[klangio] Failed to fetch ${format}: ${fileResponse.status} - ${errorText}`);
           }
         } catch (e) {
           console.error(`[klangio] Error fetching ${format}:`, e);
@@ -222,11 +240,28 @@ serve(async (req) => {
         
         if (jsonResponse.ok) {
           const beatData = await jsonResponse.json();
-          console.log("[klangio] Beat data:", JSON.stringify(beatData).slice(0, 500));
+          console.log("[klangio] Beat data:", JSON.stringify(beatData).slice(0, 1000));
           
+          // API returns beats and downbeats as arrays of timestamps
           finalResult.beats = beatData.beats || [];
           finalResult.downbeats = beatData.downbeats || [];
           finalResult.bpm = beatData.bpm || beatData.tempo;
+          
+          // Calculate BPM from beats if not provided
+          if (!finalResult.bpm && finalResult.beats.length >= 2) {
+            const beatTimes = finalResult.beats as number[];
+            const intervals = [];
+            for (let i = 1; i < Math.min(beatTimes.length, 20); i++) {
+              intervals.push(beatTimes[i] - beatTimes[i-1]);
+            }
+            if (intervals.length > 0) {
+              const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+              finalResult.bpm = Math.round(60 / avgInterval);
+            }
+          }
+        } else {
+          const errorText = await jsonResponse.text();
+          console.warn(`[klangio] Failed to fetch beat JSON: ${jsonResponse.status} - ${errorText}`);
         }
       } catch (e) {
         console.error(`[klangio] Error fetching beat data:`, e);
@@ -244,18 +279,53 @@ serve(async (req) => {
         
         if (jsonResponse.ok) {
           const chordData = await jsonResponse.json();
-          console.log("[klangio] Chord data:", JSON.stringify(chordData).slice(0, 500));
+          console.log("[klangio] Chord data:", JSON.stringify(chordData).slice(0, 1000));
           
-          finalResult.chords = chordData.chords || [];
-          finalResult.key = chordData.key || chordData.detected_key;
-          finalResult.strumming = chordData.strumming || [];
+          // Klangio returns chords as arrays: [start_time, end_time, chord_name]
+          // We need to convert to objects for consistency
+          let chords: any[] = [];
+          
+          if (Array.isArray(chordData.chords)) {
+            chords = chordData.chords.map((c: any) => {
+              // Check if chord is an array [start, end, chord] or an object
+              if (Array.isArray(c)) {
+                return {
+                  chord: c[2] || c[0], // chord name is usually 3rd element
+                  startTime: typeof c[0] === 'number' ? c[0] : parseFloat(c[0]) || 0,
+                  endTime: typeof c[1] === 'number' ? c[1] : parseFloat(c[1]) || 0,
+                };
+              }
+              // If it's already an object
+              return {
+                chord: c.chord || c.name || c.label || 'N',
+                startTime: c.start_time ?? c.time ?? c.start ?? 0,
+                endTime: c.end_time ?? c.end ?? (c.start_time ? c.start_time + 2 : 2),
+              };
+            });
+          }
+          
+          finalResult.chords = chords;
+          finalResult.key = chordData.key || chordData.detected_key || null;
+          
+          // Handle strumming if available
+          if (chordData.strumming && Array.isArray(chordData.strumming)) {
+            finalResult.strumming = chordData.strumming.map((s: any) => ({
+              time: s.time || s.timestamp || 0,
+              direction: s.direction === 'up' || s.direction === 'U' ? 'U' : 'D',
+            }));
+          } else {
+            finalResult.strumming = [];
+          }
+        } else {
+          const errorText = await jsonResponse.text();
+          console.warn(`[klangio] Failed to fetch chord JSON: ${jsonResponse.status} - ${errorText}`);
         }
       } catch (e) {
         console.error(`[klangio] Error fetching chord data:`, e);
       }
     }
 
-    console.log(`[klangio] Analysis complete:`, JSON.stringify(finalResult, null, 2).slice(0, 1000));
+    console.log(`[klangio] Analysis complete:`, JSON.stringify(finalResult, null, 2).slice(0, 2000));
 
     return new Response(JSON.stringify(finalResult), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -280,6 +350,8 @@ function getContentType(format: string): string {
       return 'application/octet-stream';
     case 'pdf': 
       return 'application/pdf';
+    case 'json':
+      return 'application/json';
     default: 
       return 'application/octet-stream';
   }
