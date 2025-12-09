@@ -34,6 +34,12 @@ const SNAP_OPTIONS = [
   { value: 0, label: 'Свободно' },
 ];
 
+const MODEL_OPTIONS = [
+  { value: 'mt3', label: 'MT3 (Multi-Instrument)', description: 'Drums, bass, piano, guitar, synth' },
+  { value: 'ismir2021', label: 'ISMIR2021 (Piano)', description: 'Specialized for piano' },
+  { value: 'basic-pitch', label: 'Basic Pitch', description: 'Vocals, melody, guitar' },
+] as const;
+
 export function MidiVisualizationPanel({
   trackId,
   stems = [],
@@ -45,6 +51,7 @@ export function MidiVisualizationPanel({
   const [zoom, setZoom] = useState(100);
   const [snapValue, setSnapValue] = useState(0.25);
   const [isSaving, setIsSaving] = useState(false);
+  const [selectedModel, setSelectedModel] = useState<'mt3' | 'ismir2021' | 'basic-pitch'>('mt3');
 
   const {
     notes,
@@ -99,14 +106,18 @@ export function MidiVisualizationPanel({
     }
   }, [selectedStem, midiVersions.length]);
 
-  // Handle transcription
+  // Handle transcription with MT3 or selected model
   const handleTranscribe = useCallback(async () => {
     const stemToTranscribe = selectedStem === 'full' 
       ? null 
       : stems.find(s => s.id === selectedStem);
 
     if (stemToTranscribe) {
-      await transcribeToMidi(stemToTranscribe.audio_url, 'basic-pitch', stemToTranscribe.stem_type);
+      await transcribeToMidi(
+        stemToTranscribe.audio_url, 
+        selectedModel, 
+        stemToTranscribe.stem_type
+      );
     } else {
       // Transcribe full track - need audio URL
       const { data: track } = await supabase
@@ -117,10 +128,10 @@ export function MidiVisualizationPanel({
 
       const audioUrl = track?.local_audio_url || track?.audio_url;
       if (audioUrl) {
-        await transcribeToMidi(audioUrl, 'basic-pitch', 'full');
+        await transcribeToMidi(audioUrl, selectedModel, 'full');
       }
     }
-  }, [selectedStem, stems, trackId, transcribeToMidi]);
+  }, [selectedStem, stems, trackId, transcribeToMidi, selectedModel]);
 
   // Save edited MIDI
   const handleSave = useCallback(async () => {
@@ -245,6 +256,23 @@ export function MidiVisualizationPanel({
             {SNAP_OPTIONS.map(opt => (
               <SelectItem key={opt.value} value={opt.value.toString()}>
                 {opt.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {/* Model selector */}
+        <Select value={selectedModel} onValueChange={(v) => setSelectedModel(v as typeof selectedModel)}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Выберите модель" />
+          </SelectTrigger>
+          <SelectContent>
+            {MODEL_OPTIONS.map(model => (
+              <SelectItem key={model.value} value={model.value}>
+                <div className="flex flex-col">
+                  <span>{model.label}</span>
+                  <span className="text-xs text-muted-foreground">{model.description}</span>
+                </div>
               </SelectItem>
             ))}
           </SelectContent>

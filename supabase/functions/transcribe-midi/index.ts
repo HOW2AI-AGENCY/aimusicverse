@@ -7,68 +7,67 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Model configurations with verified Replicate model versions
+// MT3 Model configuration - turian/multi-task-music-transcription
+// Supports: ismir2021 (piano only), mt3 (multi-instrument)
 const MODELS = {
-  // Google MT3 - best for complex multi-instrument transcription (drums, percussion)
+  // MT3 - Multi-Task Multitrack Music Transcription (multi-instrument)
   'mt3': {
-    id: "cjwbw/mt3:527f8295-b9f7-49e6-88a4-0bdc7c8a0c15", // Verified MT3 model
-    name: "MT3 (Multi-Task)",
-    description: "Best for drums, complex polyphonic content",
-    inputKey: "audio_input",
-    extraParams: {},
-    outputKey: "midi",
+    replicateId: "turian/multi-task-music-transcription",
+    name: "MT3 (Multi-Instrument)",
+    description: "Best for multi-instrument transcription (drums, bass, piano, etc.)",
+    inputKey: "audio_file",
+    modelTypeParam: "mt3", // mt3 for multi-instrument
+    supportedInstruments: ['drums', 'bass', 'piano', 'guitar', 'strings', 'synth', 'other'],
   },
-  // Spotify Basic Pitch - lightweight, fast, accurate for melodic content
+  // ISMIR2021 - Piano-specific transcription (same model, different mode)
+  'ismir2021': {
+    replicateId: "turian/multi-task-music-transcription",
+    name: "ISMIR2021 (Piano)",
+    description: "Best for piano transcription",
+    inputKey: "audio_file",
+    modelTypeParam: "ismir2021", // ismir2021 for piano
+    supportedInstruments: ['piano', 'keys', 'keyboard'],
+  },
+  // Basic Pitch - Spotify's model for melodic content
   'basic-pitch': {
-    id: "spotify/basic-pitch:7e1a5d2b8b3c9c45-47e2-8e3a-9c5b3e2a7d4f", // Spotify's official model
-    name: "Basic Pitch (Spotify)",
-    description: "Best for vocals, guitar, bass, melodic instruments",
+    replicateId: "rhelsing/basic-pitch",
+    name: "Basic Pitch",
+    description: "Good for vocals, melody, guitar",
     inputKey: "audio",
-    extraParams: {},
-    outputKey: null, // Returns direct URL
-  },
-  // Pop2Piano - creates piano arrangement from any audio
-  'pop2piano': {
-    id: "sweetcocoa/pop2piano:a8e7dc6e6d00e4a4bb09e7b6c88e5d1dfb3b0e2d", // Verified Pop2Piano
-    name: "Pop2Piano",
-    description: "Creates piano arrangement from any song",
-    inputKey: "audio",
-    extraParams: { composer: "composer1" },
-    outputKey: null,
-    outputType: "audio", // Returns audio, not MIDI
+    modelTypeParam: null,
+    supportedInstruments: ['vocals', 'voice', 'guitar', 'melody', 'lead'],
   },
 } as const;
 
 type ModelType = keyof typeof MODELS;
 
-// Fallback model IDs (tested and working)
-const FALLBACK_MODELS = {
-  'mt3': "turian/multi-task-music-transcription",
-  'basic-pitch': "rhelsing/basic-pitch",
-  'pop2piano': "m1guelpf/pop2piano",
-};
-
 // Auto-select best model based on stem type
 function getRecommendedModel(stemType?: string): ModelType {
-  if (!stemType) return 'basic-pitch';
+  if (!stemType) return 'mt3'; // Default to MT3 for multi-instrument
   
   const type = stemType.toLowerCase();
   
-  // Drums benefit from MT3's multi-task approach
-  if (type.includes('drum') || type.includes('percussion')) {
+  // Piano/keyboard - use ISMIR2021 specialized model
+  if (type.includes('piano') || type.includes('keyboard') || type.includes('keys')) {
+    return 'ismir2021';
+  }
+  
+  // Drums, bass, complex instruments - use MT3
+  if (type.includes('drum') || type.includes('percussion') || 
+      type.includes('bass') || type.includes('other') ||
+      type.includes('synth') || type.includes('strings')) {
     return 'mt3';
   }
   
-  // Melodic instruments work great with Basic Pitch
+  // Vocals and melodic content - use Basic Pitch
   if (type.includes('vocal') || type.includes('voice') || 
-      type.includes('guitar') || type.includes('bass') ||
-      type.includes('melody') || type.includes('lead') ||
-      type.includes('piano') || type.includes('keyboard') || type.includes('keys')) {
+      type.includes('guitar') || type.includes('melody') || 
+      type.includes('lead')) {
     return 'basic-pitch';
   }
   
-  // Default to basic-pitch for most content
-  return 'basic-pitch';
+  // Default to MT3 for unknown content (best multi-instrument support)
+  return 'mt3';
 }
 
 serve(async (req) => {
@@ -133,19 +132,17 @@ serve(async (req) => {
     // Prepare input based on model
     const input: Record<string, unknown> = {
       [modelConfig.inputKey]: audio_url,
-      ...modelConfig.extraParams,
     };
 
-    // Special handling for pop2piano
-    if (selectedModel === 'pop2piano') {
-      input.composer = pop2piano_composer;
+    // Add model_type for MT3/ISMIR2021
+    if (modelConfig.modelTypeParam) {
+      input.model_type = modelConfig.modelTypeParam;
     }
 
-    // Try with fallback model name (more reliable)
-    const modelId = FALLBACK_MODELS[selectedModel];
-    console.log(`Using model: ${modelId}`);
+    const modelId = modelConfig.replicateId;
+    console.log(`Using model: ${modelId}`, { input });
 
-    // Run transcription using model name (latest version)
+    // Run transcription
     let output: unknown;
     try {
       output = await replicate.run(modelId as `${string}/${string}`, { input });
@@ -156,9 +153,8 @@ serve(async (req) => {
     
     console.log('Model output:', typeof output, output);
 
-    // Handle different output formats
+    // Handle different output formats - MT3/ISMIR2021/basic-pitch all return MIDI
     let outputUrl: string;
-    let outputType = selectedModel === 'pop2piano' ? 'audio' : 'midi';
 
     if (typeof output === 'string') {
       outputUrl = output;
@@ -166,10 +162,7 @@ serve(async (req) => {
       outputUrl = output[0];
     } else if (output && typeof output === 'object') {
       const outputObj = output as Record<string, unknown>;
-      outputUrl = (outputObj.midi || outputObj.audio || outputObj.output || Object.values(outputObj)[0]) as string;
-      if (outputObj.audio && !outputObj.midi) {
-        outputType = 'audio';
-      }
+      outputUrl = (outputObj.midi || outputObj.output || Object.values(outputObj)[0]) as string;
     } else {
       throw new Error(`Unexpected model output format: ${JSON.stringify(output)}`);
     }
@@ -194,9 +187,7 @@ serve(async (req) => {
     const sanitizedTitle = (track.title || 'track').replace(/[^\w\s-]/g, '').replace(/\s+/g, '_');
     const stemSuffix = stem_type ? `_${stem_type}` : '';
     const modelSuffix = `_${selectedModel}`;
-    const extension = outputType === 'audio' ? 'mp3' : 'mid';
-    const folder = outputType === 'audio' ? 'piano-arrangements' : 'midi';
-    const filePath = `${folder}/${track.user_id}/${track_id}${stemSuffix}${modelSuffix}_${sanitizedTitle}_${timestamp}.${extension}`;
+    const filePath = `midi/${track.user_id}/${track_id}${stemSuffix}${modelSuffix}_${sanitizedTitle}_${timestamp}.mid`;
 
     console.log('Uploading to Storage:', filePath);
 
@@ -204,7 +195,7 @@ serve(async (req) => {
     const { error: uploadError } = await supabase.storage
       .from('project-assets')
       .upload(filePath, fileBlob, {
-        contentType: outputType === 'audio' ? 'audio/mpeg' : 'audio/midi',
+        contentType: 'audio/midi',
         upsert: false,
       });
 
@@ -222,11 +213,9 @@ serve(async (req) => {
     console.log('File uploaded successfully:', permanentUrl);
 
     // Determine version type
-    const versionType = selectedModel === 'pop2piano' 
-      ? 'piano_arrangement'
-      : stem_id 
-        ? 'stem_midi_transcription' 
-        : 'midi_transcription';
+    const versionType = stem_id 
+      ? 'stem_midi_transcription' 
+      : 'midi_transcription';
 
     // Create a track version
     const { data: version, error: versionError } = await supabase
@@ -235,9 +224,7 @@ serve(async (req) => {
         track_id,
         audio_url: permanentUrl,
         version_type: versionType,
-        version_label: selectedModel === 'pop2piano' 
-          ? 'Piano Arrangement'
-          : `MIDI (${modelConfig.name})`,
+        version_label: `MIDI (${modelConfig.name})`,
         metadata: {
           model_type: selectedModel,
           model_name: modelConfig.name,
@@ -246,7 +233,7 @@ serve(async (req) => {
           storage_path: filePath,
           stem_id: stem_id || null,
           stem_type: stem_type || null,
-          output_type: outputType,
+          output_type: 'midi',
           auto_selected: auto_select && !model_type,
         },
       })
@@ -276,7 +263,7 @@ serve(async (req) => {
           storage_path: filePath,
           stem_id: stem_id || null,
           stem_type: stem_type || null,
-          output_type: outputType,
+          output_type: 'midi',
         },
       });
 
@@ -288,7 +275,7 @@ serve(async (req) => {
         version,
         model_used: selectedModel,
         model_name: modelConfig.name,
-        output_type: outputType,
+        output_type: 'midi',
         stem_id,
         stem_type,
         auto_selected: auto_select && !model_type,
