@@ -290,7 +290,7 @@ export function StudioLyricsPanel({
 
   return (
     <div className={cn(
-      'px-4 sm:px-6 py-3 border-b border-border/30',
+      'px-4 sm:px-6 py-3 border-b border-border/30 relative',
       'bg-gradient-to-r from-primary/5 via-transparent to-primary/5',
       selectionMode && 'bg-gradient-to-r from-amber-500/10 via-transparent to-amber-500/10'
     )}>

@@ -169,8 +169,16 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         });
 
         audio.addEventListener('ended', () => {
-          setIsPlaying(false);
-          setCurrentTime(0);
+          // Check if all audios have ended
+          const allEnded = Object.values(audioRefs.current).every(a => a.ended || a.currentTime >= a.duration - 0.1);
+          if (allEnded) {
+            setIsPlaying(false);
+            setCurrentTime(0);
+          }
+        });
+
+        audio.addEventListener('error', (e) => {
+          logger.error(`Audio load error for stem ${stem.id}`, e);
         });
 
         if (effectsEnabled) {
@@ -187,8 +195,13 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     });
 
     return () => {
+      // Cleanup - pause all audios and clear refs
       Object.values(audioRefs.current).forEach(audio => {
         audio.pause();
+        // Remove event listeners to prevent memory leaks
+        audio.removeEventListener('loadedmetadata', () => {});
+        audio.removeEventListener('ended', () => {});
+        audio.removeEventListener('error', () => {});
         audio.src = '';
       });
       audioRefs.current = {};

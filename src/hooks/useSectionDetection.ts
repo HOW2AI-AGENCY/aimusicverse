@@ -281,73 +281,81 @@ export function useSectionDetection(
   duration: number
 ): DetectedSection[] {
   return useMemo(() => {
-    // Filter out tag words from aligned data
-    const filteredWords = alignedWords ? filterTagWords(alignedWords) : [];
+    try {
+      // Filter out tag words from aligned data
+      const filteredWords = alignedWords ? filterTagWords(alignedWords) : [];
 
-    // 1. Try to parse sections from original lyrics
-    const parsedSections = parseSectionsFromLyrics(originalLyrics || '');
+      // 1. Try to parse sections from original lyrics
+      const parsedSections = parseSectionsFromLyrics(originalLyrics || '');
 
-    if (parsedSections.length > 0 && filteredWords.length > 0) {
-      // Match parsed sections to timestamps
-      const sections: DetectedSection[] = [];
-      const typeCounters: Record<string, number> = {};
-      let searchIndex = 0;
+      if (parsedSections.length > 0 && filteredWords.length > 0) {
+        // Match parsed sections to timestamps
+        const sections: DetectedSection[] = [];
+        const typeCounters: Record<string, number> = {};
+        let searchIndex = 0;
 
-      for (const parsed of parsedSections) {
-        typeCounters[parsed.type] = (typeCounters[parsed.type] || 0) + 1;
+        for (const parsed of parsedSections) {
+          typeCounters[parsed.type] = (typeCounters[parsed.type] || 0) + 1;
 
-        const match = matchSectionToTimestamps(parsed.lyrics, filteredWords, searchIndex);
+          const match = matchSectionToTimestamps(parsed.lyrics, filteredWords, searchIndex);
 
-        if (match) {
-          // Validate that this section doesn't overlap with previous
-          const prevSection = sections[sections.length - 1];
-          const startTime = prevSection ? Math.max(match.startTime, prevSection.endTime) : match.startTime;
-          
-          sections.push({
-            type: parsed.type,
-            label: getSectionLabel(parsed.type, typeCounters[parsed.type]),
-            startTime,
-            endTime: match.endTime,
-            lyrics: parsed.lyrics.replace(/\n/g, ' ').trim(),
-            words: match.words,
-          });
-          searchIndex = match.nextSearchIndex;
-        } else {
-          // Even if we can't match timestamps, add the section with estimated timing
-          const prevSection = sections[sections.length - 1];
-          const estimatedStart = prevSection 
-            ? prevSection.endTime 
-            : duration * (parsed.index / parsedSections.length);
-          const estimatedEnd = Math.min(
-            duration,
-            duration * ((parsed.index + 1) / parsedSections.length)
-          );
-          
-          // Only add if there's a valid time range
-          if (estimatedStart < estimatedEnd) {
-            sections.push({
-              type: parsed.type,
-              label: getSectionLabel(parsed.type, typeCounters[parsed.type]),
-              startTime: estimatedStart,
-              endTime: estimatedEnd,
-              lyrics: parsed.lyrics.replace(/\n/g, ' ').trim(),
-              words: [],
-            });
+          if (match) {
+            // Validate that this section doesn't overlap with previous
+            const prevSection = sections[sections.length - 1];
+            const startTime = prevSection ? Math.max(match.startTime, prevSection.endTime) : match.startTime;
+            
+            // Ensure end time is after start time
+            if (match.endTime > startTime) {
+              sections.push({
+                type: parsed.type,
+                label: getSectionLabel(parsed.type, typeCounters[parsed.type]),
+                startTime,
+                endTime: match.endTime,
+                lyrics: parsed.lyrics.replace(/\n/g, ' ').trim(),
+                words: match.words,
+              });
+              searchIndex = match.nextSearchIndex;
+            }
+          } else {
+            // Even if we can't match timestamps, add the section with estimated timing
+            const prevSection = sections[sections.length - 1];
+            const estimatedStart = prevSection 
+              ? prevSection.endTime 
+              : duration * (parsed.index / parsedSections.length);
+            const estimatedEnd = Math.min(
+              duration,
+              duration * ((parsed.index + 1) / parsedSections.length)
+            );
+            
+            // Only add if there's a valid time range
+            if (estimatedStart < estimatedEnd) {
+              sections.push({
+                type: parsed.type,
+                label: getSectionLabel(parsed.type, typeCounters[parsed.type]),
+                startTime: estimatedStart,
+                endTime: estimatedEnd,
+                lyrics: parsed.lyrics.replace(/\n/g, ' ').trim(),
+                words: [],
+              });
+            }
           }
+        }
+
+        if (sections.length > 0) {
+          return sections;
         }
       }
 
-      if (sections.length > 0) {
-        return sections;
+      // 2. Fallback: time-based detection from aligned words
+      if (filteredWords.length > 0) {
+        return createTimeBasedSections(filteredWords, duration);
       }
-    }
 
-    // 2. Fallback: time-based detection from aligned words
-    if (filteredWords.length > 0) {
-      return createTimeBasedSections(filteredWords, duration);
+      return [];
+    } catch (error) {
+      console.error('Error in section detection:', error);
+      return [];
     }
-
-    return [];
   }, [originalLyrics, alignedWords, duration]);
 }
 
