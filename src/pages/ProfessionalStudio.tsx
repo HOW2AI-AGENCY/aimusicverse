@@ -9,9 +9,16 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Sparkles, Music, Download, Save } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ProfessionalDashboard } from '@/components/professional/ProfessionalDashboard';
-import { WorkflowVisualizer, workflowPresets } from '@/components/professional/WorkflowVisualizer';
-import { PresetsManager, Preset } from '@/components/professional/PresetsManager';
+import { 
+  ProfessionalDashboard,
+  WorkflowVisualizer, 
+  workflowPresets,
+  PresetsManager,
+  Preset,
+  QuickAccessPanel,
+  StatsWidget,
+  TipsPanel,
+} from '@/components/professional';
 import { toast } from 'sonner';
 
 // Mock data for demonstration
@@ -188,8 +195,20 @@ export default function ProfessionalStudio() {
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="dashboard" className="mt-0">
-              <ProfessionalDashboard />
+            <TabsContent value="dashboard" className="mt-0 space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Main Dashboard */}
+                <div className="lg:col-span-2 space-y-6">
+                  <StatsWidget variant="grid" showTrend={true} animated={true} />
+                  <ProfessionalDashboard />
+                </div>
+
+                {/* Sidebar */}
+                <div className="space-y-6">
+                  <QuickAccessPanel variant="expanded" showProgress={true} maxActions={5} />
+                  <TipsPanel context="general" variant="carousel" dismissible={false} />
+                </div>
+              </div>
             </TabsContent>
 
             <TabsContent value="workflows" className="mt-0 space-y-6">
