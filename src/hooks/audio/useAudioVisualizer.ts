@@ -3,6 +3,9 @@
  * 
  * Provides audio frequency data for visualization.
  * Uses Web Audio API AnalyserNode.
+ * 
+ * IMPORTANT: MediaElementSourceNode can only be created once per audio element.
+ * This hook manages a global source node to prevent crashes on re-renders.
  */
 
 import { useEffect, useRef, useState, useCallback } from 'react';
@@ -21,8 +24,72 @@ interface VisualizerData {
   peak: number;
 }
 
-// Singleton AudioContext
+// Singleton AudioContext and source node tracking
 let audioContext: AudioContext | null = null;
+let globalSourceNode: MediaElementAudioSourceNode | null = null;
+let globalAnalyserNode: AnalyserNode | null = null;
+let connectedAudioElement: HTMLAudioElement | null = null;
+
+/**
+ * Get or create the global audio source and analyser nodes
+ * This ensures we only call createMediaElementSource once per audio element
+ */
+function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: number, smoothing: number) {
+  try {
+    // Create AudioContext if needed
+    if (!audioContext) {
+      audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      logger.debug('AudioContext created for visualizer');
+    }
+
+    // Resume if suspended (required for user interaction policy)
+    if (audioContext.state === 'suspended') {
+      audioContext.resume().catch(() => {
+        // Ignore - will retry on next interaction
+      });
+    }
+
+    // Check if already connected to this element
+    if (connectedAudioElement === audioElement && globalSourceNode && globalAnalyserNode) {
+      // Update analyser settings if needed
+      globalAnalyserNode.fftSize = fftSize;
+      globalAnalyserNode.smoothingTimeConstant = smoothing;
+      return globalAnalyserNode;
+    }
+
+    // If connected to different element, we cannot reconnect (Web Audio limitation)
+    // Just return null and use fallback animation
+    if (connectedAudioElement && connectedAudioElement !== audioElement) {
+      logger.warn('Audio visualizer already connected to different element, using fallback');
+      return null;
+    }
+
+    // Create new connection
+    globalAnalyserNode = audioContext.createAnalyser();
+    globalAnalyserNode.fftSize = fftSize;
+    globalAnalyserNode.smoothingTimeConstant = smoothing;
+
+    globalSourceNode = audioContext.createMediaElementSource(audioElement);
+    globalSourceNode.connect(globalAnalyserNode);
+    globalAnalyserNode.connect(audioContext.destination);
+
+    connectedAudioElement = audioElement;
+    logger.debug('Audio visualizer connected to element');
+
+    return globalAnalyserNode;
+  } catch (error) {
+    // Handle "already connected" error gracefully
+    if (error instanceof Error && error.message.includes('already been attached')) {
+      logger.warn('Audio element already attached, using existing connection');
+      // Element was connected in a previous session - return existing analyser if available
+      if (globalAnalyserNode) {
+        return globalAnalyserNode;
+      }
+    }
+    logger.error('Failed to initialize audio analyser', error);
+    return null;
+  }
+}
 
 export function useAudioVisualizer(
   audioElement: HTMLAudioElement | null,
@@ -35,10 +102,7 @@ export function useAudioVisualizer(
     fftSize = 128,
   } = options;
 
-  const analyserRef = useRef<AnalyserNode | null>(null);
-  const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const animationRef = useRef<number | null>(null);
-  const connectedElementRef = useRef<HTMLAudioElement | null>(null);
   
   const [data, setData] = useState<VisualizerData>({
     frequencies: new Array(barCount).fill(0),
@@ -47,50 +111,10 @@ export function useAudioVisualizer(
     peak: 0,
   });
 
-  // Initialize audio context and analyser
-  const initializeAnalyser = useCallback(() => {
+  // Get analyser node
+  const getAnalyser = useCallback(() => {
     if (!audioElement) return null;
-
-    try {
-      // Create or reuse audio context
-      if (!audioContext) {
-        audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-      }
-
-      // Resume if suspended
-      if (audioContext.state === 'suspended') {
-        audioContext.resume();
-      }
-
-      // Only reconnect if audio element changed
-      if (connectedElementRef.current !== audioElement) {
-        // Cleanup old connections
-        if (sourceRef.current) {
-          try {
-            sourceRef.current.disconnect();
-          } catch (e) {
-            // Ignore
-          }
-        }
-
-        // Create new analyser
-        analyserRef.current = audioContext.createAnalyser();
-        analyserRef.current.fftSize = fftSize;
-        analyserRef.current.smoothingTimeConstant = smoothing;
-
-        // Connect source
-        sourceRef.current = audioContext.createMediaElementSource(audioElement);
-        sourceRef.current.connect(analyserRef.current);
-        analyserRef.current.connect(audioContext.destination);
-
-        connectedElementRef.current = audioElement;
-      }
-
-      return analyserRef.current;
-    } catch (error) {
-      logger.error('Failed to initialize audio analyser', error);
-      return null;
-    }
+    return getOrCreateAudioNodes(audioElement, fftSize, smoothing);
   }, [audioElement, fftSize, smoothing]);
 
   // Animation loop
@@ -111,7 +135,7 @@ export function useAudioVisualizer(
       return;
     }
 
-    const analyser = initializeAnalyser();
+    const analyser = getAnalyser();
     
     // Fallback animation if analyser unavailable
     if (!analyser) {
@@ -194,7 +218,7 @@ export function useAudioVisualizer(
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isPlaying, initializeAnalyser, barCount]);
+  }, [isPlaying, getAnalyser, barCount]);
 
   return data;
 }
