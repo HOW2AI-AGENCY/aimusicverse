@@ -10,10 +10,15 @@ interface SoundToggleProps {
 }
 
 export function SoundToggle({ className, size = 'default' }: SoundToggleProps) {
-  const [enabled, setEnabled] = useState(true);
+  const [enabled, setEnabled] = useState(() => soundEffects.isEnabled());
 
   useEffect(() => {
-    setEnabled(soundEffects.isEnabled());
+    // Update state if soundEffects state changes externally
+    const updateEnabled = () => {
+      setEnabled(soundEffects.isEnabled());
+    };
+    
+    updateEnabled();
   }, []);
 
   const toggle = () => {

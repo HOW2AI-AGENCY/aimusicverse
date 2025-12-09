@@ -20,15 +20,17 @@ export const AudioWaveformPreview = ({ audioUrl, className }: AudioWaveformPrevi
   const [duration, setDuration] = useState(0);
 
   useEffect(() => {
-    if (!containerRef.current || !audioUrl) {
-      setIsLoading(false);
-      return;
-    }
-
     // Initialize loading state outside of effect body when possible
     let mounted = true;
     
     const initWavesurfer = () => {
+      if (!containerRef.current || !audioUrl) {
+        if (mounted) {
+          setIsLoading(false);
+        }
+        return;
+      }
+
       if (mounted) {
         setIsLoading(true);
         setIsReady(false);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -78,9 +78,9 @@ export const UploadAudioDialog = ({
     if (libraryOpen && user && userTracks.length === 0) {
       loadUserTracks();
     }
-  }, [libraryOpen, user]);
+  }, [libraryOpen, user, userTracks.length, loadUserTracks]);
 
-  const loadUserTracks = async () => {
+  const loadUserTracks = useCallback(async () => {
     if (!user) return;
     setLoadingTracks(true);
     try {
@@ -99,7 +99,7 @@ export const UploadAudioDialog = ({
     } finally {
       setLoadingTracks(false);
     }
-  };
+  }, [user]);
 
   const handleTrackSelect = async (track: Tables<'tracks'>) => {
     setSelectedTrack(track);
@@ -211,7 +211,7 @@ export const UploadAudioDialog = ({
 
       const functionName = mode === 'cover' ? 'suno-upload-cover' : 'suno-upload-extend';
       
-      const body: any = {
+      const body: Record<string, unknown> = {
         audioFile: {
           name: audioFile.name,
           type: audioFile.type,

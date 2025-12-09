@@ -1,20 +1,21 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useCheckin, useCanCheckinToday, useUserCredits, ACTION_REWARDS } from '@/hooks/useGamification';
 import { Flame, Gift, Sparkles, Check, Coins, Star } from 'lucide-react';
 import { RewardCelebration } from './RewardCelebration';
 
+// Generate random star movements outside of component to ensure purity
+const generateStarMovements = () =>
+  Array.from({ length: 3 }, () => ({
+    x: Math.random() * 50 - 25,
+    y: Math.random() * -30,
+  }));
+
 export function DailyCheckin() {
-  // Generate random star movements once and memoize them
-  const starMovements = useMemo(() => 
-    Array.from({ length: 3 }, () => ({
-      x: Math.random() * 50 - 25,
-      y: Math.random() * -30,
-    })),
-    []
-  );
+  // Generate random star movements once using useState initializer
+  const [starMovements] = useState(generateStarMovements);
   const { data: canCheckin, isLoading: checkingStatus } = useCanCheckinToday();
   const { data: credits } = useUserCredits();
   const checkin = useCheckin();

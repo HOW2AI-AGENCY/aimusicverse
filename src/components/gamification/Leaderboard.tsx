@@ -50,7 +50,23 @@ const getCategoryIcon = (category: LeaderboardCategory) => {
   }
 };
 
-const getCategoryStat = (entry: any, category: LeaderboardCategory) => {
+interface LeaderboardEntry {
+  rank: number;
+  user_id: string;
+  username: string | null;
+  photo_url: string | null;
+  level: number;
+  experience: number;
+  total_earned: number;
+  current_streak: number;
+  achievements_count: number;
+  total_tracks: number;
+  total_shares: number;
+  total_likes_received: number;
+  total_plays: number;
+}
+
+const getCategoryStat = (entry: LeaderboardEntry, category: LeaderboardCategory) => {
   switch (category) {
     case 'generators':
       return { value: entry.total_tracks, label: 'треков' };

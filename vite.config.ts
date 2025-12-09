@@ -200,7 +200,6 @@ export default defineConfig(({ mode }) => ({
       "@tanstack/react-query",
       "@supabase/supabase-js",
       "@radix-ui/react-dialog",
-      "@radix-ui/react-drawer",
       "@radix-ui/react-dropdown-menu",
     ],
   },

@@ -20,13 +20,23 @@ export default function Playlists() {
 
   // Handle deep link - open playlist from URL params
   useEffect(() => {
-    const playlistId = searchParams.get('playlist');
-    if (playlistId && playlists.length > 0) {
-      const playlist = playlists.find(p => p.id === playlistId);
-      if (playlist) {
-        setSelectedPlaylist(playlist);
+    let mounted = true;
+    
+    const handleDeepLink = () => {
+      const playlistId = searchParams.get('playlist');
+      if (playlistId && playlists.length > 0 && mounted) {
+        const playlist = playlists.find(p => p.id === playlistId);
+        if (playlist) {
+          setSelectedPlaylist(playlist);
+        }
       }
-    }
+    };
+    
+    handleDeepLink();
+    
+    return () => {
+      mounted = false;
+    };
   }, [searchParams, playlists]);
 
   const handleDelete = async (playlist: Playlist) => {

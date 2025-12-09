@@ -176,7 +176,7 @@ export const TrackCard = memo(({
   };
 
   // Swipe gesture handlers for like/delete actions
-  const handleDragEnd = (_event: any, info: PanInfo) => {
+  const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const threshold = 50;
     const offset = info.offset.x;
     
@@ -196,7 +196,7 @@ export const TrackCard = memo(({
     }
   };
 
-  const handleDrag = (_event: any, info: PanInfo) => {
+  const handleDrag = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     setSwipeOffset(info.offset.x);
   };
 
@@ -251,7 +251,7 @@ export const TrackCard = memo(({
     
     if (!versions || versions.length <= 1) return;
     
-    const currentActiveId = (track as any).active_version_id;
+    const currentActiveId = track.active_version_id;
     const currentIndex = versions.findIndex(v => v.id === currentActiveId);
     const nextIndex = (currentIndex + 1) % versions.length;
     const nextVersion = versions[nextIndex];
@@ -312,7 +312,7 @@ export const TrackCard = memo(({
             {versionCount > 1 && (
               <InlineVersionToggle
                 trackId={track.id}
-                activeVersionId={(track as any).active_version_id}
+                activeVersionId={track.active_version_id}
                 versionCount={versionCount}
                 className="flex-shrink-0"
               />
@@ -540,7 +540,7 @@ export const TrackCard = memo(({
           {versionCount > 1 && (
             <InlineVersionToggle
               trackId={track.id}
-              activeVersionId={(track as any).active_version_id}
+              activeVersionId={track.active_version_id}
               versionCount={versionCount}
             />
           )}
