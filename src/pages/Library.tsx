@@ -56,17 +56,17 @@ export default function Library() {
   const isMobile = useIsMobile();
   const [searchQuery, setSearchQuery] = useState("");
   const { activeTrack, playTrack, queue } = usePlayerStore();
-  const [viewMode, setViewMode] = useState<"grid" | "list">("list");
+  // Mobile defaults to list view, desktop to grid
+  const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
+    // Check if we're on mobile by checking window width (SSR-safe)
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768 ? "list" : "grid";
+    }
+    return "list";
+  });
   const [sortBy, setSortBy] = useState<"recent" | "popular" | "liked">("recent");
   const [typeFilter, setTypeFilter] = useState<FilterOption>('all');
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
-
-  // Update view mode when mobile state changes
-  useEffect(() => {
-    if (!isMobile && viewMode === "list") {
-      setViewMode("grid");
-    }
-  }, [isMobile, viewMode]);
 
   useGenerationRealtime();
   
