@@ -13,6 +13,13 @@ interface RewardCelebrationProps {
   onComplete?: () => void;
 }
 
+// Generate random particle positions outside of component to ensure purity
+const generateParticlePositions = () => 
+  Array.from({ length: 8 }, () => ({
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+  }));
+
 export function RewardCelebration({
   show,
   credits = 0,
@@ -23,6 +30,7 @@ export function RewardCelebration({
   onComplete,
 }: RewardCelebrationProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const [particlePositions] = useState(generateParticlePositions);
 
   useEffect(() => {
     if (show) {
@@ -209,7 +217,7 @@ export function RewardCelebration({
 
             {/* Floating particles */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              {[...Array(8)].map((_, i) => (
+              {particlePositions.map((pos, i) => (
                 <motion.div
                   key={i}
                   initial={{ 
@@ -219,8 +227,8 @@ export function RewardCelebration({
                     opacity: 0 
                   }}
                   animate={{ 
-                    x: `${Math.random() * 100}%`,
-                    y: `${Math.random() * 100}%`,
+                    x: `${pos.x}%`,
+                    y: `${pos.y}%`,
                     scale: [0, 1, 0],
                     opacity: [0, 1, 0],
                   }}

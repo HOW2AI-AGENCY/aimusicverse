@@ -74,7 +74,7 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
     }
   }, [muted, volume]);
 
-  const handleDragEnd = (event: any, info: any) => {
+  const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: { offset: { x: number; y: number } }) => {
     if (info.offset.y < -50 && onExpand) {
       hapticImpact('light');
       onExpand();

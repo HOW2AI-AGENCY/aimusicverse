@@ -46,12 +46,22 @@ export default function Settings() {
 
   // Initialize form when profile loads
   useEffect(() => {
-    if (profile && !isInitialized) {
-      setFirstName(profile.first_name || "");
-      setLastName(profile.last_name || "");
-      setIsPublic(profile.is_public || false);
-      setIsInitialized(true);
-    }
+    let mounted = true;
+    
+    const initializeForm = () => {
+      if (profile && !isInitialized && mounted) {
+        setFirstName(profile.first_name || "");
+        setLastName(profile.last_name || "");
+        setIsPublic(profile.is_public || false);
+        setIsInitialized(true);
+      }
+    };
+    
+    initializeForm();
+    
+    return () => {
+      mounted = false;
+    };
   }, [profile, isInitialized]);
 
   const handleSaveProfile = async () => {

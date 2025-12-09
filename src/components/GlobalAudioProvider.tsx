@@ -125,7 +125,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     } else if (!isPlaying) {
       audio.pause();
     }
-  }, [activeTrack?.id, isPlaying, getAudioSource, pauseTrack]);
+  }, [activeTrack?.id, activeTrack?.title, isPlaying, getAudioSource, pauseTrack]);
 
   // Handle track ended and errors
   useEffect(() => {

@@ -40,10 +40,20 @@ const Index = () => {
 
   // Handle navigation state for opening GenerateSheet
   useEffect(() => {
-    if (location.state?.openGenerate) {
-      setGenerateSheetOpen(true);
-      navigate(location.pathname, { replace: true, state: {} });
-    }
+    let mounted = true;
+    
+    const handleNavigationState = () => {
+      if (location.state?.openGenerate && mounted) {
+        setGenerateSheetOpen(true);
+        navigate(location.pathname, { replace: true, state: {} });
+      }
+    };
+    
+    handleNavigationState();
+    
+    return () => {
+      mounted = false;
+    };
   }, [location.state, navigate, location.pathname]);
 
   const goToProfile = () => {

@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Trophy, Coins, Sparkles, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useMemo } from 'react';
+import { useState } from 'react';
 
 interface AchievementUnlockNotificationProps {
   show: boolean;
@@ -13,6 +13,13 @@ interface AchievementUnlockNotificationProps {
   onClose: () => void;
 }
 
+// Generate random positions for stars outside of component to ensure purity
+const generateStarPositions = () => 
+  Array.from({ length: 6 }, () => ({
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+  }));
+
 export function AchievementUnlockNotification({
   show,
   name,
@@ -22,14 +29,8 @@ export function AchievementUnlockNotification({
   experienceReward,
   onClose,
 }: AchievementUnlockNotificationProps) {
-  // Generate random positions for stars once and memoize them
-  const starPositions = useMemo(() => 
-    Array.from({ length: 6 }, () => ({
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-    })),
-    []
-  );
+  // Generate random positions for stars once using useState initializer
+  const [starPositions] = useState(generateStarPositions);
   return (
     <AnimatePresence>
       {show && (

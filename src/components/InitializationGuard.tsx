@@ -21,20 +21,32 @@ export const InitializationGuard = ({ children }: InitializationGuardProps) => {
   useEffect(() => {
     initLogger.debug('InitializationGuard mounted', { isInitialized });
 
+    let mounted = true;
+
     // Set a safety timeout to show content even if initialization is stuck
     const timeout = setTimeout(() => {
-      initLogger.warn('Initialization timeout reached - showing content anyway');
-      setInitTimeout(true);
-      setShowContent(true);
+      if (mounted) {
+        initLogger.warn('Initialization timeout reached - showing content anyway');
+        setInitTimeout(true);
+        setShowContent(true);
+      }
     }, 3000);
 
-    if (isInitialized) {
-      initLogger.info('Initialization complete - showing content');
-      clearTimeout(timeout);
-      setShowContent(true);
-    }
+    // Handle immediate initialization case
+    const checkInit = () => {
+      if (isInitialized && mounted) {
+        initLogger.info('Initialization complete - showing content');
+        clearTimeout(timeout);
+        setShowContent(true);
+      }
+    };
 
-    return () => clearTimeout(timeout);
+    checkInit();
+
+    return () => {
+      mounted = false;
+      clearTimeout(timeout);
+    };
   }, [isInitialized]);
 
   // Show loading screen while initializing (unless timeout reached)

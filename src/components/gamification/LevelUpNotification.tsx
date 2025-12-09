@@ -31,14 +31,27 @@ export function LevelUpNotification({ level, title, show, onComplete }: LevelUpN
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (show) {
-      setIsVisible(true);
-      const timer = setTimeout(() => {
-        setIsVisible(false);
-        onComplete?.();
-      }, 4000);
-      return () => clearTimeout(timer);
-    }
+    let mounted = true;
+    
+    const handleShow = () => {
+      if (show && mounted) {
+        setIsVisible(true);
+        const timer = setTimeout(() => {
+          if (mounted) {
+            setIsVisible(false);
+            onComplete?.();
+          }
+        }, 4000);
+        return timer;
+      }
+    };
+
+    const timer = handleShow();
+    
+    return () => {
+      mounted = false;
+      if (timer) clearTimeout(timer);
+    };
   }, [show, onComplete]);
 
   return (
