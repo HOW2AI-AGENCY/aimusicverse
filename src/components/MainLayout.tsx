@@ -7,6 +7,7 @@ import { EnhancedGenerationIndicator } from './notifications';
 import { OnboardingOverlay } from './onboarding/OnboardingOverlay';
 import { OnboardingTrigger } from './onboarding/OnboardingTrigger';
 import { usePlaybackTracking } from '@/hooks/usePlaybackTracking';
+import { SkipToContent } from './ui/skip-to-content';
 import { cn } from '@/lib/utils';
 
 export const MainLayout = () => {
@@ -17,6 +18,9 @@ export const MainLayout = () => {
 
   return (
     <div className="flex h-screen bg-background">
+      {/* Skip to content for keyboard navigation */}
+      <SkipToContent />
+      
       {/* Onboarding system */}
       <OnboardingTrigger />
       <OnboardingOverlay />
@@ -30,6 +34,7 @@ export const MainLayout = () => {
         </div>
       )}
       <main
+        id="main-content"
         className={cn(
           'flex-1 flex flex-col overflow-y-auto',
           isDesktop ? 'ml-64' : 'pb-16'
