@@ -28,10 +28,60 @@
   <meta name="twitter:title" content="MusicVerse">
   <meta property="og:description" content="Платформа для генерации и редактирования музыки с помощью искусственного интеллекта">
   <meta name="twitter:description" content="Платформа для генерации и редактирования музыки с помощью искусственного интеллекта">
+  
+  <!-- Fallback loading styles (shown before React loads) -->
+  <style>
+    #loading-fallback {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #0f1419 0%, #1a1f2e 100%);
+      color: #fff;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    #loading-fallback .content {
+      text-align: center;
+      animation: fadeIn 0.3s ease-out;
+    }
+    #loading-fallback .spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(139, 92, 246, 0.2);
+      border-top-color: #8b5cf6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+    #loading-fallback p {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* Hide fallback once React renders content */
+    #root:not(:empty) #loading-fallback {
+      display: none !important;
+    }
+  </style>
 </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Fallback loading UI shown before React hydrates -->
+      <div id="loading-fallback">
+        <div class="content">
+          <div class="spinner"></div>
+          <p>Загрузка MusicVerse...</p>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

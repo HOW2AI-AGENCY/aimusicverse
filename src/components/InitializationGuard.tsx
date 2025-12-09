@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState, useRef } from 'react';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { LoadingScreen } from '@/components/ui/loading-screen';
 import { logger } from '@/lib/logger';
@@ -12,48 +12,77 @@ const initLogger = logger.child({ module: 'InitializationGuard' });
 /**
  * InitializationGuard ensures that TelegramContext is fully initialized
  * before rendering children. This prevents black screen issues.
+ * 
+ * Uses a multi-level timeout strategy:
+ * - Level 1 (1.5s): Quick timeout for fast connections
+ * - Level 2 (3s): Standard timeout for slow connections  
+ * - Level 3 (5s): Emergency fallback - always show content
  */
 export const InitializationGuard = ({ children }: InitializationGuardProps) => {
   const { isInitialized } = useTelegram();
   const [showContent, setShowContent] = useState(false);
-  const [initTimeout, setInitTimeout] = useState(false);
+  const mountedRef = useRef(true);
+  const hasShownRef = useRef(false);
 
   useEffect(() => {
     initLogger.debug('InitializationGuard mounted', { isInitialized });
+    mountedRef.current = true;
 
-    let mounted = true;
-
-    // Set a safety timeout to show content even if initialization is stuck
-    const timeout = setTimeout(() => {
-      if (mounted) {
-        initLogger.warn('Initialization timeout reached - showing content anyway');
-        setInitTimeout(true);
+    const showContentSafely = (reason: string) => {
+      if (mountedRef.current && !hasShownRef.current) {
+        hasShownRef.current = true;
+        initLogger.info(`Showing content: ${reason}`);
         setShowContent(true);
+      }
+    };
+
+    // If already initialized, show immediately
+    if (isInitialized) {
+      showContentSafely('already initialized');
+      return;
+    }
+
+    // Multi-level timeout strategy
+    const timeout1 = setTimeout(() => {
+      if (isInitialized) {
+        showContentSafely('initialized within 1.5s');
+      }
+    }, 1500);
+
+    const timeout2 = setTimeout(() => {
+      initLogger.warn('Level 2 timeout (3s) - checking status');
+      if (isInitialized || !hasShownRef.current) {
+        showContentSafely('level 2 timeout reached');
       }
     }, 3000);
 
-    // Handle immediate initialization case
-    const checkInit = () => {
-      if (isInitialized && mounted) {
-        initLogger.info('Initialization complete - showing content');
-        clearTimeout(timeout);
-        setShowContent(true);
-      }
-    };
-
-    checkInit();
+    // Emergency fallback - ALWAYS show content after 5 seconds
+    const emergencyTimeout = setTimeout(() => {
+      initLogger.error('Emergency timeout (5s) - forcing content display');
+      showContentSafely('emergency fallback');
+    }, 5000);
 
     return () => {
-      mounted = false;
-      clearTimeout(timeout);
+      mountedRef.current = false;
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+      clearTimeout(emergencyTimeout);
     };
   }, [isInitialized]);
 
-  // Show loading screen while initializing (unless timeout reached)
-  if (!showContent && !initTimeout) {
-    return <LoadingScreen message="Инициализация приложения..." />;
+  // Also watch for isInitialized changes
+  useEffect(() => {
+    if (isInitialized && !hasShownRef.current) {
+      hasShownRef.current = true;
+      initLogger.info('isInitialized became true - showing content');
+      setShowContent(true);
+    }
+  }, [isInitialized]);
+
+  // Show loading screen while initializing
+  if (!showContent) {
+    return <LoadingScreen message="Загрузка MusicVerse..." />;
   }
 
-  // Show content once initialized or timeout reached
   return <>{children}</>;
 };
