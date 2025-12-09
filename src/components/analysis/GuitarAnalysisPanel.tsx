@@ -244,20 +244,18 @@ export function GuitarAnalysisPanel({
       </Tabs>
 
       {/* Style Analysis */}
-      {analysis.style.fullResponse && (
+      {analysis.styleDescription && (
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
               <Music2 className="w-4 h-4" />
-              Анализ стиля
+              Описание стиля
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ScrollArea className="h-24">
-              <p className="text-sm text-muted-foreground whitespace-pre-wrap">
-                {analysis.style.fullResponse}
-              </p>
-            </ScrollArea>
+            <p className="text-sm text-muted-foreground">
+              {analysis.styleDescription}
+            </p>
           </CardContent>
         </Card>
       )}

@@ -32,7 +32,6 @@ export interface StyleAnalysis {
   strummingPattern?: string;
   features?: string[];
   chordProgression?: string;
-  fullResponse?: string;
 }
 
 export interface StrumData {
@@ -42,39 +41,50 @@ export interface StrumData {
 
 export interface TranscriptionFiles {
   midiUrl?: string;
+  midiQuantUrl?: string;
   pdfUrl?: string;
   gp5Url?: string;
   musicXmlUrl?: string;
 }
 
 export interface GuitarAnalysisResult {
-  // Beat detection
+  // Beat detection from Klangio
   beats: BeatData[];
+  downbeats: number[];
   bpm: number;
   timeSignature: string;
-  downbeats: number[];
   
-  // MIDI transcription
+  // Notes from transcription
   notes: NoteData[];
   midiUrl?: string;
   
-  // Style analysis
-  style: StyleAnalysis;
+  // Chord recognition
   chords: ChordData[];
   key: string;
   
-  // Klangio extended data
-  klangioKey?: string;
-  strumming?: StrumData[];
-  transcriptionFiles?: TranscriptionFiles;
+  // Strumming pattern
+  strumming: StrumData[];
   
-  // Generated tags
+  // Transcription files
+  transcriptionFiles: TranscriptionFiles;
+  
+  // Generated tags for music creation
   generatedTags: string[];
   styleDescription: string;
+  
+  // Style analysis
+  style: StyleAnalysis;
   
   // Metadata
   totalDuration: number;
   audioUrl: string;
+  
+  // Analysis status
+  analysisComplete: {
+    beats: boolean;
+    chords: boolean;
+    transcription: boolean;
+  };
 }
 
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
@@ -85,82 +95,72 @@ function midiToNoteName(midi: number): string {
   return `${NOTE_NAMES[noteIndex]}${octave}`;
 }
 
-// Parse chords from Audio Flamingo response
-function parseChords(text: string, duration: number): ChordData[] {
-  const chords: ChordData[] = [];
+// Generate style description from analysis
+function generateStyleDescription(analysis: Partial<GuitarAnalysisResult>): string {
+  const parts: string[] = [];
   
-  // Try to find chord timing patterns like "Am (0:00-0:02)"
-  const timingPattern = /([A-G][#b]?(?:m|maj|min|dim|aug|sus[24]|7|9|11|13)?)\s*\((\d+):(\d+)-(\d+):(\d+)\)/gi;
-  let match;
-  
-  while ((match = timingPattern.exec(text)) !== null) {
-    const chord = match[1];
-    const startMin = parseInt(match[2]);
-    const startSec = parseInt(match[3]);
-    const endMin = parseInt(match[4]);
-    const endSec = parseInt(match[5]);
-    
-    chords.push({
-      chord,
-      startTime: startMin * 60 + startSec,
-      endTime: endMin * 60 + endSec,
-    });
+  if (analysis.key && analysis.key !== 'Unknown') {
+    parts.push(`Key: ${analysis.key}`);
   }
   
-  // Fallback: extract chord names and distribute evenly
-  if (chords.length === 0) {
-    const chordPattern = /(?:Chords?:\s*)?([A-G][#b]?(?:m|maj|min|dim|aug|sus[24]|7)?(?:\s*[-–]\s*[A-G][#b]?(?:m|maj|min|dim|aug|sus[24]|7)?)+)/gi;
-    const progressionMatch = text.match(chordPattern);
-    
-    if (progressionMatch) {
-      const progressionStr = progressionMatch[0];
-      const chordNames = progressionStr.match(/[A-G][#b]?(?:m|maj|min|dim|aug|sus[24]|7)?/gi) || [];
-      
-      const segmentLength = duration / (chordNames.length || 1);
-      chordNames.forEach((chord, i) => {
-        chords.push({
-          chord,
-          startTime: i * segmentLength,
-          endTime: (i + 1) * segmentLength,
-        });
-      });
-    }
+  if (analysis.bpm) {
+    parts.push(`${analysis.bpm} BPM`);
   }
   
-  return chords;
+  if (analysis.chords && analysis.chords.length > 0) {
+    const uniqueChords = [...new Set(analysis.chords.map(c => c.chord))];
+    parts.push(`Chords: ${uniqueChords.slice(0, 6).join(' - ')}`);
+  }
+  
+  if (analysis.style?.technique) {
+    parts.push(analysis.style.technique);
+  }
+  
+  return parts.join(', ') || 'Guitar recording';
 }
 
-// Parse style analysis from Audio Flamingo response
-function parseStyleAnalysis(text: string): StyleAnalysis {
-  const parseField = (fieldName: string): string | undefined => {
-    const patterns = [
-      new RegExp(`${fieldName}[:\\s]+([^\\n]+)`, 'i'),
-      new RegExp(`\\*\\*${fieldName}\\*\\*[:\\s]+([^\\n]+)`, 'i'),
-    ];
-    
-    for (const pattern of patterns) {
-      const match = text.match(pattern);
-      if (match) return match[1].trim();
-    }
-    return undefined;
-  };
+// Generate tags for music generation
+function generateTags(analysis: Partial<GuitarAnalysisResult>): string[] {
+  const tags: string[] = ['guitar'];
   
-  const features: string[] = [];
-  const featuresMatch = text.match(/Notable Features?[:\s]+([^\n]+)/i);
-  if (featuresMatch) {
-    features.push(...featuresMatch[1].split(/[,;]/).map(f => f.trim()).filter(Boolean));
+  // BPM-based tags
+  if (analysis.bpm) {
+    if (analysis.bpm < 80) tags.push('slow tempo', 'ballad');
+    else if (analysis.bpm < 110) tags.push('mid-tempo');
+    else if (analysis.bpm < 140) tags.push('upbeat');
+    else tags.push('fast tempo', 'energetic');
   }
   
-  return {
-    genre: parseField('Genre'),
-    mood: parseField('Mood'),
-    technique: parseField('(?:Playing )?Technique'),
-    key: parseField('Key'),
-    strummingPattern: parseField('Strumming Pattern'),
-    chordProgression: parseField('Chord Progression'),
-    features,
-    fullResponse: text,
-  };
+  // Key-based tags
+  if (analysis.key && analysis.key !== 'Unknown') {
+    tags.push(analysis.key);
+    if (analysis.key.includes('minor') || analysis.key.includes('m')) {
+      tags.push('melancholic', 'emotional');
+    } else {
+      tags.push('bright', 'uplifting');
+    }
+  }
+  
+  // Chord complexity
+  if (analysis.chords) {
+    const uniqueChords = new Set(analysis.chords.map(c => c.chord));
+    if (uniqueChords.size > 6) tags.push('complex harmony');
+    if ([...uniqueChords].some(c => c.includes('7') || c.includes('9'))) {
+      tags.push('jazz chords');
+    }
+  }
+  
+  // Strumming-based tags
+  if (analysis.strumming && analysis.strumming.length > 0) {
+    const upCount = analysis.strumming.filter(s => s.direction === 'U').length;
+    const downCount = analysis.strumming.filter(s => s.direction === 'D').length;
+    
+    if (downCount > upCount * 2) tags.push('power strumming');
+    else if (upCount > downCount) tags.push('upstroke pattern');
+    else tags.push('alternating strum');
+  }
+  
+  return [...new Set(tags)];
 }
 
 export function useGuitarAnalysis() {
@@ -170,6 +170,7 @@ export function useGuitarAnalysis() {
   const [recordedAudioUrl, setRecordedAudioUrl] = useState<string | null>(null);
   const [recordedFile, setRecordedFile] = useState<File | null>(null);
   const [progress, setProgress] = useState<string>('');
+  const [progressPercent, setProgressPercent] = useState(0);
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -247,14 +248,15 @@ export function useGuitarAnalysis() {
 
     setIsAnalyzing(true);
     setProgress('Загрузка аудио...');
+    setProgressPercent(5);
     
     try {
-      log.info('Starting guitar analysis');
+      log.info('Starting guitar analysis with Klangio API');
       
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
       
-      // Upload audio
+      // Upload audio to storage
       const fileName = `${user.id}/guitar-analysis/${Date.now()}-${audioFile.name}`;
       const { error: uploadError } = await supabase.storage
         .from('project-assets')
@@ -266,213 +268,206 @@ export function useGuitarAnalysis() {
         .from('project-assets')
         .getPublicUrl(fileName);
 
-      // Run analyses in parallel - all with graceful error handling
-      setProgress('Анализируем биты, ноты и стиль...');
-      
-      const [beatResult, midiResult, styleResult] = await Promise.all([
-        // Beat detection
-        supabase.functions.invoke('detect-beats', {
-          body: { audio_url: publicUrl, constant_tempo: false },
-        }).catch(e => {
-          log.warn('Beat detection failed', e);
-          return { data: { success: true, fallback: true, analysis: { beats: [], bpm: 120, timeSignature: '4/4', downbeats: [], totalDuration: 30 } } };
-        }),
-        
-        // MIDI transcription - without track_id for standalone analysis
-        supabase.functions.invoke('transcribe-midi', {
-          body: { audio_url: publicUrl, model_type: 'basic-pitch' },
-        }).catch(e => {
-          log.warn('MIDI transcription failed', e);
-          return { data: null };
-        }),
-        
-        // Style analysis with guitar-specific prompt - without track_id for standalone
-        supabase.functions.invoke('analyze-audio-flamingo', {
+      setProgress('Анализируем ритм и биты...');
+      setProgressPercent(15);
+
+      // Run all Klangio analyses in parallel
+      const [beatResult, chordResult, transcriptionResult] = await Promise.all([
+        // Beat tracking
+        supabase.functions.invoke('klangio-analyze', {
           body: { 
             audio_url: publicUrl, 
-            analysis_type: 'guitar_chord',
-            custom_prompt: `Analyze this guitar recording and provide structured information:
-
-Chords: [List all chords with approximate timing, e.g., "Am (0:00-0:02), G (0:02-0:04)"]
-Chord Progression: [e.g., "Am - G - F - C"]
-Playing Technique: [fingerpicking/strumming/hybrid/arpeggios/tapping]
-Key: [detected key, e.g., "A minor", "C major"]
-Strumming Pattern: [if applicable, describe the pattern]
-Mood: [overall mood/emotion]
-Genre: [detected genre/style]
-Notable Features: [bends, slides, hammer-ons, pull-offs, harmonics, etc.]
-
-Be precise with chord names including extensions (e.g., Am7, Cmaj7, Dsus4).
-Provide timing estimates in MM:SS format.`,
+            mode: 'beat-tracking',
+            user_id: user.id,
           },
         }).catch(e => {
-          log.warn('Audio Flamingo analysis failed', e);
-          return { data: null };
+          log.warn('Beat tracking failed', e);
+          return { data: null, error: e };
+        }),
+        
+        // Chord recognition with extended key detection
+        supabase.functions.invoke('klangio-analyze', {
+          body: { 
+            audio_url: publicUrl, 
+            mode: 'chord-recognition-extended',
+            vocabulary: 'full',
+            user_id: user.id,
+          },
+        }).catch(e => {
+          log.warn('Chord recognition failed', e);
+          return { data: null, error: e };
+        }),
+        
+        // Guitar transcription with MIDI, GP5, and PDF outputs
+        supabase.functions.invoke('klangio-analyze', {
+          body: { 
+            audio_url: publicUrl, 
+            mode: 'transcription',
+            model: 'guitar',
+            outputs: ['midi', 'midi_quant', 'gp5', 'pdf', 'mxml'],
+            user_id: user.id,
+          },
+        }).catch(e => {
+          log.warn('Transcription failed', e);
+          return { data: null, error: e };
         }),
       ]);
 
-      // Klangio calls - optional enhancement, run separately to not block main analysis
-      let klangioChords: { data: any } = { data: null };
-      let klangioTranscription: { data: any } = { data: null };
-      
-      // Only try Klangio if we have a key configured (optional enhancement)
-      try {
-        const [chordResult, transcriptResult] = await Promise.all([
-          supabase.functions.invoke('klangio-analyze', {
-            body: { 
-              audio_url: publicUrl, 
-              mode: 'chord-recognition-extended',
-              vocabulary: 'full',
-              user_id: user.id,
-            },
-          }),
-          supabase.functions.invoke('klangio-analyze', {
-            body: { 
-              audio_url: publicUrl, 
-              mode: 'transcription',
-              model: 'guitar',
-              outputs: ['midi', 'gp5'],
-              user_id: user.id,
-            },
-          }),
-        ]);
-        klangioChords = chordResult;
-        klangioTranscription = transcriptResult;
-      } catch (e: any) {
-        log.warn('Klangio services unavailable, using fallback', { error: e?.message });
-      }
+      setProgress('Обрабатываем результаты...');
+      setProgressPercent(70);
 
-      // Process beat detection result
+      // Process beat tracking result
       let beats: BeatData[] = [];
-      let bpm = 120;
-      let timeSignature = '4/4';
       let downbeats: number[] = [];
-      let totalDuration = 30;
+      let bpm = 120;
 
-      if (beatResult.data?.success && beatResult.data?.analysis) {
-        const beatAnalysis = beatResult.data.analysis;
-        beats = beatAnalysis.beats || [];
-        bpm = beatAnalysis.bpm || 120;
-        timeSignature = beatAnalysis.timeSignature || '4/4';
-        downbeats = beatAnalysis.downbeats || [];
-        totalDuration = beatAnalysis.totalDuration || 30;
+      if (beatResult.data?.status === 'completed') {
+        bpm = beatResult.data.bpm || 120;
+        
+        if (beatResult.data.beats) {
+          beats = beatResult.data.beats.map((time: number, i: number) => ({
+            time,
+            beatNumber: i + 1,
+          }));
+        }
+        
+        if (beatResult.data.downbeats) {
+          downbeats = beatResult.data.downbeats;
+        }
       }
 
-      // Process MIDI result
-      let notes: NoteData[] = [];
-      let midiUrl: string | undefined;
-
-      if (midiResult.data?.success) {
-        midiUrl = midiResult.data.midi_url;
-        // Generate synthetic notes if needed
-        // In production, parse actual MIDI data
-      }
-
-      // Process style analysis result
-      let style: StyleAnalysis = {};
+      // Process chord recognition result
       let chords: ChordData[] = [];
       let key = 'Unknown';
-
-      if (styleResult.data?.success) {
-        const fullResponse = styleResult.data?.analysis?.full_response || 
-                            styleResult.data?.parsed?.style_description || '';
-        style = parseStyleAnalysis(fullResponse);
-        chords = parseChords(fullResponse, totalDuration);
-        key = style.key || styleResult.data?.parsed?.key_signature || 'Unknown';
-      }
-
-      // Process Klangio results
-      let klangioKey: string | undefined;
       let strumming: StrumData[] = [];
-      let transcriptionFiles: TranscriptionFiles = {};
 
-      if (klangioChords.data?.status === 'completed') {
-        klangioKey = klangioChords.data.key;
-        if (klangioChords.data.strumming) {
-          strumming = klangioChords.data.strumming.map((s: any) => ({
+      if (chordResult.data?.status === 'completed') {
+        key = chordResult.data.key || 'Unknown';
+        
+        if (chordResult.data.chords) {
+          chords = chordResult.data.chords.map((c: any) => ({
+            chord: c.chord || c.name || c.label || 'Unknown',
+            startTime: c.start_time ?? c.time ?? 0,
+            endTime: c.end_time ?? (c.start_time ? c.start_time + 2 : 2),
+          }));
+        }
+        
+        if (chordResult.data.strumming) {
+          strumming = chordResult.data.strumming.map((s: any) => ({
             time: s.time || s.timestamp || 0,
             direction: s.direction === 'up' || s.direction === 'U' ? 'U' : 'D',
           }));
         }
-        // Merge Klangio chords if available
-        if (klangioChords.data.chords?.length > 0 && chords.length === 0) {
-          chords = klangioChords.data.chords.map((c: any) => ({
-            chord: c.chord || c.name,
-            startTime: c.start_time || c.time || 0,
-            endTime: c.end_time || (c.time + 2),
-          }));
-        }
-        // Use Klangio key if more reliable
-        if (klangioKey && key === 'Unknown') {
-          key = klangioKey;
-        }
       }
 
-      if (klangioTranscription.data?.status === 'completed' && klangioTranscription.data.files) {
+      // Process transcription result
+      let transcriptionFiles: TranscriptionFiles = {};
+      let midiUrl: string | undefined;
+      let notes: NoteData[] = [];
+
+      if (transcriptionResult.data?.status === 'completed' && transcriptionResult.data.files) {
+        const files = transcriptionResult.data.files;
         transcriptionFiles = {
-          midiUrl: klangioTranscription.data.files.midi,
-          gp5Url: klangioTranscription.data.files.gp5,
-          pdfUrl: klangioTranscription.data.files.pdf,
-          musicXmlUrl: klangioTranscription.data.files.musicxml,
+          midiUrl: files.midi,
+          midiQuantUrl: files.midi_quant,
+          gp5Url: files.gp5,
+          pdfUrl: files.pdf,
+          musicXmlUrl: files.mxml,
         };
-        // Prefer Klangio MIDI if available
-        if (transcriptionFiles.midiUrl && !midiUrl) {
-          midiUrl = transcriptionFiles.midiUrl;
-        }
+        midiUrl = files.midi || files.midi_quant;
       }
 
-      // Generate tags using melody-to-tags
-      setProgress('Генерируем теги...');
-      
-      const { data: tagsData } = await supabase.functions.invoke('melody-to-tags', {
-        body: {
-          notes,
-          chords,
-          bpm,
-          key,
-          timeSignature,
-          instrument: 'guitar',
-        },
-      });
+      // Calculate time signature from beats and downbeats
+      let timeSignature = '4/4';
+      if (downbeats.length >= 2 && beats.length > 0) {
+        const beatsPerMeasure = Math.round(
+          beats.filter(b => b.time >= downbeats[0] && b.time < downbeats[1]).length
+        );
+        if (beatsPerMeasure === 3) timeSignature = '3/4';
+        else if (beatsPerMeasure === 6) timeSignature = '6/8';
+      }
 
-      const generatedTags = tagsData?.tags || [];
-      const styleDescription = tagsData?.styleDescription || '';
+      // Estimate duration
+      const totalDuration = beats.length > 0 
+        ? Math.max(...beats.map(b => b.time)) + 2
+        : chords.length > 0 
+          ? Math.max(...chords.map(c => c.endTime)) 
+          : 30;
+
+      setProgress('Генерируем теги...');
+      setProgressPercent(85);
+
+      // Build partial result for tag generation
+      const partialResult = {
+        beats,
+        downbeats,
+        bpm,
+        chords,
+        key,
+        strumming,
+        style: {
+          technique: strumming.length > 0 ? 'strumming' : 'fingerpicking',
+        },
+      };
+
+      const generatedTags = generateTags(partialResult);
+      const styleDescription = generateStyleDescription(partialResult);
+
+      setProgress('Готово!');
+      setProgressPercent(100);
 
       const result: GuitarAnalysisResult = {
         beats,
+        downbeats,
         bpm,
         timeSignature,
-        downbeats,
         notes,
         midiUrl,
-        style,
         chords,
         key,
-        klangioKey,
         strumming,
         transcriptionFiles,
         generatedTags,
         styleDescription,
+        style: partialResult.style,
         totalDuration,
         audioUrl: publicUrl,
+        analysisComplete: {
+          beats: beatResult.data?.status === 'completed',
+          chords: chordResult.data?.status === 'completed',
+          transcription: transcriptionResult.data?.status === 'completed',
+        },
       };
 
       setAnalysisResult(result);
       setProgress('');
-      toast.success('Анализ завершён!');
+      setProgressPercent(0);
+      
+      const successParts: string[] = [];
+      if (result.analysisComplete.beats) successParts.push('ритм');
+      if (result.analysisComplete.chords) successParts.push('аккорды');
+      if (result.analysisComplete.transcription) successParts.push('ноты');
+      
+      if (successParts.length > 0) {
+        toast.success(`Анализ завершён: ${successParts.join(', ')}`);
+      } else {
+        toast.warning('Анализ частично завершён');
+      }
       
       log.info('Guitar analysis complete', { 
         bpm, 
         key, 
         chordsCount: chords.length,
         beatsCount: beats.length,
+        hasTranscription: !!midiUrl,
       });
       
       return result;
     } catch (error) {
       log.error('Guitar analysis error', error);
-      toast.error('Ошибка анализа');
+      toast.error('Ошибка анализа. Проверьте API ключ Klangio.');
       setProgress('');
+      setProgressPercent(0);
       return null;
     } finally {
       setIsAnalyzing(false);
@@ -487,6 +482,7 @@ Provide timing estimates in MM:SS format.`,
     setRecordedFile(null);
     setAnalysisResult(null);
     setProgress('');
+    setProgressPercent(0);
   }, [recordedAudioUrl]);
 
   return {
@@ -496,6 +492,7 @@ Provide timing estimates in MM:SS format.`,
     recordedAudioUrl,
     recordedFile,
     progress,
+    progressPercent,
     startRecording,
     stopRecording,
     analyzeGuitarRecording,
