@@ -151,10 +151,10 @@ export async function handleGuitarAudio(
       .from('project-assets')
       .getPublicUrl(fileName);
 
-    await sendMessage(chatId, '🔍 Анализирую ритм и биты\\.\\.\\.');
+    await sendMessage(chatId, '🔍 Анализирую ритм, ноты и аккорды\\.\\.\\.');
 
-    // Run parallel analysis
-    const [beatResult, midiResult, styleResult] = await Promise.allSettled([
+    // Run parallel analysis with Klangio
+    const [beatResult, midiResult, styleResult, klangioChords, klangioTranscription] = await Promise.allSettled([
       // Beat detection
       fetch(`${supabaseUrl}/functions/v1/detect-beats`, {
         method: 'POST',
@@ -192,12 +192,43 @@ Chords: [List all chords with approximate timing]
 Chord Progression: [e.g., "Am - G - F - C"]
 Playing Technique: [fingerpicking/strumming/hybrid/arpeggios]
 Key: [detected key]
-Strumming Pattern: [if applicable]
+Strumming Pattern: [D D U D U pattern if applicable]
 Notable Features: [bends, slides, hammer-ons, etc.]
 
 Be precise with chord names including extensions.`
         })
       }).then(r => r.json()),
+
+      // Klangio chord recognition with strumming detection
+      fetch(`${supabaseUrl}/functions/v1/klangio-analyze`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabaseKey}`
+        },
+        body: JSON.stringify({ 
+          audio_url: publicUrl,
+          mode: 'chord-recognition-extended',
+          vocabulary: 'full',
+          user_id: session?.supabaseUserId
+        })
+      }).then(r => r.json()).catch(() => null),
+
+      // Klangio transcription for Guitar Pro export
+      fetch(`${supabaseUrl}/functions/v1/klangio-analyze`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabaseKey}`
+        },
+        body: JSON.stringify({ 
+          audio_url: publicUrl,
+          mode: 'transcription',
+          model: 'guitar',
+          outputs: ['midi', 'gp5'],
+          user_id: session?.supabaseUserId
+        })
+      }).then(r => r.json()).catch(() => null),
     ]);
 
     await sendMessage(chatId, '🎹 Формирую результаты анализа\\.\\.\\.');
@@ -206,6 +237,8 @@ Be precise with chord names including extensions.`
     const beats = beatResult.status === 'fulfilled' ? beatResult.value : null;
     const midi = midiResult.status === 'fulfilled' ? midiResult.value : null;
     const style = styleResult.status === 'fulfilled' ? styleResult.value : null;
+    const klangioC = klangioChords.status === 'fulfilled' ? klangioChords.value : null;
+    const klangioT = klangioTranscription.status === 'fulfilled' ? klangioTranscription.value : null;
 
     // Build response message
     let message = '🎸 *Анализ гитарной партии завершён\\!*\n\n';
@@ -217,39 +250,61 @@ Be precise with chord names including extensions.`
       message += `• Размер: ${escapeMarkdown(beats.timeSignature || '4/4')}\n\n`;
     }
 
-    // Style analysis with chords
-    if (style && style.analysis) {
-      const analysis = style.analysis;
-      
-      // Parse chords from analysis
-      const chordsMatch = analysis.match(/Chords?:?\s*([^\n]+)/i);
-      const progressionMatch = analysis.match(/Chord Progression:?\s*([^\n]+)/i);
-      const keyMatch = analysis.match(/Key:?\s*([^\n]+)/i);
-      const techniqueMatch = analysis.match(/(?:Playing )?Technique:?\s*([^\n]+)/i);
+    // Key from Klangio or style analysis
+    let detectedKey = '';
+    if (klangioC?.key) {
+      detectedKey = klangioC.key;
+    } else if (style?.analysis) {
+      const keyMatch = style.analysis.match(/Key:?\s*([^\n]+)/i);
+      if (keyMatch) detectedKey = keyMatch[1].trim();
+    }
+    
+    if (detectedKey) {
+      message += `🎵 *Тональность:* ${escapeMarkdown(detectedKey)}\n\n`;
+    }
 
-      if (keyMatch) {
-        message += `🎵 *Тональность:* ${escapeMarkdown(keyMatch[1].trim())}\n\n`;
+    // Chords from Klangio or style analysis
+    let chordsText = '';
+    if (klangioC?.chords && klangioC.chords.length > 0) {
+      chordsText = klangioC.chords.map((c: any) => c.chord || c.name).join(' - ');
+    } else if (style?.analysis) {
+      const progressionMatch = style.analysis.match(/Chord Progression:?\s*([^\n]+)/i);
+      const chordsMatch = style.analysis.match(/Chords?:?\s*([^\n]+)/i);
+      if (progressionMatch) chordsText = progressionMatch[1].trim();
+      else if (chordsMatch) chordsText = chordsMatch[1].trim();
+    }
+
+    if (chordsText) {
+      message += `🎼 *Аккорды:*\n\`${escapeMarkdown(chordsText)}\`\n\n`;
+    }
+
+    // Strumming pattern from Klangio
+    if (klangioC?.strumming && klangioC.strumming.length > 0) {
+      const strumPattern = klangioC.strumming
+        .slice(0, 8)
+        .map((s: any) => s.direction === 'up' || s.direction === 'U' ? '↑' : '↓')
+        .join(' ');
+      message += `✋ *Бой:* ${strumPattern}\n\n`;
+    } else if (style?.analysis) {
+      const strumMatch = style.analysis.match(/Strumming Pattern:?\s*([^\n]+)/i);
+      if (strumMatch) {
+        message += `✋ *Бой:* ${escapeMarkdown(strumMatch[1].trim())}\n\n`;
       }
+    }
 
-      if (progressionMatch) {
-        message += `🎼 *Аккорды:*\n`;
-        message += `\`${escapeMarkdown(progressionMatch[1].trim())}\`\n\n`;
-      } else if (chordsMatch) {
-        message += `🎼 *Аккорды:*\n`;
-        message += `\`${escapeMarkdown(chordsMatch[1].trim())}\`\n\n`;
-      }
-
+    // Technique
+    if (style?.analysis) {
+      const techniqueMatch = style.analysis.match(/(?:Playing )?Technique:?\s*([^\n]+)/i);
       if (techniqueMatch) {
-        message += `✋ *Техника:* ${escapeMarkdown(techniqueMatch[1].trim())}\n\n`;
+        message += `🖐️ *Техника:* ${escapeMarkdown(techniqueMatch[1].trim())}\n\n`;
       }
     }
 
     // MIDI info
-    if (midi && midi.midi_url) {
+    const midiUrl = klangioT?.files?.midi || midi?.midi_url;
+    if (midiUrl) {
       message += `✅ MIDI\\-файл создан\n`;
-      
-      // Extract note count if available
-      if (midi.notes_count) {
+      if (midi?.notes_count) {
         message += `• Нот извлечено: ${midi.notes_count}\n`;
       }
     }
@@ -257,10 +312,16 @@ Be precise with chord names including extensions.`
     // Add buttons
     const buttons: any[][] = [];
 
-    if (midi && midi.midi_url) {
-      buttons.push([
-        { text: '📥 Скачать MIDI', url: midi.midi_url }
-      ]);
+    // Download buttons
+    const downloadRow: any[] = [];
+    if (midiUrl) {
+      downloadRow.push({ text: '📥 MIDI', url: midiUrl });
+    }
+    if (klangioT?.files?.gp5) {
+      downloadRow.push({ text: '🎸 Guitar Pro', url: klangioT.files.gp5 });
+    }
+    if (downloadRow.length > 0) {
+      buttons.push(downloadRow);
     }
 
     buttons.push([
