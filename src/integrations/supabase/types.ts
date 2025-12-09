@@ -462,6 +462,98 @@ export type Database = {
           },
         ]
       }
+      guitar_recordings: {
+        Row: {
+          analysis_status: Json | null
+          audio_url: string
+          beats: Json | null
+          bpm: number | null
+          chords: Json | null
+          created_at: string
+          downbeats: Json | null
+          duration_seconds: number | null
+          generated_tags: string[] | null
+          gp5_url: string | null
+          id: string
+          key: string | null
+          midi_quant_url: string | null
+          midi_url: string | null
+          musicxml_url: string | null
+          notes: Json | null
+          pdf_url: string | null
+          strumming: Json | null
+          style_analysis: Json | null
+          style_description: string | null
+          time_signature: string | null
+          title: string | null
+          track_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          analysis_status?: Json | null
+          audio_url: string
+          beats?: Json | null
+          bpm?: number | null
+          chords?: Json | null
+          created_at?: string
+          downbeats?: Json | null
+          duration_seconds?: number | null
+          generated_tags?: string[] | null
+          gp5_url?: string | null
+          id?: string
+          key?: string | null
+          midi_quant_url?: string | null
+          midi_url?: string | null
+          musicxml_url?: string | null
+          notes?: Json | null
+          pdf_url?: string | null
+          strumming?: Json | null
+          style_analysis?: Json | null
+          style_description?: string | null
+          time_signature?: string | null
+          title?: string | null
+          track_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          analysis_status?: Json | null
+          audio_url?: string
+          beats?: Json | null
+          bpm?: number | null
+          chords?: Json | null
+          created_at?: string
+          downbeats?: Json | null
+          duration_seconds?: number | null
+          generated_tags?: string[] | null
+          gp5_url?: string | null
+          id?: string
+          key?: string | null
+          midi_quant_url?: string | null
+          midi_url?: string | null
+          musicxml_url?: string | null
+          notes?: Json | null
+          pdf_url?: string | null
+          strumming?: Json | null
+          style_analysis?: Json | null
+          style_description?: string | null
+          time_signature?: string | null
+          title?: string | null
+          track_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "guitar_recordings_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       health_alerts: {
         Row: {
           alert_type: string
