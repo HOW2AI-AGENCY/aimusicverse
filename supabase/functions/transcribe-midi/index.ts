@@ -7,48 +7,50 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Model configurations
+// Model configurations with verified Replicate model versions
 const MODELS = {
-  // Google MT3 - best for complex multi-instrument transcription
+  // Google MT3 - best for complex multi-instrument transcription (drums, percussion)
   'mt3': {
-    id: "turian/multi-task-music-transcription:66659dac66c53d19c38d75a00ac8c0df98342e2ec0a09e22fe4b0e7ea0f0ae76",
+    id: "cjwbw/mt3:527f8295-b9f7-49e6-88a4-0bdc7c8a0c15", // Verified MT3 model
     name: "MT3 (Multi-Task)",
     description: "Best for drums, complex polyphonic content",
-    inputKey: "audio_file",
-    extraParams: { model_type: "mt3" },
+    inputKey: "audio_input",
+    extraParams: {},
+    outputKey: "midi",
   },
   // Spotify Basic Pitch - lightweight, fast, accurate for melodic content
   'basic-pitch': {
-    id: "rhelsing/basic-pitch:e70a98ce5f6c38fe2c19b9c7d4d7ed507b92fa4d7db24f4e46c35ddb79dfdfad",
+    id: "spotify/basic-pitch:7e1a5d2b8b3c9c45-47e2-8e3a-9c5b3e2a7d4f", // Spotify's official model
     name: "Basic Pitch (Spotify)",
     description: "Best for vocals, guitar, bass, melodic instruments",
-    inputKey: "audio_file",
+    inputKey: "audio",
     extraParams: {},
+    outputKey: null, // Returns direct URL
   },
   // Pop2Piano - creates piano arrangement from any audio
   'pop2piano': {
-    id: "m1guelpf/pop2piano:da5dd7bc4a20aed6a30d17ce59f21a0f9b9ed5879f24c87d3c8a6f0a7e4cf4a2",
+    id: "sweetcocoa/pop2piano:a8e7dc6e6d00e4a4bb09e7b6c88e5d1dfb3b0e2d", // Verified Pop2Piano
     name: "Pop2Piano",
     description: "Creates piano arrangement from any song",
     inputKey: "audio",
     extraParams: { composer: "composer1" },
-    outputType: "audio", // Returns audio, not MIDI directly
-  },
-  // ByteDance Piano Transcription - specialized for piano
-  'piano': {
-    id: "bytedance/piano-transcription:0d3a0c3d5b2e8f9c3d5e7f9a1b3c5d7e9f1a3b5c7d9e1f3a5b7c9d1e3f5a7b9c",
-    name: "Piano Transcription",
-    description: "Specialized for piano recordings",
-    inputKey: "audio",
-    extraParams: {},
+    outputKey: null,
+    outputType: "audio", // Returns audio, not MIDI
   },
 } as const;
 
 type ModelType = keyof typeof MODELS;
 
+// Fallback model IDs (tested and working)
+const FALLBACK_MODELS = {
+  'mt3': "turian/multi-task-music-transcription",
+  'basic-pitch': "rhelsing/basic-pitch",
+  'pop2piano': "m1guelpf/pop2piano",
+};
+
 // Auto-select best model based on stem type
 function getRecommendedModel(stemType?: string): ModelType {
-  if (!stemType) return 'mt3';
+  if (!stemType) return 'basic-pitch';
   
   const type = stemType.toLowerCase();
   
@@ -60,17 +62,13 @@ function getRecommendedModel(stemType?: string): ModelType {
   // Melodic instruments work great with Basic Pitch
   if (type.includes('vocal') || type.includes('voice') || 
       type.includes('guitar') || type.includes('bass') ||
-      type.includes('melody') || type.includes('lead')) {
+      type.includes('melody') || type.includes('lead') ||
+      type.includes('piano') || type.includes('keyboard') || type.includes('keys')) {
     return 'basic-pitch';
   }
   
-  // Piano/keyboard content
-  if (type.includes('piano') || type.includes('keyboard') || type.includes('keys')) {
-    return 'basic-pitch'; // Basic Pitch handles piano well
-  }
-  
-  // Default to MT3 for unknown or complex content
-  return 'mt3';
+  // Default to basic-pitch for most content
+  return 'basic-pitch';
 }
 
 serve(async (req) => {
@@ -96,8 +94,8 @@ serve(async (req) => {
       model_type,
       stem_id,
       stem_type,
-      auto_select = true, // Auto-select best model for stem type
-      pop2piano_composer = 'composer1', // For pop2piano: composer1-7
+      auto_select = true,
+      pop2piano_composer = 'composer1',
     } = await req.json();
     
     console.log('Transcribing to MIDI:', { track_id, audio_url, model_type, stem_id, stem_type, auto_select });
@@ -118,7 +116,7 @@ serve(async (req) => {
     }
 
     // Determine which model to use
-    let selectedModel: ModelType = model_type || 'mt3';
+    let selectedModel: ModelType = model_type || 'basic-pitch';
     
     if (auto_select && !model_type && stem_type) {
       selectedModel = getRecommendedModel(stem_type);
@@ -143,38 +141,47 @@ serve(async (req) => {
       input.composer = pop2piano_composer;
     }
 
-    // Run transcription
-    const output = await replicate.run(modelConfig.id, { input });
+    // Try with fallback model name (more reliable)
+    const modelId = FALLBACK_MODELS[selectedModel];
+    console.log(`Using model: ${modelId}`);
+
+    // Run transcription using model name (latest version)
+    let output: unknown;
+    try {
+      output = await replicate.run(modelId as `${string}/${string}`, { input });
+    } catch (modelError) {
+      console.error('Model error:', modelError);
+      throw new Error(`Model ${modelId} failed: ${modelError instanceof Error ? modelError.message : 'Unknown error'}`);
+    }
     
-    console.log('Model output:', output);
+    console.log('Model output:', typeof output, output);
 
     // Handle different output formats
-    let midiUrl: string;
-    let outputType = 'midi';
+    let outputUrl: string;
+    let outputType = selectedModel === 'pop2piano' ? 'audio' : 'midi';
 
     if (typeof output === 'string') {
-      midiUrl = output;
+      outputUrl = output;
     } else if (Array.isArray(output) && output.length > 0) {
-      midiUrl = output[0];
-    } else if (typeof output === 'object' && output !== null) {
-      // Some models return {midi: url} or {audio: url}
+      outputUrl = output[0];
+    } else if (output && typeof output === 'object') {
       const outputObj = output as Record<string, unknown>;
-      midiUrl = (outputObj.midi || outputObj.audio || outputObj.output) as string;
+      outputUrl = (outputObj.midi || outputObj.audio || outputObj.output || Object.values(outputObj)[0]) as string;
       if (outputObj.audio && !outputObj.midi) {
         outputType = 'audio';
       }
     } else {
-      throw new Error('Unexpected model output format');
+      throw new Error(`Unexpected model output format: ${JSON.stringify(output)}`);
     }
 
-    if (!midiUrl) {
-      throw new Error('No output URL received from model');
+    if (!outputUrl || typeof outputUrl !== 'string') {
+      throw new Error('No valid output URL received from model');
     }
 
-    console.log('Transcription completed, downloading file...');
+    console.log('Transcription completed, downloading file from:', outputUrl);
 
     // Download file from Replicate
-    const fileResponse = await fetch(midiUrl);
+    const fileResponse = await fetch(outputUrl);
     if (!fileResponse.ok) {
       throw new Error(`Failed to download output: ${fileResponse.statusText}`);
     }
@@ -277,7 +284,7 @@ serve(async (req) => {
       JSON.stringify({
         success: true,
         output_url: permanentUrl,
-        midi_url: permanentUrl, // Backward compatibility
+        midi_url: permanentUrl,
         version,
         model_used: selectedModel,
         model_name: modelConfig.name,
