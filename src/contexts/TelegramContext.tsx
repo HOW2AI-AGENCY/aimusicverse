@@ -50,13 +50,27 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
                     window.location.hostname === 'localhost' ||
                     window.location.search.includes('dev=1');
     
-    telegramLogger.debug('Development mode check', {
+    telegramLogger.debug('TelegramProvider initialization started', {
       hostname: window.location.hostname,
       devMode,
       hasTelegram: !!window.Telegram?.WebApp
     });
     
     setIsDevelopmentMode(devMode);
+
+    // Ensure initialization completes even if there are errors
+    let initializationTimeout: NodeJS.Timeout;
+    
+    const ensureInitialized = () => {
+      setIsInitialized(true);
+      telegramLogger.info('TelegramProvider initialized');
+    };
+
+    // Set a safety timeout to prevent infinite loading
+    initializationTimeout = setTimeout(() => {
+      telegramLogger.warn('Initialization timeout - forcing initialization complete');
+      ensureInitialized();
+    }, 3000);
     
     if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
       const tg = window.Telegram.WebApp;
@@ -224,7 +238,8 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       // Отслеживание изменений viewport для обновления safe areas
       tg.onEvent?.('viewportChanged', applySafeAreaInsets);
       
-      setIsInitialized(true);
+      clearTimeout(initializationTimeout);
+      ensureInitialized();
     } else if (devMode) {
       // Development mode: Create mock Telegram environment for testing in Lovable
       telegramLogger.info('Development mode: Using mock Telegram data');
@@ -304,11 +319,19 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       } as unknown as TelegramWebApp;
       
       setWebApp(mockWebApp);
-      setIsInitialized(true);
+      clearTimeout(initializationTimeout);
+      ensureInitialized();
     } else {
       // Not in Telegram and not in dev mode
-      setIsInitialized(true);
+      telegramLogger.warn('Not in Telegram and not in dev mode');
+      clearTimeout(initializationTimeout);
+      ensureInitialized();
     }
+
+    // Cleanup timeout on unmount
+    return () => {
+      clearTimeout(initializationTimeout);
+    };
   }, []);
 
   const showMainButton = (text: string, onClick: () => void) => {

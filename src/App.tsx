@@ -13,6 +13,7 @@ import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { MainLayout } from "@/components/MainLayout";
 import { GlobalAudioProvider } from "@/components/GlobalAudioProvider";
 import { LoadingScreen } from "@/components/ui/loading-screen";
+import { InitializationGuard } from "@/components/InitializationGuard";
 // Lazy load pages
 const Index = lazy(() => import("./pages/Index"));
 const Auth = lazy(() => import("./pages/Auth"));
@@ -54,15 +55,16 @@ const App = () => (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <TelegramProvider>
-          <GlobalAudioProvider>
-            <NotificationProvider>
-              <GamificationProvider>
-                <TooltipProvider>
-                  <Sonner />
-                <BrowserRouter>
-                  <InteractiveTooltipProvider>
-                    <DeepLinkHandler />
-                    <Suspense fallback={<LoadingScreen />}>
+          <InitializationGuard>
+            <GlobalAudioProvider>
+              <NotificationProvider>
+                <GamificationProvider>
+                  <TooltipProvider>
+                    <Sonner />
+                  <BrowserRouter>
+                    <InteractiveTooltipProvider>
+                      <DeepLinkHandler />
+                      <Suspense fallback={<LoadingScreen />}>
                 <Routes>
                   <Route path="/auth" element={<Auth />} />
 
@@ -99,14 +101,15 @@ const App = () => (
 
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
-                </Routes>
-                    </Suspense>
-                  </InteractiveTooltipProvider>
-                  </BrowserRouter>
-              </TooltipProvider>
-            </GamificationProvider>
-          </NotificationProvider>
-          </GlobalAudioProvider>
+                      </Routes>
+                      </Suspense>
+                    </InteractiveTooltipProvider>
+                    </BrowserRouter>
+                </TooltipProvider>
+              </GamificationProvider>
+            </NotificationProvider>
+            </GlobalAudioProvider>
+          </InitializationGuard>
         </TelegramProvider>
       </QueryClientProvider>
     </ErrorBoundary>
