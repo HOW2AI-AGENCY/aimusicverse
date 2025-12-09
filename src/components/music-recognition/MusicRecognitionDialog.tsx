@@ -8,13 +8,26 @@ import { useMusicRecognition, RecognizedTrack } from '@/hooks/useMusicRecognitio
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Mic, MicOff, Upload, Link, Loader2, Music2, ExternalLink, Disc3 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { RecognizedTrackActions } from './RecognizedTrackActions';
 
 interface MusicRecognitionDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onUseLyrics?: (lyrics: string) => void;
+  onCreateCover?: (trackInfo: RecognizedTrack, lyrics?: string) => void;
 }
 
-function RecognitionContent({ onClose }: { onClose: () => void }) {
+function RecognitionContent({ 
+  onClose,
+  onUseLyrics,
+  onCreateCover,
+  lastAudioUrl,
+}: { 
+  onClose: () => void;
+  onUseLyrics?: (lyrics: string) => void;
+  onCreateCover?: (trackInfo: RecognizedTrack, lyrics?: string) => void;
+  lastAudioUrl?: string;
+}) {
   const [activeTab, setActiveTab] = useState('microphone');
   const [audioUrl, setAudioUrl] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -180,7 +193,15 @@ function RecognitionContent({ onClose }: { onClose: () => void }) {
       {result && (
         <div className="border-t pt-4">
           {result.found && result.track ? (
-            <TrackResult track={result.track} />
+            <div className="space-y-4">
+              <TrackResult track={result.track} />
+              <RecognizedTrackActions
+                track={result.track}
+                audioUrl={lastAudioUrl}
+                onUseLyrics={onUseLyrics}
+                onCreateCover={onCreateCover}
+              />
+            </div>
           ) : (
             <div className="text-center py-4">
               <Music2 className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
@@ -263,8 +284,15 @@ function TrackResult({ track }: { track: RecognizedTrack }) {
   );
 }
 
-export function MusicRecognitionDialog({ open, onOpenChange }: MusicRecognitionDialogProps) {
+
+export function MusicRecognitionDialog({ 
+  open, 
+  onOpenChange,
+  onUseLyrics,
+  onCreateCover,
+}: MusicRecognitionDialogProps) {
   const isMobile = useIsMobile();
+  const [lastAudioUrl] = useState<string | undefined>();
 
   if (isMobile) {
     return (
@@ -277,7 +305,12 @@ export function MusicRecognitionDialog({ open, onOpenChange }: MusicRecognitionD
             </DrawerTitle>
           </DrawerHeader>
           <div className="px-4 pb-6 overflow-y-auto">
-            <RecognitionContent onClose={() => onOpenChange(false)} />
+            <RecognitionContent 
+              onClose={() => onOpenChange(false)}
+              onUseLyrics={onUseLyrics}
+              onCreateCover={onCreateCover}
+              lastAudioUrl={lastAudioUrl}
+            />
           </div>
         </DrawerContent>
       </Drawer>
@@ -293,7 +326,12 @@ export function MusicRecognitionDialog({ open, onOpenChange }: MusicRecognitionD
             Распознать музыку
           </DialogTitle>
         </DialogHeader>
-        <RecognitionContent onClose={() => onOpenChange(false)} />
+        <RecognitionContent 
+          onClose={() => onOpenChange(false)}
+          onUseLyrics={onUseLyrics}
+          onCreateCover={onCreateCover}
+          lastAudioUrl={lastAudioUrl}
+        />
       </DialogContent>
     </Dialog>
   );

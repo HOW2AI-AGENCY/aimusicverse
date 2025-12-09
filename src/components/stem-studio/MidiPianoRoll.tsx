@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useEffect, memo } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { PianoKeyboard } from './PianoKeyboard';
+import { useMidiSynth } from '@/hooks/useMidiSynth';
 import type { MidiNote } from '@/hooks/useMidiVisualization';
 
 interface MidiPianoRollProps {
@@ -17,12 +18,14 @@ interface MidiPianoRollProps {
   snapValue?: number; // in beats
   tempo?: number;
   readOnly?: boolean;
+  enableSound?: boolean;
   onNoteSelect?: (noteId: string, addToSelection?: boolean) => void;
   onNoteMove?: (noteId: string, newTime: number, newPitch: number) => void;
   onNoteResize?: (noteId: string, newDuration: number) => void;
   onNoteDelete?: (noteId: string) => void;
   onNoteAdd?: (note: Omit<MidiNote, 'id'>) => void;
   onSeek?: (time: number) => void;
+  onNotePlay?: (note: MidiNote) => void;
 }
 
 // Color palette for tracks
@@ -52,12 +55,14 @@ export const MidiPianoRoll = memo(function MidiPianoRoll({
   snapValue = 0.25,
   tempo = 120,
   readOnly = false,
+  enableSound = true,
   onNoteSelect,
   onNoteMove,
   onNoteResize,
   onNoteDelete,
   onNoteAdd,
   onSeek,
+  onNotePlay,
 }: MidiPianoRollProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -66,6 +71,24 @@ export const MidiPianoRoll = memo(function MidiPianoRoll({
   const [dragNoteId, setDragNoteId] = useState<string | null>(null);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [originalNote, setOriginalNote] = useState<MidiNote | null>(null);
+  const [isSelecting, setIsSelecting] = useState(false);
+  const [selectionRect, setSelectionRect] = useState<{x: number, y: number, width: number, height: number} | null>(null);
+  const selectionStartRef = useRef<{x: number, y: number} | null>(null);
+
+  // MIDI synth for playback
+  const { playNote, initialize, isReady } = useMidiSynth();
+
+  // Initialize synth on first interaction
+  useEffect(() => {
+    if (enableSound && !isReady) {
+      const handleInteraction = () => {
+        initialize();
+        document.removeEventListener('click', handleInteraction);
+      };
+      document.addEventListener('click', handleInteraction, { once: true });
+      return () => document.removeEventListener('click', handleInteraction);
+    }
+  }, [enableSound, isReady, initialize]);
 
   const totalPitches = endNote - startNote + 1;
   const gridHeight = totalPitches * noteHeight;
@@ -159,15 +182,94 @@ export const MidiPianoRoll = memo(function MidiPianoRoll({
     const y = e.clientY - rect.top;
     const { time, pitch } = screenToNote(x, y);
     
-    onNoteAdd?.({
+    const newNote: Omit<MidiNote, 'id'> = {
       pitch,
       name: '',
       time,
       duration: (60 / tempo) * snapValue,
       velocity: 100,
       track: 0,
-    });
-  }, [readOnly, screenToNote, onNoteAdd, tempo, snapValue]);
+    };
+    
+    onNoteAdd?.(newNote);
+    
+    // Play the note sound
+    if (enableSound && isReady) {
+      playNote(pitch, newNote.duration, 0.8);
+    }
+  }, [readOnly, screenToNote, onNoteAdd, tempo, snapValue, enableSound, isReady, playNote]);
+
+  // Handle note click with sound
+  const handleNoteClick = useCallback((e: React.MouseEvent, note: MidiNote) => {
+    e.stopPropagation();
+    onNoteSelect?.(note.id, e.shiftKey);
+    
+    // Play note sound on click
+    if (enableSound && isReady) {
+      playNote(note);
+      onNotePlay?.(note);
+    }
+  }, [onNoteSelect, enableSound, isReady, playNote, onNotePlay]);
+
+  // Handle area selection start
+  const handleSelectionStart = useCallback((e: React.MouseEvent) => {
+    if (!gridRef.current || readOnly) return;
+    if (e.button !== 0 || e.shiftKey) return; // Only left click, not with shift
+    
+    const rect = gridRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    selectionStartRef.current = { x, y };
+  }, [readOnly]);
+
+  // Handle area selection drag
+  const handleSelectionMove = useCallback((e: React.MouseEvent) => {
+    if (!selectionStartRef.current || !gridRef.current) return;
+    
+    const rect = gridRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const start = selectionStartRef.current;
+    
+    // Only start selection if moved enough
+    if (Math.abs(x - start.x) > 5 || Math.abs(y - start.y) > 5) {
+      setIsSelecting(true);
+      setSelectionRect({
+        x: Math.min(start.x, x),
+        y: Math.min(start.y, y),
+        width: Math.abs(x - start.x),
+        height: Math.abs(y - start.y),
+      });
+    }
+  }, []);
+
+  // Handle area selection end
+  const handleSelectionEnd = useCallback(() => {
+    if (isSelecting && selectionRect) {
+      // Select notes in the rectangle
+      const selectedIds = notes
+        .filter(note => {
+          const noteX = note.time * pixelsPerSecond;
+          const noteY = (endNote - note.pitch) * noteHeight;
+          const noteWidth = note.duration * pixelsPerSecond;
+          
+          return (
+            noteX < selectionRect.x + selectionRect.width &&
+            noteX + noteWidth > selectionRect.x &&
+            noteY < selectionRect.y + selectionRect.height &&
+            noteY + noteHeight > selectionRect.y
+          );
+        })
+        .map(note => note.id);
+      
+      selectedIds.forEach(id => onNoteSelect?.(id, true));
+    }
+    
+    selectionStartRef.current = null;
+    setIsSelecting(false);
+    setSelectionRect(null);
+  }, [isSelecting, selectionRect, notes, pixelsPerSecond, endNote, noteHeight, onNoteSelect]);
 
   // Handle click to seek
   const handleGridClick = useCallback((e: React.MouseEvent) => {
@@ -279,10 +381,14 @@ export const MidiPianoRoll = memo(function MidiPianoRoll({
         >
           <div
             ref={gridRef}
-            className="relative"
+            className="relative select-none"
             style={{ width: gridWidth, height: gridHeight }}
             onClick={handleGridClick}
             onDoubleClick={handleGridDoubleClick}
+            onMouseDown={handleSelectionStart}
+            onMouseMove={handleSelectionMove}
+            onMouseUp={handleSelectionEnd}
+            onMouseLeave={handleSelectionEnd}
           >
             {/* Grid */}
             <svg 
@@ -331,10 +437,9 @@ export const MidiPianoRoll = memo(function MidiPianoRoll({
                   }}
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: note.velocity / 127 }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onNoteSelect?.(note.id, e.shiftKey);
-                  }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={(e) => handleNoteClick(e, note)}
                   onMouseDown={(e) => handleNoteMouseDown(e, note, 'move')}
                 >
                   {/* Resize handle */}
@@ -348,9 +453,22 @@ export const MidiPianoRoll = memo(function MidiPianoRoll({
               );
             })}
 
+            {/* Selection rectangle */}
+            {isSelecting && selectionRect && (
+              <div
+                className="absolute border-2 border-primary/50 bg-primary/10 pointer-events-none z-20"
+                style={{
+                  left: selectionRect.x,
+                  top: selectionRect.y,
+                  width: selectionRect.width,
+                  height: selectionRect.height,
+                }}
+              />
+            )}
+
             {/* Playhead */}
             <motion.div
-              className="absolute top-0 bottom-0 w-0.5 bg-red-500 pointer-events-none z-10"
+              className="absolute top-0 bottom-0 w-0.5 bg-destructive pointer-events-none z-10"
               style={{ left: currentTime * pixelsPerSecond }}
               animate={{ left: currentTime * pixelsPerSecond }}
               transition={{ duration: 0.05 }}
