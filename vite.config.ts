@@ -102,6 +102,11 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("react-router")) {
               return "vendor-react";
             }
+            // State management libraries that use React hooks during initialization
+            // MUST be in vendor-react to prevent "Cannot read properties of undefined" errors
+            if (id.includes("react-redux") || id.includes("zustand")) {
+              return "vendor-react";
+            }
             // Framer Motion (large animation library)
             if (id.includes("framer-motion")) {
               return "vendor-framer";
