@@ -13,10 +13,14 @@ import { SectionPreviewPlayer } from '../SectionPreviewPlayer';
 import { SectionPicker } from '../SectionPicker';
 import {
   SectionPresets,
-  SectionPromptInput,
+  SectionLyricsEditor,
   SectionValidation,
   SectionActions,
 } from '../section-editor';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
+import { Tag } from 'lucide-react';
 import { Sparkles } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
@@ -164,15 +168,39 @@ export function SectionEditorMobile({
             {/* Presets */}
             <SectionPresets onSelect={addPreset} compact />
 
-            {/* Prompt & Tags */}
-            <SectionPromptInput
-              prompt={prompt}
-              onPromptChange={setPrompt}
-              tags={tags}
-              onTagsChange={setTags}
+            {/* Prompt */}
+            <div className="space-y-1.5">
+              <Label className="text-xs text-muted-foreground">Описание стиля</Label>
+              <Textarea
+                placeholder="Более энергичный, с электро-гитарой..."
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                className="min-h-[50px] resize-none text-sm"
+              />
+            </div>
+
+            {/* Tags */}
+            <div className="space-y-1.5">
+              <Label className="text-xs text-muted-foreground flex items-center gap-1.5">
+                <Tag className="w-3 h-3" />
+                Стиль музыки
+              </Label>
+              <Input
+                placeholder="rock, guitar, energetic..."
+                value={tags}
+                onChange={(e) => setTags(e.target.value)}
+                className="h-8 text-sm"
+              />
+            </div>
+
+            {/* Lyrics Editor with AI and Auto-regenerate */}
+            <SectionLyricsEditor
               lyrics={lyrics}
               onLyricsChange={setLyrics}
               originalLyrics={selectedSection?.lyrics}
+              sectionLabel={selectedSection?.label}
+              onAutoRegenerate={executeReplacement}
+              isRegenerating={isSubmitting}
               compact
             />
 
