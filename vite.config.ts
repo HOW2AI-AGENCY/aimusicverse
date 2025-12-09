@@ -93,7 +93,8 @@ export default defineConfig(({ mode }) => ({
     },
     rollupOptions: {
       treeshake: {
-        moduleSideEffects: false,
+        // Use 'no-external' instead of false to prevent breaking module initialization
+        moduleSideEffects: 'no-external',
         preset: "recommended",
       },
       output: {

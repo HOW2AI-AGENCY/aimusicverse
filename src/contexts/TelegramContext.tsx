@@ -141,62 +141,31 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
           hasAuthDate: !!params.get('auth_date')
         });
 
-        // Seamless authentication with backend
+        // Seamless authentication with backend - NON-BLOCKING
+        // CRITICAL: Do NOT use showPopup during initialization as it can block the app
         telegramAuthService.authenticateWithTelegram(tg.initData)
           .then(authData => {
             if (authData) {
               telegramLogger.info('Telegram authentication successful');
             } else {
-              telegramLogger.warn('Telegram authentication failed');
+              telegramLogger.warn('Telegram authentication failed - will retry later');
             }
           })
           .catch(err => {
+            // Log error but DO NOT show popup - it blocks initialization
             telegramLogger.error('Telegram authentication error', err);
-            
-            // Use showPopup with retry mechanism for better UX
-            if (tg.showPopup) {
-              tg.showPopup({
-                title: '❌ Ошибка аутентификации',
-                message: 'Не удалось войти в систему. Хотите попробовать снова?',
-                buttons: [
-                  { id: 'retry', type: 'default', text: '🔄 Попробовать снова' },
-                  { id: 'cancel', type: 'cancel', text: 'Отмена' },
-                ],
-              }, (buttonId) => {
-                if (buttonId === 'retry') {
-                  telegramLogger.debug('Retrying authentication...');
-                  telegramAuthService.authenticateWithTelegram(tg.initData)
-                    .then(authData => {
-                      if (authData) {
-                        telegramLogger.info('Retry successful');
-                        tg.showPopup?.({
-                          message: '✅ Успешно вошли в систему!',
-                          buttons: [{ type: 'close' }],
-                        });
-                      } else {
-                        telegramLogger.warn('Retry failed');
-                        tg.showPopup?.({
-                          message: '❌ Не удалось войти. Пожалуйста, перезапустите приложение.',
-                          buttons: [{ type: 'close' }],
-                        });
-                      }
-                    })
-                    .catch(retryErr => {
-                      telegramLogger.error('Retry failed', retryErr);
-                      tg.showPopup?.({
-                        message: '❌ Не удалось войти. Пожалуйста, перезапустите приложение.',
-                        buttons: [{ type: 'close' }],
-                      });
-                    });
-                }
-              });
-            } else if (tg.showAlert) {
-              // Fallback for older Telegram versions
-              tg.showAlert('Ошибка аутентификации. Пожалуйста, попробуйте перезапустить приложение.');
-            }
+            // User can retry via profile page or app will auto-retry on next action
+          })
+          .finally(() => {
+            // ALWAYS ensure initialization completes regardless of auth result
+            clearTimeout(initializationTimeout);
+            ensureInitialized();
           });
       } else {
         telegramLogger.error('InitData not received from Telegram');
+        // No initData means we can't authenticate, but still need to initialize UI
+        clearTimeout(initializationTimeout);
+        ensureInitialized();
       }
 
       setInitData(tg.initData);
@@ -248,8 +217,7 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       // Отслеживание изменений viewport для обновления safe areas
       tg.onEvent?.('viewportChanged', applySafeAreaInsets);
       
-      clearTimeout(initializationTimeout);
-      ensureInitialized();
+      // Note: ensureInitialized is now called in the auth .finally() block above
     } else if (devMode) {
       // Development mode: Create mock Telegram environment for testing in Lovable
       telegramLogger.info('Development mode: Using mock Telegram data');
