@@ -10,3 +10,6 @@ export { useGlobalAudioPlayer } from './useGlobalAudioPlayer';
 export { usePlayerStore } from './usePlayerState';
 export { usePlaybackQueue } from './usePlaybackQueue';
 export { useWaveform } from './useWaveform';
+export { useDebouncedAudioTime } from './useDebouncedAudioTime';
+export { useOptimizedAudioPlayer } from './useOptimizedAudioPlayer';
+export { usePlaybackHistory } from './usePlaybackHistory';

@@ -3,11 +3,17 @@
  * 
  * Manages the singleton audio element and syncs it with Zustand store.
  * Must be mounted at app root level.
+ * 
+ * Optimizations:
+ * - Debounced time updates to reduce re-renders
+ * - Audio prefetching for next tracks
+ * - Enhanced error handling
  */
 
 import { useEffect, useRef, useCallback } from 'react';
 import { usePlayerStore } from '@/hooks/audio';
 import { setGlobalAudioRef } from '@/hooks/audio';
+import { useOptimizedAudioPlayer } from '@/hooks/audio/useOptimizedAudioPlayer';
 import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
 
@@ -30,6 +36,13 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     pauseTrack,
     nextTrack,
   } = usePlayerStore();
+
+  // Use optimized audio player with caching and prefetch
+  const { prefetchNextTracks } = useOptimizedAudioPlayer({
+    enablePrefetch: true,
+    enableCache: true,
+    crossfadeDuration: 0.3,
+  });
 
   // Initialize audio element once
   useEffect(() => {
