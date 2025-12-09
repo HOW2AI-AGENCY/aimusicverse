@@ -92,10 +92,6 @@ export default defineConfig(({ mode }) => ({
       },
     },
     rollupOptions: {
-      treeshake: {
-        moduleSideEffects: false,
-        preset: "recommended",
-      },
       output: {
         manualChunks: (id) => {
           // Vendor chunks for better caching
