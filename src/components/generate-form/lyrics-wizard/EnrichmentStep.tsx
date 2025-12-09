@@ -180,29 +180,31 @@ export function EnrichmentStep() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <Label>Обогащение мета-тегами</Label>
-          <p className="text-xs text-muted-foreground">
-            Добавьте теги для улучшения генерации
-          </p>
+      <div className="space-y-2">
+        <div className="flex items-center justify-between gap-2">
+          <div className="min-w-0 flex-1">
+            <Label className="text-sm">Обогащение мета-тегами</Label>
+            <p className="text-xs text-muted-foreground">
+              Добавьте теги для улучшения генерации
+            </p>
+          </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Button
             variant="outline"
             size="sm"
             onClick={generateSuggestions}
             disabled={isGenerating || writing.sections.every(s => !s.content)}
-            className="gap-1"
+            className="gap-1 h-8 text-xs"
           >
             <Sparkles className="h-3 w-3" />
-            {isGenerating ? 'Анализ...' : 'Подобрать теги'}
+            {isGenerating ? 'Анализ...' : 'Подобрать AI'}
           </Button>
           {Object.values(suggestedTags).some(arr => arr.length > 0) && (
             <Button
               size="sm"
               onClick={applyAllSuggestions}
-              className="gap-1"
+              className="gap-1 h-8 text-xs"
             >
               Применить все
             </Button>
@@ -210,30 +212,46 @@ export function EnrichmentStep() {
         </div>
       </div>
 
-      <ScrollArea className="h-[350px] pr-4">
-        <div className="space-y-4">
+      <ScrollArea className="h-[400px] pr-2">
+        <div className="space-y-3">
           {categories.map((category) => {
             const suggested = getSuggestedForCategory(category.id);
             
             return (
-              <Card key={category.id}>
-                <CardHeader className="py-3">
-                  <CardTitle className="text-sm flex items-center gap-2">
-                    {category.icon}
-                    {category.name}
+              <Card key={category.id} className="overflow-hidden">
+                <CardHeader className="py-2.5 px-3">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-sm flex items-center gap-1.5">
+                      {category.icon}
+                      <span>{category.name}</span>
+                      {category.selected.length > 0 && (
+                        <Badge variant="secondary" className="text-xs h-5 ml-1">
+                          {category.selected.length}
+                        </Badge>
+                      )}
+                    </CardTitle>
                     {category.selected.length > 0 && (
-                      <Badge variant="secondary" className="text-xs">
-                        {category.selected.length}
-                      </Badge>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => category.setSelected([])}
+                        className="h-6 px-2 text-xs"
+                      >
+                        Очистить
+                      </Button>
                     )}
-                  </CardTitle>
+                  </div>
                   {suggested.length > 0 && (
-                    <CardDescription className="text-xs">
-                      AI рекомендует: {suggested.join(', ')}
+                    <CardDescription className="text-xs pt-1">
+                      <span className="inline-flex items-center gap-1">
+                        <Sparkles className="h-2.5 w-2.5" />
+                        AI: {suggested.slice(0, 3).join(', ')}
+                        {suggested.length > 3 && ` +${suggested.length - 3}`}
+                      </span>
                     </CardDescription>
                   )}
                 </CardHeader>
-                <CardContent>
+                <CardContent className="px-3 py-2">
                   <div className="flex flex-wrap gap-1.5">
                     {category.tags.map((tag) => {
                       const isSelected = category.selected.includes(tag);
@@ -243,14 +261,14 @@ export function EnrichmentStep() {
                         <Badge
                           key={tag}
                           variant={isSelected ? 'default' : 'outline'}
-                          className={`cursor-pointer transition-all ${
-                            isSuggested && !isSelected ? 'border-primary/50 bg-primary/10' : ''
+                          className={`cursor-pointer transition-all text-xs h-7 ${
+                            isSuggested && !isSelected ? 'border-primary/50 bg-primary/10 animate-pulse' : ''
                           }`}
                           onClick={() => toggleTag(category, tag)}
                         >
                           {tag}
                           {isSuggested && !isSelected && (
-                            <Sparkles className="h-2 w-2 ml-1" />
+                            <Sparkles className="h-2.5 w-2.5 ml-1" />
                           )}
                         </Badge>
                       );
@@ -263,11 +281,47 @@ export function EnrichmentStep() {
         </div>
       </ScrollArea>
 
-      <div className="p-3 bg-muted/50 rounded-lg">
-        <p className="text-xs text-muted-foreground">
-          <strong>Подсказка:</strong> Выбранные теги будут добавлены в текст песни 
-          для улучшения генерации музыки. Вокальные теги определяют тип голоса, 
-          инструменты задают аранжировку, а динамика и эмоции влияют на подачу.
+      {/* Summary Section */}
+      {(enrichment.vocalTags.length > 0 || enrichment.instrumentTags.length > 0 || 
+        enrichment.dynamicTags.length > 0 || enrichment.emotionalCues.length > 0) && (
+        <div className="p-3 bg-muted/50 rounded-lg border border-border/30">
+          <div className="flex items-center justify-between mb-2">
+            <Label className="text-xs font-medium">Выбрано тегов</Label>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setVocalTags([]);
+                setInstrumentTags([]);
+                setDynamicTags([]);
+                setEmotionalCues([]);
+              }}
+              className="h-6 px-2 text-xs"
+            >
+              Очистить всё
+            </Button>
+          </div>
+          <div className="text-xs text-muted-foreground space-y-1">
+            {enrichment.vocalTags.length > 0 && (
+              <div><strong>Вокал:</strong> {enrichment.vocalTags.length}</div>
+            )}
+            {enrichment.instrumentTags.length > 0 && (
+              <div><strong>Инструменты:</strong> {enrichment.instrumentTags.length}</div>
+            )}
+            {enrichment.dynamicTags.length > 0 && (
+              <div><strong>Динамика:</strong> {enrichment.dynamicTags.length}</div>
+            )}
+            {enrichment.emotionalCues.length > 0 && (
+              <div><strong>Эмоции:</strong> {enrichment.emotionalCues.length}</div>
+            )}
+          </div>
+        </div>
+      )}
+      
+      <div className="p-3 bg-muted/30 rounded-lg">
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          <strong className="text-foreground">💡 Подсказка:</strong> Выбранные теги будут добавлены в текст песни 
+          для улучшения генерации. Нажмите на тег для выбора/снятия.
         </p>
       </div>
     </div>

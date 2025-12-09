@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sparkles, Wand2, ChevronLeft, ChevronRight, RefreshCw, Lightbulb } from 'lucide-react';
 import { useLyricsWizardStore, type LyricsWizardState } from '@/stores/lyricsWizardStore';
+import { SectionTagSelector } from '@/components/generate-form/SectionTagSelector';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
@@ -24,6 +25,7 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
     setWritingMode,
     setCurrentSection,
     updateSectionContent,
+    updateSectionTags,
     initializeLyricSections,
     isGenerating,
     setIsGenerating,
@@ -260,23 +262,24 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
         )}
       </div>
 
-      {/* Section Navigation */}
-      <div className="flex items-center justify-between border rounded-lg p-2 bg-muted/30">
+      {/* Section Navigation - Mobile Optimized */}
+      <div className="flex items-center justify-between border rounded-lg p-2 bg-muted/30 gap-2">
         <Button
           variant="ghost"
           size="sm"
           onClick={goToPrevSection}
           disabled={writing.currentSectionIndex === 0}
+          className="h-8 w-8 p-0 shrink-0"
         >
           <ChevronLeft className="h-4 w-4" />
         </Button>
         
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">
+        <div className="flex items-center gap-2 min-w-0 flex-1 justify-center">
+          <span className="text-sm font-medium truncate">
             {currentSection?.name || 'Секция'}
           </span>
-          <Badge variant="outline" className="text-xs">
-            {writing.currentSectionIndex + 1} / {writing.sections.length}
+          <Badge variant="outline" className="text-xs shrink-0">
+            {writing.currentSectionIndex + 1}/{writing.sections.length}
           </Badge>
         </div>
         
@@ -285,6 +288,7 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
           size="sm"
           onClick={goToNextSection}
           disabled={writing.currentSectionIndex === writing.sections.length - 1}
+          className="h-8 w-8 p-0 shrink-0"
         >
           <ChevronRight className="h-4 w-4" />
         </Button>
@@ -337,13 +341,13 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
             
             {/* Collab Controls */}
             {writing.mode === 'collab' && (
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={suggestNextLine}
                   disabled={isGenerating || !currentSection.content}
-                  className="gap-1"
+                  className="gap-1 h-8 text-xs"
                 >
                   <Lightbulb className="h-3 w-3" />
                   Предложить строку
@@ -353,7 +357,7 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
                   size="sm"
                   onClick={suggestRhymes}
                   disabled={isGenerating || !currentSection.content}
-                  className="gap-1"
+                  className="gap-1 h-8 text-xs"
                 >
                   🎵 Рифмы
                 </Button>
@@ -381,6 +385,15 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
                 </div>
               </div>
             )}
+            
+            {/* Section Tags - Mobile-optimized */}
+            <div className="pt-2 border-t">
+              <SectionTagSelector
+                selectedTags={currentSection.tags}
+                onChange={(tags) => updateSectionTags(currentSection.id, tags)}
+                sectionName={currentSection.name}
+              />
+            </div>
           </CardContent>
         </Card>
       )}
