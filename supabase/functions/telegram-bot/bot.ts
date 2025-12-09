@@ -7,6 +7,7 @@ import { handleStatus } from './commands/status.ts';
 import { handleCoverCommand, handleExtendCommand, handleCancelCommand, handleCancelUploadCallback, getAudioUploadHelp } from './commands/audio-upload.ts';
 import { handleAudioMessage, isAudioMessage } from './handlers/audio.ts';
 import { handleRecognizeCommand, hasRecognitionSession, handleRecognizeAudio, handleCancelRecognize, handleRecognizeAgain } from './commands/recognize.ts';
+import { handleMidiCommand, handlePianoCommand, hasMidiSession, handleCancelMidi, handleMidiTrackCallback, handleMidiModelCallback, handleMidiUploadCallback, handleMidiAgainCallback } from './commands/midi.ts';
 import { sendMessage, parseCommand, answerCallbackQuery, editMessageText, type TelegramUpdate } from './telegram-api.ts';
 import { BOT_CONFIG } from './config.ts';
 import { handleNavigationCallback } from './handlers/navigation.ts';
@@ -182,6 +183,46 @@ export async function handleUpdate(update: TelegramUpdate) {
       if (data === 'recognize_again') {
         await handleRecognizeAgain(chatId, from.id);
         await answerCallbackQuery(id);
+        return;
+      }
+
+      // MIDI handlers
+      if (data === 'cancel_midi') {
+        await handleCancelMidi(chatId, from.id, messageId, id);
+        return;
+      }
+
+      if (data === 'midi_again') {
+        await handleMidiAgainCallback(chatId, from.id, id);
+        return;
+      }
+
+      if (data === 'midi_upload') {
+        await handleMidiUploadCallback(chatId, from.id, messageId!, id);
+        return;
+      }
+
+      if (data?.startsWith('midi_track_')) {
+        const trackId = data.replace('midi_track_', '');
+        await handleMidiTrackCallback(chatId, trackId, messageId!, id);
+        return;
+      }
+
+      if (data?.startsWith('midi_bp_')) {
+        const trackId = data.replace('midi_bp_', '');
+        await handleMidiModelCallback(chatId, from.id, trackId, 'basic-pitch', messageId!, id);
+        return;
+      }
+
+      if (data?.startsWith('midi_mt3_')) {
+        const trackId = data.replace('midi_mt3_', '');
+        await handleMidiModelCallback(chatId, from.id, trackId, 'mt3', messageId!, id);
+        return;
+      }
+
+      if (data?.startsWith('midi_p2p_')) {
+        const trackId = data.replace('midi_p2p_', '');
+        await handleMidiModelCallback(chatId, from.id, trackId, 'pop2piano', messageId!, id);
         return;
       }
 
@@ -450,6 +491,14 @@ export async function handleUpdate(update: TelegramUpdate) {
         case 'recognize':
         case 'shazam':
           await handleRecognizeCommand(chat.id, from.id, args);
+          break;
+
+        case 'midi':
+          await handleMidiCommand(chat.id, from.id, args);
+          break;
+
+        case 'piano':
+          await handlePianoCommand(chat.id, from.id, args);
           break;
 
         default:
