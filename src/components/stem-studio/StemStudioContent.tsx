@@ -38,6 +38,7 @@ import { QuickComparePanel } from '@/components/stem-studio/QuickComparePanel';
 import { QuickCompareMobile } from '@/components/stem-studio/QuickCompareMobile';
 import { RemixDialog } from '@/components/stem-studio/RemixDialog';
 import { ExtendDialog } from '@/components/stem-studio/ExtendDialog';
+import { TrimDialog } from '@/components/stem-studio/TrimDialog';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useStemStudioEngine } from '@/hooks/useStemStudioEngine';
 import { defaultStemEffects, StemEffects } from '@/hooks/useStemAudioEngine';
@@ -75,6 +76,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   // Dialogs state
   const [showRemixDialog, setShowRemixDialog] = useState(false);
   const [showExtendDialog, setShowExtendDialog] = useState(false);
+  const [showTrimDialog, setShowTrimDialog] = useState(false);
   
   // Section Editor State
   const { 
@@ -545,6 +547,17 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
                   effectsEnabled={effectsEnabled}
                 />
                 
+                {/* Trim Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowTrimDialog(true)}
+                  className="h-9 gap-1.5"
+                >
+                  <Scissors className="w-4 h-4" />
+                  <span className="hidden sm:inline">Обрезать</span>
+                </Button>
+                
                 {/* Remix Button */}
                 {track.suno_id && (
                   <Button
@@ -926,6 +939,11 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           <ExtendDialog
             open={showExtendDialog}
             onOpenChange={setShowExtendDialog}
+            track={track}
+          />
+          <TrimDialog
+            open={showTrimDialog}
+            onOpenChange={setShowTrimDialog}
             track={track}
           />
         </>
