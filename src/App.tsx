@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
 import { TelegramProvider, DeepLinkHandler } from "@/contexts/TelegramContext";
 import { GamificationProvider } from "@/contexts/GamificationContext";
+import { NotificationProvider } from "@/contexts/NotificationContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
@@ -53,9 +54,10 @@ const App = () => (
       <QueryClientProvider client={queryClient}>
         <TelegramProvider>
           <GlobalAudioProvider>
-            <GamificationProvider>
-              <TooltipProvider>
-                <Sonner />
+            <NotificationProvider>
+              <GamificationProvider>
+                <TooltipProvider>
+                  <Sonner />
                 <BrowserRouter>
                   <InteractiveTooltipProvider>
                     <DeepLinkHandler />
@@ -99,9 +101,10 @@ const App = () => (
                 </Routes>
                     </Suspense>
                   </InteractiveTooltipProvider>
-                </BrowserRouter>
-            </TooltipProvider>
-          </GamificationProvider>
+                  </BrowserRouter>
+              </TooltipProvider>
+            </GamificationProvider>
+          </NotificationProvider>
           </GlobalAudioProvider>
         </TelegramProvider>
       </QueryClientProvider>

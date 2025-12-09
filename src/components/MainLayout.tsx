@@ -3,7 +3,7 @@ import { BottomNavigation } from './BottomNavigation';
 import { Sidebar } from './Sidebar';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { ResizablePlayer } from './ResizablePlayer';
-import { GlobalGenerationIndicator } from './GlobalGenerationIndicator';
+import { EnhancedGenerationIndicator } from './notifications';
 import { OnboardingOverlay } from './onboarding/OnboardingOverlay';
 import { OnboardingTrigger } from './onboarding/OnboardingTrigger';
 import { usePlaybackTracking } from '@/hooks/usePlaybackTracking';
@@ -21,8 +21,8 @@ export const MainLayout = () => {
       <OnboardingTrigger />
       <OnboardingOverlay />
       
-      {/* Global Generation Indicator - shows on all pages */}
-      <GlobalGenerationIndicator />
+      {/* Enhanced Generation Indicator with progress */}
+      <EnhancedGenerationIndicator />
       
       {isDesktop && (
         <div className="w-64 fixed inset-y-0 z-50">
