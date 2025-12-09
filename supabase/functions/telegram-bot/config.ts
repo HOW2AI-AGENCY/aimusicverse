@@ -86,6 +86,9 @@ export const MESSAGES = {
 };
 
 // Helper function to escape MarkdownV2 special characters
+// Security fix: Escape backslashes first to prevent incomplete sanitization
 function escapeMarkdown(text: string): string {
-  return text.replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1');
+  return text
+    .replace(/\\/g, '\\\\')  // Escape backslashes first
+    .replace(/([_*[\]()~`>#+\-=|{}.!])/g, '\\$1');  // Then escape other special chars
 }

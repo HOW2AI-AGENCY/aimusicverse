@@ -9,3 +9,5 @@ export type { GenerateFormState, UseGenerateFormProps } from './useGenerateForm'
 export { useGenerateDraft } from './useGenerateDraft';
 export { useActiveGenerations } from './useActiveGenerations';
 export { useSyncStaleTasks } from './useSyncStaleTasks';
+export { useAudioReferenceLoader } from './useAudioReferenceLoader';
+export type { AudioReferenceData, AudioReferenceResult } from './useAudioReferenceLoader';

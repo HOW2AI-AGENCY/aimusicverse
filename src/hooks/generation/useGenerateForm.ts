@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
-import { useGenerateDraft } from '@/hooks/generation';
+import { useGenerateDraft, useAudioReferenceLoader } from '@/hooks/generation';
 import { SUNO_MODELS, validateModel, DEFAULT_SUNO_MODEL } from '@/constants/sunoModels';
 import { savePromptToHistory } from '@/components/generate-form/PromptHistory';
 import { logger } from '@/lib/logger';
@@ -58,11 +58,13 @@ export function useGenerateForm({
   const navigate = useNavigate();
   const { planTrackContext, clearPlanTrackContext } = usePlanTrackStore();
   const { draft, hasDraft, saveDraft, clearDraft } = useGenerateDraft();
+  
+  // Audio reference loader hook (IMP001)
+  const audioReference = useAudioReferenceLoader(open);
 
   // Form state
   const [mode, setMode] = useState<'simple' | 'custom'>('simple');
   const [loading, setLoading] = useState(false);
-  const [audioReferenceLoading, setAudioReferenceLoading] = useState(false);
   const [boostLoading, setBoostLoading] = useState(false);
   const [credits, setCredits] = useState<number | null>(null);
 
@@ -158,64 +160,22 @@ export function useGenerateForm({
     }
   }, [open]);
 
-  // Check for stem audio reference from localStorage
+  // Apply audio reference data when loaded (IMP001 - extracted to useAudioReferenceLoader)
   useEffect(() => {
-    if (open) {
-      const stemReferenceStr = localStorage.getItem('stem_audio_reference');
-      if (stemReferenceStr) {
-        try {
-          const stemReference = JSON.parse(stemReferenceStr);
-          if (Date.now() - stemReference.timestamp < 5 * 60 * 1000) {
-            setMode('custom');
-
-            if (stemReference.lyrics) {
-              setLyrics(stemReference.lyrics);
-            }
-
-            const styleToUse = stemReference.style || stemReference.tags || stemReference.prompt || '';
-            if (styleToUse) {
-              setStyle(styleToUse);
-            }
-
-            if (stemReference.originalTitle) {
-              setTitle(`${stemReference.originalTitle} (ремикс)`);
-            }
-
-            const loadedParts = [];
-            if (stemReference.lyrics) loadedParts.push('текст');
-            if (styleToUse) loadedParts.push('стиль');
-
-            toast.success('Контекст загружен из студии', {
-              description: loadedParts.length > 0 ? `Скопировано: ${loadedParts.join(', ')}` : 'Готово к генерации',
-            });
-
-            setAudioReferenceLoading(true);
-
-            fetch(stemReference.url)
-              .then(response => response.blob())
-              .then(blob => {
-                const file = new File([blob], `${stemReference.name}.mp3`, { type: 'audio/mpeg' });
-                setAudioFile(file);
-                toast.success('Аудио референс загружен!', {
-                  description: stemReference.name,
-                });
-              })
-              .catch(err => {
-                logger.error('Failed to load stem reference', { error: err });
-                toast.error('Не удалось загрузить аудио референс');
-              })
-              .finally(() => {
-                setAudioReferenceLoading(false);
-              });
-          }
-          cleanupAudioReference();
-        } catch (e) {
-          logger.error('Failed to parse stem reference', { error: e });
-          cleanupAudioReference();
-        }
-      }
+    if (audioReference.file) {
+      setMode('custom');
+      setAudioFile(audioReference.file);
     }
-  }, [open]);
+    if (audioReference.lyrics) {
+      setLyrics(audioReference.lyrics);
+    }
+    if (audioReference.style) {
+      setStyle(audioReference.style);
+    }
+    if (audioReference.title) {
+      setTitle(audioReference.title);
+    }
+  }, [audioReference.file, audioReference.lyrics, audioReference.style, audioReference.title]);
 
   // Check for template lyrics from sessionStorage
   useEffect(() => {
@@ -554,7 +514,7 @@ export function useGenerateForm({
     mode,
     setMode,
     loading,
-    audioReferenceLoading,
+    audioReferenceLoading: audioReference.isLoading,
     boostLoading,
     credits,
     hasDraft,
