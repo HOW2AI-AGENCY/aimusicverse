@@ -347,7 +347,7 @@ export default function ProjectDetail() {
         }}
       />
 
-      {/* AI Lyrics Chat Assistant with project context */}
+      {/* AI Lyrics Chat Assistant with full project context */}
       <LyricsChatAssistant
         open={lyricsWizardOpen}
         onOpenChange={setLyricsWizardOpen}
@@ -355,6 +355,33 @@ export default function ProjectDetail() {
         initialGenre={project.genre || undefined}
         initialMood={project.mood ? [project.mood] : undefined}
         initialLanguage={project.language as 'ru' | 'en' | undefined}
+        projectContext={{
+          projectId: project.id,
+          projectTitle: project.title,
+          genre: project.genre || undefined,
+          mood: project.mood || undefined,
+          language: project.language as 'ru' | 'en' | undefined,
+          concept: project.concept || undefined,
+          targetAudience: project.target_audience || undefined,
+          existingTracks: tracks?.map(t => ({
+            position: t.position,
+            title: t.title,
+            stylePrompt: t.style_prompt || undefined,
+            draftLyrics: t.notes || undefined,
+            generatedLyrics: t.linked_track?.lyrics || undefined,
+            recommendedTags: t.recommended_tags || undefined,
+            recommendedStructure: t.recommended_structure || undefined,
+          })),
+        }}
+        trackContext={selectedTrackForLyrics ? {
+          position: selectedTrackForLyrics.position,
+          title: selectedTrackForLyrics.title,
+          stylePrompt: selectedTrackForLyrics.style_prompt || undefined,
+          draftLyrics: selectedTrackForLyrics.notes || undefined,
+          generatedLyrics: selectedTrackForLyrics.linked_track?.lyrics || undefined,
+          recommendedTags: selectedTrackForLyrics.recommended_tags || undefined,
+          recommendedStructure: selectedTrackForLyrics.recommended_structure || undefined,
+        } : undefined}
       />
     </div>
   );

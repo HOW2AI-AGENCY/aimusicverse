@@ -3,7 +3,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Sparkles, Send } from 'lucide-react';
+import { Sparkles, Send, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -28,6 +28,9 @@ export function LyricsChatAssistant({
   initialGenre,
   initialMood,
   initialLanguage = 'ru',
+  projectContext,
+  trackContext,
+  initialMode = 'new',
 }: LyricsChatAssistantProps) {
   const isMobile = useIsMobile();
   
@@ -36,6 +39,9 @@ export function LyricsChatAssistant({
     initialGenre,
     initialMood,
     initialLanguage,
+    projectContext,
+    trackContext,
+    initialMode,
     onLyricsGenerated,
     onStyleGenerated,
     onClose: () => onOpenChange(false),
@@ -85,6 +91,17 @@ export function LyricsChatAssistant({
     }
   };
 
+  // Get title based on context
+  const getTitle = () => {
+    if (trackContext?.title) {
+      return `Лирика: ${trackContext.title}`;
+    }
+    if (projectContext?.projectTitle) {
+      return `${projectContext.projectTitle}`;
+    }
+    return 'AI Lyrics Assistant';
+  };
+
   const chatContent = (
     <div className="flex flex-col h-full min-h-0">
       {/* Chat Area */}
@@ -113,7 +130,7 @@ export function LyricsChatAssistant({
                   )}
                   layout
                 >
-                  <p className="text-sm leading-relaxed">{msg.content}</p>
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</p>
                   
                   {msg.options && msg.role === 'assistant' && (
                     <motion.div 
@@ -154,6 +171,13 @@ export function LyricsChatAssistant({
 
       {/* Input Area */}
       <div className="p-4 pt-2 border-t border-border/50 bg-background/80 backdrop-blur-sm safe-area-bottom">
+        {/* Freeform mode indicator */}
+        {chat.freeformMode && (
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-2">
+            <MessageCircle className="h-3 w-3" />
+            <span>Свободный режим</span>
+          </div>
+        )}
         <motion.div 
           className="flex gap-2"
           initial={{ opacity: 0, y: 10 }}
@@ -162,7 +186,13 @@ export function LyricsChatAssistant({
           <Input
             value={chat.inputValue}
             onChange={(e) => chat.setInputValue(e.target.value)}
-            placeholder={chat.generatedLyrics ? 'Что изменить...' : 'Напишите тему песни...'}
+            placeholder={
+              chat.freeformMode 
+                ? 'Опишите идею или задайте вопрос...'
+                : chat.generatedLyrics 
+                  ? 'Что изменить...' 
+                  : 'Напишите тему песни...'
+            }
             onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && chat.handleSendMessage()}
             disabled={chat.isLoading}
             className="flex-1 bg-muted/50 border-border/50 focus:bg-background transition-colors rounded-xl"
@@ -195,7 +225,7 @@ export function LyricsChatAssistant({
               >
                 <Sparkles className="h-5 w-5 text-primary" />
               </motion.div>
-              AI Помощник
+              <span className="truncate">{getTitle()}</span>
             </DrawerTitle>
           </DrawerHeader>
           <div className="flex-1 min-h-0 overflow-hidden">
@@ -217,7 +247,7 @@ export function LyricsChatAssistant({
             >
               <Sparkles className="h-5 w-5 text-primary" />
             </motion.div>
-            AI Lyrics Assistant
+            <span className="truncate">{getTitle()}</span>
           </DialogTitle>
         </DialogHeader>
         <div className="flex-1 overflow-hidden">
