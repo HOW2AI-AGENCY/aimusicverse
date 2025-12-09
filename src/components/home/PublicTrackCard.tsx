@@ -13,10 +13,11 @@ import { motion } from '@/lib/motion';
 interface PublicTrackCardProps {
   track: PublicTrackWithCreator;
   onRemix?: (trackId: string) => void;
+  compact?: boolean;
   className?: string;
 }
 
-export function PublicTrackCard({ track, onRemix, className }: PublicTrackCardProps) {
+export function PublicTrackCard({ track, onRemix, compact = false, className }: PublicTrackCardProps) {
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
   const { hapticFeedback } = useTelegram();
   const [imageError, setImageError] = useState(false);
@@ -127,20 +128,23 @@ export function PublicTrackCard({ track, onRemix, className }: PublicTrackCardPr
       </div>
 
       {/* Content */}
-      <div className="p-3 space-y-2">
+      <div className={cn("p-2 sm:p-3 space-y-1.5", compact && "p-2")}>
         <div>
-          <h3 className="font-semibold text-sm line-clamp-1 group-hover:text-primary transition-colors">
+          <h3 className={cn(
+            "font-semibold line-clamp-1 group-hover:text-primary transition-colors",
+            compact ? "text-xs" : "text-sm"
+          )}>
             {track.title || 'Без названия'}
           </h3>
-          {track.style && (
+          {track.style && !compact && (
             <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5">
               {track.style}
             </p>
           )}
         </div>
 
-        {/* Creator Info */}
-        {(track.creator_username || track.creator_photo_url) && (
+        {/* Creator Info - Hide on compact */}
+        {!compact && (track.creator_username || track.creator_photo_url) && (
           <div className="flex items-center gap-2 pt-1 border-t border-border/30">
             <Avatar className="w-5 h-5">
               {track.creator_photo_url ? (
@@ -156,31 +160,33 @@ export function PublicTrackCard({ track, onRemix, className }: PublicTrackCardPr
           </div>
         )}
 
-        {/* Actions */}
-        <div className="flex items-center gap-1 pt-1">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-8 px-2 text-xs gap-1.5"
-            onClick={handlePlay}
-            disabled={!track.audio_url}
-          >
-            {isCurrentlyPlaying ? (
-              <Pause className="w-3.5 h-3.5" />
-            ) : (
-              <Play className="w-3.5 h-3.5" />
-            )}
-            {isCurrentlyPlaying ? 'Пауза' : 'Играть'}
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            onClick={handleShare}
-          >
-            <Share2 className="w-3.5 h-3.5" />
-          </Button>
-        </div>
+        {/* Actions - Simplified on compact */}
+        {!compact && (
+          <div className="flex items-center gap-1 pt-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 px-2 text-xs gap-1.5"
+              onClick={handlePlay}
+              disabled={!track.audio_url}
+            >
+              {isCurrentlyPlaying ? (
+                <Pause className="w-3.5 h-3.5" />
+              ) : (
+                <Play className="w-3.5 h-3.5" />
+              )}
+              {isCurrentlyPlaying ? 'Пауза' : 'Играть'}
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={handleShare}
+            >
+              <Share2 className="w-3.5 h-3.5" />
+            </Button>
+          </div>
+        )}
       </div>
     </Card>
   );

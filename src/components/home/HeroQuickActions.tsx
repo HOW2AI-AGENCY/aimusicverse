@@ -14,9 +14,9 @@ interface HeroQuickActionsProps {
 }
 
 const quickActions = [
-  { icon: Library, label: 'Библиотека', path: '/library', gradient: 'from-library/20 to-library/5' },
-  { icon: FolderOpen, label: 'Проекты', path: '/projects', gradient: 'from-projects/20 to-projects/5' },
-  { icon: ListMusic, label: 'Плейлисты', path: '/playlists', gradient: 'from-primary/20 to-primary/5' },
+  { icon: Library, label: 'Библиотека', path: '/library', color: 'text-cyan-400', bgColor: 'bg-cyan-500/10 hover:bg-cyan-500/20 border-cyan-500/20' },
+  { icon: FolderOpen, label: 'Проекты', path: '/projects', color: 'text-teal-400', bgColor: 'bg-teal-500/10 hover:bg-teal-500/20 border-teal-500/20' },
+  { icon: ListMusic, label: 'Плейлисты', path: '/playlists', color: 'text-violet-400', bgColor: 'bg-violet-500/10 hover:bg-violet-500/20 border-violet-500/20' },
 ] as const;
 
 export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
@@ -74,9 +74,9 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         </motion.button>
       </TooltipWrapper>
 
-      {/* Secondary Actions Grid - 6 items */}
+      {/* Quick Navigation - 2 rows layout for better touch targets */}
       <motion.div
-        className="grid grid-cols-6 gap-2"
+        className="grid grid-cols-3 gap-2"
         initial="hidden"
         animate="visible"
         variants={{
@@ -88,61 +88,69 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
             key={action.path}
             onClick={() => handleAction(() => navigate(action.path))}
             className={cn(
-              "group relative flex flex-col items-center justify-center gap-1 py-3 rounded-xl",
-              "bg-card/40 backdrop-blur-sm border border-border/40",
-              "hover:border-primary/40 hover:bg-gradient-to-b",
-              action.gradient,
-              "active:scale-[0.96] transition-all duration-200 touch-manipulation"
+              "group relative flex items-center gap-2.5 px-3 py-3 rounded-xl",
+              "border transition-all duration-200 touch-manipulation",
+              action.bgColor,
+              "active:scale-[0.97]"
             )}
             variants={{
               hidden: { opacity: 0, y: 15, scale: 0.9 },
               visible: { opacity: 1, y: 0, scale: 1 }
             }}
-            whileHover={{ y: -2 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
           >
-            <action.icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
-            <span className="text-[10px] font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-              {action.label}
-            </span>
+            <action.icon className={cn("w-5 h-5 shrink-0", action.color)} />
+            <span className="text-xs font-medium truncate">{action.label}</span>
           </motion.button>
         ))}
+      </motion.div>
 
+      {/* Tools Row */}
+      <motion.div
+        className="grid grid-cols-3 gap-2"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          visible: { transition: { staggerChildren: 0.04, delayChildren: 0.15 } }
+        }}
+      >
         {/* Upload Audio Button */}
         <motion.button
           onClick={() => handleAction(() => setUploadDialogOpen(true))}
           className={cn(
-            "group relative flex flex-col items-center justify-center gap-1 py-3 rounded-xl",
-            "bg-card/40 backdrop-blur-sm border border-border/40",
-            "hover:border-primary/40 hover:bg-gradient-to-b from-primary/20 to-primary/5",
-            "active:scale-[0.96] transition-all duration-200 touch-manipulation"
+            "group relative flex items-center gap-2.5 px-3 py-3 rounded-xl",
+            "bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20",
+            "active:scale-[0.97] transition-all duration-200 touch-manipulation"
           )}
           variants={{
             hidden: { opacity: 0, y: 15, scale: 0.9 },
             visible: { opacity: 1, y: 0, scale: 1 }
           }}
-          whileHover={{ y: -2 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.97 }}
         >
-          <Upload className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
-          <span className="text-[10px] font-medium text-muted-foreground group-hover:text-foreground transition-colors">Аудио</span>
+          <Upload className="w-5 h-5 text-blue-400 shrink-0" />
+          <span className="text-xs font-medium truncate">Загрузить</span>
         </motion.button>
 
         {/* Guitar Record Button with NEW badge */}
         <motion.button
           onClick={() => handleAction(() => setGuitarDialogOpen(true))}
           className={cn(
-            "group relative flex flex-col items-center justify-center gap-1 py-3 rounded-xl",
-            "bg-gradient-to-b from-orange-500/10 to-orange-500/5 border border-orange-500/30",
-            "hover:border-orange-500/50 hover:from-orange-500/15 hover:to-orange-500/10",
-            "active:scale-[0.96] transition-all duration-200 touch-manipulation"
+            "group relative flex items-center gap-2.5 px-3 py-3 rounded-xl",
+            "bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/20",
+            "active:scale-[0.97] transition-all duration-200 touch-manipulation"
           )}
           variants={{
             hidden: { opacity: 0, y: 15, scale: 0.9 },
             visible: { opacity: 1, y: 0, scale: 1 }
           }}
-          whileHover={{ y: -2 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.97 }}
         >
-          <Guitar className="w-5 h-5 text-orange-500" />
-          <span className="text-[10px] font-medium text-orange-500">Гитара</span>
+          <Guitar className="w-5 h-5 text-orange-400 shrink-0" />
+          <span className="text-xs font-medium text-orange-400 truncate">Гитара</span>
           
           {/* NEW Badge */}
           <motion.span 
@@ -158,19 +166,19 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         <motion.button
           onClick={() => handleAction(() => setRecognitionDialogOpen(true))}
           className={cn(
-            "group relative flex flex-col items-center justify-center gap-1 py-3 rounded-xl",
-            "bg-gradient-to-b from-generate/10 to-generate/5 border border-generate/30",
-            "hover:border-generate/50 hover:from-generate/15 hover:to-generate/10",
-            "active:scale-[0.96] transition-all duration-200 touch-manipulation"
+            "group relative flex items-center gap-2.5 px-3 py-3 rounded-xl",
+            "bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20",
+            "active:scale-[0.97] transition-all duration-200 touch-manipulation"
           )}
           variants={{
             hidden: { opacity: 0, y: 15, scale: 0.9 },
             visible: { opacity: 1, y: 0, scale: 1 }
           }}
-          whileHover={{ y: -2 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.97 }}
         >
-          <Music2 className="w-5 h-5 text-generate" />
-          <span className="text-[10px] font-medium text-generate">Shazam</span>
+          <Music2 className="w-5 h-5 text-purple-400 shrink-0" />
+          <span className="text-xs font-medium text-purple-400 truncate">Shazam</span>
         </motion.button>
       </motion.div>
 
