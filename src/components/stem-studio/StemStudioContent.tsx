@@ -290,12 +290,21 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     const avgTime = audios.reduce((sum, audio) => sum + audio.currentTime, 0) / audios.length;
     setCurrentTime(avgTime);
     
-    // Check sync drift and re-sync if needed (>0.1s drift)
-    const maxDrift = Math.max(...audios.map(a => Math.abs(a.currentTime - avgTime)));
-    if (maxDrift > 0.1) {
-      audios.forEach(audio => {
-        audio.currentTime = avgTime;
-      });
+    // Check sync drift and re-sync only the most drifted audio to avoid glitches
+    const DRIFT_THRESHOLD = 0.1; // seconds
+    const audioWithDrift = audios.map(audio => ({
+      audio,
+      drift: Math.abs(audio.currentTime - avgTime)
+    }));
+    
+    // Find most drifted audio
+    const mostDrifted = audioWithDrift.reduce((max, current) => 
+      current.drift > max.drift ? current : max
+    );
+    
+    // Only sync if drift exceeds threshold
+    if (mostDrifted.drift > DRIFT_THRESHOLD) {
+      mostDrifted.audio.currentTime = avgTime;
     }
     
     animationFrameRef.current = requestAnimationFrame(updateTime);

@@ -19,7 +19,8 @@ export interface DetectedSection {
 
 // Unified section tag pattern - matches [Tag], [Tag 1], (Tag), etc.
 // Case-insensitive and supports both English and Russian tags
-const TAG_PATTERN = /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|концовка|пре-?припев|хук|instrumental|инструментал|solo|соло)(?:\s*\d+)?[\]\)]/gi;
+// Note: No 'g' flag here as it's used in test(), not exec() loop
+const TAG_PATTERN = /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|концовка|пре-?припев|хук|instrumental|инструментал|solo|соло)(?:\s*\d+)?[\]\)]/i;
 
 // Get section type from tag text
 function getTypeFromTag(tagText: string): DetectedSection['type'] {
@@ -112,19 +113,47 @@ function normalizeText(text: string): string {
     .trim();
 }
 
-// Fuzzy match for word similarity (simple Levenshtein-like)
+// Fuzzy match for word similarity using Levenshtein distance
+function levenshteinDistance(str1: string, str2: string): number {
+  const len1 = str1.length;
+  const len2 = str2.length;
+  const matrix: number[][] = [];
+
+  // Initialize matrix
+  for (let i = 0; i <= len1; i++) {
+    matrix[i] = [i];
+  }
+  for (let j = 0; j <= len2; j++) {
+    matrix[0][j] = j;
+  }
+
+  // Fill matrix
+  for (let i = 1; i <= len1; i++) {
+    for (let j = 1; j <= len2; j++) {
+      const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
+      matrix[i][j] = Math.min(
+        matrix[i - 1][j] + 1,      // deletion
+        matrix[i][j - 1] + 1,      // insertion
+        matrix[i - 1][j - 1] + cost // substitution
+      );
+    }
+  }
+
+  return matrix[len1][len2];
+}
+
 function fuzzyMatch(word1: string, word2: string, threshold = 0.7): boolean {
-  const len1 = word1.length;
-  const len2 = word2.length;
-  
-  // If one contains the other
+  // Quick check: if one contains the other
   if (word1.includes(word2) || word2.includes(word1)) return true;
   
-  // Simple similarity check
-  const maxLen = Math.max(len1, len2);
-  const minLen = Math.min(len1, len2);
+  const maxLen = Math.max(word1.length, word2.length);
+  if (maxLen === 0) return true;
   
-  return minLen / maxLen >= threshold;
+  // Calculate similarity using Levenshtein distance
+  const distance = levenshteinDistance(word1, word2);
+  const similarity = 1 - distance / maxLen;
+  
+  return similarity >= threshold;
 }
 
 // Check if word is a section tag

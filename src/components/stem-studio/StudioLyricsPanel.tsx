@@ -15,6 +15,11 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useIsMobile } from '@/hooks/use-mobile';
 
+// Timing constants for synchronized lyrics
+const WORD_TIMING_TOLERANCE = 0.05; // seconds - tolerance for word activation timing
+const LINE_START_TOLERANCE = 0.1; // seconds - tolerance before line start
+const LINE_END_TOLERANCE = 0.3; // seconds - tolerance after line end
+
 interface StudioLyricsPanelProps {
   taskId: string | null;
   audioId: string | null;
@@ -160,9 +165,9 @@ export function StudioLyricsPanel({
   useEffect(() => {
     if (!lines.length || !isPlaying) return;
 
-    // Increased tolerance from 0.5 to 0.3 for better accuracy
     const activeIdx = lines.findIndex(
-      line => currentTime >= line.startTime - 0.1 && currentTime <= line.endTime + 0.3
+      line => currentTime >= line.startTime - LINE_START_TOLERANCE && 
+              currentTime <= line.endTime + LINE_END_TOLERANCE
     );
 
     if (activeIdx !== -1 && activeIdx !== activeLineIndex) {
@@ -410,10 +415,10 @@ export function StudioLyricsPanel({
                     )}
                     <span className="flex-1">
                       {line.words.map((word, wordIdx) => {
-                        // Improved word activation timing with small offset
+                        // Improved word activation timing with tolerance
                         const isWordActive = isPlaying && 
-                          currentTime >= word.startS - 0.05 && 
-                          currentTime <= word.endS + 0.05;
+                          currentTime >= word.startS - WORD_TIMING_TOLERANCE && 
+                          currentTime <= word.endS + WORD_TIMING_TOLERANCE;
 
                         return (
                           <span

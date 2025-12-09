@@ -7,6 +7,12 @@ import { toast } from 'sonner';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { motion } from 'framer-motion';
 
+// Auto-scroll behavior constants
+const USER_SCROLL_THRESHOLD = 5; // pixels - minimum scroll delta to detect user scroll
+const AUTO_SCROLL_RESUME_DELAY = 5000; // ms - delay before resuming auto-scroll after user scroll
+const AUTO_SCROLL_DISTANCE_THRESHOLD = 50; // pixels - minimum distance from target before scrolling
+const WORD_TIMING_TOLERANCE = 0.05; // seconds - tolerance for word activation timing
+
 interface TimestampedWord {
   word: string;
   startS: number;
@@ -110,8 +116,7 @@ export function UnifiedLyricsView({
     // Detect if this is user-initiated scroll (not programmatic)
     const scrollDelta = Math.abs(currentScrollTop - lastScrollTopRef.current);
     
-    // Lower threshold for better detection (was 10, now 5)
-    if (scrollDelta > 5) {
+    if (scrollDelta > USER_SCROLL_THRESHOLD) {
       setUserScrolling(true);
       
       // Clear existing timeout
@@ -119,10 +124,10 @@ export function UnifiedLyricsView({
         clearTimeout(scrollTimeoutRef.current);
       }
       
-      // Resume auto-scroll after 5 seconds of no user scroll (was 3)
+      // Resume auto-scroll after delay
       scrollTimeoutRef.current = setTimeout(() => {
         setUserScrolling(false);
-      }, 5000);
+      }, AUTO_SCROLL_RESUME_DELAY);
     }
     
     lastScrollTopRef.current = currentScrollTop;
@@ -157,10 +162,9 @@ export function UnifiedLyricsView({
     if (!hasTimestampedLyrics || !isPlaying) return;
     
     const words = timestamped!.alignedWords;
-    // Added small timing offset for better accuracy
     const idx = words.findIndex(w => 
-      currentTime >= w.startS - 0.05 && 
-      currentTime <= w.endS + 0.05
+      currentTime >= w.startS - WORD_TIMING_TOLERANCE && 
+      currentTime <= w.endS + WORD_TIMING_TOLERANCE
     );
     
     if (idx !== -1 && idx !== activeWordIndex) {
@@ -186,8 +190,8 @@ export function UnifiedLyricsView({
     const scrollOffset = currentPosition - targetPosition;
     const targetScrollTop = Math.max(0, container.scrollTop + scrollOffset);
     
-    // Only scroll if element is not in view or too far from target position
-    const needsScroll = Math.abs(scrollOffset) > 50;
+    // Only scroll if element is too far from target position
+    const needsScroll = Math.abs(scrollOffset) > AUTO_SCROLL_DISTANCE_THRESHOLD;
     if (!needsScroll) return;
     
     // Smooth scroll with programmatic flag
