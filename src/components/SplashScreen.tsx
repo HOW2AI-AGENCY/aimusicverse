@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Music } from 'lucide-react';
 import logo from '@/assets/logo.png';
 

@@ -4,7 +4,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { usePlaybackQueue } from '@/hooks/audio';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { GlassCard } from '@/components/ui/glass-card';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContentOptimized';
 

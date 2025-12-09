@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { Info, Lightbulb, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 

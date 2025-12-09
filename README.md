@@ -388,7 +388,7 @@ React 19 + TypeScript 5 + Vite
 ├── Tailwind CSS + shadcn/ui (дизайн-система)
 ├── TanStack Query (кэширование данных)
 ├── Zustand (глобальное состояние)
-├── Framer Motion (анимации)
+├── Framer Motion (оптимизированные анимации через @/lib/motion)
 ├── react-virtuoso (виртуализация списков)
 └── wavesurfer.js (аудио визуализация)
 ```
@@ -399,7 +399,7 @@ PostgreSQL + Edge Functions
 ├── Row Level Security (защита данных)
 ├── Realtime subscriptions (обновления)
 ├── Storage buckets (медиафайлы)
-└── 45+ Edge Functions (бизнес-логика)
+└── 59 Edge Functions (бизнес-логика)
 ```
 
 ### Ключевые паттерны
@@ -409,6 +409,8 @@ PostgreSQL + Edge Functions
 - **Lazy Images** — LazyImage с blur placeholder
 - **Denormalized Counters** — likes_count с триггерами
 - **Modular Components** — разбиение на подкомпоненты и хуки
+- **Lazy Loading** — `src/components/lazy/` для тяжёлых компонентов
+- **Optimized Motion** — `@/lib/motion` для tree-shaking framer-motion
 
 ---
 
@@ -517,6 +519,13 @@ npm run dev
 
 ## 🛠️ Недавние улучшения
 
+### Sprint 022: Bundle Optimization 🔄
+- Улучшен tree-shaking (target: esnext, terser passes: 2)
+- Создан `@/lib/motion` для оптимизации framer-motion
+- Lazy loading тяжёлых компонентов (`src/components/lazy/`)
+- Разделение date-fns на core/locale chunks
+- Bundle analyzer: `dist/stats.html`
+
 ### Phase 1: Критические исправления ✅
 - Исправлена ошибка аудио при пустом src
 - Объединены страницы Artists и Actors
@@ -547,6 +556,6 @@ npm run dev
 
 **Сделано с ❤️ командой MusicVerse AI**
 
-*Last Updated: 2025-12-08*
+*Last Updated: 2025-12-09*
 
 </div>

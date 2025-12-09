@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { useEffect, useState } from 'react';
 import { Coins, Sparkles, Star, Flame, Trophy } from 'lucide-react';
 import confetti from 'canvas-confetti';

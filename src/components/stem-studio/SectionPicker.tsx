@@ -2,7 +2,7 @@
  * Compact horizontal section picker for detected sections
  */
 
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { AlertTriangle } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { DetectedSection } from '@/hooks/useSectionDetection';

@@ -11,7 +11,7 @@ import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useTracks, Track } from '@/hooks/useTracksOptimized';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { PlaybackControls } from '@/components/player/PlaybackControls';
 import { ProgressBar } from '@/components/player/ProgressBar';
 import { QueueSheet } from '@/components/player/QueueSheet';
