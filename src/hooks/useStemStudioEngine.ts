@@ -7,6 +7,7 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { logger } from '@/lib/logger';
+import { AudioError, ErrorCode } from '@/lib/errors/AppError';
 import {
   StemEffects,
   EQSettings,
@@ -77,7 +78,7 @@ export function useStemStudioEngine(stemIds: string[]) {
   const ensureAudioContext = useCallback(async () => {
     const ctx = audioContextRef.current;
     if (!ctx) {
-      throw new Error('AudioContext not initialized');
+      throw new AudioError('AudioContext not initialized', ErrorCode.AUDIO_CONTEXT_ERROR);
     }
     
     if (ctx.state === 'suspended') {
@@ -86,7 +87,7 @@ export function useStemStudioEngine(stemIds: string[]) {
     }
     
     if (ctx.state === 'closed') {
-      throw new Error('AudioContext is closed and cannot be used');
+      throw new AudioError('AudioContext is closed and cannot be used', ErrorCode.AUDIO_CONTEXT_ERROR);
     }
     
     return ctx;

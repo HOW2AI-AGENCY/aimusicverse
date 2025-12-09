@@ -4,26 +4,39 @@
 
 import { toast } from 'sonner';
 import { logger } from './logger';
+import { 
+  toAppError, 
+  AppError, 
+  NetworkError, 
+  InsufficientCreditsError,
+  GenerationError,
+  ErrorCode 
+} from './errors/AppError';
 
 /**
  * Display a standardized error toast for generation failures
+ * Enhanced with AppError hierarchy (IMP039)
  */
 export function showGenerationError(error: unknown): void {
-  logger.error('Generation error', { error });
+  const appError = toAppError(error);
+  logger.error('Generation error', appError.toJSON());
 
-  const errorMessage = error instanceof Error ? error.message : String(error);
-  
-  if (errorMessage.includes('429') || errorMessage.includes('credits')) {
+  // Use type-specific error messages
+  if (appError instanceof InsufficientCreditsError) {
     toast.error('Недостаточно кредитов', {
-      description: 'Пополните баланс SunoAPI для продолжения',
+      description: appError.toUserMessage(),
     });
-  } else if (errorMessage.includes('network') || errorMessage.includes('fetch')) {
+  } else if (appError instanceof NetworkError) {
     toast.error('Ошибка сети', {
-      description: 'Проверьте подключение к интернету',
+      description: appError.toUserMessage(),
+    });
+  } else if (appError instanceof GenerationError) {
+    toast.error('Ошибка генерации', {
+      description: appError.toUserMessage(),
     });
   } else {
     toast.error('Ошибка генерации', {
-      description: errorMessage || 'Попробуйте еще раз',
+      description: appError.toUserMessage() || 'Попробуйте еще раз',
     });
   }
 }
