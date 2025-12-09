@@ -28,6 +28,11 @@ import { StudioContextTips } from '@/components/stem-studio/StudioContextTips';
 import { TrimDialog } from '@/components/stem-studio/TrimDialog';
 import { VocalReplacementDialog } from '@/components/stem-studio/VocalReplacementDialog';
 import { ArrangementReplacementDialog } from '@/components/stem-studio/ArrangementReplacementDialog';
+import { TrackStudioMobileLayout } from '@/components/stem-studio/TrackStudioMobileLayout';
+import { MobilePlayerTab } from '@/components/stem-studio/mobile/MobilePlayerTab';
+import { MobileActionsTab } from '@/components/stem-studio/mobile/MobileActionsTab';
+import { MobileSectionsTab } from '@/components/stem-studio/mobile/MobileSectionsTab';
+import { MobileLyricsTab } from '@/components/stem-studio/mobile/MobileLyricsTab';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -264,6 +269,121 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
     );
   }
 
+  // Mobile Layout with Tabs
+  if (isMobile) {
+    return (
+      <>
+        <TrackStudioMobileLayout
+          trackTitle={track.title || 'Без названия'}
+          isPlaying={isPlaying}
+          currentTime={currentTime}
+          duration={duration}
+          onTogglePlay={togglePlay}
+          onSeek={(time) => handleSeek([time])}
+          onBack={() => navigate('/library')}
+          canReplaceSection={!!canReplaceSection}
+          playerContent={
+            <MobilePlayerTab
+              track={track}
+              volume={volume}
+              muted={muted}
+              onVolumeChange={setVolume}
+              onMuteToggle={() => setMuted(!muted)}
+              isSeparating={isSeparating}
+              onSeparate={handleSeparateStems}
+            />
+          }
+          lyricsContent={
+            <MobileLyricsTab
+              taskId={track.suno_task_id}
+              audioId={track.suno_id}
+              plainLyrics={track.lyrics}
+              currentTime={currentTime}
+              isPlaying={isPlaying}
+              onSeek={(time) => handleSeek([time])}
+            />
+          }
+          sectionsContent={
+            <MobileSectionsTab
+              sections={detectedSections}
+              duration={duration}
+              currentTime={currentTime}
+              selectedIndex={selectedSectionIndex}
+              replacedRanges={replacedRanges}
+              onSectionSelect={handleSectionSelect}
+              onSeek={(time) => handleSeek([time])}
+              onStartReplace={() => setEditMode('editing')}
+            />
+          }
+          actionsContent={
+            <MobileActionsTab
+              track={track}
+              hasStems={false}
+              isSeparating={isSeparating}
+              onSeparate={handleSeparateStems}
+              onReplaceSection={canReplaceSection ? () => setEditMode('selecting') : undefined}
+              onTrim={() => setTrimDialogOpen(true)}
+              onReplaceVocal={() => setVocalDialogOpen(true)}
+              onReplaceArrangement={() => setArrangementDialogOpen(true)}
+            />
+          }
+        />
+
+        {/* Mobile Section Editor */}
+        <SectionEditorMobile
+          open={editMode === 'selecting' || editMode === 'editing'}
+          onOpenChange={(open) => {
+            if (!open) clearSelection();
+          }}
+          trackId={trackId}
+          trackTitle={track.title || 'Трек'}
+          trackTags={track.tags}
+          duration={duration}
+          sections={detectedSections}
+        />
+
+        {/* Mobile Compare Panel */}
+        {latestCompletion?.newAudioUrl && track.audio_url && (
+          <QuickCompareMobile
+            open={editMode === 'comparing'}
+            onOpenChange={(open) => {
+              if (!open) setLatestCompletion(null);
+            }}
+            originalAudioUrl={track.audio_url}
+            replacementAudioUrl={latestCompletion.newAudioUrl}
+            sectionStart={latestCompletion.section.start}
+            sectionEnd={latestCompletion.section.end}
+            onApply={handleApplyReplacement}
+            onDiscard={handleDiscardReplacement}
+          />
+        )}
+
+        {/* Dialogs */}
+        <TrimDialog
+          open={trimDialogOpen}
+          onOpenChange={setTrimDialogOpen}
+          track={track}
+          onTrimComplete={() => {}}
+        />
+        
+        <VocalReplacementDialog
+          open={vocalDialogOpen}
+          onOpenChange={setVocalDialogOpen}
+          track={track}
+          hasStems={false}
+        />
+        
+        <ArrangementReplacementDialog
+          open={arrangementDialogOpen}
+          onOpenChange={setArrangementDialogOpen}
+          track={track}
+          hasStems={false}
+        />
+      </>
+    );
+  }
+
+  // Desktop Layout
   return (
     <div className="h-screen flex flex-col bg-background overflow-hidden">
       {/* Header */}
