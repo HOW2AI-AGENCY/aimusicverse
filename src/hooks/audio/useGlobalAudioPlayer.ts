@@ -7,18 +7,8 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import { usePlayerStore } from '@/hooks/audio';
+import { getGlobalAudioRef } from '@/hooks/audio/useAudioTime';
 import { logger } from '@/lib/logger';
-
-// Global audio element singleton
-let globalAudioElement: HTMLAudioElement | null = null;
-
-function getGlobalAudio(): HTMLAudioElement {
-  if (!globalAudioElement) {
-    globalAudioElement = new Audio();
-    globalAudioElement.preload = 'metadata';
-  }
-  return globalAudioElement;
-}
 
 export function useGlobalAudioPlayer() {
   const {
@@ -39,7 +29,9 @@ export function useGlobalAudioPlayer() {
 
   // Handle track change - load new source
   useEffect(() => {
-    const audio = getGlobalAudio();
+    const audio = getGlobalAudioRef();
+    if (!audio) return;
+    
     const source = getAudioSource();
 
     if (!source) {
@@ -57,7 +49,8 @@ export function useGlobalAudioPlayer() {
 
   // Handle play/pause state
   useEffect(() => {
-    const audio = getGlobalAudio();
+    const audio = getGlobalAudioRef();
+    if (!audio) return;
     
     if (isPlaying && audio.src) {
       audio.play().catch((error) => {
@@ -71,7 +64,8 @@ export function useGlobalAudioPlayer() {
 
   // Handle track ended
   useEffect(() => {
-    const audio = getGlobalAudio();
+    const audio = getGlobalAudioRef();
+    if (!audio) return;
 
     const handleEnded = () => {
       if (repeat === 'one') {
@@ -88,29 +82,33 @@ export function useGlobalAudioPlayer() {
 
   // Playback controls
   const seek = useCallback((time: number) => {
-    const audio = getGlobalAudio();
-    if (audio.src) {
+    const audio = getGlobalAudioRef();
+    if (audio && audio.src) {
       audio.currentTime = time;
     }
   }, []);
 
   const setVolume = useCallback((volume: number) => {
-    const audio = getGlobalAudio();
-    audio.volume = Math.max(0, Math.min(1, volume));
+    const audio = getGlobalAudioRef();
+    if (audio) {
+      audio.volume = Math.max(0, Math.min(1, volume));
+    }
   }, []);
 
   // Get current playback state
   const getCurrentTime = useCallback(() => {
-    return getGlobalAudio().currentTime;
+    const audio = getGlobalAudioRef();
+    return audio ? audio.currentTime : 0;
   }, []);
 
   const getDuration = useCallback(() => {
-    return getGlobalAudio().duration || 0;
+    const audio = getGlobalAudioRef();
+    return audio ? (audio.duration || 0) : 0;
   }, []);
 
   const getBuffered = useCallback(() => {
-    const audio = getGlobalAudio();
-    if (audio.buffered.length > 0 && audio.duration) {
+    const audio = getGlobalAudioRef();
+    if (audio && audio.buffered.length > 0 && audio.duration) {
       return (audio.buffered.end(audio.buffered.length - 1) / audio.duration) * 100;
     }
     return 0;
@@ -122,6 +120,6 @@ export function useGlobalAudioPlayer() {
     getCurrentTime,
     getDuration,
     getBuffered,
-    audioElement: getGlobalAudio(),
+    audioElement: getGlobalAudioRef(),
   };
 }

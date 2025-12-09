@@ -26,25 +26,37 @@ export function useAudioTime() {
   const { isPlaying, activeTrack } = usePlayerStore();
 
   useEffect(() => {
-    if (!globalAudio) return;
+    if (!globalAudio) {
+      // Reset state if audio not available
+      setCurrentTime(0);
+      setDuration(0);
+      setBuffered(0);
+      return;
+    }
 
     const handleTimeUpdate = () => {
-      setCurrentTime(globalAudio!.currentTime);
+      if (globalAudio) {
+        setCurrentTime(globalAudio.currentTime);
+      }
     };
 
     const handleLoadedMetadata = () => {
-      setDuration(globalAudio!.duration || 0);
+      if (globalAudio) {
+        setDuration(globalAudio.duration || 0);
+      }
     };
 
     const handleProgress = () => {
-      if (globalAudio!.buffered.length > 0 && globalAudio!.duration) {
-        const bufferedEnd = globalAudio!.buffered.end(globalAudio!.buffered.length - 1);
-        setBuffered((bufferedEnd / globalAudio!.duration) * 100);
+      if (globalAudio && globalAudio.buffered.length > 0 && globalAudio.duration) {
+        const bufferedEnd = globalAudio.buffered.end(globalAudio.buffered.length - 1);
+        setBuffered((bufferedEnd / globalAudio.duration) * 100);
       }
     };
 
     const handleDurationChange = () => {
-      setDuration(globalAudio!.duration || 0);
+      if (globalAudio) {
+        setDuration(globalAudio.duration || 0);
+      }
     };
 
     globalAudio.addEventListener('timeupdate', handleTimeUpdate);
