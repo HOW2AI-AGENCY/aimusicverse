@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { 
   Music2, Download, Loader2, FileMusic, Sparkles, 
-  Piano, Drum, Guitar, Mic2, Waves, Wand2, Play
+  Piano, Drum, Guitar, Mic2, Waves, Wand2, Play,
+  FileText, Zap, ArrowRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ProBadge, ProFeatureIndicator } from '@/components/ui/pro-badge';
 import { 
   Dialog,
   DialogContent,
@@ -143,33 +145,52 @@ export const StemMidiPanel = ({ trackId, trackTitle, trackAudioUrl, stems }: Ste
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <FileMusic className="w-5 h-5 text-primary" />
-            MIDI & Фортепианные аранжировки
-          </DialogTitle>
-          <DialogDescription>
-            Создайте MIDI файлы или фортепианные версии для работы в DAW
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20">
+                <FileMusic className="w-5 h-5 text-green-400" />
+              </div>
+              <DialogTitle>MIDI & Фортепианные аранжировки</DialogTitle>
+            </div>
+            <ProBadge size="md" showIcon />
+          </div>
+          <DialogDescription className="space-y-2">
+            <p>Создайте MIDI файлы или фортепианные версии для работы в DAW</p>
+            
+            {/* Professional Workflow Path */}
+            <div className="flex items-center gap-2 p-3 rounded-lg bg-gradient-to-r from-green-500/5 to-blue-500/5 border border-green-500/10 text-xs font-medium">
+              <Zap className="w-3.5 h-3.5 text-green-400 shrink-0" />
+              <span className="text-muted-foreground">Audio</span>
+              <ArrowRight className="w-3 h-3 text-muted-foreground shrink-0" />
+              <span className="text-green-400">MIDI</span>
+              <ArrowRight className="w-3 h-3 text-muted-foreground shrink-0" />
+              <span className="text-blue-400">Sheet Music</span>
+              <ArrowRight className="w-3 h-3 text-muted-foreground shrink-0" />
+              <span className="text-purple-400">Guitar Tabs</span>
+            </div>
           </DialogDescription>
         </DialogHeader>
 
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)}>
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="stems" className="gap-2">
+          <TabsList className="grid w-full grid-cols-2 h-11">
+            <TabsTrigger value="stems" className="gap-2 data-[state=active]:bg-green-500/10">
               <Music2 className="w-4 h-4" />
-              MIDI Стемы
+              <span className="hidden sm:inline">MIDI Стемы</span>
+              <span className="sm:hidden">MIDI</span>
               {totalMidiCount > 0 && (
-                <Badge variant="secondary" className="h-4 px-1 text-[10px]">
+                <Badge variant="secondary" className="h-5 px-1.5 text-[10px]">
                   {totalMidiCount}
                 </Badge>
               )}
             </TabsTrigger>
-            <TabsTrigger value="piano" className="gap-2">
+            <TabsTrigger value="piano" className="gap-2 data-[state=active]:bg-blue-500/10">
               <Piano className="w-4 h-4" />
-              Pop2Piano
+              <span className="hidden sm:inline">Pop2Piano</span>
+              <span className="sm:hidden">Piano</span>
               {totalPianoCount > 0 && (
-                <Badge variant="secondary" className="h-4 px-1 text-[10px]">
+                <Badge variant="secondary" className="h-5 px-1.5 text-[10px]">
                   {totalPianoCount}
                 </Badge>
               )}
@@ -214,17 +235,20 @@ export const StemMidiPanel = ({ trackId, trackTitle, trackAudioUrl, stems }: Ste
 
             {/* Transcription Options */}
             {selectedStem && (
-              <div className="p-4 rounded-lg bg-muted/30 border border-border/50 space-y-3">
+              <div className="p-4 rounded-lg bg-gradient-to-br from-green-500/5 to-emerald-500/5 border-2 border-green-500/20 space-y-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <StemIcon className="w-5 h-5 text-primary" />
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center">
+                    <StemIcon className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium">
-                      {stemLabels[selectedStem.stem_type.toLowerCase()] || selectedStem.stem_type}
-                    </p>
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <p className="text-sm font-semibold">
+                        {stemLabels[selectedStem.stem_type.toLowerCase()] || selectedStem.stem_type}
+                      </p>
+                      <ProBadge size="sm" />
+                    </div>
                     <p className="text-xs text-muted-foreground">
-                      Создать MIDI ноты из этого стема
+                      Транскрипция в MIDI → Ноты → Табулатура
                     </p>
                   </div>
                 </div>
@@ -257,7 +281,7 @@ export const StemMidiPanel = ({ trackId, trackTitle, trackAudioUrl, stems }: Ste
                 <Button 
                   onClick={handleTranscribeStem} 
                   disabled={isTranscribing}
-                  className="w-full gap-2"
+                  className="w-full gap-2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white"
                 >
                   {isTranscribing ? (
                     <>
@@ -271,6 +295,20 @@ export const StemMidiPanel = ({ trackId, trackTitle, trackAudioUrl, stems }: Ste
                     </>
                   )}
                 </Button>
+
+                {/* Next Steps Info */}
+                <div className="p-3 rounded-lg bg-background/50 border border-border/50 space-y-2">
+                  <p className="text-xs font-medium flex items-center gap-2">
+                    <FileText className="w-3.5 h-3.5 text-primary" />
+                    Что можно сделать с MIDI:
+                  </p>
+                  <ul className="text-xs text-muted-foreground space-y-1 pl-5">
+                    <li className="list-disc">Открыть в DAW (Ableton, FL Studio, Logic Pro)</li>
+                    <li className="list-disc">Конвертировать в ноты через MuseScore</li>
+                    <li className="list-disc">Создать Guitar Tabs в Guitar Pro</li>
+                    <li className="list-disc">Использовать в Creative Tools → Tab Editor</li>
+                  </ul>
+                </div>
               </div>
             )}
 
