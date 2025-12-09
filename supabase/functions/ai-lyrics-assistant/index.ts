@@ -19,7 +19,8 @@ type LyricsAction =
   | 'suggest_rhymes'     // Suggest rhymes
   | 'analyze_lyrics'     // Analyze existing lyrics
   | 'optimize_for_suno'  // Optimize for Suno API
-  | 'smart_generate';    // NEW: Smart generation with tag recommendations
+  | 'smart_generate'     // Smart generation with tag recommendations
+  | 'chat';              // NEW: Free chat mode with context
 
 interface LyricsRequest {
   action: LyricsAction;
@@ -36,7 +37,8 @@ interface LyricsRequest {
   linesCount?: number;
   currentLyrics?: string;
   word?: string;
-  context?: string;
+  context?: any; // Chat context
+  message?: string; // Chat message
   // NEW: Advanced tag options
   vocalTags?: string[];
   instrumentTags?: string[];
@@ -540,6 +542,57 @@ ${lyrics || existingLyrics}
 Верни оптимизированный текст готовый для генерации.`;
         break;
 
+      case 'chat':
+        // Build rich context from provided data
+        const chatContext = body.context || {};
+        const projectInfo = chatContext.projectContext;
+        const trackInfo = chatContext.trackContext;
+        const conversationHistory = chatContext.conversationHistory || [];
+        
+        systemPrompt = `Ты опытный автор песен и музыкальный продюсер, работающий как ассистент в чате.
+
+КОНТЕКСТ ПРОЕКТА:
+${projectInfo ? `
+- Название проекта: ${projectInfo.title || 'не указано'}
+- Жанр: ${projectInfo.genre || 'не указан'}
+- Настроение: ${projectInfo.mood || 'не указано'}
+- Концепция: ${projectInfo.concept || 'не указана'}
+- Существующих треков: ${projectInfo.existingTracks?.length || 0}
+` : 'Контекст проекта не задан'}
+
+${trackInfo ? `
+КОНТЕКСТ ТРЕКА:
+- Название: ${trackInfo.title || 'не указано'}
+- Стиль: ${trackInfo.stylePrompt || 'не указан'}
+- Рекомендуемые теги: ${trackInfo.recommendedTags?.join(', ') || 'не заданы'}
+` : ''}
+
+ТЕКУЩИЙ ТЕКСТ ПЕСНИ:
+${chatContext.currentLyrics || 'Текст ещё не создан'}
+
+ИСТОРИЯ ДИАЛОГА:
+${conversationHistory.slice(-5).map((m: any) => `${m.role === 'user' ? 'Пользователь' : 'Ассистент'}: ${m.content}`).join('\n') || 'Начало диалога'}
+
+ИНСТРУКЦИИ:
+1. Понимай намерения пользователя из контекста
+2. Если просят создать/изменить текст - верни его в поле "lyrics"
+3. Если обсуждение/вопрос - верни ответ в поле "response"
+4. Предлагай следующие шаги в поле "suggestions" (массив объектов с label и value)
+5. Используй контекст проекта для релевантных предложений
+6. При создании текста используй профессиональные теги Suno
+
+ФОРМАТ ОТВЕТА (строго JSON):
+{
+  "lyrics": "текст песни (если создаёшь/меняешь)",
+  "response": "текстовый ответ пользователю",
+  "suggestions": [{"label": "🎵 Предложение", "value": "действие"}]
+}
+
+Язык: ${language === 'ru' ? 'русский' : 'английский'}`;
+
+        userPrompt = body.message || 'Привет';
+        break;
+
       default:
         return new Response(
           JSON.stringify({ success: false, error: 'Invalid action' }),
@@ -593,11 +646,31 @@ ${lyrics || existingLyrics}
     logger.success('Lyrics generated', { action, contentLength: generatedLyrics.length });
 
     // Return additional metadata for smart_generate
-    const response: any = {
+    let response: any = {
       success: true,
-      lyrics: generatedLyrics,
       action,
     };
+
+    // Handle chat action response (JSON parsing)
+    if (action === 'chat') {
+      try {
+        // Try to parse JSON response from AI
+        const jsonMatch = generatedLyrics.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          response.lyrics = parsed.lyrics || null;
+          response.response = parsed.response || generatedLyrics;
+          response.suggestions = parsed.suggestions || null;
+        } else {
+          response.response = generatedLyrics;
+        }
+      } catch (e) {
+        // If JSON parsing fails, return raw text as response
+        response.response = generatedLyrics;
+      }
+    } else {
+      response.lyrics = generatedLyrics;
+    }
 
     if (action === 'smart_generate' || action === 'generate') {
       response.metadata = {
