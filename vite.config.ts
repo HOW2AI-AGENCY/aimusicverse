@@ -35,6 +35,7 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    dedupe: ["react", "react-dom"],
   },
   build: {
     target: "es2015",
@@ -137,6 +138,9 @@ export default defineConfig(({ mode }) => ({
       "react-router-dom",
       "@tanstack/react-query",
       "@supabase/supabase-js",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-drawer",
+      "@radix-ui/react-dropdown-menu",
     ],
   },
 }));
