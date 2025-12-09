@@ -6,10 +6,14 @@ import { ResizablePlayer } from './ResizablePlayer';
 import { GlobalGenerationIndicator } from './GlobalGenerationIndicator';
 import { OnboardingOverlay } from './onboarding/OnboardingOverlay';
 import { OnboardingTrigger } from './onboarding/OnboardingTrigger';
+import { usePlaybackTracking } from '@/hooks/usePlaybackTracking';
 import { cn } from '@/lib/utils';
 
 export const MainLayout = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
+  
+  // Track play counts when tracks are played
+  usePlaybackTracking();
 
   return (
     <div className="flex h-screen bg-background">
