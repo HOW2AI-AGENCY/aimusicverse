@@ -64,9 +64,10 @@ serve(async (req) => {
         // Model is required in query params for transcription
         queryParams.set('model', model || 'guitar');
         if (title) queryParams.set('title', title);
-        // Add outputs to form data (array format as per OpenAPI spec)
-        const outputFormats = outputs || ['midi'];
-        outputFormats.forEach(output => formData.append('outputs', output));
+        // Add outputs to form data - ALWAYS include 'json' for notes data
+        const requestedOutputs = outputs || ['midi'];
+        const allOutputs = requestedOutputs.includes('json') ? requestedOutputs : [...requestedOutputs, 'json'];
+        allOutputs.forEach(output => formData.append('outputs', output));
         break;
         
       case 'chord-recognition':
