@@ -120,8 +120,10 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("framer-motion")) {
               return "vendor-framer";
             }
-            // Audio/Media libraries
-            if (id.includes("wavesurfer") || id.includes("tone") || id.includes("audiomotion")) {
+            // Audio/Media libraries - wavesurfer only
+            // NOTE: Tone.js has circular dependencies that break with separate chunking
+            // Keep it in vendor-other to ensure proper initialization order
+            if (id.includes("wavesurfer") || id.includes("audiomotion")) {
               return "vendor-audio";
             }
             // TanStack Query - MUST include both react-query AND query-core
@@ -214,6 +216,7 @@ export default defineConfig(({ mode }) => ({
       "@supabase/supabase-js",
       "@radix-ui/react-dialog",
       "@radix-ui/react-dropdown-menu",
+      "tone", // Tone.js needs to be pre-bundled to avoid initialization errors
     ],
   },
 }));
