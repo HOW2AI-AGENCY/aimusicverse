@@ -3,7 +3,7 @@ import { NotificationBadge } from "@/components/NotificationBadge";
 import { User } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile.tsx";
 import logo from "@/assets/logo.png";
 import { usePublicContentOptimized, getGenrePlaylists } from "@/hooks/usePublicContentOptimized";
@@ -16,6 +16,7 @@ import { GamificationWidgetCompact } from "@/components/gamification/Gamificatio
 import { BlogSection } from "@/components/home/BlogSection";
 import { GraphPreview } from "@/components/home/GraphPreview";
 import { GenerateSheet } from "@/components/GenerateSheet";
+import { MusicRecognitionDialog } from "@/components/music-recognition/MusicRecognitionDialog";
 import { motion } from "framer-motion";
 
 const Index = () => {
@@ -24,7 +25,9 @@ const Index = () => {
   const { data: profile } = useProfile();
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
+  const [recognitionDialogOpen, setRecognitionDialogOpen] = useState(false);
 
   // Single optimized query for all public content
   const { data: publicContent, isLoading: contentLoading } = usePublicContentOptimized();
@@ -55,6 +58,14 @@ const Index = () => {
       mounted = false;
     };
   }, [location.state, navigate, location.pathname]);
+
+  // Handle deep link for recognition
+  useEffect(() => {
+    if (searchParams.get('recognize') === 'true') {
+      setRecognitionDialogOpen(true);
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
   const goToProfile = () => {
     hapticFeedback("light");
@@ -214,6 +225,7 @@ const Index = () => {
       </div>
 
       <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
+      <MusicRecognitionDialog open={recognitionDialogOpen} onOpenChange={setRecognitionDialogOpen} />
     </div>
   );
 };

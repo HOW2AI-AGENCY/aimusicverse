@@ -101,6 +101,13 @@ export class TelegramShareService {
   }
 
   /**
+   * Get deep link for music recognition feature
+   */
+  getRecognizeDeepLink(): string {
+    return `https://t.me/${BOT_USERNAME}/app?startapp=recognize`;
+  }
+
+  /**
    * Get share URL for sharing playlist via Telegram
    */
   getPlaylistShareUrl(playlist: Playlist): string {
