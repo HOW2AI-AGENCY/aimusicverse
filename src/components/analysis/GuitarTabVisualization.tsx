@@ -1,19 +1,23 @@
-import React, { useMemo } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useMemo, useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Download, Music } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Copy, Download, Music, Grid3X3 } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
-interface MidiNote {
-  pitch: number;
-  time: number;
-  duration: number;
-  velocity?: number;
+interface NoteInput {
+  pitch?: number;
   midi?: number;
+  time?: number;
+  startTime?: number;
+  duration?: number;
+  velocity?: number;
 }
 
 interface GuitarTabVisualizationProps {
-  notes: Array<{ pitch?: number; midi?: number; time?: number; duration?: number; velocity?: number }>;
+  notes: NoteInput[];
   bpm?: number;
   className?: string;
   onExportTab?: () => void;
@@ -22,8 +26,8 @@ interface GuitarTabVisualizationProps {
 // Standard guitar tuning: E2, A2, D3, G3, B3, E4
 const STRING_TUNING = [40, 45, 50, 55, 59, 64];
 const STRING_NAMES = ['e', 'B', 'G', 'D', 'A', 'E'];
+const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
-// Find optimal fret position for a MIDI note on guitar
 function findBestStringAndFret(midiNote: number): { string: number; fret: number } | null {
   let bestString = -1;
   let bestFret = 999;
@@ -31,7 +35,6 @@ function findBestStringAndFret(midiNote: number): { string: number; fret: number
   for (let s = 0; s < 6; s++) {
     const fret = midiNote - STRING_TUNING[s];
     if (fret >= 0 && fret <= 24) {
-      // Prefer lower frets and middle strings
       const penalty = Math.abs(s - 2.5) * 0.5 + fret * 0.1;
       if (bestString === -1 || fret + penalty < bestFret) {
         bestString = s;
@@ -44,23 +47,24 @@ function findBestStringAndFret(midiNote: number): { string: number; fret: number
   return { string: bestString, fret: bestFret };
 }
 
-// Generate TAB from MIDI notes
-function generateTab(notes: Array<{ pitch?: number; midi?: number; time?: number; duration?: number }>, beatsPerMeasure: number = 4): string[][] {
+function midiToNoteName(midi: number): string {
+  const octave = Math.floor(midi / 12) - 1;
+  const note = NOTE_NAMES[midi % 12];
+  return `${note}${octave}`;
+}
+
+function generateTab(notes: NoteInput[]): string[][] {
   if (!notes.length) return [];
 
-  // Normalize notes to have pitch and time
   const normalizedNotes = notes.map(n => ({
     pitch: n.pitch ?? n.midi ?? 60,
-    time: n.time ?? 0,
+    time: n.time ?? n.startTime ?? 0,
     duration: n.duration ?? 0.5,
   }));
 
-  // Sort by time
   const sortedNotes = [...normalizedNotes].sort((a, b) => a.time - b.time);
-
-  // Group notes by time (100ms resolution for chords)
   const timeResolution = 0.1;
-  const timeGroups = new Map<number, MidiNote[]>();
+  const timeGroups = new Map<number, typeof normalizedNotes>();
 
   for (const note of sortedNotes) {
     const timeKey = Math.round(note.time / timeResolution);
@@ -70,9 +74,7 @@ function generateTab(notes: Array<{ pitch?: number; midi?: number; time?: number
     timeGroups.get(timeKey)!.push(note);
   }
 
-  // Convert to TAB positions
   const tabPositions: { time: number; frets: (number | null)[] }[] = [];
-
   const sortedTimeKeys = Array.from(timeGroups.keys()).sort((a, b) => a - b);
 
   for (const timeKey of sortedTimeKeys) {
@@ -86,39 +88,19 @@ function generateTab(notes: Array<{ pitch?: number; midi?: number; time?: number
       }
     }
 
-    tabPositions.push({
-      time: timeKey * timeResolution,
-      frets,
-    });
+    tabPositions.push({ time: timeKey * timeResolution, frets });
   }
 
-  // Build TAB strings (6 strings)
-  const tabStrings: string[][] = STRING_NAMES.map((name, idx) => {
+  return STRING_NAMES.map((name, idx) => {
     const line: string[] = [`${name}|`];
-
     for (const pos of tabPositions) {
       const fret = pos.frets[idx];
-      if (fret !== null) {
-        line.push(fret.toString().padStart(2, '-'));
-      } else {
-        line.push('--');
-      }
+      line.push(fret !== null ? fret.toString().padStart(2, '-') : '--');
       line.push('-');
     }
-
     line.push('|');
     return line;
   });
-
-  return tabStrings;
-}
-
-// Convert MIDI note to note name
-function midiToNoteName(midi: number): string {
-  const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-  const octave = Math.floor(midi / 12) - 1;
-  const note = notes[midi % 12];
-  return `${note}${octave}`;
 }
 
 export function GuitarTabVisualization({
@@ -127,106 +109,129 @@ export function GuitarTabVisualization({
   className = '',
   onExportTab,
 }: GuitarTabVisualizationProps) {
-  const normalizedNotes = notes.map(n => ({
-    pitch: n.pitch ?? n.midi ?? 60,
-    time: n.time ?? 0,
-    duration: n.duration ?? 0.5,
-  }));
+  const [activeView, setActiveView] = useState<'tab' | 'fretboard'>('tab');
 
-  const tabData = useMemo(() => generateTab(normalizedNotes), [notes]);
+  const normalizedNotes = useMemo(() => notes.map(n => ({
+    pitch: n.pitch ?? n.midi ?? 60,
+    time: n.time ?? n.startTime ?? 0,
+    duration: n.duration ?? 0.5,
+  })), [notes]);
+
+  const tabData = useMemo(() => generateTab(notes), [notes]);
+  
+  const tabText = useMemo(() => 
+    tabData.map(line => line.join('')).join('\n'), 
+  [tabData]);
 
   const uniqueNotes = useMemo(() => {
     const noteSet = new Set<string>();
-    normalizedNotes.forEach((n) => noteSet.add(midiToNoteName(n.pitch)));
+    normalizedNotes.forEach(n => noteSet.add(midiToNoteName(n.pitch)));
     return Array.from(noteSet).slice(0, 12);
-  }, [notes]);
-
-  const tabText = useMemo(() => {
-    return tabData.map((line) => line.join('')).join('\n');
-  }, [tabData]);
+  }, [normalizedNotes]);
 
   const handleCopyTab = () => {
     navigator.clipboard.writeText(tabText);
+    toast.success('Табулатура скопирована');
   };
 
   if (!notes.length) {
     return (
-      <Card className={className}>
-        <CardContent className="p-6 text-center text-muted-foreground">
-          <Music className="h-12 w-12 mx-auto mb-2 opacity-50" />
-          <p>Нет данных для TAB-визуализации</p>
-        </CardContent>
-      </Card>
+      <div className={cn(
+        "flex flex-col items-center justify-center py-8 text-center",
+        className
+      )}>
+        <div className="w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center mb-3">
+          <Music className="h-8 w-8 text-muted-foreground" />
+        </div>
+        <p className="text-muted-foreground font-medium">Ноты не обнаружены</p>
+        <p className="text-xs text-muted-foreground mt-1">
+          Попробуйте записать более длинный фрагмент
+        </p>
+      </div>
     );
   }
 
   return (
-    <Card className={className}>
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg flex items-center gap-2">
-            🎸 Гитарная табулатура
-          </CardTitle>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={handleCopyTab}>
-              Копировать
-            </Button>
-            {onExportTab && (
-              <Button variant="outline" size="sm" onClick={onExportTab}>
-                <Download className="h-4 w-4 mr-1" />
-                Экспорт
-              </Button>
-            )}
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {/* Detected notes */}
+    <div className={cn("space-y-4", className)}>
+      {/* Header with notes and actions */}
+      <div className="flex items-center justify-between gap-2">
         <div className="flex flex-wrap gap-1.5">
-          {uniqueNotes.map((note) => (
-            <Badge key={note} variant="secondary" className="font-mono text-xs">
+          {uniqueNotes.slice(0, 8).map(note => (
+            <Badge key={note} variant="outline" className="font-mono text-xs">
               {note}
             </Badge>
           ))}
+          {uniqueNotes.length > 8 && (
+            <Badge variant="secondary" className="text-xs">
+              +{uniqueNotes.length - 8}
+            </Badge>
+          )}
         </div>
-
-        {/* TAB visualization */}
-        <div className="bg-muted/30 rounded-lg p-4 overflow-x-auto">
-          <pre className="font-mono text-sm leading-relaxed whitespace-pre text-foreground">
-            {tabData.map((line, idx) => (
-              <div key={idx} className="flex">
-                <span className="text-primary font-bold w-4">{line[0]}</span>
-                <span className="text-muted-foreground">
-                  {line.slice(1).join('')}
-                </span>
-              </div>
-            ))}
-          </pre>
+        <div className="flex gap-1.5">
+          <Button variant="ghost" size="sm" onClick={handleCopyTab} className="h-8 px-2">
+            <Copy className="h-3.5 w-3.5" />
+          </Button>
+          {onExportTab && (
+            <Button variant="ghost" size="sm" onClick={onExportTab} className="h-8 px-2">
+              <Download className="h-3.5 w-3.5" />
+            </Button>
+          )}
         </div>
+      </div>
 
-        {/* Fretboard visualization */}
-        <FretboardVisualization notes={normalizedNotes} />
+      {/* View Toggle */}
+      <Tabs value={activeView} onValueChange={(v) => setActiveView(v as any)}>
+        <TabsList className="grid w-full grid-cols-2 h-9">
+          <TabsTrigger value="tab" className="text-xs gap-1.5">
+            <Music className="w-3.5 h-3.5" />
+            Табулатура
+          </TabsTrigger>
+          <TabsTrigger value="fretboard" className="text-xs gap-1.5">
+            <Grid3X3 className="w-3.5 h-3.5" />
+            Гриф
+          </TabsTrigger>
+        </TabsList>
 
-        {/* Stats */}
-        <div className="flex gap-4 text-sm text-muted-foreground">
-          <span>Нот: {notes.length}</span>
-          <span>BPM: {bpm}</span>
+        <TabsContent value="tab" className="mt-3">
+          <Card className="bg-gradient-to-br from-amber-950/20 to-background border-amber-900/20">
+            <CardContent className="p-4 overflow-x-auto">
+              <pre className="font-mono text-sm leading-relaxed whitespace-pre">
+                {tabData.map((line, idx) => (
+                  <div key={idx} className="flex">
+                    <span className="text-primary font-bold w-5">{line[0]}</span>
+                    <span className="text-foreground/80">{line.slice(1).join('')}</span>
+                  </div>
+                ))}
+              </pre>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="fretboard" className="mt-3">
+          <FretboardVisualization notes={normalizedNotes} />
+        </TabsContent>
+      </Tabs>
+
+      {/* Stats */}
+      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+        <span className="flex items-center gap-1">
+          <span className="w-2 h-2 rounded-full bg-primary" />
+          {notes.length} нот
+        </span>
+        <span>{bpm} BPM</span>
+        {normalizedNotes.length > 0 && (
           <span>
-            Длительность: {normalizedNotes.length > 0 
-              ? `${(Math.max(...normalizedNotes.map(n => n.time + n.duration))).toFixed(1)}s` 
-              : '0s'}
+            {Math.max(...normalizedNotes.map(n => n.time + n.duration)).toFixed(1)}s
           </span>
-        </div>
-      </CardContent>
-    </Card>
+        )}
+      </div>
+    </div>
   );
 }
 
-// Fretboard visualization showing note positions
 function FretboardVisualization({ notes }: { notes: Array<{ pitch: number; time: number; duration: number }> }) {
   const positions = useMemo(() => {
     const posMap = new Map<string, number>();
-
     for (const note of notes) {
       const pos = findBestStringAndFret(note.pitch);
       if (pos) {
@@ -234,7 +239,6 @@ function FretboardVisualization({ notes }: { notes: Array<{ pitch: number; time:
         posMap.set(key, (posMap.get(key) || 0) + 1);
       }
     }
-
     return posMap;
   }, [notes]);
 
@@ -242,17 +246,13 @@ function FretboardVisualization({ notes }: { notes: Array<{ pitch: number; time:
   const visibleFrets = 12;
 
   return (
-    <div className="space-y-2">
-      <p className="text-sm font-medium text-muted-foreground">Позиции на грифе</p>
-      <div className="bg-gradient-to-b from-amber-900/30 to-amber-950/40 rounded-lg p-3 overflow-x-auto">
+    <Card className="bg-gradient-to-b from-amber-900/20 to-amber-950/30 border-amber-900/20">
+      <CardContent className="p-4 overflow-x-auto">
         {/* Fret numbers */}
-        <div className="flex mb-1">
-          <div className="w-6" />
+        <div className="flex mb-2">
+          <div className="w-7" />
           {Array.from({ length: visibleFrets }, (_, i) => (
-            <div
-              key={i}
-              className="w-8 text-center text-xs text-muted-foreground font-mono"
-            >
+            <div key={i} className="w-9 text-center text-xs text-muted-foreground font-mono">
               {i}
             </div>
           ))}
@@ -260,51 +260,43 @@ function FretboardVisualization({ notes }: { notes: Array<{ pitch: number; time:
 
         {/* Strings */}
         {STRING_NAMES.map((name, stringIdx) => (
-          <div key={stringIdx} className="flex items-center h-6">
-            <span className="w-6 text-xs font-bold text-primary">{name}</span>
+          <div key={stringIdx} className="flex items-center h-7">
+            <span className="w-7 text-xs font-bold text-primary pr-1 text-right">{name}</span>
             {Array.from({ length: visibleFrets }, (_, fretIdx) => {
               const key = `${stringIdx}-${fretIdx}`;
               const count = positions.get(key) || 0;
               const intensity = count / maxCount;
 
               return (
-                <div
-                  key={fretIdx}
-                  className="w-8 h-full flex items-center justify-center relative"
-                >
+                <div key={fretIdx} className="w-9 h-full flex items-center justify-center relative">
                   {/* Fret wire */}
-                  <div
-                    className={`absolute right-0 top-0 bottom-0 w-0.5 ${
-                      fretIdx === 0 ? 'bg-zinc-200' : 'bg-zinc-600'
-                    }`}
-                  />
+                  <div className={cn(
+                    "absolute right-0 top-0 bottom-0 w-0.5",
+                    fretIdx === 0 ? "bg-zinc-300" : "bg-zinc-600/50"
+                  )} />
                   {/* String */}
-                  <div
-                    className="absolute left-0 right-0 h-px bg-zinc-400"
-                    style={{
-                      height: `${1 + stringIdx * 0.3}px`,
-                    }}
+                  <div 
+                    className="absolute left-0 right-0 bg-zinc-400/60"
+                    style={{ height: `${1 + stringIdx * 0.4}px` }}
                   />
                   {/* Note marker */}
                   {count > 0 && (
                     <div
-                      className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold z-10"
+                      className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold z-10 shadow-lg"
                       style={{
-                        backgroundColor: `hsl(var(--primary) / ${0.4 + intensity * 0.6})`,
+                        backgroundColor: `hsl(var(--primary) / ${0.5 + intensity * 0.5})`,
                         color: 'hsl(var(--primary-foreground))',
+                        boxShadow: `0 0 ${4 + intensity * 8}px hsl(var(--primary) / 0.5)`,
                       }}
                     >
                       {count > 1 ? count : ''}
                     </div>
                   )}
-                  {/* Position markers (3, 5, 7, 9, 12) */}
-                  {stringIdx === 3 && [3, 5, 7, 9].includes(fretIdx) && count === 0 && (
+                  {/* Position markers */}
+                  {count === 0 && stringIdx === 3 && [3, 5, 7, 9].includes(fretIdx) && (
                     <div className="w-2 h-2 rounded-full bg-zinc-500/30" />
                   )}
-                  {stringIdx === 2 && fretIdx === 12 && count === 0 && (
-                    <div className="w-2 h-2 rounded-full bg-zinc-500/30" />
-                  )}
-                  {stringIdx === 4 && fretIdx === 12 && count === 0 && (
+                  {count === 0 && [2, 4].includes(stringIdx) && fretIdx === 12 && (
                     <div className="w-2 h-2 rounded-full bg-zinc-500/30" />
                   )}
                 </div>
@@ -312,8 +304,8 @@ function FretboardVisualization({ notes }: { notes: Array<{ pitch: number; time:
             })}
           </div>
         ))}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
