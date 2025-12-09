@@ -47,6 +47,7 @@ const CreativeTools = lazy(() => import("./pages/CreativeTools"));
 const ProfessionalStudio = lazy(() => import("./pages/ProfessionalStudio"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
+const Pricing = lazy(() => import("./pages/Pricing"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
@@ -111,6 +112,8 @@ const App = () => (
                 <Route path="/professional-studio" element={<ProfessionalStudio />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/shop" element={<Pricing />} />
                 </Route>
 
                 {/* Routes without BottomNavigation */}

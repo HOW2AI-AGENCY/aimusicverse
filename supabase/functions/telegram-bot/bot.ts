@@ -16,11 +16,18 @@ import { handleMediaCallback } from './handlers/media.ts';
 import { logger, checkRateLimit, trackMetric, flushMetrics } from './utils/index.ts';
 import { handleInlineQuery } from './commands/inline.ts';
 import { handleTerms, handlePrivacy, handleAbout } from './commands/legal.ts';
+import { handlePreCheckoutQuery, handleSuccessfulPayment, handleBuyCommand, handleBuyCreditPackages, handleBuySubscriptions, handleBuyProduct } from './handlers/payment.ts';
 
 export async function handleUpdate(update: TelegramUpdate) {
   const startTime = Date.now();
   
   try {
+    // Handle pre-checkout query (payment validation)
+    if (update.pre_checkout_query) {
+      await handlePreCheckoutQuery(update.pre_checkout_query);
+      return;
+    }
+
     // Handle inline queries for sharing tracks
     if (update.inline_query) {
       await handleInlineQuery(update.inline_query);
@@ -259,6 +266,32 @@ export async function handleUpdate(update: TelegramUpdate) {
         return;
       }
 
+      // Payment/Buy handlers
+      if (data === 'buy_credits' || data === 'buy_menu_main') {
+        await handleBuyCommand(chatId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      if (data === 'buy_menu_credits') {
+        await handleBuyCreditPackages(chatId, messageId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      if (data === 'buy_menu_subscriptions') {
+        await handleBuySubscriptions(chatId, messageId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      if (data?.startsWith('buy_product_')) {
+        const productCode = data.replace('buy_product_', '');
+        await handleBuyProduct(chatId, from.id, productCode);
+        await answerCallbackQuery(id, '🔄 Создаём счёт...');
+        return;
+      }
+
       // Legacy handlers
       if (data === 'library') {
         await handleLibrary(chatId, from.id, messageId);
@@ -364,6 +397,12 @@ export async function handleUpdate(update: TelegramUpdate) {
       const message = update.message;
       
       if (!from) return;
+
+      // Handle successful payment
+      if (message.successful_payment) {
+        await handleSuccessfulPayment(chat.id, from.id, message.successful_payment as any);
+        return;
+      }
 
       // Check for audio messages first (before text check)
       if (isAudioMessage(message)) {
@@ -506,6 +545,12 @@ export async function handleUpdate(update: TelegramUpdate) {
 
         case 'about':
           await handleAbout(chat.id);
+          break;
+
+        case 'buy':
+        case 'shop':
+        case 'pricing':
+          await handleBuyCommand(chat.id);
           break;
 
         case 'recognize':
