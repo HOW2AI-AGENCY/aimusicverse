@@ -1,6 +1,6 @@
 import { 
   Split, Scissors, Mic, Music, Shuffle, Clock, 
-  Wand2, Download, Loader2, ArrowRight
+  Wand2, Download, Loader2, ArrowRight, BrainCircuit
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,10 +16,12 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Track } from '@/types/track';
+import { StemActionsSheet, StemAnalysisSheet } from '@/components/stem-studio/mobile';
 
 interface StudioQuickActionsProps {
   track: Track;
   hasStems: boolean;
+  stems?: any[]; // TrackStem array
   isSeparating?: boolean;
   onSeparate?: (mode: 'simple' | 'detailed') => void;
   onReplaceSection?: () => void;
@@ -44,6 +46,7 @@ interface ActionItem {
 export const StudioQuickActions = ({
   track,
   hasStems,
+  stems = [],
   isSeparating,
   onSeparate,
   onReplaceSection,
@@ -193,6 +196,39 @@ export const StudioQuickActions = ({
             </Button>
           );
         })}
+        
+        {/* New Mobile Actions for Stems */}
+        {hasStems && stems && stems.length > 0 && isMobile && (
+          <>
+            <div className="w-px h-6 bg-border shrink-0" />
+            <StemActionsSheet
+              stems={stems}
+              trackId={track.id}
+              trackTitle={track.title || 'Трек'}
+              trackLyrics={track.lyrics}
+              trackStyle={track.style}
+              trackPrompt={track.prompt}
+              trackTags={track.tags}
+              trigger={
+                <Button variant="outline" size="sm" className="h-8 gap-1.5 shrink-0">
+                  <Wand2 className="w-4 h-4" />
+                  <span className="hidden">Стемы</span>
+                </Button>
+              }
+            />
+            <StemAnalysisSheet
+              trackId={track.id}
+              trackTitle={track.title || 'Трек'}
+              audioUrl={track.audio_url || ''}
+              trigger={
+                <Button variant="outline" size="sm" className="h-8 gap-1.5 shrink-0">
+                  <BrainCircuit className="w-4 h-4" />
+                  <span className="hidden">Анализ</span>
+                </Button>
+              }
+            />
+          </>
+        )}
       </div>
     </div>
   );

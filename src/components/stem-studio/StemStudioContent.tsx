@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { 
   ChevronLeft, Play, Pause, SkipBack, SkipForward,
   Volume2, VolumeX, HelpCircle, Sliders, Scissors,
-  Shuffle, Clock
+  Shuffle, Clock, Wand2, BrainCircuit
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -18,6 +18,7 @@ import { StemChannel } from '@/components/stem-studio/StemChannel';
 import { StemDownloadPanel } from '@/components/stem-studio/StemDownloadPanel';
 import { StemReferenceDialog } from '@/components/stem-studio/StemReferenceDialog';
 import { MidiSection } from '@/components/stem-studio/MidiSection';
+import { StemActionsSheet, StemAnalysisSheet } from '@/components/stem-studio/mobile';
 import { MixExportDialog } from '@/components/stem-studio/MixExportDialog';
 import { MixPresetsMenu } from '@/components/stem-studio/MixPresetsMenu';
 import { StudioLyricsPanel } from '@/components/stem-studio/StudioLyricsPanel';
@@ -876,21 +877,37 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
             onLoadPreset={handleLoadPreset}
             effectsEnabled={effectsEnabled}
           />
-          {track.audio_url && (
-            <MidiSection 
-              trackId={trackId} 
-              trackTitle={track.title || 'Трек'} 
-              audioUrl={track.audio_url}
-            />
-          )}
-          <StemReferenceDialog 
-            stems={stems} 
-            trackTitle={track.title || 'Трек'} 
+          {/* New Mobile Stem Actions Sheet */}
+          <StemActionsSheet
+            stems={stems}
+            trackId={trackId}
+            trackTitle={track.title || 'Трек'}
             trackLyrics={track.lyrics}
             trackStyle={track.style}
             trackPrompt={track.prompt}
             trackTags={track.tags}
+            trigger={
+              <Button variant="outline" size="sm" className="h-9 gap-1.5 shrink-0">
+                <Wand2 className="w-4 h-4" />
+                <span>Стемы</span>
+              </Button>
+            }
           />
+          
+          {/* New Mobile Stem Analysis Sheet */}
+          {track.audio_url && (
+            <StemAnalysisSheet
+              trackId={trackId}
+              trackTitle={track.title || 'Трек'}
+              audioUrl={track.audio_url}
+              trigger={
+                <Button variant="outline" size="sm" className="h-9 gap-1.5 shrink-0">
+                  <BrainCircuit className="w-4 h-4" />
+                  <span>Анализ</span>
+                </Button>
+              }
+            />
+          )}
           <StemDownloadPanel stems={stems} trackTitle={track.title || 'Трек'} />
           <MixExportDialog
             stems={stems}

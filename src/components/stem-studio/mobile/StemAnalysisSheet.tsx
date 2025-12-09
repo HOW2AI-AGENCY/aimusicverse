@@ -7,7 +7,7 @@ import { useState } from 'react';
 import {
   Music2,
   FileMusic,
-  Waveform,
+  Activity,
   BrainCircuit,
   Download,
   Loader2,
@@ -242,7 +242,7 @@ export const StemAnalysisSheet = ({
       <div className="p-4 rounded-lg bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30">
         <div className="flex items-start gap-3 mb-4">
           <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
-            <Waveform className="w-5 h-5 text-blue-500" />
+            <Activity className="w-5 h-5 text-blue-500" />
           </div>
           <div className="flex-1">
             <h3 className="font-semibold text-sm mb-1">Анализ аудио</h3>
@@ -287,7 +287,7 @@ export const StemAnalysisSheet = ({
         {[
           { icon: Music2, label: 'Темп (BPM)', value: 'Скоро' },
           { icon: Music2, label: 'Тональность', value: 'Скоро' },
-          { icon: Waveform, label: 'Динамика', value: 'Скоро' },
+          { icon: Activity, label: 'Динамика', value: 'Скоро' },
           { icon: Clock, label: 'Длительность', value: 'Скоро' },
         ].map((item, idx) => {
           const Icon = item.icon;
@@ -403,7 +403,7 @@ export const StemAnalysisSheet = ({
               </Badge>}
             </TabsTrigger>
             <TabsTrigger value="audio" className="text-xs gap-1.5">
-              <Waveform className="w-3 h-3" />
+              <Activity className="w-3 h-3" />
               Аудио
             </TabsTrigger>
             <TabsTrigger value="notation" className="text-xs gap-1.5">
