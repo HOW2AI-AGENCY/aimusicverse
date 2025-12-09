@@ -104,6 +104,7 @@ export function usePlaybackQueue() {
       activeTrack: tracks[safeIndex],
       currentIndex: safeIndex,
       isPlaying: true,
+      playerMode: 'compact', // Auto-open player when setting queue
     });
   }, [clearQueue]);
 
