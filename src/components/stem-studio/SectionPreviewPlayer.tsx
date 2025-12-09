@@ -123,8 +123,8 @@ export function SectionPreviewPlayer({
       try {
         await audio.play();
         setIsPlaying(true);
-      } catch (e) {
-        console.error('Playback failed:', e);
+      } catch {
+        // Playback failed silently
       }
     }
   }, [isPlaying, isLoaded, startTime, endTime]);

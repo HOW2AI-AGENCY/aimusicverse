@@ -3,7 +3,7 @@
  * Manages selection, validation, and mutation state
  */
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useReplaceSectionMutation } from '@/hooks/useReplaceSectionMutation';
 import { DetectedSection } from '@/hooks/useSectionDetection';
