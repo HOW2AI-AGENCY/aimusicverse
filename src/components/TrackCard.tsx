@@ -161,12 +161,14 @@ export const TrackCard = ({
       target.closest('button') || 
       target.closest('[data-play-button]') ||
       target.closest('[role="menuitem"]') ||
-      target.closest('[data-radix-collection-item]')
+      target.closest('[data-radix-collection-item]') ||
+      target.closest('[data-radix-dropdown-menu-content]') ||
+      target.closest('[data-menu-trigger]')
     ) {
       return;
     }
     
-    // Open actions sheet on both mobile and desktop
+    // On mobile, open sheet. On desktop grid, also open sheet for details
     if (isMobile) {
       triggerHapticFeedback('light');
     }
@@ -570,9 +572,14 @@ export const TrackCard = ({
               >
                 <MoreHorizontal className="w-5 h-5" />
               </Button>
-          ) : (
-              <UnifiedTrackMenu track={track} onDelete={onDelete} onDownload={onDownload} />
-          )}
+            ) : (
+              <div 
+                data-menu-trigger
+                onClick={(e) => e.stopPropagation()}
+              >
+                <UnifiedTrackMenu track={track} onDelete={onDelete} onDownload={onDownload} />
+              </div>
+            )}
         </div>
 
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">

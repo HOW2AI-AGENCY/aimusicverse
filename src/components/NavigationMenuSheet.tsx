@@ -2,7 +2,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { usePlaylists } from '@/hooks/usePlaylists';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ListMusic, 
   Users, 
@@ -18,10 +18,18 @@ import {
   Music2,
   Home,
   Library,
-  Folder
+  Folder,
+  Bell,
+  Loader2,
+  Volume2,
+  VolumeX
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import { useNotificationHub } from '@/contexts/NotificationContext';
 
 interface NavigationMenuSheetProps {
   open: boolean;
@@ -72,6 +80,13 @@ export const NavigationMenuSheet = ({ open, onOpenChange }: NavigationMenuSheetP
   const location = useLocation();
   const { hapticFeedback } = useTelegram();
   const { playlists } = usePlaylists();
+  const { 
+    activeGenerations, 
+    generationCount, 
+    unreadCount,
+    soundEnabled,
+    setSoundEnabled 
+  } = useNotificationHub();
 
   const playlistCount = playlists?.length || 0;
 
@@ -105,13 +120,100 @@ export const NavigationMenuSheet = ({ open, onOpenChange }: NavigationMenuSheetP
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="rounded-t-3xl max-h-[85vh] overflow-y-auto">
         <SheetHeader className="pb-4">
-          <SheetTitle className="flex items-center gap-2 text-left">
-            <Sparkles className="w-5 h-5 text-primary" />
-            Меню
-          </SheetTitle>
+          <div className="flex items-center justify-between">
+            <SheetTitle className="flex items-center gap-2 text-left">
+              <Sparkles className="w-5 h-5 text-primary" />
+              Меню
+            </SheetTitle>
+            
+            <div className="flex items-center gap-2">
+              {/* Notification indicator */}
+              {unreadCount > 0 && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleNavigate('/settings')}
+                  className="gap-1.5"
+                >
+                  <Bell className="w-4 h-4" />
+                  <Badge variant="destructive" className="h-5 px-1.5">
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </Badge>
+                </Button>
+              )}
+              
+              {/* Sound toggle */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9"
+                onClick={() => setSoundEnabled(!soundEnabled)}
+              >
+                {soundEnabled ? (
+                  <Volume2 className="w-4 h-4" />
+                ) : (
+                  <VolumeX className="w-4 h-4 text-muted-foreground" />
+                )}
+              </Button>
+            </div>
+          </div>
         </SheetHeader>
 
         <div className="space-y-6">
+          {/* Active Generations Section */}
+          <AnimatePresence>
+            {generationCount > 0 && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="bg-primary/5 border border-primary/20 rounded-xl p-4"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                  <h3 className="text-sm font-semibold">
+                    Активные генерации ({generationCount})
+                  </h3>
+                </div>
+                
+                <div className="space-y-2">
+                  {activeGenerations.slice(0, 3).map((gen) => (
+                    <motion.div
+                      key={gen.id}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="flex items-center gap-3 p-2 rounded-lg bg-background/50"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Music2 className="w-4 h-4 text-primary" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium truncate">
+                          {gen.prompt.slice(0, 30)}{gen.prompt.length > 30 ? '...' : ''}
+                        </p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Progress value={gen.progress} className="h-1 flex-1" />
+                          <span className="text-[10px] text-muted-foreground">
+                            {gen.progress}%
+                          </span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+                
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="w-full mt-2 text-primary"
+                  onClick={() => handleNavigate('/library')}
+                >
+                  Открыть библиотеку →
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           {menuSections.map((section, sectionIndex) => (
             <motion.div
               key={section.title}
