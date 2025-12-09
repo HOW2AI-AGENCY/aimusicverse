@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Clock, ChevronRight, Play, Music2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTracksInfinite } from '@/hooks/useTracksInfinite';
-import { usePlayerStore } from '@/hooks/usePlayerState';
+import { usePlayerStore } from '@/hooks/audio';
 import { cn } from '@/lib/utils';
 
 interface RecentTracksSectionProps {

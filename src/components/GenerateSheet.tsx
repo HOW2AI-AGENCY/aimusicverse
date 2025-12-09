@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { useProjects } from '@/hooks/useProjectsOptimized';
 import { useArtists } from '@/hooks/useArtists';
 import { useTracks } from '@/hooks/useTracksOptimized';
-import { useGenerateForm } from '@/hooks/useGenerateForm';
+import { useGenerateForm } from '@/hooks/generation';
 
 // Form components
 import { GenerateFormHeader } from './generate-form/GenerateFormHeader';

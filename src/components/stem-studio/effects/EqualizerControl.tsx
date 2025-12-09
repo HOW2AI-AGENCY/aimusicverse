@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/select';
 import { RotateCcw } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { EQSettings, eqPresets, defaultEQSettings } from '@/hooks/useStemAudioEngine';
+import { EQSettings, eqPresets, defaultEQSettings } from '@/hooks/studio';
 
 interface EqualizerControlProps {
   settings: EQSettings;

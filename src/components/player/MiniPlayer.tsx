@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, SkipForward, X, Music2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { usePlayerStore } from '@/hooks/usePlayerState';
+import { usePlayerStore } from '@/hooks/audio';
 import { cn } from '@/lib/utils';
 
 interface MiniPlayerProps {

@@ -16,7 +16,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Play, Pause, SkipBack, SkipForward, Shuffle, Repeat } from 'lucide-react';
-import { usePlayerStore } from '@/hooks/usePlayerState';
+import { usePlayerStore } from '@/hooks/audio';
 import { cn } from '@/lib/utils';
 
 /**

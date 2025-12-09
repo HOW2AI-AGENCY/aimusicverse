@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { supabase } from '@/integrations/supabase/client';
-import { usePlayerStore } from '@/hooks/usePlayerState';
+import { usePlayerStore } from '@/hooks/audio';
 import { useVideoGenerationStatus } from '@/hooks/useVideoGenerationStatus';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { toast } from 'sonner';

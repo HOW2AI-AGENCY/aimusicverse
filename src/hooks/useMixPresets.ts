@@ -5,7 +5,7 @@
  */
 
 import { useState, useCallback, useEffect } from 'react';
-import { StemEffects, defaultStemEffects } from './useStemAudioEngine';
+import { StemEffects, defaultStemEffects } from './studio/useStemAudioEngine';
 import { logger } from '@/lib/logger';
 
 interface StemMixSettings {

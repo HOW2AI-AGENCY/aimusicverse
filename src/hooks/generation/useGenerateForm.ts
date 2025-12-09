@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
-import { useGenerateDraft } from '@/hooks/useGenerateDraft';
+import { useGenerateDraft } from '@/hooks/generation';
 import { SUNO_MODELS, validateModel, DEFAULT_SUNO_MODEL } from '@/constants/sunoModels';
 import { savePromptToHistory } from '@/components/generate-form/PromptHistory';
 import { logger } from '@/lib/logger';
