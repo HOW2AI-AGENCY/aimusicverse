@@ -171,6 +171,7 @@ serve(async (req) => {
       // Fetch requested output formats and upload to Supabase Storage
       const outputFormats = outputs || ['midi'];
       const files: Record<string, string> = {};
+      let notes: any[] = [];
 
       // Map output format names to API endpoints
       const formatToEndpoint: Record<string, string> = {
@@ -181,6 +182,47 @@ serve(async (req) => {
         'pdf': 'pdf',
         'json': 'json',
       };
+
+      // Always fetch JSON for notes data
+      try {
+        console.log("[klangio] Fetching transcription JSON for notes...");
+        const jsonResponse = await fetch(`${API_BASE}/job/${jobId}/json`, {
+          headers: {
+            "kl-api-key": KLANGIO_API_KEY,
+          },
+        });
+        
+        if (jsonResponse.ok) {
+          const transcriptionData = await jsonResponse.json();
+          console.log("[klangio] Transcription JSON:", JSON.stringify(transcriptionData).slice(0, 2000));
+          
+          // Parse notes from different possible formats
+          if (transcriptionData.notes && Array.isArray(transcriptionData.notes)) {
+            notes = transcriptionData.notes.map((n: any) => ({
+              pitch: n.pitch ?? n.midi ?? n.note ?? 60,
+              startTime: n.start_time ?? n.startTime ?? n.time ?? n.onset ?? 0,
+              endTime: n.end_time ?? n.endTime ?? n.offset ?? ((n.start_time ?? n.startTime ?? n.time ?? 0) + (n.duration ?? 0.5)),
+              duration: n.duration ?? 0.5,
+              velocity: n.velocity ?? n.loudness ?? 80,
+              noteName: n.note_name ?? n.noteName ?? null,
+            }));
+          } else if (transcriptionData.events && Array.isArray(transcriptionData.events)) {
+            // Some APIs use 'events' instead of 'notes'
+            notes = transcriptionData.events.filter((e: any) => e.type === 'note' || e.pitch).map((n: any) => ({
+              pitch: n.pitch ?? n.midi ?? 60,
+              startTime: n.start ?? n.onset ?? n.time ?? 0,
+              endTime: n.end ?? n.offset ?? ((n.start ?? n.time ?? 0) + (n.duration ?? 0.5)),
+              duration: n.duration ?? 0.5,
+              velocity: n.velocity ?? 80,
+              noteName: null,
+            }));
+          }
+          
+          console.log(`[klangio] Parsed ${notes.length} notes from transcription`);
+        }
+      } catch (e) {
+        console.error("[klangio] Error fetching transcription JSON:", e);
+      }
 
       for (const format of outputFormats) {
         try {
@@ -227,6 +269,7 @@ serve(async (req) => {
       }
 
       finalResult.files = files;
+      finalResult.notes = notes;
       
     } else if (mode === 'beat-tracking') {
       // Fetch JSON result for beat tracking

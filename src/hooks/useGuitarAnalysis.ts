@@ -376,6 +376,17 @@ export function useGuitarAnalysis() {
           musicXmlUrl: files.mxml,
         };
         midiUrl = files.midi || files.midi_quant;
+        
+        // Parse notes from transcription data if available
+        if (transcriptionResult.data.notes && Array.isArray(transcriptionResult.data.notes)) {
+          notes = transcriptionResult.data.notes.map((n: any) => ({
+            pitch: n.pitch || n.midi || 60,
+            startTime: n.start_time ?? n.startTime ?? n.time ?? 0,
+            endTime: n.end_time ?? n.endTime ?? (n.startTime ? n.startTime + (n.duration || 0.5) : 0.5),
+            velocity: n.velocity ?? 80,
+            noteName: n.note_name ?? midiToNoteName(n.pitch || n.midi || 60),
+          }));
+        }
       }
 
       // Calculate time signature from beats and downbeats

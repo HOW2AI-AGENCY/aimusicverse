@@ -10,7 +10,7 @@ import { Progress } from '@/components/ui/progress';
 import { 
   Play, Pause, RefreshCw, Loader2, Music, Download,
   Clock, Gauge, Key, FileMusic, FileText, Guitar, ArrowRight,
-  CheckCircle2, AlertCircle, Wand2
+  CheckCircle2, AlertCircle, Wand2, Piano
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -19,7 +19,7 @@ import { cn } from '@/lib/utils';
 import { useGuitarAnalysis } from '@/hooks/useGuitarAnalysis';
 import { useGuitarRecordings, type GuitarRecording } from '@/hooks/useGuitarRecordings';
 import { GuitarTabVisualization } from '@/components/analysis/GuitarTabVisualization';
-import { PianoRollPreview } from '@/components/analysis/PianoRollPreview';
+import { PianoRollWithMidiSync } from './PianoRollWithMidiSync';
 import { ExportFilesPanel } from './ExportFilesPanel';
 
 interface SavedRecordingDetailSheetProps {
@@ -305,29 +305,30 @@ export function SavedRecordingDetailSheet({
 
             {/* Visualizations */}
             {hasAnalysis && (
-              <Tabs defaultValue="tab" className="w-full">
+              <Tabs defaultValue="piano" className="w-full">
                 <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="piano" className="gap-2">
+                    <Piano className="w-4 h-4" />
+                    Piano Roll
+                  </TabsTrigger>
                   <TabsTrigger value="tab" className="gap-2">
                     <Guitar className="w-4 h-4" />
                     Табулатура
                   </TabsTrigger>
-                  <TabsTrigger value="piano" className="gap-2">
-                    <Music className="w-4 h-4" />
-                    Piano Roll
-                  </TabsTrigger>
                 </TabsList>
+
+                <TabsContent value="piano" className="mt-4">
+                  <PianoRollWithMidiSync
+                    notes={recording.notes || []}
+                    audioUrl={recording.audio_url}
+                    duration={recording.duration_seconds || 30}
+                  />
+                </TabsContent>
 
                 <TabsContent value="tab" className="mt-4">
                   <GuitarTabVisualization
                     notes={recording.notes || []}
                     bpm={recording.bpm || 120}
-                  />
-                </TabsContent>
-
-                <TabsContent value="piano" className="mt-4">
-                  <PianoRollPreview
-                    notes={recording.notes || []}
-                    duration={recording.duration_seconds || 30}
                   />
                 </TabsContent>
               </Tabs>
