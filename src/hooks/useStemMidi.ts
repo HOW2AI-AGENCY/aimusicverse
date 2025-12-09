@@ -6,7 +6,7 @@ import { logger } from '@/lib/logger';
 
 const log = logger.child({ module: 'StemMidi' });
 
-export type MidiModelType = 'mt3' | 'ismir2021' | 'bytedance-piano' | 'basic-pitch' | 'pop2piano';
+export type MidiModelType = 'mt3' | 'ismir2021' | 'bytedance-piano' | 'basic-pitch' | 'drums' | 'vocal';
 
 interface StemMidiVersion {
   id: string;
@@ -25,37 +25,44 @@ interface StemMidiVersion {
 }
 
 export const MIDI_MODELS = {
-  'mt3': {
-    name: 'MT3 (Multi-Instrument)',
-    description: 'Мульти-инструментальная транскрипция: барабаны, бас, гитара, синтезаторы',
-    icon: '🎼',
-    bestFor: ['drums', 'bass', 'guitar', 'synth', 'other'],
-  },
   'bytedance-piano': {
-    name: 'ByteDance Piano (High-Res)',
+    name: 'Piano HD',
     description: 'Высокоточная транскрипция пианино с педалями и velocity',
     icon: '🎹',
     bestFor: ['piano', 'keys', 'keyboard'],
     isNew: true,
   },
+  'mt3': {
+    name: 'Omnizart',
+    description: 'Мультиинструментальная транскрипция: барабаны, бас, гитара, синтезаторы',
+    icon: '🎼',
+    bestFor: ['drums', 'bass', 'guitar', 'synth', 'other', 'instrumental'],
+  },
+  'drums': {
+    name: 'Drums',
+    description: 'Специализированная транскрипция барабанов и перкуссии',
+    icon: '🥁',
+    bestFor: ['drums', 'percussion'],
+    isNew: true,
+  },
+  'vocal': {
+    name: 'Vocal',
+    description: 'Транскрипция вокальной мелодии',
+    icon: '🎤',
+    bestFor: ['vocals', 'voice', 'melody', 'lead'],
+    isNew: true,
+  },
   'ismir2021': {
-    name: 'ISMIR2021 (Piano)',
+    name: 'Piano',
     description: 'Специализированная модель для пианино',
     icon: '🎹',
     bestFor: ['piano', 'keys', 'keyboard'],
   },
   'basic-pitch': {
-    name: 'Basic Pitch (Spotify)',
-    description: 'Быстрый и точный для вокала и мелодических инструментов',
+    name: 'Basic Pitch',
+    description: 'Универсальная мелодическая транскрипция',
     icon: '⚡',
-    bestFor: ['vocals', 'guitar', 'melody', 'lead'],
-  },
-  'pop2piano': {
-    name: 'Pop2Piano',
-    description: 'Создаёт фортепианную аранжировку из любого аудио',
-    icon: '🎵',
-    bestFor: ['arrangement', 'piano cover'],
-    outputType: 'audio',
+    bestFor: ['vocals', 'guitar', 'melody'],
   },
 } as const;
 
