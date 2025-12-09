@@ -7,6 +7,7 @@ import { ProgressBar } from './ProgressBar';
 import { QueueSheet } from './QueueSheet';
 import { VersionSwitcher } from './VersionSwitcher';
 import { useTracks, Track } from '@/hooks/useTracksOptimized';
+import { TooltipWrapper } from '@/components/tooltips';
 import { cn } from '@/lib/utils';
 import { motion, PanInfo, AnimatePresence } from 'framer-motion';
 import { hapticImpact } from '@/lib/haptic';
@@ -138,20 +139,22 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
             </motion.div>
             
             <div className="flex items-center gap-2">
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => {
-                    hapticImpact('light');
-                    setQueueOpen(true);
-                  }}
-                  className="h-11 w-11 touch-manipulation hover:bg-primary/10"
-                  aria-label="Queue"
-                >
-                  <ListMusic className="h-5 w-5" />
-                </Button>
-              </motion.div>
+              <TooltipWrapper tooltipId="player-queue">
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => {
+                      hapticImpact('light');
+                      setQueueOpen(true);
+                    }}
+                    className="h-11 w-11 touch-manipulation hover:bg-primary/10"
+                    aria-label="Queue"
+                  >
+                    <ListMusic className="h-5 w-5" />
+                  </Button>
+                </motion.div>
+              </TooltipWrapper>
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                 <Button
                   variant="ghost"
