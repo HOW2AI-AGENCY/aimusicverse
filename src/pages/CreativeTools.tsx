@@ -8,7 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Mic, Guitar, Sparkles, Music } from 'lucide-react';
+import { ProBadge, ProFeatureIndicator } from '@/components/ui/pro-badge';
+import { ArrowLeft, Mic, Guitar, Sparkles, Music, Zap, FileMusic } from 'lucide-react';
 import { RealtimeChordVisualizer } from '@/components/chord-detection/RealtimeChordVisualizer';
 import { GuitarTabEditor } from '@/components/tab-editor/GuitarTabEditor';
 import { MelodyMixer } from '@/components/melody-mixer/MelodyMixer';
@@ -51,26 +52,52 @@ export default function CreativeTools() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-4 mb-6"
+          className="mb-6"
         >
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-primary/10">
-              <Music className="h-6 w-6 text-primary" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">Креативные инструменты</h1>
-              <p className="text-sm text-muted-foreground">
-                Создавайте музыкальные идеи
-              </p>
+          <div className="flex items-center gap-4 mb-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate(-1)}
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+            <div className="flex items-center gap-3 flex-1">
+              <div className="p-2 rounded-xl bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-indigo-500/10 border border-pink-500/20">
+                <Music className="h-6 w-6 text-pink-400" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <h1 className="text-2xl font-bold">Креативные инструменты</h1>
+                  <ProBadge size="md" showIcon />
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Создавайте музыкальные идеи и конвертируйте в треки
+                </p>
+              </div>
             </div>
           </div>
+
+          {/* Professional Features Info */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="grid grid-cols-1 sm:grid-cols-3 gap-2 p-3 rounded-xl bg-gradient-to-r from-pink-500/5 via-purple-500/5 to-indigo-500/5 border border-primary/10"
+          >
+            <div className="flex items-center gap-2 text-xs">
+              <Zap className="w-4 h-4 text-pink-400" />
+              <span className="text-muted-foreground">Real-time обработка</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs">
+              <FileMusic className="w-4 h-4 text-purple-400" />
+              <span className="text-muted-foreground">Экспорт в MIDI/GP5</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs">
+              <Sparkles className="w-4 h-4 text-indigo-400" />
+              <span className="text-muted-foreground">AI-генерация</span>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Tabs */}
@@ -104,11 +131,14 @@ export default function CreativeTools() {
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                 >
-                  <div className="mb-4 p-4 bg-muted/30 rounded-xl">
-                    <h2 className="font-semibold mb-1 flex items-center gap-2">
-                      <Mic className="h-5 w-5 text-primary" />
-                      Распознавание аккордов
-                    </h2>
+                  <div className="mb-4 p-4 bg-muted/30 rounded-xl border border-primary/10">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <Mic className="h-5 w-5 text-primary" />
+                        <h2 className="font-semibold">Распознавание аккордов</h2>
+                      </div>
+                      <ProBadge size="sm" />
+                    </div>
                     <p className="text-sm text-muted-foreground">
                       Играйте аккорды на гитаре — приложение распознает их в реальном времени
                     </p>
@@ -125,11 +155,14 @@ export default function CreativeTools() {
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                 >
-                  <div className="mb-4 p-4 bg-muted/30 rounded-xl">
-                    <h2 className="font-semibold mb-1 flex items-center gap-2">
-                      <Guitar className="h-5 w-5 text-primary" />
-                      Редактор табулатур
-                    </h2>
+                  <div className="mb-4 p-4 bg-muted/30 rounded-xl border border-primary/10">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <Guitar className="h-5 w-5 text-primary" />
+                        <h2 className="font-semibold">Редактор табулатур</h2>
+                      </div>
+                      <ProBadge size="sm" />
+                    </div>
                     <p className="text-sm text-muted-foreground">
                       Создавайте и редактируйте гитарные табулатуры с экспортом в MIDI и GP5
                     </p>
@@ -146,11 +179,14 @@ export default function CreativeTools() {
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                 >
-                  <div className="mb-4 p-4 bg-muted/30 rounded-xl">
-                    <h2 className="font-semibold mb-1 flex items-center gap-2">
-                      <Sparkles className="h-5 w-5 text-primary" />
-                      Melody Mixer
-                    </h2>
+                  <div className="mb-4 p-4 bg-muted/30 rounded-xl border border-primary/10">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="h-5 w-5 text-primary" />
+                        <h2 className="font-semibold">Melody Mixer</h2>
+                      </div>
+                      <ProBadge size="sm" />
+                    </div>
                     <p className="text-sm text-muted-foreground">
                       Смешивайте музыкальные стили и записывайте мелодии для генерации
                     </p>
