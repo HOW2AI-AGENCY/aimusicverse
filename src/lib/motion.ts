@@ -1,6 +1,8 @@
 /**
  * Optimized framer-motion exports
  * Import from this file instead of 'framer-motion' directly for better tree-shaking
+ * 
+ * Usage: import { motion, AnimatePresence, fadeIn } from '@/lib/motion';
  */
 
 // Core components - most commonly used
@@ -14,6 +16,10 @@ export {
   useDragControls,
   useScroll,
   useInView,
+  useReducedMotion,
+  useAnimationFrame,
+  animate,
+  stagger,
 } from 'framer-motion';
 
 // Types
@@ -24,6 +30,8 @@ export type {
   PanInfo,
   MotionValue,
   SpringOptions,
+  Target,
+  TargetAndTransition,
 } from 'framer-motion';
 
 // Common animation presets for consistency

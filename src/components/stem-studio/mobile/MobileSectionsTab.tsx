@@ -4,7 +4,7 @@
  * Section selection and replacement for mobile
  */
 
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Scissors, Play, Check, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';

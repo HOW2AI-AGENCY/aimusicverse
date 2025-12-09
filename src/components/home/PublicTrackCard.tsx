@@ -10,7 +10,7 @@ import { formatDuration } from '@/lib/player-utils';
 import { supabase } from '@/integrations/supabase/client';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContentOptimized';
 import { logger } from '@/lib/logger';
 

@@ -2,7 +2,7 @@
  * Mobile-optimized section editor as bottom sheet
  */
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useSectionReplacement } from '@/hooks/useSectionReplacement';

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Volume2, VolumeX, Headphones, Music2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
