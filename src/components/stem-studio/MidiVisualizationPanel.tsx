@@ -3,15 +3,17 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 import { 
   Play, Pause, ZoomIn, ZoomOut, Download, Save, 
-  Trash2, Music, Loader2, RefreshCw, Grid3X3
+  Trash2, Music, Loader2, RefreshCw, Grid3X3, Volume2, VolumeX, Radio
 } from 'lucide-react';
 import { MidiPianoRoll } from './MidiPianoRoll';
 import { useMidiVisualization } from '@/hooks/useMidiVisualization';
 import { useTrackVersions } from '@/hooks/useTrackVersions';
 import { useStemMidi } from '@/hooks/useStemMidi';
+import { useMidiSync } from '@/hooks/studio';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
@@ -76,6 +78,32 @@ export function MidiVisualizationPanel({
 
   const { data: versions } = useTrackVersions(trackId);
   const { transcribeToMidi, isTranscribing } = useStemMidi(trackId);
+
+  // MIDI sync playback
+  const {
+    isReady: isSynthReady,
+    isSyncEnabled,
+    isMuted: isMidiMuted,
+    volume: midiVolume,
+    setVolume: setMidiVolume,
+    setMuted: setMidiMuted,
+    setSyncEnabled,
+    initialize: initializeSynth,
+    playNotePreview,
+    stopAll: stopMidiPlayback,
+  } = useMidiSync({
+    notes,
+    currentTime,
+    isPlaying,
+    enabled: true,
+  });
+
+  // Initialize synth when notes are available
+  useEffect(() => {
+    if (notes.length > 0 && !isSynthReady) {
+      initializeSynth();
+    }
+  }, [notes.length, isSynthReady, initializeSynth]);
 
   // Find MIDI versions
   const midiVersions = versions?.filter(v => 
@@ -284,6 +312,52 @@ export function MidiVisualizationPanel({
           </SelectContent>
         </Select>
 
+        {/* MIDI Sync Controls */}
+        {hasMidi && (
+          <div className="flex items-center gap-3 px-3 py-1.5 bg-muted/50 rounded-lg">
+            <div className="flex items-center gap-2">
+              <Radio className={cn(
+                "w-4 h-4 transition-colors",
+                isSyncEnabled && !isMidiMuted ? "text-green-500" : "text-muted-foreground"
+              )} />
+              <Label htmlFor="midi-sync" className="text-sm cursor-pointer">
+                Синхронизация
+              </Label>
+              <Switch
+                id="midi-sync"
+                checked={isSyncEnabled}
+                onCheckedChange={setSyncEnabled}
+              />
+            </div>
+            
+            {isSyncEnabled && (
+              <>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => setMidiMuted(!isMidiMuted)}
+                >
+                  {isMidiMuted ? (
+                    <VolumeX className="w-4 h-4" />
+                  ) : (
+                    <Volume2 className="w-4 h-4" />
+                  )}
+                </Button>
+                <Slider
+                  className="w-20"
+                  value={[midiVolume]}
+                  min={-40}
+                  max={0}
+                  step={1}
+                  onValueChange={([v]) => setMidiVolume(v)}
+                  disabled={isMidiMuted}
+                />
+              </>
+            )}
+          </div>
+        )}
+
         <div className="flex-1" />
 
         {/* Actions */}
@@ -414,6 +488,7 @@ export function MidiVisualizationPanel({
             onNoteDelete={deleteNote}
             onNoteAdd={addNote}
             onSeek={onSeek}
+            onNotePlay={playNotePreview}
           />
         )}
       </div>
