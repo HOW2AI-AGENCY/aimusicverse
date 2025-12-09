@@ -333,7 +333,7 @@ export default function Library() {
                 Генерируется ({activeGenerations.length})
               </h2>
               <div className={viewMode === "grid"
-                ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+                ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
                 : "flex flex-col gap-2"
               }>
                 {activeGenerations.map((task) => (
@@ -363,7 +363,7 @@ export default function Library() {
           ) : (
             <>
               <div className={viewMode === "grid"
-                ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+                ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
                 : "flex flex-col gap-2"
               }>
                 {tracksToDisplay.map((track, index) => {
