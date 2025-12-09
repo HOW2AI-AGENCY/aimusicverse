@@ -551,6 +551,10 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
         open={!!lyricsPreviewTrack}
         onOpenChange={(open) => !open && setLyricsPreviewTrack(null)}
         track={lyricsPreviewTrack}
+        projectName={project.name}
+        projectGenre={project.genre}
+        projectMood={project.mood}
+        projectLanguage={project.language}
         onSave={handleSaveLyrics}
         onOpenWizard={handleOpenWizardFromPreview}
       />

@@ -7,12 +7,16 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { FileText, Edit, Sparkles, Save, X, Music } from 'lucide-react';
 import { ProjectTrack } from '@/hooks/useProjectTracks';
-import { LyricsChatAssistant } from '@/components/generate-form/LyricsChatAssistant';
+import { LyricsChatAssistant, type ProjectContext } from '@/components/generate-form/LyricsChatAssistant';
 
 interface LyricsPreviewSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   track: ProjectTrack | null;
+  projectName?: string;
+  projectGenre?: string | null;
+  projectMood?: string | null;
+  projectLanguage?: string | null;
   onSave: (trackId: string, lyrics: string) => void;
   onOpenWizard: () => void;
 }
@@ -21,6 +25,10 @@ export function LyricsPreviewSheet({
   open,
   onOpenChange,
   track,
+  projectName,
+  projectGenre,
+  projectMood,
+  projectLanguage,
   onSave,
   onOpenWizard,
 }: LyricsPreviewSheetProps) {
@@ -53,6 +61,19 @@ export function LyricsPreviewSheet({
     onSave(track.id, lyrics);
     setShowChatAssistant(false);
   };
+
+  // Build project context for AI assistant
+  const projectContext: ProjectContext | undefined = track.project_id ? {
+    projectId: track.project_id,
+    projectName,
+    projectGenre,
+    projectMood,
+    projectLanguage,
+    trackId: track.id,
+    trackTitle: track.title,
+    trackNotes: track.notes,
+    stylePrompt: track.style_prompt,
+  } : undefined;
 
   // Clean lyrics from Suno structural tags for display
   const cleanLyrics = (text: string) => {
@@ -191,6 +212,10 @@ export function LyricsPreviewSheet({
         open={showChatAssistant}
         onOpenChange={setShowChatAssistant}
         onLyricsGenerated={handleLyricsGenerated}
+        projectContext={projectContext}
+        initialGenre={projectGenre || undefined}
+        initialMood={projectMood ? [projectMood] : undefined}
+        initialLanguage={(projectLanguage as 'ru' | 'en') || 'ru'}
       />
     </>
   );

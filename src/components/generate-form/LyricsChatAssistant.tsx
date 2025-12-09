@@ -18,7 +18,7 @@ import {
 import { messageVariants, buttonVariants } from './lyrics-chat/constants';
 import type { LyricsChatAssistantProps, ChatMessage } from './lyrics-chat/types';
 
-export type { LyricsChatAssistantProps } from './lyrics-chat/types';
+export type { LyricsChatAssistantProps, ProjectContext } from './lyrics-chat/types';
 
 export function LyricsChatAssistant({
   open,
@@ -28,6 +28,8 @@ export function LyricsChatAssistant({
   initialGenre,
   initialMood,
   initialLanguage = 'ru',
+  projectContext,
+  initialTheme,
 }: LyricsChatAssistantProps) {
   const isMobile = useIsMobile();
   
@@ -36,6 +38,8 @@ export function LyricsChatAssistant({
     initialGenre,
     initialMood,
     initialLanguage,
+    initialTheme,
+    projectContext,
     onLyricsGenerated,
     onStyleGenerated,
     onClose: () => onOpenChange(false),
@@ -87,6 +91,43 @@ export function LyricsChatAssistant({
 
   const chatContent = (
     <div className="flex flex-col h-full min-h-0">
+      {/* Project Context Banner */}
+      {projectContext && (
+        <div className="px-4 py-2 bg-primary/5 border-b border-primary/10 shrink-0">
+          <div className="flex items-center gap-2 text-xs">
+            <div className="flex items-center gap-1">
+              {projectContext.projectName && (
+                <span className="font-medium text-primary">
+                  📁 {projectContext.projectName}
+                </span>
+              )}
+              {projectContext.trackTitle && (
+                <>
+                  {projectContext.projectName && <span className="text-muted-foreground">→</span>}
+                  <span className="font-medium">
+                    🎵 {projectContext.trackTitle}
+                  </span>
+                </>
+              )}
+            </div>
+          </div>
+          {(projectContext.projectGenre || projectContext.projectMood) && (
+            <div className="flex gap-2 mt-1 flex-wrap">
+              {projectContext.projectGenre && (
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+                  {projectContext.projectGenre}
+                </span>
+              )}
+              {projectContext.projectMood && (
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+                  {projectContext.projectMood}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+      
       {/* Chat Area */}
       <ScrollArea className="flex-1 min-h-0 px-4 py-3" ref={chat.scrollRef}>
         <div className="space-y-3">

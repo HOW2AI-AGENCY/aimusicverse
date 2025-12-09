@@ -3,7 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
-import type { ChatMessage, QuickOption } from './types';
+import type { ChatMessage, QuickOption, ProjectContext } from './types';
 import { GENRES, MOODS, STRUCTURE_MAP, INITIAL_MESSAGE_OPTIONS } from './constants';
 
 interface UseLyricsChatOptions {
@@ -11,6 +11,8 @@ interface UseLyricsChatOptions {
   initialGenre?: string;
   initialMood?: string[];
   initialLanguage?: 'ru' | 'en';
+  initialTheme?: string;
+  projectContext?: ProjectContext;
   onLyricsGenerated: (lyrics: string) => void;
   onStyleGenerated?: (style: string) => void;
   onClose: () => void;
@@ -21,6 +23,8 @@ export function useLyricsChat({
   initialGenre,
   initialMood,
   initialLanguage = 'ru',
+  initialTheme,
+  projectContext,
   onLyricsGenerated,
   onStyleGenerated,
   onClose,
@@ -34,10 +38,10 @@ export function useLyricsChat({
   const [isSaving, setIsSaving] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   
-  const [theme, setTheme] = useState('');
-  const [genre, setGenre] = useState(initialGenre || '');
-  const [mood, setMood] = useState<string[]>(initialMood || []);
-  const [language] = useState<'ru' | 'en'>(initialLanguage);
+  const [theme, setTheme] = useState(initialTheme || '');
+  const [genre, setGenre] = useState(initialGenre || projectContext?.projectGenre || '');
+  const [mood, setMood] = useState<string[]>(initialMood || (projectContext?.projectMood ? [projectContext.projectMood] : []));
+  const [language] = useState<'ru' | 'en'>(initialLanguage || (projectContext?.projectLanguage as 'ru' | 'en') || 'ru');
   const [structure, setStructure] = useState('standard');
   const [generatedLyrics, setGeneratedLyrics] = useState('');
 
@@ -46,15 +50,78 @@ export function useLyricsChat({
   }, []);
 
   const initConversation = useCallback(() => {
-    setMessages([
-      {
+    const initialMessages: ChatMessage[] = [];
+    
+    // If we have project context, show a personalized greeting
+    if (projectContext) {
+      const contextParts: string[] = [];
+      if (projectContext.trackTitle) {
+        contextParts.push(`трек "${projectContext.trackTitle}"`);
+      }
+      if (projectContext.projectName) {
+        contextParts.push(`из проекта "${projectContext.projectName}"`);
+      }
+      
+      let contextMsg = 'Привет! 👋 Я помогу написать лирику';
+      if (contextParts.length > 0) {
+        contextMsg += ` для ${contextParts.join(' ')}`;
+      }
+      contextMsg += '.';
+      
+      initialMessages.push({
+        id: '1',
+        role: 'assistant',
+        content: contextMsg,
+      });
+      
+      // If we already have notes, offer to work with them
+      if (projectContext.trackNotes) {
+        initialMessages.push({
+          id: '2',
+          role: 'assistant',
+          content: 'У вас уже есть черновик лирики. Хотите:\n• Улучшить существующий текст\n• Создать новый текст с нуля\n• Продолжить существующий текст',
+          options: [
+            { label: '✨ Улучшить текущий', value: 'improve_existing' },
+            { label: '🆕 Создать новый', value: 'create_new' },
+            { label: '➕ Продолжить текущий', value: 'continue_existing' },
+          ],
+        });
+      } else {
+        // If genre/mood is set from project, skip those steps
+        if (genre && mood.length > 0) {
+          initialMessages.push({
+            id: '2',
+            role: 'assistant',
+            content: `📝 Жанр: ${genre}, настроение: ${mood.join(', ')}. О чём будет песня?`,
+          });
+        } else if (genre) {
+          initialMessages.push({
+            id: '2',
+            role: 'assistant',
+            content: `🎵 Жанр: ${genre}. Какое настроение?`,
+            component: 'mood',
+          });
+        } else {
+          initialMessages.push({
+            id: '2',
+            role: 'assistant',
+            content: 'О чём будет песня?',
+            options: INITIAL_MESSAGE_OPTIONS,
+          });
+        }
+      }
+    } else {
+      // Default conversation start
+      initialMessages.push({
         id: '1',
         role: 'assistant',
         content: 'Привет! 👋 Я помогу создать текст песни. О чём будет песня?',
         options: INITIAL_MESSAGE_OPTIONS,
-      },
-    ]);
-  }, []);
+      });
+    }
+    
+    setMessages(initialMessages);
+  }, [projectContext, genre, mood]);
 
   useEffect(() => {
     if (open && messages.length === 0) {
@@ -199,11 +266,44 @@ export function useLyricsChat({
       content: option.label,
     });
 
-    if (!theme) {
+    // Handle project context specific options
+    if (option.value === 'improve_existing' && projectContext?.trackNotes) {
+      setGeneratedLyrics(projectContext.trackNotes);
+      addMessage({
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: 'Отлично! Вот ваш текущий текст. Что хотите улучшить?',
+        component: 'lyrics-preview',
+        data: { lyrics: projectContext.trackNotes },
+      });
+    } else if (option.value === 'continue_existing' && projectContext?.trackNotes) {
+      // Use existing as base and ask what to add
+      setGeneratedLyrics(projectContext.trackNotes);
+      addMessage({
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: 'Что добавить к существующему тексту? Напишите идею или тему для продолжения.',
+      });
+    } else if (option.value === 'create_new') {
+      // Start fresh - go to genre selection if not set
+      if (!genre) {
+        askForGenre();
+      } else if (mood.length === 0) {
+        askForMood();
+      } else {
+        askForStructure();
+      }
+    } else if (!theme) {
       setTheme(option.value);
-      askForGenre();
+      if (!genre) {
+        askForGenre();
+      } else if (mood.length === 0) {
+        askForMood();
+      } else {
+        askForStructure();
+      }
     }
-  }, [theme, addMessage, askForGenre]);
+  }, [theme, genre, mood, projectContext, addMessage, askForGenre, askForMood, askForStructure]);
 
   const handleGenreSelect = useCallback((selectedGenre: string) => {
     setGenre(selectedGenre);
@@ -335,14 +435,14 @@ export function useLyricsChat({
 
   const handleClose = useCallback(() => {
     setMessages([]);
-    setTheme('');
-    setGenre(initialGenre || '');
-    setMood(initialMood || []);
+    setTheme(initialTheme || '');
+    setGenre(initialGenre || projectContext?.projectGenre || '');
+    setMood(initialMood || (projectContext?.projectMood ? [projectContext.projectMood] : []));
     setStructure('standard');
     setGeneratedLyrics('');
     setSaved(false);
     onClose();
-  }, [initialGenre, initialMood, onClose]);
+  }, [initialGenre, initialMood, initialTheme, projectContext, onClose]);
 
   const continueConversation = useCallback(() => {
     addMessage({

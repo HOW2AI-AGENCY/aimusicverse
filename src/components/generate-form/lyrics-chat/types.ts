@@ -1,3 +1,15 @@
+export interface ProjectContext {
+  projectId: string;
+  projectName?: string;
+  projectGenre?: string | null;
+  projectMood?: string | null;
+  projectLanguage?: string | null;
+  trackId?: string;
+  trackTitle?: string;
+  trackNotes?: string | null;
+  stylePrompt?: string | null;
+}
+
 export interface LyricsChatAssistantProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -6,6 +18,8 @@ export interface LyricsChatAssistantProps {
   initialGenre?: string;
   initialMood?: string[];
   initialLanguage?: 'ru' | 'en';
+  projectContext?: ProjectContext;
+  initialTheme?: string;
 }
 
 export interface ChatMessage {
