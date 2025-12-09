@@ -32,6 +32,7 @@ const Rewards = lazy(() => import("./pages/Rewards"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const Templates = lazy(() => import("./pages/Templates"));
+const MusicGraph = lazy(() => import("./pages/MusicGraph"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 
