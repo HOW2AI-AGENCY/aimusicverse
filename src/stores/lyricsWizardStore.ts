@@ -1,5 +1,6 @@
 // Zustand store for AI Lyrics Wizard state management
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { LYRICS_MAX_LENGTH, LYRICS_MIN_LENGTH } from '@/constants/generationConstants';
 import { LyricsFormatter } from '@/lib/lyrics/LyricsFormatter';
 import { LyricsValidator } from '@/lib/lyrics/LyricsValidator';
@@ -145,13 +146,19 @@ const INITIAL_STATE = {
   isGenerating: false,
 };
 
-export const useLyricsWizardStore = create<LyricsWizardState>((set, get) => ({
-  ...INITIAL_STATE,
-  
-  // Navigation
-  setStep: (step) => set({ step }),
-  nextStep: () => set((state) => ({ step: Math.min(state.step + 1, 5) })),
-  prevStep: () => set((state) => ({ step: Math.max(state.step - 1, 1) })),
+// Debounce timer for validation (IMP012)
+let validationTimer: NodeJS.Timeout | null = null;
+const VALIDATION_DEBOUNCE_MS = 500;
+
+export const useLyricsWizardStore = create<LyricsWizardState>()(
+  persist(
+    (set, get) => ({
+      ...INITIAL_STATE,
+      
+      // Navigation
+      setStep: (step) => set({ step }),
+      nextStep: () => set((state) => ({ step: Math.min(state.step + 1, 5) })),
+      prevStep: () => set((state) => ({ step: Math.max(state.step - 1, 1) })),
   
   // Concept
   setTheme: (theme) => set((state) => ({ concept: { ...state.concept, theme } })),
@@ -182,14 +189,24 @@ export const useLyricsWizardStore = create<LyricsWizardState>((set, get) => ({
   // Writing
   setWritingMode: (mode) => set((state) => ({ writing: { ...state.writing, mode } })),
   setCurrentSection: (index) => set((state) => ({ writing: { ...state.writing, currentSectionIndex: index } })),
-  updateSectionContent: (sectionId, content) => set((state) => ({
-    writing: {
-      ...state.writing,
-      sections: state.writing.sections.map(s => 
-        s.id === sectionId ? { ...s, content } : s
-      ),
-    },
-  })),
+  updateSectionContent: (sectionId, content) => {
+    set((state) => ({
+      writing: {
+        ...state.writing,
+        sections: state.writing.sections.map(s => 
+          s.id === sectionId ? { ...s, content } : s
+        ),
+      },
+    }));
+    
+    // Trigger debounced validation (IMP012)
+    if (validationTimer) {
+      clearTimeout(validationTimer);
+    }
+    validationTimer = setTimeout(() => {
+      get().validateLyrics();
+    }, VALIDATION_DEBOUNCE_MS);
+  },
   updateSectionTags: (sectionId, tags) => set((state) => ({
     writing: {
       ...state.writing,
@@ -239,4 +256,18 @@ export const useLyricsWizardStore = create<LyricsWizardState>((set, get) => ({
   
   // Reset
   reset: () => set(INITIAL_STATE),
-}));
+    }),
+    {
+      name: 'lyrics-wizard-storage', // unique name for localStorage key (IMP009)
+      // Only persist the core state, not loading flags
+      partialize: (state) => ({
+        step: state.step,
+        concept: state.concept,
+        structure: state.structure,
+        writing: state.writing,
+        enrichment: state.enrichment,
+        // Don't persist validation and isGenerating as they should be recalculated
+      }),
+    }
+  )
+);

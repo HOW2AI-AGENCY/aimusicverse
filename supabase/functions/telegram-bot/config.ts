@@ -87,5 +87,5 @@ export const MESSAGES = {
 
 // Helper function to escape MarkdownV2 special characters
 function escapeMarkdown(text: string): string {
-  return text.replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1');
+  return text.replace(/([_*[\]()~`>#+\-=|{}.!])/g, '\\$1');
 }
