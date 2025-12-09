@@ -150,7 +150,7 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
           ) : (
             // Unified minimal progress bar - no random visuals
             <div 
-              className="h-10 sm:h-12 bg-muted/10 rounded-lg relative cursor-pointer overflow-hidden group"
+              className="h-3 sm:h-4 bg-muted/10 rounded-lg relative cursor-pointer overflow-hidden group"
               onClick={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 const x = e.clientX - rect.left;
