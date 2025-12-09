@@ -26,45 +26,55 @@ export function useAudioTime() {
   const { isPlaying, activeTrack } = usePlayerStore();
 
   useEffect(() => {
-    if (!globalAudio) return;
+    // Capture audio reference at effect setup to ensure cleanup uses same reference.
+    // globalAudio is set once by GlobalAudioProvider and never changes, but capturing
+    // it here follows React best practices for stable effect cleanup.
+    const audio = globalAudio;
+    
+    if (!audio) {
+      // Reset state if audio not available
+      setCurrentTime(0);
+      setDuration(0);
+      setBuffered(0);
+      return;
+    }
 
     const handleTimeUpdate = () => {
-      setCurrentTime(globalAudio!.currentTime);
+      setCurrentTime(audio.currentTime);
     };
 
     const handleLoadedMetadata = () => {
-      setDuration(globalAudio!.duration || 0);
+      setDuration(audio.duration || 0);
     };
 
     const handleProgress = () => {
-      if (globalAudio!.buffered.length > 0 && globalAudio!.duration) {
-        const bufferedEnd = globalAudio!.buffered.end(globalAudio!.buffered.length - 1);
-        setBuffered((bufferedEnd / globalAudio!.duration) * 100);
+      if (audio.buffered.length > 0 && audio.duration) {
+        const bufferedEnd = audio.buffered.end(audio.buffered.length - 1);
+        setBuffered((bufferedEnd / audio.duration) * 100);
       }
     };
 
     const handleDurationChange = () => {
-      setDuration(globalAudio!.duration || 0);
+      setDuration(audio.duration || 0);
     };
 
-    globalAudio.addEventListener('timeupdate', handleTimeUpdate);
-    globalAudio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    globalAudio.addEventListener('durationchange', handleDurationChange);
-    globalAudio.addEventListener('progress', handleProgress);
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audio.addEventListener('durationchange', handleDurationChange);
+    audio.addEventListener('progress', handleProgress);
 
     // Get initial values
-    if (globalAudio.duration) {
-      setDuration(globalAudio.duration);
+    if (audio.duration) {
+      setDuration(audio.duration);
     }
-    setCurrentTime(globalAudio.currentTime);
+    setCurrentTime(audio.currentTime);
 
     return () => {
-      if (globalAudio) {
-        globalAudio.removeEventListener('timeupdate', handleTimeUpdate);
-        globalAudio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-        globalAudio.removeEventListener('durationchange', handleDurationChange);
-        globalAudio.removeEventListener('progress', handleProgress);
-      }
+      // Cleanup uses captured reference
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.removeEventListener('durationchange', handleDurationChange);
+      audio.removeEventListener('progress', handleProgress);
     };
   }, [activeTrack?.id]);
 
