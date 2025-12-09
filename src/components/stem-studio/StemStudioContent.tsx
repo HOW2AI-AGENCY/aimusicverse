@@ -26,7 +26,7 @@ import { StemStudioTutorial, useStemStudioTutorial } from '@/components/stem-stu
 import { ReplacementHistoryPanel } from '@/components/stem-studio/ReplacementHistoryPanel';
 import { SectionTimelineVisualization } from '@/components/stem-studio/SectionTimelineVisualization';
 import { SectionEditorPanel } from '@/components/stem-studio/SectionEditorPanel';
-import { SectionEditorMobile } from '@/components/stem-studio/SectionEditorMobile';
+import { SectionEditorMobile } from '@/components/stem-studio/mobile/SectionEditorMobile';
 import { MobileSectionTimelineCompact } from '@/components/stem-studio/MobileSectionTimelineCompact';
 import { MobileStudioHeader } from '@/components/stem-studio/MobileStudioHeader';
 import { MobileMasterVolume } from '@/components/stem-studio/MobileMasterVolume';
@@ -668,14 +668,17 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       {isMobile && (
         <SectionEditorMobile
           open={editMode === 'selecting' || editMode === 'editing'}
-          onOpenChange={(open) => {
+          onOpenChange={(open: boolean) => {
             if (!open) clearSelection();
           }}
           trackId={trackId}
           trackTitle={track.title || 'Трек'}
           trackTags={track.tags}
+          trackLyrics={track.lyrics}
+          audioUrl={track.audio_url}
           duration={duration}
-          sections={detectedSections}
+          taskId={track.suno_task_id}
+          audioId={track.suno_id}
         />
       )}
 
