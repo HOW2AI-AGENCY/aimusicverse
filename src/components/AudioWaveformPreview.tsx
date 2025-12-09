@@ -20,12 +20,21 @@ export const AudioWaveformPreview = ({ audioUrl, className }: AudioWaveformPrevi
   const [duration, setDuration] = useState(0);
 
   useEffect(() => {
-    if (!containerRef.current || !audioUrl) return;
+    if (!containerRef.current || !audioUrl) {
+      setIsLoading(false);
+      return;
+    }
 
-    setIsLoading(true);
-    setIsReady(false);
+    // Initialize loading state outside of effect body when possible
+    let mounted = true;
+    
+    const initWavesurfer = () => {
+      if (mounted) {
+        setIsLoading(true);
+        setIsReady(false);
+      }
 
-    const wavesurfer = WaveSurfer.create({
+      const wavesurfer = WaveSurfer.create({
       container: containerRef.current,
       height: 48,
       waveColor: 'hsl(var(--muted-foreground) / 0.4)',
@@ -44,30 +53,49 @@ export const AudioWaveformPreview = ({ audioUrl, className }: AudioWaveformPrevi
 
     wavesurferRef.current = wavesurfer;
 
-    wavesurfer.on('ready', () => {
-      setIsReady(true);
-      setIsLoading(false);
-      setDuration(wavesurfer.getDuration());
-    });
+      wavesurfer.on('ready', () => {
+        if (mounted) {
+          setIsReady(true);
+          setIsLoading(false);
+          setDuration(wavesurfer.getDuration());
+        }
+      });
 
-    wavesurfer.on('error', (err) => {
-      logger.error('Waveform error', { error: err });
-      setIsLoading(false);
-    });
+      wavesurfer.on('error', (err) => {
+        logger.error('Waveform error', { error: err });
+        if (mounted) {
+          setIsLoading(false);
+        }
+      });
 
-    wavesurfer.on('audioprocess', () => {
-      setCurrentTime(wavesurfer.getCurrentTime());
-    });
+      wavesurfer.on('audioprocess', () => {
+        if (mounted) {
+          setCurrentTime(wavesurfer.getCurrentTime());
+        }
+      });
 
-    wavesurfer.on('play', () => setIsPlaying(true));
-    wavesurfer.on('pause', () => setIsPlaying(false));
-    wavesurfer.on('finish', () => setIsPlaying(false));
+      wavesurfer.on('play', () => {
+        if (mounted) setIsPlaying(true);
+      });
+      wavesurfer.on('pause', () => {
+        if (mounted) setIsPlaying(false);
+      });
+      wavesurfer.on('finish', () => {
+        if (mounted) setIsPlaying(false);
+      });
 
-    wavesurfer.load(audioUrl);
+      wavesurferRef.current = wavesurfer;
+      wavesurfer.load(audioUrl);
+    };
+
+    initWavesurfer();
 
     return () => {
-      wavesurfer.destroy();
-      wavesurferRef.current = null;
+      mounted = false;
+      if (wavesurferRef.current) {
+        wavesurferRef.current.destroy();
+        wavesurferRef.current = null;
+      }
     };
   }, [audioUrl]);
 

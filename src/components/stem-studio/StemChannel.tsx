@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { 
   Mic2, Guitar, Drum, Music, Piano, Radio, Waves,
   Volume2, VolumeX
@@ -64,7 +65,7 @@ const stemConfig: Record<string, { icon: React.ComponentType<any>; label: string
   other: { icon: Music, label: 'Другое', color: 'text-gray-500 bg-gray-500/10', waveColor: 'gray' },
 };
 
-export const StemChannel = ({ 
+export const StemChannel = memo(({ 
   stem, 
   state, 
   effects = defaultStemEffects,
@@ -188,4 +189,4 @@ export const StemChannel = ({
       )}
     </div>
   );
-};
+});

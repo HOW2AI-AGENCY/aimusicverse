@@ -155,7 +155,7 @@ function parseAudioOptions(args: string): {
   
   while ((match = flagRegex.exec(args)) !== null) {
     const flag = match[1];
-    let value = match[2]?.replace(/^["']|["']$/g, '') || 'true';
+    const value = match[2]?.replace(/^["']|["']$/g, '') || 'true';
     
     switch (flag) {
       case 'instrumental':

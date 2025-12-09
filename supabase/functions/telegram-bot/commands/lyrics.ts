@@ -80,7 +80,7 @@ export async function handleLyrics(
         const isFirst = i === 0;
         const isLast = i === chunks.length - 1;
         
-        let message = isFirst ? header + chunks[i] : chunks[i];
+        const message = isFirst ? header + chunks[i] : chunks[i];
         
         if (isFirst && messageId) {
           await editMessageText(chatId, messageId, message + `\n\n_(часть ${i + 1}/${chunks.length})_`);

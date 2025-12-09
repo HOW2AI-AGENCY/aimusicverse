@@ -36,11 +36,13 @@ export function BlogEditor({ post, onBack }: BlogEditorProps) {
   const [isPublished, setIsPublished] = useState(post?.is_published || false);
   const [aiPrompt, setAiPrompt] = useState("");
 
-  useEffect(() => {
-    if (!post && title && !slug) {
-      setSlug(generateSlug(title));
+  // Handle title change and auto-generate slug if needed
+  const handleTitleChange = (newTitle: string) => {
+    setTitle(newTitle);
+    if (!post && !slug) {
+      setSlug(generateSlug(newTitle));
     }
-  }, [title, post, slug]);
+  };
 
   const handleSave = async () => {
     if (!user) return;
@@ -96,8 +98,7 @@ export function BlogEditor({ post, onBack }: BlogEditorProps) {
       action: "generate_title",
       prompt: aiPrompt || content.substring(0, 500),
     });
-    setTitle(result.trim());
-    setSlug(generateSlug(result.trim()));
+    handleTitleChange(result.trim());
   };
 
   const handleBroadcast = async () => {
@@ -201,7 +202,7 @@ export function BlogEditor({ post, onBack }: BlogEditorProps) {
           <Label>Заголовок</Label>
           <Input
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => handleTitleChange(e.target.value)}
             placeholder="Заголовок статьи"
           />
         </div>

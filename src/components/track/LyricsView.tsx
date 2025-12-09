@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Copy, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useAudioTime } from '@/hooks/audio';
+import { useAudioTime } from '@/hooks/audio/useAudioTime';
 import { toast } from 'sonner';
 import { ScrollArea } from '@/components/ui/scroll-area';
 

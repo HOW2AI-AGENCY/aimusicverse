@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Play, Pause, Heart, Share2, Copy, MoreVertical, User, Users, Music2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -21,7 +21,7 @@ interface PublicTrackCardProps {
   index?: number;
 }
 
-export function PublicTrackCard({
+export const PublicTrackCard = memo(function PublicTrackCard({
   track,
   onRemix,
   className,
@@ -285,4 +285,4 @@ export function PublicTrackCard({
       </GlassCard>
     </motion.div>
   );
-}
+});

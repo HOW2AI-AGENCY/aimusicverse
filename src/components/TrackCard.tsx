@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, Heart, Mic, Volume2, Globe, Lock, MoreHorizontal, Layers, Music2, Trash2, User } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -46,7 +46,7 @@ interface TrackCardProps {
   isFirstSwipeableItem?: boolean;
 }
 
-export const TrackCard = ({
+export const TrackCard = memo(({
   track,
   onPlay,
   onDelete,
@@ -651,4 +651,4 @@ export const TrackCard = ({
     </AlertDialog>
   </>
   );
-};
+});

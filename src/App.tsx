@@ -12,6 +12,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { MainLayout } from "@/components/MainLayout";
 import { GlobalAudioProvider } from "@/components/GlobalAudioProvider";
+import { LoadingScreen } from "@/components/ui/loading-screen";
 // Lazy load pages
 const Index = lazy(() => import("./pages/Index"));
 const Auth = lazy(() => import("./pages/Auth"));
@@ -61,7 +62,7 @@ const App = () => (
                 <BrowserRouter>
                   <InteractiveTooltipProvider>
                     <DeepLinkHandler />
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<LoadingScreen />}>
                 <Routes>
                   <Route path="/auth" element={<Auth />} />
 

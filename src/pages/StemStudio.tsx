@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { StemStudioContent } from '@/components/stem-studio/StemStudioContent';
 import { TrackStudioContent } from '@/components/stem-studio/TrackStudioContent';
 import { useTrackStems } from '@/hooks/useTrackStems';
+import { FeatureErrorBoundary } from '@/components/ui/feature-error-boundary';
 
 export default function StemStudio() {
   const params = useParams();
@@ -27,9 +28,13 @@ export default function StemStudio() {
   // Route to appropriate studio based on stem availability
   const hasStems = stems && stems.length > 0;
 
-  if (hasStems) {
-    return <StemStudioContent key={trackId} trackId={trackId} />;
-  }
-
-  return <TrackStudioContent key={trackId} trackId={trackId} />;
+  return (
+    <FeatureErrorBoundary featureName="Stem Studio">
+      {hasStems ? (
+        <StemStudioContent key={trackId} trackId={trackId} />
+      ) : (
+        <TrackStudioContent key={trackId} trackId={trackId} />
+      )}
+    </FeatureErrorBoundary>
+  );
 }
