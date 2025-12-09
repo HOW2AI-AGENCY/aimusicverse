@@ -21,23 +21,40 @@ export const useAuth = () => {
   const { initData, isDevelopmentMode } = useTelegram();
 
   useEffect(() => {
+    // Safety timeout to prevent infinite loading
+    const loadingTimeout = setTimeout(() => {
+      authLogger.warn('Auth loading timeout - forcing loading complete');
+      setLoading(false);
+    }, 5000);
+
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        authLogger.debug('Auth state change', { event, hasSession: !!session });
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
+        clearTimeout(loadingTimeout);
       }
     );
 
     // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
+      authLogger.debug('Got session', { hasSession: !!session });
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+      clearTimeout(loadingTimeout);
+    }).catch((error) => {
+      authLogger.error('Error getting session', error);
+      setLoading(false);
+      clearTimeout(loadingTimeout);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(loadingTimeout);
+    };
   }, []);
 
   const checkProfile = async (userId: string): Promise<boolean> => {
