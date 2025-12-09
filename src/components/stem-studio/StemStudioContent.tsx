@@ -18,6 +18,7 @@ import { StemChannel } from '@/components/stem-studio/StemChannel';
 import { StemDownloadPanel } from '@/components/stem-studio/StemDownloadPanel';
 import { StemReferenceDialog } from '@/components/stem-studio/StemReferenceDialog';
 import { MidiSection } from '@/components/stem-studio/MidiSection';
+import { StemMidiPanel } from '@/components/stem-studio/StemMidiPanel';
 import { StemActionsSheet, StemAnalysisSheet } from '@/components/stem-studio/mobile';
 import { MixExportDialog } from '@/components/stem-studio/MixExportDialog';
 import { MixPresetsMenu } from '@/components/stem-studio/MixPresetsMenu';
@@ -615,6 +616,11 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
                   trackTitle={track.title || 'Трек'} 
                   audioUrl={track.audio_url}
                 />
+                <StemMidiPanel
+                  trackId={trackId}
+                  trackTitle={track.title || 'Трек'}
+                  stems={stems}
+                />
                 <StemReferenceDialog 
                   stems={stems} 
                   trackTitle={track.title || 'Трек'} 
@@ -963,6 +969,8 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           <StemChannel
             key={stem.id}
             stem={stem}
+            trackId={trackId}
+            trackTitle={track.title || 'Трек'}
             state={stemStates[stem.id] || { muted: false, solo: false, volume: 0.85 }}
             effects={enginesState[stem.id]?.effects || defaultStemEffects}
             onToggle={(type) => handleStemToggle(stem.id, type)}

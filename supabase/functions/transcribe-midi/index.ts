@@ -24,8 +24,15 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const { track_id, audio_url, model_type = 'mt3' } = await req.json();
-    console.log('Transcribing to MIDI:', { track_id, audio_url, model_type });
+    const { 
+      track_id, 
+      audio_url, 
+      model_type = 'mt3',
+      stem_id,
+      stem_type,
+    } = await req.json();
+    
+    console.log('Transcribing to MIDI:', { track_id, audio_url, model_type, stem_id, stem_type });
 
     if (!audio_url) {
       throw new Error('audio_url is required');
@@ -66,10 +73,11 @@ serve(async (req) => {
     const midiArrayBuffer = await midiResponse.arrayBuffer();
     const midiBlob = new Uint8Array(midiArrayBuffer);
 
-    // Generate unique filename
+    // Generate unique filename with stem info if applicable
     const timestamp = Date.now();
     const sanitizedTitle = (track.title || 'track').replace(/[^\w\s-]/g, '').replace(/\s+/g, '_');
-    const midiPath = `midi/${track.user_id}/${track_id}_${sanitizedTitle}_${timestamp}.mid`;
+    const stemSuffix = stem_type ? `_${stem_type}` : '';
+    const midiPath = `midi/${track.user_id}/${track_id}${stemSuffix}_${sanitizedTitle}_${timestamp}.mid`;
 
     console.log('Uploading MIDI to Storage:', midiPath);
 
@@ -100,12 +108,14 @@ serve(async (req) => {
       .insert({
         track_id,
         audio_url: permanentMidiUrl,
-        version_type: 'midi_transcription',
+        version_type: stem_id ? 'stem_midi_transcription' : 'midi_transcription',
         metadata: {
           model_type,
           original_audio_url: audio_url,
           transcribed_at: new Date().toISOString(),
           storage_path: midiPath,
+          stem_id: stem_id || null,
+          stem_type: stem_type || null,
         },
       })
       .select()
@@ -124,13 +134,15 @@ serve(async (req) => {
       .insert({
         track_id,
         user_id: track.user_id,
-        change_type: 'midi_transcription',
+        change_type: stem_id ? 'stem_midi_transcription' : 'midi_transcription',
         changed_by: 'system',
         version_id: version.id,
         metadata: {
           model_type,
           midi_url: permanentMidiUrl,
           storage_path: midiPath,
+          stem_id: stem_id || null,
+          stem_type: stem_type || null,
         },
       });
 
@@ -139,6 +151,8 @@ serve(async (req) => {
         success: true,
         midi_url: permanentMidiUrl,
         version,
+        stem_id,
+        stem_type,
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
