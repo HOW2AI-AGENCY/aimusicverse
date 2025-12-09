@@ -276,7 +276,14 @@ export const useLyricsWizardStore = create<LyricsWizardState>()(
   },
   
   // Reset
-  reset: () => set(INITIAL_STATE),
+  reset: () => {
+    // Clear pending validation timer to prevent stale updates
+    if (validationTimer) {
+      clearTimeout(validationTimer);
+      validationTimer = null;
+    }
+    set(INITIAL_STATE);
+  },
     }),
     {
       name: 'lyrics-wizard-storage', // unique name for localStorage key (IMP009)

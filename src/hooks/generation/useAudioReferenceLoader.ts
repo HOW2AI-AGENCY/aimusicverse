@@ -107,18 +107,18 @@ export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult 
           toast.success('Аудио референс загружен!', {
             description: stemReference.name,
           });
+          // Cleanup only after successful load
+          cleanupAudioReference();
         })
         .catch(err => {
           logger.error('Failed to load stem reference', { error: err });
           toast.error('Не удалось загрузить аудио референс');
+          // Cleanup on error as well
           cleanupAudioReference();
         })
         .finally(() => {
           setIsLoading(false);
         });
-
-      // Cleanup after successful read (don't wait for file load)
-      cleanupAudioReference();
     } catch (e) {
       logger.error('Failed to parse stem reference', { error: e });
       cleanupAudioReference();
