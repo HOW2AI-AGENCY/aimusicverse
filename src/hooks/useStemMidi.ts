@@ -6,7 +6,7 @@ import { logger } from '@/lib/logger';
 
 const log = logger.child({ module: 'StemMidi' });
 
-export type MidiModelType = 'mt3' | 'ismir2021' | 'basic-pitch' | 'pop2piano';
+export type MidiModelType = 'mt3' | 'ismir2021' | 'bytedance-piano' | 'basic-pitch' | 'pop2piano';
 
 interface StemMidiVersion {
   id: string;
@@ -27,9 +27,16 @@ interface StemMidiVersion {
 export const MIDI_MODELS = {
   'mt3': {
     name: 'MT3 (Multi-Instrument)',
-    description: 'Мульти-инструментальная транскрипция: барабаны, бас, piano, гитара, синтезаторы',
+    description: 'Мульти-инструментальная транскрипция: барабаны, бас, гитара, синтезаторы',
     icon: '🎼',
-    bestFor: ['drums', 'bass', 'piano', 'guitar', 'synth', 'other'],
+    bestFor: ['drums', 'bass', 'guitar', 'synth', 'other'],
+  },
+  'bytedance-piano': {
+    name: 'ByteDance Piano (High-Res)',
+    description: 'Высокоточная транскрипция пианино с педалями и velocity',
+    icon: '🎹',
+    bestFor: ['piano', 'keys', 'keyboard'],
+    isNew: true,
   },
   'ismir2021': {
     name: 'ISMIR2021 (Piano)',
@@ -46,7 +53,7 @@ export const MIDI_MODELS = {
   'pop2piano': {
     name: 'Pop2Piano',
     description: 'Создаёт фортепианную аранжировку из любого аудио',
-    icon: '🎹',
+    icon: '🎵',
     bestFor: ['arrangement', 'piano cover'],
     outputType: 'audio',
   },

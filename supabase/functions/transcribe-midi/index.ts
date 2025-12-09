@@ -7,8 +7,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// MT3 Model configuration - turian/multi-task-music-transcription
-// Supports: ismir2021 (piano only), mt3 (multi-instrument)
+// MIDI Transcription Models
 const MODELS = {
   // MT3 - Multi-Task Multitrack Music Transcription (multi-instrument)
   'mt3': {
@@ -16,26 +15,39 @@ const MODELS = {
     name: "MT3 (Multi-Instrument)",
     description: "Best for multi-instrument transcription (drums, bass, piano, etc.)",
     inputKey: "audio_file",
-    modelTypeParam: "mt3", // mt3 for multi-instrument
+    modelTypeParam: "mt3",
     supportedInstruments: ['drums', 'bass', 'piano', 'guitar', 'strings', 'synth', 'other'],
+    outputFormat: 'string', // Returns URL string directly
   },
   // ISMIR2021 - Piano-specific transcription (same model, different mode)
   'ismir2021': {
     replicateId: "turian/multi-task-music-transcription",
     name: "ISMIR2021 (Piano)",
-    description: "Best for piano transcription",
+    description: "Specialized for piano",
     inputKey: "audio_file",
-    modelTypeParam: "ismir2021", // ismir2021 for piano
+    modelTypeParam: "ismir2021",
     supportedInstruments: ['piano', 'keys', 'keyboard'],
+    outputFormat: 'string',
+  },
+  // ByteDance Piano Transcription - High-resolution piano with pedals and velocity
+  'bytedance-piano': {
+    replicateId: "bytedance/piano-transcription",
+    name: "ByteDance Piano (High-Res)",
+    description: "High-resolution piano with pedals and velocity detection",
+    inputKey: "audio_input",
+    modelTypeParam: null,
+    supportedInstruments: ['piano', 'keys', 'keyboard'],
+    outputFormat: 'array-file', // Returns [{file: "url"}]
   },
   // Basic Pitch - Spotify's model for melodic content
   'basic-pitch': {
     replicateId: "rhelsing/basic-pitch",
-    name: "Basic Pitch",
+    name: "Basic Pitch (Spotify)",
     description: "Good for vocals, melody, guitar",
     inputKey: "audio",
     modelTypeParam: null,
     supportedInstruments: ['vocals', 'voice', 'guitar', 'melody', 'lead'],
+    outputFormat: 'string',
   },
 } as const;
 
@@ -47,9 +59,9 @@ function getRecommendedModel(stemType?: string): ModelType {
   
   const type = stemType.toLowerCase();
   
-  // Piano/keyboard - use ISMIR2021 specialized model
+  // Piano/keyboard - use ByteDance high-resolution piano model
   if (type.includes('piano') || type.includes('keyboard') || type.includes('keys')) {
-    return 'ismir2021';
+    return 'bytedance-piano';
   }
   
   // Drums, bass, complex instruments - use MT3
@@ -66,7 +78,7 @@ function getRecommendedModel(stemType?: string): ModelType {
     return 'basic-pitch';
   }
   
-  // Default to MT3 for unknown content (best multi-instrument support)
+  // Default to MT3 for unknown content
   return 'mt3';
 }
 
@@ -153,16 +165,25 @@ serve(async (req) => {
     
     console.log('Model output:', typeof output, output);
 
-    // Handle different output formats - MT3/ISMIR2021/basic-pitch all return MIDI
+    // Handle different output formats based on model
     let outputUrl: string;
 
     if (typeof output === 'string') {
+      // MT3, ISMIR2021, basic-pitch return URL string directly
       outputUrl = output;
     } else if (Array.isArray(output) && output.length > 0) {
-      outputUrl = output[0];
+      // ByteDance piano-transcription returns [{file: "url"}]
+      const firstItem = output[0];
+      if (typeof firstItem === 'string') {
+        outputUrl = firstItem;
+      } else if (firstItem && typeof firstItem === 'object' && 'file' in firstItem) {
+        outputUrl = (firstItem as { file: string }).file;
+      } else {
+        outputUrl = JSON.stringify(firstItem);
+      }
     } else if (output && typeof output === 'object') {
       const outputObj = output as Record<string, unknown>;
-      outputUrl = (outputObj.midi || outputObj.output || Object.values(outputObj)[0]) as string;
+      outputUrl = (outputObj.midi || outputObj.file || outputObj.output || Object.values(outputObj)[0]) as string;
     } else {
       throw new Error(`Unexpected model output format: ${JSON.stringify(output)}`);
     }

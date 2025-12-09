@@ -35,7 +35,8 @@ const SNAP_OPTIONS = [
 ];
 
 const MODEL_OPTIONS = [
-  { value: 'mt3', label: 'MT3 (Multi-Instrument)', description: 'Drums, bass, piano, guitar, synth' },
+  { value: 'mt3', label: 'MT3 (Multi-Instrument)', description: 'Drums, bass, guitar, synth' },
+  { value: 'bytedance-piano', label: 'ByteDance Piano', description: 'High-res piano с педалями', isNew: true },
   { value: 'ismir2021', label: 'ISMIR2021 (Piano)', description: 'Specialized for piano' },
   { value: 'basic-pitch', label: 'Basic Pitch', description: 'Vocals, melody, guitar' },
 ] as const;
@@ -51,7 +52,7 @@ export function MidiVisualizationPanel({
   const [zoom, setZoom] = useState(100);
   const [snapValue, setSnapValue] = useState(0.25);
   const [isSaving, setIsSaving] = useState(false);
-  const [selectedModel, setSelectedModel] = useState<'mt3' | 'ismir2021' | 'basic-pitch'>('mt3');
+  const [selectedModel, setSelectedModel] = useState<'mt3' | 'ismir2021' | 'bytedance-piano' | 'basic-pitch'>('mt3');
 
   const {
     notes,
@@ -270,7 +271,12 @@ export function MidiVisualizationPanel({
             {MODEL_OPTIONS.map(model => (
               <SelectItem key={model.value} value={model.value}>
                 <div className="flex flex-col">
-                  <span>{model.label}</span>
+                  <div className="flex items-center gap-2">
+                    <span>{model.label}</span>
+                    {'isNew' in model && model.isNew && (
+                      <Badge variant="secondary" className="text-xs bg-primary/20 text-primary">NEW</Badge>
+                    )}
+                  </div>
                   <span className="text-xs text-muted-foreground">{model.description}</span>
                 </div>
               </SelectItem>
