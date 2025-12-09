@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { BookOpen, Plus, Edit, Calendar, ArrowLeft, Trash2 } from "lucide-react";
 import { useBlogPosts, useBlogPost, useDeleteBlogPost, type BlogPost } from "@/hooks/useBlog";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { BlogEditor } from "@/components/admin/BlogEditor";
+import { BlogContentRenderer } from "@/components/blog/BlogContentRenderer";
 import { formatDistanceToNow, format } from "date-fns";
 import { ru } from "date-fns/locale";
 
@@ -89,26 +89,7 @@ export default function Blog() {
           <Badge variant="secondary" className="mb-4">Черновик</Badge>
         )}
 
-        <div className="prose prose-invert max-w-none">
-          {selectedPost.content.split('\n').map((paragraph, i) => {
-            if (paragraph.startsWith('# ')) {
-              return <h1 key={i} className="text-2xl font-bold mt-6 mb-3">{paragraph.slice(2)}</h1>;
-            }
-            if (paragraph.startsWith('## ')) {
-              return <h2 key={i} className="text-xl font-bold mt-5 mb-2">{paragraph.slice(3)}</h2>;
-            }
-            if (paragraph.startsWith('### ')) {
-              return <h3 key={i} className="text-lg font-semibold mt-4 mb-2">{paragraph.slice(4)}</h3>;
-            }
-            if (paragraph.startsWith('- ')) {
-              return <li key={i} className="ml-4">{paragraph.slice(2)}</li>;
-            }
-            if (paragraph.trim() === '') {
-              return <br key={i} />;
-            }
-            return <p key={i} className="mb-3 text-foreground/90">{paragraph}</p>;
-          })}
-        </div>
+        <BlogContentRenderer content={selectedPost.content} />
       </div>
     );
   }
