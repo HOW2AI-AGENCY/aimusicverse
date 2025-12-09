@@ -176,3 +176,6 @@ verify_jwt = true
 
 [functions.analyze-music-emotion]
 verify_jwt = true
+
+[functions.melody-to-tags]
+verify_jwt = true

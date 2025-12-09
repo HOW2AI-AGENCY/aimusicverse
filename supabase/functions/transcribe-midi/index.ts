@@ -7,67 +7,43 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// MIDI Transcription Models - Updated with correct model versions
+// MIDI Transcription Models - Updated December 2024
 const MODELS = {
-  // ByteDance Piano Transcription - High-resolution piano with pedals and velocity
-  'bytedance-piano': {
-    replicateId: "bytedance/piano-transcription:cc4e8e34fb1cde695b6e05a257ce44289acf527f83143d2abea28e6f20d55f12",
-    name: "ByteDance Piano (High-Res)",
-    description: "High-resolution piano with pedals and velocity detection",
-    inputKey: "audio_input",
-    modelTypeParam: null,
-    supportedInstruments: ['piano', 'keys', 'keyboard'],
-    outputFormat: 'array-file', // Returns [{file: "url"}]
+  // Spotify Basic Pitch - Best for polyphonic pitch detection (vocals, guitar, melody)
+  'basic-pitch': {
+    replicateId: "spotify/basic-pitch",
+    name: "Spotify Basic Pitch",
+    description: "Polyphonic pitch detection - best for vocals, guitar, melody",
+    inputKey: "audio",
+    supportedInstruments: ['vocals', 'voice', 'guitar', 'melody', 'lead', 'piano', 'keys'],
+    outputFormat: 'object', // Returns { midi: "url", ... }
   },
-  // MT3 - Multi-Task Multitrack Music Transcription (multi-instrument)
+  // MT3 fallback - Multi-instrument (if basic-pitch fails)
   'mt3': {
-    replicateId: "cjwbw/omnizart:0f26ad89f797f3a3d7f04b3a5c1e7cccc696b67cf9aa8f63c8f6e40f40cf8e23",
-    name: "Omnizart (Multi-Instrument)",
-    description: "Best for multi-instrument transcription (drums, bass, piano, etc.)",
+    replicateId: "spotify/basic-pitch", // Using basic-pitch as MT3 is deprecated
+    name: "Multi-Instrument (Basic Pitch)",
+    description: "Multi-instrument transcription via Basic Pitch",
     inputKey: "audio",
-    modelTypeParam: "music",
     supportedInstruments: ['drums', 'bass', 'piano', 'guitar', 'strings', 'synth', 'other'],
-    outputFormat: 'string', // Returns URL string directly
+    outputFormat: 'object',
   },
-  // ISMIR2021 - Piano-specific transcription (same as MT3 but piano mode)
-  'ismir2021': {
-    replicateId: "cjwbw/omnizart:0f26ad89f797f3a3d7f04b3a5c1e7cccc696b67cf9aa8f63c8f6e40f40cf8e23",
-    name: "Omnizart (Piano)",
-    description: "Specialized for piano transcription",
-    inputKey: "audio",
-    modelTypeParam: "music-piano",
-    supportedInstruments: ['piano', 'keys', 'keyboard'],
-    outputFormat: 'string',
-  },
-  // Drums transcription
+  // Drums - use basic pitch with specialized handling
   'drums': {
-    replicateId: "cjwbw/omnizart:0f26ad89f797f3a3d7f04b3a5c1e7cccc696b67cf9aa8f63c8f6e40f40cf8e23",
-    name: "Omnizart (Drums)",
-    description: "Specialized for drum transcription",
+    replicateId: "spotify/basic-pitch",
+    name: "Drums (Basic Pitch)",
+    description: "Drum transcription via Basic Pitch",
     inputKey: "audio",
-    modelTypeParam: "drum",
     supportedInstruments: ['drums', 'percussion'],
-    outputFormat: 'string',
+    outputFormat: 'object',
   },
-  // Vocal transcription
+  // Vocal - best for melodic content
   'vocal': {
-    replicateId: "cjwbw/omnizart:0f26ad89f797f3a3d7f04b3a5c1e7cccc696b67cf9aa8f63c8f6e40f40cf8e23",
-    name: "Omnizart (Vocal)",
+    replicateId: "spotify/basic-pitch",
+    name: "Vocal (Basic Pitch)",
     description: "Vocal melody transcription",
     inputKey: "audio",
-    modelTypeParam: "vocal",
     supportedInstruments: ['vocals', 'voice', 'melody', 'lead'],
-    outputFormat: 'string',
-  },
-  // Basic Pitch fallback - use bytedance for now as basic-pitch model is unavailable
-  'basic-pitch': {
-    replicateId: "bytedance/piano-transcription:cc4e8e34fb1cde695b6e05a257ce44289acf527f83143d2abea28e6f20d55f12",
-    name: "Basic Pitch (Melodic)",
-    description: "Good for vocals, melody, guitar (using piano model as fallback)",
-    inputKey: "audio_input",
-    modelTypeParam: null,
-    supportedInstruments: ['vocals', 'voice', 'guitar', 'melody', 'lead'],
-    outputFormat: 'array-file',
+    outputFormat: 'object',
   },
 } as const;
 
@@ -75,40 +51,54 @@ type ModelType = keyof typeof MODELS;
 
 // Auto-select best model based on stem type
 function getRecommendedModel(stemType?: string): ModelType {
-  if (!stemType) return 'mt3'; // Default to MT3 for multi-instrument
+  if (!stemType) return 'basic-pitch';
   
   const type = stemType.toLowerCase();
   
-  // Piano/keyboard - use ByteDance high-resolution piano model
-  if (type.includes('piano') || type.includes('keyboard') || type.includes('keys')) {
-    return 'bytedance-piano';
-  }
-  
-  // Drums/percussion - use specialized drum model
+  // Drums/percussion
   if (type.includes('drum') || type.includes('percussion')) {
     return 'drums';
   }
   
-  // Bass, complex instruments - use MT3
-  if (type.includes('bass') || type.includes('other') ||
-      type.includes('synth') || type.includes('strings') ||
-      type.includes('instrumental')) {
-    return 'mt3';
-  }
-  
-  // Vocals and melodic content - use vocal model
+  // Vocals and melodic content
   if (type.includes('vocal') || type.includes('voice') || 
       type.includes('melody') || type.includes('lead')) {
     return 'vocal';
   }
   
-  // Guitar - use MT3
-  if (type.includes('guitar')) {
-    return 'mt3';
+  // Default to basic-pitch for everything else
+  return 'basic-pitch';
+}
+
+// Retry with exponential backoff
+async function retryWithBackoff<T>(
+  fn: () => Promise<T>,
+  maxRetries: number = 3,
+  baseDelayMs: number = 1000
+): Promise<T> {
+  let lastError: Error | undefined;
+  
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+      console.log(`Attempt ${attempt + 1} failed: ${lastError.message}`);
+      
+      // Don't retry on 4xx errors (except 429)
+      if (lastError.message.includes('422') || lastError.message.includes('404')) {
+        throw lastError;
+      }
+      
+      if (attempt < maxRetries - 1) {
+        const delay = baseDelayMs * Math.pow(2, attempt);
+        console.log(`Waiting ${delay}ms before retry...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
   }
   
-  // Default to MT3 for unknown content
-  return 'mt3';
+  throw lastError;
 }
 
 serve(async (req) => {
@@ -155,7 +145,7 @@ serve(async (req) => {
     }
 
     // Determine which model to use
-    let selectedModel: ModelType = model_type || 'mt3';
+    let selectedModel: ModelType = model_type || 'basic-pitch';
     
     if (auto_select && !model_type && stem_type) {
       selectedModel = getRecommendedModel(stem_type);
@@ -169,79 +159,63 @@ serve(async (req) => {
 
     console.log(`Starting MIDI transcription with ${modelConfig.name}...`);
 
-    // Prepare input based on model
-    const input: Record<string, unknown> = {
-      [modelConfig.inputKey]: audio_url,
+    // Prepare input for Spotify Basic Pitch
+    const input = {
+      audio: audio_url,
+      // Optional parameters for Basic Pitch
+      onset_threshold: 0.5,
+      frame_threshold: 0.3,
+      minimum_note_length: 58, // milliseconds
+      minimum_frequency: 32, // Hz
+      maximum_frequency: 2000, // Hz
     };
 
-    // Add model_type for Omnizart
-    if (modelConfig.modelTypeParam) {
-      input.mode = modelConfig.modelTypeParam;
-    }
+    console.log('Running transcription with input:', input);
 
-    const modelId = modelConfig.replicateId;
-    console.log(`Using model: ${modelId}`, { input });
-
-    // Run transcription
+    // Run transcription with retry
     let output: unknown;
     try {
-      output = await replicate.run(modelId as `${string}/${string}:${string}`, { input });
+      output = await retryWithBackoff(async () => {
+        return await replicate.run("spotify/basic-pitch", { input });
+      }, 3, 2000);
     } catch (modelError) {
       console.error('Model error:', modelError);
-      
-      // Fallback to bytedance piano if primary model fails
-      if (selectedModel !== 'bytedance-piano') {
-        console.log('Trying fallback to bytedance-piano model...');
-        const fallbackConfig = MODELS['bytedance-piano'];
-        const fallbackInput = {
-          [fallbackConfig.inputKey]: audio_url,
-        };
-        
-        try {
-          output = await replicate.run(fallbackConfig.replicateId as `${string}/${string}:${string}`, { input: fallbackInput });
-          selectedModel = 'bytedance-piano';
-        } catch (fallbackError) {
-          console.error('Fallback model also failed:', fallbackError);
-          throw new Error(`All transcription models failed. Please try again later.`);
-        }
-      } else {
-        throw new Error(`Model ${modelId} failed: ${modelError instanceof Error ? modelError.message : 'Unknown error'}`);
-      }
+      throw new Error(`MIDI transcription failed: ${modelError instanceof Error ? modelError.message : 'Unknown error'}. Please try again.`);
     }
     
-    console.log('Model output:', typeof output, output);
+    console.log('Model output:', typeof output, JSON.stringify(output).slice(0, 500));
 
-    // Handle different output formats based on model
-    let outputUrl: string;
+    // Handle Spotify Basic Pitch output format
+    // Output is: { midi: "url", notes_sonified: "url", notes_csv: "url" }
+    let midiUrl: string | undefined;
 
-    if (typeof output === 'string') {
-      // MT3, ISMIR2021, Omnizart return URL string directly
-      outputUrl = output;
-    } else if (Array.isArray(output) && output.length > 0) {
-      // ByteDance piano-transcription returns [{file: "url"}]
-      const firstItem = output[0];
-      if (typeof firstItem === 'string') {
-        outputUrl = firstItem;
-      } else if (firstItem && typeof firstItem === 'object' && 'file' in firstItem) {
-        outputUrl = (firstItem as { file: string }).file;
-      } else {
-        outputUrl = JSON.stringify(firstItem);
-      }
-    } else if (output && typeof output === 'object') {
+    if (output && typeof output === 'object') {
       const outputObj = output as Record<string, unknown>;
-      outputUrl = (outputObj.midi || outputObj.file || outputObj.output || Object.values(outputObj)[0]) as string;
-    } else {
-      throw new Error(`Unexpected model output format: ${JSON.stringify(output)}`);
+      
+      // Basic Pitch returns { midi: "url", ... }
+      if (typeof outputObj.midi === 'string') {
+        midiUrl = outputObj.midi;
+      } else if (typeof outputObj.output === 'string') {
+        midiUrl = outputObj.output;
+      } else if (Array.isArray(outputObj.midi) && outputObj.midi.length > 0) {
+        midiUrl = outputObj.midi[0];
+      }
+    } else if (typeof output === 'string') {
+      midiUrl = output;
+    } else if (Array.isArray(output) && output.length > 0) {
+      const first = output[0];
+      midiUrl = typeof first === 'string' ? first : (first as any)?.file || (first as any)?.midi;
     }
 
-    if (!outputUrl || typeof outputUrl !== 'string') {
-      throw new Error('No valid output URL received from model');
+    if (!midiUrl || typeof midiUrl !== 'string') {
+      console.error('Unexpected output format:', JSON.stringify(output));
+      throw new Error('No valid MIDI URL received from model');
     }
 
-    console.log('Transcription completed, downloading file from:', outputUrl);
+    console.log('Transcription completed, downloading from:', midiUrl);
 
     // Download file from Replicate
-    const fileResponse = await fetch(outputUrl);
+    const fileResponse = await fetch(midiUrl);
     if (!fileResponse.ok) {
       throw new Error(`Failed to download output: ${fileResponse.statusText}`);
     }
@@ -291,10 +265,10 @@ serve(async (req) => {
         track_id,
         audio_url: permanentUrl,
         version_type: versionType,
-        version_label: `MIDI (${MODELS[selectedModel].name})`,
+        version_label: `MIDI (${modelConfig.name})`,
         metadata: {
           model_type: selectedModel,
-          model_name: MODELS[selectedModel].name,
+          model_name: modelConfig.name,
           original_audio_url: audio_url,
           transcribed_at: new Date().toISOString(),
           storage_path: filePath,
@@ -325,7 +299,7 @@ serve(async (req) => {
         version_id: version.id,
         ai_model_used: selectedModel,
         metadata: {
-          model_name: MODELS[selectedModel].name,
+          model_name: modelConfig.name,
           output_url: permanentUrl,
           storage_path: filePath,
           stem_id: stem_id || null,
@@ -341,7 +315,7 @@ serve(async (req) => {
         midi_url: permanentUrl,
         version,
         model_used: selectedModel,
-        model_name: MODELS[selectedModel].name,
+        model_name: modelConfig.name,
         output_type: 'midi',
         stem_id,
         stem_type,
@@ -356,7 +330,10 @@ serve(async (req) => {
     console.error('Error in transcribe-midi:', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return new Response(
-      JSON.stringify({ error: errorMessage }),
+      JSON.stringify({ 
+        success: false, 
+        error: errorMessage 
+      }),
       {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

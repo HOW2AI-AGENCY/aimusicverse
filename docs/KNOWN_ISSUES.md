@@ -72,6 +72,20 @@
 
 ---
 
+### 6. MIDI Transcription Model Errors
+**Статус**: ✅ Исправлено (Sprint 023)
+
+**Симптомы**: Ошибка 422 "Invalid version or not permitted" при транскрипции MIDI.
+
+**Причина**: Устаревшие версии моделей Replicate (bytedance/piano-transcription, cjwbw/omnizart).
+
+**Решение**: 
+- Переход на `spotify/basic-pitch` как основную модель
+- Добавлен retry с exponential backoff
+- Улучшена обработка ошибок
+
+---
+
 ### 6. Audio Context Multiple Instances
 **Статус**: ✅ Исправлено
 
@@ -123,6 +137,7 @@
 | Waveform Height | High | ✅ Fixed | 023 |
 | Waveform Color | High | ✅ Fixed | 023 |
 | Waveform Cache | High | ✅ Fixed | 023 |
+| MIDI Transcription | High | ✅ Fixed | 023 |
 | Bundle Size | Medium | 🔄 In Progress | 022 |
 | Audio Context | Medium | ✅ Fixed | 021 |
 | Realtime Leak | Medium | ✅ Fixed | 020 |
