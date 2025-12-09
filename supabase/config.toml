@@ -170,3 +170,6 @@ verify_jwt = false
 
 [functions.suno-replace-section]
 verify_jwt = true
+
+[functions.recognize-music]
+verify_jwt = true
