@@ -2,10 +2,11 @@ import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
-import { FileAudio, Mic, X, Play, Pause, Sparkles } from 'lucide-react';
+import { FileAudio, Mic, X, Play, Pause, Sparkles, Music2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
+import { RecordMelodyDialog } from './RecordMelodyDialog';
 
 const refLogger = logger.child({ module: 'AudioReferenceUpload' });
 
@@ -13,9 +14,20 @@ interface AudioReferenceUploadProps {
   audioFile: File | null;
   onAudioChange: (file: File | null) => void;
   onAnalysisComplete?: (styleDescription: string) => void;
+  onMelodyAnalysis?: (data: {
+    tags: string[];
+    key: string;
+    bpm: number;
+    chords: string[];
+  }) => void;
 }
 
-export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisComplete }: AudioReferenceUploadProps) {
+export function AudioReferenceUpload({ 
+  audioFile, 
+  onAudioChange, 
+  onAnalysisComplete,
+  onMelodyAnalysis 
+}: AudioReferenceUploadProps) {
   const [isRecording, setIsRecording] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
@@ -178,6 +190,37 @@ export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisCompl
     }
   };
 
+  const handleMelodyComplete = (data: {
+    audioFile: File;
+    audioUrl: string;
+    analysis: {
+      notes: any[];
+      chords: { chord: string }[];
+      bpm: number;
+      key: string;
+      generatedTags: string[];
+    };
+    generatedTags: string[];
+  }) => {
+    // Set the audio file
+    setAudioUrl(data.audioUrl);
+    onAudioChange(data.audioFile);
+    
+    // Pass melody analysis data to parent
+    onMelodyAnalysis?.({
+      tags: data.generatedTags,
+      key: data.analysis.key,
+      bpm: data.analysis.bpm,
+      chords: [...new Set(data.analysis.chords.map(c => c.chord))],
+    });
+    
+    // Also set style description from tags
+    const styleDescription = data.generatedTags.join(', ');
+    onAnalysisComplete?.(styleDescription);
+    
+    toast.success('Мелодия добавлена как референс');
+  };
+
   return (
     <Card className="p-4 space-y-3 relative">
       {isAnalyzing && (
@@ -222,6 +265,20 @@ export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisCompl
             <Mic className={`w-4 h-4 ${isRecording ? 'text-destructive animate-pulse' : ''}`} />
             {isRecording ? 'Остановить запись' : 'Записать аудио'}
           </Button>
+
+          <RecordMelodyDialog
+            onComplete={handleMelodyComplete}
+            trigger={
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full gap-2 border-primary/30 hover:border-primary/50"
+              >
+                <Music2 className="w-4 h-4 text-primary" />
+                Записать мелодию с анализом
+              </Button>
+            }
+          />
         </div>
       ) : (
         <div className="space-y-2">
@@ -265,7 +322,7 @@ export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisCompl
       )}
 
       <p className="text-xs text-muted-foreground">
-        Загрузите или запишите аудио для использования в качестве референса (до 20 МБ)
+        Загрузите файл, запишите аудио или <span className="text-primary">запишите мелодию</span> для автоматического анализа тональности, BPM и аккордов
       </p>
     </Card>
   );
