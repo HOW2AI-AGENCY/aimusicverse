@@ -113,7 +113,9 @@ export default defineConfig(({ mode }) => ({
             }
             // State management libraries that use React hooks during initialization
             // MUST be in vendor-react to prevent "Cannot read properties of undefined" errors
-            if (id.includes("react-redux") || id.includes("zustand")) {
+            // use-sync-external-store is a React 18 shim that MUST be with React
+            if (id.includes("react-redux") || id.includes("zustand") || 
+                id.includes("use-sync-external-store")) {
               return "vendor-react";
             }
             // Framer Motion (large animation library)
