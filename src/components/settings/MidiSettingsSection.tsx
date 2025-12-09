@@ -24,6 +24,13 @@ const MIDI_MODELS = [
     speed: 'Средний',
   },
   {
+    id: 'bytedance-piano',
+    name: 'ByteDance Piano',
+    description: 'Высокоточная транскрипция пианино с педалями',
+    badge: 'NEW',
+    speed: 'Средний',
+  },
+  {
     id: 'pop2piano',
     name: 'Pop2Piano',
     description: 'Создаёт фортепианную аранжировку',

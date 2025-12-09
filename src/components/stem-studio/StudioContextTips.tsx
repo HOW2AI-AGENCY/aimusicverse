@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { 
   Lightbulb, X, Split, Scissors, Mic, Music, 
-  Shuffle, ArrowRight, ChevronRight
+  Shuffle, ArrowRight, ChevronRight, Piano
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -93,6 +93,14 @@ export const StudioContextTips = ({ track, hasStems, className }: StudioContextT
       description: 'Добавьте новые части к существующему треку, продолжая его историю.',
       condition: !!track.suno_id,
       priority: 6,
+    },
+    {
+      id: 'midi_transcription',
+      icon: <Piano className="w-4 h-4" />,
+      title: 'MIDI транскрипция',
+      description: 'Создайте MIDI файл для редактирования нот в DAW. Выберите модель: MT3 для барабанов, ByteDance для пианино, Basic Pitch для вокала.',
+      condition: hasStems || !!track.suno_id,
+      priority: 7,
     },
   ];
 

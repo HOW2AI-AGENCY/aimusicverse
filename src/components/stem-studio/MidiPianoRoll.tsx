@@ -286,8 +286,38 @@ export const MidiPianoRoll = memo(function MidiPianoRoll({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (readOnly) return;
       
+      // Delete selected notes
       if (e.key === 'Delete' || e.key === 'Backspace') {
         selectedNotes.forEach(noteId => onNoteDelete?.(noteId));
+        return;
+      }
+      
+      // Ctrl/Cmd shortcuts
+      const isCtrlOrCmd = e.ctrlKey || e.metaKey;
+      
+      if (isCtrlOrCmd) {
+        switch (e.key.toLowerCase()) {
+          case 'a': // Select all
+            e.preventDefault();
+            // Select all notes - this should be handled by parent
+            break;
+          case 'c': // Copy
+            e.preventDefault();
+            // Copy handled by parent hook
+            break;
+          case 'v': // Paste
+            e.preventDefault();
+            // Paste handled by parent hook
+            break;
+          case 'd': // Duplicate
+            e.preventDefault();
+            // Duplicate handled by parent hook
+            break;
+          case 'z': // Undo/Redo
+            e.preventDefault();
+            // Undo/Redo handled by parent hook
+            break;
+        }
       }
     };
 
