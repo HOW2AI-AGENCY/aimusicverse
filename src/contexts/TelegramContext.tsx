@@ -590,6 +590,10 @@ export const DeepLinkHandler = () => {
         const userId = startParam.replace('user_', '');
         navigate(`/user/${userId}`);
       }
+      // Recognition/Shazam deep link
+      else if (startParam === 'recognize' || startParam === 'shazam') {
+        navigate(`/?recognize=true`);
+      }
     }
   }, [webApp?.initDataUnsafe?.start_param, navigate]);
 

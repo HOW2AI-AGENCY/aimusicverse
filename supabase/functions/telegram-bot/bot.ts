@@ -6,6 +6,7 @@ import { handleProjects } from './commands/projects.ts';
 import { handleStatus } from './commands/status.ts';
 import { handleCoverCommand, handleExtendCommand, handleCancelCommand, handleCancelUploadCallback, getAudioUploadHelp } from './commands/audio-upload.ts';
 import { handleAudioMessage, isAudioMessage } from './handlers/audio.ts';
+import { handleRecognizeCommand, hasRecognitionSession, handleRecognizeAudio, handleCancelRecognize, handleRecognizeAgain } from './commands/recognize.ts';
 import { sendMessage, parseCommand, answerCallbackQuery, editMessageText, type TelegramUpdate } from './telegram-api.ts';
 import { BOT_CONFIG } from './config.ts';
 import { handleNavigationCallback } from './handlers/navigation.ts';
@@ -171,6 +172,19 @@ export async function handleUpdate(update: TelegramUpdate) {
         return;
       }
 
+      // Recognition handlers
+      if (data === 'cancel_recognize') {
+        await handleCancelRecognize(chatId, from.id, messageId, id);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      if (data === 'recognize_again') {
+        await handleRecognizeAgain(chatId, from.id);
+        await answerCallbackQuery(id);
+        return;
+      }
+
       // Legal/info handlers
       if (data === 'legal_terms') {
         await handleTerms(chatId, messageId);
@@ -301,6 +315,13 @@ export async function handleUpdate(update: TelegramUpdate) {
         const audioData = message.audio || message.voice || message.document;
         if (audioData) {
           const audioType = message.audio ? 'audio' : message.voice ? 'voice' : 'document';
+          
+          // Check if user has recognition session
+          if (hasRecognitionSession(from.id)) {
+            await handleRecognizeAudio(chat.id, from.id, audioData.file_id, audioType);
+            return;
+          }
+          
           await handleAudioMessage(chat.id, from.id, audioData as any, audioType);
           return;
         }
@@ -424,6 +445,11 @@ export async function handleUpdate(update: TelegramUpdate) {
 
         case 'about':
           await handleAbout(chat.id);
+          break;
+
+        case 'recognize':
+        case 'shazam':
+          await handleRecognizeCommand(chat.id, from.id, args);
           break;
 
         default:

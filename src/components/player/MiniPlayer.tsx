@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
-import { Play, Pause, SkipForward, X, Music2 } from 'lucide-react';
+import { Play, Pause, SkipForward, X, Music2, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { usePlayerStore } from '@/hooks/audio';
 import { cn } from '@/lib/utils';
+import { MusicRecognitionDialog } from '@/components/music-recognition/MusicRecognitionDialog';
 
 interface MiniPlayerProps {
   className?: string;
@@ -11,6 +13,7 @@ interface MiniPlayerProps {
 
 export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
   const { activeTrack, isPlaying, playTrack, pauseTrack, nextTrack, playerMode, setPlayerMode, minimizePlayer } = usePlayerStore();
+  const [recognitionOpen, setRecognitionOpen] = useState(false);
 
   if (!activeTrack || playerMode !== 'compact') {
     return null;
@@ -93,6 +96,15 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
             <Button
               variant="ghost"
               size="icon"
+              onClick={() => setRecognitionOpen(true)}
+              className="h-8 w-8 rounded-full text-muted-foreground"
+              title="Распознать музыку"
+            >
+              <Search className="w-4 h-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={handleTogglePlay}
               className="h-10 w-10 rounded-full"
             >
@@ -121,6 +133,11 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
           </div>
         </div>
       </motion.div>
+
+      <MusicRecognitionDialog 
+        open={recognitionOpen} 
+        onOpenChange={setRecognitionOpen} 
+      />
     </AnimatePresence>
   );
 }
