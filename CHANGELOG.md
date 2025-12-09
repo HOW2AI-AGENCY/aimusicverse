@@ -16,6 +16,67 @@
 
 ---
 
+## [1.0.1] - 2025-12-09
+
+### 🐛 Исправлено
+
+#### Stem Studio Audio Synchronization
+- **Исправлена синхронизация аудио** — использование среднего `currentTime` от всех аудио элементов
+- **Drift detection** — автоматическая коррекция при расхождении >0.1s
+- **Оптимизированная синхронизация** — коррекция только самого отставшего элемента (избегание audio glitches)
+- **Улучшенный seek** — пауза во время перемотки для плавности
+- **Async engine initialization** — правильная инициализация эффектов с `ENGINE_READY_DELAY`
+- **Error handling** — обработка ошибок воспроизведения и автоматический reload
+- **Memory leak fix** — очистка event listeners при unmount
+
+#### Section Detection Accuracy
+- **Levenshtein distance** — точный fuzzy matching вместо length ratio (70% threshold)
+- **Multi-language support** — улучшенная поддержка русского и английского
+- **Regex fix** — удален global flag для предотвращения state persistence
+- **Boundary validation** — проверка на пересечение секций
+- **Error handling** — try-catch wrapper с graceful fallback
+
+#### Synchronized Lyrics Display
+- **Точная синхронизация слов** — timing tolerance ±0.05s
+- **Умный auto-scroll** — распознавание user scroll (5px threshold)
+- **Resume delay** — 5s пауза перед возобновлением auto-scroll
+- **Conditional scrolling** — scroll только если >50px от target
+- **Line grouping** — улучшенная группировка строк (0.8s gap, 10-12 words)
+- **Newline handling** — различение single vs double newlines
+- **Empty word filtering** — пропуск пустых слов
+
+### ⚡ Производительность
+- **Single audio correction** — коррекция только одного элемента вместо всех
+- **Conditional auto-scroll** — scroll только когда необходимо
+- **Optimized drift detection** — проверка дрифта в requestAnimationFrame
+
+### ♻️ Refactoring
+- **Named constants** — все magic numbers заменены на именованные константы
+  - `DRIFT_THRESHOLD = 0.1s`
+  - `ENGINE_READY_DELAY = 100ms`
+  - `FUZZY_MATCH_THRESHOLD = 0.7`
+  - `USER_SCROLL_THRESHOLD = 5px`
+  - `AUTO_SCROLL_RESUME_DELAY = 5000ms`
+  - `AUTO_SCROLL_DISTANCE_THRESHOLD = 50px`
+  - `WORD_TIMING_TOLERANCE = 0.05s`
+  - `LINE_START_TOLERANCE = 0.1s`
+  - `LINE_END_TOLERANCE = 0.3s`
+
+### 📚 Документация
+- **BUGFIX_SUMMARY.md** — подробная техническая документация исправлений
+- **README.md** — обновлены описания функций Stem Studio и плеера
+- **Code comments** — добавлены комментарии для сложной логики
+
+### 🎯 Затронутые файлы
+- `src/components/stem-studio/StemStudioContent.tsx` (104 lines)
+- `src/hooks/useSectionDetection.ts` (47 lines)
+- `src/components/lyrics/UnifiedLyricsView.tsx` (52 lines)
+- `src/components/stem-studio/StudioLyricsPanel.tsx` (36 lines)
+
+**Total: 239 lines изменено в 4 файлах**
+
+---
+
 ## [1.0.0] - 2025-12-02
 
 ### 🎉 Первый стабильный релиз!

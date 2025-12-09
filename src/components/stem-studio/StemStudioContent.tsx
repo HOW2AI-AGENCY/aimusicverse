@@ -169,8 +169,16 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         });
 
         audio.addEventListener('ended', () => {
-          setIsPlaying(false);
-          setCurrentTime(0);
+          // Check if all audios have ended
+          const allEnded = Object.values(audioRefs.current).every(a => a.ended || a.currentTime >= a.duration - 0.1);
+          if (allEnded) {
+            setIsPlaying(false);
+            setCurrentTime(0);
+          }
+        });
+
+        audio.addEventListener('error', (e) => {
+          logger.error(`Audio load error for stem ${stem.id}`, e);
         });
 
         if (effectsEnabled) {
@@ -187,9 +195,12 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     });
 
     return () => {
+      // Cleanup - pause all audios and clear refs
       Object.values(audioRefs.current).forEach(audio => {
         audio.pause();
+        // Set src to empty to release resources
         audio.src = '';
+        // Note: Event listeners will be garbage collected when audio element is released
       });
       audioRefs.current = {};
     };
@@ -199,17 +210,32 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   const handleEnableEffects = useCallback(async () => {
     if (!stems) return;
     
-    await resumeContext();
-    
-    stems.forEach(stem => {
-      const audio = audioRefs.current[stem.id];
-      if (audio) {
-        initializeStemEngine(stem.id, audio);
-      }
-    });
-    
-    setEffectsEnabled(true);
-    toast.success('Режим эффектов активирован');
+    try {
+      // Resume audio context first
+      await resumeContext();
+      
+      // Initialize all engines
+      const initPromises = stems.map(stem => {
+        const audio = audioRefs.current[stem.id];
+        if (audio) {
+          return initializeStemEngine(stem.id, audio);
+        }
+        return Promise.resolve();
+      });
+      
+      await Promise.all(initPromises);
+      
+      // Small delay to ensure audio context is fully ready
+      // Note: This is needed for Web Audio API initialization across browsers
+      const ENGINE_READY_DELAY = 100; // ms
+      await new Promise(resolve => setTimeout(resolve, ENGINE_READY_DELAY));
+      
+      setEffectsEnabled(true);
+      toast.success('Режим эффектов активирован');
+    } catch (error) {
+      logger.error('Error enabling effects', error);
+      toast.error('Ошибка активации эффектов');
+    }
   }, [stems, initializeStemEngine, resumeContext]);
 
   // Load mix preset
@@ -257,10 +283,30 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   }, [stemStates, masterVolume, masterMuted, effectsEnabled, enginesState]);
 
   const updateTime = useCallback(() => {
-    const firstAudio = Object.values(audioRefs.current)[0];
-    if (firstAudio) {
-      setCurrentTime(firstAudio.currentTime);
+    const audios = Object.values(audioRefs.current);
+    if (audios.length === 0) return;
+    
+    // Use average time from all audios for more accurate sync
+    const avgTime = audios.reduce((sum, audio) => sum + audio.currentTime, 0) / audios.length;
+    setCurrentTime(avgTime);
+    
+    // Check sync drift and re-sync only the most drifted audio to avoid glitches
+    const DRIFT_THRESHOLD = 0.1; // seconds
+    const audioWithDrift = audios.map(audio => ({
+      audio,
+      drift: Math.abs(audio.currentTime - avgTime)
+    }));
+    
+    // Find most drifted audio
+    const mostDrifted = audioWithDrift.reduce((max, current) => 
+      current.drift > max.drift ? current : max
+    );
+    
+    // Only sync if drift exceeds threshold
+    if (mostDrifted.drift > DRIFT_THRESHOLD) {
+      mostDrifted.audio.currentTime = avgTime;
     }
+    
     animationFrameRef.current = requestAnimationFrame(updateTime);
   }, []);
 
@@ -269,23 +315,37 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     if (audios.length === 0) return;
 
     if (isPlaying) {
+      // Pause all audios simultaneously
       audios.forEach(audio => audio.pause());
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
       setIsPlaying(false);
     } else {
+      // Ensure all audios are at the same position before playing
       audios.forEach(audio => {
         audio.currentTime = currentTime;
       });
 
       try {
-        await Promise.all(audios.map(audio => audio.play()));
+        // Play all audios as close to simultaneously as possible
+        const playPromises = audios.map(audio => {
+          // Reset any previous errors
+          if (audio.error) {
+            audio.load();
+          }
+          return audio.play();
+        });
+        
+        await Promise.all(playPromises);
         setIsPlaying(true);
         animationFrameRef.current = requestAnimationFrame(updateTime);
       } catch (error) {
         logger.error('Error playing audio', error);
         toast.error('Ошибка воспроизведения');
+        // Ensure all audios are paused on error
+        audios.forEach(audio => audio.pause());
+        setIsPlaying(false);
       }
     }
   };
@@ -322,11 +382,36 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
 
   const handleSeek = useCallback((value: number[] | number) => {
     const time = Array.isArray(value) ? value[0] : value;
+    const audios = Object.values(audioRefs.current);
+    
+    // Pause if playing to avoid glitches during seek
+    const wasPlaying = isPlaying;
+    if (wasPlaying) {
+      audios.forEach(audio => audio.pause());
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    }
+    
+    // Set all audios to the same time
     setCurrentTime(time);
-    Object.values(audioRefs.current).forEach(audio => {
+    audios.forEach(audio => {
       audio.currentTime = time;
     });
-  }, []);
+    
+    // Resume if was playing
+    if (wasPlaying) {
+      Promise.all(audios.map(audio => audio.play()))
+        .then(() => {
+          setIsPlaying(true);
+          animationFrameRef.current = requestAnimationFrame(updateTime);
+        })
+        .catch(error => {
+          logger.error('Error resuming after seek', error);
+          setIsPlaying(false);
+        });
+    }
+  }, [isPlaying, updateTime]);
 
   const handleSkip = (direction: 'back' | 'forward') => {
     const skipAmount = 10;

@@ -15,6 +15,11 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useIsMobile } from '@/hooks/use-mobile';
 
+// Timing constants for synchronized lyrics
+const WORD_TIMING_TOLERANCE = 0.05; // seconds - tolerance for word activation timing
+const LINE_START_TOLERANCE = 0.1; // seconds - tolerance before line start
+const LINE_END_TOLERANCE = 0.3; // seconds - tolerance after line end
+
 interface StudioLyricsPanelProps {
   taskId: string | null;
   audioId: string | null;
@@ -43,23 +48,32 @@ interface DetectedSection {
   text: string;
 }
 
-// Group words into lines based on newlines or time gaps
+// Group words into lines based on newlines or time gaps - improved
 function groupWordsIntoLines(words: AlignedWord[]): LyricLine[] {
   const lines: LyricLine[] = [];
   let currentLineWords: AlignedWord[] = [];
 
   for (let i = 0; i < words.length; i++) {
     const word = words[i];
+    const nextWord = words[i + 1];
+    
+    // Skip empty words
+    if (!word.word.trim()) continue;
+    
     currentLineWords.push(word);
 
-    const nextWord = words[i + 1];
     const hasNewline = word.word.includes('\n');
-    const hasTimeGap = nextWord ? nextWord.startS - word.endS > 0.5 : true;
-    const isLongLine = currentLineWords.length >= 10;
+    const hasDoubleNewline = word.word.includes('\n\n');
+    // Increased gap threshold for better line separation (was 0.5, now 0.8)
+    const hasTimeGap = nextWord ? nextWord.startS - word.endS > 0.8 : true;
+    const isLongLine = currentLineWords.length >= 12; // Increased from 10 to 12
 
-    if (hasNewline || hasTimeGap || isLongLine || !nextWord) {
+    if (hasDoubleNewline || hasTimeGap || isLongLine || !nextWord) {
       if (currentLineWords.length > 0) {
-        const lineText = currentLineWords.map(w => w.word.replace('\n', '')).join(' ').trim();
+        const lineText = currentLineWords
+          .map(w => w.word.replace(/\n/g, ''))
+          .join(' ')
+          .trim();
         if (lineText) {
           lines.push({
             words: [...currentLineWords],
@@ -70,6 +84,10 @@ function groupWordsIntoLines(words: AlignedWord[]): LyricLine[] {
         }
       }
       currentLineWords = [];
+    } else if (hasNewline && !hasDoubleNewline) {
+      // Single newline: add to current line but prepare for potential split
+      // This handles cases where single \n is not a strong break
+      continue;
     }
   }
 
@@ -143,12 +161,13 @@ export function StudioLyricsPanel({
   // Group lines into sections
   const sections = useMemo(() => groupLinesIntoSections(lines), [lines]);
 
-  // Find active line based on current time
+  // Find active line based on current time - improved timing
   useEffect(() => {
     if (!lines.length || !isPlaying) return;
 
     const activeIdx = lines.findIndex(
-      line => currentTime >= line.startTime && currentTime <= line.endTime + 0.5
+      line => currentTime >= line.startTime - LINE_START_TOLERANCE && 
+              currentTime <= line.endTime + LINE_END_TOLERANCE
     );
 
     if (activeIdx !== -1 && activeIdx !== activeLineIndex) {
@@ -276,7 +295,7 @@ export function StudioLyricsPanel({
 
   return (
     <div className={cn(
-      'px-4 sm:px-6 py-3 border-b border-border/30',
+      'px-4 sm:px-6 py-3 border-b border-border/30 relative',
       'bg-gradient-to-r from-primary/5 via-transparent to-primary/5',
       selectionMode && 'bg-gradient-to-r from-amber-500/10 via-transparent to-amber-500/10'
     )}>
@@ -396,19 +415,20 @@ export function StudioLyricsPanel({
                     )}
                     <span className="flex-1">
                       {line.words.map((word, wordIdx) => {
+                        // Improved word activation timing with tolerance
                         const isWordActive = isPlaying && 
-                          currentTime >= word.startS && 
-                          currentTime <= word.endS;
+                          currentTime >= word.startS - WORD_TIMING_TOLERANCE && 
+                          currentTime <= word.endS + WORD_TIMING_TOLERANCE;
 
                         return (
                           <span
                             key={wordIdx}
                             className={cn(
-                              'inline transition-all duration-150',
+                              'inline transition-all duration-100',
                               isWordActive && !selectionMode && 'text-primary font-bold scale-105'
                             )}
                           >
-                            {word.word.replace('\n', '')}{' '}
+                            {word.word.replace(/\n/g, '')}{' '}
                           </span>
                         );
                       })}

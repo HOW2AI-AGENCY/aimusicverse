@@ -7,6 +7,13 @@ import { toast } from 'sonner';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { motion } from 'framer-motion';
 
+// Auto-scroll behavior constants
+const USER_SCROLL_THRESHOLD = 5; // pixels - minimum scroll delta to detect user scroll
+const AUTO_SCROLL_RESUME_DELAY = 5000; // ms - delay before resuming auto-scroll after user scroll
+const AUTO_SCROLL_DISTANCE_THRESHOLD = 50; // pixels - minimum distance from target before scrolling
+const PROGRAMMATIC_SCROLL_RESET_DELAY = 600; // ms - time to complete smooth scroll animation
+const WORD_TIMING_TOLERANCE = 0.05; // seconds - tolerance for word activation timing
+
 interface TimestampedWord {
   word: string;
   startS: number;
@@ -99,7 +106,7 @@ export function UnifiedLyricsView({
 
   const hasTimestampedLyrics = timestamped && timestamped.alignedWords.length > 0;
 
-  // Handle user scroll detection
+  // Handle user scroll detection - improved
   const handleScroll = useCallback((e: Event) => {
     // Ignore programmatic scrolls
     if (isProgrammaticScrollRef.current) return;
@@ -110,8 +117,7 @@ export function UnifiedLyricsView({
     // Detect if this is user-initiated scroll (not programmatic)
     const scrollDelta = Math.abs(currentScrollTop - lastScrollTopRef.current);
     
-    // If scroll delta is large, it's user scroll
-    if (scrollDelta > 10) {
+    if (scrollDelta > USER_SCROLL_THRESHOLD) {
       setUserScrolling(true);
       
       // Clear existing timeout
@@ -119,10 +125,10 @@ export function UnifiedLyricsView({
         clearTimeout(scrollTimeoutRef.current);
       }
       
-      // Resume auto-scroll after 3 seconds of no user scroll
+      // Resume auto-scroll after delay
       scrollTimeoutRef.current = setTimeout(() => {
         setUserScrolling(false);
-      }, 3000);
+      }, AUTO_SCROLL_RESUME_DELAY);
     }
     
     lastScrollTopRef.current = currentScrollTop;
@@ -152,19 +158,22 @@ export function UnifiedLyricsView({
     };
   }, [handleScroll]);
 
-  // Update active word based on current time
+  // Update active word based on current time - improved timing
   useEffect(() => {
     if (!hasTimestampedLyrics || !isPlaying) return;
     
     const words = timestamped!.alignedWords;
-    const idx = words.findIndex(w => currentTime >= w.startS && currentTime <= w.endS);
+    const idx = words.findIndex(w => 
+      currentTime >= w.startS - WORD_TIMING_TOLERANCE && 
+      currentTime <= w.endS + WORD_TIMING_TOLERANCE
+    );
     
     if (idx !== -1 && idx !== activeWordIndex) {
       setActiveWordIndex(idx);
     }
   }, [currentTime, hasTimestampedLyrics, timestamped, isPlaying, activeWordIndex]);
 
-  // Auto-scroll to active word (only if not user scrolling)
+  // Auto-scroll to active word (only if not user scrolling) - improved
   useEffect(() => {
     if (!hasTimestampedLyrics || !isPlaying || activeWordIndex === null || userScrolling) return;
     
@@ -182,6 +191,10 @@ export function UnifiedLyricsView({
     const scrollOffset = currentPosition - targetPosition;
     const targetScrollTop = Math.max(0, container.scrollTop + scrollOffset);
     
+    // Only scroll if element is too far from target position
+    const needsScroll = Math.abs(scrollOffset) > AUTO_SCROLL_DISTANCE_THRESHOLD;
+    if (!needsScroll) return;
+    
     // Smooth scroll with programmatic flag
     requestAnimationFrame(() => {
       isProgrammaticScrollRef.current = true;
@@ -190,10 +203,10 @@ export function UnifiedLyricsView({
         top: targetScrollTop,
         behavior: 'smooth'
       });
-      // Reset programmatic flag after scroll animation
+      // Reset programmatic flag after scroll animation completes
       setTimeout(() => {
         isProgrammaticScrollRef.current = false;
-      }, 500);
+      }, PROGRAMMATIC_SCROLL_RESET_DELAY);
     });
   }, [activeWordIndex, hasTimestampedLyrics, isPlaying, userScrolling]);
 
@@ -359,33 +372,55 @@ function groupWordsIntoLines(words: TimestampedWord[]): TimestampedWord[][] {
   const lines: TimestampedWord[][] = [];
   let currentLine: TimestampedWord[] = [];
 
-  for (const word of words) {
-    if (word.word.includes('\n')) {
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
+    const nextWord = words[i + 1];
+    
+    // Skip empty words
+    if (!word.word.trim()) continue;
+    
+    currentLine.push(word);
+    
+    // Check for line breaks
+    const hasNewline = word.word.includes('\n');
+    const hasDoubleNewline = word.word.includes('\n\n');
+    
+    // Time gap threshold for line separation (increased from 0.5 to 0.8)
+    const timeGap = nextWord ? nextWord.startS - word.endS : 0;
+    const hasTimeGap = timeGap > 0.8;
+    
+    if (hasDoubleNewline || (hasNewline && hasTimeGap) || !nextWord) {
       if (currentLine.length > 0) {
         lines.push(currentLine);
+        currentLine = [];
       }
-      currentLine = [];
     }
-    currentLine.push(word);
   }
 
   if (currentLine.length > 0) {
     lines.push(currentLine);
   }
 
+  // Fallback grouping for continuous text (no newlines)
   if (lines.length <= 1 && words.length > 8) {
     const result: TimestampedWord[][] = [];
     let line: TimestampedWord[] = [];
     
     for (let i = 0; i < words.length; i++) {
-      line.push(words[i]);
+      const word = words[i];
+      if (!word.word.trim()) continue;
+      
+      line.push(word);
       
       const nextWord = words[i + 1];
-      const timeGap = nextWord ? nextWord.startS - words[i].endS : 0;
+      const timeGap = nextWord ? nextWord.startS - word.endS : 0;
       
-      if (line.length >= 8 || timeGap > 0.5) {
-        result.push(line);
-        line = [];
+      // Increased from 8/0.5 to 10/0.8 for better grouping
+      if (line.length >= 10 || timeGap > 0.8) {
+        if (line.length > 0) {
+          result.push(line);
+          line = [];
+        }
       }
     }
     
