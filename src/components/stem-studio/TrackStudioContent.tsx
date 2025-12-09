@@ -28,6 +28,8 @@ import { StudioContextTips } from '@/components/stem-studio/StudioContextTips';
 import { TrimDialog } from '@/components/stem-studio/TrimDialog';
 import { VocalReplacementDialog } from '@/components/stem-studio/VocalReplacementDialog';
 import { ArrangementReplacementDialog } from '@/components/stem-studio/ArrangementReplacementDialog';
+import { RemixDialog } from '@/components/stem-studio/RemixDialog';
+import { ExtendDialog } from '@/components/stem-studio/ExtendDialog';
 import { TrackStudioMobileLayout } from '@/components/stem-studio/TrackStudioMobileLayout';
 import { MobilePlayerTab } from '@/components/stem-studio/mobile/MobilePlayerTab';
 import { MobileActionsTab } from '@/components/stem-studio/mobile/MobileActionsTab';
@@ -59,6 +61,8 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
   const [trimDialogOpen, setTrimDialogOpen] = useState(false);
   const [vocalDialogOpen, setVocalDialogOpen] = useState(false);
   const [arrangementDialogOpen, setArrangementDialogOpen] = useState(false);
+  const [remixDialogOpen, setRemixDialogOpen] = useState(false);
+  const [extendDialogOpen, setExtendDialogOpen] = useState(false);
   
   // Section Editor State
   const { 
@@ -325,6 +329,8 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
               onTrim={() => setTrimDialogOpen(true)}
               onReplaceVocal={() => setVocalDialogOpen(true)}
               onReplaceArrangement={() => setArrangementDialogOpen(true)}
+              onRemix={() => setRemixDialogOpen(true)}
+              onExtend={() => setExtendDialogOpen(true)}
             />
           }
         />
@@ -378,6 +384,18 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
           onOpenChange={setArrangementDialogOpen}
           track={track}
           hasStems={false}
+        />
+        
+        <RemixDialog
+          open={remixDialogOpen}
+          onOpenChange={setRemixDialogOpen}
+          track={track}
+        />
+        
+        <ExtendDialog
+          open={extendDialogOpen}
+          onOpenChange={setExtendDialogOpen}
+          track={track}
         />
       </>
     );
@@ -453,6 +471,8 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
         onTrim={() => setTrimDialogOpen(true)}
         onReplaceVocal={() => setVocalDialogOpen(true)}
         onReplaceArrangement={() => setArrangementDialogOpen(true)}
+        onRemix={() => setRemixDialogOpen(true)}
+        onExtend={() => setExtendDialogOpen(true)}
       />
 
       {/* Contextual Tips */}
@@ -743,6 +763,18 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
         onOpenChange={setArrangementDialogOpen}
         track={track}
         hasStems={false}
+      />
+      
+      <RemixDialog
+        open={remixDialogOpen}
+        onOpenChange={setRemixDialogOpen}
+        track={track}
+      />
+      
+      <ExtendDialog
+        open={extendDialogOpen}
+        onOpenChange={setExtendDialogOpen}
+        track={track}
       />
     </div>
   );
