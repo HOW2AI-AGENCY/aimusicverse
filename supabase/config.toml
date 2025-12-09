@@ -179,3 +179,6 @@ verify_jwt = true
 
 [functions.melody-to-tags]
 verify_jwt = true
+
+[functions.detect-beats]
+verify_jwt = true
