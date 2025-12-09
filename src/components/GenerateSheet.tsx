@@ -249,6 +249,11 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         open={lyricsAssistantOpen}
         onOpenChange={setLyricsAssistantOpen}
         onLyricsGenerated={(newLyrics: string) => {
+          // Switch to custom mode when lyrics are generated
+          form.setMode('custom');
+          // Ensure vocals are enabled
+          form.setHasVocals(true);
+          // Set the generated lyrics
           form.setLyrics(newLyrics);
         }}
         onStyleGenerated={(generatedStyle: string) => {
