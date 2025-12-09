@@ -97,17 +97,49 @@ serve(async (req) => {
       throw new Error('audio_url is required');
     }
 
-    // Run beat detection model
-    const output = await replicate.run(
-      "xavriley/beat_this:81e78a6e3f5f34e0e53c0b4dea11d14f80014a7dc0aba1e7068270e06c1d42ee",
-      {
+    // Run beat detection model - use prediction API for more stable versioning
+    let output: string;
+    try {
+      const prediction = await replicate.predictions.create({
+        model: "xavriley/beat_this",
         input: {
           audio: audio_url,
           constant_tempo,
           use_dbn,
         },
+      });
+      
+      // Wait for prediction to complete
+      let result = prediction;
+      while (result.status !== 'succeeded' && result.status !== 'failed') {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        result = await replicate.predictions.get(prediction.id);
       }
-    ) as string;
+      
+      if (result.status === 'failed') {
+        throw new Error(result.error || 'Beat detection failed');
+      }
+      
+      output = result.output as string;
+    } catch (beatError: any) {
+      console.error('Beat detection error:', beatError);
+      // Fallback: return empty beats with estimated values
+      return new Response(
+        JSON.stringify({
+          success: true,
+          analysis: {
+            beats: [],
+            bpm: 120,
+            timeSignature: '4/4',
+            downbeats: [],
+            totalDuration: 0,
+          },
+          raw_output: '',
+          fallback: true,
+        }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     console.log('Raw beat output:', output.substring(0, 500));
 

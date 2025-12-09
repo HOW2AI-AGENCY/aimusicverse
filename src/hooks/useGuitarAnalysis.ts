@@ -266,21 +266,27 @@ export function useGuitarAnalysis() {
         .from('project-assets')
         .getPublicUrl(fileName);
 
-      // Run all analyses in parallel
+      // Run analyses in parallel - all with graceful error handling
       setProgress('Анализируем биты, ноты и стиль...');
       
-      const [beatResult, midiResult, styleResult, klangioChords, klangioTranscription] = await Promise.all([
+      const [beatResult, midiResult, styleResult] = await Promise.all([
         // Beat detection
         supabase.functions.invoke('detect-beats', {
           body: { audio_url: publicUrl, constant_tempo: false },
+        }).catch(e => {
+          log.warn('Beat detection failed', e);
+          return { data: { success: true, fallback: true, analysis: { beats: [], bpm: 120, timeSignature: '4/4', downbeats: [], totalDuration: 30 } } };
         }),
         
-        // MIDI transcription
+        // MIDI transcription - without track_id for standalone analysis
         supabase.functions.invoke('transcribe-midi', {
           body: { audio_url: publicUrl, model_type: 'basic-pitch' },
+        }).catch(e => {
+          log.warn('MIDI transcription failed', e);
+          return { data: null };
         }),
         
-        // Style analysis with guitar-specific prompt
+        // Style analysis with guitar-specific prompt - without track_id for standalone
         supabase.functions.invoke('analyze-audio-flamingo', {
           body: { 
             audio_url: publicUrl, 
@@ -299,35 +305,42 @@ Notable Features: [bends, slides, hammer-ons, pull-offs, harmonics, etc.]
 Be precise with chord names including extensions (e.g., Am7, Cmaj7, Dsus4).
 Provide timing estimates in MM:SS format.`,
           },
-        }),
-        
-        // Klangio chord recognition extended (for strumming detection)
-        supabase.functions.invoke('klangio-analyze', {
-          body: { 
-            audio_url: publicUrl, 
-            mode: 'chord-recognition-extended',
-            vocabulary: 'full',
-            user_id: user.id,
-          },
         }).catch(e => {
-          log.warn('Klangio chord recognition failed', e);
-          return { data: null };
-        }),
-        
-        // Klangio transcription (for Guitar Pro export)
-        supabase.functions.invoke('klangio-analyze', {
-          body: { 
-            audio_url: publicUrl, 
-            mode: 'transcription',
-            model: 'guitar',
-            outputs: ['midi', 'gp5'],
-            user_id: user.id,
-          },
-        }).catch(e => {
-          log.warn('Klangio transcription failed', e);
+          log.warn('Audio Flamingo analysis failed', e);
           return { data: null };
         }),
       ]);
+
+      // Klangio calls - optional enhancement, run separately to not block main analysis
+      let klangioChords: { data: any } = { data: null };
+      let klangioTranscription: { data: any } = { data: null };
+      
+      // Only try Klangio if we have a key configured (optional enhancement)
+      try {
+        const [chordResult, transcriptResult] = await Promise.all([
+          supabase.functions.invoke('klangio-analyze', {
+            body: { 
+              audio_url: publicUrl, 
+              mode: 'chord-recognition-extended',
+              vocabulary: 'full',
+              user_id: user.id,
+            },
+          }),
+          supabase.functions.invoke('klangio-analyze', {
+            body: { 
+              audio_url: publicUrl, 
+              mode: 'transcription',
+              model: 'guitar',
+              outputs: ['midi', 'gp5'],
+              user_id: user.id,
+            },
+          }),
+        ]);
+        klangioChords = chordResult;
+        klangioTranscription = transcriptResult;
+      } catch (e: any) {
+        log.warn('Klangio services unavailable, using fallback', { error: e?.message });
+      }
 
       // Process beat detection result
       let beats: BeatData[] = [];
