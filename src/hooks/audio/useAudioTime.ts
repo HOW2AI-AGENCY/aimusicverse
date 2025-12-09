@@ -38,28 +38,22 @@ export function useAudioTime() {
     }
 
     const handleTimeUpdate = () => {
-      if (audio) {
-        setCurrentTime(audio.currentTime);
-      }
+      setCurrentTime(audio.currentTime);
     };
 
     const handleLoadedMetadata = () => {
-      if (audio) {
-        setDuration(audio.duration || 0);
-      }
+      setDuration(audio.duration || 0);
     };
 
     const handleProgress = () => {
-      if (audio && audio.buffered.length > 0 && audio.duration) {
+      if (audio.buffered.length > 0 && audio.duration) {
         const bufferedEnd = audio.buffered.end(audio.buffered.length - 1);
         setBuffered((bufferedEnd / audio.duration) * 100);
       }
     };
 
     const handleDurationChange = () => {
-      if (audio) {
-        setDuration(audio.duration || 0);
-      }
+      setDuration(audio.duration || 0);
     };
 
     audio.addEventListener('timeupdate', handleTimeUpdate);
