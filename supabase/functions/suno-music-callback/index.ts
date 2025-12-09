@@ -535,6 +535,38 @@ serve(async (req) => {
         logger.info('No Telegram notification', { hasChatId: !!task.telegram_chat_id, clipsCount: clips.length });
       }
 
+      // Auto MIDI transcription if enabled in user settings
+      try {
+        const { data: userSettings } = await supabase
+          .from('user_notification_settings')
+          .select('auto_midi_enabled, auto_midi_model, auto_midi_stems_only')
+          .eq('user_id', task.user_id)
+          .single();
+
+        if (userSettings?.auto_midi_enabled && !userSettings?.auto_midi_stems_only) {
+          const primaryAudioUrl = clips[0] ? getAudioUrl(clips[0]) : null;
+          if (primaryAudioUrl) {
+            logger.info('Auto MIDI transcription enabled, starting transcription');
+            const { error: midiError } = await supabase.functions.invoke('transcribe-midi', {
+              body: {
+                track_id: trackId,
+                audio_url: primaryAudioUrl,
+                model_type: userSettings.auto_midi_model || 'basic-pitch',
+                auto_select: false,
+              },
+            });
+            
+            if (midiError) {
+              logger.error('Auto MIDI transcription error', midiError);
+            } else {
+              logger.success('Auto MIDI transcription started');
+            }
+          }
+        }
+      } catch (midiErr) {
+        logger.error('Auto MIDI settings check error', midiErr);
+      }
+
       const versionText = clips.length > 1 ? ` (${clips.length} версии)` : '';
       await supabase.from('notifications').insert({
         user_id: task.user_id, type: 'track_generated',

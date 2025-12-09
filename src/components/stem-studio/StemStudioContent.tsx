@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { 
   ChevronLeft, Play, Pause, SkipBack, SkipForward,
   Volume2, VolumeX, HelpCircle, Sliders, Scissors,
-  Shuffle, Clock, Wand2, BrainCircuit
+  Shuffle, Clock, Wand2, BrainCircuit, Music, Piano
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTrackStems } from '@/hooks/useTrackStems';
 import { useTracks } from '@/hooks/useTracksOptimized';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
@@ -19,6 +20,8 @@ import { StemDownloadPanel } from '@/components/stem-studio/StemDownloadPanel';
 import { StemReferenceDialog } from '@/components/stem-studio/StemReferenceDialog';
 import { MidiSection } from '@/components/stem-studio/MidiSection';
 import { StemMidiPanel } from '@/components/stem-studio/StemMidiPanel';
+import { MidiVisualizationPanel } from '@/components/stem-studio/MidiVisualizationPanel';
+import { MidiVisualizationMobile } from '@/components/stem-studio/mobile/MidiVisualizationMobile';
 import { StemActionsSheet, StemAnalysisSheet } from '@/components/stem-studio/mobile';
 import { MixExportDialog } from '@/components/stem-studio/MixExportDialog';
 import { MixPresetsMenu } from '@/components/stem-studio/MixPresetsMenu';
@@ -869,6 +872,32 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           }}
           highlightedSection={customRange}
         />
+      )}
+
+      {/* MIDI Visualization - Mobile */}
+      {isMobile && stems && (
+        <div className="px-4 py-2 border-b border-border/30">
+          <MidiVisualizationMobile
+            trackId={trackId}
+            stems={stems}
+            currentTime={currentTime}
+            isPlaying={isPlaying}
+            onSeek={(time) => handleSeek([time])}
+          />
+        </div>
+      )}
+
+      {/* MIDI Visualization - Desktop */}
+      {!isMobile && stems && (
+        <div className="px-4 sm:px-6 py-3 border-b border-border/30">
+          <MidiVisualizationPanel
+            trackId={trackId}
+            stems={stems}
+            currentTime={currentTime}
+            isPlaying={isPlaying}
+            onSeek={(time) => handleSeek([time])}
+          />
+        </div>
       )}
 
       {/* Mobile Actions */}

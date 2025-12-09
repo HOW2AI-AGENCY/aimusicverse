@@ -418,6 +418,16 @@ export default function Settings() {
             </motion.div>
           </TabsContent>
 
+          {/* MIDI Tab */}
+          <TabsContent value="midi" className="space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <MidiSettingsSection />
+            </motion.div>
+          </TabsContent>
+
           {/* Telegram Tab */}
           <TabsContent value="telegram" className="space-y-4">
             <motion.div
