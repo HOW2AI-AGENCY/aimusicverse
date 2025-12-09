@@ -2,11 +2,10 @@ import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
-import { FileAudio, Mic, X, Play, Pause, Sparkles, Music2 } from 'lucide-react';
+import { FileAudio, Mic, X, Play, Pause, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
-import { RecordMelodyDialog } from './RecordMelodyDialog';
 
 const refLogger = logger.child({ module: 'AudioReferenceUpload' });
 
@@ -266,19 +265,7 @@ export function AudioReferenceUpload({
             {isRecording ? 'Остановить запись' : 'Записать аудио'}
           </Button>
 
-          <RecordMelodyDialog
-            onComplete={handleMelodyComplete}
-            trigger={
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full gap-2 border-primary/30 hover:border-primary/50"
-              >
-                <Music2 className="w-4 h-4 text-primary" />
-                Записать мелодию с анализом
-              </Button>
-            }
-          />
+          {/* RecordMelodyDialog removed - use Guitar quick action from homepage */}
         </div>
       ) : (
         <div className="space-y-2">
@@ -322,7 +309,7 @@ export function AudioReferenceUpload({
       )}
 
       <p className="text-xs text-muted-foreground">
-        Загрузите файл, запишите аудио или <span className="text-primary">запишите мелодию</span> для автоматического анализа тональности, BPM и аккордов
+        Загрузите файл или запишите аудио для автоматического анализа стиля
       </p>
     </Card>
   );
