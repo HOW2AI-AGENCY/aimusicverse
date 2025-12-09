@@ -27,8 +27,8 @@ interface NodePosition {
 export function ForceGraph({ data, onNodeClick, selectedNode, filter }: ForceGraphProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<number>();
-  const positionsRef = useRef<Map<string, NodePosition>>(new Map());
+  const animationRef = useRef<number | undefined>(undefined);
+  const positionsRef = useRef<Map<string, NodePosition>>(new Map<string, NodePosition>());
   
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
