@@ -142,7 +142,10 @@ function levenshteinDistance(str1: string, str2: string): number {
   return matrix[len1][len2];
 }
 
-function fuzzyMatch(word1: string, word2: string, threshold = 0.7): boolean {
+// Similarity threshold for fuzzy word matching (0.7 = 70% similar)
+const FUZZY_MATCH_THRESHOLD = 0.7;
+
+function fuzzyMatch(word1: string, word2: string, threshold = FUZZY_MATCH_THRESHOLD): boolean {
   // Quick check: if one contains the other
   if (word1.includes(word2) || word2.includes(word1)) return true;
   

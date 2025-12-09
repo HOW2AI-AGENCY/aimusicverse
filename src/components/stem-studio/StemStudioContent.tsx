@@ -198,11 +198,9 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       // Cleanup - pause all audios and clear refs
       Object.values(audioRefs.current).forEach(audio => {
         audio.pause();
-        // Remove event listeners to prevent memory leaks
-        audio.removeEventListener('loadedmetadata', () => {});
-        audio.removeEventListener('ended', () => {});
-        audio.removeEventListener('error', () => {});
+        // Set src to empty to release resources
         audio.src = '';
+        // Note: Event listeners will be garbage collected when audio element is released
       });
       audioRefs.current = {};
     };
@@ -227,8 +225,10 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       
       await Promise.all(initPromises);
       
-      // Wait for engines to be ready
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // Small delay to ensure audio context is fully ready
+      // Note: This is needed for Web Audio API initialization across browsers
+      const ENGINE_READY_DELAY = 100; // ms
+      await new Promise(resolve => setTimeout(resolve, ENGINE_READY_DELAY));
       
       setEffectsEnabled(true);
       toast.success('Режим эффектов активирован');

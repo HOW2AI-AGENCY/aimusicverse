@@ -11,6 +11,7 @@ import { motion } from 'framer-motion';
 const USER_SCROLL_THRESHOLD = 5; // pixels - minimum scroll delta to detect user scroll
 const AUTO_SCROLL_RESUME_DELAY = 5000; // ms - delay before resuming auto-scroll after user scroll
 const AUTO_SCROLL_DISTANCE_THRESHOLD = 50; // pixels - minimum distance from target before scrolling
+const PROGRAMMATIC_SCROLL_RESET_DELAY = 600; // ms - time to complete smooth scroll animation
 const WORD_TIMING_TOLERANCE = 0.05; // seconds - tolerance for word activation timing
 
 interface TimestampedWord {
@@ -205,7 +206,7 @@ export function UnifiedLyricsView({
       // Reset programmatic flag after scroll animation completes
       setTimeout(() => {
         isProgrammaticScrollRef.current = false;
-      }, 600);
+      }, PROGRAMMATIC_SCROLL_RESET_DELAY);
     });
   }, [activeWordIndex, hasTimestampedLyrics, isPlaying, userScrolling]);
 
