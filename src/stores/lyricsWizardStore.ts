@@ -1,5 +1,6 @@
 // Zustand store for AI Lyrics Wizard state management
 import { create } from 'zustand';
+import { LYRICS_MAX_LENGTH, LYRICS_MIN_LENGTH } from '@/constants/generationConstants';
 
 export interface SectionDefinition {
   id: string;
@@ -221,13 +222,16 @@ export const useLyricsWizardStore = create<LyricsWizardState>((set, get) => ({
     const warnings: string[] = [];
     const suggestions: string[] = [];
     
-    // Check character count (Suno limit ~3000)
-    const charCount = finalLyrics.length;
-    if (charCount > 3000) {
-      warnings.push(`Текст слишком длинный (${charCount}/3000 символов)`);
+    // Fix character count calculation to exclude structural tags (IMP011)
+    const lyricsWithoutTags = finalLyrics.replace(/\[.*?\]/g, '').replace(/\(.*?\)/g, '');
+    const charCount = lyricsWithoutTags.length;
+    const totalCharCount = finalLyrics.length;
+    
+    if (totalCharCount > LYRICS_MAX_LENGTH) {
+      warnings.push(`Текст слишком длинный (${totalCharCount}/${LYRICS_MAX_LENGTH} символов)`);
     }
-    if (charCount < 100) {
-      warnings.push('Текст слишком короткий');
+    if (charCount < LYRICS_MIN_LENGTH) {
+      warnings.push(`Текст слишком короткий (${charCount}/${LYRICS_MIN_LENGTH} символов без тегов)`);
     }
     
     // Check for structure tags

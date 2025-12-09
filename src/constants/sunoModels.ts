@@ -82,6 +82,16 @@ export const getAvailableModels = (): Array<SunoModelInfo & { key: string; label
     }));
 };
 
+// Model fallback chain for deprecated models (IMP006)
+const FALLBACK_CHAIN: Record<string, SunoModelKey[]> = {
+  V3: ['V4', 'V4_5ALL', 'V5'],
+  V3_5: ['V4', 'V4_5ALL', 'V5'],
+  V4: ['V4_5ALL', 'V4_5PLUS', 'V5'],
+  V4_5ALL: ['V4_5PLUS', 'V5', 'V4'],
+  V4_5PLUS: ['V5', 'V4_5ALL', 'V4'],
+  V5: ['V4_5PLUS', 'V4_5ALL', 'V4'],
+};
+
 // Validate and fallback to default if model unavailable
 export const validateModel = (key: string): { 
   validKey: SunoModelKey; 
@@ -91,5 +101,14 @@ export const validateModel = (key: string): {
   if (isValidModelKey(key) && isModelAvailable(key)) {
     return { validKey: key as SunoModelKey, wasChanged: false, originalKey: key };
   }
+  
+  // Try fallback chain
+  const fallbacks = FALLBACK_CHAIN[key] || [DEFAULT_SUNO_MODEL];
+  for (const fallbackKey of fallbacks) {
+    if (isValidModelKey(fallbackKey) && isModelAvailable(fallbackKey)) {
+      return { validKey: fallbackKey, wasChanged: true, originalKey: key };
+    }
+  }
+  
   return { validKey: DEFAULT_SUNO_MODEL, wasChanged: true, originalKey: key };
 };

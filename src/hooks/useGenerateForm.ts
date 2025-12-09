@@ -7,6 +7,16 @@ import { useGenerateDraft } from '@/hooks/useGenerateDraft';
 import { SUNO_MODELS, validateModel, DEFAULT_SUNO_MODEL } from '@/constants/sunoModels';
 import { savePromptToHistory } from '@/components/generate-form/PromptHistory';
 import { logger } from '@/lib/logger';
+import { 
+  SIMPLE_DESCRIPTION_MAX_LENGTH, 
+  TITLE_MAX_LENGTH, 
+  DRAFT_AUTO_SAVE_DELAY,
+  FILE_READER_TIMEOUT,
+  DEFAULT_STYLE_WEIGHT,
+  DEFAULT_WEIRDNESS,
+  DEFAULT_AUDIO_WEIGHT 
+} from '@/constants/generationConstants';
+import { showGenerationError, cleanupAudioReference } from '@/lib/errorHandling';
 
 export interface GenerateFormState {
   mode: 'simple' | 'custom';
@@ -69,9 +79,9 @@ export function useGenerateForm({
   const [model, setModel] = useState('V4_5ALL');
   const [negativeTags, setNegativeTags] = useState('');
   const [vocalGender, setVocalGender] = useState<'m' | 'f' | ''>('');
-  const [styleWeight, setStyleWeight] = useState([0.65]);
-  const [weirdnessConstraint, setWeirdnessConstraint] = useState([0.5]);
-  const [audioWeight, setAudioWeight] = useState([0.65]);
+  const [styleWeight, setStyleWeight] = useState([DEFAULT_STYLE_WEIGHT]);
+  const [weirdnessConstraint, setWeirdnessConstraint] = useState([DEFAULT_WEIRDNESS]);
+  const [audioWeight, setAudioWeight] = useState([DEFAULT_AUDIO_WEIGHT]);
 
   // Reference data
   const [selectedProjectId, setSelectedProjectId] = useState<string | undefined>(initialProjectId);
@@ -88,9 +98,9 @@ export function useGenerateForm({
     setStyle('');
     setNegativeTags('');
     setVocalGender('');
-    setStyleWeight([0.65]);
-    setWeirdnessConstraint([0.5]);
-    setAudioWeight([0.65]);
+    setStyleWeight([DEFAULT_STYLE_WEIGHT]);
+    setWeirdnessConstraint([DEFAULT_WEIRDNESS]);
+    setAudioWeight([DEFAULT_AUDIO_WEIGHT]);
     setSelectedProjectId(initialProjectId);
     setSelectedTrackId(undefined);
     setSelectedArtistId(undefined);
@@ -198,9 +208,10 @@ export function useGenerateForm({
                 setAudioReferenceLoading(false);
               });
           }
-          localStorage.removeItem('stem_audio_reference');
+          cleanupAudioReference();
         } catch (e) {
           logger.error('Failed to parse stem reference', { error: e });
+          cleanupAudioReference();
         }
       }
     }
@@ -215,7 +226,7 @@ export function useGenerateForm({
         setMode('custom');
         setLyrics(templateLyrics);
         if (templateName) {
-          setTitle(templateName.slice(0, 80));
+          setTitle(templateName.slice(0, TITLE_MAX_LENGTH));
         }
         sessionStorage.removeItem('templateLyrics');
         sessionStorage.removeItem('templateName');
@@ -272,7 +283,7 @@ export function useGenerateForm({
         negativeTags,
         vocalGender,
       });
-    }, 1000);
+    }, DRAFT_AUTO_SAVE_DELAY);
 
     return () => clearTimeout(timer);
   }, [mode, description, title, lyrics, style, hasVocals, model, negativeTags, vocalGender, open, saveDraft]);
@@ -332,9 +343,17 @@ export function useGenerateForm({
       return;
     }
 
-    if (mode === 'simple' && description.length > 500) {
-      toast.error(`Описание слишком длинное (${description.length}/500)`, {
+    if (mode === 'simple' && description.length > SIMPLE_DESCRIPTION_MAX_LENGTH) {
+      toast.error(`Описание слишком длинное (${description.length}/${SIMPLE_DESCRIPTION_MAX_LENGTH})`, {
         description: 'Сократите текст или переключитесь в Custom режим',
+      });
+      return;
+    }
+
+    // Pre-generation credit validation (IMP003)
+    if (credits !== null && credits < 10) {
+      toast.error('Недостаточно кредитов', {
+        description: 'Пополните баланс SunoAPI для продолжения',
       });
       return;
     }
@@ -385,10 +404,22 @@ export function useGenerateForm({
       let data, error;
 
       if (audioFile) {
+        // Add timeout handling for FileReader operations (IMP007)
         const fileData = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
-          reader.onload = () => resolve(reader.result as string);
-          reader.onerror = reject;
+          const timeout = setTimeout(() => {
+            reader.abort();
+            reject(new Error('File reading timeout'));
+          }, FILE_READER_TIMEOUT);
+          
+          reader.onload = () => {
+            clearTimeout(timeout);
+            resolve(reader.result as string);
+          };
+          reader.onerror = () => {
+            clearTimeout(timeout);
+            reject(reader.error);
+          };
           reader.readAsDataURL(audioFile);
         });
 
@@ -457,23 +488,9 @@ export function useGenerateForm({
         }
       });
     } catch (error) {
-      logger.error('Generation error', { error });
       toast.dismiss(toastId);
-
-      const errorMessage = error instanceof Error ? error.message : '';
-      if (errorMessage.includes('429') || errorMessage.includes('credits')) {
-        toast.error('Недостаточно кредитов', {
-          description: 'Пополните баланс SunoAPI для продолжения',
-        });
-      } else if (errorMessage.includes('network') || errorMessage.includes('fetch')) {
-        toast.error('Ошибка сети', {
-          description: 'Проверьте подключение к интернету',
-        });
-      } else {
-        toast.error('Ошибка генерации', {
-          description: errorMessage || 'Попробуйте еще раз',
-        });
-      }
+      showGenerationError(error);
+      cleanupAudioReference(); // Cleanup on error (IMP002)
     } finally {
       setLoading(false);
     }
