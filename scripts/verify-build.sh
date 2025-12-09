@@ -7,8 +7,9 @@ set -euo pipefail  # Exit on error, undefined variables, and pipe failures
 
 echo "🔍 Verifying build output..."
 
-# Minimum size for vendor chunks (10KB)
-MIN_SIZE=10000
+# Minimum size thresholds
+MIN_VENDOR_SIZE=10000  # 10KB minimum for vendor chunks
+MIN_MAIN_SIZE=500      # 500 bytes minimum for main chunk
 
 # Track if any issues found
 ISSUES_FOUND=0
@@ -38,7 +39,7 @@ else
     
     filename=$(basename "$file")
     
-    if [ $size -lt $MIN_SIZE ]; then
+    if [ $size -lt $MIN_VENDOR_SIZE ]; then
       echo "❌ FAIL: $filename is too small ($size bytes)"
       ISSUES_FOUND=1
     else
@@ -52,8 +53,12 @@ fi
 # Check main index chunk
 echo ""
 echo "Checking main chunks..."
-for file in dist/assets/index-*.js; do
-  if [ -f "$file" ]; then
+main_files=(dist/assets/index-*.js)
+if [ ${#main_files[@]} -eq 0 ]; then
+  echo "❌ Error: No main index chunks found"
+  ISSUES_FOUND=1
+else
+  for file in "${main_files[@]}"; do
     if [[ "$OSTYPE" == "darwin"* ]]; then
       size=$(stat -f%z "$file")
     else
@@ -62,15 +67,15 @@ for file in dist/assets/index-*.js; do
     
     filename=$(basename "$file")
     
-    if [ $size -lt 500 ]; then  # Main chunk should be at least 500 bytes
+    if [ $size -lt $MIN_MAIN_SIZE ]; then
       echo "❌ FAIL: $filename is suspiciously small ($size bytes)"
       ISSUES_FOUND=1
     else
       size_kb=$((size / 1024))
       echo "✅ PASS: $filename ($size_kb KB)"
     fi
-  fi
-done
+  done
+fi
 
 # Summary
 echo ""
