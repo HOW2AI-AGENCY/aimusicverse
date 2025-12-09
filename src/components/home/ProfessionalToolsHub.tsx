@@ -170,6 +170,28 @@ export function ProfessionalToolsHub() {
         })}
       </div>
 
+      {/* View All Button */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+      >
+        <Button
+          variant="outline"
+          className="w-full h-auto py-3"
+          onClick={() => {
+            hapticFeedback?.('light');
+            navigate('/professional-studio');
+          }}
+        >
+          <div className="flex items-center justify-center gap-2">
+            <Sliders className="w-4 h-4" />
+            <span>Открыть профессиональную студию</span>
+            <Sparkles className="w-4 h-4 text-primary" />
+          </div>
+        </Button>
+      </motion.div>
+
       {/* Info Footer */}
       <motion.div
         initial={{ opacity: 0 }}

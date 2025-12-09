@@ -44,6 +44,7 @@ const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const Templates = lazy(() => import("./pages/Templates"));
 const MusicGraph = lazy(() => import("./pages/MusicGraph"));
 const CreativeTools = lazy(() => import("./pages/CreativeTools"));
+const ProfessionalStudio = lazy(() => import("./pages/ProfessionalStudio"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -107,6 +108,7 @@ const App = () => (
                 <Route path="/templates" element={<Templates />} />
                 <Route path="/music-graph" element={<MusicGraph />} />
                 <Route path="/creative-tools" element={<CreativeTools />} />
+                <Route path="/professional-studio" element={<ProfessionalStudio />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
                 </Route>
