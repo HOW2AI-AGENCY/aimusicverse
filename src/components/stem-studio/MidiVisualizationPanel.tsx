@@ -354,11 +354,36 @@ export function MidiVisualizationPanel({
             </Button>
           </div>
         ) : !hasMidi ? (
-          <div className="flex flex-col items-center justify-center h-full gap-4 text-muted-foreground">
+          <div className="flex flex-col items-center justify-center h-full gap-6 text-muted-foreground p-6">
             <Music className="w-12 h-12 opacity-50" />
-            <p>MIDI ноты не найдены</p>
+            <div className="text-center space-y-2">
+              <p className="font-medium">MIDI ноты не найдены</p>
+              
+              {/* Model hints */}
+              <div className="text-left text-sm space-y-2 max-w-md bg-muted/30 rounded-lg p-4">
+                <p className="font-medium text-foreground flex items-center gap-2">
+                  <Loader2 className="w-4 h-4" />
+                  Выберите модель для вашего инструмента:
+                </p>
+                <ul className="space-y-1.5 text-xs">
+                  <li className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-primary" />
+                    <strong>MT3</strong> — барабаны, бас, гитара, синтезаторы
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-green-500" />
+                    <strong>ByteDance Piano</strong> — высокоточное пианино с педалями
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-purple-500" />
+                    <strong>Basic Pitch</strong> — вокал, мелодия, гитара
+                  </li>
+                </ul>
+              </div>
+            </div>
+            
             {canTranscribe && (
-              <Button onClick={handleTranscribe} disabled={isTranscribing}>
+              <Button onClick={handleTranscribe} disabled={isTranscribing} size="lg">
                 {isTranscribing ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -395,16 +420,43 @@ export function MidiVisualizationPanel({
 
       {/* Footer info */}
       {hasMidi && (
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-          <span>{notes.length} нот</span>
-          <span>{midiTracks.length} треков</span>
-          <span>{tempo.toFixed(0)} BPM</span>
-          <span>{duration.toFixed(1)}s</span>
-          {hasChanges && (
-            <Badge variant="outline" className="text-yellow-500 border-yellow-500">
-              Несохранённые изменения
-            </Badge>
-          )}
+        <div className="flex items-center justify-between gap-4 text-sm text-muted-foreground">
+          <div className="flex items-center gap-4">
+            <span>{notes.length} нот</span>
+            <span>{midiTracks.length} треков</span>
+            <span>{tempo.toFixed(0)} BPM</span>
+            <span>{duration.toFixed(1)}s</span>
+            {hasChanges && (
+              <Badge variant="outline" className="text-yellow-500 border-yellow-500">
+                Несохранённые изменения
+              </Badge>
+            )}
+          </div>
+          
+          {/* Velocity legend */}
+          <div className="hidden md:flex items-center gap-2 text-xs">
+            <span>Громкость:</span>
+            <div className="flex h-3 rounded overflow-hidden">
+              {[1, 32, 64, 96, 127].map(v => (
+                <div 
+                  key={v}
+                  className="w-4 h-full"
+                  style={{ backgroundColor: `hsl(var(--primary) / ${v / 127})` }}
+                />
+              ))}
+            </div>
+            <span>ppp → fff</span>
+          </div>
+        </div>
+      )}
+      
+      {/* Keyboard shortcuts hint */}
+      {hasMidi && (
+        <div className="hidden lg:flex items-center gap-4 text-xs text-muted-foreground border-t pt-3 mt-2">
+          <span><kbd className="px-1.5 py-0.5 rounded bg-muted">Двойной клик</kbd> добавить ноту</span>
+          <span><kbd className="px-1.5 py-0.5 rounded bg-muted">Delete</kbd> удалить</span>
+          <span><kbd className="px-1.5 py-0.5 rounded bg-muted">Shift+клик</kbd> множественный выбор</span>
+          <span><kbd className="px-1.5 py-0.5 rounded bg-muted">Ctrl+Z</kbd> отменить</span>
         </div>
       )}
     </div>

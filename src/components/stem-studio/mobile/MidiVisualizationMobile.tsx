@@ -540,9 +540,25 @@ export const MidiVisualizationMobile = ({
             </div>
           </div>
         ) : (
-          <div className="h-32 flex flex-col items-center justify-center text-muted-foreground rounded-lg bg-muted/30">
-            <Music className="w-10 h-10 mb-2 opacity-50" />
-            <p className="text-sm">Выберите стем и создайте MIDI</p>
+          <div className="h-40 flex flex-col items-center justify-center text-muted-foreground rounded-lg bg-muted/30 p-4">
+            <Music className="w-10 h-10 mb-3 opacity-50" />
+            <p className="text-sm font-medium mb-3">Выберите стем и создайте MIDI</p>
+            
+            {/* Model hints */}
+            <div className="text-xs space-y-1.5 text-left max-w-[280px]">
+              <p className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                <strong>MT3</strong> — барабаны, бас, гитара
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0" />
+                <strong>Piano HD</strong> — высокоточное пианино
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-500 shrink-0" />
+                <strong>Basic Pitch</strong> — вокал и мелодии
+              </p>
+            </div>
           </div>
         )}
 

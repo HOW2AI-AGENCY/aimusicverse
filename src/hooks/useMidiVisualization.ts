@@ -34,6 +34,7 @@ interface UseMidiVisualizationReturn {
   // Selection
   selectNote: (noteId: string, addToSelection?: boolean) => void;
   selectNotesInRange: (startTime: number, endTime: number, startPitch: number, endPitch: number) => void;
+  selectAll: () => void;
   clearSelection: () => void;
   // Editing
   moveNote: (noteId: string, newTime: number, newPitch: number) => void;
@@ -42,6 +43,15 @@ interface UseMidiVisualizationReturn {
   deleteSelectedNotes: () => void;
   addNote: (note: Omit<MidiNote, 'id'>) => void;
   updateVelocity: (noteId: string, velocity: number) => void;
+  // Clipboard
+  copySelectedNotes: () => void;
+  pasteNotes: () => void;
+  duplicateSelectedNotes: () => void;
+  // History
+  undo: () => void;
+  redo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
   // Export
   exportMidi: () => Blob;
   hasChanges: boolean;
@@ -71,7 +81,26 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
   const [selectedNotes, setSelectedNotes] = useState<Set<string>>(new Set());
   const [hasChanges, setHasChanges] = useState(false);
   
+  // History for undo/redo
+  const [history, setHistory] = useState<MidiNote[][]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  
+  // Clipboard
+  const clipboardRef = useRef<MidiNote[]>([]);
+  
   const originalMidiRef = useRef<Midi | null>(null);
+  
+  // Push current state to history
+  const pushToHistory = useCallback((newNotes: MidiNote[]) => {
+    setHistory(prev => {
+      const newHistory = prev.slice(0, historyIndex + 1);
+      newHistory.push([...newNotes]);
+      // Limit history to 50 entries
+      if (newHistory.length > 50) newHistory.shift();
+      return newHistory;
+    });
+    setHistoryIndex(prev => Math.min(prev + 1, 49));
+  }, [historyIndex]);
 
   const parseMidi = useCallback((midi: Midi) => {
     const allNotes: MidiNote[] = [];
@@ -207,6 +236,10 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
     setSelectedNotes(new Set());
   }, []);
 
+  const selectAll = useCallback(() => {
+    setSelectedNotes(new Set(notes.map(n => n.id)));
+  }, [notes]);
+
   // Editing functions
   const moveNote = useCallback((noteId: string, newTime: number, newPitch: number) => {
     setNotes(prev => prev.map(note => 
@@ -261,6 +294,79 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
     setHasChanges(true);
   }, []);
 
+  // Clipboard functions
+  const copySelectedNotes = useCallback(() => {
+    const selectedNotesList = notes.filter(n => selectedNotes.has(n.id));
+    if (selectedNotesList.length === 0) return;
+    
+    // Normalize timing relative to earliest note
+    const minTime = Math.min(...selectedNotesList.map(n => n.time));
+    clipboardRef.current = selectedNotesList.map(n => ({
+      ...n,
+      time: n.time - minTime,
+    }));
+  }, [notes, selectedNotes]);
+
+  const pasteNotes = useCallback(() => {
+    if (clipboardRef.current.length === 0) return;
+    
+    // Paste at the end of existing notes, or at 0 if empty
+    const pasteTime = notes.length > 0 
+      ? Math.max(...notes.map(n => n.time + n.duration)) + 0.5
+      : 0;
+    
+    const newNotes = clipboardRef.current.map(n => ({
+      ...n,
+      id: generateNoteId(),
+      time: n.time + pasteTime,
+    }));
+    
+    pushToHistory(notes);
+    setNotes(prev => [...prev, ...newNotes]);
+    setSelectedNotes(new Set(newNotes.map(n => n.id)));
+    setHasChanges(true);
+  }, [notes, pushToHistory]);
+
+  const duplicateSelectedNotes = useCallback(() => {
+    const selectedNotesList = notes.filter(n => selectedNotes.has(n.id));
+    if (selectedNotesList.length === 0) return;
+    
+    // Offset duplicates slightly in time
+    const offset = 0.25; // beat
+    const newNotes = selectedNotesList.map(n => ({
+      ...n,
+      id: generateNoteId(),
+      time: n.time + offset,
+    }));
+    
+    pushToHistory(notes);
+    setNotes(prev => [...prev, ...newNotes]);
+    setSelectedNotes(new Set(newNotes.map(n => n.id)));
+    setHasChanges(true);
+  }, [notes, selectedNotes, pushToHistory]);
+
+  // History functions
+  const undo = useCallback(() => {
+    if (historyIndex > 0) {
+      const prevNotes = history[historyIndex - 1];
+      setNotes([...prevNotes]);
+      setHistoryIndex(prev => prev - 1);
+      setSelectedNotes(new Set());
+    }
+  }, [history, historyIndex]);
+
+  const redo = useCallback(() => {
+    if (historyIndex < history.length - 1) {
+      const nextNotes = history[historyIndex + 1];
+      setNotes([...nextNotes]);
+      setHistoryIndex(prev => prev + 1);
+      setSelectedNotes(new Set());
+    }
+  }, [history, historyIndex]);
+
+  const canUndo = historyIndex > 0;
+  const canRedo = historyIndex < history.length - 1;
+
   // Export function
   const exportMidi = useCallback((): Blob => {
     const midi = new Midi();
@@ -310,6 +416,7 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
     loadMidiFromBlob,
     selectNote,
     selectNotesInRange,
+    selectAll,
     clearSelection,
     moveNote,
     resizeNote,
@@ -317,6 +424,13 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
     deleteSelectedNotes,
     addNote,
     updateVelocity,
+    copySelectedNotes,
+    pasteNotes,
+    duplicateSelectedNotes,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
     exportMidi,
     hasChanges,
   };
