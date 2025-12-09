@@ -19,14 +19,24 @@ interface TelegramContextType {
   initData: string;
   isInitialized: boolean;
   isDevelopmentMode: boolean;
-  showMainButton: (text: string, onClick: () => void) => void;
+  showMainButton: (text: string, onClick: () => void, options?: { color?: string; textColor?: string; isActive?: boolean; isVisible?: boolean }) => void;
   hideMainButton: () => void;
   showBackButton: (onClick: () => void) => void;
   hideBackButton: () => void;
+  showSettingsButton: (onClick: () => void) => void;
+  hideSettingsButton: () => void;
+  enableClosingConfirmation: () => void;
+  disableClosingConfirmation: () => void;
+  showPopup: (params: { title?: string; message: string; buttons?: Array<{ id: string; type: string; text: string }> }, callback?: (buttonId: string) => void) => void;
+  showAlert: (message: string) => void;
+  showConfirm: (message: string, callback?: (confirmed: boolean) => void) => void;
   hapticFeedback: (type: 'light' | 'medium' | 'heavy' | 'success' | 'error' | 'warning' | 'selection') => void;
   close: () => void;
   expand: () => void;
   ready: () => void;
+  openLink: (url: string, options?: { try_instant_view?: boolean }) => void;
+  openTelegramLink: (url: string) => void;
+  shareToStory: (mediaUrl: string, options?: { text?: string; widget_link?: { url: string; name?: string } }) => void;
 }
 
 const TelegramContext = createContext<TelegramContextType | undefined>(undefined);
@@ -334,9 +344,13 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  const showMainButton = (text: string, onClick: () => void) => {
+  const showMainButton = (text: string, onClick: () => void, options?: { color?: string; textColor?: string; isActive?: boolean; isVisible?: boolean }) => {
     if (webApp) {
       webApp.MainButton.setText(text);
+      if (options?.color) webApp.MainButton.color = options.color;
+      if (options?.textColor) webApp.MainButton.textColor = options.textColor;
+      if (options?.isActive !== undefined) webApp.MainButton.isActive = options.isActive;
+      if (options?.isVisible !== undefined) webApp.MainButton.isVisible = options.isVisible;
       webApp.MainButton.show();
       webApp.MainButton.onClick(onClick);
     }
@@ -360,6 +374,55 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
     if (webApp) {
       webApp.BackButton.hide();
       webApp.BackButton.offClick(() => {});
+    }
+  };
+
+  const showSettingsButton = (onClick: () => void) => {
+    if (webApp && (webApp as any).SettingsButton) {
+      (webApp as any).SettingsButton.show();
+      (webApp as any).SettingsButton.onClick(onClick);
+    }
+  };
+
+  const hideSettingsButton = () => {
+    if (webApp && (webApp as any).SettingsButton) {
+      (webApp as any).SettingsButton.hide();
+      (webApp as any).SettingsButton.offClick(() => {});
+    }
+  };
+
+  const enableClosingConfirmation = () => {
+    if (webApp) {
+      webApp.enableClosingConfirmation();
+    }
+  };
+
+  const disableClosingConfirmation = () => {
+    if (webApp) {
+      webApp.disableClosingConfirmation();
+    }
+  };
+
+  const showPopup = (params: { title?: string; message: string; buttons?: Array<{ id: string; type: string; text: string }> }, callback?: (buttonId: string) => void) => {
+    if (webApp?.showPopup) {
+      webApp.showPopup(params, callback);
+    }
+  };
+
+  const showAlert = (message: string) => {
+    if (webApp?.showAlert) {
+      webApp.showAlert(message);
+    } else {
+      alert(message);
+    }
+  };
+
+  const showConfirm = (message: string, callback?: (confirmed: boolean) => void) => {
+    if (webApp?.showConfirm) {
+      webApp.showConfirm(message, callback);
+    } else {
+      const confirmed = confirm(message);
+      callback?.(confirmed);
     }
   };
 
@@ -401,6 +464,30 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const openLink = (url: string, options?: { try_instant_view?: boolean }) => {
+    if (webApp) {
+      webApp.openLink(url, options);
+    } else {
+      window.open(url, '_blank');
+    }
+  };
+
+  const openTelegramLink = (url: string) => {
+    if (webApp) {
+      webApp.openTelegramLink(url);
+    } else {
+      window.open(url, '_blank');
+    }
+  };
+
+  const shareToStory = (mediaUrl: string, options?: { text?: string; widget_link?: { url: string; name?: string } }) => {
+    if (webApp && (webApp as any).shareToStory) {
+      (webApp as any).shareToStory(mediaUrl, options);
+    } else {
+      telegramLogger.warn('shareToStory not available');
+    }
+  };
+
   return (
     <TelegramContext.Provider
       value={{
@@ -414,10 +501,20 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
         hideMainButton,
         showBackButton,
         hideBackButton,
+        showSettingsButton,
+        hideSettingsButton,
+        enableClosingConfirmation,
+        disableClosingConfirmation,
+        showPopup,
+        showAlert,
+        showConfirm,
         hapticFeedback,
         close,
         expand,
         ready,
+        openLink,
+        openTelegramLink,
+        shareToStory,
       }}
     >
       {children}
