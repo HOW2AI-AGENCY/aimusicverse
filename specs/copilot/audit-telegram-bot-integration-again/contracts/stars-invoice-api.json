@@ -1,0 +1,392 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Stars Invoice API Contract",
+  "description": "API contract for creating Telegram Stars payment invoices",
+  "version": "1.0.0",
+  "basePath": "/functions/v1",
+  "paths": {
+    "/stars-create-invoice": {
+      "post": {
+        "summary": "Create Telegram Stars payment invoice",
+        "description": "Generate invoice link for credit package or subscription purchase",
+        "operationId": "createStarsInvoice",
+        "tags": ["Payments"],
+        "security": [
+          {
+            "telegram_auth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateInvoiceRequest"
+              },
+              "examples": {
+                "creditPackage": {
+                  "summary": "Buy 100 credits",
+                  "value": {
+                    "productId": "credits_100",
+                    "userId": "123e4567-e89b-12d3-a456-426614174000",
+                    "metadata": {
+                      "source": "mini_app"
+                    }
+                  }
+                },
+                "subscription": {
+                  "summary": "Subscribe to Pro",
+                  "value": {
+                    "productId": "sub_pro",
+                    "userId": "123e4567-e89b-12d3-a456-426614174000"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Invoice created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateInvoiceResponse"
+                },
+                "example": {
+                  "success": true,
+                  "invoiceLink": "https://t.me/$bot_username?start=invoice_abc123",
+                  "invoiceUrl": "https://t.me/$bot_username/invoice?start=abc123",
+                  "productDetails": {
+                    "name": "100 Credits Package",
+                    "priceStars": 500,
+                    "creditsAmount": 100
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (product not found, invalid user)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "success": false,
+                  "error": {
+                    "code": "PRODUCT_NOT_FOUND",
+                    "message": "Product credits_100 not found or inactive"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invalid Telegram auth)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "success": false,
+                  "error": {
+                    "code": "UNAUTHORIZED",
+                    "message": "Invalid Telegram authentication"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "success": false,
+                  "error": {
+                    "code": "RATE_LIMIT_EXCEEDED",
+                    "message": "Too many invoice requests. Try again in 60 seconds."
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "success": false,
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "message": "Failed to create invoice. Please try again."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stars-subscription-status": {
+      "get": {
+        "summary": "Get subscription status",
+        "description": "Retrieve user's current subscription tier and expiry",
+        "operationId": "getSubscriptionStatus",
+        "tags": ["Subscriptions"],
+        "security": [
+          {
+            "telegram_auth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "User ID to check subscription"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subscription status retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionStatusResponse"
+                },
+                "example": {
+                  "success": true,
+                  "subscription": {
+                    "tier": "pro",
+                    "isActive": true,
+                    "expiresAt": "2025-01-09T12:00:00.000Z",
+                    "daysRemaining": 30,
+                    "autoRenew": true
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateInvoiceRequest": {
+        "type": "object",
+        "required": ["productId", "userId"],
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "Product SKU to purchase",
+            "pattern": "^(credits_\\d+|sub_[a-z]+)$",
+            "examples": ["credits_100", "sub_pro"]
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "User making the purchase"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Optional metadata for tracking",
+            "properties": {
+              "source": {
+                "type": "string",
+                "enum": ["mini_app", "bot", "web"],
+                "description": "Purchase source"
+              },
+              "campaign": {
+                "type": "string",
+                "description": "Marketing campaign ID"
+              },
+              "referrer": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Referrer user ID (for affiliate tracking)"
+              }
+            }
+          }
+        }
+      },
+      "CreateInvoiceResponse": {
+        "type": "object",
+        "required": ["success", "invoiceLink", "productDetails"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Operation success status",
+            "example": true
+          },
+          "invoiceLink": {
+            "type": "string",
+            "format": "uri",
+            "description": "Telegram invoice deep link (for Mini App openInvoice)",
+            "example": "https://t.me/$bot_username?start=invoice_abc123"
+          },
+          "invoiceUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Alternative invoice URL (for web)",
+            "example": "https://t.me/$bot_username/invoice?start=abc123"
+          },
+          "productDetails": {
+            "type": "object",
+            "required": ["name", "priceStars"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Product display name",
+                "example": "100 Credits Package"
+              },
+              "description": {
+                "type": "string",
+                "description": "Product description",
+                "example": "Generate 100 AI music tracks"
+              },
+              "priceStars": {
+                "type": "integer",
+                "description": "Price in Telegram Stars",
+                "minimum": 1,
+                "example": 500
+              },
+              "priceUSD": {
+                "type": "number",
+                "description": "Approximate USD price (for display)",
+                "example": 5.0
+              },
+              "creditsAmount": {
+                "type": "integer",
+                "description": "Credits allocated (for credit packages)",
+                "example": 100
+              },
+              "subscriptionTier": {
+                "type": "string",
+                "enum": ["pro", "premium", "enterprise"],
+                "description": "Subscription tier (for subscriptions)"
+              }
+            }
+          }
+        }
+      },
+      "SubscriptionStatusResponse": {
+        "type": "object",
+        "required": ["success", "subscription"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "subscription": {
+            "type": "object",
+            "required": ["tier", "isActive"],
+            "properties": {
+              "tier": {
+                "type": "string",
+                "enum": ["free", "pro", "premium", "enterprise"],
+                "description": "Current subscription tier"
+              },
+              "isActive": {
+                "type": "boolean",
+                "description": "Whether subscription is currently active"
+              },
+              "expiresAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Subscription expiry date (null for lifetime/free)"
+              },
+              "daysRemaining": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Days until expiration"
+              },
+              "autoRenew": {
+                "type": "boolean",
+                "description": "Whether subscription auto-renews"
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": ["success", "error"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "error": {
+            "type": "object",
+            "required": ["code", "message"],
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "PRODUCT_NOT_FOUND",
+                  "USER_NOT_FOUND",
+                  "UNAUTHORIZED",
+                  "RATE_LIMIT_EXCEEDED",
+                  "INVALID_REQUEST",
+                  "INTERNAL_ERROR"
+                ],
+                "description": "Machine-readable error code"
+              },
+              "message": {
+                "type": "string",
+                "description": "Human-readable error message"
+              },
+              "details": {
+                "type": "object",
+                "description": "Optional error details"
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "telegram_auth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Telegram Mini App initData validated via Supabase Auth"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Payments",
+      "description": "Invoice creation and payment processing"
+    },
+    {
+      "name": "Subscriptions",
+      "description": "Subscription management endpoints"
+    }
+  ]
+}
