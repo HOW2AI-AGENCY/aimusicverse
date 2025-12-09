@@ -6,36 +6,66 @@ import { logger } from '@/lib/logger';
 
 const log = logger.child({ module: 'StemMidi' });
 
+export type MidiModelType = 'mt3' | 'basic-pitch' | 'pop2piano';
+
 interface StemMidiVersion {
   id: string;
   audio_url: string;
   created_at: string;
+  version_label: string | null;
   metadata: {
     model_type?: string;
+    model_name?: string;
     stem_id?: string;
     stem_type?: string;
     transcribed_at?: string;
+    output_type?: 'midi' | 'audio';
+    auto_selected?: boolean;
   } | null;
 }
+
+export const MIDI_MODELS = {
+  'mt3': {
+    name: 'MT3 (Multi-Task)',
+    description: 'Высокая точность для барабанов и сложных партий',
+    icon: '🎹',
+    bestFor: ['drums', 'percussion', 'complex'],
+  },
+  'basic-pitch': {
+    name: 'Basic Pitch (Spotify)',
+    description: 'Быстрый и точный для мелодических инструментов',
+    icon: '⚡',
+    bestFor: ['vocals', 'guitar', 'bass', 'melody'],
+  },
+  'pop2piano': {
+    name: 'Pop2Piano',
+    description: 'Создаёт фортепианную аранжировку из любого аудио',
+    icon: '🎹',
+    bestFor: ['arrangement', 'piano cover'],
+    outputType: 'audio',
+  },
+} as const;
 
 export function useStemMidi(trackId: string, stemId?: string) {
   const queryClient = useQueryClient();
   const [isTranscribing, setIsTranscribing] = useState(false);
 
-  // Fetch existing MIDI versions for stem
+  // Fetch existing MIDI/piano versions for stem
   const { data: midiVersions, isLoading } = useQuery({
     queryKey: ['stem-midi', trackId, stemId],
     queryFn: async () => {
-      const query = supabase
+      const versionTypes = ['midi_transcription', 'stem_midi_transcription', 'piano_arrangement'];
+      
+      let query = supabase
         .from('track_versions')
-        .select('id, audio_url, created_at, metadata')
+        .select('id, audio_url, created_at, version_label, metadata')
         .eq('track_id', trackId)
-        .eq('version_type', stemId ? 'stem_midi_transcription' : 'midi_transcription')
+        .in('version_type', versionTypes)
         .order('created_at', { ascending: false });
 
       // Filter by stem_id in metadata if provided
       if (stemId) {
-        query.filter('metadata->>stem_id', 'eq', stemId);
+        query = query.filter('metadata->>stem_id', 'eq', stemId);
       }
 
       const { data, error } = await query;
@@ -54,14 +84,18 @@ export function useStemMidi(trackId: string, stemId?: string) {
   const transcribeMutation = useMutation({
     mutationFn: async ({
       audioUrl,
-      modelType = 'mt3',
+      modelType,
       stemType,
+      autoSelect = true,
+      pop2pianoComposer = 'composer1',
     }: {
       audioUrl: string;
-      modelType?: 'mt3' | 'basic-pitch';
+      modelType?: MidiModelType;
       stemType?: string;
+      autoSelect?: boolean;
+      pop2pianoComposer?: string;
     }) => {
-      log.info('Starting stem MIDI transcription', { trackId, stemId, modelType, stemType });
+      log.info('Starting MIDI transcription', { trackId, stemId, modelType, stemType, autoSelect });
 
       const { data, error } = await supabase.functions.invoke('transcribe-midi', {
         body: {
@@ -70,6 +104,8 @@ export function useStemMidi(trackId: string, stemId?: string) {
           model_type: modelType,
           stem_id: stemId,
           stem_type: stemType,
+          auto_select: autoSelect,
+          pop2piano_composer: pop2pianoComposer,
         },
       });
 
@@ -79,53 +115,86 @@ export function useStemMidi(trackId: string, stemId?: string) {
       return data;
     },
     onSuccess: (data) => {
-      toast.success('MIDI транскрипция завершена', {
-        description: data.stem_type 
-          ? `MIDI для ${data.stem_type} создан`
-          : 'MIDI файл готов к скачиванию',
-        action: {
-          label: 'Скачать',
-          onClick: () => downloadMidi(data.midi_url, data.stem_type || 'stem'),
-        },
-      });
+      const isPianoArrangement = data.model_used === 'pop2piano';
+      
+      toast.success(
+        isPianoArrangement ? 'Фортепианная аранжировка готова' : 'MIDI транскрипция завершена', 
+        {
+          description: data.auto_selected 
+            ? `Автоматически выбрана модель: ${data.model_name}`
+            : `Модель: ${data.model_name}`,
+          action: {
+            label: 'Скачать',
+            onClick: () => downloadFile(
+              data.output_url, 
+              data.stem_type || 'track',
+              data.output_type
+            ),
+          },
+        }
+      );
       queryClient.invalidateQueries({ queryKey: ['stem-midi', trackId] });
       queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
     },
     onError: (error: Error) => {
-      log.error('Stem MIDI transcription error', { error: error.message });
+      log.error('MIDI transcription error', { error: error.message });
       toast.error(`Ошибка транскрипции: ${error.message}`);
     },
   });
 
   const transcribeToMidi = useCallback(async (
     audioUrl: string,
-    modelType: 'mt3' | 'basic-pitch' = 'mt3',
-    stemType?: string
+    modelType?: MidiModelType,
+    stemType?: string,
+    options?: { autoSelect?: boolean; pop2pianoComposer?: string }
   ) => {
     setIsTranscribing(true);
     try {
-      await transcribeMutation.mutateAsync({ audioUrl, modelType, stemType });
+      await transcribeMutation.mutateAsync({ 
+        audioUrl, 
+        modelType, 
+        stemType,
+        autoSelect: options?.autoSelect ?? true,
+        pop2pianoComposer: options?.pop2pianoComposer,
+      });
     } finally {
       setIsTranscribing(false);
     }
   }, [transcribeMutation]);
 
-  const downloadMidi = useCallback((midiUrl: string, filename: string) => {
+  const downloadFile = useCallback((url: string, filename: string, outputType?: string) => {
     const link = document.createElement('a');
-    link.href = midiUrl;
-    link.download = `${filename.replace(/[^\w\s-]/g, '').replace(/\s+/g, '_')}.mid`;
+    link.href = url;
+    const ext = outputType === 'audio' ? 'mp3' : 'mid';
+    link.download = `${filename.replace(/[^\w\s-]/g, '').replace(/\s+/g, '_')}.${ext}`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   }, []);
 
+  // Backward compatibility
+  const downloadMidi = useCallback((midiUrl: string, filename: string) => {
+    downloadFile(midiUrl, filename, 'midi');
+  }, [downloadFile]);
+
+  // Separate MIDI and piano arrangement versions
+  const midiOnly = midiVersions?.filter(v => v.metadata?.output_type !== 'audio') || [];
+  const pianoArrangements = midiVersions?.filter(v => 
+    v.metadata?.model_type === 'pop2piano' || v.metadata?.output_type === 'audio'
+  ) || [];
+
   return {
     midiVersions,
+    midiOnly,
+    pianoArrangements,
     isLoading,
     isTranscribing,
     transcribeToMidi,
     downloadMidi,
-    hasMidi: (midiVersions?.length || 0) > 0,
-    latestMidi: midiVersions?.[0],
+    downloadFile,
+    hasMidi: (midiOnly?.length || 0) > 0,
+    hasPianoArrangement: (pianoArrangements?.length || 0) > 0,
+    latestMidi: midiOnly?.[0],
+    latestPianoArrangement: pianoArrangements?.[0],
   };
 }
