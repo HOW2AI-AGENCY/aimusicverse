@@ -5,13 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { 
-  Play, Pause, Download, Copy, Sparkles, ArrowRight,
-  FileText, FileMusic, Music2, Gauge, Key, Clock,
-  Guitar, Piano, Drum, ArrowUpDown, Waves, ChevronDown,
-  ChevronUp, Save, Share2
+  Play, Pause, Copy, Sparkles, ArrowRight, FileText,
+  Music2, Gauge, Key, Clock,
+  Guitar, Piano, Drum, ArrowUpDown, ChevronDown,
+  ChevronUp, Save
 } from 'lucide-react';
 import { ChordDiagram } from './ChordDiagram';
 import { WaveformWithChords } from './WaveformWithChords';
+import { ExportFilesPanel } from './ExportFilesPanel';
 import { PianoRollPreview } from '@/components/analysis/PianoRollPreview';
 import { BeatGridVisualization } from '@/components/analysis/BeatGridVisualization';
 import { GuitarTabVisualization } from '@/components/analysis/GuitarTabVisualization';
@@ -73,15 +74,6 @@ export function GuitarAnalysisReport({
   const handleCopyTags = () => {
     navigator.clipboard.writeText(analysis.generatedTags.join(', '));
     toast.success('Теги скопированы');
-  };
-
-  const handleDownload = (url: string | undefined, name: string) => {
-    if (url) {
-      window.open(url, '_blank');
-      toast.success(`Скачивание ${name}...`);
-    } else {
-      toast.error(`${name} файл недоступен`);
-    }
   };
 
   const uniqueChords = [...new Set(analysis.chords.map(c => c.chord))];
@@ -357,31 +349,10 @@ export function GuitarAnalysisReport({
       >
         <Card>
           <CardContent className="p-4">
-            <h3 className="text-sm font-medium mb-3">Экспорт файлов</h3>
-            
-            <div className="grid grid-cols-3 gap-2 mb-4">
-              <ExportButton
-                icon={<FileMusic className="w-4 h-4" />}
-                label="MIDI"
-                available={!!(analysis.transcriptionFiles?.midiUrl || analysis.midiUrl)}
-                onClick={() => handleDownload(
-                  analysis.transcriptionFiles?.midiUrl || analysis.midiUrl, 
-                  'MIDI'
-                )}
-              />
-              <ExportButton
-                icon={<Download className="w-4 h-4" />}
-                label="Guitar Pro"
-                available={!!analysis.transcriptionFiles?.gp5Url}
-                onClick={() => handleDownload(analysis.transcriptionFiles?.gp5Url, 'Guitar Pro')}
-              />
-              <ExportButton
-                icon={<FileText className="w-4 h-4" />}
-                label="PDF"
-                available={!!analysis.transcriptionFiles?.pdfUrl}
-                onClick={() => handleDownload(analysis.transcriptionFiles?.pdfUrl, 'PDF')}
-              />
-            </div>
+            <ExportFilesPanel
+              transcriptionFiles={analysis.transcriptionFiles}
+              midiUrl={analysis.midiUrl}
+            />
 
             <Separator className="my-4" />
 
@@ -426,34 +397,5 @@ function StatCard({
       </div>
       <p className="font-semibold text-sm truncate">{value}</p>
     </div>
-  );
-}
-
-function ExportButton({ 
-  icon, 
-  label, 
-  available, 
-  onClick 
-}: { 
-  icon: React.ReactNode; 
-  label: string; 
-  available: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <Button
-      variant={available ? "outline" : "ghost"}
-      size="sm"
-      onClick={onClick}
-      disabled={!available}
-      className={cn(
-        "h-16 flex-col gap-1.5",
-        !available && "opacity-40"
-      )}
-    >
-      {icon}
-      <span className="text-xs">{label}</span>
-      {!available && <span className="text-[10px] text-muted-foreground">Недоступен</span>}
-    </Button>
   );
 }
