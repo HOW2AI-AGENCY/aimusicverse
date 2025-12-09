@@ -5,6 +5,7 @@ import { Track } from '@/hooks/useTracksOptimized';
 import { ActionId } from '@/config/trackActionsConfig';
 import { TrackActionState, isActionAvailable, isActionDisabled, getActionLabel } from '@/lib/trackActionConditions';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
+import { ProBadge } from '@/components/ui/pro-badge';
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
@@ -53,6 +54,7 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
           <DropdownMenuSubTrigger>
             <Wand2 className="w-4 h-4 mr-2" />
             Обработка
+            <ProBadge size="sm" className="ml-2" />
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent className="bg-background/95 backdrop-blur-sm z-[10000]" sideOffset={8}>
             {showStemsSimple && (
@@ -83,6 +85,7 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
               <DropdownMenuItem onClick={() => onAction('transcribe_midi')} disabled={isProcessing}>
                 <Music2 className="w-4 h-4 mr-2" />
                 MIDI файл
+                <ProBadge size="sm" className="ml-auto" />
               </DropdownMenuItem>
             )}
             {showVideo && (
@@ -124,6 +127,7 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
             <div className="flex items-center gap-3">
               <Wand2 className="w-5 h-5" />
               <span>Обработка</span>
+              <ProBadge size="sm" />
             </div>
             <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
           </Button>
@@ -182,6 +186,7 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
             >
               <Music2 className="w-4 h-4" />
               <span>MIDI файл</span>
+              <ProBadge size="sm" className="ml-auto" />
             </Button>
           )}
           {showVideo && (

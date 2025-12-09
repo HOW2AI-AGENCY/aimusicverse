@@ -16,6 +16,7 @@ import { WelcomeSection } from "@/components/home/WelcomeSection";
 import { GamificationWidgetCompact } from "@/components/gamification/GamificationWidgetCompact";
 import { BlogSection } from "@/components/home/BlogSection";
 import { GraphPreview } from "@/components/home/GraphPreview";
+import { ProfessionalToolsHub } from "@/components/home/ProfessionalToolsHub";
 import { GenerateSheet } from "@/components/GenerateSheet";
 import { MusicRecognitionDialog } from "@/components/music-recognition/MusicRecognitionDialog";
 import { HomeSkeletonEnhanced } from "@/components/home/HomeSkeletonEnhanced";
@@ -180,6 +181,16 @@ const Index = () => {
             <RecentTracksSection maxTracks={4} />
           </motion.section>
         )}
+
+        {/* Professional Tools Hub */}
+        <motion.section
+          className="mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.19, duration: 0.3 }}
+        >
+          <ProfessionalToolsHub />
+        </motion.section>
 
         {/* Public AI Artists Section */}
         <motion.section
