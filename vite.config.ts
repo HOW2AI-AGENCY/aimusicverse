@@ -120,8 +120,11 @@ export default defineConfig(({ mode }) => ({
               return "vendor-query";
             }
             // UI libraries (shadcn dependencies) - all Radix UI components depend on React
+            // CRITICAL: Include react-remove-scroll and related libraries that use hooks at module level
             if (id.includes("@radix-ui") || id.includes("cmdk") || id.includes("vaul") || 
-                id.includes("sonner") || id.includes("next-themes")) {
+                id.includes("sonner") || id.includes("next-themes") ||
+                id.includes("react-remove-scroll") || id.includes("use-callback-ref") || 
+                id.includes("use-sidecar") || id.includes("detect-node-es")) {
               return "vendor-radix";
             }
             if (id.includes("lucide-react")) {
