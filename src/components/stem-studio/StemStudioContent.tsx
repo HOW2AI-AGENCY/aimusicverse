@@ -2,7 +2,8 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   ChevronLeft, Play, Pause, SkipBack, SkipForward,
-  Volume2, VolumeX, HelpCircle, Sliders, Scissors
+  Volume2, VolumeX, HelpCircle, Sliders, Scissors,
+  Shuffle, Clock
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -35,6 +36,8 @@ import { StudioContextTips } from '@/components/stem-studio/StudioContextTips';
 import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
 import { QuickComparePanel } from '@/components/stem-studio/QuickComparePanel';
 import { QuickCompareMobile } from '@/components/stem-studio/QuickCompareMobile';
+import { RemixDialog } from '@/components/stem-studio/RemixDialog';
+import { ExtendDialog } from '@/components/stem-studio/ExtendDialog';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useStemStudioEngine } from '@/hooks/useStemStudioEngine';
 import { defaultStemEffects, StemEffects } from '@/hooks/useStemAudioEngine';
@@ -68,6 +71,10 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   const [masterMuted, setMasterMuted] = useState(false);
   const [stemStates, setStemStates] = useState<Record<string, StemState>>({});
   const [effectsEnabled, setEffectsEnabled] = useState(false);
+  
+  // Dialogs state
+  const [showRemixDialog, setShowRemixDialog] = useState(false);
+  const [showExtendDialog, setShowExtendDialog] = useState(false);
   
   // Section Editor State
   const { 
@@ -537,6 +544,32 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
                   trackTitle={track.title || 'Трек'}
                   effectsEnabled={effectsEnabled}
                 />
+                
+                {/* Remix Button */}
+                {track.suno_id && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowRemixDialog(true)}
+                    className="h-9 gap-1.5"
+                  >
+                    <Shuffle className="w-4 h-4" />
+                    <span className="hidden sm:inline">Ремикс</span>
+                  </Button>
+                )}
+                
+                {/* Extend Button */}
+                {track.suno_id && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowExtendDialog(true)}
+                    className="h-9 gap-1.5"
+                  >
+                    <Clock className="w-4 h-4" />
+                    <span className="hidden sm:inline">Расширить</span>
+                  </Button>
+                )}
               </>
             )}
           </div>
@@ -766,6 +799,32 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
             trackTitle={track.title || 'Трек'}
             effectsEnabled={effectsEnabled}
           />
+          
+          {/* Remix Button - Mobile */}
+          {track.suno_id && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowRemixDialog(true)}
+              className="h-9 gap-1.5 shrink-0"
+            >
+              <Shuffle className="w-4 h-4" />
+              <span>Ремикс</span>
+            </Button>
+          )}
+          
+          {/* Extend Button - Mobile */}
+          {track.suno_id && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowExtendDialog(true)}
+              className="h-9 gap-1.5 shrink-0"
+            >
+              <Clock className="w-4 h-4" />
+              <span>Расширить</span>
+            </Button>
+          )}
         </div>
       )}
 
@@ -855,6 +914,22 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           )}
         </div>
       </footer>
+      
+      {/* Dialogs */}
+      {track && (
+        <>
+          <RemixDialog
+            open={showRemixDialog}
+            onOpenChange={setShowRemixDialog}
+            track={track}
+          />
+          <ExtendDialog
+            open={showExtendDialog}
+            onOpenChange={setShowExtendDialog}
+            track={track}
+          />
+        </>
+      )}
     </div>
   );
 };
