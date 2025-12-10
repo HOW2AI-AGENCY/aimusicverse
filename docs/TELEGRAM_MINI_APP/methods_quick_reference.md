@@ -2,78 +2,78 @@
 
 > Quick cheat sheet of core Telegram.WebApp APIs and key Bot API calls used in MusicVerse.
 
-## 1. Окно и окружение
+## 1. Window & environment
 
-| Метод | Описание |
-|-------|----------|
-| `ready()` | Сигнал Telegram о готовности UI |
-| `expand()` / `isExpanded` | Полноэкранный режим |
-| `close()` | Закрыть Mini App |
-| `viewportChanged` | Событие изменения высоты |
-| `themeParams` | Текущая тема Telegram |
+| Method | Description |
+|--------|-------------|
+| `ready()` | Notify Telegram that the UI is ready |
+| `expand()` / `isExpanded` | Enter fullscreen mode |
+| `close()` | Close the Mini App |
+| `viewportChanged` | Viewport height changed |
+| `themeParams` | Current Telegram theme |
 
-## 2. Кнопки
+## 2. Buttons
 
-| Кнопка | Основные методы |
-|--------|-----------------|
+| Button | Core methods |
+|--------|--------------|
 | `MainButton` | `setText()`, `show()`, `hide()`, `showProgress()`, `onClick()` |
 | `SecondaryButton` | `setText()`, `show()`, `hide()` |
 | `BackButton` | `show()`, `hide()`, `onClick()` |
 | `SettingsButton` | `onClick()` |
 
-## 3. Хранилища
+## 3. Storage
 
-| API | Использование |
-|-----|---------------|
-| `CloudStorage` | Кросс-девайс настройки и избранное |
-| `DeviceStorage` | Локальный кэш (~5 MB) |
-| `SecureStorage` | Шифрованные пары (до 10 элементов) |
+| API | Usage |
+|-----|-------|
+| `CloudStorage` | Cross-device prefs and favorites |
+| `DeviceStorage` | Local cache (~5 MB) |
+| `SecureStorage` | Encrypted pairs (up to 10 items) |
 
-## 4. Сенсоры и устройство
+## 4. Sensors & device
 
-| API | Основные вызовы |
-|-----|-----------------|
+| API | Key calls |
+|-----|-----------|
 | `Accelerometer` | `start({ refresh_rate })`, `stop()`, `on('update')` |
 | `Gyroscope` | `start()`, `stop()`, `on('update')` |
 | `DeviceOrientation` | `start()`, `on('update')` |
 | `LocationManager` | `getLocation(cb)`, `off()` |
 | `BiometricManager` | `authenticate()` |
 
-## 5. Хаптика и медиа
+## 5. Haptics & media
 
-| API | Описание |
-|-----|----------|
+| API | Description |
+|-----|-------------|
 | `HapticFeedback` | `impactOccurred('light' | 'medium' | 'heavy')` |
-| `shareToStory` | Публикация историй с link-widget |
-| `downloadFile` | Загрузка файлов по `file_id` |
+| `shareToStory` | Publish stories with link widget |
+| `downloadFile` | Download files by `file_id` |
 
-## 6. Платежи и подарки
+## 6. Payments & gifts
 
-| API | Описание |
-|-----|----------|
-| `sendInvoice` (Bot API) | Платёж Stars (`currency: 'XTR'`) |
-| `refundStarPayment` | Возвраты Stars |
-| `answerWebAppQuery` | Ответ из Mini App в чат/inline |
-| `sendGift` | Отправка подарков с текстом |
-| `savePreparedInlineMessage` | Подготовленные сообщения |
-| `postBusinessStory` | Публикация бизнес-сторий |
+| API | Description |
+|-----|-------------|
+| `sendInvoice` (Bot API) | Stars payment (`currency: 'XTR'`) |
+| `refundStarPayment` | Stars refunds |
+| `answerWebAppQuery` | Reply from Mini App to chat/inline |
+| `sendGift` | Send gifts with text |
+| `savePreparedInlineMessage` | Prepared messages |
+| `postBusinessStory` | Publish business stories |
 
-## 7. События
+## 7. Events
 
-| Событие | Когда срабатывает |
-|---------|-------------------|
-| `mainButtonClicked` | Пользователь нажал MainButton |
-| `backButtonClicked` | Пользователь нажал BackButton |
-| `themeChanged` | Смена темы Telegram |
-| `viewportChanged` | Изменение высоты контейнера |
-| `settingsButtonClicked` | Открыты настройки клиента |
+| Event | When it fires |
+|-------|---------------|
+| `mainButtonClicked` | User tapped MainButton |
+| `backButtonClicked` | User tapped BackButton |
+| `themeChanged` | Telegram theme changed |
+| `viewportChanged` | Container height changed |
+| `settingsButtonClicked` | Client settings opened |
 
-## 8. Быстрый пример web_app_query
+## 8. Quick web_app_query example
 
 ```ts
 Telegram.WebApp.onEvent('mainButtonClicked', async () => {
   Telegram.WebApp.MainButton.showProgress();
-  const result = await createTrack(); // вызов Edge Function
+  const result = await createTrack(); // call Edge Function
   await fetch('/api/answer-webapp', { method: 'POST', body: JSON.stringify(result) });
   Telegram.WebApp.MainButton.hideProgress();
 });

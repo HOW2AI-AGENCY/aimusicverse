@@ -2,103 +2,100 @@
 
 > Concise practical summary of advanced Telegram Mini Apps and Bot API 9.0–9.2 capabilities for MusicVerse. Based on official Telegram specs and adapted to the React + Supabase stack.
 
-## 1. Архитектура взаимодействия
+## 1. Interaction architecture
 
-- **Клиент (Mini App):** React 19 + TypeScript, инициализация через `Telegram.WebApp`.
-- **Бот:** Supabase Edge Functions отвечают за webhooks, платежи Stars, подарки и подготовленные сообщения.
-- **Telegram:** Передаёт `initData` (подписанные данные пользователя) и запускает Mini App в веб-контейнере.
+- **Client (Mini App):** React 19 + TypeScript, initialized via `Telegram.WebApp`.
+- **Bot:** Supabase Edge Functions handle webhooks, Stars payments, gifts, and prepared messages.
+- **Telegram:** Provides signed `initData` and launches the Mini App container.
 
-### Последовательность запуска
-1. Telegram открывает Mini App с `initData`.
-2. Клиент вызывает `/telegram-auth` (Edge Function), выполняется HMAC-SHA256 проверка подписи.
-3. Бэкенд создаёт/обновляет профиль, выдаёт JWT, клиент сохраняет сессию.
-4. Для действий пользователя Mini App вызывает Bot API через Edge Functions (answerWebAppQuery, sendInvoice, sendGift и др.).
+### Startup sequence
+1. Telegram opens the Mini App with `initData`.
+2. The client calls `/telegram-auth` (Edge Function) and validates the HMAC-SHA256 signature.
+3. The backend creates/updates the profile, issues a JWT, and the client stores the session.
+4. For user actions the Mini App calls Edge Functions that in turn call Bot API (`answerWebAppQuery`, `sendInvoice`, `sendGift`, etc.).
 
-## 2. Ключевые методы Bot API (9.0–9.2)
+## 2. Key Bot API methods (9.0–9.2)
 
-- **`answerWebAppQuery`** — отправка результата из Mini App обратно в чат/inline.
-- **`sendInvoice`** (currency `XTR`) — платёж Stars без provider_token.
-- **`refundStarPayment`** — возврат платежей Stars.
-- **`sendGift`** — отправка подарка пользователю (включая текст/форматирование).
-- **`postBusinessStory`** — публикация сториз для бизнес-аккаунта.
-- **`savePreparedInlineMessage`** — подготовленные сообщения для быстрого re-send.
+- **`answerWebAppQuery`** — send Mini App results back to chat/inline.
+- **`sendInvoice`** (`currency: 'XTR'`) — Stars payments without `provider_token`.
+- **`refundStarPayment`** — Stars refunds.
+- **`sendGift`** — send a gift with text/formatting.
+- **`postBusinessStory`** — publish business stories.
+- **`savePreparedInlineMessage`** — prepared messages for quick reuse.
 
-## 3. Telegram.WebApp API: основные группы
+## 3. Telegram.WebApp API: main groups
 
-### Управление окном
-- `ready()`, `expand()`, `close()`, `viewportChanged` — полноэкранный режим и отслеживание высоты.
+### Window control
+- `ready()`, `expand()`, `close()`, `viewportChanged` — fullscreen and viewport height handling.
 
-### Кнопки
-- `MainButton` / `SecondaryButton` / `BackButton` / `SettingsButton` — текст, прогресс, события `mainButtonClicked`, `backButtonClicked`.
+### Buttons
+- `MainButton` / `SecondaryButton` / `BackButton` / `SettingsButton` — text, progress, `mainButtonClicked`, `backButtonClicked`.
 
-### Хранилища
-- `CloudStorage` — синхронизируемые ключи/значения.
-- `DeviceStorage` — локальное хранилище (~5 MB).
-- `SecureStorage` — шифрованное хранилище (до 10 элементов) для токенов/секретов.
+### Storage
+- `CloudStorage` — synced key/value pairs.
+- `DeviceStorage` — local storage (~5 MB).
+- `SecureStorage` — encrypted storage (up to 10 items) for secrets/tokens.
 
-### Сенсоры и устройства
-- `Accelerometer`, `Gyroscope`, `DeviceOrientation`, `LocationManager` — старт/стоп, `refresh_rate`, обработка `on('update', ...)`.
+### Sensors and device
+- `Accelerometer`, `Gyroscope`, `DeviceOrientation`, `LocationManager` — start/stop, `refresh_rate`, `on('update', ...)`.
 
-### Платежи и подарки
+### Payments and gifts
 - `openInvoice` / `sendInvoice` — Telegram Stars.
-- `sendGift` — подарки с текстом и реферальными сценариями.
+- `sendGift` — gifts with text and referral scenarios.
 
-### Медиа и истории
-- `shareToStory` / `openTelegramLink` — публикация историй и шаринг.
-- `downloadFile` — загрузка медиа в Mini App.
+### Media and stories
+- `shareToStory` / `openTelegramLink` — publish stories and share links.
+- `downloadFile` — download media inside the Mini App.
 
-## 4. Интеграция Mini App ↔ Bot
+## 4. Mini App ↔ Bot integration
 
-- **Web App Query Flow:** Mini App формирует payload → `answerWebAppQuery` → сообщение в чате.
-- **Подготовленные сообщения:** Mini App вызывает Edge Function → `savePreparedInlineMessage` → пользователь отправляет заготовку позже.
-- **Платежи Stars:** Mini App вызывает `/create-stars-invoice` → `sendInvoice` → `successful_payment` webhook → разблокировка контента.
-- **Подарки:** список через `getAvailableGifts`, отправка через `sendGift`, можно использовать в реферальных кампаниях.
+- **Web App Query flow:** Mini App forms a payload → `answerWebAppQuery` → message in chat.
+- **Prepared messages:** Mini App calls an Edge Function → `savePreparedInlineMessage` → user sends later.
+- **Stars payments:** Mini App calls `/create-stars-invoice` → `sendInvoice` → `successful_payment` webhook → unlock content.
+- **Gifts:** list via `getAvailableGifts`, send via `sendGift`, usable for referral campaigns.
 
-## 5. Сохранение данных: примеры
+## 5. Data storage examples
 
 ```ts
-// Облако (кросс-девайс)
+// Cloud (cross-device)
 await Telegram.WebApp.CloudStorage.setItem('saved_music', JSON.stringify(track));
 
-// Локальный кэш
-await Telegram.WebApp.DeviceStorage.setItem('recent', {
-  key: 'last_track',
-  value: track.id,
-});
+// Local cache
+await Telegram.WebApp.DeviceStorage.setItem('last_track', track.id);
 
-// SecureStorage (токены)
+// SecureStorage (tokens)
 await Telegram.WebApp.SecureStorage.saveKey('auth', 'refresh_token', refreshToken);
 ```
 
-## 6. Пример: музыкальный магазин с оплатой Stars
+## 6. Example: music shop with Stars payments
 
-1. Пользователь выбирает тариф в Mini App (`/pricing`).
-2. Клиент вызывает Edge Function `create-stars-invoice` → `sendInvoice` с currency `XTR`.
-3. Telegram показывает платёжный экран, после `successful_payment` бот вызывает Supabase RPC для активации подписки.
-4. Mini App через WebSocket/RT query получает обновлённый статус подписки.
+1. User selects a plan in the Mini App (`/pricing`).
+2. Client calls the `create-stars-invoice` Edge Function → `sendInvoice` with currency `XTR`.
+3. Telegram shows the payment screen; after `successful_payment` the bot calls a Supabase RPC to activate the subscription.
+4. The Mini App receives the updated subscription state via WebSocket/RT query.
 
-## 7. Пример: отправка подарка и сториз
+## 7. Example: gift sending and stories
 
 ```ts
-// Подарок
+// Gift
 await bot.sendGift(userId, giftId, {
   text: 'Congrats! 🎁',
   text_parse_mode: 'HTML',
 });
 
-// Story из Mini App
+// Story from Mini App
 Telegram.WebApp.shareToStory(mediaUrl, {
   text: 'Check this out!',
   widget_link: { url: 'https://app.musicverse.ai', name: 'Open' },
 });
 ```
 
-## 8. Чек-лист продакшн-запуска
+## 8. Production checklist
 
-- [ ] Включён HTTPS и корректный `mini_app_url` в BotFather.
-- [ ] `initData` валидируется HMAC на бэкенде; тайм-аут подписи ≤ 24 ч.
-- [ ] CSP разрешает `https://*.telegram.org` и Supabase домены.
-- [ ] Payments Stars: тестовый плательщик, обработка `successful_payment` и `refundStarPayment`.
-- [ ] Подарки: UI выбора, обработка ошибок `sendGift`.
-- [ ] Stories: `shareToStory` протестирован на iOS/Android.
-- [ ] Сенсоры: graceful degradation при отсутствии разрешений.
+- [ ] HTTPS enabled and correct `mini_app_url` set in BotFather.
+- [ ] `initData` validated via HMAC on backend; signature TTL ≤ 24h.
+- [ ] CSP allows `https://*.telegram.org` and Supabase domains.
+- [ ] Stars payments: test payer, handle `successful_payment` and `refundStarPayment`.
+- [ ] Gifts: UI for selection, error handling for `sendGift`.
+- [ ] Stories: `shareToStory` verified on iOS/Android.
+- [ ] Sensors: graceful degradation when permissions are missing.
