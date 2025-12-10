@@ -20,7 +20,7 @@ export {
   useAnimationFrame,
   animate,
   stagger,
-} from '@/lib/motion';
+} from 'framer-motion';
 
 // Types
 export type { 
