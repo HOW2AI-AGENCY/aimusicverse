@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { isSunoSuccessCode } from '../_shared/suno.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -219,7 +220,7 @@ serve(async (req) => {
       estimated_cost: 0.03,
     });
 
-    if (!sunoResponse.ok || sunoData.code !== 200) {
+    if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
       console.error('SunoAPI extend error:', sunoData);
       
       // Update task and track as failed
