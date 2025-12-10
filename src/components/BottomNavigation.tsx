@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, FolderOpen, Plus, Library, Menu, Guitar } from 'lucide-react';
+import { Home, FolderOpen, Plus, Library, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { GenerateSheet } from './GenerateSheet';
@@ -12,7 +12,6 @@ const navItems = [
   { path: '/projects', icon: FolderOpen, label: 'Проекты', isCenter: false },
   { path: '__generate__', icon: Plus, label: 'Создать', isCenter: true },
   { path: '/library', icon: Library, label: 'Библиотека', isCenter: false },
-  { path: '/guitar-studio', icon: Guitar, label: 'Гитара', isCenter: false },
   { path: '__menu__', icon: Menu, label: 'Меню', isCenter: false },
 ];
 
