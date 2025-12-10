@@ -35,4 +35,4 @@ export {
   generatePresetForStems,
   defaultMixPresets,
 } from './useMixPresets';
-export type { MixPreset } from './useMixPresets';
+export type { MixPreset, StemConfig } from './useMixPresets';

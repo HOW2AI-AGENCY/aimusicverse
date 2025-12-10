@@ -4,9 +4,10 @@
  */
 
 import { StudioLyricsPanelCompact } from '../StudioLyricsPanelCompact';
+import { TimestampedLyricsData } from '@/hooks/useTimestampedLyrics';
 
 interface LyricsTabContentProps {
-  lyricsData: any;
+  lyricsData: TimestampedLyricsData | null;
   currentTime: number;
   onSeek: (time: number[]) => void;
 }

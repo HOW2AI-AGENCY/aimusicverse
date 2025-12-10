@@ -61,6 +61,13 @@ export const defaultMixPresets: Record<string, Omit<MixPreset, 'stems'>> = {
   },
 };
 
+export interface StemConfig {
+  volume: number;
+  muted: boolean;
+  solo: boolean;
+  effects: StemEffects;
+}
+
 /**
  * Generate preset configuration for specific stems
  */
@@ -71,7 +78,7 @@ export function generatePresetForStems(
   const presetBase = defaultMixPresets[presetId];
   if (!presetBase) return null;
 
-  const stemConfig: Record<string, any> = {};
+  const stemConfig: Record<string, StemConfig> = {};
 
   stems.forEach(stem => {
     const stemType = stem.stem_type.toLowerCase();
@@ -182,7 +189,7 @@ export function useMixPresets(
   // Save mix state
   const saveMix = useCallback((mixState: {
     masterVolume: number;
-    stemStates: Record<string, any>;
+    stemStates: Record<string, StemConfig>;
     effectsEnabled: boolean;
     timestamp: number;
   }) => {
@@ -227,7 +234,7 @@ export function useMixPresets(
 export function useAutoSaveMix(
   trackId: string,
   masterVolume: number,
-  stemStates: Record<string, any>,
+  stemStates: Record<string, StemConfig>,
   effectsEnabled: boolean,
   enabled: boolean = true
 ) {
