@@ -95,7 +95,10 @@ export function AudioVisualizer({
       // Emergency reconnection if source was created but setup failed
       if (mediaSource) {
         try {
-          mediaSource.disconnect();
+          // Disconnect specifically from the analyser to avoid breaking other connections
+          if (sharedAnalyser) {
+            mediaSource.disconnect(sharedAnalyser);
+          }
           mediaSource.connect(audioContext.destination);
           logger.debug('Emergency audio reconnection successful');
         } catch (reconnectError) {

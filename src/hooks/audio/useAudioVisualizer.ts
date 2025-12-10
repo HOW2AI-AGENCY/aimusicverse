@@ -92,10 +92,8 @@ function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: number, 
       globalSourceNode.connect(globalAnalyserNode);
       globalAnalyserNode.connect(audioContext.destination);
       
-      // Verify the connection is valid
-      if (!globalSourceNode.mediaElement) {
-        throw new Error('MediaElementSource created but mediaElement is null');
-      }
+      // Note: MediaElementSource constructor validates the element internally,
+      // so if we reach here, the source is valid
       
       connectedAudioElement = audioElement;
       
@@ -132,7 +130,11 @@ function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: number, 
             // Try to reconnect to destination if needed
             globalAnalyserNode.connect(audioContext.destination);
           } catch (e) {
-            // Connection might already exist, ignore
+            // Connection might already exist (InvalidStateError/InvalidAccessError)
+            // This is expected and safe to ignore
+            if (e instanceof Error) {
+              logger.debug('Destination already connected (expected)', e.name);
+            }
           }
           return globalAnalyserNode;
         }
@@ -151,7 +153,10 @@ function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: number, 
       if (globalSourceNode) {
         try {
           logger.warn('Attempting emergency reconnection to destination');
-          globalSourceNode.disconnect(); // Disconnect from anywhere
+          // Disconnect specifically from the analyser to avoid breaking other potential connections
+          if (globalAnalyserNode) {
+            globalSourceNode.disconnect(globalAnalyserNode);
+          }
           globalSourceNode.connect(audioContext.destination); // Connect directly
           logger.debug('Emergency reconnection successful');
         } catch (reconnectError) {
