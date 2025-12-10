@@ -66,10 +66,42 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     };
   }, []);
 
-  // Get audio source from track
+  // Get audio source from track with validation
   const getAudioSource = useCallback(() => {
     if (!activeTrack) return null;
-    return activeTrack.streaming_url || activeTrack.local_audio_url || activeTrack.audio_url;
+    
+    const source = activeTrack.streaming_url || activeTrack.local_audio_url || activeTrack.audio_url;
+    
+    // Validate source URL
+    if (!source) return null;
+    
+    // Check for valid URL format
+    try {
+      // For blob URLs, just check prefix
+      if (source.startsWith('blob:')) {
+        return source;
+      }
+      
+      // For data URLs, check format
+      if (source.startsWith('data:')) {
+        return source.startsWith('data:audio/') ? source : null;
+      }
+      
+      // For HTTP(S) URLs, validate
+      const url = new URL(source);
+      if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+        logger.warn('Invalid audio URL protocol', { protocol: url.protocol, trackId: activeTrack.id });
+        return null;
+      }
+      
+      return source;
+    } catch (err) {
+      logger.error('Invalid audio URL', err instanceof Error ? err : new Error(String(err)), {
+        source: source.substring(0, 100),
+        trackId: activeTrack.id,
+      });
+      return null;
+    }
   }, [activeTrack]);
 
   // Combined effect for track changes and play/pause state
@@ -155,7 +187,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     };
   }, [activeTrack?.id, activeTrack?.title, isPlaying, getAudioSource, pauseTrack]);
 
-  // Handle track ended and errors
+  // Handle track ended and errors with retry logic
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -186,6 +218,11 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       }
     };
 
+    // Track retry attempts for failed loads
+    let retryCount = 0;
+    const MAX_RETRIES = 3;
+    let retryTimeoutId: NodeJS.Timeout | null = null;
+
     const handleError = () => {
       // Ignore errors when src is empty or not set
       if (!audio.src || audio.src === '' || audio.src === window.location.href) {
@@ -203,24 +240,95 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         trackId: activeTrack?.id,
         title: activeTrack?.title,
         source: audio.src?.substring(0, 100),
+        retryCount,
       });
       
+      // Retry logic for network errors (code 2)
+      if (errorCode === 2 && retryCount < MAX_RETRIES) {
+        retryCount++;
+        logger.debug(`Retrying audio load (attempt ${retryCount}/${MAX_RETRIES})`);
+        
+        // Exponential backoff: 1s, 2s, 4s
+        const retryDelay = Math.pow(2, retryCount - 1) * 1000;
+        
+        retryTimeoutId = setTimeout(() => {
+          const currentSrc = audio.src;
+          audio.load();
+          
+          // Attempt to resume playback if it was playing
+          if (isPlaying) {
+            audio.play().catch((playErr) => {
+              logger.warn('Retry play failed', playErr);
+            });
+          }
+          
+          toast.info('Повторная попытка загрузки...', {
+            description: `Попытка ${retryCount} из ${MAX_RETRIES}`,
+          });
+        }, retryDelay);
+        
+        return;
+      }
+      
+      // Max retries reached or non-retryable error
       // Show user-friendly error message
       toast.error(errorInfo.ru, {
         description: errorInfo.action,
       });
       
       pauseTrack();
+      
+      // Auto-skip to next track after 2 seconds for better UX
+      retryTimeoutId = setTimeout(() => {
+        logger.debug('Auto-skipping to next track after error');
+        nextTrack();
+      }, 2000);
+    };
+
+    const handleStalled = () => {
+      logger.warn('Audio playback stalled', { 
+        trackId: activeTrack?.id,
+        currentTime: audio.currentTime,
+        buffered: audio.buffered.length,
+      });
+      
+      // Try to recover by reloading
+      const currentTime = audio.currentTime;
+      audio.load();
+      audio.currentTime = currentTime;
+      
+      if (isPlaying) {
+        audio.play().catch((err) => {
+          logger.error('Failed to recover from stall', err);
+        });
+      }
+    };
+
+    const handleSuspend = () => {
+      logger.debug('Audio loading suspended', { 
+        trackId: activeTrack?.id,
+        networkState: audio.networkState,
+        readyState: audio.readyState,
+      });
     };
 
     audio.addEventListener('ended', handleEnded);
     audio.addEventListener('error', handleError);
+    audio.addEventListener('stalled', handleStalled);
+    audio.addEventListener('suspend', handleSuspend);
 
     return () => {
       audio.removeEventListener('ended', handleEnded);
       audio.removeEventListener('error', handleError);
+      audio.removeEventListener('stalled', handleStalled);
+      audio.removeEventListener('suspend', handleSuspend);
+      
+      // Clear retry timeout on cleanup
+      if (retryTimeoutId) {
+        clearTimeout(retryTimeoutId);
+      }
     };
-  }, [repeat, nextTrack, pauseTrack, activeTrack]);
+  }, [repeat, nextTrack, pauseTrack, activeTrack, isPlaying]);
 
   return <>{children}</>;
 }

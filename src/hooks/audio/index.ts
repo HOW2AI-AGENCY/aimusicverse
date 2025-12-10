@@ -19,3 +19,4 @@ export { useBufferMonitor } from './useBufferMonitor';
 export { usePlayerKeyboardShortcuts } from './usePlayerKeyboardShortcuts';
 export { useSmartQueue } from './useSmartQueue';
 export { useAudioPerformanceMonitor } from './useAudioPerformanceMonitor';
+export { useNetworkStatus } from './useNetworkStatus';

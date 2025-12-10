@@ -11,6 +11,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { usePlayerStore } from './usePlayerState';
 import type { Track } from '@/hooks/useTracksOptimized';
+import { logger } from '@/lib/logger';
 
 const HISTORY_STORAGE_KEY = 'musicverse-playback-history';
 const MAX_HISTORY_ITEMS = 100;
@@ -54,7 +55,7 @@ export function usePlaybackHistory() {
         setHistory(parsed);
       }
     } catch (error) {
-      console.error('Failed to load playback history:', error);
+      logger.error('Failed to load playback history', error instanceof Error ? error : new Error(String(error)));
     }
   }, []);
 
@@ -66,7 +67,7 @@ export function usePlaybackHistory() {
       localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(newHistory));
       setHistory(newHistory);
     } catch (error) {
-      console.error('Failed to save playback history:', error);
+      logger.error('Failed to save playback history', error instanceof Error ? error : new Error(String(error)));
     }
   }, []);
 
