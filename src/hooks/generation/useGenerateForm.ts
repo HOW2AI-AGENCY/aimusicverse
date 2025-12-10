@@ -142,6 +142,70 @@ export function useGenerateForm({
     }
   }, [open, planTrackContext, clearPlanTrackContext]);
 
+  // Apply guitar analysis parameters from sessionStorage
+  useEffect(() => {
+    if (open) {
+      try {
+        const paramsStr = sessionStorage.getItem('generationParams');
+        if (paramsStr) {
+          const params = JSON.parse(paramsStr);
+          
+          // Set mode to custom to show all fields
+          setMode('custom');
+          
+          // Apply prompt if provided
+          if (params.prompt) {
+            setDescription(params.prompt);
+          }
+          
+          // Build style from analysis
+          const styleComponents: string[] = [];
+          
+          if (params.key) {
+            styleComponents.push(`Key: ${params.key}`);
+          }
+          
+          if (params.bpm) {
+            styleComponents.push(`${params.bpm} BPM`);
+          }
+          
+          if (params.timeSignature) {
+            styleComponents.push(`${params.timeSignature} time`);
+          }
+          
+          if (params.chordProgression) {
+            styleComponents.push(`Chords: ${params.chordProgression}`);
+          }
+          
+          // Add style description
+          if (params.style) {
+            if (params.style.genre) styleComponents.push(params.style.genre);
+            if (params.style.mood) styleComponents.push(params.style.mood);
+            if (params.style.technique) styleComponents.push(params.style.technique);
+          }
+          
+          // Add tags
+          if (params.tags && Array.isArray(params.tags)) {
+            styleComponents.push(params.tags.slice(0, 5).join(', '));
+          }
+          
+          if (styleComponents.length > 0) {
+            setStyle(styleComponents.join(' • '));
+          }
+          
+          toast.success('Параметры из Guitar Studio загружены', {
+            description: 'Форма заполнена данными анализа гитары',
+          });
+          
+          // Clear from sessionStorage after applying
+          sessionStorage.removeItem('generationParams');
+        }
+      } catch (error) {
+        logger.error('Failed to load generation params from sessionStorage', error);
+      }
+    }
+  }, [open]);
+
   // Fetch credits
   useEffect(() => {
     const fetchCredits = async () => {
