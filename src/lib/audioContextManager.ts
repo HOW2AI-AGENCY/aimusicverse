@@ -223,7 +223,7 @@ export function ensureAudioRoutedToDestination(): void {
   if (ctx.state === 'suspended') {
     logger.warn('AudioContext is suspended during audio routing check');
     // Try to resume asynchronously (non-blocking)
-    ctx.resume().then(() => {
+    void ctx.resume().then(() => {
       logger.info('AudioContext resumed during routing check');
     }).catch((err) => {
       logger.error('Failed to resume AudioContext during routing check', err);
