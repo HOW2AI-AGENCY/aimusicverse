@@ -16,6 +16,7 @@ import { GenerateFormActions } from './generate-form/GenerateFormActions';
 import { GenerateFormReferences } from './generate-form/GenerateFormReferences';
 import { GenerateFormSimple } from './generate-form/GenerateFormSimple';
 import { GenerateFormCustom } from './generate-form/GenerateFormCustom';
+import { GenerationLoadingState } from './generate-form/GenerationLoadingState';
 
 // Dialogs
 import { UploadAudioDialog } from './UploadAudioDialog';
@@ -176,6 +177,17 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                 />
               )}
             </AnimatePresence>
+
+            {/* Show generation loading state when processing */}
+            {form.loading && (
+              <div className="p-4 mt-4">
+                <GenerationLoadingState
+                  stage="processing"
+                  showCancel={false}
+                  compact={false}
+                />
+              </div>
+            )}
           </div>
         </ScrollArea>
 
