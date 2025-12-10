@@ -67,14 +67,14 @@ await Telegram.WebApp.DeviceStorage.setItem('last_track', track.id);
 await Telegram.WebApp.SecureStorage.saveKey('auth', 'refresh_token', refreshToken);
 ```
 
-## 6. Example: music shop with Stars payments
+## 6. Example — music shop with Stars payments
 
 1. User selects a plan in the Mini App (`/pricing`).
 2. Client calls the `create-stars-invoice` Edge Function → `sendInvoice` with currency `XTR`.
 3. Telegram shows the payment screen; after `successful_payment` the bot calls a Supabase RPC to activate the subscription.
 4. The Mini App receives the updated subscription state via WebSocket/RT query.
 
-## 7. Example: gift sending and stories
+## 7. Example — gift sending and stories
 
 ```ts
 // Gift

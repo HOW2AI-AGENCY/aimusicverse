@@ -1,6 +1,6 @@
 # Telegram Mini Apps Advanced Examples (Bot API 9.0–9.2)
 
-> Practical scenarios covering new capabilities: Device/Secure Storage, sensors, fullscreen mode, Stars/gifts, and Stories.
+> Practical scenarios covering new capabilities: Device/Secure Storage, sensors, fullscreen mode, Stars/gifts, and Stories. Pair with the [integration guide](./telegram_mini_apps_integration.md) for end-to-end flows.
 
 ## 1. Update highlights
 

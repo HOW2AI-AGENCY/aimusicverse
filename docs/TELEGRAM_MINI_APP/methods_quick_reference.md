@@ -1,6 +1,6 @@
 # Telegram Mini Apps — quick methods reference
 
-> Quick cheat sheet of core Telegram.WebApp APIs and key Bot API calls used in MusicVerse.
+> Quick cheat sheet of core Telegram.WebApp APIs and key Bot API calls used in MusicVerse. See also the [integration guide](./telegram_mini_apps_integration.md) and [advanced examples](./mini_apps_advanced_examples.md).
 
 ## 1. Window & environment
 
