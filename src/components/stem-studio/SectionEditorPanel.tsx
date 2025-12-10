@@ -3,7 +3,7 @@
  * Uses modular components for clean architecture
  */
 
-import { motion, AnimatePresence, Variants } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from '@/lib/motion';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useSectionReplacement } from '@/hooks/useSectionReplacement';
 import { SectionWaveformPreview } from './SectionWaveformPreview';

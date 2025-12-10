@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTouchEvents, triggerHapticFeedback } from '@/lib/mobile-utils';
 import { toast } from 'sonner';
-import { motion, PanInfo } from 'framer-motion';
+import { motion, PanInfo } from '@/lib/motion';
 import { hapticImpact, hapticNotification } from '@/lib/haptic';
 import { usePlayerStore } from '@/hooks/audio';
 import {

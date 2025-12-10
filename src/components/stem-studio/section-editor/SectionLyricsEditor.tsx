@@ -3,7 +3,7 @@
  */
 
 import { useState, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   FileText, Wand2, RotateCcw, Sparkles, Check, 
   Mic, Loader2, RefreshCw, AlertCircle

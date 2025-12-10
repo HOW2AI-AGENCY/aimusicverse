@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { motion, type HTMLMotionProps } from "framer-motion";
+import { motion, type HTMLMotionProps } from '@/lib/motion';
 
 interface GlassCardProps extends Omit<HTMLMotionProps<"div">, "ref"> {
   variant?: "default" | "elevated" | "subtle";

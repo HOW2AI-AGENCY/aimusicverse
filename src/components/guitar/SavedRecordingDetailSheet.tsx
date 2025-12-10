@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { useGuitarAnalysis } from '@/hooks/useGuitarAnalysis';
 import { useGuitarRecordings, type GuitarRecording } from '@/hooks/useGuitarRecordings';
@@ -269,7 +269,7 @@ export function SavedRecordingDetailSheet({
                   Аккорды
                 </h3>
                 <div className="flex flex-wrap gap-2 justify-center mb-4">
-                  {[...new Set(recording.chords.map((c: any) => c.chord || c))].slice(0, 8).map((chord, i) => (
+                  {[...new Set(recording.chords.map((c) => c.chord))].slice(0, 8).map((chord, i) => (
                     <ChordDiagramEnhanced 
                       key={i} 
                       chord={String(chord)} 
@@ -280,9 +280,9 @@ export function SavedRecordingDetailSheet({
                 </div>
                 {/* Chord Timeline */}
                 <ChordTimelineMobile
-                  chords={recording.chords.map((c: any, idx: number) => ({
-                    chord: c.chord || c,
-                    startTime: c.startTime || c.time || idx * 2,
+                  chords={recording.chords.map((c, idx: number) => ({
+                    chord: c.chord,
+                    startTime: c.start || idx * 2,
                     endTime: c.endTime || (c.time ? c.time + 2 : (idx + 1) * 2),
                   }))}
                   duration={recording.duration_seconds || 30}

@@ -5,7 +5,7 @@ import { Copy, Check, Music2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 // Auto-scroll behavior constants
 const USER_SCROLL_THRESHOLD = 5; // pixels - minimum scroll delta to detect user scroll

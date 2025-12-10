@@ -7,7 +7,7 @@ import { usePublicContentOptimized, PublicTrackWithCreator } from "@/hooks/usePu
 import { usePublicArtists } from "@/hooks/usePublicArtists";
 import { PublicTrackCard } from "@/components/home/PublicTrackCard";
 import { ActorCard } from "@/components/actors/ActorCard";
-import { motion } from "framer-motion";
+import { motion } from '@/lib/motion';
 
 const GENRES = ["Pop", "Rock", "Hip-Hop", "Electronic", "R&B", "Jazz", "Indie", "Lo-Fi"];
 

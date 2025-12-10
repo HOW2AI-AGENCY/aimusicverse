@@ -3,7 +3,7 @@
  * Modular, clean design for both desktop and mobile
  */
 
-import { motion, AnimatePresence, Variants } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from '@/lib/motion';
 import { useSectionReplacement } from '@/hooks/useSectionReplacement';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useSectionDetection, DetectedSection } from '@/hooks/useSectionDetection';

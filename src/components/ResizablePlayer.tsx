@@ -3,7 +3,7 @@ import { CompactPlayer } from './CompactPlayer';
 import { FullscreenPlayer } from './FullscreenPlayer';
 import { ExpandedPlayer } from './player/ExpandedPlayer';
 import { usePlayerStore } from '@/hooks/audio';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from '@/lib/motion';
 
 export const ResizablePlayer = () => {
   const { activeTrack, closePlayer, playerMode, setPlayerMode } = usePlayerStore();

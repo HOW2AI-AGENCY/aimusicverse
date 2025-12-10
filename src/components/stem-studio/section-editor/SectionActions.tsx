@@ -2,7 +2,7 @@
  * Action buttons for section replacement
  */
 
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Wand2, Loader2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 

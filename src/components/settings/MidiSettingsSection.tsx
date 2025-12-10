@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Music2, Wand2, Info } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from '@/lib/motion';
 import { useNotificationSettings } from "@/hooks/useNotificationSettings";
 
 const MIDI_MODELS = [

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Check, Circle, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 

@@ -23,7 +23,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useOnboarding } from '@/hooks/useOnboarding';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useUserStats } from '@/hooks/useUserStats';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const ProfilePage = () => {

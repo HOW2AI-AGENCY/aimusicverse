@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Network, Layers, Search, MousePointer, ZoomIn, 
   Filter, Copy, Lightbulb, ChevronRight, X, Sparkles

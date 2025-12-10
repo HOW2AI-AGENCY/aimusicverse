@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { usePlayerStore } from '@/hooks/audio';
 import { cn } from '@/lib/utils';
-import { motion, Reorder } from 'framer-motion';
+import { motion, Reorder } from '@/lib/motion';
 import { Track } from '@/hooks/useTracksOptimized';
 
 interface QueuePanelProps {

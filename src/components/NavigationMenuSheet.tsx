@@ -2,7 +2,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { usePlaylists } from '@/hooks/usePlaylists';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   ListMusic, 
   Users, 

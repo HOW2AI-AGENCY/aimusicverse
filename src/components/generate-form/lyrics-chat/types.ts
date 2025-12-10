@@ -40,7 +40,7 @@ export interface ChatMessage {
   content: string;
   options?: QuickOption[];
   component?: 'genre' | 'mood' | 'language' | 'structure' | 'lyrics-preview';
-  data?: any;
+  data?: Record<string, unknown>;
 }
 
 export interface QuickOption {

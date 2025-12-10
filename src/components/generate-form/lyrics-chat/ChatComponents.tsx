@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { Loader2, RotateCcw, Copy, Check, Bookmark, BookmarkCheck, ChevronRight, MessageSquarePlus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { GENRES, MOODS, STRUCTURES, buttonVariants, badgeVariants } from './constants';
@@ -278,9 +278,11 @@ export function LyricsPreview({
   );
 }
 
-interface LoadingIndicatorProps {}
-
-export function LoadingIndicator({}: LoadingIndicatorProps) {
+/**
+ * LoadingIndicator - Displays an animated loading state during AI processing
+ * Shows three pulsing dots to indicate the AI is generating a response
+ */
+export function LoadingIndicator() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}

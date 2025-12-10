@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Users, ChevronRight, Sparkles, User } from "lucide-react";
 import { usePublicArtists } from "@/hooks/usePublicArtists";
-import { motion } from "framer-motion";
+import { motion } from '@/lib/motion';
 import { GlassCard } from "@/components/ui/glass-card";
 
 export function PublicArtistsSection() {

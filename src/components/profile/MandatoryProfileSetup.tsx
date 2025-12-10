@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   User, Camera, Globe, Sparkles, CheckCircle, Upload, AtSign
 } from 'lucide-react';

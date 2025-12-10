@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { BookOpen, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 

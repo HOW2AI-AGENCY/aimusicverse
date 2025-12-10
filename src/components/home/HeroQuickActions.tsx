@@ -1,13 +1,14 @@
 import { Sparkles, Library, FolderOpen, ListMusic, Upload, Music2, Guitar, Wand2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTelegram } from '@/contexts/TelegramContext';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { useState } from 'react';
 import { UploadAudioDialog } from '@/components/UploadAudioDialog';
 import { MusicRecognitionDialog } from '@/components/music-recognition/MusicRecognitionDialog';
 import { GuitarRecordDialog } from '@/components/generate-form/GuitarRecordDialog';
 import { TooltipWrapper } from '@/components/tooltips';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 
 interface HeroQuickActionsProps {
   onGenerateClick: () => void;
@@ -31,8 +32,8 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
     action();
   };
 
-  const handleGuitarComplete = (result: any) => {
-    console.log('[HeroQuickActions] Guitar analysis complete:', result);
+  const handleGuitarComplete = (result: Record<string, unknown>) => {
+    logger.info('Guitar analysis complete', { result });
     // Could navigate to generation with pre-filled tags
   };
 

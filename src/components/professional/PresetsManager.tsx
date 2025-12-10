@@ -4,7 +4,7 @@
  */
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Sparkles, Save, Trash2, Download, Upload, 
   Star, StarOff, Music, Sliders, Zap, Check,

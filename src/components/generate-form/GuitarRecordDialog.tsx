@@ -18,7 +18,7 @@ import { GuitarAnalysisReport } from '@/components/guitar/GuitarAnalysisReport';
 import { SavedRecordingsList } from '@/components/guitar/SavedRecordingsList';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { toast } from 'sonner';
 
 interface GuitarRecordDialogProps {

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { useNavigate } from 'react-router-dom';
 import { 
   Wand2, Guitar, Music2, Piano, Scissors, 

@@ -5,7 +5,7 @@ import { useTelegram } from "@/contexts/TelegramContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Home, ArrowLeft, RefreshCw, AlertTriangle } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from '@/lib/motion';
 
 export default function ErrorPage() {
   const navigate = useNavigate();

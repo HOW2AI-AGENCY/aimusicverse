@@ -3,7 +3,7 @@
  * Shows key metrics for professional users
  */
 
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { 
   Music, Scissors, FileMusic, Clock, 
   TrendingUp, Activity, Zap, ArrowUpRight

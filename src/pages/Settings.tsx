@@ -31,7 +31,7 @@ import { TelegramBotSetup } from "@/components/TelegramBotSetup";
 import { AddToHomeScreen } from "@/components/telegram/AddToHomeScreen";
 import { AvatarUpload } from "@/components/settings/AvatarUpload";
 import { MidiSettingsSection } from "@/components/settings/MidiSettingsSection";
-import { motion } from "framer-motion";
+import { motion } from '@/lib/motion';
 
 export default function Settings() {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Sparkles, TrendingUp, History, Link2, Copy, Check, 
   ChevronDown, ChevronUp, Lightbulb, Zap
