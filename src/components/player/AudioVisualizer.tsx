@@ -3,12 +3,18 @@
  * 
  * Displays animated frequency bars that react to audio playback.
  * Uses Web Audio API for real-time audio analysis.
+ * 
+ * Uses centralized audioContextManager to prevent conflicts.
  */
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
+import { 
+  getOrCreateAudioNodes, 
+  ensureAudioRoutedToDestination 
+} from '@/lib/audioContextManager';
 
 interface AudioVisualizerProps {
   audioElement: HTMLAudioElement | null;
@@ -17,19 +23,6 @@ interface AudioVisualizerProps {
   barCount?: number;
   className?: string;
   color?: 'primary' | 'gradient' | 'rainbow';
-}
-
-// Singleton for AudioContext to prevent multiple contexts
-let sharedAudioContext: AudioContext | null = null;
-let sharedAnalyser: AnalyserNode | null = null;
-let connectedAudioElement: HTMLAudioElement | null = null;
-let mediaSource: MediaElementAudioSourceNode | null = null;
-
-function getAudioContext(): AudioContext {
-  if (!sharedAudioContext) {
-    sharedAudioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-  }
-  return sharedAudioContext;
 }
 
 export function AudioVisualizer({
@@ -44,90 +37,25 @@ export function AudioVisualizer({
   const animationRef = useRef<number | null>(null);
   const [frequencies, setFrequencies] = useState<number[]>(new Array(barCount).fill(0));
 
-  // Initialize Web Audio API
+  // Initialize Web Audio API using centralized manager
   const initializeAudio = useCallback(async () => {
     if (!audioElement) return null;
 
     try {
-      const audioContext = getAudioContext();
+      const nodes = await getOrCreateAudioNodes(audioElement, 128, 0.8);
       
-      // Resume context if suspended (MUST await!)
-      // CRITICAL FIX: Always await resume to prevent race conditions
-      if (audioContext.state === 'suspended') {
-        try {
-          await audioContext.resume();
-          logger.debug('AudioContext resumed successfully', { state: audioContext.state });
-        } catch (err) {
-          logger.error('Failed to resume AudioContext', err);
-          // If we have an existing connection, ensure it's still routed to destination
-          if (mediaSource && connectedAudioElement === audioElement) {
-            try {
-              mediaSource.disconnect();
-              mediaSource.connect(audioContext.destination);
-              logger.info('Audio reconnected to destination despite resume failure');
-              return sharedAnalyser;
-            } catch (reconnectErr) {
-              logger.error('Failed to reconnect to destination', reconnectErr);
-            }
-          }
-          return null;
-        }
+      if (!nodes) {
+        logger.debug('Audio nodes not available, using fallback visualization');
+        // Ensure audio is still routed even if visualizer fails
+        ensureAudioRoutedToDestination();
+        return null;
       }
-
-      // Only create new source if audio element changed
-      if (connectedAudioElement !== audioElement) {
-        // Disconnect old source if exists
-        if (mediaSource) {
-          try {
-            mediaSource.disconnect();
-          } catch (e) {
-            // Ignore disconnect errors
-          }
-        }
-
-        // Create new analyser
-        sharedAnalyser = audioContext.createAnalyser();
-        sharedAnalyser.fftSize = 128;
-        sharedAnalyser.smoothingTimeConstant = 0.8;
-
-        // Connect audio element to analyser
-        // CRITICAL: createMediaElementSource disconnects audio from default output!
-        mediaSource = audioContext.createMediaElementSource(audioElement);
-        mediaSource.connect(sharedAnalyser);
-        sharedAnalyser.connect(audioContext.destination);
-        
-        connectedAudioElement = audioElement;
-        
-        // Verify AudioContext is running after connection
-        if (audioContext.state === 'suspended') {
-          try {
-            await audioContext.resume();
-            logger.debug('AudioContext resumed after connection', { state: audioContext.state });
-          } catch (err) {
-            logger.error('Failed to resume AudioContext after connection', err);
-          }
-        }
-      }
-
-      return sharedAnalyser;
+      
+      return nodes.analyser;
     } catch (error) {
-      logger.error('Error initializing audio visualizer', { error });
-      
-      // Emergency reconnection if source was created but setup failed
-      if (mediaSource) {
-        try {
-          const audioContext = getAudioContext();
-          // Disconnect specifically from the analyser to avoid breaking other connections
-          if (sharedAnalyser) {
-            mediaSource.disconnect(sharedAnalyser);
-          }
-          mediaSource.connect(audioContext.destination);
-          logger.debug('Emergency audio reconnection successful');
-        } catch (reconnectError) {
-          logger.error('Emergency reconnection failed', reconnectError);
-        }
-      }
-      
+      logger.error('Error initializing audio visualizer', error);
+      // Ensure audio continues to work even if visualizer fails
+      ensureAudioRoutedToDestination();
       return null;
     }
   }, [audioElement]);

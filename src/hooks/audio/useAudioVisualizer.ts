@@ -5,44 +5,21 @@
  * Uses Web Audio API AnalyserNode.
  * 
  * IMPORTANT: MediaElementSourceNode can only be created once per audio element.
- * This hook manages a global source node to prevent crashes on re-renders.
+ * This hook uses the centralized audioContextManager to prevent conflicts.
  */
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { logger } from '@/lib/logger';
+import {
+  resumeAudioContext,
+  getOrCreateAudioNodes,
+  ensureAudioRoutedToDestination,
+} from '@/lib/audioContextManager';
 
 /**
- * Resume the global AudioContext if it exists and is suspended.
- * This should be called on user interaction (like play button click).
- * @returns Promise that resolves when AudioContext is running or doesn't exist
+ * Re-export resumeAudioContext from the centralized manager
  */
-export async function resumeAudioContext(): Promise<void> {
-  if (!audioContext) {
-    logger.debug('No AudioContext to resume');
-    return;
-  }
-
-  logger.debug('Checking AudioContext state', {
-    state: audioContext.state,
-    sampleRate: audioContext.sampleRate
-  });
-
-  if (audioContext.state === 'suspended') {
-    try {
-      await audioContext.resume();
-      logger.info('✅ AudioContext resumed successfully', {
-        state: audioContext.state,
-        sampleRate: audioContext.sampleRate
-      });
-    } catch (err) {
-      // CRITICAL FIX: Don't throw - this breaks playback!
-      // Just log the error and continue - audio will work without visualizer
-      logger.error('❌ Failed to resume AudioContext - continuing without visualizer', err instanceof Error ? err : new Error(String(err)));
-    }
-  } else {
-    logger.debug('AudioContext already running', { state: audioContext.state });
-  }
-}
+export { resumeAudioContext } from '@/lib/audioContextManager';
 
 interface UseAudioVisualizerOptions {
   barCount?: number;
@@ -55,227 +32,6 @@ interface VisualizerData {
   waveform: number[];
   average: number;
   peak: number;
-}
-
-// Singleton AudioContext and source node tracking
-let audioContext: AudioContext | null = null;
-let globalSourceNode: MediaElementAudioSourceNode | null = null;
-let globalAnalyserNode: AnalyserNode | null = null;
-let connectedAudioElement: HTMLAudioElement | null = null;
-
-/**
- * Get or create the global audio source and analyser nodes
- * This ensures we only call createMediaElementSource once per audio element
- */
-async function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: number, smoothing: number) {
-  try {
-    // Create AudioContext if needed
-    if (!audioContext) {
-      audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-      logger.debug('AudioContext created for visualizer');
-    }
-
-    // CRITICAL FIX: Check existing connection FIRST before any early returns
-    // This ensures audio continues to play even if visualizer can't initialize
-    if (connectedAudioElement === audioElement && globalSourceNode && globalAnalyserNode) {
-      // Connection exists - ensure it's still routed to destination
-      try {
-        // Verify and maintain connection to destination
-        // This is critical - without this, audio will be silent!
-        globalAnalyserNode.connect(audioContext.destination);
-      } catch (err) {
-        // Connection may already exist (InvalidStateError), which is fine
-        if (err instanceof Error && err.name !== 'InvalidStateError') {
-          logger.warn('Failed to reconnect to destination', err);
-        }
-      }
-
-      // Try to resume context if suspended
-      if (audioContext.state === 'suspended') {
-        logger.warn('AudioContext suspended with existing connection, attempting resume...');
-        try {
-          await audioContext.resume();
-          logger.info('✅ AudioContext resumed for existing connection', {
-            state: audioContext.state
-          });
-        } catch (err) {
-          logger.warn('AudioContext resume failed but connection maintained', err);
-        }
-      }
-
-      // Update analyser settings and return existing connection
-      try {
-        globalAnalyserNode.fftSize = fftSize;
-        globalAnalyserNode.smoothingTimeConstant = smoothing;
-        logger.debug('Audio visualizer reusing existing connection', {
-          contextState: audioContext.state
-        });
-        return globalAnalyserNode;
-      } catch (err) {
-        logger.warn('Existing analyser settings update failed, recreating', err);
-        // Don't clear globals yet - let the recreation below handle it
-      }
-    }
-
-    // Resume if suspended (required for user interaction policy)
-    // IMPORTANT: Wait for resume to complete before proceeding
-    if (audioContext.state === 'suspended') {
-      logger.warn('AudioContext is suspended, attempting to resume...');
-      try {
-        await audioContext.resume();
-        logger.info('✅ AudioContext resumed in getOrCreateAudioNodes', {
-          state: audioContext.state,
-          sampleRate: audioContext.sampleRate
-        });
-      } catch (err) {
-        // CRITICAL FIX: If source already exists, ensure it's connected to destination
-        if (globalSourceNode) {
-          try {
-            logger.warn('Resume failed but source exists, ensuring destination connection...');
-            globalSourceNode.disconnect();
-            globalSourceNode.connect(audioContext.destination);
-            logger.info('✅ Audio reconnected directly to destination');
-          } catch (reconnectErr) {
-            logger.error('Failed to reconnect to destination', reconnectErr);
-          }
-        }
-        // Don't throw - just log and return null to use fallback visualizer
-        logger.error('❌ AudioContext resume failed - visualizer disabled, audio should still work', err instanceof Error ? err : new Error(String(err)));
-        return null;
-      }
-    }
-
-    // Verify AudioContext is actually running
-    if (audioContext.state !== 'running') {
-      // CRITICAL FIX: If source already exists, ensure it's connected to destination
-      if (globalSourceNode) {
-        try {
-          logger.warn('Context not running but source exists, ensuring destination connection...');
-          globalSourceNode.disconnect();
-          globalSourceNode.connect(audioContext.destination);
-          logger.info('✅ Audio reconnected directly to destination despite suspended context');
-        } catch (reconnectErr) {
-          logger.error('Failed to reconnect to destination', reconnectErr);
-        }
-      }
-      
-      logger.warn('⚠️ AudioContext not running - visualizer disabled, audio should still work', {
-        state: audioContext.state,
-        hasSourceNode: !!globalSourceNode
-      });
-      // Return null instead of throwing - allows audio to work without visualizer
-      return null;
-    }
-
-    // If connected to different element, we cannot reconnect (Web Audio limitation)
-    // Just return null and use fallback animation
-    if (connectedAudioElement && connectedAudioElement !== audioElement) {
-      logger.warn('Audio visualizer already connected to different element, using fallback');
-      return null;
-    }
-
-    // Create new connection
-    logger.debug('Creating new audio visualizer connection');
-    globalAnalyserNode = audioContext.createAnalyser();
-    globalAnalyserNode.fftSize = fftSize;
-    globalAnalyserNode.smoothingTimeConstant = smoothing;
-
-    // Try to create source node - this can only be done once per audio element
-    try {
-      // Create the source node - this IMMEDIATELY disconnects audio from default output!
-      // From this point on, we MUST route audio through Web Audio API or there will be no sound.
-      globalSourceNode = audioContext.createMediaElementSource(audioElement);
-      logger.debug('MediaElementSource created, audio now routed through Web Audio API');
-      
-      // CRITICAL: Connect to analyser and destination
-      // This MUST succeed or audio will be silent!
-      globalSourceNode.connect(globalAnalyserNode);
-      globalAnalyserNode.connect(audioContext.destination);
-      
-      // Note: MediaElementSource constructor validates the element internally,
-      // so if we reach here, the source is valid
-      
-      connectedAudioElement = audioElement;
-      
-      // Verify AudioContext is running - should already be resumed from earlier
-      // This is a safety check after connection is established
-      if (audioContext.state === 'suspended') {
-        logger.warn('AudioContext still suspended after initial resume, trying again...');
-        try {
-          await audioContext.resume();
-          logger.debug('AudioContext resumed on retry', {
-            state: audioContext.state,
-            sampleRate: audioContext.sampleRate,
-          });
-        } catch (err) {
-          logger.error('CRITICAL: Failed to resume AudioContext - audio may be silent!', err);
-        }
-      } else {
-        logger.debug('Audio visualizer successfully connected', {
-          contextState: audioContext.state,
-          sampleRate: audioContext.sampleRate,
-        });
-      }
-      
-      return globalAnalyserNode;
-    } catch (sourceError) {
-      // If source creation fails because element already has a source,
-      // the audio is still playing through that existing source
-      if (sourceError instanceof Error && sourceError.message.includes('already been attached')) {
-        logger.warn('Audio element already has a source node attached');
-        
-        // Check if we have the existing connection
-        if (globalSourceNode && globalAnalyserNode) {
-          logger.debug('Reusing existing source node and analyser');
-          // Make sure the existing connection routes to destination
-          try {
-            // Try to reconnect to destination if needed
-            globalAnalyserNode.connect(audioContext.destination);
-          } catch (e) {
-            // Connection might already exist (InvalidStateError/InvalidAccessError)
-            // This is expected and safe to ignore
-            if (e instanceof Error) {
-              logger.debug('Destination already connected (expected)', e.name);
-            }
-          }
-          return globalAnalyserNode;
-        }
-        
-        // Return null to use fallback visualization
-        // Audio playback continues through the existing (external) source node
-        logger.debug('No existing analyser found, using fallback visualization');
-        return null;
-      }
-      
-      // For any other error, clean up and let audio play through default output
-      logger.error('Failed to create audio source node', sourceError instanceof Error ? sourceError : new Error(String(sourceError)));
-      
-      // IMPORTANT: If we created a source node but connection failed,
-      // audio is now disconnected! Try to reconnect directly to destination
-      if (globalSourceNode) {
-        try {
-          logger.warn('Attempting emergency reconnection to destination');
-          // Disconnect specifically from the analyser to avoid breaking other potential connections
-          if (globalAnalyserNode) {
-            globalSourceNode.disconnect(globalAnalyserNode);
-          }
-          globalSourceNode.connect(audioContext.destination); // Connect directly
-          logger.debug('Emergency reconnection successful');
-        } catch (reconnectError) {
-          logger.error('Emergency reconnection failed - audio will be silent!', reconnectError);
-        }
-      }
-      
-      // Clean up broken state
-      globalAnalyserNode = null;
-      connectedAudioElement = null;
-      return null; // Use fallback visualization
-    }
-  } catch (error) {
-    logger.error('Failed to initialize audio analyser', error);
-    // Return null to use fallback - audio playback continues through default output
-    return null;
-  }
 }
 
 export function useAudioVisualizer(
@@ -298,10 +54,19 @@ export function useAudioVisualizer(
     peak: 0,
   });
 
-  // Get analyser node
+  // Get analyser node using centralized manager
   const getAnalyser = useCallback(async () => {
     if (!audioElement) return null;
-    return await getOrCreateAudioNodes(audioElement, fftSize, smoothing);
+    
+    try {
+      const nodes = await getOrCreateAudioNodes(audioElement, fftSize, smoothing);
+      return nodes?.analyser || null;
+    } catch (err) {
+      logger.warn('Failed to get audio nodes', err);
+      // Ensure audio is still routed even if visualizer fails
+      ensureAudioRoutedToDestination();
+      return null;
+    }
   }, [audioElement, fftSize, smoothing]);
 
   // Animation loop
