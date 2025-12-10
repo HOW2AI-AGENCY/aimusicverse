@@ -83,7 +83,8 @@ serve(async (req) => {
           const data = await response.json();
           
           if (!isSunoSuccessCode(data.code)) {
-            throw new Error(data.msg || `API returned code ${data.code}`);
+            const code = data.code ?? 'unknown';
+            throw new Error(data.msg || `API returned code ${code}`);
           }
           
           return data;

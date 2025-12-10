@@ -36,7 +36,7 @@ serve(async (req) => {
     const sunoData = await sunoResponse.json();
 
     if (!isSunoSuccessCode(sunoData.code)) {
-      throw new Error(sunoData.msg || `Failed to fetch credits (code ${sunoData.code})`);
+      throw new Error(sunoData.msg || `Failed to fetch credits (code ${sunoData.code ?? 'unknown'})`);
     }
 
     const credits = sunoData.data;
