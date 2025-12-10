@@ -141,17 +141,27 @@ export function useTrackActions() {
   const handleGenerateCover = async (track: Track) => {
     setIsProcessing(true);
     try {
-      const { data, error } = await supabase.functions.invoke('suno-generate-cover-image', {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Не авторизован');
+
+      const { data, error } = await supabase.functions.invoke('generate-track-cover', {
         body: {
           trackId: track.id,
-          prompt: track.prompt,
+          title: track.title,
           style: track.style,
+          lyrics: track.lyrics,
+          mood: track.mood,
+          userId: user.id,
         },
       });
 
       if (error) throw error;
 
-      toast.success('Генерация обложки началась!', {
+      if (!data?.success) {
+        throw new Error(data?.error || 'Ошибка генерации обложки');
+      }
+
+      toast.success('Генерация обложки началась! 🎨', {
         description: 'Новая обложка будет готова через минуту',
       });
     } catch (error: any) {

@@ -59,7 +59,7 @@ Style: Abstract digital art, synthwave influences, modern album artwork`;
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-3-pro-image-preview',
+        model: 'google/gemini-2.0-flash-exp',
         messages: [
           {
             role: 'user',
