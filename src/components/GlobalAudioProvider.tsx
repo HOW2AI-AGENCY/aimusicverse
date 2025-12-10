@@ -53,8 +53,19 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     if (!audioRef.current) {
       audioRef.current = new Audio();
       audioRef.current.preload = 'auto';
+
+      // CRITICAL: Set initial volume to ensure audio is audible
+      audioRef.current.volume = 1.0;
+      audioRef.current.muted = false;
+
+      // Log audio element state for debugging
+      logger.info('Audio element initialized', {
+        volume: audioRef.current.volume,
+        muted: audioRef.current.muted,
+        readyState: audioRef.current.readyState
+      });
+
       setGlobalAudioRef(audioRef.current);
-      logger.debug('Audio element initialized');
     }
 
     return () => {
@@ -179,16 +190,32 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         // Don't attempt play if effect has been cleaned up
         if (isCleanedUp) return;
 
+        // Log detailed audio state before play attempt
         logger.debug('Attempting to play', {
           trackId: activeTrack?.id,
           src: audio.src.substring(0, 50),
-          readyState: audio.readyState
+          readyState: audio.readyState,
+          volume: audio.volume,
+          muted: audio.muted,
+          paused: audio.paused,
+          networkState: audio.networkState
         });
+
+        // CRITICAL FIX: Ensure volume is set and not muted
+        if (audio.volume === 0) {
+          logger.warn('Volume was 0, setting to 1.0');
+          audio.volume = 1.0;
+        }
+        if (audio.muted) {
+          logger.warn('Audio was muted, unmuting');
+          audio.muted = false;
+        }
 
         // CRITICAL: Resume AudioContext before playing
         // This ensures Web Audio API is ready if visualizer is active
         try {
           await resumeAudioContext();
+          logger.debug('AudioContext resumed successfully');
         } catch (err) {
           logger.warn('AudioContext resume failed before playback', err);
           // Continue anyway - audio might still work without visualizer

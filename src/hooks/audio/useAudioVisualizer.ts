@@ -17,15 +17,29 @@ import { logger } from '@/lib/logger';
  * @returns Promise that resolves when AudioContext is running or doesn't exist
  */
 export async function resumeAudioContext(): Promise<void> {
-  if (!audioContext) return;
-  
+  if (!audioContext) {
+    logger.debug('No AudioContext to resume');
+    return;
+  }
+
+  logger.debug('Checking AudioContext state', {
+    state: audioContext.state,
+    sampleRate: audioContext.sampleRate
+  });
+
   if (audioContext.state === 'suspended') {
     try {
       await audioContext.resume();
-      logger.debug('AudioContext resumed via resumeAudioContext()');
+      logger.info('✅ AudioContext resumed successfully', {
+        state: audioContext.state,
+        sampleRate: audioContext.sampleRate
+      });
     } catch (err) {
-      logger.warn('Failed to resume AudioContext via resumeAudioContext()', err);
+      logger.error('❌ Failed to resume AudioContext', err instanceof Error ? err : new Error(String(err)));
+      throw err; // Re-throw to let caller handle
     }
+  } else {
+    logger.debug('AudioContext already running', { state: audioContext.state });
   }
 }
 
@@ -63,14 +77,25 @@ async function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: nu
     // Resume if suspended (required for user interaction policy)
     // IMPORTANT: Wait for resume to complete before proceeding
     if (audioContext.state === 'suspended') {
+      logger.warn('AudioContext is suspended, attempting to resume...');
       try {
         await audioContext.resume();
-        logger.debug('AudioContext resumed successfully', {
+        logger.info('✅ AudioContext resumed in getOrCreateAudioNodes', {
           state: audioContext.state,
+          sampleRate: audioContext.sampleRate
         });
       } catch (err) {
-        logger.warn('AudioContext resume failed', err);
+        logger.error('❌ CRITICAL: AudioContext resume failed - audio will be SILENT!', err instanceof Error ? err : new Error(String(err)));
+        throw err; // This will prevent visualizer setup and keep audio on default output
       }
+    }
+
+    // Verify AudioContext is actually running
+    if (audioContext.state !== 'running') {
+      logger.error('❌ CRITICAL: AudioContext not running after resume attempt', {
+        state: audioContext.state
+      });
+      throw new Error(`AudioContext in ${audioContext.state} state, expected running`);
     }
 
     // Check if already connected to this element
