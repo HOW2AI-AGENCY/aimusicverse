@@ -74,7 +74,7 @@
 Telegram.WebApp.onEvent('mainButtonClicked', async () => {
   Telegram.WebApp.MainButton.showProgress();
   const result = await createTrack(); // call Edge Function
-  await fetch('/api/answer-webapp', { method: 'POST', body: JSON.stringify(result) });
+  await fetch('/functions/answer-webapp', { method: 'POST', body: JSON.stringify(result) });
   Telegram.WebApp.MainButton.hideProgress();
 });
 ```

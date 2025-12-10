@@ -40,7 +40,12 @@ await bot.sendGift(refUserId, gifts[0].id, { text: 'Thanks for the referral! ðŸŽ
 await bot.postBusinessStory({
   business_connection_id,
   content: { photo: { photo: fileId } },
-  areas: [{ position: {...}, type: { type: 'link', url: deepLink } }],
+  areas: [
+    {
+      position: { x: 0.5, y: 0.5, width: 0.25, height: 0.1 },
+      type: { type: 'link', url: deepLink },
+    },
+  ],
 });
 ```
 
