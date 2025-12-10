@@ -1,18 +1,19 @@
-import { 
-  Music2, 
-  Mic2, 
-  Library, 
-  Layers, 
-  FolderKanban, 
-  UserCircle, 
-  ListMusic, 
-  Sparkles, 
-  Hand, 
-  Waves, 
+import {
+  Music2,
+  Mic2,
+  Library,
+  Layers,
+  FolderKanban,
+  UserCircle,
+  ListMusic,
+  Sparkles,
+  Hand,
+  Waves,
   FileMusic,
   Upload,
   Share2,
-  Trophy
+  Trophy,
+  Guitar // ✨ Добавлена иконка для Guitar Studio
 } from 'lucide-react';
 
 export interface OnboardingStep {
@@ -126,6 +127,21 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
       'Микширование и экспорт'
     ],
     tip: 'Используйте стемы как основу для новых треков'
+  },
+  {
+    id: 'guitar-studio',
+    title: '🎸 Guitar Studio',
+    description: 'Профессиональный инструмент для гитаристов: запись, анализ, транскрипция в MIDI, табы и ноты.',
+    icon: Guitar,
+    route: '/guitar-studio',
+    features: [
+      '🎙️ Запись гитары с микрофона',
+      '🎼 Транскрипция в MIDI/GP5/PDF/MusicXML',
+      '🎵 Распознавание аккордов и тональности',
+      '🎹 6 AI моделей (guitar, piano, bass, drums, vocal)',
+      '⚡ Генерация треков из записи'
+    ],
+    tip: 'Запишите гитарный рифф и получите профессиональные табы за минуту! 🚀'
   },
   {
     id: 'projects',
