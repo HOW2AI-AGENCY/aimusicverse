@@ -7,7 +7,7 @@ import { PricingCard, type StarsProduct } from '@/components/payment/PricingCard
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import { Loader2, Star, Crown } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 interface DBProduct {
   id: string;

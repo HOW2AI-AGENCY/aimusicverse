@@ -4,7 +4,7 @@
  */
 
 import { memo, useMemo, useRef, useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { getChordColor } from '@/lib/studio-animations';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 

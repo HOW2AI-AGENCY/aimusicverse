@@ -3,7 +3,7 @@
  * Shows step-by-step process with real-time status updates
  */
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   ArrowRight, Check, Clock, Zap, Sparkles,
   Music, Scissors, FileMusic, Guitar, Sliders, Download

@@ -13,7 +13,7 @@ import {
   Clock
 } from 'lucide-react';
 import { useUserStats } from '@/hooks/useUserStats';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Analytics() {

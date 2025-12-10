@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 interface ChordDiagramEnhancedProps {
   chord: string;

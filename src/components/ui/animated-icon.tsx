@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { motion, type Easing } from "framer-motion";
+import { motion, type Easing } from '@/lib/motion';
 import { LucideIcon } from "lucide-react";
 
 interface AnimatedIconProps {

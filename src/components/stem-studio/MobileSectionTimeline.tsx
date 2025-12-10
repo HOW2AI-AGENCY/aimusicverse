@@ -1,5 +1,5 @@
 import { useRef, useState, useCallback } from 'react';
-import { motion, PanInfo, AnimatePresence, Variants, useAnimation } from 'framer-motion';
+import { motion, PanInfo, AnimatePresence, Variants, useAnimation } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';

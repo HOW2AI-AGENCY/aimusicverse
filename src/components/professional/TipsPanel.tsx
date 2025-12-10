@@ -4,7 +4,7 @@
  */
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Lightbulb, X, ChevronRight, Sparkles, 
   Music, Scissors, FileMusic, Sliders, Guitar,

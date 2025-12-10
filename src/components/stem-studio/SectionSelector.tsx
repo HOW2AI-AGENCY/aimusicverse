@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { GripVertical, AlertCircle, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DetectedSection } from '@/hooks/useSectionDetection';

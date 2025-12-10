@@ -2,7 +2,7 @@
  * Validation warning for section duration
  */
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { AlertTriangle, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 

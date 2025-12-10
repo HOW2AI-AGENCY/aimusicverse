@@ -17,7 +17,7 @@ import { PianoRollPreview } from '@/components/analysis/PianoRollPreview';
 import { useMidiSync } from '@/hooks/studio/useMidiSync';
 import type { MidiNote } from '@/hooks/useMidiVisualization';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 interface NoteData {
   pitch: number;

@@ -20,7 +20,7 @@ export {
   useAnimationFrame,
   animate,
   stagger,
-} from 'framer-motion';
+} from '@/lib/motion';
 
 // Types
 export type { 
@@ -32,7 +32,7 @@ export type {
   SpringOptions,
   Target,
   TargetAndTransition,
-} from 'framer-motion';
+} from '@/lib/motion';
 
 // Common animation presets for consistency
 export const fadeIn: import('framer-motion').Variants = {

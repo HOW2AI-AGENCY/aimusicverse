@@ -1,7 +1,7 @@
 import { Sparkles, Library, FolderOpen, ListMusic, Upload, Music2, Guitar, Wand2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTelegram } from '@/contexts/TelegramContext';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { useState } from 'react';
 import { UploadAudioDialog } from '@/components/UploadAudioDialog';
 import { MusicRecognitionDialog } from '@/components/music-recognition/MusicRecognitionDialog';

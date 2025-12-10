@@ -20,7 +20,7 @@ import { StrummingPatternVisualization } from '@/components/analysis/StrummingPa
 import type { GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 
 interface GuitarAnalysisReportProps {
   analysis: GuitarAnalysisResult;

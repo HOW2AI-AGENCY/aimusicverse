@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DailyCheckin } from '@/components/gamification/DailyCheckin';
 import { UserLevel } from '@/components/gamification/UserLevel';

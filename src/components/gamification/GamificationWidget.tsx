@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { useNavigate } from 'react-router-dom';
 import { DailyCheckin } from '@/components/gamification/DailyCheckin';
 import { useUserCredits, getLevelProgress } from '@/hooks/useGamification';

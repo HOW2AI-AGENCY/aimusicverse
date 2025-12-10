@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Network, Sparkles, ChevronRight, Tag, Music2, Layers } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useMusicGraphData, GraphNode } from '@/hooks/useMusicGraph';

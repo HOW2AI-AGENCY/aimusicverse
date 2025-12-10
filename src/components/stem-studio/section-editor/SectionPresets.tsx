@@ -2,7 +2,7 @@
  * Quick preset buttons for section replacement
  */
 
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Button } from '@/components/ui/button';
 import { SECTION_PRESETS } from '@/hooks/useSectionReplacement';
 

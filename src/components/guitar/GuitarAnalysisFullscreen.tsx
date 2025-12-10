@@ -4,7 +4,7 @@
  */
 
 import { memo, useState, useCallback, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   ChevronLeft, 
   Play, 

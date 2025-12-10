@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion } from '@/lib/motion';
 
 interface ProgressRingProps {
   value: number; // 0-100

@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { Trophy, Coins, Sparkles, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';

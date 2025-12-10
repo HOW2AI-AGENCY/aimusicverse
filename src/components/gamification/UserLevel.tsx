@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Progress } from '@/components/ui/progress';
 import { useUserCredits, getLevelProgress } from '@/hooks/useGamification';
 import { Star, TrendingUp } from 'lucide-react';

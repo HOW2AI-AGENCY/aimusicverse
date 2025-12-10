@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { 
   FileMusic, Music2, FileText, Download, 
   Scissors, Wand2, Sparkles, Piano, Guitar,

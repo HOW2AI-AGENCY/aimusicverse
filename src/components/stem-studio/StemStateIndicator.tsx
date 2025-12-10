@@ -7,7 +7,7 @@
 
 import { memo } from 'react';
 import { Volume2, VolumeX, Sparkles } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 

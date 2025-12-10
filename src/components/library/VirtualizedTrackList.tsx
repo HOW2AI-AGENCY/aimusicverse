@@ -2,7 +2,7 @@ import { useCallback, forwardRef } from "react";
 import { Virtuoso, VirtuosoGrid } from "react-virtuoso";
 import { type Track } from "@/hooks/useTracksOptimized";
 import { TrackCard } from "@/components/TrackCard";
-import { motion } from "framer-motion";
+import { motion } from '@/lib/motion';
 
 interface VirtualizedTrackListProps {
   tracks: Track[];

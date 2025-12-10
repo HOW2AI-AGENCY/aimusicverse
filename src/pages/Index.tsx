@@ -20,7 +20,7 @@ import { ProfessionalToolsHub } from "@/components/home/ProfessionalToolsHub";
 import { GenerateSheet } from "@/components/GenerateSheet";
 import { MusicRecognitionDialog } from "@/components/music-recognition/MusicRecognitionDialog";
 import { HomeSkeletonEnhanced } from "@/components/home/HomeSkeletonEnhanced";
-import { motion } from "framer-motion";
+import { motion } from '@/lib/motion';
 
 const Index = () => {
   const { user } = useAuth();

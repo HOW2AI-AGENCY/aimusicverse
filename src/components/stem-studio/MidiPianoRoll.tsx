@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect, memo } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { PianoKeyboard } from './PianoKeyboard';
 import { useMidiSynth } from '@/hooks/useMidiSynth';

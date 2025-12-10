@@ -9,7 +9,7 @@ import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useTracks } from '@/hooks/useTracksOptimized';
 import { PlaybackControls } from '@/components/player/PlaybackControls';
 import { VersionSwitcher } from '@/components/player/VersionSwitcher';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
 import { Track } from '@/hooks/useTracksOptimized';

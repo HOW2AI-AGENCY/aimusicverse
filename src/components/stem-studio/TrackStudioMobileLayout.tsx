@@ -5,7 +5,7 @@
  */
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Music2, FileText, Scissors, Wand2,
   ChevronLeft, Play, Pause, SkipBack, SkipForward

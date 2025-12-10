@@ -8,7 +8,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { logger } from '@/lib/logger';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 
 interface VersionsSectionProps {
   track: Track;

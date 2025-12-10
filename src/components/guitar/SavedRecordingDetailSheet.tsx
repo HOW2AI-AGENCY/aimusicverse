@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { useGuitarAnalysis } from '@/hooks/useGuitarAnalysis';
 import { useGuitarRecordings, type GuitarRecording } from '@/hooks/useGuitarRecordings';

@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Loader2, CheckCircle2, XCircle, Sparkles, 
   Music, Wand2, AudioWaveformIcon, Zap, Eye,

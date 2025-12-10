@@ -6,7 +6,7 @@ import {
   Download, FileMusic, FileText, File, Check, 
   ExternalLink, Loader2, Music2, FileCode
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import type { TranscriptionFiles } from '@/hooks/useGuitarAnalysis';

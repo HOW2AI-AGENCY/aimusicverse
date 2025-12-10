@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback, TouchEvent } from 'react';
-import { motion, AnimatePresence, PanInfo } from 'framer-motion';
+import { motion, AnimatePresence, PanInfo } from '@/lib/motion';
 import { 
   Music, 
   ZoomIn, 

@@ -4,7 +4,7 @@
  */
 
 import { memo, useRef, useEffect, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
 // Get actual CSS color value from CSS variable with proper comma syntax

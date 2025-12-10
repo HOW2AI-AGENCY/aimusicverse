@@ -12,7 +12,7 @@ import { useEmotionAnalysis } from '@/hooks/useEmotionAnalysis';
 import { EmotionalMap } from '@/components/track-detail/EmotionalMap';
 import { EmotionBadge } from '@/components/ui/EmotionBadge';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 
 interface StudioAnalysisPanelProps {
   trackId: string;
