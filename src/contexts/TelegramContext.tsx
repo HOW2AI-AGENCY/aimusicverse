@@ -19,24 +19,56 @@ interface TelegramContextType {
   initData: string;
   isInitialized: boolean;
   isDevelopmentMode: boolean;
+  
+  // Buttons
   showMainButton: (text: string, onClick: () => void, options?: { color?: string; textColor?: string; isActive?: boolean; isVisible?: boolean }) => void;
   hideMainButton: () => void;
+  showSecondaryButton: (text: string, onClick: () => void, options?: { color?: string; textColor?: string; position?: 'left' | 'right' }) => void;
+  hideSecondaryButton: () => void;
   showBackButton: (onClick: () => void) => void;
   hideBackButton: () => void;
   showSettingsButton: (onClick: () => void) => void;
   hideSettingsButton: () => void;
-  enableClosingConfirmation: () => void;
-  disableClosingConfirmation: () => void;
+  
+  // Dialogs
   showPopup: (params: { title?: string; message: string; buttons?: Array<{ id: string; type: string; text: string }> }, callback?: (buttonId: string) => void) => void;
   showAlert: (message: string) => void;
   showConfirm: (message: string, callback?: (confirmed: boolean) => void) => void;
+  
+  // Feedback
   hapticFeedback: (type: 'light' | 'medium' | 'heavy' | 'success' | 'error' | 'warning' | 'selection') => void;
+  
+  // Window control
   close: () => void;
   expand: () => void;
   ready: () => void;
+  enableClosingConfirmation: () => void;
+  disableClosingConfirmation: () => void;
+  
+  // Fullscreen (Mini App 2.0)
+  requestFullscreen: () => void;
+  exitFullscreen: () => void;
+  isFullscreen: boolean;
+  
+  // Orientation
+  lockOrientation: () => void;
+  unlockOrientation: () => void;
+  
+  // Links
   openLink: (url: string, options?: { try_instant_view?: boolean }) => void;
   openTelegramLink: (url: string) => void;
+  
+  // Sharing
   shareToStory: (mediaUrl: string, options?: { text?: string; widget_link?: { url: string; name?: string } }) => void;
+  shareURL: (url: string, text?: string) => void;
+  
+  // QR Scanner
+  showQRScanner: (text?: string, callback?: (data: string) => boolean) => void;
+  closeQRScanner: () => void;
+  
+  // Downloads
+  downloadFile: (url: string, fileName: string, callback?: (success: boolean) => void) => void;
+  requestWriteAccess: (callback?: (granted: boolean) => void) => void;
 }
 
 const TelegramContext = createContext<TelegramContextType | undefined>(undefined);
@@ -456,6 +488,97 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // New Mini App 2.0 features
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const showSecondaryButton = (text: string, onClick: () => void, options?: { color?: string; textColor?: string; position?: 'left' | 'right' }) => {
+    if (webApp && webApp.SecondaryButton) {
+      webApp.SecondaryButton.setText(text);
+      if (options?.color) webApp.SecondaryButton.color = options.color;
+      if (options?.textColor) webApp.SecondaryButton.textColor = options.textColor;
+      if (options?.position) webApp.SecondaryButton.position = options.position;
+      webApp.SecondaryButton.show();
+      webApp.SecondaryButton.onClick(onClick);
+    }
+  };
+
+  const hideSecondaryButton = () => {
+    if (webApp?.SecondaryButton) {
+      webApp.SecondaryButton.hide();
+      webApp.SecondaryButton.offClick(() => {});
+    }
+  };
+
+  const requestFullscreen = () => {
+    if (webApp?.requestFullscreen) {
+      webApp.requestFullscreen();
+      setIsFullscreen(true);
+      telegramLogger.info('Requested fullscreen mode');
+    }
+  };
+
+  const exitFullscreen = () => {
+    if (webApp?.exitFullscreen) {
+      webApp.exitFullscreen();
+      setIsFullscreen(false);
+      telegramLogger.info('Exited fullscreen mode');
+    }
+  };
+
+  const lockOrientation = () => {
+    if (webApp?.lockOrientation) {
+      webApp.lockOrientation();
+      telegramLogger.info('Orientation locked');
+    }
+  };
+
+  const unlockOrientation = () => {
+    if (webApp?.unlockOrientation) {
+      webApp.unlockOrientation();
+      telegramLogger.info('Orientation unlocked');
+    }
+  };
+
+  const shareURL = (url: string, text?: string) => {
+    if (webApp?.shareURL) {
+      webApp.shareURL(url, text);
+    } else {
+      telegramLogger.warn('shareURL not available');
+    }
+  };
+
+  const showQRScanner = (text?: string, callback?: (data: string) => boolean) => {
+    if (webApp?.showScanQrPopup) {
+      webApp.showScanQrPopup({ text: text || 'Scan QR code' }, callback || (() => true));
+    } else {
+      telegramLogger.warn('QR Scanner not available');
+    }
+  };
+
+  const closeQRScanner = () => {
+    if (webApp?.closeScanQrPopup) {
+      webApp.closeScanQrPopup();
+    }
+  };
+
+  const downloadFile = (url: string, fileName: string, callback?: (success: boolean) => void) => {
+    if (webApp?.downloadFile) {
+      webApp.downloadFile({ url, file_name: fileName }, callback);
+    } else {
+      telegramLogger.warn('downloadFile not available');
+      callback?.(false);
+    }
+  };
+
+  const requestWriteAccess = (callback?: (granted: boolean) => void) => {
+    if (webApp?.requestWriteAccess) {
+      webApp.requestWriteAccess(callback);
+    } else {
+      telegramLogger.warn('requestWriteAccess not available');
+      callback?.(false);
+    }
+  };
+
   return (
     <TelegramContext.Provider
       value={{
@@ -465,24 +588,56 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
         initData,
         isInitialized,
         isDevelopmentMode,
+        
+        // Buttons
         showMainButton,
         hideMainButton,
+        showSecondaryButton,
+        hideSecondaryButton,
         showBackButton,
         hideBackButton,
         showSettingsButton,
         hideSettingsButton,
-        enableClosingConfirmation,
-        disableClosingConfirmation,
+        
+        // Dialogs
         showPopup,
         showAlert,
         showConfirm,
+        
+        // Feedback
         hapticFeedback,
+        
+        // Window control
         close,
         expand,
         ready,
+        enableClosingConfirmation,
+        disableClosingConfirmation,
+        
+        // Fullscreen
+        requestFullscreen,
+        exitFullscreen,
+        isFullscreen,
+        
+        // Orientation
+        lockOrientation,
+        unlockOrientation,
+        
+        // Links
         openLink,
         openTelegramLink,
+        
+        // Sharing
         shareToStory,
+        shareURL,
+        
+        // QR Scanner
+        showQRScanner,
+        closeQRScanner,
+        
+        // Downloads
+        downloadFile,
+        requestWriteAccess,
       }}
     >
       {children}
