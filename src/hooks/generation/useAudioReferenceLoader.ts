@@ -20,6 +20,9 @@ export interface AudioReferenceData {
   prompt?: string;
   originalTitle?: string;
   timestamp: number;
+  action?: string;
+  stemType?: string;
+  trackId?: string;
 }
 
 export interface AudioReferenceResult {
@@ -27,6 +30,8 @@ export interface AudioReferenceResult {
   lyrics: string;
   style: string;
   title: string;
+  action: string | null;
+  stemType: string | null;
   isLoading: boolean;
 }
 
@@ -41,6 +46,8 @@ export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult 
   const [lyrics, setLyrics] = useState('');
   const [style, setStyle] = useState('');
   const [title, setTitle] = useState('');
+  const [action, setAction] = useState<string | null>(null);
+  const [stemType, setStemType] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -83,14 +90,32 @@ export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult 
         setTitle(remixTitle.slice(0, TITLE_MAX_LENGTH));
       }
 
+      // Extract action and stem type
+      if (stemReference.action) {
+        setAction(stemReference.action);
+      }
+      if (stemReference.stemType) {
+        setStemType(stemReference.stemType);
+      }
+
       // Show success toast with loaded parts
       const loadedParts: string[] = [];
       if (stemReference.lyrics) loadedParts.push('текст');
       if (styleToUse) loadedParts.push('стиль');
+      if (stemReference.action) {
+        // Translate action to Russian
+        const actionLabels: Record<string, string> = {
+          'add-vocals-to-instrumental': 'добавить вокал',
+          'add-instrumental-to-vocals': 'добавить аранжировку',
+          'create-instrumental': 'создать инструментал',
+          'regenerate-from-stem': 'регенерация',
+        };
+        loadedParts.push(actionLabels[stemReference.action] || 'действие');
+      }
 
       toast.success('Контекст загружен из студии', {
-        description: loadedParts.length > 0 
-          ? `Скопировано: ${loadedParts.join(', ')}` 
+        description: loadedParts.length > 0
+          ? `Скопировано: ${loadedParts.join(', ')}`
           : 'Готово к генерации',
       });
 
@@ -131,6 +156,8 @@ export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult 
     lyrics,
     style,
     title,
+    action,
+    stemType,
     isLoading,
   };
 }

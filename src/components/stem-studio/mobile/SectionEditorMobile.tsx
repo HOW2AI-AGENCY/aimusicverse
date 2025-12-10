@@ -20,9 +20,9 @@ import {
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
-import { Tag } from 'lucide-react';
-import { Sparkles } from 'lucide-react';
+import { Tag, Sparkles, AlertCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface SectionEditorMobileProps {
   open: boolean;
@@ -55,6 +55,9 @@ export function SectionEditorMobile({
   taskId,
   audioId,
 }: SectionEditorMobileProps) {
+  // Validate that track has required Suno IDs for section replacement
+  const hasSunoData = Boolean(taskId && audioId);
+
   const { data: lyricsData } = useTimestampedLyrics(taskId || null, audioId || null);
   const detectedSections = useSectionDetection(trackLyrics, lyricsData?.alignedWords, duration);
 
@@ -165,53 +168,73 @@ export function SectionEditorMobile({
               compact
             />
 
+            {/* Warning if track doesn't have Suno data */}
+            {!hasSunoData && (
+              <Alert variant="destructive" className="border-orange-500/50 bg-orange-500/10">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription className="text-xs">
+                  <strong>Замена секций недоступна</strong><br />
+                  Этот трек не был сгенерирован через Suno AI и не содержит данных для замены секций.
+                  Функция доступна только для треков, созданных через генерацию.
+                </AlertDescription>
+              </Alert>
+            )}
+
             {/* Presets */}
-            <SectionPresets onSelect={addPreset} compact />
+            {hasSunoData && <SectionPresets onSelect={addPreset} compact />}
 
             {/* Prompt */}
-            <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground">Описание стиля</Label>
-              <Textarea
-                placeholder="Более энергичный, с электро-гитарой..."
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                className="min-h-[50px] resize-none text-sm"
-              />
-            </div>
+            {hasSunoData && (
+              <div className="space-y-1.5">
+                <Label className="text-xs text-muted-foreground">Описание стиля</Label>
+                <Textarea
+                  placeholder="Более энергичный, с электро-гитарой..."
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  className="min-h-[50px] resize-none text-sm"
+                />
+              </div>
+            )}
 
             {/* Tags */}
-            <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground flex items-center gap-1.5">
-                <Tag className="w-3 h-3" />
-                Стиль музыки
-              </Label>
-              <Input
-                placeholder="rock, guitar, energetic..."
-                value={tags}
-                onChange={(e) => setTags(e.target.value)}
-                className="h-8 text-sm"
-              />
-            </div>
+            {hasSunoData && (
+              <div className="space-y-1.5">
+                <Label className="text-xs text-muted-foreground flex items-center gap-1.5">
+                  <Tag className="w-3 h-3" />
+                  Стиль музыки
+                </Label>
+                <Input
+                  placeholder="rock, guitar, energetic..."
+                  value={tags}
+                  onChange={(e) => setTags(e.target.value)}
+                  className="h-8 text-sm"
+                />
+              </div>
+            )}
 
             {/* Lyrics Editor with AI and Auto-regenerate */}
-            <SectionLyricsEditor
-              lyrics={lyrics}
-              onLyricsChange={setLyrics}
-              originalLyrics={selectedSection?.lyrics}
-              sectionLabel={selectedSection?.label}
-              onAutoRegenerate={executeReplacement}
-              isRegenerating={isSubmitting}
-              compact
-            />
+            {hasSunoData && (
+              <SectionLyricsEditor
+                lyrics={lyrics}
+                onLyricsChange={setLyrics}
+                originalLyrics={selectedSection?.lyrics}
+                sectionLabel={selectedSection?.label}
+                onAutoRegenerate={executeReplacement}
+                isRegenerating={isSubmitting}
+                compact
+              />
+            )}
 
             {/* Actions */}
-            <SectionActions
-              onReplace={executeReplacement}
-              onCancel={handleClose}
-              isValid={isValidDuration}
-              isSubmitting={isSubmitting}
-              compact
-            />
+            {hasSunoData && (
+              <SectionActions
+                onReplace={executeReplacement}
+                onCancel={handleClose}
+                isValid={isValidDuration}
+                isSubmitting={isSubmitting}
+                compact
+              />
+            )}
           </div>
         </ScrollArea>
       </DrawerContent>
