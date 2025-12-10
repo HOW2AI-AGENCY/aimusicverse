@@ -10,12 +10,6 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },
-  globals: {
-    'ts-jest': {
-      useESM: true,
-      tsconfig: 'tsconfig.app.json',
-    },
-  },
   transform: {
     '^.+\\.(ts|tsx)$': [
       'ts-jest',
