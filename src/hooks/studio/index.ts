@@ -29,3 +29,10 @@ export { useStemControls } from './useStemControls';
 export type { StemState } from './useStemControls';
 export { useStudioKeyboardShortcuts, formatShortcut } from './useStudioKeyboardShortcuts';
 export type { KeyboardShortcut } from './useStudioKeyboardShortcuts';
+export { 
+  useMixPresets, 
+  useAutoSaveMix, 
+  generatePresetForStems,
+  defaultMixPresets,
+} from './useMixPresets';
+export type { MixPreset } from './useMixPresets';
