@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { createLogger } from '../_shared/logger.ts';
+import { isSunoSuccessCode } from '../_shared/suno.ts';
 
 const logger = createLogger('suno-music-callback');
 
@@ -67,7 +68,7 @@ serve(async (req) => {
     const trackId = task.track_id;
     logger.info('Processing callback', { taskId: task.id, trackId, callbackType, status: task.status });
 
-    if (code !== 200) {
+    if (!isSunoSuccessCode(code)) {
       logger.error('SunoAPI generation failed', null, { msg });
       await supabase.from('generation_tasks').update({
         status: 'failed',

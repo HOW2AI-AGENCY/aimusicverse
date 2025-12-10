@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { isSunoSuccessCode } from "../_shared/suno.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -94,7 +95,7 @@ serve(async (req) => {
 
     const sunoData = await sunoResponse.json();
 
-    if (!sunoResponse.ok || sunoData.code !== 200) {
+    if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
       console.error('Suno API error:', sunoData);
       return new Response(
         JSON.stringify({ error: sunoData.msg || 'Failed to generate cover' }),

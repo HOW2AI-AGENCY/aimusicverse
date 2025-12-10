@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { isSunoSuccessCode } from '../_shared/suno.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -27,7 +28,7 @@ serve(async (req) => {
       throw new Error('No taskId in callback');
     }
 
-    if (code !== 200) {
+    if (!isSunoSuccessCode(code)) {
       console.error('Cover generation failed:', msg);
       return new Response(
         JSON.stringify({ success: true, status: 'failed' }),

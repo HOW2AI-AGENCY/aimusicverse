@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { isSunoSuccessCode } from "../_shared/suno.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -34,8 +35,8 @@ serve(async (req) => {
 
     const sunoData = await sunoResponse.json();
 
-    if (sunoData.code !== 200) {
-      throw new Error(sunoData.msg || 'Failed to fetch credits');
+    if (!isSunoSuccessCode(sunoData.code)) {
+      throw new Error(sunoData.msg || `Failed to fetch credits (code ${sunoData.code})`);
     }
 
     const credits = sunoData.data;
