@@ -163,8 +163,24 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     const handleEnded = () => {
       logger.debug('Track ended', { trackId: activeTrack?.id });
       if (repeat === 'one') {
-        audio.currentTime = 0;
-        audio.play().catch((err) => logger.warn('Repeat play failed', err));
+        // Ensure audio is still available and valid before repeating
+        if (audio.src && audio.duration > 0) {
+          audio.currentTime = 0;
+          // Only play if we're still in playing state
+          if (isPlaying) {
+            audio.play().catch((err) => {
+              logger.warn('Repeat play failed', err);
+              // If repeat play fails, try moving to next track
+              if (err.name !== 'AbortError') {
+                nextTrack();
+              }
+            });
+          }
+        } else {
+          // Source is invalid, move to next track
+          logger.warn('Cannot repeat track: invalid source');
+          nextTrack();
+        }
       } else {
         nextTrack();
       }

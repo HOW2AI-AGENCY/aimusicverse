@@ -41,7 +41,7 @@ export function useStemControls({
   );
 
   /**
-   * Toggle stem mute/solo
+   * Toggle stem mute/solo with improved logic
    */
   const toggleStem = useCallback((stemId: string, type: 'mute' | 'solo') => {
     setStemStates(prev => {
@@ -49,20 +49,29 @@ export function useStemControls({
 
       if (type === 'solo') {
         const wasSolo = prev[stemId]?.solo;
-        newStates[stemId] = { ...newStates[stemId], solo: !wasSolo };
         
-        // Clear solo on other stems when enabling solo
         if (!wasSolo) {
+          // Enabling solo: clear all other solos and enable this one
           Object.keys(newStates).forEach(id => {
-            if (id !== stemId) {
-              newStates[id] = { ...newStates[id], solo: false };
-            }
+            newStates[id] = { 
+              ...newStates[id], 
+              solo: id === stemId,
+              // Also unmute the stem being soloed for better UX
+              muted: id === stemId ? false : newStates[id].muted
+            };
           });
+        } else {
+          // Disabling solo: just turn off solo for this stem
+          newStates[stemId] = { ...newStates[stemId], solo: false };
         }
       } else {
+        // Mute/unmute toggle
+        const newMutedState = !prev[stemId]?.muted;
         newStates[stemId] = { 
           ...newStates[stemId], 
-          muted: !prev[stemId]?.muted 
+          muted: newMutedState,
+          // If unmuting, also disable solo to avoid confusion
+          solo: newMutedState ? false : newStates[stemId].solo
         };
       }
 

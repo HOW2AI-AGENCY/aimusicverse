@@ -9,6 +9,7 @@ export { useAudioVisualizer } from './useAudioVisualizer';
 export { useGlobalAudioPlayer } from './useGlobalAudioPlayer';
 export { usePlayerStore } from './usePlayerState';
 export { usePlaybackQueue } from './usePlaybackQueue';
+export { useQueueHistory } from './useQueueHistory';
 export { useWaveform } from './useWaveform';
 export { useDebouncedAudioTime } from './useDebouncedAudioTime';
 export { useOptimizedAudioPlayer } from './useOptimizedAudioPlayer';

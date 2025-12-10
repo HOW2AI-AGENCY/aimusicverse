@@ -270,12 +270,24 @@ export function usePlaybackQueue() {
    * 
    * Debounced through React's render cycle - only saves after state settles.
    * Only saves if queue has content to avoid storing empty state.
+   * 
+   * Note: saveQueueToStorage is stable (wrapped in useCallback with stable deps),
+   * but we inline the logic here to avoid any potential re-run issues.
    */
   useEffect(() => {
     if (queue.length > 0) {
-      saveQueueToStorage();
+      try {
+        localStorage.setItem(QUEUE_STORAGE_KEY, JSON.stringify(queue));
+        localStorage.setItem(QUEUE_STATE_STORAGE_KEY, JSON.stringify({
+          currentIndex,
+          shuffle,
+          repeat,
+        }));
+      } catch (error) {
+        log.error('Failed to save queue to storage', { error });
+      }
     }
-  }, [queue, currentIndex, shuffle, repeat, saveQueueToStorage]);
+  }, [queue, currentIndex, shuffle, repeat]);
 
   return {
     // Queue data
