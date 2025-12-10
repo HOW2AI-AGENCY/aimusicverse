@@ -75,6 +75,48 @@ async function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: nu
       logger.debug('AudioContext created for visualizer');
     }
 
+    // CRITICAL FIX: Check existing connection FIRST before any early returns
+    // This ensures audio continues to play even if visualizer can't initialize
+    if (connectedAudioElement === audioElement && globalSourceNode && globalAnalyserNode) {
+      // Connection exists - ensure it's still routed to destination
+      try {
+        // Verify and maintain connection to destination
+        // This is critical - without this, audio will be silent!
+        globalAnalyserNode.connect(audioContext.destination);
+      } catch (err) {
+        // Connection may already exist (InvalidStateError), which is fine
+        if (err instanceof Error && err.name !== 'InvalidStateError') {
+          logger.warn('Failed to reconnect to destination', err);
+        }
+      }
+
+      // Try to resume context if suspended
+      if (audioContext.state === 'suspended') {
+        logger.warn('AudioContext suspended with existing connection, attempting resume...');
+        try {
+          await audioContext.resume();
+          logger.info('✅ AudioContext resumed for existing connection', {
+            state: audioContext.state
+          });
+        } catch (err) {
+          logger.warn('AudioContext resume failed but connection maintained', err);
+        }
+      }
+
+      // Update analyser settings and return existing connection
+      try {
+        globalAnalyserNode.fftSize = fftSize;
+        globalAnalyserNode.smoothingTimeConstant = smoothing;
+        logger.debug('Audio visualizer reusing existing connection', {
+          contextState: audioContext.state
+        });
+        return globalAnalyserNode;
+      } catch (err) {
+        logger.warn('Existing analyser settings update failed, recreating', err);
+        // Don't clear globals yet - let the recreation below handle it
+      }
+    }
+
     // Resume if suspended (required for user interaction policy)
     // IMPORTANT: Wait for resume to complete before proceeding
     if (audioContext.state === 'suspended') {
@@ -86,38 +128,43 @@ async function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: nu
           sampleRate: audioContext.sampleRate
         });
       } catch (err) {
-        // CRITICAL FIX: Don't throw - just log and return null
-        // This allows audio to play without visualizer
-        logger.error('❌ AudioContext resume failed - visualizer disabled, audio will work', err instanceof Error ? err : new Error(String(err)));
+        // CRITICAL FIX: If source already exists, ensure it's connected to destination
+        if (globalSourceNode) {
+          try {
+            logger.warn('Resume failed but source exists, ensuring destination connection...');
+            globalSourceNode.disconnect();
+            globalSourceNode.connect(audioContext.destination);
+            logger.info('✅ Audio reconnected directly to destination');
+          } catch (reconnectErr) {
+            logger.error('Failed to reconnect to destination', reconnectErr);
+          }
+        }
+        // Don't throw - just log and return null to use fallback visualizer
+        logger.error('❌ AudioContext resume failed - visualizer disabled, audio should still work', err instanceof Error ? err : new Error(String(err)));
         return null;
       }
     }
 
     // Verify AudioContext is actually running
     if (audioContext.state !== 'running') {
-      logger.warn('⚠️ AudioContext not running - visualizer disabled, audio will work', {
-        state: audioContext.state
+      // CRITICAL FIX: If source already exists, ensure it's connected to destination
+      if (globalSourceNode) {
+        try {
+          logger.warn('Context not running but source exists, ensuring destination connection...');
+          globalSourceNode.disconnect();
+          globalSourceNode.connect(audioContext.destination);
+          logger.info('✅ Audio reconnected directly to destination despite suspended context');
+        } catch (reconnectErr) {
+          logger.error('Failed to reconnect to destination', reconnectErr);
+        }
+      }
+      
+      logger.warn('⚠️ AudioContext not running - visualizer disabled, audio should still work', {
+        state: audioContext.state,
+        hasSourceNode: !!globalSourceNode
       });
       // Return null instead of throwing - allows audio to work without visualizer
       return null;
-    }
-
-    // Check if already connected to this element
-    if (connectedAudioElement === audioElement && globalSourceNode && globalAnalyserNode) {
-      // Verify the connection is still valid
-      try {
-        // Update analyser settings if needed
-        globalAnalyserNode.fftSize = fftSize;
-        globalAnalyserNode.smoothingTimeConstant = smoothing;
-        logger.debug('Audio visualizer reusing existing connection');
-        return globalAnalyserNode;
-      } catch (err) {
-        logger.warn('Existing connection invalid, recreating', err);
-        // Fall through to recreate connection
-        globalSourceNode = null;
-        globalAnalyserNode = null;
-        connectedAudioElement = null;
-      }
     }
 
     // If connected to different element, we cannot reconnect (Web Audio limitation)
