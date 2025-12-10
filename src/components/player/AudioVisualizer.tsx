@@ -45,15 +45,33 @@ export function AudioVisualizer({
   const [frequencies, setFrequencies] = useState<number[]>(new Array(barCount).fill(0));
 
   // Initialize Web Audio API
-  const initializeAudio = useCallback(() => {
+  const initializeAudio = useCallback(async () => {
     if (!audioElement) return null;
 
     try {
       const audioContext = getAudioContext();
       
-      // Resume context if suspended
+      // Resume context if suspended (MUST await!)
+      // CRITICAL FIX: Always await resume to prevent race conditions
       if (audioContext.state === 'suspended') {
-        audioContext.resume();
+        try {
+          await audioContext.resume();
+          logger.debug('AudioContext resumed successfully', { state: audioContext.state });
+        } catch (err) {
+          logger.error('Failed to resume AudioContext', err);
+          // If we have an existing connection, ensure it's still routed to destination
+          if (mediaSource && connectedAudioElement === audioElement) {
+            try {
+              mediaSource.disconnect();
+              mediaSource.connect(audioContext.destination);
+              logger.info('Audio reconnected to destination despite resume failure');
+              return sharedAnalyser;
+            } catch (reconnectErr) {
+              logger.error('Failed to reconnect to destination', reconnectErr);
+            }
+          }
+          return null;
+        }
       }
 
       // Only create new source if audio element changed
@@ -80,11 +98,14 @@ export function AudioVisualizer({
         
         connectedAudioElement = audioElement;
         
-        // Ensure AudioContext is running
+        // Verify AudioContext is running after connection
         if (audioContext.state === 'suspended') {
-          audioContext.resume().catch((err) => {
-            logger.error('Failed to resume AudioContext', err);
-          });
+          try {
+            await audioContext.resume();
+            logger.debug('AudioContext resumed after connection', { state: audioContext.state });
+          } catch (err) {
+            logger.error('Failed to resume AudioContext after connection', err);
+          }
         }
       }
 
@@ -95,6 +116,7 @@ export function AudioVisualizer({
       // Emergency reconnection if source was created but setup failed
       if (mediaSource) {
         try {
+          const audioContext = getAudioContext();
           // Disconnect specifically from the analyser to avoid breaking other connections
           if (sharedAnalyser) {
             mediaSource.disconnect(sharedAnalyser);
@@ -122,61 +144,67 @@ export function AudioVisualizer({
       return;
     }
 
-    const analyser = initializeAudio();
-    if (!analyser) {
-      // Generate fake frequencies for visual effect when audio API unavailable
-      const generateFakeFrequencies = () => {
-        if (!isPlaying) return;
-        
-        setFrequencies(prev => 
-          prev.map((_, i) => {
-            const baseFreq = Math.sin(Date.now() / 500 + i * 0.5) * 0.3 + 0.5;
-            const randomVariation = Math.random() * 0.3;
-            return Math.min(1, Math.max(0.1, baseFreq + randomVariation));
-          })
-        );
-        
-        animationRef.current = requestAnimationFrame(generateFakeFrequencies);
-      };
-      
-      generateFakeFrequencies();
-      return () => {
-        if (animationRef.current) {
-          cancelAnimationFrame(animationRef.current);
-        }
-      };
-    }
+    let isActive = true;
 
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-
-    const animate = () => {
-      if (!isPlaying) return;
+    const initAndAnimate = async () => {
+      const analyser = await initializeAudio();
       
-      analyser.getByteFrequencyData(dataArray);
+      if (!isActive) return; // Component unmounted during await
       
-      // Sample frequencies for visualization
-      const step = Math.floor(bufferLength / barCount);
-      const newFrequencies: number[] = [];
-      
-      for (let i = 0; i < barCount; i++) {
-        // Average a range of frequencies for each bar
-        let sum = 0;
-        for (let j = 0; j < step; j++) {
-          sum += dataArray[i * step + j] || 0;
-        }
-        // Normalize to 0-1 range with some boost for visual effect
-        const normalized = Math.min(1, (sum / step / 255) * 1.5);
-        newFrequencies.push(normalized);
+      if (!analyser) {
+        // Generate fake frequencies for visual effect when audio API unavailable
+        const generateFakeFrequencies = () => {
+          if (!isPlaying || !isActive) return;
+          
+          setFrequencies(prev => 
+            prev.map((_, i) => {
+              const baseFreq = Math.sin(Date.now() / 500 + i * 0.5) * 0.3 + 0.5;
+              const randomVariation = Math.random() * 0.3;
+              return Math.min(1, Math.max(0.1, baseFreq + randomVariation));
+            })
+          );
+          
+          animationRef.current = requestAnimationFrame(generateFakeFrequencies);
+        };
+        
+        generateFakeFrequencies();
+        return;
       }
-      
-      setFrequencies(newFrequencies);
-      animationRef.current = requestAnimationFrame(animate);
+
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+
+      const animate = () => {
+        if (!isPlaying || !isActive) return;
+        
+        analyser.getByteFrequencyData(dataArray);
+        
+        // Sample frequencies for visualization
+        const step = Math.floor(bufferLength / barCount);
+        const newFrequencies: number[] = [];
+        
+        for (let i = 0; i < barCount; i++) {
+          // Average a range of frequencies for each bar
+          let sum = 0;
+          for (let j = 0; j < step; j++) {
+            sum += dataArray[i * step + j] || 0;
+          }
+          // Normalize to 0-1 range with some boost for visual effect
+          const normalized = Math.min(1, (sum / step / 255) * 1.5);
+          newFrequencies.push(normalized);
+        }
+        
+        setFrequencies(newFrequencies);
+        animationRef.current = requestAnimationFrame(animate);
+      };
+
+      animate();
     };
 
-    animate();
+    initAndAnimate();
 
     return () => {
+      isActive = false;
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
