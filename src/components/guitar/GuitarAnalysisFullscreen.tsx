@@ -66,6 +66,11 @@ export const GuitarAnalysisFullscreen = memo(function GuitarAnalysisFullscreen({
   // Parse chord data
   const chords = Array.isArray(recording.chords) ? recording.chords : [];
   const notes = Array.isArray(recording.notes) ? recording.notes : [];
+  
+  // Helper to check if chord is active at current time
+  const isChordActive = useCallback((chord: typeof chords[0], time: number) => {
+    return time >= chord.start && time < (chord.end || chord.start + 1);
+  }, []);
 
   // Gesture handling for tab switching
   const { gestureHandlers } = useGestures({
@@ -113,14 +118,12 @@ export const GuitarAnalysisFullscreen = memo(function GuitarAnalysisFullscreen({
 
   // Update current chord
   useEffect(() => {
-    const chord = chords.find(
-      (c) => currentTime >= c.start && currentTime < (c.end || c.start + 1)
-    );
+    const chord = chords.find((c) => isChordActive(c, currentTime));
     if (chord && chord.chord !== currentChord) {
       setCurrentChord(chord.chord);
       haptic.selectionChanged();
     }
-  }, [currentTime, chords, currentChord, haptic]);
+  }, [currentTime, chords, currentChord, haptic, isChordActive]);
 
   const togglePlay = useCallback(() => {
     const audio = audioRef.current;
@@ -333,10 +336,10 @@ export const GuitarAnalysisFullscreen = memo(function GuitarAnalysisFullscreen({
                             onClick={() => handleSeek(chord.start)}
                             className="px-3 py-2 rounded-lg text-sm font-medium transition-all"
                             style={{
-                              backgroundColor: currentTime >= chord.start && currentTime < (chord.end || chord.start + 1)
+                              backgroundColor: isChordActive(chord, currentTime)
                                 ? getChordColor(chord.chord).replace(')', ', 0.2)').replace('hsl', 'hsla')
                                 : 'hsl(var(--muted))',
-                              color: currentTime >= chord.start && currentTime < chord.end
+                              color: isChordActive(chord, currentTime)
                                 ? getChordColor(chord.chord)
                                 : 'hsl(var(--muted-foreground))',
                             }}

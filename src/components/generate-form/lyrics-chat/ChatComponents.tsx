@@ -278,6 +278,10 @@ export function LyricsPreview({
   );
 }
 
+/**
+ * LoadingIndicator - Displays an animated loading state during AI processing
+ * Shows three pulsing dots to indicate the AI is generating a response
+ */
 export function LoadingIndicator() {
   return (
     <motion.div

@@ -32,7 +32,7 @@ export type {
   SpringOptions,
   Target,
   TargetAndTransition,
-} from '@/lib/motion';
+} from 'framer-motion';
 
 // Common animation presets for consistency
 export const fadeIn: import('framer-motion').Variants = {
