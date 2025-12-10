@@ -149,7 +149,10 @@ export const NavigationMenuSheet = ({ open, onOpenChange }: NavigationMenuSheetP
                 variant="ghost"
                 size="icon"
                 className="h-9 w-9"
-                onClick={() => setSoundEnabled(!soundEnabled)}
+                onClick={() => {
+                  hapticFeedback('light');
+                  setSoundEnabled(!soundEnabled);
+                }}
               >
                 {soundEnabled ? (
                   <Volume2 className="w-4 h-4" />

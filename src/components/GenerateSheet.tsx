@@ -9,6 +9,7 @@ import { useProjects } from '@/hooks/useProjectsOptimized';
 import { useArtists } from '@/hooks/useArtists';
 import { useTracks } from '@/hooks/useTracksOptimized';
 import { useGenerateForm } from '@/hooks/generation';
+import { useTelegram } from '@/contexts/TelegramContext';
 
 // Form components
 import { GenerateFormHeader } from './generate-form/GenerateFormHeader';
@@ -36,6 +37,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const { projects } = useProjects();
   const { artists } = useArtists();
   const { tracks: allTracks } = useTracks();
+  const { hapticFeedback } = useTelegram();
 
   // Dialog states
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
@@ -63,6 +65,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     : [];
 
   const handleProjectSelect = (projectId: string) => {
+    hapticFeedback('light');
     form.setSelectedProjectId(projectId);
     const tracks = allTracks?.filter(t => t.project_id === projectId);
     if (tracks && tracks.length > 0) {
@@ -76,9 +79,15 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   };
 
   const handleClearDraft = () => {
+    hapticFeedback('medium');
     form.clearDraft();
     form.resetForm();
     toast.success('Черновик очищен');
+  };
+
+  const handleGenerate = () => {
+    hapticFeedback('medium');
+    form.handleGenerate();
   };
 
   return (
@@ -193,7 +202,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
         <SheetFooter className="p-3 sm:p-4 bg-background/95 backdrop-blur-xl border-t">
           <Button
-            onClick={form.handleGenerate}
+            onClick={handleGenerate}
             disabled={form.loading}
             className="w-full h-12 text-sm gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg"
           >
