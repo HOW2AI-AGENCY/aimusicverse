@@ -130,6 +130,9 @@ Development guides and references:
 | [TELEGRAM_BOT_MONITORING.md](docs/TELEGRAM_BOT_MONITORING.md) | Bot monitoring | docs/ |
 | [BUNDLE_OPTIMIZATION.md](docs/BUNDLE_OPTIMIZATION.md) | Bundle optimization | docs/ |
 | [KLANG_IO.md](docs/KLANG_IO.md) | Klang.io integration | docs/ |
+| [telegram_mini_apps_integration.md](docs/TELEGRAM_MINI_APP/telegram_mini_apps_integration.md) | Advanced Mini App integration (Bot API 9.x) | docs/TELEGRAM_MINI_APP/ |
+| [mini_apps_advanced_examples.md](docs/TELEGRAM_MINI_APP/mini_apps_advanced_examples.md) | Practical Mini App examples (Stars, gifts, sensors) | docs/TELEGRAM_MINI_APP/ |
+| [methods_quick_reference.md](docs/TELEGRAM_MINI_APP/methods_quick_reference.md) | Quick reference for Telegram.WebApp & Bot API calls | docs/TELEGRAM_MINI_APP/ |
 
 ### Reference Documentation
 | Document | Description | Location |
