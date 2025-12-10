@@ -82,24 +82,87 @@ function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: number, 
 
     // Try to create source node - this can only be done once per audio element
     try {
+      // Create the source node - this IMMEDIATELY disconnects audio from default output!
+      // From this point on, we MUST route audio through Web Audio API or there will be no sound.
       globalSourceNode = audioContext.createMediaElementSource(audioElement);
+      logger.debug('MediaElementSource created, audio now routed through Web Audio API');
+      
+      // CRITICAL: Connect to analyser and destination
+      // This MUST succeed or audio will be silent!
       globalSourceNode.connect(globalAnalyserNode);
       globalAnalyserNode.connect(audioContext.destination);
       
+      // Verify the connection is valid
+      if (!globalSourceNode.mediaElement) {
+        throw new Error('MediaElementSource created but mediaElement is null');
+      }
+      
       connectedAudioElement = audioElement;
-      logger.debug('Audio visualizer successfully connected to element');
+      
+      // Ensure AudioContext is running - CRITICAL for audio output!
+      if (audioContext.state === 'suspended') {
+        logger.warn('AudioContext is suspended, attempting to resume...');
+        audioContext.resume().then(() => {
+          logger.debug('AudioContext resumed successfully', {
+            state: audioContext.state,
+            sampleRate: audioContext.sampleRate,
+          });
+        }).catch((err) => {
+          logger.error('CRITICAL: Failed to resume AudioContext - audio may be silent!', err);
+        });
+      } else {
+        logger.debug('Audio visualizer successfully connected', {
+          contextState: audioContext.state,
+          sampleRate: audioContext.sampleRate,
+        });
+      }
       
       return globalAnalyserNode;
     } catch (sourceError) {
       // If source creation fails because element already has a source,
       // the audio is still playing through that existing source
       if (sourceError instanceof Error && sourceError.message.includes('already been attached')) {
-        logger.warn('Audio element already has a source node - audio will play without visualizer');
+        logger.warn('Audio element already has a source node attached');
+        
+        // Check if we have the existing connection
+        if (globalSourceNode && globalAnalyserNode) {
+          logger.debug('Reusing existing source node and analyser');
+          // Make sure the existing connection routes to destination
+          try {
+            // Try to reconnect to destination if needed
+            globalAnalyserNode.connect(audioContext.destination);
+          } catch (e) {
+            // Connection might already exist, ignore
+          }
+          return globalAnalyserNode;
+        }
+        
         // Return null to use fallback visualization
-        // Audio playback is NOT affected - it continues through existing connection
+        // Audio playback continues through the existing (external) source node
+        logger.debug('No existing analyser found, using fallback visualization');
         return null;
       }
-      throw sourceError; // Re-throw unexpected errors
+      
+      // For any other error, clean up and let audio play through default output
+      logger.error('Failed to create audio source node', sourceError);
+      
+      // IMPORTANT: If we created a source node but connection failed,
+      // audio is now disconnected! Try to reconnect directly to destination
+      if (globalSourceNode) {
+        try {
+          logger.warn('Attempting emergency reconnection to destination');
+          globalSourceNode.disconnect(); // Disconnect from anywhere
+          globalSourceNode.connect(audioContext.destination); // Connect directly
+          logger.debug('Emergency reconnection successful');
+        } catch (reconnectError) {
+          logger.error('Emergency reconnection failed - audio will be silent!', reconnectError);
+        }
+      }
+      
+      // Clean up broken state
+      globalAnalyserNode = null;
+      connectedAudioElement = null;
+      return null; // Use fallback visualization
     }
   } catch (error) {
     logger.error('Failed to initialize audio analyser', error);
