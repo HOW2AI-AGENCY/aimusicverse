@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Play, Pause, MoreHorizontal, Volume2, Layers } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { UnifiedTrackSheet } from '@/components/track-actions';
 import { InlineVersionToggle } from './InlineVersionToggle';
 import { LazyImage } from '@/components/ui/lazy-image';
@@ -25,7 +25,8 @@ interface MinimalTrackCardProps {
   index?: number;
 }
 
-export const MinimalTrackCard = ({
+// ⚡ Memo для предотвращения лишних re-renders в списках
+export const MinimalTrackCard = memo(({
   track,
   onPlay,
   onDelete,
@@ -293,4 +294,4 @@ export const MinimalTrackCard = ({
       />
     </>
   );
-};
+});
