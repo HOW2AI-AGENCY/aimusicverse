@@ -1,14 +1,25 @@
+import { useState } from 'react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
-import { Clock, Calendar, Music, Mic, Volume2, Crown } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Clock, Calendar, Music, Mic, Volume2, Crown, ChevronDown, ChevronUp } from 'lucide-react';
 import { format } from 'date-fns';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { motion } from '@/lib/motion';
+import { hapticImpact } from '@/lib/haptic';
+import { cn } from '@/lib/utils';
 
 interface TrackDetailsTabProps {
   track: Track;
 }
 
+const PROMPT_PREVIEW_LENGTH = 150; // символов для preview
+
 export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
+  const [isPromptExpanded, setIsPromptExpanded] = useState(false);
+  const isMobile = useIsMobile();
+
   const formatDuration = (seconds: number | null) => {
     if (!seconds) return 'Unknown';
     const mins = Math.floor(seconds / 60);
@@ -23,6 +34,18 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
     } catch {
       return 'Unknown';
     }
+  };
+
+  // 📱 Progressive Disclosure для промпта
+  const isLongPrompt = (track.prompt?.length || 0) > PROMPT_PREVIEW_LENGTH;
+  const shouldCollapsePrompt = isMobile && isLongPrompt;
+  const promptPreview = shouldCollapsePrompt && !isPromptExpanded
+    ? `${track.prompt?.slice(0, PROMPT_PREVIEW_LENGTH)}...`
+    : track.prompt;
+
+  const handleTogglePrompt = () => {
+    hapticImpact('light');
+    setIsPromptExpanded(!isPromptExpanded);
   };
 
   return (
@@ -118,13 +141,49 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
         </Card>
       )}
 
-      {/* Prompt */}
+      {/* Prompt с Progressive Disclosure */}
       {track.prompt && (
         <Card className="p-4">
           <h3 className="text-sm font-semibold mb-2">Prompt</h3>
-          <p className="text-sm text-muted-foreground whitespace-pre-wrap">
-            {track.prompt}
-          </p>
+          <div className="relative">
+            <motion.p
+              className={cn(
+                "text-sm text-muted-foreground whitespace-pre-wrap",
+                shouldCollapsePrompt && !isPromptExpanded && "line-clamp-3"
+              )}
+              initial={false}
+              animate={{
+                maxHeight: shouldCollapsePrompt && !isPromptExpanded ? '4.5rem' : 'none'
+              }}
+              transition={{ duration: 0.3 }}
+            >
+              {promptPreview}
+            </motion.p>
+
+            {/* Кнопка Показать полностью / Свернуть для промпта */}
+            {shouldCollapsePrompt && (
+              <div className="mt-2 flex justify-center">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleTogglePrompt}
+                  className="gap-1 text-xs touch-manipulation text-primary hover:text-primary/80"
+                >
+                  {isPromptExpanded ? (
+                    <>
+                      <ChevronUp className="w-3 h-3" />
+                      Свернуть
+                    </>
+                  ) : (
+                    <>
+                      <ChevronDown className="w-3 h-3" />
+                      Показать полностью
+                    </>
+                  )}
+                </Button>
+              </div>
+            )}
+          </div>
         </Card>
       )}
     </div>
