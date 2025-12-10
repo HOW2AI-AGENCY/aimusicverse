@@ -14,6 +14,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useProfile, useUpdateProfile } from '@/hooks/useProfile';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 
 interface MandatoryProfileSetupProps {
   onComplete: () => void;
@@ -68,7 +69,9 @@ export function MandatoryProfileSetup({ onComplete }: MandatoryProfileSetupProps
       setAvatarUrl(publicUrl);
       toast.success('Фото загружено');
     } catch (error) {
-      console.error('Error uploading avatar:', error);
+      logger.error('Error uploading avatar', error instanceof Error ? error : new Error(String(error)), {
+        userId: user?.id
+      });
       toast.error('Ошибка загрузки фото');
     } finally {
       setIsUploading(false);
@@ -93,7 +96,9 @@ export function MandatoryProfileSetup({ onComplete }: MandatoryProfileSetupProps
       toast.success('Профиль создан!');
       onComplete();
     } catch (error) {
-      console.error('Error saving profile:', error);
+      logger.error('Error saving profile', error instanceof Error ? error : new Error(String(error)), {
+        userId: user?.id
+      });
       toast.error('Ошибка сохранения профиля');
     } finally {
       setIsSaving(false);

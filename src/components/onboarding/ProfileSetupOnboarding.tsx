@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 
 interface ProfileSetupOnboardingProps {
   userId: string;
@@ -139,7 +140,9 @@ export function ProfileSetupOnboarding({
       toast.success('Профиль успешно настроен!');
       onComplete();
     } catch (error) {
-      console.error('Error saving profile:', error);
+      logger.error('Error saving profile', error instanceof Error ? error : new Error(String(error)), {
+        userId
+      });
       toast.error('Ошибка сохранения профиля');
     } finally {
       setIsLoading(false);
@@ -180,7 +183,9 @@ export function ProfileSetupOnboarding({
       
       toast.success('Фото загружено');
     } catch (error) {
-      console.error('Error uploading avatar:', error);
+      logger.error('Error uploading avatar', error instanceof Error ? error : new Error(String(error)), {
+        userId
+      });
       toast.error('Ошибка загрузки фото');
     } finally {
       setIsLoading(false);
@@ -513,7 +518,9 @@ export function useProfileSetupCheck() {
         }
       }
     } catch (error) {
-      console.error('Error checking profile:', error);
+      logger.error('Error checking profile', error instanceof Error ? error : new Error(String(error)), {
+        userId
+      });
     } finally {
       setIsChecking(false);
     }

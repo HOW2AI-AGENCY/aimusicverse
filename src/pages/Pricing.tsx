@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import { Loader2, Star, Crown } from 'lucide-react';
 import { motion } from '@/lib/motion';
+import { logger } from '@/lib/logger';
 
 interface DBProduct {
   id: string;
@@ -152,7 +153,10 @@ export default function Pricing() {
         setPurchasingProduct(null);
       }
     } catch (error: any) {
-      console.error('Purchase error:', error);
+      logger.error('Purchase error', error instanceof Error ? error : new Error(String(error)), {
+        productCode,
+        userId
+      });
       toast.error('Ошибка при создании платежа', {
         description: error.message || 'Попробуйте позже',
       });

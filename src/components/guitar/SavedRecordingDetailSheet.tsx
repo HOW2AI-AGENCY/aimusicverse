@@ -23,6 +23,7 @@ import { PianoRollWithMidiSync } from './PianoRollWithMidiSync';
 import { ExportFilesPanel } from './ExportFilesPanel';
 import { ChordTimelineMobile } from './ChordTimelineMobile';
 import { ChordDiagramEnhanced } from './ChordDiagramEnhanced';
+import { logger } from '@/lib/logger';
 
 interface SavedRecordingDetailSheetProps {
   recording: GuitarRecording | null;
@@ -84,7 +85,9 @@ export function SavedRecordingDetailSheet({
         });
       }
     } catch (error) {
-      console.error('Reanalysis failed:', error);
+      logger.error('Reanalysis failed', error instanceof Error ? error : new Error(String(error)), {
+        recordingId: recording?.id
+      });
     } finally {
       setIsReanalyzing(false);
     }

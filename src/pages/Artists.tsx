@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { usePublicArtists } from "@/hooks/usePublicArtists";
-import { useArtists } from "@/hooks/useArtists";
+import { useArtists, type Artist } from "@/hooks/useArtists";
 import { ActorCard } from "@/components/actors/ActorCard";
 import { CreateArtistDialog } from "@/components/CreateArtistDialog";
 import { Music2 } from "lucide-react";
@@ -46,7 +46,7 @@ export default function Artists() {
   };
 
   // Filter artists based on search and genre
-  const filterArtists = (artists: any[]) => {
+  const filterArtists = (artists: Artist[]) => {
     return artists?.filter((artist) => {
       const matchesSearch = artist.name.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesGenre = !selectedGenre || artist.genre_tags?.includes(selectedGenre);

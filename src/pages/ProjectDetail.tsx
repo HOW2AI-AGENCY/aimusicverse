@@ -85,7 +85,7 @@ export default function ProjectDetail() {
     reorderTracks(updates);
   };
 
-  const handleGenerateFromPlan = (track: any) => {
+  const handleGenerateFromPlan = (track: ProjectTrack) => {
     if (!project) return;
     
     setPlanTrackContext({
