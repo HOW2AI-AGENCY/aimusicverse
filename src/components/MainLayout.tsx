@@ -8,10 +8,13 @@ import { OnboardingOverlay } from './onboarding/OnboardingOverlay';
 import { OnboardingTrigger } from './onboarding/OnboardingTrigger';
 import { usePlaybackTracking } from '@/hooks/usePlaybackTracking';
 import { SkipToContent } from './ui/skip-to-content';
+import { GuestModeBanner } from './GuestModeBanner';
+import { useGuestMode } from '@/contexts/GuestModeContext';
 import { cn } from '@/lib/utils';
 
 export const MainLayout = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
+  const { isGuestMode } = useGuestMode();
   
   // Track play counts when tracks are played
   usePlaybackTracking();
@@ -20,6 +23,9 @@ export const MainLayout = () => {
     <div className="flex h-screen bg-background">
       {/* Skip to content for keyboard navigation */}
       <SkipToContent />
+      
+      {/* Guest mode banner */}
+      {isGuestMode && <GuestModeBanner />}
       
       {/* Onboarding system */}
       <OnboardingTrigger />
@@ -37,7 +43,8 @@ export const MainLayout = () => {
         id="main-content"
         className={cn(
           'flex-1 flex flex-col overflow-y-auto',
-          isDesktop ? 'ml-64' : 'pb-[calc(4rem+env(safe-area-inset-bottom,0px))]'
+          isDesktop ? 'ml-64' : 'pb-[calc(4rem+env(safe-area-inset-bottom,0px))]',
+          isGuestMode && 'pt-14'
         )}
       >
         <div className="flex-1 p-4 sm:p-6">
