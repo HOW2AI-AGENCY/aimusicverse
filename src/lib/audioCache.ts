@@ -341,13 +341,18 @@ export async function getCacheStats(): Promise<CacheStats> {
   }
 }
 
+interface NetworkInformation {
+  effectiveType?: string;
+  saveData?: boolean;
+}
+
 /**
  * Check network connection quality and suggest audio quality
  */
 export function getRecommendedQuality(): 'high' | 'medium' | 'low' {
-  if (!navigator.connection) return 'high';
+  const connection = (navigator as any).connection as NetworkInformation | undefined;
+  if (!connection) return 'high';
   
-  const connection = navigator.connection as any;
   const effectiveType = connection.effectiveType;
   
   if (effectiveType === '4g') return 'high';
@@ -359,8 +364,8 @@ export function getRecommendedQuality(): 'high' | 'medium' | 'low' {
  * Check if we should prefetch based on network conditions
  */
 export function shouldPrefetch(): boolean {
-  if (!navigator.connection) return true;
+  const connection = (navigator as any).connection as NetworkInformation | undefined;
+  if (!connection) return true;
   
-  const connection = navigator.connection as any;
   return !connection.saveData && connection.effectiveType !== 'slow-2g' && connection.effectiveType !== '2g';
 }

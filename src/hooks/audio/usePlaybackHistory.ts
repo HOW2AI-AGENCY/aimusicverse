@@ -103,9 +103,9 @@ export function usePlaybackHistory() {
 
     const entry: HistoryEntry = {
       trackId: track.id,
-      trackTitle: track.title,
-      trackArtist: track.artist_name || undefined,
-      trackCover: track.cover_url || undefined,
+      trackTitle: track.title ?? 'Untitled',
+      trackArtist: track.artist_name ?? undefined,
+      trackCover: track.cover_url ?? undefined,
       playedAt: Date.now(),
       duration,
       listenedDuration: listenedSeconds,

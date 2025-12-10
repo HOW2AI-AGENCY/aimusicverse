@@ -1074,6 +1074,105 @@ export type Database = {
           },
         ]
       }
+      stars_products: {
+        Row: {
+          created_at: string | null
+          credits_amount: number | null
+          description: string | null
+          features: Json | null
+          id: string
+          is_popular: boolean | null
+          name: string
+          product_code: string
+          product_type: string
+          sort_order: number | null
+          stars_price: number
+          status: string | null
+          subscription_days: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          credits_amount?: number | null
+          description?: string | null
+          features?: Json | null
+          id?: string
+          is_popular?: boolean | null
+          name: string
+          product_code: string
+          product_type?: string
+          sort_order?: number | null
+          stars_price: number
+          status?: string | null
+          subscription_days?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          credits_amount?: number | null
+          description?: string | null
+          features?: Json | null
+          id?: string
+          is_popular?: boolean | null
+          name?: string
+          product_code?: string
+          product_type?: string
+          sort_order?: number | null
+          stars_price?: number
+          status?: string | null
+          subscription_days?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      stars_transactions: {
+        Row: {
+          created_at: string | null
+          credits_granted: number | null
+          error_message: string | null
+          id: string
+          processed_at: string | null
+          product_code: string
+          stars_amount: number
+          status: string
+          subscription_granted: string | null
+          telegram_payment_charge_id: string | null
+          telegram_provider_charge_id: string | null
+          telegram_user_id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          credits_granted?: number | null
+          error_message?: string | null
+          id?: string
+          processed_at?: string | null
+          product_code: string
+          stars_amount: number
+          status?: string
+          subscription_granted?: string | null
+          telegram_payment_charge_id?: string | null
+          telegram_provider_charge_id?: string | null
+          telegram_user_id: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          credits_granted?: number | null
+          error_message?: string | null
+          id?: string
+          processed_at?: string | null
+          product_code?: string
+          stars_amount?: number
+          status?: string
+          subscription_granted?: string | null
+          telegram_payment_charge_id?: string | null
+          telegram_provider_charge_id?: string | null
+          telegram_user_id?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       stem_separation_tasks: {
         Row: {
           completed_at: string | null
@@ -2265,6 +2364,16 @@ export type Database = {
           photo_url: string
           user_id: string
           username: string
+        }[]
+      }
+      get_stars_payment_stats: {
+        Args: never
+        Returns: {
+          active_subscriptions: number
+          completed_transactions: number
+          total_credits_granted: number
+          total_stars_collected: number
+          total_transactions: number
         }[]
       }
       get_telegram_bot_metrics: {

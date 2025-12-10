@@ -15,8 +15,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { usePlayerStore } from './usePlayerState';
 import { usePlaybackQueue } from './usePlaybackQueue';
 import { usePlaybackHistory } from './usePlaybackHistory';
-import { useTracks, Track } from '@/hooks/useTracksOptimized';
-import { supabase } from '@/integrations/supabase/client';
+import { useTracksUnified, type Track } from '@/hooks/useTracksUnified';
 import { logger } from '@/lib/logger';
 
 const log = logger.child({ module: 'SmartQueue' });
@@ -48,10 +47,9 @@ export function useSmartQueue(options: SmartQueueOptions = {}) {
   const { activeTrack } = usePlayerStore();
   const { queue, queueLength, addTracks } = usePlaybackQueue();
   const { history, stats } = usePlaybackHistory();
-  const { data: allTracks } = useTracks({
-    limit: 100,
-    sortBy: 'created_at',
-    sortOrder: 'desc',
+  const { tracks: allTracks } = useTracksUnified({
+    sortBy: 'recent',
+    pageSize: 100,
   });
 
   /**
@@ -113,9 +111,9 @@ export function useSmartQueue(options: SmartQueueOptions = {}) {
 
     // Similar tags
     if (track1.tags && track2.tags) {
-      const tags1 = Array.isArray(track1.tags) ? track1.tags : [];
-      const tags2 = Array.isArray(track2.tags) ? track2.tags : [];
-      const commonTags = tags1.filter((tag: string) => tags2.includes(tag));
+      const tags1Words = (typeof track1.tags === 'string' ? track1.tags.split(',') : []).map((t: string) => t.trim());
+      const tags2Words = (typeof track2.tags === 'string' ? track2.tags.split(',') : []).map((t: string) => t.trim());
+      const commonTags = tags1Words.filter((tag: string) => tags2Words.includes(tag));
       
       if (commonTags.length > 0) {
         score += 15 * Math.min(commonTags.length, 3);
@@ -218,12 +216,12 @@ export function useSmartQueue(options: SmartQueueOptions = {}) {
 
     try {
       // Score all available tracks
-      const scoredTracks = allTracks.map(scoreTrack);
+      const scoredTracks = (allTracks || []).map(scoreTrack);
 
       // Filter out negative scores and sort by score
       const validTracks = scoredTracks
-        .filter(st => st.score > 0)
-        .sort((a, b) => b.score - a.score)
+        .filter((st: TrackScore) => st.score > 0)
+        .sort((a: TrackScore, b: TrackScore) => b.score - a.score)
         .slice(0, maxRecommendations);
 
       setRecommendations(validTracks);

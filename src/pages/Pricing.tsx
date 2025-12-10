@@ -1,15 +1,48 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { useAuth } from '@/hooks/useAuth';
 import { PricingCard, type StarsProduct } from '@/components/payment/PricingCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import { Loader2, Star, Crown } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+interface DBProduct {
+  id: string;
+  product_code: string;
+  product_type: string;
+  name: string;
+  description: string | null;
+  stars_price: number;
+  credits_amount: number | null;
+  subscription_days: number | null;
+  features: unknown;
+  is_popular: boolean | null;
+  sort_order: number | null;
+  status: string | null;
+}
+
+function mapToStarsProduct(p: DBProduct): StarsProduct {
+  return {
+    id: p.id,
+    product_code: p.product_code,
+    product_type: p.product_type as 'credit_package' | 'subscription',
+    name: { ru: p.name, en: p.name },
+    description: { ru: p.description || '', en: p.description || '' },
+    stars_price: p.stars_price,
+    credits_amount: p.credits_amount ?? undefined,
+    features: Array.isArray(p.features) ? (p.features as string[]) : [],
+    is_featured: p.is_popular ?? false,
+    status: p.status || 'active',
+  };
+}
+
 export default function Pricing() {
-  const { webApp, showAlert, userId } = useTelegram();
+  const { webApp, showAlert } = useTelegram();
+  const { user } = useAuth();
+  const userId = user?.id;
   const [purchasingProduct, setPurchasingProduct] = useState<string | null>(null);
 
   // Set up back button
@@ -27,9 +60,9 @@ export default function Pricing() {
   }, [webApp]);
 
   // Fetch products
-  const { data: products, isLoading, error } = useQuery<StarsProduct[]>({
+  const { data: products, isLoading, error } = useQuery({
     queryKey: ['stars-products'],
-    queryFn: async () => {
+    queryFn: async (): Promise<StarsProduct[]> => {
       const { data, error } = await supabase
         .from('stars_products')
         .select('*')
@@ -37,7 +70,7 @@ export default function Pricing() {
         .order('sort_order', { ascending: true });
 
       if (error) throw error;
-      return data || [];
+      return ((data || []) as DBProduct[]).map(mapToStarsProduct);
     },
   });
 
@@ -86,8 +119,8 @@ export default function Pricing() {
       const { invoiceLink } = result;
 
       // Open invoice using Telegram WebApp API
-      if (webApp?.openInvoice) {
-        webApp.openInvoice(invoiceLink, (status) => {
+      if (webApp && 'openInvoice' in webApp) {
+        (webApp as any).openInvoice(invoiceLink, (status: string) => {
           if (status === 'paid') {
             // Payment successful
             toast.success('Платёж успешно завершён!', {
