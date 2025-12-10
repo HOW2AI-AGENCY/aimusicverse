@@ -13,13 +13,14 @@
  * 4. Graceful handling of visualizer failures (audio continues to work)
  */
 
-import { logger } from './logger';
+import { logger } from '@/lib/logger';
 
 // Singleton instances
 let audioContext: AudioContext | null = null;
 let mediaElementSource: MediaElementAudioSourceNode | null = null;
 let analyserNode: AnalyserNode | null = null;
 let connectedAudioElement: HTMLAudioElement | null = null;
+let audioNodesResult: AudioNodesResult | null = null;
 
 /**
  * Get or create the global AudioContext
@@ -121,7 +122,12 @@ export async function getOrCreateAudioNodes(
       analyserNode.fftSize = fftSize;
       analyserNode.smoothingTimeConstant = smoothing;
       
-      return { analyser: analyserNode, source: mediaElementSource };
+      if (audioNodesResult) {
+        return audioNodesResult;
+      }
+      
+      audioNodesResult = { analyser: analyserNode, source: mediaElementSource };
+      return audioNodesResult;
     }
 
     // If connected to a different element, we cannot reconnect (Web Audio limitation)
@@ -181,7 +187,8 @@ export async function getOrCreateAudioNodes(
       }
     }
 
-    return { analyser: analyserNode, source: mediaElementSource };
+    audioNodesResult = { analyser: analyserNode, source: mediaElementSource };
+    return audioNodesResult;
   } catch (error) {
     logger.error('Failed to create audio nodes', error instanceof Error ? error : new Error(String(error)));
     
@@ -202,6 +209,7 @@ export async function getOrCreateAudioNodes(
       analyserNode = null;
       mediaElementSource = null;
       connectedAudioElement = null;
+      audioNodesResult = null;
     }
     
     return null;
@@ -316,8 +324,13 @@ export function disconnectAudio(): void {
     }
   }
   
+  if (connectedAudioElement) {
+    (connectedAudioElement as any).__hasMediaSource = false;
+  }
+  
   mediaElementSource = null;
   analyserNode = null;
+  audioNodesResult = null;
   connectedAudioElement = null;
 }
 
