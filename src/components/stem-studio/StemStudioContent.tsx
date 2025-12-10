@@ -18,10 +18,6 @@ import { useReplaceSectionRealtime } from '@/hooks/useReplaceSectionRealtime';
 import { StemChannel } from '@/components/stem-studio/StemChannel';
 import { StemDownloadPanel } from '@/components/stem-studio/StemDownloadPanel';
 import { StemReferenceDialog } from '@/components/stem-studio/StemReferenceDialog';
-import { MidiSection } from '@/components/stem-studio/MidiSection';
-import { StemMidiPanel } from '@/components/stem-studio/StemMidiPanel';
-import { MidiVisualizationPanel } from '@/components/stem-studio/MidiVisualizationPanel';
-import { MidiVisualizationMobile } from '@/components/stem-studio/mobile/MidiVisualizationMobile';
 import { StemActionsSheet, StemAnalysisSheet } from '@/components/stem-studio/mobile';
 import { MixExportDialog } from '@/components/stem-studio/MixExportDialog';
 import { MixPresetsMenu } from '@/components/stem-studio/MixPresetsMenu';
@@ -614,16 +610,6 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
                   onLoadPreset={handleLoadPreset}
                   effectsEnabled={effectsEnabled}
                 />
-                <MidiSection 
-                  trackId={trackId} 
-                  trackTitle={track.title || 'Трек'} 
-                  audioUrl={track.audio_url}
-                />
-                <StemMidiPanel
-                  trackId={trackId}
-                  trackTitle={track.title || 'Трек'}
-                  stems={stems}
-                />
                 <StemReferenceDialog 
                   stems={stems} 
                   trackTitle={track.title || 'Трек'} 
@@ -872,32 +858,6 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           }}
           highlightedSection={customRange}
         />
-      )}
-
-      {/* MIDI Visualization - Mobile */}
-      {isMobile && stems && (
-        <div className="px-4 py-2 border-b border-border/30">
-          <MidiVisualizationMobile
-            trackId={trackId}
-            stems={stems}
-            currentTime={currentTime}
-            isPlaying={isPlaying}
-            onSeek={(time) => handleSeek([time])}
-          />
-        </div>
-      )}
-
-      {/* MIDI Visualization - Desktop */}
-      {!isMobile && stems && (
-        <div className="px-4 sm:px-6 py-3 border-b border-border/30">
-          <MidiVisualizationPanel
-            trackId={trackId}
-            stems={stems}
-            currentTime={currentTime}
-            isPlaying={isPlaying}
-            onSeek={(time) => handleSeek([time])}
-          />
-        </div>
       )}
 
       {/* Mobile Actions - Compact buttons with improved touch targets */}
