@@ -219,6 +219,17 @@ export function ensureAudioRoutedToDestination(): void {
 
   const ctx = getAudioContext();
   
+  // Additional check: ensure AudioContext is not suspended
+  if (ctx.state === 'suspended') {
+    logger.warn('AudioContext is suspended during audio routing check');
+    // Try to resume asynchronously (non-blocking)
+    ctx.resume().then(() => {
+      logger.info('AudioContext resumed during routing check');
+    }).catch((err) => {
+      logger.error('Failed to resume AudioContext during routing check', err);
+    });
+  }
+  
   try {
     // Ensure analyser is connected to destination
     analyserNode.connect(ctx.destination);
@@ -258,6 +269,28 @@ export function getMediaElementSource(): MediaElementAudioSourceNode | null {
  */
 export function isAudioElementConnected(audioElement: HTMLAudioElement): boolean {
   return connectedAudioElement === audioElement;
+}
+
+/**
+ * Get diagnostic information about the audio system
+ * Useful for debugging player issues
+ */
+export function getAudioSystemDiagnostics(): {
+  hasAudioContext: boolean;
+  audioContextState: AudioContextState | null;
+  hasMediaElementSource: boolean;
+  hasAnalyserNode: boolean;
+  connectedElementSrc: string | null;
+  sampleRate: number | null;
+} {
+  return {
+    hasAudioContext: audioContext !== null,
+    audioContextState: audioContext?.state || null,
+    hasMediaElementSource: mediaElementSource !== null,
+    hasAnalyserNode: analyserNode !== null,
+    connectedElementSrc: connectedAudioElement?.src || null,
+    sampleRate: audioContext?.sampleRate || null,
+  };
 }
 
 /**
