@@ -11,6 +11,24 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { logger } from '@/lib/logger';
 
+/**
+ * Resume the global AudioContext if it exists and is suspended.
+ * This should be called on user interaction (like play button click).
+ * @returns Promise that resolves when AudioContext is running or doesn't exist
+ */
+export async function resumeAudioContext(): Promise<void> {
+  if (!audioContext) return;
+  
+  if (audioContext.state === 'suspended') {
+    try {
+      await audioContext.resume();
+      logger.debug('AudioContext resumed via resumeAudioContext()');
+    } catch (err) {
+      logger.warn('Failed to resume AudioContext via resumeAudioContext()', err);
+    }
+  }
+}
+
 interface UseAudioVisualizerOptions {
   barCount?: number;
   smoothing?: number;
@@ -34,7 +52,7 @@ let connectedAudioElement: HTMLAudioElement | null = null;
  * Get or create the global audio source and analyser nodes
  * This ensures we only call createMediaElementSource once per audio element
  */
-function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: number, smoothing: number) {
+async function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: number, smoothing: number) {
   try {
     // Create AudioContext if needed
     if (!audioContext) {
@@ -43,10 +61,16 @@ function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: number, 
     }
 
     // Resume if suspended (required for user interaction policy)
+    // IMPORTANT: Wait for resume to complete before proceeding
     if (audioContext.state === 'suspended') {
-      audioContext.resume().catch((err) => {
+      try {
+        await audioContext.resume();
+        logger.debug('AudioContext resumed successfully', {
+          state: audioContext.state,
+        });
+      } catch (err) {
         logger.warn('AudioContext resume failed', err);
-      });
+      }
     }
 
     // Check if already connected to this element
@@ -97,17 +121,19 @@ function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: number, 
       
       connectedAudioElement = audioElement;
       
-      // Ensure AudioContext is running - CRITICAL for audio output!
+      // Verify AudioContext is running - should already be resumed from earlier
+      // This is a safety check after connection is established
       if (audioContext.state === 'suspended') {
-        logger.warn('AudioContext is suspended, attempting to resume...');
-        audioContext.resume().then(() => {
-          logger.debug('AudioContext resumed successfully', {
+        logger.warn('AudioContext still suspended after initial resume, trying again...');
+        try {
+          await audioContext.resume();
+          logger.debug('AudioContext resumed on retry', {
             state: audioContext.state,
             sampleRate: audioContext.sampleRate,
           });
-        }).catch((err) => {
+        } catch (err) {
           logger.error('CRITICAL: Failed to resume AudioContext - audio may be silent!', err);
-        });
+        }
       } else {
         logger.debug('Audio visualizer successfully connected', {
           contextState: audioContext.state,
@@ -197,9 +223,9 @@ export function useAudioVisualizer(
   });
 
   // Get analyser node
-  const getAnalyser = useCallback(() => {
+  const getAnalyser = useCallback(async () => {
     if (!audioElement) return null;
-    return getOrCreateAudioNodes(audioElement, fftSize, smoothing);
+    return await getOrCreateAudioNodes(audioElement, fftSize, smoothing);
   }, [audioElement, fftSize, smoothing]);
 
   // Animation loop
@@ -220,85 +246,99 @@ export function useAudioVisualizer(
       return;
     }
 
-    const analyser = getAnalyser();
+    // Initialize analyser asynchronously
+    let analyser: AnalyserNode | null = null;
+    let isActive = true;
     
-    // Fallback animation if analyser unavailable
-    if (!analyser) {
-      const fakeAnimate = () => {
-        if (!isPlaying) return;
-        
-        const time = Date.now() / 1000;
-        const fakeFreqs = new Array(barCount).fill(0).map((_, i) => {
-          const base = Math.sin(time * 2 + i * 0.3) * 0.3 + 0.4;
-          const noise = Math.random() * 0.2;
-          return Math.min(1, Math.max(0.05, base + noise));
-        });
-        
-        const avg = fakeFreqs.reduce((a, b) => a + b, 0) / barCount;
-        const peak = Math.max(...fakeFreqs);
-        
-        setData({
-          frequencies: fakeFreqs,
-          waveform: fakeFreqs.map(f => 0.5 + (f - 0.5) * 0.5),
-          average: avg,
-          peak,
-        });
-        
-        animationRef.current = requestAnimationFrame(fakeAnimate);
-      };
+    const initAnalyser = async () => {
+      if (!isActive) return;
       
-      fakeAnimate();
+      try {
+        analyser = await getAnalyser();
+      } catch (err) {
+        logger.warn('Failed to get analyser, using fallback', err);
+        analyser = null;
+      }
       
-      return () => {
-        if (animationRef.current) {
-          cancelAnimationFrame(animationRef.current);
-        }
-      };
-    }
-
-    const bufferLength = analyser.frequencyBinCount;
-    const frequencyData = new Uint8Array(bufferLength);
-    const timeDomainData = new Uint8Array(bufferLength);
-
-    const animate = () => {
-      if (!isPlaying) return;
-
-      analyser.getByteFrequencyData(frequencyData);
-      analyser.getByteTimeDomainData(timeDomainData);
-
-      // Sample frequencies
-      const step = Math.max(1, Math.floor(bufferLength / barCount));
-      const frequencies: number[] = [];
+      if (!isActive) return; // Effect cleanup happened during await
       
-      for (let i = 0; i < barCount; i++) {
-        let sum = 0;
-        for (let j = 0; j < step; j++) {
-          const idx = i * step + j;
-          if (idx < bufferLength) {
-            sum += frequencyData[idx];
-          }
-        }
-        frequencies.push(Math.min(1, (sum / step / 255) * 1.3));
+      // Fallback animation if analyser unavailable
+      if (!analyser) {
+        const fakeAnimate = () => {
+          if (!isPlaying || !isActive) return;
+          
+          const time = Date.now() / 1000;
+          const fakeFreqs = new Array(barCount).fill(0).map((_, i) => {
+            const base = Math.sin(time * 2 + i * 0.3) * 0.3 + 0.4;
+            const noise = Math.random() * 0.2;
+            return Math.min(1, Math.max(0.05, base + noise));
+          });
+          
+          const avg = fakeFreqs.reduce((a, b) => a + b, 0) / barCount;
+          const peak = Math.max(...fakeFreqs);
+          
+          setData({
+            frequencies: fakeFreqs,
+            waveform: fakeFreqs.map(f => 0.5 + (f - 0.5) * 0.5),
+            average: avg,
+            peak,
+          });
+          
+          animationRef.current = requestAnimationFrame(fakeAnimate);
+        };
+        
+        fakeAnimate();
+        return;
       }
 
-      // Sample waveform
-      const waveStep = Math.floor(bufferLength / barCount);
-      const waveform = new Array(barCount).fill(0).map((_, i) => {
-        const idx = i * waveStep;
-        return (timeDomainData[idx] || 128) / 255;
-      });
+      // Real analyser animation
+      const bufferLength = analyser.frequencyBinCount;
+      const frequencyData = new Uint8Array(bufferLength);
+      const timeDomainData = new Uint8Array(bufferLength);
 
-      const average = frequencies.reduce((a, b) => a + b, 0) / barCount;
-      const peak = Math.max(...frequencies);
+      const animate = () => {
+        if (!isPlaying || !isActive || !analyser) return;
 
-      setData({ frequencies, waveform, average, peak });
-      
-      animationRef.current = requestAnimationFrame(animate);
+        analyser.getByteFrequencyData(frequencyData);
+        analyser.getByteTimeDomainData(timeDomainData);
+
+        // Sample frequencies
+        const step = Math.max(1, Math.floor(bufferLength / barCount));
+        const frequencies: number[] = [];
+        
+        for (let i = 0; i < barCount; i++) {
+          let sum = 0;
+          for (let j = 0; j < step; j++) {
+            const idx = i * step + j;
+            if (idx < bufferLength) {
+              sum += frequencyData[idx];
+            }
+          }
+          frequencies.push(Math.min(1, (sum / step / 255) * 1.3));
+        }
+
+        // Sample waveform
+        const waveStep = Math.floor(bufferLength / barCount);
+        const waveform = new Array(barCount).fill(0).map((_, i) => {
+          const idx = i * waveStep;
+          return (timeDomainData[idx] || 128) / 255;
+        });
+
+        const average = frequencies.reduce((a, b) => a + b, 0) / barCount;
+        const peak = Math.max(...frequencies);
+
+        setData({ frequencies, waveform, average, peak });
+        
+        animationRef.current = requestAnimationFrame(animate);
+      };
+
+      animate();
     };
-
-    animate();
+    
+    initAnalyser();
 
     return () => {
+      isActive = false;
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
