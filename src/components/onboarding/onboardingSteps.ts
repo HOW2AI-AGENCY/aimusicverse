@@ -12,7 +12,8 @@ import {
   FileMusic,
   Upload,
   Share2,
-  Trophy
+  Trophy,
+  Guitar
 } from 'lucide-react';
 
 export interface OnboardingStep {
@@ -53,6 +54,19 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
       'A/B версии для сравнения'
     ],
     tip: 'Используйте голосовой ввод для быстрого описания'
+  },
+  {
+    id: 'guitar-studio',
+    title: 'Guitar Studio',
+    description: 'Записывайте гитару, автоматически получайте табулатуры и отправляйте параметры в генерацию.',
+    icon: Guitar,
+    route: '/guitar-studio',
+    features: [
+      'Запись с микрофона или аудио-интерфейса',
+      'Klang.io анализ: BPM, аккорды, табы',
+      'Экспорт MIDI/GP5/TuxGuitar'
+    ],
+    tip: 'Нажмите «Анализировать» сразу после записи, чтобы увидеть аккорды и табы'
   },
   {
     id: 'lyrics',

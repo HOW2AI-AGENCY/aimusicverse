@@ -16,7 +16,8 @@ import {
   FileText,
   Loader2,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  Guitar
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
@@ -34,6 +35,7 @@ const mainNavItems = [
   { path: '/projects', label: 'Проекты', icon: FolderOpen },
   { path: '/library', label: 'Библиотека', icon: Library },
   { path: '/analytics', label: 'Аналитика', icon: BarChart2 },
+  { path: '/guitar-studio', label: 'Guitar Studio', icon: Guitar },
 ];
 
 const musicNavItems = [
