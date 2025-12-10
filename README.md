@@ -25,7 +25,7 @@
   <img src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=flat-square&logo=telegram" alt="Telegram" />
   <img src="https://img.shields.io/badge/Lovable_Cloud-Backend-8B5CF6?style=flat-square" alt="Lovable Cloud" />
   <img src="https://img.shields.io/badge/Suno_AI-v5-e74c3c?style=flat-square" alt="Suno AI" />
-  <img src="https://img.shields.io/badge/Sprint-024-green?style=flat-square" alt="Current Sprint" />
+  <img src="https://img.shields.io/badge/Sprint-013-green?style=flat-square" alt="Current Sprint" />
 </p>
 
 </div>
@@ -46,14 +46,17 @@
 - [🔒 Безопасность](#-безопасность)
 - [🛠️ Недавние улучшения](#️-недавние-улучшения)
 
-> 💡 **Навигация:** См. [NAVIGATION_INDEX.md](docs/NAVIGATION_INDEX.md) для интерактивной карты всей документации
+> 💡 **Навигация:** См. [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) для полной карты документации
 > 
+> 🎯 **Текущий статус:** Sprint 013 (Advanced Audio Features) - 🟢 In Progress  
+> 📊 **Статус спринтов:** [SPRINT_STATUS.md](SPRINT_STATUS.md) | **Недавние улучшения:** [RECENT_IMPROVEMENTS.md](RECENT_IMPROVEMENTS.md)
+>
 > 📚 **Ключевая документация:**
 > - [AI Lyrics Assistant](docs/AI_LYRICS_ASSISTANT.md) - Чат-интерфейс для написания текстов
 > - [Stem Studio](docs/STEM_STUDIO.md) - Работа со стемами и MIDI
 > - [Creative Tools](docs/CREATIVE_TOOLS.md) - Chord Detection, Tab Editor, Melody Mixer
 > - [Generation System](docs/GENERATION_SYSTEM.md) - Система генерации музыки
-> - [TG Mini App Fixes](docs/TELEGRAM_MINI_APP_CRITICAL_FIXES.md) - Критические исправления
+> - [Player Architecture](docs/PLAYER_ARCHITECTURE.md) - Архитектура аудио-плеера
 > - [Known Issues](docs/KNOWN_ISSUES.md) - Известные проблемы
 
 ---
@@ -515,19 +518,25 @@ npm run dev
 
 ## 📖 Документация
 
-| Документ | Описание |
-|----------|----------|
-| [NAVIGATION.md](NAVIGATION.md) | 🗺️ Путеводитель по репозиторию |
-| [docs/DEMO_MODE.md](docs/DEMO_MODE.md) | 🎭 **Гостевой режим (Demo Mode)** |
-| [docs/ARCHITECTURE_DIAGRAMS.md](docs/ARCHITECTURE_DIAGRAMS.md) | 🏗️ **Визуальные диаграммы архитектуры** |
-| [docs/PROJECT_SPECIFICATION.md](docs/PROJECT_SPECIFICATION.md) | 📋 Спецификация проекта |
-| [docs/DATABASE.md](docs/DATABASE.md) | 🗄️ Схема базы данных с ERD |
-| [docs/SUNO_API.md](docs/SUNO_API.md) | 🎵 Интеграция Suno API |
-| [docs/SECTION_REPLACEMENT.md](docs/SECTION_REPLACEMENT.md) | 🎛️ **Замена секций в Stem Studio** |
-| [docs/TELEGRAM_BOT_ARCHITECTURE.md](docs/TELEGRAM_BOT_ARCHITECTURE.md) | 🤖 Архитектура бота |
-| [docs/PLAYER_ARCHITECTURE.md](docs/PLAYER_ARCHITECTURE.md) | 🎧 Архитектура плеера |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | 🤝 Правила контрибуции |
-| [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md) | 🔄 Рабочий процесс |
+| Категория | Документ | Описание |
+|-----------|----------|----------|
+| **📚 Навигация** | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | 🗺️ **Полная карта документации** |
+| | [NAVIGATION.md](NAVIGATION.md) | Путеводитель по репозиторию |
+| **📊 Статус** | [SPRINT_STATUS.md](SPRINT_STATUS.md) | 🎯 **Текущий статус спринтов** |
+| | [RECENT_IMPROVEMENTS.md](RECENT_IMPROVEMENTS.md) | 🚀 **Недавние улучшения (Декабрь 2025)** |
+| | [CHANGELOG.md](CHANGELOG.md) | История изменений |
+| **🏗️ Архитектура** | [docs/ARCHITECTURE_DIAGRAMS.md](docs/ARCHITECTURE_DIAGRAMS.md) | Визуальные диаграммы |
+| | [docs/PROJECT_SPECIFICATION.md](docs/PROJECT_SPECIFICATION.md) | Спецификация проекта |
+| | [docs/DATABASE.md](docs/DATABASE.md) | Схема базы данных с ERD |
+| | [docs/PLAYER_ARCHITECTURE.md](docs/PLAYER_ARCHITECTURE.md) | Архитектура плеера |
+| | [docs/TELEGRAM_BOT_ARCHITECTURE.md](docs/TELEGRAM_BOT_ARCHITECTURE.md) | Архитектура бота |
+| **🎵 Функции** | [docs/SUNO_API.md](docs/SUNO_API.md) | Интеграция Suno AI |
+| | [docs/STEM_STUDIO.md](docs/STEM_STUDIO.md) | Stem Studio функции |
+| | [docs/SECTION_REPLACEMENT.md](docs/SECTION_REPLACEMENT.md) | Замена секций |
+| | [docs/DEMO_MODE.md](docs/DEMO_MODE.md) | Гостевой режим |
+| **🛠️ Разработка** | [CONTRIBUTING.md](CONTRIBUTING.md) | Правила контрибуции |
+| | [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md) | Рабочий процесс |
+| | [ONBOARDING.md](ONBOARDING.md) | Onboarding новых разработчиков |
 
 ---
 
@@ -544,29 +553,36 @@ npm run dev
 
 ## 🛠️ Недавние улучшения
 
-### Sprint 022: Bundle Optimization 🔄
-- Улучшен tree-shaking (target: esnext, terser passes: 2)
-- Создан `@/lib/motion` для оптимизации framer-motion
-- Lazy loading тяжёлых компонентов (`src/components/lazy/`)
-- Разделение date-fns на core/locale chunks
-- Bundle analyzer: `dist/stats.html`
+> 📄 **Полный отчёт:** [RECENT_IMPROVEMENTS.md](RECENT_IMPROVEMENTS.md) - Все улучшения декабря 2025
 
-### Phase 1: Критические исправления ✅
-- Исправлена ошибка аудио при пустом src
-- Объединены страницы Artists и Actors
-- Унифицирован онбординг (OnboardingOverlay)
-- Упрощены HeroQuickActions (4 основных)
+### Декабрь 2025 (Highlights)
 
-### Phase 2: Рефакторинг ✅
-- GenerateSheet разбит на модули (1178→250 строк)
-- Создан хук useGenerateForm
-- LyricsChatAssistant модуляризирован (833→200 строк)
-- Добавлена кнопка "Продолжить диалог"
+#### 🎵 Аудио и плеер (Dec 9-10)
+- ✅ **6 критических багов исправлено** - RAF утечки, crossfade утечки, race conditions
+- 🆕 **6 новых функций** - Position persistence, buffer monitor, queue history, smart shuffle
+- ⚡ **80% reduction** в re-renders через debounced audio updates
+- 🎯 **IndexedDB кэширование** - 500MB, LRU eviction, prefetch 2 треков
+- 🎨 **Swipeable mini-player** - Gesture controls с тактильной обратной связью
 
-### Phase 3: AI Features ✅
-- AnalysisQuickStats — визуализация BPM/Key/Genre
-- Collapsible детальный анализ
-- Улучшенный UI анализа аудио
+#### 🎛️ Stem Studio (Dec 9)
+- ✅ **Модульная архитектура** - 4 core компонента, 3 оптимизированных хука
+- ⚡ **Drift detection** - Автосинхронизация с 0.1s threshold
+- 🎯 **Throttled updates** - StemWaveform обновляется только при необходимости
+- ⌨️ **Keyboard shortcuts** - Полная навигация с клавиатуры
+
+#### 🎨 Professional Interface (Dec 9)
+- 🆕 **6 новых компонентов** - Dashboard, Workflow Visualizer, Presets Manager
+- 📱 **Mobile-first** - 44px touch targets, gradient colors
+- ✨ **Framer Motion** - Плавные анимации
+
+#### 📦 Bundle Optimization (Sprint 022)
+- 🌳 **Tree-shaking** - `@/lib/motion` wrapper, target esnext
+- 📅 **date-fns chunking** - Разделение core/locale
+- 🔄 **Lazy loading** - `src/components/lazy/` директория
+
+### Текущая разработка (Sprint 013)
+- 🟢 **Phase 1 Complete** - Waveform + MIDI transcription
+- 🔄 **Phase 2 In Progress** - Advanced mixing & effects
 
 ---
 
