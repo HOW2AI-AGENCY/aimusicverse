@@ -83,6 +83,98 @@ Generate deep link for music generation (optionally with pre-filled style).
 
 API request/response logging utilities (existing module).
 
+### `response-utils.ts`
+
+Standardized response formatting for Edge Functions with consistent error handling.
+
+#### Key Features
+
+- **Consistent Response Format**: All responses include `success: boolean` field
+- **2xx Status Codes**: Uses 200 OK for both success and error responses (error details in body)
+- **Better Client Integration**: Clients can parse responses without checking HTTP status codes
+- **Backward Compatibility**: Includes `legacyErrorResponse()` for gradual migration
+
+#### Usage
+
+```typescript
+import { 
+  successResponse, 
+  errorResponse, 
+  validationErrorResponse,
+  authErrorResponse,
+  notFoundResponse,
+  optionsResponse 
+} from '../_shared/response-utils.ts';
+
+// Handle OPTIONS request
+if (req.method === 'OPTIONS') {
+  return optionsResponse();
+}
+
+// Success response
+return successResponse({ 
+  trackId: 'abc-123',
+  title: 'My Track' 
+}, 'Track created successfully');
+
+// Error response (returns 200 with success: false)
+return errorResponse('Invalid input', 'VALIDATION_ERROR');
+
+// Validation error with field details
+return validationErrorResponse('Validation failed', {
+  email: 'Invalid email format',
+  password: 'Password too short'
+});
+
+// Auth error
+return authErrorResponse('Token expired');
+
+// Not found error
+return notFoundResponse('Track');
+```
+
+#### Response Format
+
+**Success Response:**
+```json
+{
+  "success": true,
+  "data": { ... },
+  "message": "Optional success message"
+}
+```
+
+**Error Response:**
+```json
+{
+  "success": false,
+  "error": "Error message",
+  "code": "ERROR_CODE",
+  "details": { ... }
+}
+```
+
+#### Migration Strategy
+
+For existing edge functions, gradually migrate from:
+
+```typescript
+// Old pattern
+return new Response(
+  JSON.stringify({ error: 'Something failed' }),
+  { status: 500, headers: corsHeaders }
+);
+```
+
+To:
+
+```typescript
+// New pattern
+return errorResponse('Something failed', 'INTERNAL_ERROR');
+```
+
+This ensures clients receive consistent responses without breaking on HTTP error status codes.
+
 ## Adding New Shared Modules
 
 When creating new shared modules:
@@ -110,5 +202,9 @@ When creating new shared modules:
 _shared/
 ├── README.md              # This file
 ├── apiLogger.ts           # API logging utilities
-└── telegram-config.ts     # Telegram bot configuration
+├── logger.ts              # Structured logging for edge functions
+├── response-utils.ts      # Standardized response formatting
+├── suno.ts                # Suno API utilities
+├── telegram-config.ts     # Telegram bot configuration
+└── telegram-utils.ts      # Telegram helper utilities
 ```
