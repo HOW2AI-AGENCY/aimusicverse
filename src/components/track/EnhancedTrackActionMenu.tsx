@@ -41,6 +41,7 @@ import {
   DropdownMenuShortcut,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import { logger } from '@/lib/logger';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -118,7 +119,7 @@ export function EnhancedTrackActionMenu({
     try {
       await action();
     } catch (error) {
-      console.error('Action error:', error);
+      logger.error('Action error', error instanceof Error ? error : new Error(String(error)));
       toast.error('Не удалось выполнить действие');
     } finally {
       setIsExecuting(false);
