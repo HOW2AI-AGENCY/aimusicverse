@@ -16,6 +16,7 @@ import {
   Gift,
   FileText,
   Music2,
+  Guitar,
   Home,
   Library,
   Folder,
@@ -58,7 +59,7 @@ const menuSections: { title: string; items: MenuItem[] }[] = [
     title: 'Музыка',
     items: [
       { icon: ListMusic, label: 'Плейлисты', path: '/playlists', badgeVariant: 'count' },
-      { icon: Music2, label: 'Guitar Studio', path: '/guitar-studio', description: 'Запись и анализ гитары', badge: 'PRO', badgeVariant: 'new' },
+      { icon: Guitar, label: 'Guitar Studio', path: '/guitar-studio', description: 'Запись, транскрипция и анализ гитары', badge: 'PRO', badgeVariant: 'new' },
       { icon: FileText, label: 'Шаблоны', path: '/templates', description: 'Шаблоны текстов' },
       { icon: Users, label: 'AI-артисты', path: '/artists' },
       { icon: Globe, label: 'Сообщество', path: '/community' },
