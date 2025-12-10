@@ -93,7 +93,7 @@ Telegram.WebApp.shareToStory(mediaUrl, {
 ## 8. Production checklist
 
 - [ ] HTTPS enabled and correct `mini_app_url` set in BotFather.
-- [ ] `initData` validated via HMAC on backend; signature TTL ≤ 24h.
+- [ ] `initData` validated via HMAC on backend; signature TTL <= 24h.
 - [ ] CSP allows `https://*.telegram.org` and Supabase domains.
 - [ ] Stars payments: test payer, handle `successful_payment` and `refundStarPayment`.
 - [ ] Gifts: UI for selection, error handling for `sendGift`.
