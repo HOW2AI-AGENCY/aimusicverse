@@ -275,8 +275,26 @@ export default function ProfessionalStudio() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3"
+          className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"
         >
+          <Button
+            variant="outline"
+            className="h-auto py-4 justify-start"
+            onClick={() => navigate('/guitar-studio')}
+          >
+            <div className="flex items-center gap-3 w-full">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-orange-500 to-red-500">
+                <Music className="w-5 h-5 text-white" />
+              </div>
+              <div className="text-left">
+                <div className="font-semibold">Guitar Studio</div>
+                <div className="text-xs text-muted-foreground">
+                  Запись и транскрипция
+                </div>
+              </div>
+            </div>
+          </Button>
+
           <Button
             variant="outline"
             className="h-auto py-4 justify-start"

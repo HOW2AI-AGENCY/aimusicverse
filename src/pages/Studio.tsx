@@ -156,6 +156,45 @@ const Studio = () => {
             </li>
           </ul>
         </MessageBubble>
+
+        {/* Professional Tools Access */}
+        <MessageBubble title="Профессиональные инструменты" status="success">
+          <div className="space-y-2">
+            <TelegramButton
+              variant="ghost"
+              className="w-full justify-start glass h-auto py-3"
+              onClick={() => navigate('/guitar-studio')}
+            >
+              <div className="flex items-center gap-3 w-full">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-orange-500 to-red-500">
+                  <Music className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 text-left">
+                  <p className="font-medium">Guitar Studio</p>
+                  <p className="text-xs text-muted-foreground">Запись и транскрипция гитары</p>
+                </div>
+                <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0" />
+              </div>
+            </TelegramButton>
+            
+            <TelegramButton
+              variant="ghost"
+              className="w-full justify-start glass h-auto py-3"
+              onClick={() => navigate('/professional-studio')}
+            >
+              <div className="flex items-center gap-3 w-full">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500">
+                  <Sparkles className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 text-left">
+                  <p className="font-medium">Профессиональная студия</p>
+                  <p className="text-xs text-muted-foreground">Все инструменты для профи</p>
+                </div>
+                <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0" />
+              </div>
+            </TelegramButton>
+          </div>
+        </MessageBubble>
       </div>
     </div>
   );
