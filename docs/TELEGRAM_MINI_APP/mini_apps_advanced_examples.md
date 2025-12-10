@@ -1,4 +1,4 @@
-# Расширенные примеры Telegram Mini Apps (Bot API 9.0–9.2)
+# Telegram Mini Apps Advanced Examples (Bot API 9.0–9.2)
 
 > Подборка рабочих сценариев с новыми возможностями: Device/Secure Storage, датчики, полноэкранный режим, Stars/подарки, истории.
 
