@@ -44,17 +44,27 @@ function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: number, 
 
     // Resume if suspended (required for user interaction policy)
     if (audioContext.state === 'suspended') {
-      audioContext.resume().catch(() => {
-        // Ignore - will retry on next interaction
+      audioContext.resume().catch((err) => {
+        logger.warn('AudioContext resume failed', err);
       });
     }
 
     // Check if already connected to this element
     if (connectedAudioElement === audioElement && globalSourceNode && globalAnalyserNode) {
-      // Update analyser settings if needed
-      globalAnalyserNode.fftSize = fftSize;
-      globalAnalyserNode.smoothingTimeConstant = smoothing;
-      return globalAnalyserNode;
+      // Verify the connection is still valid
+      try {
+        // Update analyser settings if needed
+        globalAnalyserNode.fftSize = fftSize;
+        globalAnalyserNode.smoothingTimeConstant = smoothing;
+        logger.debug('Audio visualizer reusing existing connection');
+        return globalAnalyserNode;
+      } catch (err) {
+        logger.warn('Existing connection invalid, recreating', err);
+        // Fall through to recreate connection
+        globalSourceNode = null;
+        globalAnalyserNode = null;
+        connectedAudioElement = null;
+      }
     }
 
     // If connected to different element, we cannot reconnect (Web Audio limitation)
@@ -65,28 +75,35 @@ function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: number, 
     }
 
     // Create new connection
+    logger.debug('Creating new audio visualizer connection');
     globalAnalyserNode = audioContext.createAnalyser();
     globalAnalyserNode.fftSize = fftSize;
     globalAnalyserNode.smoothingTimeConstant = smoothing;
 
-    globalSourceNode = audioContext.createMediaElementSource(audioElement);
-    globalSourceNode.connect(globalAnalyserNode);
-    globalAnalyserNode.connect(audioContext.destination);
-
-    connectedAudioElement = audioElement;
-    logger.debug('Audio visualizer connected to element');
-
-    return globalAnalyserNode;
-  } catch (error) {
-    // Handle "already connected" error gracefully
-    if (error instanceof Error && error.message.includes('already been attached')) {
-      logger.warn('Audio element already attached, using existing connection');
-      // Element was connected in a previous session - return existing analyser if available
-      if (globalAnalyserNode) {
-        return globalAnalyserNode;
+    // Try to create source node - this can only be done once per audio element
+    try {
+      globalSourceNode = audioContext.createMediaElementSource(audioElement);
+      globalSourceNode.connect(globalAnalyserNode);
+      globalAnalyserNode.connect(audioContext.destination);
+      
+      connectedAudioElement = audioElement;
+      logger.debug('Audio visualizer successfully connected to element');
+      
+      return globalAnalyserNode;
+    } catch (sourceError) {
+      // If source creation fails because element already has a source,
+      // the audio is still playing through that existing source
+      if (sourceError instanceof Error && sourceError.message.includes('already been attached')) {
+        logger.warn('Audio element already has a source node - audio will play without visualizer');
+        // Return null to use fallback visualization
+        // Audio playback is NOT affected - it continues through existing connection
+        return null;
       }
+      throw sourceError; // Re-throw unexpected errors
     }
+  } catch (error) {
     logger.error('Failed to initialize audio analyser', error);
+    // Return null to use fallback - audio playback continues through default output
     return null;
   }
 }
