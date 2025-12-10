@@ -25,7 +25,15 @@ export interface TelegramMessage {
 
 export interface TelegramUpdate {
   update_id: number;
-  message?: TelegramMessage;
+  message?: TelegramMessage & {
+    successful_payment?: {
+      currency: string;
+      total_amount: number;
+      invoice_payload: string;
+      telegram_payment_charge_id: string;
+      provider_payment_charge_id: string;
+    };
+  };
   callback_query?: {
     id: string;
     from: {
@@ -45,6 +53,17 @@ export interface TelegramUpdate {
     };
     query: string;
     offset: string;
+  };
+  pre_checkout_query?: {
+    id: string;
+    from: {
+      id: number;
+      first_name: string;
+      username?: string;
+    };
+    currency: string;
+    total_amount: number;
+    invoice_payload: string;
   };
 }
 
@@ -258,6 +277,32 @@ export async function sendAudio(
     });
     throw error;
   }
+}
+
+/**
+ * Answer pre-checkout query (for Telegram payments)
+ */
+export async function answerPreCheckoutQuery(
+  preCheckoutQueryId: string,
+  options: { ok: boolean; error_message?: string }
+) {
+  const response = await fetch(`${TELEGRAM_API}/answerPreCheckoutQuery`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      pre_checkout_query_id: preCheckoutQueryId,
+      ok: options.ok,
+      error_message: options.error_message,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    console.error('answerPreCheckoutQuery error:', error);
+    throw new Error(`Telegram API error: ${error}`);
+  }
+
+  return response.json();
 }
 
 export async function editMessageText(

@@ -70,12 +70,14 @@ export function VersionComparison({
     const version = getVersion(versionId);
     if (!version) return {};
 
+    const metadata = version.metadata as Record<string, unknown> | null;
+    
     return {
       duration: version.duration_seconds || undefined,
-      bitrate: version.metadata?.bitrate as number | undefined,
-      sampleRate: version.metadata?.sample_rate as number | undefined,
-      format: version.metadata?.format as string | undefined,
-      size: version.metadata?.size as number | undefined,
+      bitrate: metadata?.bitrate as number | undefined,
+      sampleRate: metadata?.sample_rate as number | undefined,
+      format: metadata?.format as string | undefined,
+      size: metadata?.size as number | undefined,
     };
   }, [getVersion]);
 

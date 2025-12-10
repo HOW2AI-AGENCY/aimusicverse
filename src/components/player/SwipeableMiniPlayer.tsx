@@ -238,8 +238,8 @@ export function SwipeableMiniPlayer({
         {/* Album cover */}
         <div className="flex-shrink-0">
           <img
-            src={activeTrack.cover_url || '/placeholder-album.png'}
-            alt={activeTrack.title}
+            src={activeTrack.cover_url ?? '/placeholder-album.png'}
+            alt={activeTrack.title ?? 'Track'}
             className="w-12 h-12 rounded-lg object-cover"
             draggable={false}
           />

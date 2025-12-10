@@ -104,7 +104,7 @@ export function ProfessionalQuickPanel({
       case 'export':
         return stemCount > 0 ? stemCount.toString() : null;
       case 'analysis':
-        return track.audio_analysis_id ? '✓' : null;
+        return null; // Audio analysis check removed - property not on Track type
       default:
         return null;
     }

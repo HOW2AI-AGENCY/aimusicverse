@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,7 +20,7 @@ interface Transaction {
   credits_granted: number | null;
   subscription_granted: string | null;
   status: string;
-  created_at: string;
+  created_at: string | null;
   processed_at: string | null;
   telegram_payment_charge_id: string | null;
 }
@@ -39,14 +38,14 @@ export function StarsPaymentsPanel() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
 
   // Fetch stats
-  const { data: stats, isLoading: statsLoading } = useQuery<Stats>({
+  const { data: stats, isLoading: statsLoading } = useQuery({
     queryKey: ['stars-payment-stats'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .rpc('get_stars_payment_stats');
+    queryFn: async (): Promise<Stats> => {
+      const { data, error } = await supabase.rpc('get_stars_payment_stats');
 
       if (error) throw error;
-      return data || {
+      const result = Array.isArray(data) ? data[0] : data;
+      return result || {
         total_transactions: 0,
         completed_transactions: 0,
         total_stars_collected: 0,
@@ -54,13 +53,13 @@ export function StarsPaymentsPanel() {
         active_subscriptions: 0,
       };
     },
-    refetchInterval: 30000, // Refresh every 30 seconds
+    refetchInterval: 30000,
   });
 
   // Fetch transactions
-  const { data: transactions, isLoading: transactionsLoading } = useQuery<Transaction[]>({
+  const { data: transactions, isLoading: transactionsLoading } = useQuery({
     queryKey: ['stars-transactions', statusFilter],
-    queryFn: async () => {
+    queryFn: async (): Promise<Transaction[]> => {
       let query = supabase
         .from('stars_transactions')
         .select('*')
@@ -74,9 +73,9 @@ export function StarsPaymentsPanel() {
       const { data, error } = await query;
 
       if (error) throw error;
-      return data || [];
+      return (data || []) as Transaction[];
     },
-    refetchInterval: 10000, // Refresh every 10 seconds
+    refetchInterval: 10000,
   });
 
   // Filter transactions by search query
@@ -113,7 +112,7 @@ export function StarsPaymentsPanel() {
       tx.stars_amount,
       tx.credits_granted || '',
       tx.status,
-      tx.created_at,
+      tx.created_at || '',
       tx.processed_at || '',
       tx.telegram_payment_charge_id || '',
     ]);
@@ -347,7 +346,7 @@ export function StarsPaymentsPanel() {
 
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
                       <span>
-                        {format(new Date(tx.created_at), 'dd MMM yyyy, HH:mm', { locale: ru })}
+                        {tx.created_at && format(new Date(tx.created_at), 'dd MMM yyyy, HH:mm', { locale: ru })}
                       </span>
                       {tx.telegram_payment_charge_id && (
                         <span className="font-mono truncate max-w-[200px]">
