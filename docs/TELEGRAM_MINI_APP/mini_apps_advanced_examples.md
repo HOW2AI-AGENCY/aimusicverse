@@ -1,6 +1,6 @@
 # Telegram Mini Apps Advanced Examples (Bot API 9.0–9.2)
 
-> Подборка рабочих сценариев с новыми возможностями: Device/Secure Storage, датчики, полноэкранный режим, Stars/подарки, истории.
+> Practical scenarios covering new capabilities: Device/Secure Storage, sensors, fullscreen mode, Stars/gifts, and Stories.
 
 ## 1. Краткий обзор обновлений
 
@@ -32,7 +32,7 @@ const token = await Telegram.WebApp.SecureStorage.getKey('auth', 'token');
 ### 2.3 Реферальная система с подарками
 ```ts
 const gifts = await bot.getAvailableGifts();
-await bot.sendGift(refUserId, gifts[0].id, { text: 'Спасибо за друга! 🎁' });
+await bot.sendGift(refUserId, gifts[0].id, { text: 'Thanks for the referral! 🎁' });
 ```
 
 ### 2.4 Бизнес-истории с интерактивными зонами

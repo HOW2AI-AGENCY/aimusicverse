@@ -1,6 +1,6 @@
 # Telegram Mini Apps — quick methods reference
 
-> Быстрая шпаргалка по основным API Telegram.WebApp и ключевым методам Bot API, использующимся в MusicVerse.
+> Quick cheat sheet of core Telegram.WebApp APIs and key Bot API calls used in MusicVerse.
 
 ## 1. Окно и окружение
 

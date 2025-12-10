@@ -1,6 +1,6 @@
 # Advanced Telegram Mini Apps Integration Guide
 
-> Краткое, практичное резюме продвинутых возможностей Telegram Mini Apps и Bot API 9.0–9.2 для MusicVerse. Основано на официальных спецификациях Telegram, адаптировано под стек React + Supabase.
+> Concise practical summary of advanced Telegram Mini Apps and Bot API 9.0–9.2 capabilities for MusicVerse. Based on official Telegram specs and adapted to the React + Supabase stack.
 
 ## 1. Архитектура взаимодействия
 
