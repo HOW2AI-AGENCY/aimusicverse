@@ -126,7 +126,15 @@ export function EnhancedVersionSwitcher({
           <h3 className="font-semibold text-sm">Версии трека</h3>
         </div>
         <Badge variant="secondary" className="text-xs">
-          {versions.length} {versions.length === 2 ? 'версии' : 'версий'}
+          {versions.length} {(() => {
+            const count = versions.length;
+            const lastDigit = count % 10;
+            const lastTwoDigits = count % 100;
+            if (lastTwoDigits >= 11 && lastTwoDigits <= 14) return 'версий';
+            if (lastDigit === 1) return 'версия';
+            if (lastDigit >= 2 && lastDigit <= 4) return 'версии';
+            return 'версий';
+          })()}
         </Badge>
       </div>
 

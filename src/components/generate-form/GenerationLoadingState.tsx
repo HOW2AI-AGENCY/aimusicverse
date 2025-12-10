@@ -156,8 +156,7 @@ export function GenerationLoadingState({
           {/* Stage timeline */}
           <div className="flex justify-between gap-1">
             {GENERATION_STAGES.map((s, index) => {
-              const currentIndex = GENERATION_STAGES.findIndex(stage => stage.id === s.id);
-              const activeIndex = GENERATION_STAGES.findIndex(stage => stage.id === stage);
+              const activeIndex = GENERATION_STAGES.findIndex(stg => stg.id === stage);
               const isCompleted = index < activeIndex;
               const isActive = index === activeIndex;
               

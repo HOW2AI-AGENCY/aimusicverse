@@ -284,7 +284,10 @@ export function SmartPromptSuggestions({
       {currentPrompt && (
         <div className="pt-2 border-t">
           <p className="text-xs text-muted-foreground mb-2">Текущий промт:</p>
-          <p className="text-xs bg-muted/50 p-2 rounded-md line-clamp-2">
+          <p 
+            className="text-xs bg-muted/50 p-2 rounded-md line-clamp-2 text-foreground" 
+            title={currentPrompt}
+          >
             {currentPrompt}
           </p>
         </div>
