@@ -73,16 +73,36 @@ export function AudioVisualizer({
         sharedAnalyser.smoothingTimeConstant = 0.8;
 
         // Connect audio element to analyser
+        // CRITICAL: createMediaElementSource disconnects audio from default output!
         mediaSource = audioContext.createMediaElementSource(audioElement);
         mediaSource.connect(sharedAnalyser);
         sharedAnalyser.connect(audioContext.destination);
         
         connectedAudioElement = audioElement;
+        
+        // Ensure AudioContext is running
+        if (audioContext.state === 'suspended') {
+          audioContext.resume().catch((err) => {
+            logger.error('Failed to resume AudioContext', err);
+          });
+        }
       }
 
       return sharedAnalyser;
     } catch (error) {
       logger.error('Error initializing audio visualizer', { error });
+      
+      // Emergency reconnection if source was created but setup failed
+      if (mediaSource) {
+        try {
+          mediaSource.disconnect();
+          mediaSource.connect(audioContext.destination);
+          logger.debug('Emergency audio reconnection successful');
+        } catch (reconnectError) {
+          logger.error('Emergency reconnection failed', reconnectError);
+        }
+      }
+      
       return null;
     }
   }, [audioElement]);
