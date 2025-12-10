@@ -15,11 +15,13 @@
 
 import { logger } from '@/lib/logger';
 
+type AudioElementWithSourceFlag = HTMLAudioElement & { __hasMediaSource?: boolean };
+
 // Singleton instances
 let audioContext: AudioContext | null = null;
 let mediaElementSource: MediaElementAudioSourceNode | null = null;
 let analyserNode: AnalyserNode | null = null;
-let connectedAudioElement: HTMLAudioElement | null = null;
+let connectedAudioElement: AudioElementWithSourceFlag | null = null;
 let audioNodesResult: AudioNodesResult | null = null;
 
 /**
@@ -123,6 +125,8 @@ export async function getOrCreateAudioNodes(
       analyserNode.smoothingTimeConstant = smoothing;
       
       if (audioNodesResult) {
+        audioNodesResult.analyser = analyserNode;
+        audioNodesResult.source = mediaElementSource;
         return audioNodesResult;
       }
       
@@ -325,7 +329,7 @@ export function disconnectAudio(): void {
   }
   
   if (connectedAudioElement) {
-    (connectedAudioElement as any).__hasMediaSource = false;
+    connectedAudioElement.__hasMediaSource = false;
   }
   
   mediaElementSource = null;
