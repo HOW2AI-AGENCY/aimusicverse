@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { 
-  Home, 
-  FolderOpen, 
-  Library, 
-  BarChart2, 
+import {
+  Home,
+  FolderOpen,
+  Library,
+  BarChart2,
   Sparkles,
   ListMusic,
   Users,
@@ -16,7 +16,8 @@ import {
   FileText,
   Loader2,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  Guitar // ✨ Добавлена иконка для Guitar Studio
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
@@ -36,8 +37,19 @@ const mainNavItems = [
   { path: '/analytics', label: 'Аналитика', icon: BarChart2 },
 ];
 
+/**
+ * 🎵 Секция навигации "Музыка"
+ * Содержит музыкальные инструменты, студии и сообщество
+ */
 const musicNavItems = [
   { path: '/playlists', label: 'Плейлисты', icon: ListMusic, showCount: true },
+  {
+    path: '/guitar-studio',
+    label: 'Guitar Studio',
+    icon: Guitar,
+    badge: 'PRO', // ⭐ PRO функционал
+    description: 'Запись и анализ гитары' // Описание для тултипа
+  },
   { path: '/templates', label: 'Шаблоны', icon: FileText },
   { path: '/artists', label: 'AI-артисты', icon: Users },
   { path: '/community', label: 'Сообщество', icon: Globe },
@@ -63,29 +75,68 @@ export const Sidebar = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
-  const NavButton = ({ path, label, icon: Icon, badge }: { 
-    path: string; 
-    label: string; 
+  /**
+   * 🎯 Компонент кнопки навигации
+   * Поддерживает:
+   * - Числовые бейджи (для счётчиков)
+   * - Текстовые бейджи (PRO, NEW, и т.д.)
+   * - Тултипы с описанием
+   */
+  const NavButton = ({
+    path,
+    label,
+    icon: Icon,
+    badge,
+    description
+  }: {
+    path: string;
+    label: string;
     icon: React.ElementType;
-    badge?: number;
-  }) => (
-    <Button
-      variant={isActive(path) ? 'secondary' : 'ghost'}
-      className={cn(
-        "w-full justify-start gap-3 h-10",
-        isActive(path) && "bg-primary/10 text-primary border-l-2 border-primary rounded-l-none"
-      )}
-      onClick={() => navigate(path)}
-    >
-      <Icon className="w-4 h-4" />
-      <span className="flex-1 text-left">{label}</span>
-      {badge !== undefined && badge > 0 && (
-        <Badge variant="secondary" className="h-5 px-1.5 text-xs">
-          {badge}
-        </Badge>
-      )}
-    </Button>
-  );
+    badge?: number | string; // ✨ Поддержка числовых и текстовых бейджей
+    description?: string; // ✨ Описание для тултипа
+  }) => {
+    const active = isActive(path);
+
+    // Определяем тип бейджа и его стиль
+    const isPROBadge = badge === 'PRO';
+    const isNumericBadge = typeof badge === 'number' && badge > 0;
+    const showBadge = isPROBadge || isNumericBadge;
+
+    return (
+      <Button
+        variant={active ? 'secondary' : 'ghost'}
+        className={cn(
+          "w-full justify-start gap-3 h-10 relative group",
+          active && "bg-primary/10 text-primary border-l-2 border-primary rounded-l-none"
+        )}
+        onClick={() => navigate(path)}
+        title={description} // 📝 Native tooltip для desktop
+      >
+        <Icon className="w-4 h-4" />
+        <span className="flex-1 text-left">{label}</span>
+
+        {/* Числовой бейдж (счётчик) */}
+        {isNumericBadge && (
+          <Badge variant="secondary" className="h-5 px-1.5 text-xs">
+            {badge}
+          </Badge>
+        )}
+
+        {/* PRO бейдж (градиентный) */}
+        {isPROBadge && (
+          <Badge
+            className={cn(
+              "h-5 px-1.5 text-[10px] font-bold",
+              "bg-gradient-to-r from-amber-500 to-orange-500",
+              "text-white border-0 shadow-sm"
+            )}
+          >
+            {badge}
+          </Badge>
+        )}
+      </Button>
+    );
+  };
 
   return (
     <>
@@ -162,10 +213,13 @@ export const Sidebar = () => {
               </CollapsibleTrigger>
               <CollapsibleContent className="space-y-1 pt-1">
                 {musicNavItems.map((item) => (
-                  <NavButton 
-                    key={item.path} 
-                    {...item} 
-                    badge={item.showCount ? playlistCount : undefined}
+                  <NavButton
+                    key={item.path}
+                    {...item}
+                    // ✨ Умная логика бейджей:
+                    // - Для плейлистов: показываем счётчик (числовой бейдж)
+                    // - Для других: показываем статический бейдж (PRO, NEW и т.д.)
+                    badge={item.showCount ? playlistCount : item.badge}
                   />
                 ))}
               </CollapsibleContent>
