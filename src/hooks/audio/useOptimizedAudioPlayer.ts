@@ -128,37 +128,38 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
   /**
    * Apply crossfade effect when transitioning between tracks
    */
-  const applyCrossfade = useCallback((audio: HTMLAudioElement, fadeOut: boolean) => {
-    if (crossfadeDuration <= 0 || isCrossfadingRef.current) return;
-
-    isCrossfadingRef.current = true;
-    const startVolume = audio.volume;
-    const targetVolume = fadeOut ? 0 : startVolume;
-    const steps = 20;
-    const stepDuration = (crossfadeDuration * 1000) / steps;
-    const volumeStep = (startVolume - targetVolume) / steps;
-
-    let currentStep = 0;
-    const interval = setInterval(() => {
-      currentStep++;
-      
-      if (fadeOut) {
-        audio.volume = Math.max(0, startVolume - (volumeStep * currentStep));
-      } else {
-        audio.volume = Math.min(startVolume, volumeStep * currentStep);
+  const applyCrossfade = useCallback((audio: HTMLAudioElement, fadeOut: boolean): Promise<void> => {
+    return new Promise((resolve) => {
+      if (crossfadeDuration <= 0 || isCrossfadingRef.current) {
+        resolve();
+        return;
       }
 
-      if (currentStep >= steps) {
-        clearInterval(interval);
-        audio.volume = targetVolume;
-        isCrossfadingRef.current = false;
-      }
-    }, stepDuration);
+      isCrossfadingRef.current = true;
+      const startVolume = audio.volume;
+      const targetVolume = fadeOut ? 0 : startVolume;
+      const steps = 20;
+      const stepDuration = (crossfadeDuration * 1000) / steps;
+      const volumeStep = (startVolume - targetVolume) / steps;
 
-    return () => {
-      clearInterval(interval);
-      isCrossfadingRef.current = false;
-    };
+      let currentStep = 0;
+      const interval = setInterval(() => {
+        currentStep++;
+        
+        if (fadeOut) {
+          audio.volume = Math.max(0, startVolume - (volumeStep * currentStep));
+        } else {
+          audio.volume = Math.min(startVolume, volumeStep * currentStep);
+        }
+
+        if (currentStep >= steps) {
+          clearInterval(interval);
+          audio.volume = targetVolume;
+          isCrossfadingRef.current = false;
+          resolve();
+        }
+      }, stepDuration);
+    });
   }, [crossfadeDuration]);
 
   /**

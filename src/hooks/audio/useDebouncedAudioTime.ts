@@ -104,13 +104,16 @@ export function useDebouncedAudioTime(options: UseDebouncedAudioTimeOptions = {}
       };
       audio.addEventListener('timeupdate', handleTimeUpdate);
       
-      // Cleanup
+      // Cleanup for paused state includes timeupdate listener
       return () => {
         audio.removeEventListener('timeupdate', handleTimeUpdate);
+        audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+        audio.removeEventListener('durationchange', handleDurationChange);
+        audio.removeEventListener('progress', handleProgress);
       };
     }
 
-    // Add other event listeners
+    // Add other event listeners (common for both states)
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('durationchange', handleDurationChange);
     audio.addEventListener('progress', handleProgress);
@@ -121,10 +124,11 @@ export function useDebouncedAudioTime(options: UseDebouncedAudioTimeOptions = {}
     }
     setCurrentTime(audio.currentTime);
 
-    // Cleanup
+    // Cleanup for playing state includes RAF cancellation
     return () => {
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
       }
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audio.removeEventListener('durationchange', handleDurationChange);

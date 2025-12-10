@@ -227,15 +227,20 @@ export function usePlaybackQueue() {
       const savedState = localStorage.getItem(QUEUE_STATE_STORAGE_KEY);
 
       if (savedQueue && savedState) {
-        const queue = JSON.parse(savedQueue) as Track[];
-        const state = JSON.parse(savedState) as {
-          currentIndex: number;
-          shuffle: boolean;
-          repeat: 'off' | 'all' | 'one';
-        };
+        const queue = JSON.parse(savedQueue);
+        const state = JSON.parse(savedState);
 
-        // Validate restored data
-        if (Array.isArray(queue) && queue.length > 0) {
+        // Strict validation of restored data
+        if (
+          Array.isArray(queue) && 
+          queue.length > 0 &&
+          queue.every(track => track && typeof track === 'object' && track.id) &&
+          state &&
+          typeof state === 'object' &&
+          typeof state.currentIndex === 'number' &&
+          typeof state.shuffle === 'boolean' &&
+          ['off', 'all', 'one'].includes(state.repeat)
+        ) {
           // Ensure currentIndex is within valid range
           const safeIndex = Math.max(0, Math.min(state.currentIndex, queue.length - 1));
           
@@ -243,12 +248,14 @@ export function usePlaybackQueue() {
           usePlayerStore.setState({
             queue,
             currentIndex: safeIndex,
-            shuffle: state.shuffle || false,
-            repeat: state.repeat || 'off',
+            shuffle: state.shuffle,
+            repeat: state.repeat,
             activeTrack: queue[safeIndex],
           });
           
           log.info('Restored queue', { trackCount: queue.length });
+        } else {
+          log.warn('Invalid queue data in storage, ignoring');
         }
       }
     } catch (error) {

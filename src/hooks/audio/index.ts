@@ -13,6 +13,8 @@ export { useWaveform } from './useWaveform';
 export { useDebouncedAudioTime } from './useDebouncedAudioTime';
 export { useOptimizedAudioPlayer } from './useOptimizedAudioPlayer';
 export { usePlaybackHistory } from './usePlaybackHistory';
+export { usePlaybackPosition } from './usePlaybackPosition';
+export { useBufferMonitor } from './useBufferMonitor';
 export { usePlayerKeyboardShortcuts } from './usePlayerKeyboardShortcuts';
 export { useSmartQueue } from './useSmartQueue';
 export { useAudioPerformanceMonitor } from './useAudioPerformanceMonitor';
