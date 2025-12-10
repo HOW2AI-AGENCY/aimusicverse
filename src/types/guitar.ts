@@ -2,6 +2,38 @@
  * GuitarRecording type definition
  */
 
+export interface Chord {
+  chord: string;
+  start: number;
+  end?: number;
+  confidence?: number;
+}
+
+export interface Note {
+  pitch: number;
+  time: number;
+  duration?: number;
+  velocity?: number;
+}
+
+export interface Beat {
+  time: number;
+  confidence?: number;
+}
+
+export interface AnalysisStatus {
+  status: 'pending' | 'processing' | 'completed' | 'failed';
+  progress?: number;
+  error?: string;
+}
+
+export interface StyleAnalysis {
+  genre?: string;
+  tempo_stability?: number;
+  rhythm_complexity?: number;
+  [key: string]: unknown;
+}
+
 export interface GuitarRecording {
   id: string;
   user_id: string;
@@ -11,15 +43,15 @@ export interface GuitarRecording {
   bpm?: number | null;
   key?: string | null;
   time_signature?: string | null;
-  chords?: any[] | null;
-  notes?: any[] | null;
-  beats?: any[] | null;
-  downbeats?: any[] | null;
-  strumming?: any | null;
+  chords?: Chord[] | null;
+  notes?: Note[] | null;
+  beats?: Beat[] | null;
+  downbeats?: Beat[] | null;
+  strumming?: Record<string, unknown> | null;
   style_description?: string | null;
-  style_analysis?: any | null;
+  style_analysis?: StyleAnalysis | null;
   generated_tags?: string[] | null;
-  analysis_status?: any | null;
+  analysis_status?: AnalysisStatus | null;
   midi_url?: string | null;
   midi_quant_url?: string | null;
   musicxml_url?: string | null;

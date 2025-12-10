@@ -278,9 +278,7 @@ export function LyricsPreview({
   );
 }
 
-interface LoadingIndicatorProps {}
-
-export function LoadingIndicator({}: LoadingIndicatorProps) {
+export function LoadingIndicator() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}

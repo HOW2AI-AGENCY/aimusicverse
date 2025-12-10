@@ -114,7 +114,7 @@ export const GuitarAnalysisFullscreen = memo(function GuitarAnalysisFullscreen({
   // Update current chord
   useEffect(() => {
     const chord = chords.find(
-      (c: any) => currentTime >= c.start && currentTime < c.end
+      (c) => currentTime >= c.start && currentTime < (c.end || c.start + 1)
     );
     if (chord && chord.chord !== currentChord) {
       setCurrentChord(chord.chord);
@@ -327,13 +327,13 @@ export const GuitarAnalysisFullscreen = memo(function GuitarAnalysisFullscreen({
                     <div className="w-full space-y-2 pb-20">
                       <h3 className="font-semibold text-sm mb-3">Прогрессия аккордов</h3>
                       <div className="flex flex-wrap gap-2">
-                        {chords.map((chord: any, i: number) => (
+                        {chords.map((chord, i: number) => (
                           <motion.button
                             key={i}
                             onClick={() => handleSeek(chord.start)}
                             className="px-3 py-2 rounded-lg text-sm font-medium transition-all"
                             style={{
-                              backgroundColor: currentTime >= chord.start && currentTime < chord.end
+                              backgroundColor: currentTime >= chord.start && currentTime < (chord.end || chord.start + 1)
                                 ? getChordColor(chord.chord).replace(')', ', 0.2)').replace('hsl', 'hsla')
                                 : 'hsl(var(--muted))',
                               color: currentTime >= chord.start && currentTime < chord.end
@@ -361,17 +361,17 @@ export const GuitarAnalysisFullscreen = memo(function GuitarAnalysisFullscreen({
 
                 <TabsContent value="fretboard" className="mt-0 h-full">
                   <GuitarFretboardInteractive
-                    notes={notes.map((n: any) => ({
-                      string: n.string ?? Math.floor(n.pitch / 12) % 6,
-                      fret: n.fret ?? n.pitch % 12,
+                    notes={notes.map((n) => ({
+                      string: Math.floor(n.pitch / 12) % 6,
+                      fret: n.pitch % 12,
                       time: n.time,
                       duration: n.duration,
                     }))}
                     currentNotes={notes.filter(
-                      (n: any) => currentTime >= n.time && currentTime < n.time + (n.duration || 0.5)
-                    ).map((n: any) => ({
-                      string: n.string ?? Math.floor(n.pitch / 12) % 6,
-                      fret: n.fret ?? n.pitch % 12,
+                      (n) => currentTime >= n.time && currentTime < n.time + (n.duration || 0.5)
+                    ).map((n) => ({
+                      string: Math.floor(n.pitch / 12) % 6,
+                      fret: n.pitch % 12,
                     }))}
                   />
                 </TabsContent>
