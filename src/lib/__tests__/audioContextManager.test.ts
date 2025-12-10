@@ -92,7 +92,7 @@ class MockAudioElement {
 describe('audioContextManager', () => {
   let mockAudioElement: HTMLAudioElement;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     // Setup global mocks
     global.AudioContext = MockAudioContext as any;
     (global as any).webkitAudioContext = MockAudioContext;
@@ -100,12 +100,17 @@ describe('audioContextManager', () => {
     // Create mock audio element
     mockAudioElement = new MockAudioElement() as any;
     
-    // Reset module state by forcing module reload
-    jest.resetModules();
+    // Clean up any existing state from previous tests
+    // This ensures each test starts with fresh state
+    try {
+      await resetAudioContext();
+    } catch (err) {
+      // Ignore cleanup errors on first run
+    }
   });
 
   afterEach(async () => {
-    // Clean up
+    // Clean up after each test
     try {
       await resetAudioContext();
     } catch (err) {

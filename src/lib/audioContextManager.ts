@@ -295,16 +295,21 @@ export function disconnectAudio(): void {
 export async function resetAudioContext(): Promise<void> {
   logger.warn('Resetting AudioContext - this will interrupt playback!');
   
+  // Disconnect audio nodes synchronously first
   disconnectAudio();
   
+  // Then close AudioContext (which is async)
   if (audioContext) {
     try {
+      // Wait for close to complete before clearing reference
       await audioContext.close();
+      logger.debug('AudioContext closed successfully');
     } catch (err) {
       logger.warn('Error closing AudioContext', err);
     }
   }
   
+  // Clear the reference after close completes
   audioContext = null;
   
   logger.info('AudioContext reset complete');
