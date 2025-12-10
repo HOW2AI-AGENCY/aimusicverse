@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom
 import { TelegramProvider, DeepLinkHandler } from "@/contexts/TelegramContext";
 import { GamificationProvider } from "@/contexts/GamificationContext";
 import { NotificationProvider } from "@/contexts/NotificationContext";
+import { GuestModeProvider } from "@/contexts/GuestModeContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
@@ -68,14 +69,15 @@ const App = () => (
       <QueryClientProvider client={queryClient}>
         <TelegramProvider>
           <InitializationGuard>
-            <GlobalAudioProvider>
-              <NotificationProvider>
-                <GamificationProvider>
-                  <TooltipProvider>
-                    <Sonner />
-                  <BrowserRouter>
-                    <InteractiveTooltipProvider>
-                      <DeepLinkHandler />
+            <GuestModeProvider>
+              <GlobalAudioProvider>
+                <NotificationProvider>
+                  <GamificationProvider>
+                    <TooltipProvider>
+                      <Sonner />
+                    <BrowserRouter>
+                      <InteractiveTooltipProvider>
+                        <DeepLinkHandler />
                       <Suspense fallback={<LoadingScreen />}>
                 <Routes>
                   <Route path="/auth" element={<Auth />} />
@@ -130,12 +132,13 @@ const App = () => (
                 <Route path="*" element={<NotFound />} />
                       </Routes>
                       </Suspense>
-                    </InteractiveTooltipProvider>
+                      </InteractiveTooltipProvider>
                     </BrowserRouter>
-                </TooltipProvider>
-              </GamificationProvider>
-            </NotificationProvider>
+                  </TooltipProvider>
+                </GamificationProvider>
+              </NotificationProvider>
             </GlobalAudioProvider>
+            </GuestModeProvider>
           </InitializationGuard>
         </TelegramProvider>
       </QueryClientProvider>
