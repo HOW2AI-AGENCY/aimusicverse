@@ -146,7 +146,7 @@ function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: number, 
       }
       
       // For any other error, clean up and let audio play through default output
-      logger.error('Failed to create audio source node', sourceError);
+      logger.error('Failed to create audio source node', sourceError instanceof Error ? sourceError : new Error(String(sourceError)));
       
       // IMPORTANT: If we created a source node but connection failed,
       // audio is now disconnected! Try to reconnect directly to destination

@@ -14,6 +14,8 @@ import { usePlayerStore } from './usePlayerState';
 import { getGlobalAudioRef } from './useAudioTime';
 import { getCachedAudio, cacheAudio, prefetchQueue, shouldPrefetch } from '@/lib/audioCache';
 import { logger } from '@/lib/logger';
+import { useNetworkStatus } from './useNetworkStatus';
+import { checkAudioHealth, attemptAudioRecovery } from '@/lib/audioHealthCheck';
 
 const log = logger.child({ module: 'OptimizedAudioPlayer' });
 
@@ -40,6 +42,10 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
   const prefetchedRef = useRef<Set<string>>(new Set());
   const currentBlobUrlRef = useRef<string | null>(null);
   const isCrossfadingRef = useRef(false);
+  const healthCheckIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Network status monitoring
+  const { isOnline, isSuitableForStreaming, shouldPrefetch: networkAllowsPrefetch } = useNetworkStatus();
 
   /**
    * Get audio source from track with caching
@@ -95,11 +101,21 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
   }, [enableCache]);
 
   /**
-   * Prefetch next tracks in queue
+   * Prefetch next tracks in queue with network awareness
    */
   const prefetchNextTracks = useCallback(async () => {
-    if (!enablePrefetch || !shouldPrefetch()) {
-      log.debug('Prefetch disabled or network unsuitable');
+    // Check both local and network prefetch settings
+    if (!enablePrefetch || !shouldPrefetch() || !networkAllowsPrefetch) {
+      log.debug('Prefetch disabled', { 
+        enabled: enablePrefetch,
+        shouldPrefetch: shouldPrefetch(),
+        networkAllows: networkAllowsPrefetch,
+      });
+      return;
+    }
+
+    if (!isOnline) {
+      log.debug('Cannot prefetch: offline');
       return;
     }
 
@@ -123,7 +139,7 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
         });
       }
     }
-  }, [enablePrefetch, queue, currentIndex]);
+  }, [enablePrefetch, queue, currentIndex, networkAllowsPrefetch, isOnline]);
 
   /**
    * Apply crossfade effect when transitioning between tracks
@@ -227,6 +243,45 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
       }
     };
   }, [activeTrack?.id]); // Only re-run when track ID changes
+
+  /**
+   * Effect: Periodic health check and auto-recovery
+   */
+  useEffect(() => {
+    const audio = getGlobalAudioRef();
+    if (!audio) return;
+
+    // Run health check every 30 seconds when playing
+    if (isPlaying) {
+      healthCheckIntervalRef.current = setInterval(async () => {
+        const report = checkAudioHealth(audio);
+        
+        if (!report.isHealthy) {
+          log.warn('Audio health check failed, attempting recovery', {
+            issues: report.issues.length,
+            warnings: report.warnings.length,
+          });
+          
+          const recovered = await attemptAudioRecovery(audio, report);
+          
+          if (recovered) {
+            log.info('Audio recovery successful');
+          } else {
+            log.error('Audio recovery failed', null, {
+              recommendations: report.recommendations,
+            });
+          }
+        }
+      }, 30000);
+    }
+
+    return () => {
+      if (healthCheckIntervalRef.current) {
+        clearInterval(healthCheckIntervalRef.current);
+        healthCheckIntervalRef.current = null;
+      }
+    };
+  }, [isPlaying]);
 
   /**
    * Effect: Prefetch on queue or index change
