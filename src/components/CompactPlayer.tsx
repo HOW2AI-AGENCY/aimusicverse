@@ -26,6 +26,7 @@ interface CompactPlayerProps {
     suno_task_id?: string | null;
     suno_id?: string | null;
     is_liked?: boolean;
+    status?: string | null;
   };
   onClose: () => void;
   onMaximize: () => void;
