@@ -60,7 +60,7 @@ await bot.sendInvoice(userId, {
 
 ## 3. Best practices
 
-- **Performance:** unsubscribe from sensors on unmount; use `refresh_rate` ≥ 50–100 ms.
+- **Performance:** unsubscribe from sensors on unmount; prefer `refresh_rate` ≈ 100 ms (drop to 50 ms only for short high-fidelity sessions to save battery).
 - **Storage:** secrets only in `SecureStorage`; cache in `DeviceStorage`; synced prefs in `CloudStorage`.
 - **Payments:** log `successful_payment` and `refundStarPayment`; store `charge_id`.
 - **Errors:** show `MainButton.showProgress()` for network actions; handle `web_app_data_send` timeouts.
