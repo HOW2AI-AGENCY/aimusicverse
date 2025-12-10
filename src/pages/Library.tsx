@@ -24,6 +24,7 @@ import { TrackCard } from "@/components/TrackCard";
 import { LibraryFilterChips } from "@/components/library/LibraryFilterChips";
 import { EmptyLibraryState } from "@/components/library/EmptyLibraryState";
 import { logger } from "@/lib/logger";
+import { cn } from "@/lib/utils";
 
 const log = logger.child({ module: 'Library' });
 
@@ -386,12 +387,17 @@ export default function Library() {
                 })}
               </div>
 
+              {/* Pagination Loading - используем skeleton карточки для единообразия */}
               {isFetchingNextPage && (
-                <div className="mt-8 flex justify-center">
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    <span>Загрузка...</span>
-                  </div>
+                <div className={cn(
+                  "mt-4",
+                  viewMode === "grid"
+                    ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
+                    : "flex flex-col gap-2"
+                )}>
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <TrackCardSkeleton key={`pagination-skeleton-${i}`} layout={viewMode} />
+                  ))}
                 </div>
               )}
               
