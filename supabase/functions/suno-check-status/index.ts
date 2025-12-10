@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { isSunoSuccessCode } from '../_shared/suno.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -81,8 +82,9 @@ serve(async (req) => {
 
           const data = await response.json();
           
-          if (data.code !== 200) {
-            throw new Error(data.msg || 'API returned non-200 code');
+          if (!isSunoSuccessCode(data.code)) {
+            const code = data.code ?? 'unknown';
+            throw new Error(data.msg || `API returned code ${code}`);
           }
           
           return data;

@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { isSunoSuccessCode } from '../_shared/suno.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -70,7 +71,7 @@ serve(async (req) => {
     console.log('✅ Found track:', track.id, 'for separation task:', separationTaskId);
 
     // Handle failure
-    if (code !== 200) {
+    if (!isSunoSuccessCode(code)) {
       console.error('❌ Vocal separation failed:', msg);
       
       await supabase

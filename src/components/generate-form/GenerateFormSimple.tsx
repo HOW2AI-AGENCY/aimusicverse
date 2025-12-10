@@ -9,6 +9,7 @@ import { Sparkles, Loader2, Mic, HelpCircle } from 'lucide-react';
 import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
 import { GenerateFormHint, FORM_HINTS } from './GenerateFormHint';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { SmartPromptSuggestions } from './SmartPromptSuggestions';
 
 interface GenerateFormSimpleProps {
   description: string;
@@ -107,6 +108,17 @@ export function GenerateFormSimple({
           rows={4}
           className={`resize-none text-sm mt-2 ${description.length > 500 ? 'border-destructive focus-visible:ring-destructive' : ''}`}
         />
+
+        {/* Smart Prompt Suggestions */}
+        {!description && (
+          <div className="mt-3">
+            <SmartPromptSuggestions
+              onSelectPrompt={onDescriptionChange}
+              currentPrompt={description}
+              compact={true}
+            />
+          </div>
+        )}
         
         {description.length > 500 && (
           <p className="text-xs text-destructive mt-1">

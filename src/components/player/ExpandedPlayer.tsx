@@ -39,7 +39,7 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
     setTimeout(() => setIsLiking(false), 300);
   };
 
-  const handleDragEnd = (_event: any, info: PanInfo) => {
+  const handleDragEnd = (_event: PointerEvent | MouseEvent | TouchEvent, info: PanInfo) => {
     if (info.offset.y > 50) {
       hapticImpact('light');
       onClose();

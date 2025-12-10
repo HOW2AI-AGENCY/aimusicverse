@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { createLogger } from "../_shared/logger.ts";
+import { isSunoSuccessCode } from "../_shared/suno.ts";
 
 const logger = createLogger('suno-upload-extend');
 
@@ -174,7 +175,7 @@ serve(async (req) => {
     const data = await response.json();
     logger.info('Suno API response', { code: data.code, taskId: data.data?.taskId });
 
-    if (!response.ok || data.code !== 200) {
+    if (!response.ok || !isSunoSuccessCode(data.code)) {
       logger.error('Suno API error', null, { code: data.code, msg: data.msg });
       
       if (data.code === 429) {

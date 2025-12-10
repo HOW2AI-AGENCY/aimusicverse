@@ -42,7 +42,7 @@ export function SwipeableTrackItem({
     dragDirectionRef.current = null;
   };
 
-  const handleDrag = (_: any, info: PanInfo) => {
+  const handleDrag = (_event: PointerEvent | MouseEvent | TouchEvent, info: PanInfo) => {
     const absX = Math.abs(info.offset.x);
     const absY = Math.abs(info.offset.y);
 
@@ -62,7 +62,7 @@ export function SwipeableTrackItem({
     }
   };
   
-  const handleDragEnd = (_: any, info: PanInfo) => {
+  const handleDragEnd = (_event: PointerEvent | MouseEvent | TouchEvent, info: PanInfo) => {
     // If was vertical scroll - just reset
     if (dragDirectionRef.current === 'y') {
       setIsOpen(null);

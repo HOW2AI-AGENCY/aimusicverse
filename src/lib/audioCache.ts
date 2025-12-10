@@ -10,6 +10,8 @@
  * - Network-aware quality selection
  */
 
+import { logger } from './logger';
+
 const DB_NAME = 'musicverse_audio_cache';
 const DB_VERSION = 1;
 const STORE_NAME = 'audio_files';
@@ -99,7 +101,7 @@ export async function getCachedAudio(url: string): Promise<Blob | null> {
       return entry.blob;
     }
   } catch (error) {
-    console.error('Error reading from audio cache:', error);
+    logger.error('Error reading from audio cache', error instanceof Error ? error : new Error(String(error)));
   }
 
   cacheMisses++;
@@ -114,7 +116,7 @@ export async function cacheAudio(url: string, blob: Blob): Promise<void> {
   
   // Don't cache if blob is too large (>50MB)
   if (size > 50 * 1024 * 1024) {
-    console.warn('Audio file too large to cache:', size);
+    logger.warn('Audio file too large to cache', { size, url: url.substring(0, 50) });
     return;
   }
 
@@ -144,7 +146,7 @@ export async function cacheAudio(url: string, blob: Blob): Promise<void> {
       request.onsuccess = () => resolve();
     });
   } catch (error) {
-    console.error('Error saving to audio cache:', error);
+    logger.error('Error saving to audio cache', error instanceof Error ? error : new Error(String(error)));
   }
 }
 
@@ -163,7 +165,7 @@ export async function prefetchAudio(url: string): Promise<void> {
     const blob = await response.blob();
     await cacheAudio(url, blob);
   } catch (error) {
-    console.error('Error prefetching audio:', error);
+    logger.error('Error prefetching audio', error instanceof Error ? error : new Error(String(error)));
   }
 }
 
@@ -178,7 +180,7 @@ export async function prefetchQueue(urls: string[], currentIndex: number): Promi
 
   // Prefetch in parallel but don't wait for completion
   Promise.all(prefetchUrls.map(url => prefetchAudio(url))).catch(err => {
-    console.error('Error in prefetch queue:', err);
+    logger.error('Error in prefetch queue', err instanceof Error ? err : new Error(String(err)));
   });
 }
 
@@ -303,7 +305,7 @@ export async function clearAudioCache(): Promise<void> {
       request.onsuccess = () => resolve();
     });
   } catch (error) {
-    console.error('Error clearing audio cache:', error);
+    logger.error('Error clearing audio cache', error instanceof Error ? error : new Error(String(error)));
   }
 }
 

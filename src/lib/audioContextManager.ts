@@ -13,13 +13,16 @@
  * 4. Graceful handling of visualizer failures (audio continues to work)
  */
 
-import { logger } from './logger';
+import { logger } from '@/lib/logger';
+
+type AudioElementWithSourceFlag = HTMLAudioElement & { __hasMediaSource?: boolean };
 
 // Singleton instances
 let audioContext: AudioContext | null = null;
 let mediaElementSource: MediaElementAudioSourceNode | null = null;
 let analyserNode: AnalyserNode | null = null;
-let connectedAudioElement: HTMLAudioElement | null = null;
+let connectedAudioElement: AudioElementWithSourceFlag | null = null;
+let audioNodesResult: AudioNodesResult | null = null;
 
 /**
  * Get or create the global AudioContext
@@ -121,7 +124,13 @@ export async function getOrCreateAudioNodes(
       analyserNode.fftSize = fftSize;
       analyserNode.smoothingTimeConstant = smoothing;
       
-      return { analyser: analyserNode, source: mediaElementSource };
+      if (audioNodesResult) {
+        // Reuse the same result object to keep references stable for callers/tests
+        return audioNodesResult;
+      }
+      
+      audioNodesResult = { analyser: analyserNode, source: mediaElementSource };
+      return audioNodesResult;
     }
 
     // If connected to a different element, we cannot reconnect (Web Audio limitation)
@@ -181,7 +190,8 @@ export async function getOrCreateAudioNodes(
       }
     }
 
-    return { analyser: analyserNode, source: mediaElementSource };
+    audioNodesResult = { analyser: analyserNode, source: mediaElementSource };
+    return audioNodesResult;
   } catch (error) {
     logger.error('Failed to create audio nodes', error instanceof Error ? error : new Error(String(error)));
     
@@ -202,6 +212,7 @@ export async function getOrCreateAudioNodes(
       analyserNode = null;
       mediaElementSource = null;
       connectedAudioElement = null;
+      audioNodesResult = null;
     }
     
     return null;
@@ -218,6 +229,17 @@ export function ensureAudioRoutedToDestination(): void {
   }
 
   const ctx = getAudioContext();
+  
+  // Additional check: ensure AudioContext is not suspended
+  if (ctx.state === 'suspended') {
+    logger.warn('AudioContext is suspended during audio routing check');
+    // Try to resume asynchronously (non-blocking)
+    void ctx.resume().then(() => {
+      logger.info('AudioContext resumed during routing check');
+    }).catch((err) => {
+      logger.error('Failed to resume AudioContext during routing check', err);
+    });
+  }
   
   try {
     // Ensure analyser is connected to destination
@@ -261,6 +283,28 @@ export function isAudioElementConnected(audioElement: HTMLAudioElement): boolean
 }
 
 /**
+ * Get diagnostic information about the audio system
+ * Useful for debugging player issues
+ */
+export function getAudioSystemDiagnostics(): {
+  hasAudioContext: boolean;
+  audioContextState: AudioContextState | null;
+  hasMediaElementSource: boolean;
+  hasAnalyserNode: boolean;
+  connectedElementSrc: string | null;
+  sampleRate: number | null;
+} {
+  return {
+    hasAudioContext: audioContext !== null,
+    audioContextState: audioContext?.state || null,
+    hasMediaElementSource: mediaElementSource !== null,
+    hasAnalyserNode: analyserNode !== null,
+    connectedElementSrc: connectedAudioElement?.src || null,
+    sampleRate: audioContext?.sampleRate || null,
+  };
+}
+
+/**
  * Clean up audio nodes (use with caution!)
  * Only call this when you're sure no component needs the audio connection
  */
@@ -283,8 +327,13 @@ export function disconnectAudio(): void {
     }
   }
   
+  if (connectedAudioElement) {
+    connectedAudioElement.__hasMediaSource = false;
+  }
+  
   mediaElementSource = null;
   analyserNode = null;
+  audioNodesResult = null;
   connectedAudioElement = null;
 }
 

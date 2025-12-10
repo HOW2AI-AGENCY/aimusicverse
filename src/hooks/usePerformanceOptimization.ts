@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
+import { logger } from '@/lib/logger';
 
 interface UseReducedMotionReturn {
   prefersReducedMotion: boolean;
@@ -139,7 +140,10 @@ export function usePerformanceMonitor(componentName: string) {
       const renderTime = endTime - startTime;
       
       if (renderTime > 16) { // More than one frame (60fps)
-        console.warn(`[Performance] ${componentName} took ${renderTime.toFixed(2)}ms to render`);
+        logger.warn(`${componentName} took ${renderTime.toFixed(2)}ms to render`, {
+          componentName,
+          renderTimeMs: renderTime
+        });
       }
     };
   });

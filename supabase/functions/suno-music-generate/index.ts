@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { createLogger } from '../_shared/logger.ts';
+import { isSunoSuccessCode } from '../_shared/suno.ts';
 
 const logger = createLogger('suno-music-generate');
 
@@ -270,7 +271,7 @@ serve(async (req) => {
       estimated_cost: 0.05,
     });
 
-    if (!sunoResponse.ok || sunoData.code !== 200) {
+    if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
       logger.error('SunoAPI error', null, { status: sunoResponse.status, data: sunoData });
       
       const errorMsg = sunoData.msg || 'SunoAPI request failed';
