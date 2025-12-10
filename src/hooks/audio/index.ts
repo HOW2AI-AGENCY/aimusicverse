@@ -20,3 +20,10 @@ export { usePlayerKeyboardShortcuts } from './usePlayerKeyboardShortcuts';
 export { useSmartQueue } from './useSmartQueue';
 export { useAudioPerformanceMonitor } from './useAudioPerformanceMonitor';
 export { useNetworkStatus } from './useNetworkStatus';
+
+// Export audio system diagnostics for troubleshooting
+export { 
+  getAudioSystemDiagnostics,
+  getAudioContextState,
+  ensureAudioRoutedToDestination 
+} from '@/lib/audioContextManager';

@@ -17,6 +17,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface Version {
   id: string;
@@ -73,7 +74,7 @@ export function EnhancedVersionSwitcher({
       });
     } catch (error) {
       toast.error('Ошибка переключения версии');
-      console.error('Version switch error:', error);
+      logger.error('Version switch error', error instanceof Error ? error : new Error(String(error)));
     } finally {
       setSwitchingTo(null);
     }
