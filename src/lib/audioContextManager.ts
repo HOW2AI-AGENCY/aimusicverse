@@ -126,7 +126,6 @@ export async function getOrCreateAudioNodes(
       
       if (audioNodesResult) {
         // Reuse the same result object to keep references stable for callers/tests
-        Object.assign(audioNodesResult, { analyser: analyserNode, source: mediaElementSource });
         return audioNodesResult;
       }
       

@@ -8,6 +8,7 @@ module.exports = {
   moduleNameMapper: {
     '^@/lib/logger$': '<rootDir>/tests/__mocks__/logger.ts',
     '^@/(.*)$': '<rootDir>/src/$1',
+    // Allow ESM-style relative imports without explicit .js extension when running tests
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },
   transform: {

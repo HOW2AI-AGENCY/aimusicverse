@@ -1,5 +1,6 @@
 const createLogger = (_defaultContext: Record<string, unknown> = {}) => {
   const api = {
+    context: _defaultContext,
     debug: () => {},
     info: () => {},
     warn: () => {},
