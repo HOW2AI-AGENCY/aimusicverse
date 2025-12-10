@@ -35,8 +35,9 @@ export async function resumeAudioContext(): Promise<void> {
         sampleRate: audioContext.sampleRate
       });
     } catch (err) {
-      logger.error('❌ Failed to resume AudioContext', err instanceof Error ? err : new Error(String(err)));
-      throw err; // Re-throw to let caller handle
+      // CRITICAL FIX: Don't throw - this breaks playback!
+      // Just log the error and continue - audio will work without visualizer
+      logger.error('❌ Failed to resume AudioContext - continuing without visualizer', err instanceof Error ? err : new Error(String(err)));
     }
   } else {
     logger.debug('AudioContext already running', { state: audioContext.state });
@@ -85,17 +86,20 @@ async function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: nu
           sampleRate: audioContext.sampleRate
         });
       } catch (err) {
-        logger.error('❌ CRITICAL: AudioContext resume failed - audio will be SILENT!', err instanceof Error ? err : new Error(String(err)));
-        throw err; // This will prevent visualizer setup and keep audio on default output
+        // CRITICAL FIX: Don't throw - just log and return null
+        // This allows audio to play without visualizer
+        logger.error('❌ AudioContext resume failed - visualizer disabled, audio will work', err instanceof Error ? err : new Error(String(err)));
+        return null;
       }
     }
 
     // Verify AudioContext is actually running
     if (audioContext.state !== 'running') {
-      logger.error('❌ CRITICAL: AudioContext not running after resume attempt', {
+      logger.warn('⚠️ AudioContext not running - visualizer disabled, audio will work', {
         state: audioContext.state
       });
-      throw new Error(`AudioContext in ${audioContext.state} state, expected running`);
+      // Return null instead of throwing - allows audio to work without visualizer
+      return null;
     }
 
     // Check if already connected to this element
