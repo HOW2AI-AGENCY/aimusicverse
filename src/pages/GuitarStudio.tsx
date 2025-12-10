@@ -49,6 +49,7 @@ import { GuitarRecordingPanel } from '@/components/guitar/GuitarRecordingPanel';
 import { BeatGridVisualizer } from '@/components/guitar/BeatGridVisualizer';
 import { ChordProgressionTimeline } from '@/components/guitar/ChordProgressionTimeline';
 import { MidiExportPanelMobile } from '@/components/guitar/MidiExportPanelMobile';
+import { LinkToTrackDialog } from '@/components/guitar/LinkToTrackDialog';
 import { cn } from '@/lib/utils';
 
 const workflowSteps = [
@@ -84,6 +85,7 @@ export default function GuitarStudio() {
   const [recordingTime, setRecordingTime] = useState(0);
   const [workflow, setWorkflow] = useState(workflowSteps);
   const [currentStep, setCurrentStep] = useState(0);
+  const [linkDialogOpen, setLinkDialogOpen] = useState(false);
   
   const {
     isAnalyzing,
@@ -564,6 +566,17 @@ export default function GuitarStudio() {
                       transcriptionFiles={analysisResult.transcriptionFiles}
                       midiUrl={analysisResult.midiUrl}
                     />
+
+                    {/* Link to Track Button */}
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      onClick={() => setLinkDialogOpen(true)}
+                      className="w-full bg-gradient-to-r from-primary/10 to-primary/5 border-primary/30"
+                    >
+                      <Save className="w-4 h-4 mr-2" />
+                      Привязать к треку
+                    </Button>
                   </div>
 
                   {/* Desktop Components */}
@@ -655,6 +668,13 @@ export default function GuitarStudio() {
           </Card>
         </motion.div>
       </div>
+
+      {/* Link to Track Dialog */}
+      <LinkToTrackDialog
+        open={linkDialogOpen}
+        onOpenChange={setLinkDialogOpen}
+        analysisResult={analysisResult}
+      />
     </div>
   );
 }

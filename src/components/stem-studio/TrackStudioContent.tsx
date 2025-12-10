@@ -25,6 +25,8 @@ import { QuickComparePanel } from '@/components/stem-studio/QuickComparePanel';
 import { QuickCompareMobile } from '@/components/stem-studio/QuickCompareMobile';
 import { StudioQuickActions } from '@/components/stem-studio/StudioQuickActions';
 import { StudioContextTips } from '@/components/stem-studio/StudioContextTips';
+import { GuitarTrackIntegration } from '@/components/stem-studio/GuitarTrackIntegration';
+import { useTrackGuitarAnalysis } from '@/hooks/useTrackGuitarAnalysis';
 import { TrimDialog } from '@/components/stem-studio/TrimDialog';
 import { VocalReplacementDialog } from '@/components/stem-studio/VocalReplacementDialog';
 import { ArrangementReplacementDialog } from '@/components/stem-studio/ArrangementReplacementDialog';
@@ -51,6 +53,9 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
   const isMobile = useIsMobile();
   const { tracks } = useTracks();
   const track = tracks?.find(t => t.id === trackId);
+  
+  // Load guitar analysis if exists
+  const { data: guitarAnalysis } = useTrackGuitarAnalysis(trackId);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -480,6 +485,18 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
 
       {/* Contextual Tips */}
       <StudioContextTips track={track} hasStems={false} />
+
+      {/* Guitar Analysis Integration */}
+      {guitarAnalysis && (
+        <div className="px-4 sm:px-6 py-3 border-b border-border/30">
+          <GuitarTrackIntegration
+            analysisResult={guitarAnalysis}
+            trackId={trackId}
+            currentTime={currentTime}
+            isPlaying={isPlaying}
+          />
+        </div>
+      )}
 
       {/* Section Timeline Visualization */}
       {canReplaceSection && detectedSections.length > 0 && (
