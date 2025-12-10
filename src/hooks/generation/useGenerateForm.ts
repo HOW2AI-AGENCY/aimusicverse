@@ -239,7 +239,43 @@ export function useGenerateForm({
     if (audioReference.title) {
       setTitle(audioReference.title);
     }
-  }, [audioReference.file, audioReference.lyrics, audioReference.style, audioReference.title]);
+
+    // Handle stem action to set appropriate generation settings
+    if (audioReference.action) {
+      switch (audioReference.action) {
+        case 'add-vocals-to-instrumental':
+          // Adding vocals to instrumental - enable vocals, high audio weight
+          setHasVocals(true);
+          setAudioWeight(0.8);
+          logger.info('Stem action: adding vocals to instrumental');
+          break;
+
+        case 'add-instrumental-to-vocals':
+          // Adding instrumental to vocals - disable vocals (instrumental only), moderate audio weight
+          setHasVocals(false);
+          setAudioWeight(0.6);
+          logger.info('Stem action: adding instrumental to vocals');
+          break;
+
+        case 'create-instrumental':
+          // Create instrumental from stem - disable vocals
+          setHasVocals(false);
+          setAudioWeight(0.7);
+          logger.info('Stem action: creating instrumental');
+          break;
+
+        case 'regenerate-from-stem':
+          // Full regeneration - keep vocals, moderate weight
+          setHasVocals(true);
+          setAudioWeight(0.5);
+          logger.info('Stem action: regenerating from stem');
+          break;
+
+        default:
+          logger.warn('Unknown stem action', { action: audioReference.action });
+      }
+    }
+  }, [audioReference.file, audioReference.lyrics, audioReference.style, audioReference.title, audioReference.action]);
 
   // Check for template lyrics from sessionStorage
   useEffect(() => {
