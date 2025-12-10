@@ -41,6 +41,9 @@ import { ExportFilesPanel } from '@/components/guitar/ExportFilesPanel';
 import { SavedRecordingsList } from '@/components/guitar/SavedRecordingsList';
 import { WaveformWithChords } from '@/components/guitar/WaveformWithChords';
 import { InteractiveChordWheel } from '@/components/guitar/InteractiveChordWheel';
+import { AudioLevelMeter } from '@/components/guitar/AudioLevelMeter';
+import { Metronome } from '@/components/guitar/Metronome';
+import { GuitarTuner } from '@/components/guitar/GuitarTuner';
 import { cn } from '@/lib/utils';
 
 const workflowSteps = [
@@ -84,6 +87,7 @@ export default function GuitarStudio() {
     recordedAudioUrl,
     progress,
     progressPercent,
+    mediaStream,
     startRecording,
     stopRecording,
     analyzeGuitarRecording,
@@ -394,6 +398,27 @@ export default function GuitarStudio() {
                   </div>
                 </div>
               </Card>
+
+              {/* Audio Level Meter - shows during recording */}
+              {isRecording && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  <AudioLevelMeter 
+                    isActive={isRecording}
+                    mediaStream={mediaStream}
+                  />
+                </motion.div>
+              )}
+
+              {/* Professional Tools Grid - shows when not recording */}
+              {!isRecording && !recordedAudioUrl && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <Metronome defaultBpm={120} />
+                  <GuitarTuner />
+                </div>
+              )}
 
               {/* Recording Tips */}
               <Card className="p-4 bg-muted/30">
