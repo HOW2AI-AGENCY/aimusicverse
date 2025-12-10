@@ -12,6 +12,18 @@ import { useTelegram } from '@/contexts/TelegramContext';
 
 const professionalTools = [
   {
+    id: 'guitar-studio',
+    title: 'Guitar Studio',
+    description: 'Запись, анализ и транскрипция гитары',
+    icon: Guitar,
+    path: '/guitar-studio',
+    color: 'from-orange-500 via-red-500 to-pink-500',
+    iconColor: 'text-orange-400',
+    bgColor: 'bg-gradient-to-br from-orange-500/10 via-red-500/10 to-pink-500/10',
+    borderColor: 'border-orange-500/20 hover:border-orange-500/40',
+    features: ['Beat Tracking', 'Chords', 'MIDI/GP5/PDF'],
+  },
+  {
     id: 'creative-tools',
     title: 'Creative Tools',
     description: 'Chord Detection, Tab Editor, Melody Mixer',
