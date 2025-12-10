@@ -7,6 +7,28 @@ import { memo, useRef, useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
+// Get actual CSS color value from CSS variable with proper comma syntax
+const getCSSColor = (cssVar: string, fallback: string): string => {
+  if (typeof window === 'undefined') return `hsl(${fallback})`;
+  const root = document.documentElement;
+  const computed = getComputedStyle(root);
+  const value = computed.getPropertyValue(cssVar).trim();
+  if (!value) return `hsl(${fallback})`;
+  const parts = value.split(/\s+/);
+  if (parts.length >= 3) {
+    return `hsl(${parts[0]}, ${parts[1]}, ${parts[2]})`;
+  }
+  return `hsl(${value})`;
+};
+
+const toHsla = (hslColor: string, alpha: number): string => {
+  const match = hslColor.match(/hsl\(([^)]+)\)/);
+  if (match) {
+    return `hsla(${match[1]}, ${alpha})`;
+  }
+  return hslColor;
+};
+
 interface Note {
   time: number;
   pitch: number;
@@ -24,7 +46,7 @@ interface NoteFlowVisualizationProps {
   onNoteHit?: (note: Note) => void;
 }
 
-// String colors for guitar visualization
+// String colors for guitar visualization (properly comma-separated)
 const stringColors = [
   'hsl(0, 80%, 60%)',    // E - Red
   'hsl(30, 80%, 60%)',   // A - Orange
@@ -126,20 +148,25 @@ export const NoteFlowVisualization = memo(function NoteFlowVisualization({
     ctx.scale(dpr, dpr);
 
     // Clear with gradient background
+    const bgColor = getCSSColor('--background', '0, 0%, 100%');
+    const mutedColor = getCSSColor('--muted', '220, 14%, 96%');
+    const borderColor = getCSSColor('--border', '220, 13%, 91%');
+    const primaryColor = getCSSColor('--primary', '220, 90%, 56%');
+    
     const bgGradient = ctx.createLinearGradient(0, 0, 0, height);
-    bgGradient.addColorStop(0, 'hsl(var(--background))');
-    bgGradient.addColorStop(1, 'hsl(var(--muted) / 0.5)');
+    bgGradient.addColorStop(0, bgColor);
+    bgGradient.addColorStop(1, toHsla(mutedColor, 0.5));
     ctx.fillStyle = bgGradient;
     ctx.fillRect(0, 0, width, height);
 
     // Draw string lanes
     const laneWidth = width / 6;
     for (let i = 0; i < 6; i++) {
-      ctx.fillStyle = `${stringColors[i].replace(')', ', 0.1)').replace('hsl', 'hsla')}`;
+      ctx.fillStyle = toHsla(stringColors[i], 0.1);
       ctx.fillRect(i * laneWidth, 0, laneWidth, height);
       
       // Lane divider
-      ctx.strokeStyle = 'hsl(var(--border) / 0.3)';
+      ctx.strokeStyle = toHsla(borderColor, 0.3);
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo((i + 1) * laneWidth, 0);
@@ -149,7 +176,7 @@ export const NoteFlowVisualization = memo(function NoteFlowVisualization({
 
     // Hit line
     const hitLineY = height * 0.85;
-    ctx.strokeStyle = 'hsl(var(--primary))';
+    ctx.strokeStyle = primaryColor;
     ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.moveTo(0, hitLineY);

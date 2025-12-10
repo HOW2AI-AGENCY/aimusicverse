@@ -9,14 +9,29 @@ interface AudioWaveformProps {
   height?: number;
 }
 
-// Get actual CSS color value from CSS variable
+// Get actual CSS color value from CSS variable with proper comma syntax
 const getCSSColor = (cssVar: string, fallback: string): string => {
-  if (typeof window === 'undefined') return fallback;
+  if (typeof window === 'undefined') return `hsl(${fallback})`;
   const root = document.documentElement;
   const computed = getComputedStyle(root);
   const value = computed.getPropertyValue(cssVar).trim();
-  if (!value) return fallback;
+  if (!value) return `hsl(${fallback})`;
+  // Convert space-separated HSL to comma-separated for canvas compatibility
+  const parts = value.split(/\s+/);
+  if (parts.length >= 3) {
+    return `hsl(${parts[0]}, ${parts[1]}, ${parts[2]})`;
+  }
   return `hsl(${value})`;
+};
+
+// Convert hsl() to hsla() with alpha
+const toHsla = (hslColor: string, alpha: number): string => {
+  // Match hsl(h, s%, l%) format
+  const match = hslColor.match(/hsl\(([^)]+)\)/);
+  if (match) {
+    return `hsla(${match[1]}, ${alpha})`;
+  }
+  return hslColor;
 };
 
 export function AudioWaveform({ 
@@ -97,11 +112,11 @@ export function AudioWaveform({
         const gradient = ctx.createLinearGradient(x, y, x, y + barHeight);
         gradient.addColorStop(0, primaryColor);
         gradient.addColorStop(0.5, primaryColor);
-        gradient.addColorStop(1, primaryColor.replace(')', ', 0.7)').replace('hsl', 'hsla'));
+        gradient.addColorStop(1, toHsla(primaryColor, 0.7));
         ctx.fillStyle = gradient;
       } else {
         // Unplayed section - muted color with transparency
-        ctx.fillStyle = mutedColor.replace(')', ', 0.3)').replace('hsl', 'hsla');
+        ctx.fillStyle = toHsla(mutedColor, 0.3);
       }
 
       // Draw rounded bar

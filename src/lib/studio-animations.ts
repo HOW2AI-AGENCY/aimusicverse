@@ -81,7 +81,7 @@ export const studioAnimations = {
   },
 };
 
-// Chord type colors
+// Chord type colors (comma-separated for Canvas API compatibility)
 export const chordColors: Record<string, string> = {
   major: 'hsl(200, 80%, 60%)',
   minor: 'hsl(280, 70%, 60%)',
@@ -92,7 +92,7 @@ export const chordColors: Record<string, string> = {
   aug: 'hsl(50, 80%, 60%)',
   sus: 'hsl(180, 60%, 60%)',
   add: 'hsl(100, 60%, 60%)',
-  default: 'hsl(var(--primary))',
+  default: 'hsl(220, 90%, 56%)', // Fallback to explicit primary color
 };
 
 // Stem type visual identity

@@ -8,6 +8,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { getChordColor } from '@/lib/studio-animations';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
+// Convert hsl() to hsla() with alpha - handles comma-separated format
+const toHsla = (hslColor: string, alpha: number): string => {
+  const match = hslColor.match(/hsl\(([^)]+)\)/);
+  if (match) {
+    return `hsla(${match[1]}, ${alpha})`;
+  }
+  return hslColor;
+};
+
 interface Chord {
   chord: string;
   start: number;
@@ -105,8 +114,8 @@ export const InteractiveChordWheel = memo(function InteractiveChordWheel({
       );
       
       const alpha = isActive ? 1 : isHovered ? 0.8 : 0.6;
-      gradient.addColorStop(0, segment.color.replace(')', `, ${alpha * 0.3})`).replace('hsl', 'hsla'));
-      gradient.addColorStop(1, segment.color.replace(')', `, ${alpha})`).replace('hsl', 'hsla'));
+      gradient.addColorStop(0, toHsla(segment.color, alpha * 0.3));
+      gradient.addColorStop(1, toHsla(segment.color, alpha));
       
       ctx.fillStyle = gradient;
       ctx.fill();

@@ -9,6 +9,28 @@ import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import type { ChordData } from '@/hooks/useGuitarAnalysis';
 import { ChordDiagramEnhanced } from './ChordDiagramEnhanced';
 
+// Get actual CSS color value from CSS variable with proper comma syntax
+const getCSSColor = (cssVar: string, fallback: string): string => {
+  if (typeof window === 'undefined') return `hsl(${fallback})`;
+  const root = document.documentElement;
+  const computed = getComputedStyle(root);
+  const value = computed.getPropertyValue(cssVar).trim();
+  if (!value) return `hsl(${fallback})`;
+  const parts = value.split(/\s+/);
+  if (parts.length >= 3) {
+    return `hsl(${parts[0]}, ${parts[1]}, ${parts[2]})`;
+  }
+  return `hsl(${value})`;
+};
+
+const toHsla = (hslColor: string, alpha: number): string => {
+  const match = hslColor.match(/hsl\(([^)]+)\)/);
+  if (match) {
+    return `hsla(${match[1]}, ${alpha})`;
+  }
+  return hslColor;
+};
+
 interface ChordAwarePlayerProps {
   audioUrl: string;
   chords: ChordData[];
@@ -120,13 +142,16 @@ export function ChordAwarePlayer({
       const y = (height - barHeight) / 2;
       const progress = i / waveformData.length;
 
+      const primaryColor = getCSSColor('--primary', '220, 90%, 56%');
+      const mutedColor = getCSSColor('--muted-foreground', '220, 9%, 46%');
+      
       const gradient = ctx.createLinearGradient(0, y, 0, y + barHeight);
       if (progress < playProgress) {
-        gradient.addColorStop(0, 'hsl(var(--primary))');
-        gradient.addColorStop(1, 'hsl(var(--primary) / 0.7)');
+        gradient.addColorStop(0, primaryColor);
+        gradient.addColorStop(1, toHsla(primaryColor, 0.7));
       } else {
-        gradient.addColorStop(0, 'hsl(var(--muted-foreground) / 0.4)');
-        gradient.addColorStop(1, 'hsl(var(--muted-foreground) / 0.2)');
+        gradient.addColorStop(0, toHsla(mutedColor, 0.4));
+        gradient.addColorStop(1, toHsla(mutedColor, 0.2));
       }
       
       ctx.fillStyle = gradient;
