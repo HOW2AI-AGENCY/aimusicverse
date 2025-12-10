@@ -131,11 +131,17 @@ export function getPreviousTrack(queue: Track[], currentIndex: number, currentTi
 /**
  * Shuffle an array of tracks using Fisher-Yates algorithm
  * Preserves the current track at the beginning
+ * Uses smart distribution to avoid recent repeats
  * @param queue - Array of tracks
  * @param currentIndex - Index of current track to preserve
+ * @param playHistory - Optional array of recently played track IDs to avoid
  * @returns Shuffled queue with current track at index 0
  */
-export function shuffleQueue(queue: Track[], currentIndex: number = 0): Track[] {
+export function shuffleQueue(
+  queue: Track[], 
+  currentIndex: number = 0,
+  playHistory: string[] = []
+): Track[] {
   if (!queue || queue.length <= 1) {
     return queue;
   }
@@ -146,16 +152,40 @@ export function shuffleQueue(queue: Track[], currentIndex: number = 0): Track[] 
   // Remove current track
   shuffled.splice(currentIndex, 1);
 
-  // Fisher-Yates shuffle
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
+  // Separate tracks into recently played and others for smarter shuffle
+  const recentlyPlayed = new Set(playHistory.slice(-5)); // Last 5 tracks
+  const notRecentTracks: Track[] = [];
+  const recentTracks: Track[] = [];
+  
+  shuffled.forEach(track => {
+    if (recentlyPlayed.has(track.id)) {
+      recentTracks.push(track);
+    } else {
+      notRecentTracks.push(track);
+    }
+  });
+
+  // Fisher-Yates shuffle both groups
+  const fisherYatesShuffle = (arr: Track[]) => {
+    const result = [...arr];
+    for (let i = result.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+  };
+
+  const shuffledNotRecent = fisherYatesShuffle(notRecentTracks);
+  const shuffledRecent = fisherYatesShuffle(recentTracks);
+
+  // Combine: not-recent tracks first, then recent tracks
+  // This pushes recently played tracks further down the queue
+  const finalShuffled = [...shuffledNotRecent, ...shuffledRecent];
 
   // Put current track at the beginning
-  shuffled.unshift(currentTrack);
+  finalShuffled.unshift(currentTrack);
 
-  return shuffled;
+  return finalShuffled;
 }
 
 /**

@@ -14,6 +14,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { usePlayerStore } from '@/hooks/audio';
 import { setGlobalAudioRef } from '@/hooks/audio';
 import { useOptimizedAudioPlayer } from '@/hooks/audio/useOptimizedAudioPlayer';
+import { usePlaybackPosition } from '@/hooks/audio/usePlaybackPosition';
 import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
 
@@ -43,6 +44,9 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     enableCache: true,
     crossfadeDuration: 0.3,
   });
+
+  // Use playback position persistence
+  usePlaybackPosition();
 
   // Initialize audio element once
   useEffect(() => {
@@ -99,15 +103,20 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       audio.load();
     }
 
+    // Track if cleanup has been called to prevent stale play attempts
+    let isCleanedUp = false;
+
     // Handle play/pause state
     if (isPlaying && audio.src) {
-      // Use a small timeout to ensure source is ready after load
       const playAttempt = () => {
+        // Don't attempt play if effect has been cleaned up
+        if (isCleanedUp) return;
+        
         const playPromise = audio.play();
         if (playPromise !== undefined) {
           playPromise.catch((error) => {
             // Only log actual errors, not abort errors from track changes
-            if (error.name !== 'AbortError') {
+            if (error.name !== 'AbortError' && !isCleanedUp) {
               logger.warn('Playback interrupted', { 
                 errorName: error.name,
                 trackId: activeTrack?.id 
@@ -121,7 +130,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       if (trackChanged) {
         // Wait for canplay event after loading new track
         const handleCanPlay = () => {
-          if (isPlaying) {
+          if (isPlaying && !isCleanedUp) {
             playAttempt();
           }
           audio.removeEventListener('canplay', handleCanPlay);
@@ -130,6 +139,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         
         // Cleanup listener if effect re-runs
         return () => {
+          isCleanedUp = true;
           audio.removeEventListener('canplay', handleCanPlay);
         };
       } else {
@@ -138,6 +148,11 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     } else if (!isPlaying) {
       audio.pause();
     }
+
+    // Mark as cleaned up on effect cleanup
+    return () => {
+      isCleanedUp = true;
+    };
   }, [activeTrack?.id, activeTrack?.title, isPlaying, getAudioSource, pauseTrack]);
 
   // Handle track ended and errors
@@ -148,8 +163,24 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     const handleEnded = () => {
       logger.debug('Track ended', { trackId: activeTrack?.id });
       if (repeat === 'one') {
-        audio.currentTime = 0;
-        audio.play().catch((err) => logger.warn('Repeat play failed', err));
+        // Ensure audio is still available and valid before repeating
+        if (audio.src && audio.duration > 0) {
+          audio.currentTime = 0;
+          // Only play if we're still in playing state
+          if (isPlaying) {
+            audio.play().catch((err) => {
+              logger.warn('Repeat play failed', err);
+              // If repeat play fails, try moving to next track
+              if (err.name !== 'AbortError') {
+                nextTrack();
+              }
+            });
+          }
+        } else {
+          // Source is invalid, move to next track
+          logger.warn('Cannot repeat track: invalid source');
+          nextTrack();
+        }
       } else {
         nextTrack();
       }

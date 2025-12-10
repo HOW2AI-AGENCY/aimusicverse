@@ -48,12 +48,24 @@ export function useStemAudioSync({
     
     lastUpdateTimeRef.current = now;
     
-    // Use average time from all audios for more accurate sync
-    const avgTime = audios.reduce((sum, audio) => sum + audio.currentTime, 0) / audios.length;
+    // Filter out audios without valid duration or in error state
+    const validAudios = audios.filter(audio => 
+      audio.duration > 0 && 
+      !audio.error && 
+      audio.readyState >= 2 // HAVE_CURRENT_DATA or better
+    );
+    
+    if (validAudios.length === 0) {
+      animationFrameRef.current = requestAnimationFrame(updateTime);
+      return;
+    }
+    
+    // Use average time from all valid audios for more accurate sync
+    const avgTime = validAudios.reduce((sum, audio) => sum + audio.currentTime, 0) / validAudios.length;
     onTimeUpdate(avgTime);
     
     // Check sync drift and re-sync only the most drifted audio
-    const audioWithDrift = audios.map(audio => ({
+    const audioWithDrift = validAudios.map(audio => ({
       audio,
       drift: Math.abs(audio.currentTime - avgTime)
     }));
@@ -100,22 +112,47 @@ export function useStemAudioSync({
     if (audios.length === 0) return false;
 
     try {
-      // Ensure all audios are at the same position before playing
+      // Ensure all audios are ready and at the same position before playing
       audios.forEach(audio => {
-        audio.currentTime = currentTime;
-        // Reset any previous errors
+        // Reset any previous errors by reloading
         if (audio.error) {
           audio.load();
+        }
+        
+        // Only set currentTime if audio is ready
+        if (audio.readyState >= 2) { // HAVE_CURRENT_DATA or better
+          audio.currentTime = currentTime;
         }
       });
 
       // Play all audios as close to simultaneously as possible
-      await Promise.all(audios.map(audio => audio.play()));
-      return true;
+      // Use Promise.allSettled to handle partial failures gracefully
+      const results = await Promise.allSettled(
+        audios.map(audio => audio.play())
+      );
+      
+      // Check if any play attempts failed
+      const failures = results.filter(r => r.status === 'rejected');
+      if (failures.length > 0) {
+        logger.warn('Some stems failed to play', { 
+          failureCount: failures.length,
+          totalCount: audios.length 
+        });
+        // Continue playing successful ones rather than failing completely
+      }
+      
+      // Return true if at least one audio is playing
+      return results.some(r => r.status === 'fulfilled');
     } catch (error) {
       logger.error('Error playing audio', error);
       // Ensure all audios are paused on error
-      audios.forEach(audio => audio.pause());
+      audios.forEach(audio => {
+        try {
+          audio.pause();
+        } catch (e) {
+          // Ignore errors during pause
+        }
+      });
       return false;
     }
   }, [audioRefs]);
