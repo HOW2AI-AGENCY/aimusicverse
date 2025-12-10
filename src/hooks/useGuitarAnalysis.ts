@@ -171,6 +171,7 @@ export function useGuitarAnalysis() {
   const [recordedFile, setRecordedFile] = useState<File | null>(null);
   const [progress, setProgress] = useState<string>('');
   const [progressPercent, setProgressPercent] = useState(0);
+  const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -216,6 +217,7 @@ export function useGuitarAnalysis() {
       mediaRecorderRef.current = mediaRecorder;
       mediaRecorder.start();
       setIsRecording(true);
+      setMediaStream(stream);
       
       if (navigator.vibrate) {
         navigator.vibrate(50);
@@ -232,6 +234,7 @@ export function useGuitarAnalysis() {
     if (mediaRecorderRef.current && isRecording) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
+      setMediaStream(null);
       
       if (navigator.vibrate) {
         navigator.vibrate([50, 50, 50]);
@@ -495,6 +498,7 @@ export function useGuitarAnalysis() {
     setAnalysisResult(null);
     setProgress('');
     setProgressPercent(0);
+    setMediaStream(null);
   }, [recordedAudioUrl]);
 
   return {
@@ -505,6 +509,7 @@ export function useGuitarAnalysis() {
     recordedFile,
     progress,
     progressPercent,
+    mediaStream,
     startRecording,
     stopRecording,
     analyzeGuitarRecording,

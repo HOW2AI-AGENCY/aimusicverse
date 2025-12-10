@@ -199,6 +199,37 @@ export default function CreativeTools() {
             </motion.div>
           </AnimatePresence>
         </Tabs>
+
+        {/* Quick Access to Guitar Studio */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-8"
+        >
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full h-auto py-6 justify-start bg-gradient-to-r from-orange-500/5 to-red-500/5 border-orange-500/20 hover:from-orange-500/10 hover:to-red-500/10"
+            onClick={() => navigate('/guitar-studio')}
+          >
+            <div className="flex items-center gap-4 w-full">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 shadow-lg">
+                <Music className="w-6 h-6 text-white" />
+              </div>
+              <div className="text-left flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="font-semibold text-base">Guitar Studio</div>
+                  <ProBadge size="sm" />
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  Профессиональная запись, анализ и транскрипция гитары через klang.io
+                </div>
+              </div>
+              <ArrowLeft className="w-5 h-5 text-muted-foreground rotate-180" />
+            </div>
+          </Button>
+        </motion.div>
       </div>
     </div>
   );
