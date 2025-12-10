@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
+import { logger } from '@/lib/logger';
 
 type TagCategory = Database['public']['Enums']['tag_category'];
 
@@ -86,7 +87,9 @@ export function useAutoTagDiscovery() {
         .select();
       
       if (error) {
-        console.error('Error inserting new tags:', error);
+        logger.error('Error inserting new tags', error instanceof Error ? error : new Error(String(error)), {
+          tagCount: categorizedTags.length
+        });
         return [];
       }
       
@@ -261,7 +264,11 @@ export function useLearnFromGenerations() {
           .from('tag_relationships')
           .upsert(relationships, { onConflict: 'tag_id,related_tag_id' });
         
-        if (insertError) console.error('Error inserting relationships:', insertError);
+        if (insertError) {
+          logger.error('Error inserting relationships', insertError instanceof Error ? insertError : new Error(String(insertError)), {
+            relationshipCount: relationships.length
+          });
+        }
       }
       
       return { 

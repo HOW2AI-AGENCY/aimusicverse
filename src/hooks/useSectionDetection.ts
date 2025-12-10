@@ -7,6 +7,7 @@
 
 import { useMemo } from 'react';
 import { AlignedWord } from '@/hooks/useTimestampedLyrics';
+import { logger } from '@/lib/logger';
 
 export interface DetectedSection {
   type: 'verse' | 'chorus' | 'bridge' | 'intro' | 'outro' | 'pre-chorus' | 'hook' | 'unknown';
@@ -385,7 +386,7 @@ export function useSectionDetection(
 
       return [];
     } catch (error) {
-      console.error('Error in section detection:', error);
+      logger.error('Error in section detection', error instanceof Error ? error : new Error(String(error)));
       return [];
     }
   }, [originalLyrics, alignedWords, duration]);

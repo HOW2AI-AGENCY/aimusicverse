@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 
 interface GuitarTunerProps {
   className?: string;
@@ -148,7 +149,7 @@ export function GuitarTuner({ className }: GuitarTunerProps) {
       setIsActive(true);
       detectPitch();
     } catch (error) {
-      console.error('Microphone access error:', error);
+      logger.error('Microphone access error', error instanceof Error ? error : new Error(String(error)));
     }
   };
 

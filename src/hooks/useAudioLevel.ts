@@ -4,6 +4,7 @@
  */
 
 import { useState, useEffect, useRef } from 'react';
+import { logger } from '@/lib/logger';
 
 export function useAudioLevel(mediaStream: MediaStream | null, isActive: boolean = true) {
   const [audioLevel, setAudioLevel] = useState(0);
@@ -79,7 +80,7 @@ export function useAudioLevel(mediaStream: MediaStream | null, isActive: boolean
         }
       };
     } catch (error) {
-      console.error('Audio level monitoring error:', error);
+      logger.error('Audio level monitoring error', error instanceof Error ? error : new Error(String(error)));
       setAudioLevel(0);
     }
   }, [mediaStream, isActive]);
