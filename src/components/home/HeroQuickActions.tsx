@@ -8,6 +8,7 @@ import { MusicRecognitionDialog } from '@/components/music-recognition/MusicReco
 import { GuitarRecordDialog } from '@/components/generate-form/GuitarRecordDialog';
 import { TooltipWrapper } from '@/components/tooltips';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 
 interface HeroQuickActionsProps {
   onGenerateClick: () => void;
@@ -31,8 +32,8 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
     action();
   };
 
-  const handleGuitarComplete = (result: any) => {
-    console.log('[HeroQuickActions] Guitar analysis complete:', result);
+  const handleGuitarComplete = (result: Record<string, unknown>) => {
+    logger.info('Guitar analysis complete', { result });
     // Could navigate to generation with pre-filled tags
   };
 

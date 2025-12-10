@@ -20,6 +20,7 @@ import {
   TipsPanel,
 } from '@/components/professional';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 // Mock data for demonstration
 const mockPresets: Preset[] = [
@@ -73,20 +74,20 @@ export default function ProfessionalStudio() {
   const [currentTab, setCurrentTab] = useState('dashboard');
 
   const handleApplyPreset = (preset: Preset) => {
-    console.log('Applying preset:', preset);
+    logger.debug('Applying preset', { presetId: preset.id, presetName: preset.name });
   };
 
   const handleSavePreset = (name: string, settings: Record<string, unknown>) => {
-    console.log('Saving preset:', name, settings);
+    logger.info('Saving preset', { name, settings });
   };
 
   const handleDeletePreset = (presetId: string) => {
-    console.log('Deleting preset:', presetId);
+    logger.info('Deleting preset', { presetId });
     toast.success('Пресет удалён');
   };
 
   const handleToggleFavorite = (presetId: string) => {
-    console.log('Toggling favorite:', presetId);
+    logger.debug('Toggling favorite', { presetId });
     toast.success('Избранное обновлено');
   };
 
@@ -100,6 +101,7 @@ export default function ProfessionalStudio() {
     linkElement.setAttribute('download', exportFileDefaultName);
     linkElement.click();
     
+    logger.info('Exported presets', { count: presets.length });
     toast.success('Пресеты экспортированы');
   };
 
@@ -108,9 +110,10 @@ export default function ProfessionalStudio() {
     reader.onload = (e) => {
       try {
         const imported = JSON.parse(e.target?.result as string);
-        console.log('Imported presets:', imported);
+        logger.info('Imported presets', { count: imported.length });
         toast.success(`Импортировано ${imported.length} пресетов`);
       } catch (error) {
+        logger.error('Failed to import presets', error as Error);
         toast.error('Ошибка импорта');
       }
     };
