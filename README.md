@@ -57,6 +57,7 @@
 > - [Creative Tools](docs/CREATIVE_TOOLS.md) - Chord Detection, Tab Editor, Melody Mixer
 > - [Generation System](docs/GENERATION_SYSTEM.md) - Система генерации музыки
 > - [Player Architecture](docs/PLAYER_ARCHITECTURE.md) - Архитектура аудио-плеера
+> - [🎨 UX/UI Audit](UX_AUDIT_MOBILE_STUDIO_DESIGN.md) - **NEW!** Профессиональный мобильный UX аудит
 > - [Known Issues](docs/KNOWN_ISSUES.md) - Известные проблемы
 
 ---
@@ -101,7 +102,7 @@
 - **Микширование** — громкость, mute, solo для каждого стема
 - **🔄 Синхронное воспроизведение** — точная синхронизация всех стемов с drift detection (0.1s)
 - **Waveform** — визуализация волновой формы (wavesurfer.js)
-- **MIDI транскрипция** — сохранение в Supabase Storage
+- **🆕 klang.io транскрипция** — экспорт в MIDI, GP5, PDF, MusicXML (6 AI моделей)
 - **Reference генерация** — использование стема для нового трека
 - **🆕 Замена секций** — перегенерация отдельных фрагментов трека
 - **🎯 Автоопределение секций** — Levenshtein distance для точного матчинга (RU/EN)
@@ -534,6 +535,7 @@ npm run dev
 | | [docs/STEM_STUDIO.md](docs/STEM_STUDIO.md) | Stem Studio функции |
 | | [docs/SECTION_REPLACEMENT.md](docs/SECTION_REPLACEMENT.md) | Замена секций |
 | | [docs/DEMO_MODE.md](docs/DEMO_MODE.md) | Гостевой режим |
+| **🎨 UX/Design** | [UX_AUDIT_MOBILE_STUDIO_DESIGN.md](UX_AUDIT_MOBILE_STUDIO_DESIGN.md) | 🆕 Профессиональный мобильный UX аудит |
 | **🛠️ Разработка** | [CONTRIBUTING.md](CONTRIBUTING.md) | Правила контрибуции |
 | | [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md) | Рабочий процесс |
 | | [ONBOARDING.md](ONBOARDING.md) | Onboarding новых разработчиков |
@@ -556,6 +558,22 @@ npm run dev
 > 📄 **Полный отчёт:** [RECENT_IMPROVEMENTS.md](RECENT_IMPROVEMENTS.md) - Все улучшения декабря 2025
 
 ### Декабрь 2025 (Highlights)
+
+#### 🎨 Mobile UX & Stem Studio Cleanup (Dec 10)
+- 🗑️ **Removed 80KB+ broken MIDI code** - 5 non-working components deleted
+  - StemMidiPanel, MidiVisualizationPanel, MidiPianoRoll, MidiSection
+  - mobile/MidiVisualizationMobile - all attempted to transcribe AI tracks (doesn't work)
+- 🗑️ **Removed duplicates** - StemStudioMobileLayout, MobileSectionTimeline
+- ✨ **New TranscriptionExportPanel** - Working klang.io integration
+  - 6 AI models: universal, guitar, piano, bass, drums, vocal
+  - 5 export formats: MIDI, MIDI quantized, GP5, PDF, MusicXML
+  - Mobile-first design with progress tracking
+- 📄 **Professional UX Audit** - 800+ lines comprehensive analysis
+  - 3 user personas (Guitarist, Creator, Producer)
+  - Journey maps (current vs ideal)
+  - Mobile-first design recommendations
+  - Implementation roadmap with metrics
+- 📊 **Impact**: -3,011 lines removed, +442 lines added, net -85% reduction
 
 #### 🎵 Аудио и плеер (Dec 9-10)
 - ✅ **6 критических багов исправлено** - RAF утечки, crossfade утечки, race conditions
