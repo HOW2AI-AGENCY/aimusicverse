@@ -95,31 +95,36 @@ serve(async (req) => {
         console.log('✅ Track cover(s) updated successfully');
       }
 
-      // Update ALL versions with the same cover
-      for (const track of tracks) {
-        const { error: versionsUpdateError } = await supabase
-          .from('track_versions')
-          .update({
-            cover_url: localCoverUrl,
-          })
-          .eq('track_id', track.id);
+      // Update ALL versions with the same cover (bulk update using IN clause)
+      const trackIds = tracks.map(t => t.id);
+      const { error: versionsUpdateError } = await supabase
+        .from('track_versions')
+        .update({
+          cover_url: localCoverUrl,
+        })
+        .in('track_id', trackIds);
 
-        if (versionsUpdateError) {
-          console.error('❌ Versions update error:', versionsUpdateError);
-        } else {
-          console.log(`✅ All versions for track ${track.id} updated with cover`);
-        }
+      if (versionsUpdateError) {
+        console.error('❌ Versions update error:', versionsUpdateError);
+      } else {
+        console.log(`✅ All versions for ${tracks.length} track(s) updated with cover`);
+      }
 
-        // Create notification for each user
-        await supabase
-          .from('notifications')
-          .insert({
-            user_id: track.user_id,
-            type: 'track_generated',
-            title: 'Обложка готова 🎨',
-            message: 'Новая обложка для вашего трека успешно создана',
-            action_url: localCoverUrl,
-          });
+      // Create notifications for all users (bulk insert)
+      const notifications = tracks.map(track => ({
+        user_id: track.user_id,
+        type: 'track_generated',
+        title: 'Обложка готова 🎨',
+        message: 'Новая обложка для вашего трека успешно создана',
+        action_url: localCoverUrl,
+      }));
+
+      const { error: notifError } = await supabase
+        .from('notifications')
+        .insert(notifications);
+
+      if (notifError) {
+        console.error('❌ Notifications error:', notifError);
       }
     } else {
       console.warn('⚠️ No tracks found with task ID:', sunoTaskId);
