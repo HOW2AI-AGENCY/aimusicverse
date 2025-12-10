@@ -270,7 +270,13 @@ export const TrackCard = memo(({
   if (layout === 'list') {
     const listContent = (
       <Card
-        className="group grid grid-cols-[auto,1fr,auto] items-center gap-3 p-2 sm:p-3 transition-all hover:bg-muted/50 active:bg-muted touch-manipulation rounded-lg"
+        className={cn(
+          "group grid grid-cols-[auto,1fr,auto] items-center gap-3 p-2 sm:p-3 transition-all touch-manipulation rounded-lg",
+          // 🖥️ Desktop: hover эффект
+          !isMobile && "hover:bg-muted/50",
+          // 📱 Mobile: active состояние
+          isMobile && "active:bg-muted"
+        )}
         onClick={handleCardClick}
         {...(!isMobile ? {} : {})}
       >
@@ -290,12 +296,17 @@ export const TrackCard = memo(({
           <div
             className={cn(
               "absolute inset-0 bg-black/50 flex items-center justify-center cursor-pointer transition-opacity",
-              isPlaying ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              // 🖥️ Desktop: показываем при hover
+              !isMobile && !isPlaying && "opacity-0 group-hover:opacity-100",
+              // 📱 Mobile: всегда показываем overlay
+              isMobile && "opacity-100",
+              // ✨ При воспроизведении - всегда показываем
+              isPlaying && "opacity-100"
             )}
-            onClick={(e) => { 
-              e.stopPropagation(); 
+            onClick={(e) => {
+              e.stopPropagation();
               triggerHapticFeedback('medium');
-              onPlay?.(); 
+              onPlay?.();
             }}
           >
             <Button size="icon" variant="ghost" className="w-10 h-10 rounded-full text-white touch-manipulation">
@@ -418,11 +429,14 @@ export const TrackCard = memo(({
           </>
         )}
         
-      <Card 
+      <Card
         className={cn(
-          "group overflow-hidden cursor-pointer touch-manipulation transition-all duration-300",
-          "hover:shadow-xl hover:shadow-primary/10 hover:border-primary/30",
-          "active:scale-[0.98] active:shadow-md rounded-2xl",
+          "group overflow-hidden cursor-pointer touch-manipulation transition-all duration-300 rounded-2xl",
+          // 🖥️ Desktop: hover эффекты
+          !isMobile && "hover:shadow-xl hover:shadow-primary/10 hover:border-primary/30",
+          // 📱 Mobile: active состояние вместо hover
+          isMobile && "active:scale-[0.98] active:shadow-md",
+          // ✨ Активный трек с подсветкой
           isPlaying && "ring-2 ring-primary shadow-glow"
         )}
         onClick={handleCardClick}
@@ -434,7 +448,9 @@ export const TrackCard = memo(({
             alt={track.title || 'Track cover'}
             className={cn(
               "w-full h-full object-cover cursor-pointer transition-transform duration-500",
-              "group-hover:scale-105"
+              // 🖥️ Desktop: масштабирование при hover
+              !isMobile && "group-hover:scale-105",
+              // 📱 Mobile: без hover-эффектов (лучше производительность)
             )}
             containerClassName="w-full h-full"
             onClick={(e) => {
@@ -442,7 +458,7 @@ export const TrackCard = memo(({
               onPlay?.();
             }}
             fallback={
-              <div 
+              <div
                 className="w-full h-full bg-gradient-to-br from-primary/20 via-generate/10 to-primary/5 flex items-center justify-center cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -456,12 +472,16 @@ export const TrackCard = memo(({
             }
           />
 
-          {/* Play button overlay - gradient fade from bottom */}
-          <div 
+          {/* Play button overlay - адаптивное поведение для mobile/desktop */}
+          <div
             className={cn(
               "absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent",
-              "opacity-0 group-hover:opacity-100 transition-all duration-300",
-              "flex items-center justify-center",
+              "flex items-center justify-center transition-all duration-300",
+              // 🖥️ Desktop: показываем при hover или воспроизведении
+              !isMobile && "opacity-0 group-hover:opacity-100",
+              // 📱 Mobile: всегда видимый градиент снизу (лучше UX)
+              isMobile && "opacity-100",
+              // ✨ При воспроизведении - всегда показываем
               isPlaying && "opacity-100"
             )}
             onClick={(e) => {

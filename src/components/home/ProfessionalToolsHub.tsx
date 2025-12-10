@@ -116,9 +116,13 @@ export function ProfessionalToolsHub() {
             >
               <Card
                 className={cn(
-                  "group cursor-pointer transition-all duration-300 hover:shadow-lg overflow-hidden border-2 touch-manipulation",
+                  "group cursor-pointer transition-all duration-300 overflow-hidden border-2 touch-manipulation",
                   tool.borderColor,
-                  tool.bgColor
+                  tool.bgColor,
+                  // 🖥️ Desktop: hover эффекты
+                  "md:hover:shadow-lg",
+                  // 📱 Mobile: active состояние
+                  "active:scale-[0.98]"
                 )}
                 onClick={() => handleToolClick(tool.path)}
               >
@@ -127,11 +131,13 @@ export function ProfessionalToolsHub() {
                     {/* Icon */}
                     <motion.div
                       className={cn(
-                        "p-2.5 rounded-xl shrink-0",
+                        "p-2.5 rounded-xl shrink-0 transition-transform",
                         `bg-gradient-to-br ${tool.color}`,
-                        "group-hover:scale-110 transition-transform"
+                        // 🖥️ Desktop: масштабирование при hover
+                        "md:group-hover:scale-110"
                       )}
                       whileHover={{ rotate: 5 }}
+                      whileTap={{ scale: 0.95 }}
                     >
                       <Icon className="w-5 h-5 text-white" />
                     </motion.div>
@@ -169,9 +175,9 @@ export function ProfessionalToolsHub() {
                     </div>
                   </div>
 
-                  {/* Hover shimmer effect */}
+                  {/* Hover shimmer effect - только для desktop */}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent hidden md:block"
                     initial={{ x: '-100%' }}
                     whileHover={{ x: '100%' }}
                     transition={{ duration: 0.6 }}
