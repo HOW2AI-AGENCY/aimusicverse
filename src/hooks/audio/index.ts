@@ -5,7 +5,7 @@
 
 export { useAudioPlayer } from './useAudioPlayer';
 export { useAudioTime, getGlobalAudioRef, setGlobalAudioRef } from './useAudioTime';
-export { useAudioVisualizer } from './useAudioVisualizer';
+export { useAudioVisualizer, resumeAudioContext } from './useAudioVisualizer';
 export { useGlobalAudioPlayer } from './useGlobalAudioPlayer';
 export { usePlayerStore } from './usePlayerState';
 export { usePlaybackQueue } from './usePlaybackQueue';

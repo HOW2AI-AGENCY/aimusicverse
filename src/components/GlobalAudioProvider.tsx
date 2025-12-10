@@ -12,7 +12,7 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import { usePlayerStore } from '@/hooks/audio';
-import { setGlobalAudioRef } from '@/hooks/audio';
+import { setGlobalAudioRef, resumeAudioContext } from '@/hooks/audio';
 import { useOptimizedAudioPlayer } from '@/hooks/audio/useOptimizedAudioPlayer';
 import { usePlaybackPosition } from '@/hooks/audio/usePlaybackPosition';
 import { logger } from '@/lib/logger';
@@ -140,9 +140,18 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
 
     // Handle play/pause state
     if (isPlaying && audio.src) {
-      const playAttempt = () => {
+      const playAttempt = async () => {
         // Don't attempt play if effect has been cleaned up
         if (isCleanedUp) return;
+        
+        // CRITICAL: Resume AudioContext before playing
+        // This ensures Web Audio API is ready if visualizer is active
+        try {
+          await resumeAudioContext();
+        } catch (err) {
+          logger.warn('AudioContext resume failed before playback', err);
+          // Continue anyway - audio might still work without visualizer
+        }
         
         const playPromise = audio.play();
         if (playPromise !== undefined) {
