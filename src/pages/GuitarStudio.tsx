@@ -35,6 +35,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { toast } from 'sonner';
 import { useGuitarAnalysis } from '@/hooks/useGuitarAnalysis';
+import { useAudioLevel } from '@/hooks/useAudioLevel';
 import { WorkflowVisualizer } from '@/components/professional/WorkflowVisualizer';
 import { GuitarAnalysisReport } from '@/components/guitar/GuitarAnalysisReport';
 import { ExportFilesPanel } from '@/components/guitar/ExportFilesPanel';
@@ -44,6 +45,10 @@ import { InteractiveChordWheel } from '@/components/guitar/InteractiveChordWheel
 import { AudioLevelMeter } from '@/components/guitar/AudioLevelMeter';
 import { Metronome } from '@/components/guitar/Metronome';
 import { GuitarTuner } from '@/components/guitar/GuitarTuner';
+import { GuitarRecordingPanel } from '@/components/guitar/GuitarRecordingPanel';
+import { BeatGridVisualizer } from '@/components/guitar/BeatGridVisualizer';
+import { ChordProgressionTimeline } from '@/components/guitar/ChordProgressionTimeline';
+import { MidiExportPanelMobile } from '@/components/guitar/MidiExportPanelMobile';
 import { cn } from '@/lib/utils';
 
 const workflowSteps = [
@@ -93,6 +98,9 @@ export default function GuitarStudio() {
     analyzeGuitarRecording,
     clearRecording,
   } = useGuitarAnalysis();
+
+  // Real-time audio level monitoring
+  const audioLevel = useAudioLevel(mediaStream, isRecording);
 
   // Recording timer
   useEffect(() => {
@@ -257,7 +265,21 @@ export default function GuitarStudio() {
 
             {/* Recording Tab */}
             <TabsContent value="record" className="mt-0 space-y-6">
-              <Card className="p-6 bg-gradient-to-br from-orange-500/5 to-red-500/5 border-orange-500/20">
+              {/* Mobile-Optimized Recording Panel */}
+              <GuitarRecordingPanel
+                isRecording={isRecording}
+                recordingTime={recordingTime}
+                recordedAudioUrl={recordedAudioUrl}
+                audioLevel={audioLevel}
+                onStartRecording={handleStartRecording}
+                onStopRecording={handleStopRecording}
+                onAnalyze={handleAnalyze}
+                onClear={handleClear}
+                isAnalyzing={isAnalyzing}
+              />
+
+              {/* Original Recording Status (Desktop fallback) */}
+              <Card className="hidden lg:block p-6 bg-gradient-to-br from-orange-500/5 to-red-500/5 border-orange-500/20">
                 <div className="flex flex-col items-center justify-center space-y-6">
                   {/* Recording Status */}
                   <AnimatePresence mode="wait">
@@ -514,34 +536,67 @@ export default function GuitarStudio() {
                   {/* Analysis Report */}
                   <GuitarAnalysisReport analysisResult={analysisResult} />
 
-                  {/* Waveform with Chords */}
-                  {analysisResult.audioUrl && analysisResult.chords.length > 0 && (
-                    <WaveformWithChords
-                      audioUrl={analysisResult.audioUrl}
-                      chords={analysisResult.chords}
-                      duration={analysisResult.totalDuration}
-                    />
-                  )}
+                  {/* Mobile-Optimized Components */}
+                  <div className="lg:hidden space-y-4">
+                    {/* Chord Progression Timeline */}
+                    {analysisResult.chords.length > 0 && (
+                      <ChordProgressionTimeline
+                        chords={analysisResult.chords}
+                        audioUrl={analysisResult.audioUrl}
+                        duration={analysisResult.totalDuration}
+                        keySignature={analysisResult.key}
+                      />
+                    )}
 
-                  {/* Interactive Chord Wheel */}
-                  {analysisResult.chords.length > 0 && (
-                    <InteractiveChordWheel
-                      chords={analysisResult.chords}
-                      currentTime={0}
-                    />
-                  )}
+                    {/* Beat Grid Visualizer */}
+                    {analysisResult.beats.length > 0 && (
+                      <BeatGridVisualizer
+                        beats={analysisResult.beats}
+                        downbeats={analysisResult.downbeats}
+                        bpm={analysisResult.bpm}
+                        audioUrl={analysisResult.audioUrl}
+                        duration={analysisResult.totalDuration}
+                      />
+                    )}
 
-                  {/* Export Files Panel */}
-                  <Card className="p-6">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Download className="w-5 h-5 text-primary" />
-                      <h3 className="text-lg font-semibold">Экспорт файлов</h3>
-                    </div>
-                    <ExportFilesPanel
+                    {/* Mobile MIDI Export Panel */}
+                    <MidiExportPanelMobile
                       transcriptionFiles={analysisResult.transcriptionFiles}
                       midiUrl={analysisResult.midiUrl}
                     />
-                  </Card>
+                  </div>
+
+                  {/* Desktop Components */}
+                  <div className="hidden lg:block space-y-6">
+                    {/* Waveform with Chords */}
+                    {analysisResult.audioUrl && analysisResult.chords.length > 0 && (
+                      <WaveformWithChords
+                        audioUrl={analysisResult.audioUrl}
+                        chords={analysisResult.chords}
+                        duration={analysisResult.totalDuration}
+                      />
+                    )}
+
+                    {/* Interactive Chord Wheel */}
+                    {analysisResult.chords.length > 0 && (
+                      <InteractiveChordWheel
+                        chords={analysisResult.chords}
+                        currentTime={0}
+                      />
+                    )}
+
+                    {/* Export Files Panel */}
+                    <Card className="p-6">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Download className="w-5 h-5 text-primary" />
+                        <h3 className="text-lg font-semibold">Экспорт файлов</h3>
+                      </div>
+                      <ExportFilesPanel
+                        transcriptionFiles={analysisResult.transcriptionFiles}
+                        midiUrl={analysisResult.midiUrl}
+                      />
+                    </Card>
+                  </div>
                 </>
               ) : (
                 <Card className="p-12 text-center">
