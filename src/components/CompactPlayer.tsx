@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import { X, Maximize2, Volume2, VolumeX, Heart, Download } from 'lucide-react';
+import { useState, useCallback, useEffect } from 'react';
+import { X, Maximize2, Volume2, VolumeX, Heart, Download, AlertCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Card } from '@/components/ui/card';
@@ -13,6 +13,7 @@ import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
 import { Track } from '@/hooks/useTracksOptimized';
+import { toast } from 'sonner';
 
 interface CompactPlayerProps {
   track: {
@@ -34,10 +35,48 @@ interface CompactPlayerProps {
 export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactPlayerProps) {
   const [volume, setVolume] = useState(1);
   const [muted, setMuted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const { toggleLike, downloadTrack } = useTracks();
 
   // Use global audio time from provider
   const { currentTime, duration, seek } = useAudioTime();
+
+  // Check if track has valid audio source
+  const hasAudioSource = !!(track.streaming_url || track.local_audio_url || track.audio_url);
+  const isProcessing = track.status === 'processing' || track.status === 'pending';
+
+  // Monitor audio loading state
+  useEffect(() => {
+    const audio = getGlobalAudioRef();
+    if (!audio) return;
+
+    const handleWaiting = () => setIsLoading(true);
+    const handleCanPlay = () => setIsLoading(false);
+    const handlePlaying = () => setIsLoading(false);
+    const handleError = () => {
+      setIsLoading(false);
+      setHasError(true);
+    };
+    const handleLoadStart = () => {
+      setIsLoading(true);
+      setHasError(false);
+    };
+
+    audio.addEventListener('waiting', handleWaiting);
+    audio.addEventListener('canplay', handleCanPlay);
+    audio.addEventListener('playing', handlePlaying);
+    audio.addEventListener('error', handleError);
+    audio.addEventListener('loadstart', handleLoadStart);
+
+    return () => {
+      audio.removeEventListener('waiting', handleWaiting);
+      audio.removeEventListener('canplay', handleCanPlay);
+      audio.removeEventListener('playing', handlePlaying);
+      audio.removeEventListener('error', handleError);
+      audio.removeEventListener('loadstart', handleLoadStart);
+    };
+  }, []);
 
   const { data: lyricsData } = useTimestampedLyrics(
     track.suno_task_id || null,
@@ -100,20 +139,58 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
         {/* Header */}
         <div className="flex items-center justify-between mb-2 sm:mb-3">
           <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
-            {track.cover_url && (
-              <img
-                src={track.cover_url}
-                alt={track.title || 'Track cover'}
-                className="w-10 h-10 sm:w-12 sm:h-12 rounded-md object-cover flex-shrink-0"
-              />
-            )}
+            {/* Cover with loading/error indicators */}
+            <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0">
+              {track.cover_url ? (
+                <img
+                  src={track.cover_url}
+                  alt={track.title || 'Track cover'}
+                  className="w-full h-full rounded-md object-cover"
+                />
+              ) : (
+                <div className="w-full h-full rounded-md bg-muted flex items-center justify-center">
+                  <span className="text-muted-foreground text-xs">🎵</span>
+                </div>
+              )}
+
+              {/* Loading indicator overlay */}
+              {isLoading && (
+                <div className="absolute inset-0 bg-background/80 rounded-md flex items-center justify-center">
+                  <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                </div>
+              )}
+
+              {/* Error indicator overlay */}
+              {hasError && !isLoading && (
+                <div className="absolute inset-0 bg-destructive/20 rounded-md flex items-center justify-center">
+                  <AlertCircle className="h-4 w-4 text-destructive" />
+                </div>
+              )}
+
+              {/* Processing indicator */}
+              {isProcessing && (
+                <div className="absolute -top-1 -right-1 h-3 w-3 bg-yellow-500 rounded-full border-2 border-background animate-pulse" />
+              )}
+            </div>
+
             <div className="flex-1 min-w-0">
               <h4 className="text-xs sm:text-sm font-semibold truncate">
                 {track.title || 'Без названия'}
               </h4>
-              <p className="text-[10px] sm:text-xs text-muted-foreground">
-                {formatTime(currentTime)} / {formatTime(duration)}
-              </p>
+              <div className="flex items-center gap-2">
+                <p className="text-[10px] sm:text-xs text-muted-foreground">
+                  {formatTime(currentTime)} / {formatTime(duration)}
+                </p>
+                {!hasAudioSource && (
+                  <span className="text-[10px] text-yellow-500 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    Нет аудио
+                  </span>
+                )}
+                {isLoading && (
+                  <span className="text-[10px] text-primary">Загрузка...</span>
+                )}
+              </div>
             </div>
           </div>
           <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0">
@@ -209,8 +286,19 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
 
           {/* Center: Playback Controls + Version Switcher */}
           <div className="flex-1 flex items-center justify-center gap-2">
-            <PlaybackControls size="compact" />
-            <VersionSwitcher track={track as Track} size="compact" />
+            {hasAudioSource ? (
+              <>
+                <PlaybackControls size="compact" />
+                <VersionSwitcher track={track as Track} size="compact" />
+              </>
+            ) : (
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <AlertCircle className="h-4 w-4" />
+                <span className="hidden sm:inline">
+                  {isProcessing ? 'Генерация...' : 'Аудио недоступно'}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Right side: Volume (desktop only) */}

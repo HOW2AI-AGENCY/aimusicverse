@@ -66,39 +66,72 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     };
   }, []);
 
-  // Get audio source from track with validation
+  // Get audio source from track with validation and detailed logging
   const getAudioSource = useCallback(() => {
-    if (!activeTrack) return null;
-    
+    if (!activeTrack) {
+      logger.debug('No active track');
+      return null;
+    }
+
     const source = activeTrack.streaming_url || activeTrack.local_audio_url || activeTrack.audio_url;
-    
+
     // Validate source URL
-    if (!source) return null;
-    
+    if (!source) {
+      logger.warn('Track has no audio source', {
+        trackId: activeTrack.id,
+        title: activeTrack.title,
+        status: activeTrack.status
+      });
+
+      // Show user-friendly error
+      toast.error('Трек не готов к воспроизведению', {
+        description: activeTrack.status === 'processing'
+          ? 'Трек еще генерируется, подождите...'
+          : 'Файл трека отсутствует'
+      });
+
+      return null;
+    }
+
     // Check for valid URL format
     try {
       // For blob URLs, just check prefix
       if (source.startsWith('blob:')) {
+        logger.debug('Using blob URL', { trackId: activeTrack.id });
         return source;
       }
-      
+
       // For data URLs, check format
       if (source.startsWith('data:')) {
-        return source.startsWith('data:audio/') ? source : null;
+        if (source.startsWith('data:audio/')) {
+          logger.debug('Using data URL', { trackId: activeTrack.id });
+          return source;
+        }
+        logger.warn('Invalid data URL format', { trackId: activeTrack.id });
+        return null;
       }
-      
+
       // For HTTP(S) URLs, validate
       const url = new URL(source);
       if (url.protocol !== 'http:' && url.protocol !== 'https:') {
         logger.warn('Invalid audio URL protocol', { protocol: url.protocol, trackId: activeTrack.id });
+        toast.error('Неверный формат URL аудио');
         return null;
       }
-      
+
+      logger.debug('Using HTTP(S) URL', {
+        trackId: activeTrack.id,
+        protocol: url.protocol,
+        hostname: url.hostname
+      });
       return source;
     } catch (err) {
       logger.error('Invalid audio URL', err instanceof Error ? err : new Error(String(err)), {
         source: source.substring(0, 100),
         trackId: activeTrack.id,
+      });
+      toast.error('Ошибка URL аудио', {
+        description: 'Неверный формат ссылки на аудиофайл'
       });
       return null;
     }
@@ -115,9 +148,11 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
 
     // Handle no source
     if (!source) {
+      logger.debug('No source available, pausing audio');
       audio.pause();
       audio.src = '';
       lastTrackIdRef.current = null;
+      pauseTrack(); // Sync store state
       return;
     }
 
@@ -143,7 +178,13 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       const playAttempt = async () => {
         // Don't attempt play if effect has been cleaned up
         if (isCleanedUp) return;
-        
+
+        logger.debug('Attempting to play', {
+          trackId: activeTrack?.id,
+          src: audio.src.substring(0, 50),
+          readyState: audio.readyState
+        });
+
         // CRITICAL: Resume AudioContext before playing
         // This ensures Web Audio API is ready if visualizer is active
         try {
@@ -152,19 +193,39 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
           logger.warn('AudioContext resume failed before playback', err);
           // Continue anyway - audio might still work without visualizer
         }
-        
+
         const playPromise = audio.play();
         if (playPromise !== undefined) {
-          playPromise.catch((error) => {
-            // Only log actual errors, not abort errors from track changes
-            if (error.name !== 'AbortError' && !isCleanedUp) {
-              logger.warn('Playback interrupted', { 
-                errorName: error.name,
-                trackId: activeTrack?.id 
-              });
-              pauseTrack();
-            }
-          });
+          playPromise
+            .then(() => {
+              logger.info('Playback started successfully', { trackId: activeTrack?.id });
+            })
+            .catch((error) => {
+              // Only log actual errors, not abort errors from track changes
+              if (error.name !== 'AbortError' && !isCleanedUp) {
+                logger.error('Playback failed', error, {
+                  errorName: error.name,
+                  trackId: activeTrack?.id,
+                  readyState: audio.readyState,
+                  networkState: audio.networkState
+                });
+
+                // Show user-friendly error
+                if (error.name === 'NotAllowedError') {
+                  toast.error('Воспроизведение заблокировано', {
+                    description: 'Требуется взаимодействие с страницей'
+                  });
+                } else if (error.name === 'NotSupportedError') {
+                  toast.error('Формат аудио не поддерживается');
+                } else {
+                  toast.error('Ошибка воспроизведения', {
+                    description: error.message
+                  });
+                }
+
+                pauseTrack();
+              }
+            });
         }
       };
 
