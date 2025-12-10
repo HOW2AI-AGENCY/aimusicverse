@@ -341,7 +341,6 @@ export function useAudioVisualizer(
       isActive = false;
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
-        animationRef.current = null;
       }
     };
   }, [isPlaying, getAnalyser, barCount]);
