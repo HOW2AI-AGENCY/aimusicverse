@@ -50,6 +50,9 @@ import { BeatGridVisualizer } from '@/components/guitar/BeatGridVisualizer';
 import { ChordProgressionTimeline } from '@/components/guitar/ChordProgressionTimeline';
 import { MidiExportPanelMobile } from '@/components/guitar/MidiExportPanelMobile';
 import { LinkToTrackDialog } from '@/components/guitar/LinkToTrackDialog';
+import { TranscriptionPreview } from '@/components/guitar/TranscriptionPreview';
+import { AnalysisProgressStages, type AnalysisStage } from '@/components/guitar/AnalysisProgressStages';
+import { TranscriptionToGenerationBridge } from '@/components/guitar/TranscriptionToGenerationBridge';
 import { cn } from '@/lib/utils';
 
 const workflowSteps = [
@@ -86,6 +89,8 @@ export default function GuitarStudio() {
   const [workflow, setWorkflow] = useState(workflowSteps);
   const [currentStep, setCurrentStep] = useState(0);
   const [linkDialogOpen, setLinkDialogOpen] = useState(false);
+  const [analysisStage, setAnalysisStage] = useState<AnalysisStage>('idle');
+  const [analysisError, setAnalysisError] = useState<string | undefined>();
   
   const {
     isAnalyzing,
@@ -141,6 +146,33 @@ export default function GuitarStudio() {
     
     setWorkflow(newWorkflow);
   }, [recordedAudioUrl, isAnalyzing, analysisResult]);
+
+  // Track analysis stages based on progress
+  useEffect(() => {
+    if (!isAnalyzing) {
+      if (analysisResult) {
+        setAnalysisStage('complete');
+      } else {
+        setAnalysisStage('idle');
+      }
+      setAnalysisError(undefined);
+      return;
+    }
+
+    // Map progress messages to stages
+    const progressLower = progress.toLowerCase();
+    if (progressLower.includes('загрузка')) {
+      setAnalysisStage('uploading');
+    } else if (progressLower.includes('ритм') || progressLower.includes('биты')) {
+      setAnalysisStage('beat-tracking');
+    } else if (progressLower.includes('аккорд')) {
+      setAnalysisStage('chord-recognition');
+    } else if (progressLower.includes('транскрипц') || progressLower.includes('ноты')) {
+      setAnalysisStage('transcription');
+    } else if (progressLower.includes('обрабатываем')) {
+      setAnalysisStage('processing');
+    }
+  }, [isAnalyzing, progress, analysisResult]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -466,69 +498,20 @@ export default function GuitarStudio() {
 
             {/* Analysis Tab */}
             <TabsContent value="analysis" className="mt-0 space-y-6">
-              <Card className="p-6">
-                {isAnalyzing ? (
-                  <div className="space-y-6">
-                    <div className="text-center space-y-3">
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ repeat: Infinity, duration: 2, ease: 'linear' }}
-                        className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center"
-                      >
-                        <Zap className="w-8 h-8 text-white" />
-                      </motion.div>
-                      <h3 className="text-lg font-semibold">Анализируем трек через klang.io...</h3>
-                      <p className="text-sm text-muted-foreground">{progress}</p>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Progress value={progressPercent} className="h-2" />
-                      <p className="text-xs text-muted-foreground text-center">
-                        {progressPercent}% завершено
-                      </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <Card className="p-4 bg-blue-500/5 border-blue-500/20">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Activity className="w-4 h-4 text-blue-400" />
-                          <h4 className="text-sm font-medium">Beat Tracking</h4>
-                        </div>
-                        <p className="text-xs text-muted-foreground">
-                          Определение темпа и ритма
-                        </p>
-                      </Card>
-                      
-                      <Card className="p-4 bg-cyan-500/5 border-cyan-500/20">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Music className="w-4 h-4 text-cyan-400" />
-                          <h4 className="text-sm font-medium">Chord Recognition</h4>
-                        </div>
-                        <p className="text-xs text-muted-foreground">
-                          Распознавание аккордов
-                        </p>
-                      </Card>
-                      
-                      <Card className="p-4 bg-purple-500/5 border-purple-500/20">
-                        <div className="flex items-center gap-2 mb-2">
-                          <FileMusic className="w-4 h-4 text-purple-400" />
-                          <h4 className="text-sm font-medium">Transcription</h4>
-                        </div>
-                        <p className="text-xs text-muted-foreground">
-                          Конвертация в ноты
-                        </p>
-                      </Card>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center py-8 space-y-3">
-                    <Clock className="w-12 h-12 mx-auto text-muted-foreground" />
-                    <p className="text-muted-foreground">
-                      Нажмите "Анализировать" на вкладке записи
-                    </p>
-                  </div>
-                )}
-              </Card>
+              {isAnalyzing || analysisResult ? (
+                <AnalysisProgressStages
+                  currentStage={analysisStage}
+                  progress={progressPercent}
+                  error={analysisError}
+                />
+              ) : (
+                <Card className="p-12 text-center">
+                  <Clock className="w-12 h-12 mx-auto text-muted-foreground mb-3" />
+                  <p className="text-muted-foreground">
+                    Нажмите "Анализировать" на вкладке записи
+                  </p>
+                </Card>
+              )}
             </TabsContent>
 
             {/* Results Tab */}
@@ -540,6 +523,34 @@ export default function GuitarStudio() {
 
                   {/* Mobile-Optimized Components */}
                   <div className="lg:hidden space-y-4">
+                    {/* Transcription Preview - NEW */}
+                    {analysisResult.notes.length > 0 && (
+                      <TranscriptionPreview
+                        transcriptionFiles={analysisResult.transcriptionFiles}
+                        notes={analysisResult.notes}
+                        audioUrl={analysisResult.audioUrl}
+                        onDownload={(format) => {
+                          const urls: Record<string, string | undefined> = {
+                            pdf: analysisResult.transcriptionFiles.pdfUrl,
+                            musicxml: analysisResult.transcriptionFiles.musicXmlUrl,
+                            gp5: analysisResult.transcriptionFiles.gp5Url,
+                            midi: analysisResult.transcriptionFiles.midiUrl,
+                            midi_quant: analysisResult.transcriptionFiles.midiQuantUrl,
+                          };
+                          const url = urls[format];
+                          if (url) {
+                            window.open(url, '_blank');
+                            toast.success(`Скачивание ${format.toUpperCase()}...`);
+                          } else {
+                            toast.error('Файл недоступен');
+                          }
+                        }}
+                      />
+                    )}
+
+                    {/* Generation Bridge - NEW */}
+                    <TranscriptionToGenerationBridge analysisResult={analysisResult} />
+
                     {/* Chord Progression Timeline */}
                     {analysisResult.chords.length > 0 && (
                       <ChordProgressionTimeline
