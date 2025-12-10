@@ -2,11 +2,18 @@
 
 Добро пожаловать в MusicVerse AI! Этот документ — ваша карта по репозиторию.
 
+**Last Updated:** 2025-12-10
+
+> 💡 **Новое:** Полная карта документации доступна в [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)  
+> 🎯 **Текущий спринт:** Sprint 013 - Advanced Audio Features (🟢 In Progress)  
+> 📊 **Статус проекта:** [SPRINT_STATUS.md](SPRINT_STATUS.md)
+
 ---
 
 ## 📑 Содержание
 
 - [🚀 Ключевые документы](#-ключевые-документы)
+- [📊 Новое: Система документации](#-новое-система-документации)
 - [🗂️ Карта документации](#️-карта-документации)
 - [📂 Структура репозитория](#-структура-репозитория)
 - [🎯 Навигация по задачам](#-навигация-по-задачам)
@@ -51,13 +58,34 @@ graph TB
 
 ## 🚀 Ключевые документы
 
-| Файл | Описание |
-|------|----------|
-| [**README.md**](README.md) | **Начните отсюда.** Обзор проекта и возможностей |
-| [**CONTRIBUTING.md**](CONTRIBUTING.md) | Правила контрибуции |
-| [**DEVELOPMENT_WORKFLOW.md**](DEVELOPMENT_WORKFLOW.md) | Рабочий процесс, GitFlow, стандарты |
-| [**ONBOARDING.md**](ONBOARDING.md) | Настройка окружения для новых разработчиков |
-| [**CHANGELOG.md**](CHANGELOG.md) | История изменений |
+| Файл | Описание | Приоритет |
+|------|----------|-----------|
+| [**README.md**](README.md) | **Начните отсюда.** Обзор проекта и возможностей | 🔴 Critical |
+| [**DOCUMENTATION_INDEX.md**](DOCUMENTATION_INDEX.md) | **Полная карта документации** | 🔴 Critical |
+| [**SPRINT_STATUS.md**](SPRINT_STATUS.md) | **Текущий статус спринтов** | 🔴 Critical |
+| [**RECENT_IMPROVEMENTS.md**](RECENT_IMPROVEMENTS.md) | **Улучшения декабря 2025** | 🟡 High |
+| [**CONTRIBUTING.md**](CONTRIBUTING.md) | Правила контрибуции | 🟡 High |
+| [**DEVELOPMENT_WORKFLOW.md**](DEVELOPMENT_WORKFLOW.md) | Рабочий процесс, GitFlow, стандарты | 🟡 High |
+| [**ONBOARDING.md**](ONBOARDING.md) | Настройка окружения для новых разработчиков | 🟡 High |
+| [**CHANGELOG.md**](CHANGELOG.md) | История изменений | 🟢 Medium |
+
+---
+
+## 📊 Новое: Система документации
+
+### Главные индексы
+1. **[DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** - Полная карта всей документации
+2. **[SPRINT_STATUS.md](SPRINT_STATUS.md)** - Статус всех спринтов (7 completed, 1 active, 16 planned)
+3. **[RECENT_IMPROVEMENTS.md](RECENT_IMPROVEMENTS.md)** - Сводка улучшений за декабрь 2025
+4. **[REPOSITORY_AUDIT_2025-12-10.md](REPOSITORY_AUDIT_2025-12-10.md)** - Полный аудит репозитория
+
+### Архивы
+- **[docs/archive/2025-12/](docs/archive/2025-12/)** - Архив аудитов декабря 2025
+- **[SPRINTS/completed/](SPRINTS/completed/)** - Завершённые спринты (001-006, 021)
+
+### Навигация по спринтам
+- **[SPRINTS/README.md](SPRINTS/README.md)** - Обзор системы спринтов
+- **[SPRINTS/BACKLOG.md](SPRINTS/BACKLOG.md)** - Бэклог продукта
 
 ---
 
@@ -65,26 +93,49 @@ graph TB
 
 ```
 /
+├── 📄 Root Documentation (Обновлено 2025-12-10)
+│   ├── README.md                          # Главная страница проекта
+│   ├── DOCUMENTATION_INDEX.md             # 🆕 Полная карта документации
+│   ├── SPRINT_STATUS.md                   # 🆕 Статус спринтов
+│   ├── RECENT_IMPROVEMENTS.md             # 🆕 Улучшения декабря 2025
+│   ├── REPOSITORY_AUDIT_2025-12-10.md     # 🆕 Аудит репозитория
+│   ├── NAVIGATION.md                      # Этот файл
+│   ├── CHANGELOG.md                       # История изменений
+│   ├── CONTRIBUTING.md                    # Правила контрибуции
+│   ├── DEVELOPMENT_WORKFLOW.md            # Рабочий процесс
+│   ├── ONBOARDING.md                      # Онбординг
+│   └── ...
+│
 ├── src/                      # 🎯 Исходный код фронтенда
 │   ├── components/           # React компоненты (150+)
 │   │   ├── ui/              # Базовые UI (shadcn + custom)
 │   │   ├── player/          # Плеер (Compact/Expanded/Fullscreen)
 │   │   ├── library/         # Библиотека треков
 │   │   ├── playlist/        # Плейлисты
-│   │   ├── stem-studio/     # Stem Studio
+│   │   ├── stem-studio/     # Stem Studio (модульная архитектура)
+│   │   │   └── core/        # 🆕 Core components (4 new)
 │   │   ├── generate-form/   # Форма генерации
 │   │   │   └── lyrics-chat/ # AI Lyrics Assistant (модули)
 │   │   ├── track-detail/    # Детали трека (Analysis, Versions)
 │   │   ├── track-actions/   # Унифицированные меню действий
+│   │   ├── professional/    # 🆕 Professional components (6 new)
 │   │   ├── gamification/    # Награды, достижения, лидерборд
 │   │   ├── admin/           # Admin Dashboard
+│   │   ├── lazy/            # 🆕 Lazy-loaded heavy components
 │   │   └── home/            # Секции главной страницы
 │   │
 │   ├── hooks/               # Кастомные хуки (60+)
-│   │   ├── usePlayerStore.ts
-│   │   ├── useTracksInfinite.ts
-│   │   ├── useAudioAnalysis.tsx
-│   │   ├── useGenerateForm.ts
+│   │   ├── audio/           # 🆕 Аудио хуки (оптимизированы)
+│   │   │   ├── useOptimizedAudioPlayer.ts
+│   │   │   ├── useDebouncedAudioTime.ts
+│   │   │   ├── usePlaybackPosition.ts    # 🆕
+│   │   │   ├── useBufferMonitor.ts       # 🆕
+│   │   │   ├── useQueueHistory.ts        # 🆕
+│   │   │   └── useSmartQueue.ts          # 🆕
+│   │   ├── studio/          # 🆕 Stem Studio хуки
+│   │   │   ├── useStemAudioSync.ts       # 🆕
+│   │   │   ├── useStemControls.ts        # 🆕
+│   │   │   └── useStudioKeyboardShortcuts.ts  # 🆕
 │   │   └── ...
 │   │
 │   ├── stores/              # Zustand stores
@@ -92,53 +143,48 @@ graph TB
 │   │   ├── queueStore.ts    # Очередь воспроизведения
 │   │   └── planTrackStore.ts
 │   │
-│   ├── pages/               # Страницы приложения
-│   │   ├── Index.tsx        # Главная (discovery)
-│   │   ├── Library.tsx      # Библиотека
-│   │   ├── Artists.tsx      # Артисты (My/Community tabs)
-│   │   ├── Projects.tsx     # Проекты
-│   │   ├── Playlists.tsx    # Плейлисты
-│   │   ├── Community.tsx    # Сообщество
-│   │   ├── Profile.tsx      # Профиль
-│   │   └── Admin.tsx        # Админ-панель
-│   │
 │   ├── lib/                 # Утилиты
+│   │   ├── audioCache.ts    # 🆕 IndexedDB audio caching
+│   │   ├── motion.ts        # 🆕 Optimized framer-motion
 │   │   ├── logger.ts        # Structured logging
-│   │   ├── utils.ts         # cn(), formatDuration()
-│   │   └── telegram.ts      # Telegram SDK helpers
+│   │   └── ...
 │   │
-│   └── integrations/        # Внешние интеграции
-│       └── supabase/        # Supabase client + types
+│   └── pages/               # Страницы приложения
+│       ├── Index.tsx        # Главная (discovery)
+│       ├── Library.tsx      # Библиотека
+│       ├── ProfessionalStudio.tsx  # 🆕 Professional tools
+│       └── ...
 │
 ├── supabase/                # 🔧 Backend
 │   └── functions/           # Edge Functions (45+)
-│       ├── suno-music-generate/
-│       ├── suno-music-callback/
-│       ├── suno-upload-cover/
-│       ├── suno-upload-extend/
-│       ├── ai-lyrics-assistant/
-│       ├── ai-blog-assistant/
-│       ├── analyze-audio-flamingo/
-│       ├── generate-track-cover/
-│       ├── generate-artist-portrait/
-│       ├── telegram-bot/
-│       ├── telegram-send-notification/
-│       └── ...
 │
 ├── docs/                    # 📚 Документация
+│   ├── NAVIGATION_INDEX.md  # Индекс документации
 │   ├── PROJECT_SPECIFICATION.md
 │   ├── DATABASE.md
-│   ├── SUNO_API.md
-│   ├── TELEGRAM_BOT_ARCHITECTURE.md
 │   ├── PLAYER_ARCHITECTURE.md
+│   ├── TELEGRAM_BOT_ARCHITECTURE.md
+│   ├── archive/             # 📦 Архивы
+│   │   └── 2025-12/         # 🆕 Аудиты декабря 2025 (20+ файлов)
 │   └── ...
 │
-├── ADR/                     # 🏛️ Architectural Decision Records
-│   ├── ADR-001-Telegram-Integration-Strategy.md
-│   ├── ADR-002-Frontend-Architecture-And-Stack.md
-│   └── ADR-003-Project-Management-in-Markdown.md
+├── ADR/                     # 🏛️ Architectural Decision Records (3 ADRs)
 │
-├── SPRINTS/                 # 📋 Sprint management
+├── SPRINTS/                 # 📋 Sprint management (ОБНОВЛЕНО)
+│   ├── README.md            # 🆕 Обзор системы спринтов
+│   ├── BACKLOG.md           # Бэклог продукта
+│   ├── completed/           # 🆕 Завершённые спринты
+│   │   ├── SPRINT-001-SETUP.md
+│   │   ├── SPRINT-002-AUDIT-IMPROVEMENTS.md
+│   │   ├── SPRINT-003-AUTOMATION.md
+│   │   ├── SPRINT-004-OPTIMIZATION.md
+│   │   ├── SPRINT-005-PRODUCTION-HARDENING.md
+│   │   ├── SPRINT-006-UI-UX-IMPROVEMENTS.md
+│   │   └── SPRINT-021-API-MODEL-UPDATE.md
+│   ├── SPRINT-013-OUTLINE.md         # 🟢 Active
+│   ├── SPRINT-008 to SPRINT-024/     # ⏳ Planned
+│   └── ...
+│
 └── tests/                   # 🧪 Тесты
 ```
 
@@ -337,6 +383,27 @@ graph LR
 
 ---
 
+## 🔄 Последние обновления (2025-12-10)
+
+### Новая документация
+- ✅ DOCUMENTATION_INDEX.md - Полная карта документации
+- ✅ SPRINT_STATUS.md - Dashboard спринтов
+- ✅ RECENT_IMPROVEMENTS.md - Сводка улучшений декабря
+- ✅ REPOSITORY_AUDIT_2025-12-10.md - Аудит репозитория
+- ✅ SPRINTS/README.md - Навигация по спринтам
+
+### Архивирование
+- ✅ 7 завершённых спринтов → SPRINTS/completed/
+- ✅ 20+ аудитов декабря → docs/archive/2025-12/
+- ✅ Упорядочена структура документации
+
+### Улучшения навигации
+- ✅ Обновлён README.md с текущим статусом
+- ✅ Добавлены приоритеты документов
+- ✅ Улучшена структура репозитория
+
+---
+
 *Этот документ — живой. Если вы заметили неточность, пожалуйста, обновите его.*
 
-*Last Updated: 2025-12-08*
+*Last Updated: 2025-12-10*
