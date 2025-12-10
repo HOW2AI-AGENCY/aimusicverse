@@ -125,6 +125,7 @@ export async function getOrCreateAudioNodes(
       analyserNode.smoothingTimeConstant = smoothing;
       
       if (audioNodesResult) {
+        // Reuse the same result object to keep references stable for callers/tests
         audioNodesResult.analyser = analyserNode;
         audioNodesResult.source = mediaElementSource;
         return audioNodesResult;

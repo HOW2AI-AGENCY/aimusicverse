@@ -1,4 +1,4 @@
-const createLogger = () => {
+const createLogger = (_defaultContext: Record<string, unknown> = {}) => {
   const api = {
     debug: () => {},
     info: () => {},
@@ -14,7 +14,8 @@ const createLogger = () => {
       }
     },
     table: () => {},
-    child: () => createLogger(),
+    child: (childContext: Record<string, unknown> = {}) =>
+      createLogger({ ..._defaultContext, ...childContext }),
   };
 
   return api;
