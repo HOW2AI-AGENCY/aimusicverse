@@ -75,6 +75,7 @@ serve(async (req) => {
         console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(requestedOutputs)}, valid=${JSON.stringify(validOutputs)}`);
         // The API expects 'outputs' as query parameters, not in FormData
         validOutputs.forEach(output => queryParams.append('outputs', output));
+        console.log(`[klangio] QueryParams after appending outputs: ${queryParams.toString()}`);
         break;
         
       case 'chord-recognition':
@@ -98,9 +99,12 @@ serve(async (req) => {
         throw new Error(`Unknown mode: ${mode}`);
     }
 
-    const endpoint = queryParams.toString() 
+    const endpoint = queryParams.toString()
       ? `${baseEndpoint}?${queryParams.toString()}`
       : baseEndpoint;
+
+    console.log(`[klangio] Final queryParams.toString(): ${queryParams.toString()}`);
+    console.log(`[klangio] Final endpoint constructed: ${endpoint}`);
 
     // Submit job to Klangio - use kl-api-key header as per OpenAPI spec
     console.log(`[klangio] Submitting job to ${endpoint}`);
@@ -155,6 +159,19 @@ serve(async (req) => {
       // Status values from OpenAPI: IN_QUEUE, IN_PROGRESS, COMPLETED, FAILED, CANCELLED, TIMED_OUT
       if (statusData.status === "COMPLETED") {
         result = statusData;
+        console.log(`[klangio] Job completed! Full status data:`, JSON.stringify(statusData, null, 2));
+        // Log any generation flags if present
+        if (mode === 'transcription') {
+          const flags = {
+            gen_midi: statusData.gen_midi,
+            gen_midi_unq: statusData.gen_midi_unq,
+            gen_midi_quant: statusData.gen_midi_quant,
+            gen_xml: statusData.gen_xml,
+            gen_gp5: statusData.gen_gp5,
+            gen_pdf: statusData.gen_pdf,
+          };
+          console.log(`[klangio] API response flags:`, JSON.stringify(flags, null, 2));
+        }
         break;
       } else if (statusData.status === "FAILED" || statusData.status === "CANCELLED" || statusData.status === "TIMED_OUT") {
         const errorMsg = statusData.error || 'Unknown error';
