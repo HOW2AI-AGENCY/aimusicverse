@@ -711,6 +711,64 @@ if (!user) throw new Error('Not authenticated');
 const audioLevel = useAudioLevel(mediaStream, isRecording);
 ```
 
+**6. Only MIDI and MusicXML generated (PDF, GP5, MIDI Quantized missing)** ⚠️ **KNOWN ISSUE**
+```
+// Issue: Klangio API generates only 2 out of 5 requested formats
+// Status: Under investigation with enhanced diagnostic logging
+// PR: #149 - https://github.com/HOW2AI-AGENCY/aimusicverse/pull/149
+// Documentation: See KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md
+
+// Temporary workaround: Use available formats (MIDI + MusicXML)
+// Investigation: Diagnostic logs added to determine root cause
+```
+
+See [Diagnostic Logging Documentation](./KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md) for details.
+
+---
+
+## Recent Updates
+
+### 2025-12-11: Diagnostic Logging Enhancement
+**PR**: [#149](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/149)
+**Status**: ✅ Merged to Main
+
+Added comprehensive diagnostic logging to investigate output format generation issues:
+- ✅ Enhanced logging at 5 critical points in Edge Function
+- ✅ Query parameters validation and construction logging
+- ✅ Complete endpoint URL logging before API submission
+- ✅ Job creation and completion status logging with generation flags
+- ✅ Integrated with database logging (klangio_analysis_logs table)
+
+**Purpose**: Determine why only MIDI and MusicXML are generated, but not PDF, GP5, or MIDI Quantized.
+
+**Testing Required**:
+1. Deploy Edge Function: `npx supabase functions deploy klangio-analyze`
+2. Record high-quality guitar audio (15-20 seconds)
+3. Run analysis and collect logs from Supabase Dashboard
+4. Analyze diagnostic output to identify root cause
+
+**Documentation**: See [KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md](./KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md)
+
+### 2025-12-11: MIME Type Support
+**Status**: ✅ Completed
+
+Fixed storage upload issues for music notation formats:
+- Added support for audio/midi, application/xml, application/pdf
+- Fixed MusicXML MIME type (changed from vnd.recordare to application/xml)
+- Enhanced file type validation and error handling
+
+**Documentation**: See [KLANG_IO_MIME_TYPE_FIX_2025-12-11.md](./KLANG_IO_MIME_TYPE_FIX_2025-12-11.md)
+
+### 2025-12-10: Transcription UI Improvements
+**Status**: ✅ Completed
+
+Enhanced user interface with new components:
+- TranscriptionPreview with Sheet Music, Tablature, and MIDI tabs
+- AnalysisProgressStages with 4-stage progress indicator
+- TranscriptionToGenerationBridge for AI music generation integration
+
+**Documentation**: See [KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md](./KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md)
+
 ---
 
 ## Future Enhancements
@@ -755,16 +813,29 @@ const audioLevel = useAudioLevel(mediaStream, isRecording);
 
 ## References
 
+### Documentation
+- [Diagnostic Logging Enhancement](./KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md) - **NEW**
+- [MIME Type Fixes](./KLANG_IO_MIME_TYPE_FIX_2025-12-11.md)
+- [Transcription UI Improvements](./KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md)
+- [Implementation Summary](./KLANG_IO_IMPLEMENTATION_SUMMARY.md)
 - [Полное руководство по интеграции Klang.io API](docs/KLANG_IO_API_GUIDE_RU.md)
+
+### External APIs
 - [klang.io API Documentation](https://api.klang.io/docs)
+- [klang.io OpenAPI Specification](https://api.klang.io/openapi.json)
+
+### Web Technologies
 - [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
 - [MediaRecorder API](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder)
 - [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
 - [Framer Motion](https://www.framer.com/motion/)
 - [TanStack Query](https://tanstack.com/query/latest)
 
+### Pull Requests
+- [PR #149 - Diagnostic Logging Enhancement](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/149) - ✅ Merged
+
 ---
 
-**Last Updated**: 2025-12-10  
-**Version**: 1.0.0  
-**Author**: GitHub Copilot Agent
+**Last Updated**: 2025-12-11
+**Version**: 1.1.0
+**Author**: GitHub Copilot Agent & Claude AI Assistant
