@@ -58,6 +58,8 @@ serve(async (req) => {
     let baseEndpoint: string;
     const queryParams = new URLSearchParams();
 
+    // IMPORTANT: Only transcription mode accepts outputs parameter
+    // Other modes (chord-recognition, beat-tracking) do NOT accept outputs
     switch (mode) {
       case 'transcription':
         baseEndpoint = `${API_BASE}/transcription`;
@@ -66,25 +68,29 @@ serve(async (req) => {
         if (title) queryParams.set('title', title);
         // Add outputs to form data - valid formats: midi, midi_quant, mxml, gp5, pdf
         // Note: 'json' is NOT a valid output format - notes data is fetched separately via /job/{id}/json
-        const validOutputs = (outputs || ['midi']).filter(o => o !== 'json');
+        const validFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
+        const requestedOutputs = outputs || ['midi'];
+        const validOutputs = requestedOutputs.filter(o => validFormats.includes(o));
         if (validOutputs.length === 0) validOutputs.push('midi');
+        console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(requestedOutputs)}, valid=${JSON.stringify(validOutputs)}`);
         validOutputs.forEach(output => formData.append('outputs', output));
         break;
         
       case 'chord-recognition':
         baseEndpoint = `${API_BASE}/chord-recognition`;
-        // Vocabulary is required for chord recognition
+        // Vocabulary is required for chord recognition - NO outputs parameter!
         queryParams.set('vocabulary', vocabulary || 'major-minor');
         break;
         
       case 'chord-recognition-extended':
         baseEndpoint = `${API_BASE}/chord-recognition-extended`;
-        // Vocabulary is required for extended chord recognition
+        // Vocabulary is required for extended chord recognition - NO outputs parameter!
         queryParams.set('vocabulary', vocabulary || 'full');
         break;
         
       case 'beat-tracking':
         baseEndpoint = `${API_BASE}/beat-tracking`;
+        // Beat tracking does NOT accept any outputs parameter!
         break;
         
       default:
