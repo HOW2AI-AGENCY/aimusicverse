@@ -81,45 +81,42 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-24 relative overflow-hidden">
-      {/* Background gradient effects */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl" />
+    <div className="min-h-screen bg-background pb-20 relative overflow-hidden">
+      {/* Subtle background gradient - reduced for performance */}
+      <div className="fixed inset-0 pointer-events-none opacity-30">
+        <div className="absolute top-0 left-1/4 w-80 h-80 bg-primary/10 rounded-full blur-3xl" />
       </div>
       
-      <div className="container max-w-6xl mx-auto px-4 pt-2 pb-4 sm:py-6 relative z-10">
+      <div className="container max-w-6xl mx-auto px-3 sm:px-4 pt-2 pb-4 sm:py-6 relative z-10">
         {/* Compact Header with glass effect */}
         <motion.header 
-          className="flex items-center justify-between mb-4 sticky top-0 z-20 -mx-4 px-4 py-2 backdrop-blur-md bg-background/60"
+          className="flex items-center justify-between mb-3 sm:mb-4 sticky top-0 z-20 -mx-3 sm:-mx-4 px-3 sm:px-4 py-2 backdrop-blur-md bg-background/80"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             <motion.div 
               className="relative"
-              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <img src={logo} alt="MusicVerse" className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl shadow-lg" />
+              <img src={logo} alt="MusicVerse" className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl" />
               <motion.div 
-                className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-green-500 rounded-full border-2 border-background"
+                className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-green-500 rounded-full border border-background"
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
             </motion.div>
             <div>
-              <h1 className="text-base sm:text-xl font-bold text-gradient leading-tight">MusicVerse</h1>
-              <p className="text-[9px] sm:text-xs text-muted-foreground leading-tight">AI Music Studio</p>
+              <h1 className="text-sm sm:text-base font-bold text-gradient leading-tight">MusicVerse</h1>
+              <p className="text-[9px] sm:text-[10px] text-muted-foreground leading-tight">AI Music Studio</p>
             </div>
           </div>
           <div className="flex items-center gap-1.5">
             <NotificationBadge />
             <motion.button
               onClick={goToProfile}
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 border-primary/30 hover:border-primary transition-all touch-manipulation ring-2 ring-primary/10 hover:ring-primary/30"
-              whileHover={{ scale: 1.05 }}
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-primary/30 transition-all touch-manipulation"
               whileTap={{ scale: 0.95 }}
             >
               {displayUser?.photo_url ? (
@@ -137,35 +134,29 @@ const Index = () => {
           </div>
         </motion.header>
 
-        {/* Welcome + Stats Row */}
-        <div className="flex items-start justify-between gap-4 mb-4">
+        {/* Welcome Section - Mobile optimized */}
+        <motion.div 
+          className="mb-3 sm:mb-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
           <WelcomeSection 
             userName={displayUser?.first_name || displayUser?.username?.split('@')[0]} 
-            className="flex-1"
           />
-        </div>
+        </motion.div>
 
         {/* Loading Skeleton */}
         {contentLoading && !publicContent && (
           <HomeSkeletonEnhanced />
         )}
 
-        {/* Compact Gamification Widget */}
+        {/* Hero Quick Actions - Primary CTA */}
         <motion.section 
-          className="mb-4"
+          className="mb-4 sm:mb-5"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3 }}
-        >
-          <GamificationWidgetCompact />
-        </motion.section>
-
-        {/* Hero Quick Actions */}
-        <motion.section 
-          className="mb-5"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.3 }}
         >
           <HeroQuickActions onGenerateClick={() => setGenerateSheetOpen(true)} />
         </motion.section>
@@ -173,54 +164,21 @@ const Index = () => {
         {/* Recent Tracks for logged-in users */}
         {user && (
           <motion.section
-            className="mb-6"
+            className="mb-4 sm:mb-5"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.18, duration: 0.3 }}
+            transition={{ delay: 0.15, duration: 0.3 }}
           >
             <RecentTracksSection maxTracks={4} />
           </motion.section>
         )}
 
-        {/* Professional Tools Hub */}
-        <motion.section
-          className="mb-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.19, duration: 0.3 }}
-        >
-          <ProfessionalToolsHub />
-        </motion.section>
-
-        {/* Public AI Artists Section */}
-        <motion.section
-          className="mb-5"
+        {/* Unified Discovery Section - Main content */}
+        <motion.section 
+          className="mb-4 sm:mb-5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.3 }}
-        >
-          <PublicArtistsSection />
-        </motion.section>
-
-        {/* Auto Playlists by Genre */}
-        <motion.section 
-          className="mb-5"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.25, duration: 0.3 }}
-        >
-          <AutoPlaylistsSectionOptimized 
-            playlists={autoPlaylists} 
-            isLoading={contentLoading} 
-          />
-        </motion.section>
-
-        {/* Unified Discovery Section - Combines Featured, New, Popular */}
-        <motion.section 
-          className="mb-5"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.3 }}
         >
           <UnifiedDiscoverySection
             featuredTracks={publicContent?.featuredTracks || []}
@@ -231,23 +189,49 @@ const Index = () => {
           />
         </motion.section>
 
-        {/* Graph Preview */}
-        <motion.section
-          className="mb-5"
+        {/* Auto Playlists by Genre */}
+        <motion.section 
+          className="mb-4 sm:mb-5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.35, duration: 0.3 }}
+          transition={{ delay: 0.25, duration: 0.3 }}
         >
-          <GraphPreview />
+          <AutoPlaylistsSectionOptimized 
+            playlists={autoPlaylists} 
+            isLoading={contentLoading} 
+          />
         </motion.section>
 
-        {/* Blog Section */}
+        {/* Public AI Artists Section */}
         <motion.section
+          className="mb-4 sm:mb-5"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.3 }}
+        >
+          <PublicArtistsSection />
+        </motion.section>
+
+        {/* Professional Tools Hub - Desktop only or collapsed on mobile */}
+        {user && (
+          <motion.section
+            className="hidden sm:block mb-5"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.35, duration: 0.3 }}
+          >
+            <ProfessionalToolsHub />
+          </motion.section>
+        )}
+
+        {/* Compact Gamification Widget - bottom position */}
+        <motion.section 
+          className="mb-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.3 }}
         >
-          <BlogSection />
+          <GamificationWidgetCompact />
         </motion.section>
       </div>
 
