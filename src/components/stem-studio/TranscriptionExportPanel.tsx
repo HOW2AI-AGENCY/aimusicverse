@@ -127,7 +127,7 @@ export function TranscriptionExportPanel({
       if (data.status === 'completed' && data.files) {
         setTranscriptionFiles({
           midiUrl: data.files.midi,
-          midiQuantUrl: data.files.midi_quant,
+          midiQuantUrl: data.files.midi_quant || data.files.midi_unq, // API returns midi_quant (quantized MIDI)
           gp5Url: data.files.gp5,
           pdfUrl: data.files.pdf,
           musicXmlUrl: data.files.mxml,

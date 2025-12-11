@@ -394,12 +394,12 @@ export function useGuitarAnalysis() {
         const files = transcriptionResult.data.files;
         transcriptionFiles = {
           midiUrl: files.midi,
-          midiQuantUrl: files.midi_quant,
+          midiQuantUrl: files.midi_quant || files.midi_unq, // API returns midi_quant (quantized MIDI)
           gp5Url: files.gp5,
           pdfUrl: files.pdf,
           musicXmlUrl: files.mxml,
         };
-        midiUrl = files.midi || files.midi_quant;
+        midiUrl = files.midi || files.midi_quant || files.midi_unq;
 
         console.log('[GuitarAnalysis] Parsed transcription files:', transcriptionFiles);
         
