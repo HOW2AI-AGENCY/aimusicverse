@@ -142,13 +142,19 @@ serve(async (req) => {
     // Create callback URL
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
 
-    // Prepare Suno API request
+    // Prepare Suno API request - fullLyrics is required by Suno API
+    const fullLyrics = track.lyrics || '';
+    if (!fullLyrics) {
+      logger.warn('Track has no lyrics, section replacement may fail');
+    }
+
     const sunoPayload = {
       taskId,
       audioId,
       prompt: prompt || '',
       tags: tags || track.tags || '',
       title: track.title || 'Трек',
+      fullLyrics,
       infillStartS: Number(infillStartS),
       infillEndS: Number(infillEndS),
       callBackUrl: callbackUrl,
