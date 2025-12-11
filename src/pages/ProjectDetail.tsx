@@ -121,9 +121,19 @@ export default function ProjectDetail() {
     }
   };
 
-  const handleLyricsGenerated = (lyrics: string) => {
+  const handleLyricsGenerated = async (lyrics: string) => {
     if (selectedTrackForLyrics) {
-      handleSaveLyrics(selectedTrackForLyrics.id, lyrics);
+      // Save lyrics via direct supabase call to include lyrics_status
+      try {
+        await supabase.from('project_tracks')
+          .update({ notes: lyrics, lyrics_status: 'generated' })
+          .eq('id', selectedTrackForLyrics.id);
+        queryClient.invalidateQueries({ queryKey: ['project-tracks', id] });
+        toast.success('Лирика сохранена');
+      } catch (error) {
+        logger.error('Error saving lyrics', error);
+        toast.error('Ошибка сохранения');
+      }
     }
   };
 
