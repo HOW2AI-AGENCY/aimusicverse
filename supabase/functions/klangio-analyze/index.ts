@@ -66,14 +66,15 @@ serve(async (req) => {
         // Model is required in query params for transcription
         queryParams.set('model', model || 'guitar');
         if (title) queryParams.set('title', title);
-        // Add outputs to form data - valid formats: midi, midi_quant, mxml, gp5, pdf
+        // Add outputs to query params - valid formats: midi, midi_quant, mxml, gp5, pdf
         // Note: 'json' is NOT a valid output format - notes data is fetched separately via /job/{id}/json
         const validFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
-        const requestedOutputs = outputs || ['midi'];
+        const requestedOutputs = outputs || ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf']; // Request all formats by default
         const validOutputs = requestedOutputs.filter(o => validFormats.includes(o));
-        if (validOutputs.length === 0) validOutputs.push('midi');
+        if (validOutputs.length === 0) validOutputs.push('midi'); // Ensure at least midi is requested
         console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(requestedOutputs)}, valid=${JSON.stringify(validOutputs)}`);
-        validOutputs.forEach(output => formData.append('outputs', output));
+        // The API expects 'outputs' as query parameters, not in FormData
+        validOutputs.forEach(output => queryParams.append('outputs', output));
         break;
         
       case 'chord-recognition':
