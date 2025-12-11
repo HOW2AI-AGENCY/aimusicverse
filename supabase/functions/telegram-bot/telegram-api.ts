@@ -341,7 +341,7 @@ export async function editMessageMedia(
   chatId: number,
   messageId: number,
   media: {
-    type: 'photo';
+    type: 'photo' | 'video' | 'animation';
     media: string;
     caption?: string;
     parse_mode?: 'MarkdownV2' | 'HTML';
@@ -367,6 +367,25 @@ export async function editMessageMedia(
     if (!error.includes('message is not modified')) {
       console.error('editMessageMedia error:', error);
     }
+    return null;
+  }
+
+  return response.json();
+}
+
+export async function deleteMessage(chatId: number, messageId: number) {
+  const response = await fetch(`${TELEGRAM_API}/deleteMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: chatId,
+      message_id: messageId,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    console.error('deleteMessage error:', error);
     return null;
   }
 

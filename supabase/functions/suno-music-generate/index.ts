@@ -151,7 +151,7 @@ serve(async (req) => {
     // Use persona ID from artist if available, otherwise use direct personaId
     const effectivePersonaId = artistData?.suno_persona_id || personaId;
 
-    // Create track record with artist info
+    // Create track record with artist info - ALL TRACKS ARE PUBLIC BY DEFAULT
     const { data: track, error: trackError } = await supabase
       .from('tracks')
       .insert({
@@ -168,6 +168,7 @@ serve(async (req) => {
         vocal_gender: vocalGender,
         style_weight: styleWeight,
         negative_tags: negativeTags,
+        is_public: true, // ALL tracks are public by default for community discovery
         // Store artist reference
         artist_id: artistData?.id || null,
         artist_name: artistData?.name || null,

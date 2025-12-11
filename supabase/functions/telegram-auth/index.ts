@@ -223,19 +223,20 @@ Deno.serve(async (req) => {
         
         await supabase.auth.admin.updateUserById(userId, { password: newPassword });
 
-        // Update profile with latest Telegram data AND chat_id
-        await supabase
-          .from('profiles')
-          .update({
-            first_name: telegramUser.first_name,
-            last_name: telegramUser.last_name,
-            username: telegramUser.username,
-            language_code: telegramUser.language_code,
-            photo_url: telegramUser.photo_url,
-            telegram_chat_id: chatId, // Save chat_id for notifications
-            updated_at: new Date().toISOString(),
-          })
-          .eq('user_id', userId);
+      // Update profile with latest Telegram data AND chat_id, ensure public
+      await supabase
+        .from('profiles')
+        .update({
+          first_name: telegramUser.first_name,
+          last_name: telegramUser.last_name,
+          username: telegramUser.username,
+          language_code: telegramUser.language_code,
+          photo_url: telegramUser.photo_url,
+          telegram_chat_id: chatId, // Save chat_id for notifications
+          is_public: true, // All profiles are public by default
+          updated_at: new Date().toISOString(),
+        })
+        .eq('user_id', userId);
 
         // Also update/create notification settings
         await supabase
@@ -302,10 +303,13 @@ Deno.serve(async (req) => {
 
     userId = authData.user.id;
 
-    // Update the auto-created profile with chat_id
+    // Update the auto-created profile with chat_id and ensure public
     await supabase
       .from('profiles')
-      .update({ telegram_chat_id: chatId })
+      .update({ 
+        telegram_chat_id: chatId,
+        is_public: true, // All profiles are public by default
+      })
       .eq('user_id', userId);
 
     // Create notification settings
