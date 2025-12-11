@@ -145,17 +145,28 @@ serve(async (req) => {
     // Prepare Suno API request - fullLyrics and prompt are required by Suno API
     const fullLyrics = track.lyrics || '';
     if (!fullLyrics) {
-      logger.warn('Track has no lyrics, section replacement may fail');
+      logger.warn('Track has no lyrics, using empty string');
     }
 
     // Suno API requires non-empty prompt - use default if not provided
     const effectivePrompt = prompt || tags || track.tags || track.style || 'Continue in the same style and mood';
+    const effectiveTags = tags || track.tags || '';
+    
+    logger.info('Preparing Suno payload', {
+      hasPrompt: !!prompt,
+      hasTags: !!tags,
+      hasTrackTags: !!track.tags,
+      hasTrackStyle: !!track.style,
+      effectivePrompt: effectivePrompt.substring(0, 100),
+      effectiveTags: effectiveTags.substring(0, 100),
+      fullLyricsLength: fullLyrics.length,
+    });
     
     const sunoPayload = {
       taskId,
       audioId,
       prompt: effectivePrompt,
-      tags: tags || track.tags || '',
+      tags: effectiveTags,
       title: track.title || 'Трек',
       fullLyrics,
       infillStartS: Number(infillStartS),
@@ -167,7 +178,10 @@ serve(async (req) => {
       taskId, 
       audioId, 
       infillStartS, 
-      infillEndS 
+      infillEndS,
+      promptLength: effectivePrompt.length,
+      tagsLength: effectiveTags.length,
+      lyricsLength: fullLyrics.length,
     });
 
     // Call Suno API
