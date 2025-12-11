@@ -104,7 +104,10 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           <div className="px-3 pb-4 sm:px-4 sm:pb-6 space-y-3">
             {/* Header with controls */}
             <GenerateFormHeader
-              credits={form.credits}
+              userBalance={form.userBalance}
+              generationCost={form.generationCost}
+              canGenerate={form.canGenerate}
+              apiCredits={form.apiCredits}
               mode={form.mode}
               onModeChange={form.setMode}
               model={form.model}

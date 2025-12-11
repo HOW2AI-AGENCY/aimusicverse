@@ -856,6 +856,7 @@ export type Database = {
           language_code: string | null
           last_name: string | null
           photo_url: string | null
+          subscription_expires_at: string | null
           subscription_tier:
             | Database["public"]["Enums"]["subscription_tier"]
             | null
@@ -873,6 +874,7 @@ export type Database = {
           language_code?: string | null
           last_name?: string | null
           photo_url?: string | null
+          subscription_expires_at?: string | null
           subscription_tier?:
             | Database["public"]["Enums"]["subscription_tier"]
             | null
@@ -890,6 +892,7 @@ export type Database = {
           language_code?: string | null
           last_name?: string | null
           photo_url?: string | null
+          subscription_expires_at?: string | null
           subscription_tier?:
             | Database["public"]["Enums"]["subscription_tier"]
             | null
