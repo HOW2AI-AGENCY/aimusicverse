@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Guitar, Music, FileMusic, Mic } from 'lucide-react';
+import { Guitar, Music, FileMusic, Mic, Zap } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { MusicLabAudioProvider } from '@/contexts/MusicLabAudioContext';
+import { QuickCreate } from '@/components/music-lab/QuickCreate';
 
 /**
  * Music Lab Hub - Unified Creative Workspace
@@ -11,9 +12,10 @@ import { MusicLabAudioProvider } from '@/contexts/MusicLabAudioContext';
  * into a single, cohesive workspace with shared audio context.
  * 
  * Sprint 025: US-025-001
+ * Sprint 026: US-026-001 (Quick Create integration)
  */
 export default function MusicLab() {
-  const [activeTab, setActiveTab] = useState('guitar');
+  const [activeTab, setActiveTab] = useState('quick-create');
 
   return (
     <MusicLabAudioProvider>
@@ -28,7 +30,12 @@ export default function MusicLab() {
 
         {/* Main Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-          <TabsList className="grid w-full grid-cols-4 lg:w-auto">
+          <TabsList className="grid w-full grid-cols-5 lg:w-auto">
+            <TabsTrigger value="quick-create" className="flex items-center gap-2">
+              <Zap className="h-4 w-4" />
+              <span className="hidden sm:inline">Quick Create</span>
+              <span className="sm:hidden">Quick</span>
+            </TabsTrigger>
             <TabsTrigger value="guitar" className="flex items-center gap-2">
               <Guitar className="h-4 w-4" />
               <span className="hidden sm:inline">Guitar Studio</span>
@@ -50,6 +57,11 @@ export default function MusicLab() {
               <span className="sm:hidden">Voice</span>
             </TabsTrigger>
           </TabsList>
+
+          {/* Quick Create Tab */}
+          <TabsContent value="quick-create" className="space-y-4">
+            <QuickCreate />
+          </TabsContent>
 
           {/* Guitar Studio Tab */}
           <TabsContent value="guitar" className="space-y-4">
