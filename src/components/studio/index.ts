@@ -8,6 +8,7 @@ export { StudioHeader } from './StudioHeader';
 export { StudioTabNavigation } from './StudioTabNavigation';
 export { StudioPlayer } from './StudioPlayer';
 export { StudioProvider, useStudio } from './StudioProvider';
+export { StemSeparationPrompt } from './StemSeparationPrompt';
 
 // Tab contents
 export { PlayerTabContent, ToolsTabContent, ExportTabContent } from './tabs';

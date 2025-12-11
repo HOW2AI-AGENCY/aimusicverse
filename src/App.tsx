@@ -25,7 +25,7 @@ function ProfileSetupGuardWrapper({ children }: { children: React.ReactNode }) {
 const Index = lazy(() => import("./pages/Index"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Studio = lazy(() => import("./pages/Studio"));
-const StemStudio = lazy(() => import("./pages/StemStudio"));
+const UnifiedStudio = lazy(() => import("./pages/UnifiedStudio"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Tasks = lazy(() => import("./pages/Tasks"));
@@ -123,7 +123,7 @@ const App = () => (
                 {/* Routes without BottomNavigation */}
                 <Route path="/studio/:trackId" element={
                   <ProtectedRoute>
-                    <StemStudio />
+                    <UnifiedStudio />
                   </ProtectedRoute>
                 } />
 
