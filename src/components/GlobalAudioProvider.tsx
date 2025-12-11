@@ -12,7 +12,7 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import { usePlayerStore } from '@/hooks/audio';
-import { setGlobalAudioRef, resumeAudioContext } from '@/hooks/audio';
+import { setGlobalAudioRef } from '@/hooks/audio';
 import { useOptimizedAudioPlayer } from '@/hooks/audio/useOptimizedAudioPlayer';
 import { usePlaybackPosition } from '@/hooks/audio/usePlaybackPosition';
 import { logger } from '@/lib/logger';
@@ -211,14 +211,15 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
           audio.muted = false;
         }
 
-        // CRITICAL: Resume AudioContext before playing
+        // CRITICAL: Resume AudioContext before playing with retry
         // This ensures Web Audio API is ready if visualizer is active
-        try {
-          await resumeAudioContext();
-          logger.debug('AudioContext resumed successfully');
-        } catch (err) {
-          logger.warn('AudioContext resume failed before playback', { error: err });
-          // Continue anyway - audio might still work without visualizer
+        const { resumeAudioContext, ensureAudioRoutedToDestination } = await import('@/lib/audioContextManager');
+        
+        const contextResumed = await resumeAudioContext(3);
+        if (!contextResumed) {
+          logger.warn('AudioContext resume failed, attempting to ensure audio routing');
+          // Try to ensure audio is still routed to destination
+          await ensureAudioRoutedToDestination();
         }
 
         const playPromise = audio.play();
@@ -226,6 +227,17 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
           playPromise
             .then(() => {
               logger.info('Playback started successfully', { trackId: activeTrack?.id });
+              
+              // Verify audio is actually playing after a short delay
+              setTimeout(() => {
+                if (!audio.paused && audio.currentTime === 0 && !isCleanedUp) {
+                  logger.warn('Audio may be stuck at 0, checking...');
+                  // If still at 0 after 500ms and not paused, might be an issue
+                  if (audio.readyState >= 2) {
+                    logger.debug('Audio ready but stuck, no action needed for now');
+                  }
+                }
+              }, 500);
             })
             .catch((error) => {
               // Only log actual errors, not abort errors from track changes
@@ -237,10 +249,14 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
                   networkState: audio.networkState
                 });
 
-                // Show user-friendly error
+                // Show user-friendly error with recovery suggestion
                 if (error.name === 'NotAllowedError') {
                   toast.error('Воспроизведение заблокировано', {
-                    description: 'Требуется взаимодействие с страницей'
+                    description: 'Нажмите на экран и попробуйте снова',
+                    action: {
+                      label: 'Повторить',
+                      onClick: () => playAttempt(),
+                    }
                   });
                 } else if (error.name === 'NotSupportedError') {
                   toast.error('Формат аудио не поддерживается');

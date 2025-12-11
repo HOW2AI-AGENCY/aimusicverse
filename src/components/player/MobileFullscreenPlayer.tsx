@@ -63,87 +63,115 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     track.suno_id || null
   );
 
-  // Parse lyrics and group into lines
-  const { lyricsLines, plainLyrics } = useMemo(() => {
+  // Parse lyrics and group into lines with robust error handling
+  const { lyricsLines, plainLyrics, parseError } = useMemo(() => {
     let words: AlignedWord[] = [];
     
     // Helper to check if word is a structural tag
     const isStructuralTag = (text: string) => {
-      return /^\[?(Verse|Chorus|Bridge|Outro|Intro|Hook|Pre-Chorus|Post-Chorus|Refrain|Interlude|Break|Solo|Instrumental|Ad-lib|Coda)(\s*\d*)?\]?$/i.test(text.trim());
+      if (!text || typeof text !== 'string') return false;
+      return /^\[?(Verse|Chorus|Bridge|Outro|Intro|Hook|Pre-Chorus|Post-Chorus|Refrain|Interlude|Break|Solo|Instrumental|Ad-lib|Coda|Куплет|Припев|Бридж|Аутро|Интро)(\s*\d*)?\]?$/i.test(text.trim());
     };
     
     // Helper to clean structural tags from plain text
     const cleanLyrics = (text: string) => {
+      if (!text || typeof text !== 'string') return '';
       return text
-        .replace(/\[(Verse|Chorus|Bridge|Outro|Intro|Hook|Pre-Chorus|Post-Chorus|Refrain|Interlude|Break|Solo|Instrumental|Ad-lib|Coda)(\s*\d*)?\]/gi, '')
+        .replace(/\[(Verse|Chorus|Bridge|Outro|Intro|Hook|Pre-Chorus|Post-Chorus|Refrain|Interlude|Break|Solo|Instrumental|Ad-lib|Coda|Куплет|Припев|Бридж|Аутро|Интро)(\s*\d*)?\]/gi, '')
         .replace(/\n{3,}/g, '\n\n')
         .trim();
     };
     
-    if (lyricsData?.alignedWords && lyricsData.alignedWords.length > 0) {
-      // Filter out structural tags from aligned words
-      words = (lyricsData.alignedWords as AlignedWord[]).filter(w => !isStructuralTag(w.word));
-    } else if (track.lyrics) {
-      try {
-        if (track.lyrics.trim().startsWith('{')) {
-          const parsed = JSON.parse(track.lyrics);
-          if (parsed.alignedWords && Array.isArray(parsed.alignedWords)) {
-            words = (parsed.alignedWords as AlignedWord[]).filter(w => !isStructuralTag(w.word));
-          }
-        }
-      } catch {
-        // Not JSON, treat as plain text
-        return { lyricsLines: null, plainLyrics: cleanLyrics(track.lyrics) };
-      }
-      if (words.length === 0) {
-        return { lyricsLines: null, plainLyrics: cleanLyrics(track.lyrics) };
-      }
-    }
+    // Validate aligned word structure
+    const isValidAlignedWord = (w: unknown): w is AlignedWord => {
+      if (!w || typeof w !== 'object') return false;
+      const obj = w as Record<string, unknown>;
+      return typeof obj.word === 'string' && 
+             typeof obj.startS === 'number' && 
+             typeof obj.endS === 'number' &&
+             isFinite(obj.startS) && 
+             isFinite(obj.endS);
+    };
     
-    if (words.length === 0) {
-      return { lyricsLines: null, plainLyrics: null };
-    }
-
-    // Group words into lines - detect line breaks or group by ~5-8 words
-    const lines: AlignedWord[][] = [];
-    let currentLine: AlignedWord[] = [];
-    
-    words.forEach((word) => {
-      // Skip structural tags that might have slipped through
-      if (isStructuralTag(word.word)) return;
-      
-      const hasLineBreak = word.word.includes('\n');
-      
-      if (hasLineBreak) {
-        const parts = word.word.split('\n');
-        parts.forEach((part, index) => {
-          if (part.trim() && !isStructuralTag(part)) {
-            currentLine.push({ ...word, word: part.trim() });
-          }
-          if (index < parts.length - 1) {
-            if (currentLine.length > 0) {
-              lines.push([...currentLine]);
-              currentLine = [];
+    try {
+      if (lyricsData?.alignedWords && Array.isArray(lyricsData.alignedWords) && lyricsData.alignedWords.length > 0) {
+        // Filter out structural tags and validate words from API response
+        words = (lyricsData.alignedWords as unknown[])
+          .filter(isValidAlignedWord)
+          .filter(w => !isStructuralTag(w.word));
+      } else if (track.lyrics) {
+        // Try to parse lyrics from track if no API data
+        try {
+          if (track.lyrics.trim().startsWith('{') || track.lyrics.trim().startsWith('[')) {
+            const parsed = JSON.parse(track.lyrics);
+            if (parsed?.alignedWords && Array.isArray(parsed.alignedWords)) {
+              words = (parsed.alignedWords as unknown[])
+                .filter(isValidAlignedWord)
+                .filter(w => !isStructuralTag(w.word));
             }
           }
-        });
-      } else if (word.word.trim()) {
-        currentLine.push(word);
+        } catch (jsonErr) {
+          // Not JSON or invalid JSON, treat as plain text
+          logger.debug('Lyrics not JSON, using as plain text', { error: jsonErr });
+          return { lyricsLines: null, plainLyrics: cleanLyrics(track.lyrics), parseError: false };
+        }
         
-        // Create new line at punctuation or every ~6 words for readability
-        const endsWithPunctuation = /[.!?;]$/.test(word.word.trim());
-        if (endsWithPunctuation || currentLine.length >= 6) {
-          lines.push([...currentLine]);
-          currentLine = [];
+        if (words.length === 0) {
+          // No valid aligned words found, use plain text
+          return { lyricsLines: null, plainLyrics: cleanLyrics(track.lyrics), parseError: false };
         }
       }
-    });
-    
-    if (currentLine.length > 0) {
-      lines.push(currentLine);
+      
+      if (words.length === 0) {
+        return { lyricsLines: null, plainLyrics: null, parseError: false };
+      }
+
+      // Group words into lines - detect line breaks or group by ~5-8 words
+      const lines: AlignedWord[][] = [];
+      let currentLine: AlignedWord[] = [];
+      
+      words.forEach((word) => {
+        // Skip structural tags that might have slipped through
+        if (isStructuralTag(word.word)) return;
+        
+        const hasLineBreak = word.word.includes('\n');
+        
+        if (hasLineBreak) {
+          const parts = word.word.split('\n');
+          parts.forEach((part, index) => {
+            if (part.trim() && !isStructuralTag(part)) {
+              currentLine.push({ ...word, word: part.trim() });
+            }
+            if (index < parts.length - 1) {
+              if (currentLine.length > 0) {
+                lines.push([...currentLine]);
+                currentLine = [];
+              }
+            }
+          });
+        } else if (word.word.trim()) {
+          currentLine.push(word);
+          
+          // Create new line at punctuation or every ~6 words for readability
+          const endsWithPunctuation = /[.!?;]$/.test(word.word.trim());
+          if (endsWithPunctuation || currentLine.length >= 6) {
+            lines.push([...currentLine]);
+            currentLine = [];
+          }
+        }
+      });
+      
+      if (currentLine.length > 0) {
+        lines.push(currentLine);
+      }
+      
+      return { lyricsLines: lines.length > 0 ? lines : null, plainLyrics: null, parseError: false };
+    } catch (err) {
+      logger.error('Error parsing lyrics', err);
+      // Fallback to plain text on any error
+      const fallbackText = track.lyrics ? cleanLyrics(track.lyrics) : null;
+      return { lyricsLines: null, plainLyrics: fallbackText, parseError: true };
     }
-    
-    return { lyricsLines: lines.length > 0 ? lines : null, plainLyrics: null };
   }, [lyricsData, track.lyrics]);
 
   // Find active line index
@@ -502,11 +530,19 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
               className="relative overflow-hidden"
             >
               <div className="px-4 py-3 bg-gradient-to-t from-background/80 to-transparent">
+                {/* Fallback indicator */}
+                {visualizerData.isFallback && (
+                  <div className="text-[10px] text-muted-foreground/50 text-center mb-1">
+                    Визуализация недоступна
+                  </div>
+                )}
                 {/* Visualizer bars */}
                 <div className="flex items-end justify-center gap-[2px] h-16">
                   {visualizerData.frequencies.map((freq, index) => {
                     const isCenter = Math.abs(index - visualizerData.frequencies.length / 2) < 8;
                     const heightPercent = Math.max(8, freq * 100);
+                    // Reduce opacity for fallback visualization
+                    const baseOpacity = visualizerData.isFallback ? 0.4 : 0.6;
                     
                     return (
                       <motion.div
@@ -515,11 +551,11 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                         style={{
                           width: isCenter ? '3px' : '2px',
                           backgroundColor: `hsl(var(--primary) / ${0.3 + freq * 0.7})`,
-                          boxShadow: freq > 0.6 ? `0 0 8px hsl(var(--primary) / 0.5)` : 'none',
+                          boxShadow: !visualizerData.isFallback && freq > 0.6 ? `0 0 8px hsl(var(--primary) / 0.5)` : 'none',
                         }}
                         animate={{
                           height: `${heightPercent}%`,
-                          opacity: isPlaying ? 0.6 + freq * 0.4 : 0.3,
+                          opacity: isPlaying ? baseOpacity + freq * 0.4 : 0.3,
                         }}
                         transition={{ duration: 0.05 }}
                       />
@@ -532,7 +568,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                   className="mt-2 mx-auto h-0.5 rounded-full bg-gradient-to-r from-transparent via-primary to-transparent"
                   animate={{
                     width: `${30 + visualizerData.average * 70}%`,
-                    opacity: isPlaying ? 0.4 + visualizerData.average * 0.6 : 0.2,
+                    opacity: isPlaying ? (visualizerData.isFallback ? 0.3 : 0.4) + visualizerData.average * 0.6 : 0.2,
                   }}
                   transition={{ duration: 0.1 }}
                 />
