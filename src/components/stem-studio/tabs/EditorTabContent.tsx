@@ -7,40 +7,38 @@ import { SectionEditorPanel } from '../SectionEditorPanel';
 import { SectionTimelineVisualization } from '../SectionTimelineVisualization';
 import { ReplacementHistoryPanel } from '../ReplacementHistoryPanel';
 import { ReplacementProgressIndicator } from '../ReplacementProgressIndicator';
-import { QuickComparePanel } from '../QuickComparePanel';
+import { DetectedSection } from '@/hooks/useSectionDetection';
 
 interface EditorTabContentProps {
   trackId: string;
+  trackTitle: string;
+  trackTags?: string | null;
   trackAudioUrl: string;
-  detectedSections: any[];
-  replacedSections: any[];
-  selectedSectionIndex: number | null;
-  customRange: { start: number; end: number } | null;
-  editMode: 'replace' | 'trim' | null;
-  latestCompletion: any;
-  isPlaying: boolean;
-  currentTime: number;
+  detectedSections: DetectedSection[];
   duration: number;
-  onSelectSection: (index: number) => void;
-  onSetCustomRange: (range: { start: number; end: number } | null) => void;
-  onSeek: (time: number[]) => void;
+  currentTime: number;
+  selectedIndex: number | null;
+  customRange: { start: number; end: number } | null;
+  replacedRanges?: { start: number; end: number }[];
+  onSectionClick: (section: DetectedSection, index: number) => void;
+  onSeek: (time: number) => void;
+  onEditorClose: () => void;
 }
 
 export function EditorTabContent({
   trackId,
+  trackTitle,
+  trackTags,
   trackAudioUrl,
   detectedSections,
-  replacedSections,
-  selectedSectionIndex,
-  customRange,
-  editMode,
-  latestCompletion,
-  isPlaying,
-  currentTime,
   duration,
-  onSelectSection,
-  onSetCustomRange,
+  currentTime,
+  selectedIndex,
+  customRange,
+  replacedRanges,
+  onSectionClick,
   onSeek,
+  onEditorClose,
 }: EditorTabContentProps) {
   return (
     <div className="space-y-4 p-4">
@@ -48,50 +46,34 @@ export function EditorTabContent({
       <div className="bg-card/50 border border-border/30 rounded-lg overflow-hidden">
         <SectionTimelineVisualization
           sections={detectedSections}
-          replacedSections={replacedSections}
-          selectedSectionIndex={selectedSectionIndex}
-          customRange={customRange}
-          onSelectSection={onSelectSection}
-          onSetCustomRange={onSetCustomRange}
-          currentTime={currentTime}
           duration={duration}
-          isPlaying={isPlaying}
+          currentTime={currentTime}
+          selectedIndex={selectedIndex}
+          customRange={customRange}
+          replacedRanges={replacedRanges}
+          onSectionClick={onSectionClick}
           onSeek={onSeek}
         />
       </div>
 
       {/* Replacement Progress Indicator */}
-      {latestCompletion && (
-        <ReplacementProgressIndicator completion={latestCompletion} />
-      )}
-
-      {/* Quick Compare Panel */}
-      {latestCompletion && (
-        <QuickComparePanel
-          originalUrl={trackAudioUrl}
-          replacedUrl={latestCompletion.replaced_audio_url}
-          trackId={trackId}
-          replacementId={latestCompletion.id}
-        />
-      )}
+      <ReplacementProgressIndicator trackId={trackId} />
 
       {/* Section Editor Panel */}
       <SectionEditorPanel
         trackId={trackId}
-        selectedSectionIndex={selectedSectionIndex}
-        customRange={customRange}
-        sections={detectedSections}
-        replacedSections={replacedSections}
-        editMode={editMode}
+        trackTitle={trackTitle}
+        trackTags={trackTags}
+        audioUrl={trackAudioUrl}
+        duration={duration}
+        onClose={onEditorClose}
       />
 
       {/* Replacement History */}
-      {replacedSections && replacedSections.length > 0 && (
-        <ReplacementHistoryPanel
-          trackId={trackId}
-          replacements={replacedSections}
-        />
-      )}
+      <ReplacementHistoryPanel
+        trackId={trackId}
+        trackAudioUrl={trackAudioUrl}
+      />
     </div>
   );
 }

@@ -307,7 +307,7 @@ async function processAudioUpload(
     const data = await response.json();
     logger.info('Suno API response', { code: data.code, taskId: data.data?.taskId });
     
-    if (!response.ok || data.code !== 200) {
+    if (!response.ok || (data.code !== 200 && data.code !== 201)) {
       if (data.code === 429) {
         return { success: false, error: 'Недостаточно кредитов на API' };
       }

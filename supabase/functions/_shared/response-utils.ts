@@ -65,8 +65,8 @@ export function errorResponse(
   const responseData: ErrorResponseData = {
     success: false,
     error: errorMessage,
-    ...(code && { code }),
-    ...(details && { details }),
+    ...(code ? { code } : {}),
+    ...(details ? { details } : {}),
   };
 
   return new Response(

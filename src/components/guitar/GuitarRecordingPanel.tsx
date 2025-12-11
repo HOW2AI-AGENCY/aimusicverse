@@ -135,12 +135,11 @@ export function GuitarRecordingPanel({
               </div>
               <Progress 
                 value={audioLevel} 
-                className="h-2"
-                indicatorClassName={cn(
-                  "transition-colors",
-                  audioLevel > 90 ? "bg-red-500" :
-                  audioLevel > 80 ? "bg-orange-500" :
-                  "bg-green-500"
+                className={cn(
+                  "h-2",
+                  audioLevel > 90 ? "[&>*]:bg-red-500" :
+                  audioLevel > 80 ? "[&>*]:bg-orange-500" :
+                  "[&>*]:bg-green-500"
                 )}
               />
             </motion.div>

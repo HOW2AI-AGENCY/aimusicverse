@@ -1074,6 +1074,45 @@ export type Database = {
           },
         ]
       }
+      reference_audio: {
+        Row: {
+          created_at: string
+          duration_seconds: number | null
+          file_name: string
+          file_size: number | null
+          file_url: string
+          id: string
+          metadata: Json | null
+          mime_type: string | null
+          source: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          duration_seconds?: number | null
+          file_name: string
+          file_size?: number | null
+          file_url: string
+          id?: string
+          metadata?: Json | null
+          mime_type?: string | null
+          source?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          duration_seconds?: number | null
+          file_name?: string
+          file_size?: number | null
+          file_url?: string
+          id?: string
+          metadata?: Json | null
+          mime_type?: string | null
+          source?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       stars_products: {
         Row: {
           created_at: string | null
