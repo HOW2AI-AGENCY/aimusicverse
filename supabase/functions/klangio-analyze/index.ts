@@ -250,17 +250,38 @@ serve(async (req) => {
       for (const format of outputFormats) {
         try {
           const apiEndpoint = formatToEndpoint[format] || format;
+          let fileResponse: Response | null = null;
+          let fetchSuccess = false;
 
-          console.log(`[klangio] Attempting to fetch ${format} from endpoint: /job/${jobId}/${apiEndpoint}`);
-          const fileResponse = await fetch(`${API_BASE}/job/${jobId}/${apiEndpoint}`, {
-            headers: {
-              "kl-api-key": KLANGIO_API_KEY,
-            },
-          });
+          // Retry logic: Files might not be immediately available after job completion
+          const maxRetries = 3;
+          const retryDelay = 2000; // 2 seconds
 
-          console.log(`[klangio] Response for ${format}: status=${fileResponse.status}, ok=${fileResponse.ok}, contentType=${fileResponse.headers.get('content-type')}`);
+          for (let retry = 0; retry < maxRetries; retry++) {
+            if (retry > 0) {
+              console.log(`[klangio] Retry ${retry}/${maxRetries - 1} for ${format} after ${retryDelay}ms...`);
+              await new Promise(resolve => setTimeout(resolve, retryDelay));
+            }
 
-          if (fileResponse.ok) {
+            console.log(`[klangio] Attempting to fetch ${format} from endpoint: /job/${jobId}/${apiEndpoint} (attempt ${retry + 1}/${maxRetries})`);
+            fileResponse = await fetch(`${API_BASE}/job/${jobId}/${apiEndpoint}`, {
+              headers: {
+                "kl-api-key": KLANGIO_API_KEY,
+              },
+            });
+
+            console.log(`[klangio] Response for ${format}: status=${fileResponse.status}, ok=${fileResponse.ok}, contentType=${fileResponse.headers.get('content-type')}`);
+
+            if (fileResponse.ok) {
+              fetchSuccess = true;
+              break;
+            } else if (fileResponse.status !== 404) {
+              // If not 404, don't retry (might be authentication error, etc.)
+              break;
+            }
+          }
+
+          if (fetchSuccess && fileResponse && fileResponse.ok) {
             const fileBlob = await fileResponse.blob();
             console.log(`[klangio] Downloaded ${format}: ${fileBlob.size} bytes, type: ${fileBlob.type}`);
             
@@ -292,11 +313,16 @@ serve(async (req) => {
               console.log(`[klangio] ✅ Successfully uploaded ${format} to: ${publicUrl}`);
             }
           } else {
-            const errorText = await fileResponse.text();
-            console.warn(`[klangio] Failed to fetch ${format}: ${fileResponse.status} - ${errorText}`);
+            // All retries exhausted or non-404 error
+            if (fileResponse) {
+              const errorText = await fileResponse.text();
+              console.warn(`[klangio] ❌ Failed to fetch ${format} after ${maxRetries} attempts: ${fileResponse.status} - ${errorText}`);
+            } else {
+              console.warn(`[klangio] ❌ Failed to fetch ${format}: No response received`);
+            }
           }
         } catch (e) {
-          console.error(`[klangio] Error fetching ${format}:`, e);
+          console.error(`[klangio] ❌ Error fetching ${format}:`, e);
         }
       }
 
@@ -422,18 +448,18 @@ serve(async (req) => {
 
 function getContentType(format: string): string {
   switch (format) {
-    case 'midi': 
-    case 'midi_quant': 
+    case 'midi':
+    case 'midi_quant':
       return 'audio/midi';
-    case 'mxml': 
-      return 'application/vnd.recordare.musicxml+xml';
-    case 'gp5': 
-      return 'application/octet-stream';
-    case 'pdf': 
+    case 'mxml':
+      return 'application/xml'; // Changed from application/vnd.recordare.musicxml+xml for Supabase Storage compatibility
+    case 'gp5':
+      return 'application/x-guitar-pro'; // More specific MIME type for Guitar Pro files
+    case 'pdf':
       return 'application/pdf';
     case 'json':
       return 'application/json';
-    default: 
+    default:
       return 'application/octet-stream';
   }
 }
