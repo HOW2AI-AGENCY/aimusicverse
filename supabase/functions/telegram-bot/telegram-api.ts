@@ -74,25 +74,39 @@ export interface InlineKeyboardButton {
   url?: string;
 }
 
+/**
+ * Escape special characters for MarkdownV2
+ */
+export function escapeMarkdownV2(text: string): string {
+  return text.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
+}
+
 export async function sendMessage(
   chatId: number,
   text: string,
   replyMarkup?: {
     inline_keyboard?: InlineKeyboardButton[][];
-  }
+  },
+  parseMode?: 'MarkdownV2' | 'HTML' | null
 ) {
   const startTime = Date.now();
   
   try {
+    const body: Record<string, unknown> = {
+      chat_id: chatId,
+      text,
+      reply_markup: replyMarkup,
+    };
+    
+    // Only add parse_mode if explicitly specified
+    if (parseMode) {
+      body.parse_mode = parseMode;
+    }
+    
     const response = await fetch(`${TELEGRAM_API}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text,
-        parse_mode: 'MarkdownV2',
-        reply_markup: replyMarkup,
-      }),
+      body: JSON.stringify(body),
     });
 
     const responseTimeMs = Date.now() - startTime;
@@ -311,18 +325,24 @@ export async function editMessageText(
   text: string,
   replyMarkup?: {
     inline_keyboard?: InlineKeyboardButton[][];
-  }
+  },
+  parseMode?: 'MarkdownV2' | 'HTML' | null
 ) {
+  const body: Record<string, unknown> = {
+    chat_id: chatId,
+    message_id: messageId,
+    text,
+    reply_markup: replyMarkup,
+  };
+  
+  if (parseMode) {
+    body.parse_mode = parseMode;
+  }
+  
   const response = await fetch(`${TELEGRAM_API}/editMessageText`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: chatId,
-      message_id: messageId,
-      text,
-      parse_mode: 'MarkdownV2',
-      reply_markup: replyMarkup,
-    }),
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) {
