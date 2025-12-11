@@ -117,6 +117,23 @@ export function GuitarAnalysisReportSimplified({
   const hasMidi = !!(midiUrl || midiQuantUrl);
   const hasScore = hasPdf || musicXmlUrl || gp5Url;
 
+  // Debug logging to diagnose missing files issue
+  useEffect(() => {
+    console.log('[GuitarAnalysisReport] Analysis data:', {
+      transcriptionFiles: analysis.transcriptionFiles,
+      pdfUrl,
+      midiUrl,
+      midiQuantUrl,
+      gp5Url,
+      musicXmlUrl,
+      hasPdf,
+      hasMidi,
+      hasScore,
+      analysisComplete: analysis.analysisComplete,
+      notesCount: analysis.notes?.length || 0,
+    });
+  }, [analysis, pdfUrl, midiUrl, midiQuantUrl, gp5Url, musicXmlUrl, hasPdf, hasMidi, hasScore]);
+
   return (
     <div className={cn('space-y-4', className)}>
       <audio
@@ -287,14 +304,34 @@ export function GuitarAnalysisReportSimplified({
             </Card>
           ) : (
             <Card>
-              <CardContent className="p-12 text-center">
-                <Music className="w-12 h-12 mx-auto text-muted-foreground/50 mb-3" />
-                <p className="text-sm text-muted-foreground mb-2">PDF ноты недоступны</p>
-                {(musicXmlUrl || gp5Url) && (
-                  <p className="text-xs text-muted-foreground">
-                    Используйте вкладку "Экспорт" для загрузки других форматов
-                  </p>
-                )}
+              <CardContent className="p-8 text-center space-y-4">
+                <Music className="w-12 h-12 mx-auto text-muted-foreground/50" />
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-muted-foreground">PDF ноты недоступны</p>
+
+                  {/* Diagnostic info */}
+                  <div className="text-xs text-muted-foreground space-y-1 max-w-md mx-auto">
+                    <p>Статус транскрипции: {analysis.analysisComplete.transcription ? '✅ Завершено' : '❌ Не выполнено'}</p>
+                    {analysis.notes && analysis.notes.length > 0 && (
+                      <p>Найдено нот: {analysis.notes.length}</p>
+                    )}
+                    {(musicXmlUrl || gp5Url || midiUrl) && (
+                      <p className="text-primary">Доступны другие форматы во вкладке "Экспорт"</p>
+                    )}
+                    {!analysis.analysisComplete.transcription && (
+                      <p className="text-amber-500 mt-2">⚠️ Klangio не смог сгенерировать файлы. Попробуйте:</p>
+                    )}
+                  </div>
+
+                  {!analysis.analysisComplete.transcription && (
+                    <div className="text-xs text-left bg-muted/50 p-3 rounded-lg max-w-md mx-auto space-y-1">
+                      <p>• Улучшить качество записи</p>
+                      <p>• Записать более длинный фрагмент (15+ сек)</p>
+                      <p>• Убрать фоновый шум</p>
+                      <p>• Повторить анализ</p>
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
           )}
@@ -305,7 +342,7 @@ export function GuitarAnalysisReportSimplified({
           <Card>
             <CardContent className="p-4 space-y-3">
               {/* MIDI Downloads - Prominent */}
-              {hasMidi && (
+              {hasMidi ? (
                 <div className="p-4 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20">
                   <div className="flex items-center gap-2 mb-3">
                     <FileMusic className="w-5 h-5 text-primary" />
@@ -338,6 +375,18 @@ export function GuitarAnalysisReportSimplified({
 
                   <p className="text-xs text-muted-foreground mt-2">
                     💡 Используйте в DAW или музыкальных редакторах
+                  </p>
+                </div>
+              ) : (
+                <div className="p-4 rounded-lg bg-muted/30 border border-border">
+                  <div className="flex items-center gap-2 mb-2">
+                    <FileMusic className="w-5 h-5 text-muted-foreground" />
+                    <h3 className="font-semibold text-sm">MIDI файлы недоступны</h3>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {analysis.analysisComplete.transcription
+                      ? 'Файлы не были сгенерированы. Проверьте логи браузера.'
+                      : 'Транскрипция не завершена. См. вкладку "Ноты" для деталей.'}
                   </p>
                 </div>
               )}

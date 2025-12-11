@@ -126,7 +126,7 @@ serve(async (req) => {
 
     const jobResponse = await submitResponse.json();
     const jobId = jobResponse.job_id;
-    console.log(`[klangio] Job created: ${jobId}`, jobResponse);
+    console.log(`[klangio] Job created: ${jobId}`, JSON.stringify(jobResponse, null, 2));
 
     // Poll for job completion (max 180 seconds for transcription)
     const maxAttempts = mode === 'transcription' ? 90 : 60;
@@ -148,7 +148,8 @@ serve(async (req) => {
       }
 
       const statusData = await statusResponse.json();
-      console.log(`[klangio] Job status (attempt ${attempt + 1}): ${statusData.status}`);
+      console.log(`[klangio] Job status (attempt ${attempt + 1}/${maxAttempts}): ${statusData.status}`,
+        statusData.progress ? `Progress: ${statusData.progress}%` : '');
 
       // Status values from OpenAPI: IN_QUEUE, IN_PROGRESS, COMPLETED, FAILED, CANCELLED, TIMED_OUT
       if (statusData.status === "COMPLETED") {
@@ -191,6 +192,8 @@ serve(async (req) => {
       const outputFormats = outputs || ['midi'];
       const files: Record<string, string> = {};
       let notes: any[] = [];
+
+      console.log(`[klangio] Starting file fetch for formats:`, outputFormats);
 
       // Map output format names to API endpoints
       const formatToEndpoint: Record<string, string> = {
@@ -246,22 +249,26 @@ serve(async (req) => {
       for (const format of outputFormats) {
         try {
           const apiEndpoint = formatToEndpoint[format] || format;
-          
-          console.log(`[klangio] Fetching ${format} file from /job/${jobId}/${apiEndpoint}...`);
+
+          console.log(`[klangio] Attempting to fetch ${format} from endpoint: /job/${jobId}/${apiEndpoint}`);
           const fileResponse = await fetch(`${API_BASE}/job/${jobId}/${apiEndpoint}`, {
             headers: {
               "kl-api-key": KLANGIO_API_KEY,
             },
           });
 
+          console.log(`[klangio] Response for ${format}: status=${fileResponse.status}, ok=${fileResponse.ok}, contentType=${fileResponse.headers.get('content-type')}`);
+
           if (fileResponse.ok) {
             const fileBlob = await fileResponse.blob();
-            console.log(`[klangio] Downloaded ${format}: ${fileBlob.size} bytes, type: ${fileBlob.type}`);
+            console.log(`[klangio] Successfully downloaded ${format}: ${fileBlob.size} bytes, type: ${fileBlob.type}`);
             
             // Determine file extension
             const extension = format === 'mxml' ? 'xml' : format === 'midi_quant' ? 'mid' : format === 'midi' ? 'mid' : format;
             const fileName = `${user_id || 'anonymous'}/klangio/${jobId}_${format}.${extension}`;
             
+            console.log(`[klangio] Uploading ${format} to Storage: bucket=project-assets, path=${fileName}, size=${fileBlob.size}`);
+
             const { error: uploadError } = await supabase.storage
               .from("project-assets")
               .upload(fileName, fileBlob, {
@@ -270,13 +277,13 @@ serve(async (req) => {
               });
 
             if (uploadError) {
-              console.error(`[klangio] Upload error for ${format}:`, uploadError);
+              console.error(`[klangio] ❌ Upload error for ${format}:`, JSON.stringify(uploadError, null, 2));
             } else {
               const { data: { publicUrl } } = supabase.storage
                 .from("project-assets")
                 .getPublicUrl(fileName);
               files[format] = publicUrl;
-              console.log(`[klangio] Uploaded ${format} to: ${publicUrl}`);
+              console.log(`[klangio] ✅ Successfully uploaded ${format} to: ${publicUrl}`);
             }
           } else {
             const errorText = await fileResponse.text();
@@ -289,6 +296,12 @@ serve(async (req) => {
 
       finalResult.files = files;
       finalResult.notes = notes;
+
+      console.log(`[klangio] ===== TRANSCRIPTION SUMMARY =====`);
+      console.log(`[klangio] Files generated:`, Object.keys(files).length);
+      console.log(`[klangio] File URLs:`, JSON.stringify(files, null, 2));
+      console.log(`[klangio] Notes parsed:`, notes.length);
+      console.log(`[klangio] ==================================`);
       
     } else if (mode === 'beat-tracking') {
       // Fetch JSON result for beat tracking

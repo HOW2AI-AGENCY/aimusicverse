@@ -324,16 +324,23 @@ export function useGuitarAnalysis() {
       let downbeats: number[] = [];
       let bpm = 120;
 
+      console.log('[GuitarAnalysis] Beat result:', {
+        status: beatResult.data?.status,
+        bpm: beatResult.data?.bpm,
+        beatsCount: beatResult.data?.beats?.length || 0,
+        error: beatResult.error,
+      });
+
       if (beatResult.data?.status === 'completed') {
         bpm = beatResult.data.bpm || 120;
-        
+
         if (beatResult.data.beats) {
           beats = beatResult.data.beats.map((time: number, i: number) => ({
             time,
             beatNumber: i + 1,
           }));
         }
-        
+
         if (beatResult.data.downbeats) {
           downbeats = beatResult.data.downbeats;
         }
@@ -343,6 +350,13 @@ export function useGuitarAnalysis() {
       let chords: ChordData[] = [];
       let key = 'Unknown';
       let strumming: StrumData[] = [];
+
+      console.log('[GuitarAnalysis] Chord result:', {
+        status: chordResult.data?.status,
+        key: chordResult.data?.key,
+        chordsCount: chordResult.data?.chords?.length || 0,
+        error: chordResult.error,
+      });
 
       if (chordResult.data?.status === 'completed') {
         key = chordResult.data.key || 'Unknown';
@@ -369,6 +383,13 @@ export function useGuitarAnalysis() {
       let midiUrl: string | undefined;
       let notes: NoteData[] = [];
 
+      console.log('[GuitarAnalysis] Transcription result:', {
+        status: transcriptionResult.data?.status,
+        hasFiles: !!transcriptionResult.data?.files,
+        files: transcriptionResult.data?.files,
+        error: transcriptionResult.error,
+      });
+
       if (transcriptionResult.data?.status === 'completed' && transcriptionResult.data.files) {
         const files = transcriptionResult.data.files;
         transcriptionFiles = {
@@ -379,6 +400,8 @@ export function useGuitarAnalysis() {
           musicXmlUrl: files.mxml,
         };
         midiUrl = files.midi || files.midi_quant;
+
+        console.log('[GuitarAnalysis] Parsed transcription files:', transcriptionFiles);
         
         // Parse notes from transcription data if available
         if (transcriptionResult.data.notes && Array.isArray(transcriptionResult.data.notes)) {
