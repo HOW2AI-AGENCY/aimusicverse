@@ -47,6 +47,12 @@ const MusicGraph = lazy(() => import("./pages/MusicGraph"));
 const CreativeTools = lazy(() => import("./pages/CreativeTools"));
 const ProfessionalStudio = lazy(() => import("./pages/ProfessionalStudio"));
 const GuitarStudio = lazy(() => import("./pages/GuitarStudio"));
+const MusicLab = lazy(() => import("./pages/MusicLab"));
+
+// Sprint 025: Bundle Optimization - Lazy load admin and large pages
+const AdminDashboard = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/AdminDashboard"));
+const Analytics = lazy(() => import(/* webpackChunkName: "analytics" */ "./pages/Analytics"));
+
 const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Pricing = lazy(() => import("./pages/Pricing"));
@@ -114,6 +120,7 @@ const App = () => (
                 <Route path="/creative-tools" element={<CreativeTools />} />
                 <Route path="/professional-studio" element={<ProfessionalStudio />} />
                 <Route path="/guitar-studio" element={<GuitarStudio />} />
+                <Route path="/music-lab" element={<MusicLab />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/pricing" element={<Pricing />} />
