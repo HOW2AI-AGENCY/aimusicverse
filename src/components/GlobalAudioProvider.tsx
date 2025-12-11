@@ -34,6 +34,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     activeTrack,
     isPlaying,
     repeat,
+    volume,
     pauseTrack,
     nextTrack,
   } = usePlayerStore();
@@ -54,8 +55,8 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       audioRef.current = new Audio();
       audioRef.current.preload = 'auto';
 
-      // CRITICAL: Set initial volume to ensure audio is audible
-      audioRef.current.volume = 1.0;
+      // CRITICAL: Set initial volume from store
+      audioRef.current.volume = volume;
       audioRef.current.muted = false;
 
       // Log audio element state for debugging
@@ -76,6 +77,15 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       }
     };
   }, []);
+
+  // Sync volume from store to audio element
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio && volume !== audio.volume) {
+      audio.volume = volume;
+      logger.debug('Volume synced from store', { volume });
+    }
+  }, [volume]);
 
   // Get audio source from track with validation and detailed logging
   const getAudioSource = useCallback(() => {
@@ -205,10 +215,16 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         paused: audio.paused,
       });
 
-      // CRITICAL FIX: Ensure volume is set and not muted
+      // CRITICAL FIX: Sync volume from store
+      if (audio.volume !== volume) {
+        logger.debug('Syncing volume from store', { storeVolume: volume, audioVolume: audio.volume });
+        audio.volume = volume;
+      }
+      
+      // Ensure volume is audible
       if (audio.volume === 0) {
-        logger.warn('Volume was 0, setting to 1.0');
-        audio.volume = 1.0;
+        logger.warn('Volume was 0, setting to store value or 1.0');
+        audio.volume = volume > 0 ? volume : 1.0;
       }
       if (audio.muted) {
         logger.warn('Audio was muted, unmuting');
