@@ -65,8 +65,8 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
   return (
     <Card 
       className={cn(
-        "group overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-300",
-        isCurrentTrack && "ring-2 ring-primary/50",
+        "group overflow-hidden border-border/50 bg-card/50 transition-all touch-manipulation",
+        isCurrentTrack && "ring-1 ring-primary/50",
         className
       )}
     >
@@ -76,27 +76,27 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
           <img
             src={coverUrl}
             alt={track.title || 'Track cover'}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover"
             onError={() => setImageError(true)}
             loading="lazy"
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-            <Music2 className="w-12 h-12 text-muted-foreground/50" />
+            <Music2 className="w-10 h-10 sm:w-12 sm:h-12 text-muted-foreground/50" />
           </div>
         )}
         
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        {/* Gradient Overlay - Desktop only */}
+        <div className="hidden sm:block absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
         
         {/* Play Button */}
         <motion.div 
-          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+          className="absolute inset-0 flex items-center justify-center opacity-0 sm:group-hover:opacity-100 transition-opacity"
           initial={false}
         >
           <Button
             size="icon"
-            className="w-14 h-14 rounded-full bg-primary/90 hover:bg-primary shadow-lg shadow-primary/30"
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-primary/90 hover:bg-primary shadow-lg"
             onClick={handlePlay}
             disabled={!track.audio_url}
           >
