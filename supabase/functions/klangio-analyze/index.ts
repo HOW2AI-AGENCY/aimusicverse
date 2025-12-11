@@ -262,21 +262,23 @@ serve(async (req) => {
 
           if (fileResponse.ok) {
             const fileBlob = await fileResponse.blob();
-            // Determine the correct Content-Type for Supabase Storage
-            const contentType = getContentType(format);
-            console.log(`[klangio] Successfully downloaded ${format}: ${fileBlob.size} bytes, original type: ${fileBlob.type}, forced type: ${contentType}`);
+            console.log(`[klangio] Downloaded ${format}: ${fileBlob.size} bytes, type: ${fileBlob.type}`);
+            
+            // Create a new blob with the correct MIME type
+            const correctMimeType = getContentType(format);
+            const typedBlob = new Blob([fileBlob], { type: correctMimeType });
+            console.log(`[klangio] Created typed blob for ${format}: ${typedBlob.size} bytes, type: ${typedBlob.type}`);
             
             // Determine file extension
             const extension = format === 'mxml' ? 'xml' : format === 'midi_quant' ? 'mid' : format === 'midi' ? 'mid' : format;
             const fileName = `${user_id || 'anonymous'}/klangio/${jobId}_${format}.${extension}`;
             
-            console.log(`[klangio] Uploading ${format} to Storage: bucket=project-assets, path=${fileName}, size=${fileBlob.size}, contentType=${contentType}`);
+            console.log(`[klangio] Uploading ${format} to Storage: bucket=project-assets, path=${fileName}, size=${typedBlob.size}, contentType=${correctMimeType}`);
 
             const { error: uploadError } = await supabase.storage
               .from("project-assets")
-              .upload(fileName, fileBlob, {
-                // IMPORTANT: Force the correct content type to avoid "unsupported mime type" errors
-                contentType: contentType,
+              .upload(fileName, typedBlob, {
+                contentType: correctMimeType,
                 upsert: true,
               });
 
