@@ -10,7 +10,8 @@ interface KlangioRequest {
   audio_url: string;
   mode: 'transcription' | 'chord-recognition' | 'chord-recognition-extended' | 'beat-tracking';
   model?: 'guitar' | 'piano' | 'drums' | 'vocal' | 'bass' | 'universal' | 'lead' | 'detect' | 'multi' | 'wind' | 'string' | 'piano_arrangement';
-  outputs?: ('midi' | 'mxml' | 'gp5' | 'pdf' | 'midi_unq' | 'json')[];
+  // OpenAPI spec JobOutputs enum: mxml, midi, pdf, gp5, json, midi_quant
+  outputs?: ('midi' | 'mxml' | 'gp5' | 'pdf' | 'midi_quant' | 'json')[];
   title?: string;
   vocabulary?: 'major-minor' | 'full';
   user_id?: string;
@@ -48,8 +49,9 @@ serve(async (req) => {
     console.log(`[klangio] Starting ${mode} analysis for: ${audio_url}`);
 
     // Create initial log entry
+    // OpenAPI spec JobOutputs: mxml, midi, pdf, gp5, json, midi_quant
     const requestedOutputs = mode === 'transcription' 
-      ? (outputs || ['midi', 'midi_unq', 'gp5', 'pdf', 'mxml'])
+      ? (outputs || ['midi', 'midi_quant', 'gp5', 'pdf', 'mxml'])
       : null;
 
     const { data: logData, error: logError } = await supabase
@@ -91,8 +93,8 @@ serve(async (req) => {
     let baseEndpoint: string;
     const queryParams = new URLSearchParams();
 
-    // Valid output formats from OpenAPI spec: mxml, midi, pdf, gp5, json, midi_unq (quantized)
-    const validFormats = ['midi', 'midi_unq', 'mxml', 'gp5', 'pdf', 'json'];
+    // Valid output formats from OpenAPI spec JobOutputs enum: mxml, midi, pdf, gp5, json, midi_quant
+    const validFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf', 'json'];
     
     switch (mode) {
       case 'transcription':
@@ -168,11 +170,11 @@ serve(async (req) => {
     console.log(`[klangio] Job created: ${jobId}`, JSON.stringify(jobResponse, null, 2));
 
     // Update log with job_id and check which files will be generated
-    // TranscriptionJobResponse may include: gen_xml, gen_midi, gen_midi_unq (or gen_midi_quant), gen_gp5, gen_pdf
+    // TranscriptionJobResponse includes: gen_xml, gen_midi, gen_midi_quant, gen_gp5, gen_pdf
     const generatedFormats: string[] = [];
     if (jobResponse.gen_midi) generatedFormats.push('midi');
-    // Check both field names for quantized MIDI (API inconsistency)
-    if (jobResponse.gen_midi_unq || jobResponse.gen_midi_quant) generatedFormats.push('midi_unq');
+    // Check both field names for quantized MIDI (API docs inconsistency)
+    if (jobResponse.gen_midi_quant || jobResponse.gen_midi_unq) generatedFormats.push('midi_quant');
     if (jobResponse.gen_xml) generatedFormats.push('mxml');
     if (jobResponse.gen_gp5) generatedFormats.push('gp5');
     if (jobResponse.gen_pdf) generatedFormats.push('pdf');
@@ -272,10 +274,11 @@ serve(async (req) => {
 
       console.log(`[klangio] Fetching files for formats:`, filesToFetch, '(API confirmed generation)');
 
-      // Map format to API endpoints (with fallbacks for midi_unq/midi_quant inconsistency)
+      // Map format to API endpoints
+      // Note: docs say /midi_unq for quantized MIDI, request uses midi_quant
       const formatToEndpoints: Record<string, string[]> = {
-        'midi': ['midi'],
-        'midi_unq': ['midi_unq', 'midi_quant'], // Try both - docs say midi_unq, OpenAPI says midi_quant
+        'midi': ['midi'],           // Un-quantized MIDI -> /midi endpoint
+        'midi_quant': ['midi_unq', 'midi_quant'], // Quantized MIDI -> /midi_unq endpoint (confusing naming!)
         'mxml': ['xml'],
         'gp5': ['gp5'],
         'pdf': ['pdf'],
@@ -379,7 +382,7 @@ serve(async (req) => {
             const typedBlob = new Blob([fileBlob], { type: correctMimeType });
             
             // Determine file extension
-            const extension = format === 'mxml' ? 'xml' : format === 'midi_unq' ? 'mid' : format === 'midi' ? 'mid' : format;
+            const extension = format === 'mxml' ? 'xml' : format === 'midi_quant' ? 'mid' : format === 'midi' ? 'mid' : format;
             const fileName = `${user_id || 'anonymous'}/klangio/${jobId}_${format}.${extension}`;
             
             console.log(`[klangio] Uploading ${format} to project-assets/${fileName} (${correctMimeType})`);
@@ -580,7 +583,7 @@ serve(async (req) => {
 function getContentType(format: string): string {
   switch (format) {
     case 'midi':
-    case 'midi_unq':
+    case 'midi_quant':
       return 'audio/midi';
     case 'mxml':
       return 'application/xml';
