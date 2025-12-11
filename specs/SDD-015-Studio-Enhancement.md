@@ -71,16 +71,32 @@
 
 **Цель:** Полноценная интеграция Klangio API во все части Studio
 
+**⚠️ CRITICAL BLOCKER**: Klangio API generates only 2/5 requested formats (MIDI + MusicXML). PDF, GP5, and MIDI Quantized are missing.
+**Status**: Diagnostic logging deployed (PR #149), awaiting test results to identify root cause.
+
 | ID | Задача | Приоритет | Статус |
 |----|--------|-----------|--------|
+| T015-B-00 | **Диагностика Klangio outputs (PR #149)** | **P0** | ✅ **DONE** |
+| T015-B-00a | Deploy Edge Function с диагностикой | P0 | ⏳ **PENDING** |
+| T015-B-00b | Тестирование и анализ логов | P0 | ⏳ **PENDING** |
+| T015-B-00c | Исправление identified root cause | P0 | ⏳ **BLOCKED** |
 | T015-B-01 | Рефакторинг klangio-analyze для всех типов анализа | P1 | 🔄 |
 | T015-B-02 | Добавить выбор модели транскрипции (guitar/piano/universal) | P1 | 🔄 |
 | T015-B-03 | Интегрировать chord recognition с визуализацией | P1 | 🔄 |
 | T015-B-04 | Добавить beat tracking с отметками на waveform | P1 | 🔄 |
-| T015-B-05 | Реализовать экспорт в GP5, MusicXML, PDF | P2 | 🔄 |
+| T015-B-05 | Реализовать экспорт в GP5, MusicXML, PDF | P2 | 🚫 **BLOCKED** |
 | T015-B-06 | Добавить strumming pattern визуализацию | P2 | 🔄 |
 
+**Diagnostic Enhancement (PR #149):**
+- ✅ Added 5 strategic log points in klangio-analyze Edge Function
+- ✅ Logs query params construction, final endpoint URL, API response flags
+- ✅ Merged with database logging from main branch
+- ⏳ **ACTION REQUIRED**: Deploy and test to identify root cause
+
 **Acceptance Criteria:**
+- [x] Diagnostic logging deployed (PR #149) ✅
+- [ ] Root cause identified for missing formats ⚠️ **BLOCKED**
+- [ ] All 5 output formats working (MIDI, MIDI Quant, GP5, PDF, MusicXML)
 - [ ] Пользователь может выбрать модель транскрипции
 - [ ] Аккорды отображаются синхронно с waveform
 - [ ] BPM и биты визуализируются на timeline
