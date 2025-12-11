@@ -107,7 +107,7 @@ export function TranscriptionExportPanel({
           audio_url: audioUrl,
           mode: 'transcription',
           model: selectedModel,
-          outputs: ['midi', 'midi_unq', 'gp5', 'pdf', 'mxml'],
+          outputs: ['midi', 'midi_quant', 'gp5', 'pdf', 'mxml'],
           user_id: user.id,
           title: `${stemLabel} Stem`,
         },
@@ -127,7 +127,7 @@ export function TranscriptionExportPanel({
       if (data.status === 'completed' && data.files) {
         setTranscriptionFiles({
           midiUrl: data.files.midi,
-          midiQuantUrl: data.files.midi_unq, // API returns midi_unq (quantized MIDI)
+          midiQuantUrl: data.files.midi_quant || data.files.midi_unq, // API returns midi_quant (quantized MIDI)
           gp5Url: data.files.gp5,
           pdfUrl: data.files.pdf,
           musicXmlUrl: data.files.mxml,
