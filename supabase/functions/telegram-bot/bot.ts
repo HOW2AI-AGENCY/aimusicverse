@@ -588,7 +588,23 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
     }
 
     // Legacy menu handlers
-    if (data === 'library') {
+    if (data === 'analyze') {
+      const { handleAnalyzeCommand } = await import('./commands/analyze.ts');
+      await handleAnalyzeCommand(chatId, from.id, '');
+      await answerCallbackQuery(id);
+      return;
+    } else if (data === 'settings') {
+      if (messageId) {
+        await editMessageText(chatId, messageId, '⚙️ *Настройки*\n\nНастройки доступны в приложении:', {
+          inline_keyboard: [
+            [{ text: '📱 Открыть настройки', web_app: { url: `${(await import('./config.ts')).BOT_CONFIG.miniAppUrl}/settings` } }],
+            [{ text: '🔙 Назад', callback_data: 'main_menu' }]
+          ]
+        });
+      }
+      await answerCallbackQuery(id);
+      return;
+    } else if (data === 'library') {
       const { handleLibrary } = await import('./commands/library.ts');
       await handleLibrary(chatId, from.id, messageId);
     } else if (data === 'projects') {
