@@ -69,6 +69,8 @@ serve(async (req) => {
     }
 
     // Get track data to retrieve suno_id and suno_task_id
+    logger.info('Fetching track', { trackId, userId: user.id });
+    
     const { data: track, error: trackError } = await supabase
       .from('tracks')
       .select('*, track_versions(*)')
@@ -76,13 +78,33 @@ serve(async (req) => {
       .eq('user_id', user.id)
       .single();
 
-    if (trackError || !track) {
-      logger.error('Track not found', trackError);
+    if (trackError) {
+      logger.error('Track query error', null, { 
+        code: trackError.code,
+        message: trackError.message,
+        details: trackError.details,
+        hint: trackError.hint
+      });
       return new Response(
-        JSON.stringify({ error: 'Track not found or access denied' }),
+        JSON.stringify({ error: 'Track not found or access denied', details: trackError.message }),
         { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+
+    if (!track) {
+      logger.error('Track not found - null result', null, { trackId, userId: user.id });
+      return new Response(
+        JSON.stringify({ error: 'Track not found' }),
+        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    logger.info('Track found', { 
+      trackId: track.id, 
+      sunoId: track.suno_id, 
+      taskId: track.suno_task_id,
+      versionsCount: track.track_versions?.length 
+    });
 
     // We need the suno_id (audioId) from the active version
     const activeVersion = track.track_versions?.find((v: any) => v.id === track.active_version_id);
