@@ -60,7 +60,9 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
     }
   };
 
-  const coverUrl = imageError ? null : (track.cover_url || track.local_cover_url);
+  // Check for valid cover URL (not null, undefined, or empty string)
+  const rawCoverUrl = track.cover_url || track.local_cover_url;
+  const coverUrl = imageError || !rawCoverUrl || rawCoverUrl.trim() === '' ? null : rawCoverUrl;
 
   return (
     <Card 
