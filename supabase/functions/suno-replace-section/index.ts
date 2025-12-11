@@ -143,9 +143,15 @@ serve(async (req) => {
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
 
     // Prepare Suno API request - fullLyrics and prompt are required by Suno API
-    const fullLyrics = track.lyrics || '';
+    // Strip structural tags from lyrics as Suno considers them "malformed"
+    const rawLyrics = track.lyrics || '';
+    const fullLyrics = rawLyrics
+      .replace(/\[(Verse|Chorus|Bridge|Hook|Pre-Chorus|Intro|Outro|Interlude|Break|Refrain|End|Куплет|Припев|Бридж|Интро|Аутро|Предприпев)(\s*\d*)?\]/gi, '')
+      .replace(/\n{3,}/g, '\n\n') // Remove excessive line breaks
+      .trim();
+    
     if (!fullLyrics) {
-      logger.warn('Track has no lyrics, using empty string');
+      logger.warn('Track has no lyrics after cleanup, using empty string');
     }
 
     // Suno API requires non-empty prompt - use default if not provided
@@ -159,6 +165,7 @@ serve(async (req) => {
       hasTrackStyle: !!track.style,
       effectivePrompt: effectivePrompt.substring(0, 100),
       effectiveTags: effectiveTags.substring(0, 100),
+      rawLyricsLength: rawLyrics.length,
       fullLyricsLength: fullLyrics.length,
     });
     
