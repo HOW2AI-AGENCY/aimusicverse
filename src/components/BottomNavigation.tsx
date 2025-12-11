@@ -55,7 +55,7 @@ export const BottomNavigation = () => {
                   <motion.button
                     key={item.path}
                     onClick={handleGenerateClick}
-                    className="relative flex items-center justify-center w-12 h-12 -mt-4 rounded-full bg-primary shadow-lg active:scale-95 transition-transform touch-manipulation"
+                    className="relative flex items-center justify-center w-14 h-14 -mt-5 rounded-full bg-primary shadow-lg active:scale-95 transition-transform touch-manipulation"
                     whileTap={{ scale: 0.95 }}
                   >
                     <Plus className="w-6 h-6 text-primary-foreground relative z-10" />

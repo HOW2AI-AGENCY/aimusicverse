@@ -224,6 +224,22 @@ All colors MUST be HSL.
     transform: translateY(-2px);
   }
 
+  /* Mobile Frost - Lighter glass effect for mobile */
+  .glass-mobile {
+    background: hsl(var(--background) / 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid hsl(var(--border) / 0.5);
+  }
+
+  /* Mobile Frost - Frosted sheet for bottom sheets */
+  .frost-sheet {
+    background: hsl(var(--background) / 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid hsl(var(--border) / 0.3);
+  }
+
   /* Safe Area utility classes для адаптации UI компонентов */
   .safe-area-top {
     padding-top: var(--safe-area-top);
