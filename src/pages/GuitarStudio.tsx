@@ -37,7 +37,7 @@ import { toast } from 'sonner';
 import { useGuitarAnalysis } from '@/hooks/useGuitarAnalysis';
 import { useAudioLevel } from '@/hooks/useAudioLevel';
 import { WorkflowVisualizer } from '@/components/professional/WorkflowVisualizer';
-import { GuitarAnalysisReport } from '@/components/guitar/GuitarAnalysisReportImproved';
+import { GuitarAnalysisReport } from '@/components/guitar/GuitarAnalysisReportSimplified';
 import { SavedRecordingsList } from '@/components/guitar/SavedRecordingsList';
 import { AudioLevelMeter } from '@/components/guitar/AudioLevelMeter';
 import { Metronome } from '@/components/guitar/Metronome';
