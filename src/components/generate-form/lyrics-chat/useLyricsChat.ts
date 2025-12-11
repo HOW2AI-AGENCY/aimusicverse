@@ -572,6 +572,51 @@ export function useLyricsChat({
     });
   }, [addMessage]);
 
+  // Fetch context-based AI recommendations
+  const fetchContextRecommendations = useCallback(async () => {
+    if (!projectContext && !trackContext) return;
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('ai-lyrics-assistant', {
+        body: {
+          action: 'context_recommendations',
+          context: {
+            projectContext: projectContext ? {
+              title: projectContext.projectTitle,
+              genre: projectContext.genre,
+              mood: projectContext.mood,
+              concept: projectContext.concept,
+              existingTracks: projectContext.existingTracks,
+            } : undefined,
+            trackContext: trackContext ? {
+              title: trackContext.title,
+              position: trackContext.position,
+              stylePrompt: trackContext.stylePrompt,
+            } : undefined,
+            currentLyrics: generatedLyrics || undefined,
+          },
+        },
+      });
+
+      if (error) throw error;
+      
+      // Parse recommendations from response
+      if (data?.lyrics) {
+        try {
+          const recs = JSON.parse(data.lyrics);
+          if (Array.isArray(recs)) {
+            return recs;
+          }
+        } catch {
+          // If parsing fails, return empty
+        }
+      }
+    } catch (err) {
+      logger.error('Error fetching recommendations', { error: err });
+    }
+    return [];
+  }, [projectContext, trackContext, generatedLyrics]);
+
   return {
     messages,
     inputValue,
@@ -598,5 +643,6 @@ export function useLyricsChat({
     handleSaveToLibrary,
     handleClose,
     continueConversation,
+    fetchContextRecommendations,
   };
 }

@@ -7,8 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Sparkles, Loader2, Mic } from 'lucide-react';
 import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
+import { FormFieldActions } from '@/components/ui/FormFieldActions';
 import { LyricsVisualEditor } from './LyricsVisualEditor';
 import { AdvancedSettings } from './AdvancedSettings';
+import { SaveTemplateDialog } from './SaveTemplateDialog';
 
 interface GenerateFormCustomProps {
   title: string;
@@ -39,6 +41,9 @@ interface GenerateFormCustomProps {
   hasPersona: boolean;
   model: string;
   onModelChange: (value: string) => void;
+  // Optional context for saving templates
+  genre?: string;
+  mood?: string;
 }
 
 export function GenerateFormCustom({
@@ -69,8 +74,11 @@ export function GenerateFormCustom({
   hasPersona,
   model,
   onModelChange,
+  genre,
+  mood,
 }: GenerateFormCustomProps) {
   const [showVisualEditor, setShowVisualEditor] = useState(false);
+  const [saveDialogOpen, setSaveDialogOpen] = useState(false);
 
   return (
     <motion.div
@@ -81,10 +89,17 @@ export function GenerateFormCustom({
       transition={{ duration: 0.2, ease: "easeInOut" }}
       className="space-y-3"
     >
+      {/* Title Field */}
       <div>
-        <Label htmlFor="title" className="text-xs font-medium mb-1.5 block">
-          Название
-        </Label>
+        <div className="flex items-center justify-between mb-1.5">
+          <Label htmlFor="title" className="text-xs font-medium">
+            Название
+          </Label>
+          <FormFieldActions
+            value={title}
+            onClear={() => onTitleChange('')}
+          />
+        </div>
         <Input
           id="title"
           placeholder="Автогенерация если пусто"
@@ -94,12 +109,17 @@ export function GenerateFormCustom({
         />
       </div>
 
+      {/* Style Field */}
       <div>
         <div className="flex items-center justify-between mb-1.5">
           <Label htmlFor="style" className="text-xs font-medium">
             Стиль
           </Label>
           <div className="flex items-center gap-1">
+            <FormFieldActions
+              value={style}
+              onClear={() => onStyleChange('')}
+            />
             <VoiceInputButton
               onResult={onStyleChange}
               context="style"
@@ -132,6 +152,11 @@ export function GenerateFormCustom({
           rows={3}
           className="resize-none text-sm"
         />
+        <div className="flex justify-end mt-1">
+          <span className={`text-xs ${style.length > 450 ? 'text-destructive' : 'text-muted-foreground'}`}>
+            {style.length}/500
+          </span>
+        </div>
       </div>
 
       {/* Vocals Toggle */}
@@ -159,7 +184,13 @@ export function GenerateFormCustom({
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <Label className="text-xs font-medium">Текст песни</Label>
-            <div className="flex gap-1">
+            <div className="flex items-center gap-1">
+              <FormFieldActions
+                value={lyrics}
+                onClear={() => onLyricsChange('')}
+                showSave
+                onSave={async () => setSaveDialogOpen(true)}
+              />
               <VoiceInputButton
                 onResult={onLyricsChange}
                 context="lyrics"
@@ -222,6 +253,16 @@ export function GenerateFormCustom({
         hasPersona={hasPersona}
         model={model}
         onModelChange={onModelChange}
+      />
+
+      {/* Save Template Dialog */}
+      <SaveTemplateDialog
+        open={saveDialogOpen}
+        onOpenChange={setSaveDialogOpen}
+        lyrics={lyrics}
+        style={style}
+        genre={genre}
+        mood={mood}
       />
     </motion.div>
   );
