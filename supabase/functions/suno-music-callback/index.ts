@@ -407,6 +407,7 @@ serve(async (req) => {
             style: task.tracks?.style || clips[0]?.tags || '',
             lyrics: clips[0]?.prompt || task.prompt || '',
             userId: task.user_id,
+            projectId: task.tracks?.project_id || null,
           },
         });
         

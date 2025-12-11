@@ -17,38 +17,78 @@ serve(async (req) => {
     const lovableApiKey = Deno.env.get('LOVABLE_API_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const { trackId, title, style, lyrics, mood, userId } = await req.json();
+    const { trackId, title, style, lyrics, mood, userId, projectId } = await req.json();
 
     if (!trackId) {
       throw new Error('trackId is required');
     }
 
     console.log(`🎨 Generating MusicVerse cover for track: ${trackId}`);
-    console.log(`📋 Title: ${title}, Style: ${style}`);
+    console.log(`📋 Title: ${title}, Style: ${style}, ProjectId: ${projectId || 'none'}`);
 
-    // Build creative prompt for MusicVerse style cover
-    const moodHint = mood || extractMoodFromStyle(style) || 'energetic and modern';
-    const styleHint = style || 'electronic music';
-    const lyricsContext = lyrics ? extractThemeFromLyrics(lyrics) : '';
+    // Fetch project context if track belongs to a project
+    let projectContext: { genre?: string; mood?: string; concept?: string; title?: string } = {};
+    
+    // Try to get project from track if not provided directly
+    let resolvedProjectId = projectId;
+    if (!resolvedProjectId) {
+      const { data: trackData } = await supabase
+        .from('tracks')
+        .select('project_id')
+        .eq('id', trackId)
+        .single();
+      resolvedProjectId = trackData?.project_id;
+    }
+    
+    if (resolvedProjectId) {
+      const { data: project } = await supabase
+        .from('music_projects')
+        .select('title, genre, mood, concept, description')
+        .eq('id', resolvedProjectId)
+        .single();
+      
+      if (project) {
+        projectContext = {
+          genre: project.genre,
+          mood: project.mood,
+          concept: project.concept || project.description,
+          title: project.title,
+        };
+        console.log(`📁 Project context loaded: ${project.title}`);
+      }
+    }
 
+    // Build creative prompt for MusicVerse style cover with full context
+    const moodHint = mood || projectContext.mood || extractMoodFromStyle(style) || 'energetic and modern';
+    const styleHint = style || projectContext.genre || 'electronic music';
+    const lyricsTheme = lyrics ? extractThemeFromLyrics(lyrics) : '';
+    const conceptHint = projectContext.concept ? extractThemeFromLyrics(projectContext.concept) : '';
+
+    // Analyze lyrics for visual themes
+    const visualThemes = extractVisualThemes(lyrics);
+    
     const imagePrompt = `Create a stunning album cover art for a music streaming platform.
 
 Track: "${title || 'Untitled Track'}"
-Music Style: ${styleHint}
-Mood: ${moodHint}
-${lyricsContext ? `Theme inspiration: ${lyricsContext}` : ''}
+${projectContext.title ? `Album/Project: "${projectContext.title}"` : ''}
+Music Genre: ${styleHint}
+Mood & Atmosphere: ${moodHint}
+${lyricsTheme ? `Lyrical Theme: ${lyricsTheme}` : ''}
+${conceptHint ? `Project Concept: ${conceptHint}` : ''}
+${visualThemes ? `Visual Imagery: ${visualThemes}` : ''}
 
 Design requirements:
 - Modern, minimalistic aesthetic with abstract visual representation
-- Deep vibrant colors with smooth gradient effects (purples, blues, magentas, cyans)
-- Futuristic, ethereal, dynamic atmosphere
+- Color palette should reflect the mood: ${getColorPaletteForMood(moodHint)}
+- Futuristic, ethereal, dynamic atmosphere matching the genre
 - NO text, NO watermarks, NO logos, NO words, NO letters
 - Square format (1:1 aspect ratio), high resolution
 - Professional digital art suitable for streaming platforms
 - Abstract shapes, light effects, sound wave visualizations
 - Clean composition with focal point in center
+- Visual elements should evoke the emotional tone of the lyrics
 
-Style: Abstract digital art, synthwave influences, modern album artwork`;
+Style: Abstract digital art, ${getStyleForGenre(styleHint)}, modern album artwork`;
 
     console.log('🖼️ Generating cover with Lovable AI...');
 
@@ -199,4 +239,125 @@ function extractThemeFromLyrics(lyrics: string | undefined): string {
   if (snippet.length < 10) return '';
   
   return snippet.substring(0, 100);
+}
+
+// Helper to extract visual themes from lyrics
+function extractVisualThemes(lyrics: string | undefined): string {
+  if (!lyrics || lyrics.length < 20) return '';
+  
+  const visualKeywords: Record<string, string> = {
+    'звезд': 'starry night sky',
+    'star': 'starry night sky',
+    'небо': 'expansive sky',
+    'sky': 'expansive sky',
+    'ночь': 'night atmosphere',
+    'night': 'night atmosphere',
+    'солнц': 'bright sunlight',
+    'sun': 'bright sunlight',
+    'огонь': 'flames and fire',
+    'fire': 'flames and fire',
+    'вод': 'water elements',
+    'water': 'water elements',
+    'ocean': 'ocean waves',
+    'океан': 'ocean waves',
+    'море': 'sea horizon',
+    'sea': 'sea horizon',
+    'город': 'urban cityscape',
+    'city': 'urban cityscape',
+    'дожд': 'rain drops',
+    'rain': 'rain drops',
+    'любов': 'romantic hearts',
+    'love': 'romantic hearts',
+    'сердц': 'heart shapes',
+    'heart': 'heart shapes',
+    'свет': 'rays of light',
+    'light': 'rays of light',
+    'тьма': 'shadows and darkness',
+    'dark': 'shadows and darkness',
+    'космос': 'cosmic space',
+    'space': 'cosmic space',
+    'лес': 'forest landscape',
+    'forest': 'forest landscape',
+    'горы': 'mountain peaks',
+    'mountain': 'mountain peaks',
+  };
+  
+  const lyricsLower = lyrics.toLowerCase();
+  const themes: string[] = [];
+  
+  for (const [keyword, theme] of Object.entries(visualKeywords)) {
+    if (lyricsLower.includes(keyword) && !themes.includes(theme)) {
+      themes.push(theme);
+      if (themes.length >= 3) break;
+    }
+  }
+  
+  return themes.join(', ');
+}
+
+// Helper to get color palette based on mood
+function getColorPaletteForMood(mood: string): string {
+  const moodLower = mood.toLowerCase();
+  
+  if (moodLower.includes('dark') || moodLower.includes('mysterious') || moodLower.includes('moody')) {
+    return 'deep purples, blacks, dark blues with subtle red accents';
+  }
+  if (moodLower.includes('energetic') || moodLower.includes('aggressive') || moodLower.includes('powerful')) {
+    return 'bold reds, oranges, electric yellows with high contrast';
+  }
+  if (moodLower.includes('romantic') || moodLower.includes('soulful') || moodLower.includes('love')) {
+    return 'soft pinks, warm reds, rose golds with gentle gradients';
+  }
+  if (moodLower.includes('chill') || moodLower.includes('relaxed') || moodLower.includes('mellow')) {
+    return 'soft blues, teals, lavenders with pastel tones';
+  }
+  if (moodLower.includes('nostalgic') || moodLower.includes('retro')) {
+    return 'warm oranges, sunset yellows, vintage browns with film grain feel';
+  }
+  if (moodLower.includes('ethereal') || moodLower.includes('atmospheric')) {
+    return 'soft whites, silvers, light blues with dreamy glow effects';
+  }
+  if (moodLower.includes('futuristic') || moodLower.includes('neon')) {
+    return 'neon pinks, electric blues, cyans with glowing effects';
+  }
+  if (moodLower.includes('elegant') || moodLower.includes('sophisticated')) {
+    return 'golds, deep burgundies, rich blacks with refined textures';
+  }
+  
+  return 'vibrant purples, blues, magentas, cyans with smooth gradient effects';
+}
+
+// Helper to get visual style based on genre
+function getStyleForGenre(genre: string): string {
+  const genreLower = genre.toLowerCase();
+  
+  if (genreLower.includes('synthwave') || genreLower.includes('retrowave')) {
+    return 'synthwave influences, neon grid, retro 80s aesthetic';
+  }
+  if (genreLower.includes('rock') || genreLower.includes('metal')) {
+    return 'bold graphic elements, sharp edges, grunge textures';
+  }
+  if (genreLower.includes('jazz') || genreLower.includes('blues')) {
+    return 'smoky atmosphere, warm tones, vintage photography feel';
+  }
+  if (genreLower.includes('classical')) {
+    return 'elegant flourishes, timeless composition, renaissance influences';
+  }
+  if (genreLower.includes('hip-hop') || genreLower.includes('rap')) {
+    return 'urban aesthetic, bold typography-inspired shapes, street art influences';
+  }
+  if (genreLower.includes('ambient') || genreLower.includes('chill')) {
+    return 'minimal design, soft gradients, zen-like simplicity';
+  }
+  if (genreLower.includes('edm') || genreLower.includes('dance') || genreLower.includes('electronic')) {
+    return 'geometric patterns, pulsating waves, club atmosphere';
+  }
+  if (genreLower.includes('lofi') || genreLower.includes('lo-fi')) {
+    return 'anime-inspired, cozy room aesthetic, warm nostalgic tones';
+  }
+  if (genreLower.includes('pop')) {
+    return 'bright colors, playful shapes, contemporary design';
+  }
+  
+  return 'modern abstract digital art with dynamic composition';
 }

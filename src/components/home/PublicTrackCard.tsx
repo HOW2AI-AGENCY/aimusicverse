@@ -60,9 +60,11 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
     }
   };
 
+  // Priority: local_cover_url (platform-generated) > cover_url (Suno provider fallback)
   // Check for valid cover URL (not null, undefined, or empty string)
-  const rawCoverUrl = track.cover_url || track.local_cover_url;
-  const coverUrl = imageError || !rawCoverUrl || rawCoverUrl.trim() === '' ? null : rawCoverUrl;
+  const platformCover = track.local_cover_url && track.local_cover_url.trim() !== '' ? track.local_cover_url : null;
+  const sunoCover = track.cover_url && track.cover_url.trim() !== '' ? track.cover_url : null;
+  const coverUrl = imageError ? (platformCover ? sunoCover : null) : (platformCover || sunoCover);
 
   return (
     <Card 
