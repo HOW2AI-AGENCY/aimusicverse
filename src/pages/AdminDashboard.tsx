@@ -10,10 +10,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Checkbox } from "@/components/ui/checkbox";
 import { 
   Users, Music, FolderKanban, ListMusic, Activity, 
   TrendingUp, AlertTriangle, Clock, CheckCircle, XCircle,
-  Shield, RefreshCw, BookOpen, Search, Play, Globe, Lock
+  Shield, RefreshCw, BookOpen, Search, Play, Globe, Lock,
+  Coins, MessageSquare, Eye
 } from "lucide-react";
 import { formatDistanceToNow, format } from "date-fns";
 import { ru } from "date-fns/locale";
@@ -25,17 +27,58 @@ import { AlertAnalyticsPanel } from "@/components/admin/AlertAnalyticsPanel";
 import { TelegramBotSettingsPanel } from "@/components/admin/TelegramBotSettingsPanel";
 import { GenerationLogsPanel } from "@/components/admin/GenerationLogsPanel";
 import { StarsPaymentsPanel } from "@/components/admin/StarsPaymentsPanel";
+import { AdminUserCreditsDialog } from "@/components/admin/AdminUserCreditsDialog";
+import { AdminSendMessageDialog } from "@/components/admin/AdminSendMessageDialog";
+import { AdminTrackDetailsDialog } from "@/components/admin/AdminTrackDetailsDialog";
+import { useQueryClient } from "@tanstack/react-query";
+
+interface UserWithRoles {
+  id: string;
+  user_id: string;
+  first_name: string;
+  last_name: string | null;
+  username: string | null;
+  photo_url: string | null;
+  created_at: string;
+  roles: string[];
+}
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [trackSearch, setTrackSearch] = useState("");
+  const [selectedUsers, setSelectedUsers] = useState<UserWithRoles[]>([]);
+  const [creditsDialogUser, setCreditsDialogUser] = useState<UserWithRoles | null>(null);
+  const [messageDialogOpen, setMessageDialogOpen] = useState(false);
+  const [selectedTrack, setSelectedTrack] = useState<any>(null);
+  
   const { data: auth, isLoading: authLoading } = useAdminAuth();
   const { data: metrics, refetch: refetchMetrics } = useBotMetrics("24 hours");
   const { data: recentEvents } = useRecentMetricEvents(100);
-  const { data: users } = useAdminUsers();
+  const { data: users, refetch: refetchUsers } = useAdminUsers();
   const { data: stats } = useAdminStats();
   const { data: tracks, isLoading: tracksLoading } = useAdminTracks(trackSearch, 100);
   const toggleRole = useToggleUserRole();
+
+  const toggleUserSelection = (user: UserWithRoles) => {
+    setSelectedUsers(prev => {
+      const exists = prev.find(u => u.user_id === user.user_id);
+      if (exists) {
+        return prev.filter(u => u.user_id !== user.user_id);
+      }
+      return [...prev, user];
+    });
+  };
+
+  const selectAllUsers = () => {
+    if (users) {
+      setSelectedUsers(users);
+    }
+  };
+
+  const clearSelection = () => {
+    setSelectedUsers([]);
+  };
 
   if (authLoading) {
     return <div className="flex items-center justify-center h-screen">Проверка доступа...</div>;
@@ -147,7 +190,8 @@ export default function AdminDashboard() {
                     {tracks?.map((track) => (
                       <div
                         key={track.id}
-                        className="flex items-center gap-3 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
+                        className="flex items-center gap-3 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors cursor-pointer"
+                        onClick={() => setSelectedTrack(track)}
                       >
                         <div className="relative w-12 h-12 rounded-md overflow-hidden bg-muted flex-shrink-0">
                           {track.cover_url ? (
@@ -190,6 +234,16 @@ export default function AdminDashboard() {
                             <span>•</span>
                             {track.created_at && format(new Date(track.created_at), "dd.MM.yy")}
                           </div>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedTrack(track);
+                            }}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
                         </div>
                       </div>
                     ))}
@@ -291,21 +345,51 @@ export default function AdminDashboard() {
         <TabsContent value="users" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Пользователи ({users?.length || 0})</CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg">Пользователи ({users?.length || 0})</CardTitle>
+                <div className="flex items-center gap-2">
+                  {selectedUsers.length > 0 && (
+                    <>
+                      <Badge variant="secondary">{selectedUsers.length} выбрано</Badge>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setMessageDialogOpen(true)}
+                      >
+                        <MessageSquare className="h-4 w-4 mr-1" />
+                        Написать
+                      </Button>
+                      <Button size="sm" variant="ghost" onClick={clearSelection}>
+                        Сбросить
+                      </Button>
+                    </>
+                  )}
+                  <Button size="sm" variant="outline" onClick={selectAllUsers}>
+                    Выбрать всех
+                  </Button>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
-              <ScrollArea className="h-[400px]">
+              <ScrollArea className="h-[500px]">
                 <div className="space-y-2">
                   {users?.map((user) => {
                     const isAdmin = user.roles.includes("admin");
                     const isModerator = user.roles.includes("moderator");
+                    const isSelected = selectedUsers.some(u => u.user_id === user.user_id);
 
                     return (
                       <div
                         key={user.id}
-                        className="flex items-center justify-between p-3 rounded-lg border bg-card"
+                        className={`flex items-center justify-between p-3 rounded-lg border bg-card transition-colors ${
+                          isSelected ? "border-primary bg-primary/5" : ""
+                        }`}
                       >
                         <div className="flex items-center gap-3">
+                          <Checkbox
+                            checked={isSelected}
+                            onCheckedChange={() => toggleUserSelection(user)}
+                          />
                           {user.photo_url ? (
                             <img
                               src={user.photo_url}
@@ -327,6 +411,16 @@ export default function AdminDashboard() {
                         <div className="flex items-center gap-2">
                           {isAdmin && <Badge>Admin</Badge>}
                           {isModerator && <Badge variant="secondary">Mod</Badge>}
+                          
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setCreditsDialogUser(user)}
+                            title="Управление кредитами"
+                          >
+                            <Coins className="h-4 w-4" />
+                          </Button>
+                          
                           {!isAdmin && (
                             <Button
                               variant="ghost"
@@ -338,6 +432,20 @@ export default function AdminDashboard() {
                               })}
                             >
                               +Admin
+                            </Button>
+                          )}
+                          {isAdmin && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="text-destructive"
+                              onClick={() => toggleRole.mutate({
+                                userId: user.user_id,
+                                role: "admin",
+                                action: "remove",
+                              })}
+                            >
+                              -Admin
                             </Button>
                           )}
                         </div>
@@ -404,6 +512,27 @@ export default function AdminDashboard() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Dialogs */}
+      <AdminUserCreditsDialog
+        open={!!creditsDialogUser}
+        onOpenChange={(open) => !open && setCreditsDialogUser(null)}
+        user={creditsDialogUser}
+        onSuccess={() => refetchUsers()}
+      />
+
+      <AdminSendMessageDialog
+        open={messageDialogOpen}
+        onOpenChange={setMessageDialogOpen}
+        selectedUsers={selectedUsers}
+        onClearSelection={clearSelection}
+      />
+
+      <AdminTrackDetailsDialog
+        open={!!selectedTrack}
+        onOpenChange={(open) => !open && setSelectedTrack(null)}
+        track={selectedTrack}
+      />
     </div>
   );
 }
