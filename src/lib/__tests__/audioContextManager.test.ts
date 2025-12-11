@@ -164,7 +164,7 @@ describe('audioContextManager', () => {
       const ctx = getAudioContext();
       expect(getAudioContextState()).toBe('suspended');
       
-      ctx.state = 'running';
+      Object.defineProperty(ctx, 'state', { value: 'running', writable: true });
       expect(getAudioContextState()).toBe('running');
     });
 
@@ -397,11 +397,11 @@ describe('audioContextManager', () => {
       const ctx = getAudioContext();
       
       // Suspend -> Resume -> Suspend -> Resume
-      ctx.state = 'suspended';
+      Object.defineProperty(ctx, 'state', { value: 'suspended', writable: true });
       await resumeAudioContext();
       expect(ctx.state).toBe('running');
       
-      ctx.state = 'suspended';
+      Object.defineProperty(ctx, 'state', { value: 'suspended', writable: true });
       await resumeAudioContext();
       expect(ctx.state).toBe('running');
     });

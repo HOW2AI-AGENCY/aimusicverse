@@ -54,7 +54,7 @@ export default function Artists() {
     }) || [];
   };
 
-  const filteredPublicArtists = filterArtists(publicArtists || []);
+  const filteredPublicArtists = filterArtists((publicArtists || []) as Artist[]);
   const filteredMyArtists = filterArtists(myArtists || []);
   const isLoading = activeTab === 'my' ? myLoading : publicLoading;
   const currentArtists = activeTab === 'my' ? filteredMyArtists : filteredPublicArtists;

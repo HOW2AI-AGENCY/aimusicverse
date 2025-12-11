@@ -52,7 +52,7 @@ export function useAudioLevel(mediaStream: MediaStream | null, isActive: boolean
       const updateLevel = () => {
         if (!analyserRef.current || !dataArrayRef.current) return;
 
-        analyserRef.current.getByteFrequencyData(dataArrayRef.current);
+        analyserRef.current.getByteFrequencyData(dataArrayRef.current as Uint8Array<ArrayBuffer>);
 
         // Calculate average level
         let sum = 0;

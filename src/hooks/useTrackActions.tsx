@@ -150,7 +150,6 @@ export function useTrackActions() {
           title: track.title,
           style: track.style,
           lyrics: track.lyrics,
-          mood: track.mood,
           userId: user.id,
         },
       });

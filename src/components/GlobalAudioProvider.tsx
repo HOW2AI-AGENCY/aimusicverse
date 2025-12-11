@@ -217,7 +217,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
           await resumeAudioContext();
           logger.debug('AudioContext resumed successfully');
         } catch (err) {
-          logger.warn('AudioContext resume failed before playback', err);
+          logger.warn('AudioContext resume failed before playback', { error: err });
           // Continue anyway - audio might still work without visualizer
         }
 

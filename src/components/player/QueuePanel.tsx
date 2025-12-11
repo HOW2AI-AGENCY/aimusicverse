@@ -247,7 +247,7 @@ function QueueTrackItem({
           {track.title || 'Без названия'}
         </p>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <span>{formatDuration(track.duration_seconds)}</span>
+          <span>{formatDuration(track.duration_seconds ?? undefined)}</span>
           {track.artist_name && (
             <>
               <span>•</span>

@@ -74,7 +74,7 @@ export function LyricsChatAssistant({
       case 'lyrics-preview':
         return (
           <LyricsPreview
-            lyrics={msg.data?.lyrics || chat.generatedLyrics}
+            lyrics={typeof msg.data?.lyrics === 'string' ? msg.data.lyrics : (chat.generatedLyrics || '')}
             copied={chat.copied}
             saved={chat.saved}
             isSaving={chat.isSaving}
