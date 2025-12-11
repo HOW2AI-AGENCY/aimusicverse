@@ -114,10 +114,16 @@ export default function Library() {
   }, [activeGenerations.length, refetchTracks]);
 
   // Infinite scroll - load more when bottom is reached
-  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
   
-  useEffect(() => {
-    const observer = new IntersectionObserver(
+  const loadMoreRef = useCallback((node: HTMLDivElement | null) => {
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+    }
+    
+    if (!node) return;
+    
+    observerRef.current = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
           log.debug('Loading next page');
@@ -126,12 +132,8 @@ export default function Library() {
       },
       { threshold: 0.1, rootMargin: '200px' }
     );
-
-    if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current);
-    }
-
-    return () => observer.disconnect();
+    
+    observerRef.current.observe(node);
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const fullscreenTrackId = activeTrack?.id;
