@@ -36,6 +36,7 @@ import { Progress } from '@/components/ui/progress';
 import { toast } from 'sonner';
 import { useGuitarAnalysis } from '@/hooks/useGuitarAnalysis';
 import { useAudioLevel } from '@/hooks/useAudioLevel';
+import { useGuitarRecordings } from '@/hooks/useGuitarRecordings';
 import { WorkflowVisualizer } from '@/components/professional/WorkflowVisualizer';
 import { GuitarAnalysisReport } from '@/components/guitar/GuitarAnalysisReportSimplified';
 import { SavedRecordingsList } from '@/components/guitar/SavedRecordingsList';
@@ -117,6 +118,9 @@ export default function GuitarStudio() {
 
   // Real-time audio level monitoring
   const audioLevel = useAudioLevel(mediaStream, isRecording);
+
+  // Save recordings hook
+  const { saveRecording } = useGuitarRecordings();
 
   // Recording timer
   useEffect(() => {
@@ -213,10 +217,34 @@ export default function GuitarStudio() {
     setActiveTab('record');
   };
 
-  const handleSaveRecording = () => {
-    toast.info('Сохранение записи...', {
-      description: 'Эта функция будет доступна в следующем обновлении',
-    });
+  const handleSaveRecording = async () => {
+    if (!analysisResult || !recordedAudioUrl) {
+      toast.error('Нет данных для сохранения');
+      return;
+    }
+
+    const loadingToast = toast.loading('Сохраняем запись...');
+
+    try {
+      await saveRecording.mutateAsync({
+        analysis: analysisResult,
+        audioUrl: recordedAudioUrl,
+        durationSeconds: analysisResult.totalDuration,
+      });
+
+      toast.success('Запись сохранена!', {
+        id: loadingToast,
+        description: 'Теперь доступна во вкладке "Библиотека"',
+      });
+
+      // Switch to library tab to show saved recording
+      setActiveTab('library');
+    } catch (error) {
+      toast.error('Ошибка сохранения', {
+        id: loadingToast,
+        description: error instanceof Error ? error.message : 'Попробуйте снова',
+      });
+    }
   };
 
   return (
