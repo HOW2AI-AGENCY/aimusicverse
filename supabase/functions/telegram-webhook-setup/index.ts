@@ -58,6 +58,7 @@ Deno.serve(async (req) => {
       commands: [
         { command: 'start', description: '🎵 Начать работу с ботом' },
         { command: 'generate', description: '🎼 Создать музыкальный трек' },
+        { command: 'analyze', description: '🔬 Анализ аудио (MIDI, аккорды, BPM)' },
         { command: 'library', description: '📚 Моя библиотека треков' },
         { command: 'projects', description: '📁 Мои музыкальные проекты' },
         { command: 'status', description: '⚡ Статус генерации' },
