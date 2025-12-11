@@ -26,7 +26,12 @@ export type MetricEventType =
   | 'cover_failed'
   | 'extend_started'
   | 'extend_failed'
-  | 'audio_processing_error';
+  | 'audio_processing_error'
+  | 'upload_started'
+  | 'upload_completed'
+  | 'upload_failed'
+  | 'cover_from_reference'
+  | 'extend_from_reference';
 
 interface MetricData {
   eventType: MetricEventType;
