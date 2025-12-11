@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription 
 } from '@/components/ui/dialog';
@@ -11,10 +11,11 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { 
-  Music, Music2, Wand2, AlertCircle, ArrowRight 
+  Music, Music2, Wand2, AlertCircle, ArrowRight, Check, Loader2 
 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useStemSeparation } from '@/hooks/useStemSeparation';
+import { useTrackStems } from '@/hooks/useTrackStems';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
@@ -34,17 +35,43 @@ export const ArrangementReplacementDialog = ({
   open, 
   onOpenChange, 
   track,
-  hasStems = false,
+  hasStems: initialHasStems = false,
   onComplete,
 }: ArrangementReplacementDialogProps) => {
   const isMobile = useIsMobile();
   const { separate, isSeparating } = useStemSeparation();
+  const { data: stems, isLoading: stemsLoading, refetch: refetchStems } = useTrackStems(track.id);
   
-  const [step, setStep] = useState<Step>(hasStems ? 'configure' : 'intro');
+  // Check if we have the vocal stem
+  const vocalStem = stems?.find(s => 
+    s.stem_type.toLowerCase().includes('vocal') || 
+    s.stem_type.toLowerCase().includes('voice')
+  );
+  const hasVocalStem = !!vocalStem;
+  
+  const [step, setStep] = useState<Step>('intro');
   const [style, setStyle] = useState(track.style || '');
   const [tags, setTags] = useState(track.tags || '');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
+
+  // Update step when stems change
+  useEffect(() => {
+    if (open) {
+      if (hasVocalStem) {
+        setStep('configure');
+      } else {
+        setStep('intro');
+      }
+    }
+  }, [open, hasVocalStem]);
+
+  // Refetch stems when dialog opens
+  useEffect(() => {
+    if (open) {
+      refetchStems();
+    }
+  }, [open, refetchStems]);
 
   const handleSeparateFirst = async () => {
     setStep('separating');
@@ -65,6 +92,14 @@ export const ArrangementReplacementDialog = ({
       return;
     }
 
+    if (!vocalStem?.audio_url) {
+      toast.error('Не найден вокальный стем', {
+        description: 'Сначала разделите трек на стемы'
+      });
+      setStep('intro');
+      return;
+    }
+
     setStep('generating');
     setIsGenerating(true);
     setGenerationProgress(0);
@@ -77,12 +112,15 @@ export const ArrangementReplacementDialog = ({
         setGenerationProgress(prev => Math.min(prev + 5, 90));
       }, 1000);
 
+      // Call suno-add-instrumental with the vocal stem URL
       const { data, error } = await supabase.functions.invoke('suno-add-instrumental', {
         body: {
-          trackId: track.id,
+          audioUrl: vocalStem.audio_url, // Key fix: pass vocal stem URL
+          prompt: tags,
+          customMode: true,
           style,
-          tags,
-          userId: user.id,
+          title: track.title ? `${track.title} (новая аранжировка)` : undefined,
+          projectId: track.project_id,
         }
       });
 
@@ -99,7 +137,9 @@ export const ArrangementReplacementDialog = ({
       onOpenChange(false);
     } catch (error) {
       logger.error('Error generating arrangement', error);
-      toast.error('Ошибка при генерации аранжировки');
+      toast.error('Ошибка при генерации аранжировки', {
+        description: error instanceof Error ? error.message : 'Попробуйте позже'
+      });
       setStep('configure');
     } finally {
       setIsGenerating(false);
@@ -117,6 +157,14 @@ export const ArrangementReplacementDialog = ({
   ];
 
   const renderStep = () => {
+    if (stemsLoading) {
+      return (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+        </div>
+      );
+    }
+
     switch (step) {
       case 'intro':
         return (
@@ -170,7 +218,11 @@ export const ArrangementReplacementDialog = ({
               className="w-full gap-2"
               disabled={isSeparating}
             >
-              <Music2 className="w-4 h-4" />
+              {isSeparating ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Music2 className="w-4 h-4" />
+              )}
               Извлечь вокал
             </Button>
           </div>
@@ -199,6 +251,15 @@ export const ArrangementReplacementDialog = ({
       case 'configure':
         return (
           <div className="space-y-6">
+            {vocalStem && (
+              <div className="flex items-center gap-2 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+                <Check className="w-4 h-4 text-green-500" />
+                <span className="text-sm text-green-600">
+                  Вокальный стем готов
+                </span>
+              </div>
+            )}
+
             <div className="space-y-3">
               <Label htmlFor="style">Стиль аранжировки</Label>
               <Textarea

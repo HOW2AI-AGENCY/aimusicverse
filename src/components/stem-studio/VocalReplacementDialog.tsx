@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription 
 } from '@/components/ui/dialog';
@@ -11,10 +11,11 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { 
-  Mic, MicOff, Wand2, AlertCircle, ArrowRight, Check 
+  Mic, MicOff, Wand2, AlertCircle, ArrowRight, Check, Loader2 
 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useStemSeparation } from '@/hooks/useStemSeparation';
+import { useTrackStems } from '@/hooks/useTrackStems';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
@@ -35,17 +36,45 @@ export const VocalReplacementDialog = ({
   open, 
   onOpenChange, 
   track,
-  hasStems = false,
+  hasStems: initialHasStems = false,
   onComplete,
 }: VocalReplacementDialogProps) => {
   const isMobile = useIsMobile();
   const { separate, isSeparating } = useStemSeparation();
+  const { data: stems, isLoading: stemsLoading, refetch: refetchStems } = useTrackStems(track.id);
   
-  const [step, setStep] = useState<Step>(hasStems ? 'configure' : 'intro');
+  // Check if we have the instrumental stem
+  const instrumentalStem = stems?.find(s => 
+    s.stem_type.toLowerCase().includes('instrumental') || 
+    s.stem_type.toLowerCase().includes('accompaniment') ||
+    s.stem_type.toLowerCase().includes('no_vocals') ||
+    s.stem_type.toLowerCase() === 'other'
+  );
+  const hasInstrumentalStem = !!instrumentalStem;
+  
+  const [step, setStep] = useState<Step>('intro');
   const [lyrics, setLyrics] = useState(track.lyrics || '');
   const [style, setStyle] = useState(track.style || '');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
+
+  // Update step when stems change
+  useEffect(() => {
+    if (open) {
+      if (hasInstrumentalStem) {
+        setStep('configure');
+      } else {
+        setStep('intro');
+      }
+    }
+  }, [open, hasInstrumentalStem]);
+
+  // Refetch stems when dialog opens
+  useEffect(() => {
+    if (open) {
+      refetchStems();
+    }
+  }, [open, refetchStems]);
 
   const handleSeparateFirst = async () => {
     setStep('separating');
@@ -66,6 +95,14 @@ export const VocalReplacementDialog = ({
       return;
     }
 
+    if (!instrumentalStem?.audio_url) {
+      toast.error('Не найден инструментальный стем', {
+        description: 'Сначала разделите трек на стемы'
+      });
+      setStep('intro');
+      return;
+    }
+
     setStep('generating');
     setIsGenerating(true);
     setGenerationProgress(0);
@@ -74,17 +111,20 @@ export const VocalReplacementDialog = ({
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Не авторизован');
 
-      // Simulate progress (actual progress would come from callback)
+      // Simulate progress
       const progressInterval = setInterval(() => {
         setGenerationProgress(prev => Math.min(prev + 5, 90));
       }, 1000);
 
+      // Call suno-add-vocals with the instrumental stem URL
       const { data, error } = await supabase.functions.invoke('suno-add-vocals', {
         body: {
-          trackId: track.id,
-          lyrics,
+          audioUrl: instrumentalStem.audio_url, // Key fix: pass stem URL
+          prompt: lyrics,
+          customMode: true,
           style,
-          userId: user.id,
+          title: track.title ? `${track.title} (новый вокал)` : undefined,
+          projectId: track.project_id,
         }
       });
 
@@ -101,7 +141,9 @@ export const VocalReplacementDialog = ({
       onOpenChange(false);
     } catch (error) {
       logger.error('Error generating vocal', error);
-      toast.error('Ошибка при генерации вокала');
+      toast.error('Ошибка при генерации вокала', {
+        description: error instanceof Error ? error.message : 'Попробуйте позже'
+      });
       setStep('configure');
     } finally {
       setIsGenerating(false);
@@ -109,6 +151,14 @@ export const VocalReplacementDialog = ({
   };
 
   const renderStep = () => {
+    if (stemsLoading) {
+      return (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+        </div>
+      );
+    }
+
     switch (step) {
       case 'intro':
         return (
@@ -162,7 +212,11 @@ export const VocalReplacementDialog = ({
               className="w-full gap-2"
               disabled={isSeparating}
             >
-              <MicOff className="w-4 h-4" />
+              {isSeparating ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <MicOff className="w-4 h-4" />
+              )}
               Разделить на стемы
             </Button>
           </div>
@@ -191,6 +245,15 @@ export const VocalReplacementDialog = ({
       case 'configure':
         return (
           <div className="space-y-6">
+            {instrumentalStem && (
+              <div className="flex items-center gap-2 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+                <Check className="w-4 h-4 text-green-500" />
+                <span className="text-sm text-green-600">
+                  Инструментальный стем готов
+                </span>
+              </div>
+            )}
+
             <div className="space-y-3">
               <Label htmlFor="lyrics">Текст песни</Label>
               <Textarea
