@@ -113,6 +113,27 @@ export default function Library() {
     prevGenerationsCount.current = activeGenerations.length;
   }, [activeGenerations.length, refetchTracks]);
 
+  // Infinite scroll - load more when bottom is reached
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          log.debug('Loading next page');
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.1, rootMargin: '200px' }
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
   const fullscreenTrackId = activeTrack?.id;
   const { data: versions } = useTrackVersions(fullscreenTrackId || "");
 
@@ -391,6 +412,9 @@ export default function Library() {
                 })}
               </div>
 
+              {/* Load More Trigger */}
+              <div ref={loadMoreRef} className="h-4" />
+              
               {/* Pagination Loading - используем skeleton карточки для единообразия */}
               {isFetchingNextPage && (
                 <div className={cn(
