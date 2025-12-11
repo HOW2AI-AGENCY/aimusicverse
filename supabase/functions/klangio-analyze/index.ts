@@ -64,10 +64,11 @@ serve(async (req) => {
         // Model is required in query params for transcription
         queryParams.set('model', model || 'guitar');
         if (title) queryParams.set('title', title);
-        // Add outputs to form data - ALWAYS include 'json' for notes data
-        const requestedOutputs = outputs || ['midi'];
-        const allOutputs = requestedOutputs.includes('json') ? requestedOutputs : [...requestedOutputs, 'json'];
-        allOutputs.forEach(output => formData.append('outputs', output));
+        // Add outputs to form data - valid formats: midi, midi_quant, mxml, gp5, pdf
+        // Note: 'json' is NOT a valid output format - notes data is fetched separately via /job/{id}/json
+        const validOutputs = (outputs || ['midi']).filter(o => o !== 'json');
+        if (validOutputs.length === 0) validOutputs.push('midi');
+        validOutputs.forEach(output => formData.append('outputs', output));
         break;
         
       case 'chord-recognition':
