@@ -73,7 +73,7 @@ serve(async (req) => {
     
     const { data: track, error: trackError } = await supabase
       .from('tracks')
-      .select('*, track_versions(*)')
+      .select('*, track_versions!track_versions_track_id_fkey(*)')
       .eq('id', trackId)
       .eq('user_id', user.id)
       .single();
