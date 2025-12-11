@@ -10,7 +10,7 @@ import {
   Guitar, Piano, Drum, ArrowUpDown, ChevronDown,
   ChevronUp, Save
 } from 'lucide-react';
-import { ChordDiagram } from './ChordDiagram';
+import { ChordDiagramUnified as ChordDiagram } from './ChordDiagramUnified';
 import { WaveformWithChords } from './WaveformWithChords';
 import { ExportFilesPanel } from './ExportFilesPanel';
 import { PianoRollPreview } from '@/components/analysis/PianoRollPreview';

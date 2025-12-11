@@ -7,7 +7,7 @@ import { Play, Pause, Volume2, VolumeX, SkipBack, SkipForward } from 'lucide-rea
 import { cn } from '@/lib/utils';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import type { ChordData } from '@/hooks/useGuitarAnalysis';
-import { ChordDiagramEnhanced } from './ChordDiagramEnhanced';
+import { ChordDiagramUnified as ChordDiagramEnhanced } from './ChordDiagramUnified';
 
 // Get actual CSS color value from CSS variable with proper comma syntax
 const getCSSColor = (cssVar: string, fallback: string): string => {

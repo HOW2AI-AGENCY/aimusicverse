@@ -22,7 +22,7 @@ import { GuitarTabVisualization } from '@/components/analysis/GuitarTabVisualiza
 import { PianoRollWithMidiSync } from './PianoRollWithMidiSync';
 import { ExportFilesPanel } from './ExportFilesPanel';
 import { ChordTimelineMobile } from './ChordTimelineMobile';
-import { ChordDiagramEnhanced } from './ChordDiagramEnhanced';
+import { ChordDiagramUnified as ChordDiagramEnhanced } from './ChordDiagramUnified';
 import { logger } from '@/lib/logger';
 
 interface SavedRecordingDetailSheetProps {
