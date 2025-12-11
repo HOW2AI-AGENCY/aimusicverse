@@ -120,27 +120,26 @@ export const NavigationMenuSheet = ({ open, onOpenChange }: NavigationMenuSheetP
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="rounded-t-3xl max-h-[85vh] overflow-y-auto">
-        <SheetHeader className="pb-4">
+      <SheetContent side="bottom" className="rounded-t-2xl max-h-[85vh] overflow-y-auto">
+        <SheetHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <SheetTitle className="flex items-center gap-2 text-left">
-              <Sparkles className="w-5 h-5 text-primary" />
+            <SheetTitle className="flex items-center gap-2 text-left text-base">
               Меню
             </SheetTitle>
             
-            <div className="flex items-center gap-2">
-              {/* Notification indicator */}
+            <div className="flex items-center gap-1">
+              {/* Notification indicator - simplified */}
               {unreadCount > 0 && (
                 <Button
                   variant="ghost"
-                  size="sm"
+                  size="icon"
                   onClick={() => handleNavigate('/settings')}
-                  className="gap-1.5"
+                  className="h-8 w-8 relative"
                 >
                   <Bell className="w-4 h-4" />
-                  <Badge variant="destructive" className="h-5 px-1.5">
-                    {unreadCount > 9 ? '9+' : unreadCount}
-                  </Badge>
+                  <span className="absolute -top-0.5 -right-0.5 h-3.5 w-3.5 bg-destructive text-[9px] font-bold text-white rounded-full flex items-center justify-center">
+                    {unreadCount > 9 ? '9' : unreadCount}
+                  </span>
                 </Button>
               )}
               
@@ -148,7 +147,7 @@ export const NavigationMenuSheet = ({ open, onOpenChange }: NavigationMenuSheetP
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-9 w-9"
+                className="h-8 w-8"
                 onClick={() => {
                   hapticFeedback('light');
                   setSoundEnabled(!soundEnabled);
