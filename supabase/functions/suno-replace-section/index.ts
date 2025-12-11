@@ -142,15 +142,8 @@ serve(async (req) => {
     // Create callback URL
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
 
-    // Prepare Suno API request - fullLyrics and prompt are required by Suno API
-    // IMPORTANT: Keep original lyrics WITH structural tags - Suno needs them
-    const fullLyrics = (track.lyrics || '').trim();
-    
-    if (!fullLyrics) {
-      logger.warn('Track has no lyrics, using empty string');
-    }
-
     // Suno API requires non-empty prompt - use default if not provided
+    // NOTE: replace-section API does NOT use fullLyrics parameter per documentation
     const effectivePrompt = prompt || tags || track.tags || track.style || 'Continue in the same style and mood';
     const effectiveTags = tags || track.tags || '';
     
@@ -161,17 +154,15 @@ serve(async (req) => {
       hasTrackStyle: !!track.style,
       effectivePrompt: effectivePrompt.substring(0, 100),
       effectiveTags: effectiveTags.substring(0, 100),
-      fullLyricsLength: fullLyrics.length,
-      fullLyricsPreview: fullLyrics.substring(0, 200),
     });
     
+    // Suno replace-section payload - NO fullLyrics per API docs
     const sunoPayload = {
       taskId,
       audioId,
       prompt: effectivePrompt,
       tags: effectiveTags,
       title: track.title || 'Трек',
-      fullLyrics,
       infillStartS: Number(infillStartS),
       infillEndS: Number(infillEndS),
       callBackUrl: callbackUrl,
@@ -184,7 +175,6 @@ serve(async (req) => {
       infillEndS,
       promptLength: effectivePrompt.length,
       tagsLength: effectiveTags.length,
-      lyricsLength: fullLyrics.length,
     });
 
     // Call Suno API
