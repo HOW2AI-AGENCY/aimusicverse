@@ -43,6 +43,9 @@ interface PlayerState {
   shuffle: boolean;                  // Shuffle mode enabled/disabled
   repeat: RepeatMode;                // Repeat mode setting
   
+  // Audio settings (persisted)
+  volume: number;                    // Volume level 0-1
+  
   // UI state
   playerMode: PlayerMode;            // Current player display mode
   
@@ -62,6 +65,9 @@ interface PlayerState {
   // Mode toggle actions
   toggleShuffle: () => void;           // Toggle shuffle mode
   toggleRepeat: () => void;            // Cycle through repeat modes
+  
+  // Volume control
+  setVolume: (volume: number) => void; // Set volume level 0-1
   
   // UI mode control actions
   setPlayerMode: (mode: PlayerMode) => void;  // Set specific player mode
@@ -223,6 +229,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   currentIndex: 0,
   shuffle: false,
   repeat: 'off',
+  volume: 1.0,  // Default volume
   playerMode: 'minimized',
   
   /**
@@ -359,6 +366,12 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       return { repeat: modes[nextModeIndex] };
     });
   },
+  
+  /**
+   * Set volume - sets audio volume level
+   * @param volume - Volume level 0-1
+   */
+  setVolume: (volume) => set({ volume: Math.max(0, Math.min(1, volume)) }),
   
   // Player UI mode control actions
   

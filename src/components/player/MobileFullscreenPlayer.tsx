@@ -52,8 +52,42 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   
   const { toggleLike, downloadTrack } = useTracks();
   const { currentTime, duration, seek } = useAudioTime();
-  const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, repeat, shuffle, toggleRepeat, toggleShuffle } = usePlayerStore();
+  const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, repeat, shuffle, toggleRepeat, toggleShuffle, volume } = usePlayerStore();
   const { audioElement } = useGlobalAudioPlayer();
+  
+  // CRITICAL: Resume AudioContext and ensure audio routing when fullscreen opens
+  useEffect(() => {
+    const ensureAudio = async () => {
+      try {
+        const { resumeAudioContext, ensureAudioRoutedToDestination } = await import('@/lib/audioContextManager');
+        
+        // Resume AudioContext
+        const resumed = await resumeAudioContext(3);
+        if (!resumed) {
+          logger.warn('Failed to resume AudioContext on fullscreen open');
+        }
+        
+        // Ensure audio is routed to destination
+        await ensureAudioRoutedToDestination();
+        
+        // Sync volume with audio element
+        if (audioElement && audioElement.volume !== volume) {
+          audioElement.volume = volume;
+          logger.debug('Volume synced on fullscreen open', { volume });
+        }
+        
+        logger.info('Fullscreen player audio initialized', { 
+          volume, 
+          isPlaying,
+          hasAudioElement: !!audioElement 
+        });
+      } catch (err) {
+        logger.error('Error initializing fullscreen audio', err);
+      }
+    };
+    
+    ensureAudio();
+  }, []); // Run once on mount
   
   // Audio visualizer data
   const visualizerData = useAudioVisualizer(audioElement, isPlaying, { barCount: 48, smoothing: 0.75 });
@@ -242,6 +276,9 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   useEffect(() => {
     if (activeLineIndex < 0 || !activeLineRef.current || !lyricsContainerRef.current || userScrolling) return;
     
+    // Only scroll when playing
+    if (!isPlaying) return;
+    
     const container = lyricsContainerRef.current;
     const activeLine = activeLineRef.current;
     
@@ -256,18 +293,25 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
       // Target: position active line at 30% from top of visible area
       const targetScrollTop = lineTopInContainer - (containerRect.height * 0.3);
       
-      isProgrammaticScrollRef.current = true;
-      container.scrollTo({
-        top: Math.max(0, targetScrollTop),
-        behavior: 'smooth'
-      });
+      // Check if line is already roughly in view
+      const currentLinePos = lineRect.top - containerRect.top;
+      const isInView = currentLinePos > containerRect.height * 0.2 && currentLinePos < containerRect.height * 0.5;
       
-      // Reset programmatic flag after scroll completes
-      setTimeout(() => {
-        isProgrammaticScrollRef.current = false;
-      }, 500);
+      // Only scroll if line is not already in the target area
+      if (!isInView) {
+        isProgrammaticScrollRef.current = true;
+        container.scrollTo({
+          top: Math.max(0, targetScrollTop),
+          behavior: 'smooth'
+        });
+        
+        // Reset programmatic flag after scroll completes
+        setTimeout(() => {
+          isProgrammaticScrollRef.current = false;
+        }, 400);
+      }
     });
-  }, [activeLineIndex, userScrolling]);
+  }, [activeLineIndex, userScrolling, isPlaying]);
 
   const formatTime = (seconds: number) => {
     if (!seconds || !isFinite(seconds)) return '0:00';

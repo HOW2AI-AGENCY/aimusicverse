@@ -252,9 +252,64 @@ wavesurfer.on('ready', () => {
 wavesurfer.load(url, undefined, 'anonymous');
 ```
 
+### Issue: Sound lost on mode switch (CRITICAL - Fixed 2025-12-11)
+```typescript
+// ПРИЧИНА: Volume сбрасывается при переключении режимов
+// AudioContext suspend при открытии fullscreen
+
+// РЕШЕНИЕ 1: Хранить volume в Zustand store
+interface PlayerState {
+  volume: number;  // Persist volume
+  setVolume: (volume: number) => void;
+}
+
+// РЕШЕНИЕ 2: Резюмировать AudioContext при открытии fullscreen
+useEffect(() => {
+  const ensureAudio = async () => {
+    const { resumeAudioContext, ensureAudioRoutedToDestination } = 
+      await import('@/lib/audioContextManager');
+    
+    await resumeAudioContext(3);
+    await ensureAudioRoutedToDestination();
+    
+    // Sync volume with store
+    if (audioElement && audioElement.volume !== volume) {
+      audioElement.volume = volume;
+    }
+  };
+  ensureAudio();
+}, []);
+
+// РЕШЕНИЕ 3: Синхронизировать volume при play
+if (audio.volume !== storeVolume) {
+  audio.volume = storeVolume;
+}
+```
+
+### Issue: Lyrics not auto-scrolling
+```typescript
+// Убедись что:
+// 1. isPlaying проверяется перед scroll
+// 2. userScrolling флаг правильно отслеживается
+// 3. isProgrammaticScrollRef предотвращает ложные userScrolling
+
+useEffect(() => {
+  if (!isPlaying || userScrolling) return;
+  
+  // Scroll only when line is out of view
+  const isInView = currentLinePos > height * 0.2 && currentLinePos < height * 0.5;
+  if (!isInView) {
+    isProgrammaticScrollRef.current = true;
+    container.scrollTo({ top: targetScrollTop, behavior: 'smooth' });
+    setTimeout(() => { isProgrammaticScrollRef.current = false; }, 400);
+  }
+}, [activeLineIndex, isPlaying, userScrolling]);
+```
+
 ## Commands
 - `/create-player` - создай аудио плеер
 - `/create-visualizer` - создай визуализатор
 - `/create-mixer` - создай микшер для стемов
 - `/add-effect` - добавь аудио эффект
 - `/export-audio` - экспортируй аудио
+- `/fix-audio` - диагностируй и исправь проблемы с аудио
