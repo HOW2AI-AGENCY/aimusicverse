@@ -5,7 +5,9 @@ import { handleLibrary } from './commands/library.ts';
 import { handleProjects } from './commands/projects.ts';
 import { handleStatus } from './commands/status.ts';
 import { handleCoverCommand, handleExtendCommand, handleCancelCommand, handleCancelUploadCallback, getAudioUploadHelp } from './commands/audio-upload.ts';
+import { handleUploadCommand, handleMyUploads, handleSelectReference, handleUseReference, handleDeleteReference, handleGenerateFromReference } from './commands/upload.ts';
 import { handleAudioMessage, isAudioMessage } from './handlers/audio.ts';
+import { handleTextMessage, sendDefaultResponse } from './handlers/text.ts';
 import { handleRecognizeCommand, hasRecognitionSession, handleRecognizeAudio, handleCancelRecognize, handleRecognizeAgain } from './commands/recognize.ts';
 import { handleMidiCommand, handlePianoCommand, hasMidiSession, handleCancelMidi, handleMidiTrackCallback, handleMidiModelCallback, handleMidiUploadCallback, handleMidiAgainCallback } from './commands/midi.ts';
 import { handleGuitarCommand, hasGuitarSession, handleGuitarAudio, handleCancelGuitar, handleGuitarAgain } from './commands/guitar.ts';
@@ -178,6 +180,61 @@ export async function handleUpdate(update: TelegramUpdate) {
       // Cancel upload handler
       if (data === 'cancel_upload') {
         await handleCancelUploadCallback(chatId, from.id, messageId!, id);
+        return;
+      }
+
+      // My uploads handler
+      if (data === 'my_uploads') {
+        await handleMyUploads(chatId, from.id, messageId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      // Start upload handler
+      if (data === 'start_upload') {
+        await handleUploadCommand(chatId, from.id, '', messageId);
+        await answerCallbackQuery(id);
+        return;
+      }
+
+      // Select reference audio
+      if (data?.startsWith('select_ref_')) {
+        const refId = data.replace('select_ref_', '');
+        await handleSelectReference(chatId, from.id, refId, messageId!, id);
+        return;
+      }
+
+      // Use reference for cover
+      if (data?.startsWith('use_ref_cover_')) {
+        const refId = data.replace('use_ref_cover_', '');
+        await handleUseReference(chatId, from.id, refId, 'cover', messageId!, id);
+        return;
+      }
+
+      // Use reference for extend
+      if (data?.startsWith('use_ref_extend_')) {
+        const refId = data.replace('use_ref_extend_', '');
+        await handleUseReference(chatId, from.id, refId, 'extend', messageId!, id);
+        return;
+      }
+
+      // Delete reference
+      if (data?.startsWith('delete_ref_')) {
+        const refId = data.replace('delete_ref_', '');
+        await handleDeleteReference(chatId, from.id, refId, messageId!, id);
+        return;
+      }
+
+      // Generate from reference
+      if (data?.startsWith('ref_generate_cover_')) {
+        const refId = data.replace('ref_generate_cover_', '');
+        await handleGenerateFromReference(chatId, from.id, refId, 'cover', messageId!, id);
+        return;
+      }
+
+      if (data?.startsWith('ref_generate_extend_')) {
+        const refId = data.replace('ref_generate_extend_', '');
+        await handleGenerateFromReference(chatId, from.id, refId, 'extend', messageId!, id);
         return;
       }
 
@@ -446,7 +503,14 @@ export async function handleUpdate(update: TelegramUpdate) {
 
       const cmd = parseCommand(text);
 
-      if (!cmd) return;
+      // Handle non-command text messages
+      if (!cmd) {
+        const handled = await handleTextMessage(chat.id, from.id, text);
+        if (!handled) {
+          await sendDefaultResponse(chat.id);
+        }
+        return;
+      }
 
       const { command, args } = cmd;
 
@@ -525,6 +589,16 @@ export async function handleUpdate(update: TelegramUpdate) {
 
         case 'extend':
           await handleExtendCommand(chat.id, from.id, args);
+          break;
+
+        case 'upload':
+          await handleUploadCommand(chat.id, from.id, args);
+          break;
+
+        case 'uploads':
+        case 'files':
+        case 'myfiles':
+          await handleMyUploads(chat.id, from.id);
           break;
 
         case 'cancel':
