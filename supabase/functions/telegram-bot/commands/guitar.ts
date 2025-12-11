@@ -7,19 +7,18 @@ import { sendMessage, editMessageText } from '../telegram-api.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { logger, escapeMarkdown, trackMetric } from '../utils/index.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { 
+  createSession, 
+  clearSession, 
+  startProcessingFile, 
+  completeFileProcessing,
+  getActiveSession
+} from '../core/audio-session-manager.ts';
 
 const supabase = createClient(
   BOT_CONFIG.supabaseUrl,
   BOT_CONFIG.supabaseServiceKey
 );
-
-// Session store for guitar analysis
-const GUITAR_SESSIONS: Record<string, { 
-  chatId: number; 
-  userId: number; 
-  createdAt: number;
-  supabaseUserId?: string;
-}> = {};
 
 export function getGuitarHelp(): string {
   return `🎸 *Анализ гитарной партии*
@@ -52,13 +51,10 @@ export async function handleGuitarCommand(
       .eq('telegram_id', userId)
       .single();
 
-    // Start guitar session
-    GUITAR_SESSIONS[`${userId}`] = {
-      chatId,
-      userId,
-      createdAt: Date.now(),
+    // Create guitar analysis session
+    createSession(userId, chatId, 'guitar_analysis', {
       supabaseUserId: profile?.user_id
-    };
+    });
 
     await sendMessage(chatId, `🎸 *Анализ гитарной партии*
 
@@ -78,20 +74,11 @@ export async function handleGuitarCommand(
       ]]
     });
 
-    // Clean up old sessions
-    cleanupOldGuitarSessions();
+    logger.info('Guitar session created', { userId, chatId });
   } catch (error) {
     logger.error('handleGuitarCommand', error);
     await sendMessage(chatId, '❌ Ошибка запуска анализа гитары');
   }
-}
-
-export function hasGuitarSession(userId: number): boolean {
-  return !!GUITAR_SESSIONS[`${userId}`];
-}
-
-export function clearGuitarSession(userId: number): void {
-  delete GUITAR_SESSIONS[`${userId}`];
 }
 
 export async function handleGuitarAudio(
@@ -101,11 +88,22 @@ export async function handleGuitarAudio(
   fileType: 'audio' | 'voice' | 'document'
 ): Promise<void> {
   const startTime = Date.now();
-  const session = GUITAR_SESSIONS[`${userId}`];
+  const session = getActiveSession(userId);
+  
+  if (!session || session.type !== 'guitar_analysis') {
+    logger.warn('No active guitar session for user', { userId });
+    await sendMessage(chatId, '❌ Сессия анализа истекла\\. Используйте /guitar чтобы начать снова\\.');
+    return;
+  }
+  
+  // Check if can start processing this file
+  if (!startProcessingFile(fileId, userId)) {
+    logger.warn('Cannot process guitar audio file', { userId, fileId });
+    await sendMessage(chatId, '⏳ Пожалуйста, дождитесь завершения предыдущего анализа\\.');
+    return;
+  }
   
   try {
-    // Clear session
-    clearGuitarSession(userId);
 
     await sendMessage(chatId, '🎸 Загружаю аудио и начинаю анализ\\.\\.\\.');
 
@@ -153,8 +151,11 @@ export async function handleGuitarAudio(
 
     await sendMessage(chatId, '🔍 Анализирую ритм, ноты и аккорды\\.\\.\\.');
 
-    // Run parallel analysis with Klangio
-    const [beatResult, midiResult, styleResult, klangioChords, klangioTranscription] = await Promise.allSettled([
+    const supabaseUserId = session.metadata?.supabaseUserId as string | undefined;
+
+    // Run parallel analysis with Klangio - with proper timeout and error handling
+    const analysisTimeout = 180000; // 3 minutes max
+    const analysisPromise = Promise.allSettled([
       // Beat detection
       fetch(`${supabaseUrl}/functions/v1/detect-beats`, {
         method: 'POST',
@@ -163,7 +164,7 @@ export async function handleGuitarAudio(
           'Authorization': `Bearer ${supabaseKey}`
         },
         body: JSON.stringify({ audio_url: publicUrl })
-      }).then(r => r.json()),
+      }).then(r => r.json()).catch(e => { logger.error('Beat detection failed', e); return null; }),
       
       // MIDI transcription
       fetch(`${supabaseUrl}/functions/v1/transcribe-midi`, {
@@ -176,7 +177,7 @@ export async function handleGuitarAudio(
           audio_url: publicUrl,
           model: 'basic-pitch'
         })
-      }).then(r => r.json()),
+      }).then(r => r.json()).catch(e => { logger.error('MIDI transcription failed', e); return null; }),
 
       // Style analysis with Audio Flamingo
       fetch(`${supabaseUrl}/functions/v1/analyze-audio-flamingo`, {
@@ -197,7 +198,7 @@ Notable Features: [bends, slides, hammer-ons, etc.]
 
 Be precise with chord names including extensions.`
         })
-      }).then(r => r.json()),
+      }).then(r => r.json()).catch(e => { logger.error('Style analysis failed', e); return null; }),
 
       // Klangio chord recognition with strumming detection
       fetch(`${supabaseUrl}/functions/v1/klangio-analyze`, {
@@ -210,9 +211,9 @@ Be precise with chord names including extensions.`
           audio_url: publicUrl,
           mode: 'chord-recognition-extended',
           vocabulary: 'full',
-          user_id: session?.supabaseUserId
+          user_id: supabaseUserId
         })
-      }).then(r => r.json()).catch(() => null),
+      }).then(r => r.json()).catch(e => { logger.error('Klangio chords failed', e); return null; }),
 
       // Klangio transcription for Guitar Pro export
       fetch(`${supabaseUrl}/functions/v1/klangio-analyze`, {
@@ -226,10 +227,18 @@ Be precise with chord names including extensions.`
           mode: 'transcription',
           model: 'guitar',
           outputs: ['midi', 'gp5'],
-          user_id: session?.supabaseUserId
+          user_id: supabaseUserId
         })
-      }).then(r => r.json()).catch(() => null),
+      }).then(r => r.json()).catch(e => { logger.error('Klangio transcription failed', e); return null; }),
     ]);
+    
+    // Add timeout wrapper
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Analysis timeout')), analysisTimeout);
+    });
+    
+    const [beatResult, midiResult, styleResult, klangioChords, klangioTranscription] = 
+      await Promise.race([analysisPromise, timeoutPromise]) as PromiseSettledResult<any>[];
 
     await sendMessage(chatId, '🎹 Формирую результаты анализа\\.\\.\\.');
 
@@ -352,9 +361,18 @@ Be precise with chord names including extensions.`
         hasStyle: !!style?.analysis
       },
     });
+    
+    // Complete processing and clear session
+    completeFileProcessing(fileId, userId);
+    clearSession(userId);
 
   } catch (error) {
     logger.error('handleGuitarAudio', error);
+    
+    // Complete processing on error
+    completeFileProcessing(fileId, userId);
+    clearSession(userId);
+    
     await sendMessage(chatId, '❌ Ошибка анализа\\. Попробуйте позже\\.');
 
     trackMetric({
@@ -473,7 +491,7 @@ export async function handleCancelGuitar(
   messageId?: number,
   callbackId?: string
 ): Promise<void> {
-  clearGuitarSession(userId);
+  clearSession(userId);
 
   if (messageId) {
     await editMessageText(chatId, messageId, '❌ Анализ гитары отменён');

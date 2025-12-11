@@ -130,45 +130,81 @@ serve(async (req) => {
     console.log(`[klangio] Job created: ${jobId}`, JSON.stringify(jobResponse, null, 2));
 
     // Poll for job completion (max 180 seconds for transcription)
+    // Use exponential backoff to reduce API load
     const maxAttempts = mode === 'transcription' ? 90 : 60;
-    const pollInterval = 2000; // 2 seconds
+    const initialPollInterval = 2000; // Start with 2 seconds
+    const maxPollInterval = 10000; // Max 10 seconds between polls
     let result: any = null;
+    let consecutiveErrors = 0;
+    const maxConsecutiveErrors = 5; // Circuit breaker threshold
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      // Exponential backoff: 2s, 2s, 3s, 4s, 6s, 8s, 10s, 10s...
+      const pollInterval = Math.min(
+        initialPollInterval * Math.pow(1.3, Math.floor(attempt / 2)),
+        maxPollInterval
+      );
+      
       await new Promise(resolve => setTimeout(resolve, pollInterval));
 
-      const statusResponse = await fetch(`${API_BASE}/job/${jobId}/status`, {
-        headers: {
-          "kl-api-key": KLANGIO_API_KEY,
-        },
-      });
+      try {
+        const statusResponse = await fetch(`${API_BASE}/job/${jobId}/status`, {
+          headers: {
+            "kl-api-key": KLANGIO_API_KEY,
+          },
+        });
 
-      if (!statusResponse.ok) {
-        console.warn(`[klangio] Status check failed: ${statusResponse.status}`);
-        continue;
-      }
-
-      const statusData = await statusResponse.json();
-      console.log(`[klangio] Job status (attempt ${attempt + 1}/${maxAttempts}): ${statusData.status}`,
-        statusData.progress ? `Progress: ${statusData.progress}%` : '');
-
-      // Status values from OpenAPI: IN_QUEUE, IN_PROGRESS, COMPLETED, FAILED, CANCELLED, TIMED_OUT
-      if (statusData.status === "COMPLETED") {
-        result = statusData;
-        break;
-      } else if (statusData.status === "FAILED" || statusData.status === "CANCELLED" || statusData.status === "TIMED_OUT") {
-        const errorMsg = statusData.error || 'Unknown error';
-        // Return user-friendly error for "no notes found" case
-        if (errorMsg.toLowerCase().includes('no notes found')) {
-          return new Response(JSON.stringify({ 
-            error: 'no_notes_found',
-            message: 'Не удалось распознать музыкальные ноты в записи. Попробуйте записать более чёткий и громкий звук.'
-          }), { 
-            status: 422,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-          });
+        if (!statusResponse.ok) {
+          consecutiveErrors++;
+          console.warn(`[klangio] Status check failed: ${statusResponse.status} (attempt ${attempt + 1}/${maxAttempts}, errors: ${consecutiveErrors})`);
+          
+          // Circuit breaker: too many consecutive errors
+          if (consecutiveErrors >= maxConsecutiveErrors) {
+            console.error('[klangio] Circuit breaker: Too many consecutive status check failures');
+            throw new Error('Analysis service temporarily unavailable. Please try again later.');
+          }
+          
+          continue;
         }
-        throw new Error(`Klangio job ${statusData.status}: ${errorMsg}`);
+        
+        // Reset error counter on success
+        consecutiveErrors = 0;
+
+        const statusData = await statusResponse.json();
+        console.log(`[klangio] Job status (attempt ${attempt + 1}/${maxAttempts}, interval: ${pollInterval}ms): ${statusData.status}`,
+          statusData.progress ? `Progress: ${statusData.progress}%` : '');
+
+        // Status values from OpenAPI: IN_QUEUE, IN_PROGRESS, COMPLETED, FAILED, CANCELLED, TIMED_OUT
+        if (statusData.status === "COMPLETED") {
+          result = statusData;
+          break;
+        } else if (statusData.status === "FAILED" || statusData.status === "CANCELLED" || statusData.status === "TIMED_OUT") {
+          const errorMsg = statusData.error || 'Unknown error';
+          // Return user-friendly error for "no notes found" case
+          if (errorMsg.toLowerCase().includes('no notes found')) {
+            return new Response(JSON.stringify({ 
+              error: 'no_notes_found',
+              message: 'Не удалось распознать музыкальные ноты в записи. Попробуйте записать более чёткий и громкий звук.'
+            }), { 
+              status: 422,
+              headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+            });
+          }
+          throw new Error(`Klangio job ${statusData.status}: ${errorMsg}`);
+        }
+      } catch (fetchError) {
+        consecutiveErrors++;
+        console.error(`[klangio] Error during status check (attempt ${attempt + 1}):`, fetchError);
+        
+        // Circuit breaker
+        if (consecutiveErrors >= maxConsecutiveErrors) {
+          throw new Error('Analysis service temporarily unavailable due to repeated failures.');
+        }
+        
+        // Re-throw if it's an actual API error (not network)
+        if (fetchError instanceof Error && fetchError.message.includes('Klangio job')) {
+          throw fetchError;
+        }
       }
     }
 

@@ -8,6 +8,15 @@ import { sendMessage, sendAudio } from '../telegram-api.ts';
 import { consumePendingUpload, type PendingUpload } from '../core/session-store.ts';
 import { escapeMarkdown, trackMetric } from '../utils/index.ts';
 import { createLogger } from '../../_shared/logger.ts';
+import { 
+  hasActiveSession, 
+  getActiveSession,
+  getSessionType,
+  wasFileRecentlyProcessed,
+  startProcessingFile,
+  completeFileProcessing,
+  canProcessMoreFiles
+} from '../core/audio-session-manager.ts';
 
 const logger = createLogger('telegram-audio-handler');
 
@@ -53,13 +62,47 @@ export async function handleAudioMessage(
   type: 'audio' | 'voice' | 'document'
 ): Promise<void> {
   const startTime = Date.now();
+  const fileId = audio.file_id;
   
   try {
+    // Check for file deduplication
+    if (wasFileRecentlyProcessed(fileId)) {
+      logger.info('Ignoring duplicate audio file', { userId, fileId });
+      return;
+    }
+    
+    // Check if user can process more files
+    if (!canProcessMoreFiles(userId)) {
+      await sendMessage(chatId, '⏳ Пожалуйста, дождитесь завершения текущей обработки аудио\\.');
+      return;
+    }
+    
+    // Check for other active audio sessions (guitar, midi, analyze)
+    const activeSessionType = getSessionType(userId);
+    if (activeSessionType && !['upload', 'cover', 'extend'].includes(activeSessionType)) {
+      logger.info('Routing audio to active session', { userId, sessionType: activeSessionType });
+      
+      // Route to appropriate handler
+      if (activeSessionType === 'guitar_analysis') {
+        const { handleGuitarAudio } = await import('../commands/guitar.ts');
+        await handleGuitarAudio(chatId, userId, fileId, type);
+        return;
+      } else if (activeSessionType === 'midi_transcription') {
+        const { handleMidiAudio } = await import('../commands/midi.ts');
+        await handleMidiAudio(chatId, userId, fileId, type);
+        return;
+      } else if (activeSessionType === 'recognize') {
+        const { handleRecognizeAudio } = await import('../commands/recognize.ts');
+        await handleRecognizeAudio(chatId, userId, fileId);
+        return;
+      }
+    }
+    
     // Check for pending upload
     const pendingUpload = consumePendingUpload(userId);
     
     if (!pendingUpload) {
-      // No pending upload - show help with options
+      // No pending upload or active session - show help with options
       await sendMessage(chatId, `🎵 *Аудио получено\\!*
 
 Выберите что хотите сделать:
@@ -69,8 +112,16 @@ export async function handleAudioMessage(
 • /extend \\- расширить/продолжить трек
 • /recognize \\- распознать песню
 • /midi \\- конвертировать в MIDI
+• /guitar \\- анализ гитарной партии
 
 Или используйте команду и отправьте файл повторно\\.`);
+      return;
+    }
+    
+    // Start processing this file
+    if (!startProcessingFile(fileId, userId)) {
+      logger.warn('Failed to start processing file', { userId, fileId });
+      await sendMessage(chatId, '⏳ Файл уже обрабатывается\\. Пожалуйста, подождите\\.');
       return;
     }
     
@@ -165,6 +216,10 @@ export async function handleAudioMessage(
         responseTimeMs: Date.now() - startTime,
         metadata: { taskId: result.taskId },
       });
+      
+      // Complete file processing
+      completeFileProcessing(fileId, userId);
+      
     } else {
       await sendMessage(chatId, `❌ *Ошибка при отправке на генерацию*
 
@@ -182,10 +237,16 @@ ${escapeMarkdown(result.error || 'Неизвестная ошибка')}
         errorMessage: result.error,
         responseTimeMs: Date.now() - startTime,
       });
+      
+      // Complete file processing (even on error)
+      completeFileProcessing(fileId, userId);
     }
     
   } catch (error) {
     logger.error('Error handling audio message', error);
+    
+    // Complete file processing on error
+    completeFileProcessing(fileId, userId);
     
     await sendMessage(chatId, `❌ Произошла ошибка при обработке аудио\\. Попробуйте ещё раз\\.`);
     
