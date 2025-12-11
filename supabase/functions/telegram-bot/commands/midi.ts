@@ -2,14 +2,13 @@ import { sendMessage, editMessageText, answerCallbackQuery } from '../telegram-a
 import { BOT_CONFIG } from '../config.ts';
 import { logger } from '../utils/index.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-
-// MIDI conversion sessions
-const MIDI_SESSIONS: Record<string, { 
-  chatId: number; 
-  userId: number; 
-  modelType: 'mt3' | 'basic-pitch' | 'pop2piano';
-  createdAt: number;
-}> = {};
+import { 
+  createSession, 
+  clearSession,
+  startProcessingFile,
+  completeFileProcessing,
+  getActiveSession
+} from '../core/audio-session-manager.ts';
 
 export function getMidiHelp(): string {
   return `🎹 *MIDI Конвертация*
@@ -403,13 +402,8 @@ export async function handleMidiUploadCallback(
 ): Promise<void> {
   await answerCallbackQuery(callbackId);
 
-  // Set upload session
-  MIDI_SESSIONS[`${userId}`] = {
-    chatId,
-    userId,
-    modelType: 'basic-pitch',
-    createdAt: Date.now()
-  };
+  // Create MIDI transcription session
+  initMidiSession(chatId, userId, 'basic-pitch');
 
   await editMessageText(chatId, messageId, `📤 *Загрузка аудио для MIDI*
 
@@ -422,12 +416,31 @@ export async function handleMidiUploadCallback(
   });
 }
 
-export function hasMidiSession(userId: number): boolean {
-  return !!MIDI_SESSIONS[`${userId}`];
+/**
+ * Initialize MIDI transcription session
+ */
+function initMidiSession(
+  chatId: number,
+  userId: number,
+  model: 'mt3' | 'basic-pitch' | 'pop2piano' = 'basic-pitch'
+): void {
+  createSession(userId, chatId, 'midi_transcription', { modelType: model });
+  logger.info('MIDI session created', { userId, chatId, model });
 }
 
+/**
+ * Check if user has MIDI session
+ */
+export function hasMidiSession(userId: number): boolean {
+  const session = getActiveSession(userId);
+  return session?.type === 'midi_transcription';
+}
+
+/**
+ * Clear MIDI session
+ */
 export function clearMidiSession(userId: number): void {
-  delete MIDI_SESSIONS[`${userId}`];
+  clearSession(userId);
 }
 
 export async function handleCancelMidi(
@@ -463,13 +476,92 @@ function escapeMarkdown(text: string): string {
   return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
 }
 
-function cleanupOldSessions(): void {
-  const now = Date.now();
-  const maxAge = 5 * 60 * 1000; // 5 minutes
-
-  for (const key of Object.keys(MIDI_SESSIONS)) {
-    if (now - MIDI_SESSIONS[key].createdAt > maxAge) {
-      delete MIDI_SESSIONS[key];
+/**
+ * Handle MIDI audio upload
+ */
+export async function handleMidiAudio(
+  chatId: number,
+  userId: number,
+  fileId: string,
+  fileType: 'audio' | 'voice' | 'document'
+): Promise<void> {
+  const session = getActiveSession(userId);
+  
+  if (!session || session.type !== 'midi_transcription') {
+    await sendMessage(chatId, '❌ Сессия конвертации истекла\\. Используйте /midi чтобы начать снова\\.');
+    return;
+  }
+  
+  // Check if can process this file
+  if (!startProcessingFile(fileId, userId)) {
+    await sendMessage(chatId, '⏳ Пожалуйста, дождитесь завершения предыдущей конвертации\\.');
+    return;
+  }
+  
+  try {
+    await sendMessage(chatId, '🎹 Конвертирую аудио в MIDI\\.\\.\\.\\nЭто может занять 1\\-2 минуты\\.');
+    
+    const model = session.metadata?.modelType as string || 'basic-pitch';
+    
+    // Download and process file
+    const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
+    const supabaseUrl = Deno.env.get('SUPABASE_URL');
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+    
+    // Get file from Telegram
+    const fileInfoResponse = await fetch(
+      `https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`
+    );
+    const fileInfo = await fileInfoResponse.json();
+    
+    if (!fileInfo.ok) {
+      throw new Error('Failed to get file info from Telegram');
     }
+    
+    const fileUrl = `https://api.telegram.org/file/bot${botToken}/${fileInfo.result.file_path}`;
+    
+    // Call transcription service
+    const response = await fetch(`${supabaseUrl}/functions/v1/transcribe-midi`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${supabaseKey}`
+      },
+      body: JSON.stringify({
+        audio_url: fileUrl,
+        model: model
+      })
+    });
+    
+    const result = await response.json();
+    
+    if (result.error || !result.midi_url) {
+      throw new Error(result.error || 'MIDI conversion failed');
+    }
+    
+    await sendMessage(chatId, `✅ *MIDI файл создан\\!*
+
+🎹 Модель: ${model}
+🎵 Нот: ${result.notes_count || 'N/A'}
+
+Скачайте MIDI файл по ссылке ниже:`, {
+      inline_keyboard: [[
+        { text: '📥 Скачать MIDI', url: result.midi_url },
+        { text: '🔄 Конвертировать ещё', callback_data: 'midi_again' }
+      ]]
+    });
+    
+    // Complete processing
+    completeFileProcessing(fileId, userId);
+    clearSession(userId);
+    
+  } catch (error) {
+    logger.error('Error in handleMidiAudio', error);
+    
+    await sendMessage(chatId, `❌ Ошибка конвертации в MIDI\\. Попробуйте позже\\.`);
+    
+    // Complete processing on error
+    completeFileProcessing(fileId, userId);
+    clearSession(userId);
   }
 }

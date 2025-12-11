@@ -1,8 +1,13 @@
 import { sendMessage, editMessageText } from '../telegram-api.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { logger } from '../utils/index.ts';
-
-const RECOGNITION_SESSIONS: Record<string, { chatId: number; userId: number; createdAt: number }> = {};
+import { 
+  createSession, 
+  clearSession,
+  startProcessingFile,
+  completeFileProcessing,
+  getActiveSession
+} from '../core/audio-session-manager.ts';
 
 export function getRecognitionHelp(): string {
   return `🎵 *Распознавание музыки*
@@ -35,11 +40,7 @@ export async function handleRecognizeCommand(
     }
 
     // Start recognition session
-    RECOGNITION_SESSIONS[`${userId}`] = {
-      chatId,
-      userId,
-      createdAt: Date.now()
-    };
+    createSession(userId, chatId, 'recognize');
 
     await sendMessage(chatId, `🎵 *Распознавание музыки*
 
@@ -55,8 +56,6 @@ export async function handleRecognizeCommand(
       ]]
     });
 
-    // Clean up old sessions
-    cleanupOldSessions();
   } catch (error) {
     logger.error('handleRecognizeCommand', error);
     await sendMessage(chatId, '❌ Ошибка запуска распознавания');
@@ -64,23 +63,33 @@ export async function handleRecognizeCommand(
 }
 
 export function hasRecognitionSession(userId: number): boolean {
-  return !!RECOGNITION_SESSIONS[`${userId}`];
+  const session = getActiveSession(userId);
+  return session?.type === 'recognize';
 }
 
 export function clearRecognitionSession(userId: number): void {
-  delete RECOGNITION_SESSIONS[`${userId}`];
+  clearSession(userId);
 }
 
 export async function handleRecognizeAudio(
   chatId: number,
   userId: number,
-  fileId: string,
-  fileType: 'audio' | 'voice' | 'document'
+  fileId: string
 ): Promise<void> {
+  const session = getActiveSession(userId);
+  
+  if (!session || session.type !== 'recognize') {
+    await sendMessage(chatId, '❌ Сессия распознавания истекла\\. Используйте /recognize чтобы начать снова\\.');
+    return;
+  }
+  
+  // Check if can process this file
+  if (!startProcessingFile(fileId, userId)) {
+    await sendMessage(chatId, '⏳ Пожалуйста, дождитесь завершения предыдущего распознавания\\.');
+    return;
+  }
+  
   try {
-    // Clear session
-    clearRecognitionSession(userId);
-
     await sendMessage(chatId, '🔍 Распознаю музыку...');
 
     // Download file from Telegram
@@ -149,8 +158,18 @@ export async function handleRecognizeAudio(
         ]]
       });
     }
+    
+    // Complete processing and clear session
+    completeFileProcessing(fileId, userId);
+    clearSession(userId);
+    
   } catch (error) {
     logger.error('handleRecognizeAudio', error);
+    
+    // Complete processing on error
+    completeFileProcessing(fileId, userId);
+    clearSession(userId);
+    
     await sendMessage(chatId, '❌ Ошибка распознавания. Попробуйте позже.');
   }
 }
@@ -244,17 +263,6 @@ async function sendRecognitionResult(chatId: number, track: any): Promise<void> 
 function escapeMarkdown(text: string): string {
   if (!text) return '';
   return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
-}
-
-function cleanupOldSessions(): void {
-  const now = Date.now();
-  const maxAge = 5 * 60 * 1000; // 5 minutes
-
-  for (const key of Object.keys(RECOGNITION_SESSIONS)) {
-    if (now - RECOGNITION_SESSIONS[key].createdAt > maxAge) {
-      delete RECOGNITION_SESSIONS[key];
-    }
-  }
 }
 
 export async function handleCancelRecognize(
