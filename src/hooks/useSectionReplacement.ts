@@ -42,8 +42,9 @@ export function useSectionReplacement({
   const startTime = customRange?.start ?? selectedSection?.startTime ?? 0;
   const endTime = customRange?.end ?? selectedSection?.endTime ?? 0;
   const sectionDuration = endTime - startTime;
-  const maxDuration = duration * 0.5;
-  const isValidDuration = sectionDuration > 0 && sectionDuration <= maxDuration;
+  // Use a reasonable default max duration if track duration is 0 (not loaded yet)
+  const maxDuration = duration > 0 ? duration * 0.5 : 120; // 2 min default max
+  const isValidDuration = sectionDuration > 0 && (duration === 0 || sectionDuration <= maxDuration);
   const hasSelection = customRange !== null || selectedSection !== null;
 
   // Initialize tags and lyrics from selection

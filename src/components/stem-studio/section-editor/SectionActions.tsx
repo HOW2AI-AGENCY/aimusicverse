@@ -23,52 +23,34 @@ export function SectionActions({
 }: SectionActionsProps) {
   return (
     <div className={`flex items-center gap-2 ${compact ? 'pt-2' : 'pt-3'}`}>
-      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-        <Button
-          variant="ghost"
-          size={compact ? "sm" : "default"}
-          onClick={onCancel}
-          disabled={isSubmitting}
-          className={compact ? "h-8" : "h-9"}
-        >
-          <X className="w-4 h-4 mr-1.5" />
-          Отмена
-        </Button>
-      </motion.div>
-      
-      <motion.div 
-        className="flex-1"
-        whileHover={{ scale: 1.02 }} 
-        whileTap={{ scale: 0.98 }}
+      <Button
+        variant="ghost"
+        size={compact ? "sm" : "default"}
+        onClick={onCancel}
+        disabled={isSubmitting}
+        className={compact ? "h-8" : "h-9"}
       >
-        <Button
-          onClick={onReplace}
-          disabled={!isValid || isSubmitting}
-          className={`w-full gap-2 ${compact ? "h-8" : "h-9"}`}
-        >
-          {isSubmitting ? (
-            <>
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-              >
-                <Loader2 className="w-4 h-4" />
-              </motion.div>
-              Генерация...
-            </>
-          ) : (
-            <>
-              <motion.div
-                animate={{ rotate: [0, 15, -15, 0] }}
-                transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 2 }}
-              >
-                <Wand2 className="w-4 h-4" />
-              </motion.div>
-              Заменить секцию
-            </>
-          )}
-        </Button>
-      </motion.div>
+        <X className="w-4 h-4 mr-1.5" />
+        Отмена
+      </Button>
+      
+      <Button
+        onClick={onReplace}
+        disabled={!isValid || isSubmitting}
+        className={`flex-1 gap-2 ${compact ? "h-8" : "h-9"}`}
+      >
+        {isSubmitting ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" />
+            Генерация...
+          </>
+        ) : (
+          <>
+            <Wand2 className="w-4 h-4" />
+            Заменить секцию
+          </>
+        )}
+      </Button>
     </div>
   );
 }

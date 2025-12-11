@@ -93,10 +93,14 @@ export function SectionEditorMobile({
     onOpenChange(false);
   };
 
+  // Early validation state
+  const durationValid = duration > 0;
+  const canReplace = hasSunoData && durationValid && isValidDuration;
+
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className="max-h-[90vh]">
-        <DrawerHeader className="pb-2">
+      <DrawerContent className="max-h-[85vh] flex flex-col">
+        <DrawerHeader className="pb-2 flex-shrink-0">
           <DrawerTitle className="flex items-center gap-3">
             <motion.div 
               className="w-9 h-9 rounded-xl bg-primary/20 flex items-center justify-center"
@@ -126,9 +130,9 @@ export function SectionEditorMobile({
           </DrawerTitle>
         </DrawerHeader>
 
-        <ScrollArea className="flex-1 px-4">
-          <div className="space-y-4 pb-6">
-            {/* Waveform */}
+        <ScrollArea className="flex-1 overflow-y-auto">
+          <div className="px-4 space-y-3 pb-safe">
+            {/* Waveform - compact */}
             <SectionWaveformPreview
               duration={duration}
               startTime={startTime}
@@ -136,10 +140,10 @@ export function SectionEditorMobile({
               isValid={isValidDuration}
               interactive
               onSelectionChange={updateRange}
-              className="h-16"
+              className="h-14"
             />
 
-            {/* Section Picker */}
+            {/* Section Picker - horizontal scroll */}
             {detectedSections.length > 0 && (
               <SectionPicker
                 sections={detectedSections}
@@ -151,57 +155,59 @@ export function SectionEditorMobile({
               />
             )}
 
-            {/* Audio Preview */}
-            {audioUrl && (
-              <SectionPreviewPlayer
-                audioUrl={audioUrl}
-                startTime={startTime}
-                endTime={endTime}
+            {/* Validation - only show if there's an issue */}
+            {(!durationValid || !isValidDuration) && (
+              <SectionValidation
+                isValid={durationValid && isValidDuration}
+                sectionDuration={sectionDuration}
+                maxDuration={maxDuration || 60}
+                compact
               />
             )}
 
-            {/* Validation */}
-            <SectionValidation
-              isValid={isValidDuration}
-              sectionDuration={sectionDuration}
-              maxDuration={maxDuration}
-              compact
-            />
-
             {/* Warning if track doesn't have Suno data */}
             {!hasSunoData && (
-              <Alert variant="destructive" className="border-orange-500/50 bg-orange-500/10">
+              <Alert variant="destructive" className="border-orange-500/50 bg-orange-500/10 py-2">
                 <AlertCircle className="h-4 w-4" />
                 <AlertDescription className="text-xs">
-                  <strong>Замена секций недоступна</strong><br />
-                  Этот трек не был сгенерирован через Suno AI и не содержит данных для замены секций.
-                  Функция доступна только для треков, созданных через генерацию.
+                  Замена секций недоступна — трек не был сгенерирован через Suno AI.
                 </AlertDescription>
               </Alert>
             )}
 
-            {/* Presets */}
+            {/* Warning if duration not loaded */}
+            {hasSunoData && !durationValid && (
+              <Alert className="border-amber-500/50 bg-amber-500/10 py-2">
+                <AlertCircle className="h-4 w-4 text-amber-500" />
+                <AlertDescription className="text-xs">
+                  Загрузка аудио... Подождите пока длительность трека определится.
+                </AlertDescription>
+              </Alert>
+            )}
+
+            {/* Presets - compact grid */}
             {hasSunoData && <SectionPresets onSelect={addPreset} compact />}
 
-            {/* Prompt */}
+            {/* Prompt - smaller */}
             {hasSunoData && (
-              <div className="space-y-1.5">
+              <div className="space-y-1">
                 <Label className="text-xs text-muted-foreground">Описание стиля</Label>
                 <Textarea
                   placeholder="Более энергичный, с электро-гитарой..."
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  className="min-h-[50px] resize-none text-sm"
+                  className="min-h-[40px] resize-none text-sm"
+                  rows={2}
                 />
               </div>
             )}
 
-            {/* Tags */}
+            {/* Tags - compact */}
             {hasSunoData && (
-              <div className="space-y-1.5">
+              <div className="space-y-1">
                 <Label className="text-xs text-muted-foreground flex items-center gap-1.5">
                   <Tag className="w-3 h-3" />
-                  Стиль музыки
+                  Стиль
                 </Label>
                 <Input
                   placeholder="rock, guitar, energetic..."
@@ -212,25 +218,12 @@ export function SectionEditorMobile({
               </div>
             )}
 
-            {/* Lyrics Editor with AI and Auto-regenerate */}
-            {hasSunoData && (
-              <SectionLyricsEditor
-                lyrics={lyrics}
-                onLyricsChange={setLyrics}
-                originalLyrics={selectedSection?.lyrics}
-                sectionLabel={selectedSection?.label}
-                onAutoRegenerate={executeReplacement}
-                isRegenerating={isSubmitting}
-                compact
-              />
-            )}
-
             {/* Actions */}
             {hasSunoData && (
               <SectionActions
                 onReplace={executeReplacement}
                 onCancel={handleClose}
-                isValid={isValidDuration}
+                isValid={canReplace}
                 isSubmitting={isSubmitting}
                 compact
               />

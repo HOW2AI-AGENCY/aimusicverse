@@ -25,6 +25,18 @@ export function SectionValidation({
   maxDuration,
   compact = false,
 }: SectionValidationProps) {
+  // Don't show anything if section duration is 0 (no selection)
+  if (sectionDuration <= 0) {
+    return (
+      <div className={cn(
+        "flex items-center gap-2 bg-muted/50 border border-border rounded-lg text-muted-foreground",
+        compact ? "px-2 py-1.5 text-xs" : "px-3 py-2 text-sm"
+      )}>
+        <span>Выберите секцию на таймлайне</span>
+      </div>
+    );
+  }
+
   return (
     <AnimatePresence mode="wait">
       {!isValid ? (
@@ -39,19 +51,14 @@ export function SectionValidation({
             compact ? "p-2 text-xs" : "p-3 text-sm"
           )}
         >
-          <motion.div
-            animate={{ rotate: [0, -10, 10, -10, 0] }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <AlertTriangle className={cn(
-              "text-destructive flex-shrink-0",
-              compact ? "w-3.5 h-3.5" : "w-4 h-4"
-            )} />
-          </motion.div>
+          <AlertTriangle className={cn(
+            "text-destructive flex-shrink-0 mt-0.5",
+            compact ? "w-3.5 h-3.5" : "w-4 h-4"
+          )} />
           <div>
             <p className="font-medium text-destructive">Секция слишком длинная</p>
             <p className="text-muted-foreground text-xs">
-              Сейчас: {formatTime(sectionDuration)} • Максимум: {formatTime(maxDuration)} (50% трека)
+              {formatTime(sectionDuration)} / макс. {formatTime(maxDuration)}
             </p>
           </div>
         </motion.div>
@@ -66,14 +73,8 @@ export function SectionValidation({
             compact ? "px-2 py-1.5 text-xs" : "px-3 py-2 text-sm"
           )}
         >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: 'spring', bounce: 0.5 }}
-          >
-            <Check className="w-3.5 h-3.5" />
-          </motion.div>
-          <span>Готово к замене • {formatTime(sectionDuration)}</span>
+          <Check className="w-3.5 h-3.5 flex-shrink-0" />
+          <span>Готово • {formatTime(sectionDuration)}</span>
         </motion.div>
       )}
     </AnimatePresence>
