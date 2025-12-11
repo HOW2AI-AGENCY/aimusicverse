@@ -596,6 +596,87 @@ export type Database = {
         }
         Relationships: []
       }
+      klangio_analysis_logs: {
+        Row: {
+          audio_url: string | null
+          beats_count: number | null
+          bpm: number | null
+          chords_count: number | null
+          completed_at: string | null
+          created_at: string | null
+          duration_ms: number | null
+          error_message: string | null
+          fetch_errors: Json | null
+          files: Json | null
+          id: string
+          job_id: string | null
+          key_detected: string | null
+          mode: string
+          model: string | null
+          notes_count: number | null
+          raw_request: Json | null
+          raw_response: Json | null
+          requested_outputs: string[] | null
+          status: string
+          time_signature: string | null
+          upload_errors: Json | null
+          user_id: string
+          vocabulary: string | null
+        }
+        Insert: {
+          audio_url?: string | null
+          beats_count?: number | null
+          bpm?: number | null
+          chords_count?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          duration_ms?: number | null
+          error_message?: string | null
+          fetch_errors?: Json | null
+          files?: Json | null
+          id?: string
+          job_id?: string | null
+          key_detected?: string | null
+          mode: string
+          model?: string | null
+          notes_count?: number | null
+          raw_request?: Json | null
+          raw_response?: Json | null
+          requested_outputs?: string[] | null
+          status?: string
+          time_signature?: string | null
+          upload_errors?: Json | null
+          user_id: string
+          vocabulary?: string | null
+        }
+        Update: {
+          audio_url?: string | null
+          beats_count?: number | null
+          bpm?: number | null
+          chords_count?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          duration_ms?: number | null
+          error_message?: string | null
+          fetch_errors?: Json | null
+          files?: Json | null
+          id?: string
+          job_id?: string | null
+          key_detected?: string | null
+          mode?: string
+          model?: string | null
+          notes_count?: number | null
+          raw_request?: Json | null
+          raw_response?: Json | null
+          requested_outputs?: string[] | null
+          status?: string
+          time_signature?: string | null
+          upload_errors?: Json | null
+          user_id?: string
+          vocabulary?: string | null
+        }
+        Relationships: []
+      }
       lyrics_templates: {
         Row: {
           created_at: string
