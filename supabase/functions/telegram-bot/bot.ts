@@ -534,16 +534,20 @@ export async function handleUpdate(update: TelegramUpdate) {
           await handleLibrary(chat.id, from.id);
           break;
 
+        case 'projects':
+          await handleProjects(chat.id, from.id);
+          break;
+
         case 'status':
           await handleStatus(chat.id, from.id);
           break;
 
         case 'app':
-          await sendMessage(chat.id, '🎵 Открываем приложение...', {
+          await sendMessage(chat.id, '🎵 Открываем приложение\\.\\.\\.', {
             inline_keyboard: [[
               { text: '🎵 Открыть MusicVerse', web_app: { url: BOT_CONFIG.miniAppUrl } }
             ]]
-          });
+          }, 'MarkdownV2');
           break;
 
         case 'track': {
@@ -567,7 +571,7 @@ export async function handleUpdate(update: TelegramUpdate) {
             const { handleLyrics } = await import('./commands/lyrics.ts');
             await handleLyrics(chat.id, trackId);
           } else {
-            await sendMessage(chat.id, '❌ Укажите ID трека: /lyrics <track_id>');
+            await sendMessage(chat.id, '❌ Укажите ID трека: /lyrics <track_id>', undefined, null);
           }
           break;
         }
@@ -578,7 +582,7 @@ export async function handleUpdate(update: TelegramUpdate) {
             const { handleTrackStats } = await import('./commands/stats.ts');
             await handleTrackStats(chat.id, trackId);
           } else {
-            await sendMessage(chat.id, '❌ Укажите ID трека: /stats <track_id>');
+            await sendMessage(chat.id, '❌ Укажите ID трека: /stats <track_id>', undefined, null);
           }
           break;
         }
@@ -647,7 +651,9 @@ export async function handleUpdate(update: TelegramUpdate) {
         default:
           await sendMessage(
             chat.id,
-            'Неизвестная команда. Используйте /help для списка доступных команд.'
+            'Неизвестная команда. Используйте /help для списка доступных команд.',
+            undefined,
+            null
           );
       }
     }
