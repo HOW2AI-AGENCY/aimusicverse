@@ -11,6 +11,7 @@ import { handleTextMessage, sendDefaultResponse } from './handlers/text.ts';
 import { handleRecognizeCommand, hasRecognitionSession, handleRecognizeAudio, handleCancelRecognize, handleRecognizeAgain } from './commands/recognize.ts';
 import { handleMidiCommand, handlePianoCommand, hasMidiSession, handleCancelMidi, handleMidiTrackCallback, handleMidiModelCallback, handleMidiUploadCallback, handleMidiAgainCallback } from './commands/midi.ts';
 import { handleGuitarCommand, hasGuitarSession, handleGuitarAudio, handleCancelGuitar, handleGuitarAgain } from './commands/guitar.ts';
+import { handleAnalyzeCommand, handleAnalyzeSelect, handleTranscribeMenu, handleTranscription, handleChordAnalysis, handleBeatAnalysis, handleFullAnalysis, handleAnalyzeList } from './commands/analyze.ts';
 import { sendMessage, parseCommand, answerCallbackQuery, editMessageText, type TelegramUpdate } from './telegram-api.ts';
 import { BOT_CONFIG } from './config.ts';
 import { handleNavigationCallback } from './handlers/navigation.ts';
@@ -301,6 +302,50 @@ export async function handleUpdate(update: TelegramUpdate) {
       if (data === 'guitar_again') {
         await handleGuitarAgain(chatId, from.id);
         await answerCallbackQuery(id);
+        return;
+      }
+
+      // Analyze handlers
+      if (data === 'analyze_list') {
+        await handleAnalyzeList(chatId, from.id, messageId!, id);
+        return;
+      }
+
+      if (data?.startsWith('analyze_select_')) {
+        const refId = data.replace('analyze_select_', '');
+        await handleAnalyzeSelect(chatId, from.id, refId, messageId!, id);
+        return;
+      }
+
+      if (data?.startsWith('analyze_transcribe_')) {
+        const refId = data.replace('analyze_transcribe_', '');
+        await handleTranscribeMenu(chatId, from.id, refId, messageId!, id);
+        return;
+      }
+
+      if (data?.startsWith('analyze_tr_')) {
+        const parts = data.replace('analyze_tr_', '').split('_');
+        const model = parts[0];
+        const refId = parts.slice(1).join('_');
+        await handleTranscription(chatId, from.id, refId, model, messageId!, id);
+        return;
+      }
+
+      if (data?.startsWith('analyze_chords_')) {
+        const refId = data.replace('analyze_chords_', '');
+        await handleChordAnalysis(chatId, from.id, refId, messageId!, id);
+        return;
+      }
+
+      if (data?.startsWith('analyze_beats_')) {
+        const refId = data.replace('analyze_beats_', '');
+        await handleBeatAnalysis(chatId, from.id, refId, messageId!, id);
+        return;
+      }
+
+      if (data?.startsWith('analyze_full_')) {
+        const refId = data.replace('analyze_full_', '');
+        await handleFullAnalysis(chatId, from.id, refId, messageId!, id);
         return;
       }
 
@@ -646,6 +691,10 @@ export async function handleUpdate(update: TelegramUpdate) {
 
         case 'guitar':
           await handleGuitarCommand(chat.id, from.id);
+          break;
+
+        case 'analyze':
+          await handleAnalyzeCommand(chat.id, from.id, args);
           break;
 
         default:
