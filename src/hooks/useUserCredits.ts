@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 
 interface UserCredits {
   balance: number;
@@ -15,6 +16,47 @@ const GENERATION_COST = 10;
 export function useUserCredits() {
   const queryClient = useQueryClient();
 
+  // Check admin status
+  const { data: adminData } = useQuery({
+    queryKey: ['user-admin-status'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return { isAdmin: false };
+
+      const { data } = await supabase.rpc('has_role', {
+        _user_id: user.id,
+        _role: 'admin',
+      });
+
+      return { isAdmin: !!data };
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+
+  const isAdmin = adminData?.isAdmin ?? false;
+
+  // Fetch API balance for admins
+  const { data: apiBalance } = useQuery({
+    queryKey: ['admin-suno-api-balance'],
+    queryFn: async (): Promise<number> => {
+      try {
+        const { data, error } = await supabase.functions.invoke('suno-credits');
+        if (error) {
+          logger.error('Failed to fetch Suno API balance for admin', { error });
+          return 0;
+        }
+        return data?.credits ?? 0;
+      } catch (err) {
+        logger.error('Error fetching admin API balance', { error: err });
+        return 0;
+      }
+    },
+    enabled: isAdmin,
+    staleTime: 30000,
+    refetchInterval: 60000,
+  });
+
+  // Fetch personal credits for regular users
   const { data: credits, isLoading, error, refetch } = useQuery({
     queryKey: ['user-credits'],
     queryFn: async (): Promise<UserCredits | null> => {
@@ -28,7 +70,7 @@ export function useUserCredits() {
         .maybeSingle();
 
       if (error) {
-        console.error('Error fetching user credits:', error);
+        logger.error('Error fetching user credits', { error });
         return null;
       }
 
@@ -45,20 +87,29 @@ export function useUserCredits() {
     refetchInterval: 60000, // Refetch every minute
   });
 
-  const canGenerate = (credits?.balance ?? 0) >= GENERATION_COST;
+  // For admins, use API balance; for regular users, use personal balance
+  const effectiveBalance = isAdmin ? (apiBalance ?? 0) : (credits?.balance ?? 0);
+  
+  // Admins always can generate (they use shared API balance)
+  const canGenerate = isAdmin ? true : effectiveBalance >= GENERATION_COST;
 
   const invalidate = () => {
     queryClient.invalidateQueries({ queryKey: ['user-credits'] });
+    if (isAdmin) {
+      queryClient.invalidateQueries({ queryKey: ['admin-suno-api-balance'] });
+    }
   };
 
   return {
     credits,
-    balance: credits?.balance ?? 0,
+    balance: effectiveBalance,
     isLoading,
     error,
     refetch,
     invalidate,
     canGenerate,
     generationCost: GENERATION_COST,
+    isAdmin,
+    apiBalance: apiBalance ?? null,
   };
 }

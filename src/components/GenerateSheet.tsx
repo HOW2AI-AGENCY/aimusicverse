@@ -117,6 +117,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               onOpenHistory={() => setHistoryOpen(true)}
               advancedOpen={advancedOpen}
               onAdvancedOpenChange={setAdvancedOpen}
+              isAdmin={form.isAdmin}
             />
 
             {/* Quick Action Buttons */}
