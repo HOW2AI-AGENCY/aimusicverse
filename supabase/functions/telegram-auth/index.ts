@@ -278,6 +278,7 @@ Deno.serve(async (req) => {
     console.log('🆕 Creating new user for Telegram ID:', telegramUser.id);
     
     const password = crypto.randomUUID();
+    const INITIAL_CREDITS = 50;
 
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email,
@@ -319,6 +320,39 @@ Deno.serve(async (req) => {
         user_id: userId,
         telegram_chat_id: chatId,
       });
+
+    // Grant initial 50 credits to new user
+    console.log('💰 Granting initial credits to new user:', INITIAL_CREDITS);
+    
+    const { error: creditsError } = await supabase
+      .from('user_credits')
+      .insert({
+        user_id: userId,
+        balance: INITIAL_CREDITS,
+        total_earned: INITIAL_CREDITS,
+        total_spent: 0,
+        experience: 0,
+        level: 1,
+        current_streak: 0,
+        longest_streak: 0,
+      });
+
+    if (creditsError) {
+      console.error('❌ Failed to grant initial credits:', creditsError);
+    } else {
+      // Log the registration bonus transaction
+      await supabase
+        .from('credit_transactions')
+        .insert({
+          user_id: userId,
+          amount: INITIAL_CREDITS,
+          transaction_type: 'earn',
+          action_type: 'registration_bonus',
+          description: 'Бонус за регистрацию',
+          metadata: { telegram_id: telegramUser.id },
+        });
+      console.log('✅ Initial credits granted successfully');
+    }
 
     const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
       email,

@@ -64,20 +64,22 @@ serve(async (req) => {
       );
     }
 
-    // Get user's Telegram ID from profile
+    // Get user's Telegram ID from profile (use telegram_id not telegram_user_id)
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
-      .select('telegram_user_id')
+      .select('telegram_id')
       .eq('user_id', userId)
       .single();
 
-    if (profileError || !profile?.telegram_user_id) {
+    if (profileError || !profile?.telegram_id) {
       logger.error('User profile not found', { userId, error: profileError });
       return new Response(
         JSON.stringify({ error: 'User profile not found' }),
         { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+
+    const telegramUserId = profile.telegram_id;
 
     // Create transaction record
     const transactionId = crypto.randomUUID();
@@ -95,11 +97,10 @@ serve(async (req) => {
         id: transactionId,
         user_id: userId,
         product_id: product.id,
-        telegram_user_id: profile.telegram_user_id,
-        invoice_payload: invoicePayload,
+        product_code: product.product_code,
+        telegram_user_id: telegramUserId,
         stars_amount: product.stars_price,
         status: 'pending',
-        idempotency_key: `${userId}_${productCode}_${Date.now()}`,
       });
 
     if (txError) {

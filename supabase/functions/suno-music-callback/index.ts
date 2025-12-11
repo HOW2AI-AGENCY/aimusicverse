@@ -5,6 +5,9 @@ import { isSunoSuccessCode } from '../_shared/suno.ts';
 
 const logger = createLogger('suno-music-callback');
 
+// Cost per generation in user credits (must match suno-music-generate)
+const GENERATION_COST = 10;
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -424,9 +427,60 @@ serve(async (req) => {
         received_clips: clips.length,
       }).eq('id', task.id);
 
-      // Reward user for completing generation
+      // Deduct credits from user balance for generation
       try {
-        logger.info('Rewarding user for generation completion');
+        logger.info('Deducting generation credits from user', { userId: task.user_id, cost: GENERATION_COST });
+        
+        // Get current balance
+        const { data: currentCredits, error: fetchError } = await supabase
+          .from('user_credits')
+          .select('balance, total_spent')
+          .eq('user_id', task.user_id)
+          .single();
+
+        if (fetchError) {
+          logger.error('Failed to fetch user credits for deduction', fetchError);
+        } else if (currentCredits) {
+          const newBalance = Math.max(0, currentCredits.balance - GENERATION_COST);
+          const newTotalSpent = (currentCredits.total_spent || 0) + GENERATION_COST;
+
+          const { error: updateError } = await supabase
+            .from('user_credits')
+            .update({
+              balance: newBalance,
+              total_spent: newTotalSpent,
+              updated_at: new Date().toISOString(),
+            })
+            .eq('user_id', task.user_id);
+
+          if (updateError) {
+            logger.error('Failed to deduct credits', updateError);
+          } else {
+            // Log the credit deduction transaction
+            await supabase
+              .from('credit_transactions')
+              .insert({
+                user_id: task.user_id,
+                amount: GENERATION_COST,
+                transaction_type: 'spend',
+                action_type: 'generation',
+                description: `Генерация трека: ${clips[0]?.title || 'Трек'}`,
+                metadata: { 
+                  trackId, 
+                  clips: clips.length,
+                  model: task.model_used,
+                },
+              });
+            logger.success('Credits deducted successfully', { newBalance });
+          }
+        }
+      } catch (deductErr) {
+        logger.error('Credit deduction error', deductErr);
+      }
+
+      // Reward user with XP for completing generation (no credits, just XP)
+      try {
+        logger.info('Rewarding user XP for generation completion');
         await supabase.functions.invoke('reward-action', {
           body: {
             userId: task.user_id,
@@ -434,7 +488,7 @@ serve(async (req) => {
             metadata: { trackId, clips: clips.length },
           },
         });
-        logger.success('Generation reward granted');
+        logger.success('Generation XP reward granted');
       } catch (rewardErr) {
         logger.error('Reward action error', rewardErr);
       }
