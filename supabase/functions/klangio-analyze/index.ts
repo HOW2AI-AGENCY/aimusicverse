@@ -101,12 +101,16 @@ serve(async (req) => {
         baseEndpoint = `${API_BASE}/transcription`;
         queryParams.set('model', model || 'guitar');
         if (title) queryParams.set('title', title);
-        // outputs go in FormData body per OpenAPI spec
-        const validOutputs = (requestedOutputs || ['midi']).filter(o => validFormats.includes(o));
-        if (validOutputs.length === 0) validOutputs.push('midi');
-        console.log(`[klangio] Transcription outputs: ${JSON.stringify(validOutputs)}`);
-        // Append each output format to FormData as separate entries
-        validOutputs.forEach(output => formData.append('outputs', output));
+        // Add outputs to query params - valid formats: midi, midi_quant, mxml, gp5, pdf
+        // Note: 'json' is NOT a valid output format - notes data is fetched separately via /job/{id}/json
+        const validFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
+        const requestedOutputs = outputs || ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf']; // Request all formats by default
+        const validOutputs = requestedOutputs.filter(o => validFormats.includes(o));
+        if (validOutputs.length === 0) validOutputs.push('midi'); // Ensure at least midi is requested
+        console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(requestedOutputs)}, valid=${JSON.stringify(validOutputs)}`);
+        // The API expects 'outputs' as query parameters, not in FormData
+        validOutputs.forEach(output => queryParams.append('outputs', output));
+        console.log(`[klangio] QueryParams after appending outputs: ${queryParams.toString()}`);
         break;
         
       case 'chord-recognition':
@@ -127,11 +131,14 @@ serve(async (req) => {
         throw new Error(`Unknown mode: ${mode}`);
     }
 
-    const endpoint = queryParams.toString() 
+    const endpoint = queryParams.toString()
       ? `${baseEndpoint}?${queryParams.toString()}`
       : baseEndpoint;
 
-    // Submit job to Klangio
+    console.log(`[klangio] Final queryParams.toString(): ${queryParams.toString()}`);
+    console.log(`[klangio] Final endpoint constructed: ${endpoint}`);
+
+    // Submit job to Klangio - use kl-api-key header as per OpenAPI spec
     console.log(`[klangio] Submitting job to ${endpoint}`);
     const submitResponse = await fetch(endpoint, {
       method: "POST",
@@ -218,6 +225,19 @@ serve(async (req) => {
 
       if (statusData.status === "COMPLETED") {
         result = statusData;
+        console.log(`[klangio] Job completed! Full status data:`, JSON.stringify(statusData, null, 2));
+        // Log any generation flags if present
+        if (mode === 'transcription') {
+          const flags = {
+            gen_midi: statusData.gen_midi,
+            gen_midi_unq: statusData.gen_midi_unq,
+            gen_midi_quant: statusData.gen_midi_quant,
+            gen_xml: statusData.gen_xml,
+            gen_gp5: statusData.gen_gp5,
+            gen_pdf: statusData.gen_pdf,
+          };
+          console.log(`[klangio] API response flags:`, JSON.stringify(flags, null, 2));
+        }
         break;
       } else if (["FAILED", "CANCELLED", "TIMED_OUT"].includes(statusData.status)) {
         const errorMsg = statusData.error || 'Unknown error';
