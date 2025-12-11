@@ -92,16 +92,16 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="h-[90vh] flex flex-col bg-background/95 backdrop-blur-xl p-0">
-        <SheetHeader className="px-4 pt-4 pb-3 sm:px-6 sm:pt-6 sm:pb-4">
-          <SheetTitle className="text-lg sm:text-xl flex items-center gap-2">
-            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+      <SheetContent side="bottom" className="h-[90vh] flex flex-col frost-sheet p-0">
+        <SheetHeader className="px-3 pt-3 pb-2 sm:px-4 sm:pt-4 sm:pb-3">
+          <SheetTitle className="text-base sm:text-lg flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-primary" />
             Создать трек
           </SheetTitle>
         </SheetHeader>
 
         <ScrollArea className="flex-1">
-          <div className="px-4 pb-4 sm:px-6 sm:pb-6 space-y-3">
+          <div className="px-3 pb-4 sm:px-4 sm:pb-6 space-y-3">
             {/* Header with controls */}
             <GenerateFormHeader
               credits={form.credits}

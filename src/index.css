@@ -224,6 +224,22 @@ All colors MUST be HSL.
     transform: translateY(-2px);
   }
 
+  /* Mobile Frost - Lighter glass effect for mobile */
+  .glass-mobile {
+    background: hsl(var(--background) / 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid hsl(var(--border) / 0.5);
+  }
+
+  /* Mobile Frost - Frosted sheet for bottom sheets */
+  .frost-sheet {
+    background: hsl(var(--background) / 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid hsl(var(--border) / 0.3);
+  }
+
   /* Safe Area utility classes для адаптации UI компонентов */
   .safe-area-top {
     padding-top: var(--safe-area-top);
@@ -264,30 +280,46 @@ All colors MUST be HSL.
     padding-bottom: max(var(--safe-area-bottom), 16px);
   }
 
-  /* Touch feedback utilities */
+  /* Touch feedback utilities - Mobile optimized */
   .touch-manipulation {
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
   }
 
   /* Smooth transitions for interactive elements */
   .transition-smooth {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Improved hover states for cards */
-  .hover-lift {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  /* Improved hover states for cards - Desktop only */
+  @media (hover: hover) and (pointer: fine) {
+    .hover-lift {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .hover-lift:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-hover);
+    }
   }
 
-  .hover-lift:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
-  }
-
-  /* Active state for buttons */
+  /* Active state for buttons - Universal */
   .active-scale:active {
-    transform: scale(0.95);
+    transform: scale(0.97);
+  }
+
+  /* Mobile Frost - Touch feedback */
+  .touch-feedback:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+
+  /* Mobile Frost - Card press effect */
+  .card-press:active {
+    transform: scale(0.99);
+    background: hsl(var(--card) / 0.8);
   }
 
   /* Loading skeleton animation */

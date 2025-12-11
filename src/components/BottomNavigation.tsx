@@ -42,12 +42,12 @@ export const BottomNavigation = () => {
   return (
     <>
       <motion.nav 
-        className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/30 bg-background/80 backdrop-blur-xl pb-[env(safe-area-inset-bottom,0px)]"
+        className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/30 bg-background/95 backdrop-blur-xl pb-[env(safe-area-inset-bottom,0px)]"
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       >
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:py-3">
+        <div className="max-w-7xl mx-auto px-2 py-2">
           <div className="flex items-center justify-around gap-1">
             {navItems.map((item) => {
               if (item.isCenter) {
@@ -55,23 +55,10 @@ export const BottomNavigation = () => {
                   <motion.button
                     key={item.path}
                     onClick={handleGenerateClick}
-                    className="relative flex items-center justify-center w-14 h-14 -mt-6 rounded-full bg-gradient-to-br from-primary via-primary to-primary/80 shadow-glow active:scale-95 transition-transform touch-manipulation"
-                    whileHover={{ scale: 1.05, boxShadow: '0 0 30px hsl(207 90% 54% / 0.5)' }}
+                    className="relative flex items-center justify-center w-14 h-14 -mt-5 rounded-full bg-primary shadow-lg active:scale-95 transition-transform touch-manipulation"
                     whileTap={{ scale: 0.95 }}
                   >
-                    <motion.div
-                      className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-primary/60"
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                    />
-                    <Plus className="w-7 h-7 text-primary-foreground relative z-10" />
-                    
-                    {/* Pulse ring effect */}
-                    <motion.div
-                      className="absolute inset-0 rounded-full border-2 border-primary/50"
-                      animate={{ scale: [1, 1.3, 1.3], opacity: [0.5, 0, 0] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
+                    <Plus className="w-6 h-6 text-primary-foreground relative z-10" />
                   </motion.button>
                 );
               }
@@ -89,27 +76,27 @@ export const BottomNavigation = () => {
                   key={item.path}
                   onClick={handleClick}
                   className={cn(
-                    "relative flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-colors min-h-[44px] min-w-[44px] touch-manipulation",
+                    "relative flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-lg transition-colors min-h-[44px] min-w-[44px] touch-manipulation",
                     active
                       ? "text-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                      : "text-muted-foreground"
                   )}
                   whileTap={{ scale: 0.92 }}
                 >
                   <motion.div
                     initial={false}
-                    animate={active ? { scale: 1.1 } : { scale: 1 }}
+                    animate={active ? { scale: 1.05 } : { scale: 1 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                   >
                     <item.icon className="w-5 h-5" />
                   </motion.div>
-                  <span className="text-xs font-medium">{item.label}</span>
+                  <span className="text-[10px] font-medium">{item.label}</span>
                   
                   {/* Active indicator */}
                   <AnimatePresence>
                     {active && (
                       <motion.div
-                        className="absolute -bottom-1 left-1/2 w-1 h-1 rounded-full bg-primary"
+                        className="absolute bottom-0 left-1/2 w-1 h-1 rounded-full bg-primary"
                         initial={{ scale: 0, x: '-50%' }}
                         animate={{ scale: 1, x: '-50%' }}
                         exit={{ scale: 0, x: '-50%' }}

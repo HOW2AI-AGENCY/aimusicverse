@@ -26,25 +26,22 @@ export function WelcomeSection({ userName, className }: WelcomeSectionProps) {
   
   return (
     <motion.div 
-      className={cn("py-2", className)}
+      className={cn("py-1.5 sm:py-2", className)}
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.05, duration: 0.3 }}
     >
       <div className="flex items-center gap-2">
-        <motion.div
-          animate={{ rotate: [0, 10, -10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-        >
+        <div className="flex-shrink-0">
           {icon}
-        </motion.div>
-        <div>
-          <h2 className="text-lg sm:text-xl font-semibold">
+        </div>
+        <div className="flex-1 min-w-0">
+          <h2 className="text-base sm:text-lg font-semibold truncate">
             {text}{userName && <span className="text-primary">, {userName}</span>}
           </h2>
-          <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+          <p className="text-[10px] sm:text-xs text-muted-foreground flex items-center gap-1">
             Готовы создать что-то новое?
-            <Sparkles className="w-3 h-3 text-primary" />
+            <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-primary" />
           </p>
         </div>
       </div>
