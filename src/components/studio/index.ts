@@ -3,14 +3,17 @@
  * Part of Sprint 015-A: Unified Studio Architecture
  */
 
+// Core Components
+export { StudioProvider, useStudio } from './StudioProvider';
+export { StemMixer } from './StemMixer';
+export { StudioQuickActions } from './StudioQuickActions';
+export { StemSeparationPrompt } from './StemSeparationPrompt';
+
+// Legacy (for backwards compatibility)
 export { StudioLayout } from './StudioLayout';
 export { StudioHeader } from './StudioHeader';
 export { StudioTabNavigation } from './StudioTabNavigation';
 export { StudioPlayer } from './StudioPlayer';
-export { StudioProvider, useStudio } from './StudioProvider';
-export { StemSeparationPrompt } from './StemSeparationPrompt';
-
-// Tab contents
 export { PlayerTabContent, ToolsTabContent, ExportTabContent } from './tabs';
 
 // Re-export store and types
