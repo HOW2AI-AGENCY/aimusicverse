@@ -1,8 +1,15 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
-import { BOT_CONFIG, MESSAGES } from '../config.ts';
-import { createTrackKeyboard } from '../keyboards/main-menu.ts';
+import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, editMessageText } from '../telegram-api.ts';
-import { createMainMenuKeyboard } from '../keyboards/main-menu.ts';
+import { 
+  buildMessage, 
+  createSection, 
+  formatRelativeTime,
+  createErrorMessage 
+} from '../utils/message-formatter.ts';
+import { ButtonBuilder } from '../utils/button-builder.ts';
+import { trackMessage } from '../utils/message-manager.ts';
+import { escapeMarkdownV2, truncateText } from '../utils/text-processor.ts';
 
 const supabase = createClient(
   BOT_CONFIG.supabaseUrl,
@@ -19,73 +26,197 @@ export async function handleLibrary(chatId: number, userId: number, messageId?: 
       .single();
 
     if (!profile) {
-      const text = '❌ Пользователь не найден. Сначала откройте Mini App.';
+      const errorMsg = createErrorMessage(
+        'Профиль не найден',
+        ['Откройте приложение для регистрации']
+      );
+      
+      const keyboard = new ButtonBuilder()
+        .addButton({
+          text: 'Открыть студию',
+          emoji: '🚀',
+          action: { type: 'webapp', url: BOT_CONFIG.miniAppUrl }
+        })
+        .build();
+      
       if (messageId) {
-        await editMessageText(chatId, messageId, text, createMainMenuKeyboard());
+        await editMessageText(chatId, messageId, errorMsg, keyboard);
       } else {
-        await sendMessage(chatId, text, createMainMenuKeyboard());
+        await sendMessage(chatId, errorMsg, keyboard, 'MarkdownV2');
       }
       return;
     }
 
-    // Get last 5 completed tracks with audio
+    // Get last 10 completed tracks with audio
     const { data: tracks, error } = await supabase
       .from('tracks')
-      .select('id, title, style, created_at, status, audio_url, local_audio_url')
+      .select('id, title, style, created_at, status, audio_url, local_audio_url, duration')
       .eq('user_id', profile.user_id)
       .eq('status', 'completed')
       .not('audio_url', 'is', null)
       .order('created_at', { ascending: false })
-      .limit(5);
+      .limit(10);
 
     if (error) {
       console.error('Error fetching tracks:', error);
-      const text = '❌ Ошибка при загрузке треков.';
+      
+      const errorMsg = createErrorMessage(
+        'Ошибка при загрузке треков',
+        ['Повторите попытку', 'Проверьте соединение']
+      );
+      
+      const keyboard = new ButtonBuilder()
+        .addButton({
+          text: 'Попробовать снова',
+          emoji: '🔄',
+          action: { type: 'callback', data: 'nav_library' }
+        })
+        .addButton({
+          text: 'Главное меню',
+          emoji: '🏠',
+          action: { type: 'callback', data: 'nav_main' }
+        })
+        .build();
+      
       if (messageId) {
-        await editMessageText(chatId, messageId, text, createMainMenuKeyboard());
+        await editMessageText(chatId, messageId, errorMsg, keyboard);
       } else {
-        await sendMessage(chatId, text, createMainMenuKeyboard());
+        await sendMessage(chatId, errorMsg, keyboard, 'MarkdownV2');
       }
       return;
     }
 
     if (!tracks || tracks.length === 0) {
+      const noTracksMsg = buildMessage({
+        title: 'У вас пока нет треков',
+        emoji: '📭',
+        description: 'Начните создавать музыку прямо сейчас!',
+        sections: [
+          {
+            title: 'Как начать',
+            content: [
+              'Используйте /generate для создания трека',
+              'Откройте студию для полного функционала',
+              'Загрузите аудио для обработки'
+            ],
+            emoji: '💡',
+            style: 'list'
+          }
+        ]
+      });
+      
+      const keyboard = new ButtonBuilder()
+        .addButton({
+          text: 'Создать трек',
+          emoji: '🎼',
+          action: { type: 'callback', data: 'nav_generate' }
+        })
+        .addButton({
+          text: 'Открыть студию',
+          emoji: '🚀',
+          action: { type: 'webapp', url: BOT_CONFIG.miniAppUrl }
+        })
+        .addButton({
+          text: 'Главное меню',
+          emoji: '🏠',
+          action: { type: 'callback', data: 'nav_main' }
+        })
+        .build();
+      
       if (messageId) {
-        await editMessageText(chatId, messageId, MESSAGES.noTracks, createMainMenuKeyboard());
+        await editMessageText(chatId, messageId, noTracksMsg, keyboard);
+        await trackMessage(chatId, messageId, 'content', 'library', { expiresIn: 60000 });
       } else {
-        await sendMessage(chatId, MESSAGES.noTracks, createMainMenuKeyboard());
+        const result = await sendMessage(chatId, noTracksMsg, keyboard, 'MarkdownV2');
+        if (result?.result?.message_id) {
+          await trackMessage(chatId, result.result.message_id, 'content', 'library', { expiresIn: 60000 });
+        }
       }
       return;
     }
 
-    // Escape markdown special characters for Telegram MarkdownV2
-    const escapeMarkdown = (text: string) => text.replace(/([_*[\]()~`>#+\-=|{}.!])/g, '\\$1');
-    
-    let message = '🎵 *Ваши треки:*\n\n';
-    
-    for (const track of tracks) {
-      const title = track.title || 'Без названия';
+    // Build track list
+    const trackItems = tracks.map((track, index) => {
+      const title = truncateText(track.title || 'Без названия', 40);
       const style = track.style || 'Без стиля';
+      const timeAgo = formatRelativeTime(new Date(track.created_at));
       
-      message += `✅ *${escapeMarkdown(title)}*\n`;
-      message += `   🎸 ${escapeMarkdown(style)}\n`;
-      message += `   📋 /track\\_${track.id.replace(/-/g, '')}\n\n`;
-    }
+      return `${index + 1}\\. 🎵 *${escapeMarkdownV2(title)}*\n   🎸 ${escapeMarkdownV2(style)} • ${timeAgo}`;
+    });
     
-    message += '\n💡 _Нажмите на команду для прослушивания_';
+    const libraryMsg = buildMessage({
+      title: 'Ваша библиотека',
+      emoji: '📚',
+      description: `Всего треков: ${tracks.length}`,
+      sections: [
+        {
+          title: 'Последние треки',
+          content: trackItems.join('\n\n'),
+          emoji: '🎵'
+        }
+      ],
+      footer: 'Откройте полную библиотеку в приложении'
+    });
+    
+    const keyboard = new ButtonBuilder()
+      .addButton({
+        text: 'Открыть библиотеку',
+        emoji: '📚',
+        action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/library` }
+      })
+      .addRow(
+        {
+          text: 'Создать трек',
+          emoji: '🎼',
+          action: { type: 'callback', data: 'nav_generate' }
+        },
+        {
+          text: 'Обновить',
+          emoji: '🔄',
+          action: { type: 'callback', data: 'nav_library' }
+        }
+      })
+      .addButton({
+        text: 'Главное меню',
+        emoji: '🏠',
+        action: { type: 'callback', data: 'nav_main' }
+      })
+      .build();
 
     if (messageId) {
-      await editMessageText(chatId, messageId, message, createTrackKeyboard(tracks[0].id));
+      await editMessageText(chatId, messageId, libraryMsg, keyboard);
+      await trackMessage(chatId, messageId, 'content', 'library', { expiresIn: 300000 }); // 5 minutes
     } else {
-      await sendMessage(chatId, message, createTrackKeyboard(tracks[0].id));
+      const result = await sendMessage(chatId, libraryMsg, keyboard, 'MarkdownV2');
+      if (result?.result?.message_id) {
+        await trackMessage(chatId, result.result.message_id, 'content', 'library', { expiresIn: 300000 });
+      }
     }
   } catch (error) {
     console.error('Error in library command:', error);
-    const text = '❌ Ошибка при загрузке библиотеки.';
+    
+    const errorMsg = createErrorMessage(
+      'Ошибка при загрузке библиотеки',
+      ['Повторите попытку', 'Проверьте соединение']
+    );
+    
+    const keyboard = new ButtonBuilder()
+      .addButton({
+        text: 'Попробовать снова',
+        emoji: '🔄',
+        action: { type: 'callback', data: 'nav_library' }
+      })
+      .addButton({
+        text: 'Главное меню',
+        emoji: '🏠',
+        action: { type: 'callback', data: 'nav_main' }
+      })
+      .build();
+    
     if (messageId) {
-      await editMessageText(chatId, messageId, text, createMainMenuKeyboard());
+      await editMessageText(chatId, messageId, errorMsg, keyboard);
     } else {
-      await sendMessage(chatId, text, createMainMenuKeyboard());
+      await sendMessage(chatId, errorMsg, keyboard, 'MarkdownV2');
     }
   }
 }
