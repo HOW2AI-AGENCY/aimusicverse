@@ -155,7 +155,18 @@ serve(async (req) => {
         result = statusData;
         break;
       } else if (statusData.status === "FAILED" || statusData.status === "CANCELLED" || statusData.status === "TIMED_OUT") {
-        throw new Error(`Klangio job ${statusData.status}: ${statusData.error || 'Unknown error'}`);
+        const errorMsg = statusData.error || 'Unknown error';
+        // Return user-friendly error for "no notes found" case
+        if (errorMsg.toLowerCase().includes('no notes found')) {
+          return new Response(JSON.stringify({ 
+            error: 'no_notes_found',
+            message: 'Не удалось распознать музыкальные ноты в записи. Попробуйте записать более чёткий и громкий звук.'
+          }), { 
+            status: 422,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+          });
+        }
+        throw new Error(`Klangio job ${statusData.status}: ${errorMsg}`);
       }
     }
 

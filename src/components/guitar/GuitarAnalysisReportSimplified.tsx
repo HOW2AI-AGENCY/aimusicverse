@@ -30,7 +30,7 @@ import {
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { useIsMobile } from '@/hooks/useIsMobile';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { ChordDiagramUnified } from './ChordDiagramUnified';
 import { WaveformWithChords } from './WaveformWithChords';
 import type { GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
