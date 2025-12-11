@@ -5,7 +5,7 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { BOT_CONFIG } from '../config.ts';
-import { sendMessage, editMessageText, answerCallbackQuery } from '../telegram-api.ts';
+import { sendMessage, editMessageText, answerCallbackQuery, escapeMarkdownV2 } from '../telegram-api.ts';
 import { trackMetric, formatDuration } from '../utils/index.ts';
 import { createLogger } from '../../_shared/logger.ts';
 
@@ -68,15 +68,15 @@ export async function handleAnalyzeCommand(
       .limit(10);
 
     if (error || !uploads || uploads.length === 0) {
-      await sendMessage(chatId, `🔍 *Анализ аудио*
+      await sendMessage(chatId, `🔍 Анализ аудио
 
 У вас нет загруженных файлов для анализа.
 
-Сначала загрузите аудио командой /upload`, {
+Сначала загрузите аудио командой /upload или отправьте аудиофайл в чат.`, {
         inline_keyboard: [[
           { text: '☁️ Загрузить аудио', callback_data: 'start_upload' }
         ]]
-      }, 'MarkdownV2');
+      }, null);
       return;
     }
 
@@ -86,19 +86,19 @@ export async function handleAnalyzeCommand(
       callback_data: `analyze_select_${upload.id.substring(0, 20)}`
     }]);
 
-    await sendMessage(chatId, `🔍 *Анализ аудио*
+    await sendMessage(chatId, `🔍 Анализ аудио
 
 Выберите файл для анализа:
 
 Доступные функции:
-• 🎼 Транскрипция \\(MIDI, PDF, Guitar Pro\\)
+• 🎼 Транскрипция (MIDI, PDF, Guitar Pro)
 • 🎸 Распознавание аккордов
-• 🥁 Определение темпа \\(BPM\\)`, {
+• 🥁 Определение темпа (BPM)`, {
       inline_keyboard: [
         ...fileButtons,
         [{ text: '☁️ Загрузить новый', callback_data: 'start_upload' }]
       ]
-    }, 'MarkdownV2');
+    }, null);
 
     trackMetric({
       eventType: 'analyze_command',
@@ -768,9 +768,4 @@ export async function handleAnalyzeList(
   } catch (error) {
     logger.error('Error in handleAnalyzeList', error);
   }
-}
-
-// Helper function to escape MarkdownV2
-function escapeMarkdownV2(text: string): string {
-  return text.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
 }
