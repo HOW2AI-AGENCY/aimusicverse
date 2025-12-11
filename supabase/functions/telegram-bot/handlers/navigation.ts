@@ -6,21 +6,41 @@ import {
   getMainBanner 
 } from '../keyboards/main-menu.ts';
 import { sendPhoto, editMessageMedia, editMessageCaption, answerCallbackQuery } from '../telegram-api.ts';
+import { buildMessage, createSection, createKeyValue } from '../utils/message-formatter.ts';
+import { ButtonBuilder, mediaPlayerKeyboard, paginationKeyboard } from '../utils/button-builder.ts';
+import { trackMessage, messageManager } from '../utils/message-manager.ts';
+import { escapeMarkdownV2 } from '../utils/text-processor.ts';
 
 const MAIN_BANNER = getMainBanner();
 
 export async function handleNavigationMain(chatId: number, messageId?: number) {
-  const caption = `🏠 *MusicVerse Studio*\n\n` +
-    `Создавайте музыку с помощью искусственного интеллекта\\.\n\n` +
-    `🎵 Генерация треков по текстовым промптам\n` +
-    `📁 Управление проектами\n` +
-    `🎧 Встроенный плеер\n` +
-    `✂️ Разделение на стемы\n\n` +
-    `Выберите раздел:`;
+  const caption = buildMessage({
+    title: 'MusicVerse Studio',
+    emoji: '🏠',
+    description: 'Создавайте музыку с помощью искусственного интеллекта',
+    sections: [
+      {
+        title: 'Возможности',
+        content: [
+          'Генерация треков по текстовым промптам',
+          'Управление проектами',
+          'Встроенный плеер',
+          'Разделение на стемы'
+        ],
+        emoji: '✨',
+        style: 'list'
+      }
+    ],
+    footer: 'Выберите раздел ниже 👇'
+  });
+  
   const keyboard = createMainMenuKeyboard();
 
   if (messageId) {
-    // Обновляем существующее сообщение
+    // Clean up old main menu messages
+    await messageManager.deleteCategory(chatId, 'main_menu', { except: messageId });
+    
+    // Update existing message
     await editMessageMedia(
       chatId,
       messageId,
@@ -32,12 +52,18 @@ export async function handleNavigationMain(chatId: number, messageId?: number) {
       },
       keyboard
     );
+    
+    await trackMessage(chatId, messageId, 'menu', 'main_menu', { persistent: true });
   } else {
-    // Отправляем новое сообщение
-    await sendPhoto(chatId, MAIN_BANNER, {
+    // Send new message
+    const result = await sendPhoto(chatId, MAIN_BANNER, {
       caption,
       replyMarkup: keyboard
     });
+    
+    if (result?.result?.message_id) {
+      await trackMessage(chatId, result.result.message_id, 'menu', 'main_menu', { persistent: true });
+    }
   }
 }
 
@@ -50,28 +76,87 @@ export async function handleNavigationLibrary(
   const tracks = await musicService.getUserTracks(userId);
 
   if (!tracks.length) {
-    const noTracksMsg = '📭 *У вас пока нет треков*\n\nНачните создавать музыку прямо сейчас!';
+    const noTracksMsg = buildMessage({
+      title: 'У вас пока нет треков',
+      emoji: '📭',
+      description: 'Начните создавать музыку прямо сейчас!',
+      sections: [
+        {
+          title: 'Как начать',
+          content: [
+            'Используйте /generate для создания трека',
+            'Откройте студию для полного функционала',
+            'Загрузите аудио для обработки'
+          ],
+          emoji: '💡',
+          style: 'list'
+        }
+      ]
+    });
+    
+    const keyboard = new ButtonBuilder()
+      .addButton({
+        text: 'Создать трек',
+        emoji: '🎼',
+        action: { type: 'callback', data: 'nav_generate' }
+      })
+      .addButton({
+        text: 'Открыть студию',
+        emoji: '🚀',
+        action: { type: 'webapp', url: (await import('../config.ts')).BOT_CONFIG.miniAppUrl }
+      })
+      .addButton({
+        text: 'Главное меню',
+        emoji: '🏠',
+        action: { type: 'callback', data: 'nav_main' }
+      })
+      .build();
     
     if (messageId) {
-      await editMessageCaption(chatId, messageId, noTracksMsg, createMainMenuKeyboard());
+      await editMessageCaption(chatId, messageId, noTracksMsg, keyboard);
+      await trackMessage(chatId, messageId, 'content', 'library', { expiresIn: 60000 });
     } else {
-      await sendPhoto(chatId, MAIN_BANNER, {
+      const result = await sendPhoto(chatId, MAIN_BANNER, {
         caption: noTracksMsg,
-        replyMarkup: createMainMenuKeyboard()
+        replyMarkup: keyboard
       });
+      
+      if (result?.result?.message_id) {
+        await trackMessage(chatId, result.result.message_id, 'content', 'library', { expiresIn: 60000 });
+      }
     }
     return;
   }
 
-  // Нормализуем page в пределах массива
+  // Normalize page
   if (page < 0) page = tracks.length - 1;
   if (page >= tracks.length) page = 0;
 
   const track = tracks[page];
-  const caption = musicService.formatTrackCaption(track, page, tracks.length);
+  
+  // Create enhanced track caption
+  const trackInfo: Record<string, string> = {};
+  if (track.artist) trackInfo['Исполнитель'] = track.artist;
+  if (track.duration) trackInfo['Длительность'] = musicService.formatDuration(track.duration);
+  if (track.style) trackInfo['Стиль'] = track.style;
+  if (track.created_at) trackInfo['Создан'] = new Date(track.created_at).toLocaleDateString('ru-RU');
+  
+  const caption = buildMessage({
+    title: track.title || 'Без названия',
+    emoji: '🎵',
+    description: `Трек ${page + 1} из ${tracks.length}`,
+    sections: [
+      {
+        title: 'Информация',
+        content: createKeyValue(trackInfo),
+        emoji: 'ℹ️'
+      }
+    ]
+  });
+  
   let coverUrl = musicService.getCoverUrl(track);
   
-  // Validate cover URL - if it's invalid, use fallback
+  // Validate cover URL
   try {
     new URL(coverUrl);
   } catch {
@@ -79,10 +164,13 @@ export async function handleNavigationLibrary(
     coverUrl = 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=800&fit=crop&q=80';
   }
   
-  const keyboard = createPlayerControls(track.id, page, tracks.length);
+  const keyboard = mediaPlayerKeyboard(track.id, page, tracks.length);
 
   if (messageId) {
-    // Реактивное обновление - меняем только картинку и кнопки
+    // Clean up old library messages
+    await messageManager.deleteCategory(chatId, 'library', { except: messageId });
+    
+    // Update existing message
     const result = await editMessageMedia(
       chatId,
       messageId,
@@ -95,19 +183,29 @@ export async function handleNavigationLibrary(
       keyboard
     );
 
-    // Если editMessageMedia не сработал (устаревшее сообщение), отправляем новое
     if (!result) {
-      await sendPhoto(chatId, coverUrl, {
+      // If edit failed, send new message
+      const newResult = await sendPhoto(chatId, coverUrl, {
         caption,
         replyMarkup: keyboard
       });
+      
+      if (newResult?.result?.message_id) {
+        await trackMessage(chatId, newResult.result.message_id, 'content', 'library');
+      }
+    } else {
+      await trackMessage(chatId, messageId, 'content', 'library');
     }
   } else {
-    // Первый раз - отправляем новое сообщение
-    await sendPhoto(chatId, coverUrl, {
+    // Send new message
+    const result = await sendPhoto(chatId, coverUrl, {
       caption,
       replyMarkup: keyboard
     });
+    
+    if (result?.result?.message_id) {
+      await trackMessage(chatId, result.result.message_id, 'content', 'library');
+    }
   }
 }
 
