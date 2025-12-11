@@ -43,25 +43,69 @@ export function getAudioContext(): AudioContext {
  * MUST be called on user interaction for browser autoplay policy
  * MUST be awaited to prevent race conditions
  */
-export async function resumeAudioContext(): Promise<void> {
+/**
+ * Resume the AudioContext if it's suspended
+ * MUST be called on user interaction for browser autoplay policy
+ * MUST be awaited to prevent race conditions
+ * 
+ * Enhanced with retry logic for reliability
+ */
+export async function resumeAudioContext(maxRetries: number = 3): Promise<boolean> {
   const ctx = getAudioContext();
   
-  if (ctx.state === 'suspended') {
-    logger.debug('Attempting to resume AudioContext', { state: ctx.state });
+  if (ctx.state === 'running') {
+    logger.debug('AudioContext already running', { state: ctx.state });
+    return true;
+  }
+
+  if (ctx.state === 'closed') {
+    logger.error('AudioContext is closed, cannot resume');
+    return false;
+  }
+  
+  logger.debug('Attempting to resume AudioContext', { state: ctx.state });
+  
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       await ctx.resume();
-      logger.info('✅ AudioContext resumed successfully', { 
-        state: ctx.state,
-        sampleRate: ctx.sampleRate 
+      
+      // Double-check state after resume - cast to avoid TypeScript narrowing issue
+      // (state can change to 'running' after resume() completes)
+      const currentState = ctx.state as AudioContextState;
+      if (currentState === 'running') {
+        logger.info('✅ AudioContext resumed successfully', { 
+          attempt,
+          state: currentState,
+          sampleRate: ctx.sampleRate 
+        });
+        return true;
+      }
+      
+      logger.warn('AudioContext resume called but state not running', { 
+        state: ctx.state, 
+        attempt 
       });
+      
+      // Wait before retry
+      if (attempt < maxRetries) {
+        await new Promise(resolve => setTimeout(resolve, 100 * attempt));
+      }
     } catch (err) {
-      // Log but don't throw - audio might still work
-      logger.error('❌ Failed to resume AudioContext', err instanceof Error ? err : new Error(String(err)));
-      throw err; // Re-throw to let caller handle
+      logger.error(`❌ Failed to resume AudioContext (attempt ${attempt}/${maxRetries})`, 
+        err instanceof Error ? err : new Error(String(err))
+      );
+      
+      if (attempt < maxRetries) {
+        await new Promise(resolve => setTimeout(resolve, 100 * attempt));
+      }
     }
-  } else {
-    logger.debug('AudioContext already running', { state: ctx.state });
   }
+  
+  logger.error('AudioContext resume failed after all retries', { 
+    state: ctx.state,
+    maxRetries 
+  });
+  return false;
 }
 
 /**
@@ -223,40 +267,67 @@ export async function getOrCreateAudioNodes(
  * Ensure audio is routed to destination for playback
  * Call this to recover from visualizer errors
  */
-export function ensureAudioRoutedToDestination(): void {
-  if (!mediaElementSource || !analyserNode) {
-    return;
-  }
-
+/**
+ * Ensure audio is routed to destination for playback
+ * Call this to recover from visualizer errors
+ * 
+ * Enhanced with automatic AudioContext resume and connection verification
+ */
+export async function ensureAudioRoutedToDestination(): Promise<boolean> {
   const ctx = getAudioContext();
   
-  // Additional check: ensure AudioContext is not suspended
+  // First, ensure AudioContext is running
   if (ctx.state === 'suspended') {
     logger.warn('AudioContext is suspended during audio routing check');
-    // Try to resume asynchronously (non-blocking)
-    void ctx.resume().then(() => {
-      logger.info('AudioContext resumed during routing check');
-    }).catch((err) => {
-      logger.error('Failed to resume AudioContext during routing check', err);
-    });
+    const resumed = await resumeAudioContext(2);
+    if (!resumed) {
+      logger.error('Failed to resume AudioContext during routing - audio may be silent');
+      // Continue anyway to try to establish connection
+    }
+  }
+
+  // If no media element source exists, we can't do much
+  if (!mediaElementSource) {
+    logger.debug('No mediaElementSource exists for routing');
+    return ctx.state === 'running';
   }
   
   try {
-    // Ensure analyser is connected to destination
-    analyserNode.connect(ctx.destination);
-  } catch (err) {
-    // InvalidStateError means already connected, which is fine
-    if (err instanceof Error && err.name !== 'InvalidStateError') {
-      logger.warn('Failed to connect analyser to destination', { error: err });
-      
-      // Try direct connection as fallback
+    // Try to connect analyser to destination if it exists
+    if (analyserNode) {
       try {
-        mediaElementSource.disconnect();
-        mediaElementSource.connect(ctx.destination);
-        logger.info('✅ Direct audio connection established');
-      } catch (reconnectErr) {
-        logger.error('Failed to establish direct audio connection', reconnectErr);
+        analyserNode.connect(ctx.destination);
+      } catch (err) {
+        // InvalidStateError means already connected, which is fine
+        if (err instanceof Error && err.name !== 'InvalidStateError') {
+          throw err;
+        }
       }
+    } else {
+      // No analyser, connect source directly to destination
+      try {
+        mediaElementSource.connect(ctx.destination);
+        logger.info('✅ Direct audio connection established (no analyser)');
+      } catch (err) {
+        if (err instanceof Error && err.name !== 'InvalidStateError') {
+          throw err;
+        }
+      }
+    }
+    
+    return ctx.state === 'running';
+  } catch (err) {
+    logger.warn('Failed to connect to destination, attempting recovery', { error: err });
+    
+    // Emergency fallback: reconnect source directly
+    try {
+      mediaElementSource.disconnect();
+      mediaElementSource.connect(ctx.destination);
+      logger.info('✅ Emergency direct audio connection established');
+      return ctx.state === 'running';
+    } catch (reconnectErr) {
+      logger.error('❌ Failed to establish audio connection - audio will be silent!', reconnectErr);
+      return false;
     }
   }
 }
