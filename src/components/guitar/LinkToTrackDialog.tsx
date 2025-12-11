@@ -52,7 +52,7 @@ export function LinkToTrackDialog({
   const navigate = useNavigate();
 
   const filteredTracks = tracks?.filter(track =>
-    track.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (track.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
     track.style?.toLowerCase().includes(searchQuery.toLowerCase())
   ) || [];
 
@@ -168,10 +168,10 @@ export function LinkToTrackDialog({
                     >
                       <div className="flex items-start gap-3">
                         {/* Cover */}
-                        {track.image_url ? (
+                        {track.cover_url ? (
                           <img
-                            src={track.image_url}
-                            alt={track.title}
+                            src={track.cover_url}
+                            alt={track.title || 'Track'}
                             className="w-12 h-12 rounded object-cover shrink-0"
                           />
                         ) : (
@@ -183,7 +183,7 @@ export function LinkToTrackDialog({
                         {/* Info */}
                         <div className="flex-1 min-w-0">
                           <h4 className="font-medium text-sm truncate">
-                            {track.title}
+                            {track.title || 'Без названия'}
                           </h4>
                           {track.style && (
                             <p className="text-xs text-muted-foreground truncate mt-0.5">
@@ -197,7 +197,7 @@ export function LinkToTrackDialog({
                               </Badge>
                             )}
                             <Badge variant="outline" className="text-[10px] px-1 py-0">
-                              {Math.floor((track.duration || 0) / 60)}:{String(Math.floor((track.duration || 0) % 60)).padStart(2, '0')}
+                              {Math.floor((track.duration_seconds || 0) / 60)}:{String(Math.floor((track.duration_seconds || 0) % 60)).padStart(2, '0')}
                             </Badge>
                           </div>
                         </div>

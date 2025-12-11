@@ -20,6 +20,7 @@ export {
   useAnimationFrame,
   animate,
   stagger,
+  Reorder,
 } from 'framer-motion';
 
 // Types
@@ -27,11 +28,13 @@ export type {
   Variants,
   Transition,
   MotionProps,
+  HTMLMotionProps,
   PanInfo,
   MotionValue,
   SpringOptions,
   Target,
   TargetAndTransition,
+  Easing,
 } from 'framer-motion';
 
 // Common animation presets for consistency
