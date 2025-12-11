@@ -63,9 +63,11 @@ export const GuitarAnalysisFullscreen = memo(function GuitarAnalysisFullscreen({
   const [isMuted, setIsMuted] = useState(false);
   const [currentChord, setCurrentChord] = useState<string | null>(null);
 
-  // Parse chord data
-  const chords = Array.isArray(recording.chords) ? recording.chords : [];
-  const notes = Array.isArray(recording.notes) ? recording.notes : [];
+  // Parse chord data and convert to consistent format
+  const rawChords = Array.isArray(recording.chords) ? recording.chords : [];
+  const chords = rawChords.map(c => ({ chord: c.chord, start: c.start, end: c.end || c.start + 1 }));
+  const rawNotes = Array.isArray(recording.notes) ? recording.notes : [];
+  const notes = rawNotes.map(n => ({ pitch: n.pitch, time: n.time, duration: n.duration || 0.5, velocity: n.velocity || 100, string: undefined }));
   
   // Helper to check if chord is active at current time
   const isChordActive = useCallback((chord: typeof chords[0], time: number) => {
@@ -223,7 +225,7 @@ export const GuitarAnalysisFullscreen = memo(function GuitarAnalysisFullscreen({
 
             {/* Mini chord timeline */}
             <ChordTimelineMobile
-              chords={chords}
+              chords={chords.map(c => ({ chord: c.chord, startTime: c.start, endTime: c.end }))}
               currentTime={currentTime}
               duration={duration}
               onSeek={handleSeek}

@@ -247,7 +247,7 @@ export function ensureAudioRoutedToDestination(): void {
   } catch (err) {
     // InvalidStateError means already connected, which is fine
     if (err instanceof Error && err.name !== 'InvalidStateError') {
-      logger.warn('Failed to connect analyser to destination', err);
+      logger.warn('Failed to connect analyser to destination', { error: err });
       
       // Try direct connection as fallback
       try {
@@ -354,7 +354,7 @@ export async function resetAudioContext(): Promise<void> {
       await audioContext.close();
       logger.debug('AudioContext closed successfully');
     } catch (err) {
-      logger.warn('Error closing AudioContext', err);
+      logger.warn('Error closing AudioContext', { error: err });
     }
   }
   

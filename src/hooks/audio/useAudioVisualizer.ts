@@ -62,7 +62,7 @@ export function useAudioVisualizer(
       const nodes = await getOrCreateAudioNodes(audioElement, fftSize, smoothing);
       return nodes?.analyser || null;
     } catch (err) {
-      logger.warn('Failed to get audio nodes', err);
+      logger.warn('Failed to get audio nodes', { error: err });
       // Ensure audio is still routed even if visualizer fails
       ensureAudioRoutedToDestination();
       return null;
@@ -97,7 +97,7 @@ export function useAudioVisualizer(
       try {
         analyser = await getAnalyser();
       } catch (err) {
-        logger.warn('Failed to get analyser, using fallback', err);
+        logger.warn('Failed to get analyser, using fallback', { error: err });
         analyser = null;
       }
       

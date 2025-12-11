@@ -261,9 +261,9 @@ export const StemStudioContentOptimized = ({ trackId }: StemStudioContentOptimiz
     }
   }, [isPlaying, stemStates, masterVolume, masterMuted]);
 
-  const handleSeek = useCallback((time: number[]) => {
+  const handleSeek = useCallback((time: number | number[]) => {
     const audios = Object.values(audioRefs.current);
-    const targetTime = time[0];
+    const targetTime = Array.isArray(time) ? time[0] : time;
     audios.forEach(audio => {
       audio.currentTime = targetTime;
     });
@@ -315,7 +315,7 @@ export const StemStudioContentOptimized = ({ trackId }: StemStudioContentOptimiz
         onTogglePlay={togglePlay}
         onSeek={handleSeek}
         onBack={() => navigate('/library')}
-        hasEditor={canEditSections}
+        hasEditor={Boolean(canEditSections)}
         stemsContent={
           <StemsTabContent
             stems={stems}
@@ -334,9 +334,9 @@ export const StemStudioContentOptimized = ({ trackId }: StemStudioContentOptimiz
             onEQChange={(stemId, settings) => updateStemEQ(stemId, settings)}
             onCompressorChange={(stemId, settings) => updateStemCompressor(stemId, settings)}
             onReverbChange={(stemId, settings) => updateStemReverb(stemId, settings)}
-            onEQPreset={(stemId, preset) => applyStemEQPreset(stemId, preset)}
-            onCompressorPreset={(stemId, preset) => applyStemCompressorPreset(stemId, preset)}
-            onReverbPreset={(stemId, preset) => applyStemReverbPreset(stemId, preset)}
+            onEQPreset={(stemId, preset) => applyStemEQPreset(stemId, preset as any)}
+            onCompressorPreset={(stemId, preset) => applyStemCompressorPreset(stemId, preset as any)}
+            onReverbPreset={(stemId, preset) => applyStemReverbPreset(stemId, preset as any)}
             onResetEffects={(stemId) => resetStemEffects(stemId)}
             getCompressorReduction={(stemId) => getCompressorReduction(stemId)}
           />
@@ -363,19 +363,18 @@ export const StemStudioContentOptimized = ({ trackId }: StemStudioContentOptimiz
           canEditSections ? (
             <EditorTabContent
               trackId={trackId}
-              trackAudioUrl={track.audio_url}
+              trackTitle={track.title || 'Трек'}
+              trackTags={track.tags}
+              trackAudioUrl={track.audio_url || ''}
               detectedSections={detectedSections}
-              replacedSections={replacedSections || []}
-              selectedSectionIndex={selectedSectionIndex}
-              customRange={customRange}
-              editMode={editMode}
-              latestCompletion={latestCompletion}
-              isPlaying={isPlaying}
-              currentTime={currentTime}
               duration={duration}
-              onSelectSection={selectSection}
-              onSetCustomRange={setCustomRange}
-              onSeek={handleSeek}
+              currentTime={currentTime}
+              selectedIndex={selectedSectionIndex}
+              customRange={customRange}
+              replacedRanges={replacedSections?.map(s => ({ start: s.start, end: s.end }))}
+              onSectionClick={(section, index) => selectSection(section, index)}
+              onSeek={(time) => handleSeek(time)}
+              onEditorClose={() => setEditMode('none')}
             />
           ) : undefined
         }

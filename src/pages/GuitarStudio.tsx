@@ -55,14 +55,23 @@ import { AnalysisProgressStages, type AnalysisStage } from '@/components/guitar/
 import { TranscriptionToGenerationBridge } from '@/components/guitar/TranscriptionToGenerationBridge';
 import { cn } from '@/lib/utils';
 
-const workflowSteps = [
+type WorkflowStatus = 'pending' | 'active' | 'completed';
+
+const workflowSteps: Array<{
+  id: string;
+  title: string;
+  subtitle: string;
+  icon: typeof Mic;
+  description: string;
+  status: WorkflowStatus;
+}> = [
   {
     id: 'record',
     title: 'Запись',
     subtitle: 'Гитарный трек',
     icon: Mic,
     description: 'Запишите гитарный трек',
-    status: 'pending' as const,
+    status: 'pending',
   },
   {
     id: 'analyze',
@@ -70,7 +79,7 @@ const workflowSteps = [
     subtitle: 'Обработка klang.io',
     icon: Activity,
     description: 'Обработка через klang.io',
-    status: 'pending' as const,
+    status: 'pending',
   },
   {
     id: 'transcribe',
@@ -78,7 +87,7 @@ const workflowSteps = [
     subtitle: 'Конвертация в ноты',
     icon: FileMusic,
     description: 'Конвертация в ноты',
-    status: 'pending' as const,
+    status: 'pending',
   },
   {
     id: 'export',
@@ -86,7 +95,7 @@ const workflowSteps = [
     subtitle: 'Загрузка файлов',
     icon: Download,
     description: 'Загрузка файлов',
-    status: 'pending' as const,
+    status: 'pending',
   },
 ];
 
@@ -527,7 +536,7 @@ export default function GuitarStudio() {
               {analysisResult ? (
                 <>
                   {/* Analysis Report */}
-                  <GuitarAnalysisReport analysisResult={analysisResult} />
+                  <GuitarAnalysisReport analysis={analysisResult} audioUrl={recordedAudioUrl || ''} />
 
                   {/* Mobile-Optimized Components */}
                   <div className="lg:hidden space-y-4">
@@ -612,8 +621,9 @@ export default function GuitarStudio() {
                     {/* Interactive Chord Wheel */}
                     {analysisResult.chords.length > 0 && (
                       <InteractiveChordWheel
-                        chords={analysisResult.chords}
+                        chords={analysisResult.chords.map(c => ({ chord: c.chord, start: c.startTime, end: c.endTime }))}
                         currentTime={0}
+                        duration={analysisResult.totalDuration || 60}
                       />
                     )}
 

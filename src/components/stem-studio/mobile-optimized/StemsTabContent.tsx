@@ -17,7 +17,7 @@ interface StemsTabContentProps {
   trackId: string;
   trackTitle: string;
   stemStates: Record<string, StemState>;
-  stemEffects: Record<string, { effects: StemEffects; ready: boolean }>;
+  stemEffects: Record<string, { effects: StemEffects; nodes?: any }>;
   isPlaying: boolean;
   currentTime: number;
   duration: number;
@@ -25,7 +25,7 @@ interface StemsTabContentProps {
   engineReady: boolean;
   onToggle: (stemId: string, type: 'mute' | 'solo') => void;
   onVolumeChange: (stemId: string, volume: number) => void;
-  onSeek: (time: number[]) => void;
+  onSeek: (time: number) => void;
   onEQChange?: (stemId: string, settings: any) => void;
   onCompressorChange?: (stemId: string, settings: any) => void;
   onReverbChange?: (stemId: string, settings: any) => void;
