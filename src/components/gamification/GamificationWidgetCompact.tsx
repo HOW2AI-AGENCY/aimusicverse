@@ -1,9 +1,11 @@
 import { motion } from '@/lib/motion';
 import { useNavigate } from 'react-router-dom';
 import { useUserCredits, getLevelProgress } from '@/hooks/useGamification';
-import { Coins, Flame, Zap, Gift, ChevronRight } from 'lucide-react';
+import { useSunoCredits } from '@/hooks/useSunoCredits';
+import { Coins, Flame, Zap, Gift, ChevronRight, Server } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface GamificationWidgetCompactProps {
   showCheckin?: boolean;
@@ -13,6 +15,7 @@ interface GamificationWidgetCompactProps {
 export function GamificationWidgetCompact({ showCheckin = true, className }: GamificationWidgetCompactProps) {
   const navigate = useNavigate();
   const { data: credits, isLoading } = useUserCredits();
+  const { data: sunoCredits, isLoading: sunoLoading } = useSunoCredits();
 
   if (isLoading) {
     return (
@@ -70,11 +73,42 @@ export function GamificationWidgetCompact({ showCheckin = true, className }: Gam
           </div>
         </motion.div>
 
-        {/* Credits */}
-        <div className="flex items-center gap-1.5">
-          <Coins className="w-4 h-4 text-warning" />
-          <span className="font-semibold tabular-nums text-sm">{credits?.balance || 0}</span>
-        </div>
+        {/* Personal Credits */}
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex items-center gap-1.5 cursor-help">
+                <Coins className="w-4 h-4 text-warning" />
+                <span className="font-semibold tabular-nums text-sm">{credits?.balance || 0}</span>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Ваш личный баланс кредитов</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        {/* Suno API Credits */}
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 cursor-help">
+                <Server className="w-3.5 h-3.5 text-blue-500" />
+                <span className="text-xs font-semibold text-blue-500 tabular-nums">
+                  {sunoLoading ? '...' : (sunoCredits?.credits_left ?? '?')}
+                </span>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Общий баланс API генераций</p>
+              {sunoCredits && (
+                <p className="text-xs text-muted-foreground">
+                  Использовано: {sunoCredits.monthly_usage} / {sunoCredits.monthly_limit}
+                </p>
+              )}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         {/* XP */}
         <div className="hidden sm:flex items-center gap-1.5 text-muted-foreground">
