@@ -307,7 +307,7 @@ export function useGuitarAnalysis() {
             audio_url: publicUrl, 
             mode: 'transcription',
             model: 'guitar',
-            outputs: ['midi', 'midi_quant', 'gp5', 'pdf', 'mxml'],
+            outputs: ['midi', 'midi_unq', 'gp5', 'pdf', 'mxml'],
             user_id: user.id,
           },
         }).catch(e => {
@@ -394,12 +394,12 @@ export function useGuitarAnalysis() {
         const files = transcriptionResult.data.files;
         transcriptionFiles = {
           midiUrl: files.midi,
-          midiQuantUrl: files.midi_quant,
+          midiQuantUrl: files.midi_unq, // API returns midi_unq (quantized MIDI)
           gp5Url: files.gp5,
           pdfUrl: files.pdf,
           musicXmlUrl: files.mxml,
         };
-        midiUrl = files.midi || files.midi_quant;
+        midiUrl = files.midi || files.midi_unq;
 
         console.log('[GuitarAnalysis] Parsed transcription files:', transcriptionFiles);
         
