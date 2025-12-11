@@ -66,14 +66,15 @@ serve(async (req) => {
         // Model is required in query params for transcription
         queryParams.set('model', model || 'guitar');
         if (title) queryParams.set('title', title);
-        // Add outputs to form data - valid formats: midi, midi_quant, mxml, gp5, pdf
+        // Add outputs to query params - valid formats: midi, midi_quant, mxml, gp5, pdf
         // Note: 'json' is NOT a valid output format - notes data is fetched separately via /job/{id}/json
         const validFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
-        const requestedOutputs = outputs || ['midi'];
+        const requestedOutputs = outputs || ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf']; // Request all formats by default
         const validOutputs = requestedOutputs.filter(o => validFormats.includes(o));
-        if (validOutputs.length === 0) validOutputs.push('midi');
+        if (validOutputs.length === 0) validOutputs.push('midi'); // Ensure at least midi is requested
         console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(requestedOutputs)}, valid=${JSON.stringify(validOutputs)}`);
-        validOutputs.forEach(output => formData.append('outputs', output));
+        // The API expects 'outputs' as query parameters, not in FormData
+        validOutputs.forEach(output => queryParams.append('outputs', output));
         break;
         
       case 'chord-recognition':
@@ -261,18 +262,21 @@ serve(async (req) => {
 
           if (fileResponse.ok) {
             const fileBlob = await fileResponse.blob();
-            console.log(`[klangio] Successfully downloaded ${format}: ${fileBlob.size} bytes, type: ${fileBlob.type}`);
+            // Determine the correct Content-Type for Supabase Storage
+            const contentType = getContentType(format);
+            console.log(`[klangio] Successfully downloaded ${format}: ${fileBlob.size} bytes, original type: ${fileBlob.type}, forced type: ${contentType}`);
             
             // Determine file extension
             const extension = format === 'mxml' ? 'xml' : format === 'midi_quant' ? 'mid' : format === 'midi' ? 'mid' : format;
             const fileName = `${user_id || 'anonymous'}/klangio/${jobId}_${format}.${extension}`;
             
-            console.log(`[klangio] Uploading ${format} to Storage: bucket=project-assets, path=${fileName}, size=${fileBlob.size}`);
+            console.log(`[klangio] Uploading ${format} to Storage: bucket=project-assets, path=${fileName}, size=${fileBlob.size}, contentType=${contentType}`);
 
             const { error: uploadError } = await supabase.storage
               .from("project-assets")
               .upload(fileName, fileBlob, {
-                contentType: getContentType(format),
+                // IMPORTANT: Force the correct content type to avoid "unsupported mime type" errors
+                contentType: contentType,
                 upsert: true,
               });
 
