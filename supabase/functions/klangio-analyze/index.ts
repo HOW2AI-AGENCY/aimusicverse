@@ -168,14 +168,23 @@ serve(async (req) => {
     console.log(`[klangio] Job created: ${jobId}`, JSON.stringify(jobResponse, null, 2));
 
     // Update log with job_id and check which files will be generated
-    // TranscriptionJobResponse includes: gen_xml, gen_midi, gen_midi_unq, gen_gp5, gen_pdf
+    // TranscriptionJobResponse may include: gen_xml, gen_midi, gen_midi_unq (or gen_midi_quant), gen_gp5, gen_pdf
     const generatedFormats: string[] = [];
     if (jobResponse.gen_midi) generatedFormats.push('midi');
-    if (jobResponse.gen_midi_unq) generatedFormats.push('midi_unq');
+    // Check both field names for quantized MIDI (API inconsistency)
+    if (jobResponse.gen_midi_unq || jobResponse.gen_midi_quant) generatedFormats.push('midi_unq');
     if (jobResponse.gen_xml) generatedFormats.push('mxml');
     if (jobResponse.gen_gp5) generatedFormats.push('gp5');
     if (jobResponse.gen_pdf) generatedFormats.push('pdf');
-    console.log(`[klangio] API will generate these formats: ${generatedFormats.join(', ')}`);
+    console.log(`[klangio] API response flags:`, { 
+      gen_midi: jobResponse.gen_midi, 
+      gen_midi_unq: jobResponse.gen_midi_unq,
+      gen_midi_quant: jobResponse.gen_midi_quant,
+      gen_xml: jobResponse.gen_xml, 
+      gen_gp5: jobResponse.gen_gp5, 
+      gen_pdf: jobResponse.gen_pdf 
+    });
+    console.log(`[klangio] Will attempt to fetch formats: ${generatedFormats.join(', ')}`);
     
     if (logId) {
       await supabase.from('klangio_analysis_logs').update({
@@ -263,14 +272,14 @@ serve(async (req) => {
 
       console.log(`[klangio] Fetching files for formats:`, filesToFetch, '(API confirmed generation)');
 
-      // Map format to API endpoint (midi_unq is quantized MIDI per Klangio docs)
-      const formatToEndpoint: Record<string, string> = {
-        'midi': 'midi',
-        'midi_unq': 'midi_unq',
-        'mxml': 'xml',
-        'gp5': 'gp5',
-        'pdf': 'pdf',
-        'json': 'json',
+      // Map format to API endpoints (with fallbacks for midi_unq/midi_quant inconsistency)
+      const formatToEndpoints: Record<string, string[]> = {
+        'midi': ['midi'],
+        'midi_unq': ['midi_unq', 'midi_quant'], // Try both - docs say midi_unq, OpenAPI says midi_quant
+        'mxml': ['xml'],
+        'gp5': ['gp5'],
+        'pdf': ['pdf'],
+        'json': ['json'],
       };
 
       // Always fetch JSON for notes data
@@ -320,32 +329,44 @@ serve(async (req) => {
         if (format === 'json') continue; // Already handled
         
         try {
-          const apiEndpoint = formatToEndpoint[format] || format;
+          const apiEndpoints = formatToEndpoints[format] || [format];
           let fileResponse: Response | null = null;
           let fetchSuccess = false;
+          let usedEndpoint = '';
 
-          // Retry logic
-          const maxRetries = 3;
-          const retryDelay = 2000;
+          // Try each possible endpoint
+          for (const apiEndpoint of apiEndpoints) {
+            // Retry logic for each endpoint
+            const maxRetries = 3;
+            const retryDelay = 2000;
 
-          for (let retry = 0; retry < maxRetries; retry++) {
-            if (retry > 0) {
-              console.log(`[klangio] Retry ${retry}/${maxRetries - 1} for ${format}...`);
-              await new Promise(resolve => setTimeout(resolve, retryDelay));
+            for (let retry = 0; retry < maxRetries; retry++) {
+              if (retry > 0) {
+                console.log(`[klangio] Retry ${retry}/${maxRetries - 1} for ${format} via ${apiEndpoint}...`);
+                await new Promise(resolve => setTimeout(resolve, retryDelay));
+              }
+
+              console.log(`[klangio] Fetching ${format} from /job/${jobId}/${apiEndpoint}`);
+              fileResponse = await fetch(`${API_BASE}/job/${jobId}/${apiEndpoint}`, {
+                headers: { "kl-api-key": KLANGIO_API_KEY },
+              });
+
+              console.log(`[klangio] ${format} via ${apiEndpoint}: status=${fileResponse.status}, content-type=${fileResponse.headers.get('content-type')}`);
+
+              if (fileResponse.ok) {
+                fetchSuccess = true;
+                usedEndpoint = apiEndpoint;
+                break;
+              } else if (fileResponse.status !== 404) {
+                break;
+              }
             }
-
-            console.log(`[klangio] Fetching ${format} from /job/${jobId}/${apiEndpoint}`);
-            fileResponse = await fetch(`${API_BASE}/job/${jobId}/${apiEndpoint}`, {
-              headers: { "kl-api-key": KLANGIO_API_KEY },
-            });
-
-            console.log(`[klangio] ${format}: status=${fileResponse.status}, content-type=${fileResponse.headers.get('content-type')}`);
-
-            if (fileResponse.ok) {
-              fetchSuccess = true;
+            
+            if (fetchSuccess) {
+              console.log(`[klangio] ✅ Successfully fetched ${format} via /${usedEndpoint}`);
               break;
-            } else if (fileResponse.status !== 404) {
-              break;
+            } else {
+              console.log(`[klangio] Endpoint /${apiEndpoint} didn't work, trying next...`);
             }
           }
 
