@@ -63,8 +63,8 @@ export function useGenerateForm({
   // Audio reference loader hook (IMP001)
   const audioReference = useAudioReferenceLoader(open);
 
-  // User credits hook for personal balance
-  const { balance: userBalance, canGenerate, generationCost, invalidate: invalidateCredits } = useUserCredits();
+  // User credits hook for personal balance (admins use shared API balance)
+  const { balance: userBalance, canGenerate, generationCost, invalidate: invalidateCredits, isAdmin, apiBalance } = useUserCredits();
 
   // Form state
   const [mode, setMode] = useState<'simple' | 'custom'>('simple');
@@ -627,6 +627,7 @@ export function useGenerateForm({
     canGenerate,
     generationCost,
     apiCredits,
+    isAdmin,
     hasDraft,
     
     // Simple mode
