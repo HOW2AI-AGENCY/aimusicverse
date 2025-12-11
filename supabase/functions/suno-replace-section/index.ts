@@ -142,16 +142,19 @@ serve(async (req) => {
     // Create callback URL
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
 
-    // Prepare Suno API request - fullLyrics is required by Suno API
+    // Prepare Suno API request - fullLyrics and prompt are required by Suno API
     const fullLyrics = track.lyrics || '';
     if (!fullLyrics) {
       logger.warn('Track has no lyrics, section replacement may fail');
     }
 
+    // Suno API requires non-empty prompt - use default if not provided
+    const effectivePrompt = prompt || tags || track.tags || track.style || 'Continue in the same style and mood';
+    
     const sunoPayload = {
       taskId,
       audioId,
-      prompt: prompt || '',
+      prompt: effectivePrompt,
       tags: tags || track.tags || '',
       title: track.title || 'Трек',
       fullLyrics,
