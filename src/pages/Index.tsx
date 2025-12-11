@@ -10,6 +10,7 @@ import { usePublicContentOptimized, getGenrePlaylists } from "@/hooks/usePublicC
 import { PublicArtistsSection } from "@/components/home/PublicArtistsSection";
 import { AutoPlaylistsSectionOptimized } from "@/components/home/AutoPlaylistsSectionOptimized";
 import { UnifiedDiscoverySection } from "@/components/home/UnifiedDiscoverySection";
+import { CommunityNewTracksSection } from "@/components/home/CommunityNewTracksSection";
 import { HeroQuickActions } from "@/components/home/HeroQuickActions";
 import { RecentTracksSection } from "@/components/home/RecentTracksSection";
 import { WelcomeSection } from "@/components/home/WelcomeSection";
@@ -171,6 +172,21 @@ const Index = () => {
           transition={{ delay: 0.1, duration: 0.3 }}
         >
           <HeroQuickActions onGenerateClick={() => setGenerateSheetOpen(true)} />
+        </motion.section>
+
+        {/* Community New Tracks Section */}
+        <motion.section 
+          className="mb-4 sm:mb-5"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.12, duration: 0.3 }}
+        >
+          <CommunityNewTracksSection
+            tracks={publicContent?.recentTracks || []}
+            isLoading={contentLoading}
+            onRemix={handleRemix}
+            maxTracks={8}
+          />
         </motion.section>
 
         {/* Recent Tracks for logged-in users */}
