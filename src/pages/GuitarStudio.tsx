@@ -37,22 +37,14 @@ import { toast } from 'sonner';
 import { useGuitarAnalysis } from '@/hooks/useGuitarAnalysis';
 import { useAudioLevel } from '@/hooks/useAudioLevel';
 import { WorkflowVisualizer } from '@/components/professional/WorkflowVisualizer';
-import { GuitarAnalysisReport } from '@/components/guitar/GuitarAnalysisReport';
-import { ExportFilesPanel } from '@/components/guitar/ExportFilesPanel';
+import { GuitarAnalysisReport } from '@/components/guitar/GuitarAnalysisReportImproved';
 import { SavedRecordingsList } from '@/components/guitar/SavedRecordingsList';
-import { WaveformWithChords } from '@/components/guitar/WaveformWithChords';
-import { InteractiveChordWheel } from '@/components/guitar/InteractiveChordWheel';
 import { AudioLevelMeter } from '@/components/guitar/AudioLevelMeter';
 import { Metronome } from '@/components/guitar/Metronome';
 import { GuitarTuner } from '@/components/guitar/GuitarTuner';
 import { GuitarRecordingPanel } from '@/components/guitar/GuitarRecordingPanel';
-import { BeatGridVisualizer } from '@/components/guitar/BeatGridVisualizer';
-import { ChordProgressionTimeline } from '@/components/guitar/ChordProgressionTimeline';
-import { MidiExportPanelMobile } from '@/components/guitar/MidiExportPanelMobile';
 import { LinkToTrackDialog } from '@/components/guitar/LinkToTrackDialog';
-import { TranscriptionPreview } from '@/components/guitar/TranscriptionPreview';
 import { AnalysisProgressStages, type AnalysisStage } from '@/components/guitar/AnalysisProgressStages';
-import { TranscriptionToGenerationBridge } from '@/components/guitar/TranscriptionToGenerationBridge';
 import { cn } from '@/lib/utils';
 
 type WorkflowStatus = 'pending' | 'active' | 'completed';
@@ -532,114 +524,13 @@ export default function GuitarStudio() {
             </TabsContent>
 
             {/* Results Tab */}
-            <TabsContent value="results" className="mt-0 space-y-6">
+            <TabsContent value="results" className="mt-0">
               {analysisResult ? (
-                <>
-                  {/* Analysis Report */}
-                  <GuitarAnalysisReport analysis={analysisResult} audioUrl={recordedAudioUrl || ''} />
-
-                  {/* Mobile-Optimized Components */}
-                  <div className="lg:hidden space-y-4">
-                    {/* Transcription Preview - NEW */}
-                    {analysisResult.notes.length > 0 && (
-                      <TranscriptionPreview
-                        transcriptionFiles={analysisResult.transcriptionFiles}
-                        notes={analysisResult.notes}
-                        audioUrl={analysisResult.audioUrl}
-                        onDownload={(format) => {
-                          const urls: Record<string, string | undefined> = {
-                            pdf: analysisResult.transcriptionFiles.pdfUrl,
-                            musicxml: analysisResult.transcriptionFiles.musicXmlUrl,
-                            gp5: analysisResult.transcriptionFiles.gp5Url,
-                            midi: analysisResult.transcriptionFiles.midiUrl,
-                            midi_quant: analysisResult.transcriptionFiles.midiQuantUrl,
-                          };
-                          const url = urls[format];
-                          if (url) {
-                            window.open(url, '_blank');
-                            toast.success(`Скачивание ${format.toUpperCase()}...`);
-                          } else {
-                            toast.error('Файл недоступен');
-                          }
-                        }}
-                      />
-                    )}
-
-                    {/* Generation Bridge - NEW */}
-                    <TranscriptionToGenerationBridge analysisResult={analysisResult} />
-
-                    {/* Chord Progression Timeline */}
-                    {analysisResult.chords.length > 0 && (
-                      <ChordProgressionTimeline
-                        chords={analysisResult.chords}
-                        audioUrl={analysisResult.audioUrl}
-                        duration={analysisResult.totalDuration}
-                        keySignature={analysisResult.key}
-                      />
-                    )}
-
-                    {/* Beat Grid Visualizer */}
-                    {analysisResult.beats.length > 0 && (
-                      <BeatGridVisualizer
-                        beats={analysisResult.beats}
-                        downbeats={analysisResult.downbeats}
-                        bpm={analysisResult.bpm}
-                        audioUrl={analysisResult.audioUrl}
-                        duration={analysisResult.totalDuration}
-                      />
-                    )}
-
-                    {/* Mobile MIDI Export Panel */}
-                    <MidiExportPanelMobile
-                      transcriptionFiles={analysisResult.transcriptionFiles}
-                      midiUrl={analysisResult.midiUrl}
-                    />
-
-                    {/* Link to Track Button */}
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      onClick={() => setLinkDialogOpen(true)}
-                      className="w-full bg-gradient-to-r from-primary/10 to-primary/5 border-primary/30"
-                    >
-                      <Save className="w-4 h-4 mr-2" />
-                      Привязать к треку
-                    </Button>
-                  </div>
-
-                  {/* Desktop Components */}
-                  <div className="hidden lg:block space-y-6">
-                    {/* Waveform with Chords */}
-                    {analysisResult.audioUrl && analysisResult.chords.length > 0 && (
-                      <WaveformWithChords
-                        audioUrl={analysisResult.audioUrl}
-                        chords={analysisResult.chords}
-                        duration={analysisResult.totalDuration}
-                      />
-                    )}
-
-                    {/* Interactive Chord Wheel */}
-                    {analysisResult.chords.length > 0 && (
-                      <InteractiveChordWheel
-                        chords={analysisResult.chords.map(c => ({ chord: c.chord, start: c.startTime, end: c.endTime }))}
-                        currentTime={0}
-                        duration={analysisResult.totalDuration || 60}
-                      />
-                    )}
-
-                    {/* Export Files Panel */}
-                    <Card className="p-6">
-                      <div className="flex items-center gap-2 mb-4">
-                        <Download className="w-5 h-5 text-primary" />
-                        <h3 className="text-lg font-semibold">Экспорт файлов</h3>
-                      </div>
-                      <ExportFilesPanel
-                        transcriptionFiles={analysisResult.transcriptionFiles}
-                        midiUrl={analysisResult.midiUrl}
-                      />
-                    </Card>
-                  </div>
-                </>
+                <GuitarAnalysisReport
+                  analysis={analysisResult}
+                  audioUrl={recordedAudioUrl || ''}
+                  onSave={handleSaveRecording}
+                />
               ) : (
                 <Card className="p-12 text-center">
                   <Music className="w-12 h-12 mx-auto text-muted-foreground mb-3" />
