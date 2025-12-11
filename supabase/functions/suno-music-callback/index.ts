@@ -427,55 +427,65 @@ serve(async (req) => {
         received_clips: clips.length,
       }).eq('id', task.id);
 
-      // Deduct credits from user balance for generation
-      try {
-        logger.info('Deducting generation credits from user', { userId: task.user_id, cost: GENERATION_COST });
-        
-        // Get current balance
-        const { data: currentCredits, error: fetchError } = await supabase
-          .from('user_credits')
-          .select('balance, total_spent')
-          .eq('user_id', task.user_id)
-          .single();
+      // Check if user is admin - admins don't get credits deducted
+      const { data: isAdmin } = await supabase.rpc('has_role', { 
+        _user_id: task.user_id, 
+        _role: 'admin' 
+      });
 
-        if (fetchError) {
-          logger.error('Failed to fetch user credits for deduction', fetchError);
-        } else if (currentCredits) {
-          const newBalance = Math.max(0, currentCredits.balance - GENERATION_COST);
-          const newTotalSpent = (currentCredits.total_spent || 0) + GENERATION_COST;
-
-          const { error: updateError } = await supabase
+      // Deduct credits from user balance for generation (non-admin users only)
+      if (!isAdmin) {
+        try {
+          logger.info('Deducting generation credits from user', { userId: task.user_id, cost: GENERATION_COST });
+          
+          // Get current balance
+          const { data: currentCredits, error: fetchError } = await supabase
             .from('user_credits')
-            .update({
-              balance: newBalance,
-              total_spent: newTotalSpent,
-              updated_at: new Date().toISOString(),
-            })
-            .eq('user_id', task.user_id);
+            .select('balance, total_spent')
+            .eq('user_id', task.user_id)
+            .single();
 
-          if (updateError) {
-            logger.error('Failed to deduct credits', updateError);
-          } else {
-            // Log the credit deduction transaction
-            await supabase
-              .from('credit_transactions')
-              .insert({
-                user_id: task.user_id,
-                amount: GENERATION_COST,
-                transaction_type: 'spend',
-                action_type: 'generation',
-                description: `Генерация трека: ${clips[0]?.title || 'Трек'}`,
-                metadata: { 
-                  trackId, 
-                  clips: clips.length,
-                  model: task.model_used,
-                },
-              });
-            logger.success('Credits deducted successfully', { newBalance });
+          if (fetchError) {
+            logger.error('Failed to fetch user credits for deduction', fetchError);
+          } else if (currentCredits) {
+            const newBalance = Math.max(0, currentCredits.balance - GENERATION_COST);
+            const newTotalSpent = (currentCredits.total_spent || 0) + GENERATION_COST;
+
+            const { error: updateError } = await supabase
+              .from('user_credits')
+              .update({
+                balance: newBalance,
+                total_spent: newTotalSpent,
+                updated_at: new Date().toISOString(),
+              })
+              .eq('user_id', task.user_id);
+
+            if (updateError) {
+              logger.error('Failed to deduct credits', updateError);
+            } else {
+              // Log the credit deduction transaction
+              await supabase
+                .from('credit_transactions')
+                .insert({
+                  user_id: task.user_id,
+                  amount: GENERATION_COST,
+                  transaction_type: 'spend',
+                  action_type: 'generation',
+                  description: `Генерация трека: ${clips[0]?.title || 'Трек'}`,
+                  metadata: { 
+                    trackId, 
+                    clips: clips.length,
+                    model: task.model_used,
+                  },
+                });
+              logger.success('Credits deducted successfully', { newBalance });
+            }
           }
+        } catch (deductErr) {
+          logger.error('Credit deduction error', deductErr);
         }
-      } catch (deductErr) {
-        logger.error('Credit deduction error', deductErr);
+      } else {
+        logger.info('Admin user - skipping credit deduction, using shared API balance', { userId: task.user_id });
       }
 
       // Reward user with XP for completing generation (no credits, just XP)

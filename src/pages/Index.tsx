@@ -13,7 +13,7 @@ import { UnifiedDiscoverySection } from "@/components/home/UnifiedDiscoverySecti
 import { HeroQuickActions } from "@/components/home/HeroQuickActions";
 import { RecentTracksSection } from "@/components/home/RecentTracksSection";
 import { WelcomeSection } from "@/components/home/WelcomeSection";
-import { GamificationWidgetCompact } from "@/components/gamification/GamificationWidgetCompact";
+import { GamificationWidget } from "@/components/gamification/GamificationWidget";
 import { BlogSection } from "@/components/home/BlogSection";
 import { GraphPreview } from "@/components/home/GraphPreview";
 import { ProfessionalToolsHub } from "@/components/home/ProfessionalToolsHub";
@@ -146,6 +146,18 @@ const Index = () => {
           />
         </motion.div>
 
+        {/* Gamification Widget - Prominent position after welcome */}
+        {user && (
+          <motion.section 
+            className="mb-4 sm:mb-5"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05, duration: 0.3 }}
+          >
+            <GamificationWidget />
+          </motion.section>
+        )}
+
         {/* Loading Skeleton */}
         {contentLoading && !publicContent && (
           <HomeSkeletonEnhanced />
@@ -224,15 +236,6 @@ const Index = () => {
           </motion.section>
         )}
 
-        {/* Compact Gamification Widget - bottom position */}
-        <motion.section 
-          className="mb-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.3 }}
-        >
-          <GamificationWidgetCompact />
-        </motion.section>
       </div>
 
       <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />

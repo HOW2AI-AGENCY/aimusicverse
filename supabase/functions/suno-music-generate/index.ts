@@ -69,39 +69,51 @@ serve(async (req) => {
       );
     }
 
-    // Check user's personal credit balance before proceeding
-    logger.info('Checking user credits balance', { userId: user.id });
+    // Check if user is admin - admins use shared API balance, not personal credits
+    const { data: isAdmin } = await supabase.rpc('has_role', { 
+      _user_id: user.id, 
+      _role: 'admin' 
+    });
     
-    const { data: userCredits, error: creditsError } = await supabase
-      .from('user_credits')
-      .select('balance')
-      .eq('user_id', user.id)
-      .maybeSingle();
+    logger.info('User role check', { userId: user.id, isAdmin: !!isAdmin });
 
-    if (creditsError) {
-      logger.error('Failed to fetch user credits', creditsError);
-      return new Response(
-        JSON.stringify({ success: false, error: 'Ошибка проверки баланса' }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
-      );
-    }
+    // Only check personal balance for non-admin users
+    if (!isAdmin) {
+      logger.info('Checking user credits balance', { userId: user.id });
+      
+      const { data: userCredits, error: creditsError } = await supabase
+        .from('user_credits')
+        .select('balance')
+        .eq('user_id', user.id)
+        .maybeSingle();
 
-    const userBalance = userCredits?.balance ?? 0;
-    logger.info('User credit balance', { userId: user.id, balance: userBalance, required: GENERATION_COST });
+      if (creditsError) {
+        logger.error('Failed to fetch user credits', creditsError);
+        return new Response(
+          JSON.stringify({ success: false, error: 'Ошибка проверки баланса' }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
+        );
+      }
 
-    // Check if user has enough credits for generation
-    if (userBalance < GENERATION_COST) {
-      logger.warn('Insufficient user credits', { balance: userBalance, required: GENERATION_COST });
-      return new Response(
-        JSON.stringify({ 
-          success: false, 
-          error: `Недостаточно кредитов. Баланс: ${userBalance}, требуется: ${GENERATION_COST}`,
-          errorCode: 'INSUFFICIENT_CREDITS',
-          balance: userBalance,
-          required: GENERATION_COST,
-        }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 402 }
-      );
+      const userBalance = userCredits?.balance ?? 0;
+      logger.info('User credit balance', { userId: user.id, balance: userBalance, required: GENERATION_COST });
+
+      // Check if user has enough credits for generation
+      if (userBalance < GENERATION_COST) {
+        logger.warn('Insufficient user credits', { balance: userBalance, required: GENERATION_COST });
+        return new Response(
+          JSON.stringify({ 
+            success: false, 
+            error: `Недостаточно кредитов. Баланс: ${userBalance}, требуется: ${GENERATION_COST}`,
+            errorCode: 'INSUFFICIENT_CREDITS',
+            balance: userBalance,
+            required: GENERATION_COST,
+          }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 402 }
+        );
+      }
+    } else {
+      logger.info('Admin user - skipping personal balance check, using shared API balance');
     }
 
     const body = await req.json();
