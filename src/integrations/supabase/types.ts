@@ -343,6 +343,51 @@ export type Database = {
         }
         Relationships: []
       }
+      deeplink_analytics: {
+        Row: {
+          campaign: string | null
+          conversion_type: string | null
+          converted: boolean | null
+          created_at: string | null
+          deeplink_type: string
+          deeplink_value: string | null
+          id: string
+          metadata: Json | null
+          referrer: string | null
+          session_id: string | null
+          source: string | null
+          user_id: string | null
+        }
+        Insert: {
+          campaign?: string | null
+          conversion_type?: string | null
+          converted?: boolean | null
+          created_at?: string | null
+          deeplink_type: string
+          deeplink_value?: string | null
+          id?: string
+          metadata?: Json | null
+          referrer?: string | null
+          session_id?: string | null
+          source?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          campaign?: string | null
+          conversion_type?: string | null
+          converted?: boolean | null
+          created_at?: string | null
+          deeplink_type?: string
+          deeplink_value?: string | null
+          id?: string
+          metadata?: Json | null
+          referrer?: string | null
+          session_id?: string | null
+          source?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       generation_tag_usage: {
         Row: {
           created_at: string
@@ -2105,6 +2150,39 @@ export type Database = {
           created_at?: string
           id?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      user_analytics_events: {
+        Row: {
+          created_at: string | null
+          event_name: string | null
+          event_type: string
+          id: string
+          metadata: Json | null
+          page_path: string | null
+          session_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          event_name?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          page_path?: string | null
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          event_name?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          page_path?: string | null
+          session_id?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
