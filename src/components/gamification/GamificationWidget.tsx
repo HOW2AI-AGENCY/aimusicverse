@@ -24,7 +24,7 @@ export function GamificationWidget() {
   const streak = credits?.current_streak || 0;
 
   return (
-    <div className="space-y-3 mb-6">
+    <div className="space-y-3">
       {/* Daily Checkin */}
       <DailyCheckin />
 
@@ -36,14 +36,23 @@ export function GamificationWidget() {
         onClick={() => navigate('/rewards')}
         className="group relative cursor-pointer"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-generate/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        {/* Animated gradient border */}
+        <motion.div 
+          className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-primary/40 via-generate/40 to-warning/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          animate={{ 
+            backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+          }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
+          style={{ backgroundSize: '200% 200%' }}
+        />
         
-        <div className="relative flex items-center justify-between p-4 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 group-hover:border-primary/30 transition-colors">
+        <div className="relative flex items-center justify-between p-4 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 group-hover:border-transparent transition-colors">
           <div className="flex items-center gap-4">
             {/* Level Progress Ring with glow */}
             <motion.div
               className="relative"
               whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               transition={{ type: 'spring', stiffness: 400 }}
             >
               <ProgressRing
@@ -57,45 +66,72 @@ export function GamificationWidget() {
                 </div>
               </ProgressRing>
               
-              {/* Level glow effect */}
-              <div className="absolute inset-0 rounded-full bg-primary/20 blur-xl opacity-0 group-hover:opacity-60 transition-opacity" />
+              {/* Level glow effect - always visible with pulse */}
+              <motion.div 
+                className="absolute inset-0 rounded-full bg-primary/20 blur-xl"
+                animate={{ opacity: [0.3, 0.6, 0.3] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
             </motion.div>
 
             {/* Stats Grid */}
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center gap-4">
-                {/* Credits */}
+                {/* Credits with pulse when low */}
                 <motion.div 
                   className="flex items-center gap-1.5"
                   whileHover={{ scale: 1.05 }}
+                  animate={(credits?.balance || 0) < 20 ? { scale: [1, 1.05, 1] } : {}}
+                  transition={{ duration: 1.5, repeat: Infinity }}
                 >
-                  <div className="p-1 rounded-md bg-warning/10">
-                    <Coins className="w-3.5 h-3.5 text-warning" />
+                  <div className={cn(
+                    "p-1.5 rounded-lg",
+                    (credits?.balance || 0) < 20 
+                      ? "bg-destructive/10 animate-pulse" 
+                      : "bg-warning/10"
+                  )}>
+                    <Coins className={cn(
+                      "w-4 h-4",
+                      (credits?.balance || 0) < 20 ? "text-destructive" : "text-warning"
+                    )} />
                   </div>
-                  <span className="font-bold tabular-nums text-foreground">{credits?.balance || 0}</span>
+                  <span className="font-bold tabular-nums text-foreground text-base">{credits?.balance || 0}</span>
                 </motion.div>
 
                 {/* XP Progress */}
                 <div className="flex items-center gap-1.5 text-muted-foreground">
-                  <Zap className="w-3.5 h-3.5 text-primary" />
+                  <motion.div
+                    animate={{ rotate: [0, 10, -10, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                  >
+                    <Zap className="w-4 h-4 text-primary" />
+                  </motion.div>
                   <div className="flex items-center gap-1">
-                    <span className="text-xs tabular-nums font-medium text-foreground">{currentXP}</span>
+                    <span className="text-sm tabular-nums font-medium text-foreground">{currentXP}</span>
                     <span className="text-xs text-muted-foreground">/ {nextLevelXP}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Streak indicator */}
+              {/* Streak indicator with fire animation */}
               {streak > 0 && (
                 <motion.div 
                   className="flex items-center gap-1.5"
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                 >
-                  <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20">
-                    <Flame className="w-3.5 h-3.5 text-orange-500" />
-                    <span className="text-xs font-semibold text-orange-500">{streak}</span>
-                    <span className="text-[10px] text-orange-500/70">дн.</span>
+                  <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-orange-500/15 to-red-500/15 border border-orange-500/30">
+                    <motion.div
+                      animate={{ 
+                        scale: [1, 1.2, 1],
+                        rotate: [-5, 5, -5],
+                      }}
+                      transition={{ duration: 0.5, repeat: Infinity }}
+                    >
+                      <Flame className="w-4 h-4 text-orange-500" />
+                    </motion.div>
+                    <span className="text-sm font-bold text-orange-500">{streak}</span>
+                    <span className="text-xs text-orange-500/70">дн.</span>
                   </div>
                 </motion.div>
               )}
@@ -104,10 +140,10 @@ export function GamificationWidget() {
 
           {/* Arrow with animation */}
           <motion.div
-            className="flex items-center justify-center w-8 h-8 rounded-full bg-muted/50 group-hover:bg-primary/10 transition-colors"
+            className="flex items-center justify-center w-9 h-9 rounded-full bg-muted/50 group-hover:bg-primary/20 transition-colors"
             whileHover={{ x: 3 }}
           >
-            <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+            <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
           </motion.div>
         </div>
       </motion.div>

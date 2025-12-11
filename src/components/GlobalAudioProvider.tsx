@@ -12,7 +12,7 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import { usePlayerStore } from '@/hooks/audio';
-import { setGlobalAudioRef, resumeAudioContext } from '@/hooks/audio';
+import { setGlobalAudioRef } from '@/hooks/audio';
 import { useOptimizedAudioPlayer } from '@/hooks/audio/useOptimizedAudioPlayer';
 import { usePlaybackPosition } from '@/hooks/audio/usePlaybackPosition';
 import { logger } from '@/lib/logger';
@@ -148,26 +148,29 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     }
   }, [activeTrack]);
 
-  // Combined effect for track changes and play/pause state
-  // This prevents race conditions between separate effects
+  // Stable ref for isPlaying to avoid effect re-runs
+  const isPlayingRef = useRef(isPlaying);
+  isPlayingRef.current = isPlaying;
+
+  // Effect for loading new tracks - only triggers on track change
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
     const source = getAudioSource();
-    const trackChanged = activeTrack?.id !== lastTrackIdRef.current;
-
+    
     // Handle no source
     if (!source) {
-      logger.debug('No source available, pausing audio');
+      logger.debug('No source available, clearing audio');
       audio.pause();
       audio.src = '';
       lastTrackIdRef.current = null;
-      pauseTrack(); // Sync store state
       return;
     }
 
-    // Load new track if changed
+    const trackChanged = activeTrack?.id !== lastTrackIdRef.current;
+    
+    // Only load if track actually changed
     if (trackChanged) {
       lastTrackIdRef.current = activeTrack?.id || null;
       logger.debug('Loading new track', { 
@@ -180,109 +183,112 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       audio.src = source;
       audio.load();
     }
+  }, [activeTrack?.id, getAudioSource]);
 
-    // Track if cleanup has been called to prevent stale play attempts
+  // Separate effect for play/pause control - avoids race conditions
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !audio.src) return;
+
     let isCleanedUp = false;
+    let playTimeoutId: NodeJS.Timeout | null = null;
 
-    // Handle play/pause state
-    if (isPlaying && audio.src) {
-      const playAttempt = async () => {
-        // Don't attempt play if effect has been cleaned up
-        if (isCleanedUp) return;
+    const attemptPlay = async () => {
+      if (isCleanedUp) return;
 
-        // Log detailed audio state before play attempt
-        logger.debug('Attempting to play', {
+      // Log detailed audio state before play attempt
+      logger.debug('Attempting to play', {
+        trackId: activeTrack?.id,
+        readyState: audio.readyState,
+        volume: audio.volume,
+        muted: audio.muted,
+        paused: audio.paused,
+      });
+
+      // CRITICAL FIX: Ensure volume is set and not muted
+      if (audio.volume === 0) {
+        logger.warn('Volume was 0, setting to 1.0');
+        audio.volume = 1.0;
+      }
+      if (audio.muted) {
+        logger.warn('Audio was muted, unmuting');
+        audio.muted = false;
+      }
+
+      // Resume AudioContext
+      try {
+        const { resumeAudioContext, ensureAudioRoutedToDestination } = await import('@/lib/audioContextManager');
+        const contextResumed = await resumeAudioContext(3);
+        if (!contextResumed) {
+          await ensureAudioRoutedToDestination();
+        }
+      } catch {
+        logger.warn('AudioContext resume issue');
+      }
+
+      try {
+        await audio.play();
+        logger.info('Playback started successfully', { trackId: activeTrack?.id });
+      } catch (error: any) {
+        if (error.name === 'AbortError' || isCleanedUp) {
+          // Ignore abort errors from track changes
+          return;
+        }
+        
+        logger.error('Playback failed', error, {
+          errorName: error.name,
           trackId: activeTrack?.id,
-          src: audio.src.substring(0, 50),
-          readyState: audio.readyState,
-          volume: audio.volume,
-          muted: audio.muted,
-          paused: audio.paused,
-          networkState: audio.networkState
         });
 
-        // CRITICAL FIX: Ensure volume is set and not muted
-        if (audio.volume === 0) {
-          logger.warn('Volume was 0, setting to 1.0');
-          audio.volume = 1.0;
-        }
-        if (audio.muted) {
-          logger.warn('Audio was muted, unmuting');
-          audio.muted = false;
+        if (error.name === 'NotAllowedError') {
+          toast.error('Воспроизведение заблокировано', {
+            description: 'Нажмите на экран и попробуйте снова',
+          });
+        } else if (error.name === 'NotSupportedError') {
+          toast.error('Формат аудио не поддерживается');
         }
 
-        // CRITICAL: Resume AudioContext before playing
-        // This ensures Web Audio API is ready if visualizer is active
-        try {
-          await resumeAudioContext();
-          logger.debug('AudioContext resumed successfully');
-        } catch (err) {
-          logger.warn('AudioContext resume failed before playback', { error: err });
-          // Continue anyway - audio might still work without visualizer
-        }
+        pauseTrack();
+      }
+    };
 
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              logger.info('Playback started successfully', { trackId: activeTrack?.id });
-            })
-            .catch((error) => {
-              // Only log actual errors, not abort errors from track changes
-              if (error.name !== 'AbortError' && !isCleanedUp) {
-                logger.error('Playback failed', error, {
-                  errorName: error.name,
-                  trackId: activeTrack?.id,
-                  readyState: audio.readyState,
-                  networkState: audio.networkState
-                });
-
-                // Show user-friendly error
-                if (error.name === 'NotAllowedError') {
-                  toast.error('Воспроизведение заблокировано', {
-                    description: 'Требуется взаимодействие с страницей'
-                  });
-                } else if (error.name === 'NotSupportedError') {
-                  toast.error('Формат аудио не поддерживается');
-                } else {
-                  toast.error('Ошибка воспроизведения', {
-                    description: error.message
-                  });
-                }
-
-                pauseTrack();
-              }
-            });
-        }
-      };
-
-      if (trackChanged) {
-        // Wait for canplay event after loading new track
+    if (isPlaying) {
+      // Wait for audio to be ready if needed
+      if (audio.readyState >= 2) {
+        attemptPlay();
+      } else {
         const handleCanPlay = () => {
-          if (isPlaying && !isCleanedUp) {
-            playAttempt();
+          if (!isCleanedUp && isPlayingRef.current) {
+            attemptPlay();
           }
           audio.removeEventListener('canplay', handleCanPlay);
         };
         audio.addEventListener('canplay', handleCanPlay);
         
-        // Cleanup listener if effect re-runs
+        // Cleanup timeout to prevent stale handlers
+        playTimeoutId = setTimeout(() => {
+          audio.removeEventListener('canplay', handleCanPlay);
+          // If still not ready after 5s, try anyway
+          if (!isCleanedUp && isPlayingRef.current && audio.src) {
+            attemptPlay();
+          }
+        }, 5000);
+
         return () => {
           isCleanedUp = true;
           audio.removeEventListener('canplay', handleCanPlay);
+          if (playTimeoutId) clearTimeout(playTimeoutId);
         };
-      } else {
-        playAttempt();
       }
-    } else if (!isPlaying) {
+    } else {
       audio.pause();
     }
 
-    // Mark as cleaned up on effect cleanup
     return () => {
       isCleanedUp = true;
+      if (playTimeoutId) clearTimeout(playTimeoutId);
     };
-  }, [activeTrack?.id, activeTrack?.title, isPlaying, getAudioSource, pauseTrack]);
+  }, [isPlaying, activeTrack?.id, pauseTrack]);
 
   // Handle track ended and errors with retry logic
   useEffect(() => {

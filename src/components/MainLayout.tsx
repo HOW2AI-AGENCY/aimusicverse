@@ -24,7 +24,7 @@ export const MainLayout = () => {
       {/* Skip to content for keyboard navigation */}
       <SkipToContent />
       
-      {/* Guest mode banner */}
+      {/* Guest mode banner - subtle and compact */}
       {isGuestMode && <GuestModeBanner />}
       
       {/* Onboarding system */}
@@ -44,10 +44,10 @@ export const MainLayout = () => {
         className={cn(
           'flex-1 flex flex-col overflow-y-auto',
           isDesktop ? 'ml-64' : 'pb-[calc(4rem+env(safe-area-inset-bottom,0px))]',
-          isGuestMode && 'pt-14'
+          isGuestMode && 'pt-9'
         )}
       >
-        <div className="flex-1 p-4 sm:p-6">
+        <div className={cn('flex-1', isDesktop ? 'p-6' : 'p-3')}>
           <Outlet />
         </div>
         <ResizablePlayer />

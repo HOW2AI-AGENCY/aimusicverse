@@ -755,6 +755,7 @@ const audioLevel = useAudioLevel(mediaStream, isRecording);
 
 ## References
 
+- [Полное руководство по интеграции Klang.io API](docs/KLANG_IO_API_GUIDE_RU.md)
 - [klang.io API Documentation](https://api.klang.io/docs)
 - [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
 - [MediaRecorder API](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder)

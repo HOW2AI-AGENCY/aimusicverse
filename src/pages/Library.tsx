@@ -113,6 +113,29 @@ export default function Library() {
     prevGenerationsCount.current = activeGenerations.length;
   }, [activeGenerations.length, refetchTracks]);
 
+  // Infinite scroll - load more when bottom is reached
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  
+  const loadMoreRef = useCallback((node: HTMLDivElement | null) => {
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+    }
+    
+    if (!node) return;
+    
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          log.debug('Loading next page');
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.1, rootMargin: '200px' }
+    );
+    
+    observerRef.current.observe(node);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
   const fullscreenTrackId = activeTrack?.id;
   const { data: versions } = useTrackVersions(fullscreenTrackId || "");
 
@@ -225,90 +248,94 @@ export default function Library() {
 
   return (
     <ErrorBoundaryWrapper>
-      <div className="min-h-screen pb-24">
-        {/* Page Header - Enhanced with glassmorphism */}
-        <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-xl border-b border-border/30">
-          <div className="container mx-auto px-4 sm:px-6 py-4">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-gradient-telegram">Библиотека</h1>
-                <p className="text-sm text-muted-foreground mt-0.5">
+      <div className="min-h-screen pb-20">
+        {/* Page Header - Mobile optimized */}
+        <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-xl border-b border-border/30">
+          <div className="container mx-auto px-3 sm:px-4 py-3">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                <h1 className="text-lg sm:text-2xl font-bold text-gradient-telegram truncate">Библиотека</h1>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
                   {hasActiveGenerations && (
-                    <span className="inline-flex items-center gap-1.5 text-generate mr-2">
-                      <span className="w-2 h-2 rounded-full bg-generate animate-pulse" />
-                      {activeGenerations.length} в процессе •
+                    <span className="inline-flex items-center gap-1 text-generate mr-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-generate animate-pulse" />
+                      {activeGenerations.length} •
                     </span>
                   )}
-                  <span className="tabular-nums">{tracks?.length || 0}</span> из <span className="tabular-nums">{totalCount}</span> треков
+                  <span className="tabular-nums">{tracks?.length || 0}</span> из <span className="tabular-nums">{totalCount}</span>
                 </p>
               </div>
 
-              <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="flex items-center gap-1.5 shrink-0">
                 {tracksToDisplay.length > 0 && (
                   <>
                     <Button
                       variant="default"
                       size="icon"
                       onClick={handlePlayAll}
-                      className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-xl shadow-glow-sm"
+                      className="h-9 w-9 min-h-[44px] min-w-[44px] rounded-xl"
                       aria-label="Воспроизвести все"
                     >
                       <Play className="w-4 h-4" />
                     </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={handleShuffleAll}
-                      className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-xl"
-                      aria-label="Перемешать"
-                    >
-                      <Shuffle className="w-4 h-4" />
-                    </Button>
+                    {!isMobile && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={handleShuffleAll}
+                        className="h-9 w-9 min-h-[44px] min-w-[44px] rounded-xl"
+                        aria-label="Перемешать"
+                      >
+                        <Shuffle className="w-4 h-4" />
+                      </Button>
+                    )}
                   </>
                 )}
-                <div className="flex items-center bg-muted/50 rounded-xl p-1">
-                  <Button
-                    variant={viewMode === "grid" ? "default" : "ghost"}
-                    size="icon"
-                    onClick={() => setViewMode("grid")}
-                    className="h-9 w-9 rounded-lg"
-                    aria-label="Сетка"
-                  >
-                    <Grid3x3 className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant={viewMode === "list" ? "default" : "ghost"}
+                {!isMobile && (
+                  <div className="flex items-center bg-muted/50 rounded-xl p-1">
+                    <Button
+                      variant={viewMode === "grid" ? "default" : "ghost"}
+                      size="icon"
+                      onClick={() => setViewMode("grid")}
+                      className="h-8 w-8 rounded-lg"
+                      aria-label="Сетка"
+                    >
+                      <Grid3x3 className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant={viewMode === "list" ? "default" : "ghost"}
                     size="icon"
                     onClick={() => setViewMode("list")}
-                    className="h-9 w-9 rounded-lg"
+                    className="h-8 w-8 rounded-lg"
                     aria-label="Список"
                   >
                     <List className="w-4 h-4" />
                   </Button>
                 </div>
+                )}
               </div>
             </div>
 
-            {/* Search and Filters - Enhanced */}
-            <div className="mt-4 flex flex-col sm:flex-row gap-2 sm:gap-3">
+            {/* Search and Filters - Mobile optimized */}
+            <div className="mt-3 flex flex-col sm:flex-row gap-2">
               <div className="relative flex-1 group">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5 transition-colors group-focus-within:text-primary" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4 transition-colors group-focus-within:text-primary" />
                 <Input
-                  placeholder="Поиск по названию, стилю..."
+                  placeholder="Поиск..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-11 h-12 text-base rounded-xl border-border/50 bg-muted/30 focus:bg-background transition-colors"
+                  className="pl-9 h-10 text-sm rounded-xl border-border/50 bg-muted/30 focus:bg-background transition-colors"
                 />
               </div>
               <Select value={sortBy} onValueChange={(v: "recent" | "popular" | "liked") => setSortBy(v)}>
-                <SelectTrigger className="w-full sm:w-48 h-12 text-base rounded-xl border-border/50 bg-muted/30">
-                  <SlidersHorizontal className="w-5 h-5 mr-2.5 text-muted-foreground" />
+                <SelectTrigger className="w-full sm:w-40 h-10 text-sm rounded-xl border-border/50 bg-muted/30">
+                  <SlidersHorizontal className="w-4 h-4 mr-2 text-muted-foreground" />
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl">
                   <SelectItem value="recent">Недавние</SelectItem>
                   <SelectItem value="popular">Популярные</SelectItem>
-                  <SelectItem value="liked">Понравившиеся</SelectItem>
+                  <SelectItem value="liked">Любимые</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -316,9 +343,9 @@ export default function Library() {
         </header>
 
         {/* Content */}
-        <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
-          {/* Filter Chips */}
-          <div className="mb-4">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
+          {/* Filter Chips - Mobile optimized */}
+          <div className="mb-3">
             <LibraryFilterChips 
               activeFilter={typeFilter} 
               onFilterChange={setTypeFilter}
@@ -387,6 +414,9 @@ export default function Library() {
                 })}
               </div>
 
+              {/* Load More Trigger */}
+              <div ref={loadMoreRef} className="h-4" />
+              
               {/* Pagination Loading - используем skeleton карточки для единообразия */}
               {isFetchingNextPage && (
                 <div className={cn(

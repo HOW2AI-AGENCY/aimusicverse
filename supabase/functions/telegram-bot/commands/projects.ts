@@ -51,29 +51,28 @@ export async function handleProjects(chatId: number, userId: number, messageId?:
       if (messageId) {
         await editMessageText(chatId, messageId, MESSAGES.noProjects, createMainMenuKeyboard());
       } else {
-        await sendMessage(chatId, MESSAGES.noProjects, createMainMenuKeyboard());
+        await sendMessage(chatId, MESSAGES.noProjects, createMainMenuKeyboard(), null);
       }
       return;
     }
 
-    // Escape markdown special characters for Telegram MarkdownV2
-    const escapeMarkdown = (text: string) => text.replace(/([_*[\]()~`>#+\-=|{}.!])/g, '\\$1');
-    
     let message = '📁 Ваши проекты:\n\n';
     
     for (const project of projects) {
       const statusEmoji = project.status === 'completed' ? '✅' : 
                           project.status === 'in_progress' ? '⏳' : '📝';
       
-      message += `${statusEmoji} ${escapeMarkdown(project.title)}\n`;
-      message += `   Статус: ${escapeMarkdown(project.status || 'draft')}\n`;
-      message += `   /project\\_${project.id.replace(/-/g, '')}\n\n`;
+      const title = project.title || 'Без названия';
+      const status = project.status || 'draft';
+      message += `${statusEmoji} ${title}\n`;
+      message += `   Статус: ${status}\n`;
+      message += `   ID: ${project.id.substring(0, 8)}\n\n`;
     }
 
     if (messageId) {
       await editMessageText(chatId, messageId, message, projects[0] ? createProjectKeyboard(projects[0].id) : createMainMenuKeyboard());
     } else {
-      await sendMessage(chatId, message, projects[0] ? createProjectKeyboard(projects[0].id) : createMainMenuKeyboard());
+      await sendMessage(chatId, message, projects[0] ? createProjectKeyboard(projects[0].id) : createMainMenuKeyboard(), null);
     }
   } catch (error) {
     console.error('Error in projects command:', error);

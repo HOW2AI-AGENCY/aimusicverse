@@ -10,10 +10,11 @@ export function createMainMenuKeyboard() {
         { text: '📚 Библиотека', callback_data: 'library' }
       ],
       [
-        { text: '📁 Проекты', callback_data: 'projects' },
-        { text: '⚙️ Настройки', callback_data: 'settings' }
+        { text: '🔬 Анализ аудио', callback_data: 'analyze' },
+        { text: '📁 Проекты', callback_data: 'projects' }
       ],
       [
+        { text: '⚙️ Настройки', callback_data: 'settings' },
         { text: 'ℹ️ О платформе', callback_data: 'help' }
       ]
     ] as InlineKeyboardButton[][]

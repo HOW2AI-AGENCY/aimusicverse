@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { useGenerateDraft, useAudioReferenceLoader } from '@/hooks/generation';
+import { useUserCredits } from '@/hooks/useUserCredits';
 import { SUNO_MODELS, validateModel, DEFAULT_SUNO_MODEL } from '@/constants/sunoModels';
 import { savePromptToHistory } from '@/components/generate-form/PromptHistory';
 import { logger } from '@/lib/logger';
@@ -62,11 +63,14 @@ export function useGenerateForm({
   // Audio reference loader hook (IMP001)
   const audioReference = useAudioReferenceLoader(open);
 
+  // User credits hook for personal balance (admins use shared API balance)
+  const { balance: userBalance, canGenerate, generationCost, invalidate: invalidateCredits, isAdmin, apiBalance } = useUserCredits();
+
   // Form state
   const [mode, setMode] = useState<'simple' | 'custom'>('simple');
   const [loading, setLoading] = useState(false);
   const [boostLoading, setBoostLoading] = useState(false);
-  const [credits, setCredits] = useState<number | null>(null);
+  const [apiCredits, setApiCredits] = useState<number | null>(null);
 
   // Simple mode state
   const [description, setDescription] = useState('');
@@ -206,21 +210,21 @@ export function useGenerateForm({
     }
   }, [open]);
 
-  // Fetch credits
+  // Fetch API credits (for display purposes)
   useEffect(() => {
-    const fetchCredits = async () => {
+    const fetchApiCredits = async () => {
       try {
         const { data } = await supabase.functions.invoke('suno-credits');
         if (data?.credits !== undefined) {
-          setCredits(data.credits);
+          setApiCredits(data.credits);
         }
       } catch (error) {
-        logger.error('Error fetching credits', { error });
+        logger.error('Error fetching API credits', { error });
       }
     };
 
     if (open) {
-      fetchCredits();
+      fetchApiCredits();
     }
   }, [open]);
 
@@ -420,10 +424,10 @@ export function useGenerateForm({
       return;
     }
 
-    // Pre-generation credit validation (IMP003)
-    if (credits !== null && credits < 10) {
+    // Pre-generation credit validation - check user's personal balance
+    if (!canGenerate) {
       toast.error('Недостаточно кредитов', {
-        description: 'Пополните баланс SunoAPI для продолжения',
+        description: `Ваш баланс: ${userBalance}. Требуется: ${generationCost}`,
       });
       return;
     }
@@ -552,11 +556,13 @@ export function useGenerateForm({
       onOpenChange(false);
       navigate('/library');
 
+      // Refresh API credits and user credits after generation
       supabase.functions.invoke('suno-credits').then(({ data: creditsData }) => {
         if (creditsData?.credits !== undefined) {
-          setCredits(creditsData.credits);
+          setApiCredits(creditsData.credits);
         }
       });
+      invalidateCredits(); // Refresh user credits
     } catch (error) {
       toast.dismiss(toastId);
       showGenerationError(error);
@@ -616,7 +622,12 @@ export function useGenerateForm({
     loading,
     audioReferenceLoading: audioReference.isLoading,
     boostLoading,
-    credits,
+    // User credits
+    userBalance,
+    canGenerate,
+    generationCost,
+    apiCredits,
+    isAdmin,
     hasDraft,
     
     // Simple mode

@@ -66,15 +66,15 @@ serve(async (req) => {
         // Model is required in query params for transcription
         queryParams.set('model', model || 'guitar');
         if (title) queryParams.set('title', title);
-        // Add outputs to form data - valid formats: midi, midi_quant, mxml, gp5, pdf
+        // Add outputs to query params - valid formats: midi, midi_quant, mxml, gp5, pdf
         // Note: 'json' is NOT a valid output format - notes data is fetched separately via /job/{id}/json
         const validFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
-        const requestedOutputs = outputs || ['midi'];
+        const requestedOutputs = outputs || ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf']; // Request all formats by default
         const validOutputs = requestedOutputs.filter(o => validFormats.includes(o));
-        if (validOutputs.length === 0) validOutputs.push('midi');
+        if (validOutputs.length === 0) validOutputs.push('midi'); // Ensure at least midi is requested
         console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(requestedOutputs)}, valid=${JSON.stringify(validOutputs)}`);
-        // Use 'outputs[]' syntax for proper array handling in FormData (PHP/Rails style)
-        validOutputs.forEach(output => formData.append('outputs[]', output));
+        // The API expects 'outputs' as query parameters, not in FormData
+        validOutputs.forEach(output => queryParams.append('outputs', output));
         break;
         
       case 'chord-recognition':
@@ -157,7 +157,18 @@ serve(async (req) => {
         result = statusData;
         break;
       } else if (statusData.status === "FAILED" || statusData.status === "CANCELLED" || statusData.status === "TIMED_OUT") {
-        throw new Error(`Klangio job ${statusData.status}: ${statusData.error || 'Unknown error'}`);
+        const errorMsg = statusData.error || 'Unknown error';
+        // Return user-friendly error for "no notes found" case
+        if (errorMsg.toLowerCase().includes('no notes found')) {
+          return new Response(JSON.stringify({ 
+            error: 'no_notes_found',
+            message: 'Не удалось распознать музыкальные ноты в записи. Попробуйте записать более чёткий и громкий звук.'
+          }), { 
+            status: 422,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+          });
+        }
+        throw new Error(`Klangio job ${statusData.status}: ${errorMsg}`);
       }
     }
 
@@ -272,18 +283,23 @@ serve(async (req) => {
 
           if (fetchSuccess && fileResponse && fileResponse.ok) {
             const fileBlob = await fileResponse.blob();
-            console.log(`[klangio] Successfully downloaded ${format}: ${fileBlob.size} bytes, type: ${fileBlob.type}`);
+            console.log(`[klangio] Downloaded ${format}: ${fileBlob.size} bytes, type: ${fileBlob.type}`);
+            
+            // Create a new blob with the correct MIME type
+            const correctMimeType = getContentType(format);
+            const typedBlob = new Blob([fileBlob], { type: correctMimeType });
+            console.log(`[klangio] Created typed blob for ${format}: ${typedBlob.size} bytes, type: ${typedBlob.type}`);
             
             // Determine file extension
             const extension = format === 'mxml' ? 'xml' : format === 'midi_quant' ? 'mid' : format === 'midi' ? 'mid' : format;
             const fileName = `${user_id || 'anonymous'}/klangio/${jobId}_${format}.${extension}`;
             
-            console.log(`[klangio] Uploading ${format} to Storage: bucket=project-assets, path=${fileName}, size=${fileBlob.size}`);
+            console.log(`[klangio] Uploading ${format} to Storage: bucket=project-assets, path=${fileName}, size=${typedBlob.size}, contentType=${correctMimeType}`);
 
             const { error: uploadError } = await supabase.storage
               .from("project-assets")
-              .upload(fileName, fileBlob, {
-                contentType: getContentType(format),
+              .upload(fileName, typedBlob, {
+                contentType: correctMimeType,
                 upsert: true,
               });
 

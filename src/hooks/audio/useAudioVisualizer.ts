@@ -32,6 +32,7 @@ interface VisualizerData {
   waveform: number[];
   average: number;
   peak: number;
+  isFallback: boolean; // Indicates if using fake data
 }
 
 export function useAudioVisualizer(
@@ -52,6 +53,7 @@ export function useAudioVisualizer(
     waveform: new Array(barCount).fill(0.5),
     average: 0,
     peak: 0,
+    isFallback: false,
   });
 
   // Get analyser node using centralized manager
@@ -78,6 +80,7 @@ export function useAudioVisualizer(
         frequencies: prev.frequencies.map(f => f * 0.92),
         average: prev.average * 0.92,
         peak: prev.peak * 0.95,
+        isFallback: prev.isFallback,
       }));
       
       if (animationRef.current) {
@@ -105,14 +108,17 @@ export function useAudioVisualizer(
       
       // Fallback animation if analyser unavailable
       if (!analyser) {
+        logger.debug('Using fallback visualizer (no analyser available)');
+        
         const fakeAnimate = () => {
           if (!isPlaying || !isActive) return;
           
           const time = Date.now() / 1000;
+          // More subtle animation for fallback to indicate it's not real data
           const fakeFreqs = new Array(barCount).fill(0).map((_, i) => {
-            const base = Math.sin(time * 2 + i * 0.3) * 0.3 + 0.4;
-            const noise = Math.random() * 0.2;
-            return Math.min(1, Math.max(0.05, base + noise));
+            const base = Math.sin(time * 1.5 + i * 0.2) * 0.2 + 0.3;
+            const noise = Math.random() * 0.1;
+            return Math.min(0.7, Math.max(0.1, base + noise));
           });
           
           const avg = fakeFreqs.reduce((a, b) => a + b, 0) / barCount;
@@ -120,9 +126,10 @@ export function useAudioVisualizer(
           
           setData({
             frequencies: fakeFreqs,
-            waveform: fakeFreqs.map(f => 0.5 + (f - 0.5) * 0.5),
+            waveform: fakeFreqs.map(f => 0.5 + (f - 0.5) * 0.3),
             average: avg,
             peak,
+            isFallback: true, // Mark as fallback data
           });
           
           animationRef.current = requestAnimationFrame(fakeAnimate);
@@ -168,7 +175,7 @@ export function useAudioVisualizer(
         const average = frequencies.reduce((a, b) => a + b, 0) / barCount;
         const peak = Math.max(...frequencies);
 
-        setData({ frequencies, waveform, average, peak });
+        setData({ frequencies, waveform, average, peak, isFallback: false });
         
         animationRef.current = requestAnimationFrame(animate);
       };

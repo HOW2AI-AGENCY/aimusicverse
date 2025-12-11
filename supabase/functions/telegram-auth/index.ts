@@ -223,19 +223,20 @@ Deno.serve(async (req) => {
         
         await supabase.auth.admin.updateUserById(userId, { password: newPassword });
 
-        // Update profile with latest Telegram data AND chat_id
-        await supabase
-          .from('profiles')
-          .update({
-            first_name: telegramUser.first_name,
-            last_name: telegramUser.last_name,
-            username: telegramUser.username,
-            language_code: telegramUser.language_code,
-            photo_url: telegramUser.photo_url,
-            telegram_chat_id: chatId, // Save chat_id for notifications
-            updated_at: new Date().toISOString(),
-          })
-          .eq('user_id', userId);
+      // Update profile with latest Telegram data AND chat_id, ensure public
+      await supabase
+        .from('profiles')
+        .update({
+          first_name: telegramUser.first_name,
+          last_name: telegramUser.last_name,
+          username: telegramUser.username,
+          language_code: telegramUser.language_code,
+          photo_url: telegramUser.photo_url,
+          telegram_chat_id: chatId, // Save chat_id for notifications
+          is_public: true, // All profiles are public by default
+          updated_at: new Date().toISOString(),
+        })
+        .eq('user_id', userId);
 
         // Also update/create notification settings
         await supabase
@@ -277,6 +278,7 @@ Deno.serve(async (req) => {
     console.log('🆕 Creating new user for Telegram ID:', telegramUser.id);
     
     const password = crypto.randomUUID();
+    const INITIAL_CREDITS = 50;
 
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email,
@@ -302,10 +304,13 @@ Deno.serve(async (req) => {
 
     userId = authData.user.id;
 
-    // Update the auto-created profile with chat_id
+    // Update the auto-created profile with chat_id and ensure public
     await supabase
       .from('profiles')
-      .update({ telegram_chat_id: chatId })
+      .update({ 
+        telegram_chat_id: chatId,
+        is_public: true, // All profiles are public by default
+      })
       .eq('user_id', userId);
 
     // Create notification settings
@@ -315,6 +320,39 @@ Deno.serve(async (req) => {
         user_id: userId,
         telegram_chat_id: chatId,
       });
+
+    // Grant initial 50 credits to new user
+    console.log('💰 Granting initial credits to new user:', INITIAL_CREDITS);
+    
+    const { error: creditsError } = await supabase
+      .from('user_credits')
+      .insert({
+        user_id: userId,
+        balance: INITIAL_CREDITS,
+        total_earned: INITIAL_CREDITS,
+        total_spent: 0,
+        experience: 0,
+        level: 1,
+        current_streak: 0,
+        longest_streak: 0,
+      });
+
+    if (creditsError) {
+      console.error('❌ Failed to grant initial credits:', creditsError);
+    } else {
+      // Log the registration bonus transaction
+      await supabase
+        .from('credit_transactions')
+        .insert({
+          user_id: userId,
+          amount: INITIAL_CREDITS,
+          transaction_type: 'earn',
+          action_type: 'registration_bonus',
+          description: 'Бонус за регистрацию',
+          metadata: { telegram_id: telegramUser.id },
+        });
+      console.log('✅ Initial credits granted successfully');
+    }
 
     const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
       email,

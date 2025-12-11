@@ -596,6 +596,51 @@ export type Database = {
         }
         Relationships: []
       }
+      lyrics_templates: {
+        Row: {
+          created_at: string
+          genre: string | null
+          id: string
+          language: string | null
+          lyrics: string
+          mood: string | null
+          name: string
+          structure: string | null
+          style: string | null
+          tags: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          genre?: string | null
+          id?: string
+          language?: string | null
+          lyrics: string
+          mood?: string | null
+          name: string
+          structure?: string | null
+          style?: string | null
+          tags?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          genre?: string | null
+          id?: string
+          language?: string | null
+          lyrics?: string
+          mood?: string | null
+          name?: string
+          structure?: string | null
+          style?: string | null
+          tags?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       music_projects: {
         Row: {
           ai_context: Json | null
@@ -856,6 +901,7 @@ export type Database = {
           language_code: string | null
           last_name: string | null
           photo_url: string | null
+          subscription_expires_at: string | null
           subscription_tier:
             | Database["public"]["Enums"]["subscription_tier"]
             | null
@@ -873,6 +919,7 @@ export type Database = {
           language_code?: string | null
           last_name?: string | null
           photo_url?: string | null
+          subscription_expires_at?: string | null
           subscription_tier?:
             | Database["public"]["Enums"]["subscription_tier"]
             | null
@@ -890,6 +937,7 @@ export type Database = {
           language_code?: string | null
           last_name?: string | null
           photo_url?: string | null
+          subscription_expires_at?: string | null
           subscription_tier?:
             | Database["public"]["Enums"]["subscription_tier"]
             | null
@@ -960,6 +1008,7 @@ export type Database = {
           created_at: string | null
           duration_target: number | null
           id: string
+          lyrics_status: string | null
           notes: string | null
           position: number
           project_id: string
@@ -976,6 +1025,7 @@ export type Database = {
           created_at?: string | null
           duration_target?: number | null
           id?: string
+          lyrics_status?: string | null
           notes?: string | null
           position: number
           project_id: string
@@ -992,6 +1042,7 @@ export type Database = {
           created_at?: string | null
           duration_target?: number | null
           id?: string
+          lyrics_status?: string | null
           notes?: string | null
           position?: number
           project_id?: string

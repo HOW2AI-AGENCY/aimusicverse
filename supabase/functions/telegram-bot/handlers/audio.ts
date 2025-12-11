@@ -59,14 +59,24 @@ export async function handleAudioMessage(
     const pendingUpload = consumePendingUpload(userId);
     
     if (!pendingUpload) {
-      // No pending upload - show help
-      await sendMessage(chatId, `🎵 *Аудио получено*
+      // No pending upload - show help with options
+      await sendMessage(chatId, `🎵 *Аудио получено\\!*
 
-Чтобы обработать аудио, используйте:
+Выберите что хотите сделать:
+
+• /upload \\- загрузить в облако для использования позже
 • /cover \\- создать кавер\\-версию
 • /extend \\- расширить/продолжить трек
+• /recognize \\- распознать песню
+• /midi \\- конвертировать в MIDI
 
-Затем отправьте аудиофайл\\.`);
+Или используйте команду и отправьте файл повторно\\.`);
+      return;
+    }
+    
+    // Handle 'upload' mode - save to cloud storage
+    if (pendingUpload.mode === 'upload') {
+      await handleCloudUpload(chatId, userId, audio, type, pendingUpload, startTime);
       return;
     }
     
@@ -213,6 +223,154 @@ async function getFileUrl(fileId: string): Promise<string | null> {
   } catch (error) {
     logger.error('Error getting file URL', error);
     return null;
+  }
+}
+
+/**
+ * Handle cloud upload - save audio to storage without generation
+ */
+async function handleCloudUpload(
+  chatId: number,
+  userId: number,
+  audio: TelegramAudio | TelegramVoice | TelegramDocument,
+  type: 'audio' | 'voice' | 'document',
+  pendingUpload: PendingUpload,
+  startTime: number
+): Promise<void> {
+  try {
+    // Get user profile
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('user_id')
+      .eq('telegram_id', userId)
+      .single();
+
+    if (!profile) {
+      await sendMessage(chatId, '❌ Профиль не найден\\. Откройте Mini App для регистрации\\.');
+      return;
+    }
+
+    await sendMessage(chatId, '⬇️ Загружаю файл в облако\\.\\.\\.');
+
+    // Get file from Telegram
+    const fileId = audio.file_id;
+    const fileUrl = await getFileUrl(fileId);
+
+    if (!fileUrl) {
+      await sendMessage(chatId, '❌ Не удалось получить файл\\. Попробуйте ещё раз\\.');
+      return;
+    }
+
+    // Download the audio file
+    const audioResponse = await fetch(fileUrl);
+    if (!audioResponse.ok) {
+      throw new Error('Failed to download audio from Telegram');
+    }
+
+    const audioBlob = await audioResponse.blob();
+    const audioBuffer = await audioBlob.arrayBuffer();
+
+    // Prepare filename (sanitized)
+    const originalName = 'file_name' in audio && audio.file_name 
+      ? audio.file_name 
+      : 'title' in audio && audio.title 
+        ? `${audio.title}.mp3` 
+        : `voice_${Date.now()}.ogg`;
+    
+    const extension = originalName.split('.').pop() || 'mp3';
+    const sanitizedName = `audio_${Date.now()}.${extension}`;
+    const storagePath = `${profile.user_id}/reference-audio/${sanitizedName}`;
+
+    // Upload to Supabase Storage
+    const { error: uploadError } = await supabase.storage
+      .from('reference-audio')
+      .upload(storagePath, new Uint8Array(audioBuffer), {
+        contentType: audioBlob.type || 'audio/mpeg',
+        upsert: false,
+      });
+
+    if (uploadError) {
+      logger.error('Cloud upload error', uploadError);
+      await sendMessage(chatId, '❌ Ошибка загрузки файла\\. Попробуйте позже\\.');
+      return;
+    }
+
+    // Get public URL
+    const { data: { publicUrl } } = supabase.storage
+      .from('reference-audio')
+      .getPublicUrl(storagePath);
+
+    // Get duration if available
+    const duration = 'duration' in audio ? audio.duration : null;
+
+    // Save to reference_audio table
+    const { data: savedRef, error: dbError } = await supabase
+      .from('reference_audio')
+      .insert({
+        user_id: profile.user_id,
+        file_name: originalName.substring(0, 255),
+        file_url: publicUrl,
+        file_size: 'file_size' in audio ? audio.file_size : null,
+        mime_type: audioBlob.type || 'audio/mpeg',
+        duration_seconds: duration,
+        source: 'telegram_upload',
+        metadata: {
+          telegram_file_id: fileId,
+          upload_type: type,
+          title: pendingUpload.title,
+        },
+      })
+      .select('id')
+      .single();
+
+    if (dbError) {
+      logger.error('Error saving reference audio', dbError);
+      await sendMessage(chatId, '❌ Ошибка сохранения\\. Попробуйте позже\\.');
+      return;
+    }
+
+    const displayName = originalName.length > 40 
+      ? originalName.substring(0, 37) + '...' 
+      : originalName;
+
+    await sendMessage(chatId, `✅ *Аудио загружено в облако\\!*
+
+📁 Файл: _${escapeMarkdown(displayName)}_
+${duration ? `⏱️ Длительность: ${Math.floor(duration / 60)}:${(duration % 60).toString().padStart(2, '0')}\n` : ''}
+Теперь вы можете использовать этот файл для:
+• 🎤 Создания каверов
+• 🔄 Расширения треков
+• 🎛️ Работы в Studio`, {
+      inline_keyboard: [
+        [
+          { text: '🎤 Создать кавер', callback_data: `use_ref_cover_${savedRef?.id}` },
+          { text: '🔄 Расширить', callback_data: `use_ref_extend_${savedRef?.id}` }
+        ],
+        [
+          { text: '📂 Мои загрузки', callback_data: 'my_uploads' }
+        ]
+      ]
+    });
+
+    trackMetric({
+      eventType: 'upload_completed',
+      success: true,
+      telegramChatId: chatId,
+      responseTimeMs: Date.now() - startTime,
+      metadata: { referenceId: savedRef?.id },
+    });
+
+  } catch (error) {
+    logger.error('Error in handleCloudUpload', error);
+    await sendMessage(chatId, '❌ Произошла ошибка\\. Попробуйте позже\\.');
+    
+    trackMetric({
+      eventType: 'upload_failed',
+      success: false,
+      telegramChatId: chatId,
+      errorMessage: error instanceof Error ? error.message : String(error),
+      responseTimeMs: Date.now() - startTime,
+    });
   }
 }
 

@@ -17,6 +17,9 @@ const corsHeaders = {
 const VALID_MODELS = ['V5', 'V4_5PLUS', 'V4_5', 'V4', 'V3_5'];
 const DEFAULT_MODEL = 'V4_5';
 
+// Cost per generation in user credits
+const GENERATION_COST = 10;
+
 /**
  * Convert UI model key to API model name with fallback
  */
@@ -64,6 +67,53 @@ serve(async (req) => {
         JSON.stringify({ success: false, error: 'Unauthorized' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 401 }
       );
+    }
+
+    // Check if user is admin - admins use shared API balance, not personal credits
+    const { data: isAdmin } = await supabase.rpc('has_role', { 
+      _user_id: user.id, 
+      _role: 'admin' 
+    });
+    
+    logger.info('User role check', { userId: user.id, isAdmin: !!isAdmin });
+
+    // Only check personal balance for non-admin users
+    if (!isAdmin) {
+      logger.info('Checking user credits balance', { userId: user.id });
+      
+      const { data: userCredits, error: creditsError } = await supabase
+        .from('user_credits')
+        .select('balance')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (creditsError) {
+        logger.error('Failed to fetch user credits', creditsError);
+        return new Response(
+          JSON.stringify({ success: false, error: 'Ошибка проверки баланса' }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
+        );
+      }
+
+      const userBalance = userCredits?.balance ?? 0;
+      logger.info('User credit balance', { userId: user.id, balance: userBalance, required: GENERATION_COST });
+
+      // Check if user has enough credits for generation
+      if (userBalance < GENERATION_COST) {
+        logger.warn('Insufficient user credits', { balance: userBalance, required: GENERATION_COST });
+        return new Response(
+          JSON.stringify({ 
+            success: false, 
+            error: `Недостаточно кредитов. Баланс: ${userBalance}, требуется: ${GENERATION_COST}`,
+            errorCode: 'INSUFFICIENT_CREDITS',
+            balance: userBalance,
+            required: GENERATION_COST,
+          }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 402 }
+        );
+      }
+    } else {
+      logger.info('Admin user - skipping personal balance check, using shared API balance');
     }
 
     const body = await req.json();
@@ -151,7 +201,7 @@ serve(async (req) => {
     // Use persona ID from artist if available, otherwise use direct personaId
     const effectivePersonaId = artistData?.suno_persona_id || personaId;
 
-    // Create track record with artist info
+    // Create track record with artist info - ALL TRACKS ARE PUBLIC BY DEFAULT
     const { data: track, error: trackError } = await supabase
       .from('tracks')
       .insert({
@@ -168,6 +218,7 @@ serve(async (req) => {
         vocal_gender: vocalGender,
         style_weight: styleWeight,
         negative_tags: negativeTags,
+        is_public: true, // ALL tracks are public by default for community discovery
         // Store artist reference
         artist_id: artistData?.id || null,
         artist_name: artistData?.name || null,

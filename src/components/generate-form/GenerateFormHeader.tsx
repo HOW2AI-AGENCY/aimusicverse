@@ -2,11 +2,15 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import { History, Sliders, Trash2, Coins } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { History, Sliders, Trash2, Coins, AlertTriangle, Shield, Zap } from 'lucide-react';
 import { SUNO_MODELS } from '@/constants/sunoModels';
 
 interface GenerateFormHeaderProps {
-  credits: number | null;
+  userBalance: number;
+  generationCost: number;
+  canGenerate: boolean;
+  apiCredits: number | null;
   mode: 'simple' | 'custom';
   onModeChange: (mode: 'simple' | 'custom') => void;
   model: string;
@@ -16,10 +20,14 @@ interface GenerateFormHeaderProps {
   onOpenHistory: () => void;
   advancedOpen: boolean;
   onAdvancedOpenChange: (open: boolean) => void;
+  isAdmin?: boolean;
 }
 
 export function GenerateFormHeader({
-  credits,
+  userBalance,
+  generationCost,
+  canGenerate,
+  apiCredits,
   mode,
   onModeChange,
   model,
@@ -29,23 +37,69 @@ export function GenerateFormHeader({
   onOpenHistory,
   advancedOpen,
   onAdvancedOpenChange,
+  isAdmin = false,
 }: GenerateFormHeaderProps) {
   return (
     <div className="space-y-3">
       {/* Row 1: Credits, Mode Toggle, Settings */}
       <div className="flex items-center justify-between gap-2">
-        {/* Left side: Credits and History */}
+        {/* Left side: User Balance and History */}
         <div className="flex items-center gap-2 flex-1">
-          {credits !== null && (
-            <Badge
-              variant="secondary"
-              className="gap-1.5 px-2.5 py-1"
-              aria-label={`Доступно кредитов: ${credits.toFixed(2)}`}
-            >
-              <Coins className="w-3.5 h-3.5" />
-              <span className="font-semibold text-xs">{credits.toFixed(2)}</span>
-            </Badge>
-          )}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                {isAdmin ? (
+                  // Admin balance display - shows API balance with special styling
+                  <Badge
+                    variant="outline"
+                    className="gap-1.5 px-2.5 py-1 cursor-help border-amber-500/50 bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                    aria-label={`API баланс: ${userBalance} кредитов`}
+                  >
+                    <Shield className="w-3 h-3" />
+                    <Zap className="w-3 h-3" />
+                    <span className="font-semibold text-xs">{Math.floor(userBalance)}</span>
+                  </Badge>
+                ) : (
+                  // Regular user balance display
+                  <Badge
+                    variant={canGenerate ? "secondary" : "destructive"}
+                    className="gap-1.5 px-2.5 py-1 cursor-help"
+                    aria-label={`Ваш баланс: ${userBalance} кредитов`}
+                  >
+                    {!canGenerate && <AlertTriangle className="w-3 h-3" />}
+                    <Coins className="w-3.5 h-3.5" />
+                    <span className="font-semibold text-xs">{userBalance}</span>
+                  </Badge>
+                )}
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="max-w-[220px]">
+                <div className="space-y-1 text-xs">
+                  {isAdmin ? (
+                    <>
+                      <p className="font-medium flex items-center gap-1.5">
+                        <Shield className="w-3 h-3 text-amber-500" />
+                        Режим администратора
+                      </p>
+                      <p className="text-muted-foreground">
+                        API баланс: {Math.floor(userBalance)} кредитов
+                      </p>
+                      <p className="text-amber-600 dark:text-amber-400 border-t pt-1 mt-1">
+                        Вы используете общий баланс приложения
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-medium">Ваш баланс: {userBalance} кредитов</p>
+                      <p className="text-muted-foreground">Стоимость генерации: {generationCost}</p>
+                      {apiCredits !== null && (
+                        <p className="text-muted-foreground border-t pt-1 mt-1">API баланс: {apiCredits.toFixed(0)}</p>
+                      )}
+                    </>
+                  )}
+                </div>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <Button
             variant="ghost"
             size="sm"

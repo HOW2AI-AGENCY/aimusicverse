@@ -69,20 +69,42 @@ serve(async (req) => {
     }
 
     // Get track data to retrieve suno_id and suno_task_id
+    logger.info('Fetching track', { trackId, userId: user.id });
+    
     const { data: track, error: trackError } = await supabase
       .from('tracks')
-      .select('*, track_versions(*)')
+      .select('*, track_versions!track_versions_track_id_fkey(*)')
       .eq('id', trackId)
       .eq('user_id', user.id)
       .single();
 
-    if (trackError || !track) {
-      logger.error('Track not found', trackError);
+    if (trackError) {
+      logger.error('Track query error', null, { 
+        code: trackError.code,
+        message: trackError.message,
+        details: trackError.details,
+        hint: trackError.hint
+      });
       return new Response(
-        JSON.stringify({ error: 'Track not found or access denied' }),
+        JSON.stringify({ error: 'Track not found or access denied', details: trackError.message }),
         { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+
+    if (!track) {
+      logger.error('Track not found - null result', null, { trackId, userId: user.id });
+      return new Response(
+        JSON.stringify({ error: 'Track not found' }),
+        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    logger.info('Track found', { 
+      trackId: track.id, 
+      sunoId: track.suno_id, 
+      taskId: track.suno_task_id,
+      versionsCount: track.track_versions?.length 
+    });
 
     // We need the suno_id (audioId) from the active version
     const activeVersion = track.track_versions?.find((v: any) => v.id === track.active_version_id);
@@ -120,12 +142,26 @@ serve(async (req) => {
     // Create callback URL
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
 
-    // Prepare Suno API request
+    // Suno API requires non-empty prompt - use default if not provided
+    // NOTE: replace-section API does NOT use fullLyrics parameter per documentation
+    const effectivePrompt = prompt || tags || track.tags || track.style || 'Continue in the same style and mood';
+    const effectiveTags = tags || track.tags || '';
+    
+    logger.info('Preparing Suno payload', {
+      hasPrompt: !!prompt,
+      hasTags: !!tags,
+      hasTrackTags: !!track.tags,
+      hasTrackStyle: !!track.style,
+      effectivePrompt: effectivePrompt.substring(0, 100),
+      effectiveTags: effectiveTags.substring(0, 100),
+    });
+    
+    // Suno replace-section payload - NO fullLyrics per API docs
     const sunoPayload = {
       taskId,
       audioId,
-      prompt: prompt || '',
-      tags: tags || track.tags || '',
+      prompt: effectivePrompt,
+      tags: effectiveTags,
       title: track.title || 'Трек',
       infillStartS: Number(infillStartS),
       infillEndS: Number(infillEndS),
@@ -136,7 +172,9 @@ serve(async (req) => {
       taskId, 
       audioId, 
       infillStartS, 
-      infillEndS 
+      infillEndS,
+      promptLength: effectivePrompt.length,
+      tagsLength: effectiveTags.length,
     });
 
     // Call Suno API

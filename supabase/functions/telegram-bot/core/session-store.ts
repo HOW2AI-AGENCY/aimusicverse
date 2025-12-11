@@ -3,7 +3,7 @@
  * Used to track pending audio upload requests
  */
 
-export type AudioUploadMode = 'cover' | 'extend';
+export type AudioUploadMode = 'cover' | 'extend' | 'upload';
 
 export interface PendingUpload {
   mode: AudioUploadMode;
@@ -13,11 +13,16 @@ export interface PendingUpload {
   title?: string;
   instrumental?: boolean;
   model?: string;
+  // For selecting from existing uploads
+  selectedReferenceId?: string;
 }
 
 export interface UserSession {
   pendingUpload?: PendingUpload;
   lastActivity: number;
+  // Track last message for context
+  lastCommand?: string;
+  conversationContext?: 'awaiting_audio' | 'awaiting_selection' | 'awaiting_prompt' | null;
 }
 
 // Simple in-memory store (resets on function cold start)
@@ -56,6 +61,7 @@ export function setPendingUpload(
     ...options,
   };
   session.lastActivity = Date.now();
+  session.conversationContext = 'awaiting_audio';
   sessions.set(telegramUserId, session);
 }
 
@@ -71,12 +77,14 @@ export function consumePendingUpload(telegramUserId: number): PendingUpload | nu
   // Check if expired
   if (Date.now() - pending.createdAt > SESSION_EXPIRY_MS) {
     session.pendingUpload = undefined;
+    session.conversationContext = null;
     return null;
   }
   
   // Clear the pending upload
   session.pendingUpload = undefined;
   session.lastActivity = Date.now();
+  session.conversationContext = null;
   
   return pending;
 }
@@ -93,10 +101,84 @@ export function hasPendingUpload(telegramUserId: number): boolean {
   // Check expiry
   if (Date.now() - pending.createdAt > SESSION_EXPIRY_MS) {
     session.pendingUpload = undefined;
+    session.conversationContext = null;
     return false;
   }
   
   return true;
+}
+
+/**
+ * Get pending upload without consuming it
+ */
+export function getPendingUpload(telegramUserId: number): PendingUpload | null {
+  const session = getSession(telegramUserId);
+  const pending = session.pendingUpload;
+  
+  if (!pending) return null;
+  
+  // Check if expired
+  if (Date.now() - pending.createdAt > SESSION_EXPIRY_MS) {
+    session.pendingUpload = undefined;
+    session.conversationContext = null;
+    return null;
+  }
+  
+  return pending;
+}
+
+/**
+ * Update pending upload options
+ */
+export function updatePendingUpload(
+  telegramUserId: number,
+  updates: Partial<Omit<PendingUpload, 'mode' | 'createdAt'>>
+): void {
+  const session = getSession(telegramUserId);
+  if (session.pendingUpload) {
+    session.pendingUpload = {
+      ...session.pendingUpload,
+      ...updates,
+    };
+    session.lastActivity = Date.now();
+  }
+}
+
+/**
+ * Set conversation context
+ */
+export function setConversationContext(
+  telegramUserId: number,
+  context: UserSession['conversationContext']
+): void {
+  const session = getSession(telegramUserId);
+  session.conversationContext = context;
+  session.lastActivity = Date.now();
+}
+
+/**
+ * Get conversation context
+ */
+export function getConversationContext(telegramUserId: number): UserSession['conversationContext'] {
+  const session = getSession(telegramUserId);
+  return session.conversationContext;
+}
+
+/**
+ * Set last command
+ */
+export function setLastCommand(telegramUserId: number, command: string): void {
+  const session = getSession(telegramUserId);
+  session.lastCommand = command;
+  session.lastActivity = Date.now();
+}
+
+/**
+ * Get last command
+ */
+export function getLastCommand(telegramUserId: number): string | undefined {
+  const session = getSession(telegramUserId);
+  return session.lastCommand;
 }
 
 /**
@@ -120,6 +202,7 @@ export function cancelPendingUpload(telegramUserId: number): boolean {
   const session = sessions.get(telegramUserId);
   if (session?.pendingUpload) {
     session.pendingUpload = undefined;
+    session.conversationContext = null;
     return true;
   }
   return false;

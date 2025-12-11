@@ -89,7 +89,11 @@ serve(async (req) => {
     logger.info('Uploading and extending audio', { defaultParamFlag, model, instrumental });
 
     // Upload audio to Supabase Storage
-    const fileName = `${user.id}/uploads/${Date.now()}-${audioFile.name || 'audio.mp3'}`;
+    // Sanitize filename - remove non-ASCII characters (Cyrillic, etc.)
+    const originalName = audioFile.name || 'audio.mp3';
+    const extension = originalName.split('.').pop() || 'mp3';
+    const sanitizedName = `audio_${Date.now()}.${extension}`;
+    const fileName = `${user.id}/uploads/${sanitizedName}`;
     
     // Decode base64 if needed
     let audioBuffer: Uint8Array;

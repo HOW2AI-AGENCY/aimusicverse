@@ -13,7 +13,10 @@ import {
   FileEdit,
   Trash2,
   Edit,
-  Pause
+  Pause,
+  FileQuestion,
+  FileCheck,
+  Wand2
 } from 'lucide-react';
 import { ProjectTrack } from '@/hooks/useProjectTracks';
 import { cn } from '@/lib/utils';
@@ -23,8 +26,14 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useProjectTracks } from '@/hooks/useProjectTracks';
 import { toast } from 'sonner';
 import { EditTrackDialog } from './EditTrackDialog';
@@ -65,6 +74,37 @@ const STATUS_CONFIG = {
   },
 };
 
+const LYRICS_STATUS_CONFIG = {
+  draft: { 
+    icon: FileEdit, 
+    label: 'Черновик', 
+    color: 'text-muted-foreground',
+    canGenerate: true,
+    tooltip: 'Лирика в черновике'
+  },
+  prompt: { 
+    icon: FileQuestion, 
+    label: 'Промпт', 
+    color: 'text-amber-500',
+    canGenerate: false,
+    tooltip: 'Это промпт для генерации, а не готовая лирика. Сгенерируйте текст через AI Wizard.'
+  },
+  generated: { 
+    icon: Wand2, 
+    label: 'AI', 
+    color: 'text-blue-500',
+    canGenerate: true,
+    tooltip: 'Лирика сгенерирована AI'
+  },
+  approved: { 
+    icon: FileCheck, 
+    label: 'Готово', 
+    color: 'text-green-500',
+    canGenerate: true,
+    tooltip: 'Лирика одобрена'
+  },
+};
+
 export const MinimalProjectTrackItem = ({ 
   track, 
   dragHandleProps,
@@ -81,11 +121,19 @@ export const MinimalProjectTrackItem = ({
   const status = (track.status as keyof typeof STATUS_CONFIG) || 'draft';
   const statusConfig = STATUS_CONFIG[status];
   const StatusIcon = statusConfig.icon;
+
+  // Get lyrics status - default to 'draft' if not set
+  const lyricsStatus = ((track as any).lyrics_status as keyof typeof LYRICS_STATUS_CONFIG) || 'draft';
+  const lyricsStatusConfig = LYRICS_STATUS_CONFIG[lyricsStatus];
+  const LyricsStatusIcon = lyricsStatusConfig.icon;
   
   const hasLinkedTrack = !!track.track_id && !!track.linked_track;
   const linkedTrack = track.linked_track;
   const isCurrentTrack = activeTrack?.id === linkedTrack?.id;
   const isPlayingThis = isCurrentTrack && isPlaying;
+
+  // Check if we have actual lyrics content
+  const hasLyricsContent = !!(track.notes || linkedTrack?.lyrics);
 
   const handlePlay = () => {
     if (!linkedTrack) return;
@@ -109,6 +157,21 @@ export const MinimalProjectTrackItem = ({
       deleteTrack(track.id);
       toast.success('Трек удален');
     }
+  };
+
+  const handleGenerateClick = () => {
+    // Check if lyrics status is 'prompt' - warn user
+    if (lyricsStatus === 'prompt') {
+      toast.warning('Сначала сгенерируйте лирику', {
+        description: 'В поле notes содержится промпт для генерации, а не готовый текст песни.',
+        action: {
+          label: 'AI Wizard',
+          onClick: () => onOpenLyricsWizard?.(),
+        },
+      });
+      return;
+    }
+    onGenerate();
   };
 
   return (
@@ -168,10 +231,19 @@ export const MinimalProjectTrackItem = ({
             </p>
           )}
 
-          {/* Lyrics preview */}
-          {(track.notes || linkedTrack?.lyrics) && (
+          {/* Lyrics preview with status indicator */}
+          {hasLyricsContent && (
             <div className="flex items-center gap-1 mt-1 text-[10px] text-muted-foreground/70">
-              <FileText className="w-3 h-3" />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className={cn("flex items-center gap-0.5", lyricsStatusConfig.color)}>
+                    <LyricsStatusIcon className="w-3 h-3" />
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="text-xs">
+                  {lyricsStatusConfig.tooltip}
+                </TooltipContent>
+              </Tooltip>
               <span className="truncate">
                 {(linkedTrack?.lyrics || track.notes || '').replace(/\[.*?\]/g, '').slice(0, 50)}...
               </span>
@@ -190,7 +262,7 @@ export const MinimalProjectTrackItem = ({
               onOpenLyrics?.();
             }}
             className="h-8 w-8"
-            title={track.notes || linkedTrack?.lyrics ? 'Просмотр лирики' : 'Написать лирику'}
+            title={hasLyricsContent ? 'Просмотр лирики' : 'Написать лирику'}
           >
             <FileText className="w-4 h-4" />
           </Button>
@@ -209,14 +281,26 @@ export const MinimalProjectTrackItem = ({
               )}
             </Button>
           ) : (
-            <Button
-              size="sm"
-              onClick={onGenerate}
-              className="h-8 px-3 gap-1 bg-primary/90"
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              {!isMobile && 'Создать'}
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="sm"
+                  onClick={handleGenerateClick}
+                  className={cn(
+                    "h-8 px-3 gap-1",
+                    lyricsStatus === 'prompt' ? "bg-amber-500/80 hover:bg-amber-500" : "bg-primary/90"
+                  )}
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  {!isMobile && 'Создать'}
+                </Button>
+              </TooltipTrigger>
+              {lyricsStatus === 'prompt' && (
+                <TooltipContent side="top" className="text-xs max-w-[200px]">
+                  Лирика ещё не готова. Нажмите чтобы увидеть предупреждение.
+                </TooltipContent>
+              )}
+            </Tooltip>
           )}
 
           <DropdownMenu>
@@ -232,14 +316,15 @@ export const MinimalProjectTrackItem = ({
               </DropdownMenuItem>
               <DropdownMenuItem onClick={onOpenLyrics}>
                 <FileText className="w-4 h-4 mr-2" />
-                {track.notes || linkedTrack?.lyrics ? 'Просмотр лирики' : 'Написать лирику'}
+                {hasLyricsContent ? 'Просмотр лирики' : 'Написать лирику'}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={onOpenLyricsWizard}>
                 <Sparkles className="w-4 h-4 mr-2" />
                 AI Lyrics Wizard
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
               {!hasLinkedTrack && (
-                <DropdownMenuItem onClick={onGenerate}>
+                <DropdownMenuItem onClick={handleGenerateClick}>
                   <Sparkles className="w-4 h-4 mr-2" />
                   Генерировать
                 </DropdownMenuItem>

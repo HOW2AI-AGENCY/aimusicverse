@@ -1,22 +1,10 @@
-import { handleStart } from './commands/start.ts';
-import { handleHelp } from './commands/help.ts';
-import { handleGenerate } from './commands/generate.ts';
-import { handleLibrary } from './commands/library.ts';
-import { handleProjects } from './commands/projects.ts';
-import { handleStatus } from './commands/status.ts';
-import { handleCoverCommand, handleExtendCommand, handleCancelCommand, handleCancelUploadCallback, getAudioUploadHelp } from './commands/audio-upload.ts';
-import { handleAudioMessage, isAudioMessage } from './handlers/audio.ts';
-import { handleRecognizeCommand, hasRecognitionSession, handleRecognizeAudio, handleCancelRecognize, handleRecognizeAgain } from './commands/recognize.ts';
-import { handleMidiCommand, handlePianoCommand, hasMidiSession, handleCancelMidi, handleMidiTrackCallback, handleMidiModelCallback, handleMidiUploadCallback, handleMidiAgainCallback } from './commands/midi.ts';
-import { handleGuitarCommand, hasGuitarSession, handleGuitarAudio, handleCancelGuitar, handleGuitarAgain } from './commands/guitar.ts';
+/**
+ * Main Telegram bot handler with dynamic imports for reduced bundle size
+ */
+
 import { sendMessage, parseCommand, answerCallbackQuery, editMessageText, type TelegramUpdate } from './telegram-api.ts';
 import { BOT_CONFIG } from './config.ts';
-import { handleNavigationCallback } from './handlers/navigation.ts';
-import { handleMediaCallback } from './handlers/media.ts';
-import { logger, checkRateLimit, trackMetric, flushMetrics } from './utils/index.ts';
-import { handleInlineQuery } from './commands/inline.ts';
-import { handleTerms, handlePrivacy, handleAbout } from './commands/legal.ts';
-import { handlePreCheckoutQuery, handleSuccessfulPayment, handleBuyCommand, handleBuyCreditPackages, handleBuySubscriptions, handleBuyProduct } from './handlers/payment.ts';
+import { logger, checkRateLimit, trackMetric } from './utils/index.ts';
 
 export async function handleUpdate(update: TelegramUpdate) {
   const startTime = Date.now();
@@ -24,561 +12,662 @@ export async function handleUpdate(update: TelegramUpdate) {
   try {
     // Handle pre-checkout query (payment validation)
     if (update.pre_checkout_query) {
+      const { handlePreCheckoutQuery } = await import('./handlers/payment.ts');
       await handlePreCheckoutQuery(update.pre_checkout_query);
       return;
     }
 
     // Handle inline queries for sharing tracks
     if (update.inline_query) {
+      const { handleInlineQuery } = await import('./commands/inline.ts');
       await handleInlineQuery(update.inline_query);
       return;
     }
+
     // Handle callback queries from inline buttons
     if (update.callback_query) {
-      const { id, data, message, from } = update.callback_query;
-      const chatId = message?.chat?.id;
+      await handleCallbackQuery(update.callback_query);
+      return;
+    }
 
-      if (!chatId) return;
+    // Handle message updates
+    const message = update.message;
+    if (!message) return;
 
-      const messageId = message?.message_id;
+    const { chat, from, text } = message;
+    if (!from) return;
 
-      // Rate limiting
-      if (!checkRateLimit(from.id, 30, 60000)) {
-        await answerCallbackQuery(id, '⏳ Слишком много запросов. Подождите немного.');
-        trackMetric({
-          eventType: 'rate_limited',
-          success: false,
-          telegramChatId: chatId,
-          metadata: { type: 'callback' },
-        });
-        return;
+    // Rate limiting
+    if (!checkRateLimit(from.id, 20, 60000)) {
+      await sendMessage(chat.id, '⏳ Слишком много запросов. Подождите немного.', undefined, null);
+      trackMetric({
+        eventType: 'rate_limited',
+        success: false,
+        telegramChatId: chat.id,
+        metadata: { type: 'message' },
+      });
+      return;
+    }
+
+    logger.info('message', { userId: from.id, chatId: chat.id, text: text?.substring(0, 50) });
+
+    // Handle successful payment
+    if (message.successful_payment) {
+      const { handleSuccessfulPayment } = await import('./handlers/payment.ts');
+      await handleSuccessfulPayment(chat.id, from.id, message.successful_payment);
+      return;
+    }
+
+    // Handle audio messages
+    const { isAudioMessage, handleAudioMessage } = await import('./handlers/audio.ts');
+    if (isAudioMessage(message)) {
+      const audio = message.audio || message.voice || message.document;
+      const type = message.audio ? 'audio' : message.voice ? 'voice' : 'document';
+      await handleAudioMessage(chat.id, from.id, audio as any, type);
+      return;
+    }
+
+    // Handle text messages
+    if (!text) return;
+
+    // Parse command
+    const cmd = parseCommand(text);
+
+    // Handle non-command text
+    if (!cmd) {
+      const { handleTextMessage, sendDefaultResponse } = await import('./handlers/text.ts');
+      const handled = await handleTextMessage(chat.id, from.id, text);
+      if (!handled) {
+        await sendDefaultResponse(chat.id);
       }
+      return;
+    }
 
-      logger.info('callback_query', { userId: from.id, data, chatId });
+    // Handle commands
+    await handleCommand(cmd.command, cmd.args, chat.id, from.id);
 
-      // New navigation handlers (реактивное обновление)
-      if (data?.startsWith('nav_') || data?.startsWith('lib_page_') || data?.startsWith('project_page_')) {
-        await handleNavigationCallback(data, chatId, from.id, messageId!, id);
-        return;
-      }
+    trackMetric({
+      eventType: 'message_sent',
+      success: true,
+      telegramChatId: chat.id,
+      responseTimeMs: Date.now() - startTime,
+      metadata: { command: cmd.command },
+    });
 
-      // Media handlers (play, download, share, like)
-      if (data?.startsWith('play_') || data?.startsWith('dl_') || 
-          data?.startsWith('share_') || data?.startsWith('like_') || 
-          data?.startsWith('track_') || data?.startsWith('share_link_')) {
-        await handleMediaCallback(data, chatId, messageId!, id);
-        return;
-      }
+  } catch (error) {
+    logger.error('Error handling update', error);
+    trackMetric({
+      eventType: 'message_failed',
+      success: false,
+      errorMessage: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+}
 
-      // Lyrics handler
-      if (data?.startsWith('lyrics_')) {
-        const trackId = data.replace('lyrics_', '');
-        const { handleLyrics } = await import('./commands/lyrics.ts');
-        await handleLyrics(chatId, trackId, messageId);
-        await answerCallbackQuery(id);
-        return;
-      }
+/**
+ * Handle command messages
+ */
+async function handleCommand(command: string, args: string, chatId: number, userId: number) {
+  switch (command) {
+    case 'start': {
+      const { handleStart } = await import('./commands/start.ts');
+      await handleStart(chatId, args);
+      break;
+    }
+    case 'help': {
+      const { handleHelp } = await import('./commands/help.ts');
+      await handleHelp(chatId);
+      break;
+    }
+    case 'generate': {
+      const { handleGenerate } = await import('./commands/generate.ts');
+      await handleGenerate(chatId, userId, args);
+      break;
+    }
+    case 'library': {
+      const { handleLibrary } = await import('./commands/library.ts');
+      await handleLibrary(chatId, userId);
+      break;
+    }
+    case 'projects': {
+      const { handleProjects } = await import('./commands/projects.ts');
+      await handleProjects(chatId, userId);
+      break;
+    }
+    case 'status': {
+      const { handleStatus } = await import('./commands/status.ts');
+      await handleStatus(chatId, userId);
+      break;
+    }
+    case 'cover': {
+      const { handleCoverCommand } = await import('./commands/audio-upload.ts');
+      await handleCoverCommand(chatId, userId, args);
+      break;
+    }
+    case 'extend': {
+      const { handleExtendCommand } = await import('./commands/audio-upload.ts');
+      await handleExtendCommand(chatId, userId, args);
+      break;
+    }
+    case 'cancel': {
+      const { handleCancelCommand } = await import('./commands/audio-upload.ts');
+      await handleCancelCommand(chatId, userId);
+      break;
+    }
+    case 'upload': {
+      const { handleUploadCommand } = await import('./commands/upload.ts');
+      await handleUploadCommand(chatId, userId, args);
+      break;
+    }
+    case 'uploads': {
+      const { handleMyUploads } = await import('./commands/upload.ts');
+      await handleMyUploads(chatId, userId);
+      break;
+    }
+    case 'recognize': {
+      const { handleRecognizeCommand } = await import('./commands/recognize.ts');
+      await handleRecognizeCommand(chatId, userId);
+      break;
+    }
+    case 'midi': {
+      const { handleMidiCommand } = await import('./commands/midi.ts');
+      await handleMidiCommand(chatId, userId);
+      break;
+    }
+    case 'piano': {
+      const { handlePianoCommand } = await import('./commands/midi.ts');
+      await handlePianoCommand(chatId, userId);
+      break;
+    }
+    case 'guitar': {
+      const { handleGuitarCommand } = await import('./commands/guitar.ts');
+      await handleGuitarCommand(chatId, userId);
+      break;
+    }
+    case 'analyze': {
+      const { handleAnalyzeCommand } = await import('./commands/analyze.ts');
+      await handleAnalyzeCommand(chatId, userId, args);
+      break;
+    }
+    case 'buy': {
+      const { handleBuyCommand } = await import('./handlers/payment.ts');
+      await handleBuyCommand(chatId);
+      break;
+    }
+    case 'terms': {
+      const { handleTerms } = await import('./commands/legal.ts');
+      await handleTerms(chatId);
+      break;
+    }
+    case 'privacy': {
+      const { handlePrivacy } = await import('./commands/legal.ts');
+      await handlePrivacy(chatId);
+      break;
+    }
+    default:
+      await sendMessage(chatId, '❓ Неизвестная команда. Используйте /help для списка команд.', undefined, null);
+  }
+}
 
-      // Stats handler
-      if (data?.startsWith('stats_')) {
-        const trackId = data.replace('stats_', '');
-        const { handleTrackStats } = await import('./commands/stats.ts');
-        await handleTrackStats(chatId, trackId, messageId);
-        await answerCallbackQuery(id);
-        return;
-      }
+/**
+ * Handle callback queries from inline buttons
+ */
+async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['callback_query']>) {
+  const { id, data, message, from } = callbackQuery;
+  const chatId = message?.chat?.id;
+  if (!chatId || !data) return;
 
-      // Remix handlers
-      if (data?.startsWith('remix_')) {
-        const trackId = data.replace('remix_', '');
-        const { handleRemix } = await import('./commands/remix.ts');
-        await handleRemix(chatId, trackId, messageId);
-        await answerCallbackQuery(id);
-        return;
-      }
+  const messageId = message?.message_id;
 
-      if (data?.startsWith('add_vocals_')) {
-        const trackId = data.replace('add_vocals_', '');
-        const { handleAddVocals } = await import('./commands/remix.ts');
-        await handleAddVocals(chatId, from.id, trackId, messageId);
-        await answerCallbackQuery(id);
-        return;
-      }
+  // Rate limiting
+  if (!checkRateLimit(from.id, 30, 60000)) {
+    await answerCallbackQuery(id, '⏳ Слишком много запросов.');
+    return;
+  }
 
-      if (data?.startsWith('add_instrumental_')) {
-        const trackId = data.replace('add_instrumental_', '');
-        const { handleAddInstrumental } = await import('./commands/remix.ts');
-        await handleAddInstrumental(chatId, from.id, trackId, messageId);
-        await answerCallbackQuery(id);
-        return;
-      }
+  logger.info('callback_query', { userId: from.id, data, chatId });
 
-      // Studio handlers
-      if (data?.startsWith('studio_')) {
-        const trackId = data.replace('studio_', '');
-        const { handleStudio } = await import('./commands/studio.ts');
-        await handleStudio(chatId, trackId, messageId);
-        await answerCallbackQuery(id);
-        return;
-      }
+  try {
+    // Navigation handlers
+    if (data.startsWith('nav_') || data.startsWith('lib_page_') || data.startsWith('project_page_')) {
+      const { handleNavigationCallback } = await import('./handlers/navigation.ts');
+      await handleNavigationCallback(data, chatId, from.id, messageId!, id);
+      return;
+    }
 
-      if (data?.startsWith('separate_stems_')) {
-        const trackId = data.replace('separate_stems_', '');
-        const { handleSeparateStems } = await import('./commands/studio.ts');
-        await handleSeparateStems(chatId, from.id, trackId, messageId);
-        await answerCallbackQuery(id);
-        return;
-      }
+    // Media handlers
+    if (data.startsWith('play_') || data.startsWith('dl_') || data.startsWith('share_') || 
+        data.startsWith('like_') || data.startsWith('track_') || data.startsWith('share_link_')) {
+      const { handleMediaCallback } = await import('./handlers/media.ts');
+      await handleMediaCallback(data, chatId, messageId!, id);
+      return;
+    }
 
-      if (data?.startsWith('download_stems_')) {
-        const trackId = data.replace('download_stems_', '');
-        const { handleDownloadStems } = await import('./commands/studio.ts');
-        await handleDownloadStems(chatId, trackId, messageId);
-        await answerCallbackQuery(id);
-        return;
-      }
-
-      if (data?.startsWith('stem_mode_')) {
-        const [_, mode, trackId] = data.split('_').slice(1);
-        const { handleStemSeparation } = await import('./commands/stems.ts');
-        await handleStemSeparation(
-          chatId,
-          trackId,
-          mode as 'simple' | 'detailed',
-          messageId
-        );
-        await answerCallbackQuery(id, '🎛️ Запуск разделения...');
-        return;
-      }
-
-      // Playlist handlers
-      if (data?.startsWith('add_playlist_')) {
-        const trackId = data.replace('add_playlist_', '');
-        const { handleAddToPlaylist } = await import('./commands/playlist.ts');
-        await handleAddToPlaylist(chatId, from.id, trackId, messageId);
-        await answerCallbackQuery(id);
-        return;
-      }
-
-      if (data?.startsWith('playlist_add_')) {
-        const [playlistId, trackId] = data.replace('playlist_add_', '').split('_');
-        const { handlePlaylistAdd } = await import('./commands/playlist.ts');
-        await handlePlaylistAdd(chatId, playlistId, trackId, id);
-        return;
-      }
-
-      if (data?.startsWith('playlist_new_')) {
-        const trackId = data.replace('playlist_new_', '');
-        const { handlePlaylistNew } = await import('./commands/playlist.ts');
-        await handlePlaylistNew(chatId, trackId, messageId);
-        await answerCallbackQuery(id);
-        return;
-      }
-
-      // Cancel upload handler
-      if (data === 'cancel_upload') {
-        await handleCancelUploadCallback(chatId, from.id, messageId!, id);
-        return;
-      }
-
-      // Recognition handlers
-      if (data === 'cancel_recognize') {
-        await handleCancelRecognize(chatId, from.id, messageId, id);
-        await answerCallbackQuery(id);
-        return;
-      }
-
-      if (data === 'recognize_again') {
-        await handleRecognizeAgain(chatId, from.id);
-        await answerCallbackQuery(id);
-        return;
-      }
-
-      // MIDI handlers
-      if (data === 'cancel_midi') {
-        await handleCancelMidi(chatId, from.id, messageId, id);
-        return;
-      }
-
-      if (data === 'midi_again') {
-        await handleMidiAgainCallback(chatId, from.id, id);
-        return;
-      }
-
-      if (data === 'midi_upload') {
-        await handleMidiUploadCallback(chatId, from.id, messageId!, id);
-        return;
-      }
-
-      if (data?.startsWith('midi_track_')) {
-        const trackId = data.replace('midi_track_', '');
-        await handleMidiTrackCallback(chatId, trackId, messageId!, id);
-        return;
-      }
-
-      if (data?.startsWith('midi_bp_')) {
-        const trackId = data.replace('midi_bp_', '');
-        await handleMidiModelCallback(chatId, from.id, trackId, 'basic-pitch', messageId!, id);
-        return;
-      }
-
-      if (data?.startsWith('midi_mt3_')) {
-        const trackId = data.replace('midi_mt3_', '');
-        await handleMidiModelCallback(chatId, from.id, trackId, 'mt3', messageId!, id);
-        return;
-      }
-
-      if (data?.startsWith('midi_p2p_')) {
-        const trackId = data.replace('midi_p2p_', '');
-        await handleMidiModelCallback(chatId, from.id, trackId, 'pop2piano', messageId!, id);
-        return;
-      }
-
-      // Guitar analysis handlers
-      if (data === 'cancel_guitar') {
-        await handleCancelGuitar(chatId, from.id, messageId, id);
-        await answerCallbackQuery(id);
-        return;
-      }
-
-      if (data === 'guitar_again') {
-        await handleGuitarAgain(chatId, from.id);
-        await answerCallbackQuery(id);
-        return;
-      }
-
-      // Legal/info handlers
-      if (data === 'legal_terms') {
-        await handleTerms(chatId, messageId);
-        await answerCallbackQuery(id);
-        return;
-      }
-
-      if (data === 'legal_privacy') {
-        await handlePrivacy(chatId, messageId);
-        await answerCallbackQuery(id);
-        return;
-      }
-
-      if (data === 'about') {
-        await handleAbout(chatId, messageId);
-        await answerCallbackQuery(id);
-        return;
-      }
-
-      // Payment/Buy handlers
-      if (data === 'buy_credits' || data === 'buy_menu_main') {
-        await handleBuyCommand(chatId);
-        await answerCallbackQuery(id);
-        return;
-      }
-
-      if (data === 'buy_menu_credits') {
-        await handleBuyCreditPackages(chatId, messageId);
-        await answerCallbackQuery(id);
-        return;
-      }
-
-      if (data === 'buy_menu_subscriptions') {
-        await handleBuySubscriptions(chatId, messageId);
-        await answerCallbackQuery(id);
-        return;
-      }
-
-      if (data?.startsWith('buy_product_')) {
-        const productCode = data.replace('buy_product_', '');
-        await handleBuyProduct(chatId, from.id, productCode);
-        await answerCallbackQuery(id, '🔄 Создаём счёт...');
-        return;
-      }
-
-      // Legacy handlers
-      if (data === 'library') {
-        await handleLibrary(chatId, from.id, messageId);
-      } else if (data === 'projects') {
-        await handleProjects(chatId, from.id, messageId);
-      } else if (data === 'help') {
-        if (messageId) {
-          const { MESSAGES } = await import('./config.ts');
-          const { createMainMenuKeyboard } = await import('./keyboards/main-menu.ts');
-          await editMessageText(chatId, messageId, MESSAGES.help, createMainMenuKeyboard());
-        }
-      } else if (data === 'generate') {
-        if (messageId) {
-          const { createGenerateKeyboard } = await import('./keyboards/main-menu.ts');
-          await editMessageText(
-            chatId,
-            messageId,
-            '🎼 *Создание трека*\n\nВыберите стиль музыки или опишите свой:',
-            createGenerateKeyboard()
-          );
-        }
-      } else if (data === 'status') {
-        await handleStatus(chatId, from.id, messageId);
-      } else if (data === 'main_menu') {
-        if (messageId) {
-          const { createMainMenuKeyboard } = await import('./keyboards/main-menu.ts');
-          await editMessageText(chatId, messageId, '🏠 *Главное меню*\n\nВыберите действие:', createMainMenuKeyboard());
-        }
-      } else if (data && data.startsWith('style_')) {
-        if (messageId) {
-          const style = data.replace('style_', '');
-          const styleNames: Record<string, string> = {
-            rock: 'рок',
-            pop: 'поп',
-            jazz: 'джаз',
-            electronic: 'электроника',
-            classical: 'классика',
-            hiphop: 'хип-хоп'
-          };
-          await editMessageText(
-            chatId,
-            messageId,
-            `🎵 *Стиль: ${styleNames[style] || style}*\n\nТеперь отправьте описание трека:\n\nНапример:\n"Энергичный трек с гитарными риффами и мощным барабанным битом"`
-          );
-        }
-      } else if (data === 'custom_generate') {
-        if (messageId) {
-          await editMessageText(
-            chatId,
-            messageId,
-            '✍️ *Своё описание*\n\nОпишите какую музыку вы хотите создать:\n\nИспользуйте /generate <ваше описание>'
-          );
-        }
-      } else if (data && data.startsWith('check_task_')) {
-        const taskId = data.replace('check_task_', '');
-        const { handleCheckTask } = await import('./commands/check-task.ts');
-        await handleCheckTask(chatId, from.id, taskId, messageId);
-      } else if (data && data.startsWith('share_menu_')) {
-        const trackId = data.replace('share_menu_', '');
-        const { handleShareTrack } = await import('./commands/share.ts');
-        await handleShareTrack(chatId, trackId, messageId);
-      } else if (data && data.startsWith('send_to_chat_')) {
-        const trackId = data.replace('send_to_chat_', '');
-        const { handleSendTrackToChat } = await import('./commands/share.ts');
-        await handleSendTrackToChat(chatId, from.id, trackId);
-      } else if (data && data.startsWith('copy_link_')) {
-        const trackId = data.replace('copy_link_', '');
-        const { handleCopyTrackLink } = await import('./commands/share.ts');
-        await handleCopyTrackLink(chatId, trackId, messageId);
-      } else if (data && data.startsWith('track_details_')) {
-        const trackId = data.replace('track_details_', '');
-        const { handleTrackDetails } = await import('./commands/share.ts');
-        await handleTrackDetails(chatId, trackId, messageId);
-      } else if (data === 'settings') {
-        const { handleSettings } = await import('./commands/settings.ts');
-        await handleSettings(chatId, messageId);
-      } else if (data === 'settings_notifications') {
-        const { handleNotificationSettings } = await import('./commands/settings.ts');
-        await handleNotificationSettings(chatId, from.id, messageId);
-      } else if (data === 'settings_emoji_status') {
-        const { handleEmojiStatusSettings } = await import('./commands/settings.ts');
-        await handleEmojiStatusSettings(chatId, from.id, messageId);
-      } else if (data && data.startsWith('emoji_')) {
-        const emojiType = data.replace('emoji_', '');
-        const { handleSetEmojiStatus, handleRemoveEmojiStatus } = await import('./commands/settings.ts');
-        if (emojiType === 'remove') {
-          await handleRemoveEmojiStatus(chatId, from.id, messageId);
-        } else {
-          await handleSetEmojiStatus(chatId, from.id, emojiType, messageId);
-        }
-      } else if (data && data.startsWith('notify_')) {
-        // Notification toggle - handled in settings
-        await answerCallbackQuery(id, '⚙️ Настройки сохранены');
-      }
-
+    // Lyrics
+    if (data.startsWith('lyrics_')) {
+      const trackId = data.replace('lyrics_', '');
+      const { handleLyrics } = await import('./commands/lyrics.ts');
+      await handleLyrics(chatId, trackId, messageId);
       await answerCallbackQuery(id);
       return;
     }
 
-    // Handle messages
-    if (update.message) {
-      const { chat, from, text } = update.message;
-      const message = update.message;
-      
-      if (!from) return;
-
-      // Handle successful payment
-      if (message.successful_payment) {
-        await handleSuccessfulPayment(chat.id, from.id, message.successful_payment as any);
-        return;
-      }
-
-      // Check for audio messages first (before text check)
-      if (isAudioMessage(message)) {
-        const audioData = message.audio || message.voice || message.document;
-        if (audioData) {
-          const audioType = message.audio ? 'audio' : message.voice ? 'voice' : 'document';
-          
-          // Check if user has recognition session
-          if (hasRecognitionSession(from.id)) {
-            await handleRecognizeAudio(chat.id, from.id, audioData.file_id, audioType);
-            return;
-          }
-          
-          // Check if user has guitar analysis session
-          if (hasGuitarSession(from.id)) {
-            await handleGuitarAudio(chat.id, from.id, audioData.file_id, audioType);
-            return;
-          }
-          
-          await handleAudioMessage(chat.id, from.id, audioData as any, audioType);
-          return;
-        }
-      }
-
-      // Skip non-text messages after audio check
-      if (!text) return;
-
-      // Rate limiting for messages
-      if (!checkRateLimit(from.id, 20, 60000)) {
-        await sendMessage(chat.id, '⏳ Слишком много сообщений. Подождите немного.');
-        trackMetric({
-          eventType: 'rate_limited',
-          success: false,
-          telegramChatId: chat.id,
-          metadata: { type: 'message' },
-        });
-        return;
-      }
-
-      logger.info('message', { userId: from.id, chatId: chat.id, text: text.substring(0, 50) });
-
-      const cmd = parseCommand(text);
-
-      if (!cmd) return;
-
-      const { command, args } = cmd;
-
-      switch (command) {
-        case 'start': {
-          // Check for start parameter in the command
-          const startParam = args || undefined;
-          await handleStart(chat.id, startParam);
-          break;
-        }
-
-        case 'help':
-          await handleHelp(chat.id);
-          break;
-
-        case 'generate':
-          await handleGenerate(chat.id, from.id, args);
-          break;
-
-        case 'library':
-          await handleLibrary(chat.id, from.id);
-          break;
-
-        case 'status':
-          await handleStatus(chat.id, from.id);
-          break;
-
-        case 'app':
-          await sendMessage(chat.id, '🎵 Открываем приложение...', {
-            inline_keyboard: [[
-              { text: '🎵 Открыть MusicVerse', web_app: { url: BOT_CONFIG.miniAppUrl } }
-            ]]
-          });
-          break;
-
-        case 'track': {
-          if (args) {
-            const trackId = args.replace('_', '');
-            const { handleTrackDetails } = await import('./commands/share.ts');
-            await handleTrackDetails(chat.id, trackId);
-          }
-          break;
-        }
-
-        case 'settings': {
-          const { handleSettings } = await import('./commands/settings.ts');
-          await handleSettings(chat.id);
-          break;
-        }
-
-        case 'lyrics': {
-          if (args) {
-            const trackId = args.trim();
-            const { handleLyrics } = await import('./commands/lyrics.ts');
-            await handleLyrics(chat.id, trackId);
-          } else {
-            await sendMessage(chat.id, '❌ Укажите ID трека: /lyrics <track_id>');
-          }
-          break;
-        }
-
-        case 'stats': {
-          if (args) {
-            const trackId = args.trim();
-            const { handleTrackStats } = await import('./commands/stats.ts');
-            await handleTrackStats(chat.id, trackId);
-          } else {
-            await sendMessage(chat.id, '❌ Укажите ID трека: /stats <track_id>');
-          }
-          break;
-        }
-
-        case 'cover':
-          await handleCoverCommand(chat.id, from.id, args);
-          break;
-
-        case 'extend':
-          await handleExtendCommand(chat.id, from.id, args);
-          break;
-
-        case 'cancel':
-          await handleCancelCommand(chat.id, from.id);
-          break;
-
-        case 'audio':
-          await sendMessage(chat.id, getAudioUploadHelp());
-          break;
-
-        case 'terms':
-          await handleTerms(chat.id);
-          break;
-
-        case 'privacy':
-          await handlePrivacy(chat.id);
-          break;
-
-        case 'about':
-          await handleAbout(chat.id);
-          break;
-
-        case 'buy':
-        case 'shop':
-        case 'pricing':
-          await handleBuyCommand(chat.id);
-          break;
-
-        case 'recognize':
-        case 'shazam':
-          await handleRecognizeCommand(chat.id, from.id, args);
-          break;
-
-        case 'midi':
-          await handleMidiCommand(chat.id, from.id, args);
-          break;
-
-        case 'piano':
-          await handlePianoCommand(chat.id, from.id, args);
-          break;
-
-        case 'guitar':
-          await handleGuitarCommand(chat.id, from.id);
-          break;
-
-        default:
-          await sendMessage(
-            chat.id,
-            'Неизвестная команда. Используйте /help для списка доступных команд.'
-          );
-      }
+    // Stats
+    if (data.startsWith('stats_')) {
+      const trackId = data.replace('stats_', '');
+      const { handleTrackStats } = await import('./commands/stats.ts');
+      await handleTrackStats(chatId, trackId, messageId);
+      await answerCallbackQuery(id);
+      return;
     }
+
+    // Remix handlers
+    if (data.startsWith('remix_')) {
+      const trackId = data.replace('remix_', '');
+      const { handleRemix } = await import('./commands/remix.ts');
+      await handleRemix(chatId, trackId, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    if (data.startsWith('add_vocals_')) {
+      const trackId = data.replace('add_vocals_', '');
+      const { handleAddVocals } = await import('./commands/remix.ts');
+      await handleAddVocals(chatId, from.id, trackId, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    if (data.startsWith('add_instrumental_')) {
+      const trackId = data.replace('add_instrumental_', '');
+      const { handleAddInstrumental } = await import('./commands/remix.ts');
+      await handleAddInstrumental(chatId, from.id, trackId, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    // Studio handlers
+    if (data.startsWith('studio_')) {
+      const trackId = data.replace('studio_', '');
+      const { handleStudio } = await import('./commands/studio.ts');
+      await handleStudio(chatId, trackId, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    if (data.startsWith('separate_stems_')) {
+      const trackId = data.replace('separate_stems_', '');
+      const { handleSeparateStems } = await import('./commands/studio.ts');
+      await handleSeparateStems(chatId, from.id, trackId, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    if (data.startsWith('download_stems_')) {
+      const trackId = data.replace('download_stems_', '');
+      const { handleDownloadStems } = await import('./commands/studio.ts');
+      await handleDownloadStems(chatId, trackId, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    if (data.startsWith('stem_mode_')) {
+      const parts = data.split('_');
+      const mode = parts[2];
+      const trackId = parts[3];
+      const { handleStemSeparation } = await import('./commands/stems.ts');
+      await handleStemSeparation(chatId, trackId, mode as 'simple' | 'detailed', messageId);
+      await answerCallbackQuery(id, '🎛️ Запуск разделения...');
+      return;
+    }
+
+    // Playlist handlers
+    if (data.startsWith('add_playlist_')) {
+      const trackId = data.replace('add_playlist_', '');
+      const { handleAddToPlaylist } = await import('./commands/playlist.ts');
+      await handleAddToPlaylist(chatId, from.id, trackId, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    if (data.startsWith('playlist_add_')) {
+      const [playlistId, trackId] = data.replace('playlist_add_', '').split('_');
+      const { handlePlaylistAdd } = await import('./commands/playlist.ts');
+      await handlePlaylistAdd(chatId, playlistId, trackId, id);
+      return;
+    }
+
+    if (data.startsWith('playlist_new_')) {
+      const trackId = data.replace('playlist_new_', '');
+      const { handlePlaylistNew } = await import('./commands/playlist.ts');
+      await handlePlaylistNew(chatId, trackId, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    // Upload handlers
+    if (data === 'cancel_upload') {
+      const { handleCancelUploadCallback } = await import('./commands/audio-upload.ts');
+      await handleCancelUploadCallback(chatId, from.id, messageId!, id);
+      return;
+    }
+
+    if (data === 'my_uploads') {
+      const { handleMyUploads } = await import('./commands/upload.ts');
+      await handleMyUploads(chatId, from.id, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    if (data === 'start_upload') {
+      const { handleUploadCommand } = await import('./commands/upload.ts');
+      await handleUploadCommand(chatId, from.id, '', messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    // Reference handlers
+    if (data.startsWith('select_ref_')) {
+      const refId = data.replace('select_ref_', '');
+      const { handleSelectReference } = await import('./commands/upload.ts');
+      await handleSelectReference(chatId, from.id, refId, messageId!, id);
+      return;
+    }
+
+    if (data.startsWith('use_ref_cover_')) {
+      const refId = data.replace('use_ref_cover_', '');
+      const { handleUseReference } = await import('./commands/upload.ts');
+      await handleUseReference(chatId, from.id, refId, 'cover', messageId!, id);
+      return;
+    }
+
+    if (data.startsWith('use_ref_extend_')) {
+      const refId = data.replace('use_ref_extend_', '');
+      const { handleUseReference } = await import('./commands/upload.ts');
+      await handleUseReference(chatId, from.id, refId, 'extend', messageId!, id);
+      return;
+    }
+
+    if (data.startsWith('delete_ref_')) {
+      const refId = data.replace('delete_ref_', '');
+      const { handleDeleteReference } = await import('./commands/upload.ts');
+      await handleDeleteReference(chatId, from.id, refId, messageId!, id);
+      return;
+    }
+
+    if (data.startsWith('ref_generate_cover_')) {
+      const refId = data.replace('ref_generate_cover_', '');
+      const { handleGenerateFromReference } = await import('./commands/upload.ts');
+      await handleGenerateFromReference(chatId, from.id, refId, 'cover', messageId!, id);
+      return;
+    }
+
+    if (data.startsWith('ref_generate_extend_')) {
+      const refId = data.replace('ref_generate_extend_', '');
+      const { handleGenerateFromReference } = await import('./commands/upload.ts');
+      await handleGenerateFromReference(chatId, from.id, refId, 'extend', messageId!, id);
+      return;
+    }
+
+    // Recognition handlers
+    if (data === 'cancel_recognize') {
+      const { handleCancelRecognize } = await import('./commands/recognize.ts');
+      await handleCancelRecognize(chatId, from.id, messageId, id);
+      return;
+    }
+
+    if (data === 'recognize_again') {
+      const { handleRecognizeAgain } = await import('./commands/recognize.ts');
+      await handleRecognizeAgain(chatId, from.id);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    // MIDI handlers
+    if (data === 'cancel_midi') {
+      const { handleCancelMidi } = await import('./commands/midi.ts');
+      await handleCancelMidi(chatId, from.id, messageId, id);
+      return;
+    }
+
+    if (data === 'midi_again') {
+      const { handleMidiAgainCallback } = await import('./commands/midi.ts');
+      await handleMidiAgainCallback(chatId, from.id, id);
+      return;
+    }
+
+    if (data === 'midi_upload') {
+      const { handleMidiUploadCallback } = await import('./commands/midi.ts');
+      await handleMidiUploadCallback(chatId, from.id, messageId!, id);
+      return;
+    }
+
+    if (data.startsWith('midi_track_')) {
+      const trackId = data.replace('midi_track_', '');
+      const { handleMidiTrackCallback } = await import('./commands/midi.ts');
+      await handleMidiTrackCallback(chatId, trackId, messageId!, id);
+      return;
+    }
+
+    if (data.startsWith('midi_bp_')) {
+      const trackId = data.replace('midi_bp_', '');
+      const { handleMidiModelCallback } = await import('./commands/midi.ts');
+      await handleMidiModelCallback(chatId, from.id, trackId, 'basic-pitch', messageId!, id);
+      return;
+    }
+
+    if (data.startsWith('midi_mt3_')) {
+      const trackId = data.replace('midi_mt3_', '');
+      const { handleMidiModelCallback } = await import('./commands/midi.ts');
+      await handleMidiModelCallback(chatId, from.id, trackId, 'mt3', messageId!, id);
+      return;
+    }
+
+    if (data.startsWith('midi_p2p_')) {
+      const trackId = data.replace('midi_p2p_', '');
+      const { handleMidiModelCallback } = await import('./commands/midi.ts');
+      await handleMidiModelCallback(chatId, from.id, trackId, 'pop2piano', messageId!, id);
+      return;
+    }
+
+    // Guitar analysis
+    if (data === 'cancel_guitar') {
+      const { handleCancelGuitar } = await import('./commands/guitar.ts');
+      await handleCancelGuitar(chatId, from.id, messageId, id);
+      return;
+    }
+
+    if (data === 'guitar_again') {
+      const { handleGuitarAgain } = await import('./commands/guitar.ts');
+      await handleGuitarAgain(chatId, from.id);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    // Analyze handlers
+    if (data === 'analyze_list') {
+      const { handleAnalyzeList } = await import('./commands/analyze.ts');
+      await handleAnalyzeList(chatId, from.id, messageId!, id);
+      return;
+    }
+
+    if (data.startsWith('analyze_select_')) {
+      const refId = data.replace('analyze_select_', '');
+      const { handleAnalyzeSelect } = await import('./commands/analyze.ts');
+      await handleAnalyzeSelect(chatId, from.id, refId, messageId!, id);
+      return;
+    }
+
+    if (data.startsWith('analyze_transcribe_')) {
+      const refId = data.replace('analyze_transcribe_', '');
+      const { handleTranscribeMenu } = await import('./commands/analyze.ts');
+      await handleTranscribeMenu(chatId, from.id, refId, messageId!, id);
+      return;
+    }
+
+    if (data.startsWith('analyze_tr_')) {
+      const parts = data.replace('analyze_tr_', '').split('_');
+      const model = parts[0];
+      const refId = parts.slice(1).join('_');
+      const { handleTranscription } = await import('./commands/analyze.ts');
+      await handleTranscription(chatId, from.id, refId, model, messageId!, id);
+      return;
+    }
+
+    if (data.startsWith('analyze_chords_')) {
+      const refId = data.replace('analyze_chords_', '');
+      const { handleChordAnalysis } = await import('./commands/analyze.ts');
+      await handleChordAnalysis(chatId, from.id, refId, messageId!, id);
+      return;
+    }
+
+    if (data.startsWith('analyze_beats_')) {
+      const refId = data.replace('analyze_beats_', '');
+      const { handleBeatAnalysis } = await import('./commands/analyze.ts');
+      await handleBeatAnalysis(chatId, from.id, refId, messageId!, id);
+      return;
+    }
+
+    if (data.startsWith('analyze_full_')) {
+      const refId = data.replace('analyze_full_', '');
+      const { handleFullAnalysis } = await import('./commands/analyze.ts');
+      await handleFullAnalysis(chatId, from.id, refId, messageId!, id);
+      return;
+    }
+
+    // Legal handlers
+    if (data === 'legal_terms') {
+      const { handleTerms } = await import('./commands/legal.ts');
+      await handleTerms(chatId, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    if (data === 'legal_privacy') {
+      const { handlePrivacy } = await import('./commands/legal.ts');
+      await handlePrivacy(chatId, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    if (data === 'about') {
+      const { handleAbout } = await import('./commands/legal.ts');
+      await handleAbout(chatId, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    // Payment handlers
+    if (data === 'buy_credits' || data === 'buy_menu_main') {
+      const { handleBuyCommand } = await import('./handlers/payment.ts');
+      await handleBuyCommand(chatId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    if (data === 'buy_menu_credits') {
+      const { handleBuyCreditPackages } = await import('./handlers/payment.ts');
+      await handleBuyCreditPackages(chatId, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    if (data === 'buy_menu_subscriptions') {
+      const { handleBuySubscriptions } = await import('./handlers/payment.ts');
+      await handleBuySubscriptions(chatId, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    if (data.startsWith('buy_product_')) {
+      const productCode = data.replace('buy_product_', '');
+      const { handleBuyProduct } = await import('./handlers/payment.ts');
+      await handleBuyProduct(chatId, from.id, productCode);
+      await answerCallbackQuery(id, '🔄 Создаём счёт...');
+      return;
+    }
+
+    // Legacy menu handlers
+    if (data === 'analyze') {
+      const { handleAnalyzeCommand } = await import('./commands/analyze.ts');
+      await handleAnalyzeCommand(chatId, from.id, '');
+      await answerCallbackQuery(id);
+      return;
+    } else if (data === 'settings') {
+      if (messageId) {
+        await editMessageText(chatId, messageId, '⚙️ *Настройки*\n\nНастройки доступны в приложении:', {
+          inline_keyboard: [
+            [{ text: '📱 Открыть настройки', web_app: { url: `${(await import('./config.ts')).BOT_CONFIG.miniAppUrl}/settings` } }],
+            [{ text: '🔙 Назад', callback_data: 'main_menu' }]
+          ]
+        });
+      }
+      await answerCallbackQuery(id);
+      return;
+    } else if (data === 'library') {
+      const { handleLibrary } = await import('./commands/library.ts');
+      await handleLibrary(chatId, from.id, messageId);
+    } else if (data === 'projects') {
+      const { handleProjects } = await import('./commands/projects.ts');
+      await handleProjects(chatId, from.id, messageId);
+    } else if (data === 'help') {
+      if (messageId) {
+        const { MESSAGES } = await import('./config.ts');
+        const { createMainMenuKeyboard } = await import('./keyboards/main-menu.ts');
+        await editMessageText(chatId, messageId, MESSAGES.help, createMainMenuKeyboard());
+      }
+    } else if (data === 'generate') {
+      if (messageId) {
+        const { createGenerateKeyboard } = await import('./keyboards/main-menu.ts');
+        await editMessageText(chatId, messageId, '🎼 *Создание трека*\n\nВыберите стиль музыки или опишите свой:', createGenerateKeyboard());
+      }
+    } else if (data === 'status') {
+      const { handleStatus } = await import('./commands/status.ts');
+      await handleStatus(chatId, from.id, messageId);
+    } else if (data === 'main_menu') {
+      if (messageId) {
+        const { createMainMenuKeyboard } = await import('./keyboards/main-menu.ts');
+        await editMessageText(chatId, messageId, '🏠 *Главное меню*\n\nВыберите действие:', createMainMenuKeyboard());
+      }
+    } else if (data.startsWith('style_')) {
+      if (messageId) {
+        const style = data.replace('style_', '');
+        const styleNames: Record<string, string> = {
+          rock: 'рок', pop: 'поп', jazz: 'джаз',
+          electronic: 'электроника', classical: 'классика', hiphop: 'хип-хоп'
+        };
+        await editMessageText(chatId, messageId, `🎵 *Стиль: ${styleNames[style] || style}*\n\nТеперь отправьте описание трека:\n\nНапример:\n"Энергичный трек с гитарными риффами и мощным барабанным битом"`);
+      }
+    } else if (data === 'custom_generate') {
+      if (messageId) {
+        await editMessageText(chatId, messageId, '✍️ *Своё описание*\n\nОпишите какую музыку вы хотите создать:\n\nИспользуйте /generate <ваше описание>');
+      }
+    } else if (data.startsWith('check_task_')) {
+      const taskId = data.replace('check_task_', '');
+      const { handleCheckTask } = await import('./commands/check-task.ts');
+      await handleCheckTask(chatId, from.id, taskId, messageId);
+    } else if (data.startsWith('share_menu_')) {
+      const trackId = data.replace('share_menu_', '');
+      const { handleShareTrack } = await import('./commands/share.ts');
+      await handleShareTrack(chatId, trackId, messageId);
+    } else if (data.startsWith('send_to_chat_')) {
+      const trackId = data.replace('send_to_chat_', '');
+      const { handleSendTrackToChat } = await import('./commands/share.ts');
+      await handleSendTrackToChat(chatId, from.id, trackId);
+    } else if (data.startsWith('get_share_link_')) {
+      const trackId = data.replace('get_share_link_', '');
+      const { handleCopyTrackLink } = await import('./commands/share.ts');
+      await handleCopyTrackLink(chatId, trackId, messageId);
+    } else if (data.startsWith('video_')) {
+      const trackId = data.replace('video_', '');
+      const { handleVideoGeneration } = await import('./commands/video.ts');
+      await handleVideoGeneration(chatId, from.id, trackId, messageId);
+    }
+
+    await answerCallbackQuery(id);
+
   } catch (error) {
-    logger.error('handleUpdate', error);
-    throw error;
+    logger.error('Error handling callback', error);
+    await answerCallbackQuery(id, '❌ Ошибка');
   }
 }
