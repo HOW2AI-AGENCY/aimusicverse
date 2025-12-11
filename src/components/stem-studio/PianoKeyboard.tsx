@@ -1,5 +1,7 @@
 import { memo, useCallback, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { getAudioContext, resumeAudioContext } from '@/lib/audioContextManager';
+import { logger } from '@/lib/logger';
 
 interface PianoKeyboardProps {
   startNote?: number;
@@ -22,29 +24,64 @@ function getNoteName(pitch: number): string {
   return `${note}${octave}`;
 }
 
-// Simple audio context for preview
-let audioContext: AudioContext | null = null;
-
-function playNote(pitch: number) {
-  if (!audioContext) {
-    audioContext = new AudioContext();
+/**
+ * Play a piano note using the global AudioContext
+ * IMP015: Use centralized AudioContext management with state checks
+ */
+async function playNote(pitch: number) {
+  try {
+    // Get or create the global AudioContext
+    const audioContext = getAudioContext();
+    
+    // IMP015: Check AudioContext state before operations
+    if (audioContext.state === 'suspended') {
+      const resumed = await resumeAudioContext();
+      if (!resumed) {
+        logger.warn('AudioContext failed to resume, cannot play note');
+        return;
+      }
+    }
+    
+    if (audioContext.state === 'closed') {
+      logger.error('AudioContext is closed, cannot play note');
+      return;
+    }
+    
+    // Calculate frequency for the note (A4 = 440Hz)
+    const frequency = 440 * Math.pow(2, (pitch - 69) / 12);
+    
+    // Create oscillator and gain node
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    // Connect nodes
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    // Configure oscillator
+    oscillator.frequency.value = frequency;
+    oscillator.type = 'triangle';
+    
+    // Configure envelope (attack and release)
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+    
+    // Play note for 0.3 seconds
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 0.3);
+    
+    // IMP016: Clean up audio nodes after use to prevent memory leaks
+    oscillator.onended = () => {
+      try {
+        oscillator.disconnect();
+        gainNode.disconnect();
+      } catch (err) {
+        // Ignore disconnect errors (node may already be disconnected)
+      }
+    };
+  } catch (err) {
+    logger.error('Error playing piano note', err instanceof Error ? err : new Error(String(err)));
   }
-  
-  const frequency = 440 * Math.pow(2, (pitch - 69) / 12);
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
-  
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-  
-  oscillator.frequency.value = frequency;
-  oscillator.type = 'triangle';
-  
-  gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-  
-  oscillator.start();
-  oscillator.stop(audioContext.currentTime + 0.3);
 }
 
 export const PianoKeyboard = memo(function PianoKeyboard({
