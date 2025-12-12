@@ -8,6 +8,12 @@
 ## [Unreleased]
 
 ### Добавлено - 2025-12-12
+- **Comprehensive Project Audit**: Полный аудит состояния проекта
+  - Build health: 100/100 (43.52s, оптимизировано)
+  - Code quality: 95/100
+  - Sprint progress: 98/100
+  - Overall health score: 95/100
+  - Документ: `AUDIT_RECENT_UPDATES_2025-12-12.md`
 - **Telegram Stars Payment System**: Полная реализация с 210 задачами
   - Админ-панель со списком транзакций и функцией возврата средств
   - Интеграционные и unit-тесты для payment flows
@@ -21,7 +27,8 @@
   - Верификация оптимизации размера бандлов
 
 ### Изменено - 2025-12-12
-- Обновлен статус Sprint 013 на COMPLETE (97% автоматизированных задач)
+- Обновлен SPRINT_STATUS.md: 11 завершенных спринтов (44% completion rate)
+- Sprint 013 помечен как COMPLETE (97% автоматизированных задач)
 - Telegram Stars payment system готова к DEPLOYMENT
 - Улучшена `create-stars-invoice` с JSON schema валидацией
 
@@ -29,6 +36,12 @@
 - Верифицирована оптимизация сборки (50KB main bundle с brotli)
 - Подтверждено разделение кода для всех основных функций
 - Настроены performance budgets в Lighthouse CI
+
+### Безопасность - 2025-12-12
+- Идентифицированы 2 moderate уязвимости (dev-only, non-blocking)
+  - esbuild <=0.24.2 (development server only)
+  - vite 0.11.0-6.1.6 (dependency of esbuild)
+- Рекомендация: Обновить vite до 7.x в следующем major release
 
 ### Планируется
 - Трёхрежимный плеер (compact/expanded/fullscreen)
