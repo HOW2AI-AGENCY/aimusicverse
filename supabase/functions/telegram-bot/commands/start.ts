@@ -126,7 +126,12 @@ export async function handleStart(chatId: number, startParam?: string) {
     )
     .build();
   
-  const result = await sendMessage(chatId, welcomeMsg, keyboard, 'MarkdownV2');
+  // Use sendPhoto with banner image for consistent UI
+  const bannerUrl = 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&h=400&fit=crop&q=80';
+  const result = await sendPhoto(chatId, bannerUrl, {
+    caption: welcomeMsg,
+    replyMarkup: keyboard
+  });
   
   if (result?.result?.message_id) {
     await trackMessage(chatId, result.result.message_id, 'menu', 'main_menu', { persistent: true });
