@@ -45,6 +45,8 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
           <button
             onClick={onExpand || (() => setPlayerMode('expanded'))}
             className="relative w-12 h-12 rounded-xl overflow-hidden bg-muted/50 flex-shrink-0"
+            aria-label="Развернуть плеер"
+            title="Развернуть плеер"
           >
             {activeTrack.cover_url ? (
               <img
@@ -82,6 +84,8 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
           <button
             onClick={onExpand || (() => setPlayerMode('expanded'))}
             className="flex-1 min-w-0 text-left"
+            aria-label={`Сейчас играет: ${activeTrack.title || 'Без названия'}, ${activeTrack.artist_name || activeTrack.style?.slice(0, 30) || 'AI Generated'}`}
+            title="Развернуть плеер"
           >
             <p className="text-sm font-medium truncate">
               {activeTrack.title || 'Без названия'}
@@ -99,6 +103,7 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
               onClick={() => setRecognitionOpen(true)}
               className="h-8 w-8 rounded-full text-muted-foreground"
               title="Распознать музыку"
+              aria-label="Распознать музыку"
             >
               <Search className="w-4 h-4" />
             </Button>
@@ -107,6 +112,8 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
               size="icon"
               onClick={handleTogglePlay}
               className="h-10 w-10 rounded-full"
+              aria-label={isPlaying ? 'Приостановить' : 'Воспроизвести'}
+              title={isPlaying ? 'Приостановить' : 'Воспроизвести'}
             >
               {isPlaying ? (
                 <Pause className="w-5 h-5" />
@@ -119,6 +126,8 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
               size="icon"
               onClick={nextTrack}
               className="h-9 w-9 rounded-full"
+              aria-label="Следующий трек"
+              title="Следующий трек"
             >
               <SkipForward className="w-4 h-4" />
             </Button>
@@ -127,6 +136,8 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
               size="icon"
               onClick={minimizePlayer}
               className="h-8 w-8 rounded-full text-muted-foreground"
+              aria-label="Свернуть плеер"
+              title="Свернуть плеер"
             >
               <X className="w-4 h-4" />
             </Button>

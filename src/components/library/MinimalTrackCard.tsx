@@ -85,6 +85,15 @@ export const MinimalTrackCard = memo(({
             onClick={handleCardClick}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            role="button"
+            tabIndex={0}
+            aria-label={`Трек ${track.title || 'Без названия'}, ${track.style || ''}, ${formatDuration(track.duration_seconds)}`}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleCardClick(e as any);
+              }
+            }}
           >
             {/* Cover + Play */}
             <div className="relative w-12 h-12 flex-shrink-0 rounded-lg overflow-hidden">
@@ -111,6 +120,8 @@ export const MinimalTrackCard = memo(({
                   className="w-8 h-8 rounded-full text-white"
                   onClick={handlePlay}
                   data-play-button
+                  aria-label={isPlaying ? 'Приостановить' : 'Воспроизвести'}
+                  title={isPlaying ? 'Приостановить' : 'Воспроизвести'}
                 >
                   {isPlaying ? (
                     <Pause className="w-4 h-4" />
@@ -168,6 +179,8 @@ export const MinimalTrackCard = memo(({
                 triggerHapticFeedback('light');
                 setSheetOpen(true);
               }}
+              aria-label="Открыть меню трека"
+              title="Открыть меню трека"
             >
               <MoreHorizontal className="w-4 h-4" />
             </Button>
