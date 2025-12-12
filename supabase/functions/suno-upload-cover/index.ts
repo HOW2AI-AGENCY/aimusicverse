@@ -7,7 +7,7 @@ const logger = createLogger('suno-upload-cover');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-telegram-bot-secret',
 };
 
 /**
@@ -30,6 +30,7 @@ serve(async (req) => {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const sunoApiKey = Deno.env.get('SUNO_API_KEY');
+    const telegramBotSecret = Deno.env.get('TELEGRAM_BOT_TOKEN'); // Use bot token as secret
 
     if (!sunoApiKey) {
       logger.error('SUNO_API_KEY not configured');
@@ -41,27 +42,13 @@ serve(async (req) => {
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Verify auth
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      return new Response(
-        JSON.stringify({ error: 'No authorization header' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const { data: { user }, error: authError } = await supabase.auth.getUser(
-      authHeader.replace('Bearer ', '')
-    );
-
-    if (authError || !user) {
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
+    // Parse request body first to check for telegram bot source
+    const body = await req.json();
     const {
+      source,
+      userId: telegramUserId, // User ID passed from telegram bot
+      telegramChatId,
+      audioUrl: providedAudioUrl, // Pre-uploaded audio URL from bot
       audioFile,
       customMode = false,
       instrumental = false,
@@ -76,50 +63,104 @@ serve(async (req) => {
       weirdnessConstraint,
       audioWeight,
       projectId,
-    } = await req.json();
+    } = body;
 
-    if (!audioFile) {
+    let userId: string;
+
+    // Check if request is from telegram bot
+    if (source === 'telegram_bot') {
+      // Verify bot secret
+      const botSecret = req.headers.get('x-telegram-bot-secret');
+      if (!botSecret || botSecret !== telegramBotSecret) {
+        logger.error('Invalid telegram bot secret');
+        return new Response(
+          JSON.stringify({ error: 'Unauthorized bot request' }),
+          { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      if (!telegramUserId) {
+        return new Response(
+          JSON.stringify({ error: 'User ID is required for telegram bot requests' }),
+          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      userId = telegramUserId;
+      logger.info('Telegram bot request authenticated', { userId });
+    } else {
+      // Standard JWT auth for web app
+      const authHeader = req.headers.get('Authorization');
+      if (!authHeader) {
+        return new Response(
+          JSON.stringify({ error: 'No authorization header' }),
+          { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      const { data: { user }, error: authError } = await supabase.auth.getUser(
+        authHeader.replace('Bearer ', '')
+      );
+
+      if (authError || !user) {
+        return new Response(
+          JSON.stringify({ error: 'Unauthorized' }),
+          { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      userId = user.id;
+    }
+
+    // Determine audio URL - either provided from bot or upload from file
+    let publicUrl: string;
+
+    if (providedAudioUrl) {
+      // Use pre-uploaded audio URL from telegram bot
+      publicUrl = providedAudioUrl;
+      logger.info('Using provided audio URL', { publicUrl });
+    } else if (audioFile) {
+      // Upload audio from file data
+      const fileName = `${userId}/uploads/${Date.now()}-${audioFile.name || 'audio.mp3'}`;
+      
+      // Decode base64 if needed
+      let audioBuffer: Uint8Array;
+      if (audioFile.data.startsWith('data:')) {
+        const base64Data = audioFile.data.split(',')[1];
+        audioBuffer = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+      } else {
+        audioBuffer = new Uint8Array(audioFile.data);
+      }
+
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('project-assets')
+        .upload(fileName, audioBuffer, {
+          contentType: audioFile.type || 'audio/mpeg',
+          upsert: false,
+        });
+
+      if (uploadError) {
+        logger.error('Upload error', uploadError);
+        return new Response(
+          JSON.stringify({ error: 'Failed to upload audio' }),
+          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      const { data: { publicUrl: uploadedUrl } } = supabase.storage
+        .from('project-assets')
+        .getPublicUrl(fileName);
+
+      publicUrl = uploadedUrl;
+      logger.info('Audio uploaded', { publicUrl });
+    } else {
       return new Response(
-        JSON.stringify({ error: 'Audio file is required' }),
+        JSON.stringify({ error: 'Audio file or URL is required' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    logger.info('Uploading and covering audio', { customMode, model, instrumental });
-
-    // Upload audio to Supabase Storage
-    const fileName = `${user.id}/uploads/${Date.now()}-${audioFile.name || 'audio.mp3'}`;
-    
-    // Decode base64 if needed
-    let audioBuffer: Uint8Array;
-    if (audioFile.data.startsWith('data:')) {
-      const base64Data = audioFile.data.split(',')[1];
-      audioBuffer = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
-    } else {
-      audioBuffer = new Uint8Array(audioFile.data);
-    }
-
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from('project-assets')
-      .upload(fileName, audioBuffer, {
-        contentType: audioFile.type || 'audio/mpeg',
-        upsert: false,
-      });
-
-    if (uploadError) {
-      logger.error('Upload error', uploadError);
-      return new Response(
-        JSON.stringify({ error: 'Failed to upload audio' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Get public URL
-    const { data: { publicUrl } } = supabase.storage
-      .from('project-assets')
-      .getPublicUrl(fileName);
-
-    logger.info('Audio uploaded', { publicUrl });
+    logger.info('Processing cover request', { customMode, model, instrumental });
 
     // Map UI model key to API model name
     const apiModel = getApiModelName(model);
@@ -225,13 +266,14 @@ serve(async (req) => {
     const { error: taskError } = await supabase
       .from('generation_tasks')
       .insert({
-        user_id: user.id,
+        user_id: userId,
         prompt: prompt || style || 'Audio cover',
         status: 'pending',
         suno_task_id: taskId,
         generation_mode: 'upload_cover',
         model_used: model,
-        source: 'mini_app',
+        source: source === 'telegram_bot' ? 'telegram' : 'mini_app',
+        telegram_chat_id: telegramChatId,
       });
 
     if (taskError) {
@@ -242,7 +284,7 @@ serve(async (req) => {
     const { data: trackData, error: trackError } = await supabase
       .from('tracks')
       .insert({
-        user_id: user.id,
+        user_id: userId,
         prompt: prompt || style || 'Audio cover',
         status: 'pending',
         suno_task_id: taskId,
