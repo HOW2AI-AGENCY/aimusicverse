@@ -338,8 +338,9 @@ export const UploadAudioDialog = ({
   };
 
   // Model duration limits (in seconds) based on SunoAPI documentation
+  // V5 has 240s limit for audio uploads per requirements
   const MODEL_DURATION_LIMITS: Record<string, number> = {
-    'V5': 480,
+    'V5': 240,
     'V4_5PLUS': 480,
     'V4_5ALL': 60,
     'V4': 240,
