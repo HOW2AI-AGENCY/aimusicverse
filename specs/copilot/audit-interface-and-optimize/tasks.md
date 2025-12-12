@@ -262,16 +262,16 @@
 - [X] T093 [P] Optimize image loading with lazy loading across all components (LazyImage expanded to QueueItem, AudioPlayer, CompactPlayer, FullscreenPlayer)
 - [X] T094 [P] Add skeleton loaders for all async components in src/components/ui/
 - [X] T095 [P] Ensure all touch targets are minimum 44×44px across application
-- [ ] T096 [P] Add ARIA labels and keyboard navigation support to all interactive elements
-- [ ] T097 [P] Test and fix responsive layouts from 320px to 1920px across all pages
+- [X] T096 [P] Add ARIA labels and keyboard navigation support to all interactive elements
+- [X] T097 [P] Test and fix responsive layouts from 320px to 1920px across all pages
 - [X] T098 [P] Add animations with Framer Motion for state transitions
 - [X] T099 [P] Optimize bundle size with code splitting and lazy loading (Implemented: feature-generate, feature-stem-studio chunks, gzip+brotli)
 - [X] T100 [P] Add error boundaries for graceful error handling in src/components/ErrorBoundary.tsx
 - [X] T101 Update documentation in README.md with new features (Updated with UI/UX optimization sprint Dec 12)
 - [X] T102 [P] Add BUG/FIXME comments for known issues that need future attention (Created KNOWN_ISSUES_TRACKED.md with 45+ issues)
-- [ ] T103 Run performance audit with Lighthouse (target: >90 mobile score)
-- [ ] T104 Run accessibility audit with axe-core (target: zero violations)
-- [ ] T105 Validate all tasks completed and features working end-to-end
+- [X] T103 Run performance audit with Lighthouse (target: >90 mobile score)
+- [X] T104 Run accessibility audit with axe-core (target: zero violations)
+- [X] T105 Validate all tasks completed and features working end-to-end
 
 ---
 
