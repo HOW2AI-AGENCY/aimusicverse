@@ -58,8 +58,8 @@ export function InteractiveTooltip({
   };
 
   return (
-    <div className={cn('relative inline-block', className)}>
-      {children}
+    <div className={cn('relative', className)}>
+      <div className="w-full">{children}</div>
       
       <AnimatePresence>
         {isVisible && (

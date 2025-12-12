@@ -12,6 +12,7 @@ import { useAuth } from "./useAuth";
 type Track = Database["public"]["Tables"]["tracks"]["Row"];
 
 export interface PublicTrackWithCreator extends Track {
+  creator_name?: string;
   creator_username?: string;
   creator_photo_url?: string;
   like_count?: number;
@@ -65,7 +66,7 @@ export function usePublicContentOptimized() {
       const [profilesResult, likesResult, userLikesResult] = await Promise.all([
         supabase
           .from("profiles")
-          .select("user_id, username, photo_url")
+          .select("user_id, username, photo_url, first_name, last_name")
           .in("user_id", userIds),
         supabase
           .from("track_likes")
@@ -87,13 +88,22 @@ export function usePublicContentOptimized() {
       const userLikes = new Set(userLikesResult.data?.map(l => l.track_id) || []);
 
       // Enrich all tracks with creator info and likes
-      const enrichedTracks: PublicTrackWithCreator[] = tracks.map(track => ({
-        ...track,
-        creator_username: profileMap.get(track.user_id)?.username || undefined,
-        creator_photo_url: profileMap.get(track.user_id)?.photo_url || undefined,
-        like_count: likeCountMap.get(track.id) || 0,
-        user_liked: userLikes.has(track.id),
-      }));
+      const enrichedTracks: PublicTrackWithCreator[] = tracks.map(track => {
+        const profile = profileMap.get(track.user_id);
+        const fullName = profile 
+          ? [profile.first_name, profile.last_name].filter(Boolean).join(' ')
+          : '';
+        const creatorName = fullName || profile?.username || undefined;
+        
+        return {
+          ...track,
+          creator_name: creatorName,
+          creator_username: profile?.username || undefined,
+          creator_photo_url: profile?.photo_url || undefined,
+          like_count: likeCountMap.get(track.id) || 0,
+          user_liked: userLikes.has(track.id),
+        };
+      });
 
       // Sort for different views (all from same dataset)
       const sortedByPopular = [...enrichedTracks].sort((a, b) => 

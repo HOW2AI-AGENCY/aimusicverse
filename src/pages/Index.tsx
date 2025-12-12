@@ -73,7 +73,12 @@ const Index = () => {
 
   const goToProfile = () => {
     hapticFeedback("light");
-    navigate("/profile");
+    // Navigate to public profile page if user is logged in
+    if (user?.id) {
+      navigate(`/profile/${user.id}`);
+    } else {
+      navigate("/profile");
+    }
   };
 
   const handleRemix = (trackId: string) => {

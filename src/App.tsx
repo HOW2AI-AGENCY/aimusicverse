@@ -27,6 +27,7 @@ const Auth = lazy(() => import("./pages/Auth"));
 const Studio = lazy(() => import("./pages/Studio"));
 const StemStudio = lazy(() => import("./pages/StemStudio"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Tasks = lazy(() => import("./pages/Tasks"));
 const Generate = lazy(() => import("./pages/Generate"));
@@ -96,6 +97,7 @@ const App = () => (
                   <Route path="/" element={<Index />} />
                   <Route path="/studio" element={<Studio />} />
                   <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/profile/:userId" element={<PublicProfilePage />} />
                   <Route path="/settings" element={<Settings />} />
                   <Route path="/tasks" element={<Tasks />} />
                   <Route path="/generate" element={<Generate />} />
