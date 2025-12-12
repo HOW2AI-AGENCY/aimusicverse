@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { BottomNavigation } from './BottomNavigation';
 import { Sidebar } from './Sidebar';
@@ -11,13 +12,43 @@ import { SkipToContent } from './ui/skip-to-content';
 import { GuestModeBanner } from './GuestModeBanner';
 import { useGuestMode } from '@/contexts/GuestModeContext';
 import { cn } from '@/lib/utils';
+import { SubscriptionRequiredDialog } from './dialogs/SubscriptionRequiredDialog';
+import { GamificationOnboarding } from './gamification/GamificationOnboarding';
+import { setSubscriptionDialogCallback } from '@/hooks/useTrackActions';
 
 export const MainLayout = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const { isGuestMode } = useGuestMode();
+  const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false);
+  const [gamificationOnboardingOpen, setGamificationOnboardingOpen] = useState(false);
   
   // Track play counts when tracks are played
   usePlaybackTracking();
+
+  // Register subscription dialog callback
+  useEffect(() => {
+    setSubscriptionDialogCallback(setSubscriptionDialogOpen);
+    return () => setSubscriptionDialogCallback(() => {});
+  }, []);
+
+  // Check if gamification onboarding should show (after first checkin)
+  useEffect(() => {
+    const hasSeenGamificationOnboarding = localStorage.getItem('gamification-onboarding-completed');
+    const hasCompletedFirstCheckin = localStorage.getItem('first-checkin-completed');
+    
+    if (hasCompletedFirstCheckin && !hasSeenGamificationOnboarding) {
+      // Delay to show after checkin celebration
+      const timer = setTimeout(() => {
+        setGamificationOnboardingOpen(true);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const handleGamificationOnboardingComplete = () => {
+    localStorage.setItem('gamification-onboarding-completed', 'true');
+    setGamificationOnboardingOpen(false);
+  };
 
   return (
     <div className="flex h-screen bg-background">
@@ -33,6 +64,18 @@ export const MainLayout = () => {
       
       {/* Enhanced Generation Indicator with progress */}
       <EnhancedGenerationIndicator />
+      
+      {/* Subscription Required Dialog */}
+      <SubscriptionRequiredDialog 
+        open={subscriptionDialogOpen} 
+        onOpenChange={setSubscriptionDialogOpen} 
+      />
+      
+      {/* Gamification Onboarding */}
+      <GamificationOnboarding
+        open={gamificationOnboardingOpen}
+        onComplete={handleGamificationOnboardingComplete}
+      />
       
       {isDesktop && (
         <div className="w-64 fixed inset-y-0 z-50">

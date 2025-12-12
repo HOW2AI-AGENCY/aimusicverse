@@ -15,8 +15,9 @@ import { useTelegram } from '@/contexts/TelegramContext';
 
 const STORAGE_KEY = 'gamification-onboarding-completed';
 
-interface GamificationOnboardingProps {
-  show: boolean;
+export interface GamificationOnboardingProps {
+  open?: boolean;
+  show?: boolean; // Alias for open
   onComplete: () => void;
 }
 
@@ -63,17 +64,20 @@ const STEPS = [
   },
 ];
 
-export function GamificationOnboarding({ show, onComplete }: GamificationOnboardingProps) {
+export function GamificationOnboarding({ open, show, onComplete }: GamificationOnboardingProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const { hapticFeedback } = useTelegram();
+  
+  // Support both 'open' and 'show' props
+  const shouldShow = open ?? show ?? false;
 
   useEffect(() => {
-    if (show) {
+    if (shouldShow) {
       setIsVisible(true);
       setCurrentStep(0);
     }
-  }, [show]);
+  }, [shouldShow]);
 
   const handleNext = () => {
     hapticFeedback?.('light');
