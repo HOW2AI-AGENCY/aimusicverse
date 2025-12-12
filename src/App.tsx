@@ -53,6 +53,8 @@ const MusicLab = lazy(() => import("./pages/MusicLab"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Pricing = lazy(() => import("./pages/Pricing"));
+const BuyCredits = lazy(() => import("./pages/payments/BuyCredits"));
+const Subscription = lazy(() => import("./pages/payments/Subscription"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
@@ -123,6 +125,8 @@ const App = () => (
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/pricing" element={<Pricing />} />
                 <Route path="/shop" element={<Pricing />} />
+                <Route path="/buy-credits" element={<BuyCredits />} />
+                <Route path="/subscription" element={<Subscription />} />
                 </Route>
 
                 {/* Routes without BottomNavigation */}
