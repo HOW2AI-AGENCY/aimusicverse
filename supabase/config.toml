@@ -188,3 +188,9 @@ verify_jwt = true
 
 [functions.bot-api]
 verify_jwt = true
+
+[functions.transcribe-lyrics]
+verify_jwt = true
+
+[functions.get-suno-balance]
+verify_jwt = true

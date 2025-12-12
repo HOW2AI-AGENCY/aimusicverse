@@ -126,7 +126,7 @@ export const AudioTrimSelector = ({
           // Enforce max duration
           if (end - start > maxDuration) {
             end = start + maxDuration;
-            region.setOptions({ end });
+            region.setOptions({ start, end });
           }
           
           setRegionStart(start);
