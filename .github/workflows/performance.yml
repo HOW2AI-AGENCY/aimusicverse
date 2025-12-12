@@ -1,0 +1,84 @@
+name: Performance Monitoring
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lighthouse:
+    name: Lighthouse Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          configPath: './lighthouserc.json'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+  bundle-analysis:
+    name: Bundle Size Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with analysis
+        run: npm run build
+        env:
+          ANALYZE: true
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+
+      - name: Calculate bundle size
+        id: bundle
+        run: |
+          SIZE=$(du -sk dist/assets/*.js | awk '{sum+=$1} END {print sum}')
+          echo "js_size=${SIZE}" >> $GITHUB_OUTPUT
+          echo "Bundle JS size: ${SIZE}KB"
+
+      - name: Check bundle size threshold
+        run: |
+          # Threshold: 900KB (921600 bytes)
+          SIZE=${{ steps.bundle.outputs.js_size }}
+          if [ "$SIZE" -gt 900 ]; then
+            echo "⚠️ Bundle size (${SIZE}KB) exceeds target (900KB)"
+          else
+            echo "✅ Bundle size (${SIZE}KB) within target (900KB)"
+          fi
+
+      - name: Upload bundle report
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-report
+          path: dist/stats.html
+          if-no-files-found: ignore
