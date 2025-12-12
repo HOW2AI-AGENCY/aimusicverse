@@ -37,13 +37,19 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
 
     setLoading(true);
     try {
+      // SunoAPI requires: prompt, title, style, negativeTags for add-vocals endpoint
+      const effectiveTitle = customMode && title ? title : track.title || 'Трек с вокалом';
+      const effectiveStyle = customMode && style ? style : track.style || 'pop, vocals';
+      const effectivePrompt = prompt || 'Добавить профессиональный вокал к этому инструменталу';
+      
       const { data, error } = await supabase.functions.invoke('suno-add-vocals', {
         body: {
           audioUrl: track.audio_url,
-          prompt,
+          prompt: effectivePrompt,
           customMode,
-          style: customMode ? style : undefined,
-          title: customMode ? title : track.title,
+          style: effectiveStyle,
+          title: effectiveTitle,
+          negativeTags: '',
           projectId: track.project_id,
         },
       });
