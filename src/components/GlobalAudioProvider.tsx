@@ -83,8 +83,6 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     const audio = audioRef.current;
     if (audio && volume !== audio.volume) {
       audio.volume = volume;
-    }
-  }, [volume]);
       logger.debug('Volume synced from store', { volume });
     }
   }, [volume]);
