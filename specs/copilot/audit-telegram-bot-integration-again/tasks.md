@@ -297,27 +297,27 @@ tests/
 
 ### Bot Command Handlers
 
-- [ ] T105 Extend `supabase/functions/telegram-bot/index.ts` to handle /buy command
-- [ ] T106 Implement multi-level inline keyboard menu in `supabase/functions/telegram-bot/index.ts` for /buy command (Level 1: Credit Packages, Level 2: Select amount)
-- [ ] T107 Add callback query handler for credit package selection in `supabase/functions/telegram-bot/index.ts` (send invoice via sendInvoice())
-- [ ] T108 Extend `supabase/functions/telegram-bot/index.ts` to handle /subscribe command
-- [ ] T109 Implement subscription tier menu in `supabase/functions/telegram-bot/index.ts` for /subscribe command (Pro vs Premium comparison)
-- [ ] T110 Add callback query handler for subscription selection in `supabase/functions/telegram-bot/index.ts` (send invoice via sendInvoice())
-- [ ] T111 Add payment confirmation message handler in `supabase/functions/telegram-bot/index.ts` (on successful_payment event, send "✅ 100 credits added!")
-- [ ] T112 Add deep linking support in `supabase/functions/telegram-bot/index.ts` (handle startapp=buy_credits_{sku} parameter)
+- [X] T105 Extend `supabase/functions/telegram-bot/index.ts` to handle /buy command ✅ (exists in bot.ts line 192)
+- [X] T106 Implement multi-level inline keyboard menu in `supabase/functions/telegram-bot/index.ts` for /buy command (Level 1: Credit Packages, Level 2: Select amount) ✅ (handleBuyCommand, handleBuyCreditPackages in payment.ts)
+- [X] T107 Add callback query handler for credit package selection in `supabase/functions/telegram-bot/index.ts` (send invoice via sendInvoice()) ✅ (handleBuyProduct in payment.ts line 447)
+- [X] T108 Extend `supabase/functions/telegram-bot/index.ts` to handle /subscribe command ✅ (uses buy_menu_subscriptions callback)
+- [X] T109 Implement subscription tier menu in `supabase/functions/telegram-bot/index.ts` for /subscribe command (Pro vs Premium comparison) ✅ (handleBuySubscriptions in payment.ts line 396)
+- [X] T110 Add callback query handler for subscription selection in `supabase/functions/telegram-bot/index.ts` (send invoice via sendInvoice()) ✅ (handleBuyProduct in payment.ts)
+- [X] T111 Add payment confirmation message handler in `supabase/functions/telegram-bot/index.ts` (on successful_payment event, send "✅ 100 credits added!") ✅ (handleSuccessfulPayment in payment.ts line 130)
+- [X] T112 Add deep linking support in `supabase/functions/telegram-bot/index.ts` (handle startapp=buy_credits_{sku} parameter) ✅ (payment.ts line 471 - buy_{productCode})
 
 ### Bot Message Templates
 
-- [ ] T113 Create payment confirmation message template in `supabase/functions/telegram-bot/messageTemplates.ts` (MarkdownV2 format with proper escaping)
-- [ ] T114 Create invoice description templates in `supabase/functions/telegram-bot/messageTemplates.ts` (credit packages vs subscriptions)
-- [ ] T115 Add error message templates in `supabase/functions/telegram-bot/messageTemplates.ts` (payment failed, product unavailable, rate limit exceeded)
+- [X] T113 Create payment confirmation message template in `supabase/functions/telegram-bot/messageTemplates.ts` (MarkdownV2 format with proper escaping) ✅ (sendSuccessMessage in payment.ts line 215)
+- [X] T114 Create invoice description templates in `supabase/functions/telegram-bot/messageTemplates.ts` (credit packages vs subscriptions) ✅ (inline in payment.ts)
+- [X] T115 Add error message templates in `supabase/functions/telegram-bot/messageTemplates.ts` (payment failed, product unavailable, rate limit exceeded) ✅ (inline in payment.ts)
 
 ### Bot Testing
 
-- [ ] T116 Test /buy command manually in Telegram (verify menu displays, invoice opens, payment completes)
-- [ ] T117 Test /subscribe command manually in Telegram (verify tier comparison, invoice opens, subscription activates)
-- [ ] T118 Test deep linking with `t.me/AIMusicVerseBot/app?startapp=buy_credits_100` (verify Mini App opens to correct product)
-- [ ] T119 Test payment confirmation messages in Telegram (verify MarkdownV2 formatting, emoji rendering)
+- [ ] T116 Test /buy command manually in Telegram (verify menu displays, invoice opens, payment completes) ⏳ MANUAL TEST REQUIRED
+- [ ] T117 Test /subscribe command manually in Telegram (verify tier comparison, invoice opens, subscription activates) ⏳ MANUAL TEST REQUIRED
+- [ ] T118 Test deep linking with `t.me/AIMusicVerseBot/app?startapp=buy_credits_100` (verify Mini App opens to correct product) ⏳ MANUAL TEST REQUIRED
+- [ ] T119 Test payment confirmation messages in Telegram (verify MarkdownV2 formatting, emoji rendering) ⏳ MANUAL TEST REQUIRED
 
 **Checkpoint**: Bot integration complete - Admin panel can now be built
 
