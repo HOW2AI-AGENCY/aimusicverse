@@ -18,7 +18,6 @@ describe('Row Level Security (RLS) policies', () => {
   let supabaseAdmin: SupabaseClient;
   let supabaseUser1: SupabaseClient;
   let supabaseUser2: SupabaseClient;
-  let supabaseAdmin User: SupabaseClient;
   
   let user1Id: string;
   let user2Id: string;

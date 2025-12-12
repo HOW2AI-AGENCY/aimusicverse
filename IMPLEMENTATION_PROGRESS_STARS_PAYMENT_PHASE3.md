@@ -279,6 +279,16 @@ tests/unit/
 
 ## Known Issues & Notes
 
+### Test Execution Requirements:
+The unit tests in `tests/unit/` require:
+1. **Environment Variables**:
+   - `SUPABASE_URL`: Supabase project URL
+   - `SUPABASE_SERVICE_ROLE_KEY`: Service role key for admin operations
+   - These should be set in `.env.test` or CI environment
+2. **Database Access**: Tests connect to actual Supabase instance
+3. **Test Execution**: Run with `npm test` after configuring environment variables
+4. **Expected Behavior**: Tests may initially fail (TDD approach) until database schema is fully verified
+
 ### Schema Field Differences:
 - Spec uses `sku` → Implementation uses `product_code` ✅ (documented)
 - Spec uses `telegram_charge_id` → Implementation uses `telegram_payment_charge_id` ✅ (documented)
