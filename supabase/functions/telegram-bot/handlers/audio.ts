@@ -451,6 +451,19 @@ async function processAudioUpload(
 
     const model = pendingUpload.model || 'V4_5';
     const apiModel = model === 'V4_5ALL' ? 'V4_5' : model;
+    
+    // For Bot: Auto-select appropriate model based on duration
+    // If audio > 60 seconds, use V5, V4_5PLUS, or V4_5 (NOT V4_5ALL)
+    // Prioritize V5 for long audio
+    let selectedModel = apiModel;
+    if (!pendingUpload.model) {
+      // Only auto-select if user didn't specify
+      selectedModel = 'V5'; // Default to V5 for bot (best quality, 480s limit)
+      logger.info('Auto-selected V5 model for bot upload');
+    } else if (apiModel === 'V4_5' && model === 'V4_5ALL') {
+      // If user somehow selected V4_5ALL, map to V4_5 which supports longer audio
+      selectedModel = 'V4_5';
+    }
 
     // Fixed: Determine if we have custom parameters
     const hasCustomParams = Boolean(
@@ -461,7 +474,7 @@ async function processAudioUpload(
 
     const requestBody: Record<string, unknown> = {
       uploadUrl: publicUrl,
-      model: apiModel,
+      model: selectedModel, // Use auto-selected or user-specified model
       callBackUrl: `${supabaseUrl}/functions/v1/suno-music-callback`,
       customMode: hasCustomParams, // Fixed: Use customMode consistently for both cover and extend
     };
@@ -476,7 +489,7 @@ async function processAudioUpload(
       }
     }
     
-    logger.apiCall('SunoAPI', isExtend ? 'upload-extend' : 'upload-cover', { model: apiModel });
+    logger.apiCall('SunoAPI', isExtend ? 'upload-extend' : 'upload-cover', { model: selectedModel });
     
     // Call Suno API
     const response = await fetch(endpoint, {

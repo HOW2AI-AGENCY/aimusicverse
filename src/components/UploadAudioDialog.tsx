@@ -8,7 +8,7 @@ import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Upload, Loader2, Music, Mic, FileAudio, AlertCircle, Disc, Plus, Library, Sparkles } from 'lucide-react';
+import { Upload, Loader2, Music, Mic, FileAudio, AlertCircle, Disc, Plus, Library, Sparkles, X } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -18,6 +18,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/hooks/useAuth';
 import { Tables } from '@/integrations/supabase/types';
 import { AudioWaveformPreview } from '@/components/AudioWaveformPreview';
+import { AudioTrimSelector } from '@/components/generate-form/AudioTrimSelector';
 import { LyricsChatAssistant } from '@/components/generate-form/LyricsChatAssistant';
 import { logger } from '@/lib/logger';
 
@@ -64,6 +65,11 @@ export const UploadAudioDialog = ({
   const [title, setTitle] = useState(prefillData?.title ? `${prefillData.title} (кавер)` : '');
   const [continueAt, setContinueAt] = useState<number>(0);
   const [model, setModel] = useState('V4_5ALL');
+  
+  // Audio trimming for V5 model
+  const [showTrimSelector, setShowTrimSelector] = useState(false);
+  const [trimStart, setTrimStart] = useState(0);
+  const [trimEnd, setTrimEnd] = useState(60);
   
   // Advanced
   const [negativeTags, setNegativeTags] = useState('');
@@ -149,9 +155,29 @@ export const UploadAudioDialog = ({
     const audio = new Audio();
     audio.src = previewUrl;
     audio.onloadedmetadata = () => {
-      setAudioDuration(audio.duration);
+      const duration = audio.duration;
+      setAudioDuration(duration);
+      
       if (mode === 'extend') {
-        setContinueAt(Math.floor(audio.duration * 0.8));
+        setContinueAt(Math.floor(duration * 0.8));
+      }
+      
+      // Auto-select appropriate model based on duration
+      // For audio > 60 seconds, use V5, V4_5PLUS, or V4_5ALL (not V4_5ALL with 60s limit)
+      if (duration > 60) {
+        // Show trim selector for V5 model (allows selecting 1-minute portion)
+        setShowTrimSelector(true);
+        setTrimEnd(Math.min(60, duration));
+        
+        // Auto-select V5 for best quality with long audio
+        if (model === 'V4_5ALL') {
+          setModel('V5');
+          toast.info('Автоматически выбрана модель V5 для длинного аудио', {
+            description: 'Вы можете выбрать фрагмент длительностью 1 минута'
+          });
+        }
+      } else {
+        setShowTrimSelector(false);
       }
     };
 
@@ -399,8 +425,20 @@ export const UploadAudioDialog = ({
                       </Button>
                     </div>
                     
-                    {/* Waveform Preview */}
-                    {audioPreviewUrl && (
+                    {/* Show AudioTrimSelector for audio > 60s (V5 model focus) */}
+                    {showTrimSelector && audioPreviewUrl && audioDuration && audioDuration > 60 && (
+                      <AudioTrimSelector
+                        audioUrl={audioPreviewUrl}
+                        maxDuration={60}
+                        onRegionSelected={(start, end) => {
+                          setTrimStart(start);
+                          setTrimEnd(end);
+                        }}
+                      />
+                    )}
+                    
+                    {/* Waveform Preview (for audio <= 60s or when trim selector not shown) */}
+                    {!showTrimSelector && audioPreviewUrl && (
                       <AudioWaveformPreview audioUrl={audioPreviewUrl} />
                     )}
                   </div>
