@@ -38,6 +38,8 @@ import { AdminUserCreditsDialog } from "@/components/admin/AdminUserCreditsDialo
 import { AdminUserSubscriptionDialog } from "@/components/admin/AdminUserSubscriptionDialog";
 import { AdminSendMessageDialog } from "@/components/admin/AdminSendMessageDialog";
 import { AdminTrackDetailsDialog } from "@/components/admin/AdminTrackDetailsDialog";
+import { UserBalancesPanel } from "@/components/admin/UserBalancesPanel";
+import { DeeplinkAnalyticsPanel } from "@/components/admin/DeeplinkAnalyticsPanel";
 import { useQueryClient } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -57,11 +59,13 @@ interface UserWithRoles {
 const TAB_OPTIONS = [
   { value: "overview", label: "Обзор", icon: Activity },
   { value: "users", label: "Пользователи", icon: Users },
+  { value: "balances", label: "Балансы", icon: Coins },
   { value: "tracks", label: "Треки", icon: Music },
   { value: "bot", label: "Бот", icon: MessageSquare },
   { value: "telegram", label: "Telegram", icon: Globe },
   { value: "payments", label: "Платежи", icon: Coins },
   { value: "logs", label: "Логи", icon: Clock },
+  { value: "deeplinks", label: "Диплинки", icon: Globe },
   { value: "alerts", label: "Алерты", icon: AlertTriangle },
   { value: "broadcast", label: "Рассылка", icon: MessageSquare },
   { value: "events", label: "События", icon: Activity },
@@ -341,6 +345,16 @@ export default function AdminDashboard() {
         {/* Generation Logs Tab */}
         {activeTab === "logs" && (
           <GenerationLogsPanel />
+        )}
+
+        {/* User Balances Tab */}
+        {activeTab === "balances" && (
+          <UserBalancesPanel />
+        )}
+
+        {/* Deeplink Analytics Tab */}
+        {activeTab === "deeplinks" && (
+          <DeeplinkAnalyticsPanel />
         )}
 
         {/* Broadcast Tab */}
