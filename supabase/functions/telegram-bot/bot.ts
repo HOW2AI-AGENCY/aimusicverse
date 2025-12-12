@@ -119,6 +119,11 @@ async function handleCommand(command: string, args: string, chatId: number, user
       await handleHelp(chatId);
       break;
     }
+    case 'app': {
+      const { handleApp } = await import('./commands/app.ts');
+      await handleApp(chatId);
+      break;
+    }
     case 'generate': {
       const { handleGenerate } = await import('./commands/generate.ts');
       await handleGenerate(chatId, userId, args);
