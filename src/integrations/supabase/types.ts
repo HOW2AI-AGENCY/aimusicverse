@@ -2615,7 +2615,30 @@ export type Database = {
           tag_name: string
         }[]
       }
+      get_deeplink_stats: {
+        Args: { _time_period?: unknown }
+        Returns: {
+          conversion_rate: number
+          conversions: number
+          top_sources: Json
+          top_types: Json
+          total_clicks: number
+          unique_users: number
+        }[]
+      }
       get_experience_for_level: { Args: { _level: number }; Returns: number }
+      get_generation_stats: {
+        Args: { _time_period?: unknown }
+        Returns: {
+          avg_duration_seconds: number
+          completed: number
+          failed: number
+          pending: number
+          processing: number
+          success_rate: number
+          total_generations: number
+        }[]
+      }
       get_leaderboard:
         | {
             Args: { _limit?: number }
@@ -2703,6 +2726,29 @@ export type Database = {
           total_plays: number
           total_shares: number
           unique_listeners: number
+        }[]
+      }
+      get_user_balance_summary: {
+        Args: never
+        Returns: {
+          avg_balance: number
+          total_balance: number
+          total_earned: number
+          total_spent: number
+          total_users: number
+          users_low_balance: number
+          users_with_zero_balance: number
+        }[]
+      }
+      get_user_behavior_stats: {
+        Args: { _time_period?: unknown }
+        Returns: {
+          events_by_type: Json
+          hourly_distribution: Json
+          top_pages: Json
+          total_events: number
+          unique_sessions: number
+          unique_users: number
         }[]
       }
       get_user_roles: {
