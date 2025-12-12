@@ -17,6 +17,33 @@ const corsHeaders = {
 const VALID_MODELS = ['V5', 'V4_5PLUS', 'V4_5', 'V4', 'V3_5'];
 const DEFAULT_MODEL = 'V4_5';
 
+// Deprecated models that should be auto-migrated
+const DEPRECATED_MODELS: Record<string, string> = {
+  'V4AUK': 'V4_5',      // V4AUK deprecated - migrate to V4_5
+  'V4_5ALL': 'V4_5',    // V4_5ALL deprecated - migrate to V4_5
+  'chirp-v4': 'V4',     // Legacy chirp names
+  'chirp-v3-5': 'V3_5',
+};
+
+// Fallback chain for model errors
+const MODEL_FALLBACK_CHAIN: Record<string, string> = {
+  'V5': 'V4_5PLUS',
+  'V4_5PLUS': 'V4_5',
+  'V4_5': 'V4',
+  'V4': 'V3_5',
+};
+
+// User-friendly error messages
+const ERROR_MESSAGES: Record<string, string> = {
+  'model error': 'Ошибка модели AI. Пробуем другую модель...',
+  'Audio generation failed': 'Генерация не удалась. Попробуйте изменить описание.',
+  'malformed': 'Проверьте текст песни. Он должен содержать структуру (куплеты, припевы).',
+  'artist name': 'Нельзя использовать имена известных артистов. Измените описание.',
+  'copyrighted': 'Текст содержит защищённый материал. Измените слова.',
+  'rate limit': 'Слишком много запросов. Подождите минуту.',
+  'credits': 'Недостаточно кредитов на балансе.',
+};
+
 // Cost per generation in user credits
 const GENERATION_COST = 10;
 
@@ -24,10 +51,34 @@ const GENERATION_COST = 10;
  * Convert UI model key to API model name with fallback
  */
 function getApiModelName(uiKey: string): string {
-  // Map legacy V4_5ALL to V4_5
-  if (uiKey === 'V4_5ALL') return 'V4_5';
+  // Check for deprecated models first
+  if (DEPRECATED_MODELS[uiKey]) {
+    logger.info('Migrating deprecated model', { from: uiKey, to: DEPRECATED_MODELS[uiKey] });
+    return DEPRECATED_MODELS[uiKey];
+  }
   // Return as-is if valid, otherwise default
   return VALID_MODELS.includes(uiKey) ? uiKey : DEFAULT_MODEL;
+}
+
+/**
+ * Get user-friendly error message
+ */
+function getUserFriendlyError(errorMsg: string): string {
+  const lowerError = errorMsg.toLowerCase();
+  for (const [key, message] of Object.entries(ERROR_MESSAGES)) {
+    if (lowerError.includes(key.toLowerCase())) {
+      return message;
+    }
+  }
+  return errorMsg;
+}
+
+/**
+ * Check if error is retriable with fallback model
+ */
+function isRetriableModelError(errorMsg: string): boolean {
+  const lowerError = errorMsg.toLowerCase();
+  return lowerError.includes('model error') || lowerError.includes('audio generation failed');
 }
 
 serve(async (req) => {
@@ -293,91 +344,169 @@ serve(async (req) => {
 
     logger.apiCall('suno', '/api/v1/generate', { mode, model: apiModel, instrumental });
 
-    // Call SunoAPI
-    const startTime = Date.now();
-    const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${sunoApiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(sunoPayload),
-    });
+    // Call SunoAPI with retry logic for model errors
+    let currentModel = apiModel;
+    let retryCount = 0;
+    const maxRetries = 2;
+    let sunoResponse: Response | null = null;
+    let sunoData: any = null;
+    let lastErrorMsg = '';
 
-    const duration = Date.now() - startTime;
-    const sunoData = await sunoResponse.json();
-    
-    logger.info('Suno API response', { durationMs: duration, status: sunoResponse.status });
-
-    // Log API call
-    await supabase.from('api_usage_logs').insert({
-      user_id: user.id,
-      service: 'suno',
-      endpoint: 'generate',
-      method: 'POST',
-      request_body: sunoPayload,
-      response_status: sunoResponse.status,
-      response_body: sunoData,
-      duration_ms: duration,
-      estimated_cost: 0.05,
-    });
-
-    if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
-      logger.error('SunoAPI error', null, { status: sunoResponse.status, data: sunoData });
+    while (retryCount <= maxRetries) {
+      sunoPayload.model = currentModel;
       
-      const errorMsg = sunoData.msg || 'SunoAPI request failed';
+      const startTime = Date.now();
+      sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${sunoApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(sunoPayload),
+      });
+
+      const duration = Date.now() - startTime;
+      sunoData = await sunoResponse.json();
+      
+      logger.info('Suno API response', { 
+        durationMs: duration, 
+        status: sunoResponse.status, 
+        model: currentModel,
+        attempt: retryCount + 1 
+      });
+
+      // Log API call
+      await supabase.from('api_usage_logs').insert({
+        user_id: user.id,
+        service: 'suno',
+        endpoint: 'generate',
+        method: 'POST',
+        request_body: { ...sunoPayload, attempt: retryCount + 1 },
+        response_status: sunoResponse.status,
+        response_body: sunoData,
+        duration_ms: duration,
+        estimated_cost: 0.05,
+      });
+
+      // Check if successful
+      if (sunoResponse.ok && isSunoSuccessCode(sunoData.code)) {
+        break; // Success - exit loop
+      }
+
+      lastErrorMsg = sunoData.msg || 'SunoAPI request failed';
+      
+      // Check if this is a retriable model error
+      if (isRetriableModelError(lastErrorMsg) && MODEL_FALLBACK_CHAIN[currentModel]) {
+        const fallbackModel = MODEL_FALLBACK_CHAIN[currentModel];
+        logger.warn('Model error, attempting fallback', { 
+          from: currentModel, 
+          to: fallbackModel, 
+          error: lastErrorMsg 
+        });
+        currentModel = fallbackModel;
+        retryCount++;
+        continue;
+      }
+
+      // Non-retriable error - break out
+      break;
+    }
+
+    // Handle final error state
+    if (!sunoResponse || !sunoResponse.ok || !isSunoSuccessCode(sunoData?.code)) {
+      logger.error('SunoAPI error (final)', null, { 
+        status: sunoResponse?.status, 
+        data: sunoData,
+        attempts: retryCount + 1 
+      });
+      
+      const userFriendlyError = getUserFriendlyError(lastErrorMsg);
       
       // Handle rate limiting
-      if (sunoResponse.status === 429) {
+      if (sunoResponse?.status === 429) {
+        const rateLimitMsg = 'Превышен лимит запросов. Попробуйте через минуту.';
         await supabase.from('generation_tasks').update({ 
           status: 'failed', 
-          error_message: 'Превышен лимит запросов. Попробуйте позже.' 
+          error_message: rateLimitMsg 
         }).eq('id', task.id);
 
         await supabase.from('tracks').update({ 
           status: 'failed', 
-          error_message: 'Превышен лимит запросов. Попробуйте позже.' 
+          error_message: rateLimitMsg 
         }).eq('id', track.id);
 
         return new Response(
-          JSON.stringify({ success: false, error: 'Превышен лимит запросов. Попробуйте позже.' }),
+          JSON.stringify({ 
+            success: false, 
+            error: rateLimitMsg,
+            errorCode: 'RATE_LIMIT',
+            retryAfter: 60
+          }),
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 429 }
         );
       }
 
       // Handle insufficient credits
-      if (sunoResponse.status === 402) {
+      if (sunoResponse?.status === 402) {
+        const creditsMsg = 'Недостаточно кредитов на аккаунте';
         await supabase.from('generation_tasks').update({ 
           status: 'failed', 
-          error_message: 'Недостаточно кредитов на аккаунте' 
+          error_message: creditsMsg 
         }).eq('id', task.id);
 
         await supabase.from('tracks').update({ 
           status: 'failed', 
-          error_message: 'Недостаточно кредитов на аккаунте' 
+          error_message: creditsMsg 
         }).eq('id', track.id);
 
         return new Response(
-          JSON.stringify({ success: false, error: 'Недостаточно кредитов на аккаунте' }),
+          JSON.stringify({ 
+            success: false, 
+            error: creditsMsg,
+            errorCode: 'INSUFFICIENT_CREDITS'
+          }),
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 402 }
         );
       }
       
-      // Update task and track as failed
+      // Update task and track as failed with user-friendly error
       await supabase.from('generation_tasks').update({ 
         status: 'failed', 
-        error_message: errorMsg 
+        error_message: userFriendlyError 
       }).eq('id', task.id);
 
       await supabase.from('tracks').update({ 
         status: 'failed', 
-        error_message: errorMsg 
+        error_message: userFriendlyError 
       }).eq('id', track.id);
 
+      // Determine error code for client
+      let errorCode = 'GENERATION_FAILED';
+      if (lastErrorMsg.toLowerCase().includes('artist name')) errorCode = 'ARTIST_NAME_NOT_ALLOWED';
+      if (lastErrorMsg.toLowerCase().includes('copyrighted')) errorCode = 'COPYRIGHTED_CONTENT';
+      if (lastErrorMsg.toLowerCase().includes('malformed')) errorCode = 'MALFORMED_LYRICS';
+
       return new Response(
-        JSON.stringify({ success: false, error: errorMsg }),
+        JSON.stringify({ 
+          success: false, 
+          error: userFriendlyError,
+          errorCode,
+          originalError: lastErrorMsg,
+          canRetry: !['ARTIST_NAME_NOT_ALLOWED', 'COPYRIGHTED_CONTENT', 'MALFORMED_LYRICS'].includes(errorCode)
+        }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
       );
+    }
+
+    // Update model_used if fallback was used
+    if (currentModel !== apiModel) {
+      await supabase.from('generation_tasks').update({ 
+        model_used: currentModel 
+      }).eq('id', task.id);
+      
+      await supabase.from('tracks').update({ 
+        suno_model: currentModel 
+      }).eq('id', track.id);
     }
 
     const sunoTaskId = sunoData.data?.taskId;
