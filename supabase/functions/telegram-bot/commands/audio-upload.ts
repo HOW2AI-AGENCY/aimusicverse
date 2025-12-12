@@ -124,6 +124,27 @@ export async function handleCancelUploadCallback(
 }
 
 /**
+ * Get file info from Telegram API
+ */
+async function getFileInfo(fileId: string): Promise<any> {
+  const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
+
+  const response = await fetch(`https://api.telegram.org/bot${botToken}/getFile`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ file_id: fileId }),
+  });
+
+  const data = await response.json();
+
+  if (!data.ok || !data.result) {
+    throw new Error('Failed to get file info from Telegram');
+  }
+
+  return data.result;
+}
+
+/**
  * Handle audio action callback (when user clicks inline button after sending audio)
  */
 export async function handleAudioActionCallback(
@@ -135,45 +156,85 @@ export async function handleAudioActionCallback(
 ): Promise<void> {
   const { answerCallbackQuery } = await import('../telegram-api.ts');
   const { consumePendingAudio } = await import('../core/db-session-store.ts');
-  
+
   // Get the stored audio file_id
   const audioData = await consumePendingAudio(userId);
-  
+
   if (!audioData) {
     await answerCallbackQuery(callbackId, '⚠️ Аудио файл истёк. Отправьте снова.');
     return;
   }
-  
+
+  // Handle non-generation actions
+  if (action === 'recognize') {
+    await answerCallbackQuery(callbackId, '🎼 Функция скоро...');
+    return;
+  } else if (action === 'midi') {
+    await answerCallbackQuery(callbackId, '🎹 Функция скоро...');
+    return;
+  }
+
   // Set pending upload based on action
   if (action === 'cover') {
     await setPendingUpload(userId, 'cover', {});
     await answerCallbackQuery(callbackId, '🎤 Создание кавера');
-    
-    // Process the audio immediately
-    const { handleAudioMessage } = await import('../handlers/audio.ts');
-    // Note: We need to reconstruct the audio object
-    // For now, show a message to re-upload
-    await editMessageText(chatId, messageId, `✅ *Режим выбран: Кавер*
-
-Отправьте аудио файл повторно для обработки\\.`);
   } else if (action === 'extend') {
     await setPendingUpload(userId, 'extend', {});
     await answerCallbackQuery(callbackId, '➕ Расширение трека');
-    
-    await editMessageText(chatId, messageId, `✅ *Режим выбран: Расширение*
-
-Отправьте аудио файл повторно для обработки\\.`);
   } else if (action === 'upload') {
     await setPendingUpload(userId, 'upload', {});
     await answerCallbackQuery(callbackId, '📤 Загрузка в облако');
-    
-    await editMessageText(chatId, messageId, `✅ *Режим выбран: Загрузка*
+  } else {
+    await answerCallbackQuery(callbackId, '❌ Неизвестное действие');
+    return;
+  }
 
-Отправьте аудио файл повторно для сохранения в облако\\.`);
-  } else if (action === 'recognize') {
-    await answerCallbackQuery(callbackId, '🎼 Функция скоро...');
-  } else if (action === 'midi') {
-    await answerCallbackQuery(callbackId, '🎹 Функция скоро...');
+  try {
+    // Get file info from Telegram API
+    const fileInfo = await getFileInfo(audioData.fileId);
+
+    // Reconstruct audio object based on file type
+    let audioObject: any;
+
+    if (audioData.fileType === 'audio') {
+      audioObject = {
+        file_id: audioData.fileId,
+        file_unique_id: fileInfo.file_unique_id || audioData.fileId,
+        duration: 0, // Will be determined during processing
+        file_size: fileInfo.file_size || 0,
+      };
+    } else if (audioData.fileType === 'voice') {
+      audioObject = {
+        file_id: audioData.fileId,
+        file_unique_id: fileInfo.file_unique_id || audioData.fileId,
+        duration: 0,
+        file_size: fileInfo.file_size || 0,
+      };
+    } else if (audioData.fileType === 'document') {
+      audioObject = {
+        file_id: audioData.fileId,
+        file_unique_id: fileInfo.file_unique_id || audioData.fileId,
+        file_name: fileInfo.file_path?.split('/').pop() || 'audio.mp3',
+        file_size: fileInfo.file_size || 0,
+      };
+    }
+
+    // Update message to show processing started
+    await editMessageText(chatId, messageId, `✅ *Действие выбрано*
+
+⬇️ Обрабатываю аудио\\.\\.\\.`);
+
+    // Process the audio immediately
+    const { handleAudioMessage } = await import('../handlers/audio.ts');
+    await handleAudioMessage(chatId, userId, audioObject, audioData.fileType as any);
+
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    await editMessageText(chatId, messageId, `❌ *Ошибка обработки*
+
+${escapeMarkdown(errorMessage)}
+
+Попробуйте отправить аудио ещё раз\\.`);
   }
 }
 
