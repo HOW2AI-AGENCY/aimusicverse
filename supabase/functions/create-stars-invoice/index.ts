@@ -15,6 +15,46 @@ interface InvoiceRequest {
   userId?: string; // Optional, will be extracted from auth if not provided
 }
 
+/**
+ * T053: Validate request body against JSON schema
+ */
+function validateInvoiceRequest(body: any): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+
+  // Required field: productCode
+  if (!body.productCode || typeof body.productCode !== 'string') {
+    errors.push('productCode is required and must be a string');
+  } else {
+    // Pattern validation: ^(credits_\d+|sub_[a-z]+)$
+    const pattern = /^(credits_\d+|sub_[a-z]+)$/;
+    if (!pattern.test(body.productCode)) {
+      errors.push('productCode must match pattern: credits_{number} or sub_{tier}');
+    }
+  }
+
+  // Optional field: userId (must be UUID if provided)
+  if (body.userId !== undefined) {
+    if (typeof body.userId !== 'string') {
+      errors.push('userId must be a string (UUID format)');
+    } else {
+      const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      if (!uuidPattern.test(body.userId)) {
+        errors.push('userId must be a valid UUID');
+      }
+    }
+  }
+
+  // Optional field: metadata (must be object if provided)
+  if (body.metadata !== undefined && typeof body.metadata !== 'object') {
+    errors.push('metadata must be an object');
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+  };
+}
+
 serve(async (req) => {
   // Handle CORS
   if (req.method === 'OPTIONS') {
@@ -71,7 +111,22 @@ serve(async (req) => {
       );
     }
 
-    const { productCode, userId: requestUserId }: InvoiceRequest = await req.json();
+    // T053: Parse and validate request body
+    const body = await req.json();
+    const validation = validateInvoiceRequest(body);
+    
+    if (!validation.valid) {
+      logger.warn('Invalid request body', { errors: validation.errors });
+      return new Response(
+        JSON.stringify({ 
+          error: 'Invalid request body',
+          details: validation.errors,
+        }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const { productCode, userId: requestUserId }: InvoiceRequest = body;
     const userId = requestUserId || user.id;
 
     logger.info('Creating invoice', { productCode, userId });
