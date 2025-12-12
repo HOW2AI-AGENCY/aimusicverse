@@ -6,16 +6,24 @@
 import { useState, useCallback } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import WebApp from '@twa-dev/sdk';
+import { toast } from 'sonner';
 import { createInvoice } from '@/services/starsPaymentService';
-import type { CreateInvoiceRequest, PaymentFlowState, StarsProduct } from '@/types/starsPayment';
-import { useToast } from '@/hooks/use-toast';
+import type { StarsProduct } from '@/services/starsPaymentService';
+import type { CreateInvoiceRequest } from '@/types/starsPayment';
+
+// Payment flow state
+interface PaymentFlowState {
+  step: 'select' | 'invoice' | 'payment' | 'success' | 'error';
+  selectedProduct?: StarsProduct;
+  invoiceLink?: string;
+  error?: { code: string; message: string };
+}
 
 // Query key for invalidation
 const CREDITS_QUERY_KEY = ['user', 'credits'];
 const SUBSCRIPTION_QUERY_KEY = ['subscription', 'status'];
 
 export function useStarsPayment() {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [flowState, setFlowState] = useState<PaymentFlowState>({
     step: 'select',
@@ -40,10 +48,8 @@ export function useStarsPayment() {
           message: error.message,
         },
       }));
-      toast({
-        title: 'Invoice Creation Failed',
+      toast.error('Invoice Creation Failed', {
         description: error.message,
-        variant: 'destructive',
       });
     },
   });
@@ -89,17 +95,15 @@ export function useStarsPayment() {
           }));
         } else {
           // Fallback for older Telegram versions
-          toast({
-            title: 'Update Required',
+          toast.error('Update Required', {
             description: 'Please update your Telegram app to make payments.',
-            variant: 'destructive',
           });
         }
       } catch (error) {
         console.error('Payment initiation error:', error);
       }
     },
-    [createInvoiceMutation, toast]
+    [createInvoiceMutation]
   );
 
   /**
@@ -119,13 +123,11 @@ export function useStarsPayment() {
         queryClient.invalidateQueries({ queryKey: SUBSCRIPTION_QUERY_KEY });
       }
 
-      toast({
-        title: 'Payment Successful! 🎉',
+      toast.success('Payment Successful! 🎉', {
         description:
           product.product_type === 'credits'
             ? `${product.credits_amount} credits added to your account`
             : `${product.subscription_tier} subscription activated`,
-        variant: 'default',
       });
 
       // Reset state after 2 seconds
@@ -133,7 +135,7 @@ export function useStarsPayment() {
         setFlowState({ step: 'select' });
       }, 2000);
     },
-    [queryClient, toast]
+    [queryClient]
   );
 
   /**
@@ -150,13 +152,11 @@ export function useStarsPayment() {
         },
       }));
 
-      toast({
-        title: 'Payment Failed',
+      toast.error('Payment Failed', {
         description: message,
-        variant: 'destructive',
       });
     },
-    [toast]
+    []
   );
 
   /**
@@ -165,12 +165,10 @@ export function useStarsPayment() {
   const handlePaymentCancelled = useCallback(() => {
     setFlowState({ step: 'select' });
 
-    toast({
-      title: 'Payment Cancelled',
+    toast.info('Payment Cancelled', {
       description: 'You can try again anytime.',
-      variant: 'default',
     });
-  }, [toast]);
+  }, []);
 
   /**
    * Reset payment flow

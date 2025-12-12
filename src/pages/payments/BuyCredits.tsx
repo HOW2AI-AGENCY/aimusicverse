@@ -14,7 +14,7 @@ import { PaymentSuccessModal } from '@/components/payments/PaymentSuccessModal';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import type { StarsProduct } from '@/types/starsPayment';
+import type { StarsProduct } from '@/services/starsPaymentService';
 
 type FilterType = 'all' | 'featured';
 

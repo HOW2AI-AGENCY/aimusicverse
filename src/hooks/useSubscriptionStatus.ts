@@ -72,8 +72,8 @@ export function useHasActiveSubscription(userId: string) {
 export function useIsSubscriptionExpiring(userId: string) {
   const { isActive, daysRemaining, isLoading } = useSubscriptionStatus({ userId });
   return {
-    isExpiring: isActive && daysRemaining !== null && daysRemaining < 7,
-    daysRemaining,
+    isExpiring: isActive && daysRemaining !== undefined && daysRemaining !== null && daysRemaining < 7,
+    daysRemaining: daysRemaining ?? null,
     isLoading,
   };
 }

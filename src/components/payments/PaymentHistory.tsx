@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { usePaymentHistory } from '@/hooks/usePaymentHistory';
-import type { StarsTransaction, StarsTransactionStatus } from '@/types/starsPayment';
+import type { PaymentTransaction } from '@/services/starsPaymentService';
 
 interface PaymentHistoryProps {
   userId: string;
@@ -18,9 +18,11 @@ interface PaymentHistoryProps {
   language?: 'en' | 'ru';
 }
 
+type TransactionStatus = 'completed' | 'pending' | 'processing' | 'failed' | 'cancelled' | 'refunded';
+
 // Status configuration
 const STATUS_CONFIG: Record<
-  StarsTransactionStatus,
+  TransactionStatus,
   {
     icon: React.ReactNode;
     label: string;
@@ -66,9 +68,8 @@ const STATUS_CONFIG: Record<
   },
 };
 
-function TransactionRow({ transaction, language }: { transaction: StarsTransaction; language: 'en' | 'ru' }) {
-  const status = STATUS_CONFIG[transaction.status];
-  const productName = transaction.product?.name?.[language] || transaction.product?.name?.en || 'Unknown Product';
+function TransactionRow({ transaction, language }: { transaction: PaymentTransaction; language: 'en' | 'ru' }) {
+  const status = STATUS_CONFIG[transaction.status as TransactionStatus] || STATUS_CONFIG.pending;
   const date = new Date(transaction.created_at);
 
   return (
@@ -78,7 +79,7 @@ function TransactionRow({ transaction, language }: { transaction: StarsTransacti
           {/* Left: Product Info */}
           <div className="flex-1 min-w-0">
             <h4 className="font-semibold text-sm truncate">
-              {productName}
+              {transaction.product_code}
             </h4>
             <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
               <Calendar className="h-3 w-3" aria-hidden="true" />
@@ -98,7 +99,7 @@ function TransactionRow({ transaction, language }: { transaction: StarsTransacti
           <div className="flex flex-col items-end gap-2">
             <div className="flex items-center gap-1 font-semibold">
               <Sparkles className="h-4 w-4 text-primary" aria-hidden="true" />
-              <span>{transaction.amount_stars}</span>
+              <span>{transaction.stars_amount}</span>
             </div>
             <Badge
               variant="outline"
@@ -114,10 +115,10 @@ function TransactionRow({ transaction, language }: { transaction: StarsTransacti
           </div>
         </div>
 
-        {/* Error message if failed */}
-        {transaction.status === 'failed' && transaction.error_message && (
-          <p className="mt-2 text-xs text-destructive">
-            {transaction.error_message}
+        {/* Credits granted info */}
+        {transaction.credits_granted && (
+          <p className="mt-2 text-xs text-muted-foreground">
+            +{transaction.credits_granted} credits
           </p>
         )}
       </CardContent>
