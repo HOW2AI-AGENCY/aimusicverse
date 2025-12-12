@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Guitar, Music, FileMusic, Mic, Zap } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { MusicLabAudioProvider } from '@/contexts/MusicLabAudioContext';
 import { QuickCreate } from '@/components/music-lab/QuickCreate';
+import { WorkflowGuide } from '@/components/workflows/WorkflowGuide';
+import { WorkflowEngine } from '@/lib/workflow-engine';
+import { logger } from '@/lib/logger';
 
 /**
  * Music Lab Hub - Unified Creative Workspace
@@ -13,9 +16,28 @@ import { QuickCreate } from '@/components/music-lab/QuickCreate';
  * 
  * Sprint 025: US-025-001
  * Sprint 026: US-026-001 (Quick Create integration)
+ * Sprint 026: US-026-003 (Workflow guide integration)
  */
 export default function MusicLab() {
   const [activeTab, setActiveTab] = useState('quick-create');
+  const [showWorkflow, setShowWorkflow] = useState(false);
+
+  useEffect(() => {
+    // Check if user has an active workflow
+    const hasActiveWorkflow = WorkflowEngine.isActive();
+    setShowWorkflow(hasActiveWorkflow);
+
+    // Auto-start "guitar-to-full" workflow when Guitar tab is selected
+    if (activeTab === 'guitar' && !hasActiveWorkflow) {
+      const hasSeenGuitarWorkflow = localStorage.getItem('hasSeenGuitarWorkflow');
+      if (!hasSeenGuitarWorkflow) {
+        WorkflowEngine.startWorkflow('guitar-to-full');
+        setShowWorkflow(true);
+        localStorage.setItem('hasSeenGuitarWorkflow', 'true');
+        logger.info('Started guitar-to-full workflow for first-time user');
+      }
+    }
+  }, [activeTab]);
 
   return (
     <MusicLabAudioProvider>
@@ -27,6 +49,13 @@ export default function MusicLab() {
             Your unified creative workspace for music creation and analysis
           </p>
         </div>
+
+        {/* Workflow Guide */}
+        {showWorkflow && (
+          <div className="mb-6">
+            <WorkflowGuide onDismiss={() => setShowWorkflow(false)} />
+          </div>
+        )}
 
         {/* Main Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
