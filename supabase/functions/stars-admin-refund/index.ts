@@ -300,16 +300,26 @@ serve(async (req) => {
         );
       }
 
-      // Update user balance
-      const { error: balanceError } = await supabase
-        .from('profiles')
-        .update({
-          credits: supabase.raw(`credits - ${creditsToDeduct}`),
-        })
-        .eq('user_id', transaction.user_id);
+      // Update user balance using user_credits table (not profiles)
+      const { data: currentCredits } = await supabase
+        .from('user_credits')
+        .select('balance')
+        .eq('user_id', transaction.user_id)
+        .maybeSingle();
 
-      if (balanceError) {
-        logger.error('Failed to update user balance', { error: balanceError });
+      if (currentCredits) {
+        const newBalance = Math.max(0, (currentCredits.balance || 0) - creditsToDeduct);
+        const { error: balanceError } = await supabase
+          .from('user_credits')
+          .update({ 
+            balance: newBalance,
+            updated_at: new Date().toISOString()
+          })
+          .eq('user_id', transaction.user_id);
+
+        if (balanceError) {
+          logger.error('Failed to update user balance', { error: balanceError });
+        }
       }
 
       logger.info('Credits deducted', { 
