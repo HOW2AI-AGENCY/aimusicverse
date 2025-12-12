@@ -35,6 +35,8 @@ export function DailyCheckin() {
           streak: result.streak,
         });
         setShowCelebration(true);
+        // Mark first checkin completed for gamification onboarding
+        localStorage.setItem('first-checkin-completed', 'true');
       },
     });
   };

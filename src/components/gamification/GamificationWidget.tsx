@@ -1,14 +1,18 @@
+import { useState } from 'react';
 import { motion } from '@/lib/motion';
 import { useNavigate } from 'react-router-dom';
 import { DailyCheckin } from '@/components/gamification/DailyCheckin';
+import { GamificationOnboarding } from '@/components/gamification/GamificationOnboarding';
 import { useUserCredits, getLevelProgress } from '@/hooks/useGamification';
-import { Coins, ChevronRight, Flame, Zap, Trophy } from 'lucide-react';
+import { Coins, ChevronRight, Flame, Zap, Trophy, HelpCircle } from 'lucide-react';
 import { ProgressRing } from '@/components/ui/progress-ring';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 export function GamificationWidget() {
   const navigate = useNavigate();
   const { data: credits, isLoading } = useUserCredits();
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   if (isLoading) {
     return (
@@ -139,14 +143,35 @@ export function GamificationWidget() {
           </div>
 
           {/* Arrow with animation */}
-          <motion.div
-            className="flex items-center justify-center w-9 h-9 rounded-full bg-muted/50 group-hover:bg-primary/20 transition-colors"
-            whileHover={{ x: 3 }}
-          >
-            <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
-          </motion.div>
+          <div className="flex items-center gap-2">
+            {/* Help button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="w-8 h-8 rounded-full hover:bg-primary/10"
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowOnboarding(true);
+              }}
+            >
+              <HelpCircle className="w-4 h-4 text-muted-foreground" />
+            </Button>
+            
+            <motion.div
+              className="flex items-center justify-center w-9 h-9 rounded-full bg-muted/50 group-hover:bg-primary/20 transition-colors"
+              whileHover={{ x: 3 }}
+            >
+              <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+            </motion.div>
+          </div>
         </div>
       </motion.div>
+
+      {/* Gamification Onboarding */}
+      <GamificationOnboarding
+        show={showOnboarding}
+        onComplete={() => setShowOnboarding(false)}
+      />
     </div>
   );
 }
