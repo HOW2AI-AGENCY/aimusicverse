@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { 
-  User, Camera, Globe, Sparkles, CheckCircle, Upload, AtSign
+  User, Camera, Sparkles, CheckCircle, AtSign
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
@@ -28,17 +27,17 @@ export function MandatoryProfileSetup({ onComplete }: MandatoryProfileSetupProps
   const [displayName, setDisplayName] = useState('');
   const [username, setUsername] = useState('');
   const [avatarUrl, setAvatarUrl] = useState('');
-  const [isPublic, setIsPublic] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Import from existing profile
+  // Import from existing profile OR Telegram data
   useEffect(() => {
     if (profile) {
-      setDisplayName(profile.first_name || '');
+      // Use existing profile data
+      const fullName = [profile.first_name, profile.last_name].filter(Boolean).join(' ');
+      setDisplayName(fullName || profile.first_name || '');
       setUsername(profile.username || '');
       setAvatarUrl(profile.photo_url || '');
-      setIsPublic(profile.is_public ?? true);
     }
   }, [profile]);
 
@@ -90,7 +89,7 @@ export function MandatoryProfileSetup({ onComplete }: MandatoryProfileSetupProps
         first_name: displayName.trim(),
         username: username.trim() || null,
         photo_url: avatarUrl || null,
-        is_public: isPublic,
+        is_public: true, // Always public for free users
       });
 
       toast.success('Профиль создан!');
@@ -211,25 +210,9 @@ export function MandatoryProfileSetup({ onComplete }: MandatoryProfileSetupProps
               />
             </div>
 
-            {/* Public toggle */}
-            <div className="flex items-center justify-between p-4 rounded-xl bg-muted/50 border border-border">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <Globe className="w-4 h-4 text-primary" />
-                </div>
-                <div>
-                  <p className="font-medium text-sm">Публичный профиль</p>
-                  <p className="text-xs text-muted-foreground">
-                    Виден в лидерборде и авторстве треков
-                  </p>
-                </div>
-              </div>
-              <Switch checked={isPublic} onCheckedChange={setIsPublic} />
-            </div>
-
-            {/* Info */}
+            {/* Info - Free users are always public */}
             <div className="p-3 rounded-lg bg-primary/5 border border-primary/10 text-sm text-muted-foreground">
-              💡 Публичный профиль показывается рядом с вашими треками и в системе геймификации
+              💡 На бесплатном тарифе ваш профиль и треки публичны для сообщества. Это помогает вам получать лайки и набирать аудиторию!
             </div>
 
             {/* Save button */}

@@ -5,6 +5,14 @@ import { Track } from './useTracksOptimized';
 import { useRewardShare } from './useGamification';
 import { logger } from '@/lib/logger';
 
+// Callback for subscription dialog
+type SubscriptionDialogCallback = (show: boolean) => void;
+let subscriptionDialogCallback: SubscriptionDialogCallback | null = null;
+
+export function setSubscriptionDialogCallback(callback: SubscriptionDialogCallback) {
+  subscriptionDialogCallback = callback;
+}
+
 export function useTrackActions() {
   const [isProcessing, setIsProcessing] = useState(false);
   const rewardShare = useRewardShare();
@@ -94,6 +102,32 @@ export function useTrackActions() {
   };
 
   const handleTogglePublic = async (track: Track) => {
+    // If trying to make track private, check subscription
+    if (track.is_public) {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error('Не авторизован');
+
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('subscription_tier')
+          .eq('user_id', user.id)
+          .maybeSingle();
+
+        // Free users cannot make tracks private
+        const subscriptionTier = profile?.subscription_tier || 'free';
+        if (subscriptionTier === 'free') {
+          // Show subscription dialog
+          if (subscriptionDialogCallback) {
+            subscriptionDialogCallback(true);
+          }
+          return;
+        }
+      } catch (error) {
+        logger.error('Error checking subscription', error);
+      }
+    }
+
     setIsProcessing(true);
     try {
       const { error } = await supabase
