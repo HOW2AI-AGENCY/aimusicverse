@@ -56,12 +56,12 @@ tests/
 
 **Time Estimate**: 1-2 hours
 
-- [ ] T001 Verify Supabase CLI installed and authenticated (run `npx supabase --version`)
-- [ ] T002 [P] Create payment feature directories: `src/components/payments/`, `src/hooks/`, `src/pages/payments/`, `src/services/`, `src/types/`
-- [ ] T003 [P] Create test directories: `tests/integration/`, `tests/unit/`
-- [ ] T004 [P] Create Edge Function directories: `supabase/functions/stars-create-invoice/`, `supabase/functions/stars-webhook/`, `supabase/functions/stars-subscription-check/`, `supabase/functions/stars-admin-stats/`
-- [ ] T005 Verify Telegram bot token in `.env.local` (TELEGRAM_BOT_TOKEN, TELEGRAM_PAYMENT_PROVIDER_TOKEN="")
-- [ ] T006 [P] Update `.gitignore` to exclude `.env.local` and `supabase/.env`
+- [X] T001 Verify Supabase CLI installed and authenticated (run `npx supabase --version`)
+- [X] T002 [P] Create payment feature directories: `src/components/payments/`, `src/hooks/`, `src/pages/payments/`, `src/services/`, `src/types/`
+- [X] T003 [P] Create test directories: `tests/integration/`, `tests/unit/`
+- [X] T004 [P] Create Edge Function directories: `supabase/functions/stars-create-invoice/`, `supabase/functions/stars-webhook/`, `supabase/functions/stars-subscription-check/`, `supabase/functions/stars-admin-stats/`
+- [X] T005 Verify Telegram bot token in `.env.local` (TELEGRAM_BOT_TOKEN, TELEGRAM_PAYMENT_PROVIDER_TOKEN="")
+- [X] T006 [P] Update `.gitignore` to exclude `.env.local` and `supabase/.env`
 
 **Checkpoint**: Project structure ready for implementation
 
@@ -77,45 +77,45 @@ tests/
 
 ### Migration 1: Create Stars Tables
 
-- [ ] T007 Create migration file `supabase/migrations/YYYYMMDD_create_stars_tables.sql`
-- [ ] T008 Add `stars_products` table with schema from data-model.md (columns: id, product_type, sku, name, description, price_stars, credits_amount, subscription_tier, subscription_days, display_order, is_featured, is_active, metadata, created_at, updated_at)
-- [ ] T009 Add `stars_transactions` table with schema from data-model.md (columns: id, user_id, product_id, telegram_charge_id, telegram_bot_payment_charge_id, invoice_payload, amount_stars, amount_usd_cents, status, failure_reason, metadata, created_at, completed_at, refunded_at)
-- [ ] T010 Add `subscription_history` table with schema from data-model.md (columns: id, user_id, tier, action, stars_transaction_id, previous_tier, previous_expires_at, new_tier, new_expires_at, created_at)
-- [ ] T011 Add CHECK constraints for product_type, subscription_tier, status, action per data-model.md
-- [ ] T012 Add UNIQUE constraint on `stars_transactions.telegram_charge_id` (idempotency key)
-- [ ] T013 Insert seed data for initial products in `supabase/migrations/YYYYMMDD_create_stars_tables.sql` (6 products: credits_50, credits_100, credits_300, credits_1000, sub_pro, sub_premium)
+- [X] T007 Create migration file `supabase/migrations/YYYYMMDD_create_stars_tables.sql`
+- [X] T008 Add `stars_products` table with schema from data-model.md (columns: id, product_type, sku, name, description, price_stars, credits_amount, subscription_tier, subscription_days, display_order, is_featured, is_active, metadata, created_at, updated_at)
+- [X] T009 Add `stars_transactions` table with schema from data-model.md (columns: id, user_id, product_id, telegram_charge_id, telegram_bot_payment_charge_id, invoice_payload, amount_stars, amount_usd_cents, status, failure_reason, metadata, created_at, completed_at, refunded_at)
+- [X] T010 Add `subscription_history` table with schema from data-model.md (columns: id, user_id, tier, action, stars_transaction_id, previous_tier, previous_expires_at, new_tier, new_expires_at, created_at)
+- [X] T011 Add CHECK constraints for product_type, subscription_tier, status, action per data-model.md
+- [X] T012 Add UNIQUE constraint on `stars_transactions.telegram_charge_id` (idempotency key)
+- [X] T013 Insert seed data for initial products in `supabase/migrations/YYYYMMDD_create_stars_tables.sql` (6 products: credits_50, credits_100, credits_300, credits_1000, sub_pro, sub_premium)
 
 ### Migration 2: Extend Existing Tables
 
-- [ ] T014 Create migration file `supabase/migrations/YYYYMMDD_extend_tables_for_stars.sql`
-- [ ] T015 Add `stars_transaction_id` column to `credit_transactions` table (UUID, REFERENCES stars_transactions(id) ON DELETE SET NULL)
-- [ ] T016 Add `telegram_payment_id` column to `credit_transactions` table (TEXT, deprecated field for backwards compatibility)
-- [ ] T017 Add `subscription_tier` column to `profiles` table (TEXT DEFAULT 'free', CHECK constraint)
-- [ ] T018 Add `subscription_expires_at` column to `profiles` table (TIMESTAMPTZ)
-- [ ] T019 Add `stars_subscription_id` column to `profiles` table (TEXT for Telegram recurring subscription ID)
-- [ ] T020 Add `auto_renew` column to `profiles` table (BOOLEAN DEFAULT true)
+- [X] T014 Create migration file `supabase/migrations/YYYYMMDD_extend_tables_for_stars.sql`
+- [X] T015 Add `stars_transaction_id` column to `credit_transactions` table (UUID, REFERENCES stars_transactions(id) ON DELETE SET NULL)
+- [X] T016 Add `telegram_payment_id` column to `credit_transactions` table (TEXT, deprecated field for backwards compatibility)
+- [X] T017 Add `subscription_tier` column to `profiles` table (TEXT DEFAULT 'free', CHECK constraint)
+- [X] T018 Add `subscription_expires_at` column to `profiles` table (TIMESTAMPTZ)
+- [X] T019 Add `stars_subscription_id` column to `profiles` table (TEXT for Telegram recurring subscription ID)
+- [X] T020 Add `auto_renew` column to `profiles` table (BOOLEAN DEFAULT true)
 
 ### Migration 3: Database Functions & Indexes
 
-- [ ] T021 Create migration file `supabase/migrations/YYYYMMDD_create_stars_functions.sql`
-- [ ] T022 Create `process_stars_payment()` function in `supabase/migrations/YYYYMMDD_create_stars_functions.sql` (idempotent credit allocation + subscription activation, full implementation from data-model.md)
-- [ ] T023 Create `get_subscription_status()` function in `supabase/migrations/YYYYMMDD_create_stars_functions.sql` (returns subscription tier, expiry, days remaining)
-- [ ] T024 Create `get_stars_payment_stats()` function in `supabase/migrations/YYYYMMDD_create_stars_functions.sql` (admin analytics: revenue, success rate, top products)
-- [ ] T025 [P] Add indexes on `stars_products`: `idx_stars_products_sku` (sku), `idx_stars_products_type_active` (product_type, is_active), `idx_stars_products_display_order` (display_order WHERE is_active)
-- [ ] T026 [P] Add indexes on `stars_transactions`: `idx_stars_transactions_charge_id` (telegram_charge_id UNIQUE), `idx_stars_transactions_user_id` (user_id), `idx_stars_transactions_created_at` (created_at DESC), `idx_stars_transactions_status` (status), `idx_stars_transactions_product_id` (product_id)
-- [ ] T027 [P] Add indexes on `subscription_history`: `idx_subscription_history_user_id` (user_id), `idx_subscription_history_created_at` (created_at DESC), `idx_subscription_history_action` (action)
-- [ ] T028 [P] Add indexes on `profiles`: `idx_profiles_subscription_tier` (subscription_tier WHERE subscription_tier != 'free'), `idx_profiles_subscription_expires_at` (subscription_expires_at WHERE subscription_expires_at IS NOT NULL)
+- [X] T021 Create migration file `supabase/migrations/YYYYMMDD_create_stars_functions.sql`
+- [X] T022 Create `process_stars_payment()` function in `supabase/migrations/YYYYMMDD_create_stars_functions.sql` (idempotent credit allocation + subscription activation, full implementation from data-model.md)
+- [X] T023 Create `get_subscription_status()` function in `supabase/migrations/YYYYMMDD_create_stars_functions.sql` (returns subscription tier, expiry, days remaining)
+- [X] T024 Create `get_stars_payment_stats()` function in `supabase/migrations/YYYYMMDD_create_stars_functions.sql` (admin analytics: revenue, success rate, top products)
+- [X] T025 [P] Add indexes on `stars_products`: `idx_stars_products_sku` (sku), `idx_stars_products_type_active` (product_type, is_active), `idx_stars_products_display_order` (display_order WHERE is_active)
+- [X] T026 [P] Add indexes on `stars_transactions`: `idx_stars_transactions_charge_id` (telegram_charge_id UNIQUE), `idx_stars_transactions_user_id` (user_id), `idx_stars_transactions_created_at` (created_at DESC), `idx_stars_transactions_status` (status), `idx_stars_transactions_product_id` (product_id)
+- [X] T027 [P] Add indexes on `subscription_history`: `idx_subscription_history_user_id` (user_id), `idx_subscription_history_created_at` (created_at DESC), `idx_subscription_history_action` (action)
+- [X] T028 [P] Add indexes on `profiles`: `idx_profiles_subscription_tier` (subscription_tier WHERE subscription_tier != 'free'), `idx_profiles_subscription_expires_at` (subscription_expires_at WHERE subscription_expires_at IS NOT NULL)
 
 ### RLS Policies
 
-- [ ] T029 Enable RLS on `stars_products` table and create policy "Anyone can view active products" (SELECT WHERE is_active = true)
-- [ ] T030 Create policy "Admins can manage products" on `stars_products` (ALL WHERE user_role = 'admin')
-- [ ] T031 Enable RLS on `stars_transactions` table and create policy "Users can view own transactions" (SELECT WHERE auth.uid() = user_id)
-- [ ] T032 Create policy "Service role can insert transactions" on `stars_transactions` (INSERT WHERE jwt.role = 'service_role')
-- [ ] T033 Create policy "Admins can view all transactions" on `stars_transactions` (SELECT WHERE user_role = 'admin')
-- [ ] T034 Enable RLS on `subscription_history` table and create policy "Users can view own subscription history" (SELECT WHERE auth.uid() = user_id)
-- [ ] T035 Create policy "Service role can insert subscription history" on `subscription_history` (INSERT WHERE jwt.role = 'service_role')
-- [ ] T036 Create policy "Admins can view all subscription history" on `subscription_history` (SELECT WHERE user_role = 'admin')
+- [X] T029 Enable RLS on `stars_products` table and create policy "Anyone can view active products" (SELECT WHERE is_active = true)
+- [X] T030 Create policy "Admins can manage products" on `stars_products` (ALL WHERE user_role = 'admin')
+- [X] T031 Enable RLS on `stars_transactions` table and create policy "Users can view own transactions" (SELECT WHERE auth.uid() = user_id)
+- [X] T032 Create policy "Service role can insert transactions" on `stars_transactions` (INSERT WHERE jwt.role = 'service_role')
+- [X] T033 Create policy "Admins can view all transactions" on `stars_transactions` (SELECT WHERE user_role = 'admin')
+- [X] T034 Enable RLS on `subscription_history` table and create policy "Users can view own subscription history" (SELECT WHERE auth.uid() = user_id)
+- [X] T035 Create policy "Service role can insert subscription history" on `subscription_history` (INSERT WHERE jwt.role = 'service_role')
+- [X] T036 Create policy "Admins can view all subscription history" on `subscription_history` (SELECT WHERE user_role = 'admin')
 
 ### Database Testing
 
