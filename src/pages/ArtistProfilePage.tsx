@@ -5,13 +5,23 @@ import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { Edit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { ProfileStats } from '@/components/profile/ProfileStats';
 import { ProfileBio } from '@/components/profile/ProfileBio';
 import { SocialLinks } from '@/components/profile/SocialLinks';
 import { ProfileEditDialog } from '@/components/profile/ProfileEditDialog';
+import { FollowButton } from '@/components/social/FollowButton';
+import { FollowersList } from '@/components/social/FollowersList';
+import { FollowingList } from '@/components/social/FollowingList';
 import { useProfile } from '@/hooks/profile/useProfile';
 import { useAuth } from '@/hooks/useAuth';
+import { useIsFollowing } from '@/hooks/social/useFollowers';
 import { Skeleton } from '@/components/ui/skeleton';
 import { motion } from '@/lib/motion';
 import { VirtualizedTrackList } from '@/components/library/VirtualizedTrackList';
@@ -22,7 +32,12 @@ export function ArtistProfilePage() {
   const { userId } = useParams<{ userId: string }>();
   const { user } = useAuth();
   const { data: profile, isLoading: profileLoading } = useProfile(userId || '');
+  const { data: isFollowingData } = useIsFollowing(userId || '');
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [followersModalOpen, setFollowersModalOpen] = useState(false);
+  const [followingModalOpen, setFollowingModalOpen] = useState(false);
+
+  const isFollowing = isFollowingData?.pages[0]?.isFollowing || false;
 
   // Check if viewing own profile
   const isOwnProfile = user?.id === userId;
@@ -104,9 +119,9 @@ export function ArtistProfilePage() {
         {/* Profile Header with Banner and Avatar */}
         <ProfileHeader profile={profile} />
 
-        {/* Edit Button - Only visible on own profile */}
-        {isOwnProfile && (
-          <div className="flex justify-end">
+        {/* Follow/Edit Button - Follow button visible for other users, Edit for own profile */}
+        <div className="flex justify-end gap-2">
+          {isOwnProfile ? (
             <Button
               variant="outline"
               size="sm"
@@ -115,13 +130,17 @@ export function ArtistProfilePage() {
               <Edit className="w-4 h-4 mr-2" />
               Edit Profile
             </Button>
-          </div>
-        )}
+          ) : (
+            <FollowButton userId={userId || ''} isFollowing={isFollowing} />
+          )}
+        </div>
 
-        {/* Profile Stats */}
+        {/* Profile Stats with clickable followers/following */}
         <ProfileStats
           stats={profile.stats}
           userId={userId || ''}
+          onFollowersClick={() => setFollowersModalOpen(true)}
+          onFollowingClick={() => setFollowingModalOpen(true)}
         />
 
         {/* Bio */}
@@ -148,14 +167,14 @@ export function ArtistProfilePage() {
               tracks={tracks}
               emptyMessage={
                 isOwnProfile
-                  ? 'You haven't created any tracks yet'
+                  ? "You haven't created any tracks yet"
                   : 'No public tracks available'
               }
             />
           ) : (
             <div className="text-center py-12 text-muted-foreground">
               {isOwnProfile
-                ? 'You haven't created any tracks yet'
+                ? "You haven't created any tracks yet"
                 : 'No public tracks available'}
             </div>
           )}
@@ -164,6 +183,26 @@ export function ArtistProfilePage() {
 
       {/* Edit Profile Dialog */}
       <ProfileEditDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} />
+
+      {/* Followers Modal */}
+      <Dialog open={followersModalOpen} onOpenChange={setFollowersModalOpen}>
+        <DialogContent className="max-w-md max-h-[80vh]">
+          <DialogHeader>
+            <DialogTitle>Followers</DialogTitle>
+          </DialogHeader>
+          <FollowersList userId={userId || ''} />
+        </DialogContent>
+      </Dialog>
+
+      {/* Following Modal */}
+      <Dialog open={followingModalOpen} onOpenChange={setFollowingModalOpen}>
+        <DialogContent className="max-w-md max-h-[80vh]">
+          <DialogHeader>
+            <DialogTitle>Following</DialogTitle>
+          </DialogHeader>
+          <FollowingList userId={userId || ''} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
