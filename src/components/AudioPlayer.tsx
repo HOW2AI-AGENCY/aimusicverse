@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Card } from '@/components/ui/card';
 import { useAudioPlayer } from '@/hooks/audio';
+import { LazyImage } from '@/components/ui/lazy-image';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -81,10 +82,11 @@ export const AudioPlayer = ({
         {/* Cover Image */}
         {coverUrl && (
           <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-            <img
+            <LazyImage
               src={coverUrl}
               alt={title || 'Track cover'}
               className="w-full h-full object-cover"
+              containerClassName="w-16 h-16"
             />
           </div>
         )}

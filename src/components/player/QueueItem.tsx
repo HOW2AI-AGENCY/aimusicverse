@@ -4,6 +4,7 @@ import { GripVertical, X, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
+import { LazyImage } from '@/components/ui/lazy-image';
 import type { Track } from '@/hooks/useTracksOptimized';
 
 interface QueueItemProps {
@@ -55,13 +56,14 @@ export function QueueItem({ track, isCurrentTrack, onRemove }: QueueItemProps) {
 
       {/* Cover Image with playing indicator */}
       <div className="relative flex-shrink-0">
-        <img
+        <LazyImage
           src={track.cover_url || '/placeholder-cover.png'}
           alt={track.title || 'Track'}
           className={cn(
             "w-11 h-11 rounded-lg object-cover transition-all duration-300",
             isCurrentTrack && "ring-2 ring-primary ring-offset-2 ring-offset-background"
           )}
+          containerClassName="w-11 h-11 rounded-lg"
         />
         {isCurrentTrack && (
           <motion.div 

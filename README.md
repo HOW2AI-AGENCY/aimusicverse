@@ -75,27 +75,30 @@
 
 ### 📚 Библиотека треков
 - **Виртуализация** — плавная работа с 1000+ треков (react-virtuoso)
-- **Lazy loading** — отложенная загрузка обложек с blur-эффектом
+- **Lazy loading** — LazyImage компонент с blur-эффектом для всех обложек
 - **Grid/List режимы** — адаптивное отображение
 - **Swipe-действия** — быстрые операции на мобильных
-- **Inline версии** — переключение A/B прямо на карточке
+- **Version управление** — A/B версии с is_primary флагом, переключение inline
 - **Лайки** — оптимистичные обновления с denormalized счётчиками
+- **Mobile-first дизайн** — адаптивные карточки с touch targets 44×44px
 
 ### 🎧 Плеер
 - **Глобальный аудио** — один источник звука для всего приложения
-- **3 режима** — compact / expanded / fullscreen
+- **3 режима** — compact / expanded / fullscreen с плавными переходами
 - **📜 Синхронизированные lyrics** — подсветка активной строки с точностью ±0.05s
 - **🎯 Умный авто-скролл** — распознавание user scroll с 5s resume delay
-- **Очередь воспроизведения** — Play Next, Add to Queue, Shuffle
+- **Очередь воспроизведения** — Play Next, Add to Queue, Shuffle, QueuePanel
 - **Audio Visualizer** — визуализация частот в реальном времени
-- **Version playback** — режимы воспроизведения версий
+- **Version playback** — режимы воспроизведения версий, переключение в плеере
+- **Lazy image loading** — оптимизированная загрузка обложек во всех режимах
 
 ### 📝 Плейлисты
 - **CRUD операции** — создание, редактирование, удаление
-- **Drag-drop** — перетаскивание треков для сортировки
+- **Drag-drop** — перетаскивание треков для сортировки с dnd-kit
 - **AI-обложки** — генерация обложек через Lovable AI
-- **Auto-playlists** — автоматические плейлисты по жанрам
+- **Auto-playlists** — автоматические плейлисты по жанрам из публичных треков
 - **Deep links** — шаринг через Telegram
+- **Статистика** — track_count, total_duration обновляются триггерами
 
 ### 🎛️ Stem Studio
 - **Разделение на стемы** — vocals, drums, bass, guitar и др.
@@ -423,14 +426,16 @@ PostgreSQL + Edge Functions
 ```
 
 ### Ключевые паттерны
-- **Single Audio Source** — GlobalAudioProvider
-- **Optimized Caching** — staleTime 30s, gcTime 10min
-- **Batch Queries** — usePublicContentOptimized
-- **Lazy Images** — LazyImage с blur placeholder
-- **Denormalized Counters** — likes_count с триггерами
+- **Single Audio Source** — GlobalAudioProvider с единым audio элементом
+- **Optimized Caching** — staleTime 30s, gcTime 10min для TanStack Query
+- **Batch Queries** — usePublicContentOptimized для homepage
+- **Lazy Images** — LazyImage компонент с blur placeholder, shimmer effect
+- **Denormalized Counters** — likes_count, play_count с триггерами
 - **Modular Components** — разбиение на подкомпоненты и хуки
 - **Lazy Loading** — `src/components/lazy/` для тяжёлых компонентов
 - **Optimized Motion** — `@/lib/motion` для tree-shaking framer-motion
+- **Skeleton Loaders** — 200+ использований для async состояний
+- **Mobile-first** — touch targets 44×44px, swipe gestures, responsive breakpoints
 
 ---
 
@@ -559,6 +564,23 @@ npm run dev
 
 ### Декабрь 2025 (Highlights)
 
+#### 🎨 UI/UX Optimization Sprint (Dec 12)
+- ✅ **Database & Type System** - Все миграции и интерфейсы завершены
+  - `active_version_id` field на tracks для быстрого доступа к активной версии
+  - `is_primary` field на track_versions (renamed from is_master)
+  - `track_changelog` table для аудита изменений версий
+  - `playlists` + `playlist_tracks` с автообновлением счетчиков
+- ✅ **LazyImage Expansion** - Оптимизация загрузки изображений
+  - Внедрено в QueueItem, AudioPlayer, CompactPlayer, FullscreenPlayer
+  - Blur placeholder + shimmer animation для лучшего UX
+  - Graceful fallback при ошибках загрузки
+- ✅ **Code Splitting** - Bundle optimization
+  - feature-generate: 244KB → 68KB (gzip)
+  - feature-stem-studio: 280KB → 72KB (gzip)
+  - Brotli compression: ~500KB total
+- ✅ **Skeleton Loaders** - 200+ использований для async состояний
+- ✅ **Mobile Touch Targets** - Все интерактивные элементы 44×44px minimum
+
 #### 🎨 Mobile UX & Stem Studio Cleanup (Dec 10)
 - 🗑️ **Removed 80KB+ broken MIDI code** - 5 non-working components deleted
   - StemMidiPanel, MidiVisualizationPanel, MidiPianoRoll, MidiSection
@@ -615,6 +637,6 @@ npm run dev
 
 **Сделано с ❤️ командой MusicVerse AI**
 
-*Last Updated: 2025-12-10*
+*Last Updated: 2025-12-12*
 
 </div>
