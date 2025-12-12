@@ -1,5 +1,8 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.7';
 import { createHmac } from 'node:crypto';
+import { createLogger } from '../_shared/logger.ts';
+
+const logger = createLogger('telegram-auth');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -31,12 +34,27 @@ interface AuthResponse {
 }
 
 /**
+ * Validation error types for better error handling
+ */
+enum ValidationError {
+  NO_HASH = 'NO_HASH',
+  HASH_MISMATCH = 'HASH_MISMATCH',
+  EXPIRED = 'EXPIRED',
+  NO_USER_DATA = 'NO_USER_DATA',
+  INVALID_FORMAT = 'INVALID_FORMAT',
+}
+
+interface ValidationResult {
+  user: TelegramUser | null;
+  error: ValidationError | null;
+  errorMessage: string | null;
+}
+
+/**
  * Validates Telegram Web App initData using the official algorithm
  */
-function validateTelegramWebAppData(initData: string, botToken: string): TelegramUser | null {
+function validateTelegramWebAppData(initData: string, botToken: string): ValidationResult {
   try {
-    console.log('🔐 Starting Telegram validation...');
-
     const decoded = decodeURIComponent(initData);
     const params = decoded.split('&');
     
@@ -53,8 +71,11 @@ function validateTelegramWebAppData(initData: string, botToken: string): Telegra
     }
 
     if (!receivedHash) {
-      console.error('❌ No hash found in initData');
-      return null;
+      return {
+        user: null,
+        error: ValidationError.NO_HASH,
+        errorMessage: 'Authentication data missing hash',
+      };
     }
 
     dataCheckArray.sort((a, b) => a.localeCompare(b));
@@ -69,40 +90,52 @@ function validateTelegramWebAppData(initData: string, botToken: string): Telegra
       .digest('hex');
 
     if (calculatedHash !== receivedHash) {
-      console.error('❌ Hash mismatch!');
-      return null;
+      return {
+        user: null,
+        error: ValidationError.HASH_MISMATCH,
+        errorMessage: 'Authentication data integrity check failed',
+      };
     }
-
-    console.log('✅ Hash validation successful!');
 
     // Validate timestamp (24 hours max age)
     const authDateParam = params.find(p => p.startsWith('auth_date='));
     if (authDateParam) {
       const authTimestamp = parseInt(authDateParam.split('=')[1], 10);
       const currentTimestamp = Math.floor(Date.now() / 1000);
-      const maxAge = 86400;
+      const maxAge = 86400; // 24 hours
 
       if (currentTimestamp - authTimestamp > maxAge) {
-        console.error('❌ InitData expired');
-        return null;
+        return {
+          user: null,
+          error: ValidationError.EXPIRED,
+          errorMessage: 'Authentication data has expired. Please restart the app to continue.',
+        };
       }
     }
 
     const userParam = params.find(p => p.startsWith('user='));
     if (!userParam) {
-      console.error('❌ No user data in initData');
-      return null;
+      return {
+        user: null,
+        error: ValidationError.NO_USER_DATA,
+        errorMessage: 'Authentication data missing user information',
+      };
     }
 
     const userData = decodeURIComponent(userParam.split('=')[1]);
     const user = JSON.parse(userData) as TelegramUser;
     
-    console.log('✅ User validated:', { id: user.id, name: user.first_name });
-
-    return user;
+    return {
+      user,
+      error: null,
+      errorMessage: null,
+    };
   } catch (error) {
-    console.error('❌ Validation error:', error);
-    return null;
+    return {
+      user: null,
+      error: ValidationError.INVALID_FORMAT,
+      errorMessage: 'Authentication data has invalid format',
+    };
   }
 }
 
@@ -176,19 +209,27 @@ Deno.serve(async (req) => {
       );
     }
 
-    const telegramUser = validateTelegramWebAppData(initData, botToken);
+    const validationResult = validateTelegramWebAppData(initData, botToken);
     
-    if (!telegramUser) {
+    if (!validationResult.user) {
+      // Return specific error message based on validation error
+      const statusCode = validationResult.error === ValidationError.EXPIRED ? 401 : 400;
+      
       return new Response(
-        JSON.stringify({ error: 'Invalid Telegram authentication data' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({ 
+          error: validationResult.errorMessage || 'Invalid Telegram authentication data',
+          code: validationResult.error,
+        }),
+        { status: statusCode, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+
+    const telegramUser = validationResult.user;
 
     // Extract chat_id from initData or use provided one
     const chatId = providedChatId || extractChatId(initData) || telegramUser.id;
 
-    console.log('✅ Telegram user validated:', telegramUser.id, 'ChatID:', chatId);
+    logger.info('Telegram user validated', { telegramUserId: telegramUser.id, chatId });
 
     // Check if user already exists
     const { data: existingProfile, error: profileCheckError } = await supabase
@@ -338,7 +379,7 @@ Deno.serve(async (req) => {
       });
 
     if (creditsError) {
-      console.error('❌ Failed to grant initial credits:', creditsError);
+      logger.error('Failed to grant initial credits', { error: creditsError });
     } else {
       // Log the registration bonus transaction
       await supabase
@@ -382,7 +423,7 @@ Deno.serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('❌ Unexpected error:', error);
+    logger.error('Unexpected error', { error });
     return new Response(
       JSON.stringify({ error: 'Internal server error' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

@@ -1,6 +1,7 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { createLogger } from '../_shared/logger.ts';
+import { checkRateLimit, getRateLimitHeaders, RateLimitConfigs } from '../_shared/rate-limiter.ts';
 
 const logger = createLogger('create-stars-invoice');
 
@@ -40,6 +41,31 @@ serve(async (req) => {
       return new Response(
         JSON.stringify({ error: 'Unauthorized' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Apply rate limiting (10 requests per minute per user)
+    const rateLimitKey = `invoice:${user.id}`;
+    const rateLimit = checkRateLimit(rateLimitKey, RateLimitConfigs.invoiceCreation);
+    
+    if (rateLimit.isLimited) {
+      logger.warn('Rate limit exceeded', { userId: user.id, limit: rateLimit.limit });
+      
+      return new Response(
+        JSON.stringify({ 
+          error: 'Rate limit exceeded',
+          message: 'Too many invoice creation requests. Please try again later.',
+          retryAfter: Math.ceil((rateLimit.resetAt - Date.now()) / 1000),
+        }),
+        { 
+          status: 429,
+          headers: { 
+            ...corsHeaders, 
+            ...getRateLimitHeaders(rateLimit.limit, rateLimit.remaining, rateLimit.resetAt),
+            'Content-Type': 'application/json',
+            'Retry-After': String(Math.ceil((rateLimit.resetAt - Date.now()) / 1000)),
+          },
+        }
       );
     }
 
