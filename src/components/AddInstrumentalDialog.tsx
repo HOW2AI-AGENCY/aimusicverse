@@ -37,13 +37,19 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
 
     setLoading(true);
     try {
+      // SunoAPI requires: prompt, title, style, negativeTags for add-instrumental endpoint
+      const effectiveTitle = customMode && title ? title : track.title || 'Трек с инструменталом';
+      const effectiveStyle = customMode && style ? style : track.style || 'pop, instrumental';
+      const effectivePrompt = prompt || 'Добавить профессиональный инструментал к этому вокалу';
+      
       const { data, error } = await supabase.functions.invoke('suno-add-instrumental', {
         body: {
           audioUrl: track.audio_url,
-          prompt,
+          prompt: effectivePrompt,
           customMode,
-          style: customMode ? style : undefined,
-          title: customMode ? title : track.title,
+          style: effectiveStyle,
+          title: effectiveTitle,
+          negativeTags: '',
           projectId: track.project_id,
         },
       });

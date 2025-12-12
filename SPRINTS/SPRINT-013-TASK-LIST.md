@@ -113,6 +113,18 @@ Implementing advanced audio features for Stem Studio including waveform visualiz
 - [ ] **T065** Create Piano Roll MIDI visualization
 - [ ] **T066** Add keyboard shortcuts for track actions
 
+## Completed (Phase 4) ✅
+
+### Phase 8: SunoAPI Edge Functions Fixes
+- [x] **T067** Fix suno-add-vocals - validate required params (prompt, title, style) ✅
+- [x] **T068** Fix suno-add-instrumental - validate required params ✅
+- [x] **T069** Fix AddVocalsDialog - always pass required params ✅
+- [x] **T070** Fix AddInstrumentalDialog - always pass required params ✅
+- [x] **T071** Fix suno-music-extend - correct defaultParamFlag logic ✅
+- [x] **T072** Fix generate-track-cover - use google/gemini-3-pro-image-preview model ✅
+
+**SDD**: [specs/SDD-017-SunoAPI-Fixes.md](../specs/SDD-017-SunoAPI-Fixes.md)
+
 ---
 
 ## Technical Implementation Details

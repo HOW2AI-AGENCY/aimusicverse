@@ -2,7 +2,7 @@
 
 **Epic ID:** E017-SunoAPI-Fixes  
 **Создано:** 2025-12-12  
-**Статус:** In Progress  
+**Статус:** ✅ Completed  
 **Приоритет:** P1 (Critical)
 
 ---
@@ -12,11 +12,12 @@
 Ряд edge функций SunoAPI возвращают non-2xx ошибки из-за несоответствия параметров документации API.
 
 ### Затронутые функции:
-- `suno-add-vocals` - ❌ Ошибки из-за отсутствующих обязательных параметров
-- `suno-add-instrumental` - ❌ Ошибки из-за отсутствующих обязательных параметров  
+- `suno-add-vocals` - ✅ Исправлено (валидация параметров)
+- `suno-add-instrumental` - ✅ Исправлено (валидация параметров)
 - `suno-upload-cover` - ✅ Работает
-- `suno-music-extend` - ⚠️ Требует проверки
-- `suno-replace-section` - ⚠️ Требует проверки
+- `suno-music-extend` - ✅ Исправлено (логика defaultParamFlag)
+- `suno-replace-section` - ✅ Работает
+- `generate-track-cover` - ✅ Исправлено (модель google/gemini-3-pro-image-preview)
 
 ---
 
@@ -57,10 +58,16 @@
 | T017-A-02 | Добавить валидацию обязательных параметров в suno-add-instrumental | ✅ Done |
 | T017-A-03 | Исправить маппинг модели V4_5ALL → V4_5PLUS | ✅ Done |
 | T017-A-04 | Добавить логирование payload для отладки | ✅ Done |
+| T017-A-05 | Исправить AddVocalsDialog - всегда передавать обязательные параметры | ✅ Done |
+| T017-A-06 | Исправить AddInstrumentalDialog - всегда передавать обязательные параметры | ✅ Done |
+| T017-A-07 | Исправить generate-track-cover - модель google/gemini-3-pro-image-preview | ✅ Done |
 
 ### Изменённые файлы:
 - `supabase/functions/suno-add-vocals/index.ts`
 - `supabase/functions/suno-add-instrumental/index.ts`
+- `supabase/functions/generate-track-cover/index.ts`
+- `src/components/AddVocalsDialog.tsx`
+- `src/components/AddInstrumentalDialog.tsx`
 
 ---
 
