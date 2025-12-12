@@ -22,7 +22,6 @@ import { GenerationLoadingState } from './generate-form/GenerationLoadingState';
 // Dialogs
 import { UploadAudioDialog } from './UploadAudioDialog';
 import { AudioActionDialog } from './generate-form/AudioActionDialog';
-import { AudioUploadActionDialog } from './generate-form/AudioUploadActionDialog';
 import { ArtistSelector } from './generate-form/ArtistSelector';
 import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
 import { PromptHistory } from './generate-form/PromptHistory';
@@ -44,11 +43,10 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
   const [artistDialogOpen, setArtistDialogOpen] = useState(false);
   const [audioActionDialogOpen, setAudioActionDialogOpen] = useState(false); // For reference audio selection
-  const [audioUploadDialogOpen, setAudioUploadDialogOpen] = useState(false); // For cover/extend actions
   const [historyOpen, setHistoryOpen] = useState(false);
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
   const [uploadAudioOpen, setUploadAudioOpen] = useState(false);
-  const [uploadAudioMode, setUploadAudioMode] = useState<'extend' | 'cover'>('extend');
+  const [uploadAudioMode, setUploadAudioMode] = useState<'extend' | 'cover'>('cover');
   const [uploadAudioFile, setUploadAudioFile] = useState<File | undefined>(undefined);
   const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
   const [advancedOpen, setAdvancedOpen] = useState(false);
@@ -125,9 +123,17 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
             {/* Quick Action Buttons */}
             <GenerateFormActions
-              onOpenAudioDialog={() => setAudioUploadDialogOpen(true)}
+              onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
               onOpenArtistDialog={() => setArtistDialogOpen(true)}
               onOpenProjectDialog={() => setProjectDialogOpen(true)}
+              onOpenCoverMode={() => {
+                setUploadAudioMode('cover');
+                setUploadAudioOpen(true);
+              }}
+              onOpenExtendMode={() => {
+                setUploadAudioMode('extend');
+                setUploadAudioOpen(true);
+              }}
             />
 
             {/* Selected References Indicators */}
@@ -252,16 +258,13 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         onSelect={form.handleArtistSelect}
       />
 
-      {/* Audio Upload with Action Selection - for cover/extend */}
-      <AudioUploadActionDialog
-        open={audioUploadDialogOpen}
-        onOpenChange={setAudioUploadDialogOpen}
-        onActionSelected={(file, action) => {
-          setAudioUploadDialogOpen(false);
-          setUploadAudioMode(action);
-          setUploadAudioFile(file); // Store the audio file
-          setUploadAudioOpen(true);
-        }}
+      {/* Audio Upload Dialog - Integrated cover/extend with automatic analysis */}
+      <UploadAudioDialog
+        open={uploadAudioOpen}
+        onOpenChange={setUploadAudioOpen}
+        projectId={form.selectedProjectId}
+        defaultMode={uploadAudioMode}
+        initialAudioFile={uploadAudioFile}
       />
 
       {/* Audio Action Dialog - for reference audio in generation */}
