@@ -3,5 +3,5 @@
  */
 
 export { StemActionsSheet } from './StemActionsSheet';
-export { SectionEditorMobileEnhanced } from './SectionEditorMobileEnhanced';
 export { StemAnalysisSheet } from './StemAnalysisSheet';
+export { SectionEditorMobile } from './SectionEditorMobile';
