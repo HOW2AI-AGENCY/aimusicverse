@@ -5,7 +5,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, sendAudio } from '../telegram-api.ts';
-import { consumePendingUpload, type PendingUpload } from '../core/session-store.ts';
+import { consumePendingUpload, type PendingUpload } from '../core/db-session-store.ts';
 import { escapeMarkdown, trackMetric } from '../utils/index.ts';
 import { createLogger } from '../../_shared/logger.ts';
 
@@ -55,8 +55,8 @@ export async function handleAudioMessage(
   const startTime = Date.now();
   
   try {
-    // Check for pending upload
-    const pendingUpload = consumePendingUpload(userId);
+    // Check for pending upload (now async with DB)
+    const pendingUpload = await consumePendingUpload(userId);
     
     if (!pendingUpload) {
       // No pending upload - show help with options

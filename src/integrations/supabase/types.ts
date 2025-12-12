@@ -1678,6 +1678,33 @@ export type Database = {
           },
         ]
       }
+      telegram_bot_config: {
+        Row: {
+          config_key: string
+          config_value: Json
+          description: string | null
+          id: string
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          config_key: string
+          config_value: Json
+          description?: string | null
+          id?: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          config_key?: string
+          config_value?: Json
+          description?: string | null
+          id?: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       telegram_bot_metrics: {
         Row: {
           created_at: string
@@ -1711,6 +1738,36 @@ export type Database = {
           success?: boolean
           telegram_chat_id?: number | null
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      telegram_bot_sessions: {
+        Row: {
+          created_at: string | null
+          expires_at: string
+          id: string
+          mode: string | null
+          options: Json | null
+          session_type: string
+          telegram_user_id: number
+        }
+        Insert: {
+          created_at?: string | null
+          expires_at: string
+          id?: string
+          mode?: string | null
+          options?: Json | null
+          session_type: string
+          telegram_user_id: number
+        }
+        Update: {
+          created_at?: string | null
+          expires_at?: string
+          id?: string
+          mode?: string | null
+          options?: Json | null
+          session_type?: string
+          telegram_user_id?: number
         }
         Relationships: []
       }
@@ -2547,6 +2604,7 @@ export type Database = {
         Args: { _style_id?: string; _tag_ids: string[] }
         Returns: string
       }
+      cleanup_expired_bot_sessions: { Args: never; Returns: undefined }
       get_complementary_tags: {
         Args: { _max_depth?: number; _tag_id: string }
         Returns: {
