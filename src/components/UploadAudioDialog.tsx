@@ -233,7 +233,8 @@ export const UploadAudioDialog = ({
         body.style = customMode ? style : undefined;
         body.title = customMode ? title : undefined;
       } else {
-        body.defaultParamFlag = customMode;
+        // Fixed: Use customMode consistently for both cover and extend
+        body.customMode = customMode;
         body.prompt = customMode && !instrumental ? prompt : undefined;
         body.style = customMode ? style : undefined;
         body.title = title || undefined;

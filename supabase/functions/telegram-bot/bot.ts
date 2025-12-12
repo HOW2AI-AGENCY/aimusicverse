@@ -350,6 +350,14 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
       return;
     }
 
+    // Audio upload action handlers (NEW)
+    if (data.startsWith('audio_action_')) {
+      const action = data.replace('audio_action_', '');
+      const { handleAudioActionCallback } = await import('./commands/audio-upload.ts');
+      await handleAudioActionCallback(chatId, from.id, action, messageId!, id);
+      return;
+    }
+
     // Upload handlers
     if (data === 'cancel_upload') {
       const { handleCancelUploadCallback } = await import('./commands/audio-upload.ts');
