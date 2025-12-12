@@ -11,16 +11,18 @@ interface UserWithRoles {
   photo_url: string | null;
   created_at: string;
   roles: string[];
+  subscription_tier?: string;
+  subscription_expires_at?: string | null;
 }
 
 export function useAdminUsers() {
   return useQuery({
     queryKey: ["admin-users"],
     queryFn: async () => {
-      // Fetch profiles
+      // Fetch profiles with subscription info
       const { data: profiles, error: profilesError } = await supabase
         .from("profiles")
-        .select("*")
+        .select("*, subscription_tier, subscription_expires_at")
         .order("created_at", { ascending: false });
 
       if (profilesError) throw profilesError;

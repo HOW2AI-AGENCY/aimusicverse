@@ -5,7 +5,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, editMessageText } from '../telegram-api.ts';
-import { setPendingUpload, cancelPendingUpload, hasPendingUpload } from '../core/session-store.ts';
+import { setPendingUpload, cancelPendingUpload, hasPendingUpload } from '../core/db-session-store.ts';
 import { escapeMarkdown } from '../utils/index.ts';
 
 const supabase = createClient(
@@ -25,8 +25,8 @@ export async function handleCoverCommand(
   // Parse arguments for options
   const options = parseAudioOptions(args);
   
-  // Set pending upload for user
-  setPendingUpload(userId, 'cover', options);
+  // Set pending upload for user (now async with DB)
+  await setPendingUpload(userId, 'cover', options);
   
   const text = `🎵 *Создание кавера*
 
@@ -64,7 +64,7 @@ export async function handleExtendCommand(
 ): Promise<void> {
   const options = parseAudioOptions(args);
   
-  setPendingUpload(userId, 'extend', options);
+  await setPendingUpload(userId, 'extend', options);
   
   const text = `🔄 *Расширение трека*
 
@@ -98,7 +98,8 @@ export async function handleCancelCommand(
   chatId: number,
   userId: number
 ): Promise<void> {
-  if (cancelPendingUpload(userId)) {
+  const cancelled = await cancelPendingUpload(userId);
+  if (cancelled) {
     await sendMessage(chatId, '✅ Загрузка аудио отменена\\.');
   } else {
     await sendMessage(chatId, 'ℹ️ Нет активных ожиданий загрузки\\.');
@@ -114,7 +115,7 @@ export async function handleCancelUploadCallback(
   messageId: number,
   callbackId: string
 ): Promise<void> {
-  cancelPendingUpload(userId);
+  await cancelPendingUpload(userId);
   
   const { answerCallbackQuery } = await import('../telegram-api.ts');
   await answerCallbackQuery(callbackId, '✅ Загрузка отменена');
@@ -125,8 +126,8 @@ export async function handleCancelUploadCallback(
 /**
  * Check upload status for a user
  */
-export function checkUploadPending(userId: number): boolean {
-  return hasPendingUpload(userId);
+export async function checkUploadPending(userId: number): Promise<boolean> {
+  return await hasPendingUpload(userId);
 }
 
 /**
