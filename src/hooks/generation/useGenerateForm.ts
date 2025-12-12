@@ -529,6 +529,15 @@ export function useGenerateForm({
       let data, error;
 
       if (audioFile) {
+        // Validate file size before processing (max 50MB)
+        const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+        if (audioFile.size > MAX_FILE_SIZE) {
+          toast.error('Файл слишком большой', {
+            description: `Максимальный размер: ${MAX_FILE_SIZE / 1024 / 1024}MB. Ваш файл: ${(audioFile.size / 1024 / 1024).toFixed(1)}MB`,
+          });
+          return;
+        }
+
         // Add timeout handling for FileReader operations (IMP007)
         const fileData = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
@@ -555,7 +564,7 @@ export function useGenerateForm({
               type: audioFile.type,
               data: fileData,
             },
-            defaultParamFlag: mode === 'custom',
+            customMode: mode === 'custom', // Fixed: Use customMode instead of inverted defaultParamFlag
             prompt: mode === 'custom' && hasVocals ? lyrics : undefined,
             style: mode === 'custom' ? style : undefined,
             title: title || undefined,

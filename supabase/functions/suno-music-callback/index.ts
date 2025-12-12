@@ -18,6 +18,47 @@ const getAudioUrl = (clip: any) => clip.source_audio_url || clip.audio_url;
 const getStreamUrl = (clip: any) => clip.source_stream_audio_url || clip.stream_audio_url;
 const getImageUrl = (clip: any) => clip.source_image_url || clip.image_url;
 
+/**
+ * Fetches a resource with exponential backoff retry logic
+ * @param url - URL to fetch
+ * @param maxRetries - Maximum number of retry attempts (default: 3)
+ * @param initialDelay - Initial delay in ms (default: 2000ms = 2s)
+ * @returns Promise<Response> if successful
+ * @throws Last error encountered if all retries fail
+ */
+async function fetchWithRetry(url: string, maxRetries = 3, initialDelay = 2000): Promise<Response> {
+  let lastError: Error | undefined;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      logger.debug('Fetch attempt', { attempt, maxRetries, url: url.substring(0, 100) });
+      const response = await fetch(url);
+
+      if (response.ok) {
+        logger.debug('Fetch successful', { attempt, status: response.status });
+        return response;
+      }
+
+      lastError = new Error(`HTTP ${response.status}: ${response.statusText}`);
+      logger.warn('Fetch failed with bad status', { attempt, status: response.status, error: lastError.message });
+    } catch (error: any) {
+      lastError = error;
+      logger.warn('Fetch failed with exception', { attempt, error: error.message });
+    }
+
+    // Don't delay after the last attempt
+    if (attempt < maxRetries) {
+      // Exponential backoff: 2s, 4s, 8s
+      const delay = initialDelay * Math.pow(2, attempt - 1);
+      logger.info('Retrying after delay', { attempt, nextAttempt: attempt + 1, delayMs: delay });
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+
+  logger.error('All fetch attempts failed', lastError, { maxRetries });
+  throw lastError || new Error('All fetch attempts failed');
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -310,20 +351,26 @@ serve(async (req) => {
         let localAudioUrl = null;
 
         try {
-          const audioResponse = await fetch(audioUrl);
-          if (audioResponse.ok) {
-            const audioBlob = await audioResponse.blob();
-            const audioFileName = `tracks/${task.user_id}/${trackId}_v${versionLabel}_${Date.now()}.mp3`;
-            const { data: audioUpload } = await supabase.storage
-              .from('project-assets')
-              .upload(audioFileName, audioBlob, { contentType: 'audio/mpeg', upsert: true });
-            if (audioUpload) {
-              localAudioUrl = supabase.storage.from('project-assets').getPublicUrl(audioFileName).data.publicUrl;
-              logger.success('Audio uploaded', { versionLabel });
-            }
+          // Use retry logic with exponential backoff (3 attempts: 2s, 4s, 8s delays)
+          logger.info('Downloading audio with retry', { versionLabel, url: audioUrl.substring(0, 100) });
+          const audioResponse = await fetchWithRetry(audioUrl, 3, 2000);
+
+          const audioBlob = await audioResponse.blob();
+          const audioFileName = `tracks/${task.user_id}/${trackId}_v${versionLabel}_${Date.now()}.mp3`;
+
+          const { data: audioUpload, error: uploadError } = await supabase.storage
+            .from('project-assets')
+            .upload(audioFileName, audioBlob, { contentType: 'audio/mpeg', upsert: true });
+
+          if (uploadError) {
+            logger.error('Storage upload failed', uploadError, { versionLabel });
+          } else if (audioUpload) {
+            localAudioUrl = supabase.storage.from('project-assets').getPublicUrl(audioFileName).data.publicUrl;
+            logger.success('Audio downloaded and uploaded to storage', { versionLabel, fileName: audioFileName });
           }
         } catch (e) {
-          logger.error('Download error for clip', e, { clipIndex: i });
+          logger.error('Audio download failed after all retries', e, { clipIndex: i, versionLabel });
+          // Continue processing - will use Suno's URL as fallback
         }
 
         trackTitle = clip.title || task.prompt?.split('\n')[0]?.substring(0, 100) || 'Трек';
@@ -437,49 +484,29 @@ serve(async (req) => {
       // Deduct credits from user balance for generation (non-admin users only)
       if (!isAdmin) {
         try {
-          logger.info('Deducting generation credits from user', { userId: task.user_id, cost: GENERATION_COST });
-          
-          // Get current balance
-          const { data: currentCredits, error: fetchError } = await supabase
-            .from('user_credits')
-            .select('balance, total_spent')
-            .eq('user_id', task.user_id)
-            .single();
+          logger.info('Deducting generation credits from user (atomic RPC)', { userId: task.user_id, cost: GENERATION_COST });
 
-          if (fetchError) {
-            logger.error('Failed to fetch user credits for deduction', fetchError);
-          } else if (currentCredits) {
-            const newBalance = Math.max(0, currentCredits.balance - GENERATION_COST);
-            const newTotalSpent = (currentCredits.total_spent || 0) + GENERATION_COST;
+          // Use atomic RPC function to prevent race conditions
+          const { data: deductResult, error: deductError } = await supabase
+            .rpc('deduct_generation_credits', {
+              p_user_id: task.user_id,
+              p_cost: GENERATION_COST,
+              p_description: `Генерация трека: ${clips[0]?.title || 'Трек'}`,
+              p_metadata: {
+                trackId,
+                clips: clips.length,
+                model: task.model_used,
+              },
+            });
 
-            const { error: updateError } = await supabase
-              .from('user_credits')
-              .update({
-                balance: newBalance,
-                total_spent: newTotalSpent,
-                updated_at: new Date().toISOString(),
-              })
-              .eq('user_id', task.user_id);
-
-            if (updateError) {
-              logger.error('Failed to deduct credits', updateError);
+          if (deductError) {
+            logger.error('Failed to deduct credits via RPC', deductError);
+          } else if (deductResult && deductResult.length > 0) {
+            const { new_balance, success, message } = deductResult[0];
+            if (success) {
+              logger.success('Credits deducted successfully (atomic)', { newBalance: new_balance });
             } else {
-              // Log the credit deduction transaction
-              await supabase
-                .from('credit_transactions')
-                .insert({
-                  user_id: task.user_id,
-                  amount: GENERATION_COST,
-                  transaction_type: 'spend',
-                  action_type: 'generation',
-                  description: `Генерация трека: ${clips[0]?.title || 'Трек'}`,
-                  metadata: { 
-                    trackId, 
-                    clips: clips.length,
-                    model: task.model_used,
-                  },
-                });
-              logger.success('Credits deducted successfully', { newBalance });
+              logger.warn('Credit deduction failed', { message, balance: new_balance });
             }
           }
         } catch (deductErr) {

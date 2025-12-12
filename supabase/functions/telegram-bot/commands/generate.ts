@@ -84,13 +84,14 @@ export async function handleGenerate(chatId: number, userId: number, prompt: str
     let mode = 'simple';
     let instrumental = false;
     let model = 'V4_5ALL';
+    let style = '';
     let actualPrompt = prompt;
 
     // Check for flags
     const flagRegex = /--([\w]+)(?:=(\S+))?/g;
     let match;
     const flags: Record<string, string> = {};
-    
+
     while ((match = flagRegex.exec(prompt)) !== null) {
       flags[match[1]] = match[2] || 'true';
       actualPrompt = actualPrompt.replace(match[0], '').trim();
@@ -99,6 +100,7 @@ export async function handleGenerate(chatId: number, userId: number, prompt: str
     if (flags.instrumental) instrumental = true;
     if (flags.mode) mode = flags.mode;
     if (flags.model) model = flags.model.toUpperCase();
+    if (flags.style) style = flags.style; // Fixed: Add support for --style flag
 
     // Check for inline mode indicators
     if (actualPrompt.toLowerCase().includes('[custom]')) {
@@ -164,7 +166,8 @@ export async function handleGenerate(chatId: number, userId: number, prompt: str
         instrumental,
         model,
         prompt: actualPrompt,
-        style: mode === 'custom' ? actualPrompt : undefined,
+        // Fixed: Use separate style parameter if provided, otherwise use actualPrompt as fallback for custom mode
+        style: mode === 'custom' ? (style || actualPrompt) : undefined,
       },
     });
 

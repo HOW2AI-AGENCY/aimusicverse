@@ -421,33 +421,35 @@ async function processAudioUpload(
     
     // Determine API endpoint and prepare body
     const isExtend = pendingUpload.mode === 'extend';
-    const endpoint = isExtend 
+    const endpoint = isExtend
       ? 'https://api.sunoapi.org/api/v1/generate/upload-extend'
       : 'https://api.sunoapi.org/api/v1/generate/upload-cover';
-    
+
     const model = pendingUpload.model || 'V4_5';
     const apiModel = model === 'V4_5ALL' ? 'V4_5' : model;
-    
+
+    // Fixed: Determine if we have custom parameters
+    const hasCustomParams = Boolean(
+      pendingUpload.style ||
+      pendingUpload.prompt ||
+      pendingUpload.title
+    );
+
     const requestBody: Record<string, unknown> = {
       uploadUrl: publicUrl,
       model: apiModel,
       callBackUrl: `${supabaseUrl}/functions/v1/suno-music-callback`,
+      customMode: hasCustomParams, // Fixed: Use customMode consistently for both cover and extend
     };
-    
-    if (isExtend) {
-      requestBody.defaultParamFlag = true; // Custom mode for extend
+
+    // Add custom parameters if we have them
+    if (hasCustomParams) {
       requestBody.instrumental = pendingUpload.instrumental || false;
       if (pendingUpload.style) requestBody.style = pendingUpload.style;
       if (pendingUpload.title) requestBody.title = pendingUpload.title;
       if (pendingUpload.prompt && !pendingUpload.instrumental) {
         requestBody.prompt = pendingUpload.prompt;
       }
-    } else {
-      requestBody.customMode = Boolean(pendingUpload.style);
-      requestBody.instrumental = pendingUpload.instrumental || false;
-      if (pendingUpload.style) requestBody.style = pendingUpload.style;
-      if (pendingUpload.prompt) requestBody.prompt = pendingUpload.prompt;
-      if (pendingUpload.title) requestBody.title = pendingUpload.title;
     }
     
     logger.apiCall('SunoAPI', isExtend ? 'upload-extend' : 'upload-cover', { model: apiModel });

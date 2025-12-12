@@ -50,7 +50,7 @@ serve(async (req) => {
       telegramChatId,
       audioUrl: providedAudioUrl, // Pre-uploaded audio URL from bot
       audioFile,
-      defaultParamFlag = false,
+      customMode = false, // Changed from defaultParamFlag - now consistent with upload-cover
       instrumental = false,
       prompt,
       style,
@@ -113,6 +113,57 @@ serve(async (req) => {
       userId = user.id;
     }
 
+    // Check user credits (only for non-admin, non-telegram-bot users)
+    if (source !== 'telegram_bot') {
+      const GENERATION_COST = 10;
+
+      // Check if user is admin
+      const { data: isAdmin } = await supabase.rpc('has_role', {
+        _user_id: userId,
+        _role: 'admin'
+      });
+
+      logger.info('User role check', { userId, isAdmin: !!isAdmin });
+
+      // Only check personal balance for non-admin users
+      if (!isAdmin) {
+        logger.info('Checking user credits balance', { userId });
+
+        const { data: userCredits, error: creditsError } = await supabase
+          .from('user_credits')
+          .select('balance')
+          .eq('user_id', userId)
+          .maybeSingle();
+
+        if (creditsError) {
+          logger.error('Failed to fetch user credits', creditsError);
+          return new Response(
+            JSON.stringify({ error: 'Ошибка проверки баланса' }),
+            { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
+
+        const userBalance = userCredits?.balance ?? 0;
+        logger.info('User credit balance', { userId, balance: userBalance, required: GENERATION_COST });
+
+        // Check if user has enough credits for generation
+        if (userBalance < GENERATION_COST) {
+          logger.warn('Insufficient user credits', { balance: userBalance, required: GENERATION_COST });
+          return new Response(
+            JSON.stringify({
+              error: `Недостаточно кредитов. Баланс: ${userBalance}, требуется: ${GENERATION_COST}`,
+              errorCode: 'INSUFFICIENT_CREDITS',
+              balance: userBalance,
+              required: GENERATION_COST,
+            }),
+            { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
+      } else {
+        logger.info('Admin user - skipping personal balance check, using shared API balance');
+      }
+    }
+
     // Determine audio URL - either provided from bot or upload from file
     let publicUrl: string;
 
@@ -165,7 +216,7 @@ serve(async (req) => {
       );
     }
 
-    logger.info('Processing extend request', { defaultParamFlag, model, instrumental });
+    logger.info('Processing extend request', { customMode, model, instrumental });
 
     // Map UI model key to API model name
     const apiModel = getApiModelName(model);
@@ -174,13 +225,13 @@ serve(async (req) => {
     // Prepare request body for Suno API
     const requestBody: any = {
       uploadUrl: publicUrl,
-      defaultParamFlag,
+      customMode, // Fixed: Now uses customMode consistently with upload-cover
       model: apiModel,
       callBackUrl: `${supabaseUrl}/functions/v1/suno-music-callback`,
     };
 
-    if (defaultParamFlag) {
-      // Custom mode
+    if (customMode) {
+      // Custom mode - validate required parameters
       if (!style) {
         return new Response(
           JSON.stringify({ error: 'Style is required in custom mode' }),
@@ -192,7 +243,7 @@ serve(async (req) => {
       requestBody.style = style;
       if (title) requestBody.title = title;
       if (continueAt !== undefined) requestBody.continueAt = continueAt;
-      
+
       if (!instrumental && prompt) {
         requestBody.prompt = prompt;
       }
@@ -205,7 +256,7 @@ serve(async (req) => {
       if (audioWeight !== undefined) requestBody.audioWeight = audioWeight;
     }
 
-    logger.apiCall('SunoAPI', 'upload-extend', { model: apiModel, defaultParamFlag, instrumental });
+    logger.apiCall('SunoAPI', 'upload-extend', { model: apiModel, customMode, instrumental });
 
     // Call Suno API
     const response = await fetch('https://api.sunoapi.org/api/v1/generate/upload-extend', {

@@ -14,10 +14,10 @@ const corsHeaders = {
  * Per SunoAPI docs: Model values are V5, V4_5PLUS, V4_5, V4, V3_5
  */
 const VALID_MODELS = ['V5', 'V4_5PLUS', 'V4_5', 'V4', 'V3_5'];
-const DEFAULT_MODEL = 'V4_5PLUS';
+const DEFAULT_MODEL = 'V4_5'; // Fixed: Unified with other functions
 
 function getApiModelName(uiKey: string): string {
-  if (uiKey === 'V4_5ALL') return 'V4_5PLUS';
+  if (uiKey === 'V4_5ALL') return 'V4_5'; // Fixed: Unified with other functions
   return VALID_MODELS.includes(uiKey) ? uiKey : DEFAULT_MODEL;
 }
 
