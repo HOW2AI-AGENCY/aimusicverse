@@ -112,6 +112,57 @@ serve(async (req) => {
       userId = user.id;
     }
 
+    // Check user credits (only for non-admin, non-telegram-bot users)
+    if (source !== 'telegram_bot') {
+      const GENERATION_COST = 10;
+
+      // Check if user is admin
+      const { data: isAdmin } = await supabase.rpc('has_role', {
+        _user_id: userId,
+        _role: 'admin'
+      });
+
+      logger.info('User role check', { userId, isAdmin: !!isAdmin });
+
+      // Only check personal balance for non-admin users
+      if (!isAdmin) {
+        logger.info('Checking user credits balance', { userId });
+
+        const { data: userCredits, error: creditsError } = await supabase
+          .from('user_credits')
+          .select('balance')
+          .eq('user_id', userId)
+          .maybeSingle();
+
+        if (creditsError) {
+          logger.error('Failed to fetch user credits', creditsError);
+          return new Response(
+            JSON.stringify({ error: 'Ошибка проверки баланса' }),
+            { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
+
+        const userBalance = userCredits?.balance ?? 0;
+        logger.info('User credit balance', { userId, balance: userBalance, required: GENERATION_COST });
+
+        // Check if user has enough credits for generation
+        if (userBalance < GENERATION_COST) {
+          logger.warn('Insufficient user credits', { balance: userBalance, required: GENERATION_COST });
+          return new Response(
+            JSON.stringify({
+              error: `Недостаточно кредитов. Баланс: ${userBalance}, требуется: ${GENERATION_COST}`,
+              errorCode: 'INSUFFICIENT_CREDITS',
+              balance: userBalance,
+              required: GENERATION_COST,
+            }),
+            { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
+      } else {
+        logger.info('Admin user - skipping personal balance check, using shared API balance');
+      }
+    }
+
     // Determine audio URL - either provided from bot or upload from file
     let publicUrl: string;
 
