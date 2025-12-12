@@ -235,17 +235,19 @@ async function handleSuccessfulPayment(
     // Parse invoice payload
     const payload: InvoicePayload = JSON.parse(payment.invoice_payload);
 
-    // T047: Check for duplicate (idempotency)
+    // T047: Idempotency check with retry handling for race conditions
+    // First check for existing completed transaction
     const { data: existing } = await supabase
       .from('stars_transactions')
       .select('*')
       .eq('telegram_payment_charge_id', payment.telegram_payment_charge_id)
-      .single();
+      .maybeSingle();
 
     if (existing) {
       logger.info('Duplicate payment detected (idempotent)', {
         chargeId: payment.telegram_payment_charge_id,
         transactionId: existing.id,
+        status: existing.status,
       });
 
       return new Response(JSON.stringify({ ok: true, duplicate: true }), {
@@ -253,7 +255,8 @@ async function handleSuccessfulPayment(
       });
     }
 
-    // Process payment using database function
+    // Process payment using database function with built-in idempotency
+    // The database function handles concurrent requests via FOR UPDATE lock
     const { data: result, error: processError } = await supabase.rpc('process_stars_payment', {
       p_transaction_id: payload.transactionId,
       p_telegram_payment_charge_id: payment.telegram_payment_charge_id,
