@@ -46,3 +46,4 @@ verify.cjs
 *.tmp
 *.swp
 *.bak
+supabase/.temp/
