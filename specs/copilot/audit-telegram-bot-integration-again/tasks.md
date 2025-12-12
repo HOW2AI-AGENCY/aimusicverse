@@ -230,51 +230,51 @@ tests/
 
 ### TypeScript Types
 
-- [ ] T068 Create `src/types/starsPayment.ts` with types: `StarsProduct`, `StarsTransaction`, `SubscriptionStatus`, `CreateInvoiceRequest`, `CreateInvoiceResponse`
-- [ ] T069 Add type definitions for Edge Function responses in `src/types/starsPayment.ts` (match contracts/stars-invoice-api.json, contracts/admin-payments-api.json)
+- [X] T068 Create `src/types/starsPayment.ts` with types: `StarsProduct`, `StarsTransaction`, `SubscriptionStatus`, `CreateInvoiceRequest`, `CreateInvoiceResponse` ✅
+- [X] T069 Add type definitions for Edge Function responses in `src/types/starsPayment.ts` (match contracts/stars-invoice-api.json, contracts/admin-payments-api.json) ✅
 
 ### Payment Service
 
-- [ ] T070 Create `src/services/starsPaymentService.ts` with base Supabase client setup
-- [ ] T071 Implement `createInvoice()` method in `src/services/starsPaymentService.ts` (POST to /stars-create-invoice)
-- [ ] T072 Implement `getSubscriptionStatus()` method in `src/services/starsPaymentService.ts` (GET /stars-subscription-status)
-- [ ] T073 Implement `getProducts()` method in `src/services/starsPaymentService.ts` (query stars_products table)
-- [ ] T074 Implement `getPaymentHistory()` method in `src/services/starsPaymentService.ts` (query stars_transactions table with RLS)
-- [ ] T075 Add error handling and TypeScript types to all service methods in `src/services/starsPaymentService.ts`
+- [X] T070 Create `src/services/starsPaymentService.ts` with base Supabase client setup ✅
+- [X] T071 Implement `createInvoice()` method in `src/services/starsPaymentService.ts` (POST to /stars-create-invoice) ✅
+- [X] T072 Implement `getSubscriptionStatus()` method in `src/services/starsPaymentService.ts` (GET /stars-subscription-status) ✅
+- [X] T073 Implement `getProducts()` method in `src/services/starsPaymentService.ts` (query stars_products table) ✅
+- [X] T074 Implement `getPaymentHistory()` method in `src/services/starsPaymentService.ts` (query stars_transactions table with RLS) ✅
+- [X] T075 Add error handling and TypeScript types to all service methods in `src/services/starsPaymentService.ts` ✅
 
 ### Custom Hooks
 
-- [ ] T076 Create `src/hooks/useStarsPayment.ts` with TanStack Query hook for invoice creation
-- [ ] T077 Implement payment flow logic in `src/hooks/useStarsPayment.ts` (createInvoice → openInvoice → wait for webhook → refresh balance)
-- [ ] T078 Create `src/hooks/useStarsProducts.ts` with TanStack Query hook for fetching products (cache strategy: staleTime 30s, gcTime 10min)
-- [ ] T079 Create `src/hooks/useSubscriptionStatus.ts` with TanStack Query hook for subscription status (auto-refresh every 60s if near expiry)
-- [ ] T080 Create `src/hooks/usePaymentHistory.ts` with TanStack Query infinite scroll hook for transaction history
-- [ ] T081 Add optimistic updates in `src/hooks/useStarsPayment.ts` (update credits immediately on payment success)
+- [X] T076 Create `src/hooks/useStarsPayment.ts` with TanStack Query hook for invoice creation ✅
+- [X] T077 Implement payment flow logic in `src/hooks/useStarsPayment.ts` (createInvoice → openInvoice → wait for webhook → refresh balance) ✅
+- [X] T078 Create `src/hooks/useStarsProducts.ts` with TanStack Query hook for fetching products (cache strategy: staleTime 30s, gcTime 10min) ✅
+- [X] T079 Create `src/hooks/useSubscriptionStatus.ts` with TanStack Query hook for subscription status (auto-refresh every 60s if near expiry) ✅
+- [X] T080 Create `src/hooks/usePaymentHistory.ts` with TanStack Query infinite scroll hook for transaction history ✅
+- [X] T081 Add optimistic updates in `src/hooks/useStarsPayment.ts` (update credits immediately on payment success) ✅
 
 ### Payment Components
 
-- [ ] T082 Create `src/components/payments/StarsPaymentButton.tsx` with Telegram Stars icon and "Buy with Stars" button
-- [ ] T083 Add onClick handler to `src/components/payments/StarsPaymentButton.tsx` (call useStarsPayment hook, open invoice via Telegram SDK)
-- [ ] T084 Create `src/components/payments/CreditPackageCard.tsx` with product display (name, price in Stars, credits amount, badge if featured)
-- [ ] T085 Add selection state and onClick handler to `src/components/payments/CreditPackageCard.tsx`
-- [ ] T086 Create `src/components/payments/SubscriptionCard.tsx` with tier display (Pro/Premium, price, features list, badge if current tier)
-- [ ] T087 Add "Subscribe" button to `src/components/payments/SubscriptionCard.tsx` (calls useStarsPayment hook)
-- [ ] T088 Create `src/components/payments/PaymentHistory.tsx` with transaction list (date, product name, amount, status badge)
-- [ ] T089 Add infinite scroll to `src/components/payments/PaymentHistory.tsx` (use react-virtuoso)
-- [ ] T090 Create `src/components/payments/PaymentSuccessModal.tsx` with celebration animation (Framer Motion)
-- [ ] T091 Add confetti effect and "Credits Added" message to `src/components/payments/PaymentSuccessModal.tsx`
+- [X] T082 Create `src/components/payments/StarsPaymentButton.tsx` with Telegram Stars icon and "Buy with Stars" button ✅
+- [X] T083 Add onClick handler to `src/components/payments/StarsPaymentButton.tsx` (call useStarsPayment hook, open invoice via Telegram SDK) ✅
+- [X] T084 Create `src/components/payments/CreditPackageCard.tsx` with product display (name, price in Stars, credits amount, badge if featured) ✅
+- [X] T085 Add selection state and onClick handler to `src/components/payments/CreditPackageCard.tsx` ✅
+- [X] T086 Create `src/components/payments/SubscriptionCard.tsx` with tier display (Pro/Premium, price, features list, badge if current tier) ✅
+- [X] T087 Add "Subscribe" button to `src/components/payments/SubscriptionCard.tsx` (calls useStarsPayment hook) ✅
+- [X] T088 Create `src/components/payments/PaymentHistory.tsx` with transaction list (date, product name, amount, status badge) ✅
+- [X] T089 Add infinite scroll to `src/components/payments/PaymentHistory.tsx` (use react-virtuoso) ✅
+- [X] T090 Create `src/components/payments/PaymentSuccessModal.tsx` with celebration animation (Framer Motion) ✅
+- [X] T091 Add confetti effect and "Credits Added" message to `src/components/payments/PaymentSuccessModal.tsx` ✅
 
 ### Payment Pages
 
-- [ ] T092 Create `src/pages/payments/BuyCredits.tsx` with layout and product grid
-- [ ] T093 Add product filtering in `src/pages/payments/BuyCredits.tsx` (all packages vs. featured)
-- [ ] T094 Integrate CreditPackageCard components in `src/pages/payments/BuyCredits.tsx` grid
-- [ ] T095 Add StarsPaymentButton at bottom of `src/pages/payments/BuyCredits.tsx` page
-- [ ] T096 Create `src/pages/payments/Subscription.tsx` with tier comparison layout
-- [ ] T097 Add current subscription status display in `src/pages/payments/Subscription.tsx` (useSubscriptionStatus hook)
-- [ ] T098 Integrate SubscriptionCard components in `src/pages/payments/Subscription.tsx`
-- [ ] T099 Add "Manage Subscription" section in `src/pages/payments/Subscription.tsx` (cancel, view history)
-- [ ] T100 Add routing for payment pages in `src/App.tsx` (/buy-credits, /subscription)
+- [X] T092 Create `src/pages/payments/BuyCredits.tsx` with layout and product grid ✅
+- [X] T093 Add product filtering in `src/pages/payments/BuyCredits.tsx` (all packages vs. featured) ✅
+- [X] T094 Integrate CreditPackageCard components in `src/pages/payments/BuyCredits.tsx` grid ✅
+- [X] T095 Add StarsPaymentButton at bottom of `src/pages/payments/BuyCredits.tsx` page ✅
+- [X] T096 Create `src/pages/payments/Subscription.tsx` with tier comparison layout ✅
+- [X] T097 Add current subscription status display in `src/pages/payments/Subscription.tsx` (useSubscriptionStatus hook) ✅
+- [X] T098 Integrate SubscriptionCard components in `src/pages/payments/Subscription.tsx` ✅
+- [X] T099 Add "Manage Subscription" section in `src/pages/payments/Subscription.tsx` (cancel, view history) ✅
+- [X] T100 Add routing for payment pages in `src/App.tsx` (/buy-credits, /subscription) ✅
 
 ### Frontend Testing
 
