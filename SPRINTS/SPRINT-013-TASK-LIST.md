@@ -102,17 +102,6 @@ Implementing advanced audio features for Stem Studio including waveform visualiz
 
 ---
 
-## In Progress 🔄
-
-- [ ] **T059** Test Guitar Studio with diagnostic logs enabled (requires Edge Function deployment)
-- [ ] **T060** Analyze diagnostic logs to identify Klangio output format limitation root cause
-- [ ] **T061** Add audio effects panel (EQ, Reverb, Compressor)
-- [ ] **T062** Create effect presets system
-- [ ] **T063** Implement mix export functionality
-- [ ] **T064** Add loop region selection
-- [ ] **T065** Create Piano Roll MIDI visualization
-- [ ] **T066** Add keyboard shortcuts for track actions
-
 ## Completed (Phase 4) ✅
 
 ### Phase 8: SunoAPI Edge Functions Fixes
@@ -124,6 +113,29 @@ Implementing advanced audio features for Stem Studio including waveform visualiz
 - [x] **T072** Fix generate-track-cover - use google/gemini-3-pro-image-preview model ✅
 
 **SDD**: [specs/SDD-017-SunoAPI-Fixes.md](../specs/SDD-017-SunoAPI-Fixes.md)
+
+### Phase 9: Audio Effects & Presets (Previously In Progress - Now Complete)
+- [x] **T061** Audio effects panel (EQ, Reverb, Compressor) ✅ **Already Implemented**
+- [x] **T062** Effect presets system (useMixPresets hook) ✅ **Already Implemented**
+- [x] **T063** Mix export functionality (MixExportDialog) ✅ **Already Implemented**
+- [x] **T065** Piano Roll MIDI visualization (PianoRollPreview) ✅ **Already Implemented**
+
+---
+
+## In Progress 🔄
+
+### Phase 10: Remaining Studio Features
+- [ ] **T059** Test Guitar Studio with diagnostic logs enabled
+- [ ] **T060** Analyze Klangio diagnostic logs  
+- [x] **T064** Add loop region selection ✅ **Implemented 2025-12-12**
+  - Created `LoopRegionSelector` component with visual timeline
+  - Created `useLoopRegion` hook for auto-loop functionality
+- [ ] **T066** Add keyboard shortcuts for track actions
+
+### Phase 11: Sprint 025 Preparation
+- [ ] **T073** Performance monitoring setup (Lighthouse CI)
+- [ ] **T074** Music Lab Hub foundation
+- [ ] **T075** Bundle size optimization review
 
 ---
 
