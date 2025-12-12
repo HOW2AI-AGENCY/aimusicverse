@@ -68,6 +68,10 @@ export const UploadAudioDialog = ({
   const [continueAt, setContinueAt] = useState<number>(0);
   const [model, setModel] = useState('V4_5ALL');
   
+  // Audio analysis state
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisComplete, setAnalysisComplete] = useState(false);
+  
   // Audio trimming for V5 model
   const [showTrimSelector, setShowTrimSelector] = useState(false);
   const [trimStart, setTrimStart] = useState(0);
@@ -192,6 +196,102 @@ export const UploadAudioDialog = ({
     };
 
     toast.success('Аудио загружено');
+    
+    // Trigger automatic analysis if not already done
+    if (!analysisComplete) {
+      analyzeAudioFile(file);
+    }
+  };
+
+  // Analyze audio file automatically
+  const analyzeAudioFile = async (file: File) => {
+    if (!user) {
+      logger.warn('User not authenticated, skipping analysis');
+      return;
+    }
+
+    setIsAnalyzing(true);
+    try {
+      logger.info('Starting automatic audio analysis');
+      
+      // Upload file temporarily for analysis
+      const tempFileName = `temp-analysis/${user.id}/${Date.now()}-${file.name}`;
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('project-assets')
+        .upload(tempFileName, file, {
+          cacheControl: '3600',
+          upsert: false,
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('project-assets')
+        .getPublicUrl(tempFileName);
+
+      // Run both style analysis and lyrics transcription in parallel
+      const [styleAnalysis, lyricsTranscription] = await Promise.allSettled([
+        // Style analysis via audio-flamingo-3
+        supabase.functions.invoke('analyze-audio-flamingo', {
+          body: {
+            audio_url: publicUrl,
+            analysis_type: 'upload',
+          },
+        }),
+        // Lyrics transcription
+        supabase.functions.invoke('transcribe-lyrics', {
+          body: {
+            audio_url: publicUrl,
+            analyze_style: false, // We're already analyzing style above
+          },
+        }),
+      ]);
+
+      // Process style analysis results
+      if (styleAnalysis.status === 'fulfilled' && styleAnalysis.value.data?.success) {
+        const parsed = styleAnalysis.value.data.parsed;
+        if (parsed.style_description && !style) {
+          setStyle(parsed.style_description);
+          toast.success('Стиль определен автоматически', {
+            icon: <Sparkles className="w-4 h-4" />,
+          });
+        }
+      }
+
+      // Process lyrics transcription results
+      if (lyricsTranscription.status === 'fulfilled' && lyricsTranscription.value.data?.success) {
+        const data = lyricsTranscription.value.data;
+        if (data.has_vocals && data.lyrics && !prompt) {
+          setPrompt(data.lyrics);
+          setInstrumental(false);
+          toast.success('Текст песни извлечен', {
+            icon: <Mic className="w-4 h-4" />,
+            description: data.language ? `Язык: ${data.language}` : undefined,
+          });
+        } else if (!data.has_vocals) {
+          setInstrumental(true);
+          toast.info('Вокал не обнаружен', {
+            description: 'Трек помечен как инструментальный',
+          });
+        }
+      }
+
+      // Clean up temporary file
+      await supabase.storage
+        .from('project-assets')
+        .remove([tempFileName]);
+
+      setAnalysisComplete(true);
+      logger.info('Audio analysis complete');
+      
+    } catch (error) {
+      logger.error('Audio analysis error', { error });
+      toast.error('Ошибка анализа аудио', {
+        description: 'Вы можете заполнить поля вручную',
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   // Cleanup preview URL on unmount or file change
@@ -335,11 +435,14 @@ export const UploadAudioDialog = ({
     setContinueAt(0);
     setNegativeTags('');
     setVocalGender('');
+    setIsAnalyzing(false);
+    setAnalysisComplete(false);
   };
 
   // Model duration limits (in seconds) based on SunoAPI documentation
+  // V5 has 240s limit for audio uploads per requirements
   const MODEL_DURATION_LIMITS: Record<string, number> = {
-    'V5': 480,
+    'V5': 240,
     'V4_5PLUS': 480,
     'V4_5ALL': 60,
     'V4': 240,
@@ -429,6 +532,8 @@ export const UploadAudioDialog = ({
                           setAudioDuration(null);
                           setAudioPreviewUrl(null);
                           setSelectedTrack(null);
+                          setIsAnalyzing(false);
+                          setAnalysisComplete(false);
                         }}
                       >
                         Удалить

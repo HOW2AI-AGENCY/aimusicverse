@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { createLogger } from "../_shared/logger.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
+import { sanitizeFilename } from "../_shared/sanitize-filename.ts";
 
 const logger = createLogger('suno-upload-cover');
 
@@ -173,7 +174,12 @@ serve(async (req) => {
       logger.info('Using provided audio URL', { publicUrl });
     } else if (audioFile) {
       // Upload audio from file data
-      const fileName = `${userId}/uploads/${Date.now()}-${audioFile.name || 'audio.mp3'}`;
+      // Sanitize filename to remove special characters
+      const originalName = audioFile.name || 'audio.mp3';
+      const sanitizedName = sanitizeFilename(originalName);
+      const fileName = `${userId}/uploads/${Date.now()}-${sanitizedName}`;
+      
+      logger.info('Sanitized filename', { original: originalName, sanitized: sanitizedName });
       
       // Decode base64 if needed
       let audioBuffer: Uint8Array;
@@ -219,9 +225,10 @@ serve(async (req) => {
     logger.debug('Model mapping', { from: model, to: apiModel });
 
     // Validate audio duration against model limits
+    // V5 has 240s limit for audio uploads per requirements
     if (audioDuration) {
       const MODEL_DURATION_LIMITS: Record<string, number> = {
-        'V5': 480,
+        'V5': 240,
         'V4_5PLUS': 480,
         'V4_5': 60,  // V4_5ALL maps to V4_5
         'V4': 240,
