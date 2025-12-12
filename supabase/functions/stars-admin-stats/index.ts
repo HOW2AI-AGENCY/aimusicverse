@@ -73,7 +73,7 @@ serve(async (req) => {
     const authHeader = req.headers.get('authorization');
     const token = authHeader?.replace('Bearer ', '');
     
-    const { isAdmin, userId, error: authError } = await verifyAdminAccess(supabase, token);
+    const { isAdmin, userId, error: authError } = await verifyAdminAccess(supabase, token ?? null);
     
     if (!isAdmin) {
       return new Response(
@@ -148,20 +148,28 @@ serve(async (req) => {
       .gte('created_at', fromDate.toISOString())
       .lte('created_at', toDate.toISOString());
 
-    // Calculate breakdowns
-    const creditRevenue = breakdown
-      ?.filter(tx => tx.product?.product_type === 'credit_package' && tx.status === 'completed')
-      .reduce((sum, tx) => sum + (tx.stars_amount || 0), 0) || 0;
+    // Type guard for breakdown items
+    type BreakdownItem = { 
+      product: { product_type: string; product_code: string } | null; 
+      stars_amount: number | null; 
+      status: string | null;
+    };
+    const typedBreakdown = (breakdown || []) as unknown as BreakdownItem[];
 
-    const subscriptionRevenue = breakdown
-      ?.filter(tx => tx.product?.product_type === 'subscription' && tx.status === 'completed')
-      .reduce((sum, tx) => sum + (tx.stars_amount || 0), 0) || 0;
+    // Calculate breakdowns
+    const creditRevenue = typedBreakdown
+      .filter(tx => tx.product?.product_type === 'credit_package' && tx.status === 'completed')
+      .reduce((sum, tx) => sum + (tx.stars_amount || 0), 0);
+
+    const subscriptionRevenue = typedBreakdown
+      .filter(tx => tx.product?.product_type === 'subscription' && tx.status === 'completed')
+      .reduce((sum, tx) => sum + (tx.stars_amount || 0), 0);
 
     const statusBreakdown = {
-      completed: breakdown?.filter(tx => tx.status === 'completed').length || 0,
-      pending: breakdown?.filter(tx => tx.status === 'pending').length || 0,
-      failed: breakdown?.filter(tx => tx.status === 'failed').length || 0,
-      cancelled: breakdown?.filter(tx => tx.status === 'cancelled').length || 0,
+      completed: typedBreakdown.filter(tx => tx.status === 'completed').length,
+      pending: typedBreakdown.filter(tx => tx.status === 'pending').length,
+      failed: typedBreakdown.filter(tx => tx.status === 'failed').length,
+      cancelled: typedBreakdown.filter(tx => tx.status === 'cancelled').length,
     };
 
     // Format response
