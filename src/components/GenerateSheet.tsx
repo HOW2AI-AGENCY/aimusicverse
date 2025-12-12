@@ -43,12 +43,13 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   // Dialog states
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
   const [artistDialogOpen, setArtistDialogOpen] = useState(false);
-  const [audioDialogOpen, setAudioDialogOpen] = useState(false);
+  const [audioActionDialogOpen, setAudioActionDialogOpen] = useState(false); // For reference audio selection
+  const [audioUploadDialogOpen, setAudioUploadDialogOpen] = useState(false); // For cover/extend actions
   const [historyOpen, setHistoryOpen] = useState(false);
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
   const [uploadAudioOpen, setUploadAudioOpen] = useState(false);
   const [uploadAudioMode, setUploadAudioMode] = useState<'extend' | 'cover'>('extend');
-  const [uploadAudioFile, setUploadAudioFile] = useState<File | null>(null);
+  const [uploadAudioFile, setUploadAudioFile] = useState<File | undefined>(undefined);
   const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
@@ -124,7 +125,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
             {/* Quick Action Buttons */}
             <GenerateFormActions
-              onOpenAudioDialog={() => setAudioDialogOpen(true)}
+              onOpenAudioDialog={() => setAudioUploadDialogOpen(true)}
               onOpenArtistDialog={() => setArtistDialogOpen(true)}
               onOpenProjectDialog={() => setProjectDialogOpen(true)}
             />
@@ -251,21 +252,22 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         onSelect={form.handleArtistSelect}
       />
 
-      {/* New: Audio Upload with Action Selection */}
+      {/* Audio Upload with Action Selection - for cover/extend */}
       <AudioUploadActionDialog
-        open={audioDialogOpen}
-        onOpenChange={setAudioDialogOpen}
+        open={audioUploadDialogOpen}
+        onOpenChange={setAudioUploadDialogOpen}
         onActionSelected={(file, action) => {
-          setAudioDialogOpen(false);
+          setAudioUploadDialogOpen(false);
           setUploadAudioMode(action);
           setUploadAudioFile(file); // Store the audio file
           setUploadAudioOpen(true);
         }}
       />
 
+      {/* Audio Action Dialog - for reference audio in generation */}
       <AudioActionDialog
-        open={audioDialogOpen}
-        onOpenChange={setAudioDialogOpen}
+        open={audioActionDialogOpen}
+        onOpenChange={setAudioActionDialogOpen}
         onAudioSelected={(file) => {
           form.setAudioFile(file);
           form.setMode('custom');
@@ -308,7 +310,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         onOpenChange={(open) => {
           setUploadAudioOpen(open);
           if (!open) {
-            setUploadAudioFile(null); // Clear file when closing
+            setUploadAudioFile(undefined); // Clear file when closing
           }
         }}
         projectId={form.selectedProjectId || initialProjectId}

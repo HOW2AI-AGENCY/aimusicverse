@@ -165,12 +165,14 @@ export async function handleAudioActionCallback(
     return;
   }
 
-  // Handle non-generation actions
+  // Handle non-generation actions - these require additional implementation
   if (action === 'recognize') {
-    await answerCallbackQuery(callbackId, '🎼 Функция скоро...');
+    await answerCallbackQuery(callbackId, '🔍 Распознавание...');
+    await editMessageText(chatId, messageId, `🔍 *Распознавание песни*\n\nФункция доступна через команду /recognize\\.\nОтправьте аудио после этой команды\\.`);
     return;
   } else if (action === 'midi') {
-    await answerCallbackQuery(callbackId, '🎹 Функция скоро...');
+    await answerCallbackQuery(callbackId, '🎹 MIDI конвертация...');
+    await editMessageText(chatId, messageId, `🎹 *Конвертация в MIDI*\n\nФункция доступна через команду /midi\\.\nОтправьте аудио после этой команды\\.`);
     return;
   }
 
