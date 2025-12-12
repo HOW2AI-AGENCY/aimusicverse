@@ -10,6 +10,7 @@ import { usePlayerStore } from '@/hooks/audio';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useTracks, Track } from '@/hooks/useTracksOptimized';
 import { useTrackActions } from '@/hooks/useTrackActions';
+import { LazyImage } from '@/components/ui/lazy-image';
 import { cn } from '@/lib/utils';
 import { motion } from '@/lib/motion';
 import { PlaybackControls } from '@/components/player/PlaybackControls';
@@ -178,10 +179,11 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
             {/* Album Art */}
             <Card className="relative aspect-square w-full max-w-md overflow-hidden glass-card border-primary/20">
               {coverUrl ? (
-                <img
+                <LazyImage
                   src={coverUrl}
                   alt={track.title || 'Track cover'}
                   className="w-full h-full object-cover"
+                  containerClassName="w-full h-full"
                 />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">

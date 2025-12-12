@@ -9,6 +9,7 @@ import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useTracks } from '@/hooks/useTracksOptimized';
 import { PlaybackControls } from '@/components/player/PlaybackControls';
 import { VersionSwitcher } from '@/components/player/VersionSwitcher';
+import { LazyImage } from '@/components/ui/lazy-image';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
@@ -143,10 +144,11 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
             {/* Cover with loading/error indicators */}
             <div className="relative w-10 h-10 sm:w-11 sm:h-11 flex-shrink-0">
               {track.cover_url ? (
-                <img
+                <LazyImage
                   src={track.cover_url}
                   alt={track.title || 'Track cover'}
                   className="w-full h-full rounded-lg object-cover"
+                  containerClassName="w-full h-full"
                 />
               ) : (
                 <div className="w-full h-full rounded-lg bg-muted flex items-center justify-center">
