@@ -35,14 +35,16 @@ interface UploadAudioDialogProps {
   projectId?: string;
   defaultMode?: 'cover' | 'extend';
   prefillData?: PrefillData;
+  initialAudioFile?: File;
 }
 
-export const UploadAudioDialog = ({ 
-  open, 
-  onOpenChange, 
+export const UploadAudioDialog = ({
+  open,
+  onOpenChange,
   projectId,
   defaultMode = 'cover',
-  prefillData
+  prefillData,
+  initialAudioFile
 }: UploadAudioDialogProps) => {
   const { user } = useAuth();
   const [mode, setMode] = useState<'cover' | 'extend'>(defaultMode);
@@ -106,6 +108,14 @@ export const UploadAudioDialog = ({
       loadUserTracks();
     }
   }, [libraryOpen, user, userTracks.length, loadUserTracks]);
+
+  // Handle initial audio file from AudioUploadActionDialog
+  useEffect(() => {
+    if (open && initialAudioFile && !audioFile) {
+      logger.info('Setting initial audio file from dialog', { fileName: initialAudioFile.name });
+      handleFileSelect(initialAudioFile);
+    }
+  }, [open, initialAudioFile]);
 
   const handleTrackSelect = async (track: Tables<'tracks'>) => {
     setSelectedTrack(track);
