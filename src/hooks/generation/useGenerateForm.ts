@@ -210,6 +210,57 @@ export function useGenerateForm({
     }
   }, [open]);
 
+  // Apply preset parameters from Quick Create
+  useEffect(() => {
+    if (open) {
+      try {
+        const presetParamsStr = sessionStorage.getItem('presetParams');
+        if (presetParamsStr) {
+          const presetParams = JSON.parse(presetParamsStr);
+          
+          logger.info('Loading Quick Create preset params', { presetId: presetParams.presetId });
+          
+          // Set mode to simple if only basic params, custom if more detailed
+          if (presetParams.style || presetParams.mood || presetParams.tempo) {
+            setMode('custom');
+          }
+          
+          // Build style description from preset
+          const styleComponents: string[] = [];
+          
+          if (presetParams.style) {
+            styleComponents.push(presetParams.style);
+          }
+          
+          if (presetParams.mood) {
+            styleComponents.push(presetParams.mood);
+          }
+          
+          if (presetParams.tempo) {
+            styleComponents.push(presetParams.tempo);
+          }
+          
+          if (presetParams.instruments && Array.isArray(presetParams.instruments)) {
+            styleComponents.push(presetParams.instruments.join(', '));
+          }
+          
+          if (styleComponents.length > 0) {
+            setStyle(styleComponents.join(' • '));
+          }
+          
+          toast.success('Preset загружен', {
+            description: 'Форма заполнена из Quick Create',
+          });
+          
+          // Clear from sessionStorage after applying
+          sessionStorage.removeItem('presetParams');
+        }
+      } catch (error) {
+        logger.error('Failed to load preset params from sessionStorage', error instanceof Error ? error : new Error(String(error)));
+      }
+    }
+  }, [open]);
+
   // Fetch API credits (for display purposes)
   useEffect(() => {
     const fetchApiCredits = async () => {
