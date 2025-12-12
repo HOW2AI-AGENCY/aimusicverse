@@ -50,6 +50,7 @@ serve(async (req) => {
       telegramChatId,
       audioUrl: providedAudioUrl, // Pre-uploaded audio URL from bot
       audioFile,
+      audioDuration, // Duration in seconds for validation
       customMode = false,
       instrumental = false,
       prompt,
@@ -216,6 +217,43 @@ serve(async (req) => {
     // Map UI model key to API model name
     const apiModel = getApiModelName(model);
     logger.debug('Model mapping', { from: model, to: apiModel });
+
+    // Validate audio duration against model limits
+    if (audioDuration) {
+      const MODEL_DURATION_LIMITS: Record<string, number> = {
+        'V5': 480,
+        'V4_5PLUS': 480,
+        'V4_5': 60,  // V4_5ALL maps to V4_5
+        'V4': 240,
+        'V3_5': 180,
+      };
+      
+      const maxDuration = MODEL_DURATION_LIMITS[apiModel] || 480;
+      
+      if (audioDuration > maxDuration) {
+        const minutes = Math.floor(maxDuration / 60);
+        const seconds = maxDuration % 60;
+        const timeStr = seconds > 0 ? `${minutes}м ${seconds}с` : `${minutes}м`;
+        
+        logger.warn('Audio duration exceeds model limit', {
+          duration: audioDuration,
+          model: apiModel,
+          limit: maxDuration
+        });
+        
+        return new Response(
+          JSON.stringify({
+            error: `Длительность аудио (${Math.floor(audioDuration)}с) превышает лимит модели ${apiModel} (${timeStr})`,
+            errorCode: 'DURATION_LIMIT_EXCEEDED',
+            duration: audioDuration,
+            limit: maxDuration,
+          }),
+          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      
+      logger.info('Audio duration validation passed', { duration: audioDuration, limit: maxDuration });
+    }
 
     // Prepare request body for Suno API
     const requestBody: any = {

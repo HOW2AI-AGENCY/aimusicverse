@@ -188,13 +188,27 @@ export const UploadAudioDialog = ({
       return;
     }
 
-    if (model === 'V4_5ALL' && audioDuration && audioDuration > 60) {
-      toast.error('Для модели V4.5 All аудио не должно превышать 1 минуту');
-      return;
-    }
-
-    if (audioDuration && audioDuration > 480) {
-      toast.error('Аудио не должно превышать 8 минут');
+    // Comprehensive duration validation for all models
+    const maxDuration = getModelDurationLimit(model);
+    if (audioDuration && audioDuration > maxDuration) {
+      const modelName = SUNO_MODELS[model as keyof typeof SUNO_MODELS]?.name || model;
+      const minutes = Math.floor(maxDuration / 60);
+      const seconds = maxDuration % 60;
+      const timeStr = seconds > 0 
+        ? `${minutes} мин ${seconds} сек` 
+        : `${minutes} мин`;
+      
+      // Suggest a compatible model
+      const suggestedModel = suggestModelForDuration(audioDuration);
+      const suggestedName = SUNO_MODELS[suggestedModel as keyof typeof SUNO_MODELS]?.name;
+      
+      const currentDurationStr = `${Math.floor(audioDuration / 60)}:${String(Math.floor(audioDuration % 60)).padStart(2, '0')}`;
+      
+      toast.error(`Ваше аудио (${currentDurationStr}) превышает лимит модели ${modelName} (${timeStr})`, {
+        description: suggestedModel !== model && suggestedName
+          ? `Рекомендуем модель ${suggestedName}`
+          : 'Выберите модель с большим лимитом',
+      });
       return;
     }
 
@@ -217,6 +231,7 @@ export const UploadAudioDialog = ({
           type: audioFile.type,
           data: reader.result,
         },
+        audioDuration: audioDuration, // Add for server-side validation
         model,
         instrumental,
         negativeTags: negativeTags || undefined,
@@ -286,11 +301,29 @@ export const UploadAudioDialog = ({
     setVocalGender('');
   };
 
+  // Model duration limits (in seconds) based on SunoAPI documentation
+  const MODEL_DURATION_LIMITS: Record<string, number> = {
+    'V5': 480,
+    'V4_5PLUS': 480,
+    'V4_5ALL': 60,
+    'V4': 240,
+    'V3_5': 180,
+  };
+
+  const getModelDurationLimit = (modelKey: string): number => {
+    return MODEL_DURATION_LIMITS[modelKey] || 480;
+  };
+
   const getMaxDuration = () => {
-    const modelConfig = SUNO_MODELS[model as keyof typeof SUNO_MODELS];
-    if (model === 'V4_5ALL') return 60;
-    if (model === 'V4') return 240;
-    return 480;
+    return getModelDurationLimit(model);
+  };
+
+  // Suggest best model based on audio duration
+  const suggestModelForDuration = (durationSeconds: number): string => {
+    if (durationSeconds <= 60) return 'V4_5ALL';
+    if (durationSeconds <= 240) return 'V4';
+    if (durationSeconds <= 480) return 'V5';
+    return 'V5'; // Default to best model
   };
 
   return (
