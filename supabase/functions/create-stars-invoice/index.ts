@@ -51,11 +51,13 @@ serve(async (req) => {
     if (rateLimit.isLimited) {
       logger.warn('Rate limit exceeded', { userId: user.id, limit: rateLimit.limit });
       
+      const retryAfter = Math.max(0, Math.ceil((rateLimit.resetAt - Date.now()) / 1000));
+      
       return new Response(
         JSON.stringify({ 
           error: 'Rate limit exceeded',
           message: 'Too many invoice creation requests. Please try again later.',
-          retryAfter: Math.ceil((rateLimit.resetAt - Date.now()) / 1000),
+          retryAfter,
         }),
         { 
           status: 429,
@@ -63,7 +65,7 @@ serve(async (req) => {
             ...corsHeaders, 
             ...getRateLimitHeaders(rateLimit.limit, rateLimit.remaining, rateLimit.resetAt),
             'Content-Type': 'application/json',
-            'Retry-After': String(Math.ceil((rateLimit.resetAt - Date.now()) / 1000)),
+            'Retry-After': String(retryAfter),
           },
         }
       );

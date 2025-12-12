@@ -10,7 +10,7 @@
 # With --fix-file: Provides sed commands to fix a specific file
 ###############################################################################
 
-set -e
+set -euo pipefail
 
 FUNCTIONS_DIR="supabase/functions"
 EXCLUDE_PATTERNS="logger.ts|apiLogger.ts|node_modules"

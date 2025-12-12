@@ -20,15 +20,15 @@ interface RateLimitEntry {
 // In-memory store for rate limits
 const rateLimitStore = new Map<string, RateLimitEntry>();
 
-// Cleanup old entries every 5 minutes
-setInterval(() => {
+// Cleanup stale entries inline (avoid setInterval in serverless)
+function cleanupStaleEntries() {
   const now = Date.now();
   for (const [key, entry] of rateLimitStore.entries()) {
     if (entry.resetAt < now) {
       rateLimitStore.delete(key);
     }
   }
-}, 5 * 60 * 1000);
+}
 
 /**
  * Check if a request should be rate limited
@@ -47,6 +47,12 @@ export function checkRateLimit(
   resetAt: number;
 } {
   const now = Date.now();
+  
+  // Cleanup stale entries periodically (every 100th call)
+  if (Math.random() < 0.01) {
+    cleanupStaleEntries();
+  }
+  
   const entry = rateLimitStore.get(key);
 
   // If no entry exists or window expired, create new entry
