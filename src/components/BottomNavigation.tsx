@@ -46,6 +46,8 @@ export const BottomNavigation = () => {
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        role="navigation"
+        aria-label="Главная навигация"
       >
         <div className="max-w-7xl mx-auto px-2 py-2">
           <div className="flex items-center justify-around gap-1">
@@ -57,6 +59,8 @@ export const BottomNavigation = () => {
                     onClick={handleGenerateClick}
                     className="relative flex items-center justify-center w-14 h-14 -mt-5 rounded-full bg-primary shadow-lg active:scale-95 transition-transform touch-manipulation"
                     whileTap={{ scale: 0.95 }}
+                    aria-label={item.label}
+                    title={item.label}
                   >
                     <Plus className="w-6 h-6 text-primary-foreground relative z-10" />
                   </motion.button>
@@ -82,6 +86,9 @@ export const BottomNavigation = () => {
                       : "text-muted-foreground"
                   )}
                   whileTap={{ scale: 0.92 }}
+                  aria-label={item.label}
+                  aria-current={active ? 'page' : undefined}
+                  title={item.label}
                 >
                   <motion.div
                     initial={false}
