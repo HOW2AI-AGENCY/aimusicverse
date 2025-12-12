@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { quickCreatePresets, QuickCreatePreset } from '@/constants/quickCreatePresets';
+import { useSearchParams } from 'react-router-dom';
+import { QUICK_CREATE_PRESETS, QuickCreatePreset } from '@/constants/quickCreatePresets';
 import { logger } from '@/lib/logger';
 
 /**
@@ -12,13 +12,12 @@ import { logger } from '@/lib/logger';
  */
 export function GenerationBridge() {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const presetId = searchParams.get('preset');
     
     if (presetId) {
-      const preset = quickCreatePresets.find(p => p.id === presetId);
+      const preset = QUICK_CREATE_PRESETS.find((p: QuickCreatePreset) => p.id === presetId);
       
       if (preset) {
         logger.info('Generation Bridge: Preset loaded', { presetId });
@@ -41,7 +40,7 @@ export function GenerationBridge() {
 export function usePresetToParams(presetId: string | null): Partial<QuickCreatePreset['defaultParams']> | null {
   if (!presetId) return null;
 
-  const preset = quickCreatePresets.find(p => p.id === presetId);
+  const preset = QUICK_CREATE_PRESETS.find((p: QuickCreatePreset) => p.id === presetId);
   if (!preset) return null;
 
   return {

@@ -25,13 +25,12 @@ export function QuickCreate({ onPresetSelect }: QuickCreateProps) {
 
     try {
       // Navigate to generate page with preset params
-      const params = new URLSearchParams({
-        preset: selectedPreset.id,
-        style: selectedPreset.defaultParams.style,
-        mood: selectedPreset.defaultParams.mood,
-        tempo: selectedPreset.defaultParams.tempo.toString(),
-        instruments: selectedPreset.defaultParams.instruments.join(','),
-      });
+      const params = new URLSearchParams();
+      params.set('preset', selectedPreset.id);
+      if (selectedPreset.defaultParams.style) params.set('style', selectedPreset.defaultParams.style);
+      if (selectedPreset.defaultParams.mood) params.set('mood', selectedPreset.defaultParams.mood);
+      if (selectedPreset.defaultParams.tempo) params.set('tempo', selectedPreset.defaultParams.tempo);
+      if (selectedPreset.defaultParams.instruments) params.set('instruments', selectedPreset.defaultParams.instruments.join(','));
 
       navigate(`/generate?${params.toString()}`);
       logger.info('Quick Create: Navigating to generation with preset', { presetId: selectedPreset.id });
@@ -49,7 +48,7 @@ export function QuickCreate({ onPresetSelect }: QuickCreateProps) {
         </p>
       </div>
 
-      <PresetBrowser onPresetSelect={handlePresetSelect} />
+      <PresetBrowser onSelectPreset={handlePresetSelect} />
 
       {selectedPreset && (
         <div className="sticky bottom-0 left-0 right-0 p-4 glass-mobile rounded-lg border border-white/10">

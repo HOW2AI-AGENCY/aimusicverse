@@ -136,7 +136,7 @@ export async function handlePrivacy(chatId: number, messageId?: number) {
         emoji: 'ℹ️',
         action: { type: 'callback', data: 'about' }
       }
-    })
+    )
     .addButton({
       text: 'Главное меню',
       emoji: '🏠',
