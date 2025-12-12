@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-env node */
 /**
  * Accessibility Audit Script using axe-core
  * Checks key pages for accessibility violations

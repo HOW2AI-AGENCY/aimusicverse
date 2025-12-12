@@ -75,7 +75,10 @@ export const InitializationGuard = ({ children }: InitializationGuardProps) => {
     if (isInitialized && !hasShownRef.current) {
       hasShownRef.current = true;
       initLogger.info('isInitialized became true - showing content');
-      setShowContent(true);
+      // Use setTimeout to avoid synchronous state update
+      setTimeout(() => {
+        setShowContent(true);
+      }, 0);
     }
   }, [isInitialized]);
 

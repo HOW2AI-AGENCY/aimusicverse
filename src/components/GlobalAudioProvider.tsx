@@ -83,6 +83,8 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     const audio = audioRef.current;
     if (audio && volume !== audio.volume) {
       audio.volume = volume;
+    }
+  }, [volume]);
       logger.debug('Volume synced from store', { volume });
     }
   }, [volume]);
@@ -193,7 +195,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       audio.src = source;
       audio.load();
     }
-  }, [activeTrack?.id, getAudioSource]);
+  }, [activeTrack?.id, activeTrack?.title, getAudioSource]);
 
   // Separate effect for play/pause control - avoids race conditions
   useEffect(() => {
@@ -245,8 +247,9 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       try {
         await audio.play();
         logger.info('Playback started successfully', { trackId: activeTrack?.id });
-      } catch (error: any) {
-        if (error.name === 'AbortError' || isCleanedUp) {
+      } catch (error: unknown) {
+        const err = error as { name?: string };
+        if (err.name === 'AbortError' || isCleanedUp) {
           // Ignore abort errors from track changes
           return;
         }
@@ -304,7 +307,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       isCleanedUp = true;
       if (playTimeoutId) clearTimeout(playTimeoutId);
     };
-  }, [isPlaying, activeTrack?.id, pauseTrack]);
+  }, [isPlaying, activeTrack?.id, volume, pauseTrack]);
 
   // Handle track ended and errors with retry logic
   useEffect(() => {
