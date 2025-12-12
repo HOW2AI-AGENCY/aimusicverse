@@ -5,7 +5,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, sendAudio } from '../telegram-api.ts';
-import { consumePendingUpload, type PendingUpload } from '../core/db-session-store.ts';
+import { consumePendingUpload, type PendingUpload, setPendingAudio } from '../core/db-session-store.ts';
 import { escapeMarkdown, trackMetric } from '../utils/index.ts';
 import { createLogger } from '../../_shared/logger.ts';
 
@@ -59,18 +59,27 @@ export async function handleAudioMessage(
     const pendingUpload = await consumePendingUpload(userId);
     
     if (!pendingUpload) {
-      // No pending upload - show help with options
+      // No pending upload - show help with inline keyboard options
       await sendMessage(chatId, `🎵 *Аудио получено\\!*
 
-Выберите что хотите сделать:
-
-• /upload \\- загрузить в облако для использования позже
-• /cover \\- создать кавер\\-версию
-• /extend \\- расширить/продолжить трек
-• /recognize \\- распознать песню
-• /midi \\- конвертировать в MIDI
-
-Или используйте команду и отправьте файл повторно\\.`);
+Выберите что хотите сделать:`, {
+        inline_keyboard: [
+          [
+            { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
+            { text: '➕ Расширить трек', callback_data: 'audio_action_extend' }
+          ],
+          [
+            { text: '📤 Загрузить в облако', callback_data: 'audio_action_upload' },
+            { text: '🎼 Распознать песню', callback_data: 'audio_action_recognize' }
+          ],
+          [
+            { text: '🎹 Конвертировать в MIDI', callback_data: 'audio_action_midi' }
+          ]
+        ]
+      });
+      
+      // Store audio file_id for reuse when user selects action
+      await storeTemporaryAudio(userId, audio.file_id, type);
       return;
     }
     
@@ -196,6 +205,21 @@ ${escapeMarkdown(result.error || 'Неизвестная ошибка')}
       errorMessage: error instanceof Error ? error.message : String(error),
       responseTimeMs: Date.now() - startTime,
     });
+  }
+}
+
+/**
+ * Store temporary audio file_id for later processing
+ */
+async function storeTemporaryAudio(
+  userId: number,
+  fileId: string,
+  type: 'audio' | 'voice' | 'document'
+): Promise<void> {
+  try {
+    await setPendingAudio(userId, fileId, type);
+  } catch (error) {
+    logger.error('Error storing temporary audio', error);
   }
 }
 
@@ -427,6 +451,19 @@ async function processAudioUpload(
 
     const model = pendingUpload.model || 'V4_5';
     const apiModel = model === 'V4_5ALL' ? 'V4_5' : model;
+    
+    // For Bot: Auto-select appropriate model based on duration
+    // If audio > 60 seconds, use V5, V4_5PLUS, or V4_5 (NOT V4_5ALL)
+    // Prioritize V5 for long audio
+    let selectedModel = apiModel;
+    if (!pendingUpload.model) {
+      // Only auto-select if user didn't specify
+      selectedModel = 'V5'; // Default to V5 for bot (best quality, 480s limit)
+      logger.info('Auto-selected V5 model for bot upload');
+    } else if (apiModel === 'V4_5' && model === 'V4_5ALL') {
+      // If user somehow selected V4_5ALL, map to V4_5 which supports longer audio
+      selectedModel = 'V4_5';
+    }
 
     // Fixed: Determine if we have custom parameters
     const hasCustomParams = Boolean(
@@ -437,7 +474,7 @@ async function processAudioUpload(
 
     const requestBody: Record<string, unknown> = {
       uploadUrl: publicUrl,
-      model: apiModel,
+      model: selectedModel, // Use auto-selected or user-specified model
       callBackUrl: `${supabaseUrl}/functions/v1/suno-music-callback`,
       customMode: hasCustomParams, // Fixed: Use customMode consistently for both cover and extend
     };
@@ -452,7 +489,7 @@ async function processAudioUpload(
       }
     }
     
-    logger.apiCall('SunoAPI', isExtend ? 'upload-extend' : 'upload-cover', { model: apiModel });
+    logger.apiCall('SunoAPI', isExtend ? 'upload-extend' : 'upload-cover', { model: selectedModel });
     
     // Call Suno API
     const response = await fetch(endpoint, {

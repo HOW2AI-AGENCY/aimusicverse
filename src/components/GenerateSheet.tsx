@@ -22,6 +22,7 @@ import { GenerationLoadingState } from './generate-form/GenerationLoadingState';
 // Dialogs
 import { UploadAudioDialog } from './UploadAudioDialog';
 import { AudioActionDialog } from './generate-form/AudioActionDialog';
+import { AudioUploadActionDialog } from './generate-form/AudioUploadActionDialog';
 import { ArtistSelector } from './generate-form/ArtistSelector';
 import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
 import { PromptHistory } from './generate-form/PromptHistory';
@@ -247,6 +248,18 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         artists={artists}
         selectedArtistId={form.selectedArtistId}
         onSelect={form.handleArtistSelect}
+      />
+
+      {/* New: Audio Upload with Action Selection */}
+      <AudioUploadActionDialog
+        open={audioDialogOpen}
+        onOpenChange={setAudioDialogOpen}
+        onActionSelected={(file, action) => {
+          setAudioDialogOpen(false);
+          setUploadAudioMode(action);
+          setUploadAudioOpen(true);
+          // Optionally pre-fill the audio file in the UploadAudioDialog
+        }}
       />
 
       <AudioActionDialog

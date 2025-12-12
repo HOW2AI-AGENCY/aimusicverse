@@ -148,6 +148,89 @@ export async function consumePendingUpload(telegramUserId: number): Promise<Pend
 }
 
 /**
+ * Store temporary audio file_id for callback action selection
+ */
+export async function setPendingAudio(
+  telegramUserId: number,
+  fileId: string,
+  fileType: 'audio' | 'voice' | 'document'
+): Promise<void> {
+  const supabase = getSupabase();
+  
+  try {
+    // Clear any existing pending_audio sessions
+    await supabase
+      .from('telegram_bot_sessions')
+      .delete()
+      .eq('telegram_user_id', telegramUserId)
+      .eq('session_type', 'pending_audio');
+
+    // Store audio info for 5 minutes (shorter expiry)
+    const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
+    
+    const { error } = await supabase
+      .from('telegram_bot_sessions')
+      .insert({
+        telegram_user_id: telegramUserId,
+        session_type: 'pending_audio',
+        options: {
+          fileId,
+          fileType,
+          createdAt: Date.now(),
+        },
+        expires_at: expiresAt.toISOString(),
+      });
+
+    if (error) {
+      logger.error('Failed to set pending audio', error);
+      throw error;
+    }
+    
+    logger.debug('Set pending audio', { telegramUserId, fileId, fileType });
+  } catch (error) {
+    logger.error('Error in setPendingAudio', error);
+    throw error;
+  }
+}
+
+/**
+ * Get and consume pending audio file_id
+ */
+export async function consumePendingAudio(
+  telegramUserId: number
+): Promise<{ fileId: string; fileType: string } | null> {
+  const supabase = getSupabase();
+  
+  try {
+    const { data, error } = await supabase
+      .from('telegram_bot_sessions')
+      .select('*')
+      .eq('telegram_user_id', telegramUserId)
+      .eq('session_type', 'pending_audio')
+      .gt('expires_at', new Date().toISOString())
+      .single();
+
+    if (error || !data) {
+      return null;
+    }
+
+    // Delete the session after consuming
+    await supabase
+      .from('telegram_bot_sessions')
+      .delete()
+      .eq('id', data.id);
+
+    return {
+      fileId: data.options.fileId,
+      fileType: data.options.fileType,
+    };
+  } catch (error) {
+    logger.error('Error in consumePendingAudio', error);
+    return null;
+  }
+}
+
+/**
  * Check if user has pending upload
  */
 export async function hasPendingUpload(telegramUserId: number): Promise<boolean> {
