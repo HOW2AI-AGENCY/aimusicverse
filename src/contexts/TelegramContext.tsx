@@ -709,9 +709,9 @@ export const DeepLinkHandler = () => {
         navigate(`/blog/${postId}`);
       }
       // User profile deep link
-      else if (startParam.startsWith('user_')) {
-        const userId = startParam.replace('user_', '');
-        navigate(`/user/${userId}`);
+      else if (startParam.startsWith('user_') || startParam.startsWith('profile_')) {
+        const userId = startParam.replace(/^(user_|profile_)/, '');
+        navigate(`/profile/${userId}`);
       }
       // Recognition/Shazam deep link
       else if (startParam === 'recognize' || startParam === 'shazam') {
