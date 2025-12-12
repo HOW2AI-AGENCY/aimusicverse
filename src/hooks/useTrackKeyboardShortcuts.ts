@@ -9,6 +9,9 @@
  */
 
 import { useEffect, useCallback } from 'react';
+import { usePlayerStore } from '@/hooks/audio';
+import { useGlobalAudioPlayer } from '@/hooks/audio/useGlobalAudioPlayer';
+import { Track } from '@/hooks/useTracksOptimized';
 // Hook uses callbacks passed from components instead of global context
 // to avoid circular dependencies
 
@@ -110,6 +113,8 @@ export const defaultTrackShortcuts: Record<string, TrackShortcut> = {
 };
 
 interface UseTrackKeyboardShortcutsOptions {
+  /** Currently selected track for library actions */
+  selectedTrack?: Track | null;
   /** Callback for play/pause */
   onPlayPause?: () => void;
   /** Callback for next track */
@@ -128,6 +133,8 @@ interface UseTrackKeyboardShortcutsOptions {
   onDownload?: () => void;
   /** Callback when add to queue is triggered */
   onAddToQueue?: () => void;
+  /** Callback when play next is triggered */
+  onPlayNext?: () => void;
   /** Callback when shuffle is triggered */
   onShuffle?: () => void;
   /** Callback when repeat is triggered */
@@ -190,21 +197,17 @@ export function useTrackKeyboardShortcuts({
 }: UseTrackKeyboardShortcutsOptions = {}) {
   const {
     isPlaying,
-    togglePlayPause,
-    volume,
-    setVolume,
-    isMuted,
-    toggleMute,
-    shuffleMode,
+    playTrack,
+    pauseTrack,
+    shuffle,
     toggleShuffle,
-    repeatMode,
-    cycleRepeatMode,
-    currentTime,
-    duration,
-    seek,
-    playNext,
-    playPrevious,
+    repeat,
+    toggleRepeat,
+    nextTrack,
+    previousTrack,
   } = usePlayerStore();
+
+  const { seek, setVolume, getCurrentTime, audioElement } = useGlobalAudioPlayer();
 
   /**
    * Check if a keyboard event matches a shortcut
@@ -240,51 +243,61 @@ export function useTrackKeyboardShortcuts({
     // Playback shortcuts
     if (matchesShortcut(e, defaultTrackShortcuts.play_pause)) {
       e.preventDefault();
-      togglePlayPause();
+      if (isPlaying) {
+        pauseTrack();
+      } else {
+        playTrack();
+      }
       return;
     }
 
     if (matchesShortcut(e, defaultTrackShortcuts.next_track)) {
       e.preventDefault();
-      playNext();
+      nextTrack();
       return;
     }
 
     if (matchesShortcut(e, defaultTrackShortcuts.previous_track)) {
       e.preventDefault();
-      playPrevious();
+      previousTrack();
       return;
     }
 
     if (matchesShortcut(e, defaultTrackShortcuts.seek_forward)) {
       e.preventDefault();
-      const newTime = Math.min(duration, currentTime + 10);
-      seek(newTime);
+      const currentTime = getCurrentTime();
+      seek(currentTime + 10);
       return;
     }
 
     if (matchesShortcut(e, defaultTrackShortcuts.seek_backward)) {
       e.preventDefault();
-      const newTime = Math.max(0, currentTime - 10);
-      seek(newTime);
+      const currentTime = getCurrentTime();
+      seek(Math.max(0, currentTime - 10));
       return;
     }
 
     if (matchesShortcut(e, defaultTrackShortcuts.volume_up)) {
       e.preventDefault();
-      setVolume(Math.min(1, volume + 0.1));
+      if (audioElement) {
+        setVolume(Math.min(1, audioElement.volume + 0.1));
+      }
       return;
     }
 
     if (matchesShortcut(e, defaultTrackShortcuts.volume_down)) {
       e.preventDefault();
-      setVolume(Math.max(0, volume - 0.1));
+      if (audioElement) {
+        setVolume(Math.max(0, audioElement.volume - 0.1));
+      }
       return;
     }
 
     if (matchesShortcut(e, defaultTrackShortcuts.mute)) {
       e.preventDefault();
-      toggleMute();
+      if (audioElement) {
+        setVolume(audioElement.volume > 0 ? 0 : 1);
+      }
       return;
     }
 
@@ -292,25 +305,25 @@ export function useTrackKeyboardShortcuts({
     if (selectedTrack) {
       if (matchesShortcut(e, defaultTrackShortcuts.like_track)) {
         e.preventDefault();
-        onLike?.(selectedTrack);
+        onLike?.();
         return;
       }
 
       if (matchesShortcut(e, defaultTrackShortcuts.download_track)) {
         e.preventDefault();
-        onDownload?.(selectedTrack);
+        onDownload?.();
         return;
       }
 
       if (matchesShortcut(e, defaultTrackShortcuts.add_to_queue)) {
         e.preventDefault();
-        onAddToQueue?.(selectedTrack);
+        onAddToQueue?.();
         return;
       }
 
       if (matchesShortcut(e, defaultTrackShortcuts.play_next)) {
         e.preventDefault();
-        onPlayNext?.(selectedTrack);
+        onPlayNext?.();
         return;
       }
     }
@@ -328,22 +341,22 @@ export function useTrackKeyboardShortcuts({
 
     if (matchesShortcut(e, defaultTrackShortcuts.repeat)) {
       e.preventDefault();
-      cycleRepeatMode();
+      toggleRepeat();
       return;
     }
   }, [
     matchesShortcut,
-    togglePlayPause,
-    playNext,
-    playPrevious,
+    isPlaying,
+    playTrack,
+    pauseTrack,
+    nextTrack,
+    previousTrack,
     seek,
-    currentTime,
-    duration,
-    volume,
+    getCurrentTime,
     setVolume,
-    toggleMute,
+    audioElement,
     toggleShuffle,
-    cycleRepeatMode,
+    toggleRepeat,
     selectedTrack,
     onLike,
     onDownload,
@@ -366,8 +379,7 @@ export function useTrackKeyboardShortcuts({
     shortcuts: defaultTrackShortcuts,
     formatShortcut: formatTrackShortcut,
     isPlaying,
-    isMuted,
-    shuffleMode,
-    repeatMode,
+    shuffle,
+    repeat,
   };
 }
