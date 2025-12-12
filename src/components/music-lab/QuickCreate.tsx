@@ -4,6 +4,7 @@ import { PresetBrowser } from './PresetBrowser';
 import { QuickCreatePreset } from '@/constants/quickCreatePresets';
 import { useNavigate } from 'react-router-dom';
 import { logger } from '@/lib/logger';
+import { CheckCircle, Circle } from 'lucide-react';
 
 interface QuickCreateProps {
   onPresetSelect?: (preset: QuickCreatePreset) => void;
@@ -41,11 +42,43 @@ export function QuickCreate({ onPresetSelect }: QuickCreateProps) {
 
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-bold">Quick Create</h2>
-        <p className="text-muted-foreground">
-          Start creating music instantly with professionally curated presets
-        </p>
+      {/* Header with 4-Step Process Indicator */}
+      <div className="space-y-4">
+        <div>
+          <h2 className="text-2xl font-bold">Quick Create</h2>
+          <p className="text-muted-foreground">
+            Start creating music instantly with professionally curated presets
+          </p>
+        </div>
+
+        {/* 4-Step Flow Visualization */}
+        <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center gap-1.5">
+            {selectedPreset ? (
+              <CheckCircle className="w-4 h-4 text-green-500" />
+            ) : (
+              <Circle className="w-4 h-4 text-muted-foreground" />
+            )}
+            <span className={selectedPreset ? 'text-green-500 font-medium' : 'text-muted-foreground'}>
+              1. Select Preset
+            </span>
+          </div>
+          <span className="text-muted-foreground">→</span>
+          <div className="flex items-center gap-1.5">
+            <Circle className="w-4 h-4 text-muted-foreground" />
+            <span className="text-muted-foreground">2. Customize</span>
+          </div>
+          <span className="text-muted-foreground">→</span>
+          <div className="flex items-center gap-1.5">
+            <Circle className="w-4 h-4 text-muted-foreground" />
+            <span className="text-muted-foreground">3. Generate</span>
+          </div>
+          <span className="text-muted-foreground">→</span>
+          <div className="flex items-center gap-1.5">
+            <Circle className="w-4 h-4 text-muted-foreground" />
+            <span className="text-muted-foreground">4. Studio</span>
+          </div>
+        </div>
       </div>
 
       <PresetBrowser onSelectPreset={handlePresetSelect} />
@@ -66,7 +99,7 @@ export function QuickCreate({ onPresetSelect }: QuickCreateProps) {
               size="lg"
               className="shrink-0"
             >
-              Generate Track
+              Next Step →
             </Button>
           </div>
         </div>

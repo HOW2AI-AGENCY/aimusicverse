@@ -26,7 +26,8 @@ export default function Generate() {
         };
         
         sessionStorage.setItem('presetParams', JSON.stringify(presetParams));
-        logger.info('Generate page: Stored preset params', { presetId });
+        sessionStorage.setItem('fromQuickCreate', 'true'); // Mark as Quick Create flow
+        logger.info('Generate page: Stored preset params from Quick Create', { presetId });
       }
       
       // Redirect to home with state to open GenerateSheet

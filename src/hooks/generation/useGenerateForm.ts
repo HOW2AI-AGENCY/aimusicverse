@@ -603,9 +603,29 @@ export function useGenerateForm({
         description: 'Отслеживайте прогресс в библиотеке',
       });
 
+      // Check if generation came from Quick Create flow
+      const fromQuickCreate = sessionStorage.getItem('fromQuickCreate');
+      
       resetForm();
       onOpenChange(false);
-      navigate('/library');
+      
+      // Navigate based on source
+      if (fromQuickCreate === 'true') {
+        // Clear the flag
+        sessionStorage.removeItem('fromQuickCreate');
+        
+        // Navigate to library with a hint to open Stem Studio when track is ready
+        navigate('/library');
+        
+        toast.info('Трек готовится', {
+          description: 'После генерации можно открыть Stem Studio для разделения',
+          duration: 5000,
+        });
+        
+        logger.info('Quick Create flow: Track generation started, will suggest Stem Studio');
+      } else {
+        navigate('/library');
+      }
 
       // Refresh API credits and user credits after generation
       supabase.functions.invoke('suno-credits').then(({ data: creditsData }) => {
