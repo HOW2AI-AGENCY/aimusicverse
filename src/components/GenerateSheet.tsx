@@ -48,6 +48,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
   const [uploadAudioOpen, setUploadAudioOpen] = useState(false);
   const [uploadAudioMode, setUploadAudioMode] = useState<'extend' | 'cover'>('extend');
+  const [uploadAudioFile, setUploadAudioFile] = useState<File | null>(null);
   const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
@@ -257,8 +258,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         onActionSelected={(file, action) => {
           setAudioDialogOpen(false);
           setUploadAudioMode(action);
+          setUploadAudioFile(file); // Store the audio file
           setUploadAudioOpen(true);
-          // Optionally pre-fill the audio file in the UploadAudioDialog
         }}
       />
 
@@ -304,9 +305,15 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
       <UploadAudioDialog
         open={uploadAudioOpen}
-        onOpenChange={setUploadAudioOpen}
+        onOpenChange={(open) => {
+          setUploadAudioOpen(open);
+          if (!open) {
+            setUploadAudioFile(null); // Clear file when closing
+          }
+        }}
         projectId={form.selectedProjectId || initialProjectId}
         defaultMode={uploadAudioMode}
+        initialAudioFile={uploadAudioFile}
       />
 
       <PromptHistory
