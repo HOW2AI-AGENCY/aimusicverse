@@ -45,8 +45,32 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     ]
   },
   {
-    id: "generate",
+    id: "music-lab",
+    icon: Wand2,
+    title: "Music Lab Hub",
+    description: "Единое рабочее пространство для творчества",
+    features: [
+      "Quick Create — быстрый старт с пресетами",
+      "Guitar Studio — запись и анализ гитары",
+      "Voice Input — создание мелодий голосом"
+    ],
+    action: { label: "Открыть Music Lab", path: "/music-lab" }
+  },
+  {
+    id: "quick-create",
     icon: Sparkles,
+    title: "Quick Create",
+    description: "Создайте трек за 4 простых шага",
+    features: [
+      "8 готовых пресетов (Rock, Pop, Jazz...)",
+      "Автозаполнение параметров",
+      "От идеи до трека за 2 минуты"
+    ],
+    action: { label: "Попробовать Quick Create", path: "/music-lab" }
+  },
+  {
+    id: "generate",
+    icon: Music,
     title: "Генерация музыки",
     description: "Опишите свою идею — AI создаст трек",
     features: [
@@ -57,16 +81,16 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     action: { label: "Попробовать", path: "/generate" }
   },
   {
-    id: "lyrics",
-    icon: Mic2,
-    title: "AI Лирика",
-    description: "Мастер создания текстов песен с ИИ",
+    id: "workflows",
+    icon: ListMusic,
+    title: "Пошаговые воркфлоу",
+    description: "Система подскажет каждый шаг",
     features: [
-      "Генерация куплетов и припевов",
-      "Поддержка русского и английского",
-      "Редактирование по секциям"
+      "Гид для первого трека",
+      "От гитары до полного трека",
+      "Обучение работе со стемами"
     ],
-    action: { label: "Создать текст", path: "/generate" }
+    action: { label: "Начать обучение", path: "/music-lab" }
   },
   {
     id: "library",
