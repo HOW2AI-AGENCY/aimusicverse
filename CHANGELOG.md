@@ -7,6 +7,29 @@
 
 ## [Unreleased]
 
+### Добавлено - 2025-12-12
+- **Telegram Stars Payment System**: Полная реализация с 210 задачами
+  - Админ-панель со списком транзакций и функцией возврата средств
+  - Интеграционные и unit-тесты для payment flows
+  - Rate limiting и валидация запросов
+  - Все edge functions готовы к production deployment
+- **Sprint 013 Завершен**: Продвинутые аудио функции (73/75 задач)
+  - Горячие клавиши для действий с треками (`useTrackKeyboardShortcuts`)
+  - Диалог помощи по горячим клавишам
+  - Lighthouse CI для мониторинга производительности
+  - Music Lab Hub foundation
+  - Верификация оптимизации размера бандлов
+
+### Изменено - 2025-12-12
+- Обновлен статус Sprint 013 на COMPLETE (97% автоматизированных задач)
+- Telegram Stars payment system готова к DEPLOYMENT
+- Улучшена `create-stars-invoice` с JSON schema валидацией
+
+### Исправлено - 2025-12-12
+- Верифицирована оптимизация сборки (50KB main bundle с brotli)
+- Подтверждено разделение кода для всех основных функций
+- Настроены performance budgets в Lighthouse CI
+
 ### Планируется
 - Трёхрежимный плеер (compact/expanded/fullscreen)
 - Система версионирования треков
