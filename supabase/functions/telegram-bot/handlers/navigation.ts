@@ -137,7 +137,7 @@ export async function handleNavigationLibrary(
   // Create enhanced track caption
   const trackInfo: Record<string, string> = {};
   if (track.artist) trackInfo['Исполнитель'] = track.artist;
-  if (track.duration) trackInfo['Длительность'] = musicService.formatDuration(track.duration);
+  if (track.duration_seconds) trackInfo['Длительность'] = musicService.formatDuration(track.duration_seconds);
   if (track.style) trackInfo['Стиль'] = track.style;
   if (track.created_at) trackInfo['Создан'] = new Date(track.created_at).toLocaleDateString('ru-RU');
   

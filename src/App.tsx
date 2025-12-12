@@ -40,18 +40,14 @@ const Blog = lazy(() => import("./pages/Blog"));
 const Community = lazy(() => import("./pages/Community"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
 const Rewards = lazy(() => import("./pages/Rewards"));
-const Analytics = lazy(() => import("./pages/Analytics"));
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const Analytics = lazy(() => import(/* webpackChunkName: "analytics" */ "./pages/Analytics"));
+const AdminDashboard = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/AdminDashboard"));
 const Templates = lazy(() => import("./pages/Templates"));
 const MusicGraph = lazy(() => import("./pages/MusicGraph"));
 const CreativeTools = lazy(() => import("./pages/CreativeTools"));
 const ProfessionalStudio = lazy(() => import("./pages/ProfessionalStudio"));
 const GuitarStudio = lazy(() => import("./pages/GuitarStudio"));
 const MusicLab = lazy(() => import("./pages/MusicLab"));
-
-// Sprint 025: Bundle Optimization - Lazy load admin and large pages
-const AdminDashboard = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/AdminDashboard"));
-const Analytics = lazy(() => import(/* webpackChunkName: "analytics" */ "./pages/Analytics"));
 
 const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));

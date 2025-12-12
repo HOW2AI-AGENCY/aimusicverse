@@ -54,9 +54,9 @@ serve(async (req) => {
       customMode = false,
       style,
       title,
-      personaId,
-      model = 'V4_5ALL',
       negativeTags,
+      personaId,
+      model = 'V4_5PLUS',
       styleWeight,
       weirdnessConstraint,
       audioWeight,
@@ -66,6 +66,26 @@ serve(async (req) => {
     if (!audioFile && !audioUrl) {
       return new Response(
         JSON.stringify({ error: 'Audio file or URL is required' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validate required parameters per SunoAPI docs
+    if (!prompt) {
+      return new Response(
+        JSON.stringify({ error: 'prompt is required for add-instrumental' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    if (!title) {
+      return new Response(
+        JSON.stringify({ error: 'title is required for add-instrumental' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    if (!style) {
+      return new Response(
+        JSON.stringify({ error: 'style is required for add-instrumental' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -126,23 +146,24 @@ serve(async (req) => {
     console.log('📋 Upload URL:', uploadUrl);
     console.log('📋 Callback URL:', callBackUrl);
 
-    // Build request body
+    // Build request body - per SunoAPI docs all these fields are required
     const requestBody: any = {
       uploadUrl,
-      customMode,
+      prompt,        // Required
+      title,         // Required
+      style,         // Required
+      negativeTags: negativeTags || '',  // Required - use empty string if not provided
       callBackUrl,
-      model,
+      model: model === 'V4_5ALL' ? 'V4_5PLUS' : model, // Map to valid model
     };
 
-    if (prompt) requestBody.prompt = prompt;
-    
-    if (customMode) {
-      if (style) requestBody.style = style;
-      if (title) requestBody.title = title;
-    }
-
+    // Optional parameters
     if (personaId) requestBody.personaId = personaId;
-    if (negativeTags) requestBody.negativeTags = negativeTags;
+    if (styleWeight !== undefined) requestBody.styleWeight = styleWeight;
+    if (weirdnessConstraint !== undefined) requestBody.weirdnessConstraint = weirdnessConstraint;
+    if (audioWeight !== undefined) requestBody.audioWeight = audioWeight;
+
+    console.log('📋 Suno add-instrumental payload:', JSON.stringify(requestBody, null, 2));
     if (styleWeight !== undefined) requestBody.styleWeight = styleWeight;
     if (weirdnessConstraint !== undefined) requestBody.weirdnessConstraint = weirdnessConstraint;
     if (audioWeight !== undefined) requestBody.audioWeight = audioWeight;

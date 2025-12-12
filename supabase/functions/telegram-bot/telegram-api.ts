@@ -72,6 +72,8 @@ export interface InlineKeyboardButton {
   callback_data?: string;
   web_app?: { url: string };
   url?: string;
+  switch_inline_query?: string;
+  switch_inline_query_current_chat?: string;
 }
 
 /**

@@ -243,6 +243,14 @@ export function hasValidCharacters(text: string): boolean {
 // ============================================================================
 
 /**
+ * Simple truncate text to max length with ellipsis
+ */
+export function truncateText(text: string, maxLength: number, ellipsis: string = '...'): string {
+  if (!text || text.length <= maxLength) return text || '';
+  return text.substring(0, maxLength - ellipsis.length) + ellipsis;
+}
+
+/**
  * Truncate text intelligently
  */
 export function smartTruncate(

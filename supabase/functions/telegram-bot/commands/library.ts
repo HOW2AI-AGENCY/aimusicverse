@@ -175,7 +175,7 @@ export async function handleLibrary(chatId: number, userId: number, messageId?: 
           emoji: '🔄',
           action: { type: 'callback', data: 'nav_library' }
         }
-      })
+      )
       .addButton({
         text: 'Главное меню',
         emoji: '🏠',
