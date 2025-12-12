@@ -253,15 +253,15 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         }
         
         logger.error('Playback failed', error, {
-          errorName: error.name,
+          errorName: err.name,
           trackId: activeTrack?.id,
         });
 
-        if (error.name === 'NotAllowedError') {
+        if (err.name === 'NotAllowedError') {
           toast.error('Воспроизведение заблокировано', {
             description: 'Нажмите на экран и попробуйте снова',
           });
-        } else if (error.name === 'NotSupportedError') {
+        } else if (err.name === 'NotSupportedError') {
           toast.error('Формат аудио не поддерживается');
         }
 
