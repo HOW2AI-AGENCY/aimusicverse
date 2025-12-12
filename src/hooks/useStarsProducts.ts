@@ -4,8 +4,17 @@
  */
 
 import { useQuery } from '@tanstack/react-query';
-import { getProducts, getFeaturedProducts, getProductsByType } from '@/services/starsPaymentService';
-import type { StarsProduct, GroupedProducts } from '@/types/starsPayment';
+import { getProducts, getFeaturedProducts, getProductsByType, type StarsProduct } from '@/services/starsPaymentService';
+
+// Re-export type for convenience
+export type { StarsProduct };
+
+// Grouped products for UI
+export interface GroupedProducts {
+  credits: StarsProduct[];
+  subscriptions: StarsProduct[];
+  featured: StarsProduct[];
+}
 
 // Query key factory
 export const starsProductsKeys = {

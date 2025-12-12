@@ -16,7 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
-import type { StarsProduct } from '@/types/starsPayment';
+import type { StarsProduct } from '@/services/starsPaymentService';
 
 function LoadingState() {
   return (
@@ -65,7 +65,7 @@ export default function Subscription() {
 
   // Show expiration warning if < 7 days
   const showExpirationWarning =
-    isActive && daysRemaining !== null && daysRemaining < 7;
+    isActive && daysRemaining !== undefined && daysRemaining !== null && daysRemaining < 7;
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">

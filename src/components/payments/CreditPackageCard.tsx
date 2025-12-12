@@ -7,7 +7,7 @@ import { Check, Sparkles, Zap } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import type { StarsProduct } from '@/types/starsPayment';
+import type { StarsProduct } from '@/services/starsPaymentService';
 
 interface CreditPackageCardProps {
   product: StarsProduct;
@@ -24,12 +24,11 @@ export function CreditPackageCard({
   disabled = false,
   language = 'en',
 }: CreditPackageCardProps) {
-  const name = product.name[language] || product.name.en || 'Credit Package';
-  const description = product.description?.[language] || product.description?.en || '';
+  const name = product.name;
+  const description = product.description || '';
 
-  // Calculate bonus percentage if any
-  const bonusPercentage = product.metadata?.bonus_percentage as number | undefined;
-  const hasBonus = bonusPercentage && bonusPercentage > 0;
+  // Bonus percentage not available in new type
+  const hasBonus = false;
 
   return (
     <Card
@@ -62,16 +61,7 @@ export function CreditPackageCard({
         </Badge>
       )}
 
-      {/* Bonus Badge */}
-      {hasBonus && (
-        <Badge
-          variant="default"
-          className="absolute -top-2 -left-2 bg-gradient-generate text-white shadow-glow-generate z-10"
-        >
-          <Zap className="mr-1 h-3 w-3" aria-hidden="true" />
-          +{bonusPercentage}% Bonus
-        </Badge>
-      )}
+      {/* Bonus Badge - disabled */}
 
       {/* Selection Indicator */}
       {isSelected && (
@@ -100,12 +90,7 @@ export function CreditPackageCard({
           <span className="text-lg text-muted-foreground">Stars</span>
         </div>
 
-        {/* USD Price (if available) */}
-        {product.price_usd && (
-          <p className="text-sm text-muted-foreground">
-            ≈ ${product.price_usd.toFixed(2)} USD
-          </p>
-        )}
+        {/* USD Price not available */}
 
         {/* Description */}
         {description && (

@@ -4,8 +4,7 @@
  */
 
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getPaymentHistory } from '@/services/starsPaymentService';
-import type { StarsTransaction } from '@/types/starsPayment';
+import { getPaymentHistory, type PaymentTransaction } from '@/services/starsPaymentService';
 
 // Query key factory
 export const paymentHistoryKeys = {
@@ -42,7 +41,7 @@ export function usePaymentHistory({
   });
 
   // Flatten all pages into a single array
-  const transactions: StarsTransaction[] =
+  const transactions: PaymentTransaction[] =
     query.data?.pages.flatMap((page) => page.transactions) ?? [];
 
   return {

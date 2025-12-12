@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge';
 import { StarsPaymentButton } from './StarsPaymentButton';
 import { cn } from '@/lib/utils';
-import type { StarsProduct } from '@/types/starsPayment';
+import type { StarsProduct } from '@/services/starsPaymentService';
 
 interface SubscriptionCardProps {
   product: StarsProduct;
@@ -59,8 +59,8 @@ export function SubscriptionCard({
   disabled = false,
   language = 'en',
 }: SubscriptionCardProps) {
-  const name = product.name[language] || product.name.en || 'Subscription';
-  const description = product.description?.[language] || product.description?.en || '';
+  const name = product.name;
+  const description = product.description || '';
   const tier = product.subscription_tier || 'pro';
   const features = TIER_FEATURES[tier] || [];
   const icon = TIER_ICONS[tier];
@@ -118,11 +118,7 @@ export function SubscriptionCard({
           <p className="mt-1 text-sm text-muted-foreground">
             / {product.subscription_days} days
           </p>
-          {product.price_usd && (
-            <p className="text-sm text-muted-foreground">
-              ≈ ${product.price_usd.toFixed(2)} USD
-            </p>
-          )}
+          {/* Price in USD removed - not available in new type */}
         </div>
       </CardHeader>
 

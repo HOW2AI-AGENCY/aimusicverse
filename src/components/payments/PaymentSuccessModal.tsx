@@ -14,7 +14,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import type { StarsProduct } from '@/types/starsPayment';
+import type { StarsProduct } from '@/services/starsPaymentService';
 
 interface PaymentSuccessModalProps {
   isOpen: boolean;
