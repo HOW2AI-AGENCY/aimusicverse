@@ -1,6 +1,8 @@
 /**
  * Stem Studio hooks export
  * Hooks for stem separation and audio studio functionality (IMP046)
+ * 
+ * @task T064 - Added useLoopRegion hook for loop region selection
  */
 
 export { useStemStudioEngine } from './useStemStudioEngine';
@@ -36,3 +38,5 @@ export {
   defaultMixPresets,
 } from './useMixPresets';
 export type { MixPreset, StemConfig } from './useMixPresets';
+export { useLoopRegion } from './useLoopRegion';
+export type { LoopRegion } from './useLoopRegion';
