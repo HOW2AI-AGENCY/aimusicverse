@@ -35,8 +35,7 @@ import { SectionQuickActions } from '@/components/stem-studio/SectionQuickAction
 import { StudioQuickActions } from '@/components/stem-studio/StudioQuickActions';
 import { StudioContextTips } from '@/components/stem-studio/StudioContextTips';
 import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
-import { QuickComparePanel } from '@/components/stem-studio/QuickComparePanel';
-import { QuickCompareMobile } from '@/components/stem-studio/QuickCompareMobile';
+import { QuickCompare } from '@/components/stem-studio/QuickCompare';
 import { RemixDialog } from '@/components/stem-studio/RemixDialog';
 import { ExtendDialog } from '@/components/stem-studio/ExtendDialog';
 import { TrimDialog } from '@/components/stem-studio/TrimDialog';
@@ -763,26 +762,14 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         />
       )}
 
-      {/* Quick Compare Panel (after replacement) - Desktop */}
-      {!isMobile && editMode === 'comparing' && latestCompletion?.newAudioUrl && track.audio_url && (
-        <QuickComparePanel
-          originalAudioUrl={track.audio_url}
-          replacementAudioUrl={latestCompletion.newAudioUrl}
-          sectionStart={latestCompletion.section.start}
-          sectionEnd={latestCompletion.section.end}
-          onApply={handleApplyReplacement}
-          onDiscard={handleDiscardReplacement}
-          onClose={() => setLatestCompletion(null)}
-        />
-      )}
-
-      {/* Quick Compare Panel - Mobile */}
-      {isMobile && latestCompletion?.newAudioUrl && track.audio_url && (
-        <QuickCompareMobile
+      {/* Unified Quick Compare Panel - automatically adapts to mobile/desktop */}
+      {editMode === 'comparing' && latestCompletion?.newAudioUrl && track.audio_url && (
+        <QuickCompare
           open={editMode === 'comparing'}
           onOpenChange={(open) => {
             if (!open) setLatestCompletion(null);
           }}
+          onClose={() => setLatestCompletion(null)}
           originalAudioUrl={track.audio_url}
           replacementAudioUrl={latestCompletion.newAudioUrl}
           sectionStart={latestCompletion.section.start}
