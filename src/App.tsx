@@ -39,6 +39,7 @@ const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
 const Artists = lazy(() => import("./pages/Artists"));
 // Actors removed - unified with Artists page
 const Playlists = lazy(() => import("./pages/Playlists"));
+const ActivityPage = lazy(() => import("./pages/ActivityPage"));
 const Blog = lazy(() => import("./pages/Blog"));
 const Community = lazy(() => import("./pages/Community"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
@@ -112,6 +113,7 @@ const App = () => (
                 <Route path="/artists" element={<Artists />} />
                 <Route path="/actors" element={<Navigate to="/artists?tab=community" replace />} />
                 <Route path="/playlists" element={<Playlists />} />
+                <Route path="/activity" element={<ActivityPage />} />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/community" element={<Community />} />
                 <Route path="/onboarding" element={<Onboarding />} />
