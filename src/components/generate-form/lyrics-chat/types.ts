@@ -18,6 +18,10 @@ export interface TrackContext {
   generatedLyrics?: string;
   recommendedTags?: string[];
   recommendedStructure?: string;
+  // Enhanced context for AI lyrics assistant
+  notes?: string; // AI hints, theme suggestions, emotional arc
+  lyrics?: string; // Actual lyrics text (separate from notes)
+  lyricsStatus?: 'draft' | 'prompt' | 'generated' | 'approved';
 }
 
 export interface LyricsChatAssistantProps {
