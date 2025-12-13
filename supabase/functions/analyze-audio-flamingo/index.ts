@@ -62,22 +62,28 @@ Provide concise, accurate information suitable for music generation AI.`;
 
     console.log('Creating Replicate prediction...');
 
-    // Use full version identifier for Audio Flamingo 3
-    const output = await replicate.run(
-      "zsxkib/audio-flamingo-3:2856d42f07154766b0cc0f3554fb425d7c3422ae77269264fbe0c983ac759fef",
-      {
-        input: {
-          audio: audio_url,
-          prompt: 'Analyze this audio',
-          system_prompt: systemPrompt,
-          enable_thinking: true,
-          temperature: 0.1,
-          max_length: 1024,
-        },
-      }
-    ) as string;
-
-    const fullResponse = output;
+    try {
+      // Use full version identifier for Audio Flamingo 3
+      const output = await replicate.run(
+        "zsxkib/audio-flamingo-3:2856d42f07154766b0cc0f3554fb425d7c3422ae77269264fbe0c983ac759fef",
+        {
+          input: {
+            audio: audio_url,
+            prompt: 'Analyze this audio',
+            system_prompt: systemPrompt,
+            enable_thinking: true,
+            temperature: 0.1,
+            max_length: 1024,
+          },
+        }
+      ) as string;
+      
+      console.log('Replicate output received');
+      var fullResponse = output;
+    } catch (replicateError) {
+      console.error('Replicate API error:', replicateError);
+      throw new Error(`Replicate API error: ${replicateError instanceof Error ? replicateError.message : 'Unknown error'}`);
+    }
     console.log('Analysis result:', fullResponse);
 
     // Parse structured data from response

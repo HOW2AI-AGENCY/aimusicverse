@@ -139,9 +139,14 @@ export function AudioActionDialog({
         }
       );
 
-      if (analysisError) throw analysisError;
+      if (analysisError) throw new Error(analysisError.message || 'Network error');
+      
+      // Handle error returned in response body
+      if (analysisData?.error) {
+        throw new Error(analysisData.error);
+      }
 
-      if (analysisData.success && analysisData.parsed) {
+      if (analysisData?.success && analysisData.parsed) {
         const result = {
           style: analysisData.parsed.style_description,
           genre: analysisData.parsed.genre,
@@ -153,10 +158,13 @@ export function AudioActionDialog({
           onAnalysisComplete?.(result.style);
           toast.success('Стиль определён!');
         }
+      } else {
+        throw new Error('Не удалось проанализировать аудио');
       }
     } catch (error) {
-      logger.error('Audio analysis error', { error });
-      toast.error('Ошибка анализа');
+      const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      logger.error('Audio analysis error', { error: message });
+      toast.error(`Ошибка анализа: ${message}`);
     } finally {
       setIsAnalyzing(false);
     }
