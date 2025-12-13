@@ -43,20 +43,16 @@ serve(async (req) => {
     }
 
     // Step 1: Use Audio Flamingo 3 to detect vocals and get style analysis
-    const flamingoPrompt = `Analyze this audio track and answer the following questions:
+    const flamingoPrompt = `Analyze this audio track. 
+Answer these questions in EXACTLY this format (use these exact labels):
 
-1. Does this track have vocals? Answer YES or NO.
-2. If YES, what language are the vocals in?
-3. What genre/style is this music?
-4. What is the mood/emotion of this track?
-5. Describe the vocal characteristics (if any) - gender, style, range.
+VOCALS: YES or NO
+LANGUAGE: the language of vocals, or N/A if no vocals
+GENRE: the music genre
+MOOD: the mood/emotion
+VOCAL_STYLE: describe the vocals (gender, style) or N/A
 
-Provide your answers in this format:
-Has Vocals: [YES/NO]
-Language: [language or N/A]
-Genre: [genre]
-Mood: [mood]
-Vocal Style: [description or N/A]`;
+Be very careful - if you hear ANY singing or rapping, answer VOCALS: YES`;
 
     logger.info('Running Audio Flamingo analysis...');
     
@@ -65,9 +61,9 @@ Vocal Style: [description or N/A]`;
       {
         input: {
           audio: audio_url,
-          prompt: 'Analyze this audio',
+          prompt: 'Analyze this audio for vocals and style',
           system_prompt: flamingoPrompt,
-          enable_thinking: true,
+          enable_thinking: false,
           temperature: 0.1,
           max_length: 512,
         },
@@ -76,20 +72,53 @@ Vocal Style: [description or N/A]`;
 
     logger.info('Flamingo analysis complete', { response: flamingoOutput });
 
-    // Parse vocals detection
-    const hasVocalsMatch = flamingoOutput.match(/Has Vocals:\s*(YES|NO)/i);
-    const hasVocals = hasVocalsMatch?.[1]?.toUpperCase() === 'YES';
+    // More flexible parsing - look for various indicators of vocals
+    const outputLower = flamingoOutput.toLowerCase();
     
-    const languageMatch = flamingoOutput.match(/Language:\s*([^\n]+)/i);
-    const language = languageMatch?.[1]?.trim() || 'unknown';
+    // Check multiple patterns for vocal detection
+    let hasVocals = false;
     
-    const genreMatch = flamingoOutput.match(/Genre:\s*([^\n]+)/i);
+    // Pattern 1: explicit VOCALS: YES
+    if (/vocals?:\s*yes/i.test(flamingoOutput)) {
+      hasVocals = true;
+    }
+    // Pattern 2: "has vocals" anywhere
+    else if (/has vocals|contains vocals|with vocals|includes vocals/i.test(flamingoOutput)) {
+      hasVocals = true;
+    }
+    // Pattern 3: mentions singing/rapping/voice
+    else if (/singing|singer|vocalist|rapper|rapping|vocal performance|voice|lyrics/i.test(flamingoOutput)) {
+      hasVocals = true;
+    }
+    // Pattern 4: NOT instrumental
+    else if (/not instrumental|isn't instrumental|has vocals/i.test(flamingoOutput)) {
+      hasVocals = true;
+    }
+    // Pattern 5: explicit VOCALS: NO or "instrumental"
+    else if (/vocals?:\s*no|purely instrumental|no vocals|without vocals|instrumental track/i.test(flamingoOutput)) {
+      hasVocals = false;
+    }
+    // Default: if we detect any vocal-related terms, assume vocals
+    else if (/male|female|alto|soprano|tenor|bass|baritone|voice/i.test(flamingoOutput)) {
+      hasVocals = true;
+    }
+    
+    logger.info('Vocal detection result', { hasVocals, rawOutput: flamingoOutput.substring(0, 200) });
+    
+    const languageMatch = flamingoOutput.match(/LANGUAGE:\s*([^\n]+)/i) || 
+                          flamingoOutput.match(/language[:\s]+([a-zA-Zа-яА-Я]+)/i);
+    const language = languageMatch?.[1]?.trim() || 'auto';
+    
+    const genreMatch = flamingoOutput.match(/GENRE:\s*([^\n]+)/i) ||
+                       flamingoOutput.match(/genre[:\s]+([^\n,]+)/i);
     const genre = genreMatch?.[1]?.trim() || null;
     
-    const moodMatch = flamingoOutput.match(/Mood:\s*([^\n]+)/i);
+    const moodMatch = flamingoOutput.match(/MOOD:\s*([^\n]+)/i) ||
+                      flamingoOutput.match(/mood[:\s]+([^\n,]+)/i);
     const mood = moodMatch?.[1]?.trim() || null;
     
-    const vocalStyleMatch = flamingoOutput.match(/Vocal Style:\s*([^\n]+)/i);
+    const vocalStyleMatch = flamingoOutput.match(/VOCAL_STYLE:\s*([^\n]+)/i) ||
+                            flamingoOutput.match(/vocal style[:\s]+([^\n]+)/i);
     const vocalStyle = vocalStyleMatch?.[1]?.trim() || null;
 
     let lyrics: string | null = null;
