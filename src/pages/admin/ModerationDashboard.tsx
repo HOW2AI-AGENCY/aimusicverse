@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { useModerationReports, useHideComment, useResolveReport, useWarnUser } from '@/hooks/moderation/useModerationReports';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -50,12 +49,13 @@ interface ModerationReport {
 export function ModerationDashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const { triggerHapticFeedback } = useHapticFeedback();
   const [activeTab, setActiveTab] = useState<'pending' | 'reviewed' | 'dismissed'>('pending');
   const [actionDialog, setActionDialog] = useState<{
-    type: 'hide' | 'dismiss' | null;
+    type: 'hide' | 'dismiss' | 'warn' | null;
     reportId: string | null;
+    commentId?: string | null;
+    userId?: string | null;
   }>({ type: null, reportId: null });
 
   // Check if user is admin (TODO: Replace with proper RBAC)
@@ -63,119 +63,18 @@ export function ModerationDashboard() {
   // with a roles table or user metadata field verified by RLS policies
   const isAdmin = user?.email?.includes('admin@') || user?.email?.includes('@admin');
 
-  // Fetch moderation reports
-  const { data: reports, isLoading } = useQuery({
-    queryKey: ['moderation-reports', activeTab],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('moderation_reports')
-        .select(`
-          id,
-          reporter_id,
-          reported_user_id,
-          entity_type,
-          entity_id,
-          reason,
-          description,
-          status,
-          created_at,
-          reporter:reporter_id (
-            display_name,
-            username,
-            avatar_url
-          ),
-          reported_user:reported_user_id (
-            display_name,
-            username,
-            avatar_url
-          )
-        `)
-        .eq('status', activeTab)
-        .order('created_at', { ascending: false })
-        .limit(50);
+  // Use the new hooks
+  const { data: reports, isLoading } = useModerationReports(activeTab);
+  const hideCommentMutation = useHideComment();
+  const resolveReportMutation = useResolveReport();
+  const warnUserMutation = useWarnUser();
 
-      if (error) throw error;
-
-      // Batch fetch comments for all comment reports
-      // This avoids N+1 queries by fetching all comment IDs at once
-      const commentReports = (data || []).filter((r) => r.entity_type === 'comment');
-      const commentIds = commentReports.map((r) => r.entity_id);
-      
-      let commentsMap = new Map();
-      if (commentIds.length > 0) {
-        const { data: comments } = await supabase
-          .from('comments')
-          .select('id, content, is_moderated')
-          .in('id', commentIds);
-        
-        commentsMap = new Map((comments || []).map((c) => [c.id, c]));
-      }
-
-      // Merge comment data with reports
-      return (data || []).map((report) => ({
-        ...report,
-        comment: report.entity_type === 'comment' 
-          ? commentsMap.get(report.entity_id) 
-          : undefined,
-      })) as ModerationReport[];
-    },
-    enabled: !!user && isAdmin,
-  });
-
-  // Hide comment mutation
-  const hideCommentMutation = useMutation({
-    mutationFn: async ({ reportId, commentId }: { reportId: string; commentId: string }) => {
-      // Update comment to be moderated
-      const { error: commentError } = await supabase
-        .from('comments')
-        .update({ is_moderated: true })
-        .eq('id', commentId);
-
-      if (commentError) throw commentError;
-
-      // Update report status
-      const { error: reportError } = await supabase
-        .from('moderation_reports')
-        .update({ status: 'reviewed' })
-        .eq('id', reportId);
-
-      if (reportError) throw reportError;
-    },
-    onSuccess: () => {
-      triggerHapticFeedback('success');
-      toast.success('Comment hidden successfully');
-      queryClient.invalidateQueries({ queryKey: ['moderation-reports'] });
-      setActionDialog({ type: null, reportId: null });
-    },
-    onError: (error: any) => {
-      triggerHapticFeedback('error');
-      toast.error('Failed to hide comment');
-      console.error('Hide comment error:', error);
-    },
-  });
-
-  // Dismiss report mutation
-  const dismissReportMutation = useMutation({
-    mutationFn: async (reportId: string) => {
-      const { error } = await supabase
-        .from('moderation_reports')
-        .update({ status: 'dismissed' })
-        .eq('id', reportId);
-
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      triggerHapticFeedback('success');
-      toast.success('Report dismissed');
-      queryClient.invalidateQueries({ queryKey: ['moderation-reports'] });
-      setActionDialog({ type: null, reportId: null });
-    },
-    onError: (error: any) => {
-      triggerHapticFeedback('error');
-      toast.error('Failed to dismiss report');
-      console.error('Dismiss report error:', error);
-    },
-  });
+  const reasonLabels: Record<string, string> = {
+    spam: 'Spam',
+    harassment: 'Harassment',
+    inappropriate_content: 'Inappropriate Content',
+    other: 'Other',
+  };
 
   const handleAction = () => {
     if (!actionDialog.reportId) return;
@@ -183,13 +82,43 @@ export function ModerationDashboard() {
     const report = reports?.find((r) => r.id === actionDialog.reportId);
     if (!report) return;
 
+    triggerHapticFeedback('light');
+
     if (actionDialog.type === 'hide' && report.entity_type === 'comment') {
-      hideCommentMutation.mutate({
-        reportId: report.id,
-        commentId: report.entity_id,
+      // Hide comment and resolve report
+      hideCommentMutation.mutate(report.entity_id, {
+        onSuccess: () => {
+          resolveReportMutation.mutate({
+            reportId: report.id,
+            status: 'reviewed',
+            resolutionNote: 'Comment hidden',
+          });
+          setActionDialog({ type: null, reportId: null });
+        },
       });
     } else if (actionDialog.type === 'dismiss') {
-      dismissReportMutation.mutate(report.id);
+      resolveReportMutation.mutate({
+        reportId: report.id,
+        status: 'dismissed',
+      }, {
+        onSuccess: () => {
+          setActionDialog({ type: null, reportId: null });
+        },
+      });
+    } else if (actionDialog.type === 'warn' && actionDialog.userId) {
+      warnUserMutation.mutate({
+        userId: actionDialog.userId,
+        reason: `Report: ${reasonLabels[report.reason]} - ${report.description || 'No details'}`,
+      }, {
+        onSuccess: () => {
+          resolveReportMutation.mutate({
+            reportId: report.id,
+            status: 'reviewed',
+            resolutionNote: 'User warned',
+          });
+          setActionDialog({ type: null, reportId: null });
+        },
+      });
     }
   };
 
@@ -225,13 +154,6 @@ export function ModerationDashboard() {
       </div>
     );
   }
-
-  const reasonLabels: Record<string, string> = {
-    spam: 'Spam',
-    harassment: 'Harassment',
-    inappropriate_content: 'Inappropriate Content',
-    other: 'Other',
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -354,6 +276,20 @@ export function ModerationDashboard() {
                         <Button
                           size="sm"
                           variant="outline"
+                          className="border-orange-500 text-orange-500 hover:bg-orange-50"
+                          onClick={() => setActionDialog({ 
+                            type: 'warn', 
+                            reportId: report.id,
+                            userId: report.reported_user?.id 
+                          })}
+                          disabled={!report.reported_user?.id}
+                        >
+                          <AlertTriangle className="h-4 w-4 mr-2" />
+                          Warn User
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
                           onClick={() => setActionDialog({ type: 'dismiss', reportId: report.id })}
                         >
                           <X className="h-4 w-4 mr-2" />
@@ -377,11 +313,17 @@ export function ModerationDashboard() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              {actionDialog.type === 'hide' ? 'Hide Comment?' : 'Dismiss Report?'}
+              {actionDialog.type === 'hide' 
+                ? 'Hide Comment?' 
+                : actionDialog.type === 'warn'
+                ? 'Warn User?'
+                : 'Dismiss Report?'}
             </AlertDialogTitle>
             <AlertDialogDescription>
               {actionDialog.type === 'hide'
                 ? 'This will hide the comment from all users. The comment author will still see it marked as moderated.'
+                : actionDialog.type === 'warn'
+                ? 'This will increment the user\'s strike count. After 3 strikes, the user will be temporarily banned for 24 hours.'
                 : 'This will mark the report as dismissed. No action will be taken on the reported content.'}
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -389,9 +331,9 @@ export function ModerationDashboard() {
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleAction}
-              disabled={hideCommentMutation.isPending || dismissReportMutation.isPending}
+              disabled={hideCommentMutation.isPending || resolveReportMutation.isPending || warnUserMutation.isPending}
             >
-              {(hideCommentMutation.isPending || dismissReportMutation.isPending) && (
+              {(hideCommentMutation.isPending || resolveReportMutation.isPending || warnUserMutation.isPending) && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
               Confirm
