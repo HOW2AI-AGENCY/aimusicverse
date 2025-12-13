@@ -47,9 +47,11 @@ export const useProjects = () => {
     staleTime: 60000, // 1 minute
   });
 
-  // Realtime subscription
+  // Realtime subscription with debounced invalidation
   useEffect(() => {
     if (!user?.id) return;
+
+    let debounceTimeout: NodeJS.Timeout | null = null;
 
     const channel = supabase
       .channel(`projects-${user.id}`)
@@ -61,13 +63,40 @@ export const useProjects = () => {
           table: 'music_projects',
           filter: `user_id=eq.${user.id}`,
         },
-        () => {
-          queryClient.invalidateQueries({ queryKey: ['projects', user.id] });
+        (payload) => {
+          // Debounce to prevent rapid consecutive updates
+          if (debounceTimeout) {
+            clearTimeout(debounceTimeout);
+          }
+          debounceTimeout = setTimeout(() => {
+            // Update cache directly for better UX instead of full refetch
+            if (payload.eventType === 'INSERT' && payload.new) {
+              queryClient.setQueryData(['projects', user.id], (old: Project[] | undefined) => {
+                if (!old) return [payload.new as Project];
+                // Prevent duplicates
+                if (old.some(p => p.id === (payload.new as Project).id)) return old;
+                return [payload.new as Project, ...old];
+              });
+            } else if (payload.eventType === 'DELETE' && payload.old) {
+              queryClient.setQueryData(['projects', user.id], (old: Project[] | undefined) => {
+                if (!old) return [];
+                return old.filter(p => p.id !== (payload.old as Project).id);
+              });
+            } else if (payload.eventType === 'UPDATE' && payload.new) {
+              queryClient.setQueryData(['projects', user.id], (old: Project[] | undefined) => {
+                if (!old) return [];
+                return old.map(p => p.id === (payload.new as Project).id ? payload.new as Project : p);
+              });
+            }
+          }, 100);
         }
       )
       .subscribe();
 
     return () => {
+      if (debounceTimeout) {
+        clearTimeout(debounceTimeout);
+      }
       supabase.removeChannel(channel);
     };
   }, [user?.id, queryClient]);
