@@ -182,11 +182,16 @@ export function AudioActionDialog({
         body: { audio_url: publicUrl }
       });
 
-      if (error) throw error;
-
-      setHasVocals(data.has_vocals);
+      if (error) throw new Error(error.message || 'Network error');
       
-      if (data.has_vocals && data.lyrics) {
+      // Handle error returned in response body
+      if (data?.error) {
+        throw new Error(data.error);
+      }
+
+      setHasVocals(data?.has_vocals ?? false);
+      
+      if (data?.has_vocals && data?.lyrics) {
         setExtractedLyrics(data.lyrics);
         onLyricsExtracted?.(data.lyrics);
         toast.success('Текст извлечён!');
@@ -194,8 +199,9 @@ export function AudioActionDialog({
         toast.info('Вокал не обнаружен - инструментальный трек');
       }
     } catch (error) {
-      logger.error('Lyrics extraction error', { error });
-      toast.error('Ошибка извлечения текста');
+      const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      logger.error('Lyrics extraction error', { error: message });
+      toast.error(`Ошибка извлечения: ${message}`);
     } finally {
       setIsExtractingLyrics(false);
     }
