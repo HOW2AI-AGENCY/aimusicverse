@@ -24,6 +24,12 @@ interface ModerationReport {
     last_name: string | null;
     photo_url: string | null;
   };
+  reported_user?: {
+    id: string;
+    first_name: string | null;
+    last_name: string | null;
+    photo_url: string | null;
+  };
 }
 
 interface ReportCommentData {
