@@ -24,7 +24,6 @@ interface ArtistDetailsPanelProps {
   artist: Artist | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onEdit?: (artist: Artist) => void;
 }
 
 export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetailsPanelProps) {
@@ -182,7 +181,7 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
                 <Button 
                   variant="outline" 
                   size="sm"
-                  onClick={() => onEdit?.(artist)}
+                  onClick={() => setEditDialogOpen(true)}
                   className="gap-1.5"
                 >
                   <Edit className="w-4 h-4" />
@@ -339,6 +338,15 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
           </TabsContent>
         </Tabs>
       </SheetContent>
+
+      {artist && (
+        <EditArtistDialog
+          artist={artist}
+          open={editDialogOpen}
+          onOpenChange={setEditDialogOpen}
+          canMakePrivate={canMakePrivate ?? false}
+        />
+      )}
     </Sheet>
   );
 }
