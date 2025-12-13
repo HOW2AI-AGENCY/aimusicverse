@@ -3,6 +3,7 @@
  */
 
 import { sendMessage, parseCommand, answerCallbackQuery, editMessageText, type TelegramUpdate } from './telegram-api.ts';
+import { escapeMarkdownV2 } from './utils/text-processor.ts';
 import { BOT_CONFIG } from './config.ts';
 import { logger, checkRateLimit, trackMetric } from './utils/index.ts';
 
@@ -632,37 +633,31 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
       const { handleProjects } = await import('./commands/projects.ts');
       await handleProjects(chatId, from.id, messageId);
     } else if (data === 'help') {
-      if (messageId) {
-        const { MESSAGES } = await import('./config.ts');
-        const { createMainMenuKeyboard } = await import('./keyboards/main-menu.ts');
-        await editMessageText(chatId, messageId, MESSAGES.help, createMainMenuKeyboard());
-      }
+      const { MESSAGES } = await import('./config.ts');
+      const { createMainMenuKeyboard } = await import('./keyboards/main-menu.ts');
+      // Send new message instead of editing (original might be a photo)
+      await sendMessage(chatId, MESSAGES.help, createMainMenuKeyboard(), 'MarkdownV2');
     } else if (data === 'generate') {
-      if (messageId) {
-        const { createGenerateKeyboard } = await import('./keyboards/main-menu.ts');
-        await editMessageText(chatId, messageId, '🎼 *Создание трека*\n\nВыберите стиль музыки или опишите свой:', createGenerateKeyboard());
-      }
+      // Navigate to generate menu instead of editing
+      const { handleNavigationGenerate } = await import('./handlers/navigation.ts');
+      await handleNavigationGenerate(chatId, from.id, messageId);
     } else if (data === 'status') {
       const { handleStatus } = await import('./commands/status.ts');
       await handleStatus(chatId, from.id, messageId);
     } else if (data === 'main_menu') {
-      if (messageId) {
-        const { createMainMenuKeyboard } = await import('./keyboards/main-menu.ts');
-        await editMessageText(chatId, messageId, '🏠 *Главное меню*\n\nВыберите действие:', createMainMenuKeyboard());
-      }
+      // Navigate to main menu properly
+      const { handleNavigationMain } = await import('./handlers/navigation.ts');
+      await handleNavigationMain(chatId, messageId, from.id);
     } else if (data.startsWith('style_')) {
-      if (messageId) {
-        const style = data.replace('style_', '');
-        const styleNames: Record<string, string> = {
-          rock: 'рок', pop: 'поп', jazz: 'джаз',
-          electronic: 'электроника', classical: 'классика', hiphop: 'хип-хоп'
-        };
-        await editMessageText(chatId, messageId, `🎵 *Стиль: ${styleNames[style] || style}*\n\nТеперь отправьте описание трека:\n\nНапример:\n"Энергичный трек с гитарными риффами и мощным барабанным битом"`);
-      }
+      const style = data.replace('style_', '');
+      const styleNames: Record<string, string> = {
+        rock: 'рок', pop: 'поп', jazz: 'джаз',
+        electronic: 'электроника', classical: 'классика', hiphop: 'хип-хоп'
+      };
+      // Send new message instead of editing
+      await sendMessage(chatId, `🎵 *Стиль: ${escapeMarkdownV2(styleNames[style] || style)}*\n\nТеперь отправьте описание трека:\n\nНапример:\n"Энергичный трек с гитарными риффами и мощным барабанным битом"`, undefined, 'MarkdownV2');
     } else if (data === 'custom_generate') {
-      if (messageId) {
-        await editMessageText(chatId, messageId, '✍️ *Своё описание*\n\nОпишите какую музыку вы хотите создать:\n\nИспользуйте /generate <ваше описание>');
-      }
+      await sendMessage(chatId, '✍️ *Своё описание*\n\nОпишите какую музыку вы хотите создать:\n\nИспользуйте /generate \\<ваше описание\\>', undefined, 'MarkdownV2');
     } else if (data.startsWith('check_task_')) {
       const taskId = data.replace('check_task_', '');
       const { handleCheckTask } = await import('./commands/check-task.ts');
