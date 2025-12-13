@@ -24,13 +24,15 @@ import {
   Music,
   Loader2,
   CheckCircle2,
-  Send
+  Send,
+  UserX
 } from "lucide-react";
 import { toast } from "sonner";
 import { TelegramBotSetup } from "@/components/TelegramBotSetup";
 import { AddToHomeScreen } from "@/components/telegram/AddToHomeScreen";
 import { AvatarUpload } from "@/components/settings/AvatarUpload";
 import { MidiSettingsSection } from "@/components/settings/MidiSettingsSection";
+import { PrivacySettings } from "@/components/settings/PrivacySettings";
 import { motion } from '@/lib/motion';
 
 export default function Settings() {
@@ -117,10 +119,14 @@ export default function Settings() {
         </motion.div>
 
         <Tabs defaultValue="profile" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-6">
+          <TabsList className="grid w-full grid-cols-5 mb-6">
             <TabsTrigger value="profile" className="gap-2">
               <User className="w-4 h-4" />
               <span className="hidden sm:inline">Профиль</span>
+            </TabsTrigger>
+            <TabsTrigger value="privacy" className="gap-2">
+              <Shield className="w-4 h-4" />
+              <span className="hidden sm:inline">Приватность</span>
             </TabsTrigger>
             <TabsTrigger value="notifications" className="gap-2">
               <Bell className="w-4 h-4" />
@@ -198,6 +204,16 @@ export default function Settings() {
                 </CardContent>
               </Card>
             </motion.div>
+          </TabsContent>
+
+          {/* Privacy Tab */}
+          <TabsContent value="privacy" className="space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <PrivacySettings />
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -207,38 +223,22 @@ export default function Settings() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Shield className="w-5 h-5" />
-                    Приватность
+                    <UserX className="w-5 h-5" />
+                    Заблокированные пользователи
                   </CardTitle>
                   <CardDescription>
-                    Управление видимостью вашего профиля
+                    Управление списком заблокированных пользователей
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label className="text-base">Публичный профиль</Label>
-                      <p className="text-sm text-muted-foreground">
-                        Другие пользователи смогут видеть ваш профиль и контент
-                      </p>
-                    </div>
-                    <Switch
-                      checked={isPublic}
-                      onCheckedChange={handlePrivacyToggle}
-                    />
-                  </div>
-
-                  <Separator />
-
-                  <div className="flex items-center justify-between opacity-60">
-                    <div className="space-y-0.5">
-                      <Label className="text-base">Показывать статистику</Label>
-                      <p className="text-sm text-muted-foreground">
-                        Отображать количество прослушиваний и лайков
-                      </p>
-                    </div>
-                    <Switch checked={true} disabled />
-                  </div>
+                <CardContent>
+                  <Button 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => navigate('/settings/blocked-users')}
+                  >
+                    <UserX className="w-4 h-4 mr-2" />
+                    Управление заблокированными
+                  </Button>
                 </CardContent>
               </Card>
             </motion.div>
