@@ -3,6 +3,7 @@
  * 
  * Extracted from useGenerateForm to eliminate duplicate pattern (IMP001)
  * Handles loading of audio references from localStorage (stem_audio_reference)
+ * and sessionStorage (cloudAudioReference for cloud audio)
  */
 
 import { useState, useEffect } from 'react';
@@ -25,6 +26,17 @@ export interface AudioReferenceData {
   trackId?: string;
 }
 
+export interface CloudAudioReference {
+  id: string;
+  fileUrl: string;
+  fileName: string;
+  mode: 'cover' | 'extend';
+  genre?: string;
+  mood?: string;
+  vocalStyle?: string;
+  transcription?: string;
+}
+
 export interface AudioReferenceResult {
   file: File | null;
   lyrics: string;
@@ -33,12 +45,13 @@ export interface AudioReferenceResult {
   action: string | null;
   stemType: string | null;
   isLoading: boolean;
+  cloudMode: 'cover' | 'extend' | null;
 }
 
 const REFERENCE_EXPIRY_MS = 5 * 60 * 1000; // 5 minutes
 
 /**
- * Hook to load audio reference from localStorage
+ * Hook to load audio reference from localStorage/sessionStorage
  * @param enabled - Whether to attempt loading the reference
  */
 export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult {
@@ -48,11 +61,75 @@ export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult 
   const [title, setTitle] = useState('');
   const [action, setAction] = useState<string | null>(null);
   const [stemType, setStemType] = useState<string | null>(null);
+  const [cloudMode, setCloudMode] = useState<'cover' | 'extend' | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!enabled) return;
 
+    // Check for cloud audio reference first (from Cloud tab)
+    const cloudReferenceStr = sessionStorage.getItem('cloudAudioReference');
+    if (cloudReferenceStr) {
+      setIsLoading(true);
+      
+      try {
+        const cloudRef: CloudAudioReference = JSON.parse(cloudReferenceStr);
+        
+        // Set mode
+        setCloudMode(cloudRef.mode);
+        
+        // Build style from metadata
+        const styleParts: string[] = [];
+        if (cloudRef.genre) styleParts.push(cloudRef.genre);
+        if (cloudRef.mood) styleParts.push(cloudRef.mood);
+        if (cloudRef.vocalStyle) styleParts.push(cloudRef.vocalStyle);
+        if (styleParts.length > 0) {
+          setStyle(styleParts.join(', '));
+        }
+        
+        // Set lyrics if available
+        if (cloudRef.transcription) {
+          setLyrics(cloudRef.transcription);
+        }
+        
+        // Load audio file
+        fetch(cloudRef.fileUrl)
+          .then(response => response.blob())
+          .then(blob => {
+            const ext = cloudRef.fileName.split('.').pop() || 'mp3';
+            const audioFile = new File(
+              [blob], 
+              cloudRef.fileName, 
+              { type: `audio/${ext === 'wav' ? 'wav' : 'mpeg'}` }
+            );
+            setFile(audioFile);
+            
+            const modeLabel = cloudRef.mode === 'cover' ? 'Кавер' : 'Расширение';
+            toast.success(`Аудио загружено для: ${modeLabel}`, {
+              description: cloudRef.fileName,
+            });
+            
+            // Cleanup
+            sessionStorage.removeItem('cloudAudioReference');
+          })
+          .catch(err => {
+            logger.error('Failed to load cloud audio reference', { error: err });
+            toast.error('Не удалось загрузить аудио');
+            sessionStorage.removeItem('cloudAudioReference');
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+          
+        return; // Don't check other sources
+      } catch (e) {
+        logger.error('Failed to parse cloud reference', { error: e });
+        sessionStorage.removeItem('cloudAudioReference');
+        setIsLoading(false);
+      }
+    }
+
+    // Check for stem audio reference (from Stem Studio)
     const stemReferenceStr = localStorage.getItem('stem_audio_reference');
     if (!stemReferenceStr) return;
 
@@ -159,5 +236,6 @@ export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult 
     action,
     stemType,
     isLoading,
+    cloudMode,
   };
 }
