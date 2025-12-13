@@ -24,7 +24,9 @@ export interface ProjectTrack {
   position: number;
   title: string;
   style_prompt: string | null;
-  notes: string | null;
+  lyrics: string | null; // Full song lyrics
+  notes: string | null; // Production notes
+  lyrics_status: 'draft' | 'prompt' | 'generated' | 'approved' | null;
   recommended_tags: string[] | null;
   recommended_structure: string | null;
   duration_target: number | null;
