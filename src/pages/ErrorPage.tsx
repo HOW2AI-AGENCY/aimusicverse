@@ -1,4 +1,4 @@
-import { useNavigate, useRouteError, isRouteErrorResponse } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { logger } from "@/lib/logger";
 import { useTelegram } from "@/contexts/TelegramContext";
@@ -7,31 +7,24 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Home, ArrowLeft, RefreshCw, AlertTriangle } from "lucide-react";
 import { motion } from '@/lib/motion';
 
-export default function ErrorPage() {
+interface ErrorPageProps {
+  error?: Error | null;
+  statusCode?: number;
+}
+
+export default function ErrorPage({ error, statusCode = 500 }: ErrorPageProps) {
   const navigate = useNavigate();
-  const error = useRouteError();
   const { hapticFeedback, showBackButton, hideBackButton } = useTelegram();
 
-  let errorMessage = "Произошла неизвестная ошибка";
-  let errorDetails = "";
-  let statusCode = 500;
-
-  if (isRouteErrorResponse(error)) {
-    errorMessage = error.statusText || error.data?.message || "Ошибка маршрутизации";
-    errorDetails = error.data?.details || "";
-    statusCode = error.status;
-  } else if (error instanceof Error) {
-    errorMessage = error.message;
-    errorDetails = error.stack?.split('\n')[0] || "";
-  }
+  const errorMessage = error?.message || "Произошла неизвестная ошибка";
+  const errorDetails = error?.stack?.split('\n')[0] || "";
 
   useEffect(() => {
-    logger.error("Route Error", error, { 
+    logger.error("Error Page displayed", error, { 
       message: errorMessage,
       statusCode,
     });
 
-    // Show Telegram back button
     showBackButton(() => {
       hapticFeedback('light');
       navigate(-1);
