@@ -458,12 +458,16 @@ export function useLyricsChat({
         break;
 
       default:
+        // For any other option (like theme selection), use freeform mode
         if (!theme) {
           setTheme(option.value);
-          askForGenre();
         }
+        setFreeformMode(true);
+        // Let AI generate immediately based on the selected theme and available context
+        await processFreechat(`Создай текст песни на тему: ${option.value}`);
+        break;
     }
-  }, [theme, trackContext, generatedLyrics, genre, mood, language, projectContext, structure, addMessage, askForGenre, modifyLyrics, generateLyrics, processFreechat]);
+  }, [theme, trackContext, generatedLyrics, genre, mood, language, projectContext, structure, addMessage, modifyLyrics, generateLyrics, processFreechat]);
 
   const handleGenreSelect = useCallback((selectedGenre: string) => {
     setGenre(selectedGenre);
@@ -525,21 +529,18 @@ export function useLyricsChat({
       content: userMessage,
     });
 
-    // Free chat mode or already has lyrics - use AI chat
-    if (freeformMode || generatedLyrics) {
-      await processFreechat(userMessage);
-      return;
+    // ALWAYS use freeform mode for user input - no more step-by-step questions!
+    // The AI will handle everything intelligently based on context
+    setFreeformMode(true);
+
+    // Save theme if not set yet
+    if (!theme && userMessage.length > 5) {
+      setTheme(userMessage);
     }
 
-    // Standard flow: collecting theme
-    if (!theme) {
-      setTheme(userMessage);
-      askForGenre();
-    } else {
-      // Fallback to free chat for any other message
-      await processFreechat(userMessage);
-    }
-  }, [inputValue, theme, freeformMode, generatedLyrics, addMessage, askForGenre, processFreechat]);
+    // Let AI handle the conversation intelligently
+    await processFreechat(userMessage);
+  }, [inputValue, theme, addMessage, processFreechat]);
 
   const regenerateLyrics = useCallback(() => {
     generateLyrics(structure);
