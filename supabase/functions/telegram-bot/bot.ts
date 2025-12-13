@@ -374,7 +374,7 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
 
     if (data === 'start_upload') {
       const { handleUploadCommand } = await import('./commands/upload.ts');
-      await handleUploadCommand(chatId, from.id, '', messageId);
+      await handleUploadCommand(chatId, from.id, '', messageId, true); // deleteOriginal=true for photo messages
       await answerCallbackQuery(id);
       return;
     }

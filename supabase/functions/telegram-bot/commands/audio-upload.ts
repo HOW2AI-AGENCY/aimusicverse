@@ -4,7 +4,7 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { BOT_CONFIG } from '../config.ts';
-import { sendMessage, editMessageText } from '../telegram-api.ts';
+import { sendMessage, editMessageText, deleteMessage } from '../telegram-api.ts';
 import { setPendingUpload, cancelPendingUpload, hasPendingUpload } from '../core/db-session-store.ts';
 import { escapeMarkdown } from '../utils/index.ts';
 
@@ -20,7 +20,8 @@ export async function handleCoverCommand(
   chatId: number, 
   userId: number, 
   args: string,
-  messageId?: number
+  messageId?: number,
+  deleteOriginal?: boolean
 ): Promise<void> {
   // Parse arguments for options
   const options = parseAudioOptions(args);
@@ -46,8 +47,15 @@ ${options.prompt ? `📝 Описание: _${escapeMarkdown(options.prompt)}_\n
     ]
   };
 
-  if (messageId) {
-    await editMessageText(chatId, messageId, text, keyboard);
+  if (messageId && deleteOriginal) {
+    await deleteMessage(chatId, messageId);
+    await sendMessage(chatId, text, keyboard);
+  } else if (messageId) {
+    const result = await editMessageText(chatId, messageId, text, keyboard);
+    if (!result) {
+      await deleteMessage(chatId, messageId);
+      await sendMessage(chatId, text, keyboard);
+    }
   } else {
     await sendMessage(chatId, text, keyboard);
   }
@@ -60,7 +68,8 @@ export async function handleExtendCommand(
   chatId: number, 
   userId: number, 
   args: string,
-  messageId?: number
+  messageId?: number,
+  deleteOriginal?: boolean
 ): Promise<void> {
   const options = parseAudioOptions(args);
   
@@ -84,8 +93,15 @@ ${options.prompt ? `📝 Текст: _${escapeMarkdown(options.prompt)}_\n` : ''
     ]
   };
 
-  if (messageId) {
-    await editMessageText(chatId, messageId, text, keyboard);
+  if (messageId && deleteOriginal) {
+    await deleteMessage(chatId, messageId);
+    await sendMessage(chatId, text, keyboard);
+  } else if (messageId) {
+    const result = await editMessageText(chatId, messageId, text, keyboard);
+    if (!result) {
+      await deleteMessage(chatId, messageId);
+      await sendMessage(chatId, text, keyboard);
+    }
   } else {
     await sendMessage(chatId, text, keyboard);
   }

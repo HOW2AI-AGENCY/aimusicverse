@@ -526,13 +526,13 @@ export async function handleNavigationCallback(
     await handleNavigationProjects(chatId, userId, messageId, page);
   } else if (callbackData === 'start_cover') {
     const { handleCoverCommand } = await import('../commands/audio-upload.ts');
-    await handleCoverCommand(chatId, userId, '', messageId);
+    await handleCoverCommand(chatId, userId, '', messageId, true); // deleteOriginal for photo messages
   } else if (callbackData === 'start_extend') {
     const { handleExtendCommand } = await import('../commands/audio-upload.ts');
-    await handleExtendCommand(chatId, userId, '', messageId);
+    await handleExtendCommand(chatId, userId, '', messageId, true); // deleteOriginal for photo messages
   } else if (callbackData === 'start_upload') {
     const { handleUploadCommand } = await import('../commands/upload.ts');
-    await handleUploadCommand(chatId, userId, '', messageId);
+    await handleUploadCommand(chatId, userId, '', messageId, true); // deleteOriginal for photo messages
   } else if (callbackData === 'start_midi') {
     const { handleMidiCommand } = await import('../commands/midi.ts');
     await handleMidiCommand(chatId, userId);

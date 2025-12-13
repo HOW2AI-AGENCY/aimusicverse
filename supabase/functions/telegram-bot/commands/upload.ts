@@ -4,7 +4,7 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { BOT_CONFIG } from '../config.ts';
-import { sendMessage, editMessageText, answerCallbackQuery } from '../telegram-api.ts';
+import { sendMessage, editMessageText, answerCallbackQuery, deleteMessage } from '../telegram-api.ts';
 import { setPendingUpload, cancelPendingUpload } from '../core/session-store.ts';
 import { escapeMarkdown, trackMetric } from '../utils/index.ts';
 import { createLogger } from '../../_shared/logger.ts';
@@ -23,7 +23,8 @@ export async function handleUploadCommand(
   chatId: number,
   userId: number,
   args: string,
-  messageId?: number
+  messageId?: number,
+  deleteOriginal?: boolean
 ): Promise<void> {
   // Set pending upload in 'upload' mode
   setPendingUpload(userId, 'upload', {
@@ -54,8 +55,17 @@ export async function handleUploadCommand(
     ]
   };
 
-  if (messageId) {
-    await editMessageText(chatId, messageId, text, keyboard);
+  if (messageId && deleteOriginal) {
+    // Delete original message (e.g., photo message) and send new one
+    await deleteMessage(chatId, messageId);
+    await sendMessage(chatId, text, keyboard);
+  } else if (messageId) {
+    // Try to edit, fall back to delete + send if it fails
+    const result = await editMessageText(chatId, messageId, text, keyboard);
+    if (!result) {
+      await deleteMessage(chatId, messageId);
+      await sendMessage(chatId, text, keyboard);
+    }
   } else {
     await sendMessage(chatId, text, keyboard);
   }
