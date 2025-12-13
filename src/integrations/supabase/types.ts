@@ -1286,6 +1286,7 @@ export type Database = {
           created_at: string | null
           duration_target: number | null
           id: string
+          lyrics: string | null
           lyrics_status: string | null
           notes: string | null
           position: number
@@ -1303,6 +1304,7 @@ export type Database = {
           created_at?: string | null
           duration_target?: number | null
           id?: string
+          lyrics?: string | null
           lyrics_status?: string | null
           notes?: string | null
           position: number
@@ -1320,6 +1322,7 @@ export type Database = {
           created_at?: string | null
           duration_target?: number | null
           id?: string
+          lyrics?: string | null
           lyrics_status?: string | null
           notes?: string | null
           position?: number

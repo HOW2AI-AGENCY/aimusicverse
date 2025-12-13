@@ -123,7 +123,7 @@ export const MinimalProjectTrackItem = ({
   const StatusIcon = statusConfig.icon;
 
   // Get lyrics status - default to 'draft' if not set
-  const lyricsStatus = ((track as any).lyrics_status as keyof typeof LYRICS_STATUS_CONFIG) || 'draft';
+  const lyricsStatus = (track.lyrics_status as keyof typeof LYRICS_STATUS_CONFIG) || 'draft';
   const lyricsStatusConfig = LYRICS_STATUS_CONFIG[lyricsStatus];
   const LyricsStatusIcon = lyricsStatusConfig.icon;
   
@@ -132,8 +132,8 @@ export const MinimalProjectTrackItem = ({
   const isCurrentTrack = activeTrack?.id === linkedTrack?.id;
   const isPlayingThis = isCurrentTrack && isPlaying;
 
-  // Check if we have actual lyrics content
-  const hasLyricsContent = !!(track.notes || linkedTrack?.lyrics);
+  // Check if we have actual lyrics content (use new lyrics field, fallback to notes for backward compat)
+  const hasLyricsContent = !!(track.lyrics || linkedTrack?.lyrics);
 
   const handlePlay = () => {
     if (!linkedTrack) return;
@@ -160,17 +160,30 @@ export const MinimalProjectTrackItem = ({
   };
 
   const handleGenerateClick = () => {
-    // Check if lyrics status is 'prompt' - warn user
+    // Check if lyrics status is 'prompt' - warn user and require full lyrics first
     if (lyricsStatus === 'prompt') {
-      toast.warning('Сначала сгенерируйте лирику', {
-        description: 'В поле notes содержится промпт для генерации, а не готовый текст песни.',
+      toast.warning('Сначала напишите полный текст песни', {
+        description: 'В поле сейчас только промпт для генерации. Откройте редактор лирики.',
         action: {
-          label: 'AI Wizard',
-          onClick: () => onOpenLyricsWizard?.(),
+          label: 'Написать текст',
+          onClick: () => onOpenLyrics?.(),
         },
       });
       return;
     }
+    
+    // Check if we have any lyrics at all
+    if (!track.lyrics && !linkedTrack?.lyrics) {
+      toast.warning('Требуется текст песни', {
+        description: 'Напишите лирику перед генерацией трека.',
+        action: {
+          label: 'Написать текст',
+          onClick: () => onOpenLyrics?.(),
+        },
+      });
+      return;
+    }
+    
     onGenerate();
   };
 
@@ -245,7 +258,7 @@ export const MinimalProjectTrackItem = ({
                 </TooltipContent>
               </Tooltip>
               <span className="truncate">
-                {(linkedTrack?.lyrics || track.notes || '').replace(/\[.*?\]/g, '').slice(0, 50)}...
+                {(linkedTrack?.lyrics || track.lyrics || '').replace(/\[.*?\]/g, '').slice(0, 50)}...
               </span>
             </div>
           )}

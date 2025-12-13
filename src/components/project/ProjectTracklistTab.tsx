@@ -170,15 +170,25 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
     navigate('/generate');
   };
 
-  const handleSaveLyrics = (trackId: string, newLyrics: string) => {
+  const handleSaveLyrics = (trackId: string, newLyrics: string, lyricsStatus?: string) => {
     updateTrack({
       id: trackId,
       updates: {
-        notes: newLyrics,
+        lyrics: newLyrics,
+        lyrics_status: (lyricsStatus || 'draft') as 'draft' | 'prompt' | 'generated' | 'approved',
       },
     });
-    setLyricsPreviewTrack(null);
     toast.success('Лирика сохранена');
+  };
+
+  const handleSaveNotes = (trackId: string, newNotes: string) => {
+    updateTrack({
+      id: trackId,
+      updates: {
+        notes: newNotes,
+      },
+    });
+    toast.success('Заметки сохранены');
   };
 
   const handleOpenWizardFromPreview = () => {
@@ -551,8 +561,17 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
         open={!!lyricsPreviewTrack}
         onOpenChange={(open) => !open && setLyricsPreviewTrack(null)}
         track={lyricsPreviewTrack}
-        onSave={handleSaveLyrics}
+        onSaveLyrics={handleSaveLyrics}
+        onSaveNotes={handleSaveNotes}
         onOpenWizard={handleOpenWizardFromPreview}
+        projectContext={{
+          projectId: project.id,
+          projectTitle: project.title,
+          genre: project.genre || undefined,
+          mood: project.mood || undefined,
+          language: project.language as 'ru' | 'en' | undefined,
+          concept: project.concept || undefined,
+        }}
       />
 
       {/* AI Lyrics Chat Assistant */}

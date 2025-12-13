@@ -112,21 +112,33 @@ export default function ProjectDetail() {
     setLyricsWizardOpen(true);
   };
 
-  const handleSaveLyrics = async (trackId: string, lyrics: string) => {
+  const handleSaveLyrics = async (trackId: string, lyrics: string, lyricsStatus?: string) => {
     try {
-      updateTrack({ id: trackId, updates: { notes: lyrics } });
+      await supabase.from('project_tracks')
+        .update({ lyrics, lyrics_status: lyricsStatus || 'draft' })
+        .eq('id', trackId);
+      queryClient.invalidateQueries({ queryKey: ['project-tracks', id] });
+      toast.success('Лирика сохранена');
     } catch (error) {
       logger.error('Error saving lyrics', error);
       toast.error('Ошибка сохранения');
     }
   };
 
+  const handleSaveNotes = async (trackId: string, notes: string) => {
+    try {
+      updateTrack({ id: trackId, updates: { notes } });
+    } catch (error) {
+      logger.error('Error saving notes', error);
+      toast.error('Ошибка сохранения');
+    }
+  };
+
   const handleLyricsGenerated = async (lyrics: string) => {
     if (selectedTrackForLyrics) {
-      // Save lyrics via direct supabase call to include lyrics_status
       try {
         await supabase.from('project_tracks')
-          .update({ notes: lyrics, lyrics_status: 'generated' })
+          .update({ lyrics, lyrics_status: 'generated' })
           .eq('id', selectedTrackForLyrics.id);
         queryClient.invalidateQueries({ queryKey: ['project-tracks', id] });
         toast.success('Лирика сохранена');
@@ -350,10 +362,19 @@ export default function ProjectDetail() {
         open={lyricsSheetOpen}
         onOpenChange={setLyricsSheetOpen}
         track={selectedTrackForLyrics}
-        onSave={handleSaveLyrics}
+        onSaveLyrics={handleSaveLyrics}
+        onSaveNotes={handleSaveNotes}
         onOpenWizard={() => {
           setLyricsSheetOpen(false);
           setLyricsWizardOpen(true);
+        }}
+        projectContext={{
+          projectId: project.id,
+          projectTitle: project.title,
+          genre: project.genre || undefined,
+          mood: project.mood || undefined,
+          language: project.language as 'ru' | 'en' | undefined,
+          concept: project.concept || undefined,
         }}
       />
 
