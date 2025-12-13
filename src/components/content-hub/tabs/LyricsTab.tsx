@@ -1,0 +1,238 @@
+import { useState } from 'react';
+import { useLyricsTemplates, LyricsTemplate } from '@/hooks/useLyricsTemplates';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { FileText, Search, Trash2, Copy, MoreVertical } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet';
+import { ScrollArea } from '@/components/ui/scroll-area';
+
+export function LyricsTab() {
+  const { templates, isLoading, deleteTemplate } = useLyricsTemplates();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTemplate, setSelectedTemplate] = useState<LyricsTemplate | null>(null);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+
+  const filteredTemplates = templates?.filter((t) =>
+    t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    t.lyrics.toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
+
+  const handleCopy = (lyrics: string) => {
+    navigator.clipboard.writeText(lyrics);
+    toast.success('Текст скопирован');
+  };
+
+  const handleDelete = (id: string) => {
+    deleteTemplate(id);
+    setDeleteConfirmId(null);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      {/* Search */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+        <Input
+          placeholder="Поиск по текстам..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="pl-9 h-9 text-sm"
+        />
+      </div>
+
+      {/* Stats */}
+      <div className="text-xs text-muted-foreground">
+        {templates?.length || 0} сохраненных текстов
+      </div>
+
+      {/* Templates List */}
+      {filteredTemplates.length > 0 ? (
+        <div className="space-y-2">
+          {filteredTemplates.map((template) => (
+            <div
+              key={template.id}
+              onClick={() => setSelectedTemplate(template)}
+              className={cn(
+                "p-3 rounded-xl bg-card/50 border border-border/50",
+                "hover:bg-card hover:border-border cursor-pointer transition-all",
+                "active:scale-[0.99] touch-manipulation"
+              )}
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-medium text-sm truncate">{template.name}</h3>
+                  <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                    {template.lyrics.substring(0, 100)}...
+                  </p>
+                  <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+                    {template.genre && (
+                      <Badge variant="secondary" className="text-[9px] h-4 px-1.5">
+                        {template.genre}
+                      </Badge>
+                    )}
+                    {template.mood && (
+                      <Badge variant="outline" className="text-[9px] h-4 px-1.5">
+                        {template.mood}
+                      </Badge>
+                    )}
+                    {template.structure && (
+                      <Badge variant="outline" className="text-[9px] h-4 px-1.5">
+                        {template.structure}
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0">
+                      <MoreVertical className="w-4 h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={(e) => {
+                      e.stopPropagation();
+                      handleCopy(template.lyrics);
+                    }}>
+                      <Copy className="w-4 h-4 mr-2" />
+                      Копировать
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDeleteConfirmId(template.id);
+                      }}
+                      className="text-destructive"
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Удалить
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-12">
+          <FileText className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
+          <p className="text-muted-foreground">
+            {searchQuery ? 'Ничего не найдено' : 'Нет сохраненных текстов'}
+          </p>
+          <p className="text-xs text-muted-foreground mt-2">
+            Сохраняйте тексты из AI Lyrics Assistant
+          </p>
+        </div>
+      )}
+
+      {/* Lyrics Detail Sheet */}
+      <Sheet open={!!selectedTemplate} onOpenChange={(open) => !open && setSelectedTemplate(null)}>
+        <SheetContent side="bottom" className="h-[80vh] rounded-t-2xl">
+          {selectedTemplate && (
+            <>
+              <SheetHeader>
+                <SheetTitle>{selectedTemplate.name}</SheetTitle>
+              </SheetHeader>
+              <ScrollArea className="h-full mt-4 pr-4">
+                <div className="space-y-4 pb-8">
+                  {/* Metadata */}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {selectedTemplate.genre && (
+                      <Badge variant="secondary">{selectedTemplate.genre}</Badge>
+                    )}
+                    {selectedTemplate.mood && (
+                      <Badge variant="outline">{selectedTemplate.mood}</Badge>
+                    )}
+                    {selectedTemplate.structure && (
+                      <Badge variant="outline">{selectedTemplate.structure}</Badge>
+                    )}
+                    {selectedTemplate.style && (
+                      <Badge variant="outline">{selectedTemplate.style}</Badge>
+                    )}
+                  </div>
+
+                  {/* Lyrics */}
+                  <pre className="whitespace-pre-wrap text-sm font-sans leading-relaxed">
+                    {selectedTemplate.lyrics}
+                  </pre>
+
+                  {/* Actions */}
+                  <div className="flex gap-2 pt-4">
+                    <Button 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => handleCopy(selectedTemplate.lyrics)}
+                    >
+                      <Copy className="w-4 h-4 mr-2" />
+                      Копировать
+                    </Button>
+                    <Button 
+                      variant="destructive" 
+                      size="icon"
+                      onClick={() => {
+                        setDeleteConfirmId(selectedTemplate.id);
+                        setSelectedTemplate(null);
+                      }}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </ScrollArea>
+            </>
+          )}
+        </SheetContent>
+      </Sheet>
+
+      {/* Delete Confirmation */}
+      <AlertDialog open={!!deleteConfirmId} onOpenChange={(open) => !open && setDeleteConfirmId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Удалить текст?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Это действие нельзя отменить.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Отмена</AlertDialogCancel>
+            <AlertDialogAction onClick={() => deleteConfirmId && handleDelete(deleteConfirmId)}>
+              Удалить
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
+  );
+}
