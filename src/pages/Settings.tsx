@@ -32,7 +32,7 @@ import { TelegramBotSetup } from "@/components/TelegramBotSetup";
 import { AddToHomeScreen } from "@/components/telegram/AddToHomeScreen";
 import { AvatarUpload } from "@/components/settings/AvatarUpload";
 import { MidiSettingsSection } from "@/components/settings/MidiSettingsSection";
-import { PrivacySettings } from "@/components/settings/PrivacySettings";
+
 import { motion } from '@/lib/motion';
 
 export default function Settings() {
@@ -208,12 +208,6 @@ export default function Settings() {
 
           {/* Privacy Tab */}
           <TabsContent value="privacy" className="space-y-4">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <PrivacySettings />
-            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 10 }}
