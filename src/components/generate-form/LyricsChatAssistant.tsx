@@ -278,14 +278,25 @@ export function LyricsChatAssistant({
       {/* Input Area - Only show in chat tab */}
       {activeTab === 'chat' && (
         <div className="p-4 pt-2 border-t border-border/50 bg-background/80 backdrop-blur-sm safe-area-bottom shrink-0">
-          {/* Freeform mode indicator */}
-          {chat.freeformMode && (
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-2">
-              <MessageCircle className="h-3 w-3" />
-              <span>Свободный режим</span>
-            </div>
+          {/* Helper text - show only at start */}
+          {!chat.generatedLyrics && chat.messages.length <= 2 && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-start gap-2 text-xs text-muted-foreground mb-2 bg-muted/30 rounded-lg p-2"
+            >
+              <Sparkles className="h-3.5 w-3.5 mt-0.5 shrink-0 text-primary/70" />
+              <div className="space-y-0.5">
+                <p className="font-medium">💡 Пишите свободно! AI понимает:</p>
+                <ul className="list-disc list-inside space-y-0.5 text-[11px] leading-relaxed">
+                  <li>Прямые запросы: "Создай песню о море"</li>
+                  <li>С параметрами: "Грустная баллада про дождь"</li>
+                  <li>Вопросы: "Что можно написать?"</li>
+                </ul>
+              </div>
+            </motion.div>
           )}
-          <motion.div 
+          <motion.div
             className="flex gap-2"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -294,19 +305,17 @@ export function LyricsChatAssistant({
               value={chat.inputValue}
               onChange={(e) => chat.setInputValue(e.target.value)}
               placeholder={
-                chat.freeformMode 
-                  ? 'Опишите идею или задайте вопрос...'
-                  : chat.generatedLyrics 
-                    ? 'Что изменить...' 
-                    : 'Напишите тему песни...'
+                chat.generatedLyrics
+                  ? 'Например: "Сделай припев энергичнее"'
+                  : 'Например: "Создай песню о любви" или "Рок-баллада про дорогу"'
               }
               onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && chat.handleSendMessage()}
               disabled={chat.isLoading}
               className="flex-1 bg-muted/50 border-border/50 focus:bg-background transition-colors rounded-xl"
             />
             <motion.div variants={buttonVariants} whileHover="hover" whileTap="tap">
-              <Button 
-                size="icon" 
+              <Button
+                size="icon"
                 onClick={chat.handleSendMessage}
                 disabled={!chat.inputValue.trim() || chat.isLoading}
                 className="rounded-xl shrink-0"

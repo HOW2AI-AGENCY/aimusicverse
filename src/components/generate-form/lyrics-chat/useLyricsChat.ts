@@ -60,12 +60,11 @@ export function useLyricsChat({
       setMessages([{
         id: '1',
         role: 'assistant',
-        content: `📝 У трека "${trackContext.title}" есть черновик:\n\n"${preview}${trackContext.draftLyrics.length > 100 ? '...' : ''}"\n\nЧто хотите сделать?`,
+        content: `📝 Трек "${trackContext.title}" — черновик:\n\n"${preview}${trackContext.draftLyrics.length > 100 ? '...' : ''}"\n\n💬 Напишите что изменить, например:\n• "Улучши черновик"\n• "Добавь теги Suno"\n• "Сделай более энергичным"\n\nИли выберите действие:`,
         options: [
-          { label: '✨ Улучшить черновик', value: 'improve_draft', action: 'editDraft' },
-          { label: '📝 Переписать полностью', value: 'rewrite', action: 'setTheme' },
-          { label: '🏷️ Добавить теги Suno', value: 'add_tags', action: 'useContext' },
-          { label: '💬 Свободный чат', value: 'freeform', action: 'freeform' },
+          { label: '✨ Улучшить', value: 'improve_draft', action: 'editDraft' },
+          { label: '🏷️ Добавить теги', value: 'add_tags', action: 'useContext' },
+          { label: '🔄 Переписать', value: 'rewrite', action: 'setTheme' },
         ],
       }]);
       return;
@@ -77,12 +76,11 @@ export function useLyricsChat({
       setMessages([{
         id: '1',
         role: 'assistant',
-        content: `🎵 Трек "${trackContext.title}" уже имеет текст. Хотите его изменить?`,
+        content: `🎵 Трек "${trackContext.title}" — текст готов!\n\n💬 Напишите что изменить:\n• "Сделай припев мощнее"\n• "Добавь больше метафор"\n• "Переведи на английский"\n\nИли выберите:`,
         options: [
-          { label: '✏️ Редактировать', value: 'edit', action: 'editDraft' },
+          { label: '✏️ Изменить', value: 'edit', action: 'freeform' },
           { label: '🔄 Новая версия', value: 'new_version', action: 'setTheme' },
           { label: '🌍 Перевести', value: 'translate', action: 'useContext' },
-          { label: '💬 Обсудить', value: 'freeform', action: 'freeform' },
         ],
       }]);
       return;
@@ -92,21 +90,20 @@ export function useLyricsChat({
     if (projectContext && (projectContext.genre || projectContext.mood || projectContext.concept)) {
       const trackTitle = trackContext?.title || 'Новый трек';
 
-      let contextMessage = `🎼 Отлично! У меня есть вся информация для создания текста.\n\n`;
+      let contextMessage = `🎼 У меня есть контекст проекта!\n\n`;
       if (projectContext.genre) contextMessage += `🎸 Жанр: ${projectContext.genre}\n`;
       if (projectContext.mood) contextMessage += `💫 Настроение: ${projectContext.mood}\n`;
       if (projectContext.concept) contextMessage += `📖 Концепция: ${projectContext.concept}\n`;
-      if (trackContext?.notes) contextMessage += `💡 AI подсказка: ${trackContext.notes}\n`;
-      contextMessage += `\nСоздать текст для "${trackTitle}"?`;
+      if (trackContext?.notes) contextMessage += `💡 Подсказка: ${trackContext.notes}\n`;
+      contextMessage += `\n💬 Напишите тему для "${trackTitle}" или нажмите кнопку:`;
 
       setMessages([{
         id: '1',
         role: 'assistant',
         content: contextMessage,
         options: [
-          { label: '✨ Создать текст сейчас', value: 'generate_now', action: 'freeform' },
-          { label: '📝 Указать свою тему', value: 'custom_theme', action: 'setTheme' },
-          { label: '💬 Обсудить детали', value: 'freeform', action: 'freeform' },
+          { label: '✨ Создать на основе контекста', value: 'generate_now', action: 'freeform' },
+          { label: '💬 Свободный ввод', value: 'freeform', action: 'freeform' },
         ],
       }]);
       return;
@@ -142,7 +139,7 @@ export function useLyricsChat({
     setMessages([{
       id: '1',
       role: 'assistant',
-      content: 'Привет! 👋 Я помогу создать текст песни. О чём будет песня?',
+      content: '👋 Привет! Я создам текст песни.\n\n💬 Просто напишите, о чём песня — например:\n• "Создай песню о любви"\n• "Рок-баллада про дорогу"\n• "Летняя поп-песня"\n\nИли выберите готовый вариант:',
       options: INITIAL_MESSAGE_OPTIONS,
     }]);
   }, [projectContext, trackContext]);
@@ -525,21 +522,11 @@ export function useLyricsChat({
       content: userMessage,
     });
 
-    // Free chat mode or already has lyrics - use AI chat
-    if (freeformMode || generatedLyrics) {
-      await processFreechat(userMessage);
-      return;
-    }
-
-    // Standard flow: collecting theme
-    if (!theme) {
-      setTheme(userMessage);
-      askForGenre();
-    } else {
-      // Fallback to free chat for any other message
-      await processFreechat(userMessage);
-    }
-  }, [inputValue, theme, freeformMode, generatedLyrics, addMessage, askForGenre, processFreechat]);
+    // Always use free chat for direct messages
+    // This allows users to directly request lyrics generation without going through steps
+    // AI will determine if it needs more info or can generate immediately
+    await processFreechat(userMessage);
+  }, [inputValue, addMessage, processFreechat]);
 
   const regenerateLyrics = useCallback(() => {
     generateLyrics(structure);
