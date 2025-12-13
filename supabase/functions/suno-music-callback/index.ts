@@ -467,6 +467,18 @@ serve(async (req) => {
         logger.error('Cover generation invoke error', coverErr);
       }
 
+      // Link generated track to project_track if planTrackId was provided
+      const taskMetadata = typeof task.audio_clips === 'string' ? JSON.parse(task.audio_clips || '{}') : (task.audio_clips || {});
+      const projectTrackId = taskMetadata?.project_track_id;
+      
+      if (projectTrackId) {
+        logger.info('Linking track to project_track', { projectTrackId, trackId });
+        await supabase.from('project_tracks').update({
+          track_id: trackId,
+          status: 'completed',
+        }).eq('id', projectTrackId);
+      }
+
       await supabase.from('generation_tasks').update({
         status: 'completed',
         completed_at: new Date().toISOString(),

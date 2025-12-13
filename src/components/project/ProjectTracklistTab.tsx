@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dialog';
 import { Project } from '@/hooks/useProjects';
 import { useProjectTracks, ProjectTrack } from '@/hooks/useProjectTracks';
-import { Plus, Music, GripVertical, Trash2, Edit, Sparkles, Play, FileText, Zap, CheckCircle2, Clock, AlertCircle, FileEdit } from 'lucide-react';
+import { Plus, Music, GripVertical, Trash2, Edit, Sparkles, Play, FileText, Zap, CheckCircle2, Clock, AlertCircle, FileEdit, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -23,6 +23,8 @@ import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { LyricsChatAssistant } from '@/components/generate-form/LyricsChatAssistant';
 import { LyricsPreviewSheet } from './LyricsPreviewSheet';
 import { cn } from '@/lib/utils';
+import { useProjectGenerationTracking } from '@/hooks/useProjectGenerationTracking';
+import { motion } from 'framer-motion';
 
 interface ProjectTracklistTabProps {
   project: Project;
@@ -63,6 +65,7 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
   const { addTrack, updateTrack, deleteTrack, reorderTracks, generateTracklist, isGenerating } =
     useProjectTracks(project.id);
   const { setPlanTrackContext } = usePlanTrackStore();
+  const { getGenerationForTrack, isGenerating: isTrackGenerating } = useProjectGenerationTracking(project.id);
   
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [editingTrack, setEditingTrack] = useState<ProjectTrack | null>(null);
@@ -415,8 +418,27 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
 
                               {/* Actions */}
                               <div className={`flex ${isMobile ? 'gap-0.5' : 'gap-1'} flex-shrink-0`}>
-                                {/* Generate button - show for drafts */}
-                                {!hasLinkedTrack && (
+                                {/* Generation in progress indicator */}
+                                {(() => {
+                                  const genStatus = getGenerationForTrack(track.id);
+                                  if (genStatus) {
+                                    return (
+                                      <motion.div
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10"
+                                      >
+                                        <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
+                                        <span className="text-xs font-medium text-primary">{genStatus.stage}</span>
+                                        <span className="text-[10px] text-primary/60">{genStatus.progress}%</span>
+                                      </motion.div>
+                                    );
+                                  }
+                                  return null;
+                                })()}
+                                
+                                {/* Generate button - show for drafts (not during generation) */}
+                                {!hasLinkedTrack && !isTrackGenerating(track.id) && (
                                   <Button 
                                     size="sm" 
                                     variant="default"
