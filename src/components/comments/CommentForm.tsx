@@ -117,6 +117,8 @@ export function CommentForm({
 
         {showMentions && (
           <MentionInput
+            // Note: Using split('@').pop() is a simplification
+            // For cursor-aware mention detection, track textarea.selectionStart
             searchQuery={content.split('@').pop() || ''}
             onSelect={handleMentionSelect}
             onClose={() => setShowMentions(false)}

@@ -1,7 +1,7 @@
 // useAddComment hook - Sprint 011 Phase 5
 // Create comment with @mention parsing
 
-import { useMutation, useQueryClient } from '@tantml:react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';

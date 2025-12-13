@@ -35,6 +35,7 @@ export function useTrackStats({ trackId, enabled = true }: UseTrackStatsParams) 
         .from('comments')
         .select('*', { count: 'exact', head: true })
         .eq('track_id', trackId)
+        .is('parent_comment_id', null)
         .eq('is_moderated', false);
 
       if (commentsError) throw commentsError;

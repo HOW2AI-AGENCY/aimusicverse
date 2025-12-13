@@ -18,6 +18,15 @@ export function useProfileStats(userId: string | undefined) {
         };
       }
 
+      // First get user's track IDs for likes count
+      const { data: userTracks } = await supabase
+        .from('tracks')
+        .select('id')
+        .eq('user_id', userId)
+        .eq('is_public', true);
+
+      const trackIds = userTracks?.map(t => t.id) || [];
+
       const [followersResult, followingResult, tracksResult, likesResult] = await Promise.all([
         supabase
           .from('user_follows')
@@ -29,16 +38,13 @@ export function useProfileStats(userId: string | undefined) {
           .select('id', { count: 'exact', head: true })
           .eq('follower_id', userId)
           .eq('status', 'active'),
-        supabase
-          .from('tracks')
-          .select('id', { count: 'exact', head: true })
-          .eq('user_id', userId)
-          .eq('is_public', true),
-        supabase
-          .from('likes')
-          .select('id', { count: 'exact', head: true })
-          .eq('entity_id', userId)
-          .eq('entity_type', 'track'),
+        Promise.resolve({ count: userTracks?.length || 0 }),
+        trackIds.length > 0
+          ? supabase
+              .from('track_likes')
+              .select('id', { count: 'exact', head: true })
+              .in('track_id', trackIds)
+          : Promise.resolve({ count: 0 }),
       ]);
 
       return {
