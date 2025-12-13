@@ -487,12 +487,46 @@ export const UploadAudioDialog = ({
             </TabsTrigger>
           </TabsList>
 
-          <div className="mt-4 p-3 rounded-lg bg-muted/50 text-sm text-muted-foreground">
-            {mode === 'cover' 
-              ? '🎵 Создайте новую версию песни с другим стилем, сохраняя мелодию'
-              : '➕ Продолжите существующий трек, добавив к нему новую часть'
-            }
+          <div className="mt-4 p-3 rounded-lg bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 text-sm">
+            <div className="flex items-start gap-2">
+              <div className="mt-0.5">
+                {mode === 'cover' ? '🎵' : '➕'}
+              </div>
+              <div>
+                <p className="font-medium text-foreground">
+                  {mode === 'cover' ? 'Создание кавера' : 'Расширение трека'}
+                </p>
+                <p className="text-muted-foreground mt-0.5">
+                  {mode === 'cover' 
+                    ? 'Новая версия песни с другим стилем, сохраняя мелодию'
+                    : 'Добавьте новую часть к существующему треку'
+                  }
+                </p>
+              </div>
+            </div>
           </div>
+
+          {/* Analysis Status Indicator */}
+          {isAnalyzing && (
+            <div className="mt-3 p-3 rounded-lg bg-accent/50 border border-accent animate-pulse">
+              <div className="flex items-center gap-3">
+                <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                <div>
+                  <p className="text-sm font-medium">Анализ аудио...</p>
+                  <p className="text-xs text-muted-foreground">Определение стиля и текста</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {analysisComplete && (
+            <div className="mt-3 p-3 rounded-lg bg-green-500/10 border border-green-500/20">
+              <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
+                <Sparkles className="w-4 h-4" />
+                <p className="text-sm font-medium">Анализ завершён</p>
+              </div>
+            </div>
+          )}
 
           <div className="space-y-4 mt-4">
             {/* File Upload */}
@@ -870,24 +904,36 @@ export const UploadAudioDialog = ({
             )}
 
             {/* Action Button */}
-            <Button
-              onClick={handleSubmit}
-              disabled={loading || !audioFile}
-              className="w-full gap-2"
-              size="lg"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  {mode === 'cover' ? 'Создание кавера...' : 'Расширение...'}
-                </>
-              ) : (
-                <>
-                  {mode === 'cover' ? <Disc className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                  {mode === 'cover' ? 'Создать кавер' : 'Расширить аудио'}
-                </>
+            <div className="sticky bottom-0 pt-4 pb-2 bg-background/95 backdrop-blur">
+              <Button
+                onClick={handleSubmit}
+                disabled={loading || !audioFile || isAnalyzing}
+                className="w-full gap-2 h-12 text-base bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg"
+                size="lg"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    {mode === 'cover' ? 'Создание кавера...' : 'Расширение...'}
+                  </>
+                ) : isAnalyzing ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Анализ аудио...
+                  </>
+                ) : (
+                  <>
+                    {mode === 'cover' ? <Disc className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+                    {mode === 'cover' ? 'Создать кавер' : 'Расширить аудио'}
+                  </>
+                )}
+              </Button>
+              {!audioFile && (
+                <p className="text-center text-xs text-muted-foreground mt-2">
+                  Загрузите аудиофайл для начала
+                </p>
               )}
-            </Button>
+            </div>
           </div>
         </Tabs>
       </DialogContent>
