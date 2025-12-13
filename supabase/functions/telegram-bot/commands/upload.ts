@@ -324,6 +324,58 @@ export async function handleDeleteReference(
 }
 
 /**
+ * Show lyrics from reference audio
+ */
+export async function handleShowLyrics(
+  chatId: number,
+  referenceId: string,
+  messageId: number,
+  callbackId: string
+): Promise<void> {
+  try {
+    const { data: reference } = await supabase
+      .from('reference_audio')
+      .select('id, file_name, transcription')
+      .eq('id', referenceId)
+      .single();
+
+    if (!reference) {
+      await answerCallbackQuery(callbackId, '❌ Файл не найден');
+      return;
+    }
+
+    if (!reference.transcription) {
+      await answerCallbackQuery(callbackId, '❌ Текст не найден');
+      return;
+    }
+
+    await answerCallbackQuery(callbackId, '📝 Показываю текст...');
+
+    const lyrics = reference.transcription;
+    const lyricsText = lyrics.length > 3000 ? lyrics.substring(0, 3000) + '...' : lyrics;
+
+    await editMessageText(chatId, messageId, `📝 *Текст песни:*
+_${escapeMarkdown(reference.file_name)}_
+
+${escapeMarkdown(lyricsText)}`, {
+      inline_keyboard: [
+        [
+          { text: '🎤 Создать кавер', callback_data: `use_ref_cover_${referenceId}` },
+          { text: '🔄 Расширить', callback_data: `use_ref_extend_${referenceId}` }
+        ],
+        [
+          { text: '🔙 Назад', callback_data: `select_ref_${referenceId}` }
+        ]
+      ]
+    });
+
+  } catch (error) {
+    logger.error('Error in handleShowLyrics', error);
+    await answerCallbackQuery(callbackId, '❌ Ошибка');
+  }
+}
+
+/**
  * Start generation from reference
  */
 export async function handleGenerateFromReference(
