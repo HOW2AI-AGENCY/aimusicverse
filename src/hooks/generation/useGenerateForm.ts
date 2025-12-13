@@ -134,7 +134,10 @@ export function useGenerateForm({
         setStyle(styleComponents.join('. '));
       }
 
-      if (planTrackContext.notes) {
+      // Use lyrics from plan track (priority) or notes as fallback
+      if (planTrackContext.lyrics) {
+        setLyrics(planTrackContext.lyrics);
+      } else if (planTrackContext.notes) {
         setLyrics(planTrackContext.notes);
       }
 

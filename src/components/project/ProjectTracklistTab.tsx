@@ -160,11 +160,14 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
       planTrackTitle: track.title,
       stylePrompt: track.style_prompt,
       notes: track.notes,
+      lyrics: track.lyrics || undefined,
       recommendedTags: track.recommended_tags,
       projectId: project.id,
       projectGenre: project.genre,
       projectMood: project.mood,
       projectLanguage: project.language,
+      projectDescription: project.description || undefined,
+      projectConcept: project.concept || undefined,
     });
     
     navigate('/generate');

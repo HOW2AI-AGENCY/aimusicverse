@@ -5,11 +5,14 @@ export interface PlanTrackContext {
   planTrackTitle: string;
   stylePrompt: string | null;
   notes: string | null;
+  lyrics?: string | null;
   recommendedTags: string[] | null;
   projectId: string;
   projectGenre?: string | null;
   projectMood?: string | null;
   projectLanguage?: string | null;
+  projectDescription?: string | null;
+  projectConcept?: string | null;
 }
 
 interface PlanTrackStore {
