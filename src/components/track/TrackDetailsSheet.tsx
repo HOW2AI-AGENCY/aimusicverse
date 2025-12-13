@@ -12,6 +12,7 @@ import { LyricsView } from './LyricsView';
 import { VersionsTab } from './VersionsTab';
 import { StemsTab } from './StemsTab';
 import { ChangelogTab } from './ChangelogTab';
+import { CommentsList } from '@/components/comments';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 
@@ -84,6 +85,12 @@ export function TrackDetailsSheet({
               >
                 История
               </TabsTrigger>
+              <TabsTrigger
+                value="comments"
+                className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none"
+              >
+                Комментарии
+              </TabsTrigger>
             </TabsList>
           </div>
 
@@ -106,6 +113,10 @@ export function TrackDetailsSheet({
 
             <TabsContent value="changelog" className="p-6 m-0">
               <ChangelogTab track={track} />
+            </TabsContent>
+
+            <TabsContent value="comments" className="p-6 m-0">
+              <CommentsList trackId={track.id} />
             </TabsContent>
           </ScrollArea>
         </Tabs>
