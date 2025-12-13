@@ -70,7 +70,7 @@ export function useLyricsChat({
       }]);
       return;
     }
-    
+
     // Scenario 2: Has generated lyrics from linked track
     if (trackContext?.generatedLyrics) {
       setGeneratedLyrics(trackContext.generatedLyrics);
@@ -87,12 +87,36 @@ export function useLyricsChat({
       }]);
       return;
     }
-    
-    // Scenario 3: Has project context
+
+    // Scenario 3: Has full context (genre, mood, theme) - GENERATE IMMEDIATELY
+    if (projectContext && (projectContext.genre || projectContext.mood || projectContext.concept)) {
+      const trackTitle = trackContext?.title || 'Новый трек';
+
+      let contextMessage = `🎼 Отлично! У меня есть вся информация для создания текста.\n\n`;
+      if (projectContext.genre) contextMessage += `🎸 Жанр: ${projectContext.genre}\n`;
+      if (projectContext.mood) contextMessage += `💫 Настроение: ${projectContext.mood}\n`;
+      if (projectContext.concept) contextMessage += `📖 Концепция: ${projectContext.concept}\n`;
+      if (trackContext?.notes) contextMessage += `💡 AI подсказка: ${trackContext.notes}\n`;
+      contextMessage += `\nСоздать текст для "${trackTitle}"?`;
+
+      setMessages([{
+        id: '1',
+        role: 'assistant',
+        content: contextMessage,
+        options: [
+          { label: '✨ Создать текст сейчас', value: 'generate_now', action: 'freeform' },
+          { label: '📝 Указать свою тему', value: 'custom_theme', action: 'setTheme' },
+          { label: '💬 Обсудить детали', value: 'freeform', action: 'freeform' },
+        ],
+      }]);
+      return;
+    }
+
+    // Scenario 4: Has project context but no genre/mood
     if (projectContext) {
       const trackCount = projectContext.existingTracks?.length || 0;
       const trackTitle = trackContext?.title || 'Новый трек';
-      
+
       let contextMessage = `🎼 Проект "${projectContext.projectTitle}"`;
       if (projectContext.genre) contextMessage += ` (${projectContext.genre})`;
       if (trackCount > 0) {
@@ -101,10 +125,10 @@ export function useLyricsChat({
         contextMessage += '.';
       }
       contextMessage += `\n\nДля трека "${trackTitle}" предлагаю:`;
-      
+
       const contextOptions = getContextualOptions(projectContext, trackContext);
       contextOptions.push({ label: '💬 Свободный чат', value: 'freeform', action: 'freeform' });
-      
+
       setMessages([{
         id: '1',
         role: 'assistant',
@@ -113,8 +137,8 @@ export function useLyricsChat({
       }]);
       return;
     }
-    
-    // Scenario 4: Standard (no context)
+
+    // Scenario 5: Standard (no context)
     setMessages([{
       id: '1',
       role: 'assistant',
@@ -268,7 +292,7 @@ export function useLyricsChat({
   // NEW: Free chat mode handler
   const processFreechat = useCallback(async (message: string) => {
     setIsLoading(true);
-    
+
     try {
       const conversationHistory = messages.slice(-10).map(m => ({
         role: m.role,
@@ -281,6 +305,7 @@ export function useLyricsChat({
           message,
           context: {
             currentLyrics: generatedLyrics || undefined,
+            // Pass all user parameters to allow AI to use them
             theme: theme || undefined,
             genre: genre || projectContext?.genre,
             mood: mood.length > 0 ? mood.join(', ') : projectContext?.mood,
@@ -290,15 +315,23 @@ export function useLyricsChat({
               concept: projectContext.concept,
               genre: projectContext.genre,
               mood: projectContext.mood,
+              projectType: projectContext.projectType,
+              targetAudience: projectContext.targetAudience,
               existingTracks: projectContext.existingTracks?.map(t => ({
                 title: t.title,
-                hasLyrics: !!t.generatedLyrics || !!t.draftLyrics,
+                stylePrompt: t.stylePrompt,
+                generatedLyrics: t.generatedLyrics,
+                draftLyrics: t.draftLyrics,
               })),
             } : undefined,
             trackContext: trackContext ? {
               title: trackContext.title,
+              position: trackContext.position,
               stylePrompt: trackContext.stylePrompt,
               recommendedTags: trackContext.recommendedTags,
+              recommendedStructure: trackContext.recommendedStructure,
+              notes: trackContext.notes,
+              lyricsStatus: trackContext.lyricsStatus,
             } : undefined,
             conversationHistory,
           },
@@ -346,21 +379,41 @@ export function useLyricsChat({
     // Handle different action types
     switch (option.action) {
       case 'freeform':
-        setFreeformMode(true);
-        addMessage({
-          id: Date.now().toString(),
-          role: 'assistant',
-          content: '💬 Режим свободного чата активирован. Опишите, что хотите создать, или задайте вопрос.',
-        });
+        // Special case: "generate_now" - immediately generate using context
+        if (option.value === 'generate_now') {
+          setFreeformMode(true);
+          // Trigger generation with existing context
+          await processFreechat('Создай полный текст песни с профессиональными тегами Suno, используя всю доступную информацию о проекте и треке');
+        } else {
+          setFreeformMode(true);
+          addMessage({
+            id: Date.now().toString(),
+            role: 'assistant',
+            content: '💬 Режим свободного чата активирован. Опишите, что хотите создать, или задайте вопрос.',
+          });
+        }
         break;
-        
+
+      case 'setTheme':
+        if (option.value === 'custom_theme') {
+          addMessage({
+            id: Date.now().toString(),
+            role: 'assistant',
+            content: '📝 О чём будет песня? Опишите тему или историю.',
+          });
+        } else {
+          setTheme(option.value);
+          askForGenre();
+        }
+        break;
+
       case 'editDraft':
         if (trackContext?.draftLyrics) {
           setGeneratedLyrics(trackContext.draftLyrics);
           await modifyLyrics('Улучши этот текст, сохранив основную идею');
         }
         break;
-        
+
       case 'useContext':
         if (option.value === 'add_tags' && trackContext?.draftLyrics) {
           setGeneratedLyrics(trackContext.draftLyrics);
@@ -399,18 +452,18 @@ export function useLyricsChat({
           askForGenre();
         }
         break;
-        
+
       case 'retry':
         generateLyrics(structure);
         break;
-        
+
       default:
         if (!theme) {
           setTheme(option.value);
           askForGenre();
         }
     }
-  }, [theme, trackContext, generatedLyrics, genre, mood, language, projectContext, structure, addMessage, askForGenre, modifyLyrics, generateLyrics]);
+  }, [theme, trackContext, generatedLyrics, genre, mood, language, projectContext, structure, addMessage, askForGenre, modifyLyrics, generateLyrics, processFreechat]);
 
   const handleGenreSelect = useCallback((selectedGenre: string) => {
     setGenre(selectedGenre);
