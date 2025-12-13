@@ -292,7 +292,7 @@ serve(async (req) => {
 
     const telegramChatId = profile?.telegram_id || null;
 
-    // Create generation task
+    // Create generation task with planTrackId in audio_clips metadata for callback
     const { data: task, error: taskError } = await supabase
       .from('generation_tasks')
       .insert({
@@ -304,6 +304,7 @@ serve(async (req) => {
         source: 'mini_app',
         generation_mode: mode,
         model_used: model,
+        audio_clips: planTrackId ? JSON.stringify({ project_track_id: planTrackId }) : null,
       })
       .select()
       .single();

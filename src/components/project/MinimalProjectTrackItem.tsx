@@ -16,7 +16,8 @@ import {
   Pause,
   FileQuestion,
   FileCheck,
-  Wand2
+  Wand2,
+  Loader2
 } from 'lucide-react';
 import { ProjectTrack } from '@/hooks/useProjectTracks';
 import { cn } from '@/lib/utils';
@@ -37,6 +38,12 @@ import {
 import { useProjectTracks } from '@/hooks/useProjectTracks';
 import { toast } from 'sonner';
 import { EditTrackDialog } from './EditTrackDialog';
+import { motion } from 'framer-motion';
+
+interface GenerationStatus {
+  progress: number;
+  stage: string;
+}
 
 interface MinimalProjectTrackItemProps {
   track: ProjectTrack;
@@ -45,6 +52,7 @@ interface MinimalProjectTrackItemProps {
   onGenerate: () => void;
   onOpenLyrics?: () => void;
   onOpenLyricsWizard?: () => void;
+  generationStatus?: GenerationStatus | null;
 }
 
 const STATUS_CONFIG = {
@@ -112,6 +120,7 @@ export const MinimalProjectTrackItem = ({
   onGenerate,
   onOpenLyrics,
   onOpenLyricsWizard,
+  generationStatus,
 }: MinimalProjectTrackItemProps) => {
   const isMobile = useIsMobile();
   const [editOpen, setEditOpen] = useState(false);
@@ -295,7 +304,18 @@ export const MinimalProjectTrackItem = ({
               <FileText className="w-4 h-4" />
             </Button>
 
-            {hasLinkedTrack ? (
+            {generationStatus ? (
+              /* Generation in progress indicator */
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10"
+              >
+                <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
+                <span className="text-xs font-medium text-primary">{generationStatus.stage}</span>
+                <span className="text-[10px] text-primary/60">{generationStatus.progress}%</span>
+              </motion.div>
+            ) : hasLinkedTrack ? (
               <Button
                 size="icon"
                 variant="ghost"
