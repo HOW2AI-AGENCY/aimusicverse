@@ -256,11 +256,12 @@ All colors MUST be HSL.
   .island-nav {
     position: fixed;
     bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 2rem);
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: calc(100% - 1.5rem);
     max-width: 28rem;
-    margin-bottom: max(env(safe-area-inset-bottom, 0px), 1rem);
+    margin-bottom: max(env(safe-area-inset-bottom, 0px), 0.75rem);
     background: hsl(var(--background) / 0.85);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
