@@ -2,9 +2,10 @@
  * Project handlers for Telegram bot
  */
 
-import { sendMessage, editMessageText, answerCallbackQuery } from '../telegram-api.ts';
+import { sendMessage, editMessageText, answerCallbackQuery, deleteMessage, sendPhoto } from '../telegram-api.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { escapeMarkdownV2 } from '../utils/text-processor.ts';
+import { deleteActiveMenu, setActiveMenuMessageId } from '../core/active-menu-manager.ts';
 
 const supabase = createClient(
   Deno.env.get('SUPABASE_URL')!,
