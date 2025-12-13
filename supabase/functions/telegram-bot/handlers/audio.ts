@@ -59,8 +59,75 @@ export async function handleAudioMessage(
     const pendingUpload = await consumePendingUpload(userId);
     
     if (!pendingUpload) {
-      // No pending upload - show help with inline keyboard options
-      await sendMessage(chatId, `🎵 *Аудио получено\\!*
+      // No pending upload - analyze audio first, then show options
+      await sendMessage(chatId, `🎵 *Аудио получено\\!*\n\n⏳ Анализируем стиль\\.\\.\\.`);
+      
+      // Get file URL and analyze with audio-flamingo
+      const fileUrl = await getFileUrl(audio.file_id);
+      let analysisText = '';
+      let analysisResult: { style?: string; genre?: string; mood?: string } | undefined;
+      
+      if (fileUrl) {
+        try {
+          // Upload to Supabase storage for analysis
+          const audioResponse = await fetch(fileUrl);
+          if (audioResponse.ok) {
+            const audioBlob = await audioResponse.blob();
+            const audioBuffer = await audioResponse.arrayBuffer();
+            
+            const fileName = `temp-analysis/${userId}/${Date.now()}.mp3`;
+            const { error: uploadError } = await supabase.storage
+              .from('project-assets')
+              .upload(fileName, new Uint8Array(audioBuffer), {
+                contentType: audioBlob.type || 'audio/mpeg',
+                upsert: true,
+              });
+              
+            if (!uploadError) {
+              const { data: { publicUrl } } = supabase.storage
+                .from('project-assets')
+                .getPublicUrl(fileName);
+              
+              // Call analyze-audio-flamingo function
+              const { data: analysisData, error: analysisError } = await supabase.functions.invoke(
+                'analyze-audio-flamingo',
+                {
+                  body: {
+                    audio_url: publicUrl,
+                    analysis_type: 'reference',
+                  },
+                }
+              );
+              
+              if (!analysisError && analysisData?.parsed) {
+                analysisResult = {
+                  style: analysisData.parsed.style_description,
+                  genre: analysisData.parsed.genre,
+                  mood: analysisData.parsed.mood,
+                };
+                
+                if (analysisResult.style) {
+                  analysisText = `\n\n🎼 *Стиль:* _${escapeMarkdown(analysisResult.style.substring(0, 200))}_`;
+                }
+                if (analysisResult.genre) {
+                  analysisText += `\n🎵 *Жанр:* ${escapeMarkdown(analysisResult.genre)}`;
+                }
+                if (analysisResult.mood) {
+                  analysisText += `\n💫 *Настроение:* ${escapeMarkdown(analysisResult.mood)}`;
+                }
+              }
+            }
+          }
+        } catch (analyzeError) {
+          logger.error('Audio analysis failed', analyzeError);
+          // Continue without analysis - not critical
+        }
+      }
+      
+      // Store audio file_id with analysis results for reuse when user selects action
+      await storeTemporaryAudio(userId, audio.file_id, type, analysisResult);
+      
+      await sendMessage(chatId, `🎵 *Аудио проанализировано\\!*${analysisText}
 
 Выберите что хотите сделать:`, {
         inline_keyboard: [
@@ -70,7 +137,7 @@ export async function handleAudioMessage(
           ],
           [
             { text: '📤 Загрузить в облако', callback_data: 'audio_action_upload' },
-            { text: '🎼 Распознать песню', callback_data: 'audio_action_recognize' }
+            { text: '🎼 Распознать текст', callback_data: 'audio_action_recognize' }
           ],
           [
             { text: '🎹 Конвертировать в MIDI', callback_data: 'audio_action_midi' }
@@ -78,8 +145,6 @@ export async function handleAudioMessage(
         ]
       });
       
-      // Store audio file_id for reuse when user selects action
-      await storeTemporaryAudio(userId, audio.file_id, type);
       return;
     }
     
@@ -214,10 +279,11 @@ ${escapeMarkdown(result.error || 'Неизвестная ошибка')}
 async function storeTemporaryAudio(
   userId: number,
   fileId: string,
-  type: 'audio' | 'voice' | 'document'
+  type: 'audio' | 'voice' | 'document',
+  analysisResult?: { style?: string; genre?: string; mood?: string }
 ): Promise<void> {
   try {
-    await setPendingAudio(userId, fileId, type);
+    await setPendingAudio(userId, fileId, type, analysisResult);
   } catch (error) {
     logger.error('Error storing temporary audio', error);
   }
