@@ -6,7 +6,7 @@ import { useProjects } from '@/hooks/useProjects';
 import { useProjectTracks, ProjectTrack } from '@/hooks/useProjectTracks';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Sparkles, Music, MoreVertical, Play, Plus, Settings } from 'lucide-react';
+import { ArrowLeft, Sparkles, Music, MoreVertical, Play, Plus, Settings, Image } from 'lucide-react';
 import { AIActionsDialog } from '@/components/project/AIActionsDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -16,6 +16,7 @@ import { AddTrackDialog } from '@/components/project/AddTrackDialog';
 import { ProjectInfoCard } from '@/components/project/ProjectInfoCard';
 import { LyricsPreviewSheet } from '@/components/project/LyricsPreviewSheet';
 import { LyricsChatAssistant } from '@/components/generate-form/LyricsChatAssistant';
+import { ProjectMediaGenerator } from '@/components/project/ProjectMediaGenerator';
 import { cn } from '@/lib/utils';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
@@ -34,7 +35,9 @@ export default function ProjectDetail() {
   const [addTrackOpen, setAddTrackOpen] = useState(false);
   const [lyricsSheetOpen, setLyricsSheetOpen] = useState(false);
   const [lyricsWizardOpen, setLyricsWizardOpen] = useState(false);
+  const [mediaGeneratorOpen, setMediaGeneratorOpen] = useState(false);
   const [selectedTrackForLyrics, setSelectedTrackForLyrics] = useState<ProjectTrack | null>(null);
+  const [selectedTrackForMedia, setSelectedTrackForMedia] = useState<ProjectTrack | null>(null);
   const isMobile = useIsMobile();
   const { setPlanTrackContext } = usePlanTrackStore();
   const { updateTrack } = useProjectTracks(id);
@@ -266,6 +269,18 @@ export default function ProjectDetail() {
           <Sparkles className="w-4 h-4" />
           AI Действия
         </Button>
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={() => {
+            setSelectedTrackForMedia(null);
+            setMediaGeneratorOpen(true);
+          }}
+          className="gap-1.5 shrink-0"
+        >
+          <Image className="w-4 h-4" />
+          Медиа
+        </Button>
       </div>
 
       {/* Tracklist */}
@@ -398,21 +413,50 @@ export default function ProjectDetail() {
             position: t.position,
             title: t.title,
             stylePrompt: t.style_prompt || undefined,
-            draftLyrics: t.notes || undefined,
+            draftLyrics: t.lyrics || undefined,
             generatedLyrics: t.linked_track?.lyrics || undefined,
             recommendedTags: t.recommended_tags || undefined,
             recommendedStructure: t.recommended_structure || undefined,
+            notes: t.notes || undefined,
+            lyrics: t.lyrics || undefined,
+            lyricsStatus: t.lyrics_status as 'draft' | 'prompt' | 'generated' | 'approved' | undefined,
           })),
         }}
         trackContext={selectedTrackForLyrics ? {
           position: selectedTrackForLyrics.position,
           title: selectedTrackForLyrics.title,
           stylePrompt: selectedTrackForLyrics.style_prompt || undefined,
-          draftLyrics: selectedTrackForLyrics.notes || undefined,
+          draftLyrics: selectedTrackForLyrics.lyrics || undefined,
           generatedLyrics: selectedTrackForLyrics.linked_track?.lyrics || undefined,
           recommendedTags: selectedTrackForLyrics.recommended_tags || undefined,
           recommendedStructure: selectedTrackForLyrics.recommended_structure || undefined,
+          notes: selectedTrackForLyrics.notes || undefined,
+          lyrics: selectedTrackForLyrics.lyrics || undefined,
+          lyricsStatus: selectedTrackForLyrics.lyrics_status as 'draft' | 'prompt' | 'generated' | 'approved' | undefined,
         } : undefined}
+      />
+
+      {/* Project Media Generator */}
+      <ProjectMediaGenerator
+        open={mediaGeneratorOpen}
+        onOpenChange={setMediaGeneratorOpen}
+        project={{
+          id: project.id,
+          title: project.title,
+          genre: project.genre,
+          mood: project.mood,
+          concept: project.concept,
+          cover_url: project.cover_url,
+        }}
+        track={selectedTrackForMedia ? {
+          id: selectedTrackForMedia.id,
+          title: selectedTrackForMedia.title,
+          style_prompt: selectedTrackForMedia.style_prompt,
+          notes: selectedTrackForMedia.notes,
+        } : null}
+        onCoverGenerated={(url) => {
+          queryClient.invalidateQueries({ queryKey: ['projects'] });
+        }}
       />
     </div>
   );
