@@ -46,6 +46,11 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
     if (!currentSection) return;
     
     setIsGenerating(true);
+    // Show progress notification
+    const progressToast = toast.loading(`Генерируем ${currentSection.name}... ✨`, {
+      description: 'ИИ создаёт текст с учётом вашей темы и настроения',
+    });
+    
     try {
       const previousSections = writing.sections
         .slice(0, writing.currentSectionIndex)
@@ -70,11 +75,19 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
       if (error) throw error;
       if (data?.lyrics) {
         updateSectionContent(currentSection.id, data.lyrics.trim());
-        toast.success(`${currentSection.name} сгенерирован`);
+        toast.success(`${currentSection.name} готов! 🎵`, {
+          description: 'Текст создан и сохранён',
+          id: progressToast,
+        });
+      } else {
+        toast.error('Не удалось сгенерировать секцию', { id: progressToast });
       }
     } catch (err) {
       logger.error('Error generating section', { error: err });
-      toast.error('Не удалось сгенерировать секцию');
+      toast.error('Не удалось сгенерировать секцию', { 
+        description: 'Попробуйте ещё раз',
+        id: progressToast 
+      });
     } finally {
       setIsGenerating(false);
     }
@@ -82,6 +95,11 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
 
   const generateAllSections = async () => {
     setIsGenerating(true);
+    // Show detailed progress notification
+    const progressToast = toast.loading('Генерируем весь трек... 🎼', {
+      description: `Создаём ${structure.sections.length} секций с ИИ`,
+    });
+    
     try {
       const { data, error } = await supabase.functions.invoke('ai-lyrics-assistant', {
         body: {
@@ -101,6 +119,7 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
         const generatedText = data.lyrics;
         const sectionRegex = /\[([^\]]+)\]\n([\s\S]*?)(?=\[|$)/g;
         let match;
+        let sectionsUpdated = 0;
         
         while ((match = sectionRegex.exec(generatedText)) !== null) {
           const sectionName = match[1];
@@ -113,10 +132,14 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
           
           if (section) {
             updateSectionContent(section.id, content);
+            sectionsUpdated++;
           }
         }
         
-        toast.success('Все секции сгенерированы');
+        toast.success('Все секции готовы! 🎉', {
+          description: `Создано ${sectionsUpdated} секций с текстом`,
+          id: progressToast,
+        });
         
         // Also generate style prompt based on concept
         if (onStyleGenerated) {
@@ -129,12 +152,19 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
           
           const generatedStyle = styleComponents.join(', ');
           onStyleGenerated(generatedStyle);
-          toast.success('Стиль также сгенерирован');
+          setTimeout(() => {
+            toast.success('Стиль также сгенерирован! 🎨');
+          }, 500);
         }
+      } else {
+        toast.error('Не удалось сгенерировать текст', { id: progressToast });
       }
     } catch (err) {
       logger.error('Error generating all sections', { error: err });
-      toast.error('Не удалось сгенерировать текст');
+      toast.error('Не удалось сгенерировать текст', {
+        description: 'Попробуйте сгенерировать секции по отдельности',
+        id: progressToast,
+      });
     } finally {
       setIsGenerating(false);
     }

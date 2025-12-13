@@ -18,6 +18,7 @@ import {
   DEFAULT_AUDIO_WEIGHT 
 } from '@/constants/generationConstants';
 import { showGenerationError, cleanupAudioReference } from '@/lib/errorHandling';
+import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
 
 export interface GenerateFormState {
   mode: 'simple' | 'custom';
@@ -59,6 +60,7 @@ export function useGenerateForm({
   const navigate = useNavigate();
   const { planTrackContext, clearPlanTrackContext } = usePlanTrackStore();
   const { draft, hasDraft, saveDraft, clearDraft } = useGenerateDraft();
+  const { trackGeneration } = useAnalyticsTracking();
   
   // Audio reference loader hook (IMP001)
   const audioReference = useAudioReferenceLoader(open);
@@ -621,6 +623,16 @@ export function useGenerateForm({
       }
 
       if (error) throw error;
+
+      // Track generation started with analytics
+      trackGeneration('started', {
+        mode,
+        hasVocals,
+        model: finalModel,
+        withAudioFile: !!audioFile,
+        projectId: selectedProjectId || initialProjectId,
+        artistId: selectedArtistId,
+      });
 
       toast.dismiss(toastId);
       toast.success('Генерация началась! 🎵', {

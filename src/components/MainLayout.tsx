@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils';
 import { SubscriptionRequiredDialog } from './dialogs/SubscriptionRequiredDialog';
 import { GamificationOnboarding } from './gamification/GamificationOnboarding';
 import { setSubscriptionDialogCallback } from '@/hooks/useTrackActions';
+import { SystemAnnouncement } from './layout/SystemAnnouncement';
 
 export const MainLayout = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
@@ -90,6 +91,9 @@ export const MainLayout = () => {
           isGuestMode && 'pt-9'
         )}
       >
+        {/* System Announcements - shown at top of main content */}
+        <SystemAnnouncement />
+        
         <div className={cn('flex-1', isDesktop ? 'p-6' : 'p-3')}>
           <Outlet />
         </div>

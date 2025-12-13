@@ -24,6 +24,9 @@ export function useRewards() {
   const queryClient = useQueryClient();
   const [isProcessing, setIsProcessing] = useState(false);
 
+  // Credit cap for free users
+  const FREE_USER_CREDIT_CAP = 100;
+
   const awardCredits = useCallback(async (
     amount: number,
     actionType: string,
@@ -33,7 +36,7 @@ export function useRewards() {
 
     setIsProcessing(true);
     try {
-      // Update user credits
+      // Fetch user credits and check if admin
       const { data: credits, error: creditsError } = await supabase
         .from('user_credits')
         .select('balance, total_earned, experience, level')
@@ -42,8 +45,43 @@ export function useRewards() {
 
       if (creditsError) throw creditsError;
 
-      const newBalance = (credits?.balance || 0) + amount;
-      const newTotalEarned = (credits?.total_earned || 0) + amount;
+      const currentBalance = credits?.balance || 0;
+
+      // Check if user is admin (admins bypass credit cap)
+      const { data: isAdminData } = await supabase.rpc('has_role', {
+        _user_id: user.id,
+        _role: 'admin',
+      });
+      const isAdmin = !!isAdminData;
+
+      // Check credit cap for free users
+      if (!isAdmin && currentBalance >= FREE_USER_CREDIT_CAP) {
+        toast.info('Достигнут лимит кредитов! 💎', {
+          description: `Используйте существующие кредиты (${currentBalance}/${FREE_USER_CREDIT_CAP}), чтобы получать новые награды`,
+        });
+        logger.info('Credit award blocked - user at cap', { 
+          userId: user.id, 
+          currentBalance, 
+          cap: FREE_USER_CREDIT_CAP 
+        });
+        return { success: false };
+      }
+
+      // Calculate new balance, but cap it at max for free users
+      let newBalance = currentBalance + amount;
+      let awardedAmount = amount;
+
+      if (!isAdmin && newBalance > FREE_USER_CREDIT_CAP) {
+        // Cap the balance and reduce awarded amount
+        awardedAmount = FREE_USER_CREDIT_CAP - currentBalance;
+        newBalance = FREE_USER_CREDIT_CAP;
+        
+        toast.info('Частичное начисление кредитов', {
+          description: `Начислено ${awardedAmount} из ${amount} кредитов (лимит: ${FREE_USER_CREDIT_CAP})`,
+        });
+      }
+
+      const newTotalEarned = (credits?.total_earned || 0) + awardedAmount;
 
       await supabase
         .from('user_credits')
@@ -54,10 +92,10 @@ export function useRewards() {
         })
         .eq('user_id', user.id);
 
-      // Log transaction
+      // Log transaction with actual awarded amount
       await supabase.from('credit_transactions').insert({
         user_id: user.id,
-        amount,
+        amount: awardedAmount,
         transaction_type: 'earn',
         action_type: actionType,
         description: description || `Награда: ${actionType}`,
@@ -71,7 +109,7 @@ export function useRewards() {
       queryClient.invalidateQueries({ queryKey: ['user-credits'] });
       queryClient.invalidateQueries({ queryKey: ['credit-transactions'] });
 
-      return { success: true, credits: amount };
+      return { success: true, credits: awardedAmount };
     } catch (error) {
       logger.error('Failed to award credits', error);
       return { success: false };

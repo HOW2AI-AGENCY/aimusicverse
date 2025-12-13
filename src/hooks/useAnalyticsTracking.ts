@@ -91,6 +91,31 @@ export function useAnalyticsTracking() {
       },
     });
 
+    // Track user return frequency on session start
+    const lastVisit = localStorage.getItem('last-visit-date');
+    const now = new Date();
+    const today = now.toISOString().split('T')[0];
+    
+    if (lastVisit && lastVisit !== today) {
+      const lastVisitDate = new Date(lastVisit);
+      const daysSinceLastVisit = Math.floor((now.getTime() - lastVisitDate.getTime()) / (1000 * 60 * 60 * 24));
+      
+      // Track return event with frequency data
+      setTimeout(() => {
+        trackEvent({
+          eventType: 'session_started',
+          eventName: 'user_returned',
+          metadata: {
+            daysSinceLastVisit,
+            isReturningUser: true,
+            lastVisit: lastVisit,
+          },
+        });
+      }, 100);
+    }
+    
+    localStorage.setItem('last-visit-date', today);
+
     // Track session end on unmount
     return () => {
       // Use sendBeacon for reliable tracking on page unload
@@ -105,13 +130,25 @@ export function useAnalyticsTracking() {
         payload
       );
     };
-  }, []);
+  }, [trackEvent, location.pathname]);
 
   // Convenience methods
   const trackGeneration = useCallback((status: 'started' | 'completed', metadata?: Record<string, unknown>) => {
+    const eventMetadata = { ...metadata };
+    
+    // Track first generation milestone
+    if (status === 'completed') {
+      const firstGenerationTracked = localStorage.getItem('first-generation-tracked');
+      if (!firstGenerationTracked) {
+        localStorage.setItem('first-generation-tracked', 'true');
+        localStorage.setItem('first-generation-date', new Date().toISOString());
+        eventMetadata.isFirstGeneration = true;
+      }
+    }
+    
     trackEvent({
       eventType: status === 'started' ? 'generation_started' : 'generation_completed',
-      metadata,
+      metadata: eventMetadata,
     });
   }, [trackEvent]);
 
@@ -152,6 +189,29 @@ export function useAnalyticsTracking() {
     });
   }, [trackEvent]);
 
+  // Track user return frequency
+  const trackUserReturn = useCallback(() => {
+    const lastVisit = localStorage.getItem('last-visit-date');
+    const now = new Date();
+    const today = now.toISOString().split('T')[0];
+    
+    if (lastVisit) {
+      const lastVisitDate = new Date(lastVisit);
+      const daysSinceLastVisit = Math.floor((now.getTime() - lastVisitDate.getTime()) / (1000 * 60 * 60 * 24));
+      
+      trackEvent({
+        eventType: 'session_started',
+        metadata: {
+          daysSinceLastVisit,
+          isReturningUser: true,
+          lastVisit: lastVisit,
+        },
+      });
+    }
+    
+    localStorage.setItem('last-visit-date', today);
+  }, [trackEvent]);
+
   return {
     trackEvent,
     trackGeneration,
@@ -160,6 +220,7 @@ export function useAnalyticsTracking() {
     trackShare,
     trackFeatureUsed,
     trackButtonClick,
+    trackUserReturn,
   };
 }
 
