@@ -254,14 +254,15 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         onSelect={form.handleArtistSelect}
       />
 
-      {/* Audio Action Dialog - for reference audio in generation */}
+      {/* Audio Action Dialog - for cover/extend operations */}
       <AudioActionDialog
         open={audioActionDialogOpen}
         onOpenChange={setAudioActionDialogOpen}
-        onAudioSelected={(file) => {
+        onAudioSelected={(file, mode) => {
           form.setAudioFile(file);
           form.setMode('custom');
-          toast.success('Аудио добавлено');
+          // TODO: Handle mode-specific logic (cover vs extend)
+          toast.success(mode === 'cover' ? 'Аудио для кавера добавлено' : 'Аудио для расширения добавлено');
         }}
         onAnalysisComplete={(styleDescription) => {
           form.setMode('custom');

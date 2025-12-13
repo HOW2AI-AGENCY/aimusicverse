@@ -153,7 +153,12 @@ export async function consumePendingUpload(telegramUserId: number): Promise<Pend
 export async function setPendingAudio(
   telegramUserId: number,
   fileId: string,
-  fileType: 'audio' | 'voice' | 'document'
+  fileType: 'audio' | 'voice' | 'document',
+  analysisResult?: {
+    style?: string;
+    genre?: string;
+    mood?: string;
+  }
 ): Promise<void> {
   const supabase = getSupabase();
   
@@ -177,6 +182,7 @@ export async function setPendingAudio(
           fileId,
           fileType,
           createdAt: Date.now(),
+          analysisResult,
         },
         expires_at: expiresAt.toISOString(),
       });
@@ -186,7 +192,7 @@ export async function setPendingAudio(
       throw error;
     }
     
-    logger.debug('Set pending audio', { telegramUserId, fileId, fileType });
+    logger.debug('Set pending audio', { telegramUserId, fileId, fileType, hasAnalysis: !!analysisResult });
   } catch (error) {
     logger.error('Error in setPendingAudio', error);
     throw error;
@@ -198,7 +204,7 @@ export async function setPendingAudio(
  */
 export async function consumePendingAudio(
   telegramUserId: number
-): Promise<{ fileId: string; fileType: string } | null> {
+): Promise<{ fileId: string; fileType: string; analysisResult?: { style?: string; genre?: string; mood?: string } } | null> {
   const supabase = getSupabase();
   
   try {
@@ -220,9 +226,12 @@ export async function consumePendingAudio(
       .delete()
       .eq('id', data.id);
 
+    const options = data.options as Record<string, unknown>;
+    
     return {
-      fileId: data.options.fileId,
-      fileType: data.options.fileType,
+      fileId: options.fileId as string,
+      fileType: options.fileType as string,
+      analysisResult: options.analysisResult as { style?: string; genre?: string; mood?: string } | undefined,
     };
   } catch (error) {
     logger.error('Error in consumePendingAudio', error);

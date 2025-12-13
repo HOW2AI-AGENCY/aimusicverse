@@ -176,12 +176,14 @@ export async function handleAudioActionCallback(
     return;
   }
 
-  // Set pending upload based on action
+  // Set pending upload based on action, using analysis result for style if available
+  const styleFromAnalysis = audioData.analysisResult?.style;
+  
   if (action === 'cover') {
-    await setPendingUpload(userId, 'cover', {});
+    await setPendingUpload(userId, 'cover', { style: styleFromAnalysis });
     await answerCallbackQuery(callbackId, '🎤 Создание кавера');
   } else if (action === 'extend') {
-    await setPendingUpload(userId, 'extend', {});
+    await setPendingUpload(userId, 'extend', { style: styleFromAnalysis });
     await answerCallbackQuery(callbackId, '➕ Расширение трека');
   } else if (action === 'upload') {
     await setPendingUpload(userId, 'upload', {});

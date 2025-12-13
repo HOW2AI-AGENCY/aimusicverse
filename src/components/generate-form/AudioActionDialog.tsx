@@ -21,12 +21,12 @@ import { logger } from '@/lib/logger';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 
-type AudioMode = 'reference' | 'cover' | 'extend';
+type AudioMode = 'cover' | 'extend';
 
 interface AudioActionDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onAudioSelected: (file: File) => void;
+  onAudioSelected: (file: File, mode: AudioMode) => void;
   onAnalysisComplete?: (styleDescription: string) => void;
   onLyricsExtracted?: (lyrics: string) => void;
   initialMode?: AudioMode;
@@ -38,7 +38,7 @@ export function AudioActionDialog({
   onAudioSelected,
   onAnalysisComplete,
   onLyricsExtracted,
-  initialMode = 'reference',
+  initialMode = 'cover',
 }: AudioActionDialogProps) {
   const isMobile = useIsMobile();
   const [mode, setMode] = useState<AudioMode>(initialMode);
@@ -305,40 +305,39 @@ export function AudioActionDialog({
 
   const handleConfirm = () => {
     if (audioFile) {
-      onAudioSelected(audioFile);
+      onAudioSelected(audioFile, mode);
       onOpenChange(false);
     }
   };
 
   const modeConfig = {
-    reference: { icon: Music, label: 'Референс', desc: 'Стиль для новой генерации' },
-    cover: { icon: Disc, label: 'Кавер', desc: 'Новая версия в другом стиле' },
-    extend: { icon: ArrowRight, label: 'Расширение', desc: 'Продолжить композицию' },
+    cover: { icon: Disc, label: 'Кавер', desc: 'Создать новую версию трека в другом стиле' },
+    extend: { icon: ArrowRight, label: 'Расширение', desc: 'Продолжить и расширить композицию' },
   };
 
   const content = (
     <div className="space-y-4">
       {/* Mode Tabs */}
       <Tabs value={mode} onValueChange={(v) => setMode(v as AudioMode)} className="w-full">
-        <TabsList className="grid w-full grid-cols-3 h-auto p-1">
-          {(['reference', 'cover', 'extend'] as const).map((m) => {
+        <TabsList className="grid w-full grid-cols-2 h-auto p-1">
+          {(['cover', 'extend'] as const).map((m) => {
             const cfg = modeConfig[m];
             const Icon = cfg.icon;
             return (
               <TabsTrigger 
                 key={m} 
                 value={m}
-                className="flex flex-col gap-0.5 py-2 px-1 data-[state=active]:bg-primary/10"
+                className="flex flex-col gap-1 py-3 px-2 data-[state=active]:bg-primary/10"
               >
-                <Icon className="w-4 h-4" />
-                <span className="text-xs">{cfg.label}</span>
+                <Icon className="w-5 h-5" />
+                <span className="text-sm font-medium">{cfg.label}</span>
               </TabsTrigger>
             );
           })}
         </TabsList>
       </Tabs>
 
-      <p className="text-xs text-muted-foreground text-center">
+      <p className="text-sm text-muted-foreground text-center px-2">
         {modeConfig[mode].desc}
       </p>
 
