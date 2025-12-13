@@ -58,7 +58,9 @@ export function ModerationDashboard() {
     reportId: string | null;
   }>({ type: null, reportId: null });
 
-  // Check if user is admin (basic check for now)
+  // Check if user is admin (TODO: Replace with proper RBAC)
+  // WARNING: This is a temporary check. For production, implement proper role-based access control
+  // with a roles table or user metadata field verified by RLS policies
   const isAdmin = user?.email?.includes('admin@') || user?.email?.includes('@admin');
 
   // Fetch moderation reports
@@ -94,23 +96,28 @@ export function ModerationDashboard() {
 
       if (error) throw error;
 
-      // Fetch comment content if entity_type is 'comment'
-      const reportsWithContent = await Promise.all(
-        (data || []).map(async (report) => {
-          if (report.entity_type === 'comment') {
-            const { data: comment } = await supabase
-              .from('comments')
-              .select('content, is_moderated')
-              .eq('id', report.entity_id)
-              .single();
+      // Batch fetch comments for all comment reports
+      // This avoids N+1 queries by fetching all comment IDs at once
+      const commentReports = (data || []).filter((r) => r.entity_type === 'comment');
+      const commentIds = commentReports.map((r) => r.entity_id);
+      
+      let commentsMap = new Map();
+      if (commentIds.length > 0) {
+        const { data: comments } = await supabase
+          .from('comments')
+          .select('id, content, is_moderated')
+          .in('id', commentIds);
+        
+        commentsMap = new Map((comments || []).map((c) => [c.id, c]));
+      }
 
-            return { ...report, comment };
-          }
-          return report;
-        })
-      );
-
-      return reportsWithContent as ModerationReport[];
+      // Merge comment data with reports
+      return (data || []).map((report) => ({
+        ...report,
+        comment: report.entity_type === 'comment' 
+          ? commentsMap.get(report.entity_id) 
+          : undefined,
+      })) as ModerationReport[];
     },
     enabled: !!user && isAdmin,
   });

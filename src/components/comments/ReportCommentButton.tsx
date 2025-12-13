@@ -54,19 +54,7 @@ export function ReportCommentButton({
     mutationFn: async (reportData: ReportData) => {
       if (!user?.id) throw new Error('Not authenticated');
 
-      // Check if already reported
-      const { data: existingReport } = await supabase
-        .from('moderation_reports')
-        .select('id')
-        .eq('reporter_id', user.id)
-        .eq('entity_type', 'comment')
-        .eq('entity_id', commentId)
-        .maybeSingle();
-
-      if (existingReport) {
-        throw new Error('You have already reported this comment');
-      }
-
+      // Insert with conflict handling (relies on unique constraint)
       const { error } = await supabase
         .from('moderation_reports')
         .insert({
@@ -79,7 +67,13 @@ export function ReportCommentButton({
           status: 'pending',
         });
 
-      if (error) throw error;
+      // Check if error is due to unique constraint violation
+      if (error) {
+        if (error.code === '23505') { // Postgres unique violation code
+          throw new Error('You have already reported this comment');
+        }
+        throw error;
+      }
     },
     onSuccess: () => {
       triggerHapticFeedback('success');
