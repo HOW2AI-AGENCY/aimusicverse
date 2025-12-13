@@ -15,7 +15,7 @@
 | **Phase 2: Foundation** | 9 | 9 | ✅ Complete | 100% |
 | **Phase 3: User Profiles MVP** | 12 | 12 | ✅ Complete | 100% |
 | **Phase 4: Following System** | 12 | 9 | 🔄 Core Complete | 75% |
-| **Phase 5: Comments** | 15 | 0 | ⏳ Pending | 0% |
+| **Phase 5: Comments** | 15 | 10 | 🔄 In Progress | 67% |
 | **Phase 6: Likes** | 11 | 0 | ⏳ Pending | 0% |
 | **Phase 7: Activity Feed** | 8 | 0 | ⏳ Pending | 0% |
 | **Phase 8: Notifications UI** | 11 | 0 | ⏳ Pending | 0% |
@@ -24,7 +24,7 @@
 | **Phase 11: Real-time** | 9 | 0 | ⏳ Pending | 0% |
 | **Phase 12: Testing** | 16 | 0 | ⏳ Pending | 0% |
 | **Phase 13: Documentation** | 13 | 0 | ⏳ Pending | 0% |
-| **TOTAL** | **143** | **41** | 🔄 | **29%** |
+| **TOTAL** | **143** | **51** | 🔄 | **36%** |
 
 ---
 
