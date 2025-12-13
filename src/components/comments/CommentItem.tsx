@@ -14,6 +14,8 @@ import { Heart, MessageCircle, MoreVertical, Pencil, Trash2, CheckCircle2 } from
 import { formatDistanceToNow } from 'date-fns';
 import { useAuth } from '@/hooks/useAuth';
 import { useDeleteComment } from '@/hooks/comments';
+import { useLikeComment, useIsCommentLiked } from '@/hooks/engagement';
+import { LikeButton } from '@/components/engagement/LikeButton';
 import { cn } from '@/lib/utils';
 import type { CommentWithUser } from '@/types/comment';
 
@@ -22,7 +24,6 @@ interface CommentItemProps {
   trackId: string;
   onReply?: () => void;
   onEdit?: () => void;
-  onLike?: () => void;
   className?: string;
 }
 
@@ -34,15 +35,23 @@ export function CommentItem({
   trackId,
   onReply,
   onEdit,
-  onLike,
   className,
 }: CommentItemProps) {
   const { user } = useAuth();
   const deleteComment = useDeleteComment();
+  const likeComment = useLikeComment();
+  const { data: isLiked = false } = useIsCommentLiked(comment.id);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const isOwnComment = user?.id === comment.userId;
   const isDeleted = comment.content === '[Deleted]';
+
+  const handleLike = async () => {
+    await likeComment.mutateAsync({
+      commentId: comment.id,
+      trackId,
+    });
+  };
 
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to delete this comment?')) return;
@@ -150,23 +159,15 @@ export function CommentItem({
         {!isDeleted && (
           <div className="flex items-center gap-4">
             {/* Like button */}
-            {onLike && (
-              <Button
-                variant="ghost"
+            {user && (
+              <LikeButton
+                isLiked={isLiked}
+                likesCount={comment.likesCount}
+                onToggle={handleLike}
+                isLoading={likeComment.isPending}
                 size="sm"
-                onClick={onLike}
-                className="h-8 px-2 gap-1 text-muted-foreground hover:text-foreground"
-              >
-                <Heart
-                  className={cn(
-                    'h-4 w-4',
-                    comment.isLiked && 'fill-red-500 text-red-500'
-                  )}
-                />
-                {comment.likesCount > 0 && (
-                  <span className="text-xs">{comment.likesCount}</span>
-                )}
-              </Button>
+                showCount={true}
+              />
             )}
 
             {/* Reply button */}

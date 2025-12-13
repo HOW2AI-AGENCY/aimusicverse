@@ -15,7 +15,6 @@ interface CommentThreadProps {
   trackId: string;
   depth?: number;
   maxDepth?: number;
-  onLike?: (commentId: string) => void;
   className?: string;
 }
 
@@ -30,7 +29,6 @@ export function CommentThread({
   trackId,
   depth = 0,
   maxDepth = MAX_THREAD_DEPTH,
-  onLike,
   className,
 }: CommentThreadProps) {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -81,7 +79,6 @@ export function CommentThread({
         comment={comment}
         trackId={trackId}
         onReply={canReply ? handleReply : undefined}
-        onLike={onLike ? () => onLike(comment.id) : undefined}
       />
 
       {/* Reply form */}
@@ -134,7 +131,6 @@ export function CommentThread({
               trackId={trackId}
               depth={depth + 1}
               maxDepth={maxDepth}
-              onLike={onLike}
             />
           ))}
 

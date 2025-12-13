@@ -13,7 +13,6 @@ import { cn } from '@/lib/utils';
 
 interface CommentsListProps {
   trackId: string;
-  onLike?: (commentId: string) => void;
   className?: string;
 }
 
@@ -23,7 +22,6 @@ interface CommentsListProps {
  */
 export function CommentsList({
   trackId,
-  onLike,
   className,
 }: CommentsListProps) {
   const { user } = useAuth();
@@ -187,7 +185,6 @@ export function CommentsList({
                     comment={comment}
                     trackId={trackId}
                     depth={0}
-                    onLike={onLike}
                   />
                 </div>
               )}
