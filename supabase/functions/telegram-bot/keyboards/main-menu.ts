@@ -14,6 +14,9 @@ export function createMainMenuKeyboard() {
         { text: '📁 Проекты', callback_data: 'projects' }
       ],
       [
+        { text: '📢 Новости канала', url: 'https://t.me/AIMusicVerse' }
+      ],
+      [
         { text: '⚙️ Настройки', callback_data: 'settings' },
         { text: 'ℹ️ О платформе', callback_data: 'help' }
       ]
