@@ -107,12 +107,18 @@ export function AudioActionDialog({
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error('Не авторизован');
     
-    const fileName = `reference-${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+    // RLS requires files to be in user's folder: {user_id}/filename
+    const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+    const fileName = `${user.id}/reference-${Date.now()}-${sanitizedName}`;
+    
     const { error: uploadError } = await supabase.storage
       .from('project-assets')
       .upload(fileName, file, { cacheControl: '3600', upsert: false });
 
-    if (uploadError) throw uploadError;
+    if (uploadError) {
+      logger.error('Storage upload error', { error: uploadError.message });
+      throw new Error(`Ошибка загрузки: ${uploadError.message}`);
+    }
 
     const { data: { publicUrl } } = supabase.storage
       .from('project-assets')
