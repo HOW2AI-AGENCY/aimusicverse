@@ -167,7 +167,7 @@ export async function handleAudioMessage(
       // Store audio file_id with analysis results for reuse when user selects action
       await storeTemporaryAudio(userId, audio.file_id, type, analysisResult);
       
-      // Build keyboard with conditional lyrics button
+      // Build keyboard with conditional lyrics button + menu button
       const hasLyrics = analysisResult?.lyrics && analysisResult.lyrics.length > 0;
       const keyboardRows = [
         [
@@ -181,7 +181,8 @@ export async function handleAudioMessage(
             : { text: '🎼 Распознать текст', callback_data: 'audio_action_transcribe' }
         ],
         [
-          { text: '🎹 Конвертировать в MIDI', callback_data: 'audio_action_midi' }
+          { text: '🎹 Конвертировать в MIDI', callback_data: 'audio_action_midi' },
+          { text: '🏠 Меню', callback_data: 'open_main_menu' }
         ]
       ];
 

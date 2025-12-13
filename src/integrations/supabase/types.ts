@@ -1953,6 +1953,39 @@ export type Database = {
         }
         Relationships: []
       }
+      telegram_menu_state: {
+        Row: {
+          active_menu_message_id: number | null
+          chat_id: number
+          created_at: string
+          current_menu: string | null
+          id: string
+          navigation_stack: string[] | null
+          updated_at: string
+          user_id: number
+        }
+        Insert: {
+          active_menu_message_id?: number | null
+          chat_id: number
+          created_at?: string
+          current_menu?: string | null
+          id?: string
+          navigation_stack?: string[] | null
+          updated_at?: string
+          user_id: number
+        }
+        Update: {
+          active_menu_message_id?: number | null
+          chat_id?: number
+          created_at?: string
+          current_menu?: string | null
+          id?: string
+          navigation_stack?: string[] | null
+          updated_at?: string
+          user_id?: number
+        }
+        Relationships: []
+      }
       track_analytics: {
         Row: {
           created_at: string

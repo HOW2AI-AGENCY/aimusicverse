@@ -132,7 +132,8 @@ export async function sendMessage(
       responseTimeMs,
     });
 
-    return response.json();
+    const result = await response.json();
+    return result; // Returns { ok: true, result: { message_id: number, ... } }
   } catch (error) {
     const responseTimeMs = Date.now() - startTime;
     trackMetric({
