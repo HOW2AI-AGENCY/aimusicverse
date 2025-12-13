@@ -26,10 +26,10 @@ export function GenerateFormActions({
               type="button"
               variant="outline"
               size="sm"
-              className="min-h-[44px] h-auto py-2 gap-1.5 flex-col touch-manipulation"
+              className="h-[52px] py-2 gap-1.5 flex-col items-center justify-center touch-manipulation"
               onClick={onOpenCoverMode}
             >
-              <Music className="w-4 h-4" />
+              <Music className="w-5 h-5 mb-0.5" />
               <span className="text-xs leading-none">Кавер</span>
             </Button>
           )}
@@ -38,10 +38,10 @@ export function GenerateFormActions({
               type="button"
               variant="outline"
               size="sm"
-              className="min-h-[44px] h-auto py-2 gap-1.5 flex-col touch-manipulation"
+              className="h-[52px] py-2 gap-1.5 flex-col items-center justify-center touch-manipulation"
               onClick={onOpenExtendMode}
             >
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-5 h-5 mb-0.5" />
               <span className="text-xs leading-none">Расширение</span>
             </Button>
           )}
@@ -54,10 +54,10 @@ export function GenerateFormActions({
           type="button"
           variant="outline"
           size="sm"
-          className="min-h-[44px] h-auto py-2 gap-1.5 flex-col touch-manipulation"
+          className="h-[52px] py-2 gap-1.5 flex-col items-center justify-center touch-manipulation"
           onClick={onOpenAudioDialog}
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-5 h-5 mb-0.5" />
           <span className="text-xs leading-none">Аудио</span>
         </Button>
 
@@ -65,10 +65,10 @@ export function GenerateFormActions({
           type="button"
           variant="outline"
           size="sm"
-          className="min-h-[44px] h-auto py-2 gap-1.5 flex-col touch-manipulation"
+          className="h-[52px] py-2 gap-1.5 flex-col items-center justify-center touch-manipulation"
           onClick={onOpenArtistDialog}
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-5 h-5 mb-0.5" />
           <span className="text-xs leading-none">Персона</span>
         </Button>
 
@@ -76,10 +76,10 @@ export function GenerateFormActions({
           type="button"
           variant="outline"
           size="sm"
-          className="min-h-[44px] h-auto py-2 gap-1.5 flex-col touch-manipulation"
+          className="h-[52px] py-2 gap-1.5 flex-col items-center justify-center touch-manipulation"
           onClick={onOpenProjectDialog}
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-5 h-5 mb-0.5" />
           <span className="text-xs leading-none">Проект</span>
         </Button>
       </div>

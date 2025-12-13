@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { AnimatePresence } from '@/lib/motion';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from '@/components/ui/sheet';
+import { AnimatePresence, motion } from '@/lib/motion';
+import { Sheet, SheetContent, SheetFooter } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
 import { Sparkles, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useProjects } from '@/hooks/useProjectsOptimized';
@@ -12,7 +13,7 @@ import { useGenerateForm } from '@/hooks/generation';
 import { useTelegram } from '@/contexts/TelegramContext';
 
 // Form components
-import { GenerateFormHeader } from './generate-form/GenerateFormHeader';
+import { GenerateFormHeaderCompact } from './generate-form/GenerateFormHeaderCompact';
 import { GenerateFormActions } from './generate-form/GenerateFormActions';
 import { GenerateFormReferences } from './generate-form/GenerateFormReferences';
 import { GenerateFormSimple } from './generate-form/GenerateFormSimple';
@@ -93,34 +94,46 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="h-[90vh] flex flex-col frost-sheet p-0">
-        <SheetHeader className="px-3 pt-3 pb-2 sm:px-4 sm:pt-4 sm:pb-3">
-          <SheetTitle className="text-base sm:text-lg flex items-center gap-2">
+      <SheetContent side="bottom" className="h-[95vh] flex flex-col frost-sheet p-0">
+        {/* Compact Header */}
+        <div className="px-4 pt-3 pb-2 flex items-center justify-between border-b">
+          <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-primary" />
-            Создать трек
-          </SheetTitle>
-        </SheetHeader>
+            <h2 className="text-base font-semibold">Создать трек</h2>
+          </div>
+          <GenerateFormHeaderCompact
+            userBalance={form.userBalance}
+            generationCost={form.generationCost}
+            canGenerate={form.canGenerate}
+            apiCredits={form.apiCredits}
+            mode={form.mode}
+            onModeChange={form.setMode}
+            model={form.model}
+            onModelChange={form.setModel}
+            isAdmin={form.isAdmin}
+          />
+        </div>
+
+        {/* Loading Overlay */}
+        <AnimatePresence>
+          {form.loading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-background/90 backdrop-blur-sm z-50 flex items-center justify-center"
+            >
+              <GenerationLoadingState
+                stage="processing"
+                showCancel={false}
+                compact={false}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <ScrollArea className="flex-1">
-          <div className="px-3 pb-4 sm:px-4 sm:pb-6 space-y-3">
-            {/* Header with controls */}
-            <GenerateFormHeader
-              userBalance={form.userBalance}
-              generationCost={form.generationCost}
-              canGenerate={form.canGenerate}
-              apiCredits={form.apiCredits}
-              mode={form.mode}
-              onModeChange={form.setMode}
-              model={form.model}
-              onModelChange={form.setModel}
-              hasDraft={form.hasDraft}
-              onClearDraft={handleClearDraft}
-              onOpenHistory={() => setHistoryOpen(true)}
-              advancedOpen={advancedOpen}
-              onAdvancedOpenChange={setAdvancedOpen}
-              isAdmin={form.isAdmin}
-            />
-
+          <div className="px-4 py-3 space-y-2.5">
             {/* Quick Action Buttons */}
             <GenerateFormActions
               onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
@@ -199,25 +212,20 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                 />
               )}
             </AnimatePresence>
-
-            {/* Show generation loading state when processing */}
-            {form.loading && (
-              <div className="p-4 mt-4">
-                <GenerationLoadingState
-                  stage="processing"
-                  showCancel={false}
-                  compact={false}
-                />
-              </div>
-            )}
           </div>
         </ScrollArea>
 
-        <SheetFooter className="p-3 sm:p-4 bg-background/95 backdrop-blur-xl border-t">
+        {/* Footer with progress indicator */}
+        <div className="p-3 border-t bg-background/95 backdrop-blur">
+          {form.loading && (
+            <div className="mb-2">
+              <Progress value={33} className="h-1" />
+            </div>
+          )}
           <Button
             onClick={handleGenerate}
             disabled={form.loading}
-            className="w-full h-12 text-sm gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg"
+            className="w-full h-12 text-sm gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg disabled:opacity-50"
           >
             {form.loading ? (
               <>
@@ -231,7 +239,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               </>
             )}
           </Button>
-        </SheetFooter>
+        </div>
       </SheetContent>
 
       {/* Dialogs */}
@@ -261,8 +269,13 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
       {/* Audio Upload Dialog - Integrated cover/extend with automatic analysis */}
       <UploadAudioDialog
         open={uploadAudioOpen}
-        onOpenChange={setUploadAudioOpen}
-        projectId={form.selectedProjectId}
+        onOpenChange={(open) => {
+          setUploadAudioOpen(open);
+          if (!open) {
+            setUploadAudioFile(undefined);
+          }
+        }}
+        projectId={form.selectedProjectId || initialProjectId}
         defaultMode={uploadAudioMode}
         initialAudioFile={uploadAudioFile}
       />
@@ -306,19 +319,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           }
         }}
         initialGenre={projects?.find(p => p.id === form.selectedProjectId)?.genre || undefined}
-      />
-
-      <UploadAudioDialog
-        open={uploadAudioOpen}
-        onOpenChange={(open) => {
-          setUploadAudioOpen(open);
-          if (!open) {
-            setUploadAudioFile(undefined); // Clear file when closing
-          }
-        }}
-        projectId={form.selectedProjectId || initialProjectId}
-        defaultMode={uploadAudioMode}
-        initialAudioFile={uploadAudioFile}
       />
 
       <PromptHistory
