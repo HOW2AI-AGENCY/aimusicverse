@@ -35,10 +35,10 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Trigger on follows table
-DROP TRIGGER IF EXISTS trigger_update_follower_stats ON public.follows;
+-- Trigger on user_follows table
+DROP TRIGGER IF EXISTS trigger_update_follower_stats ON public.user_follows;
 CREATE TRIGGER trigger_update_follower_stats
-  AFTER INSERT OR DELETE ON public.follows
+  AFTER INSERT OR DELETE ON public.user_follows
   FOR EACH ROW
   EXECUTE FUNCTION public.update_follower_stats();
 
