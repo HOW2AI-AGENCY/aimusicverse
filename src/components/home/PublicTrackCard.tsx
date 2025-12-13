@@ -10,6 +10,7 @@ import type { PublicTrackWithCreator } from '@/hooks/usePublicContentOptimized';
 import type { Track } from '@/hooks/useTracksOptimized';
 import { motion } from '@/lib/motion';
 import { LikeButton } from '@/components/ui/like-button';
+import { PublicTrackDetailSheet } from './PublicTrackDetailSheet';
 
 interface PublicTrackCardProps {
   track: PublicTrackWithCreator;
@@ -22,6 +23,7 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
   const { hapticFeedback } = useTelegram();
   const [imageError, setImageError] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(false);
   
   const isCurrentTrack = activeTrack?.id === track.id;
   const isCurrentlyPlaying = isCurrentTrack && isPlaying;
@@ -31,6 +33,11 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
     ...track,
     is_liked: track.user_liked ?? false,
     likes_count: track.likes_count ?? 0,
+  };
+
+  const handleCardClick = () => {
+    hapticFeedback('light');
+    setDetailsOpen(true);
   };
 
   const handlePlay = (e: React.MouseEvent) => {
@@ -68,12 +75,14 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
   const coverUrl = imageError ? (platformCover ? sunoCover : null) : (platformCover || sunoCover);
 
   return (
+    <>
     <Card 
       className={cn(
-        "group overflow-hidden border-border/50 bg-card/50 transition-all touch-manipulation",
+        "group overflow-hidden border-border/50 bg-card/50 transition-all touch-manipulation cursor-pointer",
         isCurrentTrack && "ring-1 ring-primary/50",
         className
       )}
+      onClick={handleCardClick}
     >
       {/* Cover Image */}
       <div className="relative aspect-square overflow-hidden">
@@ -203,5 +212,12 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
         )}
       </div>
     </Card>
+
+    <PublicTrackDetailSheet 
+      open={detailsOpen} 
+      onOpenChange={setDetailsOpen} 
+      track={track} 
+    />
+    </>
   );
 }
