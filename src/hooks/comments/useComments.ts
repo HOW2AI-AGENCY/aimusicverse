@@ -1,5 +1,6 @@
 // useComments hook - Sprint 011 Phase 5
 // Fetch comments with real-time subscriptions
+// Enhanced with blocked users filter (T099)
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
@@ -20,6 +21,19 @@ export function useComments({ trackId, sortBy = 'newest', enabled = true }: UseC
   const query = useQuery({
     queryKey: ['comments', trackId, sortBy],
     queryFn: async (): Promise<CommentThread[]> => {
+      // First, get list of blocked users if authenticated (T099)
+      let blockedUserIds: string[] = [];
+      if (user?.id) {
+        const { data: blockedData } = await supabase
+          .from('blocked_users')
+          .select('blocked_id')
+          .eq('blocker_id', user.id);
+        
+        if (blockedData) {
+          blockedUserIds = blockedData.map(b => b.blocked_id);
+        }
+      }
+
       // Fetch top-level comments only
       let query = supabase
         .from('comments')
@@ -47,6 +61,11 @@ export function useComments({ trackId, sortBy = 'newest', enabled = true }: UseC
         .eq('track_id', trackId)
         .is('parent_comment_id', null)
         .eq('is_moderated', false);
+
+      // Filter out blocked users (T099)
+      if (blockedUserIds.length > 0) {
+        query = query.not('user_id', 'in', `(${blockedUserIds.join(',')})`);
+      }
 
       // Apply sorting
       if (sortBy === 'newest') {

@@ -1,13 +1,15 @@
 // CommentForm component - Sprint 011 Phase 5
 // Textarea with character counter and @mention support
+// Enhanced with profanity filter (T098)
 
 import { useState, useRef, KeyboardEvent } from 'react';
 import { useAddComment } from '@/hooks/comments/useAddComment';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { MentionInput } from './MentionInput';
-import { Loader2, Send } from 'lucide-react';
+import { Loader2, Send, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { validateCommentContent } from '@/lib/content-moderation';
 
 interface CommentFormProps {
   trackId: string;
@@ -32,6 +34,7 @@ export function CommentForm({
 }: CommentFormProps) {
   const [content, setContent] = useState('');
   const [showMentions, setShowMentions] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { mutate: addComment, isPending } = useAddComment();
 
@@ -41,6 +44,16 @@ export function CommentForm({
 
   const handleSubmit = () => {
     if (!content.trim() || isOverLimit || isPending) return;
+
+    // Validate content for profanity and spam (T098)
+    const validation = validateCommentContent(content.trim());
+    if (!validation.valid) {
+      setValidationError(validation.reason || 'Invalid comment');
+      return;
+    }
+    
+    // Clear validation error
+    setValidationError(null);
 
     addComment(
       {
@@ -104,14 +117,19 @@ export function CommentForm({
         <Textarea
           ref={textareaRef}
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e) => {
+            setContent(e.target.value);
+            // Clear validation error on change
+            if (validationError) setValidationError(null);
+          }}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           autoFocus={autoFocus}
           disabled={isPending}
           className={cn(
             'min-h-[80px] resize-none',
-            isOverLimit && 'border-destructive focus-visible:ring-destructive'
+            isOverLimit && 'border-destructive focus-visible:ring-destructive',
+            validationError && 'border-destructive focus-visible:ring-destructive'
           )}
         />
 
@@ -125,6 +143,14 @@ export function CommentForm({
           />
         )}
       </div>
+
+      {/* Validation error message (T098) */}
+      {validationError && (
+        <div className="flex items-center gap-2 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+          <AlertCircle className="h-4 w-4 flex-shrink-0" />
+          <span>{validationError}</span>
+        </div>
+      )}
 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
