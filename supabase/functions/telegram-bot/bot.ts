@@ -210,6 +210,11 @@ async function handleCommand(command: string, args: string, chatId: number, user
       await handlePrivacy(chatId);
       break;
     }
+    case 'news': {
+      const { handleNews } = await import('./commands/news.ts');
+      await handleNews(chatId);
+      break;
+    }
     default:
       await sendMessage(chatId, '❓ Неизвестная команда. Используйте /help для списка команд.', undefined, null);
   }
@@ -625,6 +630,13 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
     if (data === 'about') {
       const { handleAbout } = await import('./commands/legal.ts');
       await handleAbout(chatId, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
+    if (data === 'news') {
+      const { handleNews } = await import('./commands/news.ts');
+      await handleNews(chatId, messageId);
       await answerCallbackQuery(id);
       return;
     }
