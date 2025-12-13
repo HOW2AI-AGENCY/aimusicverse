@@ -579,6 +579,23 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
       return;
     }
 
+    // Profile and track detail handlers
+    if (data.startsWith('nav_profile') || data.startsWith('nav_balance') || 
+        data.startsWith('nav_achievements') || data.startsWith('nav_leaderboard') || 
+        data.startsWith('nav_transactions')) {
+      const { handleProfileCallback } = await import('./handlers/profile.ts');
+      const handled = await handleProfileCallback(data, chatId, from.id, messageId!, id);
+      if (handled) return;
+    }
+
+    if (data.startsWith('track_details_') || data.startsWith('play_track_') ||
+        data.startsWith('toggle_like_') || data.startsWith('download_track_') ||
+        data.startsWith('share_track_') || data.startsWith('copy_link_')) {
+      const { handleTrackCallback } = await import('./handlers/track-details.ts');
+      const handled = await handleTrackCallback(data, chatId, from.id, messageId!, id);
+      if (handled) return;
+    }
+
     // Payment handlers
     if (data === 'buy_credits' || data === 'buy_menu_main') {
       const { handleBuyCommand } = await import('./handlers/payment.ts');
