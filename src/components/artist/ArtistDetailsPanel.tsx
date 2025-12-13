@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
@@ -9,7 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card } from '@/components/ui/card';
 import { 
   User, Music2, Sparkles, Play, Edit, Settings, 
-  Heart, Clock, BarChart3, ChevronRight 
+  Clock, ChevronRight, Lock, Globe 
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -17,6 +17,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { usePlayerStore } from '@/hooks/audio';
 import { cn } from '@/lib/utils';
 import { motion } from '@/lib/motion';
+import { EditArtistDialog } from './EditArtistDialog';
 import type { Artist } from '@/hooks/useArtists';
 
 interface ArtistDetailsPanelProps {
@@ -26,13 +27,28 @@ interface ArtistDetailsPanelProps {
   onEdit?: (artist: Artist) => void;
 }
 
-export function ArtistDetailsPanel({ artist, open, onOpenChange, onEdit }: ArtistDetailsPanelProps) {
+export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetailsPanelProps) {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { playTrack, activeTrack, isPlaying } = usePlayerStore();
   const [activeTab, setActiveTab] = useState('tracks');
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
 
   const isOwner = user?.id === artist?.user_id;
+  
+  // Check if user can make private artists
+  const { data: canMakePrivate } = useQuery({
+    queryKey: ['can-make-private', user?.id],
+    queryFn: async () => {
+      if (!user?.id) return false;
+      const [{ data: isAdmin }, { data: profile }] = await Promise.all([
+        supabase.rpc('has_role', { _user_id: user.id, _role: 'admin' }),
+        supabase.from('profiles').select('subscription_tier').eq('user_id', user.id).single(),
+      ]);
+      return isAdmin || (profile?.subscription_tier && profile.subscription_tier !== 'free');
+    },
+    enabled: !!user?.id && isOwner,
+  });
 
   // Fetch tracks generated with this artist
   const { data: artistTracks, isLoading: tracksLoading } = useQuery({

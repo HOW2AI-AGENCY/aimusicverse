@@ -241,6 +241,56 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
       return;
     }
 
+    // Artist handlers
+    if (data.startsWith('artist_') || data.startsWith('artists_page_')) {
+      const { handleArtistsCallback, handleArtistDetails, handleArtistEdit, handleArtistTogglePublic, handleArtistDeleteConfirm, handleArtistDelete, handleArtistTracks } = await import('./handlers/artists.ts');
+      
+      if (data === 'nav_artists' || data.startsWith('artists_page_')) {
+        const page = data.startsWith('artists_page_') ? parseInt(data.split('_')[2]) : 0;
+        await handleArtistsCallback(chatId, from.id, messageId!, id, page);
+      } else if (data.startsWith('artist_details_')) {
+        await handleArtistDetails(chatId, data.replace('artist_details_', ''), messageId!, id);
+      } else if (data.startsWith('artist_edit_')) {
+        await handleArtistEdit(chatId, data.replace('artist_edit_', ''), from.id, messageId!, id);
+      } else if (data.startsWith('artist_toggle_public_')) {
+        await handleArtistTogglePublic(chatId, data.replace('artist_toggle_public_', ''), from.id, messageId!, id);
+      } else if (data.startsWith('artist_delete_confirm_')) {
+        await handleArtistDeleteConfirm(chatId, data.replace('artist_delete_confirm_', ''), messageId!, id);
+      } else if (data.startsWith('artist_delete_')) {
+        await handleArtistDelete(chatId, data.replace('artist_delete_', ''), from.id, messageId!, id);
+      } else if (data.startsWith('artist_tracks_')) {
+        const parts = data.replace('artist_tracks_', '').split('_');
+        const artistId = parts[0];
+        const page = parts.length > 2 ? parseInt(parts[2]) : 0;
+        await handleArtistTracks(chatId, artistId, messageId!, id, page);
+      }
+      return;
+    }
+
+    // Project handlers
+    if (data.startsWith('project_') || data.startsWith('projects_page_')) {
+      const { handleProjectsCallback, handleProjectDetails, handleProjectEdit, handleProjectStatusChange, handleProjectDeleteConfirm, handleProjectDelete, handleProjectTracks } = await import('./handlers/projects.ts');
+      
+      if (data === 'nav_projects' || data.startsWith('projects_page_')) {
+        const page = data.startsWith('projects_page_') ? parseInt(data.split('_')[2]) : 0;
+        await handleProjectsCallback(chatId, from.id, messageId!, id, page);
+      } else if (data.startsWith('project_details_')) {
+        await handleProjectDetails(chatId, data.replace('project_details_', ''), messageId!, id);
+      } else if (data.startsWith('project_edit_')) {
+        await handleProjectEdit(chatId, data.replace('project_edit_', ''), from.id, messageId!, id);
+      } else if (data.startsWith('project_status_')) {
+        const parts = data.replace('project_status_', '').split('_');
+        await handleProjectStatusChange(chatId, parts[0], parts[1], from.id, messageId!, id);
+      } else if (data.startsWith('project_delete_confirm_')) {
+        await handleProjectDeleteConfirm(chatId, data.replace('project_delete_confirm_', ''), messageId!, id);
+      } else if (data.startsWith('project_delete_')) {
+        await handleProjectDelete(chatId, data.replace('project_delete_', ''), from.id, messageId!, id);
+      } else if (data.startsWith('project_tracks_')) {
+        await handleProjectTracks(chatId, data.replace('project_tracks_', ''), messageId!, id);
+      }
+      return;
+    }
+
     // Media handlers
     if (data.startsWith('play_') || data.startsWith('dl_') || data.startsWith('share_') || 
         data.startsWith('like_') || data.startsWith('track_') || data.startsWith('share_link_')) {
