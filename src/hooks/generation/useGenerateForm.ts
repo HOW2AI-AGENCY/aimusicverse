@@ -295,6 +295,18 @@ export function useGenerateForm({
       setTitle(audioReference.title);
     }
 
+    // Handle cloud audio mode (cover/extend from Cloud tab)
+    if (audioReference.cloudMode) {
+      // For extend mode, we might want to set specific audio weight
+      if (audioReference.cloudMode === 'extend') {
+        setAudioWeight([0.9]); // High weight for extending
+        logger.info('Cloud audio: extend mode', { cloudMode: audioReference.cloudMode });
+      } else {
+        setAudioWeight([0.5]); // Moderate weight for cover
+        logger.info('Cloud audio: cover mode', { cloudMode: audioReference.cloudMode });
+      }
+    }
+
     // Handle stem action to set appropriate generation settings
     if (audioReference.action) {
       switch (audioReference.action) {
@@ -330,7 +342,7 @@ export function useGenerateForm({
           logger.warn('Unknown stem action', { action: audioReference.action });
       }
     }
-  }, [audioReference.file, audioReference.lyrics, audioReference.style, audioReference.title, audioReference.action]);
+  }, [audioReference.file, audioReference.lyrics, audioReference.style, audioReference.title, audioReference.action, audioReference.cloudMode]);
 
   // Check for template lyrics from sessionStorage
   useEffect(() => {

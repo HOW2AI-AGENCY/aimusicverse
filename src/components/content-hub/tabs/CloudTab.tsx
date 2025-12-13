@@ -1,15 +1,21 @@
 import { useState, useRef } from 'react';
-import { useReferenceAudio } from '@/hooks/useReferenceAudio';
+import { useNavigate } from 'react-router-dom';
+import { useReferenceAudio, ReferenceAudio } from '@/hooks/useReferenceAudio';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Cloud, Search, Trash2, Play, Pause, Music, Mic, Upload, MoreVertical } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { 
+  Cloud, Search, Trash2, Play, Pause, Music, Mic, Upload, MoreVertical, 
+  Sparkles, ArrowRight, FileText, Loader2, Edit, Check, X, Disc
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { logger } from '@/lib/logger';
 import {
   Dialog,
   DialogContent,
@@ -20,6 +26,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
@@ -39,6 +46,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Progress } from '@/components/ui/progress';
 
 // Simple upload dialog component
 function SimpleUploadDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
@@ -67,11 +75,21 @@ function SimpleUploadDialog({ open, onOpenChange }: { open: boolean; onOpenChang
         .from('reference-audio')
         .getPublicUrl(path);
 
+      // Get audio duration
+      const audio = new Audio();
+      audio.src = URL.createObjectURL(file);
+      await new Promise<void>((resolve) => {
+        audio.onloadedmetadata = () => resolve();
+        audio.onerror = () => resolve();
+      });
+      const duration = audio.duration || null;
+
       await saveAudio({
         fileName: file.name,
         fileUrl: publicUrl,
         fileSize: file.size,
         mimeType: file.type,
+        durationSeconds: duration ? Math.round(duration) : undefined,
         source: 'upload',
       });
 
@@ -123,10 +141,346 @@ function SimpleUploadDialog({ open, onOpenChange }: { open: boolean; onOpenChang
   );
 }
 
+// Audio detail panel with actions
+interface AudioDetailPanelProps {
+  audio: ReferenceAudio;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onDelete: (id: string) => void;
+  onPlay: (audio: ReferenceAudio) => void;
+  isPlaying: boolean;
+  onUseForGeneration: (audio: ReferenceAudio, mode: 'cover' | 'extend') => void;
+}
+
+function AudioDetailPanel({ 
+  audio, open, onOpenChange, onDelete, onPlay, isPlaying, onUseForGeneration 
+}: AudioDetailPanelProps) {
+  const { updateAnalysis } = useReferenceAudio();
+  const [isEditingLyrics, setIsEditingLyrics] = useState(false);
+  const [editedLyrics, setEditedLyrics] = useState(audio.transcription || '');
+  const [isSaving, setIsSaving] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisProgress, setAnalysisProgress] = useState(0);
+
+  const formatDuration = (seconds: number | null) => {
+    if (!seconds) return '--:--';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const handleSaveLyrics = async () => {
+    setIsSaving(true);
+    try {
+      await updateAnalysis({
+        id: audio.id,
+        transcription: editedLyrics,
+      });
+      setIsEditingLyrics(false);
+      toast.success('Текст сохранен');
+    } catch (error) {
+      toast.error('Ошибка сохранения');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleAnalyze = async () => {
+    setIsAnalyzing(true);
+    setAnalysisProgress(0);
+
+    // Progress simulation
+    const progressInterval = setInterval(() => {
+      setAnalysisProgress(prev => Math.min(prev + 10, 90));
+    }, 500);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('analyze-audio-style', {
+        body: { audioUrl: audio.file_url },
+      });
+
+      if (error) throw error;
+
+      await updateAnalysis({
+        id: audio.id,
+        genre: data.genre,
+        mood: data.mood,
+        vocalStyle: data.vocal_style,
+        hasVocals: data.has_vocals,
+        analysisStatus: 'completed',
+      });
+
+      setAnalysisProgress(100);
+      toast.success('Анализ завершен');
+    } catch (error) {
+      logger.error('Analysis error', error);
+      toast.error('Ошибка анализа');
+    } finally {
+      clearInterval(progressInterval);
+      setIsAnalyzing(false);
+      setAnalysisProgress(0);
+    }
+  };
+
+  const handleExtractLyrics = async () => {
+    setIsAnalyzing(true);
+    setAnalysisProgress(0);
+
+    const progressInterval = setInterval(() => {
+      setAnalysisProgress(prev => Math.min(prev + 8, 85));
+    }, 600);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('transcribe-lyrics', {
+        body: { audioUrl: audio.file_url },
+      });
+
+      if (error) throw error;
+
+      const lyrics = data.transcription || data.lyrics || '';
+      setEditedLyrics(lyrics);
+
+      await updateAnalysis({
+        id: audio.id,
+        transcription: lyrics,
+        hasVocals: true,
+        analysisStatus: 'completed',
+      });
+
+      setAnalysisProgress(100);
+      toast.success('Текст извлечен');
+    } catch (error) {
+      logger.error('Lyrics extraction error', error);
+      toast.error('Ошибка извлечения текста');
+    } finally {
+      clearInterval(progressInterval);
+      setIsAnalyzing(false);
+      setAnalysisProgress(0);
+    }
+  };
+
+  return (
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side="bottom" className="h-[85vh] rounded-t-2xl">
+        <SheetHeader>
+          <SheetTitle className="flex items-center gap-2">
+            {audio.source === 'recording' ? (
+              <Mic className="w-4 h-4 text-primary" />
+            ) : (
+              <Music className="w-4 h-4" />
+            )}
+            <span className="truncate">{audio.file_name}</span>
+          </SheetTitle>
+        </SheetHeader>
+        
+        <ScrollArea className="h-full mt-4 pr-4">
+          <div className="space-y-4 pb-8">
+            {/* Quick Actions */}
+            <div className="grid grid-cols-2 gap-2">
+              <Button
+                onClick={() => onUseForGeneration(audio, 'cover')}
+                className="h-14 gap-2"
+              >
+                <Disc className="w-5 h-5" />
+                <div className="text-left">
+                  <div className="font-medium text-sm">Кавер</div>
+                  <div className="text-[10px] opacity-70">Создать в этом стиле</div>
+                </div>
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => onUseForGeneration(audio, 'extend')}
+                className="h-14 gap-2"
+              >
+                <ArrowRight className="w-5 h-5" />
+                <div className="text-left">
+                  <div className="font-medium text-sm">Расширить</div>
+                  <div className="text-[10px] opacity-70">Продолжить трек</div>
+                </div>
+              </Button>
+            </div>
+
+            {/* Metadata */}
+            <div className="grid grid-cols-2 gap-3 text-sm p-3 rounded-lg bg-secondary/30">
+              <div>
+                <p className="text-muted-foreground text-xs">Длительность</p>
+                <p className="font-medium">{formatDuration(audio.duration_seconds)}</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Дата</p>
+                <p className="font-medium">{format(new Date(audio.created_at), 'd MMM yyyy', { locale: ru })}</p>
+              </div>
+              {audio.genre && (
+                <div>
+                  <p className="text-muted-foreground text-xs">Жанр</p>
+                  <p className="font-medium">{audio.genre}</p>
+                </div>
+              )}
+              {audio.mood && (
+                <div>
+                  <p className="text-muted-foreground text-xs">Настроение</p>
+                  <p className="font-medium">{audio.mood}</p>
+                </div>
+              )}
+              {audio.vocal_style && (
+                <div className="col-span-2">
+                  <p className="text-muted-foreground text-xs">Стиль вокала</p>
+                  <p className="font-medium">{audio.vocal_style}</p>
+                </div>
+              )}
+            </div>
+
+            {/* Analysis Actions */}
+            {audio.analysis_status !== 'completed' && (
+              <div className="space-y-2">
+                {isAnalyzing && (
+                  <div className="space-y-2">
+                    <Progress value={analysisProgress} className="h-1" />
+                    <p className="text-xs text-muted-foreground text-center">
+                      Анализируем аудио...
+                    </p>
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleAnalyze}
+                    disabled={isAnalyzing}
+                    className="flex-1 gap-1.5"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    Анализ стиля
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleExtractLyrics}
+                    disabled={isAnalyzing}
+                    className="flex-1 gap-1.5"
+                  >
+                    <FileText className="w-4 h-4" />
+                    Извлечь текст
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {/* Lyrics / Transcription */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-muted-foreground text-xs">Текст / Транскрипция</p>
+                {!isEditingLyrics ? (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsEditingLyrics(true)}
+                    className="h-6 px-2 text-xs"
+                  >
+                    <Edit className="w-3 h-3 mr-1" />
+                    Редактировать
+                  </Button>
+                ) : (
+                  <div className="flex gap-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        setIsEditingLyrics(false);
+                        setEditedLyrics(audio.transcription || '');
+                      }}
+                      className="h-6 px-2 text-xs"
+                      disabled={isSaving}
+                    >
+                      <X className="w-3 h-3" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleSaveLyrics}
+                      className="h-6 px-2 text-xs text-primary"
+                      disabled={isSaving}
+                    >
+                      {isSaving ? (
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                      ) : (
+                        <Check className="w-3 h-3" />
+                      )}
+                    </Button>
+                  </div>
+                )}
+              </div>
+              
+              {isEditingLyrics ? (
+                <Textarea
+                  value={editedLyrics}
+                  onChange={(e) => setEditedLyrics(e.target.value)}
+                  placeholder="Введите текст песни..."
+                  className="min-h-[200px] text-sm"
+                />
+              ) : audio.transcription ? (
+                <pre className="whitespace-pre-wrap text-sm font-sans bg-secondary/50 p-3 rounded-lg max-h-[200px] overflow-auto">
+                  {audio.transcription}
+                </pre>
+              ) : (
+                <div className="text-center py-6 bg-secondary/30 rounded-lg">
+                  <FileText className="w-8 h-8 text-muted-foreground/50 mx-auto mb-2" />
+                  <p className="text-xs text-muted-foreground">Текст не извлечен</p>
+                  <Button
+                    variant="link"
+                    size="sm"
+                    onClick={handleExtractLyrics}
+                    disabled={isAnalyzing}
+                    className="mt-1 text-xs"
+                  >
+                    Извлечь автоматически
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            {/* Playback & Delete */}
+            <div className="flex gap-2 pt-4">
+              <Button 
+                variant="outline" 
+                className="flex-1"
+                onClick={() => onPlay(audio)}
+              >
+                {isPlaying ? (
+                  <>
+                    <Pause className="w-4 h-4 mr-2" />
+                    Пауза
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-4 h-4 mr-2" />
+                    Воспроизвести
+                  </>
+                )}
+              </Button>
+              <Button 
+                variant="destructive" 
+                size="icon"
+                onClick={() => {
+                  onDelete(audio.id);
+                  onOpenChange(false);
+                }}
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        </ScrollArea>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
 export function CloudTab() {
+  const navigate = useNavigate();
   const { audioList, isLoading, deleteAudio } = useReferenceAudio();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedAudio, setSelectedAudio] = useState<typeof audioList[0] | null>(null);
+  const [selectedAudio, setSelectedAudio] = useState<ReferenceAudio | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
@@ -138,7 +492,7 @@ export function CloudTab() {
     (a.mood?.toLowerCase().includes(searchQuery.toLowerCase()))
   ) || [];
 
-  const handlePlay = (audio: typeof audioList[0]) => {
+  const handlePlay = (audio: ReferenceAudio) => {
     if (playingId === audio.id) {
       audioElement?.pause();
       setPlayingId(null);
@@ -164,6 +518,24 @@ export function CloudTab() {
     } catch (error) {
       toast.error('Ошибка при удалении');
     }
+  };
+
+  const handleUseForGeneration = (audio: ReferenceAudio, mode: 'cover' | 'extend') => {
+    // Store selected audio in sessionStorage for generation page
+    sessionStorage.setItem('cloudAudioReference', JSON.stringify({
+      id: audio.id,
+      fileUrl: audio.file_url,
+      fileName: audio.file_name,
+      mode,
+      genre: audio.genre,
+      mood: audio.mood,
+      vocalStyle: audio.vocal_style,
+      transcription: audio.transcription,
+    }));
+    
+    setSelectedAudio(null);
+    navigate('/');
+    toast.success(`Аудио выбрано для ${mode === 'cover' ? 'кавера' : 'расширения'}`);
   };
 
   const formatDuration = (seconds: number | null) => {
@@ -201,8 +573,10 @@ export function CloudTab() {
       </div>
 
       {/* Stats */}
-      <div className="text-xs text-muted-foreground">
-        {audioList?.length || 0} файлов в облаке
+      <div className="flex gap-2 text-xs text-muted-foreground">
+        <span>{audioList?.length || 0} файлов</span>
+        <span>•</span>
+        <span>{audioList?.filter(a => a.analysis_status === 'completed').length || 0} проанализировано</span>
       </div>
 
       {/* Audio List */}
@@ -239,13 +613,13 @@ export function CloudTab() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5">
                   {audio.source === 'recording' ? (
-                    <Mic className="w-3 h-3 text-primary" />
+                    <Mic className="w-3 h-3 text-primary shrink-0" />
                   ) : (
-                    <Upload className="w-3 h-3 text-muted-foreground" />
+                    <Upload className="w-3 h-3 text-muted-foreground shrink-0" />
                   )}
                   <h3 className="font-medium text-sm truncate">{audio.file_name}</h3>
                 </div>
-                <div className="flex items-center gap-2 mt-1">
+                <div className="flex items-center gap-1.5 mt-1 flex-wrap">
                   <span className="text-[10px] text-muted-foreground">
                     {formatDuration(audio.duration_seconds)}
                   </span>
@@ -259,10 +633,16 @@ export function CloudTab() {
                       {audio.mood}
                     </Badge>
                   )}
+                  {audio.transcription && (
+                    <Badge variant="outline" className="text-[9px] h-4 px-1.5 text-primary border-primary/30">
+                      <FileText className="w-2.5 h-2.5 mr-0.5" />
+                      Текст
+                    </Badge>
+                  )}
                 </div>
               </div>
 
-              {/* Actions */}
+              {/* Quick Actions */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
                   <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0">
@@ -270,6 +650,21 @@ export function CloudTab() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={(e) => {
+                    e.stopPropagation();
+                    handleUseForGeneration(audio, 'cover');
+                  }}>
+                    <Disc className="w-4 h-4 mr-2" />
+                    Создать кавер
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={(e) => {
+                    e.stopPropagation();
+                    handleUseForGeneration(audio, 'extend');
+                  }}>
+                    <ArrowRight className="w-4 h-4 mr-2" />
+                    Расширить
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem 
                     onClick={(e) => {
                       e.stopPropagation();
@@ -301,93 +696,18 @@ export function CloudTab() {
         </div>
       )}
 
-      {/* Audio Detail Sheet */}
-      <Sheet open={!!selectedAudio} onOpenChange={(open) => !open && setSelectedAudio(null)}>
-        <SheetContent side="bottom" className="h-[60vh] rounded-t-2xl">
-          {selectedAudio && (
-            <>
-              <SheetHeader>
-                <SheetTitle className="flex items-center gap-2">
-                  {selectedAudio.source === 'recording' ? (
-                    <Mic className="w-4 h-4 text-primary" />
-                  ) : (
-                    <Music className="w-4 h-4" />
-                  )}
-                  {selectedAudio.file_name}
-                </SheetTitle>
-              </SheetHeader>
-              <ScrollArea className="h-full mt-4 pr-4">
-                <div className="space-y-4 pb-8">
-                  {/* Metadata */}
-                  <div className="grid grid-cols-2 gap-3 text-sm">
-                    <div>
-                      <p className="text-muted-foreground text-xs">Длительность</p>
-                      <p>{formatDuration(selectedAudio.duration_seconds)}</p>
-                    </div>
-                    <div>
-                      <p className="text-muted-foreground text-xs">Дата</p>
-                      <p>{format(new Date(selectedAudio.created_at), 'd MMM yyyy', { locale: ru })}</p>
-                    </div>
-                    {selectedAudio.genre && (
-                      <div>
-                        <p className="text-muted-foreground text-xs">Жанр</p>
-                        <p>{selectedAudio.genre}</p>
-                      </div>
-                    )}
-                    {selectedAudio.mood && (
-                      <div>
-                        <p className="text-muted-foreground text-xs">Настроение</p>
-                        <p>{selectedAudio.mood}</p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Transcription */}
-                  {selectedAudio.transcription && (
-                    <div>
-                      <p className="text-muted-foreground text-xs mb-1">Транскрипция</p>
-                      <pre className="whitespace-pre-wrap text-sm font-sans bg-secondary/50 p-3 rounded-lg">
-                        {selectedAudio.transcription}
-                      </pre>
-                    </div>
-                  )}
-
-                  {/* Actions */}
-                  <div className="flex gap-2 pt-4">
-                    <Button 
-                      variant="outline" 
-                      className="flex-1"
-                      onClick={() => handlePlay(selectedAudio)}
-                    >
-                      {playingId === selectedAudio.id ? (
-                        <>
-                          <Pause className="w-4 h-4 mr-2" />
-                          Пауза
-                        </>
-                      ) : (
-                        <>
-                          <Play className="w-4 h-4 mr-2" />
-                          Воспроизвести
-                        </>
-                      )}
-                    </Button>
-                    <Button 
-                      variant="destructive" 
-                      size="icon"
-                      onClick={() => {
-                        setDeleteConfirmId(selectedAudio.id);
-                        setSelectedAudio(null);
-                      }}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </ScrollArea>
-            </>
-          )}
-        </SheetContent>
-      </Sheet>
+      {/* Audio Detail Panel */}
+      {selectedAudio && (
+        <AudioDetailPanel
+          audio={selectedAudio}
+          open={!!selectedAudio}
+          onOpenChange={(open) => !open && setSelectedAudio(null)}
+          onDelete={(id) => setDeleteConfirmId(id)}
+          onPlay={handlePlay}
+          isPlaying={playingId === selectedAudio.id}
+          onUseForGeneration={handleUseForGeneration}
+        />
+      )}
 
       {/* Delete Confirmation */}
       <AlertDialog open={!!deleteConfirmId} onOpenChange={(open) => !open && setDeleteConfirmId(null)}>
@@ -407,7 +727,7 @@ export function CloudTab() {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Upload Dialog - using simple upload interface */}
+      {/* Upload Dialog */}
       {uploadDialogOpen && (
         <SimpleUploadDialog 
           open={uploadDialogOpen} 
