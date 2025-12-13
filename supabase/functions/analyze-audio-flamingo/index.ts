@@ -24,11 +24,26 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const { track_id, audio_url, analysis_type = 'auto', custom_prompt } = await req.json();
+    const body = await req.json();
+    const { track_id, audio_url, analysis_type = 'auto', custom_prompt } = body;
     console.log('Analyzing audio:', { track_id, audio_url, analysis_type });
 
     if (!audio_url) {
+      console.error('Missing audio_url in request');
       throw new Error('audio_url is required');
+    }
+    
+    // Verify audio URL is accessible
+    try {
+      const audioCheck = await fetch(audio_url, { method: 'HEAD' });
+      if (!audioCheck.ok) {
+        console.error('Audio URL not accessible:', audioCheck.status);
+        throw new Error(`Audio URL not accessible: ${audioCheck.status}`);
+      }
+      console.log('Audio URL verified accessible');
+    } catch (fetchError) {
+      console.error('Error checking audio URL:', fetchError);
+      throw new Error('Cannot access audio URL');
     }
 
     // Get track info if track_id provided, otherwise use defaults for standalone analysis
