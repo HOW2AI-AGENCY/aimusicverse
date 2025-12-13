@@ -1,10 +1,8 @@
-import { Sparkles, Library, FolderOpen, ListMusic, Upload, Music2, Guitar, Disc, Plus } from 'lucide-react';
+import { Sparkles, Library, FolderOpen, ListMusic, Music2, Guitar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion } from '@/lib/motion';
 import { useState } from 'react';
-import { AudioCoverDialog } from '@/components/AudioCoverDialog';
-import { AudioExtendDialog } from '@/components/AudioExtendDialog';
 import { MusicRecognitionDialog } from '@/components/music-recognition/MusicRecognitionDialog';
 import { GuitarRecordDialog } from '@/components/generate-form/GuitarRecordDialog';
 import { TooltipWrapper } from '@/components/tooltips';
@@ -24,8 +22,6 @@ const quickActions = [
 export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
   const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
-  const [coverDialogOpen, setCoverDialogOpen] = useState(false);
-  const [extendDialogOpen, setExtendDialogOpen] = useState(false);
   const [recognitionDialogOpen, setRecognitionDialogOpen] = useState(false);
   const [guitarDialogOpen, setGuitarDialogOpen] = useState(false);
 
@@ -36,12 +32,11 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
 
   const handleGuitarComplete = (result: Record<string, unknown>) => {
     logger.info('Guitar analysis complete', { result });
-    // Could navigate to generation with pre-filled tags
   };
 
   return (
     <div className="space-y-3">
-      {/* Primary CTA - Generate - Simplified for mobile */}
+      {/* Primary CTA - Generate */}
       <TooltipWrapper tooltipId="generate-button">
         <motion.button
           onClick={() => handleAction(onGenerateClick)}
@@ -51,7 +46,6 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
           whileTap={{ scale: 0.98 }}
           transition={{ delay: 0.1 }}
         >
-          {/* Content */}
           <div className="relative flex items-center justify-center gap-2.5">
             <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
             <span className="text-base sm:text-lg font-bold text-primary-foreground">Создать музыку</span>
@@ -59,7 +53,7 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         </motion.button>
       </TooltipWrapper>
 
-      {/* Quick Navigation - Simplified 3-column grid */}
+      {/* Quick Navigation */}
       <motion.div
         className="grid grid-cols-3 gap-2"
         initial="hidden"
@@ -90,34 +84,16 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         ))}
       </motion.div>
 
-      {/* Tools Row - Hidden on mobile, shown on desktop */}
+      {/* Tools Row - Desktop only */}
       <motion.div
-        className="hidden sm:grid grid-cols-3 gap-2"
+        className="hidden sm:grid grid-cols-2 gap-2"
         initial="hidden"
         animate="visible"
         variants={{
           visible: { transition: { staggerChildren: 0.03, delayChildren: 0.1 } }
         }}
       >
-        {/* Cover Audio Button */}
-        <motion.button
-          onClick={() => handleAction(() => setCoverDialogOpen(true))}
-          className={cn(
-            "group relative flex items-center gap-2 px-3 py-2.5 rounded-xl",
-            "bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20",
-            "active:scale-[0.97] transition-all duration-200 touch-manipulation"
-          )}
-          variants={{
-            hidden: { opacity: 0, y: 15, scale: 0.9 },
-            visible: { opacity: 1, y: 0, scale: 1 }
-          }}
-          whileTap={{ scale: 0.97 }}
-        >
-          <Disc className="w-4 h-4 text-blue-400 shrink-0" />
-          <span className="text-xs font-medium">Кавер</span>
-        </motion.button>
-
-        {/* Guitar Record Button with NEW badge */}
+        {/* Guitar Record Button */}
         <motion.button
           onClick={() => handleAction(() => setGuitarDialogOpen(true))}
           className={cn(
@@ -133,11 +109,7 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         >
           <Guitar className="w-4 h-4 text-orange-400 shrink-0" />
           <span className="text-xs font-medium text-orange-400">Гитара</span>
-          
-          {/* NEW Badge */}
-          <span 
-            className="absolute -top-1 -right-1 px-1 py-0.5 text-[8px] font-bold rounded bg-orange-500 text-white"
-          >
+          <span className="absolute -top-1 -right-1 px-1 py-0.5 text-[8px] font-bold rounded bg-orange-500 text-white">
             NEW
           </span>
         </motion.button>
@@ -160,16 +132,6 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
           <span className="text-xs font-medium text-purple-400">Shazam</span>
         </motion.button>
       </motion.div>
-
-      <AudioCoverDialog
-        open={coverDialogOpen}
-        onOpenChange={setCoverDialogOpen}
-      />
-
-      <AudioExtendDialog
-        open={extendDialogOpen}
-        onOpenChange={setExtendDialogOpen}
-      />
 
       <MusicRecognitionDialog
         open={recognitionDialogOpen}

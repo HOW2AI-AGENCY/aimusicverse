@@ -21,8 +21,6 @@ import { GenerateFormCustom } from './generate-form/GenerateFormCustom';
 import { GenerationLoadingState } from './generate-form/GenerationLoadingState';
 
 // Dialogs
-import { AudioCoverDialog } from './AudioCoverDialog';
-import { AudioExtendDialog } from './AudioExtendDialog';
 import { AudioActionDialog } from './generate-form/AudioActionDialog';
 import { ArtistSelector } from './generate-form/ArtistSelector';
 import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
@@ -47,8 +45,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [audioActionDialogOpen, setAudioActionDialogOpen] = useState(false); // For reference audio selection
   const [historyOpen, setHistoryOpen] = useState(false);
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
-  const [coverDialogOpen, setCoverDialogOpen] = useState(false);
-  const [extendDialogOpen, setExtendDialogOpen] = useState(false);
   const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
@@ -139,8 +135,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
               onOpenArtistDialog={() => setArtistDialogOpen(true)}
               onOpenProjectDialog={() => setProjectDialogOpen(true)}
-              onOpenCoverMode={() => setCoverDialogOpen(true)}
-              onOpenExtendMode={() => setExtendDialogOpen(true)}
             />
 
             {/* Selected References Indicators */}
@@ -260,20 +254,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         onSelect={form.handleArtistSelect}
       />
 
-      {/* Cover Dialog - Simplified */}
-      <AudioCoverDialog
-        open={coverDialogOpen}
-        onOpenChange={setCoverDialogOpen}
-        projectId={form.selectedProjectId || initialProjectId}
-      />
-
-      {/* Extend Dialog - Simplified */}
-      <AudioExtendDialog
-        open={extendDialogOpen}
-        onOpenChange={setExtendDialogOpen}
-        projectId={form.selectedProjectId || initialProjectId}
-      />
-
       {/* Audio Action Dialog - for reference audio in generation */}
       <AudioActionDialog
         open={audioActionDialogOpen}
@@ -284,15 +264,18 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           toast.success('Аудио добавлено');
         }}
         onAnalysisComplete={(styleDescription) => {
-          if (form.mode === 'custom') {
-            form.setStyle(prevStyle => {
-              const newStyle = prevStyle
-                ? `${prevStyle}\n\nАнализ референса:\n${styleDescription}`
-                : styleDescription;
-              toast.success('Стиль обновлен с результатами анализа');
-              return newStyle;
-            });
-          }
+          form.setMode('custom');
+          form.setStyle(prevStyle => {
+            const newStyle = prevStyle
+              ? `${prevStyle}\n\n${styleDescription}`
+              : styleDescription;
+            return newStyle;
+          });
+        }}
+        onLyricsExtracted={(lyrics) => {
+          form.setMode('custom');
+          form.setHasVocals(true);
+          form.setLyrics(lyrics);
         }}
       />
 

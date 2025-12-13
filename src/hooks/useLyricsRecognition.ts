@@ -12,6 +12,12 @@ export interface RecognizedLyrics {
 export interface LyricsRecognitionResult {
   success: boolean;
   lyrics?: RecognizedLyrics;
+  hasVocals?: boolean;
+  analysis?: {
+    genre?: string;
+    mood?: string;
+    vocalStyle?: string;
+  };
   error?: string;
 }
 
@@ -27,8 +33,8 @@ export function useLyricsRecognition() {
     try {
       logger.info('Recognizing lyrics from audio...', { audioUrl });
       
-      const { data, error } = await supabase.functions.invoke('recognize-lyrics', {
-        body: { audioUrl }
+      const { data, error } = await supabase.functions.invoke('transcribe-lyrics', {
+        body: { audio_url: audioUrl }
       });
 
       if (error) {
@@ -36,13 +42,28 @@ export function useLyricsRecognition() {
         throw new Error(error.message || 'Recognition failed');
       }
 
-      const recognitionResult = data as LyricsRecognitionResult;
+      const recognitionResult: LyricsRecognitionResult = {
+        success: true,
+        hasVocals: data.has_vocals,
+        lyrics: data.lyrics ? {
+          text: data.lyrics,
+          language: data.language,
+        } : undefined,
+        analysis: data.analysis ? {
+          genre: data.analysis.genre,
+          mood: data.analysis.mood,
+          vocalStyle: data.analysis.vocal_style,
+        } : undefined,
+      };
+      
       setResult(recognitionResult);
 
-      if (recognitionResult.success && recognitionResult.lyrics) {
+      if (recognitionResult.hasVocals && recognitionResult.lyrics) {
         toast.success('Текст песни распознан!');
+      } else if (!recognitionResult.hasVocals) {
+        toast.info('Инструментальный трек (вокал не обнаружен)');
       } else {
-        toast.info('Текст не удалось распознать');
+        toast.info('Не удалось извлечь текст');
       }
 
       return recognitionResult;
@@ -60,6 +81,39 @@ export function useLyricsRecognition() {
     }
   }, []);
 
+  // Recognize from File (uploads first)
+  const recognizeLyricsFromFile = useCallback(async (file: File): Promise<LyricsRecognitionResult> => {
+    setIsRecognizing(true);
+    
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Не авторизован');
+      
+      const fileName = `lyrics-${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+      const { error: uploadError } = await supabase.storage
+        .from('project-assets')
+        .upload(fileName, file, { cacheControl: '3600', upsert: false });
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('project-assets')
+        .getPublicUrl(fileName);
+        
+      return await recognizeLyrics(publicUrl);
+    } catch (err) {
+      logger.error('File upload for lyrics recognition failed:', { error: err });
+      const errorResult: LyricsRecognitionResult = {
+        success: false,
+        error: err instanceof Error ? err.message : 'Upload failed'
+      };
+      setResult(errorResult);
+      toast.error('Ошибка загрузки файла');
+      setIsRecognizing(false);
+      return errorResult;
+    }
+  }, [recognizeLyrics]);
+
   // Clear result
   const clearResult = useCallback(() => {
     setResult(null);
@@ -69,6 +123,7 @@ export function useLyricsRecognition() {
     isRecognizing,
     result,
     recognizeLyrics,
+    recognizeLyricsFromFile,
     clearResult,
   };
 }
