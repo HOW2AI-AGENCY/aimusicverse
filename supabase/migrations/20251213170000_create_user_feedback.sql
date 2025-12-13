@@ -76,7 +76,7 @@ CREATE POLICY "Admins can update feedback"
 CREATE TRIGGER set_user_feedback_updated_at
   BEFORE UPDATE ON public.user_feedback
   FOR EACH ROW
-  EXECUTE FUNCTION update_updated_at_column();
+  EXECUTE FUNCTION public.update_updated_at_column();
 
 -- Grant permissions
 GRANT SELECT, INSERT ON public.user_feedback TO authenticated;

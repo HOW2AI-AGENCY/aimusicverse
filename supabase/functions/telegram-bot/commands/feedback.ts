@@ -93,13 +93,6 @@ export async function handleFeedbackMessage(chatId: number, userId: number, mess
   }
 
   if (session.stage === 'awaiting_message') {
-    // Store message and ask for rating
-    pendingFeedback.set(chatId, { 
-      ...session, 
-      stage: 'awaiting_rating',
-      type: session.type || 'general'
-    });
-
     try {
       const supabase = createClient(BOT_CONFIG.supabaseUrl, BOT_CONFIG.supabaseServiceKey);
       
@@ -169,7 +162,7 @@ export async function handleFeedbackMessage(chatId: number, userId: number, mess
         return true;
       }
 
-      // Store feedback ID in session for rating update
+      // Update session to awaiting_rating stage AFTER successful storage
       pendingFeedback.set(chatId, { 
         ...session, 
         stage: 'awaiting_rating',
@@ -244,7 +237,38 @@ export async function handleFeedbackRating(chatId: number, userId: number, ratin
         logger.error('Failed to update rating', error);
       }
     } else {
-      logger.warn('No feedback ID in session for rating update');
+      // Fallback: find most recent feedback by telegram_chat_id
+      logger.warn('No feedback ID in session, attempting fallback rating update');
+      
+      // First get user UUID from telegram_id
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('user_id')
+        .eq('telegram_id', userId)
+        .single();
+      
+      if (profile) {
+        // Get most recent feedback for this user from this chat
+        const { data: recentFeedback } = await supabase
+          .from('user_feedback')
+          .select('id')
+          .eq('user_id', profile.user_id)
+          .eq('telegram_chat_id', chatId)
+          .is('rating', null)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        
+        if (recentFeedback) {
+          await supabase
+            .from('user_feedback')
+            .update({ rating })
+            .eq('id', recentFeedback.id);
+          logger.info('Fallback rating update successful');
+        } else {
+          logger.warn('Could not find feedback record for fallback rating update');
+        }
+      }
     }
 
     const stars = '⭐'.repeat(rating);
