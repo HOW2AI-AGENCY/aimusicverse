@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { soundEffects } from '@/lib/sound-effects';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { toast } from 'sonner';
@@ -27,6 +27,21 @@ export function useRewards() {
   // Credit cap for free users
   const FREE_USER_CREDIT_CAP = 100;
 
+  // Cache admin status to avoid repeated RPC calls
+  const { data: isAdmin } = useQuery({
+    queryKey: ['is-admin', user?.id],
+    queryFn: async () => {
+      if (!user?.id) return false;
+      const { data } = await supabase.rpc('has_role', {
+        _user_id: user.id,
+        _role: 'admin',
+      });
+      return !!data;
+    },
+    enabled: !!user?.id,
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+  });
+
   const awardCredits = useCallback(async (
     amount: number,
     actionType: string,
@@ -47,15 +62,11 @@ export function useRewards() {
 
       const currentBalance = credits?.balance || 0;
 
-      // Check if user is admin (admins bypass credit cap)
-      const { data: isAdminData } = await supabase.rpc('has_role', {
-        _user_id: user.id,
-        _role: 'admin',
-      });
-      const isAdmin = !!isAdminData;
+      // Use cached admin status
+      const isUserAdmin = isAdmin ?? false;
 
       // Check credit cap for free users
-      if (!isAdmin && currentBalance >= FREE_USER_CREDIT_CAP) {
+      if (!isUserAdmin && currentBalance >= FREE_USER_CREDIT_CAP) {
         toast.info('Достигнут лимит кредитов! 💎', {
           description: `Используйте существующие кредиты (${currentBalance}/${FREE_USER_CREDIT_CAP}), чтобы получать новые награды`,
         });
@@ -71,7 +82,7 @@ export function useRewards() {
       let newBalance = currentBalance + amount;
       let awardedAmount = amount;
 
-      if (!isAdmin && newBalance > FREE_USER_CREDIT_CAP) {
+      if (!isUserAdmin && newBalance > FREE_USER_CREDIT_CAP) {
         // Cap the balance and reduce awarded amount
         awardedAmount = FREE_USER_CREDIT_CAP - currentBalance;
         newBalance = FREE_USER_CREDIT_CAP;

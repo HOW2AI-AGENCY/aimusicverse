@@ -119,10 +119,11 @@ export function useAnalyticsTracking() {
     // Track session end on unmount
     return () => {
       // Use sendBeacon for reliable tracking on page unload
+      const currentPath = window.location.pathname; // Capture at cleanup time
       const payload = JSON.stringify({
         session_id: sessionId.current,
         event_type: 'session_ended',
-        page_path: location.pathname,
+        page_path: currentPath,
         created_at: new Date().toISOString(),
       });
       navigator.sendBeacon?.(
@@ -130,7 +131,7 @@ export function useAnalyticsTracking() {
         payload
       );
     };
-  }, [trackEvent, location.pathname]);
+  }, [trackEvent]); // Removed location.pathname from dependencies
 
   // Convenience methods
   const trackGeneration = useCallback((status: 'started' | 'completed', metadata?: Record<string, unknown>) => {
@@ -189,29 +190,6 @@ export function useAnalyticsTracking() {
     });
   }, [trackEvent]);
 
-  // Track user return frequency
-  const trackUserReturn = useCallback(() => {
-    const lastVisit = localStorage.getItem('last-visit-date');
-    const now = new Date();
-    const today = now.toISOString().split('T')[0];
-    
-    if (lastVisit) {
-      const lastVisitDate = new Date(lastVisit);
-      const daysSinceLastVisit = Math.floor((now.getTime() - lastVisitDate.getTime()) / (1000 * 60 * 60 * 24));
-      
-      trackEvent({
-        eventType: 'session_started',
-        metadata: {
-          daysSinceLastVisit,
-          isReturningUser: true,
-          lastVisit: lastVisit,
-        },
-      });
-    }
-    
-    localStorage.setItem('last-visit-date', today);
-  }, [trackEvent]);
-
   return {
     trackEvent,
     trackGeneration,
@@ -220,7 +198,6 @@ export function useAnalyticsTracking() {
     trackShare,
     trackFeatureUsed,
     trackButtonClick,
-    trackUserReturn,
   };
 }
 

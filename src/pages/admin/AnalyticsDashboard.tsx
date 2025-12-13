@@ -18,15 +18,15 @@ interface UserMetrics {
   daysActive: number;
 }
 
-export function AnalyticsDashboard() {
+export default function AnalyticsDashboard() {
   const [timeRange, setTimeRange] = useState<'1h' | '24h' | '7d' | '30d'>('7d');
   
   const { data: behaviorStats, isLoading: statsLoading } = useUserBehaviorStats(timeRange);
 
   // Fetch user metrics - simplified version without RPC
-  const { data: userMetrics, isLoading: metricsLoading } = useQuery({
+  const { data: userMetrics, isLoading: metricsLoading } = useQuery<UserMetrics[]>({
     queryKey: ['user-metrics', timeRange],
-    queryFn: async () => {
+    queryFn: async (): Promise<UserMetrics[]> => {
       const timeAgo = {
         '1h': new Date(Date.now() - 60 * 60 * 1000),
         '24h': new Date(Date.now() - 24 * 60 * 60 * 1000),
