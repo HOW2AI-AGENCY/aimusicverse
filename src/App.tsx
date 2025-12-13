@@ -43,6 +43,8 @@ const Onboarding = lazy(() => import("./pages/Onboarding"));
 const Rewards = lazy(() => import("./pages/Rewards"));
 const Analytics = lazy(() => import(/* webpackChunkName: "analytics" */ "./pages/Analytics"));
 const AdminDashboard = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/AdminDashboard"));
+const ModerationDashboard = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/ModerationDashboard"));
+const BlockedUsersPage = lazy(() => import("./pages/settings/BlockedUsersPage"));
 const Templates = lazy(() => import("./pages/Templates"));
 const MusicGraph = lazy(() => import("./pages/MusicGraph"));
 const CreativeTools = lazy(() => import("./pages/CreativeTools"));
@@ -115,6 +117,8 @@ const App = () => (
                 <Route path="/rewards" element={<Rewards />} />
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin/moderation" element={<ModerationDashboard />} />
+                <Route path="/settings/blocked-users" element={<BlockedUsersPage />} />
                 <Route path="/templates" element={<Templates />} />
                 <Route path="/music-graph" element={<MusicGraph />} />
                 <Route path="/creative-tools" element={<CreativeTools />} />
