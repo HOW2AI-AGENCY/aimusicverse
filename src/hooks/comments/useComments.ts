@@ -3,7 +3,7 @@
 
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import type { CommentWithUser } from '@/types/comment';
 
 interface UseCommentsParams {

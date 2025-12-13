@@ -2,7 +2,7 @@
 // Add comment with @mention parsing and notifications
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import {
   validateCommentContent,
