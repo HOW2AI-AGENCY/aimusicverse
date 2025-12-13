@@ -226,9 +226,6 @@ export default function Artists() {
         artist={selectedArtist} 
         open={detailsPanelOpen} 
         onOpenChange={setDetailsPanelOpen}
-        onEdit={(artist) => {
-          setDetailsPanelOpen(false);
-        }}
       />
     </div>
   );
