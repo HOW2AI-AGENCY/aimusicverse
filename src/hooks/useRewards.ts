@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { soundEffects } from '@/lib/sound-effects';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { toast } from 'sonner';
@@ -24,6 +24,24 @@ export function useRewards() {
   const queryClient = useQueryClient();
   const [isProcessing, setIsProcessing] = useState(false);
 
+  // Credit cap for free users
+  const FREE_USER_CREDIT_CAP = 100;
+
+  // Cache admin status to avoid repeated RPC calls
+  const { data: isAdmin } = useQuery({
+    queryKey: ['is-admin', user?.id],
+    queryFn: async () => {
+      if (!user?.id) return false;
+      const { data } = await supabase.rpc('has_role', {
+        _user_id: user.id,
+        _role: 'admin',
+      });
+      return !!data;
+    },
+    enabled: !!user?.id,
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+  });
+
   const awardCredits = useCallback(async (
     amount: number,
     actionType: string,
@@ -33,7 +51,7 @@ export function useRewards() {
 
     setIsProcessing(true);
     try {
-      // Update user credits
+      // Fetch user credits and check if admin
       const { data: credits, error: creditsError } = await supabase
         .from('user_credits')
         .select('balance, total_earned, experience, level')
@@ -42,8 +60,39 @@ export function useRewards() {
 
       if (creditsError) throw creditsError;
 
-      const newBalance = (credits?.balance || 0) + amount;
-      const newTotalEarned = (credits?.total_earned || 0) + amount;
+      const currentBalance = credits?.balance || 0;
+
+      // Use cached admin status
+      const isUserAdmin = isAdmin ?? false;
+
+      // Check credit cap for free users
+      if (!isUserAdmin && currentBalance >= FREE_USER_CREDIT_CAP) {
+        toast.info('Достигнут лимит кредитов! 💎', {
+          description: `Используйте существующие кредиты (${currentBalance}/${FREE_USER_CREDIT_CAP}), чтобы получать новые награды`,
+        });
+        logger.info('Credit award blocked - user at cap', { 
+          userId: user.id, 
+          currentBalance, 
+          cap: FREE_USER_CREDIT_CAP 
+        });
+        return { success: false };
+      }
+
+      // Calculate new balance, but cap it at max for free users
+      let newBalance = currentBalance + amount;
+      let awardedAmount = amount;
+
+      if (!isUserAdmin && newBalance > FREE_USER_CREDIT_CAP) {
+        // Cap the balance and reduce awarded amount
+        awardedAmount = FREE_USER_CREDIT_CAP - currentBalance;
+        newBalance = FREE_USER_CREDIT_CAP;
+        
+        toast.info('Частичное начисление кредитов', {
+          description: `Начислено ${awardedAmount} из ${amount} кредитов (лимит: ${FREE_USER_CREDIT_CAP})`,
+        });
+      }
+
+      const newTotalEarned = (credits?.total_earned || 0) + awardedAmount;
 
       await supabase
         .from('user_credits')
@@ -54,10 +103,10 @@ export function useRewards() {
         })
         .eq('user_id', user.id);
 
-      // Log transaction
+      // Log transaction with actual awarded amount
       await supabase.from('credit_transactions').insert({
         user_id: user.id,
-        amount,
+        amount: awardedAmount,
         transaction_type: 'earn',
         action_type: actionType,
         description: description || `Награда: ${actionType}`,
@@ -71,7 +120,7 @@ export function useRewards() {
       queryClient.invalidateQueries({ queryKey: ['user-credits'] });
       queryClient.invalidateQueries({ queryKey: ['credit-transactions'] });
 
-      return { success: true, credits: amount };
+      return { success: true, credits: awardedAmount };
     } catch (error) {
       logger.error('Failed to award credits', error);
       return { success: false };
