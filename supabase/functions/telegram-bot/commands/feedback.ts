@@ -9,7 +9,12 @@ import { BOT_CONFIG } from '../config.ts';
 import { logger } from '../utils/index.ts';
 
 // Store pending feedback sessions
-const pendingFeedback = new Map<number, { userId: number; stage: 'awaiting_type' | 'awaiting_message' | 'awaiting_rating'; type?: string }>();
+const pendingFeedback = new Map<number, { 
+  userId: number; 
+  stage: 'awaiting_type' | 'awaiting_message' | 'awaiting_rating'; 
+  type?: string;
+  feedbackId?: string; // Store feedback ID for rating update
+}>();
 
 /**
  * Handle /feedback command
@@ -98,24 +103,47 @@ export async function handleFeedbackMessage(chatId: number, userId: number, mess
     try {
       const supabase = createClient(BOT_CONFIG.supabaseUrl, BOT_CONFIG.supabaseServiceKey);
       
-      // Get user's Telegram username
+      // Get user's UUID and telegram username from profiles using telegram_id
+      let userUuid = '';
       let telegramUsername = '';
       try {
         const { data: profile } = await supabase
           .from('profiles')
-          .select('telegram_username')
-          .eq('user_id', userId)
+          .select('user_id, username')
+          .eq('telegram_id', userId)
           .single();
-        telegramUsername = profile?.telegram_username || '';
+        
+        if (profile) {
+          userUuid = profile.user_id;
+          telegramUsername = profile.username || '';
+        } else {
+          logger.warn('Profile not found for telegram_id', { telegram_id: userId });
+          await sendMessage(
+            chatId,
+            escapeMarkdownV2('❌ Профиль не найден. Убедитесь, что вы используете бота через приложение.'),
+            undefined,
+            'MarkdownV2'
+          );
+          pendingFeedback.delete(chatId);
+          return true;
+        }
       } catch (e) {
-        logger.warn('Could not fetch telegram username', e);
+        logger.error('Failed to fetch profile', e);
+        await sendMessage(
+          chatId,
+          escapeMarkdownV2('❌ Произошла ошибка при получении профиля. Попробуйте позже.'),
+          undefined,
+          'MarkdownV2'
+        );
+        pendingFeedback.delete(chatId);
+        return true;
       }
 
       // Store feedback
-      const { error } = await supabase
+      const { data: feedbackData, error } = await supabase
         .from('user_feedback')
         .insert({
-          user_id: userId,
+          user_id: userUuid,
           telegram_chat_id: chatId,
           telegram_username: telegramUsername,
           feedback_type: session.type || 'general',
@@ -125,7 +153,9 @@ export async function handleFeedbackMessage(chatId: number, userId: number, mess
             source: 'telegram_bot',
             timestamp: new Date().toISOString()
           }
-        });
+        })
+        .select('id')
+        .single();
 
       if (error) {
         logger.error('Failed to store feedback', error);
@@ -138,6 +168,14 @@ export async function handleFeedbackMessage(chatId: number, userId: number, mess
         pendingFeedback.delete(chatId);
         return true;
       }
+
+      // Store feedback ID in session for rating update
+      pendingFeedback.set(chatId, { 
+        ...session, 
+        stage: 'awaiting_rating',
+        type: session.type || 'general',
+        feedbackId: feedbackData?.id
+      });
 
       // Thank user and offer rating
       const thankYouMessage = escapeMarkdownV2(
@@ -195,17 +233,18 @@ export async function handleFeedbackRating(chatId: number, userId: number, ratin
   try {
     const supabase = createClient(BOT_CONFIG.supabaseUrl, BOT_CONFIG.supabaseServiceKey);
     
-    // Update the most recent feedback with rating
-    const { error } = await supabase
-      .from('user_feedback')
-      .update({ rating })
-      .eq('telegram_chat_id', chatId)
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-      .limit(1);
+    // Update feedback with rating using stored feedback ID
+    if (session.feedbackId) {
+      const { error } = await supabase
+        .from('user_feedback')
+        .update({ rating })
+        .eq('id', session.feedbackId);
 
-    if (error) {
-      logger.error('Failed to update rating', error);
+      if (error) {
+        logger.error('Failed to update rating', error);
+      }
+    } else {
+      logger.warn('No feedback ID in session for rating update');
     }
 
     const stars = '⭐'.repeat(rating);
