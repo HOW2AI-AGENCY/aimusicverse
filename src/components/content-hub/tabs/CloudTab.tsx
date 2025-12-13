@@ -52,6 +52,11 @@ import { Progress } from '@/components/ui/progress';
 function SimpleUploadDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
+  const [recording, setRecording] = useState(false);
+  const [recordingTime, setRecordingTime] = useState(0);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const { user } = useAuth();
   const { saveAudio } = useReferenceAudio();
 
@@ -103,11 +108,105 @@ function SimpleUploadDialog({ open, onOpenChange }: { open: boolean; onOpenChang
     }
   };
 
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        stream.getTracks().forEach(track => track.stop());
+        await uploadRecording(audioBlob);
+      };
+
+      mediaRecorder.start();
+      setRecording(true);
+      setRecordingTime(0);
+      
+      timerRef.current = setInterval(() => {
+        setRecordingTime(prev => prev + 1);
+      }, 1000);
+
+      toast.success('Запись начата');
+    } catch (error) {
+      logger.error('Recording error', error);
+      toast.error('Не удалось получить доступ к микрофону');
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && recording) {
+      mediaRecorderRef.current.stop();
+      setRecording(false);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    }
+  };
+
+  const uploadRecording = async (audioBlob: Blob) => {
+    if (!user) return;
+    
+    setUploading(true);
+    try {
+      const timestamp = Date.now();
+      const fileName = `recording_${format(new Date(), 'dd-MM-yyyy_HH-mm')}.webm`;
+      const path = `${user.id}/recording-${timestamp}.webm`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from('reference-audio')
+        .upload(path, audioBlob);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('reference-audio')
+        .getPublicUrl(path);
+
+      await saveAudio({
+        fileName,
+        fileUrl: publicUrl,
+        fileSize: audioBlob.size,
+        mimeType: 'audio/webm',
+        durationSeconds: recordingTime,
+        source: 'recording',
+      });
+
+      toast.success('Запись сохранена');
+      onOpenChange(false);
+    } catch (error) {
+      logger.error('Upload recording error', error);
+      toast.error('Ошибка сохранения записи');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={(o) => {
+      if (recording) {
+        stopRecording();
+      }
+      onOpenChange(o);
+    }}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle>Загрузить аудио</DialogTitle>
+          <DialogTitle>Добавить аудио</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <input
@@ -117,21 +216,69 @@ function SimpleUploadDialog({ open, onOpenChange }: { open: boolean; onOpenChang
             onChange={handleFileSelect}
             className="hidden"
           />
+          
+          {/* Record Button */}
+          <div 
+            className={cn(
+              "relative flex flex-col items-center justify-center p-6 rounded-xl border-2 border-dashed transition-all",
+              recording 
+                ? "border-red-500 bg-red-500/10" 
+                : "border-primary/30 bg-primary/5 hover:border-primary/50"
+            )}
+          >
+            {recording && (
+              <div className="absolute top-2 right-2 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                <span className="text-xs font-mono text-red-500">{formatTime(recordingTime)}</span>
+              </div>
+            )}
+            
+            <Button
+              variant={recording ? "destructive" : "default"}
+              size="lg"
+              className={cn(
+                "w-16 h-16 rounded-full",
+                recording && "animate-pulse"
+              )}
+              onClick={recording ? stopRecording : startRecording}
+              disabled={uploading}
+            >
+              {uploading ? (
+                <div className="animate-spin h-6 w-6 border-2 border-white border-t-transparent rounded-full" />
+              ) : (
+                <Mic className="w-6 h-6" />
+              )}
+            </Button>
+            
+            <p className="text-sm mt-3 text-center">
+              {recording ? 'Нажмите, чтобы остановить' : 'Записать с микрофона'}
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Гитара, голос, мелодия
+            </p>
+          </div>
+
+          {/* Divider */}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-border" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">или</span>
+            </div>
+          </div>
+
+          {/* Upload Button */}
           <Button
-            className="w-full h-20 gap-2"
+            className="w-full h-12 gap-2"
             variant="outline"
             onClick={() => fileInputRef.current?.click()}
-            disabled={uploading}
+            disabled={uploading || recording}
           >
-            {uploading ? (
-              <div className="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full" />
-            ) : (
-              <>
-                <Upload className="w-5 h-5" />
-                Выбрать файл
-              </>
-            )}
+            <Upload className="w-5 h-5" />
+            Загрузить файл
           </Button>
+          
           <p className="text-xs text-muted-foreground text-center">
             Поддерживаются MP3, WAV, M4A
           </p>
