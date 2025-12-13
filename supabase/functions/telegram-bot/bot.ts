@@ -195,6 +195,11 @@ async function handleCommand(command: string, args: string, chatId: number, user
       await handleAnalyzeCommand(chatId, userId, args);
       break;
     }
+    case 'feedback': {
+      const { handleFeedback } = await import('./commands/feedback.ts');
+      await handleFeedback(chatId, userId);
+      break;
+    }
     case 'buy': {
       const { handleBuyCommand } = await import('./handlers/payment.ts');
       await handleBuyCommand(chatId);
@@ -234,6 +239,28 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
   logger.info('callback_query', { userId: from.id, data, chatId });
 
   try {
+    // Feedback handlers
+    if (data.startsWith('feedback_')) {
+      const { handleFeedbackTypeCallback, handleFeedbackRating, handleFeedbackSkipRating, handleFeedbackCancel } = await import('./commands/feedback.ts');
+      
+      if (data.startsWith('feedback_type_')) {
+        const type = data.replace('feedback_type_', '');
+        await handleFeedbackTypeCallback(chatId, from.id, type, messageId!);
+        await answerCallbackQuery(id);
+      } else if (data.startsWith('feedback_rate_')) {
+        const rating = parseInt(data.replace('feedback_rate_', ''));
+        await handleFeedbackRating(chatId, from.id, rating);
+        await answerCallbackQuery(id, '✅ Спасибо за оценку!');
+      } else if (data === 'feedback_skip_rating') {
+        await handleFeedbackSkipRating(chatId);
+        await answerCallbackQuery(id);
+      } else if (data === 'feedback_cancel') {
+        await handleFeedbackCancel(chatId);
+        await answerCallbackQuery(id);
+      }
+      return;
+    }
+    
     // Navigation handlers
     if (data.startsWith('nav_') || data.startsWith('lib_page_') || data.startsWith('project_page_')) {
       const { handleNavigationCallback } = await import('./handlers/navigation.ts');

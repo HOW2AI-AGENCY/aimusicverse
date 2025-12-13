@@ -110,7 +110,7 @@ serve(async (req) => {
     // Build caption with version info
     let caption = `🎵 ${trackTitle}`;
     if (durationText) caption += `\n⏱ ${durationText}`;
-    caption += `\n\n✨ Сгенерировано с помощью MusicVerse AI`;
+    caption += `\n\n✨ Создано в @AIMusicVerseBot ✨`;
 
     let response: Response;
     let result: any;
@@ -122,7 +122,7 @@ serve(async (req) => {
       formData.append('chat_id', chatId.toString());
       formData.append('audio', audioBlob, filename);
       formData.append('title', trackTitle);
-      formData.append('performer', 'MusicVerse AI');
+      formData.append('performer', '@AIMusicVerseBot');
       formData.append('caption', caption);
       
       if (duration) {
@@ -155,7 +155,7 @@ serve(async (req) => {
         audio: audioUrl,
         caption,
         title: trackTitle,
-        performer: 'MusicVerse AI',
+        performer: '@AIMusicVerseBot',
         duration: duration ? Math.round(duration) : undefined,
         thumbnail: coverUrl || undefined,
         reply_markup: {

@@ -448,8 +448,8 @@ Deno.serve(async (req) => {
         
         // Only first message has full caption, others just version label
         const caption = isFirst
-          ? `🎵 *${escapeMarkdown('Генерация завершена!')}*\n\n🎶 *${escapeMarkdown(title || 'Новый трек')}*${style ? `\n🎸 ${escapeMarkdown(style.split(',')[0])}` : ''}${tagsText}${versionText}\n\n_Версия ${clip.versionLabel}_ ${durationText ? `\\| ${durationText}` : ''}`
-          : `_Версия ${clip.versionLabel}_ ${durationText ? `\\| ${durationText}` : ''}`;
+          ? `🎵 *${escapeMarkdown('Генерация завершена!')}*\n\n🎶 *${escapeMarkdown(title || 'Новый трек')}*${style ? `\n🎸 ${escapeMarkdown(style.split(',')[0])}` : ''}${tagsText}${versionText}\n\n_Версия ${clip.versionLabel}_ ${durationText ? `\\| ${durationText}` : ''}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`
+          : `_Версия ${clip.versionLabel}_ ${durationText ? `\\| ${durationText}` : ''}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
         
         const audioResult = await sendTelegramAudio(finalChatId, clip.audioUrl, {
           caption,

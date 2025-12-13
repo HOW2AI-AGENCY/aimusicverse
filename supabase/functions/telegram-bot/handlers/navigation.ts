@@ -535,6 +535,9 @@ export async function handleNavigationCallback(
     await handleNavigationSettings(chatId, userId, messageId);
   } else if (callbackData === 'nav_help') {
     await handleNavigationHelp(chatId, userId, messageId);
+  } else if (callbackData === 'feedback_start') {
+    const { handleFeedback } = await import('../commands/feedback.ts');
+    await handleFeedback(chatId, userId);
   } else if (callbackData === 'nav_back') {
     const prevRoute = getPreviousRoute(userId);
     await handleNavigationCallback(`nav_${prevRoute}`, chatId, userId, messageId, queryId);

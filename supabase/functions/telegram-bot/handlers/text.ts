@@ -20,6 +20,12 @@ export async function handleTextMessage(
   userId: number,
   text: string
 ): Promise<boolean> {
+  // Check if user is in feedback session
+  const { isInFeedbackSession, handleFeedbackMessage } = await import('../commands/feedback.ts');
+  if (isInFeedbackSession(chatId)) {
+    return await handleFeedbackMessage(chatId, userId, text);
+  }
+  
   // Check if user has pending upload - might be providing description/style
   const pending = getPendingUpload(userId);
   const context = getConversationContext(userId);
