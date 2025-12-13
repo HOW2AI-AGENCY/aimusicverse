@@ -2,9 +2,10 @@
  * Artist handlers for Telegram bot
  */
 
-import { sendMessage, editMessageText, answerCallbackQuery, sendPhoto } from '../telegram-api.ts';
+import { sendMessage, editMessageText, answerCallbackQuery, sendPhoto, deleteMessage } from '../telegram-api.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { escapeMarkdownV2 } from '../utils/text-processor.ts';
+import { deleteActiveMenu, setActiveMenuMessageId } from '../core/active-menu-manager.ts';
 
 const supabase = createClient(
   Deno.env.get('SUPABASE_URL')!,
@@ -175,18 +176,14 @@ export async function handleArtistDetails(
   // Try to send with photo if available
   if (artist.avatar_url) {
     try {
-      // Delete old message and send new with photo
-      const TELEGRAM_API = `https://api.telegram.org/bot${Deno.env.get('TELEGRAM_BOT_TOKEN')}`;
-      await fetch(`${TELEGRAM_API}/deleteMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, message_id: messageId }),
-      });
+      // Delete old message
+      await deleteMessage(chatId, messageId);
       
-      await sendPhoto(chatId, artist.avatar_url, { 
+      const result = await sendPhoto(chatId, artist.avatar_url, { 
         caption: text, 
         replyMarkup: { inline_keyboard: keyboard } 
       });
+      
       await answerCallbackQuery(callbackId);
       return;
     } catch {

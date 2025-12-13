@@ -4,10 +4,11 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { BOT_CONFIG } from '../config.ts';
-import { sendMessage, sendAudio } from '../telegram-api.ts';
+import { sendMessage, sendAudio, deleteMessage } from '../telegram-api.ts';
 import { consumePendingUpload, type PendingUpload, setPendingAudio } from '../core/db-session-store.ts';
 import { escapeMarkdown, trackMetric } from '../utils/index.ts';
 import { createLogger } from '../../_shared/logger.ts';
+import { deleteActiveMenu, setActiveMenuMessageId } from '../core/active-menu-manager.ts';
 
 const logger = createLogger('telegram-audio-handler');
 
@@ -55,12 +56,15 @@ export async function handleAudioMessage(
   const startTime = Date.now();
   
   try {
+    // Delete any active menu before showing audio-related messages
+    await deleteActiveMenu(userId, chatId);
+    
     // Check for pending upload (now async with DB)
     const pendingUpload = await consumePendingUpload(userId);
     
     if (!pendingUpload) {
       // No pending upload - analyze audio first, then show options
-      await sendMessage(chatId, `🎵 *Аудио получено\\!*\n\n⏳ Анализируем стиль и распознаём текст\\.\\.\\.`);
+      const analysisMsg = await sendMessage(chatId, `🎵 *Аудио получено\\!*\n\n⏳ Анализируем стиль и распознаём текст\\.\\.\\.`);
       
       // Get file URL and analyze with audio-flamingo
       const fileUrl = await getFileUrl(audio.file_id);
@@ -186,11 +190,21 @@ export async function handleAudioMessage(
         ]
       ];
 
-      await sendMessage(chatId, `🎵 *Аудио проанализировано\\!*${analysisText}
+      // Delete the loading message
+      if (analysisMsg?.result?.message_id) {
+        await deleteMessage(chatId, analysisMsg.result.message_id);
+      }
+      
+      const resultMsg = await sendMessage(chatId, `🎵 *Аудио проанализировано\\!*${analysisText}
 
 Выберите действие:`, {
         inline_keyboard: keyboardRows
       });
+      
+      // Save as active menu for auto-cleanup
+      if (resultMsg?.result?.message_id) {
+        await setActiveMenuMessageId(userId, chatId, resultMsg.result.message_id, 'audio_actions');
+      }
       
       return;
     }

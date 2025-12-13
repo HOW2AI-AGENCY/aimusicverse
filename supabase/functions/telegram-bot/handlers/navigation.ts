@@ -5,13 +5,15 @@ import {
   createProjectControls,
   getMainBanner 
 } from '../keyboards/main-menu.ts';
-import { sendPhoto, editMessageMedia, editMessageCaption, answerCallbackQuery, sendMessage } from '../telegram-api.ts';
+import { sendPhoto, editMessageMedia, editMessageCaption, answerCallbackQuery, sendMessage, deleteMessage } from '../telegram-api.ts';
 import { buildMessage, createSection, createKeyValue } from '../utils/message-formatter.ts';
 import { ButtonBuilder, mediaPlayerKeyboard, paginationKeyboard } from '../utils/button-builder.ts';
 import { trackMessage, messageManager } from '../utils/message-manager.ts';
 import { escapeMarkdownV2 } from '../utils/text-processor.ts';
 import { navigateTo, getPreviousRoute, canGoBack, getBreadcrumb } from '../core/navigation-state.ts';
 import { BOT_CONFIG } from '../config.ts';
+import { deleteActiveMenu, setActiveMenuMessageId } from '../core/active-menu-manager.ts';
+import { getMenuImage } from '../keyboards/menu-images.ts';
 
 const MAIN_BANNER = getMainBanner();
 
@@ -41,6 +43,9 @@ export async function handleNavigationMain(chatId: number, messageId?: number, u
   });
   
   const keyboard = createMainMenuKeyboard();
+  
+  // Get menu image
+  const menuImage = await getMenuImage('mainMenu');
 
   if (messageId) {
     await messageManager.deleteCategory(chatId, 'main_menu', { except: messageId });
@@ -50,7 +55,7 @@ export async function handleNavigationMain(chatId: number, messageId?: number, u
       messageId,
       {
         type: 'photo',
-        media: MAIN_BANNER,
+        media: menuImage,
         caption,
         parse_mode: 'MarkdownV2'
       },
@@ -58,14 +63,29 @@ export async function handleNavigationMain(chatId: number, messageId?: number, u
     );
     
     await trackMessage(chatId, messageId, 'menu', 'main_menu', { persistent: true });
+    
+    // Also update active menu state
+    if (userId) {
+      await setActiveMenuMessageId(userId, chatId, messageId, 'main_menu');
+    }
   } else {
-    const result = await sendPhoto(chatId, MAIN_BANNER, {
+    // Delete previous active menu before sending new one
+    if (userId) {
+      await deleteActiveMenu(userId, chatId);
+    }
+    
+    const result = await sendPhoto(chatId, menuImage, {
       caption,
       replyMarkup: keyboard
     });
     
     if (result?.result?.message_id) {
       await trackMessage(chatId, result.result.message_id, 'menu', 'main_menu', { persistent: true });
+      
+      // Save as active menu
+      if (userId) {
+        await setActiveMenuMessageId(userId, chatId, result.result.message_id, 'main_menu');
+      }
     }
   }
 }
