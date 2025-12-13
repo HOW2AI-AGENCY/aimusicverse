@@ -4,19 +4,64 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { FolderOpen, Search, Plus, ChevronRight } from 'lucide-react';
+import { FolderOpen, Search, Plus, ChevronRight, Trash2, MoreVertical, Music, Calendar, Disc } from 'lucide-react';
 import { CreateProjectSheet } from '@/components/CreateProjectSheet';
 import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
+import { ru } from 'date-fns/locale';
+import { toast } from 'sonner';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+
+const statusLabels: Record<string, { label: string; color: string }> = {
+  draft: { label: 'Черновик', color: 'bg-muted text-muted-foreground' },
+  in_progress: { label: 'В работе', color: 'bg-blue-500/20 text-blue-500' },
+  completed: { label: 'Завершен', color: 'bg-green-500/20 text-green-500' },
+  released: { label: 'Выпущен', color: 'bg-purple-500/20 text-purple-500' },
+};
+
+const typeLabels: Record<string, string> = {
+  single: 'Сингл',
+  ep: 'EP',
+  album: 'Альбом',
+  compilation: 'Сборник',
+};
 
 export function ProjectsTab() {
-  const { projects, isLoading } = useProjects();
+  const { projects, isLoading, deleteProject, isDeleting } = useProjects();
   const [searchQuery, setSearchQuery] = useState('');
   const [createSheetOpen, setCreateSheetOpen] = useState(false);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const filteredProjects = projects?.filter((project) =>
     project.title.toLowerCase().includes(searchQuery.toLowerCase())
   ) || [];
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteProject(id);
+      setDeleteConfirmId(null);
+      toast.success('Проект удален');
+    } catch (error) {
+      toast.error('Ошибка при удалении');
+    }
+  };
 
   if (isLoading) {
     return (
@@ -55,42 +100,103 @@ export function ProjectsTab() {
       {/* Projects List */}
       {filteredProjects.length > 0 ? (
         <div className="space-y-2">
-          {filteredProjects.map((project) => (
-            <div
-              key={project.id}
-              onClick={() => navigate(`/projects/${project.id}`)}
-              className={cn(
-                "flex items-center gap-2.5 p-2.5 rounded-xl bg-card/50 border border-border/50",
-                "active:bg-card active:border-border cursor-pointer transition-all",
-                "active:scale-[0.99] touch-manipulation"
-              )}
-            >
-              {/* Cover */}
-              <div className="w-12 h-12 rounded-lg bg-secondary overflow-hidden shrink-0">
-                <img
-                  src={project.cover_url || `https://placehold.co/48x48/1a1a1a/ffffff?text=${project.title.charAt(0)}`}
-                  alt={project.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
+          {filteredProjects.map((project) => {
+            const status = statusLabels[project.status || 'draft'];
+            const projectType = typeLabels[project.project_type || 'album'] || project.project_type;
+            
+            return (
+              <div
+                key={project.id}
+                className={cn(
+                  "group relative overflow-hidden rounded-xl bg-gradient-to-br from-card/80 to-card/40",
+                  "border border-border/50 hover:border-primary/30 transition-all duration-200",
+                  "active:scale-[0.99] touch-manipulation"
+                )}
+              >
+                <div
+                  onClick={() => navigate(`/projects/${project.id}`)}
+                  className="flex items-center gap-3 p-3 cursor-pointer"
+                >
+                  {/* Cover */}
+                  <div className="relative w-14 h-14 rounded-lg bg-secondary overflow-hidden shrink-0 shadow-md">
+                    {project.cover_url ? (
+                      <img
+                        src={project.cover_url}
+                        alt={project.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
+                        <Disc className="w-6 h-6 text-primary/50" />
+                      </div>
+                    )}
+                    {/* Type badge overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-black/60 px-1 py-0.5">
+                      <span className="text-[8px] text-white/90 font-medium uppercase tracking-wide">
+                        {projectType}
+                      </span>
+                    </div>
+                  </div>
 
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <h3 className="font-medium text-sm truncate">{project.title}</h3>
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <Badge variant="secondary" className="text-[9px] h-4 px-1.5">
-                    {project.genre || 'Без жанра'}
-                  </Badge>
-                  <span className="text-[10px] text-muted-foreground">
-                    {project.project_type?.replace('_', ' ') || 'album'}
-                  </span>
+                  {/* Info */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-sm truncate group-hover:text-primary transition-colors">
+                      {project.title}
+                    </h3>
+                    <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                      <Badge className={cn("text-[9px] h-4 px-1.5 border-0", status.color)}>
+                        {status.label}
+                      </Badge>
+                      {project.genre && (
+                        <Badge variant="secondary" className="text-[9px] h-4 px-1.5">
+                          <Music className="w-2.5 h-2.5 mr-0.5" />
+                          {project.genre}
+                        </Badge>
+                      )}
+                    </div>
+                    {project.created_at && (
+                      <div className="flex items-center gap-1 mt-1.5 text-[10px] text-muted-foreground">
+                        <Calendar className="w-2.5 h-2.5" />
+                        {format(new Date(project.created_at), 'd MMM yyyy', { locale: ru })}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Actions */}
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <MoreVertical className="w-4 h-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/projects/${project.id}`);
+                      }}>
+                        <FolderOpen className="w-4 h-4 mr-2" />
+                        Открыть
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setDeleteConfirmId(project.id);
+                        }}
+                        className="text-destructive"
+                      >
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Удалить
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+
+                  {/* Arrow */}
+                  <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
                 </div>
               </div>
-
-              {/* Arrow */}
-              <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
-            </div>
-          ))}
+            );
+          })}
         </div>
       ) : (
         <div className="text-center py-12">
@@ -106,6 +212,27 @@ export function ProjectsTab() {
           )}
         </div>
       )}
+
+      {/* Delete Confirmation */}
+      <AlertDialog open={!!deleteConfirmId} onOpenChange={(open) => !open && setDeleteConfirmId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Удалить проект?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Это действие нельзя отменить. Все треки проекта останутся в библиотеке.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Отмена</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={() => deleteConfirmId && handleDelete(deleteConfirmId)}
+              disabled={isDeleting}
+            >
+              {isDeleting ? 'Удаление...' : 'Удалить'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <CreateProjectSheet 
         open={createSheetOpen} 
