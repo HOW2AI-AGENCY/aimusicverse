@@ -1,9 +1,10 @@
-import { Sparkles, Library, FolderOpen, ListMusic, Upload, Music2, Guitar, Wand2 } from 'lucide-react';
+import { Sparkles, Library, FolderOpen, ListMusic, Upload, Music2, Guitar, Disc, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion } from '@/lib/motion';
 import { useState } from 'react';
-import { UploadAudioDialog } from '@/components/UploadAudioDialog';
+import { AudioCoverDialog } from '@/components/AudioCoverDialog';
+import { AudioExtendDialog } from '@/components/AudioExtendDialog';
 import { MusicRecognitionDialog } from '@/components/music-recognition/MusicRecognitionDialog';
 import { GuitarRecordDialog } from '@/components/generate-form/GuitarRecordDialog';
 import { TooltipWrapper } from '@/components/tooltips';
@@ -23,7 +24,8 @@ const quickActions = [
 export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
   const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
-  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+  const [coverDialogOpen, setCoverDialogOpen] = useState(false);
+  const [extendDialogOpen, setExtendDialogOpen] = useState(false);
   const [recognitionDialogOpen, setRecognitionDialogOpen] = useState(false);
   const [guitarDialogOpen, setGuitarDialogOpen] = useState(false);
 
@@ -97,9 +99,9 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
           visible: { transition: { staggerChildren: 0.03, delayChildren: 0.1 } }
         }}
       >
-        {/* Upload Audio Button */}
+        {/* Cover Audio Button */}
         <motion.button
-          onClick={() => handleAction(() => setUploadDialogOpen(true))}
+          onClick={() => handleAction(() => setCoverDialogOpen(true))}
           className={cn(
             "group relative flex items-center gap-2 px-3 py-2.5 rounded-xl",
             "bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20",
@@ -111,8 +113,8 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
           }}
           whileTap={{ scale: 0.97 }}
         >
-          <Upload className="w-4 h-4 text-blue-400 shrink-0" />
-          <span className="text-xs font-medium">Загрузить</span>
+          <Disc className="w-4 h-4 text-blue-400 shrink-0" />
+          <span className="text-xs font-medium">Кавер</span>
         </motion.button>
 
         {/* Guitar Record Button with NEW badge */}
@@ -159,9 +161,14 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         </motion.button>
       </motion.div>
 
-      <UploadAudioDialog
-        open={uploadDialogOpen}
-        onOpenChange={setUploadDialogOpen}
+      <AudioCoverDialog
+        open={coverDialogOpen}
+        onOpenChange={setCoverDialogOpen}
+      />
+
+      <AudioExtendDialog
+        open={extendDialogOpen}
+        onOpenChange={setExtendDialogOpen}
       />
 
       <MusicRecognitionDialog

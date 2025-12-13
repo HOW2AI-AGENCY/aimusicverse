@@ -11,7 +11,7 @@ import { TrackDetailSheet } from '@/components/TrackDetailSheet';
 import { LyricsSheet } from '@/components/LyricsSheet';
 import { TrackDetailDialog } from '@/components/TrackDetailDialog';
 import { LyricsDialog } from '@/components/LyricsDialog';
-import { UploadAudioDialog } from '@/components/UploadAudioDialog';
+import { AudioCoverDialog } from '@/components/AudioCoverDialog';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface DialogStates {
@@ -82,10 +82,9 @@ export function TrackDialogsPortal({
         track={track}
       />
 
-      <UploadAudioDialog
+      <AudioCoverDialog
         open={dialogs.cover}
         onOpenChange={(open) => !open && onCloseDialog('cover')}
-        defaultMode="cover"
         prefillData={{
           title: track.title,
           style: track.style,
