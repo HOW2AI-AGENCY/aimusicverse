@@ -644,10 +644,17 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
     } else if (data === 'status') {
       const { handleStatus } = await import('./commands/status.ts');
       await handleStatus(chatId, from.id, messageId);
-    } else if (data === 'main_menu') {
-      // Navigate to main menu properly
-      const { handleNavigationMain } = await import('./handlers/navigation.ts');
-      await handleNavigationMain(chatId, messageId, from.id);
+    } else if (data === 'main_menu' || data === 'open_main_menu') {
+      // Navigate to main menu - delete old and send new for open_main_menu
+      if (data === 'open_main_menu') {
+        const { deleteAndSendNewMenu } = await import('./core/active-menu-manager.ts');
+        const { createMainMenuKeyboard } = await import('./keyboards/main-menu.ts');
+        const { MESSAGES } = await import('./config.ts');
+        await deleteAndSendNewMenu(chatId, from.id, MESSAGES.welcome, createMainMenuKeyboard(), 'main_menu', 'MarkdownV2');
+      } else {
+        const { handleNavigationMain } = await import('./handlers/navigation.ts');
+        await handleNavigationMain(chatId, messageId, from.id);
+      }
     } else if (data.startsWith('style_')) {
       const style = data.replace('style_', '');
       const styleNames: Record<string, string> = {

@@ -56,7 +56,7 @@ Deno.serve(async (req) => {
     // Build message with optional blog link
     const fullMessage = `📢 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}`;
     
-    const inlineKeyboard: { text: string; url: string }[][] = [];
+    const inlineKeyboard: { text: string; callback_data?: string; url?: string }[][] = [];
     
     if (blogPostId) {
       const miniAppUrl = Deno.env.get('MINI_APP_URL') || 'https://t.me/AIMusicVerseBot/app';
@@ -64,10 +64,41 @@ Deno.serve(async (req) => {
         { text: '📖 Читать статью', url: `${miniAppUrl}?startapp=blog_${blogPostId}` }
       ]);
     }
+    
+    // Always add menu button to broadcasts
+    inlineKeyboard.push([
+      { text: '🏠 Открыть меню', callback_data: 'open_main_menu' }
+    ]);
 
-    // Send messages in batches
+    // Send messages in batches - delete previous menu before sending broadcast
     for (const user of usersWithChat) {
       try {
+        // Try to delete user's active menu before sending broadcast
+        const { data: menuState } = await supabase
+          .from('telegram_menu_state')
+          .select('active_menu_message_id')
+          .eq('chat_id', user.telegram_chat_id)
+          .single();
+
+        if (menuState?.active_menu_message_id) {
+          // Delete the old menu message
+          await fetch(`${TELEGRAM_API}/deleteMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: user.telegram_chat_id,
+              message_id: menuState.active_menu_message_id,
+            }),
+          });
+
+          // Clear the active menu state
+          await supabase
+            .from('telegram_menu_state')
+            .update({ active_menu_message_id: null })
+            .eq('chat_id', user.telegram_chat_id);
+        }
+
+        // Send broadcast message (NOT saving as active menu - it's content, not navigation)
         const response = await fetch(`${TELEGRAM_API}/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

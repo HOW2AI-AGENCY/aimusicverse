@@ -466,7 +466,7 @@ Deno.serve(async (req) => {
               ],
               [
                 { text: '🎵 Создать еще', callback_data: 'generate' },
-                { text: '📚 Библиотека', callback_data: 'library' }
+                { text: '🏠 Меню', callback_data: 'open_main_menu' }
               ]
             ]
           } : undefined
@@ -541,7 +541,7 @@ Deno.serve(async (req) => {
             ],
             [
               { text: '🎵 Создать еще', callback_data: 'generate' },
-              { text: '📚 Библиотека', callback_data: 'library' }
+              { text: '🏠 Меню', callback_data: 'open_main_menu' }
             ]
           ]
         }
@@ -699,7 +699,7 @@ Deno.serve(async (req) => {
               ],
               [
                 { text: '🎵 Создать еще', callback_data: 'generate' },
-                { text: '📚 Библиотека', callback_data: 'library' }
+                { text: '🏠 Меню', callback_data: 'open_main_menu' }
               ]
             ]
           }
