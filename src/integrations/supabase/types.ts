@@ -235,6 +235,27 @@ export type Database = {
           },
         ]
       }
+      blocked_users: {
+        Row: {
+          blocked_id: string
+          blocker_id: string
+          created_at: string
+          id: string
+        }
+        Insert: {
+          blocked_id: string
+          blocker_id: string
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          blocked_id?: string
+          blocker_id?: string
+          created_at?: string
+          id?: string
+        }
+        Relationships: []
+      }
       blog_posts: {
         Row: {
           author_id: string
@@ -309,6 +330,57 @@ export type Database = {
           title?: string
         }
         Relationships: []
+      }
+      comments: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          is_moderated: boolean | null
+          likes_count: number | null
+          parent_id: string | null
+          track_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          is_moderated?: boolean | null
+          likes_count?: number | null
+          parent_id?: string | null
+          track_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_moderated?: boolean | null
+          likes_count?: number | null
+          parent_id?: string | null
+          track_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "comments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "comments_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       credit_transactions: {
         Row: {
@@ -767,6 +839,48 @@ export type Database = {
         }
         Relationships: []
       }
+      moderation_reports: {
+        Row: {
+          created_at: string
+          details: string | null
+          entity_id: string
+          entity_type: string
+          id: string
+          reason: string
+          reported_user_id: string
+          reporter_id: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          details?: string | null
+          entity_id: string
+          entity_type: string
+          id?: string
+          reason: string
+          reported_user_id: string
+          reporter_id: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          details?: string | null
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          reason?: string
+          reported_user_id?: string
+          reporter_id?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       music_projects: {
         Row: {
           ai_context: Json | null
@@ -1021,7 +1135,10 @@ export type Database = {
       profiles: {
         Row: {
           created_at: string
+          display_name: string | null
           first_name: string
+          followers_count: number | null
+          following_count: number | null
           id: string
           is_public: boolean | null
           language_code: string | null
@@ -1039,7 +1156,10 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          display_name?: string | null
           first_name: string
+          followers_count?: number | null
+          following_count?: number | null
           id?: string
           is_public?: boolean | null
           language_code?: string | null
@@ -1057,7 +1177,10 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          display_name?: string | null
           first_name?: string
+          followers_count?: number | null
+          following_count?: number | null
           id?: string
           is_public?: boolean | null
           language_code?: string | null
@@ -1253,40 +1376,67 @@ export type Database = {
       }
       reference_audio: {
         Row: {
+          analysis_status: string | null
+          analyzed_at: string | null
           created_at: string
+          detected_language: string | null
           duration_seconds: number | null
           file_name: string
           file_size: number | null
           file_url: string
+          genre: string | null
+          has_vocals: boolean | null
           id: string
           metadata: Json | null
           mime_type: string | null
+          mood: string | null
           source: string
+          transcription: string | null
+          transcription_method: string | null
           user_id: string
+          vocal_style: string | null
         }
         Insert: {
+          analysis_status?: string | null
+          analyzed_at?: string | null
           created_at?: string
+          detected_language?: string | null
           duration_seconds?: number | null
           file_name: string
           file_size?: number | null
           file_url: string
+          genre?: string | null
+          has_vocals?: boolean | null
           id?: string
           metadata?: Json | null
           mime_type?: string | null
+          mood?: string | null
           source?: string
+          transcription?: string | null
+          transcription_method?: string | null
           user_id: string
+          vocal_style?: string | null
         }
         Update: {
+          analysis_status?: string | null
+          analyzed_at?: string | null
           created_at?: string
+          detected_language?: string | null
           duration_seconds?: number | null
           file_name?: string
           file_size?: number | null
           file_url?: string
+          genre?: string | null
+          has_vocals?: boolean | null
           id?: string
           metadata?: Json | null
           mime_type?: string | null
+          mood?: string | null
           source?: string
+          transcription?: string | null
+          transcription_method?: string | null
           user_id?: string
+          vocal_style?: string | null
         }
         Relationships: []
       }
@@ -2025,6 +2175,8 @@ export type Database = {
           local_cover_url: string | null
           local_video_url: string | null
           lyrics: string | null
+          lyrics_language: string | null
+          lyrics_transcription_method: string | null
           model_name: string | null
           negative_tags: string | null
           play_count: number | null
@@ -2068,6 +2220,8 @@ export type Database = {
           local_cover_url?: string | null
           local_video_url?: string | null
           lyrics?: string | null
+          lyrics_language?: string | null
+          lyrics_transcription_method?: string | null
           model_name?: string | null
           negative_tags?: string | null
           play_count?: number | null
@@ -2111,6 +2265,8 @@ export type Database = {
           local_cover_url?: string | null
           local_video_url?: string | null
           lyrics?: string | null
+          lyrics_language?: string | null
+          lyrics_transcription_method?: string | null
           model_name?: string | null
           negative_tags?: string | null
           play_count?: number | null
@@ -2324,6 +2480,27 @@ export type Database = {
           total_tracks?: number | null
           updated_at?: string | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      user_follows: {
+        Row: {
+          created_at: string
+          follower_id: string
+          following_id: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          follower_id: string
+          following_id: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          follower_id?: string
+          following_id?: string
+          id?: string
         }
         Relationships: []
       }

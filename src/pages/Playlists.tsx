@@ -6,7 +6,6 @@ import { usePlaylists } from '@/hooks/usePlaylists';
 import { PlaylistCard } from '@/components/playlist/PlaylistCard';
 import { CreatePlaylistDialog } from '@/components/playlist/CreatePlaylistDialog';
 import { EditPlaylistDialog } from '@/components/playlist/EditPlaylistDialog';
-import { PlaylistDetailSheet } from '@/components/playlist/PlaylistDetailSheet';
 import { SharePlaylistDialog } from '@/components/playlist/SharePlaylistDialog';
 import type { Playlist } from '@/hooks/usePlaylists';
 
@@ -15,29 +14,7 @@ export default function Playlists() {
   const { playlists, isLoading, deletePlaylist } = usePlaylists();
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editingPlaylist, setEditingPlaylist] = useState<Playlist | null>(null);
-  const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(null);
   const [sharingPlaylist, setSharingPlaylist] = useState<Playlist | null>(null);
-
-  // Handle deep link - open playlist from URL params
-  useEffect(() => {
-    let mounted = true;
-    
-    const handleDeepLink = () => {
-      const playlistId = searchParams.get('playlist');
-      if (playlistId && playlists.length > 0 && mounted) {
-        const playlist = playlists.find(p => p.id === playlistId);
-        if (playlist) {
-          setSelectedPlaylist(playlist);
-        }
-      }
-    };
-    
-    handleDeepLink();
-    
-    return () => {
-      mounted = false;
-    };
-  }, [searchParams, playlists]);
 
   const handleDelete = async (playlist: Playlist) => {
     if (confirm(`Удалить плейлист "${playlist.title}"?`)) {
@@ -100,7 +77,7 @@ export default function Playlists() {
                 key={playlist.id}
                 playlist={playlist}
                 formatDuration={formatDuration}
-                onOpen={() => setSelectedPlaylist(playlist)}
+                onOpen={() => setEditingPlaylist(playlist)}
                 onEdit={() => setEditingPlaylist(playlist)}
                 onDelete={() => handleDelete(playlist)}
                 onShare={() => setSharingPlaylist(playlist)}
@@ -119,29 +96,13 @@ export default function Playlists() {
       <EditPlaylistDialog
         playlist={editingPlaylist}
         open={!!editingPlaylist}
-        onOpenChange={(open) => !open && setEditingPlaylist(null)}
-      />
-
-      <PlaylistDetailSheet
-        playlist={selectedPlaylist}
-        open={!!selectedPlaylist}
-        onOpenChange={(open) => !open && setSelectedPlaylist(null)}
-        onEdit={() => {
-          if (selectedPlaylist) {
-            setEditingPlaylist(selectedPlaylist);
-          }
-        }}
-        onShare={() => {
-          if (selectedPlaylist) {
-            setSharingPlaylist(selectedPlaylist);
-          }
-        }}
+        onOpenChange={(open: boolean) => !open && setEditingPlaylist(null)}
       />
 
       <SharePlaylistDialog
         playlist={sharingPlaylist}
         open={!!sharingPlaylist}
-        onOpenChange={(open) => !open && setSharingPlaylist(null)}
+        onOpenChange={(open: boolean) => !open && setSharingPlaylist(null)}
       />
     </div>
   );
