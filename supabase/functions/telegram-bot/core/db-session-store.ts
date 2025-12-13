@@ -158,6 +158,8 @@ export async function setPendingAudio(
     style?: string;
     genre?: string;
     mood?: string;
+    lyrics?: string;
+    hasVocals?: boolean;
   }
 ): Promise<void> {
   const supabase = getSupabase();
@@ -204,7 +206,7 @@ export async function setPendingAudio(
  */
 export async function consumePendingAudio(
   telegramUserId: number
-): Promise<{ fileId: string; fileType: string; analysisResult?: { style?: string; genre?: string; mood?: string } } | null> {
+): Promise<{ fileId: string; fileType: string; analysisResult?: { style?: string; genre?: string; mood?: string; lyrics?: string; hasVocals?: boolean } } | null> {
   const supabase = getSupabase();
   
   try {
@@ -236,6 +238,81 @@ export async function consumePendingAudio(
   } catch (error) {
     logger.error('Error in consumePendingAudio', error);
     return null;
+  }
+}
+
+/**
+ * Get pending audio without consuming it (for show_lyrics etc.)
+ */
+export async function getPendingAudioWithoutConsuming(
+  telegramUserId: number
+): Promise<{ fileId: string; fileType: string; analysisResult?: { style?: string; genre?: string; mood?: string; lyrics?: string; hasVocals?: boolean } } | null> {
+  const supabase = getSupabase();
+  
+  try {
+    const { data, error } = await supabase
+      .from('telegram_bot_sessions')
+      .select('*')
+      .eq('telegram_user_id', telegramUserId)
+      .eq('session_type', 'pending_audio')
+      .gt('expires_at', new Date().toISOString())
+      .single();
+
+    if (error || !data) {
+      return null;
+    }
+
+    const options = data.options as Record<string, unknown>;
+    
+    return {
+      fileId: options.fileId as string,
+      fileType: options.fileType as string,
+      analysisResult: options.analysisResult as { style?: string; genre?: string; mood?: string; lyrics?: string; hasVocals?: boolean } | undefined,
+    };
+  } catch (error) {
+    logger.error('Error in getPendingAudioWithoutConsuming', error);
+    return null;
+  }
+}
+
+/**
+ * Update pending audio analysis results
+ */
+export async function updatePendingAudioAnalysis(
+  telegramUserId: number,
+  analysisUpdate: { lyrics?: string; hasVocals?: boolean; genre?: string; mood?: string }
+): Promise<void> {
+  const supabase = getSupabase();
+  
+  try {
+    const { data, error: fetchError } = await supabase
+      .from('telegram_bot_sessions')
+      .select('options')
+      .eq('telegram_user_id', telegramUserId)
+      .eq('session_type', 'pending_audio')
+      .single();
+
+    if (fetchError || !data) return;
+
+    const currentOptions = data.options as Record<string, unknown>;
+    const currentAnalysis = (currentOptions.analysisResult || {}) as Record<string, unknown>;
+    
+    const newOptions = {
+      ...currentOptions,
+      analysisResult: {
+        ...currentAnalysis,
+        ...analysisUpdate,
+      },
+    };
+
+    await supabase
+      .from('telegram_bot_sessions')
+      .update({ options: newOptions })
+      .eq('telegram_user_id', telegramUserId)
+      .eq('session_type', 'pending_audio');
+      
+  } catch (error) {
+    logger.error('Error in updatePendingAudioAnalysis', error);
   }
 }
 

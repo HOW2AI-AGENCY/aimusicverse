@@ -408,6 +408,14 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
       return;
     }
 
+    // Show lyrics from reference audio
+    if (data.startsWith('show_lyrics_')) {
+      const refId = data.replace('show_lyrics_', '');
+      const { handleShowLyrics } = await import('./commands/upload.ts');
+      await handleShowLyrics(chatId, refId, messageId!, id);
+      return;
+    }
+
     if (data.startsWith('ref_generate_cover_')) {
       const refId = data.replace('ref_generate_cover_', '');
       const { handleGenerateFromReference } = await import('./commands/upload.ts');

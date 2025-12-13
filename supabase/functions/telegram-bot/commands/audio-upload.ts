@@ -155,24 +155,162 @@ export async function handleAudioActionCallback(
   callbackId: string
 ): Promise<void> {
   const { answerCallbackQuery } = await import('../telegram-api.ts');
-  const { consumePendingAudio } = await import('../core/db-session-store.ts');
+  const { consumePendingAudio, getPendingAudioWithoutConsuming } = await import('../core/db-session-store.ts');
 
-  // Get the stored audio file_id
+  // For show_lyrics and transcribe, we don't consume the audio data (can be reused)
+  if (action === 'show_lyrics') {
+    const audioData = await getPendingAudioWithoutConsuming(userId);
+    if (!audioData?.analysisResult?.lyrics) {
+      await answerCallbackQuery(callbackId, '❌ Текст не найден');
+      return;
+    }
+    
+    await answerCallbackQuery(callbackId, '📝 Показываю текст...');
+    
+    const lyrics = audioData.analysisResult.lyrics;
+    const lyricsText = lyrics.length > 3000 ? lyrics.substring(0, 3000) + '...' : lyrics;
+    
+    await editMessageText(chatId, messageId, `📝 *Текст песни:*
+
+_${escapeMarkdown(lyricsText)}_
+
+Выберите действие:`, {
+      inline_keyboard: [
+        [
+          { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
+          { text: '➕ Расширить', callback_data: 'audio_action_extend' }
+        ],
+        [
+          { text: '📤 Сохранить в облако', callback_data: 'audio_action_upload' }
+        ]
+      ]
+    });
+    return;
+  }
+
+  if (action === 'transcribe') {
+    const audioData = await getPendingAudioWithoutConsuming(userId);
+    if (!audioData) {
+      await answerCallbackQuery(callbackId, '⚠️ Аудио файл истёк. Отправьте снова.');
+      return;
+    }
+    
+    await answerCallbackQuery(callbackId, '🎼 Распознаю текст...');
+    await editMessageText(chatId, messageId, `🎼 *Распознаю текст песни\\.\\.\\.*\n\n⏳ Это может занять 30\\-60 секунд\\.`);
+    
+    try {
+      // Get file URL and transcribe
+      const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
+      const fileResponse = await fetch(`https://api.telegram.org/bot${botToken}/getFile`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ file_id: audioData.fileId }),
+      });
+      const fileData = await fileResponse.json();
+      
+      if (!fileData.ok) {
+        throw new Error('Failed to get file');
+      }
+      
+      const fileUrl = `https://api.telegram.org/file/bot${botToken}/${fileData.result.file_path}`;
+      
+      // Download and upload to storage for analysis
+      const audioResponse = await fetch(fileUrl);
+      const audioBuffer = await audioResponse.arrayBuffer();
+      
+      const fileName = `temp-transcribe/${userId}/${Date.now()}.mp3`;
+      const { error: uploadError } = await supabase.storage
+        .from('project-assets')
+        .upload(fileName, new Uint8Array(audioBuffer), {
+          contentType: 'audio/mpeg',
+          upsert: true,
+        });
+      
+      if (uploadError) throw uploadError;
+      
+      const { data: { publicUrl } } = supabase.storage
+        .from('project-assets')
+        .getPublicUrl(fileName);
+      
+      // Call transcribe-lyrics
+      const { data: transcribeData, error: transcribeError } = await supabase.functions.invoke(
+        'transcribe-lyrics',
+        {
+          body: { audio_url: publicUrl, analyze_style: true },
+        }
+      );
+      
+      if (transcribeError) throw transcribeError;
+      
+      if (transcribeData?.lyrics) {
+        const lyrics = transcribeData.lyrics;
+        const lyricsText = lyrics.length > 2500 ? lyrics.substring(0, 2500) + '...' : lyrics;
+        
+        // Update stored analysis with lyrics
+        const { updatePendingAudioAnalysis } = await import('../core/db-session-store.ts');
+        await updatePendingAudioAnalysis(userId, {
+          lyrics,
+          hasVocals: transcribeData.has_vocals,
+          genre: transcribeData.analysis?.genre,
+          mood: transcribeData.analysis?.mood,
+        });
+        
+        await editMessageText(chatId, messageId, `✅ *Текст распознан\\!*
+
+📝 *Лирика:*
+_${escapeMarkdown(lyricsText)}_
+
+Выберите действие:`, {
+          inline_keyboard: [
+            [
+              { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
+              { text: '➕ Расширить', callback_data: 'audio_action_extend' }
+            ],
+            [
+              { text: '📤 Сохранить в облако', callback_data: 'audio_action_upload' }
+            ]
+          ]
+        });
+      } else if (transcribeData?.has_vocals === false) {
+        await editMessageText(chatId, messageId, `🎸 *Инструментальный трек*
+
+В этом аудио не обнаружен вокал\\.
+
+Выберите действие:`, {
+          inline_keyboard: [
+            [
+              { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
+              { text: '➕ Расширить', callback_data: 'audio_action_extend' }
+            ],
+            [
+              { text: '📤 Сохранить в облако', callback_data: 'audio_action_upload' }
+            ]
+          ]
+        });
+      } else {
+        await editMessageText(chatId, messageId, `❌ Не удалось распознать текст\\. Попробуйте другой файл\\.`);
+      }
+    } catch (error) {
+      const logger = (await import('../utils/index.ts')).logger;
+      logger.error('Transcription failed', error);
+      await editMessageText(chatId, messageId, `❌ Ошибка распознавания текста\\. Попробуйте позже\\.`);
+    }
+    return;
+  }
+
+  if (action === 'midi') {
+    await answerCallbackQuery(callbackId, '🎹 MIDI конвертация...');
+    // Don't consume - redirect to MIDI command flow
+    const { handleMidiCommand } = await import('./midi.ts');
+    await handleMidiCommand(chatId, userId);
+    return;
+  }
+
+  // For cover/extend/upload actions - consume the audio data
   const audioData = await consumePendingAudio(userId);
 
   if (!audioData) {
     await answerCallbackQuery(callbackId, '⚠️ Аудио файл истёк. Отправьте снова.');
-    return;
-  }
-
-  // Handle non-generation actions - these require additional implementation
-  if (action === 'recognize') {
-    await answerCallbackQuery(callbackId, '🔍 Распознавание...');
-    await editMessageText(chatId, messageId, `🔍 *Распознавание песни*\n\nФункция доступна через команду /recognize\\.\nОтправьте аудио после этой команды\\.`);
-    return;
-  } else if (action === 'midi') {
-    await answerCallbackQuery(callbackId, '🎹 MIDI конвертация...');
-    await editMessageText(chatId, messageId, `🎹 *Конвертация в MIDI*\n\nФункция доступна через команду /midi\\.\nОтправьте аудио после этой команды\\.`);
     return;
   }
 

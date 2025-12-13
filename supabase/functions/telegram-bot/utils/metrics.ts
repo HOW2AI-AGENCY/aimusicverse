@@ -29,6 +29,7 @@ export type MetricEventType =
   | 'audio_processing_error'
   | 'upload_started'
   | 'upload_completed'
+  | 'upload_completed_with_analysis'
   | 'upload_failed'
   | 'cover_from_reference'
   | 'extend_from_reference'
@@ -36,7 +37,9 @@ export type MetricEventType =
   | 'analyze_transcription'
   | 'analyze_chords'
   | 'analyze_beats'
-  | 'analyze_full';
+  | 'analyze_full'
+  | 'lyrics_shown'
+  | 'lyrics_transcribed';
 
 interface MetricData {
   eventType: MetricEventType;

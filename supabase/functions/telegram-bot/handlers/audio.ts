@@ -60,12 +60,13 @@ export async function handleAudioMessage(
     
     if (!pendingUpload) {
       // No pending upload - analyze audio first, then show options
-      await sendMessage(chatId, `🎵 *Аудио получено\\!*\n\n⏳ Анализируем стиль\\.\\.\\.`);
+      await sendMessage(chatId, `🎵 *Аудио получено\\!*\n\n⏳ Анализируем стиль и распознаём текст\\.\\.\\.`);
       
       // Get file URL and analyze with audio-flamingo
       const fileUrl = await getFileUrl(audio.file_id);
       let analysisText = '';
-      let analysisResult: { style?: string; genre?: string; mood?: string } | undefined;
+      let analysisResult: { style?: string; genre?: string; mood?: string; lyrics?: string; hasVocals?: boolean } | undefined;
+      let tempPublicUrl: string | undefined;
       
       if (fileUrl) {
         try {
@@ -88,32 +89,71 @@ export async function handleAudioMessage(
                 .from('project-assets')
                 .getPublicUrl(fileName);
               
-              // Call analyze-audio-flamingo function
-              const { data: analysisData, error: analysisError } = await supabase.functions.invoke(
-                'analyze-audio-flamingo',
+              tempPublicUrl = publicUrl;
+              
+              // Call transcribe-lyrics function (includes style analysis)
+              const { data: transcribeData, error: transcribeError } = await supabase.functions.invoke(
+                'transcribe-lyrics',
                 {
                   body: {
                     audio_url: publicUrl,
-                    analysis_type: 'reference',
+                    analyze_style: true,
                   },
                 }
               );
               
-              if (!analysisError && analysisData?.parsed) {
+              if (!transcribeError && transcribeData) {
                 analysisResult = {
-                  style: analysisData.parsed.style_description,
-                  genre: analysisData.parsed.genre,
-                  mood: analysisData.parsed.mood,
+                  style: transcribeData.analysis?.full_response?.substring(0, 300),
+                  genre: transcribeData.analysis?.genre,
+                  mood: transcribeData.analysis?.mood,
+                  lyrics: transcribeData.lyrics,
+                  hasVocals: transcribeData.has_vocals,
                 };
                 
-                if (analysisResult.style) {
-                  analysisText = `\n\n🎼 *Стиль:* _${escapeMarkdown(analysisResult.style.substring(0, 200))}_`;
-                }
                 if (analysisResult.genre) {
-                  analysisText += `\n🎵 *Жанр:* ${escapeMarkdown(analysisResult.genre)}`;
+                  analysisText = `\n\n🎵 *Жанр:* ${escapeMarkdown(analysisResult.genre)}`;
                 }
                 if (analysisResult.mood) {
                   analysisText += `\n💫 *Настроение:* ${escapeMarkdown(analysisResult.mood)}`;
+                }
+                if (analysisResult.hasVocals !== undefined) {
+                  analysisText += analysisResult.hasVocals 
+                    ? `\n🎤 *Вокал:* Обнаружен` 
+                    : `\n🎸 *Тип:* Инструментал`;
+                }
+                if (analysisResult.lyrics) {
+                  const lyricsPreview = analysisResult.lyrics.substring(0, 100);
+                  analysisText += `\n\n📝 *Текст:*\n_${escapeMarkdown(lyricsPreview)}${analysisResult.lyrics.length > 100 ? '\\.\\.\\.' : ''}_`;
+                }
+              } else {
+                // Fallback to simple style analysis
+                const { data: analysisData, error: analysisError } = await supabase.functions.invoke(
+                  'analyze-audio-flamingo',
+                  {
+                    body: {
+                      audio_url: publicUrl,
+                      analysis_type: 'reference',
+                    },
+                  }
+                );
+                
+                if (!analysisError && analysisData?.parsed) {
+                  analysisResult = {
+                    style: analysisData.parsed.style_description,
+                    genre: analysisData.parsed.genre,
+                    mood: analysisData.parsed.mood,
+                  };
+                  
+                  if (analysisResult.style) {
+                    analysisText = `\n\n🎼 *Стиль:* _${escapeMarkdown(analysisResult.style.substring(0, 200))}_`;
+                  }
+                  if (analysisResult.genre) {
+                    analysisText += `\n🎵 *Жанр:* ${escapeMarkdown(analysisResult.genre)}`;
+                  }
+                  if (analysisResult.mood) {
+                    analysisText += `\n💫 *Настроение:* ${escapeMarkdown(analysisResult.mood)}`;
+                  }
                 }
               }
             }
@@ -127,30 +167,36 @@ export async function handleAudioMessage(
       // Store audio file_id with analysis results for reuse when user selects action
       await storeTemporaryAudio(userId, audio.file_id, type, analysisResult);
       
+      // Build keyboard with conditional lyrics button
+      const hasLyrics = analysisResult?.lyrics && analysisResult.lyrics.length > 0;
+      const keyboardRows = [
+        [
+          { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
+          { text: '➕ Расширить трек', callback_data: 'audio_action_extend' }
+        ],
+        [
+          { text: '📤 Сохранить в облако', callback_data: 'audio_action_upload' },
+          hasLyrics 
+            ? { text: '📝 Показать текст', callback_data: 'audio_action_show_lyrics' }
+            : { text: '🎼 Распознать текст', callback_data: 'audio_action_transcribe' }
+        ],
+        [
+          { text: '🎹 Конвертировать в MIDI', callback_data: 'audio_action_midi' }
+        ]
+      ];
+
       await sendMessage(chatId, `🎵 *Аудио проанализировано\\!*${analysisText}
 
-Выберите что хотите сделать:`, {
-        inline_keyboard: [
-          [
-            { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
-            { text: '➕ Расширить трек', callback_data: 'audio_action_extend' }
-          ],
-          [
-            { text: '📤 Загрузить в облако', callback_data: 'audio_action_upload' },
-            { text: '🎼 Распознать текст', callback_data: 'audio_action_recognize' }
-          ],
-          [
-            { text: '🎹 Конвертировать в MIDI', callback_data: 'audio_action_midi' }
-          ]
-        ]
+Выберите действие:`, {
+        inline_keyboard: keyboardRows
       });
       
       return;
     }
     
-    // Handle 'upload' mode - save to cloud storage
+    // Handle 'upload' mode - save to cloud storage with full analysis
     if (pendingUpload.mode === 'upload') {
-      await handleCloudUpload(chatId, userId, audio, type, pendingUpload, startTime);
+      await handleCloudUploadWithAnalysis(chatId, userId, audio, type, pendingUpload, startTime);
       return;
     }
     
@@ -280,7 +326,7 @@ async function storeTemporaryAudio(
   userId: number,
   fileId: string,
   type: 'audio' | 'voice' | 'document',
-  analysisResult?: { style?: string; genre?: string; mood?: string }
+  analysisResult?: { style?: string; genre?: string; mood?: string; lyrics?: string; hasVocals?: boolean }
 ): Promise<void> {
   try {
     await setPendingAudio(userId, fileId, type, analysisResult);
@@ -317,9 +363,9 @@ async function getFileUrl(fileId: string): Promise<string | null> {
 }
 
 /**
- * Handle cloud upload - save audio to storage without generation
+ * Handle cloud upload with full analysis - save audio to storage with style analysis and lyrics extraction
  */
-async function handleCloudUpload(
+async function handleCloudUploadWithAnalysis(
   chatId: number,
   userId: number,
   audio: TelegramAudio | TelegramVoice | TelegramDocument,
@@ -340,7 +386,7 @@ async function handleCloudUpload(
       return;
     }
 
-    await sendMessage(chatId, '⬇️ Загружаю файл в облако\\.\\.\\.');
+    await sendMessage(chatId, '⬇️ Загружаю файл в облако и анализирую\\.\\.\\.');
 
     // Get file from Telegram
     const fileId = audio.file_id;
@@ -393,7 +439,45 @@ async function handleCloudUpload(
     // Get duration if available
     const duration = 'duration' in audio ? audio.duration : null;
 
-    // Save to reference_audio table
+    // Run full analysis with transcribe-lyrics
+    await sendMessage(chatId, '🔍 Анализирую стиль и извлекаю текст\\.\\.\\.');
+    
+    let analysisResult: {
+      genre?: string;
+      mood?: string;
+      vocalStyle?: string;
+      lyrics?: string;
+      hasVocals?: boolean;
+      language?: string;
+    } = {};
+    
+    try {
+      const { data: transcribeData, error: transcribeError } = await supabase.functions.invoke(
+        'transcribe-lyrics',
+        {
+          body: {
+            audio_url: publicUrl,
+            analyze_style: true,
+          },
+        }
+      );
+      
+      if (!transcribeError && transcribeData) {
+        analysisResult = {
+          genre: transcribeData.analysis?.genre,
+          mood: transcribeData.analysis?.mood,
+          vocalStyle: transcribeData.analysis?.vocal_style,
+          lyrics: transcribeData.lyrics,
+          hasVocals: transcribeData.has_vocals,
+          language: transcribeData.language,
+        };
+      }
+    } catch (analysisError) {
+      logger.error('Analysis failed during upload', analysisError);
+      // Continue without analysis
+    }
+
+    // Save to reference_audio table with analysis results
     const { data: savedRef, error: dbError } = await supabase
       .from('reference_audio')
       .insert({
@@ -404,6 +488,14 @@ async function handleCloudUpload(
         mime_type: audioBlob.type || 'audio/mpeg',
         duration_seconds: duration,
         source: 'telegram_upload',
+        genre: analysisResult.genre,
+        mood: analysisResult.mood,
+        vocal_style: analysisResult.vocalStyle,
+        transcription: analysisResult.lyrics,
+        has_vocals: analysisResult.hasVocals,
+        detected_language: analysisResult.language,
+        analysis_status: 'completed',
+        analyzed_at: new Date().toISOString(),
         metadata: {
           telegram_file_id: fileId,
           upload_type: type,
@@ -423,35 +515,69 @@ async function handleCloudUpload(
       ? originalName.substring(0, 37) + '...' 
       : originalName;
 
-    await sendMessage(chatId, `✅ *Аудио загружено в облако\\!*
+    // Build result message
+    let resultText = `✅ *Аудио загружено в облако\\!*
 
-📁 Файл: _${escapeMarkdown(displayName)}_
-${duration ? `⏱️ Длительность: ${Math.floor(duration / 60)}:${(duration % 60).toString().padStart(2, '0')}\n` : ''}
-Теперь вы можете использовать этот файл для:
+📁 Файл: _${escapeMarkdown(displayName)}_`;
+
+    if (duration) {
+      resultText += `\n⏱️ Длительность: ${Math.floor(duration / 60)}:${(duration % 60).toString().padStart(2, '0')}`;
+    }
+    
+    if (analysisResult.genre) {
+      resultText += `\n🎵 Жанр: ${escapeMarkdown(analysisResult.genre)}`;
+    }
+    if (analysisResult.mood) {
+      resultText += `\n💫 Настроение: ${escapeMarkdown(analysisResult.mood)}`;
+    }
+    if (analysisResult.hasVocals !== undefined) {
+      resultText += analysisResult.hasVocals 
+        ? `\n🎤 Вокал: Обнаружен` 
+        : `\n🎸 Тип: Инструментал`;
+    }
+    if (analysisResult.lyrics) {
+      const lyricsPreview = analysisResult.lyrics.substring(0, 150);
+      resultText += `\n\n📝 *Текст:*\n_${escapeMarkdown(lyricsPreview)}${analysisResult.lyrics.length > 150 ? '\\.\\.\\.' : ''}_`;
+    }
+
+    resultText += `\n\nТеперь вы можете использовать этот файл для:
 • 🎤 Создания каверов
 • 🔄 Расширения треков
-• 🎛️ Работы в Studio`, {
+• 🎛️ Работы в Studio`;
+
+    // Build keyboard with actions
+    const keyboard = {
       inline_keyboard: [
         [
           { text: '🎤 Создать кавер', callback_data: `use_ref_cover_${savedRef?.id}` },
           { text: '🔄 Расширить', callback_data: `use_ref_extend_${savedRef?.id}` }
         ],
+        analysisResult.lyrics ? [
+          { text: '📝 Полный текст', callback_data: `show_lyrics_${savedRef?.id}` }
+        ] : [],
         [
-          { text: '📂 Мои загрузки', callback_data: 'my_uploads' }
+          { text: '📂 Мои загрузки', callback_data: 'my_uploads' },
+          { text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=cloud` } }
         ]
-      ]
-    });
+      ].filter(row => row.length > 0)
+    };
+
+    await sendMessage(chatId, resultText, keyboard);
 
     trackMetric({
-      eventType: 'upload_completed',
+      eventType: 'upload_completed_with_analysis',
       success: true,
       telegramChatId: chatId,
       responseTimeMs: Date.now() - startTime,
-      metadata: { referenceId: savedRef?.id },
+      metadata: { 
+        referenceId: savedRef?.id,
+        hasLyrics: !!analysisResult.lyrics,
+        hasVocals: analysisResult.hasVocals,
+      },
     });
 
   } catch (error) {
-    logger.error('Error in handleCloudUpload', error);
+    logger.error('Error in handleCloudUploadWithAnalysis', error);
     await sendMessage(chatId, '❌ Произошла ошибка\\. Попробуйте позже\\.');
     
     trackMetric({
