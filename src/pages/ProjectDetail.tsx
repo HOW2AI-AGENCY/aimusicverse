@@ -96,11 +96,14 @@ export default function ProjectDetail() {
       planTrackTitle: track.title,
       stylePrompt: track.style_prompt,
       notes: track.notes,
+      lyrics: track.lyrics || undefined, // Pass lyrics to generation
       recommendedTags: track.recommended_tags,
       projectId: project.id,
       projectGenre: project.genre || undefined,
       projectMood: project.mood || undefined,
       projectLanguage: project.language || undefined,
+      projectDescription: project.description || undefined,
+      projectConcept: project.concept || undefined,
     });
     navigate('/generate');
   };
@@ -175,42 +178,37 @@ export default function ProjectDetail() {
 
   return (
     <div className="pb-24">
-      {/* Compact Header */}
-      <div className={cn(
-        "sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border/50",
-        isMobile ? "px-3 py-3" : "px-4 py-4"
-      )}>
-        <div className="flex items-center gap-3">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={() => navigate('/projects')}
-            className="h-9 w-9 shrink-0"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
-          
-          {/* Cover + Info */}
-          <div className="flex items-center gap-3 flex-1 min-w-0">
-            <div className="w-12 h-12 rounded-lg bg-secondary overflow-hidden shrink-0">
-              <img
-                src={project.cover_url || `https://placehold.co/48x48/1a1a1a/ffffff?text=${project.title.charAt(0)}`}
-                alt={project.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="min-w-0">
-              <h1 className="font-semibold text-base truncate">{project.title}</h1>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <span>{project.genre || 'Без жанра'}</span>
-                <span>•</span>
-                <span>{completedTracks}/{totalTracks} треков</span>
-              </div>
-            </div>
-          </div>
+      {/* Hero Section with Large Cover */}
+      <div className="relative">
+        {/* Background blur */}
+        <div 
+          className="absolute inset-0 h-48 bg-gradient-to-b from-primary/10 to-background"
+          style={{
+            backgroundImage: project.cover_url ? `url(${project.cover_url})` : undefined,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'blur(40px)',
+            opacity: 0.4,
+          }}
+        />
+        
+        {/* Header */}
+        <div className={cn(
+          "relative sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/30",
+          isMobile ? "px-3 py-3" : "px-4 py-4"
+        )}>
+          <div className="flex items-center justify-between">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => navigate('/projects')}
+              className="h-9 w-9"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+            
+            <h1 className="font-semibold text-base truncate flex-1 text-center mx-4">{project.title}</h1>
 
-          {/* Actions */}
-          <div className="flex items-center gap-1">
             <Button 
               variant="ghost" 
               size="icon"
@@ -221,14 +219,67 @@ export default function ProjectDetail() {
             </Button>
           </div>
         </div>
-      </div>
 
-      {/* Project Info Card */}
-      <div className={cn(isMobile ? "px-3 py-2" : "px-4 py-2")}>
-        <ProjectInfoCard 
-          project={project} 
-          onEdit={() => setSettingsOpen(true)}
-        />
+        {/* Cover and Info */}
+        <div className={cn(
+          "relative flex flex-col items-center gap-4 pt-4 pb-6",
+          isMobile ? "px-4" : "px-6"
+        )}>
+          {/* Large Cover */}
+          <div className="relative group">
+            <div className={cn(
+              "rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-secondary to-muted",
+              "ring-1 ring-white/10 transition-transform group-hover:scale-[1.02]",
+              isMobile ? "w-48 h-48" : "w-56 h-56"
+            )}>
+              {project.cover_url ? (
+                <img
+                  src={project.cover_url}
+                  alt={project.title}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <Music className="w-16 h-16 text-muted-foreground/40" />
+                </div>
+              )}
+            </div>
+            
+            {/* Media button overlay */}
+            <Button
+              size="icon"
+              variant="secondary"
+              className="absolute -bottom-2 -right-2 h-10 w-10 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+              onClick={() => {
+                setSelectedTrackForMedia(null);
+                setMediaGeneratorOpen(true);
+              }}
+            >
+              <Image className="w-4 h-4" />
+            </Button>
+          </div>
+
+          {/* Project Meta */}
+          <div className="text-center space-y-2">
+            <div className="flex items-center justify-center gap-2 flex-wrap">
+              {project.genre && (
+                <Badge variant="secondary" className="gap-1">
+                  <Music className="w-3 h-3" />
+                  {project.genre}
+                </Badge>
+              )}
+              <Badge variant="outline">
+                {completedTracks}/{totalTracks} треков
+              </Badge>
+            </div>
+            
+            {project.description && (
+              <p className="text-sm text-muted-foreground max-w-md mx-auto line-clamp-2">
+                {project.description}
+              </p>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Quick Actions Bar */}

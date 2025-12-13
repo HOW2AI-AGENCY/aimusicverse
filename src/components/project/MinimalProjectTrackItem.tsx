@@ -160,13 +160,13 @@ export const MinimalProjectTrackItem = ({
   };
 
   const handleGenerateClick = () => {
-    // Check if lyrics status is 'prompt' - warn user and require full lyrics first
+    // Check if lyrics status is 'prompt' - redirect to lyrics wizard
     if (lyricsStatus === 'prompt') {
-      toast.warning('Сначала напишите полный текст песни', {
-        description: 'В поле сейчас только промпт для генерации. Откройте редактор лирики.',
+      toast.warning('Сначала сгенерируйте текст песни', {
+        description: 'В поле сейчас только промпт для генерации. Используйте AI Lyrics Wizard.',
         action: {
-          label: 'Написать текст',
-          onClick: () => onOpenLyrics?.(),
+          label: 'AI Wizard',
+          onClick: () => onOpenLyricsWizard?.(),
         },
       });
       return;
@@ -175,9 +175,22 @@ export const MinimalProjectTrackItem = ({
     // Check if we have any lyrics at all
     if (!track.lyrics && !linkedTrack?.lyrics) {
       toast.warning('Требуется текст песни', {
-        description: 'Напишите лирику перед генерацией трека.',
+        description: 'Напишите лирику или используйте AI Wizard.',
         action: {
-          label: 'Написать текст',
+          label: 'AI Wizard',
+          onClick: () => onOpenLyricsWizard?.(),
+        },
+      });
+      return;
+    }
+
+    // Check minimum lyrics length
+    const lyricsText = track.lyrics || linkedTrack?.lyrics || '';
+    if (lyricsText.length < 50) {
+      toast.warning('Текст песни слишком короткий', {
+        description: 'Минимум 50 символов. Дополните текст или используйте AI Wizard.',
+        action: {
+          label: 'Редактор',
           onClick: () => onOpenLyrics?.(),
         },
       });
@@ -191,167 +204,211 @@ export const MinimalProjectTrackItem = ({
     <>
       <div 
         className={cn(
-          "flex items-center gap-2 p-2.5 rounded-xl bg-card/50 border border-border/50 transition-all",
+          "rounded-xl bg-card/50 border border-border/50 transition-all overflow-hidden",
           isDragging && "shadow-lg border-primary scale-[1.02]",
           !isDragging && "hover:bg-card hover:border-border"
         )}
       >
-        {/* Drag Handle */}
-        <div {...dragHandleProps} className="touch-manipulation cursor-grab active:cursor-grabbing">
-          <GripVertical className="w-4 h-4 text-muted-foreground" />
-        </div>
-
-        {/* Position */}
-        <div className={cn(
-          "w-7 h-7 rounded-lg flex items-center justify-center font-semibold text-sm shrink-0",
-          statusConfig.bg,
-          statusConfig.color
-        )}>
-          {track.position}
-        </div>
-
-        {/* Cover (if linked track) */}
-        {hasLinkedTrack && linkedTrack?.cover_url && (
-          <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-secondary">
-            <img 
-              src={linkedTrack.cover_url} 
-              alt={track.title}
-              className="w-full h-full object-cover"
-            />
+        {/* Main row */}
+        <div className="flex items-center gap-2 p-2.5">
+          {/* Drag Handle */}
+          <div {...dragHandleProps} className="touch-manipulation cursor-grab active:cursor-grabbing">
+            <GripVertical className="w-4 h-4 text-muted-foreground" />
           </div>
-        )}
 
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5">
-            <span className="font-medium text-sm truncate">{track.title}</span>
-            <Badge 
-              variant="outline" 
-              className={cn(
-                "text-[10px] h-4 px-1.5 shrink-0",
-                statusConfig.color,
-                "border-current/30"
-              )}
-            >
-              <StatusIcon className="w-2.5 h-2.5 mr-0.5" />
-              {isMobile ? '' : statusConfig.label}
-            </Badge>
+          {/* Position */}
+          <div className={cn(
+            "w-7 h-7 rounded-lg flex items-center justify-center font-semibold text-sm shrink-0",
+            statusConfig.bg,
+            statusConfig.color
+          )}>
+            {track.position}
           </div>
-          
-          {track.style_prompt && (
-            <p className="text-xs text-muted-foreground truncate mt-0.5">
-              {track.style_prompt}
-            </p>
-          )}
 
-          {/* Lyrics preview with status indicator */}
-          {hasLyricsContent && (
-            <div className="flex items-center gap-1 mt-1 text-[10px] text-muted-foreground/70">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className={cn("flex items-center gap-0.5", lyricsStatusConfig.color)}>
-                    <LyricsStatusIcon className="w-3 h-3" />
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent side="top" className="text-xs">
-                  {lyricsStatusConfig.tooltip}
-                </TooltipContent>
-              </Tooltip>
-              <span className="truncate">
-                {(linkedTrack?.lyrics || track.lyrics || '').replace(/\[.*?\]/g, '').slice(0, 50)}...
-              </span>
+          {/* Cover (if linked track) */}
+          {hasLinkedTrack && linkedTrack?.cover_url && (
+            <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-secondary">
+              <img 
+                src={linkedTrack.cover_url} 
+                alt={track.title}
+                className="w-full h-full object-cover"
+              />
             </div>
           )}
-        </div>
 
-        {/* Actions */}
-        <div className="flex items-center gap-1 shrink-0">
-          {/* Lyrics Button */}
-          <Button
-            size="icon"
-            variant="ghost"
-            onClick={(e) => {
-              e.stopPropagation();
-              onOpenLyrics?.();
-            }}
-            className="h-8 w-8"
-            title={hasLyricsContent ? 'Просмотр лирики' : 'Написать лирику'}
-          >
-            <FileText className="w-4 h-4" />
-          </Button>
+          {/* Content */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5">
+              <span className="font-medium text-sm truncate">{track.title}</span>
+              <Badge 
+                variant="outline" 
+                className={cn(
+                  "text-[10px] h-4 px-1.5 shrink-0",
+                  statusConfig.color,
+                  "border-current/30"
+                )}
+              >
+                <StatusIcon className="w-2.5 h-2.5 mr-0.5" />
+                {isMobile ? '' : statusConfig.label}
+              </Badge>
+            </div>
+            
+            {track.style_prompt && (
+              <p className="text-xs text-muted-foreground truncate mt-0.5">
+                {track.style_prompt}
+              </p>
+            )}
 
-          {hasLinkedTrack ? (
+            {/* Lyrics preview with status indicator */}
+            {hasLyricsContent && (
+              <div className="flex items-center gap-1 mt-1 text-[10px] text-muted-foreground/70">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className={cn("flex items-center gap-0.5", lyricsStatusConfig.color)}>
+                      <LyricsStatusIcon className="w-3 h-3" />
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="text-xs">
+                    {lyricsStatusConfig.tooltip}
+                  </TooltipContent>
+                </Tooltip>
+                <span className="truncate">
+                  {(linkedTrack?.lyrics || track.lyrics || '').replace(/\[.*?\]/g, '').slice(0, 50)}...
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-1 shrink-0">
+            {/* Lyrics Button */}
             <Button
               size="icon"
               variant="ghost"
-              onClick={handlePlay}
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpenLyrics?.();
+              }}
               className="h-8 w-8"
+              title={hasLyricsContent ? 'Просмотр лирики' : 'Написать лирику'}
             >
-              {isPlayingThis ? (
-                <Pause className="w-4 h-4" />
-              ) : (
-                <Play className="w-4 h-4" />
-              )}
+              <FileText className="w-4 h-4" />
             </Button>
-          ) : (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  size="sm"
-                  onClick={handleGenerateClick}
-                  className={cn(
-                    "h-8 px-3 gap-1",
-                    lyricsStatus === 'prompt' ? "bg-amber-500/80 hover:bg-amber-500" : "bg-primary/90"
-                  )}
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  {!isMobile && 'Создать'}
-                </Button>
-              </TooltipTrigger>
-              {lyricsStatus === 'prompt' && (
-                <TooltipContent side="top" className="text-xs max-w-[200px]">
-                  Лирика ещё не готова. Нажмите чтобы увидеть предупреждение.
-                </TooltipContent>
-              )}
-            </Tooltip>
-          )}
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button size="icon" variant="ghost" className="h-8 w-8">
-                <MoreVertical className="w-4 h-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setEditOpen(true)}>
-                <Edit className="w-4 h-4 mr-2" />
-                Редактировать
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={onOpenLyrics}>
-                <FileText className="w-4 h-4 mr-2" />
-                {hasLyricsContent ? 'Просмотр лирики' : 'Написать лирику'}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={onOpenLyricsWizard}>
-                <Sparkles className="w-4 h-4 mr-2" />
-                AI Lyrics Wizard
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              {!hasLinkedTrack && (
-                <DropdownMenuItem onClick={handleGenerateClick}>
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  Генерировать
-                </DropdownMenuItem>
-              )}
-              <DropdownMenuItem 
-                onClick={handleDelete}
-                className="text-destructive focus:text-destructive"
+            {hasLinkedTrack ? (
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={handlePlay}
+                className="h-8 w-8"
               >
-                <Trash2 className="w-4 h-4 mr-2" />
-                Удалить
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                {isPlayingThis ? (
+                  <Pause className="w-4 h-4" />
+                ) : (
+                  <Play className="w-4 h-4" />
+                )}
+              </Button>
+            ) : (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="sm"
+                    onClick={handleGenerateClick}
+                    className={cn(
+                      "h-8 px-3 gap-1",
+                      lyricsStatus === 'prompt' ? "bg-amber-500/80 hover:bg-amber-500" : "bg-primary/90"
+                    )}
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    {!isMobile && 'Создать'}
+                  </Button>
+                </TooltipTrigger>
+                {lyricsStatus === 'prompt' && (
+                  <TooltipContent side="top" className="text-xs max-w-[200px]">
+                    Лирика ещё не готова. Нажмите чтобы увидеть предупреждение.
+                  </TooltipContent>
+                )}
+              </Tooltip>
+            )}
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button size="icon" variant="ghost" className="h-8 w-8">
+                  <MoreVertical className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => setEditOpen(true)}>
+                  <Edit className="w-4 h-4 mr-2" />
+                  Редактировать
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={onOpenLyrics}>
+                  <FileText className="w-4 h-4 mr-2" />
+                  {hasLyricsContent ? 'Просмотр лирики' : 'Написать лирику'}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={onOpenLyricsWizard}>
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  AI Lyrics Wizard
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                {!hasLinkedTrack && (
+                  <DropdownMenuItem onClick={handleGenerateClick}>
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Генерировать
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuItem 
+                  onClick={handleDelete}
+                  className="text-destructive focus:text-destructive"
+                >
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Удалить
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
+
+        {/* Generated versions row - if linked track exists */}
+        {hasLinkedTrack && linkedTrack && (
+          <div className="px-2.5 pb-2.5">
+            <div className="flex items-center gap-2 p-2 rounded-lg bg-green-500/5 border border-green-500/20">
+              <div className="w-8 h-8 rounded-md overflow-hidden bg-secondary shrink-0">
+                {linkedTrack.cover_url && (
+                  <img 
+                    src={linkedTrack.cover_url} 
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-medium truncate">{linkedTrack.title || track.title}</p>
+                <p className="text-[10px] text-green-600 dark:text-green-400 flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3" />
+                  Сгенерирован
+                  {linkedTrack.duration_seconds && (
+                    <span className="text-muted-foreground">
+                      • {Math.floor(linkedTrack.duration_seconds / 60)}:{(linkedTrack.duration_seconds % 60).toString().padStart(2, '0')}
+                    </span>
+                  )}
+                </p>
+              </div>
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={handlePlay}
+                className="h-7 w-7"
+              >
+                {isPlayingThis ? (
+                  <Pause className="w-3.5 h-3.5" />
+                ) : (
+                  <Play className="w-3.5 h-3.5" />
+                )}
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
 
       <EditTrackDialog
