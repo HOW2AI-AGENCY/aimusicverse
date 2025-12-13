@@ -36,30 +36,57 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
 
   return (
     <div className="space-y-3">
-      {/* Primary CTA - Generate */}
+      {/* Primary CTA - Generate - Enhanced with premium gradient */}
       <TooltipWrapper tooltipId="generate-button">
         <motion.button
           onClick={() => handleAction(onGenerateClick)}
-          className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-primary to-generate p-3.5 sm:p-4 touch-manipulation"
+          className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-primary to-generate p-4 sm:p-5 touch-manipulation shadow-lg shadow-primary/30"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           whileTap={{ scale: 0.98 }}
+          whileHover={{ scale: 1.01 }}
           transition={{ delay: 0.1 }}
         >
+          {/* Animated gradient overlay */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0"
+            initial={{ x: '-100%' }}
+            animate={{ x: '100%' }}
+            transition={{
+              repeat: Infinity,
+              duration: 3,
+              ease: "linear"
+            }}
+          />
+          {/* Glow effect */}
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
           <div className="relative flex items-center justify-center gap-2.5">
-            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
-            <span className="text-base sm:text-lg font-bold text-primary-foreground">Создать музыку</span>
+            <motion.div
+              animate={{
+                rotate: [0, 10, -10, 0],
+                scale: [1, 1.1, 1.1, 1]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <Sparkles className="w-6 h-6 sm:w-7 sm:h-7 text-primary-foreground" />
+            </motion.div>
+            <span className="text-lg sm:text-xl font-bold text-primary-foreground tracking-tight">Создать музыку</span>
           </div>
         </motion.button>
       </TooltipWrapper>
 
-      {/* Quick Navigation */}
+      {/* Quick Navigation - Enhanced with better visual depth */}
       <motion.div
-        className="grid grid-cols-3 gap-2"
+        className="grid grid-cols-3 gap-2.5"
         initial="hidden"
         animate="visible"
         variants={{
-          visible: { transition: { staggerChildren: 0.03 } }
+          visible: { transition: { staggerChildren: 0.04 } }
         }}
       >
         {quickActions.map((action) => (
@@ -67,19 +94,27 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
             key={action.path}
             onClick={() => handleAction(() => navigate(action.path))}
             className={cn(
-              "group relative flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl",
-              "border transition-all duration-200 touch-manipulation min-h-[68px]",
+              "group relative flex flex-col items-center justify-center gap-2 p-3.5 rounded-2xl",
+              "border-2 backdrop-blur-sm transition-all duration-200 touch-manipulation min-h-[72px]",
               action.bgColor,
-              "active:scale-[0.97]"
+              "active:scale-[0.96] hover:scale-[1.02]",
+              "shadow-sm hover:shadow-md"
             )}
             variants={{
               hidden: { opacity: 0, y: 15, scale: 0.9 },
               visible: { opacity: 1, y: 0, scale: 1 }
             }}
-            whileTap={{ scale: 0.97 }}
+            whileTap={{ scale: 0.96 }}
+            whileHover={{ scale: 1.02 }}
           >
-            <action.icon className={cn("w-5 h-5 shrink-0", action.color)} />
-            <span className="text-[11px] font-medium text-center leading-tight">{action.label}</span>
+            <motion.div
+              className="relative"
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            >
+              <action.icon className={cn("w-6 h-6 shrink-0", action.color)} />
+            </motion.div>
+            <span className="text-[11px] font-semibold text-center leading-tight">{action.label}</span>
           </motion.button>
         ))}
       </motion.div>

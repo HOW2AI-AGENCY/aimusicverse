@@ -41,38 +41,59 @@ export const BottomNavigation = () => {
 
   return (
     <>
-      <motion.nav 
-        className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/30 bg-background/95 backdrop-blur-xl pb-[env(safe-area-inset-bottom,0px)]"
-        initial={{ y: 100 }}
-        animate={{ y: 0 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      <motion.nav
+        className="island-nav z-50"
+        initial={{ y: 100, opacity: 0, scale: 0.95 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        transition={{
+          type: 'spring',
+          stiffness: 300,
+          damping: 25,
+          opacity: { duration: 0.3 }
+        }}
         role="navigation"
         aria-label="Главная навигация"
       >
-        <div className="max-w-7xl mx-auto px-2 py-2">
-          <div className="flex items-center justify-around gap-1">
-            {navItems.map((item) => {
-              if (item.isCenter) {
-                return (
-                  <motion.button
-                    key={item.path}
-                    onClick={handleGenerateClick}
-                    className="relative flex items-center justify-center w-14 h-14 -mt-5 rounded-full bg-primary shadow-lg active:scale-95 transition-transform touch-manipulation"
-                    whileTap={{ scale: 0.95 }}
-                    aria-label={item.label}
-                    title={item.label}
-                  >
-                    <Plus className="w-6 h-6 text-primary-foreground relative z-10" />
-                  </motion.button>
-                );
-              }
+        <div className="flex items-center justify-around gap-1">
+          {navItems.map((item, index) => {
+            if (item.isCenter) {
+              return (
+                <motion.button
+                  key={item.path}
+                  onClick={handleGenerateClick}
+                  className="relative flex items-center justify-center w-14 h-14 -my-2 rounded-full bg-gradient-to-br from-primary to-generate shadow-lg shadow-primary/30 active:scale-95 transition-all duration-200 touch-manipulation group"
+                  whileTap={{ scale: 0.92 }}
+                  whileHover={{ scale: 1.05 }}
+                  aria-label={item.label}
+                  title={item.label}
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.1 + index * 0.05 }}
+                >
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <Plus className="w-6 h-6 text-primary-foreground relative z-10" />
+                  <motion.div
+                    className="absolute inset-0 rounded-full bg-primary/40 blur-xl"
+                    animate={{
+                      scale: [1, 1.2, 1],
+                      opacity: [0.3, 0.6, 0.3]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  />
+                </motion.button>
+              );
+            }
 
-              const handleClick = item.path === '__menu__' 
-                ? handleMenuClick 
+              const handleClick = item.path === '__menu__'
+                ? handleMenuClick
                 : () => handleNavigate(item.path);
-              
-              const active = item.path === '__menu__' 
-                ? menuOpen 
+
+              const active = item.path === '__menu__'
+                ? menuOpen
                 : isActive(item.path);
 
               return (
@@ -80,33 +101,43 @@ export const BottomNavigation = () => {
                   key={item.path}
                   onClick={handleClick}
                   className={cn(
-                    "relative flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-lg transition-colors min-h-[44px] min-w-[44px] touch-manipulation",
+                    "relative flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl transition-all min-h-[44px] min-w-[44px] touch-manipulation group",
                     active
-                      ? "text-primary"
-                      : "text-muted-foreground"
+                      ? "text-primary bg-primary/10"
+                      : "text-muted-foreground hover:text-foreground"
                   )}
                   whileTap={{ scale: 0.92 }}
+                  whileHover={{ scale: 1.05 }}
                   aria-label={item.label}
                   aria-current={active ? 'page' : undefined}
                   title={item.label}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.1 + index * 0.05 }}
                 >
                   <motion.div
                     initial={false}
-                    animate={active ? { scale: 1.05 } : { scale: 1 }}
+                    animate={active ? { scale: 1.1, y: -1 } : { scale: 1, y: 0 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                   >
                     <item.icon className="w-5 h-5" />
                   </motion.div>
-                  <span className="text-[10px] font-medium">{item.label}</span>
-                  
-                  {/* Active indicator */}
+                  <motion.span
+                    className="text-[10px] font-medium"
+                    initial={false}
+                    animate={active ? { fontWeight: 600 } : { fontWeight: 500 }}
+                  >
+                    {item.label}
+                  </motion.span>
+
+                  {/* Active indicator - Modern pill */}
                   <AnimatePresence>
                     {active && (
                       <motion.div
-                        className="absolute bottom-0 left-1/2 w-1 h-1 rounded-full bg-primary"
-                        initial={{ scale: 0, x: '-50%' }}
-                        animate={{ scale: 1, x: '-50%' }}
-                        exit={{ scale: 0, x: '-50%' }}
+                        className="absolute inset-0 rounded-xl bg-primary/5 border border-primary/20"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
                         transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                       />
                     )}
@@ -115,7 +146,6 @@ export const BottomNavigation = () => {
               );
             })}
           </div>
-        </div>
       </motion.nav>
 
       <GenerateSheet open={generateOpen} onOpenChange={setGenerateOpen} />
