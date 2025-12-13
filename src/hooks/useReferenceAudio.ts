@@ -119,11 +119,26 @@ export function useReferenceAudio() {
     },
   });
 
+  const deleteAudioMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('reference_audio')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['reference-audio', user?.id] });
+    },
+  });
+
   return {
     audioList,
     isLoading,
     saveAudio: saveAudioMutation.mutateAsync,
     updateAnalysis: updateAnalysisMutation.mutateAsync,
+    deleteAudio: deleteAudioMutation.mutateAsync,
     isSaving: saveAudioMutation.isPending,
   };
 }

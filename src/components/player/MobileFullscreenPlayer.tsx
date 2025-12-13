@@ -11,7 +11,8 @@
  */
 
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { X, Heart, Download, Share2, ListMusic, SkipBack, SkipForward, Play, Pause, Repeat, Shuffle, BarChart3 } from 'lucide-react';
+import { X, Download, Share2, ListMusic, SkipBack, SkipForward, Play, Pause, Repeat, Shuffle, BarChart3 } from 'lucide-react';
+import { LikeButton } from '@/components/ui/like-button';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -767,23 +768,13 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
           {/* Secondary Actions with hover effects */}
           <div className="flex items-center justify-center gap-4">
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                  hapticImpact('light');
-                  toggleLike({ trackId: track.id, isLiked: track.is_liked || false });
-                }}
-                className={cn(
-                  'h-11 w-11 touch-manipulation rounded-full transition-all',
-                  track.is_liked && 'bg-red-500/10'
-                )}
-              >
-                <Heart className={cn(
-                  'h-5 w-5 transition-all',
-                  track.is_liked && 'fill-red-500 text-red-500 scale-110'
-                )} />
-              </Button>
+              <LikeButton
+                trackId={track.id}
+                likesCount={track.likes_count || 0}
+                showCount={true}
+                size="lg"
+                className="h-11 w-11"
+              />
             </motion.div>
 
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
