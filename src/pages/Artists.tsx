@@ -10,7 +10,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { usePublicArtists } from "@/hooks/usePublicArtists";
 import { useArtists, type Artist } from "@/hooks/useArtists";
 import { ActorCard } from "@/components/actors/ActorCard";
-import { CreateArtistDialog } from "@/components/CreateArtistDialog";
+import { CreateArtistFromTrackDialog } from "@/components/artist/CreateArtistFromTrackDialog";
+import { ArtistDetailsPanel } from "@/components/artist/ArtistDetailsPanel";
 import { Music2 } from "lucide-react";
 
 const GENRES = ["Pop", "Rock", "Hip-Hop", "Electronic", "R&B", "Jazz", "Classical", "Folk"];
@@ -26,6 +27,8 @@ export default function Artists() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [selectedArtist, setSelectedArtist] = useState<Artist | null>(null);
+  const [detailsPanelOpen, setDetailsPanelOpen] = useState(false);
 
   if (authLoading) {
     return (
@@ -139,7 +142,14 @@ export default function Artists() {
             {activeTab === 'my' ? (
               // My Artists - use Card layout
               currentArtists.map((artist) => (
-                <Card key={artist.id} className="p-6 glass-card border-primary/20 hover:border-primary/40 transition-all">
+                <Card 
+                  key={artist.id} 
+                  className="p-6 glass-card border-primary/20 hover:border-primary/40 transition-all cursor-pointer"
+                  onClick={() => {
+                    setSelectedArtist(artist);
+                    setDetailsPanelOpen(true);
+                  }}
+                >
                   <div className="flex items-start gap-4">
                     <div className="w-16 h-16 rounded-full overflow-hidden bg-gradient-to-br from-primary/20 to-primary/10 flex-shrink-0 border-2 border-primary/20">
                       {artist.avatar_url ? (
@@ -211,7 +221,15 @@ export default function Artists() {
         )}
       </div>
 
-      <CreateArtistDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+      <CreateArtistFromTrackDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+      <ArtistDetailsPanel 
+        artist={selectedArtist} 
+        open={detailsPanelOpen} 
+        onOpenChange={setDetailsPanelOpen}
+        onEdit={(artist) => {
+          setDetailsPanelOpen(false);
+        }}
+      />
     </div>
   );
 }

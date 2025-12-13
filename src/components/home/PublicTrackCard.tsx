@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, Pause, Heart, Share2, Music2 } from 'lucide-react';
+import { Play, Pause, Share2, Music2, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -9,6 +9,7 @@ import { useTelegram } from '@/contexts/TelegramContext';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContentOptimized';
 import type { Track } from '@/hooks/useTracksOptimized';
 import { motion } from '@/lib/motion';
+import { LikeButton } from '@/components/ui/like-button';
 
 interface PublicTrackCardProps {
   track: PublicTrackWithCreator;
@@ -181,6 +182,15 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
               )}
               {isCurrentlyPlaying ? 'Пауза' : 'Играть'}
             </Button>
+            
+            <LikeButton 
+              trackId={track.id} 
+              likesCount={track.likes_count || 0}
+              size="sm"
+              showCount
+              className="h-8"
+            />
+            
             <Button
               variant="ghost"
               size="icon"
