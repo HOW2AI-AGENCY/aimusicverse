@@ -83,7 +83,7 @@ export function generatePresetForStems(
   stems.forEach(stem => {
     const stemType = stem.stem_type.toLowerCase();
     let volume = 0.85;
-    let effectsConfig = { ...defaultStemEffects };
+    const effectsConfig = { ...defaultStemEffects };
 
     switch (presetId) {
       case 'balanced':

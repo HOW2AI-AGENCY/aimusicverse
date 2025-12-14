@@ -24,7 +24,7 @@ export function useFollowing({ userId, searchQuery = '', pageSize = DEFAULT_PAGE
       const to = from + pageSize - 1;
 
       // Build query
-      let query = supabase
+      const query = supabase
         .from('user_follows')
         .select(`
           id,

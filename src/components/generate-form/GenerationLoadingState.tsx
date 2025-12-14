@@ -58,6 +58,7 @@ export function GenerationLoadingState({
   const [estimatedTotal, setEstimatedTotal] = useState(90);
 
   // Calculate estimated time and progress
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     const currentStageIndex = GENERATION_STAGES.findIndex(s => s.id === stage);
     if (currentStageIndex === -1) return;

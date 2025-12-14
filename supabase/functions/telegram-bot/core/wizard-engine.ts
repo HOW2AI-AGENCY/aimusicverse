@@ -422,7 +422,7 @@ export class WizardEngine {
     const totalSteps = config.steps.length;
     const progress = `Шаг ${stepIndex + 1}/${totalSteps}`;
 
-    let buttons: MenuButton[][] = [];
+    const buttons: MenuButton[][] = [];
 
     // Add options for selection type
     if (step.type === 'selection' && step.options) {

@@ -885,7 +885,7 @@ ${conversationHistory.slice(-10).map((m: any) => `${m.role === 'user' ? '👤 П
     logger.success('Lyrics generated', { action, contentLength: generatedLyrics.length });
 
     // Return additional metadata for smart_generate
-    let response: any = {
+    const response: any = {
       success: true,
       action,
     };

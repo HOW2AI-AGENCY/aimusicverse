@@ -87,6 +87,7 @@ export function GuitarRecordDialog({
   }, [isRecording]);
 
   // Cleanup on close
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     if (!open) {
       clearRecording();

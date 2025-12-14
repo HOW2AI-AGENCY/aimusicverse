@@ -40,6 +40,17 @@ export function CreateArtistFromTrackDialog({ open, onOpenChange }: CreateArtist
 
   const selectedTrack = tracks?.find((t: Track) => t.id === selectedTrackId);
 
+  const resetForm = () => {
+    setName('');
+    setBio('');
+    setStyleDescription('');
+    setGenreTags([]);
+    setMoodTags([]);
+    setAvatarUrl(null);
+    setNewGenreTag('');
+    setNewMoodTag('');
+  };
+
   // Reset on open
   useEffect(() => {
     if (open) {
@@ -53,33 +64,22 @@ export function CreateArtistFromTrackDialog({ open, onOpenChange }: CreateArtist
   useEffect(() => {
     if (selectedTrack && step === 'create') {
       const trackTitle = selectedTrack.title || '';
-      const artistName = trackTitle.includes(' - ') 
-        ? trackTitle.split(' - ')[0].trim() 
+      const artistName = trackTitle.includes(' - ')
+        ? trackTitle.split(' - ')[0].trim()
         : `Артист "${trackTitle}"`;
-      
+
       setName(artistName);
       setStyleDescription(selectedTrack.style || '');
       setAvatarUrl(selectedTrack.local_cover_url || selectedTrack.cover_url || null);
-      
+
       if (selectedTrack.tags && typeof selectedTrack.tags === 'string') {
         const tags = selectedTrack.tags.split(',').map(t => t.trim()).filter(Boolean);
         setGenreTags(tags.slice(0, 5));
       }
-      
+
       setBio(`AI артист, вдохновлённый треком "${trackTitle}"`);
     }
   }, [selectedTrack, step]);
-
-  const resetForm = () => {
-    setName('');
-    setBio('');
-    setStyleDescription('');
-    setGenreTags([]);
-    setMoodTags([]);
-    setAvatarUrl(null);
-    setNewGenreTag('');
-    setNewMoodTag('');
-  };
 
   const handleSelectTrack = (trackId: string) => {
     setSelectedTrackId(trackId);
