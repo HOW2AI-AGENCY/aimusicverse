@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Loader2, CheckCircle2, XCircle, Music2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import { useQueryClient } from '@tanstack/react-query';

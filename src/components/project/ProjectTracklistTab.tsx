@@ -24,7 +24,7 @@ import { LyricsChatAssistant } from '@/components/generate-form/LyricsChatAssist
 import { LyricsPreviewSheet } from './LyricsPreviewSheet';
 import { cn } from '@/lib/utils';
 import { useProjectGenerationTracking } from '@/hooks/useProjectGenerationTracking';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 interface ProjectTracklistTabProps {
   project: Project;

@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { CheckCircle2, Sparkles, X } from 'lucide-react';
 import {
   Dialog,

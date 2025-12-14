@@ -38,7 +38,7 @@ import {
 import { useProjectTracks } from '@/hooks/useProjectTracks';
 import { toast } from 'sonner';
 import { EditTrackDialog } from './EditTrackDialog';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 interface GenerationStatus {
   progress: number;
