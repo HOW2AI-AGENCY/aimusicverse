@@ -121,7 +121,7 @@ export default function Settings() {
         </motion.div>
 
         <Tabs defaultValue="profile" className="w-full">
-          <TabsList className="grid w-full grid-cols-6 mb-6">
+          <TabsList className="grid w-full mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))' }}>
             <TabsTrigger value="profile" className="gap-2">
               <User className="w-4 h-4" />
               <span className="hidden sm:inline">Профиль</span>

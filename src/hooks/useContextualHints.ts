@@ -301,10 +301,18 @@ export function useContextualHints(currentRoute?: string) {
       const count = visits ? parseInt(visits, 10) : 0;
       setVisitCount(count);
       
-      // Increment visit count
-      const newCount = count + 1;
-      setVisitCount(newCount);
-      localStorage.setItem(VISITS_KEY, newCount.toString());
+      // Increment visit count only once per session (check last visit timestamp)
+      const lastVisitKey = 'musicverse-last-visit';
+      const lastVisit = localStorage.getItem(lastVisitKey);
+      const now = Date.now();
+      const fiveMinutes = 5 * 60 * 1000;
+      
+      if (!lastVisit || now - parseInt(lastVisit, 10) > fiveMinutes) {
+        const newCount = count + 1;
+        setVisitCount(newCount);
+        localStorage.setItem(VISITS_KEY, newCount.toString());
+        localStorage.setItem(lastVisitKey, now.toString());
+      }
     } catch (e) {
       console.error('Failed to load hint states:', e);
     }
@@ -346,7 +354,7 @@ export function useContextualHints(currentRoute?: string) {
       }
     }
     
-    // Check route
+    // Check route (exact match or starts with route + /)
     if (hint.showOnRoutes && currentRoute) {
       const matches = hint.showOnRoutes.some(route => 
         currentRoute === route || currentRoute.startsWith(route + '/')

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { BottomNavigation } from './BottomNavigation';
 import { Sidebar } from './Sidebar';
@@ -29,8 +29,9 @@ export const MainLayout = () => {
   // Track play counts when tracks are played
   usePlaybackTracking();
   
-  // Contextual hints system
-  const { currentHint, dismissHint } = useContextualHints(location.pathname);
+  // Contextual hints system - memoize pathname to prevent unnecessary re-renders
+  const pathname = useMemo(() => location.pathname, [location.pathname]);
+  const { currentHint, dismissHint } = useContextualHints(pathname);
 
   // Register subscription dialog callback
   useEffect(() => {

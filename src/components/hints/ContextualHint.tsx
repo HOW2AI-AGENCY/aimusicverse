@@ -75,7 +75,10 @@ export function ContextualHint({ hint, onDismiss, position = 'bottom' }: Context
           <div className="p-4">
             {/* Header */}
             <div className="flex items-start gap-3 mb-3">
-              <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-background/50 flex items-center justify-center text-2xl">
+              <div 
+                className="flex-shrink-0 w-10 h-10 rounded-xl bg-background/50 flex items-center justify-center text-2xl"
+                aria-hidden="true"
+              >
                 {hint.icon || categoryIcons[hint.category]}
               </div>
               
