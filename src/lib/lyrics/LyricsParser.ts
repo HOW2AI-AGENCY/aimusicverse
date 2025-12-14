@@ -145,7 +145,7 @@ export class LyricsParser {
     const tags: SectionTag[] = [];
     
     // Extract bracket tags [tag]
-    const bracketMatches = line.matchAll(/\[([^\]]+)\]/g);
+    const bracketMatches = Array.from(line.matchAll(/\[([^\]]+)\]/g));
     for (const match of bracketMatches) {
       const tagValue = match[1].trim();
       const tagType = this.detectTagType(tagValue, 'bracket');
@@ -157,7 +157,7 @@ export class LyricsParser {
     }
     
     // Extract parenthesis tags (tag)
-    const parenMatches = line.matchAll(/\(([^)]+)\)/g);
+    const parenMatches = Array.from(line.matchAll(/\(([^)]+)\)/g));
     for (const match of parenMatches) {
       const tagValue = match[1].trim();
       const tagType = this.detectTagType(tagValue, 'parenthesis');

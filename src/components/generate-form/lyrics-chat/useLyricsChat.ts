@@ -223,10 +223,9 @@ export function useLyricsChat({
         setMessages(prev => prev.filter(m => !m.id.startsWith('loading-')));
         
         // Build response message with metadata
-        let responseContent = '🎉 Готово! Вот текст вашей песни:';
-        if (data.title) {
-          responseContent = `🎉 Готово! "${data.title}"`;
-        }
+        const responseContent = data.title 
+          ? `🎉 Готово! "${data.title}"`
+          : '🎉 Готово! Вот текст вашей песни:';
         
         addMessage({
           id: Date.now().toString(),
@@ -284,10 +283,9 @@ export function useLyricsChat({
         setGeneratedLyrics(data.lyrics);
         setMessages(prev => prev.filter(m => !m.id.startsWith('loading-')));
         
-        let responseContent = '✅ Обновлённый текст:';
-        if (data.changes) {
-          responseContent = `✅ Изменения: ${data.changes}`;
-        }
+        const responseContent = data.changes
+          ? `✅ Изменения: ${data.changes}`
+          : '✅ Обновлённый текст:';
         
         addMessage({
           id: Date.now().toString(),

@@ -82,6 +82,12 @@ export function StructuredLyricsDisplay({
   // Parse lyrics
   const parsed = useMemo(() => LyricsParser.parse(lyrics), [lyrics]);
   
+  // Check if there are no tags (memoized)
+  const hasNoTags = useMemo(() => 
+    Object.values(parsed.tags).every(arr => arr.length === 0), 
+    [parsed.tags]
+  );
+  
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(lyrics);
@@ -286,7 +292,7 @@ export function StructuredLyricsDisplay({
                 );
               })}
               
-              {Object.values(parsed.tags).every(arr => arr.length === 0) && (
+              {hasNoTags && (
                 <div className="text-center py-12 text-muted-foreground">
                   <Tag className="w-12 h-12 mx-auto mb-3 opacity-30" />
                   <p className="text-sm">Теги не найдены</p>

@@ -940,8 +940,8 @@ ${conversationHistory.slice(-10).map((m: any) => `${m.role === 'user' ? '👤 П
     // Parse structured JSON response for generation actions
     if (action === 'generate' || action === 'smart_generate' || action === 'improve' || action === 'add_tags') {
       try {
-        // Try to extract JSON from response
-        const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
+        // Try to extract JSON from response (look for complete JSON object)
+        const jsonMatch = generatedContent.match(/\{[\s\S]*?\}(?=\s*$|\s*```)/);
         if (jsonMatch) {
           const parsed = JSON.parse(jsonMatch[0]);
           
