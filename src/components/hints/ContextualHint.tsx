@@ -63,7 +63,7 @@ export function ContextualHint({ hint, onDismiss, position = 'bottom' }: Context
         exit={{ opacity: 0, y: position === 'top' ? -20 : 20, scale: 0.95 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
         className={cn(
-          'fixed left-1/2 -translate-x-1/2 z-[60] w-[calc(100%-1.5rem)] max-w-md mx-auto px-2 md:px-0 md:w-[calc(100%-2rem)]',
+          'fixed left-1/2 -translate-x-1/2 z-[60] w-[calc(100%-1.5rem)] max-w-md md:w-[calc(100%-2rem)]',
           positionClasses[position]
         )}
       >
