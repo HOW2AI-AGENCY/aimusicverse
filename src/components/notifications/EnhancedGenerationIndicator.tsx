@@ -139,6 +139,7 @@ export function EnhancedGenerationIndicator() {
           <Button
             variant="ghost"
             onClick={() => setExpanded(!expanded)}
+            // pr-12 padding provides space for the close button positioned at top-2 right-2
             className="h-auto py-3 px-4 pr-12 gap-3 hover:bg-primary/5 rounded-none w-full justify-between"
           >
             <div className="flex items-center gap-3 flex-1 min-w-0">
