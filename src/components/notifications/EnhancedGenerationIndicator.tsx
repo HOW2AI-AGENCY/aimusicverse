@@ -107,13 +107,11 @@ export function EnhancedGenerationIndicator() {
       .map((g) => g.id)
       .sort()
       .join(",");
-    if (currentGenerationIds !== lastGenerationIds && currentGenerationIds !== "") {
+    if (currentGenerationIds.length > 0 && currentGenerationIds !== lastGenerationIds) {
       setLastGenerationIds(currentGenerationIds);
-      if (dismissed) {
-        setDismissed(false);
-      }
+      setDismissed(false);
     }
-  }, [activeGenerations, lastGenerationIds, dismissed]);
+  }, [activeGenerations, lastGenerationIds]);
 
   if (generationCount === 0 || dismissed) return null;
 
