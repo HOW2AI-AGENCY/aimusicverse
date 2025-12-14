@@ -123,8 +123,8 @@ function sectionsToLyrics(sections: LyricSection[]): string {
 
     // Add tags inline if they exist and aren't already in content
     if (section.tags && section.tags.length > 0) {
-      const existingTags = content.match(/\(([^)]+)\)/g) || [];
-      const tagsToAdd = section.tags.filter(tag => !existingTags.includes(`(${tag})`));
+      const existingTags: string[] = content.match(/\(([^)]+)\)/g) || [];
+      const tagsToAdd = section.tags.filter((tag: string) => !existingTags.includes(`(${tag})`));
       if (tagsToAdd.length > 0) {
         content = tagsToAdd.map(t => `(${t})`).join(' ') + '\n' + content;
       }

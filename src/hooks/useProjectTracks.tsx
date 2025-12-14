@@ -135,11 +135,20 @@ export const useProjectTracks = (projectId: string | undefined) => {
         .single();
 
       if (error) throw error;
-      return data;
+      return { data, updates };
     },
-    onSuccess: () => {
+    onSuccess: ({ updates }) => {
       queryClient.invalidateQueries({ queryKey: ['project-tracks', projectId] });
-      toast.success('Трек обновлен');
+      // Show specific toast based on what was updated
+      if (updates.lyrics !== undefined) {
+        const statusLabel = updates.lyrics_status === 'generated' ? 'AI лирика' : 
+                           updates.lyrics_status === 'approved' ? 'Лирика одобрена' : 'Лирика сохранена';
+        toast.success(statusLabel);
+      } else if (updates.notes !== undefined) {
+        toast.success('Заметки сохранены');
+      } else {
+        toast.success('Трек обновлен');
+      }
     },
     onError: (error: any) => {
       log.error('Error updating track', error);
@@ -214,11 +223,19 @@ export const useProjectTracks = (projectId: string | undefined) => {
       // Tracks are now inserted by the edge function using service role
       return data;
     },
-    onSuccess: () => {
+    onMutate: () => {
+      // Show loading toast
+      toast.loading('Генерация трек-листа...', { id: 'tracklist-gen' });
+    },
+    onSuccess: (data) => {
+      toast.dismiss('tracklist-gen');
+      // Force immediate refetch
       queryClient.invalidateQueries({ queryKey: ['project-tracks', projectId] });
-      toast.success('Трек-лист создан с помощью AI');
+      const count = data?.data?.insertedCount || data?.data?.tracks?.length || 0;
+      toast.success(`Трек-лист создан: ${count} треков`);
     },
     onError: (error: any) => {
+      toast.dismiss('tracklist-gen');
       log.error('Error generating tracklist', error);
       toast.error('Ошибка генерации трек-листа');
     },

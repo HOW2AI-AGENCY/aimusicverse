@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -144,6 +144,19 @@ export const MinimalProjectTrackItem = ({
   // Check if we have actual lyrics content (use new lyrics field, fallback to notes for backward compat)
   const hasLyricsContent = !!(track.lyrics || linkedTrack?.lyrics);
 
+  // Track lyrics changes for animation
+  const prevLyricsRef = useRef(track.lyrics);
+  const [lyricsJustUpdated, setLyricsJustUpdated] = useState(false);
+
+  useEffect(() => {
+    if (prevLyricsRef.current !== track.lyrics && track.lyrics) {
+      setLyricsJustUpdated(true);
+      const timer = setTimeout(() => setLyricsJustUpdated(false), 2000);
+      return () => clearTimeout(timer);
+    }
+    prevLyricsRef.current = track.lyrics;
+  }, [track.lyrics]);
+
   const handlePlay = () => {
     if (!linkedTrack) return;
     
@@ -270,11 +283,21 @@ export const MinimalProjectTrackItem = ({
 
             {/* Lyrics preview with status indicator */}
             {hasLyricsContent && (
-              <div className="flex items-center gap-1 mt-1 text-[10px] text-muted-foreground/70">
+              <motion.div 
+                className={cn(
+                  "flex items-center gap-1 mt-1 text-[10px] text-muted-foreground/70 rounded px-1 -mx-1",
+                  lyricsJustUpdated && "bg-primary/20"
+                )}
+                animate={lyricsJustUpdated ? { 
+                  backgroundColor: ['hsl(var(--primary) / 0.3)', 'hsl(var(--primary) / 0)'] 
+                } : {}}
+                transition={{ duration: 2 }}
+              >
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <span className={cn("flex items-center gap-0.5", lyricsStatusConfig.color)}>
                       <LyricsStatusIcon className="w-3 h-3" />
+                      {lyricsJustUpdated && <span className="text-[9px] text-primary font-medium ml-1">Обновлено!</span>}
                     </span>
                   </TooltipTrigger>
                   <TooltipContent side="top" className="text-xs">
@@ -284,7 +307,7 @@ export const MinimalProjectTrackItem = ({
                 <span className="truncate">
                   {(linkedTrack?.lyrics || track.lyrics || '').replace(/\[.*?\]/g, '').slice(0, 50)}...
                 </span>
-              </div>
+              </motion.div>
             )}
           </div>
 

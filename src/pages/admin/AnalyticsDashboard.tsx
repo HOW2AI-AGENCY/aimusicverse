@@ -92,8 +92,10 @@ export default function AnalyticsDashboard() {
 
       data?.forEach((event) => {
         // Count generations per day
-        const day = event.created_at.split('T')[0];
-        generationsPerDay[day] = (generationsPerDay[day] || 0) + 1;
+        if (event.created_at) {
+          const day = event.created_at.split('T')[0];
+          generationsPerDay[day] = (generationsPerDay[day] || 0) + 1;
+        }
       });
 
       return {
