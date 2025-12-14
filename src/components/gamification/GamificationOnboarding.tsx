@@ -72,6 +72,7 @@ export function GamificationOnboarding({ open, show, onComplete }: GamificationO
   // Support both 'open' and 'show' props
   const shouldShow = open ?? show ?? false;
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     if (shouldShow) {
       setIsVisible(true);

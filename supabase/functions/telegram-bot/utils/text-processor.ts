@@ -14,6 +14,7 @@ export function escapeMarkdownV2(text: string): string {
   if (!text || typeof text !== 'string') return '';
   
   // Remove null bytes and control characters
+  // eslint-disable-next-line no-control-regex
   text = text.replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '');
   
   // Escape backslashes first to prevent double escaping
@@ -218,6 +219,7 @@ export function isSafeText(text: string): boolean {
   if (specialCharRatio > 0.3) return false;
   
   // Check for null bytes
+  // eslint-disable-next-line no-control-regex
   if (/\x00/.test(text)) return false;
   
   return true;
@@ -235,6 +237,7 @@ export function isValidLength(text: string, maxLength: number = 4096): boolean {
  */
 export function hasValidCharacters(text: string): boolean {
   // Allow most Unicode characters except control chars
+  // eslint-disable-next-line no-control-regex
   return !/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/.test(text);
 }
 

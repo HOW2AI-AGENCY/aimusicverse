@@ -30,7 +30,8 @@ describe('Stars Payment Integration Tests', () => {
       password: 'test-password-123',
       email_confirm: true,
     });
-    testUserId = user?.user?.id!;
+    if (!user?.user?.id) throw new Error('Failed to create test user');
+    testUserId = user.user.id;
 
     const { data: product } = await supabase
       .from('stars_products')
@@ -44,7 +45,8 @@ describe('Stars Payment Integration Tests', () => {
       })
       .select()
       .single();
-    testProductId = product?.id!;
+    if (!product?.id) throw new Error('Failed to create test product');
+    testProductId = product.id;
   });
 
   afterAll(async () => {

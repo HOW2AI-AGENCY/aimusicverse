@@ -43,6 +43,7 @@ export function EditArtistDialog({ artist, open, onOpenChange, canMakePrivate = 
   const isOwner = user?.id === artist?.user_id;
 
   // Reset form when artist changes
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     if (artist && open) {
       setName(artist.name || '');

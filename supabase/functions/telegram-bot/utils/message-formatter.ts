@@ -44,6 +44,7 @@ export function escapeMarkdown(text: string): string {
   if (!text) return '';
   
   // Handle null bytes and control characters
+  // eslint-disable-next-line no-control-regex
   text = text.replace(/[\x00-\x1F\x7F]/g, '');
   
   // Escape backslashes first to prevent double escaping

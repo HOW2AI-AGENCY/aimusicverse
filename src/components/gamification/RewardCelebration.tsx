@@ -32,10 +32,11 @@ export function RewardCelebration({
   const [isVisible, setIsVisible] = useState(false);
   const [particlePositions] = useState(generateParticlePositions);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     if (show) {
       setIsVisible(true);
-      
+
       // Trigger confetti for level up or achievements
       if (levelUp || achievementName) {
         const duration = 2000;

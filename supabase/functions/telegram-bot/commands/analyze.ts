@@ -284,7 +284,7 @@ ${escapeMarkdownV2(result.message || result.error)}`, {
     const files = result.files || {};
     const notesCount = result.notes?.length || 0;
 
-    let message = `✅ *Транскрипция завершена\\!*
+    const message = `✅ *Транскрипция завершена\\!*
 
 📁 ${escapeMarkdownV2(session.fileName)}
 🎛️ Модель: ${model}
