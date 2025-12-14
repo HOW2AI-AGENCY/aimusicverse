@@ -292,11 +292,50 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           form.setLyrics(newLyrics);
         }}
         onStyleGenerated={(generatedStyle: string) => {
-          if (!form.style || form.style.length < generatedStyle.length) {
-            form.setStyle(generatedStyle);
+          // Always update style with AI-generated one
+          form.setStyle(generatedStyle);
+          // Auto-generate title if empty
+          if (!form.title && generatedStyle) {
+            const firstGenre = generatedStyle.split(',')[0].trim();
+            form.setTitle(firstGenre.length > 30 ? firstGenre.slice(0, 30) : firstGenre);
           }
         }}
         initialGenre={projects?.find(p => p.id === form.selectedProjectId)?.genre || undefined}
+        initialMood={projects?.find(p => p.id === form.selectedProjectId)?.mood ? [projects.find(p => p.id === form.selectedProjectId)!.mood!] : undefined}
+        initialLanguage={(projects?.find(p => p.id === form.selectedProjectId)?.language as 'ru' | 'en') || 'ru'}
+        projectContext={form.selectedProjectId ? (() => {
+          const project = projects?.find(p => p.id === form.selectedProjectId);
+          if (!project) return undefined;
+          return {
+            projectId: project.id,
+            projectTitle: project.title,
+            genre: project.genre || undefined,
+            mood: project.mood || undefined,
+            language: project.language as 'ru' | 'en' | undefined,
+            concept: project.concept || undefined,
+            targetAudience: project.target_audience || undefined,
+            referenceArtists: project.reference_artists || undefined,
+            projectType: project.project_type || undefined,
+            existingTracks: allTracks?.filter(t => t.project_id === project.id).map(t => ({
+              title: t.title,
+              stylePrompt: t.style_prompt || undefined,
+              generatedLyrics: t.lyrics || undefined,
+              draftLyrics: t.notes || undefined,
+            })),
+          };
+        })() : undefined}
+        trackContext={form.selectedTrackId ? (() => {
+          const track = allTracks?.find(t => t.id === form.selectedTrackId);
+          if (!track) return undefined;
+          return {
+            title: track.title,
+            position: track.position || 0,
+            stylePrompt: track.style_prompt || undefined,
+            draftLyrics: track.notes || undefined,
+            generatedLyrics: track.lyrics || undefined,
+            notes: track.notes || undefined,
+          };
+        })() : undefined}
       />
 
       <PromptHistory
