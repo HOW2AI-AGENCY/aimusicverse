@@ -8,6 +8,7 @@
  */
 
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { Track } from '@/hooks/useTracksOptimized';
 
 /**
@@ -211,17 +212,29 @@ export const playerLogic = {
 };
 
 /**
- * Player Store - Zustand store implementation
- * 
+ * Player Store - Zustand store implementation with persistence
+ *
  * Creates the global player state store with all actions.
+ * Persists volume, repeat, and shuffle settings to localStorage.
  * This is the main hook exported for components to use.
- * 
+ *
  * @example
  * ```tsx
- * const { activeTrack, isPlaying, playTrack, nextTrack } = usePlayerStore();
+ * // ⚠️ Use selectors for better performance:
+ * const activeTrack = usePlayerStore(s => s.activeTrack);
+ * const isPlaying = usePlayerStore(s => s.isPlaying);
+ *
+ * // Or with shallow comparison for multiple values:
+ * import { shallow } from 'zustand/shallow';
+ * const { activeTrack, isPlaying } = usePlayerStore(
+ *   s => ({ activeTrack: s.activeTrack, isPlaying: s.isPlaying }),
+ *   shallow
+ * );
  * ```
  */
-export const usePlayerStore = create<PlayerState>((set, get) => ({
+export const usePlayerStore = create<PlayerState>()(
+  persist(
+    (set, get) => ({
   // Initial state
   activeTrack: null,
   isPlaying: false,
@@ -395,4 +408,15 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
    * Maximize player - switches to fullscreen mode
    */
   maximizePlayer: () => set({ playerMode: 'fullscreen' }),
-}));
+    }),
+    {
+      name: 'player-settings',
+      // Only persist user preferences, not playback state
+      partialize: (state) => ({
+        volume: state.volume,
+        repeat: state.repeat,
+        shuffle: state.shuffle,
+      }),
+    }
+  )
+);
