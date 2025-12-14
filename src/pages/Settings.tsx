@@ -25,7 +25,8 @@ import {
   Loader2,
   CheckCircle2,
   Send,
-  UserX
+  UserX,
+  Lightbulb
 } from "lucide-react";
 import { toast } from "sonner";
 import { TelegramBotSetup } from "@/components/TelegramBotSetup";
@@ -33,6 +34,7 @@ import { AddToHomeScreen } from "@/components/telegram/AddToHomeScreen";
 import { AvatarUpload } from "@/components/settings/AvatarUpload";
 import { MidiSettingsSection } from "@/components/settings/MidiSettingsSection";
 import { PrivacySettings } from "@/components/settings/PrivacySettings";
+import { HintsSettings } from "@/components/settings/HintsSettings";
 import { motion } from '@/lib/motion';
 
 export default function Settings() {
@@ -119,7 +121,7 @@ export default function Settings() {
         </motion.div>
 
         <Tabs defaultValue="profile" className="w-full">
-          <TabsList className="grid w-full grid-cols-5 mb-6">
+          <TabsList className="grid w-full mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))' }}>
             <TabsTrigger value="profile" className="gap-2">
               <User className="w-4 h-4" />
               <span className="hidden sm:inline">Профиль</span>
@@ -131,6 +133,10 @@ export default function Settings() {
             <TabsTrigger value="notifications" className="gap-2">
               <Bell className="w-4 h-4" />
               <span className="hidden sm:inline">Уведомления</span>
+            </TabsTrigger>
+            <TabsTrigger value="hints" className="gap-2">
+              <Lightbulb className="w-4 h-4" />
+              <span className="hidden sm:inline">Подсказки</span>
             </TabsTrigger>
             <TabsTrigger value="midi" className="gap-2">
               <Music className="w-4 h-4" />
@@ -416,6 +422,11 @@ export default function Settings() {
                 </CardContent>
               </Card>
             </motion.div>
+          </TabsContent>
+
+          {/* Hints Tab */}
+          <TabsContent value="hints" className="space-y-4">
+            <HintsSettings />
           </TabsContent>
 
           {/* MIDI Tab */}
