@@ -307,7 +307,11 @@ export function useContextualHints(currentRoute?: string) {
       const now = Date.now();
       const fiveMinutes = 5 * 60 * 1000;
       
-      if (!lastVisit || now - parseInt(lastVisit, 10) > fiveMinutes) {
+      // Validate lastVisit is a number
+      const lastVisitTime = lastVisit ? parseInt(lastVisit, 10) : 0;
+      const isValidTime = !isNaN(lastVisitTime) && lastVisitTime > 0;
+      
+      if (!isValidTime || now - lastVisitTime > fiveMinutes) {
         const newCount = count + 1;
         setVisitCount(newCount);
         localStorage.setItem(VISITS_KEY, newCount.toString());
@@ -355,10 +359,15 @@ export function useContextualHints(currentRoute?: string) {
     }
     
     // Check route (exact match or starts with route + /)
+    // Ensures '/lib' doesn't match '/library'
     if (hint.showOnRoutes && currentRoute) {
-      const matches = hint.showOnRoutes.some(route => 
-        currentRoute === route || currentRoute.startsWith(route + '/')
-      );
+      const matches = hint.showOnRoutes.some(route => {
+        // Exact match
+        if (currentRoute === route) return true;
+        // Sub-route match (must have / after route)
+        if (currentRoute.startsWith(route + '/')) return true;
+        return false;
+      });
       if (!matches) {
         return false;
       }

@@ -85,7 +85,7 @@ export function HintsSettings() {
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Stats */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="p-4 rounded-lg bg-muted/50">
               <div className="text-2xl font-bold text-primary">{visitCount}</div>
               <div className="text-xs text-muted-foreground">Посещений</div>
