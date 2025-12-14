@@ -290,6 +290,10 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           form.setHasVocals(true);
           // Set the generated lyrics
           form.setLyrics(newLyrics);
+          // Notify user that lyrics are ready
+          toast.success('Текст песни добавлен! 🎤', {
+            description: 'Лирика с профессиональными тегами Suno готова к генерации',
+          });
         }}
         onStyleGenerated={(generatedStyle: string) => {
           // Always update style with AI-generated one

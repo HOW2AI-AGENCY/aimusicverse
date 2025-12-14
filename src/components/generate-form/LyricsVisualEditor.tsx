@@ -118,7 +118,8 @@ function parseLyrics(text: string): LyricSection[] {
 // Helper function to convert sections back to lyrics text
 function sectionsToLyrics(sections: LyricSection[]): string {
   return sections.map(section => {
-    const label = SECTION_TYPES.find(t => t.value === section.type)?.label || section.type;
+    // Use English tag names for Suno compatibility
+    const tagName = section.type.charAt(0).toUpperCase() + section.type.slice(1);
     let content = section.content;
 
     // Add tags inline if they exist and aren't already in content
@@ -130,7 +131,7 @@ function sectionsToLyrics(sections: LyricSection[]): string {
       }
     }
 
-    return `[${label}]\n${content}`;
+    return `[${tagName}]\n${content}`;
   }).join('\n\n');
 }
 
