@@ -222,13 +222,28 @@ export function useLyricsChat({
         setGeneratedLyrics(data.lyrics);
         setMessages(prev => prev.filter(m => !m.id.startsWith('loading-')));
         
+        // Build response message with metadata
+        let responseContent = '🎉 Готово! Вот текст вашей песни:';
+        if (data.title) {
+          responseContent = `🎉 Готово! "${data.title}"`;
+        }
+        
         addMessage({
           id: Date.now().toString(),
           role: 'assistant',
-          content: '🎉 Готово! Вот текст вашей песни:',
+          content: responseContent,
           component: 'lyrics-preview',
-          data: { lyrics: data.lyrics },
+          data: { 
+            lyrics: data.lyrics,
+            title: data.title,
+            style: data.style,
+          },
         });
+        
+        // Generate style prompt if callback exists
+        if (onStyleGenerated && data.style) {
+          onStyleGenerated(data.style);
+        }
       }
     } catch (err) {
       logger.error('Error generating lyrics', { error: err });
@@ -242,7 +257,7 @@ export function useLyricsChat({
     } finally {
       setIsLoading(false);
     }
-  }, [theme, genre, mood, language, projectContext, addMessage]);
+  }, [theme, genre, mood, language, projectContext, addMessage, onStyleGenerated]);
 
   const modifyLyrics = useCallback(async (instruction: string) => {
     setIsLoading(true);
@@ -269,12 +284,21 @@ export function useLyricsChat({
         setGeneratedLyrics(data.lyrics);
         setMessages(prev => prev.filter(m => !m.id.startsWith('loading-')));
         
+        let responseContent = '✅ Обновлённый текст:';
+        if (data.changes) {
+          responseContent = `✅ Изменения: ${data.changes}`;
+        }
+        
         addMessage({
           id: Date.now().toString(),
           role: 'assistant',
-          content: '✅ Обновлённый текст:',
+          content: responseContent,
           component: 'lyrics-preview',
-          data: { lyrics: data.lyrics },
+          data: { 
+            lyrics: data.lyrics,
+            title: data.title,
+            style: data.style,
+          },
         });
       }
     } catch (err) {
@@ -428,12 +452,24 @@ export function useLyricsChat({
             if (error) throw error;
             if (data?.lyrics) {
               setGeneratedLyrics(data.lyrics);
+              
+              let responseContent = '🏷️ Добавил теги Suno:';
+              if (data.tagsSummary) {
+                const totalTags = Object.values(data.tagsSummary).flat().length;
+                responseContent = `🏷️ Добавлено ${totalTags} профессиональных тегов Suno V5`;
+              }
+              
               addMessage({
                 id: Date.now().toString(),
                 role: 'assistant',
-                content: '🏷️ Добавил теги Suno:',
+                content: responseContent,
                 component: 'lyrics-preview',
-                data: { lyrics: data.lyrics },
+                data: { 
+                  lyrics: data.lyrics,
+                  title: data.title,
+                  style: data.style,
+                  tagsSummary: data.tagsSummary,
+                },
               });
             }
           } catch (err) {

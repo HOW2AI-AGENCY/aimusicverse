@@ -402,7 +402,14 @@ ${dynamicTags?.length ? `Динамические: ${dynamicTags.map(t => `[${t}
 ${emotionalCues?.length ? `Эмоциональные: ${emotionalCues.map(t => `(${t})`).join(', ')}` : ''}
 ` : ''}
 
-Верни ТОЛЬКО текст песни с тегами, без объяснений.`;
+ФОРМАТ ОТВЕТА (строго JSON):
+{
+  "title": "Название песни (2-5 слов, отражает тему)",
+  "style": "Стиль-промпт для Suno (${genre}, ${mood}, инструменты, до 120 символов)",
+  "lyrics": "ПОЛНЫЙ текст песни с правильными тегами Suno V5"
+}
+
+ВАЖНО: Верни ТОЛЬКО валидный JSON, без дополнительного текста до или после.`;
         break;
 
       case 'improve':
@@ -419,7 +426,15 @@ ${existingLyrics || lyrics}
 5. Добавь инструментальные указания где уместно
 6. Сделай текст более поэтичным
 
-Верни улучшенный текст с полным форматированием.`;
+ФОРМАТ ОТВЕТА (строго JSON):
+{
+  "title": "Название песни (из текста или создай подходящее)",
+  "style": "Стиль-промпт для Suno (жанр, настроение, инструменты)",
+  "lyrics": "УЛУЧШЕННЫЙ текст с правильными тегами Suno V5",
+  "changes": "Краткое описание сделанных улучшений"
+}
+
+ВАЖНО: Верни ТОЛЬКО валидный JSON.`;
         break;
 
       case 'add_tags':
@@ -438,7 +453,20 @@ ${existingLyrics || lyrics}
 4. Добавь инструментальные указания [Guitar Solo], [Piano Break] если уместно
 5. Используй рекомендованные теги для жанра ${genre}
 
-Верни текст с полным профессиональным форматированием.`;
+ФОРМАТ ОТВЕТА (строго JSON):
+{
+  "title": "Название песни (определи из текста или создай)",
+  "style": "Стиль для Suno: ${genre}, ${mood}, характерные инструменты",
+  "lyrics": "Текст с ПОЛНЫМ набором профессиональных тегов Suno V5",
+  "tagsSummary": {
+    "structural": ["список использованных структурных тегов"],
+    "vocal": ["список вокальных указаний"],
+    "dynamic": ["список динамических тегов"],
+    "instrumental": ["список инструментальных тегов"]
+  }
+}
+
+ВАЖНО: Верни ТОЛЬКО валидный JSON.`;
         break;
 
       case 'suggest_structure':
@@ -899,9 +927,9 @@ ${conversationHistory.slice(-10).map((m: any) => `${m.role === 'user' ? '👤 П
     }
 
     const aiData = await aiResponse.json();
-    const generatedLyrics = aiData.choices?.[0]?.message?.content || '';
+    const generatedContent = aiData.choices?.[0]?.message?.content || '';
 
-    logger.success('Lyrics generated', { action, contentLength: generatedLyrics.length });
+    logger.success('Lyrics generated', { action, contentLength: generatedContent.length });
 
     // Return additional metadata for smart_generate
     const response: any = {
@@ -909,25 +937,59 @@ ${conversationHistory.slice(-10).map((m: any) => `${m.role === 'user' ? '👤 П
       action,
     };
 
+    // Parse structured JSON response for generation actions
+    if (action === 'generate' || action === 'smart_generate' || action === 'improve' || action === 'add_tags') {
+      try {
+        // Try to extract JSON from response
+        const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          
+          // Validate required fields
+          if (parsed.lyrics) {
+            response.lyrics = parsed.lyrics;
+            response.title = parsed.title || null;
+            response.style = parsed.style || null;
+            response.changes = parsed.changes || null;
+            response.tagsSummary = parsed.tagsSummary || null;
+            
+            logger.info('Parsed structured response', { 
+              hasTitle: !!parsed.title, 
+              hasStyle: !!parsed.style,
+              lyricsLength: parsed.lyrics.length 
+            });
+          } else {
+            // Fallback if no lyrics field
+            response.lyrics = generatedContent;
+          }
+        } else {
+          // No JSON found, use raw content
+          response.lyrics = generatedContent;
+        }
+      } catch (e) {
+        logger.warn('Failed to parse JSON response, using raw content', { error: e });
+        response.lyrics = generatedContent;
+      }
+    } 
     // Handle chat action response (JSON parsing)
-    if (action === 'chat') {
+    else if (action === 'chat') {
       try {
         // Try to parse JSON response from AI
-        const jsonMatch = generatedLyrics.match(/\{[\s\S]*\}/);
+        const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
           const parsed = JSON.parse(jsonMatch[0]);
           response.lyrics = parsed.lyrics || null;
-          response.response = parsed.response || generatedLyrics;
+          response.response = parsed.response || generatedContent;
           response.suggestions = parsed.suggestions || null;
         } else {
-          response.response = generatedLyrics;
+          response.response = generatedContent;
         }
       } catch (e) {
         // If JSON parsing fails, return raw text as response
-        response.response = generatedLyrics;
+        response.response = generatedContent;
       }
     } else {
-      response.lyrics = generatedLyrics;
+      response.lyrics = generatedContent;
     }
 
     if (action === 'smart_generate' || action === 'generate') {
