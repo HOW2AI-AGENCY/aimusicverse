@@ -184,7 +184,7 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
         lyrics_status: (lyricsStatus || 'draft') as 'draft' | 'prompt' | 'generated' | 'approved',
       },
     });
-    toast.success('Лирика сохранена');
+    // Toast is shown by useProjectTracks hook
   };
 
   const handleSaveNotes = (trackId: string, newNotes: string) => {
@@ -194,7 +194,7 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
         notes: newNotes,
       },
     });
-    toast.success('Заметки сохранены');
+    // Toast is shown by useProjectTracks hook
   };
 
   const handleOpenWizardFromPreview = () => {

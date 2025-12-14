@@ -8,6 +8,7 @@ export interface ProjectContext {
   targetAudience?: string;
   referenceArtists?: string[];
   existingTracks?: TrackContext[];
+  projectType?: string;
 }
 
 export interface TrackContext {
