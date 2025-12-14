@@ -615,11 +615,38 @@ async function processAudioUpload(
   telegramChatId: number
 ): Promise<{ success: boolean; taskId?: string; error?: string }> {
   try {
+    // Security: Check user quota before processing
+    const { checkAndDeductQuota } = await import('../utils/quota-checker.ts');
+    const operationType = pendingUpload.mode === 'cover' ? 'upload_cover' : 'upload_extend';
+
+    const quotaCheck = await checkAndDeductQuota(userId, operationType, {
+      telegramChatId,
+      mode: pendingUpload.mode,
+    });
+
+    if (!quotaCheck.allowed) {
+      logger.warn('Quota check failed', {
+        userId,
+        reason: quotaCheck.reason,
+        balance: quotaCheck.creditsBalance,
+      });
+      return {
+        success: false,
+        error: quotaCheck.reason || 'Недостаточно кредитов для выполнения операции',
+      };
+    }
+
+    logger.info('Quota check passed', {
+      userId,
+      balance: quotaCheck.creditsBalance,
+      subscription: quotaCheck.subscriptionTier,
+    });
+
     // Create a mock auth token for internal service call
     // We'll use service role to bypass auth
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const sunoApiKey = Deno.env.get('SUNO_API_KEY');
-    
+
     if (!sunoApiKey) {
       return { success: false, error: 'API key not configured' };
     }

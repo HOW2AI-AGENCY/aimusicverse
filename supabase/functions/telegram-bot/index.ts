@@ -60,9 +60,28 @@ Deno.serve(async (req) => {
 
     // Handle webhook updates
     if (req.method === 'POST') {
+      // Security: Verify webhook secret token
+      const secretToken = Deno.env.get('TELEGRAM_WEBHOOK_SECRET');
+      if (secretToken) {
+        const receivedToken = req.headers.get('X-Telegram-Bot-Api-Secret-Token');
+        if (receivedToken !== secretToken) {
+          logger.warn('Unauthorized webhook request', {
+            hasToken: !!receivedToken,
+            ip: req.headers.get('CF-Connecting-IP') || req.headers.get('X-Forwarded-For') || 'unknown'
+          });
+          return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+            status: 403,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+      } else {
+        // Warn if secret token is not configured (development mode)
+        logger.warn('TELEGRAM_WEBHOOK_SECRET not configured - webhook is not protected');
+      }
+
       const update: TelegramUpdate = await req.json();
-      
-      logger.debug('Received update', { 
+
+      logger.debug('Received update', {
         updateId: update.update_id,
         hasMessage: !!update.message,
         hasCallback: !!update.callback_query,
@@ -75,7 +94,7 @@ Deno.serve(async (req) => {
       } else {
         await handleUpdate(update);
       }
-      
+
       // Flush metrics after processing
       await flushMetrics();
 
