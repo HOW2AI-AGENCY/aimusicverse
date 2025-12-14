@@ -107,7 +107,7 @@ export function ContextualHint({ hint, onDismiss, position = 'bottom' }: Context
             <div className="flex items-center justify-between gap-2 mt-2 md:mt-3 pt-2 md:pt-3 border-t border-border/50">
               <button
                 onClick={() => onDismiss(true)}
-                className="text-[10px] md:text-xs text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
               >
                 Не показывать
               </button>
