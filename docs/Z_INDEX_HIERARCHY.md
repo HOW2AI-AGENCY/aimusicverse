@@ -22,7 +22,7 @@ This document defines the z-index hierarchy used across the MusicVerse AI applic
 #### Contextual Hints (z-[70])
 - **File**: `src/components/hints/ContextualHint.tsx`
 - **Purpose**: Display smart contextual tips that appear above navigation but below fullscreen overlays
-- **Position**: Fixed, centered horizontally with `left-1/2 -translate-x-1/2`
+- **Position**: Fixed, centered horizontally with `left-0 right-0 mx-auto` + safe-area CSS variables
 - **Mobile Bottom Position**: `bottom-[6.5rem]` (accounts for island-nav height + safe area)
 - **Desktop Bottom Position**: `md:bottom-24`
 - **Width**: `w-[calc(100%-1.5rem)]` on mobile, `md:w-[calc(100%-2rem)]` on desktop
@@ -43,15 +43,20 @@ This document defines the z-index hierarchy used across the MusicVerse AI applic
 
 1. **Bottom Navigation Height**: Island navigation is approximately 4rem in height plus safe-area-inset-bottom
 2. **Safe Areas**: All mobile positioning should account for `env(safe-area-inset-bottom)` on devices with notches/gesture bars
-3. **Centering**: Use `left-1/2 -translate-x-1/2` for horizontal centering
+3. **Centering**: Use `left-0 right-0 mx-auto` for reliable horizontal centering. Avoid `left-1/2 -translate-x-1/2` when combined with calc() widths as it can cause alignment issues
 4. **Width**: Use `calc(100% - [margin])` to ensure proper spacing from edges
 
 ### Historical Issues Fixed
 
-**2025-12-14**: Fixed z-index conflicts where:
+**2025-12-14 (Z-Index)**: Fixed z-index conflicts where:
 - `ContextualHint` was at z-[60], causing conflicts with `MobileFullscreenPlayer` (also z-[60])
 - Hints could appear behind the bottom navigation (z-50)
 - Solution: Moved `ContextualHint` to z-[70], moved fullscreen overlays to z-[90]
+
+**2025-12-14 (Positioning)**: Fixed mobile horizontal alignment issue where:
+- Hints appeared shifted to the right on mobile screens
+- Using `left-1/2 -translate-x-1/2` with calc() width caused centering issues
+- Solution: Changed to `left-0 right-0 mx-auto` for more reliable centering, added safe-area CSS variables
 
 ### Best Practices
 

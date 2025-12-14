@@ -40,6 +40,18 @@ export interface ContextualHint {
 
 // Определение всех подсказок
 export const CONTEXTUAL_HINTS: ContextualHint[] = [
+  // Beta notice - highest priority
+  {
+    id: 'beta-active-development',
+    category: 'tip',
+    title: '⚡ Платформа в активной разработке',
+    description: 'Мы постоянно улучшаем MusicVerse AI! Некоторые функции могут работать нестабильно. Спасибо за ваше терпение и обратную связь — вы помогаете нам стать лучше!',
+    showOnRoutes: ['/', '/library', '/generate', '/projects', '/community'],
+    minVisits: 1,
+    cooldownHours: 168, // 7 дней
+    maxShows: 5,
+    priority: 11, // Highest priority
+  },
   // Model hints
   {
     id: 'model-v5-available',
