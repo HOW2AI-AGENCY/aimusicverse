@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { BottomNavigation } from './BottomNavigation';
 import { Sidebar } from './Sidebar';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
@@ -16,15 +16,21 @@ import { SubscriptionRequiredDialog } from './dialogs/SubscriptionRequiredDialog
 import { GamificationOnboarding } from './gamification/GamificationOnboarding';
 import { setSubscriptionDialogCallback } from '@/hooks/useTrackActions';
 import { SystemAnnouncement } from './layout/SystemAnnouncement';
+import { ContextualHint } from './hints/ContextualHint';
+import { useContextualHints } from '@/hooks/useContextualHints';
 
 export const MainLayout = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const { isGuestMode } = useGuestMode();
+  const location = useLocation();
   const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false);
   const [gamificationOnboardingOpen, setGamificationOnboardingOpen] = useState(false);
   
   // Track play counts when tracks are played
   usePlaybackTracking();
+  
+  // Contextual hints system
+  const { currentHint, dismissHint } = useContextualHints(location.pathname);
 
   // Register subscription dialog callback
   useEffect(() => {
@@ -77,6 +83,15 @@ export const MainLayout = () => {
         open={gamificationOnboardingOpen}
         onComplete={handleGamificationOnboardingComplete}
       />
+      
+      {/* Contextual Hints */}
+      {currentHint && (
+        <ContextualHint
+          hint={currentHint}
+          onDismiss={dismissHint}
+          position="bottom"
+        />
+      )}
       
       {isDesktop && (
         <div className="w-64 fixed inset-y-0 z-50">
