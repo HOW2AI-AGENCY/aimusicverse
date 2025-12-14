@@ -19,8 +19,10 @@ import {
 } from './lyrics-chat/ChatComponents';
 import { TagBuilderPanel } from './TagBuilderPanel';
 import { ContextRecommendations, Recommendation } from './lyrics-chat/ContextRecommendations';
+import { QuickActions } from './lyrics-chat/QuickActions';
 import { messageVariants, buttonVariants } from './lyrics-chat/constants';
 import type { LyricsChatAssistantProps, ChatMessage } from './lyrics-chat/types';
+import type { LyricsQuickAction } from './lyrics-chat/quickActions';
 
 export type { LyricsChatAssistantProps } from './lyrics-chat/types';
 
@@ -88,6 +90,13 @@ export function LyricsChatAssistant({
       }
     }
   }, [chat, onLyricsGenerated]);
+  
+  const handleQuickActionSelect = useCallback((action: LyricsQuickAction) => {
+    // Send the action prompt as user message
+    chat.setInputValue(action.prompt);
+    chat.handleSendMessage();
+    setActiveTab('chat'); // Switch back to chat tab
+  }, [chat]);
 
   const handleTagsGenerated = useCallback((tags: string) => {
     if (chat.generatedLyrics) {
@@ -159,10 +168,14 @@ export function LyricsChatAssistant({
     <div className="flex flex-col h-full min-h-0">
       {/* Tabs for Chat / Tags / AI */}
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)} className="shrink-0 px-4 pt-2">
-        <TabsList className="w-full grid grid-cols-3 h-8">
+        <TabsList className="w-full grid grid-cols-4 h-8">
           <TabsTrigger value="chat" className="text-xs gap-1">
             <MessageCircle className="h-3 w-3" />
             Чат
+          </TabsTrigger>
+          <TabsTrigger value="quick" className="text-xs gap-1">
+            <Sparkles className="h-3 w-3" />
+            Быстро
           </TabsTrigger>
           <TabsTrigger value="tags" className="text-xs gap-1">
             <Tag className="h-3 w-3" />
@@ -244,6 +257,15 @@ export function LyricsChatAssistant({
               </div>
             </ScrollArea>
           </>
+        )}
+
+        {activeTab === 'quick' && (
+          <ScrollArea className="h-full p-4">
+            <QuickActions
+              hasLyrics={!!chat.generatedLyrics}
+              onActionSelect={handleQuickActionSelect}
+            />
+          </ScrollArea>
         )}
 
         {activeTab === 'tags' && (
