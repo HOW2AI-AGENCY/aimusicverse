@@ -447,8 +447,9 @@ export function useContextualHints(currentRoute?: string) {
         [currentHint.id]: {
           ...currentState,
           dismissed: forever,
-          // Update lastShown even for temporary dismissal to trigger cooldown
-          lastShown: Date.now(),
+          // Update lastShown only for temporary dismissal to trigger cooldown
+          // Permanent dismissal doesn't need lastShown update since dismissed flag prevents reappearance
+          lastShown: forever ? currentState.lastShown : Date.now(),
         },
       };
       setHintStates(updatedStates);
