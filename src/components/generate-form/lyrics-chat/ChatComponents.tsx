@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { Loader2, RotateCcw, Copy, Check, Bookmark, BookmarkCheck, ChevronRight, MessageSquarePlus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { GENRES, MOODS, STRUCTURES, buttonVariants, badgeVariants } from './constants';
+import { StructuredLyricsDisplay } from '@/components/lyrics/StructuredLyricsDisplay';
 
 interface GenreSelectorProps {
   selectedGenre: string;
@@ -191,15 +192,17 @@ export function LyricsPreview({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 }}
     >
-      <motion.div 
-        className="bg-background/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 max-h-[200px] sm:max-h-[280px] overflow-y-auto shadow-inner"
+      <motion.div
+        className="overflow-hidden"
         initial={{ scale: 0.95 }}
         animate={{ scale: 1 }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       >
-        <pre className="whitespace-pre-wrap text-sm font-sans leading-relaxed text-foreground">
-          {lyrics}
-        </pre>
+        <StructuredLyricsDisplay
+          lyrics={lyrics}
+          showMetadata={false}
+          className="border-0 shadow-none [&_[data-radix-scroll-area-viewport]]:max-h-[250px] [&_[data-radix-scroll-area-viewport]]:sm:max-h-[350px]"
+        />
       </motion.div>
       <div className="flex flex-wrap gap-2">
         <motion.button

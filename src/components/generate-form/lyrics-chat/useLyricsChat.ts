@@ -6,6 +6,11 @@ import { logger } from '@/lib/logger';
 import type { ChatMessage, QuickOption, ProjectContext, TrackContext } from './types';
 import { GENRES, MOODS, STRUCTURE_MAP, INITIAL_MESSAGE_OPTIONS, getContextualOptions } from './constants';
 
+// Auto-scroll behavior constants
+const USER_SCROLL_THRESHOLD = 5; // pixels - minimum scroll delta to detect user scroll
+const AUTO_SCROLL_RESUME_DELAY = 5000; // ms - delay before resuming auto-scroll after user scroll
+const PROGRAMMATIC_SCROLL_RESET_DELAY = 600; // ms - time to complete smooth scroll animation
+
 interface UseLyricsChatOptions {
   open: boolean;
   initialGenre?: string;
@@ -39,7 +44,12 @@ export function useLyricsChat({
   const [saved, setSaved] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [freeformMode, setFreeformMode] = useState(false);
+  const [userScrolling, setUserScrolling] = useState(false);
+
   const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastScrollTopRef = useRef<number>(0);
+  const isProgrammaticScrollRef = useRef(false);
   
   const [theme, setTheme] = useState('');
   const [genre, setGenre] = useState(initialGenre || projectContext?.genre || '');
@@ -51,6 +61,59 @@ export function useLyricsChat({
   const addMessage = useCallback((msg: ChatMessage) => {
     setMessages(prev => [...prev, msg]);
   }, []);
+
+  // Handle user scroll detection
+  const handleScroll = useCallback((e: Event) => {
+    // Ignore programmatic scrolls
+    if (isProgrammaticScrollRef.current) return;
+
+    const target = e.target as HTMLElement;
+    const currentScrollTop = target.scrollTop;
+
+    // Detect if this is user-initiated scroll (not programmatic)
+    const scrollDelta = Math.abs(currentScrollTop - lastScrollTopRef.current);
+
+    if (scrollDelta > USER_SCROLL_THRESHOLD) {
+      setUserScrolling(true);
+
+      // Clear existing timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+
+      // Resume auto-scroll after delay
+      scrollTimeoutRef.current = setTimeout(() => {
+        setUserScrolling(false);
+      }, AUTO_SCROLL_RESUME_DELAY);
+    }
+
+    lastScrollTopRef.current = currentScrollTop;
+  }, []);
+
+  // Attach scroll listener
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    container.addEventListener('wheel', () => setUserScrolling(true), { passive: true });
+    container.addEventListener('touchstart', () => setUserScrolling(true), { passive: true });
+    container.addEventListener('touchmove', () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(() => {
+        setUserScrolling(false);
+      }, AUTO_SCROLL_RESUME_DELAY);
+    }, { passive: true });
+
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, [handleScroll]);
 
   // Smart conversation initialization based on context
   const initConversation = useCallback(() => {
@@ -150,11 +213,29 @@ export function useLyricsChat({
     }
   }, [open, messages.length, initConversation]);
 
+  // Smart auto-scroll - only scroll if user hasn't manually scrolled
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
-    }
-  }, [messages]);
+    if (!scrollRef.current || userScrolling) return;
+
+    // Use requestAnimationFrame for smooth scroll
+    requestAnimationFrame(() => {
+      if (!scrollRef.current) return;
+
+      isProgrammaticScrollRef.current = true;
+      const targetScrollTop = scrollRef.current.scrollHeight;
+      lastScrollTopRef.current = targetScrollTop;
+
+      scrollRef.current.scrollTo({
+        top: targetScrollTop,
+        behavior: 'smooth'
+      });
+
+      // Reset programmatic flag after animation completes
+      setTimeout(() => {
+        isProgrammaticScrollRef.current = false;
+      }, PROGRAMMATIC_SCROLL_RESET_DELAY);
+    });
+  }, [messages, userScrolling]);
 
   const askForGenre = useCallback(() => {
     setTimeout(() => {
@@ -700,6 +781,7 @@ export function useLyricsChat({
     saved,
     isSaving,
     scrollRef,
+    userScrolling,
     genre,
     mood,
     structure,

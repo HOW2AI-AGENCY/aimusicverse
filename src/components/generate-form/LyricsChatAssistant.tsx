@@ -189,9 +189,23 @@ export function LyricsChatAssistant({
       </Tabs>
 
       {/* Tab Contents */}
-      <div className="flex-1 min-h-0 overflow-hidden">
+      <div className="flex-1 min-h-0 overflow-hidden relative">
         {activeTab === 'chat' && (
           <>
+            {/* Auto-scroll indicator */}
+            <AnimatePresence>
+              {chat.userScrolling && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute top-2 right-6 z-10 px-2.5 py-1 bg-muted/90 backdrop-blur-sm rounded-md text-xs text-muted-foreground border border-border/50 shadow-sm"
+                >
+                  Автоскролл выкл
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* Chat Area */}
             <ScrollArea className="h-full px-4 py-3" ref={chat.scrollRef}>
               <div className="space-y-3">
