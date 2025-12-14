@@ -190,6 +190,21 @@ export const CONTEXTUAL_HINTS: ContextualHint[] = [
     maxShows: 2,
     priority: 6,
   },
+  {
+    id: 'community-discover',
+    category: 'social',
+    title: '🌍 Откройте сообщество',
+    description: 'Изучайте публичные треки других пользователей, находите вдохновение и делитесь своими работами!',
+    action: {
+      label: 'В сообщество',
+      route: '/community',
+    },
+    showOnRoutes: ['/', '/library'],
+    minVisits: 3,
+    cooldownHours: 96,
+    maxShows: 2,
+    priority: 7,
+  },
   
   // Advanced Tips
   {
@@ -202,6 +217,28 @@ export const CONTEXTUAL_HINTS: ContextualHint[] = [
     cooldownHours: 144,
     maxShows: 2,
     priority: 7,
+  },
+  {
+    id: 'quick-presets',
+    category: 'tip',
+    title: '🎨 Быстрые пресеты',
+    description: 'Используйте готовые пресеты для быстрого старта! В форме генерации есть популярные стили: Pop, Rock, Hip-Hop и другие.',
+    showOnRoutes: ['/'],
+    minVisits: 2,
+    cooldownHours: 96,
+    maxShows: 2,
+    priority: 7,
+  },
+  {
+    id: 'audio-reference-tip',
+    category: 'advanced',
+    title: '🎧 Референс аудио',
+    description: 'Загрузите референс трек, чтобы AI создал музыку в похожем стиле! Это работает для голоса, мелодии и общего звучания.',
+    showOnRoutes: ['/'],
+    minVisits: 4,
+    cooldownHours: 120,
+    maxShows: 2,
+    priority: 8,
   },
   {
     id: 'keyboard-shortcuts',
