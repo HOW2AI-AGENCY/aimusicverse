@@ -345,7 +345,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="fixed inset-0 z-[60] flex flex-col bg-background overflow-hidden"
+      className="fixed inset-0 z-[90] flex flex-col bg-background overflow-hidden"
     >
       {/* Animated Blurred Background */}
       <div className="absolute inset-0 overflow-hidden">

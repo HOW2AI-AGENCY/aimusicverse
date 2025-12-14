@@ -2,6 +2,16 @@
  * Contextual Hint Component
  * 
  * Всплывающая подсказка с анимацией и действиями
+ * 
+ * Z-Index Hierarchy (Mobile Interface):
+ * - z-10: Regular content
+ * - z-40: Sidebar/Background elements
+ * - z-50: Bottom Navigation (BottomNavigation/island-nav)
+ * - z-[70]: Contextual Hints (this component) - ABOVE navigation, BELOW fullscreen overlays
+ * - z-[80]: Sheet overlays, Dialogs
+ * - z-[90]: Fullscreen players (MobileFullscreenPlayer, SectionEditorMobile)
+ * - z-[100]: System notifications, Toasts, Critical alerts (GlobalGenerationIndicator, OnboardingOverlay)
+ * - z-[9999]+: Dropdown menus (temporary popovers)
  */
 
 import { motion, AnimatePresence } from '@/lib/motion';
@@ -63,7 +73,7 @@ export function ContextualHint({ hint, onDismiss, position = 'bottom' }: Context
         exit={{ opacity: 0, y: position === 'top' ? -20 : 20, scale: 0.95 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
         className={cn(
-          'fixed left-1/2 -translate-x-1/2 z-[60] w-[calc(100%-1.5rem)] max-w-md md:w-[calc(100%-2rem)]',
+          'fixed left-1/2 -translate-x-1/2 z-[70] w-[calc(100%-1.5rem)] max-w-md md:w-[calc(100%-2rem)]',
           positionClasses[position]
         )}
       >
