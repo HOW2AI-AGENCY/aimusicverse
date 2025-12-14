@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Loader2, Music2, ChevronDown, ChevronUp, Clock, Sparkles, ExternalLink, X } from "lucide-react";
@@ -102,16 +102,24 @@ export function EnhancedGenerationIndicator() {
   // Reset dismissed state when new generations appear
   const [lastGenerationIds, setLastGenerationIds] = useState<string>("");
 
+  const currentGenerationIds = useMemo(
+    () =>
+      activeGenerations
+        .map((g) => g.id)
+        .sort()
+        .join(","),
+    [activeGenerations],
+  );
+
   useEffect(() => {
-    const currentGenerationIds = activeGenerations
-      .map((g) => g.id)
-      .sort()
-      .join(",");
     if (currentGenerationIds.length > 0 && currentGenerationIds !== lastGenerationIds) {
       setLastGenerationIds(currentGenerationIds);
       setDismissed(false);
+    } else if (currentGenerationIds.length === 0 && lastGenerationIds.length > 0) {
+      // Reset when all generations are removed
+      setLastGenerationIds("");
     }
-  }, [activeGenerations, lastGenerationIds]);
+  }, [currentGenerationIds, lastGenerationIds]);
 
   if (generationCount === 0 || dismissed) return null;
 
