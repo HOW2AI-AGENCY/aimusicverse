@@ -50,7 +50,8 @@ export function ContextualHint({ hint, onDismiss, position = 'bottom' }: Context
 
   const positionClasses = {
     top: 'top-20',
-    bottom: 'bottom-24',
+    // Adjusted for mobile: account for island-nav (~4rem height) + safe-area-inset + spacing
+    bottom: 'bottom-[6.5rem] md:bottom-24',
     center: 'top-1/2 -translate-y-1/2',
   };
 
@@ -62,7 +63,7 @@ export function ContextualHint({ hint, onDismiss, position = 'bottom' }: Context
         exit={{ opacity: 0, y: position === 'top' ? -20 : 20, scale: 0.95 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
         className={cn(
-          'fixed left-1/2 -translate-x-1/2 z-[60] w-[calc(100%-2rem)] max-w-md mx-auto',
+          'fixed left-1/2 -translate-x-1/2 z-[60] w-[calc(100%-1.5rem)] max-w-md mx-auto px-2 md:px-0 md:w-[calc(100%-2rem)]',
           positionClasses[position]
         )}
       >
@@ -72,21 +73,21 @@ export function ContextualHint({ hint, onDismiss, position = 'bottom' }: Context
             categoryColors[hint.category]
           )}
         >
-          <div className="p-4">
+          <div className="p-3 md:p-4">
             {/* Header */}
-            <div className="flex items-start gap-3 mb-3">
+            <div className="flex items-start gap-2 md:gap-3 mb-2 md:mb-3">
               <div 
-                className="flex-shrink-0 w-10 h-10 rounded-xl bg-background/50 flex items-center justify-center text-2xl"
+                className="flex-shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-xl bg-background/50 flex items-center justify-center text-xl md:text-2xl"
                 aria-hidden="true"
               >
                 {hint.icon || categoryIcons[hint.category]}
               </div>
               
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-bold text-foreground leading-tight mb-1">
+                <h3 className="text-sm md:text-base font-bold text-foreground leading-tight mb-1">
                   {hint.title}
                 </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">
+                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
                   {hint.description}
                 </p>
               </div>
@@ -95,27 +96,27 @@ export function ContextualHint({ hint, onDismiss, position = 'bottom' }: Context
                 variant="ghost"
                 size="icon"
                 onClick={() => onDismiss(false)}
-                className="flex-shrink-0 h-7 w-7 rounded-full hover:bg-background/50"
+                className="flex-shrink-0 h-7 w-7 md:h-8 md:w-8 rounded-full hover:bg-background/50"
               >
-                <X className="h-3.5 w-3.5" />
+                <X className="h-3.5 w-3.5 md:h-4 md:w-4" />
                 <span className="sr-only">Закрыть</span>
               </Button>
             </div>
 
             {/* Actions */}
-            <div className="flex items-center justify-between gap-2 mt-3 pt-3 border-t border-border/50">
+            <div className="flex items-center justify-between gap-2 mt-2 md:mt-3 pt-2 md:pt-3 border-t border-border/50">
               <button
                 onClick={() => onDismiss(true)}
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                className="text-[10px] md:text-xs text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
               >
-                Больше не показывать
+                Не показывать
               </button>
 
               {hint.action && (
                 <Button
                   size="sm"
                   onClick={handleAction}
-                  className="h-8 text-xs gap-1 bg-primary hover:bg-primary/90"
+                  className="h-7 md:h-8 text-xs gap-1 bg-primary hover:bg-primary/90 px-3"
                 >
                   {hint.action.label}
                   <ArrowRight className="w-3 h-3" />
