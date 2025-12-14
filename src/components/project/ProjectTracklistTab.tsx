@@ -609,8 +609,48 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
           }
           setLyricsWizardOpen(false);
         }}
+        onStyleGenerated={(style) => {
+          // Optionally save generated style to track
+          if (lyricsPreviewTrack && style) {
+            updateTrack({
+              id: lyricsPreviewTrack.id,
+              updates: {
+                style_prompt: style,
+              },
+            });
+          }
+        }}
         initialGenre={project.genre || undefined}
         initialMood={project.mood ? [project.mood] : undefined}
+        initialLanguage={(project.language as 'ru' | 'en') || 'ru'}
+        projectContext={{
+          projectId: project.id,
+          projectTitle: project.title,
+          genre: project.genre || undefined,
+          mood: project.mood || undefined,
+          language: project.language as 'ru' | 'en' | undefined,
+          concept: project.concept || undefined,
+          targetAudience: project.target_audience || undefined,
+          referenceArtists: project.reference_artists || undefined,
+          projectType: project.project_type || undefined,
+          existingTracks: tracks.map(t => ({
+            title: t.title,
+            stylePrompt: t.style_prompt || undefined,
+            generatedLyrics: t.lyrics || undefined,
+            draftLyrics: t.notes || undefined,
+          })),
+        }}
+        trackContext={lyricsPreviewTrack ? {
+          title: lyricsPreviewTrack.title,
+          position: lyricsPreviewTrack.position,
+          stylePrompt: lyricsPreviewTrack.style_prompt || undefined,
+          draftLyrics: lyricsPreviewTrack.notes || undefined,
+          generatedLyrics: lyricsPreviewTrack.lyrics || undefined,
+          recommendedTags: lyricsPreviewTrack.recommended_tags || undefined,
+          recommendedStructure: lyricsPreviewTrack.recommended_structure || undefined,
+          notes: lyricsPreviewTrack.notes || undefined,
+          lyricsStatus: lyricsPreviewTrack.lyrics_status || undefined,
+        } : undefined}
       />
     </div>
   );

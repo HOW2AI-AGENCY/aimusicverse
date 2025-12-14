@@ -277,9 +277,9 @@ export function LyricsChatAssistant({
 
       {/* Input Area - Only show in chat tab */}
       {activeTab === 'chat' && (
-        <div className="p-4 pt-2 border-t border-border/50 bg-background/80 backdrop-blur-sm safe-area-bottom shrink-0">
-          {/* Helper text - show only at start */}
-          {!chat.generatedLyrics && chat.messages.length <= 2 && (
+        <div className="p-3 sm:p-4 pt-2 border-t border-border/50 bg-background/80 backdrop-blur-sm pb-safe shrink-0">
+          {/* Helper text - show only at start and on desktop */}
+          {!isMobile && !chat.generatedLyrics && chat.messages.length <= 2 && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -333,7 +333,7 @@ export function LyricsChatAssistant({
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="h-[85vh] max-h-[85vh] flex flex-col">
+        <DrawerContent className="h-[90vh] max-h-[90vh] flex flex-col safe-area-inset">
           <DrawerHeader className="pb-2 border-b border-border/50 shrink-0">
             <DrawerTitle className="flex items-center gap-2 text-base">
               <motion.div
