@@ -65,11 +65,11 @@ export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelet
           <div className="min-w-0 flex-1">
             <h3 className="font-semibold truncate">{playlist.title}</h3>
             <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
-              <span>{playlist.track_count} {getTrackWord(playlist.track_count)}</span>
-              {playlist.total_duration > 0 && (
+              <span>{playlist.track_count ?? 0} {getTrackWord(playlist.track_count ?? 0)}</span>
+              {(playlist.total_duration ?? 0) > 0 && (
                 <span className="flex items-center gap-1">
                   <Clock className="h-3 w-3" />
-                  {formatDuration(playlist.total_duration)}
+                  {formatDuration(playlist.total_duration ?? 0)}
                 </span>
               )}
             </div>

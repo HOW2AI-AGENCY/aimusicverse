@@ -35,7 +35,7 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
     if (playlist) {
       setTitle(playlist.title);
       setDescription(playlist.description || '');
-      setIsPublic(playlist.is_public);
+      setIsPublic(playlist.is_public ?? false);
       setCoverUrl(playlist.cover_url);
     }
   }, [playlist]);

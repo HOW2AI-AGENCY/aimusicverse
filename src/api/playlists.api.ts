@@ -85,9 +85,23 @@ export async function deletePlaylist(playlistId: string): Promise<void> {
 }
 
 /**
- * Fetch playlist tracks with track details
+ * Fetch playlist tracks (positions only)
  */
-export async function fetchPlaylistTracks(playlistId: string): Promise<(PlaylistTrackRow & { track: unknown })[]> {
+export async function fetchPlaylistTracks(playlistId: string): Promise<PlaylistTrackRow[]> {
+  const { data, error } = await supabase
+    .from('playlist_tracks')
+    .select('*')
+    .eq('playlist_id', playlistId)
+    .order('position', { ascending: true });
+
+  if (error) throw new Error(error.message);
+  return data || [];
+}
+
+/**
+ * Fetch playlist tracks with full track details
+ */
+export async function fetchPlaylistTracksWithDetails(playlistId: string): Promise<(PlaylistTrackRow & { track: unknown })[]> {
   const { data, error } = await supabase
     .from('playlist_tracks')
     .select('*, track:tracks(*)')
