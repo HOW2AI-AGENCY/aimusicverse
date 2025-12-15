@@ -28,6 +28,7 @@ interface DialogStates {
   addToProject: boolean;
   share: boolean;
   addToPlaylist: boolean;
+  report: boolean;
   deleteConfirm: boolean;
 }
 
@@ -53,6 +54,7 @@ export function useTrackActionsState({
     addToProject: false,
     share: false,
     addToPlaylist: false,
+    report: false,
     deleteConfirm: false,
   });
 
@@ -234,6 +236,9 @@ export function useTrackActionsState({
         break;
 
       // Danger actions
+      case 'report':
+        openDialog('report');
+        break;
       case 'delete':
         openDialog('deleteConfirm');
         break;

@@ -41,6 +41,7 @@ import { AdminTrackDetailsDialog } from "@/components/admin/AdminTrackDetailsDia
 import { UserBalancesPanel } from "@/components/admin/UserBalancesPanel";
 import { DeeplinkAnalyticsPanel } from "@/components/admin/DeeplinkAnalyticsPanel";
 import { EnhancedAnalyticsPanel } from "@/components/admin/EnhancedAnalyticsPanel";
+import { ModerationReportsPanel } from "@/components/admin/ModerationReportsPanel";
 import { useQueryClient } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -63,6 +64,7 @@ const TAB_OPTIONS = [
   { value: "users", label: "Пользователи", icon: Users },
   { value: "balances", label: "Балансы", icon: Coins },
   { value: "tracks", label: "Треки", icon: Music },
+  { value: "moderation", label: "Жалобы", icon: AlertTriangle },
   { value: "bot", label: "Бот", icon: MessageSquare },
   { value: "telegram", label: "Telegram", icon: Globe },
   { value: "payments", label: "Платежи", icon: Coins },
@@ -284,7 +286,10 @@ export default function AdminDashboard() {
           </Card>
         )}
 
-        {/* Bot Metrics Tab */}
+        {/* Moderation Tab */}
+        {activeTab === "moderation" && (
+          <ModerationReportsPanel />
+        )}
         {activeTab === "bot" && (
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3 md:gap-4">

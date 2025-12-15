@@ -113,6 +113,7 @@ export function UnifiedTrackMenu({ track, onDelete, onDownload }: UnifiedTrackMe
 
           {/* Danger Actions */}
           <DangerActions
+            track={track}
             onAction={executeAction}
             variant="dropdown"
           />
