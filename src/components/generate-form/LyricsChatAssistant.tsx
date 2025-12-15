@@ -5,18 +5,19 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Sparkles, Send, MessageCircle, Tag, Lightbulb } from 'lucide-react';
+import { Sparkles, Send, MessageCircle, Tag, Lightbulb, Info } from 'lucide-react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useLyricsChat } from './lyrics-chat/useLyricsChat';
+import { toast } from 'sonner';
 import { 
   GenreSelector, 
   MoodSelector, 
   StructureSelector, 
-  LyricsPreview,
   LoadingIndicator 
 } from './lyrics-chat/ChatComponents';
+import { EnhancedLyricsPreview } from './lyrics-chat/EnhancedLyricsPreview';
 import { TagBuilderPanel } from './TagBuilderPanel';
 import { ContextRecommendations, Recommendation } from './lyrics-chat/ContextRecommendations';
 import { QuickActions } from './lyrics-chat/QuickActions';
@@ -25,6 +26,9 @@ import type { LyricsChatAssistantProps, ChatMessage } from './lyrics-chat/types'
 import type { LyricsQuickAction } from './lyrics-chat/quickActions';
 
 export type { LyricsChatAssistantProps } from './lyrics-chat/types';
+
+// Show tag format notification once per session
+const TAG_FORMAT_NOTIFICATION_KEY = 'lyrics-tag-format-notification-shown';
 
 export function LyricsChatAssistant({
   open,
@@ -55,6 +59,23 @@ export function LyricsChatAssistant({
     onStyleGenerated,
     onClose: () => onOpenChange(false),
   });
+
+  // Show tag format notification once per session
+  useEffect(() => {
+    if (open) {
+      const hasShown = sessionStorage.getItem(TAG_FORMAT_NOTIFICATION_KEY);
+      if (!hasShown) {
+        setTimeout(() => {
+          toast.info('Обновлён формат тегов', {
+            description: 'Все теги теперь на английском в [квадратных скобках]. Круглые скобки (текст) - для бэк-вокала.',
+            duration: 6000,
+            icon: <Info className="h-4 w-4" />,
+          });
+          sessionStorage.setItem(TAG_FORMAT_NOTIFICATION_KEY, 'true');
+        }, 500);
+      }
+    }
+  }, [open]);
 
   // Fetch recommendations on open when context is available
   useEffect(() => {
@@ -135,8 +156,10 @@ export function LyricsChatAssistant({
         );
       case 'lyrics-preview':
         return (
-          <LyricsPreview
+          <EnhancedLyricsPreview
             lyrics={typeof msg.data?.lyrics === 'string' ? msg.data.lyrics : (chat.generatedLyrics || '')}
+            title={typeof msg.data?.title === 'string' ? msg.data.title : null}
+            style={typeof msg.data?.style === 'string' ? msg.data.style : null}
             copied={chat.copied}
             saved={chat.saved}
             isSaving={chat.isSaving}
@@ -146,6 +169,16 @@ export function LyricsChatAssistant({
             onRegenerate={chat.regenerateLyrics}
             onApply={chat.applyLyrics}
             onContinue={chat.continueConversation}
+            onRequestEdit={(instruction) => {
+              chat.setInputValue(instruction);
+              chat.handleSendMessage();
+            }}
+            onTitleChange={() => {
+              // Title changes are handled locally in the preview
+            }}
+            onStyleChange={(style) => {
+              onStyleGenerated?.(style);
+            }}
           />
         );
       default:

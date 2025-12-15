@@ -4,7 +4,7 @@ import { BottomNavigation } from './BottomNavigation';
 import { Sidebar } from './Sidebar';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { ResizablePlayer } from './ResizablePlayer';
-import { EnhancedGenerationIndicator } from './notifications';
+// EnhancedGenerationIndicator removed - using skeleton in library instead
 import { OnboardingOverlay } from './onboarding/OnboardingOverlay';
 import { OnboardingTrigger } from './onboarding/OnboardingTrigger';
 import { usePlaybackTracking } from '@/hooks/usePlaybackTracking';
@@ -70,8 +70,7 @@ export const MainLayout = () => {
       <OnboardingTrigger />
       <OnboardingOverlay />
       
-      {/* Enhanced Generation Indicator with progress */}
-      <EnhancedGenerationIndicator />
+      {/* Generation indicator removed - using only skeleton in library */}
       
       {/* Subscription Required Dialog */}
       <SubscriptionRequiredDialog 
