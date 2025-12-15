@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { motion } from '@/lib/motion';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,7 +8,6 @@ import { Sparkles, Loader2, Mic, HelpCircle } from 'lucide-react';
 import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
 import { GenerateFormHint, FORM_HINTS } from './GenerateFormHint';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { SmartPromptSuggestions } from './SmartPromptSuggestions';
 
 interface GenerateFormSimpleProps {
   description: string;
@@ -35,14 +33,7 @@ export function GenerateFormSimple({
   const [showHint, setShowHint] = useState(true);
 
   return (
-    <motion.div
-      key="simple"
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 20 }}
-      transition={{ duration: 0.2, ease: "easeInOut" }}
-      className="space-y-3"
-    >
+    <div className="space-y-3">
       <div>
         <div className="flex items-center justify-between mb-1.5">
           <div className="flex items-center gap-1.5">
@@ -109,17 +100,6 @@ export function GenerateFormSimple({
           className={`resize-none text-sm mt-2 ${description.length > 500 ? 'border-destructive focus-visible:ring-destructive' : ''}`}
         />
 
-        {/* Smart Prompt Suggestions */}
-        {!description && (
-          <div className="mt-3">
-            <SmartPromptSuggestions
-              onSelectPrompt={onDescriptionChange}
-              currentPrompt={description}
-              compact={true}
-            />
-          </div>
-        )}
-        
         {description.length > 500 && (
           <p className="text-xs text-destructive mt-1">
             Сократите описание или переключитесь в Custom режим
@@ -128,24 +108,27 @@ export function GenerateFormSimple({
 
         {/* Quick style suggestions - horizontal scroll */}
         {!description && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mt-2 -mx-1 px-1 overflow-x-auto scrollbar-hide"
-          >
-            <div className="flex gap-1.5 pb-1">
-              {['Поп хит 🎤', 'Рок драйв 🎸', 'Lo-fi chill 🎧', 'Электро 🎹', 'Джаз 🎷', 'R&B 💜', 'Хип-хоп 🎤'].map((tag) => (
+          <div className="mt-2 -mx-4 px-4">
+            <div 
+              className="flex gap-2 pb-2 overflow-x-auto"
+              style={{ 
+                scrollbarWidth: 'none', 
+                msOverflowStyle: 'none',
+                WebkitOverflowScrolling: 'touch'
+              }}
+            >
+              {['Поп хит 🎤', 'Рок драйв 🎸', 'Lo-fi chill 🎧', 'Электро 🎹', 'Джаз 🎷', 'R&B 💜', 'Хип-хоп 🎤', 'Фолк 🪕', 'Инди 🎵'].map((tag) => (
                 <button
                   key={tag}
                   type="button"
-                  onClick={() => onDescriptionChange(tag.split(' ')[0] + ' ' + tag.split(' ')[1].replace(/[^\w\s]/gi, ''))}
-                  className="px-3 py-1.5 rounded-full text-xs bg-muted/50 hover:bg-primary/10 hover:text-primary transition-colors whitespace-nowrap flex-shrink-0"
+                  onClick={() => onDescriptionChange(tag.split(' ')[0])}
+                  className="px-3 py-1.5 rounded-full text-xs bg-muted/50 hover:bg-primary/10 hover:text-primary transition-colors whitespace-nowrap shrink-0"
                 >
                   {tag}
                 </button>
               ))}
             </div>
-          </motion.div>
+          </div>
         )}
       </div>
 
@@ -163,21 +146,16 @@ export function GenerateFormSimple({
       </div>
 
       {/* Vocals Toggle for Simple Mode */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.1 }}
-        className="flex items-center justify-between p-3 rounded-xl bg-muted/30 border border-border/50"
-      >
+      <div className="flex items-center justify-between p-3 rounded-xl bg-muted/30 border border-border/50">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
             <Mic className="w-4 h-4 text-primary" />
           </div>
-          <div>
+          <div className="min-w-0">
             <Label htmlFor="simple-vocals-toggle" className="cursor-pointer text-sm font-medium">
               С вокалом
             </Label>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground truncate">
               {hasVocals ? 'AI сгенерирует голос' : 'Инструментал без вокала'}
             </p>
           </div>
@@ -187,7 +165,7 @@ export function GenerateFormSimple({
           checked={hasVocals}
           onCheckedChange={onHasVocalsChange}
         />
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
