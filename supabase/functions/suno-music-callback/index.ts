@@ -676,7 +676,7 @@ serve(async (req) => {
       await supabase.from('notifications').insert({
         user_id: task.user_id, type: 'track_generated',
         title: 'Генерация завершена 🎵', message: `Ваш трек готов${versionText}`,
-        action_url: '/library',
+        action_url: trackId ? `/track/${trackId}` : '/library',
       });
     }
 

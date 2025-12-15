@@ -8,12 +8,18 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { NotificationList } from "./NotificationList";
+import { useState } from "react";
 
 export const NotificationBadge = () => {
   const unreadCount = useUnreadCount();
+  const [open, setOpen] = useState(false);
+
+  const handleNotificationClick = () => {
+    setOpen(false);
+  };
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="w-5 h-5" />
@@ -28,7 +34,7 @@ export const NotificationBadge = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-96 p-0" align="end">
-        <NotificationList />
+        <NotificationList onNotificationClick={handleNotificationClick} />
       </PopoverContent>
     </Popover>
   );

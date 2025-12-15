@@ -3,10 +3,11 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NotificationSkeleton } from "@/components/ui/skeleton-loader";
-import { Info, CheckCircle, AlertTriangle, XCircle, CheckCheck } from "lucide-react";
+import { Info, CheckCircle, AlertTriangle, XCircle, CheckCheck, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
+import { useNavigate } from "react-router-dom";
 
 const iconMap = {
   info: Info,
@@ -22,15 +23,26 @@ const colorMap = {
   error: "text-red-500",
 };
 
-export const NotificationList = () => {
+interface NotificationListProps {
+  onNotificationClick?: () => void;
+}
+
+export const NotificationList = ({ onNotificationClick }: NotificationListProps) => {
+  const navigate = useNavigate();
   const { data: allNotifications, isLoading: allLoading } = useNotifications('all');
   const { data: unreadNotifications, isLoading: unreadLoading } = useNotifications('unread');
   const markAsRead = useMarkAsRead();
   const markAllAsRead = useMarkAllAsRead();
 
-  const handleMarkAsRead = (id: string, read: boolean) => {
+  const handleNotificationClick = (id: string, read: boolean, actionUrl?: string | null) => {
+    // Mark as read if unread
     if (!read) {
       markAsRead.mutate(id);
+    }
+    // Navigate to action URL if available
+    if (actionUrl) {
+      onNotificationClick?.();
+      navigate(actionUrl);
     }
   };
 
@@ -78,10 +90,11 @@ export const NotificationList = () => {
             return (
               <button
                 key={notification.id}
-                onClick={() => handleMarkAsRead(notification.id, notification.read || false)}
+                onClick={() => handleNotificationClick(notification.id, notification.read || false, notification.action_url)}
                 className={cn(
-                  "w-full p-3 rounded-lg text-left transition-colors hover:bg-accent",
-                  !notification.read && "bg-accent/50"
+                  "w-full p-3 rounded-lg text-left transition-colors hover:bg-accent group",
+                  !notification.read && "bg-accent/50",
+                  notification.action_url && "cursor-pointer"
                 )}
               >
                 <div className="flex gap-3">
@@ -91,9 +104,14 @@ export const NotificationList = () => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-1">
                       <h4 className="font-semibold text-sm">{notification.title}</h4>
-                      {!notification.read && (
-                        <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0 mt-1" />
-                      )}
+                      <div className="flex items-center gap-1.5 flex-shrink-0">
+                        {notification.action_url && (
+                          <ExternalLink className="w-3.5 h-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                        )}
+                        {!notification.read && (
+                          <div className="w-2 h-2 bg-primary rounded-full mt-0.5" />
+                        )}
+                      </div>
                     </div>
                     <p className="text-sm text-muted-foreground mb-1">
                       {notification.message}
