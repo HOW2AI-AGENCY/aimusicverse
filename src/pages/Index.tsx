@@ -113,26 +113,6 @@ const Index = () => {
               <p className="text-[10px] sm:text-xs text-muted-foreground">Создай свою музыку</p>
             </div>
           </motion.div>
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="flex items-center gap-2">
-            <motion.div 
-              className="relative"
-              whileTap={{ scale: 0.95 }}
-            >
-              <img src={logo} alt="MusicVerse" className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl" />
-              <motion.div 
-                className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-green-500 rounded-full border border-background"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-            </motion.div>
-            <div>
-              <h1 className="text-sm sm:text-base font-bold text-gradient leading-tight">MusicVerse</h1>
-              <p className="text-[9px] sm:text-[10px] text-muted-foreground leading-tight">AI Music Studio</p>
-            </div>
-          </div>
           <div className="flex items-center gap-1.5">
             <NotificationBadge />
             <motion.button
