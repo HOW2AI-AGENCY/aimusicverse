@@ -33,11 +33,11 @@ export function GenerateFormSimple({
   const [showHint, setShowHint] = useState(true);
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2.5">
       <div>
-        <div className="flex items-center justify-between mb-1.5">
-          <div className="flex items-center gap-1.5">
-            <Label htmlFor="description" className="text-xs font-medium">
+        <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center gap-1">
+            <Label htmlFor="description" className="text-[11px] font-medium">
               Описание музыки
             </Label>
             <TooltipProvider>
@@ -48,7 +48,7 @@ export function GenerateFormSimple({
                     className="text-muted-foreground hover:text-foreground transition-colors"
                     onClick={() => setShowHint(!showHint)}
                   >
-                    <HelpCircle className="w-3.5 h-3.5" />
+                    <HelpCircle className="w-3 h-3" />
                   </button>
                 </TooltipTrigger>
                 <TooltipContent side="top" className="max-w-xs text-xs">
@@ -57,8 +57,8 @@ export function GenerateFormSimple({
               </Tooltip>
             </TooltipProvider>
           </div>
-          <div className="flex items-center gap-2">
-            <span className={`text-xs ${description.length > 500 ? 'text-destructive font-medium' : description.length > 400 ? 'text-yellow-500' : 'text-muted-foreground'}`}>
+          <div className="flex items-center gap-1.5">
+            <span className={`text-[10px] ${description.length > 500 ? 'text-destructive font-medium' : description.length > 400 ? 'text-yellow-500' : 'text-muted-foreground'}`}>
               {description.length}/500
             </span>
             <VoiceInputButton
@@ -66,7 +66,7 @@ export function GenerateFormSimple({
               context="description"
               currentValue={description}
               appendMode
-              className="h-6 w-6 p-0"
+              className="h-5 w-5 p-0"
             />
             <Button
               type="button"
@@ -74,14 +74,14 @@ export function GenerateFormSimple({
               size="sm"
               onClick={onBoostStyle}
               disabled={boostLoading || !description}
-              className="h-6 px-2 gap-1 text-primary hover:text-primary/80"
+              className="h-5 px-1.5 gap-0.5 text-primary hover:text-primary/80"
             >
               {boostLoading ? (
                 <Loader2 className="w-3 h-3 animate-spin" />
               ) : (
                 <Sparkles className="w-3 h-3" />
               )}
-              <span className="text-xs">AI Boost</span>
+              <span className="text-[10px]">AI</span>
             </Button>
           </div>
         </div>
@@ -96,8 +96,8 @@ export function GenerateFormSimple({
           placeholder="Энергичный рок с мощными гитарами..."
           value={description}
           onChange={(e) => onDescriptionChange(e.target.value)}
-          rows={4}
-          className={`resize-none text-sm mt-2 ${description.length > 500 ? 'border-destructive focus-visible:ring-destructive' : ''}`}
+          rows={3}
+          className={`resize-none text-sm mt-1.5 min-h-[72px] ${description.length > 500 ? 'border-destructive focus-visible:ring-destructive' : ''}`}
         />
 
         {description.length > 500 && (
@@ -133,7 +133,7 @@ export function GenerateFormSimple({
       </div>
 
       <div>
-        <Label htmlFor="simple-title" className="text-xs font-medium mb-1.5 block">
+        <Label htmlFor="simple-title" className="text-[11px] font-medium mb-1 block">
           Название <span className="text-muted-foreground">(опционально)</span>
         </Label>
         <Input
@@ -141,7 +141,7 @@ export function GenerateFormSimple({
           placeholder="Автогенерация если пусто"
           value={title}
           onChange={(e) => onTitleChange(e.target.value)}
-          className="h-9 text-sm"
+          className="h-8 text-sm"
         />
       </div>
 
@@ -149,20 +149,20 @@ export function GenerateFormSimple({
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="flex items-center justify-between p-3 rounded-xl bg-muted/30 border border-border/50 cursor-pointer active:bg-muted/50 transition-colors">
-              <div className="flex items-center gap-3">
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${hasVocals ? 'bg-primary/10' : 'bg-muted'}`}>
+            <div className="flex items-center justify-between p-2.5 rounded-lg bg-muted/30 border border-border/50 cursor-pointer active:bg-muted/50 transition-colors">
+              <div className="flex items-center gap-2.5">
+                <div className={`w-7 h-7 rounded-md flex items-center justify-center shrink-0 transition-colors ${hasVocals ? 'bg-primary/10' : 'bg-muted'}`}>
                   {hasVocals ? (
-                    <Mic className="w-4 h-4 text-primary" />
+                    <Mic className="w-3.5 h-3.5 text-primary" />
                   ) : (
-                    <Music className="w-4 h-4 text-muted-foreground" />
+                    <Music className="w-3.5 h-3.5 text-muted-foreground" />
                   )}
                 </div>
                 <div className="min-w-0">
-                  <Label htmlFor="simple-vocals-toggle" className="cursor-pointer text-sm font-medium">
+                  <Label htmlFor="simple-vocals-toggle" className="cursor-pointer text-[13px] font-medium leading-tight">
                     {hasVocals ? 'С вокалом' : 'Инструментал'}
                   </Label>
-                  <p className="text-xs text-muted-foreground truncate">
+                  <p className="text-[10px] text-muted-foreground truncate leading-tight">
                     {hasVocals ? 'AI сгенерирует голос и текст' : 'Только музыка, без голоса'}
                   </p>
                 </div>
