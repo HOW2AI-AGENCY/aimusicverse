@@ -1,0 +1,188 @@
+/**
+ * useTracks - Simplified hook using service layer
+ * Replaces useTracksUnified with cleaner architecture
+ */
+
+import { useInfiniteQuery, useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useAuth } from './useAuth';
+import { toast } from 'sonner';
+import { useCallback, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import * as tracksService from '@/services/tracks.service';
+import * as tracksApi from '@/api/tracks.api';
+
+export type { EnrichedTrack } from '@/services/tracks.service';
+
+const PAGE_SIZE = 20;
+
+export interface UseTracksParams {
+  projectId?: string;
+  searchQuery?: string;
+  sortBy?: 'recent' | 'popular' | 'liked';
+  paginate?: boolean;
+  pageSize?: number;
+  statusFilter?: string[];
+}
+
+/**
+ * Main tracks hook with optional pagination
+ */
+export function useTracks(params: UseTracksParams = {}) {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  const { paginate = false, projectId, searchQuery, sortBy, pageSize = PAGE_SIZE, statusFilter } = params;
+
+  const queryKey = ['tracks', user?.id, projectId, searchQuery, sortBy, paginate, pageSize, statusFilter];
+
+  // Infinite query for paginated mode
+  const infiniteQuery = useInfiniteQuery({
+    queryKey,
+    queryFn: async ({ pageParam = 0 }) => {
+      if (!user?.id) return { tracks: [], totalCount: 0, hasMore: false };
+      return tracksService.fetchTracksWithLikes(
+        user.id,
+        { projectId, searchQuery, sortBy, statusFilter },
+        { page: pageParam, pageSize }
+      );
+    },
+    getNextPageParam: (lastPage, _, lastPageParam) => 
+      lastPage.hasMore ? (lastPageParam as number) + 1 : undefined,
+    enabled: !!user?.id && paginate,
+    staleTime: 30000,
+    gcTime: 10 * 60 * 1000,
+    initialPageParam: 0,
+    refetchOnWindowFocus: false,
+  });
+
+  // Simple query for non-paginated mode
+  const simpleQuery = useQuery({
+    queryKey,
+    queryFn: async () => {
+      if (!user?.id) return [];
+      const result = await tracksService.fetchTracksWithLikes(
+        user.id,
+        { projectId, searchQuery, sortBy, statusFilter }
+      );
+      return result.tracks;
+    },
+    enabled: !!user?.id && !paginate,
+    staleTime: 30000,
+    gcTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  // Realtime subscription
+  useEffect(() => {
+    if (!user?.id) return;
+
+    const channel = supabase
+      .channel(`tracks_${user.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'tracks',
+          filter: `user_id=eq.${user.id}`,
+        },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ['tracks', user.id] });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user?.id, queryClient]);
+
+  // Delete mutation
+  const deleteMutation = useMutation({
+    mutationFn: tracksService.deleteTrackWithCleanup,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tracks', user?.id] });
+      toast.success('Трек удален');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Ошибка удаления');
+    },
+  });
+
+  // Like mutation
+  const likeMutation = useMutation({
+    mutationFn: async ({ trackId, isLiked }: { trackId: string; isLiked: boolean }) => {
+      if (!user?.id) throw new Error('Not authenticated');
+      return tracksService.toggleLike(trackId, user.id, isLiked);
+    },
+    onSuccess: (_, { isLiked }) => {
+      queryClient.invalidateQueries({ queryKey: ['tracks', user?.id] });
+      toast.success(isLiked ? 'Удалено из избранного' : 'Добавлено в избранное');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Ошибка');
+    },
+  });
+
+  // Play logging mutation
+  const logPlayMutation = useMutation({
+    mutationFn: tracksService.logTrackPlay,
+  });
+
+  // Flatten paginated results
+  const tracks = paginate
+    ? infiniteQuery.data?.pages.flatMap(page => page.tracks) || []
+    : (simpleQuery.data as tracksService.EnrichedTrack[]) || [];
+
+  const totalCount = paginate
+    ? infiniteQuery.data?.pages[0]?.totalCount || 0
+    : tracks.length;
+
+  return {
+    tracks,
+    totalCount,
+    isLoading: paginate ? infiniteQuery.isLoading : simpleQuery.isLoading,
+    error: paginate ? infiniteQuery.error : simpleQuery.error,
+    fetchNextPage: infiniteQuery.fetchNextPage,
+    hasNextPage: infiniteQuery.hasNextPage,
+    isFetchingNextPage: infiniteQuery.isFetchingNextPage,
+    refetch: paginate ? infiniteQuery.refetch : simpleQuery.refetch,
+    deleteTrack: useCallback((trackId: string) => deleteMutation.mutate(trackId), [deleteMutation]),
+    toggleLike: useCallback((params: { trackId: string; isLiked: boolean }) => likeMutation.mutate(params), [likeMutation]),
+    logPlay: useCallback((trackId: string) => logPlayMutation.mutate(trackId), [logPlayMutation]),
+    isDeleting: deleteMutation.isPending,
+    isTogglingLike: likeMutation.isPending,
+  };
+}
+
+/**
+ * Hook for fetching a single track
+ */
+export function useTrack(trackId: string | undefined) {
+  return useQuery({
+    queryKey: ['track', trackId],
+    queryFn: () => tracksApi.fetchTrackById(trackId!),
+    enabled: !!trackId,
+    staleTime: 30000,
+  });
+}
+
+/**
+ * Hook for public tracks (homepage/discovery)
+ */
+export function usePublicTracks(pageSize = 20) {
+  const { user } = useAuth();
+
+  return useInfiniteQuery({
+    queryKey: ['public-tracks', user?.id],
+    queryFn: async ({ pageParam = 0 }) => {
+      return tracksService.fetchPublicTracksWithCreators(
+        user?.id ?? null,
+        { page: pageParam, pageSize }
+      );
+    },
+    getNextPageParam: (lastPage, _, lastPageParam) =>
+      lastPage.hasMore ? (lastPageParam as number) + 1 : undefined,
+    staleTime: 30000,
+    initialPageParam: 0,
+  });
+}
