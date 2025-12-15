@@ -90,9 +90,12 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="h-[92vh] flex flex-col frost-sheet p-0">
-        {/* Compact Header */}
-        <div className="px-3 pt-2 pb-1.5 flex items-center justify-between border-b shrink-0">
+      <SheetContent
+        side="bottom"
+        className="h-[92vh] h-[92dvh] flex flex-col frost-sheet p-0 gap-0 safe-area-left safe-area-right rounded-t-2xl"
+      >
+          {/* Compact Header */}
+          <div className="px-3 pb-1.5 header-safe flex items-center justify-between border-b shrink-0">
           <div className="flex items-center gap-1.5 shrink-0">
             <Sparkles className="w-4 h-4 text-primary" />
             <h2 className="text-sm font-semibold">Создать</h2>
@@ -204,7 +207,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         </ScrollArea>
 
         {/* Footer with progress indicator */}
-        <div className="p-2.5 border-t bg-background/95 backdrop-blur shrink-0">
+        <div className="px-2.5 pt-2.5 bottom-nav-safe border-t bg-background/95 backdrop-blur shrink-0">
           {form.loading && (
             <div className="mb-1.5">
               <Progress value={33} className="h-1" />
