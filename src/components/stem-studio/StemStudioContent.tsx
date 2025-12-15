@@ -16,6 +16,7 @@ import { useSectionDetection } from '@/hooks/useSectionDetection';
 import { useReplacedSections } from '@/hooks/useReplacedSections';
 import { useReplaceSectionRealtime } from '@/hooks/useReplaceSectionRealtime';
 import { StemChannel } from '@/components/stem-studio/StemChannel';
+import { DAWMixerPanel } from '@/components/stem-studio/DAWMixerPanel';
 import { StemDownloadPanel } from '@/components/stem-studio/StemDownloadPanel';
 import { StemReferenceDialog } from '@/components/stem-studio/StemReferenceDialog';
 import { StemActionsSheet, StemAnalysisSheet } from '@/components/stem-studio/mobile';
@@ -938,94 +939,92 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         </div>
       )}
 
-      {/* Stem Channels - Optimized mobile scroll */}
-      <main className="flex-1 overflow-y-auto overscroll-contain px-3 sm:px-6 py-3 space-y-2 sm:space-y-3 pb-36">
-        {stems.map((stem) => (
-          <StemChannel
-            key={stem.id}
-            stem={stem}
-            trackId={trackId}
-            trackTitle={track.title || 'Трек'}
-            state={stemStates[stem.id] || { muted: false, solo: false, volume: 0.85 }}
-            effects={enginesState[stem.id]?.effects || defaultStemEffects}
-            onToggle={(type) => handleStemToggle(stem.id, type)}
-            onVolumeChange={(vol) => handleVolumeChange(stem.id, vol)}
-            onEQChange={effectsEnabled ? (s) => updateStemEQ(stem.id, s) : undefined}
-            onCompressorChange={effectsEnabled ? (s) => updateStemCompressor(stem.id, s) : undefined}
-            onReverbChange={effectsEnabled ? (s) => updateStemReverb(stem.id, s) : undefined}
-            onEQPreset={effectsEnabled ? (p) => applyStemEQPreset(stem.id, p) : undefined}
-            onCompressorPreset={effectsEnabled ? (p) => applyStemCompressorPreset(stem.id, p) : undefined}
-            onReverbPreset={effectsEnabled ? (p) => applyStemReverbPreset(stem.id, p) : undefined}
-            onResetEffects={effectsEnabled ? () => resetStemEffects(stem.id) : undefined}
-            getCompressorReduction={effectsEnabled ? () => getCompressorReduction(stem.id) : undefined}
+      {/* Stem Channels - DAW-style on desktop, cards on mobile */}
+      {isMobile ? (
+        <main className="flex-1 overflow-y-auto overscroll-contain px-3 py-3 space-y-2 pb-36">
+          {stems.map((stem) => (
+            <StemChannel
+              key={stem.id}
+              stem={stem}
+              trackId={trackId}
+              trackTitle={track.title || 'Трек'}
+              state={stemStates[stem.id] || { muted: false, solo: false, volume: 0.85 }}
+              effects={enginesState[stem.id]?.effects || defaultStemEffects}
+              onToggle={(type) => handleStemToggle(stem.id, type)}
+              onVolumeChange={(vol) => handleVolumeChange(stem.id, vol)}
+              onEQChange={effectsEnabled ? (s) => updateStemEQ(stem.id, s) : undefined}
+              onCompressorChange={effectsEnabled ? (s) => updateStemCompressor(stem.id, s) : undefined}
+              onReverbChange={effectsEnabled ? (s) => updateStemReverb(stem.id, s) : undefined}
+              onEQPreset={effectsEnabled ? (p) => applyStemEQPreset(stem.id, p) : undefined}
+              onCompressorPreset={effectsEnabled ? (p) => applyStemCompressorPreset(stem.id, p) : undefined}
+              onReverbPreset={effectsEnabled ? (p) => applyStemReverbPreset(stem.id, p) : undefined}
+              onResetEffects={effectsEnabled ? () => resetStemEffects(stem.id) : undefined}
+              getCompressorReduction={effectsEnabled ? () => getCompressorReduction(stem.id) : undefined}
+              isPlaying={isPlaying}
+              currentTime={currentTime}
+              duration={duration}
+              onSeek={handleSeek}
+              isEngineReady={effectsEnabled && engineReady}
+            />
+          ))}
+        </main>
+      ) : (
+        <main className="flex-1 overflow-hidden pb-24">
+          <DAWMixerPanel
+            stems={stems}
+            stemStates={stemStates}
+            masterVolume={masterVolume}
+            masterMuted={masterMuted}
             isPlaying={isPlaying}
             currentTime={currentTime}
             duration={duration}
-            onSeek={handleSeek}
-            isEngineReady={effectsEnabled && engineReady}
+            onStemToggle={handleStemToggle}
+            onStemVolumeChange={handleVolumeChange}
+            onMasterVolumeChange={setMasterVolume}
+            onMasterMuteToggle={() => setMasterMuted(!masterMuted)}
+            onPlayToggle={togglePlay}
+            onSeek={(time) => handleSeek([time])}
+            onSkip={handleSkip}
           />
-        ))}
-      </main>
+        </main>
+      )}
 
-      {/* Footer Player */}
-      <footer className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur border-t border-border/50 px-4 sm:px-6 py-3 sm:py-4 safe-area-pb z-50">
-        <div className={cn(
-          "flex items-center gap-3 sm:gap-4 max-w-screen-xl mx-auto",
-          isMobile ? "justify-center" : "justify-between"
-        )}>
-          {/* Playback Controls */}
-          <div className="flex items-center gap-1 sm:gap-2">
+      {/* Footer Player - Mobile only, desktop has controls in DAWMixerPanel */}
+      {isMobile && (
+        <footer className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur border-t border-border/50 px-4 py-3 safe-area-pb z-50">
+          <div className="flex items-center justify-center gap-3">
             <Button 
               variant="ghost" 
               size="icon" 
-              className={cn(
-                "rounded-full",
-                isMobile ? "h-12 w-12" : "h-10 w-10"
-              )}
+              className="rounded-full h-12 w-12"
               onClick={() => handleSkip('back')}
             >
-              <SkipBack className={cn(isMobile ? "w-5 h-5" : "w-4 h-4")} />
+              <SkipBack className="w-5 h-5" />
             </Button>
 
             <Button
               onClick={togglePlay}
               size="icon"
-              className={cn(
-                "rounded-full shadow-lg hover:scale-105 transition-transform bg-primary text-primary-foreground",
-                isMobile ? "w-16 h-16" : "w-14 h-14"
-              )}
+              className="rounded-full shadow-lg hover:scale-105 transition-transform bg-primary text-primary-foreground w-16 h-16"
             >
               {isPlaying ? (
-                <Pause className={cn(isMobile ? "w-7 h-7" : "w-6 h-6")} />
+                <Pause className="w-7 h-7" />
               ) : (
-                <Play className={cn(isMobile ? "w-7 h-7 ml-0.5" : "w-6 h-6 ml-0.5")} />
+                <Play className="w-7 h-7 ml-0.5" />
               )}
             </Button>
 
             <Button 
               variant="ghost" 
               size="icon" 
-              className={cn(
-                "rounded-full",
-                isMobile ? "h-12 w-12" : "h-10 w-10"
-              )}
+              className="rounded-full h-12 w-12"
               onClick={() => handleSkip('forward')}
             >
-              <SkipForward className={cn(isMobile ? "w-5 h-5" : "w-4 h-4")} />
+              <SkipForward className="w-5 h-5" />
             </Button>
           </div>
-
-          {/* Keyboard Shortcuts Hint (desktop only) */}
-          {!isMobile && (
-            <div className="text-xs text-muted-foreground hidden lg:flex items-center gap-4">
-              <span><kbd className="px-1.5 py-0.5 rounded bg-muted">Space</kbd> Play/Pause</span>
-              <span><kbd className="px-1.5 py-0.5 rounded bg-muted">M</kbd> Mute</span>
-              <span><kbd className="px-1.5 py-0.5 rounded bg-muted">←</kbd><kbd className="px-1.5 py-0.5 rounded bg-muted ml-1">→</kbd> Skip</span>
-              <span><kbd className="px-1.5 py-0.5 rounded bg-muted">Esc</kbd> Cancel</span>
-            </div>
-          )}
-        </div>
-      </footer>
+        </footer>
+      )}
       
       {/* Dialogs */}
       {track && (
