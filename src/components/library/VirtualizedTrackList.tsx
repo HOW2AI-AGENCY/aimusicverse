@@ -25,7 +25,9 @@ const GridContainer = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
       ref={ref}
       {...props}
       className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 px-4 sm:px-6"
-    />
+    >
+      {children}
+    </div>
   )
 );
 GridContainer.displayName = "GridContainer";
@@ -33,7 +35,9 @@ GridContainer.displayName = "GridContainer";
 // List container for virtuoso list view
 const ListContainer = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ children, ...props }, ref) => (
-    <div ref={ref} {...props} className="flex flex-col gap-3 px-4 sm:px-6" />
+    <div ref={ref} {...props} className="flex flex-col gap-3 px-4 sm:px-6">
+      {children}
+    </div>
   )
 );
 ListContainer.displayName = "ListContainer";
