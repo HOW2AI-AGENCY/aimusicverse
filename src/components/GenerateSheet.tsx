@@ -261,7 +261,14 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         onAudioSelected={(file, mode) => {
           form.setAudioFile(file);
           form.setMode('custom');
-          // TODO: Handle mode-specific logic (cover vs extend)
+          // Set mode-specific audio weight based on cover/extend selection
+          if (mode === 'extend') {
+            // High audio weight for extending - preserves original characteristics
+            form.setAudioWeight([0.9]);
+          } else {
+            // Moderate audio weight for cover - allows more creative variation
+            form.setAudioWeight([0.5]);
+          }
           toast.success(mode === 'cover' ? 'Аудио для кавера добавлено' : 'Аудио для расширения добавлено');
         }}
         onAnalysisComplete={(styleDescription) => {

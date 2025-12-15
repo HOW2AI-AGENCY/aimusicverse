@@ -51,18 +51,44 @@ export function StemsTab({ track }: StemsTabProps) {
     mutationFn: async () => {
       setGeneratingStems(true);
       
-      // TODO: Integrate with actual stem separation service
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      throw new Error('Stem generation service not yet integrated');
+      // Validate track has required data for stem separation
+      if (!track.suno_task_id || !track.suno_id) {
+        throw new Error('Track missing required Suno IDs for stem separation');
+      }
+
+      // Get current user ID
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      // Call stem separation edge function
+      const { data, error } = await supabase.functions.invoke('suno-separate-vocals', {
+        body: {
+          taskId: track.suno_task_id,
+          audioId: track.suno_id,
+          mode: 'simple', // 'simple' = vocal + instrumental, 'detailed' = full stem split
+          userId: user.id,
+        },
+      });
+
+      if (error) throw error;
+      if (!data?.success) throw new Error(data?.error || 'Stem separation failed');
+
+      return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['track-stems', track.id] });
-      toast.success('Stems generated successfully');
+      toast.success('Разделение стемов запущено', {
+        description: 'Результат появится через 1-2 минуты',
+      });
       setGeneratingStems(false);
     },
-    onError: () => {
-      toast.error('Stem generation feature coming soon');
+    onError: (error: Error) => {
+      const errorMessage = error.message || 'Failed to start stem separation';
+      toast.error('Ошибка разделения стемов', {
+        description: errorMessage,
+      });
       setGeneratingStems(false);
     },
   });
