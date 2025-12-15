@@ -88,16 +88,31 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20 relative overflow-hidden">
-      {/* Subtle background gradient - reduced for performance */}
-      <div className="fixed inset-0 pointer-events-none opacity-30">
-        <div className="absolute top-0 left-1/4 w-80 h-80 bg-primary/10 rounded-full blur-3xl" />
+      {/* Enhanced background gradient with better depth */}
+      <div className="fixed inset-0 pointer-events-none opacity-40">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/12 rounded-full blur-3xl animate-pulse-slow" />
+        <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-generate/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
       </div>
       
       <div className="container max-w-6xl mx-auto px-3 sm:px-4 pt-2 pb-4 sm:py-6 relative z-10">
-        {/* Compact Header with glass effect */}
+        {/* Enhanced Compact Header with glass effect */}
         <motion.header 
-          className="flex items-center justify-between mb-3 sm:mb-4 sticky top-0 z-20 -mx-3 sm:-mx-4 px-3 sm:px-4 py-2 backdrop-blur-md bg-background/80"
+          className="flex items-center justify-between mb-3 sm:mb-4 sticky top-0 z-20 -mx-3 sm:-mx-4 px-3 sm:px-4 py-2 backdrop-blur-strong bg-background/85 border-b border-border/50"
           initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <motion.div 
+            className="flex items-center gap-2"
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+          >
+            <img src={logo} alt="MusicVerse AI" className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl shadow-soft" />
+            <div>
+              <h1 className="text-base sm:text-lg font-bold text-gradient leading-tight">MusicVerse AI</h1>
+              <p className="text-[10px] sm:text-xs text-muted-foreground">Создай свою музыку</p>
+            </div>
+          </motion.div>
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >

@@ -44,7 +44,7 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
           {/* Cover */}
           <button
             onClick={onExpand || (() => setPlayerMode('expanded'))}
-            className="relative w-12 h-12 rounded-xl overflow-hidden bg-muted/50 flex-shrink-0"
+            className="relative w-12 h-12 rounded-xl overflow-hidden bg-muted/50 flex-shrink-0 touch-scale-sm transition-transform"
             aria-label="Развернуть плеер"
             title="Развернуть плеер"
           >
@@ -83,7 +83,7 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
           {/* Info */}
           <button
             onClick={onExpand || (() => setPlayerMode('expanded'))}
-            className="flex-1 min-w-0 text-left"
+            className="flex-1 min-w-0 text-left touch-scale-sm transition-transform"
             aria-label={`Сейчас играет: ${activeTrack.title || 'Без названия'}, ${activeTrack.artist_name || activeTrack.style?.slice(0, 30) || 'AI Generated'}`}
             title="Развернуть плеер"
           >
@@ -101,7 +101,7 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
               variant="ghost"
               size="icon"
               onClick={() => setRecognitionOpen(true)}
-              className="h-8 w-8 rounded-full text-muted-foreground"
+              className="h-8 w-8 rounded-full text-muted-foreground touch-scale-sm"
               title="Распознать музыку"
               aria-label="Распознать музыку"
             >
@@ -111,7 +111,7 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
               variant="ghost"
               size="icon"
               onClick={handleTogglePlay}
-              className="h-10 w-10 rounded-full"
+              className="h-10 w-10 rounded-full touch-scale-sm"
               aria-label={isPlaying ? 'Приостановить' : 'Воспроизвести'}
               title={isPlaying ? 'Приостановить' : 'Воспроизвести'}
             >
@@ -125,7 +125,7 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
               variant="ghost"
               size="icon"
               onClick={nextTrack}
-              className="h-9 w-9 rounded-full"
+              className="h-9 w-9 rounded-full touch-scale-sm"
               aria-label="Следующий трек"
               title="Следующий трек"
             >
@@ -135,7 +135,7 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
               variant="ghost"
               size="icon"
               onClick={minimizePlayer}
-              className="h-8 w-8 rounded-full text-muted-foreground"
+              className="h-8 w-8 rounded-full text-muted-foreground touch-scale-sm"
               aria-label="Свернуть плеер"
               title="Свернуть плеер"
             >
