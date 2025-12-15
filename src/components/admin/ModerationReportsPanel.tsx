@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Select,
   SelectContent,
@@ -30,11 +29,14 @@ import {
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
+import { cn } from "@/lib/utils";
 import {
   useAdminModerationReports,
   useUpdateReportStatus,
   useModerationStats,
 } from "@/hooks/useAdminModerationReports";
+
+type ReportStatus = "pending" | "reviewed" | "resolved" | "dismissed";
 
 const STATUS_CONFIG = {
   pending: { label: "Ожидает", icon: Clock, color: "bg-yellow-500" },
@@ -57,33 +59,45 @@ export function ModerationReportsPanel() {
   const { data: stats } = useModerationStats();
   const updateStatus = useUpdateReportStatus();
 
+  const handleQuickAction = (reportId: string, status: ReportStatus) => {
+    updateStatus.mutate({ reportId, status });
+  };
+
   return (
     <div className="space-y-4">
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      {/* Stats Cards - Swipeable on mobile */}
+      <div className="grid grid-cols-4 gap-2 md:gap-3">
         <StatCard
           title="Ожидают"
           value={stats?.pending || 0}
           icon={<Clock className="h-4 w-4 text-yellow-500" />}
           variant="warning"
+          active={statusFilter === "pending"}
+          onClick={() => setStatusFilter("pending")}
         />
         <StatCard
-          title="На рассмотрении"
+          title="Рассмотр."
           value={stats?.reviewed || 0}
           icon={<Eye className="h-4 w-4 text-blue-500" />}
           variant="info"
+          active={statusFilter === "reviewed"}
+          onClick={() => setStatusFilter("reviewed")}
         />
         <StatCard
           title="Решено"
           value={stats?.resolved || 0}
           icon={<CheckCircle className="h-4 w-4 text-green-500" />}
           variant="success"
+          active={statusFilter === "resolved"}
+          onClick={() => setStatusFilter("resolved")}
         />
         <StatCard
-          title="Отклонено"
+          title="Отклон."
           value={stats?.dismissed || 0}
           icon={<XCircle className="h-4 w-4 text-muted-foreground" />}
           variant="muted"
+          active={statusFilter === "dismissed"}
+          onClick={() => setStatusFilter("dismissed")}
         />
       </div>
 
@@ -129,52 +143,28 @@ export function ModerationReportsPanel() {
                   return (
                     <div
                       key={report.id}
-                      className="p-3 md:p-4 rounded-lg border bg-card space-y-3"
+                      className="p-3 rounded-lg border bg-card space-y-2.5 hover:border-border transition-colors"
                     >
-                      {/* Header */}
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex items-center gap-2 min-w-0">
+                      {/* Header with badges */}
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-1.5 flex-wrap">
                           <Badge
                             variant="outline"
-                            className={`${statusConfig.color} text-white border-0 text-xs`}
+                            className={`${statusConfig.color} text-white border-0 text-[10px] px-1.5 py-0`}
                           >
-                            <StatusIcon className="h-3 w-3 mr-1" />
-                            {statusConfig.label}
+                            <StatusIcon className="h-3 w-3 mr-0.5" />
+                            <span className="hidden sm:inline">{statusConfig.label}</span>
                           </Badge>
-                          <Badge variant="secondary" className="text-xs">
+                          <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
                             {REASON_LABELS[report.reason] || report.reason}
                           </Badge>
                         </div>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-8 w-8">
-                              <MoreVertical className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem
-                              onClick={() => updateStatus.mutate({ reportId: report.id, status: "reviewed" })}
-                              disabled={report.status === "reviewed"}
-                            >
-                              <Eye className="h-4 w-4 mr-2" />
-                              На рассмотрение
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() => updateStatus.mutate({ reportId: report.id, status: "resolved" })}
-                              disabled={report.status === "resolved"}
-                            >
-                              <CheckCircle className="h-4 w-4 mr-2" />
-                              Решено
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() => updateStatus.mutate({ reportId: report.id, status: "dismissed" })}
-                              disabled={report.status === "dismissed"}
-                            >
-                              <XCircle className="h-4 w-4 mr-2" />
-                              Отклонить
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                        <span className="text-[10px] text-muted-foreground">
+                          {formatDistanceToNow(new Date(report.created_at), {
+                            addSuffix: true,
+                            locale: ru,
+                          })}
+                        </span>
                       </div>
 
                       {/* Track Info */}
@@ -209,24 +199,82 @@ export function ModerationReportsPanel() {
                         </p>
                       )}
 
-                      {/* Footer */}
-                      <div className="flex items-center justify-between text-xs text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                          <span>От:</span>
-                          <span className="font-medium">
-                            @{report.reporter?.username || report.reporter?.first_name || "—"}
-                          </span>
+                      {/* Quick Actions - Mobile Friendly */}
+                      <div className="flex items-center justify-between pt-1 border-t border-border/50">
+                        <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                          <span>@{report.reporter?.username || report.reporter?.first_name || "—"}</span>
                           <span>→</span>
-                          <span className="font-medium">
-                            @{report.reported_user?.username || report.reported_user?.first_name || "—"}
-                          </span>
+                          <span>@{report.reported_user?.username || report.reported_user?.first_name || "—"}</span>
                         </div>
-                        <span>
-                          {formatDistanceToNow(new Date(report.created_at), {
-                            addSuffix: true,
-                            locale: ru,
-                          })}
-                        </span>
+                        
+                        {/* Quick action buttons for pending reports */}
+                        {report.status === "pending" && (
+                          <div className="flex items-center gap-1">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 px-2 text-xs"
+                              onClick={() => handleQuickAction(report.id, "reviewed")}
+                              disabled={updateStatus.isPending}
+                            >
+                              <Eye className="h-3 w-3 mr-1" />
+                              <span className="hidden sm:inline">Рассм.</span>
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 px-2 text-xs text-green-600 hover:text-green-700 hover:bg-green-500/10"
+                              onClick={() => handleQuickAction(report.id, "resolved")}
+                              disabled={updateStatus.isPending}
+                            >
+                              <CheckCircle className="h-3 w-3 mr-1" />
+                              <span className="hidden sm:inline">Решено</span>
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 px-2 text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
+                              onClick={() => handleQuickAction(report.id, "dismissed")}
+                              disabled={updateStatus.isPending}
+                            >
+                              <XCircle className="h-3 w-3 mr-1" />
+                              <span className="hidden sm:inline">Откл.</span>
+                            </Button>
+                          </div>
+                        )}
+                        
+                        {/* Show dropdown for non-pending */}
+                        {report.status !== "pending" && (
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="sm" className="h-7 px-2">
+                                <MoreVertical className="h-3 w-3" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem
+                                onClick={() => handleQuickAction(report.id, "pending")}
+                              >
+                                <Clock className="h-4 w-4 mr-2" />
+                                Вернуть в ожидание
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => handleQuickAction(report.id, "resolved")}
+                                disabled={report.status === "resolved"}
+                              >
+                                <CheckCircle className="h-4 w-4 mr-2" />
+                                Решено
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => handleQuickAction(report.id, "dismissed")}
+                                disabled={report.status === "dismissed"}
+                              >
+                                <XCircle className="h-4 w-4 mr-2" />
+                                Отклонить
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        )}
                       </div>
                     </div>
                   );
@@ -245,20 +293,30 @@ function StatCard({
   value,
   icon,
   variant,
+  active,
+  onClick,
 }: {
   title: string;
   value: number;
   icon: React.ReactNode;
   variant: "warning" | "info" | "success" | "muted";
+  active?: boolean;
+  onClick?: () => void;
 }) {
   return (
-    <Card>
-      <CardContent className="pt-4 pb-3 px-3 md:px-4">
-        <div className="flex items-center justify-between">
-          <p className="text-xs md:text-sm text-muted-foreground">{title}</p>
+    <Card 
+      className={cn(
+        "cursor-pointer transition-all hover:border-primary/50",
+        active && "border-primary bg-primary/5"
+      )}
+      onClick={onClick}
+    >
+      <CardContent className="p-2 md:p-3">
+        <div className="flex items-center justify-between mb-1">
           {icon}
+          <p className="text-lg md:text-xl font-bold">{value}</p>
         </div>
-        <p className="text-xl md:text-2xl font-bold mt-1">{value}</p>
+        <p className="text-[10px] md:text-xs text-muted-foreground truncate">{title}</p>
       </CardContent>
     </Card>
   );
