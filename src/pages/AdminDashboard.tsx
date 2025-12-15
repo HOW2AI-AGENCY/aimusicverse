@@ -42,6 +42,7 @@ import { UserBalancesPanel } from "@/components/admin/UserBalancesPanel";
 import { DeeplinkAnalyticsPanel } from "@/components/admin/DeeplinkAnalyticsPanel";
 import { EnhancedAnalyticsPanel } from "@/components/admin/EnhancedAnalyticsPanel";
 import { ModerationReportsPanel } from "@/components/admin/ModerationReportsPanel";
+import { StatCard, StatGrid } from "@/components/admin/StatCard";
 import { useQueryClient } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -198,14 +199,14 @@ export default function AdminDashboard() {
         {/* Overview Tab */}
         {activeTab === "overview" && (
           <div className="space-y-4">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+            <StatGrid columns={6}>
               <StatCard title="Пользователи" value={stats?.totalUsers || 0} icon={<Users className="h-4 w-4" />} />
               <StatCard title="Треки" value={stats?.totalTracks || 0} icon={<Music className="h-4 w-4" />} />
               <StatCard title="Проекты" value={stats?.totalProjects || 0} icon={<FolderKanban className="h-4 w-4" />} />
               <StatCard title="Плейлисты" value={stats?.totalPlaylists || 0} icon={<ListMusic className="h-4 w-4" />} />
               <StatCard title="Публичные" value={stats?.publicTracks || 0} icon={<TrendingUp className="h-4 w-4" />} />
               <StatCard title="Генераций" value={stats?.generationTasks || 0} icon={<Activity className="h-4 w-4" />} />
-            </div>
+            </StatGrid>
             <HealthCheckPanel />
           </div>
         )}
@@ -583,27 +584,5 @@ export default function AdminDashboard() {
         track={selectedTrack}
       />
     </div>
-  );
-}
-
-function StatCard({
-  title,
-  value,
-  icon,
-}: {
-  title: string;
-  value: number;
-  icon: React.ReactNode;
-}) {
-  return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-xs md:text-sm font-medium">{title}</CardTitle>
-        {icon}
-      </CardHeader>
-      <CardContent>
-        <div className="text-xl md:text-2xl font-bold">{value.toLocaleString()}</div>
-      </CardContent>
-    </Card>
   );
 }

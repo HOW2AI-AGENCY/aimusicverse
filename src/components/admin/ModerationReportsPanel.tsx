@@ -29,12 +29,12 @@ import {
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
-import { cn } from "@/lib/utils";
 import {
   useAdminModerationReports,
   useUpdateReportStatus,
   useModerationStats,
 } from "@/hooks/useAdminModerationReports";
+import { StatCard, StatGrid } from "@/components/admin/StatCard";
 
 type ReportStatus = "pending" | "reviewed" | "resolved" | "dismissed";
 
@@ -65,8 +65,8 @@ export function ModerationReportsPanel() {
 
   return (
     <div className="space-y-4">
-      {/* Stats Cards - Swipeable on mobile */}
-      <div className="grid grid-cols-4 gap-2 md:gap-3">
+      {/* Stats Cards */}
+      <StatGrid columns={4}>
         <StatCard
           title="Ожидают"
           value={stats?.pending || 0}
@@ -99,7 +99,7 @@ export function ModerationReportsPanel() {
           active={statusFilter === "dismissed"}
           onClick={() => setStatusFilter("dismissed")}
         />
-      </div>
+      </StatGrid>
 
       {/* Reports List */}
       <Card>
@@ -285,39 +285,5 @@ export function ModerationReportsPanel() {
         </CardContent>
       </Card>
     </div>
-  );
-}
-
-function StatCard({
-  title,
-  value,
-  icon,
-  variant,
-  active,
-  onClick,
-}: {
-  title: string;
-  value: number;
-  icon: React.ReactNode;
-  variant: "warning" | "info" | "success" | "muted";
-  active?: boolean;
-  onClick?: () => void;
-}) {
-  return (
-    <Card 
-      className={cn(
-        "cursor-pointer transition-all hover:border-primary/50",
-        active && "border-primary bg-primary/5"
-      )}
-      onClick={onClick}
-    >
-      <CardContent className="p-2 md:p-3">
-        <div className="flex items-center justify-between mb-1">
-          {icon}
-          <p className="text-lg md:text-xl font-bold">{value}</p>
-        </div>
-        <p className="text-[10px] md:text-xs text-muted-foreground truncate">{title}</p>
-      </CardContent>
-    </Card>
   );
 }
