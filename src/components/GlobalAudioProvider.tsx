@@ -29,6 +29,9 @@ const AUDIO_ERROR_MESSAGES: Record<number, { ru: string; action?: string }> = {
 export function GlobalAudioProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const lastTrackIdRef = useRef<string | null>(null);
+  // Suppress errors during initial startup to avoid stale data toasts
+  const mountTimeRef = useRef(Date.now());
+  const isStartupPeriod = () => Date.now() - mountTimeRef.current < 2000;
 
   const {
     activeTrack,
@@ -136,7 +139,10 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       const url = new URL(source);
       if (url.protocol !== 'http:' && url.protocol !== 'https:') {
         logger.warn('Invalid audio URL protocol', { protocol: url.protocol, trackId: activeTrack.id });
-        toast.error('Неверный формат URL аудио');
+        // Don't show toast during startup to avoid stale data errors
+        if (!isStartupPeriod()) {
+          toast.error('Неверный формат URL аудио');
+        }
         return null;
       }
 
@@ -151,9 +157,12 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         source: source.substring(0, 100),
         trackId: activeTrack.id,
       });
-      toast.error('Ошибка URL аудио', {
-        description: 'Неверный формат ссылки на аудиофайл'
-      });
+      // Don't show toast during startup to avoid stale data errors
+      if (!isStartupPeriod()) {
+        toast.error('Ошибка URL аудио', {
+          description: 'Неверный формат ссылки на аудиофайл'
+        });
+      }
       return null;
     }
   }, [activeTrack]);
