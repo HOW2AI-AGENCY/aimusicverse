@@ -175,24 +175,22 @@ export function SmartPromptSuggestions({
           <Lightbulb className="h-3.5 w-3.5" />
           <span>Быстрые идеи:</span>
         </div>
-        <div className="-mx-1 px-1 overflow-x-auto scrollbar-hide">
-          <div className="flex gap-1.5 pb-1">
-            {PROMPT_TEMPLATES.slice(0, 8).map((template) => {
-              const Icon = template.icon;
-              return (
-                <Button
-                  key={template.id}
-                  variant="outline"
-                  size="sm"
-                  onClick={() => onSelectPrompt(template.prompt)}
-                  className="h-7 text-xs gap-1.5 hover:bg-primary/10 hover:text-primary hover:border-primary flex-shrink-0 whitespace-nowrap"
-                >
-                  <Icon className="h-3 w-3" />
-                  {template.title}
-                </Button>
-              );
-            })}
-          </div>
+        <div className="flex flex-wrap gap-1.5">
+          {PROMPT_TEMPLATES.slice(0, 6).map((template) => {
+            const Icon = template.icon;
+            return (
+              <Button
+                key={template.id}
+                variant="outline"
+                size="sm"
+                onClick={() => onSelectPrompt(template.prompt)}
+                className="h-7 text-xs gap-1.5 hover:bg-primary/10 hover:text-primary hover:border-primary"
+              >
+                <Icon className="h-3 w-3" />
+                {template.title}
+              </Button>
+            );
+          })}
         </div>
       </div>
     );

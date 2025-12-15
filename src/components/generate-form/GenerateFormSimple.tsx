@@ -126,25 +126,23 @@ export function GenerateFormSimple({
           </p>
         )}
 
-        {/* Quick style suggestions - horizontal scroll */}
+        {/* Quick style suggestions */}
         {!description && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="mt-2 -mx-1 px-1 overflow-x-auto scrollbar-hide"
+            className="flex flex-wrap gap-1.5 mt-2"
           >
-            <div className="flex gap-1.5 pb-1">
-              {['Поп хит 🎤', 'Рок драйв 🎸', 'Lo-fi chill 🎧', 'Электро 🎹', 'Джаз 🎷', 'R&B 💜', 'Хип-хоп 🎤'].map((tag) => (
-                <button
-                  key={tag}
-                  type="button"
-                  onClick={() => onDescriptionChange(tag.split(' ')[0] + ' ' + tag.split(' ')[1].replace(/[^\w\s]/gi, ''))}
-                  className="px-3 py-1.5 rounded-full text-xs bg-muted/50 hover:bg-primary/10 hover:text-primary transition-colors whitespace-nowrap flex-shrink-0"
-                >
-                  {tag}
-                </button>
-              ))}
-            </div>
+            {['Поп хит 🎤', 'Рок драйв 🎸', 'Lo-fi chill 🎧', 'Электро 🎹'].map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => onDescriptionChange(tag.split(' ')[0] + ' ' + tag.split(' ')[1].replace(/[^\w\s]/gi, ''))}
+                className="px-2.5 py-1 rounded-full text-xs bg-muted/50 hover:bg-primary/10 hover:text-primary transition-colors"
+              >
+                {tag}
+              </button>
+            ))}
           </motion.div>
         )}
       </div>
