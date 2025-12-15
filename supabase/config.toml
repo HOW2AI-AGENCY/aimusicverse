@@ -194,3 +194,6 @@ verify_jwt = true
 
 [functions.get-suno-balance]
 verify_jwt = true
+
+[functions.stability-audio-cover]
+verify_jwt = true

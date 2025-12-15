@@ -53,6 +53,9 @@ export const UploadAudioDialog = ({
   const [audioDuration, setAudioDuration] = useState<number | null>(null);
   const [audioPreviewUrl, setAudioPreviewUrl] = useState<string | null>(null);
   
+  // Provider selection (suno vs stability AI)
+  const [provider, setProvider] = useState<'suno' | 'stability'>('suno');
+  
   // Library selection
   const [libraryOpen, setLibraryOpen] = useState(false);
   const [userTracks, setUserTracks] = useState<Tables<'tracks'>[]>([]);
@@ -67,6 +70,9 @@ export const UploadAudioDialog = ({
   const [title, setTitle] = useState(prefillData?.title ? `${prefillData.title} (кавер)` : '');
   const [continueAt, setContinueAt] = useState<number>(0);
   const [model, setModel] = useState('V4_5ALL');
+  
+  // Stability AI specific settings
+  const [stabilityStrength, setStabilityStrength] = useState([0.7]);
   
   // Audio analysis state
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -331,6 +337,25 @@ export const UploadAudioDialog = ({
       return;
     }
 
+    // Stability AI validation
+    if (provider === 'stability') {
+      if (!style && !prompt) {
+        toast.error('Укажите стиль или описание для Stability AI');
+        return;
+      }
+
+      // Stability AI has 45 second limit
+      if (audioDuration && audioDuration > 45) {
+        toast.error('Stability AI поддерживает аудио до 45 секунд', {
+          description: 'Используйте Suno для более длинных треков',
+        });
+        return;
+      }
+
+      return handleStabilitySubmit();
+    }
+
+    // Suno validation
     if (customMode && !style) {
       toast.error('Укажите стиль музыки');
       return;
@@ -446,6 +471,54 @@ export const UploadAudioDialog = ({
     }
   };
 
+  // Stability AI submit handler
+  const handleStabilitySubmit = async () => {
+    if (!audioFile) return;
+
+    setLoading(true);
+    try {
+      const reader = new FileReader();
+      reader.readAsDataURL(audioFile);
+      
+      await new Promise((resolve, reject) => {
+        reader.onload = resolve;
+        reader.onerror = reject;
+      });
+
+      const body = {
+        audioFile: {
+          name: audioFile.name,
+          type: audioFile.type,
+          data: reader.result,
+        },
+        audioDuration,
+        prompt: prompt || undefined,
+        style: style || undefined,
+        title: title || undefined,
+        strength: 1 - stabilityStrength[0], // Invert: high UI value = more original audio preserved
+        projectId: projectId || undefined,
+      };
+
+      const { data, error } = await supabase.functions.invoke('stability-audio-cover', { body });
+
+      if (error) throw error;
+
+      toast.success('Stability AI кавер начат! 🎵', {
+        description: 'Трек появится в библиотеке через 1-2 минуты',
+      });
+
+      resetForm();
+      onOpenChange(false);
+    } catch (error) {
+      logger.error('Stability submit error', { error });
+      toast.error('Ошибка Stability AI', {
+        description: error instanceof Error ? error.message : 'Попробуйте еще раз',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const resetForm = () => {
     if (audioPreviewUrl) {
       URL.revokeObjectURL(audioPreviewUrl);
@@ -502,15 +575,51 @@ export const UploadAudioDialog = ({
 
         <Tabs value={mode} onValueChange={(v) => setMode(v as 'cover' | 'extend')}>
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="cover" className="gap-2">
+            <TabsTrigger value="cover" className="gap-2" disabled={provider === 'stability'}>
               <Disc className="w-4 h-4" />
               Кавер
             </TabsTrigger>
-            <TabsTrigger value="extend" className="gap-2">
+            <TabsTrigger value="extend" className="gap-2" disabled={provider === 'stability'}>
               <Plus className="w-4 h-4" />
               Расширить
             </TabsTrigger>
           </TabsList>
+
+          {/* Provider Selector */}
+          <div className="mt-4 flex gap-2">
+            <Button
+              type="button"
+              variant={provider === 'suno' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setProvider('suno')}
+              className="flex-1 gap-2"
+            >
+              <Music className="w-4 h-4" />
+              Suno AI
+            </Button>
+            <Button
+              type="button"
+              variant={provider === 'stability' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => {
+                setProvider('stability');
+                setMode('cover'); // Stability only supports cover
+              }}
+              className="flex-1 gap-2"
+            >
+              <Sparkles className="w-4 h-4" />
+              Stability AI
+            </Button>
+          </div>
+
+          {provider === 'stability' && (
+            <Alert className="mt-3">
+              <Sparkles className="h-4 w-4" />
+              <AlertDescription>
+                Stability AI создаёт AI-ремиксы до 45 секунд с высоким качеством
+              </AlertDescription>
+            </Alert>
+          )}
 
           <div className="mt-4 p-3 rounded-lg bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 text-sm">
             <div className="flex items-start gap-2">
@@ -864,7 +973,31 @@ export const UploadAudioDialog = ({
                   </div>
                 )}
 
-                {/* Advanced Settings */}
+                {/* Stability AI Settings */}
+                {provider === 'stability' && (
+                  <div className="space-y-4 pt-4 border-t">
+                    <Label className="text-base">Настройки Stability AI</Label>
+                    <div>
+                      <div className="flex justify-between mb-2">
+                        <Label>Сила трансформации</Label>
+                        <span className="text-sm text-muted-foreground">{stabilityStrength[0].toFixed(2)}</span>
+                      </div>
+                      <Slider
+                        value={stabilityStrength}
+                        onValueChange={setStabilityStrength}
+                        min={0.1}
+                        max={0.9}
+                        step={0.05}
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Низкое значение = больше оригинала, высокое = больше AI изменений
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Advanced Settings - Suno only */}
+                {provider === 'suno' && (
                 <div className="space-y-4 pt-4 border-t">
                   <Label className="text-base">Расширенные настройки</Label>
 
@@ -939,6 +1072,7 @@ export const UploadAudioDialog = ({
                     />
                   </div>
                 </div>
+                )}
               </>
             )}
 
