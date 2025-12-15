@@ -50,7 +50,6 @@ export function VersionComparison({
 
   const { data: versions, isLoading } = useTrackVersions(trackId);
   const { setPrimaryVersion, isSettingPrimary } = useVersionSwitcher();
-  const { activeTrack } = usePlayerStore();
 
   /**
    * Get version by ID
@@ -148,17 +147,38 @@ export function VersionComparison({
   }, []);
 
   /**
-   * Handle play version
+   * Handle play version - play through player store
    */
+  const { playTrack, pauseTrack, isPlaying, activeTrack } = usePlayerStore();
+  
   const handlePlayVersion = useCallback((versionId: string) => {
     hapticImpact('medium');
-    if (playingVersion === versionId) {
+    const version = getVersion(versionId);
+    if (!version) return;
+
+    // Check if this version is currently playing
+    const isCurrentlyPlaying = activeTrack?.id === versionId && isPlaying;
+    
+    if (isCurrentlyPlaying) {
+      pauseTrack();
       setPlayingVersion(null);
     } else {
+      // Create a track-like object from the version for playback
+      const versionTrack = {
+        id: version.id,
+        title: version.version_label || 'Версия',
+        audio_url: version.audio_url,
+        cover_url: version.cover_url,
+        duration_seconds: version.duration_seconds,
+        user_id: '', // Not needed for playback
+        prompt: '',
+        created_at: version.created_at,
+      } as any;
+      
+      playTrack(versionTrack);
       setPlayingVersion(versionId);
-      // TODO: Implement actual playback
     }
-  }, [playingVersion]);
+  }, [getVersion, playTrack, pauseTrack, activeTrack, isPlaying]);
 
   /**
    * Handle set as primary
