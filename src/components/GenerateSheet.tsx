@@ -320,11 +320,12 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             targetAudience: project.target_audience || undefined,
             referenceArtists: project.reference_artists || undefined,
             projectType: project.project_type || undefined,
-            existingTracks: allTracks?.filter(t => t.project_id === project.id).map(t => ({
-              title: t.title,
-              stylePrompt: t.style_prompt || undefined,
+            existingTracks: allTracks?.filter(t => t.project_id === project.id).map((t, index) => ({
+              title: t.title || 'Untitled',
+              position: index + 1,
+              stylePrompt: t.style || undefined,
               generatedLyrics: t.lyrics || undefined,
-              draftLyrics: t.notes || undefined,
+              draftLyrics: undefined,
             })),
           };
         })() : undefined}
@@ -332,12 +333,11 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           const track = allTracks?.find(t => t.id === form.selectedTrackId);
           if (!track) return undefined;
           return {
-            title: track.title,
-            position: track.position || 0,
-            stylePrompt: track.style_prompt || undefined,
-            draftLyrics: track.notes || undefined,
+            title: track.title || 'Untitled',
+            position: 1,
+            stylePrompt: track.style || undefined,
+            draftLyrics: undefined,
             generatedLyrics: track.lyrics || undefined,
-            notes: track.notes || undefined,
           };
         })() : undefined}
       />

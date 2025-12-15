@@ -221,12 +221,18 @@ async function checkEdgeFunctions(): Promise<HealthCheckResult> {
 async function checkTelegramBot(supabase: any): Promise<HealthCheckResult> {
   const start = Date.now();
   try {
-    const { data, error } = await supabase.rpc('get_telegram_bot_metrics', {
+    // Check both 1h and 24h metrics for better assessment
+    const { data: hourlyData, error: hourlyError } = await supabase.rpc('get_telegram_bot_metrics', {
       _time_period: '1 hour'
     });
+    
+    const { data: dailyData } = await supabase.rpc('get_telegram_bot_metrics', {
+      _time_period: '24 hours'
+    });
+    
     const latency = Date.now() - start;
     
-    if (error) {
+    if (hourlyError) {
       return {
         name: 'Telegram Bot',
         status: 'degraded',
@@ -236,19 +242,39 @@ async function checkTelegramBot(supabase: any): Promise<HealthCheckResult> {
       };
     }
     
-    const metrics = data?.[0];
-    const successRate = metrics?.success_rate || 0;
-    const totalEvents = metrics?.total_events || 0;
+    const hourlyMetrics = hourlyData?.[0];
+    const dailyMetrics = dailyData?.[0];
+    
+    const hourlyEvents = hourlyMetrics?.total_events || 0;
+    const hourlySuccessRate = hourlyMetrics?.success_rate || 0;
+    const dailySuccessRate = dailyMetrics?.success_rate || 0;
+    const dailyEvents = dailyMetrics?.total_events || 0;
     
     let status: 'healthy' | 'degraded' | 'unhealthy' = 'healthy';
-    let message = `${successRate.toFixed(1)}% success rate (${totalEvents} events/1h)`;
+    let message = '';
     
-    if (successRate < 80) {
-      status = 'unhealthy';
-      message = `Critical: ${message}`;
-    } else if (successRate < 95) {
-      status = 'degraded';
-      message = `Warning: ${message}`;
+    // If no events in the last hour, check daily metrics instead
+    if (hourlyEvents === 0) {
+      if (dailyEvents === 0) {
+        // No activity at all - bot might be idle, not necessarily unhealthy
+        message = 'No recent activity (idle)';
+        status = 'healthy';
+      } else {
+        // No hourly events but has daily - use daily rate
+        message = `Idle 1h, ${dailySuccessRate.toFixed(1)}% daily (${dailyEvents} events/24h)`;
+        status = dailySuccessRate >= 80 ? 'healthy' : dailySuccessRate >= 60 ? 'degraded' : 'unhealthy';
+      }
+    } else {
+      // Has hourly events - use hourly rate
+      message = `${hourlySuccessRate.toFixed(1)}% success (${hourlyEvents} events/1h)`;
+      
+      if (hourlySuccessRate < 80) {
+        status = 'unhealthy';
+        message = `Critical: ${message}`;
+      } else if (hourlySuccessRate < 95) {
+        status = 'degraded';
+        message = `Warning: ${message}`;
+      }
     }
     
     return {
