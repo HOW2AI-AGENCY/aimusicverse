@@ -140,6 +140,29 @@ export function useTracks() {
 | useAchievements | ✅ Migrated | → useCredits |
 | useLeaderboard | ✅ Migrated | → useCredits |
 | usePublicTracks | ✅ Migrated | → useTracks |
-| usePlaylists | 🔄 Pending | |
-| useProjects | 🔄 Pending | |
-| useArtists | 🔄 Pending | |
+| usePlaylists | ✅ API/Service created | playlists.api.ts, playlists.service.ts |
+| useProjects | ✅ API/Service created | projects.api.ts, projects.service.ts |
+| useArtists | ✅ API/Service created | artists.api.ts, artists.service.ts |
+
+## File Structure
+
+```
+src/api/
+├── index.ts
+├── tracks.api.ts      # Track CRUD, likes, play counts
+├── credits.api.ts     # User credits, achievements, leaderboard
+├── playlists.api.ts   # Playlist CRUD, track management
+├── projects.api.ts    # Music project CRUD, AI concept
+└── artists.api.ts     # AI artist CRUD, portrait generation
+
+src/services/
+├── index.ts
+├── tracks.service.ts      # Track business logic, enrichment
+├── credits.service.ts     # XP/level calculations, rewards
+├── playlists.service.ts   # Playlist operations
+├── projects.service.ts    # Project types, progress tracking
+├── artists.service.ts     # Artist creation with portraits
+├── starsPaymentService.ts # Telegram Stars payments
+├── telegram-auth.ts       # Telegram authentication
+└── telegram-share.ts      # Telegram sharing
+```
