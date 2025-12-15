@@ -40,3 +40,5 @@ export {
 export type { MixPreset, StemConfig } from './useMixPresets';
 export { useLoopRegion } from './useLoopRegion';
 export type { LoopRegion } from './useLoopRegion';
+export { useMultiTrackAudio } from './useMultiTrackAudio';
+export type { MultiTrackAudioState } from './useMultiTrackAudio';
