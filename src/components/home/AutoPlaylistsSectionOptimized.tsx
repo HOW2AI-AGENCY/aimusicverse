@@ -15,6 +15,12 @@ const GENRE_COLORS: Record<string, string> = {
   'rock': 'from-red-500/40 to-orange-500/40',
   'ambient': 'from-teal-500/40 to-green-500/40',
   'jazz': 'from-amber-500/40 to-yellow-500/40',
+  'rnb': 'from-violet-500/40 to-fuchsia-500/40',
+  'classical': 'from-slate-500/40 to-zinc-500/40',
+  'lofi': 'from-emerald-500/40 to-teal-500/40',
+  'latin': 'from-rose-500/40 to-orange-500/40',
+  'country': 'from-amber-600/40 to-yellow-600/40',
+  'cinematic': 'from-indigo-500/40 to-purple-500/40',
 };
 
 interface GenrePlaylist {

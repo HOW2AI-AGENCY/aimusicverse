@@ -20,6 +20,13 @@ import { Track } from '@/hooks/useTracksOptimized';
 type RepeatMode = 'off' | 'all' | 'one';
 
 /**
+ * Version mode options for queue playback
+ * - 'active': Play only primary/active version of each track
+ * - 'all': Play all versions (A/B variations) of tracks
+ */
+type VersionMode = 'active' | 'all';
+
+/**
  * Player UI display modes
  * - 'minimized': Hidden/minimized state
  * - 'compact': Small player bar at bottom
@@ -43,6 +50,7 @@ interface PlayerState {
   // Playback modes
   shuffle: boolean;                  // Shuffle mode enabled/disabled
   repeat: RepeatMode;                // Repeat mode setting
+  versionMode: VersionMode;          // Version mode (active versions only / all versions)
   
   // Audio settings (persisted)
   volume: number;                    // Volume level 0-1
@@ -66,6 +74,7 @@ interface PlayerState {
   // Mode toggle actions
   toggleShuffle: () => void;           // Toggle shuffle mode
   toggleRepeat: () => void;            // Cycle through repeat modes
+  toggleVersionMode: () => void;       // Toggle version mode (active only / all versions)
   
   // Volume control
   setVolume: (volume: number) => void; // Set volume level 0-1
@@ -242,6 +251,7 @@ export const usePlayerStore = create<PlayerState>()(
   currentIndex: 0,
   shuffle: false,
   repeat: 'off',
+  versionMode: 'active',  // Default: play only active versions
   volume: 1.0,  // Default volume
   playerMode: 'minimized',
   
@@ -379,6 +389,17 @@ export const usePlayerStore = create<PlayerState>()(
       return { repeat: modes[nextModeIndex] };
     });
   },
+
+  /**
+   * Toggle version mode - switches between 'active' and 'all' versions
+   * - active: Play only primary/active version of tracks
+   * - all: Play all versions (A/B variations) of tracks
+   */
+  toggleVersionMode: () => {
+    set((state) => ({
+      versionMode: state.versionMode === 'active' ? 'all' : 'active'
+    }));
+  },
   
   /**
    * Set volume - sets audio volume level
@@ -416,6 +437,7 @@ export const usePlayerStore = create<PlayerState>()(
         volume: state.volume,
         repeat: state.repeat,
         shuffle: state.shuffle,
+        versionMode: state.versionMode,
       }),
     }
   )

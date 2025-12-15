@@ -16,6 +16,7 @@ import { RecentTracksSection } from "@/components/home/RecentTracksSection";
 import { WelcomeSection } from "@/components/home/WelcomeSection";
 import { GamificationWidget } from "@/components/gamification/GamificationWidget";
 import { BlogSection } from "@/components/home/BlogSection";
+import { FeaturedBlogBanners } from "@/components/home/FeaturedBlogBanners";
 import { GraphPreview } from "@/components/home/GraphPreview";
 import { ProfessionalToolsHub } from "@/components/home/ProfessionalToolsHub";
 import { GenerateSheet } from "@/components/GenerateSheet";
@@ -230,12 +231,22 @@ const Index = () => {
           />
         </motion.section>
 
-        {/* Public AI Artists Section */}
+        {/* Featured Blog Banners */}
         <motion.section
           className="mb-4 sm:mb-5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.3 }}
+        >
+          <FeaturedBlogBanners />
+        </motion.section>
+
+        {/* Public AI Artists Section */}
+        <motion.section
+          className="mb-4 sm:mb-5"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.35, duration: 0.3 }}
         >
           <PublicArtistsSection />
         </motion.section>
