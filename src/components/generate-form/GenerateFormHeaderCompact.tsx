@@ -1,147 +1,139 @@
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Coins, Shield, Zap, AlertTriangle } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { History, Coins, Sparkles } from 'lucide-react';
+import { SUNO_MODELS } from '@/constants/sunoModels';
 
 interface GenerateFormHeaderCompactProps {
   userBalance: number;
   generationCost: number;
+  canGenerate: boolean;
+  apiCredits: number | null;
   mode: 'simple' | 'custom';
   onModeChange: (mode: 'simple' | 'custom') => void;
-  selectedModel: string;
+  model: string;
   onModelChange: (model: string) => void;
   isAdmin?: boolean;
-  apiBalance?: number;
-  onOpenHistory?: () => void;
 }
 
-const MODELS = [
-  { id: 'V4', name: 'V4', emoji: '🎵', description: 'Стабильная' },
-  { id: 'V4_5', name: 'V4.5', emoji: '✨', description: 'Улучшенная' },
-  { id: 'V4_5PLUS', name: 'V4.5+', emoji: '🚀', description: 'Максимальная' },
-];
-
 /**
- * Компактный заголовок формы генерации
- * Содержит: история, баланс, режим, модель
+ * Компактная версия заголовка формы генерации
+ * Оптимизирована для экономии пространства - умещается в одну строку
  */
 export function GenerateFormHeaderCompact({
   userBalance,
   generationCost,
+  canGenerate,
+  apiCredits,
   mode,
   onModeChange,
-  selectedModel,
+  model,
   onModelChange,
   isAdmin = false,
-  apiBalance = 0,
-  onOpenHistory,
 }: GenerateFormHeaderCompactProps) {
-  const currentModel = MODELS.find(m => m.id === selectedModel) || MODELS[0];
-  const hasEnoughBalance = userBalance >= generationCost;
-
   return (
-    <TooltipProvider>
-      <div className="flex items-center justify-between gap-2">
-        {/* Левая часть: История + Баланс */}
-        <div className="flex items-center gap-1.5">
-          {/* Кнопка истории */}
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9 min-w-[36px] min-h-[36px] touch-manipulation"
-                onClick={onOpenHistory}
-              >
-                <History className="w-4 h-4 text-muted-foreground" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">
-              <p>История генераций</p>
-            </TooltipContent>
-          </Tooltip>
-
-          {/* Баланс */}
-          <Tooltip>
-            <TooltipTrigger asChild>
+    <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+      {/* Balance Badge - compact */}
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            {isAdmin ? (
               <Badge
-                variant={hasEnoughBalance ? 'secondary' : 'destructive'}
-                className="h-7 px-2 py-1 text-xs font-medium cursor-help"
-              >
-                {isAdmin ? (
-                  <>
-                    <Sparkles className="w-3.5 h-3.5 mr-1" />
-                    <span>API: {apiBalance.toLocaleString()}</span>
-                  </>
-                ) : (
-                  <>
-                    <Coins className="w-3.5 h-3.5 mr-1" />
-                    <span>{userBalance}</span>
-                    <span className="mx-1 opacity-50">/</span>
-                    <span className="opacity-70">-{generationCost}</span>
-                  </>
-                )}
-              </Badge>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">
-              {isAdmin ? (
-                <p>API баланс системы</p>
-              ) : (
-                <p>Ваш баланс: {userBalance} кредитов. Стоимость: {generationCost}</p>
-              )}
-            </TooltipContent>
-          </Tooltip>
-        </div>
-
-        {/* Правая часть: Режим + Модель */}
-        <div className="flex items-center gap-1.5">
-          {/* Переключатель режима */}
-          <div className="flex items-center bg-muted/50 rounded-lg p-0.5">
-            <Button
-              type="button"
-              variant={mode === 'simple' ? 'secondary' : 'ghost'}
-              size="sm"
-              className="h-8 px-3 min-w-[56px] text-xs font-medium rounded-md"
-              onClick={() => onModeChange('simple')}
-            >
-              Простой
-            </Button>
-            <Button
-              type="button"
-              variant={mode === 'custom' ? 'secondary' : 'ghost'}
-              size="sm"
-              className="h-8 px-3 min-w-[56px] text-xs font-medium rounded-md"
-              onClick={() => onModeChange('custom')}
-            >
-              Свой
-            </Button>
-          </div>
-
-          {/* Селектор модели */}
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                type="button"
                 variant="outline"
-                size="sm"
-                className="h-8 px-2 min-w-[48px] text-xs font-medium"
-                onClick={() => {
-                  const currentIndex = MODELS.findIndex(m => m.id === selectedModel);
-                  const nextIndex = (currentIndex + 1) % MODELS.length;
-                  onModelChange(MODELS[nextIndex].id);
-                }}
+                className="gap-1 px-2 py-0.5 cursor-help border-amber-500/50 bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                aria-label={`API баланс: ${userBalance} кредитов`}
               >
-                <span className="text-sm">{currentModel.emoji}</span>
-                <span className="hidden sm:inline ml-1">{currentModel.name}</span>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">
-              <p>{currentModel.name} — {currentModel.description}</p>
-            </TooltipContent>
-          </Tooltip>
-        </div>
+                <Shield className="w-3 h-3" />
+                <Zap className="w-3 h-3" />
+                <span className="font-semibold text-xs">{Math.floor(userBalance)}</span>
+              </Badge>
+            ) : (
+              <Badge
+                variant={canGenerate ? "secondary" : "destructive"}
+                className="gap-1 px-2 py-0.5 cursor-help"
+                aria-label={`Ваш баланс: ${userBalance} кредитов`}
+              >
+                {!canGenerate && <AlertTriangle className="w-3 h-3" />}
+                <Coins className="w-3 h-3" />
+                <span className="font-semibold text-xs">{userBalance}</span>
+              </Badge>
+            )}
+          </TooltipTrigger>
+          <TooltipContent side="bottom" className="max-w-[220px]">
+            <div className="space-y-1 text-xs">
+              {isAdmin ? (
+                <>
+                  <p className="font-medium flex items-center gap-1.5">
+                    <Shield className="w-3 h-3 text-amber-500" />
+                    Режим администратора
+                  </p>
+                  <p className="text-muted-foreground">
+                    API баланс: {Math.floor(userBalance)} кредитов
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="font-medium">Баланс: {userBalance} кредитов</p>
+                  <p className="text-muted-foreground">Стоимость: {generationCost}</p>
+                  {apiCredits !== null && (
+                    <p className="text-muted-foreground border-t pt-1 mt-1">
+                      API: {apiCredits.toFixed(0)}
+                    </p>
+                  )}
+                </>
+              )}
+            </div>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      {/* Mode Toggle - compact */}
+      <div className="flex items-center gap-0.5 p-0.5 rounded-md bg-muted">
+        <Button
+          variant={mode === 'simple' ? 'default' : 'ghost'}
+          size="sm"
+          onClick={() => onModeChange('simple')}
+          className="h-7 px-2.5 text-xs min-w-[56px] touch-manipulation"
+        >
+          Simple
+        </Button>
+        <Button
+          variant={mode === 'custom' ? 'default' : 'ghost'}
+          size="sm"
+          onClick={() => onModeChange('custom')}
+          className="h-7 px-2.5 text-xs min-w-[56px] touch-manipulation"
+        >
+          Custom
+        </Button>
       </div>
-    </TooltipProvider>
+
+      {/* Model Selector - compact */}
+      <Select value={model} onValueChange={onModelChange}>
+        <SelectTrigger className="h-7 w-[130px] text-xs">
+          <SelectValue>
+            <div className="flex items-center gap-1.5">
+              <span className="text-sm">{SUNO_MODELS[model as keyof typeof SUNO_MODELS]?.emoji || '🎵'}</span>
+              <span className="text-xs truncate">
+                {SUNO_MODELS[model as keyof typeof SUNO_MODELS]?.name || model}
+              </span>
+            </div>
+          </SelectValue>
+        </SelectTrigger>
+        <SelectContent className="z-[9999]">
+          {Object.entries(SUNO_MODELS).map(([key, info]) => (
+            <SelectItem key={key} value={key}>
+              <div className="flex items-center gap-2">
+                <span>{info.emoji}</span>
+                <div className="flex flex-col">
+                  <span className="font-medium text-xs">{info.name}</span>
+                  <span className="text-xs text-muted-foreground">{info.desc}</span>
+                </div>
+              </div>
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 }

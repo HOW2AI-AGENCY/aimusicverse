@@ -17,7 +17,6 @@ import { WelcomeSection } from "@/components/home/WelcomeSection";
 import { GamificationWidget } from "@/components/gamification/GamificationWidget";
 import { BlogSection } from "@/components/home/BlogSection";
 import { GraphPreview } from "@/components/home/GraphPreview";
-import { LeaderboardSection } from "@/components/home/LeaderboardSection";
 import { ProfessionalToolsHub } from "@/components/home/ProfessionalToolsHub";
 import { GenerateSheet } from "@/components/GenerateSheet";
 import { MusicRecognitionDialog } from "@/components/music-recognition/MusicRecognitionDialog";
@@ -241,43 +240,13 @@ const Index = () => {
           <PublicArtistsSection />
         </motion.section>
 
-        {/* Blog Section */}
-        <motion.section
-          className="mb-4 sm:mb-5"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.32, duration: 0.3 }}
-        >
-          <BlogSection />
-        </motion.section>
-
-        {/* Graph Preview */}
-        <motion.section
-          className="mb-4 sm:mb-5"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.34, duration: 0.3 }}
-        >
-          <GraphPreview />
-        </motion.section>
-
-        {/* Leaderboard Section */}
-        <motion.section
-          className="mb-4 sm:mb-5"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.36, duration: 0.3 }}
-        >
-          <LeaderboardSection />
-        </motion.section>
-
         {/* Professional Tools Hub - Desktop only or collapsed on mobile */}
         {user && (
           <motion.section
             className="hidden sm:block mb-5"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.3 }}
+            transition={{ delay: 0.35, duration: 0.3 }}
           >
             <ProfessionalToolsHub />
           </motion.section>
