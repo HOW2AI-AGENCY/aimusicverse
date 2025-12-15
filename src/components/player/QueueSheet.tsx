@@ -23,6 +23,17 @@ interface QueueSheetProps {
 export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
   const { queue, currentIndex, reorderQueue, removeFromQueue, clearQueue, versionMode, toggleVersionMode } = usePlayerStore();
 
+  // Calculate total duration
+  const totalDuration = queue.reduce((acc, track) => acc + (track.duration_seconds || 0), 0);
+  const formatTotalDuration = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    if (hours > 0) {
+      return `${hours} ч ${mins} мин`;
+    }
+    return `${mins} мин`;
+  };
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -86,6 +97,9 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
                 <SheetTitle className="text-left">Очередь</SheetTitle>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   {queue.length} {queue.length === 1 ? 'трек' : queue.length < 5 ? 'трека' : 'треков'}
+                  {totalDuration > 0 && (
+                    <span className="ml-1.5">• {formatTotalDuration(totalDuration)}</span>
+                  )}
                 </p>
               </div>
             </div>
