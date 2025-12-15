@@ -425,6 +425,7 @@ export async function handleGenerateFromReference(
 
     // Call the appropriate generation edge function
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const telegramBotToken = Deno.env.get('TELEGRAM_BOT_TOKEN')!;
     const endpoint = mode === 'cover' 
       ? `${supabaseUrl}/functions/v1/suno-upload-cover`
       : `${supabaseUrl}/functions/v1/suno-upload-extend`;
@@ -433,14 +434,16 @@ export async function handleGenerateFromReference(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${BOT_CONFIG.supabaseServiceKey}`,
+        'x-telegram-bot-secret': telegramBotToken, // Required for bot auth
       },
       body: JSON.stringify({
-        userId: profile.user_id,
-        audioUrl: reference.file_url,
-        fileName: reference.file_name,
+        source: 'telegram_bot', // CRITICAL: Must be 'telegram_bot' for proper auth
+        userId: profile.user_id, // User ID for the account
         telegramChatId: chatId,
-        source: 'telegram_reference',
+        audioUrl: reference.file_url, // Use providedAudioUrl for pre-uploaded
+        model: 'V5', // Default to V5 for best quality
+        customMode: false, // Simple mode for quick generation
+        instrumental: false,
       }),
     });
 
