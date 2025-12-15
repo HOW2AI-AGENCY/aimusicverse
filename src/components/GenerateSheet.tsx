@@ -26,6 +26,7 @@ import { ArtistSelector } from './generate-form/ArtistSelector';
 import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
 import { PromptHistory } from './generate-form/PromptHistory';
 import { LyricsChatAssistant } from './generate-form/LyricsChatAssistant';
+import { UploadAudioDialog } from './UploadAudioDialog';
 
 interface GenerateSheetProps {
   open: boolean;
@@ -43,6 +44,9 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
   const [artistDialogOpen, setArtistDialogOpen] = useState(false);
   const [audioActionDialogOpen, setAudioActionDialogOpen] = useState(false); // For reference audio selection
+  const [uploadAudioDialogOpen, setUploadAudioDialogOpen] = useState(false); // For direct cover/extend generation
+  const [uploadAudioMode, setUploadAudioMode] = useState<'cover' | 'extend'>('cover');
+  const [pendingAudioFile, setPendingAudioFile] = useState<File | null>(null);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
   const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
@@ -285,6 +289,25 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           form.setHasVocals(true);
           form.setLyrics(lyrics);
         }}
+        onOpenCoverDialog={(file, mode) => {
+          // Open UploadAudioDialog for direct cover/extend generation
+          setPendingAudioFile(file);
+          setUploadAudioMode(mode);
+          setUploadAudioDialogOpen(true);
+        }}
+      />
+
+      {/* UploadAudioDialog for direct cover/extend generation */}
+      <UploadAudioDialog
+        open={uploadAudioDialogOpen}
+        onOpenChange={(open) => {
+          setUploadAudioDialogOpen(open);
+          if (!open) {
+            setPendingAudioFile(null);
+          }
+        }}
+        defaultMode={uploadAudioMode}
+        initialAudioFile={pendingAudioFile ?? undefined}
       />
 
       <LyricsChatAssistant

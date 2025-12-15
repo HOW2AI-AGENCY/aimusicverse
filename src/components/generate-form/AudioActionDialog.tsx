@@ -15,7 +15,7 @@ import { Progress } from '@/components/ui/progress';
 import { 
   FileAudio, Mic, X, Play, Pause, Sparkles, Upload, 
   Disc, ArrowRight, Loader2, FileText, Check, History,
-  Clock, Music2, ChevronDown, ChevronUp
+  Clock, Music2, ChevronDown, ChevronUp, Rocket
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
@@ -33,6 +33,8 @@ interface AudioActionDialogProps {
   onAnalysisComplete?: (styleDescription: string) => void;
   onLyricsExtracted?: (lyrics: string) => void;
   initialMode?: AudioMode;
+  /** Callback to open UploadAudioDialog for direct cover/extend generation */
+  onOpenCoverDialog?: (file: File, mode: AudioMode) => void;
 }
 
 const ANALYSIS_STEPS = [
@@ -49,6 +51,7 @@ export function AudioActionDialog({
   onAnalysisComplete,
   onLyricsExtracted,
   initialMode = 'cover',
+  onOpenCoverDialog,
 }: AudioActionDialogProps) {
   const isMobile = useIsMobile();
   const { audioList, saveAudio, updateAnalysis, isLoading: isLoadingHistory } = useReferenceAudio();
@@ -686,24 +689,45 @@ export function AudioActionDialog({
           )}
 
           {/* Actions - Compact */}
-          <div className="flex gap-2 pt-1">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={handleRemove}
-              className="flex-1 h-9"
-            >
-              Отменить
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              onClick={handleConfirm}
-              className="flex-1 h-9"
-            >
-              Применить
-            </Button>
+          <div className="space-y-2 pt-1">
+            {/* Direct generation button - primary action */}
+            {onOpenCoverDialog && (
+              <Button
+                type="button"
+                size="sm"
+                onClick={() => {
+                  if (audioFile) {
+                    onOpenCoverDialog(audioFile, mode);
+                    onOpenChange(false);
+                  }
+                }}
+                className="w-full h-10 gap-2 bg-gradient-to-r from-primary to-primary/80"
+              >
+                <Rocket className="w-4 h-4" />
+                {mode === 'cover' ? 'Создать кавер' : 'Расширить трек'}
+              </Button>
+            )}
+            
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleRemove}
+                className="flex-1 h-9"
+              >
+                Отменить
+              </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                onClick={handleConfirm}
+                className="flex-1 h-9"
+              >
+                В форму генерации
+              </Button>
+            </div>
           </div>
         </div>
       )}
