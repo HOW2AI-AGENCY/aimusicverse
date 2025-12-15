@@ -263,12 +263,30 @@ serve(async (req) => {
       logger.info('Audio duration validation passed', { duration: audioDuration, limit: maxDuration });
     }
 
+    // CRITICAL: continueAt is REQUIRED for Suno extend API
+    // If not provided, default to audio duration (extend from end) or 0
+    const effectiveContinueAt = continueAt ?? (audioDuration ? Math.floor(audioDuration * 0.8) : 0);
+    
+    if (effectiveContinueAt === null || effectiveContinueAt === undefined) {
+      logger.error('continueAt is required for extend operation');
+      return new Response(
+        JSON.stringify({ 
+          error: 'Укажите точку продолжения (continueAt)',
+          errorCode: 'CONTINUE_AT_REQUIRED' 
+        }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    logger.info('Using continueAt value', { continueAt: effectiveContinueAt, providedValue: continueAt, audioDuration });
+
     // Prepare request body for Suno API
     const requestBody: any = {
       uploadUrl: publicUrl,
       customMode, // Fixed: Now uses customMode consistently with upload-cover
       model: apiModel,
       callBackUrl: `${supabaseUrl}/functions/v1/suno-music-callback`,
+      continueAt: effectiveContinueAt, // ALWAYS include continueAt for extend
     };
 
     if (customMode) {
@@ -283,7 +301,6 @@ serve(async (req) => {
       requestBody.instrumental = instrumental;
       requestBody.style = style;
       if (title) requestBody.title = title;
-      if (continueAt !== undefined) requestBody.continueAt = continueAt;
 
       if (!instrumental && prompt) {
         requestBody.prompt = prompt;
