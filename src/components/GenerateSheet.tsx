@@ -100,13 +100,12 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           <GenerateFormHeaderCompact
             userBalance={form.userBalance}
             generationCost={form.generationCost}
-            canGenerate={form.canGenerate}
-            apiCredits={form.apiCredits}
             mode={form.mode}
             onModeChange={form.setMode}
-            model={form.model}
+            selectedModel={form.model}
             onModelChange={form.setModel}
             isAdmin={form.isAdmin}
+            apiBalance={form.apiCredits ?? 0}
             onOpenHistory={() => setHistoryOpen(true)}
           />
         </div>

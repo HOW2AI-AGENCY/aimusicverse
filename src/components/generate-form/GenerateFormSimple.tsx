@@ -129,9 +129,9 @@ export function GenerateFormSimple({
 
         {/* Quick style suggestions - horizontal scroll with proper mobile support */}
         {!description && (
-          <div className="mt-2.5 -mx-3 px-3">
+          <div className="-mx-4 px-4 mt-2.5">
             <div 
-              className="flex gap-1.5 pb-1 overflow-x-auto scrollbar-hide touch-pan-x"
+              className="flex gap-2 pb-1 overflow-x-auto scrollbar-hide touch-pan-x"
               style={{ 
                 WebkitOverflowScrolling: 'touch',
                 scrollSnapType: 'x mandatory'
@@ -142,7 +142,7 @@ export function GenerateFormSimple({
                   key={tag}
                   type="button"
                   onClick={() => onDescriptionChange(tag.split(' ')[0])}
-                  className="px-2.5 py-1 rounded-full text-[11px] bg-muted/60 hover:bg-primary/10 hover:text-primary active:bg-primary/20 transition-colors whitespace-nowrap shrink-0 touch-manipulation scroll-snap-align-start"
+                  className="h-8 px-3 rounded-full text-xs bg-muted/60 hover:bg-primary/10 hover:text-primary active:bg-primary/20 transition-colors whitespace-nowrap shrink-0 touch-manipulation"
                   style={{ scrollSnapAlign: 'start' }}
                 >
                   {tag}
@@ -174,25 +174,25 @@ export function GenerateFormSimple({
             <button
               type="button"
               onClick={() => onHasVocalsChange(!hasVocals)}
-              className="w-full flex items-center justify-between p-2.5 rounded-xl bg-muted/40 border border-border/50 active:bg-muted/60 transition-all touch-manipulation"
+              className="w-full flex items-center justify-between p-3 rounded-xl bg-muted/40 border border-border/50 active:bg-muted/60 transition-all touch-manipulation min-h-[56px]"
             >
-              <div className="flex items-center gap-2.5 min-w-0">
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-all ${
+              <div className="flex items-center gap-3 min-w-0">
+                <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-all ${
                   hasVocals 
                     ? 'bg-primary/15 text-primary' 
                     : 'bg-muted text-muted-foreground'
                 }`}>
                   {hasVocals ? (
-                    <Mic className="w-4 h-4" />
+                    <Mic className="w-4.5 h-4.5" />
                   ) : (
-                    <Music className="w-4 h-4" />
+                    <Music className="w-4.5 h-4.5" />
                   )}
                 </div>
                 <div className="text-left min-w-0">
                   <span className="text-sm font-medium block">
                     {hasVocals ? 'С вокалом' : 'Инструментал'}
                   </span>
-                  <span className="text-[11px] text-muted-foreground block truncate">
+                  <span className="text-xs text-muted-foreground block">
                     {hasVocals ? 'AI голос и текст' : 'Только музыка'}
                   </span>
                 </div>
