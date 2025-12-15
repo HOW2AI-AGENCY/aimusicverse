@@ -139,6 +139,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
               onOpenArtistDialog={() => setArtistDialogOpen(true)}
               onOpenProjectDialog={() => setProjectDialogOpen(true)}
+              onOpenHistory={() => setHistoryOpen(true)}
             />
 
             {/* Selected References Indicators */}
