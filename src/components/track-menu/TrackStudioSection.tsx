@@ -1,7 +1,8 @@
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { Layers, Split, Music2 } from 'lucide-react';
+import { Layers, Music2, AlertCircle } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 interface TrackStudioSectionProps {
   track: Track;
@@ -12,10 +13,27 @@ export function TrackStudioSection({ track, stemCount }: TrackStudioSectionProps
   const navigate = useNavigate();
 
   const handleOpenInStudio = () => {
+    // Only allow studio for generated tracks with audio
+    if (!track.audio_url) {
+      toast.error('Трек ещё не сгенерирован', {
+        description: 'Дождитесь завершения генерации'
+      });
+      return;
+    }
     navigate(`/studio/${track.id}`);
   };
 
-  // Always show studio option - TrackStudioContent handles tracks without stems
+  // Don't show studio option for tracks without audio
+  if (!track.audio_url) {
+    return (
+      <DropdownMenuItem disabled className="opacity-50">
+        <AlertCircle className="w-4 h-4 mr-2" />
+        Студия недоступна
+        <span className="ml-auto text-xs text-muted-foreground">нет аудио</span>
+      </DropdownMenuItem>
+    );
+  }
+
   return (
     <DropdownMenuItem onClick={handleOpenInStudio}>
       {stemCount > 0 ? (

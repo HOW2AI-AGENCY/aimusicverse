@@ -678,10 +678,15 @@ export const DeepLinkHandler = () => {
         const style = startParam.replace('generate_', '');
         navigate(`/generate?style=${style}`);
       }
-      // Stem Studio deep link
+      // Stem Studio deep link (only for generated tracks)
+      else if (startParam.startsWith('studio_ref_')) {
+        // Reference audio studio - redirect to content hub cloud tab
+        const refId = startParam.replace('studio_ref_', '');
+        navigate(`/content-hub?tab=cloud&ref=${refId}`);
+      }
       else if (startParam.startsWith('studio_')) {
         const trackId = startParam.replace('studio_', '');
-        navigate(`/stem-studio/${trackId}`);
+        navigate(`/studio/${trackId}`);
       }
       // Remix deep link
       else if (startParam.startsWith('remix_')) {
