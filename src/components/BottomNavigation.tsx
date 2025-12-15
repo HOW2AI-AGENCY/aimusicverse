@@ -61,7 +61,7 @@ export const BottomNavigation = () => {
                 <motion.button
                   key={item.path}
                   onClick={handleGenerateClick}
-                  className="relative flex items-center justify-center w-14 h-14 -my-2 rounded-full bg-gradient-to-br from-primary to-generate shadow-lg shadow-primary/30 active:scale-95 transition-all duration-200 touch-manipulation group"
+                  className="relative flex items-center justify-center w-14 h-14 -my-2 rounded-full bg-gradient-to-br from-primary to-generate shadow-lg shadow-primary/30 fab touch-scale-md touch-manipulation group"
                   whileTap={{ scale: 0.92 }}
                   whileHover={{ scale: 1.05 }}
                   aria-label={item.label}
@@ -101,7 +101,7 @@ export const BottomNavigation = () => {
                   key={item.path}
                   onClick={handleClick}
                   className={cn(
-                    "relative flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl transition-all min-h-[44px] min-w-[44px] touch-manipulation group",
+                    "relative flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl transition-all min-h-[44px] min-w-[44px] touch-scale-sm touch-manipulation group",
                     active
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:text-foreground"

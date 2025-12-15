@@ -227,32 +227,36 @@ All colors MUST be HSL.
   /* Enhanced Card Styles - Professional depth and shadows */
   .card-enhanced {
     position: relative;
+    overflow: hidden;
     border-radius: 1.25rem;
-    background: linear-gradient(135deg, hsl(var(--card) / 0.95), hsl(var(--card) / 0.85));
-    border: 1px solid hsl(var(--border) / 0.6);
+    background: linear-gradient(135deg, hsl(var(--card) / 0.98), hsl(var(--card) / 0.92));
+    border: 1px solid hsl(var(--border) / 0.7);
     box-shadow:
-      0 2px 8px -1px hsl(220 40% 10% / 0.04),
-      0 4px 16px -2px hsl(220 40% 10% / 0.08),
-      0 0 0 1px hsl(var(--border) / 0.3);
+      0 2px 10px -1px hsl(220 40% 10% / 0.06),
+      0 4px 20px -2px hsl(220 40% 10% / 0.1),
+      0 0 0 1px hsl(var(--border) / 0.35),
+      inset 0 1px 0 0 hsl(0 0% 100% / 0.08);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   @media (hover: hover) {
     .card-enhanced:hover {
-      transform: translateY(-2px) scale(1.01);
+      transform: translateY(-3px) scale(1.015);
       box-shadow:
-        0 8px 24px -4px hsl(220 40% 10% / 0.08),
-        0 16px 40px -8px hsl(220 40% 10% / 0.12),
-        0 0 0 1px hsl(var(--primary) / 0.2);
-      border-color: hsl(var(--primary) / 0.3);
+        0 10px 28px -4px hsl(220 40% 10% / 0.1),
+        0 20px 48px -8px hsl(220 40% 10% / 0.15),
+        0 0 0 1px hsl(var(--primary) / 0.25),
+        inset 0 1px 0 0 hsl(0 0% 100% / 0.12);
+      border-color: hsl(var(--primary) / 0.35);
     }
   }
 
   .card-enhanced:active {
-    transform: translateY(-1px) scale(0.99);
+    transform: translateY(-1px) scale(0.995);
+    transition-duration: 0.1s;
   }
 
-  /* Island Navigation - Modern iOS-style floating bar */
+  /* Island Navigation - Enhanced Modern iOS-style floating bar */
   .island-nav {
     position: fixed;
     bottom: 0;
@@ -262,52 +266,62 @@ All colors MUST be HSL.
     width: calc(100% - 1.5rem);
     max-width: 28rem;
     margin-bottom: max(env(safe-area-inset-bottom, 0px), 0.75rem);
-    background: hsl(var(--background) / 0.85);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid hsl(var(--border) / 0.4);
-    border-radius: 1.75rem;
-    padding: 0.5rem;
+    background: hsl(var(--background) / 0.9);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid hsl(var(--border) / 0.5);
+    border-radius: 2rem;
+    padding: 0.625rem;
     box-shadow:
-      0 4px 16px -2px hsl(220 40% 10% / 0.08),
-      0 8px 32px -4px hsl(220 40% 10% / 0.12),
-      0 0 0 1px hsl(var(--border) / 0.2),
-      inset 0 1px 0 0 hsl(0 0% 100% / 0.05);
+      0 4px 20px -2px hsl(220 40% 10% / 0.1),
+      0 8px 36px -4px hsl(220 40% 10% / 0.14),
+      0 0 0 1px hsl(var(--border) / 0.25),
+      inset 0 1px 0 0 hsl(0 0% 100% / 0.08),
+      inset 0 -1px 0 0 hsl(0 0% 0% / 0.05);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark .island-nav {
-    background: hsl(var(--background) / 0.75);
+    background: hsl(var(--background) / 0.8);
+    border: 1px solid hsl(var(--border) / 0.6);
     box-shadow:
-      0 4px 16px -2px hsl(220 50% 5% / 0.4),
-      0 8px 32px -4px hsl(220 50% 5% / 0.6),
-      0 0 0 1px hsl(var(--border) / 0.3),
-      inset 0 1px 0 0 hsl(0 0% 100% / 0.08);
+      0 4px 20px -2px hsl(220 50% 5% / 0.5),
+      0 8px 36px -4px hsl(220 50% 5% / 0.7),
+      0 0 0 1px hsl(var(--border) / 0.35),
+      inset 0 1px 0 0 hsl(0 0% 100% / 0.1),
+      inset 0 -1px 0 0 hsl(0 0% 0% / 0.1);
   }
 
-  /* Button Enhancements - More tactile and premium */
+  /* Button Enhancements - More tactile and premium with improved touch feedback */
   .btn-enhanced {
     position: relative;
     overflow: hidden;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    touch-action: manipulation;
   }
 
   .btn-enhanced::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, hsl(0 0% 100% / 0.1), hsl(0 0% 100% / 0));
+    background: linear-gradient(135deg, hsl(0 0% 100% / 0.15), hsl(0 0% 100% / 0));
     opacity: 0;
     transition: opacity 0.25s ease;
   }
 
   @media (hover: hover) {
+    .btn-enhanced:hover {
+      transform: translateY(-1px);
+    }
+    
     .btn-enhanced:hover::before {
       opacity: 1;
     }
   }
 
   .btn-enhanced:active {
-    transform: scale(0.96);
+    transform: scale(0.97) translateY(0);
+    transition-duration: 0.1s;
   }
 
   /* Gradient Overlays for depth */
@@ -684,5 +698,103 @@ All colors MUST be HSL.
 
   .animate-spin-slow {
     animation: spin-slow 3s linear infinite;
+  }
+
+  /* Enhanced Touch Interactions for Mobile */
+  .touch-scale-sm:active {
+    transform: scale(0.98);
+    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .touch-scale-md:active {
+    transform: scale(0.95);
+    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .touch-scale-lg:active {
+    transform: scale(0.92);
+    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Smooth Backdrop Blur Utilities */
+  .backdrop-blur-smooth {
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+
+  .backdrop-blur-strong {
+    backdrop-filter: blur(32px) saturate(200%);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
+  }
+
+  /* Interactive Card Pressable Effect */
+  .card-pressable {
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-pressable:active {
+    transform: scale(0.98);
+    box-shadow: 
+      0 2px 8px -1px hsl(220 40% 10% / 0.04),
+      0 4px 16px -2px hsl(220 40% 10% / 0.08);
+  }
+
+  /* Floating Action Button Style */
+  .fab {
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 4px 16px -2px hsl(var(--primary) / 0.3),
+      0 8px 32px -4px hsl(var(--primary) / 0.2);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (hover: hover) {
+    .fab:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 6px 24px -2px hsl(var(--primary) / 0.4),
+        0 12px 40px -4px hsl(var(--primary) / 0.3);
+    }
+  }
+
+  .fab:active {
+    transform: translateY(0) scale(0.96);
+    box-shadow:
+      0 2px 12px -2px hsl(var(--primary) / 0.3),
+      0 4px 24px -4px hsl(var(--primary) / 0.2);
+  }
+
+  /* Micro-interactions for Premium Feel */
+  .micro-bounce {
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .micro-bounce:active {
+    transform: scale(0.95);
+  }
+
+  /* Soft Shadow for Elevation */
+  .shadow-soft {
+    box-shadow:
+      0 2px 8px -1px hsl(220 40% 10% / 0.04),
+      0 4px 16px -2px hsl(220 40% 10% / 0.08);
+  }
+
+  .shadow-soft-lg {
+    box-shadow:
+      0 4px 16px -2px hsl(220 40% 10% / 0.08),
+      0 8px 32px -4px hsl(220 40% 10% / 0.12);
+  }
+
+  /* Slow pulse for background elements */
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.05); }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 4s ease-in-out infinite;
   }
 }
