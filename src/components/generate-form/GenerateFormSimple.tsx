@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { Sparkles, Loader2, Mic, HelpCircle } from 'lucide-react';
+import { Sparkles, Loader2, Mic, Music, HelpCircle } from 'lucide-react';
 import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
 import { GenerateFormHint, FORM_HINTS } from './GenerateFormHint';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -146,26 +146,41 @@ export function GenerateFormSimple({
       </div>
 
       {/* Vocals Toggle for Simple Mode */}
-      <div className="flex items-center justify-between p-3 rounded-xl bg-muted/30 border border-border/50">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-            <Mic className="w-4 h-4 text-primary" />
-          </div>
-          <div className="min-w-0">
-            <Label htmlFor="simple-vocals-toggle" className="cursor-pointer text-sm font-medium">
-              С вокалом
-            </Label>
-            <p className="text-xs text-muted-foreground truncate">
-              {hasVocals ? 'AI сгенерирует голос' : 'Инструментал без вокала'}
-            </p>
-          </div>
-        </div>
-        <Switch
-          id="simple-vocals-toggle"
-          checked={hasVocals}
-          onCheckedChange={onHasVocalsChange}
-        />
-      </div>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="flex items-center justify-between p-3 rounded-xl bg-muted/30 border border-border/50 cursor-pointer active:bg-muted/50 transition-colors">
+              <div className="flex items-center gap-3">
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${hasVocals ? 'bg-primary/10' : 'bg-muted'}`}>
+                  {hasVocals ? (
+                    <Mic className="w-4 h-4 text-primary" />
+                  ) : (
+                    <Music className="w-4 h-4 text-muted-foreground" />
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <Label htmlFor="simple-vocals-toggle" className="cursor-pointer text-sm font-medium">
+                    {hasVocals ? 'С вокалом' : 'Инструментал'}
+                  </Label>
+                  <p className="text-xs text-muted-foreground truncate">
+                    {hasVocals ? 'AI сгенерирует голос и текст' : 'Только музыка, без голоса'}
+                  </p>
+                </div>
+              </div>
+              <Switch
+                id="simple-vocals-toggle"
+                checked={hasVocals}
+                onCheckedChange={onHasVocalsChange}
+              />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="top" className="max-w-[250px] text-xs">
+            {hasVocals 
+              ? 'Трек будет сгенерирован с AI-вокалом. Добавьте текст песни или он будет создан автоматически.' 
+              : 'Инструментальный трек без вокала — идеально для фоновой музыки или собственного исполнения.'}
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 }
