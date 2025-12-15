@@ -3,10 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
-import { Plus, Users, Music } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Plus, Music } from 'lucide-react';
 import { CreateArtistFromTrackDialog } from '@/components/artist/CreateArtistFromTrackDialog';
 import { ArtistDetailsPanel } from '@/components/artist/ArtistDetailsPanel';
+import { VirtualizedArtistsList } from '@/components/content-hub/VirtualizedArtistsList';
 import type { Artist } from '@/hooks/useArtists';
 
 interface ArtistData {
@@ -64,49 +64,10 @@ export function ArtistsTab() {
 
       {/* Artists Grid */}
       {artists && artists.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-          {artists.map((artist) => (
-            <div
-              key={artist.id}
-              onClick={() => setSelectedArtist(artist)}
-              className={cn(
-                "relative group p-3 rounded-xl bg-card/50 border border-border/50",
-                "hover:bg-card hover:border-border cursor-pointer transition-all",
-                "active:scale-[0.98] touch-manipulation"
-              )}
-            >
-              {/* Avatar */}
-              <div className="aspect-square rounded-lg bg-secondary overflow-hidden mb-2">
-                {artist.avatar_url ? (
-                  <img
-                    src={artist.avatar_url}
-                    alt={artist.name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <Users className="w-8 h-8 text-muted-foreground/50" />
-                  </div>
-                )}
-              </div>
-
-              {/* Info */}
-              <h3 className="font-medium text-sm truncate">{artist.name}</h3>
-              {artist.genre_tags && artist.genre_tags.length > 0 && (
-                <p className="text-[10px] text-muted-foreground truncate mt-0.5">
-                  {artist.genre_tags.slice(0, 2).join(', ')}
-                </p>
-              )}
-
-              {/* Public badge */}
-              {artist.is_public && (
-                <div className="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-primary/20 text-primary text-[9px] font-medium">
-                  Public
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+        <VirtualizedArtistsList
+          artists={artists}
+          onSelect={setSelectedArtist}
+        />
       ) : (
         <div className="text-center py-12">
           <Music className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />

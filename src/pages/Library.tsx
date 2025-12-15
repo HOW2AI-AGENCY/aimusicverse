@@ -20,8 +20,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useSyncStaleTasks } from "@/hooks/generation";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrackCounts } from "@/hooks/useTrackCounts";
-import { TrackCard } from "@/components/TrackCard";
 import { LibraryFilterChips } from "@/components/library/LibraryFilterChips";
+import { VirtualizedTrackList } from "@/components/library/VirtualizedTrackList";
 import { EmptyLibraryState } from "@/components/library/EmptyLibraryState";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
@@ -390,46 +390,19 @@ export default function Library() {
             <EmptyLibraryState searchQuery={searchQuery} />
           ) : (
             <>
-              <div className={viewMode === "grid"
-                ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
-                : "flex flex-col gap-2"
-              }>
-                {tracksToDisplay.map((track, index) => {
-                  const counts = getCountsForTrack(track.id);
-                  return (
-                    <TrackCard
-                      key={track.id}
-                      track={track}
-                      layout={viewMode}
-                      isPlaying={activeTrack?.id === track.id}
-                      onPlay={() => handlePlay(track, index)}
-                      onDelete={() => deleteTrack(track.id)}
-                      onDownload={() => handleDownload(track.id, track.audio_url, track.cover_url)}
-                      onToggleLike={() => toggleLike({ trackId: track.id, isLiked: track.is_liked || false })}
-                      versionCount={counts.versionCount}
-                      stemCount={counts.stemCount}
-                      isFirstSwipeableItem={index === 0 && viewMode === "list"}
-                    />
-                  );
-                })}
-              </div>
-
-              {/* Load More Trigger */}
-              <div ref={loadMoreRef} className="h-4" />
-              
-              {/* Pagination Loading - используем skeleton карточки для единообразия */}
-              {isFetchingNextPage && (
-                <div className={cn(
-                  "mt-4",
-                  viewMode === "grid"
-                    ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
-                    : "flex flex-col gap-2"
-                )}>
-                  {Array.from({ length: 4 }).map((_, i) => (
-                    <TrackCardSkeleton key={`pagination-skeleton-${i}`} layout={viewMode} />
-                  ))}
-                </div>
-              )}
+              <VirtualizedTrackList
+                tracks={tracksToDisplay}
+                viewMode={viewMode}
+                activeTrackId={activeTrack?.id}
+                getCountsForTrack={getCountsForTrack}
+                onPlay={handlePlay}
+                onDelete={(id) => deleteTrack(id)}
+                onDownload={(id, audioUrl, coverUrl) => handleDownload(id, audioUrl, coverUrl)}
+                onToggleLike={(id, isLiked) => toggleLike({ trackId: id, isLiked })}
+                onLoadMore={fetchNextPage}
+                hasMore={hasNextPage || false}
+                isLoadingMore={isFetchingNextPage}
+              />
               
               {!hasNextPage && tracks.length > 0 && (
                 <p className="text-sm text-muted-foreground py-8 text-center">
