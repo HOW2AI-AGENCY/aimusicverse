@@ -409,10 +409,10 @@ export async function handleGenerateFromReference(
       return;
     }
 
-    // Get reference audio
+    // Get reference audio with analysis data
     const { data: reference } = await supabase
       .from('reference_audio')
-      .select('id, file_name, file_url')
+      .select('id, file_name, file_url, genre, mood, vocal_style, transcription, has_vocals, duration_seconds')
       .eq('id', referenceId)
       .single();
 
@@ -430,26 +430,68 @@ export async function handleGenerateFromReference(
       ? `${supabaseUrl}/functions/v1/suno-upload-cover`
       : `${supabaseUrl}/functions/v1/suno-upload-extend`;
 
+    // Build style from analysis data if available
+    const styleFromAnalysis = [
+      reference.genre,
+      reference.mood,
+      reference.vocal_style
+    ].filter(Boolean).join(', ');
+
+    // Determine if we have custom params (style from analysis)
+    const hasCustomParams = Boolean(styleFromAnalysis);
+    const isInstrumental = reference.has_vocals === false;
+
+    // Build request body - CRITICAL: customMode requires style, non-customMode requires prompt
+    const requestBody: Record<string, unknown> = {
+      source: 'telegram_bot',
+      userId: profile.user_id,
+      telegramChatId: chatId,
+      audioUrl: reference.file_url,
+      model: 'V5',
+      instrumental: isInstrumental,
+    };
+
+    if (hasCustomParams) {
+      // Custom mode with style from analysis
+      requestBody.customMode = true;
+      requestBody.style = styleFromAnalysis;
+      requestBody.title = reference.file_name?.replace(/\.[^/.]+$/, '') || (mode === 'cover' ? 'Cover Version' : 'Extended Track');
+      // Add lyrics if available and not instrumental
+      if (!isInstrumental && reference.transcription) {
+        requestBody.prompt = reference.transcription.substring(0, 2000);
+      }
+    } else {
+      // Non-custom mode - MUST provide prompt
+      requestBody.customMode = false;
+      requestBody.prompt = `Create an AI ${mode === 'cover' ? 'cover version' : 'extended version'} of this audio track with similar style and mood`;
+    }
+
+    // For extend mode, add continueAt parameter
+    if (mode === 'extend') {
+      const duration = reference.duration_seconds || 60;
+      requestBody.continueAt = Math.floor(duration * 0.8);
+    }
+
+    logger.info('Generating from reference', { 
+      mode, 
+      hasCustomParams, 
+      style: styleFromAnalysis,
+      isInstrumental 
+    });
+
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-telegram-bot-secret': telegramBotToken, // Required for bot auth
+        'x-telegram-bot-secret': telegramBotToken,
       },
-      body: JSON.stringify({
-        source: 'telegram_bot', // CRITICAL: Must be 'telegram_bot' for proper auth
-        userId: profile.user_id, // User ID for the account
-        telegramChatId: chatId,
-        audioUrl: reference.file_url, // Use providedAudioUrl for pre-uploaded
-        model: 'V5', // Default to V5 for best quality
-        customMode: false, // Simple mode for quick generation
-        instrumental: false,
-      }),
+      body: JSON.stringify(requestBody),
     });
 
     const result = await response.json();
 
     if (result.error) {
+      logger.error('Generation error', { error: result.error });
       await editMessageText(chatId, messageId, `❌ *Ошибка*\n\n${escapeMarkdown(result.error)}`);
       return;
     }
@@ -470,7 +512,7 @@ export async function handleGenerateFromReference(
       eventType: `${mode}_from_reference`,
       success: true,
       telegramChatId: chatId,
-      metadata: { referenceId },
+      metadata: { referenceId, hasCustomParams },
     });
 
   } catch (error) {
