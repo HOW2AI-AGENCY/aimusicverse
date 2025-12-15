@@ -127,19 +127,26 @@ export function usePublicContentOptimized() {
  */
 export function getGenrePlaylists(tracks: PublicTrackWithCreator[]) {
   const GENRE_PLAYLISTS = [
-    { genre: 'electronic', title: 'Электроника', description: 'Лучшие электронные треки' },
-    { genre: 'hip-hop', title: 'Хип-Хоп', description: 'Свежий хип-хоп и рэп' },
-    { genre: 'pop', title: 'Поп', description: 'Популярная музыка' },
-    { genre: 'rock', title: 'Рок', description: 'Энергичный рок' },
-    { genre: 'ambient', title: 'Амбиент', description: 'Атмосферная музыка' },
-    { genre: 'jazz', title: 'Джаз', description: 'Классический и современный джаз' },
+    { genre: 'electronic', title: 'Электроника', description: 'Лучшие электронные треки', keywords: ['electronic', 'electro', 'edm', 'techno', 'house', 'trance'] },
+    { genre: 'hip-hop', title: 'Хип-Хоп', description: 'Свежий хип-хоп и рэп', keywords: ['hip-hop', 'hip hop', 'rap', 'trap', 'boom bap'] },
+    { genre: 'pop', title: 'Поп', description: 'Популярная музыка', keywords: ['pop', 'dance', 'synth-pop', 'dream pop'] },
+    { genre: 'rock', title: 'Рок', description: 'Энергичный рок', keywords: ['rock', 'metal', 'alternative', 'indie', 'punk', 'grunge'] },
+    { genre: 'ambient', title: 'Амбиент', description: 'Атмосферная музыка', keywords: ['ambient', 'chill', 'downtempo', 'atmospheric', 'drone'] },
+    { genre: 'jazz', title: 'Джаз', description: 'Классический и современный джаз', keywords: ['jazz', 'swing', 'bebop', 'fusion', 'smooth jazz'] },
+    { genre: 'rnb', title: 'R&B / Soul', description: 'Ритм-н-блюз и соул', keywords: ['r&b', 'rnb', 'soul', 'neo-soul', 'funk', 'rhythm'] },
+    { genre: 'classical', title: 'Классика', description: 'Классическая и оркестровая музыка', keywords: ['classical', 'orchestral', 'symphony', 'piano', 'opera', 'baroque'] },
+    { genre: 'lofi', title: 'Lo-Fi', description: 'Lo-Fi биты для релакса', keywords: ['lo-fi', 'lofi', 'chillhop', 'study', 'relax', 'beats'] },
+    { genre: 'latin', title: 'Латино', description: 'Латиноамериканская музыка', keywords: ['latin', 'reggaeton', 'salsa', 'bachata', 'cumbia', 'bossa'] },
+    { genre: 'country', title: 'Кантри', description: 'Кантри и фолк', keywords: ['country', 'folk', 'acoustic', 'bluegrass', 'americana'] },
+    { genre: 'cinematic', title: 'Кинематографичная', description: 'Эпическая и саундтрек музыка', keywords: ['cinematic', 'epic', 'soundtrack', 'film', 'trailer', 'dramatic'] },
   ];
 
-  return GENRE_PLAYLISTS.map(({ genre, title, description }) => {
+  return GENRE_PLAYLISTS.map(({ genre, title, description, keywords }) => {
     const genreTracks = tracks.filter(track => {
       const style = (track.style || '').toLowerCase();
       const tags = (track.tags || '').toLowerCase();
-      return style.includes(genre) || tags.includes(genre);
+      const searchText = `${style} ${tags}`;
+      return keywords.some(keyword => searchText.includes(keyword));
     }).slice(0, 20);
 
     return {
@@ -149,5 +156,5 @@ export function getGenrePlaylists(tracks: PublicTrackWithCreator[]) {
       description,
       tracks: genreTracks,
     };
-  }).filter(p => p.tracks.length >= 3);
+  }).filter(p => p.tracks.length >= 2); // Lower threshold for more genres
 }

@@ -5,13 +5,15 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { Trash2, ListMusic, Sparkles } from 'lucide-react';
+import { Trash2, ListMusic, Sparkles, Layers, Layers2 } from 'lucide-react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { QueueItem } from './QueueItem';
 import { usePlayerStore } from '@/hooks/audio';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from '@/lib/motion';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 interface QueueSheetProps {
   open: boolean;
@@ -19,7 +21,7 @@ interface QueueSheetProps {
 }
 
 export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
-  const { queue, currentIndex, reorderQueue, removeFromQueue, clearQueue } = usePlayerStore();
+  const { queue, currentIndex, reorderQueue, removeFromQueue, clearQueue, versionMode, toggleVersionMode } = usePlayerStore();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -53,6 +55,15 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
     clearQueue();
     toast.success('Очередь очищена');
     onOpenChange(false);
+  };
+
+  const handleToggleVersionMode = () => {
+    toggleVersionMode();
+    toast.success(
+      versionMode === 'active' 
+        ? 'Режим: все версии треков' 
+        : 'Режим: только активные версии'
+    );
   };
 
   return (
@@ -92,6 +103,31 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
               </motion.div>
             )}
           </div>
+
+          {/* Version Mode Toggle */}
+          <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/20">
+            <div className="flex items-center gap-2">
+              {versionMode === 'all' ? (
+                <Layers className="w-4 h-4 text-primary" />
+              ) : (
+                <Layers2 className="w-4 h-4 text-muted-foreground" />
+              )}
+              <Label htmlFor="version-mode" className="text-sm cursor-pointer">
+                {versionMode === 'all' ? 'Все версии' : 'Только активные'}
+              </Label>
+            </div>
+            <Switch
+              id="version-mode"
+              checked={versionMode === 'all'}
+              onCheckedChange={handleToggleVersionMode}
+              className="data-[state=checked]:bg-primary"
+            />
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-1">
+            {versionMode === 'all' 
+              ? 'Воспроизводятся все A/B версии треков'
+              : 'Воспроизводятся только основные версии'}
+          </p>
         </SheetHeader>
 
         <div className="mt-4 overflow-auto max-h-[calc(70vh-120px)] scrollbar-thin">
