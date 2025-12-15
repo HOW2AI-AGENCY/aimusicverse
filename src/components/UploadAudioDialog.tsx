@@ -203,7 +203,10 @@ export const UploadAudioDialog = ({
     }
   };
 
-  // Analyze audio file automatically
+  // Analysis stage tracking
+  const [analysisStage, setAnalysisStage] = useState<'idle' | 'uploading' | 'analyzing_style' | 'analyzing_lyrics' | 'done'>('idle');
+
+  // Analyze audio file automatically with timeout
   const analyzeAudioFile = async (file: File) => {
     if (!user) {
       logger.warn('User not authenticated, skipping analysis');
@@ -211,11 +214,23 @@ export const UploadAudioDialog = ({
     }
 
     setIsAnalyzing(true);
+    setAnalysisStage('uploading');
+    
+    // Analysis timeout - 60 seconds max
+    const timeoutId = setTimeout(() => {
+      logger.warn('Analysis timeout reached');
+      setIsAnalyzing(false);
+      setAnalysisStage('done');
+      toast.warning('Анализ занял слишком много времени', {
+        description: 'Заполните поля вручную или попробуйте снова',
+      });
+    }, 60000);
+
     try {
       logger.info('Starting automatic audio analysis');
       
       // Upload file temporarily for analysis
-      const tempFileName = `temp-analysis/${user.id}/${Date.now()}-${file.name}`;
+      const tempFileName = `temp-analysis/${user.id}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('project-assets')
         .upload(tempFileName, file, {
@@ -228,6 +243,8 @@ export const UploadAudioDialog = ({
       const { data: { publicUrl } } = supabase.storage
         .from('project-assets')
         .getPublicUrl(tempFileName);
+
+      setAnalysisStage('analyzing_style');
 
       // Run both style analysis and lyrics transcription in parallel
       const [styleAnalysis, lyricsTranscription] = await Promise.allSettled([
@@ -242,20 +259,24 @@ export const UploadAudioDialog = ({
         supabase.functions.invoke('transcribe-lyrics', {
           body: {
             audio_url: publicUrl,
-            analyze_style: false, // We're already analyzing style above
+            analyze_style: false,
           },
         }),
       ]);
+
+      setAnalysisStage('analyzing_lyrics');
 
       // Process style analysis results
       if (styleAnalysis.status === 'fulfilled' && styleAnalysis.value.data?.success) {
         const parsed = styleAnalysis.value.data.parsed;
         if (parsed.style_description && !style) {
           setStyle(parsed.style_description);
-          toast.success('Стиль определен автоматически', {
+          toast.success('Стиль определен', {
             icon: <Sparkles className="w-4 h-4" />,
           });
         }
+      } else if (styleAnalysis.status === 'rejected') {
+        logger.warn('Style analysis failed', { error: styleAnalysis.reason });
       }
 
       // Process lyrics transcription results
@@ -264,32 +285,33 @@ export const UploadAudioDialog = ({
         if (data.has_vocals && data.lyrics && !prompt) {
           setPrompt(data.lyrics);
           setInstrumental(false);
-          toast.success('Текст песни извлечен', {
+          toast.success('Текст извлечен', {
             icon: <Mic className="w-4 h-4" />,
-            description: data.language ? `Язык: ${data.language}` : undefined,
           });
         } else if (!data.has_vocals) {
           setInstrumental(true);
-          toast.info('Вокал не обнаружен', {
-            description: 'Трек помечен как инструментальный',
-          });
+          toast.info('Инструментальный трек');
         }
       }
 
-      // Clean up temporary file
-      await supabase.storage
+      // Clean up temporary file (don't wait)
+      supabase.storage
         .from('project-assets')
-        .remove([tempFileName]);
+        .remove([tempFileName])
+        .catch(err => logger.warn('Failed to cleanup temp file', { err }));
 
       setAnalysisComplete(true);
+      setAnalysisStage('done');
       logger.info('Audio analysis complete');
       
     } catch (error) {
       logger.error('Audio analysis error', { error });
-      toast.error('Ошибка анализа аудио', {
-        description: 'Вы можете заполнить поля вручную',
+      toast.error('Ошибка анализа', {
+        description: 'Заполните поля вручную',
       });
+      setAnalysisStage('done');
     } finally {
+      clearTimeout(timeoutId);
       setIsAnalyzing(false);
     }
   };
@@ -389,7 +411,9 @@ export const UploadAudioDialog = ({
         body.prompt = customMode && !instrumental ? prompt : undefined;
         body.style = customMode ? style : undefined;
         body.title = title || undefined;
-        body.continueAt = customMode ? continueAt : undefined;
+        // CRITICAL: continueAt is REQUIRED for extend API - always include it
+        // Default to 80% of audio duration if not set
+        body.continueAt = continueAt || (audioDuration ? Math.floor(audioDuration * 0.8) : 0);
       }
 
       const { data, error } = await supabase.functions.invoke(functionName, { body });
@@ -437,6 +461,7 @@ export const UploadAudioDialog = ({
     setVocalGender('');
     setIsAnalyzing(false);
     setAnalysisComplete(false);
+    setAnalysisStage('idle');
   };
 
   // Model duration limits (in seconds) based on SunoAPI documentation
@@ -506,20 +531,49 @@ export const UploadAudioDialog = ({
             </div>
           </div>
 
-          {/* Analysis Status Indicator */}
+          {/* Analysis Status Indicator - Enhanced */}
           {isAnalyzing && (
-            <div className="mt-3 p-3 rounded-lg bg-accent/50 border border-accent animate-pulse">
+            <div className="mt-3 p-3 rounded-lg bg-accent/50 border border-accent">
               <div className="flex items-center gap-3">
-                <Loader2 className="w-4 h-4 animate-spin text-primary" />
-                <div>
-                  <p className="text-sm font-medium">Анализ аудио...</p>
-                  <p className="text-xs text-muted-foreground">Определение стиля и текста</p>
+                <div className="relative">
+                  <Loader2 className="w-5 h-5 animate-spin text-primary" />
                 </div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium">
+                    {analysisStage === 'uploading' && 'Загрузка файла...'}
+                    {analysisStage === 'analyzing_style' && 'Определение стиля...'}
+                    {analysisStage === 'analyzing_lyrics' && 'Распознавание текста...'}
+                    {analysisStage === 'idle' && 'Подготовка анализа...'}
+                  </p>
+                  <div className="flex gap-2 mt-1.5">
+                    {['uploading', 'analyzing_style', 'analyzing_lyrics'].map((stage, i) => (
+                      <div 
+                        key={stage}
+                        className={`h-1 flex-1 rounded-full transition-colors ${
+                          ['uploading', 'analyzing_style', 'analyzing_lyrics'].indexOf(analysisStage) >= i
+                            ? 'bg-primary'
+                            : 'bg-muted'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setIsAnalyzing(false);
+                    setAnalysisStage('done');
+                    toast.info('Анализ пропущен');
+                  }}
+                >
+                  <X className="w-4 h-4" />
+                </Button>
               </div>
             </div>
           )}
 
-          {analysisComplete && (
+          {analysisComplete && !isAnalyzing && (
             <div className="mt-3 p-3 rounded-lg bg-green-500/10 border border-green-500/20">
               <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
                 <Sparkles className="w-4 h-4" />
@@ -568,6 +622,7 @@ export const UploadAudioDialog = ({
                           setSelectedTrack(null);
                           setIsAnalyzing(false);
                           setAnalysisComplete(false);
+                          setAnalysisStage('idle');
                         }}
                       >
                         Удалить
