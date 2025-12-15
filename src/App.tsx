@@ -5,6 +5,7 @@ import { TooltipProvider as InteractiveTooltipProvider } from "@/components/tool
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
 import { TelegramProvider, DeepLinkHandler } from "@/contexts/TelegramContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { GamificationProvider } from "@/contexts/GamificationContext";
 import { NotificationProvider } from "@/contexts/NotificationContext";
 import { GuestModeProvider } from "@/contexts/GuestModeContext";
@@ -77,8 +78,9 @@ const App = () => (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <TelegramProvider>
-          <InitializationGuard>
-            <GuestModeProvider>
+          <AuthProvider>
+            <InitializationGuard>
+              <GuestModeProvider>
               <GlobalAudioProvider>
                 <NotificationProvider>
                   <GamificationProvider>
@@ -154,9 +156,10 @@ const App = () => (
                   </TooltipProvider>
                 </GamificationProvider>
               </NotificationProvider>
-            </GlobalAudioProvider>
-            </GuestModeProvider>
-          </InitializationGuard>
+              </GlobalAudioProvider>
+              </GuestModeProvider>
+            </InitializationGuard>
+          </AuthProvider>
         </TelegramProvider>
       </QueryClientProvider>
     </ErrorBoundary>
