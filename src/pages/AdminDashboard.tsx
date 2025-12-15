@@ -40,6 +40,7 @@ import { AdminSendMessageDialog } from "@/components/admin/AdminSendMessageDialo
 import { AdminTrackDetailsDialog } from "@/components/admin/AdminTrackDetailsDialog";
 import { UserBalancesPanel } from "@/components/admin/UserBalancesPanel";
 import { DeeplinkAnalyticsPanel } from "@/components/admin/DeeplinkAnalyticsPanel";
+import { EnhancedAnalyticsPanel } from "@/components/admin/EnhancedAnalyticsPanel";
 import { useQueryClient } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -58,6 +59,7 @@ interface UserWithRoles {
 
 const TAB_OPTIONS = [
   { value: "overview", label: "Обзор", icon: Activity },
+  { value: "analytics", label: "Аналитика", icon: TrendingUp },
   { value: "users", label: "Пользователи", icon: Users },
   { value: "balances", label: "Балансы", icon: Coins },
   { value: "tracks", label: "Треки", icon: Music },
@@ -68,7 +70,6 @@ const TAB_OPTIONS = [
   { value: "deeplinks", label: "Диплинки", icon: Globe },
   { value: "alerts", label: "Алерты", icon: AlertTriangle },
   { value: "broadcast", label: "Рассылка", icon: MessageSquare },
-  { value: "events", label: "События", icon: Activity },
 ];
 
 export default function AdminDashboard() {
@@ -207,7 +208,11 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Alerts Tab */}
+        {/* Analytics Tab */}
+        {activeTab === "analytics" && (
+          <EnhancedAnalyticsPanel />
+        )}
+
         {activeTab === "alerts" && (
           <div className="space-y-6">
             <AlertAnalyticsPanel />
@@ -536,60 +541,6 @@ export default function AdminDashboard() {
                       </div>
                     );
                   })}
-                </div>
-              </ScrollArea>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Events Tab */}
-        {activeTab === "events" && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base md:text-lg flex items-center gap-2">
-                <Activity className="h-5 w-5" />
-                Последние события
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ScrollArea className="h-[350px] md:h-[400px]">
-                <div className="space-y-2">
-                  {recentEvents?.map((event) => (
-                    <div
-                      key={event.id}
-                      className={`p-2 md:p-3 rounded-lg border ${
-                        event.success ? "bg-card" : "bg-destructive/10 border-destructive/30"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 min-w-0">
-                          {event.success ? (
-                            <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
-                          ) : (
-                            <AlertTriangle className="h-4 w-4 text-red-500 flex-shrink-0" />
-                          )}
-                          <span className="font-mono text-xs md:text-sm truncate">{event.event_type}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-muted-foreground text-xs flex-shrink-0">
-                          <Clock className="h-3 w-3" />
-                          {formatDistanceToNow(new Date(event.created_at), {
-                            addSuffix: true,
-                            locale: ru,
-                          })}
-                        </div>
-                      </div>
-                      {event.response_time_ms && (
-                        <div className="text-xs text-muted-foreground mt-1">
-                          {event.response_time_ms}ms
-                        </div>
-                      )}
-                      {event.error_message && (
-                        <div className="text-xs text-red-500 mt-1 truncate">
-                          {event.error_message}
-                        </div>
-                      )}
-                    </div>
-                  ))}
                 </div>
               </ScrollArea>
             </CardContent>
