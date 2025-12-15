@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Coins, Shield, Zap, AlertTriangle } from 'lucide-react';
+import { Coins, Shield, AlertTriangle } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { SUNO_MODELS } from '@/constants/sunoModels';
 
@@ -33,7 +33,7 @@ export function GenerateFormHeaderCompact({
   isAdmin = false,
 }: GenerateFormHeaderCompactProps) {
   return (
-    <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+    <div className="flex items-center gap-1.5">
       {/* Balance Badge - compact */}
       <TooltipProvider>
         <Tooltip>
@@ -41,22 +41,21 @@ export function GenerateFormHeaderCompact({
             {isAdmin ? (
               <Badge
                 variant="outline"
-                className="gap-1 px-2 py-0.5 cursor-help border-amber-500/50 bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                className="gap-0.5 px-1.5 py-0.5 cursor-help border-amber-500/50 bg-amber-500/10 text-amber-600 dark:text-amber-400"
                 aria-label={`API баланс: ${userBalance} кредитов`}
               >
                 <Shield className="w-3 h-3" />
-                <Zap className="w-3 h-3" />
-                <span className="font-semibold text-xs">{Math.floor(userBalance)}</span>
+                <span className="font-semibold text-[10px]">{Math.floor(userBalance)}</span>
               </Badge>
             ) : (
               <Badge
                 variant={canGenerate ? "secondary" : "destructive"}
-                className="gap-1 px-2 py-0.5 cursor-help"
+                className="gap-0.5 px-1.5 py-0.5 cursor-help"
                 aria-label={`Ваш баланс: ${userBalance} кредитов`}
               >
                 {!canGenerate && <AlertTriangle className="w-3 h-3" />}
                 <Coins className="w-3 h-3" />
-                <span className="font-semibold text-xs">{userBalance}</span>
+                <span className="font-semibold text-[10px]">{userBalance}</span>
               </Badge>
             )}
           </TooltipTrigger>
@@ -89,12 +88,12 @@ export function GenerateFormHeaderCompact({
       </TooltipProvider>
 
       {/* Mode Toggle - compact */}
-      <div className="flex items-center gap-0.5 p-0.5 rounded-md bg-muted">
+      <div className="flex items-center p-0.5 rounded-md bg-muted">
         <Button
           variant={mode === 'simple' ? 'default' : 'ghost'}
           size="sm"
           onClick={() => onModeChange('simple')}
-          className="h-7 px-2.5 text-xs min-w-[56px] touch-manipulation"
+          className="h-6 px-2 text-[10px] touch-manipulation"
         >
           Simple
         </Button>
@@ -102,7 +101,7 @@ export function GenerateFormHeaderCompact({
           variant={mode === 'custom' ? 'default' : 'ghost'}
           size="sm"
           onClick={() => onModeChange('custom')}
-          className="h-7 px-2.5 text-xs min-w-[56px] touch-manipulation"
+          className="h-6 px-2 text-[10px] touch-manipulation"
         >
           Custom
         </Button>
@@ -110,11 +109,11 @@ export function GenerateFormHeaderCompact({
 
       {/* Model Selector - compact */}
       <Select value={model} onValueChange={onModelChange}>
-        <SelectTrigger className="h-7 w-[130px] text-xs">
+        <SelectTrigger className="h-6 w-auto min-w-[70px] max-w-[100px] text-[10px] px-2">
           <SelectValue>
-            <div className="flex items-center gap-1.5">
-              <span className="text-sm">{SUNO_MODELS[model as keyof typeof SUNO_MODELS]?.emoji || '🎵'}</span>
-              <span className="text-xs truncate">
+            <div className="flex items-center gap-1">
+              <span className="text-xs">{SUNO_MODELS[model as keyof typeof SUNO_MODELS]?.emoji || '🎵'}</span>
+              <span className="text-[10px] truncate">
                 {SUNO_MODELS[model as keyof typeof SUNO_MODELS]?.name || model}
               </span>
             </div>
