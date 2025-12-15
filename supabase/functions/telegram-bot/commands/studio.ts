@@ -21,15 +21,40 @@ export async function handleStudio(
   messageId?: number
 ) {
   try {
-    // Fetch track with stems info
+    // Fetch track with stems info and audio_url
     const { data: track, error } = await supabase
       .from('tracks')
-      .select('id, title, cover_url, has_stems, duration_seconds')
+      .select('id, title, cover_url, has_stems, duration_seconds, audio_url, status')
       .eq('id', trackId)
       .single();
 
     if (error || !track) {
       await sendMessage(chatId, '❌ Трек не найден');
+      return;
+    }
+
+    // Check if track is generated (has audio)
+    if (!track.audio_url) {
+      const statusText = track.status === 'processing' 
+        ? '⏳ Трек ещё генерируется...'
+        : '❌ Трек не сгенерирован';
+      
+      const message = `🎨 *Stem Studio*\n\n` +
+        `🎵 *${escapeMarkdown(track.title || 'Трек')}*\n\n` +
+        `${statusText}\n\n` +
+        `Студия доступна только для сгенерированных треков.`;
+
+      const keyboard = {
+        inline_keyboard: [
+          [{ text: '⬅️ Назад', callback_data: `track_details_${trackId}` }]
+        ]
+      };
+
+      if (messageId) {
+        await editMessageText(chatId, messageId, message, keyboard);
+      } else {
+        await sendMessage(chatId, message, keyboard);
+      }
       return;
     }
 
@@ -55,6 +80,10 @@ export async function handleStudio(
       const keyboard = {
         inline_keyboard: [
           [{ text: '🎛️ Разделить на стемы', callback_data: `separate_stems_${trackId}` }],
+          [{ 
+            text: '▶️ Открыть базовую студию', 
+            web_app: { url: `${MINI_APP_URL}?startapp=studio_${trackId}` }
+          }],
           [{ text: '⬅️ Назад', callback_data: `track_details_${trackId}` }]
         ]
       };
