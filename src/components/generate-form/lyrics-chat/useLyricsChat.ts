@@ -440,15 +440,24 @@ export function useLyricsChat({
 
       if (error) throw error;
 
-      if (data?.lyrics) {
+if (data?.lyrics) {
         setGeneratedLyrics(data.lyrics);
         addMessage({
           id: Date.now().toString(),
           role: 'assistant',
           content: data.response || '✅ Готово! Вот текст:',
           component: 'lyrics-preview',
-          data: { lyrics: data.lyrics },
+          data: { 
+            lyrics: data.lyrics,
+            title: data.title,
+            style: data.style,
+          },
         });
+        
+        // Generate style prompt if callback exists and style is provided
+        if (onStyleGenerated && data.style) {
+          onStyleGenerated(data.style);
+        }
       } else if (data?.response) {
         addMessage({
           id: Date.now().toString(),
