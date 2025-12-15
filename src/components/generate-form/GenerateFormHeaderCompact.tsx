@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Coins, Shield, AlertTriangle } from 'lucide-react';
+import { Coins, Shield, AlertTriangle, History } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { SUNO_MODELS } from '@/constants/sunoModels';
 
@@ -15,11 +15,12 @@ interface GenerateFormHeaderCompactProps {
   model: string;
   onModelChange: (model: string) => void;
   isAdmin?: boolean;
+  onOpenHistory?: () => void;
 }
 
 /**
  * Компактная версия заголовка формы генерации
- * Оптимизирована для экономии пространства - умещается в одну строку
+ * Mobile-first дизайн с адаптивными элементами
  */
 export function GenerateFormHeaderCompact({
   userBalance,
@@ -31,9 +32,32 @@ export function GenerateFormHeaderCompact({
   model,
   onModelChange,
   isAdmin = false,
+  onOpenHistory,
 }: GenerateFormHeaderCompactProps) {
   return (
-    <div className="flex items-center gap-1.5">
+    <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap justify-end">
+      {/* History Button - icon only */}
+      {onOpenHistory && (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={onOpenHistory}
+                className="h-7 w-7 shrink-0 touch-manipulation"
+              >
+                <History className="w-3.5 h-3.5 text-muted-foreground" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">
+              <span className="text-xs">История промптов</span>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )}
+
       {/* Balance Badge - compact */}
       <TooltipProvider>
         <Tooltip>
@@ -41,7 +65,7 @@ export function GenerateFormHeaderCompact({
             {isAdmin ? (
               <Badge
                 variant="outline"
-                className="gap-0.5 px-1.5 py-0.5 cursor-help border-amber-500/50 bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                className="gap-0.5 px-1.5 py-0.5 h-6 cursor-help border-amber-500/50 bg-amber-500/10 text-amber-600 dark:text-amber-400 shrink-0"
                 aria-label={`API баланс: ${userBalance} кредитов`}
               >
                 <Shield className="w-3 h-3" />
@@ -50,7 +74,7 @@ export function GenerateFormHeaderCompact({
             ) : (
               <Badge
                 variant={canGenerate ? "secondary" : "destructive"}
-                className="gap-0.5 px-1.5 py-0.5 cursor-help"
+                className="gap-0.5 px-1.5 py-0.5 h-6 cursor-help shrink-0"
                 aria-label={`Ваш баланс: ${userBalance} кредитов`}
               >
                 {!canGenerate && <AlertTriangle className="w-3 h-3" />}
@@ -87,13 +111,15 @@ export function GenerateFormHeaderCompact({
         </Tooltip>
       </TooltipProvider>
 
-      {/* Mode Toggle - compact */}
-      <div className="flex items-center p-0.5 rounded-md bg-muted">
+      {/* Mode Toggle - compact pill design */}
+      <div className="flex items-center p-0.5 rounded-full bg-muted/60 shrink-0">
         <Button
           variant={mode === 'simple' ? 'default' : 'ghost'}
           size="sm"
           onClick={() => onModeChange('simple')}
-          className="h-6 px-2 text-[10px] touch-manipulation"
+          className={`h-6 px-2.5 text-[10px] rounded-full touch-manipulation ${
+            mode === 'simple' ? 'shadow-sm' : 'hover:bg-transparent'
+          }`}
         >
           Simple
         </Button>
@@ -101,19 +127,21 @@ export function GenerateFormHeaderCompact({
           variant={mode === 'custom' ? 'default' : 'ghost'}
           size="sm"
           onClick={() => onModeChange('custom')}
-          className="h-6 px-2 text-[10px] touch-manipulation"
+          className={`h-6 px-2.5 text-[10px] rounded-full touch-manipulation ${
+            mode === 'custom' ? 'shadow-sm' : 'hover:bg-transparent'
+          }`}
         >
           Custom
         </Button>
       </div>
 
-      {/* Model Selector - compact */}
+      {/* Model Selector - emoji only on mobile, full on desktop */}
       <Select value={model} onValueChange={onModelChange}>
-        <SelectTrigger className="h-6 w-auto min-w-[70px] max-w-[100px] text-[10px] px-2">
+        <SelectTrigger className="h-6 w-auto min-w-[40px] sm:min-w-[80px] text-[10px] px-1.5 sm:px-2 shrink-0 rounded-full">
           <SelectValue>
-            <div className="flex items-center gap-1">
-              <span className="text-xs">{SUNO_MODELS[model as keyof typeof SUNO_MODELS]?.emoji || '🎵'}</span>
-              <span className="text-[10px] truncate">
+            <div className="flex items-center gap-0.5 sm:gap-1">
+              <span className="text-sm">{SUNO_MODELS[model as keyof typeof SUNO_MODELS]?.emoji || '🎵'}</span>
+              <span className="text-[10px] truncate hidden sm:inline">
                 {SUNO_MODELS[model as keyof typeof SUNO_MODELS]?.name || model}
               </span>
             </div>

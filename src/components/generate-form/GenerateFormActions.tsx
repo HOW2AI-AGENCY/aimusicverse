@@ -1,66 +1,56 @@
 import { Button } from '@/components/ui/button';
-import { Plus, Music, FileAudio, History } from 'lucide-react';
+import { Plus, Music, FileAudio } from 'lucide-react';
 
 interface GenerateFormActionsProps {
   onOpenAudioDialog: () => void;
   onOpenArtistDialog: () => void;
   onOpenProjectDialog: () => void;
-  onOpenHistory?: () => void;
 }
 
+/**
+ * Быстрые действия для формы генерации
+ * 3 кнопки в ряд - аудио, персона, проект
+ * История перенесена в шапку как иконка
+ */
 export function GenerateFormActions({
   onOpenAudioDialog,
   onOpenArtistDialog,
   onOpenProjectDialog,
-  onOpenHistory,
 }: GenerateFormActionsProps) {
   return (
-    <div className="flex gap-1.5 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+    <div className="grid grid-cols-3 gap-1.5">
       <Button
         type="button"
         variant="outline"
         size="sm"
-        className="h-9 px-3 gap-1.5 shrink-0 touch-manipulation hover:bg-accent/50"
+        className="h-10 gap-1.5 touch-manipulation hover:bg-accent/50 text-xs"
         onClick={onOpenAudioDialog}
       >
-        <FileAudio className="w-3.5 h-3.5 text-muted-foreground" />
-        <span className="text-[11px]">Аудио</span>
+        <FileAudio className="w-4 h-4 text-muted-foreground" />
+        <span>Аудио</span>
       </Button>
 
       <Button
         type="button"
         variant="outline"
         size="sm"
-        className="h-9 px-3 gap-1.5 shrink-0 touch-manipulation hover:bg-accent/50"
+        className="h-10 gap-1.5 touch-manipulation hover:bg-accent/50 text-xs"
         onClick={onOpenArtistDialog}
       >
-        <Music className="w-3.5 h-3.5 text-muted-foreground" />
-        <span className="text-[11px]">Персона</span>
+        <Music className="w-4 h-4 text-muted-foreground" />
+        <span>Персона</span>
       </Button>
 
       <Button
         type="button"
         variant="outline"
         size="sm"
-        className="h-9 px-3 gap-1.5 shrink-0 touch-manipulation hover:bg-accent/50"
+        className="h-10 gap-1.5 touch-manipulation hover:bg-accent/50 text-xs"
         onClick={onOpenProjectDialog}
       >
-        <Plus className="w-3.5 h-3.5 text-muted-foreground" />
-        <span className="text-[11px]">Проект</span>
+        <Plus className="w-4 h-4 text-muted-foreground" />
+        <span>Проект</span>
       </Button>
-
-      {onOpenHistory && (
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          className="h-9 px-3 gap-1.5 shrink-0 touch-manipulation hover:bg-accent/50"
-          onClick={onOpenHistory}
-        >
-          <History className="w-3.5 h-3.5 text-muted-foreground" />
-          <span className="text-[11px]">История</span>
-        </Button>
-      )}
     </div>
   );
 }

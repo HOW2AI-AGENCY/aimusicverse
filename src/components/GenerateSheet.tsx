@@ -93,9 +93,9 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
       <SheetContent side="bottom" className="h-[92vh] flex flex-col frost-sheet p-0">
         {/* Compact Header */}
         <div className="px-3 pt-2 pb-1.5 flex items-center justify-between border-b shrink-0">
-          <div className="flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-primary" />
-            <h2 className="text-sm font-semibold">Создать трек</h2>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <Sparkles className="w-4 h-4 text-primary" />
+            <h2 className="text-sm font-semibold">Создать</h2>
           </div>
           <GenerateFormHeaderCompact
             userBalance={form.userBalance}
@@ -107,6 +107,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             model={form.model}
             onModelChange={form.setModel}
             isAdmin={form.isAdmin}
+            onOpenHistory={() => setHistoryOpen(true)}
           />
         </div>
 
@@ -135,7 +136,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
               onOpenArtistDialog={() => setArtistDialogOpen(true)}
               onOpenProjectDialog={() => setProjectDialogOpen(true)}
-              onOpenHistory={() => setHistoryOpen(true)}
             />
 
             {/* Selected References Indicators */}
