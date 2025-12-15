@@ -1,5 +1,12 @@
+/**
+ * User Credits Hook
+ * Simplified hook for balance checking and generation authorization
+ */
+
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from './useAuth';
+import * as creditsApi from '@/api/credits.api';
+import { GENERATION_COST } from '@/services/credits.service';
 import { logger } from '@/lib/logger';
 
 interface UserCredits {
@@ -11,26 +18,20 @@ interface UserCredits {
   current_streak: number;
 }
 
-const GENERATION_COST = 10;
-
 export function useUserCredits() {
+  const { user } = useAuth();
   const queryClient = useQueryClient();
 
   // Check admin status
   const { data: adminData } = useQuery({
-    queryKey: ['user-admin-status'],
+    queryKey: ['user-admin-status', user?.id],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return { isAdmin: false };
-
-      const { data } = await supabase.rpc('has_role', {
-        _user_id: user.id,
-        _role: 'admin',
-      });
-
-      return { isAdmin: !!data };
+      if (!user?.id) return { isAdmin: false };
+      const isAdmin = await creditsApi.checkAdminStatus(user.id);
+      return { isAdmin };
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    enabled: !!user?.id,
+    staleTime: 1000 * 60 * 5,
   });
 
   const isAdmin = adminData?.isAdmin ?? false;
@@ -40,12 +41,7 @@ export function useUserCredits() {
     queryKey: ['admin-suno-api-balance'],
     queryFn: async (): Promise<number> => {
       try {
-        const { data, error } = await supabase.functions.invoke('suno-credits');
-        if (error) {
-          logger.error('Failed to fetch Suno API balance for admin', { error });
-          return 0;
-        }
-        return data?.credits ?? 0;
+        return await creditsApi.fetchSunoApiBalance();
       } catch (err) {
         logger.error('Error fetching admin API balance', { error: err });
         return 0;
@@ -56,41 +52,40 @@ export function useUserCredits() {
     refetchInterval: 60000,
   });
 
-  // Fetch personal credits for regular users
+  // Fetch personal credits
   const { data: credits, isLoading, error, refetch } = useQuery({
-    queryKey: ['user-credits'],
+    queryKey: ['user-credits', user?.id],
     queryFn: async (): Promise<UserCredits | null> => {
-      const { data: session } = await supabase.auth.getSession();
-      if (!session?.session?.user?.id) return null;
+      if (!user?.id) return null;
 
-      const { data, error } = await supabase
-        .from('user_credits')
-        .select('balance, total_earned, total_spent, experience, level, current_streak')
-        .eq('user_id', session.session.user.id)
-        .maybeSingle();
-
-      if (error) {
-        logger.error('Error fetching user credits', { error });
-        return null;
+      const data = await creditsApi.fetchUserCredits(user.id);
+      if (!data) {
+        return {
+          balance: 0,
+          total_earned: 0,
+          total_spent: 0,
+          experience: 0,
+          level: 1,
+          current_streak: 0,
+        };
       }
 
-      return data || {
-        balance: 0,
-        total_earned: 0,
-        total_spent: 0,
-        experience: 0,
-        level: 1,
-        current_streak: 0,
+      return {
+        balance: data.balance,
+        total_earned: data.total_earned,
+        total_spent: data.total_spent,
+        experience: data.experience,
+        level: data.level,
+        current_streak: data.current_streak,
       };
     },
-    staleTime: 30000, // 30 seconds
-    refetchInterval: 60000, // Refetch every minute
+    enabled: !!user?.id,
+    staleTime: 30000,
+    refetchInterval: 60000,
   });
 
   // For admins, use API balance; for regular users, use personal balance
   const effectiveBalance = isAdmin ? (apiBalance ?? 0) : (credits?.balance ?? 0);
-  
-  // Admins always can generate (they use shared API balance)
   const canGenerate = isAdmin ? true : effectiveBalance >= GENERATION_COST;
 
   const invalidate = () => {

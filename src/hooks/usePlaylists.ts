@@ -1,20 +1,27 @@
+/**
+ * Playlists Hook
+ * React hooks wrapping playlists API/service
+ */
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
+import * as playlistsApi from '@/api/playlists.api';
+import * as playlistsService from '@/services/playlists.service';
 
+// Interfaces for backward compatibility (matching old usePlaylists types)
 export interface Playlist {
   id: string;
   user_id: string;
   title: string;
   description: string | null;
   cover_url: string | null;
-  is_public: boolean;
-  track_count: number;
-  total_duration: number;
-  created_at: string;
-  updated_at: string;
+  is_public: boolean | null;
+  track_count: number | null;
+  total_duration: number | null;
+  created_at: string | null;
+  updated_at: string | null;
 }
 
 export interface PlaylistTrack {
@@ -22,7 +29,7 @@ export interface PlaylistTrack {
   playlist_id: string;
   track_id: string;
   position: number;
-  added_at: string;
+  added_at: string | null;
 }
 
 export function usePlaylists() {
@@ -34,45 +41,24 @@ export function usePlaylists() {
     queryKey: ['playlists', user?.id],
     queryFn: async () => {
       if (!user) return [];
-      
-      const { data, error } = await supabase
-        .from('playlists')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('updated_at', { ascending: false });
-
-      if (error) throw error;
-      return data as Playlist[];
+      return playlistsApi.fetchUserPlaylists(user.id);
     },
     enabled: !!user,
-    staleTime: 60000, // 1 minute
-    gcTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 60000,
+    gcTime: 10 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
 
   // Create playlist
   const createPlaylistMutation = useMutation({
     mutationFn: async (input: { title: string; description?: string; is_public?: boolean }) => {
-      if (!user) {
-        throw new Error('Необходимо авторизоваться');
-      }
-
-      const { data, error } = await supabase
-        .from('playlists')
-        .insert({
-          user_id: user.id,
-          title: input.title,
-          description: input.description || null,
-          is_public: input.is_public ?? false,
-        })
-        .select()
-        .single();
-
-      if (error) {
-        logger.error('Supabase error', error);
-        throw new Error(error.message || 'Ошибка базы данных');
-      }
-      return data as Playlist;
+      if (!user) throw new Error('Необходимо авторизоваться');
+      return playlistsService.createPlaylist(
+        user.id,
+        input.title,
+        input.description,
+        input.is_public
+      );
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['playlists'] });
@@ -86,18 +72,15 @@ export function usePlaylists() {
 
   // Update playlist
   const updatePlaylistMutation = useMutation({
-    mutationFn: async (input: { id: string; title?: string; description?: string; cover_url?: string; is_public?: boolean }) => {
+    mutationFn: async (input: { 
+      id: string; 
+      title?: string; 
+      description?: string; 
+      cover_url?: string; 
+      is_public?: boolean 
+    }) => {
       const { id, ...updates } = input;
-      
-      const { data, error } = await supabase
-        .from('playlists')
-        .update(updates)
-        .eq('id', id)
-        .select()
-        .single();
-
-      if (error) throw error;
-      return data as Playlist;
+      return playlistsApi.updatePlaylist(id, updates);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['playlists'] });
@@ -111,14 +94,7 @@ export function usePlaylists() {
 
   // Delete playlist
   const deletePlaylistMutation = useMutation({
-    mutationFn: async (playlistId: string) => {
-      const { error } = await supabase
-        .from('playlists')
-        .delete()
-        .eq('id', playlistId);
-
-      if (error) throw error;
-    },
+    mutationFn: playlistsApi.deletePlaylist,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['playlists'] });
       toast.success('Плейлист удалён');
@@ -132,33 +108,7 @@ export function usePlaylists() {
   // Add track to playlist
   const addTrackMutation = useMutation({
     mutationFn: async (input: { playlistId: string; trackId: string }) => {
-      // Get current max position
-      const { data: existing } = await supabase
-        .from('playlist_tracks')
-        .select('position')
-        .eq('playlist_id', input.playlistId)
-        .order('position', { ascending: false })
-        .limit(1);
-
-      const nextPosition = existing?.[0]?.position !== undefined ? existing[0].position + 1 : 0;
-
-      const { data, error } = await supabase
-        .from('playlist_tracks')
-        .insert({
-          playlist_id: input.playlistId,
-          track_id: input.trackId,
-          position: nextPosition,
-        })
-        .select()
-        .single();
-
-      if (error) {
-        if (error.code === '23505') {
-          throw new Error('Трек уже в плейлисте');
-        }
-        throw error;
-      }
-      return data as PlaylistTrack;
+      return playlistsService.addTrackToPlaylist(input.playlistId, input.trackId);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['playlists'] });
@@ -166,20 +116,18 @@ export function usePlaylists() {
     },
     onError: (error: Error) => {
       logger.error('Error adding track to playlist', error);
-      toast.error(error.message || 'Ошибка добавления трека');
+      if (error.message.includes('duplicate') || error.message.includes('23505')) {
+        toast.error('Трек уже в плейлисте');
+      } else {
+        toast.error(error.message || 'Ошибка добавления трека');
+      }
     },
   });
 
   // Remove track from playlist
   const removeTrackMutation = useMutation({
     mutationFn: async (input: { playlistId: string; trackId: string }) => {
-      const { error } = await supabase
-        .from('playlist_tracks')
-        .delete()
-        .eq('playlist_id', input.playlistId)
-        .eq('track_id', input.trackId);
-
-      if (error) throw error;
+      return playlistsApi.removeTrackFromPlaylist(input.playlistId, input.trackId);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['playlists'] });
@@ -194,16 +142,7 @@ export function usePlaylists() {
   // Reorder tracks in playlist
   const reorderTracksMutation = useMutation({
     mutationFn: async (input: { playlistId: string; trackIds: string[] }) => {
-      // Update positions for all tracks
-      const updates = input.trackIds.map((trackId, index) => 
-        supabase
-          .from('playlist_tracks')
-          .update({ position: index })
-          .eq('playlist_id', input.playlistId)
-          .eq('track_id', trackId)
-      );
-      
-      await Promise.all(updates);
+      return playlistsApi.reorderPlaylistTracks(input.playlistId, input.trackIds);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['playlist-tracks'] });
@@ -235,18 +174,7 @@ export function usePlaylistTracks(playlistId: string | null) {
     queryKey: ['playlist-tracks', playlistId],
     queryFn: async () => {
       if (!playlistId) return [];
-      
-      const { data, error } = await supabase
-        .from('playlist_tracks')
-        .select(`
-          *,
-          track:tracks(*)
-        `)
-        .eq('playlist_id', playlistId)
-        .order('position', { ascending: true });
-
-      if (error) throw error;
-      return data;
+      return playlistsApi.fetchPlaylistTracksWithDetails(playlistId);
     },
     enabled: !!playlistId,
   });
