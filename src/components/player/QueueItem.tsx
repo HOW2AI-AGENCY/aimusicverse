@@ -1,9 +1,10 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, X, Play } from 'lucide-react';
+import { GripVertical, X, Play, Layers } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { motion } from '@/lib/motion';
 import { LazyImage } from '@/components/ui/lazy-image';
 import type { Track } from '@/hooks/useTracksOptimized';
 
@@ -26,6 +27,17 @@ export function QueueItem({ track, isCurrentTrack, onRemove }: QueueItemProps) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+  };
+
+  // Check if track has multiple versions (A/B)
+  const hasVersions = track.active_version_id != null;
+  
+  // Format duration
+  const formatDuration = (seconds: number | null) => {
+    if (!seconds) return null;
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   return (
@@ -79,6 +91,15 @@ export function QueueItem({ track, isCurrentTrack, onRemove }: QueueItemProps) {
             </motion.div>
           </motion.div>
         )}
+        
+        {/* Version indicator badge */}
+        {hasVersions && !isCurrentTrack && (
+          <div className="absolute -top-1 -right-1">
+            <Badge variant="secondary" className="h-4 w-4 p-0 flex items-center justify-center bg-primary/80 text-primary-foreground">
+              <Layers className="w-2.5 h-2.5" />
+            </Badge>
+          </div>
+        )}
       </div>
 
       {/* Track Info */}
@@ -89,9 +110,16 @@ export function QueueItem({ track, isCurrentTrack, onRemove }: QueueItemProps) {
         )}>
           {track.title || 'Untitled Track'}
         </p>
-        <p className="text-xs text-muted-foreground truncate mt-0.5">
-          {track.style || 'Unknown Style'}
-        </p>
+        <div className="flex items-center gap-2 mt-0.5">
+          <p className="text-xs text-muted-foreground truncate">
+            {track.style || 'Unknown Style'}
+          </p>
+          {track.duration_seconds && (
+            <span className="text-[10px] text-muted-foreground/70 flex-shrink-0">
+              {formatDuration(track.duration_seconds)}
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Remove Button */}
