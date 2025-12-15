@@ -142,22 +142,37 @@ serve(async (req) => {
     // Create callback URL
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
 
-    // Suno API requires non-empty prompt - use default if not provided
-    // NOTE: replace-section API does NOT use fullLyrics parameter per documentation
+    // Suno API requires non-empty prompt and lyrics for replace-section
     const effectivePrompt = prompt || tags || track.tags || track.style || 'Continue in the same style and mood';
     const effectiveTags = tags || track.tags || '';
+    
+    // Get track lyrics - REQUIRED for replace-section API
+    const trackLyrics = track.lyrics || '';
+    
+    // Validate lyrics exist for non-instrumental tracks
+    if (!track.is_instrumental && (!trackLyrics || trackLyrics.trim().length < 10)) {
+      logger.warn('Track has no lyrics for replace-section', { trackId, lyricsLength: trackLyrics.length });
+      return new Response(
+        JSON.stringify({ 
+          error: 'Трек не содержит текста. Для замены секции нужны оригинальные lyrics.',
+          code: 'MISSING_LYRICS'
+        }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
     
     logger.info('Preparing Suno payload', {
       hasPrompt: !!prompt,
       hasTags: !!tags,
-      hasTrackTags: !!track.tags,
-      hasTrackStyle: !!track.style,
+      hasTrackLyrics: !!trackLyrics,
+      lyricsLength: trackLyrics.length,
+      isInstrumental: track.is_instrumental,
       effectivePrompt: effectivePrompt.substring(0, 100),
       effectiveTags: effectiveTags.substring(0, 100),
     });
     
-    // Suno replace-section payload - NO fullLyrics per API docs
-    const sunoPayload = {
+    // Suno replace-section payload - fullLyrics REQUIRED per API
+    const sunoPayload: Record<string, unknown> = {
       taskId,
       audioId,
       prompt: effectivePrompt,
@@ -167,6 +182,11 @@ serve(async (req) => {
       infillEndS: Number(infillEndS),
       callBackUrl: callbackUrl,
     };
+    
+    // Add fullLyrics for non-instrumental tracks
+    if (!track.is_instrumental && trackLyrics) {
+      sunoPayload.fullLyrics = trackLyrics;
+    }
 
     logger.info('Calling Suno API', { 
       taskId, 
