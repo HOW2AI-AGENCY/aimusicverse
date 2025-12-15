@@ -635,6 +635,7 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
           projectType: project.project_type || undefined,
           existingTracks: tracks.map(t => ({
             title: t.title,
+            position: t.position,
             stylePrompt: t.style_prompt || undefined,
             generatedLyrics: t.lyrics || undefined,
             draftLyrics: t.notes || undefined,

@@ -39,7 +39,7 @@ export function LyricsChatAssistant({
   initialMode = 'new',
 }: LyricsChatAssistantProps) {
   const isMobile = useIsMobile();
-  const [activeTab, setActiveTab] = useState<'chat' | 'tags' | 'ai'>('chat');
+  const [activeTab, setActiveTab] = useState<'chat' | 'tags' | 'ai' | 'quick'>('chat');
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [isLoadingRecs, setIsLoadingRecs] = useState(false);
   
