@@ -12,6 +12,7 @@ import { LyricsSheet } from '@/components/LyricsSheet';
 import { TrackDetailDialog } from '@/components/TrackDetailDialog';
 import { LyricsDialog } from '@/components/LyricsDialog';
 import { AudioCoverDialog } from '@/components/AudioCoverDialog';
+import { ReportTrackDialog } from './ReportTrackDialog';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface DialogStates {
@@ -25,6 +26,7 @@ interface DialogStates {
   addToProject: boolean;
   share: boolean;
   addToPlaylist: boolean;
+  report: boolean;
   deleteConfirm: boolean;
 }
 
@@ -132,6 +134,13 @@ export function TrackDialogsPortal({
       <AddToPlaylistDialog
         open={dialogs.addToPlaylist}
         onOpenChange={(open) => !open && onCloseDialog('addToPlaylist')}
+        track={track}
+      />
+
+      {/* Report dialog */}
+      <ReportTrackDialog
+        open={dialogs.report}
+        onOpenChange={(open) => !open && onCloseDialog('report')}
         track={track}
       />
 

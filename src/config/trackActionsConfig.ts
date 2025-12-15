@@ -2,7 +2,7 @@ import {
   Play, ListPlus, Download, Share2, Send, Folder, ListMusic, Sparkles,
   Scissors, Wand2, ImagePlus, FileAudio, Music2, Video, Layers,
   Plus, Mic, Volume2, Music, Globe, Lock, Info, FileText, Trash2,
-  CheckCircle2, Loader2
+  CheckCircle2, Loader2, Flag
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 
@@ -13,7 +13,7 @@ export type ActionId =
   | 'open_studio' | 'stems_simple' | 'stems_detailed' | 'generate_cover' | 'convert_wav' | 'transcribe_midi' | 'generate_video'
   | 'extend' | 'cover' | 'add_vocals' | 'add_instrumental' | 'remix'
   | 'details' | 'lyrics' | 'toggle_public'
-  | 'delete';
+  | 'report' | 'delete';
 
 export type ActionCategory = 
   | 'queue' 
@@ -247,6 +247,13 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
   },
 
   // Danger Actions (Priority 100+)
+  report: {
+    id: 'report',
+    label: 'Пожаловаться',
+    icon: Flag,
+    category: 'danger',
+    priority: 99,
+  },
   delete: {
     id: 'delete',
     label: 'Удалить',

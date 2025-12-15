@@ -133,6 +133,7 @@ export function UnifiedTrackSheet({
 
             {/* Danger Actions */}
             <DangerActions
+              track={track}
               onAction={executeAction}
               variant="sheet"
             />
