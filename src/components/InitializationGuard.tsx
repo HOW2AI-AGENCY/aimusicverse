@@ -2,12 +2,16 @@ import { ReactNode, useEffect, useState, useRef } from 'react';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { LoadingScreen } from '@/components/ui/loading-screen';
 import { logger } from '@/lib/logger';
+import { cleanupStaleData } from '@/lib/cleanupStaleData';
 
 interface InitializationGuardProps {
   children: ReactNode;
 }
 
 const initLogger = logger.child({ module: 'InitializationGuard' });
+
+// Run cleanup once on module load
+let cleanupRun = false;
 
 /**
  * InitializationGuard ensures that TelegramContext is fully initialized
@@ -25,6 +29,14 @@ export const InitializationGuard = ({ children }: InitializationGuardProps) => {
   const hasShownRef = useRef(false);
 
   useEffect(() => {
+    // Run cleanup once on first mount
+    if (!cleanupRun) {
+      cleanupRun = true;
+      cleanupStaleData().catch(err => {
+        initLogger.error('Failed to cleanup stale data', err);
+      });
+    }
+    
     initLogger.debug('InitializationGuard mounted', { isInitialized });
     mountedRef.current = true;
 
