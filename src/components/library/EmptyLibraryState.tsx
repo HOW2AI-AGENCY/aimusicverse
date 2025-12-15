@@ -88,7 +88,7 @@ export function EmptyLibraryState({ searchQuery, className }: EmptyLibraryStateP
       >
         <Button
           onClick={() => navigate('/', { state: { openGenerate: true } })}
-          className="flex-1 h-12 gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg shadow-primary/20"
+          className="flex-1 h-12 gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg shadow-primary/20 fab touch-scale-sm"
         >
           <Wand2 className="w-4 h-4" />
           Создать трек
@@ -97,7 +97,7 @@ export function EmptyLibraryState({ searchQuery, className }: EmptyLibraryStateP
         <Button
           variant="outline"
           onClick={() => navigate('/', { state: { openGenerate: true, mode: 'upload' } })}
-          className="flex-1 h-12 gap-2"
+          className="flex-1 h-12 gap-2 touch-scale-sm"
         >
           <Upload className="w-4 h-4" />
           Загрузить аудио
@@ -115,7 +115,7 @@ export function EmptyLibraryState({ searchQuery, className }: EmptyLibraryStateP
           <button
             key={tag}
             onClick={() => navigate('/', { state: { openGenerate: true, prompt: tag } })}
-            className="px-3 py-1.5 rounded-full text-xs bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+            className="px-3 py-1.5 rounded-full text-xs bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors touch-scale-sm"
           >
             {tag}
           </button>

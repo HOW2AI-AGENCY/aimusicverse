@@ -40,7 +40,7 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
       <TooltipWrapper tooltipId="generate-button">
         <motion.button
           onClick={() => handleAction(onGenerateClick)}
-          className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-primary to-generate p-4 sm:p-5 touch-manipulation shadow-lg shadow-primary/30"
+          className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-primary to-generate p-4 sm:p-5 touch-manipulation shadow-lg shadow-primary/30 fab touch-scale-sm"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           whileTap={{ scale: 0.98 }}
@@ -97,7 +97,7 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
               "group relative flex flex-col items-center justify-center gap-2 p-3.5 rounded-2xl",
               "border-2 backdrop-blur-sm transition-all duration-200 touch-manipulation min-h-[72px]",
               action.bgColor,
-              "active:scale-[0.96] hover:scale-[1.02]",
+              "touch-scale-sm card-pressable",
               "shadow-sm hover:shadow-md"
             )}
             variants={{
@@ -134,7 +134,7 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
           className={cn(
             "group relative flex items-center gap-2 px-3 py-2.5 rounded-xl",
             "bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/20",
-            "active:scale-[0.97] transition-all duration-200 touch-manipulation"
+            "touch-scale-sm transition-all duration-200 touch-manipulation"
           )}
           variants={{
             hidden: { opacity: 0, y: 15, scale: 0.9 },
@@ -155,7 +155,7 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
           className={cn(
             "group relative flex items-center gap-2 px-3 py-2.5 rounded-xl",
             "bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20",
-            "active:scale-[0.97] transition-all duration-200 touch-manipulation"
+            "touch-scale-sm transition-all duration-200 touch-manipulation"
           )}
           variants={{
             hidden: { opacity: 0, y: 15, scale: 0.9 },
