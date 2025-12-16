@@ -2942,6 +2942,26 @@ export type Database = {
         }[]
       }
       get_experience_for_level: { Args: { _level: number }; Returns: number }
+      get_generation_analytics: {
+        Args: { _time_period?: unknown }
+        Returns: {
+          avg_cost_per_generation: number
+          avg_generation_time_seconds: number
+          cost_by_service: Json
+          failed_generations: number
+          generations_by_day: Json
+          generations_by_hour: Json
+          model_distribution: Json
+          successful_generations: number
+          tag_combinations: Json
+          top_genres: Json
+          top_styles: Json
+          top_tags: Json
+          total_estimated_cost: number
+          total_generation_time_minutes: number
+          total_generations: number
+        }[]
+      }
       get_generation_stats: {
         Args: { _time_period?: unknown }
         Returns: {
