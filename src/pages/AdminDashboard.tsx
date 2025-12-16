@@ -42,6 +42,7 @@ import { UserBalancesPanel } from "@/components/admin/UserBalancesPanel";
 import { DeeplinkAnalyticsPanel } from "@/components/admin/DeeplinkAnalyticsPanel";
 import { EnhancedAnalyticsPanel } from "@/components/admin/EnhancedAnalyticsPanel";
 import { ModerationReportsPanel } from "@/components/admin/ModerationReportsPanel";
+import { AdminBotImagesPanel } from "@/components/admin/AdminBotImagesPanel";
 import { StatCard, StatGrid } from "@/components/admin/StatCard";
 import { AdminUserCard } from "@/components/admin/AdminUserCard";
 import { useQueryClient } from "@tanstack/react-query";
@@ -346,7 +347,10 @@ export default function AdminDashboard() {
 
         {/* Telegram Settings Tab */}
         {activeTab === "telegram" && (
-          <MobileTelegramBotSettings />
+          <div className="space-y-6">
+            <MobileTelegramBotSettings />
+            <AdminBotImagesPanel />
+          </div>
         )}
 
         {/* Stars Payments Tab */}
