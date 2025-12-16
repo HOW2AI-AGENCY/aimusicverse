@@ -53,105 +53,108 @@ export function AdminUserCard({
 
   return (
     <div
-      className={`flex items-center gap-2 p-2 rounded-lg border bg-card transition-colors ${
+      className={`flex flex-col sm:flex-row sm:items-center gap-2 p-2 rounded-lg border bg-card transition-colors ${
         isSelected ? "border-primary bg-primary/5" : ""
       }`}
     >
-      {/* Checkbox */}
-      <Checkbox
-        checked={isSelected}
-        onCheckedChange={onSelect}
-        className="flex-shrink-0"
-      />
+      {/* Top row: checkbox, avatar, name, actions */}
+      <div className="flex items-center gap-2 w-full">
+        {/* Checkbox */}
+        <Checkbox
+          checked={isSelected}
+          onCheckedChange={onSelect}
+          className="flex-shrink-0 h-4 w-4"
+        />
 
-      {/* Avatar */}
-      <Avatar className="h-9 w-9 flex-shrink-0">
-        <AvatarImage src={user.photo_url || undefined} />
-        <AvatarFallback className="text-xs">
-          {user.first_name?.[0]?.toUpperCase() || "?"}
-        </AvatarFallback>
-      </Avatar>
+        {/* Avatar */}
+        <Avatar className="h-8 w-8 flex-shrink-0">
+          <AvatarImage src={user.photo_url || undefined} />
+          <AvatarFallback className="text-xs">
+            {user.first_name?.[0]?.toUpperCase() || "?"}
+          </AvatarFallback>
+        </Avatar>
 
-      {/* User Info */}
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-1.5">
-          <span className="font-medium text-sm truncate">
-            {user.first_name} {user.last_name}
-          </span>
-          {/* Mobile badges - compact */}
-          <div className="flex items-center gap-0.5">
-            {isAdmin && (
-              <Badge className="h-5 px-1 text-[10px]">A</Badge>
-            )}
-            {isModerator && (
-              <Badge variant="secondary" className="h-5 px-1 text-[10px]">M</Badge>
-            )}
-            {hasPremium && (
-              <Crown className="h-3.5 w-3.5 text-yellow-500" />
-            )}
+        {/* User Info */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-1">
+            <span className="font-medium text-xs sm:text-sm truncate max-w-[100px] sm:max-w-[150px]">
+              {user.first_name} {user.last_name}
+            </span>
+            {/* Badges */}
+            <div className="flex items-center gap-0.5">
+              {isAdmin && (
+                <Badge className="h-4 px-1 text-[9px]">A</Badge>
+              )}
+              {isModerator && (
+                <Badge variant="secondary" className="h-4 px-1 text-[9px]">M</Badge>
+              )}
+              {hasPremium && (
+                <Crown className="h-3 w-3 text-yellow-500" />
+              )}
+            </div>
+          </div>
+          <div className="text-[10px] text-muted-foreground truncate">
+            @{user.username || "—"}
           </div>
         </div>
-        <div className="text-xs text-muted-foreground truncate">
-          @{user.username || "—"}
-        </div>
-      </div>
 
-      {/* Balance */}
-      <div className="text-right flex-shrink-0 px-2">
-        <div className={`text-sm font-bold ${
-          (user.balance || 0) === 0 ? 'text-muted-foreground' : 
-          (user.balance || 0) < 10 ? 'text-amber-500' : 'text-primary'
-        }`}>
-          {user.balance || 0}
+        {/* Balance - visible on all screens */}
+        <div className="text-right flex-shrink-0 px-1 sm:px-2">
+          <div className={`text-xs sm:text-sm font-bold ${
+            (user.balance || 0) === 0 ? 'text-muted-foreground' : 
+            (user.balance || 0) < 10 ? 'text-amber-500' : 'text-primary'
+          }`}>
+            {user.balance || 0} ₵
+          </div>
+          <div className="text-[9px] text-muted-foreground">
+            Lvl {user.level || 1}
+          </div>
         </div>
-        <div className="text-[10px] text-muted-foreground">
-          Lvl {user.level || 1}
-        </div>
-      </div>
 
-      {/* Actions Dropdown */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-8 w-8 flex-shrink-0">
-            <MoreVertical className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-48">
-          <DropdownMenuItem onClick={onMessage}>
-            <MessageSquare className="h-4 w-4 mr-2" />
-            Написать
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={onSubscription}>
-            <Crown className="h-4 w-4 mr-2" />
-            Подписка
-            {hasPremium && (
-              <Badge variant="outline" className="ml-auto text-[10px]">
-                {user.subscription_tier}
-              </Badge>
+        {/* Actions Dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-7 w-7 flex-shrink-0">
+              <MoreVertical className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuItem onClick={onMessage}>
+              <MessageSquare className="h-4 w-4 mr-2" />
+              Написать
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={onSubscription}>
+              <Crown className="h-4 w-4 mr-2" />
+              Подписка
+              {hasPremium && (
+                <Badge variant="outline" className="ml-auto text-[10px]">
+                  {user.subscription_tier}
+                </Badge>
+              )}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={onCredits}>
+              <Coins className="h-4 w-4 mr-2" />
+              Кредиты ({user.balance || 0})
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            {!isAdmin ? (
+              <DropdownMenuItem onClick={() => onToggleAdmin("add")}>
+                <Shield className="h-4 w-4 mr-2" />
+                Назначить админом
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem 
+                onClick={() => onToggleAdmin("remove")}
+                className="text-destructive"
+              >
+                <ShieldOff className="h-4 w-4 mr-2" />
+                Убрать админа
+              </DropdownMenuItem>
             )}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={onCredits}>
-            <Coins className="h-4 w-4 mr-2" />
-            Кредиты
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          {!isAdmin ? (
-            <DropdownMenuItem onClick={() => onToggleAdmin("add")}>
-              <Shield className="h-4 w-4 mr-2" />
-              Назначить админом
-            </DropdownMenuItem>
-          ) : (
-            <DropdownMenuItem 
-              onClick={() => onToggleAdmin("remove")}
-              className="text-destructive"
-            >
-              <ShieldOff className="h-4 w-4 mr-2" />
-              Убрать админа
-            </DropdownMenuItem>
-          )}
-        </DropdownMenuContent>
-      </DropdownMenu>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
   );
 }
