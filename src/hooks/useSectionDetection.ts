@@ -308,42 +308,62 @@ function createTimeBasedSections(words: AlignedWord[], duration: number): Detect
   return sections;
 }
 
-// Infer section type based on position and content
+// Infer section type based on position, content, and musical analysis
 function inferSectionType(
   index: number, 
   totalSections: number, 
   duration: number,
   lyrics: string
 ): DetectedSection['type'] {
-  // Check for common patterns in lyrics
   const lowerLyrics = lyrics.toLowerCase();
   
-  // Check for repeating patterns (likely chorus)
-  if (lowerLyrics.includes('oh') || lowerLyrics.includes('yeah') || lowerLyrics.includes('la la')) {
-    return 'chorus';
-  }
+  // Check for common chorus patterns - these are strong indicators
+  const chorusPatterns = [
+    'oh', 'yeah', 'la la', 'na na', 'hey', 'woah',
+    'оо', 'ой', 'эй', 'да да', 'ла ла', // Russian patterns
+  ];
+  const hasChorusPattern = chorusPatterns.some(p => lowerLyrics.includes(p));
   
-  // Short intro section
-  if (index === 1 && duration < 15) {
+  // Check for repetition (choruses often have repeated phrases)
+  const words = lowerLyrics.split(/\s+/);
+  const uniqueWords = new Set(words);
+  const repetitionRatio = words.length > 0 ? uniqueWords.size / words.length : 1;
+  const hasHighRepetition = repetitionRatio < 0.6 && words.length > 5;
+  
+  // Short lyrics often indicate hooks or choruses
+  const isShortSection = words.length < 15 && duration < 15;
+  
+  // Intro detection - first section, short, often instrumental indicators
+  if (index === 1 && duration < 12) {
     return 'intro';
   }
   
-  // Last section might be outro
-  if (index >= totalSections && duration < 15) {
+  // Outro detection - last section, often fades out
+  if (index >= totalSections && duration < 15 && totalSections > 2) {
     return 'outro';
   }
   
-  // Even sections often choruses in typical song structure
+  // Strong chorus indicators
+  if (hasChorusPattern || hasHighRepetition) {
+    return 'chorus';
+  }
+  
+  // Bridge detection - usually appears later, different feel
+  if (index > 3 && duration < 18 && totalSections > 4) {
+    return 'bridge';
+  }
+  
+  // Pre-chorus - short section before what would be chorus position
+  if (isShortSection && index % 2 === 0 && index > 1) {
+    return 'pre-chorus';
+  }
+  
+  // Default alternating pattern for verse/chorus
   if (index % 2 === 0 && index > 1) {
     return 'chorus';
   }
   
-  // Odd sections often verses
-  if (index % 2 === 1) {
-    return 'verse';
-  }
-  
-  return 'unknown';
+  return 'verse';
 }
 
 // Get label from inferred type

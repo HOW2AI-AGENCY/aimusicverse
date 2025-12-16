@@ -10,6 +10,7 @@ export { CleanStudioLayout } from './layout/CleanStudioLayout';
 
 // Editor components
 export { SectionEditorSheet } from './editor/SectionEditorSheet';
+export { WaveformRangeSelector } from './editor/WaveformRangeSelector';
 
 // Action components
 export { StudioActionsPanel } from './actions/StudioActionsPanel';

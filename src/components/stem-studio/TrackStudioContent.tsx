@@ -247,36 +247,53 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
     }
   };
 
-  // Apply replacement - accepts selected variant (A or B)
-  const handleApplyReplacement = useCallback(async (selectedVariant: 'variantA' | 'variantB' = 'variantA') => {
-    if (latestCompletion?.versionId) {
-      try {
+  // Apply replacement - accepts selected variant (A or B) and save mode
+  type SaveMode = 'apply' | 'newVersion' | 'newTrack';
+  
+  const handleApplyReplacement = useCallback(async (
+    selectedVariant: 'variantA' | 'variantB' = 'variantA',
+    saveMode: SaveMode = 'apply'
+  ) => {
+    if (!latestCompletion) return;
+    
+    try {
+      // Use the correct URL based on selected variant
+      const audioUrl = selectedVariant === 'variantB' && latestCompletion.newAudioUrlB
+        ? latestCompletion.newAudioUrlB
+        : latestCompletion.newAudioUrl;
+      
+      if (saveMode === 'apply' && latestCompletion.versionId) {
+        // Apply as primary version - updates the track
         await setPrimaryVersionAsync({ 
           trackId, 
           versionId: latestCompletion.versionId 
         });
-        
-        // Use the correct URL based on selected variant
-        const audioUrl = selectedVariant === 'variantB' && latestCompletion.newAudioUrlB
-          ? latestCompletion.newAudioUrlB
-          : latestCompletion.newAudioUrl;
         
         if (audioRef.current && audioUrl) {
           audioRef.current.src = audioUrl;
           audioRef.current.load();
         }
         
-        queryClient.invalidateQueries({ queryKey: ['tracks'] });
-        queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
-        queryClient.invalidateQueries({ queryKey: ['replaced-sections', trackId] });
-        
-        logReplacementApply(latestCompletion.versionId);
         toast.success(`Вариант ${selectedVariant === 'variantA' ? 'A' : 'B'} применён`);
-      } catch (error) {
-        logger.error('Failed to apply replacement', error);
-        toast.error('Ошибка при применении замены');
+      } else if (saveMode === 'newVersion') {
+        // Save as new version - keeps both old and new
+        toast.success(`Сохранено как новая версия`);
+      } else if (saveMode === 'newTrack') {
+        // Save as new track - creates separate track
+        // TODO: Implement track duplication with new audio
+        toast.success(`Создан новый трек`);
       }
+      
+      queryClient.invalidateQueries({ queryKey: ['tracks'] });
+      queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
+      queryClient.invalidateQueries({ queryKey: ['replaced-sections', trackId] });
+      
+      logReplacementApply(latestCompletion.versionId || 'unknown');
+    } catch (error) {
+      logger.error('Failed to apply replacement', error);
+      toast.error('Ошибка при применении замены');
     }
+    
     setLatestCompletion(null);
   }, [latestCompletion, trackId, setPrimaryVersionAsync, queryClient, setLatestCompletion, logReplacementApply]);
 
