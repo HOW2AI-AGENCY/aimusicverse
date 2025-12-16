@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import type { ProfileUpdateInput } from '@/types/profile';
+import type { Json } from '@/integrations/supabase/types';
 
 interface UpdateProfileParams {
   userId: string;
@@ -44,7 +45,7 @@ export function useUpdateProfile() {
       if (bannerFile) {
         const fileName = `${userId}-${Date.now()}.${bannerFile.name.split('.').pop()}`;
         const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('banners')
+          .from('avatars') // Using avatars bucket for banners too
           .upload(fileName, bannerFile, {
             cacheControl: '3600',
             upsert: true,
@@ -53,21 +54,28 @@ export function useUpdateProfile() {
         if (uploadError) throw uploadError;
 
         const { data: { publicUrl } } = supabase.storage
-          .from('banners')
+          .from('avatars')
           .getPublicUrl(uploadData.path);
 
         bannerUrl = publicUrl;
       }
 
+      // Build update object with only defined values
+      const updateData: Record<string, unknown> = {
+        updated_at: new Date().toISOString(),
+      };
+
+      if (updates.display_name !== undefined) updateData.display_name = updates.display_name;
+      if (updates.bio !== undefined) updateData.bio = updates.bio;
+      if (updates.is_public !== undefined) updateData.is_public = updates.is_public;
+      if (updates.social_links !== undefined) updateData.social_links = updates.social_links as Json;
+      if (avatarUrl !== undefined) updateData.photo_url = avatarUrl;
+      if (bannerUrl !== undefined) updateData.banner_url = bannerUrl;
+
       // Update profile
       const { data, error } = await supabase
         .from('profiles')
-        .update({
-          ...updates,
-          avatar_url: avatarUrl,
-          banner_url: bannerUrl,
-          updated_at: new Date().toISOString(),
-        })
+        .update(updateData)
         .eq('user_id', userId)
         .select()
         .single();
