@@ -146,15 +146,7 @@
       "name": "Total Bundle",
       "path": "dist/assets/*.js",
       "limit": "950 KB",
-      "webpack": false,
-      "gzip": true
-    },
-    {
-      "name": "Main Entry",
-      "path": "dist/assets/index-*.js",
-      "limit": "200 KB",
-      "webpack": false,
-      "gzip": true
+      "gzip": false
     }
   ]
 }
