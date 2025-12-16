@@ -18,7 +18,7 @@ import { logger } from '@/lib/logger';
 import { useProjectTracks } from '@/hooks/useProjectTracks';
 import { cn } from '@/lib/utils';
 import { hapticImpact, hapticNotification } from '@/lib/haptic';
-import { CreateProjectSheet } from '@/components/CreateProjectSheet';
+import { ProjectCreationWizard } from '@/components/project/ProjectCreationWizard';
 
 interface AddToProjectDialogProps {
   open: boolean;
@@ -208,8 +208,8 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
         </DialogContent>
       </Dialog>
 
-      {/* Create Project Sheet */}
-      <CreateProjectSheet 
+      {/* Create Project Wizard */}
+      <ProjectCreationWizard 
         open={createProjectOpen} 
         onOpenChange={setCreateProjectOpen} 
       />

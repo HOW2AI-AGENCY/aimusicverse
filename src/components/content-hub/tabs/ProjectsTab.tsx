@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FolderOpen, Search, Plus, LayoutGrid, LayoutList } from 'lucide-react';
-import { CreateProjectSheet } from '@/components/CreateProjectSheet';
+import { ProjectCreationWizard } from '@/components/project/ProjectCreationWizard';
 import { toast } from 'sonner';
 import { VirtualizedProjectsList } from '@/components/content-hub/VirtualizedProjectsList';
 import {
@@ -153,7 +153,7 @@ export function ProjectsTab() {
         </AlertDialogContent>
       </AlertDialog>
 
-      <CreateProjectSheet 
+      <ProjectCreationWizard 
         open={createSheetOpen} 
         onOpenChange={setCreateSheetOpen}
       />
