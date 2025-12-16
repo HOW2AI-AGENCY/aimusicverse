@@ -34,7 +34,13 @@ export interface CloudAudioReference {
   genre?: string;
   mood?: string;
   vocalStyle?: string;
+  styleDescription?: string;
   transcription?: string;
+  bpm?: number;
+  tempo?: string;
+  energy?: string;
+  instruments?: string[];
+  durationSeconds?: number;
 }
 
 export interface AudioReferenceResult {
@@ -103,13 +109,26 @@ export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult 
         // Set mode
         setCloudMode(cloudRef.mode);
         
-        // Build style from metadata
-        const styleParts: string[] = [];
-        if (cloudRef.genre) styleParts.push(cloudRef.genre);
-        if (cloudRef.mood) styleParts.push(cloudRef.mood);
-        if (cloudRef.vocalStyle) styleParts.push(cloudRef.vocalStyle);
-        if (styleParts.length > 0) {
-          setStyle(styleParts.join(', '));
+        // Build style from metadata - prefer style_description if available
+        if (cloudRef.styleDescription) {
+          setStyle(cloudRef.styleDescription);
+        } else {
+          const styleParts: string[] = [];
+          if (cloudRef.genre) styleParts.push(cloudRef.genre);
+          if (cloudRef.mood) styleParts.push(cloudRef.mood);
+          if (cloudRef.vocalStyle) styleParts.push(cloudRef.vocalStyle);
+          if (cloudRef.tempo) styleParts.push(cloudRef.tempo);
+          if (cloudRef.energy) styleParts.push(cloudRef.energy);
+          if (cloudRef.bpm) styleParts.push(`${cloudRef.bpm} BPM`);
+          if (cloudRef.instruments?.length) styleParts.push(cloudRef.instruments.join(', '));
+          if (styleParts.length > 0) {
+            setStyle(styleParts.join(', '));
+          }
+        }
+        
+        // Set pre-calculated duration if available
+        if (cloudRef.durationSeconds) {
+          setDuration(cloudRef.durationSeconds);
         }
         
         // Set lyrics if available
