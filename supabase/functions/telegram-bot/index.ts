@@ -1,6 +1,7 @@
 import { handleUpdate } from './bot.ts';
 import type { TelegramUpdate } from './telegram-api.ts';
-import { handleInlineQuery } from './commands/inline.ts';
+// Enhanced inline mode with 8 categories support
+import { handleInlineQuery } from './commands/inline-enhanced.ts';
 import { flushMetrics, checkAlerts } from './utils/metrics.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { createLogger } from '../_shared/logger.ts';

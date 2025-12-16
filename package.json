@@ -19,6 +19,8 @@
     "format": "prettier --write .",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
+    "size": "size-limit",
+    "size:why": "size-limit --why",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -135,6 +137,16 @@
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.48.0",
     "vite-plugin-compression": "^0.5.1",
-    "vitest": "^4.0.14"
-  }
+    "vitest": "^4.0.14",
+    "@size-limit/preset-app": "^12.0.0",
+    "@size-limit/file": "^12.0.0"
+  },
+  "size-limit": [
+    {
+      "name": "Total Bundle",
+      "path": "dist/assets/*.js",
+      "limit": "950 KB",
+      "gzip": false
+    }
+  ]
 }
