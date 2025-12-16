@@ -15,7 +15,7 @@ import { Progress } from '@/components/ui/progress';
 import { 
   FileAudio, Mic, X, Play, Pause, Sparkles, Upload, 
   Disc, ArrowRight, Loader2, FileText, Check, History,
-  Clock, Music2, ChevronDown, ChevronUp, Rocket
+  Clock, Music2, ChevronDown, ChevronUp, Rocket, Guitar
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
@@ -24,8 +24,10 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useReferenceAudio, ReferenceAudio } from '@/hooks/useReferenceAudio';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
+import { GuitarModeRecorder } from './GuitarModeRecorder';
 
 type AudioMode = 'cover' | 'extend';
+type RecordingMode = 'standard' | 'guitar';
 
 interface AudioActionDialogProps {
   open: boolean;
@@ -33,6 +35,7 @@ interface AudioActionDialogProps {
   onAudioSelected: (file: File, mode: AudioMode) => void;
   onAnalysisComplete?: (styleDescription: string) => void;
   onLyricsExtracted?: (lyrics: string) => void;
+  onChordsDetected?: (chords: string[], progression: string) => void;
   initialMode?: AudioMode;
   /** Callback to open UploadAudioDialog for direct cover/extend generation */
   onOpenCoverDialog?: (file: File, mode: AudioMode) => void;
@@ -51,6 +54,7 @@ export function AudioActionDialog({
   onAudioSelected,
   onAnalysisComplete,
   onLyricsExtracted,
+  onChordsDetected,
   initialMode = 'cover',
   onOpenCoverDialog,
 }: AudioActionDialogProps) {
@@ -58,6 +62,8 @@ export function AudioActionDialog({
   const { audioList, saveAudio, updateAnalysis, isLoading: isLoadingHistory } = useReferenceAudio();
   
   const [mode, setMode] = useState<AudioMode>(initialMode);
+  const [recordingMode, setRecordingMode] = useState<RecordingMode>('standard');
+  const [showGuitarMode, setShowGuitarMode] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
   const [audioFile, setAudioFile] = useState<File | null>(null);
@@ -95,6 +101,8 @@ export function AudioActionDialog({
     if (!open) {
       handleRemove();
       setMode(initialMode);
+      setRecordingMode('standard');
+      setShowGuitarMode(false);
       setAnalysisResult(null);
       setExtractedLyrics(null);
       setHasVocals(null);
@@ -103,6 +111,32 @@ export function AudioActionDialog({
       setAnalysisProgress(0);
     }
   }, [open, initialMode]);
+
+  // Handle guitar mode recording complete
+  const handleGuitarRecordingComplete = async (data: {
+    audioFile: File;
+    audioUrl: string;
+    chordProgression: string[];
+    styleDescription: string;
+  }) => {
+    setAudioFile(data.audioFile);
+    setAudioUrl(data.audioUrl);
+    setShowGuitarMode(false);
+    
+    // Notify parent about chords
+    if (onChordsDetected && data.chordProgression.length > 0) {
+      const progression = data.chordProgression.join(' → ');
+      onChordsDetected(data.chordProgression, progression);
+    }
+    
+    // Set style description
+    if (data.styleDescription && onAnalysisComplete) {
+      onAnalysisComplete(data.styleDescription);
+      setAnalysisResult({ style: data.styleDescription });
+    }
+    
+    toast.success('Запись с аккордами готова');
+  };
 
   // Recording timer
   useEffect(() => {
@@ -493,7 +527,16 @@ export function AudioActionDialog({
       )}
 
       {/* Upload/Record/History */}
-      {!isAnalyzing && !audioFile && (
+      {/* Guitar Mode */}
+      {showGuitarMode && (
+        <GuitarModeRecorder
+          onRecordingComplete={handleGuitarRecordingComplete}
+          onCancel={() => setShowGuitarMode(false)}
+        />
+      )}
+
+      {/* Upload/Record/History */}
+      {!isAnalyzing && !audioFile && !showGuitarMode && (
         <div className="space-y-2">
           {/* History Toggle */}
           {audioList.length > 0 && (
@@ -548,7 +591,7 @@ export function AudioActionDialog({
           )}
 
           {/* Upload/Record Buttons */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             <Button
               type="button"
               variant="outline"
@@ -577,10 +620,20 @@ export function AudioActionDialog({
                 {isRecording ? formatTime(recordingTime) : 'Записать'}
               </span>
             </Button>
+
+            <Button
+              type="button"
+              variant="outline"
+              className="h-14 flex-col gap-1 border-primary/30 hover:border-primary hover:bg-primary/5"
+              onClick={() => setShowGuitarMode(true)}
+            >
+              <Guitar className="w-5 h-5 text-primary" />
+              <span className="text-xs">Гитара</span>
+            </Button>
           </div>
 
           <p className="text-[10px] text-muted-foreground text-center">
-            WAV, MP3, WebM • до 20 МБ
+            WAV, MP3, WebM • до 20 МБ • Гитара: детектирование аккордов
           </p>
         </div>
       )}

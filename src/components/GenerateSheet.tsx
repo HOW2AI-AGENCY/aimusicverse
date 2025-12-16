@@ -290,6 +290,15 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           form.setHasVocals(true);
           form.setLyrics(lyrics);
         }}
+        onChordsDetected={(chords, progression) => {
+          form.setMode('custom');
+          // Add chord progression to style description
+          const chordInfo = `Guitar chord progression: ${progression}`;
+          form.setStyle(prevStyle => {
+            return prevStyle ? `${prevStyle}\n\n${chordInfo}` : chordInfo;
+          });
+          toast.success(`Обнаружено ${chords.length} аккордов`);
+        }}
         onOpenCoverDialog={(file, mode) => {
           // Open UploadAudioDialog for direct cover/extend generation
           setPendingAudioFile(file);
