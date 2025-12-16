@@ -42,6 +42,8 @@ interface NotificationPayload {
   totalVersions?: number;
   generationMode?: string;
   audioClips?: AudioClipData[];
+  message?: string;
+  progress?: number;
 }
 
 interface NotificationSettings {
@@ -426,6 +428,24 @@ Deno.serve(async (req) => {
     const telegramConfig = getTelegramConfig();
     const miniAppUrl = telegramConfig.miniAppUrl;
     const botDeepLink = telegramConfig.deepLinkBase;
+
+    // Handle progress notification
+    if (type === 'progress') {
+      const progressTitle = escapeMarkdown(title || 'Генерация');
+      const progressText = payload.message ? escapeMarkdown(payload.message) : '⏳ Обрабатываем\\.\\.\\.';
+      const progressPercent = payload.progress || 50;
+      
+      const progressBar = '▓'.repeat(Math.floor(progressPercent / 10)) + '░'.repeat(10 - Math.floor(progressPercent / 10));
+      
+      const message = `🎵 *${progressTitle}*\n\n${progressBar} ${progressPercent}%\n${progressText}`;
+      
+      await sendTelegramMessage(finalChatId, message);
+      
+      return new Response(
+        JSON.stringify({ success: true, type: 'progress' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     // Handle multi-version generation complete (both A and B in sequence)
     if (type === 'generation_complete_multi' && audioClips && audioClips.length > 0) {

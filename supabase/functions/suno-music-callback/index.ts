@@ -125,6 +125,24 @@ serve(async (req) => {
         error_message: msg || 'Generation failed',
       }).eq('id', trackId);
 
+      // Send failure notification to Telegram
+      if (task.telegram_chat_id) {
+        try {
+          await supabase.functions.invoke('send-telegram-notification', {
+            body: {
+              type: 'failed',
+              status: 'failed',
+              chatId: task.telegram_chat_id,
+              trackId,
+              error_message: msg || 'Generation failed',
+            },
+          });
+          logger.info('Failure notification sent to Telegram');
+        } catch (notifyErr) {
+          logger.error('Failed to send failure notification', notifyErr);
+        }
+      }
+
       return new Response(JSON.stringify({ success: true, status: 'failed' }), 
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
     }
@@ -322,7 +340,26 @@ serve(async (req) => {
           await supabase.from('generation_tasks').update({
             audio_clips: JSON.stringify([firstClip]),
             received_clips: 1,
+            status: 'streaming_ready',
           }).eq('id', task.id);
+
+          // Send progress notification to Telegram
+          if (task.telegram_chat_id) {
+            try {
+              await supabase.functions.invoke('send-telegram-notification', {
+                body: {
+                  type: 'progress',
+                  chatId: task.telegram_chat_id,
+                  trackId,
+                  title: firstClip.title || task.prompt?.substring(0, 50) || 'Трек',
+                  progress: 70,
+                  message: '🎵 Первая версия готова, обрабатываем...',
+                },
+              });
+            } catch (progressErr) {
+              logger.warn('Failed to send progress notification', { error: progressErr });
+            }
+          }
         }
       }
 
