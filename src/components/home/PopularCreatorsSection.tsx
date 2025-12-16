@@ -4,10 +4,12 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { Crown, TrendingUp, Music2, Heart } from 'lucide-react';
+import { Crown, Music2, Heart, ArrowRight, Users } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { supabase } from '@/integrations/supabase/client';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion } from '@/lib/motion';
@@ -38,7 +40,6 @@ export function PopularCreatorsSection({ className, maxCreators = 10 }: PopularC
   const { data: creators, isLoading } = useQuery({
     queryKey: ['popular-creators', maxCreators],
     queryFn: async (): Promise<PopularCreator[]> => {
-      // Get creators with public tracks, sorted by likes and track count
       const { data: tracksData, error: tracksError } = await supabase
         .from('tracks')
         .select('user_id, likes_count')
@@ -47,7 +48,6 @@ export function PopularCreatorsSection({ className, maxCreators = 10 }: PopularC
 
       if (tracksError) throw tracksError;
 
-      // Aggregate by user
       const userStats = new Map<string, { tracks: number; likes: number }>();
       tracksData?.forEach(track => {
         const stats = userStats.get(track.user_id) || { tracks: 0, likes: 0 };
@@ -56,7 +56,6 @@ export function PopularCreatorsSection({ className, maxCreators = 10 }: PopularC
         userStats.set(track.user_id, stats);
       });
 
-      // Get user IDs sorted by popularity (tracks + likes)
       const sortedUsers = Array.from(userStats.entries())
         .sort((a, b) => (b[1].tracks + b[1].likes) - (a[1].tracks + a[1].likes))
         .slice(0, maxCreators)
@@ -64,7 +63,6 @@ export function PopularCreatorsSection({ className, maxCreators = 10 }: PopularC
 
       if (sortedUsers.length === 0) return [];
 
-      // Fetch profiles
       const { data: profiles, error: profilesError } = await supabase
         .from('profiles')
         .select('user_id, first_name, last_name, username, photo_url, display_name, bio, followers_count')
@@ -73,7 +71,6 @@ export function PopularCreatorsSection({ className, maxCreators = 10 }: PopularC
 
       if (profilesError) throw profilesError;
 
-      // Combine data
       return sortedUsers
         .map(userId => {
           const profile = profiles?.find(p => p.user_id === userId);
@@ -105,13 +102,18 @@ export function PopularCreatorsSection({ className, maxCreators = 10 }: PopularC
   if (isLoading) {
     return (
       <section className={cn('space-y-4', className)}>
-        <div className="flex items-center gap-2">
-          <Skeleton className="h-6 w-6 rounded-full" />
-          <Skeleton className="h-6 w-40" />
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center">
+            <Crown className="w-5 h-5 text-amber-500" />
+          </div>
+          <div>
+            <h2 className="text-base font-semibold">Топ создатели</h2>
+            <p className="text-xs text-muted-foreground">Лучшие авторы</p>
+          </div>
         </div>
-        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
           {[...Array(5)].map((_, i) => (
-            <Skeleton key={i} className="w-32 h-44 rounded-xl flex-shrink-0" />
+            <Skeleton key={i} className="w-36 h-48 rounded-2xl flex-shrink-0" />
           ))}
         </div>
       </section>
@@ -124,26 +126,56 @@ export function PopularCreatorsSection({ className, maxCreators = 10 }: PopularC
 
   return (
     <section className={cn('space-y-4', className)}>
-      <div className="flex items-center gap-2">
-        <div className="p-1.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20">
-          <Crown className="h-4 w-4 sm:h-5 sm:w-5 text-amber-500" />
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <motion.div 
+            className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/10 flex items-center justify-center shadow-soft"
+            whileHover={{ scale: 1.05, rotate: -5 }}
+          >
+            <Crown className="w-5 h-5 text-amber-500" />
+          </motion.div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-base font-semibold">Топ создатели</h2>
+              <Badge variant="secondary" className="text-[10px] h-4 gap-0.5 bg-amber-500/10 text-amber-600 border-amber-500/20">
+                <Users className="w-2.5 h-2.5" />
+                {creators.length}
+              </Badge>
+            </div>
+            <p className="text-xs text-muted-foreground">Лучшие авторы сообщества</p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-lg sm:text-xl font-bold">Топ создатели</h2>
-          <p className="text-xs text-muted-foreground">Лучшие авторы сообщества</p>
-        </div>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate('/community')}
+          className="text-xs text-muted-foreground hover:text-primary gap-1.5 rounded-xl"
+        >
+          Все авторы
+          <ArrowRight className="w-3.5 h-3.5" />
+        </Button>
       </div>
 
-      <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide -mx-3 px-3">
-        {creators.map((creator, index) => (
-          <CreatorCard 
-            key={creator.user_id} 
-            creator={creator} 
-            rank={index + 1}
-            onClick={() => handleCreatorClick(creator.user_id)}
-          />
-        ))}
-      </div>
+      <ScrollArea className="-mx-3 px-3">
+        <div className="flex gap-4 pb-3">
+          {creators.map((creator, index) => (
+            <motion.div
+              key={creator.user_id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.06, duration: 0.3 }}
+            >
+              <CreatorCard 
+                creator={creator} 
+                rank={index + 1}
+                onClick={() => handleCreatorClick(creator.user_id)}
+              />
+            </motion.div>
+          ))}
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     </section>
   );
 }
@@ -162,45 +194,46 @@ function CreatorCard({
     creator.username || 
     'Пользователь';
 
-  const getRankBadge = () => {
-    if (rank === 1) return { bg: 'bg-gradient-to-r from-amber-400 to-yellow-500', icon: '🥇' };
-    if (rank === 2) return { bg: 'bg-gradient-to-r from-gray-300 to-gray-400', icon: '🥈' };
-    if (rank === 3) return { bg: 'bg-gradient-to-r from-amber-600 to-orange-700', icon: '🥉' };
+  const getRankConfig = () => {
+    if (rank === 1) return { emoji: '🥇', ring: 'ring-amber-400', bg: 'from-amber-500/20 to-yellow-500/10' };
+    if (rank === 2) return { emoji: '🥈', ring: 'ring-gray-400', bg: 'from-gray-400/20 to-gray-500/10' };
+    if (rank === 3) return { emoji: '🥉', ring: 'ring-amber-600', bg: 'from-amber-600/20 to-orange-600/10' };
     return null;
   };
 
-  const rankBadge = getRankBadge();
+  const rankConfig = getRankConfig();
 
   return (
     <motion.div
-      className="relative flex-shrink-0 w-32 sm:w-36 cursor-pointer group"
-      whileHover={{ scale: 1.02 }}
+      className="relative flex-shrink-0 w-36 sm:w-40 cursor-pointer group"
+      whileHover={{ scale: 1.03, y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
     >
-      <div className="relative p-3 sm:p-4 rounded-xl bg-card/80 border border-border/50 backdrop-blur-sm hover:border-primary/30 transition-all">
+      <div className={cn(
+        "relative p-4 rounded-2xl bg-card/80 border border-border/50 backdrop-blur-sm",
+        "hover:border-primary/30 hover:shadow-lg transition-all",
+        rankConfig && `bg-gradient-to-br ${rankConfig.bg}`
+      )}>
         {/* Rank Badge */}
-        {rankBadge && (
-          <div className="absolute -top-2 -right-2 z-10">
-            <span className="text-lg">{rankBadge.icon}</span>
+        {rankConfig && (
+          <div className="absolute -top-2 -right-2 z-10 text-xl">
+            {rankConfig.emoji}
           </div>
         )}
         
-        {/* Avatar with glow effect for top 3 */}
+        {/* Avatar */}
         <div className="flex justify-center mb-3">
           <div className={cn(
             "relative",
-            rank <= 3 && "after:absolute after:inset-0 after:rounded-full after:bg-primary/20 after:blur-xl after:-z-10"
+            rank <= 3 && "after:absolute after:inset-0 after:rounded-full after:bg-primary/15 after:blur-xl after:-z-10"
           )}>
             <Avatar className={cn(
-              "w-16 h-16 sm:w-20 sm:h-20 border-2 transition-all",
-              rank === 1 && "border-amber-400",
-              rank === 2 && "border-gray-400",
-              rank === 3 && "border-amber-600",
-              rank > 3 && "border-border group-hover:border-primary/50"
+              "w-18 h-18 sm:w-20 sm:h-20 border-2 transition-all shadow-lg",
+              rankConfig?.ring || "border-border group-hover:border-primary/50"
             )}>
               <AvatarImage src={creator.photo_url || undefined} alt={displayName} />
-              <AvatarFallback className="text-lg bg-primary/10">
+              <AvatarFallback className="text-xl bg-gradient-to-br from-primary/20 to-primary/5">
                 {displayName[0]?.toUpperCase()}
               </AvatarFallback>
             </Avatar>
@@ -208,7 +241,7 @@ function CreatorCard({
         </div>
 
         {/* Name */}
-        <h3 className="font-semibold text-sm text-center truncate mb-1">
+        <h3 className="font-semibold text-sm text-center truncate mb-0.5 group-hover:text-primary transition-colors">
           {displayName}
         </h3>
         
@@ -219,14 +252,14 @@ function CreatorCard({
         )}
 
         {/* Stats */}
-        <div className="flex items-center justify-center gap-3 text-[10px] text-muted-foreground">
-          <div className="flex items-center gap-0.5">
+        <div className="flex items-center justify-center gap-3 text-[11px]">
+          <div className="flex items-center gap-1 text-muted-foreground">
             <Music2 className="w-3 h-3" />
-            <span>{creator.tracks_count}</span>
+            <span className="font-medium">{creator.tracks_count}</span>
           </div>
-          <div className="flex items-center gap-0.5">
-            <Heart className="w-3 h-3 text-red-400" />
-            <span>{creator.total_likes}</span>
+          <div className="flex items-center gap-1 text-red-400">
+            <Heart className="w-3 h-3 fill-current" />
+            <span className="font-medium">{creator.total_likes}</span>
           </div>
         </div>
       </div>
