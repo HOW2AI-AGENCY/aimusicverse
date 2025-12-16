@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useProfileSetupCheck } from '@/hooks/useProfileSetupCheck';
-import { MandatoryProfileSetup } from './MandatoryProfileSetup';
+import { EnhancedProfileSetup } from './setup/EnhancedProfileSetup';
 
 interface ProfileSetupGuardProps {
   children: React.ReactNode;
@@ -25,7 +25,7 @@ export function ProfileSetupGuard({ children }: ProfileSetupGuardProps) {
   return (
     <>
       {children}
-      {showSetup && <MandatoryProfileSetup onComplete={handleComplete} />}
+      {showSetup && <EnhancedProfileSetup onComplete={handleComplete} />}
     </>
   );
 }

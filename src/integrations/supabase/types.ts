@@ -1175,6 +1175,8 @@ export type Database = {
       }
       profiles: {
         Row: {
+          banner_url: string | null
+          bio: string | null
           created_at: string
           display_name: string | null
           first_name: string
@@ -1185,6 +1187,12 @@ export type Database = {
           language_code: string | null
           last_name: string | null
           photo_url: string | null
+          pinned_artists: string[] | null
+          pinned_projects: string[] | null
+          pinned_tracks: string[] | null
+          profile_completeness: number | null
+          profile_theme: Json | null
+          social_links: Json | null
           subscription_expires_at: string | null
           subscription_tier:
             | Database["public"]["Enums"]["subscription_tier"]
@@ -1196,6 +1204,8 @@ export type Database = {
           username: string | null
         }
         Insert: {
+          banner_url?: string | null
+          bio?: string | null
           created_at?: string
           display_name?: string | null
           first_name: string
@@ -1206,6 +1216,12 @@ export type Database = {
           language_code?: string | null
           last_name?: string | null
           photo_url?: string | null
+          pinned_artists?: string[] | null
+          pinned_projects?: string[] | null
+          pinned_tracks?: string[] | null
+          profile_completeness?: number | null
+          profile_theme?: Json | null
+          social_links?: Json | null
           subscription_expires_at?: string | null
           subscription_tier?:
             | Database["public"]["Enums"]["subscription_tier"]
@@ -1217,6 +1233,8 @@ export type Database = {
           username?: string | null
         }
         Update: {
+          banner_url?: string | null
+          bio?: string | null
           created_at?: string
           display_name?: string | null
           first_name?: string
@@ -1227,6 +1245,12 @@ export type Database = {
           language_code?: string | null
           last_name?: string | null
           photo_url?: string | null
+          pinned_artists?: string[] | null
+          pinned_projects?: string[] | null
+          pinned_tracks?: string[] | null
+          profile_completeness?: number | null
+          profile_theme?: Json | null
+          social_links?: Json | null
           subscription_expires_at?: string | null
           subscription_tier?:
             | Database["public"]["Enums"]["subscription_tier"]
@@ -2919,6 +2943,10 @@ export type Database = {
         Args: { _style_id?: string; _tag_ids: string[] }
         Returns: string
       }
+      calculate_profile_completeness: {
+        Args: { profile_row: Database["public"]["Tables"]["profiles"]["Row"] }
+        Returns: number
+      }
       cleanup_expired_bot_sessions: { Args: never; Returns: undefined }
       get_complementary_tags: {
         Args: { _max_depth?: number; _tag_id: string }
@@ -3102,6 +3130,7 @@ export type Database = {
         Returns: undefined
       }
       is_premium_or_admin: { Args: { _user_id: string }; Returns: boolean }
+      jsonb_object_keys_count: { Args: { obj: Json }; Returns: number }
       log_share_reward: { Args: never; Returns: undefined }
       recommend_styles_for_user: {
         Args: { _limit?: number; _user_id: string }
