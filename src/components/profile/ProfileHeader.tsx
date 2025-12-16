@@ -28,15 +28,15 @@ export function ProfileHeader({
 
   return (
     <Card className="overflow-hidden">
-      {/* Banner Image */}
-      <div className="relative h-48 bg-gradient-to-br from-primary/20 to-primary/10">
+      {/* Banner Image - Compact */}
+      <div className="relative h-28 sm:h-36 bg-gradient-to-br from-primary/20 to-primary/10">
         {profile.bannerUrl ? (
           <LazyImage
             src={profile.bannerUrl}
             alt={`${displayName}'s banner`}
             className="h-full w-full object-cover"
             width={1200}
-            height={200}
+            height={144}
           />
         ) : (
           <div className="h-full w-full bg-gradient-to-br from-primary/20 to-primary/10" />
@@ -46,7 +46,7 @@ export function ProfileHeader({
         {isOwnProfile && onEditClick && (
           <button
             onClick={onEditClick}
-            className="absolute right-4 top-4 rounded-lg bg-background/80 px-4 py-2 text-sm font-medium backdrop-blur-sm transition-colors hover:bg-background"
+            className="absolute right-3 top-3 rounded-lg bg-background/80 px-3 py-1.5 text-xs font-medium backdrop-blur-sm transition-colors hover:bg-background min-h-[36px]"
             aria-label="Edit profile"
           >
             Edit Profile
@@ -54,29 +54,29 @@ export function ProfileHeader({
         )}
       </div>
 
-      {/* Profile Info */}
-      <div className="relative px-6 pb-6">
+      {/* Profile Info - Compact */}
+      <div className="relative px-4 pb-4">
         {/* Avatar - Overlapping banner */}
-        <div className="-mt-16 mb-4">
-          <Avatar className="h-32 w-32 border-4 border-background">
+        <div className="-mt-10 mb-2">
+          <Avatar className="h-20 w-20 border-3 border-background">
             <AvatarImage
               src={profile.avatarUrl || profile.photoUrl}
               alt={displayName}
             />
-            <AvatarFallback className="text-3xl">
+            <AvatarFallback className="text-xl">
               {initials}
             </AvatarFallback>
           </Avatar>
         </div>
 
         {/* Name and Username */}
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold">{displayName}</h1>
+        <div className="space-y-0.5">
+          <div className="flex items-center gap-1.5">
+            <h1 className="text-lg font-bold">{displayName}</h1>
             {profile.isVerified && <VerificationBadge />}
           </div>
           {profile.username && (
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               @{profile.username}
             </p>
           )}

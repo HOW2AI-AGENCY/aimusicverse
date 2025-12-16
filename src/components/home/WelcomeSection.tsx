@@ -13,25 +13,25 @@ function getGreeting(): { text: string; icon: React.ReactNode; gradient: string 
   if (hour >= 5 && hour < 12) {
     return { 
       text: 'Доброе утро', 
-      icon: <Sunrise className="w-5 h-5" />,
+      icon: <Sunrise className="w-4 h-4" />,
       gradient: 'from-amber-400 to-orange-400'
     };
   } else if (hour >= 12 && hour < 17) {
     return { 
       text: 'Добрый день', 
-      icon: <Sun className="w-5 h-5" />,
+      icon: <Sun className="w-4 h-4" />,
       gradient: 'from-yellow-400 to-amber-400'
     };
   } else if (hour >= 17 && hour < 22) {
     return { 
       text: 'Добрый вечер', 
-      icon: <Sunset className="w-5 h-5" />,
+      icon: <Sunset className="w-4 h-4" />,
       gradient: 'from-orange-400 to-rose-400'
     };
   } else {
     return { 
       text: 'Доброй ночи', 
-      icon: <Moon className="w-5 h-5" />,
+      icon: <Moon className="w-4 h-4" />,
       gradient: 'from-blue-400 to-indigo-400'
     };
   }
@@ -42,58 +42,36 @@ export function WelcomeSection({ userName, className }: WelcomeSectionProps) {
   
   return (
     <motion.div 
-      className={cn("py-2 sm:py-3", className)}
-      initial={{ opacity: 0, y: -10 }}
+      className={cn("py-1.5", className)}
+      initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.05, duration: 0.3 }}
+      transition={{ delay: 0.05, duration: 0.25 }}
     >
-      <div className="flex items-center gap-3">
-        {/* Animated icon container */}
+      <div className="flex items-center gap-2.5">
+        {/* Animated icon container - Compact */}
         <motion.div 
           className={cn(
-            "flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center",
+            "flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center",
             "bg-gradient-to-br",
-            gradient,
-            "shadow-lg"
+            gradient
           )}
-          animate={{ 
-            rotate: [0, 5, -5, 0],
-            scale: [1, 1.02, 1]
-          }}
-          transition={{ 
-            duration: 4, 
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
+          animate={{ rotate: [0, 5, -5, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         >
           <span className="text-white">{icon}</span>
         </motion.div>
         
         <div className="flex-1 min-w-0">
-          <h2 className="text-lg sm:text-xl font-bold truncate">
+          <h2 className="text-base font-bold truncate">
             {text}
             {userName && (
               <span className="text-primary">, {userName}</span>
             )}
-            <motion.span 
-              className="inline-block ml-1"
-              animate={{ rotate: [0, 15, 0] }}
-              transition={{ duration: 1, repeat: Infinity, repeatDelay: 2 }}
-            >
-              👋
-            </motion.span>
+            <span className="inline-block ml-1">👋</span>
           </h2>
-          <p className="text-xs sm:text-sm text-muted-foreground flex items-center gap-1.5">
-            <span>Готовы создать что-то новое?</span>
-            <motion.div
-              animate={{ 
-                scale: [1, 1.2, 1],
-                rotate: [0, 10, -10, 0]
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <Wand2 className="w-3.5 h-3.5 text-primary" />
-            </motion.div>
+          <p className="text-[11px] text-muted-foreground flex items-center gap-1">
+            <span>Готовы создать?</span>
+            <Wand2 className="w-3 h-3 text-primary" />
           </p>
         </div>
       </div>

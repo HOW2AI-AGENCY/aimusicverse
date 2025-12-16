@@ -56,14 +56,14 @@ export const BottomNavigation = () => {
         role="navigation"
         aria-label="Главная навигация"
       >
-        <div className="flex items-center justify-around gap-1">
+        <div className="flex items-center justify-around gap-0.5">
           {navItems.map((item, index) => {
             if (item.isCenter) {
               return (
                 <motion.button
                   key={item.path}
                   onClick={handleGenerateClick}
-                  className="relative flex items-center justify-center w-14 h-14 -my-2 rounded-full bg-gradient-to-br from-primary to-generate shadow-lg shadow-primary/30 fab touch-scale-md touch-manipulation group"
+                  className="relative flex items-center justify-center w-12 h-12 -my-1.5 rounded-full bg-gradient-to-br from-primary to-generate shadow-md shadow-primary/25 fab touch-scale-md touch-manipulation group"
                   whileTap={{ scale: 0.92 }}
                   whileHover={{ scale: 1.05 }}
                   aria-label={item.label}
@@ -72,20 +72,7 @@ export const BottomNavigation = () => {
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.1 + index * 0.05 }}
                 >
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <Plus className="w-6 h-6 text-primary-foreground relative z-10" />
-                  <motion.div
-                    className="absolute inset-0 rounded-full bg-primary/40 blur-xl"
-                    animate={{
-                      scale: [1, 1.2, 1],
-                      opacity: [0.3, 0.6, 0.3]
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  />
+                  <Plus className="w-5 h-5 text-primary-foreground relative z-10" />
                 </motion.button>
               );
             }
