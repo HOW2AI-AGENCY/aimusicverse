@@ -7,7 +7,7 @@
 
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
-import { Play, Pause, RotateCcw, Check, X, Volume2, VolumeX, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Play, Pause, RotateCcw, Check, X, Volume2, VolumeX, Sparkles, ChevronLeft, ChevronRight, Save, FilePlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
@@ -19,6 +19,7 @@ import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 
 type VersionType = 'original' | 'variantA' | 'variantB';
+type SaveMode = 'apply' | 'newVersion' | 'newTrack';
 
 interface QuickCompareProps {
   // For mobile sheet mode
@@ -32,7 +33,7 @@ interface QuickCompareProps {
   variantBUrl?: string; // Optional second variant
   sectionStart: number;
   sectionEnd: number;
-  onApply: (selectedVariant: 'variantA' | 'variantB') => void;
+  onApply: (selectedVariant: 'variantA' | 'variantB', saveMode?: SaveMode) => void;
   onDiscard: () => void;
 }
 
@@ -259,10 +260,10 @@ export function QuickCompare({
     setIsMuted(!isMuted);
   };
 
-  const handleApply = () => {
+  const handleApply = (saveMode: SaveMode = 'apply') => {
     haptic.success();
     pauseAllVersions();
-    onApply(selectedVariant);
+    onApply(selectedVariant, saveMode);
     if (isMobile && onOpenChange) {
       onOpenChange(false);
     }
@@ -513,25 +514,52 @@ export function QuickCompare({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="grid grid-cols-2 gap-3 pt-2"
+              className="space-y-3 pt-2"
             >
+              {/* Main apply button */}
               <motion.div whileTap={{ scale: 0.97 }}>
                 <Button
-                  variant="outline"
-                  onClick={handleDiscard}
-                  className="w-full h-12 rounded-xl text-destructive hover:text-destructive hover:bg-destructive/10 gap-2"
-                >
-                  <X className="w-5 h-5" />
-                  Отменить
-                </Button>
-              </motion.div>
-              <motion.div whileTap={{ scale: 0.97 }}>
-                <Button
-                  onClick={handleApply}
+                  onClick={() => handleApply('apply')}
                   className="w-full h-12 rounded-xl bg-success hover:bg-success/90 gap-2 shadow-lg shadow-success/20"
                 >
                   <Check className="w-5 h-5" />
                   Применить
+                </Button>
+              </motion.div>
+              
+              {/* Secondary save options */}
+              <div className="grid grid-cols-2 gap-2">
+                <motion.div whileTap={{ scale: 0.97 }}>
+                  <Button
+                    variant="outline"
+                    onClick={() => handleApply('newVersion')}
+                    className="w-full h-10 rounded-xl gap-1.5 text-xs"
+                  >
+                    <Save className="w-4 h-4" />
+                    Как версию
+                  </Button>
+                </motion.div>
+                <motion.div whileTap={{ scale: 0.97 }}>
+                  <Button
+                    variant="outline"
+                    onClick={() => handleApply('newTrack')}
+                    className="w-full h-10 rounded-xl gap-1.5 text-xs"
+                  >
+                    <FilePlus className="w-4 h-4" />
+                    Новый трек
+                  </Button>
+                </motion.div>
+              </div>
+              
+              {/* Cancel button */}
+              <motion.div whileTap={{ scale: 0.97 }}>
+                <Button
+                  variant="ghost"
+                  onClick={handleDiscard}
+                  className="w-full h-10 rounded-xl text-muted-foreground hover:text-destructive gap-2"
+                >
+                  <X className="w-4 h-4" />
+                  Отменить
                 </Button>
               </motion.div>
             </motion.div>
@@ -568,7 +596,15 @@ export function QuickCompare({
                   <X className="w-4 h-4 mr-1" />
                   Отменить
                 </Button>
-                <Button size="sm" onClick={handleApply} className="h-8 bg-success hover:bg-success/90">
+                <Button variant="outline" size="sm" onClick={() => handleApply('newVersion')} className="h-8">
+                  <Save className="w-4 h-4 mr-1" />
+                  Как версию
+                </Button>
+                <Button variant="outline" size="sm" onClick={() => handleApply('newTrack')} className="h-8">
+                  <FilePlus className="w-4 h-4 mr-1" />
+                  Новый трек
+                </Button>
+                <Button size="sm" onClick={() => handleApply('apply')} className="h-8 bg-success hover:bg-success/90">
                   <Check className="w-4 h-4 mr-1" />
                   Применить {selectedVariant === 'variantA' ? 'A' : 'B'}
                 </Button>

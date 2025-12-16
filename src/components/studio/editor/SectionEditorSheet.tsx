@@ -3,29 +3,30 @@
  * 
  * Bottom sheet on mobile, inline panel on desktop
  * For editing and replacing track sections
+ * Features waveform timeline with draggable boundaries
  */
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   X, Wand2, Zap, Sparkles, 
-  ChevronDown, ChevronUp, Tag, MessageSquare,
+  ChevronDown, ChevronUp, MessageSquare,
   Loader2, Play, Pause, RotateCcw
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Slider } from '@/components/ui/slider';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useSectionReplacement, SECTION_PRESETS } from '@/hooks/useSectionReplacement';
 import { DetectedSection } from '@/hooks/useSectionDetection';
+import { WaveformRangeSelector } from './WaveformRangeSelector';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { useRef } from 'react';
+import { pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
 
 interface SectionEditorSheetProps {
   open: boolean;
@@ -130,20 +131,6 @@ export function SectionEditorSheet({
     }
   }, [isPreviewPlaying, startTime, endTime]);
 
-  // Handle range adjustment
-  const handleStartChange = useCallback((value: number[]) => {
-    const newStart = value[0];
-    if (newStart < endTime - 1) {
-      setCustomRange(newStart, endTime);
-    }
-  }, [endTime, setCustomRange]);
-
-  const handleEndChange = useCallback((value: number[]) => {
-    const newEnd = value[0];
-    if (newEnd > startTime + 1) {
-      setCustomRange(startTime, newEnd);
-    }
-  }, [startTime, setCustomRange]);
 
   // Editor content
   const editorContent = (
@@ -207,37 +194,26 @@ export function SectionEditorSheet({
         </div>
       )}
 
-      {/* Range adjustment */}
-      <div className="space-y-3">
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">Начало</span>
-            <span className="font-mono">{formatTime(startTime)}</span>
-          </div>
-          <Slider
-            value={[startTime]}
-            onValueChange={handleStartChange}
-            min={0}
-            max={duration}
-            step={0.1}
-            className="py-2"
-          />
-        </div>
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">Конец</span>
-            <span className="font-mono">{formatTime(endTime)}</span>
-          </div>
-          <Slider
-            value={[endTime]}
-            onValueChange={handleEndChange}
-            min={0}
-            max={duration}
-            step={0.1}
-            className="py-2"
-          />
-        </div>
-      </div>
+      {/* Waveform Range Selector */}
+      {audioUrl && (
+        <WaveformRangeSelector
+          audioUrl={audioUrl}
+          duration={duration}
+          startTime={startTime}
+          endTime={endTime}
+          onRangeChange={(start, end) => setCustomRange(start, end)}
+          onPreviewSeek={(time) => {
+            if (previewAudioRef.current) {
+              pauseAllStudioAudio();
+              previewAudioRef.current.currentTime = time;
+              previewAudioRef.current.play();
+              setIsPreviewPlaying(true);
+            }
+          }}
+          maxDuration={maxDuration}
+          height={isMobile ? 70 : 80}
+        />
+      )}
 
       {/* Quick presets */}
       <div className="flex flex-wrap gap-1.5">
