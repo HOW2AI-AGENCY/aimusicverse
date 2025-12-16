@@ -17,7 +17,8 @@ import {
   FileQuestion,
   FileCheck,
   Wand2,
-  Loader2
+  Loader2,
+  Layers
 } from 'lucide-react';
 import { ProjectTrack } from '@/hooks/useProjectTracks';
 import { cn } from '@/lib/utils';
@@ -36,8 +37,10 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useProjectTracks } from '@/hooks/useProjectTracks';
+import { useProjectGeneratedTracks } from '@/hooks/useProjectGeneratedTracks';
 import { toast } from 'sonner';
 import { EditTrackDialog } from './EditTrackDialog';
+import { TrackVersionsPanel } from './TrackVersionsPanel';
 import { motion } from '@/lib/motion';
 
 interface GenerationStatus {
@@ -124,8 +127,11 @@ export const MinimalProjectTrackItem = ({
 }: MinimalProjectTrackItemProps) => {
   const isMobile = useIsMobile();
   const [editOpen, setEditOpen] = useState(false);
+  const [versionsExpanded, setVersionsExpanded] = useState(false);
   const { deleteTrack } = useProjectTracks(track.project_id);
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
+  const { tracksBySlot } = useProjectGeneratedTracks(track.project_id, track.id);
+  const versionsCount = tracksBySlot[track.id]?.length || 0;
   
   const status = (track.status as keyof typeof STATUS_CONFIG) || 'draft';
   const statusConfig = STATUS_CONFIG[status];
@@ -273,6 +279,16 @@ export const MinimalProjectTrackItem = ({
                 <StatusIcon className="w-2.5 h-2.5 mr-0.5" />
                 {isMobile ? '' : statusConfig.label}
               </Badge>
+              {versionsCount > 0 && (
+                <Badge 
+                  variant="secondary" 
+                  className="text-[10px] h-4 px-1.5 shrink-0 gap-0.5 cursor-pointer hover:bg-secondary/80"
+                  onClick={() => setVersionsExpanded(!versionsExpanded)}
+                >
+                  <Layers className="w-2.5 h-2.5" />
+                  {versionsCount}
+                </Badge>
+              )}
             </div>
             
             {track.style_prompt && (
@@ -450,6 +466,19 @@ export const MinimalProjectTrackItem = ({
                 )}
               </Button>
             </div>
+          </div>
+        )}
+
+        {/* Versions Panel */}
+        {versionsCount > 0 && (
+          <div className="px-2.5 pb-2.5">
+            <TrackVersionsPanel
+              projectId={track.project_id}
+              projectTrackId={track.id}
+              projectTrackTitle={track.title}
+              isExpanded={versionsExpanded}
+              onToggle={() => setVersionsExpanded(!versionsExpanded)}
+            />
           </div>
         )}
       </div>
