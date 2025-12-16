@@ -356,6 +356,7 @@ async function handleAutoUploadWithPipeline(
           source: 'telegram_auto',
           telegram_chat_id: chatId,
           telegram_file_id: audio.file_id,
+          telegram_message_id: progressMessageId, // reuse existing progress message (prevents spam)
         },
       }
     );

@@ -26,6 +26,7 @@ interface PipelineRequest {
   source?: string;             // Source: telegram, web, etc.
   telegram_chat_id?: number;   // For progress notifications
   telegram_file_id?: string;   // Original Telegram file ID
+  telegram_message_id?: number; // Existing Telegram progress message to edit (prevents spam)
   skip_stems?: boolean;        // Skip stem separation
   skip_lyrics?: boolean;       // Skip lyrics extraction
   force_reprocess?: boolean;   // Force reprocess even if exists
@@ -118,11 +119,15 @@ serve(async (req) => {
       source = 'unknown',
       telegram_chat_id,
       telegram_file_id,
+      telegram_message_id,
       skip_stems = false,
       skip_lyrics = false,
       force_reprocess = false,
       reference_id,
     } = body;
+
+    // If caller already created a progress message, reuse it (edit instead of send)
+    progressMessageId = telegram_message_id || progressMessageId;
 
     console.log('🎵 Starting audio pipeline:', { audio_url, user_id, source, force_reprocess });
 
@@ -149,7 +154,7 @@ serve(async (req) => {
             `✅ *Аудио уже обработано\\!*\n\n` +
             `📁 ${escapeMarkdown(existing.file_name)}\n\n` +
             `🎵 Используем кэшированный анализ`,
-            undefined
+            progressMessageId
           );
         }
 
