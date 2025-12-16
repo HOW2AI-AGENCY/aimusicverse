@@ -51,218 +51,93 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
           exit={{ y: 100, opacity: 0 }}
           className={cn(
             "fixed bottom-20 left-2 right-2 z-40",
-            "bg-card/98 backdrop-blur-xl rounded-2xl shadow-2xl border border-border/50",
+            "bg-card/98 backdrop-blur-xl rounded-xl shadow-xl border border-border/50",
             "overflow-hidden",
             className
           )}
         >
-          {/* Background glow effect */}
-          {activeTrack.cover_url && isPlaying && (
-            <motion.div
-              className="absolute inset-0 opacity-20 blur-2xl scale-150 -z-10"
-              style={{
-                backgroundImage: `url(${activeTrack.cover_url})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center'
-              }}
-              animate={{ opacity: [0.15, 0.25, 0.15] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            />
-          )}
-
-          {/* Progress bar at top with animated gradient */}
-          <div className="h-1 bg-muted/50 relative overflow-hidden">
+          {/* Progress bar */}
+          <div className="h-0.5 bg-muted/50 relative overflow-hidden">
             <motion.div 
-              className="absolute left-0 top-0 h-full bg-gradient-to-r from-primary via-primary to-generate"
+              className="absolute left-0 top-0 h-full bg-primary"
               style={{ width: `${progress}%` }}
             />
-            {/* Shimmer effect */}
-            {isPlaying && (
-              <motion.div
-                className="absolute top-0 h-full w-20 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                animate={{ x: ['-100%', '500%'] }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-              />
-            )}
           </div>
 
-          <div className="flex items-center gap-2 p-2.5">
-            {/* Cover with expand action */}
+          <div className="flex items-center gap-2 p-2">
+            {/* Cover */}
             <button
               onClick={onExpand || (() => setPlayerMode('expanded'))}
-              className="relative w-12 h-12 rounded-xl overflow-hidden bg-muted/50 flex-shrink-0 group shadow-lg"
+              className="relative w-10 h-10 rounded-lg overflow-hidden bg-muted/50 flex-shrink-0"
               aria-label="Развернуть плеер"
             >
               {activeTrack.cover_url ? (
-                <motion.img
-                  src={activeTrack.cover_url}
-                  alt={activeTrack.title || 'Track'}
-                  className="w-full h-full object-cover"
-                  animate={isPlaying ? { scale: [1, 1.05, 1] } : {}}
-                  transition={{ duration: 4, repeat: Infinity }}
-                />
+                <img src={activeTrack.cover_url} alt={activeTrack.title || ''} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
-                  <Music2 className="w-5 h-5 text-primary/60" />
+                  <Music2 className="w-4 h-4 text-primary/60" />
                 </div>
               )}
-              {/* Playing indicator */}
               {isPlaying && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                   <div className="flex gap-0.5 items-end">
                     {[0, 1, 2].map((i) => (
                       <motion.div
                         key={i}
-                        className="w-1 bg-white rounded-full"
-                        animate={{ height: ['8px', '16px', '8px'] }}
-                        transition={{
-                          duration: 0.5,
-                          repeat: Infinity,
-                          delay: i * 0.15,
-                        }}
+                        className="w-0.5 bg-white rounded-full"
+                        animate={{ height: ['6px', '12px', '6px'] }}
+                        transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.15 }}
                       />
                     ))}
                   </div>
                 </div>
               )}
-              {/* Expand indicator on hover */}
-              <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
-                <ChevronUp className="w-5 h-5 text-white" />
-              </div>
             </button>
 
             {/* Info */}
-            <button
-              onClick={onExpand || (() => setPlayerMode('expanded'))}
-              className="flex-1 min-w-0 text-left"
-              aria-label="Развернуть плеер"
-            >
-              <div className="flex items-center gap-1.5">
-                <p className="text-sm font-medium truncate">
-                  {activeTrack.title || 'Без названия'}
-                </p>
-                {isPlaying && (
-                  <motion.div
-                    animate={{ rotate: [0, 360] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-                  >
-                    <Sparkles className="w-3 h-3 text-primary flex-shrink-0" />
-                  </motion.div>
-                )}
-              </div>
-              <p className="text-[11px] text-muted-foreground truncate">
-                {activeTrack.artist_name || activeTrack.style?.slice(0, 35) || 'AI Generated'}
+            <button onClick={onExpand || (() => setPlayerMode('expanded'))} className="flex-1 min-w-0 text-left">
+              <p className="text-xs font-medium truncate">{activeTrack.title || 'Без названия'}</p>
+              <p className="text-[10px] text-muted-foreground truncate">
+                {activeTrack.artist_name || activeTrack.style?.slice(0, 30) || 'AI'}
               </p>
             </button>
 
-            {/* Controls */}
+            {/* Controls - Compact */}
             <div className="flex items-center gap-0.5">
-              {/* Queue button */}
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setQueueOpen(true)}
-                  className={cn(
-                    "h-9 w-9 rounded-full relative",
-                    queue.length > 0 && "text-primary"
-                  )}
-                  title="Очередь"
-                >
-                  <ListMusic className="w-4 h-4" />
-                  {queue.length > 0 && (
-                    <Badge 
-                      className="absolute -top-1 -right-1 h-4 min-w-4 px-1 text-[9px] bg-primary text-primary-foreground border-0 shadow-md"
-                    >
-                      {queue.length > 9 ? '9+' : queue.length}
-                    </Badge>
-                  )}
-                </Button>
-              </motion.div>
-
-              {/* Previous */}
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={previousTrack}
-                  className="h-9 w-9 rounded-full"
-                  title="Предыдущий трек"
-                >
-                  <SkipBack className="w-4 h-4" />
-                </Button>
-              </motion.div>
-
-              {/* Play/Pause - enhanced */}
-              <motion.div 
-                whileHover={{ scale: 1.1 }} 
-                whileTap={{ scale: 0.9 }}
-                className="relative"
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setQueueOpen(true)}
+                className={cn("h-8 w-8 rounded-full relative", queue.length > 0 && "text-primary")}
               >
-                {/* Glow effect when playing */}
-                {isPlaying && (
-                  <motion.div
-                    className="absolute inset-0 bg-primary/30 rounded-full blur-lg"
-                    animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0.8, 0.5] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
+                <ListMusic className="w-3.5 h-3.5" />
+                {queue.length > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 h-3.5 min-w-3.5 px-0.5 text-[8px] bg-primary text-primary-foreground rounded-full flex items-center justify-center">
+                    {queue.length > 9 ? '9+' : queue.length}
+                  </span>
                 )}
-                <Button
-                  variant="default"
-                  size="icon"
-                  onClick={handleTogglePlay}
-                  className="h-11 w-11 rounded-full bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg relative"
-                  title={isPlaying ? 'Пауза' : 'Воспроизвести'}
-                >
-                  <AnimatePresence mode="wait">
-                    {isPlaying ? (
-                      <motion.div
-                        key="pause"
-                        initial={{ scale: 0, rotate: -90 }}
-                        animate={{ scale: 1, rotate: 0 }}
-                        exit={{ scale: 0, rotate: 90 }}
-                      >
-                        <Pause className="w-5 h-5 fill-current" />
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="play"
-                        initial={{ scale: 0, rotate: 90 }}
-                        animate={{ scale: 1, rotate: 0 }}
-                        exit={{ scale: 0, rotate: -90 }}
-                      >
-                        <Play className="w-5 h-5 ml-0.5 fill-current" />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </Button>
-              </motion.div>
+              </Button>
 
-              {/* Next */}
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={nextTrack}
-                  className="h-9 w-9 rounded-full"
-                  title="Следующий трек"
-                >
-                  <SkipForward className="w-4 h-4" />
-                </Button>
-              </motion.div>
+              <Button variant="ghost" size="icon" onClick={previousTrack} className="h-8 w-8 rounded-full">
+                <SkipBack className="w-3.5 h-3.5" />
+              </Button>
 
-              {/* Close */}
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={minimizePlayer}
-                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
-                  title="Свернуть"
-                >
-                  <X className="w-4 h-4" />
-                </Button>
-              </motion.div>
+              <Button
+                variant="default"
+                size="icon"
+                onClick={handleTogglePlay}
+                className="h-9 w-9 rounded-full bg-primary shadow-md"
+              >
+                {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 ml-0.5 fill-current" />}
+              </Button>
+
+              <Button variant="ghost" size="icon" onClick={nextTrack} className="h-8 w-8 rounded-full">
+                <SkipForward className="w-3.5 h-3.5" />
+              </Button>
+
+              <Button variant="ghost" size="icon" onClick={minimizePlayer} className="h-7 w-7 rounded-full text-muted-foreground">
+                <X className="w-3.5 h-3.5" />
+              </Button>
             </div>
           </div>
         </motion.div>

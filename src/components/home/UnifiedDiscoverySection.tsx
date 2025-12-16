@@ -83,38 +83,28 @@ export function UnifiedDiscoverySection({
   }
 
   return (
-    <section className={cn('space-y-5', className)}>
-      {/* Enhanced Section Header */}
+    <section className={cn('space-y-3', className)}>
+      {/* Compact Header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <motion.div 
-            className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-accent/10 flex items-center justify-center border border-primary/20"
-            whileHover={{ scale: 1.05, rotate: 5 }}
+            className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-accent/10 flex items-center justify-center border border-primary/20"
+            whileHover={{ scale: 1.05 }}
           >
-            <motion.div
-              animate={{ rotate: [0, 360] }}
-              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-            >
-              <Sparkles className="w-5 h-5 text-primary" />
-            </motion.div>
+            <Sparkles className="w-4 h-4 text-primary" />
           </motion.div>
           <div>
-            <h2 className="text-base sm:text-lg font-bold text-gradient">Открытия</h2>
-            <p className="text-xs text-muted-foreground">Лучшее от сообщества</p>
+            <h2 className="text-sm sm:text-base font-bold">Открытия</h2>
+            <p className="text-[10px] text-muted-foreground">Лучшее от сообщества</p>
           </div>
         </div>
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="text-xs h-8 gap-1.5 text-muted-foreground hover:text-foreground hover:bg-primary/10 rounded-xl"
-        >
-          Все
-          <ChevronRight className="w-3.5 h-3.5" />
+        <Button variant="ghost" size="sm" className="text-xs h-7 gap-1 text-muted-foreground rounded-lg">
+          Все <ChevronRight className="w-3 h-3" />
         </Button>
       </div>
 
-      {/* Enhanced Tab Pills */}
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-3 px-3 pb-1">
+      {/* Compact Tab Pills */}
+      <div className="flex gap-1.5 overflow-x-auto scrollbar-hide -mx-3 px-3 pb-1">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
           const tabTracks = tab.id === 'featured' ? featuredTracks : tab.id === 'new' ? recentTracks : popularTracks;
@@ -126,73 +116,54 @@ export function UnifiedDiscoverySection({
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={cn(
-                "relative flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm whitespace-nowrap transition-all",
+                "relative flex items-center gap-1.5 px-3 py-2 rounded-lg font-medium text-xs whitespace-nowrap transition-all",
                 isActive 
-                  ? "text-white shadow-lg" 
-                  : "bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 text-muted-foreground hover:text-foreground"
+                  ? "text-white shadow-md" 
+                  : "bg-card/50 border border-border/50 hover:border-primary/30 text-muted-foreground hover:text-foreground"
               )}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              {/* Active background gradient */}
               {isActive && (
                 <motion.div
-                  className={cn("absolute inset-0 rounded-xl bg-gradient-to-r", tab.color)}
+                  className={cn("absolute inset-0 rounded-lg bg-gradient-to-r", tab.color)}
                   layoutId="activeTab"
                   transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                 />
               )}
               
-              {/* Shimmer effect for active */}
-              {isActive && (
-                <motion.div
-                  className="absolute inset-0 rounded-xl overflow-hidden"
-                  initial={false}
-                >
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent"
-                    initial={{ x: '-100%' }}
-                    animate={{ x: '200%' }}
-                    transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-                  />
-                </motion.div>
-              )}
-              
-              <span className="relative z-10 flex items-center gap-2">
+              <span className="relative z-10 flex items-center gap-1.5">
                 {tab.icon}
                 {tab.label}
-                <Badge 
-                  variant={isActive ? "secondary" : "outline"}
-                  className={cn(
-                    "text-[10px] px-1.5 py-0 h-4 ml-0.5",
-                    isActive ? "bg-white/20 text-white border-none" : ""
-                  )}
-                >
+                <span className={cn(
+                  "text-[10px] px-1.5 py-0 rounded-full",
+                  isActive ? "bg-white/20 text-white" : "bg-muted text-muted-foreground"
+                )}>
                   {tabTracks.length}
-                </Badge>
+                </span>
               </span>
             </motion.button>
           );
         })}
       </div>
 
-      {/* Track Grid with Animation */}
+      {/* Track Grid */}
       <AnimatePresence mode="wait">
         <motion.div
           key={activeTab}
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -15 }}
-          transition={{ duration: 0.25 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.2 }}
         >
           {/* Desktop Grid */}
-          <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {tracks.slice(0, 8).map((track, index) => (
+          <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+            {tracks.slice(0, 10).map((track, index) => (
               <motion.div
                 key={track.id}
-                initial={{ opacity: 0, scale: 0.9, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ delay: index * 0.05, duration: 0.3 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: index * 0.03 }}
               >
                 <PublicTrackCard track={track} onRemix={onRemix} />
               </motion.div>
@@ -201,19 +172,18 @@ export function UnifiedDiscoverySection({
 
           {/* Mobile Horizontal Scroll */}
           <div className="sm:hidden relative -mx-3">
-            {/* Gradient fades */}
-            <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
             
             <div className="overflow-x-auto scrollbar-hide px-3">
-              <div className="flex gap-3 pb-3">
+              <div className="flex gap-2.5 pb-2">
                 {tracks.slice(0, 10).map((track, index) => (
                   <motion.div
                     key={track.id}
-                    className="w-[165px] flex-shrink-0"
-                    initial={{ opacity: 0, x: 20, scale: 0.95 }}
-                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                    transition={{ delay: index * 0.05, duration: 0.3 }}
+                    className="w-[140px] flex-shrink-0"
+                    initial={{ opacity: 0, x: 15 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.03 }}
                   >
                     <PublicTrackCard track={track} onRemix={onRemix} compact />
                   </motion.div>

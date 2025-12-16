@@ -25,7 +25,7 @@ const filterOptions: { id: FilterOption; label: string; icon: React.ReactNode; g
 
 export function LibraryFilterChips({ activeFilter, onFilterChange, counts }: LibraryFilterChipsProps) {
   return (
-    <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4 pb-2 sm:mx-0 sm:px-0">
+    <div className="flex gap-1.5 overflow-x-auto scrollbar-hide -mx-4 px-4 pb-1 sm:mx-0 sm:px-0">
       {filterOptions.map((option, index) => {
         const isActive = activeFilter === option.id;
         const count = counts?.[option.id];
@@ -33,53 +33,33 @@ export function LibraryFilterChips({ activeFilter, onFilterChange, counts }: Lib
         return (
           <motion.button
             key={option.id}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.05 }}
-            whileHover={{ scale: 1.02 }}
+            transition={{ delay: index * 0.03 }}
             whileTap={{ scale: 0.95 }}
             className={cn(
-              "relative flex items-center gap-2 px-4 py-2.5 rounded-xl whitespace-nowrap transition-all flex-shrink-0",
-              "text-sm font-medium touch-manipulation overflow-hidden",
+              "relative flex items-center gap-1.5 px-3 py-2 rounded-lg whitespace-nowrap transition-all flex-shrink-0",
+              "text-xs font-medium touch-manipulation",
               isActive 
-                ? `bg-gradient-to-r ${option.gradient} text-primary-foreground shadow-lg` 
-                : "bg-card/80 text-muted-foreground hover:text-foreground border border-border/50 hover:border-border"
+                ? `bg-gradient-to-r ${option.gradient} text-primary-foreground shadow-md` 
+                : "bg-card/80 text-muted-foreground hover:text-foreground border border-border/50"
             )}
             onClick={() => onFilterChange(option.id)}
           >
-            {/* Background glow for active */}
-            {isActive && (
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent -z-10"
-                initial={{ x: '-100%' }}
-                animate={{ x: '200%' }}
-                transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
-              />
-            )}
-            
-            <motion.span 
-              className={cn(
-                "transition-colors",
-                isActive && "text-primary-foreground"
-              )}
-              animate={isActive ? { rotate: [0, 10, -10, 0] } : {}}
-              transition={{ duration: 0.5 }}
-            >
+            <span className={cn("transition-colors", isActive && "text-primary-foreground")}>
               {option.icon}
-            </motion.span>
+            </span>
             <span>{option.label}</span>
             
             <AnimatePresence>
               {count !== undefined && count > 0 && (
                 <motion.span 
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0, opacity: 0 }}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
                   className={cn(
-                    "text-[10px] px-2 py-0.5 rounded-full tabular-nums font-bold min-w-[20px] text-center",
-                    isActive 
-                      ? "bg-white/25 text-primary-foreground" 
-                      : "bg-muted text-muted-foreground"
+                    "text-[10px] px-1.5 rounded-full tabular-nums font-semibold min-w-[18px] text-center",
+                    isActive ? "bg-white/20 text-primary-foreground" : "bg-muted text-muted-foreground"
                   )}
                 >
                   {count > 99 ? '99+' : count}

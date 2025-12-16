@@ -37,18 +37,18 @@ export function MobileStemMixer({
   const anySoloActive = Object.values(stemStates).some(s => s.solo);
 
   return (
-    <div className="p-4 space-y-4">
-      {/* Master Volume */}
-      <div className="p-3 rounded-xl border border-border/50 bg-muted/30">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/20 text-primary flex-shrink-0">
-            <Volume2 className="w-5 h-5" />
+    <div className="p-3 space-y-2">
+      {/* Master Volume - Compact */}
+      <div className="p-2.5 rounded-lg border border-border/50 bg-muted/30">
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/20 text-primary flex-shrink-0">
+            <Volume2 className="w-4 h-4" />
           </div>
           
           <div className="flex-1">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-semibold">Мастер</span>
-              <span className="text-xs text-muted-foreground tabular-nums">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-xs font-semibold">Мастер</span>
+              <span className="text-[10px] text-muted-foreground tabular-nums">
                 {Math.round(masterVolume * 100)}%
               </span>
             </div>
@@ -65,7 +65,7 @@ export function MobileStemMixer({
       </div>
       
       {/* Stem Cards */}
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {stems.map((stem) => {
           const state = stemStates[stem.id] || { volume: 1, muted: false, solo: false };
           
@@ -86,8 +86,8 @@ export function MobileStemMixer({
       </div>
       
       {stems.length === 0 && (
-        <div className="text-center py-8 text-muted-foreground">
-          <p className="text-sm">Стемы не найдены</p>
+        <div className="text-center py-6 text-muted-foreground">
+          <p className="text-xs">Стемы не найдены</p>
         </div>
       )}
     </div>
