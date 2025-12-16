@@ -20,6 +20,7 @@ import { FeaturedBlogBanners } from "@/components/home/FeaturedBlogBanners";
 import { GraphPreview } from "@/components/home/GraphPreview";
 import { ProfessionalToolsHub } from "@/components/home/ProfessionalToolsHub";
 import { PopularCreatorsSection } from "@/components/home/PopularCreatorsSection";
+import { PublishedAlbumsSection } from "@/components/home/PublishedAlbumsSection";
 import { GenerateSheet } from "@/components/GenerateSheet";
 import { MusicRecognitionDialog } from "@/components/music-recognition/MusicRecognitionDialog";
 import { HomeSkeletonEnhanced } from "@/components/home/HomeSkeletonEnhanced";
@@ -262,6 +263,16 @@ const Index = () => {
             transition={{ delay: 0.35, duration: 0.3 }}
           >
             <PublicArtistsSection />
+          </motion.section>
+
+          {/* Published Albums Section */}
+          <motion.section
+            className="mb-4 sm:mb-5"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.37, duration: 0.3 }}
+          >
+            <PublishedAlbumsSection />
           </motion.section>
 
           {/* Professional Tools Hub - Desktop only or collapsed on mobile */}

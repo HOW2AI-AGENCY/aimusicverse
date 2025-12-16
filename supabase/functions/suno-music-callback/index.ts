@@ -479,6 +479,12 @@ serve(async (req) => {
           logger.success('Version created', { versionLabel });
         }
 
+        // Extract project_track_id from task metadata for linking
+        const taskMeta = typeof task.audio_clips === 'string' 
+          ? JSON.parse(task.audio_clips || '{}') 
+          : (task.audio_clips || {});
+        const projectTrackIdFromMeta = taskMeta?.project_track_id;
+
         if (i === 0) {
           logger.db('UPDATE', 'tracks');
           await supabase.from('tracks').update({
@@ -493,8 +499,14 @@ serve(async (req) => {
             suno_id: clip.id,
             model_name: clip.model_name || 'chirp-v4',
             suno_task_id: sunoTaskId,
+            // Link track to project and project_track
+            project_id: task.tracks?.project_id || null,
+            project_track_id: projectTrackIdFromMeta || null,
           }).eq('id', trackId);
-          logger.success('Main track updated');
+          logger.success('Main track updated', { 
+            projectId: task.tracks?.project_id, 
+            projectTrackId: projectTrackIdFromMeta 
+          });
         }
 
         await supabase.from('track_change_log').insert({
