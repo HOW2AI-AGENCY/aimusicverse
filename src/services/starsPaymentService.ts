@@ -13,13 +13,43 @@ import type {
 } from '@/types/starsPayment';
 import type { Json } from '@/integrations/supabase/types';
 
+// Default language for localization
+const DEFAULT_LANG = 'ru';
+
+// Parse localized JSON field to string
+function parseLocalizedField(value: unknown, fallback: string = ''): string {
+  if (!value) return fallback;
+  
+  // If it's already a plain string, return it
+  if (typeof value === 'string') {
+    // Try to parse as JSON in case it's a stringified object
+    try {
+      const parsed = JSON.parse(value);
+      if (typeof parsed === 'object' && parsed !== null) {
+        return parsed[DEFAULT_LANG] || parsed['en'] || fallback;
+      }
+      return value;
+    } catch {
+      return value;
+    }
+  }
+  
+  // If it's an object with language keys
+  if (typeof value === 'object' && value !== null) {
+    const obj = value as Record<string, string>;
+    return obj[DEFAULT_LANG] || obj['en'] || fallback;
+  }
+  
+  return fallback;
+}
+
 // Database product type from Supabase (matches actual DB schema)
 interface DbStarsProduct {
   id: string;
   product_code: string;
   product_type: string;
-  name: string;
-  description: string | null;
+  name: unknown; // Can be JSON object or string
+  description: unknown | null;
   stars_price: number;
   credits_amount: number | null;
   subscription_days: number | null;
@@ -42,7 +72,7 @@ export interface StarsProduct {
   credits_amount: number | null;
   subscription_tier?: string | null;
   subscription_days: number | null;
-  features: Record<string, unknown> | null;
+  features: string[] | null;
   is_popular: boolean;
   is_featured: boolean;
   sort_order: number;
@@ -56,18 +86,26 @@ export interface StarsProduct {
 
 // Map DB product to client product
 function mapDbProduct(db: DbStarsProduct): StarsProduct {
+  // Parse features - can be array of strings or null
+  let features: string[] | null = null;
+  if (db.features) {
+    if (Array.isArray(db.features)) {
+      features = db.features as string[];
+    }
+  }
+
   return {
     id: db.id,
     product_code: db.product_code,
     product_type: db.product_type as 'credits' | 'subscription',
-    name: db.name,
-    description: db.description,
+    name: parseLocalizedField(db.name, db.product_code),
+    description: parseLocalizedField(db.description),
     stars_price: db.stars_price,
     price_stars: db.stars_price, // alias for compatibility
     credits_amount: db.credits_amount,
-    subscription_tier: db.product_type === 'subscription' ? db.product_code : null,
+    subscription_tier: db.product_type === 'subscription' ? db.product_code.replace('sub_', '') : null,
     subscription_days: db.subscription_days,
-    features: db.features as Record<string, unknown> | null,
+    features,
     is_popular: db.is_popular ?? false,
     is_featured: db.is_popular ?? false, // use is_popular as is_featured
     sort_order: db.sort_order ?? 0,

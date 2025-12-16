@@ -162,7 +162,6 @@ export default function Subscription() {
               product={product}
               isCurrentTier={isCurrentTier(product.subscription_tier)}
               onSubscribe={handleSubscribe}
-              language="en"
             />
           ))}
         </div>

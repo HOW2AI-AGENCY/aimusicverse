@@ -3,8 +3,8 @@
  * Displays subscription tier with features and pricing
  */
 
-import { Check, Crown, Sparkles, Zap } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Check, Crown, Sparkles, Zap, Star } from 'lucide-react';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { StarsPaymentButton } from './StarsPaymentButton';
 import { cn } from '@/lib/utils';
@@ -15,41 +15,12 @@ interface SubscriptionCardProps {
   isCurrentTier?: boolean;
   onSubscribe?: (product: StarsProduct) => void;
   disabled?: boolean;
-  language?: 'en' | 'ru';
 }
 
-// Feature lists for each tier
-const TIER_FEATURES: Record<string, string[]> = {
-  pro: [
-    'Unlimited track generation',
-    'HD audio quality',
-    'Priority processing',
-    'Extended stems (8 tracks)',
-    'Advanced AI tags',
-    'No watermark',
-  ],
-  premium: [
-    'Everything in Pro',
-    'Commercial license',
-    'API access',
-    'Custom AI training',
-    'Dedicated support',
-    'White-label option',
-  ],
-  enterprise: [
-    'Everything in Premium',
-    'Custom integrations',
-    'SLA guarantee',
-    'Team collaboration',
-    'Volume discounts',
-    'Priority feature requests',
-  ],
-};
-
 const TIER_ICONS: Record<string, React.ReactNode> = {
-  pro: <Zap className="h-5 w-5" aria-hidden="true" />,
-  premium: <Crown className="h-5 w-5" aria-hidden="true" />,
-  enterprise: <Sparkles className="h-5 w-5" aria-hidden="true" />,
+  basic: <Zap className="h-6 w-6" aria-hidden="true" />,
+  pro: <Crown className="h-6 w-6" aria-hidden="true" />,
+  enterprise: <Sparkles className="h-6 w-6" aria-hidden="true" />,
 };
 
 export function SubscriptionCard({
@@ -57,29 +28,27 @@ export function SubscriptionCard({
   isCurrentTier = false,
   onSubscribe,
   disabled = false,
-  language = 'en',
 }: SubscriptionCardProps) {
-  const name = product.name;
-  const description = product.description || '';
   const tier = product.subscription_tier || 'pro';
-  const features = TIER_FEATURES[tier] || [];
-  const icon = TIER_ICONS[tier];
+  const icon = TIER_ICONS[tier] || TIER_ICONS.pro;
+  const features = product.features || [];
 
   return (
     <Card
       className={cn(
-        'relative transition-all duration-300',
-        product.is_featured && 'border-primary shadow-glow scale-105',
-        isCurrentTier && 'ring-2 ring-primary'
+        'relative transition-all duration-300 overflow-hidden',
+        product.is_featured && 'border-primary shadow-glow scale-[1.02]',
+        isCurrentTier && 'ring-2 ring-green-500'
       )}
     >
-      {/* Featured Badge */}
+      {/* Popular Badge */}
       {product.is_featured && (
         <Badge
           variant="default"
-          className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-telegram text-white shadow-glow z-10"
+          className="absolute top-3 right-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-glow z-10"
         >
-          Most Popular
+          <Sparkles className="mr-1 h-3 w-3" aria-hidden="true" />
+          Популярно
         </Badge>
       )}
 
@@ -87,57 +56,70 @@ export function SubscriptionCard({
       {isCurrentTier && (
         <Badge
           variant="default"
-          className="absolute top-4 right-4 bg-success text-white"
+          className="absolute top-3 left-3 bg-green-500 text-white"
         >
           <Check className="mr-1 h-3 w-3" aria-hidden="true" />
-          Current Plan
+          Ваш план
         </Badge>
       )}
 
-      <CardHeader className="space-y-3 text-center">
+      <CardHeader className="space-y-4 pt-6">
         {/* Icon */}
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary">
           {icon}
         </div>
 
-        <CardTitle className="text-2xl font-bold capitalize">
-          {tier}
-        </CardTitle>
+        {/* Name */}
+        <h3 className="text-2xl font-bold text-center">{product.name}</h3>
 
-        <CardDescription className="text-base">
-          {description}
-        </CardDescription>
+        {/* Description */}
+        {product.description && (
+          <p className="text-sm text-muted-foreground text-center">
+            {product.description}
+          </p>
+        )}
 
         {/* Price */}
-        <div className="pt-4">
+        <div className="text-center pt-2">
           <div className="flex items-baseline justify-center gap-2">
-            <Sparkles className="h-5 w-5 text-primary" aria-hidden="true" />
             <span className="text-4xl font-bold">{product.price_stars}</span>
-            <span className="text-muted-foreground">Stars</span>
+            <div className="flex items-center gap-1 text-yellow-500">
+              <Star className="h-5 w-5 fill-current" aria-hidden="true" />
+              <span className="text-lg font-medium">Stars</span>
+            </div>
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
-            / {product.subscription_days} days
+            / {product.subscription_days} дней
           </p>
-          {/* Price in USD removed - not available in new type */}
         </div>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="pt-0">
+        {/* Credits Amount */}
+        {product.credits_amount && (
+          <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 mb-4">
+            <span className="text-muted-foreground">Кредитов в месяц</span>
+            <span className="text-xl font-bold text-primary">{product.credits_amount}</span>
+          </div>
+        )}
+
         {/* Features List */}
-        <ul className="space-y-3" role="list">
-          {features.map((feature, index) => (
-            <li key={index} className="flex items-start gap-3">
-              <Check
-                className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary"
-                aria-hidden="true"
-              />
-              <span className="text-sm">{feature}</span>
-            </li>
-          ))}
-        </ul>
+        {features.length > 0 && (
+          <ul className="space-y-2" role="list">
+            {features.map((feature, index) => (
+              <li key={index} className="flex items-start gap-2">
+                <Check
+                  className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary"
+                  aria-hidden="true"
+                />
+                <span className="text-sm">{feature}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </CardContent>
 
-      <CardFooter>
+      <CardFooter className="pt-4">
         <StarsPaymentButton
           onClick={() => onSubscribe?.(product)}
           disabled={disabled || isCurrentTier}
@@ -145,7 +127,7 @@ export function SubscriptionCard({
           size="lg"
           className="w-full"
         >
-          {isCurrentTier ? 'Current Plan' : `Subscribe to ${tier}`}
+          {isCurrentTier ? 'Ваш текущий план' : `Купить за ${product.price_stars} Stars`}
         </StarsPaymentButton>
       </CardFooter>
     </Card>
