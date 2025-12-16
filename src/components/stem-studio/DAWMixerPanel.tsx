@@ -1,14 +1,14 @@
 import { memo, useState } from 'react';
 import { 
   Play, Pause, SkipBack, SkipForward, Volume2, VolumeX,
-  Repeat, Shuffle, Maximize2, Settings2, Download, Share2,
-  ZoomIn, ZoomOut, Grid3X3
+  Repeat, Grid3X3
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Toggle } from '@/components/ui/toggle';
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import { formatTimePrecise, formatTime } from '@/lib/player-utils';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { DAWTrackLane } from './DAWTrackLane';
 import { DAWTimeline } from './DAWTimeline';
@@ -35,19 +35,6 @@ interface DAWMixerPanelProps {
   onSeek: (time: number) => void;
   onSkip: (direction: 'back' | 'forward') => void;
 }
-
-const formatTime = (seconds: number) => {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  const ms = Math.floor((seconds % 1) * 100);
-  return `${mins}:${secs.toString().padStart(2, '0')}.${ms.toString().padStart(2, '0')}`;
-};
-
-const formatTimeShort = (seconds: number) => {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-};
 
 export const DAWMixerPanel = memo(({
   stems,
@@ -81,9 +68,9 @@ export const DAWMixerPanel = memo(({
           {/* Left - Time Display */}
           <div className="flex items-center gap-3">
             <div className="bg-background/90 rounded-md px-3 py-1.5 font-mono text-sm tabular-nums border border-border/50 shadow-inner">
-              <span className="text-primary font-semibold">{formatTime(currentTime)}</span>
+              <span className="text-primary font-semibold">{formatTimePrecise(currentTime)}</span>
               <span className="text-muted-foreground/40 mx-1.5">/</span>
-              <span className="text-muted-foreground/70">{formatTime(duration)}</span>
+              <span className="text-muted-foreground/70">{formatTimePrecise(duration)}</span>
             </div>
             
             {/* BPM Placeholder */}
@@ -279,7 +266,7 @@ export const DAWMixerPanel = memo(({
               {activeCount} активных
             </span>
             <span className="hidden sm:inline">•</span>
-            <span className="hidden sm:inline font-mono">{formatTimeShort(duration)} общая длительность</span>
+            <span className="hidden sm:inline font-mono">{formatTime(duration)} общая длительность</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-muted-foreground/60">Горячие клавиши: Space, M, S</span>

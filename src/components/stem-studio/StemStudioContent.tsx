@@ -45,6 +45,7 @@ import { useStemStudioEngine } from '@/hooks/studio';
 import { defaultStemEffects, StemEffects } from '@/hooks/studio';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 import { logger } from '@/lib/logger';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -422,11 +423,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     handleSeek([newTime]);
   };
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
+  // formatTime imported from @/lib/player-utils
 
   // Handle section selection from timeline
   const handleSectionSelect = useCallback((section: typeof detectedSections[0], index: number) => {
