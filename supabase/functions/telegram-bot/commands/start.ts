@@ -3,6 +3,7 @@ import { sendMessage, sendPhoto } from '../telegram-api.ts';
 import { ButtonBuilder, webAppButton, addBackButton } from '../utils/button-builder.ts';
 import { createWelcomeMessage, createLoadingMessage } from '../utils/message-formatter.ts';
 import { trackMessage } from '../utils/message-manager.ts';
+import { getMenuImage } from '../keyboards/menu-images.ts';
 
 export async function handleStart(chatId: number, startParam?: string) {
   // Handle deep links
@@ -126,8 +127,8 @@ export async function handleStart(chatId: number, startParam?: string) {
     )
     .build();
   
-  // Use sendPhoto with banner image for consistent UI
-  const bannerUrl = 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&h=400&fit=crop&q=80';
+  // Use sendPhoto with MusicVerse branded banner
+  const bannerUrl = getMenuImage('mainMenu');
   const result = await sendPhoto(chatId, bannerUrl, {
     caption: welcomeMsg,
     replyMarkup: keyboard

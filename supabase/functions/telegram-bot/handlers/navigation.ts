@@ -2,8 +2,7 @@ import { musicService } from '../core/services/music.ts';
 import { 
   createMainMenuKeyboard, 
   createPlayerControls, 
-  createProjectControls,
-  getMainBanner 
+  createProjectControls
 } from '../keyboards/main-menu.ts';
 import { sendPhoto, editMessageMedia, editMessageCaption, answerCallbackQuery, sendMessage, deleteMessage } from '../telegram-api.ts';
 import { buildMessage, createSection, createKeyValue } from '../utils/message-formatter.ts';
@@ -15,7 +14,6 @@ import { BOT_CONFIG } from '../config.ts';
 import { deleteActiveMenu, setActiveMenuMessageId } from '../core/active-menu-manager.ts';
 import { getMenuImage } from '../keyboards/menu-images.ts';
 
-const MAIN_BANNER = getMainBanner();
 
 export async function handleNavigationMain(chatId: number, messageId?: number, userId?: number) {
   if (userId) {
@@ -141,7 +139,8 @@ export async function handleNavigationLibrary(
       await editMessageCaption(chatId, messageId, noTracksMsg, keyboard);
       await trackMessage(chatId, messageId, 'content', 'library', { expiresIn: 60000 });
     } else {
-      const result = await sendPhoto(chatId, MAIN_BANNER, {
+      const libraryImage = getMenuImage('library');
+      const result = await sendPhoto(chatId, libraryImage, {
         caption: noTracksMsg,
         replyMarkup: keyboard
       });
@@ -266,7 +265,8 @@ export async function handleNavigationProjects(
     if (messageId) {
       await editMessageCaption(chatId, messageId, noProjectsMsg, keyboard);
     } else {
-      await sendPhoto(chatId, MAIN_BANNER, {
+      const projectsImage = getMenuImage('projects');
+      await sendPhoto(chatId, projectsImage, {
         caption: noProjectsMsg,
         replyMarkup: keyboard
       });
@@ -375,7 +375,8 @@ export async function handleNavigationGenerate(chatId: number, userId: number, m
   if (messageId) {
     await editMessageCaption(chatId, messageId, caption, keyboard);
   } else {
-    await sendPhoto(chatId, MAIN_BANNER, {
+    const generatorImage = getMenuImage('generator');
+    await sendPhoto(chatId, generatorImage, {
       caption,
       replyMarkup: keyboard
     });
@@ -439,7 +440,8 @@ export async function handleNavigationAnalyze(chatId: number, userId: number, me
   if (messageId) {
     await editMessageCaption(chatId, messageId, caption, keyboard);
   } else {
-    await sendPhoto(chatId, MAIN_BANNER, {
+    const analysisImage = getMenuImage('analysis');
+    await sendPhoto(chatId, analysisImage, {
       caption,
       replyMarkup: keyboard
     });
@@ -495,7 +497,8 @@ export async function handleNavigationSettings(chatId: number, userId: number, m
   if (messageId) {
     await editMessageCaption(chatId, messageId, caption, keyboard);
   } else {
-    await sendPhoto(chatId, MAIN_BANNER, {
+    const settingsImage = getMenuImage('settings');
+    await sendPhoto(chatId, settingsImage, {
       caption,
       replyMarkup: keyboard
     });
