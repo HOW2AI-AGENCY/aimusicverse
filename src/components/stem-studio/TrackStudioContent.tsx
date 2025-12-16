@@ -1,14 +1,21 @@
+/**
+ * Clean Track Studio Content
+ * 
+ * Unified interface for section replacement workflow:
+ * - Synchronized lyrics
+ * - Waveform timeline with integrated sections
+ * - Click section to edit
+ * - Bottom sheet editor (mobile) / inline panel (desktop)
+ */
+
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { 
-  ChevronLeft, Play, Pause, SkipBack, SkipForward,
-  Volume2, VolumeX, Scissors, Mic, Music, Shuffle, 
-  Clock, Split, Wand2, Download
+  Scissors, Download, Share2, 
+  Wand2, Clock, ChevronLeft
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { Badge } from '@/components/ui/badge';
 import { useTracks } from '@/hooks/useTracksOptimized';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useSectionDetection } from '@/hooks/useSectionDetection';
@@ -16,40 +23,20 @@ import { useReplacedSections } from '@/hooks/useReplacedSections';
 import { useReplaceSectionRealtime } from '@/hooks/useReplaceSectionRealtime';
 import { useVersionSwitcher } from '@/hooks/useVersionSwitcher';
 import { StudioLyricsPanel } from '@/components/stem-studio/StudioLyricsPanel';
-import { StudioLyricsPanelCompact } from '@/components/stem-studio/StudioLyricsPanelCompact';
-import { SectionTimelineVisualization } from '@/components/stem-studio/SectionTimelineVisualization';
 import { UnifiedWaveformTimeline } from '@/components/stem-studio/UnifiedWaveformTimeline';
-import { IntegratedSectionEditor } from '@/components/stem-studio/IntegratedSectionEditor';
-import { SectionEditorMobile } from '@/components/stem-studio/mobile/SectionEditorMobile';
-import { MobileSectionTimelineCompact } from '@/components/stem-studio/MobileSectionTimelineCompact';
-import { ReplacementHistoryPanel } from '@/components/stem-studio/ReplacementHistoryPanel';
-import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
 import { QuickCompare } from '@/components/stem-studio/QuickCompare';
-import { StudioQuickActions } from '@/components/stem-studio/StudioQuickActions';
-import { StudioContextTips } from '@/components/stem-studio/StudioContextTips';
-import { GuitarTrackIntegration } from '@/components/stem-studio/GuitarTrackIntegration';
 import { VersionTimeline } from '@/components/stem-studio/VersionTimeline';
-import { MobileVersionBadge } from '@/components/stem-studio/MobileVersionBadge';
-import { FloatingStudioActions } from '@/components/stem-studio/FloatingStudioActions';
-import { useTrackGuitarAnalysis } from '@/hooks/useTrackGuitarAnalysis';
+import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
 import { TrimDialog } from '@/components/stem-studio/TrimDialog';
-import { VocalReplacementDialog } from '@/components/stem-studio/VocalReplacementDialog';
-import { ArrangementReplacementDialog } from '@/components/stem-studio/ArrangementReplacementDialog';
 import { RemixDialog } from '@/components/stem-studio/RemixDialog';
 import { ExtendDialog } from '@/components/stem-studio/ExtendDialog';
-import { TrackStudioMobileLayout } from '@/components/stem-studio/TrackStudioMobileLayout';
-import { MobilePlayerTab } from '@/components/stem-studio/mobile/MobilePlayerTab';
-import { MobileActionsTab } from '@/components/stem-studio/mobile/MobileActionsTab';
-import { MobileSectionsTab } from '@/components/stem-studio/mobile/MobileSectionsTab';
-import { MobileLyricsTab } from '@/components/stem-studio/mobile/MobileLyricsTab';
+import { CleanStudioLayout, StudioPlayerBar, SectionEditorSheet } from '@/components/studio';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useStudioActivityLogger } from '@/hooks/useStudioActivityLogger';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/player-utils';
 import { logger } from '@/lib/logger';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { supabase } from '@/integrations/supabase/client';
 
 interface TrackStudioContentProps {
   trackId: string;
@@ -61,23 +48,20 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
   const isMobile = useIsMobile();
   const { tracks } = useTracks();
   const track = tracks?.find(t => t.id === trackId);
-  const { setPrimaryVersionAsync, isSettingPrimary } = useVersionSwitcher();
-  
-  // Load guitar analysis if exists
-  const { data: guitarAnalysis } = useTrackGuitarAnalysis(trackId);
+  const { setPrimaryVersionAsync } = useVersionSwitcher();
 
   // Activity logging
   const { logActivity, logReplacementApply, logReplacementDiscard } = useStudioActivityLogger(trackId);
 
+  // Audio state
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.85);
   const [muted, setMuted] = useState(false);
-  const [isSeparating, setIsSeparating] = useState(false);
+  
+  // Dialog state
   const [trimDialogOpen, setTrimDialogOpen] = useState(false);
-  const [vocalDialogOpen, setVocalDialogOpen] = useState(false);
-  const [arrangementDialogOpen, setArrangementDialogOpen] = useState(false);
   const [remixDialogOpen, setRemixDialogOpen] = useState(false);
   const [extendDialogOpen, setExtendDialogOpen] = useState(false);
   
@@ -95,18 +79,18 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
     reset: resetSectionEditor,
   } = useSectionEditorStore();
 
-  // Fetch timestamped lyrics and detect sections
+  // Fetch lyrics and detect sections
   const { data: lyricsData } = useTimestampedLyrics(track?.suno_task_id || null, track?.suno_id || null);
   const detectedSections = useSectionDetection(track?.lyrics, lyricsData?.alignedWords, duration);
   const { data: replacedSections } = useReplacedSections(trackId);
   
-  // Realtime updates for section replacements
+  // Realtime updates
   useReplaceSectionRealtime(trackId);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const animationFrameRef = useRef<number | undefined>(undefined);
 
-  // Reset section editor when track changes and log studio open
+  // Reset on track change
   useEffect(() => {
     resetSectionEditor();
     logActivity('studio_open');
@@ -115,7 +99,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
     };
   }, [trackId, resetSectionEditor, logActivity]);
 
-  // Initialize audio element
+  // Initialize audio
   useEffect(() => {
     if (!track?.audio_url) return;
     
@@ -173,8 +157,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
     }
   };
 
-  const handleSeek = useCallback((value: number[] | number) => {
-    const time = Array.isArray(value) ? value[0] : value;
+  const handleSeek = useCallback((time: number) => {
     setCurrentTime(time);
     if (audioRef.current) {
       audioRef.current.currentTime = time;
@@ -186,17 +169,15 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
     const newTime = direction === 'back' 
       ? Math.max(0, currentTime - skipAmount)
       : Math.min(duration, currentTime + skipAmount);
-    handleSeek([newTime]);
+    handleSeek(newTime);
   };
 
-  // formatTime imported from @/lib/player-utils
-
-  // Handle section selection from timeline
+  // Section selection
   const handleSectionSelect = useCallback((section: typeof detectedSections[0], index: number) => {
     selectSection(section, index);
   }, [selectSection]);
 
-  // Handle compare panel actions
+  // Apply replacement
   const handleApplyReplacement = useCallback(async () => {
     if (latestCompletion?.versionId) {
       try {
@@ -205,25 +186,21 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
           versionId: latestCompletion.versionId 
         });
         
-        // Force reload audio in current component
         if (audioRef.current && latestCompletion.newAudioUrl) {
           audioRef.current.src = latestCompletion.newAudioUrl;
           audioRef.current.load();
         }
         
-        // Invalidate tracks to refresh audio URL
         queryClient.invalidateQueries({ queryKey: ['tracks'] });
         queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
         queryClient.invalidateQueries({ queryKey: ['replaced-sections', trackId] });
         
         logReplacementApply(latestCompletion.versionId);
-        toast.success('Новая версия установлена как основная');
+        toast.success('Новая версия применена');
       } catch (error) {
         logger.error('Failed to apply replacement', error);
         toast.error('Ошибка при применении замены');
       }
-    } else {
-      toast.success('Замена применена');
     }
     setLatestCompletion(null);
   }, [latestCompletion, trackId, setPrimaryVersionAsync, queryClient, setLatestCompletion, logReplacementApply]);
@@ -233,44 +210,6 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
     setLatestCompletion(null);
     toast.info('Замена отменена');
   }, [setLatestCompletion, logReplacementDiscard]);
-
-  // Separate stems action
-  const handleSeparateStems = async (mode: 'simple' | 'detailed') => {
-    if (!track?.audio_url || !track?.suno_id) {
-      toast.error('Недостаточно данных для разделения');
-      return;
-    }
-
-    setIsSeparating(true);
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Не авторизован');
-
-      const { error } = await supabase.functions.invoke('suno-separate-vocals', {
-        body: {
-          trackId: track.id,
-          audioId: track.suno_id,
-          audioUrl: track.audio_url,
-          mode,
-          userId: user.id,
-        }
-      });
-
-      if (error) throw error;
-
-      toast.success(
-        mode === 'simple' 
-          ? 'Разделение на 2 стема запущено' 
-          : 'Разделение на 6+ стемов запущено',
-        { description: 'Процесс займёт 1-3 минуты' }
-      );
-    } catch (error) {
-      logger.error('Error separating stems', error);
-      toast.error('Ошибка при разделении стемов');
-    } finally {
-      setIsSeparating(false);
-    }
-  };
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -303,10 +242,9 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [togglePlay, handleSkip, editMode, clearSelection]);
+  }, [togglePlay, editMode, clearSelection]);
 
   const canReplaceSection = track?.suno_id && track?.suno_task_id;
-  const maxSectionDuration = duration * 0.5;
   const replacedRanges = replacedSections?.map(s => ({ start: s.start, end: s.end })) || [];
 
   if (!track) {
@@ -317,175 +255,37 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
     );
   }
 
-  // Mobile Layout with Tabs
-  if (isMobile) {
-    return (
-      <>
-        <TrackStudioMobileLayout
-          trackTitle={track.title || 'Без названия'}
-          isPlaying={isPlaying}
-          currentTime={currentTime}
-          duration={duration}
-          onTogglePlay={togglePlay}
-          onSeek={(time) => handleSeek([time])}
-          onBack={() => navigate('/library')}
-          canReplaceSection={!!canReplaceSection}
-          playerContent={
-            <MobilePlayerTab
-              track={track}
-              volume={volume}
-              muted={muted}
-              onVolumeChange={setVolume}
-              onMuteToggle={() => setMuted(!muted)}
-              isSeparating={isSeparating}
-              onSeparate={handleSeparateStems}
-            />
-          }
-          lyricsContent={
-            <MobileLyricsTab
-              taskId={track.suno_task_id}
-              audioId={track.suno_id}
-              plainLyrics={track.lyrics}
-              currentTime={currentTime}
-              isPlaying={isPlaying}
-              onSeek={(time) => handleSeek([time])}
-            />
-          }
-          sectionsContent={
-            <MobileSectionsTab
-              sections={detectedSections}
-              duration={duration}
-              currentTime={currentTime}
-              selectedIndex={selectedSectionIndex}
-              replacedRanges={replacedRanges}
-              onSectionSelect={handleSectionSelect}
-              onSeek={(time) => handleSeek([time])}
-              onStartReplace={() => setEditMode('editing')}
-            />
-          }
-          actionsContent={
-            <MobileActionsTab
-              track={track}
-              hasStems={false}
-              isSeparating={isSeparating}
-              onSeparate={handleSeparateStems}
-              onReplaceSection={canReplaceSection ? () => setEditMode('selecting') : undefined}
-              onTrim={() => setTrimDialogOpen(true)}
-              onReplaceVocal={() => setVocalDialogOpen(true)}
-              onReplaceArrangement={() => setArrangementDialogOpen(true)}
-              onRemix={() => setRemixDialogOpen(true)}
-              onExtend={() => setExtendDialogOpen(true)}
-            />
-          }
-        />
+  // Menu items (non-stem actions only)
+  const menuItems = [
+    { label: 'Обрезать трек', icon: <Scissors className="w-4 h-4 mr-2" />, onClick: () => setTrimDialogOpen(true) },
+    { label: 'Расширить', icon: <Clock className="w-4 h-4 mr-2" />, onClick: () => setExtendDialogOpen(true) },
+    { label: 'Ремикс', icon: <Wand2 className="w-4 h-4 mr-2" />, onClick: () => setRemixDialogOpen(true) },
+  ];
 
-        {/* Mobile Section Editor */}
-        <SectionEditorMobile
-          open={editMode === 'selecting' || editMode === 'editing'}
-          onOpenChange={(open: boolean) => {
-            if (!open) clearSelection();
-          }}
-          trackId={trackId}
-          trackTitle={track.title || 'Трек'}
-          trackTags={track.tags}
-          trackLyrics={track.lyrics}
-          audioUrl={track.audio_url}
-          duration={duration}
-          taskId={track.suno_task_id}
-          audioId={track.suno_id}
-        />
-
-        {/* Unified Compare Panel - handles both mobile and desktop */}
-        {latestCompletion?.newAudioUrl && track.audio_url && (
-          <QuickCompare
-            open={editMode === 'comparing'}
-            onOpenChange={(open) => {
-              if (!open) setLatestCompletion(null);
-            }}
-            onClose={() => setLatestCompletion(null)}
-            originalAudioUrl={track.audio_url}
-            replacementAudioUrl={latestCompletion.newAudioUrl}
-            sectionStart={latestCompletion.section.start}
-            sectionEnd={latestCompletion.section.end}
-            onApply={handleApplyReplacement}
-            onDiscard={handleDiscardReplacement}
-          />
-        )}
-
-        {/* Floating Actions FAB */}
-        <FloatingStudioActions
-          onReplaceSection={canReplaceSection ? () => setEditMode('selecting') : undefined}
-          onSeparateStems={() => handleSeparateStems('simple')}
-          onReplaceVocal={() => setVocalDialogOpen(true)}
-          onReplaceArrangement={() => setArrangementDialogOpen(true)}
-          onRemix={() => setRemixDialogOpen(true)}
-          onExtend={() => setExtendDialogOpen(true)}
-          disabled={isSeparating}
-        />
-
-        {/* Dialogs */}
-        <TrimDialog
-          open={trimDialogOpen}
-          onOpenChange={setTrimDialogOpen}
-          track={track}
-          onTrimComplete={() => {}}
-        />
-        
-        <VocalReplacementDialog
-          open={vocalDialogOpen}
-          onOpenChange={setVocalDialogOpen}
-          track={track}
-          hasStems={false}
-        />
-        
-        <ArrangementReplacementDialog
-          open={arrangementDialogOpen}
-          onOpenChange={setArrangementDialogOpen}
-          track={track}
-          hasStems={false}
-        />
-        
-        <RemixDialog
-          open={remixDialogOpen}
-          onOpenChange={setRemixDialogOpen}
-          track={track}
-        />
-        
-        <ExtendDialog
-          open={extendDialogOpen}
-          onOpenChange={setExtendDialogOpen}
-          track={track}
-        />
-      </>
-    );
-  }
-
-  // Desktop Layout
   return (
-    <div className="h-screen flex flex-col bg-background overflow-hidden">
-      {/* Header */}
-      <header className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-border/50 bg-card/50 backdrop-blur">
-        <div className="flex items-center gap-3">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => navigate('/library')}
-            className="rounded-full h-10 w-10"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </Button>
-          <div className="flex flex-col">
-            <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
-              Студия трека
-            </span>
-            <h1 className="text-sm font-semibold truncate max-w-[200px] sm:max-w-none">
-              {track.title || 'Без названия'}
-            </h1>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {/* Version Timeline */}
+    <>
+      <CleanStudioLayout
+        trackTitle={track.title || 'Без названия'}
+        trackCoverUrl={track.cover_url}
+        menuItems={menuItems}
+        playerBar={
+          <StudioPlayerBar
+            isPlaying={isPlaying}
+            currentTime={currentTime}
+            duration={duration}
+            volume={volume}
+            muted={muted}
+            onTogglePlay={togglePlay}
+            onSeek={handleSeek}
+            onSkip={handleSkip}
+            onVolumeChange={setVolume}
+            onMuteToggle={() => setMuted(!muted)}
+            compact={isMobile}
+          />
+        }
+      >
+        {/* Version & Progress indicators */}
+        <div className="flex items-center justify-between px-4 py-2 border-b border-border/30 bg-muted/20">
           <VersionTimeline 
             trackId={trackId}
             onVersionChange={(versionId, audioUrl) => {
@@ -496,199 +296,37 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
               queryClient.invalidateQueries({ queryKey: ['tracks'] });
             }}
           />
-
-          {/* Replacement Progress */}
-          <ReplacementProgressIndicator 
-            trackId={trackId}
-            onViewResult={(taskId) => {
-              const replaced = replacedSections?.find(s => s.taskId === taskId);
-              if (replaced && track.audio_url && replaced.audioUrl) {
-                setLatestCompletion({
-                  taskId,
-                  originalAudioUrl: track.audio_url,
-                  newAudioUrl: replaced.audioUrl,
-                  section: { start: replaced.start, end: replaced.end },
-                  status: 'completed',
-                });
-              }
-            }}
-          />
-
-          {/* Replace Section Button */}
-          {canReplaceSection && editMode === 'none' && (
-            <>
+          <div className="flex items-center gap-2">
+            <ReplacementProgressIndicator 
+              trackId={trackId}
+              onViewResult={(taskId) => {
+                const replaced = replacedSections?.find(s => s.taskId === taskId);
+                if (replaced && track.audio_url && replaced.audioUrl) {
+                  setLatestCompletion({
+                    taskId,
+                    originalAudioUrl: track.audio_url,
+                    newAudioUrl: replaced.audioUrl,
+                    section: { start: replaced.start, end: replaced.end },
+                    status: 'completed',
+                  });
+                }
+              }}
+            />
+            {canReplaceSection && editMode === 'none' && (
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setEditMode('selecting')}
-                className="h-9 gap-1.5"
+                className="h-8 gap-1.5"
               >
                 <Scissors className="w-4 h-4" />
-                <span className="hidden sm:inline">Заменить</span>
+                <span className="hidden sm:inline">Заменить секцию</span>
               </Button>
-              <ReplacementHistoryPanel trackId={trackId} trackAudioUrl={track.audio_url} />
-            </>
-          )}
-        </div>
-      </header>
-
-      {/* Quick Actions Bar */}
-      <StudioQuickActions
-        track={track}
-        hasStems={false}
-        isSeparating={isSeparating}
-        onSeparate={handleSeparateStems}
-        onReplaceSection={canReplaceSection ? () => setEditMode('selecting') : undefined}
-        onTrim={() => setTrimDialogOpen(true)}
-        onReplaceVocal={() => setVocalDialogOpen(true)}
-        onReplaceArrangement={() => setArrangementDialogOpen(true)}
-        onRemix={() => setRemixDialogOpen(true)}
-        onExtend={() => setExtendDialogOpen(true)}
-      />
-
-      {/* Contextual Tips */}
-      <StudioContextTips track={track} hasStems={false} />
-
-      {/* Guitar Analysis Integration */}
-      {guitarAnalysis && (
-        <div className="px-4 sm:px-6 py-3 border-b border-border/30">
-          <GuitarTrackIntegration
-            analysisResult={guitarAnalysis}
-            trackId={trackId}
-            currentTime={currentTime}
-            isPlaying={isPlaying}
-          />
-        </div>
-      )}
-
-      {/* Unified Waveform Timeline - Always visible */}
-      <div className={cn(
-        "border-b border-border/30 bg-card/30",
-        isMobile ? "px-4 py-3" : "px-4 sm:px-6 py-4"
-      )}>
-        {track.audio_url && (
-          <UnifiedWaveformTimeline
-            audioUrl={track.audio_url}
-            sections={detectedSections}
-            duration={duration}
-            currentTime={currentTime}
-            isPlaying={isPlaying}
-            selectedSectionIndex={selectedSectionIndex}
-            customRange={customRange}
-            replacedRanges={replacedRanges}
-            onSectionClick={handleSectionSelect}
-            onSeek={(time) => handleSeek([time])}
-            height={isMobile ? 72 : 100}
-            showSectionLabels={!isMobile}
-          />
-        )}
-        
-        {/* Mobile Section Pills (below waveform) */}
-        {isMobile && detectedSections.length > 0 && (
-          <div className="mt-3">
-            <MobileSectionTimelineCompact
-              sections={detectedSections}
-              duration={duration}
-              currentTime={currentTime}
-              selectedIndex={selectedSectionIndex}
-              replacedRanges={replacedRanges}
-              onSectionClick={handleSectionSelect}
-              onSeek={(time) => handleSeek([time])}
-            />
-          </div>
-        )}
-      </div>
-
-      {/* Integrated Section Editor - Desktop (appears directly below timeline) */}
-      {!isMobile && (
-        <IntegratedSectionEditor
-          trackId={trackId}
-          trackTitle={track.title || 'Трек'}
-          trackTags={track.tags}
-          audioUrl={track.audio_url}
-          duration={duration}
-          onClose={clearSelection}
-        />
-      )}
-
-      {/* Section Editor - Mobile */}
-      {isMobile && (
-        <SectionEditorMobile
-          open={editMode === 'selecting' || editMode === 'editing'}
-          onOpenChange={(open: boolean) => {
-            if (!open) clearSelection();
-          }}
-          trackId={trackId}
-          trackTitle={track.title || 'Трек'}
-          trackTags={track.tags}
-          trackLyrics={track.lyrics}
-          audioUrl={track.audio_url}
-          duration={duration}
-          taskId={track.suno_task_id}
-          audioId={track.suno_id}
-        />
-      )}
-
-      {/* Unified Quick Compare Panel - automatically adapts to mobile/desktop */}
-      {editMode === 'comparing' && latestCompletion?.newAudioUrl && track.audio_url && (
-        <QuickCompare
-          open={editMode === 'comparing'}
-          onOpenChange={(open) => {
-            if (!open) setLatestCompletion(null);
-          }}
-          onClose={() => setLatestCompletion(null)}
-          originalAudioUrl={track.audio_url}
-          replacementAudioUrl={latestCompletion.newAudioUrl}
-          sectionStart={latestCompletion.section.start}
-          sectionEnd={latestCompletion.section.end}
-          onApply={handleApplyReplacement}
-          onDiscard={handleDiscardReplacement}
-        />
-      )}
-
-      {/* Volume Control */}
-      <div className="px-4 sm:px-6 py-3 border-b border-border/30 bg-gradient-to-r from-primary/5 to-transparent">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMuted(!muted)}
-            className={cn(
-              "h-9 w-9 rounded-full",
-              muted && "text-destructive"
             )}
-          >
-            {muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-          </Button>
-          <div className="flex-1">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-xs font-semibold uppercase tracking-wide">Громкость</span>
-              <span className="text-xs text-muted-foreground">{Math.round(volume * 100)}%</span>
-            </div>
-            <Slider
-              value={[volume]}
-              min={0}
-              max={1}
-              step={0.01}
-              onValueChange={(v) => setVolume(v[0])}
-              className="w-full"
-              disabled={muted}
-            />
           </div>
         </div>
-      </div>
 
-      {/* Synchronized Lyrics */}
-      {isMobile ? (
-        <StudioLyricsPanelCompact
-          taskId={track.suno_task_id}
-          audioId={track.suno_id}
-          plainLyrics={track.lyrics}
-          currentTime={currentTime}
-          isPlaying={isPlaying}
-          onSeek={handleSeek}
-        />
-      ) : (
+        {/* Synchronized Lyrics (collapsible) */}
         <StudioLyricsPanel
           taskId={track.suno_task_id}
           audioId={track.suno_id}
@@ -703,105 +341,93 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
           }}
           highlightedSection={customRange}
         />
+
+        {/* Waveform Timeline with Sections */}
+        <div className={cn(
+          "border-b border-border/30 bg-card/30",
+          isMobile ? "px-3 py-3" : "px-4 py-4"
+        )}>
+          {track.audio_url && (
+            <UnifiedWaveformTimeline
+              audioUrl={track.audio_url}
+              sections={detectedSections}
+              duration={duration}
+              currentTime={currentTime}
+              isPlaying={isPlaying}
+              selectedSectionIndex={selectedSectionIndex}
+              customRange={customRange}
+              replacedRanges={replacedRanges}
+              onSectionClick={handleSectionSelect}
+              onSeek={handleSeek}
+              height={isMobile ? 80 : 100}
+              showSectionLabels={true}
+            />
+          )}
+        </div>
+
+        {/* Section Editor (inline on desktop) */}
+        {!isMobile && (
+          <SectionEditorSheet
+            open={editMode === 'editing'}
+            onClose={clearSelection}
+            trackId={trackId}
+            trackTitle={track.title || 'Трек'}
+            trackTags={track.tags}
+            audioUrl={track.audio_url}
+            duration={duration}
+            detectedSections={detectedSections}
+          />
+        )}
+
+        {/* Info when no section selected */}
+        {editMode === 'none' && (
+          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+              <Scissors className="w-8 h-8 text-primary" />
+            </div>
+            <h3 className="font-semibold text-lg mb-2">Выберите секцию для замены</h3>
+            <p className="text-sm text-muted-foreground max-w-sm">
+              Нажмите на секцию на таймлайне или в тексте песни, чтобы заменить её новым звучанием
+            </p>
+            {!canReplaceSection && (
+              <p className="text-xs text-muted-foreground mt-4 max-w-sm">
+                Замена секций доступна только для треков, сгенерированных в MusicVerse
+              </p>
+            )}
+          </div>
+        )}
+      </CleanStudioLayout>
+
+      {/* Section Editor (bottom sheet on mobile) */}
+      {isMobile && (
+        <SectionEditorSheet
+          open={editMode === 'editing'}
+          onClose={clearSelection}
+          trackId={trackId}
+          trackTitle={track.title || 'Трек'}
+          trackTags={track.tags}
+          audioUrl={track.audio_url}
+          duration={duration}
+          detectedSections={detectedSections}
+        />
       )}
 
-      {/* Main Content Area - Empty for tracks without stems */}
-      <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 pb-32">
-        <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
-          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-            <Split className="w-8 h-8 text-primary" />
-          </div>
-          <div>
-            <h3 className="font-semibold text-lg">Стемы недоступны</h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              Разделите трек на стемы для расширенного редактирования
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-2">
-            <Button
-              onClick={() => handleSeparateStems('simple')}
-              disabled={isSeparating || !track.suno_id}
-              className="gap-2"
-            >
-              <Split className="w-4 h-4" />
-              Простое (Вокал + Инстр.)
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => handleSeparateStems('detailed')}
-              disabled={isSeparating || !track.suno_id}
-              className="gap-2"
-            >
-              <Music className="w-4 h-4" />
-              Детальное (6+ стемов)
-            </Button>
-          </div>
-          {!track.suno_id && (
-            <p className="text-xs text-muted-foreground">
-              Разделение доступно только для треков, сгенерированных в MusicVerse
-            </p>
-          )}
-        </div>
-      </main>
-
-      {/* Footer Player */}
-      <footer className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur border-t border-border/50 px-4 sm:px-6 py-3 sm:py-4 safe-area-pb z-50">
-        <div className={cn(
-          "flex items-center gap-3 sm:gap-4 max-w-screen-xl mx-auto",
-          isMobile ? "justify-center" : "justify-between"
-        )}>
-          {/* Playback Controls */}
-          <div className="flex items-center gap-1 sm:gap-2">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className={cn(
-                "rounded-full",
-                isMobile ? "h-12 w-12" : "h-10 w-10"
-              )}
-              onClick={() => handleSkip('back')}
-            >
-              <SkipBack className={cn(isMobile ? "w-5 h-5" : "w-4 h-4")} />
-            </Button>
-
-            <Button
-              onClick={togglePlay}
-              size="icon"
-              className={cn(
-                "rounded-full shadow-lg hover:scale-105 transition-transform bg-primary text-primary-foreground",
-                isMobile ? "w-16 h-16" : "w-14 h-14"
-              )}
-            >
-              {isPlaying ? (
-                <Pause className={cn(isMobile ? "w-7 h-7" : "w-6 h-6")} />
-              ) : (
-                <Play className={cn(isMobile ? "w-7 h-7 ml-0.5" : "w-6 h-6 ml-0.5")} />
-              )}
-            </Button>
-
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className={cn(
-                "rounded-full",
-                isMobile ? "h-12 w-12" : "h-10 w-10"
-              )}
-              onClick={() => handleSkip('forward')}
-            >
-              <SkipForward className={cn(isMobile ? "w-5 h-5" : "w-4 h-4")} />
-            </Button>
-          </div>
-
-          {/* Keyboard Shortcuts Hint (desktop only) */}
-          {!isMobile && (
-            <div className="text-xs text-muted-foreground hidden lg:flex items-center gap-4">
-              <span><kbd className="px-1.5 py-0.5 rounded bg-muted">Space</kbd> Play/Pause</span>
-              <span><kbd className="px-1.5 py-0.5 rounded bg-muted">M</kbd> Mute</span>
-              <span><kbd className="px-1.5 py-0.5 rounded bg-muted">←</kbd><kbd className="px-1.5 py-0.5 rounded bg-muted ml-1">→</kbd> Skip</span>
-            </div>
-          )}
-        </div>
-      </footer>
+      {/* Compare Panel */}
+      {editMode === 'comparing' && latestCompletion?.newAudioUrl && track.audio_url && (
+        <QuickCompare
+          open={true}
+          onOpenChange={(open) => {
+            if (!open) setLatestCompletion(null);
+          }}
+          onClose={() => setLatestCompletion(null)}
+          originalAudioUrl={track.audio_url}
+          replacementAudioUrl={latestCompletion.newAudioUrl}
+          sectionStart={latestCompletion.section.start}
+          sectionEnd={latestCompletion.section.end}
+          onApply={handleApplyReplacement}
+          onDiscard={handleDiscardReplacement}
+        />
+      )}
 
       {/* Dialogs */}
       <TrimDialog
@@ -809,20 +435,6 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
         onOpenChange={setTrimDialogOpen}
         track={track}
         onTrimComplete={() => {}}
-      />
-      
-      <VocalReplacementDialog
-        open={vocalDialogOpen}
-        onOpenChange={setVocalDialogOpen}
-        track={track}
-        hasStems={false}
-      />
-      
-      <ArrangementReplacementDialog
-        open={arrangementDialogOpen}
-        onOpenChange={setArrangementDialogOpen}
-        track={track}
-        hasStems={false}
       />
       
       <RemixDialog
@@ -836,6 +448,6 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
         onOpenChange={setExtendDialogOpen}
         track={track}
       />
-    </div>
+    </>
   );
 };
