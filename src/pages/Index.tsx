@@ -15,12 +15,11 @@ import { HeroQuickActions } from "@/components/home/HeroQuickActions";
 import { RecentTracksSection } from "@/components/home/RecentTracksSection";
 import { WelcomeSection } from "@/components/home/WelcomeSection";
 import { GamificationWidget } from "@/components/gamification/GamificationWidget";
-import { BlogSection } from "@/components/home/BlogSection";
 import { FeaturedBlogBanners } from "@/components/home/FeaturedBlogBanners";
-import { GraphPreview } from "@/components/home/GraphPreview";
 import { ProfessionalToolsHub } from "@/components/home/ProfessionalToolsHub";
 import { PopularCreatorsSection } from "@/components/home/PopularCreatorsSection";
 import { PublishedAlbumsSection } from "@/components/home/PublishedAlbumsSection";
+import { UserProjectsSection } from "@/components/home/UserProjectsSection";
 import { GenerateSheet } from "@/components/GenerateSheet";
 import { MusicRecognitionDialog } from "@/components/music-recognition/MusicRecognitionDialog";
 import { HomeSkeletonEnhanced } from "@/components/home/HomeSkeletonEnhanced";
@@ -203,6 +202,18 @@ const Index = () => {
               transition={{ delay: 0.15, duration: 0.3 }}
             >
               <RecentTracksSection maxTracks={4} />
+            </motion.section>
+          )}
+
+          {/* User Projects Section */}
+          {user && (
+            <motion.section
+              className="mb-4 sm:mb-5"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.17, duration: 0.3 }}
+            >
+              <UserProjectsSection />
             </motion.section>
           )}
 
