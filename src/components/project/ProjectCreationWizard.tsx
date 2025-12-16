@@ -154,19 +154,57 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
             setStatusMessage('Проект создан!');
 
             if (autoGenerateTracklist) {
-              // Generate tracklist
-              setTimeout(() => {
+              // Generate full project with AI
+              setTimeout(async () => {
                 setStep('tracklist');
                 setProgress(40);
-                setStatusMessage('Генерация трек-листа...');
+                setStatusMessage('AI генерирует треклист...');
                 
-                generateTracklist({
-                  projectType,
-                  genre: genre || undefined,
-                  mood: mood || undefined,
-                  theme: description || undefined,
-                  trackCount: getRecommendedTrackCount(projectType),
-                });
+                try {
+                  const { data: aiResult, error } = await supabase.functions.invoke('project-ai', {
+                    body: {
+                      action: 'full-project',
+                      projectId: data.id,
+                      projectType,
+                      genre: genre || undefined,
+                      mood: mood || undefined,
+                      theme: description || undefined,
+                      trackCount: getRecommendedTrackCount(projectType),
+                      language,
+                    },
+                  });
+                  
+                  if (error) throw error;
+                  
+                  // Update project with AI-generated data
+                  if (aiResult?.data) {
+                    const { concept, visualAesthetic, coverPrompt } = aiResult.data;
+                    if (concept || visualAesthetic) {
+                      await supabase
+                        .from('music_projects')
+                        .update({
+                          concept: concept || null,
+                          description: description || aiResult.data.description || null,
+                        })
+                        .eq('id', data.id);
+                    }
+                  }
+                  
+                  setProgress(90);
+                  setStatusMessage('Треклист готов!');
+                  
+                  // Wait for real-time to update
+                  setTimeout(() => {
+                    setStep('complete');
+                    setProgress(100);
+                  }, 1000);
+                  
+                } catch (error) {
+                  logger.error('Error generating full project', error);
+                  toast.error('Ошибка генерации треклиста');
+                  setStep('complete');
+                  setProgress(100);
+                }
               }, 500);
             } else {
               setStep('complete');
