@@ -2,14 +2,17 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Play, Square, Loader2, Sparkles, Volume2, VolumeX, Download, Music, Trash2 } from 'lucide-react';
-import { usePromptDJ } from '@/hooks/usePromptDJ';
+import { usePromptDJ, type PromptChannel, type GlobalSettings } from '@/hooks/usePromptDJ';
 import { ChannelCard } from './ChannelCard';
 import { StyleCrossfader } from './StyleCrossfader';
 import { ControlPanel } from './ControlPanel';
 import { LiveVisualizer } from './LiveVisualizer';
+import { VoiceInput } from './VoiceInput';
+import { QuickPresets } from './QuickPresets';
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { useCallback } from 'react';
 
 export function PromptDJMidi() {
   const navigate = useNavigate();
@@ -36,7 +39,6 @@ export function PromptDJMidi() {
   } = usePromptDJ();
 
   const handleUseAsReference = (track: typeof generatedTracks[0]) => {
-    // Store in sessionStorage for generation form
     sessionStorage.setItem('audioReferenceFromDJ', JSON.stringify({
       audioUrl: track.audioUrl,
       styleDescription: track.prompt,
@@ -62,17 +64,54 @@ export function PromptDJMidi() {
     }
   };
 
+  // Handle voice input - update the custom channel
+  const handleVoiceTranscript = useCallback((text: string) => {
+    updateChannel('custom', { 
+      value: text, 
+      enabled: true,
+      weight: 1.2 
+    });
+    toast.success('Голос распознан', { description: text });
+  }, [updateChannel]);
+
+  // Handle quick presets
+  const handleApplyPreset = useCallback((
+    channelUpdates: Array<{ id: string; updates: Partial<PromptChannel> }>,
+    settingsUpdates?: Partial<GlobalSettings>
+  ) => {
+    channelUpdates.forEach(({ id, updates }) => {
+      updateChannel(id, updates);
+    });
+    if (settingsUpdates) {
+      updateGlobalSettings(settingsUpdates);
+    }
+    toast.success('Пресет применён');
+  }, [updateChannel, updateGlobalSettings]);
+
   return (
     <div className="space-y-4">
       {/* Header with visualizer */}
       <Card className="bg-gradient-to-br from-purple-500/10 via-background to-blue-500/10">
         <CardHeader className="pb-2">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Sparkles className="h-5 w-5 text-purple-400" />
-            PromptDJ MIDI
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Sparkles className="h-5 w-5 text-purple-400" />
+              PromptDJ MIDI
+            </CardTitle>
+            {/* Voice input button */}
+            <VoiceInput 
+              onTranscript={handleVoiceTranscript}
+              disabled={isGenerating}
+            />
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* Quick presets */}
+          <QuickPresets 
+            onApply={handleApplyPreset}
+            disabled={isGenerating}
+          />
+
           {/* Visualizer */}
           <LiveVisualizer
             analyzerNode={analyzerNode}

@@ -73,7 +73,7 @@ export function ChannelCard({ channel, onUpdate }: ChannelCardProps) {
         {/* Value selector */}
         {channel.type === 'custom' ? (
           <Input
-            placeholder="Введите описание..."
+            placeholder="Введите описание или скажите голосом..."
             value={channel.value}
             onChange={(e) => onUpdate({ value: e.target.value })}
             disabled={!channel.enabled}
