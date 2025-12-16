@@ -120,96 +120,90 @@ export const NavigationMenuSheet = ({ open, onOpenChange }: NavigationMenuSheetP
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="rounded-t-2xl max-h-[85vh] overflow-y-auto">
-        <SheetHeader className="pb-3">
+      <SheetContent side="bottom" className="rounded-t-2xl max-h-[80vh] overflow-y-auto p-4">
+        <SheetHeader className="pb-2">
           <div className="flex items-center justify-between">
-            <SheetTitle className="flex items-center gap-2 text-left text-base">
-              Меню
-            </SheetTitle>
+            <SheetTitle className="text-sm font-semibold">Меню</SheetTitle>
             
-            <div className="flex items-center gap-1">
-              {/* Notification indicator - simplified */}
+            <div className="flex items-center gap-0.5">
               {unreadCount > 0 && (
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => handleNavigate('/settings')}
-                  className="h-8 w-8 relative"
+                  className="h-7 w-7 relative"
                 >
-                  <Bell className="w-4 h-4" />
-                  <span className="absolute -top-0.5 -right-0.5 h-3.5 w-3.5 bg-destructive text-[9px] font-bold text-white rounded-full flex items-center justify-center">
+                  <Bell className="w-3.5 h-3.5" />
+                  <span className="absolute -top-0.5 -right-0.5 h-3 w-3 bg-destructive text-[8px] font-bold text-white rounded-full flex items-center justify-center">
                     {unreadCount > 9 ? '9' : unreadCount}
                   </span>
                 </Button>
               )}
               
-              {/* Sound toggle */}
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8"
+                className="h-7 w-7"
                 onClick={() => {
                   hapticFeedback('light');
                   setSoundEnabled(!soundEnabled);
                 }}
               >
                 {soundEnabled ? (
-                  <Volume2 className="w-4 h-4" />
+                  <Volume2 className="w-3.5 h-3.5" />
                 ) : (
-                  <VolumeX className="w-4 h-4 text-muted-foreground" />
+                  <VolumeX className="w-3.5 h-3.5 text-muted-foreground" />
                 )}
               </Button>
             </div>
           </div>
         </SheetHeader>
 
-        <div className="space-y-6">
-          {/* Active Generations Section */}
+        <div className="space-y-4">
+          {/* Active Generations Section - Compact */}
           <AnimatePresence>
             {generationCount > 0 && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="bg-primary/5 border border-primary/20 rounded-xl p-4"
+                className="bg-primary/5 border border-primary/20 rounded-lg p-3"
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <Loader2 className="w-4 h-4 animate-spin text-primary" />
-                  <h3 className="text-sm font-semibold">
-                    Активные генерации ({generationCount})
+                <div className="flex items-center gap-2 mb-2">
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
+                  <h3 className="text-xs font-semibold">
+                    Генерации ({generationCount})
                   </h3>
                 </div>
                 
-                <div className="space-y-2">
-                  {activeGenerations.slice(0, 3).map((gen) => (
-                    <motion.div
+                <div className="space-y-1.5">
+                  {activeGenerations.slice(0, 2).map((gen) => (
+                    <div
                       key={gen.id}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="flex items-center gap-3 p-2 rounded-lg bg-background/50"
+                      className="flex items-center gap-2 p-1.5 rounded bg-background/50"
                     >
-                      <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <Music2 className="w-4 h-4 text-primary" />
+                      <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Music2 className="w-3 h-3 text-primary" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium truncate">
-                          {gen.prompt.slice(0, 30)}{gen.prompt.length > 30 ? '...' : ''}
+                        <p className="text-[10px] font-medium truncate">
+                          {gen.prompt.slice(0, 25)}...
                         </p>
-                        <div className="flex items-center gap-2 mt-1">
+                        <div className="flex items-center gap-1.5 mt-0.5">
                           <Progress value={gen.progress} className="h-1 flex-1" />
-                          <span className="text-[10px] text-muted-foreground">
+                          <span className="text-[9px] text-muted-foreground">
                             {gen.progress}%
                           </span>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
                 
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="w-full mt-2 text-primary"
+                  className="w-full mt-1.5 h-7 text-xs text-primary"
                   onClick={() => handleNavigate('/library')}
                 >
                   Открыть библиотеку →
@@ -219,51 +213,43 @@ export const NavigationMenuSheet = ({ open, onOpenChange }: NavigationMenuSheetP
           </AnimatePresence>
 
           {menuSections.map((section, sectionIndex) => (
-            <motion.div
-              key={section.title}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: sectionIndex * 0.1 }}
-            >
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-1">
+            <div key={section.title}>
+              <h3 className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-1.5 px-0.5">
                 {section.title}
               </h3>
-              <div className="space-y-1">
-                {section.items.map((item, itemIndex) => {
+              <div className="space-y-0.5">
+                {section.items.map((item) => {
                   const active = isActive(item.path);
                   return (
-                    <motion.button
+                    <button
                       key={item.path}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: sectionIndex * 0.1 + itemIndex * 0.05 }}
                       onClick={() => handleNavigate(item.path)}
                       className={cn(
-                        "w-full flex items-center gap-3 px-3 py-3 rounded-xl",
+                        "w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg",
                         "hover:bg-muted/50 active:bg-muted transition-colors",
-                        "touch-manipulation min-h-[48px]",
+                        "touch-manipulation min-h-[44px]",
                         active && "bg-primary/10 border border-primary/20"
                       )}
                     >
                       <div className={cn(
-                        "w-10 h-10 rounded-xl flex items-center justify-center",
+                        "w-8 h-8 rounded-lg flex items-center justify-center",
                         active ? "bg-primary/20" : "bg-muted/50"
                       )}>
-                        <item.icon className={cn("w-5 h-5", active ? "text-primary" : "text-foreground")} />
+                        <item.icon className={cn("w-4 h-4", active ? "text-primary" : "text-foreground")} />
                       </div>
-                      <div className="flex-1 text-left">
-                        <span className={cn("font-medium", active && "text-primary")}>{item.label}</span>
+                      <div className="flex-1 text-left min-w-0">
+                        <span className={cn("text-sm font-medium", active && "text-primary")}>{item.label}</span>
                         {item.description && (
-                          <p className="text-xs text-muted-foreground">{item.description}</p>
+                          <p className="text-[10px] text-muted-foreground truncate">{item.description}</p>
                         )}
                       </div>
                       {renderBadge(item)}
-                      <ChevronRight className="w-4 h-4 text-muted-foreground" />
-                    </motion.button>
+                      <ChevronRight className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                    </button>
                   );
                 })}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </SheetContent>
