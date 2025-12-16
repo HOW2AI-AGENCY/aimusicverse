@@ -182,13 +182,16 @@ serve(async (req) => {
 
     // === STEP 1: Progress notification ===
     if (telegram_chat_id) {
-      progressMessageId = await sendTelegramProgress(
+      // If progressMessageId already exists (passed from caller), edit it. Otherwise send new.
+      const nextId = await sendTelegramProgress(
         telegram_chat_id,
         `🎵 *Обработка аудио*\n\n` +
         `📁 ${escapeMarkdown(file_name)}\n\n` +
         `▓░░░░░░░░░ 10%\n` +
-        `⏳ Загрузка и анализ стиля\\.\\.\\.`
+        `⏳ Загрузка и анализ стиля\\.\\.\\.`,
+        progressMessageId
       );
+      progressMessageId = nextId || progressMessageId;
     }
 
     // === STEP 2: Style Analysis with Audio Flamingo 3 ===
