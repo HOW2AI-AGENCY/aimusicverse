@@ -3,24 +3,30 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NotificationSkeleton } from "@/components/ui/skeleton-loader";
-import { Info, CheckCircle, AlertTriangle, XCircle, CheckCheck, ExternalLink } from "lucide-react";
+import { Info, CheckCircle, AlertTriangle, XCircle, CheckCheck, ExternalLink, Music, Folder, Users, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
 
-const iconMap = {
+const iconMap: Record<string, React.ElementType> = {
   info: Info,
   success: CheckCircle,
   warning: AlertTriangle,
   error: XCircle,
+  generation: Music,
+  project: Folder,
+  social: Users,
 };
 
-const colorMap = {
+const colorMap: Record<string, string> = {
   info: "text-blue-500",
   success: "text-green-500",
   warning: "text-yellow-500",
   error: "text-red-500",
+  generation: "text-primary",
+  project: "text-purple-500",
+  social: "text-pink-500",
 };
 
 interface NotificationListProps {
