@@ -46,6 +46,7 @@ interface UsePromptDJReturn {
   isGenerating: boolean;
   generatedTracks: GeneratedTrack[];
   generateMusic: () => Promise<void>;
+  removeTrack: (id: string) => void;
   
   // Playback
   isPlaying: boolean;
@@ -314,6 +315,13 @@ export function usePromptDJ(): UsePromptDJReturn {
     setIsPreviewPlaying(false);
   }, []);
 
+  const removeTrack = useCallback((id: string) => {
+    setGeneratedTracks(prev => prev.filter(t => t.id !== id));
+    if (currentTrack?.id === id) {
+      stopPlayback();
+    }
+  }, [currentTrack, stopPlayback]);
+
   return {
     channels,
     updateChannel,
@@ -324,6 +332,7 @@ export function usePromptDJ(): UsePromptDJReturn {
     isGenerating,
     generatedTracks,
     generateMusic,
+    removeTrack,
     isPlaying,
     currentTrack,
     playTrack,
