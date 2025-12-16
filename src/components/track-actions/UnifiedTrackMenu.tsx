@@ -8,13 +8,12 @@ import {
 import { Button } from '@/components/ui/button';
 import { MoreVertical } from 'lucide-react';
 import { useTrackActionsState } from '@/hooks/useTrackActionsState';
-import { QueueActions } from './sections/QueueActions';
-import { ShareActions } from './sections/ShareActions';
-import { OrganizeActions } from './sections/OrganizeActions';
-import { StudioActions } from './sections/StudioActions';
-import { EditActions } from './sections/EditActions';
 import { InfoActions } from './sections/InfoActions';
-import { DangerActions } from './sections/DangerActions';
+import { DownloadActions } from './sections/DownloadActions';
+import { ShareActions } from './sections/ShareActions';
+import { StudioActions } from './sections/StudioActions';
+import { CreateActions } from './sections/CreateActions';
+import { DeleteActions } from './sections/DeleteActions';
 import { TrackDialogsPortal } from './TrackDialogsPortal';
 
 interface UnifiedTrackMenuProps {
@@ -52,7 +51,7 @@ export function UnifiedTrackMenu({ track, onDelete, onDownload }: UnifiedTrackMe
           className="w-56 max-h-[70vh] bg-background/95 backdrop-blur-sm overflow-y-auto" 
           style={{ zIndex: 9999 }}
         >
-          {/* Info Actions (always visible at top) */}
+          {/* Info Actions */}
           <InfoActions
             track={track}
             state={actionState}
@@ -63,15 +62,14 @@ export function UnifiedTrackMenu({ track, onDelete, onDownload }: UnifiedTrackMe
 
           <DropdownMenuSeparator />
 
-          {/* Queue Actions */}
-          <QueueActions
+          {/* Download Actions */}
+          <DownloadActions
             track={track}
             state={actionState}
             onAction={executeAction}
             variant="dropdown"
+            isProcessing={isProcessing}
           />
-
-          <DropdownMenuSeparator />
 
           {/* Share Actions */}
           <ShareActions
@@ -82,17 +80,7 @@ export function UnifiedTrackMenu({ track, onDelete, onDownload }: UnifiedTrackMe
             isProcessing={isProcessing}
           />
 
-          <DropdownMenuSeparator />
-
-          {/* Organize Actions (submenu) */}
-          <OrganizeActions
-            track={track}
-            state={actionState}
-            onAction={executeAction}
-            variant="dropdown"
-          />
-
-          {/* Studio Actions (submenu) */}
+          {/* Studio Actions */}
           <StudioActions
             track={track}
             state={actionState}
@@ -101,8 +89,8 @@ export function UnifiedTrackMenu({ track, onDelete, onDownload }: UnifiedTrackMe
             isProcessing={isProcessing}
           />
 
-          {/* Edit Actions (submenu) */}
-          <EditActions
+          {/* Create Actions */}
+          <CreateActions
             track={track}
             state={actionState}
             onAction={executeAction}
@@ -112,9 +100,10 @@ export function UnifiedTrackMenu({ track, onDelete, onDownload }: UnifiedTrackMe
 
           <DropdownMenuSeparator />
 
-          {/* Danger Actions */}
-          <DangerActions
+          {/* Delete Actions */}
+          <DeleteActions
             track={track}
+            state={actionState}
             onAction={executeAction}
             variant="dropdown"
           />

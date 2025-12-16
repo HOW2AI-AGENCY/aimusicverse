@@ -1,4 +1,3 @@
-import React from 'react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { ActionId, TRACK_ACTIONS } from '@/config/trackActionsConfig';
 import { Lock, Globe, Loader2, CheckCircle2 } from 'lucide-react';
@@ -8,8 +7,8 @@ export interface TrackActionState {
   versionCount: number;
   hasVideo: boolean;
   isVideoGenerating: boolean;
-  hasVocalStem?: boolean;
-  hasInstrumentalStem?: boolean;
+  hasVocalStem: boolean;
+  hasInstrumentalStem: boolean;
 }
 
 /**
@@ -31,35 +30,34 @@ export function isActionAvailable(
   if (action.requiresAudio && !hasAudio) return false;
   if (action.requiresSunoId && !track.suno_id) return false;
   if (action.requiresSunoTaskId && !track.suno_task_id) return false;
+  if (action.requiresStems && state.stemCount === 0) return false;
 
   // Action-specific conditions
   switch (actionId) {
-    case 'watch_video':
-      return state.hasVideo;
-
     case 'open_studio':
-      return state.stemCount > 0;
+      return isCompleted && hasAudio;
+
+    case 'replace_section':
+      return isCompleted && hasAudio;
 
     case 'stems_simple':
     case 'stems_detailed':
       return !!track.suno_id && state.stemCount === 0;
 
+    case 'download_stems':
+      return state.stemCount > 0;
+
+    case 'generate_video':
+      return !!track.suno_id && !!track.suno_task_id;
+
     case 'cover':
       return isCompleted && hasAudio;
 
-    case 'new_arrangement':
-      // Requires stems with vocal stem available
-      return isCompleted && state.stemCount > 0 && state.hasVocalStem === true;
+    case 'extend':
+      return isCompleted && hasAudio;
 
-    case 'new_vocal':
-      // Requires stems with instrumental stem available
-      return isCompleted && state.stemCount > 0 && state.hasInstrumentalStem === true;
-
-    case 'lyrics':
-      return hasAudio && isCompleted && !!(track.lyrics || (track.suno_task_id && track.suno_id));
-
-    case 'generate_video':
-      return !!track.suno_id && !!track.suno_task_id && !state.hasVideo && !state.isVideoGenerating;
+    case 'remix':
+      return !!track.suno_id;
 
     default:
       return true;
@@ -76,21 +74,18 @@ export function getActionLabel(
 ): string {
   switch (actionId) {
     case 'toggle_public':
-      return track.is_public ? 'Сделать приватным' : 'Сделать публичным';
-
-    case 'new_arrangement':
-      return 'Новая аранжировка';
-
-    case 'new_vocal':
-      return 'Новый вокал';
+      return track.is_public ? 'Сделать приватным' : 'Опубликовать';
 
     case 'generate_video':
       if (state.isVideoGenerating) return 'Видео создаётся...';
       if (state.hasVideo) return 'Видео готово';
-      return 'Создать видеоклип';
+      return 'Создать видео';
 
-    case 'open_studio':
-      return `Открыть в студии`;
+    case 'download_stems':
+      return `Архив стемов (${state.stemCount})`;
+
+    case 'delete_all':
+      return state.versionCount > 1 ? `Все версии (${state.versionCount})` : 'Удалить';
 
     default:
       return TRACK_ACTIONS[actionId]?.label || '';
@@ -171,14 +166,8 @@ export function getDisabledTooltip(
       if (state.isVideoGenerating) return 'Видео создаётся...';
       return null;
 
-    case 'new_vocal':
+    case 'download_stems':
       if (state.stemCount === 0) return 'Сначала разделите трек на стемы';
-      if (!state.hasInstrumentalStem) return 'Инструментальный стем не найден';
-      return null;
-
-    case 'new_arrangement':
-      if (state.stemCount === 0) return 'Сначала разделите трек на стемы';
-      if (!state.hasVocalStem) return 'Вокальный стем не найден';
       return null;
 
     default:

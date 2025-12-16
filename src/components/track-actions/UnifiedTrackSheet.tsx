@@ -2,13 +2,12 @@ import { Track } from '@/hooks/useTracksOptimized';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import { useTrackActionsState } from '@/hooks/useTrackActionsState';
-import { QueueActions } from './sections/QueueActions';
-import { ShareActions } from './sections/ShareActions';
-import { OrganizeActions } from './sections/OrganizeActions';
-import { StudioActions } from './sections/StudioActions';
-import { EditActions } from './sections/EditActions';
 import { InfoActions } from './sections/InfoActions';
-import { DangerActions } from './sections/DangerActions';
+import { DownloadActions } from './sections/DownloadActions';
+import { ShareActions } from './sections/ShareActions';
+import { StudioActions } from './sections/StudioActions';
+import { CreateActions } from './sections/CreateActions';
+import { DeleteActions } from './sections/DeleteActions';
 import { TrackDialogsPortal } from './TrackDialogsPortal';
 import { VersionsSection } from './sections/VersionsSection';
 
@@ -83,15 +82,14 @@ export function UnifiedTrackSheet({
 
             <Separator className="my-2" />
 
-            {/* Queue Actions */}
-            <QueueActions
+            {/* Download Actions */}
+            <DownloadActions
               track={track}
               state={actionState}
               onAction={executeAction}
               variant="sheet"
+              isProcessing={isProcessing}
             />
-
-            <Separator className="my-2" />
 
             {/* Share Actions */}
             <ShareActions
@@ -102,17 +100,7 @@ export function UnifiedTrackSheet({
               isProcessing={isProcessing}
             />
 
-            <Separator className="my-2" />
-
-            {/* Organize Actions (collapsible) */}
-            <OrganizeActions
-              track={track}
-              state={actionState}
-              onAction={executeAction}
-              variant="sheet"
-            />
-
-            {/* Studio Actions (collapsible) */}
+            {/* Studio Actions */}
             <StudioActions
               track={track}
               state={actionState}
@@ -121,8 +109,8 @@ export function UnifiedTrackSheet({
               isProcessing={isProcessing}
             />
 
-            {/* Edit Actions (collapsible) */}
-            <EditActions
+            {/* Create Actions */}
+            <CreateActions
               track={track}
               state={actionState}
               onAction={executeAction}
@@ -132,9 +120,10 @@ export function UnifiedTrackSheet({
 
             <Separator className="my-2" />
 
-            {/* Danger Actions */}
-            <DangerActions
+            {/* Delete Actions */}
+            <DeleteActions
               track={track}
+              state={actionState}
               onAction={executeAction}
               variant="sheet"
             />
