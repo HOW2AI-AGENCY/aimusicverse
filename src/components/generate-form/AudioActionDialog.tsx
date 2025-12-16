@@ -488,31 +488,40 @@ export function AudioActionDialog({
     extend: { icon: ArrowRight, label: 'Расширить', desc: 'Продолжить композицию' },
   };
 
+  // Check if audio is ready for mode selection (analyzed)
+  const isAudioReady = audioFile && analysisResult && !isAnalyzing;
+
   const content = (
     <div className="space-y-3">
-      {/* Mode Tabs - Compact */}
-      <Tabs value={mode} onValueChange={(v) => setMode(v as AudioMode)} className="w-full">
-        <TabsList className="grid w-full grid-cols-2 h-10">
-          {(['cover', 'extend'] as const).map((m) => {
-            const cfg = modeConfig[m];
-            const Icon = cfg.icon;
-            return (
-              <TabsTrigger 
-                key={m} 
-                value={m}
-                className="flex items-center gap-2 text-sm data-[state=active]:bg-primary/10"
-              >
-                <Icon className="w-4 h-4" />
-                <span>{cfg.label}</span>
-              </TabsTrigger>
-            );
-          })}
-        </TabsList>
-      </Tabs>
-
-      <p className="text-xs text-muted-foreground text-center">
-        {modeConfig[mode].desc}
-      </p>
+      {/* Mode Tabs - Show ONLY after audio is analyzed */}
+      {isAudioReady && (
+        <>
+          <div className="text-center text-xs text-muted-foreground mb-2">
+            Выберите действие:
+          </div>
+          <Tabs value={mode} onValueChange={(v) => setMode(v as AudioMode)} className="w-full">
+            <TabsList className="grid w-full grid-cols-2 h-10">
+              {(['cover', 'extend'] as const).map((m) => {
+                const cfg = modeConfig[m];
+                const Icon = cfg.icon;
+                return (
+                  <TabsTrigger 
+                    key={m} 
+                    value={m}
+                    className="flex items-center gap-2 text-sm data-[state=active]:bg-primary/10"
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span>{cfg.label}</span>
+                  </TabsTrigger>
+                );
+              })}
+            </TabsList>
+          </Tabs>
+          <p className="text-xs text-muted-foreground text-center">
+            {modeConfig[mode].desc}
+          </p>
+        </>
+      )}
 
       {/* Analysis Loading State - Animated */}
       {isAnalyzing && (
@@ -707,6 +716,14 @@ export function AudioActionDialog({
               </div>
             </div>
           )}
+          
+          {/* Waiting for analysis */}
+          {!analysisResult && !isAnalyzing && (
+            <div className="p-2 rounded-lg bg-muted/50 border space-y-1.5 text-center">
+              <Loader2 className="w-4 h-4 animate-spin mx-auto text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">Ожидание анализа...</span>
+            </div>
+          )}
 
           {/* Lyrics Extraction - Compact */}
           {mode !== 'extend' && (
@@ -750,8 +767,8 @@ export function AudioActionDialog({
 
           {/* Actions - Compact */}
           <div className="space-y-2 pt-1">
-            {/* Direct generation button - primary action */}
-            {onOpenCoverDialog && (
+            {/* Direct generation button - primary action - only show after analysis */}
+            {onOpenCoverDialog && analysisResult && (
               <Button
                 type="button"
                 size="sm"
@@ -778,15 +795,17 @@ export function AudioActionDialog({
               >
                 Отменить
               </Button>
-              <Button
-                type="button"
-                variant="secondary"
-                size="sm"
-                onClick={handleConfirm}
-                className="flex-1 h-9"
-              >
-                В форму генерации
-              </Button>
+              {analysisResult && (
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  onClick={handleConfirm}
+                  className="flex-1 h-9"
+                >
+                  В форму генерации
+                </Button>
+              )}
             </div>
           </div>
         </div>
