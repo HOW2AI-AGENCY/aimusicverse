@@ -54,7 +54,7 @@ Deno.serve(async (req) => {
     };
 
     // Build message with optional blog link
-    const fullMessage = `📢 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}`;
+    const fullMessage = `📢 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}\n\n🤖 _@AIMusicVerseBot_`;
     
     const inlineKeyboard: { text: string; callback_data?: string; url?: string }[][] = [];
     
@@ -65,9 +65,8 @@ Deno.serve(async (req) => {
       ]);
     }
     
-    // Always add menu button to broadcasts
     inlineKeyboard.push([
-      { text: '🏠 Открыть меню', callback_data: 'open_main_menu' }
+      { text: '🏠 Меню', callback_data: 'open_main_menu' }
     ]);
 
     // Send messages in batches - delete previous menu before sending broadcast
