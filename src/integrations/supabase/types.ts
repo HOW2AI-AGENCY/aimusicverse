@@ -233,6 +233,13 @@ export type Database = {
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "audio_analysis_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
+            referencedColumns: ["id"]
+          },
         ]
       }
       blocked_users: {
@@ -409,6 +416,13 @@ export type Database = {
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "comments_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
+            referencedColumns: ["id"]
+          },
         ]
       }
       credit_transactions: {
@@ -535,6 +549,13 @@ export type Database = {
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "generation_tag_usage_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
+            referencedColumns: ["id"]
+          },
         ]
       }
       generation_tasks: {
@@ -604,6 +625,13 @@ export type Database = {
             columns: ["track_id"]
             isOneToOne: false
             referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "generation_tasks_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
             referencedColumns: ["id"]
           },
         ]
@@ -698,6 +726,13 @@ export type Database = {
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "guitar_recordings_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
+            referencedColumns: ["id"]
+          },
         ]
       }
       health_alerts: {
@@ -739,6 +774,36 @@ export type Database = {
           resolution_note?: string | null
           resolved_at?: string | null
           unhealthy_services?: string[] | null
+        }
+        Relationships: []
+      }
+      inline_search_history: {
+        Row: {
+          category: string | null
+          created_at: string
+          id: string
+          query: string | null
+          results_count: number | null
+          telegram_user_id: number | null
+          user_id: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          query?: string | null
+          results_count?: number | null
+          telegram_user_id?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          query?: string | null
+          results_count?: number | null
+          telegram_user_id?: number | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -1132,6 +1197,13 @@ export type Database = {
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "playlist_tracks_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
+            referencedColumns: ["id"]
+          },
         ]
       }
       playlists: {
@@ -1391,6 +1463,13 @@ export type Database = {
             columns: ["track_id"]
             isOneToOne: false
             referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_tracks_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
             referencedColumns: ["id"]
           },
         ]
@@ -1692,6 +1771,13 @@ export type Database = {
             columns: ["track_id"]
             isOneToOne: false
             referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stem_separation_tasks_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
             referencedColumns: ["id"]
           },
         ]
@@ -2100,6 +2186,13 @@ export type Database = {
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "track_analytics_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
+            referencedColumns: ["id"]
+          },
         ]
       }
       track_change_log: {
@@ -2157,6 +2250,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "track_change_log_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "track_change_log_version_id_fkey"
             columns: ["version_id"]
             isOneToOne: false
@@ -2190,6 +2290,13 @@ export type Database = {
             columns: ["track_id"]
             isOneToOne: false
             referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "track_likes_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
             referencedColumns: ["id"]
           },
         ]
@@ -2228,6 +2335,13 @@ export type Database = {
             columns: ["track_id"]
             isOneToOne: false
             referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "track_stems_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
             referencedColumns: ["id"]
           },
           {
@@ -2297,6 +2411,13 @@ export type Database = {
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "track_versions_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
+            referencedColumns: ["id"]
+          },
         ]
       }
       tracks: {
@@ -2308,6 +2429,8 @@ export type Database = {
           artist_id: string | null
           artist_name: string | null
           audio_url: string | null
+          computed_genre: string | null
+          computed_mood: string | null
           cover_url: string | null
           created_at: string | null
           duration_seconds: number | null
@@ -2334,6 +2457,7 @@ export type Database = {
           project_track_id: string | null
           prompt: string
           provider: string | null
+          quality_score: number | null
           status: string | null
           streaming_url: string | null
           style: string | null
@@ -2345,6 +2469,7 @@ export type Database = {
           telegram_cover_file_id: string | null
           telegram_file_id: string | null
           title: string | null
+          trending_score: number | null
           updated_at: string | null
           user_id: string
           video_url: string | null
@@ -2358,6 +2483,8 @@ export type Database = {
           artist_id?: string | null
           artist_name?: string | null
           audio_url?: string | null
+          computed_genre?: string | null
+          computed_mood?: string | null
           cover_url?: string | null
           created_at?: string | null
           duration_seconds?: number | null
@@ -2384,6 +2511,7 @@ export type Database = {
           project_track_id?: string | null
           prompt: string
           provider?: string | null
+          quality_score?: number | null
           status?: string | null
           streaming_url?: string | null
           style?: string | null
@@ -2395,6 +2523,7 @@ export type Database = {
           telegram_cover_file_id?: string | null
           telegram_file_id?: string | null
           title?: string | null
+          trending_score?: number | null
           updated_at?: string | null
           user_id: string
           video_url?: string | null
@@ -2408,6 +2537,8 @@ export type Database = {
           artist_id?: string | null
           artist_name?: string | null
           audio_url?: string | null
+          computed_genre?: string | null
+          computed_mood?: string | null
           cover_url?: string | null
           created_at?: string | null
           duration_seconds?: number | null
@@ -2434,6 +2565,7 @@ export type Database = {
           project_track_id?: string | null
           prompt?: string
           provider?: string | null
+          quality_score?: number | null
           status?: string | null
           streaming_url?: string | null
           style?: string | null
@@ -2445,6 +2577,7 @@ export type Database = {
           telegram_cover_file_id?: string | null
           telegram_file_id?: string | null
           title?: string | null
+          trending_score?: number | null
           updated_at?: string | null
           user_id?: string
           video_url?: string | null
@@ -2912,6 +3045,13 @@ export type Database = {
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "video_generation_tasks_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
+            referencedColumns: ["id"]
+          },
         ]
       }
     }
@@ -2982,6 +3122,27 @@ export type Database = {
         }
         Relationships: []
       }
+      trending_tracks: {
+        Row: {
+          audio_url: string | null
+          computed_genre: string | null
+          computed_mood: string | null
+          cover_url: string | null
+          created_at: string | null
+          creator_name: string | null
+          creator_username: string | null
+          duration_seconds: number | null
+          id: string | null
+          quality_score: number | null
+          style: string | null
+          tags: string | null
+          telegram_file_id: string | null
+          title: string | null
+          trending_score: number | null
+          user_id: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       build_suno_prompt: {
@@ -2993,6 +3154,14 @@ export type Database = {
         Returns: number
       }
       cleanup_expired_bot_sessions: { Args: never; Returns: undefined }
+      compute_track_genre: {
+        Args: { _style: string; _tags: string }
+        Returns: string
+      }
+      compute_track_mood: {
+        Args: { _style: string; _tags: string }
+        Returns: string
+      }
       get_complementary_tags: {
         Args: { _max_depth?: number; _tag_id: string }
         Returns: {
@@ -3015,6 +3184,27 @@ export type Database = {
         }[]
       }
       get_experience_for_level: { Args: { _level: number }; Returns: number }
+      get_featured_tracks: {
+        Args: { limit_count?: number; offset_count?: number }
+        Returns: {
+          audio_url: string
+          computed_genre: string
+          computed_mood: string
+          cover_url: string
+          created_at: string
+          creator_name: string
+          creator_username: string
+          duration_seconds: number
+          id: string
+          quality_score: number
+          style: string
+          tags: string
+          telegram_file_id: string
+          title: string
+          trending_score: number
+          user_id: string
+        }[]
+      }
       get_generation_analytics: {
         Args: { _time_period?: unknown }
         Returns: {

@@ -265,15 +265,52 @@ async function handleAutoUploadWithPipeline(
     const audioBlob = await audioResponse.blob();
     const audioBuffer = await audioBlob.arrayBuffer();
 
-    // Upload to Supabase Storage
-    const extension = originalName.split('.').pop() || 'mp3';
+    // Upload to Storage (Telegram sometimes reports application/octet-stream; Storage rejects it)
+    const extension = originalName.split('.').pop()?.toLowerCase() || 'mp3';
     const sanitizedName = `audio_${Date.now()}.${extension}`;
     const storagePath = `${profile.user_id}/reference-audio/${sanitizedName}`;
+
+    const resolveContentType = (
+      ext: string,
+      telegramOrBlobType?: string,
+      msgType?: 'audio' | 'voice' | 'document'
+    ): string => {
+      const t = (telegramOrBlobType || '').toLowerCase();
+      if (t.startsWith('audio/')) return t;
+
+      // Voice messages are typically OGG/Opus
+      if (msgType === 'voice') return 'audio/ogg';
+
+      switch (ext) {
+        case 'mp3':
+          return 'audio/mpeg';
+        case 'wav':
+          return 'audio/wav';
+        case 'ogg':
+        case 'oga':
+        case 'opus':
+          return 'audio/ogg';
+        case 'm4a':
+          return 'audio/mp4';
+        case 'mp4':
+          return 'audio/mp4';
+        case 'flac':
+          return 'audio/flac';
+        default:
+          return 'audio/mpeg';
+      }
+    };
+
+    const safeContentType = resolveContentType(
+      extension,
+      ('mime_type' in audio ? audio.mime_type : undefined) || audioBlob.type,
+      type
+    );
 
     const { error: uploadError } = await supabase.storage
       .from('reference-audio')
       .upload(storagePath, new Uint8Array(audioBuffer), {
-        contentType: audioBlob.type || 'audio/mpeg',
+        contentType: safeContentType,
         upsert: false,
       });
 
