@@ -42,3 +42,9 @@ export { useLoopRegion } from './useLoopRegion';
 export type { LoopRegion } from './useLoopRegion';
 export { useMultiTrackAudio } from './useMultiTrackAudio';
 export type { MultiTrackAudioState } from './useMultiTrackAudio';
+export { 
+  useStudioAudio, 
+  registerStudioAudio, 
+  unregisterStudioAudio, 
+  pauseAllStudioAudio 
+} from './useStudioAudio';

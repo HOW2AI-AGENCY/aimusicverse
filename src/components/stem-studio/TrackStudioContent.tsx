@@ -43,6 +43,7 @@ import {
   StemActionSheet,
   useStudioTrackState,
 } from '@/components/studio';
+import { registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useStudioActivityLogger } from '@/hooks/useStudioActivityLogger';
 import { TrackStem } from '@/hooks/useTrackStems';
@@ -128,13 +129,19 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
     };
   }, [trackId, resetSectionEditor, logActivity]);
 
-  // Initialize audio
+  // Initialize audio with coordination
   useEffect(() => {
     if (!track?.audio_url) return;
     
     const audio = new Audio(track.audio_url);
     audio.preload = 'auto';
     audioRef.current = audio;
+
+    // Register for audio coordination
+    registerStudioAudio('main-studio-player', () => {
+      audio.pause();
+      setIsPlaying(false);
+    });
 
     audio.addEventListener('loadedmetadata', () => {
       setDuration(audio.duration);
@@ -146,6 +153,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
     });
 
     return () => {
+      unregisterStudioAudio('main-studio-player');
       audio.pause();
       audio.src = '';
       audioRef.current = null;
@@ -239,8 +247,8 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
     }
   };
 
-  // Apply replacement
-  const handleApplyReplacement = useCallback(async () => {
+  // Apply replacement - accepts selected variant (A or B)
+  const handleApplyReplacement = useCallback(async (selectedVariant: 'variantA' | 'variantB' = 'variantA') => {
     if (latestCompletion?.versionId) {
       try {
         await setPrimaryVersionAsync({ 
@@ -248,8 +256,13 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
           versionId: latestCompletion.versionId 
         });
         
-        if (audioRef.current && latestCompletion.newAudioUrl) {
-          audioRef.current.src = latestCompletion.newAudioUrl;
+        // Use the correct URL based on selected variant
+        const audioUrl = selectedVariant === 'variantB' && latestCompletion.newAudioUrlB
+          ? latestCompletion.newAudioUrlB
+          : latestCompletion.newAudioUrl;
+        
+        if (audioRef.current && audioUrl) {
+          audioRef.current.src = audioUrl;
           audioRef.current.load();
         }
         
@@ -258,7 +271,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
         queryClient.invalidateQueries({ queryKey: ['replaced-sections', trackId] });
         
         logReplacementApply(latestCompletion.versionId);
-        toast.success('Новая версия применена');
+        toast.success(`Вариант ${selectedVariant === 'variantA' ? 'A' : 'B'} применён`);
       } catch (error) {
         logger.error('Failed to apply replacement', error);
         toast.error('Ошибка при применении замены');
@@ -580,7 +593,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
         </div>
       )}
 
-      {/* Compare Panel */}
+      {/* Compare Panel - supports A/B/C comparison */}
       {editMode === 'comparing' && latestCompletion?.newAudioUrl && track.audio_url && (
         <QuickCompare
           open={true}
@@ -589,10 +602,11 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
           }}
           onClose={() => setLatestCompletion(null)}
           originalAudioUrl={track.audio_url}
-          replacementAudioUrl={latestCompletion.newAudioUrl}
+          variantAUrl={latestCompletion.newAudioUrl}
+          variantBUrl={latestCompletion.newAudioUrlB}
           sectionStart={latestCompletion.section.start}
           sectionEnd={latestCompletion.section.end}
-          onApply={handleApplyReplacement}
+          onApply={(selectedVariant) => handleApplyReplacement(selectedVariant)}
           onDiscard={handleDiscardReplacement}
         />
       )}

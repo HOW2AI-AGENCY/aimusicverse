@@ -434,8 +434,8 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     selectSection(section, index);
   }, [selectSection]);
 
-  // Handle compare panel actions
-  const handleApplyReplacement = useCallback(async () => {
+  // Handle compare panel actions - accepts selected variant (A or B)
+  const handleApplyReplacement = useCallback(async (selectedVariant: 'variantA' | 'variantB' = 'variantA') => {
     if (latestCompletion?.versionId) {
       try {
         await setPrimaryVersionAsync({ 
@@ -445,7 +445,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         // Invalidate tracks to refresh audio URL
         queryClient.invalidateQueries({ queryKey: ['tracks'] });
         queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
-        toast.success('Новая версия установлена как основная');
+        toast.success(`Вариант ${selectedVariant === 'variantA' ? 'A' : 'B'} применён`);
       } catch (error) {
         logger.error('Failed to apply replacement', error);
         toast.error('Ошибка при применении замены');
@@ -781,7 +781,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         />
       )}
 
-      {/* Unified Quick Compare Panel - automatically adapts to mobile/desktop */}
+      {/* Unified Quick Compare Panel - supports A/B/C comparison */}
       {editMode === 'comparing' && latestCompletion?.newAudioUrl && track.audio_url && (
         <QuickCompare
           open={editMode === 'comparing'}
@@ -790,10 +790,11 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           }}
           onClose={() => setLatestCompletion(null)}
           originalAudioUrl={track.audio_url}
-          replacementAudioUrl={latestCompletion.newAudioUrl}
+          variantAUrl={latestCompletion.newAudioUrl}
+          variantBUrl={latestCompletion.newAudioUrlB}
           sectionStart={latestCompletion.section.start}
           sectionEnd={latestCompletion.section.end}
-          onApply={handleApplyReplacement}
+          onApply={(selectedVariant) => handleApplyReplacement(selectedVariant)}
           onDiscard={handleDiscardReplacement}
         />
       )}
