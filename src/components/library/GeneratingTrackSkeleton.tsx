@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Progress } from '@/components/ui/progress';
-import { Loader2, Music2, Sparkles, Wand2, AudioWaveform } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Loader2, Music2, Sparkles, Wand2, AudioWaveform, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from '@/lib/motion';
 
 interface GeneratingTrackSkeletonProps {
   status: string;
@@ -21,7 +22,7 @@ const STATUS_MESSAGES = [
   { min: 85, max: 100, messages: ['Почти готово...', 'Загрузка файлов...', 'Завершение...'] },
 ];
 
-const ICONS = [Sparkles, Wand2, Music2, AudioWaveform];
+const ICONS = [Sparkles, Wand2, Music2, AudioWaveform, Zap];
 
 export const GeneratingTrackSkeleton = ({ 
   status, 
@@ -40,27 +41,24 @@ export const GeneratingTrackSkeleton = ({
     const startTime = createdAt ? new Date(createdAt).getTime() : Date.now();
     
     const updateProgress = () => {
-      const elapsed = (Date.now() - startTime) / 1000; // seconds
+      const elapsed = (Date.now() - startTime) / 1000;
       
-      // Progress curve: fast start, slow middle, fast end
-      // Max progress at ~3 minutes (180 seconds), never reaches 100 until done
       let newProgress: number;
       
       if (elapsed < 10) {
-        newProgress = 10 + (elapsed / 10) * 15; // 10-25% in first 10 seconds
+        newProgress = 10 + (elapsed / 10) * 15;
       } else if (elapsed < 30) {
-        newProgress = 25 + ((elapsed - 10) / 20) * 20; // 25-45% in next 20 seconds
+        newProgress = 25 + ((elapsed - 10) / 20) * 20;
       } else if (elapsed < 90) {
-        newProgress = 45 + ((elapsed - 30) / 60) * 25; // 45-70% in next 60 seconds
+        newProgress = 45 + ((elapsed - 30) / 60) * 25;
       } else if (elapsed < 150) {
-        newProgress = 70 + ((elapsed - 90) / 60) * 15; // 70-85% in next 60 seconds
+        newProgress = 70 + ((elapsed - 90) / 60) * 15;
       } else {
-        newProgress = Math.min(85 + ((elapsed - 150) / 120) * 10, 95); // 85-95% slowly
+        newProgress = Math.min(85 + ((elapsed - 150) / 120) * 10, 95);
       }
       
       setProgress(Math.round(newProgress));
       
-      // Find appropriate status message
       const statusGroup = STATUS_MESSAGES.find(
         g => newProgress >= g.min && newProgress < g.max
       ) || STATUS_MESSAGES[STATUS_MESSAGES.length - 1];
@@ -70,7 +68,7 @@ export const GeneratingTrackSkeleton = ({
     };
 
     updateProgress();
-    const interval = setInterval(updateProgress, 3000); // Update every 3 seconds
+    const interval = setInterval(updateProgress, 3000);
     
     return () => clearInterval(interval);
   }, [status, createdAt]);
@@ -87,50 +85,123 @@ export const GeneratingTrackSkeleton = ({
 
   if (layout === 'list') {
     return (
-      <Card className="p-3 sm:p-4 border-primary/30 bg-primary/5">
-        <div className="flex items-center gap-3">
+      <Card className="p-3 sm:p-4 border-generate/30 bg-gradient-to-r from-generate/10 to-primary/5 relative overflow-hidden">
+        {/* Animated shimmer */}
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+          animate={{ x: ['-100%', '200%'] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+        />
+        
+        <div className="flex items-center gap-3 relative">
           {/* Animated cover placeholder */}
-          <div className="w-16 h-16 sm:w-14 sm:h-14 rounded-md bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center relative overflow-hidden flex-shrink-0">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent animate-shimmer" />
-            <Icon className="w-6 h-6 text-primary animate-pulse" />
-          </div>
+          <motion.div 
+            className="w-14 h-14 rounded-xl bg-gradient-to-br from-generate/30 to-primary/20 flex items-center justify-center relative overflow-hidden flex-shrink-0 shadow-lg"
+            animate={{ scale: [1, 1.02, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={iconIndex}
+                initial={{ scale: 0, rotate: -90 }}
+                animate={{ scale: 1, rotate: 0 }}
+                exit={{ scale: 0, rotate: 90 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Icon className="w-6 h-6 text-generate" />
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
           
           <div className="flex-1 min-w-0 space-y-2">
             <div className="flex items-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin text-primary" />
-              <span className="text-sm font-medium text-primary truncate">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+              >
+                <Loader2 className="w-4 h-4 text-generate" />
+              </motion.div>
+              <span className="text-sm font-medium text-generate truncate">
                 {statusMessage}
               </span>
+              <Badge variant="outline" className="ml-auto text-[10px] border-generate/30 text-generate">
+                {progress}%
+              </Badge>
             </div>
-            <Progress value={progress} className="h-1.5" />
+            <div className="relative h-2 bg-muted/50 rounded-full overflow-hidden">
+              <motion.div 
+                className="h-full bg-gradient-to-r from-generate to-primary rounded-full"
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                transition={{ duration: 0.5 }}
+              />
+              <motion.div 
+                className="absolute top-0 h-full w-20 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                animate={{ x: ['-100%', '500%'] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+              />
+            </div>
             {prompt && (
               <p className="text-xs text-muted-foreground truncate">
                 {prompt.substring(0, 60)}...
               </p>
             )}
           </div>
-          
-          <span className="text-xs text-muted-foreground tabular-nums">
-            {progress}%
-          </span>
         </div>
       </Card>
     );
   }
 
   return (
-    <Card className="overflow-hidden border-primary/30 bg-gradient-to-b from-primary/5 to-transparent">
+    <Card className="overflow-hidden border-generate/30 bg-gradient-to-b from-generate/10 to-transparent relative group">
       {/* Cover placeholder with animation */}
-      <div className="aspect-square relative bg-gradient-to-br from-primary/10 via-primary/5 to-background flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent animate-shimmer" />
+      <div className="aspect-square relative bg-gradient-to-br from-generate/20 via-primary/10 to-background flex items-center justify-center overflow-hidden">
+        {/* Animated background waves */}
+        <div className="absolute inset-0">
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute inset-0 rounded-full border border-generate/20"
+              style={{ scale: 0.5 + i * 0.2 }}
+              animate={{ 
+                scale: [0.5 + i * 0.2, 0.8 + i * 0.2, 0.5 + i * 0.2],
+                opacity: [0.3, 0.1, 0.3]
+              }}
+              transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
+            />
+          ))}
+        </div>
         
         {/* Animated icon */}
         <div className="relative z-10 flex flex-col items-center gap-3">
-          <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center">
-            <Icon className="w-8 h-8 text-primary animate-pulse" />
-          </div>
+          <motion.div 
+            className="w-20 h-20 rounded-2xl bg-gradient-to-br from-generate/30 to-primary/20 flex items-center justify-center shadow-xl"
+            animate={{ 
+              scale: [1, 1.05, 1],
+              rotate: [0, 5, -5, 0]
+            }}
+            transition={{ duration: 3, repeat: Infinity }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={iconIndex}
+                initial={{ scale: 0, rotate: -90 }}
+                animate={{ scale: 1, rotate: 0 }}
+                exit={{ scale: 0, rotate: 90 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Icon className="w-10 h-10 text-generate" />
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
           <div className="text-center px-4">
-            <p className="text-sm font-medium text-primary">{statusMessage}</p>
+            <motion.p 
+              className="text-sm font-medium text-generate"
+              animate={{ opacity: [0.7, 1, 0.7] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              {statusMessage}
+            </motion.p>
           </div>
         </div>
         
@@ -141,33 +212,53 @@ export const GeneratingTrackSkeleton = ({
             cy="50"
             r="45"
             fill="none"
-            stroke="hsl(var(--primary) / 0.1)"
+            stroke="hsl(var(--generate) / 0.1)"
             strokeWidth="2"
           />
-          <circle
+          <motion.circle
             cx="50"
             cy="50"
             r="45"
             fill="none"
-            stroke="hsl(var(--primary))"
-            strokeWidth="2"
-            strokeDasharray={`${progress * 2.83} 283`}
+            stroke="hsl(var(--generate))"
+            strokeWidth="3"
             strokeLinecap="round"
-            className="transition-all duration-500"
+            initial={{ strokeDasharray: '0 283' }}
+            animate={{ strokeDasharray: `${progress * 2.83} 283` }}
+            transition={{ duration: 0.5 }}
           />
         </svg>
       </div>
       
       <div className="p-4 space-y-3">
-        {/* Title skeleton */}
+        {/* Title with loader */}
         <div className="flex items-center gap-2">
-          <Loader2 className="w-4 h-4 animate-spin text-primary flex-shrink-0" />
-          <span className="text-sm font-medium text-primary">Генерация...</span>
-          <span className="ml-auto text-xs text-muted-foreground tabular-nums">{progress}%</span>
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+          >
+            <Loader2 className="w-4 h-4 text-generate flex-shrink-0" />
+          </motion.div>
+          <span className="text-sm font-medium text-generate">Генерация...</span>
+          <Badge variant="outline" className="ml-auto text-[10px] border-generate/30 text-generate tabular-nums">
+            {progress}%
+          </Badge>
         </div>
         
-        {/* Progress bar */}
-        <Progress value={progress} className="h-2" />
+        {/* Progress bar with shimmer */}
+        <div className="relative h-2 bg-muted/50 rounded-full overflow-hidden">
+          <motion.div 
+            className="h-full bg-gradient-to-r from-generate via-primary to-generate rounded-full"
+            initial={{ width: 0 }}
+            animate={{ width: `${progress}%` }}
+            transition={{ duration: 0.5 }}
+          />
+          <motion.div 
+            className="absolute top-0 h-full w-16 bg-gradient-to-r from-transparent via-white/50 to-transparent"
+            animate={{ x: ['-100%', '400%'] }}
+            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+          />
+        </div>
         
         {/* Prompt preview */}
         {prompt && (
@@ -179,10 +270,3 @@ export const GeneratingTrackSkeleton = ({
     </Card>
   );
 };
-
-// CSS for shimmer animation - add to index.css
-// @keyframes shimmer {
-//   0% { transform: translateX(-100%); }
-//   100% { transform: translateX(100%); }
-// }
-// .animate-shimmer { animation: shimmer 2s infinite; }

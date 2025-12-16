@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle, Library as LibraryIcon } from "lucide-react";
+import { motion } from "@/lib/motion";
 import { useTracksInfinite } from "@/hooks/useTracksInfinite";
 import { type Track } from "@/hooks/useTracksOptimized";
 import { Button } from "@/components/ui/button";
@@ -249,97 +250,129 @@ export default function Library() {
   return (
     <ErrorBoundaryWrapper>
       <div className="min-h-screen pb-20">
-        {/* Page Header - Modern gradient design */}
-        <header className="sticky top-0 z-30 bg-gradient-to-b from-background via-background/95 to-background/80 backdrop-blur-xl border-b border-border/30">
-          <div className="container mx-auto px-3 sm:px-4 py-3">
+        {/* Page Header - Premium gradient design */}
+        <header className="sticky top-0 z-30 bg-gradient-to-b from-background via-background/98 to-background/90 backdrop-blur-xl border-b border-border/30">
+          <div className="container mx-auto px-3 sm:px-4 py-4">
             <div className="flex items-center justify-between gap-3">
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-library/10 border border-library/20">
-                    <LibraryIcon className="w-4 h-4 text-library" />
-                  </div>
-                  <h1 className="text-lg sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70 truncate">
-                    Библиотека
-                  </h1>
-                </div>
-                <p className="text-xs sm:text-sm text-muted-foreground mt-1 ml-9">
-                  {hasActiveGenerations && (
-                    <span className="inline-flex items-center gap-1.5 text-generate mr-2">
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-generate opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-generate"></span>
+                <div className="flex items-center gap-3">
+                  <motion.div 
+                    className="p-2.5 rounded-xl bg-gradient-to-br from-library/20 to-library/5 border border-library/30 shadow-lg"
+                    initial={{ scale: 0, rotate: -90 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ type: 'spring', stiffness: 200 }}
+                  >
+                    <LibraryIcon className="w-5 h-5 text-library" />
+                  </motion.div>
+                  <div>
+                    <h1 className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
+                      Библиотека
+                    </h1>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      {hasActiveGenerations && (
+                        <motion.span 
+                          className="inline-flex items-center gap-1.5 text-generate text-xs font-medium"
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                        >
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-generate opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-generate"></span>
+                          </span>
+                          {activeGenerations.length} в работе
+                        </motion.span>
+                      )}
+                      <span className="text-xs text-muted-foreground">
+                        <span className="tabular-nums font-semibold text-foreground">{tracks?.length || 0}</span>
+                        <span className="text-muted-foreground/60"> / {totalCount}</span>
                       </span>
-                      {activeGenerations.length} в работе
-                    </span>
-                  )}
-                  <span className="tabular-nums font-medium">{tracks?.length || 0}</span>
-                  <span className="text-muted-foreground/60"> / {totalCount} треков</span>
-                </p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className="flex items-center gap-1.5 shrink-0">
+              <div className="flex items-center gap-2 shrink-0">
                 {tracksToDisplay.length > 0 && (
                   <>
-                    <Button
-                      variant="default"
-                      size="icon"
-                      onClick={handlePlayAll}
-                      className="h-9 w-9 min-h-[44px] min-w-[44px] rounded-xl"
-                      aria-label="Воспроизвести все"
-                    >
-                      <Play className="w-4 h-4" />
-                    </Button>
-                    {!isMobile && (
+                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                       <Button
-                        variant="ghost"
+                        variant="default"
                         size="icon"
-                        onClick={handleShuffleAll}
-                        className="h-9 w-9 min-h-[44px] min-w-[44px] rounded-xl"
-                        aria-label="Перемешать"
+                        onClick={handlePlayAll}
+                        className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 shadow-lg shadow-primary/25"
+                        aria-label="Воспроизвести все"
                       >
-                        <Shuffle className="w-4 h-4" />
+                        <Play className="w-4 h-4" />
                       </Button>
+                    </motion.div>
+                    {!isMobile && (
+                      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={handleShuffleAll}
+                          className="h-10 w-10 rounded-xl hover:bg-primary/10"
+                          aria-label="Перемешать"
+                        >
+                          <Shuffle className="w-4 h-4" />
+                        </Button>
+                      </motion.div>
                     )}
                   </>
                 )}
                 {!isMobile && (
-                  <div className="flex items-center bg-muted/50 rounded-xl p-1">
+                  <div className="flex items-center bg-muted/50 rounded-xl p-1 border border-border/30">
                     <Button
                       variant={viewMode === "grid" ? "default" : "ghost"}
                       size="icon"
                       onClick={() => setViewMode("grid")}
-                      className="h-8 w-8 rounded-lg"
+                      className={cn(
+                        "h-8 w-8 rounded-lg transition-all",
+                        viewMode === "grid" && "shadow-md"
+                      )}
                       aria-label="Сетка"
                     >
                       <Grid3x3 className="w-4 h-4" />
                     </Button>
                     <Button
                       variant={viewMode === "list" ? "default" : "ghost"}
-                    size="icon"
-                    onClick={() => setViewMode("list")}
-                    className="h-8 w-8 rounded-lg"
-                    aria-label="Список"
-                  >
-                    <List className="w-4 h-4" />
-                  </Button>
-                </div>
+                      size="icon"
+                      onClick={() => setViewMode("list")}
+                      className={cn(
+                        "h-8 w-8 rounded-lg transition-all",
+                        viewMode === "list" && "shadow-md"
+                      )}
+                      aria-label="Список"
+                    >
+                      <List className="w-4 h-4" />
+                    </Button>
+                  </div>
                 )}
               </div>
             </div>
 
-            {/* Search and Filters - Mobile optimized */}
-            <div className="mt-3 flex flex-col sm:flex-row gap-2">
+            {/* Search and Filters - Enhanced */}
+            <div className="mt-4 flex flex-col sm:flex-row gap-2">
               <div className="relative flex-1 group">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4 transition-colors group-focus-within:text-primary" />
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4 transition-colors group-focus-within:text-primary" />
                 <Input
-                  placeholder="Поиск..."
+                  placeholder="Поиск треков..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9 h-10 text-sm rounded-xl border-border/50 bg-muted/30 focus:bg-background transition-colors"
+                  className="pl-10 h-11 text-sm rounded-xl border-border/50 bg-card/50 focus:bg-card focus:border-primary/50 transition-all"
                 />
+                {searchQuery && (
+                  <motion.span 
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full"
+                  >
+                    {tracksToDisplay.length} найдено
+                  </motion.span>
+                )}
               </div>
               <Select value={sortBy} onValueChange={(v: "recent" | "popular" | "liked") => setSortBy(v)}>
-                <SelectTrigger className="w-full sm:w-40 h-10 text-sm rounded-xl border-border/50 bg-muted/30">
+                <SelectTrigger className="w-full sm:w-44 h-11 text-sm rounded-xl border-border/50 bg-card/50 hover:bg-card transition-all">
                   <SlidersHorizontal className="w-4 h-4 mr-2 text-muted-foreground" />
                   <SelectValue />
                 </SelectTrigger>
