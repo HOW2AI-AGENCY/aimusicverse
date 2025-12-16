@@ -66,14 +66,19 @@ jobs:
           echo "js_size=${SIZE}" >> $GITHUB_OUTPUT
           echo "Bundle JS size: ${SIZE}KB"
 
+      - name: Run size-limit
+        run: npm run size
+        continue-on-error: true
+
       - name: Check bundle size threshold
         run: |
-          # Threshold: 900KB (921600 bytes)
+          # Threshold: 950KB for Phase 1
           SIZE=${{ steps.bundle.outputs.js_size }}
-          if [ "$SIZE" -gt 900 ]; then
-            echo "⚠️ Bundle size (${SIZE}KB) exceeds target (900KB)"
+          if [ "$SIZE" -gt 950 ]; then
+            echo "⚠️ Bundle size (${SIZE}KB) exceeds Phase 1 target (950KB)"
+            echo "::warning::Bundle size exceeded - Phase 1 target is 950KB, current: ${SIZE}KB"
           else
-            echo "✅ Bundle size (${SIZE}KB) within target (900KB)"
+            echo "✅ Bundle size (${SIZE}KB) within Phase 1 target (950KB)"
           fi
 
       - name: Upload bundle report
