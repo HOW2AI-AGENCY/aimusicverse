@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { 
   ChevronLeft, Play, Pause, SkipBack, SkipForward,
   Volume2, VolumeX, Scissors, Mic, Music, Shuffle, 
@@ -13,6 +14,7 @@ import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useSectionDetection } from '@/hooks/useSectionDetection';
 import { useReplacedSections } from '@/hooks/useReplacedSections';
 import { useReplaceSectionRealtime } from '@/hooks/useReplaceSectionRealtime';
+import { useVersionSwitcher } from '@/hooks/useVersionSwitcher';
 import { StudioLyricsPanel } from '@/components/stem-studio/StudioLyricsPanel';
 import { StudioLyricsPanelCompact } from '@/components/stem-studio/StudioLyricsPanelCompact';
 import { SectionTimelineVisualization } from '@/components/stem-studio/SectionTimelineVisualization';
@@ -50,9 +52,11 @@ interface TrackStudioContentProps {
 
 export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const isMobile = useIsMobile();
   const { tracks } = useTracks();
   const track = tracks?.find(t => t.id === trackId);
+  const { setPrimaryVersionAsync, isSettingPrimary } = useVersionSwitcher();
   
   // Load guitar analysis if exists
   const { data: guitarAnalysis } = useTrackGuitarAnalysis(trackId);
@@ -181,10 +185,26 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
   }, [selectSection]);
 
   // Handle compare panel actions
-  const handleApplyReplacement = useCallback(() => {
+  const handleApplyReplacement = useCallback(async () => {
+    if (latestCompletion?.versionId) {
+      try {
+        await setPrimaryVersionAsync({ 
+          trackId, 
+          versionId: latestCompletion.versionId 
+        });
+        // Invalidate tracks to refresh audio URL
+        queryClient.invalidateQueries({ queryKey: ['tracks'] });
+        queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
+        toast.success('Новая версия установлена как основная');
+      } catch (error) {
+        logger.error('Failed to apply replacement', error);
+        toast.error('Ошибка при применении замены');
+      }
+    } else {
+      toast.success('Замена применена');
+    }
     setLatestCompletion(null);
-    toast.success('Замена применена');
-  }, [setLatestCompletion]);
+  }, [latestCompletion, trackId, setPrimaryVersionAsync, queryClient, setLatestCompletion]);
 
   const handleDiscardReplacement = useCallback(() => {
     setLatestCompletion(null);
