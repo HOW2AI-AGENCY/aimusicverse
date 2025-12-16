@@ -115,16 +115,26 @@ export async function handleStart(chatId: number, startParam?: string) {
     )
     .addRow(
       {
+        text: 'Профиль',
+        emoji: '👤',
+        action: { type: 'callback', data: 'nav_profile' }
+      },
+      {
         text: 'Настройки',
         emoji: '⚙️',
         action: { type: 'callback', data: 'nav_settings' }
-      },
-      {
-        text: 'Помощь',
-        emoji: 'ℹ️',
-        action: { type: 'callback', data: 'nav_help' }
       }
     )
+    .addButton({
+      text: '📢 Канал @AIMusicVerse',
+      emoji: '',
+      action: { type: 'url', url: 'https://t.me/AIMusicVerse' }
+    })
+    .addButton({
+      text: 'Помощь',
+      emoji: 'ℹ️',
+      action: { type: 'callback', data: 'nav_help' }
+    })
     .build();
   
   // Use sendPhoto with MusicVerse branded banner

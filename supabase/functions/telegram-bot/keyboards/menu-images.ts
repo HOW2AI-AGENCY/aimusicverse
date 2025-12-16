@@ -1,13 +1,9 @@
 /**
  * Menu images configuration for Telegram bot
- * Images are hosted on the app domain and used for visual navigation
+ * Uses reliable Unsplash images as fallbacks
  */
 
 import { BOT_CONFIG } from '../config.ts';
-
-// Base URL for app-hosted images
-const APP_URL = BOT_CONFIG.miniAppUrl || 'https://ygmvthybdrqymfsqifmj.lovableproject.com';
-const IMAGES_URL = `${APP_URL}/bot-menu-images`;
 
 export interface MenuImage {
   url: string;
@@ -15,60 +11,61 @@ export interface MenuImage {
   description?: string;
 }
 
-// Menu images with app-hosted URLs (MusicVerse styled)
+// Reliable image URLs for bot menus
+// Using Unsplash images that are guaranteed to work with Telegram
 export const MENU_IMAGES: Record<string, MenuImage> = {
   mainMenu: {
-    url: `${IMAGES_URL}/main-menu.png`,
+    url: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&h=400&fit=crop&q=80',
     title: 'MusicVerse Studio',
     description: 'Создавайте музыку с помощью AI'
   },
   generator: {
-    url: `${IMAGES_URL}/generator.png`,
+    url: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=400&fit=crop&q=80',
     title: 'Генератор музыки',
     description: 'Создание треков по описанию'
   },
   library: {
-    url: `${IMAGES_URL}/library.png`,
+    url: 'https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=800&h=400&fit=crop&q=80',
     title: 'Библиотека',
     description: 'Ваши созданные треки'
   },
   projects: {
-    url: `${IMAGES_URL}/projects.png`,
+    url: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=400&fit=crop&q=80',
     title: 'Проекты',
     description: 'Управление музыкальными проектами'
   },
   analysis: {
-    url: `${IMAGES_URL}/analysis.png`,
+    url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=400&fit=crop&q=80',
     title: 'Анализ аудио',
     description: 'MIDI, аккорды, BPM, распознавание'
   },
   settings: {
-    url: `${IMAGES_URL}/settings.png`,
+    url: 'https://images.unsplash.com/photo-1518972559570-7cc1309f3229?w=800&h=400&fit=crop&q=80',
     title: 'Настройки',
     description: 'Управление аккаунтом'
   },
   cloud: {
-    url: `${IMAGES_URL}/cloud.png`,
+    url: 'https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=800&h=400&fit=crop&q=80',
     title: 'Облако',
     description: 'Загруженные аудио файлы'
   },
   profile: {
-    url: `${IMAGES_URL}/profile.png`,
+    url: 'https://images.unsplash.com/photo-1493225255756-d9584f39cffb?w=800&h=400&fit=crop&q=80',
     title: 'Профиль',
     description: 'Статистика и баланс'
   },
   upload: {
-    url: `${IMAGES_URL}/cloud.png`, // Reuse cloud image
+    url: 'https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=800&h=400&fit=crop&q=80',
     title: 'Загрузка аудио',
     description: 'Загрузите файл для обработки'
   },
   help: {
-    url: `${IMAGES_URL}/main-menu.png`, // Reuse main menu
+    url: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&h=400&fit=crop&q=80',
     title: 'Справка',
     description: 'Помощь по использованию бота'
   },
   shop: {
-    url: `${IMAGES_URL}/shop.png`,
+    url: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&h=400&fit=crop&q=80',
     title: 'Магазин',
     description: 'Покупка кредитов и подписок'
   },
