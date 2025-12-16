@@ -9,11 +9,12 @@ import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { ProBadge, ProFeatureIndicator } from '@/components/ui/pro-badge';
-import { ArrowLeft, Mic, Guitar, Sparkles, Music, Zap, FileMusic, Drum } from 'lucide-react';
+import { ArrowLeft, Mic, Guitar, Sparkles, Music, Zap, FileMusic, Drum, Disc3 } from 'lucide-react';
 import { RealtimeChordVisualizer } from '@/components/chord-detection/RealtimeChordVisualizer';
 import { GuitarTabEditor } from '@/components/tab-editor/GuitarTabEditor';
 import { MelodyMixer } from '@/components/melody-mixer/MelodyMixer';
 import { DrumMachine } from '@/components/drum-machine/DrumMachine';
+import { PromptDJMidi } from '@/components/prompt-dj/PromptDJMidi';
 import { toast } from 'sonner';
 
 export default function CreativeTools() {
@@ -103,10 +104,14 @@ export default function CreativeTools() {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid grid-cols-4 w-full">
+          <TabsList className="grid grid-cols-5 w-full">
             <TabsTrigger value="drums" className="gap-1.5">
               <Drum className="h-4 w-4" />
               <span className="hidden sm:inline">Драм</span>
+            </TabsTrigger>
+            <TabsTrigger value="promptdj" className="gap-1.5">
+              <Disc3 className="h-4 w-4" />
+              <span className="hidden sm:inline">DJ</span>
             </TabsTrigger>
             <TabsTrigger value="chords" className="gap-1.5">
               <Mic className="h-4 w-4" />
@@ -149,6 +154,28 @@ export default function CreativeTools() {
                     </p>
                   </div>
                   <DrumMachine />
+                </motion.div>
+              </TabsContent>
+
+              {/* PromptDJ MIDI */}
+              <TabsContent value="promptdj" className="mt-0">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                >
+                  <div className="mb-4 p-4 bg-muted/30 rounded-xl border border-primary/10">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <Disc3 className="h-5 w-5 text-primary" />
+                        <h2 className="font-semibold">PromptDJ MIDI</h2>
+                      </div>
+                      <ProBadge size="sm" />
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Смешивайте стили через 4-канальный микшер с crossfader и AI-генерацией
+                    </p>
+                  </div>
+                  <PromptDJMidi />
                 </motion.div>
               </TabsContent>
 

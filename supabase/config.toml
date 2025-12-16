@@ -206,3 +206,6 @@ verify_jwt = false
 
 [functions.process-audio-pipeline]
 verify_jwt = false
+
+[functions.musicgen-generate]
+verify_jwt = true
