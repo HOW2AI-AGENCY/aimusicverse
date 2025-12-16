@@ -8,12 +8,13 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { 
   Music2, Clock, Tag, FileText, Wand2, Heart, Play, Pause,
-  User, Mic, Cpu, Share2
+  User, Mic, Cpu, Share2, MessageSquare
 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { usePlayerStore } from '@/hooks/audio';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { LikeButton } from '@/components/ui/like-button';
+import { TrackCommentsSection } from '@/components/track/TrackCommentsSection';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContentOptimized';
 import type { Track } from '@/hooks/useTracksOptimized';
 
@@ -298,6 +299,10 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
             )}
           </div>
         </div>
+
+        {/* Comments Section */}
+        <Separator />
+        <TrackCommentsSection trackId={track.id} defaultExpanded={false} />
       </div>
     </ScrollArea>
   );

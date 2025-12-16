@@ -1,5 +1,4 @@
-import { forwardRef, useCallback } from 'react';
-import { Virtuoso, VirtuosoGrid } from 'react-virtuoso';
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -34,34 +33,6 @@ interface VirtualizedProjectsListProps {
   typeLabels: Record<string, string>;
 }
 
-// Grid container component
-const GridContainer = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ children, ...props }, ref) => (
-    <div
-      ref={ref}
-      {...props}
-      className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 px-0"
-    />
-  )
-);
-GridContainer.displayName = "GridContainer";
-
-// List container
-const ListContainer = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ children, ...props }, ref) => (
-    <div ref={ref} {...props} className="space-y-2" />
-  )
-);
-ListContainer.displayName = "ListContainer";
-
-// Item wrapper for grid
-const GridItemWrapper = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ children, ...props }, ref) => (
-    <div ref={ref} {...props} className="w-full">{children}</div>
-  )
-);
-GridItemWrapper.displayName = "GridItemWrapper";
-
 export function VirtualizedProjectsList({
   projects,
   viewMode,
@@ -71,15 +42,15 @@ export function VirtualizedProjectsList({
 }: VirtualizedProjectsListProps) {
   const navigate = useNavigate();
 
-  const renderGridItem = useCallback((index: number, project: Project) => {
+  const ProjectGridCard = useCallback(({ project, index }: { project: Project; index: number }) => {
     const status = statusLabels[project.status || 'draft'];
     const projectType = typeLabels[project.project_type || 'album'] || project.project_type;
 
     return (
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
+        initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.15 }}
+        transition={{ duration: 0.2, delay: index * 0.03 }}
         onClick={() => navigate(`/projects/${project.id}`)}
         className={cn(
           "group relative overflow-hidden rounded-2xl cursor-pointer touch-manipulation",
@@ -94,6 +65,7 @@ export function VirtualizedProjectsList({
               src={project.cover_url}
               alt={project.title}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
@@ -108,20 +80,20 @@ export function VirtualizedProjectsList({
             </Badge>
           </div>
 
-          <div className="absolute top-2 right-2">
+          <div className="absolute top-2 right-2 z-10">
             <Badge className={cn("text-[10px] h-5 px-2 border-0 backdrop-blur-sm", status.color)}>
               {status.label}
             </Badge>
           </div>
 
-          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
             <DropdownMenu>
               <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
                 <Button variant="secondary" size="icon" className="h-8 w-8 backdrop-blur-md">
                   <MoreVertical className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" className="z-50">
                 <DropdownMenuItem onClick={(e) => {
                   e.stopPropagation();
                   navigate(`/projects/${project.id}`);
@@ -168,12 +140,15 @@ export function VirtualizedProjectsList({
     );
   }, [navigate, statusLabels, typeLabels, onDelete]);
 
-  const renderListItem = useCallback((index: number, project: Project) => {
+  const ProjectListItem = useCallback(({ project, index }: { project: Project; index: number }) => {
     const status = statusLabels[project.status || 'draft'];
     const projectType = typeLabels[project.project_type || 'album'] || project.project_type;
 
     return (
-      <div
+      <motion.div
+        initial={{ opacity: 0, x: -10 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.2, delay: index * 0.02 }}
         className={cn(
           "group relative overflow-hidden rounded-xl bg-gradient-to-br from-card/80 to-card/40",
           "border border-border/50 hover:border-primary/30 transition-all duration-200",
@@ -190,6 +165,7 @@ export function VirtualizedProjectsList({
                 src={project.cover_url}
                 alt={project.title}
                 className="w-full h-full object-cover"
+                loading="lazy"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
@@ -232,7 +208,7 @@ export function VirtualizedProjectsList({
                 <MoreVertical className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" className="z-50">
               <DropdownMenuItem onClick={(e) => {
                 e.stopPropagation();
                 navigate(`/projects/${project.id}`);
@@ -256,34 +232,26 @@ export function VirtualizedProjectsList({
 
           <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
         </div>
-      </div>
+      </motion.div>
     );
   }, [navigate, statusLabels, typeLabels, onDelete]);
 
+  // Simple rendering without virtualization for better reliability
   if (viewMode === 'grid') {
     return (
-      <VirtuosoGrid
-        useWindowScroll
-        totalCount={projects.length}
-        overscan={200}
-        components={{
-          List: GridContainer,
-          Item: GridItemWrapper,
-        }}
-        itemContent={(index) => renderGridItem(index, projects[index])}
-      />
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        {projects.map((project, index) => (
+          <ProjectGridCard key={project.id} project={project} index={index} />
+        ))}
+      </div>
     );
   }
 
   return (
-    <Virtuoso
-      useWindowScroll
-      totalCount={projects.length}
-      overscan={400}
-      components={{
-        List: ListContainer,
-      }}
-      itemContent={(index) => renderListItem(index, projects[index])}
-    />
+    <div className="space-y-2">
+      {projects.map((project, index) => (
+        <ProjectListItem key={project.id} project={project} index={index} />
+      ))}
+    </div>
   );
 }
