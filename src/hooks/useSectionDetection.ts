@@ -247,12 +247,14 @@ function matchSectionToTimestamps(
 }
 
 // Create sections based on time when no tags present
+// Enhanced version with better musical structure detection
 function createTimeBasedSections(words: AlignedWord[], duration: number): DetectedSection[] {
   if (!words.length) return [];
 
-  const MIN_SECTION_DURATION = 10;
-  const MAX_SECTIONS = 6;
-  const TIME_GAP_THRESHOLD = 2;
+  const MIN_SECTION_DURATION = 8; // Reduced for better granularity
+  const MAX_SECTIONS = 8;
+  const TIME_GAP_THRESHOLD = 1.5; // More sensitive gap detection
+  const TYPICAL_SECTION_DURATION = 20; // ~20 sec typical verse/chorus
 
   const sections: DetectedSection[] = [];
   let currentWords: AlignedWord[] = [];
@@ -270,8 +272,10 @@ function createTimeBasedSections(words: AlignedWord[], duration: number): Detect
     const isLongEnough = currentDuration >= MIN_SECTION_DURATION;
     const hasNewline = word.word.includes('\n\n');
     const isLastWord = !nextWord;
+    const exceedsTypical = currentDuration >= TYPICAL_SECTION_DURATION;
 
-    if ((isLongEnough && (hasLargeGap || hasNewline)) || isLastWord) {
+    // Break section when: long enough AND (gap OR newline OR exceeds typical) OR last word
+    if ((isLongEnough && (hasLargeGap || hasNewline || exceedsTypical)) || isLastWord) {
       if (currentWords.length > 0 && sections.length < MAX_SECTIONS) {
         const lyrics = currentWords
           .map(w => w.word.replace(/\n/g, ' '))
@@ -279,9 +283,12 @@ function createTimeBasedSections(words: AlignedWord[], duration: number): Detect
           .trim();
 
         if (lyrics) {
+          // Infer section type based on position and patterns
+          const inferredType = inferSectionType(sectionIndex, sections.length, currentDuration, lyrics);
+          
           sections.push({
-            type: 'unknown',
-            label: `Секция ${sectionIndex}`,
+            type: inferredType,
+            label: getSectionLabelFromType(inferredType, sectionIndex),
             startTime: sectionStart,
             endTime: word.endS,
             lyrics,
@@ -298,6 +305,121 @@ function createTimeBasedSections(words: AlignedWord[], duration: number): Detect
     }
   }
 
+  return sections;
+}
+
+// Infer section type based on position and content
+function inferSectionType(
+  index: number, 
+  totalSections: number, 
+  duration: number,
+  lyrics: string
+): DetectedSection['type'] {
+  // Check for common patterns in lyrics
+  const lowerLyrics = lyrics.toLowerCase();
+  
+  // Check for repeating patterns (likely chorus)
+  if (lowerLyrics.includes('oh') || lowerLyrics.includes('yeah') || lowerLyrics.includes('la la')) {
+    return 'chorus';
+  }
+  
+  // Short intro section
+  if (index === 1 && duration < 15) {
+    return 'intro';
+  }
+  
+  // Last section might be outro
+  if (index >= totalSections && duration < 15) {
+    return 'outro';
+  }
+  
+  // Even sections often choruses in typical song structure
+  if (index % 2 === 0 && index > 1) {
+    return 'chorus';
+  }
+  
+  // Odd sections often verses
+  if (index % 2 === 1) {
+    return 'verse';
+  }
+  
+  return 'unknown';
+}
+
+// Get label from inferred type
+function getSectionLabelFromType(type: DetectedSection['type'], index: number): string {
+  const verseCount = Math.ceil(index / 2);
+  const chorusCount = Math.floor(index / 2);
+  
+  switch (type) {
+    case 'intro': return 'Интро';
+    case 'outro': return 'Аутро';
+    case 'verse': return `Куплет ${verseCount}`;
+    case 'chorus': return `Припев ${chorusCount || 1}`;
+    case 'bridge': return 'Бридж';
+    default: return `Секция ${index}`;
+  }
+}
+
+// Create duration-based sections when no lyrics/words available
+function createDurationBasedSections(duration: number): DetectedSection[] {
+  if (duration <= 0) return [];
+  
+  // Estimate typical song structure
+  const sections: DetectedSection[] = [];
+  
+  // Most songs have intro (0-10%), verses+choruses (10-90%), outro (90-100%)
+  const introEnd = Math.min(duration * 0.08, 15); // Max 15 sec intro
+  const outroStart = Math.max(duration * 0.92, duration - 15); // Max 15 sec outro
+  
+  // Intro if track is long enough
+  if (duration > 60 && introEnd > 3) {
+    sections.push({
+      type: 'intro',
+      label: 'Интро',
+      startTime: 0,
+      endTime: introEnd,
+      lyrics: '',
+      words: [],
+    });
+  }
+  
+  // Main sections - divide remaining time into ~25-30 sec chunks
+  const mainStart = sections.length > 0 ? introEnd : 0;
+  const mainEnd = duration > 60 ? outroStart : duration;
+  const mainDuration = mainEnd - mainStart;
+  
+  const numMainSections = Math.max(2, Math.min(6, Math.floor(mainDuration / 25)));
+  const sectionLength = mainDuration / numMainSections;
+  
+  for (let i = 0; i < numMainSections; i++) {
+    const isEven = i % 2 === 0;
+    const type: DetectedSection['type'] = isEven ? 'verse' : 'chorus';
+    const verseNum = Math.floor(i / 2) + 1;
+    const chorusNum = Math.ceil(i / 2);
+    
+    sections.push({
+      type,
+      label: isEven ? `Куплет ${verseNum}` : `Припев ${chorusNum}`,
+      startTime: mainStart + (i * sectionLength),
+      endTime: mainStart + ((i + 1) * sectionLength),
+      lyrics: '',
+      words: [],
+    });
+  }
+  
+  // Outro if track is long enough
+  if (duration > 60 && (duration - outroStart) > 3) {
+    sections.push({
+      type: 'outro',
+      label: 'Аутро',
+      startTime: outroStart,
+      endTime: duration,
+      lyrics: '',
+      words: [],
+    });
+  }
+  
   return sections;
 }
 
@@ -382,6 +504,11 @@ export function useSectionDetection(
       // 2. Fallback: time-based detection from aligned words
       if (filteredWords.length > 0) {
         return createTimeBasedSections(filteredWords, duration);
+      }
+
+      // 3. Final fallback: duration-based sections (no lyrics/words available)
+      if (duration > 0) {
+        return createDurationBasedSections(duration);
       }
 
       return [];
