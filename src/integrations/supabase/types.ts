@@ -913,6 +913,7 @@ export type Database = {
       music_projects: {
         Row: {
           ai_context: Json | null
+          approved_tracks_count: number | null
           bpm_range: unknown
           concept: string | null
           context_vector: Json | null
@@ -930,18 +931,22 @@ export type Database = {
           mood: string | null
           primary_artist_id: string | null
           project_type: Database["public"]["Enums"]["project_type"] | null
+          published_at: string | null
+          published_by: string | null
           reference_artists: string[] | null
           reference_tracks: string[] | null
           release_date: string | null
           status: string | null
           target_audience: string | null
           title: string
+          total_tracks_count: number | null
           type: string | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
           ai_context?: Json | null
+          approved_tracks_count?: number | null
           bpm_range?: unknown
           concept?: string | null
           context_vector?: Json | null
@@ -959,18 +964,22 @@ export type Database = {
           mood?: string | null
           primary_artist_id?: string | null
           project_type?: Database["public"]["Enums"]["project_type"] | null
+          published_at?: string | null
+          published_by?: string | null
           reference_artists?: string[] | null
           reference_tracks?: string[] | null
           release_date?: string | null
           status?: string | null
           target_audience?: string | null
           title: string
+          total_tracks_count?: number | null
           type?: string | null
           updated_at?: string | null
           user_id: string
         }
         Update: {
           ai_context?: Json | null
+          approved_tracks_count?: number | null
           bpm_range?: unknown
           concept?: string | null
           context_vector?: Json | null
@@ -988,12 +997,15 @@ export type Database = {
           mood?: string | null
           primary_artist_id?: string | null
           project_type?: Database["public"]["Enums"]["project_type"] | null
+          published_at?: string | null
+          published_by?: string | null
           reference_artists?: string[] | null
           reference_tracks?: string[] | null
           release_date?: string | null
           status?: string | null
           target_audience?: string | null
           title?: string
+          total_tracks_count?: number | null
           type?: string | null
           updated_at?: string | null
           user_id?: string
@@ -2221,6 +2233,8 @@ export type Database = {
       tracks: {
         Row: {
           active_version_id: string | null
+          approved_at: string | null
+          approved_by: string | null
           artist_avatar_url: string | null
           artist_id: string | null
           artist_name: string | null
@@ -2233,7 +2247,9 @@ export type Database = {
           has_stems: boolean | null
           has_vocals: boolean | null
           id: string
+          is_approved: boolean | null
           is_instrumental: boolean | null
+          is_master: boolean | null
           is_public: boolean | null
           likes_count: number | null
           local_audio_url: string | null
@@ -2246,6 +2262,7 @@ export type Database = {
           negative_tags: string | null
           play_count: number | null
           project_id: string | null
+          project_track_id: string | null
           prompt: string
           provider: string | null
           status: string | null
@@ -2266,6 +2283,8 @@ export type Database = {
         }
         Insert: {
           active_version_id?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
           artist_avatar_url?: string | null
           artist_id?: string | null
           artist_name?: string | null
@@ -2278,7 +2297,9 @@ export type Database = {
           has_stems?: boolean | null
           has_vocals?: boolean | null
           id?: string
+          is_approved?: boolean | null
           is_instrumental?: boolean | null
+          is_master?: boolean | null
           is_public?: boolean | null
           likes_count?: number | null
           local_audio_url?: string | null
@@ -2291,6 +2312,7 @@ export type Database = {
           negative_tags?: string | null
           play_count?: number | null
           project_id?: string | null
+          project_track_id?: string | null
           prompt: string
           provider?: string | null
           status?: string | null
@@ -2311,6 +2333,8 @@ export type Database = {
         }
         Update: {
           active_version_id?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
           artist_avatar_url?: string | null
           artist_id?: string | null
           artist_name?: string | null
@@ -2323,7 +2347,9 @@ export type Database = {
           has_stems?: boolean | null
           has_vocals?: boolean | null
           id?: string
+          is_approved?: boolean | null
           is_instrumental?: boolean | null
+          is_master?: boolean | null
           is_public?: boolean | null
           likes_count?: number | null
           local_audio_url?: string | null
@@ -2336,6 +2362,7 @@ export type Database = {
           negative_tags?: string | null
           play_count?: number | null
           project_id?: string | null
+          project_track_id?: string | null
           prompt?: string
           provider?: string | null
           status?: string | null
@@ -2374,6 +2401,13 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "music_projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tracks_project_track_id_fkey"
+            columns: ["project_track_id"]
+            isOneToOne: false
+            referencedRelation: "project_tracks"
             referencedColumns: ["id"]
           },
         ]
