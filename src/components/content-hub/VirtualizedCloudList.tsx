@@ -146,11 +146,20 @@ export function VirtualizedCloudList({
     );
   }, [playingId, onSelect, onPlay, onDelete, onUseForGeneration, formatDuration]);
 
+  // If few items, render directly without virtualization
+  if (audioFiles.length <= 20) {
+    return (
+      <div className="space-y-2">
+        {audioFiles.map((audio, index) => renderAudioItem(index, audio))}
+      </div>
+    );
+  }
+
   return (
     <Virtuoso
-      useWindowScroll
+      style={{ height: 'calc(100vh - 280px)', minHeight: '400px' }}
       totalCount={audioFiles.length}
-      overscan={400}
+      overscan={200}
       components={{
         List: ListContainer,
       }}
