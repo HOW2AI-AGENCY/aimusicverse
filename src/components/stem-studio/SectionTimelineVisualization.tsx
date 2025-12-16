@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { motion, AnimatePresence, Variants } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -73,11 +74,7 @@ export function SectionTimelineVisualization({
 }: SectionTimelineVisualizationProps) {
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
+  // formatTime imported from @/lib/player-utils
 
   // Calculate section positions
   const sectionPositions = useMemo(() => {

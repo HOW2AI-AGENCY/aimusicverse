@@ -15,6 +15,7 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { SectionComparePanel } from './SectionComparePanel';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
@@ -101,11 +102,7 @@ export function ReplacementHistoryPanel({ trackId, trackAudioUrl }: ReplacementH
     refetchInterval: 5000,
   });
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
+  // formatTime imported from @/lib/player-utils
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>

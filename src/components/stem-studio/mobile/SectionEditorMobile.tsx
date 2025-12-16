@@ -4,6 +4,7 @@
 
 import { motion, AnimatePresence } from '@/lib/motion';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { formatTime } from '@/lib/player-utils';
 import { useSectionReplacement } from '@/hooks/useSectionReplacement';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useSectionDetection, DetectedSection } from '@/hooks/useSectionDetection';
@@ -35,11 +36,7 @@ interface SectionEditorMobileProps {
   audioId?: string | null;
 }
 
-function formatTime(seconds: number) {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-}
+// formatTime imported from @/lib/player-utils
 
 export function SectionEditorMobile({
   open,

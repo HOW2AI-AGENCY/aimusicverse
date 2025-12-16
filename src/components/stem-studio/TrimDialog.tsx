@@ -17,6 +17,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { formatTimePrecise } from '@/lib/player-utils';
 
 interface TrimDialogProps {
   open: boolean;
@@ -182,12 +183,8 @@ export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDi
     }
   };
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    const ms = Math.floor((seconds % 1) * 100);
-    return `${mins}:${secs.toString().padStart(2, '0')}.${ms.toString().padStart(2, '0')}`;
-  };
+  // Use formatTimePrecise for millisecond precision
+  const formatTime = formatTimePrecise;
 
   const content = (
     <div className="space-y-6">
