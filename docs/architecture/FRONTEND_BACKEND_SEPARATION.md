@@ -143,6 +143,7 @@ export function useTracks() {
 | usePlaylists | ✅ API/Service created | playlists.api.ts, playlists.service.ts |
 | useProjects | ✅ API/Service created | projects.api.ts, projects.service.ts |
 | useArtists | ✅ API/Service created | artists.api.ts, artists.service.ts |
+| useStudio | ✅ API/Service created | studio.api.ts, studio.service.ts |
 
 ## File Structure
 
@@ -153,7 +154,8 @@ src/api/
 ├── credits.api.ts     # User credits, achievements, leaderboard
 ├── playlists.api.ts   # Playlist CRUD, track management
 ├── projects.api.ts    # Music project CRUD, AI concept
-└── artists.api.ts     # AI artist CRUD, portrait generation
+├── artists.api.ts     # AI artist CRUD, portrait generation
+└── studio.api.ts      # Section replacement, stems, versions
 
 src/services/
 ├── index.ts
@@ -162,6 +164,7 @@ src/services/
 ├── playlists.service.ts   # Playlist operations
 ├── projects.service.ts    # Project types, progress tracking
 ├── artists.service.ts     # Artist creation with portraits
+├── studio.service.ts      # Section detection, validation
 ├── starsPaymentService.ts # Telegram Stars payments
 ├── telegram-auth.ts       # Telegram authentication
 └── telegram-share.ts      # Telegram sharing
