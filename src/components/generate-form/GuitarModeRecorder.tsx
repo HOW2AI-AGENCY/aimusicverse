@@ -18,12 +18,15 @@ import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { toast } from 'sonner';
 
+type UseMode = 'style' | 'audio';
+
 interface GuitarModeRecorderProps {
   onRecordingComplete: (data: {
     audioFile: File;
     audioUrl: string;
     chordProgression: string[];
     styleDescription: string;
+    useMode: UseMode; // 'style' = use description as prompt, 'audio' = use as audio reference
   }) => void;
   onCancel: () => void;
 }
@@ -198,14 +201,15 @@ export function GuitarModeRecorder({
     toast.success('Прогрессия скопирована');
   };
 
-  // Complete and pass data
-  const handleComplete = () => {
+  // Complete and pass data with selected mode
+  const handleComplete = (mode: UseMode) => {
     if (recordedFile && recordedAudioUrl) {
       onRecordingComplete({
         audioFile: recordedFile,
         audioUrl: recordedAudioUrl,
         chordProgression: chordHistory.map(c => c.name),
         styleDescription: generateStyleDescription(),
+        useMode: mode,
       });
     }
   };
@@ -229,19 +233,19 @@ export function GuitarModeRecorder({
   const NOTE_LABELS = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {/* Recording State */}
       {!recordedAudioUrl ? (
-        <div className="space-y-4">
-          {/* Main Recording Button */}
+        <div className="space-y-3">
+          {/* Main Recording Button - Compact for mobile */}
           <Card className={cn(
-            "p-6 flex flex-col items-center justify-center gap-4 transition-all",
+            "p-4 flex flex-col items-center justify-center gap-3 transition-all",
             isRecording && "bg-destructive/10 border-destructive"
           )}>
             <div className="relative">
               <motion.div
                 className={cn(
-                  "w-24 h-24 rounded-full flex items-center justify-center",
+                  "w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center",
                   isRecording 
                     ? "bg-destructive" 
                     : "bg-gradient-to-br from-primary/20 to-primary/5 border-2 border-primary/30"
@@ -250,9 +254,9 @@ export function GuitarModeRecorder({
                 transition={{ duration: 1.5, repeat: Infinity }}
               >
                 {isRecording ? (
-                  <MicOff className="w-10 h-10 text-destructive-foreground" />
+                  <MicOff className="w-7 h-7 sm:w-8 sm:h-8 text-destructive-foreground" />
                 ) : (
-                  <Guitar className="w-10 h-10 text-primary" />
+                  <Guitar className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
                 )}
               </motion.div>
               
@@ -267,58 +271,58 @@ export function GuitarModeRecorder({
             </div>
 
             <div className="text-center">
-              <h3 className="font-semibold text-lg">
+              <h3 className="font-semibold">
                 {isRecording ? (
-                  <span className="text-destructive font-mono">
+                  <span className="text-destructive font-mono text-lg">
                     {formatDuration(recordingDuration)}
                   </span>
                 ) : (
                   'Запись гитары'
                 )}
               </h3>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-muted-foreground max-w-[200px]">
                 {isRecording 
-                  ? 'Играйте — аккорды определяются в реальном времени' 
-                  : 'Нажмите для начала записи с детектированием аккордов'
+                  ? 'Играйте — аккорды определяются' 
+                  : 'Запись с детектированием аккордов'
                 }
               </p>
             </div>
 
             <Button
-              size="lg"
+              size="default"
               variant={isRecording ? "destructive" : "default"}
               onClick={isRecording ? handleStopRecording : handleStartRecording}
               disabled={isInitializing}
-              className="gap-2 min-w-40"
+              className="gap-2"
             >
               {isInitializing ? (
                 <>Инициализация...</>
               ) : isRecording ? (
                 <>
-                  <MicOff className="w-5 h-5" />
+                  <MicOff className="w-4 h-4" />
                   Остановить
                 </>
               ) : (
                 <>
-                  <Mic className="w-5 h-5" />
+                  <Mic className="w-4 h-4" />
                   Начать запись
                 </>
               )}
             </Button>
           </Card>
 
-          {/* Realtime Chord Display */}
+          {/* Realtime Chord Display - Compact for mobile */}
           {isListening && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="space-y-3"
+              className="space-y-2"
             >
-              {/* Current Chord */}
-              <Card className="p-4">
-                <div className="flex items-center gap-4">
+              {/* Current Chord - Compact */}
+              <Card className="p-3">
+                <div className="flex items-center gap-3">
                   {/* Volume Indicator */}
-                  <div className="w-2 h-16 bg-muted rounded-full overflow-hidden">
+                  <div className="w-1.5 h-12 bg-muted rounded-full overflow-hidden shrink-0">
                     <motion.div
                       className="w-full bg-primary rounded-full"
                       style={{ height: `${volume * 100}%` }}
@@ -327,7 +331,7 @@ export function GuitarModeRecorder({
                   </div>
                   
                   {/* Current Chord Display */}
-                  <div className="flex-1 text-center">
+                  <div className="flex-1 text-center min-w-0">
                     <AnimatePresence mode="wait">
                       {currentChord ? (
                         <motion.div
@@ -335,14 +339,13 @@ export function GuitarModeRecorder({
                           initial={{ scale: 0.8, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
                           exit={{ scale: 0.8, opacity: 0 }}
-                          className="space-y-1"
                         >
-                          <div className="text-3xl font-bold text-primary">
+                          <div className="text-2xl font-bold text-primary">
                             {currentChord.name}
                           </div>
-                          <Badge variant="secondary" className="text-xs">
-                            {Math.round(currentChord.confidence * 100)}% уверенность
-                          </Badge>
+                          <span className="text-[10px] text-muted-foreground">
+                            {Math.round(currentChord.confidence * 100)}%
+                          </span>
                         </motion.div>
                       ) : (
                         <motion.div
@@ -350,24 +353,25 @@ export function GuitarModeRecorder({
                           animate={{ opacity: 1 }}
                           className="text-muted-foreground"
                         >
-                          <Waves className="w-8 h-8 mx-auto animate-pulse" />
-                          <p className="text-xs mt-1">Играйте...</p>
+                          <Waves className="w-6 h-6 mx-auto animate-pulse" />
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
                   
-                  {/* Chord Diagram */}
+                  {/* Chord Diagram - Hidden on very small screens */}
                   {currentChord && (
-                    <ChordDiagram chord={currentChord.name} size="sm" />
+                    <div className="hidden xs:block shrink-0">
+                      <ChordDiagram chord={currentChord.name} size="sm" />
+                    </div>
                   )}
                 </div>
               </Card>
 
-              {/* Chromagram Visualization */}
-              <div className="flex gap-0.5 h-8">
+              {/* Chromagram Visualization - Smaller */}
+              <div className="flex gap-px h-6">
                 {chromagram.map((value, i) => (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-0.5">
+                  <div key={i} className="flex-1 flex flex-col items-center">
                     <div className="flex-1 w-full bg-muted rounded-sm overflow-hidden">
                       <motion.div
                         className="w-full bg-primary/70 rounded-sm"
@@ -376,26 +380,25 @@ export function GuitarModeRecorder({
                         transition={{ duration: 0.05 }}
                       />
                     </div>
-                    <span className="text-[8px] text-muted-foreground">{NOTE_LABELS[i]}</span>
                   </div>
                 ))}
               </div>
 
-              {/* Chord History */}
+              {/* Chord History - Compact */}
               {chordHistory.length > 0 && (
                 <div className="flex flex-wrap gap-1">
-                  {chordHistory.slice(0, 12).map((chord, i) => (
+                  {chordHistory.slice(0, 8).map((chord, i) => (
                     <Badge 
                       key={`${chord.name}-${i}`}
                       variant={i === 0 ? "default" : "secondary"}
-                      className="text-xs"
+                      className="text-[10px] px-1.5 py-0"
                     >
                       {chord.name}
                     </Badge>
                   ))}
-                  {chordHistory.length > 12 && (
-                    <Badge variant="outline" className="text-xs">
-                      +{chordHistory.length - 12}
+                  {chordHistory.length > 8 && (
+                    <Badge variant="outline" className="text-[10px] px-1.5 py-0">
+                      +{chordHistory.length - 8}
                     </Badge>
                   )}
                 </div>
@@ -404,27 +407,27 @@ export function GuitarModeRecorder({
           )}
         </div>
       ) : (
-        /* Recorded Audio Preview */
+        /* Recorded Audio Preview - Choice between style or audio reference */
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-4"
+          className="space-y-3"
         >
-          {/* Audio Player */}
-          <Card className="p-4">
-            <div className="flex items-center gap-3">
+          {/* Audio Player - Compact */}
+          <Card className="p-3">
+            <div className="flex items-center gap-2">
               <Button
                 size="icon"
                 variant={isPlaying ? "secondary" : "default"}
                 onClick={handleTogglePlayback}
-                className="h-12 w-12 rounded-full shrink-0"
+                className="h-10 w-10 rounded-full shrink-0"
               >
-                {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
+                {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
               </Button>
               
-              <div className="flex-1">
-                <p className="font-medium">Записано</p>
-                <p className="text-sm text-muted-foreground">
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-sm truncate">Записано</p>
+                <p className="text-xs text-muted-foreground">
                   {formatDuration(recordingDuration)} • {chordHistory.length} аккордов
                 </p>
               </div>
@@ -433,7 +436,7 @@ export function GuitarModeRecorder({
                 size="icon"
                 variant="ghost"
                 onClick={handleClear}
-                className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10 shrink-0"
               >
                 <Trash2 className="w-4 h-4" />
               </Button>
@@ -447,66 +450,84 @@ export function GuitarModeRecorder({
             />
           </Card>
 
-          {/* Chord Progression */}
+          {/* Chord Progression - Compact */}
           {chordHistory.length > 0 && (
-            <Card className="p-4 space-y-3">
+            <Card className="p-3 space-y-2">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Music className="w-4 h-4 text-primary" />
-                  <span className="font-medium text-sm">Прогрессия аккордов</span>
+                <div className="flex items-center gap-1.5">
+                  <Music className="w-3.5 h-3.5 text-primary" />
+                  <span className="font-medium text-xs">Аккорды</span>
                 </div>
                 <Button
                   size="sm"
                   variant="ghost"
                   onClick={handleCopyProgression}
-                  className="h-7 gap-1 text-xs"
+                  className="h-6 gap-1 text-[10px] px-2"
                 >
                   {copiedProgression ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                  {copiedProgression ? 'Скопировано' : 'Копировать'}
                 </Button>
               </div>
               
-              <div className="flex flex-wrap gap-1.5">
-                {[...new Set(chordHistory.map(c => c.name))].slice(0, 8).map((chord, i) => (
-                  <Badge key={i} variant="secondary">{chord}</Badge>
+              <div className="flex flex-wrap gap-1">
+                {[...new Set(chordHistory.map(c => c.name))].slice(0, 6).map((chord, i) => (
+                  <Badge key={i} variant="secondary" className="text-[10px] px-1.5 py-0">{chord}</Badge>
                 ))}
               </div>
-              
-              <p className="text-xs text-muted-foreground">
-                {exportProgression()}
-              </p>
             </Card>
           )}
 
-          {/* Style Description Preview */}
-          <Card className="p-4 bg-primary/5 border-primary/20">
-            <div className="flex items-center gap-2 mb-2">
-              <Sparkles className="w-4 h-4 text-primary" />
-              <span className="font-medium text-sm">Описание стиля</span>
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {generateStyleDescription() || 'Сыграйте аккорды для генерации описания'}
+          {/* Choice: Use Style Description or Audio Reference */}
+          <div className="space-y-2">
+            <p className="text-xs text-muted-foreground text-center">
+              Как использовать запись?
             </p>
-          </Card>
+            
+            {/* Option 1: Style Description */}
+            <Card 
+              className="p-3 cursor-pointer hover:bg-primary/5 border-primary/20 transition-colors"
+              onClick={() => handleComplete('style')}
+            >
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-lg bg-primary/10 shrink-0">
+                  <Sparkles className="w-4 h-4 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-sm">Описание стиля</p>
+                  <p className="text-[11px] text-muted-foreground line-clamp-2">
+                    {generateStyleDescription() || 'Acoustic guitar melody'}
+                  </p>
+                </div>
+              </div>
+            </Card>
 
-          {/* Actions */}
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={onCancel}
-              className="flex-1"
+            {/* Option 2: Audio Reference */}
+            <Card 
+              className="p-3 cursor-pointer hover:bg-accent/50 transition-colors"
+              onClick={() => handleComplete('audio')}
             >
-              Отмена
-            </Button>
-            <Button
-              onClick={handleComplete}
-              disabled={!recordedFile}
-              className="flex-1 gap-2"
-            >
-              <Guitar className="w-4 h-4" />
-              Использовать
-            </Button>
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-lg bg-accent shrink-0">
+                  <Waves className="w-4 h-4" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-sm">Аудио референс</p>
+                  <p className="text-[11px] text-muted-foreground">
+                    Использовать запись как аудио для генерации похожего трека
+                  </p>
+                </div>
+              </div>
+            </Card>
           </div>
+
+          {/* Cancel button */}
+          <Button
+            variant="ghost"
+            onClick={onCancel}
+            className="w-full text-muted-foreground"
+            size="sm"
+          >
+            Отмена
+          </Button>
         </motion.div>
       )}
     </div>
