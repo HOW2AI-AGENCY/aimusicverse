@@ -19,7 +19,6 @@ import {
   Zap,
   UserPlus,
   Music,
-  Tag
 } from "lucide-react";
 import {
   useModelUsageStats,
