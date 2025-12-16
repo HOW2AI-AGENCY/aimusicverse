@@ -17,6 +17,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { logger } from '@/lib/logger';
 import { cn } from '@/lib/utils';
+import { formatDuration } from '@/lib/player-utils';
 
 interface AudioCoverDialogProps {
   open: boolean;
@@ -111,11 +112,6 @@ export const AudioCoverDialog = ({
     }
   }, [audioDuration, model]);
 
-  const formatDuration = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const handleFileSelect = (file: File) => {
     if (!file.type.startsWith('audio/')) {

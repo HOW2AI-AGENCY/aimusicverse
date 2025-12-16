@@ -10,6 +10,7 @@ import {
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { useRef, useState } from "react";
+import { formatDuration } from '@/lib/player-utils';
 
 interface AdminTrack {
   id: string;
@@ -52,12 +53,6 @@ export function AdminTrackDetailsDialog({
     setIsPlaying(!isPlaying);
   };
 
-  const formatDuration = (seconds: number | null) => {
-    if (!seconds) return "—";
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
-  };
 
   if (!track) return null;
 
@@ -146,7 +141,7 @@ export function AdminTrackDetailsDialog({
               <Clock className="h-4 w-4 text-muted-foreground" />
               <div>
                 <div className="text-xs text-muted-foreground">Длительность</div>
-                <div className="font-medium">{formatDuration(track.duration_seconds)}</div>
+                <div className="font-medium">{track.duration_seconds ? formatDuration(track.duration_seconds) : '—'}</div>
               </div>
             </div>
             <div className="flex items-center gap-2 p-3 rounded-lg bg-muted">

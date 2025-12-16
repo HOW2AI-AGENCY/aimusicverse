@@ -17,6 +17,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/hooks/useAuth';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { logger } from '@/lib/logger';
+import { formatDuration } from '@/lib/player-utils';
 
 interface AudioExtendDialogProps {
   open: boolean;
@@ -108,11 +109,6 @@ export const AudioExtendDialog = ({
     }
   }, [audioDuration, model]);
 
-  const formatDuration = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const handleFileSelect = (file: File) => {
     if (!file.type.startsWith('audio/')) {

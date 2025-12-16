@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { motion } from '@/lib/motion';
+import { formatDuration } from '@/lib/player-utils';
 
 interface MinimalTrackCardProps {
   track: Track;
@@ -42,12 +43,6 @@ export const MinimalTrackCard = memo(({
   const [isHovered, setIsHovered] = useState(false);
   const isMobile = useIsMobile();
 
-  const formatDuration = (seconds?: number | null) => {
-    if (!seconds) return '--:--';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const handleCardClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
@@ -87,7 +82,7 @@ export const MinimalTrackCard = memo(({
             onMouseLeave={() => setIsHovered(false)}
             role="button"
             tabIndex={0}
-            aria-label={`Трек ${track.title || 'Без названия'}, ${track.style || ''}, ${formatDuration(track.duration_seconds)}`}
+            aria-label={`Трек ${track.title || 'Без названия'}, ${track.style || ''}, ${track.duration_seconds ? formatDuration(track.duration_seconds) : '--:--'}`}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -156,7 +151,7 @@ export const MinimalTrackCard = memo(({
 
             {/* Duration */}
             <span className="text-xs text-muted-foreground tabular-nums flex-shrink-0">
-              {formatDuration(track.duration_seconds)}
+              {track.duration_seconds ? formatDuration(track.duration_seconds) : '--:--'}
             </span>
 
             {/* Version Toggle (if versions > 1) */}
@@ -255,7 +250,7 @@ export const MinimalTrackCard = memo(({
               
               {/* Duration badge */}
               <span className="text-xs text-white/80 bg-black/40 px-2 py-0.5 rounded-full">
-                {formatDuration(track.duration_seconds)}
+                {track.duration_seconds ? formatDuration(track.duration_seconds) : '--:--'}
               </span>
             </motion.div>
 

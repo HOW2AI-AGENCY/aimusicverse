@@ -24,6 +24,7 @@ import { ExportFilesPanel } from './ExportFilesPanel';
 import { ChordTimelineMobile } from './ChordTimelineMobile';
 import { ChordDiagramUnified as ChordDiagramEnhanced } from './ChordDiagramUnified';
 import { logger } from '@/lib/logger';
+import { formatDuration } from '@/lib/player-utils';
 
 interface SavedRecordingDetailSheetProps {
   recording: GuitarRecording | null;
@@ -93,12 +94,6 @@ export function SavedRecordingDetailSheet({
     }
   };
 
-  const formatDuration = (seconds: number | null) => {
-    if (!seconds) return '--:--';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const analysisResult = toAnalysisResult(recording);
   const hasAnalysis = recording.analysis_status?.beats || recording.analysis_status?.chords || recording.analysis_status?.transcription;

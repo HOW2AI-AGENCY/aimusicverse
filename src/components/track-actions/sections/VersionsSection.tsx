@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { logger } from '@/lib/logger';
 import { motion, AnimatePresence } from '@/lib/motion';
+import { formatDuration } from '@/lib/player-utils';
 
 interface VersionsSectionProps {
   track: Track;
@@ -82,12 +83,6 @@ export function VersionsSection({ track }: VersionsSectionProps) {
     }
   };
 
-  const formatDuration = (seconds: number | null) => {
-    if (!seconds) return '';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   if (versions.length <= 1) return null;
 

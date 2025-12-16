@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { motion } from '@/lib/motion';
 import { LazyImage } from '@/components/ui/lazy-image';
 import type { Track } from '@/hooks/useTracksOptimized';
+import { formatDuration } from '@/lib/player-utils';
 
 interface QueueItemProps {
   track: Track;
@@ -31,14 +32,6 @@ export function QueueItem({ track, isCurrentTrack, onRemove }: QueueItemProps) {
 
   // Check if track has multiple versions (A/B)
   const hasVersions = track.active_version_id != null;
-  
-  // Format duration
-  const formatDuration = (seconds: number | null) => {
-    if (!seconds) return null;
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   return (
     <motion.div

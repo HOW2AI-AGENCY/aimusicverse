@@ -15,6 +15,7 @@ import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { SavedRecordingDetailSheet } from './SavedRecordingDetailSheet';
+import { formatDuration } from '@/lib/player-utils';
 
 interface SavedRecordingsListProps {
   onSelect?: (recording: GuitarRecording) => void;
@@ -84,12 +85,6 @@ export function SavedRecordingsList({ onSelect, selectedId, showDetails = true }
     setDetailRecording(null);
   };
 
-  const formatDuration = (seconds: number | null) => {
-    if (!seconds) return '--:--';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const hasFullAnalysis = (recording: GuitarRecording) => {
     return recording.analysis_status?.beats && 
