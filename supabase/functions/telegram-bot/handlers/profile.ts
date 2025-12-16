@@ -9,7 +9,7 @@ import { ButtonBuilder } from '../utils/button-builder.ts';
 import { getMenuImage, MENU_IMAGES } from '../keyboards/menu-images.ts';
 import { navigateTo } from '../core/navigation-state.ts';
 import { BOT_CONFIG } from '../config.ts';
-import { deleteAndSendNewMenu } from '../core/active-menu-manager.ts';
+import { deleteAndSendNewMenuPhoto } from '../core/active-menu-manager.ts';
 
 const supabase = createClient(
   BOT_CONFIG.supabaseUrl,
@@ -144,7 +144,7 @@ export async function handleProfile(
       })
       .build();
 
-    await deleteAndSendNewMenu(chatId, userId, caption, keyboard, imageUrl);
+    await deleteAndSendNewMenuPhoto(chatId, userId, imageUrl, caption, keyboard, 'profile');
     return;
   }
 
@@ -235,7 +235,7 @@ export async function handleProfile(
     })
     .build();
 
-  await deleteAndSendNewMenu(chatId, userId, caption, keyboard, imageUrl);
+  await deleteAndSendNewMenuPhoto(chatId, userId, imageUrl, caption, keyboard, 'profile');
 }
 
 export async function handleBalance(
@@ -261,7 +261,7 @@ export async function handleBalance(
       })
       .build();
 
-    await deleteAndSendNewMenu(chatId, userId, caption, keyboard, imageUrl);
+    await deleteAndSendNewMenuPhoto(chatId, userId, imageUrl, caption, keyboard, 'balance');
     return;
   }
 
@@ -333,7 +333,7 @@ export async function handleBalance(
     })
     .build();
 
-  await deleteAndSendNewMenu(chatId, userId, caption, keyboard, imageUrl);
+  await deleteAndSendNewMenuPhoto(chatId, userId, imageUrl, caption, keyboard, 'balance');
 }
 
 export async function handleProfileCallback(
@@ -428,7 +428,7 @@ async function handleAchievements(
     })
     .build();
 
-  await deleteAndSendNewMenu(chatId, userId, caption, keyboard, imageUrl);
+  await deleteAndSendNewMenuPhoto(chatId, userId, imageUrl, caption, keyboard, 'achievements');
 }
 
 async function handleLeaderboard(
@@ -473,7 +473,7 @@ async function handleLeaderboard(
     })
     .build();
 
-  await deleteAndSendNewMenu(chatId, userId, caption, keyboard, imageUrl);
+  await deleteAndSendNewMenuPhoto(chatId, userId, imageUrl, caption, keyboard, 'leaderboard');
 }
 
 async function handleTransactions(
@@ -532,5 +532,5 @@ async function handleTransactions(
     })
     .build();
 
-  await deleteAndSendNewMenu(chatId, userId, caption, keyboard, imageUrl);
+  await deleteAndSendNewMenuPhoto(chatId, userId, imageUrl, caption, keyboard, 'transactions');
 }
