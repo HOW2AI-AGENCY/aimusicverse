@@ -1444,66 +1444,111 @@ export type Database = {
       }
       reference_audio: {
         Row: {
+          analysis_metadata: Json | null
           analysis_status: string | null
           analyzed_at: string | null
+          bass_stem_url: string | null
+          bpm: number | null
           created_at: string
           detected_language: string | null
+          drums_stem_url: string | null
           duration_seconds: number | null
+          energy: string | null
           file_name: string
           file_size: number | null
           file_url: string
           genre: string | null
+          has_instrumentals: boolean | null
           has_vocals: boolean | null
           id: string
+          instrumental_stem_url: string | null
+          instruments: string[] | null
           metadata: Json | null
           mime_type: string | null
           mood: string | null
+          other_stem_url: string | null
+          processing_time_ms: number | null
           source: string
+          stems_status: string | null
+          style_description: string | null
+          telegram_file_id: string | null
+          tempo: string | null
           transcription: string | null
           transcription_method: string | null
           user_id: string
+          vocal_stem_url: string | null
           vocal_style: string | null
         }
         Insert: {
+          analysis_metadata?: Json | null
           analysis_status?: string | null
           analyzed_at?: string | null
+          bass_stem_url?: string | null
+          bpm?: number | null
           created_at?: string
           detected_language?: string | null
+          drums_stem_url?: string | null
           duration_seconds?: number | null
+          energy?: string | null
           file_name: string
           file_size?: number | null
           file_url: string
           genre?: string | null
+          has_instrumentals?: boolean | null
           has_vocals?: boolean | null
           id?: string
+          instrumental_stem_url?: string | null
+          instruments?: string[] | null
           metadata?: Json | null
           mime_type?: string | null
           mood?: string | null
+          other_stem_url?: string | null
+          processing_time_ms?: number | null
           source?: string
+          stems_status?: string | null
+          style_description?: string | null
+          telegram_file_id?: string | null
+          tempo?: string | null
           transcription?: string | null
           transcription_method?: string | null
           user_id: string
+          vocal_stem_url?: string | null
           vocal_style?: string | null
         }
         Update: {
+          analysis_metadata?: Json | null
           analysis_status?: string | null
           analyzed_at?: string | null
+          bass_stem_url?: string | null
+          bpm?: number | null
           created_at?: string
           detected_language?: string | null
+          drums_stem_url?: string | null
           duration_seconds?: number | null
+          energy?: string | null
           file_name?: string
           file_size?: number | null
           file_url?: string
           genre?: string | null
+          has_instrumentals?: boolean | null
           has_vocals?: boolean | null
           id?: string
+          instrumental_stem_url?: string | null
+          instruments?: string[] | null
           metadata?: Json | null
           mime_type?: string | null
           mood?: string | null
+          other_stem_url?: string | null
+          processing_time_ms?: number | null
           source?: string
+          stems_status?: string | null
+          style_description?: string | null
+          telegram_file_id?: string | null
+          tempo?: string | null
           transcription?: string | null
           transcription_method?: string | null
           user_id?: string
+          vocal_stem_url?: string | null
           vocal_style?: string | null
         }
         Relationships: []
