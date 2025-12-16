@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, FolderOpen, Plus, Library, Menu } from 'lucide-react';
+import { Home, FolderOpen, Plus, Library, Menu, Bell } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { GenerateSheet } from './GenerateSheet';
 import { NavigationMenuSheet } from './NavigationMenuSheet';
+import { NotificationBadge } from './NotificationBadge';
 import { motion, AnimatePresence } from '@/lib/motion';
+import { useUnreadCount } from '@/hooks/useNotifications';
 
 const navItems = [
   { path: '/', icon: Home, label: 'Главная', isCenter: false },

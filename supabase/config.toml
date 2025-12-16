@@ -200,3 +200,6 @@ verify_jwt = true
 
 [functions.generate-profile-image]
 verify_jwt = true
+
+[functions.create-notification]
+verify_jwt = false

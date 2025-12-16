@@ -543,6 +543,22 @@ serve(async (req) => {
         logger.error('Reward action error', rewardErr);
       }
 
+      // Create in-app notification for generation completion
+      try {
+        logger.info('Creating generation complete notification');
+        await supabase.from('notifications').insert({
+          user_id: task.user_id,
+          title: '🎵 Трек готов!',
+          message: `Ваш трек "${trackTitle}" успешно сгенерирован (${clips.length} версии)`,
+          type: 'success',
+          action_url: `/library?track=${trackId}`,
+          read: false,
+        });
+        logger.success('Generation notification created');
+      } catch (notifErr) {
+        logger.error('Notification creation error', notifErr);
+      }
+
       if (task.telegram_chat_id && clips.length > 0) {
         // Wait for cover generation to complete
         logger.info('Waiting for cover generation to complete');

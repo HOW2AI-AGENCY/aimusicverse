@@ -126,6 +126,29 @@ Deno.serve(async (req) => {
       }
     }
 
+    // Also create in-app notifications for all users (including those without Telegram)
+    const { data: allUsers } = await supabase.from('profiles').select('user_id');
+    const usersToNotify = allUsers?.filter(u => u.user_id) || [];
+    
+    if (usersToNotify.length > 0) {
+      const actionUrl = blogPostId ? `/blog/${blogPostId}` : undefined;
+      const notificationsToInsert = usersToNotify.map(u => ({
+        user_id: u.user_id,
+        title: `📢 ${title}`,
+        message: message.substring(0, 200) + (message.length > 200 ? '...' : ''),
+        type: 'info',
+        action_url: actionUrl,
+        read: false,
+      }));
+
+      // Insert in batches of 100
+      for (let i = 0; i < notificationsToInsert.length; i += 100) {
+        const batch = notificationsToInsert.slice(i, i + 100);
+        await supabase.from('notifications').insert(batch);
+      }
+      console.log(`Created ${usersToNotify.length} in-app notifications`);
+    }
+
     // Log broadcast
     const authHeader = req.headers.get('Authorization');
     let senderId = null;
