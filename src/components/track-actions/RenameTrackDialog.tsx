@@ -13,6 +13,7 @@ import { Track } from '@/hooks/useTracksOptimized';
 import { updateTrack } from '@/api/tracks.api';
 import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
+import { invalidateTrack } from '@/lib/query-utils';
 
 interface RenameTrackDialogProps {
   track: Track;
@@ -48,8 +49,19 @@ export function RenameTrackDialog({ track, open, onOpenChange }: RenameTrackDial
     setIsLoading(true);
     try {
       await updateTrack(track.id, { title: trimmedTitle });
-      queryClient.invalidateQueries({ queryKey: ['tracks'] });
-      queryClient.invalidateQueries({ queryKey: ['track', track.id] });
+      
+      // Invalidate all track-related queries for immediate UI update
+      invalidateTrack(queryClient, track.id);
+      
+      // Invalidate tracks list queries (with and without filters)
+      await queryClient.invalidateQueries({ 
+        queryKey: ['tracks'],
+        refetchType: 'all'
+      });
+      
+      // Invalidate public tracks if applicable
+      queryClient.invalidateQueries({ queryKey: ['public-tracks'] });
+      
       toast.success('Трек переименован');
       onOpenChange(false);
     } catch (error) {
