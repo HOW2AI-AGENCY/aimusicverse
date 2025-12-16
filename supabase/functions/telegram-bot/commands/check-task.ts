@@ -167,7 +167,6 @@ export async function handleCheckTask(
         if (firstClip && task.track_id) {
           // Download and save audio to storage
           let localAudioUrl = null;
-          let localCoverUrl = null;
 
           try {
             if (firstClip.audioUrl) {
@@ -191,28 +190,8 @@ export async function handleCheckTask(
               }
             }
 
-            // Download cover
-            if (firstClip.imageUrl) {
-              const coverResponse = await fetch(firstClip.imageUrl);
-              const coverBlob = await coverResponse.blob();
-              const coverFileName = `${task.track_id}_cover_${Date.now()}.jpg`;
-              
-              const { data: coverUpload, error: coverError } = await supabase.storage
-                .from('project-assets')
-                .upload(`covers/${coverFileName}`, coverBlob, {
-                  contentType: 'image/jpeg',
-                  upsert: true,
-                });
-
-              if (!coverError && coverUpload) {
-                const { data: publicData } = supabase.storage
-                  .from('project-assets')
-                  .getPublicUrl(`covers/${coverFileName}`);
-                localCoverUrl = publicData.publicUrl;
-              }
-            }
-
-            // Update track with complete data
+            // Skip downloading Suno's cover - we'll generate custom MusicVerse cover
+            // Update track with audio data (cover will be set by generate-track-cover)
             await supabase
               .from('tracks')
               .update({
@@ -220,8 +199,6 @@ export async function handleCheckTask(
                 audio_url: firstClip.audioUrl,
                 streaming_url: firstClip.audioUrl,
                 local_audio_url: localAudioUrl,
-                cover_url: firstClip.imageUrl || null,
-                local_cover_url: localCoverUrl,
                 title: firstClip.title || task.tracks?.title,
                 duration_seconds: firstClip.duration || null,
                 tags: firstClip.tags || task.tracks?.tags,
@@ -230,17 +207,39 @@ export async function handleCheckTask(
               })
               .eq('id', task.track_id);
 
-            // Create track version
+            // Create track version (cover will be updated by generate-track-cover)
             await supabase
               .from('track_versions')
               .insert({
                 track_id: task.track_id,
                 audio_url: firstClip.audioUrl,
-                cover_url: firstClip.imageUrl,
                 duration_seconds: firstClip.duration,
                 version_type: 'original',
                 is_primary: true,
               });
+
+            // Generate custom MusicVerse cover (same as suno-music-callback)
+            console.log('Generating MusicVerse cover for track:', task.track_id);
+            try {
+              const { error: coverError } = await supabase.functions.invoke('generate-track-cover', {
+                body: {
+                  trackId: task.track_id,
+                  title: firstClip.title || task.tracks?.title,
+                  style: task.tracks?.style || firstClip.tags || '',
+                  lyrics: firstClip.lyric || task.prompt || '',
+                  userId: task.user_id,
+                  projectId: task.tracks?.project_id || null,
+                },
+              });
+              
+              if (coverError) {
+                console.error('Cover generation error:', coverError);
+              } else {
+                console.log('MusicVerse cover generation started');
+              }
+            } catch (coverErr) {
+              console.error('Cover generation invoke error:', coverErr);
+            }
 
             // Log completion
             await supabase
