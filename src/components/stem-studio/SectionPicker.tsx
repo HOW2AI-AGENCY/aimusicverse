@@ -7,6 +7,7 @@ import { AlertTriangle } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 
 interface SectionPickerProps {
   sections: DetectedSection[];
@@ -26,11 +27,7 @@ const SECTION_COLORS: Record<DetectedSection['type'], string> = {
   'unknown': 'bg-muted border-border text-muted-foreground',
 };
 
-function formatTime(seconds: number) {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-}
+// formatTime imported from @/lib/player-utils
 
 export function SectionPicker({
   sections,

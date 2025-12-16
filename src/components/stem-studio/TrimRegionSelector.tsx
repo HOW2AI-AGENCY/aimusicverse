@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 
 interface TrimRegionSelectorProps {
   duration: number;
@@ -114,11 +115,7 @@ export const TrimRegionSelector = ({
     }
   }, [isDragging, handleMouseMove, handleMouseUp]);
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
+  // formatTime imported from @/lib/player-utils
 
   return (
     <div 

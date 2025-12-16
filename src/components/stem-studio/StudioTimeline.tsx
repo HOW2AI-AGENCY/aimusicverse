@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 
 interface StudioTimelineProps {
   currentTime: number;
@@ -51,11 +52,7 @@ export function StudioTimeline({ currentTime, duration, onSeek }: StudioTimeline
     }
   }, [isDragging, handleMouseMove]);
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
+  // formatTime imported from @/lib/player-utils
 
   return (
     <section className="relative px-6 py-3 border-b border-border/50 bg-muted/20">

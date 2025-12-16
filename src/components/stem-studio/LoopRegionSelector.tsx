@@ -15,16 +15,11 @@ import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
+import { formatTimePrecise } from '@/lib/player-utils';
 
-/**
- * Format time in seconds to MM:SS.ms format
- */
-function formatTime(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  const ms = Math.floor((seconds % 1) * 100);
-  return `${mins}:${secs.toString().padStart(2, '0')}.${ms.toString().padStart(2, '0')}`;
-}
+// formatTimePrecise imported from @/lib/player-utils
+// Use as formatTime alias for this component
+const formatTime = formatTimePrecise;
 
 export interface LoopRegion {
   /** Loop start time in seconds */

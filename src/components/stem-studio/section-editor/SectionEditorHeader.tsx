@@ -7,6 +7,7 @@ import { Sparkles, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { DetectedSection } from '@/hooks/useSectionDetection';
+import { formatTime } from '@/lib/player-utils';
 
 interface SectionEditorHeaderProps {
   selectedSection: DetectedSection | null;
@@ -15,11 +16,7 @@ interface SectionEditorHeaderProps {
   onClose: () => void;
 }
 
-function formatTime(seconds: number) {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-}
+// formatTime imported from @/lib/player-utils
 
 export function SectionEditorHeader({
   selectedSection,

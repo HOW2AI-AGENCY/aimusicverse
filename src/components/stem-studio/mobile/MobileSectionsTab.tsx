@@ -9,6 +9,7 @@ import { Scissors, Play, Check, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 import type { DetectedSection } from '@/hooks/useSectionDetection';
 
 interface MobileSectionsTabProps {
@@ -32,11 +33,7 @@ const sectionColors: Record<string, string> = {
   'Hook': 'bg-orange-500/20 border-orange-500/50 text-orange-500',
 };
 
-function formatTime(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-}
+// formatTime imported from @/lib/player-utils
 
 export function MobileSectionsTab({
   sections,

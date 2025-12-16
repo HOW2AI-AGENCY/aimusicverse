@@ -5,6 +5,7 @@
 import { motion, AnimatePresence } from '@/lib/motion';
 import { AlertTriangle, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 
 interface SectionValidationProps {
   isValid: boolean;
@@ -13,11 +14,7 @@ interface SectionValidationProps {
   compact?: boolean;
 }
 
-function formatTime(seconds: number) {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-}
+// formatTime imported from @/lib/player-utils
 
 export function SectionValidation({
   isValid,
