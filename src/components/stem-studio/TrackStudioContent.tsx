@@ -18,6 +18,7 @@ import { useVersionSwitcher } from '@/hooks/useVersionSwitcher';
 import { StudioLyricsPanel } from '@/components/stem-studio/StudioLyricsPanel';
 import { StudioLyricsPanelCompact } from '@/components/stem-studio/StudioLyricsPanelCompact';
 import { SectionTimelineVisualization } from '@/components/stem-studio/SectionTimelineVisualization';
+import { UnifiedWaveformTimeline } from '@/components/stem-studio/UnifiedWaveformTimeline';
 import { IntegratedSectionEditor } from '@/components/stem-studio/IntegratedSectionEditor';
 import { SectionEditorMobile } from '@/components/stem-studio/mobile/SectionEditorMobile';
 import { MobileSectionTimelineCompact } from '@/components/stem-studio/MobileSectionTimelineCompact';
@@ -560,13 +561,31 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
         </div>
       )}
 
-      {/* Section Timeline Visualization */}
-      {canReplaceSection && detectedSections.length > 0 && (
-        <div className={cn(
-          "border-b border-border/30 bg-card/30",
-          isMobile ? "px-4 py-2" : "px-4 sm:px-6 py-3"
-        )}>
-          {isMobile ? (
+      {/* Unified Waveform Timeline - Always visible */}
+      <div className={cn(
+        "border-b border-border/30 bg-card/30",
+        isMobile ? "px-4 py-3" : "px-4 sm:px-6 py-4"
+      )}>
+        {track.audio_url && (
+          <UnifiedWaveformTimeline
+            audioUrl={track.audio_url}
+            sections={detectedSections}
+            duration={duration}
+            currentTime={currentTime}
+            isPlaying={isPlaying}
+            selectedSectionIndex={selectedSectionIndex}
+            customRange={customRange}
+            replacedRanges={replacedRanges}
+            onSectionClick={handleSectionSelect}
+            onSeek={(time) => handleSeek([time])}
+            height={isMobile ? 72 : 100}
+            showSectionLabels={!isMobile}
+          />
+        )}
+        
+        {/* Mobile Section Pills (below waveform) */}
+        {isMobile && detectedSections.length > 0 && (
+          <div className="mt-3">
             <MobileSectionTimelineCompact
               sections={detectedSections}
               duration={duration}
@@ -576,42 +595,9 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
               onSectionClick={handleSectionSelect}
               onSeek={(time) => handleSeek([time])}
             />
-          ) : (
-            <SectionTimelineVisualization
-              sections={detectedSections}
-              duration={duration}
-              currentTime={currentTime}
-              selectedIndex={selectedSectionIndex}
-              customRange={customRange}
-              replacedRanges={replacedRanges}
-              onSectionClick={handleSectionSelect}
-              onSeek={(time) => handleSeek([time])}
-            />
-          )}
-        </div>
-      )}
-
-      {/* Fallback Timeline without sections */}
-      {(!canReplaceSection || detectedSections.length === 0) && (
-        <div className="px-4 sm:px-6 py-4 border-b border-border/30 bg-card/30">
-          <div className="flex items-center gap-4">
-            <span className="text-xs text-muted-foreground font-mono tabular-nums w-12">
-              {formatTime(currentTime)}
-            </span>
-            <Slider
-              value={[currentTime]}
-              min={0}
-              max={duration || 100}
-              step={0.1}
-              onValueChange={handleSeek}
-              className="flex-1"
-            />
-            <span className="text-xs text-muted-foreground font-mono tabular-nums w-12 text-right">
-              {formatTime(duration)}
-            </span>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Integrated Section Editor - Desktop (appears directly below timeline) */}
       {!isMobile && (
