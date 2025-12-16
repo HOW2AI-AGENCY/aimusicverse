@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, Maximize2, ListMusic, Heart, Sparkles } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { ChevronDown, Maximize2, ListMusic, Heart, Sparkles, Music2 } from 'lucide-react';
 import { useAudioTime } from '@/hooks/audio';
 import { PlaybackControls } from './PlaybackControls';
 import { ProgressBar } from './ProgressBar';
@@ -25,7 +26,7 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
   const { toggleLike } = useTracks();
   const [queueOpen, setQueueOpen] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
-  const { isPlaying } = usePlayerStore();
+  const { isPlaying, queue } = usePlayerStore();
 
   const { currentTime, duration, buffered, seek } = useAudioTime();
 
@@ -149,10 +150,17 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
                       hapticImpact('light');
                       setQueueOpen(true);
                     }}
-                    className="h-11 w-11 touch-manipulation hover:bg-primary/10"
+                    className="h-11 w-11 touch-manipulation hover:bg-primary/10 relative"
                     aria-label="Queue"
                   >
                     <ListMusic className="h-5 w-5" />
+                    {queue.length > 0 && (
+                      <Badge 
+                        className="absolute -top-1 -right-1 h-5 min-w-5 px-1 text-[10px] bg-primary text-primary-foreground border-0"
+                      >
+                        {queue.length > 9 ? '9+' : queue.length}
+                      </Badge>
+                    )}
                   </Button>
                 </motion.div>
               </TooltipWrapper>

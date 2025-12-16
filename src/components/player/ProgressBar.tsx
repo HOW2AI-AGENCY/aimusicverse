@@ -3,177 +3,157 @@
  * 
  * Interactive audio playback progress bar with buffering visualization.
  * Supports touch and mouse interactions for seeking.
- * 
- * Features:
- * - Visual progress indicator
- * - Buffered content preview
- * - Draggable seek handle
- * - Touch-optimized interaction area
- * - Time labels (current/total)
- * - Smooth drag experience
- * 
- * @module ProgressBar
  */
 
 import { useEffect, useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
+import { motion } from '@/lib/motion';
 
-/**
- * Progress bar component props
- */
 interface ProgressBarProps {
-  currentTime: number;      // Current playback time in seconds
-  duration: number;          // Total duration in seconds
-  onSeek: (time: number) => void;  // Callback when user seeks to new position
-  buffered?: number;         // Buffered percentage (0-100), optional
-  className?: string;        // Additional CSS classes
+  currentTime: number;
+  duration: number;
+  onSeek: (time: number) => void;
+  buffered?: number;
+  className?: string;
+  size?: 'compact' | 'default' | 'large';
+  showLabels?: boolean;
 }
 
-/**
- * Progress Bar Component
- * 
- * @param props - Component props
- * @returns Progress bar with seek functionality
- */
 export function ProgressBar({ 
   currentTime, 
   duration, 
   onSeek, 
   buffered = 0,
-  className 
+  className,
+  size = 'default',
+  showLabels = true
 }: ProgressBarProps) {
-  // Drag state - when true, shows local time instead of prop time
   const [isDragging, setIsDragging] = useState(false);
-  
-  // Local time - used during drag to show preview without triggering seek
   const [localTime, setLocalTime] = useState(currentTime);
-  
-  // Progress bar element ref - needed for position calculations
+  const [isHovering, setIsHovering] = useState(false);
   const progressRef = useRef<HTMLDivElement>(null);
 
-  /**
-   * Sync local time with prop when not dragging
-   * Prevents jumpy behavior during drag operations
-   */
   useEffect(() => {
     if (!isDragging) {
       setLocalTime(currentTime);
     }
   }, [currentTime, isDragging]);
 
-  /**
-   * Handle seek operation - calculates new time from pointer position
-   * 
-   * @param e - Pointer event (mouse or touch)
-   * 
-   * Algorithm:
-   * 1. Get progress bar dimensions
-   * 2. Calculate click position relative to bar (0-1)
-   * 3. Convert to time value
-   * 4. Clamp to valid range
-   * 5. Update local preview and trigger seek callback
-   */
   const handleSeek = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!progressRef.current || !duration) return;
     
     const rect = progressRef.current.getBoundingClientRect();
-    // Calculate percentage (0-1) of where user clicked
     const clickX = e.clientX - rect.left;
     const percent = Math.max(0, Math.min(1, clickX / rect.width));
-    
-    // Convert percentage to time
     const newTime = percent * duration;
     
-    // Update local state immediately for responsive UI
     setLocalTime(newTime);
-    
-    // Notify parent component to update audio element
     onSeek(newTime);
   };
 
-  /**
-   * Pointer down handler - initiates drag operation
-   * Also performs immediate seek to clicked position
-   */
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     setIsDragging(true);
-    handleSeek(e); // Seek immediately on click
+    handleSeek(e);
   };
 
-  /**
-   * Pointer move handler - continues seek during drag
-   * Only active when dragging flag is set
-   */
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (isDragging) {
       handleSeek(e);
     }
   };
 
-  /**
-   * Pointer up/leave handler - ends drag operation
-   * Pointer leave also ends drag to handle cursor leaving area
-   */
   const handlePointerUp = () => {
     setIsDragging(false);
   };
 
-  // Calculate visual progress percentages
   const progress = duration > 0 ? (localTime / duration) * 100 : 0;
-  const bufferedPercent = buffered; // Already in percentage format (0-100)
+  const bufferedPercent = buffered;
+
+  const trackHeight = size === 'compact' ? 'h-1' : size === 'large' ? 'h-2.5' : 'h-1.5';
+  const trackHoverHeight = size === 'compact' ? 'group-hover:h-1.5' : size === 'large' ? 'group-hover:h-3' : 'group-hover:h-2';
+  const handleSize = size === 'compact' ? 'w-3 h-3' : size === 'large' ? 'w-5 h-5' : 'w-4 h-4';
 
   return (
     <div className={cn('space-y-2', className)}>
       {/* Progress Bar */}
       <div
         ref={progressRef}
-        className="relative h-2 bg-secondary/50 rounded-full cursor-pointer touch-manipulation group"
-        style={{ paddingTop: '12px', paddingBottom: '12px' }}
+        className="relative cursor-pointer touch-manipulation group py-3"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
         role="slider"
         aria-label="Track progress"
         aria-valuemin={0}
         aria-valuemax={duration}
         aria-valuenow={localTime}
       >
-        <div className="absolute top-1/2 left-0 right-0 h-1.5 -translate-y-1/2 bg-secondary/50 rounded-full overflow-hidden group-hover:h-2 transition-all duration-200">
+        {/* Track background */}
+        <div className={cn(
+          "absolute top-1/2 left-0 right-0 -translate-y-1/2 bg-secondary/60 rounded-full overflow-hidden transition-all duration-200",
+          trackHeight,
+          trackHoverHeight
+        )}>
           {/* Buffered Progress */}
           <div
-            className="absolute left-0 top-0 h-full bg-muted-foreground/20 transition-all"
+            className="absolute left-0 top-0 h-full bg-muted-foreground/25 transition-all rounded-full"
             style={{ width: `${bufferedPercent}%` }}
           />
           
-          {/* Current Progress with gradient */}
-          <div
-            className="absolute left-0 top-0 h-full bg-gradient-to-r from-primary via-primary to-primary/80 transition-all rounded-full"
+          {/* Current Progress with animated gradient */}
+          <motion.div
+            className="absolute left-0 top-0 h-full bg-gradient-to-r from-primary via-primary to-generate rounded-full"
             style={{ width: `${progress}%` }}
+            layoutId="progress"
           >
-            {/* Shimmer effect on progress */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
-          </div>
-          
-          {/* Progress Handle with glow */}
-          <div
-            className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-primary rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-200 scale-75 group-hover:scale-100"
-            style={{ 
-              left: `calc(${progress}% - 8px)`,
-              boxShadow: '0 0 12px hsl(var(--primary) / 0.5)'
-            }}
-          >
-            <div className="absolute inset-1 bg-white rounded-full" />
-          </div>
+            {/* Animated shimmer */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent animate-shimmer opacity-60" />
+          </motion.div>
         </div>
+        
+        {/* Draggable handle with glow */}
+        <motion.div
+          className={cn(
+            "absolute top-1/2 -translate-y-1/2 rounded-full bg-white shadow-xl transition-all duration-150",
+            handleSize,
+            (isDragging || isHovering) ? "opacity-100 scale-100" : "opacity-0 scale-75"
+          )}
+          style={{ 
+            left: `calc(${progress}% - ${size === 'large' ? 10 : 8}px)`,
+          }}
+          animate={{
+            boxShadow: isDragging 
+              ? '0 0 20px hsl(var(--primary) / 0.6), 0 0 40px hsl(var(--primary) / 0.3)'
+              : '0 0 12px hsl(var(--primary) / 0.4)'
+          }}
+        >
+          <div className="absolute inset-1 bg-primary rounded-full" />
+        </motion.div>
+
+        {/* Time preview tooltip during drag */}
+        {isDragging && (
+          <motion.div
+            className="absolute -top-8 px-2 py-1 bg-popover text-popover-foreground text-xs font-medium rounded-md shadow-lg border"
+            style={{ left: `calc(${progress}% - 20px)` }}
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            {formatTime(localTime)}
+          </motion.div>
+        )}
       </div>
 
       {/* Time Labels */}
-      <div className="flex justify-between text-xs text-muted-foreground font-medium">
-        <span className="tabular-nums">{formatTime(localTime)}</span>
-        <span className="tabular-nums">{formatTime(duration)}</span>
-      </div>
+      {showLabels && (
+        <div className="flex justify-between text-xs text-muted-foreground font-medium">
+          <span className="tabular-nums">{formatTime(localTime)}</span>
+          <span className="tabular-nums text-muted-foreground/70">{formatTime(duration)}</span>
+        </div>
+      )}
     </div>
   );
 }
