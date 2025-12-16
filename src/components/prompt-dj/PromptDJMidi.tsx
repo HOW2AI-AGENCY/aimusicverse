@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Play, Square, Loader2, Sparkles, Volume2, VolumeX, Download, Music, Trash2 } from 'lucide-react';
+import { Play, Square, Loader2, Sparkles, Volume2, VolumeX, Download, Music, Trash2, Drum } from 'lucide-react';
 import { usePromptDJ, type PromptChannel, type GlobalSettings } from '@/hooks/usePromptDJ';
 import { ChannelCard } from './ChannelCard';
 import { StyleCrossfader } from './StyleCrossfader';
@@ -12,7 +12,7 @@ import { QuickPresets } from './QuickPresets';
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export function PromptDJMidi() {
   const navigate = useNavigate();
@@ -86,6 +86,33 @@ export function PromptDJMidi() {
       updateGlobalSettings(settingsUpdates);
     }
     toast.success('Пресет применён');
+  }, [updateChannel, updateGlobalSettings]);
+
+  // Check for drum pattern from DrumMachine
+  useEffect(() => {
+    const drumData = sessionStorage.getItem('drumPatternForDJ');
+    if (drumData) {
+      try {
+        const { description, bpm, kitName } = JSON.parse(drumData);
+        // Update custom channel with drum pattern description
+        updateChannel('custom', {
+          value: description,
+          enabled: true,
+          weight: 1.0
+        });
+        // Update BPM to match drum pattern
+        if (bpm) {
+          updateGlobalSettings({ bpm });
+        }
+        toast.success('Паттерн из драм-машины загружен', {
+          description: `${kitName}, ${bpm} BPM`,
+          icon: <Drum className="h-4 w-4" />
+        });
+        sessionStorage.removeItem('drumPatternForDJ');
+      } catch (e) {
+        console.error('Failed to parse drum pattern:', e);
+      }
+    }
   }, [updateChannel, updateGlobalSettings]);
 
   return (

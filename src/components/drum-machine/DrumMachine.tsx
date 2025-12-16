@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect, memo } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
-import { Play, Square, Grid3X3, ListMusic, Volume2, Download } from 'lucide-react';
+import { Play, Square, Grid3X3, ListMusic, Volume2, Download, Music, Send } from 'lucide-react';
 import { useDrumMachine } from '@/hooks/useDrumMachine';
 import { DrumPadGrid } from './DrumPadGrid';
 import { DrumSequencer } from './DrumSequencer';
@@ -11,6 +11,8 @@ import { PatternBank } from './PatternBank';
 import { DrumRecorder } from './DrumRecorder';
 import { DrumEffects } from './DrumEffects';
 import { DrumStepLengthSelector } from './DrumStepLengthSelector';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 type ViewMode = 'pads' | 'sequencer';
 
@@ -19,6 +21,7 @@ interface DrumMachineProps {
 }
 
 export const DrumMachine = memo(function DrumMachine({ className }: DrumMachineProps) {
+  const navigate = useNavigate();
   const [viewMode, setViewMode] = useState<ViewMode>('pads');
   const [activePads, setActivePads] = useState<Set<string>>(new Set());
   
@@ -97,6 +100,33 @@ export const DrumMachine = memo(function DrumMachine({ className }: DrumMachineP
     }
   }, [isPlaying, play, stop]);
 
+  // Use recorded audio as reference for generation
+  const handleUseAsReference = useCallback((blob: Blob) => {
+    const url = URL.createObjectURL(blob);
+    sessionStorage.setItem('audioReferenceFromDrums', JSON.stringify({
+      audioUrl: url,
+      styleDescription: `${currentKit.name} drum pattern, ${bpm} BPM`,
+      source: 'drum-machine'
+    }));
+    toast.success('Бит добавлен как референс', {
+      description: 'Перейдите на главную для генерации'
+    });
+    navigate('/');
+  }, [currentKit.name, bpm, navigate]);
+
+  // Export pattern description to PromptDJ
+  const handleSendToPromptDJ = useCallback(() => {
+    const patternDescription = `${currentKit.name} drum beat, ${bpm} BPM, ${swing > 0 ? `${swing}% swing` : 'straight'} groove`;
+    sessionStorage.setItem('drumPatternForDJ', JSON.stringify({
+      description: patternDescription,
+      bpm,
+      kitName: currentKit.name,
+    }));
+    toast.success('Паттерн отправлен в PromptDJ', {
+      description: 'Переключитесь на вкладку DJ'
+    });
+  }, [currentKit.name, bpm, swing]);
+
   return (
     <div className={cn('flex flex-col gap-3 p-3 bg-card rounded-xl border', className)}>
       {/* Header */}
@@ -149,6 +179,7 @@ export const DrumMachine = memo(function DrumMachine({ className }: DrumMachineP
         onStartRecording={startRecording}
         onStopRecording={stopRecording}
         onClearRecording={clearRecording}
+        onUseAsReference={handleUseAsReference}
       />
 
       {/* Main view */}
@@ -209,8 +240,33 @@ export const DrumMachine = memo(function DrumMachine({ className }: DrumMachineP
 
         <Button variant="outline" size="sm" onClick={exportToMidi} className="h-8 gap-1.5">
           <Download className="w-3.5 h-3.5" />
-          <span className="text-xs hidden sm:inline">Export</span>
+          <span className="text-xs hidden sm:inline">MIDI</span>
         </Button>
+      </div>
+
+      {/* Integration actions */}
+      <div className="flex items-center gap-2 pt-2 border-t">
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={handleSendToPromptDJ}
+          className="h-8 gap-1.5 flex-1"
+        >
+          <Send className="w-3.5 h-3.5" />
+          <span className="text-xs">В PromptDJ</span>
+        </Button>
+        
+        {recordedAudioBlob && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleUseAsReference(recordedAudioBlob)}
+            className="h-8 gap-1.5 flex-1"
+          >
+            <Music className="w-3.5 h-3.5" />
+            <span className="text-xs">Референс</span>
+          </Button>
+        )}
       </div>
 
       {/* Pattern bank */}
