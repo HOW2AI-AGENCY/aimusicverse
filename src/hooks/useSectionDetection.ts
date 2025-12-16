@@ -115,22 +115,40 @@ function matchSectionToTimestamps(
   const firstWord = sectionWords[0];
   const lastWord = sectionWords[sectionWords.length - 1];
 
-  // Find start word
-  let startIdx = -1;
-  for (let i = searchStartIndex; i < alignedWords.length; i++) {
-    const normalized = normalizeText(alignedWords[i].word);
-    if (normalized === firstWord || normalized.includes(firstWord) || firstWord.includes(normalized)) {
-      startIdx = i;
-      break;
+  // Better start match: score a short prefix window against aligned words
+  const prefixLen = Math.min(6, sectionWords.length);
+  let bestIdx = -1;
+  let bestScore = 0;
+
+  const maxStart = Math.max(searchStartIndex, 0);
+  const maxI = Math.max(0, alignedWords.length - prefixLen);
+
+  for (let i = maxStart; i <= maxI; i++) {
+    let matches = 0;
+    for (let j = 0; j < prefixLen; j++) {
+      const aw = normalizeText(alignedWords[i + j]?.word || '');
+      const sw = sectionWords[j];
+      if (!aw || !sw) continue;
+      if (aw === sw || aw.includes(sw) || sw.includes(aw)) matches++;
+    }
+
+    const score = matches / prefixLen;
+    if (score > bestScore) {
+      bestScore = score;
+      bestIdx = i;
+      // Early exit on near-perfect match
+      if (bestScore >= 0.9) break;
     }
   }
 
-  if (startIdx === -1) return null;
+  if (bestIdx === -1 || bestScore < 0.5) return null;
 
-  // Find end word
+  const startIdx = bestIdx;
+
+  // Find end word (prefer lastWord match, otherwise approximate by length)
   let endIdx = startIdx;
-  const maxSearch = Math.min(alignedWords.length, startIdx + sectionWords.length * 3);
-  
+  const maxSearch = Math.min(alignedWords.length, startIdx + sectionWords.length * 2);
+
   for (let i = startIdx; i < maxSearch; i++) {
     const normalized = normalizeText(alignedWords[i].word);
     if (normalized === lastWord || normalized.includes(lastWord) || lastWord.includes(normalized)) {
