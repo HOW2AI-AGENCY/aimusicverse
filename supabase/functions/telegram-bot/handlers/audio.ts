@@ -46,6 +46,9 @@ interface TelegramDocument {
 
 /**
  * Handle incoming audio message
+ * 
+ * NEW BEHAVIOR: All audio is automatically uploaded to user's cloud storage
+ * and processed through comprehensive analysis pipeline
  */
 export async function handleAudioMessage(
   chatId: number,
@@ -63,149 +66,8 @@ export async function handleAudioMessage(
     const pendingUpload = await consumePendingUpload(userId);
     
     if (!pendingUpload) {
-      // No pending upload - analyze audio first, then show options
-      const analysisMsg = await sendMessage(chatId, `🎵 *Аудио получено\\!*\n\n⏳ Анализируем стиль и распознаём текст\\.\\.\\.`);
-      
-      // Get file URL and analyze with audio-flamingo
-      const fileUrl = await getFileUrl(audio.file_id);
-      let analysisText = '';
-      let analysisResult: { style?: string; genre?: string; mood?: string; lyrics?: string; hasVocals?: boolean } | undefined;
-      let tempPublicUrl: string | undefined;
-      
-      if (fileUrl) {
-        try {
-          // Upload to Supabase storage for analysis
-          const audioResponse = await fetch(fileUrl);
-          if (audioResponse.ok) {
-            const audioBlob = await audioResponse.blob();
-            const audioBuffer = await audioResponse.arrayBuffer();
-            
-            const fileName = `temp-analysis/${userId}/${Date.now()}.mp3`;
-            const { error: uploadError } = await supabase.storage
-              .from('project-assets')
-              .upload(fileName, new Uint8Array(audioBuffer), {
-                contentType: audioBlob.type || 'audio/mpeg',
-                upsert: true,
-              });
-              
-            if (!uploadError) {
-              const { data: { publicUrl } } = supabase.storage
-                .from('project-assets')
-                .getPublicUrl(fileName);
-              
-              tempPublicUrl = publicUrl;
-              
-              // Call transcribe-lyrics function (includes style analysis)
-              const { data: transcribeData, error: transcribeError } = await supabase.functions.invoke(
-                'transcribe-lyrics',
-                {
-                  body: {
-                    audio_url: publicUrl,
-                    analyze_style: true,
-                  },
-                }
-              );
-              
-              if (!transcribeError && transcribeData) {
-                analysisResult = {
-                  style: transcribeData.analysis?.full_response?.substring(0, 300),
-                  genre: transcribeData.analysis?.genre,
-                  mood: transcribeData.analysis?.mood,
-                  lyrics: transcribeData.lyrics,
-                  hasVocals: transcribeData.has_vocals,
-                };
-                
-                if (analysisResult.genre) {
-                  analysisText = `\n\n🎵 *Жанр:* ${escapeMarkdown(analysisResult.genre)}`;
-                }
-                if (analysisResult.mood) {
-                  analysisText += `\n💫 *Настроение:* ${escapeMarkdown(analysisResult.mood)}`;
-                }
-                if (analysisResult.hasVocals !== undefined) {
-                  analysisText += analysisResult.hasVocals 
-                    ? `\n🎤 *Вокал:* Обнаружен` 
-                    : `\n🎸 *Тип:* Инструментал`;
-                }
-                if (analysisResult.lyrics) {
-                  const lyricsPreview = analysisResult.lyrics.substring(0, 100);
-                  analysisText += `\n\n📝 *Текст:*\n_${escapeMarkdown(lyricsPreview)}${analysisResult.lyrics.length > 100 ? '\\.\\.\\.' : ''}_`;
-                }
-              } else {
-                // Fallback to simple style analysis
-                const { data: analysisData, error: analysisError } = await supabase.functions.invoke(
-                  'analyze-audio-flamingo',
-                  {
-                    body: {
-                      audio_url: publicUrl,
-                      analysis_type: 'reference',
-                    },
-                  }
-                );
-                
-                if (!analysisError && analysisData?.parsed) {
-                  analysisResult = {
-                    style: analysisData.parsed.style_description,
-                    genre: analysisData.parsed.genre,
-                    mood: analysisData.parsed.mood,
-                  };
-                  
-                  if (analysisResult.style) {
-                    analysisText = `\n\n🎼 *Стиль:* _${escapeMarkdown(analysisResult.style.substring(0, 200))}_`;
-                  }
-                  if (analysisResult.genre) {
-                    analysisText += `\n🎵 *Жанр:* ${escapeMarkdown(analysisResult.genre)}`;
-                  }
-                  if (analysisResult.mood) {
-                    analysisText += `\n💫 *Настроение:* ${escapeMarkdown(analysisResult.mood)}`;
-                  }
-                }
-              }
-            }
-          }
-        } catch (analyzeError) {
-          logger.error('Audio analysis failed', analyzeError);
-          // Continue without analysis - not critical
-        }
-      }
-      
-      // Store audio file_id with analysis results for reuse when user selects action
-      await storeTemporaryAudio(userId, audio.file_id, type, analysisResult);
-      
-      // Build keyboard with conditional lyrics button + menu button
-      const hasLyrics = analysisResult?.lyrics && analysisResult.lyrics.length > 0;
-      const keyboardRows = [
-        [
-          { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
-          { text: '➕ Расширить трек', callback_data: 'audio_action_extend' }
-        ],
-        [
-          { text: '📤 Сохранить в облако', callback_data: 'audio_action_upload' },
-          hasLyrics 
-            ? { text: '📝 Показать текст', callback_data: 'audio_action_show_lyrics' }
-            : { text: '🎼 Распознать текст', callback_data: 'audio_action_transcribe' }
-        ],
-        [
-          { text: '🎹 Конвертировать в MIDI', callback_data: 'audio_action_midi' },
-          { text: '🏠 Меню', callback_data: 'open_main_menu' }
-        ]
-      ];
-
-      // Delete the loading message
-      if (analysisMsg?.result?.message_id) {
-        await deleteMessage(chatId, analysisMsg.result.message_id);
-      }
-      
-      const resultMsg = await sendMessage(chatId, `🎵 *Аудио проанализировано\\!*${analysisText}
-
-Выберите действие:`, {
-        inline_keyboard: keyboardRows
-      });
-      
-      // Save as active menu for auto-cleanup
-      if (resultMsg?.result?.message_id) {
-        await setActiveMenuMessageId(userId, chatId, resultMsg.result.message_id, 'audio_actions');
-      }
-      
+      // === NEW: Auto-upload ALL audio to cloud with comprehensive analysis ===
+      await handleAutoUploadWithPipeline(chatId, userId, audio, type, startTime);
       return;
     }
     
@@ -326,6 +188,263 @@ ${escapeMarkdown(result.error || 'Неизвестная ошибка')}
     
     trackMetric({
       eventType: 'audio_processing_error',
+      success: false,
+      telegramChatId: chatId,
+      errorMessage: error instanceof Error ? error.message : String(error),
+      responseTimeMs: Date.now() - startTime,
+    });
+  }
+}
+
+/**
+ * AUTO-UPLOAD: Handle automatic upload of all audio to cloud with comprehensive pipeline
+ * 
+ * This is the new default behavior:
+ * 1. Upload audio to storage immediately
+ * 2. Run comprehensive analysis (Audio Flamingo 3)
+ * 3. Extract lyrics if vocals detected
+ * 4. Separate stems if both vocals AND instrumentals
+ * 5. Send live progress updates
+ */
+async function handleAutoUploadWithPipeline(
+  chatId: number,
+  userId: number,
+  audio: TelegramAudio | TelegramVoice | TelegramDocument,
+  type: 'audio' | 'voice' | 'document',
+  startTime: number
+): Promise<void> {
+  let progressMessageId: number | undefined;
+  
+  try {
+    // Get user profile
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('user_id')
+      .eq('telegram_id', userId)
+      .single();
+
+    if (!profile) {
+      await sendMessage(chatId, '❌ Профиль не найден\\. Откройте Mini App для регистрации\\.');
+      return;
+    }
+
+    // Prepare file info
+    const originalName = 'file_name' in audio && audio.file_name 
+      ? audio.file_name 
+      : 'title' in audio && audio.title 
+        ? `${audio.title}.mp3` 
+        : type === 'voice' 
+          ? `voice_${Date.now()}.ogg`
+          : `audio_${Date.now()}.mp3`;
+    
+    const duration = 'duration' in audio ? audio.duration : undefined;
+    const fileSize = 'file_size' in audio ? audio.file_size : undefined;
+    
+    // Send initial progress message
+    const initialMsg = await sendMessage(chatId, 
+      `🎵 *Аудио получено\\!*\n\n` +
+      `📁 ${escapeMarkdown(originalName)}\n\n` +
+      `▓░░░░░░░░░ 5%\n` +
+      `⏳ Загружаем в облако\\.\\.\\.`
+    );
+    progressMessageId = initialMsg?.result?.message_id;
+    
+    // Get file URL from Telegram
+    const fileUrl = await getFileUrl(audio.file_id);
+    if (!fileUrl) {
+      await sendMessage(chatId, '❌ Не удалось получить файл\\. Попробуйте ещё раз\\.');
+      return;
+    }
+
+    // Download the audio file
+    const audioResponse = await fetch(fileUrl);
+    if (!audioResponse.ok) {
+      throw new Error('Failed to download audio from Telegram');
+    }
+
+    const audioBlob = await audioResponse.blob();
+    const audioBuffer = await audioBlob.arrayBuffer();
+
+    // Upload to Supabase Storage
+    const extension = originalName.split('.').pop() || 'mp3';
+    const sanitizedName = `audio_${Date.now()}.${extension}`;
+    const storagePath = `${profile.user_id}/reference-audio/${sanitizedName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('reference-audio')
+      .upload(storagePath, new Uint8Array(audioBuffer), {
+        contentType: audioBlob.type || 'audio/mpeg',
+        upsert: false,
+      });
+
+    if (uploadError) {
+      logger.error('Cloud upload error', uploadError);
+      await sendMessage(chatId, '❌ Ошибка загрузки файла\\. Попробуйте позже\\.');
+      return;
+    }
+
+    // Get public URL
+    const { data: { publicUrl } } = supabase.storage
+      .from('reference-audio')
+      .getPublicUrl(storagePath);
+
+    logger.info('Audio uploaded to storage', { storagePath, publicUrl });
+
+    // Update progress
+    if (progressMessageId) {
+      try {
+        const { editMessageText } = await import('../telegram-api.ts');
+        await editMessageText(chatId, progressMessageId, 
+          `🎵 *Обработка аудио*\n\n` +
+          `📁 ${escapeMarkdown(originalName)}\n\n` +
+          `✅ Загружено в облако\n\n` +
+          `▓▓░░░░░░░░ 15%\n` +
+          `⏳ Запускаем анализ\\.\\.\\. \\(30\\-60 сек\\)`
+        );
+      } catch (e) {
+        logger.warn('Failed to update progress message');
+      }
+    }
+
+    // Call the comprehensive audio processing pipeline
+    const { data: pipelineResult, error: pipelineError } = await supabase.functions.invoke(
+      'process-audio-pipeline',
+      {
+        body: {
+          audio_url: publicUrl,
+          user_id: profile.user_id,
+          file_name: originalName,
+          file_size: fileSize,
+          duration_seconds: duration,
+          source: 'telegram_auto',
+          telegram_chat_id: chatId,
+          telegram_file_id: audio.file_id,
+        },
+      }
+    );
+
+    if (pipelineError) {
+      logger.error('Pipeline error', pipelineError);
+      throw new Error(pipelineError.message || 'Pipeline processing failed');
+    }
+
+    // Store audio info for quick actions
+    await storeTemporaryAudio(userId, audio.file_id, type, {
+      style: pipelineResult?.analysis?.style_prompt,
+      genre: pipelineResult?.analysis?.genre,
+      mood: pipelineResult?.analysis?.mood,
+      lyrics: pipelineResult?.lyrics,
+      hasVocals: pipelineResult?.analysis?.has_vocals,
+    });
+
+    // Build final result message
+    const processingTime = Math.round((Date.now() - startTime) / 1000);
+    const analysis = pipelineResult?.analysis || {};
+    
+    let resultText = `✅ *Аудио сохранено и проанализировано\\!*\n\n` +
+      `📁 ${escapeMarkdown(originalName)}\n` +
+      `⏱️ Время обработки: ${processingTime} сек\n\n`;
+
+    if (analysis.genre) {
+      resultText += `🎵 *Жанр:* ${escapeMarkdown(analysis.genre)}\n`;
+    }
+    if (analysis.mood) {
+      resultText += `💫 *Настроение:* ${escapeMarkdown(analysis.mood)}\n`;
+    }
+    if (analysis.bpm_estimate) {
+      resultText += `🥁 *BPM:* ${analysis.bpm_estimate}\n`;
+    }
+    if (analysis.energy) {
+      resultText += `⚡ *Энергия:* ${escapeMarkdown(analysis.energy)}\n`;
+    }
+
+    // Type indicator
+    if (analysis.has_vocals && analysis.has_instrumental) {
+      resultText += `\n🎤🎸 *Тип:* Вокал \\+ Инструментал\n`;
+      if (pipelineResult?.stem_separation_started) {
+        resultText += `🎛️ Стемы разделяются автоматически\\!\n`;
+      }
+    } else if (analysis.has_vocals) {
+      resultText += `\n🎤 *Тип:* Вокал\n`;
+    } else {
+      resultText += `\n🎸 *Тип:* Инструментал\n`;
+    }
+
+    // Lyrics preview
+    if (pipelineResult?.lyrics) {
+      const lyricsPreview = pipelineResult.lyrics.substring(0, 120);
+      resultText += `\n📝 *Текст:*\n_${escapeMarkdown(lyricsPreview)}${pipelineResult.lyrics.length > 120 ? '\\.\\.\\.' : ''}_\n`;
+    }
+
+    resultText += `\n▓▓▓▓▓▓▓▓▓▓ 100%`;
+
+    // Build action keyboard
+    const hasLyrics = pipelineResult?.lyrics && pipelineResult.lyrics.length > 0;
+    const keyboardRows = [
+      [
+        { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
+        { text: '➕ Расширить трек', callback_data: 'audio_action_extend' }
+      ],
+      hasLyrics 
+        ? [{ text: '📝 Полный текст', callback_data: 'audio_action_show_lyrics' }]
+        : [],
+      [
+        { text: '🎹 MIDI', callback_data: 'audio_action_midi' },
+        { text: '📂 Мои загрузки', callback_data: 'my_uploads' }
+      ],
+      [
+        { text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=cloud` } }
+      ]
+    ].filter(row => row.length > 0);
+
+    // Send final result (edit or new message)
+    if (progressMessageId) {
+      try {
+        const { editMessageText } = await import('../telegram-api.ts');
+        await editMessageText(chatId, progressMessageId, resultText, { inline_keyboard: keyboardRows });
+      } catch (e) {
+        // If edit fails, send new message
+        await deleteMessage(chatId, progressMessageId);
+        const resultMsg = await sendMessage(chatId, resultText, { inline_keyboard: keyboardRows });
+        if (resultMsg?.result?.message_id) {
+          await setActiveMenuMessageId(userId, chatId, resultMsg.result.message_id, 'audio_result');
+        }
+      }
+    } else {
+      const resultMsg = await sendMessage(chatId, resultText, { inline_keyboard: keyboardRows });
+      if (resultMsg?.result?.message_id) {
+        await setActiveMenuMessageId(userId, chatId, resultMsg.result.message_id, 'audio_result');
+      }
+    }
+
+    trackMetric({
+      eventType: 'upload_completed',
+      success: true,
+      telegramChatId: chatId,
+      responseTimeMs: Date.now() - startTime,
+      metadata: { 
+        referenceId: pipelineResult?.reference_id,
+        hasLyrics: !!pipelineResult?.lyrics,
+        hasVocals: analysis.has_vocals,
+        hasInstrumental: analysis.has_instrumental,
+        stemsSeparated: pipelineResult?.stem_separation_started,
+      },
+    });
+
+  } catch (error) {
+    logger.error('Error in handleAutoUploadWithPipeline', error);
+    
+    // Clean up progress message
+    if (progressMessageId) {
+      try {
+        await deleteMessage(chatId, progressMessageId);
+      } catch (e) { /* ignore */ }
+    }
+    
+    await sendMessage(chatId, `❌ Ошибка обработки аудио\\.\n\n${escapeMarkdown(error instanceof Error ? error.message : 'Попробуйте ещё раз')}`);
+    
+    trackMetric({
+      eventType: 'upload_failed',
       success: false,
       telegramChatId: chatId,
       errorMessage: error instanceof Error ? error.message : String(error),
