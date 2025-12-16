@@ -382,7 +382,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
         }
       >
         {/* Version & Progress indicators */}
-        <div className="flex items-center justify-between px-4 py-2 border-b border-border/30 bg-muted/20">
+        <div className="flex items-center justify-between px-3 py-1.5 border-b border-border/30 bg-muted/20">
           <VersionTimeline 
             trackId={trackId}
             onVersionChange={(versionId, audioUrl) => {
@@ -394,7 +394,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
               queryClient.invalidateQueries({ queryKey: ['tracks'] });
             }}
           />
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <ReplacementProgressIndicator 
               trackId={trackId}
               onViewResult={(taskId) => {
@@ -415,10 +415,10 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
                 variant="outline"
                 size="sm"
                 onClick={() => setEditMode('selecting')}
-                className="h-8 gap-1.5"
+                className="h-7 gap-1 text-xs"
               >
-                <Scissors className="w-4 h-4" />
-                <span className="hidden sm:inline">Заменить секцию</span>
+                <Scissors className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Заменить</span>
               </Button>
             )}
           </div>
@@ -453,7 +453,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
             {/* Waveform Timeline with Sections */}
             <div className={cn(
               "border-b border-border/30 bg-card/30",
-              isMobile ? "px-3 py-3" : "px-4 py-4"
+              isMobile ? "px-2 py-2" : "px-3 py-3"
             )}>
               {currentAudioUrl && (
                 <UnifiedWaveformTimeline
@@ -467,7 +467,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
                   replacedRanges={replacedRanges}
                   onSectionClick={handleSectionSelect}
                   onSeek={handleSeek}
-                  height={isMobile ? 80 : 100}
+                  height={isMobile ? 70 : 90}
                   showSectionLabels={true}
                 />
               )}

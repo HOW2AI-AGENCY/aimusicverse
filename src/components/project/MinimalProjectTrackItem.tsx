@@ -229,21 +229,21 @@ export const MinimalProjectTrackItem = ({
     <>
       <div 
         className={cn(
-          "rounded-xl bg-card/50 border border-border/50 transition-all overflow-hidden",
+          "rounded-lg bg-card/50 border border-border/50 transition-all overflow-hidden",
           isDragging && "shadow-lg border-primary scale-[1.02]",
           !isDragging && "hover:bg-card hover:border-border"
         )}
       >
         {/* Main row */}
-        <div className="flex items-center gap-2 p-2.5">
+        <div className="flex items-center gap-1.5 p-2">
           {/* Drag Handle */}
           <div {...dragHandleProps} className="touch-manipulation cursor-grab active:cursor-grabbing">
-            <GripVertical className="w-4 h-4 text-muted-foreground" />
+            <GripVertical className="w-3.5 h-3.5 text-muted-foreground" />
           </div>
 
           {/* Position */}
           <div className={cn(
-            "w-7 h-7 rounded-lg flex items-center justify-center font-semibold text-sm shrink-0",
+            "w-6 h-6 rounded-md flex items-center justify-center font-semibold text-xs shrink-0",
             statusConfig.bg,
             statusConfig.color
           )}>
@@ -252,7 +252,7 @@ export const MinimalProjectTrackItem = ({
 
           {/* Cover (if linked track) */}
           {hasLinkedTrack && linkedTrack?.cover_url && (
-            <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-secondary">
+            <div className="w-8 h-8 rounded-md overflow-hidden shrink-0 bg-secondary">
               <img 
                 src={linkedTrack.cover_url} 
                 alt={track.title}
@@ -263,23 +263,23 @@ export const MinimalProjectTrackItem = ({
 
           {/* Content */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5">
-              <span className="font-medium text-sm truncate">{track.title}</span>
+            <div className="flex items-center gap-1">
+              <span className="font-medium text-xs truncate">{track.title}</span>
               <Badge 
                 variant="outline" 
                 className={cn(
-                  "text-[10px] h-4 px-1.5 shrink-0",
+                  "text-[9px] h-3.5 px-1 shrink-0",
                   statusConfig.color,
                   "border-current/30"
                 )}
               >
-                <StatusIcon className="w-2.5 h-2.5 mr-0.5" />
+                <StatusIcon className="w-2 h-2 mr-0.5" />
                 {isMobile ? '' : statusConfig.label}
               </Badge>
             </div>
             
             {track.style_prompt && (
-              <p className="text-xs text-muted-foreground truncate mt-0.5">
+              <p className="text-[10px] text-muted-foreground truncate">
                 {track.style_prompt}
               </p>
             )}
@@ -288,7 +288,7 @@ export const MinimalProjectTrackItem = ({
             {hasLyricsContent && (
               <motion.div 
                 className={cn(
-                  "flex items-center gap-1 mt-1 text-[10px] text-muted-foreground/70 rounded px-1 -mx-1",
+                  "flex items-center gap-0.5 text-[9px] text-muted-foreground/70 rounded px-0.5 -mx-0.5",
                   lyricsJustUpdated && "bg-primary/20"
                 )}
                 animate={lyricsJustUpdated ? { 
@@ -299,8 +299,8 @@ export const MinimalProjectTrackItem = ({
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <span className={cn("flex items-center gap-0.5", lyricsStatusConfig.color)}>
-                      <LyricsStatusIcon className="w-3 h-3" />
-                      {lyricsJustUpdated && <span className="text-[9px] text-primary font-medium ml-1">Обновлено!</span>}
+                      <LyricsStatusIcon className="w-2.5 h-2.5" />
+                      {lyricsJustUpdated && <span className="text-[8px] text-primary font-medium ml-0.5">Обновлено!</span>}
                     </span>
                   </TooltipTrigger>
                   <TooltipContent side="top" className="text-xs">
@@ -308,14 +308,14 @@ export const MinimalProjectTrackItem = ({
                   </TooltipContent>
                 </Tooltip>
                 <span className="truncate">
-                  {(linkedTrack?.lyrics || track.lyrics || '').replace(/\[.*?\]/g, '').slice(0, 50)}...
+                  {(linkedTrack?.lyrics || track.lyrics || '').replace(/\[.*?\]/g, '').slice(0, 40)}...
                 </span>
               </motion.div>
             )}
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-1 shrink-0">
+          <div className="flex items-center gap-0.5 shrink-0">
             {/* Lyrics Button */}
             <Button
               size="icon"
@@ -324,10 +324,10 @@ export const MinimalProjectTrackItem = ({
                 e.stopPropagation();
                 onOpenLyrics?.();
               }}
-              className="h-8 w-8"
+              className="h-7 w-7"
               title={hasLyricsContent ? 'Просмотр лирики' : 'Написать лирику'}
             >
-              <FileText className="w-4 h-4" />
+              <FileText className="w-3.5 h-3.5" />
             </Button>
 
             {generationStatus ? (
@@ -335,23 +335,23 @@ export const MinimalProjectTrackItem = ({
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10"
+                className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-primary/10"
               >
-                <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
-                <span className="text-xs font-medium text-primary">{generationStatus.stage}</span>
-                <span className="text-[10px] text-primary/60">{generationStatus.progress}%</span>
+                <Loader2 className="w-3 h-3 animate-spin text-primary" />
+                <span className="text-[10px] font-medium text-primary">{generationStatus.stage}</span>
+                <span className="text-[9px] text-primary/60">{generationStatus.progress}%</span>
               </motion.div>
             ) : hasLinkedTrack ? (
               <Button
                 size="icon"
                 variant="ghost"
                 onClick={handlePlay}
-                className="h-8 w-8"
+                className="h-7 w-7"
               >
                 {isPlayingThis ? (
-                  <Pause className="w-4 h-4" />
+                  <Pause className="w-3.5 h-3.5" />
                 ) : (
-                  <Play className="w-4 h-4" />
+                  <Play className="w-3.5 h-3.5" />
                 )}
               </Button>
             ) : (
@@ -361,11 +361,11 @@ export const MinimalProjectTrackItem = ({
                     size="sm"
                     onClick={handleGenerateClick}
                     className={cn(
-                      "h-8 px-3 gap-1",
+                      "h-7 px-2 gap-0.5 text-[10px]",
                       lyricsStatus === 'prompt' ? "bg-amber-500/80 hover:bg-amber-500" : "bg-primary/90"
                     )}
                   >
-                    <Sparkles className="w-3.5 h-3.5" />
+                    <Sparkles className="w-3 h-3" />
                     {!isMobile && 'Создать'}
                   </Button>
                 </TooltipTrigger>
@@ -379,8 +379,8 @@ export const MinimalProjectTrackItem = ({
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button size="icon" variant="ghost" className="h-8 w-8">
-                  <MoreVertical className="w-4 h-4" />
+                <Button size="icon" variant="ghost" className="h-7 w-7">
+                  <MoreVertical className="w-3.5 h-3.5" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -416,7 +416,7 @@ export const MinimalProjectTrackItem = ({
         </div>
 
         {/* Versions Panel - always show to allow fetching versions */}
-        <div className="px-2.5 pb-2.5">
+        <div className="px-2 pb-2">
           <TrackVersionsPanel
             projectId={track.project_id}
             projectTrackId={track.id}
