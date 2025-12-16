@@ -22,8 +22,8 @@ interface DialogStates {
   lyrics: boolean;
   extend: boolean;
   cover: boolean;
-  addVocals: boolean;
-  addInstrumental: boolean;
+  newArrangement: boolean;
+  newVocal: boolean;
   createArtist: boolean;
   addToProject: boolean;
   share: boolean;
@@ -43,13 +43,14 @@ export function useTrackActionsState({
   // State
   const [stemCount, setStemCount] = useState(0);
   const [versionCount, setVersionCount] = useState(0);
+  const [stems, setStems] = useState<Array<{ id: string; stem_type: string; audio_url: string }>>([]);
   const [dialogs, setDialogs] = useState<DialogStates>({
     details: false,
     lyrics: false,
     extend: false,
     cover: false,
-    addVocals: false,
-    addInstrumental: false,
+    newArrangement: false,
+    newVocal: false,
     createArtist: false,
     addToProject: false,
     share: false,
@@ -73,15 +74,15 @@ export function useTrackActionsState({
   } = useTrackActions();
   const { addToQueue, queue } = usePlayerStore();
 
-  // Fetch counts
+  // Fetch counts and stems
   useEffect(() => {
     if (!track?.id) return;
 
-    const fetchCounts = async () => {
+    const fetchData = async () => {
       const [stemsResult, versionsResult] = await Promise.all([
         supabase
           .from('track_stems')
-          .select('*', { count: 'exact', head: true })
+          .select('id, stem_type, audio_url')
           .eq('track_id', track.id),
         supabase
           .from('track_versions')
@@ -89,12 +90,18 @@ export function useTrackActionsState({
           .eq('track_id', track.id),
       ]);
       
-      setStemCount(stemsResult.count || 0);
+      const stemsData = stemsResult.data || [];
+      setStems(stemsData);
+      setStemCount(stemsData.length);
       setVersionCount(versionsResult.count || 0);
     };
 
-    fetchCounts();
+    fetchData();
   }, [track?.id]);
+
+  // Check for specific stem types
+  const hasVocalStem = stems.some(s => s.stem_type === 'vocal' || s.stem_type === 'vocals');
+  const hasInstrumentalStem = stems.some(s => s.stem_type === 'instrumental');
 
   // Action state for condition checks
   const actionState: TrackActionState = {
@@ -102,6 +109,8 @@ export function useTrackActionsState({
     versionCount,
     hasVideo,
     isVideoGenerating,
+    hasVocalStem,
+    hasInstrumentalStem,
   };
 
   // Dialog helpers
@@ -212,11 +221,11 @@ export function useTrackActionsState({
       case 'cover':
         openDialog('cover');
         break;
-      case 'add_vocals':
-        openDialog('addVocals');
+      case 'new_arrangement':
+        openDialog('newArrangement');
         break;
-      case 'add_instrumental':
-        openDialog('addInstrumental');
+      case 'new_vocal':
+        openDialog('newVocal');
         break;
       case 'remix':
         await handleRemix(track);
@@ -274,6 +283,7 @@ export function useTrackActionsState({
     versionCount,
     actionState,
     isProcessing,
+    stems,
     
     // Dialogs
     dialogs,

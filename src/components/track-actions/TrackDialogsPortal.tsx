@@ -1,7 +1,7 @@
 import { Track } from '@/hooks/useTracksOptimized';
 import { ExtendTrackDialog } from '@/components/ExtendTrackDialog';
-import { AddVocalsDialog } from '@/components/AddVocalsDialog';
-import { AddInstrumentalDialog } from '@/components/AddInstrumentalDialog';
+import { NewArrangementDialog } from '@/components/NewArrangementDialog';
+import { NewVocalDialog } from '@/components/NewVocalDialog';
 import { CreateArtistDialog } from '@/components/CreateArtistDialog';
 import { AddToProjectDialog } from '@/components/track-menu/AddToProjectDialog';
 import { ShareTrackDialog } from '@/components/track-menu/ShareTrackDialog';
@@ -14,14 +14,22 @@ import { LyricsDialog } from '@/components/LyricsDialog';
 import { AudioCoverDialog } from '@/components/AudioCoverDialog';
 import { ReportTrackDialog } from './ReportTrackDialog';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useState, useEffect } from 'react';
+
+// Simplified stem type for dialogs - only needs what's essential
+interface SimpleStem {
+  id: string;
+  stem_type: string;
+  audio_url: string;
+}
 
 interface DialogStates {
   details: boolean;
   lyrics: boolean;
   extend: boolean;
   cover: boolean;
-  addVocals: boolean;
-  addInstrumental: boolean;
+  newArrangement: boolean;
+  newVocal: boolean;
   createArtist: boolean;
   addToProject: boolean;
   share: boolean;
@@ -35,6 +43,7 @@ interface TrackDialogsPortalProps {
   dialogs: DialogStates;
   onCloseDialog: (key: keyof DialogStates) => void;
   onConfirmDelete: () => void;
+  stems?: SimpleStem[];
 }
 
 export function TrackDialogsPortal({
@@ -42,8 +51,38 @@ export function TrackDialogsPortal({
   dialogs,
   onCloseDialog,
   onConfirmDelete,
+  stems = [],
 }: TrackDialogsPortalProps) {
   const isMobile = useIsMobile();
+  const [coverAudioFile, setCoverAudioFile] = useState<File | null>(null);
+  
+  // Find vocal and instrumental stems
+  const vocalStem = stems.find(s => s.stem_type === 'vocal' || s.stem_type === 'vocals');
+  const instrumentalStem = stems.find(s => s.stem_type === 'instrumental');
+
+  // Auto-load track audio when cover dialog opens
+  useEffect(() => {
+    if (dialogs.cover && track.audio_url && !coverAudioFile) {
+      // Fetch the track audio and create a File object
+      const loadAudio = async () => {
+        try {
+          const response = await fetch(track.audio_url!);
+          const blob = await response.blob();
+          const fileName = `${track.title || 'track'}.mp3`;
+          const file = new File([blob], fileName, { type: 'audio/mpeg' });
+          setCoverAudioFile(file);
+        } catch (error) {
+          console.error('Failed to load track audio:', error);
+        }
+      };
+      loadAudio();
+    }
+    
+    // Reset when dialog closes
+    if (!dialogs.cover) {
+      setCoverAudioFile(null);
+    }
+  }, [dialogs.cover, track.audio_url, track.title]);
 
   return (
     <>
@@ -87,6 +126,7 @@ export function TrackDialogsPortal({
       <AudioCoverDialog
         open={dialogs.cover}
         onOpenChange={(open) => !open && onCloseDialog('cover')}
+        initialAudioFile={coverAudioFile || undefined}
         prefillData={{
           title: track.title,
           style: track.style,
@@ -95,16 +135,19 @@ export function TrackDialogsPortal({
         }}
       />
 
-      <AddVocalsDialog
-        open={dialogs.addVocals}
-        onOpenChange={(open) => !open && onCloseDialog('addVocals')}
+      {/* Stem-based dialogs */}
+      <NewArrangementDialog
+        open={dialogs.newArrangement}
+        onOpenChange={(open) => !open && onCloseDialog('newArrangement')}
         track={track}
+        vocalStem={vocalStem ? { ...vocalStem, track_id: track.id, separation_mode: null, version_id: null, created_at: null } : undefined}
       />
 
-      <AddInstrumentalDialog
-        open={dialogs.addInstrumental}
-        onOpenChange={(open) => !open && onCloseDialog('addInstrumental')}
+      <NewVocalDialog
+        open={dialogs.newVocal}
+        onOpenChange={(open) => !open && onCloseDialog('newVocal')}
         track={track}
+        instrumentalStem={instrumentalStem ? { ...instrumentalStem, track_id: track.id, separation_mode: null, version_id: null, created_at: null } : undefined}
       />
 
       {/* Organize dialogs */}

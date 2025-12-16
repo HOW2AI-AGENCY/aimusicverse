@@ -8,6 +8,8 @@ export interface TrackActionState {
   versionCount: number;
   hasVideo: boolean;
   isVideoGenerating: boolean;
+  hasVocalStem?: boolean;
+  hasInstrumentalStem?: boolean;
 }
 
 /**
@@ -45,11 +47,13 @@ export function isActionAvailable(
     case 'cover':
       return isCompleted && hasAudio;
 
-    case 'add_vocals':
-      return isCompleted && (track.is_instrumental === true || track.has_vocals === false);
+    case 'new_arrangement':
+      // Requires stems with vocal stem available
+      return isCompleted && state.stemCount > 0 && state.hasVocalStem === true;
 
-    case 'add_instrumental':
-      return isCompleted && track.has_vocals === true;
+    case 'new_vocal':
+      // Requires stems with instrumental stem available
+      return isCompleted && state.stemCount > 0 && state.hasInstrumentalStem === true;
 
     case 'lyrics':
       return hasAudio && isCompleted && !!(track.lyrics || (track.suno_task_id && track.suno_id));
@@ -74,8 +78,11 @@ export function getActionLabel(
     case 'toggle_public':
       return track.is_public ? 'Сделать приватным' : 'Сделать публичным';
 
-    case 'add_instrumental':
-      return state.stemCount > 0 ? 'Новая аранжировка' : 'Добавить инструментал';
+    case 'new_arrangement':
+      return 'Новая аранжировка';
+
+    case 'new_vocal':
+      return 'Новый вокал';
 
     case 'generate_video':
       if (state.isVideoGenerating) return 'Видео создаётся...';
@@ -164,8 +171,14 @@ export function getDisabledTooltip(
       if (state.isVideoGenerating) return 'Видео создаётся...';
       return null;
 
-    case 'add_vocals':
-      if (track.has_vocals) return 'Трек уже содержит вокал';
+    case 'new_vocal':
+      if (state.stemCount === 0) return 'Сначала разделите трек на стемы';
+      if (!state.hasInstrumentalStem) return 'Инструментальный стем не найден';
+      return null;
+
+    case 'new_arrangement':
+      if (state.stemCount === 0) return 'Сначала разделите трек на стемы';
+      if (!state.hasVocalStem) return 'Вокальный стем не найден';
       return null;
 
     default:

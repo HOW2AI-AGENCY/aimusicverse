@@ -35,6 +35,7 @@ export function UnifiedTrackSheet({
     executeAction,
     handleConfirmDelete,
     versionCount,
+    stems,
   } = useTrackActionsState({
     track: track!,
     onDelete,
@@ -147,6 +148,7 @@ export function UnifiedTrackSheet({
         dialogs={dialogs}
         onCloseDialog={closeDialog}
         onConfirmDelete={handleConfirmDelete}
+        stems={stems}
       />
     </>
   );
