@@ -24,6 +24,8 @@ interface UserWithRoles {
   roles: string[];
   subscription_tier?: string;
   subscription_expires_at?: string | null;
+  balance?: number;
+  level?: number;
 }
 
 interface AdminUserCardProps {
@@ -91,6 +93,19 @@ export function AdminUserCard({
         </div>
         <div className="text-xs text-muted-foreground truncate">
           @{user.username || "—"}
+        </div>
+      </div>
+
+      {/* Balance */}
+      <div className="text-right flex-shrink-0 px-2">
+        <div className={`text-sm font-bold ${
+          (user.balance || 0) === 0 ? 'text-muted-foreground' : 
+          (user.balance || 0) < 10 ? 'text-amber-500' : 'text-primary'
+        }`}>
+          {user.balance || 0}
+        </div>
+        <div className="text-[10px] text-muted-foreground">
+          Lvl {user.level || 1}
         </div>
       </div>
 
