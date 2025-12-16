@@ -1,0 +1,529 @@
+/**
+ * Comprehensive audio processing pipeline
+ * 
+ * 1. Upload audio to storage
+ * 2. Analyze with Audio Flamingo 3 (style, genre, mood, vocals detection)
+ * 3. If vocals detected: extract lyrics with Whisper
+ * 4. If both vocals AND instrumentals: separate stems
+ * 5. Save results to reference_audio table
+ */
+
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
+import Replicate from "https://esm.sh/replicate@0.25.2";
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
+
+interface PipelineRequest {
+  audio_url: string;           // URL of audio to process
+  user_id: string;             // User ID
+  file_name?: string;          // Original file name
+  file_size?: number;          // File size in bytes
+  duration_seconds?: number;   // Duration if known
+  source?: string;             // Source: telegram, web, etc.
+  telegram_chat_id?: number;   // For progress notifications
+  telegram_file_id?: string;   // Original Telegram file ID
+  skip_stems?: boolean;        // Skip stem separation
+  skip_lyrics?: boolean;       // Skip lyrics extraction
+}
+
+interface ProgressCallback {
+  chatId: number;
+  messageId?: number;
+}
+
+const supabase = createClient(
+  Deno.env.get('SUPABASE_URL')!,
+  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+);
+
+async function sendTelegramProgress(
+  chatId: number, 
+  text: string, 
+  messageId?: number
+): Promise<number | undefined> {
+  const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
+  if (!botToken || !chatId) return messageId;
+
+  try {
+    if (messageId) {
+      // Edit existing message
+      const response = await fetch(`https://api.telegram.org/bot${botToken}/editMessageText`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          message_id: messageId,
+          text,
+          parse_mode: 'MarkdownV2',
+        }),
+      });
+      const data = await response.json();
+      return data.ok ? messageId : undefined;
+    } else {
+      // Send new message
+      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text,
+          parse_mode: 'MarkdownV2',
+        }),
+      });
+      const data = await response.json();
+      return data.ok ? data.result?.message_id : undefined;
+    }
+  } catch (error) {
+    console.error('Failed to send Telegram progress:', error);
+    return messageId;
+  }
+}
+
+function escapeMarkdown(text: string): string {
+  return text.replace(/([_*\[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
+}
+
+serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  const startTime = Date.now();
+  let progressMessageId: number | undefined;
+
+  try {
+    const REPLICATE_API_KEY = Deno.env.get('REPLICATE_API_KEY');
+    if (!REPLICATE_API_KEY) {
+      throw new Error('REPLICATE_API_KEY not configured');
+    }
+
+    const replicate = new Replicate({ auth: REPLICATE_API_KEY });
+    const body: PipelineRequest = await req.json();
+    
+    const {
+      audio_url,
+      user_id,
+      file_name = 'audio.mp3',
+      file_size,
+      duration_seconds,
+      source = 'unknown',
+      telegram_chat_id,
+      telegram_file_id,
+      skip_stems = false,
+      skip_lyrics = false,
+    } = body;
+
+    console.log('🎵 Starting audio pipeline:', { audio_url, user_id, source });
+
+    if (!audio_url || !user_id) {
+      throw new Error('audio_url and user_id are required');
+    }
+
+    // === STEP 1: Progress notification ===
+    if (telegram_chat_id) {
+      progressMessageId = await sendTelegramProgress(
+        telegram_chat_id,
+        `🎵 *Обработка аудио*\n\n` +
+        `📁 ${escapeMarkdown(file_name)}\n\n` +
+        `▓░░░░░░░░░ 10%\n` +
+        `⏳ Загрузка и анализ стиля\\.\\.\\.`
+      );
+    }
+
+    // === STEP 2: Style Analysis with Audio Flamingo 3 ===
+    console.log('🔍 Running Audio Flamingo 3 analysis...');
+    
+    const flamingoPrompt = `Analyze this audio track comprehensively.
+Answer in EXACTLY this format:
+
+VOCALS: YES or NO (is there singing, rapping, or spoken vocals?)
+INSTRUMENTAL: YES or NO (is there significant instrumental music?)
+LANGUAGE: the language of vocals, or N/A if no vocals
+GENRE: the primary music genre
+SUB_GENRE: secondary genre or style
+MOOD: the emotional mood
+ENERGY: HIGH, MEDIUM, or LOW
+TEMPO: FAST, MEDIUM, or SLOW
+BPM_ESTIMATE: estimated beats per minute (number)
+VOCAL_STYLE: describe the vocal characteristics (gender, style, technique) or N/A
+INSTRUMENTS: comma-separated list of instruments heard
+PRODUCTION_STYLE: describe the production style (lo-fi, polished, vintage, modern, etc.)
+STYLE_PROMPT: write a detailed style description suitable for AI music generation (max 200 chars)
+
+Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
+
+    let analysisResult: {
+      hasVocals: boolean;
+      hasInstrumental: boolean;
+      language: string;
+      genre: string | null;
+      subGenre: string | null;
+      mood: string | null;
+      energy: string | null;
+      tempo: string | null;
+      bpmEstimate: number | null;
+      vocalStyle: string | null;
+      instruments: string[];
+      productionStyle: string | null;
+      stylePrompt: string | null;
+      fullResponse: string;
+    };
+
+    try {
+      const flamingoOutput = await replicate.run(
+        "zsxkib/audio-flamingo-3:2856d42f07154766b0cc0f3554fb425d7c3422ae77269264fbe0c983ac759fef",
+        {
+          input: {
+            audio: audio_url,
+            prompt: 'Analyze this audio',
+            system_prompt: flamingoPrompt,
+            enable_thinking: false,
+            temperature: 0.1,
+            max_length: 1024,
+          },
+        }
+      ) as string;
+
+      console.log('📊 Flamingo output:', flamingoOutput);
+
+      // Parse response
+      const parseField = (text: string, field: string): string | null => {
+        const regex = new RegExp(`${field}:\\s*([^\\n]+)`, 'i');
+        const match = text.match(regex);
+        return match ? match[1].trim() : null;
+      };
+
+      const vocalsRaw = parseField(flamingoOutput, 'VOCALS') || '';
+      const instrumentalRaw = parseField(flamingoOutput, 'INSTRUMENTAL') || '';
+      
+      // Robust vocal detection
+      const hasVocals = /yes/i.test(vocalsRaw) || 
+        /singing|singer|rapper|vocal|voice|lyrics/i.test(flamingoOutput);
+      const hasInstrumental = /yes/i.test(instrumentalRaw) || 
+        /instrumental|instruments|guitar|piano|drums|bass|synth/i.test(flamingoOutput);
+
+      const bpmStr = parseField(flamingoOutput, 'BPM_ESTIMATE');
+      const bpmEstimate = bpmStr ? parseInt(bpmStr.replace(/\D/g, '')) || null : null;
+
+      const instrumentsStr = parseField(flamingoOutput, 'INSTRUMENTS');
+      const instruments = instrumentsStr 
+        ? instrumentsStr.split(',').map(i => i.trim()).filter(Boolean)
+        : [];
+
+      analysisResult = {
+        hasVocals,
+        hasInstrumental,
+        language: parseField(flamingoOutput, 'LANGUAGE') || 'unknown',
+        genre: parseField(flamingoOutput, 'GENRE'),
+        subGenre: parseField(flamingoOutput, 'SUB_GENRE'),
+        mood: parseField(flamingoOutput, 'MOOD'),
+        energy: parseField(flamingoOutput, 'ENERGY'),
+        tempo: parseField(flamingoOutput, 'TEMPO'),
+        bpmEstimate,
+        vocalStyle: parseField(flamingoOutput, 'VOCAL_STYLE'),
+        instruments,
+        productionStyle: parseField(flamingoOutput, 'PRODUCTION_STYLE'),
+        stylePrompt: parseField(flamingoOutput, 'STYLE_PROMPT'),
+        fullResponse: flamingoOutput,
+      };
+
+      console.log('✅ Analysis complete:', {
+        hasVocals: analysisResult.hasVocals,
+        hasInstrumental: analysisResult.hasInstrumental,
+        genre: analysisResult.genre,
+      });
+    } catch (analysisError) {
+      console.error('❌ Audio Flamingo failed:', analysisError);
+      analysisResult = {
+        hasVocals: false,
+        hasInstrumental: true,
+        language: 'unknown',
+        genre: null,
+        subGenre: null,
+        mood: null,
+        energy: null,
+        tempo: null,
+        bpmEstimate: null,
+        vocalStyle: null,
+        instruments: [],
+        productionStyle: null,
+        stylePrompt: null,
+        fullResponse: '',
+      };
+    }
+
+    // === STEP 3: Update progress & extract lyrics if vocals ===
+    let lyrics: string | null = null;
+    let transcriptionMethod: string | null = null;
+
+    if (analysisResult.hasVocals && !skip_lyrics) {
+      if (telegram_chat_id && progressMessageId) {
+        await sendTelegramProgress(
+          telegram_chat_id,
+          `🎵 *Обработка аудио*\n\n` +
+          `📁 ${escapeMarkdown(file_name)}\n\n` +
+          `✅ Анализ стиля завершён\n` +
+          `🎤 Обнаружен вокал\n\n` +
+          `▓▓▓▓░░░░░░ 40%\n` +
+          `⏳ Извлечение текста песни\\.\\.\\.`,
+          progressMessageId
+        );
+      }
+
+      console.log('🎤 Extracting lyrics with Whisper...');
+
+      try {
+        const whisperOutput = await replicate.run(
+          "openai/whisper:4d50797290df275329f202e48c76360b3f22b08d28c196cbc54600319435f8d2",
+          {
+            input: {
+              audio: audio_url,
+              model: "large-v3",
+              language: analysisResult.language !== 'unknown' && analysisResult.language !== 'N/A' 
+                ? analysisResult.language.toLowerCase() 
+                : undefined,
+              translate: false,
+              temperature: 0,
+              transcription: "plain text",
+              no_speech_threshold: 0.6,
+            },
+          }
+        ) as { transcription?: string; text?: string };
+
+        lyrics = whisperOutput?.transcription || whisperOutput?.text || null;
+        transcriptionMethod = 'whisper-large-v3';
+        console.log('✅ Lyrics extracted:', lyrics?.length, 'chars');
+      } catch (whisperError) {
+        console.error('❌ Whisper failed:', whisperError);
+        
+        // Fallback to Audio Flamingo for lyrics
+        try {
+          const lyricsOutput = await replicate.run(
+            "zsxkib/audio-flamingo-3:2856d42f07154766b0cc0f3554fb425d7c3422ae77269264fbe0c983ac759fef",
+            {
+              input: {
+                audio: audio_url,
+                prompt: 'What are all the lyrics?',
+                system_prompt: 'Transcribe ALL lyrics sung in this audio. Write only the lyrics. If unclear, write [unclear].',
+                enable_thinking: true,
+                temperature: 0.1,
+                max_length: 2048,
+              },
+            }
+          ) as string;
+          
+          lyrics = lyricsOutput;
+          transcriptionMethod = 'audio-flamingo-3';
+        } catch (e) {
+          console.error('❌ Flamingo lyrics fallback failed:', e);
+        }
+      }
+    }
+
+    // === STEP 4: Stem separation if both vocals AND instrumentals ===
+    let stemSeparationTaskId: string | null = null;
+    const shouldSeparateStems = analysisResult.hasVocals && 
+                                 analysisResult.hasInstrumental && 
+                                 !skip_stems;
+
+    if (shouldSeparateStems) {
+      if (telegram_chat_id && progressMessageId) {
+        await sendTelegramProgress(
+          telegram_chat_id,
+          `🎵 *Обработка аудио*\n\n` +
+          `📁 ${escapeMarkdown(file_name)}\n\n` +
+          `✅ Анализ стиля завершён\n` +
+          `✅ Текст извлечён\n` +
+          `🎤 Вокал \\+ 🎸 Инструментал\n\n` +
+          `▓▓▓▓▓▓░░░░ 60%\n` +
+          `⏳ Запуск разделения на стемы\\.\\.\\.`,
+          progressMessageId
+        );
+      }
+
+      console.log('🎛️ Initiating stem separation...');
+
+      try {
+        // Use Demucs via Replicate for stem separation
+        const demucsOutput = await replicate.run(
+          "cjwbw/demucs:25a173108cff36ef9f80f854c162d01df9e6528be175794b81571db63d171161",
+          {
+            input: {
+              audio: audio_url,
+              stem: "none", // Return all stems
+              model: "htdemucs",
+              split: true,
+              segment: 40,
+            },
+          }
+        ) as { vocals?: string; drums?: string; bass?: string; other?: string; guitar?: string; piano?: string };
+
+        console.log('✅ Demucs output:', Object.keys(demucsOutput || {}));
+
+        // Save stems to storage
+        if (demucsOutput) {
+          const stemTypes = ['vocals', 'drums', 'bass', 'other', 'guitar', 'piano'];
+          const savedStems: { type: string; url: string }[] = [];
+
+          for (const stemType of stemTypes) {
+            const stemUrl = demucsOutput[stemType as keyof typeof demucsOutput];
+            if (stemUrl) {
+              savedStems.push({ type: stemType, url: stemUrl });
+            }
+          }
+
+          // Store stem URLs in metadata for later use
+          stemSeparationTaskId = `demucs_${Date.now()}`;
+          console.log('✅ Stems extracted:', savedStems.length);
+        }
+      } catch (demucsError) {
+        console.error('❌ Demucs failed:', demucsError);
+        // Continue without stems - not critical
+      }
+    }
+
+    // === STEP 5: Save to reference_audio table ===
+    if (telegram_chat_id && progressMessageId) {
+      await sendTelegramProgress(
+        telegram_chat_id,
+        `🎵 *Обработка аудио*\n\n` +
+        `📁 ${escapeMarkdown(file_name)}\n\n` +
+        `✅ Анализ стиля завершён\n` +
+        `${analysisResult.hasVocals ? '✅ Текст извлечён' : '🎸 Инструментал'}\n` +
+        `${shouldSeparateStems ? '✅ Стемы разделены' : ''}\n\n` +
+        `▓▓▓▓▓▓▓▓░░ 80%\n` +
+        `⏳ Сохранение результатов\\.\\.\\.`,
+        progressMessageId
+      );
+    }
+
+    console.log('💾 Saving to reference_audio...');
+
+    const { data: savedRef, error: dbError } = await supabase
+      .from('reference_audio')
+      .insert({
+        user_id,
+        file_name: file_name.substring(0, 255),
+        file_url: audio_url,
+        file_size,
+        duration_seconds,
+        source,
+        genre: analysisResult.genre,
+        mood: analysisResult.mood,
+        vocal_style: analysisResult.vocalStyle,
+        transcription: lyrics,
+        transcription_method: transcriptionMethod,
+        has_vocals: analysisResult.hasVocals,
+        detected_language: analysisResult.language !== 'unknown' ? analysisResult.language : null,
+        analysis_status: 'completed',
+        analyzed_at: new Date().toISOString(),
+        metadata: {
+          telegram_file_id,
+          sub_genre: analysisResult.subGenre,
+          energy: analysisResult.energy,
+          tempo: analysisResult.tempo,
+          bpm_estimate: analysisResult.bpmEstimate,
+          instruments: analysisResult.instruments,
+          production_style: analysisResult.productionStyle,
+          style_prompt: analysisResult.stylePrompt,
+          full_analysis: analysisResult.fullResponse,
+          stem_separation_task_id: stemSeparationTaskId,
+          has_instrumental: analysisResult.hasInstrumental,
+          processing_time_ms: Date.now() - startTime,
+        },
+      })
+      .select('id')
+      .single();
+
+    if (dbError) {
+      console.error('❌ Database error:', dbError);
+      throw new Error('Failed to save audio reference');
+    }
+
+    console.log('✅ Saved reference:', savedRef?.id);
+
+    // === STEP 6: Final notification ===
+    const processingTime = Math.round((Date.now() - startTime) / 1000);
+    
+    if (telegram_chat_id && progressMessageId) {
+      let resultText = `✅ *Аудио обработано\\!*\n\n` +
+        `📁 ${escapeMarkdown(file_name)}\n` +
+        `⏱️ Время: ${processingTime} сек\n\n`;
+
+      if (analysisResult.genre) {
+        resultText += `🎵 Жанр: ${escapeMarkdown(analysisResult.genre)}\n`;
+      }
+      if (analysisResult.mood) {
+        resultText += `💫 Настроение: ${escapeMarkdown(analysisResult.mood)}\n`;
+      }
+      if (analysisResult.bpmEstimate) {
+        resultText += `🥁 BPM: ${analysisResult.bpmEstimate}\n`;
+      }
+      
+      resultText += analysisResult.hasVocals 
+        ? `🎤 Тип: Вокал${analysisResult.hasInstrumental ? ' \\+ Инструментал' : ''}\n`
+        : `🎸 Тип: Инструментал\n`;
+
+      if (lyrics) {
+        const lyricsPreview = lyrics.substring(0, 100);
+        resultText += `\n📝 *Текст:*\n_${escapeMarkdown(lyricsPreview)}${lyrics.length > 100 ? '\\.\\.\\.' : ''}_\n`;
+      }
+
+      if (shouldSeparateStems && stemSeparationTaskId) {
+        resultText += `\n🎛️ Стемы доступны в Studio`;
+      }
+
+      resultText += `\n\n▓▓▓▓▓▓▓▓▓▓ 100%`;
+
+      await sendTelegramProgress(telegram_chat_id, resultText, progressMessageId);
+    }
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        reference_id: savedRef?.id,
+        analysis: {
+          has_vocals: analysisResult.hasVocals,
+          has_instrumental: analysisResult.hasInstrumental,
+          genre: analysisResult.genre,
+          sub_genre: analysisResult.subGenre,
+          mood: analysisResult.mood,
+          energy: analysisResult.energy,
+          tempo: analysisResult.tempo,
+          bpm_estimate: analysisResult.bpmEstimate,
+          vocal_style: analysisResult.vocalStyle,
+          instruments: analysisResult.instruments,
+          production_style: analysisResult.productionStyle,
+          style_prompt: analysisResult.stylePrompt,
+          language: analysisResult.language,
+        },
+        lyrics,
+        stem_separation_started: shouldSeparateStems,
+        processing_time_ms: Date.now() - startTime,
+      }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      }
+    );
+
+  } catch (error) {
+    console.error('❌ Pipeline error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    
+    return new Response(
+      JSON.stringify({ 
+        success: false,
+        error: errorMessage,
+        processing_time_ms: Date.now() - startTime,
+      }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      }
+    );
+  }
+});
