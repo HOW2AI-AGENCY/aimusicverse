@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { VideoSection } from './VideoSection';
 import { useTrackActions } from '@/hooks/useTrackActions';
+import { formatDuration } from '@/lib/player-utils';
 
 interface TrackDetailsTabProps {
   track: Track;
@@ -47,12 +48,6 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
     enabled: !!track.project_id,
   });
   
-  const formatDuration = (seconds: number | null) => {
-    if (!seconds) return 'N/A';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   // Format model name for display
   const formatModelName = (model: string | null) => {
@@ -107,7 +102,7 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
               <Clock className="w-5 h-5 text-primary" />
               <div>
                 <p className="text-xs text-muted-foreground">Длительность</p>
-                <p className="font-semibold">{formatDuration(track.duration_seconds)}</p>
+                <p className="font-semibold">{track.duration_seconds ? formatDuration(track.duration_seconds) : 'N/A'}</p>
               </div>
             </div>
 

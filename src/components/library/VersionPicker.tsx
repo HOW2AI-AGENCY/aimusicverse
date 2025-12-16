@@ -12,6 +12,7 @@ import { Check, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { logger } from '@/lib/logger';
+import { formatDuration } from '@/lib/player-utils';
 
 interface Version {
   id: string;
@@ -118,12 +119,6 @@ export function VersionPicker({
     }
   };
 
-  const formatDuration = (seconds: number | null) => {
-    if (!seconds) return '';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   if (isLoading) {
     return (

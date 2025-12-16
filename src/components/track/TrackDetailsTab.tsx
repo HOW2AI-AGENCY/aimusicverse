@@ -9,6 +9,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { motion } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
 import { cn } from '@/lib/utils';
+import { formatDuration } from '@/lib/player-utils';
 
 interface TrackDetailsTabProps {
   track: Track;
@@ -20,12 +21,6 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
   const [isPromptExpanded, setIsPromptExpanded] = useState(false);
   const isMobile = useIsMobile();
 
-  const formatDuration = (seconds: number | null) => {
-    if (!seconds) return 'Unknown';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return 'Unknown';
@@ -101,7 +96,7 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
             <Clock className="w-5 h-5 text-muted-foreground mt-0.5" />
             <div className="flex-1">
               <p className="text-sm text-muted-foreground">Duration</p>
-              <p className="font-medium">{formatDuration(track.duration_seconds)}</p>
+              <p className="font-medium">{track.duration_seconds ? formatDuration(track.duration_seconds) : 'Unknown'}</p>
             </div>
           </div>
         </Card>

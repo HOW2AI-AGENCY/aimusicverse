@@ -18,6 +18,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
+import { formatDuration } from '@/lib/player-utils';
 
 interface Version {
   id: string;
@@ -80,12 +81,6 @@ export function EnhancedVersionSwitcher({
     }
   };
 
-  const formatDuration = (seconds: number | null) => {
-    if (!seconds) return '--:--';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   if (versions.length <= 1) {
     return null;
@@ -201,7 +196,7 @@ export function EnhancedVersionSwitcher({
                         )}
                       </div>
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <span>{formatDuration(version.duration_seconds)}</span>
+                        <span>{version.duration_seconds ? formatDuration(version.duration_seconds) : '--:--'}</span>
                         <span>•</span>
                         <span>
                           {new Date(version.created_at).toLocaleDateString('ru-RU', {

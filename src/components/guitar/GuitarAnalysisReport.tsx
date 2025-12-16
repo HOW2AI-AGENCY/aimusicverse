@@ -21,6 +21,7 @@ import type { GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from '@/lib/motion';
+import { formatDuration } from '@/lib/player-utils';
 
 interface GuitarAnalysisReportProps {
   analysis: GuitarAnalysisResult;
@@ -79,11 +80,6 @@ export function GuitarAnalysisReport({
   const uniqueChords = [...new Set(analysis.chords.map(c => c.chord))];
   const displayedChords = showAllChords ? uniqueChords : uniqueChords.slice(0, 6);
 
-  const formatDuration = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   return (
     <div className={cn("space-y-4", className)}>
