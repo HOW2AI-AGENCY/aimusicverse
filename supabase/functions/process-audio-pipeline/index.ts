@@ -28,11 +28,16 @@ interface PipelineRequest {
   telegram_file_id?: string;   // Original Telegram file ID
   skip_stems?: boolean;        // Skip stem separation
   skip_lyrics?: boolean;       // Skip lyrics extraction
+  force_reprocess?: boolean;   // Force reprocess even if exists
+  reference_id?: string;       // Existing reference ID to update
 }
 
-interface ProgressCallback {
-  chatId: number;
-  messageId?: number;
+interface StemUrls {
+  vocal?: string;
+  instrumental?: string;
+  drums?: string;
+  bass?: string;
+  other?: string;
 }
 
 const supabase = createClient(
@@ -115,12 +120,59 @@ serve(async (req) => {
       telegram_file_id,
       skip_stems = false,
       skip_lyrics = false,
+      force_reprocess = false,
+      reference_id,
     } = body;
 
-    console.log('🎵 Starting audio pipeline:', { audio_url, user_id, source });
+    console.log('🎵 Starting audio pipeline:', { audio_url, user_id, source, force_reprocess });
 
     if (!audio_url || !user_id) {
       throw new Error('audio_url and user_id are required');
+    }
+
+    // === CHECK FOR EXISTING ANALYSIS (skip if force_reprocess) ===
+    if (!force_reprocess && !reference_id) {
+      const { data: existing } = await supabase
+        .from('reference_audio')
+        .select('*')
+        .eq('user_id', user_id)
+        .or(`file_url.eq.${audio_url},telegram_file_id.eq.${telegram_file_id || ''}`)
+        .eq('analysis_status', 'completed')
+        .maybeSingle();
+
+      if (existing) {
+        console.log('✅ Found existing analysis:', existing.id);
+        
+        if (telegram_chat_id) {
+          await sendTelegramProgress(
+            telegram_chat_id,
+            `✅ *Аудио уже обработано\\!*\n\n` +
+            `📁 ${escapeMarkdown(existing.file_name)}\n\n` +
+            `🎵 Используем кэшированный анализ`,
+            undefined
+          );
+        }
+
+        return new Response(
+          JSON.stringify({
+            success: true,
+            cached: true,
+            reference_id: existing.id,
+            analysis: {
+              has_vocals: existing.has_vocals,
+              has_instrumental: existing.has_instrumentals,
+              genre: existing.genre,
+              mood: existing.mood,
+              bpm_estimate: existing.bpm,
+              style_prompt: existing.style_description,
+              language: existing.detected_language,
+            },
+            lyrics: existing.transcription,
+            stems_status: existing.stems_status,
+          }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
     }
 
     // === STEP 1: Progress notification ===
@@ -325,7 +377,8 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
     }
 
     // === STEP 4: Stem separation if both vocals AND instrumentals ===
-    let stemSeparationTaskId: string | null = null;
+    let stemUrls: StemUrls = {};
+    let stemsStatus = 'none';
     const shouldSeparateStems = analysisResult.hasVocals && 
                                  analysisResult.hasInstrumental && 
                                  !skip_stems;
@@ -346,6 +399,7 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
       }
 
       console.log('🎛️ Initiating stem separation...');
+      stemsStatus = 'processing';
 
       try {
         // Use Demucs via Replicate for stem separation
@@ -360,30 +414,33 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
               segment: 40,
             },
           }
-        ) as { vocals?: string; drums?: string; bass?: string; other?: string; guitar?: string; piano?: string };
+        ) as { vocals?: string; drums?: string; bass?: string; other?: string };
 
         console.log('✅ Demucs output:', Object.keys(demucsOutput || {}));
 
-        // Save stems to storage
         if (demucsOutput) {
-          const stemTypes = ['vocals', 'drums', 'bass', 'other', 'guitar', 'piano'];
-          const savedStems: { type: string; url: string }[] = [];
-
-          for (const stemType of stemTypes) {
-            const stemUrl = demucsOutput[stemType as keyof typeof demucsOutput];
-            if (stemUrl) {
-              savedStems.push({ type: stemType, url: stemUrl });
-            }
+          stemUrls = {
+            vocal: demucsOutput.vocals,
+            drums: demucsOutput.drums,
+            bass: demucsOutput.bass,
+            other: demucsOutput.other,
+          };
+          
+          // Create instrumental by combining drums + bass + other
+          // For now store the other stem as closest approximation
+          if (demucsOutput.other) {
+            stemUrls.instrumental = demucsOutput.other;
           }
-
-          // Store stem URLs in metadata for later use
-          stemSeparationTaskId = `demucs_${Date.now()}`;
-          console.log('✅ Stems extracted:', savedStems.length);
+          
+          stemsStatus = 'completed';
+          console.log('✅ Stems extracted:', Object.keys(stemUrls).filter(k => stemUrls[k as keyof StemUrls]));
         }
       } catch (demucsError) {
         console.error('❌ Demucs failed:', demucsError);
-        // Continue without stems - not critical
+        stemsStatus = 'failed';
       }
+    } else if (!analysisResult.hasVocals || !analysisResult.hasInstrumental) {
+      stemsStatus = 'not_applicable';
     }
 
     // === STEP 5: Save to reference_audio table ===
@@ -403,41 +460,66 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
 
     console.log('💾 Saving to reference_audio...');
 
-    const { data: savedRef, error: dbError } = await supabase
-      .from('reference_audio')
-      .insert({
-        user_id,
-        file_name: file_name.substring(0, 255),
-        file_url: audio_url,
-        file_size,
-        duration_seconds,
-        source,
-        genre: analysisResult.genre,
-        mood: analysisResult.mood,
-        vocal_style: analysisResult.vocalStyle,
-        transcription: lyrics,
-        transcription_method: transcriptionMethod,
-        has_vocals: analysisResult.hasVocals,
-        detected_language: analysisResult.language !== 'unknown' ? analysisResult.language : null,
-        analysis_status: 'completed',
-        analyzed_at: new Date().toISOString(),
-        metadata: {
-          telegram_file_id,
-          sub_genre: analysisResult.subGenre,
-          energy: analysisResult.energy,
-          tempo: analysisResult.tempo,
-          bpm_estimate: analysisResult.bpmEstimate,
-          instruments: analysisResult.instruments,
-          production_style: analysisResult.productionStyle,
-          style_prompt: analysisResult.stylePrompt,
-          full_analysis: analysisResult.fullResponse,
-          stem_separation_task_id: stemSeparationTaskId,
-          has_instrumental: analysisResult.hasInstrumental,
-          processing_time_ms: Date.now() - startTime,
-        },
-      })
-      .select('id')
-      .single();
+    const saveData = {
+      user_id,
+      file_name: file_name.substring(0, 255),
+      file_url: audio_url,
+      file_size,
+      duration_seconds,
+      source,
+      telegram_file_id: telegram_file_id || null,
+      genre: analysisResult.genre,
+      mood: analysisResult.mood,
+      vocal_style: analysisResult.vocalStyle,
+      transcription: lyrics,
+      transcription_method: transcriptionMethod,
+      has_vocals: analysisResult.hasVocals,
+      has_instrumentals: analysisResult.hasInstrumental,
+      detected_language: analysisResult.language !== 'unknown' ? analysisResult.language : null,
+      bpm: analysisResult.bpmEstimate,
+      tempo: analysisResult.tempo,
+      energy: analysisResult.energy,
+      instruments: analysisResult.instruments.length > 0 ? analysisResult.instruments : null,
+      style_description: analysisResult.stylePrompt,
+      vocal_stem_url: stemUrls.vocal || null,
+      instrumental_stem_url: stemUrls.instrumental || null,
+      drums_stem_url: stemUrls.drums || null,
+      bass_stem_url: stemUrls.bass || null,
+      other_stem_url: stemUrls.other || null,
+      stems_status: stemsStatus,
+      processing_time_ms: Date.now() - startTime,
+      analysis_status: 'completed',
+      analyzed_at: new Date().toISOString(),
+      analysis_metadata: {
+        sub_genre: analysisResult.subGenre,
+        production_style: analysisResult.productionStyle,
+        full_analysis: analysisResult.fullResponse,
+      },
+    };
+
+    let savedRef;
+    let dbError;
+
+    if (reference_id) {
+      // Update existing record
+      const result = await supabase
+        .from('reference_audio')
+        .update(saveData)
+        .eq('id', reference_id)
+        .select('id')
+        .single();
+      savedRef = result.data;
+      dbError = result.error;
+    } else {
+      // Insert new record
+      const result = await supabase
+        .from('reference_audio')
+        .insert(saveData)
+        .select('id')
+        .single();
+      savedRef = result.data;
+      dbError = result.error;
+    }
 
     if (dbError) {
       console.error('❌ Database error:', dbError);
@@ -473,7 +555,7 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
         resultText += `\n📝 *Текст:*\n_${escapeMarkdown(lyricsPreview)}${lyrics.length > 100 ? '\\.\\.\\.' : ''}_\n`;
       }
 
-      if (shouldSeparateStems && stemSeparationTaskId) {
+      if (stemsStatus === 'completed') {
         resultText += `\n🎛️ Стемы доступны в Studio`;
       }
 
@@ -502,7 +584,14 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
           language: analysisResult.language,
         },
         lyrics,
-        stem_separation_started: shouldSeparateStems,
+        stems: {
+          status: stemsStatus,
+          vocal_url: stemUrls.vocal,
+          instrumental_url: stemUrls.instrumental,
+          drums_url: stemUrls.drums,
+          bass_url: stemUrls.bass,
+          other_url: stemUrls.other,
+        },
         processing_time_ms: Date.now() - startTime,
       }),
       {
