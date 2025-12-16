@@ -45,7 +45,7 @@ export const DAWTimeline = memo(({ duration, currentTime, onSeek, showGrid = tru
     <div 
       ref={containerRef}
       className={cn(
-        "relative h-7 bg-gradient-to-b from-card/50 to-transparent cursor-pointer select-none group",
+        "relative h-6 bg-gradient-to-b from-card/50 to-transparent cursor-pointer select-none group",
         className
       )}
       onClick={handleClick}
@@ -74,10 +74,10 @@ export const DAWTimeline = memo(({ duration, currentTime, onSeek, showGrid = tru
             "w-px",
             marker.major 
               ? "h-full bg-border/60" 
-              : "h-2 bg-border/40"
+              : "h-1.5 bg-border/40"
           )} />
           {marker.major && (
-            <span className="absolute top-2.5 text-[9px] font-mono text-muted-foreground/70 -translate-x-1/2 whitespace-nowrap">
+            <span className="absolute top-2 text-[8px] font-mono text-muted-foreground/70 -translate-x-1/2 whitespace-nowrap">
               {marker.label}
             </span>
           )}

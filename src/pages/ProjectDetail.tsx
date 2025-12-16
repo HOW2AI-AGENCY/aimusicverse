@@ -192,7 +192,7 @@ export default function ProjectDetail() {
       <div className="relative">
         {/* Background blur */}
         <div 
-          className="absolute inset-0 h-48 bg-gradient-to-b from-primary/10 to-background"
+          className="absolute inset-0 h-32 bg-gradient-to-b from-primary/10 to-background"
           style={{
             backgroundImage: project.cover_url ? `url(${project.cover_url})` : undefined,
             backgroundSize: 'cover',
@@ -205,42 +205,42 @@ export default function ProjectDetail() {
         {/* Header */}
         <div className={cn(
           "relative sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/30",
-          isMobile ? "px-3 py-3" : "px-4 py-4"
+          isMobile ? "px-3 py-2" : "px-4 py-3"
         )}>
           <div className="flex items-center justify-between">
             <Button 
               variant="ghost" 
               size="icon" 
               onClick={() => navigate('/projects')}
-              className="h-9 w-9"
+              className="h-8 w-8"
             >
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft className="w-4 h-4" />
             </Button>
             
-            <h1 className="font-semibold text-base truncate flex-1 text-center mx-4">{project.title}</h1>
+            <h1 className="font-semibold text-sm truncate flex-1 text-center mx-3">{project.title}</h1>
 
             <Button 
               variant="ghost" 
               size="icon"
               onClick={() => setSettingsOpen(true)}
-              className="h-9 w-9"
+              className="h-8 w-8"
             >
-              <Settings className="w-4 h-4" />
+              <Settings className="w-3.5 h-3.5" />
             </Button>
           </div>
         </div>
 
         {/* Cover and Info */}
         <div className={cn(
-          "relative flex flex-col items-center gap-4 pt-4 pb-6",
-          isMobile ? "px-4" : "px-6"
+          "relative flex flex-col items-center gap-3 pt-3 pb-4",
+          isMobile ? "px-3" : "px-4"
         )}>
           {/* Large Cover */}
           <div className="relative group">
             <div className={cn(
-              "rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-secondary to-muted",
+              "rounded-xl overflow-hidden shadow-xl bg-gradient-to-br from-secondary to-muted",
               "ring-1 ring-white/10 transition-transform group-hover:scale-[1.02]",
-              isMobile ? "w-48 h-48" : "w-56 h-56"
+              isMobile ? "w-36 h-36" : "w-44 h-44"
             )}>
               {project.cover_url ? (
                 <img
@@ -250,7 +250,7 @@ export default function ProjectDetail() {
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <Music className="w-16 h-16 text-muted-foreground/40" />
+                  <Music className="w-12 h-12 text-muted-foreground/40" />
                 </div>
               )}
             </div>
@@ -259,38 +259,38 @@ export default function ProjectDetail() {
             <Button
               size="icon"
               variant="secondary"
-              className="absolute -bottom-2 -right-2 h-10 w-10 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
               onClick={() => {
                 setSelectedTrackForMedia(null);
                 setMediaGeneratorOpen(true);
               }}
             >
-              <Image className="w-4 h-4" />
+              <Image className="w-3.5 h-3.5" />
             </Button>
           </div>
 
           {/* Project Meta */}
-          <div className="text-center space-y-2">
-            <div className="flex items-center justify-center gap-2 flex-wrap">
+          <div className="text-center space-y-1.5">
+            <div className="flex items-center justify-center gap-1.5 flex-wrap">
               {project.genre && (
-                <Badge variant="secondary" className="gap-1">
-                  <Music className="w-3 h-3" />
+                <Badge variant="secondary" className="gap-0.5 text-[10px] h-5 px-1.5">
+                  <Music className="w-2.5 h-2.5" />
                   {project.genre}
                 </Badge>
               )}
-              <Badge variant="outline">
+              <Badge variant="outline" className="text-[10px] h-5 px-1.5">
                 {completedTracks}/{totalTracks} треков
               </Badge>
               {isPublished && (
-                <Badge variant="default" className="bg-green-500 gap-1">
-                  <Rocket className="w-3 h-3" />
+                <Badge variant="default" className="bg-green-500 gap-0.5 text-[10px] h-5 px-1.5">
+                  <Rocket className="w-2.5 h-2.5" />
                   Опубликован
                 </Badge>
               )}
             </div>
             
             {project.description && (
-              <p className="text-sm text-muted-foreground max-w-md mx-auto line-clamp-2">
+              <p className="text-xs text-muted-foreground max-w-sm mx-auto line-clamp-2">
                 {project.description}
               </p>
             )}
@@ -298,7 +298,7 @@ export default function ProjectDetail() {
 
           {/* Readiness Indicator */}
           {totalTracks > 0 && !isPublished && (
-            <div className="max-w-md mx-auto mt-4">
+            <div className="max-w-sm mx-auto mt-2">
               <ProjectReadinessIndicator 
                 totalTracks={totalTracks}
                 tracksWithMaster={tracksWithMaster}
@@ -308,14 +308,14 @@ export default function ProjectDetail() {
 
           {/* Publish Button */}
           {isReadyToPublish && !isPublished && (
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-center mt-2">
               <Button 
-                size="lg"
+                size="sm"
                 onClick={() => setPublishDialogOpen(true)}
-                className="gap-2 bg-green-500 hover:bg-green-600"
+                className="gap-1.5 bg-green-500 hover:bg-green-600 h-8"
               >
-                <Rocket className="w-4 h-4" />
-                Опубликовать альбом
+                <Rocket className="w-3.5 h-3.5" />
+                Опубликовать
               </Button>
             </div>
           )}
@@ -324,15 +324,15 @@ export default function ProjectDetail() {
 
       {/* Quick Actions Bar */}
       <div className={cn(
-        "flex gap-2 overflow-x-auto scrollbar-hide",
-        isMobile ? "px-3 pb-3" : "px-4 pb-4"
+        "flex gap-1.5 overflow-x-auto scrollbar-hide",
+        isMobile ? "px-3 pb-2" : "px-4 pb-3"
       )}>
         <Button 
           size="sm"
           onClick={() => setAddTrackOpen(true)}
-          className="gap-1.5 shrink-0"
+          className="gap-1 shrink-0 h-7 px-2 text-xs"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-3.5 h-3.5" />
           Добавить
         </Button>
         <Button 
@@ -346,19 +346,19 @@ export default function ProjectDetail() {
             trackCount: 10,
           })}
           disabled={isGenerating}
-          className="gap-1.5 shrink-0"
+          className="gap-1 shrink-0 h-7 px-2 text-xs"
         >
-          <Sparkles className="w-4 h-4" />
-          {isGenerating ? 'Генерация...' : 'AI Треклист'}
+          <Sparkles className="w-3.5 h-3.5" />
+          {isGenerating ? 'Генерация...' : 'AI'}
         </Button>
         <Button 
           variant="outline" 
           size="sm"
           onClick={() => setAiDialogOpen(true)}
-          className="gap-1.5 shrink-0"
+          className="gap-1 shrink-0 h-7 px-2 text-xs"
         >
-          <Sparkles className="w-4 h-4" />
-          AI Действия
+          <Sparkles className="w-3.5 h-3.5" />
+          Действия
         </Button>
         <Button 
           variant="outline" 
@@ -367,9 +367,9 @@ export default function ProjectDetail() {
             setSelectedTrackForMedia(null);
             setMediaGeneratorOpen(true);
           }}
-          className="gap-1.5 shrink-0"
+          className="gap-1 shrink-0 h-7 px-2 text-xs"
         >
-          <Image className="w-4 h-4" />
+          <Image className="w-3.5 h-3.5" />
           Медиа
         </Button>
       </div>

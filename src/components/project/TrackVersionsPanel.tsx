@@ -67,28 +67,28 @@ export function TrackVersionsPanel({
   }
 
   return (
-    <div className="mt-2">
+    <div className="mt-1.5">
       {/* Header - clickable to toggle */}
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between px-2 py-1.5 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors"
+        className="w-full flex items-center justify-between px-1.5 py-1 rounded-md bg-secondary/50 hover:bg-secondary/70 transition-colors"
       >
-        <div className="flex items-center gap-2">
-          <Music className="w-3.5 h-3.5 text-primary" />
-          <span className="text-xs font-medium">
+        <div className="flex items-center gap-1.5">
+          <Music className="w-3 h-3 text-primary" />
+          <span className="text-[10px] font-medium">
             {versionsCount} {versionsCount === 1 ? 'версия' : versionsCount < 5 ? 'версии' : 'версий'}
           </span>
           {masterVersion && (
-            <Badge variant="default" className="text-[9px] h-4 px-1.5 gap-0.5">
-              <Star className="w-2.5 h-2.5" />
+            <Badge variant="default" className="text-[8px] h-3.5 px-1 gap-0.5">
+              <Star className="w-2 h-2" />
               Мастер
             </Badge>
           )}
         </div>
         {isExpanded ? (
-          <ChevronUp className="w-4 h-4 text-muted-foreground" />
+          <ChevronUp className="w-3.5 h-3.5 text-muted-foreground" />
         ) : (
-          <ChevronDown className="w-4 h-4 text-muted-foreground" />
+          <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
         )}
       </button>
 
@@ -102,7 +102,7 @@ export function TrackVersionsPanel({
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <div className="space-y-1.5 pt-2">
+            <div className="space-y-1 pt-1.5">
               {versions.map((version, index) => {
                 const isCurrentTrack = activeTrack?.id === version.id;
                 const isTrackPlaying = isCurrentTrack && isPlaying;
@@ -112,14 +112,14 @@ export function TrackVersionsPanel({
                   <div
                     key={version.id}
                     className={cn(
-                      "flex items-center gap-2 p-2 rounded-lg transition-all",
+                      "flex items-center gap-1.5 p-1.5 rounded-md transition-all",
                       isMaster ? "bg-primary/10 ring-1 ring-primary/30" : "bg-muted/30 hover:bg-muted/50",
                       isCurrentTrack && "bg-primary/5"
                     )}
                   >
                     {/* Cover */}
                     <div 
-                      className="relative w-10 h-10 rounded-md overflow-hidden bg-secondary flex-shrink-0 cursor-pointer group"
+                      className="relative w-8 h-8 rounded-md overflow-hidden bg-secondary flex-shrink-0 cursor-pointer group"
                       onClick={() => isTrackPlaying ? pauseTrack() : playTrack(version as unknown as Parameters<typeof playTrack>[0])}
                     >
                       {version.cover_url || version.local_cover_url ? (
@@ -130,7 +130,7 @@ export function TrackVersionsPanel({
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
-                          <Music className="w-4 h-4 text-primary/50" />
+                          <Music className="w-3 h-3 text-primary/50" />
                         </div>
                       )}
                       
@@ -140,57 +140,57 @@ export function TrackVersionsPanel({
                         isTrackPlaying ? "opacity-100" : "opacity-0 group-hover:opacity-100"
                       )}>
                         {isTrackPlaying ? (
-                          <Pause className="w-4 h-4 text-white" />
+                          <Pause className="w-3 h-3 text-white" />
                         ) : (
-                          <Play className="w-4 h-4 text-white" />
+                          <Play className="w-3 h-3 text-white" />
                         )}
                       </div>
                     </div>
 
                     {/* Info */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-medium truncate">
+                      <div className="flex items-center gap-1">
+                        <span className="text-[10px] font-medium truncate">
                           Версия {index + 1}
                         </span>
                         {isMaster && (
-                          <Star className="w-3 h-3 text-primary fill-primary" />
+                          <Star className="w-2.5 h-2.5 text-primary fill-primary" />
                         )}
                       </div>
-                      <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+                      <div className="flex items-center gap-1.5 text-[9px] text-muted-foreground">
                         <span className="flex items-center gap-0.5">
-                          <Clock className="w-2.5 h-2.5" />
+                          <Clock className="w-2 h-2" />
                           {formatDuration(version.duration_seconds || 0)}
                         </span>
                         {version.style && (
-                          <span className="truncate">{version.style.slice(0, 20)}</span>
+                          <span className="truncate">{version.style.slice(0, 15)}</span>
                         )}
                       </div>
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center gap-1 shrink-0">
+                    <div className="flex items-center gap-0.5 shrink-0">
                       {!isMaster && (
                         <Button
                           size="sm"
                           variant="ghost"
-                          className="h-7 px-2 text-[10px] gap-1"
+                          className="h-6 px-1.5 text-[9px] gap-0.5"
                           onClick={() => setMasterTrack({ trackId: version.id, projectTrackId })}
                           disabled={isSettingMaster}
                         >
                           {isSettingMaster ? (
-                            <Loader2 className="w-3 h-3 animate-spin" />
+                            <Loader2 className="w-2.5 h-2.5 animate-spin" />
                           ) : (
                             <>
-                              <Star className="w-3 h-3" />
+                              <Star className="w-2.5 h-2.5" />
                               Выбрать
                             </>
                           )}
                         </Button>
                       )}
                       {isMaster && (
-                        <Badge variant="default" className="text-[9px] h-5 px-2 gap-1">
-                          <CheckCircle2 className="w-3 h-3" />
+                        <Badge variant="default" className="text-[8px] h-4 px-1.5 gap-0.5">
+                          <CheckCircle2 className="w-2.5 h-2.5" />
                           Мастер
                         </Badge>
                       )}
