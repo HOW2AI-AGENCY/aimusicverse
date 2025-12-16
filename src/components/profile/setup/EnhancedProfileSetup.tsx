@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Sparkles, ChevronRight, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -40,6 +41,7 @@ const STEPS = [
 export function EnhancedProfileSetup({ onComplete }: EnhancedProfileSetupProps) {
   const { user } = useAuth();
   const { data: profile, isLoading } = useProfile();
+  const queryClient = useQueryClient();
   
   const [currentStep, setCurrentStep] = useState(1);
   const [isSaving, setIsSaving] = useState(false);
@@ -126,6 +128,9 @@ export function EnhancedProfileSetup({ onComplete }: EnhancedProfileSetupProps) 
         .eq('user_id', user.id);
 
       if (error) throw error;
+
+      // Invalidate profile cache to trigger needsSetup recalculation
+      await queryClient.invalidateQueries({ queryKey: ['profile'] });
 
       toast.success('Профиль создан! 🎉');
       onComplete();
