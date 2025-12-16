@@ -595,16 +595,27 @@ serve(async (req) => {
         const maxClipsToSend = Math.min(clips.length, 2);
         logger.info('Sending track versions to Telegram', { count: maxClipsToSend });
         
-        // Prepare all audio clips data
+        // Prepare all audio clips data with metadata
         const audioClipsData = [];
         for (let i = 0; i < maxClipsToSend; i++) {
           const clip = clips[i];
           const versionLabel = ['A', 'B', 'C', 'D', 'E'][i] || `V${i + 1}`;
+          
+          // Extract lyrics preview (first 2 non-tag lines)
+          const lyricsPreview = (clip.prompt || task.prompt || '')
+            .split('\n')
+            .filter((line: string) => line.trim() && !line.trim().startsWith('['))
+            .slice(0, 2)
+            .join('\n')
+            .substring(0, 150);
+          
           audioClipsData.push({
             audioUrl: getAudioUrl(clip),
             title: `${notifyTitle} (${versionLabel})`,
             duration: clip.duration,
             versionLabel,
+            lyricsPreview,
+            coverUrl: generatedCoverUrl, // Same cover for all versions
           });
         }
         

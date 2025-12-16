@@ -15,6 +15,8 @@ interface AudioClipData {
   title: string;
   duration?: number;
   versionLabel: string;
+  lyricsPreview?: string;
+  coverUrl?: string;
 }
 
 interface NotificationPayload {
@@ -429,43 +431,51 @@ Deno.serve(async (req) => {
     if (type === 'generation_complete_multi' && audioClips && audioClips.length > 0) {
       logger.info('Sending multi-version notification', { clipsCount: audioClips.length });
       
-      // Format tags without # prefix (cleaner look)
-      const tagsText = tags 
-        ? `\n🏷️ ${tags.split(',').slice(0, 3).map(t => escapeMarkdown(t.trim())).join(', ')}`
+      // Helper to format duration
+      const formatDuration = (d?: number) => d 
+        ? `${Math.floor(d / 60)}:${String(Math.floor(d % 60)).padStart(2, '0')}`
         : '';
       
-      const versionText = audioClips.length > 1 ? `\n🎭 Версий: ${audioClips.length}` : '';
-      
-      // Send each audio with caption only on first
+      // Send each audio with consistent format
       for (let i = 0; i < audioClips.length; i++) {
         const clip = audioClips[i];
-        const isFirst = i === 0;
         const isLast = i === audioClips.length - 1;
+        const durationFormatted = formatDuration(clip.duration);
         
-        const durationText = clip.duration 
-          ? `⏱️ ${Math.floor(clip.duration / 60)}:${String(Math.floor(clip.duration % 60)).padStart(2, '0')}`
-          : '';
+        // Lyrics preview (2 lines max, clean tags)
+        let lyricsText = '';
+        if (clip.lyricsPreview) {
+          const cleanLyrics = clip.lyricsPreview
+            .split('\n')
+            .filter(line => !line.trim().startsWith('['))
+            .slice(0, 2)
+            .join('\n')
+            .trim();
+          if (cleanLyrics) {
+            lyricsText = `\n\n📝 _${escapeMarkdown(cleanLyrics)}${clip.lyricsPreview.length > cleanLyrics.length ? '\\.\\.\\.' : ''}_`;
+          }
+        }
         
-        // Only first message has full caption, others just version label
-        const caption = isFirst
-          ? `🎵 *${escapeMarkdown('Генерация завершена!')}*\n\n🎶 *${escapeMarkdown(title || 'Новый трек')}*${style ? `\n🎸 ${escapeMarkdown(style.split(',')[0])}` : ''}${tagsText}${versionText}\n\n_Версия ${clip.versionLabel}_ ${durationText ? `\\| ${durationText}` : ''}\n\n✨ _@AIMusicVerseBot_ ✨`
-          : `_Версия ${clip.versionLabel}_ ${durationText ? `\\| ${durationText}` : ''}\n\n🤖 _Создано в @AIMusicVerseBot_`;
+        // Build caption with metadata
+        const trackTitle = escapeMarkdown(title || 'Новый трек');
+        const styleText = style ? escapeMarkdown(style.split(',')[0].trim()) : '';
+        
+        const caption = `🎵 *${trackTitle}* — ${clip.versionLabel}\n${styleText ? `🎸 ${styleText} • ` : ''}⏱️ ${durationFormatted}${lyricsText}\n\n🤖 _@AIMusicVerseBot_`;
+        
+        // Use clip-specific cover or fallback to main cover
+        const clipCoverUrl = clip.coverUrl || coverUrl;
         
         const audioResult = await sendTelegramAudio(finalChatId, clip.audioUrl, {
           caption,
-          title: clip.title,
-          performer: '@AIMusicVerseBot',
+          title: `${title || 'Трек'} (${clip.versionLabel})`,
+          performer: 'MusicVerse AI',
           duration: clip.duration ? Math.round(clip.duration) : undefined,
-          coverUrl: isFirst ? coverUrl : undefined, // Cover only on first
+          coverUrl: clipCoverUrl, // Cover on EVERY version
           replyMarkup: isLast ? {
             inline_keyboard: [
-              [{ text: '🎵 Открыть в приложении', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
+              [{ text: '▶️ Открыть трек', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
               [
-                { text: '📝 Текст', callback_data: `lyrics_${finalTrackId}` },
-                { text: '🎨 Студия', callback_data: `studio_${finalTrackId}` }
-              ],
-              [
-                { text: '🎵 Создать еще', callback_data: 'generate' },
+                { text: '🔄 Создать ещё', callback_data: 'generate' },
                 { text: '🏠 Меню', callback_data: 'open_main_menu' }
               ]
             ]
@@ -494,53 +504,36 @@ Deno.serve(async (req) => {
     if (type === 'generation_complete' && audioUrl) {
       logger.info('Sending generation complete notification');
       
-      const durationText = duration 
-        ? `⏱️ ${Math.floor(duration / 60)}:${String(Math.floor(duration % 60)).padStart(2, '0')}`
+      const formatDuration = (d?: number) => d 
+        ? `${Math.floor(d / 60)}:${String(Math.floor(d % 60)).padStart(2, '0')}`
         : '';
       
-      // Format tags without # prefix for cleaner look
-      const tagsText = tags 
-        ? `\n🏷️ ${tags.split(',').slice(0, 3).map(t => escapeMarkdown(t.trim())).join(', ')}`
-        : '';
+      const durationFormatted = formatDuration(duration);
       
-      // Version info - show if multiple versions are being sent
-      const versionText = currentVersion && totalVersions && totalVersions > 1
-        ? `\n🎭 Версия ${versionLabel || currentVersion} из ${totalVersions}`
-        : (versionsCount && versionsCount > 1 ? `\n🎭 Создано версий: ${versionsCount}` : '');
-      
+      // Mode-specific emoji
       const modeEmoji = generationMode === 'upload_cover' ? '🎤' 
         : generationMode === 'upload_extend' ? '⏩'
         : generationMode === 'add_vocals' ? '🎙️'
         : generationMode === 'add_instrumental' ? '🎸'
         : '🎵';
       
-      const modeText = generationMode === 'upload_cover' ? 'Кавер готов' 
-        : generationMode === 'upload_extend' ? 'Расширение готово'
-        : generationMode === 'add_vocals' ? 'Вокал добавлен'
-        : generationMode === 'add_instrumental' ? 'Инструментал добавлен'
-        : 'Генерация завершена';
+      const trackTitle = escapeMarkdown(title || 'Новый трек');
+      const styleText = style ? escapeMarkdown(style.split(',')[0].trim()) : '';
+      const versionInfo = versionLabel ? ` — ${versionLabel}` : '';
       
-      const caption = `${modeEmoji} *${escapeMarkdown(modeText)}\\!*\n\n🎵 *${escapeMarkdown(title || 'Новый трек')}*${style ? `\n🎸 ${escapeMarkdown(style.split(',')[0])}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}${versionText}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
+      const caption = `${modeEmoji} *${trackTitle}*${versionInfo}\n${styleText ? `🎸 ${styleText} • ` : ''}⏱️ ${durationFormatted}\n\n🤖 _@AIMusicVerseBot_`;
       
       await sendTelegramAudio(finalChatId, audioUrl, {
         caption,
         title: title || 'AI Music Track',
-        performer: '@AIMusicVerseBot',
+        performer: 'MusicVerse AI',
         duration: duration ? Math.round(duration) : undefined,
         coverUrl: coverUrl,
         replyMarkup: {
           inline_keyboard: [
-            [{ text: '🎵 Открыть в приложении', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
+            [{ text: '▶️ Открыть трек', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
             [
-              { text: '📝 Текст', callback_data: `lyrics_${finalTrackId}` },
-              { text: '📊 Статистика', callback_data: `stats_${finalTrackId}` }
-            ],
-            [
-              { text: '🔄 Ремикс', callback_data: `remix_${finalTrackId}` },
-              { text: '🎨 Студия', callback_data: `studio_${finalTrackId}` }
-            ],
-            [
-              { text: '🎵 Создать еще', callback_data: 'generate' },
+              { text: '🔄 Создать ещё', callback_data: 'generate' },
               { text: '🏠 Меню', callback_data: 'open_main_menu' }
             ]
           ]
@@ -579,7 +572,7 @@ Deno.serve(async (req) => {
         const trackTitle = escapeMarkdown(title || trackData?.title || 'Видео клип');
         const trackStyle = trackData?.style ? escapeMarkdown(trackData.style.split(',')[0]) : '';
         
-        const caption = `🎬 *${type === 'video_ready' ? 'Ваш видеоклип готов\\!' : 'Видеоклип'}*\n\n🎵 *${trackTitle}*${trackStyle ? `\n🎸 ${trackStyle}` : ''}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
+        const caption = `🎬 *${trackTitle}*${trackStyle ? `\n🎸 ${trackStyle}` : ''}\n\n🤖 _@AIMusicVerseBot_`;
         
         await sendTelegramVideo(finalChatId, finalVideoUrl, {
           caption,
@@ -587,12 +580,11 @@ Deno.serve(async (req) => {
           coverUrl: trackData?.cover_url,
           replyMarkup: {
             inline_keyboard: [
-              [{ text: '🎵 Открыть в приложении', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
+              [{ text: '▶️ Открыть трек', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
               [
-                { text: '📥 Скачать видео', callback_data: `dl_video_${finalTrackId}` },
-                { text: '📤 Поделиться', callback_data: `share_video_${finalTrackId}` }
-              ],
-              [{ text: '🎵 Создать ещё', callback_data: 'generate' }]
+                { text: '🔄 Создать ещё', callback_data: 'generate' },
+                { text: '🏠 Меню', callback_data: 'open_main_menu' }
+              ]
             ]
           }
         });
@@ -623,29 +615,28 @@ Deno.serve(async (req) => {
       }
 
       if (track?.audio_url) {
-        const durationText = track.duration_seconds 
-          ? `⏱️ ${Math.floor(track.duration_seconds / 60)}:${String(Math.floor(track.duration_seconds % 60)).padStart(2, '0')}`
+        const formatDuration = (d?: number) => d 
+          ? `${Math.floor(d / 60)}:${String(Math.floor(d % 60)).padStart(2, '0')}`
           : '';
         
-        // Escape tags properly - # is a reserved character in MarkdownV2
-        const tagsText = track.tags 
-          ? `\n🏷️ ${track.tags.split(',').slice(0, 3).map((t: string) => escapeMarkdown(`#${t.trim().replace(/\s+/g, '_').toLowerCase()}`)).join(' ')}`
-          : '';
+        const durationFormatted = formatDuration(track.duration_seconds);
+        const trackTitle = escapeMarkdown(track.title || 'Новый трек');
+        const styleText = track.style ? escapeMarkdown(track.style.split(',')[0]) : '';
         
-        const caption = `🎵 *${escapeMarkdown(track.title || 'Новый трек')}*${track.style ? `\n🎸 ${escapeMarkdown(track.style.split(',')[0])}` : ''}${durationText ? `\n${durationText}` : ''}${tagsText}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
+        const caption = `🎵 *${trackTitle}*\n${styleText ? `🎸 ${styleText} • ` : ''}⏱️ ${durationFormatted}\n\n🤖 _@AIMusicVerseBot_`;
         
         await sendTelegramAudio(finalChatId, track.audio_url, {
           caption,
-          title: track.title || 'AIMusicVerse Track',
-          performer: '@AIMusicVerseBot',
+          title: track.title || 'MusicVerse Track',
+          performer: 'MusicVerse AI',
           duration: track.duration_seconds || undefined,
           coverUrl: track.cover_url,
           replyMarkup: {
             inline_keyboard: [
-              [{ text: '🎵 Открыть в приложении', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
+              [{ text: '▶️ Открыть трек', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
               [
-                { text: '🔄 Создать ремикс', callback_data: `remix_${finalTrackId}` },
-                { text: '📤 Поделиться', callback_data: `share_${finalTrackId}` }
+                { text: '🔄 Создать ещё', callback_data: 'generate' },
+                { text: '🏠 Меню', callback_data: 'open_main_menu' }
               ]
             ]
           }
@@ -667,38 +658,41 @@ Deno.serve(async (req) => {
         .single();
       
       if (track?.audio_url) {
-        const durationSeconds = track.duration_seconds || 0;
-        const durationText = `${Math.floor(durationSeconds / 60)}:${String(Math.floor(durationSeconds % 60)).padStart(2, '0')}`;
-        
-        const tagsText = track.tags 
-        ? `\n🏷️ ${track.tags.split(',').slice(0, 3).map((t: string) => escapeMarkdown(`#${t.trim().replace(/\s+/g, '_').toLowerCase()}`)).join(' ')}`
-        : '';
-        
-        const lyricsPreview = track.lyrics 
-          ? `\n\n📝 _${escapeMarkdown(track.lyrics.slice(0, 100))}${track.lyrics.length > 100 ? '...' : ''}_`
+        const formatDuration = (d?: number) => d 
+          ? `${Math.floor(d / 60)}:${String(Math.floor(d % 60)).padStart(2, '0')}`
           : '';
         
-        const caption = `🎉 *Ваш трек готов\\!*\n\n🎵 *${escapeMarkdown(track.title || 'Новый трек')}*${track.style ? `\n🎸 ${escapeMarkdown(track.style.split(',')[0])}` : ''}\n⏱️ ${durationText}${tagsText}${lyricsPreview}\n\n✨ _Создано в @AIMusicVerseBot_ ✨`;
+        const durationFormatted = formatDuration(track.duration_seconds);
+        const trackTitle = escapeMarkdown(track?.title || 'Новый трек');
+        const styleText = track?.style ? escapeMarkdown(track.style.split(',')[0]) : '';
+        
+        // Lyrics preview (2 lines, no tags)
+        let lyricsText = '';
+        if (track.lyrics) {
+          const cleanLyrics = track.lyrics
+            .split('\n')
+            .filter((line: string) => !line.trim().startsWith('['))
+            .slice(0, 2)
+            .join('\n')
+            .trim();
+          if (cleanLyrics) {
+            lyricsText = `\n\n📝 _${escapeMarkdown(cleanLyrics.substring(0, 100))}${cleanLyrics.length > 100 ? '\\.\\.\\.' : ''}_`;
+          }
+        }
+        
+        const caption = `🎵 *${trackTitle}*\n${styleText ? `🎸 ${styleText} • ` : ''}⏱️ ${durationFormatted}${lyricsText}\n\n🤖 _@AIMusicVerseBot_`;
         
         await sendTelegramAudio(finalChatId, track.audio_url, {
           caption,
           title: track.title || 'MusicVerse Track',
-          performer: '@AIMusicVerseBot',
-          duration: durationSeconds,
+          performer: 'MusicVerse AI',
+          duration: track.duration_seconds,
           coverUrl: track.cover_url,
           replyMarkup: {
             inline_keyboard: [
-              [{ text: '🎵 Открыть в приложении', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
+              [{ text: '▶️ Открыть трек', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
               [
-                { text: '📝 Текст', callback_data: `lyrics_${finalTrackId}` },
-                { text: '📊 Статистика', callback_data: `stats_${finalTrackId}` }
-              ],
-              [
-                { text: '🔄 Ремикс', callback_data: `remix_${finalTrackId}` },
-                { text: '📥 Скачать', callback_data: `dl_${finalTrackId}` }
-              ],
-              [
-                { text: '🎵 Создать еще', callback_data: 'generate' },
+                { text: '🔄 Создать ещё', callback_data: 'generate' },
                 { text: '🏠 Меню', callback_data: 'open_main_menu' }
               ]
             ]
@@ -707,12 +701,15 @@ Deno.serve(async (req) => {
       } else {
         const trackTitle = escapeMarkdown(track?.title || 'Новый трек');
         const trackStyle = track?.style ? escapeMarkdown(track.style) : '';
-        const message = `🎉 *Ваш трек готов\\!*\n\n🎵 *${trackTitle}*\n${trackStyle ? `🎸 Стиль: ${trackStyle}` : ''}\n\nОткройте в приложении для прослушивания\\! 🎧`;
+        const message = `🎵 *${trackTitle}*${trackStyle ? `\n🎸 ${trackStyle}` : ''}\n\n🤖 _@AIMusicVerseBot_`;
         
         await sendTelegramMessage(finalChatId, message, {
           inline_keyboard: [
-            [{ text: '🎧 Открыть трек', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
-            [{ text: '🔄 Создать еще', callback_data: 'generate' }]
+            [{ text: '▶️ Открыть трек', url: `${botDeepLink}?startapp=track_${finalTrackId}` }],
+            [
+              { text: '🔄 Создать ещё', callback_data: 'generate' },
+              { text: '🏠 Меню', callback_data: 'open_main_menu' }
+            ]
           ]
         });
       }
