@@ -72,187 +72,93 @@ export default function Artists() {
 
   return (
     <div className="min-h-screen bg-background pb-24">
-      {/* Premium Header */}
-      <div className="relative overflow-hidden border-b border-border/30 bg-gradient-to-b from-primary/5 via-background to-background">
-        {/* Decorative elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div 
-            className="absolute top-10 right-10 w-32 h-32 rounded-full bg-primary/10 blur-3xl"
-            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-            transition={{ duration: 4, repeat: Infinity }}
-          />
-          <motion.div 
-            className="absolute bottom-0 left-20 w-24 h-24 rounded-full bg-generate/10 blur-2xl"
-            animate={{ scale: [1.2, 1, 1.2], opacity: [0.4, 0.2, 0.4] }}
-            transition={{ duration: 3, repeat: Infinity, delay: 1 }}
-          />
-        </div>
-
-        <div className="container max-w-6xl mx-auto px-4 py-8 relative">
+      {/* Compact Header */}
+      <div className="relative overflow-hidden border-b border-border/30 bg-gradient-to-b from-primary/5 to-background">
+        <div className="container max-w-6xl mx-auto px-4 py-4 relative">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-start justify-between gap-4"
+            className="flex items-center justify-between gap-3"
           >
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <motion.div 
-                  className="p-3 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 shadow-lg border border-primary/20"
-                  animate={{ rotate: [0, 5, -5, 0] }}
-                  transition={{ duration: 4, repeat: Infinity }}
-                >
-                  <Users className="w-7 h-7 text-primary" />
-                </motion.div>
-                <div>
-                  <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
-                    AI Артисты
-                  </h1>
-                  <p className="text-sm text-muted-foreground mt-0.5">
-                    {activeTab === 'my' ? 'Управляйте вашими AI артистами' : 'Исследуйте AI-артистов сообщества'}
-                  </p>
+            <div className="flex items-center gap-2.5">
+              <motion.div 
+                className="p-2 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20"
+              >
+                <Users className="w-5 h-5 text-primary" />
+              </motion.div>
+              <div>
+                <h1 className="text-lg sm:text-xl font-bold">AI Артисты</h1>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <Badge variant="secondary" className="text-[10px] px-1.5 h-4 gap-1">
+                    <Mic2 className="w-2.5 h-2.5" />
+                    {myArtists?.length || 0}
+                  </Badge>
+                  <Badge variant="outline" className="text-[10px] px-1.5 h-4 gap-1">
+                    <TrendingUp className="w-2.5 h-2.5" />
+                    {publicArtists?.length || 0}
+                  </Badge>
                 </div>
               </div>
             </div>
             
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button 
-                onClick={() => setCreateDialogOpen(true)} 
-                className="gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg"
-                size="sm"
-              >
-                <Plus className="w-4 h-4" />
-                <span className="hidden sm:inline">Создать</span>
-              </Button>
-            </motion.div>
-          </motion.div>
-
-          {/* Stats row */}
-          <motion.div 
-            className="flex items-center gap-4 mt-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            <Badge variant="secondary" className="gap-1.5 px-3 py-1">
-              <Mic2 className="w-3.5 h-3.5" />
-              {myArtists?.length || 0} своих
-            </Badge>
-            <Badge variant="outline" className="gap-1.5 px-3 py-1">
-              <TrendingUp className="w-3.5 h-3.5" />
-              {(publicArtists?.length || 0)} публичных
-            </Badge>
+            <Button onClick={() => setCreateDialogOpen(true)} size="sm" className="h-8 gap-1.5">
+              <Plus className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline text-xs">Создать</span>
+            </Button>
           </motion.div>
         </div>
       </div>
 
-      <div className="container max-w-6xl mx-auto px-4 py-6">
-        {/* Tabs with animations */}
-        <Tabs value={activeTab} onValueChange={handleTabChange} className="mb-4">
-          <TabsList className="grid w-full grid-cols-2 p-1 bg-muted/50 rounded-xl">
-            <TabsTrigger 
-              value="my" 
-              className={cn(
-                "gap-2 rounded-lg transition-all data-[state=active]:bg-background data-[state=active]:shadow-md",
-                activeTab === 'my' && "text-primary"
-              )}
-            >
-              <User className="w-4 h-4" />
-              Мои артисты
-              {(myArtists?.length || 0) > 0 && (
-                <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-[10px]">
-                  {myArtists?.length}
-                </Badge>
-              )}
+      <div className="container max-w-6xl mx-auto px-4 py-4">
+        {/* Tabs */}
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="mb-3">
+          <TabsList className="grid w-full grid-cols-2 p-0.5 bg-muted/50 rounded-lg h-9">
+            <TabsTrigger value="my" className="gap-1.5 text-xs rounded-md data-[state=active]:bg-background data-[state=active]:shadow-sm">
+              <User className="w-3.5 h-3.5" />
+              Мои
+              {(myArtists?.length || 0) > 0 && <Badge variant="secondary" className="h-4 px-1 text-[9px]">{myArtists?.length}</Badge>}
             </TabsTrigger>
-            <TabsTrigger 
-              value="community" 
-              className={cn(
-                "gap-2 rounded-lg transition-all data-[state=active]:bg-background data-[state=active]:shadow-md",
-                activeTab === 'community' && "text-primary"
-              )}
-            >
-              <Users className="w-4 h-4" />
+            <TabsTrigger value="community" className="gap-1.5 text-xs rounded-md data-[state=active]:bg-background data-[state=active]:shadow-sm">
+              <Users className="w-3.5 h-3.5" />
               Сообщество
-              {(publicArtists?.length || 0) > 0 && (
-                <Badge variant="outline" className="ml-1 h-5 px-1.5 text-[10px]">
-                  {publicArtists?.length}
-                </Badge>
-              )}
+              {(publicArtists?.length || 0) > 0 && <Badge variant="outline" className="h-4 px-1 text-[9px]">{publicArtists?.length}</Badge>}
             </TabsTrigger>
           </TabsList>
         </Tabs>
 
-        {/* Search with glass effect */}
-        <motion.div 
-          className="mb-4"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
+        {/* Search */}
+        <div className="mb-3">
           <div className="relative group">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground transition-colors group-focus-within:text-primary" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary" />
             <Input
-              placeholder="Поиск по имени..."
+              placeholder="Поиск..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-11 h-12 text-base bg-card/50 border-border/50 focus:border-primary/50 focus:bg-card transition-all rounded-xl"
+              className="pl-9 h-9 text-sm bg-card/50 border-border/50 rounded-lg"
             />
-            {searchQuery && (
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="absolute right-3 top-1/2 -translate-y-1/2"
-              >
-                <Badge variant="secondary" className="text-xs">
-                  {currentArtists.length} найдено
-                </Badge>
-              </motion.div>
-            )}
           </div>
-        </motion.div>
+        </div>
 
-        {/* Genre Filter Pills with animations */}
-        <motion.div 
-          className="flex gap-2 overflow-x-auto pb-4 mb-6 scrollbar-hide -mx-4 px-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+        {/* Genre Pills */}
+        <div className="flex gap-1.5 overflow-x-auto pb-3 mb-4 scrollbar-hide -mx-4 px-4">
+          <Badge
+            variant={!selectedGenre ? "default" : "outline"}
+            className={cn("cursor-pointer whitespace-nowrap px-2.5 py-1 text-xs", !selectedGenre && "bg-primary")}
+            onClick={() => setSelectedGenre(null)}
+          >
+            Все
+          </Badge>
+          {GENRES.map((genre) => (
             <Badge
-              variant={!selectedGenre ? "default" : "outline"}
-              className={cn(
-                "cursor-pointer whitespace-nowrap px-4 py-2 text-sm transition-all",
-                !selectedGenre && "bg-primary shadow-md"
-              )}
-              onClick={() => setSelectedGenre(null)}
-            >
-              <Star className="w-3 h-3 mr-1" />
-              Все
-            </Badge>
-          </motion.div>
-          {GENRES.map((genre, index) => (
-            <motion.div 
               key={genre}
-              whileHover={{ scale: 1.05 }} 
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.05 * index }}
+              variant={selectedGenre === genre ? "default" : "outline"}
+              className={cn("cursor-pointer whitespace-nowrap px-2.5 py-1 text-xs", selectedGenre === genre && "bg-primary")}
+              onClick={() => setSelectedGenre(selectedGenre === genre ? null : genre)}
             >
-              <Badge
-                variant={selectedGenre === genre ? "default" : "outline"}
-                className={cn(
-                  "cursor-pointer whitespace-nowrap px-4 py-2 text-sm transition-all",
-                  selectedGenre === genre && "bg-primary shadow-md"
-                )}
-                onClick={() => setSelectedGenre(selectedGenre === genre ? null : genre)}
-              >
-                {genre}
-              </Badge>
-            </motion.div>
+              {genre}
+            </Badge>
           ))}
-        </motion.div>
+        </div>
 
         {/* Artists Grid */}
         <AnimatePresence mode="wait">

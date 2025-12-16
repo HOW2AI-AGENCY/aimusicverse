@@ -14,15 +14,15 @@ interface ProgressRingProps {
 }
 
 const sizeMap = {
-  sm: 40,
-  md: 64,
-  lg: 96,
+  sm: 36,
+  md: 52,
+  lg: 80,
 };
 
 const strokeWidthMap = {
-  sm: 4,
-  md: 6,
-  lg: 8,
+  sm: 3,
+  md: 5,
+  lg: 7,
 };
 
 export function ProgressRing({
