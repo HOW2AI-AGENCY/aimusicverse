@@ -3,7 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle } from "lucide-react";
+import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle, Library as LibraryIcon } from "lucide-react";
 import { useTracksInfinite } from "@/hooks/useTracksInfinite";
 import { type Track } from "@/hooks/useTracksOptimized";
 import { Button } from "@/components/ui/button";
@@ -249,20 +249,31 @@ export default function Library() {
   return (
     <ErrorBoundaryWrapper>
       <div className="min-h-screen pb-20">
-        {/* Page Header - Mobile optimized */}
-        <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-xl border-b border-border/30">
+        {/* Page Header - Modern gradient design */}
+        <header className="sticky top-0 z-30 bg-gradient-to-b from-background via-background/95 to-background/80 backdrop-blur-xl border-b border-border/30">
           <div className="container mx-auto px-3 sm:px-4 py-3">
             <div className="flex items-center justify-between gap-3">
               <div className="flex-1 min-w-0">
-                <h1 className="text-lg sm:text-2xl font-bold text-gradient-telegram truncate">Библиотека</h1>
-                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-library/10 border border-library/20">
+                    <LibraryIcon className="w-4 h-4 text-library" />
+                  </div>
+                  <h1 className="text-lg sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70 truncate">
+                    Библиотека
+                  </h1>
+                </div>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1 ml-9">
                   {hasActiveGenerations && (
-                    <span className="inline-flex items-center gap-1 text-generate mr-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-generate animate-pulse" />
-                      {activeGenerations.length} •
+                    <span className="inline-flex items-center gap-1.5 text-generate mr-2">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-generate opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-generate"></span>
+                      </span>
+                      {activeGenerations.length} в работе
                     </span>
                   )}
-                  <span className="tabular-nums">{tracks?.length || 0}</span> из <span className="tabular-nums">{totalCount}</span>
+                  <span className="tabular-nums font-medium">{tracks?.length || 0}</span>
+                  <span className="text-muted-foreground/60"> / {totalCount} треков</span>
                 </p>
               </div>
 

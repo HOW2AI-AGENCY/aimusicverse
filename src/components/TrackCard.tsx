@@ -431,13 +431,13 @@ export const TrackCard = memo(({
         
       <Card
         className={cn(
-          "group overflow-hidden cursor-pointer touch-manipulation transition-all duration-300 rounded-2xl",
+          "group overflow-hidden cursor-pointer touch-manipulation transition-all duration-300 rounded-2xl border-transparent",
           // 🖥️ Desktop: hover эффекты
-          !isMobile && "hover:shadow-xl hover:shadow-primary/10 hover:border-primary/30",
+          !isMobile && "hover:shadow-xl hover:shadow-primary/10 hover:border-primary/30 hover:-translate-y-1",
           // 📱 Mobile: active состояние вместо hover
           isMobile && "active:scale-[0.98] active:shadow-md",
-          // ✨ Активный трек с подсветкой
-          isPlaying && "ring-2 ring-primary shadow-glow"
+          // ✨ Активный трек с подсветкой и анимированным градиентом
+          isPlaying && "ring-2 ring-primary shadow-glow relative before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-r before:from-primary/10 before:via-generate/10 before:to-primary/10 before:animate-pulse before:-z-10"
         )}
         onClick={handleCardClick}
         {...(isMobile && layout !== 'grid' ? touchHandlers : {})}
