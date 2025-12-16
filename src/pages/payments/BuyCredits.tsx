@@ -55,15 +55,15 @@ export default function BuyCredits() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
+    <div className="container mx-auto px-4 py-8 max-w-7xl pb-32">
       {/* Header */}
       <div className="mb-8 text-center space-y-4">
         <div className="flex items-center justify-center gap-2">
           <Sparkles className="h-8 w-8 text-primary" aria-hidden="true" />
-          <h1 className="text-3xl font-bold">Buy Credits</h1>
+          <h1 className="text-3xl font-bold">Купить кредиты</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Purchase credits with Telegram Stars to generate AI music. Choose the package that fits your needs.
+          Приобретайте кредиты за Telegram Stars для генерации AI-музыки
         </p>
       </div>
 
@@ -71,7 +71,7 @@ export default function BuyCredits() {
       {error && (
         <Alert variant="destructive" className="mb-6">
           <AlertDescription>
-            Failed to load credit packages. Please try again later.
+            Не удалось загрузить пакеты. Попробуйте позже.
           </AlertDescription>
         </Alert>
       )}
@@ -80,26 +80,25 @@ export default function BuyCredits() {
       <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-          <span className="text-sm text-muted-foreground">Filter:</span>
           <Button
             variant={filter === 'all' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setFilter('all')}
           >
-            All Packages
+            Все пакеты
           </Button>
           <Button
             variant={filter === 'featured' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setFilter('featured')}
           >
-            Featured
+            Популярные
           </Button>
         </div>
 
         {displayProducts.length > 0 && (
           <p className="text-sm text-muted-foreground">
-            {displayProducts.length} {displayProducts.length === 1 ? 'package' : 'packages'} available
+            {displayProducts.length} {displayProducts.length === 1 ? 'пакет' : 'пакетов'}
           </p>
         )}
       </div>
@@ -116,7 +115,6 @@ export default function BuyCredits() {
               product={product}
               isSelected={selectedProduct?.id === product.id}
               onClick={handleProductClick}
-              language="en"
             />
           ))}
         </div>
@@ -127,26 +125,26 @@ export default function BuyCredits() {
         <div className="text-center py-12">
           <Sparkles className="mx-auto h-12 w-12 text-muted-foreground/50" aria-hidden="true" />
           <p className="mt-4 text-muted-foreground">
-            No credit packages available at the moment.
+            Пакеты кредитов недоступны.
           </p>
         </div>
       )}
 
       {/* Purchase Button */}
       {selectedProduct && (
-        <div className="fixed bottom-20 left-0 right-0 p-4 bg-background/80 backdrop-blur-sm border-t md:relative md:bottom-auto md:border-0 md:bg-transparent md:backdrop-blur-none">
+        <div className="fixed bottom-20 left-0 right-0 p-4 bg-background/95 backdrop-blur-sm border-t z-50">
           <div className="container mx-auto max-w-md">
             <div className="bg-card p-4 rounded-lg border shadow-lg space-y-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-muted-foreground">Selected Package</p>
+                  <p className="text-sm text-muted-foreground">Выбранный пакет</p>
                   <p className="font-semibold">
-                    {selectedProduct.credits_amount} Credits
+                    {selectedProduct.credits_amount} кредитов
                   </p>
                 </div>
                 <div className="text-right">
                   <div className="flex items-center gap-1">
-                    <Sparkles className="h-4 w-4 text-primary" aria-hidden="true" />
+                    <Sparkles className="h-4 w-4 text-yellow-500" aria-hidden="true" />
                     <span className="text-2xl font-bold">{selectedProduct.price_stars}</span>
                   </div>
                   <p className="text-xs text-muted-foreground">Stars</p>
@@ -158,7 +156,7 @@ export default function BuyCredits() {
                 size="lg"
                 className="w-full"
               >
-                Pay with Telegram Stars
+                Купить за {selectedProduct.price_stars} Stars
               </StarsPaymentButton>
             </div>
           </div>
@@ -170,7 +168,6 @@ export default function BuyCredits() {
         isOpen={flowState.step === 'success'}
         onClose={resetFlow}
         product={selectedProduct || undefined}
-        language="en"
       />
     </div>
   );

@@ -179,7 +179,6 @@ serve(async (req) => {
       .insert({
         id: transactionId,
         user_id: userId,
-        product_id: product.id,
         product_code: product.product_code,
         telegram_user_id: telegramUserId,
         stars_amount: product.stars_price,
