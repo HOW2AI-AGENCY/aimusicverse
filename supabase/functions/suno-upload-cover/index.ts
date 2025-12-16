@@ -49,6 +49,7 @@ serve(async (req) => {
       source,
       userId: telegramUserId, // User ID passed from telegram bot
       telegramChatId,
+      telegramMessageId, // Progress message ID for later update/deletion
       audioUrl: providedAudioUrl, // Pre-uploaded audio URL from bot
       audioFile,
       audioDuration, // Duration in seconds for validation
@@ -370,6 +371,7 @@ serve(async (req) => {
         model_used: model,
         source: source === 'telegram_bot' ? 'telegram' : 'mini_app',
         telegram_chat_id: telegramChatId,
+        telegram_message_id: telegramMessageId || null, // Store progress message ID
       });
 
     if (taskError) {
