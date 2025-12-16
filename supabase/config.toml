@@ -197,3 +197,6 @@ verify_jwt = true
 
 [functions.stability-audio-cover]
 verify_jwt = true
+
+[functions.generate-profile-image]
+verify_jwt = true

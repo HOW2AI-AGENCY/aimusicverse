@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { motion } from '@/lib/motion';
-import { User, Camera, AtSign } from 'lucide-react';
+import { User, Camera, AtSign, Sparkles } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
+import { ImageGeneratorDialog } from '../ImageGeneratorDialog';
 import type { ProfileSetupData } from './EnhancedProfileSetup';
 
 interface ProfileSetupStep1BasicProps {
@@ -18,6 +20,7 @@ interface ProfileSetupStep1BasicProps {
 
 export function ProfileSetupStep1Basic({ data, onUpdate, userId }: ProfileSetupStep1BasicProps) {
   const [isUploading, setIsUploading] = useState(false);
+  const [showGenerator, setShowGenerator] = useState(false);
 
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -53,6 +56,10 @@ export function ProfileSetupStep1Basic({ data, onUpdate, userId }: ProfileSetupS
     } finally {
       setIsUploading(false);
     }
+  };
+
+  const handleGenerated = (imageUrl: string) => {
+    onUpdate({ avatarUrl: imageUrl });
   };
 
   return (
@@ -94,10 +101,20 @@ export function ProfileSetupStep1Basic({ data, onUpdate, userId }: ProfileSetupS
             disabled={isUploading}
           />
         </div>
-        <p className="text-xs text-muted-foreground text-center">
-          Нажмите на иконку для загрузки фото<br />
-          или используем фото из Telegram
-        </p>
+        <div className="flex flex-col items-center gap-2">
+          <p className="text-xs text-muted-foreground text-center">
+            Нажмите на иконку для загрузки фото
+          </p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowGenerator(true)}
+            className="gap-2"
+          >
+            <Sparkles className="w-4 h-4" />
+            Сгенерировать AI аватар
+          </Button>
+        </div>
       </div>
 
       {/* Display Name */}
@@ -135,6 +152,19 @@ export function ProfileSetupStep1Basic({ data, onUpdate, userId }: ProfileSetupS
           Уникальный идентификатор для вашего профиля
         </p>
       </div>
+
+      {/* AI Generator Dialog */}
+      <ImageGeneratorDialog
+        open={showGenerator}
+        onOpenChange={setShowGenerator}
+        type="avatar"
+        onGenerated={handleGenerated}
+        context={{
+          displayName: data.displayName,
+          bio: data.bio,
+          genres: data.genres,
+        }}
+      />
     </motion.div>
   );
 }

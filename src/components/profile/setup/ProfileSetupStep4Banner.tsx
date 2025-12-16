@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
+import { ImageGeneratorDialog } from '../ImageGeneratorDialog';
 import type { ProfileSetupData } from './EnhancedProfileSetup';
 
 interface ProfileSetupStep4BannerProps {
@@ -17,6 +18,7 @@ interface ProfileSetupStep4BannerProps {
 
 export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetupStep4BannerProps) {
   const [isUploading, setIsUploading] = useState(false);
+  const [showGenerator, setShowGenerator] = useState(false);
 
   const handleBannerUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -54,6 +56,10 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
     }
   };
 
+  const handleGenerated = (imageUrl: string) => {
+    onUpdate({ bannerUrl: imageUrl });
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}
@@ -80,15 +86,19 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
               alt="Баннер профиля"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center gap-2 opacity-0 hover:opacity-100 transition-opacity">
               <label htmlFor="banner-upload" className="cursor-pointer">
                 <Button variant="secondary" size="sm" asChild>
                   <span>
                     <Upload className="w-4 h-4 mr-2" />
-                    Заменить
+                    Загрузить
                   </span>
                 </Button>
               </label>
+              <Button variant="secondary" size="sm" onClick={() => setShowGenerator(true)}>
+                <Sparkles className="w-4 h-4 mr-2" />
+                AI
+              </Button>
             </div>
             <div className="absolute top-2 right-2">
               <div className="p-1 rounded-full bg-green-500 text-white">
@@ -97,11 +107,9 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
             </div>
           </>
         ) : (
-          <label
-            htmlFor="banner-upload"
+          <div
             className={cn(
-              "absolute inset-0 flex flex-col items-center justify-center cursor-pointer transition-colors",
-              "hover:bg-muted/50",
+              "absolute inset-0 flex flex-col items-center justify-center gap-3",
               isUploading && "pointer-events-none"
             )}
           >
@@ -109,16 +117,26 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
               <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
             ) : (
               <>
-                <Upload className="w-8 h-8 text-muted-foreground mb-2" />
-                <span className="text-sm text-muted-foreground">
-                  Нажмите для загрузки
-                </span>
-                <span className="text-xs text-muted-foreground mt-1">
+                <div className="flex gap-2">
+                  <label htmlFor="banner-upload" className="cursor-pointer">
+                    <Button variant="outline" size="sm" asChild>
+                      <span>
+                        <Upload className="w-4 h-4 mr-2" />
+                        Загрузить
+                      </span>
+                    </Button>
+                  </label>
+                  <Button variant="default" size="sm" onClick={() => setShowGenerator(true)}>
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Сгенерировать AI
+                  </Button>
+                </div>
+                <span className="text-xs text-muted-foreground">
                   Рекомендуемый размер: 1200x400px
                 </span>
               </>
             )}
-          </label>
+          </div>
         )}
         <input
           id="banner-upload"
@@ -171,6 +189,19 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
           </div>
         </div>
       </div>
+
+      {/* AI Generator Dialog */}
+      <ImageGeneratorDialog
+        open={showGenerator}
+        onOpenChange={setShowGenerator}
+        type="banner"
+        onGenerated={handleGenerated}
+        context={{
+          displayName: data.displayName,
+          bio: data.bio,
+          genres: data.genres,
+        }}
+      />
     </motion.div>
   );
 }
