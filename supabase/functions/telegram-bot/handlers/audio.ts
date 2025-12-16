@@ -327,21 +327,8 @@ async function handleAutoUploadWithPipeline(
 
     logger.info('Audio uploaded to storage', { storagePath, publicUrl });
 
-    // Update progress
-    if (progressMessageId) {
-      try {
-        const { editMessageText } = await import('../telegram-api.ts');
-        await editMessageText(chatId, progressMessageId, 
-          `🎵 *Обработка аудио*\n\n` +
-          `📁 ${escapeMarkdown(originalName)}\n\n` +
-          `✅ Загружено в облако\n\n` +
-          `▓▓░░░░░░░░ 15%\n` +
-          `⏳ Запускаем анализ\\.\\.\\. \\(30\\-60 сек\\)`
-        );
-      } catch (e) {
-        logger.warn('Failed to update progress message');
-      }
-    }
+    // NOTE: Do NOT send intermediate progress here - let pipeline handle all progress updates
+    // The pipeline will edit the progressMessageId with 10% → 20% → 70% → 90% updates
 
     // Call the comprehensive audio processing pipeline
     const { data: pipelineResult, error: pipelineError } = await supabase.functions.invoke(

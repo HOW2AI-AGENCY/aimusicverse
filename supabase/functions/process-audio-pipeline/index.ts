@@ -536,40 +536,18 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
 
     console.log('✅ Saved reference:', savedRef?.id);
 
-    // === STEP 6: Final notification ===
-    const processingTime = Math.round((Date.now() - startTime) / 1000);
-    
+    // === STEP 6: Final progress (90%) ===
+    // NOTE: Handler (audio.ts) will send the detailed 100% message with action buttons
+    // Pipeline only shows 90% "finalizing" state, then returns data for handler to display
     if (telegram_chat_id && progressMessageId) {
-      let resultText = `✅ *Аудио обработано\\!*\n\n` +
-        `📁 ${escapeMarkdown(file_name)}\n` +
-        `⏱️ Время: ${processingTime} сек\n\n`;
-
-      if (analysisResult.genre) {
-        resultText += `🎵 Жанр: ${escapeMarkdown(analysisResult.genre)}\n`;
-      }
-      if (analysisResult.mood) {
-        resultText += `💫 Настроение: ${escapeMarkdown(analysisResult.mood)}\n`;
-      }
-      if (analysisResult.bpmEstimate) {
-        resultText += `🥁 BPM: ${analysisResult.bpmEstimate}\n`;
-      }
-      
-      resultText += analysisResult.hasVocals 
-        ? `🎤 Тип: Вокал${analysisResult.hasInstrumental ? ' \\+ Инструментал' : ''}\n`
-        : `🎸 Тип: Инструментал\n`;
-
-      if (lyrics) {
-        const lyricsPreview = lyrics.substring(0, 100);
-        resultText += `\n📝 *Текст:*\n_${escapeMarkdown(lyricsPreview)}${lyrics.length > 100 ? '\\.\\.\\.' : ''}_\n`;
-      }
-
-      if (stemsStatus === 'completed') {
-        resultText += `\n🎛️ Стемы доступны в Studio`;
-      }
-
-      resultText += `\n\n▓▓▓▓▓▓▓▓▓▓ 100%`;
-
-      await sendTelegramProgress(telegram_chat_id, resultText, progressMessageId);
+      await sendTelegramProgress(
+        telegram_chat_id,
+        `🎵 *Обработка аудио*\n\n` +
+        `📁 ${escapeMarkdown(file_name)}\n\n` +
+        `▓▓▓▓▓▓▓▓▓░ 90%\n` +
+        `⏳ Завершаем обработку\\.\\.\\.`,
+        progressMessageId
+      );
     }
 
     return new Response(
