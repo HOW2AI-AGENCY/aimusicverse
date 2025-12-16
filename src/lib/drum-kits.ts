@@ -141,6 +141,7 @@ export interface DrumPattern {
 }
 
 export const presetPatterns: DrumPattern[] = [
+  // Original patterns
   {
     id: 'four-on-floor',
     name: 'Four on Floor',
@@ -204,6 +205,81 @@ export const presetPatterns: DrumPattern[] = [
     steps: {
       'djembe': [true, false, false, true, false, true, false, false, true, false, false, true, false, true, false, false],
       'conga-h': [false, false, true, false, false, false, true, false, false, false, true, false, false, false, true, false],
+      'shaker': [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true],
+    }
+  },
+  // NEW PATTERNS
+  {
+    id: 'disco',
+    name: 'Disco',
+    genre: 'Disco',
+    bpm: 118,
+    steps: {
+      'kick': [true, false, false, false, true, false, false, false, true, false, false, false, true, false, false, false],
+      'snare': [false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false],
+      'hihat-c': [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true],
+      'hihat-o': [false, false, true, false, false, false, true, false, false, false, true, false, false, false, true, false],
+    }
+  },
+  {
+    id: 'funk',
+    name: 'Funk',
+    genre: 'Funk',
+    bpm: 100,
+    steps: {
+      'kick': [true, false, false, true, false, false, true, false, false, true, false, false, true, false, false, false],
+      'snare': [false, false, false, false, true, false, false, true, false, false, false, false, true, false, false, false],
+      'hihat-c': [true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false],
+      'clap': [false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false],
+    }
+  },
+  {
+    id: 'rnb',
+    name: 'R&B',
+    genre: 'R&B',
+    bpm: 85,
+    steps: {
+      'kick': [true, false, false, false, false, false, true, false, false, false, false, false, true, false, false, false],
+      'snare': [false, false, false, false, true, false, false, false, false, false, false, true, false, false, true, false],
+      'hihat-c': [true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false],
+      'hihat-o': [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true],
+    }
+  },
+  {
+    id: 'techno',
+    name: 'Techno',
+    genre: 'Techno',
+    bpm: 135,
+    steps: {
+      'kick': [true, false, false, false, true, false, false, false, true, false, false, false, true, false, false, false],
+      'clap': [false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false],
+      'hihat-c': [false, false, true, false, false, false, true, false, false, false, true, false, false, false, true, false],
+      'hihat-o': [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true],
+      'tom-l': [false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false],
+    }
+  },
+  {
+    id: 'breakbeat',
+    name: 'Breakbeat',
+    genre: 'Breaks',
+    bpm: 130,
+    steps: {
+      'kick': [true, false, false, false, false, false, true, false, false, true, false, false, false, false, true, false],
+      'snare': [false, false, false, false, true, false, false, false, false, false, true, false, true, false, false, false],
+      'hihat-c': [true, true, false, true, true, false, true, true, false, true, true, false, true, true, false, true],
+      'hihat-o': [false, false, true, false, false, true, false, false, true, false, false, true, false, false, true, false],
+    }
+  },
+  {
+    id: 'latin',
+    name: 'Salsa',
+    genre: 'Latin',
+    bpm: 95,
+    steps: {
+      'conga-h': [false, false, true, false, true, false, false, true, false, false, true, false, true, false, false, true],
+      'conga-l': [true, false, false, false, false, true, false, false, true, false, false, false, false, true, false, false],
+      'claves': [true, false, false, true, false, false, true, false, false, false, true, false, true, false, false, false],
+      'bongo-h': [false, true, false, false, true, false, true, false, false, true, false, false, true, false, true, false],
       'shaker': [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true],
     }
   },
