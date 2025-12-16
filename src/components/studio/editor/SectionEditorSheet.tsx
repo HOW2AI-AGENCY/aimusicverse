@@ -257,22 +257,57 @@ export function SectionEditorSheet({
         ))}
       </div>
 
+      {/* Lyrics editor - always visible */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <label className="text-xs font-medium flex items-center gap-1.5">
+            <MessageSquare className="w-3 h-3" />
+            Текст секции
+          </label>
+          {selectedSection?.lyrics && lyrics !== selectedSection.lyrics && (
+            <Badge 
+              variant="secondary" 
+              className="h-5 text-[10px] bg-amber-500/20 text-amber-600 dark:text-amber-400"
+            >
+              Изменён
+            </Badge>
+          )}
+        </div>
+        <Textarea
+          value={lyrics}
+          onChange={(e) => setLyrics(e.target.value)}
+          placeholder="Введите или измените текст секции..."
+          className={cn(
+            "min-h-[100px] text-sm font-mono resize-none",
+            "bg-background/50 border-border/50",
+            "focus:border-primary/50 focus:ring-primary/20",
+            selectedSection?.lyrics && lyrics !== selectedSection.lyrics && "border-amber-500/50"
+          )}
+        />
+        <p className="text-[10px] text-muted-foreground">
+          Измените текст, чтобы сгенерировать секцию с новыми словами
+        </p>
+      </div>
+
       {/* Prompt input */}
-      <div className="relative">
+      <div className="space-y-2">
+        <label className="text-xs font-medium flex items-center gap-1.5">
+          <Sparkles className="w-3 h-3" />
+          Стилевые указания
+        </label>
         <Textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Опишите желаемые изменения... (энергичнее, добавить гитару, мягче)"
           className={cn(
-            "min-h-[80px] resize-none pr-10",
+            "min-h-[60px] resize-none",
             "bg-background/50 border-border/50",
             "focus:border-primary/50 focus:ring-primary/20"
           )}
         />
-        <Sparkles className="absolute right-3 top-3 w-4 h-4 text-muted-foreground/50" />
       </div>
 
-      {/* Advanced options */}
+      {/* Style tags - collapsible */}
       <Collapsible open={isAdvancedOpen} onOpenChange={setIsAdvancedOpen}>
         <CollapsibleTrigger asChild>
           <Button
@@ -281,15 +316,11 @@ export function SectionEditorSheet({
             className="w-full h-7 text-xs text-muted-foreground hover:text-foreground gap-1"
           >
             {isAdvancedOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-            Дополнительные настройки
+            Стилевые теги
           </Button>
         </CollapsibleTrigger>
-        <CollapsibleContent className="space-y-3 pt-2">
+        <CollapsibleContent className="pt-2">
           <div className="space-y-1">
-            <label className="text-xs font-medium flex items-center gap-1.5">
-              <Tag className="w-3 h-3" />
-              Стилевые теги
-            </label>
             <Input
               value={tags}
               onChange={(e) => setTags(e.target.value)}
@@ -297,21 +328,6 @@ export function SectionEditorSheet({
               className="h-8 text-sm bg-background/50"
             />
           </div>
-
-          {lyrics && (
-            <div className="space-y-1">
-              <label className="text-xs font-medium flex items-center gap-1.5">
-                <MessageSquare className="w-3 h-3" />
-                Текст секции
-              </label>
-              <Textarea
-                value={lyrics}
-                onChange={(e) => setLyrics(e.target.value)}
-                placeholder="Отредактируйте текст секции..."
-                className="min-h-[60px] text-sm bg-background/50 resize-none"
-              />
-            </div>
-          )}
         </CollapsibleContent>
       </Collapsible>
 
