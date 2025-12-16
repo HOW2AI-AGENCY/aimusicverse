@@ -18,7 +18,7 @@ import { useVersionSwitcher } from '@/hooks/useVersionSwitcher';
 import { StudioLyricsPanel } from '@/components/stem-studio/StudioLyricsPanel';
 import { StudioLyricsPanelCompact } from '@/components/stem-studio/StudioLyricsPanelCompact';
 import { SectionTimelineVisualization } from '@/components/stem-studio/SectionTimelineVisualization';
-import { SectionEditorPanel } from '@/components/stem-studio/SectionEditorPanel';
+import { IntegratedSectionEditor } from '@/components/stem-studio/IntegratedSectionEditor';
 import { SectionEditorMobile } from '@/components/stem-studio/mobile/SectionEditorMobile';
 import { MobileSectionTimelineCompact } from '@/components/stem-studio/MobileSectionTimelineCompact';
 import { ReplacementHistoryPanel } from '@/components/stem-studio/ReplacementHistoryPanel';
@@ -613,12 +613,13 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
         </div>
       )}
 
-      {/* Section Editor Panel - Desktop */}
-      {!isMobile && editMode === 'editing' && (
-        <SectionEditorPanel
+      {/* Integrated Section Editor - Desktop (appears directly below timeline) */}
+      {!isMobile && (
+        <IntegratedSectionEditor
           trackId={trackId}
           trackTitle={track.title || 'Трек'}
           trackTags={track.tags}
+          audioUrl={track.audio_url}
           duration={duration}
           onClose={clearSelection}
         />

@@ -104,15 +104,18 @@ export function SectionTimelineVisualization({
                     animate={isSelected ? "selected" : "animate"}
                     custom={idx}
                     className={cn(
-                      'absolute top-0 h-full border-x',
+                      'absolute top-0 h-full border-x transition-all',
                       colors.bg,
                       colors.border,
-                      isSelected && 'ring-2 ring-primary ring-offset-1 ring-offset-background z-10',
-                      'cursor-pointer origin-bottom hover:brightness-110'
+                      isSelected && 'ring-2 ring-primary ring-offset-1 ring-offset-background z-10 brightness-125',
+                      isActive && !isSelected && 'brightness-110',
+                      'cursor-pointer origin-bottom',
+                      'hover:brightness-125 hover:z-[5]',
+                      'active:scale-[0.98]'
                     )}
                     style={{ left: `${pos.left}%`, width: `${pos.width}%` }}
                     onClick={() => onSectionClick(section, idx)}
-                    whileHover={{ y: -2 }}
+                    whileHover={{ y: -2, scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     {/* Active pulse indicator */}
@@ -123,18 +126,45 @@ export function SectionTimelineVisualization({
                         animate="animate"
                       />
                     )}
+                    
+                    {/* Selected glow */}
+                    {isSelected && (
+                      <motion.div
+                        className="absolute inset-0 bg-primary/20"
+                        animate={{ 
+                          opacity: [0.3, 0.6, 0.3],
+                        }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      />
+                    )}
+                    
                     <span className={cn(
                       'absolute inset-0 flex items-center justify-center text-[10px] font-medium truncate px-1',
-                      colors.text
+                      colors.text,
+                      isSelected && 'font-semibold'
                     )}>
                       {pos.width > 8 ? section.label : ''}
                     </span>
+                    
+                    {/* Click hint on hover */}
+                    {!isSelected && pos.width > 15 && (
+                      <motion.div
+                        className="absolute bottom-0.5 left-1/2 -translate-x-1/2 text-[8px] text-foreground/60 opacity-0 group-hover:opacity-100"
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                      >
+                        Нажмите
+                      </motion.div>
+                    )}
                   </motion.button>
                 </TooltipTrigger>
                 <TooltipContent side="top" className="text-xs">
                   <div className="font-medium">{section.label}</div>
                   <div className="text-muted-foreground">
                     {formatTime(section.startTime)} - {formatTime(section.endTime)}
+                  </div>
+                  <div className="text-primary text-[10px] mt-0.5">
+                    Нажмите для замены
                   </div>
                 </TooltipContent>
               </Tooltip>

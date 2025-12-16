@@ -11,10 +11,15 @@ export function ProfileSetupGuard({ children }: ProfileSetupGuardProps) {
   const [showSetup, setShowSetup] = useState(false);
 
   useEffect(() => {
-    if (!isLoading && needsSetup) {
-      // Small delay to prevent flash
-      const timer = setTimeout(() => setShowSetup(true), 500);
-      return () => clearTimeout(timer);
+    if (!isLoading) {
+      if (needsSetup) {
+        // Small delay to prevent flash
+        const timer = setTimeout(() => setShowSetup(true), 500);
+        return () => clearTimeout(timer);
+      } else {
+        // Hide setup when profile is configured
+        setShowSetup(false);
+      }
     }
   }, [needsSetup, isLoading]);
 
