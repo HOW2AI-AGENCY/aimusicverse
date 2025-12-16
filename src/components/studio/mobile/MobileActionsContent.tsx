@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import type { Tables } from '@/integrations/supabase/types';
+import type { Track } from '@/types/track';
 
 interface ActionCardProps {
   icon: React.ElementType;
@@ -72,7 +72,7 @@ function ActionCard({
 }
 
 interface MobileActionsContentProps {
-  track: Tables<'tracks'>;
+  track: Track;
   hasStems: boolean;
   isSeparating: boolean;
   onSeparate: (mode: 'simple' | 'detailed') => void;

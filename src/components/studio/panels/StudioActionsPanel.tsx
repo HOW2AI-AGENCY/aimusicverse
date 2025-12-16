@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
-import { Track } from '@/types/track';
+import type { Track } from '@/types/track';
 
 interface ActionItem {
   id: string;

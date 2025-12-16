@@ -1,15 +1,24 @@
-// Studio Layout Components
+/**
+ * Studio Components Module
+ * Unified exports for studio interface components
+ */
+
+// Layout components
 export { StudioHeader } from './layout/StudioHeader';
 export { StudioPlayerBar } from './layout/StudioPlayerBar';
 
-// Studio Panels
+// Panel components
 export { StudioActionsPanel } from './panels/StudioActionsPanel';
 
-// Studio Shared Components
-export { StudioOnboarding, useStudioOnboarding } from './shared/StudioOnboarding';
+// Shared components
 export { VersionTree } from './shared/VersionTree';
 export { EnhancedContextTips } from './shared/EnhancedContextTips';
+export { StudioOnboarding, useStudioOnboarding } from './shared/StudioOnboarding';
 
-// Mobile Components
+// Mobile components
 export { MobileStudioLayout } from './mobile/MobileStudioLayout';
 export { MobileActionsContent } from './mobile/MobileActionsContent';
+
+// Hooks
+export { useEnhancedStudioLogger } from './hooks/useEnhancedStudioLogger';
+export type { StudioAction, StudioState } from './hooks/useEnhancedStudioLogger';
