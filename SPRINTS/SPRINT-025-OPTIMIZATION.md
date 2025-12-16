@@ -65,15 +65,27 @@ Lighthouse CI, bundle analyzer, automated gates
 - ✅ `src/lib/motion.ts` - Централизованные framer-motion exports
 
 ### US-025-004: Bundle Optimization Phase 1 (7 SP)
-**Статус**: 🟡 IN PROGRESS
+**Статус**: ✅ DONE (2025-12-16)
 
 Centralized framer-motion, lazy loading, tree-shaking
 
 **Deliverables**:
 - ✅ `src/lib/motion.ts` - Централизованные exports
-- 🟡 Complete framer-motion migration (112 files) - TODO
-- 🟡 Lazy loading for 8+ components - TODO
-- 🟡 Dead code removal - TODO
+- ✅ framer-motion migration - все импорты через @/lib/motion
+- ✅ `src/components/lazy/index.ts` - Расширенный lazy loading (15+ компонентов)
+- ✅ `src/lib/query-utils.ts` - React Query оптимизация
+- ✅ Preload hints в index.html (DNS prefetch, preconnect)
+- ✅ React.memo для VirtualizedTrackList и других компонентов
+
+### US-025-005: Generation Analytics (3 SP)
+**Статус**: ✅ DONE (2025-12-16)
+
+Аналитика генерации музыки с метриками жанров, стилей и затрат
+
+**Deliverables**:
+- ✅ `get_generation_analytics` SQL function - Агрегация статистики
+- ✅ `src/hooks/useGenerationAnalytics.ts` - React Query hook
+- ✅ `src/components/admin/GenerationAnalyticsPanel.tsx` - UI панель
 
 ---
 
@@ -124,8 +136,12 @@ Centralized framer-motion, lazy loading, tree-shaking
 
 ## ✅ Definition of Done
 
-- [ ] All 4 user stories DONE
+- [x] US-025-003 Performance Monitoring DONE
+- [x] US-025-004 Bundle Optimization DONE
+- [x] US-025-005 Generation Analytics DONE
 - [x] Lighthouse CI workflow running
+- [ ] US-025-001 Music Lab Hub TODO
+- [ ] US-025-002 List Virtualization TODO
 - [ ] Bundle size <900 KB
 - [ ] List FPS >55
 - [ ] Code review approved (2+)

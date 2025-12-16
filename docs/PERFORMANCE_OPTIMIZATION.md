@@ -34,11 +34,27 @@ Created `src/lib/performance-utils.ts` with:
 ### 3. Component Optimization Checklist
 
 Apply to components with high render frequency:
-- [x] TrackCard (already has memo)
+- [x] TrackCard (React.memo)
 - [x] OptimizedTrackCard (new, optimized version)
+- [x] VirtualizedTrackList (React.memo added)
 - [ ] PlaylistTrackItem (to be optimized)
 - [ ] LyricsLine (to be optimized)
 - [ ] ChordBox (to be optimized)
+
+### 4. Lazy Loading Components (15+ components)
+
+Heavy components loaded on-demand via `src/components/lazy/index.ts`:
+- Dialogs: UploadAudioDialog, GenerateSheet, LyricsChatAssistant, TrackDetailSheet
+- Studio: StudioActionsPanel, VersionTree, MobileStudioLayout
+- Player: FullscreenPlayer, ExpandedPlayer, MobileFullscreenPlayer
+- Visualizations: AudioVisualizer, MusicGraph, InteractiveChordWheel, NoteFlowVisualization
+
+### 5. React Query Optimization (`src/lib/query-utils.ts`)
+
+- Centralized stale times for different data types
+- Query key factories for consistent naming
+- Selective invalidation utilities
+- Optimistic update helpers for like toggles
 
 ### 4. Best Practices
 
