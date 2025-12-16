@@ -11,7 +11,7 @@ export type ActionId =
   | 'download' | 'share' | 'send_telegram'
   | 'add_to_playlist' | 'add_to_project' | 'create_artist'
   | 'open_studio' | 'stems_simple' | 'stems_detailed' | 'generate_cover' | 'convert_wav' | 'transcribe_midi' | 'generate_video'
-  | 'extend' | 'cover' | 'add_vocals' | 'add_instrumental' | 'remix'
+  | 'extend' | 'cover' | 'new_arrangement' | 'new_vocal' | 'remix'
   | 'details' | 'lyrics' | 'toggle_public'
   | 'report' | 'delete';
 
@@ -34,6 +34,7 @@ export interface TrackAction {
   requiresCompleted?: boolean;
   requiresSunoId?: boolean;
   requiresSunoTaskId?: boolean;
+  requiresStems?: boolean;
   dangerous?: boolean;
 }
 
@@ -198,21 +199,23 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     requiresCompleted: true,
     requiresAudio: true,
   },
-  add_vocals: {
-    id: 'add_vocals',
-    label: 'Добавить вокал',
-    icon: Mic,
+  new_arrangement: {
+    id: 'new_arrangement',
+    label: 'Новая аранжировка',
+    icon: Volume2,
     category: 'edit',
     priority: 43,
     requiresCompleted: true,
+    requiresStems: true,
   },
-  add_instrumental: {
-    id: 'add_instrumental',
-    label: 'Добавить инструментал',
-    icon: Volume2,
+  new_vocal: {
+    id: 'new_vocal',
+    label: 'Новый вокал',
+    icon: Mic,
     category: 'edit',
     priority: 44,
     requiresCompleted: true,
+    requiresStems: true,
   },
   remix: {
     id: 'remix',

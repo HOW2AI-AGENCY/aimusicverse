@@ -31,6 +31,7 @@ export function UnifiedTrackMenu({ track, onDelete, onDownload }: UnifiedTrackMe
     closeDialog,
     executeAction,
     handleConfirmDelete,
+    stems,
   } = useTrackActionsState({
     track,
     onDelete,
@@ -126,6 +127,7 @@ export function UnifiedTrackMenu({ track, onDelete, onDownload }: UnifiedTrackMe
         dialogs={dialogs}
         onCloseDialog={closeDialog}
         onConfirmDelete={handleConfirmDelete}
+        stems={stems}
       />
     </>
   );

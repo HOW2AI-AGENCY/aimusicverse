@@ -21,11 +21,11 @@ export function EditActions({ track, state, onAction, variant, isProcessing }: E
   
   const showExtend = isActionAvailable('extend', track, state);
   const showCover = isActionAvailable('cover', track, state);
-  const showAddVocals = isActionAvailable('add_vocals', track, state);
-  const showAddInstrumental = isActionAvailable('add_instrumental', track, state);
+  const showNewArrangement = isActionAvailable('new_arrangement', track, state);
+  const showNewVocal = isActionAvailable('new_vocal', track, state);
   const showRemix = isActionAvailable('remix', track, state);
 
-  const hasAnyEditAction = showExtend || showCover || showAddVocals || showAddInstrumental || showRemix;
+  const hasAnyEditAction = showExtend || showCover || showNewArrangement || showNewVocal || showRemix;
   if (!hasAnyEditAction) return null;
 
   if (variant === 'dropdown') {
@@ -48,16 +48,16 @@ export function EditActions({ track, state, onAction, variant, isProcessing }: E
               Кавер
             </DropdownMenuItem>
           )}
-          {showAddVocals && (
-            <DropdownMenuItem onClick={() => onAction('add_vocals')}>
-              <Mic className="w-4 h-4 mr-2" />
-              Добавить вокал
+          {showNewArrangement && (
+            <DropdownMenuItem onClick={() => onAction('new_arrangement')}>
+              <Volume2 className="w-4 h-4 mr-2" />
+              Новая аранжировка
             </DropdownMenuItem>
           )}
-          {showAddInstrumental && (
-            <DropdownMenuItem onClick={() => onAction('add_instrumental')}>
-              <Volume2 className="w-4 h-4 mr-2" />
-              {getActionLabel('add_instrumental', track, state)}
+          {showNewVocal && (
+            <DropdownMenuItem onClick={() => onAction('new_vocal')}>
+              <Mic className="w-4 h-4 mr-2" />
+              Новый вокал
             </DropdownMenuItem>
           )}
           {showRemix && (
@@ -107,24 +107,24 @@ export function EditActions({ track, state, onAction, variant, isProcessing }: E
             <span>Кавер</span>
           </Button>
         )}
-        {showAddVocals && (
+        {showNewArrangement && (
           <Button
             variant="ghost"
             className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('add_vocals')}
-          >
-            <Mic className="w-4 h-4" />
-            <span>Добавить вокал</span>
-          </Button>
-        )}
-        {showAddInstrumental && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('add_instrumental')}
+            onClick={() => onAction('new_arrangement')}
           >
             <Volume2 className="w-4 h-4" />
-            <span>{getActionLabel('add_instrumental', track, state)}</span>
+            <span>Новая аранжировка</span>
+          </Button>
+        )}
+        {showNewVocal && (
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-3 h-11"
+            onClick={() => onAction('new_vocal')}
+          >
+            <Mic className="w-4 h-4" />
+            <span>Новый вокал</span>
           </Button>
         )}
         {showRemix && (
