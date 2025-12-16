@@ -3,6 +3,7 @@ import WaveSurfer from 'wavesurfer.js';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 import { logger } from '@/lib/logger';
 
 interface AudioWaveformPreviewProps {
@@ -103,12 +104,6 @@ export const AudioWaveformPreview = ({ audioUrl, className }: AudioWaveformPrevi
     if (wavesurferRef.current) {
       wavesurferRef.current.playPause();
     }
-  };
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   return (

@@ -12,6 +12,7 @@ import { VersionSwitcher } from '@/components/player/VersionSwitcher';
 import { LazyImage } from '@/components/ui/lazy-image';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 import { hapticImpact } from '@/lib/haptic';
 import { Track } from '@/hooks/useTracksOptimized';
 import { toast } from 'sonner';
@@ -84,13 +85,6 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
     track.suno_task_id || null,
     track.suno_id || null
   );
-
-  const formatTime = (seconds: number) => {
-    if (!seconds || !isFinite(seconds)) return '0:00';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const handleVolumeChange = useCallback((value: number[]) => {
     const newVolume = value[0];

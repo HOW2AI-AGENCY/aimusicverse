@@ -17,6 +17,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 
 /**
  * Progress bar component props
@@ -60,19 +61,6 @@ export function ProgressBar({
       setLocalTime(currentTime);
     }
   }, [currentTime, isDragging]);
-
-  /**
-   * Format time helper - converts seconds to MM:SS format
-   * 
-   * @param seconds - Time in seconds
-   * @returns Formatted time string (e.g., "3:45")
-   */
-  const formatTime = (seconds: number): string => {
-    if (!seconds || !isFinite(seconds)) return '0:00';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   /**
    * Handle seek operation - calculates new time from pointer position

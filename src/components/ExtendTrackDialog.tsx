@@ -12,6 +12,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 import { Track } from '@/hooks/useTracksOptimized';
+import { formatTime } from '@/lib/player-utils';
 import { logger } from '@/lib/logger';
 
 interface ExtendTrackDialogProps {
@@ -101,12 +102,6 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
     } finally {
       setLoading(false);
     }
-  };
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   return (

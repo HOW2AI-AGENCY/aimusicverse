@@ -12,6 +12,7 @@ import { useTracks, Track } from '@/hooks/useTracksOptimized';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { LazyImage } from '@/components/ui/lazy-image';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 import { motion } from '@/lib/motion';
 import { PlaybackControls } from '@/components/player/PlaybackControls';
 import { ProgressBar } from '@/components/player/ProgressBar';
@@ -91,13 +92,6 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
   const selectedVersion = versions.find(v => v.id === selectedVersionId);
   const audioUrl = selectedVersion?.audio_url || track.audio_url;
   const coverUrl = selectedVersion?.cover_url || track.cover_url;
-
-  const formatTime = (seconds: number) => {
-    if (!seconds || !isFinite(seconds)) return '0:00';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const handleVolumeChange = (value: number[]) => {
     const newVolume = value[0];

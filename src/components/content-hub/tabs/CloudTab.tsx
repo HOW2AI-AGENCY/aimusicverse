@@ -10,6 +10,7 @@ import {
   Sparkles, ArrowRight, FileText, Loader2, Edit, Check, X, Disc
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -183,12 +184,6 @@ function SimpleUploadDialog({ open, onOpenChange }: { open: boolean; onOpenChang
     } finally {
       setUploading(false);
     }
-  };
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   return (

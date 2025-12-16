@@ -6,6 +6,7 @@ import { useAudioPlayer } from '@/hooks/audio';
 import { LazyImage } from '@/components/ui/lazy-image';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 
 interface AudioPlayerProps {
   trackId: string;
@@ -47,13 +48,6 @@ export const AudioPlayer = ({
     audioUrl,
     onPlay,
   });
-
-  const formatTime = (seconds: number) => {
-    if (!seconds || !isFinite(seconds)) return '0:00';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const handleVolumeChange = (value: number[]) => {
     const newVolume = value[0];

@@ -23,6 +23,7 @@ import { logger } from '@/lib/logger';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useReferenceAudio, ReferenceAudio } from '@/hooks/useReferenceAudio';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 
 type AudioMode = 'cover' | 'extend';
 
@@ -153,12 +154,6 @@ export function AudioActionDialog({
       }
     };
   }, [isAnalyzing, analysisResult]);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const uploadAndGetUrl = async (file: File): Promise<string> => {
     const { data: { user } } = await supabase.auth.getUser();

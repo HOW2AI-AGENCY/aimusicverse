@@ -8,6 +8,7 @@
 import { useRef, useState, useCallback } from 'react';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
@@ -45,12 +46,6 @@ export function MobileSectionTimelineCompact({
   const [isDragging, setIsDragging] = useState(false);
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
   const haptic = useHapticFeedback();
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const handleDrag = useCallback((e: React.TouchEvent | React.MouseEvent) => {
     if (!containerRef.current) return;

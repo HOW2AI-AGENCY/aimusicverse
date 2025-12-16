@@ -20,6 +20,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 
 interface GuitarRecordingPanelProps {
   isRecording: boolean;
@@ -47,12 +48,6 @@ export function GuitarRecordingPanel({
   className,
 }: GuitarRecordingPanelProps) {
   const [audioPreviewPlaying, setAudioPreviewPlaying] = useState(false);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
 
   // Recording state
   const hasRecording = !!recordedAudioUrl;

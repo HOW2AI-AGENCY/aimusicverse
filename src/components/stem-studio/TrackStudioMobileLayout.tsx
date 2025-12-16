@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 
 type MobileTab = 'player' | 'lyrics' | 'sections' | 'actions';
 
@@ -52,12 +53,6 @@ export function TrackStudioMobileLayout({
   actionsContent,
 }: TrackStudioMobileLayoutProps) {
   const [activeTab, setActiveTab] = useState<MobileTab>('player');
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 

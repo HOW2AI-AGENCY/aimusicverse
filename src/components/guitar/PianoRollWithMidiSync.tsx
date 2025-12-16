@@ -17,6 +17,7 @@ import { PianoRollPreview } from '@/components/analysis/PianoRollPreview';
 import { useMidiSync } from '@/hooks/studio/useMidiSync';
 import type { MidiNote } from '@/hooks/useMidiVisualization';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 import { motion } from '@/lib/motion';
 
 interface NoteData {
@@ -140,12 +141,6 @@ export function PianoRollWithMidiSync({
     } else {
       playNotePreview(toMidiNotes([note])[0]);
     }
-  };
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   if (notes.length === 0) {
