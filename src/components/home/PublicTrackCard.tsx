@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Play, Pause, Share2, Music2, Heart } from 'lucide-react';
+import { Play, Pause, Share2, Music2, Heart, Headphones, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { usePlayerStore } from '@/hooks/audio';
 import { useTelegram } from '@/contexts/TelegramContext';
@@ -24,6 +25,7 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
   const { hapticFeedback } = useTelegram();
   const [imageError, setImageError] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   
   const isCurrentTrack = activeTrack?.id === track.id;
   const isCurrentlyPlaying = isCurrentTrack && isPlaying;
@@ -69,151 +71,235 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
   };
 
   // Priority: local_cover_url (platform-generated) > cover_url (Suno provider fallback)
-  // Check for valid cover URL (not null, undefined, or empty string)
   const platformCover = track.local_cover_url && track.local_cover_url.trim() !== '' ? track.local_cover_url : null;
   const sunoCover = track.cover_url && track.cover_url.trim() !== '' ? track.cover_url : null;
   const coverUrl = imageError ? (platformCover ? sunoCover : null) : (platformCover || sunoCover);
 
   return (
     <>
-    <Card 
-      className={cn(
-        "group overflow-hidden border-border/50 bg-card/50 transition-all touch-manipulation cursor-pointer",
-        isCurrentTrack && "ring-1 ring-primary/50",
-        className
-      )}
-      onClick={handleCardClick}
+    <motion.div
+      whileHover={{ y: -4, scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
     >
-      {/* Cover Image */}
-      <div className="relative aspect-square overflow-hidden">
-        {coverUrl ? (
-          <img
-            src={coverUrl}
-            alt={track.title || 'Track cover'}
-            className="w-full h-full object-cover"
-            onError={() => setImageError(true)}
-            loading="lazy"
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-            <Music2 className="w-10 h-10 sm:w-12 sm:h-12 text-muted-foreground/50" />
-          </div>
+      <Card 
+        className={cn(
+          "group relative overflow-hidden border-0 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm",
+          "shadow-lg shadow-black/5 transition-all duration-300 cursor-pointer",
+          isCurrentTrack && "ring-2 ring-primary ring-offset-2 ring-offset-background",
+          isHovered && "shadow-xl shadow-primary/10",
+          className
         )}
-        
-        {/* Gradient Overlay - Desktop only */}
-        <div className="hidden sm:block absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-        
-        {/* Play Button */}
-        <motion.div 
-          className="absolute inset-0 flex items-center justify-center opacity-0 sm:group-hover:opacity-100 transition-opacity"
-          initial={false}
-        >
-          <Button
-            size="icon"
-            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-primary/90 hover:bg-primary shadow-lg"
-            onClick={handlePlay}
-            disabled={!track.audio_url}
-          >
-            {isCurrentlyPlaying ? (
-              <Pause className="w-6 h-6 text-primary-foreground" />
-            ) : (
-              <Play className="w-6 h-6 text-primary-foreground ml-0.5" />
-            )}
-          </Button>
-        </motion.div>
-
-        {/* Playing Indicator */}
-        {isCurrentlyPlaying && (
-          <div className="absolute top-3 left-3">
-            <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-primary/90 text-primary-foreground text-xs font-medium">
-              <span className="w-2 h-2 rounded-full bg-primary-foreground animate-pulse" />
-              Играет
-            </div>
-          </div>
-        )}
-
-        {/* Likes Count Badge */}
-        {(track.likes_count || 0) > 0 && (
-          <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 rounded-full bg-black/50 backdrop-blur-sm text-white text-xs">
-            <Heart className="w-3 h-3 fill-current text-red-400" />
-            {track.likes_count}
-          </div>
-        )}
-      </div>
-
-      {/* Content */}
-      <div className={cn("p-2 sm:p-3 space-y-1.5", compact && "p-2")}>
-        <div>
-          <h3 className={cn(
-            "font-semibold line-clamp-1 group-hover:text-primary transition-colors",
-            compact ? "text-xs" : "text-sm"
-          )}>
-            {track.title || 'Без названия'}
-          </h3>
-          {track.style && !compact && (
-            <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5">
-              {track.style}
-            </p>
-          )}
+        onClick={handleCardClick}
+      >
+        {/* Animated gradient border */}
+        <div className={cn(
+          "absolute inset-0 rounded-lg opacity-0 transition-opacity duration-500",
+          isHovered && "opacity-100"
+        )}>
+          <div className="absolute inset-[1px] rounded-lg bg-card" />
+          <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/50 via-secondary/50 to-primary/50 animate-pulse" />
         </div>
 
-        {/* Creator Info - Hide on compact, clickable to navigate to profile */}
-        {!compact && (track.creator_name || track.creator_username || track.creator_photo_url) && (
-          <div className="flex items-center gap-2 pt-1 border-t border-border/30">
-            <CreatorAvatar
-              userId={track.user_id}
-              photoUrl={track.creator_photo_url}
-              name={track.creator_name}
-              username={track.creator_username}
-              size="xs"
+        {/* Cover Image */}
+        <div className="relative aspect-square overflow-hidden rounded-t-lg">
+          {coverUrl ? (
+            <motion.img
+              src={coverUrl}
+              alt={track.title || 'Track cover'}
+              className="w-full h-full object-cover"
+              onError={() => setImageError(true)}
+              loading="lazy"
+              animate={{ scale: isHovered ? 1.1 : 1 }}
+              transition={{ duration: 0.4 }}
             />
-            <CreatorLink
-              userId={track.user_id}
-              name={track.creator_name}
-              username={track.creator_username}
-              className="text-xs truncate flex-1"
-            />
-          </div>
-        )}
-
-        {/* Actions - Simplified on compact */}
-        {!compact && (
-          <div className="flex items-center gap-1 pt-1">
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-primary/30 via-secondary/20 to-accent/10 flex items-center justify-center">
+              <Music2 className="w-12 h-12 text-primary/40" />
+            </div>
+          )}
+          
+          {/* Gradient Overlay */}
+          <div className={cn(
+            "absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent",
+            "opacity-60 group-hover:opacity-80 transition-opacity duration-300"
+          )} />
+          
+          {/* Play Button - Central */}
+          <motion.div 
+            className="absolute inset-0 flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ 
+              opacity: isHovered || isCurrentlyPlaying ? 1 : 0,
+              scale: isHovered || isCurrentlyPlaying ? 1 : 0.8 
+            }}
+            transition={{ duration: 0.2 }}
+          >
             <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 px-2 text-xs gap-1.5"
+              size="icon"
+              className={cn(
+                "w-14 h-14 rounded-full shadow-2xl",
+                "bg-primary/90 hover:bg-primary hover:scale-110 transition-all",
+                isCurrentlyPlaying && "bg-primary animate-pulse"
+              )}
               onClick={handlePlay}
               disabled={!track.audio_url}
             >
               {isCurrentlyPlaying ? (
-                <Pause className="w-3.5 h-3.5" />
+                <Pause className="w-7 h-7 text-primary-foreground" />
               ) : (
-                <Play className="w-3.5 h-3.5" />
+                <Play className="w-7 h-7 text-primary-foreground ml-1" />
               )}
-              {isCurrentlyPlaying ? 'Пауза' : 'Играть'}
             </Button>
-            
-            <LikeButton 
-              trackId={track.id} 
-              likesCount={track.likes_count || 0}
-              size="sm"
-              showCount
-              className="h-8"
-            />
-            
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              onClick={handleShare}
-            >
-              <Share2 className="w-3.5 h-3.5" />
-            </Button>
+          </motion.div>
+
+          {/* Playing Indicator with Equalizer */}
+          {isCurrentlyPlaying && (
+            <div className="absolute top-3 left-3">
+              <motion.div 
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-primary text-primary-foreground text-xs font-medium"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 500 }}
+              >
+                <div className="flex items-center gap-0.5 h-3">
+                  {[1, 2, 3].map((i) => (
+                    <motion.div 
+                      key={i}
+                      className="w-0.5 bg-primary-foreground rounded-full"
+                      animate={{ height: ['40%', '100%', '60%', '80%', '40%'] }}
+                      transition={{ 
+                        duration: 0.8, 
+                        repeat: Infinity,
+                        delay: i * 0.1 
+                      }}
+                    />
+                  ))}
+                </div>
+                <span>Играет</span>
+              </motion.div>
+            </div>
+          )}
+
+          {/* Stats Badges - Top Right */}
+          <div className="absolute top-3 right-3 flex flex-col gap-1.5">
+            {(track.likes_count || 0) > 0 && (
+              <motion.div 
+                className="flex items-center gap-1 px-2 py-1 rounded-full bg-black/60 backdrop-blur-sm text-white text-xs"
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+              >
+                <Heart className="w-3 h-3 fill-red-400 text-red-400" />
+                <span className="font-medium">{track.likes_count}</span>
+              </motion.div>
+            )}
+            {(track.play_count || 0) > 0 && (
+              <motion.div 
+                className="flex items-center gap-1 px-2 py-1 rounded-full bg-black/60 backdrop-blur-sm text-white text-xs"
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <Headphones className="w-3 h-3" />
+                <span className="font-medium">{track.play_count}</span>
+              </motion.div>
+            )}
           </div>
-        )}
-      </div>
-    </Card>
+
+          {/* Style Badge - Bottom Left */}
+          {track.style && !compact && (
+            <div className="absolute bottom-3 left-3">
+              <Badge 
+                variant="secondary" 
+                className="bg-black/60 backdrop-blur-sm text-white border-0 text-xs"
+              >
+                <Sparkles className="w-3 h-3 mr-1" />
+                {track.style.length > 20 ? track.style.slice(0, 20) + '...' : track.style}
+              </Badge>
+            </div>
+          )}
+        </div>
+
+        {/* Content */}
+        <div className={cn("relative p-3 sm:p-4 space-y-2", compact && "p-2")}>
+          <div>
+            <h3 className={cn(
+              "font-bold line-clamp-1 transition-colors",
+              compact ? "text-sm" : "text-base",
+              isHovered && "text-primary"
+            )}>
+              {track.title || 'Без названия'}
+            </h3>
+          </div>
+
+          {/* Creator Info */}
+          {!compact && (track.creator_name || track.creator_username || track.creator_photo_url) && (
+            <div className="flex items-center gap-2 py-2 border-t border-border/50">
+              <CreatorAvatar
+                userId={track.user_id}
+                photoUrl={track.creator_photo_url}
+                name={track.creator_name}
+                username={track.creator_username}
+                size="sm"
+                className="ring-2 ring-background"
+              />
+              <div className="flex-1 min-w-0">
+                <CreatorLink
+                  userId={track.user_id}
+                  name={track.creator_name}
+                  username={track.creator_username}
+                  className="text-sm font-medium truncate"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Actions */}
+          {!compact && (
+            <div className="flex items-center gap-2 pt-1">
+              <Button
+                variant="default"
+                size="sm"
+                className="flex-1 h-9 gap-1.5 font-medium"
+                onClick={handlePlay}
+                disabled={!track.audio_url}
+              >
+                {isCurrentlyPlaying ? (
+                  <>
+                    <Pause className="w-4 h-4" />
+                    Пауза
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-4 h-4" />
+                    Играть
+                  </>
+                )}
+              </Button>
+              
+              <LikeButton 
+                trackId={track.id} 
+                likesCount={track.likes_count || 0}
+                size="sm"
+                showCount={false}
+                className="h-9 w-9"
+              />
+              
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-9 w-9"
+                onClick={handleShare}
+              >
+                <Share2 className="w-4 h-4" />
+              </Button>
+            </div>
+          )}
+        </div>
+      </Card>
+    </motion.div>
 
     <PublicTrackDetailSheet 
       open={detailsOpen} 
