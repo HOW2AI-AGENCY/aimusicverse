@@ -17,7 +17,7 @@ serve(async (req) => {
     const lovableApiKey = Deno.env.get('LOVABLE_API_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const { trackId, title, style, lyrics, mood, userId, projectId } = await req.json();
+    const { trackId, title, style, lyrics, mood, userId, projectId, customPrompt } = await req.json();
 
     if (!trackId) {
       throw new Error('trackId is required');
@@ -25,49 +25,61 @@ serve(async (req) => {
 
     console.log(`🎨 Generating MusicVerse cover for track: ${trackId}`);
     console.log(`📋 Title: ${title}, Style: ${style}, ProjectId: ${projectId || 'none'}`);
+    console.log(`📝 Custom prompt: ${customPrompt ? 'yes' : 'no'}`);
 
-    // Fetch project context if track belongs to a project
-    let projectContext: { genre?: string; mood?: string; concept?: string; title?: string } = {};
+    // If custom prompt provided, use it directly
+    let imagePrompt: string;
     
-    // Try to get project from track if not provided directly
-    let resolvedProjectId = projectId;
-    if (!resolvedProjectId) {
-      const { data: trackData } = await supabase
-        .from('tracks')
-        .select('project_id')
-        .eq('id', trackId)
-        .single();
-      resolvedProjectId = trackData?.project_id;
-    }
-    
-    if (resolvedProjectId) {
-      const { data: project } = await supabase
-        .from('music_projects')
-        .select('title, genre, mood, concept, description')
-        .eq('id', resolvedProjectId)
-        .single();
+    if (customPrompt) {
+      imagePrompt = `${customPrompt}. 
+Design requirements:
+- Square format (1:1 aspect ratio), high resolution
+- NO text, NO watermarks, NO logos, NO words, NO letters
+- Professional digital art suitable for music streaming platforms
+- Clean composition with focal point in center`;
+    } else {
+      // Fetch project context if track belongs to a project
+      let projectContext: { genre?: string; mood?: string; concept?: string; title?: string } = {};
       
-      if (project) {
-        projectContext = {
-          genre: project.genre,
-          mood: project.mood,
-          concept: project.concept || project.description,
-          title: project.title,
-        };
-        console.log(`📁 Project context loaded: ${project.title}`);
+      // Try to get project from track if not provided directly
+      let resolvedProjectId = projectId;
+      if (!resolvedProjectId) {
+        const { data: trackData } = await supabase
+          .from('tracks')
+          .select('project_id')
+          .eq('id', trackId)
+          .single();
+        resolvedProjectId = trackData?.project_id;
       }
-    }
+      
+      if (resolvedProjectId) {
+        const { data: project } = await supabase
+          .from('music_projects')
+          .select('title, genre, mood, concept, description')
+          .eq('id', resolvedProjectId)
+          .single();
+        
+        if (project) {
+          projectContext = {
+            genre: project.genre,
+            mood: project.mood,
+            concept: project.concept || project.description,
+            title: project.title,
+          };
+          console.log(`📁 Project context loaded: ${project.title}`);
+        }
+      }
 
-    // Build creative prompt for MusicVerse style cover with full context
-    const moodHint = mood || projectContext.mood || extractMoodFromStyle(style) || 'energetic and modern';
-    const styleHint = style || projectContext.genre || 'electronic music';
-    const lyricsTheme = lyrics ? extractThemeFromLyrics(lyrics) : '';
-    const conceptHint = projectContext.concept ? extractThemeFromLyrics(projectContext.concept) : '';
+      // Build creative prompt for MusicVerse style cover with full context
+      const moodHint = mood || projectContext.mood || extractMoodFromStyle(style) || 'energetic and modern';
+      const styleHint = style || projectContext.genre || 'electronic music';
+      const lyricsTheme = lyrics ? extractThemeFromLyrics(lyrics) : '';
+      const conceptHint = projectContext.concept ? extractThemeFromLyrics(projectContext.concept) : '';
 
-    // Analyze lyrics for visual themes
-    const visualThemes = extractVisualThemes(lyrics);
-    
-    const imagePrompt = `Create a stunning album cover art for a music streaming platform.
+      // Analyze lyrics for visual themes
+      const visualThemes = extractVisualThemes(lyrics);
+      
+      imagePrompt = `Create a stunning album cover art for a music streaming platform.
 
 Track: "${title || 'Untitled Track'}"
 ${projectContext.title ? `Album/Project: "${projectContext.title}"` : ''}
@@ -89,6 +101,7 @@ Design requirements:
 - Visual elements should evoke the emotional tone of the lyrics
 
 Style: Abstract digital art, ${getStyleForGenre(styleHint)}, modern album artwork`;
+    }
 
     console.log('🖼️ Generating cover with Lovable AI...');
 
