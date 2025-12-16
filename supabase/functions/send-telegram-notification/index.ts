@@ -44,6 +44,7 @@ interface NotificationPayload {
   audioClips?: AudioClipData[];
   message?: string;
   progress?: number;
+  messageId?: number; // For editing/deleting progress messages
 }
 
 interface NotificationSettings {
@@ -90,6 +91,83 @@ async function sendTelegramMessage(chatId: number, text: string, replyMarkup?: u
   }
 
   return { ok: true, result };
+}
+
+/**
+ * Edit an existing Telegram message
+ */
+async function editTelegramMessage(
+  chatId: number, 
+  messageId: number, 
+  text: string, 
+  replyMarkup?: unknown
+): Promise<{ ok: boolean; skipped?: boolean; reason?: string }> {
+  const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
+  if (!botToken) throw new Error('TELEGRAM_BOT_TOKEN not configured');
+
+  if (!chatId || chatId <= 0 || !messageId) {
+    logger.warn('Invalid chat_id or message_id for edit', { chatId, messageId });
+    return { ok: false, skipped: true, reason: 'invalid_ids' };
+  }
+
+  const response = await fetch(`https://api.telegram.org/bot${botToken}/editMessageText`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: chatId,
+      message_id: messageId,
+      text,
+      parse_mode: 'MarkdownV2',
+      reply_markup: replyMarkup,
+    }),
+  });
+
+  const result = await response.json();
+  
+  if (!result.ok) {
+    const errorDesc = result.description || '';
+    // Message not modified is OK - content hasn't changed
+    if (errorDesc.includes('message is not modified')) {
+      return { ok: true };
+    }
+    if (errorDesc.includes('message to edit not found') || errorDesc.includes('chat not found')) {
+      logger.warn('Message not found for edit', { chatId, messageId, reason: errorDesc });
+      return { ok: false, skipped: true, reason: 'message_not_found' };
+    }
+    logger.error('Telegram edit error', null, { result });
+    return { ok: false, reason: errorDesc };
+  }
+
+  return { ok: true };
+}
+
+/**
+ * Delete a Telegram message
+ */
+async function deleteTelegramMessage(chatId: number, messageId: number): Promise<{ ok: boolean; skipped?: boolean }> {
+  const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
+  if (!botToken) throw new Error('TELEGRAM_BOT_TOKEN not configured');
+
+  if (!chatId || chatId <= 0 || !messageId) {
+    return { ok: false, skipped: true };
+  }
+
+  try {
+    const response = await fetch(`https://api.telegram.org/bot${botToken}/deleteMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, message_id: messageId }),
+    });
+    
+    const result = await response.json();
+    if (!result.ok) {
+      logger.warn('Failed to delete message', { chatId, messageId, error: result.description });
+    }
+    return { ok: result.ok };
+  } catch (e) {
+    logger.warn('Delete message error', { error: e });
+    return { ok: false };
+  }
 }
 
 async function sendTelegramAudio(
@@ -429,20 +507,66 @@ Deno.serve(async (req) => {
     const miniAppUrl = telegramConfig.miniAppUrl;
     const botDeepLink = telegramConfig.deepLinkBase;
 
-    // Handle progress notification
+    // Handle delete_progress - remove progress message before sending results
+    if (type === 'delete_progress' && payload.messageId) {
+      logger.info('Deleting progress message', { messageId: payload.messageId });
+      await deleteTelegramMessage(finalChatId, payload.messageId);
+      return new Response(
+        JSON.stringify({ success: true, type: 'delete_progress' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Handle progress_update - edit existing progress message
+    if (type === 'progress_update' && payload.messageId) {
+      const progressTitle = escapeMarkdown(title || 'Генерация');
+      const progressText = payload.message ? escapeMarkdown(payload.message) : '⏳ Обрабатываем\\.\\.\\.';
+      const progressPercent = payload.progress || 50;
+      
+      const progressBar = '▓'.repeat(Math.floor(progressPercent / 10)) + '░'.repeat(10 - Math.floor(progressPercent / 10));
+      const message = `🎵 *${progressTitle}*\n\n${progressBar} ${progressPercent}%\n${progressText}\n\n🤖 _@AIMusicVerseBot_`;
+      
+      logger.info('Updating progress message', { messageId: payload.messageId, progress: progressPercent });
+      await editTelegramMessage(finalChatId, payload.messageId, message);
+      
+      return new Response(
+        JSON.stringify({ success: true, type: 'progress_update' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Handle error_update - edit progress message to show error
+    if (type === 'error_update' && payload.messageId) {
+      const escapedError = escapeMarkdown(payload.error_message || 'Произошла ошибка');
+      const message = `❌ *Ошибка генерации*\n\n${escapedError}\n\n💡 Попробуйте позже или измените параметры\n\n🤖 _@AIMusicVerseBot_`;
+      
+      logger.info('Updating progress message with error', { messageId: payload.messageId });
+      await editTelegramMessage(finalChatId, payload.messageId, message, {
+        inline_keyboard: [
+          [{ text: '🔄 Попробовать снова', callback_data: 'generate' }],
+          [{ text: '🏠 Меню', callback_data: 'open_main_menu' }]
+        ]
+      });
+      
+      return new Response(
+        JSON.stringify({ success: true, type: 'error_update' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Handle progress notification (new message)
     if (type === 'progress') {
       const progressTitle = escapeMarkdown(title || 'Генерация');
       const progressText = payload.message ? escapeMarkdown(payload.message) : '⏳ Обрабатываем\\.\\.\\.';
       const progressPercent = payload.progress || 50;
       
       const progressBar = '▓'.repeat(Math.floor(progressPercent / 10)) + '░'.repeat(10 - Math.floor(progressPercent / 10));
+      const message = `🎵 *${progressTitle}*\n\n${progressBar} ${progressPercent}%\n${progressText}\n\n🤖 _@AIMusicVerseBot_`;
       
-      const message = `🎵 *${progressTitle}*\n\n${progressBar} ${progressPercent}%\n${progressText}`;
-      
-      await sendTelegramMessage(finalChatId, message);
+      const result = await sendTelegramMessage(finalChatId, message);
       
       return new Response(
-        JSON.stringify({ success: true, type: 'progress' }),
+        JSON.stringify({ success: true, type: 'progress', messageId: result.result?.message_id }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }

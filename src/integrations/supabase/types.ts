@@ -575,6 +575,7 @@ export type Database = {
           status: string
           suno_task_id: string | null
           telegram_chat_id: number | null
+          telegram_message_id: number | null
           track_id: string | null
           updated_at: string
           user_id: string
@@ -595,6 +596,7 @@ export type Database = {
           status?: string
           suno_task_id?: string | null
           telegram_chat_id?: number | null
+          telegram_message_id?: number | null
           track_id?: string | null
           updated_at?: string
           user_id: string
@@ -615,6 +617,7 @@ export type Database = {
           status?: string
           suno_task_id?: string | null
           telegram_chat_id?: number | null
+          telegram_message_id?: number | null
           track_id?: string | null
           updated_at?: string
           user_id?: string

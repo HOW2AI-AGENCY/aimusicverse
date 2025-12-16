@@ -88,7 +88,7 @@ serve(async (req) => {
     // Validate taskId exists in database (prevents spoofed callbacks)
     const { data: task, error: taskError } = await supabase
       .from('generation_tasks')
-      .select('*, tracks(*)')
+      .select('*, tracks(*), telegram_message_id')
       .eq('suno_task_id', sunoTaskId)
       .single();
 
@@ -125,18 +125,31 @@ serve(async (req) => {
         error_message: msg || 'Generation failed',
       }).eq('id', trackId);
 
-      // Send failure notification to Telegram
+      // Send failure notification to Telegram - update progress message if exists
       if (task.telegram_chat_id) {
         try {
-          await supabase.functions.invoke('send-telegram-notification', {
-            body: {
-              type: 'failed',
-              status: 'failed',
-              chatId: task.telegram_chat_id,
-              trackId,
-              error_message: msg || 'Generation failed',
-            },
-          });
+          // If we have a progress message, update it with error
+          if (task.telegram_message_id) {
+            await supabase.functions.invoke('send-telegram-notification', {
+              body: {
+                type: 'error_update',
+                chatId: task.telegram_chat_id,
+                messageId: task.telegram_message_id,
+                error_message: msg || 'Generation failed',
+              },
+            });
+          } else {
+            // Fallback to new message
+            await supabase.functions.invoke('send-telegram-notification', {
+              body: {
+                type: 'failed',
+                status: 'failed',
+                chatId: task.telegram_chat_id,
+                trackId,
+                error_message: msg || 'Generation failed',
+              },
+            });
+          }
           logger.info('Failure notification sent to Telegram');
         } catch (notifyErr) {
           logger.error('Failed to send failure notification', notifyErr);
@@ -343,18 +356,29 @@ serve(async (req) => {
             status: 'streaming_ready',
           }).eq('id', task.id);
 
-          // Send progress notification to Telegram
+          // Send progress notification to Telegram - update existing message if available
           if (task.telegram_chat_id) {
             try {
+              const notificationBody = task.telegram_message_id
+                ? {
+                    type: 'progress_update',
+                    chatId: task.telegram_chat_id,
+                    messageId: task.telegram_message_id,
+                    title: firstClip.title || task.prompt?.substring(0, 50) || 'Трек',
+                    progress: 70,
+                    message: '🎵 Первая версия готова, обрабатываем...',
+                  }
+                : {
+                    type: 'progress',
+                    chatId: task.telegram_chat_id,
+                    trackId,
+                    title: firstClip.title || task.prompt?.substring(0, 50) || 'Трек',
+                    progress: 70,
+                    message: '🎵 Первая версия готова, обрабатываем...',
+                  };
+              
               await supabase.functions.invoke('send-telegram-notification', {
-                body: {
-                  type: 'progress',
-                  chatId: task.telegram_chat_id,
-                  trackId,
-                  title: firstClip.title || task.prompt?.substring(0, 50) || 'Трек',
-                  progress: 70,
-                  message: '🎵 Первая версия готова, обрабатываем...',
-                },
+                body: notificationBody,
               });
             } catch (progressErr) {
               logger.warn('Failed to send progress notification', { error: progressErr });
@@ -597,6 +621,22 @@ serve(async (req) => {
       }
 
       if (task.telegram_chat_id && clips.length > 0) {
+        // Delete progress message before sending audio results
+        if (task.telegram_message_id) {
+          logger.info('Deleting progress message before sending results');
+          try {
+            await supabase.functions.invoke('send-telegram-notification', {
+              body: {
+                type: 'delete_progress',
+                chatId: task.telegram_chat_id,
+                messageId: task.telegram_message_id,
+              },
+            });
+          } catch (deleteErr) {
+            logger.warn('Failed to delete progress message', { error: deleteErr });
+          }
+        }
+        
         // Wait for cover generation to complete
         logger.info('Waiting for cover generation to complete');
         await new Promise(resolve => setTimeout(resolve, 6000));

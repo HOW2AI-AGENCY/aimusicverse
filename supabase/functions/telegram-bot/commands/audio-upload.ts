@@ -452,8 +452,13 @@ async function processGenerationWithReference(
 ): Promise<void> {
   const isExtend = action === 'extend';
   const modeText = isExtend ? 'расширения' : 'кавера';
+  const modeEmoji = isExtend ? '⏩' : '🎤';
   
-  await editMessageText(chatId, messageId, `✅ *Действие выбрано*\n\n🎵 Отправляю на генерацию ${modeText}\\.\\.\\.`);
+  // Send initial progress message
+  await editMessageText(chatId, messageId, `${modeEmoji} *Создание ${modeText}*\n\n▓░░░░░░░░░ 10%\n⏳ Загружаем на сервер\\.\\.\\.\n\n🤖 _@AIMusicVerseBot_`);
+  
+  // Use the current messageId as the progress message ID
+  const progressMessageId = messageId;
 
   // Build style prompt from analysis
   const stylePrompt = styleFromAnalysis || refAudio.style_description || 
@@ -468,6 +473,7 @@ async function processGenerationWithReference(
         source: 'telegram_bot',
         userId: supabaseUserId,
         telegramChatId: chatId,
+        telegramMessageId: progressMessageId, // Pass progress message ID for later updates
         audioUrl: refAudio.file_url,
         audioDuration: refAudio.duration_seconds,
         customMode: true,
@@ -489,17 +495,8 @@ async function processGenerationWithReference(
       throw new Error(data?.error || 'No task ID received');
     }
 
-    await editMessageText(chatId, messageId, `✅ *Генерация ${modeText} началась\\!*
-
-⏳ Обычно занимает 2\\-4 минуты
-🔔 Вы получите уведомление когда трек будет готов
-
-🆔 Задача: \`${escapeMarkdown(data.taskId || 'N/A')}\``, {
-      inline_keyboard: [
-        [{ text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}` } }],
-        [{ text: '🏠 Меню', callback_data: 'nav_main' }]
-      ]
-    });
+    // Update progress message with task started status
+    await editMessageText(chatId, messageId, `${modeEmoji} *Создание ${modeText}*\n\n▓▓░░░░░░░░ 20%\n🚀 Генерация запущена\\.\\.\\.\n\n⏳ Обычно 2\\-4 минуты\n\n🤖 _@AIMusicVerseBot_`);
 
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
@@ -510,7 +507,9 @@ ${escapeMarkdown(errorMessage)}
 Попробуйте:
 • Проверить формат файла
 • Использовать файл меньшего размера
-• Попробовать позже`, {
+• Попробовать позже
+
+🤖 _@AIMusicVerseBot_`, {
       inline_keyboard: [
         [{ text: '🔄 Попробовать снова', callback_data: `audio_action_${action}` }],
         [{ text: '🏠 Меню', callback_data: 'nav_main' }]
