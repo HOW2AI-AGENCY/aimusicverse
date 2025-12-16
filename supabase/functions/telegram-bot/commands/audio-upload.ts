@@ -322,77 +322,200 @@ _${escapeMarkdown(lyricsText)}_
     return;
   }
 
-  // For cover/extend/upload actions - consume the audio data
-  const audioData = await consumePendingAudio(userId);
+  // For cover/extend/upload actions - get the audio data (don't consume yet for cover/extend)
+  const audioData = await getPendingAudioWithoutConsuming(userId);
 
   if (!audioData) {
     await answerCallbackQuery(callbackId, '⚠️ Аудио файл истёк. Отправьте снова.');
     return;
   }
 
-  // Set pending upload based on action, using analysis result for style if available
   const styleFromAnalysis = audioData.analysisResult?.style;
   
-  if (action === 'cover') {
-    await setPendingUpload(userId, 'cover', { style: styleFromAnalysis });
-    await answerCallbackQuery(callbackId, '🎤 Создание кавера');
-  } else if (action === 'extend') {
-    await setPendingUpload(userId, 'extend', { style: styleFromAnalysis });
-    await answerCallbackQuery(callbackId, '➕ Расширение трека');
-  } else if (action === 'upload') {
+  // Handle upload action - needs to re-process the file
+  if (action === 'upload') {
+    const consumedData = await consumePendingAudio(userId);
+    if (!consumedData) {
+      await answerCallbackQuery(callbackId, '⚠️ Аудио файл истёк');
+      return;
+    }
     await setPendingUpload(userId, 'upload', {});
     await answerCallbackQuery(callbackId, '📤 Загрузка в облако');
-  } else {
-    await answerCallbackQuery(callbackId, '❌ Неизвестное действие');
-    return;
-  }
-
-  try {
-    // Get file info from Telegram API
-    const fileInfo = await getFileInfo(audioData.fileId);
-
-    // Reconstruct audio object based on file type
-    let audioObject: any;
-
-    if (audioData.fileType === 'audio') {
-      audioObject = {
-        file_id: audioData.fileId,
-        file_unique_id: fileInfo.file_unique_id || audioData.fileId,
-        duration: 0, // Will be determined during processing
-        file_size: fileInfo.file_size || 0,
-      };
-    } else if (audioData.fileType === 'voice') {
-      audioObject = {
-        file_id: audioData.fileId,
-        file_unique_id: fileInfo.file_unique_id || audioData.fileId,
+    
+    try {
+      const fileInfo = await getFileInfo(consumedData.fileId);
+      const audioObject = {
+        file_id: consumedData.fileId,
+        file_unique_id: fileInfo.file_unique_id || consumedData.fileId,
         duration: 0,
         file_size: fileInfo.file_size || 0,
       };
-    } else if (audioData.fileType === 'document') {
-      audioObject = {
-        file_id: audioData.fileId,
-        file_unique_id: fileInfo.file_unique_id || audioData.fileId,
-        file_name: fileInfo.file_path?.split('/').pop() || 'audio.mp3',
-        file_size: fileInfo.file_size || 0,
-      };
+      
+      await editMessageText(chatId, messageId, `✅ *Действие выбрано*\n\n⬇️ Загружаю в облако\\.\\.\\.`);
+      
+      const { handleAudioMessage } = await import('../handlers/audio.ts');
+      await handleAudioMessage(chatId, userId, audioObject, consumedData.fileType as any);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      await editMessageText(chatId, messageId, `❌ *Ошибка*\n\n${escapeMarkdown(errorMessage)}`);
+    }
+    return;
+  }
+
+  // For cover/extend - use existing reference_audio from DB (audio already uploaded and analyzed)
+  if (action === 'cover' || action === 'extend') {
+    await answerCallbackQuery(callbackId, action === 'cover' ? '🎤 Создание кавера' : '➕ Расширение трека');
+    
+    try {
+      // Get user profile
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('user_id')
+        .eq('telegram_id', userId)
+        .single();
+
+      if (!profile) {
+        await editMessageText(chatId, messageId, '❌ Профиль не найден\\. Откройте Mini App\\.');
+        return;
+      }
+
+      // Find the reference_audio record by telegram_file_id
+      const { data: refAudio, error: refError } = await supabase
+        .from('reference_audio')
+        .select('id, file_url, duration_seconds, style_description, genre, mood, transcription')
+        .eq('user_id', profile.user_id)
+        .eq('telegram_file_id', audioData.fileId)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (refError || !refAudio?.file_url) {
+        // Fallback: try to find by recent uploads
+        const { data: recentAudio } = await supabase
+          .from('reference_audio')
+          .select('id, file_url, duration_seconds, style_description, genre, mood, transcription')
+          .eq('user_id', profile.user_id)
+          .eq('analysis_status', 'completed')
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        if (!recentAudio?.file_url) {
+          await editMessageText(chatId, messageId, `❌ Аудио не найдено\\. Отправьте файл снова\\.`);
+          return;
+        }
+        
+        // Use recent audio
+        await processGenerationWithReference(
+          chatId, userId, profile.user_id, messageId, action, recentAudio, styleFromAnalysis
+        );
+        return;
+      }
+
+      // Use found reference audio
+      await processGenerationWithReference(
+        chatId, userId, profile.user_id, messageId, action, refAudio, styleFromAnalysis
+      );
+
+      // Consume audio data after successful initiation
+      await consumePendingAudio(userId);
+
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      await editMessageText(chatId, messageId, `❌ *Ошибка*\n\n${escapeMarkdown(errorMessage)}\n\nПопробуйте отправить аудио ещё раз\\.`);
+    }
+    return;
+  }
+
+  await answerCallbackQuery(callbackId, '❌ Неизвестное действие');
+}
+
+/**
+ * Process generation (cover/extend) using existing reference audio URL
+ */
+async function processGenerationWithReference(
+  chatId: number,
+  telegramUserId: number,
+  supabaseUserId: string,
+  messageId: number,
+  action: 'cover' | 'extend',
+  refAudio: { 
+    id: string; 
+    file_url: string; 
+    duration_seconds?: number | null;
+    style_description?: string | null;
+    genre?: string | null;
+    mood?: string | null;
+    transcription?: string | null;
+  },
+  styleFromAnalysis?: string
+): Promise<void> {
+  const isExtend = action === 'extend';
+  const modeText = isExtend ? 'расширения' : 'кавера';
+  
+  await editMessageText(chatId, messageId, `✅ *Действие выбрано*\n\n🎵 Отправляю на генерацию ${modeText}\\.\\.\\.`);
+
+  // Build style prompt from analysis
+  const stylePrompt = styleFromAnalysis || refAudio.style_description || 
+    [refAudio.genre, refAudio.mood].filter(Boolean).join(', ') || 
+    'modern music';
+
+  try {
+    const endpoint = isExtend ? 'suno-upload-extend' : 'suno-upload-cover';
+    
+    const { data, error } = await supabase.functions.invoke(endpoint, {
+      body: {
+        source: 'telegram_bot',
+        userId: supabaseUserId,
+        telegramChatId: chatId,
+        audioUrl: refAudio.file_url,
+        audioDuration: refAudio.duration_seconds,
+        customMode: true,
+        instrumental: false,
+        style: stylePrompt,
+        prompt: refAudio.transcription?.substring(0, 500) || undefined,
+        model: 'V5',
+      },
+      headers: {
+        'x-telegram-bot-secret': Deno.env.get('TELEGRAM_BOT_TOKEN') || '',
+      },
+    });
+
+    if (error) {
+      throw new Error(error.message || 'Generation failed');
     }
 
-    // Update message to show processing started
-    await editMessageText(chatId, messageId, `✅ *Действие выбрано*
+    if (!data?.success) {
+      throw new Error(data?.error || 'No task ID received');
+    }
 
-⬇️ Обрабатываю аудио\\.\\.\\.`);
+    await editMessageText(chatId, messageId, `✅ *Генерация ${modeText} началась\\!*
 
-    // Process the audio immediately
-    const { handleAudioMessage } = await import('../handlers/audio.ts');
-    await handleAudioMessage(chatId, userId, audioObject, audioData.fileType as any);
+⏳ Обычно занимает 2\\-4 минуты
+🔔 Вы получите уведомление когда трек будет готов
+
+🆔 Задача: \`${escapeMarkdown(data.taskId || 'N/A')}\``, {
+      inline_keyboard: [
+        [{ text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}` } }],
+        [{ text: '🏠 Меню', callback_data: 'nav_main' }]
+      ]
+    });
 
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    await editMessageText(chatId, messageId, `❌ *Ошибка обработки*
+    await editMessageText(chatId, messageId, `❌ *Ошибка генерации*
 
 ${escapeMarkdown(errorMessage)}
 
-Попробуйте отправить аудио ещё раз\\.`);
+Попробуйте:
+• Проверить формат файла
+• Использовать файл меньшего размера
+• Попробовать позже`, {
+      inline_keyboard: [
+        [{ text: '🔄 Попробовать снова', callback_data: `audio_action_${action}` }],
+        [{ text: '🏠 Меню', callback_data: 'nav_main' }]
+      ]
+    });
   }
 }
 
