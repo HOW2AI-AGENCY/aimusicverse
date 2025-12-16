@@ -194,6 +194,45 @@ export function SectionEditorSheet({
         </div>
       )}
 
+      {/* Quick section selection */}
+      {detectedSections.length > 0 && (
+        <div className="space-y-1.5">
+          <label className="text-xs text-muted-foreground">Выбрать секцию:</label>
+          <div className="flex flex-wrap gap-1.5">
+            {detectedSections.map((section, idx) => {
+              const isActive = Math.abs(section.startTime - startTime) < 1 && Math.abs(section.endTime - endTime) < 1;
+              return (
+                <Button
+                  key={idx}
+                  variant={isActive ? "default" : "outline"}
+                  size="sm"
+                  className={cn(
+                    "h-7 text-xs gap-1 transition-all",
+                    section.type === 'chorus' && !isActive && "border-primary/50",
+                    section.type === 'verse' && !isActive && "border-muted-foreground/30"
+                  )}
+                  onClick={() => {
+                    setCustomRange(section.startTime, section.endTime);
+                    setLyrics(section.lyrics || '');
+                  }}
+                >
+                  <span className={cn(
+                    "w-1.5 h-1.5 rounded-full",
+                    section.type === 'verse' && "bg-blue-500",
+                    section.type === 'chorus' && "bg-purple-500",
+                    section.type === 'bridge' && "bg-amber-500",
+                    section.type === 'intro' && "bg-green-500",
+                    section.type === 'outro' && "bg-red-500",
+                    !['verse', 'chorus', 'bridge', 'intro', 'outro'].includes(section.type) && "bg-muted-foreground"
+                  )} />
+                  {section.label}
+                </Button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Waveform Range Selector */}
       {audioUrl && (
         <WaveformRangeSelector
