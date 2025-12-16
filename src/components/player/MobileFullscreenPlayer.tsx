@@ -26,6 +26,7 @@ import { useAudioVisualizer } from '@/hooks/audio';
 import { QueueSheet } from './QueueSheet';
 import { VersionSwitcher } from './VersionSwitcher';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
 import { logger } from '@/lib/logger';
@@ -313,13 +314,6 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
       }
     });
   }, [activeLineIndex, userScrolling, isPlaying]);
-
-  const formatTime = (seconds: number) => {
-    if (!seconds || !isFinite(seconds)) return '0:00';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const handleSeek = (value: number[]) => {
     seek(value[0]);

@@ -11,6 +11,7 @@ import { Slider } from '@/components/ui/slider';
 import { Toggle } from '@/components/ui/toggle';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 
 interface SectionPreviewPlayerProps {
   audioUrl: string;
@@ -141,12 +142,6 @@ export function SectionPreviewPlayer({
       setIsPlaying(true);
     }
   }, [startTime, isPlaying, isLoaded]);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   return (
     <TooltipProvider>

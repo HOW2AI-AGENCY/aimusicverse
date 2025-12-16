@@ -47,6 +47,7 @@ import { GuitarRecordingPanel } from '@/components/guitar/GuitarRecordingPanel';
 import { LinkToTrackDialog } from '@/components/guitar/LinkToTrackDialog';
 import { AnalysisProgressStages, type AnalysisStage } from '@/components/guitar/AnalysisProgressStages';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 
 type WorkflowStatus = 'pending' | 'active' | 'completed';
 
@@ -186,12 +187,6 @@ export default function GuitarStudio() {
       setAnalysisStage('processing');
     }
   }, [isAnalyzing, progress, analysisResult]);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const handleStartRecording = async () => {
     await startRecording();

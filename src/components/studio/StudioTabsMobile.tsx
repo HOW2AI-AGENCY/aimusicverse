@@ -25,6 +25,7 @@ import { Slider } from '@/components/ui/slider';
 import { useGestures } from '@/hooks/useGestures';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { studioAnimations, getStemColor } from '@/lib/studio-animations';
+import { formatTime } from '@/lib/player-utils';
 
 interface StudioTabsMobileProps {
   trackTitle: string;
@@ -108,12 +109,6 @@ export const StudioTabsMobile = memo(function StudioTabsMobile({
     onSeek(Math.max(0, Math.min(duration, currentTime + seconds)));
     haptic.selectionChanged();
   }, [currentTime, duration, onSeek, haptic]);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   return (
     <div className="flex flex-col h-full bg-background">

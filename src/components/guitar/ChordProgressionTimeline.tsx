@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Music2, PlayCircle, PauseCircle, SkipBack, SkipForward } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 import type { ChordData } from '@/hooks/useGuitarAnalysis';
 
 interface ChordProgressionTimelineProps {
@@ -110,12 +111,6 @@ export function ChordProgressionTimeline({
   const formatChordName = (chord: string) => {
     // Format chord name for display
     return chord === 'N' || chord === '' ? '—' : chord;
-  };
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   return (

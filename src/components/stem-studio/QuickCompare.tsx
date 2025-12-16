@@ -15,6 +15,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 
 const panelVariants = {
   hidden: { height: 0, opacity: 0 },
@@ -207,12 +208,6 @@ export function QuickCompare({
   const handleClose = () => {
     if (onClose) onClose();
     if (onOpenChange) onOpenChange(false);
-  };
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   const progress = ((currentTime - sectionStart) / sectionDuration) * 100;

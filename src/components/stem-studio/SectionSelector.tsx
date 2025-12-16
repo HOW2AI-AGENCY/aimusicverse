@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion } from '@/lib/motion';
 import { GripVertical, AlertCircle, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 
 interface SectionSelectorProps {
@@ -59,12 +60,6 @@ export function SectionSelector({
   useEffect(() => {
     onSelectionChange(startTime, endTime);
   }, [startTime, endTime, onSelectionChange]);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const getPositionFromEvent = useCallback((e: MouseEvent | TouchEvent) => {
     if (!containerRef.current) return 0;

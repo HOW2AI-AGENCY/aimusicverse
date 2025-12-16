@@ -7,18 +7,13 @@
 
 import { memo } from 'react';
 import { Slider } from '@/components/ui/slider';
+import { formatTime } from '@/lib/player-utils';
 
 interface StemStudioTimelineProps {
   currentTime: number;
   duration: number;
   onSeek: (time: number) => void;
 }
-
-const formatTime = (seconds: number) => {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-};
 
 // Performance optimization: Only re-render when time changes significantly
 // 0.5s threshold balances visual smoothness with performance

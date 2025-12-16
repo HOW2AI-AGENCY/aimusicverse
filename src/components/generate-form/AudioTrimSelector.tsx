@@ -4,6 +4,7 @@ import RegionsPlugin from 'wavesurfer.js/dist/plugins/regions.js';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, Loader2, Scissors } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 import { logger } from '@/lib/logger';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
@@ -173,12 +174,6 @@ export const AudioTrimSelector = ({
       };
       requestAnimationFrame(checkTime);
     }
-  };
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   const regionDuration = regionEnd - regionStart;

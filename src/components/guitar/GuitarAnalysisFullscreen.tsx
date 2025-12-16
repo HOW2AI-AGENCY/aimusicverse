@@ -29,6 +29,7 @@ import { ChordTimelineMobile } from './ChordTimelineMobile';
 import { useGestures } from '@/hooks/useGestures';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { studioAnimations, getChordColor } from '@/lib/studio-animations';
+import { formatTime } from '@/lib/player-utils';
 import type { GuitarRecording } from '@/types/guitar';
 import type { Database } from '@/integrations/supabase/types';
 
@@ -152,12 +153,6 @@ export const GuitarAnalysisFullscreen = memo(function GuitarAnalysisFullscreen({
     audio.muted = !isMuted;
     setIsMuted(!isMuted);
   }, [isMuted]);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
