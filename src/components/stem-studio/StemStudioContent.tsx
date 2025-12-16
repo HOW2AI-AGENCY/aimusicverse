@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { 
   ChevronLeft, Play, Pause, SkipBack, SkipForward,
   Volume2, VolumeX, HelpCircle, Sliders, Scissors,
@@ -15,6 +16,7 @@ import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useSectionDetection } from '@/hooks/useSectionDetection';
 import { useReplacedSections } from '@/hooks/useReplacedSections';
 import { useReplaceSectionRealtime } from '@/hooks/useReplaceSectionRealtime';
+import { useVersionSwitcher } from '@/hooks/useVersionSwitcher';
 import { StemChannel } from '@/components/stem-studio/StemChannel';
 import { DAWMixerPanel } from '@/components/stem-studio/DAWMixerPanel';
 import { StemDownloadPanel } from '@/components/stem-studio/StemDownloadPanel';
@@ -61,11 +63,13 @@ interface StemState {
 
 export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const isMobile = useIsMobile();
   const { data: stems, isLoading: stemsLoading } = useTrackStems(trackId);
   const { tracks } = useTracks();
   const track = tracks?.find(t => t.id === trackId);
   const { showTutorial, setShowTutorial, startTutorial } = useStemStudioTutorial();
+  const { setPrimaryVersionAsync, isSettingPrimary } = useVersionSwitcher();
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -431,10 +435,26 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   }, [selectSection]);
 
   // Handle compare panel actions
-  const handleApplyReplacement = useCallback(() => {
+  const handleApplyReplacement = useCallback(async () => {
+    if (latestCompletion?.versionId) {
+      try {
+        await setPrimaryVersionAsync({ 
+          trackId, 
+          versionId: latestCompletion.versionId 
+        });
+        // Invalidate tracks to refresh audio URL
+        queryClient.invalidateQueries({ queryKey: ['tracks'] });
+        queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
+        toast.success('Новая версия установлена как основная');
+      } catch (error) {
+        logger.error('Failed to apply replacement', error);
+        toast.error('Ошибка при применении замены');
+      }
+    } else {
+      toast.success('Замена применена');
+    }
     setLatestCompletion(null);
-    toast.success('Замена применена');
-  }, [setLatestCompletion]);
+  }, [latestCompletion, trackId, setPrimaryVersionAsync, queryClient, setLatestCompletion]);
 
   const handleDiscardReplacement = useCallback(() => {
     setLatestCompletion(null);
@@ -737,6 +757,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
           trackId={trackId}
           trackTitle={track.title || 'Трек'}
           trackTags={track.tags}
+          audioUrl={track.audio_url}
           duration={duration}
           onClose={clearSelection}
         />

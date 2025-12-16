@@ -5,8 +5,10 @@ export type SectionEditMode = 'none' | 'selecting' | 'editing' | 'comparing';
 
 interface ReplacementResult {
   taskId: string;
+  versionId?: string;
   originalAudioUrl: string;
   newAudioUrl?: string;
+  newAudioUrlB?: string; // Second variant from Suno API
   section: { start: number; end: number };
   status: 'pending' | 'completed' | 'failed';
 }
