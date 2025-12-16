@@ -4,7 +4,7 @@
  */
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
-import { sendMessage, deleteMessage, type InlineKeyboardButton } from '../telegram-api.ts';
+import { sendMessage, sendPhoto, deleteMessage, type InlineKeyboardButton } from '../telegram-api.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { createLogger } from '../../_shared/logger.ts';
 
@@ -162,6 +162,77 @@ export async function deleteAndSendNewMenu(
     return null;
   } catch (error) {
     logger.error('Exception in deleteAndSendNewMenu', error);
+    return null;
+  }
+}
+
+/**
+ * Delete old menu and send a new photo menu, saving it as active
+ * Use this for menus with images
+ */
+export async function deleteAndSendNewMenuPhoto(
+  chatId: number,
+  userId: number,
+  photoUrl: string,
+  caption: string,
+  keyboard?: { inline_keyboard: InlineKeyboardButton[][] },
+  menuName?: string
+): Promise<number | null> {
+  try {
+    // Delete previous menu if exists
+    await deleteActiveMenu(userId, chatId);
+    
+    // Send new photo menu
+    const result = await sendPhoto(chatId, photoUrl, {
+      caption,
+      replyMarkup: keyboard
+    });
+    
+    if (result?.ok && result?.result?.message_id) {
+      const newMessageId = result.result.message_id;
+      
+      // Save as new active menu
+      await setActiveMenuMessageId(userId, chatId, newMessageId, menuName);
+      
+      logger.info('New photo menu sent and saved', { 
+        chatId, 
+        userId, 
+        messageId: newMessageId, 
+        menu: menuName 
+      });
+      
+      return newMessageId;
+    }
+    
+    logger.warn('Failed to send new photo menu', { chatId, userId });
+    return null;
+  } catch (error) {
+    logger.error('Exception in deleteAndSendNewMenuPhoto', error);
+    return null;
+  }
+}
+
+/**
+ * Send a notification message without affecting active menu
+ * Use for alerts, confirmations, progress updates
+ */
+export async function sendNotification(
+  chatId: number,
+  text: string,
+  keyboard?: { inline_keyboard: InlineKeyboardButton[][] },
+  parseMode?: 'MarkdownV2' | 'HTML' | null
+): Promise<number | null> {
+  try {
+    const result = await sendMessage(chatId, text, keyboard, parseMode ?? null);
+    
+    if (result?.ok && result?.result?.message_id) {
+      logger.debug('Notification sent', { chatId, messageId: result.result.message_id });
+      return result.result.message_id;
+    }
+    
+    return null;
+  } catch (error) {
+    logger.error('Exception sending notification', error);
     return null;
   }
 }

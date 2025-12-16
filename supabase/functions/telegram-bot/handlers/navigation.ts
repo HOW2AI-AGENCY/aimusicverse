@@ -11,7 +11,7 @@ import { trackMessage, messageManager } from '../utils/message-manager.ts';
 import { escapeMarkdownV2 } from '../utils/text-processor.ts';
 import { navigateTo, getPreviousRoute, canGoBack, getBreadcrumb } from '../core/navigation-state.ts';
 import { BOT_CONFIG } from '../config.ts';
-import { deleteActiveMenu, setActiveMenuMessageId } from '../core/active-menu-manager.ts';
+import { deleteActiveMenu, setActiveMenuMessageId, deleteAndSendNewMenuPhoto } from '../core/active-menu-manager.ts';
 import { getMenuImage } from '../keyboards/menu-images.ts';
 
 
@@ -138,15 +138,24 @@ export async function handleNavigationLibrary(
     if (messageId) {
       await editMessageCaption(chatId, messageId, noTracksMsg, keyboard);
       await trackMessage(chatId, messageId, 'content', 'library', { expiresIn: 60000 });
+      if (userId) {
+        await setActiveMenuMessageId(userId, chatId, messageId, 'library');
+      }
     } else {
       const libraryImage = getMenuImage('library');
-      const result = await sendPhoto(chatId, libraryImage, {
-        caption: noTracksMsg,
-        replyMarkup: keyboard
-      });
-      
-      if (result?.result?.message_id) {
-        await trackMessage(chatId, result.result.message_id, 'content', 'library', { expiresIn: 60000 });
+      if (userId) {
+        const msgId = await deleteAndSendNewMenuPhoto(chatId, userId, libraryImage, noTracksMsg, keyboard, 'library');
+        if (msgId) {
+          await trackMessage(chatId, msgId, 'content', 'library', { expiresIn: 60000 });
+        }
+      } else {
+        const result = await sendPhoto(chatId, libraryImage, {
+          caption: noTracksMsg,
+          replyMarkup: keyboard
+        });
+        if (result?.result?.message_id) {
+          await trackMessage(chatId, result.result.message_id, 'content', 'library', { expiresIn: 60000 });
+        }
       }
     }
     return;
@@ -264,12 +273,19 @@ export async function handleNavigationProjects(
     
     if (messageId) {
       await editMessageCaption(chatId, messageId, noProjectsMsg, keyboard);
+      if (userId) {
+        await setActiveMenuMessageId(userId, chatId, messageId, 'projects');
+      }
     } else {
       const projectsImage = getMenuImage('projects');
-      await sendPhoto(chatId, projectsImage, {
-        caption: noProjectsMsg,
-        replyMarkup: keyboard
-      });
+      if (userId) {
+        await deleteAndSendNewMenuPhoto(chatId, userId, projectsImage, noProjectsMsg, keyboard, 'projects');
+      } else {
+        await sendPhoto(chatId, projectsImage, {
+          caption: noProjectsMsg,
+          replyMarkup: keyboard
+        });
+      }
     }
     return;
   }
@@ -374,12 +390,19 @@ export async function handleNavigationGenerate(chatId: number, userId: number, m
 
   if (messageId) {
     await editMessageCaption(chatId, messageId, caption, keyboard);
+    if (userId) {
+      await setActiveMenuMessageId(userId, chatId, messageId, 'generator');
+    }
   } else {
     const generatorImage = getMenuImage('generator');
-    await sendPhoto(chatId, generatorImage, {
-      caption,
-      replyMarkup: keyboard
-    });
+    if (userId) {
+      await deleteAndSendNewMenuPhoto(chatId, userId, generatorImage, caption, keyboard, 'generator');
+    } else {
+      await sendPhoto(chatId, generatorImage, {
+        caption,
+        replyMarkup: keyboard
+      });
+    }
   }
 }
 
@@ -439,12 +462,19 @@ export async function handleNavigationAnalyze(chatId: number, userId: number, me
 
   if (messageId) {
     await editMessageCaption(chatId, messageId, caption, keyboard);
+    if (userId) {
+      await setActiveMenuMessageId(userId, chatId, messageId, 'analysis');
+    }
   } else {
     const analysisImage = getMenuImage('analysis');
-    await sendPhoto(chatId, analysisImage, {
-      caption,
-      replyMarkup: keyboard
-    });
+    if (userId) {
+      await deleteAndSendNewMenuPhoto(chatId, userId, analysisImage, caption, keyboard, 'analysis');
+    } else {
+      await sendPhoto(chatId, analysisImage, {
+        caption,
+        replyMarkup: keyboard
+      });
+    }
   }
 }
 
@@ -496,12 +526,19 @@ export async function handleNavigationSettings(chatId: number, userId: number, m
 
   if (messageId) {
     await editMessageCaption(chatId, messageId, caption, keyboard);
+    if (userId) {
+      await setActiveMenuMessageId(userId, chatId, messageId, 'settings');
+    }
   } else {
     const settingsImage = getMenuImage('settings');
-    await sendPhoto(chatId, settingsImage, {
-      caption,
-      replyMarkup: keyboard
-    });
+    if (userId) {
+      await deleteAndSendNewMenuPhoto(chatId, userId, settingsImage, caption, keyboard, 'settings');
+    } else {
+      await sendPhoto(chatId, settingsImage, {
+        caption,
+        replyMarkup: keyboard
+      });
+    }
   }
 }
 
