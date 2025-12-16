@@ -17,8 +17,7 @@ import {
   FileQuestion,
   FileCheck,
   Wand2,
-  Loader2,
-  Layers
+  Loader2
 } from 'lucide-react';
 import { ProjectTrack } from '@/hooks/useProjectTracks';
 import { cn } from '@/lib/utils';
@@ -37,7 +36,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useProjectTracks } from '@/hooks/useProjectTracks';
-import { useProjectGeneratedTracks } from '@/hooks/useProjectGeneratedTracks';
+
 import { toast } from 'sonner';
 import { EditTrackDialog } from './EditTrackDialog';
 import { TrackVersionsPanel } from './TrackVersionsPanel';
@@ -130,8 +129,6 @@ export const MinimalProjectTrackItem = ({
   const [versionsExpanded, setVersionsExpanded] = useState(false);
   const { deleteTrack } = useProjectTracks(track.project_id);
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
-  const { tracksBySlot } = useProjectGeneratedTracks(track.project_id, track.id);
-  const versionsCount = tracksBySlot[track.id]?.length || 0;
   
   const status = (track.status as keyof typeof STATUS_CONFIG) || 'draft';
   const statusConfig = STATUS_CONFIG[status];
@@ -279,16 +276,6 @@ export const MinimalProjectTrackItem = ({
                 <StatusIcon className="w-2.5 h-2.5 mr-0.5" />
                 {isMobile ? '' : statusConfig.label}
               </Badge>
-              {versionsCount > 0 && (
-                <Badge 
-                  variant="secondary" 
-                  className="text-[10px] h-4 px-1.5 shrink-0 gap-0.5 cursor-pointer hover:bg-secondary/80"
-                  onClick={() => setVersionsExpanded(!versionsExpanded)}
-                >
-                  <Layers className="w-2.5 h-2.5" />
-                  {versionsCount}
-                </Badge>
-              )}
             </div>
             
             {track.style_prompt && (
@@ -428,59 +415,16 @@ export const MinimalProjectTrackItem = ({
           </div>
         </div>
 
-        {/* Generated versions row - if linked track exists */}
-        {hasLinkedTrack && linkedTrack && (
-          <div className="px-2.5 pb-2.5">
-            <div className="flex items-center gap-2 p-2 rounded-lg bg-green-500/5 border border-green-500/20">
-              <div className="w-8 h-8 rounded-md overflow-hidden bg-secondary shrink-0">
-                {linkedTrack.cover_url && (
-                  <img 
-                    src={linkedTrack.cover_url} 
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
-                )}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium truncate">{linkedTrack.title || track.title}</p>
-                <p className="text-[10px] text-green-600 dark:text-green-400 flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3" />
-                  Сгенерирован
-                  {linkedTrack.duration_seconds && (
-                    <span className="text-muted-foreground">
-                      • {Math.floor(linkedTrack.duration_seconds / 60)}:{(linkedTrack.duration_seconds % 60).toString().padStart(2, '0')}
-                    </span>
-                  )}
-                </p>
-              </div>
-              <Button
-                size="icon"
-                variant="ghost"
-                onClick={handlePlay}
-                className="h-7 w-7"
-              >
-                {isPlayingThis ? (
-                  <Pause className="w-3.5 h-3.5" />
-                ) : (
-                  <Play className="w-3.5 h-3.5" />
-                )}
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {/* Versions Panel */}
-        {versionsCount > 0 && (
-          <div className="px-2.5 pb-2.5">
-            <TrackVersionsPanel
-              projectId={track.project_id}
-              projectTrackId={track.id}
-              projectTrackTitle={track.title}
-              isExpanded={versionsExpanded}
-              onToggle={() => setVersionsExpanded(!versionsExpanded)}
-            />
-          </div>
-        )}
+        {/* Versions Panel - always show to allow fetching versions */}
+        <div className="px-2.5 pb-2.5">
+          <TrackVersionsPanel
+            projectId={track.project_id}
+            projectTrackId={track.id}
+            projectTrackTitle={track.title}
+            isExpanded={versionsExpanded}
+            onToggle={() => setVersionsExpanded(!versionsExpanded)}
+          />
+        </div>
       </div>
 
       <EditTrackDialog
