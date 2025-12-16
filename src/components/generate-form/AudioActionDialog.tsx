@@ -118,9 +118,8 @@ export function AudioActionDialog({
     audioUrl: string;
     chordProgression: string[];
     styleDescription: string;
+    useMode: 'style' | 'audio';
   }) => {
-    setAudioFile(data.audioFile);
-    setAudioUrl(data.audioUrl);
     setShowGuitarMode(false);
     
     // Notify parent about chords
@@ -129,13 +128,26 @@ export function AudioActionDialog({
       onChordsDetected(data.chordProgression, progression);
     }
     
-    // Set style description
-    if (data.styleDescription && onAnalysisComplete) {
-      onAnalysisComplete(data.styleDescription);
-      setAnalysisResult({ style: data.styleDescription });
+    if (data.useMode === 'style') {
+      // Use style description as prompt, close dialog
+      if (data.styleDescription && onAnalysisComplete) {
+        onAnalysisComplete(data.styleDescription);
+      }
+      toast.success('Описание стиля добавлено');
+      onOpenChange(false);
+    } else {
+      // Use audio as reference - set the file and continue with normal flow
+      setAudioFile(data.audioFile);
+      setAudioUrl(data.audioUrl);
+      
+      // Also pass style description for additional context
+      if (data.styleDescription && onAnalysisComplete) {
+        onAnalysisComplete(data.styleDescription);
+        setAnalysisResult({ style: data.styleDescription });
+      }
+      
+      toast.success('Аудио референс готов');
     }
-    
-    toast.success('Запись с аккордами готова');
   };
 
   // Recording timer
