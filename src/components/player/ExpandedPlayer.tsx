@@ -58,7 +58,7 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: '100%', opacity: 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="fixed bottom-20 sm:bottom-20 md:bottom-4 left-0 right-0 z-40 px-2 sm:px-4 bottom-nav-safe"
+        className="fixed bottom-16 sm:bottom-16 md:bottom-4 left-0 right-0 z-40 px-2 sm:px-4 bottom-nav-safe"
       >
         {/* Background glow effect */}
         {track.cover_url && (

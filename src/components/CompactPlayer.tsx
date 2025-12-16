@@ -122,7 +122,7 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
       dragConstraints={{ top: 0, bottom: 0 }}
       dragElastic={0.2}
       onDragEnd={handleDragEnd}
-      className="fixed bottom-[4.5rem] sm:bottom-20 md:bottom-4 left-2 right-2 sm:left-4 sm:right-4 md:left-auto md:w-[400px] z-40"
+      className="fixed bottom-[4rem] sm:bottom-16 md:bottom-4 left-2 right-2 sm:left-4 sm:right-4 md:left-auto md:w-[400px] z-40"
     >
       <Card className="glass-card border-primary/20 p-2.5 sm:p-3 shadow-xl rounded-xl">
         {/* Swipe indicator - mobile only */}
