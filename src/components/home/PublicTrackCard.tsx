@@ -131,7 +131,7 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
             <Button
               size="icon"
               className={cn(
-                "w-11 h-11 rounded-full shadow-xl",
+                "w-9 h-9 rounded-full shadow-xl",
                 "bg-primary/90 hover:bg-primary transition-all",
                 isCurrentlyPlaying && "bg-primary"
               )}
@@ -139,9 +139,9 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
               disabled={!track.audio_url}
             >
               {isCurrentlyPlaying ? (
-                <Pause className="w-5 h-5 text-primary-foreground" />
+                <Pause className="w-4 h-4 text-primary-foreground" />
               ) : (
-                <Play className="w-5 h-5 text-primary-foreground ml-0.5" />
+                <Play className="w-4 h-4 text-primary-foreground ml-0.5" />
               )}
             </Button>
           </motion.div>
@@ -180,10 +180,10 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
         </div>
 
         {/* Content */}
-        <div className={cn("relative p-2.5", compact && "p-2")}>
+        <div className={cn("relative p-2", compact && "p-1.5")}>
           <h3 className={cn(
             "font-semibold line-clamp-1 transition-colors",
-            compact ? "text-xs" : "text-sm",
+            compact ? "text-[11px]" : "text-xs",
             isHovered && "text-primary"
           )}>
             {track.title || 'Без названия'}
@@ -191,7 +191,7 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
 
           {/* Creator Info - Compact */}
           {!compact && (track.creator_name || track.creator_username) && (
-            <div className="flex items-center gap-1.5 mt-1.5">
+            <div className="flex items-center gap-1 mt-1">
               <CreatorAvatar
                 userId={track.user_id}
                 photoUrl={track.creator_photo_url}
@@ -203,22 +203,22 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
                 userId={track.user_id}
                 name={track.creator_name}
                 username={track.creator_username}
-                className="text-xs text-muted-foreground truncate"
+                className="text-[10px] text-muted-foreground truncate"
               />
             </div>
           )}
 
           {/* Actions - Compact */}
           {!compact && (
-            <div className="flex items-center gap-1.5 mt-2">
+            <div className="flex items-center gap-1 mt-1.5">
               <Button
                 variant="default"
                 size="sm"
-                className="flex-1 h-8 text-xs gap-1"
+                className="flex-1 h-7 text-[10px] gap-0.5"
                 onClick={handlePlay}
                 disabled={!track.audio_url}
               >
-                {isCurrentlyPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                {isCurrentlyPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
                 {isCurrentlyPlaying ? 'Пауза' : 'Играть'}
               </Button>
               
@@ -227,16 +227,16 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
                 likesCount={track.likes_count || 0}
                 size="sm"
                 showCount={false}
-                className="h-8 w-8"
+                className="h-7 w-7"
               />
               
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8"
+                className="h-7 w-7"
                 onClick={handleShare}
               >
-                <Share2 className="w-3.5 h-3.5" />
+                <Share2 className="w-3 h-3" />
               </Button>
             </div>
           )}

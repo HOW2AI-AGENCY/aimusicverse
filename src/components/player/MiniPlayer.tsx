@@ -50,7 +50,7 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           className={cn(
-            "fixed bottom-20 left-2 right-2 z-40",
+            "fixed bottom-16 left-2 right-2 z-40",
             "bg-card/98 backdrop-blur-xl rounded-xl shadow-xl border border-border/50",
             "overflow-hidden",
             className
@@ -64,18 +64,18 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
             />
           </div>
 
-          <div className="flex items-center gap-2 p-2">
+          <div className="flex items-center gap-1.5 p-1.5">
             {/* Cover */}
             <button
               onClick={onExpand || (() => setPlayerMode('expanded'))}
-              className="relative w-10 h-10 rounded-lg overflow-hidden bg-muted/50 flex-shrink-0"
+              className="relative w-9 h-9 rounded-lg overflow-hidden bg-muted/50 flex-shrink-0"
               aria-label="Развернуть плеер"
             >
               {activeTrack.cover_url ? (
                 <img src={activeTrack.cover_url} alt={activeTrack.title || ''} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
-                  <Music2 className="w-4 h-4 text-primary/60" />
+                  <Music2 className="w-3.5 h-3.5 text-primary/60" />
                 </div>
               )}
               {isPlaying && (
@@ -85,7 +85,7 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
                       <motion.div
                         key={i}
                         className="w-0.5 bg-white rounded-full"
-                        animate={{ height: ['6px', '12px', '6px'] }}
+                        animate={{ height: ['5px', '10px', '5px'] }}
                         transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.15 }}
                       />
                     ))}
@@ -96,47 +96,47 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
 
             {/* Info */}
             <button onClick={onExpand || (() => setPlayerMode('expanded'))} className="flex-1 min-w-0 text-left">
-              <p className="text-xs font-medium truncate">{activeTrack.title || 'Без названия'}</p>
-              <p className="text-[10px] text-muted-foreground truncate">
-                {activeTrack.artist_name || activeTrack.style?.slice(0, 30) || 'AI'}
+              <p className="text-[11px] font-medium truncate leading-tight">{activeTrack.title || 'Без названия'}</p>
+              <p className="text-[9px] text-muted-foreground truncate leading-tight">
+                {activeTrack.artist_name || activeTrack.style?.slice(0, 25) || 'AI'}
               </p>
             </button>
 
             {/* Controls - Compact */}
-            <div className="flex items-center gap-0.5">
+            <div className="flex items-center">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setQueueOpen(true)}
-                className={cn("h-8 w-8 rounded-full relative", queue.length > 0 && "text-primary")}
+                className={cn("h-7 w-7 rounded-full relative", queue.length > 0 && "text-primary")}
               >
-                <ListMusic className="w-3.5 h-3.5" />
+                <ListMusic className="w-3 h-3" />
                 {queue.length > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 h-3.5 min-w-3.5 px-0.5 text-[8px] bg-primary text-primary-foreground rounded-full flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 h-3 min-w-3 px-0.5 text-[7px] bg-primary text-primary-foreground rounded-full flex items-center justify-center">
                     {queue.length > 9 ? '9+' : queue.length}
                   </span>
                 )}
               </Button>
 
-              <Button variant="ghost" size="icon" onClick={previousTrack} className="h-8 w-8 rounded-full">
-                <SkipBack className="w-3.5 h-3.5" />
+              <Button variant="ghost" size="icon" onClick={previousTrack} className="h-7 w-7 rounded-full">
+                <SkipBack className="w-3 h-3" />
               </Button>
 
               <Button
                 variant="default"
                 size="icon"
                 onClick={handleTogglePlay}
-                className="h-9 w-9 rounded-full bg-primary shadow-md"
+                className="h-8 w-8 rounded-full bg-primary shadow-md"
               >
-                {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 ml-0.5 fill-current" />}
+                {isPlaying ? <Pause className="w-3.5 h-3.5 fill-current" /> : <Play className="w-3.5 h-3.5 ml-0.5 fill-current" />}
               </Button>
 
-              <Button variant="ghost" size="icon" onClick={nextTrack} className="h-8 w-8 rounded-full">
-                <SkipForward className="w-3.5 h-3.5" />
+              <Button variant="ghost" size="icon" onClick={nextTrack} className="h-7 w-7 rounded-full">
+                <SkipForward className="w-3 h-3" />
               </Button>
 
-              <Button variant="ghost" size="icon" onClick={minimizePlayer} className="h-7 w-7 rounded-full text-muted-foreground">
-                <X className="w-3.5 h-3.5" />
+              <Button variant="ghost" size="icon" onClick={minimizePlayer} className="h-6 w-6 rounded-full text-muted-foreground">
+                <X className="w-3 h-3" />
               </Button>
             </div>
           </div>

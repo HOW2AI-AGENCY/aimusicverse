@@ -56,14 +56,14 @@ export const BottomNavigation = () => {
         role="navigation"
         aria-label="Главная навигация"
       >
-        <div className="flex items-center justify-around gap-0.5">
+        <div className="flex items-center justify-around">
           {navItems.map((item, index) => {
             if (item.isCenter) {
               return (
                 <motion.button
                   key={item.path}
                   onClick={handleGenerateClick}
-                  className="relative flex items-center justify-center w-12 h-12 -my-1.5 rounded-full bg-gradient-to-br from-primary to-generate shadow-md shadow-primary/25 fab touch-scale-md touch-manipulation group"
+                  className="relative flex items-center justify-center w-11 h-11 -my-1 rounded-full bg-gradient-to-br from-primary to-generate shadow-md shadow-primary/25 fab touch-scale-md touch-manipulation group"
                   whileTap={{ scale: 0.92 }}
                   whileHover={{ scale: 1.05 }}
                   aria-label={item.label}
@@ -72,7 +72,7 @@ export const BottomNavigation = () => {
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.1 + index * 0.05 }}
                 >
-                  <Plus className="w-5 h-5 text-primary-foreground relative z-10" />
+                  <Plus className="w-4.5 h-4.5 text-primary-foreground relative z-10" />
                 </motion.button>
               );
             }
@@ -93,7 +93,7 @@ export const BottomNavigation = () => {
                   key={item.path}
                   onClick={handleClick}
                   className={cn(
-                    "relative flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl transition-all min-h-[44px] min-w-[44px] touch-scale-sm touch-manipulation group",
+                    "relative flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-xl transition-all min-h-[44px] min-w-[44px] touch-scale-sm touch-manipulation group",
                     active
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:text-foreground"
@@ -113,16 +113,16 @@ export const BottomNavigation = () => {
                     transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                     className="relative"
                   >
-                    <item.icon className="w-5 h-5" />
+                    <item.icon className="w-4.5 h-4.5" />
                     {/* Notification Badge for Menu */}
                     {showNotificationBadge && unreadCount > 0 && (
-                      <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground">
+                      <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-destructive text-[9px] font-bold text-destructive-foreground">
                         {unreadCount > 9 ? '9+' : unreadCount}
                       </span>
                     )}
                   </motion.div>
                   <motion.span
-                    className="text-[10px] font-medium"
+                    className="text-[9px] font-medium"
                     initial={false}
                     animate={active ? { fontWeight: 600 } : { fontWeight: 500 }}
                   >

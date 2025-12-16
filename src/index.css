@@ -263,15 +263,15 @@ All colors MUST be HSL.
     left: 0;
     right: 0;
     margin: 0 auto;
-    width: calc(100% - 1.5rem);
-    max-width: 28rem;
-    margin-bottom: max(env(safe-area-inset-bottom, 0px), 0.75rem);
+    width: calc(100% - 1rem);
+    max-width: 26rem;
+    margin-bottom: max(env(safe-area-inset-bottom, 0px), 0.5rem);
     background: hsl(var(--background) / 0.9);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     border: 1px solid hsl(var(--border) / 0.5);
-    border-radius: 2rem;
-    padding: 0.625rem;
+    border-radius: 1.75rem;
+    padding: 0.5rem;
     box-shadow:
       0 4px 20px -2px hsl(220 40% 10% / 0.1),
       0 8px 36px -4px hsl(220 40% 10% / 0.14),
