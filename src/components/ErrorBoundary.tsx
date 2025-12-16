@@ -3,9 +3,11 @@ import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { logger } from '@/lib/logger';
+import { isAppError, getUserErrorMessage, logError } from '@/lib/errors';
 
 interface Props {
   children: ReactNode;
+  fallback?: (error: Error, reset: () => void) => ReactNode;
 }
 
 interface State {
@@ -24,6 +26,13 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    // Use structured error logging
+    logError(error, {
+      componentStack: errorInfo.componentStack,
+      boundary: 'ErrorBoundary',
+    });
+
+    // Also log to existing logger for backwards compatibility
     logger.error('Error caught by boundary', { 
       error: error.message, 
       stack: error.stack,
@@ -44,7 +53,16 @@ export class ErrorBoundary extends Component<Props, State> {
   };
 
   render() {
-    if (this.state.hasError) {
+    if (this.state.hasError && this.state.error) {
+      // Use custom fallback if provided
+      if (this.props.fallback) {
+        return this.props.fallback(this.state.error, this.handleReset);
+      }
+
+      // Get user-friendly error message
+      const userMessage = getUserErrorMessage(this.state.error);
+      const errorCode = isAppError(this.state.error) ? this.state.error.code : 'UNKNOWN_ERROR';
+
       return (
         <div className="min-h-screen flex items-center justify-center bg-background p-4">
           <Card className="max-w-md w-full p-6 border-destructive/20">
