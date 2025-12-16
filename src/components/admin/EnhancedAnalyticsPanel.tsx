@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   BarChart3, 
   Users, 
@@ -16,7 +17,9 @@ import {
   Globe,
   Smartphone,
   Zap,
-  UserPlus
+  UserPlus,
+  Music,
+  Tag
 } from "lucide-react";
 import {
   useModelUsageStats,
@@ -26,6 +29,7 @@ import {
   useContentStats,
   useSourceDistribution,
 } from "@/hooks/useEnhancedAnalytics";
+import { GenerationAnalyticsPanel } from "./GenerationAnalyticsPanel";
 
 const MODE_LABELS: Record<string, string> = {
   standard: 'Стандарт',
@@ -54,20 +58,32 @@ export function EnhancedAnalyticsPanel() {
   const { data: sourceStats } = useSourceDistribution(timeRange);
 
   return (
-    <div className="space-y-4">
-      {/* Time Range Selector */}
-      <div className="flex justify-end">
-        <Select value={timeRange} onValueChange={(v) => setTimeRange(v as typeof timeRange)}>
-          <SelectTrigger className="w-[140px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="24h">24 часа</SelectItem>
-            <SelectItem value="7d">7 дней</SelectItem>
-            <SelectItem value="30d">30 дней</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+    <Tabs defaultValue="overview" className="space-y-4">
+      <TabsList className="grid w-full grid-cols-2">
+        <TabsTrigger value="overview" className="gap-1.5">
+          <BarChart3 className="w-4 h-4" />
+          Обзор
+        </TabsTrigger>
+        <TabsTrigger value="generation" className="gap-1.5">
+          <Music className="w-4 h-4" />
+          Генерация
+        </TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="overview" className="space-y-4">
+        {/* Time Range Selector */}
+        <div className="flex justify-end">
+          <Select value={timeRange} onValueChange={(v) => setTimeRange(v as typeof timeRange)}>
+            <SelectTrigger className="w-[140px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="24h">24 часа</SelectItem>
+              <SelectItem value="7d">7 дней</SelectItem>
+              <SelectItem value="30d">30 дней</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
 
       {/* Active Users Stats */}
       <Card>
@@ -287,7 +303,12 @@ export function EnhancedAnalyticsPanel() {
           </CardContent>
         </Card>
       </div>
-    </div>
+      </TabsContent>
+
+      <TabsContent value="generation">
+        <GenerationAnalyticsPanel />
+      </TabsContent>
+    </Tabs>
   );
 }
 
