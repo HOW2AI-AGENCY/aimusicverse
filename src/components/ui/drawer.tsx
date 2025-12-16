@@ -2,6 +2,7 @@ import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 
 import { cn } from "@/lib/utils";
+import { VisuallyHidden } from "./visually-hidden";
 
 const Drawer = ({ shouldScaleBackground = true, ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
   <DrawerPrimitive.Root shouldScaleBackground={shouldScaleBackground} {...props} />
@@ -22,10 +23,17 @@ const DrawerOverlay = React.forwardRef<
 ));
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 
+interface DrawerContentProps extends React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> {
+  /** If true, a visually hidden title will be automatically added for accessibility */
+  hideTitle?: boolean;
+  /** Accessible title for screen readers when no visible DrawerTitle is present */
+  accessibleTitle?: string;
+}
+
 const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
->(({ className, children, ...props }, ref) => (
+  DrawerContentProps
+>(({ className, children, hideTitle = false, accessibleTitle = "Выдвижная панель", ...props }, ref) => (
   <DrawerPortal>
     <DrawerOverlay />
     <DrawerPrimitive.Content
@@ -37,6 +45,12 @@ const DrawerContent = React.forwardRef<
       {...props}
     >
       <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
+      {/* Accessible title for screen readers when no visible title exists */}
+      {hideTitle && (
+        <VisuallyHidden asChild>
+          <DrawerPrimitive.Title>{accessibleTitle}</DrawerPrimitive.Title>
+        </VisuallyHidden>
+      )}
       {children}
     </DrawerPrimitive.Content>
   </DrawerPortal>

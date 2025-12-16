@@ -3,6 +3,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { VisuallyHidden } from "./visually-hidden";
 
 const Dialog = DialogPrimitive.Root;
 
@@ -27,10 +28,17 @@ const DialogOverlay = React.forwardRef<
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
+interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
+  /** If true, a visually hidden title will be automatically added for accessibility */
+  hideTitle?: boolean;
+  /** Accessible title for screen readers when no visible DialogTitle is present */
+  accessibleTitle?: string;
+}
+
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
+  DialogContentProps
+>(({ className, children, hideTitle = false, accessibleTitle = "Диалоговое окно", ...props }, ref) => (
   <DialogPortal>
     <DialogOverlay />
     <DialogPrimitive.Content
@@ -41,10 +49,16 @@ const DialogContent = React.forwardRef<
       )}
       {...props}
     >
+      {/* Accessible title for screen readers when no visible title exists */}
+      {hideTitle && (
+        <VisuallyHidden asChild>
+          <DialogPrimitive.Title>{accessibleTitle}</DialogPrimitive.Title>
+        </VisuallyHidden>
+      )}
       {children}
       <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity data-[state=open]:bg-accent data-[state=open]:text-muted-foreground hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
         <X className="h-4 w-4" />
-        <span className="sr-only">Close</span>
+        <span className="sr-only">Закрыть</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>
   </DialogPortal>

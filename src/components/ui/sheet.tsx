@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { VisuallyHidden } from "./visually-hidden";
 
 const Sheet = SheetPrimitive.Root;
 
@@ -49,17 +50,28 @@ const sheetVariants = cva(
 
 interface SheetContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
-    VariantProps<typeof sheetVariants> {}
+    VariantProps<typeof sheetVariants> {
+  /** If true, a visually hidden title will be automatically added for accessibility */
+  hideTitle?: boolean;
+  /** Accessible title for screen readers when no visible SheetTitle is present */
+  accessibleTitle?: string;
+}
 
 const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Content>, SheetContentProps>(
-  ({ side = "right", className, children, ...props }, ref) => (
+  ({ side = "right", className, children, hideTitle = false, accessibleTitle = "Боковая панель", ...props }, ref) => (
     <SheetPortal>
       <SheetOverlay />
       <SheetPrimitive.Content ref={ref} className={cn(sheetVariants({ side }), className)} {...props}>
+        {/* Accessible title for screen readers when no visible title exists */}
+        {hideTitle && (
+          <VisuallyHidden asChild>
+            <SheetPrimitive.Title>{accessibleTitle}</SheetPrimitive.Title>
+          </VisuallyHidden>
+        )}
         {children}
         <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity data-[state=open]:bg-secondary hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
           <X className="h-4 w-4" />
-          <span className="sr-only">Close</span>
+          <span className="sr-only">Закрыть</span>
         </SheetPrimitive.Close>
       </SheetPrimitive.Content>
     </SheetPortal>
