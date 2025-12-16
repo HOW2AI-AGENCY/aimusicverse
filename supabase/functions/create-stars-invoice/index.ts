@@ -193,10 +193,30 @@ serve(async (req) => {
       );
     }
 
+    // Helper to parse localized fields (can be string, JSON string, or object)
+    const parseLocalizedField = (field: any, fallback: string): string => {
+      if (!field) return fallback;
+      if (typeof field === 'string') {
+        // Try to parse as JSON
+        try {
+          const parsed = JSON.parse(field);
+          if (typeof parsed === 'object' && parsed !== null) {
+            return parsed.ru || parsed.en || fallback;
+          }
+          return field; // It was a plain string
+        } catch {
+          return field; // Plain string, not JSON
+        }
+      }
+      if (typeof field === 'object' && field !== null) {
+        return field.ru || field.en || fallback;
+      }
+      return fallback;
+    };
+
     // Get localized strings
-    const lang = 'ru'; // TODO: Get from user preferences
-    const title = product.name[lang] || product.name['en'];
-    const description = product.description[lang] || product.description['en'];
+    const title = parseLocalizedField(product.name, product.product_code);
+    const description = parseLocalizedField(product.description, `Purchase ${product.product_code}`);
 
     // Create invoice link using Telegram Bot API
     const invoiceParams = {
