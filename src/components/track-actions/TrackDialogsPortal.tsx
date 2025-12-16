@@ -7,6 +7,7 @@ import { ConfirmationDialog } from '@/components/ConfirmationDialog';
 import { TrackDetailSheet } from '@/components/TrackDetailSheet';
 import { TrackDetailDialog } from '@/components/TrackDetailDialog';
 import { AudioCoverDialog } from '@/components/AudioCoverDialog';
+import { RenameTrackDialog } from './RenameTrackDialog';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useState, useEffect } from 'react';
 
@@ -26,6 +27,7 @@ interface DialogStates {
   addToPlaylist: boolean;
   deleteConfirm: boolean;
   deleteVersionSelect: boolean;
+  rename: boolean;
 }
 
 interface TrackDialogsPortalProps {
@@ -135,6 +137,13 @@ export function TrackDialogsPortal({
         cancelLabel="Отмена"
         variant="destructive"
         onConfirm={onConfirmDelete}
+      />
+
+      {/* Rename dialog */}
+      <RenameTrackDialog
+        track={track}
+        open={dialogs.rename}
+        onOpenChange={(open) => !open && onCloseDialog('rename')}
       />
     </>
   );
