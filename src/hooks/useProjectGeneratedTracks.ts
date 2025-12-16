@@ -1,0 +1,192 @@
+/**
+ * Hook to fetch all generated tracks for a project or project track slot
+ */
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+
+export interface ProjectGeneratedTrack {
+  id: string;
+  title: string | null;
+  style: string | null;
+  cover_url: string | null;
+  local_cover_url: string | null;
+  audio_url: string | null;
+  local_audio_url: string | null;
+  streaming_url: string | null;
+  duration_seconds: number | null;
+  status: string | null;
+  is_approved: boolean | null;
+  is_master: boolean | null;
+  approved_at: string | null;
+  project_track_id: string | null;
+  project_id: string | null;
+  created_at: string | null;
+}
+
+export function useProjectGeneratedTracks(projectId: string | undefined, projectTrackId?: string) {
+  const queryClient = useQueryClient();
+
+  const { data: tracks, isLoading, error } = useQuery({
+    queryKey: ['project-generated-tracks', projectId, projectTrackId],
+    queryFn: async () => {
+      if (!projectId) return [];
+
+      let query = supabase
+        .from('tracks')
+        .select('*')
+        .eq('project_id', projectId)
+        .order('created_at', { ascending: false });
+
+      if (projectTrackId) {
+        query = query.eq('project_track_id', projectTrackId);
+      }
+
+      const { data, error } = await query;
+      if (error) throw error;
+      return data as ProjectGeneratedTrack[];
+    },
+    enabled: !!projectId,
+  });
+
+  // Approve track for final project
+  const approveTrack = useMutation({
+    mutationFn: async (trackId: string) => {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      const { error } = await supabase
+        .from('tracks')
+        .update({
+          is_approved: true,
+          approved_at: new Date().toISOString(),
+          approved_by: user?.id,
+        })
+        .eq('id', trackId);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['project-generated-tracks', projectId] });
+      toast.success('Трек одобрен');
+    },
+    onError: () => {
+      toast.error('Ошибка одобрения трека');
+    },
+  });
+
+  // Reject/unapprove track
+  const rejectTrack = useMutation({
+    mutationFn: async (trackId: string) => {
+      const { error } = await supabase
+        .from('tracks')
+        .update({
+          is_approved: false,
+          approved_at: null,
+          approved_by: null,
+          is_master: false,
+        })
+        .eq('id', trackId);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['project-generated-tracks', projectId] });
+      toast.success('Одобрение отменено');
+    },
+    onError: () => {
+      toast.error('Ошибка');
+    },
+  });
+
+  // Set track as master version
+  const setMasterTrack = useMutation({
+    mutationFn: async ({ trackId, projectTrackId }: { trackId: string; projectTrackId: string }) => {
+      // First, unset any existing master for this project track slot
+      await supabase
+        .from('tracks')
+        .update({ is_master: false })
+        .eq('project_track_id', projectTrackId);
+
+      // Then set the new master
+      const { error } = await supabase
+        .from('tracks')
+        .update({ 
+          is_master: true,
+          is_approved: true,
+          approved_at: new Date().toISOString(),
+        })
+        .eq('id', trackId);
+
+      if (error) throw error;
+
+      // Also update the project_track link
+      await supabase
+        .from('project_tracks')
+        .update({ 
+          track_id: trackId,
+          status: 'completed',
+        })
+        .eq('id', projectTrackId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['project-generated-tracks', projectId] });
+      queryClient.invalidateQueries({ queryKey: ['project-tracks', projectId] });
+      toast.success('Выбрана мастер-версия');
+    },
+    onError: () => {
+      toast.error('Ошибка выбора версии');
+    },
+  });
+
+  // Group tracks by project_track_id
+  const tracksBySlot = tracks?.reduce((acc, track) => {
+    const slotId = track.project_track_id || 'unlinked';
+    if (!acc[slotId]) acc[slotId] = [];
+    acc[slotId].push(track);
+    return acc;
+  }, {} as Record<string, ProjectGeneratedTrack[]>) || {};
+
+  return {
+    tracks,
+    tracksBySlot,
+    isLoading,
+    error,
+    approveTrack: approveTrack.mutate,
+    rejectTrack: rejectTrack.mutate,
+    setMasterTrack: setMasterTrack.mutate,
+    isApproving: approveTrack.isPending,
+    isRejecting: rejectTrack.isPending,
+    isSettingMaster: setMasterTrack.isPending,
+  };
+}
+
+// Hook to publish a project
+export function usePublishProject() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (projectId: string) => {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      const { error } = await supabase
+        .from('music_projects')
+        .update({
+          status: 'published',
+          is_public: true,
+          published_at: new Date().toISOString(),
+          published_by: user?.id,
+        })
+        .eq('id', projectId);
+
+      if (error) throw error;
+    },
+    onSuccess: (_, projectId) => {
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      queryClient.invalidateQueries({ queryKey: ['project', projectId] });
+      toast.success('Проект опубликован!');
+    },
+    onError: () => {
+      toast.error('Ошибка публикации');
+    },
+  });
+}
