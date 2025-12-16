@@ -1,5 +1,6 @@
 import { BOT_CONFIG } from '../config.ts';
 import type { InlineKeyboardButton } from '../telegram-api.ts';
+import { getMenuImage } from './menu-images.ts';
 
 export function createMainMenuKeyboard() {
   return {
@@ -133,6 +134,5 @@ export function createTrackDetailsKeyboard(trackId: string) {
 }
 
 export function getMainBanner(): string {
-  // Use stable, reliable image hosting
-  return 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&h=400&fit=crop&q=80';
+  return getMenuImage('mainMenu');
 }
