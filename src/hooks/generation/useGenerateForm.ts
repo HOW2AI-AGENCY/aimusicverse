@@ -96,6 +96,7 @@ export function useGenerateForm({
   const [selectedTrackId, setSelectedTrackId] = useState<string | undefined>();
   const [selectedArtistId, setSelectedArtistId] = useState<string | undefined>();
   const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [audioDuration, setAudioDuration] = useState<number | null>(null);
   const [planTrackId, setPlanTrackId] = useState<string | undefined>();
 
   // Reset form
@@ -113,6 +114,7 @@ export function useGenerateForm({
     setSelectedTrackId(undefined);
     setSelectedArtistId(undefined);
     setAudioFile(null);
+    setAudioDuration(null);
     clearDraft();
     setPlanTrackId(undefined);
   }, [initialProjectId, clearDraft]);
@@ -289,6 +291,10 @@ export function useGenerateForm({
     if (audioReference.file) {
       setMode('custom');
       setAudioFile(audioReference.file);
+      // Set duration from reference loader
+      if (audioReference.duration) {
+        setAudioDuration(audioReference.duration);
+      }
     }
     if (audioReference.lyrics) {
       setLyrics(audioReference.lyrics);
@@ -470,6 +476,37 @@ export function useGenerateForm({
     }
   }, [mode, description, style, boostLoading]);
 
+  // Handle audio file selection with duration calculation
+  const handleSetAudioFile = useCallback((file: File | null) => {
+    setAudioFile(file);
+    
+    if (!file) {
+      setAudioDuration(null);
+      return;
+    }
+    
+    // Calculate duration from file
+    const url = URL.createObjectURL(file);
+    const audio = new Audio();
+    audio.src = url;
+    audio.onloadedmetadata = () => {
+      const dur = audio.duration;
+      URL.revokeObjectURL(url);
+      if (!isNaN(dur) && isFinite(dur)) {
+        setAudioDuration(dur);
+        logger.info('Audio duration calculated', { duration: dur, fileName: file.name });
+      } else {
+        setAudioDuration(null);
+        logger.warn('Invalid audio duration', { fileName: file.name });
+      }
+    };
+    audio.onerror = () => {
+      URL.revokeObjectURL(url);
+      setAudioDuration(null);
+      logger.warn('Failed to calculate audio duration', { fileName: file.name });
+    };
+  }, []);
+
   // Generate track
   const handleGenerate = useCallback(async () => {
     // Prevent double-click submissions (IMP005)
@@ -581,6 +618,7 @@ export function useGenerateForm({
               type: audioFile.type,
               data: fileData,
             },
+            audioDuration: audioDuration || undefined,
             customMode: mode === 'custom', // Fixed: Use customMode instead of inverted defaultParamFlag
             prompt: mode === 'custom' && hasVocals ? lyrics : undefined,
             style: mode === 'custom' ? style : undefined,
@@ -773,7 +811,7 @@ export function useGenerateForm({
     selectedArtistId,
     setSelectedArtistId,
     audioFile,
-    setAudioFile,
+    setAudioFile: handleSetAudioFile,
     planTrackId,
     
     // Actions
