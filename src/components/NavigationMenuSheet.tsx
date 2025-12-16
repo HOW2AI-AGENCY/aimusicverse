@@ -23,7 +23,8 @@ import {
   Bell,
   Loader2,
   Volume2,
-  VolumeX
+  VolumeX,
+  Disc3
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
@@ -58,6 +59,7 @@ const menuSections: { title: string; items: MenuItem[] }[] = [
   {
     title: 'Музыка',
     items: [
+      { icon: Disc3, label: 'Креативные инструменты', path: '/creative-tools', description: 'PromptDJ, драм-машина, аккорды', badge: 'PRO', badgeVariant: 'new' },
       { icon: ListMusic, label: 'Плейлисты', path: '/playlists', badgeVariant: 'count' },
       { icon: Guitar, label: 'Guitar Studio', path: '/guitar-studio', description: 'Запись, транскрипция и анализ гитары', badge: 'PRO', badgeVariant: 'new' },
       { icon: FileText, label: 'Шаблоны', path: '/templates', description: 'Шаблоны текстов' },
