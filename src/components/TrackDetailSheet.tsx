@@ -2,13 +2,14 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { Track } from '@/hooks/useTracksOptimized';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Music2, GitBranch, History, Sparkles, FileText } from 'lucide-react';
+import { Music2, GitBranch, History, Sparkles, FileText, MessageSquare } from 'lucide-react';
 import { TrackDetailsTab } from './track-detail/TrackDetailsTab';
 import { TrackVersionsTab } from './track-detail/TrackVersionsTab';
 import { TrackChangelogTab } from './track-detail/TrackChangelogTab';
 import { TrackAnalysisTab } from './track-detail/TrackAnalysisTab';
 import { TrackStemsTab } from './track-detail/TrackStemsTab';
 import { LyricsView } from './track-detail/LyricsView';
+import { CommentsList } from './comments/CommentsList';
 import { useState } from 'react';
 
 interface TrackDetailSheetProps {
@@ -43,30 +44,27 @@ export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheet
         </SheetHeader>
 
         <Tabs defaultValue="details" className="flex-1 mt-4">
-          <TabsList className="grid w-full grid-cols-6 mb-4">
-            <TabsTrigger value="details" className="gap-1 text-xs">
-              <Music2 className="w-4 h-4" />
-              <span className="hidden sm:inline">Детали</span>
+          <TabsList className="grid w-full grid-cols-7 mb-4">
+            <TabsTrigger value="details" className="gap-1 text-xs px-1">
+              <Music2 className="w-3.5 h-3.5" />
             </TabsTrigger>
-            <TabsTrigger value="lyrics" className="gap-1 text-xs">
-              <FileText className="w-4 h-4" />
-              <span className="hidden sm:inline">Текст</span>
+            <TabsTrigger value="lyrics" className="gap-1 text-xs px-1">
+              <FileText className="w-3.5 h-3.5" />
             </TabsTrigger>
-            <TabsTrigger value="analysis" className="gap-1 text-xs">
-              <Sparkles className="w-4 h-4" />
-              <span className="hidden sm:inline">Анализ</span>
+            <TabsTrigger value="comments" className="gap-1 text-xs px-1">
+              <MessageSquare className="w-3.5 h-3.5" />
             </TabsTrigger>
-            <TabsTrigger value="versions" className="gap-1 text-xs">
-              <GitBranch className="w-4 h-4" />
-              <span className="hidden sm:inline">Версии</span>
+            <TabsTrigger value="analysis" className="gap-1 text-xs px-1">
+              <Sparkles className="w-3.5 h-3.5" />
             </TabsTrigger>
-            <TabsTrigger value="stems" className="gap-1 text-xs">
-              <Music2 className="w-4 h-4" />
-              <span className="hidden sm:inline">Стемы</span>
+            <TabsTrigger value="versions" className="gap-1 text-xs px-1">
+              <GitBranch className="w-3.5 h-3.5" />
             </TabsTrigger>
-            <TabsTrigger value="changelog" className="gap-1 text-xs">
-              <History className="w-4 h-4" />
-              <span className="hidden sm:inline">История</span>
+            <TabsTrigger value="stems" className="gap-1 text-xs px-1">
+              <Music2 className="w-3.5 h-3.5" />
+            </TabsTrigger>
+            <TabsTrigger value="changelog" className="gap-1 text-xs px-1">
+              <History className="w-3.5 h-3.5" />
             </TabsTrigger>
           </TabsList>
 
@@ -77,13 +75,11 @@ export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheet
               </TabsContent>
 
               <TabsContent value="lyrics" className="mt-0">
-                {/* T055 - Mobile-optimized lyrics display */}
-                <LyricsView 
-                  lyrics={track.lyrics} 
-                  // TODO: T047 - Pass timestamped lyrics from database
-                  // currentTime={playerCurrentTime}
-                  // onSeek={handleSeek}
-                />
+                <LyricsView lyrics={track.lyrics} />
+              </TabsContent>
+
+              <TabsContent value="comments" className="mt-0">
+                <CommentsList trackId={track.id} />
               </TabsContent>
 
               <TabsContent value="analysis" className="mt-0">
