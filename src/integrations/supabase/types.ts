@@ -2874,6 +2874,45 @@ export type Database = {
         }
         Relationships: []
       }
+      safe_public_profiles: {
+        Row: {
+          created_at: string | null
+          display_name: string | null
+          first_name: string | null
+          followers_count: number | null
+          following_count: number | null
+          id: string | null
+          is_public: boolean | null
+          photo_url: string | null
+          user_id: string | null
+          username: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          display_name?: string | null
+          first_name?: string | null
+          followers_count?: number | null
+          following_count?: number | null
+          id?: string | null
+          is_public?: boolean | null
+          photo_url?: string | null
+          user_id?: string | null
+          username?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          display_name?: string | null
+          first_name?: string | null
+          followers_count?: number | null
+          following_count?: number | null
+          id?: string | null
+          is_public?: boolean | null
+          photo_url?: string | null
+          user_id?: string | null
+          username?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       build_suno_prompt: {

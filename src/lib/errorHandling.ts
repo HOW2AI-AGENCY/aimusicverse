@@ -1,5 +1,6 @@
 /**
  * Centralized error handling utilities for the application
+ * Enhanced with comprehensive error codes and user-friendly messages
  */
 
 import { toast } from 'sonner';
@@ -47,6 +48,36 @@ const ERROR_CODE_MESSAGES: Record<string, { title: string; description: string; 
     description: 'Попробуйте изменить описание или выбрать другую модель',
     canRetry: true,
   },
+  MODEL_ERROR: {
+    title: 'Ошибка модели AI',
+    description: 'Система автоматически попробует другую модель',
+    canRetry: true,
+  },
+  PROMPT_TOO_LONG: {
+    title: 'Описание слишком длинное',
+    description: 'Сократите описание до 500 символов или используйте режим Custom',
+    canRetry: false,
+  },
+  NETWORK_ERROR: {
+    title: 'Ошибка сети',
+    description: 'Проверьте подключение к интернету и попробуйте снова',
+    canRetry: true,
+  },
+  UNAUTHORIZED: {
+    title: 'Требуется авторизация',
+    description: 'Войдите в аккаунт для продолжения',
+    canRetry: false,
+  },
+  TIMEOUT: {
+    title: 'Превышено время ожидания',
+    description: 'Сервер не ответил вовремя. Попробуйте ещё раз.',
+    canRetry: true,
+  },
+  API_ERROR: {
+    title: 'Ошибка сервиса',
+    description: 'Сервис генерации временно недоступен. Попробуйте позже.',
+    canRetry: true,
+  },
 };
 
 /**
@@ -59,6 +90,8 @@ export interface GenerationErrorResponse {
   originalError?: string;
   canRetry?: boolean;
   retryAfter?: number;
+  balance?: number;
+  required?: number;
 }
 
 /**
@@ -73,9 +106,34 @@ export function showGenerationError(error: unknown): void {
   const errorContext = appError.context as GenerationErrorResponse | undefined;
   const errorCode = errorContext?.errorCode;
   
+  // Check for error code in message as fallback
+  const errorMessage = appError.message?.toLowerCase() || '';
+  
   if (errorCode && ERROR_CODE_MESSAGES[errorCode]) {
     const { title, description } = ERROR_CODE_MESSAGES[errorCode];
     toast.error(title, { description });
+    return;
+  }
+
+  // Pattern matching for common errors
+  if (errorMessage.includes('prompt too long') || errorMessage.includes('слишком длинн')) {
+    toast.error(ERROR_CODE_MESSAGES.PROMPT_TOO_LONG.title, {
+      description: ERROR_CODE_MESSAGES.PROMPT_TOO_LONG.description,
+    });
+    return;
+  }
+
+  if (errorMessage.includes('model error')) {
+    toast.error(ERROR_CODE_MESSAGES.MODEL_ERROR.title, {
+      description: ERROR_CODE_MESSAGES.MODEL_ERROR.description,
+    });
+    return;
+  }
+
+  if (errorMessage.includes('rate limit') || errorMessage.includes('too many')) {
+    toast.error(ERROR_CODE_MESSAGES.RATE_LIMIT.title, {
+      description: ERROR_CODE_MESSAGES.RATE_LIMIT.description,
+    });
     return;
   }
 
@@ -100,6 +158,29 @@ export function showGenerationError(error: unknown): void {
 }
 
 /**
+ * Check if an error is retriable based on error code
+ */
+export function isRetriableError(error: unknown): boolean {
+  const appError = toAppError(error);
+  const errorContext = appError.context as GenerationErrorResponse | undefined;
+  const errorCode = errorContext?.errorCode;
+  
+  if (errorCode && ERROR_CODE_MESSAGES[errorCode]) {
+    return ERROR_CODE_MESSAGES[errorCode].canRetry;
+  }
+  
+  // Default: most errors are retriable
+  return true;
+}
+
+/**
+ * Get error code information
+ */
+export function getErrorCodeInfo(errorCode: string): { title: string; description: string; canRetry: boolean } | null {
+  return ERROR_CODE_MESSAGES[errorCode] || null;
+}
+
+/**
  * Parse error response from generation API
  */
 export function parseGenerationError(response: any): GenerationErrorResponse {
@@ -110,6 +191,8 @@ export function parseGenerationError(response: any): GenerationErrorResponse {
     originalError: response?.originalError,
     canRetry: response?.canRetry ?? true,
     retryAfter: response?.retryAfter,
+    balance: response?.balance,
+    required: response?.required,
   };
 }
 
