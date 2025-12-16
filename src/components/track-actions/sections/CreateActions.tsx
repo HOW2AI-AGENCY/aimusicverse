@@ -1,14 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { DropdownMenuItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from '@/components/ui/dropdown-menu';
-import { Plus, Mic, Volume2, Music, Pencil, Disc } from 'lucide-react';
+import { Plus, Music, ImagePlus, Disc, Sparkles } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { ActionId } from '@/config/trackActionsConfig';
-import { TrackActionState, isActionAvailable, getActionLabel } from '@/lib/trackActionConditions';
+import { TrackActionState, isActionAvailable } from '@/lib/trackActionConditions';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
-interface EditActionsProps {
+interface CreateActionsProps {
   track: Track;
   state: TrackActionState;
   onAction: (actionId: ActionId) => void;
@@ -16,48 +16,41 @@ interface EditActionsProps {
   isProcessing?: boolean;
 }
 
-export function EditActions({ track, state, onAction, variant, isProcessing }: EditActionsProps) {
+export function CreateActions({ track, state, onAction, variant, isProcessing }: CreateActionsProps) {
   const [isOpen, setIsOpen] = useState(false);
   
-  const showExtend = isActionAvailable('extend', track, state);
+  const showGenerateCover = isActionAvailable('generate_cover', track, state);
   const showCover = isActionAvailable('cover', track, state);
-  const showNewArrangement = isActionAvailable('new_arrangement', track, state);
-  const showNewVocal = isActionAvailable('new_vocal', track, state);
+  const showExtend = isActionAvailable('extend', track, state);
   const showRemix = isActionAvailable('remix', track, state);
 
-  const hasAnyEditAction = showExtend || showCover || showNewArrangement || showNewVocal || showRemix;
-  if (!hasAnyEditAction) return null;
+  const hasAnyAction = showGenerateCover || showCover || showExtend || showRemix;
+  if (!hasAnyAction) return null;
 
   if (variant === 'dropdown') {
     return (
       <DropdownMenuSub>
         <DropdownMenuSubTrigger>
-          <Pencil className="w-4 h-4 mr-2" />
-          Редактировать
+          <Sparkles className="w-4 h-4 mr-2" />
+          Создать
         </DropdownMenuSubTrigger>
         <DropdownMenuSubContent className="bg-background/95 backdrop-blur-sm z-[10000]" sideOffset={8}>
-          {showExtend && (
-            <DropdownMenuItem onClick={() => onAction('extend')}>
-              <Plus className="w-4 h-4 mr-2" />
-              Расширить
+          {showGenerateCover && (
+            <DropdownMenuItem onClick={() => onAction('generate_cover')} disabled={isProcessing}>
+              <ImagePlus className="w-4 h-4 mr-2" />
+              Обложка
             </DropdownMenuItem>
           )}
           {showCover && (
             <DropdownMenuItem onClick={() => onAction('cover')}>
               <Disc className="w-4 h-4 mr-2" />
-              Кавер
+              Кавер версия
             </DropdownMenuItem>
           )}
-          {showNewArrangement && (
-            <DropdownMenuItem onClick={() => onAction('new_arrangement')}>
-              <Volume2 className="w-4 h-4 mr-2" />
-              Новая аранжировка
-            </DropdownMenuItem>
-          )}
-          {showNewVocal && (
-            <DropdownMenuItem onClick={() => onAction('new_vocal')}>
-              <Mic className="w-4 h-4 mr-2" />
-              Новый вокал
+          {showExtend && (
+            <DropdownMenuItem onClick={() => onAction('extend')}>
+              <Plus className="w-4 h-4 mr-2" />
+              Расширить трек
             </DropdownMenuItem>
           )}
           {showRemix && (
@@ -80,21 +73,22 @@ export function EditActions({ track, state, onAction, variant, isProcessing }: E
           className="w-full justify-between gap-3 h-12"
         >
           <div className="flex items-center gap-3">
-            <Pencil className="w-5 h-5" />
-            <span>Редактировать</span>
+            <Sparkles className="w-5 h-5" />
+            <span>Создать</span>
           </div>
           <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </Button>
       </CollapsibleTrigger>
       <CollapsibleContent className="pl-4 space-y-1">
-        {showExtend && (
+        {showGenerateCover && (
           <Button
             variant="ghost"
             className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('extend')}
+            onClick={() => onAction('generate_cover')}
+            disabled={isProcessing}
           >
-            <Plus className="w-4 h-4" />
-            <span>Расширить</span>
+            <ImagePlus className="w-4 h-4" />
+            <span>Обложка</span>
           </Button>
         )}
         {showCover && (
@@ -104,27 +98,17 @@ export function EditActions({ track, state, onAction, variant, isProcessing }: E
             onClick={() => onAction('cover')}
           >
             <Disc className="w-4 h-4" />
-            <span>Кавер</span>
+            <span>Кавер версия</span>
           </Button>
         )}
-        {showNewArrangement && (
+        {showExtend && (
           <Button
             variant="ghost"
             className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('new_arrangement')}
+            onClick={() => onAction('extend')}
           >
-            <Volume2 className="w-4 h-4" />
-            <span>Новая аранжировка</span>
-          </Button>
-        )}
-        {showNewVocal && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('new_vocal')}
-          >
-            <Mic className="w-4 h-4" />
-            <span>Новый вокал</span>
+            <Plus className="w-4 h-4" />
+            <span>Расширить трек</span>
           </Button>
         )}
         {showRemix && (

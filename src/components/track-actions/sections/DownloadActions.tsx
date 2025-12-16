@@ -1,53 +1,54 @@
 import { Button } from '@/components/ui/button';
 import { DropdownMenuItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from '@/components/ui/dropdown-menu';
-import { Folder, ListMusic, Sparkles, FolderPlus } from 'lucide-react';
+import { Download, FileAudio, FileMusic, Archive } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { ActionId } from '@/config/trackActionsConfig';
-import { TrackActionState, isActionAvailable } from '@/lib/trackActionConditions';
+import { TrackActionState, isActionAvailable, getActionLabel } from '@/lib/trackActionConditions';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
-interface OrganizeActionsProps {
+interface DownloadActionsProps {
   track: Track;
   state: TrackActionState;
   onAction: (actionId: ActionId) => void;
   variant: 'dropdown' | 'sheet';
+  isProcessing?: boolean;
 }
 
-export function OrganizeActions({ track, state, onAction, variant }: OrganizeActionsProps) {
+export function DownloadActions({ track, state, onAction, variant, isProcessing }: DownloadActionsProps) {
   const [isOpen, setIsOpen] = useState(false);
   
-  const showPlaylist = isActionAvailable('add_to_playlist', track, state);
-  const showProject = isActionAvailable('add_to_project', track, state);
-  const showArtist = isActionAvailable('create_artist', track, state);
+  const showMp3 = isActionAvailable('download_mp3', track, state);
+  const showWav = isActionAvailable('download_wav', track, state);
+  const showStems = isActionAvailable('download_stems', track, state);
 
-  if (!showPlaylist && !showProject && !showArtist) return null;
+  if (!showMp3 && !showWav && !showStems) return null;
 
   if (variant === 'dropdown') {
     return (
       <DropdownMenuSub>
         <DropdownMenuSubTrigger>
-          <FolderPlus className="w-4 h-4 mr-2" />
-          Добавить в...
+          <Download className="w-4 h-4 mr-2" />
+          Скачать
         </DropdownMenuSubTrigger>
         <DropdownMenuSubContent className="bg-background/95 backdrop-blur-sm z-[10000]" sideOffset={8}>
-          {showPlaylist && (
-            <DropdownMenuItem onClick={() => onAction('add_to_playlist')}>
-              <ListMusic className="w-4 h-4 mr-2" />
-              Плейлист
+          {showMp3 && (
+            <DropdownMenuItem onClick={() => onAction('download_mp3')}>
+              <FileAudio className="w-4 h-4 mr-2" />
+              MP3
             </DropdownMenuItem>
           )}
-          {showProject && (
-            <DropdownMenuItem onClick={() => onAction('add_to_project')}>
-              <Folder className="w-4 h-4 mr-2" />
-              Проект
+          {showWav && (
+            <DropdownMenuItem onClick={() => onAction('download_wav')} disabled={isProcessing}>
+              <FileMusic className="w-4 h-4 mr-2" />
+              WAV
             </DropdownMenuItem>
           )}
-          {showArtist && (
-            <DropdownMenuItem onClick={() => onAction('create_artist')}>
-              <Sparkles className="w-4 h-4 mr-2" />
-              Создать артиста
+          {showStems && (
+            <DropdownMenuItem onClick={() => onAction('download_stems')}>
+              <Archive className="w-4 h-4 mr-2" />
+              {getActionLabel('download_stems', track, state)}
             </DropdownMenuItem>
           )}
         </DropdownMenuSubContent>
@@ -64,41 +65,42 @@ export function OrganizeActions({ track, state, onAction, variant }: OrganizeAct
           className="w-full justify-between gap-3 h-12"
         >
           <div className="flex items-center gap-3">
-            <FolderPlus className="w-5 h-5" />
-            <span>Добавить в...</span>
+            <Download className="w-5 h-5" />
+            <span>Скачать</span>
           </div>
           <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </Button>
       </CollapsibleTrigger>
       <CollapsibleContent className="pl-4 space-y-1">
-        {showPlaylist && (
+        {showMp3 && (
           <Button
             variant="ghost"
             className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('add_to_playlist')}
+            onClick={() => onAction('download_mp3')}
           >
-            <ListMusic className="w-4 h-4" />
-            <span>Плейлист</span>
+            <FileAudio className="w-4 h-4" />
+            <span>MP3</span>
           </Button>
         )}
-        {showProject && (
+        {showWav && (
           <Button
             variant="ghost"
             className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('add_to_project')}
+            onClick={() => onAction('download_wav')}
+            disabled={isProcessing}
           >
-            <Folder className="w-4 h-4" />
-            <span>Проект</span>
+            <FileMusic className="w-4 h-4" />
+            <span>WAV</span>
           </Button>
         )}
-        {showArtist && (
+        {showStems && (
           <Button
             variant="ghost"
             className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('create_artist')}
+            onClick={() => onAction('download_stems')}
           >
-            <Sparkles className="w-4 h-4" />
-            <span>Создать артиста</span>
+            <Archive className="w-4 h-4" />
+            <span>{getActionLabel('download_stems', track, state)}</span>
           </Button>
         )}
       </CollapsibleContent>

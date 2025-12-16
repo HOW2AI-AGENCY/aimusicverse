@@ -4,11 +4,10 @@ export { UnifiedTrackSheet } from './UnifiedTrackSheet';
 export { TrackDialogsPortal } from './TrackDialogsPortal';
 
 // Section components
-export { QueueActions } from './sections/QueueActions';
-export { ShareActions } from './sections/ShareActions';
-export { OrganizeActions } from './sections/OrganizeActions';
-export { StudioActions } from './sections/StudioActions';
-export { EditActions } from './sections/EditActions';
 export { InfoActions } from './sections/InfoActions';
-export { DangerActions } from './sections/DangerActions';
+export { DownloadActions } from './sections/DownloadActions';
+export { ShareActions } from './sections/ShareActions';
+export { StudioActions } from './sections/StudioActions';
+export { CreateActions } from './sections/CreateActions';
+export { DeleteActions } from './sections/DeleteActions';
 export { VersionsSection } from './sections/VersionsSection';

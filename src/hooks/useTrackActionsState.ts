@@ -19,17 +19,13 @@ interface UseTrackActionsStateProps {
 
 interface DialogStates {
   details: boolean;
-  lyrics: boolean;
   extend: boolean;
   cover: boolean;
-  newArrangement: boolean;
-  newVocal: boolean;
-  createArtist: boolean;
   addToProject: boolean;
   share: boolean;
   addToPlaylist: boolean;
-  report: boolean;
   deleteConfirm: boolean;
+  deleteVersionSelect: boolean;
 }
 
 export function useTrackActionsState({
@@ -46,17 +42,13 @@ export function useTrackActionsState({
   const [stems, setStems] = useState<Array<{ id: string; stem_type: string; audio_url: string }>>([]);
   const [dialogs, setDialogs] = useState<DialogStates>({
     details: false,
-    lyrics: false,
     extend: false,
     cover: false,
-    newArrangement: false,
-    newVocal: false,
-    createArtist: false,
     addToProject: false,
     share: false,
     addToPlaylist: false,
-    report: false,
     deleteConfirm: false,
+    deleteVersionSelect: false,
   });
 
   // Hooks
@@ -141,52 +133,57 @@ export function useTrackActionsState({
     triggerHapticFeedback('light');
 
     switch (actionId) {
-      // Queue actions
-      case 'play_next': {
-        const newQueue = [...queue];
-        const currentIndex = usePlayerStore.getState().currentIndex;
-        newQueue.splice(currentIndex + 1, 0, track);
-        usePlayerStore.setState({ queue: newQueue });
-        toast.success('Будет воспроизведено следующим');
-        onClose?.();
-        break;
-      }
-      case 'add_to_queue':
-        addToQueue(track);
-        toast.success('Добавлено в очередь');
-        onClose?.();
-        break;
-      case 'watch_video':
+      // Info actions
+      case 'details':
         openDialog('details');
         break;
+      case 'toggle_public':
+        await handleTogglePublic(track);
+        onClose?.();
+        break;
 
-      // Share actions
-      case 'download':
+      // Download actions
+      case 'download_mp3':
         onDownload?.();
         onClose?.();
         break;
-      case 'share':
-        openDialog('share');
+      case 'download_wav':
+        await handleConvertToWav(track);
+        onClose?.();
+        break;
+      case 'download_stems':
+        // Navigate to studio for stem download
+        navigate(`/studio/${track.id}`);
+        onClose?.();
+        break;
+
+      // Share actions
+      case 'generate_video':
+        await handleGenerateVideo(track);
+        onClose?.();
         break;
       case 'send_telegram':
         await handleSendToTelegram(track);
         onClose?.();
         break;
-
-      // Organize actions
+      case 'copy_link':
+        await handleShare(track);
+        onClose?.();
+        break;
       case 'add_to_playlist':
         openDialog('addToPlaylist');
         break;
       case 'add_to_project':
         openDialog('addToProject');
         break;
-      case 'create_artist':
-        openDialog('createArtist');
-        break;
 
       // Studio actions
       case 'open_studio':
         navigate(`/studio/${track.id}`);
+        onClose?.();
+        break;
+      case 'replace_section':
+        navigate(`/studio/${track.id}?mode=replace`);
         onClose?.();
         break;
       case 'stems_simple':
@@ -197,58 +194,36 @@ export function useTrackActionsState({
         await handleSeparateVocals(track, 'detailed');
         onClose?.();
         break;
+      case 'transcribe_midi':
+        navigate(`/studio/${track.id}?mode=midi`);
+        onClose?.();
+        break;
+      case 'transcribe_notes':
+        navigate(`/studio/${track.id}?mode=notes`);
+        onClose?.();
+        break;
+
+      // Create actions
       case 'generate_cover':
         await handleGenerateCover(track);
         onClose?.();
         break;
-      case 'convert_wav':
-        await handleConvertToWav(track);
-        onClose?.();
-        break;
-      case 'transcribe_midi':
-        toast.info('Транскрипция в MIDI скоро будет доступна!');
-        onClose?.();
-        break;
-      case 'generate_video':
-        await handleGenerateVideo(track);
-        onClose?.();
-        break;
-
-      // Edit actions
-      case 'extend':
-        openDialog('extend');
-        break;
       case 'cover':
         openDialog('cover');
         break;
-      case 'new_arrangement':
-        openDialog('newArrangement');
-        break;
-      case 'new_vocal':
-        openDialog('newVocal');
+      case 'extend':
+        openDialog('extend');
         break;
       case 'remix':
         await handleRemix(track);
         onClose?.();
         break;
 
-      // Info actions
-      case 'details':
-        openDialog('details');
+      // Delete actions
+      case 'delete_version':
+        openDialog('deleteVersionSelect');
         break;
-      case 'lyrics':
-        openDialog('lyrics');
-        break;
-      case 'toggle_public':
-        await handleTogglePublic(track);
-        onClose?.();
-        break;
-
-      // Danger actions
-      case 'report':
-        openDialog('report');
-        break;
-      case 'delete':
+      case 'delete_all':
         openDialog('deleteConfirm');
         break;
     }
@@ -256,8 +231,6 @@ export function useTrackActionsState({
     track,
     actionState,
     isProcessing,
-    queue,
-    addToQueue,
     navigate,
     onClose,
     onDownload,
@@ -269,6 +242,7 @@ export function useTrackActionsState({
     handleGenerateVideo,
     handleRemix,
     handleTogglePublic,
+    handleShare,
   ]);
 
   const handleConfirmDelete = useCallback(() => {

@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { Info, FileText, Globe, Lock } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Info, Globe, Lock } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { ActionId } from '@/config/trackActionsConfig';
 import { TrackActionState, isActionAvailable } from '@/lib/trackActionConditions';
@@ -15,10 +15,9 @@ interface InfoActionsProps {
 
 export function InfoActions({ track, state, onAction, variant, isProcessing }: InfoActionsProps) {
   const showDetails = isActionAvailable('details', track, state);
-  const showLyrics = isActionAvailable('lyrics', track, state);
-  const showTogglePublic = track.audio_url && track.status === 'completed';
+  const showTogglePublic = isActionAvailable('toggle_public', track, state);
 
-  if (!showDetails && !showLyrics && !showTogglePublic) return null;
+  if (!showDetails && !showTogglePublic) return null;
 
   if (variant === 'dropdown') {
     return (
@@ -27,12 +26,6 @@ export function InfoActions({ track, state, onAction, variant, isProcessing }: I
           <DropdownMenuItem onClick={() => onAction('details')}>
             <Info className="w-4 h-4 mr-2" />
             Детали трека
-          </DropdownMenuItem>
-        )}
-        {showLyrics && (
-          <DropdownMenuItem onClick={() => onAction('lyrics')}>
-            <FileText className="w-4 h-4 mr-2" />
-            Текст песни
           </DropdownMenuItem>
         )}
         {showTogglePublic && (
@@ -45,7 +38,7 @@ export function InfoActions({ track, state, onAction, variant, isProcessing }: I
             ) : (
               <>
                 <Globe className="w-4 h-4 mr-2" />
-                Сделать публичным
+                Опубликовать
               </>
             )}
           </DropdownMenuItem>
@@ -67,16 +60,6 @@ export function InfoActions({ track, state, onAction, variant, isProcessing }: I
           <span>Детали трека</span>
         </Button>
       )}
-      {showLyrics && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-12"
-          onClick={() => onAction('lyrics')}
-        >
-          <FileText className="w-5 h-5" />
-          <span>Текст песни</span>
-        </Button>
-      )}
       {showTogglePublic && (
         <Button
           variant="ghost"
@@ -92,7 +75,7 @@ export function InfoActions({ track, state, onAction, variant, isProcessing }: I
           ) : (
             <>
               <Globe className="w-5 h-5" />
-              <span>Сделать публичным</span>
+              <span>Опубликовать</span>
             </>
           )}
         </Button>

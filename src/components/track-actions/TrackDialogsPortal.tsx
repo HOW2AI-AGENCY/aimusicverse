@@ -1,18 +1,12 @@
 import { Track } from '@/hooks/useTracksOptimized';
 import { ExtendTrackDialog } from '@/components/ExtendTrackDialog';
-import { NewArrangementDialog } from '@/components/NewArrangementDialog';
-import { NewVocalDialog } from '@/components/NewVocalDialog';
-import { CreateArtistDialog } from '@/components/CreateArtistDialog';
 import { AddToProjectDialog } from '@/components/track-menu/AddToProjectDialog';
 import { ShareTrackDialog } from '@/components/track-menu/ShareTrackDialog';
 import { AddToPlaylistDialog } from '@/components/track/AddToPlaylistDialog';
 import { ConfirmationDialog } from '@/components/ConfirmationDialog';
 import { TrackDetailSheet } from '@/components/TrackDetailSheet';
-import { LyricsSheet } from '@/components/LyricsSheet';
 import { TrackDetailDialog } from '@/components/TrackDetailDialog';
-import { LyricsDialog } from '@/components/LyricsDialog';
 import { AudioCoverDialog } from '@/components/AudioCoverDialog';
-import { ReportTrackDialog } from './ReportTrackDialog';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useState, useEffect } from 'react';
 
@@ -25,17 +19,13 @@ interface SimpleStem {
 
 interface DialogStates {
   details: boolean;
-  lyrics: boolean;
   extend: boolean;
   cover: boolean;
-  newArrangement: boolean;
-  newVocal: boolean;
-  createArtist: boolean;
   addToProject: boolean;
   share: boolean;
   addToPlaylist: boolean;
-  report: boolean;
   deleteConfirm: boolean;
+  deleteVersionSelect: boolean;
 }
 
 interface TrackDialogsPortalProps {
@@ -55,10 +45,6 @@ export function TrackDialogsPortal({
 }: TrackDialogsPortalProps) {
   const isMobile = useIsMobile();
   const [coverAudioFile, setCoverAudioFile] = useState<File | null>(null);
-  
-  // Find vocal and instrumental stems
-  const vocalStem = stems.find(s => s.stem_type === 'vocal' || s.stem_type === 'vocals');
-  const instrumentalStem = stems.find(s => s.stem_type === 'instrumental');
 
   // Auto-load track audio when cover dialog opens
   useEffect(() => {
@@ -101,21 +87,6 @@ export function TrackDialogsPortal({
         />
       )}
 
-      {/* Lyrics - use Sheet on mobile, Dialog on desktop */}
-      {isMobile ? (
-        <LyricsSheet
-          track={track}
-          open={dialogs.lyrics}
-          onOpenChange={(open) => !open && onCloseDialog('lyrics')}
-        />
-      ) : (
-        <LyricsDialog
-          open={dialogs.lyrics}
-          onOpenChange={(open) => !open && onCloseDialog('lyrics')}
-          track={track}
-        />
-      )}
-
       {/* Edit dialogs */}
       <ExtendTrackDialog
         open={dialogs.extend}
@@ -135,33 +106,7 @@ export function TrackDialogsPortal({
         }}
       />
 
-      {/* Stem-based dialogs */}
-      <NewArrangementDialog
-        open={dialogs.newArrangement}
-        onOpenChange={(open) => !open && onCloseDialog('newArrangement')}
-        track={track}
-        vocalStem={vocalStem ? { ...vocalStem, track_id: track.id, separation_mode: null, version_id: null, created_at: null } : undefined}
-      />
-
-      <NewVocalDialog
-        open={dialogs.newVocal}
-        onOpenChange={(open) => !open && onCloseDialog('newVocal')}
-        track={track}
-        instrumentalStem={instrumentalStem ? { ...instrumentalStem, track_id: track.id, separation_mode: null, version_id: null, created_at: null } : undefined}
-      />
-
       {/* Organize dialogs */}
-      <CreateArtistDialog
-        open={dialogs.createArtist}
-        onOpenChange={(open) => !open && onCloseDialog('createArtist')}
-        fromTrack={{
-          title: track.title,
-          style: track.style,
-          tags: track.tags,
-          cover_url: track.cover_url,
-        }}
-      />
-
       <AddToProjectDialog
         open={dialogs.addToProject}
         onOpenChange={(open) => !open && onCloseDialog('addToProject')}
@@ -177,13 +122,6 @@ export function TrackDialogsPortal({
       <AddToPlaylistDialog
         open={dialogs.addToPlaylist}
         onOpenChange={(open) => !open && onCloseDialog('addToPlaylist')}
-        track={track}
-      />
-
-      {/* Report dialog */}
-      <ReportTrackDialog
-        open={dialogs.report}
-        onOpenChange={(open) => !open && onCloseDialog('report')}
         track={track}
       />
 
