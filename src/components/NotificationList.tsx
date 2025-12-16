@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NotificationSkeleton } from "@/components/ui/skeleton-loader";
-import { Info, CheckCircle, AlertTriangle, XCircle, CheckCheck, ExternalLink, Music, Folder, Users, Sparkles } from "lucide-react";
+import { Info, CheckCircle, AlertTriangle, XCircle, CheckCheck, ExternalLink, Music, Folder, Users, Sparkles, Trophy, Bell as BellIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
@@ -17,6 +17,8 @@ const iconMap: Record<string, React.ElementType> = {
   generation: Music,
   project: Folder,
   social: Users,
+  achievement: Trophy,
+  system: BellIcon,
 };
 
 const colorMap: Record<string, string> = {
@@ -27,6 +29,8 @@ const colorMap: Record<string, string> = {
   generation: "text-primary",
   project: "text-purple-500",
   social: "text-pink-500",
+  achievement: "text-amber-500",
+  system: "text-cyan-500",
 };
 
 interface NotificationListProps {
