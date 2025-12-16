@@ -16,15 +16,15 @@ SELECT
   t.user_id,
   p.username as creator_username,
   p.display_name as creator_name,
-  -- Trending score calculation
+  -- Trending score calculation using track_analytics
   COALESCE(
-    (SELECT COUNT(*) FROM track_listens WHERE track_id = t.id AND created_at > NOW() - INTERVAL '7 days'), 0
+    (SELECT COUNT(*) FROM track_analytics WHERE track_id = t.id AND event_type = 'play' AND created_at > NOW() - INTERVAL '7 days'), 0
   ) * 2 +
   COALESCE(
     (SELECT COUNT(*) FROM track_likes WHERE track_id = t.id AND created_at > NOW() - INTERVAL '7 days'), 0
   ) * 5 +
   COALESCE(
-    (SELECT COUNT(*) FROM track_shares WHERE track_id = t.id AND created_at > NOW() - INTERVAL '7 days'), 0
+    (SELECT COUNT(*) FROM track_analytics WHERE track_id = t.id AND event_type = 'share' AND created_at > NOW() - INTERVAL '7 days'), 0
   ) * 10 AS trending_score
 FROM tracks t
 LEFT JOIN profiles p ON t.user_id = p.user_id
@@ -201,11 +201,11 @@ BEGIN
     t.user_id,
     p.username,
     p.display_name,
-    -- Quality score based on engagement
+    -- Quality score based on engagement using track_analytics
     (
       COALESCE((SELECT COUNT(*)::NUMERIC FROM track_likes WHERE track_id = t.id), 0) * 2 +
-      COALESCE((SELECT COUNT(*)::NUMERIC FROM track_listens WHERE track_id = t.id), 0) * 0.1 +
-      COALESCE((SELECT COUNT(*)::NUMERIC FROM track_shares WHERE track_id = t.id), 0) * 5
+      COALESCE((SELECT COUNT(*)::NUMERIC FROM track_analytics WHERE track_id = t.id AND event_type = 'play'), 0) * 0.1 +
+      COALESCE((SELECT COUNT(*)::NUMERIC FROM track_analytics WHERE track_id = t.id AND event_type = 'share'), 0) * 5
     ) AS quality_score
   FROM tracks t
   LEFT JOIN profiles p ON t.user_id = p.user_id

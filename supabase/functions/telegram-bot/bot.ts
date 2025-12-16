@@ -18,9 +18,9 @@ export async function handleUpdate(update: TelegramUpdate) {
       return;
     }
 
-    // Handle inline queries for sharing tracks
+    // Handle inline queries for sharing tracks (enhanced with public content)
     if (update.inline_query) {
-      const { handleInlineQuery } = await import('./commands/inline.ts');
+      const { handleInlineQuery } = await import('./commands/inline-enhanced.ts');
       await handleInlineQuery(update.inline_query);
       return;
     }
