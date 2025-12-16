@@ -8,11 +8,11 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Lightbulb, X, ChevronRight, Split, Scissors, 
   Mic, Music, GitCompare, Tag, PlayCircle, 
-  Piano, Sparkles, Volume2, Info
+  Piano, Sparkles, Volume2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Track } from '@/types/track';
+import type { Track } from '@/types/track';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 
 type StudioState = 
