@@ -1,4 +1,4 @@
-import { useCallback, forwardRef } from "react";
+import { useCallback, forwardRef, memo } from "react";
 import { Virtuoso, VirtuosoGrid } from "react-virtuoso";
 import { type Track } from "@/hooks/useTracksOptimized";
 import { TrackCard } from "@/components/TrackCard";
@@ -50,7 +50,7 @@ const GridItemWrapper = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivE
 );
 GridItemWrapper.displayName = "GridItemWrapper";
 
-export function VirtualizedTrackList({
+export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   tracks,
   viewMode,
   activeTrackId,
@@ -124,4 +124,4 @@ export function VirtualizedTrackList({
       itemContent={(index) => renderTrackItem(index, tracks[index])}
     />
   );
-}
+});
