@@ -26,6 +26,7 @@ interface DialogStates {
   addToPlaylist: boolean;
   deleteConfirm: boolean;
   deleteVersionSelect: boolean;
+  rename: boolean;
 }
 
 export function useTrackActionsState({
@@ -49,6 +50,7 @@ export function useTrackActionsState({
     addToPlaylist: false,
     deleteConfirm: false,
     deleteVersionSelect: false,
+    rename: false,
   });
 
   // Hooks
@@ -140,6 +142,9 @@ export function useTrackActionsState({
       case 'toggle_public':
         await handleTogglePublic(track);
         onClose?.();
+        break;
+      case 'rename':
+        openDialog('rename');
         break;
 
       // Download actions

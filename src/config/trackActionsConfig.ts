@@ -2,13 +2,13 @@ import {
   Download, Share2, Send, Folder, ListMusic, 
   Scissors, Wand2, ImagePlus, Music2, Video, Layers,
   Plus, Music, Globe, Lock, Info, Trash2,
-  Link, FileAudio, FileMusic, Archive, Disc, RefreshCw
+  Link, FileAudio, FileMusic, Archive, Disc, RefreshCw, Pencil
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 
 export type ActionId = 
   // Info
-  | 'details' | 'toggle_public'
+  | 'details' | 'toggle_public' | 'rename'
   // Download
   | 'download_mp3' | 'download_wav' | 'download_stems'
   // Share
@@ -60,6 +60,13 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     priority: 2,
     requiresCompleted: true,
     requiresAudio: true,
+  },
+  rename: {
+    id: 'rename',
+    label: 'Переименовать',
+    icon: Pencil,
+    category: 'info',
+    priority: 3,
   },
 
   // Download Actions (Priority 11-20)
