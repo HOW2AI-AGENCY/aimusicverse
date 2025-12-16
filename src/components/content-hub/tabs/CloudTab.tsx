@@ -466,6 +466,16 @@ function AudioDetailPanel({
               )}
             </div>
 
+            {/* Style Description */}
+            {audio.style_description && (
+              <div>
+                <p className="text-muted-foreground text-xs mb-2">Описание стиля</p>
+                <div className="text-sm bg-primary/5 border border-primary/20 p-3 rounded-lg">
+                  {audio.style_description}
+                </div>
+              </div>
+            )}
+
             {/* Analysis Actions */}
             {audio.analysis_status !== 'completed' && (
               <div className="space-y-2">
@@ -657,7 +667,7 @@ export function CloudTab() {
   };
 
   const handleUseForGeneration = (audio: ReferenceAudio, mode: 'cover' | 'extend') => {
-    // Store selected audio in sessionStorage for generation page
+    // Store selected audio in sessionStorage for generation page with all available data
     sessionStorage.setItem('cloudAudioReference', JSON.stringify({
       id: audio.id,
       fileUrl: audio.file_url,
@@ -666,7 +676,13 @@ export function CloudTab() {
       genre: audio.genre,
       mood: audio.mood,
       vocalStyle: audio.vocal_style,
+      styleDescription: audio.style_description,
       transcription: audio.transcription,
+      bpm: audio.bpm,
+      tempo: audio.tempo,
+      energy: audio.energy,
+      instruments: audio.instruments,
+      durationSeconds: audio.duration_seconds,
     }));
     
     setSelectedAudio(null);

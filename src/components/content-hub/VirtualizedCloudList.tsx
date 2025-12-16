@@ -2,7 +2,7 @@ import { forwardRef, useCallback } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Music, Mic, Play, Pause, MoreVertical, Trash2, Upload, FileText, ArrowRight, Disc } from 'lucide-react';
+import { Music, Mic, Play, Pause, MoreVertical, Trash2, Upload, FileText, ArrowRight, Disc, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   DropdownMenu,
@@ -74,38 +74,43 @@ export function VirtualizedCloudList({
           )}
         </Button>
 
-        {/* Info */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5">
-            {audio.source === 'recording' ? (
-              <Mic className="w-3 h-3 text-primary shrink-0" />
-            ) : (
-              <Upload className="w-3 h-3 text-muted-foreground shrink-0" />
-            )}
-            <h3 className="font-medium text-sm truncate">{audio.file_name}</h3>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5">
+              {audio.source === 'recording' ? (
+                <Mic className="w-3 h-3 text-primary shrink-0" />
+              ) : (
+                <Upload className="w-3 h-3 text-muted-foreground shrink-0" />
+              )}
+              <h3 className="font-medium text-sm truncate">{audio.file_name}</h3>
+            </div>
+            <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+              <span className="text-[10px] text-muted-foreground">
+                {formatDuration(audio.duration_seconds)}
+              </span>
+              {audio.genre && (
+                <Badge variant="secondary" className="text-[9px] h-4 px-1.5">
+                  {audio.genre}
+                </Badge>
+              )}
+              {audio.mood && (
+                <Badge variant="outline" className="text-[9px] h-4 px-1.5">
+                  {audio.mood}
+                </Badge>
+              )}
+              {audio.transcription && (
+                <Badge variant="outline" className="text-[9px] h-4 px-1.5 text-primary border-primary/30">
+                  <FileText className="w-2.5 h-2.5 mr-0.5" />
+                  Текст
+                </Badge>
+              )}
+              {audio.style_description && (
+                <Badge variant="outline" className="text-[9px] h-4 px-1.5 text-green-600 border-green-600/30">
+                  <Sparkles className="w-2.5 h-2.5 mr-0.5" />
+                  Стиль
+                </Badge>
+              )}
+            </div>
           </div>
-          <div className="flex items-center gap-1.5 mt-1 flex-wrap">
-            <span className="text-[10px] text-muted-foreground">
-              {formatDuration(audio.duration_seconds)}
-            </span>
-            {audio.genre && (
-              <Badge variant="secondary" className="text-[9px] h-4 px-1.5">
-                {audio.genre}
-              </Badge>
-            )}
-            {audio.mood && (
-              <Badge variant="outline" className="text-[9px] h-4 px-1.5">
-                {audio.mood}
-              </Badge>
-            )}
-            {audio.transcription && (
-              <Badge variant="outline" className="text-[9px] h-4 px-1.5 text-primary border-primary/30">
-                <FileText className="w-2.5 h-2.5 mr-0.5" />
-                Текст
-              </Badge>
-            )}
-          </div>
-        </div>
 
         {/* Quick Actions */}
         <DropdownMenu>
