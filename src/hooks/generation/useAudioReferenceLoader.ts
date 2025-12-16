@@ -39,6 +39,7 @@ export interface CloudAudioReference {
 
 export interface AudioReferenceResult {
   file: File | null;
+  duration: number | null;
   lyrics: string;
   style: string;
   title: string;
@@ -56,6 +57,7 @@ const REFERENCE_EXPIRY_MS = 5 * 60 * 1000; // 5 minutes
  */
 export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult {
   const [file, setFile] = useState<File | null>(null);
+  const [duration, setDuration] = useState<number | null>(null);
   const [lyrics, setLyrics] = useState('');
   const [style, setStyle] = useState('');
   const [title, setTitle] = useState('');
@@ -63,6 +65,29 @@ export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult 
   const [stemType, setStemType] = useState<string | null>(null);
   const [cloudMode, setCloudMode] = useState<'cover' | 'extend' | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Helper to calculate audio duration from a blob
+  const calculateDuration = (blob: Blob): Promise<number> => {
+    return new Promise((resolve) => {
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio();
+      audio.src = url;
+      audio.onloadedmetadata = () => {
+        const dur = audio.duration;
+        URL.revokeObjectURL(url);
+        // Handle NaN/Infinity cases
+        if (isNaN(dur) || !isFinite(dur)) {
+          resolve(0);
+        } else {
+          resolve(dur);
+        }
+      };
+      audio.onerror = () => {
+        URL.revokeObjectURL(url);
+        resolve(0);
+      };
+    });
+  };
 
   useEffect(() => {
     if (!enabled) return;
@@ -95,7 +120,11 @@ export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult 
         // Load audio file
         fetch(cloudRef.fileUrl)
           .then(response => response.blob())
-          .then(blob => {
+          .then(async (blob) => {
+            // Calculate duration before creating file
+            const audioDuration = await calculateDuration(blob);
+            setDuration(audioDuration);
+            
             const ext = cloudRef.fileName.split('.').pop() || 'mp3';
             const audioFile = new File(
               [blob], 
@@ -106,7 +135,7 @@ export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult 
             
             const modeLabel = cloudRef.mode === 'cover' ? 'Кавер' : 'Расширение';
             toast.success(`Аудио загружено для: ${modeLabel}`, {
-              description: cloudRef.fileName,
+              description: `${cloudRef.fileName} (${Math.round(audioDuration)}с)`,
             });
             
             // Cleanup
@@ -199,7 +228,11 @@ export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult 
       // Load audio file
       fetch(stemReference.url)
         .then(response => response.blob())
-        .then(blob => {
+        .then(async (blob) => {
+          // Calculate duration before creating file
+          const audioDuration = await calculateDuration(blob);
+          setDuration(audioDuration);
+          
           const audioFile = new File(
             [blob], 
             `${stemReference.name}.mp3`, 
@@ -207,7 +240,7 @@ export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult 
           );
           setFile(audioFile);
           toast.success('Аудио референс загружен!', {
-            description: stemReference.name,
+            description: `${stemReference.name} (${Math.round(audioDuration)}с)`,
           });
           // Cleanup only after successful load
           cleanupAudioReference();
@@ -230,6 +263,7 @@ export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult 
 
   return {
     file,
+    duration,
     lyrics,
     style,
     title,
