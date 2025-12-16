@@ -91,7 +91,7 @@ export const MinimalTrackCard = memo(({
             }}
           >
             {/* Cover + Play */}
-            <div className="relative w-12 h-12 flex-shrink-0 rounded-lg overflow-hidden">
+            <div className="relative w-10 h-10 flex-shrink-0 rounded-md overflow-hidden">
               <LazyImage
                 src={track.cover_url || ''}
                 alt={track.title || 'Track'}
@@ -99,7 +99,7 @@ export const MinimalTrackCard = memo(({
                 containerClassName="w-full h-full"
                 fallback={
                   <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                    <span className="text-lg">🎵</span>
+                    <span className="text-sm">🎵</span>
                   </div>
                 }
               />
@@ -112,16 +112,16 @@ export const MinimalTrackCard = memo(({
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="w-8 h-8 rounded-full text-white"
+                  className="w-7 h-7 rounded-full text-white"
                   onClick={handlePlay}
                   data-play-button
                   aria-label={isPlaying ? 'Приостановить' : 'Воспроизвести'}
                   title={isPlaying ? 'Приостановить' : 'Воспроизвести'}
                 >
                   {isPlaying ? (
-                    <Pause className="w-4 h-4" />
+                    <Pause className="w-3.5 h-3.5" />
                   ) : (
-                    <Play className="w-4 h-4 ml-0.5" />
+                    <Play className="w-3.5 h-3.5 ml-0.5" />
                   )}
                 </Button>
               </motion.div>
@@ -227,7 +227,7 @@ export const MinimalTrackCard = memo(({
             
             {/* Overlay with play button */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end justify-between p-3"
+              className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end justify-between p-2"
               initial={false}
               animate={{ opacity: isPlaying || isHovered ? 1 : 0 }}
               transition={{ duration: 0.15 }}
@@ -235,38 +235,38 @@ export const MinimalTrackCard = memo(({
               <Button
                 size="icon"
                 className={cn(
-                  "w-10 h-10 rounded-full transition-all",
+                  "w-8 h-8 rounded-full transition-all",
                   isPlaying ? "bg-primary" : "bg-white/90 hover:bg-white text-black"
                 )}
                 onClick={handlePlay}
                 data-play-button
               >
                 {isPlaying ? (
-                  <Pause className="w-4 h-4" />
+                  <Pause className="w-3.5 h-3.5" />
                 ) : (
-                  <Play className="w-4 h-4 ml-0.5" />
+                  <Play className="w-3.5 h-3.5 ml-0.5" />
                 )}
               </Button>
               
               {/* Duration badge */}
-              <span className="text-xs text-white/80 bg-black/40 px-2 py-0.5 rounded-full">
+              <span className="text-[10px] text-white/80 bg-black/40 px-1.5 py-0.5 rounded-full">
                 {track.duration_seconds ? formatDuration(track.duration_seconds) : '--:--'}
               </span>
             </motion.div>
 
             {/* Top badges - version and type */}
-            <div className="absolute top-2 left-2 right-2 flex justify-between items-start">
+            <div className="absolute top-1.5 left-1.5 right-1.5 flex justify-between items-start">
               {/* Type badges */}
-              <div className="flex gap-1">
+              <div className="flex gap-0.5">
                 {track.is_instrumental && (
-                  <Badge variant="secondary" className="text-[10px] px-1.5 py-0.5 bg-background/80 backdrop-blur-sm">
-                    <Volume2 className="w-2.5 h-2.5 mr-0.5" />
+                  <Badge variant="secondary" className="text-[9px] px-1 py-0 bg-background/80 backdrop-blur-sm">
+                    <Volume2 className="w-2 h-2 mr-0.5" />
                     Инстр
                   </Badge>
                 )}
                 {stemCount > 0 && (
-                  <Badge variant="outline" className="text-[10px] px-1.5 py-0.5 bg-background/80 backdrop-blur-sm border-primary/50">
-                    <Layers className="w-2.5 h-2.5 mr-0.5" />
+                  <Badge variant="outline" className="text-[9px] px-1 py-0 bg-background/80 backdrop-blur-sm border-primary/50">
+                    <Layers className="w-2 h-2 mr-0.5" />
                     {stemCount}
                   </Badge>
                 )}
@@ -284,9 +284,9 @@ export const MinimalTrackCard = memo(({
           </div>
 
           {/* Title only - ultra minimal */}
-          <div className="p-3">
-            <h3 className="font-medium text-sm truncate">{track.title || 'Без названия'}</h3>
-            <p className="text-xs text-muted-foreground truncate mt-0.5">
+          <div className="p-2">
+            <h3 className="font-medium text-xs truncate">{track.title || 'Без названия'}</h3>
+            <p className="text-[10px] text-muted-foreground truncate mt-0.5">
               {track.style || track.tags?.split(',')[0] || '--'}
             </p>
           </div>

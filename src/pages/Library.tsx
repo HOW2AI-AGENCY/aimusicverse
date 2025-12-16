@@ -252,24 +252,24 @@ export default function Library() {
       <div className="min-h-screen pb-20">
         {/* Page Header - Premium gradient design */}
         <header className="sticky top-0 z-30 bg-gradient-to-b from-background via-background/98 to-background/90 backdrop-blur-xl border-b border-border/30">
-          <div className="container mx-auto px-3 sm:px-4 py-3">
+          <div className="container mx-auto px-3 sm:px-4 py-2">
             <div className="flex items-center justify-between gap-2">
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5">
                   <motion.div 
-                    className="p-2 rounded-lg bg-gradient-to-br from-library/20 to-library/5 border border-library/30"
+                    className="p-1.5 rounded-md bg-gradient-to-br from-library/20 to-library/5 border border-library/30"
                     initial={{ scale: 0, rotate: -90 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ type: 'spring', stiffness: 200 }}
                   >
-                    <LibraryIcon className="w-4 h-4 text-library" />
+                    <LibraryIcon className="w-3.5 h-3.5 text-library" />
                   </motion.div>
                   <div>
-                    <h1 className="text-lg sm:text-xl font-bold">Библиотека</h1>
+                    <h1 className="text-base sm:text-lg font-bold">Библиотека</h1>
                     <div className="flex items-center gap-2">
                       {hasActiveGenerations && (
                         <motion.span 
-                          className="inline-flex items-center gap-1 text-generate text-[10px] font-medium"
+                          className="inline-flex items-center gap-1 text-generate text-[9px] font-medium"
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                         >
@@ -280,7 +280,7 @@ export default function Library() {
                           {activeGenerations.length} в работе
                         </motion.span>
                       )}
-                      <span className="text-[10px] text-muted-foreground">
+                      <span className="text-[9px] text-muted-foreground">
                         <span className="tabular-nums font-semibold text-foreground">{tracks?.length || 0}</span>/{totalCount}
                       </span>
                     </div>
@@ -288,50 +288,50 @@ export default function Library() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-1.5 shrink-0">
+              <div className="flex items-center gap-1 shrink-0">
                 {tracksToDisplay.length > 0 && (
                   <>
                     <Button
                       variant="default"
                       size="icon"
                       onClick={handlePlayAll}
-                      className="h-9 w-9 rounded-lg bg-gradient-to-br from-primary to-primary/80 shadow-md"
+                      className="h-8 w-8 rounded-md bg-gradient-to-br from-primary to-primary/80 shadow-sm"
                       aria-label="Воспроизвести все"
                     >
-                      <Play className="w-4 h-4" />
+                      <Play className="w-3.5 h-3.5" />
                     </Button>
                     {!isMobile && (
                       <Button
                         variant="ghost"
                         size="icon"
                         onClick={handleShuffleAll}
-                        className="h-9 w-9 rounded-lg"
+                        className="h-8 w-8 rounded-md"
                         aria-label="Перемешать"
                       >
-                        <Shuffle className="w-4 h-4" />
+                        <Shuffle className="w-3.5 h-3.5" />
                       </Button>
                     )}
                   </>
                 )}
                 {!isMobile && (
-                  <div className="flex items-center bg-muted/50 rounded-lg p-0.5 border border-border/30">
+                  <div className="flex items-center bg-muted/50 rounded-md p-0.5 border border-border/30">
                     <Button
                       variant={viewMode === "grid" ? "default" : "ghost"}
                       size="icon"
                       onClick={() => setViewMode("grid")}
-                      className={cn("h-7 w-7 rounded-md", viewMode === "grid" && "shadow-sm")}
+                      className={cn("h-6 w-6 rounded", viewMode === "grid" && "shadow-sm")}
                       aria-label="Сетка"
                     >
-                      <Grid3x3 className="w-3.5 h-3.5" />
+                      <Grid3x3 className="w-3 h-3" />
                     </Button>
                     <Button
                       variant={viewMode === "list" ? "default" : "ghost"}
                       size="icon"
                       onClick={() => setViewMode("list")}
-                      className={cn("h-7 w-7 rounded-md", viewMode === "list" && "shadow-sm")}
+                      className={cn("h-6 w-6 rounded", viewMode === "list" && "shadow-sm")}
                       aria-label="Список"
                     >
-                      <List className="w-3.5 h-3.5" />
+                      <List className="w-3 h-3" />
                     </Button>
                   </div>
                 )}
@@ -339,22 +339,22 @@ export default function Library() {
             </div>
 
             {/* Search and Filters - Compact */}
-            <div className="mt-3 flex flex-col sm:flex-row gap-2">
+            <div className="mt-2 flex flex-col sm:flex-row gap-1.5">
               <div className="relative flex-1 group">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4 group-focus-within:text-primary" />
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground w-3.5 h-3.5 group-focus-within:text-primary" />
                 <Input
                   placeholder="Поиск..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9 h-9 text-sm rounded-lg border-border/50 bg-card/50 focus:bg-card"
+                  className="pl-8 h-8 text-xs rounded-md border-border/50 bg-card/50 focus:bg-card"
                 />
               </div>
               <Select value={sortBy} onValueChange={(v: "recent" | "popular" | "liked") => setSortBy(v)}>
-                <SelectTrigger className="w-full sm:w-36 h-9 text-xs rounded-lg border-border/50 bg-card/50">
-                  <SlidersHorizontal className="w-3.5 h-3.5 mr-1.5 text-muted-foreground" />
+                <SelectTrigger className="w-full sm:w-32 h-8 text-[11px] rounded-md border-border/50 bg-card/50">
+                  <SlidersHorizontal className="w-3 h-3 mr-1 text-muted-foreground" />
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="rounded-lg">
+                <SelectContent className="rounded-md">
                   <SelectItem value="recent" className="text-xs">Недавние</SelectItem>
                   <SelectItem value="popular" className="text-xs">Популярные</SelectItem>
                   <SelectItem value="liked" className="text-xs">Любимые</SelectItem>
@@ -365,9 +365,9 @@ export default function Library() {
         </header>
 
         {/* Content */}
-        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
+        <div className="container mx-auto px-3 sm:px-4 py-2 sm:py-3">
           {/* Filter Chips - Mobile optimized */}
-          <div className="mb-3">
+          <div className="mb-2">
             <LibraryFilterChips 
               activeFilter={typeFilter} 
               onFilterChange={setTypeFilter}
@@ -377,14 +377,14 @@ export default function Library() {
 
           {/* Active Generations Section */}
           {hasActiveGenerations && (
-            <div className="mb-6">
-              <h2 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin" />
+            <div className="mb-4">
+              <h2 className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1.5">
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
                 Генерируется ({activeGenerations.length})
               </h2>
               <div className={viewMode === "grid"
-                ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
-                : "flex flex-col gap-2"
+                ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3"
+                : "flex flex-col gap-1.5"
               }>
                 {activeGenerations.map((task) => (
                   <GeneratingTrackSkeleton
@@ -401,8 +401,8 @@ export default function Library() {
 
           {isLoading ? (
             <div className={viewMode === "grid"
-              ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
-              : "flex flex-col gap-2"
+              ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
+              : "flex flex-col gap-1.5"
             }>
               {Array.from({ length: 8 }).map((_, i) => (
                 <TrackCardSkeleton key={i} layout={viewMode} />

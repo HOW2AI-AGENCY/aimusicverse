@@ -17,10 +17,10 @@ interface LibraryFilterChipsProps {
 }
 
 const filterOptions: { id: FilterOption; label: string; icon: React.ReactNode; gradient: string }[] = [
-  { id: 'all', label: 'Все', icon: <Music2 className="w-3.5 h-3.5" />, gradient: 'from-primary to-primary/80' },
-  { id: 'vocals', label: 'С вокалом', icon: <Mic className="w-3.5 h-3.5" />, gradient: 'from-generate to-generate/80' },
-  { id: 'instrumental', label: 'Инструментал', icon: <Volume2 className="w-3.5 h-3.5" />, gradient: 'from-library to-library/80' },
-  { id: 'stems', label: 'Стемы', icon: <Layers className="w-3.5 h-3.5" />, gradient: 'from-success to-success/80' },
+  { id: 'all', label: 'Все', icon: <Music2 className="w-3 h-3" />, gradient: 'from-primary to-primary/80' },
+  { id: 'vocals', label: 'Вокал', icon: <Mic className="w-3 h-3" />, gradient: 'from-generate to-generate/80' },
+  { id: 'instrumental', label: 'Инстр', icon: <Volume2 className="w-3 h-3" />, gradient: 'from-library to-library/80' },
+  { id: 'stems', label: 'Стемы', icon: <Layers className="w-3 h-3" />, gradient: 'from-success to-success/80' },
 ];
 
 export function LibraryFilterChips({ activeFilter, onFilterChange, counts }: LibraryFilterChipsProps) {
@@ -38,10 +38,10 @@ export function LibraryFilterChips({ activeFilter, onFilterChange, counts }: Lib
             transition={{ delay: index * 0.03 }}
             whileTap={{ scale: 0.95 }}
             className={cn(
-              "relative flex items-center gap-1.5 px-3 py-2 rounded-lg whitespace-nowrap transition-all flex-shrink-0",
-              "text-xs font-medium touch-manipulation",
+              "relative flex items-center gap-1 px-2.5 py-1.5 rounded-md whitespace-nowrap transition-all flex-shrink-0",
+              "text-[11px] font-medium touch-manipulation min-h-[32px]",
               isActive 
-                ? `bg-gradient-to-r ${option.gradient} text-primary-foreground shadow-md` 
+                ? `bg-gradient-to-r ${option.gradient} text-primary-foreground shadow-sm` 
                 : "bg-card/80 text-muted-foreground hover:text-foreground border border-border/50"
             )}
             onClick={() => onFilterChange(option.id)}
@@ -58,7 +58,7 @@ export function LibraryFilterChips({ activeFilter, onFilterChange, counts }: Lib
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
                   className={cn(
-                    "text-[10px] px-1.5 rounded-full tabular-nums font-semibold min-w-[18px] text-center",
+                    "text-[9px] px-1 rounded-full tabular-nums font-semibold min-w-[16px] text-center",
                     isActive ? "bg-white/20 text-primary-foreground" : "bg-muted text-muted-foreground"
                   )}
                 >
