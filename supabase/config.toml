@@ -91,7 +91,7 @@ verify_jwt = true
 verify_jwt = true
 
 [functions.analyze-audio-flamingo]
-verify_jwt = true
+verify_jwt = false
 
 [functions.suno-add-instrumental]
 verify_jwt = true
