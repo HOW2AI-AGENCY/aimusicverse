@@ -165,8 +165,17 @@ export const UnifiedWaveformTimeline = memo(({
     wavesurfer.load(audioUrl);
 
     return () => {
-      wavesurfer.destroy();
-      wavesurferRef.current = null;
+      // WaveSurfer can throw AbortError during destroy if a load is in-flight.
+      // This should not surface as an app error.
+      try {
+        wavesurfer.destroy();
+      } catch (e: any) {
+        if (e?.name !== 'AbortError') {
+          logger.error('Waveform destroy error', e);
+        }
+      } finally {
+        wavesurferRef.current = null;
+      }
     };
   }, [audioUrl, height]);
 

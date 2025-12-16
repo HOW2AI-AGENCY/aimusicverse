@@ -84,7 +84,8 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.85);
   const [muted, setMuted] = useState(false);
-  
+  const [currentAudioUrl, setCurrentAudioUrl] = useState<string | null>(null);
+
   // Dialog state
   const [trimDialogOpen, setTrimDialogOpen] = useState(false);
   const [remixDialogOpen, setRemixDialogOpen] = useState(false);
@@ -129,11 +130,16 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
     };
   }, [trackId, resetSectionEditor, logActivity]);
 
+  // Keep a single "current audio url" source of truth for the whole Studio UI
+  useEffect(() => {
+    setCurrentAudioUrl(track?.audio_url || null);
+  }, [track?.audio_url]);
+
   // Initialize audio with coordination
   useEffect(() => {
-    if (!track?.audio_url) return;
-    
-    const audio = new Audio(track.audio_url);
+    if (!currentAudioUrl) return;
+
+    const audio = new Audio(currentAudioUrl);
     audio.preload = 'auto';
     audioRef.current = audio;
 
@@ -158,7 +164,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
       audio.src = '';
       audioRef.current = null;
     };
-  }, [track?.audio_url]);
+  }, [currentAudioUrl]);
 
   // Update volume
   useEffect(() => {
@@ -272,6 +278,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
         if (audioRef.current && audioUrl) {
           audioRef.current.src = audioUrl;
           audioRef.current.load();
+          setCurrentAudioUrl(audioUrl);
         }
         
         toast.success(`Вариант ${selectedVariant === 'variantA' ? 'A' : 'B'} применён`);
@@ -379,6 +386,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
           <VersionTimeline 
             trackId={trackId}
             onVersionChange={(versionId, audioUrl) => {
+              setCurrentAudioUrl(audioUrl);
               if (audioRef.current) {
                 audioRef.current.src = audioUrl;
                 audioRef.current.load();
@@ -447,9 +455,9 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
               "border-b border-border/30 bg-card/30",
               isMobile ? "px-3 py-3" : "px-4 py-4"
             )}>
-              {track.audio_url && (
+              {currentAudioUrl && (
                 <UnifiedWaveformTimeline
-                  audioUrl={track.audio_url}
+                  audioUrl={currentAudioUrl}
                   sections={detectedSections}
                   duration={duration}
                   currentTime={currentTime}
@@ -473,7 +481,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
                 trackId={trackId}
                 trackTitle={track.title || 'Трек'}
                 trackTags={track.tags}
-                audioUrl={track.audio_url}
+                audioUrl={currentAudioUrl}
                 duration={duration}
                 detectedSections={detectedSections}
               />
@@ -541,7 +549,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
           trackId={trackId}
           trackTitle={track.title || 'Трек'}
           trackTags={track.tags}
-          audioUrl={track.audio_url}
+          audioUrl={currentAudioUrl}
           duration={duration}
           detectedSections={detectedSections}
         />
