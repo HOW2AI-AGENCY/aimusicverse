@@ -10,7 +10,7 @@ interface NotificationPayload {
   userId: string;
   title: string;
   message: string;
-  type: 'info' | 'success' | 'warning' | 'error' | 'generation' | 'project' | 'social';
+  type: 'info' | 'success' | 'warning' | 'error' | 'generation' | 'project' | 'social' | 'achievement' | 'system';
   actionUrl?: string;
   metadata?: Record<string, any>;
 }

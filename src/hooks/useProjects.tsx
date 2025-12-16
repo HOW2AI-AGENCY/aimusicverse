@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
+import { notifyProjectChange } from '@/services/notification.service';
 
 export interface Project {
   id: string;
@@ -74,9 +75,13 @@ export const useProjects = () => {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['projects', user?.id] });
       toast.success('Проект создан успешно');
+      // Send notification
+      if (user?.id) {
+        notifyProjectChange(user.id, data.title, 'created', data.id);
+      }
     },
     onError: (error: any) => {
       logger.error('Error creating project', error);
@@ -96,9 +101,13 @@ export const useProjects = () => {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['projects', user?.id] });
       toast.success('Проект обновлен');
+      // Send notification
+      if (user?.id) {
+        notifyProjectChange(user.id, data.title, 'updated', data.id);
+      }
     },
     onError: (error: any) => {
       logger.error('Error updating project', error);
@@ -108,16 +117,28 @@ export const useProjects = () => {
 
   const deleteProject = useMutation({
     mutationFn: async (projectId: string) => {
+      // Get project title before deletion
+      const { data: project } = await supabase
+        .from('music_projects')
+        .select('title')
+        .eq('id', projectId)
+        .single();
+      
       const { error } = await supabase
         .from('music_projects')
         .delete()
         .eq('id', projectId);
 
       if (error) throw error;
+      return { title: project?.title || 'Проект' };
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['projects', user?.id] });
       toast.success('Проект удален');
+      // Send notification
+      if (user?.id) {
+        notifyProjectChange(user.id, data.title, 'deleted');
+      }
     },
     onError: (error: any) => {
       logger.error('Error deleting project', error);
