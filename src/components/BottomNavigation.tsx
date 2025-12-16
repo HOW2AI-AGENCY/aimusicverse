@@ -5,7 +5,6 @@ import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { GenerateSheet } from './GenerateSheet';
 import { NavigationMenuSheet } from './NavigationMenuSheet';
-import { NotificationBadge } from './NotificationBadge';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useUnreadCount } from '@/hooks/useNotifications';
 
@@ -23,6 +22,7 @@ export const BottomNavigation = () => {
   const { hapticFeedback } = useTelegram();
   const [generateOpen, setGenerateOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const unreadCount = useUnreadCount();
 
   const handleNavigate = (path: string) => {
     hapticFeedback('light');
@@ -98,6 +98,9 @@ export const BottomNavigation = () => {
                 ? menuOpen
                 : isActive(item.path);
 
+              // Show notification badge for Menu item
+              const showNotificationBadge = item.path === '__menu__';
+
               return (
                 <motion.button
                   key={item.path}
@@ -121,8 +124,15 @@ export const BottomNavigation = () => {
                     initial={false}
                     animate={active ? { scale: 1.1, y: -1 } : { scale: 1, y: 0 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                    className="relative"
                   >
                     <item.icon className="w-5 h-5" />
+                    {/* Notification Badge for Menu */}
+                    {showNotificationBadge && unreadCount > 0 && (
+                      <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground">
+                        {unreadCount > 9 ? '9+' : unreadCount}
+                      </span>
+                    )}
                   </motion.div>
                   <motion.span
                     className="text-[10px] font-medium"
