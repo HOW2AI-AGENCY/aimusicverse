@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Play, Pause, Share2, Music2, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { usePlayerStore } from '@/hooks/audio';
 import { useTelegram } from '@/contexts/TelegramContext';
@@ -11,6 +10,7 @@ import type { Track } from '@/hooks/useTracksOptimized';
 import { motion } from '@/lib/motion';
 import { LikeButton } from '@/components/ui/like-button';
 import { PublicTrackDetailSheet } from './PublicTrackDetailSheet';
+import { CreatorAvatar, CreatorLink } from '@/components/ui/creator-avatar';
 
 interface PublicTrackCardProps {
   track: PublicTrackWithCreator;
@@ -157,20 +157,22 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
           )}
         </div>
 
-        {/* Creator Info - Hide on compact */}
+        {/* Creator Info - Hide on compact, clickable to navigate to profile */}
         {!compact && (track.creator_name || track.creator_username || track.creator_photo_url) && (
           <div className="flex items-center gap-2 pt-1 border-t border-border/30">
-            <Avatar className="w-5 h-5">
-              {track.creator_photo_url ? (
-                <AvatarImage src={track.creator_photo_url} alt={track.creator_name || track.creator_username || ''} />
-              ) : null}
-              <AvatarFallback className="text-[8px] bg-muted">
-                {(track.creator_name || track.creator_username || 'U')[0].toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <span className="text-xs text-muted-foreground truncate">
-              {track.creator_name || track.creator_username || 'Пользователь'}
-            </span>
+            <CreatorAvatar
+              userId={track.user_id}
+              photoUrl={track.creator_photo_url}
+              name={track.creator_name}
+              username={track.creator_username}
+              size="xs"
+            />
+            <CreatorLink
+              userId={track.user_id}
+              name={track.creator_name}
+              username={track.creator_username}
+              className="text-xs truncate flex-1"
+            />
           </div>
         )}
 
