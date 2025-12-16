@@ -27,6 +27,9 @@ import { QuickCompare } from '@/components/stem-studio/QuickCompare';
 import { StudioQuickActions } from '@/components/stem-studio/StudioQuickActions';
 import { StudioContextTips } from '@/components/stem-studio/StudioContextTips';
 import { GuitarTrackIntegration } from '@/components/stem-studio/GuitarTrackIntegration';
+import { VersionTimeline } from '@/components/stem-studio/VersionTimeline';
+import { MobileVersionBadge } from '@/components/stem-studio/MobileVersionBadge';
+import { FloatingStudioActions } from '@/components/stem-studio/FloatingStudioActions';
 import { useTrackGuitarAnalysis } from '@/hooks/useTrackGuitarAnalysis';
 import { TrimDialog } from '@/components/stem-studio/TrimDialog';
 import { VocalReplacementDialog } from '@/components/stem-studio/VocalReplacementDialog';
@@ -39,6 +42,7 @@ import { MobileActionsTab } from '@/components/stem-studio/mobile/MobileActionsT
 import { MobileSectionsTab } from '@/components/stem-studio/mobile/MobileSectionsTab';
 import { MobileLyricsTab } from '@/components/stem-studio/mobile/MobileLyricsTab';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
+import { useStudioActivityLogger } from '@/hooks/useStudioActivityLogger';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
@@ -60,6 +64,9 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
   
   // Load guitar analysis if exists
   const { data: guitarAnalysis } = useTrackGuitarAnalysis(trackId);
+
+  // Activity logging
+  const { logActivity, logReplacementApply, logReplacementDiscard } = useStudioActivityLogger(trackId);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -98,10 +105,14 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const animationFrameRef = useRef<number | undefined>(undefined);
 
-  // Reset section editor when track changes
+  // Reset section editor when track changes and log studio open
   useEffect(() => {
     resetSectionEditor();
-  }, [trackId, resetSectionEditor]);
+    logActivity('studio_open');
+    return () => {
+      logActivity('studio_close');
+    };
+  }, [trackId, resetSectionEditor, logActivity]);
 
   // Initialize audio element
   useEffect(() => {
@@ -192,9 +203,19 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
           trackId, 
           versionId: latestCompletion.versionId 
         });
+        
+        // Force reload audio in current component
+        if (audioRef.current && latestCompletion.newAudioUrl) {
+          audioRef.current.src = latestCompletion.newAudioUrl;
+          audioRef.current.load();
+        }
+        
         // Invalidate tracks to refresh audio URL
         queryClient.invalidateQueries({ queryKey: ['tracks'] });
         queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
+        queryClient.invalidateQueries({ queryKey: ['replaced-sections', trackId] });
+        
+        logReplacementApply(latestCompletion.versionId);
         toast.success('Новая версия установлена как основная');
       } catch (error) {
         logger.error('Failed to apply replacement', error);
@@ -204,12 +225,13 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
       toast.success('Замена применена');
     }
     setLatestCompletion(null);
-  }, [latestCompletion, trackId, setPrimaryVersionAsync, queryClient, setLatestCompletion]);
+  }, [latestCompletion, trackId, setPrimaryVersionAsync, queryClient, setLatestCompletion, logReplacementApply]);
 
   const handleDiscardReplacement = useCallback(() => {
+    logReplacementDiscard();
     setLatestCompletion(null);
     toast.info('Замена отменена');
-  }, [setLatestCompletion]);
+  }, [setLatestCompletion, logReplacementDiscard]);
 
   // Separate stems action
   const handleSeparateStems = async (mode: 'simple' | 'detailed') => {
@@ -389,6 +411,17 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
           />
         )}
 
+        {/* Floating Actions FAB */}
+        <FloatingStudioActions
+          onReplaceSection={canReplaceSection ? () => setEditMode('selecting') : undefined}
+          onSeparateStems={() => handleSeparateStems('simple')}
+          onReplaceVocal={() => setVocalDialogOpen(true)}
+          onReplaceArrangement={() => setArrangementDialogOpen(true)}
+          onRemix={() => setRemixDialogOpen(true)}
+          onExtend={() => setExtendDialogOpen(true)}
+          disabled={isSeparating}
+        />
+
         {/* Dialogs */}
         <TrimDialog
           open={trimDialogOpen}
@@ -451,6 +484,18 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Version Timeline */}
+          <VersionTimeline 
+            trackId={trackId}
+            onVersionChange={(versionId, audioUrl) => {
+              if (audioRef.current) {
+                audioRef.current.src = audioUrl;
+                audioRef.current.load();
+              }
+              queryClient.invalidateQueries({ queryKey: ['tracks'] });
+            }}
+          />
+
           {/* Replacement Progress */}
           <ReplacementProgressIndicator 
             trackId={trackId}

@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { 
   Lightbulb, X, Split, Scissors, Mic, Music, 
-  Shuffle, ArrowRight, ChevronRight, Piano
+  Shuffle, ArrowRight, ChevronRight, Piano,
+  PlayCircle, GitCompare, Tag, Volume2, Clock, Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Track } from '@/types/track';
+import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 
 interface StudioContextTipsProps {
   track: Track;
@@ -26,6 +28,7 @@ interface Tip {
 export const StudioContextTips = ({ track, hasStems, className }: StudioContextTipsProps) => {
   const [dismissedTips, setDismissedTips] = useState<string[]>([]);
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
+  const { editMode, latestCompletion } = useSectionEditorStore();
 
   // Load dismissed tips from localStorage
   useEffect(() => {
@@ -42,16 +45,44 @@ export const StudioContextTips = ({ track, hasStems, className }: StudioContextT
   const canSeparate = !!track.suno_id && !hasStems;
   const canReplace = !!track.suno_id && !!track.suno_task_id;
   const hasVocals = track.has_vocals !== false && !track.is_instrumental;
+  const isEditing = editMode === 'editing';
+  const hasCompletion = !!latestCompletion;
 
   const allTips: Tip[] = [
+    // Context-aware tips that appear based on current state
+    {
+      id: 'preview_section',
+      icon: <PlayCircle className="w-4 h-4" />,
+      title: 'Прослушайте перед заменой',
+      description: 'Нажмите кнопку воспроизведения, чтобы прослушать выбранную секцию перед её заменой.',
+      condition: isEditing,
+      priority: 0,
+    },
+    {
+      id: 'compare_versions',
+      icon: <GitCompare className="w-4 h-4" />,
+      title: 'Сравните результаты',
+      description: 'После генерации сравните оригинал с новой версией. Переключайтесь между A и B для выбора лучшего варианта.',
+      condition: hasCompletion,
+      priority: 0,
+    },
+    {
+      id: 'use_tags',
+      icon: <Tag className="w-4 h-4" />,
+      title: 'Используйте теги',
+      description: 'Добавьте музыкальные теги (rock, electronic, acoustic) для более точной генерации новой секции.',
+      condition: isEditing,
+      priority: 1,
+    },
+    // Standard tips
     {
       id: 'separate_stems',
       icon: <Split className="w-4 h-4" />,
       title: 'Разделите на стемы',
       description: 'Выделите вокал, бас, ударные и мелодию в отдельные дорожки для детального микширования.',
       action: 'Разделить',
-      condition: canSeparate,
-      priority: 1,
+      condition: canSeparate && !isEditing,
+      priority: 2,
     },
     {
       id: 'replace_section',
@@ -59,48 +90,56 @@ export const StudioContextTips = ({ track, hasStems, className }: StudioContextT
       title: 'Замените часть трека',
       description: 'Не нравится куплет или припев? Выберите секцию и перегенерируйте её с новым текстом.',
       action: 'Заменить секцию',
-      condition: canReplace,
-      priority: 2,
+      condition: canReplace && !isEditing,
+      priority: 3,
     },
     {
       id: 'replace_vocal',
       icon: <Mic className="w-4 h-4" />,
       title: 'Смените вокал',
       description: 'Замените голос в треке на другой AI-вокал, сохранив оригинальную аранжировку.',
-      condition: canReplace && hasVocals,
-      priority: 3,
+      condition: canReplace && hasVocals && !isEditing,
+      priority: 4,
     },
     {
       id: 'replace_arrangement',
       icon: <Music className="w-4 h-4" />,
       title: 'Новая аранжировка',
       description: 'Сохраните вокал и создайте полностью новую инструментальную часть.',
-      condition: canReplace && hasVocals,
-      priority: 4,
+      condition: canReplace && hasVocals && !isEditing,
+      priority: 5,
     },
     {
       id: 'remix',
       icon: <Shuffle className="w-4 h-4" />,
       title: 'Создайте ремикс',
       description: 'Переосмыслите трек в другом стиле - от EDM до джаза.',
-      condition: !!track.suno_id,
-      priority: 5,
+      condition: !!track.suno_id && !isEditing,
+      priority: 6,
     },
     {
       id: 'extend',
       icon: <ArrowRight className="w-4 h-4" />,
       title: 'Расширьте трек',
       description: 'Добавьте новые части к существующему треку, продолжая его историю.',
-      condition: !!track.suno_id,
-      priority: 6,
+      condition: !!track.suno_id && !isEditing,
+      priority: 7,
     },
     {
       id: 'midi_transcription',
       icon: <Piano className="w-4 h-4" />,
       title: 'MIDI транскрипция',
       description: 'Создайте MIDI файл для редактирования нот в DAW. Выберите модель: MT3 для барабанов, ByteDance для пианино, Basic Pitch для вокала.',
-      condition: hasStems || !!track.suno_id,
-      priority: 7,
+      condition: (hasStems || !!track.suno_id) && !isEditing,
+      priority: 8,
+    },
+    {
+      id: 'keyboard_shortcuts',
+      icon: <Sparkles className="w-4 h-4" />,
+      title: 'Горячие клавиши',
+      description: 'Space - воспроизведение, M - mute, ← → - перемотка, Esc - отмена выделения.',
+      condition: !isEditing,
+      priority: 9,
     },
   ];
 

@@ -10,6 +10,7 @@ import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useSectionDetection, DetectedSection } from '@/hooks/useSectionDetection';
 import { SectionWaveformPreview } from '../SectionWaveformPreview';
 import { SectionPicker } from '../SectionPicker';
+import { SectionPreviewPlayer } from '../SectionPreviewPlayer';
 import {
   SectionPresets,
   SectionValidation,
@@ -183,6 +184,19 @@ export function SectionEditorMobile({
                   className="h-20 rounded-xl"
                 />
               </section>
+
+              {/* Audio Preview Player */}
+              {audioUrl && startTime > 0 && endTime > startTime && (
+                <section className="space-y-2">
+                  <Label className="text-sm font-medium">Прослушать секцию</Label>
+                  <SectionPreviewPlayer
+                    audioUrl={audioUrl}
+                    startTime={startTime}
+                    endTime={endTime}
+                    className="rounded-xl"
+                  />
+                </section>
+              )}
 
               {/* Section Picker */}
               {detectedSections.length > 0 && (
