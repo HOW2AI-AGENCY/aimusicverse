@@ -331,18 +331,23 @@ function AudioDetailPanel({
     }, 500);
 
     try {
-      const { data, error } = await supabase.functions.invoke('analyze-audio-style', {
-        body: { audioUrl: audio.file_url },
+      const { data, error } = await supabase.functions.invoke('analyze-audio-flamingo', {
+        body: { audio_url: audio.file_url },
       });
 
       if (error) throw error;
 
+      // Parse response from flamingo
+      const parsed = data?.parsed || {};
+      
       await updateAnalysis({
         id: audio.id,
-        genre: data.genre,
-        mood: data.mood,
-        vocalStyle: data.vocal_style,
-        hasVocals: data.has_vocals,
+        genre: parsed.genre,
+        mood: parsed.mood,
+        styleDescription: parsed.style_description,
+        tempo: parsed.tempo,
+        instruments: parsed.instruments,
+        hasVocals: true, // Flamingo doesn't detect this, assume true
         analysisStatus: 'completed',
       });
 
