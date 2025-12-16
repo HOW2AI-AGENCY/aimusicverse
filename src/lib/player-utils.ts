@@ -32,6 +32,22 @@ export function formatTime(seconds: number): string {
 }
 
 /**
+ * Format time in seconds to MM:SS.ms format (for DAW/precise timing)
+ * @param seconds - Time in seconds
+ * @returns Formatted time string with milliseconds
+ */
+export function formatTimePrecise(seconds: number): string {
+  if (!seconds || seconds < 0 || !isFinite(seconds)) {
+    return "0:00.00";
+  }
+
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  const ms = Math.floor((seconds % 1) * 100);
+  return `${mins}:${secs.toString().padStart(2, "0")}.${ms.toString().padStart(2, "0")}`;
+}
+
+/**
  * Format duration in seconds to MM:SS format (alias for formatTime)
  * @param seconds - Duration in seconds
  * @returns Formatted duration string

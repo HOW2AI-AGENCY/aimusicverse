@@ -39,6 +39,7 @@ import { MobileLyricsTab } from '@/components/stem-studio/mobile/MobileLyricsTab
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 import { logger } from '@/lib/logger';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { supabase } from '@/integrations/supabase/client';
@@ -172,11 +173,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
     handleSeek([newTime]);
   };
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
+  // formatTime imported from @/lib/player-utils
 
   // Handle section selection from timeline
   const handleSectionSelect = useCallback((section: typeof detectedSections[0], index: number) => {
