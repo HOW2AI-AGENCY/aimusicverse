@@ -252,134 +252,112 @@ export default function Library() {
       <div className="min-h-screen pb-20">
         {/* Page Header - Premium gradient design */}
         <header className="sticky top-0 z-30 bg-gradient-to-b from-background via-background/98 to-background/90 backdrop-blur-xl border-b border-border/30">
-          <div className="container mx-auto px-3 sm:px-4 py-4">
-            <div className="flex items-center justify-between gap-3">
+          <div className="container mx-auto px-3 sm:px-4 py-3">
+            <div className="flex items-center justify-between gap-2">
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <motion.div 
-                    className="p-2.5 rounded-xl bg-gradient-to-br from-library/20 to-library/5 border border-library/30 shadow-lg"
+                    className="p-2 rounded-lg bg-gradient-to-br from-library/20 to-library/5 border border-library/30"
                     initial={{ scale: 0, rotate: -90 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ type: 'spring', stiffness: 200 }}
                   >
-                    <LibraryIcon className="w-5 h-5 text-library" />
+                    <LibraryIcon className="w-4 h-4 text-library" />
                   </motion.div>
                   <div>
-                    <h1 className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
-                      Библиотека
-                    </h1>
-                    <div className="flex items-center gap-2 mt-0.5">
+                    <h1 className="text-lg sm:text-xl font-bold">Библиотека</h1>
+                    <div className="flex items-center gap-2">
                       {hasActiveGenerations && (
                         <motion.span 
-                          className="inline-flex items-center gap-1.5 text-generate text-xs font-medium"
+                          className="inline-flex items-center gap-1 text-generate text-[10px] font-medium"
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                         >
-                          <span className="relative flex h-2 w-2">
+                          <span className="relative flex h-1.5 w-1.5">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-generate opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-generate"></span>
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-generate"></span>
                           </span>
                           {activeGenerations.length} в работе
                         </motion.span>
                       )}
-                      <span className="text-xs text-muted-foreground">
-                        <span className="tabular-nums font-semibold text-foreground">{tracks?.length || 0}</span>
-                        <span className="text-muted-foreground/60"> / {totalCount}</span>
+                      <span className="text-[10px] text-muted-foreground">
+                        <span className="tabular-nums font-semibold text-foreground">{tracks?.length || 0}</span>/{totalCount}
                       </span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex items-center gap-1.5 shrink-0">
                 {tracksToDisplay.length > 0 && (
                   <>
-                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                      <Button
-                        variant="default"
-                        size="icon"
-                        onClick={handlePlayAll}
-                        className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 shadow-lg shadow-primary/25"
-                        aria-label="Воспроизвести все"
-                      >
-                        <Play className="w-4 h-4" />
-                      </Button>
-                    </motion.div>
+                    <Button
+                      variant="default"
+                      size="icon"
+                      onClick={handlePlayAll}
+                      className="h-9 w-9 rounded-lg bg-gradient-to-br from-primary to-primary/80 shadow-md"
+                      aria-label="Воспроизвести все"
+                    >
+                      <Play className="w-4 h-4" />
+                    </Button>
                     {!isMobile && (
-                      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={handleShuffleAll}
-                          className="h-10 w-10 rounded-xl hover:bg-primary/10"
-                          aria-label="Перемешать"
-                        >
-                          <Shuffle className="w-4 h-4" />
-                        </Button>
-                      </motion.div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={handleShuffleAll}
+                        className="h-9 w-9 rounded-lg"
+                        aria-label="Перемешать"
+                      >
+                        <Shuffle className="w-4 h-4" />
+                      </Button>
                     )}
                   </>
                 )}
                 {!isMobile && (
-                  <div className="flex items-center bg-muted/50 rounded-xl p-1 border border-border/30">
+                  <div className="flex items-center bg-muted/50 rounded-lg p-0.5 border border-border/30">
                     <Button
                       variant={viewMode === "grid" ? "default" : "ghost"}
                       size="icon"
                       onClick={() => setViewMode("grid")}
-                      className={cn(
-                        "h-8 w-8 rounded-lg transition-all",
-                        viewMode === "grid" && "shadow-md"
-                      )}
+                      className={cn("h-7 w-7 rounded-md", viewMode === "grid" && "shadow-sm")}
                       aria-label="Сетка"
                     >
-                      <Grid3x3 className="w-4 h-4" />
+                      <Grid3x3 className="w-3.5 h-3.5" />
                     </Button>
                     <Button
                       variant={viewMode === "list" ? "default" : "ghost"}
                       size="icon"
                       onClick={() => setViewMode("list")}
-                      className={cn(
-                        "h-8 w-8 rounded-lg transition-all",
-                        viewMode === "list" && "shadow-md"
-                      )}
+                      className={cn("h-7 w-7 rounded-md", viewMode === "list" && "shadow-sm")}
                       aria-label="Список"
                     >
-                      <List className="w-4 h-4" />
+                      <List className="w-3.5 h-3.5" />
                     </Button>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Search and Filters - Enhanced */}
-            <div className="mt-4 flex flex-col sm:flex-row gap-2">
+            {/* Search and Filters - Compact */}
+            <div className="mt-3 flex flex-col sm:flex-row gap-2">
               <div className="relative flex-1 group">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4 transition-colors group-focus-within:text-primary" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4 group-focus-within:text-primary" />
                 <Input
-                  placeholder="Поиск треков..."
+                  placeholder="Поиск..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 h-11 text-sm rounded-xl border-border/50 bg-card/50 focus:bg-card focus:border-primary/50 transition-all"
+                  className="pl-9 h-9 text-sm rounded-lg border-border/50 bg-card/50 focus:bg-card"
                 />
-                {searchQuery && (
-                  <motion.span 
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full"
-                  >
-                    {tracksToDisplay.length} найдено
-                  </motion.span>
-                )}
               </div>
               <Select value={sortBy} onValueChange={(v: "recent" | "popular" | "liked") => setSortBy(v)}>
-                <SelectTrigger className="w-full sm:w-44 h-11 text-sm rounded-xl border-border/50 bg-card/50 hover:bg-card transition-all">
-                  <SlidersHorizontal className="w-4 h-4 mr-2 text-muted-foreground" />
+                <SelectTrigger className="w-full sm:w-36 h-9 text-xs rounded-lg border-border/50 bg-card/50">
+                  <SlidersHorizontal className="w-3.5 h-3.5 mr-1.5 text-muted-foreground" />
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="rounded-xl">
-                  <SelectItem value="recent">Недавние</SelectItem>
-                  <SelectItem value="popular">Популярные</SelectItem>
-                  <SelectItem value="liked">Любимые</SelectItem>
+                <SelectContent className="rounded-lg">
+                  <SelectItem value="recent" className="text-xs">Недавние</SelectItem>
+                  <SelectItem value="popular" className="text-xs">Популярные</SelectItem>
+                  <SelectItem value="liked" className="text-xs">Любимые</SelectItem>
                 </SelectContent>
               </Select>
             </div>

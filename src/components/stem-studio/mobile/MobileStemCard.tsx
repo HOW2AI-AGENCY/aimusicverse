@@ -51,28 +51,27 @@ export function MobileStemCard({
 
   return (
     <div className={cn(
-      "p-3 rounded-xl border border-border/50 bg-card/50",
+      "p-2.5 rounded-lg border border-border/50 bg-card/50",
       "transition-all duration-200",
       isEffectivelyMuted && "opacity-50"
     )}>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         {/* Stem Icon & Label */}
         <div className={cn(
-          "flex items-center justify-center w-10 h-10 rounded-lg flex-shrink-0",
+          "flex items-center justify-center w-8 h-8 rounded-md flex-shrink-0",
           stemInfo.color
         )}>
-          <Music2 className="w-5 h-5" />
+          <Music2 className="w-4 h-4" />
         </div>
         
         <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium truncate">{stemInfo.label}</span>
-            <span className="text-xs text-muted-foreground tabular-nums">
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-xs font-medium truncate">{stemInfo.label}</span>
+            <span className="text-[10px] text-muted-foreground tabular-nums">
               {Math.round(volume * 100)}%
             </span>
           </div>
           
-          {/* Volume Slider */}
           <Slider
             value={[volume]}
             min={0}
@@ -90,18 +89,18 @@ export function MobileStemCard({
             size="icon"
             onClick={onMuteToggle}
             className={cn(
-              "h-8 w-8 rounded-lg text-xs font-bold",
+              "h-7 w-7 rounded-md text-[10px] font-bold",
               muted && "bg-destructive hover:bg-destructive/90"
             )}
           >
-            {muted ? <VolumeX className="w-4 h-4" /> : 'M'}
+            {muted ? <VolumeX className="w-3.5 h-3.5" /> : 'M'}
           </Button>
           <Button
             variant={solo ? "default" : "ghost"}
             size="icon"
             onClick={onSoloToggle}
             className={cn(
-              "h-8 w-8 rounded-lg text-xs font-bold",
+              "h-7 w-7 rounded-md text-[10px] font-bold",
               solo && "bg-primary hover:bg-primary/90"
             )}
           >
