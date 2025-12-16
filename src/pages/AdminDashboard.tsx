@@ -43,6 +43,7 @@ import { DeeplinkAnalyticsPanel } from "@/components/admin/DeeplinkAnalyticsPane
 import { EnhancedAnalyticsPanel } from "@/components/admin/EnhancedAnalyticsPanel";
 import { ModerationReportsPanel } from "@/components/admin/ModerationReportsPanel";
 import { StatCard, StatGrid } from "@/components/admin/StatCard";
+import { AdminUserCard } from "@/components/admin/AdminUserCard";
 import { useQueryClient } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -396,26 +397,26 @@ export default function AdminDashboard() {
         {activeTab === "users" && (
           <Card>
             <CardHeader className="pb-3">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                <CardTitle className="text-base md:text-lg">
-                  Пользователи ({filteredUsers?.length || 0})
-                </CardTitle>
-                <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-base md:text-lg">
+                    Пользователи ({filteredUsers?.length || 0})
+                  </CardTitle>
                   {selectedUsers.length > 0 && (
-                    <>
+                    <div className="flex items-center gap-2">
                       <Badge variant="secondary">{selectedUsers.length}</Badge>
                       <Button
                         size="sm"
-                        variant="outline"
+                        variant="default"
                         onClick={() => setMessageDialogOpen(true)}
                       >
-                        <MessageSquare className="h-4 w-4" />
-                        <span className="hidden sm:inline ml-1">Написать</span>
+                        <MessageSquare className="h-4 w-4 mr-1" />
+                        Написать
                       </Button>
                       <Button size="sm" variant="ghost" onClick={clearSelection}>
                         Сбросить
                       </Button>
-                    </>
+                    </div>
                   )}
                 </div>
               </div>
@@ -433,7 +434,7 @@ export default function AdminDashboard() {
                   />
                 </div>
                 <Select value={userFilter} onValueChange={setUserFilter}>
-                  <SelectTrigger className="w-[120px] md:w-[150px]">
+                  <SelectTrigger className="w-[100px]">
                     <SelectValue placeholder="Фильтр" />
                   </SelectTrigger>
                   <SelectContent>
@@ -443,110 +444,32 @@ export default function AdminDashboard() {
                     <SelectItem value="free">Бесплатные</SelectItem>
                   </SelectContent>
                 </Select>
-                <Button size="sm" variant="outline" onClick={selectAllUsers}>
+                <Button size="sm" variant="outline" onClick={selectAllUsers} className="hidden sm:flex">
                   Все
                 </Button>
               </div>
 
-              <ScrollArea className="h-[400px] md:h-[500px]">
-                <div className="space-y-2">
-                  {filteredUsers?.map((user) => {
-                    const isAdmin = user.roles.includes("admin");
-                    const isModerator = user.roles.includes("moderator");
-                    const isSelected = selectedUsers.some(u => u.user_id === user.user_id);
-                    const hasPremium = user.subscription_tier && user.subscription_tier !== "free";
-
-                    return (
-                      <div
-                        key={user.id}
-                        className={`flex items-center justify-between p-2 md:p-3 rounded-lg border bg-card transition-colors ${
-                          isSelected ? "border-primary bg-primary/5" : ""
-                        }`}
-                      >
-                        <div className="flex items-center gap-2 md:gap-3 min-w-0 flex-1">
-                          <Checkbox
-                            checked={isSelected}
-                            onCheckedChange={() => toggleUserSelection(user)}
-                          />
-                          <Avatar className="h-8 w-8 md:h-10 md:w-10 flex-shrink-0">
-                            <AvatarImage src={user.photo_url || undefined} />
-                            <AvatarFallback>
-                              {user.first_name?.[0]?.toUpperCase() || "?"}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="min-w-0">
-                            <div className="font-medium text-sm md:text-base truncate">
-                              {user.first_name} {user.last_name}
-                            </div>
-                            <div className="text-xs md:text-sm text-muted-foreground truncate">
-                              @{user.username || "—"}
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
-                          {/* Badges */}
-                          <div className="hidden sm:flex items-center gap-1">
-                            {isAdmin && <Badge className="text-xs">Admin</Badge>}
-                            {isModerator && <Badge variant="secondary" className="text-xs">Mod</Badge>}
-                            {hasPremium && (
-                              <Badge variant="outline" className="text-xs">
-                                <Crown className="h-3 w-3 mr-1" />
-                                {user.subscription_tier}
-                              </Badge>
-                            )}
-                          </div>
-                          
-                          {/* Action Buttons */}
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8"
-                            onClick={() => setSubscriptionDialogUser(user)}
-                            title="Подписка"
-                          >
-                            <Crown className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8"
-                            onClick={() => setCreditsDialogUser(user)}
-                            title="Кредиты"
-                          >
-                            <Coins className="h-4 w-4" />
-                          </Button>
-                          {!isAdmin ? (
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-8 text-xs hidden md:flex"
-                              onClick={() => toggleRole.mutate({
-                                userId: user.user_id,
-                                role: "admin",
-                                action: "add",
-                              })}
-                            >
-                              +Admin
-                            </Button>
-                          ) : (
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-8 text-xs text-destructive hidden md:flex"
-                              onClick={() => toggleRole.mutate({
-                                userId: user.user_id,
-                                role: "admin",
-                                action: "remove",
-                              })}
-                            >
-                              -Admin
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
+              <ScrollArea className="h-[calc(100vh-320px)] min-h-[300px]">
+                <div className="space-y-2 pr-2">
+                  {filteredUsers?.map((user) => (
+                    <AdminUserCard
+                      key={user.id}
+                      user={user}
+                      isSelected={selectedUsers.some(u => u.user_id === user.user_id)}
+                      onSelect={() => toggleUserSelection(user)}
+                      onCredits={() => setCreditsDialogUser(user)}
+                      onSubscription={() => setSubscriptionDialogUser(user)}
+                      onMessage={() => {
+                        setSelectedUsers([user]);
+                        setMessageDialogOpen(true);
+                      }}
+                      onToggleAdmin={(action) => toggleRole.mutate({
+                        userId: user.user_id,
+                        role: "admin",
+                        action,
+                      })}
+                    />
+                  ))}
                 </div>
               </ScrollArea>
             </CardContent>
