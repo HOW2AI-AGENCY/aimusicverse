@@ -59,6 +59,10 @@ interface UserWithRoles {
   roles: string[];
   subscription_tier?: string;
   subscription_expires_at?: string | null;
+  balance?: number;
+  total_earned?: number;
+  total_spent?: number;
+  level?: number;
 }
 
 const TAB_OPTIONS = [

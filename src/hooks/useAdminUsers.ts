@@ -13,6 +13,10 @@ interface UserWithRoles {
   roles: string[];
   subscription_tier?: string;
   subscription_expires_at?: string | null;
+  balance?: number;
+  total_earned?: number;
+  total_spent?: number;
+  level?: number;
 }
 
 export function useAdminUsers() {
@@ -34,7 +38,16 @@ export function useAdminUsers() {
 
       if (rolesError) throw rolesError;
 
-      // Merge roles with profiles
+      // Fetch user credits/balances
+      const userIds = profiles?.map(p => p.user_id) || [];
+      const { data: credits, error: creditsError } = await supabase
+        .from("user_credits")
+        .select("user_id, balance, total_earned, total_spent, level")
+        .in("user_id", userIds);
+
+      if (creditsError) throw creditsError;
+
+      // Merge roles and credits with profiles
       const rolesByUser = new Map<string, string[]>();
       roles?.forEach((r) => {
         const existing = rolesByUser.get(r.user_id) || [];
@@ -42,9 +55,23 @@ export function useAdminUsers() {
         rolesByUser.set(r.user_id, existing);
       });
 
+      const creditsByUser = new Map<string, { balance: number; total_earned: number; total_spent: number; level: number }>();
+      credits?.forEach((c) => {
+        creditsByUser.set(c.user_id, {
+          balance: c.balance || 0,
+          total_earned: c.total_earned || 0,
+          total_spent: c.total_spent || 0,
+          level: c.level || 1,
+        });
+      });
+
       return profiles?.map((p) => ({
         ...p,
         roles: rolesByUser.get(p.user_id) || [],
+        balance: creditsByUser.get(p.user_id)?.balance || 0,
+        total_earned: creditsByUser.get(p.user_id)?.total_earned || 0,
+        total_spent: creditsByUser.get(p.user_id)?.total_spent || 0,
+        level: creditsByUser.get(p.user_id)?.level || 1,
       })) as UserWithRoles[];
     },
   });
