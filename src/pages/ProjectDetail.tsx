@@ -4,9 +4,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/hooks/useAuth';
 import { useProjects } from '@/hooks/useProjects';
 import { useProjectTracks, ProjectTrack } from '@/hooks/useProjectTracks';
+import { useProjectGeneratedTracks } from '@/hooks/useProjectGeneratedTracks';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Sparkles, Music, MoreVertical, Play, Plus, Settings, Image } from 'lucide-react';
+import { ArrowLeft, Sparkles, Music, MoreVertical, Play, Plus, Settings, Image, Rocket } from 'lucide-react';
 import { AIActionsDialog } from '@/components/project/AIActionsDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -17,6 +18,8 @@ import { ProjectInfoCard } from '@/components/project/ProjectInfoCard';
 import { LyricsPreviewSheet } from '@/components/project/LyricsPreviewSheet';
 import { LyricsChatAssistant } from '@/components/generate-form/LyricsChatAssistant';
 import { ProjectMediaGenerator } from '@/components/project/ProjectMediaGenerator';
+import { ProjectReadinessIndicator } from '@/components/project/ProjectReadinessIndicator';
+import { PublishProjectDialog } from '@/components/project/PublishProjectDialog';
 import { cn } from '@/lib/utils';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
@@ -30,12 +33,14 @@ export default function ProjectDetail() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const { projects, isLoading } = useProjects();
   const { tracks, isLoading: tracksLoading, reorderTracks, generateTracklist, isGenerating } = useProjectTracks(id);
+  const { tracks: generatedTracks } = useProjectGeneratedTracks(id);
   const [aiDialogOpen, setAiDialogOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [addTrackOpen, setAddTrackOpen] = useState(false);
   const [lyricsSheetOpen, setLyricsSheetOpen] = useState(false);
   const [lyricsWizardOpen, setLyricsWizardOpen] = useState(false);
   const [mediaGeneratorOpen, setMediaGeneratorOpen] = useState(false);
+  const [publishDialogOpen, setPublishDialogOpen] = useState(false);
   const [selectedTrackForLyrics, setSelectedTrackForLyrics] = useState<ProjectTrack | null>(null);
   const [selectedTrackForMedia, setSelectedTrackForMedia] = useState<ProjectTrack | null>(null);
   const isMobile = useIsMobile();
@@ -173,6 +178,11 @@ export default function ProjectDetail() {
   const completedTracks = tracks?.filter(t => t.status === 'completed').length || 0;
   const totalTracks = tracks?.length || 0;
 
+  // Count tracks with master versions
+  const tracksWithMaster = generatedTracks?.filter(t => t.is_master).length || 0;
+  const isReadyToPublish = totalTracks > 0 && tracksWithMaster === totalTracks;
+  const isPublished = project.status === 'published';
+
   const draftTracks = tracks?.filter(t => t.status === 'draft' && !t.track_id) || [];
   const draftCount = draftTracks.length;
 
@@ -271,6 +281,12 @@ export default function ProjectDetail() {
               <Badge variant="outline">
                 {completedTracks}/{totalTracks} треков
               </Badge>
+              {isPublished && (
+                <Badge variant="default" className="bg-green-500 gap-1">
+                  <Rocket className="w-3 h-3" />
+                  Опубликован
+                </Badge>
+              )}
             </div>
             
             {project.description && (
@@ -279,6 +295,30 @@ export default function ProjectDetail() {
               </p>
             )}
           </div>
+
+          {/* Readiness Indicator */}
+          {totalTracks > 0 && !isPublished && (
+            <div className="max-w-md mx-auto mt-4">
+              <ProjectReadinessIndicator 
+                totalTracks={totalTracks}
+                tracksWithMaster={tracksWithMaster}
+              />
+            </div>
+          )}
+
+          {/* Publish Button */}
+          {isReadyToPublish && !isPublished && (
+            <div className="flex justify-center mt-4">
+              <Button 
+                size="lg"
+                onClick={() => setPublishDialogOpen(true)}
+                className="gap-2 bg-green-500 hover:bg-green-600"
+              >
+                <Rocket className="w-4 h-4" />
+                Опубликовать альбом
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -508,6 +548,14 @@ export default function ProjectDetail() {
         onCoverGenerated={(url) => {
           queryClient.invalidateQueries({ queryKey: ['projects'] });
         }}
+      />
+
+      {/* Publish Project Dialog */}
+      <PublishProjectDialog
+        open={publishDialogOpen}
+        onOpenChange={setPublishDialogOpen}
+        project={project}
+        tracks={tracks || []}
       />
     </div>
   );

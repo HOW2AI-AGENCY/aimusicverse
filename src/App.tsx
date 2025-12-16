@@ -53,6 +53,7 @@ const CreativeTools = lazy(() => import("./pages/CreativeTools"));
 const ProfessionalStudio = lazy(() => import("./pages/ProfessionalStudio"));
 const GuitarStudio = lazy(() => import("./pages/GuitarStudio"));
 const MusicLab = lazy(() => import("./pages/MusicLab"));
+const AlbumView = lazy(() => import("./pages/AlbumView"));
 
 const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
@@ -132,6 +133,7 @@ const App = () => (
                 <Route path="/professional-studio" element={<ProfessionalStudio />} />
                 <Route path="/guitar-studio" element={<GuitarStudio />} />
                 <Route path="/music-lab" element={<MusicLab />} />
+                <Route path="/album/:id" element={<AlbumView />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/pricing" element={<Pricing />} />
