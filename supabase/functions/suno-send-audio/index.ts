@@ -107,13 +107,25 @@ serve(async (req) => {
       }
     }
 
-    // Build caption with version info
-    let caption = `🎵 ${trackTitle}`;
-    if (durationText) caption += `\n⏱ ${durationText}`;
-    caption += `\n\n✨ Сгенерировано с помощью MusicVerse AI`;
+    // Build unified caption format
+    const versionSuffix = versionLabel ? ` — ${versionLabel}` : '';
+    let caption = `🎵 *${trackTitle}${versionSuffix}*`;
+    if (durationText) caption += `\n⏱️ ${durationText}`;
+    caption += `\n\n🤖 _@AIMusicVerseBot_`;
 
     let response: Response;
     let result: any;
+
+    // Unified inline keyboard
+    const replyMarkup = {
+      inline_keyboard: [
+        [{ text: '▶️ Открыть трек', url: `${botDeepLink}?startapp=track_${trackId}` }],
+        [
+          { text: '🔄 Создать ещё', callback_data: 'generate_new' },
+          { text: '🏠 Меню', callback_data: 'main_menu' }
+        ]
+      ]
+    };
 
     // Use FormData for proper title display in Telegram
     if (audioBlob) {
@@ -124,6 +136,7 @@ serve(async (req) => {
       formData.append('title', trackTitle);
       formData.append('performer', 'MusicVerse AI');
       formData.append('caption', caption);
+      formData.append('parse_mode', 'Markdown');
       
       if (duration) {
         formData.append('duration', Math.round(duration).toString());
@@ -133,13 +146,6 @@ serve(async (req) => {
         formData.append('thumbnail', thumbBlob, 'cover.jpg');
       }
 
-      // Add inline keyboard via reply_markup
-      const replyMarkup = {
-        inline_keyboard: [
-          [{ text: '▶️ Открыть в приложении', url: `${botDeepLink}?startapp=track_${trackId}` }],
-          [{ text: '🔄 Создать ещё', callback_data: 'generate_new' }]
-        ]
-      };
       formData.append('reply_markup', JSON.stringify(replyMarkup));
 
       response = await fetch(`${telegramApiUrl}/sendAudio`, {
@@ -154,16 +160,12 @@ serve(async (req) => {
         chat_id: chatId,
         audio: audioUrl,
         caption,
+        parse_mode: 'Markdown',
         title: trackTitle,
         performer: 'MusicVerse AI',
         duration: duration ? Math.round(duration) : undefined,
         thumbnail: coverUrl || undefined,
-        reply_markup: {
-          inline_keyboard: [
-            [{ text: '▶️ Открыть в приложении', url: `${botDeepLink}?startapp=track_${trackId}` }],
-            [{ text: '🔄 Создать ещё', callback_data: 'generate_new' }]
-          ]
-        }
+        reply_markup: replyMarkup
       };
 
       response = await fetch(`${telegramApiUrl}/sendAudio`, {
