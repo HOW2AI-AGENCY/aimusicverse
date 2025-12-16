@@ -9,15 +9,16 @@ import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { ProBadge, ProFeatureIndicator } from '@/components/ui/pro-badge';
-import { ArrowLeft, Mic, Guitar, Sparkles, Music, Zap, FileMusic } from 'lucide-react';
+import { ArrowLeft, Mic, Guitar, Sparkles, Music, Zap, FileMusic, Drum } from 'lucide-react';
 import { RealtimeChordVisualizer } from '@/components/chord-detection/RealtimeChordVisualizer';
 import { GuitarTabEditor } from '@/components/tab-editor/GuitarTabEditor';
 import { MelodyMixer } from '@/components/melody-mixer/MelodyMixer';
+import { DrumMachine } from '@/components/drum-machine/DrumMachine';
 import { toast } from 'sonner';
 
 export default function CreativeTools() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('chords');
+  const [activeTab, setActiveTab] = useState('drums');
 
   const handleProgressionExport = (progression: string) => {
     toast.success('Прогрессия скопирована', {
@@ -102,16 +103,20 @@ export default function CreativeTools() {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid grid-cols-3 w-full">
-            <TabsTrigger value="chords" className="gap-2">
+          <TabsList className="grid grid-cols-4 w-full">
+            <TabsTrigger value="drums" className="gap-1.5">
+              <Drum className="h-4 w-4" />
+              <span className="hidden sm:inline">Драм</span>
+            </TabsTrigger>
+            <TabsTrigger value="chords" className="gap-1.5">
               <Mic className="h-4 w-4" />
               <span className="hidden sm:inline">Аккорды</span>
             </TabsTrigger>
-            <TabsTrigger value="tabs" className="gap-2">
+            <TabsTrigger value="tabs" className="gap-1.5">
               <Guitar className="h-4 w-4" />
-              <span className="hidden sm:inline">Табулатура</span>
+              <span className="hidden sm:inline">Табы</span>
             </TabsTrigger>
-            <TabsTrigger value="mixer" className="gap-2">
+            <TabsTrigger value="mixer" className="gap-1.5">
               <Sparkles className="h-4 w-4" />
               <span className="hidden sm:inline">Миксер</span>
             </TabsTrigger>
@@ -125,6 +130,28 @@ export default function CreativeTools() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
             >
+              {/* Drum Machine */}
+              <TabsContent value="drums" className="mt-0">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                >
+                  <div className="mb-4 p-4 bg-muted/30 rounded-xl border border-primary/10">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <Drum className="h-5 w-5 text-primary" />
+                        <h2 className="font-semibold">Драм-машина</h2>
+                      </div>
+                      <ProBadge size="sm" />
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Создавайте биты с 6 наборами ударных и готовыми паттернами
+                    </p>
+                  </div>
+                  <DrumMachine />
+                </motion.div>
+              </TabsContent>
+
               {/* Chord Detection */}
               <TabsContent value="chords" className="mt-0">
                 <motion.div
