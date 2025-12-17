@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { 
   Play, Square, Loader2, Sparkles, Settings2, 
-  Download, Music, Trash2, Zap, Radio, HelpCircle
+  Download, Music, Trash2, Zap, Radio, HelpCircle, Save, MoreVertical
 } from 'lucide-react';
 import { PromptKnobEnhanced } from './PromptKnobEnhanced';
 import { LiveVisualizer } from './LiveVisualizer';
@@ -18,6 +18,8 @@ import { PromptDJOnboarding, usePromptDJOnboarding } from './PromptDJOnboarding'
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
 import {
   Sheet,
   SheetContent,
@@ -34,7 +36,7 @@ import {
   DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu';
 import { Switch } from '@/components/ui/switch';
-import { usePromptDJEnhanced } from '@/hooks/usePromptDJEnhanced';
+import { usePromptDJEnhanced, GeneratedTrack } from '@/hooks/usePromptDJEnhanced';
 
 // Channel configuration - simple 6 knobs
 const CHANNEL_CONFIG = [
@@ -89,8 +91,10 @@ const QUICK_PRESETS = [
 export const PromptDJMixer = memo(function PromptDJMixer() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const { user } = useAuth();
   const [showSettings, setShowSettings] = useState(false);
   const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
+  const [savingTrackId, setSavingTrackId] = useState<string | null>(null);
   
   // Onboarding
   const { showOnboarding, setShowOnboarding, resetOnboarding } = usePromptDJOnboarding();
@@ -120,6 +124,54 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
     stopLiveMode,
   } = usePromptDJEnhanced();
 
+  // Save track to cloud as reference
+  const handleSaveToCloud = useCallback(async (track: GeneratedTrack) => {
+    if (!user) {
+      toast.error('Авторизуйтесь для сохранения');
+      return;
+    }
+    
+    setSavingTrackId(track.id);
+    
+    try {
+      // Fetch audio to get duration
+      const audio = new Audio(track.audioUrl);
+      await new Promise((resolve, reject) => {
+        audio.onloadedmetadata = resolve;
+        audio.onerror = reject;
+        setTimeout(reject, 5000);
+      });
+      
+      const duration = audio.duration || 0;
+      
+      // Save to reference_audio table
+      const { error } = await supabase
+        .from('reference_audio')
+        .insert({
+          user_id: user.id,
+          file_url: track.audioUrl,
+          file_name: `PromptDJ Mix - ${new Date().toLocaleDateString('ru')}`,
+          source: 'promptdj',
+          style_description: track.prompt,
+          duration_seconds: duration,
+          analysis_status: 'completed',
+          bpm: globalSettings.bpm,
+          genre: channels.find(c => c.type === 'genre')?.value || null,
+          mood: channels.find(c => c.type === 'mood')?.value || null,
+          energy: channels.find(c => c.type === 'energy')?.value || null,
+        });
+      
+      if (error) throw error;
+      
+      toast.success('Трек сохранён в облако');
+    } catch (error) {
+      console.error('Save error:', error);
+      toast.error('Ошибка сохранения');
+    } finally {
+      setSavingTrackId(null);
+    }
+  }, [user, globalSettings.bpm, channels]);
+
   // Apply quick preset
   const applyPreset = useCallback((preset: typeof QUICK_PRESETS[0]) => {
     Object.entries(preset.channels).forEach(([type, value]) => {
@@ -137,8 +189,8 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
     setSelectedChannel(null);
   }, [updateChannel]);
 
-  // Use as reference
-  const handleUseAsReference = useCallback((track: any) => {
+  // Use as reference and navigate
+  const handleUseAsReference = useCallback((track: GeneratedTrack) => {
     sessionStorage.setItem('audioReferenceFromDJ', JSON.stringify({
       audioUrl: track.audioUrl,
       styleDescription: track.prompt,
@@ -149,7 +201,7 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
   }, [navigate]);
 
   // Download
-  const handleDownload = useCallback(async (track: any) => {
+  const handleDownload = useCallback(async (track: GeneratedTrack) => {
     try {
       const response = await fetch(track.audioUrl);
       const blob = await response.blob();
@@ -530,17 +582,51 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
                   {track.prompt.slice(0, 40)}...
                 </p>
 
-                <div className="flex gap-0.5">
-                  <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleUseAsReference(track)}>
-                    <Music className="w-3 h-3" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleDownload(track)}>
-                    <Download className="w-3 h-3" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="h-6 w-6 text-destructive" onClick={() => removeTrack(track.id)}>
-                    <Trash2 className="w-3 h-3" />
-                  </Button>
-                </div>
+                {/* Actions dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-6 w-6">
+                      <MoreVertical className="w-3 h-3" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-44">
+                    <DropdownMenuLabel className="text-[10px]">Действия</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    
+                    <DropdownMenuItem 
+                      onClick={() => handleSaveToCloud(track)}
+                      disabled={savingTrackId === track.id}
+                      className="text-xs"
+                    >
+                      {savingTrackId === track.id ? (
+                        <Loader2 className="w-3 h-3 mr-2 animate-spin" />
+                      ) : (
+                        <Save className="w-3 h-3 mr-2" />
+                      )}
+                      Сохранить в облако
+                    </DropdownMenuItem>
+                    
+                    <DropdownMenuItem onClick={() => handleUseAsReference(track)} className="text-xs">
+                      <Music className="w-3 h-3 mr-2" />
+                      Как референс
+                    </DropdownMenuItem>
+                    
+                    <DropdownMenuItem onClick={() => handleDownload(track)} className="text-xs">
+                      <Download className="w-3 h-3 mr-2" />
+                      Скачать
+                    </DropdownMenuItem>
+                    
+                    <DropdownMenuSeparator />
+                    
+                    <DropdownMenuItem 
+                      onClick={() => removeTrack(track.id)} 
+                      className="text-xs text-destructive"
+                    >
+                      <Trash2 className="w-3 h-3 mr-2" />
+                      Удалить
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             ))}
           </div>
