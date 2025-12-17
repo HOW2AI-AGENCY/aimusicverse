@@ -27,39 +27,39 @@ export function EarlyListeningAnnouncement() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="relative overflow-hidden rounded-xl bg-gradient-to-r from-primary/20 via-primary/10 to-accent/20 border border-primary/30 p-4 mb-4"
+          className="relative overflow-hidden rounded-xl bg-gradient-to-r from-primary/20 via-primary/10 to-accent/20 border border-primary/30 p-3 mb-3"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,hsl(var(--primary)/0.15),transparent_50%)]" />
-          
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute top-2 right-2 h-6 w-6 text-muted-foreground hover:text-foreground"
-            onClick={handleDismiss}
-          >
-            <X className="h-4 w-4" />
-          </Button>
 
           <div className="relative flex items-start gap-3">
             <div className="flex-shrink-0 p-2 rounded-lg bg-primary/20">
-              <Zap className="h-5 w-5 text-primary" />
+              <Zap className="h-4 w-4 text-primary" />
             </div>
             
-            <div className="flex-1 pr-6">
-              <h3 className="font-semibold text-foreground flex items-center gap-2">
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-sm text-foreground flex items-center gap-2 flex-wrap">
                 Новое: Раннее прослушивание
-                <span className="text-xs px-2 py-0.5 rounded-full bg-primary/20 text-primary">
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary">
                   Быстрее!
                 </span>
               </h3>
               
-              <p className="text-sm text-muted-foreground mt-1">
-                Теперь вы можете слушать треки уже через <strong className="text-foreground">30-60 секунд</strong> после 
-                начала генерации! Ищите статус <span className="inline-flex items-center gap-1 text-primary">
+              <p className="text-xs text-muted-foreground mt-1">
+                Слушайте треки через <strong className="text-foreground">30-60 сек</strong> после старта! 
+                Ищите <span className="inline-flex items-center gap-1 text-primary">
                   <Headphones className="h-3 w-3" /> "Можно слушать"
-                </span> в индикаторе генерации.
+                </span>
               </p>
             </div>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="flex-shrink-0 h-7 w-7 text-muted-foreground hover:text-foreground hover:bg-background/50"
+              onClick={handleDismiss}
+            >
+              <X className="h-4 w-4" />
+            </Button>
           </div>
         </motion.div>
       )}
