@@ -254,7 +254,8 @@ export const usePromptDJStore = create<PromptDJState>()(
     }),
     {
       name: 'promptdj-storage',
-      storage: createJSONStorage(() => indexedDBStorage),
+      // Use localStorage for reliability (prevents rehydrate loops that can cause React update-depth errors)
+      storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         channels: state.channels,
         globalSettings: state.globalSettings,
