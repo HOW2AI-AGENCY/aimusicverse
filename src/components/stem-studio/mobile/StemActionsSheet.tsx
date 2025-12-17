@@ -28,6 +28,7 @@ import { Button } from '@/components/ui/button';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { ReferenceManager } from '@/services/audio-reference';
 import { logger } from '@/lib/logger';
 
 interface StemActionsSheetProps {
@@ -167,23 +168,16 @@ export const StemActionsSheet = ({
       const stemLabel = getStemLabel(selectedStem.stem_type);
       
       // Prepare reference data with track context
-      const referenceData = {
-        url: selectedStem.audio_url,
-        name: `${trackTitle} - ${stemLabel}`,
+      // Use unified ReferenceManager
+      ReferenceManager.createFromStem({
+        audioUrl: selectedStem.audio_url,
         stemType: selectedStem.stem_type,
-        timestamp: Date.now(),
-        action: selectedAction,
-        // Include original track context
-        lyrics: trackLyrics || null,
-        style: trackStyle || null,
-        prompt: trackPrompt || null,
-        tags: trackTags || null,
-        originalTitle: trackTitle,
         trackId,
-      };
-
-      // Store in localStorage for GenerateSheet
-      localStorage.setItem('stem_audio_reference', JSON.stringify(referenceData));
+        trackTitle,
+        lyrics: trackLyrics || undefined,
+        style: trackStyle || undefined,
+        action: selectedAction,
+      });
 
       // Show success message based on action
       const actionMessages: Record<string, string> = {
