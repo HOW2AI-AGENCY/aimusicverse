@@ -1,11 +1,12 @@
 /**
  * KnobCell - Memoized knob cell for PromptDJ grid
  * Prevents re-renders when other channels change
+ * Uses RealisticKnob for improved mobile experience
  */
 
 import { memo, useCallback } from 'react';
 import { cn } from '@/lib/utils';
-import { PromptKnobEnhanced } from './PromptKnobEnhanced';
+import { RealisticKnob } from './RealisticKnob';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,6 +28,8 @@ interface KnobCellProps {
   onSelect: (id: string | null) => void;
   onUpdate: (id: string, updates: Partial<PromptChannel>) => void;
   onTypeChange: (id: string, type: ChannelType) => void;
+  onChangeStart?: () => void;
+  onChangeEnd?: () => void;
 }
 
 // Get channel config by type
@@ -42,6 +45,8 @@ export const KnobCell = memo(function KnobCell({
   onSelect,
   onUpdate,
   onTypeChange,
+  onChangeStart,
+  onChangeEnd,
 }: KnobCellProps) {
   const config = getChannelConfig(channel.type);
   
@@ -79,7 +84,7 @@ export const KnobCell = memo(function KnobCell({
       >
         <DropdownMenuTrigger asChild>
           <div>
-            <PromptKnobEnhanced
+            <RealisticKnob
               value={channel.weight}
               label={channel.value || config.label}
               sublabel={channel.value ? config.label : undefined}
@@ -89,16 +94,18 @@ export const KnobCell = memo(function KnobCell({
               size={size}
               onChange={handleWeightChange}
               onLabelClick={handleLabelClick}
+              onChangeStart={onChangeStart}
+              onChangeEnd={onChangeEnd}
             />
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="center" className="max-h-72 overflow-y-auto bg-popover">
+        <DropdownMenuContent align="center" className="max-h-72 overflow-y-auto bg-popover z-50">
           {/* Change type submenu */}
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className="text-xs">
               🎛️ Тип: {config.label}
             </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent className="max-h-60 overflow-y-auto bg-popover">
+            <DropdownMenuSubContent className="max-h-60 overflow-y-auto bg-popover z-50">
               {CHANNEL_TYPES.map((typeConfig) => (
                 <DropdownMenuItem
                   key={typeConfig.type}
