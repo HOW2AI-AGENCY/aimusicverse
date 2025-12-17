@@ -1,7 +1,6 @@
 /**
- * PromptDJ Mixer - Simple knob interface with continuous reactive generation
- * Settings changes auto-generate continuation for seamless flow control
- * Enhanced with state persistence, predictive generation, and smart presets
+ * PromptDJ Mixer - Improved UI with Quick Start, compact visualizer, and essentials mode
+ * Enhanced UX with editable prompt, progress tracking, and waveform history
  */
 
 import { memo, useCallback, useEffect, useState, useMemo } from 'react';
@@ -10,11 +9,15 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { 
-  Play, Square, Loader2, Sparkles, Settings2, 
-  Download, Music, Trash2, Zap, Radio, HelpCircle, Save, MoreVertical
+  Play, Square, Loader2, Settings2, 
+  Zap, Radio, HelpCircle, Rocket
 } from 'lucide-react';
-import { KnobCell } from './KnobCell';
-import { OptimizedVisualizer } from './OptimizedVisualizer';
+import { EssentialsKnobGrid } from './EssentialsKnobGrid';
+import { CompactVisualizer } from './CompactVisualizer';
+import { EditablePromptPreview } from './EditablePromptPreview';
+import { GenerateButton } from './GenerateButton';
+import { TrackHistoryItem } from './TrackHistoryItem';
+import { QuickStartSheet, type QuickStartPreset } from './QuickStartSheet';
 import { PromptDJOnboarding, usePromptDJOnboarding } from './PromptDJOnboarding';
 import { PromptDJErrorBoundary } from './PromptDJErrorBoundary';
 import { toast } from 'sonner';
@@ -30,25 +33,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-  DropdownMenuLabel,
-} from '@/components/ui/dropdown-menu';
-import { Switch } from '@/components/ui/switch';
-import { usePromptDJEnhanced, GeneratedTrack, CHANNEL_TYPES, ChannelType, PromptChannel } from '@/hooks/usePromptDJEnhanced';
+import { usePromptDJEnhanced, GeneratedTrack, ChannelType, PromptChannel } from '@/hooks/usePromptDJEnhanced';
 
-// Quick presets - apply to first channels of matching types
+// Quick presets for header chips
 const QUICK_PRESETS = [
   { id: 'lofi', label: '🎧 Lo-Fi', values: { genre: 'Lo-Fi', instrument: 'Piano', mood: 'Calm', texture: 'Vintage' } },
   { id: 'edm', label: '⚡ EDM', values: { genre: 'EDM', instrument: 'Synth', mood: 'Energetic', energy: 'High' } },
   { id: 'cinema', label: '🎬 Кино', values: { genre: 'Classical', instrument: 'Strings', mood: 'Epic', style: 'Cinematic' } },
   { id: 'trap', label: '🔥 Trap', values: { genre: 'Trap', instrument: 'Bass', mood: 'Dark', energy: 'Intense' } },
-  { id: 'ambient', label: '🌊 Ambient', values: { genre: 'Ambient', instrument: 'Pads', mood: 'Dreamy', texture: 'Airy' } },
-  { id: 'rock', label: '🎸 Rock', values: { genre: 'Rock', instrument: 'Guitar', mood: 'Aggressive', energy: 'Driving' } },
 ];
 
 const PromptDJMixerInner = memo(function PromptDJMixerInner() {
@@ -56,6 +48,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
   const isMobile = useIsMobile();
   const { user } = useAuth();
   const [showSettings, setShowSettings] = useState(false);
+  const [showQuickStart, setShowQuickStart] = useState(false);
   const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
   const [savingTrackId, setSavingTrackId] = useState<string | null>(null);
   const [isKnobAdjusting, setIsKnobAdjusting] = useState(false);
@@ -81,7 +74,6 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
     currentPrompt,
     analyzerNode,
     removeTrack,
-    // Live mode from hook
     isLiveMode,
     liveStatus,
     startLiveMode,
@@ -89,57 +81,75 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
     forceRegenerateInLive,
   } = usePromptDJEnhanced();
 
-  // Predictive pre-generation
-  const { hasPrediction, isPreGenerating } = usePredictiveGeneration(currentPrompt, {
+  // Predictive pre-generation - check cache
+  const { hasPrediction } = usePredictiveGeneration(currentPrompt, {
     enabled: !isLiveMode && !isGenerating,
     duration: globalSettings.duration,
   });
 
-  // Track when user starts/stops adjusting knobs
+  // Show quick start on first visit
+  useEffect(() => {
+    const hasSeenQuickStart = localStorage.getItem('promptdj-seen-quickstart');
+    if (!hasSeenQuickStart && !showOnboarding) {
+      setShowQuickStart(true);
+      localStorage.setItem('promptdj-seen-quickstart', 'true');
+    }
+  }, [showOnboarding]);
+
+  // Knob change handlers for Live mode
   const handleKnobChangeStart = useCallback(() => {
     setIsKnobAdjusting(true);
   }, []);
 
   const handleKnobChangeEnd = useCallback(() => {
     setIsKnobAdjusting(false);
-    // Force regeneration after knob adjustment in Live mode
     if (isLiveMode && liveStatus === 'playing') {
-      // Small delay to let the prompt update
-      setTimeout(() => {
-        forceRegenerateInLive?.();
-      }, 100);
+      setTimeout(() => forceRegenerateInLive?.(), 100);
     }
   }, [isLiveMode, liveStatus, forceRegenerateInLive]);
 
-  // Handle smart preset recommendation
-  const handleApplyRecommendation = useCallback((type: ChannelType, value: string) => {
-    const channel = channels.find(c => c.type === type && !c.value);
-    if (channel) {
-      updateChannel(channel.id, { value, enabled: true, weight: 0.8 });
-    } else {
-      // Find first channel of this type
-      const typeChannel = channels.find(c => c.type === type);
-      if (typeChannel) {
-        updateChannel(typeChannel.id, { value, enabled: true, weight: 0.8 });
+  // Apply quick preset from chips
+  const applyPreset = useCallback((preset: typeof QUICK_PRESETS[0]) => {
+    const appliedTypes = new Set<string>();
+    Object.entries(preset.values).forEach(([type, value]) => {
+      const channel = channels.find(c => c.type === type && !appliedTypes.has(c.id));
+      if (channel) {
+        appliedTypes.add(channel.id);
+        updateChannel(channel.id, { value: value as string, enabled: true, weight: 1 });
       }
-    }
+    });
+    toast.success(`Пресет "${preset.label}" применён`);
   }, [channels, updateChannel]);
 
-  // Load preset from history
-  const handleLoadPreset = useCallback((preset: { channels: PromptChannel[] }) => {
-    preset.channels.forEach((ch, i) => {
-      if (channels[i]) {
-        updateChannel(channels[i].id, {
-          type: ch.type,
-          value: ch.value,
-          weight: ch.weight,
-          enabled: ch.enabled,
+  // Apply quick start preset
+  const handleApplyQuickStart = useCallback((preset: QuickStartPreset) => {
+    // Apply channel settings
+    Object.entries(preset.channels).forEach(([type, config]) => {
+      const channel = channels.find(c => c.type === type);
+      if (channel && config) {
+        updateChannel(channel.id, { 
+          value: config.value, 
+          enabled: true, 
+          weight: config.weight 
         });
       }
     });
-  }, [channels, updateChannel]);
+    // Apply global settings
+    updateGlobalSettings(preset.settings);
+    toast.success(`Пресет "${preset.label}" применён`);
+  }, [channels, updateChannel, updateGlobalSettings]);
 
-  // Save track to cloud as reference
+  // Channel handlers
+  const handleTypeChange = useCallback((channelId: string, newType: ChannelType) => {
+    updateChannel(channelId, { type: newType, value: '' });
+    setSelectedChannel(null);
+  }, [updateChannel]);
+
+  const handleSelectChannel = useCallback((id: string | null) => {
+    setSelectedChannel(id);
+  }, []);
+
+  // Save track to cloud
   const handleSaveToCloud = useCallback(async (track: GeneratedTrack) => {
     if (!user) {
       toast.error('Авторизуйтесь для сохранения');
@@ -149,7 +159,6 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
     setSavingTrackId(track.id);
     
     try {
-      // Fetch audio to get duration
       const audio = new Audio(track.audioUrl);
       await new Promise((resolve, reject) => {
         audio.onloadedmetadata = resolve;
@@ -159,7 +168,6 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
       
       const duration = audio.duration || 0;
       
-      // Save to reference_audio table
       const { error } = await supabase
         .from('reference_audio')
         .insert({
@@ -177,7 +185,6 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
         });
       
       if (error) throw error;
-      
       toast.success('Трек сохранён в облако');
     } catch (error) {
       console.error('Save error:', error);
@@ -187,38 +194,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
     }
   }, [user, globalSettings.bpm, channels]);
 
-  // Apply quick preset - find first channel of each type to apply values
-  const applyPreset = useCallback((preset: typeof QUICK_PRESETS[0]) => {
-    const appliedTypes = new Set<string>();
-    Object.entries(preset.values).forEach(([type, value]) => {
-      // Find first channel of this type that hasn't been used
-      const channel = channels.find(c => c.type === type && !appliedTypes.has(c.id));
-      if (channel) {
-        appliedTypes.add(channel.id);
-        updateChannel(channel.id, { value: value as string, enabled: true, weight: 1 });
-      }
-    });
-    toast.success(`Пресет "${preset.label}" применён`);
-  }, [channels, updateChannel]);
-
-  // Handle channel type change - wrapped for KnobCell
-  const handleTypeChange = useCallback((channelId: string, newType: ChannelType) => {
-    updateChannel(channelId, { type: newType, value: '' });
-    setSelectedChannel(null);
-  }, [updateChannel]);
-
-  // Handle select channel - wrapped for KnobCell  
-  const handleSelectChannel = useCallback((id: string | null) => {
-    setSelectedChannel(id);
-  }, []);
-
-  // Compute isActive state once
-  const isKnobsActive = useMemo(() => 
-    isPlaying || isPreviewPlaying || isLiveMode, 
-    [isPlaying, isPreviewPlaying, isLiveMode]
-  );
-
-  // Use as reference and navigate
+  // Use as reference
   const handleUseAsReference = useCallback((track: GeneratedTrack) => {
     sessionStorage.setItem('audioReferenceFromDJ', JSON.stringify({
       audioUrl: track.audioUrl,
@@ -229,7 +205,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
     navigate('/');
   }, [navigate]);
 
-  // Download
+  // Download track
   const handleDownload = useCallback(async (track: GeneratedTrack) => {
     try {
       const response = await fetch(track.audioUrl);
@@ -262,9 +238,13 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
     }
   }, []);
 
-  const knobSize = isMobile ? 'sm' : 'md';
+  // Compute active state
+  const isKnobsActive = useMemo(() => 
+    isPlaying || isPreviewPlaying || isLiveMode, 
+    [isPlaying, isPreviewPlaying, isLiveMode]
+  );
 
-  // Get live status text
+  // Live status text
   const getLiveStatusText = () => {
     switch (liveStatus) {
       case 'generating': return 'Генерация...';
@@ -286,17 +266,23 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
         )}
       </AnimatePresence>
 
-      {/* Header with visualizer */}
+      {/* Quick Start Sheet */}
+      <QuickStartSheet
+        isOpen={showQuickStart}
+        onClose={() => setShowQuickStart(false)}
+        onApplyPreset={handleApplyQuickStart}
+      />
+
+      {/* Header with compact visualizer */}
       <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-purple-500/5 via-background to-blue-500/5 border border-border/30">
-        <OptimizedVisualizer
+        {/* Compact visualizer - 40px height */}
+        <CompactVisualizer
           analyzerNode={analyzerNode}
-          isActive={isPlaying || isPreviewPlaying || isLiveMode}
-          className="absolute inset-0 opacity-20"
-          variant="bars"
-          barCount={24}
+          isActive={isKnobsActive}
+          className="absolute inset-x-0 top-0"
         />
         
-        <div className="relative z-10 p-3">
+        <div className="relative z-10 p-3 pt-12">
           {/* Live mode indicator */}
           {isLiveMode && (
             <div className="flex items-center gap-2 mb-2 px-2 py-1 rounded-lg bg-red-500/20 border border-red-500/30">
@@ -316,8 +302,17 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
             </div>
           )}
           
-          {/* Quick presets */}
+          {/* Quick presets row */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-2 scrollbar-hide">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="shrink-0 h-7 px-2.5 text-[11px] rounded-full bg-primary/20 hover:bg-primary/30 text-primary"
+              onClick={() => setShowQuickStart(true)}
+            >
+              <Rocket className="w-3 h-3 mr-1" />
+              Quick Start
+            </Button>
             {QUICK_PRESETS.map((preset) => (
               <Button
                 key={preset.id}
@@ -332,36 +327,25 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
             ))}
           </div>
 
-          {/* Prompt preview */}
-          <div className="px-2 py-1.5 rounded-lg bg-black/20 backdrop-blur-sm">
-            <p className="text-[10px] text-muted-foreground">Промпт:</p>
-            <p className="text-xs font-medium line-clamp-2 min-h-[2rem]">
-              {currentPrompt || 'Вращайте ручки...'}
-            </p>
-          </div>
+          {/* Editable prompt preview */}
+          <EditablePromptPreview
+            prompt={currentPrompt}
+            isGenerating={isGenerating}
+          />
         </div>
       </div>
 
-      {/* 9 Knobs grid (3x3 on mobile, 9 columns on desktop) */}
-      <div className={cn(
-        'grid gap-3 p-3 rounded-xl bg-card/30 border border-border/30',
-        isMobile ? 'grid-cols-3' : 'grid-cols-9'
-      )}>
-        {channels.map((channel) => (
-          <KnobCell
-            key={channel.id}
-            channel={channel}
-            isSelected={selectedChannel === channel.id}
-            isActive={isKnobsActive}
-            size={knobSize}
-            onSelect={handleSelectChannel}
-            onUpdate={updateChannel}
-            onTypeChange={handleTypeChange}
-            onChangeStart={handleKnobChangeStart}
-            onChangeEnd={handleKnobChangeEnd}
-          />
-        ))}
-      </div>
+      {/* Essentials Knob Grid (4 essential + expandable advanced) */}
+      <EssentialsKnobGrid
+        channels={channels}
+        isActive={isKnobsActive}
+        selectedChannel={selectedChannel}
+        onSelect={handleSelectChannel}
+        onUpdate={updateChannel}
+        onTypeChange={handleTypeChange}
+        onChangeStart={handleKnobChangeStart}
+        onChangeEnd={handleKnobChangeEnd}
+      />
 
       {/* Controls */}
       <div className="flex flex-col gap-2 p-3 rounded-xl bg-card/30 border border-border/30">
@@ -377,6 +361,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
             )}
             onClick={isPreviewPlaying ? stopPreview : previewWithSynth}
             disabled={isGenerating || isLiveMode}
+            title="Превью с синтезатором"
           >
             <Zap className="w-4 h-4" />
           </Button>
@@ -408,27 +393,18 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
             </Button>
           )}
 
-          {/* Generate single track */}
-          <Button
-            variant="outline"
-            size="icon"
-            className={cn(
-              'h-10 w-10 rounded-full',
-              'border-purple-500/30 hover:bg-purple-500/20'
-            )}
+          {/* Generate single track with progress */}
+          <GenerateButton
             onClick={generateMusic}
-            disabled={isGenerating || isLiveMode || !currentPrompt}
-            title="Сгенерировать трек"
-          >
-            {isGenerating ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Sparkles className="w-4 h-4" />
-            )}
-          </Button>
+            isGenerating={isGenerating}
+            isLiveMode={isLiveMode}
+            disabled={!currentPrompt}
+            hasCachedResult={hasPrediction(currentPrompt)}
+            estimatedTime={globalSettings.duration + 5}
+          />
         </div>
 
-        {/* BPM & Settings */}
+        {/* BPM & Settings row */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5">
             <span className="text-[10px] text-muted-foreground">BPM</span>
@@ -463,7 +439,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
             ))}
           </div>
 
-          {/* Help button */}
+          {/* Help */}
           <Button 
             variant="ghost" 
             size="icon" 
@@ -474,7 +450,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
             <HelpCircle className="w-4 h-4" />
           </Button>
 
-          {/* Settings */}
+          {/* Settings sheet */}
           <Sheet open={showSettings} onOpenChange={setShowSettings}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
@@ -544,7 +520,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
         </div>
       </div>
 
-      {/* Generated tracks */}
+      {/* Generated tracks with waveform */}
       {generatedTracks.length > 0 && (
         <div className="space-y-2">
           <h4 className="text-xs font-medium text-muted-foreground px-1">
@@ -553,77 +529,19 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
           
           <div className="space-y-1.5 max-h-48 overflow-y-auto">
             {generatedTracks.map((track) => (
-              <div
+              <TrackHistoryItem
                 key={track.id}
-                className={cn(
-                  'flex items-center gap-2 p-2 rounded-lg',
-                  'bg-card/40 border border-border/30',
-                  currentTrack?.id === track.id && 'border-primary/50'
-                )}
-              >
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-7 w-7 shrink-0"
-                  onClick={() => currentTrack?.id === track.id && isPlaying ? stopPlayback() : playTrack(track)}
-                >
-                  {currentTrack?.id === track.id && isPlaying ? (
-                    <Square className="w-3 h-3" />
-                  ) : (
-                    <Play className="w-3 h-3" />
-                  )}
-                </Button>
-
-                <p className="flex-1 text-[10px] text-muted-foreground truncate">
-                  {track.prompt.slice(0, 40)}...
-                </p>
-
-                {/* Actions dropdown */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-6 w-6">
-                      <MoreVertical className="w-3 h-3" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-44">
-                    <DropdownMenuLabel className="text-[10px]">Действия</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    
-                    <DropdownMenuItem 
-                      onClick={() => handleSaveToCloud(track)}
-                      disabled={savingTrackId === track.id}
-                      className="text-xs"
-                    >
-                      {savingTrackId === track.id ? (
-                        <Loader2 className="w-3 h-3 mr-2 animate-spin" />
-                      ) : (
-                        <Save className="w-3 h-3 mr-2" />
-                      )}
-                      Сохранить в облако
-                    </DropdownMenuItem>
-                    
-                    <DropdownMenuItem onClick={() => handleUseAsReference(track)} className="text-xs">
-                      <Music className="w-3 h-3 mr-2" />
-                      Как референс
-                    </DropdownMenuItem>
-                    
-                    <DropdownMenuItem onClick={() => handleDownload(track)} className="text-xs">
-                      <Download className="w-3 h-3 mr-2" />
-                      Скачать
-                    </DropdownMenuItem>
-                    
-                    <DropdownMenuSeparator />
-                    
-                    <DropdownMenuItem 
-                      onClick={() => removeTrack(track.id)} 
-                      className="text-xs text-destructive"
-                    >
-                      <Trash2 className="w-3 h-3 mr-2" />
-                      Удалить
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+                track={track}
+                isPlaying={isPlaying}
+                isCurrent={currentTrack?.id === track.id}
+                isSaving={savingTrackId === track.id}
+                onPlay={() => playTrack(track)}
+                onStop={stopPlayback}
+                onSave={() => handleSaveToCloud(track)}
+                onUseAsReference={() => handleUseAsReference(track)}
+                onDownload={() => handleDownload(track)}
+                onRemove={() => removeTrack(track.id)}
+              />
             ))}
           </div>
         </div>
@@ -632,7 +550,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
   );
 });
 
-// Wrap with error boundary for production stability
+// Wrap with error boundary
 export const PromptDJMixer = memo(function PromptDJMixer() {
   return (
     <PromptDJErrorBoundary>
