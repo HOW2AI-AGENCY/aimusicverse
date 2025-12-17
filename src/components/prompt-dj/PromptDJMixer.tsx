@@ -3,7 +3,7 @@
  * Settings changes auto-generate continuation for seamless flow control
  */
 
-import { memo, useCallback, useEffect, useState, useRef } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -91,15 +91,9 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
   const isMobile = useIsMobile();
   const [showSettings, setShowSettings] = useState(false);
   const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
-  const [continuousMode, setContinuousMode] = useState(false);
-  const [isLive, setIsLive] = useState(false);
   
   // Onboarding
   const { showOnboarding, setShowOnboarding, resetOnboarding } = usePromptDJOnboarding();
-  
-  // Ref for tracking settings changes in continuous mode
-  const settingsChangedRef = useRef(false);
-  const continuousTimerRef = useRef<NodeJS.Timeout | null>(null);
   
   const {
     channels,
@@ -119,89 +113,29 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
     currentPrompt,
     analyzerNode,
     removeTrack,
-    audioCache,
+    // Live mode from hook
+    isLiveMode,
+    liveStatus,
+    startLiveMode,
+    stopLiveMode,
   } = usePromptDJEnhanced();
-
-  // Start continuous mode - live DJ session
-  const startLiveSession = useCallback(() => {
-    setIsLive(true);
-    setContinuousMode(true);
-    previewWithSynth();
-    toast.success('🎧 Live сессия запущена! Меняйте настройки для управления потоком');
-  }, [previewWithSynth]);
-
-  // Stop live session
-  const stopLiveSession = useCallback(() => {
-    setIsLive(false);
-    setContinuousMode(false);
-    stopPreview();
-    stopPlayback();
-    if (continuousTimerRef.current) {
-      clearTimeout(continuousTimerRef.current);
-    }
-    toast.info('Live сессия остановлена');
-  }, [stopPreview, stopPlayback]);
-
-  // Track settings changes in continuous mode
-  const handleChannelUpdate = useCallback((id: string, updates: any) => {
-    updateChannel(id, updates);
-    if (continuousMode && isLive) {
-      settingsChangedRef.current = true;
-    }
-  }, [updateChannel, continuousMode, isLive]);
-
-  const handleSettingsUpdate = useCallback((updates: any) => {
-    updateGlobalSettings(updates);
-    if (continuousMode && isLive) {
-      settingsChangedRef.current = true;
-    }
-  }, [updateGlobalSettings, continuousMode, isLive]);
-
-  // In continuous mode, auto-generate when settings change (debounced)
-  useEffect(() => {
-    if (!continuousMode || !isLive || !settingsChangedRef.current) return;
-    
-    // Clear previous timer
-    if (continuousTimerRef.current) {
-      clearTimeout(continuousTimerRef.current);
-    }
-    
-    // Debounce generation to avoid too many calls
-    continuousTimerRef.current = setTimeout(async () => {
-      if (settingsChangedRef.current && !isGenerating) {
-        settingsChangedRef.current = false;
-        // Generate new segment with current settings
-        try {
-          await generateMusic();
-        } catch (e) {
-          console.error('Continuous generation error:', e);
-        }
-      }
-    }, 2000); // 2 second debounce
-    
-    return () => {
-      if (continuousTimerRef.current) {
-        clearTimeout(continuousTimerRef.current);
-      }
-    };
-  }, [channels, globalSettings, continuousMode, isLive, isGenerating, generateMusic]);
 
   // Apply quick preset
   const applyPreset = useCallback((preset: typeof QUICK_PRESETS[0]) => {
     Object.entries(preset.channels).forEach(([type, value]) => {
       const channel = channels.find(c => c.type === type);
       if (channel) {
-        handleChannelUpdate(channel.id, { value, enabled: true, weight: 1 });
+        updateChannel(channel.id, { value, enabled: true, weight: 1 });
       }
     });
     toast.success(`Пресет "${preset.label}" применён`);
-  }, [channels, handleChannelUpdate]);
+  }, [channels, updateChannel]);
 
   // Handle channel preset selection
   const handlePresetSelect = useCallback((channelId: string, preset: string) => {
-    handleChannelUpdate(channelId, { value: preset, enabled: true });
+    updateChannel(channelId, { value: preset, enabled: true });
     setSelectedChannel(null);
-  }, [handleChannelUpdate]);
+  }, [updateChannel]);
 
   // Use as reference
   const handleUseAsReference = useCallback((track: any) => {
@@ -238,9 +172,9 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
         const { description, bpm } = JSON.parse(drumData);
         const customChannel = channels.find(c => c.type === 'custom');
         if (customChannel) {
-          handleChannelUpdate(customChannel.id, { value: description, enabled: true, weight: 1 });
+          updateChannel(customChannel.id, { value: description, enabled: true, weight: 1 });
         }
-        if (bpm) handleSettingsUpdate({ bpm });
+        if (bpm) updateGlobalSettings({ bpm });
         toast.success('Паттерн из драм-машины загружен');
         sessionStorage.removeItem('drumPatternForDJ');
       } catch {}
@@ -248,6 +182,16 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
   }, []);
 
   const knobSize = isMobile ? 'sm' : 'md';
+
+  // Get live status text
+  const getLiveStatusText = () => {
+    switch (liveStatus) {
+      case 'generating': return 'Генерация...';
+      case 'transitioning': return 'Переход...';
+      case 'playing': return 'Меняйте настройки';
+      default: return '';
+    }
+  };
 
   return (
     <div className="flex flex-col gap-3">
@@ -265,19 +209,27 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
       <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-purple-500/5 via-background to-blue-500/5 border border-border/30">
         <LiveVisualizer
           analyzerNode={analyzerNode}
-          isActive={isPlaying || isPreviewPlaying || isLive}
+          isActive={isPlaying || isPreviewPlaying || isLiveMode}
           className="absolute inset-0 opacity-20"
         />
         
         <div className="relative z-10 p-3">
           {/* Live mode indicator */}
-          {isLive && (
+          {isLiveMode && (
             <div className="flex items-center gap-2 mb-2 px-2 py-1 rounded-lg bg-red-500/20 border border-red-500/30">
-              <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              <div className={cn(
+                "w-2 h-2 rounded-full",
+                liveStatus === 'generating' || liveStatus === 'transitioning' 
+                  ? 'bg-amber-500 animate-pulse' 
+                  : 'bg-red-500 animate-pulse'
+              )} />
               <span className="text-xs font-medium text-red-400">LIVE</span>
               <span className="text-[10px] text-muted-foreground flex-1">
-                Меняйте ручки для управления потоком
+                {getLiveStatusText()}
               </span>
+              {(liveStatus === 'generating' || liveStatus === 'transitioning') && (
+                <Loader2 className="w-3 h-3 animate-spin text-amber-500" />
+              )}
             </div>
           )}
           
@@ -330,9 +282,9 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
                       sublabel={channel.value ? config.label : undefined}
                       color={config.color}
                       enabled={channel.enabled}
-                      isActive={(isPlaying || isPreviewPlaying || isLive) && channel.enabled && channel.weight > 0}
+                      isActive={(isPlaying || isPreviewPlaying || isLiveMode) && channel.enabled && channel.weight > 0}
                       size={knobSize}
-                      onChange={(val) => handleChannelUpdate(channel.id, { weight: val })}
+                      onChange={(val) => updateChannel(channel.id, { weight: val })}
                       onLabelClick={() => setSelectedChannel(channel.id)}
                     />
                   </div>
@@ -351,7 +303,7 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
                   ))}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    onClick={() => handleChannelUpdate(channel.id, { enabled: !channel.enabled })}
+                    onClick={() => updateChannel(channel.id, { enabled: !channel.enabled })}
                     className="text-xs"
                   >
                     {channel.enabled ? '🔇 Выключить' : '🔊 Включить'}
@@ -373,21 +325,21 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
             size="icon"
             className={cn(
               'h-10 w-10 rounded-full',
-              isPreviewPlaying && !isLive && 'bg-amber-500/20 border-amber-500'
+              isPreviewPlaying && !isLiveMode && 'bg-amber-500/20 border-amber-500'
             )}
             onClick={isPreviewPlaying ? stopPreview : previewWithSynth}
-            disabled={isGenerating || isLive}
+            disabled={isGenerating || isLiveMode}
           >
             <Zap className="w-4 h-4" />
           </Button>
 
           {/* Live/Stop button */}
-          {isLive ? (
+          {isLiveMode ? (
             <Button
               size="lg"
               variant="destructive"
               className="h-12 w-12 rounded-full"
-              onClick={stopLiveSession}
+              onClick={stopLiveMode}
             >
               <Square className="w-5 h-5" />
             </Button>
@@ -400,8 +352,8 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
                 'hover:from-red-600 hover:to-orange-600',
                 'shadow-lg shadow-red-500/20',
               )}
-              onClick={startLiveSession}
-              disabled={isGenerating}
+              onClick={startLiveMode}
+              disabled={isGenerating || !currentPrompt}
               title="Запустить Live сессию"
             >
               <Radio className="w-5 h-5" />
@@ -417,7 +369,7 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
               'border-purple-500/30 hover:bg-purple-500/20'
             )}
             onClick={generateMusic}
-            disabled={isGenerating || !currentPrompt}
+            disabled={isGenerating || isLiveMode || !currentPrompt}
             title="Сгенерировать трек"
           >
             {isGenerating ? (
@@ -435,12 +387,12 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
             <div className="flex items-center bg-muted/20 rounded-lg">
               <button 
                 className="w-6 h-6 flex items-center justify-center text-sm hover:bg-muted/30 rounded-l-lg"
-                onClick={() => handleSettingsUpdate({ bpm: Math.max(60, globalSettings.bpm - 5) })}
+                onClick={() => updateGlobalSettings({ bpm: Math.max(60, globalSettings.bpm - 5) })}
               >−</button>
               <span className="w-8 text-center font-mono text-xs font-bold">{globalSettings.bpm}</span>
               <button 
                 className="w-6 h-6 flex items-center justify-center text-sm hover:bg-muted/30 rounded-r-lg"
-                onClick={() => handleSettingsUpdate({ bpm: Math.min(180, globalSettings.bpm + 5) })}
+                onClick={() => updateGlobalSettings({ bpm: Math.min(180, globalSettings.bpm + 5) })}
               >+</button>
             </div>
           </div>
@@ -456,7 +408,7 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
                     ? 'bg-primary text-primary-foreground' 
                     : 'bg-muted/20 hover:bg-muted/40'
                 )}
-                onClick={() => handleSettingsUpdate({ duration: d })}
+                onClick={() => updateGlobalSettings({ duration: d })}
               >
                 {d}s
               </button>
@@ -486,20 +438,6 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
                 <SheetTitle>Настройки</SheetTitle>
               </SheetHeader>
               <div className="grid gap-4 py-4">
-                {/* Continuous mode toggle */}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium">Непрерывный режим</p>
-                    <p className="text-xs text-muted-foreground">
-                      Авто-генерация при изменении настроек
-                    </p>
-                  </div>
-                  <Switch 
-                    checked={continuousMode} 
-                    onCheckedChange={setContinuousMode}
-                  />
-                </div>
-                
                 {/* Density */}
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
@@ -511,7 +449,7 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
                   </div>
                   <Slider
                     value={[globalSettings.density]}
-                    onValueChange={([v]) => handleSettingsUpdate({ density: v })}
+                    onValueChange={([v]) => updateGlobalSettings({ density: v })}
                     min={0} max={1} step={0.05}
                   />
                 </div>
@@ -527,7 +465,7 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
                   </div>
                   <Slider
                     value={[globalSettings.brightness]}
-                    onValueChange={([v]) => handleSettingsUpdate({ brightness: v })}
+                    onValueChange={([v]) => updateGlobalSettings({ brightness: v })}
                     min={0} max={1} step={0.05}
                   />
                 </div>
@@ -545,7 +483,7 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
                             ? 'bg-primary text-primary-foreground' 
                             : 'bg-muted/30 hover:bg-muted/50'
                         )}
-                        onClick={() => handleSettingsUpdate({ key })}
+                        onClick={() => updateGlobalSettings({ key })}
                       >
                         {key}
                       </button>
@@ -556,13 +494,6 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
             </SheetContent>
           </Sheet>
         </div>
-
-        {/* Cache indicator */}
-        {audioCache.size > 0 && (
-          <div className="text-[10px] text-center text-muted-foreground">
-            💾 {audioCache.size} в кэше
-          </div>
-        )}
       </div>
 
       {/* Generated tracks */}
