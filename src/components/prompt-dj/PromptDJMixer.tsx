@@ -226,16 +226,18 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
     }
   }, [user, globalSettings.bpm, channels]);
 
-  // Use as reference
+  // Use as reference (unified system)
   const handleUseAsReference = useCallback((track: GeneratedTrack) => {
-    sessionStorage.setItem('audioReferenceFromDJ', JSON.stringify({
-      audioUrl: track.audioUrl,
-      styleDescription: track.prompt,
-      source: 'promptdj'
-    }));
-    toast.success('Трек добавлен как референс');
-    navigate('/');
-  }, [navigate]);
+    import('@/services/audio-reference').then(({ ReferenceManager }) => {
+      ReferenceManager.createFromCreativeTool('dj', {
+        audioUrl: track.audioUrl,
+        styleDescription: track.prompt,
+        bpm: globalSettings.bpm,
+      });
+      toast.success('Трек добавлен как референс');
+      navigate('/');
+    });
+  }, [navigate, globalSettings.bpm]);
 
   // Download track
   const handleDownload = useCallback(async (track: GeneratedTrack) => {

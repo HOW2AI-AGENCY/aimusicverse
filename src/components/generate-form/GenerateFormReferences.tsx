@@ -1,5 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { FileAudio, User, FolderOpen, Music2, Loader2 } from 'lucide-react';
+import { InlineReferencePreview } from '@/components/audio-reference';
+import { useAudioReference } from '@/hooks/useAudioReference';
 
 interface GenerateFormReferencesProps {
   planTrackId?: string;
@@ -13,6 +15,7 @@ interface GenerateFormReferencesProps {
   onRemoveAudioFile: () => void;
   onRemoveArtist: () => void;
   onRemoveProject: () => void;
+  onOpenReferenceDrawer?: () => void;
 }
 
 export function GenerateFormReferences({
@@ -27,8 +30,13 @@ export function GenerateFormReferences({
   onRemoveAudioFile,
   onRemoveArtist,
   onRemoveProject,
+  onOpenReferenceDrawer,
 }: GenerateFormReferencesProps) {
-  const hasReferences = audioFile || audioReferenceLoading || selectedArtistId || selectedProjectId || planTrackId;
+  const { activeReference } = useAudioReference();
+  
+  // Check for unified reference (takes priority over legacy audioFile)
+  const hasUnifiedReference = !!activeReference;
+  const hasReferences = hasUnifiedReference || audioFile || audioReferenceLoading || selectedArtistId || selectedProjectId || planTrackId;
 
   if (!hasReferences) return null;
 
@@ -43,7 +51,16 @@ export function GenerateFormReferences({
         </div>
       )}
 
-      {audioReferenceLoading && !audioFile && (
+      {/* Unified Reference Preview - takes priority */}
+      {hasUnifiedReference && (
+        <InlineReferencePreview 
+          onRemove={onRemoveAudioFile}
+          onOpenDrawer={onOpenReferenceDrawer}
+        />
+      )}
+
+      {/* Legacy loading state */}
+      {audioReferenceLoading && !audioFile && !hasUnifiedReference && (
         <div className="flex items-center gap-2 p-2 rounded-lg bg-amber-500/10 border border-amber-500/20 animate-pulse">
           <Loader2 className="w-4 h-4 text-amber-500 animate-spin" />
           <span className="text-xs flex-1 text-amber-600 dark:text-amber-400">
@@ -52,7 +69,8 @@ export function GenerateFormReferences({
         </div>
       )}
 
-      {audioFile && (
+      {/* Legacy audioFile display - only show if no unified reference */}
+      {audioFile && !hasUnifiedReference && (
         <div className="flex items-center gap-2 p-2 rounded-lg bg-primary/10 border border-primary/20">
           <FileAudio className="w-4 h-4 text-primary" />
           <span className="text-xs flex-1 truncate">{audioFile.name}</span>

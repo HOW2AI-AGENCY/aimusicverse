@@ -12,3 +12,4 @@ export * from './starsPaymentService';
 export * from './telegram-auth';
 export * from './telegram-share';
 export * from './studio.service';
+export * from './audio-reference';
