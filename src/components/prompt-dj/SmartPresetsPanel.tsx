@@ -36,7 +36,15 @@ export const SmartPresetsPanel = memo(function SmartPresetsPanel({
 }: SmartPresetsPanelProps) {
   const { analytics, getRecommendations, topRated, history } = usePromptHistory();
   const userPresets = usePromptDJStore(selectPresets);
-  const { savePreset, loadPreset, deletePreset } = usePromptDJStore();
+  
+  // Get actions via getState to avoid subscription
+  const loadPreset = useCallback((id: string) => {
+    usePromptDJStore.getState().loadPreset(id);
+  }, []);
+  
+  const deletePreset = useCallback((id: string) => {
+    usePromptDJStore.getState().deletePreset(id);
+  }, []);
 
   const recommendations = getRecommendations(channels, 4);
 
