@@ -9,3 +9,8 @@ export { ChannelCard } from './ChannelCard';
 export { LiveVisualizer } from './LiveVisualizer';
 export { VoiceInput } from './VoiceInput';
 export { QuickPresets } from './QuickPresets';
+export { GenreCrossfader } from './GenreCrossfader';
+export { InstrumentSelector } from './InstrumentSelector';
+export { MoodStyleSelector } from './MoodStyleSelector';
+export { GlobalControls } from './GlobalControls';
+export { QuickMixPresets } from './QuickMixPresets';
