@@ -57,19 +57,30 @@ const TrackRow = memo(function TrackRow({
   
   return (
     <div className={cn(
-      'flex items-center gap-2 py-1.5 px-2 rounded-lg transition-colors',
-      'hover:bg-muted/30',
-      !isAudible && 'opacity-50'
+      'flex items-center gap-2 py-2 px-3 rounded-xl transition-all',
+      'hover:bg-muted/20',
+      !isAudible && 'opacity-40'
     )}>
       {/* Track Controls */}
-      <div className="flex items-center gap-1 w-28 shrink-0">
+      <div className="flex items-center gap-1.5 w-32 shrink-0">
+        {/* Color indicator */}
+        <div 
+          className="w-1.5 h-8 rounded-full shrink-0 shadow-sm"
+          style={{ 
+            backgroundColor: sound.color,
+            boxShadow: `0 0 8px ${sound.color}40`
+          }}
+        />
+        
         {/* Solo */}
         <Button
           variant="ghost"
           size="icon"
           className={cn(
-            'h-7 w-7 text-xs font-bold rounded-md',
-            isSolo && 'bg-primary text-primary-foreground hover:bg-primary/90'
+            'h-8 w-8 text-xs font-bold rounded-lg transition-all',
+            isSolo 
+              ? 'bg-primary text-primary-foreground shadow-md shadow-primary/30' 
+              : 'hover:bg-primary/20 text-muted-foreground'
           )}
           onClick={onToggleSolo}
         >
@@ -81,29 +92,25 @@ const TrackRow = memo(function TrackRow({
           variant="ghost"
           size="icon"
           className={cn(
-            'h-7 w-7 rounded-md',
-            isMuted && 'bg-destructive text-destructive-foreground hover:bg-destructive/90'
+            'h-8 w-8 rounded-lg transition-all',
+            isMuted 
+              ? 'bg-destructive text-destructive-foreground shadow-md shadow-destructive/30' 
+              : 'hover:bg-destructive/20 text-muted-foreground'
           )}
           onClick={onToggleMute}
         >
-          {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+          {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
         </Button>
         
-        {/* Track name with color indicator */}
-        <div className="flex items-center gap-1.5 flex-1 min-w-0">
-          <div 
-            className="w-3 h-3 rounded-sm shrink-0"
-            style={{ backgroundColor: sound.color }}
-          />
-          <span className="text-xs font-medium truncate">
-            {sound.shortName}
-          </span>
-        </div>
+        {/* Track name */}
+        <span className="text-sm font-semibold truncate flex-1">
+          {sound.shortName}
+        </span>
       </div>
 
       {/* Volume Slider */}
       {onVolumeChange && (
-        <div className="w-16 shrink-0">
+        <div className="w-20 shrink-0 px-1">
           <Slider
             value={[trackVolume]}
             min={-40}
@@ -116,7 +123,7 @@ const TrackRow = memo(function TrackRow({
       )}
 
       {/* Step Grid */}
-      <div className="flex gap-px flex-1 overflow-x-auto">
+      <div className="flex gap-0.5 flex-1 overflow-x-auto py-1">
         {steps.slice(0, stepLength).map((active, step) => {
           const isCurrentStep = isPlaying && step === currentStep;
           const isDownbeat = step % 4 === 0;
@@ -128,23 +135,21 @@ const TrackRow = memo(function TrackRow({
               type="button"
               onClick={() => onToggleStep(step)}
               className={cn(
-                'flex-1 min-w-[24px] h-8 rounded-sm transition-all duration-50',
-                'border border-transparent',
-                'hover:brightness-110 hover:border-white/20',
-                isGroupStart && 'ml-1 first:ml-0',
-                // Inactive states
-                !active && isDownbeat && 'bg-muted/60',
-                !active && !isDownbeat && 'bg-muted/30',
-                // Current step highlight
-                isCurrentStep && 'ring-2 ring-primary ring-offset-1 ring-offset-background'
+                'flex-1 min-w-[26px] h-9 rounded-md transition-all duration-75',
+                'hover:brightness-125',
+                isGroupStart && 'ml-1.5 first:ml-0',
+                !active && isDownbeat && 'bg-muted/50',
+                !active && !isDownbeat && 'bg-muted/25',
+                isCurrentStep && !active && 'ring-2 ring-primary/50'
               )}
               style={{
                 backgroundColor: active ? sound.color : undefined,
-                boxShadow: active && isCurrentStep 
-                  ? `0 0 12px ${sound.color}` 
-                  : active 
-                    ? `inset 0 1px 0 rgba(255,255,255,0.3)` 
-                    : undefined
+                boxShadow: active 
+                  ? isCurrentStep 
+                    ? `0 0 16px ${sound.color}, inset 0 1px 0 rgba(255,255,255,0.4)` 
+                    : `inset 0 1px 0 rgba(255,255,255,0.3), 0 2px 4px rgba(0,0,0,0.2)`
+                  : undefined,
+                transform: active && isCurrentStep ? 'scale(1.05)' : undefined
               }}
             />
           );
@@ -173,23 +178,31 @@ export const SequencerPro = memo(function SequencerPro({
 
   return (
     <div className={cn(
-      'flex flex-col rounded-xl overflow-hidden',
-      'bg-gradient-to-br from-card/50 to-muted/30',
+      'flex flex-col rounded-2xl overflow-hidden',
+      'bg-gradient-to-b from-[hsl(var(--card)/0.6)] to-[hsl(var(--muted)/0.3)]',
       'border border-border/30',
+      'shadow-inner',
       className
     )}>
       {/* Header with step numbers */}
-      <div className="flex items-center gap-2 px-2 py-2 border-b border-border/30 bg-muted/20">
-        <div className="w-28 shrink-0" />
-        {onVolumeChange && <div className="w-16 shrink-0 text-[10px] text-muted-foreground text-center">VOL</div>}
-        <div className="flex gap-px flex-1">
+      <div className="flex items-center gap-2 px-3 py-3 border-b border-border/20 bg-black/20">
+        <div className="w-32 shrink-0 text-xs font-medium text-muted-foreground pl-2">
+          TRACKS
+        </div>
+        {onVolumeChange && (
+          <div className="w-20 shrink-0 text-[10px] text-muted-foreground text-center font-medium">
+            VOL
+          </div>
+        )}
+        <div className="flex gap-0.5 flex-1">
           {Array.from({ length: stepLength }, (_, i) => (
             <div
               key={i}
               className={cn(
-                'flex-1 min-w-[24px] text-center text-[10px]',
-                'text-muted-foreground',
-                i % 4 === 0 && 'font-bold text-foreground ml-1 first:ml-0'
+                'flex-1 min-w-[26px] text-center text-[10px] font-mono',
+                i % 4 === 0 
+                  ? 'font-bold text-foreground ml-1.5 first:ml-0' 
+                  : 'text-muted-foreground'
               )}
             >
               {i + 1}
@@ -199,7 +212,7 @@ export const SequencerPro = memo(function SequencerPro({
       </div>
 
       {/* Track rows */}
-      <div className="flex flex-col p-1">
+      <div className="flex flex-col p-2 gap-0.5">
         {sounds.map((sound) => (
           <TrackRow
             key={sound.id}
@@ -220,26 +233,29 @@ export const SequencerPro = memo(function SequencerPro({
         ))}
       </div>
 
-      {/* Beat markers at bottom */}
-      <div className="flex items-center gap-2 px-2 py-2 border-t border-border/30 bg-muted/10">
-        <div className="w-28 shrink-0" />
-        {onVolumeChange && <div className="w-16 shrink-0" />}
-        <div className="flex gap-1 flex-1">
+      {/* Playhead indicator at bottom */}
+      <div className="flex items-center gap-2 px-3 py-2.5 border-t border-border/20 bg-black/10">
+        <div className="w-32 shrink-0" />
+        {onVolumeChange && <div className="w-20 shrink-0" />}
+        <div className="flex gap-1.5 flex-1">
           {Array.from({ length: stepLength / 4 }, (_, beatGroup) => (
             <div
               key={beatGroup}
-              className="flex-1 flex gap-px"
+              className="flex-1 flex gap-0.5"
             >
               {Array.from({ length: 4 }, (_, beat) => {
                 const step = beatGroup * 4 + beat;
+                const isActive = isPlaying && step === currentStep;
                 return (
                   <div
                     key={beat}
                     className={cn(
-                      'flex-1 h-1.5 rounded-full transition-all duration-75',
-                      isPlaying && step === currentStep 
-                        ? 'bg-primary shadow-sm shadow-primary/50' 
-                        : 'bg-muted/50'
+                      'flex-1 h-2 rounded-full transition-all duration-100',
+                      isActive 
+                        ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.6)]' 
+                        : beat === 0 
+                          ? 'bg-muted/50' 
+                          : 'bg-muted/30'
                     )}
                   />
                 );

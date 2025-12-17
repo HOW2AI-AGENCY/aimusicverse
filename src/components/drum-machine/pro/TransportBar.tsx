@@ -1,8 +1,8 @@
-import React, { memo, useState, useCallback, useRef, useEffect } from 'react';
+import React, { memo, useState, useCallback, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { 
   Play, Square, Circle, SkipBack, 
-  Volume2, VolumeX, Settings2
+  Volume2, VolumeX, Gauge
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -60,12 +60,10 @@ export const TransportBar = memo(function TransportBar({
     const now = Date.now();
     tapTimesRef.current.push(now);
     
-    // Keep only last 4 taps
     if (tapTimesRef.current.length > 4) {
       tapTimesRef.current.shift();
     }
     
-    // Calculate BPM from taps
     if (tapTimesRef.current.length >= 2) {
       const intervals: number[] = [];
       for (let i = 1; i < tapTimesRef.current.length; i++) {
@@ -82,7 +80,6 @@ export const TransportBar = memo(function TransportBar({
     setShowTapIndicator(true);
     setTimeout(() => setShowTapIndicator(false), 100);
     
-    // Reset if no tap for 2 seconds
     setTimeout(() => {
       if (Date.now() - tapTimesRef.current[tapTimesRef.current.length - 1] > 2000) {
         tapTimesRef.current = [];
@@ -101,21 +98,20 @@ export const TransportBar = memo(function TransportBar({
     }
   }, [isMuted, volume, prevVolume, onVolumeChange]);
 
-  // Format step display
   const currentBar = Math.floor(currentStep / 4) + 1;
   const currentBeat = (currentStep % 4) + 1;
 
   return (
     <TooltipProvider>
       <div className={cn(
-        'flex items-center gap-2 p-3 rounded-xl',
-        'bg-gradient-to-r from-background/95 via-card/90 to-background/95',
-        'border border-border/50 backdrop-blur-sm',
-        'shadow-lg shadow-black/10',
+        'flex flex-wrap items-center gap-3 p-4 rounded-2xl',
+        'bg-gradient-to-b from-[hsl(var(--card))] to-[hsl(var(--muted)/0.3)]',
+        'border border-border/40',
+        'shadow-xl shadow-black/20',
         className
       )}>
         {/* Transport Controls */}
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -123,9 +119,9 @@ export const TransportBar = memo(function TransportBar({
                 size="icon"
                 onClick={onReset}
                 disabled={!isReady}
-                className="h-10 w-10 rounded-lg hover:bg-muted/50"
+                className="h-11 w-11 rounded-xl bg-muted/50 hover:bg-muted"
               >
-                <SkipBack className="h-4 w-4" />
+                <SkipBack className="h-5 w-5" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>Сброс</TooltipContent>
@@ -137,124 +133,132 @@ export const TransportBar = memo(function TransportBar({
             onClick={isPlaying ? onStop : onPlay}
             disabled={!isReady}
             className={cn(
-              'h-12 w-12 rounded-xl transition-all',
-              isPlaying && 'bg-primary shadow-lg shadow-primary/30 animate-pulse'
+              'h-14 w-14 rounded-2xl transition-all',
+              isPlaying 
+                ? 'bg-primary shadow-lg shadow-primary/40' 
+                : 'bg-muted/50 border-2 border-primary/50 hover:border-primary'
             )}
           >
             {isPlaying ? (
-              <Square className="h-5 w-5" />
+              <Square className="h-6 w-6" />
             ) : (
-              <Play className="h-5 w-5 ml-0.5" />
+              <Play className="h-6 w-6 ml-0.5" />
             )}
           </Button>
 
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                variant={isRecording ? 'destructive' : 'outline'}
+                variant={isRecording ? 'destructive' : 'ghost'}
                 size="icon"
                 onClick={onRecord}
                 disabled={!isReady}
                 className={cn(
-                  'h-10 w-10 rounded-lg transition-all',
-                  isRecording && 'animate-pulse shadow-lg shadow-destructive/30'
+                  'h-11 w-11 rounded-xl transition-all',
+                  isRecording 
+                    ? 'bg-destructive shadow-lg shadow-destructive/40 animate-pulse' 
+                    : 'bg-muted/50 hover:bg-destructive/20'
                 )}
               >
-                <Circle className={cn('h-4 w-4', isRecording && 'fill-current')} />
+                <Circle className={cn('h-5 w-5', isRecording && 'fill-current')} />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>{isRecording ? 'Остановить запись' : 'Запись'}</TooltipContent>
+            <TooltipContent>{isRecording ? 'Стоп' : 'Запись'}</TooltipContent>
           </Tooltip>
         </div>
 
-        {/* Time Display */}
-        <div className="flex flex-col items-center px-3 min-w-[70px]">
-          <div className="font-mono text-2xl font-bold tracking-tight text-foreground">
-            {currentBar}.{currentBeat}
+        {/* LED Display Panel */}
+        <div className="flex items-center gap-4 px-4 py-2 rounded-xl bg-black/40 border border-white/10">
+          {/* Time Display */}
+          <div className="flex flex-col items-center">
+            <div className="font-mono text-3xl font-bold tracking-tight text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.5)]">
+              {currentBar}.{currentBeat}
+            </div>
+            <div className="text-[9px] text-emerald-400/60 uppercase tracking-widest">
+              BAR.BEAT
+            </div>
           </div>
-          <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
-            BAR.BEAT
-          </div>
-        </div>
 
-        {/* Divider */}
-        <div className="h-10 w-px bg-border/50" />
+          <div className="h-10 w-px bg-white/10" />
 
-        {/* BPM Control */}
-        <div className="flex flex-col items-center gap-1 min-w-[100px]">
-          <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-6 w-6 text-muted-foreground hover:text-foreground"
-              onClick={() => onBpmChange(Math.max(40, bpm - 1))}
-            >
-              -
-            </Button>
-            <button
-              onClick={handleTapTempo}
-              className={cn(
-                'font-mono text-2xl font-bold tracking-tight min-w-[60px] text-center transition-colors',
-                'hover:text-primary cursor-pointer',
-                showTapIndicator && 'text-primary'
-              )}
-            >
-              {bpm}
-            </button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-6 w-6 text-muted-foreground hover:text-foreground"
-              onClick={() => onBpmChange(Math.min(220, bpm + 1))}
-            >
-              +
-            </Button>
-          </div>
-          <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
-            BPM (TAP)
+          {/* BPM Display */}
+          <div className="flex flex-col items-center">
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-6 w-6 text-emerald-400/60 hover:text-emerald-400"
+                onClick={() => onBpmChange(Math.max(40, bpm - 1))}
+              >
+                −
+              </Button>
+              <button
+                onClick={handleTapTempo}
+                className={cn(
+                  'font-mono text-3xl font-bold tracking-tight min-w-[70px] text-center transition-colors cursor-pointer',
+                  'text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.5)]',
+                  showTapIndicator && 'text-white'
+                )}
+              >
+                {bpm}
+              </button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-6 w-6 text-emerald-400/60 hover:text-emerald-400"
+                onClick={() => onBpmChange(Math.min(220, bpm + 1))}
+              >
+                +
+              </Button>
+            </div>
+            <div className="text-[9px] text-emerald-400/60 uppercase tracking-widest">
+              BPM • TAP
+            </div>
           </div>
         </div>
 
         {/* Swing Control */}
-        <div className="flex flex-col items-center gap-1 min-w-[80px]">
-          <div className="flex items-center gap-2 w-full">
+        <div className="flex flex-col gap-1.5 min-w-[100px]">
+          <div className="flex items-center gap-2">
+            <Gauge className="w-4 h-4 text-muted-foreground" />
+            <span className="text-xs text-muted-foreground">Swing</span>
+          </div>
+          <div className="flex items-center gap-2">
             <Slider
               value={[swing]}
               min={0}
               max={100}
               step={5}
               onValueChange={([v]) => onSwingChange(v)}
-              className="w-16"
+              className="flex-1"
             />
-            <span className="font-mono text-sm w-8 text-right">{swing}%</span>
-          </div>
-          <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
-            SWING
+            <span className="font-mono text-xs w-10 text-right text-muted-foreground">{swing}%</span>
           </div>
         </div>
 
         {/* Spacer */}
-        <div className="flex-1" />
+        <div className="flex-1 min-w-4" />
 
-        {/* Step Indicator */}
-        <div className="hidden md:flex items-center gap-0.5">
-          {Array.from({ length: stepLength }, (_, i) => (
+        {/* Step LED Indicator - Desktop */}
+        <div className="hidden lg:flex items-center gap-1 px-3 py-2 rounded-xl bg-black/30 border border-white/5">
+          {Array.from({ length: Math.min(stepLength, 16) }, (_, i) => (
             <div
               key={i}
               className={cn(
-                'w-2 h-4 rounded-sm transition-all duration-75',
-                i % 4 === 0 ? 'bg-muted' : 'bg-muted/40',
-                isPlaying && i === currentStep && 'bg-primary shadow-sm shadow-primary/50'
+                'w-3 h-5 rounded-sm transition-all duration-75',
+                i % 4 === 0 ? 'ml-1 first:ml-0' : '',
+                isPlaying && i === currentStep 
+                  ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]' 
+                  : i % 4 === 0 
+                    ? 'bg-muted/60' 
+                    : 'bg-muted/30'
               )}
             />
           ))}
         </div>
 
-        {/* Divider */}
-        <div className="h-10 w-px bg-border/50" />
-
         {/* Volume Control */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-muted/30">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -264,13 +268,13 @@ export const TransportBar = memo(function TransportBar({
                 className="h-9 w-9 rounded-lg"
               >
                 {isMuted || volume <= -40 ? (
-                  <VolumeX className="h-4 w-4 text-muted-foreground" />
+                  <VolumeX className="h-4 w-4 text-destructive" />
                 ) : (
                   <Volume2 className="h-4 w-4" />
                 )}
               </Button>
             </TooltipTrigger>
-            <TooltipContent>{isMuted ? 'Включить звук' : 'Выключить звук'}</TooltipContent>
+            <TooltipContent>{isMuted ? 'Вкл' : 'Выкл'}</TooltipContent>
           </Tooltip>
           <Slider
             value={[isMuted ? -60 : volume]}
@@ -281,23 +285,9 @@ export const TransportBar = memo(function TransportBar({
               onVolumeChange(v);
               if (isMuted) setIsMuted(false);
             }}
-            className="w-20"
+            className="w-24"
           />
         </div>
-
-        {/* Settings */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 rounded-lg"
-            >
-              <Settings2 className="h-4 w-4" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>Настройки</TooltipContent>
-        </Tooltip>
       </div>
     </TooltipProvider>
   );
