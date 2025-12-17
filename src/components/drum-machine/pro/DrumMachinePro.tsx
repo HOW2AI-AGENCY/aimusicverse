@@ -160,28 +160,37 @@ export const DrumMachinePro = memo(function DrumMachinePro({ className }: DrumMa
   return (
     <div 
       className={cn(
-        'flex flex-col gap-4',
+        'flex flex-col gap-5',
         className
       )}
       onClick={handleInitialize}
     >
       {/* Header */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-primary" />
+        <div className="flex items-center gap-4">
+          {/* Logo / Brand */}
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary via-primary/80 to-primary/60 flex items-center justify-center shadow-lg shadow-primary/30">
+                <Sparkles className="w-6 h-6 text-primary-foreground" />
+              </div>
+              {isReady && (
+                <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-emerald-500 border-2 border-background shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+              )}
             </div>
             <div>
-              <h2 className="text-lg font-bold tracking-tight">BeatMaker Pro</h2>
+              <h2 className="text-xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
+                BeatMaker Pro
+              </h2>
               <p className="text-xs text-muted-foreground">
-                {!isReady ? 'Нажмите для активации' : `${currentKit.name} • ${stepLength} steps`}
+                {!isReady ? '• Нажмите для активации' : `${currentKit.name} • ${stepLength} шагов`}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        {/* Controls Row */}
+        <div className="flex items-center gap-3 flex-wrap">
           {/* Kit Selector */}
           <KitSelectorPro
             kits={getAvailableKits()}
@@ -196,24 +205,30 @@ export const DrumMachinePro = memo(function DrumMachinePro({ className }: DrumMa
           />
 
           {/* View Mode Toggle */}
-          <div className="flex gap-1 p-1 bg-muted/50 rounded-xl">
+          <div className="flex gap-1 p-1.5 bg-muted/40 rounded-xl border border-border/30">
             <Button
               variant={viewMode === 'pads' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setViewMode('pads')}
-              className="h-9 px-3 rounded-lg"
+              className={cn(
+                'h-10 px-4 rounded-lg gap-2 font-medium',
+                viewMode === 'pads' && 'shadow-md'
+              )}
             >
-              <Grid3X3 className="w-4 h-4 mr-2" />
-              Пэды
+              <Grid3X3 className="w-4 h-4" />
+              <span className="hidden sm:inline">Пэды</span>
             </Button>
             <Button
               variant={viewMode === 'sequencer' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setViewMode('sequencer')}
-              className="h-9 px-3 rounded-lg"
+              className={cn(
+                'h-10 px-4 rounded-lg gap-2 font-medium',
+                viewMode === 'sequencer' && 'shadow-md'
+              )}
             >
-              <ListMusic className="w-4 h-4 mr-2" />
-              Секвенсор
+              <ListMusic className="w-4 h-4" />
+              <span className="hidden sm:inline">Секвенсор</span>
             </Button>
           </div>
         </div>
@@ -274,16 +289,16 @@ export const DrumMachinePro = memo(function DrumMachinePro({ className }: DrumMa
       />
 
       {/* Action Bar */}
-      <div className="flex items-center gap-2 flex-wrap">
+      <div className="flex items-center gap-3 flex-wrap p-4 rounded-2xl bg-gradient-to-r from-muted/30 via-muted/20 to-muted/30 border border-border/30">
         <Button
           variant="outline"
           size="sm"
           onClick={exportToMidi}
           disabled={!isReady}
-          className="h-9 gap-2"
+          className="h-10 gap-2 rounded-xl border-border/50 hover:border-primary/50"
         >
           <Download className="w-4 h-4" />
-          MIDI
+          <span className="hidden sm:inline">Экспорт</span> MIDI
         </Button>
 
         <Button
@@ -291,7 +306,7 @@ export const DrumMachinePro = memo(function DrumMachinePro({ className }: DrumMa
           size="sm"
           onClick={handleSendToPromptDJ}
           disabled={!isReady}
-          className="h-9 gap-2"
+          className="h-10 gap-2 rounded-xl border-border/50 hover:border-primary/50"
         >
           <Send className="w-4 h-4" />
           В PromptDJ
@@ -302,17 +317,22 @@ export const DrumMachinePro = memo(function DrumMachinePro({ className }: DrumMa
             variant="secondary"
             size="sm"
             onClick={handleUseAsReference}
-            className="h-9 gap-2"
+            className="h-10 gap-2 rounded-xl"
           >
             <Music className="w-4 h-4" />
             Как референс
           </Button>
         )}
 
+        <div className="flex-1" />
+
         {recordedAudioUrl && (
-          <div className="flex-1 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted/50">
-            <Mic className="w-4 h-4 text-destructive" />
-            <audio src={recordedAudioUrl} controls className="h-8 flex-1" />
+          <div className="flex items-center gap-3 px-4 py-2 rounded-xl bg-card/50 border border-border/30">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-destructive animate-pulse" />
+              <Mic className="w-4 h-4 text-destructive" />
+            </div>
+            <audio src={recordedAudioUrl} controls className="h-8 max-w-[200px]" />
           </div>
         )}
       </div>
