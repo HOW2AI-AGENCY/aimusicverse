@@ -14,3 +14,4 @@ export { InstrumentSelector } from './InstrumentSelector';
 export { MoodStyleSelector } from './MoodStyleSelector';
 export { GlobalControls } from './GlobalControls';
 export { QuickMixPresets } from './QuickMixPresets';
+export { PromptDJOnboarding, usePromptDJOnboarding } from './PromptDJOnboarding';

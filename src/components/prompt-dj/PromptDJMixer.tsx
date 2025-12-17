@@ -4,15 +4,17 @@
  */
 
 import { memo, useCallback, useEffect, useState, useRef } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { 
   Play, Square, Loader2, Sparkles, Settings2, 
-  Download, Music, Trash2, Zap, Radio
+  Download, Music, Trash2, Zap, Radio, HelpCircle
 } from 'lucide-react';
 import { PromptKnobEnhanced } from './PromptKnobEnhanced';
 import { LiveVisualizer } from './LiveVisualizer';
+import { PromptDJOnboarding, usePromptDJOnboarding } from './PromptDJOnboarding';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -91,6 +93,9 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
   const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
   const [continuousMode, setContinuousMode] = useState(false);
   const [isLive, setIsLive] = useState(false);
+  
+  // Onboarding
+  const { showOnboarding, setShowOnboarding, resetOnboarding } = usePromptDJOnboarding();
   
   // Ref for tracking settings changes in continuous mode
   const settingsChangedRef = useRef(false);
@@ -246,6 +251,16 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
 
   return (
     <div className="flex flex-col gap-3">
+      {/* Onboarding */}
+      <AnimatePresence>
+        {showOnboarding && (
+          <PromptDJOnboarding
+            onComplete={() => setShowOnboarding(false)}
+            onSkip={() => setShowOnboarding(false)}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Header with visualizer */}
       <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-purple-500/5 via-background to-blue-500/5 border border-border/30">
         <LiveVisualizer
@@ -447,6 +462,17 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
               </button>
             ))}
           </div>
+
+          {/* Help button */}
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="h-8 w-8 rounded-full"
+            onClick={resetOnboarding}
+            title="Справка"
+          >
+            <HelpCircle className="w-4 h-4" />
+          </Button>
 
           {/* Settings */}
           <Sheet open={showSettings} onOpenChange={setShowSettings}>
