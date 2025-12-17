@@ -211,29 +211,29 @@ function CreatorCard({
       onClick={onClick}
     >
       <div className={cn(
-        "relative p-4 rounded-2xl bg-card/80 border border-border/50 backdrop-blur-sm",
-        "hover:border-primary/30 hover:shadow-lg transition-all",
+        "relative p-3 rounded-xl bg-card/80 border border-border/50 backdrop-blur-sm h-full",
+        "hover:border-primary/30 hover:shadow-md transition-all",
         rankConfig && `bg-gradient-to-br ${rankConfig.bg}`
       )}>
         {/* Rank Badge */}
         {rankConfig && (
-          <div className="absolute -top-2 -right-2 z-10 text-xl">
+          <div className="absolute -top-1.5 -right-1.5 z-10 text-base">
             {rankConfig.emoji}
           </div>
         )}
         
         {/* Avatar */}
-        <div className="flex justify-center mb-3">
+        <div className="flex justify-center mb-2">
           <div className={cn(
             "relative",
-            rank <= 3 && "after:absolute after:inset-0 after:rounded-full after:bg-primary/15 after:blur-xl after:-z-10"
+            rank <= 3 && "after:absolute after:inset-0 after:rounded-full after:bg-primary/10 after:blur-lg after:-z-10"
           )}>
             <Avatar className={cn(
-              "w-16 h-16 sm:w-18 sm:h-18 border-2 transition-all shadow-lg",
-              rankConfig?.ring || "border-border group-hover:border-primary/50"
+              "w-14 h-14 border-2 transition-all shadow-md",
+              rankConfig?.ring || "border-border/50 group-hover:border-primary/50"
             )}>
               <AvatarImage src={creator.photo_url || undefined} alt={displayName} />
-              <AvatarFallback className="text-lg bg-gradient-to-br from-primary/20 to-primary/5">
+              <AvatarFallback className="text-sm bg-gradient-to-br from-primary/20 to-primary/5">
                 {displayName[0]?.toUpperCase()}
               </AvatarFallback>
             </Avatar>
@@ -241,24 +241,24 @@ function CreatorCard({
         </div>
 
         {/* Name */}
-        <h3 className="font-semibold text-sm text-center truncate mb-0.5 group-hover:text-primary transition-colors">
+        <h3 className="font-semibold text-[11px] text-center truncate mb-0.5 group-hover:text-primary transition-colors">
           {displayName}
         </h3>
         
         {creator.username && (
-          <p className="text-[10px] text-muted-foreground text-center truncate mb-2">
+          <p className="text-[9px] text-muted-foreground text-center truncate mb-1.5">
             @{creator.username}
           </p>
         )}
 
         {/* Stats */}
-        <div className="flex items-center justify-center gap-3 text-[11px]">
-          <div className="flex items-center gap-1 text-muted-foreground">
-            <Music2 className="w-3 h-3" />
+        <div className="flex items-center justify-center gap-2 text-[10px]">
+          <div className="flex items-center gap-0.5 text-muted-foreground">
+            <Music2 className="w-2.5 h-2.5" />
             <span className="font-medium">{creator.tracks_count}</span>
           </div>
-          <div className="flex items-center gap-1 text-red-400">
-            <Heart className="w-3 h-3 fill-current" />
+          <div className="flex items-center gap-0.5 text-red-400">
+            <Heart className="w-2.5 h-2.5 fill-current" />
             <span className="font-medium">{creator.total_likes}</span>
           </div>
         </div>
