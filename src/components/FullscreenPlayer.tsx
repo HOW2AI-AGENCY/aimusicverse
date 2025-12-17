@@ -235,7 +235,7 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
                   size="icon"
                   onClick={() => {
                     hapticImpact('light');
-                    toggleLike({ trackId: track.id, isLiked: track.is_liked });
+                    toggleLike({ trackId: track.id, isLiked: track.is_liked ?? false });
                   }}
                   className="h-11 w-11 touch-manipulation"
                   aria-label={track.is_liked ? "Unlike" : "Like"}

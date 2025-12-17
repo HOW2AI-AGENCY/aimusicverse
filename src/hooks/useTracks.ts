@@ -1,6 +1,6 @@
 /**
- * useTracks - Simplified hook using service layer
- * Replaces useTracksUnified with cleaner architecture
+ * useTracks - Main hook for track operations
+ * Uses service layer architecture
  */
 
 import { useInfiniteQuery, useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -11,6 +11,8 @@ import { supabase } from '@/integrations/supabase/client';
 import * as tracksService from '@/services/tracks.service';
 import * as tracksApi from '@/api/tracks.api';
 
+// Re-export Track type for convenience
+export type { Track, TrackWithCreator, TrackSummary } from '@/types/track';
 export type { EnrichedTrack } from '@/services/tracks.service';
 
 const PAGE_SIZE = 20;

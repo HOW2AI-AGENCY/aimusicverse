@@ -11,52 +11,11 @@ import { toast } from 'sonner';
 import { useEffect, useCallback } from 'react';
 import { logger } from '@/lib/logger';
 
-const log = logger.child({ module: 'TracksOptimized' });
+// Re-export Track type from centralized location for backwards compatibility
+export type { Track } from '@/types/track';
+import type { Track } from '@/types/track';
 
-export interface Track {
-  id: string;
-  user_id: string;
-  title: string | null;
-  prompt: string;
-  audio_url: string | null;
-  streaming_url: string | null;
-  local_audio_url: string | null;
-  cover_url: string | null;
-  local_cover_url: string | null;
-  lyrics: string | null;
-  tags: string | null;
-  style: string | null;
-  duration_seconds: number | null;
-  status: string | null;
-  error_message: string | null;
-  suno_task_id: string | null;
-  suno_id: string | null;
-  model_name: string | null;
-  suno_model: string | null;
-  generation_mode: string | null;
-  has_vocals: boolean | null;
-  is_public: boolean | null;
-  play_count: number | null;
-  project_id: string | null;
-  created_at: string | null;
-  updated_at: string | null;
-  provider: string | null;
-  vocal_gender: string | null;
-  style_weight: number | null;
-  negative_tags: string | null;
-  active_version_id: string | null;
-  video_url: string | null;
-  local_video_url: string | null;
-  artist_id: string | null;
-  artist_name: string | null;
-  artist_avatar_url: string | null;
-  likes_count: number;
-  is_liked: boolean;
-  master_version_id?: string;
-  is_instrumental?: boolean | null;
-  has_stems?: boolean | null;
-  metadata?: Record<string, unknown>;
-}
+const log = logger.child({ module: 'TracksOptimized' });
 
 const RETRY_ATTEMPTS = 3;
 const RETRY_DELAY = 1000;
