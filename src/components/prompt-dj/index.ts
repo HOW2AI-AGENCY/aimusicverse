@@ -1,3 +1,5 @@
+export { PromptDJMixer } from './PromptDJMixer';
+export { PromptKnobEnhanced } from './PromptKnobEnhanced';
 export { PromptDJClean } from './PromptDJClean';
 export { PromptDJMidi } from './PromptDJMidi';
 export { PromptKnob } from './PromptKnob';
