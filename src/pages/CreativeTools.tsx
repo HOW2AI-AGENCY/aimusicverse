@@ -13,7 +13,7 @@ import { ArrowLeft, Mic, Guitar, Sparkles, Music, Zap, FileMusic, Drum, Disc3 } 
 import { RealtimeChordVisualizer } from '@/components/chord-detection/RealtimeChordVisualizer';
 import { GuitarTabEditor } from '@/components/tab-editor/GuitarTabEditor';
 import { MelodyMixer } from '@/components/melody-mixer/MelodyMixer';
-import { DrumMachinePro } from '@/components/drum-machine/pro';
+import { DrumMachineClean } from '@/components/drum-machine/pro';
 import { PromptDJMidi } from '@/components/prompt-dj/PromptDJMidi';
 import { toast } from 'sonner';
 
@@ -135,13 +135,13 @@ export default function CreativeTools() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
             >
-              {/* Drum Machine Pro */}
+              {/* Drum Machine */}
               <TabsContent value="drums" className="mt-0">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                 >
-                  <DrumMachinePro />
+                  <DrumMachineClean />
                 </motion.div>
               </TabsContent>
 

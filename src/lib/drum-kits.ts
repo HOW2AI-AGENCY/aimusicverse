@@ -19,39 +19,39 @@ export interface DrumKit {
   sounds: DrumSound[];
 }
 
-// TR-808 Kit
+// TR-808 Kit - tuned for punchy, warm sound
 const kit808: DrumKit = {
   id: '808',
   name: 'TR-808',
   description: 'Классический аналоговый звук',
   icon: '🔴',
   sounds: [
-    { id: 'kick', name: 'Kick', shortName: 'KK', color: 'hsl(var(--destructive))', type: 'membrane', params: { pitchDecay: 0.05, octaves: 6, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 0.4, sustain: 0.01, release: 1.4 } } },
-    { id: 'snare', name: 'Snare', shortName: 'SN', color: 'hsl(var(--primary))', type: 'noise', params: { noise: { type: 'white' }, envelope: { attack: 0.001, decay: 0.2, sustain: 0, release: 0.2 } } },
-    { id: 'clap', name: 'Clap', shortName: 'CP', color: 'hsl(var(--accent))', type: 'noise', params: { noise: { type: 'pink' }, envelope: { attack: 0.001, decay: 0.15, sustain: 0, release: 0.15 } } },
-    { id: 'hihat-c', name: 'Hi-Hat Closed', shortName: 'CH', color: 'hsl(var(--muted-foreground))', type: 'metal', params: { frequency: 400, envelope: { attack: 0.001, decay: 0.05, release: 0.01 }, harmonicity: 5.1, modulationIndex: 32, resonance: 4000, octaves: 1.5 } },
-    { id: 'hihat-o', name: 'Hi-Hat Open', shortName: 'OH', color: 'hsl(var(--muted-foreground))', type: 'metal', params: { frequency: 400, envelope: { attack: 0.001, decay: 0.3, release: 0.1 }, harmonicity: 5.1, modulationIndex: 32, resonance: 4000, octaves: 1.5 } },
-    { id: 'tom-l', name: 'Tom Low', shortName: 'LT', color: 'hsl(var(--warning))', type: 'membrane', params: { pitchDecay: 0.05, octaves: 4, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 0.3, sustain: 0.01, release: 0.5 } } },
-    { id: 'tom-h', name: 'Tom High', shortName: 'HT', color: 'hsl(var(--warning))', type: 'membrane', params: { pitchDecay: 0.05, octaves: 6, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 0.2, sustain: 0.01, release: 0.3 } } },
-    { id: 'cowbell', name: 'Cowbell', shortName: 'CB', color: 'hsl(var(--secondary))', type: 'metal', params: { frequency: 800, envelope: { attack: 0.001, decay: 0.1, release: 0.05 }, harmonicity: 2, modulationIndex: 4, resonance: 1000, octaves: 0.5 } },
+    { id: 'kick', name: 'Kick', shortName: 'KK', color: '#ef4444', type: 'membrane', params: { pitchDecay: 0.08, octaves: 10, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 0.6, sustain: 0, release: 1.0 } } },
+    { id: 'snare', name: 'Snare', shortName: 'SN', color: '#3b82f6', type: 'noise', params: { noise: { type: 'white' }, envelope: { attack: 0.002, decay: 0.15, sustain: 0.02, release: 0.15 } } },
+    { id: 'clap', name: 'Clap', shortName: 'CP', color: '#8b5cf6', type: 'noise', params: { noise: { type: 'pink' }, envelope: { attack: 0.003, decay: 0.12, sustain: 0, release: 0.12 } } },
+    { id: 'hihat-c', name: 'Closed HH', shortName: 'CH', color: '#6b7280', type: 'metal', params: { frequency: 320, envelope: { attack: 0.001, decay: 0.04, release: 0.01 }, harmonicity: 5.1, modulationIndex: 40, resonance: 4000, octaves: 1.2 } },
+    { id: 'hihat-o', name: 'Open HH', shortName: 'OH', color: '#9ca3af', type: 'metal', params: { frequency: 320, envelope: { attack: 0.001, decay: 0.25, release: 0.08 }, harmonicity: 5.1, modulationIndex: 40, resonance: 4000, octaves: 1.2 } },
+    { id: 'tom-l', name: 'Low Tom', shortName: 'LT', color: '#f59e0b', type: 'membrane', params: { pitchDecay: 0.04, octaves: 5, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 0.25, sustain: 0, release: 0.4 } } },
+    { id: 'tom-h', name: 'High Tom', shortName: 'HT', color: '#fbbf24', type: 'membrane', params: { pitchDecay: 0.03, octaves: 7, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 0.18, sustain: 0, release: 0.25 } } },
+    { id: 'cowbell', name: 'Cowbell', shortName: 'CB', color: '#10b981', type: 'metal', params: { frequency: 560, envelope: { attack: 0.001, decay: 0.08, release: 0.03 }, harmonicity: 2, modulationIndex: 8, resonance: 800, octaves: 0.4 } },
   ]
 };
 
-// TR-909 Kit
+// TR-909 Kit - punchier, modern sound
 const kit909: DrumKit = {
   id: '909',
   name: 'TR-909',
   description: 'Техно и хаус классика',
   icon: '🟡',
   sounds: [
-    { id: 'kick', name: 'Kick', shortName: 'KK', color: 'hsl(var(--destructive))', type: 'membrane', params: { pitchDecay: 0.08, octaves: 8, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 0.5, sustain: 0, release: 1.2 } } },
-    { id: 'snare', name: 'Snare', shortName: 'SN', color: 'hsl(var(--primary))', type: 'noise', params: { noise: { type: 'white' }, envelope: { attack: 0.001, decay: 0.25, sustain: 0.02, release: 0.25 } } },
-    { id: 'clap', name: 'Clap', shortName: 'CP', color: 'hsl(var(--accent))', type: 'noise', params: { noise: { type: 'pink' }, envelope: { attack: 0.005, decay: 0.1, sustain: 0, release: 0.1 } } },
-    { id: 'hihat-c', name: 'Hi-Hat Closed', shortName: 'CH', color: 'hsl(var(--muted-foreground))', type: 'metal', params: { frequency: 500, envelope: { attack: 0.001, decay: 0.04, release: 0.01 }, harmonicity: 6, modulationIndex: 40, resonance: 5000, octaves: 2 } },
-    { id: 'hihat-o', name: 'Hi-Hat Open', shortName: 'OH', color: 'hsl(var(--muted-foreground))', type: 'metal', params: { frequency: 500, envelope: { attack: 0.001, decay: 0.4, release: 0.15 }, harmonicity: 6, modulationIndex: 40, resonance: 5000, octaves: 2 } },
-    { id: 'tom-l', name: 'Tom Low', shortName: 'LT', color: 'hsl(var(--warning))', type: 'membrane', params: { pitchDecay: 0.06, octaves: 5, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 0.35, sustain: 0, release: 0.4 } } },
-    { id: 'tom-h', name: 'Tom High', shortName: 'HT', color: 'hsl(var(--warning))', type: 'membrane', params: { pitchDecay: 0.04, octaves: 7, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 0.25, sustain: 0, release: 0.3 } } },
-    { id: 'ride', name: 'Ride', shortName: 'RD', color: 'hsl(var(--secondary))', type: 'metal', params: { frequency: 300, envelope: { attack: 0.001, decay: 0.8, release: 0.3 }, harmonicity: 3, modulationIndex: 20, resonance: 2000, octaves: 1 } },
+    { id: 'kick', name: 'Kick', shortName: 'KK', color: '#ef4444', type: 'membrane', params: { pitchDecay: 0.1, octaves: 10, oscillator: { type: 'sine' }, envelope: { attack: 0.002, decay: 0.4, sustain: 0.01, release: 0.8 } } },
+    { id: 'snare', name: 'Snare', shortName: 'SN', color: '#3b82f6', type: 'noise', params: { noise: { type: 'white' }, envelope: { attack: 0.002, decay: 0.2, sustain: 0.01, release: 0.18 } } },
+    { id: 'clap', name: 'Clap', shortName: 'CP', color: '#8b5cf6', type: 'noise', params: { noise: { type: 'pink' }, envelope: { attack: 0.004, decay: 0.08, sustain: 0, release: 0.08 } } },
+    { id: 'hihat-c', name: 'Closed HH', shortName: 'CH', color: '#6b7280', type: 'metal', params: { frequency: 400, envelope: { attack: 0.001, decay: 0.035, release: 0.01 }, harmonicity: 5, modulationIndex: 35, resonance: 4500, octaves: 1.5 } },
+    { id: 'hihat-o', name: 'Open HH', shortName: 'OH', color: '#9ca3af', type: 'metal', params: { frequency: 400, envelope: { attack: 0.001, decay: 0.3, release: 0.12 }, harmonicity: 5, modulationIndex: 35, resonance: 4500, octaves: 1.5 } },
+    { id: 'tom-l', name: 'Low Tom', shortName: 'LT', color: '#f59e0b', type: 'membrane', params: { pitchDecay: 0.05, octaves: 6, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 0.3, sustain: 0, release: 0.35 } } },
+    { id: 'tom-h', name: 'High Tom', shortName: 'HT', color: '#fbbf24', type: 'membrane', params: { pitchDecay: 0.035, octaves: 8, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 0.2, sustain: 0, release: 0.25 } } },
+    { id: 'ride', name: 'Ride', shortName: 'RD', color: '#10b981', type: 'metal', params: { frequency: 280, envelope: { attack: 0.001, decay: 0.6, release: 0.2 }, harmonicity: 3, modulationIndex: 15, resonance: 1800, octaves: 0.8 } },
   ]
 };
 
@@ -91,21 +91,21 @@ const kitLoFi: DrumKit = {
   ]
 };
 
-// Trap Kit
+// Trap Kit - deep 808s, crisp hats
 const kitTrap: DrumKit = {
   id: 'trap',
   name: 'Trap',
   description: 'Современный хип-хоп',
   icon: '🔥',
   sounds: [
-    { id: 'kick', name: '808 Kick', shortName: '8K', color: 'hsl(var(--destructive))', type: 'membrane', params: { pitchDecay: 0.15, octaves: 8, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 0.8, sustain: 0.1, release: 2 } } },
-    { id: 'snare', name: 'Snare', shortName: 'SN', color: 'hsl(var(--primary))', type: 'noise', params: { noise: { type: 'white' }, envelope: { attack: 0.001, decay: 0.18, sustain: 0, release: 0.18 } } },
-    { id: 'clap', name: 'Clap', shortName: 'CP', color: 'hsl(var(--accent))', type: 'noise', params: { noise: { type: 'white' }, envelope: { attack: 0.001, decay: 0.12, sustain: 0, release: 0.12 } } },
-    { id: 'hihat-c', name: 'Hi-Hat', shortName: 'HH', color: 'hsl(var(--muted-foreground))', type: 'metal', params: { frequency: 550, envelope: { attack: 0.001, decay: 0.03, release: 0.01 }, harmonicity: 7, modulationIndex: 50, resonance: 6000, octaves: 2.5 } },
-    { id: 'hihat-o', name: 'Open Hat', shortName: 'OH', color: 'hsl(var(--muted-foreground))', type: 'metal', params: { frequency: 550, envelope: { attack: 0.001, decay: 0.2, release: 0.08 }, harmonicity: 7, modulationIndex: 50, resonance: 6000, octaves: 2.5 } },
-    { id: 'perc1', name: 'Snap', shortName: 'SP', color: 'hsl(var(--warning))', type: 'synth', params: { oscillator: { type: 'triangle' }, envelope: { attack: 0.001, decay: 0.04, sustain: 0, release: 0.04 } } },
-    { id: 'perc2', name: 'Rim', shortName: 'RM', color: 'hsl(var(--warning))', type: 'synth', params: { oscillator: { type: 'square' }, envelope: { attack: 0.001, decay: 0.03, sustain: 0, release: 0.03 } } },
-    { id: '808bass', name: '808 Bass', shortName: '8B', color: 'hsl(var(--secondary))', type: 'membrane', params: { pitchDecay: 0.3, octaves: 6, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 1.5, sustain: 0.2, release: 2.5 } } },
+    { id: 'kick', name: '808 Kick', shortName: '8K', color: '#dc2626', type: 'membrane', params: { pitchDecay: 0.2, octaves: 10, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 1.0, sustain: 0.05, release: 1.5 } } },
+    { id: 'snare', name: 'Snare', shortName: 'SN', color: '#3b82f6', type: 'noise', params: { noise: { type: 'white' }, envelope: { attack: 0.001, decay: 0.14, sustain: 0, release: 0.12 } } },
+    { id: 'clap', name: 'Clap', shortName: 'CP', color: '#8b5cf6', type: 'noise', params: { noise: { type: 'white' }, envelope: { attack: 0.002, decay: 0.1, sustain: 0, release: 0.08 } } },
+    { id: 'hihat-c', name: 'Hi-Hat', shortName: 'HH', color: '#6b7280', type: 'metal', params: { frequency: 480, envelope: { attack: 0.001, decay: 0.025, release: 0.008 }, harmonicity: 6, modulationIndex: 45, resonance: 5500, octaves: 2 } },
+    { id: 'hihat-o', name: 'Open Hat', shortName: 'OH', color: '#9ca3af', type: 'metal', params: { frequency: 480, envelope: { attack: 0.001, decay: 0.18, release: 0.06 }, harmonicity: 6, modulationIndex: 45, resonance: 5500, octaves: 2 } },
+    { id: 'perc1', name: 'Snap', shortName: 'SP', color: '#f59e0b', type: 'synth', params: { oscillator: { type: 'triangle' }, envelope: { attack: 0.001, decay: 0.03, sustain: 0, release: 0.03 } } },
+    { id: 'perc2', name: 'Rim', shortName: 'RM', color: '#fbbf24', type: 'synth', params: { oscillator: { type: 'square' }, envelope: { attack: 0.001, decay: 0.025, sustain: 0, release: 0.02 } } },
+    { id: '808bass', name: '808 Bass', shortName: '8B', color: '#10b981', type: 'membrane', params: { pitchDecay: 0.35, octaves: 8, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 1.2, sustain: 0.15, release: 2.0 } } },
   ]
 };
 
