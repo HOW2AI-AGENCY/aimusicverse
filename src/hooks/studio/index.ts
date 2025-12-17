@@ -48,3 +48,12 @@ export {
   unregisterStudioAudio, 
   pauseAllStudioAudio 
 } from './useStudioAudio';
+
+// Multi-track DAW store
+export { useStudioProjectStore } from '@/stores/useStudioProjectStore';
+export type { 
+  StudioProject, 
+  StudioTrack, 
+  StudioClip, 
+  ClipType 
+} from '@/stores/useStudioProjectStore';
