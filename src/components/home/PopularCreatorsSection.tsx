@@ -211,7 +211,7 @@ function CreatorCard({
       onClick={onClick}
     >
       <div className={cn(
-        "relative p-3 rounded-xl bg-card/80 border border-border/50 backdrop-blur-sm h-full",
+        "relative p-3 rounded-xl bg-card/80 border border-border/50 backdrop-blur-sm h-full min-h-[160px] flex flex-col",
         "hover:border-primary/30 hover:shadow-md transition-all",
         rankConfig && `bg-gradient-to-br ${rankConfig.bg}`
       )}>
@@ -245,14 +245,13 @@ function CreatorCard({
           {displayName}
         </h3>
         
-        {creator.username && (
-          <p className="text-[9px] text-muted-foreground text-center truncate mb-1.5">
-            @{creator.username}
-          </p>
-        )}
+        {/* Username - always reserve space */}
+        <p className="text-[9px] text-muted-foreground text-center truncate mb-1.5 h-3">
+          {creator.username ? `@${creator.username}` : ''}
+        </p>
 
-        {/* Stats */}
-        <div className="flex items-center justify-center gap-2 text-[10px]">
+        {/* Stats - pushed to bottom */}
+        <div className="flex items-center justify-center gap-2 text-[10px] mt-auto">
           <div className="flex items-center gap-0.5 text-muted-foreground">
             <Music2 className="w-2.5 h-2.5" />
             <span className="font-medium">{creator.tracks_count}</span>
