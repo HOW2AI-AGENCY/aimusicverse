@@ -47,6 +47,7 @@ import {
 import { registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useStudioActivityLogger } from '@/hooks/useStudioActivityLogger';
+import { ReferenceManager } from '@/services/audio-reference';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -238,15 +239,23 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
   const handleStemAction = (stem: TrackStem, action: string) => {
     switch (action) {
       case 'use_as_reference':
-        // Navigate to generate with reference
-        navigate(`/create?reference=${stem.audio_url}&type=${stem.stem_type}`);
+        // Use unified ReferenceManager
+        ReferenceManager.createFromStem({
+          audioUrl: stem.audio_url,
+          stemType: stem.stem_type,
+          trackId: trackId,
+          trackTitle: track?.title || 'Стем',
+          lyrics: track?.lyrics || undefined,
+          style: track?.style || undefined,
+        });
+        toast.success('Референс из студии загружен');
+        navigate('/', { state: { openGenerate: true } });
         break;
       case 'midi_transcription':
         setSelectedStemForAction(stem);
         setStemActionSheetOpen(true);
         break;
       case 'guitar_analysis':
-        // TODO: Implement guitar analysis
         toast.info('Анализ гитары в разработке');
         break;
       case 'download':

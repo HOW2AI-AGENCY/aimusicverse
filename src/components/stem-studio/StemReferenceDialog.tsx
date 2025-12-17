@@ -13,7 +13,7 @@ import {
 import { TrackStem } from '@/hooks/useTrackStems';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { ReferenceManager } from '@/services/audio-reference';
 
 interface StemReferenceDialogProps {
   stems: TrackStem[];
@@ -90,28 +90,22 @@ export const StemReferenceDialog = ({
     
     setIsLoading(true);
     try {
-      // Store the audio reference info with track context for GenerateSheet
-      const referenceData = {
-        url: selectedStem.audio_url,
-        name: `${trackTitle} - ${getStemLabel(selectedStem.stem_type)}`,
+      // Use unified ReferenceManager
+      ReferenceManager.createFromStem({
+        audioUrl: selectedStem.audio_url,
         stemType: selectedStem.stem_type,
-        timestamp: Date.now(),
-        // Include original track context
-        lyrics: trackLyrics || null,
-        style: trackStyle || null,
-        prompt: trackPrompt || null,
-        tags: trackTags || null, // Fallback for simple mode (no separate style)
-        originalTitle: trackTitle,
-      };
-      localStorage.setItem('stem_audio_reference', JSON.stringify(referenceData));
+        trackTitle: trackTitle,
+        lyrics: trackLyrics || undefined,
+        style: trackStyle || undefined,
+      });
       
-      toast.success('Референс и контекст трека сохранены!');
+      toast.success('Референс из студии загружен');
       setOpen(false);
       
       // Navigate to home with flag to open generate sheet
       navigate('/', { state: { openGenerate: true, fromStemReference: true } });
     } catch (error) {
-      logger.error('Error setting reference', error);
+      console.error('Error setting reference', error);
       toast.error('Ошибка при установке референса');
     } finally {
       setIsLoading(false);
