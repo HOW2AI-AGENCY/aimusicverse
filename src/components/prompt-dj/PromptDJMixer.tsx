@@ -36,57 +36,27 @@ import {
   DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu';
 import { Switch } from '@/components/ui/switch';
-import { usePromptDJEnhanced, GeneratedTrack } from '@/hooks/usePromptDJEnhanced';
+import { usePromptDJEnhanced, GeneratedTrack, CHANNEL_TYPES, ChannelType } from '@/hooks/usePromptDJEnhanced';
+import {
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+} from '@/components/ui/dropdown-menu';
 
-// Channel configuration - simple 6 knobs
-const CHANNEL_CONFIG = [
-  { 
-    type: 'genre', 
-    label: 'Жанр', 
-    color: '#a855f7',
-    presets: ['Electronic', 'Hip-Hop', 'Rock', 'Jazz', 'Pop', 'Ambient', 'Lo-Fi', 'EDM', 'Classical', 'Trap']
-  },
-  { 
-    type: 'instrument1', 
-    label: 'Инструмент', 
-    color: '#3b82f6',
-    presets: ['Piano', 'Guitar', 'Synth', 'Strings', 'Bass', 'Drums', 'Pads', 'Brass', 'Bells', 'Choir']
-  },
-  { 
-    type: 'mood', 
-    label: 'Настроение', 
-    color: '#ec4899',
-    presets: ['Energetic', 'Calm', 'Dark', 'Happy', 'Epic', 'Dreamy', 'Aggressive', 'Romantic', 'Mysterious', 'Groovy']
-  },
-  { 
-    type: 'energy', 
-    label: 'Энергия', 
-    color: '#ef4444',
-    presets: ['Low', 'Medium', 'High', 'Building', 'Dropping', 'Intense', 'Relaxed', 'Driving', 'Floating', 'Explosive']
-  },
-  { 
-    type: 'texture', 
-    label: 'Текстура', 
-    color: '#f59e0b',
-    presets: ['Smooth', 'Gritty', 'Airy', 'Dense', 'Sparse', 'Layered', 'Vintage', 'Modern', 'Organic', 'Digital']
-  },
-  { 
-    type: 'style', 
-    label: 'Стиль', 
-    color: '#22c55e',
-    presets: ['Minimalist', 'Maximalist', 'Retro', 'Futuristic', 'Cinematic', 'Experimental', 'Acoustic', 'Electronic']
-  },
-];
-
-// Quick presets
+// Quick presets - apply to first channels of matching types
 const QUICK_PRESETS = [
-  { id: 'lofi', label: '🎧 Lo-Fi', channels: { genre: 'Lo-Fi', instrument1: 'Piano', mood: 'Calm', texture: 'Vintage' } },
-  { id: 'edm', label: '⚡ EDM', channels: { genre: 'EDM', instrument1: 'Synth', mood: 'Energetic', energy: 'High' } },
-  { id: 'cinema', label: '🎬 Кино', channels: { genre: 'Classical', instrument1: 'Strings', mood: 'Epic', style: 'Cinematic' } },
-  { id: 'trap', label: '🔥 Trap', channels: { genre: 'Trap', instrument1: 'Bass', mood: 'Dark', energy: 'Intense' } },
-  { id: 'ambient', label: '🌊 Ambient', channels: { genre: 'Ambient', instrument1: 'Pads', mood: 'Dreamy', texture: 'Airy' } },
-  { id: 'rock', label: '🎸 Rock', channels: { genre: 'Rock', instrument1: 'Guitar', mood: 'Aggressive', energy: 'Driving' } },
+  { id: 'lofi', label: '🎧 Lo-Fi', values: { genre: 'Lo-Fi', instrument: 'Piano', mood: 'Calm', texture: 'Vintage' } },
+  { id: 'edm', label: '⚡ EDM', values: { genre: 'EDM', instrument: 'Synth', mood: 'Energetic', energy: 'High' } },
+  { id: 'cinema', label: '🎬 Кино', values: { genre: 'Classical', instrument: 'Strings', mood: 'Epic', style: 'Cinematic' } },
+  { id: 'trap', label: '🔥 Trap', values: { genre: 'Trap', instrument: 'Bass', mood: 'Dark', energy: 'Intense' } },
+  { id: 'ambient', label: '🌊 Ambient', values: { genre: 'Ambient', instrument: 'Pads', mood: 'Dreamy', texture: 'Airy' } },
+  { id: 'rock', label: '🎸 Rock', values: { genre: 'Rock', instrument: 'Guitar', mood: 'Aggressive', energy: 'Driving' } },
 ];
+
+// Helper to get channel config by type
+const getChannelConfig = (type: ChannelType) => {
+  return CHANNEL_TYPES.find(c => c.type === type) || CHANNEL_TYPES[0];
+};
 
 export const PromptDJMixer = memo(function PromptDJMixer() {
   const navigate = useNavigate();
@@ -172,16 +142,25 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
     }
   }, [user, globalSettings.bpm, channels]);
 
-  // Apply quick preset
+  // Apply quick preset - find first channel of each type to apply values
   const applyPreset = useCallback((preset: typeof QUICK_PRESETS[0]) => {
-    Object.entries(preset.channels).forEach(([type, value]) => {
-      const channel = channels.find(c => c.type === type);
+    const appliedTypes = new Set<string>();
+    Object.entries(preset.values).forEach(([type, value]) => {
+      // Find first channel of this type that hasn't been used
+      const channel = channels.find(c => c.type === type && !appliedTypes.has(c.id));
       if (channel) {
-        updateChannel(channel.id, { value, enabled: true, weight: 1 });
+        appliedTypes.add(channel.id);
+        updateChannel(channel.id, { value: value as string, enabled: true, weight: 1 });
       }
     });
     toast.success(`Пресет "${preset.label}" применён`);
   }, [channels, updateChannel]);
+
+  // Handle channel type change
+  const handleTypeChange = useCallback((channelId: string, newType: ChannelType) => {
+    updateChannel(channelId, { type: newType, value: '' });
+    setSelectedChannel(null);
+  }, [updateChannel]);
 
   // Handle channel preset selection
   const handlePresetSelect = useCallback((channelId: string, preset: string) => {
@@ -311,14 +290,13 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
         </div>
       </div>
 
-      {/* 6 Knobs grid */}
+      {/* 9 Knobs grid (3x3 on mobile, 9 columns on desktop) */}
       <div className={cn(
         'grid gap-3 p-3 rounded-xl bg-card/30 border border-border/30',
-        isMobile ? 'grid-cols-3' : 'grid-cols-6'
+        isMobile ? 'grid-cols-3' : 'grid-cols-9'
       )}>
-        {CHANNEL_CONFIG.map((config) => {
-          const channel = channels.find(c => c.type === config.type);
-          if (!channel) return null;
+        {channels.map((channel) => {
+          const config = getChannelConfig(channel.type);
           
           return (
             <div key={channel.id} className="flex flex-col items-center">
@@ -341,18 +319,52 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
                     />
                   </div>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="center" className="max-h-60 overflow-y-auto">
-                  <DropdownMenuLabel className="text-xs">{config.label}</DropdownMenuLabel>
+                <DropdownMenuContent align="center" className="max-h-72 overflow-y-auto bg-popover">
+                  {/* Change type submenu */}
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger className="text-xs">
+                      🎛️ Тип: {config.label}
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent className="max-h-60 overflow-y-auto bg-popover">
+                      {CHANNEL_TYPES.map((typeConfig) => (
+                        <DropdownMenuItem
+                          key={typeConfig.type}
+                          onClick={() => handleTypeChange(channel.id, typeConfig.type)}
+                          className={cn(
+                            'text-xs',
+                            channel.type === typeConfig.type && 'bg-accent'
+                          )}
+                        >
+                          <div 
+                            className="w-2 h-2 rounded-full mr-2" 
+                            style={{ backgroundColor: typeConfig.color }} 
+                          />
+                          {typeConfig.label}
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                  
                   <DropdownMenuSeparator />
-                  {config.presets.map((preset) => (
-                    <DropdownMenuItem
-                      key={preset}
-                      onClick={() => handlePresetSelect(channel.id, preset)}
-                      className="text-xs"
-                    >
-                      {preset}
+                  <DropdownMenuLabel className="text-xs">{config.label}</DropdownMenuLabel>
+                  
+                  {/* Presets for current type */}
+                  {config.presets.length > 0 ? (
+                    config.presets.map((preset) => (
+                      <DropdownMenuItem
+                        key={preset}
+                        onClick={() => handlePresetSelect(channel.id, preset)}
+                        className="text-xs"
+                      >
+                        {preset}
+                      </DropdownMenuItem>
+                    ))
+                  ) : (
+                    <DropdownMenuItem className="text-xs text-muted-foreground" disabled>
+                      Введите своё значение
                     </DropdownMenuItem>
-                  ))}
+                  )}
+                  
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={() => updateChannel(channel.id, { enabled: !channel.enabled })}
