@@ -19,6 +19,9 @@ interface PromptKnobEnhancedProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
+// Disabled color as hex for animation compatibility
+const DISABLED_COLOR = '#6b7280';
+
 export const PromptKnobEnhanced = memo(function PromptKnobEnhanced({
   value,
   label,
@@ -45,16 +48,17 @@ export const PromptKnobEnhanced = memo(function PromptKnobEnhanced({
 
   // Convert value to angle (270 degree range, starting from -135)
   const angle = value * 270 - 135;
-  const arcLength = value * 0.75; // 0.75 = 270/360
+  const arcLength = value * 0.75;
+
+  // Actual color to use (hex for animation compatibility)
+  const activeColor = enabled ? color : DISABLED_COLOR;
 
   // Calculate angle from center
   const getAngleFromCenter = useCallback((clientX: number, clientY: number) => {
     const rect = knobRef.current?.getBoundingClientRect();
     if (!rect) return 0;
-    
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    
     return Math.atan2(clientY - centerY, clientX - centerX) * (180 / Math.PI);
   }, []);
 
@@ -85,11 +89,9 @@ export const PromptKnobEnhanced = memo(function PromptKnobEnhanced({
     const currentAngle = getAngleFromCenter(e.clientX, e.clientY);
     let deltaAngle = currentAngle - startAngleRef.current;
     
-    // Handle angle wraparound
     if (deltaAngle > 180) deltaAngle -= 360;
     if (deltaAngle < -180) deltaAngle += 360;
     
-    // Convert angle delta to value delta (270 degrees = 1.0)
     const deltaValue = deltaAngle / 270;
     const newValue = Math.max(0, Math.min(1, startValueRef.current + deltaValue));
     
@@ -131,7 +133,7 @@ export const PromptKnobEnhanced = memo(function PromptKnobEnhanced({
   }, [isDragging, enabled, onChange]);
 
   return (
-    <div className="flex flex-col items-center gap-2 select-none touch-none">
+    <div className="flex flex-col items-center gap-1.5 select-none touch-none">
       {/* Knob container */}
       <motion.div
         ref={knobRef}
@@ -163,7 +165,7 @@ export const PromptKnobEnhanced = memo(function PromptKnobEnhanced({
             cy="50%"
             r={(sizeConfig.outer / 2) - 6}
             fill="none"
-            stroke="hsl(var(--muted) / 0.3)"
+            stroke="rgba(100,100,100,0.2)"
             strokeWidth="4"
             strokeDasharray={`${0.75 * Math.PI * (sizeConfig.outer - 12)} ${Math.PI * (sizeConfig.outer - 12)}`}
             strokeLinecap="round"
@@ -174,7 +176,7 @@ export const PromptKnobEnhanced = memo(function PromptKnobEnhanced({
             cy="50%"
             r={(sizeConfig.outer / 2) - 6}
             fill="none"
-            stroke={enabled ? color : 'hsl(var(--muted-foreground))'}
+            stroke={activeColor}
             strokeWidth="4"
             strokeLinecap="round"
             initial={false}
@@ -196,12 +198,10 @@ export const PromptKnobEnhanced = memo(function PromptKnobEnhanced({
             height: sizeConfig.inner,
             top: (sizeConfig.outer - sizeConfig.inner) / 2,
             left: (sizeConfig.outer - sizeConfig.inner) / 2,
-            background: enabled
-              ? `radial-gradient(circle at 30% 30%, hsl(var(--card)), hsl(var(--muted)))`
-              : 'hsl(var(--muted))',
+            background: 'linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%)',
             boxShadow: enabled && isActive
               ? `0 0 20px ${color}60, inset 0 2px 4px rgba(255,255,255,0.1)`
-              : 'inset 0 2px 4px rgba(255,255,255,0.05), 0 4px 8px rgba(0,0,0,0.2)',
+              : 'inset 0 2px 4px rgba(255,255,255,0.05), 0 4px 8px rgba(0,0,0,0.3)',
           }}
         >
           {/* Rotation indicator */}
@@ -210,7 +210,7 @@ export const PromptKnobEnhanced = memo(function PromptKnobEnhanced({
             style={{
               width: sizeConfig.indicator,
               height: sizeConfig.inner / 3,
-              backgroundColor: enabled ? color : 'hsl(var(--muted-foreground))',
+              backgroundColor: activeColor,
               top: 6,
               transformOrigin: 'center bottom',
               boxShadow: enabled ? `0 0 4px ${color}` : 'none',
@@ -222,7 +222,7 @@ export const PromptKnobEnhanced = memo(function PromptKnobEnhanced({
           {/* Value display */}
           <span 
             className={cn('font-bold tabular-nums mt-2', sizeConfig.fontSize)}
-            style={{ color: enabled ? color : 'hsl(var(--muted-foreground))' }}
+            style={{ color: activeColor }}
           >
             {Math.round(value * 100)}
           </span>
@@ -250,37 +250,37 @@ export const PromptKnobEnhanced = memo(function PromptKnobEnhanced({
       {/* Label */}
       <button
         className={cn(
-          'text-center truncate transition-all rounded-lg px-2 py-0.5',
-          'hover:bg-muted/30 active:scale-95',
+          'text-center truncate transition-all rounded-lg px-1.5 py-0.5',
+          'hover:bg-white/5 active:scale-95',
           sizeConfig.labelWidth,
           sizeConfig.fontSize,
-          !enabled && 'text-muted-foreground'
+          !enabled && 'opacity-50'
         )}
         onClick={onLabelClick}
       >
         <div className="font-medium truncate">{label}</div>
         {sublabel && (
-          <div className="text-[9px] text-muted-foreground truncate">{sublabel}</div>
+          <div className="text-[9px] opacity-60 truncate">{sublabel}</div>
         )}
       </button>
 
       {/* Enable indicator */}
       <button
         className={cn(
-          'w-5 h-5 rounded-full flex items-center justify-center transition-all',
+          'w-4 h-4 rounded-full flex items-center justify-center transition-all',
           'hover:scale-110 active:scale-95',
         )}
         style={{
-          backgroundColor: enabled ? `${color}30` : 'hsl(var(--muted) / 0.3)',
+          backgroundColor: enabled ? `${color}30` : 'rgba(100,100,100,0.2)',
           boxShadow: enabled ? `0 0 0 2px ${color}` : 'none',
         }}
         onClick={onLabelClick}
       >
-        <motion.div
-          className="w-2 h-2 rounded-full"
-          animate={{
-            backgroundColor: enabled ? color : 'hsl(var(--muted-foreground))',
-            scale: enabled ? 1 : 0.6,
+        <div
+          className="w-1.5 h-1.5 rounded-full transition-transform"
+          style={{
+            backgroundColor: enabled ? color : DISABLED_COLOR,
+            transform: enabled ? 'scale(1)' : 'scale(0.6)',
           }}
         />
       </button>
