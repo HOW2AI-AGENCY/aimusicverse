@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useProjects } from '@/hooks/useProjectsOptimized';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -7,6 +7,8 @@ import { FolderOpen, Search, Plus, LayoutGrid, LayoutList } from 'lucide-react';
 import { ProjectCreationWizard } from '@/components/project/ProjectCreationWizard';
 import { toast } from 'sonner';
 import { VirtualizedProjectsList } from '@/components/content-hub/VirtualizedProjectsList';
+import { ProjectsOnboarding } from '@/components/content-hub/ProjectsOnboarding';
+import { AnimatePresence } from '@/lib/motion';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,6 +19,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+
+const ONBOARDING_KEY = 'projects-onboarding-dismissed';
 
 const statusLabels: Record<string, { label: string; color: string }> = {
   draft: { label: 'Черновик', color: 'bg-muted text-muted-foreground' },
@@ -39,7 +43,20 @@ export function ProjectsTab() {
   const [createSheetOpen, setCreateSheetOpen] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const dismissed = localStorage.getItem(ONBOARDING_KEY);
+    if (!dismissed) {
+      setShowOnboarding(true);
+    }
+  }, []);
+
+  const handleDismissOnboarding = () => {
+    localStorage.setItem(ONBOARDING_KEY, 'true');
+    setShowOnboarding(false);
+  };
 
   const filteredProjects = projects?.filter((project) =>
     project.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -65,6 +82,23 @@ export function ProjectsTab() {
 
   return (
     <div className="space-y-4">
+      {/* Onboarding */}
+      <AnimatePresence>
+        {showOnboarding && (
+          <ProjectsOnboarding
+            onDismiss={handleDismissOnboarding}
+            onCreateProject={() => {
+              handleDismissOnboarding();
+              setCreateSheetOpen(true);
+            }}
+            onCreateArtist={() => {
+              handleDismissOnboarding();
+              navigate('/projects?tab=artists');
+            }}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Search & Create */}
       <div className="flex items-center gap-2">
         <div className="relative flex-1">
