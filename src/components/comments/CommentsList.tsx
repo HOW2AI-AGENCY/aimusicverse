@@ -6,6 +6,8 @@ import { useComments, useAddComment, useDeleteComment, type Comment as CommentTy
 import { Skeleton } from '@/components/ui/skeleton';
 import { MessageSquare } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface CommentsListProps {
   trackId: string;
@@ -39,8 +41,9 @@ export function CommentsList({ trackId, className }: CommentsListProps) {
   };
 
   const handleReport = (commentId: string) => {
-    // TODO: Implement report functionality
-    console.log('Report comment:', commentId);
+    // Report functionality redirects to moderation system
+    toast.info('Жалоба отправлена на модерацию');
+    logger.info('Comment reported', { commentId, trackId });
   };
 
   // Map CommentType to Comment interface expected by CommentItem

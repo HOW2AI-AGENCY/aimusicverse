@@ -10,13 +10,10 @@ import {
   BookOpen, 
   User, 
   Settings, 
-  HelpCircle,
   ChevronRight,
-  Sparkles,
   Gift,
   FileText,
   Music2,
-  Guitar,
   Home,
   Library,
   Folder,
@@ -49,32 +46,35 @@ interface MenuItem {
 
 const menuSections: { title: string; items: MenuItem[] }[] = [
   {
-    title: 'Быстрый доступ',
+    title: 'Основное',
     items: [
       { icon: Home, label: 'Главная', path: '/', description: 'Лента и открытия' },
       { icon: Library, label: 'Библиотека', path: '/library', description: 'Ваши треки' },
-      { icon: Folder, label: 'Проекты', path: '/projects', description: 'Музыкальные проекты' },
+      { icon: Folder, label: 'Проекты', path: '/projects', description: 'Альбомы и EP' },
+      { icon: ListMusic, label: 'Плейлисты', path: '/playlists', badgeVariant: 'count' },
     ]
   },
   {
-    title: 'Музыка',
+    title: 'Инструменты',
     items: [
-      { icon: Disc3, label: 'Креативные инструменты', path: '/creative-tools', description: 'PromptDJ, драм-машина, аккорды', badge: 'PRO', badgeVariant: 'new' },
-      { icon: ListMusic, label: 'Плейлисты', path: '/playlists', badgeVariant: 'count' },
-      { icon: Guitar, label: 'Guitar Studio', path: '/guitar-studio', description: 'Запись, транскрипция и анализ гитары', badge: 'PRO', badgeVariant: 'new' },
-      { icon: FileText, label: 'Шаблоны', path: '/templates', description: 'Шаблоны текстов' },
+      { icon: Disc3, label: 'Music Lab', path: '/music-lab', description: 'DJ, ударные, аккорды, гитара' },
+      { icon: FileText, label: 'Шаблоны текстов', path: '/templates' },
       { icon: Users, label: 'AI-артисты', path: '/artists' },
-      { icon: Globe, label: 'Сообщество', path: '/community' },
+    ]
+  },
+  {
+    title: 'Сообщество',
+    items: [
+      { icon: Globe, label: 'Открытия', path: '/community', description: 'Публичные треки' },
       { icon: BookOpen, label: 'Блог', path: '/blog' },
     ]
   },
   {
-    title: 'Аккаунт',
+    title: 'Профиль',
     items: [
-      { icon: User, label: 'Профиль', path: '/profile' },
+      { icon: User, label: 'Мой профиль', path: '/profile' },
       { icon: Gift, label: 'Награды', path: '/rewards' },
       { icon: Settings, label: 'Настройки', path: '/settings' },
-      { icon: HelpCircle, label: 'Обучение', path: '/onboarding' },
     ]
   }
 ];

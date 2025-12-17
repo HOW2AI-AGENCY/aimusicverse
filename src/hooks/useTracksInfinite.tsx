@@ -1,3 +1,18 @@
+/**
+ * @deprecated Use useTracks from '@/hooks/useTracks' with { paginate: true } instead.
+ * This file is kept for backwards compatibility during migration.
+ * Will be removed in next major release.
+ * 
+ * Migration example:
+ * ```tsx
+ * // Before
+ * const { tracks, fetchNextPage, hasNextPage } = useTracksInfinite({ sortBy: 'recent' });
+ * 
+ * // After
+ * const { tracks, fetchNextPage, hasNextPage } = useTracks({ paginate: true, sortBy: 'recent' });
+ * ```
+ */
+
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
@@ -7,21 +22,6 @@ import { logger } from '@/lib/logger';
 
 const log = logger.child({ module: 'TracksInfinite' });
 const PAGE_SIZE = 20;
-const RETRY_ATTEMPTS = 3;
-const RETRY_DELAY = 1000;
-
-const retryWithBackoff = async <T,>(
-  fn: () => Promise<T>,
-  attempts = RETRY_ATTEMPTS
-): Promise<T> => {
-  try {
-    return await fn();
-  } catch (error) {
-    if (attempts <= 1) throw error;
-    await new Promise(resolve => setTimeout(resolve, RETRY_DELAY * (RETRY_ATTEMPTS - attempts + 1)));
-    return retryWithBackoff(fn, attempts - 1);
-  }
-};
 
 interface UseTracksInfiniteParams {
   projectId?: string;
@@ -30,6 +30,9 @@ interface UseTracksInfiniteParams {
   pageSize?: number;
 }
 
+/**
+ * @deprecated Use useTracks from '@/hooks/useTracks' with { paginate: true } instead
+ */
 export const useTracksInfinite = ({ 
   projectId, 
   searchQuery, 
@@ -39,7 +42,8 @@ export const useTracksInfinite = ({
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  // Fetch tracks with infinite scroll pagination
+  log.warn('useTracksInfinite is deprecated. Use useTracks with { paginate: true } instead.');
+
   const {
     data,
     isLoading,
@@ -51,233 +55,109 @@ export const useTracksInfinite = ({
   } = useInfiniteQuery({
     queryKey: ['tracks-infinite', user?.id, projectId, searchQuery, sortBy, pageSize],
     queryFn: async ({ pageParam = 0 }) => {
-      if (!user?.id) {
-        log.warn('No user ID available');
-        return { tracks: [], nextPage: null, totalCount: 0 };
+      if (!user?.id) return { tracks: [], nextPage: null, totalCount: 0 };
+
+      const from = pageParam * pageSize;
+      const to = from + pageSize - 1;
+
+      let query = supabase
+        .from('tracks')
+        .select('*', { count: 'exact' })
+        .eq('user_id', user.id)
+        .in('status', ['completed', 'streaming_ready'])
+        .range(from, to);
+
+      if (searchQuery) {
+        query = query.or(`title.ilike.%${searchQuery}%,prompt.ilike.%${searchQuery}%,style.ilike.%${searchQuery}%`);
       }
 
-      log.debug('Fetching tracks page', { page: pageParam, sortBy });
+      switch (sortBy) {
+        case 'popular':
+          query = query.order('play_count', { ascending: false, nullsFirst: false });
+          break;
+        case 'liked':
+          query = query.order('likes_count', { ascending: false, nullsFirst: false });
+          break;
+        default:
+          query = query.order('created_at', { ascending: false });
+      }
 
-      return retryWithBackoff(async () => {
-        const from = pageParam * pageSize;
-        const to = from + pageSize - 1;
+      if (projectId) query = query.eq('project_id', projectId);
 
-        let query = supabase
-          .from('tracks')
-          .select('*', { count: 'exact' })
-          .eq('user_id', user.id)
-          .in('status', ['completed', 'streaming_ready']) // Only show ready tracks
-          .range(from, to);
+      const { data, error, count } = await query;
+      if (error) throw error;
 
-        // Server-side search
-        if (searchQuery) {
-          query = query.or(`title.ilike.%${searchQuery}%,prompt.ilike.%${searchQuery}%,style.ilike.%${searchQuery}%`);
-        }
+      const trackIds = data?.map(t => t.id) || [];
+      if (trackIds.length === 0) {
+        return { tracks: [], nextPage: null, totalCount: count || 0 };
+      }
 
-        // Server-side sorting
-        switch (sortBy) {
-          case 'popular':
-            query = query.order('play_count', { ascending: false, nullsFirst: false });
-            break;
-          case 'liked':
-            query = query.order('likes_count', { ascending: false, nullsFirst: false });
-            break;
-          case 'recent':
-          default:
-            query = query.order('created_at', { ascending: false });
-            break;
-        }
+      const [likesData, userLikesData] = await Promise.all([
+        supabase.from('track_likes').select('track_id').in('track_id', trackIds),
+        supabase.from('track_likes').select('track_id').eq('user_id', user.id).in('track_id', trackIds),
+      ]);
 
-        if (projectId) {
-          query = query.eq('project_id', projectId);
-        }
+      const likesCounts = likesData.data?.reduce((acc, like) => {
+        acc[like.track_id] = (acc[like.track_id] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>) || {};
 
-        const { data, error, count } = await query;
+      const userLikes = new Set(userLikesData.data?.map(l => l.track_id) || []);
 
-        if (error) {
-          log.error('Error fetching tracks', { error });
-          throw error;
-        }
+      const enrichedTracks = data?.map(track => ({
+        ...track,
+        likes_count: likesCounts[track.id] ?? track.likes_count ?? 0,
+        is_liked: userLikes.has(track.id),
+      })) || [];
 
-        log.debug('Fetched tracks', { count: data?.length, page: pageParam });
+      const hasMore = count ? (pageParam + 1) * pageSize < count : false;
 
-        const trackIds = data?.map(t => t.id) || [];
-
-        if (trackIds.length === 0) {
-          return {
-            tracks: [],
-            nextPage: null,
-            totalCount: count || 0,
-          };
-        }
-
-        // Fetch likes count and user likes in parallel
-        const [likesData, userLikesData] = await Promise.all([
-          supabase
-            .from('track_likes')
-            .select('track_id')
-            .in('track_id', trackIds),
-          supabase
-            .from('track_likes')
-            .select('track_id')
-            .eq('user_id', user.id)
-            .in('track_id', trackIds),
-        ]);
-
-        const likesCounts = likesData.data?.reduce((acc, like) => {
-          acc[like.track_id] = (acc[like.track_id] || 0) + 1;
-          return acc;
-        }, {} as Record<string, number>) || {};
-
-        const userLikes = new Set(userLikesData.data?.map(l => l.track_id) || []);
-
-        // Use DB likes_count but override with computed count for accuracy + add is_liked
-        const enrichedTracks = data?.map(track => ({
-          ...track,
-          likes_count: likesCounts[track.id] ?? track.likes_count ?? 0,
-          is_liked: userLikes.has(track.id),
-        })) || [];
-
-        const hasMore = count ? (pageParam + 1) * pageSize < count : false;
-
-        return {
-          tracks: enrichedTracks,
-          nextPage: hasMore ? pageParam + 1 : null,
-          totalCount: count || 0,
-        };
-      });
+      return {
+        tracks: enrichedTracks,
+        nextPage: hasMore ? pageParam + 1 : null,
+        totalCount: count || 0,
+      };
     },
     getNextPageParam: (lastPage) => lastPage.nextPage,
     enabled: !!user?.id,
-    staleTime: 30000, // 30 seconds - reduced refetching
-    gcTime: 10 * 60 * 1000, // 10 minutes cache
+    staleTime: 30000,
+    gcTime: 10 * 60 * 1000,
     initialPageParam: 0,
-    refetchOnWindowFocus: false, // Prevent refetch on tab switch
+    refetchOnWindowFocus: false,
   });
 
-  // Flatten pages into single array of tracks
   const tracks = data?.pages.flatMap((page) => page.tracks) || [];
-  const totalCount = data?.pages[0] && 'totalCount' in data.pages[0] ? data.pages[0].totalCount : 0;
+  const totalCount = data?.pages[0]?.totalCount || 0;
 
-  // Delete track mutation with optimistic update
   const deleteTrackMutation = useMutation({
     mutationFn: async (trackId: string) => {
-      return retryWithBackoff(async () => {
-        const { error } = await supabase
-          .from('tracks')
-          .delete()
-          .eq('id', trackId);
-
-        if (error) throw error;
-      });
-    },
-    onMutate: async (trackId) => {
-      await queryClient.cancelQueries({ 
-        queryKey: ['tracks-infinite', user?.id, projectId, searchQuery, sortBy, pageSize] 
-      });
-      
-      const previousData = queryClient.getQueryData(['tracks-infinite', user?.id, projectId, searchQuery, sortBy, pageSize]);
-      
-      queryClient.setQueryData(
-        ['tracks-infinite', user?.id, projectId, searchQuery, sortBy, pageSize],
-        (old: any) => {
-          if (!old) return old;
-          return {
-            ...old,
-            pages: old.pages.map((page: any) => ({
-              ...page,
-              tracks: page.tracks.filter((t: Track) => t.id !== trackId),
-            })),
-          };
-        }
-      );
-
-      return { previousData };
-    },
-    onError: (error: Error, _, context) => {
-      queryClient.setQueryData(
-        ['tracks-infinite', user?.id, projectId, searchQuery, sortBy, pageSize],
-        context?.previousData
-      );
-      toast.error(error.message || 'Ошибка удаления трека');
+      const { error } = await supabase.from('tracks').delete().eq('id', trackId);
+      if (error) throw error;
     },
     onSuccess: () => {
       toast.success('Трек удален');
-      queryClient.invalidateQueries({ 
-        queryKey: ['tracks-infinite', user?.id] 
-      });
+      queryClient.invalidateQueries({ queryKey: ['tracks-infinite', user?.id] });
     },
+    onError: (error: Error) => toast.error(error.message || 'Ошибка удаления'),
   });
 
-  // Toggle like mutation
   const toggleLikeMutation = useMutation({
     mutationFn: async ({ trackId, isLiked }: { trackId: string; isLiked: boolean }) => {
-      return retryWithBackoff(async () => {
-        if (isLiked) {
-          const { error } = await supabase
-            .from('track_likes')
-            .delete()
-            .eq('track_id', trackId)
-            .eq('user_id', user!.id);
-
-          if (error) throw error;
-        } else {
-          const { error } = await supabase
-            .from('track_likes')
-            .insert({ track_id: trackId, user_id: user!.id });
-
-          if (error) throw error;
-        }
-      });
+      if (isLiked) {
+        const { error } = await supabase.from('track_likes').delete().eq('track_id', trackId).eq('user_id', user!.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.from('track_likes').insert({ track_id: trackId, user_id: user!.id });
+        if (error) throw error;
+      }
     },
-    onMutate: async ({ trackId, isLiked }) => {
-      await queryClient.cancelQueries({ 
-        queryKey: ['tracks-infinite', user?.id, projectId, searchQuery, sortBy, pageSize] 
-      });
-      
-      const previousData = queryClient.getQueryData(['tracks-infinite', user?.id, projectId, searchQuery, sortBy, pageSize]);
-      
-      queryClient.setQueryData(
-        ['tracks-infinite', user?.id, projectId, searchQuery, sortBy, pageSize],
-        (old: any) => {
-          if (!old) return old;
-          return {
-            ...old,
-            pages: old.pages.map((page: any) => ({
-              ...page,
-              tracks: page.tracks.map((t: Track) =>
-                t.id === trackId
-                  ? {
-                      ...t,
-                      is_liked: !isLiked,
-                      likes_count: isLiked ? t.likes_count - 1 : t.likes_count + 1,
-                    }
-                  : t
-              ),
-            })),
-          };
-        }
-      );
-
-      return { previousData };
-    },
-    onError: (error: Error, _, context) => {
-      queryClient.setQueryData(
-        ['tracks-infinite', user?.id, projectId, searchQuery, sortBy, pageSize],
-        context?.previousData
-      );
-      toast.error(error.message || 'Ошибка при добавлении в избранное');
-    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['tracks-infinite', user?.id] }),
+    onError: (error: Error) => toast.error(error.message || 'Ошибка'),
   });
 
-  // Log play mutation
   const logPlayMutation = useMutation({
     mutationFn: async (trackId: string) => {
-      const { error } = await supabase.rpc('increment_track_play_count', {
-        track_id_param: trackId,
-      });
-
-      if (error) throw error;
+      await supabase.rpc('increment_track_play_count', { track_id_param: trackId });
     },
   });
 
@@ -291,11 +171,8 @@ export const useTracksInfinite = ({
     isFetchingNextPage,
     refetch,
     deleteTrack: (trackId: string) => deleteTrackMutation.mutate(trackId),
-    toggleLike: (params: { trackId: string; isLiked: boolean }) =>
-      toggleLikeMutation.mutate(params),
+    toggleLike: (params: { trackId: string; isLiked: boolean }) => toggleLikeMutation.mutate(params),
     logPlay: (trackId: string) => logPlayMutation.mutate(trackId),
-    downloadTrack: (_params: { trackId: string; audioUrl: string; coverUrl?: string }) => {
-      // Download is handled by the browser
-    },
+    downloadTrack: (_params: { trackId: string; audioUrl: string; coverUrl?: string }) => {},
   };
 };

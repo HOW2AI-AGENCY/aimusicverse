@@ -25,7 +25,6 @@ function ProfileSetupGuardWrapper({ children }: { children: React.ReactNode }) {
 // Lazy load pages
 const Index = lazy(() => import("./pages/Index"));
 const Auth = lazy(() => import("./pages/Auth"));
-const Studio = lazy(() => import("./pages/Studio"));
 const StemStudio = lazy(() => import("./pages/StemStudio"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
@@ -106,7 +105,7 @@ const App = () => (
                   </ProtectedRoute>
                 }>
                   <Route path="/" element={<Index />} />
-                  <Route path="/studio" element={<Studio />} />
+                  <Route path="/studio" element={<Navigate to="/" replace />} />
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/profile/:userId" element={<PublicProfilePage />} />
                   <Route path="/settings" element={<Settings />} />
