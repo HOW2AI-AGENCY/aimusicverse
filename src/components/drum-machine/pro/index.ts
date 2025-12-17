@@ -1,3 +1,4 @@
+export { DrumMachineClean } from './DrumMachineClean';
 export { DrumMachinePro } from './DrumMachinePro';
 export { TransportBar } from './TransportBar';
 export { DrumPadsPro } from './DrumPadsPro';
