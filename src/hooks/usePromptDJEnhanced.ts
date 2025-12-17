@@ -867,6 +867,42 @@ export function usePromptDJEnhanced() {
     }
   }, [currentTrack, stopPlayback]);
 
+  // Force regenerate in live mode - called after user finishes adjusting knobs
+  const forceRegenerateInLive = useCallback(async () => {
+    if (!isLiveMode) return;
+    if (isGeneratingLiveRef.current) return;
+    if (currentPrompt === lastGeneratedPromptRef.current) return;
+
+    // Clear any pending timeout
+    if (liveGenerationTimeoutRef.current) {
+      clearTimeout(liveGenerationTimeoutRef.current);
+      liveGenerationTimeoutRef.current = null;
+    }
+
+    isGeneratingLiveRef.current = true;
+    const promptToGenerate = currentPrompt;
+
+    setLiveStatus('generating');
+    toast.info('🎵 Генерация нового сегмента...');
+
+    try {
+      const audioUrl = await generateForLive(promptToGenerate);
+      
+      if (audioUrl) {
+        lastGeneratedPromptRef.current = promptToGenerate;
+        await crossfadeToTrack(audioUrl, promptToGenerate);
+        toast.success('✨ Переход к новому звучанию');
+      } else {
+        setLiveStatus('playing');
+      }
+    } catch (error) {
+      console.error('Force live generation error:', error);
+      setLiveStatus('playing');
+    } finally {
+      isGeneratingLiveRef.current = false;
+    }
+  }, [isLiveMode, currentPrompt, generateForLive, crossfadeToTrack]);
+
   return {
     channels,
     updateChannel,
@@ -891,5 +927,6 @@ export function usePromptDJEnhanced() {
     liveStatus,
     startLiveMode,
     stopLiveMode,
+    forceRegenerateInLive,
   };
 }

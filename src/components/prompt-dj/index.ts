@@ -1,5 +1,6 @@
 export { PromptDJMixer } from './PromptDJMixer';
 export { PromptKnobEnhanced } from './PromptKnobEnhanced';
+export { RealisticKnob } from './RealisticKnob';
 export { PromptDJClean } from './PromptDJClean';
 export { PromptDJMidi } from './PromptDJMidi';
 export { PromptKnob } from './PromptKnob';

@@ -60,6 +60,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
   const [showSettings, setShowSettings] = useState(false);
   const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
   const [savingTrackId, setSavingTrackId] = useState<string | null>(null);
+  const [isKnobAdjusting, setIsKnobAdjusting] = useState(false);
   
   // Onboarding
   const { showOnboarding, setShowOnboarding, resetOnboarding } = usePromptDJOnboarding();
@@ -87,6 +88,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
     liveStatus,
     startLiveMode,
     stopLiveMode,
+    forceRegenerateInLive,
   } = usePromptDJEnhanced();
 
   // Predictive pre-generation
@@ -97,6 +99,22 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
 
   // Prompt history for smart presets
   const { saveGeneration } = usePromptHistory();
+
+  // Track when user starts/stops adjusting knobs
+  const handleKnobChangeStart = useCallback(() => {
+    setIsKnobAdjusting(true);
+  }, []);
+
+  const handleKnobChangeEnd = useCallback(() => {
+    setIsKnobAdjusting(false);
+    // Force regeneration after knob adjustment in Live mode
+    if (isLiveMode && liveStatus === 'playing') {
+      // Small delay to let the prompt update
+      setTimeout(() => {
+        forceRegenerateInLive?.();
+      }, 100);
+    }
+  }, [isLiveMode, liveStatus, forceRegenerateInLive]);
 
   // Handle smart preset recommendation
   const handleApplyRecommendation = useCallback((type: ChannelType, value: string) => {
@@ -344,6 +362,8 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
             onSelect={handleSelectChannel}
             onUpdate={updateChannel}
             onTypeChange={handleTypeChange}
+            onChangeStart={handleKnobChangeStart}
+            onChangeEnd={handleKnobChangeEnd}
           />
         ))}
       </div>
