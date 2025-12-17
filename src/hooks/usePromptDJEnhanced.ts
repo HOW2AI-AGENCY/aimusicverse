@@ -63,14 +63,23 @@ export function usePromptDJEnhanced() {
   const [currentTrack, setCurrentTrack] = useState<GeneratedTrack | null>(null);
   const [isPreviewPlaying, setIsPreviewPlaying] = useState(false);
   
+  // Live mode state
+  const [isLiveMode, setIsLiveMode] = useState(false);
+  const [liveStatus, setLiveStatus] = useState<'idle' | 'generating' | 'playing' | 'transitioning'>('idle');
+  const pendingPromptRef = useRef<string | null>(null);
+  const liveGenerationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
   // Audio refs
   const playerRef = useRef<Tone.Player | null>(null);
+  const nextPlayerRef = useRef<Tone.Player | null>(null); // For crossfade
   const synthRef = useRef<Tone.PolySynth | null>(null);
   const sequenceRef = useRef<Tone.Sequence | null>(null);
   const analyzerRef = useRef<Tone.Analyser | null>(null);
   const reverbRef = useRef<Tone.Reverb | null>(null);
   const filterRef = useRef<Tone.Filter | null>(null);
   const delayRef = useRef<Tone.FeedbackDelay | null>(null);
+  const gainNodeRef = useRef<Tone.Gain | null>(null);
+  const nextGainNodeRef = useRef<Tone.Gain | null>(null);
   
   // Pattern state for real-time updates
   const patternRef = useRef<(string | null)[]>([]);
@@ -488,6 +497,238 @@ export function usePromptDJEnhanced() {
     setIsPreviewPlaying(false);
   }, []);
 
+  // Live mode: Generate and play with crossfade transitions
+  const generateForLive = useCallback(async (prompt: string): Promise<string | null> => {
+    // Check cache first
+    const cachedUrl = audioCacheRef.current.get(prompt);
+    if (cachedUrl) return cachedUrl;
+
+    try {
+      const { data, error } = await supabase.functions.invoke('musicgen-generate', {
+        body: {
+          prompt,
+          duration: globalSettings.duration,
+          temperature: 1.0,
+        }
+      });
+
+      if (error) throw error;
+
+      if (data?.audio_url) {
+        audioCacheRef.current.set(prompt, data.audio_url);
+        return data.audio_url;
+      }
+      return null;
+    } catch (error) {
+      console.error('Live generation error:', error);
+      return null;
+    }
+  }, [globalSettings.duration]);
+
+  // Crossfade to new track
+  const crossfadeToTrack = useCallback(async (audioUrl: string, prompt: string) => {
+    try {
+      await Tone.start();
+      setLiveStatus('transitioning');
+
+      // Create new player
+      const newPlayer = new Tone.Player();
+      const newGain = new Tone.Gain(0); // Start silent
+      
+      newPlayer.connect(newGain);
+      if (analyzerRef.current) {
+        newGain.connect(analyzerRef.current);
+      }
+      newGain.toDestination();
+      newPlayer.loop = true;
+      
+      await newPlayer.load(audioUrl);
+      newPlayer.start();
+      
+      nextPlayerRef.current = newPlayer;
+      nextGainNodeRef.current = newGain;
+
+      // Crossfade over 2 seconds
+      const fadeTime = 2;
+      
+      // Fade out current
+      if (gainNodeRef.current) {
+        gainNodeRef.current.gain.rampTo(0, fadeTime);
+      }
+      
+      // Fade in new
+      newGain.gain.rampTo(1, fadeTime);
+
+      // After fade, clean up old player
+      setTimeout(() => {
+        if (playerRef.current) {
+          playerRef.current.stop();
+          playerRef.current.dispose();
+        }
+        if (gainNodeRef.current) {
+          gainNodeRef.current.dispose();
+        }
+        
+        // Swap refs
+        playerRef.current = nextPlayerRef.current;
+        gainNodeRef.current = nextGainNodeRef.current;
+        nextPlayerRef.current = null;
+        nextGainNodeRef.current = null;
+        
+        // Update track state
+        const newTrack: GeneratedTrack = {
+          id: crypto.randomUUID(),
+          prompt,
+          audioUrl,
+          createdAt: new Date(),
+        };
+        setCurrentTrack(newTrack);
+        setGeneratedTracks(prev => [newTrack, ...prev.slice(0, 9)]); // Keep last 10
+        setLiveStatus('playing');
+      }, fadeTime * 1000 + 100);
+
+    } catch (error) {
+      console.error('Crossfade error:', error);
+      setLiveStatus('playing');
+    }
+  }, []);
+
+  // Start live mode
+  const startLiveMode = useCallback(async () => {
+    if (!currentPrompt.trim()) {
+      toast.error('Настройте каналы для генерации');
+      return;
+    }
+
+    setIsLiveMode(true);
+    setLiveStatus('generating');
+    toast.info('🎧 Генерация первого сегмента...');
+
+    try {
+      await Tone.start();
+      
+      const audioUrl = await generateForLive(currentPrompt);
+      
+      if (!audioUrl) {
+        toast.error('Ошибка генерации');
+        setIsLiveMode(false);
+        setLiveStatus('idle');
+        return;
+      }
+
+      // Create initial player with gain for crossfade support
+      const player = new Tone.Player();
+      const gain = new Tone.Gain(1);
+      
+      player.connect(gain);
+      if (analyzerRef.current) {
+        gain.connect(analyzerRef.current);
+      }
+      gain.toDestination();
+      player.loop = true;
+      
+      await player.load(audioUrl);
+      player.start();
+      
+      playerRef.current = player;
+      gainNodeRef.current = gain;
+      
+      const newTrack: GeneratedTrack = {
+        id: crypto.randomUUID(),
+        prompt: currentPrompt,
+        audioUrl,
+        createdAt: new Date(),
+      };
+      
+      setCurrentTrack(newTrack);
+      setGeneratedTracks(prev => [newTrack, ...prev]);
+      setIsPlaying(true);
+      setLiveStatus('playing');
+      
+      toast.success('🎵 Live сессия запущена! Меняйте настройки для нового звучания');
+      
+    } catch (error) {
+      console.error('Start live error:', error);
+      toast.error('Ошибка запуска Live режима');
+      setIsLiveMode(false);
+      setLiveStatus('idle');
+    }
+  }, [currentPrompt, generateForLive]);
+
+  // Stop live mode
+  const stopLiveMode = useCallback(() => {
+    if (liveGenerationTimeoutRef.current) {
+      clearTimeout(liveGenerationTimeoutRef.current);
+    }
+    
+    if (playerRef.current) {
+      playerRef.current.stop();
+      playerRef.current.dispose();
+      playerRef.current = null;
+    }
+    if (nextPlayerRef.current) {
+      nextPlayerRef.current.stop();
+      nextPlayerRef.current.dispose();
+      nextPlayerRef.current = null;
+    }
+    if (gainNodeRef.current) {
+      gainNodeRef.current.dispose();
+      gainNodeRef.current = null;
+    }
+    if (nextGainNodeRef.current) {
+      nextGainNodeRef.current.dispose();
+      nextGainNodeRef.current = null;
+    }
+    
+    pendingPromptRef.current = null;
+    setIsLiveMode(false);
+    setLiveStatus('idle');
+    setIsPlaying(false);
+    toast.info('Live сессия остановлена');
+  }, []);
+
+  // Queue next generation when settings change in live mode
+  const queueLiveGeneration = useCallback((newPrompt: string) => {
+    if (!isLiveMode || liveStatus !== 'playing') return;
+    
+    // Don't regenerate for same prompt
+    if (newPrompt === currentTrack?.prompt) return;
+    
+    pendingPromptRef.current = newPrompt;
+    
+    // Clear previous timeout
+    if (liveGenerationTimeoutRef.current) {
+      clearTimeout(liveGenerationTimeoutRef.current);
+    }
+    
+    // Debounce: wait 2 seconds after last change before generating
+    liveGenerationTimeoutRef.current = setTimeout(async () => {
+      const promptToGenerate = pendingPromptRef.current;
+      if (!promptToGenerate || !isLiveMode) return;
+      
+      setLiveStatus('generating');
+      toast.info('🎵 Генерация нового сегмента...');
+      
+      const audioUrl = await generateForLive(promptToGenerate);
+      
+      if (audioUrl && isLiveMode) {
+        await crossfadeToTrack(audioUrl, promptToGenerate);
+        toast.success('✨ Переход к новому звучанию');
+      } else if (isLiveMode) {
+        setLiveStatus('playing');
+      }
+      
+      pendingPromptRef.current = null;
+    }, 2000);
+  }, [isLiveMode, liveStatus, currentTrack, generateForLive, crossfadeToTrack]);
+
+  // Auto-queue when prompt changes in live mode
+  useEffect(() => {
+    if (isLiveMode && liveStatus === 'playing' && currentPrompt) {
+      queueLiveGeneration(currentPrompt);
+    }
+  }, [currentPrompt, isLiveMode, liveStatus, queueLiveGeneration]);
+
   // Remove track
   const removeTrack = useCallback((id: string) => {
     setGeneratedTracks(prev => prev.filter(t => t.id !== id));
@@ -515,5 +756,10 @@ export function usePromptDJEnhanced() {
     analyzerNode: analyzerRef.current,
     removeTrack,
     audioCache: audioCacheRef.current,
+    // Live mode
+    isLiveMode,
+    liveStatus,
+    startLiveMode,
+    stopLiveMode,
   };
 }
