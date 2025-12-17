@@ -457,6 +457,7 @@ class ReferenceManagerService {
       'stem_audio_reference',
       'audioReferenceFromDrums',
       'audioReferenceFromDJ',
+      'drumPatternForDJ',
     ];
 
     legacyKeys.forEach(key => {

@@ -9,9 +9,15 @@ import { logger } from './logger';
 
 const log = logger.child({ module: 'StaleDataCleanup' });
 
-// Keys that should be cleaned on app startup
+// Legacy keys that should be cleaned on app startup
+// Note: Audio references now use unified ReferenceManager (active_audio_reference key)
 const SESSION_STORAGE_KEYS_TO_CLEAN = [
+  // Legacy audio reference keys (migrated to ReferenceManager)
   'cloudAudioReference',
+  'audioReferenceFromDrums',
+  'audioReferenceFromDJ',
+  'drumPatternForDJ',
+  // Generation params
   'generationParams', 
   'presetParams',
   'templateLyrics',
@@ -20,7 +26,7 @@ const SESSION_STORAGE_KEYS_TO_CLEAN = [
 ];
 
 const LOCAL_STORAGE_KEYS_TO_VALIDATE = [
-  'stem_audio_reference',
+  'stem_audio_reference', // Legacy - migrated to ReferenceManager
   'musicverse-playback-positions',
 ];
 
