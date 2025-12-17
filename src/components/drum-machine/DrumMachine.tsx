@@ -104,18 +104,21 @@ export const DrumMachine = memo(function DrumMachine({ className }: DrumMachineP
     }
   }, [isPlaying, play, stop]);
 
-  // Use recorded audio as reference for generation
+  // Use recorded audio as reference for generation (unified system)
   const handleUseAsReference = useCallback((blob: Blob) => {
     const url = URL.createObjectURL(blob);
-    sessionStorage.setItem('audioReferenceFromDrums', JSON.stringify({
-      audioUrl: url,
-      styleDescription: `${currentKit.name} drum pattern, ${bpm} BPM`,
-      source: 'drum-machine'
-    }));
-    toast.success('Бит добавлен как референс', {
-      description: 'Перейдите на главную для генерации'
+    // Use unified ReferenceManager
+    import('@/services/audio-reference').then(({ ReferenceManager }) => {
+      ReferenceManager.createFromCreativeTool('drums', {
+        audioUrl: url,
+        styleDescription: `${currentKit.name} drum pattern, ${bpm} BPM`,
+        bpm,
+      });
+      toast.success('Бит добавлен как референс', {
+        description: 'Перейдите на главную для генерации'
+      });
+      navigate('/');
     });
-    navigate('/');
   }, [currentKit.name, bpm, navigate]);
 
   // Export pattern description to PromptDJ

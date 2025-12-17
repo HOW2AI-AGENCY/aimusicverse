@@ -2,8 +2,10 @@
  * Audio Reference Loader Hook
  * 
  * Extracted from useGenerateForm to eliminate duplicate pattern (IMP001)
- * Handles loading of audio references from localStorage (stem_audio_reference)
- * and sessionStorage (cloudAudioReference for cloud audio)
+ * Now also checks unified ReferenceManager for active references
+ * 
+ * NOTE: This is a LEGACY hook. Prefer using useAudioReference from @/hooks/useAudioReference
+ * for new code. This loader maintains backward compatibility during migration.
  */
 
 import { useState, useEffect } from 'react';
@@ -11,6 +13,7 @@ import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
 import { cleanupAudioReference } from '@/lib/errorHandling';
 import { TITLE_MAX_LENGTH } from '@/constants/generationConstants';
+import { ReferenceManager, ACTIVE_REFERENCE_KEY } from '@/services/audio-reference';
 
 export interface AudioReferenceData {
   url: string;
@@ -98,7 +101,84 @@ export function useAudioReferenceLoader(enabled: boolean): AudioReferenceResult 
   useEffect(() => {
     if (!enabled) return;
 
-    // Check for cloud audio reference first (from Cloud tab)
+    // FIRST: Check unified ReferenceManager for active reference
+    const unifiedRef = ReferenceManager.getActive();
+    if (unifiedRef) {
+      setIsLoading(true);
+      
+      // Set mode
+      setCloudMode(unifiedRef.intendedMode || null);
+      
+      // Set analysis data
+      if (unifiedRef.analysis?.styleDescription) {
+        setStyle(unifiedRef.analysis.styleDescription);
+      } else if (unifiedRef.analysis) {
+        const styleParts: string[] = [];
+        if (unifiedRef.analysis.genre) styleParts.push(unifiedRef.analysis.genre);
+        if (unifiedRef.analysis.mood) styleParts.push(unifiedRef.analysis.mood);
+        if (unifiedRef.analysis.vocalStyle) styleParts.push(unifiedRef.analysis.vocalStyle);
+        if (unifiedRef.analysis.bpm) styleParts.push(`${unifiedRef.analysis.bpm} BPM`);
+        if (styleParts.length > 0) setStyle(styleParts.join(', '));
+      }
+      
+      if (unifiedRef.durationSeconds) {
+        setDuration(unifiedRef.durationSeconds);
+      }
+      
+      if (unifiedRef.analysis?.transcription) {
+        setLyrics(unifiedRef.analysis.transcription);
+      }
+      
+      if (unifiedRef.context?.action) {
+        setAction(unifiedRef.context.action);
+      }
+      
+      if (unifiedRef.context?.stemType) {
+        setStemType(unifiedRef.context.stemType);
+      }
+      
+      if (unifiedRef.context?.originalTitle) {
+        const remixTitle = `${unifiedRef.context.originalTitle} (ремикс)`;
+        setTitle(remixTitle.slice(0, TITLE_MAX_LENGTH));
+      }
+      
+      // Load audio file from URL
+      fetch(unifiedRef.audioUrl)
+        .then(response => response.blob())
+        .then(async (blob) => {
+          const audioDuration = await calculateDuration(blob);
+          setDuration(audioDuration);
+          
+          const ext = unifiedRef.fileName.split('.').pop() || 'mp3';
+          const audioFile = new File(
+            [blob],
+            unifiedRef.fileName,
+            { type: `audio/${ext === 'wav' ? 'wav' : 'mpeg'}` }
+          );
+          setFile(audioFile);
+          
+          const modeLabel = unifiedRef.intendedMode === 'cover' ? 'Кавер' : 
+                           unifiedRef.intendedMode === 'extend' ? 'Расширение' : 'Референс';
+          toast.success(`Аудио загружено: ${modeLabel}`, {
+            description: `${unifiedRef.fileName} (${Math.round(audioDuration)}с)`,
+          });
+          
+          // Clear after loading (one-time use)
+          ReferenceManager.clearActive();
+        })
+        .catch(err => {
+          logger.error('Failed to load unified reference', { error: err });
+          toast.error('Не удалось загрузить аудио');
+          ReferenceManager.clearActive();
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+      
+      return; // Don't check legacy sources
+    }
+
+    // LEGACY: Check for cloud audio reference (from Cloud tab)
     const cloudReferenceStr = sessionStorage.getItem('cloudAudioReference');
     if (cloudReferenceStr) {
       setIsLoading(true);
