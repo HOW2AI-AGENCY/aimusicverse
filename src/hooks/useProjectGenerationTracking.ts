@@ -19,7 +19,7 @@ interface ActiveGeneration {
 const STATUS_CONFIG = {
   pending: { progress: 15, stage: 'В очереди...' },
   processing: { progress: 50, stage: 'Генерация...' },
-  streaming_ready: { progress: 80, stage: 'Обработка...' },
+  streaming_ready: { progress: 80, stage: '▶️ Можно слушать!' },
   completed: { progress: 100, stage: 'Готово!' },
   failed: { progress: 0, stage: 'Ошибка' },
 };

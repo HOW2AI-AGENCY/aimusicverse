@@ -75,12 +75,12 @@ export function GlobalGenerationIndicator() {
                         "text-[10px] h-4 px-1",
                         task.status === 'processing' && "border-primary/50 text-primary",
                         task.status === 'pending' && "border-yellow-500/50 text-yellow-500",
-                        task.status === 'streaming_ready' && "border-green-500/50 text-green-500"
+                        task.status === 'streaming_ready' && "border-green-500/50 text-green-500 animate-pulse"
                       )}
                     >
                       {task.status === 'processing' ? 'В работе' : 
                        task.status === 'pending' ? 'Очередь' : 
-                       task.status === 'streaming_ready' ? 'Превью' : task.status}
+                       task.status === 'streaming_ready' ? '▶️ Слушать' : task.status}
                     </Badge>
                   </div>
                 ))}
