@@ -36,7 +36,8 @@ export function PublishedAlbumsSection() {
   const { data: albums, isLoading } = useQuery({
     queryKey: ['published-albums'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      // First, get the published projects
+      const { data: projects, error } = await supabase
         .from('music_projects')
         .select(`
           id,
@@ -48,12 +49,7 @@ export function PublishedAlbumsSection() {
           user_id,
           published_at,
           total_tracks_count,
-          approved_tracks_count,
-          profiles!music_projects_user_id_fkey (
-            username,
-            display_name,
-            photo_url
-          )
+          approved_tracks_count
         `)
         .eq('is_public', true)
         .eq('status', 'published')
@@ -61,7 +57,21 @@ export function PublishedAlbumsSection() {
         .limit(10);
 
       if (error) throw error;
-      return data as unknown as PublishedAlbum[];
+      if (!projects?.length) return [];
+
+      // Then fetch profiles for these user_ids
+      const userIds = [...new Set(projects.map(p => p.user_id))];
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('user_id, username, display_name, photo_url')
+        .in('user_id', userIds);
+
+      // Merge profiles into projects
+      const profilesMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
+      return projects.map(project => ({
+        ...project,
+        profiles: profilesMap.get(project.user_id) || null,
+      })) as PublishedAlbum[];
     },
     staleTime: 1000 * 60 * 5,
   });
