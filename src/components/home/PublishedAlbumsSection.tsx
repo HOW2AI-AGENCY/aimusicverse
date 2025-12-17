@@ -78,9 +78,9 @@ export function PublishedAlbumsSection() {
             <p className="text-xs text-muted-foreground">Релизы сообщества</p>
           </div>
         </div>
-        <div className="flex gap-4 overflow-hidden">
+        <div className="flex gap-3 overflow-hidden">
           {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="w-44 h-60 rounded-2xl shrink-0" />
+            <Skeleton key={i} className="w-[150px] h-56 rounded-2xl shrink-0" />
           ))}
         </div>
       </section>
@@ -125,7 +125,7 @@ export function PublishedAlbumsSection() {
       </div>
 
       <ScrollArea className="-mx-3 px-3">
-        <div className="flex gap-4 pb-3">
+        <div className="flex gap-3 pb-3">
           {albums.map((album, index) => (
             <motion.div
               key={album.id}

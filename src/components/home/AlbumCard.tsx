@@ -38,7 +38,7 @@ export function AlbumCard({ album, onClick, className, isNew }: AlbumCardProps) 
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
       className={cn(
-        "w-44 sm:w-48 shrink-0 cursor-pointer group",
+        "w-[150px] sm:w-[170px] shrink-0 cursor-pointer group",
         className
       )}
     >
