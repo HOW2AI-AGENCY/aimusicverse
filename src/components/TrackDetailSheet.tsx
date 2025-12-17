@@ -24,12 +24,9 @@ export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheet
   // and update all tabs (lyrics, analysis, stems) based on selected version
   const [selectedVersionId, setSelectedVersionId] = useState<string | null>(null);
   
-  // TODO: T048 - Implement version-aware data fetching
-  // When version is selected, fetch version-specific data:
-  // - Version-specific lyrics (if different from master)
-  // - Version-specific stems (if available)
-  // - Version-specific analysis (if performed)
-  const currentVersion = selectedVersionId || track.master_version_id || undefined;
+  // Use active_version_id as the current version
+  // When version is selected, fetch version-specific data
+  const currentVersion = selectedVersionId || track.active_version_id || undefined;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
