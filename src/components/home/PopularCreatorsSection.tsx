@@ -111,9 +111,9 @@ export function PopularCreatorsSection({ className, maxCreators = 10 }: PopularC
             <p className="text-xs text-muted-foreground">Лучшие авторы</p>
           </div>
         </div>
-        <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
           {[...Array(5)].map((_, i) => (
-            <Skeleton key={i} className="w-36 h-48 rounded-2xl flex-shrink-0" />
+            <Skeleton key={i} className="w-[140px] h-44 rounded-2xl flex-shrink-0" />
           ))}
         </div>
       </section>
@@ -158,7 +158,7 @@ export function PopularCreatorsSection({ className, maxCreators = 10 }: PopularC
       </div>
 
       <ScrollArea className="-mx-3 px-3">
-        <div className="flex gap-4 pb-3">
+        <div className="flex gap-3 pb-3">
           {creators.map((creator, index) => (
             <motion.div
               key={creator.user_id}
@@ -205,7 +205,7 @@ function CreatorCard({
 
   return (
     <motion.div
-      className="relative flex-shrink-0 w-36 sm:w-40 cursor-pointer group"
+      className="relative flex-shrink-0 w-[140px] sm:w-[150px] cursor-pointer group"
       whileHover={{ scale: 1.03, y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
@@ -229,11 +229,11 @@ function CreatorCard({
             rank <= 3 && "after:absolute after:inset-0 after:rounded-full after:bg-primary/15 after:blur-xl after:-z-10"
           )}>
             <Avatar className={cn(
-              "w-18 h-18 sm:w-20 sm:h-20 border-2 transition-all shadow-lg",
+              "w-16 h-16 sm:w-18 sm:h-18 border-2 transition-all shadow-lg",
               rankConfig?.ring || "border-border group-hover:border-primary/50"
             )}>
               <AvatarImage src={creator.photo_url || undefined} alt={displayName} />
-              <AvatarFallback className="text-xl bg-gradient-to-br from-primary/20 to-primary/5">
+              <AvatarFallback className="text-lg bg-gradient-to-br from-primary/20 to-primary/5">
                 {displayName[0]?.toUpperCase()}
               </AvatarFallback>
             </Avatar>

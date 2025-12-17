@@ -51,7 +51,7 @@ function AutoPlaylistCard({ playlist, onPlay, index }: AutoPlaylistCardProps) {
     >
       <div 
         className={cn(
-          "relative min-w-[170px] sm:min-w-[190px] overflow-hidden cursor-pointer rounded-2xl",
+          "relative w-[150px] sm:w-[170px] overflow-hidden cursor-pointer rounded-2xl",
           "bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm",
           "border border-border/50 hover:border-primary/40",
           "transition-all duration-300 hover:shadow-xl hover:shadow-primary/10",
@@ -168,11 +168,11 @@ export function AutoPlaylistsSectionOptimized({ playlists, isLoading }: AutoPlay
             <div className="h-3 w-28 bg-muted/30 rounded animate-pulse" />
           </div>
         </div>
-        <div className="flex gap-4 overflow-hidden">
+        <div className="flex gap-3 overflow-hidden">
           {[1, 2, 3].map(i => (
             <div 
               key={i} 
-              className="min-w-[170px] rounded-2xl overflow-hidden"
+              className="w-[150px] rounded-2xl overflow-hidden shrink-0"
               style={{ animationDelay: `${i * 100}ms` }}
             >
               <div className="aspect-square bg-muted/30 animate-pulse" />
@@ -234,7 +234,7 @@ export function AutoPlaylistsSectionOptimized({ playlists, isLoading }: AutoPlay
         <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none sm:hidden" />
         
         <ScrollArea className="px-3 sm:px-0">
-          <div className="flex gap-4 pb-3">
+          <div className="flex gap-3 pb-3">
             {playlists.map((playlist, index) => (
               <AutoPlaylistCard
                 key={playlist.id}

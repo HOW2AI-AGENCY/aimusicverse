@@ -83,10 +83,11 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
+      className="h-full"
     >
       <Card 
         className={cn(
-          "group relative overflow-hidden border-0 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm",
+          "group relative overflow-hidden border-0 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm h-full",
           "shadow-md transition-all duration-300 cursor-pointer",
           isCurrentTrack && "ring-2 ring-primary ring-offset-1 ring-offset-background",
           isHovered && "shadow-lg shadow-primary/10",
@@ -94,8 +95,11 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
         )}
         onClick={handleCardClick}
       >
-        {/* Cover Image */}
-        <div className="relative aspect-square overflow-hidden rounded-t-lg">
+        {/* Cover Image - Fixed aspect ratio for consistency */}
+        <div className={cn(
+          "relative overflow-hidden rounded-t-lg",
+          compact ? "aspect-square" : "aspect-square"
+        )}>
           {coverUrl ? (
             <motion.img
               src={coverUrl}
@@ -108,7 +112,7 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
             />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-primary/30 via-secondary/20 to-accent/10 flex items-center justify-center">
-              <Music2 className="w-8 h-8 text-primary/40" />
+              <Music2 className={cn("text-primary/40", compact ? "w-6 h-6" : "w-8 h-8")} />
             </div>
           )}
           
@@ -179,8 +183,8 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
           </div>
         </div>
 
-        {/* Content */}
-        <div className={cn("relative p-2", compact && "p-1.5")}>
+        {/* Content - Compact for consistent heights */}
+        <div className={cn("relative", compact ? "p-2" : "p-2.5")}>
           <h3 className={cn(
             "font-semibold line-clamp-1 transition-colors",
             compact ? "text-[11px]" : "text-xs",
@@ -189,8 +193,8 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
             {track.title || 'Без названия'}
           </h3>
 
-          {/* Creator Info - Compact */}
-          {!compact && (track.creator_name || track.creator_username) && (
+          {/* Creator Info - Always show in condensed form */}
+          {(track.creator_name || track.creator_username) && (
             <div className="flex items-center gap-1 mt-1">
               <CreatorAvatar
                 userId={track.user_id}
@@ -203,7 +207,7 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
                 userId={track.user_id}
                 name={track.creator_name}
                 username={track.creator_username}
-                className="text-[10px] text-muted-foreground truncate"
+                className="text-[10px] text-muted-foreground truncate max-w-[80px]"
               />
             </div>
           )}

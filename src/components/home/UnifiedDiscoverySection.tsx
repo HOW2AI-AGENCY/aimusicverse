@@ -170,13 +170,13 @@ export function UnifiedDiscoverySection({
             ))}
           </div>
 
-          {/* Mobile Horizontal Scroll */}
+          {/* Mobile Horizontal Scroll - Consistent card widths */}
           <div className="sm:hidden relative -mx-3">
             <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
             <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
             
             <div className="overflow-x-auto scrollbar-hide px-3">
-              <div className="flex gap-2.5 pb-2">
+              <div className="flex gap-3 pb-2">
                 {tracks.slice(0, 10).map((track, index) => (
                   <motion.div
                     key={track.id}

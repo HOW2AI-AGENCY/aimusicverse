@@ -62,14 +62,15 @@ export function FeaturedSectionOptimized({ tracks, isLoading, onRemix, className
         ))}
       </div>
 
-      {/* Mobile: Horizontal Scroll */}
-      <div className="md:hidden overflow-x-auto scrollbar-hide -mx-4 px-4">
-        <div className="flex gap-4 pb-4">
+      {/* Mobile: Horizontal Scroll - Consistent card widths */}
+      <div className="md:hidden overflow-x-auto scrollbar-hide -mx-3 px-3">
+        <div className="flex gap-3 pb-3">
           {tracks.map((track) => (
-            <div key={track.id} className="w-[280px] flex-shrink-0">
+            <div key={track.id} className="w-[140px] flex-shrink-0">
               <PublicTrackCard
                 track={track}
                 onRemix={onRemix}
+                compact
               />
             </div>
           ))}

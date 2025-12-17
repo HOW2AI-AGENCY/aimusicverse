@@ -109,12 +109,12 @@ export function CommunityNewTracksSection({
         <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-background via-background/80 to-transparent z-10 pointer-events-none sm:hidden" />
         <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-background via-background/80 to-transparent z-10 pointer-events-none sm:hidden" />
         
-        {/* Mobile: Horizontal scroll - Compact */}
-        <div className="flex gap-2.5 overflow-x-auto scrollbar-hide px-3 sm:px-0 sm:hidden snap-x snap-mandatory pb-2">
+        {/* Mobile: Horizontal scroll - Consistent card widths */}
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide px-3 sm:px-0 sm:hidden snap-x snap-mandatory pb-2">
           {displayTracks.map((track, index) => (
             <motion.div
               key={track.id}
-              className="w-36 shrink-0 snap-start"
+              className="w-[140px] shrink-0 snap-start"
               initial={{ opacity: 0, y: 15, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: index * 0.04, duration: 0.25 }}
@@ -122,7 +122,7 @@ export function CommunityNewTracksSection({
               <PublicTrackCard
                 track={track}
                 onRemix={onRemix}
-                compact={false}
+                compact
                 className="h-full"
               />
             </motion.div>
