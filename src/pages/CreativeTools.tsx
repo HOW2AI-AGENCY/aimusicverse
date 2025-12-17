@@ -13,7 +13,7 @@ import { ArrowLeft, Mic, Guitar, Sparkles, Music, Zap, FileMusic, Drum, Disc3 } 
 import { RealtimeChordVisualizer } from '@/components/chord-detection/RealtimeChordVisualizer';
 import { GuitarTabEditor } from '@/components/tab-editor/GuitarTabEditor';
 import { MelodyMixer } from '@/components/melody-mixer/MelodyMixer';
-import { DrumMachine } from '@/components/drum-machine/DrumMachine';
+import { DrumMachinePro } from '@/components/drum-machine/pro';
 import { PromptDJMidi } from '@/components/prompt-dj/PromptDJMidi';
 import { toast } from 'sonner';
 
@@ -135,25 +135,13 @@ export default function CreativeTools() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
             >
-              {/* Drum Machine */}
+              {/* Drum Machine Pro */}
               <TabsContent value="drums" className="mt-0">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                 >
-                  <div className="mb-4 p-4 bg-muted/30 rounded-xl border border-primary/10">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <Drum className="h-5 w-5 text-primary" />
-                        <h2 className="font-semibold">Драм-машина</h2>
-                      </div>
-                      <ProBadge size="sm" />
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      Создавайте биты с 6 наборами ударных и готовыми паттернами
-                    </p>
-                  </div>
-                  <DrumMachine />
+                  <DrumMachinePro />
                 </motion.div>
               </TabsContent>
 
