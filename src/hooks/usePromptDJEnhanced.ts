@@ -66,8 +66,9 @@ export function usePromptDJEnhanced() {
   // Live mode state
   const [isLiveMode, setIsLiveMode] = useState(false);
   const [liveStatus, setLiveStatus] = useState<'idle' | 'generating' | 'playing' | 'transitioning'>('idle');
-  const pendingPromptRef = useRef<string | null>(null);
+  const lastGeneratedPromptRef = useRef<string>(''); // Track what we last generated
   const liveGenerationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isGeneratingLiveRef = useRef(false); // Prevent concurrent generations
   
   // Audio refs
   const playerRef = useRef<Tone.Player | null>(null);
@@ -602,6 +603,7 @@ export function usePromptDJEnhanced() {
 
     setIsLiveMode(true);
     setLiveStatus('generating');
+    isGeneratingLiveRef.current = true;
     toast.info('🎧 Генерация первого сегмента...');
 
     try {
@@ -613,8 +615,12 @@ export function usePromptDJEnhanced() {
         toast.error('Ошибка генерации');
         setIsLiveMode(false);
         setLiveStatus('idle');
+        isGeneratingLiveRef.current = false;
         return;
       }
+
+      // Remember what we generated
+      lastGeneratedPromptRef.current = currentPrompt;
 
       // Create initial player with gain for crossfade support
       const player = new Tone.Player();
@@ -644,6 +650,7 @@ export function usePromptDJEnhanced() {
       setGeneratedTracks(prev => [newTrack, ...prev]);
       setIsPlaying(true);
       setLiveStatus('playing');
+      isGeneratingLiveRef.current = false;
       
       toast.success('🎵 Live сессия запущена! Меняйте настройки для нового звучания');
       
@@ -652,6 +659,7 @@ export function usePromptDJEnhanced() {
       toast.error('Ошибка запуска Live режима');
       setIsLiveMode(false);
       setLiveStatus('idle');
+      isGeneratingLiveRef.current = false;
     }
   }, [currentPrompt, generateForLive]);
 
@@ -680,54 +688,74 @@ export function usePromptDJEnhanced() {
       nextGainNodeRef.current = null;
     }
     
-    pendingPromptRef.current = null;
+    lastGeneratedPromptRef.current = '';
+    isGeneratingLiveRef.current = false;
     setIsLiveMode(false);
     setLiveStatus('idle');
     setIsPlaying(false);
     toast.info('Live сессия остановлена');
   }, []);
 
-  // Queue next generation when settings change in live mode
-  const queueLiveGeneration = useCallback((newPrompt: string) => {
-    if (!isLiveMode || liveStatus !== 'playing') return;
+  // Auto-trigger generation when prompt changes in live mode
+  useEffect(() => {
+    // Only proceed if in live mode
+    if (!isLiveMode) return;
+    
+    // Don't queue if already generating
+    if (isGeneratingLiveRef.current) return;
     
     // Don't regenerate for same prompt
-    if (newPrompt === currentTrack?.prompt) return;
+    if (currentPrompt === lastGeneratedPromptRef.current) return;
     
-    pendingPromptRef.current = newPrompt;
-    
-    // Clear previous timeout
+    // Clear any pending timeout
     if (liveGenerationTimeoutRef.current) {
       clearTimeout(liveGenerationTimeoutRef.current);
     }
     
     // Debounce: wait 2 seconds after last change before generating
     liveGenerationTimeoutRef.current = setTimeout(async () => {
-      const promptToGenerate = pendingPromptRef.current;
-      if (!promptToGenerate || !isLiveMode) return;
+      // Double check we're still in live mode
+      if (!isLiveMode) return;
+      
+      // Prevent concurrent generations
+      if (isGeneratingLiveRef.current) return;
+      isGeneratingLiveRef.current = true;
+      
+      const promptToGenerate = currentPrompt;
+      
+      // Skip if same as last generated
+      if (promptToGenerate === lastGeneratedPromptRef.current) {
+        isGeneratingLiveRef.current = false;
+        return;
+      }
       
       setLiveStatus('generating');
       toast.info('🎵 Генерация нового сегмента...');
       
-      const audioUrl = await generateForLive(promptToGenerate);
-      
-      if (audioUrl && isLiveMode) {
-        await crossfadeToTrack(audioUrl, promptToGenerate);
-        toast.success('✨ Переход к новому звучанию');
-      } else if (isLiveMode) {
+      try {
+        const audioUrl = await generateForLive(promptToGenerate);
+        
+        if (audioUrl) {
+          lastGeneratedPromptRef.current = promptToGenerate;
+          await crossfadeToTrack(audioUrl, promptToGenerate);
+          toast.success('✨ Переход к новому звучанию');
+        } else {
+          setLiveStatus('playing');
+        }
+      } catch (error) {
+        console.error('Live generation error:', error);
         setLiveStatus('playing');
+      } finally {
+        isGeneratingLiveRef.current = false;
       }
-      
-      pendingPromptRef.current = null;
     }, 2000);
-  }, [isLiveMode, liveStatus, currentTrack, generateForLive, crossfadeToTrack]);
-
-  // Auto-queue when prompt changes in live mode
-  useEffect(() => {
-    if (isLiveMode && liveStatus === 'playing' && currentPrompt) {
-      queueLiveGeneration(currentPrompt);
-    }
-  }, [currentPrompt, isLiveMode, liveStatus, queueLiveGeneration]);
+    
+    return () => {
+      if (liveGenerationTimeoutRef.current) {
+        clearTimeout(liveGenerationTimeoutRef.current);
+      }
+    };
+  }, [currentPrompt, isLiveMode, generateForLive, crossfadeToTrack]);
 
   // Remove track
   const removeTrack = useCallback((id: string) => {
