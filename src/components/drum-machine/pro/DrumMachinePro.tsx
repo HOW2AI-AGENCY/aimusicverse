@@ -14,6 +14,7 @@ import { PatternBrowser } from './PatternBrowser';
 import { DrumStepLengthSelector } from '../DrumStepLengthSelector';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { ReferenceManager } from '@/services/audio-reference';
 
 type ViewMode = 'pads' | 'sequencer';
 
@@ -135,11 +136,9 @@ export const DrumMachinePro = memo(function DrumMachinePro({ className }: DrumMa
     if (!recordedAudioBlob) return;
     
     const url = URL.createObjectURL(recordedAudioBlob);
-    sessionStorage.setItem('audioReferenceFromDrums', JSON.stringify({
-      audioUrl: url,
-      styleDescription: `${currentKit.name} drum pattern, ${bpm} BPM`,
-      source: 'drum-machine'
-    }));
+    ReferenceManager.createFromCreativeTool('drums', url, {
+      tags: `${currentKit.name} drum pattern, ${bpm} BPM`,
+    });
     toast.success('Бит добавлен как референс', {
       description: 'Перейдите на главную для генерации'
     });
