@@ -42,9 +42,10 @@ export const RealisticKnob = memo(function RealisticKnob({
   const startY = useRef(0);
   const startValue = useRef(0);
   
-  // Motion values for smooth animation
+  // Motion values for smooth animation - use initial value only
   const motionValue = useMotionValue(value);
   const springValue = useSpring(motionValue, { stiffness: 300, damping: 30 });
+  const lastExternalValue = useRef(value);
   
   // Size configuration - larger touch targets for mobile
   const sizeConfig = {
@@ -59,12 +60,15 @@ export const RealisticKnob = memo(function RealisticKnob({
   
   const activeColor = enabled ? color : DISABLED_COLOR;
 
-  // Update motion value when external value changes
+  // Update motion value only when external value changes significantly and not dragging
   useEffect(() => {
-    if (!isDragging) {
-      motionValue.set(value);
+    // Skip if dragging or if value hasn't actually changed
+    if (isDragging || Math.abs(value - lastExternalValue.current) < 0.001) {
+      return;
     }
-  }, [value, isDragging, motionValue]);
+    lastExternalValue.current = value;
+    motionValue.set(value);
+  }, [value, isDragging]); // Remove motionValue from deps to prevent loops
 
   // Calculate new value from vertical movement - MUCH better for mobile
   const calculateNewValue = useCallback((currentY: number) => {
