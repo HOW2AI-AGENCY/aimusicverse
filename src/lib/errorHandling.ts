@@ -197,12 +197,14 @@ export function parseGenerationError(response: any): GenerationErrorResponse {
 }
 
 /**
- * Clean up localStorage for audio references in error scenarios
+ * Clean up audio references in error scenarios
  */
 export function cleanupAudioReference(): void {
   try {
+    // Legacy cleanup - kept for backward compatibility
     localStorage.removeItem('stem_audio_reference');
-    logger.info('Audio reference cleaned up from localStorage');
+    sessionStorage.removeItem('active_audio_reference');
+    logger.info('Audio reference cleaned up');
   } catch (error) {
     logger.error('Failed to cleanup audio reference', { error });
   }

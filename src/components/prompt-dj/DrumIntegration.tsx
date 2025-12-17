@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Drum, ArrowRight } from 'lucide-react';
+import { ReferenceManager } from '@/services/audio-reference';
 
 interface DrumIntegrationProps {
   onImportDrumPattern?: () => void;
@@ -8,10 +9,10 @@ interface DrumIntegrationProps {
 
 export function DrumIntegration({ onImportDrumPattern, disabled }: DrumIntegrationProps) {
   const handleImport = () => {
-    // Check if there's a drum pattern in sessionStorage
-    const savedPattern = sessionStorage.getItem('drumPatternExport');
+    // Check if there's an active drum reference
+    const active = ReferenceManager.getActive();
     
-    if (savedPattern) {
+    if (active && active.source === 'drums') {
       onImportDrumPattern?.();
     }
   };
