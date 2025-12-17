@@ -14,7 +14,7 @@ import { RealtimeChordVisualizer } from '@/components/chord-detection/RealtimeCh
 import { GuitarTabEditor } from '@/components/tab-editor/GuitarTabEditor';
 import { MelodyMixer } from '@/components/melody-mixer/MelodyMixer';
 import { DrumMachineClean } from '@/components/drum-machine/pro';
-import { PromptDJClean } from '@/components/prompt-dj';
+import { PromptDJMixer } from '@/components/prompt-dj';
 import { toast } from 'sonner';
 
 export default function CreativeTools() {
@@ -151,7 +151,7 @@ export default function CreativeTools() {
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                 >
-                  <PromptDJClean />
+                  <PromptDJMixer />
                 </motion.div>
               </TabsContent>
 
