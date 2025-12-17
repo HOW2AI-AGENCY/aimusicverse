@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Track } from '@/types/track';
 import { StemActionsSheet, StemAnalysisSheet } from '@/components/stem-studio/mobile';
+import { ReferenceManager } from '@/services/audio-reference';
 
 interface StudioQuickActionsProps {
   track: Track;
@@ -65,6 +66,25 @@ export const StudioQuickActions = ({
   const canExtend = !!track.suno_id;
   const hasVocals = track.has_vocals !== false && !track.is_instrumental;
 
+  const handleUseAsReference = () => {
+    if (!track.audio_url) {
+      toast.error('Аудио недоступно');
+      return;
+    }
+    
+    ReferenceManager.createFromTrack({
+      id: track.id,
+      audioUrl: track.audio_url,
+      title: track.title || undefined,
+      lyrics: track.lyrics || undefined,
+      style: track.style || undefined,
+      duration: track.duration_seconds ?? undefined,
+    });
+    
+    toast.success('Трек установлен как референс');
+    navigate('/', { state: { openGenerate: true } });
+  };
+
   const handleComingSoon = (feature: string) => {
     toast.info(`${feature} скоро будет доступно`);
   };
@@ -78,6 +98,13 @@ export const StudioQuickActions = ({
       processing: isSeparating,
       variant: 'primary',
       onClick: onSeparate ? () => {} : undefined, // Dropdown handles this
+    },
+    {
+      icon: <Wand2 className="w-4 h-4" />,
+      label: 'Как референс',
+      shortLabel: 'Референс',
+      available: !!track.audio_url,
+      onClick: handleUseAsReference,
     },
     {
       icon: <Scissors className="w-4 h-4" />,
