@@ -16,7 +16,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import { Scissors, Split } from 'lucide-react';
+import { Scissors, Split, Layers } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTracks } from '@/hooks/useTracksOptimized';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
@@ -42,6 +42,7 @@ import {
   StudioActionsPanel,
   StemActionSheet,
   useStudioTrackState,
+  MultiTrackStudioLayout,
 } from '@/components/studio';
 import { registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
@@ -95,6 +96,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
   const [stemActionSheetOpen, setStemActionSheetOpen] = useState(false);
   const [selectedStemForAction, setSelectedStemForAction] = useState<TrackStem | null>(null);
   const [showActionsPanel, setShowActionsPanel] = useState(!isMobile);
+  const [studioMode, setStudioMode] = useState<'section' | 'daw'>('section');
   
   // Section Editor State
   const { 
@@ -359,6 +361,56 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
     { label: 'Обрезать трек', icon: <Scissors className="w-4 h-4 mr-2" />, onClick: () => setTrimDialogOpen(true) },
   ];
 
+  // DAW Mode
+  if (studioMode === 'daw' && track.audio_url) {
+    return (
+      <>
+        {/* Mode Toggle Header */}
+        <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur border-b border-border/30 px-4 py-2 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setStudioMode('section')}
+            >
+              ← Назад
+            </Button>
+            <span className="font-medium text-sm">{track.title || 'Multi-Track DAW'}</span>
+          </div>
+          <div className="flex items-center gap-2 bg-muted/50 rounded-lg p-0.5">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setStudioMode('section')}
+              className="h-7 text-xs"
+            >
+              Секции
+            </Button>
+            <Button
+              variant="default"
+              size="sm"
+              onClick={() => setStudioMode('daw')}
+              className="h-7 text-xs"
+            >
+              <Layers className="w-3.5 h-3.5 mr-1" />
+              DAW
+            </Button>
+          </div>
+        </div>
+        
+        <div className="pt-14 h-screen">
+          <MultiTrackStudioLayout
+            trackId={trackId}
+            trackTitle={track.title || 'Трек'}
+            trackAudioUrl={track.audio_url}
+            duration={duration || track.duration_seconds || 180}
+            className="h-full"
+          />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <CleanStudioLayout
@@ -421,6 +473,16 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
                 <span className="hidden sm:inline">Заменить</span>
               </Button>
             )}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setStudioMode('daw')}
+              className="h-7 gap-1 text-xs"
+              title="Мульти-трек DAW"
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">DAW</span>
+            </Button>
           </div>
         </div>
 
