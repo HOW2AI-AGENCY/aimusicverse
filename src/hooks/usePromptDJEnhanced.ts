@@ -1,5 +1,5 @@
 /**
- * usePromptDJEnhanced - Enhanced PromptDJ hook with buffering, caching, and 8 channels
+ * usePromptDJEnhanced - Enhanced PromptDJ hook with real-time reactive synthesis
  */
 
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
@@ -52,6 +52,8 @@ const DEFAULT_SETTINGS: GlobalSettings = {
   duration: 20,
 };
 
+const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
 export function usePromptDJEnhanced() {
   const [channels, setChannels] = useState<PromptChannel[]>(DEFAULT_CHANNELS);
   const [globalSettings, setGlobalSettings] = useState<GlobalSettings>(DEFAULT_SETTINGS);
@@ -66,12 +68,40 @@ export function usePromptDJEnhanced() {
   const synthRef = useRef<Tone.PolySynth | null>(null);
   const sequenceRef = useRef<Tone.Sequence | null>(null);
   const analyzerRef = useRef<Tone.Analyser | null>(null);
+  const reverbRef = useRef<Tone.Reverb | null>(null);
+  const filterRef = useRef<Tone.Filter | null>(null);
+  const delayRef = useRef<Tone.FeedbackDelay | null>(null);
+  
+  // Pattern state for real-time updates
+  const patternRef = useRef<(string | null)[]>([]);
+  const scaleNotesRef = useRef<string[]>([]);
   
   // Cache for generated audio (prompt -> audioUrl)
   const audioCacheRef = useRef<Map<string, string>>(new Map());
   
   // Audio buffer pool for preloading
   const bufferPoolRef = useRef<Map<string, Tone.ToneAudioBuffer>>(new Map());
+
+  // Compute scale notes based on key and scale
+  const computeScaleNotes = useCallback((key: string, scale: string) => {
+    const rootIndex = NOTE_NAMES.indexOf(key);
+    const scaleIntervals = scale === 'major' 
+      ? [0, 2, 4, 5, 7, 9, 11] 
+      : scale === 'minor'
+      ? [0, 2, 3, 5, 7, 8, 10]
+      : scale === 'dorian'
+      ? [0, 2, 3, 5, 7, 9, 10]
+      : scale === 'pentatonic'
+      ? [0, 2, 4, 7, 9]
+      : [0, 2, 3, 5, 7, 8, 10]; // default minor
+
+    const octave = 4;
+    return scaleIntervals.map(interval => {
+      const noteIndex = (rootIndex + interval) % 12;
+      const noteOctave = octave + Math.floor((rootIndex + interval) / 12);
+      return `${NOTE_NAMES[noteIndex]}${noteOctave}`;
+    });
+  }, []);
 
   // Initialize analyzer
   useEffect(() => {
@@ -81,9 +111,92 @@ export function usePromptDJEnhanced() {
       playerRef.current?.dispose();
       synthRef.current?.dispose();
       sequenceRef.current?.dispose();
+      reverbRef.current?.dispose();
+      filterRef.current?.dispose();
+      delayRef.current?.dispose();
       bufferPoolRef.current.forEach(buffer => buffer.dispose());
     };
   }, []);
+
+  // REAL-TIME: Update BPM when it changes
+  useEffect(() => {
+    if (isPreviewPlaying) {
+      Tone.getTransport().bpm.rampTo(globalSettings.bpm, 0.2);
+    }
+  }, [globalSettings.bpm, isPreviewPlaying]);
+
+  // REAL-TIME: Update synth sound when brightness changes
+  useEffect(() => {
+    if (isPreviewPlaying && synthRef.current) {
+      const oscType = globalSettings.brightness > 0.7 ? 'sawtooth' : 
+                      globalSettings.brightness > 0.4 ? 'triangle' : 'sine';
+      
+      synthRef.current.set({
+        oscillator: { type: oscType as any },
+        envelope: {
+          attack: 0.02 + (1 - globalSettings.brightness) * 0.1,
+          release: 0.3 + (1 - globalSettings.brightness) * 0.4,
+        }
+      });
+    }
+  }, [globalSettings.brightness, isPreviewPlaying]);
+
+  // REAL-TIME: Update filter based on brightness
+  useEffect(() => {
+    if (isPreviewPlaying && filterRef.current) {
+      const freq = 200 + globalSettings.brightness * 4000;
+      filterRef.current.frequency.rampTo(freq, 0.1);
+    }
+  }, [globalSettings.brightness, isPreviewPlaying]);
+
+  // REAL-TIME: Update reverb based on mood/texture
+  useEffect(() => {
+    if (isPreviewPlaying && reverbRef.current) {
+      const moodChannel = channels.find(c => c.type === 'mood');
+      const textureChannel = channels.find(c => c.type === 'texture');
+      
+      const isDreamy = moodChannel?.value?.toLowerCase().includes('dreamy') ||
+                       textureChannel?.value?.toLowerCase().includes('airy') ||
+                       textureChannel?.value?.toLowerCase().includes('ambient');
+      
+      reverbRef.current.wet.rampTo(isDreamy ? 0.6 : 0.2, 0.3);
+    }
+  }, [channels, isPreviewPlaying]);
+
+  // REAL-TIME: Update scale notes when key/scale changes
+  useEffect(() => {
+    scaleNotesRef.current = computeScaleNotes(globalSettings.key, globalSettings.scale);
+  }, [globalSettings.key, globalSettings.scale, computeScaleNotes]);
+
+  // REAL-TIME: Regenerate pattern when density changes
+  useEffect(() => {
+    if (isPreviewPlaying && scaleNotesRef.current.length > 0) {
+      const energyChannel = channels.find(c => c.type === 'energy');
+      const isHighEnergy = energyChannel?.enabled && (
+        energyChannel?.weight > 0.6 ||
+        energyChannel?.value?.toLowerCase().includes('high') || 
+        energyChannel?.value?.toLowerCase().includes('intense')
+      );
+      
+      const stepCount = isHighEnergy ? 16 : 8;
+      const noteDensity = 0.2 + globalSettings.density * 0.6;
+      
+      const newPattern: (string | null)[] = [];
+      for (let i = 0; i < stepCount; i++) {
+        if (Math.random() < noteDensity) {
+          newPattern.push(scaleNotesRef.current[Math.floor(Math.random() * scaleNotesRef.current.length)]);
+        } else {
+          newPattern.push(null);
+        }
+      }
+      patternRef.current = newPattern;
+      
+      // Update sequence events
+      if (sequenceRef.current) {
+        sequenceRef.current.events = newPattern;
+      }
+    }
+  }, [globalSettings.density, channels, isPreviewPlaying]);
 
   // Build weighted prompt from channels
   const currentPrompt = useMemo(() => {
@@ -190,6 +303,7 @@ export function usePromptDJEnhanced() {
   const playTrack = useCallback(async (track: GeneratedTrack) => {
     try {
       await Tone.start();
+      stopPreview();
       
       if (playerRef.current) {
         playerRef.current.stop();
@@ -240,101 +354,112 @@ export function usePromptDJEnhanced() {
     setIsPlaying(false);
   }, []);
 
-  // Preview with synth (realtime local synthesis)
+  // Start real-time preview with synth
   const previewWithSynth = useCallback(async () => {
     try {
       await Tone.start();
       stopPreview();
 
+      // Create filter for brightness control
+      const filter = new Tone.Filter({
+        frequency: 200 + globalSettings.brightness * 4000,
+        type: 'lowpass',
+        rolloff: -12,
+      });
+      filterRef.current = filter;
+
+      // Create reverb
+      const reverb = new Tone.Reverb({ 
+        decay: 2.5, 
+        wet: 0.2,
+        preDelay: 0.01,
+      });
+      await reverb.generate();
+      reverbRef.current = reverb;
+
+      // Create delay for texture
+      const delay = new Tone.FeedbackDelay({
+        delayTime: '8n',
+        feedback: 0.2,
+        wet: 0.15,
+      });
+      delayRef.current = delay;
+
       // Create synth based on settings
+      const oscType = globalSettings.brightness > 0.7 ? 'sawtooth' : 
+                      globalSettings.brightness > 0.4 ? 'triangle' : 'sine';
+      
       const synth = new Tone.PolySynth(Tone.Synth, {
-        oscillator: {
-          type: globalSettings.brightness > 0.6 ? 'sawtooth' : 
-                globalSettings.brightness > 0.3 ? 'triangle' : 'sine',
-        },
+        oscillator: { type: oscType as any },
         envelope: {
-          attack: 0.05 + (1 - globalSettings.density) * 0.2,
+          attack: 0.02 + (1 - globalSettings.brightness) * 0.1,
           decay: 0.2,
           sustain: 0.4,
-          release: 0.5 + globalSettings.density * 0.5,
+          release: 0.3 + (1 - globalSettings.brightness) * 0.4,
         },
       });
 
-      // Add effects based on mood/texture channels
-      const moodChannel = channels.find(c => c.type === 'mood');
-      const textureChannel = channels.find(c => c.type === 'texture');
+      // Connect chain: synth -> filter -> delay -> reverb -> analyzer -> destination
+      synth.connect(filter);
+      filter.connect(delay);
+      delay.connect(reverb);
       
-      // Add reverb for atmospheric moods
-      if (moodChannel?.value?.toLowerCase().includes('dreamy') || 
-          textureChannel?.value?.toLowerCase().includes('airy')) {
-        const reverb = new Tone.Reverb({ decay: 3, wet: 0.5 });
-        synth.connect(reverb);
-        reverb.toDestination();
-      }
-
       if (analyzerRef.current) {
-        synth.connect(analyzerRef.current);
+        reverb.connect(analyzerRef.current);
       }
-      synth.toDestination();
+      reverb.toDestination();
+      
       synthRef.current = synth;
 
-      // Generate scale notes
-      const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-      const rootIndex = noteNames.indexOf(globalSettings.key);
-      const scaleIntervals = globalSettings.scale === 'major' 
-        ? [0, 2, 4, 5, 7, 9, 11] 
-        : [0, 2, 3, 5, 7, 8, 10];
+      // Generate initial scale notes
+      scaleNotesRef.current = computeScaleNotes(globalSettings.key, globalSettings.scale);
 
-      const octave = 4;
-      const notes = scaleIntervals.map(interval => {
-        const noteIndex = (rootIndex + interval) % 12;
-        const noteOctave = octave + Math.floor((rootIndex + interval) / 12);
-        return `${noteNames[noteIndex]}${noteOctave}`;
-      });
-
-      // Create pattern based on energy/density
+      // Generate initial pattern
       const energyChannel = channels.find(c => c.type === 'energy');
-      const isHighEnergy = energyChannel?.value?.toLowerCase().includes('high') || 
-                          energyChannel?.value?.toLowerCase().includes('intense');
+      const isHighEnergy = energyChannel?.enabled && (
+        energyChannel?.weight > 0.6 ||
+        energyChannel?.value?.toLowerCase().includes('high') || 
+        energyChannel?.value?.toLowerCase().includes('intense')
+      );
       
       const stepCount = isHighEnergy ? 16 : 8;
-      const noteDensity = 0.3 + globalSettings.density * 0.5;
+      const noteDensity = 0.2 + globalSettings.density * 0.6;
       
       const pattern: (string | null)[] = [];
       for (let i = 0; i < stepCount; i++) {
         if (Math.random() < noteDensity) {
-          pattern.push(notes[Math.floor(Math.random() * notes.length)]);
+          pattern.push(scaleNotesRef.current[Math.floor(Math.random() * scaleNotesRef.current.length)]);
         } else {
           pattern.push(null);
         }
       }
+      patternRef.current = pattern;
 
       Tone.getTransport().bpm.value = globalSettings.bpm;
 
       const sequence = new Tone.Sequence(
         (time, note) => {
-          if (note) {
-            synth.triggerAttackRelease(note, isHighEnergy ? '16n' : '8n', time);
+          if (note && synthRef.current) {
+            const noteLength = isHighEnergy ? '16n' : '8n';
+            synthRef.current.triggerAttackRelease(note, noteLength, time);
           }
         },
         pattern,
         isHighEnergy ? '16n' : '8n'
       );
 
+      sequence.loop = true;
       sequence.start(0);
       sequenceRef.current = sequence;
       
       Tone.getTransport().start();
       setIsPreviewPlaying(true);
 
-      // Auto-stop after 6 seconds
-      setTimeout(() => {
-        stopPreview();
-      }, 6000);
     } catch (error) {
       console.error('Preview error:', error);
+      toast.error('Ошибка запуска превью');
     }
-  }, [globalSettings, channels]);
+  }, [globalSettings, channels, computeScaleNotes]);
 
   // Stop preview
   const stopPreview = useCallback(() => {
@@ -346,6 +471,18 @@ export function usePromptDJEnhanced() {
     if (synthRef.current) {
       synthRef.current.dispose();
       synthRef.current = null;
+    }
+    if (reverbRef.current) {
+      reverbRef.current.dispose();
+      reverbRef.current = null;
+    }
+    if (filterRef.current) {
+      filterRef.current.dispose();
+      filterRef.current = null;
+    }
+    if (delayRef.current) {
+      delayRef.current.dispose();
+      delayRef.current = null;
     }
     Tone.getTransport().stop();
     setIsPreviewPlaying(false);
