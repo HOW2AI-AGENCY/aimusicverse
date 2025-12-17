@@ -25,7 +25,7 @@
   <img src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=flat-square&logo=telegram" alt="Telegram" />
   <img src="https://img.shields.io/badge/Lovable_Cloud-Backend-8B5CF6?style=flat-square" alt="Lovable Cloud" />
   <img src="https://img.shields.io/badge/Suno_AI-v5-e74c3c?style=flat-square" alt="Suno AI" />
-  <img src="https://img.shields.io/badge/Sprint-013-green?style=flat-square" alt="Current Sprint" />
+  <img src="https://img.shields.io/badge/Sprint-026-green?style=flat-square" alt="Current Sprint" />
 </p>
 
 </div>
@@ -48,17 +48,14 @@
 
 > 💡 **Навигация:** См. [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) для полной карты документации
 > 
-> 🎯 **Текущий статус:** Sprint 013 (Advanced Audio Features) - 🟢 In Progress  
-> 📊 **Статус спринтов:** [SPRINT_STATUS.md](SPRINT_STATUS.md) | **Недавние улучшения:** [RECENT_IMPROVEMENTS.md](RECENT_IMPROVEMENTS.md)
+> 🎯 **Текущий статус:** Sprint 026 (UX Unification) - ✅ Complete  
+> 📊 **Статус спринтов:** [SPRINT_STATUS.md](SPRINT_STATUS.md) | **Статус проекта:** [PROJECT_STATUS.md](PROJECT_STATUS.md)
 >
 > 📚 **Ключевая документация:**
-> - [AI Lyrics Assistant](docs/AI_LYRICS_ASSISTANT.md) - Чат-интерфейс для написания текстов
-> - [Stem Studio](docs/STEM_STUDIO.md) - Работа со стемами и MIDI
-> - [Creative Tools](docs/CREATIVE_TOOLS.md) - Chord Detection, Tab Editor, Melody Mixer
-> - [Generation System](docs/GENERATION_SYSTEM.md) - Система генерации музыки
-> - [Player Architecture](docs/PLAYER_ARCHITECTURE.md) - Архитектура аудио-плеера
-> - [🎨 UX/UI Audit](UX_AUDIT_MOBILE_STUDIO_DESIGN.md) - **NEW!** Профессиональный мобильный UX аудит
-> - [Known Issues](docs/KNOWN_ISSUES.md) - Известные проблемы
+> - [PROJECT_STATUS.md](PROJECT_STATUS.md) - Единый источник правды о статусе проекта
+> - [SPRINTS/](SPRINTS/) - Планирование спринтов
+> - [specs/](specs/) - Технические спецификации
+> - [docs/guides/](docs/guides/) - Технические руководства
 
 ---
 
