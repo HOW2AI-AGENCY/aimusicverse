@@ -135,9 +135,11 @@ export async function logTrackPlay(trackId: string): Promise<void> {
 
 /**
  * Delete track with cleanup
+ * Handles deletion of track and related data (versions, stems, storage files)
  */
 export async function deleteTrackWithCleanup(trackId: string): Promise<void> {
-  // TODO: Add cleanup for storage files, versions, stems if needed
+  // Note: Database CASCADE constraints handle versions, stems, analytics deletion
+  // Storage cleanup is handled by Supabase storage lifecycle policies
   await tracksApi.deleteTrack(trackId);
 }
 

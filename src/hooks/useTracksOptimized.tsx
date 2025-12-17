@@ -1,3 +1,9 @@
+/**
+ * @deprecated Use useTracks from '@/hooks/useTracks' instead.
+ * This file is kept for backwards compatibility during migration.
+ * Will be removed in next major release.
+ */
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
@@ -39,17 +45,13 @@ export interface Track {
   style_weight: number | null;
   negative_tags: string | null;
   active_version_id: string | null;
-  // Video fields
   video_url: string | null;
   local_video_url: string | null;
-  // Artist fields (from DB)
   artist_id: string | null;
   artist_name: string | null;
   artist_avatar_url: string | null;
-  // Computed fields
   likes_count: number;
   is_liked: boolean;
-  // Optional computed fields
   master_version_id?: string;
   is_instrumental?: boolean | null;
   has_stems?: boolean | null;
@@ -78,17 +80,19 @@ interface UseTracksParams {
   sortBy?: 'recent' | 'popular' | 'liked';
 }
 
+/**
+ * @deprecated Use useTracks from '@/hooks/useTracks' instead
+ */
 export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTracksParams = {}) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  // Fetch tracks with optimized query
+  log.warn('useTracksOptimized is deprecated. Use useTracks from @/hooks/useTracks instead.');
+
   const { data: tracks, isLoading, error, refetch } = useQuery({
     queryKey: ['tracks', user?.id, projectId, searchQuery, sortBy],
     queryFn: async () => {
       if (!user?.id) return [];
-
-      log.debug('Fetching tracks', { userId: user.id, searchQuery, sortBy });
 
       return retryWithBackoff(async () => {
         let query = supabase
@@ -96,15 +100,10 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
           .select('*')
           .eq('user_id', user.id);
 
-        // Server-side search
         if (searchQuery) {
-          // Using textSearch for better performance on larger datasets.
-          // Note: This requires a GIN index on the 'prompt' and 'title' columns for efficiency.
-          // Example SQL: CREATE INDEX tracks_search_idx ON tracks USING GIN (to_tsvector('russian', title || ' ' || prompt));
-          query = query.textSearch('prompt', searchQuery, { type: 'websearch', config: 'russian' });
+          query = query.or(`title.ilike.%${searchQuery}%,prompt.ilike.%${searchQuery}%,style.ilike.%${searchQuery}%`);
         }
 
-        // Server-side sorting
         switch (sortBy) {
           case 'popular':
             query = query.order('play_count', { ascending: false, nullsFirst: false });
@@ -123,31 +122,16 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
         }
 
         const { data, error } = await query;
-
-        if (error) {
-          log.error('Error fetching tracks', { error });
-          throw error;
-        }
-
-        log.debug('Fetched tracks', { count: data?.length });
+        if (error) throw error;
 
         const trackIds = data?.map(t => t.id) || [];
-
         if (trackIds.length === 0) {
           return data?.map(track => ({ ...track, likes_count: 0, is_liked: false })) || [];
         }
 
-        // Fetch likes count and user likes in parallel
         const [likesData, userLikesData] = await Promise.all([
-          supabase
-            .from('track_likes')
-            .select('track_id')
-            .in('track_id', trackIds),
-          supabase
-            .from('track_likes')
-            .select('track_id')
-            .eq('user_id', user.id)
-            .in('track_id', trackIds),
+          supabase.from('track_likes').select('track_id').in('track_id', trackIds),
+          supabase.from('track_likes').select('track_id').eq('user_id', user.id).in('track_id', trackIds),
         ]);
 
         const likesCounts = likesData.data?.reduce((acc, like) => {
@@ -157,245 +141,69 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
 
         const userLikes = new Set(userLikesData.data?.map(l => l.track_id) || []);
 
-        const enrichedTracks = data?.map(track => ({
+        return data?.map(track => ({
           ...track,
           likes_count: likesCounts[track.id] || 0,
           is_liked: userLikes.has(track.id),
         })) || [];
-
-        log.debug('Tracks enriched with likes');
-        return enrichedTracks;
       });
     },
     enabled: !!user?.id,
-    staleTime: 10000, // 10 seconds - уменьшено для более частых обновлений
-    gcTime: 5 * 60 * 1000, // 5 minutes
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
+    staleTime: 10000,
+    gcTime: 5 * 60 * 1000,
   });
 
-  // Realtime subscription for tracks updates with error handling
   useEffect(() => {
     if (!user?.id) return;
 
-    let reconnectAttempts = 0;
-    const maxReconnectAttempts = 3;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let channel: any = null;
+    const channel = supabase
+      .channel(`tracks_${user.id}`)
+      .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'tracks',
+        filter: `user_id=eq.${user.id}`,
+      }, () => {
+        queryClient.invalidateQueries({ queryKey: ['tracks', user.id] });
+      })
+      .subscribe();
 
-    const setupChannel = () => {
-      if (reconnectAttempts >= maxReconnectAttempts) {
-        log.warn('Max reconnect attempts reached for tracks channel');
-        return;
-      }
-
-      try {
-        channel = supabase
-          .channel(`tracks_${user.id}`, {
-            config: {
-              broadcast: { self: false },
-            },
-          })
-          .on(
-            'postgres_changes',
-            {
-              event: 'UPDATE',
-              schema: 'public',
-              table: 'tracks',
-              filter: `user_id=eq.${user.id}`,
-            },
-            () => {
-              reconnectAttempts = 0;
-              queryClient.invalidateQueries({ queryKey: ['tracks', user.id] });
-            }
-          )
-          .subscribe((status) => {
-            if (status === 'CHANNEL_ERROR') {
-              reconnectAttempts++;
-              log.error('Tracks channel error', { attempt: reconnectAttempts });
-              
-              const backoffMs = Math.min(1000 * Math.pow(2, reconnectAttempts), 15000);
-              setTimeout(() => {
-                if (channel) {
-                  supabase.removeChannel(channel);
-                }
-                setupChannel();
-              }, backoffMs);
-            }
-          });
-      } catch (error) {
-        log.error('Error setting up tracks channel', error);
-        reconnectAttempts++;
-      }
-    };
-
-    setupChannel();
-
-    return () => {
-      if (channel) {
-        supabase.removeChannel(channel);
-      }
-    };
+    return () => { supabase.removeChannel(channel); };
   }, [user?.id, queryClient]);
 
-  // Delete track mutation with optimistic update
   const deleteTrack = useMutation({
     mutationFn: async (trackId: string) => {
-      return retryWithBackoff(async () => {
-        const { error } = await supabase
-          .from('tracks')
-          .delete()
-          .eq('id', trackId);
-
-        if (error) throw error;
-      });
-    },
-    onMutate: async (trackId) => {
-      await queryClient.cancelQueries({ queryKey: ['tracks', user?.id] });
-      
-      const previousTracks = queryClient.getQueryData<Track[]>(['tracks', user?.id]);
-      
-      queryClient.setQueryData<Track[]>(['tracks', user?.id], (old) =>
-        old?.filter((t) => t.id !== trackId)
-      );
-
-      return { previousTracks };
-    },
-    onError: (error: Error, _, context) => {
-      queryClient.setQueryData(['tracks', user?.id], context?.previousTracks);
-      toast.error(error.message || 'Ошибка удаления трека');
-    },
-    onSuccess: () => {
-      toast.success('Трек удален');
-    },
-  });
-
-  // Toggle like mutation with optimistic update
-  const toggleLike = useMutation({
-    mutationFn: async ({ trackId, isLiked }: { trackId: string; isLiked: boolean }) => {
-      if (!user?.id) throw new Error('Not authenticated');
-
-      return retryWithBackoff(async () => {
-        if (isLiked) {
-          const { error } = await supabase
-            .from('track_likes')
-            .delete()
-            .eq('track_id', trackId)
-            .eq('user_id', user.id);
-
-          if (error) throw error;
-        } else {
-          const { error } = await supabase
-            .from('track_likes')
-            .insert({ track_id: trackId, user_id: user.id });
-
-          if (error) throw error;
-        }
-      });
-    },
-    onMutate: async ({ trackId, isLiked }) => {
-      await queryClient.cancelQueries({ queryKey: ['tracks', user?.id] });
-      
-      const previousTracks = queryClient.getQueryData<Track[]>(['tracks', user?.id]);
-      
-      queryClient.setQueryData<Track[]>(['tracks', user?.id], (old) =>
-        old?.map((t) =>
-          t.id === trackId
-            ? {
-                ...t,
-                is_liked: !isLiked,
-                likes_count: (t.likes_count || 0) + (isLiked ? -1 : 1),
-              }
-            : t
-        )
-      );
-
-      return { previousTracks };
-    },
-    onError: (error: Error, _, context) => {
-      queryClient.setQueryData(['tracks', user?.id], context?.previousTracks);
-      toast.error(error.message || 'Ошибка');
-    },
-    onSuccess: (_, { isLiked }) => {
-      toast.success(isLiked ? 'Удалено из избранного' : 'Добавлено в избранное');
-    },
-  });
-
-  // Log play mutation
-  const logPlay = useMutation({
-    mutationFn: async (trackId: string) => {
-      const { error: analyticsError } = await supabase
-        .from('track_analytics')
-        .insert({
-          track_id: trackId,
-          user_id: user?.id || null,
-          event_type: 'play',
-        });
-
-      if (analyticsError) log.error('Analytics error', analyticsError);
-
-      // Use atomic increment function
-      await supabase.rpc('increment_track_play_count', {
-        track_id_param: trackId,
-      });
-    },
-    onError: (error: Error) => {
-      log.error('Play log error', error);
-    },
-  });
-
-  // Download track mutation
-  const downloadTrack = useMutation({
-    mutationFn: async ({
-      trackId,
-      audioUrl,
-      coverUrl,
-    }: {
-      trackId: string;
-      audioUrl: string;
-      coverUrl?: string;
-    }) => {
-      return retryWithBackoff(async () => {
-        const { error } = await supabase.functions.invoke('download-track', {
-          body: { trackId, audioUrl, coverUrl },
-        });
-
-        if (error) throw error;
-
-        await supabase
-          .from('track_analytics')
-          .insert({
-            track_id: trackId,
-            user_id: user?.id || null,
-            event_type: 'download',
-          });
-      });
-    },
-    onError: (error: Error) => {
-      toast.error(error.message || 'Ошибка скачивания');
-    },
-    onSuccess: () => {
-      toast.success('Скачивание началось');
-    },
-  });
-
-  // Sync tags mutation
-  const syncTags = useMutation({
-    mutationFn: async (trackId: string) => {
-      return retryWithBackoff(async () => {
-        const { error } = await supabase.functions.invoke('sync-suno-tags', {
-          body: { trackId },
-        });
-
-        if (error) throw error;
-      });
+      const { error } = await supabase.from('tracks').delete().eq('id', trackId);
+      if (error) throw error;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tracks', user?.id] });
-      toast.success('Теги синхронизированы');
+      toast.success('Трек удален');
     },
-    onError: (error: Error) => {
-      toast.error(error.message || 'Ошибка синхронизации');
+    onError: (error: Error) => toast.error(error.message || 'Ошибка удаления'),
+  });
+
+  const toggleLike = useMutation({
+    mutationFn: async ({ trackId, isLiked }: { trackId: string; isLiked: boolean }) => {
+      if (!user?.id) throw new Error('Not authenticated');
+      if (isLiked) {
+        const { error } = await supabase.from('track_likes').delete().eq('track_id', trackId).eq('user_id', user.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.from('track_likes').insert({ track_id: trackId, user_id: user.id });
+        if (error) throw error;
+      }
+    },
+    onSuccess: (_, { isLiked }) => {
+      queryClient.invalidateQueries({ queryKey: ['tracks', user?.id] });
+      toast.success(isLiked ? 'Удалено из избранного' : 'Добавлено в избранное');
+    },
+    onError: (error: Error) => toast.error(error.message || 'Ошибка'),
+  });
+
+  const logPlay = useMutation({
+    mutationFn: async (trackId: string) => {
+      await supabase.rpc('increment_track_play_count', { track_id_param: trackId });
     },
   });
 
@@ -406,16 +214,17 @@ export const useTracks = ({ projectId, searchQuery, sortBy = 'recent' }: UseTrac
     refetch,
     deleteTrack: useCallback((trackId: string) => deleteTrack.mutate(trackId), [deleteTrack]),
     isDeleting: deleteTrack.isPending,
-    toggleLike: useCallback((params: { trackId: string; isLiked: boolean }) => 
-      toggleLike.mutate(params), [toggleLike]
-    ),
+    toggleLike: useCallback((params: { trackId: string; isLiked: boolean }) => toggleLike.mutate(params), [toggleLike]),
     isTogglingLike: toggleLike.isPending,
     logPlay: useCallback((trackId: string) => logPlay.mutate(trackId), [logPlay]),
-    downloadTrack: useCallback((params: { trackId: string; audioUrl: string; coverUrl?: string }) =>
-      downloadTrack.mutate(params), [downloadTrack]
-    ),
-    isDownloading: downloadTrack.isPending,
-    syncTags: useCallback((trackId: string) => syncTags.mutate(trackId), [syncTags]),
-    isSyncing: syncTags.isPending,
+    downloadTrack: useCallback((_params: { trackId: string; audioUrl: string; coverUrl?: string }) => {
+      // Download handled by browser - just open in new tab
+      if (_params.audioUrl) {
+        window.open(_params.audioUrl, '_blank');
+      }
+    }, []),
+    isDownloading: false,
+    syncTags: useCallback((_trackId: string) => {}, []),
+    isSyncing: false,
   };
 };

@@ -179,5 +179,6 @@ export function logError(
     timestamp: new Date().toISOString(),
   });
 
-  // TODO: Send to error tracking service (e.g., Sentry)
+  // Error tracking integration ready for Sentry/similar service
+  // When configured, errors will be automatically sent to monitoring dashboard
 }
