@@ -42,18 +42,18 @@ export async function fetchPublicTracks(filters: QueryFilters = {}) {
     query = query.contains('metadata', { mood: filters.mood });
   }
 
-  // Apply sorting
+  // Apply sorting using computed scores from database
   switch (sortBy) {
     case 'recent':
       query = query.order('created_at', { ascending: false });
       break;
     case 'popular':
-      // TODO: Order by play_count when implemented
-      query = query.order('created_at', { ascending: false });
+      // Order by quality_score (likes * 1.5 + plays * 0.05)
+      query = query.order('quality_score', { ascending: false, nullsFirst: false });
       break;
     case 'trending':
-      // TODO: Implement trending algorithm
-      query = query.order('created_at', { ascending: false });
+      // Order by trending_score (likes * 2 + plays * 0.1 + recency boost)
+      query = query.order('trending_score', { ascending: false, nullsFirst: false });
       break;
   }
 
