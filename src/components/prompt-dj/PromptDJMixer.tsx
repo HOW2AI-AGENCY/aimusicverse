@@ -3,7 +3,7 @@
  * Settings changes auto-generate continuation for seamless flow control
  */
 
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState, useMemo } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,7 @@ import {
   Play, Square, Loader2, Sparkles, Settings2, 
   Download, Music, Trash2, Zap, Radio, HelpCircle, Save, MoreVertical
 } from 'lucide-react';
-import { PromptKnobEnhanced } from './PromptKnobEnhanced';
+import { KnobCell } from './KnobCell';
 import { LiveVisualizer } from './LiveVisualizer';
 import { PromptDJOnboarding, usePromptDJOnboarding } from './PromptDJOnboarding';
 import { toast } from 'sonner';
@@ -37,11 +37,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Switch } from '@/components/ui/switch';
 import { usePromptDJEnhanced, GeneratedTrack, CHANNEL_TYPES, ChannelType } from '@/hooks/usePromptDJEnhanced';
-import {
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-} from '@/components/ui/dropdown-menu';
 
 // Quick presets - apply to first channels of matching types
 const QUICK_PRESETS = [
@@ -52,11 +47,6 @@ const QUICK_PRESETS = [
   { id: 'ambient', label: '🌊 Ambient', values: { genre: 'Ambient', instrument: 'Pads', mood: 'Dreamy', texture: 'Airy' } },
   { id: 'rock', label: '🎸 Rock', values: { genre: 'Rock', instrument: 'Guitar', mood: 'Aggressive', energy: 'Driving' } },
 ];
-
-// Helper to get channel config by type
-const getChannelConfig = (type: ChannelType) => {
-  return CHANNEL_TYPES.find(c => c.type === type) || CHANNEL_TYPES[0];
-};
 
 export const PromptDJMixer = memo(function PromptDJMixer() {
   const navigate = useNavigate();
@@ -156,17 +146,22 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
     toast.success(`Пресет "${preset.label}" применён`);
   }, [channels, updateChannel]);
 
-  // Handle channel type change
+  // Handle channel type change - wrapped for KnobCell
   const handleTypeChange = useCallback((channelId: string, newType: ChannelType) => {
     updateChannel(channelId, { type: newType, value: '' });
     setSelectedChannel(null);
   }, [updateChannel]);
 
-  // Handle channel preset selection
-  const handlePresetSelect = useCallback((channelId: string, preset: string) => {
-    updateChannel(channelId, { value: preset, enabled: true });
-    setSelectedChannel(null);
-  }, [updateChannel]);
+  // Handle select channel - wrapped for KnobCell  
+  const handleSelectChannel = useCallback((id: string | null) => {
+    setSelectedChannel(id);
+  }, []);
+
+  // Compute isActive state once
+  const isKnobsActive = useMemo(() => 
+    isPlaying || isPreviewPlaying || isLiveMode, 
+    [isPlaying, isPreviewPlaying, isLiveMode]
+  );
 
   // Use as reference and navigate
   const handleUseAsReference = useCallback((track: GeneratedTrack) => {
@@ -295,88 +290,18 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
         'grid gap-3 p-3 rounded-xl bg-card/30 border border-border/30',
         isMobile ? 'grid-cols-3' : 'grid-cols-9'
       )}>
-        {channels.map((channel) => {
-          const config = getChannelConfig(channel.type);
-          
-          return (
-            <div key={channel.id} className="flex flex-col items-center">
-              <DropdownMenu 
-                open={selectedChannel === channel.id} 
-                onOpenChange={(open) => setSelectedChannel(open ? channel.id : null)}
-              >
-                <DropdownMenuTrigger asChild>
-                  <div>
-                    <PromptKnobEnhanced
-                      value={channel.weight}
-                      label={channel.value || config.label}
-                      sublabel={channel.value ? config.label : undefined}
-                      color={config.color}
-                      enabled={channel.enabled}
-                      isActive={(isPlaying || isPreviewPlaying || isLiveMode) && channel.enabled && channel.weight > 0}
-                      size={knobSize}
-                      onChange={(val) => updateChannel(channel.id, { weight: val })}
-                      onLabelClick={() => setSelectedChannel(channel.id)}
-                    />
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="center" className="max-h-72 overflow-y-auto bg-popover">
-                  {/* Change type submenu */}
-                  <DropdownMenuSub>
-                    <DropdownMenuSubTrigger className="text-xs">
-                      🎛️ Тип: {config.label}
-                    </DropdownMenuSubTrigger>
-                    <DropdownMenuSubContent className="max-h-60 overflow-y-auto bg-popover">
-                      {CHANNEL_TYPES.map((typeConfig) => (
-                        <DropdownMenuItem
-                          key={typeConfig.type}
-                          onClick={() => handleTypeChange(channel.id, typeConfig.type)}
-                          className={cn(
-                            'text-xs',
-                            channel.type === typeConfig.type && 'bg-accent'
-                          )}
-                        >
-                          <div 
-                            className="w-2 h-2 rounded-full mr-2" 
-                            style={{ backgroundColor: typeConfig.color }} 
-                          />
-                          {typeConfig.label}
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuSubContent>
-                  </DropdownMenuSub>
-                  
-                  <DropdownMenuSeparator />
-                  <DropdownMenuLabel className="text-xs">{config.label}</DropdownMenuLabel>
-                  
-                  {/* Presets for current type */}
-                  {config.presets.length > 0 ? (
-                    config.presets.map((preset) => (
-                      <DropdownMenuItem
-                        key={preset}
-                        onClick={() => handlePresetSelect(channel.id, preset)}
-                        className="text-xs"
-                      >
-                        {preset}
-                      </DropdownMenuItem>
-                    ))
-                  ) : (
-                    <DropdownMenuItem className="text-xs text-muted-foreground" disabled>
-                      Введите своё значение
-                    </DropdownMenuItem>
-                  )}
-                  
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() => updateChannel(channel.id, { enabled: !channel.enabled })}
-                    className="text-xs"
-                  >
-                    {channel.enabled ? '🔇 Выключить' : '🔊 Включить'}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          );
-        })}
+        {channels.map((channel) => (
+          <KnobCell
+            key={channel.id}
+            channel={channel}
+            isSelected={selectedChannel === channel.id}
+            isActive={isKnobsActive}
+            size={knobSize}
+            onSelect={handleSelectChannel}
+            onUpdate={updateChannel}
+            onTypeChange={handleTypeChange}
+          />
+        ))}
       </div>
 
       {/* Controls */}
