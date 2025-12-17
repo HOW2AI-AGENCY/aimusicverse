@@ -61,6 +61,26 @@ export function useHapticFeedback() {
   const error = useCallback(() => notification('error'), [notification]);
   const warning = useCallback(() => notification('warning'), [notification]);
 
+  // Knob-specific haptics
+  const onKnobChange = useCallback((value: number, prevValue: number) => {
+    // Light feedback for movement
+    impact('light');
+    
+    // Extra feedback at boundaries (0 or 1)
+    if ((value === 0 && prevValue > 0) || (value === 1 && prevValue < 1)) {
+      setTimeout(() => impact('rigid'), 30);
+    }
+  }, [impact]);
+
+  const onKnobSnap = useCallback(() => {
+    // Stronger feedback when snapping to preset values
+    selectionChanged();
+  }, [selectionChanged]);
+
+  const boundary = useCallback(() => {
+    impact('rigid');
+  }, [impact]);
+
   return {
     impact,
     notification,
@@ -70,5 +90,8 @@ export function useHapticFeedback() {
     success,
     error,
     warning,
+    onKnobChange,
+    onKnobSnap,
+    boundary,
   };
 }
