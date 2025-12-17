@@ -17,14 +17,12 @@ import { KnobCell } from './KnobCell';
 import { OptimizedVisualizer } from './OptimizedVisualizer';
 import { PromptDJOnboarding, usePromptDJOnboarding } from './PromptDJOnboarding';
 import { PromptDJErrorBoundary } from './PromptDJErrorBoundary';
-import { SmartPresetsPanel } from './SmartPresetsPanel';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { usePredictiveGeneration } from '@/hooks/usePredictiveGeneration';
-import { usePromptHistory } from '@/hooks/usePromptHistory';
 import {
   Sheet,
   SheetContent,
@@ -96,9 +94,6 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
     enabled: !isLiveMode && !isGenerating,
     duration: globalSettings.duration,
   });
-
-  // Prompt history for smart presets
-  const { saveGeneration } = usePromptHistory();
 
   // Track when user starts/stops adjusting knobs
   const handleKnobChangeStart = useCallback(() => {
