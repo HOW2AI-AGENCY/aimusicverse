@@ -229,9 +229,8 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
   // Use as reference (unified system)
   const handleUseAsReference = useCallback((track: GeneratedTrack) => {
     import('@/services/audio-reference').then(({ ReferenceManager }) => {
-      ReferenceManager.createFromCreativeTool('dj', {
-        audioUrl: track.audioUrl,
-        styleDescription: track.prompt,
+      ReferenceManager.createFromCreativeTool('dj', track.audioUrl, {
+        prompt: track.prompt,
         bpm: globalSettings.bpm,
       });
       toast.success('Трек добавлен как референс');

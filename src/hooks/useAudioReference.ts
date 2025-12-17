@@ -36,9 +36,17 @@ export interface UseAudioReferenceReturn {
     action?: string;
   }, mode?: ReferenceMode) => void;
   setFromCreativeTool: (
-    source: 'drums' | 'dj' | 'guitar',
-    data: { audioUrl: string; styleDescription?: string; chordProgression?: string[]; bpm?: number }
+    source: 'drums' | 'dj',
+    audioUrl: string,
+    options?: { prompt?: string; tags?: string; bpm?: number }
   ) => void;
+  setFromGuitar: (data: {
+    audioUrl: string;
+    bpm?: number;
+    chordProgression?: string[];
+    styleDescription?: string;
+    tags?: string[];
+  }) => void;
   setFromTrack: (track: {
     id: string;
     audioUrl: string;
@@ -117,20 +125,18 @@ export function useAudioReference(): UseAudioReferenceReturn {
       id: audio.id,
       fileUrl: audio.file_url,
       fileName: audio.file_name,
+      fileSize: audio.file_size || undefined,
+      mimeType: audio.mime_type || undefined,
       durationSeconds: audio.duration_seconds || undefined,
-      analysis: {
-        genre: audio.genre || undefined,
-        mood: audio.mood || undefined,
-        bpm: audio.bpm || undefined,
-        tempo: audio.tempo || undefined,
-        energy: audio.energy || undefined,
-        hasVocals: audio.has_vocals || undefined,
-        hasInstrumentals: audio.has_instrumentals || undefined,
-        vocalStyle: audio.vocal_style || undefined,
-        styleDescription: audio.style_description || undefined,
-        transcription: audio.transcription || undefined,
-        instruments: audio.instruments || undefined,
-      },
+      genre: audio.genre || undefined,
+      mood: audio.mood || undefined,
+      bpm: audio.bpm || undefined,
+      tempo: audio.tempo || undefined,
+      energy: audio.energy || undefined,
+      vocalStyle: audio.vocal_style || undefined,
+      styleDescription: audio.style_description || undefined,
+      transcription: audio.transcription || undefined,
+      instruments: audio.instruments || undefined,
     }, mode);
 
     const modeLabel = mode === 'cover' ? 'Кавер' : mode === 'extend' ? 'Расширение' : 'Референс';
@@ -151,19 +157,31 @@ export function useAudioReference(): UseAudioReferenceReturn {
     toast.success('Референс из студии загружен');
   }, []);
 
-  // Set from creative tools
+  // Set from creative tools (drums, dj)
   const setFromCreativeTool = useCallback((
-    source: 'drums' | 'dj' | 'guitar',
-    data: { audioUrl: string; styleDescription?: string; chordProgression?: string[]; bpm?: number }
+    source: 'drums' | 'dj',
+    audioUrl: string,
+    options?: { prompt?: string; tags?: string; bpm?: number }
   ) => {
-    ReferenceManager.createFromCreativeTool(source, data);
+    ReferenceManager.createFromCreativeTool(source, audioUrl, options);
     
     const sourceLabels: Record<string, string> = {
       drums: 'Drum Machine',
       dj: 'PromptDJ',
-      guitar: 'Гитара',
     };
     toast.success(`Референс из ${sourceLabels[source]} добавлен`);
+  }, []);
+
+  // Set from guitar analysis
+  const setFromGuitar = useCallback((data: {
+    audioUrl: string;
+    bpm?: number;
+    chordProgression?: string[];
+    styleDescription?: string;
+    tags?: string[];
+  }) => {
+    ReferenceManager.createFromGuitar(data);
+    toast.success('Референс из гитары добавлен');
   }, []);
 
   // Set from existing track
@@ -226,6 +244,7 @@ export function useAudioReference(): UseAudioReferenceReturn {
     setFromCloud,
     setFromStem,
     setFromCreativeTool,
+    setFromGuitar,
     setFromTrack,
     
     clearActive,

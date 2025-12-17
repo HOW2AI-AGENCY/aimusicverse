@@ -10,6 +10,7 @@ import { useDrumMachine } from '@/hooks/useDrumMachine';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { ReferenceManager } from '@/services/audio-reference';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -91,11 +92,10 @@ export const DrumMachineClean = memo(function DrumMachineClean() {
   const handleUseAsRef = useCallback(() => {
     if (!recordedAudioBlob) return;
     const url = URL.createObjectURL(recordedAudioBlob);
-    sessionStorage.setItem('audioReferenceFromDrums', JSON.stringify({
-      audioUrl: url,
-      styleDescription: `${currentKit.name} drum pattern, ${bpm} BPM`,
-      source: 'drum-machine'
-    }));
+    ReferenceManager.createFromCreativeTool('drums', url, {
+      tags: `${currentKit.name}, drum pattern, ${bpm} BPM`,
+    });
+    toast.success('Паттерн добавлен как референс');
     navigate('/');
   }, [recordedAudioBlob, currentKit.name, bpm, navigate]);
 
