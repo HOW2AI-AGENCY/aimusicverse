@@ -8,6 +8,9 @@ import { Button } from '@/components/ui/button';
 import { AlertTriangle, RefreshCw, Home, Volume2 } from 'lucide-react';
 import { toast } from 'sonner';
 import * as Tone from 'tone';
+import { logger } from '@/lib/logger';
+
+const log = logger.child({ module: 'PromptDJErrorBoundary' });
 
 interface Props {
   children: ReactNode;
@@ -97,7 +100,7 @@ export class PromptDJErrorBoundary extends Component<Props, State> {
       try {
         const context = Tone.getContext();
         if (context.state === 'suspended' || context.state === 'closed') {
-          console.warn('[PromptDJ] Audio context in bad state:', context.state);
+          log.warn('Audio context in bad state:', { state: context.state });
           this.attemptAudioRecovery();
         }
       } catch {
@@ -108,7 +111,7 @@ export class PromptDJErrorBoundary extends Component<Props, State> {
 
   private attemptAudioRecovery = async () => {
     try {
-      console.log('[PromptDJ] Attempting audio recovery...');
+      log.info('Attempting audio recovery...');
       
       // Try to resume context
       await Tone.start();
@@ -118,7 +121,7 @@ export class PromptDJErrorBoundary extends Component<Props, State> {
         await context.resume();
       }
       
-      console.log('[PromptDJ] Audio recovery successful');
+      log.info('Audio recovery successful');
       toast.success('Аудио восстановлено');
       
       // Clear error state if we recovered
@@ -126,7 +129,7 @@ export class PromptDJErrorBoundary extends Component<Props, State> {
         this.handleRetry();
       }
     } catch (error) {
-      console.error('[PromptDJ] Audio recovery failed:', error);
+      log.error('Audio recovery failed:', { error });
     }
   };
 

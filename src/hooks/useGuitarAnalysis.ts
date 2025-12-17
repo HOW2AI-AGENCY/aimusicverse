@@ -324,7 +324,7 @@ export function useGuitarAnalysis() {
       let downbeats: number[] = [];
       let bpm = 120;
 
-      console.log('[GuitarAnalysis] Beat result:', {
+      log.debug('Beat result:', {
         status: beatResult.data?.status,
         bpm: beatResult.data?.bpm,
         beatsCount: beatResult.data?.beats?.length || 0,
@@ -351,7 +351,7 @@ export function useGuitarAnalysis() {
       let key = 'Unknown';
       let strumming: StrumData[] = [];
 
-      console.log('[GuitarAnalysis] Chord result:', {
+      log.debug('Chord result:', {
         status: chordResult.data?.status,
         key: chordResult.data?.key,
         chordsCount: chordResult.data?.chords?.length || 0,
@@ -383,7 +383,7 @@ export function useGuitarAnalysis() {
       let midiUrl: string | undefined;
       let notes: NoteData[] = [];
 
-      console.log('[GuitarAnalysis] Transcription result:', {
+      log.debug('Transcription result:', {
         status: transcriptionResult.data?.status,
         hasFiles: !!transcriptionResult.data?.files,
         files: transcriptionResult.data?.files,
@@ -401,7 +401,7 @@ export function useGuitarAnalysis() {
         };
         midiUrl = files.midi || files.midi_quant || files.midi_unq;
 
-        console.log('[GuitarAnalysis] Parsed transcription files:', transcriptionFiles);
+        log.debug('Parsed transcription files:', { files: transcriptionFiles });
         
         // Parse notes from transcription data if available
         if (transcriptionResult.data.notes && Array.isArray(transcriptionResult.data.notes)) {
