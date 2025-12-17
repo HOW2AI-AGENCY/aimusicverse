@@ -28,7 +28,7 @@ interface TaskState {
 const STATUS_CONFIG: Record<TaskStatus, { progress: number; stage: string }> = {
   pending: { progress: 15, stage: 'В очереди...' },
   processing: { progress: 50, stage: 'Генерация музыки...' },
-  streaming_ready: { progress: 80, stage: 'Обработка аудио...' },
+  streaming_ready: { progress: 80, stage: '▶️ Можно слушать!' },
   completed: { progress: 100, stage: 'Готово!' },
   failed: { progress: 0, stage: 'Ошибка' },
 };

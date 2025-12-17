@@ -50,7 +50,7 @@ const NotificationContext = createContext<NotificationContextType | undefined>(u
 const GENERATION_STAGES = [
   { status: 'pending', stage: 'В очереди', progress: 10 },
   { status: 'processing', stage: 'Генерация музыки', progress: 50 },
-  { status: 'streaming_ready', stage: 'Обработка аудио', progress: 80 },
+  { status: 'streaming_ready', stage: '▶️ Можно слушать!', progress: 80 },
   { status: 'completed', stage: 'Готово!', progress: 100 },
   { status: 'failed', stage: 'Ошибка', progress: 0 },
 ];
@@ -161,7 +161,8 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     };
 
     fetchGenerations();
-    const interval = setInterval(fetchGenerations, 5000);
+    // Faster polling (2s) for quicker streaming detection
+    const interval = setInterval(fetchGenerations, 2000);
     return () => clearInterval(interval);
   }, [user?.id]);
 
@@ -267,6 +268,45 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         } else if (['pending', 'processing', 'streaming_ready'].includes(task.status)) {
           // Update generation progress
           const stageInfo = getGenerationStage(task.status);
+          
+          // When streaming_ready, preload audio and notify user can start listening
+          if (task.status === 'streaming_ready' && oldStatus !== 'streaming_ready' && task.track_id) {
+            log.info('Streaming ready - fetching audio URL for preload', { trackId: task.track_id });
+            
+            // Fetch streaming URL and preload audio
+            supabase
+              .from('tracks')
+              .select('streaming_url, title')
+              .eq('id', task.track_id)
+              .single()
+              .then(({ data: trackData }) => {
+                if (trackData?.streaming_url) {
+                  // Preload audio in background
+                  const audio = new Audio();
+                  audio.preload = 'auto';
+                  audio.src = trackData.streaming_url;
+                  
+                  log.info('Audio preloading started', { url: trackData.streaming_url.substring(0, 50) });
+                  
+                  // Notify user they can start listening
+                  toast.success('Можно слушать! 🎧', {
+                    description: trackData.title || task.prompt?.slice(0, 40),
+                    action: {
+                      label: 'Слушать',
+                      onClick: () => {
+                        queryClient.invalidateQueries({ queryKey: ['tracks'] });
+                        window.location.href = '/library';
+                      },
+                    },
+                  });
+                }
+              });
+            
+            // Refresh tracks list to show streaming track
+            queryClient.invalidateQueries({ queryKey: ['tracks'] });
+            queryClient.invalidateQueries({ queryKey: ['tracks-infinite'] });
+          }
+          
           setActiveGenerations(prev => {
             const existing = prev.find(g => g.id === task.id);
             if (existing) {
@@ -275,6 +315,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
                 status: task.status,
                 progress: stageInfo.progress,
                 stage: stageInfo.stage,
+                streaming_url: task.streaming_url,
               } : g);
             } else {
               return [{
@@ -299,6 +340,48 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
       supabase.removeChannel(channel);
     };
   }, [user?.id, soundEnabled, queryClient]);
+
+  // Realtime subscription for tracks - get streaming_url instantly when available
+  useEffect(() => {
+    if (!user?.id) return;
+
+    const channel = supabase
+      .channel(`tracks_streaming_${user.id}`)
+      .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'tracks',
+        filter: `user_id=eq.${user.id}`,
+      }, (payload) => {
+        const track = payload.new as any;
+        const oldTrack = payload.old as any;
+        
+        // Check if streaming_url was just set (wasn't there before, is there now)
+        if (track.streaming_url && !oldTrack?.streaming_url && track.status === 'streaming_ready') {
+          log.info('Track streaming URL available', { trackId: track.id, title: track.title });
+          
+          // Preload audio immediately
+          const audio = new Audio();
+          audio.preload = 'auto';
+          audio.src = track.streaming_url;
+          
+          // Refresh tracks list
+          queryClient.invalidateQueries({ queryKey: ['tracks'] });
+          queryClient.invalidateQueries({ queryKey: ['tracks-infinite'] });
+        }
+        
+        // When track completes, refresh
+        if (track.status === 'completed' && oldTrack?.status !== 'completed') {
+          queryClient.invalidateQueries({ queryKey: ['tracks'] });
+          queryClient.invalidateQueries({ queryKey: ['tracks-infinite'] });
+        }
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user?.id, queryClient]);
 
   // Save sound preference
   useEffect(() => {

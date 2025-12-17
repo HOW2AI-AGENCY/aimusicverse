@@ -22,7 +22,7 @@ const stages = [
   { id: 'pending', label: 'Очередь', icon: Sparkles, progress: 10 },
   { id: 'analyzing', label: 'Анализ промпта', icon: Wand2, progress: 25 },
   { id: 'processing', label: 'Генерация музыки', icon: Music2, progress: 50 },
-  { id: 'streaming_ready', label: 'Обработка аудио', icon: Music2, progress: 80 },
+  { id: 'streaming_ready', label: '▶️ Можно слушать!', icon: Music2, progress: 80 },
   { id: 'completed', label: 'Готово!', icon: CheckCircle2, progress: 100 },
 ];
 
