@@ -3088,9 +3088,10 @@ export type Database = {
       }
       safe_public_profiles: {
         Row: {
+          banner_url: string | null
+          bio: string | null
           created_at: string | null
           display_name: string | null
-          first_name: string | null
           followers_count: number | null
           following_count: number | null
           id: string | null
@@ -3100,9 +3101,10 @@ export type Database = {
           username: string | null
         }
         Insert: {
+          banner_url?: string | null
+          bio?: string | null
           created_at?: string | null
           display_name?: string | null
-          first_name?: string | null
           followers_count?: number | null
           following_count?: number | null
           id?: string | null
@@ -3112,9 +3114,10 @@ export type Database = {
           username?: string | null
         }
         Update: {
+          banner_url?: string | null
+          bio?: string | null
           created_at?: string | null
           display_name?: string | null
-          first_name?: string | null
           followers_count?: number | null
           following_count?: number | null
           id?: string | null
@@ -3290,6 +3293,36 @@ export type Database = {
       get_public_profiles: {
         Args: { user_ids: string[] }
         Returns: {
+          id: string
+          is_public: boolean
+          photo_url: string
+          user_id: string
+          username: string
+        }[]
+      }
+      get_safe_public_profile: {
+        Args: { profile_user_id: string }
+        Returns: {
+          banner_url: string
+          bio: string
+          display_name: string
+          followers_count: number
+          following_count: number
+          id: string
+          is_public: boolean
+          photo_url: string
+          user_id: string
+          username: string
+        }[]
+      }
+      get_safe_public_profiles: {
+        Args: { user_ids: string[] }
+        Returns: {
+          banner_url: string
+          bio: string
+          display_name: string
+          followers_count: number
+          following_count: number
           id: string
           is_public: boolean
           photo_url: string

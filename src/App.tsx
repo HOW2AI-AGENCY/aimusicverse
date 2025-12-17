@@ -129,7 +129,7 @@ const App = () => (
                 <Route path="/settings/blocked-users" element={<BlockedUsersPage />} />
                 <Route path="/templates" element={<Templates />} />
                 <Route path="/music-graph" element={<MusicGraph />} />
-                <Route path="/creative-tools" element={<CreativeTools />} />
+                <Route path="/creative-tools" element={<Navigate to="/music-lab" replace />} />
                 <Route path="/professional-studio" element={<ProfessionalStudio />} />
                 <Route path="/guitar-studio" element={<GuitarStudio />} />
                 <Route path="/music-lab" element={<MusicLab />} />
