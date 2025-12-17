@@ -29,9 +29,9 @@ export function FeaturedBlogBanners() {
           </div>
         </div>
         <ScrollArea className="-mx-3 px-3">
-          <div className="flex gap-4 pb-3">
+          <div className="flex gap-3 pb-3">
             {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="min-w-[280px] h-[180px] rounded-2xl flex-shrink-0" />
+              <Skeleton key={i} className="w-[160px] sm:w-[200px] h-[140px] sm:h-[160px] rounded-xl flex-shrink-0" />
             ))}
           </div>
           <ScrollBar orientation="horizontal" />
@@ -73,24 +73,22 @@ export function FeaturedBlogBanners() {
 
       {/* Cards */}
       <ScrollArea className="-mx-3 px-3">
-        <div className="flex gap-4 pb-3">
+        <div className="flex gap-3 pb-3">
           {featuredPosts.map((post, index) => (
             <motion.article
               key={post.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.4 }}
+              transition={{ delay: index * 0.08, duration: 0.3 }}
+              whileHover={{ y: -3, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => navigate(`/blog?post=${post.slug}`)}
-              className={cn(
-                "min-w-[280px] sm:min-w-[320px] flex-shrink-0 cursor-pointer group",
-                index === 0 && "min-w-[300px] sm:min-w-[360px]"
-              )}
+              className="w-[160px] sm:w-[200px] flex-shrink-0 cursor-pointer group"
             >
               <div className={cn(
-                "relative rounded-2xl overflow-hidden bg-gradient-to-br from-card to-card/90",
+                "relative rounded-xl overflow-hidden bg-gradient-to-br from-card to-card/80",
                 "border border-border/50 hover:border-primary/40 transition-all duration-300",
-                "shadow-soft hover:shadow-lg",
-                index === 0 ? "h-[200px] sm:h-[220px]" : "h-[170px] sm:h-[190px]"
+                "shadow-sm hover:shadow-lg h-[140px] sm:h-[160px]"
               )}>
                 {/* Background */}
                 {post.cover_url ? (
@@ -98,59 +96,47 @@ export function FeaturedBlogBanners() {
                     <img
                       src={post.cover_url}
                       alt=""
-                      className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-40 group-hover:scale-110 transition-all duration-700"
+                      className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-50 group-hover:scale-105 transition-all duration-500"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/50" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
                   </>
                 ) : (
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-generate/10" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/5 to-transparent" />
                 )}
 
-                {/* Decorative elements */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-generate/5 rounded-full blur-2xl" />
-
                 {/* Content */}
-                <div className="relative h-full flex flex-col justify-between p-4 sm:p-5">
+                <div className="relative h-full flex flex-col justify-between p-3">
                   {/* Top badges */}
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      {index === 0 && (
-                        <Badge className="text-[10px] bg-gradient-to-r from-primary/30 to-primary/20 text-primary border-primary/30 gap-1 h-5 shadow-sm">
-                          <Sparkles className="w-2.5 h-2.5" />
-                          Новое
-                        </Badge>
-                      )}
-                    </div>
+                    {index === 0 ? (
+                      <Badge className="text-[9px] bg-primary/20 text-primary border-0 gap-1 h-4 px-1.5">
+                        <Sparkles className="w-2 h-2" />
+                        Новое
+                      </Badge>
+                    ) : (
+                      <div />
+                    )}
                     {post.published_at && (
-                      <span className="text-[10px] text-muted-foreground/80 flex items-center gap-1 bg-background/50 px-2 py-0.5 rounded-full">
-                        <Clock className="w-2.5 h-2.5" />
+                      <span className="text-[9px] text-muted-foreground/70 flex items-center gap-0.5">
+                        <Clock className="w-2 h-2" />
                         {format(new Date(post.published_at), 'd MMM', { locale: ru })}
                       </span>
                     )}
                   </div>
 
                   {/* Bottom content */}
-                  <div className="space-y-2">
-                    <h3 className={cn(
-                      "font-semibold line-clamp-2 group-hover:text-primary transition-colors leading-tight",
-                      index === 0 ? "text-base sm:text-lg" : "text-sm sm:text-base"
-                    )}>
+                  <div className="space-y-1">
+                    <h3 className="text-xs sm:text-sm font-semibold line-clamp-2 group-hover:text-primary transition-colors leading-tight">
                       {post.title}
                     </h3>
-                    {post.excerpt && (
-                      <p className="text-[11px] sm:text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                        {post.excerpt}
-                      </p>
-                    )}
                     
                     {/* Read more indicator */}
-                    <div className="flex items-center gap-2 pt-1">
-                      <span className="text-[10px] text-primary/80 font-medium group-hover:text-primary transition-colors">
-                        Читать статью
+                    <div className="flex items-center gap-1">
+                      <span className="text-[9px] text-primary/70 font-medium group-hover:text-primary transition-colors">
+                        Читать
                       </span>
-                      <ArrowRight className="w-3 h-3 text-primary/60 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                      <ArrowRight className="w-2.5 h-2.5 text-primary/50 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
                     </div>
                   </div>
                 </div>
