@@ -13,7 +13,7 @@ import {
   Download, Music, Trash2, Zap, Radio, HelpCircle, Save, MoreVertical
 } from 'lucide-react';
 import { KnobCell } from './KnobCell';
-import { LiveVisualizer } from './LiveVisualizer';
+import { OptimizedVisualizer } from './OptimizedVisualizer';
 import { PromptDJOnboarding, usePromptDJOnboarding } from './PromptDJOnboarding';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
@@ -233,10 +233,12 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
 
       {/* Header with visualizer */}
       <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-purple-500/5 via-background to-blue-500/5 border border-border/30">
-        <LiveVisualizer
+        <OptimizedVisualizer
           analyzerNode={analyzerNode}
           isActive={isPlaying || isPreviewPlaying || isLiveMode}
           className="absolute inset-0 opacity-20"
+          variant="bars"
+          barCount={24}
         />
         
         <div className="relative z-10 p-3">

@@ -3,11 +3,12 @@
  * Optimized for performance with buffering, memoization and batched updates
  */
 
-import { useState, useCallback, useRef, useEffect, useMemo, useDeferredValue, useTransition } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo, useTransition } from 'react';
 import * as Tone from 'tone';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useDebouncedCallback } from 'use-debounce';
+import { useAudioBufferPool } from './useAudioBufferPool';
 
 // Available channel types that users can choose from
 export const CHANNEL_TYPES = [
@@ -120,21 +121,8 @@ const DEFAULT_SETTINGS: GlobalSettings = {
 
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
-// Audio buffer cache - persists across component remounts
+// URL cache for prompts (separate from buffer pool)
 const globalAudioCache = new Map<string, string>();
-const globalBufferPool = new Map<string, Tone.ToneAudioBuffer>();
-
-// Preload buffer async
-const preloadBuffer = async (url: string, prompt: string) => {
-  if (globalBufferPool.has(prompt)) return;
-  try {
-    const buffer = new Tone.ToneAudioBuffer(url, () => {
-      globalBufferPool.set(prompt, buffer);
-    });
-  } catch (e) {
-    console.warn('Buffer preload failed:', e);
-  }
-};
 
 export function usePromptDJEnhanced() {
   const [channels, setChannels] = useState<PromptChannel[]>(DEFAULT_CHANNELS);
@@ -171,7 +159,9 @@ export function usePromptDJEnhanced() {
   
   // Use global caches
   const audioCacheRef = useRef(globalAudioCache);
-  const bufferPoolRef = useRef(globalBufferPool);
+  
+  // Use optimized buffer pool
+  const { getBuffer, setBuffer, queuePreload } = useAudioBufferPool();
 
   // Compute scale notes based on key and scale
   const computeScaleNotes = useCallback((key: string, scale: string) => {
@@ -205,7 +195,6 @@ export function usePromptDJEnhanced() {
       reverbRef.current?.dispose();
       filterRef.current?.dispose();
       delayRef.current?.dispose();
-      bufferPoolRef.current.forEach(buffer => buffer.dispose());
     };
   }, []);
 
@@ -400,11 +389,8 @@ export function usePromptDJEnhanced() {
         // Cache the result
         audioCacheRef.current.set(currentPrompt, data.audio_url);
         
-        // Preload into buffer pool
-        try {
-          const buffer = new Tone.ToneAudioBuffer(data.audio_url);
-          bufferPoolRef.current.set(currentPrompt, buffer);
-        } catch {}
+        // Queue preload into buffer pool
+        queuePreload(data.audio_url, currentPrompt);
 
         const newTrack: GeneratedTrack = {
           id: crypto.randomUUID(),
@@ -423,7 +409,7 @@ export function usePromptDJEnhanced() {
     } finally {
       setIsGenerating(false);
     }
-  }, [currentPrompt, globalSettings.duration]);
+  }, [currentPrompt, globalSettings.duration, queuePreload]);
 
   // Play track with buffering
   const playTrack = useCallback(async (track: GeneratedTrack) => {
@@ -437,7 +423,7 @@ export function usePromptDJEnhanced() {
       }
 
       // Check buffer pool first
-      const cachedBuffer = bufferPoolRef.current.get(track.prompt);
+      const cachedBuffer = getBuffer(track.prompt);
       
       const player = new Tone.Player();
       
@@ -455,7 +441,7 @@ export function usePromptDJEnhanced() {
         
         // Cache buffer for future use
         if (player.buffer) {
-          bufferPoolRef.current.set(track.prompt, player.buffer);
+          setBuffer(track.prompt, player.buffer);
         }
       }
       
@@ -470,7 +456,7 @@ export function usePromptDJEnhanced() {
       console.error('Playback error:', error);
       toast.error('Ошибка воспроизведения');
     }
-  }, []);
+  }, [getBuffer, setBuffer]);
 
   // Stop playback
   const stopPlayback = useCallback(() => {
