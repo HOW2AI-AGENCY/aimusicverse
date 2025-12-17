@@ -64,9 +64,13 @@ export const DrumMachine = memo(function DrumMachine({ className }: DrumMachineP
     exportToMidi,
   } = useDrumMachine();
 
-  useEffect(() => {
-    initialize();
-  }, [initialize]);
+  // Initialize on first user interaction (required by browser autoplay policy)
+  const handleInitialize = useCallback(async () => {
+    if (!isReady) {
+      await initialize();
+      toast.success('Аудио активировано', { duration: 2000 });
+    }
+  }, [isReady, initialize]);
 
   const handlePadTrigger = useCallback((soundId: string, velocity?: number) => {
     triggerSound(soundId, velocity);
@@ -128,11 +132,19 @@ export const DrumMachine = memo(function DrumMachine({ className }: DrumMachineP
   }, [currentKit.name, bpm, swing]);
 
   return (
-    <div className={cn('flex flex-col gap-3 p-3 bg-card rounded-xl border', className)}>
+    <div 
+      className={cn('flex flex-col gap-3 p-3 bg-card rounded-xl border', className)}
+      onClick={handleInitialize}
+    >
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-2">
         <h3 className="text-base font-semibold flex items-center gap-2">
           🥁 Драм-машина
+          {!isReady && (
+            <span className="text-xs font-normal text-muted-foreground animate-pulse">
+              (нажмите для активации)
+            </span>
+          )}
         </h3>
         
         <div className="flex items-center gap-2">

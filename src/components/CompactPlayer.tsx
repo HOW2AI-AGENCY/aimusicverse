@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Card } from '@/components/ui/card';
 import { AudioWaveform } from '@/components/AudioWaveform';
-import { useAudioTime, getGlobalAudioRef } from '@/hooks/audio';
+import { useAudioTime, getGlobalAudioRef, usePlayerStore } from '@/hooks/audio';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useTracks } from '@/hooks/useTracksOptimized';
 import { PlaybackControls } from '@/components/player/PlaybackControls';
@@ -36,7 +36,8 @@ interface CompactPlayerProps {
 }
 
 export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactPlayerProps) {
-  const [volume, setVolume] = useState(1);
+  // Use store volume for consistency
+  const { volume: storeVolume, setVolume: setStoreVolume } = usePlayerStore();
   const [muted, setMuted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -88,26 +89,26 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
 
   const handleVolumeChange = useCallback((value: number[]) => {
     const newVolume = value[0];
-    setVolume(newVolume);
+    setStoreVolume(newVolume);
     const audio = getGlobalAudioRef();
     if (audio) {
       audio.volume = newVolume;
     }
     if (newVolume > 0 && muted) setMuted(false);
-  }, [muted]);
+  }, [muted, setStoreVolume]);
 
   const toggleMute = useCallback(() => {
     const audio = getGlobalAudioRef();
     if (!audio) return;
     
     if (muted) {
-      audio.volume = volume;
+      audio.volume = storeVolume;
       setMuted(false);
     } else {
       audio.volume = 0;
       setMuted(true);
     }
-  }, [muted, volume]);
+  }, [muted, storeVolume]);
 
   const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: { offset: { x: number; y: number } }) => {
     if (info.offset.y < -50 && onExpand) {
@@ -297,14 +298,14 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
               className="h-8 w-8 flex-shrink-0"
               aria-label={muted ? "Включить звук" : "Выключить звук"}
             >
-              {muted || volume === 0 ? (
+              {muted || storeVolume === 0 ? (
                 <VolumeX className="h-4 w-4" />
               ) : (
                 <Volume2 className="h-4 w-4" />
               )}
             </Button>
             <Slider
-              value={[muted ? 0 : volume]}
+              value={[muted ? 0 : storeVolume]}
               max={1}
               step={0.01}
               onValueChange={handleVolumeChange}
