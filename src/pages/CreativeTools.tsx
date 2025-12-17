@@ -14,7 +14,7 @@ import { RealtimeChordVisualizer } from '@/components/chord-detection/RealtimeCh
 import { GuitarTabEditor } from '@/components/tab-editor/GuitarTabEditor';
 import { MelodyMixer } from '@/components/melody-mixer/MelodyMixer';
 import { DrumMachineClean } from '@/components/drum-machine/pro';
-import { PromptDJMidi } from '@/components/prompt-dj/PromptDJMidi';
+import { PromptDJClean } from '@/components/prompt-dj';
 import { toast } from 'sonner';
 
 export default function CreativeTools() {
@@ -145,25 +145,13 @@ export default function CreativeTools() {
                 </motion.div>
               </TabsContent>
 
-              {/* PromptDJ MIDI */}
+              {/* PromptDJ */}
               <TabsContent value="promptdj" className="mt-0">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                 >
-                  <div className="mb-4 p-4 bg-muted/30 rounded-xl border border-primary/10">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <Disc3 className="h-5 w-5 text-primary" />
-                        <h2 className="font-semibold">PromptDJ MIDI</h2>
-                      </div>
-                      <ProBadge size="sm" />
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      Смешивайте стили через 4-канальный микшер с crossfader и AI-генерацией
-                    </p>
-                  </div>
-                  <PromptDJMidi />
+                  <PromptDJClean />
                 </motion.div>
               </TabsContent>
 
