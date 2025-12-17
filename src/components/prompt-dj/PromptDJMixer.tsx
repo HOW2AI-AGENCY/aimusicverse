@@ -95,6 +95,8 @@ const QUICK_PRESETS = [
   { id: 'trap-dark', label: '🔥 Trap', channels: { genre: 'Hip-Hop', instrument1: 'Bass', mood: 'Dark', energy: 'Intense' } },
   { id: 'ambient', label: '🌊 Ambient', channels: { genre: 'Ambient', instrument1: 'Pads', mood: 'Dreamy', texture: 'Airy' } },
   { id: 'rock-power', label: '🎸 Rock', channels: { genre: 'Rock', instrument1: 'Guitar', mood: 'Aggressive', energy: 'Driving' } },
+  { id: 'jazz-smooth', label: '🎷 Jazz', channels: { genre: 'Jazz', instrument1: 'Piano', instrument2: 'Brass', mood: 'Smooth' } },
+  { id: 'synthwave', label: '🌆 Synth', channels: { genre: 'Electronic', instrument1: 'Synth', mood: 'Mysterious', style: 'Retro' } },
 ];
 
 export const PromptDJMixer = memo(function PromptDJMixer() {

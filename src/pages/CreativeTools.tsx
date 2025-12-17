@@ -1,6 +1,6 @@
 /**
  * CreativeTools - Page combining all creative music tools
- * Chord Detection, Tab Editor, Melody Mixer
+ * Drums, PromptDJ, Chord Detection, Tab Editor
  */
 
 import { useState } from 'react';
@@ -8,11 +8,10 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { ProBadge, ProFeatureIndicator } from '@/components/ui/pro-badge';
-import { ArrowLeft, Mic, Guitar, Sparkles, Music, Zap, FileMusic, Drum, Disc3 } from 'lucide-react';
+import { ProBadge } from '@/components/ui/pro-badge';
+import { ArrowLeft, Mic, Guitar, Music, Zap, FileMusic, Sparkles, Drum, Disc3 } from 'lucide-react';
 import { RealtimeChordVisualizer } from '@/components/chord-detection/RealtimeChordVisualizer';
 import { GuitarTabEditor } from '@/components/tab-editor/GuitarTabEditor';
-import { MelodyMixer } from '@/components/melody-mixer/MelodyMixer';
 import { DrumMachineClean } from '@/components/drum-machine/pro';
 import { PromptDJMixer } from '@/components/prompt-dj';
 import { toast } from 'sonner';
@@ -30,20 +29,6 @@ export default function CreativeTools() {
   const handleTabExport = (format: 'midi' | 'gp5' | 'pdf') => {
     toast.info(`Экспорт в ${format.toUpperCase()}...`, {
       description: 'Эта функция будет доступна в следующем обновлении',
-    });
-  };
-
-  const handleUseAsReference = (audioUrl: string, prompt: string) => {
-    // Navigate to generation with audio reference
-    navigate('/generate', {
-      state: {
-        audioReferenceUrl: audioUrl,
-        prefilledPrompt: prompt,
-        mode: 'custom',
-      },
-    });
-    toast.success('Переход к генерации...', {
-      description: 'Мелодия будет использована как референс',
     });
   };
 
@@ -102,16 +87,16 @@ export default function CreativeTools() {
           </motion.div>
         </motion.div>
 
-        {/* Tabs */}
+        {/* Tabs - 4 tools */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid grid-cols-5 w-full">
+          <TabsList className="grid grid-cols-4 w-full">
             <TabsTrigger value="drums" className="gap-1.5">
               <Drum className="h-4 w-4" />
               <span className="hidden sm:inline">Драм</span>
             </TabsTrigger>
             <TabsTrigger value="promptdj" className="gap-1.5">
               <Disc3 className="h-4 w-4" />
-              <span className="hidden sm:inline">DJ</span>
+              <span className="hidden sm:inline">DJ Mixer</span>
             </TabsTrigger>
             <TabsTrigger value="chords" className="gap-1.5">
               <Mic className="h-4 w-4" />
@@ -120,10 +105,6 @@ export default function CreativeTools() {
             <TabsTrigger value="tabs" className="gap-1.5">
               <Guitar className="h-4 w-4" />
               <span className="hidden sm:inline">Табы</span>
-            </TabsTrigger>
-            <TabsTrigger value="mixer" className="gap-1.5">
-              <Sparkles className="h-4 w-4" />
-              <span className="hidden sm:inline">Миксер</span>
             </TabsTrigger>
           </TabsList>
 
@@ -199,30 +180,6 @@ export default function CreativeTools() {
                   </div>
                   <GuitarTabEditor
                     onExport={handleTabExport}
-                  />
-                </motion.div>
-              </TabsContent>
-
-              {/* Melody Mixer */}
-              <TabsContent value="mixer" className="mt-0">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                >
-                  <div className="mb-4 p-4 bg-muted/30 rounded-xl border border-primary/10">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <Sparkles className="h-5 w-5 text-primary" />
-                        <h2 className="font-semibold">Melody Mixer</h2>
-                      </div>
-                      <ProBadge size="sm" />
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      Смешивайте музыкальные стили и записывайте мелодии для генерации
-                    </p>
-                  </div>
-                  <MelodyMixer
-                    onUseAsReference={handleUseAsReference}
                   />
                 </motion.div>
               </TabsContent>

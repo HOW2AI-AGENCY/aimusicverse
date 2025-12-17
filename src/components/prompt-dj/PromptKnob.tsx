@@ -217,9 +217,9 @@ export const PromptKnob = memo(function PromptKnob({
       >
         <motion.div
           className="w-2 h-2 rounded-full"
-          animate={{
-            backgroundColor: enabled ? color : 'hsl(var(--muted-foreground))',
-            scale: enabled ? 1 : 0.6,
+          style={{
+            backgroundColor: enabled ? color : '#6b7280',
+            transform: enabled ? 'scale(1)' : 'scale(0.6)',
           }}
         />
       </button>
