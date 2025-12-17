@@ -27,7 +27,29 @@ interface SimilarPrompt {
 export function usePromptHistory() {
   const history = usePromptDJStore(selectHistory);
   const topRated = usePromptDJStore(selectTopRatedPrompts);
-  const { addToHistory, rateHistoryEntry, clearHistory } = usePromptDJStore();
+
+  // Use getState() for actions to avoid subscribing to the entire store (can cause render loops)
+  type AddToHistoryInput = {
+    prompt: string;
+    channels: PromptChannel[];
+    settings: GlobalSettings;
+    audioUrl?: string;
+    rating?: number;
+  };
+
+  const addToHistory = useCallback((entry: AddToHistoryInput) => {
+    usePromptDJStore.getState().addToHistory(entry);
+  }, []);
+
+
+  const rateHistoryEntry = useCallback((id: string, rating: number) => {
+    usePromptDJStore.getState().rateHistoryEntry(id, rating);
+  }, []);
+
+  const clearHistory = useCallback(() => {
+    usePromptDJStore.getState().clearHistory();
+  }, []);
+
 
   // Analyze user's generation patterns
   const analytics = useMemo((): PromptAnalytics => {
