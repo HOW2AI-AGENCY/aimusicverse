@@ -59,17 +59,33 @@ export function PublishedAlbumsSection() {
       if (error) throw error;
       if (!projects?.length) return [];
 
-      // Then fetch profiles for these user_ids
+      const projectIds = projects.map(p => p.id);
       const userIds = [...new Set(projects.map(p => p.user_id))];
-      const { data: profiles } = await supabase
-        .from('profiles')
-        .select('user_id, username, display_name, photo_url')
-        .in('user_id', userIds);
 
-      // Merge profiles into projects
-      const profilesMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
+      // Fetch profiles and actual track counts in parallel
+      const [profilesResult, trackCountsResult] = await Promise.all([
+        supabase
+          .from('profiles')
+          .select('user_id, username, display_name, photo_url')
+          .in('user_id', userIds),
+        supabase
+          .from('project_tracks')
+          .select('project_id, track_id')
+          .in('project_id', projectIds)
+          .not('track_id', 'is', null)
+      ]);
+
+      const profilesMap = new Map(profilesResult.data?.map(p => [p.user_id, p]) || []);
+      
+      // Count tracks per project
+      const trackCountMap = new Map<string, number>();
+      trackCountsResult.data?.forEach(pt => {
+        trackCountMap.set(pt.project_id, (trackCountMap.get(pt.project_id) || 0) + 1);
+      });
+
       return projects.map(project => ({
         ...project,
+        total_tracks_count: trackCountMap.get(project.id) || project.total_tracks_count || 0,
         profiles: profilesMap.get(project.user_id) || null,
       })) as PublishedAlbum[];
     },
