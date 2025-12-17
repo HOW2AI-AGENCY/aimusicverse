@@ -20,3 +20,10 @@ export { PromptDJErrorBoundary, withPromptDJErrorBoundary } from './PromptDJErro
 export { SmartPresetsPanel } from './SmartPresetsPanel';
 export { OptimizedVisualizer } from './OptimizedVisualizer';
 export { KnobCell } from './KnobCell';
+export { SmartSuggestions } from './SmartSuggestions';
+export { EssentialsKnobGrid } from './EssentialsKnobGrid';
+export { CompactVisualizer } from './CompactVisualizer';
+export { EditablePromptPreview } from './EditablePromptPreview';
+export { GenerateButton } from './GenerateButton';
+export { TrackHistoryItem } from './TrackHistoryItem';
+export { QuickStartSheet } from './QuickStartSheet';

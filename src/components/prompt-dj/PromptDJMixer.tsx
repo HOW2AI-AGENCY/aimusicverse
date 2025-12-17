@@ -1,6 +1,6 @@
 /**
  * PromptDJ Mixer - Improved UI with Quick Start, compact visualizer, and essentials mode
- * Enhanced UX with editable prompt, progress tracking, and waveform history
+ * Enhanced UX with editable prompt, progress tracking, waveform history, and smart suggestions
  */
 
 import { memo, useCallback, useEffect, useState, useMemo } from 'react';
@@ -18,11 +18,13 @@ import { EditablePromptPreview } from './EditablePromptPreview';
 import { GenerateButton } from './GenerateButton';
 import { TrackHistoryItem } from './TrackHistoryItem';
 import { QuickStartSheet, type QuickStartPreset } from './QuickStartSheet';
+import { SmartSuggestions } from './SmartSuggestions';
 import { PromptDJOnboarding, usePromptDJOnboarding } from './PromptDJOnboarding';
 import { PromptDJErrorBoundary } from './PromptDJErrorBoundary';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { usePredictiveGeneration } from '@/hooks/usePredictiveGeneration';
@@ -47,11 +49,13 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const { user } = useAuth();
+  const haptic = useHapticFeedback();
   const [showSettings, setShowSettings] = useState(false);
   const [showQuickStart, setShowQuickStart] = useState(false);
   const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
   const [savingTrackId, setSavingTrackId] = useState<string | null>(null);
   const [isKnobAdjusting, setIsKnobAdjusting] = useState(false);
+  const [dismissedSuggestions, setDismissedSuggestions] = useState<Set<string>>(new Set());
   
   // Onboarding
   const { showOnboarding, setShowOnboarding, resetOnboarding } = usePromptDJOnboarding();
@@ -96,20 +100,47 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
     }
   }, [showOnboarding]);
 
-  // Knob change handlers for Live mode
+  // Knob change handlers for Live mode with haptic feedback
   const handleKnobChangeStart = useCallback(() => {
     setIsKnobAdjusting(true);
-  }, []);
+    haptic.tap();
+  }, [haptic]);
 
   const handleKnobChangeEnd = useCallback(() => {
     setIsKnobAdjusting(false);
+    haptic.select();
     if (isLiveMode && liveStatus === 'playing') {
       setTimeout(() => forceRegenerateInLive?.(), 100);
     }
-  }, [isLiveMode, liveStatus, forceRegenerateInLive]);
+  }, [isLiveMode, liveStatus, forceRegenerateInLive, haptic]);
+
+  // Smart suggestions handlers
+  const handleApplySuggestion = useCallback((suggestion: { action?: { channelType?: string; value?: string; setting?: Partial<typeof globalSettings> } }) => {
+    if (!suggestion.action) return;
+    
+    haptic.success();
+    
+    if (suggestion.action.channelType && suggestion.action.value) {
+      const channel = channels.find(c => c.type === suggestion.action!.channelType);
+      if (channel) {
+        updateChannel(channel.id, { value: suggestion.action.value, enabled: true, weight: 0.7 });
+      }
+    }
+    
+    if (suggestion.action.setting) {
+      updateGlobalSettings(suggestion.action.setting);
+    }
+    
+    toast.success('Рекомендация применена');
+  }, [channels, updateChannel, updateGlobalSettings, haptic]);
+
+  const handleDismissSuggestion = useCallback((id: string) => {
+    setDismissedSuggestions(prev => new Set(prev).add(id));
+  }, []);
 
   // Apply quick preset from chips
   const applyPreset = useCallback((preset: typeof QUICK_PRESETS[0]) => {
+    haptic.success();
     const appliedTypes = new Set<string>();
     Object.entries(preset.values).forEach(([type, value]) => {
       const channel = channels.find(c => c.type === type && !appliedTypes.has(c.id));
@@ -119,10 +150,11 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
       }
     });
     toast.success(`Пресет "${preset.label}" применён`);
-  }, [channels, updateChannel]);
+  }, [channels, updateChannel, haptic]);
 
   // Apply quick start preset
   const handleApplyQuickStart = useCallback((preset: QuickStartPreset) => {
+    haptic.success();
     // Apply channel settings
     Object.entries(preset.channels).forEach(([type, config]) => {
       const channel = channels.find(c => c.type === type);
@@ -137,7 +169,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
     // Apply global settings
     updateGlobalSettings(preset.settings);
     toast.success(`Пресет "${preset.label}" применён`);
-  }, [channels, updateChannel, updateGlobalSettings]);
+  }, [channels, updateChannel, updateGlobalSettings, haptic]);
 
   // Channel handlers
   const handleTypeChange = useCallback((channelId: string, newType: ChannelType) => {
@@ -345,6 +377,15 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
         onTypeChange={handleTypeChange}
         onChangeStart={handleKnobChangeStart}
         onChangeEnd={handleKnobChangeEnd}
+      />
+
+      {/* Smart Suggestions */}
+      <SmartSuggestions
+        channels={channels}
+        globalSettings={globalSettings}
+        onApplySuggestion={handleApplySuggestion}
+        onDismiss={handleDismissSuggestion}
+        dismissedIds={dismissedSuggestions}
       />
 
       {/* Controls */}
