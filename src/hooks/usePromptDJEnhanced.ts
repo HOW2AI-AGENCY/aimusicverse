@@ -1,11 +1,13 @@
 /**
  * usePromptDJEnhanced - Enhanced PromptDJ hook with real-time reactive synthesis
+ * Optimized for performance with buffering, memoization and batched updates
  */
 
-import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo, useDeferredValue, useTransition } from 'react';
 import * as Tone from 'tone';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { useDebouncedCallback } from 'use-debounce';
 
 // Available channel types that users can choose from
 export const CHANNEL_TYPES = [
@@ -118,6 +120,22 @@ const DEFAULT_SETTINGS: GlobalSettings = {
 
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
+// Audio buffer cache - persists across component remounts
+const globalAudioCache = new Map<string, string>();
+const globalBufferPool = new Map<string, Tone.ToneAudioBuffer>();
+
+// Preload buffer async
+const preloadBuffer = async (url: string, prompt: string) => {
+  if (globalBufferPool.has(prompt)) return;
+  try {
+    const buffer = new Tone.ToneAudioBuffer(url, () => {
+      globalBufferPool.set(prompt, buffer);
+    });
+  } catch (e) {
+    console.warn('Buffer preload failed:', e);
+  }
+};
+
 export function usePromptDJEnhanced() {
   const [channels, setChannels] = useState<PromptChannel[]>(DEFAULT_CHANNELS);
   const [globalSettings, setGlobalSettings] = useState<GlobalSettings>(DEFAULT_SETTINGS);
@@ -126,17 +144,18 @@ export function usePromptDJEnhanced() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState<GeneratedTrack | null>(null);
   const [isPreviewPlaying, setIsPreviewPlaying] = useState(false);
+  const [isPending, startTransition] = useTransition();
   
   // Live mode state
   const [isLiveMode, setIsLiveMode] = useState(false);
   const [liveStatus, setLiveStatus] = useState<'idle' | 'generating' | 'playing' | 'transitioning'>('idle');
-  const lastGeneratedPromptRef = useRef<string>(''); // Track what we last generated
+  const lastGeneratedPromptRef = useRef<string>('');
   const liveGenerationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const isGeneratingLiveRef = useRef(false); // Prevent concurrent generations
+  const isGeneratingLiveRef = useRef(false);
   
   // Audio refs
   const playerRef = useRef<Tone.Player | null>(null);
-  const nextPlayerRef = useRef<Tone.Player | null>(null); // For crossfade
+  const nextPlayerRef = useRef<Tone.Player | null>(null);
   const synthRef = useRef<Tone.PolySynth | null>(null);
   const sequenceRef = useRef<Tone.Sequence | null>(null);
   const analyzerRef = useRef<Tone.Analyser | null>(null);
@@ -150,11 +169,9 @@ export function usePromptDJEnhanced() {
   const patternRef = useRef<(string | null)[]>([]);
   const scaleNotesRef = useRef<string[]>([]);
   
-  // Cache for generated audio (prompt -> audioUrl)
-  const audioCacheRef = useRef<Map<string, string>>(new Map());
-  
-  // Audio buffer pool for preloading
-  const bufferPoolRef = useRef<Map<string, Tone.ToneAudioBuffer>>(new Map());
+  // Use global caches
+  const audioCacheRef = useRef(globalAudioCache);
+  const bufferPoolRef = useRef(globalBufferPool);
 
   // Compute scale notes based on key and scale
   const computeScaleNotes = useCallback((key: string, scale: string) => {
@@ -297,17 +314,52 @@ export function usePromptDJEnhanced() {
     return parts.filter(Boolean).join(', ');
   }, [channels, globalSettings]);
 
-  // Update channel
+  // Debounced channel update for weight changes (smooth knob interaction)
+  const debouncedChannelUpdate = useDebouncedCallback(
+    (id: string, updates: Partial<PromptChannel>) => {
+      startTransition(() => {
+        setChannels(prev => prev.map(ch => 
+          ch.id === id ? { ...ch, ...updates } : ch
+        ));
+      });
+    },
+    16, // ~60fps
+    { leading: true, trailing: true, maxWait: 50 }
+  );
+
+  // Update channel - immediate for non-weight, debounced for weight
   const updateChannel = useCallback((id: string, updates: Partial<PromptChannel>) => {
-    setChannels(prev => prev.map(ch => 
-      ch.id === id ? { ...ch, ...updates } : ch
-    ));
-  }, []);
+    if ('weight' in updates && Object.keys(updates).length === 1) {
+      // Weight-only updates are debounced for smooth knob interaction
+      debouncedChannelUpdate(id, updates);
+    } else {
+      // Other updates are immediate
+      setChannels(prev => prev.map(ch => 
+        ch.id === id ? { ...ch, ...updates } : ch
+      ));
+    }
+  }, [debouncedChannelUpdate]);
+
+  // Debounced global settings update
+  const debouncedSettingsUpdate = useDebouncedCallback(
+    (updates: Partial<GlobalSettings>) => {
+      startTransition(() => {
+        setGlobalSettings(prev => ({ ...prev, ...updates }));
+      });
+    },
+    16,
+    { leading: true, trailing: true, maxWait: 50 }
+  );
 
   // Update global settings
   const updateGlobalSettings = useCallback((updates: Partial<GlobalSettings>) => {
-    setGlobalSettings(prev => ({ ...prev, ...updates }));
-  }, []);
+    // Debounce continuous values like BPM slider
+    if ('bpm' in updates || 'density' in updates || 'brightness' in updates) {
+      debouncedSettingsUpdate(updates);
+    } else {
+      setGlobalSettings(prev => ({ ...prev, ...updates }));
+    }
+  }, [debouncedSettingsUpdate]);
 
   // Generate music with caching
   const generateMusic = useCallback(async () => {
