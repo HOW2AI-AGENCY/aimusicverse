@@ -1,8 +1,8 @@
 /**
- * SFX Generator Panel - Generate sound effects via ElevenLabs
+ * SFX Generator Panel - Generate sound effects via Replicate/fal.ai
  */
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -42,26 +42,17 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
 
   const generateMutation = useMutation({
     mutationFn: async ({ prompt, duration }: { prompt: string; duration: number }) => {
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-sfx`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-          },
-          body: JSON.stringify({ prompt, duration }),
-        }
-      );
+      // Call Replicate/fal.ai SFX edge function
+      const { data, error } = await supabase.functions.invoke('generate-sfx', {
+        body: { prompt, duration },
+      });
 
-      if (!response.ok) {
-        const error = await response.json().catch(() => ({ error: 'Generation failed' }));
-        throw new Error(error.error || 'Failed to generate SFX');
+      if (error) throw error;
+      if (!data?.success || !data?.audioUrl) {
+        throw new Error(data?.error || 'Failed to generate SFX');
       }
 
-      const audioBlob = await response.blob();
-      return URL.createObjectURL(audioBlob);
+      return data.audioUrl;
     },
     onSuccess: (url) => {
       setGeneratedUrl(url);

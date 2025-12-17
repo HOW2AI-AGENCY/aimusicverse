@@ -209,3 +209,9 @@ verify_jwt = false
 
 [functions.musicgen-generate]
 verify_jwt = true
+
+[functions.generate-sfx]
+verify_jwt = true
+
+[functions.analyze-track-context]
+verify_jwt = true
