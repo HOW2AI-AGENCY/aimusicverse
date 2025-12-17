@@ -18,6 +18,7 @@ import { PromptKnob } from './PromptKnob';
 import { LiveVisualizer } from './LiveVisualizer';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { ReferenceManager } from '@/services/audio-reference';
 import { useIsMobile } from '@/hooks/use-mobile';
 import {
   DropdownMenu,
@@ -94,11 +95,9 @@ export const PromptDJClean = memo(function PromptDJClean() {
 
   // Use track as reference
   const handleUseAsReference = useCallback((track: typeof generatedTracks[0]) => {
-    sessionStorage.setItem('audioReferenceFromDJ', JSON.stringify({
-      audioUrl: track.audioUrl,
-      styleDescription: track.prompt,
-      source: 'promptdj'
-    }));
+    ReferenceManager.createFromCreativeTool('dj', track.audioUrl, {
+      prompt: track.prompt,
+    });
     toast.success('Трек добавлен как референс');
     navigate('/');
   }, [navigate]);

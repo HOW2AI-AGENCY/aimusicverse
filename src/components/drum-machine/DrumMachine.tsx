@@ -109,9 +109,8 @@ export const DrumMachine = memo(function DrumMachine({ className }: DrumMachineP
     const url = URL.createObjectURL(blob);
     // Use unified ReferenceManager
     import('@/services/audio-reference').then(({ ReferenceManager }) => {
-      ReferenceManager.createFromCreativeTool('drums', {
-        audioUrl: url,
-        styleDescription: `${currentKit.name} drum pattern, ${bpm} BPM`,
+      ReferenceManager.createFromCreativeTool('drums', url, {
+        tags: `${currentKit.name} drum pattern, ${bpm} BPM`,
         bpm,
       });
       toast.success('Бит добавлен как референс', {

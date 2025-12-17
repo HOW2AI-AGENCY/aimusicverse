@@ -24,6 +24,7 @@ import {
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import type { GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
+import { ReferenceManager } from '@/services/audio-reference';
 
 interface TranscriptionToGenerationBridgeProps {
   analysisResult: GuitarAnalysisResult;
@@ -126,21 +127,16 @@ export function TranscriptionToGenerationBridge({
   };
 
   const handleGenerateMusic = () => {
-    // Store analysis-derived parameters in sessionStorage for generation form
-    sessionStorage.setItem(
-      'generationParams',
-      JSON.stringify({
-        bpm: Math.round(analysisResult.bpm || 120),
-        key: analysisResult.key,
-        timeSignature: analysisResult.timeSignature,
-        chordProgression: [
-          ...new Set(analysisResult.chords.slice(0, 8).map((c) => c.chord)),
-        ].join(', '),
-        style: analysisResult.style,
-        tags: analysisResult.generatedTags,
-        prompt: customPrompt || detailedPrompt,
-      })
-    );
+    // Create guitar reference with analysis data
+    const chordProgression = [...new Set(analysisResult.chords.slice(0, 8).map((c) => c.chord))];
+    
+    ReferenceManager.createFromGuitar({
+      audioUrl: analysisResult.audioUrl || '',
+      bpm: Math.round(analysisResult.bpm || 120),
+      chordProgression,
+      styleDescription: customPrompt || detailedPrompt,
+      tags: analysisResult.generatedTags,
+    });
 
     toast.success('Параметры сохранены', {
       description: 'Переход к форме генерации...',
@@ -148,7 +144,7 @@ export function TranscriptionToGenerationBridge({
 
     // Navigate to generation page
     setTimeout(() => {
-      navigate('/generate');
+      navigate('/');
     }, 500);
   };
 

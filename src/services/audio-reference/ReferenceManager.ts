@@ -165,8 +165,18 @@ class ReferenceManagerService {
       id: string;
       fileUrl: string;
       fileName: string;
+      fileSize?: number;
+      mimeType?: string;
       durationSeconds?: number;
-      analysis?: AudioAnalysis;
+      genre?: string;
+      mood?: string;
+      bpm?: number;
+      tempo?: string;
+      energy?: string;
+      vocalStyle?: string;
+      styleDescription?: string;
+      transcription?: string;
+      instruments?: string[];
     },
     mode?: ReferenceMode
   ): UnifiedAudioReference {
@@ -176,9 +186,21 @@ class ReferenceManagerService {
       source: 'cloud',
       audioUrl: data.fileUrl,
       fileName: data.fileName,
+      fileSize: data.fileSize,
+      mimeType: data.mimeType,
       durationSeconds: data.durationSeconds,
-      analysis: data.analysis,
-      analysisStatus: data.analysis ? 'completed' : 'pending',
+      analysis: {
+        genre: data.genre,
+        mood: data.mood,
+        bpm: data.bpm,
+        tempo: data.tempo,
+        energy: data.energy,
+        vocalStyle: data.vocalStyle,
+        styleDescription: data.styleDescription,
+        transcription: data.transcription,
+        instruments: data.instruments,
+      },
+      analysisStatus: data.styleDescription || data.genre ? 'completed' : 'pending',
       intendedMode: mode,
       createdAt: Date.now(),
     };
@@ -226,29 +248,59 @@ class ReferenceManagerService {
   }
 
   /**
-   * Create reference from creative tools (drums, dj, guitar)
+   * Create reference from creative tools (drums, dj)
    */
   createFromCreativeTool(
-    source: 'drums' | 'dj' | 'guitar',
-    data: {
-      audioUrl: string;
-      styleDescription?: string;
-      chordProgression?: string[];
+    source: 'drums' | 'dj',
+    audioUrl: string,
+    options?: {
+      prompt?: string;
+      tags?: string;
       bpm?: number;
     }
   ): UnifiedAudioReference {
     const reference: UnifiedAudioReference = {
       id: crypto.randomUUID(),
       source,
-      audioUrl: data.audioUrl,
+      audioUrl,
       fileName: `${source}-${Date.now()}.mp3`,
       analysis: {
-        styleDescription: data.styleDescription,
-        bpm: data.bpm,
+        styleDescription: options?.prompt || options?.tags,
+        bpm: options?.bpm,
       },
-      context: data.chordProgression ? {
+      context: options?.prompt ? { prompt: options.prompt } : undefined,
+      createdAt: Date.now(),
+    };
+
+    this.setActive(reference);
+    return reference;
+  }
+
+  /**
+   * Create reference from guitar recording/analysis
+   */
+  createFromGuitar(
+    data: {
+      audioUrl: string;
+      bpm?: number;
+      chordProgression?: string[];
+      styleDescription?: string;
+      tags?: string[];
+    }
+  ): UnifiedAudioReference {
+    const reference: UnifiedAudioReference = {
+      id: crypto.randomUUID(),
+      source: 'guitar',
+      audioUrl: data.audioUrl,
+      fileName: `guitar-${Date.now()}.mp3`,
+      analysis: {
+        bpm: data.bpm,
+        styleDescription: data.styleDescription,
+      },
+      context: {
         chordProgression: data.chordProgression,
-      } : undefined,
+        tags: data.tags?.join(', '),
+      },
       createdAt: Date.now(),
     };
 

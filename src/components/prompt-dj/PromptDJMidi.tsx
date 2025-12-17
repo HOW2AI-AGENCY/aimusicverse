@@ -12,6 +12,7 @@ import { QuickPresets } from './QuickPresets';
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { ReferenceManager } from '@/services/audio-reference';
 import { useCallback, useEffect } from 'react';
 
 export function PromptDJMidi() {
@@ -39,11 +40,9 @@ export function PromptDJMidi() {
   } = usePromptDJ();
 
   const handleUseAsReference = (track: typeof generatedTracks[0]) => {
-    sessionStorage.setItem('audioReferenceFromDJ', JSON.stringify({
-      audioUrl: track.audioUrl,
-      styleDescription: track.prompt,
-      source: 'promptdj'
-    }));
+    ReferenceManager.createFromCreativeTool('dj', track.audioUrl, {
+      prompt: track.prompt,
+    });
     toast.success('Трек добавлен как референс');
     navigate('/');
   };

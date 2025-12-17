@@ -18,6 +18,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { logger } from '@/lib/logger';
 import { VirtualizedCloudList } from '@/components/content-hub/VirtualizedCloudList';
+import { ReferenceManager } from '@/services/audio-reference';
 import {
   Dialog,
   DialogContent,
@@ -672,23 +673,23 @@ export function CloudTab() {
   };
 
   const handleUseForGeneration = (audio: ReferenceAudio, mode: 'cover' | 'extend') => {
-    // Store selected audio in sessionStorage for generation page with all available data
-    sessionStorage.setItem('cloudAudioReference', JSON.stringify({
+    ReferenceManager.createFromCloud({
       id: audio.id,
       fileUrl: audio.file_url,
       fileName: audio.file_name,
-      mode,
-      genre: audio.genre,
-      mood: audio.mood,
-      vocalStyle: audio.vocal_style,
-      styleDescription: audio.style_description,
-      transcription: audio.transcription,
-      bpm: audio.bpm,
-      tempo: audio.tempo,
-      energy: audio.energy,
-      instruments: audio.instruments,
-      durationSeconds: audio.duration_seconds,
-    }));
+      fileSize: audio.file_size ?? undefined,
+      mimeType: audio.mime_type ?? undefined,
+      durationSeconds: audio.duration_seconds ?? undefined,
+      genre: audio.genre ?? undefined,
+      mood: audio.mood ?? undefined,
+      bpm: audio.bpm ?? undefined,
+      tempo: audio.tempo ?? undefined,
+      energy: audio.energy ?? undefined,
+      vocalStyle: audio.vocal_style ?? undefined,
+      styleDescription: audio.style_description ?? undefined,
+      transcription: audio.transcription ?? undefined,
+      instruments: audio.instruments ?? undefined,
+    }, mode);
     
     setSelectedAudio(null);
     navigate('/');
