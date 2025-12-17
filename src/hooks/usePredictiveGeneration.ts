@@ -174,7 +174,19 @@ export function usePredictiveGeneration(
     return variations.slice(0, maxPredictions);
   }, [maxPredictions]);
 
-  // Monitor prompt stability
+  // Store refs to avoid dependency loops
+  const hasPredictionRef = useRef(hasPrediction);
+  const preGenerateRef = useRef(preGenerate);
+  const generateVariationsRef = useRef(generateVariations);
+  
+  // Keep refs updated
+  useEffect(() => {
+    hasPredictionRef.current = hasPrediction;
+    preGenerateRef.current = preGenerate;
+    generateVariationsRef.current = generateVariations;
+  });
+
+  // Monitor prompt stability - use refs to avoid circular deps
   useEffect(() => {
     if (!enabled || !currentPrompt) return;
 
@@ -192,18 +204,18 @@ export function usePredictiveGeneration(
 
     lastPromptRef.current = currentPrompt;
 
-    // Start stability timer
+    // Start stability timer - use refs inside
     stabilityTimerRef.current = setTimeout(() => {
       // Prompt has been stable - start pre-generation
-      if (!hasPrediction(currentPrompt)) {
+      if (!hasPredictionRef.current(currentPrompt)) {
         log.debug('Prompt stable, starting pre-generation');
-        preGenerate(currentPrompt, 1);
+        preGenerateRef.current(currentPrompt, 1);
         
         // Also pre-generate variations
-        const variations = generateVariations(currentPrompt);
+        const variations = generateVariationsRef.current(currentPrompt);
         variations.forEach((variation, index) => {
-          if (!hasPrediction(variation)) {
-            preGenerate(variation, index + 2);
+          if (!hasPredictionRef.current(variation)) {
+            preGenerateRef.current(variation, index + 2);
           }
         });
       }
@@ -214,7 +226,7 @@ export function usePredictiveGeneration(
         clearTimeout(stabilityTimerRef.current);
       }
     };
-  }, [currentPrompt, enabled, stabilityDelay, hasPrediction, preGenerate, generateVariations]);
+  }, [currentPrompt, enabled, stabilityDelay]); // Only stable deps
 
   // Cleanup old predictions
   useEffect(() => {
