@@ -35,7 +35,7 @@ export function UserProjectsSection() {
     queryFn: async () => {
       if (!user?.id) return [];
       
-      const { data, error } = await supabase
+      const { data: projectsData, error } = await supabase
         .from('music_projects')
         .select('id, title, description, cover_url, genre, status, total_tracks_count, approved_tracks_count, created_at, is_public')
         .eq('user_id', user.id)
@@ -43,7 +43,29 @@ export function UserProjectsSection() {
         .limit(6);
 
       if (error) throw error;
-      return data as UserProject[];
+      if (!projectsData?.length) return [];
+
+      // Fetch actual track counts from project_tracks
+      const projectIds = projectsData.map(p => p.id);
+      const { data: trackCounts } = await supabase
+        .from('project_tracks')
+        .select('project_id, track_id')
+        .in('project_id', projectIds);
+
+      // Count total and approved tracks per project
+      const countMap = new Map<string, { total: number; approved: number }>();
+      trackCounts?.forEach(pt => {
+        const existing = countMap.get(pt.project_id) || { total: 0, approved: 0 };
+        existing.total++;
+        if (pt.track_id) existing.approved++;
+        countMap.set(pt.project_id, existing);
+      });
+
+      return projectsData.map(p => ({
+        ...p,
+        total_tracks_count: countMap.get(p.id)?.total || p.total_tracks_count || 0,
+        approved_tracks_count: countMap.get(p.id)?.approved || p.approved_tracks_count || 0,
+      })) as UserProject[];
     },
     enabled: !!user?.id,
     staleTime: 1000 * 60 * 2,

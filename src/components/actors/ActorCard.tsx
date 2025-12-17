@@ -22,7 +22,7 @@ export function ActorCard({ artist, rank }: ActorCardProps) {
       onClick={() => navigate(`/artists?id=${artist.id}`)}
     >
       <div className={cn(
-        "relative p-3 rounded-xl bg-card/80 border border-border/50 backdrop-blur-sm h-full",
+        "relative p-3 rounded-xl bg-card/80 border border-border/50 backdrop-blur-sm h-full min-h-[160px] flex flex-col",
         "hover:border-primary/30 hover:shadow-md transition-all",
         rank && rank <= 3 && rank === 1 && "bg-gradient-to-br from-yellow-500/20 to-amber-500/10",
         rank && rank <= 3 && rank === 2 && "bg-gradient-to-br from-gray-400/20 to-gray-500/10",
@@ -70,14 +70,13 @@ export function ActorCard({ artist, rank }: ActorCardProps) {
           {artist.name}
         </h3>
 
-        {artist.profiles?.username && (
-          <p className="text-[9px] text-muted-foreground text-center truncate mb-1.5">
-            @{artist.profiles.username}
-          </p>
-        )}
+        {/* Username - always reserve space */}
+        <p className="text-[9px] text-muted-foreground text-center truncate mb-1.5 h-3">
+          {artist.profiles?.username ? `@${artist.profiles.username}` : ''}
+        </p>
 
-        {/* Genre tags */}
-        <div className="flex flex-wrap justify-center gap-1">
+        {/* Genre tags - fixed height container */}
+        <div className="flex flex-wrap justify-center gap-1 h-5 overflow-hidden mt-auto">
           {artist.genre_tags?.slice(0, 2).map((tag) => (
             <Badge key={tag} variant="secondary" className="text-[8px] px-1.5 py-0 h-4 bg-primary/10 text-primary/80 border-0">
               {tag}

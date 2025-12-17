@@ -422,7 +422,30 @@ export function useSectionDetection(
           }
         }
 
-        if (sections.length > 0) return sections;
+        // Ensure sections cover full track duration
+        if (sections.length > 0) {
+          // Fill gap at the beginning if needed
+          if (sections[0].startTime > 1) {
+            sections.unshift({
+              type: 'intro',
+              label: 'Интро',
+              startTime: 0,
+              endTime: sections[0].startTime,
+              lyrics: '',
+              words: [],
+            });
+          } else {
+            sections[0].startTime = 0;
+          }
+          
+          // Extend last section to full duration
+          const lastSection = sections[sections.length - 1];
+          if (lastSection.endTime < duration - 1) {
+            lastSection.endTime = duration;
+          }
+          
+          return sections;
+        }
       }
 
       // 2. Detect sections from word gaps
