@@ -26,6 +26,7 @@ import { VirtualizedTrackList } from "@/components/library/VirtualizedTrackList"
 import { EmptyLibraryState } from "@/components/library/EmptyLibraryState";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
+import { EarlyListeningAnnouncement } from "@/components/library/EarlyListeningAnnouncement";
 
 const log = logger.child({ module: 'Library' });
 
@@ -366,6 +367,9 @@ export default function Library() {
 
         {/* Content */}
         <div className="container mx-auto px-3 sm:px-4 py-2 sm:py-3">
+          {/* Early Listening Announcement */}
+          <EarlyListeningAnnouncement />
+          
           {/* Filter Chips - Mobile optimized */}
           <div className="mb-2">
             <LibraryFilterChips 
