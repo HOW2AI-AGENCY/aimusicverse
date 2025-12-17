@@ -16,6 +16,9 @@ import { Loader2, Music, Play, Plus, Sparkles, RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
 import { useStudioProjectStore } from '@/stores/useStudioProjectStore';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
+
+const log = logger.child({ module: 'InstrumentalGenerator' });
 
 interface InstrumentalGeneratorPanelProps {
   mainTrackUrl: string;
@@ -101,7 +104,7 @@ export function InstrumentalGeneratorPanel({
       }
       prompt += ', high quality, studio production, loopable';
 
-      console.log('Generating instrumental with prompt:', prompt);
+      log.debug('Generating instrumental with prompt:', { prompt });
 
       // Use MusicGen for instrumental generation
       const response = await supabase.functions.invoke('musicgen-generate', {

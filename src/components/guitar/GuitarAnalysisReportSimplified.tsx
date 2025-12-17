@@ -28,6 +28,9 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
+
+const log = logger.child({ module: 'GuitarAnalysisReport' });
 import { toast } from 'sonner';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -119,8 +122,8 @@ export function GuitarAnalysisReportSimplified({
 
   // Debug logging to diagnose missing files issue
   useEffect(() => {
-    console.log('[GuitarAnalysisReport] Analysis data:', {
-      transcriptionFiles: analysis.transcriptionFiles,
+    log.debug('Analysis data:', {
+      transcriptionFiles: JSON.stringify(analysis.transcriptionFiles),
       pdfUrl,
       midiUrl,
       midiQuantUrl,

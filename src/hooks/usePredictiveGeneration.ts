@@ -6,6 +6,9 @@
 import { useRef, useCallback, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAudioBufferPool } from './useAudioBufferPool';
+import { logger } from '@/lib/logger';
+
+const log = logger.child({ module: 'PredictiveGen' });
 
 interface PredictedTrack {
   prompt: string;
@@ -132,12 +135,12 @@ export function usePredictiveGeneration(
         // Queue for buffer pool preload
         queuePreload(data.audio_url, prompt);
         
-        console.log('[PredictiveGen] Pre-generated track ready:', prompt.slice(0, 50));
+        log.debug('Pre-generated track ready:', { prompt: prompt.slice(0, 50) });
       }
     } catch (error) {
       if ((error as Error).name === 'AbortError') return;
       
-      console.error('[PredictiveGen] Pre-generation failed:', error);
+      log.error('Pre-generation failed:', { error });
       
       // Mark as error
       setPredictions(prev => {
@@ -193,7 +196,7 @@ export function usePredictiveGeneration(
     stabilityTimerRef.current = setTimeout(() => {
       // Prompt has been stable - start pre-generation
       if (!hasPrediction(currentPrompt)) {
-        console.log('[PredictiveGen] Prompt stable, starting pre-generation');
+        log.debug('Prompt stable, starting pre-generation');
         preGenerate(currentPrompt, 1);
         
         // Also pre-generate variations
