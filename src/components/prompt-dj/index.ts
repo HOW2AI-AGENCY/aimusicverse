@@ -15,3 +15,7 @@ export { MoodStyleSelector } from './MoodStyleSelector';
 export { GlobalControls } from './GlobalControls';
 export { QuickMixPresets } from './QuickMixPresets';
 export { PromptDJOnboarding, usePromptDJOnboarding } from './PromptDJOnboarding';
+export { PromptDJErrorBoundary, withPromptDJErrorBoundary } from './PromptDJErrorBoundary';
+export { SmartPresetsPanel } from './SmartPresetsPanel';
+export { OptimizedVisualizer } from './OptimizedVisualizer';
+export { KnobCell } from './KnobCell';

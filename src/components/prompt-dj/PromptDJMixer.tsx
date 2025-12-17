@@ -1,6 +1,7 @@
 /**
  * PromptDJ Mixer - Simple knob interface with continuous reactive generation
  * Settings changes auto-generate continuation for seamless flow control
+ * Enhanced with state persistence, predictive generation, and smart presets
  */
 
 import { memo, useCallback, useEffect, useState, useMemo } from 'react';
@@ -15,11 +16,15 @@ import {
 import { KnobCell } from './KnobCell';
 import { OptimizedVisualizer } from './OptimizedVisualizer';
 import { PromptDJOnboarding, usePromptDJOnboarding } from './PromptDJOnboarding';
+import { PromptDJErrorBoundary } from './PromptDJErrorBoundary';
+import { SmartPresetsPanel } from './SmartPresetsPanel';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { usePredictiveGeneration } from '@/hooks/usePredictiveGeneration';
+import { usePromptHistory } from '@/hooks/usePromptHistory';
 import {
   Sheet,
   SheetContent,
@@ -36,7 +41,7 @@ import {
   DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu';
 import { Switch } from '@/components/ui/switch';
-import { usePromptDJEnhanced, GeneratedTrack, CHANNEL_TYPES, ChannelType } from '@/hooks/usePromptDJEnhanced';
+import { usePromptDJEnhanced, GeneratedTrack, CHANNEL_TYPES, ChannelType, PromptChannel } from '@/hooks/usePromptDJEnhanced';
 
 // Quick presets - apply to first channels of matching types
 const QUICK_PRESETS = [
@@ -48,7 +53,7 @@ const QUICK_PRESETS = [
   { id: 'rock', label: '🎸 Rock', values: { genre: 'Rock', instrument: 'Guitar', mood: 'Aggressive', energy: 'Driving' } },
 ];
 
-export const PromptDJMixer = memo(function PromptDJMixer() {
+const PromptDJMixerInner = memo(function PromptDJMixerInner() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const { user } = useAuth();
@@ -83,6 +88,43 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
     startLiveMode,
     stopLiveMode,
   } = usePromptDJEnhanced();
+
+  // Predictive pre-generation
+  const { hasPrediction, isPreGenerating } = usePredictiveGeneration(currentPrompt, {
+    enabled: !isLiveMode && !isGenerating,
+    duration: globalSettings.duration,
+  });
+
+  // Prompt history for smart presets
+  const { saveGeneration } = usePromptHistory();
+
+  // Handle smart preset recommendation
+  const handleApplyRecommendation = useCallback((type: ChannelType, value: string) => {
+    const channel = channels.find(c => c.type === type && !c.value);
+    if (channel) {
+      updateChannel(channel.id, { value, enabled: true, weight: 0.8 });
+    } else {
+      // Find first channel of this type
+      const typeChannel = channels.find(c => c.type === type);
+      if (typeChannel) {
+        updateChannel(typeChannel.id, { value, enabled: true, weight: 0.8 });
+      }
+    }
+  }, [channels, updateChannel]);
+
+  // Load preset from history
+  const handleLoadPreset = useCallback((preset: { channels: PromptChannel[] }) => {
+    preset.channels.forEach((ch, i) => {
+      if (channels[i]) {
+        updateChannel(channels[i].id, {
+          type: ch.type,
+          value: ch.value,
+          weight: ch.weight,
+          enabled: ch.enabled,
+        });
+      }
+    });
+  }, [channels, updateChannel]);
 
   // Save track to cloud as reference
   const handleSaveToCloud = useCallback(async (track: GeneratedTrack) => {
@@ -572,5 +614,14 @@ export const PromptDJMixer = memo(function PromptDJMixer() {
         </div>
       )}
     </div>
+  );
+});
+
+// Wrap with error boundary for production stability
+export const PromptDJMixer = memo(function PromptDJMixer() {
+  return (
+    <PromptDJErrorBoundary>
+      <PromptDJMixerInner />
+    </PromptDJErrorBoundary>
   );
 });
