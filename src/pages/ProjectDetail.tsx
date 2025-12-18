@@ -20,6 +20,7 @@ import { LyricsChatAssistant } from '@/components/generate-form/LyricsChatAssist
 import { ProjectMediaGenerator } from '@/components/project/ProjectMediaGenerator';
 import { ProjectReadinessIndicator } from '@/components/project/ProjectReadinessIndicator';
 import { PublishProjectDialog } from '@/components/project/PublishProjectDialog';
+import { UnlinkedTracksSection } from '@/components/project/UnlinkedTracksSection';
 import { cn } from '@/lib/utils';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
@@ -503,6 +504,13 @@ export default function ProjectDetail() {
                 Сгенерировать AI
               </Button>
             </div>
+          </div>
+        )}
+        
+        {/* Unlinked Tracks Section */}
+        {tracks && tracks.length > 0 && (
+          <div className="mt-4">
+            <UnlinkedTracksSection projectId={id!} projectTracks={tracks} />
           </div>
         )}
       </div>
