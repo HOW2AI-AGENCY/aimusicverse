@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -116,7 +116,7 @@ const LYRICS_STATUS_CONFIG = {
   },
 };
 
-export const MinimalProjectTrackItem = ({ 
+export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({ 
   track, 
   dragHandleProps,
   isDragging,
@@ -124,7 +124,7 @@ export const MinimalProjectTrackItem = ({
   onOpenLyrics,
   onOpenLyricsWizard,
   generationStatus,
-}: MinimalProjectTrackItemProps) => {
+}: MinimalProjectTrackItemProps) {
   const isMobile = useIsMobile();
   const [editOpen, setEditOpen] = useState(false);
   // Auto-expand if track has linked track (to show versions)
@@ -442,4 +442,4 @@ export const MinimalProjectTrackItem = ({
       />
     </>
   );
-};
+});

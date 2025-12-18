@@ -22,6 +22,7 @@ import { toast } from 'sonner';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContentOptimized';
 import type { Track } from '@/hooks/useTracksOptimized';
 import { useNavigate } from 'react-router-dom';
+import { formatTime } from '@/lib/formatters';
 
 interface PublicTrackDetailSheetProps {
   open: boolean;
@@ -83,11 +84,9 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
     navigate(`/profile/${track.user_id}`);
   };
 
-  const formatDuration = (seconds: number | null) => {
+  const formatDurationValue = (seconds: number | null) => {
     if (!seconds) return '—';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return formatTime(seconds);
   };
 
   const formatModelName = (model: string | null) => {
@@ -284,7 +283,7 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
         {/* Stats Cards */}
         <div className="grid grid-cols-4 gap-2 px-1">
           {[
-            { icon: Clock, label: 'Длительность', value: formatDuration(track.duration_seconds), color: 'text-blue-500' },
+            { icon: Clock, label: 'Длительность', value: formatDurationValue(track.duration_seconds), color: 'text-blue-500' },
             { icon: Headphones, label: 'Plays', value: track.play_count || 0, color: 'text-green-500' },
             { icon: Heart, label: 'Лайки', value: track.likes_count || 0, color: 'text-red-500' },
             { icon: Calendar, label: 'Создан', value: track.created_at ? new Date(track.created_at).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' }) : '—', color: 'text-purple-500' },

@@ -20,13 +20,7 @@ import { usePlayerStore } from '@/hooks/audio';
 import { ProjectGeneratedTrack, useProjectGeneratedTracks } from '@/hooks/useProjectGeneratedTracks';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-
-// Format duration helper
-function formatDuration(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-}
+import { formatTime } from '@/lib/formatters';
 import { motion, AnimatePresence } from '@/lib/motion';
 
 interface ProjectTracksGridProps {
@@ -154,7 +148,7 @@ export function ProjectTracksGrid({
                             <div className="flex items-center gap-2 mt-0.5">
                               <span className="text-xs text-muted-foreground flex items-center gap-1">
                                 <Clock className="w-3 h-3" />
-                                {formatDuration(track.duration_seconds || 0)}
+                                {formatTime(track.duration_seconds || 0)}
                               </span>
                             </div>
                           </div>

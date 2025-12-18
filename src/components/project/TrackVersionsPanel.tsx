@@ -2,6 +2,7 @@
  * Panel showing all generated versions for a project track slot
  * Allows selecting master version
  */
+import { memo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -19,12 +20,7 @@ import { usePlayerStore } from '@/hooks/audio';
 import { useProjectGeneratedTracks, ProjectGeneratedTrack } from '@/hooks/useProjectGeneratedTracks';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
-
-function formatDuration(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-}
+import { formatDuration } from '@/lib/formatters';
 
 interface TrackVersionsPanelProps {
   projectId: string;
@@ -34,7 +30,7 @@ interface TrackVersionsPanelProps {
   onToggle?: () => void;
 }
 
-export function TrackVersionsPanel({ 
+export const TrackVersionsPanel = memo(function TrackVersionsPanel({ 
   projectId, 
   projectTrackId, 
   projectTrackTitle,
@@ -207,4 +203,4 @@ export function TrackVersionsPanel({
       </AnimatePresence>
     </div>
   );
-}
+});

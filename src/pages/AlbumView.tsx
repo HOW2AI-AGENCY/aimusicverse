@@ -23,6 +23,7 @@ import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import { formatTime } from '@/lib/formatters';
 
 interface AlbumTrack {
   id: string;
@@ -50,12 +51,6 @@ interface Album {
     display_name: string | null;
     photo_url: string | null;
   } | null;
-}
-
-function formatDuration(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
 export default function AlbumView() {
@@ -264,7 +259,7 @@ export default function AlbumView() {
                 </span>
                 <span className="flex items-center gap-1">
                   <Clock className="w-3.5 h-3.5" />
-                  {formatDuration(totalDuration)}
+                  {formatTime(totalDuration)}
                 </span>
                 {album.published_at && (
                   <span className="flex items-center gap-1">
@@ -349,7 +344,7 @@ export default function AlbumView() {
 
               {/* Duration */}
               <span className="text-xs text-muted-foreground shrink-0">
-                {track.duration_seconds ? formatDuration(track.duration_seconds) : '--:--'}
+                {track.duration_seconds ? formatTime(track.duration_seconds) : '--:--'}
               </span>
             </div>
           );
