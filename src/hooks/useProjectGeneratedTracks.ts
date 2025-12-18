@@ -29,26 +29,50 @@ export function useProjectGeneratedTracks(projectId: string | undefined, project
   const queryClient = useQueryClient();
   const { logAction } = useAuditLog();
 
+  // Always fetch ALL tracks for the project to include orphaned tracks
   const { data: tracks, isLoading, error } = useQuery({
-    queryKey: ['project-generated-tracks', projectId, projectTrackId],
+    queryKey: ['project-generated-tracks', projectId],
     queryFn: async () => {
       if (!projectId) return [];
 
-      let query = supabase
+      const { data, error } = await supabase
         .from('tracks')
         .select('*')
         .eq('project_id', projectId)
         .order('created_at', { ascending: false });
 
-      if (projectTrackId) {
-        query = query.eq('project_track_id', projectTrackId);
-      }
-
-      const { data, error } = await query;
       if (error) throw error;
       return data as ProjectGeneratedTrack[];
     },
     enabled: !!projectId,
+  });
+
+  // Mutation to link orphaned track to a project track slot
+  const linkTrackToSlot = useMutation({
+    mutationFn: async ({ trackId, targetProjectTrackId }: { trackId: string; targetProjectTrackId: string }) => {
+      const { error } = await supabase
+        .from('tracks')
+        .update({ project_track_id: targetProjectTrackId })
+        .eq('id', trackId);
+
+      if (error) throw error;
+      
+      logAction({
+        entityType: 'track',
+        entityId: trackId,
+        actorType: 'user',
+        actionType: 'linked_to_slot',
+        actionCategory: 'modification',
+        inputMetadata: { projectId, projectTrackId: targetProjectTrackId },
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['project-generated-tracks', projectId] });
+      toast.success('Трек привязан к слоту');
+    },
+    onError: () => {
+      toast.error('Ошибка привязки трека');
+    },
   });
 
   // Approve track for final project
@@ -178,17 +202,23 @@ export function useProjectGeneratedTracks(projectId: string | undefined, project
     return acc;
   }, {} as Record<string, ProjectGeneratedTrack[]>) || {};
 
+  // Get unlinked tracks (those without project_track_id)
+  const unlinkedTracks = tracksBySlot['unlinked'] || [];
+
   return {
     tracks,
     tracksBySlot,
+    unlinkedTracks,
     isLoading,
     error,
     approveTrack: approveTrack.mutate,
     rejectTrack: rejectTrack.mutate,
     setMasterTrack: setMasterTrack.mutate,
+    linkTrackToSlot: linkTrackToSlot.mutate,
     isApproving: approveTrack.isPending,
     isRejecting: rejectTrack.isPending,
     isSettingMaster: setMasterTrack.isPending,
+    isLinking: linkTrackToSlot.isPending,
   };
 }
 
