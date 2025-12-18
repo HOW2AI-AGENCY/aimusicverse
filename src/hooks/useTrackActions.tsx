@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Track } from './useTracksOptimized';
+import { Track } from '@/types/track';
 import { useRewardShare } from './useGamification';
 import { logger } from '@/lib/logger';
 

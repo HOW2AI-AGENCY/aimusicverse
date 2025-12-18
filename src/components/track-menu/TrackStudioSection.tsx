@@ -1,6 +1,6 @@
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Layers, Music2, AlertCircle } from 'lucide-react';
-import { Track } from '@/hooks/useTracksOptimized';
+import { Track } from '@/types/track';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 

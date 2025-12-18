@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenuItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from '@/components/ui/dropdown-menu';
 import { Trash2 } from 'lucide-react';
 import { ActionId } from '@/config/trackActionsConfig';
-import { Track } from '@/hooks/useTracksOptimized';
+import { Track } from '@/types/track';
 import { TrackActionState } from '@/lib/trackActionConditions';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { ChevronDown } from 'lucide-react';

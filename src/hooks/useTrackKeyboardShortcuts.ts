@@ -11,7 +11,7 @@
 import { useEffect, useCallback } from 'react';
 import { usePlayerStore } from '@/hooks/audio';
 import { useGlobalAudioPlayer } from '@/hooks/audio/useGlobalAudioPlayer';
-import { Track } from '@/hooks/useTracksOptimized';
+import { Track } from '@/types/track';
 // Hook uses callbacks passed from components instead of global context
 // to avoid circular dependencies
 

@@ -10,7 +10,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { usePlayerStore } from './usePlayerState';
-import type { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { logger } from '@/lib/logger';
 
 const HISTORY_STORAGE_KEY = 'musicverse-playback-history';
