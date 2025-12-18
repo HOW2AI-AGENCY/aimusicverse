@@ -7,8 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { 
   Cloud, Search, Trash2, Play, Pause, Music, Mic, Upload, 
-  Sparkles, ArrowRight, FileText, Loader2, Edit, Check, X, Disc
+  Sparkles, ArrowRight, FileText, Loader2, Edit, Check, X, Disc, FolderPlus
 } from 'lucide-react';
+import { MultiTrackUpload } from '@/components/upload/MultiTrackUpload';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { toast } from 'sonner';
@@ -637,7 +638,7 @@ export function CloudTab() {
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
-
+  const [multiUploadOpen, setMultiUploadOpen] = useState(false);
   const filteredAudio = audioList?.filter((a) =>
     a.file_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (a.genre?.toLowerCase().includes(searchQuery.toLowerCase())) ||
@@ -724,6 +725,10 @@ export function CloudTab() {
             className="pl-9 h-9 text-sm"
           />
         </div>
+        <Button size="sm" variant="outline" onClick={() => setMultiUploadOpen(true)} className="gap-1.5 shrink-0">
+          <FolderPlus className="w-4 h-4" />
+          Пакет
+        </Button>
         <Button size="sm" onClick={() => setUploadDialogOpen(true)} className="gap-1.5 shrink-0">
           <Upload className="w-4 h-4" />
           Загрузить
@@ -801,6 +806,12 @@ export function CloudTab() {
           onOpenChange={setUploadDialogOpen} 
         />
       )}
+
+      {/* Multi-Track Upload Dialog */}
+      <MultiTrackUpload 
+        open={multiUploadOpen} 
+        onOpenChange={setMultiUploadOpen}
+      />
     </div>
   );
 }
