@@ -1,6 +1,6 @@
 /**
  * Panel showing all generated versions for a project track slot
- * Allows selecting master version and linking orphaned tracks
+ * Allows selecting master version
  */
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -13,8 +13,7 @@ import {
   Loader2,
   ChevronDown,
   ChevronUp,
-  CheckCircle2,
-  Link2
+  CheckCircle2
 } from 'lucide-react';
 import { usePlayerStore } from '@/hooks/audio';
 import { useProjectGeneratedTracks, ProjectGeneratedTrack } from '@/hooks/useProjectGeneratedTracks';
@@ -45,20 +44,14 @@ export function TrackVersionsPanel({
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
   const { 
     tracksBySlot, 
-    unlinkedTracks,
     isLoading,
     setMasterTrack,
-    linkTrackToSlot,
     isSettingMaster,
-    isLinking
   } = useProjectGeneratedTracks(projectId);
 
   const versions = tracksBySlot[projectTrackId] || [];
   const versionsCount = versions.length;
   const masterVersion = versions.find(v => v.is_master);
-  
-  // Total available tracks (linked + unlinked)
-  const totalAvailable = versionsCount + unlinkedTracks.length;
 
   if (isLoading) {
     return (
@@ -68,12 +61,12 @@ export function TrackVersionsPanel({
     );
   }
 
-  // Show panel if there are versions OR unlinked tracks to link
-  if (totalAvailable === 0) {
+  // Only show if there are versions for this slot
+  if (versionsCount === 0) {
     return null;
   }
 
-  const renderTrackItem = (version: ProjectGeneratedTrack, index: number, isUnlinked: boolean = false) => {
+  const renderTrackItem = (version: ProjectGeneratedTrack, index: number) => {
     const isCurrentTrack = activeTrack?.id === version.id;
     const isTrackPlaying = isCurrentTrack && isPlaying;
     const isMaster = version.is_master;
@@ -83,11 +76,9 @@ export function TrackVersionsPanel({
         key={version.id}
         className={cn(
           "flex items-center gap-1.5 p-1.5 rounded-md transition-all",
-          isUnlinked 
-            ? "bg-amber-500/10 ring-1 ring-amber-500/30" 
-            : isMaster 
-              ? "bg-primary/10 ring-1 ring-primary/30" 
-              : "bg-muted/30 hover:bg-muted/50",
+          isMaster 
+            ? "bg-primary/10 ring-1 ring-primary/30" 
+            : "bg-muted/30 hover:bg-muted/50",
           isCurrentTrack && "bg-primary/5"
         )}
       >
@@ -125,15 +116,10 @@ export function TrackVersionsPanel({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1">
             <span className="text-[10px] font-medium truncate">
-              {isUnlinked ? (version.title || 'Без названия') : `Версия ${index + 1}`}
+              Версия {index + 1}
             </span>
             {isMaster && (
               <Star className="w-2.5 h-2.5 text-primary fill-primary" />
-            )}
-            {isUnlinked && (
-              <Badge variant="outline" className="text-[7px] h-3 px-1 text-amber-600 border-amber-500/50">
-                Не привязан
-              </Badge>
             )}
           </div>
           <div className="flex items-center gap-1.5 text-[9px] text-muted-foreground">
@@ -149,24 +135,7 @@ export function TrackVersionsPanel({
 
         {/* Actions */}
         <div className="flex items-center gap-0.5 shrink-0">
-          {isUnlinked ? (
-            <Button
-              size="sm"
-              variant="ghost"
-              className="h-6 px-1.5 text-[9px] gap-0.5 text-amber-600 hover:text-amber-700 hover:bg-amber-500/10"
-              onClick={() => linkTrackToSlot({ trackId: version.id, targetProjectTrackId: projectTrackId })}
-              disabled={isLinking}
-            >
-              {isLinking ? (
-                <Loader2 className="w-2.5 h-2.5 animate-spin" />
-              ) : (
-                <>
-                  <Link2 className="w-2.5 h-2.5" />
-                  Привязать
-                </>
-              )}
-            </Button>
-          ) : !isMaster ? (
+          {!isMaster ? (
             <Button
               size="sm"
               variant="ghost"
@@ -204,22 +173,12 @@ export function TrackVersionsPanel({
         <div className="flex items-center gap-1.5">
           <Music className="w-3 h-3 text-primary" />
           <span className="text-[10px] font-medium">
-            {versionsCount > 0 && (
-              <>{versionsCount} {versionsCount === 1 ? 'версия' : versionsCount < 5 ? 'версии' : 'версий'}</>
-            )}
-            {versionsCount === 0 && unlinkedTracks.length > 0 && (
-              <span className="text-amber-600">Нет привязанных версий</span>
-            )}
+            {versionsCount} {versionsCount === 1 ? 'версия' : versionsCount < 5 ? 'версии' : 'версий'}
           </span>
           {masterVersion && (
             <Badge variant="default" className="text-[8px] h-3.5 px-1 gap-0.5">
               <Star className="w-2 h-2" />
               Мастер
-            </Badge>
-          )}
-          {unlinkedTracks.length > 0 && (
-            <Badge variant="outline" className="text-[8px] h-3.5 px-1 gap-0.5 text-amber-600 border-amber-500/50">
-              +{unlinkedTracks.length} доступно
             </Badge>
           )}
         </div>
@@ -241,22 +200,7 @@ export function TrackVersionsPanel({
             className="overflow-hidden"
           >
             <div className="space-y-1 pt-1.5">
-              {/* Linked versions */}
-              {versions.map((version, index) => renderTrackItem(version, index, false))}
-              
-              {/* Unlinked tracks section */}
-              {unlinkedTracks.length > 0 && (
-                <>
-                  {versionsCount > 0 && (
-                    <div className="flex items-center gap-2 py-1">
-                      <div className="flex-1 h-px bg-border" />
-                      <span className="text-[9px] text-muted-foreground">Не привязанные треки</span>
-                      <div className="flex-1 h-px bg-border" />
-                    </div>
-                  )}
-                  {unlinkedTracks.map((track, index) => renderTrackItem(track, index, true))}
-                </>
-              )}
+              {versions.map((version, index) => renderTrackItem(version, index))}
             </div>
           </motion.div>
         )}

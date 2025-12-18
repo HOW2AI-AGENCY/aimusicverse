@@ -127,7 +127,8 @@ export const MinimalProjectTrackItem = ({
 }: MinimalProjectTrackItemProps) => {
   const isMobile = useIsMobile();
   const [editOpen, setEditOpen] = useState(false);
-  const [versionsExpanded, setVersionsExpanded] = useState(false);
+  // Auto-expand if track has linked track (to show versions)
+  const [versionsExpanded, setVersionsExpanded] = useState(!!track.linked_track);
   const { deleteTrack } = useProjectTracks(track.project_id);
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
   
