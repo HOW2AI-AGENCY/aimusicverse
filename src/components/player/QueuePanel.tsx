@@ -14,7 +14,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { usePlayerStore } from '@/hooks/audio';
 import { cn } from '@/lib/utils';
 import { motion, Reorder } from '@/lib/motion';
-import { Track } from '@/hooks/useTracksOptimized';
+import { Track } from '@/types/track';
 
 interface QueuePanelProps {
   className?: string;

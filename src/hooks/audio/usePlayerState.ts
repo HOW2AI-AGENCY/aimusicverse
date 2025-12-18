@@ -9,7 +9,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Track } from '@/hooks/useTracksOptimized';
+import { Track } from '@/types/track';
 
 /**
  * Repeat mode options for playback

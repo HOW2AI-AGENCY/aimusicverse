@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Track } from '@/hooks/useTracksOptimized';
+import { Track } from '@/types/track';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

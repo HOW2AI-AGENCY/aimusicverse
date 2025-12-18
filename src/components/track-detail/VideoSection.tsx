@@ -9,7 +9,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
 import { useVideoGenerationStatus } from '@/hooks/useVideoGenerationStatus';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
-import { Track } from '@/hooks/useTracksOptimized';
+import { Track } from '@/types/track';
 
 interface VideoSectionProps {
   track: Track;
