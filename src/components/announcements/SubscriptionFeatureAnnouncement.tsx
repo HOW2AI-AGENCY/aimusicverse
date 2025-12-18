@@ -76,7 +76,7 @@ export function SubscriptionFeatureAnnouncement() {
                       className="h-7 text-xs"
                       asChild
                     >
-                      <Link to="/discover">
+                      <Link to="/community">
                         <Users className="w-3 h-3 mr-1" />
                         Найти авторов
                       </Link>
