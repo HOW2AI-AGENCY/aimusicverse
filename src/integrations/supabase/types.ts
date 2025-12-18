@@ -2426,6 +2426,7 @@ export type Database = {
       tracks: {
         Row: {
           active_version_id: string | null
+          allow_remix: boolean | null
           approved_at: string | null
           approved_by: string | null
           artist_avatar_url: string | null
@@ -2455,6 +2456,7 @@ export type Database = {
           lyrics_transcription_method: string | null
           model_name: string | null
           negative_tags: string | null
+          parent_track_id: string | null
           play_count: number | null
           project_id: string | null
           project_track_id: string | null
@@ -2480,6 +2482,7 @@ export type Database = {
         }
         Insert: {
           active_version_id?: string | null
+          allow_remix?: boolean | null
           approved_at?: string | null
           approved_by?: string | null
           artist_avatar_url?: string | null
@@ -2509,6 +2512,7 @@ export type Database = {
           lyrics_transcription_method?: string | null
           model_name?: string | null
           negative_tags?: string | null
+          parent_track_id?: string | null
           play_count?: number | null
           project_id?: string | null
           project_track_id?: string | null
@@ -2534,6 +2538,7 @@ export type Database = {
         }
         Update: {
           active_version_id?: string | null
+          allow_remix?: boolean | null
           approved_at?: string | null
           approved_by?: string | null
           artist_avatar_url?: string | null
@@ -2563,6 +2568,7 @@ export type Database = {
           lyrics_transcription_method?: string | null
           model_name?: string | null
           negative_tags?: string | null
+          parent_track_id?: string | null
           play_count?: number | null
           project_id?: string | null
           project_track_id?: string | null
@@ -2599,6 +2605,20 @@ export type Database = {
             columns: ["artist_id"]
             isOneToOne: false
             referencedRelation: "artists"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tracks_parent_track_id_fkey"
+            columns: ["parent_track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tracks_parent_track_id_fkey"
+            columns: ["parent_track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
             referencedColumns: ["id"]
           },
           {
