@@ -355,6 +355,35 @@ export function useGenerateForm({
     }
   }, [audioReference.file, audioReference.lyrics, audioReference.style, audioReference.title, audioReference.action, audioReference.cloudMode]);
 
+  // Check for remix data from sessionStorage
+  useEffect(() => {
+    if (open) {
+      try {
+        const remixDataStr = sessionStorage.getItem('musicverse_remix_data');
+        if (remixDataStr) {
+          const remixData = JSON.parse(remixDataStr);
+          
+          setMode('custom');
+          setTitle(remixData.title || '');
+          setStyle(remixData.style || '');
+          setLyrics(remixData.lyrics || '');
+          
+          // Store parent track id for reference
+          sessionStorage.setItem('parentTrackId', remixData.parentTrackId);
+          
+          toast.success('Ремикс', {
+            description: `Создание ремикса: ${remixData.parentTrackTitle}`,
+          });
+          
+          // Clear remix data after applying
+          sessionStorage.removeItem('musicverse_remix_data');
+        }
+      } catch (error) {
+        logger.error('Failed to load remix data from sessionStorage', error);
+      }
+    }
+  }, [open]);
+
   // Check for template lyrics from sessionStorage
   useEffect(() => {
     if (open) {
@@ -637,6 +666,9 @@ export function useGenerateForm({
         data = result.data;
         error = result.error;
       } else {
+        // Check for remix parent track id
+        const parentTrackId = sessionStorage.getItem('parentTrackId') || undefined;
+        
         const result = await supabase.functions.invoke('suno-music-generate', {
           body: {
             mode,
@@ -654,10 +686,16 @@ export function useGenerateForm({
             artistId: selectedArtistId,
             projectId: selectedProjectId || initialProjectId,
             planTrackId: planTrackId,
+            parentTrackId: parentTrackId,
           },
         });
         data = result.data;
         error = result.error;
+        
+        // Clear parent track id after use
+        if (parentTrackId) {
+          sessionStorage.removeItem('parentTrackId');
+        }
       }
 
       if (error) throw error;

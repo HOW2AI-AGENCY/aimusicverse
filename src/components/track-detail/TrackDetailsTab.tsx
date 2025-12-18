@@ -2,20 +2,32 @@ import { Track } from '@/hooks/useTracksOptimized';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Music2, Clock, Tag, FileText, Mic, Wand2, Heart, Play, BookmarkPlus, User, FolderOpen, FileAudio, Cpu } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Music2, Clock, Tag, FileText, Mic, Wand2, Heart, Play, BookmarkPlus, User, FolderOpen, FileAudio, Cpu, Lock, Unlock } from 'lucide-react';
 import { savePromptToBookmarks } from '@/components/generate-form/PromptHistory';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { VideoSection } from './VideoSection';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { formatDuration } from '@/lib/player-utils';
+import { RemixButton } from './RemixButton';
+import { ParentTrackLink } from './ParentTrackLink';
+import { useAuth } from '@/hooks/useAuth';
+import { toast } from 'sonner';
 
 interface TrackDetailsTabProps {
   track: Track;
 }
 
 export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
   const { handleGenerateVideo, isProcessing } = useTrackActions();
+  
+  // Check if current user owns the track
+  const isOwner = user?.id === track.user_id;
+  
   // Fetch artist info if track has artist_id
   const { data: artist } = useQuery({
     queryKey: ['artist', track.artist_id],
@@ -48,6 +60,24 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
     enabled: !!track.project_id,
   });
   
+  // Mutation to toggle allow_remix
+  const toggleRemixMutation = useMutation({
+    mutationFn: async (allowRemix: boolean) => {
+      const { error } = await supabase
+        .from('tracks')
+        .update({ allow_remix: allowRemix })
+        .eq('id', track.id);
+      if (error) throw error;
+      return allowRemix;
+    },
+    onSuccess: (allowRemix) => {
+      queryClient.invalidateQueries({ queryKey: ['tracks'] });
+      toast.success(allowRemix ? 'Ремикс разрешён' : 'Ремикс запрещён');
+    },
+    onError: () => {
+      toast.error('Ошибка обновления настроек');
+    },
+  });
 
   // Format model name for display
   const formatModelName = (model: string | null) => {
@@ -133,7 +163,43 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
         </div>
       </div>
 
-      {/* References Section - Artist, Project, Audio Reference */}
+      {/* Remix Button - Main action */}
+      <RemixButton track={track} />
+
+      {/* Parent Track Link - if this is a remix */}
+      {track.parent_track_id && (
+        <ParentTrackLink parentTrackId={track.parent_track_id} />
+      )}
+
+      {/* Allow Remix Toggle - Only for track owner */}
+      {isOwner && track.is_public && (
+        <>
+          <Separator />
+          <div className="flex items-center justify-between p-4 rounded-lg bg-muted/30 border border-border">
+            <div className="flex items-center gap-3">
+              {track.allow_remix !== false ? (
+                <Unlock className="w-5 h-5 text-green-500" />
+              ) : (
+                <Lock className="w-5 h-5 text-muted-foreground" />
+              )}
+              <div>
+                <Label htmlFor="allow-remix" className="text-sm font-medium">
+                  Разрешить ремиксы
+                </Label>
+                <p className="text-xs text-muted-foreground">
+                  Другие пользователи смогут создавать ремиксы
+                </p>
+              </div>
+            </div>
+            <Switch
+              id="allow-remix"
+              checked={track.allow_remix !== false}
+              onCheckedChange={(checked) => toggleRemixMutation.mutate(checked)}
+              disabled={toggleRemixMutation.isPending}
+            />
+          </div>
+        </>
+      )}
       {(artist || project || track.streaming_url) && (
         <>
           <Separator />

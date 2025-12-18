@@ -184,6 +184,7 @@ serve(async (req) => {
       projectId,
       artistId,
       planTrackId, // Link to project_tracks for status update
+      parentTrackId, // Link to parent track for remixes
       language = 'ru',
     } = body;
     
@@ -270,6 +271,7 @@ serve(async (req) => {
         style_weight: styleWeight,
         negative_tags: negativeTags,
         is_public: true, // ALL tracks are public by default for community discovery
+        parent_track_id: parentTrackId || null, // Link to parent track for remixes
         // Store artist reference
         artist_id: artistData?.id || null,
         artist_name: artistData?.name || null,
