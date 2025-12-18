@@ -425,6 +425,116 @@ export type Database = {
           },
         ]
       }
+      content_audit_log: {
+        Row: {
+          action_category: string | null
+          action_type: string
+          actor_type: string
+          ai_model_used: string | null
+          chain_id: string | null
+          content_hash: string | null
+          created_at: string
+          entity_id: string
+          entity_type: string
+          id: string
+          input_data_hash: string | null
+          input_metadata: Json | null
+          output_metadata: Json | null
+          parent_audit_id: string | null
+          prompt_hash: string | null
+          prompt_used: string | null
+          user_id: string
+          version_id: string | null
+        }
+        Insert: {
+          action_category?: string | null
+          action_type: string
+          actor_type: string
+          ai_model_used?: string | null
+          chain_id?: string | null
+          content_hash?: string | null
+          created_at?: string
+          entity_id: string
+          entity_type: string
+          id?: string
+          input_data_hash?: string | null
+          input_metadata?: Json | null
+          output_metadata?: Json | null
+          parent_audit_id?: string | null
+          prompt_hash?: string | null
+          prompt_used?: string | null
+          user_id: string
+          version_id?: string | null
+        }
+        Update: {
+          action_category?: string | null
+          action_type?: string
+          actor_type?: string
+          ai_model_used?: string | null
+          chain_id?: string | null
+          content_hash?: string | null
+          created_at?: string
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          input_data_hash?: string | null
+          input_metadata?: Json | null
+          output_metadata?: Json | null
+          parent_audit_id?: string | null
+          prompt_hash?: string | null
+          prompt_used?: string | null
+          user_id?: string
+          version_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_audit_log_parent_audit_id_fkey"
+            columns: ["parent_audit_id"]
+            isOneToOne: false
+            referencedRelation: "content_audit_log"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      content_deposits: {
+        Row: {
+          confirmed_at: string | null
+          created_at: string
+          deposit_document: Json
+          document_hash: string
+          entity_id: string
+          entity_type: string
+          external_deposit_id: string | null
+          id: string
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          confirmed_at?: string | null
+          created_at?: string
+          deposit_document: Json
+          document_hash: string
+          entity_id: string
+          entity_type: string
+          external_deposit_id?: string | null
+          id?: string
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          confirmed_at?: string | null
+          created_at?: string
+          deposit_document?: Json
+          document_hash?: string
+          entity_id?: string
+          entity_type?: string
+          external_deposit_id?: string | null
+          id?: string
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       credit_transactions: {
         Row: {
           action_type: string
