@@ -27,11 +27,11 @@
 
 ### Phase 4: New Features
 - ✅ Generation History Database - `user_generation_history` table + `useGenerationHistory` hook
+- ✅ set-music-profile Edge Function - Send track to Telegram for profile music setup
 
 #### Pending
 1. **Multi-Track File Upload** - Drag & drop audio files to timeline
 2. **Telegram Home Screen Shortcuts** - Deep links to app features
-3. **set-music-profile Edge Function** - Set track as Telegram profile music
 
 ## Code Quality Notes
 - Some direct `date-fns` imports (should use `@/lib/date-utils`)
