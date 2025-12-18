@@ -53,3 +53,38 @@ export const getProjectDeepLink = (projectId: string): string => {
 export const getGenerateDeepLink = (style?: string): string => {
   return style ? generateDeepLink('generate', style) : generateDeepLink('generate');
 };
+
+/**
+ * Generate deep link for quick generation preset
+ */
+export const getQuickGenDeepLink = (preset: string): string => {
+  return generateDeepLink('quick', preset);
+};
+
+/**
+ * Generate deep link for MusicLab tools
+ */
+export const getMusicLabDeepLink = (tool?: 'drums' | 'dj' | 'guitar' | 'melody'): string => {
+  return tool ? generateDeepLink(tool) : generateDeepLink('musiclab');
+};
+
+/**
+ * Generate deep link for user profile
+ */
+export const getProfileDeepLink = (userId: string): string => {
+  return generateDeepLink('profile', userId);
+};
+
+/**
+ * Generate referral invite link
+ */
+export const getInviteDeepLink = (userId: string): string => {
+  return generateDeepLink('invite', userId);
+};
+
+/**
+ * Generate payment deep link
+ */
+export const getPaymentDeepLink = (type: 'buy' | 'credits' | 'subscribe' = 'buy'): string => {
+  return generateDeepLink(type);
+};

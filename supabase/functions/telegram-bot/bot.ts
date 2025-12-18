@@ -262,6 +262,15 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
       return;
     }
 
+    // Deep link navigation callbacks (MusicLab)
+    if (data.startsWith('deeplink_')) {
+      const tool = data.replace('deeplink_', '');
+      const { handleDeepLink } = await import('./handlers/deep-links.ts');
+      await handleDeepLink(chatId, from.id, tool);
+      await answerCallbackQuery(id);
+      return;
+    }
+
     // Navigation handlers
     if (data.startsWith('nav_') || data.startsWith('lib_page_') || data.startsWith('project_page_')) {
       const { handleNavigationCallback } = await import('./handlers/navigation.ts');

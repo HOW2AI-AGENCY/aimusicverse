@@ -20,11 +20,13 @@ const supabase = createClient(
 // Deep link type definitions
 export type DeepLinkType = 
   | 'track' | 'project' | 'artist' | 'playlist' | 'album' | 'blog'
-  | 'generate' | 'quick' | 'studio' | 'remix' | 'lyrics' | 'stats'
+  | 'generate' | 'quick' | 'studio' | 'remix' | 'lyrics' | 'stats' | 'share'
   | 'profile' | 'user' | 'invite' | 'ref'
   | 'buy' | 'credits' | 'subscribe'
   | 'leaderboard' | 'achievements' | 'analyze' | 'recognize'
-  | 'onboarding' | 'help' | 'settings';
+  | 'onboarding' | 'help' | 'settings'
+  | 'library' | 'projects_list' | 'artists_list'
+  | 'creative' | 'musiclab' | 'drums' | 'dj' | 'guitar' | 'melody';
 
 interface DeepLinkResult {
   handled: boolean;
@@ -68,6 +70,15 @@ export function parseDeepLink(startParam: string): { type: DeepLinkType | null; 
     'onboarding': 'onboarding',
     'help': 'help',
     'settings': 'settings',
+    'library': 'library',
+    'projects': 'projects_list',
+    'artists': 'artists_list',
+    'creative': 'creative',
+    'musiclab': 'musiclab',
+    'drums': 'drums',
+    'dj': 'dj',
+    'guitar': 'guitar',
+    'melody': 'melody',
   };
 
   // Check simple matches first
@@ -680,6 +691,108 @@ export async function handleDeepLink(
           .build();
         await sendMessage(chatId, '⚙️ Открываем настройки\\.\\.\\.', settingsKeyboard, 'MarkdownV2');
         await trackDeepLinkAnalytics('settings', '', userId);
+        break;
+      
+      // Navigation shortcuts
+      case 'library':
+        const { handleLibrary } = await import('../commands/library.ts');
+        await handleLibrary(chatId, userId);
+        await trackDeepLinkAnalytics('library', '', userId);
+        break;
+      case 'projects_list':
+        const { handleProjects } = await import('../commands/projects.ts');
+        await handleProjects(chatId, userId);
+        await trackDeepLinkAnalytics('projects_list', '', userId);
+        break;
+      case 'artists_list':
+        const artistsKeyboard = new ButtonBuilder()
+          .addButton({
+            text: 'Открыть AI Артисты',
+            emoji: '🎤',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/artists` }
+          })
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendMessage(chatId, '🎤 *AI Артисты*\n\nОткройте список ваших AI артистов', artistsKeyboard, 'MarkdownV2');
+        await trackDeepLinkAnalytics('artists_list', '', userId);
+        break;
+      
+      // MusicLab shortcuts
+      case 'creative':
+      case 'musiclab':
+        const musicLabKeyboard = new ButtonBuilder()
+          .addButton({
+            text: 'Открыть Music Lab',
+            emoji: '🎹',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/music-lab` }
+          })
+          .addRow(
+            { text: 'Drums', emoji: '🥁', action: { type: 'callback', data: 'deeplink_drums' } },
+            { text: 'DJ', emoji: '🎧', action: { type: 'callback', data: 'deeplink_dj' } },
+            { text: 'Guitar', emoji: '🎸', action: { type: 'callback', data: 'deeplink_guitar' } }
+          )
+          .build();
+        await sendMessage(chatId, '🎹 *Music Lab*\n\nВыберите инструмент:', musicLabKeyboard, 'MarkdownV2');
+        await trackDeepLinkAnalytics('musiclab', '', userId);
+        break;
+      case 'drums':
+        const drumsKeyboard = new ButtonBuilder()
+          .addButton({
+            text: 'Открыть Drum Machine',
+            emoji: '🥁',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/music-lab?tab=drums` }
+          })
+          .build();
+        await sendMessage(chatId, '🥁 Открываем Drum Machine\\.\\.\\.', drumsKeyboard, 'MarkdownV2');
+        await trackDeepLinkAnalytics('drums', '', userId);
+        break;
+      case 'dj':
+        const djKeyboard = new ButtonBuilder()
+          .addButton({
+            text: 'Открыть PromptDJ',
+            emoji: '🎧',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/music-lab?tab=dj` }
+          })
+          .build();
+        await sendMessage(chatId, '🎧 Открываем PromptDJ\\.\\.\\.', djKeyboard, 'MarkdownV2');
+        await trackDeepLinkAnalytics('dj', '', userId);
+        break;
+      case 'guitar':
+        const guitarKeyboard = new ButtonBuilder()
+          .addButton({
+            text: 'Открыть Guitar Detector',
+            emoji: '🎸',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/music-lab?tab=guitar` }
+          })
+          .build();
+        await sendMessage(chatId, '🎸 Открываем детектор аккордов\\.\\.\\.', guitarKeyboard, 'MarkdownV2');
+        await trackDeepLinkAnalytics('guitar', '', userId);
+        break;
+      case 'melody':
+        const melodyKeyboard = new ButtonBuilder()
+          .addButton({
+            text: 'Открыть Melody Mixer',
+            emoji: '🎼',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/music-lab?tab=melody` }
+          })
+          .build();
+        await sendMessage(chatId, '🎼 Открываем Melody Mixer\\.\\.\\.', melodyKeyboard, 'MarkdownV2');
+        await trackDeepLinkAnalytics('melody', '', userId);
+        break;
+      case 'share':
+        const shareKeyboard = new ButtonBuilder()
+          .addButton({
+            text: 'Открыть трек',
+            emoji: '🎵',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}?startapp=track_${value}` }
+          })
+          .build();
+        await sendMessage(chatId, '🔗 Открываем по ссылке\\.\\.\\.', shareKeyboard, 'MarkdownV2');
+        await trackDeepLinkAnalytics('share', value, userId);
         break;
       default:
         return { handled: false };
