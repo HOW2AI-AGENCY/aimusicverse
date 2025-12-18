@@ -28,6 +28,7 @@ import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { usePredictiveGeneration } from '@/hooks/usePredictiveGeneration';
+import { useTelegramMainButton } from '@/hooks/telegram';
 import {
   Sheet,
   SheetContent,
@@ -90,6 +91,23 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
     enabled: !isLiveMode && !isGenerating,
     duration: globalSettings.duration,
   });
+
+  // Telegram MainButton - show "СГЕНЕРИРОВАТЬ" when not in Live mode
+  const { shouldShowUIButton, showProgress, hideProgress } = useTelegramMainButton({
+    text: isGenerating ? 'Генерация...' : 'СГЕНЕРИРОВАТЬ',
+    onClick: generateMusic,
+    enabled: !isGenerating && !isLiveMode && !!currentPrompt,
+    visible: !isLiveMode, // Hide MainButton in Live mode
+  });
+
+  // Show/hide progress on MainButton when generating
+  useEffect(() => {
+    if (isGenerating) {
+      showProgress(true);
+    } else {
+      hideProgress();
+    }
+  }, [isGenerating, showProgress, hideProgress]);
 
   // Show quick start on first visit
   useEffect(() => {
@@ -435,15 +453,17 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
             </Button>
           )}
 
-          {/* Generate single track with progress */}
-          <GenerateButton
-            onClick={generateMusic}
-            isGenerating={isGenerating}
-            isLiveMode={isLiveMode}
-            disabled={!currentPrompt}
-            hasCachedResult={hasPrediction(currentPrompt)}
-            estimatedTime={globalSettings.duration + 5}
-          />
+          {/* Generate single track with progress - only show UI button for test users */}
+          {shouldShowUIButton && (
+            <GenerateButton
+              onClick={generateMusic}
+              isGenerating={isGenerating}
+              isLiveMode={isLiveMode}
+              disabled={!currentPrompt}
+              hasCachedResult={hasPrediction(currentPrompt)}
+              estimatedTime={globalSettings.duration + 5}
+            />
+          )}
         </div>
 
         {/* BPM & Settings row */}
