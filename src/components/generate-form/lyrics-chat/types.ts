@@ -30,6 +30,7 @@ export interface LyricsChatAssistantProps {
   onOpenChange: (open: boolean) => void;
   onLyricsGenerated: (lyrics: string) => void;
   onStyleGenerated?: (style: string) => void;
+  onTitleGenerated?: (title: string) => void;
   initialGenre?: string;
   initialMood?: string[];
   initialLanguage?: 'ru' | 'en';

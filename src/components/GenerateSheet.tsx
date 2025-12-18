@@ -342,24 +342,21 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         open={lyricsAssistantOpen}
         onOpenChange={setLyricsAssistantOpen}
         onLyricsGenerated={(newLyrics: string) => {
-          // Switch to custom mode when lyrics are generated
           form.setMode('custom');
-          // Ensure vocals are enabled
           form.setHasVocals(true);
-          // Set the generated lyrics
           form.setLyrics(newLyrics);
-          // Notify user that lyrics are ready
           toast.success('Текст песни добавлен! 🎤', {
             description: 'Лирика с профессиональными тегами Suno готова к генерации',
           });
         }}
         onStyleGenerated={(generatedStyle: string) => {
-          // Always update style with AI-generated one
-          form.setStyle(generatedStyle);
-          // Auto-generate title if empty
-          if (!form.title && generatedStyle) {
-            const firstGenre = generatedStyle.split(',')[0].trim();
-            form.setTitle(firstGenre.length > 30 ? firstGenre.slice(0, 30) : firstGenre);
+          if (generatedStyle && generatedStyle.trim()) {
+            form.setStyle(generatedStyle);
+          }
+        }}
+        onTitleGenerated={(generatedTitle: string) => {
+          if (generatedTitle && generatedTitle.trim()) {
+            form.setTitle(generatedTitle);
           }
         }}
         initialGenre={projects?.find(p => p.id === form.selectedProjectId)?.genre || undefined}

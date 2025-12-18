@@ -5,10 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Sparkles, Send, MessageCircle, Tag, Lightbulb, Info } from 'lucide-react';
+import { Sparkles, Send, MessageCircle, Tag, Lightbulb, Info, X } from 'lucide-react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useTelegramMainButton } from '@/hooks/telegram';
 import { useLyricsChat } from './lyrics-chat/useLyricsChat';
 import { toast } from 'sonner';
 import { 
@@ -35,6 +36,7 @@ export function LyricsChatAssistant({
   onOpenChange,
   onLyricsGenerated,
   onStyleGenerated,
+  onTitleGenerated,
   initialGenre,
   initialMood,
   initialLanguage = 'ru',
@@ -57,6 +59,7 @@ export function LyricsChatAssistant({
     initialMode,
     onLyricsGenerated,
     onStyleGenerated,
+    onTitleGenerated,
     onClose: () => onOpenChange(false),
   });
 
@@ -130,6 +133,14 @@ export function LyricsChatAssistant({
     setActiveTab('chat');
   }, [chat, onLyricsGenerated]);
 
+  // Telegram MainButton integration for applying lyrics
+  const { shouldShowUIButton, showProgress, hideProgress } = useTelegramMainButton({
+    text: 'ПРИМЕНИТЬ',
+    onClick: chat.applyLyrics,
+    enabled: !!chat.generatedLyrics && !chat.isLoading,
+    visible: open && !!chat.generatedLyrics,
+  });
+
   const renderComponent = (msg: ChatMessage) => {
     switch (msg.component) {
       case 'genre':
@@ -173,12 +184,15 @@ export function LyricsChatAssistant({
               chat.setInputValue(instruction);
               chat.handleSendMessage();
             }}
-            onTitleChange={() => {
-              // Title changes are handled locally in the preview
+            onTitleChange={(title) => {
+              chat.updateLastGeneratedTitle(title);
             }}
             onStyleChange={(style) => {
+              chat.updateLastGeneratedStyle(style);
               onStyleGenerated?.(style);
             }}
+            fullHeight={isMobile}
+            showApplyButton={shouldShowUIButton}
           />
         );
       default:
@@ -258,7 +272,7 @@ export function LyricsChatAssistant({
                     >
                       <motion.div
                         className={cn(
-                          'max-w-[90%] sm:max-w-[85%] rounded-2xl px-4 py-2.5',
+                          'max-w-[95%] sm:max-w-[85%] rounded-2xl px-4 py-2.5',
                           msg.role === 'user'
                             ? 'bg-primary text-primary-foreground rounded-br-md'
                             : 'bg-muted rounded-bl-md'
@@ -398,12 +412,12 @@ export function LyricsChatAssistant({
     </div>
   );
 
-  // Use Drawer on mobile, Dialog on desktop
+  // Use fullscreen Drawer on mobile, Dialog on desktop
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="h-[90vh] max-h-[90vh] flex flex-col safe-area-inset">
-          <DrawerHeader className="pb-2 border-b border-border/50 shrink-0">
+        <DrawerContent className="h-[100dvh] max-h-[100dvh] flex flex-col safe-area-inset rounded-none">
+          <DrawerHeader className="pb-2 border-b border-border/50 shrink-0 flex items-center justify-between">
             <DrawerTitle className="flex items-center gap-2 text-base">
               <motion.div
                 animate={{ rotate: [0, 10, -10, 0] }}
@@ -413,6 +427,14 @@ export function LyricsChatAssistant({
               </motion.div>
               <span className="truncate">{getTitle()}</span>
             </DrawerTitle>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-8 w-8"
+              onClick={() => onOpenChange(false)}
+            >
+              <X className="h-4 w-4" />
+            </Button>
           </DrawerHeader>
           <div className="flex-1 min-h-0 overflow-hidden">
             {chatContent}
@@ -424,7 +446,7 @@ export function LyricsChatAssistant({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md max-h-[80vh] flex flex-col p-0 gap-0">
+      <DialogContent className="max-w-lg max-h-[85vh] flex flex-col p-0 gap-0">
         <DialogHeader className="p-4 pb-2 border-b border-border/50">
           <DialogTitle className="flex items-center gap-2">
             <motion.div
