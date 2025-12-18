@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from '@/lib/motion';
 import { Sheet, SheetContent, SheetFooter } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -11,7 +11,7 @@ import { useArtists } from '@/hooks/useArtists';
 import { useTracks } from '@/hooks/useTracksOptimized';
 import { useGenerateForm } from '@/hooks/generation';
 import { useTelegram } from '@/contexts/TelegramContext';
-
+import { useTelegramMainButton } from '@/hooks/telegram';
 // Form components
 import { GenerateFormHeaderCompact } from './generate-form/GenerateFormHeaderCompact';
 import { GenerateFormActions } from './generate-form/GenerateFormActions';
@@ -92,6 +92,22 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     form.handleGenerate();
   };
 
+  // Telegram MainButton integration - shows native button in Mini App, UI button for test users
+  const { shouldShowUIButton, showProgress, hideProgress } = useTelegramMainButton({
+    text: form.loading ? 'Создание...' : 'СГЕНЕРИРОВАТЬ',
+    onClick: handleGenerate,
+    enabled: !form.loading,
+    visible: open,
+  });
+
+  // Show/hide progress on MainButton when loading changes
+  useEffect(() => {
+    if (form.loading) {
+      showProgress(true);
+    } else {
+      hideProgress();
+    }
+  }, [form.loading, showProgress, hideProgress]);
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="h-[95vh] flex flex-col frost-sheet p-0">
@@ -208,30 +224,32 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           </div>
         </ScrollArea>
 
-        {/* Footer with progress indicator */}
+        {/* Footer - only show UI button for test users, real Mini App users get native MainButton */}
         <div className="p-2 border-t bg-background/95 backdrop-blur">
           {form.loading && (
             <div className="mb-1.5">
               <Progress value={33} className="h-1" />
             </div>
           )}
-          <Button
-            onClick={handleGenerate}
-            disabled={form.loading}
-            className="w-full h-10 text-xs gap-1.5 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg disabled:opacity-50"
-          >
-            {form.loading ? (
-              <>
-                <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                Создание...
-              </>
-            ) : (
-              <>
-                <Sparkles className="w-3.5 h-3.5" />
-                Сгенерировать
-              </>
-            )}
-          </Button>
+          {shouldShowUIButton && (
+            <Button
+              onClick={handleGenerate}
+              disabled={form.loading}
+              className="w-full h-10 text-xs gap-1.5 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg disabled:opacity-50"
+            >
+              {form.loading ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  Создание...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-3.5 h-3.5" />
+                  Сгенерировать
+                </>
+              )}
+            </Button>
+          )}
         </div>
       </SheetContent>
 
