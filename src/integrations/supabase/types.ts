@@ -2808,6 +2808,79 @@ export type Database = {
         }
         Relationships: []
       }
+      user_generation_history: {
+        Row: {
+          created_at: string
+          generation_mode: string | null
+          id: string
+          is_instrumental: boolean | null
+          lyrics: string | null
+          metadata: Json | null
+          model_name: string | null
+          prompt: string
+          reference_audio_id: string | null
+          status: string | null
+          style: string | null
+          tags: string[] | null
+          track_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          generation_mode?: string | null
+          id?: string
+          is_instrumental?: boolean | null
+          lyrics?: string | null
+          metadata?: Json | null
+          model_name?: string | null
+          prompt: string
+          reference_audio_id?: string | null
+          status?: string | null
+          style?: string | null
+          tags?: string[] | null
+          track_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          generation_mode?: string | null
+          id?: string
+          is_instrumental?: boolean | null
+          lyrics?: string | null
+          metadata?: Json | null
+          model_name?: string | null
+          prompt?: string
+          reference_audio_id?: string | null
+          status?: string | null
+          style?: string | null
+          tags?: string[] | null
+          track_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_generation_history_reference_audio_id_fkey"
+            columns: ["reference_audio_id"]
+            isOneToOne: false
+            referencedRelation: "reference_audio"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_generation_history_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_generation_history_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_notification_settings: {
         Row: {
           auto_midi_enabled: boolean | null

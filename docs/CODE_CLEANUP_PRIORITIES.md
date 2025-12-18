@@ -25,20 +25,13 @@
 - ✅ Comment Reporting - ReportCommentDialog with moderation_reports integration
 - ✅ Breadcrumbs Navigation - src/components/navigation/Breadcrumbs.tsx
 
-### Phase 4: New Features (Future)
-1. **Generation History Database**
-   - Create `user_generation_history` table
-   - Persist history between sessions
+### Phase 4: New Features
+- ✅ Generation History Database - `user_generation_history` table + `useGenerationHistory` hook
 
-2. **Multi-Track File Upload**
-   - Drag & drop audio files to timeline
-   - Support WAV, MP3, FLAC
-
-3. **Telegram Home Screen Shortcuts**
-   - Deep links to app features
-
-4. **set-music-profile Edge Function**
-   - Set track as Telegram profile music
+#### Pending
+1. **Multi-Track File Upload** - Drag & drop audio files to timeline
+2. **Telegram Home Screen Shortcuts** - Deep links to app features
+3. **set-music-profile Edge Function** - Set track as Telegram profile music
 
 ## Code Quality Notes
 - Some direct `date-fns` imports (should use `@/lib/date-utils`)
