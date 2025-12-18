@@ -59,38 +59,38 @@ export default function AlbumView() {
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
   const [playingAll, setPlayingAll] = useState(false);
 
-  // Fetch album data
+  // Fetch album data with profile separately (no FK relationship)
   const { data: album, isLoading: albumLoading } = useQuery({
     queryKey: ['album', id],
     queryFn: async () => {
       if (!id) throw new Error('No album ID');
-      const { data, error } = await supabase
+      
+      // Fetch project first
+      const { data: project, error } = await supabase
         .from('music_projects')
-        .select(`
-          id,
-          title,
-          cover_url,
-          description,
-          concept,
-          genre,
-          mood,
-          published_at,
-          user_id,
-          profiles!music_projects_user_id_fkey (
-            username,
-            display_name,
-            photo_url
-          )
-        `)
+        .select('id, title, cover_url, description, concept, genre, mood, published_at, user_id')
         .eq('id', id)
         .eq('is_public', true)
         .eq('status', 'published')
         .single();
 
       if (error) throw error;
-      return data as unknown as Album;
+      if (!project) return null;
+
+      // Fetch profile separately
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('username, display_name, photo_url')
+        .eq('user_id', project.user_id)
+        .single();
+
+      return {
+        ...project,
+        profiles: profile || null,
+      } as Album;
     },
     enabled: !!id,
+    staleTime: 1000 * 60 * 5,
   });
 
   // Fetch master tracks for this album
@@ -109,6 +109,7 @@ export default function AlbumView() {
       return data as AlbumTrack[];
     },
     enabled: !!id,
+    staleTime: 1000 * 60 * 5,
   });
 
   const handlePlayAll = () => {
