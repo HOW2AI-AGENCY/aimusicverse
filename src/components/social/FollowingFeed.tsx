@@ -63,7 +63,7 @@ export function FollowingFeed() {
             Подписывайтесь на авторов или ставьте лайки трекам, чтобы видеть их новинки здесь
           </p>
           <Button asChild>
-            <Link to="/discover">
+            <Link to="/community">
               <Sparkles className="w-4 h-4 mr-2" />
               Открыть для себя
             </Link>
