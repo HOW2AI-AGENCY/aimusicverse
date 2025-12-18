@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/hooks/useAuth';
@@ -26,6 +26,8 @@ import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
+import { useTelegramMainButton } from '@/hooks/telegram/useTelegramMainButton';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
@@ -49,6 +51,54 @@ export default function ProjectDetail() {
   const { setPlanTrackContext } = usePlanTrackStore();
   const { updateTrack } = useProjectTracks(id);
 
+  // Find project
+  const project = projects?.find((p) => p.id === id);
+  
+  // Compute values for MainButton logic (before early returns)
+  const totalTracks = tracks?.length || 0;
+  const tracksWithMaster = generatedTracks?.filter(t => t.is_master).length || 0;
+  const isReadyToPublish = totalTracks > 0 && tracksWithMaster === totalTracks;
+  const isPublished = project?.status === 'published';
+  const draftCount = tracks?.filter(t => t.status === 'draft' && !t.track_id).length || 0;
+
+  // Telegram BackButton - navigates to projects list
+  const { shouldShowUIButton: showUIBackButton } = useTelegramBackButton({
+    visible: !!project,
+    fallbackPath: '/projects',
+  });
+
+  // Telegram MainButton - dynamic based on project state
+  const mainButtonConfig = useMemo(() => {
+    if (!project) return { text: '', visible: false };
+    
+    if (isReadyToPublish && !isPublished) {
+      return { text: 'ОПУБЛИКОВАТЬ', action: 'publish' as const };
+    }
+    if (draftCount > 0) {
+      return { text: 'СГЕНЕРИРОВАТЬ ТРЕК', action: 'generate' as const };
+    }
+    return { text: 'ДОБАВИТЬ ТРЕК', action: 'add' as const };
+  }, [project, isReadyToPublish, isPublished, draftCount]);
+
+  const handleMainButtonClick = () => {
+    if (mainButtonConfig.action === 'publish') {
+      setPublishDialogOpen(true);
+    } else if (mainButtonConfig.action === 'generate' && tracks?.[0]) {
+      // Generate for first draft track
+      const firstDraft = tracks.find(t => t.status === 'draft' && !t.track_id);
+      if (firstDraft) handleGenerateFromPlan(firstDraft);
+    } else {
+      setAddTrackOpen(true);
+    }
+  };
+
+  const { shouldShowUIButton: showUIMainButton } = useTelegramMainButton({
+    text: mainButtonConfig.text,
+    onClick: handleMainButtonClick,
+    visible: !!project && !aiDialogOpen && !settingsOpen && !addTrackOpen && !lyricsSheetOpen && !lyricsWizardOpen && !mediaGeneratorOpen && !publishDialogOpen,
+    enabled: !!project,
+  });
+
   if (authLoading || isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -61,7 +111,7 @@ export default function ProjectDetail() {
     return <Navigate to="/auth" replace />;
   }
 
-  const project = projects?.find((p) => p.id === id);
+  // project already defined above for hooks
 
   const handleApplyUpdates = async (updates: Record<string, string | number | boolean | null>) => {
     if (!project) return;
@@ -178,15 +228,8 @@ export default function ProjectDetail() {
   }
 
   const completedTracks = tracks?.filter(t => t.status === 'completed').length || 0;
-  const totalTracks = tracks?.length || 0;
-
-  // Count tracks with master versions
-  const tracksWithMaster = generatedTracks?.filter(t => t.is_master).length || 0;
-  const isReadyToPublish = totalTracks > 0 && tracksWithMaster === totalTracks;
-  const isPublished = project.status === 'published';
-
+  // totalTracks, tracksWithMaster, isReadyToPublish, isPublished, draftCount computed above for hooks
   const draftTracks = tracks?.filter(t => t.status === 'draft' && !t.track_id) || [];
-  const draftCount = draftTracks.length;
 
   return (
     <div className="pb-24">

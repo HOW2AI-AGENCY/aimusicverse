@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, memo } from "react";
+import { useState, useEffect, useMemo, lazy, Suspense } from "react";
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { User } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -17,14 +17,19 @@ import { WelcomeSection } from "@/components/home/WelcomeSection";
 import { DailyCheckin } from "@/components/gamification/DailyCheckin";
 import { CompactStatsWidget } from "@/components/home/CompactStatsWidget";
 import { FeaturedBlogBanners } from "@/components/home/FeaturedBlogBanners";
-import { ProfessionalToolsHub } from "@/components/home/ProfessionalToolsHub";
-import { PopularCreatorsSection } from "@/components/home/PopularCreatorsSection";
-import { PublishedAlbumsSection } from "@/components/home/PublishedAlbumsSection";
 import { UserProjectsSection } from "@/components/home/UserProjectsSection";
 import { GenerateSheet } from "@/components/GenerateSheet";
 import { MusicRecognitionDialog } from "@/components/music-recognition/MusicRecognitionDialog";
 import { HomeSkeletonEnhanced } from "@/components/home/HomeSkeletonEnhanced";
+import { LazySection, SectionSkeleton } from "@/components/lazy/LazySection";
+import { QuickProjectSheet } from "@/components/project/QuickProjectSheet";
+import { useTelegramMainButton } from "@/hooks/telegram/useTelegramMainButton";
 import { motion } from '@/lib/motion';
+
+// Lazy loaded components for below-the-fold content
+const PopularCreatorsSection = lazy(() => import("@/components/home/PopularCreatorsSection").then(m => ({ default: m.PopularCreatorsSection })));
+const PublishedAlbumsSection = lazy(() => import("@/components/home/PublishedAlbumsSection").then(m => ({ default: m.PublishedAlbumsSection })));
+const ProfessionalToolsHub = lazy(() => import("@/components/home/ProfessionalToolsHub").then(m => ({ default: m.ProfessionalToolsHub })));
 
 const Index = () => {
   const { user } = useAuth();
@@ -35,6 +40,7 @@ const Index = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
   const [recognitionDialogOpen, setRecognitionDialogOpen] = useState(false);
+  const [quickProjectOpen, setQuickProjectOpen] = useState(false);
 
   // Single optimized query for all public content
   const { data: publicContent, isLoading: contentLoading } = usePublicContentOptimized();
@@ -88,6 +94,13 @@ const Index = () => {
     hapticFeedback("light");
     navigate(`/generate?remix=${trackId}`);
   };
+
+  // Telegram MainButton - primary CTA
+  const { shouldShowUIButton } = useTelegramMainButton({
+    text: 'СОЗДАТЬ МУЗЫКУ',
+    onClick: () => setGenerateSheetOpen(true),
+    visible: !generateSheetOpen && !quickProjectOpen,
+  });
 
   return (
     <div className="min-h-screen bg-background pb-20 relative overflow-hidden">
@@ -246,15 +259,13 @@ const Index = () => {
             />
           </motion.section>
 
-          {/* Popular Creators Section */}
-          <motion.section
+          {/* Popular Creators Section - Lazy loaded */}
+          <LazySection 
             className="mb-4 sm:mb-5"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.3 }}
+            fallback={<SectionSkeleton height="160px" />}
           >
             <PopularCreatorsSection maxCreators={8} />
-          </motion.section>
+          </LazySection>
 
           {/* Featured Blog Banners */}
           <motion.section
@@ -276,32 +287,29 @@ const Index = () => {
             <PublicArtistsSection />
           </motion.section>
 
-          {/* Published Albums Section */}
-          <motion.section
+          {/* Published Albums Section - Lazy loaded */}
+          <LazySection 
             className="mb-4 sm:mb-5"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.37, duration: 0.3 }}
+            fallback={<SectionSkeleton height="180px" />}
           >
             <PublishedAlbumsSection />
-          </motion.section>
+          </LazySection>
 
-          {/* Professional Tools Hub - Desktop only or collapsed on mobile */}
+          {/* Professional Tools Hub - Desktop only, Lazy loaded */}
           {user && (
-            <motion.section
+            <LazySection 
               className="hidden sm:block mb-5"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.38, duration: 0.3 }}
+              fallback={<SectionSkeleton height="200px" />}
             >
               <ProfessionalToolsHub />
-            </motion.section>
+            </LazySection>
           )}
 
         </div>
 
         <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
         <MusicRecognitionDialog open={recognitionDialogOpen} onOpenChange={setRecognitionDialogOpen} />
+        <QuickProjectSheet open={quickProjectOpen} onOpenChange={setQuickProjectOpen} />
     </div>
   );
 };
