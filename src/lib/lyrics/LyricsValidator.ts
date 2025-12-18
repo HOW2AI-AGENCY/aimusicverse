@@ -12,6 +12,47 @@ export interface ValidationResult {
   warnings: string[];
   suggestions: string[];
   characterCount: number;
+  characterCountWithTags: number; // Added for transparency
+}
+
+/**
+ * Valid section tag types for Suno lyrics
+ */
+export const VALID_SECTION_TAGS = [
+  'Verse', 'Verse 1', 'Verse 2', 'Verse 3', 'Verse 4',
+  'Chorus', 'Chorus 1', 'Chorus 2',
+  'Pre-Chorus', 'Pre-Chorus 1', 'Pre-Chorus 2',
+  'Bridge', 'Bridge 1', 'Bridge 2',
+  'Outro', 'Intro',
+  'Hook', 'Refrain',
+  'Break', 'Instrumental', 'Interlude',
+  'Куплет', 'Куплет 1', 'Куплет 2', 'Куплет 3',
+  'Припев', 'Припев 1', 'Припев 2',
+  'Пре-припев', 'Бридж', 'Аутро', 'Интро',
+] as const;
+
+export type ValidSectionTag = typeof VALID_SECTION_TAGS[number];
+
+/**
+ * Type guard to check if a string is a valid section tag
+ */
+export function isValidSectionTag(tag: string): tag is ValidSectionTag {
+  // Normalize: trim and match case-insensitively
+  const normalized = tag.trim();
+  return VALID_SECTION_TAGS.some(
+    validTag => validTag.toLowerCase() === normalized.toLowerCase()
+  );
+}
+
+/**
+ * Normalize section tag to standard format
+ */
+export function normalizeSectionTag(tag: string): string {
+  const normalized = tag.trim();
+  const match = VALID_SECTION_TAGS.find(
+    validTag => validTag.toLowerCase() === normalized.toLowerCase()
+  );
+  return match || normalized;
 }
 
 /**
@@ -25,13 +66,14 @@ export class LyricsValidator {
     const warnings: string[] = [];
     const suggestions: string[] = [];
 
-    // Calculate character count (excluding tags)
+    // Calculate character count (excluding tags) - this is what matters for generation
     const charCount = LyricsFormatter.calculateCharCount(lyrics, true);
+    // Also track total for transparency
     const totalCharCount = lyrics.length;
 
-    // Check character limits
+    // Check character limits - use charCount (without tags) for the actual limit
     if (totalCharCount > LYRICS_MAX_LENGTH) {
-      warnings.push(`Текст слишком длинный (${totalCharCount}/${LYRICS_MAX_LENGTH} символов)`);
+      warnings.push(`Общая длина слишком большая (${totalCharCount}/${LYRICS_MAX_LENGTH} символов)`);
     }
     if (charCount < LYRICS_MIN_LENGTH) {
       warnings.push(`Текст слишком короткий (${charCount}/${LYRICS_MIN_LENGTH} символов без тегов)`);
@@ -41,6 +83,12 @@ export class LyricsValidator {
     const structure = LyricsFormatter.validateStructure(lyrics);
     if (!structure.hasStructure) {
       suggestions.push('Рекомендуется добавить структурные теги [Verse], [Chorus]');
+    }
+
+    // Validate section tags
+    const invalidTags = this.findInvalidSectionTags(lyrics);
+    if (invalidTags.length > 0) {
+      warnings.push(`Нераспознанные теги: ${invalidTags.join(', ')}. Используйте стандартные: Verse, Chorus, Bridge и т.д.`);
     }
 
     // Check for empty sections
@@ -60,7 +108,40 @@ export class LyricsValidator {
       warnings,
       suggestions,
       characterCount: charCount,
+      characterCountWithTags: totalCharCount,
     };
+  }
+
+  /**
+   * Find invalid section tags in lyrics
+   */
+  static findInvalidSectionTags(lyrics: string): string[] {
+    const tagRegex = /\[([^\]]+)\]/g;
+    const invalidTags: string[] = [];
+    let match;
+
+    while ((match = tagRegex.exec(lyrics)) !== null) {
+      const tag = match[1];
+      // Skip instrumental/dynamic tags that are valid
+      if (!isValidSectionTag(tag) && !this.isDynamicTag(tag)) {
+        invalidTags.push(tag);
+      }
+    }
+
+    return invalidTags;
+  }
+
+  /**
+   * Check if tag is a valid dynamic/vocal tag (not a section)
+   */
+  private static isDynamicTag(tag: string): boolean {
+    const dynamicTags = [
+      'Male Vocal', 'Female Vocal', 'Whisper', 'Shout', 'Spoken',
+      'Мужской вокал', 'Женский вокал', 'Шёпот', 'Крик', 'Речитатив',
+      'Guitar Solo', 'Piano Solo', 'Drum Solo', 'Bass Drop',
+      'Fade Out', 'Fade In', 'Build Up', 'Drop',
+    ];
+    return dynamicTags.some(dt => dt.toLowerCase() === tag.toLowerCase());
   }
 
   /**
@@ -141,6 +222,7 @@ export class LyricsValidator {
   static validateTagInsertion(tag: string): {
     isValid: boolean;
     error?: string;
+    normalized?: string;
   } {
     // Check for basic tag format
     if (!tag.trim()) {
@@ -166,6 +248,30 @@ export class LyricsValidator {
       };
     }
 
-    return { isValid: true };
+    // Validate and normalize section tag
+    if (isValidSectionTag(tag)) {
+      return { 
+        isValid: true, 
+        normalized: normalizeSectionTag(tag) 
+      };
+    }
+
+    // Allow custom tags but warn
+    return { 
+      isValid: true,
+      normalized: tag.trim(),
+    };
+  }
+
+  /**
+   * Sanitize lyrics by normalizing section tags
+   */
+  static sanitizeLyrics(lyrics: string): string {
+    return lyrics.replace(/\[([^\]]+)\]/g, (match, tag) => {
+      if (isValidSectionTag(tag)) {
+        return `[${normalizeSectionTag(tag)}]`;
+      }
+      return match;
+    });
   }
 }

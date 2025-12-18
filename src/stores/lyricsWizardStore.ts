@@ -62,7 +62,8 @@ export interface LyricsWizardState {
     isValid: boolean;
     warnings: string[];
     suggestions: string[];
-    characterCount: number;
+    characterCount: number; // Without tags - used for actual limit
+    characterCountWithTags: number; // Total - shown for reference
   };
   
   // Loading states
@@ -142,6 +143,7 @@ const INITIAL_STATE = {
     warnings: [] as string[],
     suggestions: [] as string[],
     characterCount: 0,
+    characterCountWithTags: 0,
   },
   isGenerating: false,
 };

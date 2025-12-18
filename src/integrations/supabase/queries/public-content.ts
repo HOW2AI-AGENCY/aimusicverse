@@ -77,14 +77,22 @@ export async function fetchPublicProjects(filters: QueryFilters = {}) {
     .select('*')
     .eq('is_public', true);
 
-  // Apply sorting
+  // Apply sorting - use approved_tracks_count as popularity proxy
   switch (sortBy) {
     case 'recent':
       query = query.order('created_at', { ascending: false });
       break;
     case 'popular':
+      // Order by number of approved tracks (more complete projects = more popular)
+      query = query
+        .order('approved_tracks_count', { ascending: false, nullsFirst: false })
+        .order('created_at', { ascending: false });
+      break;
     case 'trending':
-      query = query.order('created_at', { ascending: false });
+      // For trending: recently updated projects with tracks
+      query = query
+        .order('updated_at', { ascending: false })
+        .order('approved_tracks_count', { ascending: false, nullsFirst: false });
       break;
   }
 
@@ -99,6 +107,7 @@ export async function fetchPublicProjects(filters: QueryFilters = {}) {
 
 /**
  * Fetch public artists with filters
+ * Note: Artists table doesn't have popularity metrics yet, using updated_at as proxy
  */
 export async function fetchPublicArtists(filters: QueryFilters = {}) {
   const { sortBy = 'recent', limit = 20, offset = 0 } = filters;
@@ -119,13 +128,20 @@ export async function fetchPublicArtists(filters: QueryFilters = {}) {
   }
 
   // Apply sorting
+  // TODO: Add popularity_score to artists table for proper sorting
   switch (sortBy) {
     case 'recent':
       query = query.order('created_at', { ascending: false });
       break;
     case 'popular':
+      // Order by AI generated status (AI artists tend to be more complete) then by date
+      query = query
+        .order('is_ai_generated', { ascending: false, nullsFirst: false })
+        .order('updated_at', { ascending: false });
+      break;
     case 'trending':
-      query = query.order('created_at', { ascending: false });
+      // Recently updated artists are "trending"
+      query = query.order('updated_at', { ascending: false });
       break;
   }
 
