@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 import { AudioWaveform } from '@/components/AudioWaveform';
 import { useAudioTime, getGlobalAudioRef, usePlayerStore } from '@/hooks/audio';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
-import { useTracks } from '@/hooks/useTracksOptimized';
+import { useTracks } from '@/hooks/useTracks';
 import { PlaybackControls } from '@/components/player/PlaybackControls';
 import { VersionSwitcher } from '@/components/player/VersionSwitcher';
 import { LazyImage } from '@/components/ui/lazy-image';
