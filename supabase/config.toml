@@ -218,3 +218,6 @@ verify_jwt = true
 
 [functions.set-music-profile]
 verify_jwt = true
+
+[functions.audit-log]
+verify_jwt = false

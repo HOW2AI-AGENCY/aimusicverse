@@ -19,6 +19,48 @@ const getStreamUrl = (clip: any) => clip.source_stream_audio_url || clip.stream_
 const getImageUrl = (clip: any) => clip.source_image_url || clip.image_url;
 
 /**
+ * Log action to content_audit_log for deposition/copyright proof
+ */
+async function logAuditAction(
+  supabaseUrl: string, 
+  supabaseKey: string, 
+  entry: {
+    entityType: 'track' | 'project' | 'artist' | 'lyrics' | 'cover' | 'reference_audio';
+    entityId: string;
+    userId: string;
+    actorType: 'user' | 'ai' | 'system';
+    aiModelUsed?: string;
+    actionType: string;
+    actionCategory?: string;
+    contentUrl?: string;
+    promptUsed?: string;
+    inputMetadata?: Record<string, unknown>;
+    outputMetadata?: Record<string, unknown>;
+    chainId?: string;
+  }
+) {
+  try {
+    const response = await fetch(`${supabaseUrl}/functions/v1/audit-log`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${supabaseKey}`,
+      },
+      body: JSON.stringify(entry),
+    });
+    
+    if (!response.ok) {
+      logger.warn('Audit log failed', { status: response.status });
+    } else {
+      const result = await response.json();
+      logger.debug('Audit logged', { auditId: result?.auditId });
+    }
+  } catch (error) {
+    logger.warn('Audit log error', { error: String(error) });
+  }
+}
+
+/**
  * Fetches a resource with exponential backoff retry logic
  * @param url - URL to fetch
  * @param maxRetries - Maximum number of retry attempts (default: 3)
@@ -277,6 +319,31 @@ serve(async (req) => {
             infillStartS: sectionStart,
             infillEndS: sectionEnd,
           },
+        });
+
+        // Log to content_audit_log for deposition/copyright proof
+        await logAuditAction(supabaseUrl, supabaseServiceKey, {
+          entityType: 'track',
+          entityId: trackId,
+          userId: task.user_id,
+          actorType: 'ai',
+          aiModelUsed: clip.model_name || 'suno-chirp-v4',
+          actionType: 'section_replaced',
+          actionCategory: 'modification',
+          contentUrl: finalAudioUrl,
+          promptUsed: task.prompt,
+          inputMetadata: {
+            suno_task_id: task.suno_task_id,
+            section_start: sectionStart,
+            section_end: sectionEnd,
+            version_label: nextLabel,
+          },
+          outputMetadata: {
+            audio_url: finalAudioUrl,
+            duration_seconds: Math.round(clip.duration),
+            version_id: newVersion?.id,
+          },
+          chainId: task.id,
         });
 
         // Send notification
@@ -559,6 +626,34 @@ serve(async (req) => {
         audio_clips: JSON.stringify(clips),
         received_clips: clips.length,
       }).eq('id', task.id);
+
+      // Log to content_audit_log for deposition/copyright proof
+      const finalClip = clips[0];
+      await logAuditAction(supabaseUrl, supabaseServiceKey, {
+        entityType: 'track',
+        entityId: trackId,
+        userId: task.user_id,
+        actorType: 'ai',
+        aiModelUsed: finalClip?.model_name || task.model_used || 'suno-chirp-v4',
+        actionType: 'generated',
+        actionCategory: 'generation',
+        contentUrl: finalClip ? getAudioUrl(finalClip) : undefined,
+        promptUsed: task.prompt,
+        inputMetadata: {
+          suno_task_id: sunoTaskId,
+          generation_mode: task.generation_mode,
+          clips_count: clips.length,
+          reference_audio_id: task.tracks?.reference_audio_id || null,
+          style: task.tracks?.style,
+        },
+        outputMetadata: {
+          audio_url: finalClip ? getAudioUrl(finalClip) : null,
+          duration_seconds: finalClip?.duration,
+          title: trackTitle,
+          tags: finalClip?.tags,
+        },
+        chainId: task.id, // Use task ID as chain ID
+      });
 
       // Check if user is admin - admins don't get credits deducted
       const { data: isAdmin } = await supabase.rpc('has_role', { 
