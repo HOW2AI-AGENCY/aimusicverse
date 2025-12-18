@@ -20,6 +20,19 @@ export function formatTime(seconds: number): string {
 }
 
 /**
+ * Format seconds to MM:SS.ms (with milliseconds)
+ */
+export function formatTimeWithMs(seconds: number): string {
+  if (!isFinite(seconds) || seconds < 0) return '0:00.00';
+  
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  const ms = Math.floor((seconds % 1) * 100);
+  
+  return `${mins}:${secs.toString().padStart(2, '0')}.${ms.toString().padStart(2, '0')}`;
+}
+
+/**
  * Format duration in seconds to human-readable string
  */
 export function formatDuration(seconds: number): string {

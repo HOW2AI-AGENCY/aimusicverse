@@ -52,16 +52,5 @@ export function formatRelative(date: Date | string | number): string {
   return formatDistanceToNow(dateObj, { addSuffix: true, locale: ru });
 }
 
-/**
- * Format duration in human-readable format
- */
-export function formatDuration(seconds: number): string {
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const secs = Math.floor(seconds % 60);
-  
-  if (hours > 0) {
-    return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  }
-  return `${minutes}:${secs.toString().padStart(2, '0')}`;
-}
+// Re-export formatDuration from shared formatters (uses formatTime internally)
+export { formatTime as formatDuration } from '@/lib/formatters';

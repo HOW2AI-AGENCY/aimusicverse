@@ -1,10 +1,11 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, memo } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Play, Pause, Volume2 } from 'lucide-react';
 import type { ChordData } from '@/hooks/useGuitarAnalysis';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/formatters';
 
 interface WaveformWithChordsProps {
   audioUrl: string;
@@ -206,10 +207,10 @@ export function WaveformWithChords({
           <div className="flex items-center gap-2">
             <Volume2 className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm font-medium">
-              {Math.floor(currentTime / 60)}:{Math.floor(currentTime % 60).toString().padStart(2, '0')}
+              {formatTime(currentTime)}
             </span>
             <span className="text-sm text-muted-foreground">
-              / {Math.floor(duration / 60)}:{Math.floor(duration % 60).toString().padStart(2, '0')}
+              / {formatTime(duration)}
             </span>
           </div>
         </div>

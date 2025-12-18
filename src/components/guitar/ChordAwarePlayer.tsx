@@ -5,6 +5,7 @@ import { Slider } from '@/components/ui/slider';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Play, Pause, Volume2, VolumeX, SkipBack, SkipForward } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/formatters';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import type { ChordData } from '@/hooks/useGuitarAnalysis';
 import { ChordDiagramUnified as ChordDiagramEnhanced } from './ChordDiagramUnified';
@@ -264,11 +265,6 @@ export function ChordAwarePlayer({
     ? chords[currentChordIndex + 1] 
     : null;
 
-  const formatTime = (time: number) => {
-    const mins = Math.floor(time / 60);
-    const secs = Math.floor(time % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   return (
     <Card className={cn("p-4 space-y-4", className)}>

@@ -25,6 +25,7 @@ import {
   Download,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/formatters';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { toast } from 'sonner';
 import { ClipType } from '@/stores/useStudioProjectStore';
@@ -158,11 +159,6 @@ export function MultiTrackStudioLayout({
     }
   };
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   if (!currentProject) {
     return (

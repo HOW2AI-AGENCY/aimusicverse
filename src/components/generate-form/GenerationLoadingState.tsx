@@ -9,13 +9,14 @@
  * - Visual progress indicators
  */
 
-import { useState, useEffect } from 'react';
+import { memo, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Loader2, Music, Sparkles, CheckCircle2, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/formatters';
 
 interface GenerationStage {
   id: string;
@@ -85,13 +86,11 @@ export function GenerationLoadingState({
   const progressPercentage = customProgress ?? (elapsedTime / estimatedTotal) * 100;
   const remainingSeconds = Math.max(0, estimatedTotal - elapsedTime);
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    if (mins > 0) {
-      return `${mins}:${secs.toString().padStart(2, '0')}`;
+  const formatRemainingTime = (seconds: number) => {
+    if (seconds >= 60) {
+      return formatTime(seconds);
     }
-    return `${secs}с`;
+    return `${Math.floor(seconds)}с`;
   };
 
   const currentStage = GENERATION_STAGES.find(s => s.id === stage);
@@ -103,7 +102,7 @@ export function GenerationLoadingState({
         <StageIcon className="h-4 w-4 animate-spin text-primary" />
         <span className="text-muted-foreground">
           {currentStage?.label || 'Генерация'}
-          {remainingSeconds > 0 && ` • ${formatTime(remainingSeconds)}`}
+          {remainingSeconds > 0 && ` • ${formatRemainingTime(remainingSeconds)}`}
         </span>
       </div>
     );
@@ -149,7 +148,7 @@ export function GenerationLoadingState({
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>{Math.round(progressPercentage)}%</span>
               {remainingSeconds > 0 && (
-                <span>Осталось: ~{formatTime(remainingSeconds)}</span>
+                <span>Осталось: ~{formatRemainingTime(remainingSeconds)}</span>
               )}
             </div>
           </div>

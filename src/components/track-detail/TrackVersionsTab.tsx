@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useTrackVersions } from '@/hooks/useTrackVersions';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -8,6 +9,7 @@ import { useTrackVersionManagement } from '@/hooks/useTrackVersionManagement';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { Track } from '@/hooks/useTracksOptimized';
+import { formatTime } from '@/lib/formatters';
 
 interface VersionMetadata {
   prompt?: string;
@@ -54,9 +56,7 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
 
   const formatDuration = (seconds: number | null) => {
     if (!seconds) return 'N/A';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return formatTime(seconds);
   };
 
   const getVersionLabel = (type: string | null) => {
