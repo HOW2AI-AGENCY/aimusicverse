@@ -43,6 +43,7 @@ export default function ProjectDetail() {
   const [publishDialogOpen, setPublishDialogOpen] = useState(false);
   const [selectedTrackForLyrics, setSelectedTrackForLyrics] = useState<ProjectTrack | null>(null);
   const [selectedTrackForMedia, setSelectedTrackForMedia] = useState<ProjectTrack | null>(null);
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const isMobile = useIsMobile();
   const { setPlanTrackContext } = usePlanTrackStore();
   const { updateTrack } = useProjectTracks(id);
@@ -342,9 +343,22 @@ export default function ProjectDetail() {
           </div>
           
           {project.description && (
-            <p className="text-xs text-muted-foreground max-w-sm mx-auto line-clamp-2">
-              {project.description}
-            </p>
+            <div 
+              className="max-w-sm mx-auto cursor-pointer group"
+              onClick={() => setDescriptionExpanded(!descriptionExpanded)}
+            >
+              <p className={cn(
+                "text-xs text-muted-foreground transition-all",
+                !descriptionExpanded && "line-clamp-2"
+              )}>
+                {project.description}
+              </p>
+              {project.description.length > 100 && (
+                <span className="text-[10px] text-primary/70 group-hover:text-primary transition-colors">
+                  {descriptionExpanded ? 'Свернуть' : 'Читать полностью'}
+                </span>
+              )}
+            </div>
           )}
         </div>
 
