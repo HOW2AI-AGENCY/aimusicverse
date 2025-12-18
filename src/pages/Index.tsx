@@ -15,6 +15,8 @@ import { HeroQuickActions } from "@/components/home/HeroQuickActions";
 import { RecentTracksSection } from "@/components/home/RecentTracksSection";
 import { WelcomeSection } from "@/components/home/WelcomeSection";
 import { GamificationWidget } from "@/components/gamification/GamificationWidget";
+import { AchievementProgressWidget } from "@/components/gamification/AchievementProgressWidget";
+import { LeaderboardWidget } from "@/components/gamification/LeaderboardWidget";
 import { FeaturedBlogBanners } from "@/components/home/FeaturedBlogBanners";
 import { ProfessionalToolsHub } from "@/components/home/ProfessionalToolsHub";
 import { PopularCreatorsSection } from "@/components/home/PopularCreatorsSection";
@@ -23,7 +25,6 @@ import { UserProjectsSection } from "@/components/home/UserProjectsSection";
 import { GenerateSheet } from "@/components/GenerateSheet";
 import { MusicRecognitionDialog } from "@/components/music-recognition/MusicRecognitionDialog";
 import { HomeSkeletonEnhanced } from "@/components/home/HomeSkeletonEnhanced";
-// LikeEncouragementProvider moved to MainLayout
 import { motion } from '@/lib/motion';
 
 const Index = () => {
@@ -159,6 +160,12 @@ const Index = () => {
               transition={{ delay: 0.05, duration: 0.3 }}
             >
               <GamificationWidget />
+              
+              {/* Achievement Progress & Leaderboard Widgets */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                <AchievementProgressWidget />
+                <LeaderboardWidget />
+              </div>
             </motion.section>
           )}
 

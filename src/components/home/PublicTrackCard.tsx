@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { Play, Pause, Share2, Music2, Heart, Headphones, Sparkles } from 'lucide-react';
+import { Play, Pause, Share2, Music2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { usePlayerStore } from '@/hooks/audio';
 import { useTelegram } from '@/contexts/TelegramContext';
@@ -12,6 +11,7 @@ import { motion } from '@/lib/motion';
 import { LikeButton } from '@/components/ui/like-button';
 import { PublicTrackDetailSheet } from './PublicTrackDetailSheet';
 import { CreatorAvatar, CreatorLink } from '@/components/ui/creator-avatar';
+import { DoubleTapLike } from '@/components/engagement/DoubleTapLike';
 
 interface PublicTrackCardProps {
   track: PublicTrackWithCreator;
@@ -77,24 +77,28 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
 
   return (
     <>
-    <motion.div
-      whileHover={{ y: -2, scale: 1.01 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
+    <DoubleTapLike 
+      trackId={track.id} 
+      onSingleTap={handleCardClick}
       className="h-full"
     >
-      <Card 
-        className={cn(
-          "group relative overflow-hidden border-0 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm h-full",
-          "shadow-md transition-all duration-300 cursor-pointer",
-          isCurrentTrack && "ring-2 ring-primary ring-offset-1 ring-offset-background",
-          isHovered && "shadow-lg shadow-primary/10",
-          className
-        )}
-        onClick={handleCardClick}
+      <motion.div
+        whileHover={{ y: -2, scale: 1.01 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+        className="h-full"
       >
+        <Card 
+          className={cn(
+            "group relative overflow-hidden border-0 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm h-full",
+            "shadow-md transition-all duration-300 cursor-pointer",
+            isCurrentTrack && "ring-2 ring-primary ring-offset-1 ring-offset-background",
+            isHovered && "shadow-lg shadow-primary/10",
+            className
+          )}
+        >
         {/* Cover Image - Fixed aspect ratio for consistency */}
         <div className={cn(
           "relative overflow-hidden rounded-t-lg",
@@ -247,10 +251,11 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
             </div>
           )}
         </div>
-      </Card>
-    </motion.div>
+        </Card>
+      </motion.div>
+    </DoubleTapLike>
 
-    <PublicTrackDetailSheet 
+    <PublicTrackDetailSheet
       open={detailsOpen} 
       onOpenChange={setDetailsOpen} 
       track={track} 
