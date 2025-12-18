@@ -1,81 +1,50 @@
 # Code Cleanup Priorities
 
-**Generated:** 2025-12-17
+**Updated:** 2025-12-18
 
-## High Priority TODOs (Blocking Features)
+## ✅ Completed Improvements
 
-### 1. Track Versions Context (T048)
-**File:** `src/components/TrackDetailSheet.tsx`
-```
-- Add version context support
-- Allow switching between versions
-- Update tabs based on selected version
-```
+### Phase 1: Quick Wins
+- ✅ Character counter fix - LyricsValidator excludes tags, shows `characterCountWithTags`
+- ✅ Debouncing for validateLyrics() - 500ms debounce already implemented
+- ✅ Trending/Popular algorithms - using `trending_score`, `quality_score`, `approved_tracks_count`
+- ✅ Type guards for section tags - `VALID_SECTION_TAGS`, `isValidSectionTag()`, `sanitizeLyrics()`
 
-### 2. Trending/Popular Algorithms
-**File:** `src/integrations/supabase/queries/public-content.ts`
-```
-- Implement trending algorithm using trending_score
-- Order popular by play_count
-```
+### Phase 2: UX Improvements
+- ✅ Version Context in TrackDetailSheet - HeaderVersionSelector component
+- ✅ Draft Auto-Save in GenerateSheet - via useGenerateDraft hook
+- ✅ Direct Studio Access from TrackCard - Wand2 button with tooltip
 
-### 3. Report Functionality
-**File:** `src/components/comments/CommentsList.tsx`
-```
-- Implement comment reporting
-```
+### Phase 3: Technical Debt
+- ✅ Track Cleanup on Delete - deleteTrackWithCleanup in tracks.service.ts
+- ✅ Sentry Integration - @sentry/react with conditional initialization (add VITE_SENTRY_DSN)
 
-## Medium Priority (Nice to Have)
+## 🔄 Remaining Work
 
-### 4. Klangio Tools Integration
-**File:** `src/components/studio/KlangioToolsPanel.tsx`
-```
-- Connect to actual Klangio API
-- Implement real chord detection
-- Implement real beat detection
-- Implement stem separation
-```
+### Phase 2: UX (Pending)
+1. **Comment Reporting**
+   - File: `src/components/comments/CommentsList.tsx`
+   - Add report button and dialog
 
-### 5. Track Cleanup on Delete ✅ COMPLETED
-**File:** `src/services/tracks.service.ts`
-```
-- ✅ Clean storage files on track deletion (tracks, project-assets buckets)
-- ✅ Clean versions file URLs before cascade delete
-- CASCADE handles database records (versions, stems, analytics)
-```
+2. **Breadcrumbs Navigation**
+   - Create `<Breadcrumbs />` component
+   - Add to Studio, Track Detail pages
 
-### 6. Error Tracking ✅ COMPLETED
-**File:** `src/lib/sentry.ts`
-```
-- ✅ Sentry integration added (conditional, requires VITE_SENTRY_DSN)
-- ✅ Auto-capture errors from logError()
-- ✅ Browser tracing and replay enabled
-```
+### Phase 4: New Features (Future)
+1. **Generation History Database**
+   - Create `user_generation_history` table
+   - Persist history between sessions
 
-## Low Priority (Future Enhancement)
+2. **Multi-Track File Upload**
+   - Drag & drop audio files to timeline
+   - Support WAV, MP3, FLAC
 
-### 7. Generation History Database
-**File:** `src/contexts/AIAssistantContext.tsx`
-```
-- Create user_generation_history table
-- Persist history to database
-```
+3. **Telegram Home Screen Shortcuts**
+   - Deep links to app features
 
-### 8. Multi-Track File Upload
-**File:** `src/components/studio/MultiTrackStudioLayout.tsx`
-```
-- Implement audio file upload for multi-track
-```
+4. **set-music-profile Edge Function**
+   - Set track as Telegram profile music
 
-## Completed / Can Be Removed
-- Guitar analysis placeholder (needs real implementation or removal)
-
-## Code Quality Issues Found
-1. Some components still import from 'date-fns' directly instead of '@/lib/date-utils'
-2. Some direct framer-motion usage detected in older files (should use '@/lib/motion')
-
-## Recommended Actions
-1. Fix trending/popular queries - **Easy, High Impact**
-2. Implement comment reporting - **Medium, User Safety**
-3. Connect Klangio tools - **Complex, Professional Feature**
-4. Add Sentry integration - **Easy, Ops Quality**
+## Code Quality Notes
+- Some direct `date-fns` imports (should use `@/lib/date-utils`)
+- Some direct `framer-motion` imports (should use `@/lib/motion`)

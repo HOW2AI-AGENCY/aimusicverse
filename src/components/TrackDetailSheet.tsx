@@ -10,6 +10,7 @@ import { TrackAnalysisTab } from './track-detail/TrackAnalysisTab';
 import { TrackStemsTab } from './track-detail/TrackStemsTab';
 import { LyricsView } from './track-detail/LyricsView';
 import { CommentsList } from './comments/CommentsList';
+import { HeaderVersionSelector } from './track-detail/HeaderVersionSelector';
 import { useState } from 'react';
 
 interface TrackDetailSheetProps {
@@ -19,25 +20,26 @@ interface TrackDetailSheetProps {
 }
 
 export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheetProps) {
-  // TODO: T048 - Add version context support
-  // Currently shows master version only. Future: Allow switching between versions
-  // and update all tabs (lyrics, analysis, stems) based on selected version
   const [selectedVersionId, setSelectedVersionId] = useState<string | null>(null);
   
-  // Use active_version_id as the current version
-  // When version is selected, fetch version-specific data
-  const currentVersion = selectedVersionId || track.active_version_id || undefined;
+  // Use selected version or fall back to active version
+  const currentVersionId = selectedVersionId || track.active_version_id || undefined;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="h-[90vh] rounded-t-xl">
         <SheetHeader>
-          <SheetTitle className="flex items-center gap-2">
-            <Music2 className="w-5 h-5 text-primary" />
-            Детали трека
-          </SheetTitle>
-          {/* TODO: T048 - Add version selector dropdown here */}
-          {/* <VersionSelector currentVersion={currentVersion} onVersionChange={setSelectedVersionId} /> */}
+          <div className="flex items-center justify-between">
+            <SheetTitle className="flex items-center gap-2">
+              <Music2 className="w-5 h-5 text-primary" />
+              Детали трека
+            </SheetTitle>
+            <HeaderVersionSelector
+              trackId={track.id}
+              activeVersionId={track.active_version_id}
+              onVersionChange={setSelectedVersionId}
+            />
+          </div>
         </SheetHeader>
 
         <Tabs defaultValue="details" className="flex-1 mt-4">

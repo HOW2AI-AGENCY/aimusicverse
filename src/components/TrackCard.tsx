@@ -1,9 +1,10 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, Heart, Mic, Volume2, Globe, Lock, MoreHorizontal, Layers, Music2, Trash2, User } from 'lucide-react';
+import { Play, Pause, Heart, Mic, Volume2, Globe, Lock, MoreHorizontal, Layers, Music2, Trash2, User, Wand2 } from 'lucide-react';
 import { Track } from '@/hooks/useTracksOptimized';
 import { useState, useEffect, memo } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { UnifiedTrackMenu, UnifiedTrackSheet } from './track-actions';
@@ -30,6 +31,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 interface TrackCardProps {
   track: Track;
@@ -67,6 +73,14 @@ export const TrackCard = memo(({
   const isMobile = useIsMobile();
   const { addToQueue } = usePlayerStore();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  
+  // Direct studio access handler
+  const handleOpenStudio = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    triggerHapticFeedback('medium');
+    navigate(`/studio/${track.id}`);
+  };
 
   // Use prop counts if provided (from Library with useTrackCounts hook)
   // Otherwise fetch individually (for standalone usage)
@@ -619,19 +633,39 @@ export const TrackCard = memo(({
           </div>
 
           <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <Button
-              variant={track.is_liked ? 'secondary' : 'ghost'}
-              size="sm"
-              onClick={(e) => { 
-                e.stopPropagation(); 
-                triggerHapticFeedback('light');
-                onToggleLike?.(); 
-              }}
-              className="flex items-center gap-1.5 px-2 h-11 min-h-[44px] touch-manipulation active:scale-95 transition-transform"
-            >
-              <Heart className={cn("w-4 h-4", track.is_liked && "fill-primary text-primary")} />
-              <span>{track.likes_count || 0}</span>
-            </Button>
+            <div className="flex items-center gap-1">
+              <Button
+                variant={track.is_liked ? 'secondary' : 'ghost'}
+                size="sm"
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  triggerHapticFeedback('light');
+                  onToggleLike?.(); 
+                }}
+                className="flex items-center gap-1.5 px-2 h-11 min-h-[44px] touch-manipulation active:scale-95 transition-transform"
+              >
+                <Heart className={cn("w-4 h-4", track.is_liked && "fill-primary text-primary")} />
+                <span>{track.likes_count || 0}</span>
+              </Button>
+              
+              {/* Direct Studio Access Button */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleOpenStudio}
+                    className="h-11 min-h-[44px] px-2 touch-manipulation active:scale-95 transition-transform"
+                  >
+                    <Wand2 className="w-4 h-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Открыть в Studio</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+            
             <div className="flex items-center gap-1.5">
               <Play className="w-4 h-4" />
               <span>{track.play_count || 0}</span>
