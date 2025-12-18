@@ -42,7 +42,7 @@ src/stores/
 - `usePlayerState.ts` - Player UI state
 
 **Track Management:**
-- `useTracksInfinite.tsx` - Infinite scroll with virtualization support
+- `useTracks.ts` - Main unified track hook with service layer architecture
 - `useTrackVersions.ts` - A/B versioning system
 - `useVersionSwitcher.ts` - Version switching with is_primary + active_version_id sync
 - `useTrackStems.tsx` - Stem separation status
