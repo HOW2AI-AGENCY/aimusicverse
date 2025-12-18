@@ -17,7 +17,8 @@ import {
   FileQuestion,
   FileCheck,
   Wand2,
-  Loader2
+  Loader2,
+  Music
 } from 'lucide-react';
 import { ProjectTrack } from '@/hooks/useProjectTracks';
 import { cn } from '@/lib/utils';
@@ -250,14 +251,20 @@ export const MinimalProjectTrackItem = ({
             {track.position}
           </div>
 
-          {/* Cover (if linked track) */}
-          {hasLinkedTrack && linkedTrack?.cover_url && (
+          {/* Cover - show master version cover if available, otherwise linked track cover */}
+          {(hasLinkedTrack || versionsExpanded) && (
             <div className="w-8 h-8 rounded-md overflow-hidden shrink-0 bg-secondary">
-              <img 
-                src={linkedTrack.cover_url} 
-                alt={track.title}
-                className="w-full h-full object-cover"
-              />
+              {linkedTrack?.cover_url ? (
+                <img 
+                  src={linkedTrack.cover_url} 
+                  alt={track.title}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
+                  <Music className="w-3 h-3 text-primary/50" />
+                </div>
+              )}
             </div>
           )}
 

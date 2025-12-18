@@ -93,72 +93,73 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
 
   return (
     <div className="space-y-6">
-      {/* Cover & Basic Info */}
-      <div className="flex flex-col sm:flex-row gap-6">
-        <div className="flex-shrink-0">
-          {track.cover_url ? (
+      {/* Full-width Cover on Mobile */}
+      <div className="relative -mx-4 sm:mx-0">
+        {track.cover_url ? (
+          <div className="relative">
             <img
               src={track.cover_url}
               alt={track.title || 'Track cover'}
-              className="w-full sm:w-56 h-56 rounded-xl object-cover shadow-lg"
+              className="w-full aspect-square sm:aspect-video sm:max-h-64 object-cover sm:rounded-xl"
             />
-          ) : (
-            <div className="w-full sm:w-56 h-56 rounded-xl bg-gradient-to-br from-primary/20 via-primary/10 to-primary/5 flex items-center justify-center shadow-lg">
-              <Music2 className="w-20 h-20 text-primary/40" />
-            </div>
-          )}
+            {/* Gradient overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent sm:rounded-xl" />
+          </div>
+        ) : (
+          <div className="w-full aspect-square sm:aspect-video sm:max-h-64 bg-gradient-to-br from-primary/20 via-primary/10 to-primary/5 flex items-center justify-center sm:rounded-xl">
+            <Music2 className="w-24 h-24 text-primary/40" />
+          </div>
+        )}
+        
+        {/* Title overlay on cover */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+          <h3 className="text-2xl sm:text-3xl font-bold text-white drop-shadow-lg">
+            {track.title || 'Без названия'}
+          </h3>
+          <div className="flex flex-wrap items-center gap-2 mt-2">
+            <Badge variant={track.status === 'completed' ? 'default' : 'secondary'} className="bg-background/80 backdrop-blur-sm">
+              {track.status}
+            </Badge>
+            {track.is_public && (
+              <Badge variant="outline" className="border-primary bg-background/80 backdrop-blur-sm">
+                Публичный
+              </Badge>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 px-4 sm:px-0">
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
+          <Clock className="w-5 h-5 text-primary" />
+          <div>
+            <p className="text-xs text-muted-foreground">Длительность</p>
+            <p className="font-semibold">{track.duration_seconds ? formatDuration(track.duration_seconds) : 'N/A'}</p>
+          </div>
         </div>
 
-        <div className="flex-1 space-y-4">
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
+          <Play className="w-5 h-5 text-primary" />
           <div>
-            <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-              {track.title || 'Без названия'}
-            </h3>
-            <div className="flex flex-wrap items-center gap-2">
-              <Badge variant={track.status === 'completed' ? 'default' : 'secondary'}>
-                {track.status}
-              </Badge>
-              {track.is_public && (
-                <Badge variant="outline" className="border-primary">
-                  Публичный
-                </Badge>
-              )}
-            </div>
+            <p className="text-xs text-muted-foreground">Прослушиваний</p>
+            <p className="font-semibold">{track.play_count || 0}</p>
           </div>
+        </div>
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
-              <Clock className="w-5 h-5 text-primary" />
-              <div>
-                <p className="text-xs text-muted-foreground">Длительность</p>
-                <p className="font-semibold">{track.duration_seconds ? formatDuration(track.duration_seconds) : 'N/A'}</p>
-              </div>
-            </div>
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
+          <Heart className="w-5 h-5 text-primary" />
+          <div>
+            <p className="text-xs text-muted-foreground">Лайков</p>
+            <p className="font-semibold">{track.likes_count || 0}</p>
+          </div>
+        </div>
 
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
-              <Play className="w-5 h-5 text-primary" />
-              <div>
-                <p className="text-xs text-muted-foreground">Прослушиваний</p>
-                <p className="font-semibold">{track.play_count || 0}</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
-              <Heart className="w-5 h-5 text-primary" />
-              <div>
-                <p className="text-xs text-muted-foreground">Лайков</p>
-                <p className="font-semibold">{track.likes_count || 0}</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
-              <Mic className="w-5 h-5 text-primary" />
-              <div>
-                <p className="text-xs text-muted-foreground">Тип</p>
-                <p className="font-semibold">{track.has_vocals ? 'Вокал' : 'Инструментал'}</p>
-              </div>
-            </div>
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
+          <Mic className="w-5 h-5 text-primary" />
+          <div>
+            <p className="text-xs text-muted-foreground">Тип</p>
+            <p className="font-semibold">{track.has_vocals ? 'Вокал' : 'Инструментал'}</p>
           </div>
         </div>
       </div>

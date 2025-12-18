@@ -188,60 +188,12 @@ export default function ProjectDetail() {
 
   return (
     <div className="pb-24">
-      {/* Hero Section with Large Cover */}
+      {/* Hero Section with Full-width Cover on Mobile */}
       <div className="relative">
-        {/* Background blur */}
-        <div 
-          className="absolute inset-0 h-32 bg-gradient-to-b from-primary/10 to-background"
-          style={{
-            backgroundImage: project.cover_url ? `url(${project.cover_url})` : undefined,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            filter: 'blur(40px)',
-            opacity: 0.4,
-          }}
-        />
-        
-        {/* Header */}
-        <div className={cn(
-          "relative sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/30",
-          isMobile ? "px-3 py-2" : "px-4 py-3"
-        )}>
-          <div className="flex items-center justify-between">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={() => navigate('/projects')}
-              className="h-8 w-8"
-            >
-              <ArrowLeft className="w-4 h-4" />
-            </Button>
-            
-            <h1 className="font-semibold text-sm truncate flex-1 text-center mx-3">{project.title}</h1>
-
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={() => setSettingsOpen(true)}
-              className="h-8 w-8"
-            >
-              <Settings className="w-3.5 h-3.5" />
-            </Button>
-          </div>
-        </div>
-
-        {/* Cover and Info */}
-        <div className={cn(
-          "relative flex flex-col items-center gap-3 pt-3 pb-4",
-          isMobile ? "px-3" : "px-4"
-        )}>
-          {/* Large Cover */}
-          <div className="relative group">
-            <div className={cn(
-              "rounded-xl overflow-hidden shadow-xl bg-gradient-to-br from-secondary to-muted",
-              "ring-1 ring-white/10 transition-transform group-hover:scale-[1.02]",
-              isMobile ? "w-36 h-36" : "w-44 h-44"
-            )}>
+        {/* Full-width cover for mobile */}
+        {isMobile ? (
+          <div className="relative">
+            <div className="relative w-full aspect-square">
               {project.cover_url ? (
                 <img
                   src={project.cover_url}
@@ -249,77 +201,176 @@ export default function ProjectDetail() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <Music className="w-12 h-12 text-muted-foreground/40" />
+                <div className="w-full h-full bg-gradient-to-br from-primary/20 via-secondary to-muted flex items-center justify-center">
+                  <Music className="w-24 h-24 text-muted-foreground/40" />
                 </div>
               )}
-            </div>
-            
-            {/* Media button overlay */}
-            <Button
-              size="icon"
-              variant="secondary"
-              className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
-              onClick={() => {
-                setSelectedTrackForMedia(null);
-                setMediaGeneratorOpen(true);
-              }}
-            >
-              <Image className="w-3.5 h-3.5" />
-            </Button>
-          </div>
-
-          {/* Project Meta */}
-          <div className="text-center space-y-1.5">
-            <div className="flex items-center justify-center gap-1.5 flex-wrap">
-              {project.genre && (
-                <Badge variant="secondary" className="gap-0.5 text-[10px] h-5 px-1.5">
-                  <Music className="w-2.5 h-2.5" />
-                  {project.genre}
-                </Badge>
-              )}
-              <Badge variant="outline" className="text-[10px] h-5 px-1.5">
-                {completedTracks}/{totalTracks} треков
-              </Badge>
-              {isPublished && (
-                <Badge variant="default" className="bg-green-500 gap-0.5 text-[10px] h-5 px-1.5">
-                  <Rocket className="w-2.5 h-2.5" />
-                  Опубликован
-                </Badge>
-              )}
-            </div>
-            
-            {project.description && (
-              <p className="text-xs text-muted-foreground max-w-sm mx-auto line-clamp-2">
-                {project.description}
-              </p>
-            )}
-          </div>
-
-          {/* Readiness Indicator */}
-          {totalTracks > 0 && !isPublished && (
-            <div className="max-w-sm mx-auto mt-2">
-              <ProjectReadinessIndicator 
-                totalTracks={totalTracks}
-                tracksWithMaster={tracksWithMaster}
-              />
-            </div>
-          )}
-
-          {/* Publish Button */}
-          {isReadyToPublish && !isPublished && (
-            <div className="flex justify-center mt-2">
-              <Button 
-                size="sm"
-                onClick={() => setPublishDialogOpen(true)}
-                className="gap-1.5 bg-green-500 hover:bg-green-600 h-8"
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+              
+              {/* Floating header */}
+              <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-3 z-10">
+                <Button 
+                  variant="secondary" 
+                  size="icon" 
+                  onClick={() => navigate('/projects')}
+                  className="h-9 w-9 bg-background/60 backdrop-blur-md"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </Button>
+                
+                <Button 
+                  variant="secondary" 
+                  size="icon"
+                  onClick={() => setSettingsOpen(true)}
+                  className="h-9 w-9 bg-background/60 backdrop-blur-md"
+                >
+                  <Settings className="w-4 h-4" />
+                </Button>
+              </div>
+              
+              {/* Media button overlay */}
+              <Button
+                size="icon"
+                variant="secondary"
+                className="absolute bottom-4 right-4 h-10 w-10 rounded-full shadow-lg bg-background/80 backdrop-blur-md"
+                onClick={() => {
+                  setSelectedTrackForMedia(null);
+                  setMediaGeneratorOpen(true);
+                }}
               >
-                <Rocket className="w-3.5 h-3.5" />
-                Опубликовать
+                <Image className="w-4 h-4" />
               </Button>
             </div>
+          </div>
+        ) : (
+          <>
+            {/* Desktop: Background blur */}
+            <div 
+              className="absolute inset-0 h-32 bg-gradient-to-b from-primary/10 to-background"
+              style={{
+                backgroundImage: project.cover_url ? `url(${project.cover_url})` : undefined,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                filter: 'blur(40px)',
+                opacity: 0.4,
+              }}
+            />
+            
+            {/* Desktop: Header */}
+            <div className="relative sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/30 px-4 py-3">
+              <div className="flex items-center justify-between">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={() => navigate('/projects')}
+                  className="h-8 w-8"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </Button>
+                
+                <h1 className="font-semibold text-sm truncate flex-1 text-center mx-3">{project.title}</h1>
+
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  onClick={() => setSettingsOpen(true)}
+                  className="h-8 w-8"
+                >
+                  <Settings className="w-3.5 h-3.5" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Desktop: Cover and Info */}
+            <div className="relative flex flex-col items-center gap-3 pt-3 pb-4 px-4">
+              <div className="relative group">
+                <div className="w-44 h-44 rounded-xl overflow-hidden shadow-xl bg-gradient-to-br from-secondary to-muted ring-1 ring-white/10 transition-transform group-hover:scale-[1.02]">
+                  {project.cover_url ? (
+                    <img
+                      src={project.cover_url}
+                      alt={project.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <Music className="w-12 h-12 text-muted-foreground/40" />
+                    </div>
+                  )}
+                </div>
+                
+                <Button
+                  size="icon"
+                  variant="secondary"
+                  className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => {
+                    setSelectedTrackForMedia(null);
+                    setMediaGeneratorOpen(true);
+                  }}
+                >
+                  <Image className="w-3.5 h-3.5" />
+                </Button>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* Project Meta - shown for both mobile and desktop */}
+        <div className={cn(
+          "text-center space-y-1.5",
+          isMobile ? "px-3 -mt-12 relative z-10" : "pt-2"
+        )}>
+          {isMobile && (
+            <h1 className="text-xl font-bold text-foreground mb-2">{project.title}</h1>
+          )}
+          <div className="flex items-center justify-center gap-1.5 flex-wrap">
+            {project.genre && (
+              <Badge variant="secondary" className="gap-0.5 text-[10px] h-5 px-1.5">
+                <Music className="w-2.5 h-2.5" />
+                {project.genre}
+              </Badge>
+            )}
+            <Badge variant="outline" className="text-[10px] h-5 px-1.5">
+              {completedTracks}/{totalTracks} треков
+            </Badge>
+            {isPublished && (
+              <Badge variant="default" className="bg-green-500 gap-0.5 text-[10px] h-5 px-1.5">
+                <Rocket className="w-2.5 h-2.5" />
+                Опубликован
+              </Badge>
+            )}
+          </div>
+          
+          {project.description && (
+            <p className="text-xs text-muted-foreground max-w-sm mx-auto line-clamp-2">
+              {project.description}
+            </p>
           )}
         </div>
+
+        {/* Readiness Indicator */}
+        {totalTracks > 0 && !isPublished && (
+          <div className={cn("max-w-sm mx-auto mt-2", isMobile ? "px-3" : "")}>
+            <ProjectReadinessIndicator 
+              totalTracks={totalTracks}
+              tracksWithMaster={tracksWithMaster}
+            />
+          </div>
+        )}
+
+        {/* Publish Button */}
+        {isReadyToPublish && !isPublished && (
+          <div className="flex justify-center mt-2">
+            <Button 
+              size="sm"
+              onClick={() => setPublishDialogOpen(true)}
+              className="gap-1.5 bg-green-500 hover:bg-green-600 h-8"
+            >
+              <Rocket className="w-3.5 h-3.5" />
+              Опубликовать
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Quick Actions Bar */}
