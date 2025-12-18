@@ -259,6 +259,7 @@ serve(async (req) => {
       .insert({
         user_id: user.id,
         project_id: projectId,
+        project_track_id: planTrackId || null, // Link to project_track slot immediately
         prompt: prompt,
         title: customMode ? title : null,
         style: style,
