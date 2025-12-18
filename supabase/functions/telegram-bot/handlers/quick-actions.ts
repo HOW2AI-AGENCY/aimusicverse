@@ -156,6 +156,30 @@ export async function handleQuickActionsCallback(
     return true;
   }
 
+  // Start cover - shortcut
+  if (callbackData === 'start_cover') {
+    await answerCallbackQuery(queryId, '🎤 Отправьте аудио для кавера');
+    const { handleCoverCommand } = await import('../commands/audio-upload.ts');
+    await handleCoverCommand(chatId, userId, '');
+    return true;
+  }
+
+  // Start extend - shortcut
+  if (callbackData === 'start_extend') {
+    await answerCallbackQuery(queryId, '➕ Отправьте аудио для расширения');
+    const { handleExtendCommand } = await import('../commands/audio-upload.ts');
+    await handleExtendCommand(chatId, userId, '');
+    return true;
+  }
+
+  // Start upload - shortcut
+  if (callbackData === 'start_upload') {
+    await answerCallbackQuery(queryId);
+    const { handleUploadCommand } = await import('../commands/upload.ts');
+    await handleUploadCommand(chatId, userId, '');
+    return true;
+  }
+
   // Quick generation preset selected
   const quickGenMatch = callbackData.match(/^quick_gen_(\w+)$/);
   if (quickGenMatch) {

@@ -239,6 +239,29 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
   logger.info('callback_query', { userId: from.id, data, chatId });
 
   try {
+    // Quick actions handlers (NEW - high priority)
+    if (data === 'quick_actions' || data.startsWith('quick_gen_') || data.startsWith('confirm_quick_gen_') ||
+        data === 'start_cover' || data === 'start_extend' || data === 'start_upload' || data === 'check_status') {
+      const { handleQuickActionsCallback } = await import('./handlers/quick-actions.ts');
+      await handleQuickActionsCallback(data, chatId, from.id, messageId!, id);
+      return;
+    }
+
+    // Onboarding handlers (NEW)
+    if (data.startsWith('onboarding_') || data === 'skip_onboarding' || data === 'start_onboarding') {
+      const { handleOnboardingCallback } = await import('./handlers/onboarding.ts');
+      await handleOnboardingCallback(data, chatId, from.id, messageId!, id);
+      return;
+    }
+
+    // Dashboard handler (NEW)
+    if (data === 'dashboard' || data === 'nav_dashboard') {
+      const { handleDashboard } = await import('./handlers/dashboard.ts');
+      await handleDashboard(chatId, from.id, messageId);
+      await answerCallbackQuery(id);
+      return;
+    }
+
     // Navigation handlers
     if (data.startsWith('nav_') || data.startsWith('lib_page_') || data.startsWith('project_page_')) {
       const { handleNavigationCallback } = await import('./handlers/navigation.ts');
