@@ -660,69 +660,83 @@ export const DeepLinkHandler = () => {
 
   useEffect(() => {
     const startParam = webApp?.initDataUnsafe?.start_param;
-    if (startParam) {
-      telegramLogger.debug('Processing deep link', { startParam });
+    if (!startParam) return;
+
+    telegramLogger.debug('Processing deep link', { startParam });
+
+    // Pattern-based routing for cleaner code
+    const routes: [RegExp | string, (match: RegExpMatchArray | null) => string][] = [
+      // Content deep links
+      [/^track_(.+)$/, (m) => `/library?track=${m![1]}`],
+      [/^project_(.+)$/, (m) => `/projects/${m![1]}`],
+      [/^artist_(.+)$/, (m) => `/artists/${m![1]}`],
+      [/^playlist_(.+)$/, (m) => `/playlists/${m![1]}`],
+      [/^album_(.+)$/, (m) => `/album/${m![1]}`],
+      [/^blog_(.+)$/, (m) => `/blog/${m![1]}`],
       
-      // Track deep links
-      if (startParam.startsWith('track_')) {
-        const trackId = startParam.replace('track_', '');
-        navigate(`/library?track=${trackId}`);
-      } 
-      // Project deep links
-      else if (startParam.startsWith('project_')) {
-        const projectId = startParam.replace('project_', '');
-        navigate(`/projects/${projectId}`);
-      } 
-      // Generate with style
-      else if (startParam.startsWith('generate_')) {
-        const style = startParam.replace('generate_', '');
-        navigate(`/generate?style=${style}`);
-      }
-      // Stem Studio deep link (only for generated tracks)
-      else if (startParam.startsWith('studio_ref_')) {
-        // Reference audio studio - redirect to content hub cloud tab
-        const refId = startParam.replace('studio_ref_', '');
-        navigate(`/content-hub?tab=cloud&ref=${refId}`);
-      }
-      else if (startParam.startsWith('studio_')) {
-        const trackId = startParam.replace('studio_', '');
-        navigate(`/studio/${trackId}`);
-      }
-      // Remix deep link
-      else if (startParam.startsWith('remix_')) {
-        const trackId = startParam.replace('remix_', '');
-        navigate(`/generate?remix=${trackId}`);
-      }
-      // Lyrics view deep link
-      else if (startParam.startsWith('lyrics_')) {
-        const trackId = startParam.replace('lyrics_', '');
-        navigate(`/library?track=${trackId}&view=lyrics`);
-      }
-      // Stats deep link
-      else if (startParam.startsWith('stats_')) {
-        const trackId = startParam.replace('stats_', '');
-        navigate(`/library?track=${trackId}&view=stats`);
-      }
-      // Share tracking deep link
-      else if (startParam.startsWith('share_')) {
-        const trackId = startParam.replace('share_', '');
-        navigate(`/library?track=${trackId}`);
-      }
-      // Blog post deep link
-      else if (startParam.startsWith('blog_')) {
-        const postId = startParam.replace('blog_', '');
-        navigate(`/blog/${postId}`);
-      }
-      // User profile deep link
-      else if (startParam.startsWith('user_') || startParam.startsWith('profile_')) {
-        const userId = startParam.replace(/^(user_|profile_)/, '');
-        navigate(`/profile/${userId}`);
-      }
-      // Recognition/Shazam deep link
-      else if (startParam === 'recognize' || startParam === 'shazam') {
-        navigate(`/?recognize=true`);
+      // Generation deep links
+      [/^generate_(.+)$/, (m) => `/generate?style=${m![1]}`],
+      [/^quick_(.+)$/, (m) => `/generate?style=${m![1]}&quick=true`],
+      [/^remix_(.+)$/, (m) => `/generate?remix=${m![1]}`],
+      
+      // Studio deep links
+      [/^studio_ref_(.+)$/, (m) => `/content-hub?tab=cloud&ref=${m![1]}`],
+      [/^studio_(.+)$/, (m) => `/studio/${m![1]}`],
+      
+      // Track views
+      [/^lyrics_(.+)$/, (m) => `/library?track=${m![1]}&view=lyrics`],
+      [/^stats_(.+)$/, (m) => `/library?track=${m![1]}&view=stats`],
+      [/^share_(.+)$/, (m) => `/library?track=${m![1]}`],
+      
+      // Profile deep links
+      [/^user_(.+)$/, (m) => `/profile/${m![1]}`],
+      [/^profile_(.+)$/, (m) => `/profile/${m![1]}`],
+      
+      // Referral deep links
+      [/^invite_(.+)$/, (m) => `/?ref=${m![1]}`],
+      [/^ref_(.+)$/, (m) => `/?ref=${m![1]}`],
+      
+      // Simple routes (no capture groups)
+      ['buy', () => '/shop'],
+      ['credits', () => '/shop'],
+      ['subscribe', () => '/shop?tab=subscriptions'],
+      ['leaderboard', () => '/leaderboard'],
+      ['achievements', () => '/achievements'],
+      ['analyze', () => '/?analyze=true'],
+      ['recognize', () => '/?recognize=true'],
+      ['shazam', () => '/?recognize=true'],
+      ['settings', () => '/settings'],
+      ['help', () => '/help'],
+      ['onboarding', () => '/?onboarding=true'],
+      ['library', () => '/library'],
+      ['projects', () => '/projects'],
+      ['artists', () => '/artists'],
+      ['creative', () => '/music-lab'],
+      ['musiclab', () => '/music-lab'],
+      ['drums', () => '/music-lab?tab=drums'],
+      ['dj', () => '/music-lab?tab=dj'],
+      ['guitar', () => '/music-lab?tab=guitar'],
+      ['melody', () => '/music-lab?tab=melody'],
+    ];
+
+    // Try to match routes
+    for (const [pattern, getPath] of routes) {
+      if (typeof pattern === 'string') {
+        if (startParam === pattern) {
+          navigate(getPath(null));
+          return;
+        }
+      } else {
+        const match = startParam.match(pattern);
+        if (match) {
+          navigate(getPath(match));
+          return;
+        }
       }
     }
+
+    // Fallback: unknown deep link, just log it
+    telegramLogger.warn('Unknown deep link', { startParam });
   }, [webApp?.initDataUnsafe?.start_param, navigate]);
 
   return null;
