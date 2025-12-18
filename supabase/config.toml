@@ -221,3 +221,6 @@ verify_jwt = true
 
 [functions.audit-log]
 verify_jwt = false
+
+[functions.broadcast-feature]
+verify_jwt = true

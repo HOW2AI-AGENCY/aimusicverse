@@ -18,6 +18,8 @@ import { DailyCheckin } from "@/components/gamification/DailyCheckin";
 import { CompactStatsWidget } from "@/components/home/CompactStatsWidget";
 import { FeaturedBlogBanners } from "@/components/home/FeaturedBlogBanners";
 import { UserProjectsSection } from "@/components/home/UserProjectsSection";
+import { FollowingFeed } from "@/components/social/FollowingFeed";
+import { SubscriptionFeatureAnnouncement } from "@/components/announcements/SubscriptionFeatureAnnouncement";
 import { GenerateSheet } from "@/components/GenerateSheet";
 import { MusicRecognitionDialog } from "@/components/music-recognition/MusicRecognitionDialog";
 import { HomeSkeletonEnhanced } from "@/components/home/HomeSkeletonEnhanced";
@@ -230,6 +232,18 @@ const Index = () => {
             </motion.section>
           )}
 
+          {/* Following Feed - Tracks from followed users and liked creators */}
+          {user && (
+            <motion.section
+              className="mb-4 sm:mb-5"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.19, duration: 0.3 }}
+            >
+              <FollowingFeed />
+            </motion.section>
+          )}
+
           {/* Unified Discovery Section - Main content */}
           <motion.section 
             className="mb-4 sm:mb-5"
@@ -310,6 +324,9 @@ const Index = () => {
         <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
         <MusicRecognitionDialog open={recognitionDialogOpen} onOpenChange={setRecognitionDialogOpen} />
         <QuickProjectSheet open={quickProjectOpen} onOpenChange={setQuickProjectOpen} />
+        
+        {/* Feature announcement for subscriptions */}
+        <SubscriptionFeatureAnnouncement />
     </div>
   );
 };
