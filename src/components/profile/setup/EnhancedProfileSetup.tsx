@@ -9,6 +9,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useProfile } from '@/hooks/useProfile';
 import { useAuth } from '@/hooks/useAuth';
 import { logger } from '@/lib/logger';
+import { useTelegramMainButton } from '@/hooks/telegram';
 import { ProfileSetupStep1Basic } from './ProfileSetupStep1Basic';
 import { ProfileSetupStep2About } from './ProfileSetupStep2About';
 import { ProfileSetupStep3Social } from './ProfileSetupStep3Social';
@@ -144,6 +145,27 @@ export function EnhancedProfileSetup({ onComplete }: EnhancedProfileSetupProps) 
     }
   };
 
+  // Telegram MainButton integration
+  const isLastStep = currentStep === STEPS.length;
+  const mainButtonText = isSaving ? 'Сохранение...' : (isLastStep ? 'ЗАВЕРШИТЬ' : 'ДАЛЕЕ');
+  const mainButtonAction = isLastStep ? handleComplete : handleNext;
+  
+  const { shouldShowUIButton, showProgress, hideProgress } = useTelegramMainButton({
+    text: mainButtonText,
+    onClick: mainButtonAction,
+    enabled: !isSaving && canProceed(),
+    visible: true,
+  });
+
+  // Show/hide progress when saving
+  useEffect(() => {
+    if (isSaving) {
+      showProgress(true);
+    } else {
+      hideProgress();
+    }
+  }, [isSaving, showProgress, hideProgress]);
+
   if (isLoading) {
     return (
       <div className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm flex items-center justify-center">
@@ -223,47 +245,49 @@ export function EnhancedProfileSetup({ onComplete }: EnhancedProfileSetupProps) 
               )}
             </AnimatePresence>
 
-            {/* Navigation */}
-            <div className="flex gap-3 mt-6 pt-4 border-t border-border/50">
-              {currentStep > 1 && (
-                <Button
-                  variant="outline"
-                  onClick={handleBack}
-                  className="gap-1"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  Назад
-                </Button>
-              )}
-              
-              <div className="flex-1" />
-              
-              {currentStep < STEPS.length ? (
-                <Button
-                  onClick={handleNext}
-                  disabled={!canProceed()}
-                  className="gap-1"
-                >
-                  Далее
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
-              ) : (
-                <Button
-                  onClick={handleComplete}
-                  disabled={isSaving || !canProceed()}
-                  className="gap-2"
-                >
-                  {isSaving ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Сохранение...
-                    </>
-                  ) : (
-                    'Завершить'
-                  )}
-                </Button>
-              )}
-            </div>
+            {/* Navigation - only show UI buttons for test users */}
+            {shouldShowUIButton && (
+              <div className="flex gap-3 mt-6 pt-4 border-t border-border/50">
+                {currentStep > 1 && (
+                  <Button
+                    variant="outline"
+                    onClick={handleBack}
+                    className="gap-1"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    Назад
+                  </Button>
+                )}
+                
+                <div className="flex-1" />
+                
+                {currentStep < STEPS.length ? (
+                  <Button
+                    onClick={handleNext}
+                    disabled={!canProceed()}
+                    className="gap-1"
+                  >
+                    Далее
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={handleComplete}
+                    disabled={isSaving || !canProceed()}
+                    className="gap-2"
+                  >
+                    {isSaving ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Сохранение...
+                      </>
+                    ) : (
+                      'Завершить'
+                    )}
+                  </Button>
+                )}
+              </div>
+            )}
           </CardContent>
         </Card>
       </motion.div>
