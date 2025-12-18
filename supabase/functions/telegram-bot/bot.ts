@@ -305,14 +305,28 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
     }
 
     // Project handlers
-    if (data.startsWith('project_') || data.startsWith('projects_page_')) {
-      const { handleProjectsCallback, handleProjectDetails, handleProjectEdit, handleProjectStatusChange, handleProjectDeleteConfirm, handleProjectDelete, handleProjectTracks } = await import('./handlers/projects.ts');
+    if (data.startsWith('project_') || data.startsWith('projects_page_') || data.startsWith('copy_project_link_')) {
+      const { 
+        handleProjectsCallback, 
+        handleProjectDetails, 
+        handleProjectEdit, 
+        handleProjectStatusChange, 
+        handleProjectDeleteConfirm, 
+        handleProjectDelete, 
+        handleProjectTracks,
+        handleProjectShare,
+        handleProjectStats
+      } = await import('./handlers/projects.ts');
       
       if (data === 'nav_projects' || data.startsWith('projects_page_')) {
         const page = data.startsWith('projects_page_') ? parseInt(data.split('_')[2]) : 0;
         await handleProjectsCallback(chatId, from.id, messageId!, id, page);
       } else if (data.startsWith('project_details_')) {
         await handleProjectDetails(chatId, data.replace('project_details_', ''), messageId!, id);
+      } else if (data.startsWith('project_share_')) {
+        await handleProjectShare(chatId, data.replace('project_share_', ''), messageId!, id);
+      } else if (data.startsWith('project_stats_')) {
+        await handleProjectStats(chatId, data.replace('project_stats_', ''), messageId!, id);
       } else if (data.startsWith('project_edit_')) {
         await handleProjectEdit(chatId, data.replace('project_edit_', ''), from.id, messageId!, id);
       } else if (data.startsWith('project_status_')) {
@@ -324,6 +338,9 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
         await handleProjectDelete(chatId, data.replace('project_delete_', ''), from.id, messageId!, id);
       } else if (data.startsWith('project_tracks_')) {
         await handleProjectTracks(chatId, data.replace('project_tracks_', ''), messageId!, id);
+      } else if (data.startsWith('copy_project_link_')) {
+        // Just show confirmation - link is already in the message
+        await answerCallbackQuery(id, '📋 Ссылка скопирована!');
       }
       return;
     }
