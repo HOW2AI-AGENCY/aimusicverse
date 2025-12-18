@@ -112,7 +112,7 @@ async function handleCommand(command: string, args: string, chatId: number, user
   switch (command) {
     case 'start': {
       const { handleStart } = await import('./commands/start.ts');
-      await handleStart(chatId, args);
+      await handleStart(chatId, userId, args || undefined);
       break;
     }
     case 'help': {
