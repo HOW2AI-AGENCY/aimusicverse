@@ -201,6 +201,31 @@ Style: ${visualAesthetic || `${getStyleForGenre(styleHint)}, modern album artwor
       console.log('✅ All track versions updated with new cover');
     }
 
+    // Log to content_audit_log for deposition
+    await supabase.from('content_audit_log').insert({
+      entity_type: 'cover',
+      entity_id: trackId,
+      user_id: userId || 'system',
+      actor_type: 'ai',
+      ai_model_used: 'google/gemini-3-pro-image-preview',
+      action_type: 'generated',
+      action_category: 'generation',
+      prompt_used: imagePrompt,
+      input_metadata: {
+        title,
+        style,
+        mood,
+        project_id: projectId,
+        custom_prompt: !!customPrompt,
+      },
+      output_metadata: {
+        cover_url: publicUrl,
+        storage_path: coverFileName,
+      },
+    });
+
+    console.log(`[generate-track-cover] ✅ Audit logged for cover generation`);
+
     return new Response(
       JSON.stringify({
         success: true,

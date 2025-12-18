@@ -44,6 +44,7 @@ Welcome to MusicVerse AI documentation.
 - [STEM_STUDIO.md](./STEM_STUDIO.md) - Stem separation and editing
 - [CREATIVE_TOOLS.md](./CREATIVE_TOOLS.md) - Chord detection, Tab Editor, Melody Mixer
 - [AI_LYRICS_ASSISTANT.md](./AI_LYRICS_ASSISTANT.md) - Lyrics generation assistant
+- [AUDIT_SYSTEM.md](./AUDIT_SYSTEM.md) - Content audit and deposition system
 
 ### Archive
 - [archive/](archive/) - Historical documentation

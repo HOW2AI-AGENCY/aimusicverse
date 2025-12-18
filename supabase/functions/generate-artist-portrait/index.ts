@@ -134,6 +134,27 @@ serve(async (req) => {
       if (updateError) {
         console.error('Error updating artist:', updateError);
       }
+
+      // Log to content_audit_log for deposition
+      await supabase.from('content_audit_log').insert({
+        entity_type: 'artist',
+        entity_id: artistId,
+        user_id: user.id,
+        actor_type: 'ai',
+        ai_model_used: 'google/gemini-3-pro-image-preview',
+        action_type: 'portrait_generated',
+        action_category: 'generation',
+        prompt_used: imagePrompt,
+        input_metadata: {
+          artist_name: artistName,
+          style_description: styleDescription,
+        },
+        output_metadata: {
+          avatar_url: publicUrl,
+        },
+      });
+
+      console.log(`[generate-artist-portrait] Audit logged for portrait generation`);
     }
 
     return new Response(

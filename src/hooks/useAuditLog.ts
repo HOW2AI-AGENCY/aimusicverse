@@ -229,20 +229,25 @@ export function useAuditLog() {
   /**
    * Helper: Log project creation
    */
-  const logProjectCreated = (projectId: string, options: {
-    title: string;
+  const logProjectCreated = (projectId: string, title: string, metadata?: {
+    projectType?: string | null;
+    genre?: string | null;
+    mood?: string | null;
     aiGenerated?: boolean;
     aiModel?: string;
   }) => {
     return logAction({
       entityType: 'project',
       entityId: projectId,
-      actorType: options.aiGenerated ? 'ai' : 'user',
-      aiModelUsed: options.aiModel,
+      actorType: metadata?.aiGenerated ? 'ai' : 'user',
+      aiModelUsed: metadata?.aiModel,
       actionType: 'created',
       actionCategory: 'generation',
       inputMetadata: {
-        title: options.title,
+        title,
+        project_type: metadata?.projectType,
+        genre: metadata?.genre,
+        mood: metadata?.mood,
       },
     });
   };
@@ -250,8 +255,10 @@ export function useAuditLog() {
   /**
    * Helper: Log artist creation
    */
-  const logArtistCreated = (artistId: string, options: {
-    name: string;
+  const logArtistCreated = (artistId: string, name: string, metadata?: {
+    styleDescription?: string | null;
+    genreTags?: string[] | null;
+    isAiGenerated?: boolean | null;
     fromTrackId?: string;
   }) => {
     return logAction({
@@ -261,8 +268,11 @@ export function useAuditLog() {
       actionType: 'created',
       actionCategory: 'generation',
       inputMetadata: {
-        name: options.name,
-        source_track_id: options.fromTrackId,
+        name,
+        style_description: metadata?.styleDescription,
+        genre_tags: metadata?.genreTags,
+        is_ai_generated: metadata?.isAiGenerated,
+        source_track_id: metadata?.fromTrackId,
       },
     });
   };

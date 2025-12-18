@@ -4,6 +4,7 @@ import { useAuth } from './useAuth';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
 import { notifyProjectChange } from '@/services/notification.service';
+import { useAuditLog } from './useAuditLog';
 
 export interface Project {
   id: string;
@@ -36,6 +37,7 @@ export interface Project {
 export const useProjects = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const { logProjectCreated, logAction } = useAuditLog();
 
   const { data: projects, isLoading, error } = useQuery({
     queryKey: ['projects', user?.id],
@@ -82,6 +84,12 @@ export const useProjects = () => {
       // Send notification
       if (user?.id) {
         notifyProjectChange(user.id, data.title, 'created', data.id);
+        // Log to audit
+        logProjectCreated(data.id, data.title, {
+          projectType: data.project_type,
+          genre: data.genre,
+          mood: data.mood,
+        });
       }
     },
     onError: (error: any) => {
@@ -108,6 +116,14 @@ export const useProjects = () => {
       // Send notification
       if (user?.id) {
         notifyProjectChange(user.id, data.title, 'updated', data.id);
+        // Log to audit
+        logAction({
+          entityType: 'project',
+          entityId: data.id,
+          actionType: 'updated',
+          actorType: 'user',
+          outputMetadata: { title: data.title },
+        });
       }
     },
     onError: (error: any) => {
