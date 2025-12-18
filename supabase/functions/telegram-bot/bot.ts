@@ -76,6 +76,13 @@ export async function handleUpdate(update: TelegramUpdate) {
 
     // Handle non-command text
     if (!cmd) {
+      // Check for active project wizard first
+      const { hasActiveWizard, handleWizardTextInput } = await import('./wizards/project-wizard.ts');
+      if (hasActiveWizard(from.id)) {
+        const handled = await handleWizardTextInput(chat.id, from.id, text);
+        if (handled) return;
+      }
+      
       const { handleTextMessage, sendDefaultResponse } = await import('./handlers/text.ts');
       const handled = await handleTextMessage(chat.id, from.id, text);
       if (!handled) {
@@ -252,6 +259,13 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
       const { handleOnboardingCallback } = await import('./handlers/onboarding.ts');
       await handleOnboardingCallback(data, chatId, from.id, messageId!, id);
       return;
+    }
+
+    // Project wizard handlers
+    if (data.startsWith('wizard_')) {
+      const { handleWizardCallback } = await import('./wizards/project-wizard.ts');
+      const handled = await handleWizardCallback(data, chatId, from.id, messageId!, id);
+      if (handled) return;
     }
 
     // Dashboard handler (NEW)

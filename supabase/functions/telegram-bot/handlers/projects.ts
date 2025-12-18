@@ -96,7 +96,8 @@ export async function handleProjectsCallback(
     
     await editMessageText(chatId, messageId, text, {
       inline_keyboard: [
-        [{ text: '➕ Создать проект', url: `${MINI_APP_URL}?startapp=content-hub` }],
+        [{ text: '➕ Создать проект', callback_data: 'wizard_start_project' }],
+        [{ text: '📱 В приложении', url: `${MINI_APP_URL}?startapp=content-hub` }],
         [{ text: '🎼 Сгенерировать трек', callback_data: 'quick_actions' }],
         [{ text: '🔙 Назад', callback_data: 'nav_main' }],
       ],
@@ -186,7 +187,8 @@ export async function handleProjectsCallback(
     keyboard.push(paginationRow);
   }
 
-  keyboard.push([{ text: '➕ Создать проект', url: `${MINI_APP_URL}?startapp=content-hub` }]);
+  keyboard.push([{ text: '➕ Создать проект', callback_data: 'wizard_start_project' }]);
+  keyboard.push([{ text: '📱 В приложении', url: `${MINI_APP_URL}?startapp=content-hub` }]);
   keyboard.push([{ text: '🔙 В меню', callback_data: 'nav_main' }]);
 
   await editMessageText(chatId, messageId, text, { inline_keyboard: keyboard });
