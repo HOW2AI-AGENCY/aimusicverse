@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, memo } from "react";
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { User } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -14,10 +14,8 @@ import { CommunityNewTracksSection } from "@/components/home/CommunityNewTracksS
 import { HeroQuickActions } from "@/components/home/HeroQuickActions";
 import { RecentTracksSection } from "@/components/home/RecentTracksSection";
 import { WelcomeSection } from "@/components/home/WelcomeSection";
-import { GamificationWidget } from "@/components/gamification/GamificationWidget";
-import { AchievementProgressWidget } from "@/components/gamification/AchievementProgressWidget";
-import { LeaderboardWidget } from "@/components/gamification/LeaderboardWidget";
-import { WeeklySummaryCard } from "@/components/analytics/WeeklySummaryCard";
+import { DailyCheckin } from "@/components/gamification/DailyCheckin";
+import { CompactStatsWidget } from "@/components/home/CompactStatsWidget";
 import { FeaturedBlogBanners } from "@/components/home/FeaturedBlogBanners";
 import { ProfessionalToolsHub } from "@/components/home/ProfessionalToolsHub";
 import { PopularCreatorsSection } from "@/components/home/PopularCreatorsSection";
@@ -152,25 +150,17 @@ const Index = () => {
             />
           </motion.div>
 
-          {/* Gamification Widget - Prominent position after welcome */}
+          {/* Compact Gamification - Single row */}
           {user && (
-            <motion.section 
-              className="mb-4 sm:mb-5"
-              initial={{ opacity: 0, y: 20 }}
+            <motion.div 
+              className="mb-3 space-y-2"
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.05, duration: 0.3 }}
+              transition={{ delay: 0.05, duration: 0.25 }}
             >
-              <GamificationWidget />
-              
-              {/* Achievement Progress, Leaderboard & Weekly Summary Widgets */}
-              <div className="grid grid-cols-1 gap-3 mt-3">
-                <WeeklySummaryCard />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <AchievementProgressWidget />
-                  <LeaderboardWidget />
-                </div>
-              </div>
-            </motion.section>
+              <DailyCheckin />
+              <CompactStatsWidget />
+            </motion.div>
           )}
 
           {/* Loading Skeleton */}

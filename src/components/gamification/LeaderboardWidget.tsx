@@ -1,6 +1,6 @@
 // LeaderboardWidget - Compact leaderboard for homepage
-import { useMemo } from 'react';
-import { Crown, TrendingUp, ChevronRight, User } from 'lucide-react';
+import { useMemo, memo } from 'react';
+import { Crown, ChevronRight, User, TrendingUp } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -16,7 +16,7 @@ const RANK_COLORS = {
   3: 'from-orange-400 to-orange-600',
 };
 
-export function LeaderboardWidget() {
+export const LeaderboardWidget = memo(function LeaderboardWidget() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { data: leaderboard, isLoading } = useLeaderboard(10);
@@ -158,4 +158,4 @@ export function LeaderboardWidget() {
       )}
     </Card>
   );
-}
+});

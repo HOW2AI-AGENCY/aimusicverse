@@ -1,9 +1,9 @@
 import { motion, AnimatePresence } from '@/lib/motion';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCheckin, useCanCheckinToday, useUserCredits, ACTION_REWARDS } from '@/hooks/useGamification';
-import { Flame, Gift, Sparkles, Check, Coins, Star, Zap, Calendar } from 'lucide-react';
+import { Flame, Gift, Sparkles, Check, Calendar } from 'lucide-react';
 import { RewardCelebration } from './RewardCelebration';
 import { cn } from '@/lib/utils';
 
@@ -14,7 +14,7 @@ const generateStarMovements = () =>
     y: Math.random() * -40 - 10,
   }));
 
-export function DailyCheckin() {
+export const DailyCheckin = memo(function DailyCheckin() {
   // Generate random star movements once using useState initializer
   const [starMovements] = useState(generateStarMovements);
   const { data: canCheckin, isLoading: checkingStatus } = useCanCheckinToday();
@@ -152,4 +152,4 @@ export function DailyCheckin() {
       />
     </>
   );
-}
+});
