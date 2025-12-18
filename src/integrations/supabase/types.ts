@@ -1011,6 +1011,7 @@ export type Database = {
           type: string | null
           updated_at: string | null
           user_id: string
+          visual_aesthetic: string | null
         }
         Insert: {
           ai_context?: Json | null
@@ -1044,6 +1045,7 @@ export type Database = {
           type?: string | null
           updated_at?: string | null
           user_id: string
+          visual_aesthetic?: string | null
         }
         Update: {
           ai_context?: Json | null
@@ -1077,6 +1079,7 @@ export type Database = {
           type?: string | null
           updated_at?: string | null
           user_id?: string
+          visual_aesthetic?: string | null
         }
         Relationships: [
           {

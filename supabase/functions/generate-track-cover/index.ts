@@ -39,7 +39,13 @@ Design requirements:
 - Clean composition with focal point in center`;
     } else {
       // Fetch project context if track belongs to a project
-      let projectContext: { genre?: string; mood?: string; concept?: string; title?: string } = {};
+      let projectContext: { 
+        genre?: string; 
+        mood?: string; 
+        concept?: string; 
+        title?: string;
+        visualAesthetic?: string;
+      } = {};
       
       // Try to get project from track if not provided directly
       let resolvedProjectId = projectId;
@@ -55,7 +61,7 @@ Design requirements:
       if (resolvedProjectId) {
         const { data: project } = await supabase
           .from('music_projects')
-          .select('title, genre, mood, concept, description')
+          .select('title, genre, mood, concept, description, visual_aesthetic')
           .eq('id', resolvedProjectId)
           .single();
         
@@ -65,8 +71,9 @@ Design requirements:
             mood: project.mood,
             concept: project.concept || project.description,
             title: project.title,
+            visualAesthetic: project.visual_aesthetic,
           };
-          console.log(`📁 Project context loaded: ${project.title}`);
+          console.log(`📁 Project context loaded: ${project.title}, visual: ${project.visual_aesthetic || 'none'}`);
         }
       }
 
@@ -75,11 +82,13 @@ Design requirements:
       const styleHint = style || projectContext.genre || 'electronic music';
       const lyricsTheme = lyrics ? extractThemeFromLyrics(lyrics) : '';
       const conceptHint = projectContext.concept ? extractThemeFromLyrics(projectContext.concept) : '';
+      const visualAesthetic = projectContext.visualAesthetic;
 
       // Analyze lyrics for visual themes
       const visualThemes = extractVisualThemes(lyrics);
       
-      imagePrompt = `Create a stunning album cover art for a music streaming platform.
+      // Build a unique, contextual prompt
+      imagePrompt = `Create a striking, unique album cover art for a music streaming platform.
 
 Track: "${title || 'Untitled Track'}"
 ${projectContext.title ? `Album/Project: "${projectContext.title}"` : ''}
@@ -87,20 +96,22 @@ Music Genre: ${styleHint}
 Mood & Atmosphere: ${moodHint}
 ${lyricsTheme ? `Lyrical Theme: ${lyricsTheme}` : ''}
 ${conceptHint ? `Project Concept: ${conceptHint}` : ''}
-${visualThemes ? `Visual Imagery: ${visualThemes}` : ''}
+${visualThemes ? `Visual Imagery from lyrics: ${visualThemes}` : ''}
+${visualAesthetic ? `
+IMPORTANT - Artist's Visual Direction: ${visualAesthetic}
+Follow the artist's visual direction closely - this is the creative vision for the album artwork.` : ''}
 
 Design requirements:
-- Modern, minimalistic aesthetic with abstract visual representation
-- Color palette should reflect the mood: ${getColorPaletteForMood(moodHint)}
-- Futuristic, ethereal, dynamic atmosphere matching the genre
+- Create a UNIQUE composition that tells the story of this specific track
+- ${visualAesthetic ? 'Follow the artist visual direction above as primary style guide' : `Color palette should reflect the mood: ${getColorPaletteForMood(moodHint)}`}
+- NO generic abstract patterns - create meaningful visual narrative
+- ${getCreativeDirection(styleHint, moodHint)}
 - NO text, NO watermarks, NO logos, NO words, NO letters
 - Square format (1:1 aspect ratio), high resolution
 - Professional digital art suitable for streaming platforms
-- Abstract shapes, light effects, sound wave visualizations
-- Clean composition with focal point in center
-- Visual elements should evoke the emotional tone of the lyrics
+- Make this cover DISTINCTIVE - it should stand out in a playlist
 
-Style: Abstract digital art, ${getStyleForGenre(styleHint)}, modern album artwork`;
+Style: ${visualAesthetic || `${getStyleForGenre(styleHint)}, modern album artwork, emotionally resonant`}`;
     }
 
     console.log('🖼️ Generating cover with Lovable AI...');
@@ -373,4 +384,49 @@ function getStyleForGenre(genre: string): string {
   }
   
   return 'modern abstract digital art with dynamic composition';
+}
+
+// Helper to get creative direction for unique covers
+function getCreativeDirection(genre: string, mood: string): string {
+  const genreLower = genre.toLowerCase();
+  const moodLower = mood.toLowerCase();
+  
+  const directions: string[] = [];
+  
+  // Add unique visual narrative suggestions based on genre
+  if (genreLower.includes('rock') || genreLower.includes('metal')) {
+    directions.push('dramatic lighting with bold contrasts');
+    directions.push('powerful silhouettes or dynamic motion blur');
+  } else if (genreLower.includes('pop')) {
+    directions.push('vibrant and eye-catching with bold focal point');
+    directions.push('playful visual metaphors');
+  } else if (genreLower.includes('electronic') || genreLower.includes('edm')) {
+    directions.push('futuristic elements with depth and dimension');
+    directions.push('light trails and energy flows');
+  } else if (genreLower.includes('jazz') || genreLower.includes('soul')) {
+    directions.push('rich textures and warm atmospheric depth');
+    directions.push('elegant simplicity with sophisticated details');
+  } else if (genreLower.includes('hip-hop') || genreLower.includes('rap')) {
+    directions.push('bold visual statement with cultural elements');
+    directions.push('striking composition with attitude');
+  } else if (genreLower.includes('ambient') || genreLower.includes('chill')) {
+    directions.push('serene landscape or dreamscape');
+    directions.push('ethereal depth with calming visual flow');
+  } else {
+    directions.push('creative visual storytelling');
+    directions.push('unique artistic interpretation');
+  }
+  
+  // Add mood-specific elements
+  if (moodLower.includes('dark') || moodLower.includes('mysterious')) {
+    directions.push('shadows and hidden elements creating intrigue');
+  } else if (moodLower.includes('energetic') || moodLower.includes('powerful')) {
+    directions.push('dynamic movement and explosive energy');
+  } else if (moodLower.includes('romantic') || moodLower.includes('emotional')) {
+    directions.push('soft emotional resonance and intimate feeling');
+  } else if (moodLower.includes('happy') || moodLower.includes('upbeat')) {
+    directions.push('bright optimistic elements and positive energy');
+  }
+  
+  return directions.slice(0, 2).join(', ');
 }
