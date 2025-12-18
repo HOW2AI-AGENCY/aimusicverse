@@ -30,6 +30,10 @@ interface EnhancedLyricsPreviewProps {
   onRequestEdit?: (instruction: string) => void;
   onTitleChange?: (title: string) => void;
   onStyleChange?: (style: string) => void;
+  /** Enable full height mode for mobile */
+  fullHeight?: boolean;
+  /** Show apply button in UI (false when MainButton is used) */
+  showApplyButton?: boolean;
 }
 
 const QUICK_EDIT_SUGGESTIONS = [
@@ -57,6 +61,8 @@ export function EnhancedLyricsPreview({
   onRequestEdit,
   onTitleChange,
   onStyleChange,
+  fullHeight = false,
+  showApplyButton = true,
 }: EnhancedLyricsPreviewProps) {
   const [editMode, setEditMode] = useState(false);
   const [editedTitle, setEditedTitle] = useState(title || '');
@@ -82,6 +88,12 @@ export function EnhancedLyricsPreview({
     if (editedStyle !== style) onStyleChange?.(editedStyle);
     setEditMode(false);
   }, [editedTitle, editedStyle, title, style, onTitleChange, onStyleChange]);
+
+  // Update edited values when props change
+  useState(() => {
+    setEditedTitle(title || '');
+    setEditedStyle(style || '');
+  });
 
   return (
     <motion.div 
@@ -147,8 +159,12 @@ export function EnhancedLyricsPreview({
           </div>
         )}
 
-        {/* Lyrics display */}
-        <ScrollArea className="max-h-[200px] sm:max-h-[280px]">
+        {/* Lyrics display - expanded height for mobile */}
+        <ScrollArea className={cn(
+          fullHeight 
+            ? "max-h-[45vh] min-h-[200px]" 
+            : "max-h-[200px] sm:max-h-[320px]"
+        )}>
           <div className="p-3">
             <StructuredLyricsDisplay
               lyrics={lyrics}
@@ -271,17 +287,20 @@ export function EnhancedLyricsPreview({
           Заново
         </motion.button>
         
-        <motion.button
-          variants={buttonVariants}
-          initial="idle"
-          whileHover="hover"
-          whileTap="tap"
-          className="col-span-2 sm:col-span-1 inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-xs font-medium shadow-lg"
-          onClick={onApply}
-        >
-          <Check className="h-3.5 w-3.5" />
-          Применить
-        </motion.button>
+        {/* Apply button - only show if MainButton is not being used */}
+        {showApplyButton && (
+          <motion.button
+            variants={buttonVariants}
+            initial="idle"
+            whileHover="hover"
+            whileTap="tap"
+            className="col-span-2 sm:col-span-1 inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-xs font-medium shadow-lg"
+            onClick={onApply}
+          >
+            <Check className="h-3.5 w-3.5" />
+            Применить
+          </motion.button>
+        )}
       </div>
 
       {/* Helper text */}

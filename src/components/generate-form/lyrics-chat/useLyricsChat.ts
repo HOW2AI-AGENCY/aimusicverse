@@ -21,6 +21,7 @@ interface UseLyricsChatOptions {
   initialMode?: 'new' | 'edit' | 'improve' | 'freeform';
   onLyricsGenerated: (lyrics: string) => void;
   onStyleGenerated?: (style: string) => void;
+  onTitleGenerated?: (title: string) => void;
   onClose: () => void;
 }
 
@@ -34,6 +35,7 @@ export function useLyricsChat({
   initialMode = 'new',
   onLyricsGenerated,
   onStyleGenerated,
+  onTitleGenerated,
   onClose,
 }: UseLyricsChatOptions) {
   const { user } = useAuth();
@@ -57,9 +59,22 @@ export function useLyricsChat({
   const [language] = useState<'ru' | 'en'>(initialLanguage || projectContext?.language || 'ru');
   const [structure, setStructure] = useState('standard');
   const [generatedLyrics, setGeneratedLyrics] = useState('');
+  
+  // Track last AI-generated title and style for proper passing on apply
+  const [lastGeneratedTitle, setLastGeneratedTitle] = useState<string>('');
+  const [lastGeneratedStyle, setLastGeneratedStyle] = useState<string>('');
 
   const addMessage = useCallback((msg: ChatMessage) => {
     setMessages(prev => [...prev, msg]);
+  }, []);
+  
+  // Functions to update last generated metadata (for editing in preview)
+  const updateLastGeneratedTitle = useCallback((title: string) => {
+    setLastGeneratedTitle(title);
+  }, []);
+  
+  const updateLastGeneratedStyle = useCallback((style: string) => {
+    setLastGeneratedStyle(style);
   }, []);
 
   // Handle user scroll detection
@@ -301,6 +316,10 @@ export function useLyricsChat({
 
       if (data?.lyrics) {
         setGeneratedLyrics(data.lyrics);
+        // Store AI-generated title and style for later use in applyLyrics
+        if (data.title) setLastGeneratedTitle(data.title);
+        if (data.style) setLastGeneratedStyle(data.style);
+        
         setMessages(prev => prev.filter(m => !m.id.startsWith('loading-')));
         
         // Build response message with metadata
@@ -660,16 +679,28 @@ if (data?.lyrics) {
     if (generatedLyrics) {
       onLyricsGenerated(generatedLyrics);
       
+      // Use AI-generated style if available, otherwise fallback to constructed style
       if (onStyleGenerated) {
-        const genreLabel = GENRES.find(g => g.value === genre)?.label || genre;
-        const moodLabels = mood.map(m => MOODS.find(mo => mo.value === m)?.label || m).join(', ');
-        const style = `${genreLabel}, ${moodLabels}, ${theme}`.slice(0, 200);
-        onStyleGenerated(style);
+        if (lastGeneratedStyle) {
+          onStyleGenerated(lastGeneratedStyle);
+        } else {
+          // Fallback: construct style from genre/mood/theme, filtering empty values
+          const genreLabel = GENRES.find(g => g.value === genre)?.label || genre;
+          const moodLabels = mood.map(m => MOODS.find(mo => mo.value === m)?.label || m).filter(Boolean).join(', ');
+          const parts = [genreLabel, moodLabels, theme].filter(p => p && p.trim());
+          const style = parts.join(', ').slice(0, 200);
+          if (style) onStyleGenerated(style);
+        }
       }
       
-      handleClose();
+      // Pass AI-generated title if available
+      if (onTitleGenerated && lastGeneratedTitle) {
+        onTitleGenerated(lastGeneratedTitle);
+      }
+      
+      onClose();
     }
-  }, [generatedLyrics, genre, mood, theme, onLyricsGenerated, onStyleGenerated]);
+  }, [generatedLyrics, genre, mood, theme, lastGeneratedTitle, lastGeneratedStyle, onLyricsGenerated, onStyleGenerated, onTitleGenerated, onClose]);
 
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(generatedLyrics);
@@ -809,5 +840,7 @@ if (data?.lyrics) {
     handleClose,
     continueConversation,
     fetchContextRecommendations,
+    updateLastGeneratedTitle,
+    updateLastGeneratedStyle,
   };
 }
