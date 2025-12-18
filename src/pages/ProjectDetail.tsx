@@ -7,7 +7,7 @@ import { useProjectTracks, ProjectTrack } from '@/hooks/useProjectTracks';
 import { useProjectGeneratedTracks } from '@/hooks/useProjectGeneratedTracks';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Sparkles, Music, MoreVertical, Play, Plus, Settings, Image, Rocket } from 'lucide-react';
+import { ArrowLeft, Sparkles, Music, MoreVertical, Play, Plus, Settings, Image, Rocket, Share2 } from 'lucide-react';
 import { AIActionsDialog } from '@/components/project/AIActionsDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -21,6 +21,7 @@ import { ProjectMediaGenerator } from '@/components/project/ProjectMediaGenerato
 import { ProjectReadinessIndicator } from '@/components/project/ProjectReadinessIndicator';
 import { PublishProjectDialog } from '@/components/project/PublishProjectDialog';
 import { UnlinkedTracksSection } from '@/components/project/UnlinkedTracksSection';
+import { ShareProjectCard } from '@/components/project/ShareProjectCard';
 import { cn } from '@/lib/utils';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
@@ -481,6 +482,18 @@ export default function ProjectDetail() {
           <Image className="w-3.5 h-3.5" />
           Медиа
         </Button>
+        <ShareProjectCard 
+          project={{
+            id: project.id,
+            title: project.title,
+            cover_url: project.cover_url,
+            genre: project.genre,
+            total_tracks_count: totalTracks,
+            approved_tracks_count: tracksWithMaster,
+          }}
+          variant="button"
+          className="gap-1 shrink-0 h-7 px-2 text-xs"
+        />
       </div>
 
       {/* Tracklist */}

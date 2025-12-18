@@ -11,3 +11,4 @@ export { useTelegramBiometric } from './useTelegramBiometric';
 export { useTelegramQRScanner } from './useTelegramQRScanner';
 export { useTelegramStorage } from './useTelegramStorage';
 export { useTelegramMainButton } from './useTelegramMainButton';
+export { useTelegramBackButton } from './useTelegramBackButton';
