@@ -15,6 +15,7 @@ import {
 import { useUserStats } from '@/hooks/useUserStats';
 import { motion } from '@/lib/motion';
 import { Skeleton } from '@/components/ui/skeleton';
+import { EngagementChart, GenreDistributionChart } from '@/components/analytics';
 
 export default function Analytics() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -183,7 +184,7 @@ export default function Analytics() {
           transition={{ delay: 0.3 }}
         >
           <h2 className="text-lg font-semibold mb-3">Ваш контент</h2>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-3 mb-6">
             <Card className="p-4 glass-card border-border/50 text-center">
               {isLoading ? (
                 <Skeleton className="h-12 w-full" />
@@ -216,6 +217,12 @@ export default function Analytics() {
             </Card>
           </div>
         </motion.div>
+
+        {/* Charts Section */}
+        <div className="space-y-6">
+          <EngagementChart />
+          <GenreDistributionChart />
+        </div>
       </div>
     </div>
   );

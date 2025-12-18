@@ -17,6 +17,7 @@ import { WelcomeSection } from "@/components/home/WelcomeSection";
 import { GamificationWidget } from "@/components/gamification/GamificationWidget";
 import { AchievementProgressWidget } from "@/components/gamification/AchievementProgressWidget";
 import { LeaderboardWidget } from "@/components/gamification/LeaderboardWidget";
+import { WeeklySummaryCard } from "@/components/analytics/WeeklySummaryCard";
 import { FeaturedBlogBanners } from "@/components/home/FeaturedBlogBanners";
 import { ProfessionalToolsHub } from "@/components/home/ProfessionalToolsHub";
 import { PopularCreatorsSection } from "@/components/home/PopularCreatorsSection";
@@ -161,10 +162,13 @@ const Index = () => {
             >
               <GamificationWidget />
               
-              {/* Achievement Progress & Leaderboard Widgets */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
-                <AchievementProgressWidget />
-                <LeaderboardWidget />
+              {/* Achievement Progress, Leaderboard & Weekly Summary Widgets */}
+              <div className="grid grid-cols-1 gap-3 mt-3">
+                <WeeklySummaryCard />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <AchievementProgressWidget />
+                  <LeaderboardWidget />
+                </div>
               </div>
             </motion.section>
           )}
