@@ -1,6 +1,6 @@
 /**
  * Handler for text messages that don't match commands
- * Provides helpful responses based on context
+ * Uses AI intent recognition for smart responses
  */
 
 import { sendMessage } from '../telegram-api.ts';
@@ -11,9 +11,11 @@ import {
   setConversationContext 
 } from '../core/session-store.ts';
 import { BOT_CONFIG } from '../config.ts';
+import { detectIntent, isMusicPrompt, type DetectedIntent } from '../utils/ai-intent.ts';
+import { ButtonBuilder } from '../utils/button-builder.ts';
 
 /**
- * Handle non-command text messages
+ * Handle non-command text messages with AI intent recognition
  */
 export async function handleTextMessage(
   chatId: number,
@@ -43,63 +45,17 @@ export async function handleTextMessage(
     }
   }
   
-  // Detect common intents from text
-  const lowerText = text.toLowerCase();
+  // Use AI intent detection
+  const intent = detectIntent(text);
   
-  // Music generation intent
-  if (containsAny(lowerText, ['создай', 'сгенерируй', 'сделай музыку', 'создать трек', 'хочу песню', 'напиши песню'])) {
-    await sendMessage(chatId, `🎵 Хотите создать музыку?\n\nИспользуйте команду /generate с описанием:\n/generate энергичный рок с гитарами\n\nИли откройте приложение для удобного создания:`, {
-      inline_keyboard: [[
-        { text: '🎵 Создать в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}` } }
-      ]]
-    }, null);
-    return true;
+  // High confidence intent - handle directly
+  if (intent.confidence >= 0.5) {
+    return await handleDetectedIntent(chatId, userId, text, intent);
   }
   
-  // Upload intent
-  if (containsAny(lowerText, ['загрузить', 'отправить файл', 'upload', 'залить'])) {
-    await sendMessage(chatId, `☁️ Загрузка аудио\n\nИспользуйте /upload чтобы загрузить аудио в облако.\n\nПосле загрузки файл можно использовать:\n• Как референс для генерации\n• Для анализа музыки\n• В Stem Studio`, undefined, null);
-    return true;
-  }
-  
-  // Cover/remix intent
-  if (containsAny(lowerText, ['кавер', 'cover', 'ремикс', 'remix', 'переделать'])) {
-    await sendMessage(chatId, `🎤 Создание кавера\n\nИспользуйте команду /cover и отправьте аудиофайл.\n\nИли выберите из ранее загруженных:\n/uploads - показать мои файлы`, undefined, null);
-    return true;
-  }
-  
-  // Extension intent
-  if (containsAny(lowerText, ['продолжи', 'расширь', 'extend', 'продолжение'])) {
-    await sendMessage(chatId, `🔄 Расширение трека\n\nИспользуйте команду /extend и отправьте аудиофайл.\n\nБот продолжит и расширит вашу композицию.`, undefined, null);
-    return true;
-  }
-  
-  // Library intent
-  if (containsAny(lowerText, ['мои треки', 'библиотека', 'library', 'мои песни'])) {
-    await sendMessage(chatId, `📚 Используйте /library чтобы посмотреть ваши треки.`, undefined, null);
-    return true;
-  }
-  
-  // Help intent
-  if (containsAny(lowerText, ['помощь', 'help', 'что умеешь', 'команды', 'как пользоваться'])) {
-    await sendMessage(chatId, `Используйте /help для списка всех команд.`, undefined, null);
-    return true;
-  }
-  
-  // Greeting
-  if (containsAny(lowerText, ['привет', 'здравствуй', 'hello', 'hi ', 'хай', 'добрый'])) {
-    await sendMessage(chatId, `👋 Привет! Я MusicVerse Bot.\n\nЯ помогу вам создавать музыку с помощью ИИ:\n\n• /generate - создать новый трек\n• /library - ваши треки\n• /upload - загрузить аудио\n• /cover - создать кавер\n• /help - все команды\n\nИли откройте полное приложение:`, {
-      inline_keyboard: [[
-        { text: '🎵 Открыть MusicVerse', web_app: { url: BOT_CONFIG.miniAppUrl } }
-      ]]
-    }, null);
-    return true;
-  }
-  
-  // Status/progress intent
-  if (containsAny(lowerText, ['статус', 'готово', 'progress', 'где мой трек', 'когда будет'])) {
-    await sendMessage(chatId, `Используйте /status чтобы проверить статус генерации.`, undefined, null);
-    return true;
+  // Check if it looks like a music generation prompt
+  if (isMusicPrompt(text) && text.length >= 10) {
+    return await suggestGeneration(chatId, text);
   }
   
   // Default response for unrecognized text
@@ -107,38 +63,213 @@ export async function handleTextMessage(
 }
 
 /**
- * Send default help response for unrecognized messages
+ * Handle detected intent with appropriate response
  */
-export async function sendDefaultResponse(chatId: number): Promise<void> {
-  await sendMessage(chatId, `🤔 Не совсем понял. Вот что я умею:
-
-🎵 Создание музыки:
-• /generate - создать трек по описанию
-• /cover - создать кавер-версию
-• /extend - расширить трек
-
-☁️ Работа с файлами:
-• /upload - загрузить аудио в облако
-• /uploads - мои загруженные файлы
-
-📚 Библиотека:
-• /library - ваши треки
-• /status - статус генерации
-
-🔍 Анализ:
-• /recognize - распознать песню
-• /midi - конвертировать в MIDI
-
-Используйте /help для полного списка.`, {
-    inline_keyboard: [[
-      { text: '📱 Открыть приложение', web_app: { url: BOT_CONFIG.miniAppUrl } }
-    ]]
-  }, null);
+async function handleDetectedIntent(
+  chatId: number,
+  userId: number,
+  text: string,
+  intent: DetectedIntent
+): Promise<boolean> {
+  const keyboard = new ButtonBuilder();
+  
+  switch (intent.type) {
+    case 'generate_music':
+      // If user provided a style, suggest quick generation
+      if (intent.entities.style) {
+        keyboard.addButton({
+          text: `Создать ${intent.entities.style} трек`,
+          emoji: '🎵',
+          action: { type: 'callback', data: `quick_gen_${intent.entities.style}` }
+        });
+      }
+      keyboard.addButton({
+        text: 'Открыть генератор',
+        emoji: '🎼',
+        action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/generate` }
+      });
+      
+      await sendMessage(chatId, `🎵 ${intent.suggestedResponse}`, keyboard.build(), null);
+      return true;
+      
+    case 'greeting':
+      keyboard.addButton({
+        text: 'Создать трек',
+        emoji: '🎵',
+        action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/generate` }
+      });
+      keyboard.addButton({
+        text: 'Открыть студию',
+        emoji: '🚀',
+        action: { type: 'webapp', url: BOT_CONFIG.miniAppUrl }
+      });
+      
+      await sendMessage(chatId, `👋 Привет! Я MusicVerse Bot.\n\nЯ помогу создавать музыку с помощью AI. Выберите действие или напишите описание желаемого трека.`, keyboard.build(), null);
+      return true;
+      
+    case 'view_library':
+      keyboard.addButton({
+        text: 'Мои треки',
+        emoji: '📚',
+        action: { type: 'callback', data: 'nav_library' }
+      });
+      await sendMessage(chatId, `📚 ${intent.suggestedResponse}`, keyboard.build(), null);
+      return true;
+      
+    case 'check_status':
+      keyboard.addButton({
+        text: 'Проверить статус',
+        emoji: '⏳',
+        action: { type: 'callback', data: 'check_status' }
+      });
+      await sendMessage(chatId, `⏳ ${intent.suggestedResponse}`, keyboard.build(), null);
+      return true;
+      
+    case 'upload_audio':
+      keyboard.addButton({
+        text: 'Загрузить аудио',
+        emoji: '📤',
+        action: { type: 'callback', data: 'start_upload' }
+      });
+      await sendMessage(chatId, `📤 ${intent.suggestedResponse}`, keyboard.build(), null);
+      return true;
+      
+    case 'create_cover':
+      keyboard.addButton({
+        text: 'Создать кавер',
+        emoji: '🎤',
+        action: { type: 'callback', data: 'start_cover' }
+      });
+      await sendMessage(chatId, `🎤 ${intent.suggestedResponse}`, keyboard.build(), null);
+      return true;
+      
+    case 'extend_track':
+      keyboard.addButton({
+        text: 'Расширить трек',
+        emoji: '➕',
+        action: { type: 'callback', data: 'start_extend' }
+      });
+      await sendMessage(chatId, `➕ ${intent.suggestedResponse}`, keyboard.build(), null);
+      return true;
+      
+    case 'view_profile':
+      keyboard.addButton({
+        text: 'Мой профиль',
+        emoji: '👤',
+        action: { type: 'callback', data: 'nav_profile' }
+      });
+      await sendMessage(chatId, `👤 ${intent.suggestedResponse}`, keyboard.build(), null);
+      return true;
+      
+    case 'buy_credits':
+      keyboard.addButton({
+        text: 'Купить кредиты',
+        emoji: '💎',
+        action: { type: 'callback', data: 'buy_credits' }
+      });
+      await sendMessage(chatId, `💎 ${intent.suggestedResponse}`, keyboard.build(), null);
+      return true;
+      
+    case 'analyze_audio':
+      keyboard.addButton({
+        text: 'Анализ аудио',
+        emoji: '🔬',
+        action: { type: 'callback', data: 'nav_analyze' }
+      });
+      await sendMessage(chatId, `🔬 ${intent.suggestedResponse}`, keyboard.build(), null);
+      return true;
+      
+    case 'midi_convert':
+      keyboard.addButton({
+        text: 'Конвертировать в MIDI',
+        emoji: '🎹',
+        action: { type: 'callback', data: 'start_midi' }
+      });
+      await sendMessage(chatId, `🎹 ${intent.suggestedResponse}`, keyboard.build(), null);
+      return true;
+      
+    case 'recognize_song':
+      keyboard.addButton({
+        text: 'Распознать песню',
+        emoji: '🔍',
+        action: { type: 'callback', data: 'start_recognize' }
+      });
+      await sendMessage(chatId, `🔍 ${intent.suggestedResponse}`, keyboard.build(), null);
+      return true;
+      
+    case 'get_help':
+      keyboard.addButton({
+        text: 'Справка',
+        emoji: 'ℹ️',
+        action: { type: 'callback', data: 'nav_help' }
+      });
+      await sendMessage(chatId, `ℹ️ ${intent.suggestedResponse}`, keyboard.build(), null);
+      return true;
+      
+    default:
+      return false;
+  }
 }
 
 /**
- * Check if text contains any of the phrases
+ * Suggest generation when text looks like a music prompt
  */
-function containsAny(text: string, phrases: string[]): boolean {
-  return phrases.some(phrase => text.includes(phrase));
+async function suggestGeneration(chatId: number, text: string): Promise<boolean> {
+  const truncated = text.length > 50 ? text.substring(0, 50) + '...' : text;
+  
+  const keyboard = new ButtonBuilder()
+    .addButton({
+      text: 'Генерировать этот трек',
+      emoji: '🎵',
+      action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/generate?prompt=${encodeURIComponent(text)}` }
+    })
+    .addButton({
+      text: 'Изменить описание',
+      emoji: '✏️',
+      action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/generate` }
+    })
+    .build();
+  
+  await sendMessage(
+    chatId, 
+    `🎵 Похоже на описание трека!\n\n"${truncated}"\n\nХотите сгенерировать музыку по этому описанию?`,
+    keyboard,
+    null
+  );
+  
+  return true;
+}
+
+/**
+ * Send default help response for unrecognized messages
+ */
+export async function sendDefaultResponse(chatId: number): Promise<void> {
+  const keyboard = new ButtonBuilder()
+    .addButton({
+      text: 'Создать трек',
+      emoji: '🎵',
+      action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/generate` }
+    })
+    .addRow(
+      {
+        text: 'Быстрые действия',
+        emoji: '⚡',
+        action: { type: 'callback', data: 'quick_actions' }
+      },
+      {
+        text: 'Справка',
+        emoji: 'ℹ️',
+        action: { type: 'callback', data: 'nav_help' }
+      }
+    )
+    .build();
+
+  await sendMessage(chatId, `🤔 Не совсем понял. Вот что я умею:
+
+🎵 *Создание музыки* — опишите трек или используйте /generate
+📤 *Загрузка аудио* — /upload, /cover, /extend
+📚 *Библиотека* — /library
+🔬 *Анализ* — /analyze, /midi, /recognize
+
+Или просто опишите желаемую музыку!`, keyboard, null);
 }

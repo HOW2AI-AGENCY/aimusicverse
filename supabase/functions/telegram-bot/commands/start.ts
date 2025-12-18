@@ -4,8 +4,10 @@ import { ButtonBuilder, webAppButton, addBackButton } from '../utils/button-buil
 import { createWelcomeMessage, createLoadingMessage } from '../utils/message-formatter.ts';
 import { trackMessage } from '../utils/message-manager.ts';
 import { getMenuImageAsync } from '../keyboards/menu-images.ts';
+import { checkIfNewUser, startOnboarding } from '../handlers/onboarding.ts';
+import { handleDashboard } from '../handlers/dashboard.ts';
 
-export async function handleStart(chatId: number, startParam?: string) {
+export async function handleStart(chatId: number, userId: number, startParam?: string) {
   // Handle deep links
   if (startParam) {
     if (startParam.startsWith('track_')) {
@@ -80,71 +82,14 @@ export async function handleStart(chatId: number, startParam?: string) {
     }
   }
   
-  // Default start message with enhanced welcome
-  const welcomeMsg = createWelcomeMessage();
+  // Check if user needs onboarding
+  const isNewUser = await checkIfNewUser(userId);
   
-  const keyboard = new ButtonBuilder()
-    .addButton({
-      text: 'Открыть студию',
-      emoji: '🚀',
-      action: { type: 'webapp', url: BOT_CONFIG.miniAppUrl }
-    })
-    .addRow(
-      {
-        text: 'Генератор',
-        emoji: '🎼',
-        action: { type: 'callback', data: 'nav_generate' }
-      },
-      {
-        text: 'Библиотека',
-        emoji: '📚',
-        action: { type: 'callback', data: 'nav_library' }
-      }
-    )
-    .addRow(
-      {
-        text: 'Анализ',
-        emoji: '🔬',
-        action: { type: 'callback', data: 'nav_analyze' }
-      },
-      {
-        text: 'Проекты',
-        emoji: '📁',
-        action: { type: 'callback', data: 'nav_projects' }
-      }
-    )
-    .addRow(
-      {
-        text: 'Профиль',
-        emoji: '👤',
-        action: { type: 'callback', data: 'nav_profile' }
-      },
-      {
-        text: 'Настройки',
-        emoji: '⚙️',
-        action: { type: 'callback', data: 'nav_settings' }
-      }
-    )
-    .addButton({
-      text: '📢 Канал @AIMusicVerse',
-      emoji: '',
-      action: { type: 'url', url: 'https://t.me/AIMusicVerse' }
-    })
-    .addButton({
-      text: 'Помощь',
-      emoji: 'ℹ️',
-      action: { type: 'callback', data: 'nav_help' }
-    })
-    .build();
-  
-  // Use sendPhoto with MusicVerse branded banner
-  const bannerUrl = await getMenuImageAsync('mainMenu');
-  const result = await sendPhoto(chatId, bannerUrl, {
-    caption: welcomeMsg,
-    replyMarkup: keyboard
-  });
-  
-  if (result?.result?.message_id) {
-    await trackMessage(chatId, result.result.message_id, 'menu', 'main_menu', { persistent: true });
+  if (isNewUser) {
+    // Start onboarding for new users
+    await startOnboarding(chatId, userId);
+  } else {
+    // Show personalized dashboard for returning users
+    await handleDashboard(chatId, userId);
   }
 }
