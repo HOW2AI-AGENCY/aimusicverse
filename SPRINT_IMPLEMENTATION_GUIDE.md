@@ -60,7 +60,7 @@ Phase 4: Testing (Day 5, optional)
 
 ```tsx
 // src/components/library/TrackRow.tsx
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { Play, Pause, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -454,7 +454,7 @@ import {
   arrayMove,
 } from '@dnd-kit/sortable';
 import { QueueItem } from './QueueItem';
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { Trash2 } from 'lucide-react';
 
 interface QueueSheetProps {

@@ -14,7 +14,7 @@ export default function StemStudio() {
   const navigate = useNavigate();
   const trackId = params.trackId;
   const { tracks, isLoading: tracksLoading } = useTracks();
-  const { data: stems, isLoading: stemsLoading } = useTrackStems(trackId || '');
+  const { data: stems = [], isLoading: stemsLoading } = useTrackStems(trackId || '');
 
   const track = tracks?.find(t => t.id === trackId);
   const isLoading = tracksLoading || stemsLoading;
