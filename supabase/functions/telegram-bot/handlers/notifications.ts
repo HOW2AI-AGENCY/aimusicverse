@@ -33,7 +33,8 @@ export type NotificationType =
   | 'track_liked'
   | 'comment_received'
   | 'credits_earned'
-  | 'achievement_unlocked';
+  | 'achievement_unlocked'
+  | 'feature_announcement';
 
 /**
  * Send notification to user via Telegram
@@ -245,6 +246,24 @@ async function formatNotificationMessage(
       const keyboard = {
         inline_keyboard: [
           [{ text: '🏆 Все достижения', url: `${MINI_APP_URL}?startapp=achievements` }],
+        ],
+      };
+
+      return { text, keyboard };
+    }
+
+    case 'feature_announcement': {
+      const featureName = data.featureName || 'Новая функция';
+      const featureDescription = data.description || '';
+      const actionUrl = data.actionUrl || MINI_APP_URL;
+      const actionLabel = data.actionLabel || 'Попробовать';
+      
+      const text = `🎉 *${escapeMarkdownV2(featureName)}*\n\n` +
+        `${escapeMarkdownV2(featureDescription)}`;
+
+      const keyboard = {
+        inline_keyboard: [
+          [{ text: `✨ ${actionLabel}`, url: actionUrl }],
         ],
       };
 
