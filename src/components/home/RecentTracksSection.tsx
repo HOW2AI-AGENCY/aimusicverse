@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Clock, ChevronRight, Play, Pause, Music2, Disc3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useTracksInfinite } from '@/hooks/useTracksInfinite';
+import { useTracks } from '@/hooks/useTracks';
 import { usePlayerStore } from '@/hooks/audio';
 import { cn } from '@/lib/utils';
 
@@ -15,7 +15,7 @@ interface RecentTracksSectionProps {
 
 export function RecentTracksSection({ className, maxTracks = 4 }: RecentTracksSectionProps) {
   const navigate = useNavigate();
-  const { tracks, isLoading } = useTracksInfinite({ sortBy: 'recent', pageSize: maxTracks });
+  const { tracks, isLoading } = useTracks({ sortBy: 'recent', pageSize: maxTracks });
   const { activeTrack, isPlaying } = usePlayerStore();
 
   const recentTracks = useMemo(() => 

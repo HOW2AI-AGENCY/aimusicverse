@@ -5,8 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle, Library as LibraryIcon } from "lucide-react";
 import { motion } from "@/lib/motion";
-import { useTracksInfinite } from "@/hooks/useTracksInfinite";
-import { type Track } from "@/hooks/useTracksOptimized";
+import { useTracks, type Track } from "@/hooks/useTracks";
 import { Button } from "@/components/ui/button";
 import { useGenerationRealtime } from "@/hooks/useGenerationRealtime";
 import { useTrackVersions } from "@/hooks/useTrackVersions";
@@ -96,12 +95,18 @@ export default function Library() {
     deleteTrack, 
     toggleLike, 
     logPlay, 
-    downloadTrack 
-  } = useTracksInfinite({
+  } = useTracks({
     searchQuery: debouncedSearchQuery,
     sortBy,
     pageSize: 20,
+    paginate: true,
   });
+  
+  // downloadTrack - use separate mutation or API
+  const downloadTrack = useCallback(async (track: Track) => {
+    if (!track.audio_url) return;
+    window.open(track.audio_url, '_blank');
+  }, []);
 
   // Track previous generation count to detect completion
   const prevGenerationsCount = useRef(activeGenerations.length);
@@ -227,13 +232,11 @@ export default function Library() {
 
   const handleDownload = useCallback((trackId: string, audioUrl: string | null, coverUrl: string | null) => {
     if (!audioUrl) return;
-    downloadTrack({ trackId, audioUrl, coverUrl: coverUrl || undefined });
-
     const link = document.createElement("a");
     link.href = audioUrl;
     link.download = `track-${trackId}.mp3`;
     link.click();
-  }, [downloadTrack]);
+  }, []);
 
   // Conditional returns AFTER all hooks
   if (authLoading) {

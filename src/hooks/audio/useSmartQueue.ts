@@ -15,7 +15,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { usePlayerStore } from './usePlayerState';
 import { usePlaybackQueue } from './usePlaybackQueue';
 import { usePlaybackHistory } from './usePlaybackHistory';
-import { useTracksUnified, type Track } from '@/hooks/useTracksUnified';
+import { useTracks, type Track } from '@/hooks/useTracks';
 import { logger } from '@/lib/logger';
 
 const log = logger.child({ module: 'SmartQueue' });
@@ -47,7 +47,7 @@ export function useSmartQueue(options: SmartQueueOptions = {}) {
   const { activeTrack } = usePlayerStore();
   const { queue, queueLength, addTracks } = usePlaybackQueue();
   const { history, stats } = usePlaybackHistory();
-  const { tracks: allTracks } = useTracksUnified({
+  const { tracks: allTracks } = useTracks({
     sortBy: 'recent',
     pageSize: 100,
   });
