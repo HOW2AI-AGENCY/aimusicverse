@@ -22,6 +22,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { useAuditLog } from '@/hooks/useAuditLog';
 
 interface FileUploadState {
   file: File;
@@ -44,6 +45,7 @@ export function MultiTrackUpload({ open, onOpenChange, onComplete }: MultiTrackU
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const inputRef = useRef<HTMLInputElement>(null);
+  const { logAction } = useAuditLog();
   
   const [files, setFiles] = useState<FileUploadState[]>([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -116,7 +118,7 @@ export function MultiTrackUpload({ open, onOpenChange, onComplete }: MultiTrackU
         .getPublicUrl(fileName);
 
       // Save to database
-      const { error: dbError } = await supabase
+      const { data: insertedRef, error: dbError } = await supabase
         .from('reference_audio')
         .insert({
           user_id: user.id,
@@ -126,9 +128,28 @@ export function MultiTrackUpload({ open, onOpenChange, onComplete }: MultiTrackU
           mime_type: fileState.file.type,
           source: 'upload',
           analysis_status: 'pending',
-        });
+        })
+        .select('id')
+        .single();
 
       if (dbError) throw dbError;
+
+      // Log upload for audit
+      if (insertedRef) {
+        logAction({
+          entityType: 'reference_audio',
+          entityId: insertedRef.id,
+          actorType: 'user',
+          actionType: 'uploaded',
+          actionCategory: 'generation',
+          contentUrl: publicUrl,
+          inputMetadata: {
+            fileName: fileState.file.name,
+            fileSize: fileState.file.size,
+            mimeType: fileState.file.type,
+          },
+        });
+      }
 
       setFiles(prev => prev.map((f, i) => 
         i === index ? { ...f, status: 'completed', progress: 100 } : f
