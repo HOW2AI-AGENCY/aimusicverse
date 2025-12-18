@@ -3296,7 +3296,6 @@ export type Database = {
         Row: {
           banner_url: string | null
           bio: string | null
-          created_at: string | null
           display_name: string | null
           followers_count: number | null
           following_count: number | null
@@ -3309,7 +3308,6 @@ export type Database = {
         Insert: {
           banner_url?: string | null
           bio?: string | null
-          created_at?: string | null
           display_name?: string | null
           followers_count?: number | null
           following_count?: number | null
@@ -3322,7 +3320,6 @@ export type Database = {
         Update: {
           banner_url?: string | null
           bio?: string | null
-          created_at?: string | null
           display_name?: string | null
           followers_count?: number | null
           following_count?: number | null
