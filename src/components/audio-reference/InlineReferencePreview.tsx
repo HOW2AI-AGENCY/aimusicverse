@@ -3,7 +3,7 @@
  * Compact preview of active audio reference in generation form with waveform
  */
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { memo, useState, useRef, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useAudioReference } from '@/hooks/useAudioReference';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/formatters';
 import { MiniWaveform } from './MiniWaveform';
 
 interface InlineReferencePreviewProps {
@@ -120,11 +121,6 @@ export function InlineReferencePreview({
     return 'Референс';
   };
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   return (
     <div 

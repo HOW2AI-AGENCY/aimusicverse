@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/formatters';
 
 /**
  * OptimizedTrackCard - Performance-optimized track card component
@@ -71,7 +72,7 @@ export const OptimizedTrackCard = memo(
           <h3 className="font-medium text-sm truncate">{title}</h3>
           {duration && (
             <p className="text-xs text-muted-foreground">
-              {Math.floor(duration / 60)}:{String(duration % 60).padStart(2, '0')}
+              {formatTime(duration)}
             </p>
           )}
         </div>

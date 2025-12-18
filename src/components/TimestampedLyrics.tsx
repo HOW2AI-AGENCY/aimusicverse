@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Loader2, Music2 } from 'lucide-react';
 import { AudioWaveform } from './AudioWaveform';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/formatters';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { logger } from '@/lib/logger';
 
@@ -240,7 +241,7 @@ export function TimestampedLyrics({
               {/* Mobile: Show timestamp on active line */}
               {isMobile && isActiveLine && (
                 <div className="text-xs text-primary/70 mt-1">
-                  {Math.floor(lineStart / 60)}:{String(Math.floor(lineStart % 60)).padStart(2, '0')}
+                  {formatTime(lineStart)}
                 </div>
               )}
             </div>

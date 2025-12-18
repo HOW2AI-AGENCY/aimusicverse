@@ -1,5 +1,6 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/formatters';
 import { Music } from 'lucide-react';
 
 interface NoteInput {
@@ -180,7 +181,7 @@ export function PianoRollPreview({
       <div className="absolute bottom-0 left-8 right-0 h-4 bg-muted/50 flex items-center justify-between px-2 border-t">
         <span className="text-[10px] font-mono text-muted-foreground">0:00</span>
         <span className="text-[10px] font-mono text-muted-foreground">
-          {Math.floor(duration / 60)}:{Math.floor(duration % 60).toString().padStart(2, '0')}
+          {formatTime(duration)}
         </span>
       </div>
 

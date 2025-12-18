@@ -9,50 +9,18 @@
  */
 
 import type { Track } from "@/hooks/useTracksOptimized";
+import { formatTime as formatTimeFromFormatters, formatTimeWithMs } from '@/lib/formatters';
 
-/**
- * Format time in seconds to MM:SS or HH:MM:SS format
- * @param seconds - Time in seconds
- * @returns Formatted time string
- */
-export function formatTime(seconds: number): string {
-  if (!seconds || seconds < 0 || !isFinite(seconds)) {
-    return "0:00";
-  }
-
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const secs = Math.floor(seconds % 60);
-
-  if (hours > 0) {
-    return `${hours}:${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
-  }
-
-  return `${minutes}:${secs.toString().padStart(2, "0")}`;
-}
-
-/**
- * Format time in seconds to MM:SS.ms format (for DAW/precise timing)
- * @param seconds - Time in seconds
- * @returns Formatted time string with milliseconds
- */
-export function formatTimePrecise(seconds: number): string {
-  if (!seconds || seconds < 0 || !isFinite(seconds)) {
-    return "0:00.00";
-  }
-
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  const ms = Math.floor((seconds % 1) * 100);
-  return `${mins}:${secs.toString().padStart(2, "0")}.${ms.toString().padStart(2, "0")}`;
-}
+// Re-export from shared formatters for backwards compatibility
+export const formatTime = formatTimeFromFormatters;
+export const formatTimePrecise = formatTimeWithMs;
 
 /**
  * Format duration in seconds to MM:SS format (alias for formatTime)
  * @param seconds - Duration in seconds
  * @returns Formatted duration string
  */
-export const formatDuration = formatTime;
+export const formatDuration = formatTimeFromFormatters;
 
 /**
  * Calculate playback progress percentage

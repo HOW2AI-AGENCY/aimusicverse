@@ -3,6 +3,7 @@
  */
 
 import { cn } from '@/lib/utils';
+import { formatTimeWithMs } from '@/lib/formatters';
 
 interface PlayheadProps {
   currentTime: number;
@@ -43,15 +44,8 @@ export function Playhead({ currentTime, zoom, height, className }: PlayheadProps
       
       {/* Time display */}
       <div className="absolute -top-6 left-1/2 -translate-x-1/2 px-1.5 py-0.5 bg-primary text-primary-foreground text-[10px] rounded whitespace-nowrap">
-        {formatTime(currentTime)}
+        {formatTimeWithMs(currentTime)}
       </div>
     </div>
   );
-}
-
-function formatTime(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  const ms = Math.floor((seconds % 1) * 100);
-  return `${mins}:${secs.toString().padStart(2, '0')}.${ms.toString().padStart(2, '0')}`;
 }
