@@ -27,7 +27,7 @@ import {
   Loader2,
   ExternalLink,
 } from 'lucide-react';
-import { useTracks } from '@/hooks/useTracksOptimized';
+import { useTracks } from '@/hooks/useTracks';
 import { saveGuitarAnalysisForTrack } from '@/hooks/useTrackGuitarAnalysis';
 import type { GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
 import { toast } from 'sonner';

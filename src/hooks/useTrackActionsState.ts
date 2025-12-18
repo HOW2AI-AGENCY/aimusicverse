@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Track } from '@/hooks/useTracksOptimized';
+import { Track } from '@/types/track';
 import { supabase } from '@/integrations/supabase/client';
 import { usePlayerStore } from '@/hooks/audio';
 import { useVideoGenerationStatus } from '@/hooks/useVideoGenerationStatus';

@@ -11,7 +11,7 @@ import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTrackStems } from '@/hooks/useTrackStems';
-import { useTracks } from '@/hooks/useTracksOptimized';
+import { useTracks } from '@/hooks/useTracks';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useSectionDetection } from '@/hooks/useSectionDetection';
 import { useReplacedSections } from '@/hooks/useReplacedSections';

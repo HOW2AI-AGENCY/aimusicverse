@@ -9,7 +9,7 @@ import { Switch } from '@/components/ui/switch';
 import { Loader2, Mic, Music } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Track } from '@/hooks/useTracksOptimized';
+import { Track } from '@/types/track';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { logger } from '@/lib/logger';
 import { useIsMobile } from '@/hooks/use-mobile';

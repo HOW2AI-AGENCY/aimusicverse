@@ -139,6 +139,13 @@ export function useTracks(params: UseTracksParams = {}) {
     ? infiniteQuery.data?.pages[0]?.totalCount || 0
     : tracks.length;
 
+  // Download function - opens audio in new tab
+  const downloadTrack = useCallback((params: { trackId: string; audioUrl: string; coverUrl?: string }) => {
+    if (params.audioUrl) {
+      window.open(params.audioUrl, '_blank');
+    }
+  }, []);
+
   return {
     tracks,
     totalCount,
@@ -151,6 +158,7 @@ export function useTracks(params: UseTracksParams = {}) {
     deleteTrack: useCallback((trackId: string) => deleteMutation.mutate(trackId), [deleteMutation]),
     toggleLike: useCallback((params: { trackId: string; isLiked: boolean }) => likeMutation.mutate(params), [likeMutation]),
     logPlay: useCallback((trackId: string) => logPlayMutation.mutate(trackId), [logPlayMutation]),
+    downloadTrack,
     isDeleting: deleteMutation.isPending,
     isTogglingLike: likeMutation.isPending,
   };

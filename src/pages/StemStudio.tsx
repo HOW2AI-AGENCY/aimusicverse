@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { StemStudioContent } from '@/components/stem-studio/StemStudioContent';
 import { TrackStudioContent } from '@/components/stem-studio/TrackStudioContent';
 import { useTrackStems } from '@/hooks/useTrackStems';
-import { useTracks } from '@/hooks/useTracksOptimized';
+import { useTracks } from '@/hooks/useTracks';
 import { FeatureErrorBoundary } from '@/components/ui/feature-error-boundary';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, Music2, AlertCircle } from 'lucide-react';

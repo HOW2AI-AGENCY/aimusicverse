@@ -11,7 +11,7 @@ import { Loader2, Plus, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
-import { Track } from '@/hooks/useTracksOptimized';
+import { Track } from '@/types/track';
 import { formatTime } from '@/lib/player-utils';
 import { logger } from '@/lib/logger';
 

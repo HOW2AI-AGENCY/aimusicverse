@@ -8,7 +8,7 @@
  * - Playback state management
  */
 
-import type { Track } from "@/hooks/useTracksOptimized";
+import type { Track } from "@/types/track";
 import { formatTime as formatTimeFromFormatters, formatTimeWithMs } from '@/lib/formatters';
 
 // Re-export from shared formatters for backwards compatibility

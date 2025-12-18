@@ -1,5 +1,5 @@
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Track } from '@/hooks/useTracksOptimized';
+import { Track } from '@/types/track';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Music2, GitBranch, History, Sparkles, FileText, MessageSquare } from 'lucide-react';

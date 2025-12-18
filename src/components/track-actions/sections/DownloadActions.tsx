@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { DropdownMenuItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from '@/components/ui/dropdown-menu';
 import { Download, FileAudio, FileMusic, Archive } from 'lucide-react';
-import { Track } from '@/hooks/useTracksOptimized';
+import { Track } from '@/types/track';
 import { ActionId } from '@/config/trackActionsConfig';
 import { TrackActionState, isActionAvailable, getActionLabel } from '@/lib/trackActionConditions';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
