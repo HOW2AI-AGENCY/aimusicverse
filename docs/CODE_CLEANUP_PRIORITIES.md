@@ -31,6 +31,18 @@
 - ✅ Telegram Home Screen Shortcuts - `ShortcutsPanel` component for quick access
 - ✅ Multi-Track File Upload - `MultiTrackUpload` component for batch audio upload
 
+### Phase 5: Audit & Deposition System
+- ✅ Content Audit Log - `content_audit_log` table for tracking all user/AI actions
+- ✅ Content Deposits - `content_deposits` table for proof-of-creation documents
+- ✅ Audit Edge Function - `audit-log` function with SHA-256 hashing
+- ✅ useAuditLog Hook - Frontend hook for logging and proof generation
+- ✅ Track Generation Audit - Integrated into `suno-music-callback`
+- ✅ Lyrics Generation Audit - Integrated into `generate-lyrics`
+- ✅ Cover Generation Audit - Integrated into `generate-track-cover`
+- ✅ Artist Portrait Audit - Integrated into `generate-artist-portrait`
+- ✅ Project AI Actions Audit - Integrated into `project-ai-actions`
+- ✅ Project/Artist Creation Audit - Integrated into useProjects/useArtists hooks
+
 ## Code Quality Notes
 - Some direct `date-fns` imports (should use `@/lib/date-utils`)
 - Some direct `framer-motion` imports (should use `@/lib/motion`)

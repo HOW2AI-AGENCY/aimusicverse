@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
+import { useAuditLog } from './useAuditLog';
 
 export interface Artist {
   id: string;
@@ -25,6 +26,7 @@ export interface Artist {
 export const useArtists = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const { logArtistCreated } = useAuditLog();
 
   const { data: artists, isLoading, error } = useQuery({
     queryKey: ['artists', user?.id],
@@ -58,10 +60,16 @@ export const useArtists = () => {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['artists', user?.id] });
       queryClient.invalidateQueries({ queryKey: ['public-artists'] });
       toast.success('Артист создан успешно');
+      // Log to audit
+      logArtistCreated(data.id, data.name, {
+        styleDescription: data.style_description,
+        genreTags: data.genre_tags,
+        isAiGenerated: data.is_ai_generated,
+      });
     },
     onError: (error: any) => {
       logger.error('Error creating artist', error);

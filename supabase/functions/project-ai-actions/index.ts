@@ -174,6 +174,29 @@ Make each option distinctly different in approach and tone.`;
       });
     }
 
+    // Log to content_audit_log for deposition
+    await supabase.from('content_audit_log').insert({
+      entity_type: 'project',
+      entity_id: projectId,
+      user_id: user.id,
+      actor_type: 'ai',
+      ai_model_used: 'google/gemini-2.5-flash',
+      action_type: action === 'translate' ? 'translated' : 'field_improved',
+      action_category: 'modification',
+      prompt_used: userPrompt,
+      input_metadata: {
+        action,
+        field: field || null,
+        language: language || projectLanguage,
+        original_title: project.title,
+      },
+      output_metadata: {
+        result,
+      },
+    });
+
+    console.log(`[project-ai-actions] Audit logged for ${action}`);
+
     return new Response(JSON.stringify({ action, result }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
