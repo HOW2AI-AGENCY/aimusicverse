@@ -60,6 +60,11 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   // CRITICAL: Resume AudioContext and ensure audio routing when fullscreen opens
   useEffect(() => {
     const ensureAudio = async () => {
+      if (!audioElement) {
+        logger.warn('No audio element available on fullscreen open');
+        return;
+      }
+      
       try {
         const { resumeAudioContext, ensureAudioRoutedToDestination } = await import('@/lib/audioContextManager');
         
@@ -73,15 +78,26 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         await ensureAudioRoutedToDestination();
         
         // Sync volume with audio element
-        if (audioElement && audioElement.volume !== volume) {
+        if (audioElement.volume !== volume) {
           audioElement.volume = volume;
           logger.debug('Volume synced on fullscreen open', { volume });
+        }
+        
+        // CRITICAL: Resume playback if it was playing but audio got paused
+        if (isPlaying && audioElement.paused) {
+          logger.info('Resuming paused audio on fullscreen open');
+          try {
+            await audioElement.play();
+          } catch (playErr) {
+            logger.error('Failed to resume audio', playErr);
+          }
         }
         
         logger.info('Fullscreen player audio initialized', { 
           volume, 
           isPlaying,
-          hasAudioElement: !!audioElement 
+          audioPaused: audioElement.paused,
+          hasAudioElement: true 
         });
       } catch (err) {
         logger.error('Error initializing fullscreen audio', err);
@@ -89,7 +105,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     };
     
     ensureAudio();
-  }, []); // Run once on mount
+  }, [audioElement, isPlaying, volume]);
   
   // Audio visualizer data
   const visualizerData = useAudioVisualizer(audioElement, isPlaying, { barCount: 48, smoothing: 0.75 });
@@ -239,9 +255,10 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
           clearTimeout(scrollTimeoutRef.current);
         }
         
+        // Increased timeout to 5 seconds for better UX
         scrollTimeoutRef.current = setTimeout(() => {
           setUserScrolling(false);
-        }, 3000);
+        }, 5000);
       }
       
       lastScrollTopRef.current = currentScrollTop;
@@ -249,15 +266,19 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
 
     const handleTouchStart = () => {
       setUserScrolling(true);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
     };
 
     const handleTouchEnd = () => {
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
       }
+      // Increased timeout to 5 seconds
       scrollTimeoutRef.current = setTimeout(() => {
         setUserScrolling(false);
-      }, 3000);
+      }, 5000);
     };
 
     container.addEventListener('scroll', handleScroll, { passive: true });
@@ -479,18 +500,33 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         </motion.header>
 
         {/* Lyrics Section */}
-        <div className="flex-1 overflow-hidden relative min-h-0">
-          {/* User scroll indicator */}
-          {userScrolling && (
-            <div className="absolute top-2 right-2 z-10 px-2 py-1 bg-muted/80 rounded text-xs text-muted-foreground">
-              Автоскролл выкл
-            </div>
-          )}
+        <div className="flex-1 relative min-h-0 flex flex-col">
+          {/* User scroll indicator with re-enable button */}
+          <AnimatePresence>
+            {userScrolling && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="absolute top-2 right-2 z-10 flex items-center gap-2"
+              >
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setUserScrolling(false)}
+                  className="h-7 px-2 text-xs bg-muted/90 backdrop-blur-sm"
+                >
+                  Вкл. автоскролл
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
           <div 
             ref={lyricsContainerRef}
-            className="h-full overflow-y-auto px-4 py-4 overscroll-contain touch-pan-y"
+            className="flex-1 overflow-y-auto px-4 py-4"
             style={{ 
-              WebkitOverflowScrolling: 'touch',
+              overscrollBehavior: 'contain',
+              touchAction: 'pan-y',
             }}
           >
           {lyricsLines ? (

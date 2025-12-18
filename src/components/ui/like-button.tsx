@@ -10,7 +10,7 @@ interface LikeButtonProps {
   trackId: string;
   likesCount?: number;
   size?: 'sm' | 'default' | 'lg' | 'icon';
-  variant?: 'default' | 'ghost' | 'outline';
+  variant?: 'default' | 'ghost' | 'outline' | 'glass';
   showCount?: boolean;
   className?: string;
 }
@@ -42,14 +42,18 @@ export function LikeButton({
     ? (likesCount || 0) + (likesCount === 0 ? 1 : 0) 
     : likesCount || 0;
 
+  const isGlass = variant === 'glass';
+  const buttonVariant = isGlass ? 'ghost' : variant;
+
   return (
     <Button
-      variant={variant}
+      variant={buttonVariant}
       size={size}
       onClick={handleClick}
       disabled={isLoading}
       className={cn(
         "relative transition-all",
+        isGlass && "bg-black/40 backdrop-blur-sm hover:bg-black/60 border-0",
         isLiked && "text-red-500 hover:text-red-600",
         className
       )}
