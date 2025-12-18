@@ -1,5 +1,5 @@
 import { motion } from '@/lib/motion';
-import { Sparkles, Sun, Moon, Sunrise, Sunset, Wand2 } from 'lucide-react';
+import { Sun, Moon, Sunrise, Sunset } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface WelcomeSectionProps {
@@ -42,37 +42,33 @@ export function WelcomeSection({ userName, className }: WelcomeSectionProps) {
   
   return (
     <motion.div 
-      className={cn("py-1.5", className)}
-      initial={{ opacity: 0, y: -8 }}
+      className={cn("py-1", className)}
+      initial={{ opacity: 0, y: -5 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.05, duration: 0.25 }}
+      transition={{ delay: 0.05, duration: 0.2 }}
     >
-      <div className="flex items-center gap-2.5">
-        {/* Animated icon container - Compact */}
+      <div className="flex items-center gap-2">
+        {/* Animated icon container - Ultra Compact */}
         <motion.div 
           className={cn(
-            "flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center",
+            "flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center",
             "bg-gradient-to-br",
             gradient
           )}
-          animate={{ rotate: [0, 5, -5, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ rotate: [0, 3, -3, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
         >
           <span className="text-white">{icon}</span>
         </motion.div>
         
         <div className="flex-1 min-w-0">
-          <h2 className="text-base font-bold truncate">
+          <h2 className="text-sm font-semibold truncate">
             {text}
             {userName && (
               <span className="text-primary">, {userName}</span>
             )}
-            <span className="inline-block ml-1">👋</span>
+            <span className="inline-block ml-0.5">👋</span>
           </h2>
-          <p className="text-[11px] text-muted-foreground flex items-center gap-1">
-            <span>Готовы создать?</span>
-            <Wand2 className="w-3 h-3 text-primary" />
-          </p>
         </div>
       </div>
     </motion.div>

@@ -1,9 +1,9 @@
 // AchievementProgressWidget - Shows achievements close to being unlocked
-import { useMemo } from 'react';
-import { Trophy, Star, Heart, Music, Share2, Zap, Target, TrendingUp } from 'lucide-react';
+import { useMemo, memo } from 'react';
+import { Trophy, Star, Heart, Music, Share2, Zap, Target } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { useAchievements, useUserAchievements, useUserCredits, useCreditTransactions } from '@/hooks/useGamification';
+import { useAchievements, useUserAchievements, useUserCredits } from '@/hooks/useGamification';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import { motion } from '@/lib/motion';
@@ -33,7 +33,7 @@ interface AchievementWithProgress {
   remaining: number;
 }
 
-export function AchievementProgressWidget() {
+export const AchievementProgressWidget = memo(function AchievementProgressWidget() {
   const { user } = useAuth();
   const { data: achievements } = useAchievements();
   const { data: userAchievements } = useUserAchievements();
@@ -164,4 +164,4 @@ export function AchievementProgressWidget() {
       )}
     </Card>
   );
-}
+});
