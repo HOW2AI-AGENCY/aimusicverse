@@ -240,5 +240,19 @@ export async function updateTrackVisibility(
   trackId: string,
   isPublic: boolean
 ): Promise<tracksApi.TrackRow> {
-  return tracksApi.updateTrack(trackId, { is_public: isPublic });
+  const result = await tracksApi.updateTrack(trackId, { is_public: isPublic });
+  
+  // Log visibility change for audit (fire-and-forget)
+  supabase.functions.invoke('audit-log', {
+    body: {
+      action: 'log',
+      entityType: 'track',
+      entityId: trackId,
+      actorType: 'user',
+      actionType: isPublic ? 'published' : 'unpublished',
+      actionCategory: 'publication',
+    },
+  }).catch(() => {});
+  
+  return result;
 }

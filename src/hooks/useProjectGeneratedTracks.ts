@@ -4,6 +4,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { useAuditLog } from '@/hooks/useAuditLog';
 
 export interface ProjectGeneratedTrack {
   id: string;
@@ -26,6 +27,7 @@ export interface ProjectGeneratedTrack {
 
 export function useProjectGeneratedTracks(projectId: string | undefined, projectTrackId?: string) {
   const queryClient = useQueryClient();
+  const { logAction } = useAuditLog();
 
   const { data: tracks, isLoading, error } = useQuery({
     queryKey: ['project-generated-tracks', projectId, projectTrackId],
@@ -64,6 +66,16 @@ export function useProjectGeneratedTracks(projectId: string | undefined, project
         .eq('id', trackId);
 
       if (error) throw error;
+      
+      // Log approval for audit
+      logAction({
+        entityType: 'track',
+        entityId: trackId,
+        actorType: 'user',
+        actionType: 'approved',
+        actionCategory: 'approval',
+        inputMetadata: { projectId },
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['project-generated-tracks', projectId] });
@@ -88,6 +100,16 @@ export function useProjectGeneratedTracks(projectId: string | undefined, project
         .eq('id', trackId);
 
       if (error) throw error;
+      
+      // Log rejection for audit
+      logAction({
+        entityType: 'track',
+        entityId: trackId,
+        actorType: 'user',
+        actionType: 'rejected',
+        actionCategory: 'approval',
+        inputMetadata: { projectId },
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['project-generated-tracks', projectId] });
@@ -127,6 +149,16 @@ export function useProjectGeneratedTracks(projectId: string | undefined, project
           status: 'completed',
         })
         .eq('id', projectTrackId);
+      
+      // Log master selection for audit
+      logAction({
+        entityType: 'track',
+        entityId: trackId,
+        actorType: 'user',
+        actionType: 'master_selected',
+        actionCategory: 'approval',
+        inputMetadata: { projectId, projectTrackId },
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['project-generated-tracks', projectId] });
@@ -163,6 +195,7 @@ export function useProjectGeneratedTracks(projectId: string | undefined, project
 // Hook to publish a project
 export function usePublishProject() {
   const queryClient = useQueryClient();
+  const { logAction } = useAuditLog();
 
   return useMutation({
     mutationFn: async (projectId: string) => {
@@ -179,6 +212,15 @@ export function usePublishProject() {
         .eq('id', projectId);
 
       if (error) throw error;
+      
+      // Log publication for audit
+      logAction({
+        entityType: 'project',
+        entityId: projectId,
+        actorType: 'user',
+        actionType: 'published',
+        actionCategory: 'publication',
+      });
     },
     onSuccess: (_, projectId) => {
       queryClient.invalidateQueries({ queryKey: ['projects'] });

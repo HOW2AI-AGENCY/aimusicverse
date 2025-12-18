@@ -80,9 +80,14 @@ Stores generated proof-of-creation documents.
 - `suno-music-callback` logs track creation with audio hash
 - Captures: AI model, prompt, style tags, reference audio
 
+### Track Approval & Publishing
+- `useProjectGeneratedTracks` logs track approval, rejection, master selection
+- `tracks.service.ts` logs visibility changes (publish/unpublish)
+
 ### Project Management
 - `useProjects` hook logs creation and updates
 - `project-ai-actions` logs AI improvements and translations
+- `usePublishProject` logs project publication
 
 ### Artist Creation
 - `useArtists` hook logs artist creation
@@ -95,6 +100,10 @@ Stores generated proof-of-creation documents.
 ### Cover Generation
 - `generate-track-cover` logs cover art generation
 - Captures: prompt, style context, project aesthetics
+
+### Reference Audio
+- `MultiTrackUpload` logs user audio uploads
+- Captures: file name, size, MIME type, storage URL
 
 ## Usage
 
@@ -214,3 +223,8 @@ The audit system is designed to integrate with external deposition services:
 - `supabase/functions/generate-track-cover/index.ts` - Cover audit
 - `supabase/functions/generate-artist-portrait/index.ts` - Portrait audit
 - `supabase/functions/project-ai-actions/index.ts` - Project AI audit
+- `src/hooks/useProjects.tsx` - Project creation/update audit
+- `src/hooks/useArtists.tsx` - Artist creation audit
+- `src/hooks/useProjectGeneratedTracks.ts` - Track approval/publish audit
+- `src/components/upload/MultiTrackUpload.tsx` - Reference audio upload audit
+- `src/services/tracks.service.ts` - Track visibility audit
