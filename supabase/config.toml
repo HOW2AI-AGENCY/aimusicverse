@@ -215,3 +215,6 @@ verify_jwt = true
 
 [functions.analyze-track-context]
 verify_jwt = true
+
+[functions.set-music-profile]
+verify_jwt = true
