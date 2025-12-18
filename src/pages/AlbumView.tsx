@@ -19,6 +19,7 @@ import {
   Loader2
 } from 'lucide-react';
 import { usePlayerStore } from '@/hooks/audio';
+import { useTelegramBackButton } from '@/hooks/telegram';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
@@ -58,6 +59,12 @@ export default function AlbumView() {
   const navigate = useNavigate();
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
   const [playingAll, setPlayingAll] = useState(false);
+
+  // Telegram BackButton - navigates back to library
+  const { shouldShowUIButton: showUIBackButton } = useTelegramBackButton({
+    visible: true,
+    fallbackPath: '/',
+  });
 
   // Fetch album data with profile separately (no FK relationship)
   const { data: album, isLoading: albumLoading } = useQuery({
@@ -203,9 +210,11 @@ export default function AlbumView() {
         {/* Header */}
         <div className="relative sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/30 px-4 py-3">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
+            {showUIBackButton && (
+              <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+            )}
             <span className="font-medium text-sm truncate flex-1">{album.title}</span>
             <Button variant="ghost" size="icon" onClick={handleShare}>
               <Share2 className="w-4 h-4" />
