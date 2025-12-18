@@ -1,9 +1,9 @@
 /**
  * Inline Reference Preview Component
- * Compact preview of active audio reference in generation form
+ * Compact preview of active audio reference in generation form with waveform
  */
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useAudioReference } from '@/hooks/useAudioReference';
 import { cn } from '@/lib/utils';
+import { MiniWaveform } from './MiniWaveform';
 
 interface InlineReferencePreviewProps {
   onRemove?: () => void;
@@ -35,23 +36,46 @@ export function InlineReferencePreview({
 }: InlineReferencePreviewProps) {
   const { activeReference, clearActive, analysisStatus } = useAudioReference();
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Create audio element once
   useEffect(() => {
+    if (!activeReference?.audioUrl) return;
+
+    const audio = new Audio(activeReference.audioUrl);
+    audioRef.current = audio;
+
+    audio.addEventListener('loadedmetadata', () => {
+      setDuration(audio.duration);
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      setCurrentTime(audio.currentTime);
+    });
+
+    audio.addEventListener('ended', () => {
+      setIsPlaying(false);
+      setCurrentTime(0);
+    });
+
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
+      audio.pause();
+      audio.src = '';
+      audioRef.current = null;
     };
-  }, []);
+  }, [activeReference?.audioUrl]);
 
-  if (!activeReference) return null;
-
-  const handlePlayPause = () => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio(activeReference.audioUrl);
-      audioRef.current.onended = () => setIsPlaying(false);
+  // Set duration from reference if available
+  useEffect(() => {
+    if (activeReference?.durationSeconds && duration === 0) {
+      setDuration(activeReference.durationSeconds);
     }
+  }, [activeReference?.durationSeconds, duration]);
+
+  const handlePlayPause = useCallback(() => {
+    if (!audioRef.current) return;
 
     if (isPlaying) {
       audioRef.current.pause();
@@ -60,15 +84,23 @@ export function InlineReferencePreview({
       audioRef.current.play();
       setIsPlaying(true);
     }
-  };
+  }, [isPlaying]);
 
-  const handleRemove = () => {
+  const handleSeek = useCallback((time: number) => {
+    if (!audioRef.current) return;
+    audioRef.current.currentTime = time;
+    setCurrentTime(time);
+  }, []);
+
+  const handleRemove = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause();
     }
     clearActive();
     onRemove?.();
-  };
+  }, [clearActive, onRemove]);
+
+  if (!activeReference) return null;
 
   const getSourceIcon = () => {
     switch (activeReference.source) {
@@ -88,72 +120,96 @@ export function InlineReferencePreview({
     return 'Референс';
   };
 
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   return (
     <div 
       className={cn(
-        "flex items-center gap-2 p-2 rounded-lg border bg-muted/30",
+        "flex flex-col gap-2 p-3 rounded-lg border bg-muted/30",
         "transition-all hover:bg-muted/50",
         className
       )}
     >
-      {/* Play/Pause button */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="h-8 w-8 shrink-0"
-        onClick={handlePlayPause}
-      >
-        {isPlaying ? (
-          <Pause className="h-4 w-4" />
-        ) : (
-          <Play className="h-4 w-4" />
-        )}
-      </Button>
+      {/* Header row */}
+      <div className="flex items-center gap-2">
+        {/* Play/Pause button */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 shrink-0"
+          onClick={handlePlayPause}
+        >
+          {isPlaying ? (
+            <Pause className="h-4 w-4" />
+          ) : (
+            <Play className="h-4 w-4" />
+          )}
+        </Button>
 
-      {/* Waveform placeholder / info */}
-      <div 
-        className="flex-1 min-w-0 cursor-pointer"
-        onClick={onOpenDrawer}
-      >
-        <div className="flex items-center gap-1.5">
-          {getSourceIcon()}
-          <span className="text-sm font-medium truncate max-w-[120px]">
-            {activeReference.fileName}
-          </span>
-        </div>
-        
-        <div className="flex items-center gap-1.5 mt-0.5">
-          <Badge variant="secondary" className="text-xs px-1.5 py-0">
-            {getModeLabel()}
-          </Badge>
-          
-          {activeReference.durationSeconds && (
-            <span className="text-xs text-muted-foreground">
-              {Math.round(activeReference.durationSeconds)}с
+        {/* Info */}
+        <div 
+          className="flex-1 min-w-0 cursor-pointer"
+          onClick={onOpenDrawer}
+        >
+          <div className="flex items-center gap-1.5">
+            {getSourceIcon()}
+            <span className="text-sm font-medium truncate max-w-[140px]">
+              {activeReference.fileName}
             </span>
-          )}
+          </div>
           
-          {analysisStatus === 'processing' && (
-            <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
-          )}
-          
-          {activeReference.analysis?.bpm && (
-            <span className="text-xs text-muted-foreground">
-              {activeReference.analysis.bpm} BPM
-            </span>
-          )}
+          <div className="flex items-center gap-1.5 mt-0.5">
+            <Badge variant="secondary" className="text-xs px-1.5 py-0">
+              {getModeLabel()}
+            </Badge>
+            
+            {analysisStatus === 'processing' && (
+              <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
+            )}
+            
+            {activeReference.analysis?.bpm && (
+              <span className="text-xs text-muted-foreground">
+                {activeReference.analysis.bpm} BPM
+              </span>
+            )}
+          </div>
         </div>
+
+        {/* Remove button */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
+          onClick={handleRemove}
+        >
+          <X className="h-4 w-4" />
+        </Button>
       </div>
 
-      {/* Remove button */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
-        onClick={handleRemove}
-      >
-        <X className="h-4 w-4" />
-      </Button>
+      {/* Waveform with time */}
+      <div className="flex items-center gap-2">
+        <span className="text-xs text-muted-foreground w-8 text-right shrink-0">
+          {formatTime(currentTime)}
+        </span>
+        
+        <MiniWaveform
+          audioUrl={activeReference.audioUrl}
+          currentTime={currentTime}
+          duration={duration}
+          isPlaying={isPlaying}
+          onSeek={handleSeek}
+          height={32}
+          className="flex-1"
+        />
+        
+        <span className="text-xs text-muted-foreground w-8 shrink-0">
+          {formatTime(duration)}
+        </span>
+      </div>
     </div>
   );
 }
