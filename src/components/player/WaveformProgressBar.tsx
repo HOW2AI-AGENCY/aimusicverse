@@ -62,26 +62,6 @@ export const WaveformProgressBar = memo(function WaveformProgressBar({
     onSeek(newTime);
   }, [duration, onSeek]);
 
-  const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    setIsDragging(true);
-    handleSeek(e);
-  }, [handleSeek]);
-
-  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    if (isDragging) {
-      handleSeek(e);
-    }
-  }, [isDragging, handleSeek]);
-
-  const handlePointerUp = useCallback(() => {
-    setIsDragging(false);
-  }, []);
-
-  const handleWaveformSeek = useCallback((time: number) => {
-    setLocalTime(time);
-    onSeek(time);
-  }, [onSeek]);
-
   const progress = duration > 0 ? (localTime / duration) * 100 : 0;
 
   return (
@@ -90,10 +70,20 @@ export const WaveformProgressBar = memo(function WaveformProgressBar({
       <div
         ref={containerRef}
         className="relative cursor-pointer touch-manipulation group"
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerLeave={handlePointerUp}
+        onPointerDown={(e) => {
+          e.preventDefault();
+          setIsDragging(true);
+          handleSeek(e);
+        }}
+        onPointerMove={(e) => {
+          if (isDragging) {
+            e.preventDefault();
+            handleSeek(e);
+          }
+        }}
+        onPointerUp={() => setIsDragging(false)}
+        onPointerLeave={() => setIsDragging(false)}
+        onPointerCancel={() => setIsDragging(false)}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
         role="slider"
@@ -101,11 +91,12 @@ export const WaveformProgressBar = memo(function WaveformProgressBar({
         aria-valuemin={0}
         aria-valuemax={duration}
         aria-valuenow={localTime}
+        style={{ touchAction: 'none' }}
       >
         {/* Buffered indicator (behind waveform) */}
         {buffered > 0 && (
           <div 
-            className="absolute inset-0 bg-muted-foreground/10 rounded-sm transition-all"
+            className="absolute inset-0 bg-muted-foreground/10 rounded-sm transition-all pointer-events-none"
             style={{ width: `${buffered}%` }}
           />
         )}
@@ -120,7 +111,8 @@ export const WaveformProgressBar = memo(function WaveformProgressBar({
           mode={mode}
           showBeatGrid={showBeatGrid}
           showProgress={true}
-          interactive={false} // We handle interaction at this level
+          interactive={false}
+          className="pointer-events-none"
         />
 
         {/* Draggable handle with glow */}

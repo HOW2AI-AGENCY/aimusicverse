@@ -122,21 +122,25 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
   
   const lyricsRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll lyrics
+  // Auto-scroll lyrics to active line
   useEffect(() => {
-    if (!lyricsData?.alignedWords || !lyricsRef.current) return;
-
-    const currentWord = lyricsData.alignedWords.find(
-      (word) => currentTime >= word.startS && currentTime <= word.endS
-    );
-
-    if (currentWord) {
-      const wordElement = lyricsRef.current.querySelector(`[data-start="${currentWord.startS}"]`);
-      if (wordElement) {
-        wordElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (!lyricsRef.current || !isPlaying) return;
+    
+    const activeElement = lyricsRef.current.querySelector('[data-active="true"]');
+    if (activeElement) {
+      const container = lyricsRef.current;
+      const containerRect = container.getBoundingClientRect();
+      const elementRect = activeElement.getBoundingClientRect();
+      
+      // Check if element is outside visible area
+      const elementTop = elementRect.top - containerRect.top;
+      const isVisible = elementTop >= 0 && elementTop < containerRect.height * 0.6;
+      
+      if (!isVisible) {
+        activeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
-  }, [currentTime, lyricsData]);
+  }, [currentTime, isPlaying]);
 
   // NOW it's safe to do conditional return after all hooks
   if (isMobile) {
@@ -380,14 +384,16 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
                     return (
                       <motion.div
                         key={lineIndex}
+                        data-active={isActive}
+                        data-line={lineIndex}
                         initial={{ opacity: 0.4 }}
                         animate={{
                             opacity: isActive ? 1 : isPast ? 0.6 : 0.4,
-                            scale: isActive ? 1.05 : 1,
+                            scale: isActive ? 1.02 : 1,
                         }}
                         transition={{ duration: 0.2 }}
                         className={cn(
-                          'text-base md:text-lg lg:text-xl font-medium cursor-pointer transition-all',
+                          'text-base md:text-lg lg:text-xl font-medium cursor-pointer transition-all py-1',
                           isActive && 'font-bold text-primary'
                         )}
                         onClick={() => seek(line[0].startS)}
