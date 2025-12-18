@@ -36,17 +36,20 @@
 - Implement stem separation
 ```
 
-### 5. Track Cleanup on Delete
+### 5. Track Cleanup on Delete ✅ COMPLETED
 **File:** `src/services/tracks.service.ts`
 ```
-- Clean storage files on track deletion
-- Clean versions, stems
+- ✅ Clean storage files on track deletion (tracks, project-assets buckets)
+- ✅ Clean versions file URLs before cascade delete
+- CASCADE handles database records (versions, stems, analytics)
 ```
 
-### 6. Error Tracking
-**File:** `src/lib/errors.ts`
+### 6. Error Tracking ✅ COMPLETED
+**File:** `src/lib/sentry.ts`
 ```
-- Integrate Sentry or similar
+- ✅ Sentry integration added (conditional, requires VITE_SENTRY_DSN)
+- ✅ Auto-capture errors from logError()
+- ✅ Browser tracing and replay enabled
 ```
 
 ## Low Priority (Future Enhancement)
