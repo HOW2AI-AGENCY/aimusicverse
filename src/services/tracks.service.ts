@@ -4,6 +4,7 @@
  */
 
 import * as tracksApi from '@/api/tracks.api';
+import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
 
 export interface EnrichedTrack extends tracksApi.TrackRow {
@@ -15,6 +16,47 @@ export interface TracksWithMeta {
   tracks: EnrichedTrack[];
   totalCount: number;
   hasMore: boolean;
+}
+
+/**
+ * Extract storage path from Supabase storage URL
+ */
+function extractStoragePath(url: string | null, bucket: string): string | null {
+  if (!url) return null;
+  
+  // Match pattern: /storage/v1/object/public/{bucket}/{path}
+  const regex = new RegExp(`/storage/v1/object/(?:public|sign)/${bucket}/(.+?)(?:\\?|$)`);
+  const match = url.match(regex);
+  if (match) return decodeURIComponent(match[1]);
+  
+  // Also check for direct bucket paths
+  if (url.includes(`/${bucket}/`)) {
+    const parts = url.split(`/${bucket}/`);
+    if (parts[1]) {
+      return decodeURIComponent(parts[1].split('?')[0]);
+    }
+  }
+  
+  return null;
+}
+
+/**
+ * Delete files from storage bucket (non-throwing)
+ */
+async function deleteStorageFiles(bucket: string, paths: string[]): Promise<void> {
+  const validPaths = paths.filter(Boolean);
+  if (validPaths.length === 0) return;
+  
+  try {
+    const { error } = await supabase.storage.from(bucket).remove(validPaths);
+    if (error) {
+      logger.warn('Failed to delete storage files', { bucket, paths: validPaths, error: error.message });
+    } else {
+      logger.info('Storage files deleted', { bucket, count: validPaths.length });
+    }
+  } catch (error) {
+    logger.warn('Storage deletion error', { bucket, error });
+  }
 }
 
 /**
@@ -134,13 +176,61 @@ export async function logTrackPlay(trackId: string): Promise<void> {
 }
 
 /**
- * Delete track with cleanup
- * Handles deletion of track and related data (versions, stems, storage files)
+ * Delete track with full cleanup
+ * Handles deletion of track and related storage files (versions, stems, covers)
  */
 export async function deleteTrackWithCleanup(trackId: string): Promise<void> {
-  // Note: Database CASCADE constraints handle versions, stems, analytics deletion
-  // Storage cleanup is handled by Supabase storage lifecycle policies
+  logger.info('Starting track deletion with cleanup', { trackId });
+  
+  // 1. Fetch track data to get file URLs
+  const track = await tracksApi.fetchTrackById(trackId);
+  if (!track) {
+    logger.warn('Track not found for deletion', { trackId });
+    return;
+  }
+  
+  // 2. Fetch related versions to get their file URLs
+  const { data: versions } = await supabase
+    .from('track_versions')
+    .select('audio_url, cover_url')
+    .eq('track_id', trackId);
+  
+  // 3. Collect all file paths for deletion (all files stored in project-assets bucket)
+  const filePaths: string[] = [];
+  
+  // Main track files
+  if (track.audio_url) {
+    const path = extractStoragePath(track.audio_url, 'project-assets');
+    if (path) filePaths.push(path);
+  }
+  if (track.cover_url) {
+    const coverPath = extractStoragePath(track.cover_url, 'project-assets');
+    if (coverPath) filePaths.push(coverPath);
+  }
+  
+  // Version files
+  if (versions) {
+    for (const version of versions) {
+      if (version.audio_url) {
+        const path = extractStoragePath(version.audio_url, 'project-assets');
+        if (path) filePaths.push(path);
+      }
+      if (version.cover_url) {
+        const coverPath = extractStoragePath(version.cover_url, 'project-assets');
+        if (coverPath) filePaths.push(coverPath);
+      }
+    }
+  }
+  
+  // 4. Delete storage files (non-blocking, errors logged but not thrown)
+  if (filePaths.length > 0) {
+    await deleteStorageFiles('project-assets', filePaths);
+  }
+  
+  // 5. Delete track from database (CASCADE handles related records)
   await tracksApi.deleteTrack(trackId);
+  
+  logger.info('Track deletion completed', { trackId, deletedFiles: filePaths.length });
 }
 
 /**

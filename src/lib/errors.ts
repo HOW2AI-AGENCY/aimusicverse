@@ -179,6 +179,10 @@ export function logError(
     timestamp: new Date().toISOString(),
   });
 
-  // Error tracking integration ready for Sentry/similar service
-  // When configured, errors will be automatically sent to monitoring dashboard
+  // Send to Sentry if configured
+  import('./sentry').then(({ captureError }) => {
+    captureError(error, context);
+  }).catch(() => {
+    // Sentry not available, silent fail
+  });
 }
