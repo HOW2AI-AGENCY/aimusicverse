@@ -108,7 +108,7 @@ export function useTelegramBiometric(): UseTelegramBiometricReturn {
       try {
         webApp.BiometricManager!.requestAccess(
           { reason: reason || 'Для безопасного доступа к приложению' },
-          (granted) => {
+          (granted: boolean) => {
             setIsAccessGranted(granted);
             log.info('Biometric access request result', { granted });
             resolve(granted);
@@ -145,7 +145,7 @@ export function useTelegramBiometric(): UseTelegramBiometricReturn {
       try {
         webApp.BiometricManager!.authenticate(
           { reason: reason || 'Подтвердите действие' },
-          (success, token) => {
+          (success: boolean, token?: string) => {
             log.info('Biometric authentication result', { success });
             resolve({ success, token });
           }
@@ -166,7 +166,7 @@ export function useTelegramBiometric(): UseTelegramBiometricReturn {
 
     return new Promise((resolve) => {
       try {
-        webApp.BiometricManager!.updateBiometricToken(token, (success) => {
+        webApp.BiometricManager!.updateBiometricToken(token, (success: boolean) => {
           log.info('Biometric token update result', { success });
           resolve(success);
         });

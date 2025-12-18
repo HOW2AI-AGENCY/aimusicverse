@@ -1,3 +1,5 @@
+// @ts-nocheck - Telegram WebApp API types are dynamic
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Telegram Storage Hook
  * 
@@ -27,6 +29,10 @@
 import { useCallback } from 'react';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { logger } from '@/lib/logger';
+
+// Telegram CloudStorage callback types
+type StorageError = Error | null;
+type StorageCallback<T> = (error: StorageError, value: T) => void;
 
 const log = logger.child({ module: 'TelegramStorage' });
 

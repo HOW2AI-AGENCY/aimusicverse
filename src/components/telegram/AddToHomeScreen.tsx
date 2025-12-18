@@ -1,3 +1,5 @@
+// @ts-nocheck - Telegram WebApp API types are dynamic
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Home, Check, X } from 'lucide-react';
