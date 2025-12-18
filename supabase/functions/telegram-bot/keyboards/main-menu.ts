@@ -66,7 +66,8 @@ export function createProjectListKeyboard(projects: Array<{ id: string; title: s
   return {
     inline_keyboard: [
       ...projectButtons,
-      [{ text: '➕ Создать проект', web_app: { url: `${BOT_CONFIG.miniAppUrl}/projects` } }],
+      [{ text: '➕ Создать проект', callback_data: 'wizard_start_project' }],
+      [{ text: '📱 В приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}/projects` } }],
       [{ text: '⬅️ Назад', callback_data: 'main_menu' }]
     ] as InlineKeyboardButton[][]
   };
@@ -121,13 +122,14 @@ export function createShareMenu(trackId: string) {
   return {
     inline_keyboard: [
       [
-        { text: '💬 Отправить в чат', callback_data: `share_chat_${trackId}` }
+        { text: '📤 Отправить в Telegram', switch_inline_query: `track_${trackId}` }
       ],
       [
-        { text: '👥 Поделиться с друзьями', switch_inline_query: `track_${trackId}` }
+        { text: '💬 В этот чат', switch_inline_query_current_chat: `track_${trackId}` }
       ],
       [
-        { text: '🔗 Копировать ссылку', callback_data: `share_link_${trackId}` }
+        { text: '📊 Статистика', callback_data: `stats_${trackId}` },
+        { text: '🔗 Ссылка', callback_data: `share_link_${trackId}` }
       ],
       [
         { text: '🔙 К треку', callback_data: `track_${trackId}` }
@@ -144,7 +146,15 @@ export function createTrackDetailsKeyboard(trackId: string) {
       ],
       [
         { text: '📤 Поделиться', callback_data: `share_${trackId}` },
+        { text: '❤️ Лайк', callback_data: `like_${trackId}` }
+      ],
+      [
+        { text: '📊 Статистика', callback_data: `stats_${trackId}` },
         { text: '⬇️ Скачать', callback_data: `dl_${trackId}` }
+      ],
+      [
+        { text: '🎛️ Студия', callback_data: `studio_${trackId}` },
+        { text: '🔀 Ремикс', callback_data: `remix_${trackId}` }
       ]
     ] as InlineKeyboardButton[][]
   };
