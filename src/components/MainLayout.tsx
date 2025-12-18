@@ -18,6 +18,7 @@ import { setSubscriptionDialogCallback } from '@/hooks/useTrackActions';
 import { SystemAnnouncement } from './layout/SystemAnnouncement';
 import { ContextualHint } from './hints/ContextualHint';
 import { useContextualHints } from '@/hooks/useContextualHints';
+import { LikeEncouragementProvider } from './engagement/LikeEncouragementToast';
 
 export const MainLayout = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
@@ -59,62 +60,64 @@ export const MainLayout = () => {
   };
 
   return (
-    <div className="flex h-screen bg-background">
-      {/* Skip to content for keyboard navigation */}
-      <SkipToContent />
-      
-      {/* Guest mode banner - subtle and compact */}
-      {isGuestMode && <GuestModeBanner />}
-      
-      {/* Onboarding system */}
-      <OnboardingTrigger />
-      <OnboardingOverlay />
-      
-      {/* Generation indicator removed - using only skeleton in library */}
-      
-      {/* Subscription Required Dialog */}
-      <SubscriptionRequiredDialog 
-        open={subscriptionDialogOpen} 
-        onOpenChange={setSubscriptionDialogOpen} 
-      />
-      
-      {/* Gamification Onboarding */}
-      <GamificationOnboarding
-        open={gamificationOnboardingOpen}
-        onComplete={handleGamificationOnboardingComplete}
-      />
-      
-      {/* Contextual Hints */}
-      {currentHint && (
-        <ContextualHint
-          hint={currentHint}
-          onDismiss={dismissHint}
-          position="bottom"
-        />
-      )}
-      
-      {isDesktop && (
-        <div className="w-64 fixed inset-y-0 z-50">
-          <Sidebar />
-        </div>
-      )}
-      <main
-        id="main-content"
-        className={cn(
-          'flex-1 flex flex-col overflow-y-auto',
-          isDesktop ? 'ml-64' : 'pb-[calc(4rem+env(safe-area-inset-bottom,0px))]',
-          isGuestMode && 'pt-9'
-        )}
-      >
-        {/* System Announcements - shown at top of main content */}
-        <SystemAnnouncement />
+    <LikeEncouragementProvider>
+      <div className="flex h-screen bg-background">
+        {/* Skip to content for keyboard navigation */}
+        <SkipToContent />
         
-        <div className={cn('flex-1', isDesktop ? 'p-6' : 'p-3')}>
-          <Outlet />
-        </div>
-        <ResizablePlayer />
-      </main>
-      {!isDesktop && <BottomNavigation />}
-    </div>
+        {/* Guest mode banner - subtle and compact */}
+        {isGuestMode && <GuestModeBanner />}
+        
+        {/* Onboarding system */}
+        <OnboardingTrigger />
+        <OnboardingOverlay />
+        
+        {/* Generation indicator removed - using only skeleton in library */}
+        
+        {/* Subscription Required Dialog */}
+        <SubscriptionRequiredDialog 
+          open={subscriptionDialogOpen} 
+          onOpenChange={setSubscriptionDialogOpen} 
+        />
+        
+        {/* Gamification Onboarding */}
+        <GamificationOnboarding
+          open={gamificationOnboardingOpen}
+          onComplete={handleGamificationOnboardingComplete}
+        />
+        
+        {/* Contextual Hints */}
+        {currentHint && (
+          <ContextualHint
+            hint={currentHint}
+            onDismiss={dismissHint}
+            position="bottom"
+          />
+        )}
+        
+        {isDesktop && (
+          <div className="w-64 fixed inset-y-0 z-50">
+            <Sidebar />
+          </div>
+        )}
+        <main
+          id="main-content"
+          className={cn(
+            'flex-1 flex flex-col overflow-y-auto',
+            isDesktop ? 'ml-64' : 'pb-[calc(4rem+env(safe-area-inset-bottom,0px))]',
+            isGuestMode && 'pt-9'
+          )}
+        >
+          {/* System Announcements - shown at top of main content */}
+          <SystemAnnouncement />
+          
+          <div className={cn('flex-1', isDesktop ? 'p-6' : 'p-3')}>
+            <Outlet />
+          </div>
+          <ResizablePlayer />
+        </main>
+        {!isDesktop && <BottomNavigation />}
+      </div>
+    </LikeEncouragementProvider>
   );
 };

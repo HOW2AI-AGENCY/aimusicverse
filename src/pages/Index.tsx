@@ -23,7 +23,7 @@ import { UserProjectsSection } from "@/components/home/UserProjectsSection";
 import { GenerateSheet } from "@/components/GenerateSheet";
 import { MusicRecognitionDialog } from "@/components/music-recognition/MusicRecognitionDialog";
 import { HomeSkeletonEnhanced } from "@/components/home/HomeSkeletonEnhanced";
-import { LikeEncouragementProvider } from "@/components/engagement/LikeEncouragementToast";
+// LikeEncouragementProvider moved to MainLayout
 import { motion } from '@/lib/motion';
 
 const Index = () => {
@@ -90,8 +90,7 @@ const Index = () => {
   };
 
   return (
-    <LikeEncouragementProvider>
-      <div className="min-h-screen bg-background pb-20 relative overflow-hidden">
+    <div className="min-h-screen bg-background pb-20 relative overflow-hidden">
         {/* Enhanced background gradient with better depth */}
         <div className="fixed inset-0 pointer-events-none opacity-40">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/12 rounded-full blur-3xl animate-pulse-slow" />
@@ -302,8 +301,7 @@ const Index = () => {
 
         <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
         <MusicRecognitionDialog open={recognitionDialogOpen} onOpenChange={setRecognitionDialogOpen} />
-      </div>
-    </LikeEncouragementProvider>
+    </div>
   );
 };
 

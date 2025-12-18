@@ -172,14 +172,16 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
             </div>
           )}
 
-          {/* Stats - Top Right */}
-          <div className="absolute top-2 right-2 flex flex-col gap-1">
-            {(track.likes_count || 0) > 0 && (
-              <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-black/50 backdrop-blur-sm text-white text-[10px]">
-                <Heart className="w-2.5 h-2.5 fill-red-400 text-red-400" />
-                <span className="font-medium">{track.likes_count}</span>
-              </div>
-            )}
+          {/* Like Button - Top Right */}
+          <div className="absolute top-2 right-2">
+            <LikeButton
+              trackId={track.id}
+              likesCount={track.likes_count || 0}
+              size="sm"
+              variant="glass"
+              showCount={(track.likes_count || 0) > 0}
+              className="h-7 min-w-[28px] rounded-full text-white"
+            />
           </div>
         </div>
 
