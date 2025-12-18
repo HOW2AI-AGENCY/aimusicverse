@@ -21,14 +21,9 @@
 
 ## 🔄 Remaining Work
 
-### Phase 2: UX (Pending)
-1. **Comment Reporting**
-   - File: `src/components/comments/CommentsList.tsx`
-   - Add report button and dialog
-
-2. **Breadcrumbs Navigation**
-   - Create `<Breadcrumbs />` component
-   - Add to Studio, Track Detail pages
+### Phase 2: UX (Completed)
+- ✅ Comment Reporting - ReportCommentDialog with moderation_reports integration
+- ✅ Breadcrumbs Navigation - src/components/navigation/Breadcrumbs.tsx
 
 ### Phase 4: New Features (Future)
 1. **Generation History Database**

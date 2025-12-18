@@ -2,12 +2,11 @@
 import { useState } from 'react';
 import { CommentItem, type Comment } from './CommentItem';
 import { CommentForm } from './CommentForm';
+import { ReportCommentDialog } from './ReportCommentDialog';
 import { useComments, useAddComment, useDeleteComment, type Comment as CommentType } from '@/hooks/comments/useComments';
 import { Skeleton } from '@/components/ui/skeleton';
 import { MessageSquare } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
 
 interface CommentsListProps {
   trackId: string;
@@ -20,6 +19,11 @@ export function CommentsList({ trackId, className }: CommentsListProps) {
   const deleteComment = useDeleteComment();
   
   const [replyTo, setReplyTo] = useState<{ id: string; username: string } | null>(null);
+  const [reportTarget, setReportTarget] = useState<{
+    commentId: string;
+    userId: string;
+    preview: string;
+  } | null>(null);
 
   const handleSubmitComment = async (content: string, parentId?: string | null) => {
     await addComment.mutateAsync({ trackId, content, parentId: parentId || undefined });
@@ -41,9 +45,14 @@ export function CommentsList({ trackId, className }: CommentsListProps) {
   };
 
   const handleReport = (commentId: string) => {
-    // Report functionality redirects to moderation system
-    toast.info('Жалоба отправлена на модерацию');
-    logger.info('Comment reported', { commentId, trackId });
+    const comment = comments.find((c: CommentType) => c.id === commentId);
+    if (comment) {
+      setReportTarget({
+        commentId: comment.id,
+        userId: comment.user_id,
+        preview: comment.content,
+      });
+    }
   };
 
   // Map CommentType to Comment interface expected by CommentItem
@@ -112,6 +121,17 @@ export function CommentsList({ trackId, className }: CommentsListProps) {
             />
           ))}
         </div>
+      )}
+
+      {/* Report Dialog */}
+      {reportTarget && (
+        <ReportCommentDialog
+          open={!!reportTarget}
+          onOpenChange={(open) => !open && setReportTarget(null)}
+          commentId={reportTarget.commentId}
+          commentUserId={reportTarget.userId}
+          commentPreview={reportTarget.preview}
+        />
       )}
     </div>
   );
