@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useAudioTime } from '@/hooks/audio';
 import { usePlayerStore } from '@/hooks/audio';
+import { useGlobalAudioPlayer } from '@/hooks/audio';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useTracks, Track } from '@/hooks/useTracksOptimized';
 import { useTrackActions } from '@/hooks/useTrackActions';
@@ -20,6 +21,7 @@ import { QueueSheet } from '@/components/player/QueueSheet';
 import { MobileFullscreenPlayer } from '@/components/player/MobileFullscreenPlayer';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { hapticImpact } from '@/lib/haptic';
+import { logger } from '@/lib/logger';
 
 interface AlignedWord {
   word: string;
@@ -59,12 +61,64 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
   
   // Use global audio system instead of local useAudioPlayer
   const { currentTime, duration, buffered, seek, setVolume: setAudioVolume } = useAudioTime();
-  const { isPlaying } = usePlayerStore();
+  const { isPlaying, volume: storeVolume } = usePlayerStore();
+  const { audioElement } = useGlobalAudioPlayer();
   
   const { data: lyricsData } = useTimestampedLyrics(
     track.suno_task_id || null,
     track.suno_id || null
   );
+
+  // CRITICAL: Ensure AudioContext is resumed and audio is routed on fullscreen open
+  useEffect(() => {
+    const ensureAudio = async () => {
+      if (!audioElement) {
+        logger.warn('No audio element available on fullscreen open');
+        return;
+      }
+      
+      try {
+        const { resumeAudioContext, ensureAudioRoutedToDestination } = await import('@/lib/audioContextManager');
+        
+        // Resume AudioContext
+        const resumed = await resumeAudioContext(3);
+        if (!resumed) {
+          logger.warn('Failed to resume AudioContext on fullscreen open');
+        }
+        
+        // Ensure audio is routed to destination
+        await ensureAudioRoutedToDestination();
+        
+        // Sync volume with audio element
+        if (audioElement.volume !== storeVolume) {
+          audioElement.volume = storeVolume;
+          setVolume(storeVolume);
+          logger.debug('Volume synced on fullscreen open', { volume: storeVolume });
+        }
+        
+        // CRITICAL: Resume playback if it was playing but audio got paused
+        if (isPlaying && audioElement.paused) {
+          logger.info('Resuming paused audio on fullscreen open');
+          try {
+            await audioElement.play();
+          } catch (playErr) {
+            logger.error('Failed to resume audio', playErr);
+          }
+        }
+        
+        logger.info('Fullscreen player audio initialized', { 
+          volume: storeVolume, 
+          isPlaying,
+          audioPaused: audioElement.paused,
+          hasAudioElement: true 
+        });
+      } catch (err) {
+        logger.error('Error initializing fullscreen audio', err);
+      }
+    };
+    
+    ensureAudio();
+  }, [audioElement, isPlaying, storeVolume]);
   
   const lyricsRef = useRef<HTMLDivElement>(null);
 
