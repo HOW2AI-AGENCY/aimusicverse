@@ -11,6 +11,8 @@ export { usePlayerStore } from './usePlayerState';
 export { usePlaybackQueue } from './usePlaybackQueue';
 export { useQueueHistory } from './useQueueHistory';
 export { useWaveform } from './useWaveform';
+export { useWaveformData } from './useWaveformData';
+export { useBeatGrid, generateSyntheticBeatGrid } from './useBeatGrid';
 export { useDebouncedAudioTime } from './useDebouncedAudioTime';
 export { useOptimizedAudioPlayer } from './useOptimizedAudioPlayer';
 export { usePlaybackHistory } from './usePlaybackHistory';

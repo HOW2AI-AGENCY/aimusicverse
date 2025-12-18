@@ -16,7 +16,7 @@ import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { motion } from '@/lib/motion';
 import { PlaybackControls } from '@/components/player/PlaybackControls';
-import { ProgressBar } from '@/components/player/ProgressBar';
+import { WaveformProgressBar } from '@/components/player/WaveformProgressBar';
 import { QueueSheet } from '@/components/player/QueueSheet';
 import { MobileFullscreenPlayer } from '@/components/player/MobileFullscreenPlayer';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -274,12 +274,16 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
 
             {/* Controls */}
             <Card className="w-full max-w-md glass-card border-primary/20 p-6 space-y-4">
-              {/* Progress Bar */}
-              <ProgressBar
+              {/* Waveform Progress Bar */}
+              <WaveformProgressBar
+                audioUrl={audioUrl}
+                trackId={track.id}
                 currentTime={currentTime}
                 duration={duration}
                 buffered={buffered}
                 onSeek={seek}
+                mode="detailed"
+                showBeatGrid={true}
               />
 
               {/* Action Buttons */}

@@ -15,7 +15,7 @@ import { X, Download, Share2, ListMusic, SkipBack, SkipForward, Play, Pause, Rep
 import { LikeButton } from '@/components/ui/like-button';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
+import { WaveformProgressBar } from './WaveformProgressBar';
 import { Track } from '@/hooks/useTracksOptimized';
 import { useTracks } from '@/hooks/useTracksOptimized';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
@@ -56,6 +56,11 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   const { currentTime, duration, seek } = useAudioTime();
   const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, repeat, shuffle, toggleRepeat, toggleShuffle, volume } = usePlayerStore();
   const { audioElement } = useGlobalAudioPlayer();
+  
+  // Get audio URL for waveform
+  const audioUrl = useMemo(() => {
+    return track.streaming_url || track.audio_url;
+  }, [track.streaming_url, track.audio_url]);
   
   // CRITICAL: Resume AudioContext and ensure audio routing when fullscreen opens
   useEffect(() => {
@@ -659,27 +664,18 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.3 }}
         >
-          {/* Timeline with glow effect */}
-          <div className="space-y-2">
-            <div className="relative">
-              <Slider
-                value={[currentTime]}
-                max={duration || 100}
-                step={0.1}
-                onValueChange={handleSeek}
-                className="w-full"
-              />
-              {/* Progress glow */}
-              <motion.div
-                className="absolute -bottom-1 left-0 h-1 bg-primary/30 blur-md rounded-full"
-                style={{ width: `${(currentTime / (duration || 100)) * 100}%` }}
-              />
-            </div>
-            <div className="flex justify-between text-xs text-muted-foreground">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration)}</span>
-            </div>
-          </div>
+          {/* Waveform Timeline */}
+          <WaveformProgressBar
+            audioUrl={audioUrl}
+            trackId={track.id}
+            currentTime={currentTime}
+            duration={duration}
+            onSeek={(time) => seek(time)}
+            mode="standard"
+            showBeatGrid={true}
+            showLabels={true}
+            className="px-2"
+          />
 
           {/* Main Controls with animations */}
           <div className="flex items-center justify-center gap-6">
