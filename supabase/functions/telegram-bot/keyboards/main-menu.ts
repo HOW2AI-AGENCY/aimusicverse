@@ -55,6 +55,23 @@ export function createProjectKeyboard(projectId: string) {
   };
 }
 
+export function createProjectListKeyboard(projects: Array<{ id: string; title: string }>) {
+  const projectButtons = projects.slice(0, 5).map(p => ([
+    { 
+      text: `📁 ${(p.title || 'Проект').substring(0, 25)}`, 
+      web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=project_${p.id}` } 
+    }
+  ]));
+
+  return {
+    inline_keyboard: [
+      ...projectButtons,
+      [{ text: '➕ Создать проект', web_app: { url: `${BOT_CONFIG.miniAppUrl}/projects` } }],
+      [{ text: '⬅️ Назад', callback_data: 'main_menu' }]
+    ] as InlineKeyboardButton[][]
+  };
+}
+
 // New functions for reactive interface
 export function createPlayerControls(trackId: string, page: number, total: number) {
   const prev = page > 0 ? page - 1 : total - 1;

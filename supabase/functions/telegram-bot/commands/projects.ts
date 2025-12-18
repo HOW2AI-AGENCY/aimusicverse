@@ -1,7 +1,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { BOT_CONFIG, MESSAGES } from '../config.ts';
-import { createProjectKeyboard } from '../keyboards/main-menu.ts';
-import { sendMessage, editMessageText } from '../telegram-api.ts';
+import { createProjectKeyboard, createProjectListKeyboard } from '../keyboards/main-menu.ts';
+import { sendMessage, editMessageText, sendPhoto } from '../telegram-api.ts';
 import { createMainMenuKeyboard } from '../keyboards/main-menu.ts';
 
 const supabase = createClient(
@@ -28,12 +28,12 @@ export async function handleProjects(chatId: number, userId: number, messageId?:
       return;
     }
 
-    // Get projects
+    // Get projects with more details
     const { data: projects, error } = await supabase
       .from('music_projects')
-      .select('id, title, status, created_at')
+      .select('id, title, status, genre, cover_url, total_tracks_count, approved_tracks_count, created_at')
       .eq('user_id', profile.user_id)
-      .order('created_at', { ascending: false })
+      .order('updated_at', { ascending: false })
       .limit(5);
 
     if (error) {
@@ -56,23 +56,49 @@ export async function handleProjects(chatId: number, userId: number, messageId?:
       return;
     }
 
-    let message = '📁 Ваши проекты:\n\n';
+    // Get actual track counts
+    const projectIds = projects.map(p => p.id);
+    const { data: trackCounts } = await supabase
+      .from('project_tracks')
+      .select('project_id, track_id')
+      .in('project_id', projectIds);
+
+    const countMap = new Map<string, { total: number; approved: number }>();
+    trackCounts?.forEach(pt => {
+      const existing = countMap.get(pt.project_id) || { total: 0, approved: 0 };
+      existing.total++;
+      if (pt.track_id) existing.approved++;
+      countMap.set(pt.project_id, existing);
+    });
+
+    let message = '📁 *Ваши проекты*\n\n';
     
     for (const project of projects) {
-      const statusEmoji = project.status === 'completed' ? '✅' : 
+      const statusEmoji = project.status === 'published' ? '✅' : 
                           project.status === 'in_progress' ? '⏳' : '📝';
       
       const title = project.title || 'Без названия';
-      const status = project.status || 'draft';
-      message += `${statusEmoji} ${title}\n`;
-      message += `   Статус: ${status}\n`;
-      message += `   ID: ${project.id.substring(0, 8)}\n\n`;
+      const counts = countMap.get(project.id) || { total: project.total_tracks_count || 0, approved: project.approved_tracks_count || 0 };
+      const progress = counts.total > 0 ? Math.round((counts.approved / counts.total) * 100) : 0;
+      const progressBar = getProgressBar(progress);
+      
+      message += `${statusEmoji} *${escapeMarkdown(title)}*\n`;
+      if (project.genre) {
+        message += `   🎵 ${escapeMarkdown(project.genre)}\n`;
+      }
+      message += `   ${progressBar} ${counts.approved}/${counts.total} треков\n`;
+      message += `   📎 \`${project.id.substring(0, 8)}\`\n\n`;
     }
 
+    message += '_Нажмите на проект чтобы открыть_';
+
+    // Create keyboard with project buttons
+    const keyboard = createProjectListKeyboard(projects);
+
     if (messageId) {
-      await editMessageText(chatId, messageId, message, projects[0] ? createProjectKeyboard(projects[0].id) : createMainMenuKeyboard());
+      await editMessageText(chatId, messageId, message, keyboard, 'MarkdownV2');
     } else {
-      await sendMessage(chatId, message, projects[0] ? createProjectKeyboard(projects[0].id) : createMainMenuKeyboard(), null);
+      await sendMessage(chatId, message, keyboard, 'MarkdownV2');
     }
   } catch (error) {
     console.error('Error in projects command:', error);
@@ -83,4 +109,16 @@ export async function handleProjects(chatId: number, userId: number, messageId?:
       await sendMessage(chatId, text, createMainMenuKeyboard());
     }
   }
+}
+
+// Helper to generate progress bar
+function getProgressBar(percent: number): string {
+  const filled = Math.round(percent / 20);
+  const empty = 5 - filled;
+  return '█'.repeat(filled) + '░'.repeat(empty);
+}
+
+// Helper to escape MarkdownV2 special characters
+function escapeMarkdown(text: string): string {
+  return text.replace(/[_*[\]()~`>#+=|{}.!-]/g, '\\$&');
 }
