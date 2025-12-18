@@ -14,7 +14,7 @@ import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { hapticImpact } from '@/lib/haptic';
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { toast } from 'sonner';
 
 interface CompactPlayerProps {

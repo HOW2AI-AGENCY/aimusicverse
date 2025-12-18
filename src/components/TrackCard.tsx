@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, Heart, Mic, Volume2, Globe, Lock, MoreHorizontal, Layers, Music2, Trash2, User, Wand2 } from 'lucide-react';
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { useState, useEffect, memo } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';

@@ -6,7 +6,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Disc3, Lock } from 'lucide-react';
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { GenerateSheet } from '@/components/GenerateSheet';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';

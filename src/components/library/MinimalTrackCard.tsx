@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Play, Pause, MoreHorizontal, Volume2, Layers } from 'lucide-react';
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { useState, memo } from 'react';
 import { UnifiedTrackSheet } from '@/components/track-actions';
 import { InlineVersionToggle } from './InlineVersionToggle';

@@ -1,4 +1,4 @@
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Clock, User, Edit, Plus, Crown } from 'lucide-react';

@@ -20,7 +20,7 @@ import { TrackCommentsSection } from '@/components/track/TrackCommentsSection';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { toast } from 'sonner';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContentOptimized';
-import type { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { useNavigate } from 'react-router-dom';
 import { formatTime } from '@/lib/formatters';
 

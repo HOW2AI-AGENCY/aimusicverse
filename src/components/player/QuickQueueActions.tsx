@@ -19,7 +19,7 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { usePlaybackQueue } from '@/hooks/audio/usePlaybackQueue';
-import type { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { hapticImpact } from '@/lib/haptic';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';

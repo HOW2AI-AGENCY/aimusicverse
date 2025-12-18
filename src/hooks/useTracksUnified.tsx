@@ -16,4 +16,4 @@
  */
 
 export { useTracks as useTracksUnified, type UseTracksParams as UseTracksUnifiedParams } from './useTracks';
-export type { Track } from './useTracksOptimized';
+export type { Track } from '@/types/track';

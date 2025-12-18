@@ -1,4 +1,4 @@
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { ExtendTrackDialog } from '@/components/ExtendTrackDialog';
 import { AddToProjectDialog } from '@/components/track-menu/AddToProjectDialog';
 import { ShareTrackDialog } from '@/components/track-menu/ShareTrackDialog';

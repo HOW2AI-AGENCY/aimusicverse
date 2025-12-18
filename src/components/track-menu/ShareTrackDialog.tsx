@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { Share2, Copy, Check, ExternalLink, Download, Camera, Gift } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';

@@ -8,7 +8,7 @@ import { ru } from 'date-fns/locale';
 import { useTrackVersionManagement } from '@/hooks/useTrackVersionManagement';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { formatTime } from '@/lib/formatters';
 
 interface VersionMetadata {
