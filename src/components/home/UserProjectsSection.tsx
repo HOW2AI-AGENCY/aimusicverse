@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { FolderOpen, Plus, ArrowRight, Music, CheckCircle2, Clock, Disc3 } from 'lucide-react';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { ProjectProgressRing } from '@/components/project/ProjectProgressRing';
 
 interface UserProject {
   id: string;
@@ -186,7 +187,7 @@ export function UserProjectsSection() {
                   {/* Status badge - Compact */}
                   <Badge 
                     className={cn(
-                      "absolute top-1.5 right-1.5 text-[9px] h-4 gap-0.5 px-1.5",
+                      "absolute top-1.5 left-1.5 text-[9px] h-4 gap-0.5 px-1.5",
                       statusConfig.bg,
                       statusConfig.color,
                       "border-0"
@@ -196,12 +197,13 @@ export function UserProjectsSection() {
                     {statusConfig.label}
                   </Badge>
 
-                  {/* Progress indicator */}
+                  {/* Circular progress indicator */}
                   {project.status !== 'published' && project.total_tracks_count && project.total_tracks_count > 0 && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-black/30">
-                      <div 
-                        className="h-full bg-gradient-to-r from-primary to-generate transition-all"
-                        style={{ width: `${progress}%` }}
+                    <div className="absolute top-1.5 right-1.5 bg-background/80 backdrop-blur-sm rounded-full p-0.5">
+                      <ProjectProgressRing 
+                        progress={progress} 
+                        size={24} 
+                        strokeWidth={2}
                       />
                     </div>
                   )}
