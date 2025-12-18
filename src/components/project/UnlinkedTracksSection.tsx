@@ -21,6 +21,7 @@ import { useProjectGeneratedTracks, ProjectGeneratedTrack } from '@/hooks/usePro
 import { ProjectTrack } from '@/hooks/useProjectTracks';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
+import { formatTime } from '@/lib/formatters';
 import {
   Select,
   SelectContent,
@@ -28,12 +29,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
-function formatDuration(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-}
 
 interface UnlinkedTracksSectionProps {
   projectId: string;
@@ -126,7 +121,7 @@ export function UnlinkedTracksSection({ projectId, projectTracks }: UnlinkedTrac
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <span className="flex items-center gap-0.5">
               <Clock className="w-3 h-3" />
-              {formatDuration(track.duration_seconds || 0)}
+              {formatTime(track.duration_seconds || 0)}
             </span>
             {track.style && (
               <span className="truncate">{track.style.slice(0, 20)}</span>

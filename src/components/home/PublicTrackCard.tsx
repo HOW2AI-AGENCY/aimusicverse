@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Play, Pause, Share2, Music2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -20,7 +20,7 @@ interface PublicTrackCardProps {
   className?: string;
 }
 
-export function PublicTrackCard({ track, onRemix, compact = false, className }: PublicTrackCardProps) {
+export const PublicTrackCard = memo(function PublicTrackCard({ track, onRemix, compact = false, className }: PublicTrackCardProps) {
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
   const { hapticFeedback } = useTelegram();
   const [imageError, setImageError] = useState(false);
@@ -262,4 +262,4 @@ export function PublicTrackCard({ track, onRemix, compact = false, className }: 
     />
     </>
   );
-}
+});
