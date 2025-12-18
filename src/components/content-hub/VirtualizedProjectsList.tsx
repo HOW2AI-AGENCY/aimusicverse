@@ -42,8 +42,10 @@ export function VirtualizedProjectsList({
 }: VirtualizedProjectsListProps) {
   const navigate = useNavigate();
 
+  const defaultStatus = { label: 'Черновик', color: 'bg-muted text-muted-foreground' };
+  
   const ProjectGridCard = useCallback(({ project, index }: { project: Project; index: number }) => {
-    const status = statusLabels[project.status || 'draft'];
+    const status = statusLabels[project.status || 'draft'] || defaultStatus;
     const projectType = typeLabels[project.project_type || 'album'] || project.project_type;
 
     return (
@@ -141,7 +143,7 @@ export function VirtualizedProjectsList({
   }, [navigate, statusLabels, typeLabels, onDelete]);
 
   const ProjectListItem = useCallback(({ project, index }: { project: Project; index: number }) => {
-    const status = statusLabels[project.status || 'draft'];
+    const status = statusLabels[project.status || 'draft'] || defaultStatus;
     const projectType = typeLabels[project.project_type || 'album'] || project.project_type;
 
     return (
