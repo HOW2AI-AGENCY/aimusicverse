@@ -18,7 +18,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { logger } from '@/lib/logger';
 import { cn } from '@/lib/utils';
 import { formatDuration } from '@/lib/player-utils';
-
+import { useTelegramMainButton } from '@/hooks/telegram';
 interface AudioCoverDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -69,6 +69,21 @@ export const AudioCoverDialog = ({
   
   // Validation
   const [durationError, setDurationError] = useState<string | null>(null);
+
+  // Main Button integration
+  const isSubmitDisabled = loading || !audioFile || !style.trim() || !!durationError;
+  const { shouldShowUIButton, showProgress, hideProgress } = useTelegramMainButton({
+    text: loading ? 'СОЗДАНИЕ...' : 'СОЗДАТЬ КАВЕР',
+    onClick: handleSubmitWithProgress,
+    enabled: !isSubmitDisabled,
+    visible: open,
+  });
+
+  async function handleSubmitWithProgress() {
+    showProgress(true);
+    await handleSubmit();
+    hideProgress();
+  }
 
   // Reset on open
   useEffect(() => {
@@ -412,25 +427,27 @@ export const AudioCoverDialog = ({
         )}
       </div>
 
-      {/* Submit */}
-      <Button
-        onClick={handleSubmit}
-        disabled={loading || !audioFile || !style.trim() || !!durationError}
-        className="w-full h-11"
-        size="lg"
-      >
-        {loading ? (
-          <>
-            <Loader2 className="w-4 h-4 animate-spin mr-2" />
-            Создание...
-          </>
-        ) : (
-          <>
-            <Disc className="w-4 h-4 mr-2" />
-            Создать кавер
-          </>
-        )}
-      </Button>
+      {/* Submit - only show for test users */}
+      {shouldShowUIButton && (
+        <Button
+          onClick={handleSubmit}
+          disabled={isSubmitDisabled}
+          className="w-full h-11"
+          size="lg"
+        >
+          {loading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin mr-2" />
+              Создание...
+            </>
+          ) : (
+            <>
+              <Disc className="w-4 h-4 mr-2" />
+              Создать кавер
+            </>
+          )}
+        </Button>
+      )}
     </div>
   );
 
