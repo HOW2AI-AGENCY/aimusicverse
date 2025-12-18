@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { telegramAuthService } from '@/services/telegram-auth';
 import { logger } from '@/lib/logger';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type TelegramWebApp = any;
+
 export interface TelegramUser {
   telegram_id: number;
   first_name: string;

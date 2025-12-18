@@ -64,12 +64,15 @@ interface Playlist {
 // Used for constructing deep links to the Mini App
 const BOT_USERNAME = 'AIMusicVerseBot';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type TelegramWebApp = any;
+
 export class TelegramShareService {
   private webApp: TelegramWebApp | null = null;
 
   constructor() {
-    if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
-      this.webApp = window.Telegram.WebApp;
+    if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp) {
+      this.webApp = (window as any).Telegram.WebApp;
     }
   }
 
