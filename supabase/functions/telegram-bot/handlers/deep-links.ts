@@ -202,7 +202,7 @@ async function handleTrackDeepLink(
 }
 
 /**
- * Handle project deep link with preview
+ * Handle project deep link with enhanced preview
  */
 async function handleProjectDeepLink(
   chatId: number,
@@ -211,29 +211,76 @@ async function handleProjectDeepLink(
 ): Promise<void> {
   const { data: project } = await supabase
     .from('music_projects')
-    .select('id, title, description, cover_url, genre, mood, status, total_tracks_count, approved_tracks_count')
+    .select('id, title, description, cover_url, genre, mood, status, project_type, user_id, created_at')
     .eq('id', projectId)
     .single();
 
   if (!project) {
-    await sendMessage(chatId, '❌ Проект не найден', undefined, null);
+    await sendMessage(chatId, '❌ Проект не найден или был удалён', undefined, null);
     return;
   }
 
-  const progress = project.total_tracks_count 
-    ? Math.round((project.approved_tracks_count || 0) / project.total_tracks_count * 100)
-    : 0;
+  // Get track count and progress
+  const { data: projectTracks, count: trackCount } = await supabase
+    .from('project_tracks')
+    .select('id, track_id', { count: 'exact' })
+    .eq('project_id', projectId);
+
+  const completedTracks = projectTracks?.filter(t => t.track_id).length || 0;
+  const totalTracks = trackCount || 0;
+  const progress = totalTracks > 0 ? Math.round((completedTracks / totalTracks) * 100) : 0;
+
+  // Get creator info
+  const { data: creator } = await supabase
+    .from('profiles')
+    .select('username, display_name')
+    .eq('user_id', project.user_id)
+    .single();
+
+  const creatorName = creator?.display_name || creator?.username || 'Unknown';
+
+  // Status and type labels
+  const statusLabels: Record<string, string> = {
+    'draft': '📝 Черновик',
+    'in_progress': '🔄 В работе',
+    'completed': '✅ Завершён',
+    'released': '🚀 Выпущен',
+    'published': '🌐 Опубликован',
+  };
+
+  const typeLabels: Record<string, string> = {
+    'single': '🎵 Сингл',
+    'ep': '💿 EP',
+    'album': '📀 Альбом',
+    'mixtape': '🎚️ Микстейп',
+  };
+
+  const status = statusLabels[project.status || 'draft'] || '📝 Черновик';
+  const type = typeLabels[project.project_type || 'single'] || '🎵 Сингл';
+
+  // Build progress bar
+  const progressBar = '█'.repeat(Math.round(progress / 10)) + '░'.repeat(10 - Math.round(progress / 10));
 
   const caption = buildMessage({
-    title: project.title,
+    title: project.title || 'Проект',
     emoji: '📁',
     description: project.description || 'Музыкальный проект',
     sections: [
       {
         title: 'Детали',
-        content: `🎵 ${project.genre || '—'} │ 🎭 ${project.mood || '—'}\n📊 ${project.approved_tracks_count || 0}/${project.total_tracks_count || 0} треков │ ${project.status}`,
+        content: `${type} • ${status}\n👤 ${creatorName}`,
         emoji: '📋'
-      }
+      },
+      {
+        title: 'Прогресс',
+        content: `${progressBar} ${progress}%\n🎵 ${completedTracks}/${totalTracks} треков готово`,
+        emoji: '📊'
+      },
+      ...(project.genre || project.mood ? [{
+        title: 'Стиль',
+        content: [project.genre, project.mood].filter(Boolean).join(' • '),
+        emoji: '🎵'
+      }] : [])
     ]
   });
 
@@ -241,8 +288,20 @@ async function handleProjectDeepLink(
     .addButton({
       text: 'Открыть проект',
       emoji: '📁',
-      action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/projects/${projectId}` }
+      action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}?startapp=project_${projectId}` }
     })
+    .addRow(
+      {
+        text: 'Треки',
+        emoji: '🎵',
+        action: { type: 'callback', data: `project_tracks_${projectId}` }
+      },
+      {
+        text: 'Поделиться',
+        emoji: '📤',
+        action: { type: 'callback', data: `project_share_${projectId}` }
+      }
+    )
     .addButton({
       text: 'Главное меню',
       emoji: '🏠',
@@ -250,9 +309,14 @@ async function handleProjectDeepLink(
     })
     .build();
 
-  if (project.cover_url) {
-    await sendPhoto(chatId, project.cover_url, { caption, replyMarkup: keyboard });
-  } else {
+  // Send with cover if available
+  const defaultCover = 'https://ygmvthybdrqymfsqifmj.supabase.co/storage/v1/object/public/bot-assets/project-cover.png';
+  const coverUrl = project.cover_url || defaultCover;
+
+  try {
+    await sendPhoto(chatId, coverUrl, { caption, replyMarkup: keyboard });
+  } catch (e) {
+    // Fallback if cover fails
     const menuImage = await getMenuImage('projects');
     await sendPhoto(chatId, menuImage, { caption, replyMarkup: keyboard });
   }
