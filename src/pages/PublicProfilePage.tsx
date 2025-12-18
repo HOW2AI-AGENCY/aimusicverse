@@ -20,6 +20,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { useTelegramBackButton } from '@/hooks/telegram';
 import { PublicTrackCard } from '@/components/home/PublicTrackCard';
 import { FollowButton } from '@/components/social/FollowButton';
 import { cn } from '@/lib/utils';
@@ -63,6 +64,12 @@ export default function PublicProfilePage() {
   const [showFullBio, setShowFullBio] = useState(false);
   
   const isOwner = user?.id === userId;
+
+  // Telegram BackButton - navigates back to home
+  const { shouldShowUIButton: showUIBackButton } = useTelegramBackButton({
+    visible: true,
+    fallbackPath: '/',
+  });
 
   // Fetch profile
   const { data: profile, isLoading: profileLoading } = useQuery({
@@ -234,9 +241,13 @@ export default function PublicProfilePage() {
       {/* Header */}
       <div className="sticky top-0 z-30 backdrop-blur-md bg-background/80 border-b border-border/50">
         <div className="flex items-center justify-between px-4 py-3">
-          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
-            <ChevronLeft className="w-5 h-5" />
-          </Button>
+          {showUIBackButton ? (
+            <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+              <ChevronLeft className="w-5 h-5" />
+            </Button>
+          ) : (
+            <div className="w-9" />
+          )}
           <h1 className="font-semibold">Профиль</h1>
           <div className="flex items-center gap-1">
             <Button variant="ghost" size="icon" onClick={handleShare}>
