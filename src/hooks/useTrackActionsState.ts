@@ -27,6 +27,7 @@ interface DialogStates {
   deleteConfirm: boolean;
   deleteVersionSelect: boolean;
   rename: boolean;
+  createArtist: boolean;
 }
 
 export function useTrackActionsState({
@@ -51,6 +52,7 @@ export function useTrackActionsState({
     deleteConfirm: false,
     deleteVersionSelect: false,
     rename: false,
+    createArtist: false,
   });
 
   // Hooks
@@ -222,6 +224,9 @@ export function useTrackActionsState({
       case 'remix':
         await handleRemix(track);
         onClose?.();
+        break;
+      case 'create_artist_persona':
+        openDialog('createArtist');
         break;
 
       // Delete actions

@@ -2,7 +2,7 @@ import {
   Download, Share2, Send, Folder, ListMusic, 
   Scissors, Wand2, ImagePlus, Music2, Video, Layers,
   Plus, Music, Globe, Lock, Info, Trash2,
-  Link, FileAudio, FileMusic, Archive, Disc, RefreshCw, Pencil
+  Link, FileAudio, FileMusic, Archive, Disc, RefreshCw, Pencil, User
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 
@@ -16,7 +16,7 @@ export type ActionId =
   // Studio
   | 'open_studio' | 'replace_section' | 'stems_simple' | 'stems_detailed' | 'transcribe_midi' | 'transcribe_notes'
   // Create
-  | 'generate_cover' | 'cover' | 'extend' | 'remix'
+  | 'generate_cover' | 'cover' | 'extend' | 'remix' | 'create_artist_persona'
   // Delete
   | 'delete_version' | 'delete_all';
 
@@ -223,6 +223,14 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     category: 'create',
     priority: 44,
     requiresSunoId: true,
+  },
+  create_artist_persona: {
+    id: 'create_artist_persona',
+    label: 'Создать артиста',
+    icon: User,
+    category: 'create',
+    priority: 45,
+    requiresCompleted: true,
   },
 
   // Delete Actions (Priority 100+)
