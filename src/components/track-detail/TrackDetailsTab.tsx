@@ -1,4 +1,4 @@
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';

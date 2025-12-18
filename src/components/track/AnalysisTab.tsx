@@ -1,4 +1,4 @@
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Music, Activity, Gauge, Key, Smile, Zap } from 'lucide-react';

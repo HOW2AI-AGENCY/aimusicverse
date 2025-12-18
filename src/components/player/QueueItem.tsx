@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { motion } from '@/lib/motion';
 import { LazyImage } from '@/components/ui/lazy-image';
-import type { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { formatDuration } from '@/lib/player-utils';
 
 interface QueueItemProps {

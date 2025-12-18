@@ -1,4 +1,4 @@
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import { useTrackActionsState } from '@/hooks/useTrackActionsState';

@@ -65,7 +65,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const isMobile = useIsMobile();
-  const { data: stems, isLoading: stemsLoading } = useTrackStems(trackId);
+  const { data: stems = [], isLoading: stemsLoading } = useTrackStems(trackId);
   const { tracks } = useTracks();
   const track = tracks?.find(t => t.id === trackId);
   const { showTutorial, setShowTutorial, startTutorial } = useStemStudioTutorial();

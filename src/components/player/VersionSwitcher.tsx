@@ -8,7 +8,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { usePlayerStore } from '@/hooks/audio';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';

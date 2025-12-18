@@ -17,7 +17,7 @@ import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-q
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
-import { Track } from './useTracksOptimized';
+import type { Track } from '@/types/track';
 import { logger } from '@/lib/logger';
 
 const log = logger.child({ module: 'TracksInfinite' });

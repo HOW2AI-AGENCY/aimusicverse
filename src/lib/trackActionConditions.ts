@@ -1,4 +1,4 @@
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { ActionId, TRACK_ACTIONS } from '@/config/trackActionsConfig';
 import { Lock, Globe, Loader2, CheckCircle2 } from 'lucide-react';
 

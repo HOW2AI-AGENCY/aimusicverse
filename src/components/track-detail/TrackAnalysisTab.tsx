@@ -1,6 +1,6 @@
 import { useAudioAnalysis, useAnalyzeAudio } from '@/hooks/useAudioAnalysis';
 import { useReplicateAnalysis } from '@/hooks/useReplicateAnalysis';
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';

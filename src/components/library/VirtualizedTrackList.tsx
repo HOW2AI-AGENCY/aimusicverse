@@ -1,6 +1,6 @@
 import { useCallback, forwardRef, memo, useMemo } from "react";
 import { Virtuoso, VirtuosoGrid, VirtuosoHandle } from "react-virtuoso";
-import { type Track } from "@/hooks/useTracksOptimized";
+import type { Track } from "@/types/track";
 import { TrackCard } from "@/components/TrackCard";
 
 interface VirtualizedTrackListProps {

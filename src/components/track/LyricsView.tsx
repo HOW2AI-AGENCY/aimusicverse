@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Copy, Check, ChevronDown, ChevronUp } from 'lucide-react';

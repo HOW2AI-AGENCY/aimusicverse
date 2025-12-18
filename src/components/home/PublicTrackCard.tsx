@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { usePlayerStore } from '@/hooks/audio';
 import { useTelegram } from '@/contexts/TelegramContext';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContentOptimized';
-import type { Track } from '@/hooks/useTracksOptimized';
+import type { Track } from '@/types/track';
 import { motion } from '@/lib/motion';
 import { LikeButton } from '@/components/ui/like-button';
 import { PublicTrackDetailSheet } from './PublicTrackDetailSheet';
