@@ -103,7 +103,7 @@ const Index = () => {
           <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-generate/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
         </div>
         
-        <div className="container max-w-6xl mx-auto px-3 sm:px-4 pb-4 sm:py-6 relative z-10">
+        <div className="container max-w-6xl mx-auto pb-4 sm:px-4 sm:py-6 relative z-10">
           {/* Unified Header Component */}
           <HomeHeader
             userName={displayUser?.first_name || displayUser?.username?.split('@')[0]}

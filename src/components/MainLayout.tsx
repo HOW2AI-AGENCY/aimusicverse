@@ -116,7 +116,12 @@ export const MainLayout = () => {
           {/* System Announcements - shown at top of main content */}
           <SystemAnnouncement />
           
-          <div className={cn('flex-1', isDesktop ? 'p-6' : 'p-3')}>
+          <div className={cn(
+            'flex-1',
+            isDesktop 
+              ? 'p-6' 
+              : 'px-4 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))]'
+          )}>
             <Outlet />
           </div>
           <ResizablePlayer />
