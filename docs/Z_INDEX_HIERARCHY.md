@@ -14,7 +14,7 @@ This document defines the z-index hierarchy used across the MusicVerse AI applic
 | **Contextual Hints** | z-[70] | Smart hints, tooltips | `ContextualHint` component |
 | **Dialogs/Sheets** | z-[80] | Modal dialogs, bottom sheets | Dialog overlays, Sheet modals |
 | **Fullscreen Overlays** | z-[90] | Major fullscreen experiences | `MobileFullscreenPlayer`, `SectionEditorMobile` |
-| **System Notifications** | z-[100] | Critical system messages | `GlobalGenerationIndicator`, `EnhancedGenerationIndicator`, `Toast`, `OnboardingOverlay`, Gamification overlays |
+| **System Notifications** | z-[100] | Critical system messages | `GlobalGenerationIndicator`, `EnhancedGenerationIndicator`, `Toast`, `OnboardingOverlay`, `UnifiedAnnouncement`, Gamification overlays |
 | **Dropdown Menus** | z-[9999]+ | Temporary floating menus | `DropdownMenuSubContent` |
 
 ### Implementation Details
@@ -72,6 +72,7 @@ This document defines the z-index hierarchy used across the MusicVerse AI applic
 - `src/components/player/MobileFullscreenPlayer.tsx` - Fullscreen music player
 - `src/components/stem-studio/mobile/SectionEditorMobile.tsx` - Section editor
 - `src/components/BottomNavigation.tsx` - Mobile navigation bar
+- `src/components/layout/UnifiedAnnouncement.tsx` - Unified announcement system (z-[100])
 - `src/index.css` - Island navigation styles (`.island-nav`)
 
 ### References
