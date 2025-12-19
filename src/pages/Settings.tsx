@@ -27,7 +27,8 @@ import {
   CheckCircle2,
   Send,
   UserX,
-  Lightbulb
+  Lightbulb,
+  Palette
 } from "lucide-react";
 import { toast } from "sonner";
 import { TelegramBotSetup } from "@/components/TelegramBotSetup";
@@ -36,6 +37,7 @@ import { AvatarUpload } from "@/components/settings/AvatarUpload";
 import { MidiSettingsSection } from "@/components/settings/MidiSettingsSection";
 import { PrivacySettings } from "@/components/settings/PrivacySettings";
 import { HintsSettings } from "@/components/settings/HintsSettings";
+import { ThemeSettings } from "@/components/settings/ThemeSettings";
 import { motion } from '@/lib/motion';
 
 export default function Settings() {
@@ -128,30 +130,34 @@ export default function Settings() {
         </motion.div>
 
         <Tabs defaultValue="profile" className="w-full">
-          <TabsList className="grid w-full mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))' }}>
-            <TabsTrigger value="profile" className="gap-2">
+          <TabsList className="grid w-full mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(70px, 1fr))' }}>
+            <TabsTrigger value="profile" className="gap-1.5 px-2">
               <User className="w-4 h-4" />
-              <span className="hidden sm:inline">Профиль</span>
+              <span className="hidden sm:inline text-xs">Профиль</span>
             </TabsTrigger>
-            <TabsTrigger value="privacy" className="gap-2">
+            <TabsTrigger value="appearance" className="gap-1.5 px-2">
+              <Palette className="w-4 h-4" />
+              <span className="hidden sm:inline text-xs">Тема</span>
+            </TabsTrigger>
+            <TabsTrigger value="privacy" className="gap-1.5 px-2">
               <Shield className="w-4 h-4" />
-              <span className="hidden sm:inline">Приватность</span>
+              <span className="hidden sm:inline text-xs">Приватность</span>
             </TabsTrigger>
-            <TabsTrigger value="notifications" className="gap-2">
+            <TabsTrigger value="notifications" className="gap-1.5 px-2">
               <Bell className="w-4 h-4" />
-              <span className="hidden sm:inline">Уведомления</span>
+              <span className="hidden sm:inline text-xs">Уведомления</span>
             </TabsTrigger>
-            <TabsTrigger value="hints" className="gap-2">
+            <TabsTrigger value="hints" className="gap-1.5 px-2">
               <Lightbulb className="w-4 h-4" />
-              <span className="hidden sm:inline">Подсказки</span>
+              <span className="hidden sm:inline text-xs">Подсказки</span>
             </TabsTrigger>
-            <TabsTrigger value="midi" className="gap-2">
+            <TabsTrigger value="midi" className="gap-1.5 px-2">
               <Music className="w-4 h-4" />
-              <span className="hidden sm:inline">MIDI</span>
+              <span className="hidden sm:inline text-xs">MIDI</span>
             </TabsTrigger>
-            <TabsTrigger value="telegram" className="gap-2">
+            <TabsTrigger value="telegram" className="gap-1.5 px-2">
               <Send className="w-4 h-4" />
-              <span className="hidden sm:inline">Telegram</span>
+              <span className="hidden sm:inline text-xs">Telegram</span>
             </TabsTrigger>
           </TabsList>
 
@@ -217,6 +223,11 @@ export default function Settings() {
                 </CardContent>
               </Card>
             </motion.div>
+          </TabsContent>
+
+          {/* Appearance Tab */}
+          <TabsContent value="appearance" className="space-y-4">
+            <ThemeSettings />
           </TabsContent>
 
           {/* Privacy Tab */}
