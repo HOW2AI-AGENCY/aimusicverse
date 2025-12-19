@@ -606,9 +606,9 @@ function getContentType(format: string): string {
     case 'midi_quant':
       return 'audio/midi';
     case 'mxml':
-      return 'application/xml';
+      return 'application/vnd.recordare.musicxml+xml';
     case 'gp5':
-      return 'application/octet-stream'; // Binary format, use octet-stream for compatibility
+      return 'application/x-guitar-pro';
     case 'pdf':
       return 'application/pdf';
     case 'json':
