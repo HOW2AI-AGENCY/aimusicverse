@@ -79,18 +79,23 @@ Deno.serve(async (req) => {
     
     console.log('Webhook set result:', webhookResult);
 
-    // Set bot commands
+    // Set bot commands - full list
     const commandsResult = await callTelegramAPI('setMyCommands', {
       commands: [
-        { command: 'start', description: '🎵 Начать работу с ботом' },
-        { command: 'generate', description: '🎼 Создать музыкальный трек' },
-        { command: 'analyze', description: '🔬 Анализ аудио (MIDI, аккорды, BPM)' },
-        { command: 'library', description: '📚 Моя библиотека треков' },
-        { command: 'projects', description: '📁 Мои музыкальные проекты' },
-        { command: 'status', description: '⚡ Статус генерации' },
-        { command: 'settings', description: '⚙️ Настройки бота' },
-        { command: 'app', description: '🎵 Открыть приложение' },
-        { command: 'help', description: '❓ Справка по командам' },
+        { command: 'start', description: '🚀 Начать работу' },
+        { command: 'help', description: '📚 Справка по командам' },
+        { command: 'app', description: '📱 Открыть приложение' },
+        { command: 'channel', description: '📢 Канал @AIMusiicVerse' },
+        { command: 'news', description: '📰 Новости платформы' },
+        { command: 'generate', description: '🎼 Создать трек' },
+        { command: 'cover', description: '🎤 Создать кавер' },
+        { command: 'extend', description: '➕ Расширить трек' },
+        { command: 'status', description: '📊 Статус генерации' },
+        { command: 'analyze', description: '🔬 Анализ аудио' },
+        { command: 'library', description: '📚 Мои треки' },
+        { command: 'projects', description: '📁 Мои проекты' },
+        { command: 'upload', description: '📤 Загрузить аудио' },
+        { command: 'buy', description: '💎 Купить кредиты' },
       ],
     });
     
