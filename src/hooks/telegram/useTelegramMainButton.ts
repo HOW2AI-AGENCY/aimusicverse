@@ -65,8 +65,22 @@ export function useTelegramMainButton({
   const onClickRef = useRef(onClick);
   onClickRef.current = onClick;
   
-  // Determine environment
-  const isRealMiniApp = Boolean(platform && platform !== 'web' && platform !== '' && !isDevelopmentMode);
+  // Check if MainButton API is actually available
+  const hasMainButtonAPI = !!(
+    webApp?.MainButton && 
+    typeof webApp.MainButton.show === 'function' &&
+    typeof webApp.MainButton.hide === 'function' &&
+    typeof webApp.MainButton.setText === 'function'
+  );
+  
+  // Determine environment - real Mini App if platform is mobile AND MainButton API exists
+  const isRealMiniApp = Boolean(
+    hasMainButtonAPI && 
+    platform && 
+    platform !== 'web' && 
+    platform !== '' && 
+    !isDevelopmentMode
+  );
   const shouldShowUIButton = !isRealMiniApp;
   
   // Stable callback wrapper

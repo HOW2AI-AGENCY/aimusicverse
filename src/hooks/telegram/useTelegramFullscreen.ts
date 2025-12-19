@@ -36,37 +36,38 @@ interface UseTelegramFullscreenReturn {
 
 export function useTelegramFullscreen(): UseTelegramFullscreenReturn {
   const { webApp } = useTelegram();
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(() => {
+    // Initialize from current webApp state
+    return (webApp as any)?.isFullscreen || false;
+  });
 
-  const isSupported = !!(webApp?.requestFullscreen && webApp?.exitFullscreen);
+  const isSupported = !!(webApp && typeof (webApp as any).requestFullscreen === 'function');
 
   const enterFullscreen = useCallback(() => {
-    if (!webApp?.requestFullscreen) {
+    if (!webApp || typeof (webApp as any).requestFullscreen !== 'function') {
       log.warn('Fullscreen not supported');
       return;
     }
 
     try {
-      webApp.requestFullscreen();
-      setIsFullscreen(true);
+      (webApp as any).requestFullscreen();
       log.info('Entered fullscreen mode');
     } catch (error) {
-      log.error('Error entering fullscreen', error);
+      log.error('Error entering fullscreen', { error: String(error) });
     }
   }, [webApp]);
 
   const exitFullscreen = useCallback(() => {
-    if (!webApp?.exitFullscreen) {
-      log.warn('Fullscreen not supported');
+    if (!webApp || typeof (webApp as any).exitFullscreen !== 'function') {
+      log.warn('Fullscreen exit not supported');
       return;
     }
 
     try {
-      webApp.exitFullscreen();
-      setIsFullscreen(false);
+      (webApp as any).exitFullscreen();
       log.info('Exited fullscreen mode');
     } catch (error) {
-      log.error('Error exiting fullscreen', error);
+      log.error('Error exiting fullscreen', { error: String(error) });
     }
   }, [webApp]);
 
@@ -78,23 +79,28 @@ export function useTelegramFullscreen(): UseTelegramFullscreenReturn {
     }
   }, [isFullscreen, enterFullscreen, exitFullscreen]);
 
-  // Listen for fullscreen change events
+  // Listen for fullscreen change events and sync state
   useEffect(() => {
     if (!webApp) return;
 
     const handleFullscreenChanged = () => {
-      const newState = webApp.isFullscreen || false;
+      const newState = (webApp as any).isFullscreen || false;
       setIsFullscreen(newState);
       log.debug('Fullscreen state changed', { isFullscreen: newState });
     };
 
-    webApp.onEvent?.('fullscreenChanged', handleFullscreenChanged);
+    // Subscribe to fullscreenChanged event
+    if (typeof webApp.onEvent === 'function') {
+      webApp.onEvent('fullscreenChanged', handleFullscreenChanged);
+    }
 
-    // Initialize state
-    setIsFullscreen(webApp.isFullscreen || false);
+    // Initialize state from current webApp
+    setIsFullscreen((webApp as any).isFullscreen || false);
 
     return () => {
-      webApp.offEvent?.('fullscreenChanged', handleFullscreenChanged);
+      if (typeof webApp.offEvent === 'function') {
+        webApp.offEvent('fullscreenChanged', handleFullscreenChanged);
+      }
     };
   }, [webApp]);
 
