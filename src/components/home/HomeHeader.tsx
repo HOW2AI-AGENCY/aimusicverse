@@ -5,9 +5,10 @@
  */
 
 import { motion } from '@/lib/motion';
-import { User, Bell, Sun, Moon, Sunrise, Sunset } from 'lucide-react';
+import { User, Sun, Moon, Sunrise, Sunset } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { NotificationBadge } from '@/components/NotificationBadge';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import logo from '@/assets/logo.png';
 
 interface HomeHeaderProps {
@@ -140,8 +141,15 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
           </div>
         </div>
 
-        {/* Actions: Notifications + Avatar */}
-        <div className="flex items-center gap-2">
+        {/* Actions: Theme Toggle + Notifications + Avatar */}
+        <div className="flex items-center gap-1.5">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ThemeToggle variant="dropdown" />
+          </motion.div>
+          
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
