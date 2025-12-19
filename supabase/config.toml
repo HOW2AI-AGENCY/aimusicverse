@@ -227,3 +227,6 @@ verify_jwt = true
 
 [functions.generate-image]
 verify_jwt = true
+
+[functions.reward-purchase]
+verify_jwt = true
