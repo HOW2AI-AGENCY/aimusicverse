@@ -91,7 +91,7 @@ export interface SubscriptionStatus {
 // API Request/Response Types (based on contracts/stars-invoice-api.json)
 
 export interface CreateInvoiceRequest {
-  productId: string; // product_code
+  productCode: string; // product_code
   userId: string;
   metadata?: {
     source?: 'mini_app' | 'bot' | 'web';

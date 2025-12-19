@@ -68,7 +68,7 @@ export function useStarsPayment() {
       try {
         // Create invoice
         const request: CreateInvoiceRequest = {
-          productId: product.product_code,
+          productCode: product.product_code,
           userId,
           metadata: {
             source: 'mini_app',
@@ -117,17 +117,17 @@ export function useStarsPayment() {
       }));
 
       // Optimistically update credits or subscription status
-      if (product.product_type === 'credits' && product.credits_amount) {
+      const isCreditsProduct = product.product_type === 'credits' || product.product_type === 'credit_package';
+      if (isCreditsProduct && product.credits_amount) {
         queryClient.invalidateQueries({ queryKey: CREDITS_QUERY_KEY });
       } else if (product.product_type === 'subscription') {
         queryClient.invalidateQueries({ queryKey: SUBSCRIPTION_QUERY_KEY });
       }
 
       toast.success('Payment Successful! 🎉', {
-        description:
-          product.product_type === 'credits'
-            ? `${product.credits_amount} credits added to your account`
-            : `${product.subscription_tier} subscription activated`,
+        description: isCreditsProduct
+          ? `${product.credits_amount} credits added to your account`
+          : `${product.subscription_tier} subscription activated`,
       });
 
       // Reset state after 2 seconds

@@ -65,7 +65,7 @@ interface DbStarsProduct {
 export interface StarsProduct {
   id: string;
   product_code: string;
-  product_type: 'credits' | 'subscription';
+  product_type: 'credits' | 'subscription' | 'credit_package';
   name: string;
   description: string | null;
   stars_price: number;
@@ -94,16 +94,19 @@ function mapDbProduct(db: DbStarsProduct): StarsProduct {
     }
   }
 
+  // Normalize product_type: 'credit_package' -> 'credits' for UI consistency
+  const normalizedType = db.product_type === 'credit_package' ? 'credits' : db.product_type;
+  
   return {
     id: db.id,
     product_code: db.product_code,
-    product_type: db.product_type as 'credits' | 'subscription',
+    product_type: normalizedType as 'credits' | 'subscription',
     name: parseLocalizedField(db.name, db.product_code),
     description: parseLocalizedField(db.description),
     stars_price: db.stars_price,
     price_stars: db.stars_price, // alias for compatibility
     credits_amount: db.credits_amount,
-    subscription_tier: db.product_type === 'subscription' ? db.product_code.replace('sub_', '') : null,
+    subscription_tier: normalizedType === 'subscription' ? db.product_code.replace('sub_', '') : null,
     subscription_days: db.subscription_days,
     features,
     is_popular: db.is_popular ?? false,
