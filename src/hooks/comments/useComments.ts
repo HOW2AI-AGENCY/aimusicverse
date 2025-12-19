@@ -3,6 +3,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import { showErrorWithRecovery } from '@/lib/errorHandling';
+import { logger } from '@/lib/logger';
 
 export interface Comment {
   id: string;
@@ -113,8 +115,8 @@ export function useAddComment() {
       toast.success('Комментарий добавлен');
     },
     onError: (error) => {
-      console.error('Error adding comment:', error);
-      toast.error('Не удалось добавить комментарий');
+      logger.error('Error adding comment', error instanceof Error ? error : new Error(String(error)));
+      showErrorWithRecovery(error);
     },
   });
 }
@@ -141,8 +143,8 @@ export function useDeleteComment() {
       toast.success('Комментарий удалён');
     },
     onError: (error) => {
-      console.error('Error deleting comment:', error);
-      toast.error('Не удалось удалить комментарий');
+      logger.error('Error deleting comment', error instanceof Error ? error : new Error(String(error)));
+      showErrorWithRecovery(error);
     },
   });
 }

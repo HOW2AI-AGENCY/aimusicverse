@@ -10,6 +10,7 @@ import { useTracks } from '@/hooks/useTracks';
 import { PlaybackControls } from '@/components/player/PlaybackControls';
 import { VersionSwitcher } from '@/components/player/VersionSwitcher';
 import { LazyImage } from '@/components/ui/lazy-image';
+import { TouchTarget, triggerHaptic } from '@/components/ui/touch-friendly';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
@@ -189,24 +190,34 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
             </div>
           </div>
           <div className="flex items-center gap-0.5 flex-shrink-0">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onMaximize}
-              className="h-8 w-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 touch-manipulation active:scale-95"
-              aria-label="Развернуть плеер"
-            >
-              <Maximize2 className="h-3.5 w-3.5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onClose}
-              className="h-8 w-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 touch-manipulation active:scale-95"
-              aria-label="Закрыть плеер"
-            >
-              <X className="h-3.5 w-3.5" />
-            </Button>
+            <TouchTarget>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  triggerHaptic('light');
+                  onMaximize();
+                }}
+                className="h-8 w-8"
+                aria-label="Развернуть плеер"
+              >
+                <Maximize2 className="h-3.5 w-3.5" />
+              </Button>
+            </TouchTarget>
+            <TouchTarget>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  triggerHaptic('light');
+                  onClose();
+                }}
+                className="h-8 w-8"
+                aria-label="Закрыть плеер"
+              >
+                <X className="h-3.5 w-3.5" />
+              </Button>
+            </TouchTarget>
           </div>
         </div>
 
@@ -250,26 +261,36 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
         <div className="flex items-center justify-between gap-2">
           {/* Left side: Like & Download - Hidden on small mobile */}
           <div className="hidden sm:flex items-center gap-0.5">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => toggleLike({ trackId: track.id, isLiked: track.is_liked || false })}
-              className="h-8 w-8 flex-shrink-0 touch-manipulation active:scale-95"
-              aria-label={track.is_liked ? "Убрать из избранного" : "Добавить в избранное"}
-              disabled={!track.id}
-            >
-              <Heart className={cn("h-3.5 w-3.5", track.is_liked && "fill-current text-red-500")} />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => downloadTrack({ trackId: track.id, audioUrl: track.audio_url!, coverUrl: track.cover_url! })}
-              className="h-8 w-8 flex-shrink-0 touch-manipulation active:scale-95"
-              aria-label="Скачать трек"
-              disabled={!track.audio_url}
-            >
-              <Download className="h-3.5 w-3.5" />
-            </Button>
+            <TouchTarget>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  triggerHaptic('light');
+                  toggleLike({ trackId: track.id, isLiked: track.is_liked || false });
+                }}
+                className="h-8 w-8 flex-shrink-0"
+                aria-label={track.is_liked ? "Убрать из избранного" : "Добавить в избранное"}
+                disabled={!track.id}
+              >
+                <Heart className={cn("h-3.5 w-3.5", track.is_liked && "fill-current text-red-500")} />
+              </Button>
+            </TouchTarget>
+            <TouchTarget>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  triggerHaptic('light');
+                  downloadTrack({ trackId: track.id, audioUrl: track.audio_url!, coverUrl: track.cover_url! });
+                }}
+                className="h-8 w-8 flex-shrink-0"
+                aria-label="Скачать трек"
+                disabled={!track.audio_url}
+              >
+                <Download className="h-3.5 w-3.5" />
+              </Button>
+            </TouchTarget>
           </div>
 
           {/* Center: Playback Controls + Version Switcher */}

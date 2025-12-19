@@ -3,6 +3,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import { showErrorWithRecovery } from '@/lib/errorHandling';
+import { logger } from '@/lib/logger';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
 export function useFollow(targetUserId: string) {
@@ -56,8 +58,8 @@ export function useFollow(targetUserId: string) {
       toast.success(result.action === 'follow' ? 'Вы подписались' : 'Вы отписались');
     },
     onError: (error) => {
-      console.error('Error toggling follow:', error);
-      toast.error('Не удалось выполнить действие');
+      logger.error('Error toggling follow', error instanceof Error ? error : new Error(String(error)));
+      showErrorWithRecovery(error);
     },
   });
 
