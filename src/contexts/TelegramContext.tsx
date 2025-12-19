@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useRef, useCallback, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { telegramAuthService } from '@/services/telegram-auth';
 import { logger } from '@/lib/logger';
@@ -347,52 +347,86 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  const showMainButton = (text: string, onClick: () => void, options?: { color?: string; textColor?: string; isActive?: boolean; isVisible?: boolean }) => {
+  // Store current callbacks to properly remove them
+  const mainButtonCallbackRef = useRef<(() => void) | null>(null);
+  const backButtonCallbackRef = useRef<(() => void) | null>(null);
+  const settingsButtonCallbackRef = useRef<(() => void) | null>(null);
+
+  const showMainButton = useCallback((text: string, onClick: () => void, options?: { color?: string; textColor?: string; isActive?: boolean; isVisible?: boolean }) => {
     if (webApp) {
+      // Remove previous callback if exists
+      if (mainButtonCallbackRef.current) {
+        webApp.MainButton.offClick(mainButtonCallbackRef.current);
+      }
+      
       webApp.MainButton.setText(text);
       if (options?.color) webApp.MainButton.color = options.color;
       if (options?.textColor) webApp.MainButton.textColor = options.textColor;
       if (options?.isActive !== undefined) webApp.MainButton.isActive = options.isActive;
       if (options?.isVisible !== undefined) webApp.MainButton.isVisible = options.isVisible;
-      webApp.MainButton.show();
+      
+      // Store and register new callback
+      mainButtonCallbackRef.current = onClick;
       webApp.MainButton.onClick(onClick);
+      webApp.MainButton.show();
     }
-  };
+  }, [webApp]);
 
-  const hideMainButton = () => {
+  const hideMainButton = useCallback(() => {
     if (webApp) {
       webApp.MainButton.hide();
-      webApp.MainButton.offClick(() => {});
+      // Remove the actual callback that was registered
+      if (mainButtonCallbackRef.current) {
+        webApp.MainButton.offClick(mainButtonCallbackRef.current);
+        mainButtonCallbackRef.current = null;
+      }
     }
-  };
+  }, [webApp]);
 
-  const showBackButton = (onClick: () => void) => {
+  const showBackButton = useCallback((onClick: () => void) => {
     if (webApp) {
-      webApp.BackButton.show();
+      // Remove previous callback if exists
+      if (backButtonCallbackRef.current) {
+        webApp.BackButton.offClick(backButtonCallbackRef.current);
+      }
+      
+      backButtonCallbackRef.current = onClick;
       webApp.BackButton.onClick(onClick);
+      webApp.BackButton.show();
     }
-  };
+  }, [webApp]);
 
-  const hideBackButton = () => {
+  const hideBackButton = useCallback(() => {
     if (webApp) {
       webApp.BackButton.hide();
-      webApp.BackButton.offClick(() => {});
+      if (backButtonCallbackRef.current) {
+        webApp.BackButton.offClick(backButtonCallbackRef.current);
+        backButtonCallbackRef.current = null;
+      }
     }
-  };
+  }, [webApp]);
 
-  const showSettingsButton = (onClick: () => void) => {
+  const showSettingsButton = useCallback((onClick: () => void) => {
     if (webApp && (webApp as any).SettingsButton) {
-      (webApp as any).SettingsButton.show();
+      if (settingsButtonCallbackRef.current) {
+        (webApp as any).SettingsButton.offClick(settingsButtonCallbackRef.current);
+      }
+      
+      settingsButtonCallbackRef.current = onClick;
       (webApp as any).SettingsButton.onClick(onClick);
+      (webApp as any).SettingsButton.show();
     }
-  };
+  }, [webApp]);
 
-  const hideSettingsButton = () => {
+  const hideSettingsButton = useCallback(() => {
     if (webApp && (webApp as any).SettingsButton) {
       (webApp as any).SettingsButton.hide();
-      (webApp as any).SettingsButton.offClick(() => {});
+      if (settingsButtonCallbackRef.current) {
+        (webApp as any).SettingsButton.offClick(settingsButtonCallbackRef.current);
+        settingsButtonCallbackRef.current = null;
+      }
     }
-  };
+  }, [webApp]);
 
   const enableClosingConfirmation = () => {
     if (webApp?.enableClosingConfirmation) {
