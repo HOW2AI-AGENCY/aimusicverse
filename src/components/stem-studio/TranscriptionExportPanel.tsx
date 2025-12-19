@@ -31,6 +31,8 @@ import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
+import { showErrorWithRecovery } from '@/lib/errorHandling';
+import { toAppError, ErrorCode } from '@/lib/errors/AppError';
 
 const log = logger.child({ module: 'TranscriptionExportPanel' });
 
@@ -142,13 +144,13 @@ export function TranscriptionExportPanel({
       } else {
         throw new Error(data.error || 'Транскрипция не завершена');
       }
-    } catch (err: any) {
-      log.error('Transcription error', err);
-      const errorMessage = err.message || 'Ошибка транскрипции';
-      setError(errorMessage);
-      toast.error('Ошибка транскрипции', {
-        description: errorMessage,
-      });
+    } catch (err: unknown) {
+      const appError = toAppError(err);
+      log.error('Transcription error', appError.toJSON());
+      setError(appError.message);
+      
+      // Use structured error recovery
+      showErrorWithRecovery(appError);
     } finally {
       setIsTranscribing(false);
       setProgress('');
