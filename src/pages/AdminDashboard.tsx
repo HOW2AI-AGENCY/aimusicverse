@@ -151,7 +151,7 @@ export default function AdminDashboard() {
   const CurrentTabIcon = TAB_OPTIONS.find(t => t.value === activeTab)?.icon || Activity;
 
   return (
-    <div className="container mx-auto p-3 md:p-4 space-y-4 pb-24">
+    <div className="container mx-auto p-3 md:p-4 space-y-4 pb-24 pb-[calc(6rem+env(safe-area-inset-bottom))]">
       {/* Header */}
       <div className="flex items-center justify-between gap-2">
         <h1 className="text-lg md:text-2xl font-bold flex items-center gap-2">
@@ -170,19 +170,22 @@ export default function AdminDashboard() {
         <Select value={activeTab} onValueChange={setActiveTab}>
           <SelectTrigger className="w-full">
             <div className="flex items-center gap-2">
-              <CurrentTabIcon className="h-4 w-4" />
-              <SelectValue />
+              <CurrentTabIcon className="h-4 w-4 flex-shrink-0" />
+              <span>{TAB_OPTIONS.find(t => t.value === activeTab)?.label}</span>
             </div>
           </SelectTrigger>
-          <SelectContent>
-            {TAB_OPTIONS.map((tab) => (
-              <SelectItem key={tab.value} value={tab.value}>
-                <div className="flex items-center gap-2">
-                  <tab.icon className="h-4 w-4" />
-                  {tab.label}
-                </div>
-              </SelectItem>
-            ))}
+          <SelectContent className="max-h-[300px]">
+            {TAB_OPTIONS.map((tab) => {
+              const TabIcon = tab.icon;
+              return (
+                <SelectItem key={tab.value} value={tab.value} className="pl-2">
+                  <div className="flex items-center gap-2">
+                    <TabIcon className="h-4 w-4 flex-shrink-0" />
+                    <span>{tab.label}</span>
+                  </div>
+                </SelectItem>
+              );
+            })}
           </SelectContent>
         </Select>
       ) : (
