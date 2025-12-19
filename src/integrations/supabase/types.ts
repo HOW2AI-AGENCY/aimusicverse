@@ -2236,6 +2236,57 @@ export type Database = {
         }
         Relationships: []
       }
+      telegram_failed_notifications: {
+        Row: {
+          chat_id: number
+          created_at: string | null
+          error_code: string | null
+          error_message: string | null
+          id: string
+          last_retry_at: string | null
+          max_retries: number | null
+          next_retry_at: string | null
+          notification_type: string
+          payload: Json
+          resolved_at: string | null
+          retry_count: number | null
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          chat_id: number
+          created_at?: string | null
+          error_code?: string | null
+          error_message?: string | null
+          id?: string
+          last_retry_at?: string | null
+          max_retries?: number | null
+          next_retry_at?: string | null
+          notification_type: string
+          payload: Json
+          resolved_at?: string | null
+          retry_count?: number | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          chat_id?: number
+          created_at?: string | null
+          error_code?: string | null
+          error_message?: string | null
+          id?: string
+          last_retry_at?: string | null
+          max_retries?: number | null
+          next_retry_at?: string | null
+          notification_type?: string
+          payload?: Json
+          resolved_at?: string | null
+          retry_count?: number | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       telegram_menu_state: {
         Row: {
           active_menu_message_id: number | null
@@ -2266,6 +2317,84 @@ export type Database = {
           navigation_stack?: string[] | null
           updated_at?: string
           user_id?: number
+        }
+        Relationships: []
+      }
+      telegram_voice_transcriptions: {
+        Row: {
+          confidence: number | null
+          created_at: string | null
+          detected_language: string | null
+          duration_seconds: number | null
+          generation_task_id: string | null
+          id: string
+          telegram_chat_id: number
+          telegram_file_id: string
+          transcription: string | null
+          used_for_generation: boolean | null
+          user_id: string
+        }
+        Insert: {
+          confidence?: number | null
+          created_at?: string | null
+          detected_language?: string | null
+          duration_seconds?: number | null
+          generation_task_id?: string | null
+          id?: string
+          telegram_chat_id: number
+          telegram_file_id: string
+          transcription?: string | null
+          used_for_generation?: boolean | null
+          user_id: string
+        }
+        Update: {
+          confidence?: number | null
+          created_at?: string | null
+          detected_language?: string | null
+          duration_seconds?: number | null
+          generation_task_id?: string | null
+          id?: string
+          telegram_chat_id?: number
+          telegram_file_id?: string
+          transcription?: string | null
+          used_for_generation?: boolean | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      telegram_wizard_state: {
+        Row: {
+          created_at: string | null
+          current_step: string
+          expires_at: string
+          id: string
+          message_id: number | null
+          selections: Json | null
+          updated_at: string | null
+          user_id: string
+          wizard_type: string
+        }
+        Insert: {
+          created_at?: string | null
+          current_step: string
+          expires_at: string
+          id?: string
+          message_id?: number | null
+          selections?: Json | null
+          updated_at?: string | null
+          user_id: string
+          wizard_type: string
+        }
+        Update: {
+          created_at?: string | null
+          current_step?: string
+          expires_at?: string
+          id?: string
+          message_id?: number | null
+          selections?: Json | null
+          updated_at?: string | null
+          user_id?: string
+          wizard_type?: string
         }
         Relationships: []
       }
@@ -3363,6 +3492,7 @@ export type Database = {
         Returns: number
       }
       cleanup_expired_bot_sessions: { Args: never; Returns: undefined }
+      cleanup_expired_wizard_states: { Args: never; Returns: undefined }
       compute_track_genre: {
         Args: { _style: string; _tags: string }
         Returns: string
@@ -3482,6 +3612,31 @@ export type Database = {
       get_level_from_experience: {
         Args: { _experience: number }
         Returns: number
+      }
+      get_pending_notification_retries: {
+        Args: { _limit?: number }
+        Returns: {
+          chat_id: number
+          created_at: string | null
+          error_code: string | null
+          error_message: string | null
+          id: string
+          last_retry_at: string | null
+          max_retries: number | null
+          next_retry_at: string | null
+          notification_type: string
+          payload: Json
+          resolved_at: string | null
+          retry_count: number | null
+          status: string | null
+          user_id: string | null
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "telegram_failed_notifications"
+          isOneToOne: false
+          isSetofReturn: true
+        }
       }
       get_public_profile_info: {
         Args: { profile_user_id: string }
