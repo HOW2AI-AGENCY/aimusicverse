@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { motion } from '@/lib/motion';
-import type { PublicTrackWithCreator } from '@/hooks/usePublicContentOptimized';
+import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 
 interface CommunityNewTracksSectionProps {
   tracks: PublicTrackWithCreator[];

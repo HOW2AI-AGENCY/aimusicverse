@@ -3,7 +3,7 @@ import { Globe, Music, Users, TrendingUp, Heart, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { usePublicContentOptimized, PublicTrackWithCreator } from "@/hooks/usePublicContentOptimized";
+import { usePublicContentOptimized, PublicTrackWithCreator } from "@/hooks/usePublicContent";
 import { usePublicArtists } from "@/hooks/usePublicArtists";
 import { PublicTrackCard } from "@/components/home/PublicTrackCard";
 import { ActorCard } from "@/components/actors/ActorCard";
