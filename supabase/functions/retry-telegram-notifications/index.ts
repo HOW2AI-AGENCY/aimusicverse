@@ -152,8 +152,9 @@ async function sendTelegramAudio(
 /**
  * Process a single failed notification
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function processNotification(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   notification: FailedNotification
 ): Promise<{ success: boolean; permanent?: boolean }> {
   const { id, chat_id, notification_type, payload } = notification;
