@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru" class="dark">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -7,7 +7,7 @@
     <meta name="description" content="Платформа для генерации и редактирования музыки с помощью искусственного интеллекта">
     <meta name="author" content="MusicVerse" />
     <meta name="keywords" content="AI music, генерация музыки, музыкальный редактор, искусственный интеллект, Telegram">
-    <meta name="theme-color" content="#8b5cf6" />
+    <meta name="theme-color" content="hsl(220, 20%, 7%)" id="theme-color-meta" />
     <link rel="icon" type="image/x-icon" href="https://storage.googleapis.com/gpt-engineer-file-uploads/m2hrG8MCkeTjXpdUtXsnQBBuQRJ2/uploads/1764486116539-MusicVerse_Sticker_Headphones (1).png">
 
     
@@ -32,6 +32,42 @@
     <!-- Preload critical script -->
     <link rel="preload" href="https://telegram.org/js/telegram-web-app.js" as="script">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <!-- Early theme detection script - runs before React -->
+    <script>
+      (function() {
+        // Check saved theme preference
+        var stored = localStorage.getItem('musicverse-theme');
+        var theme = stored || 'system';
+        var resolved = theme;
+        
+        if (theme === 'system') {
+          // Check Telegram first
+          if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.colorScheme) {
+            resolved = window.Telegram.WebApp.colorScheme;
+          } else {
+            // Fall back to system preference
+            resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+        }
+        
+        // Apply theme class immediately
+        if (resolved === 'dark') {
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('light');
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.add('light');
+        }
+        
+        // Update meta theme-color
+        var metaTheme = document.getElementById('theme-color-meta');
+        if (metaTheme) {
+          metaTheme.setAttribute('content', resolved === 'dark' ? 'hsl(220, 20%, 7%)' : 'hsl(220, 20%, 98%)');
+        }
+      })();
+    </script>
+    
     <meta property="og:title" content="MusicVerse">
   <meta name="twitter:title" content="MusicVerse">
   <meta property="og:description" content="Платформа для генерации и редактирования музыки с помощью искусственного интеллекта">
@@ -44,9 +80,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(180deg, #0f1419 0%, #1a1f2e 100%);
+      background: linear-gradient(180deg, hsl(220, 20%, 7%) 0%, hsl(220, 18%, 10%) 100%);
       color: #fff;
       font-family: 'Inter', system-ui, sans-serif;
+    }
+    .light #loading-fallback {
+      background: linear-gradient(180deg, hsl(220, 20%, 98%) 0%, hsl(220, 15%, 94%) 100%);
+      color: hsl(220, 25%, 10%);
     }
     #loading-fallback .content {
       text-align: center;
@@ -55,8 +95,8 @@
     #loading-fallback .spinner {
       width: 48px;
       height: 48px;
-      border: 3px solid rgba(139, 92, 246, 0.2);
-      border-top-color: #8b5cf6;
+      border: 3px solid rgba(59, 130, 246, 0.2);
+      border-top-color: hsl(207, 90%, 54%);
       border-radius: 50%;
       animation: spin 1s linear infinite;
       margin: 0 auto 16px;
@@ -65,6 +105,9 @@
       font-size: 14px;
       color: rgba(255, 255, 255, 0.7);
       margin: 0;
+    }
+    .light #loading-fallback p {
+      color: rgba(0, 0, 0, 0.6);
     }
     @keyframes spin {
       to { transform: rotate(360deg); }

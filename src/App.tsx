@@ -5,6 +5,7 @@ import { TooltipProvider as InteractiveTooltipProvider } from "@/components/tool
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
 import { TelegramProvider, DeepLinkHandler } from "@/contexts/TelegramContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { GamificationProvider } from "@/contexts/GamificationContext";
 import { NotificationProvider } from "@/contexts/NotificationContext";
@@ -80,16 +81,17 @@ const App = () => (
   <ErrorBoundaryWrapper>
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        <TelegramProvider>
-          <AuthProvider>
-            <InitializationGuard>
-              <GuestModeProvider>
-              <GlobalAudioProvider>
-                <NotificationProvider>
-                  <GamificationProvider>
-                    <TooltipProvider>
-                      <Sonner />
-                    <BrowserRouter>
+        <ThemeProvider>
+          <TelegramProvider>
+            <AuthProvider>
+              <InitializationGuard>
+                <GuestModeProvider>
+                <GlobalAudioProvider>
+                  <NotificationProvider>
+                    <GamificationProvider>
+                      <TooltipProvider>
+                        <Sonner />
+                      <BrowserRouter>
                       <InteractiveTooltipProvider>
                         <DeepLinkHandler />
                       <Suspense fallback={<LoadingScreen />}>
@@ -155,16 +157,17 @@ const App = () => (
                 <Route path="*" element={<NotFound />} />
                       </Routes>
                       </Suspense>
-                      </InteractiveTooltipProvider>
-                    </BrowserRouter>
-                  </TooltipProvider>
-                </GamificationProvider>
-              </NotificationProvider>
-              </GlobalAudioProvider>
-              </GuestModeProvider>
-            </InitializationGuard>
-          </AuthProvider>
-        </TelegramProvider>
+                        </InteractiveTooltipProvider>
+                      </BrowserRouter>
+                    </TooltipProvider>
+                  </GamificationProvider>
+                </NotificationProvider>
+                </GlobalAudioProvider>
+                </GuestModeProvider>
+              </InitializationGuard>
+            </AuthProvider>
+          </TelegramProvider>
+        </ThemeProvider>
       </QueryClientProvider>
     </ErrorBoundary>
   </ErrorBoundaryWrapper>
