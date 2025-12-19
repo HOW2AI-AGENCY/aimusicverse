@@ -3,7 +3,7 @@
  * Compact preview of active audio reference in generation form with waveform
  */
 
-import { memo, useState, useRef, useEffect, useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -18,85 +18,47 @@ import {
   Guitar,
   FileAudio,
   Loader2,
+  ChevronDown,
+  Sparkles,
 } from 'lucide-react';
 import { useAudioReference } from '@/hooks/useAudioReference';
+import { useReferenceAudioPlayer } from '@/hooks/audio/useReferenceAudioPlayer';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/formatters';
 import { MiniWaveform } from './MiniWaveform';
+import { ReferenceAnalysisDisplay } from './ReferenceAnalysisDisplay';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { useState } from 'react';
 
 interface InlineReferencePreviewProps {
   onRemove?: () => void;
   onOpenDrawer?: () => void;
   className?: string;
+  showAnalysis?: boolean;
 }
 
-export function InlineReferencePreview({ 
+export const InlineReferencePreview = memo(function InlineReferencePreview({ 
   onRemove, 
   onOpenDrawer,
   className,
+  showAnalysis = true,
 }: InlineReferencePreviewProps) {
   const { activeReference, clearActive, analysisStatus } = useAudioReference();
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  // Create audio element once
-  useEffect(() => {
-    if (!activeReference?.audioUrl) return;
-
-    const audio = new Audio(activeReference.audioUrl);
-    audioRef.current = audio;
-
-    audio.addEventListener('loadedmetadata', () => {
-      setDuration(audio.duration);
-    });
-
-    audio.addEventListener('timeupdate', () => {
-      setCurrentTime(audio.currentTime);
-    });
-
-    audio.addEventListener('ended', () => {
-      setIsPlaying(false);
-      setCurrentTime(0);
-    });
-
-    return () => {
-      audio.pause();
-      audio.src = '';
-      audioRef.current = null;
-    };
-  }, [activeReference?.audioUrl]);
-
-  // Set duration from reference if available
-  useEffect(() => {
-    if (activeReference?.durationSeconds && duration === 0) {
-      setDuration(activeReference.durationSeconds);
-    }
-  }, [activeReference?.durationSeconds, duration]);
-
-  const handlePlayPause = useCallback(() => {
-    if (!audioRef.current) return;
-
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
-  }, [isPlaying]);
-
-  const handleSeek = useCallback((time: number) => {
-    if (!audioRef.current) return;
-    audioRef.current.currentTime = time;
-    setCurrentTime(time);
-  }, []);
+  const {
+    isPlaying,
+    currentTime,
+    duration,
+    isLoading,
+    isBuffering,
+    togglePlay,
+    seek,
+  } = useReferenceAudioPlayer({
+    audioUrl: activeReference?.audioUrl ?? null,
+  });
 
   const handleRemove = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-    }
     clearActive();
     onRemove?.();
   }, [clearActive, onRemove]);
@@ -111,6 +73,8 @@ export function InlineReferencePreview({
       case 'drums': return <Drum className="h-3.5 w-3.5" />;
       case 'dj': return <Radio className="h-3.5 w-3.5" />;
       case 'guitar': return <Guitar className="h-3.5 w-3.5" />;
+      case 'stem': return <Sparkles className="h-3.5 w-3.5" />;
+      case 'track': return <Music className="h-3.5 w-3.5" />;
       default: return <FileAudio className="h-3.5 w-3.5" />;
     }
   };
@@ -121,91 +85,152 @@ export function InlineReferencePreview({
     return 'Референс';
   };
 
+  const getModeColor = () => {
+    if (activeReference.intendedMode === 'cover') return 'bg-purple-500/20 text-purple-700 dark:text-purple-400';
+    if (activeReference.intendedMode === 'extend') return 'bg-blue-500/20 text-blue-700 dark:text-blue-400';
+    return 'bg-muted';
+  };
+
+  const hasAnalysisData = activeReference.analysis && (
+    activeReference.analysis.genre ||
+    activeReference.analysis.bpm ||
+    activeReference.analysis.mood ||
+    activeReference.analysis.styleDescription
+  );
+
+  const effectiveDuration = duration || activeReference.durationSeconds || 0;
 
   return (
-    <div 
-      className={cn(
-        "flex flex-col gap-2 p-3 rounded-lg border bg-muted/30",
-        "transition-all hover:bg-muted/50",
-        className
-      )}
-    >
-      {/* Header row */}
-      <div className="flex items-center gap-2">
-        {/* Play/Pause button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8 shrink-0"
-          onClick={handlePlayPause}
-        >
-          {isPlaying ? (
-            <Pause className="h-4 w-4" />
-          ) : (
-            <Play className="h-4 w-4" />
-          )}
-        </Button>
+    <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
+      <div 
+        className={cn(
+          "flex flex-col rounded-lg border bg-card/50 backdrop-blur-sm",
+          "transition-all duration-200",
+          isExpanded && "ring-1 ring-primary/20",
+          className
+        )}
+      >
+        {/* Main content */}
+        <div className="flex flex-col gap-2 p-3">
+          {/* Header row */}
+          <div className="flex items-center gap-2">
+            {/* Play/Pause button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9 shrink-0 rounded-full bg-primary/10 hover:bg-primary/20"
+              onClick={togglePlay}
+              disabled={isLoading}
+            >
+              {isLoading || isBuffering ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : isPlaying ? (
+                <Pause className="h-4 w-4" />
+              ) : (
+                <Play className="h-4 w-4 ml-0.5" />
+              )}
+            </Button>
 
-        {/* Info */}
-        <div 
-          className="flex-1 min-w-0 cursor-pointer"
-          onClick={onOpenDrawer}
-        >
-          <div className="flex items-center gap-1.5">
-            {getSourceIcon()}
-            <span className="text-sm font-medium truncate max-w-[140px]">
-              {activeReference.fileName}
-            </span>
+            {/* Info */}
+            <div 
+              className="flex-1 min-w-0 cursor-pointer"
+              onClick={onOpenDrawer}
+            >
+              <div className="flex items-center gap-1.5">
+                {getSourceIcon()}
+                <span className="text-sm font-medium truncate max-w-[160px]">
+                  {activeReference.fileName}
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <Badge variant="secondary" className={cn("text-xs px-1.5 py-0", getModeColor())}>
+                  {getModeLabel()}
+                </Badge>
+                
+                {analysisStatus === 'processing' && (
+                  <Badge variant="outline" className="text-xs px-1.5 py-0 gap-1">
+                    <Loader2 className="h-2.5 w-2.5 animate-spin" />
+                    Анализ
+                  </Badge>
+                )}
+                
+                {activeReference.analysis?.bpm && (
+                  <span className="text-xs text-muted-foreground">
+                    {activeReference.analysis.bpm} BPM
+                  </span>
+                )}
+
+                {activeReference.analysis?.genre && (
+                  <span className="text-xs text-muted-foreground hidden sm:inline">
+                    • {activeReference.analysis.genre}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Expand button (if has analysis) */}
+            {showAnalysis && hasAnalysisData && (
+              <CollapsibleTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 shrink-0"
+                >
+                  <ChevronDown className={cn(
+                    "h-4 w-4 transition-transform duration-200",
+                    isExpanded && "rotate-180"
+                  )} />
+                </Button>
+              </CollapsibleTrigger>
+            )}
+
+            {/* Remove button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
+              onClick={handleRemove}
+            >
+              <X className="h-4 w-4" />
+            </Button>
           </div>
-          
-          <div className="flex items-center gap-1.5 mt-0.5">
-            <Badge variant="secondary" className="text-xs px-1.5 py-0">
-              {getModeLabel()}
-            </Badge>
+
+          {/* Waveform with time */}
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground w-9 text-right shrink-0 tabular-nums">
+              {formatTime(currentTime)}
+            </span>
             
-            {analysisStatus === 'processing' && (
-              <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
-            )}
+            <MiniWaveform
+              audioUrl={activeReference.audioUrl}
+              currentTime={currentTime}
+              duration={effectiveDuration}
+              isPlaying={isPlaying}
+              onSeek={seek}
+              height={36}
+              className="flex-1"
+            />
             
-            {activeReference.analysis?.bpm && (
-              <span className="text-xs text-muted-foreground">
-                {activeReference.analysis.bpm} BPM
-              </span>
-            )}
+            <span className="text-xs text-muted-foreground w-9 shrink-0 tabular-nums">
+              {formatTime(effectiveDuration)}
+            </span>
           </div>
         </div>
 
-        {/* Remove button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
-          onClick={handleRemove}
-        >
-          <X className="h-4 w-4" />
-        </Button>
+        {/* Expanded analysis section */}
+        {showAnalysis && hasAnalysisData && (
+          <CollapsibleContent>
+            <div className="px-3 pb-3 pt-1 border-t border-border/50">
+              <ReferenceAnalysisDisplay
+                analysis={activeReference.analysis}
+                status={analysisStatus}
+                compact
+              />
+            </div>
+          </CollapsibleContent>
+        )}
       </div>
-
-      {/* Waveform with time */}
-      <div className="flex items-center gap-2">
-        <span className="text-xs text-muted-foreground w-8 text-right shrink-0">
-          {formatTime(currentTime)}
-        </span>
-        
-        <MiniWaveform
-          audioUrl={activeReference.audioUrl}
-          currentTime={currentTime}
-          duration={duration}
-          isPlaying={isPlaying}
-          onSeek={handleSeek}
-          height={32}
-          className="flex-1"
-        />
-        
-        <span className="text-xs text-muted-foreground w-8 shrink-0">
-          {formatTime(duration)}
-        </span>
-      </div>
-    </div>
+    </Collapsible>
   );
-}
+});
