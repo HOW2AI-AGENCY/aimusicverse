@@ -13,8 +13,15 @@ import { QuickStats } from '@/components/gamification/QuickStats';
 import { CreditsBalance } from '@/components/gamification/CreditsBalance';
 import { SoundToggle } from '@/components/gamification/SoundToggle';
 import { Trophy, Crown, History, Target, Gift, Calendar, Gem } from 'lucide-react';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 export default function Rewards() {
+  // Telegram BackButton
+  useTelegramBackButton({
+    visible: true,
+    fallbackPath: '/',
+  });
+
   return (
     <div className="min-h-screen pb-24">
       <div className="container max-w-lg mx-auto px-4 py-6">

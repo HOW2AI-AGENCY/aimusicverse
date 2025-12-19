@@ -8,10 +8,17 @@ import { usePublicArtists } from "@/hooks/usePublicArtists";
 import { PublicTrackCard } from "@/components/home/PublicTrackCard";
 import { ActorCard } from "@/components/actors/ActorCard";
 import { motion } from '@/lib/motion';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 const GENRES = ["Pop", "Rock", "Hip-Hop", "Electronic", "R&B", "Jazz", "Indie", "Lo-Fi"];
 
 export default function Community() {
+  // Telegram BackButton
+  useTelegramBackButton({
+    visible: true,
+    fallbackPath: '/',
+  });
+
   const { data: publicContent, isLoading: tracksLoading } = usePublicContentBatch();
   const { data: publicArtists, isLoading: artistsLoading } = usePublicArtists(20);
   const [searchQuery, setSearchQuery] = useState("");

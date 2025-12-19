@@ -8,8 +8,15 @@ import { CreatePlaylistDialog } from '@/components/playlist/CreatePlaylistDialog
 import { EditPlaylistDialog } from '@/components/playlist/EditPlaylistDialog';
 import { SharePlaylistDialog } from '@/components/playlist/SharePlaylistDialog';
 import type { Playlist } from '@/hooks/usePlaylists';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 export default function Playlists() {
+  // Telegram BackButton
+  useTelegramBackButton({
+    visible: true,
+    fallbackPath: '/',
+  });
+
   const [searchParams] = useSearchParams();
   const { playlists, isLoading, deletePlaylist } = usePlaylists();
   const [createDialogOpen, setCreateDialogOpen] = useState(false);

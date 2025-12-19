@@ -32,6 +32,7 @@ import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 interface Template {
   id: string;
@@ -47,6 +48,12 @@ const Templates = () => {
   const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
   const queryClient = useQueryClient();
+  
+  // Telegram BackButton
+  useTelegramBackButton({
+    visible: true,
+    fallbackPath: '/',
+  });
   
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
