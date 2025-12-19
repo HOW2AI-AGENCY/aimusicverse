@@ -1271,8 +1271,12 @@ export type Database = {
         Row: {
           action_url: string | null
           created_at: string | null
+          expires_at: string | null
+          group_key: string | null
           id: string
           message: string
+          metadata: Json | null
+          priority: number | null
           read: boolean | null
           title: string
           type: string
@@ -1281,8 +1285,12 @@ export type Database = {
         Insert: {
           action_url?: string | null
           created_at?: string | null
+          expires_at?: string | null
+          group_key?: string | null
           id?: string
           message: string
+          metadata?: Json | null
+          priority?: number | null
           read?: boolean | null
           title: string
           type: string
@@ -1291,8 +1299,12 @@ export type Database = {
         Update: {
           action_url?: string | null
           created_at?: string | null
+          expires_at?: string | null
+          group_key?: string | null
           id?: string
           message?: string
+          metadata?: Json | null
+          priority?: number | null
           read?: boolean | null
           title?: string
           type?: string

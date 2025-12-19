@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { telegramAuthService } from '@/services/telegram-auth';
+import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -691,7 +692,7 @@ export const useTelegram = () => {
 // Component to handle deep linking using useNavigate
 export const DeepLinkHandler = () => {
   const navigate = useNavigate();
-  const { webApp } = useTelegram();
+  const { webApp, user } = useTelegram();
 
   useEffect(() => {
     const startParam = webApp?.initDataUnsafe?.start_param;
@@ -699,80 +700,112 @@ export const DeepLinkHandler = () => {
 
     telegramLogger.debug('Processing deep link', { startParam });
 
-    // Pattern-based routing for cleaner code
-    const routes: [RegExp | string, (match: RegExpMatchArray | null) => string][] = [
+    // Track analytics async
+    const trackDeepLink = async (type: string, value: string, converted: boolean = true) => {
+      try {
+        const sessionId = sessionStorage.getItem('session_id') || `${Date.now()}_${Math.random().toString(36).slice(2)}`;
+        sessionStorage.setItem('session_id', sessionId);
+
+        await supabase.from('deeplink_analytics').insert({
+          deeplink_type: type,
+          deeplink_value: value || null,
+          user_id: user?.telegram_id ? undefined : null, // Will be filled by RLS or auth
+          session_id: sessionId,
+          converted,
+          source: 'telegram_miniapp',
+          referrer: document.referrer || null,
+          metadata: {
+            platform: webApp?.platform,
+            version: webApp?.version,
+          },
+        });
+      } catch (e) {
+        telegramLogger.debug('Failed to track deeplink', { error: String(e) });
+      }
+    };
+
+    // Pattern-based routing with analytics type
+    const routes: [RegExp | string, (match: RegExpMatchArray | null) => string, string][] = [
       // Content deep links
-      [/^track_(.+)$/, (m) => `/library?track=${m![1]}`],
-      [/^project_(.+)$/, (m) => `/projects/${m![1]}`],
-      [/^artist_(.+)$/, (m) => `/artists/${m![1]}`],
-      [/^playlist_(.+)$/, (m) => `/playlists/${m![1]}`],
-      [/^album_(.+)$/, (m) => `/album/${m![1]}`],
-      [/^blog_(.+)$/, (m) => `/blog/${m![1]}`],
+      [/^track_(.+)$/, (m) => `/library?track=${m![1]}`, 'track'],
+      [/^project_(.+)$/, (m) => `/projects/${m![1]}`, 'project'],
+      [/^artist_(.+)$/, (m) => `/artists/${m![1]}`, 'artist'],
+      [/^playlist_(.+)$/, (m) => `/playlists/${m![1]}`, 'playlist'],
+      [/^album_(.+)$/, (m) => `/album/${m![1]}`, 'album'],
+      [/^blog_(.+)$/, (m) => `/blog/${m![1]}`, 'blog'],
       
       // Generation deep links
-      [/^generate_(.+)$/, (m) => `/generate?style=${m![1]}`],
-      [/^quick_(.+)$/, (m) => `/generate?style=${m![1]}&quick=true`],
-      [/^remix_(.+)$/, (m) => `/generate?remix=${m![1]}`],
+      [/^generate_(.+)$/, (m) => `/generate?style=${m![1]}`, 'generate'],
+      [/^quick_(.+)$/, (m) => `/generate?style=${m![1]}&quick=true`, 'quick'],
+      [/^remix_(.+)$/, (m) => `/generate?remix=${m![1]}`, 'remix'],
       
       // Studio deep links
-      [/^studio_ref_(.+)$/, (m) => `/content-hub?tab=cloud&ref=${m![1]}`],
-      [/^studio_(.+)$/, (m) => `/studio/${m![1]}`],
+      [/^studio_ref_(.+)$/, (m) => `/content-hub?tab=cloud&ref=${m![1]}`, 'studio_ref'],
+      [/^studio_(.+)$/, (m) => `/studio/${m![1]}`, 'studio'],
       
       // Track views
-      [/^lyrics_(.+)$/, (m) => `/library?track=${m![1]}&view=lyrics`],
-      [/^stats_(.+)$/, (m) => `/library?track=${m![1]}&view=stats`],
-      [/^share_(.+)$/, (m) => `/library?track=${m![1]}`],
+      [/^lyrics_(.+)$/, (m) => `/library?track=${m![1]}&view=lyrics`, 'lyrics'],
+      [/^stats_(.+)$/, (m) => `/library?track=${m![1]}&view=stats`, 'stats'],
+      [/^share_(.+)$/, (m) => `/library?track=${m![1]}`, 'share'],
       
       // Profile deep links
-      [/^user_(.+)$/, (m) => `/profile/${m![1]}`],
-      [/^profile_(.+)$/, (m) => `/profile/${m![1]}`],
+      [/^user_(.+)$/, (m) => `/profile/${m![1]}`, 'profile'],
+      [/^profile_(.+)$/, (m) => `/profile/${m![1]}`, 'profile'],
       
       // Referral deep links
-      [/^invite_(.+)$/, (m) => `/?ref=${m![1]}`],
-      [/^ref_(.+)$/, (m) => `/?ref=${m![1]}`],
+      [/^invite_(.+)$/, (m) => `/?ref=${m![1]}`, 'invite'],
+      [/^ref_(.+)$/, (m) => `/?ref=${m![1]}`, 'referral'],
       
       // Simple routes (no capture groups)
-      ['buy', () => '/shop'],
-      ['credits', () => '/shop'],
-      ['subscribe', () => '/shop?tab=subscriptions'],
-      ['leaderboard', () => '/leaderboard'],
-      ['achievements', () => '/achievements'],
-      ['analyze', () => '/?analyze=true'],
-      ['recognize', () => '/?recognize=true'],
-      ['shazam', () => '/?recognize=true'],
-      ['settings', () => '/settings'],
-      ['help', () => '/help'],
-      ['onboarding', () => '/?onboarding=true'],
-      ['library', () => '/library'],
-      ['projects', () => '/projects'],
-      ['artists', () => '/artists'],
-      ['creative', () => '/music-lab'],
-      ['musiclab', () => '/music-lab'],
-      ['drums', () => '/music-lab?tab=drums'],
-      ['dj', () => '/music-lab?tab=dj'],
-      ['guitar', () => '/music-lab?tab=guitar'],
-      ['melody', () => '/music-lab?tab=melody'],
+      ['buy', () => '/buy-credits', 'buy'],
+      ['credits', () => '/buy-credits', 'credits'],
+      ['subscribe', () => '/buy-credits?tab=subscriptions', 'subscribe'],
+      ['leaderboard', () => '/rewards?tab=leaderboard', 'leaderboard'],
+      ['achievements', () => '/rewards?tab=achievements', 'achievements'],
+      ['analyze', () => '/?analyze=true', 'analyze'],
+      ['recognize', () => '/?recognize=true', 'recognize'],
+      ['shazam', () => '/?recognize=true', 'shazam'],
+      ['settings', () => '/settings', 'settings'],
+      ['help', () => '/settings', 'help'], // No dedicated help page
+      ['onboarding', () => '/onboarding', 'onboarding'],
+      ['library', () => '/library', 'library'],
+      ['projects', () => '/projects', 'projects'],
+      ['artists', () => '/artists', 'artists'],
+      ['creative', () => '/music-lab', 'creative'],
+      ['musiclab', () => '/music-lab', 'musiclab'],
+      ['drums', () => '/music-lab?tab=drums', 'drums'],
+      ['dj', () => '/music-lab?tab=dj', 'dj'],
+      ['guitar', () => '/music-lab?tab=guitar', 'guitar'],
+      ['melody', () => '/music-lab?tab=melody', 'melody'],
+      ['channel', () => '/', 'channel'],
+      ['news', () => '/blog', 'news'],
+      ['rewards', () => '/rewards', 'rewards'],
+      ['community', () => '/community', 'community'],
+      ['playlists', () => '/playlists', 'playlists'],
     ];
 
     // Try to match routes
-    for (const [pattern, getPath] of routes) {
+    for (const [pattern, getPath, analyticsType] of routes) {
       if (typeof pattern === 'string') {
         if (startParam === pattern) {
+          trackDeepLink(analyticsType, startParam);
           navigate(getPath(null));
           return;
         }
       } else {
         const match = startParam.match(pattern);
         if (match) {
+          trackDeepLink(analyticsType, match[1] || startParam);
           navigate(getPath(match));
           return;
         }
       }
     }
 
-    // Fallback: unknown deep link, just log it
+    // Fallback: unknown deep link, track and log it
+    trackDeepLink('unknown', startParam, false);
     telegramLogger.warn('Unknown deep link', { startParam });
-  }, [webApp?.initDataUnsafe?.start_param, navigate]);
+  }, [webApp?.initDataUnsafe?.start_param, navigate, webApp?.platform, webApp?.version, user?.telegram_id]);
 
   return null;
 };
