@@ -1,7 +1,7 @@
 import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useUnreadCount } from "@/hooks/useNotifications";
+import { useNotificationHub } from "@/contexts/NotificationContext";
 import {
   Popover,
   PopoverContent,
@@ -11,7 +11,7 @@ import { NotificationList } from "./NotificationList";
 import { useState } from "react";
 
 export const NotificationBadge = () => {
-  const unreadCount = useUnreadCount();
+  const { unreadCount } = useNotificationHub();
   const [open, setOpen] = useState(false);
 
   const handleNotificationClick = () => {

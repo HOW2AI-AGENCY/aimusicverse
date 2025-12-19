@@ -1,14 +1,14 @@
-import { useNotifications, useMarkAsRead, useMarkAllAsRead } from "@/hooks/useNotifications";
+import { useNotificationHub, type NotificationItem } from "@/contexts/NotificationContext";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NotificationSkeleton } from "@/components/ui/skeleton-loader";
-import { Info, CheckCircle, AlertTriangle, XCircle, CheckCheck, ExternalLink, Music, Folder, Users, Sparkles, Trophy, Bell as BellIcon } from "lucide-react";
+import { Info, CheckCircle, AlertTriangle, XCircle, CheckCheck, ExternalLink, Music, Folder, Users, Trophy, Bell as BellIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
-
+import { useMemo } from "react";
 const iconMap: Record<string, React.ElementType> = {
   info: Info,
   success: CheckCircle,
@@ -39,15 +39,16 @@ interface NotificationListProps {
 
 export const NotificationList = ({ onNotificationClick }: NotificationListProps) => {
   const navigate = useNavigate();
-  const { data: allNotifications, isLoading: allLoading } = useNotifications('all');
-  const { data: unreadNotifications, isLoading: unreadLoading } = useNotifications('unread');
-  const markAsRead = useMarkAsRead();
-  const markAllAsRead = useMarkAllAsRead();
+  const { notifications, markAsRead, markAllAsRead } = useNotificationHub();
+  
+  const allNotifications = notifications;
+  const unreadNotifications = useMemo(() => notifications.filter(n => !n.read), [notifications]);
+  const isLoading = false; // Context handles initial load
 
-  const handleNotificationClick = (id: string, read: boolean, actionUrl?: string | null) => {
+  const handleNotificationClick = async (id: string, read: boolean, actionUrl?: string | null) => {
     // Mark as read if unread
     if (!read) {
-      markAsRead.mutate(id);
+      await markAsRead(id);
     }
     // Navigate to action URL if available
     if (actionUrl) {
@@ -57,7 +58,7 @@ export const NotificationList = ({ onNotificationClick }: NotificationListProps)
   };
 
   const handleMarkAllAsRead = () => {
-    markAllAsRead.mutate();
+    markAllAsRead();
   };
 
   interface Notification {
@@ -171,10 +172,10 @@ export const NotificationList = ({ onNotificationClick }: NotificationListProps)
           </TabsTrigger>
         </TabsList>
         <TabsContent value="all" className="m-0">
-          {renderNotifications(allNotifications, allLoading)}
+          {renderNotifications(allNotifications, isLoading)}
         </TabsContent>
         <TabsContent value="unread" className="m-0">
-          {renderNotifications(unreadNotifications, unreadLoading)}
+          {renderNotifications(unreadNotifications, isLoading)}
         </TabsContent>
       </Tabs>
     </div>
