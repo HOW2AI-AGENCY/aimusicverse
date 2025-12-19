@@ -613,6 +613,30 @@ export type Database = {
         }
         Relationships: []
       }
+      economy_config: {
+        Row: {
+          description: string | null
+          key: string
+          updated_at: string | null
+          updated_by: string | null
+          value: Json
+        }
+        Insert: {
+          description?: string | null
+          key: string
+          updated_at?: string | null
+          updated_by?: string | null
+          value: Json
+        }
+        Update: {
+          description?: string | null
+          key?: string
+          updated_at?: string | null
+          updated_by?: string | null
+          value?: Json
+        }
+        Relationships: []
+      }
       generation_tag_usage: {
         Row: {
           created_at: string
@@ -1276,6 +1300,66 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_analytics: {
+        Row: {
+          completed_transactions: number | null
+          conversion_rate: number | null
+          created_at: string | null
+          credit_package_sales: number | null
+          date: string
+          failed_transactions: number | null
+          id: string
+          invoice_created_count: number | null
+          new_paying_users: number | null
+          repeat_buyers: number | null
+          subscription_sales: number | null
+          total_credits_granted: number | null
+          total_stars_collected: number | null
+          total_transactions: number | null
+          total_usd_equivalent: number | null
+          unique_paying_users: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          completed_transactions?: number | null
+          conversion_rate?: number | null
+          created_at?: string | null
+          credit_package_sales?: number | null
+          date?: string
+          failed_transactions?: number | null
+          id?: string
+          invoice_created_count?: number | null
+          new_paying_users?: number | null
+          repeat_buyers?: number | null
+          subscription_sales?: number | null
+          total_credits_granted?: number | null
+          total_stars_collected?: number | null
+          total_transactions?: number | null
+          total_usd_equivalent?: number | null
+          unique_paying_users?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          completed_transactions?: number | null
+          conversion_rate?: number | null
+          created_at?: string | null
+          credit_package_sales?: number | null
+          date?: string
+          failed_transactions?: number | null
+          id?: string
+          invoice_created_count?: number | null
+          new_paying_users?: number | null
+          repeat_buyers?: number | null
+          subscription_sales?: number | null
+          total_credits_granted?: number | null
+          total_stars_collected?: number | null
+          total_transactions?: number | null
+          total_usd_equivalent?: number | null
+          unique_paying_users?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       playlist_tracks: {
         Row: {
           added_at: string | null
@@ -1590,6 +1674,108 @@ export type Database = {
           },
         ]
       }
+      promo_code_usage: {
+        Row: {
+          bonus_credits_applied: number | null
+          created_at: string | null
+          discount_applied: number | null
+          id: string
+          promo_code_id: string
+          transaction_id: string | null
+          user_id: string
+        }
+        Insert: {
+          bonus_credits_applied?: number | null
+          created_at?: string | null
+          discount_applied?: number | null
+          id?: string
+          promo_code_id: string
+          transaction_id?: string | null
+          user_id: string
+        }
+        Update: {
+          bonus_credits_applied?: number | null
+          created_at?: string | null
+          discount_applied?: number | null
+          id?: string
+          promo_code_id?: string
+          transaction_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "promo_code_usage_promo_code_id_fkey"
+            columns: ["promo_code_id"]
+            isOneToOne: false
+            referencedRelation: "promo_codes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promo_code_usage_transaction_id_fkey"
+            columns: ["transaction_id"]
+            isOneToOne: false
+            referencedRelation: "stars_transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      promo_codes: {
+        Row: {
+          bonus_credits: number | null
+          code: string
+          created_at: string | null
+          created_by: string | null
+          current_uses: number | null
+          discount_percent: number | null
+          discount_stars: number | null
+          id: string
+          is_active: boolean | null
+          max_uses: number | null
+          max_uses_per_user: number | null
+          min_purchase_stars: number | null
+          product_codes: string[] | null
+          updated_at: string | null
+          valid_from: string | null
+          valid_until: string | null
+        }
+        Insert: {
+          bonus_credits?: number | null
+          code: string
+          created_at?: string | null
+          created_by?: string | null
+          current_uses?: number | null
+          discount_percent?: number | null
+          discount_stars?: number | null
+          id?: string
+          is_active?: boolean | null
+          max_uses?: number | null
+          max_uses_per_user?: number | null
+          min_purchase_stars?: number | null
+          product_codes?: string[] | null
+          updated_at?: string | null
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Update: {
+          bonus_credits?: number | null
+          code?: string
+          created_at?: string | null
+          created_by?: string | null
+          current_uses?: number | null
+          discount_percent?: number | null
+          discount_stars?: number | null
+          id?: string
+          is_active?: boolean | null
+          max_uses?: number | null
+          max_uses_per_user?: number | null
+          min_purchase_stars?: number | null
+          product_codes?: string[] | null
+          updated_at?: string | null
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Relationships: []
+      }
       prompt_templates: {
         Row: {
           created_at: string
@@ -1747,6 +1933,53 @@ export type Database = {
           vocal_style?: string | null
         }
         Relationships: []
+      }
+      referral_rewards: {
+        Row: {
+          created_at: string | null
+          credited_at: string | null
+          credits_reward: number
+          id: string
+          referred_id: string
+          referrer_id: string
+          reward_percent: number | null
+          stars_amount: number
+          status: string | null
+          transaction_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          credited_at?: string | null
+          credits_reward: number
+          id?: string
+          referred_id: string
+          referrer_id: string
+          reward_percent?: number | null
+          stars_amount: number
+          status?: string | null
+          transaction_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          credited_at?: string | null
+          credits_reward?: number
+          id?: string
+          referred_id?: string
+          referrer_id?: string
+          reward_percent?: number | null
+          stars_amount?: number
+          status?: string | null
+          transaction_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_rewards_transaction_id_fkey"
+            columns: ["transaction_id"]
+            isOneToOne: false
+            referencedRelation: "stars_transactions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       stars_products: {
         Row: {
@@ -3002,6 +3235,10 @@ export type Database = {
           last_checkin_date: string | null
           level: number
           longest_streak: number
+          referral_code: string | null
+          referral_count: number | null
+          referral_earnings: number | null
+          referred_by: string | null
           total_earned: number
           total_likes_received: number | null
           total_plays: number | null
@@ -3020,6 +3257,10 @@ export type Database = {
           last_checkin_date?: string | null
           level?: number
           longest_streak?: number
+          referral_code?: string | null
+          referral_count?: number | null
+          referral_earnings?: number | null
+          referred_by?: string | null
           total_earned?: number
           total_likes_received?: number | null
           total_plays?: number | null
@@ -3038,6 +3279,10 @@ export type Database = {
           last_checkin_date?: string | null
           level?: number
           longest_streak?: number
+          referral_code?: string | null
+          referral_count?: number | null
+          referral_earnings?: number | null
+          referred_by?: string | null
           total_earned?: number
           total_likes_received?: number | null
           total_plays?: number | null
@@ -3544,6 +3789,22 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_gamification_analytics: {
+        Args: { _time_period?: unknown }
+        Returns: {
+          achievement_popularity: Json
+          active_users: number
+          avg_level: number
+          checkin_stats: Json
+          level_distribution: Json
+          max_level: number
+          top_achievers: Json
+          total_credits_earned: number
+          total_credits_spent: number
+          total_experience: number
+          total_users: number
+        }[]
+      }
       get_generation_analytics: {
         Args: { _time_period?: unknown }
         Returns: {
@@ -3612,6 +3873,22 @@ export type Database = {
       get_level_from_experience: {
         Args: { _experience: number }
         Returns: number
+      }
+      get_payment_analytics: {
+        Args: { _time_period?: unknown }
+        Returns: {
+          avg_transaction_stars: number
+          completed_transactions: number
+          conversion_rate: number
+          repeat_buyer_rate: number
+          revenue_by_day: Json
+          subscription_breakdown: Json
+          top_products: Json
+          total_revenue_usd: number
+          total_stars_collected: number
+          total_transactions: number
+          unique_buyers: number
+        }[]
       }
       get_pending_notification_retries: {
         Args: { _limit?: number }

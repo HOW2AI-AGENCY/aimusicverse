@@ -5,19 +5,86 @@
 
 import * as creditsApi from '@/api/credits.api';
 import { logger } from '@/lib/logger';
+import { ECONOMY } from '@/lib/economy';
 
-// Constants
-export const GENERATION_COST = 10;
+// Re-export economy constants for backward compatibility
+export const GENERATION_COST = ECONOMY.GENERATION_COST;
 
 export const ACTION_REWARDS = {
-  checkin: { credits: 5, experience: 10, description: 'Ежедневный чекин' },
-  streak_bonus: { credits: 2, experience: 5, description: 'Бонус за серию' },
-  share: { credits: 3, experience: 15, description: 'Расшаривание трека' },
-  like_received: { credits: 1, experience: 5, description: 'Получен лайк' },
-  generation_complete: { credits: 0, experience: 20, description: 'Генерация трека' },
-  public_track: { credits: 2, experience: 10, description: 'Публичный трек' },
-  artist_created: { credits: 5, experience: 25, description: 'Создание артиста' },
-  project_created: { credits: 3, experience: 15, description: 'Создание проекта' },
+  // Daily rewards
+  checkin: { 
+    credits: ECONOMY.DAILY_CHECKIN.credits, 
+    experience: ECONOMY.DAILY_CHECKIN.xp, 
+    description: 'Ежедневный чекин' 
+  },
+  streak_bonus: { 
+    credits: ECONOMY.STREAK_BONUS.credits_per_day, 
+    experience: ECONOMY.STREAK_BONUS.xp_per_day, 
+    description: 'Бонус за серию' 
+  },
+  
+  // Social rewards
+  share: { 
+    credits: ECONOMY.SHARE_REWARD.credits, 
+    experience: ECONOMY.SHARE_REWARD.xp, 
+    description: 'Расшаривание трека' 
+  },
+  like_received: { 
+    credits: ECONOMY.LIKE_RECEIVED.credits, 
+    experience: ECONOMY.LIKE_RECEIVED.xp, 
+    description: 'Получен лайк' 
+  },
+  
+  // Creation rewards
+  generation_complete: { 
+    credits: ECONOMY.GENERATION_COMPLETE.credits, 
+    experience: ECONOMY.GENERATION_COMPLETE.xp, 
+    description: 'Генерация трека' 
+  },
+  public_track: { 
+    credits: ECONOMY.PUBLIC_TRACK.credits, 
+    experience: ECONOMY.PUBLIC_TRACK.xp, 
+    description: 'Публичный трек' 
+  },
+  artist_created: { 
+    credits: ECONOMY.ARTIST_CREATED.credits, 
+    experience: ECONOMY.ARTIST_CREATED.xp, 
+    description: 'Создание артиста' 
+  },
+  project_created: { 
+    credits: ECONOMY.PROJECT_CREATED.credits, 
+    experience: ECONOMY.PROJECT_CREATED.xp, 
+    description: 'Создание проекта' 
+  },
+  
+  // Purchase rewards
+  purchase_credits: {
+    credits: 0,
+    experience: ECONOMY.PURCHASE_XP_PER_100_STARS,
+    description: 'Покупка кредитов',
+  },
+  purchase_subscription: {
+    credits: 0,
+    experience: ECONOMY.SUBSCRIPTION_XP_BONUS,
+    description: 'Оформление подписки',
+  },
+  first_purchase: {
+    credits: ECONOMY.FIRST_PURCHASE_BONUS_CREDITS,
+    experience: 50,
+    description: 'Первая покупка',
+  },
+  
+  // Referral rewards  
+  referral_signup: {
+    credits: ECONOMY.REFERRAL_INVITE_BONUS,
+    experience: 50,
+    description: 'Приглашение друга',
+  },
+  referral_purchase: {
+    credits: 0, // Calculated dynamically based on purchase
+    experience: 25,
+    description: 'Покупка реферала',
+  },
 } as const;
 
 export type ActionType = keyof typeof ACTION_REWARDS;
