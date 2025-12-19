@@ -117,17 +117,17 @@ export function useStarsPayment() {
       }));
 
       // Optimistically update credits or subscription status
-      const isCreditsProduct = product.product_type === 'credits' || product.product_type === 'credit_package';
-      if (isCreditsProduct && product.credits_amount) {
+      if (product.product_type === 'credits' && product.credits_amount) {
         queryClient.invalidateQueries({ queryKey: CREDITS_QUERY_KEY });
       } else if (product.product_type === 'subscription') {
         queryClient.invalidateQueries({ queryKey: SUBSCRIPTION_QUERY_KEY });
       }
 
       toast.success('Payment Successful! 🎉', {
-        description: isCreditsProduct
-          ? `${product.credits_amount} credits added to your account`
-          : `${product.subscription_tier} subscription activated`,
+        description:
+          product.product_type === 'credits'
+            ? `${product.credits_amount} credits added to your account`
+            : `${product.subscription_tier} subscription activated`,
       });
 
       // Reset state after 2 seconds
