@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { usePlaylists } from '@/hooks/usePlaylists';
 import { motion, AnimatePresence } from '@/lib/motion';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { 
   ListMusic, 
   Users, 
@@ -91,6 +92,12 @@ export const NavigationMenuSheet = ({ open, onOpenChange }: NavigationMenuSheetP
     soundEnabled,
     setSoundEnabled 
   } = useNotificationHub();
+
+  // Telegram BackButton integration
+  useTelegramBackButton({
+    visible: open,
+    onClick: () => onOpenChange(false),
+  });
 
   const playlistCount = playlists?.length || 0;
 

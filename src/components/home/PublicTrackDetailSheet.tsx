@@ -23,6 +23,7 @@ import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 import type { Track } from '@/types/track';
 import { useNavigate } from 'react-router-dom';
 import { formatTime } from '@/lib/formatters';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 interface PublicTrackDetailSheetProps {
   open: boolean;
@@ -37,6 +38,12 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
   const { hapticFeedback } = useTelegram();
   const [imageError, setImageError] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  // Telegram BackButton integration
+  useTelegramBackButton({
+    visible: open && isMobile,
+    onClick: () => onOpenChange(false),
+  });
 
   const isCurrentTrack = activeTrack?.id === track.id;
   const isCurrentlyPlaying = isCurrentTrack && isPlaying;

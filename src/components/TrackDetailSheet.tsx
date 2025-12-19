@@ -11,7 +11,8 @@ import { TrackStemsTab } from './track-detail/TrackStemsTab';
 import { LyricsView } from './track-detail/LyricsView';
 import { CommentsList } from './comments/CommentsList';
 import { HeaderVersionSelector } from './track-detail/HeaderVersionSelector';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 interface TrackDetailSheetProps {
   open: boolean;
@@ -21,6 +22,12 @@ interface TrackDetailSheetProps {
 
 export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheetProps) {
   const [selectedVersionId, setSelectedVersionId] = useState<string | null>(null);
+  
+  // Telegram BackButton integration
+  useTelegramBackButton({
+    visible: open,
+    onClick: () => onOpenChange(false),
+  });
   
   // Use selected version or fall back to active version
   const currentVersionId = selectedVersionId || track.active_version_id || undefined;
