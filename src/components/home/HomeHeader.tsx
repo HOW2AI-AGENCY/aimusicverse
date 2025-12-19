@@ -54,7 +54,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
   return (
     <motion.header 
       className={cn(
-        "sticky top-0 z-20 -mx-3 sm:-mx-4 px-3 sm:px-4",
+        "sticky top-0 z-20 -mx-4 px-4",
         "pt-[calc(env(safe-area-inset-top,0px)+1.5rem)] pb-3",
         "backdrop-blur-xl bg-background/90 border-b border-border/50",
         className

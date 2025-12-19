@@ -118,7 +118,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="h-[95vh] flex flex-col frost-sheet p-0">
         {/* Compact Header */}
-        <div className="px-3 pt-2 pb-1.5 flex items-center justify-between border-b">
+        <div className="px-4 pt-3 pb-2 flex items-center justify-between border-b">
           <div className="flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-primary" />
             <h2 className="text-sm font-semibold">Создать трек</h2>
@@ -155,7 +155,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         </AnimatePresence>
 
         <ScrollArea className="flex-1">
-          <div className="px-3 py-2 space-y-2">
+          <div className="px-4 py-3 space-y-3">
             {/* Quick Action Buttons */}
             <GenerateFormActions
               onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
@@ -231,7 +231,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         </ScrollArea>
 
         {/* Footer - only show UI button for test users, real Mini App users get native MainButton */}
-        <div className="p-2 border-t bg-background/95 backdrop-blur">
+        <div className="p-4 border-t bg-background/95 backdrop-blur pb-[max(1rem,env(safe-area-inset-bottom))]">
           {form.loading && (
             <div className="mb-1.5">
               <Progress value={33} className="h-1" />
