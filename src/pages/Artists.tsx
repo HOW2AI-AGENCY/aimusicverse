@@ -14,6 +14,7 @@ import { CreateArtistFromTrackDialog } from "@/components/artist/CreateArtistFro
 import { ArtistDetailsPanel } from "@/components/artist/ArtistDetailsPanel";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 
 const GENRES = ["Pop", "Rock", "Hip-Hop", "Electronic", "R&B", "Jazz", "Classical", "Folk"];
 
@@ -25,6 +26,12 @@ export default function Artists() {
   const { data: publicArtists, isLoading: publicLoading } = usePublicArtists(50);
   const { artists: myArtists, isLoading: myLoading } = useArtists();
   
+  // Telegram BackButton
+  useTelegramBackButton({
+    visible: true,
+    fallbackPath: '/',
+  });
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);

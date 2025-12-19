@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useProfile, useUpdateProfile, ProfileUpdate } from "@/hooks/useProfile";
 import { useNotificationSettings } from "@/hooks/useNotificationSettings";
+import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -43,6 +44,12 @@ export default function Settings() {
   const { data: profile, isLoading: profileLoading } = useProfile();
   const updateProfile = useUpdateProfile();
   const { settings, updateSettings, isLoading: settingsLoading, isUpdating } = useNotificationSettings();
+
+  // Telegram BackButton
+  const { shouldShowUIButton } = useTelegramBackButton({
+    visible: true,
+    fallbackPath: '/',
+  });
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");

@@ -14,8 +14,15 @@ import { BlogHeroSection } from "@/components/blog/BlogHeroSection";
 import { BlogListSkeleton } from "@/components/blog/BlogSkeleton";
 import { formatDistanceToNow, format } from "date-fns";
 import { ru } from "date-fns/locale";
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 export default function Blog() {
+  // Telegram BackButton
+  useTelegramBackButton({
+    visible: true,
+    fallbackPath: '/',
+  });
+
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const postSlug = searchParams.get("post");

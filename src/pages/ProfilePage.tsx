@@ -25,6 +25,7 @@ import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useUserStats } from '@/hooks/useUserStats';
 import { motion } from '@/lib/motion';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
@@ -34,6 +35,12 @@ export const ProfilePage = () => {
   const { startOnboarding } = useOnboarding();
   const { data: adminAuth } = useAdminAuth();
   const { data: stats, isLoading: statsLoading } = useUserStats();
+
+  // Telegram BackButton
+  useTelegramBackButton({
+    visible: true,
+    fallbackPath: '/',
+  });
 
   const displayUser = profile || telegramUser;
 

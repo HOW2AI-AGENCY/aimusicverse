@@ -22,6 +22,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { MusicLabAudioProvider } from '@/contexts/MusicLabAudioContext';
 import { toast } from 'sonner';
 import { Zap, Drum, Disc3, Mic, ArrowLeft } from 'lucide-react';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 // Lazy load heavy components for better performance
 const QuickCreate = lazy(() => import('@/components/music-lab/QuickCreate').then(m => ({ default: m.QuickCreate })));
@@ -43,6 +44,12 @@ function TabLoadingSkeleton() {
 export default function MusicLab() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('quick-create');
+
+  // Telegram BackButton
+  const { shouldShowUIButton } = useTelegramBackButton({
+    visible: true,
+    fallbackPath: '/',
+  });
 
   const handleProgressionExport = (progression: string) => {
     toast.success('Прогрессия скопирована', { description: progression });
