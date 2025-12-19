@@ -39,7 +39,14 @@ export type MetricEventType =
   | 'analyze_beats'
   | 'analyze_full'
   | 'lyrics_shown'
-  | 'lyrics_transcribed';
+  | 'lyrics_transcribed'
+  | 'voice_transcribed'
+  | 'voice_transcription_failed'
+  | 'voice_generation_started'
+  | 'wizard_started'
+  | 'wizard_cancelled'
+  | 'wizard_completed'
+  | 'quick_generation_started';
 
 interface MetricData {
   eventType: MetricEventType;
