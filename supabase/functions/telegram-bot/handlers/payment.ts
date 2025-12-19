@@ -189,6 +189,31 @@ export async function handleSuccessfulPayment(
       result,
     });
 
+    // Get user's Supabase ID for reward processing
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('user_id')
+      .eq('telegram_id', userId)
+      .single();
+
+    // Trigger reward processing (XP, achievements, referrals)
+    if (profile?.user_id) {
+      try {
+        await supabase.functions.invoke('reward-purchase', {
+          body: {
+            userId: profile.user_id,
+            transactionId,
+            starsAmount: payment.total_amount,
+            productType: result.type === 'credits' ? 'credit_package' : 'subscription',
+            productCode,
+          },
+        });
+      } catch (rewardError) {
+        logger.error('Failed to process purchase rewards', rewardError);
+        // Don't fail the payment, rewards can be retried
+      }
+    }
+
     // Send success message based on product type
     await sendSuccessMessage(chatId, result, payment);
 
