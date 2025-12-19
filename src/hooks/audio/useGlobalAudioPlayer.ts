@@ -28,31 +28,35 @@ export function useGlobalAudioPlayer() {
   }, [activeTrack]);
 
   // Handle track change - load new source
+  // CRITICAL: Only reload audio when track ID actually changes
   useEffect(() => {
     const audio = getGlobalAudioRef();
     if (!audio) return;
     
+    const trackId = activeTrack?.id;
+    
+    // Skip if track hasn't changed
+    if (trackId === lastTrackIdRef.current) {
+      return;
+    }
+    
     const source = getAudioSource();
+    
+    // Update ref before any state changes
+    lastTrackIdRef.current = trackId || null;
 
     if (!source) {
-      // Don't clear src if we already have audio loaded - prevents audio loss
-      if (!audio.src) {
+      // Only clear src if no track is active
+      if (!trackId) {
         audio.src = '';
       }
       return;
     }
 
-    // Only reload if track ID actually changed (not on mode switch)
-    if (activeTrack?.id !== lastTrackIdRef.current) {
-      lastTrackIdRef.current = activeTrack?.id || null;
-      
-      // Only change src if it's actually different
-      const currentSrc = audio.src;
-      if (!currentSrc || !currentSrc.includes(source.split('?')[0].split('/').pop() || '')) {
-        audio.src = source;
-        audio.load();
-      }
-    }
+    // Load new audio source
+    audio.src = source;
+    audio.load();
+    logger.debug('Audio source loaded for new track', { trackId, source: source.substring(0, 50) });
   }, [activeTrack?.id, getAudioSource]);
 
   // Handle play/pause state
