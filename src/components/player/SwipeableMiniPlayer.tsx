@@ -215,9 +215,11 @@ export function SwipeableMiniPlayer({
         y,
         opacity,
         touchAction: 'none',
+        // Position above bottom navigation with safe area
+        bottom: 'calc(4rem + env(safe-area-inset-bottom, 0px))',
       }}
       className={cn(
-        'fixed bottom-16 left-0 right-0 z-40',
+        'fixed left-0 right-0 z-40',
         'bg-card/95 backdrop-blur-xl border-t shadow-lg',
         'cursor-pointer select-none',
         isDragging && 'cursor-grabbing'
