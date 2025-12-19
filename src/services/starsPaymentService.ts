@@ -61,11 +61,11 @@ interface DbStarsProduct {
   updated_at: string | null;
 }
 
-// Client-side product type for UI
+// Client-side product type for UI (normalized from DB types)
 export interface StarsProduct {
   id: string;
   product_code: string;
-  product_type: 'credits' | 'subscription' | 'credit_package';
+  product_type: 'credits' | 'subscription';
   name: string;
   description: string | null;
   stars_price: number;
