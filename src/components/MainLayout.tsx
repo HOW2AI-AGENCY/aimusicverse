@@ -19,6 +19,7 @@ import { SystemAnnouncement } from './layout/SystemAnnouncement';
 import { ContextualHint } from './hints/ContextualHint';
 import { useContextualHints } from '@/hooks/useContextualHints';
 import { LikeEncouragementProvider } from './engagement/LikeEncouragementToast';
+import { useTelegramSettingsButton } from '@/hooks/telegram';
 
 export const MainLayout = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
@@ -33,6 +34,10 @@ export const MainLayout = () => {
   // Contextual hints system - memoize pathname to prevent unnecessary re-renders
   const pathname = useMemo(() => location.pathname, [location.pathname]);
   const { currentHint, dismissHint } = useContextualHints(pathname);
+  
+  // Show Telegram Settings Button on all pages except /settings
+  const showSettingsButton = pathname !== '/settings';
+  useTelegramSettingsButton({ visible: showSettingsButton });
 
   // Register subscription dialog callback
   useEffect(() => {

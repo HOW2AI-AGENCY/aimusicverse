@@ -20,6 +20,26 @@ All colors MUST be HSL.
     --tg-safe-area-inset-left: 0px;
     --tg-safe-area-inset-right: 0px;
 
+    /* Telegram Theme Params (устанавливаются автоматически из Telegram WebApp) */
+    /* Hex values */
+    --tg-bg-color: transparent;
+    --tg-text-color: inherit;
+    --tg-hint-color: inherit;
+    --tg-link-color: inherit;
+    --tg-button-color: inherit;
+    --tg-button-text-color: inherit;
+    --tg-secondary-bg-color: transparent;
+    --tg-header-bg-color: transparent;
+    --tg-accent-text-color: inherit;
+    --tg-section-bg-color: transparent;
+    --tg-section-header-text-color: inherit;
+    --tg-subtitle-text-color: inherit;
+    --tg-destructive-text-color: inherit;
+    /* HSL values for use with opacity modifiers */
+    --tg-bg-color-hsl: 0 0% 0%;
+    --tg-text-color-hsl: 0 0% 100%;
+    --tg-button-color-hsl: 207 90% 54%;
+
     /* Light theme - Unified Blue-based palette */
     --background: 220 20% 98%;
     --foreground: 220 25% 10%;
