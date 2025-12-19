@@ -1,6 +1,4 @@
 import { useState, useEffect, useMemo, lazy, Suspense } from "react";
-import { NotificationBadge } from "@/components/NotificationBadge";
-import { User } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
@@ -13,7 +11,7 @@ import { UnifiedDiscoverySection } from "@/components/home/UnifiedDiscoverySecti
 import { CommunityNewTracksSection } from "@/components/home/CommunityNewTracksSection";
 import { HeroQuickActions } from "@/components/home/HeroQuickActions";
 import { RecentTracksSection } from "@/components/home/RecentTracksSection";
-import { WelcomeSection } from "@/components/home/WelcomeSection";
+import { HomeHeader } from "@/components/home/HomeHeader";
 import { DailyCheckin } from "@/components/gamification/DailyCheckin";
 import { CompactStatsWidget } from "@/components/home/CompactStatsWidget";
 import { FeaturedBlogBanners } from "@/components/home/FeaturedBlogBanners";
@@ -106,56 +104,12 @@ const Index = () => {
         </div>
         
         <div className="container max-w-6xl mx-auto px-3 sm:px-4 pb-4 sm:py-6 relative z-10">
-          {/* Unified Header with Telegram safe area support */}
-          <motion.header 
-            className="flex flex-col mb-3 sm:mb-4 sticky top-0 z-20 -mx-3 sm:-mx-4 px-3 sm:px-4 pt-[calc(env(safe-area-inset-top,0px)+0.75rem)] pb-2 backdrop-blur-strong bg-background/85 border-b border-border/50"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {/* Top row: Actions left, Logo center, Actions right */}
-            <div className="flex items-center justify-between mb-2">
-              {/* Left spacer for balance */}
-              <div className="w-20" />
-              
-              {/* Centered Logo */}
-              <motion.div 
-                className="flex flex-col items-center"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-              >
-                <img src={logo} alt="MusicVerse AI" className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl shadow-soft" />
-                <h1 className="text-sm sm:text-base font-bold text-gradient leading-tight mt-1">MusicVerse AI</h1>
-              </motion.div>
-              
-              {/* Right actions */}
-              <div className="flex items-center gap-1.5 w-20 justify-end">
-                <NotificationBadge />
-                <motion.button
-                  onClick={goToProfile}
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-primary/30 transition-all touch-manipulation"
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {displayUser?.photo_url ? (
-                    <img
-                      src={displayUser.photo_url}
-                      alt="Avatar"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
-                      <User className="w-4 h-4 text-primary" />
-                    </div>
-                  )}
-                </motion.button>
-              </div>
-            </div>
-            
-            {/* Welcome greeting integrated into header */}
-            <WelcomeSection 
-              userName={displayUser?.first_name || displayUser?.username?.split('@')[0]} 
-            />
-          </motion.header>
+          {/* Unified Header Component */}
+          <HomeHeader
+            userName={displayUser?.first_name || displayUser?.username?.split('@')[0]}
+            userPhotoUrl={displayUser?.photo_url}
+            onProfileClick={goToProfile}
+          />
 
           {/* Compact Gamification - Single row */}
           {user && (
