@@ -11,7 +11,7 @@ import { useArtists } from '@/hooks/useArtists';
 import { useTracks } from '@/hooks/useTracks';
 import { useGenerateForm } from '@/hooks/generation';
 import { useTelegram } from '@/contexts/TelegramContext';
-import { useTelegramMainButton } from '@/hooks/telegram';
+import { useTelegramMainButton, useTelegramBackButton } from '@/hooks/telegram';
 // Form components
 import { GenerateFormHeaderCompact } from './generate-form/GenerateFormHeaderCompact';
 import { GenerateFormActions } from './generate-form/GenerateFormActions';
@@ -98,6 +98,12 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     onClick: handleGenerate,
     enabled: !form.loading,
     visible: open,
+  });
+
+  // Telegram BackButton integration
+  useTelegramBackButton({
+    visible: open,
+    onClick: () => onOpenChange(false),
   });
 
   // Show/hide progress on MainButton when loading changes

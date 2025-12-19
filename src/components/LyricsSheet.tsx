@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TimestampedLyrics } from './TimestampedLyrics';
 import { ScrollArea } from './ui/scroll-area';
 import { useAudioPlayer } from '@/hooks/audio';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 interface LyricsSheetProps {
   open: boolean;
@@ -27,6 +28,12 @@ interface LyricsSheetProps {
 
 export function LyricsSheet({ open, onOpenChange, track }: LyricsSheetProps) {
   const [activeTab, setActiveTab] = useState<'synced' | 'plain'>('synced');
+
+  // Telegram BackButton integration
+  useTelegramBackButton({
+    visible: open,
+    onClick: () => onOpenChange(false),
+  });
 
   const {
     isPlaying,

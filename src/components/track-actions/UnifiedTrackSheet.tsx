@@ -10,6 +10,7 @@ import { CreateActions } from './sections/CreateActions';
 import { DeleteActions } from './sections/DeleteActions';
 import { TrackDialogsPortal } from './TrackDialogsPortal';
 import { VersionsSection } from './sections/VersionsSection';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 interface UnifiedTrackSheetProps {
   track: Track | null;
@@ -26,6 +27,12 @@ export function UnifiedTrackSheet({
   onDelete,
   onDownload 
 }: UnifiedTrackSheetProps) {
+  // Telegram BackButton integration
+  useTelegramBackButton({
+    visible: open,
+    onClick: () => onOpenChange(false),
+  });
+
   const {
     actionState,
     isProcessing,

@@ -17,6 +17,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 interface QueueSheetProps {
   open: boolean;
@@ -24,6 +25,12 @@ interface QueueSheetProps {
 }
 
 export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
+  // Telegram BackButton integration
+  useTelegramBackButton({
+    visible: open,
+    onClick: () => onOpenChange(false),
+  });
+
   const { 
     queue, 
     currentIndex, 
