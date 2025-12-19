@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useProjects } from '@/hooks/useProjectsOptimized';
+import { useProjects } from '@/hooks/useProjects';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

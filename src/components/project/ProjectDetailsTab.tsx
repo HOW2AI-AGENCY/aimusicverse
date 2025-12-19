@@ -277,13 +277,13 @@ export const ProjectDetailsTab = ({ project }: ProjectDetailsTabProps) => {
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Создан:</span>
             <span className="text-foreground">
-              {new Date(project.created_at).toLocaleDateString('ru-RU')}
+              {project.created_at ? new Date(project.created_at).toLocaleDateString('ru-RU') : '—'}
             </span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Обновлен:</span>
             <span className="text-foreground">
-              {new Date(project.updated_at).toLocaleDateString('ru-RU')}
+              {project.updated_at ? new Date(project.updated_at).toLocaleDateString('ru-RU') : '—'}
             </span>
           </div>
         </CardContent>
