@@ -183,10 +183,16 @@ All colors MUST be HSL.
     overflow-x: hidden;
   }
 
-  /* Основной контейнер приложения с safe areas */
+  /* Основной контейнер приложения с safe areas и динамической высотой */
   #root {
     min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
     min-height: -webkit-fill-available;
+  }
+  
+  /* Dynamic viewport height variable for JS usage */
+  :root {
+    --vh: 1vh;
   }
 
   /* Улучшенные фокус-состояния для доступности */
