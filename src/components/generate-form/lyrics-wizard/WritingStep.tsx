@@ -6,7 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Sparkles, Wand2, ChevronLeft, ChevronRight, RefreshCw, Lightbulb } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Sparkles, Wand2, ChevronLeft, ChevronRight, RefreshCw, Lightbulb, Undo2, Redo2 } from 'lucide-react';
 import { useLyricsWizardStore, type LyricsWizardState } from '@/stores/lyricsWizardStore';
 import { SectionTagSelector } from '@/components/generate-form/SectionTagSelector';
 import { supabase } from '@/integrations/supabase/client';
@@ -29,10 +30,31 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
     initializeLyricSections,
     isGenerating,
     setIsGenerating,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
   } = useLyricsWizardStore();
   
   const [rhymeSuggestions, setRhymeSuggestions] = useState<string[]>([]);
   const [lineSuggestion, setLineSuggestion] = useState('');
+
+  // Keyboard shortcuts for undo/redo (IMP013)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+        e.preventDefault();
+        if (canUndo()) undo();
+      }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) {
+        e.preventDefault();
+        if (canRedo()) redo();
+      }
+    };
+    
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [undo, redo, canUndo, canRedo]);
 
   useEffect(() => {
     if (writing.sections.length === 0 && structure.sections.length > 0) {
@@ -331,6 +353,35 @@ export function WritingStep({ onStyleGenerated }: WritingStepProps) {
             <CardTitle className="text-sm flex items-center justify-between">
               <span>[{currentSection.name}]</span>
               <div className="flex gap-1">
+                {/* Undo/Redo buttons (IMP013) */}
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={undo}
+                      disabled={!canUndo()}
+                      className="h-7 w-7 p-0"
+                    >
+                      <Undo2 className="h-3 w-3" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Отменить (Ctrl+Z)</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={redo}
+                      disabled={!canRedo()}
+                      className="h-7 w-7 p-0"
+                    >
+                      <Redo2 className="h-3 w-3" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Повторить (Ctrl+Y)</TooltipContent>
+                </Tooltip>
                 <Button
                   variant="ghost"
                   size="sm"
