@@ -6,9 +6,9 @@ import { useTelegram } from "@/contexts/TelegramContext";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile.tsx";
 import logo from "@/assets/logo.png";
-import { usePublicContentOptimized, getGenrePlaylists } from "@/hooks/usePublicContent";
+import { usePublicContentBatch, getGenrePlaylists } from "@/hooks/usePublicContent";
 import { PublicArtistsSection } from "@/components/home/PublicArtistsSection";
-import { AutoPlaylistsSectionOptimized } from "@/components/home/AutoPlaylistsSectionOptimized";
+import { AutoPlaylistsSection } from "@/components/home/AutoPlaylistsSection";
 import { UnifiedDiscoverySection } from "@/components/home/UnifiedDiscoverySection";
 import { CommunityNewTracksSection } from "@/components/home/CommunityNewTracksSection";
 import { HeroQuickActions } from "@/components/home/HeroQuickActions";
@@ -45,7 +45,7 @@ const Index = () => {
   const [quickProjectOpen, setQuickProjectOpen] = useState(false);
 
   // Single optimized query for all public content
-  const { data: publicContent, isLoading: contentLoading } = usePublicContentOptimized();
+  const { data: publicContent, isLoading: contentLoading } = usePublicContentBatch();
   
   // Compute auto-playlists from the same data
   const autoPlaylists = useMemo(() => 
@@ -267,7 +267,7 @@ const Index = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.25, duration: 0.3 }}
           >
-            <AutoPlaylistsSectionOptimized 
+            <AutoPlaylistsSection 
               playlists={autoPlaylists} 
               isLoading={contentLoading} 
             />

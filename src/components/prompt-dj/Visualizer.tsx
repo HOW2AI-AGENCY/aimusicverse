@@ -1,5 +1,5 @@
 /**
- * OptimizedVisualizer - RAF-based audio visualizer with offscreen rendering
+ * Visualizer - RAF-based audio visualizer with offscreen rendering
  * Uses requestAnimationFrame and canvas optimization for smooth 60fps
  */
 
@@ -7,7 +7,7 @@ import { memo, useRef, useEffect, useCallback } from 'react';
 import * as Tone from 'tone';
 import { cn } from '@/lib/utils';
 
-interface OptimizedVisualizerProps {
+interface VisualizerProps {
   analyzerNode: Tone.Analyser | null;
   isActive: boolean;
   className?: string;
@@ -15,13 +15,13 @@ interface OptimizedVisualizerProps {
   barCount?: number;
 }
 
-export const OptimizedVisualizer = memo(function OptimizedVisualizer({
+export const Visualizer = memo(function Visualizer({
   analyzerNode,
   isActive,
   className,
   variant = 'bars',
   barCount = 32,
-}: OptimizedVisualizerProps) {
+}: VisualizerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
   const lastFrameTimeRef = useRef<number>(0);

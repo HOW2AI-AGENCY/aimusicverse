@@ -3,7 +3,7 @@ import { Globe, Music, Users, TrendingUp, Heart, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { usePublicContentOptimized, PublicTrackWithCreator } from "@/hooks/usePublicContent";
+import { usePublicContentBatch, PublicTrackWithCreator } from "@/hooks/usePublicContent";
 import { usePublicArtists } from "@/hooks/usePublicArtists";
 import { PublicTrackCard } from "@/components/home/PublicTrackCard";
 import { ActorCard } from "@/components/actors/ActorCard";
@@ -12,7 +12,7 @@ import { motion } from '@/lib/motion';
 const GENRES = ["Pop", "Rock", "Hip-Hop", "Electronic", "R&B", "Jazz", "Indie", "Lo-Fi"];
 
 export default function Community() {
-  const { data: publicContent, isLoading: tracksLoading } = usePublicContentOptimized();
+  const { data: publicContent, isLoading: tracksLoading } = usePublicContentBatch();
   const { data: publicArtists, isLoading: artistsLoading } = usePublicArtists(20);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);

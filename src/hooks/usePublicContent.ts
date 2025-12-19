@@ -351,9 +351,8 @@ export function useSearchPublicContent(searchQuery: string) {
 /**
  * Single optimized hook that fetches all public content in one query
  * Used by homepage sections to avoid multiple database calls
- * @deprecated Use usePublicContentOptimized instead (same function, just renamed for clarity)
  */
-export function usePublicContentOptimized() {
+export function usePublicContentBatch() {
   const { user } = useAuth();
 
   return useQuery({

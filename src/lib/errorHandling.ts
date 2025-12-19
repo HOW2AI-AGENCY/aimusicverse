@@ -195,17 +195,3 @@ export function parseGenerationError(response: any): GenerationErrorResponse {
     required: response?.required,
   };
 }
-
-/**
- * Clean up audio references in error scenarios
- */
-export function cleanupAudioReference(): void {
-  try {
-    // Legacy cleanup - kept for backward compatibility
-    localStorage.removeItem('stem_audio_reference');
-    sessionStorage.removeItem('active_audio_reference');
-    logger.info('Audio reference cleaned up');
-  } catch (error) {
-    logger.error('Failed to cleanup audio reference', { error });
-  }
-}

@@ -143,12 +143,12 @@ function AutoPlaylistCard({ playlist, onPlay, index }: AutoPlaylistCardProps) {
   );
 }
 
-interface AutoPlaylistsSectionOptimizedProps {
+interface AutoPlaylistsSectionProps {
   playlists: GenrePlaylist[];
   isLoading: boolean;
 }
 
-export function AutoPlaylistsSectionOptimized({ playlists, isLoading }: AutoPlaylistsSectionOptimizedProps) {
+export function AutoPlaylistsSection({ playlists, isLoading }: AutoPlaylistsSectionProps) {
   const { setQueue } = usePlaybackQueue();
   const navigate = useNavigate();
 

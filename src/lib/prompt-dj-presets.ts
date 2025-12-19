@@ -7,14 +7,6 @@ export interface PresetItem {
   tags: string[];     // English tags for prompt building
 }
 
-// Legacy interface for backward compatibility
-export interface LegacyChannel {
-  type: string;
-  value: string;
-  weight: number;
-  enabled: boolean;
-}
-
 // Жанры (Genres) - 20+
 export const GENRE_PRESETS: PresetItem[] = [
   { id: 'electronic', label: 'Электроника', value: 'electronic', tags: ['electronic', 'synth', 'digital'] },
