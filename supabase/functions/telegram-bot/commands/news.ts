@@ -3,7 +3,7 @@
  */
 
 import { sendMessage, editMessageText } from '../telegram-api.ts';
-import { escapeMarkdownV2 } from '../utils/text-processor.ts';
+import { CHANNEL_URL, CHANNEL_USERNAME } from '../config.ts';
 
 export async function handleNews(
   chatId: number,
@@ -12,7 +12,7 @@ export async function handleNews(
   const text = `📰 *Новости и Обновления*
 
 📢 Подписывайтесь на официальный канал:
-👉 @AIMusicVerse
+👉 @${CHANNEL_USERNAME}
 
 *Что вы найдёте в канале:*
 • 📰 Новости и анонсы релизов
@@ -33,14 +33,13 @@ export async function handleNews(
   const keyboard = {
     inline_keyboard: [
       [
-        { text: '📢 Открыть канал', url: 'https://t.me/AIMusicVerse' },
-        { text: '🔔 Подписаться', url: 'https://t.me/AIMusicVerse' }
+        { text: `📢 Канал @${CHANNEL_USERNAME}`, url: CHANNEL_URL }
       ],
       [
-        { text: '📱 Открыть в приложении', url: 'https://t.me/AIMusicVerseBot/app' }
+        { text: '📱 Открыть приложение', url: 'https://t.me/AIMusicVerseBot/app' }
       ],
       [
-        { text: '🔙 Главное меню', callback_data: 'main_menu' }
+        { text: '🔙 Главное меню', callback_data: 'nav_main' }
       ]
     ]
   };
@@ -48,7 +47,6 @@ export async function handleNews(
   if (messageId) {
     const result = await editMessageText(chatId, messageId, text, keyboard);
     if (!result) {
-      // If edit fails, send new message
       await sendMessage(chatId, text, keyboard, 'MarkdownV2');
     }
   } else {

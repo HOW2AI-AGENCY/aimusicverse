@@ -18,6 +18,8 @@ export const DEFAULT_COMMANDS: BotCommand[] = [
   { command: 'start', description: '🚀 Начать работу', category: 'main', enabled: true },
   { command: 'help', description: '📚 Справка по командам', category: 'main', enabled: true },
   { command: 'app', description: '📱 Открыть приложение', category: 'main', enabled: true },
+  { command: 'channel', description: '📢 Канал @AIMusiicVerse', category: 'main', enabled: true },
+  { command: 'news', description: '📰 Новости платформы', category: 'main', enabled: true },
   
   // Generation commands
   { command: 'generate', description: '🎼 Создать трек', category: 'generation', enabled: true },
