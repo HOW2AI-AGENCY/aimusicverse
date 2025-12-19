@@ -38,8 +38,8 @@ export function useTracks(params: UseTracksParams = {}) {
 
   // Infinite query for paginated mode
   const infiniteQuery = useInfiniteQuery({
-    queryKey,
-    queryFn: async ({ pageParam = 0 }) => {
+    queryKey: [...queryKey, 'infinite'],
+    queryFn: async ({ pageParam }) => {
       if (!user?.id) return { tracks: [], totalCount: 0, hasMore: false };
       return tracksService.fetchTracksWithLikes(
         user.id,
@@ -48,14 +48,17 @@ export function useTracks(params: UseTracksParams = {}) {
       );
     },
     getNextPageParam: (lastPage, allPages) => {
-      // Safely handle undefined or malformed lastPage
-      if (!lastPage || typeof lastPage.hasMore === 'undefined') {
+      // Safely handle undefined or malformed data
+      if (!lastPage || !allPages) {
+        return undefined;
+      }
+      if (typeof lastPage.hasMore === 'undefined') {
         return undefined;
       }
       // Return next page number if there are more pages
       return lastPage.hasMore ? allPages.length : undefined;
     },
-    enabled: !!user?.id && paginate,
+    enabled: !!user?.id && paginate === true,
     staleTime: 30000,
     gcTime: 10 * 60 * 1000,
     initialPageParam: 0,
@@ -64,7 +67,7 @@ export function useTracks(params: UseTracksParams = {}) {
 
   // Simple query for non-paginated mode
   const simpleQuery = useQuery({
-    queryKey,
+    queryKey: [...queryKey, 'simple'],
     queryFn: async () => {
       if (!user?.id) return [];
       const result = await tracksService.fetchTracksWithLikes(
@@ -73,7 +76,7 @@ export function useTracks(params: UseTracksParams = {}) {
       );
       return result.tracks;
     },
-    enabled: !!user?.id && !paginate,
+    enabled: !!user?.id && paginate === false,
     staleTime: 30000,
     gcTime: 10 * 60 * 1000,
     refetchOnWindowFocus: false,
@@ -190,15 +193,18 @@ export function usePublicTracks(pageSize = 20) {
 
   return useInfiniteQuery({
     queryKey: ['public-tracks', user?.id],
-    queryFn: async ({ pageParam = 0 }) => {
+    queryFn: async ({ pageParam }) => {
       return tracksService.fetchPublicTracksWithCreators(
         user?.id ?? null,
         { page: pageParam, pageSize }
       );
     },
     getNextPageParam: (lastPage, allPages) => {
-      // Safely handle undefined or malformed lastPage
-      if (!lastPage || typeof lastPage.hasMore === 'undefined') {
+      // Safely handle undefined or malformed data
+      if (!lastPage || !allPages) {
+        return undefined;
+      }
+      if (typeof lastPage.hasMore === 'undefined') {
         return undefined;
       }
       return lastPage.hasMore ? allPages.length : undefined;
