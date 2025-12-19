@@ -39,17 +39,43 @@ Deno.serve(async (req) => {
       throw new Error('SUPABASE_URL not configured');
     }
 
-    // Construct webhook URL
-    const webhookUrl = `${supabaseUrl}/functions/v1/telegram-bot`;
+    // Parse request body for webhook type selection
+    let webhookType = 'bot'; // default
+    try {
+      const body = await req.json();
+      webhookType = body.type || 'bot';
+    } catch {
+      // No body or invalid JSON, use default
+    }
 
-    console.log('Setting webhook to:', webhookUrl);
+    // Configure webhook URL based on type
+    const webhookUrl = webhookType === 'payments'
+      ? `${supabaseUrl}/functions/v1/stars-webhook`
+      : `${supabaseUrl}/functions/v1/telegram-bot`;
 
-    // Set webhook
-    const webhookResult = await callTelegramAPI('setWebhook', {
+    // Get secret token for webhook verification (optional but recommended)
+    const secretToken = Deno.env.get('TELEGRAM_WEBHOOK_SECRET_TOKEN');
+
+    console.log(`Setting ${webhookType} webhook to:`, webhookUrl);
+
+    // Set webhook with pre_checkout_query for payments support
+    const webhookParams: TelegramAPIBody = {
       url: webhookUrl,
-      allowed_updates: ['message', 'callback_query', 'inline_query'],
+      allowed_updates: [
+        'message',
+        'callback_query',
+        'inline_query',
+        'pre_checkout_query', // Required for Stars payments
+      ],
       drop_pending_updates: true,
-    });
+    };
+
+    // Add secret token if configured
+    if (secretToken) {
+      webhookParams.secret_token = secretToken;
+    }
+
+    const webhookResult = await callTelegramAPI('setWebhook', webhookParams);
     
     console.log('Webhook set result:', webhookResult);
 
@@ -76,10 +102,12 @@ Deno.serve(async (req) => {
     return new Response(
       JSON.stringify({
         success: true,
+        webhook_type: webhookType,
         webhook_url: webhookUrl,
         webhook_result: webhookResult,
         commands_result: commandsResult,
         webhook_info: webhookInfo,
+        secret_token_configured: !!secretToken,
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

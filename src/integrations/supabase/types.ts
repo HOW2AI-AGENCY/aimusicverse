@@ -4038,6 +4038,14 @@ export type Database = {
       is_premium_or_admin: { Args: { _user_id: string }; Returns: boolean }
       jsonb_object_keys_count: { Args: { obj: Json }; Returns: number }
       log_share_reward: { Args: never; Returns: undefined }
+      process_stars_payment: {
+        Args: {
+          p_metadata?: Json
+          p_telegram_payment_charge_id: string
+          p_transaction_id: string
+        }
+        Returns: Json
+      }
       recommend_styles_for_user: {
         Args: { _limit?: number; _user_id: string }
         Returns: {
