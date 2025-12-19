@@ -137,6 +137,16 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
         telegramLogger.debug('Orientation locked to portrait');
       }
 
+      // Request fullscreen mode automatically (Mini App 2.0+)
+      if (typeof (tg as any).requestFullscreen === 'function') {
+        try {
+          (tg as any).requestFullscreen();
+          telegramLogger.debug('Fullscreen mode requested');
+        } catch (e) {
+          telegramLogger.warn('Fullscreen request failed', { error: String(e) });
+        }
+      }
+
       // Установка цветов header и background
       if (tg.setHeaderColor) {
         tg.setHeaderColor('secondary_bg_color');
@@ -249,8 +259,14 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
 
       applySafeAreaInsets();
 
-      // Отслеживание изменений viewport для обновления safe areas
+      // Отслеживание изменений viewport и fullscreen для обновления safe areas
       tg.onEvent?.('viewportChanged', applySafeAreaInsets);
+      tg.onEvent?.('fullscreenChanged', () => {
+        telegramLogger.debug('Fullscreen changed', { isFullscreen: (tg as any).isFullscreen });
+        applySafeAreaInsets();
+      });
+      tg.onEvent?.('safeAreaChanged', applySafeAreaInsets);
+      tg.onEvent?.('contentSafeAreaChanged', applySafeAreaInsets);
       
       // Note: ensureInitialized is now called in the auth .finally() block above
     } else if (devMode) {
@@ -347,22 +363,38 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
+  // Store MainButton callback ref to properly unsubscribe
+  const mainButtonCallbackRef = { current: null as (() => void) | null };
+
   const showMainButton = (text: string, onClick: () => void, options?: { color?: string; textColor?: string; isActive?: boolean; isVisible?: boolean }) => {
-    if (webApp) {
+    if (webApp?.MainButton) {
+      // Remove previous callback if exists
+      if (mainButtonCallbackRef.current) {
+        webApp.MainButton.offClick(mainButtonCallbackRef.current);
+      }
+      
+      mainButtonCallbackRef.current = onClick;
       webApp.MainButton.setText(text);
       if (options?.color) webApp.MainButton.color = options.color;
       if (options?.textColor) webApp.MainButton.textColor = options.textColor;
       if (options?.isActive !== undefined) webApp.MainButton.isActive = options.isActive;
       if (options?.isVisible !== undefined) webApp.MainButton.isVisible = options.isVisible;
-      webApp.MainButton.show();
       webApp.MainButton.onClick(onClick);
+      webApp.MainButton.show();
+      
+      telegramLogger.debug('MainButton shown', { text, isActive: options?.isActive });
     }
   };
 
   const hideMainButton = () => {
-    if (webApp) {
+    if (webApp?.MainButton) {
+      // Properly remove callback
+      if (mainButtonCallbackRef.current) {
+        webApp.MainButton.offClick(mainButtonCallbackRef.current);
+        mainButtonCallbackRef.current = null;
+      }
       webApp.MainButton.hide();
-      webApp.MainButton.offClick(() => {});
+      telegramLogger.debug('MainButton hidden');
     }
   };
 
