@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Sparkles, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { useProjects } from '@/hooks/useProjectsOptimized';
+import { useProjects } from '@/hooks/useProjects';
 import { useArtists } from '@/hooks/useArtists';
 import { useTracks } from '@/hooks/useTracks';
 import { useGenerateForm } from '@/hooks/generation';
