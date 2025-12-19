@@ -23,6 +23,8 @@ export { useSmartQueue } from './useSmartQueue';
 export { useAudioPerformanceMonitor } from './useAudioPerformanceMonitor';
 export { useNetworkStatus } from './useNetworkStatus';
 export { useReferenceAudioPlayer } from './useReferenceAudioPlayer';
+export { useCrossfadePlayer } from './useCrossfadePlayer';
+export { usePlayerGestures } from './usePlayerGestures';
 
 // Export audio system diagnostics for troubleshooting
 export { 
