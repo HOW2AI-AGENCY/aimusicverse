@@ -25,13 +25,17 @@ export const BOT_CONFIG = {
   supabaseServiceKey: Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
 };
 
+// Channel configuration
+export const CHANNEL_USERNAME = 'AIMusiicVerse';
+export const CHANNEL_URL = `https://t.me/${CHANNEL_USERNAME}`;
+
 // Default messages - will be overridden by database config
 const DEFAULT_MESSAGES = {
   welcome: `🎵 *Добро пожаловать в MusicVerse\\!*
 
 Создавайте профессиональную музыку с помощью AI прямо в Telegram\\! 🚀
 
-📢 *Подпишитесь на канал:* @AIMusicVerse
+📢 *Подпишитесь на канал:* @AIMusiicVerse
 • Новости и обновления
 • Примеры треков
 • Советы по генерации
@@ -59,6 +63,7 @@ const DEFAULT_MESSAGES = {
 /projects \\- Мои проекты
 /status \\- Статус генерации
 /app \\- Открыть приложение
+/channel \\- Канал @AIMusiicVerse
 
 🔬 *Анализ аудио:*
 /analyze \\- Меню анализа аудио
@@ -85,8 +90,8 @@ const DEFAULT_MESSAGES = {
 \\-\\-model v5 \\- Версия модели
 
 📢 *Полезные ссылки:*
-• @AIMusicVerse \\- Новости и обновления
-• /news \\- Последние новости канала
+• @AIMusiicVerse \\- Новости и обновления
+• /channel \\- Перейти на канал
 
 💡 *Подсказка:* Чем детальнее описание, тем лучше результат\\!`,
 

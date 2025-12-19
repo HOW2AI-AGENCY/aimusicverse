@@ -16,7 +16,9 @@ const supabase = createClient(
   Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 );
 
-const MINI_APP_URL = Deno.env.get('MINI_APP_URL') || 'https://t.me/PhuketMusicBot/app';
+const MINI_APP_URL = Deno.env.get('MINI_APP_URL') || 'https://t.me/AIMusicVerseBot/app';
+const CHANNEL_URL = 'https://t.me/AIMusiicVerse';
+const CHANNEL_USERNAME = 'AIMusiicVerse';
 
 export interface NotificationPayload {
   userId: string;
@@ -259,11 +261,13 @@ async function formatNotificationMessage(
       const actionLabel = data.actionLabel || 'Попробовать';
       
       const text = `🎉 *${escapeMarkdownV2(featureName)}*\n\n` +
-        `${escapeMarkdownV2(featureDescription)}`;
+        `${escapeMarkdownV2(featureDescription)}\n\n` +
+        `📢 Следите за новостями в @${CHANNEL_USERNAME}`;
 
       const keyboard = {
         inline_keyboard: [
           [{ text: `✨ ${actionLabel}`, url: actionUrl }],
+          [{ text: `📢 Канал @${CHANNEL_USERNAME}`, url: CHANNEL_URL }],
         ],
       };
 
