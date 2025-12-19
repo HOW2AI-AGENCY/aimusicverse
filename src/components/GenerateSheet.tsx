@@ -235,16 +235,16 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             <Button
               onClick={handleGenerate}
               disabled={form.loading}
-              className="w-full h-10 text-xs gap-1.5 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg disabled:opacity-50"
+              className="w-full h-12 text-sm font-semibold gap-2 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 rounded-xl disabled:opacity-50"
             >
               {form.loading ? (
                 <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin" />
                   Создание...
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-3.5 h-3.5" />
+                  <Sparkles className="w-4 h-4" />
                   Сгенерировать
                 </>
               )}

@@ -59,19 +59,43 @@ export function useGlobalAudioPlayer() {
     logger.debug('Audio source loaded for new track', { trackId, source: source.substring(0, 50) });
   }, [activeTrack?.id, getAudioSource]);
 
-  // Handle play/pause state
+  // Handle play/pause state with race condition protection
+  const playPromiseRef = useRef<Promise<void> | null>(null);
+  
   useEffect(() => {
     const audio = getGlobalAudioRef();
     if (!audio) return;
     
-    if (isPlaying && audio.src) {
-      audio.play().catch((error) => {
-        logger.error('Playback error', error);
-        pauseTrack();
-      });
-    } else {
-      audio.pause();
-    }
+    const handlePlayPause = async () => {
+      // Wait for any pending play promise to resolve
+      if (playPromiseRef.current) {
+        try {
+          await playPromiseRef.current;
+        } catch {
+          // Ignore errors from previous play attempts
+        }
+        playPromiseRef.current = null;
+      }
+      
+      if (isPlaying && audio.src) {
+        try {
+          playPromiseRef.current = audio.play();
+          await playPromiseRef.current;
+        } catch (error) {
+          // Only log non-abort errors (AbortError is expected when interrupted)
+          if (error instanceof Error && error.name !== 'AbortError') {
+            logger.error('Playback error', error);
+            pauseTrack();
+          }
+        } finally {
+          playPromiseRef.current = null;
+        }
+      } else {
+        audio.pause();
+      }
+    };
+    
+    handlePlayPause();
   }, [isPlaying, pauseTrack]);
 
   // Handle track ended

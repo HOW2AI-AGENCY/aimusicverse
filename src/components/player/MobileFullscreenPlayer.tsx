@@ -63,9 +63,12 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   }, [track.streaming_url, track.audio_url]);
   
   // CRITICAL: Resume AudioContext and ensure audio routing when fullscreen opens
+  // Run only ONCE on mount to avoid multiple re-initializations
   useEffect(() => {
+    let mounted = true;
+    
     const ensureAudio = async () => {
-      if (!audioElement) {
+      if (!audioElement || !mounted) {
         logger.warn('No audio element available on fullscreen open');
         return;
       }
@@ -83,34 +86,29 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         await ensureAudioRoutedToDestination();
         
         // Sync volume with audio element
-        if (audioElement.volume !== volume) {
+        if (audioElement && mounted) {
           audioElement.volume = volume;
-          logger.debug('Volume synced on fullscreen open', { volume });
+          
+          logger.info('Fullscreen player audio initialized', { 
+            volume, 
+            audioPaused: audioElement.paused,
+            hasAudioElement: true 
+          });
         }
-        
-        // CRITICAL: Resume playback if it was playing but audio got paused
-        if (isPlaying && audioElement.paused) {
-          logger.info('Resuming paused audio on fullscreen open');
-          try {
-            await audioElement.play();
-          } catch (playErr) {
-            logger.error('Failed to resume audio', playErr);
-          }
-        }
-        
-        logger.info('Fullscreen player audio initialized', { 
-          volume, 
-          isPlaying,
-          audioPaused: audioElement.paused,
-          hasAudioElement: true 
-        });
       } catch (err) {
         logger.error('Error initializing fullscreen audio', err);
       }
     };
     
-    ensureAudio();
-  }, [audioElement, isPlaying, volume]);
+    // Small delay to ensure component is fully mounted
+    const timer = setTimeout(ensureAudio, 100);
+    
+    return () => {
+      mounted = false;
+      clearTimeout(timer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Run only once on mount
   
   // Audio visualizer data
   const visualizerData = useAudioVisualizer(audioElement, isPlaying, { barCount: 48, smoothing: 0.75 });
