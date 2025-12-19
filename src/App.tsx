@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { GamificationProvider } from "@/contexts/GamificationContext";
 import { NotificationProvider } from "@/contexts/NotificationContext";
+import { AnnouncementProvider } from "@/contexts/AnnouncementContext";
 import { GuestModeProvider } from "@/contexts/GuestModeContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -88,6 +89,7 @@ const App = () => (
                 <GuestModeProvider>
                 <GlobalAudioProvider>
                   <NotificationProvider>
+                    <AnnouncementProvider>
                     <GamificationProvider>
                       <TooltipProvider>
                         <Sonner />
@@ -161,6 +163,7 @@ const App = () => (
                       </BrowserRouter>
                     </TooltipProvider>
                   </GamificationProvider>
+                    </AnnouncementProvider>
                 </NotificationProvider>
                 </GlobalAudioProvider>
                 </GuestModeProvider>
