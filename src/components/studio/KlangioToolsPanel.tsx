@@ -17,7 +17,6 @@ import {
   Guitar,
   Music,
   Drum,
-  Scissors,
   Download,
   Loader2,
   FileMusic,
@@ -27,81 +26,43 @@ import {
   Sparkles,
   Check,
   AlertCircle,
+  RefreshCw,
+  ExternalLink,
 } from 'lucide-react';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { 
+  useKlangioAnalysis, 
+  TranscriptionResult, 
+  ChordResult, 
+  BeatResult,
+  TranscriptionModel,
+  OutputFormat,
+  AnalysisStatus
+} from '@/hooks/useKlangioAnalysis';
 import { cn } from '@/lib/utils';
 
 interface KlangioToolsPanelProps {
   audioUrl?: string;
   trackId?: string;
   onTranscriptionComplete?: (result: TranscriptionResult) => void;
-  onChordsDetected?: (chords: ChordData[]) => void;
-  onBeatsDetected?: (beats: BeatData) => void;
-  onStemsReady?: (stems: StemData[]) => void;
+  onChordsDetected?: (result: ChordResult) => void;
+  onBeatsDetected?: (result: BeatResult) => void;
 }
 
-interface TranscriptionResult {
-  midi_url?: string;
-  gp5_url?: string;
-  pdf_url?: string;
-  musicxml_url?: string;
-  notes?: NoteData[];
-}
-
-interface ChordData {
-  chord: string;
-  start: number;
-  end: number;
-}
-
-interface BeatData {
-  bpm: number;
-  beats: number[];
-  downbeats: number[];
-  time_signature: string;
-}
-
-interface StemData {
-  type: string;
-  url: string;
-}
-
-interface NoteData {
-  time: number;
-  pitch: number;
-  duration: number;
-  velocity: number;
-  string?: number;
-  fret?: number;
-}
-
-type TaskStatus = 'idle' | 'pending' | 'processing' | 'completed' | 'error';
-
-interface ToolState {
-  status: TaskStatus;
-  progress: number;
-  error?: string;
-}
-
-const transcriptionModels = [
+const transcriptionModels: { value: TranscriptionModel; label: string; icon: typeof Guitar }[] = [
   { value: 'guitar', label: 'Гитара', icon: Guitar },
   { value: 'bass', label: 'Бас', icon: Music },
   { value: 'piano', label: 'Пианино', icon: Music },
   { value: 'drums', label: 'Ударные', icon: Drum },
+  { value: 'vocal', label: 'Вокал', icon: Music },
+  { value: 'universal', label: 'Универсальный', icon: Music },
 ];
 
-const stemModes = [
-  { value: '2stems', label: '2 стема (Вокал + Инстр.)' },
-  { value: '4stems', label: '4 стема (Вокал, Ударные, Бас, Другое)' },
-  { value: '5stems', label: '5 стемов (+ Пианино)' },
-  { value: '6stems', label: '6 стемов (+ Гитара)' },
-];
-
-const exportFormats = [
+const exportFormats: { value: OutputFormat; label: string; icon: typeof FileMusic }[] = [
   { value: 'midi', label: 'MIDI', icon: FileMusic },
   { value: 'gp5', label: 'Guitar Pro', icon: Guitar },
   { value: 'pdf', label: 'PDF (Ноты)', icon: FileText },
-  { value: 'musicxml', label: 'MusicXML', icon: FileMusic },
+  { value: 'mxml', label: 'MusicXML', icon: FileMusic },
 ];
 
 export const KlangioToolsPanel = memo(function KlangioToolsPanel({
@@ -110,26 +71,29 @@ export const KlangioToolsPanel = memo(function KlangioToolsPanel({
   onTranscriptionComplete,
   onChordsDetected,
   onBeatsDetected,
-  onStemsReady,
 }: KlangioToolsPanelProps) {
   const haptic = useHapticFeedback();
-  
-  // Tool states
-  const [transcription, setTranscription] = useState<ToolState>({ status: 'idle', progress: 0 });
-  const [chords, setChords] = useState<ToolState>({ status: 'idle', progress: 0 });
-  const [beats, setBeats] = useState<ToolState>({ status: 'idle', progress: 0 });
-  const [stems, setStems] = useState<ToolState>({ status: 'idle', progress: 0 });
+  const {
+    transcription,
+    chords,
+    beats,
+    startTranscription,
+    detectChords,
+    detectBeats,
+    resetTranscription,
+    resetChords,
+    resetBeats,
+  } = useKlangioAnalysis();
 
   // Settings
-  const [transcriptionModel, setTranscriptionModel] = useState('guitar');
-  const [selectedFormats, setSelectedFormats] = useState<string[]>(['midi', 'gp5']);
-  const [stemMode, setStemMode] = useState('4stems');
+  const [transcriptionModel, setTranscriptionModel] = useState<TranscriptionModel>('guitar');
+  const [selectedFormats, setSelectedFormats] = useState<OutputFormat[]>(['midi', 'gp5']);
   const [extendedChords, setExtendedChords] = useState(true);
 
   // Expanded sections
   const [expandedSection, setExpandedSection] = useState<string | null>('transcription');
 
-  const toggleFormat = (format: string) => {
+  const toggleFormat = (format: OutputFormat) => {
     setSelectedFormats(prev =>
       prev.includes(format)
         ? prev.filter(f => f !== format)
@@ -141,37 +105,11 @@ export const KlangioToolsPanel = memo(function KlangioToolsPanel({
     if (!audioUrl) return;
     haptic.impact('medium');
     
-    setTranscription({ status: 'pending', progress: 0 });
-    
-    // Simulate progress (replace with actual API call)
-    const interval = setInterval(() => {
-      setTranscription(prev => ({
-        ...prev,
-        progress: Math.min(prev.progress + 10, 90),
-        status: prev.progress >= 30 ? 'processing' : 'pending',
-      }));
-    }, 500);
-
-    try {
-      // TODO: Implement actual Klangio API call
-      await new Promise(resolve => setTimeout(resolve, 5000));
-      
-      clearInterval(interval);
-      setTranscription({ status: 'completed', progress: 100 });
+    const result = await startTranscription(audioUrl, transcriptionModel, selectedFormats);
+    if (result) {
       haptic.success();
-      
-      // Mock result
-      onTranscriptionComplete?.({
-        midi_url: 'mock://midi',
-        gp5_url: 'mock://gp5',
-      });
-    } catch (error) {
-      clearInterval(interval);
-      setTranscription({ 
-        status: 'error', 
-        progress: 0, 
-        error: 'Ошибка транскрипции' 
-      });
+      onTranscriptionComplete?.(result);
+    } else {
       haptic.error();
     }
   };
@@ -180,21 +118,11 @@ export const KlangioToolsPanel = memo(function KlangioToolsPanel({
     if (!audioUrl) return;
     haptic.impact('medium');
     
-    setChords({ status: 'pending', progress: 0 });
-    
-    try {
-      // TODO: Implement actual chord detection
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      setChords({ status: 'completed', progress: 100 });
+    const result = await detectChords(audioUrl, extendedChords);
+    if (result) {
       haptic.success();
-      
-      // Mock result
-      onChordsDetected?.([
-        { chord: 'Am', start: 0, end: 2 },
-        { chord: 'F', start: 2, end: 4 },
-      ]);
-    } catch (error) {
-      setChords({ status: 'error', progress: 0, error: 'Ошибка распознавания' });
+      onChordsDetected?.(result);
+    } else {
       haptic.error();
     }
   };
@@ -203,63 +131,17 @@ export const KlangioToolsPanel = memo(function KlangioToolsPanel({
     if (!audioUrl) return;
     haptic.impact('medium');
     
-    setBeats({ status: 'pending', progress: 0 });
-    
-    try {
-      // TODO: Implement actual beat detection
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      setBeats({ status: 'completed', progress: 100 });
+    const result = await detectBeats(audioUrl);
+    if (result) {
       haptic.success();
-      
-      // Mock result
-      onBeatsDetected?.({
-        bpm: 120,
-        beats: [0, 0.5, 1, 1.5],
-        downbeats: [0, 2],
-        time_signature: '4/4',
-      });
-    } catch (error) {
-      setBeats({ status: 'error', progress: 0, error: 'Ошибка определения' });
+      onBeatsDetected?.(result);
+    } else {
       haptic.error();
     }
   };
 
-  const handleSeparateStems = async () => {
-    if (!audioUrl) return;
-    haptic.impact('medium');
-    
-    setStems({ status: 'pending', progress: 0 });
-    
-    const interval = setInterval(() => {
-      setStems(prev => ({
-        ...prev,
-        progress: Math.min(prev.progress + 5, 95),
-        status: prev.progress >= 20 ? 'processing' : 'pending',
-      }));
-    }, 500);
-
-    try {
-      // TODO: Implement actual stem separation
-      await new Promise(resolve => setTimeout(resolve, 10000));
-      
-      clearInterval(interval);
-      setStems({ status: 'completed', progress: 100 });
-      haptic.success();
-      
-      // Mock result
-      onStemsReady?.([
-        { type: 'vocals', url: 'mock://vocals' },
-        { type: 'drums', url: 'mock://drums' },
-      ]);
-    } catch (error) {
-      clearInterval(interval);
-      setStems({ status: 'error', progress: 0, error: 'Ошибка разделения' });
-      haptic.error();
-    }
-  };
-
-  const renderStatusBadge = (state: ToolState) => {
-    switch (state.status) {
+  const renderStatusBadge = (status: AnalysisStatus) => {
+    switch (status) {
       case 'pending':
         return <Badge variant="secondary" className="animate-pulse">В очереди</Badge>;
       case 'processing':
@@ -277,27 +159,35 @@ export const KlangioToolsPanel = memo(function KlangioToolsPanel({
     id,
     title,
     icon: Icon,
-    state,
+    status,
+    progress,
+    error,
     children,
     onAction,
+    onReset,
     actionLabel,
+    result,
   }: {
     id: string;
     title: string;
     icon: React.ElementType;
-    state: ToolState;
+    status: AnalysisStatus;
+    progress: number;
+    error?: string;
     children: React.ReactNode;
     onAction: () => void;
+    onReset: () => void;
     actionLabel: string;
+    result?: TranscriptionResult | ChordResult | BeatResult;
   }) => {
     const isExpanded = expandedSection === id;
-    const isLoading = state.status === 'pending' || state.status === 'processing';
+    const isLoading = status === 'pending' || status === 'processing';
 
     return (
       <Card className={cn(
         'overflow-hidden transition-all duration-300',
         isExpanded && 'ring-1 ring-primary/30',
-        state.status === 'completed' && 'border-green-500/30'
+        status === 'completed' && 'border-green-500/30'
       )}>
         <CardHeader
           className="cursor-pointer py-3"
@@ -307,15 +197,15 @@ export const KlangioToolsPanel = memo(function KlangioToolsPanel({
             <div className="flex items-center gap-3">
               <div className={cn(
                 'p-2 rounded-lg',
-                state.status === 'completed' ? 'bg-green-500/10' : 'bg-primary/10'
+                status === 'completed' ? 'bg-green-500/10' : 'bg-primary/10'
               )}>
                 <Icon className={cn(
                   'h-5 w-5',
-                  state.status === 'completed' ? 'text-green-500' : 'text-primary'
+                  status === 'completed' ? 'text-green-500' : 'text-primary'
                 )} />
               </div>
               <CardTitle className="text-base">{title}</CardTitle>
-              {renderStatusBadge(state)}
+              {renderStatusBadge(status)}
             </div>
             {isExpanded ? (
               <ChevronUp className="h-4 w-4 text-muted-foreground" />
@@ -339,41 +229,132 @@ export const KlangioToolsPanel = memo(function KlangioToolsPanel({
                 {/* Progress bar */}
                 {isLoading && (
                   <div className="space-y-2">
-                    <Progress value={state.progress} className="h-2" />
+                    <Progress value={progress} className="h-2" />
                     <p className="text-xs text-muted-foreground text-center">
-                      {state.status === 'pending' ? 'Подготовка...' : `Обработка: ${state.progress}%`}
+                      {status === 'pending' ? 'Подготовка...' : `Обработка: ${progress}%`}
                     </p>
                   </div>
                 )}
 
                 {/* Error message */}
-                {state.status === 'error' && (
-                  <p className="text-sm text-destructive">{state.error}</p>
+                {status === 'error' && error && (
+                  <p className="text-sm text-destructive">{error}</p>
                 )}
 
-                {/* Action button */}
-                <Button
-                  onClick={onAction}
-                  disabled={!audioUrl || isLoading}
-                  className="w-full gap-2"
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      Обработка...
-                    </>
-                  ) : state.status === 'completed' ? (
-                    <>
-                      <Download className="h-4 w-4" />
-                      Скачать результат
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="h-4 w-4" />
-                      {actionLabel}
-                    </>
+                {/* Result files for transcription */}
+                {status === 'completed' && result && 'files' in result && result.files && (
+                  <div className="space-y-2">
+                    <Label className="text-xs">Скачать результаты:</Label>
+                    <div className="flex flex-wrap gap-2">
+                      {result.files.midi && (
+                        <Button size="sm" variant="outline" asChild>
+                          <a href={result.files.midi} target="_blank" rel="noopener noreferrer">
+                            <FileMusic className="h-3 w-3 mr-1" />
+                            MIDI
+                            <ExternalLink className="h-3 w-3 ml-1" />
+                          </a>
+                        </Button>
+                      )}
+                      {result.files.gp5 && (
+                        <Button size="sm" variant="outline" asChild>
+                          <a href={result.files.gp5} target="_blank" rel="noopener noreferrer">
+                            <Guitar className="h-3 w-3 mr-1" />
+                            GP5
+                            <ExternalLink className="h-3 w-3 ml-1" />
+                          </a>
+                        </Button>
+                      )}
+                      {result.files.pdf && (
+                        <Button size="sm" variant="outline" asChild>
+                          <a href={result.files.pdf} target="_blank" rel="noopener noreferrer">
+                            <FileText className="h-3 w-3 mr-1" />
+                            PDF
+                            <ExternalLink className="h-3 w-3 ml-1" />
+                          </a>
+                        </Button>
+                      )}
+                      {result.files.mxml && (
+                        <Button size="sm" variant="outline" asChild>
+                          <a href={result.files.mxml} target="_blank" rel="noopener noreferrer">
+                            <FileMusic className="h-3 w-3 mr-1" />
+                            MusicXML
+                            <ExternalLink className="h-3 w-3 ml-1" />
+                          </a>
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Result for beats */}
+                {status === 'completed' && result && 'bpm' in result && (
+                  <div className="p-3 bg-muted/50 rounded-lg space-y-1">
+                    <p className="text-sm font-medium">BPM: {result.bpm || 'Н/Д'}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {result.beats?.length || 0} битов найдено
+                    </p>
+                  </div>
+                )}
+
+                {/* Result for chords */}
+                {status === 'completed' && result && 'chords' in result && (
+                  <div className="p-3 bg-muted/50 rounded-lg space-y-2">
+                    {result.key && (
+                      <p className="text-sm font-medium">Тональность: {result.key}</p>
+                    )}
+                    <div className="flex flex-wrap gap-1">
+                      {result.chords?.slice(0, 12).map((c, i) => (
+                        <Badge key={i} variant="secondary" className="text-xs">
+                          {c.chord}
+                        </Badge>
+                      ))}
+                      {(result.chords?.length || 0) > 12 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{result.chords!.length - 12}
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Action buttons */}
+                <div className="flex gap-2">
+                  <Button
+                    onClick={onAction}
+                    disabled={!audioUrl || isLoading}
+                    className="flex-1 gap-2"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Обработка...
+                      </>
+                    ) : status === 'completed' ? (
+                      <>
+                        <RefreshCw className="h-4 w-4" />
+                        Повторить
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="h-4 w-4" />
+                        {actionLabel}
+                      </>
+                    )}
+                  </Button>
+                  
+                  {(status === 'completed' || status === 'error') && (
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onReset();
+                      }}
+                    >
+                      <RefreshCw className="h-4 w-4" />
+                    </Button>
                   )}
-                </Button>
+                </div>
               </CardContent>
             </motion.div>
           )}
@@ -395,19 +376,31 @@ export const KlangioToolsPanel = memo(function KlangioToolsPanel({
         </div>
       </div>
 
+      {!audioUrl && (
+        <Card className="p-4">
+          <p className="text-sm text-muted-foreground text-center">
+            Выберите трек для анализа
+          </p>
+        </Card>
+      )}
+
       {/* Transcription */}
       <ToolSection
         id="transcription"
         title="Транскрипция"
         icon={Guitar}
-        state={transcription}
+        status={transcription.status}
+        progress={transcription.progress}
+        error={transcription.error}
+        result={transcription.result}
         onAction={handleTranscribe}
+        onReset={resetTranscription}
         actionLabel="Транскрибировать"
       >
         <div className="space-y-3">
           <div>
             <Label className="text-xs">Инструмент</Label>
-            <Select value={transcriptionModel} onValueChange={setTranscriptionModel}>
+            <Select value={transcriptionModel} onValueChange={(v) => setTranscriptionModel(v as TranscriptionModel)}>
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -448,8 +441,12 @@ export const KlangioToolsPanel = memo(function KlangioToolsPanel({
         id="chords"
         title="Распознавание аккордов"
         icon={Music}
-        state={chords}
+        status={chords.status}
+        progress={chords.progress}
+        error={chords.error}
+        result={chords.result}
         onAction={handleDetectChords}
+        onReset={resetChords}
         actionLabel="Распознать аккорды"
       >
         <div className="flex items-center justify-between">
@@ -466,50 +463,18 @@ export const KlangioToolsPanel = memo(function KlangioToolsPanel({
         id="beats"
         title="Определение ритма"
         icon={Drum}
-        state={beats}
+        status={beats.status}
+        progress={beats.progress}
+        error={beats.error}
+        result={beats.result}
         onAction={handleDetectBeats}
+        onReset={resetBeats}
         actionLabel="Определить BPM и биты"
       >
         <p className="text-sm text-muted-foreground">
           Автоматическое определение темпа, размера и положения битов
         </p>
       </ToolSection>
-
-      {/* Stem Separation */}
-      <ToolSection
-        id="stems"
-        title="Разделение на стемы"
-        icon={Scissors}
-        state={stems}
-        onAction={handleSeparateStems}
-        actionLabel="Разделить на стемы"
-      >
-        <div>
-          <Label className="text-xs">Режим разделения</Label>
-          <Select value={stemMode} onValueChange={setStemMode}>
-            <SelectTrigger className="mt-1">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {stemModes.map(mode => (
-                <SelectItem key={mode.value} value={mode.value}>
-                  {mode.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </ToolSection>
-
-      {/* No audio warning */}
-      {!audioUrl && (
-        <Card className="bg-muted/50 border-dashed">
-          <CardContent className="py-4 text-center text-sm text-muted-foreground">
-            <AlertCircle className="h-5 w-5 mx-auto mb-2 opacity-50" />
-            Выберите трек для анализа
-          </CardContent>
-        </Card>
-      )}
     </div>
   );
 });
