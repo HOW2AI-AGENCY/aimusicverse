@@ -2,6 +2,10 @@ import { BOT_CONFIG } from '../config.ts';
 import type { InlineKeyboardButton } from '../telegram-api.ts';
 import { getMenuImage } from './menu-images.ts';
 
+// Channel configuration
+export const CHANNEL_USERNAME = 'AIMusiicVerse';
+export const CHANNEL_URL = `https://t.me/${CHANNEL_USERNAME}`;
+
 export function createMainMenuKeyboard() {
   return {
     inline_keyboard: [
@@ -15,7 +19,7 @@ export function createMainMenuKeyboard() {
         { text: '📁 Проекты', callback_data: 'projects' }
       ],
       [
-        { text: '📢 Новости канала', url: 'https://t.me/AIMusicVerse' }
+        { text: '📢 Канал @AIMusiicVerse', url: CHANNEL_URL }
       ],
       [
         { text: '⚙️ Настройки', callback_data: 'settings' },

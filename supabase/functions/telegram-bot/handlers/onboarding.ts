@@ -1,6 +1,6 @@
 /**
  * Onboarding handler - Interactive tutorial for new Telegram bot users
- * 3-step guided introduction to MusicVerse
+ * 4-step guided introduction to MusicVerse
  */
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
@@ -8,7 +8,7 @@ import { sendPhoto, editMessageMedia, answerCallbackQuery } from '../telegram-ap
 import { buildMessage, createProgressBar } from '../utils/message-formatter.ts';
 import { ButtonBuilder } from '../utils/button-builder.ts';
 import { getMenuImage } from '../keyboards/menu-images.ts';
-import { BOT_CONFIG } from '../config.ts';
+import { BOT_CONFIG, CHANNEL_URL, CHANNEL_USERNAME } from '../config.ts';
 import { trackMessage } from '../utils/message-manager.ts';
 
 const supabase = createClient(
@@ -24,6 +24,7 @@ interface OnboardingStep {
   features: string[];
   actionText: string;
   actionData: string;
+  extraButton?: { text: string; url: string };
 }
 
 const ONBOARDING_STEPS: OnboardingStep[] = [
@@ -52,11 +53,26 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
       '🎧 Получите готовый трек',
       '📤 Поделитесь с друзьями'
     ],
-    actionText: 'Попробовать сейчас',
-    actionData: 'onboarding_try_generate'
+    actionText: 'Далее',
+    actionData: 'onboarding_step_3'
   },
   {
     step: 3,
+    title: 'Подпишитесь на канал',
+    emoji: '📢',
+    description: 'Будьте в курсе новостей и получайте советы',
+    features: [
+      '📰 Новости и обновления платформы',
+      '🎵 Примеры сгенерированных треков',
+      '💡 Советы по созданию музыки',
+      '🎁 Конкурсы и розыгрыши'
+    ],
+    actionText: 'Далее',
+    actionData: 'onboarding_step_4',
+    extraButton: { text: `📢 Подписаться на @${CHANNEL_USERNAME}`, url: CHANNEL_URL }
+  },
+  {
+    step: 4,
     title: 'Вы готовы творить!',
     emoji: '🚀',
     description: 'Вот ваши стартовые бонусы',
@@ -141,6 +157,15 @@ export async function showOnboardingStep(
 
   const keyboardBuilder = new ButtonBuilder();
 
+  // Extra button for channel subscription (step 3)
+  if (stepData.extraButton) {
+    keyboardBuilder.addButton({
+      text: stepData.extraButton.text,
+      emoji: '',
+      action: { type: 'url', url: stepData.extraButton.url }
+    });
+  }
+
   // Main action button
   keyboardBuilder.addButton({
     text: stepData.actionText,
@@ -148,7 +173,7 @@ export async function showOnboardingStep(
     action: { type: 'callback', data: stepData.actionData }
   });
 
-  // Back button for steps 2 and 3
+  // Back button for steps 2+
   if (step > 1) {
     keyboardBuilder.addButton({
       text: 'Назад',

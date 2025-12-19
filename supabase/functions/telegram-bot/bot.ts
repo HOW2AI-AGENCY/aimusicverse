@@ -222,6 +222,11 @@ async function handleCommand(command: string, args: string, chatId: number, user
       await handleNews(chatId);
       break;
     }
+    case 'channel': {
+      const { handleChannel } = await import('./commands/channel.ts');
+      await handleChannel(chatId);
+      break;
+    }
     default:
       await sendMessage(chatId, '❓ Неизвестная команда. Используйте /help для списка команд.', undefined, null);
   }
