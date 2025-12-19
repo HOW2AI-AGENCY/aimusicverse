@@ -108,12 +108,12 @@ export const MainLayout = () => {
         <main
           id="main-content"
           className={cn(
-            'flex-1 flex flex-col overflow-y-auto',
+            'flex-1 flex flex-col overflow-y-auto relative',
             isDesktop ? 'ml-64' : 'pb-[calc(4rem+env(safe-area-inset-bottom,0px))]',
             isGuestMode && 'pt-9'
           )}
         >
-          {/* Unified Announcements - one at a time with queue */}
+          {/* Unified Announcements - z-100, sticky top */}
           <UnifiedAnnouncement />
           
           <div className={cn(
