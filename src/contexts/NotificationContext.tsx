@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
+import { cleanupExpiredNotifications } from '@/services/notificationManager';
 
 const log = logger.child({ module: 'NotificationContext' });
 
@@ -11,11 +12,14 @@ export interface NotificationItem {
   id: string;
   title: string;
   message: string;
-  type: 'info' | 'success' | 'warning' | 'error' | 'generation';
+  type: 'info' | 'success' | 'warning' | 'error' | 'generation' | 'project' | 'social' | 'achievement' | 'system';
   read: boolean;
   action_url?: string | null;
   created_at: string;
   metadata?: Record<string, unknown>;
+  group_key?: string | null;
+  expires_at?: string | null;
+  priority?: number;
 }
 
 export interface GenerationProgress {
@@ -40,8 +44,10 @@ interface NotificationContextType {
   markAsRead: (id: string) => Promise<void>;
   markAllAsRead: () => Promise<void>;
   clearNotification: (id: string) => Promise<void>;
+  clearAllRead: () => Promise<void>;
   showToast: (notification: Omit<NotificationItem, 'id' | 'read' | 'created_at'>) => void;
   playNotificationSound: () => void;
+  refetchNotifications: () => Promise<void>;
 }
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
@@ -97,26 +103,48 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   
   const playSound = useRef(createNotificationSound());
   const lastGenerationStatus = useRef<Map<string, string>>(new Map());
+  const cleanupRan = useRef(false);
 
-  // Fetch initial notifications
+  // Fetch notifications with proper sorting by priority and date
+  const fetchNotifications = useCallback(async () => {
+    if (!user?.id) return;
+
+    const { data, error } = await supabase
+      .from('notifications')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('priority', { ascending: false })
+      .order('created_at', { ascending: false })
+      .limit(50);
+
+    if (!error && data) {
+      // Filter out expired notifications client-side and cast to extended type
+      const now = new Date();
+      const validNotifications = (data as any[]).filter(n => {
+        if (!n.expires_at) return true;
+        return new Date(n.expires_at) > now;
+      });
+      setNotifications(validNotifications as NotificationItem[]);
+    }
+  }, [user?.id]);
+
+  // Initial fetch and cleanup
   useEffect(() => {
     if (!user?.id) return;
 
-    const fetchNotifications = async () => {
-      const { data, error } = await supabase
-        .from('notifications')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(50);
-
-      if (!error && data) {
-        setNotifications(data as NotificationItem[]);
-      }
-    };
-
     fetchNotifications();
-  }, [user?.id]);
+
+    // Run cleanup once per session
+    if (!cleanupRan.current) {
+      cleanupRan.current = true;
+      cleanupExpiredNotifications().then(count => {
+        if (count > 0) {
+          log.info('Auto-cleaned expired notifications', { count });
+          fetchNotifications(); // Refresh after cleanup
+        }
+      });
+    }
+  }, [user?.id, fetchNotifications]);
 
   // Fetch active generations
   useEffect(() => {
@@ -388,6 +416,22 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem('notification_sound', soundEnabled ? 'true' : 'false');
   }, [soundEnabled]);
 
+  // Periodic cleanup (every 5 minutes)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Filter out client-side expired notifications
+      setNotifications(prev => {
+        const now = new Date();
+        return prev.filter(n => {
+          if (!n.expires_at) return true;
+          return new Date(n.expires_at) > now;
+        });
+      });
+    }, 5 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const markAsRead = useCallback(async (id: string) => {
     const { error } = await supabase
       .from('notifications')
@@ -426,6 +470,21 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
+  const clearAllRead = useCallback(async () => {
+    if (!user?.id) return;
+
+    const { error } = await supabase
+      .from('notifications')
+      .delete()
+      .eq('user_id', user.id)
+      .eq('read', true);
+
+    if (!error) {
+      setNotifications(prev => prev.filter(n => !n.read));
+      toast.success('Прочитанные уведомления удалены');
+    }
+  }, [user?.id]);
+
   const showToast = useCallback((notification: Omit<NotificationItem, 'id' | 'read' | 'created_at'>) => {
     const toastFn = notification.type === 'error' ? toast.error : 
                     notification.type === 'success' ? toast.success :
@@ -457,8 +516,10 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         markAsRead,
         markAllAsRead,
         clearNotification,
+        clearAllRead,
         showToast,
         playNotificationSound,
+        refetchNotifications: fetchNotifications,
       }}
     >
       {children}
