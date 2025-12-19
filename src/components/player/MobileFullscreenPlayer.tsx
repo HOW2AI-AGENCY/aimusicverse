@@ -24,7 +24,6 @@ import { usePlayerStore } from '@/hooks/audio';
 import { useGlobalAudioPlayer } from '@/hooks/audio';
 import { useAudioVisualizer } from '@/hooks/audio';
 import { usePlayerGestures } from '@/hooks/audio';
-import { useCrossfadePlayer } from '@/hooks/audio';
 import { QueueSheet } from './QueueSheet';
 import { VersionSwitcher } from './VersionSwitcher';
 import { cn } from '@/lib/utils';
@@ -59,12 +58,8 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, repeat, shuffle, toggleRepeat, toggleShuffle, volume } = usePlayerStore();
   const { audioElement } = useGlobalAudioPlayer();
   
-  // Crossfade player for smooth transitions
-  const { isTransitioning, isLoading } = useCrossfadePlayer({
-    crossfadeDuration: 2,
-    enableGapless: true,
-    debounceDelay: 150,
-  });
+  // Loading state from store
+  const isTrackLoading = !audioElement?.src || audioElement?.readyState < 2;
   
   // Swipe gestures for track switching
   const { gestureState, gestureHandlers, swipeProgress, isGesturing } = usePlayerGestures({
@@ -488,9 +483,9 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
           )}
         </AnimatePresence>
         
-        {/* Loading/Transition indicator */}
+        {/* Loading indicator */}
         <AnimatePresence>
-          {(isLoading || isTransitioning) && (
+          {isTrackLoading && isPlaying && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
