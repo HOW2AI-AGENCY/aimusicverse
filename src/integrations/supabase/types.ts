@@ -3737,6 +3737,7 @@ export type Database = {
         Returns: number
       }
       cleanup_expired_bot_sessions: { Args: never; Returns: undefined }
+      cleanup_expired_notifications: { Args: never; Returns: number }
       cleanup_expired_wizard_states: { Args: never; Returns: undefined }
       compute_track_genre: {
         Args: { _style: string; _tags: string }
@@ -3745,6 +3746,10 @@ export type Database = {
       compute_track_mood: {
         Args: { _style: string; _tags: string }
         Returns: string
+      }
+      delete_notifications_by_group: {
+        Args: { p_group_key: string; p_user_id: string }
+        Returns: number
       }
       get_complementary_tags: {
         Args: { _max_depth?: number; _tag_id: string }
@@ -4053,6 +4058,20 @@ export type Database = {
           style_id: string
           style_name: string
         }[]
+      }
+      upsert_notification: {
+        Args: {
+          p_action_url?: string
+          p_expires_at?: string
+          p_group_key?: string
+          p_message: string
+          p_metadata?: Json
+          p_priority?: number
+          p_title: string
+          p_type: string
+          p_user_id: string
+        }
+        Returns: string
       }
     }
     Enums: {
