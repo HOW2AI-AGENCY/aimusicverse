@@ -364,6 +364,9 @@ serve(async (req) => {
           title: 'Секция заменена 🎵',
           message: 'Новая версия секции готова для прослушивания',
           action_url: `/studio/${trackId}`,
+          group_key: `section_${task.id}`,
+          metadata: { taskId: task.id, trackId },
+          priority: 6,
         });
 
         return new Response(JSON.stringify({ success: true, callbackType: 'replace_section_complete' }), 
@@ -711,7 +714,7 @@ serve(async (req) => {
         logger.error('Reward action error', rewardErr);
       }
 
-      // Create in-app notification for generation completion
+      // Create in-app notification for generation completion (with auto-replace via group_key)
       try {
         logger.info('Creating generation complete notification');
         await supabase.from('notifications').insert({
@@ -720,6 +723,9 @@ serve(async (req) => {
           message: `Ваш трек "${trackTitle}" успешно сгенерирован (${clips.length} версии)`,
           type: 'success',
           action_url: `/library?track=${trackId}`,
+          group_key: `generation_${task.id}`,
+          metadata: { taskId: task.id, trackId, trackTitle, clipsCount: clips.length },
+          priority: 8,
           read: false,
         });
         logger.success('Generation notification created');

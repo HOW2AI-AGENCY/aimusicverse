@@ -71,13 +71,17 @@ serve(async (req) => {
         metadata: { error: msg, video_task_id: videoTaskId },
       });
 
-      // Create failure notification
+      // Create failure notification with auto-replace via group_key
       await supabase.from('notifications').insert({
         user_id: videoTask.user_id,
         type: 'video_failed',
         title: 'Ошибка генерации видео 🎬',
         message: `Не удалось создать видео для "${track.title || 'Трек'}": ${msg || 'Неизвестная ошибка'}`,
         action_url: '/library',
+        group_key: `video_${videoTaskId}`,
+        metadata: { videoTaskId, trackId: track.id, error: msg },
+        priority: 7,
+        expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours
       });
 
       return new Response(
@@ -156,13 +160,16 @@ serve(async (req) => {
       },
     });
 
-    // Create success notification
+    // Create success notification with auto-replace via group_key
     await supabase.from('notifications').insert({
       user_id: videoTask.user_id,
       type: 'video_ready',
       title: 'Видео готово! 🎬',
       message: `Клип для "${track.title || 'Трек'}" успешно создан.`,
-      action_url: '/library',
+      action_url: `/library?track=${track.id}`,
+      group_key: `video_${videoTaskId}`,
+      metadata: { videoTaskId, trackId: track.id, trackTitle: track.title },
+      priority: 8,
     });
 
     // Send Telegram notification if user has telegram_chat_id
