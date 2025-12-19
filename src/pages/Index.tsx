@@ -26,6 +26,8 @@ import { HomeSkeletonEnhanced } from "@/components/home/HomeSkeletonEnhanced";
 import { LazySection, SectionSkeleton } from "@/components/lazy/LazySection";
 import { QuickProjectSheet } from "@/components/project/QuickProjectSheet";
 import { useTelegramMainButton } from "@/hooks/telegram/useTelegramMainButton";
+import { FloatingMainButton } from "@/components/ui/FloatingMainButton";
+import { Sparkles } from "lucide-react";
 import { motion } from '@/lib/motion';
 
 // Lazy loaded components for below-the-fold content
@@ -324,6 +326,14 @@ const Index = () => {
         <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
         <MusicRecognitionDialog open={recognitionDialogOpen} onOpenChange={setRecognitionDialogOpen} />
         <QuickProjectSheet open={quickProjectOpen} onOpenChange={setQuickProjectOpen} />
+        
+        {/* Floating Main Button for non-Telegram environments */}
+        <FloatingMainButton
+          visible={shouldShowUIButton && !generateSheetOpen && !quickProjectOpen}
+          text="СОЗДАТЬ МУЗЫКУ"
+          onClick={() => setGenerateSheetOpen(true)}
+          icon={<Sparkles className="w-5 h-5" />}
+        />
         
         {/* Feature announcement for subscriptions */}
         <SubscriptionFeatureAnnouncement />
