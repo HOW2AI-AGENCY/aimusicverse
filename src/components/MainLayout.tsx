@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
 import { SubscriptionRequiredDialog } from './dialogs/SubscriptionRequiredDialog';
 import { GamificationOnboarding } from './gamification/GamificationOnboarding';
 import { setSubscriptionDialogCallback } from '@/hooks/useTrackActions';
-import { SystemAnnouncement } from './layout/SystemAnnouncement';
+import { UnifiedAnnouncement } from './layout/UnifiedAnnouncement';
 import { ContextualHint } from './hints/ContextualHint';
 import { useContextualHints } from '@/hooks/useContextualHints';
 import { LikeEncouragementProvider } from './engagement/LikeEncouragementToast';
@@ -113,8 +113,8 @@ export const MainLayout = () => {
             isGuestMode && 'pt-9'
           )}
         >
-          {/* System Announcements - shown at top of main content */}
-          <SystemAnnouncement />
+          {/* Unified Announcements - one at a time with queue */}
+          <UnifiedAnnouncement />
           
           <div className={cn(
             'flex-1',
