@@ -35,15 +35,23 @@ export function useGlobalAudioPlayer() {
     const source = getAudioSource();
 
     if (!source) {
-      audio.src = '';
+      // Don't clear src if we already have audio loaded - prevents audio loss
+      if (!audio.src) {
+        audio.src = '';
+      }
       return;
     }
 
-    // Only reload if track changed
+    // Only reload if track ID actually changed (not on mode switch)
     if (activeTrack?.id !== lastTrackIdRef.current) {
       lastTrackIdRef.current = activeTrack?.id || null;
-      audio.src = source;
-      audio.load();
+      
+      // Only change src if it's actually different
+      const currentSrc = audio.src;
+      if (!currentSrc || !currentSrc.includes(source.split('?')[0].split('/').pop() || '')) {
+        audio.src = source;
+        audio.load();
+      }
     }
   }, [activeTrack?.id, getAudioSource]);
 

@@ -355,7 +355,8 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     if (isPlaying) {
       pauseTrack();
     } else {
-      playTrack(track);
+      // Don't pass track to avoid reloading audio - just resume
+      playTrack();
     }
   };
 
