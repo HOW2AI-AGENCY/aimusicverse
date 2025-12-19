@@ -47,8 +47,14 @@ export function useTracks(params: UseTracksParams = {}) {
         { page: pageParam, pageSize }
       );
     },
-    getNextPageParam: (lastPage, _, lastPageParam) => 
-      lastPage.hasMore ? (lastPageParam as number) + 1 : undefined,
+    getNextPageParam: (lastPage, allPages) => {
+      // Safely handle undefined or malformed lastPage
+      if (!lastPage || typeof lastPage.hasMore === 'undefined') {
+        return undefined;
+      }
+      // Return next page number if there are more pages
+      return lastPage.hasMore ? allPages.length : undefined;
+    },
     enabled: !!user?.id && paginate,
     staleTime: 30000,
     gcTime: 10 * 60 * 1000,
@@ -190,8 +196,13 @@ export function usePublicTracks(pageSize = 20) {
         { page: pageParam, pageSize }
       );
     },
-    getNextPageParam: (lastPage, _, lastPageParam) =>
-      lastPage.hasMore ? (lastPageParam as number) + 1 : undefined,
+    getNextPageParam: (lastPage, allPages) => {
+      // Safely handle undefined or malformed lastPage
+      if (!lastPage || typeof lastPage.hasMore === 'undefined') {
+        return undefined;
+      }
+      return lastPage.hasMore ? allPages.length : undefined;
+    },
     staleTime: 30000,
     initialPageParam: 0,
   });
