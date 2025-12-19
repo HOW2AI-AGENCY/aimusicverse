@@ -1,6 +1,6 @@
 /**
  * Centralized error handling utilities for the application
- * Enhanced with comprehensive error codes and user-friendly messages
+ * Phase 4: Enhanced with comprehensive error codes, user-friendly messages, and recovery strategies
  */
 
 import { toast } from 'sonner';
@@ -11,7 +11,9 @@ import {
   NetworkError, 
   InsufficientCreditsError,
   GenerationError,
-  ErrorCode 
+  ErrorCode,
+  ErrorSeverity,
+  RecoveryStrategy,
 } from './errors/AppError';
 
 /**
@@ -162,6 +164,13 @@ export function showGenerationError(error: unknown): void {
  */
 export function isRetriableError(error: unknown): boolean {
   const appError = toAppError(error);
+  
+  // First check AppError's built-in retryable property
+  if (appError.isRetryable()) {
+    return true;
+  }
+  
+  // Fallback to error code lookup
   const errorContext = appError.context as GenerationErrorResponse | undefined;
   const errorCode = errorContext?.errorCode;
   
@@ -169,8 +178,7 @@ export function isRetriableError(error: unknown): boolean {
     return ERROR_CODE_MESSAGES[errorCode].canRetry;
   }
   
-  // Default: most errors are retriable
-  return true;
+  return false;
 }
 
 /**
@@ -194,4 +202,69 @@ export function parseGenerationError(response: any): GenerationErrorResponse {
     balance: response?.balance,
     required: response?.required,
   };
+}
+
+/**
+ * Get recovery action based on error
+ */
+export function getRecoveryAction(error: unknown): {
+  strategy: RecoveryStrategy;
+  message?: string;
+  action?: () => void;
+} {
+  const appError = toAppError(error);
+  const { recoveryStrategy, userActionRequired } = appError.metadata;
+  
+  switch (recoveryStrategy) {
+    case RecoveryStrategy.RETRY:
+    case RecoveryStrategy.RETRY_BACKOFF:
+      return {
+        strategy: recoveryStrategy,
+        message: 'Попробуйте ещё раз',
+      };
+    case RecoveryStrategy.REAUTH:
+      return {
+        strategy: recoveryStrategy,
+        message: 'Войдите в аккаунт',
+        action: () => window.location.href = '/auth',
+      };
+    case RecoveryStrategy.REFRESH:
+      return {
+        strategy: recoveryStrategy,
+        message: 'Перезагрузите страницу',
+        action: () => window.location.reload(),
+      };
+    case RecoveryStrategy.MANUAL:
+      return {
+        strategy: recoveryStrategy,
+        message: userActionRequired || 'Исправьте ошибку и попробуйте снова',
+      };
+    default:
+      return {
+        strategy: RecoveryStrategy.NONE,
+      };
+  }
+}
+
+/**
+ * Show error toast with recovery action
+ */
+export function showErrorWithRecovery(error: unknown): void {
+  const appError = toAppError(error);
+  const recovery = getRecoveryAction(error);
+  
+  const severity = appError.metadata.severity;
+  const toastFn = severity === ErrorSeverity.FATAL || severity === ErrorSeverity.HIGH
+    ? toast.error
+    : severity === ErrorSeverity.MEDIUM
+    ? toast.warning
+    : toast.info;
+  
+  toastFn(appError.toUserMessage(), {
+    description: recovery.message,
+    action: recovery.action ? {
+      label: recovery.message || 'Действие',
+      onClick: recovery.action,
+    } : undefined,
+  });
 }
