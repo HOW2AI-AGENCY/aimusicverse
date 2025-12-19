@@ -3,14 +3,14 @@ import { PublicTrackCard } from './PublicTrackCard';
 import { cn } from '@/lib/utils';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 
-interface NewReleasesSectionOptimizedProps {
+interface NewReleasesSectionProps {
   tracks: PublicTrackWithCreator[];
   isLoading: boolean;
   onRemix?: (trackId: string) => void;
   className?: string;
 }
 
-export function NewReleasesSectionOptimized({ tracks, isLoading, onRemix, className }: NewReleasesSectionOptimizedProps) {
+export function NewReleasesSection({ tracks, isLoading, onRemix, className }: NewReleasesSectionProps) {
   if (isLoading) {
     return (
       <section className={cn('space-y-4', className)}>

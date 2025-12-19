@@ -18,7 +18,7 @@ export { QuickMixPresets } from './QuickMixPresets';
 export { PromptDJOnboarding, usePromptDJOnboarding } from './PromptDJOnboarding';
 export { PromptDJErrorBoundary, withPromptDJErrorBoundary } from './PromptDJErrorBoundary';
 export { SmartPresetsPanel } from './SmartPresetsPanel';
-export { OptimizedVisualizer } from './OptimizedVisualizer';
+export { Visualizer } from './Visualizer';
 export { KnobCell } from './KnobCell';
 export { SmartSuggestions } from './SmartSuggestions';
 export { EssentialsKnobGrid } from './EssentialsKnobGrid';

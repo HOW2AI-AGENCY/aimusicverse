@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/formatters';
 
 /**
- * OptimizedTrackCard - Performance-optimized track card component
+ * TrackCard - Performance-optimized track card component
  * 
  * Sprint 025 US-025-002: List Virtualization
  * 
@@ -13,7 +13,7 @@ import { formatTime } from '@/lib/formatters';
  * - Reduced re-renders during scrolling
  */
 
-interface OptimizedTrackCardProps {
+interface TrackCardProps {
   trackId: string;
   title: string;
   imageUrl?: string;
@@ -23,7 +23,7 @@ interface OptimizedTrackCardProps {
   className?: string;
 }
 
-export const OptimizedTrackCard = memo(
+export const TrackCard = memo(
   ({
     trackId,
     title,
@@ -32,7 +32,7 @@ export const OptimizedTrackCard = memo(
     onPlay,
     duration,
     className,
-  }: OptimizedTrackCardProps) => {
+  }: TrackCardProps) => {
     return (
       <div
         className={cn(
@@ -90,4 +90,4 @@ export const OptimizedTrackCard = memo(
   }
 );
 
-OptimizedTrackCard.displayName = 'OptimizedTrackCard';
+TrackCard.displayName = 'TrackCard';

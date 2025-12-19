@@ -118,24 +118,3 @@ export function notFoundResponse(resource: string): Response {
 export function optionsResponse(): Response {
   return new Response(null, { headers: corsHeaders });
 }
-
-/**
- * Legacy: Create error response with actual error status code
- * Use this only for backward compatibility with existing integrations
- * 
- * @deprecated Use errorResponse() instead for better client integration
- */
-export function legacyErrorResponse(
-  error: string | Error,
-  status: number = 500
-): Response {
-  const errorMessage = error instanceof Error ? error.message : error;
-  
-  return new Response(
-    JSON.stringify({ success: false, error: errorMessage }),
-    {
-      status,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    }
-  );
-}

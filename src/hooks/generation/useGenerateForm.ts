@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
-import { useGenerateDraft, useAudioReferenceLoader } from '@/hooks/generation';
+import { useGenerateDraft, useAudioReference } from '@/hooks/generation';
 import { useUserCredits } from '@/hooks/useUserCredits';
 import { SUNO_MODELS, validateModel, DEFAULT_SUNO_MODEL } from '@/constants/sunoModels';
 import { savePromptToHistory } from '@/components/generate-form/PromptHistory';
@@ -17,7 +17,7 @@ import {
   DEFAULT_WEIRDNESS,
   DEFAULT_AUDIO_WEIGHT 
 } from '@/constants/generationConstants';
-import { showGenerationError, cleanupAudioReference } from '@/lib/errorHandling';
+import { showGenerationError } from '@/lib/errorHandling';
 import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
 
 export interface GenerateFormState {
@@ -62,8 +62,8 @@ export function useGenerateForm({
   const { draft, hasDraft, saveDraft, clearDraft } = useGenerateDraft();
   const { trackGeneration } = useAnalyticsTracking();
   
-  // Audio reference loader hook (IMP001)
-  const audioReference = useAudioReferenceLoader(open);
+  // Unified audio reference hook
+  const { activeReference, clearActive: clearAudioReference } = useAudioReference();
 
   // User credits hook for personal balance (admins use shared API balance)
   const { balance: userBalance, canGenerate, generationCost, invalidate: invalidateCredits, isAdmin, apiBalance } = useUserCredits();
@@ -286,74 +286,35 @@ export function useGenerateForm({
     }
   }, [open]);
 
-  // Apply audio reference data when loaded (IMP001 - extracted to useAudioReferenceLoader)
+  // Apply audio reference data when loaded
   useEffect(() => {
-    if (audioReference.file) {
-      setMode('custom');
-      setAudioFile(audioReference.file);
-      // Set duration from reference loader
-      if (audioReference.duration) {
-        setAudioDuration(audioReference.duration);
-      }
+    if (!activeReference || !open) return;
+    
+    // Set mode to custom when reference is loaded
+    setMode('custom');
+    
+    // Apply analysis data
+    if (activeReference.analysis?.styleDescription) {
+      setStyle(activeReference.analysis.styleDescription);
     }
-    if (audioReference.lyrics) {
-      setLyrics(audioReference.lyrics);
+    if (activeReference.analysis?.transcription) {
+      setLyrics(activeReference.analysis.transcription);
     }
-    if (audioReference.style) {
-      setStyle(audioReference.style);
+    if (activeReference.durationSeconds) {
+      setAudioDuration(activeReference.durationSeconds);
     }
-    if (audioReference.title) {
-      setTitle(audioReference.title);
+    if (activeReference.context?.originalTitle) {
+      setTitle(`${activeReference.context.originalTitle} (ремикс)`.slice(0, TITLE_MAX_LENGTH));
     }
-
-    // Handle cloud audio mode (cover/extend from Cloud tab)
-    if (audioReference.cloudMode) {
-      // For extend mode, we might want to set specific audio weight
-      if (audioReference.cloudMode === 'extend') {
-        setAudioWeight([0.9]); // High weight for extending
-        logger.info('Cloud audio: extend mode', { cloudMode: audioReference.cloudMode });
-      } else {
-        setAudioWeight([0.5]); // Moderate weight for cover
-        logger.info('Cloud audio: cover mode', { cloudMode: audioReference.cloudMode });
-      }
+    
+    // Handle intended mode
+    if (activeReference.intendedMode === 'extend') {
+      setAudioWeight([0.9]);
+    } else if (activeReference.intendedMode === 'cover') {
+      setAudioWeight([0.5]);
     }
+  }, [activeReference, open]);
 
-    // Handle stem action to set appropriate generation settings
-    if (audioReference.action) {
-      switch (audioReference.action) {
-        case 'add-vocals-to-instrumental':
-          // Adding vocals to instrumental - enable vocals, high audio weight
-          setHasVocals(true);
-          setAudioWeight([0.8]);
-          logger.info('Stem action: adding vocals to instrumental');
-          break;
-
-        case 'add-instrumental-to-vocals':
-          // Adding instrumental to vocals - disable vocals (instrumental only), moderate audio weight
-          setHasVocals(false);
-          setAudioWeight([0.6]);
-          logger.info('Stem action: adding instrumental to vocals');
-          break;
-
-        case 'create-instrumental':
-          // Create instrumental from stem - disable vocals
-          setHasVocals(false);
-          setAudioWeight([0.7]);
-          logger.info('Stem action: creating instrumental');
-          break;
-
-        case 'regenerate-from-stem':
-          // Full regeneration - keep vocals, moderate weight
-          setHasVocals(true);
-          setAudioWeight([0.5]);
-          logger.info('Stem action: regenerating from stem');
-          break;
-
-        default:
-          logger.warn('Unknown stem action', { action: audioReference.action });
-      }
-    }
-  }, [audioReference.file, audioReference.lyrics, audioReference.style, audioReference.title, audioReference.action, audioReference.cloudMode]);
 
   // Check for remix data from sessionStorage
   useEffect(() => {
@@ -749,7 +710,7 @@ export function useGenerateForm({
     } catch (error) {
       toast.dismiss(toastId);
       showGenerationError(error);
-      cleanupAudioReference(); // Cleanup on error (IMP002)
+      clearAudioReference(); // Cleanup on error
     } finally {
       setLoading(false);
     }
@@ -803,7 +764,7 @@ export function useGenerateForm({
     mode,
     setMode,
     loading,
-    audioReferenceLoading: audioReference.isLoading,
+    audioReferenceLoading: false,
     boostLoading,
     // User credits
     userBalance,
