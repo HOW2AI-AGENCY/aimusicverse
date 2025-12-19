@@ -6,7 +6,7 @@ import { useTelegram } from "@/contexts/TelegramContext";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile.tsx";
 import logo from "@/assets/logo.png";
-import { usePublicContentOptimized, getGenrePlaylists } from "@/hooks/usePublicContentOptimized";
+import { usePublicContentOptimized, getGenrePlaylists } from "@/hooks/usePublicContent";
 import { PublicArtistsSection } from "@/components/home/PublicArtistsSection";
 import { AutoPlaylistsSectionOptimized } from "@/components/home/AutoPlaylistsSectionOptimized";
 import { UnifiedDiscoverySection } from "@/components/home/UnifiedDiscoverySection";

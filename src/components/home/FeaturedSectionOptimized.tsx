@@ -1,7 +1,7 @@
 import { Sparkles } from 'lucide-react';
 import { PublicTrackCard } from './PublicTrackCard';
 import { cn } from '@/lib/utils';
-import type { PublicTrackWithCreator } from '@/hooks/usePublicContentOptimized';
+import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 
 interface FeaturedSectionOptimizedProps {
   tracks: PublicTrackWithCreator[];

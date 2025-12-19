@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { usePlayerStore } from '@/hooks/audio';
 import { useTelegram } from '@/contexts/TelegramContext';
-import type { PublicTrackWithCreator } from '@/hooks/usePublicContentOptimized';
+import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 import type { Track } from '@/types/track';
 import { motion } from '@/lib/motion';
 import { LikeButton } from '@/components/ui/like-button';

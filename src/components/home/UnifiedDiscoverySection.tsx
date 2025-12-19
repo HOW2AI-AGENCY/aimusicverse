@@ -4,7 +4,7 @@ import { PublicTrackCard } from './PublicTrackCard';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import type { PublicTrackWithCreator } from '@/hooks/usePublicContentOptimized';
+import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 import { motion, AnimatePresence } from '@/lib/motion';
 
 type DiscoveryTab = 'featured' | 'new' | 'popular';

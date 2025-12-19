@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { motion } from '@/lib/motion';
 import { GlassCard } from '@/components/ui/glass-card';
 import { cn } from '@/lib/utils';
-import type { PublicTrackWithCreator } from '@/hooks/usePublicContentOptimized';
+import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 
 const GENRE_COLORS: Record<string, { gradient: string; accent: string }> = {
   'electronic': { gradient: 'from-cyan-500/30 via-blue-500/20 to-indigo-500/30', accent: 'text-cyan-400' },
