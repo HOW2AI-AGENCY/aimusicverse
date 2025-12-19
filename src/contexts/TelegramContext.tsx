@@ -700,16 +700,19 @@ export const DeepLinkHandler = () => {
 
     telegramLogger.debug('Processing deep link', { startParam });
 
-    // Track analytics async
+    // Track analytics async - get user_id from auth session
     const trackDeepLink = async (type: string, value: string, converted: boolean = true) => {
       try {
-        const sessionId = sessionStorage.getItem('session_id') || `${Date.now()}_${Math.random().toString(36).slice(2)}`;
-        sessionStorage.setItem('session_id', sessionId);
+        const sessionId = sessionStorage.getItem('deeplink_session_id') || `${Date.now()}_${Math.random().toString(36).slice(2)}`;
+        sessionStorage.setItem('deeplink_session_id', sessionId);
+
+        // Get authenticated user id if available
+        const { data: { user: authUser } } = await supabase.auth.getUser();
 
         await supabase.from('deeplink_analytics').insert({
           deeplink_type: type,
           deeplink_value: value || null,
-          user_id: user?.telegram_id ? undefined : null, // Will be filled by RLS or auth
+          user_id: authUser?.id || null,
           session_id: sessionId,
           converted,
           source: 'telegram_miniapp',
@@ -717,8 +720,10 @@ export const DeepLinkHandler = () => {
           metadata: {
             platform: webApp?.platform,
             version: webApp?.version,
+            telegram_id: user?.telegram_id,
           },
         });
+        telegramLogger.debug('Deeplink tracked', { type, value, converted });
       } catch (e) {
         telegramLogger.debug('Failed to track deeplink', { error: String(e) });
       }

@@ -426,13 +426,16 @@ serve(async (req) => {
             });
           }
 
-          // Create notification
+          // Create notification with group_key for auto-replace
           await supabase.from('notifications').insert({
             user_id: task.user_id,
             type: 'track_generated',
             title: '🎵 Трек готов!',
             message: `Ваш трек "${firstClip.title || 'Без названия'}" успешно сгенерирован`,
             action_url: `/library`,
+            group_key: `generation_${task.id}`,
+            metadata: { taskId: task.id, trackTitle: firstClip.title },
+            priority: 8,
           });
 
           // Send Telegram notification if chat_id exists - send BOTH versions

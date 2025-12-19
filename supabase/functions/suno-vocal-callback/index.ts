@@ -188,13 +188,16 @@ serve(async (req) => {
       },
     });
 
-    // Create notification
+    // Create notification with group_key for auto-replace
     await supabase.from('notifications').insert({
       user_id: track.user_id,
       type: 'stems_ready',
       title: 'Стемы готовы! 🎛️',
       message: `Разделение трека "${track.title || 'Без названия'}" завершено. Создано ${stemsToInsert.length} стемов.`,
       action_url: `/studio/${track.id}`,
+      group_key: `stems_${track.id}`,
+      metadata: { trackId: track.id, stemsCount: stemsToInsert.length },
+      priority: 6,
     });
 
     return new Response(
