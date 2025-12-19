@@ -230,3 +230,6 @@ verify_jwt = true
 
 [functions.reward-purchase]
 verify_jwt = true
+
+[functions.replicate-midi-transcription]
+verify_jwt = true
