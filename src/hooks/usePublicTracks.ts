@@ -39,7 +39,7 @@ export function usePublicTracks(options: UsePublicTracksOptions = {}) {
 
   return useInfiniteQuery({
     queryKey: ['public-tracks', filter, style, search, sortBy],
-    queryFn: async ({ pageParam = 0 }) => {
+    queryFn: async ({ pageParam }) => {
       let query = supabase
         .from('tracks')
         .select('*, track_likes!left(user_id)')
@@ -99,6 +99,7 @@ export function usePublicTracks(options: UsePublicTracksOptions = {}) {
       };
     },
     getNextPageParam: (lastPage) => {
+      if (!lastPage) return undefined;
       return lastPage.hasMore ? lastPage.nextPage : undefined;
     },
     initialPageParam: 0,

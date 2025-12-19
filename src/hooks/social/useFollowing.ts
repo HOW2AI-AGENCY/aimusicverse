@@ -98,7 +98,10 @@ export function useFollowing({ userId, searchQuery = '', pageSize = DEFAULT_PAGE
         hasMore: filteredFollowing.length === pageSize,
       };
     },
-    getNextPageParam: (lastPage) => lastPage.nextPage,
+    getNextPageParam: (lastPage) => {
+      if (!lastPage) return undefined;
+      return lastPage.nextPage;
+    },
     initialPageParam: 0,
     staleTime: 30 * 1000, // 30 seconds
     gcTime: 10 * 60 * 1000, // 10 minutes

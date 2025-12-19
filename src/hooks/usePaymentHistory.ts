@@ -28,9 +28,11 @@ export function usePaymentHistory({
 }: UsePaymentHistoryOptions) {
   const query = useInfiniteQuery({
     queryKey: paymentHistoryKeys.list(userId),
-    queryFn: ({ pageParam = 0 }) => getPaymentHistory(userId, pageParam, pageSize),
+    queryFn: ({ pageParam }) => getPaymentHistory(userId, pageParam, pageSize),
     getNextPageParam: (lastPage, allPages) => {
+      if (!lastPage) return undefined;
       if (!lastPage.hasMore) return undefined;
+      if (!allPages) return undefined;
       return allPages.length; // Next page number
     },
     initialPageParam: 0,

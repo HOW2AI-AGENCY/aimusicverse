@@ -173,7 +173,10 @@ export function useActivityFeed(options?: {
       };
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    getNextPageParam: (lastPage) => {
+      if (!lastPage) return undefined;
+      return lastPage.nextCursor;
+    },
     enabled: !!user?.id && userIds.length > 0,
   });
 }
