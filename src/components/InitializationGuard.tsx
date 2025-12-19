@@ -54,22 +54,25 @@ export const InitializationGuard = ({ children }: InitializationGuardProps) => {
       return;
     }
 
-    // Faster multi-level timeout strategy to prevent hanging
+    // Multi-level timeout strategy
     const timeout1 = setTimeout(() => {
-      // Show content after 800ms regardless - better UX than waiting
-      showContentSafely('quick timeout (800ms)');
-    }, 800);
-
-    const timeout2 = setTimeout(() => {
-      initLogger.warn('Level 2 timeout (1.5s) - forcing display');
-      showContentSafely('level 2 timeout reached');
+      if (isInitialized) {
+        showContentSafely('initialized within 1.5s');
+      }
     }, 1500);
 
-    // Emergency fallback - ALWAYS show content after 2.5 seconds
+    const timeout2 = setTimeout(() => {
+      initLogger.warn('Level 2 timeout (3s) - checking status');
+      if (isInitialized || !hasShownRef.current) {
+        showContentSafely('level 2 timeout reached');
+      }
+    }, 3000);
+
+    // Emergency fallback - ALWAYS show content after 5 seconds
     const emergencyTimeout = setTimeout(() => {
-      initLogger.error('Emergency timeout (2.5s) - forcing content display');
+      initLogger.error('Emergency timeout (5s) - forcing content display');
       showContentSafely('emergency fallback');
-    }, 2500);
+    }, 5000);
 
     return () => {
       mountedRef.current = false;

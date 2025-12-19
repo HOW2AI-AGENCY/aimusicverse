@@ -11,7 +11,7 @@
  */
 
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { X, Download, Share2, ListMusic, SkipBack, SkipForward, Play, Pause, Repeat, Shuffle, BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Download, Share2, ListMusic, SkipBack, SkipForward, Play, Pause, Repeat, Shuffle, BarChart3 } from 'lucide-react';
 import { LikeButton } from '@/components/ui/like-button';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -23,7 +23,6 @@ import { useAudioTime } from '@/hooks/audio';
 import { usePlayerStore } from '@/hooks/audio';
 import { useGlobalAudioPlayer } from '@/hooks/audio';
 import { useAudioVisualizer } from '@/hooks/audio';
-import { usePlayerGestures } from '@/hooks/audio';
 import { QueueSheet } from './QueueSheet';
 import { VersionSwitcher } from './VersionSwitcher';
 import { cn } from '@/lib/utils';
@@ -57,17 +56,6 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   const { currentTime, duration, seek } = useAudioTime();
   const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, repeat, shuffle, toggleRepeat, toggleShuffle, volume } = usePlayerStore();
   const { audioElement } = useGlobalAudioPlayer();
-  
-  // Loading state from store
-  const isTrackLoading = !audioElement?.src || audioElement?.readyState < 2;
-  
-  // Swipe gestures for track switching
-  const { gestureState, gestureHandlers, swipeProgress, isGesturing } = usePlayerGestures({
-    swipeThreshold: 60,
-    velocityThreshold: 0.3,
-    pullThreshold: 100,
-    enableHaptics: true,
-  });
   
   // Get audio URL for waveform
   const audioUrl = useMemo(() => {
@@ -444,62 +432,8 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         )}
       </div>
 
-      {/* Content with Swipe Gestures */}
-      <motion.div 
-        className="relative flex-1 flex flex-col safe-area-inset min-h-0 overflow-hidden touch-pan-y"
-        {...gestureHandlers}
-        animate={{
-          x: gestureState.offsetX,
-          opacity: 1 - swipeProgress * 0.3,
-        }}
-        transition={isGesturing ? { duration: 0 } : { type: 'spring', stiffness: 400, damping: 30 }}
-      >
-        {/* Swipe Direction Indicators */}
-        <AnimatePresence>
-          {gestureState.isSwiping && (
-            <>
-              {/* Left indicator (next track) */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: gestureState.direction === 'left' ? swipeProgress : 0, x: 0 }}
-                exit={{ opacity: 0 }}
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-50 flex items-center gap-2 bg-primary/20 backdrop-blur-lg rounded-full px-3 py-2"
-              >
-                <ChevronRight className="h-5 w-5 text-primary" />
-                <span className="text-sm font-medium">След. трек</span>
-              </motion.div>
-              
-              {/* Right indicator (prev track) */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: gestureState.direction === 'right' ? swipeProgress : 0, x: 0 }}
-                exit={{ opacity: 0 }}
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-50 flex items-center gap-2 bg-primary/20 backdrop-blur-lg rounded-full px-3 py-2"
-              >
-                <ChevronLeft className="h-5 w-5 text-primary" />
-                <span className="text-sm font-medium">Пред. трек</span>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
-        
-        {/* Loading indicator */}
-        <AnimatePresence>
-          {isTrackLoading && isPlaying && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 z-40 flex items-center justify-center bg-background/50 backdrop-blur-sm"
-            >
-              <motion.div
-                className="w-12 h-12 border-3 border-primary/30 border-t-primary rounded-full"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+      {/* Content */}
+      <div className="relative flex-1 flex flex-col safe-area-inset min-h-0 overflow-hidden">
         {/* Header with glass effect */}
         <motion.header 
           className="flex items-center justify-between p-4 pt-safe"
@@ -923,7 +857,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
             </motion.div>
           </div>
         </motion.div>
-      </motion.div>
+      </div>
 
       {/* Queue Sheet */}
       <QueueSheet open={queueOpen} onOpenChange={setQueueOpen} />

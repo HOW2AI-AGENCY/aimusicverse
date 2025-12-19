@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useRef, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { telegramAuthService } from '@/services/telegram-auth';
 import { logger } from '@/lib/logger';
@@ -347,86 +347,52 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  // Store current callbacks to properly remove them
-  const mainButtonCallbackRef = useRef<(() => void) | null>(null);
-  const backButtonCallbackRef = useRef<(() => void) | null>(null);
-  const settingsButtonCallbackRef = useRef<(() => void) | null>(null);
-
-  const showMainButton = useCallback((text: string, onClick: () => void, options?: { color?: string; textColor?: string; isActive?: boolean; isVisible?: boolean }) => {
+  const showMainButton = (text: string, onClick: () => void, options?: { color?: string; textColor?: string; isActive?: boolean; isVisible?: boolean }) => {
     if (webApp) {
-      // Remove previous callback if exists
-      if (mainButtonCallbackRef.current) {
-        webApp.MainButton.offClick(mainButtonCallbackRef.current);
-      }
-      
       webApp.MainButton.setText(text);
       if (options?.color) webApp.MainButton.color = options.color;
       if (options?.textColor) webApp.MainButton.textColor = options.textColor;
       if (options?.isActive !== undefined) webApp.MainButton.isActive = options.isActive;
       if (options?.isVisible !== undefined) webApp.MainButton.isVisible = options.isVisible;
-      
-      // Store and register new callback
-      mainButtonCallbackRef.current = onClick;
-      webApp.MainButton.onClick(onClick);
       webApp.MainButton.show();
+      webApp.MainButton.onClick(onClick);
     }
-  }, [webApp]);
+  };
 
-  const hideMainButton = useCallback(() => {
+  const hideMainButton = () => {
     if (webApp) {
       webApp.MainButton.hide();
-      // Remove the actual callback that was registered
-      if (mainButtonCallbackRef.current) {
-        webApp.MainButton.offClick(mainButtonCallbackRef.current);
-        mainButtonCallbackRef.current = null;
-      }
+      webApp.MainButton.offClick(() => {});
     }
-  }, [webApp]);
+  };
 
-  const showBackButton = useCallback((onClick: () => void) => {
+  const showBackButton = (onClick: () => void) => {
     if (webApp) {
-      // Remove previous callback if exists
-      if (backButtonCallbackRef.current) {
-        webApp.BackButton.offClick(backButtonCallbackRef.current);
-      }
-      
-      backButtonCallbackRef.current = onClick;
-      webApp.BackButton.onClick(onClick);
       webApp.BackButton.show();
+      webApp.BackButton.onClick(onClick);
     }
-  }, [webApp]);
+  };
 
-  const hideBackButton = useCallback(() => {
+  const hideBackButton = () => {
     if (webApp) {
       webApp.BackButton.hide();
-      if (backButtonCallbackRef.current) {
-        webApp.BackButton.offClick(backButtonCallbackRef.current);
-        backButtonCallbackRef.current = null;
-      }
+      webApp.BackButton.offClick(() => {});
     }
-  }, [webApp]);
+  };
 
-  const showSettingsButton = useCallback((onClick: () => void) => {
+  const showSettingsButton = (onClick: () => void) => {
     if (webApp && (webApp as any).SettingsButton) {
-      if (settingsButtonCallbackRef.current) {
-        (webApp as any).SettingsButton.offClick(settingsButtonCallbackRef.current);
-      }
-      
-      settingsButtonCallbackRef.current = onClick;
-      (webApp as any).SettingsButton.onClick(onClick);
       (webApp as any).SettingsButton.show();
+      (webApp as any).SettingsButton.onClick(onClick);
     }
-  }, [webApp]);
+  };
 
-  const hideSettingsButton = useCallback(() => {
+  const hideSettingsButton = () => {
     if (webApp && (webApp as any).SettingsButton) {
       (webApp as any).SettingsButton.hide();
-      if (settingsButtonCallbackRef.current) {
-        (webApp as any).SettingsButton.offClick(settingsButtonCallbackRef.current);
-        settingsButtonCallbackRef.current = null;
-      }
+      (webApp as any).SettingsButton.offClick(() => {});
     }
-  }, [webApp]);
+  };
 
   const enableClosingConfirmation = () => {
     if (webApp?.enableClosingConfirmation) {

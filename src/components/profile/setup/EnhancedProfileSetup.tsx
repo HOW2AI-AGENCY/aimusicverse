@@ -19,7 +19,6 @@ import type { SocialLinks } from '@/types/profile';
 
 interface EnhancedProfileSetupProps {
   onComplete: () => void;
-  onDismiss?: () => void;
 }
 
 export interface ProfileSetupData {
@@ -40,7 +39,7 @@ const STEPS = [
   { id: 4, title: 'Баннер', description: 'Оформление' },
 ];
 
-export function EnhancedProfileSetup({ onComplete, onDismiss }: EnhancedProfileSetupProps) {
+export function EnhancedProfileSetup({ onComplete }: EnhancedProfileSetupProps) {
   const { user } = useAuth();
   const { data: profile, isLoading } = useProfile();
   const queryClient = useQueryClient();
@@ -198,22 +197,12 @@ export function EnhancedProfileSetup({ onComplete, onDismiss }: EnhancedProfileS
               >
                 <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
               </motion.div>
-              <div className="flex-1">
+              <div>
                 <h2 className="text-lg sm:text-xl font-bold">Настройте профиль</h2>
                 <p className="text-xs sm:text-sm text-muted-foreground">
                   Шаг {currentStep} из {STEPS.length}: {STEPS[currentStep - 1].description}
                 </p>
               </div>
-              {onDismiss && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={onDismiss}
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  Пропустить
-                </Button>
-              )}
             </div>
             
             <ProfileProgressIndicator 

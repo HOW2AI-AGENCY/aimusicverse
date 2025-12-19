@@ -27,7 +27,7 @@ export function useGlobalAudioPlayer() {
     return activeTrack.streaming_url || activeTrack.local_audio_url || activeTrack.audio_url;
   }, [activeTrack]);
 
-  // Handle track change - load new source and auto-play if needed
+  // Handle track change - load new source
   // CRITICAL: Only reload audio when track ID actually changes
   useEffect(() => {
     const audio = getGlobalAudioRef();
@@ -57,62 +57,22 @@ export function useGlobalAudioPlayer() {
     audio.src = source;
     audio.load();
     logger.debug('Audio source loaded for new track', { trackId, source: source.substring(0, 50) });
-    
-    // If we should be playing, wait for canplay and then play
-    if (isPlaying) {
-      const handleCanPlay = () => {
-        audio.play().catch((error: Error) => {
-          if (error.name === 'AbortError') {
-            logger.debug('Play on canplay interrupted (expected)');
-            return;
-          }
-          logger.error('Playback error on track change', error);
-          pauseTrack();
-        });
-        audio.removeEventListener('canplay', handleCanPlay);
-      };
-      audio.addEventListener('canplay', handleCanPlay);
-      
-      // Cleanup listener if component unmounts
-      return () => {
-        audio.removeEventListener('canplay', handleCanPlay);
-      };
-    }
-  }, [activeTrack?.id, getAudioSource, isPlaying, pauseTrack]);
+  }, [activeTrack?.id, getAudioSource]);
 
-  // Handle play/pause state changes (not track changes)
+  // Handle play/pause state
   useEffect(() => {
     const audio = getGlobalAudioRef();
-    if (!audio || !audio.src) return;
+    if (!audio) return;
     
-    // Skip if track just changed - handled by track change effect
-    const trackId = activeTrack?.id;
-    if (trackId !== lastTrackIdRef.current) {
-      return;
-    }
-    
-    let isCancelled = false;
-    
-    if (isPlaying) {
-      // Only play if audio is ready
-      if (audio.readyState >= 2) {
-        audio.play().catch((error: Error) => {
-          if (error.name === 'AbortError' || isCancelled) {
-            logger.debug('Play interrupted (expected)', { errorName: error.name });
-            return;
-          }
-          logger.error('Playback error', error);
-          pauseTrack();
-        });
-      }
+    if (isPlaying && audio.src) {
+      audio.play().catch((error) => {
+        logger.error('Playback error', error);
+        pauseTrack();
+      });
     } else {
       audio.pause();
     }
-    
-    return () => {
-      isCancelled = true;
-    };
-  }, [isPlaying, pauseTrack, activeTrack?.id]);
+  }, [isPlaying, pauseTrack]);
 
   // Handle track ended
   useEffect(() => {
