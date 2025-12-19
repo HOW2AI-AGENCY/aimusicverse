@@ -255,9 +255,10 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         await audio.play();
         logger.info('Playback started successfully', { trackId: activeTrack?.id });
       } catch (error: unknown) {
-        const err = error as { name?: string };
+        const err = error as Error;
+        // AbortError is expected when track changes rapidly or pause is called
         if (err.name === 'AbortError' || isCleanedUp) {
-          // Ignore abort errors from track changes
+          logger.debug('Play interrupted (expected behavior)', { errorName: err.name });
           return;
         }
         

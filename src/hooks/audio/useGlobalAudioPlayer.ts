@@ -59,19 +59,30 @@ export function useGlobalAudioPlayer() {
     logger.debug('Audio source loaded for new track', { trackId, source: source.substring(0, 50) });
   }, [activeTrack?.id, getAudioSource]);
 
-  // Handle play/pause state
+  // Handle play/pause state - with proper AbortError handling
   useEffect(() => {
     const audio = getGlobalAudioRef();
     if (!audio) return;
     
+    let isCancelled = false;
+    
     if (isPlaying && audio.src) {
-      audio.play().catch((error) => {
+      audio.play().catch((error: Error) => {
+        // AbortError is expected when track changes or pause is called quickly
+        if (error.name === 'AbortError' || isCancelled) {
+          logger.debug('Play interrupted (expected)', { errorName: error.name });
+          return;
+        }
         logger.error('Playback error', error);
         pauseTrack();
       });
     } else {
       audio.pause();
     }
+    
+    return () => {
+      isCancelled = true;
+    };
   }, [isPlaying, pauseTrack]);
 
   // Handle track ended
