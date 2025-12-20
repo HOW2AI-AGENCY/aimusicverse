@@ -6,8 +6,8 @@ import { logger } from '@/lib/logger';
 const log = logger.child({ module: 'MidiTranscription' });
 
 // Duration threshold for switching between Klangio and Basic Pitch
-// Klangio has a ~50 second limit on their basic tier
-const KLANGIO_MAX_DURATION_SECONDS = 45;
+// Paid Klangio tier supports up to 300 seconds
+const KLANGIO_MAX_DURATION_SECONDS = 300;
 
 export interface TranscriptionFiles {
   midi?: string;
