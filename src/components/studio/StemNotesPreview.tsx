@@ -121,12 +121,14 @@ export const StemNotesPreview = memo(function StemNotesPreview({
     );
   }
 
-  // Show preview if we have MIDI, PDF, GP5, MusicXML, or notes
+  // Show preview if we have MIDI, PDF, GP5, MusicXML, notes, or notes_count
   const hasMidi = !!transcription?.midi_url;
   const hasPdf = !!transcription?.pdf_url;
   const hasGp5 = !!transcription?.gp5_url;
   const hasMxml = !!transcription?.mxml_url;
-  const hasNotes = !!(transcription?.notes && (transcription.notes as any[]).length > 0);
+  const hasNotesArray = !!(transcription?.notes && (transcription.notes as any[]).length > 0);
+  const hasNotesCount = !!(transcription?.notes_count && transcription.notes_count > 0);
+  const hasNotes = hasNotesArray || hasNotesCount;
   
   if (!transcription || (!hasMidi && !hasPdf && !hasGp5 && !hasMxml && !hasNotes)) {
     return null;

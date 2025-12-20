@@ -162,7 +162,7 @@ export function StemMidiDrawer({
           setActiveTab('player');
         }
         
-        // Check if we have ANY files to save (not just MIDI)
+        // Check if we have ANY files OR notes to save
         const hasAnyFiles = !!(
           files.midi || 
           files.midi_quant || 
@@ -170,14 +170,17 @@ export function StemMidiDrawer({
           files.gp5 || 
           files.pdf
         );
+        const hasNotes = !!(transcriptionResult.notes && transcriptionResult.notes.length > 0);
         
-        if (hasAnyFiles) {
-          // Save transcription to database for visualization
+        // Save transcription if we have files OR notes
+        if (hasAnyFiles || hasNotes) {
           try {
             console.log('[StemMidiDrawer] Saving transcription:', {
               stemId: stem.id,
               files: Object.keys(files),
               notesCount: transcriptionResult.notes?.length || 0,
+              hasFiles: hasAnyFiles,
+              hasNotes,
             });
             
             await saveTranscription({
@@ -198,13 +201,18 @@ export function StemMidiDrawer({
             });
             
             console.log('[StemMidiDrawer] Transcription saved successfully');
+            
+            // If we have notes but no MIDI file, show appropriate message
+            if (hasNotes && !hasAnyFiles) {
+              toast.success(`Распознано ${transcriptionResult.notes?.length} нот`);
+            }
           } catch (saveError) {
             console.error('[StemMidiDrawer] Failed to save transcription:', saveError);
             toast.error('Не удалось сохранить транскрипцию');
           }
         } else {
-          console.warn('[StemMidiDrawer] No files to save from transcription result');
-          toast.info('Транскрипция не создала файлов');
+          console.warn('[StemMidiDrawer] No files or notes from transcription result');
+          toast.info('Не удалось распознать ноты');
         }
       }
     } catch (error) {
