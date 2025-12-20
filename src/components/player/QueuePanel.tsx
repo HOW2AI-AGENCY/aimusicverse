@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 import { GripVertical, X, Play, Music } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { cn } from '@/lib/utils';
 import { motion, Reorder } from '@/lib/motion';
 import { Track } from '@/types/track';

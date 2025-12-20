@@ -11,8 +11,8 @@
  */
 
 import { useEffect, useRef, useCallback } from 'react';
-import { usePlayerStore } from '@/hooks/audio';
-import { setGlobalAudioRef } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { setGlobalAudioRef } from '@/hooks/audio/useAudioTime';
 import { useOptimizedAudioPlayer } from '@/hooks/audio/useOptimizedAudioPlayer';
 import { usePlaybackPosition } from '@/hooks/audio/usePlaybackPosition';
 import { logger } from '@/lib/logger';

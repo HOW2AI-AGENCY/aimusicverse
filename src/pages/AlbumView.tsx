@@ -18,7 +18,7 @@ import {
   Clock,
   Loader2
 } from 'lucide-react';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useTelegramBackButton } from '@/hooks/telegram';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';

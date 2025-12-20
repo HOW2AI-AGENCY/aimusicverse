@@ -10,7 +10,7 @@ import { Trash2, ListMusic, Sparkles, Layers, Layers2, Clock, Music2, Shuffle, R
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { QueueItem } from './QueueItem';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Switch } from '@/components/ui/switch';

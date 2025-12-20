@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { Play, Pause, SkipForward, SkipBack, X, Music2, ListMusic, ChevronUp, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { usePlayerStore, useAudioTime } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { useAudioTime } from '@/hooks/audio/useAudioTime';
 import { cn } from '@/lib/utils';
 import { QueueSheet } from './QueueSheet';
 
