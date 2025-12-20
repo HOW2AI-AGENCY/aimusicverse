@@ -268,7 +268,7 @@ export function NotesViewerDialog({
         {/* PDF Tab */}
         <TabsContent value="pdf" className="flex-1 m-0">
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap gap-2">
               <p className="text-sm text-muted-foreground">
                 Нотный лист в формате PDF
               </p>
@@ -279,7 +279,7 @@ export function NotesViewerDialog({
                   onClick={() => handleOpenExternal(transcription.pdf_url)}
                 >
                   <ExternalLink className="w-4 h-4 mr-1" />
-                  Открыть
+                  {isMobile ? 'Открыть' : 'Открыть в новой вкладке'}
                 </Button>
                 <Button
                   variant="outline"
@@ -292,14 +292,34 @@ export function NotesViewerDialog({
               </div>
             </div>
 
-            {/* PDF Preview iframe */}
+            {/* PDF Preview iframe with fallback for Telegram */}
             {transcription.pdf_url && (
-              <div className="rounded-lg overflow-hidden border bg-muted/20" style={{ height: isMobile ? 300 : 400 }}>
+              <div className="rounded-lg overflow-hidden border bg-muted/20 relative" style={{ height: isMobile ? 300 : 400 }}>
                 <iframe
-                  src={`${transcription.pdf_url}#toolbar=0`}
+                  src={`${transcription.pdf_url}#toolbar=0&view=FitH`}
                   className="w-full h-full"
                   title="PDF Notes"
+                  sandbox="allow-same-origin allow-scripts"
+                  onError={() => {
+                    // Fallback: show button to open externally if iframe fails
+                  }}
                 />
+                {/* Fallback overlay for Telegram Mini App where iframe may not work */}
+                {isMobile && (
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent pointer-events-none">
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-auto">
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        onClick={() => handleOpenExternal(transcription.pdf_url)}
+                        className="shadow-lg"
+                      >
+                        <Maximize2 className="w-4 h-4 mr-1" />
+                        На весь экран
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

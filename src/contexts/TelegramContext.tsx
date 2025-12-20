@@ -284,21 +284,39 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       }
 
       // Apply Safe Area Insets для iOS и Android
+      // IMPORTANT: Telegram 8.0+ supports contentSafeAreaInset for fullscreen mode
       const applySafeAreaInsets = () => {
         const isIOS = tg.platform === 'ios';
         const isAndroid = tg.platform === 'android';
         
         telegramLogger.debug('Safe Area setup', { platform: tg.platform });
         
+        // Get contentSafeAreaInset from Telegram (Mini App 8.0+)
+        // This provides the actual safe area when native Telegram buttons are present
+        const contentSafeArea = (tg as any).contentSafeAreaInset || { top: 0, bottom: 0, left: 0, right: 0 };
+        const safeArea = (tg as any).safeAreaInset || { top: 0, bottom: 0, left: 0, right: 0 };
+        
+        telegramLogger.debug('Content Safe Area Insets', { contentSafeArea, safeArea });
+        
+        // Set Telegram-specific content safe area (for native buttons like Back/Settings)
+        root.style.setProperty('--tg-content-safe-area-inset-top', `${contentSafeArea.top}px`);
+        root.style.setProperty('--tg-content-safe-area-inset-bottom', `${contentSafeArea.bottom}px`);
+        root.style.setProperty('--tg-safe-area-inset-top', `${safeArea.top}px`);
+        root.style.setProperty('--tg-safe-area-inset-bottom', `${safeArea.bottom}px`);
+        
+        // Calculate combined safe area (max of device + Telegram native buttons)
         if (isIOS) {
-          root.style.setProperty('--safe-area-top', 'env(safe-area-inset-top, 44px)');
-          root.style.setProperty('--safe-area-bottom', 'env(safe-area-inset-bottom, 34px)');
+          const deviceTop = 44; // typical iOS notch
+          const deviceBottom = 34; // typical iOS home indicator
+          root.style.setProperty('--safe-area-top', `max(env(safe-area-inset-top, ${deviceTop}px), ${contentSafeArea.top}px)`);
+          root.style.setProperty('--safe-area-bottom', `max(env(safe-area-inset-bottom, ${deviceBottom}px), ${contentSafeArea.bottom}px)`);
         } else if (isAndroid) {
-          root.style.setProperty('--safe-area-top', 'env(safe-area-inset-top, 24px)');
-          root.style.setProperty('--safe-area-bottom', 'env(safe-area-inset-bottom, 0px)');
+          const deviceTop = 24; // typical Android status bar
+          root.style.setProperty('--safe-area-top', `max(env(safe-area-inset-top, ${deviceTop}px), ${contentSafeArea.top}px)`);
+          root.style.setProperty('--safe-area-bottom', `max(env(safe-area-inset-bottom, 0px), ${contentSafeArea.bottom}px)`);
         } else {
-          root.style.setProperty('--safe-area-top', 'env(safe-area-inset-top, 0px)');
-          root.style.setProperty('--safe-area-bottom', 'env(safe-area-inset-bottom, 0px)');
+          root.style.setProperty('--safe-area-top', `max(env(safe-area-inset-top, 0px), ${contentSafeArea.top}px)`);
+          root.style.setProperty('--safe-area-bottom', `max(env(safe-area-inset-bottom, 0px), ${contentSafeArea.bottom}px)`);
         }
         
         root.style.setProperty('--safe-area-left', 'env(safe-area-inset-left, 0px)');

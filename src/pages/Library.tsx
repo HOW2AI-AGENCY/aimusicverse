@@ -26,6 +26,7 @@ import { EmptyLibraryState } from "@/components/library/EmptyLibraryState";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
 import { EarlyListeningAnnouncement } from "@/components/library/EarlyListeningAnnouncement";
+import { useTracksMidiStatus } from "@/hooks/useTrackMidiStatus";
 
 const log = logger.child({ module: 'Library' });
 
@@ -149,6 +150,9 @@ export default function Library() {
   // Batch fetch track counts (versions & stems) for all visible tracks
   const trackIds = useMemo(() => (tracks || []).map(t => t.id), [tracks]);
   const { getCountsForTrack } = useTrackCounts(trackIds);
+  
+  // Batch fetch MIDI/PDF status for all visible tracks
+  const { midiStatusMap } = useTracksMidiStatus(trackIds);
 
   // Filter tracks based on type filter - MUST be before any conditional returns
   const filteredTracks = useMemo(() => {
@@ -424,6 +428,7 @@ export default function Library() {
                 viewMode={viewMode}
                 activeTrackId={activeTrack?.id}
                 getCountsForTrack={getCountsForTrack}
+                getMidiStatus={(trackId) => midiStatusMap[trackId]}
                 onPlay={handlePlay}
                 onDelete={(id) => deleteTrack(id)}
                 onDownload={(id, audioUrl, coverUrl) => handleDownload(id, audioUrl, coverUrl)}

@@ -55,7 +55,8 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
     <motion.header 
       className={cn(
         "sticky top-0 z-20 -mx-4 px-4",
-        "pt-[calc(env(safe-area-inset-top,0px)+1.5rem)] pb-3",
+        // Use Telegram content safe area for native buttons, with fallback to device safe area
+        "pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+0.75rem),calc(env(safe-area-inset-top,0px)+1rem))] pb-3",
         "backdrop-blur-xl bg-background/90 border-b border-border/50",
         className
       )}

@@ -3,11 +3,20 @@ import { Virtuoso, VirtuosoGrid, VirtuosoHandle } from "react-virtuoso";
 import type { Track } from "@/types/track";
 import { TrackCard } from "@/components/TrackCard";
 
+interface TrackMidiStatus {
+  hasMidi: boolean;
+  hasPdf: boolean;
+  hasGp5: boolean;
+  hasMusicXml: boolean;
+  transcriptionCount: number;
+}
+
 interface VirtualizedTrackListProps {
   tracks: Track[];
   viewMode: "grid" | "list";
   activeTrackId?: string;
   getCountsForTrack: (trackId: string) => { versionCount: number; stemCount: number };
+  getMidiStatus?: (trackId: string) => TrackMidiStatus | undefined;
   onPlay: (track: Track, index: number) => void;
   onDelete: (trackId: string) => void;
   onDownload: (trackId: string, audioUrl: string | null, coverUrl: string | null) => void;
@@ -57,6 +66,7 @@ const MemoizedTrackItem = memo(function MemoizedTrackItem({
   viewMode,
   isPlaying,
   counts,
+  midiStatus,
   onPlay,
   onDelete,
   onDownload,
@@ -67,6 +77,7 @@ const MemoizedTrackItem = memo(function MemoizedTrackItem({
   viewMode: "grid" | "list";
   isPlaying: boolean;
   counts: { versionCount: number; stemCount: number };
+  midiStatus?: TrackMidiStatus;
   onPlay: () => void;
   onDelete: () => void;
   onDownload: () => void;
@@ -83,6 +94,8 @@ const MemoizedTrackItem = memo(function MemoizedTrackItem({
       onToggleLike={onToggleLike}
       versionCount={counts.versionCount}
       stemCount={counts.stemCount}
+      hasMidi={midiStatus?.hasMidi}
+      hasPdf={midiStatus?.hasPdf}
       isFirstSwipeableItem={index === 0 && viewMode === "list"}
     />
   );
@@ -93,6 +106,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   viewMode,
   activeTrackId,
   getCountsForTrack,
+  getMidiStatus,
   onPlay,
   onDelete,
   onDownload,
@@ -113,6 +127,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
       if (!track) return null;
       
       const counts = getCountsForTrack(track.id);
+      const midiStatus = getMidiStatus?.(track.id);
       return (
         <MemoizedTrackItem
           track={track}
@@ -120,6 +135,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
           viewMode={viewMode}
           isPlaying={activeTrackId === track.id}
           counts={counts}
+          midiStatus={midiStatus}
           onPlay={() => onPlay(track, index)}
           onDelete={() => onDelete(track.id)}
           onDownload={() => onDownload(track.id, track.audio_url, track.cover_url)}
@@ -127,7 +143,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
         />
       );
     },
-    [tracks, viewMode, activeTrackId, getCountsForTrack, onPlay, onDelete, onDownload, onToggleLike]
+    [tracks, viewMode, activeTrackId, getCountsForTrack, getMidiStatus, onPlay, onDelete, onDownload, onToggleLike]
   );
 
   const handleEndReached = useCallback(() => {

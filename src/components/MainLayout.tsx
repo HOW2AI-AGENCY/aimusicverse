@@ -110,10 +110,12 @@ export const MainLayout = () => {
           className={cn(
             'flex-1 flex flex-col overflow-y-auto relative',
             isDesktop ? 'ml-64' : 'pb-[calc(4rem+env(safe-area-inset-bottom,0px))]',
-            isGuestMode && 'pt-9'
+            isGuestMode && 'pt-9',
+            // Add top padding for Telegram native buttons in fullscreen mode (mobile only)
+            !isDesktop && 'pt-[var(--tg-content-safe-area-inset-top,0px)]'
           )}
         >
-          {/* Unified Announcements - z-100, sticky top */}
+          {/* Unified Announcements - z-100, sticky top, accounts for safe area */}
           <UnifiedAnnouncement />
           
           <div className={cn(
