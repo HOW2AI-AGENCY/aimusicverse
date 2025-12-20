@@ -60,6 +60,7 @@ export function StemTranscriptionSheet({
           stemType={stem.stem_type}
           stemLabel={stemLabel}
           audioUrl={stem.audio_url}
+          trackId={stem.track_id}
         />
       </SheetContent>
     </Sheet>
