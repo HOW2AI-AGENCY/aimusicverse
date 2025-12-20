@@ -292,35 +292,56 @@ export function NotesViewerDialog({
               </div>
             </div>
 
-            {/* PDF Preview iframe with fallback for Telegram */}
+            {/* PDF Preview - Mobile uses direct link, Desktop uses iframe */}
             {transcription.pdf_url && (
-              <div className="rounded-lg overflow-hidden border bg-muted/20 relative" style={{ height: isMobile ? 300 : 400 }}>
-                <iframe
-                  src={`${transcription.pdf_url}#toolbar=0&view=FitH`}
-                  className="w-full h-full"
-                  title="PDF Notes"
-                  sandbox="allow-same-origin allow-scripts"
-                  onError={() => {
-                    // Fallback: show button to open externally if iframe fails
-                  }}
-                />
-                {/* Fallback overlay for Telegram Mini App where iframe may not work */}
-                {isMobile && (
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent pointer-events-none">
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-auto">
+              <>
+                {isMobile ? (
+                  // Mobile: Show preview card with direct open button (iframe doesn't work in Telegram)
+                  <div className="rounded-lg overflow-hidden border bg-gradient-to-br from-muted/30 to-muted/10 p-6 flex flex-col items-center justify-center gap-4" style={{ minHeight: 280 }}>
+                    <div className="w-20 h-28 rounded-lg bg-white/90 dark:bg-white/10 border-2 border-primary/20 flex items-center justify-center shadow-lg">
+                      <FileText className="w-10 h-10 text-primary" />
+                    </div>
+                    <div className="text-center space-y-1">
+                      <p className="font-medium">Нотный лист готов</p>
+                      <p className="text-xs text-muted-foreground">
+                        PDF откроется в полноэкранном режиме
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-2 w-full max-w-xs">
                       <Button
-                        size="sm"
-                        variant="secondary"
+                        size="lg"
+                        className="w-full gap-2"
                         onClick={() => handleOpenExternal(transcription.pdf_url)}
-                        className="shadow-lg"
                       >
-                        <Maximize2 className="w-4 h-4 mr-1" />
-                        На весь экран
+                        <Maximize2 className="w-5 h-5" />
+                        Открыть PDF
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full gap-2"
+                        onClick={() => handleDownload(transcription.pdf_url, `${stemType}_notes.pdf`)}
+                      >
+                        <Download className="w-4 h-4" />
+                        Сохранить в файлы
                       </Button>
                     </div>
                   </div>
+                ) : (
+                  // Desktop: Use iframe with fallback
+                  <div className="rounded-lg overflow-hidden border bg-muted/20 relative" style={{ height: 400 }}>
+                    <iframe
+                      src={`${transcription.pdf_url}#toolbar=0&view=FitH`}
+                      className="w-full h-full"
+                      title="PDF Notes"
+                      sandbox="allow-same-origin allow-scripts"
+                      onError={() => {
+                        // Fallback handled by external link button
+                      }}
+                    />
+                  </div>
                 )}
-              </div>
+              </>
             )}
           </div>
         </TabsContent>
