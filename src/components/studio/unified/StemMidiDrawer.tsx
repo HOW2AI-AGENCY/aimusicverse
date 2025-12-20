@@ -1,16 +1,16 @@
 /**
  * StemMidiDrawer - In-studio MIDI transcription panel
  * 
- * Opens as a drawer/sheet for MIDI transcription without navigation
- * Now includes MIDI playback and note visualization
+ * Uses Klangio as the main provider for transcription
+ * Supports multiple output formats: MIDI, MusicXML, Guitar Pro, PDF
  */
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { 
-  Music2, Download, X, Loader2, 
+  Music2, Download, Loader2, 
   Piano, Mic2, Drum, Guitar, FileAudio,
-  Play, Pause
+  Play
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -25,12 +25,25 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TrackStem } from '@/hooks/useTrackStems';
-import { useReplicateMidiTranscription } from '@/hooks/useReplicateMidiTranscription';
-import { useStemMidi, MIDI_MODELS, MidiModelType } from '@/hooks/useStemMidi';
+import { useReplicateMidiTranscription, TranscriptionFiles } from '@/hooks/useReplicateMidiTranscription';
+import { useStemMidi } from '@/hooks/useStemMidi';
 import { MidiPlayerCard } from '@/components/studio/MidiPlayerCard';
+import { MidiFilesCard } from '@/components/studio/MidiFilesCard';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+
+// Klangio models mapping
+const KLANGIO_MODELS = {
+  'guitar': { name: 'Гитара', icon: '🎸', description: 'Для гитарных партий' },
+  'piano': { name: 'Пианино', icon: '🎹', description: 'Для клавишных инструментов' },
+  'drums': { name: 'Барабаны', icon: '🥁', description: 'Для ударных и перкуссии' },
+  'vocal': { name: 'Вокал', icon: '🎤', description: 'Для вокальных мелодий' },
+  'bass': { name: 'Бас', icon: '🎸', description: 'Для басовых линий' },
+  'universal': { name: 'Универсальный', icon: '🎼', description: 'Для любых инструментов' },
+} as const;
+
+type KlangioModel = keyof typeof KLANGIO_MODELS;
 
 interface StemMidiDrawerProps {
   open: boolean;
@@ -41,12 +54,12 @@ interface StemMidiDrawerProps {
 }
 
 const modelIcons: Record<string, React.ReactNode> = {
-  'mt3': <FileAudio className="w-4 h-4" />,
-  'bytedance-piano': <Piano className="w-4 h-4" />,
+  'guitar': <Guitar className="w-4 h-4" />,
+  'piano': <Piano className="w-4 h-4" />,
   'drums': <Drum className="w-4 h-4" />,
   'vocal': <Mic2 className="w-4 h-4" />,
-  'basic-pitch': <Music2 className="w-4 h-4" />,
-  'ismir2021': <Piano className="w-4 h-4" />,
+  'bass': <FileAudio className="w-4 h-4" />,
+  'universal': <Music2 className="w-4 h-4" />,
 };
 
 export function StemMidiDrawer({ 
@@ -57,47 +70,54 @@ export function StemMidiDrawer({
   trackTitle 
 }: StemMidiDrawerProps) {
   const isMobile = useIsMobile();
-  const [selectedModel, setSelectedModel] = useState<MidiModelType>('mt3');
-  const [activeTab, setActiveTab] = useState<'create' | 'player'>('create');
+  const [selectedModel, setSelectedModel] = useState<KlangioModel>('guitar');
+  const [activeTab, setActiveTab] = useState<'create' | 'player' | 'files'>('create');
   const [activeMidiUrl, setActiveMidiUrl] = useState<string | null>(null);
+  const [transcriptionFiles, setTranscriptionFiles] = useState<TranscriptionFiles>({});
   
   const { 
     transcribe, 
-    isLoading: isTranscribingReplicate, 
-    result: replicateResult,
+    isLoading: isTranscribing, 
+    result,
     progress 
   } = useReplicateMidiTranscription();
   
   const { 
     midiVersions, 
-    transcribeToMidi, 
-    isTranscribing: isStemTranscribing 
   } = useStemMidi(trackId, stem?.id);
 
-  const isTranscribing = isTranscribingReplicate || isStemTranscribing;
+  // Update files when result changes
+  useEffect(() => {
+    if (result?.files) {
+      setTranscriptionFiles(result.files);
+      if (result.midiUrl) {
+        setActiveMidiUrl(result.midiUrl);
+      }
+    }
+  }, [result]);
 
   const handleTranscribe = useCallback(async () => {
     if (!stem) return;
 
     try {
-      // Use replicate for MT3 model
-      if (selectedModel === 'mt3') {
-        const result = await transcribe(stem.audio_url, { trackId });
-        if (result?.midiUrl) {
-          setActiveMidiUrl(result.midiUrl);
+      const transcriptionResult = await transcribe(stem.audio_url, { 
+        trackId,
+        model: selectedModel,
+        outputs: ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf']
+      });
+      
+      if (transcriptionResult) {
+        setTranscriptionFiles(transcriptionResult.files);
+        if (transcriptionResult.midiUrl) {
+          setActiveMidiUrl(transcriptionResult.midiUrl);
           setActiveTab('player');
         }
-        toast.success('MIDI транскрипция создана');
-      } else {
-        // Use klangio for other models
-        await transcribeToMidi(stem.audio_url, selectedModel, stem.stem_type);
-        toast.success('MIDI транскрипция создана');
       }
     } catch (error) {
       console.error('Transcription error:', error);
       toast.error('Ошибка транскрипции');
     }
-  }, [stem, selectedModel, transcribe, transcribeToMidi, trackId]);
+  }, [stem, selectedModel, transcribe, trackId]);
 
   const handleDownloadMidi = useCallback((url: string) => {
     window.open(url, '_blank');
@@ -109,21 +129,21 @@ export function StemMidiDrawer({
   }, []);
 
   // Get recommended model based on stem type
-  const getRecommendedModel = (): MidiModelType => {
-    if (!stem) return 'mt3';
+  const getRecommendedModel = (): KlangioModel => {
+    if (!stem) return 'universal';
     const stemType = stem.stem_type.toLowerCase();
     
-    if (stemType.includes('piano') || stemType.includes('keys')) return 'bytedance-piano';
+    if (stemType.includes('piano') || stemType.includes('keys')) return 'piano';
     if (stemType.includes('drum')) return 'drums';
     if (stemType.includes('vocal')) return 'vocal';
-    if (stemType.includes('guitar')) return 'basic-pitch';
-    return 'mt3';
+    if (stemType.includes('guitar')) return 'guitar';
+    if (stemType.includes('bass')) return 'bass';
+    return 'universal';
   };
 
   const recommendedModel = getRecommendedModel();
-
-  // Auto-switch to player when result comes in
-  const latestMidiUrl = replicateResult?.midiUrl || midiVersions?.[0]?.audio_url;
+  const latestMidiUrl = result?.midiUrl || midiVersions?.[0]?.audio_url;
+  const hasFiles = Object.keys(transcriptionFiles).length > 0;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -141,11 +161,19 @@ export function StemMidiDrawer({
         </SheetHeader>
 
         {stem && (
-          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'create' | 'player')} className="flex-1 flex flex-col min-h-0">
-            <TabsList className="grid grid-cols-2 mb-4">
+          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'create' | 'player' | 'files')} className="flex-1 flex flex-col min-h-0">
+            <TabsList className="grid grid-cols-3 mb-4">
               <TabsTrigger value="create">Создать</TabsTrigger>
               <TabsTrigger value="player" disabled={!latestMidiUrl && !activeMidiUrl}>
                 Плеер
+              </TabsTrigger>
+              <TabsTrigger value="files" disabled={!hasFiles}>
+                Файлы
+                {hasFiles && (
+                  <Badge variant="secondary" className="ml-1.5 text-[10px] h-4 px-1">
+                    {Object.keys(transcriptionFiles).length}
+                  </Badge>
+                )}
               </TabsTrigger>
             </TabsList>
 
@@ -173,13 +201,13 @@ export function StemMidiDrawer({
 
                   {/* Model Selection */}
                   <div className="space-y-3">
-                    <Label className="text-sm font-medium">Выберите модель</Label>
+                    <Label className="text-sm font-medium">Выберите модель (Klangio)</Label>
                     <RadioGroup
                       value={selectedModel}
-                      onValueChange={(v) => setSelectedModel(v as MidiModelType)}
+                      onValueChange={(v) => setSelectedModel(v as KlangioModel)}
                       className="space-y-2"
                     >
-                      {Object.entries(MIDI_MODELS).map(([key, model]) => (
+                      {Object.entries(KLANGIO_MODELS).map(([key, model]) => (
                         <motion.div
                           key={key}
                           initial={{ opacity: 0, y: 5 }}
@@ -190,18 +218,13 @@ export function StemMidiDrawer({
                               ? "border-primary bg-primary/5" 
                               : "border-border hover:bg-muted/50"
                           )}
-                          onClick={() => setSelectedModel(key as MidiModelType)}
+                          onClick={() => setSelectedModel(key as KlangioModel)}
                         >
                           <RadioGroupItem value={key} id={key} />
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
                               {modelIcons[key]}
                               <span className="font-medium text-sm">{model.name}</span>
-                              {'isNew' in model && model.isNew && (
-                                <Badge variant="secondary" className="text-[10px] h-4 px-1">
-                                  NEW
-                                </Badge>
-                              )}
                               {key === recommendedModel && (
                                 <Badge className="text-[10px] h-4 px-1">
                                   Рекомендуется
@@ -215,6 +238,13 @@ export function StemMidiDrawer({
                         </motion.div>
                       ))}
                     </RadioGroup>
+                  </div>
+
+                  {/* Output formats info */}
+                  <div className="p-3 rounded-lg bg-muted/30 border border-border/50">
+                    <p className="text-xs text-muted-foreground">
+                      📁 Форматы: MIDI, MIDI (Quantized), MusicXML, Guitar Pro, PDF
+                    </p>
                   </div>
 
                   {/* Transcribe Button */}
@@ -231,14 +261,14 @@ export function StemMidiDrawer({
                     ) : (
                       <>
                         <Music2 className="w-4 h-4 mr-2" />
-                        Создать MIDI
+                        Создать транскрипцию
                       </>
                     )}
                   </Button>
 
                   {/* Result */}
                   <AnimatePresence>
-                    {replicateResult?.midiUrl && (
+                    {result?.midiUrl && (
                       <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -248,13 +278,16 @@ export function StemMidiDrawer({
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <Music2 className="w-5 h-5 text-success" />
-                            <span className="text-sm font-medium">MIDI готов!</span>
+                            <span className="text-sm font-medium">Готово!</span>
+                            <Badge variant="secondary" className="text-xs">
+                              {Object.keys(result.files).length} файлов
+                            </Badge>
                           </div>
                           <div className="flex gap-2">
                             <Button
                               size="sm"
                               variant="outline"
-                              onClick={() => handlePlayMidi(replicateResult.midiUrl)}
+                              onClick={() => handlePlayMidi(result.midiUrl)}
                             >
                               <Play className="w-4 h-4 mr-1" />
                               Играть
@@ -262,9 +295,9 @@ export function StemMidiDrawer({
                             <Button
                               size="sm"
                               variant="ghost"
-                              onClick={() => handleDownloadMidi(replicateResult.midiUrl)}
+                              onClick={() => setActiveTab('files')}
                             >
-                              <Download className="w-4 h-4" />
+                              Файлы
                             </Button>
                           </div>
                         </div>
@@ -332,6 +365,27 @@ export function StemMidiDrawer({
                       <p className="text-muted-foreground">Нет MIDI для воспроизведения</p>
                       <p className="text-sm text-muted-foreground mt-1">
                         Создайте транскрипцию во вкладке "Создать"
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </ScrollArea>
+            </TabsContent>
+
+            <TabsContent value="files" className="flex-1 min-h-0 m-0">
+              <ScrollArea className="h-full -mx-6 px-6">
+                <div className="pb-6">
+                  {hasFiles ? (
+                    <MidiFilesCard
+                      files={transcriptionFiles}
+                      title="Доступные файлы"
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center py-12 text-center">
+                      <Music2 className="w-12 h-12 text-muted-foreground mb-4" />
+                      <p className="text-muted-foreground">Нет файлов</p>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Создайте транскрипцию для получения файлов
                       </p>
                     </div>
                   )}
