@@ -430,7 +430,7 @@ const StemTrackRowDesktop = memo(({
   onToggle: (type: 'mute' | 'solo') => void;
   onVolumeChange: (volume: number) => void;
   onSeek: (time: number) => void;
-  onAction: (action: 'midi' | 'reference' | 'download' | 'effects' | 'delete') => void;
+  onAction: (action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete') => void;
 }) => {
   const config = stemConfig[stem.stem_type.toLowerCase()] || stemConfig.other;
   const Icon = config.icon;
@@ -557,6 +557,7 @@ StemTrackRowDesktop.displayName = 'StemTrackRowDesktop';
 export function IntegratedStemTracks({
   stems,
   stemStates,
+  transcriptionsByStem,
   isPlaying,
   currentTime,
   duration,
@@ -700,6 +701,7 @@ export function IntegratedStemTracks({
                     <StemTrackRowMobile
                       stem={stem}
                       state={stemStates[stem.id] || { muted: false, solo: false, volume: 0.85 }}
+                      transcription={transcriptionsByStem?.[stem.id]}
                       isPlaying={isPlaying}
                       currentTime={currentTime}
                       duration={duration}
