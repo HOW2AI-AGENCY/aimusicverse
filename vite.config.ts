@@ -122,14 +122,10 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("framer-motion")) {
               return "vendor-framer";
             }
-            // Audio/Media libraries - ONLY wavesurfer in vendor-audio
-            // Tone.js moved to async chunk (vendor-audio-async) - only needed in Music Lab
-            if (id.includes("wavesurfer") || id.includes("audiomotion")) {
+            // Audio/Media libraries - keep Tone.js with other audio libs to prevent circular dep errors
+            // "Cannot access 't' before initialization" occurs when Tone.js is in separate async chunk
+            if (id.includes("wavesurfer") || id.includes("audiomotion") || id.includes("tone")) {
               return "vendor-audio";
-            }
-            // Tone.js - large audio library, lazy load
-            if (id.includes("tone")) {
-              return "vendor-audio-async";
             }
             // TanStack Query - MUST include both react-query AND query-core
             // query-core utilities must be with react-query to prevent circular dependencies
