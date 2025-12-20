@@ -48,6 +48,8 @@ export {
   unregisterStudioAudio, 
   pauseAllStudioAudio 
 } from './useStudioAudio';
+export { useStudioContext } from './useStudioContext';
+export type { StudioFocusMode, StudioContextState } from './useStudioContext';
 
 // Multi-track DAW store
 export { useStudioProjectStore } from '@/stores/useStudioProjectStore';
