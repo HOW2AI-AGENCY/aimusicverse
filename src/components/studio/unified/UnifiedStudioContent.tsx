@@ -52,6 +52,7 @@ import { IntegratedStemTracks } from './IntegratedStemTracks';
 import { SectionVariantOverlay } from './SectionVariantOverlay';
 import { StemMidiDrawer } from './StemMidiDrawer';
 import { StemEffectsDrawer } from './StemEffectsDrawer';
+import { AddTrackDrawer } from './AddTrackDrawer';
 import { registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
 import { useStemAudioEngine, defaultStemEffects } from '@/hooks/studio/useStemAudioEngine';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
@@ -120,6 +121,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   // New: MIDI and Effects drawer states
   const [midiDrawerOpen, setMidiDrawerOpen] = useState(false);
   const [effectsDrawerOpen, setEffectsDrawerOpen] = useState(false);
+  const [addTrackDrawerOpen, setAddTrackDrawerOpen] = useState(false);
   const [selectedStemForMidi, setSelectedStemForMidi] = useState<TrackStem | null>(null);
   const [selectedStemForEffects, setSelectedStemForEffects] = useState<TrackStem | null>(null);
   
@@ -645,6 +647,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
             onMasterMuteToggle={() => setMasterMuted(!masterMuted)}
             onSeek={handleSeek}
             onStemAction={handleStemAction}
+            onAddTrack={() => setAddTrackDrawerOpen(true)}
           />
         )}
 
@@ -800,6 +803,15 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         onUpdateCompressor={(settings) => setStemEffects(prev => ({ ...prev, compressor: { ...prev.compressor, ...settings } }))}
         onUpdateReverb={(settings) => setStemEffects(prev => ({ ...prev, reverb: { ...prev.reverb, ...settings } }))}
         onReset={() => setStemEffects(defaultStemEffects)}
+      />
+
+      {/* Add Track Drawer */}
+      <AddTrackDrawer
+        open={addTrackDrawerOpen}
+        onOpenChange={setAddTrackDrawerOpen}
+        trackId={trackId}
+        trackUrl={currentAudioUrl || ''}
+        trackTitle={track.title || undefined}
       />
 
       {/* Dialogs */}
