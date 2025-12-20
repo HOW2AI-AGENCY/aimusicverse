@@ -1,8 +1,17 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import * as Tone from 'tone';
 import { buildPromptFromChannels } from '@/lib/prompt-dj-presets';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+
+// Tone.js types - loaded dynamically to prevent "Cannot access 'e' before initialization" error
+type ToneType = typeof import('tone');
+type PlayerType = import('tone').Player;
+type PolySynthType = import('tone').PolySynth;
+type SequenceType = import('tone').Sequence;
+type AnalyserType = import('tone').Analyser;
+
+// Cached Tone module reference
+let ToneModule: ToneType | null = null;
 
 export interface PromptChannel {
   id: string;
@@ -63,7 +72,7 @@ interface UsePromptDJReturn {
   currentPrompt: string;
   
   // Analyzer for visualizer
-  analyzerNode: Tone.Analyser | null;
+  analyzerNode: AnalyserType | null;
 }
 
 const DEFAULT_CHANNELS: PromptChannel[] = [
@@ -92,14 +101,21 @@ export function usePromptDJ(): UsePromptDJReturn {
   const [currentTrack, setCurrentTrack] = useState<GeneratedTrack | null>(null);
   const [isPreviewPlaying, setIsPreviewPlaying] = useState(false);
   
-  const playerRef = useRef<Tone.Player | null>(null);
-  const synthRef = useRef<Tone.PolySynth | null>(null);
-  const sequenceRef = useRef<Tone.Sequence | null>(null);
-  const analyzerRef = useRef<Tone.Analyser | null>(null);
+  const playerRef = useRef<PlayerType | null>(null);
+  const synthRef = useRef<PolySynthType | null>(null);
+  const sequenceRef = useRef<SequenceType | null>(null);
+  const analyzerRef = useRef<AnalyserType | null>(null);
 
-  // Initialize analyzer
+  // Initialize analyzer with dynamic import
   useEffect(() => {
-    analyzerRef.current = new Tone.Analyser('fft', 64);
+    const initAnalyzer = async () => {
+      if (!ToneModule) {
+        ToneModule = await import('tone');
+      }
+      analyzerRef.current = new ToneModule.Analyser('fft', 64);
+    };
+    initAnalyzer();
+    
     return () => {
       analyzerRef.current?.dispose();
       playerRef.current?.dispose();
@@ -184,6 +200,11 @@ export function usePromptDJ(): UsePromptDJReturn {
   // Playback controls
   const playTrack = useCallback(async (track: GeneratedTrack) => {
     try {
+      if (!ToneModule) {
+        ToneModule = await import('tone');
+      }
+      const Tone = ToneModule;
+      
       await Tone.start();
       
       if (playerRef.current) {
@@ -224,6 +245,11 @@ export function usePromptDJ(): UsePromptDJReturn {
   // Preview with synth (local synthesis based on prompt parameters)
   const previewPrompt = useCallback(async () => {
     try {
+      if (!ToneModule) {
+        ToneModule = await import('tone');
+      }
+      const Tone = ToneModule;
+      
       await Tone.start();
       stopPreview();
 
@@ -301,7 +327,7 @@ export function usePromptDJ(): UsePromptDJReturn {
     }
   }, [globalSettings]);
 
-  const stopPreview = useCallback(() => {
+  const stopPreview = useCallback(async () => {
     if (sequenceRef.current) {
       sequenceRef.current.stop();
       sequenceRef.current.dispose();
@@ -311,7 +337,9 @@ export function usePromptDJ(): UsePromptDJReturn {
       synthRef.current.dispose();
       synthRef.current = null;
     }
-    Tone.getTransport().stop();
+    if (ToneModule) {
+      ToneModule.getTransport().stop();
+    }
     setIsPreviewPlaying(false);
   }, []);
 

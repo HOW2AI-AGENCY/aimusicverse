@@ -1,14 +1,15 @@
 /**
- * CompactVisualizer - Minimal 40px height visualizer for PromptDJ
- * Optimized for mobile with simple bar animation
+ * CompactVisualizer - Minimal audio visualizer
+ * Displays 40px height mini visualizer for mobile
+ * NOTE: Uses Tone.Analyser type only, no static Tone import to prevent circular deps
  */
 
 import { memo, useRef, useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
-import * as Tone from 'tone';
 
+// Use a generic type for the analyzer to avoid static Tone.js import
 interface CompactVisualizerProps {
-  analyzerNode: Tone.Analyser | null;
+  analyzerNode: { getValue: () => Float32Array | Float32Array[] | number[] } | null;
   isActive: boolean;
   className?: string;
 }
@@ -18,68 +19,71 @@ export const CompactVisualizer = memo(function CompactVisualizer({
   isActive,
   className,
 }: CompactVisualizerProps) {
-  const [levels, setLevels] = useState<number[]>(Array(16).fill(0.1));
-  const animationFrameRef = useRef<number | null>(null);
+  const [levels, setLevels] = useState<number[]>(Array(8).fill(0.1));
+  const rafRef = useRef<number>(0);
 
   useEffect(() => {
     if (!isActive || !analyzerNode) {
       // Idle animation
       const idleInterval = setInterval(() => {
-        setLevels(Array(16).fill(0).map((_, i) => 
-          0.1 + Math.sin(Date.now() / 500 + i * 0.5) * 0.05
-        ));
-      }, 100);
+        setLevels(prev => prev.map(() => 0.05 + Math.random() * 0.1));
+      }, 500);
       return () => clearInterval(idleInterval);
     }
 
-    const updateLevels = () => {
-      try {
-        const values = analyzerNode.getValue() as Float32Array;
-        const barCount = 16;
-        const step = Math.floor(values.length / barCount);
-        
-        const newLevels = Array(barCount).fill(0).map((_, i) => {
-          const idx = i * step;
-          const val = values[idx] ?? -100;
-          // Normalize from dB (-100 to 0) to 0-1
-          return Math.max(0.05, Math.min(1, (val + 100) / 80));
-        });
-        
-        setLevels(newLevels);
-      } catch {
-        // Silent fail
+    const animate = () => {
+      if (!analyzerNode) {
+        rafRef.current = requestAnimationFrame(animate);
+        return;
       }
-      
-      animationFrameRef.current = requestAnimationFrame(updateLevels);
+
+      const data = analyzerNode.getValue();
+      if (!data || data.length === 0) {
+        rafRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
+      // Sample 8 points from the frequency data
+      const step = Math.floor(data.length / 8);
+      const newLevels: number[] = [];
+
+      for (let i = 0; i < 8; i++) {
+        const value = data[i * step] as number;
+        // Normalize from dB (-100 to 0) to 0-1
+        const normalized = Math.max(0, Math.min(1, (value + 100) / 100));
+        newLevels.push(normalized);
+      }
+
+      setLevels(newLevels);
+      rafRef.current = requestAnimationFrame(animate);
     };
 
-    updateLevels();
+    rafRef.current = requestAnimationFrame(animate);
 
     return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [analyzerNode, isActive]);
+  }, [isActive, analyzerNode]);
 
   return (
-    <div className={cn(
-      'flex items-end justify-center gap-0.5 h-10 px-2',
-      className
-    )}>
+    <div
+      className={cn(
+        'flex items-end justify-center gap-0.5 h-10',
+        className
+      )}
+    >
       {levels.map((level, i) => (
         <div
           key={i}
           className={cn(
-            'w-1.5 rounded-full transition-all duration-75',
-            isActive 
-              ? 'bg-gradient-to-t from-primary/60 to-primary' 
-              : 'bg-muted/30'
+            'w-1 rounded-full transition-all duration-75',
+            isActive ? 'bg-primary' : 'bg-muted-foreground/30'
           )}
           style={{
-            height: `${Math.max(8, level * 100)}%`,
-            transform: `scaleY(${level})`,
-            transformOrigin: 'bottom',
+            height: `${Math.max(4, level * 36)}px`,
+            opacity: isActive ? 0.6 + level * 0.4 : 0.3,
           }}
         />
       ))}
