@@ -4,12 +4,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import { 
   ChevronLeft, Play, Pause, SkipBack, SkipForward,
   Volume2, VolumeX, HelpCircle, Sliders, Scissors,
-  Shuffle, Clock, Wand2, BrainCircuit, Music, Piano
+  Shuffle, Clock, Wand2, BrainCircuit
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTrackStems } from '@/hooks/useTrackStems';
 import { useTracks } from '@/hooks/useTracks';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
@@ -28,14 +27,12 @@ import { StudioLyricsPanel } from '@/components/stem-studio/StudioLyricsPanel';
 import { StudioLyricsPanelCompact } from '@/components/stem-studio/StudioLyricsPanelCompact';
 import { StemStudioTutorial, useStemStudioTutorial } from '@/components/stem-studio/StemStudioTutorial';
 import { ReplacementHistoryPanel } from '@/components/stem-studio/ReplacementHistoryPanel';
-import { SectionTimelineVisualization } from '@/components/stem-studio/SectionTimelineVisualization';
 import { SectionEditorPanel } from '@/components/stem-studio/SectionEditorPanel';
 import { SectionEditorMobile } from '@/components/stem-studio/mobile/SectionEditorMobile';
 import { MobileSectionTimelineCompact } from '@/components/stem-studio/MobileSectionTimelineCompact';
 import { MobileStudioHeader } from '@/components/stem-studio/MobileStudioHeader';
 import { MobileMasterVolume } from '@/components/stem-studio/MobileMasterVolume';
 import { SectionQuickActions } from '@/components/stem-studio/SectionQuickActions';
-import { StemTracksTimeline } from '@/components/stem-studio/StemTracksTimeline';
 import { StudioQuickActions } from '@/components/stem-studio/StudioQuickActions';
 import { StudioContextTips } from '@/components/stem-studio/StudioContextTips';
 import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
@@ -43,8 +40,9 @@ import { QuickCompare } from '@/components/stem-studio/QuickCompare';
 import { RemixDialog } from '@/components/stem-studio/RemixDialog';
 import { ExtendDialog } from '@/components/stem-studio/ExtendDialog';
 import { TrimDialog } from '@/components/stem-studio/TrimDialog';
+import { UnifiedStudioTimeline, StudioContextPanel } from '@/components/stem-studio/unified';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
-import { useStemStudioEngine } from '@/hooks/studio';
+import { useStemStudioEngine, useStudioContext } from '@/hooks/studio';
 import { defaultStemEffects, StemEffects } from '@/hooks/studio';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -98,6 +96,18 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     clearSelection,
     reset: resetSectionEditor,
   } = useSectionEditorStore();
+
+  // Unified studio context for section/stem focus
+  const {
+    focusMode,
+    focusedStem,
+    focusedStemId,
+    focusedSection,
+    focusedSectionIndex,
+    focusStem,
+    focusSection,
+    clearFocus,
+  } = useStudioContext();
 
   // Fetch timestamped lyrics and detect sections
   const { data: lyricsData } = useTimestampedLyrics(track?.suno_task_id || null, track?.suno_id || null);
@@ -430,10 +440,32 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
 
   // formatTime imported from @/lib/player-utils
 
-  // Handle section selection from timeline
+  // Handle section selection from timeline - for replacement
   const handleSectionSelect = useCallback((section: typeof detectedSections[0], index: number) => {
     selectSection(section, index);
-  }, [selectSection]);
+    // Clear any stem focus when selecting section
+    if (focusMode === 'stem') {
+      clearFocus();
+    }
+  }, [selectSection, focusMode, clearFocus]);
+
+  // Handle section click from unified timeline - for focus (preview before replacement)
+  const handleSectionFocus = useCallback((section: typeof detectedSections[0], index: number) => {
+    focusSection(section, index);
+  }, [focusSection]);
+
+  // Handle stem click from unified timeline - for focus
+  const handleStemFocus = useCallback((stem: typeof stems[0]) => {
+    focusStem(stem);
+  }, [focusStem]);
+
+  // Handle starting section replacement from context panel
+  const handleStartSectionReplace = useCallback(() => {
+    if (focusedSection && focusedSectionIndex !== null) {
+      selectSection(focusedSection, focusedSectionIndex);
+      clearFocus();
+    }
+  }, [focusedSection, focusedSectionIndex, selectSection, clearFocus]);
 
   // Handle compare panel actions - accepts selected variant (A or B)
   const handleApplyReplacement = useCallback(async (selectedVariant: 'variantA' | 'variantB' = 'variantA') => {
@@ -688,19 +720,52 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         </header>
       )}
 
-      {/* Section Timeline Visualization - Desktop */}
-      {!isMobile && canReplaceSection && detectedSections.length > 0 && (
+      {/* Unified Studio Timeline - Desktop */}
+      {!isMobile && editMode === 'none' && (
         <div className="px-4 sm:px-6 py-3 border-b border-border/30 bg-card/30">
-          <SectionTimelineVisualization
-            sections={detectedSections}
-            duration={duration}
-            currentTime={currentTime}
-            selectedIndex={selectedSectionIndex}
-            customRange={customRange}
-            replacedRanges={replacedRanges}
-            onSectionClick={handleSectionSelect}
-            onSeek={(time) => handleSeek([time])}
-          />
+          <div className="flex gap-4">
+            {/* Unified Timeline - sections + stems */}
+            <div className="flex-1">
+              <UnifiedStudioTimeline
+                sections={canReplaceSection ? detectedSections : []}
+                selectedSectionIndex={focusedSectionIndex}
+                replacedRanges={replacedRanges}
+                onSectionClick={handleSectionFocus}
+                stems={stems}
+                stemStates={stemStates}
+                focusedStemId={focusedStemId}
+                onStemToggle={handleStemToggle}
+                onStemClick={handleStemFocus}
+                duration={duration}
+                currentTime={currentTime}
+                isPlaying={isPlaying}
+                onSeek={(time: number) => handleSeek([time])}
+                showSections={!!canReplaceSection && detectedSections.length > 0}
+                showStems={stems.length > 0}
+              />
+            </div>
+            
+            {/* Context Panel - shows based on focus */}
+            {(focusMode !== 'idle' || stems.length > 0) && (
+              <div className="w-64 flex-shrink-0">
+                <StudioContextPanel
+                  mode={focusMode}
+                  focusedSection={focusedSection}
+                  focusedSectionIndex={focusedSectionIndex}
+                  onStartSectionReplace={handleStartSectionReplace}
+                  focusedStem={focusedStem}
+                  stemState={focusedStemId ? stemStates[focusedStemId] : undefined}
+                  effectsEnabled={effectsEnabled}
+                  onStemVolumeChange={focusedStemId ? (v) => handleVolumeChange(focusedStemId, v) : undefined}
+                  onToggleStemMute={focusedStemId ? () => handleStemToggle(focusedStemId, 'mute') : undefined}
+                  onToggleStemSolo={focusedStemId ? () => handleStemToggle(focusedStemId, 'solo') : undefined}
+                  masterVolume={masterVolume}
+                  onMasterVolumeChange={setMasterVolume}
+                  onClearFocus={clearFocus}
+                />
+              </div>
+            )}
+          </div>
           
           {/* Quick Actions - only in edit mode */}
           {editMode !== 'none' && editMode !== 'comparing' && (
@@ -709,21 +774,6 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
                 sections={detectedSections}
                 maxDuration={maxSectionDuration}
                 onSelectSection={handleSectionSelect}
-              />
-            </div>
-          )}
-
-          {/* Stem Tracks below sections - when NOT in edit mode */}
-          {editMode === 'none' && stems.length > 0 && (
-            <div className="mt-3 pt-3 border-t border-border/20">
-              <StemTracksTimeline
-                stems={stems}
-                stemStates={stemStates}
-                duration={duration}
-                currentTime={currentTime}
-                isPlaying={isPlaying}
-                onStemToggle={handleStemToggle}
-                onSeek={(time) => handleSeek([time])}
               />
             </div>
           )}
@@ -740,28 +790,13 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
             selectedIndex={selectedSectionIndex}
             replacedRanges={replacedRanges}
             onSectionClick={handleSectionSelect}
-            onSeek={(time) => handleSeek([time])}
+            onSeek={(time: number) => handleSeek([time])}
           />
-          
-          {/* Stem Tracks below sections on mobile - when NOT in edit mode */}
-          {editMode === 'none' && stems.length > 0 && (
-            <div className="mt-2 pt-2 border-t border-border/20">
-              <StemTracksTimeline
-                stems={stems}
-                stemStates={stemStates}
-                duration={duration}
-                currentTime={currentTime}
-                isPlaying={isPlaying}
-                onStemToggle={handleStemToggle}
-                onSeek={(time) => handleSeek([time])}
-              />
-            </div>
-          )}
         </div>
       )}
 
-      {/* Fallback Timeline without sections */}
-      {(!canReplaceSection || detectedSections.length === 0) && (
+      {/* Fallback Timeline without sections - only when NOT using unified timeline */}
+      {!isMobile && editMode !== 'none' && (!canReplaceSection || detectedSections.length === 0) && (
         <div className="px-4 sm:px-6 py-4 border-b border-border/30 bg-card/30">
           <div className="flex items-center gap-4">
             <span className="text-xs text-muted-foreground font-mono tabular-nums w-12">
@@ -779,21 +814,6 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
               {formatTime(duration)}
             </span>
           </div>
-          
-          {/* Stem Tracks below timeline when no sections */}
-          {stems.length > 0 && (
-            <div className="mt-3 pt-3 border-t border-border/20">
-              <StemTracksTimeline
-                stems={stems}
-                stemStates={stemStates}
-                duration={duration}
-                currentTime={currentTime}
-                isPlaying={isPlaying}
-                onStemToggle={handleStemToggle}
-                onSeek={(time) => handleSeek([time])}
-              />
-            </div>
-          )}
         </div>
       )}
 
