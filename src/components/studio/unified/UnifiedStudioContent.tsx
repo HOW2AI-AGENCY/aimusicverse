@@ -340,24 +340,45 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           // Play all stems synchronized
           const playPromises: Promise<void>[] = [];
           
-          Object.values(stemAudioRefs.current).forEach(audio => {
+          for (const audio of Object.values(stemAudioRefs.current)) {
             // Sync time before playing
             audio.currentTime = currentTime;
-            playPromises.push(audio.play());
-          });
+            // Only play if audio is ready
+            if (audio.readyState >= 2) {
+              playPromises.push(audio.play().catch(e => {
+                logger.warn('Stem play failed', { error: e });
+              }));
+            }
+          }
           
           // Also sync and play main audio (muted as reference for seeking/duration)
-          if (audioRef.current) {
+          if (audioRef.current && audioRef.current.readyState >= 2) {
             audioRef.current.currentTime = currentTime;
             audioRef.current.volume = 0; // Mute main track when playing stems
-            playPromises.push(audioRef.current.play());
+            playPromises.push(audioRef.current.play().catch(e => {
+              logger.warn('Main audio play failed', { error: e });
+            }));
           }
           
           await Promise.all(playPromises);
         } else {
           // No stems - play main audio only
           if (audioRef.current) {
-            await audioRef.current.play();
+            if (audioRef.current.readyState >= 2) {
+              await audioRef.current.play();
+            } else {
+              // Wait for audio to load
+              await new Promise<void>((resolve, reject) => {
+                const audio = audioRef.current!;
+                const onCanPlay = () => {
+                  audio.removeEventListener('canplay', onCanPlay);
+                  audio.play().then(resolve).catch(reject);
+                };
+                audio.addEventListener('canplay', onCanPlay);
+                // Timeout after 5 seconds
+                setTimeout(() => reject(new Error('Audio load timeout')), 5000);
+              });
+            }
           }
         }
         

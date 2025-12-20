@@ -283,10 +283,8 @@ Create a musically coherent sequence of notes.`;
     const permanentUrl = urlData.publicUrl;
     console.log('File uploaded successfully:', permanentUrl);
 
-    // Determine version type
-    const versionType = stem_id 
-      ? 'stem_midi_transcription' 
-      : 'midi_transcription';
+    // Determine version type - must be short to fit varchar(10)
+    const versionType = stem_id ? 'stem_midi' : 'midi';
 
     // Create a track version
     const { data: version, error: versionError } = await supabase
