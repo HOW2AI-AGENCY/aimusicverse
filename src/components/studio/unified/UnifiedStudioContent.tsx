@@ -67,6 +67,7 @@ import {
   LazySectionEditorPanel,
   LazyAddTrackDrawer,
   LazyStemSeparationModeDialog,
+  LazyKlangioAnalysisPanel,
   preloadRouteComponents,
 } from '@/components/lazy';
 import { toast } from 'sonner';

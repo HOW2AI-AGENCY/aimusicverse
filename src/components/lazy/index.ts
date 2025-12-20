@@ -139,6 +139,14 @@ export const LazyStemSeparationModeDialog = lazy(() =>
   import('@/components/stem-studio/StemSeparationModeDialog').then(m => ({ default: m.StemSeparationModeDialog }))
 );
 
+export const LazyKlangioAnalysisPanel = lazy(() => 
+  import('@/components/studio/unified/KlangioAnalysisPanel').then(m => ({ default: m.KlangioAnalysisPanel }))
+);
+
+export const LazyKlangioToolsPanel = lazy(() => 
+  import('@/components/studio/KlangioToolsPanel').then(m => ({ default: m.KlangioToolsPanel }))
+);
+
 // ============================================
 // Preload utilities
 // ============================================
