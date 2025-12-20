@@ -28,6 +28,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { useReplicateMidiTranscription, TranscriptionFiles } from '@/hooks/useReplicateMidiTranscription';
 import { useStemMidi } from '@/hooks/useStemMidi';
+import { useSaveTranscription } from '@/hooks/useStemTranscription';
 import { MidiPlayerCard } from '@/components/studio/MidiPlayerCard';
 import { MidiFilesCard } from '@/components/studio/MidiFilesCard';
 import { toast } from 'sonner';
@@ -88,6 +89,8 @@ export function StemMidiDrawer({
   const { 
     midiVersions, 
   } = useStemMidi(trackId, stem?.id);
+  
+  const { saveTranscription, isSaving } = useSaveTranscription();
 
   // Get intelligent configuration based on stem type
   const stemConfig = useMemo(() => {
@@ -156,12 +159,35 @@ export function StemMidiDrawer({
           setActiveMidiUrl(transcriptionResult.midiUrl);
           setActiveTab('player');
         }
+        
+        // Save transcription to database for visualization
+        try {
+          await saveTranscription({
+            stemId: stem.id,
+            trackId,
+            midiUrl: transcriptionResult.files.midi || null,
+            midiQuantUrl: transcriptionResult.files.midi_quant || null,
+            mxmlUrl: transcriptionResult.files.mxml || null,
+            gp5Url: transcriptionResult.files.gp5 || null,
+            pdfUrl: transcriptionResult.files.pdf || null,
+            model: apiModel,
+            notes: transcriptionResult.notes,
+            notesCount: transcriptionResult.notes?.length || null,
+            bpm: transcriptionResult.bpm || null,
+            keyDetected: transcriptionResult.key || null,
+            timeSignature: transcriptionResult.timeSignature || null,
+            durationSeconds: null,
+          });
+        } catch (saveError) {
+          console.warn('Failed to save transcription to DB:', saveError);
+          // Don't block the flow - user still got the files
+        }
       }
     } catch (error) {
       console.error('Transcription error:', error);
       toast.error('Ошибка транскрипции');
     }
-  }, [stem, selectedModel, selectedOutputs, transcribe, trackId]);
+  }, [stem, selectedModel, selectedOutputs, transcribe, trackId, saveTranscription]);
 
   const handleDownloadMidi = useCallback((url: string) => {
     window.open(url, '_blank');
@@ -318,13 +344,18 @@ export function StemMidiDrawer({
                   {/* Transcribe Button */}
                   <Button
                     onClick={handleTranscribe}
-                    disabled={isTranscribing}
+                    disabled={isTranscribing || isSaving}
                     className="w-full"
                   >
                     {isTranscribing ? (
                       <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                         {progress > 0 ? `${progress}%` : 'Обработка...'}
+                      </>
+                    ) : isSaving ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Сохранение...
                       </>
                     ) : (
                       <>

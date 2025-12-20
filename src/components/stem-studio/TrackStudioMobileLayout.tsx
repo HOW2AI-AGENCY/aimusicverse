@@ -77,21 +77,41 @@ export function TrackStudioMobileLayout({
 
   return (
     <div className="h-screen flex flex-col bg-background">
-      {/* Compact Header */}
-      <header className="flex items-center gap-3 px-3 py-2 border-b border-border/30 bg-card/50">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onBack}
-          className="h-9 w-9 rounded-full flex-shrink-0"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </Button>
-        <div className="flex-1 min-w-0">
-          <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider block">
-            Студия
-          </span>
-          <h1 className="text-sm font-semibold truncate">{trackTitle}</h1>
+      {/* Header with Telegram safe area */}
+      <header 
+        className="border-b border-border/30 bg-card/50 backdrop-blur shrink-0"
+        style={{ 
+          paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' 
+        }}
+      >
+        {/* Centered Logo */}
+        <div className="flex justify-center py-1">
+          <div className="flex items-center gap-1.5">
+            <img 
+              src="/lovable-uploads/e2a6a5f1-c3e6-42bc-95c6-fd65dcb9defe.png" 
+              alt="MusicVerse AI" 
+              className="h-7 w-7 rounded-lg shadow-sm" 
+            />
+            <span className="text-[10px] font-bold text-gradient">MusicVerse AI</span>
+          </div>
+        </div>
+        
+        {/* Track header row */}
+        <div className="flex items-center gap-2 px-3 py-1.5">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onBack}
+            className="h-8 w-8 rounded-full flex-shrink-0"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </Button>
+          <div className="flex-1 min-w-0">
+            <span className="text-[9px] font-medium text-muted-foreground uppercase tracking-wider block">
+              Студия
+            </span>
+            <h1 className="text-sm font-semibold truncate">{trackTitle}</h1>
+          </div>
         </div>
       </header>
 
