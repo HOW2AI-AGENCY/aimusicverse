@@ -2,47 +2,124 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import { logger } from "./lib/logger";
-import { initSentry } from "./lib/sentry";
+import { initSentry, captureError } from "./lib/sentry";
+
+// === CRITICAL: Early error logging for black screen debugging ===
+const BOOT_LOG: string[] = [];
+const bootLog = (msg: string) => {
+  const timestamp = new Date().toISOString();
+  const entry = `[${timestamp}] ${msg}`;
+  BOOT_LOG.push(entry);
+  console.log(`[BOOT] ${entry}`);
+  
+  // Also save to sessionStorage for persistence
+  try {
+    sessionStorage.setItem('musicverse_boot_log', JSON.stringify(BOOT_LOG));
+  } catch (e) {
+    // Ignore storage errors
+  }
+};
+
+bootLog('main.tsx: Script started');
+bootLog(`Platform: ${navigator.userAgent}`);
+bootLog(`URL: ${window.location.href}`);
+bootLog(`Telegram WebApp available: ${!!window.Telegram?.WebApp}`);
+
+// Expose boot log globally for debugging
+(window as any).__BOOT_LOG = BOOT_LOG;
+(window as any).__getBootLog = () => BOOT_LOG.join('\n');
 
 // Initialize error tracking
-initSentry();
+try {
+  initSentry();
+  bootLog('Sentry initialized');
+} catch (e) {
+  bootLog(`Sentry init failed: ${e}`);
+}
 
 // Global error handlers to prevent app crashes
 const mainLogger = logger.child({ module: 'main' });
 
 // Handle unhandled promise rejections
 window.addEventListener('unhandledrejection', (event) => {
+  const errorMsg = event.reason instanceof Error 
+    ? `${event.reason.name}: ${event.reason.message}` 
+    : String(event.reason);
+  
+  bootLog(`Unhandled rejection: ${errorMsg}`);
+  
   // Ignore AbortError - these are expected during component cleanup
   if (event.reason?.name === 'AbortError') {
     event.preventDefault();
     return;
   }
-  mainLogger.error('Unhandled promise rejection', event.reason instanceof Error ? event.reason : new Error(String(event.reason)));
-  event.preventDefault(); // Prevent default browser error console
+  
+  const error = event.reason instanceof Error ? event.reason : new Error(String(event.reason));
+  mainLogger.error('Unhandled promise rejection', error);
+  captureError(error, { type: 'unhandledrejection' });
+  event.preventDefault();
 });
 
 // Handle uncaught errors
 window.addEventListener('error', (event) => {
-  mainLogger.error('Uncaught error', event.error instanceof Error ? event.error : new Error(event.message), {
+  bootLog(`Uncaught error: ${event.message} at ${event.filename}:${event.lineno}`);
+  
+  const error = event.error instanceof Error ? event.error : new Error(event.message);
+  mainLogger.error('Uncaught error', error, {
     filename: event.filename,
     lineno: event.lineno,
     colno: event.colno,
   });
-  event.preventDefault(); // Prevent default browser error console
+  captureError(error, { 
+    type: 'uncaughterror',
+    filename: event.filename,
+    lineno: event.lineno,
+  });
+  event.preventDefault();
 });
+
 // Dynamic viewport height fix for mobile browsers
 const setViewportHeight = () => {
   const vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
 };
 
-// Set initial viewport height and update on resize
 setViewportHeight();
 window.addEventListener('resize', setViewportHeight);
 window.addEventListener('orientationchange', () => {
-  // Delay for orientation change to complete
   setTimeout(setViewportHeight, 100);
 });
 
+bootLog('Event listeners registered');
+
 // App entry point
-createRoot(document.getElementById("root")!).render(<App />);
+try {
+  bootLog('Creating React root...');
+  const rootElement = document.getElementById("root");
+  
+  if (!rootElement) {
+    bootLog('CRITICAL: Root element not found!');
+    throw new Error('Root element not found');
+  }
+  
+  bootLog('Root element found, rendering App...');
+  const root = createRoot(rootElement);
+  root.render(<App />);
+  bootLog('App render called');
+} catch (e) {
+  bootLog(`CRITICAL: React render failed: ${e}`);
+  captureError(e);
+  
+  // Show error on screen
+  const root = document.getElementById("root");
+  if (root) {
+    root.innerHTML = `
+      <div style="padding: 20px; color: red; font-family: monospace;">
+        <h2>App failed to start</h2>
+        <pre>${e}</pre>
+        <h3>Boot Log:</h3>
+        <pre>${BOOT_LOG.join('\n')}</pre>
+      </div>
+    `;
+  }
+}

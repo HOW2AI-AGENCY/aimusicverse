@@ -10,6 +10,19 @@ interface InitializationGuardProps {
 
 const initLogger = logger.child({ module: 'InitializationGuard' });
 
+// Boot logging helper
+const bootLog = (msg: string) => {
+  const entry = `[InitGuard] ${msg}`;
+  console.log(entry);
+  try {
+    const existing = JSON.parse(sessionStorage.getItem('musicverse_boot_log') || '[]');
+    existing.push(`[${new Date().toISOString()}] ${entry}`);
+    sessionStorage.setItem('musicverse_boot_log', JSON.stringify(existing));
+  } catch (e) {
+    // Ignore storage errors
+  }
+};
+
 // Run cleanup once on module load
 let cleanupRun = false;
 
@@ -25,25 +38,32 @@ let cleanupRun = false;
 export const InitializationGuard = ({ children }: InitializationGuardProps) => {
   const { isInitialized } = useTelegram();
   const [showContent, setShowContent] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('Загрузка MusicVerse...');
   const mountedRef = useRef(true);
   const hasShownRef = useRef(false);
+
+  bootLog(`Component mounted, isInitialized=${isInitialized}`);
 
   useEffect(() => {
     // Run cleanup once on first mount
     if (!cleanupRun) {
       cleanupRun = true;
+      bootLog('Running stale data cleanup');
       cleanupStaleData().catch(err => {
         initLogger.error('Failed to cleanup stale data', err);
+        bootLog(`Cleanup error: ${err}`);
       });
     }
     
     initLogger.debug('InitializationGuard mounted', { isInitialized });
+    bootLog(`useEffect started, isInitialized=${isInitialized}`);
     mountedRef.current = true;
 
     const showContentSafely = (reason: string) => {
       if (mountedRef.current && !hasShownRef.current) {
         hasShownRef.current = true;
         initLogger.info(`Showing content: ${reason}`);
+        bootLog(`Showing content: ${reason}`);
         setShowContent(true);
       }
     };
@@ -54,25 +74,30 @@ export const InitializationGuard = ({ children }: InitializationGuardProps) => {
       return;
     }
 
-    // Multi-level timeout strategy
+    // Multi-level timeout strategy with progress updates
     const timeout1 = setTimeout(() => {
+      bootLog('Timeout 1 (1.5s) reached');
+      setLoadingMessage('Подключение к Telegram...');
       if (isInitialized) {
         showContentSafely('initialized within 1.5s');
       }
     }, 1500);
 
     const timeout2 = setTimeout(() => {
+      bootLog('Timeout 2 (3s) reached');
+      setLoadingMessage('Инициализация приложения...');
       initLogger.warn('Level 2 timeout (3s) - checking status');
       if (isInitialized || !hasShownRef.current) {
         showContentSafely('level 2 timeout reached');
       }
     }, 3000);
 
-    // Emergency fallback - ALWAYS show content after 5 seconds
+    // Emergency fallback - ALWAYS show content after 4 seconds (reduced from 5)
     const emergencyTimeout = setTimeout(() => {
-      initLogger.error('Emergency timeout (5s) - forcing content display');
+      bootLog('EMERGENCY timeout (4s) - forcing display');
+      initLogger.error('Emergency timeout (4s) - forcing content display');
       showContentSafely('emergency fallback');
-    }, 5000);
+    }, 4000);
 
     return () => {
       mountedRef.current = false;
@@ -86,8 +111,8 @@ export const InitializationGuard = ({ children }: InitializationGuardProps) => {
   useEffect(() => {
     if (isInitialized && !hasShownRef.current) {
       hasShownRef.current = true;
+      bootLog('isInitialized became true');
       initLogger.info('isInitialized became true - showing content');
-      // Use setTimeout to avoid synchronous state update
       setTimeout(() => {
         setShowContent(true);
       }, 0);
@@ -96,8 +121,10 @@ export const InitializationGuard = ({ children }: InitializationGuardProps) => {
 
   // Show loading screen while initializing
   if (!showContent) {
-    return <LoadingScreen message="Загрузка MusicVerse..." />;
+    bootLog(`Rendering LoadingScreen: ${loadingMessage}`);
+    return <LoadingScreen message={loadingMessage} />;
   }
 
+  bootLog('Rendering children');
   return <>{children}</>;
 };

@@ -80,6 +80,19 @@ const TelegramContext = createContext<TelegramContextType | undefined>(undefined
 // Create a child logger for Telegram context
 const telegramLogger = logger.child({ module: 'TelegramContext' });
 
+// Boot logging helper for critical startup debugging
+const bootLog = (msg: string) => {
+  const entry = `[TelegramContext] ${msg}`;
+  console.log(entry);
+  try {
+    const existing = JSON.parse(sessionStorage.getItem('musicverse_boot_log') || '[]');
+    existing.push(`[${new Date().toISOString()}] ${entry}`);
+    sessionStorage.setItem('musicverse_boot_log', JSON.stringify(existing));
+  } catch (e) {
+    // Ignore storage errors
+  }
+};
+
 export const TelegramProvider = ({ children }: { children: ReactNode }) => {
   const [webApp, setWebApp] = useState<TelegramWebApp | null>(null);
   const [user, setUser] = useState<TelegramUser | null>(null);
@@ -89,12 +102,16 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
   const [isDevelopmentMode, setIsDevelopmentMode] = useState(false);
 
   useEffect(() => {
+    bootLog('TelegramProvider useEffect started');
+    
     // Check for development mode - always enable on lovable domains or localhost
     const devMode = window.location.hostname.includes('lovable.dev') ||
                     window.location.hostname.includes('lovable.app') ||
                     window.location.hostname.includes('lovableproject.com') ||
                     window.location.hostname === 'localhost' ||
                     window.location.search.includes('dev=1');
+    
+    bootLog(`DevMode: ${devMode}, Telegram WebApp: ${!!window.Telegram?.WebApp}`);
     
     telegramLogger.debug('TelegramProvider initialization started', {
       hostname: window.location.hostname,
@@ -108,18 +125,21 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
     let initializationTimeout: NodeJS.Timeout;
     
     const ensureInitialized = () => {
+      bootLog('ensureInitialized called');
       setIsInitialized(true);
       telegramLogger.info('TelegramProvider initialized');
     };
 
-    // Set a safety timeout to prevent infinite loading
+    // Set a safety timeout to prevent infinite loading (reduced to 2.5s)
     initializationTimeout = setTimeout(() => {
+      bootLog('Initialization TIMEOUT (2.5s) - forcing complete');
       telegramLogger.warn('Initialization timeout - forcing initialization complete');
       ensureInitialized();
-    }, 3000);
+    }, 2500);
     
     if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
       const tg = window.Telegram.WebApp;
+      bootLog(`Telegram WebApp found: platform=${tg.platform}, version=${tg.version}`);
       setWebApp(tg);
 
       telegramLogger.info('Telegram WebApp detected', {
@@ -129,34 +149,55 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       });
 
       // Развернуть приложение на весь экран и инициализировать
-      tg.ready();
-      tg.expand();
+      try {
+        tg.ready();
+        bootLog('tg.ready() called');
+      } catch (e) {
+        bootLog(`tg.ready() error: ${e}`);
+      }
+      
+      try {
+        tg.expand();
+        bootLog('tg.expand() called');
+      } catch (e) {
+        bootLog(`tg.expand() error: ${e}`);
+      }
 
       // Lock orientation to portrait mode (vertical only)
       if (typeof (tg as any).lockOrientation === 'function') {
-        (tg as any).lockOrientation();
-        telegramLogger.debug('Orientation locked to portrait');
+        try {
+          (tg as any).lockOrientation();
+          bootLog('Orientation locked');
+        } catch (e) {
+          bootLog(`lockOrientation error: ${e}`);
+        }
       }
 
       // Request fullscreen mode automatically (Mini App 2.0+)
       if (typeof (tg as any).requestFullscreen === 'function') {
         try {
           (tg as any).requestFullscreen();
-          telegramLogger.debug('Fullscreen mode requested');
+          bootLog('Fullscreen requested');
         } catch (e) {
-          telegramLogger.warn('Fullscreen request failed', { error: String(e) });
+          bootLog(`Fullscreen error: ${e}`);
         }
       }
 
       // Установка цветов header и background
-      if (tg.setHeaderColor) {
-        tg.setHeaderColor('secondary_bg_color');
-      }
-      if (tg.setBackgroundColor) {
-        tg.setBackgroundColor('bg_color');
+      try {
+        if (tg.setHeaderColor) {
+          tg.setHeaderColor('secondary_bg_color');
+        }
+        if (tg.setBackgroundColor) {
+          tg.setBackgroundColor('bg_color');
+        }
+        bootLog('Colors set');
+      } catch (e) {
+        bootLog(`Colors error: ${e}`);
       }
 
       if (tg.initDataUnsafe?.user) {
+        bootLog(`User found: ${tg.initDataUnsafe.user.first_name} (${tg.initDataUnsafe.user.id})`);
         telegramLogger.debug('Telegram user found', {
           id: tg.initDataUnsafe.user.id,
           firstName: tg.initDataUnsafe.user.first_name,
@@ -171,12 +212,14 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
           photo_url: tg.initDataUnsafe.user.photo_url,
         });
       } else {
+        bootLog('WARNING: initDataUnsafe.user not found');
         telegramLogger.warn('initDataUnsafe.user not found');
       }
 
       setPlatform(tg.platform);
 
       if (tg.initData) {
+        bootLog(`InitData received, length=${tg.initData.length}`);
         telegramLogger.debug('InitData received', { length: tg.initData.length });
 
         // Парсим и показываем параметры для диагностики
@@ -189,8 +232,10 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
 
         // Seamless authentication with backend - NON-BLOCKING
         // CRITICAL: Do NOT use showPopup during initialization as it can block the app
+        bootLog('Starting auth...');
         telegramAuthService.authenticateWithTelegram(tg.initData)
           .then(authData => {
+            bootLog(`Auth result: ${authData ? 'success' : 'failed'}`);
             if (authData) {
               telegramLogger.info('Telegram authentication successful');
             } else {
@@ -199,15 +244,17 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
           })
           .catch(err => {
             // Log error but DO NOT show popup - it blocks initialization
+            bootLog(`Auth error: ${err}`);
             telegramLogger.error('Telegram authentication error', err);
-            // User can retry via profile page or app will auto-retry on next action
           })
           .finally(() => {
             // ALWAYS ensure initialization completes regardless of auth result
+            bootLog('Auth finally block - calling ensureInitialized');
             clearTimeout(initializationTimeout);
             ensureInitialized();
           });
       } else {
+        bootLog('ERROR: InitData not received');
         telegramLogger.error('InitData not received from Telegram');
         // No initData means we can't authenticate, but still need to initialize UI
         clearTimeout(initializationTimeout);

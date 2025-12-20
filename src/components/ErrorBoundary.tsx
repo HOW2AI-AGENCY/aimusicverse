@@ -22,10 +22,33 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   static getDerivedStateFromError(error: Error): State {
+    // Log to boot log for critical debugging
+    console.error('[ErrorBoundary] Error caught:', error);
+    try {
+      const existing = JSON.parse(sessionStorage.getItem('musicverse_boot_log') || '[]');
+      existing.push(`[${new Date().toISOString()}] [ErrorBoundary] CRITICAL: ${error.message}`);
+      existing.push(`[${new Date().toISOString()}] [ErrorBoundary] Stack: ${error.stack?.substring(0, 500)}`);
+      sessionStorage.setItem('musicverse_boot_log', JSON.stringify(existing));
+    } catch (e) {
+      // Ignore storage errors
+    }
     return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    // Log to boot log
+    console.error('[ErrorBoundary] componentDidCatch:', error, errorInfo);
+    try {
+      const existing = JSON.parse(sessionStorage.getItem('musicverse_boot_log') || '[]');
+      existing.push(`[${new Date().toISOString()}] [ErrorBoundary] componentDidCatch: ${error.message}`);
+      if (errorInfo.componentStack) {
+        existing.push(`[${new Date().toISOString()}] [ErrorBoundary] ComponentStack: ${errorInfo.componentStack.substring(0, 300)}`);
+      }
+      sessionStorage.setItem('musicverse_boot_log', JSON.stringify(existing));
+    } catch (e) {
+      // Ignore storage errors
+    }
+    
     // Use structured error logging
     logError(error, {
       componentStack: errorInfo.componentStack,
