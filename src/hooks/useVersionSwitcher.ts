@@ -30,7 +30,17 @@ export function useVersionSwitcher() {
 
   const setPrimaryVersionMutation = useMutation({
     mutationFn: async ({ trackId, versionId }: SetPrimaryVersionParams) => {
-      // Step 1: Unset is_primary for ALL versions of this track
+      // Step 1: Get the version data to get audio_url
+      const { data: versionData, error: fetchError } = await supabase
+        .from('track_versions')
+        .select('audio_url, cover_url, duration_seconds')
+        .eq('id', versionId)
+        .single();
+
+      if (fetchError) throw fetchError;
+      if (!versionData?.audio_url) throw new Error('Version has no audio URL');
+
+      // Step 2: Unset is_primary for ALL versions of this track
       const { error: unsetError } = await supabase
         .from('track_versions')
         .update({ is_primary: false })
@@ -38,7 +48,7 @@ export function useVersionSwitcher() {
 
       if (unsetError) throw unsetError;
 
-      // Step 2: Set the selected version as primary
+      // Step 3: Set the selected version as primary
       const { error: setError } = await supabase
         .from('track_versions')
         .update({ is_primary: true })
@@ -46,15 +56,22 @@ export function useVersionSwitcher() {
 
       if (setError) throw setError;
 
-      // Step 3: Also update active_version_id on tracks table for consistency
+      // Step 4: Update the track with new audio and reset stems
+      // Reset has_stems so stems will be regenerated for new audio
       const { error: trackError } = await supabase
         .from('tracks')
-        .update({ active_version_id: versionId })
+        .update({ 
+          active_version_id: versionId,
+          audio_url: versionData.audio_url,
+          cover_url: versionData.cover_url || undefined,
+          duration_seconds: versionData.duration_seconds || undefined,
+          has_stems: false, // Reset so user can re-separate stems for new audio
+        })
         .eq('id', trackId);
 
       if (trackError) throw trackError;
 
-      // Step 4: Log the change
+      // Step 5: Log the change
       const { data: userData } = await supabase.auth.getUser();
       if (userData.user) {
         await supabase.from('track_change_log').insert({
@@ -67,7 +84,7 @@ export function useVersionSwitcher() {
         });
       }
 
-      return { trackId, versionId };
+      return { trackId, versionId, audioUrl: versionData.audio_url };
     },
     onMutate: async ({ trackId, versionId }) => {
       // Cancel outgoing refetches
@@ -108,6 +125,8 @@ export function useVersionSwitcher() {
         queryClient.invalidateQueries({ queryKey: ['track-versions', data.trackId] });
         queryClient.invalidateQueries({ queryKey: ['tracks'] });
         queryClient.invalidateQueries({ queryKey: ['track-change-log', data.trackId] });
+        // Invalidate stems cache since has_stems was reset
+        queryClient.invalidateQueries({ queryKey: ['track-stems', data.trackId] });
       }
     },
   });
