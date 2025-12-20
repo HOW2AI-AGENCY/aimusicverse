@@ -19,13 +19,33 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     );
 
-    const { title, message, targetType = 'all', blogPostId } = await req.json();
+    const { title, message, targetType = 'all', blogPostId, imageUrl, saveAsTemplate, templateName } = await req.json();
 
     if (!title || !message) {
       return new Response(JSON.stringify({ error: 'Title and message are required' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
+    }
+
+    // Get auth user for logging and template saving
+    const authHeader = req.headers.get('Authorization');
+    let senderId = null;
+    if (authHeader) {
+      const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+      senderId = user?.id;
+    }
+
+    // Save as template if requested
+    if (saveAsTemplate && templateName) {
+      await supabase.from('broadcast_templates').insert({
+        name: templateName,
+        title,
+        message,
+        image_url: imageUrl || null,
+        created_by: senderId,
+      });
+      console.log(`Saved broadcast template: ${templateName}`);
     }
 
     // Get users with telegram_chat_id based on target type
@@ -48,13 +68,15 @@ Deno.serve(async (req) => {
     let sentCount = 0;
     let failedCount = 0;
 
-    // Escape markdown special characters
+    // Escape markdown special characters for MarkdownV2
     const escapeMarkdown = (text: string) => {
       return text.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
     };
 
-    // Build message with optional blog link
-    const fullMessage = `📢 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}\n\n🤖 _@AIMusicVerseBot_`;
+    // Build message - simpler format for image messages
+    const textMessage = imageUrl 
+      ? `${message}\n\n🤖 @AIMusicVerseBot`
+      : `📢 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}\n\n🤖 _@AIMusicVerseBot_`;
     
     const inlineKeyboard: { text: string; callback_data?: string; url?: string }[][] = [];
     
@@ -97,17 +119,34 @@ Deno.serve(async (req) => {
             .eq('chat_id', user.telegram_chat_id);
         }
 
-        // Send broadcast message (NOT saving as active menu - it's content, not navigation)
-        const response = await fetch(`${TELEGRAM_API}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: user.telegram_chat_id,
-            text: fullMessage,
-            parse_mode: 'MarkdownV2',
-            reply_markup: inlineKeyboard.length > 0 ? { inline_keyboard: inlineKeyboard } : undefined,
-          }),
-        });
+        let response;
+        
+        if (imageUrl) {
+          // Send photo with caption
+          response = await fetch(`${TELEGRAM_API}/sendPhoto`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: user.telegram_chat_id,
+              photo: imageUrl,
+              caption: textMessage,
+              parse_mode: 'HTML', // Use HTML for photo captions (more reliable)
+              reply_markup: inlineKeyboard.length > 0 ? { inline_keyboard: inlineKeyboard } : undefined,
+            }),
+          });
+        } else {
+          // Send text message
+          response = await fetch(`${TELEGRAM_API}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: user.telegram_chat_id,
+              text: textMessage,
+              parse_mode: 'MarkdownV2',
+              reply_markup: inlineKeyboard.length > 0 ? { inline_keyboard: inlineKeyboard } : undefined,
+            }),
+          });
+        }
 
         if (response.ok) {
           sentCount++;
@@ -148,14 +187,7 @@ Deno.serve(async (req) => {
       console.log(`Created ${usersToNotify.length} in-app notifications`);
     }
 
-    // Log broadcast
-    const authHeader = req.headers.get('Authorization');
-    let senderId = null;
-    if (authHeader) {
-      const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-      senderId = user?.id;
-    }
-
+    // Log broadcast with image URL
     await supabase.from('broadcast_messages').insert({
       sender_id: senderId,
       title,
@@ -163,6 +195,7 @@ Deno.serve(async (req) => {
       target_type: targetType,
       sent_count: sentCount,
       failed_count: failedCount,
+      image_url: imageUrl || null,
     });
 
     return new Response(JSON.stringify({
@@ -170,6 +203,7 @@ Deno.serve(async (req) => {
       sentCount,
       failedCount,
       totalTargeted: usersWithChat.length,
+      templateSaved: saveAsTemplate && templateName ? templateName : null,
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
