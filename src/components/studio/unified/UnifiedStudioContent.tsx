@@ -29,6 +29,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useTracks } from '@/hooks/useTracks';
 import { useTrackStems, TrackStem } from '@/hooks/useTrackStems';
+import { useTrackTranscriptions } from '@/hooks/useStemTranscription';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useSectionDetection } from '@/hooks/useSectionDetection';
 import { useReplacedSections } from '@/hooks/useReplacedSections';
@@ -82,6 +83,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   const { tracks } = useTracks();
   const track = tracks?.find(t => t.id === trackId);
   const { data: stems = [], isLoading: stemsLoading } = useTrackStems(trackId);
+  const { transcriptionsByStem } = useTrackTranscriptions(trackId);
   const { setPrimaryVersionAsync } = useVersionSwitcher();
   const { separate, isSeparating } = useStemSeparation();
 
@@ -940,6 +942,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           <IntegratedStemTracks
             stems={stems}
             stemStates={stemStates}
+            transcriptionsByStem={transcriptionsByStem}
             isPlaying={isPlaying}
             currentTime={currentTime}
             duration={duration}

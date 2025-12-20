@@ -1,4 +1,4 @@
-import { Mic2, Guitar, Layers } from 'lucide-react';
+import { Mic2, Guitar, Layers, Music2, FileText } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -11,15 +11,22 @@ import { cn } from '@/lib/utils';
 interface TrackTypeIconsProps {
   track: Track;
   compact?: boolean;
+  hasMidi?: boolean;
+  hasPdf?: boolean;
 }
 
-export function TrackTypeIcons({ track, compact = false }: TrackTypeIconsProps) {
+export function TrackTypeIcons({ 
+  track, 
+  compact = false,
+  hasMidi = false,
+  hasPdf = false,
+}: TrackTypeIconsProps) {
   const hasVocals = track.has_vocals === true;
   // is_instrumental derived from has_vocals if not explicitly set
   const isInstrumental = track.is_instrumental === true || (track.is_instrumental == null && track.has_vocals === false);
   const hasStems = track.has_stems === true;
 
-  if (!hasVocals && !isInstrumental && !hasStems) {
+  if (!hasVocals && !isInstrumental && !hasStems && !hasMidi && !hasPdf) {
     return null;
   }
 
@@ -63,6 +70,32 @@ export function TrackTypeIcons({ track, compact = false }: TrackTypeIconsProps) 
             </TooltipTrigger>
             <TooltipContent side="top" className="text-xs">
               <p>Стемы</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+
+        {hasMidi && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="cursor-help p-0.5 rounded bg-primary/10">
+                <Music2 className={cn(iconSize, "text-primary")} />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="text-xs">
+              <p>MIDI</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+
+        {hasPdf && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="cursor-help p-0.5 rounded bg-amber-500/10">
+                <FileText className={cn(iconSize, "text-amber-500")} />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="text-xs">
+              <p>Ноты (PDF)</p>
             </TooltipContent>
           </Tooltip>
         )}

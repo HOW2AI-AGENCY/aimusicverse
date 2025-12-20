@@ -413,7 +413,8 @@ StemTrackRowMobile.displayName = 'StemTrackRowMobile';
 // Desktop stem row - more compact horizontal layout
 const StemTrackRowDesktop = memo(({ 
   stem, 
-  state, 
+  state,
+  transcription,
   isPlaying, 
   currentTime, 
   duration,
@@ -424,6 +425,7 @@ const StemTrackRowDesktop = memo(({
 }: {
   stem: TrackStem;
   state: StemState;
+  transcription?: StemTranscription | null;
   isPlaying: boolean;
   currentTime: number;
   duration: number;
@@ -448,7 +450,7 @@ const StemTrackRowDesktop = memo(({
       )}
     >
       {/* Track label */}
-      <div className="flex items-center gap-2 w-28 shrink-0">
+      <div className="flex items-center gap-2 w-32 shrink-0">
         <div className={cn(
           "w-6 h-6 rounded-md flex items-center justify-center",
           config.accent
@@ -458,6 +460,29 @@ const StemTrackRowDesktop = memo(({
         <span className="text-[11px] font-mono font-semibold tracking-wider">
           {config.shortLabel}
         </span>
+        {/* Transcription indicators */}
+        {transcription && (
+          <div className="flex items-center gap-0.5">
+            {transcription.midi_url && (
+              <Badge 
+                variant="outline" 
+                className="h-4 px-1 text-[8px] bg-primary/10 border-primary/30 text-primary cursor-pointer hover:bg-primary/20"
+                onClick={() => onAction('view-notes')}
+              >
+                <Music2 className="w-2.5 h-2.5" />
+              </Badge>
+            )}
+            {transcription.pdf_url && (
+              <Badge 
+                variant="outline" 
+                className="h-4 px-1 text-[8px] bg-amber-500/10 border-amber-500/30 text-amber-500 cursor-pointer hover:bg-amber-500/20"
+                onClick={() => onAction('view-notes')}
+              >
+                <FileMusic className="w-2.5 h-2.5" />
+              </Badge>
+            )}
+          </div>
+        )}
       </div>
 
       {/* M/S buttons */}
@@ -726,6 +751,7 @@ export function IntegratedStemTracks({
                     <StemTrackRowDesktop
                       stem={stem}
                       state={stemStates[stem.id] || { muted: false, solo: false, volume: 0.85 }}
+                      transcription={transcriptionsByStem?.[stem.id]}
                       isPlaying={isPlaying}
                       currentTime={currentTime}
                       duration={duration}
