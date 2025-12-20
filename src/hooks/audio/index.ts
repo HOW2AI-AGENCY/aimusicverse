@@ -1,40 +1,25 @@
 /**
- * Audio playback hooks export
+ * Audio playback hooks - BARREL FILE DISABLED
  * 
- * SAFE EXPORTS ONLY - hooks that don't pull in heavy audio libraries
+ * ⚠️ DO NOT RE-EXPORT ANYTHING FROM THIS FILE ⚠️
  * 
- * WARNING: Do NOT add useWaveform, useWaveformData, useAudioVisualizer, 
- * useBeatGrid here - they pull in wavesurfer.js/Tone.js and cause 
+ * This barrel file is intentionally empty to prevent circular dependencies
+ * and premature AudioContext initialization that causes:
  * "Cannot access 't' before initialization" errors in production.
  * 
- * Import those directly from their files:
- * - import { useWaveform } from '@/hooks/audio/useWaveform'
- * - import { useWaveformData } from '@/hooks/audio/useWaveformData'
- * - import { useAudioVisualizer } from '@/hooks/audio/useAudioVisualizer'
- * - import { useBeatGrid } from '@/hooks/audio/useBeatGrid'
+ * ALWAYS use direct imports instead:
+ * 
+ * import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+ * import { useAudioPlayer } from '@/hooks/audio/useAudioPlayer';
+ * import { useGlobalAudioPlayer } from '@/hooks/audio/useGlobalAudioPlayer';
+ * import { usePlaybackQueue } from '@/hooks/audio/usePlaybackQueue';
+ * import { useWaveform } from '@/hooks/audio/useWaveform';
+ * import { useWaveformData } from '@/hooks/audio/useWaveformData';
+ * import { useAudioVisualizer } from '@/hooks/audio/useAudioVisualizer';
+ * import { useBeatGrid } from '@/hooks/audio/useBeatGrid';
+ * 
+ * Audio context utilities:
+ * import { getAudioSystemDiagnostics } from '@/lib/audioContextManager';
  */
 
-// Safe exports - no heavy dependencies
-export { useAudioPlayer } from './useAudioPlayer';
-export { useAudioTime, getGlobalAudioRef, setGlobalAudioRef } from './useAudioTime';
-export { useGlobalAudioPlayer } from './useGlobalAudioPlayer';
-export { usePlayerStore } from './usePlayerState';
-export { usePlaybackQueue } from './usePlaybackQueue';
-export { useQueueHistory } from './useQueueHistory';
-export { useDebouncedAudioTime } from './useDebouncedAudioTime';
-export { useOptimizedAudioPlayer } from './useOptimizedAudioPlayer';
-export { usePlaybackHistory } from './usePlaybackHistory';
-export { usePlaybackPosition } from './usePlaybackPosition';
-export { useBufferMonitor } from './useBufferMonitor';
-export { usePlayerKeyboardShortcuts } from './usePlayerKeyboardShortcuts';
-export { useSmartQueue } from './useSmartQueue';
-export { useAudioPerformanceMonitor } from './useAudioPerformanceMonitor';
-export { useNetworkStatus } from './useNetworkStatus';
-export { useReferenceAudioPlayer } from './useReferenceAudioPlayer';
-
-// Safe audio context utilities (lazy initialization)
-export { 
-  getAudioSystemDiagnostics,
-  getAudioContextState,
-  ensureAudioRoutedToDestination 
-} from '@/lib/audioContextManager';
+// Intentionally empty - use direct imports only

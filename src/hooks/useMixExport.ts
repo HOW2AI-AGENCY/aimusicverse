@@ -8,10 +8,8 @@
 
 import { useState, useCallback, useRef } from 'react';
 import { logger } from '@/lib/logger';
-import { 
-  StemEffects, 
-  defaultStemEffects 
-} from './studio/useStemAudioEngine';
+import type { StemEffects } from './studio/types';
+import { defaultStemEffects } from './studio/stemEffectsConfig';
 // @ts-ignore - lamejs doesn't have types
 import lamejs from 'lamejs';
 

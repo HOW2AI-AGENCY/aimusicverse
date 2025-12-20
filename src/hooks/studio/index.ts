@@ -1,27 +1,42 @@
 /**
- * Stem Studio hooks export
+ * Stem Studio hooks - BARREL FILE DISABLED
  * 
- * SAFE EXPORTS ONLY - types and lightweight utilities
+ * ⚠️ DO NOT RE-EXPORT RUNTIME CODE FROM THIS FILE ⚠️
  * 
- * WARNING: Do NOT add useStemAudioEngine, useMultiTrackAudio, useStemStudioEngine
- * here - they create AudioContext at module level and cause 
+ * This barrel file only exports TYPES to prevent circular dependencies
+ * and premature AudioContext initialization that causes:
  * "Cannot access 't' before initialization" errors in production.
  * 
- * Import those directly from their files:
- * - import { useStemAudioEngine } from '@/hooks/studio/useStemAudioEngine'
- * - import { useMultiTrackAudio } from '@/hooks/studio/useMultiTrackAudio'
- * - import { useStemStudioEngine } from '@/hooks/studio/useStemStudioEngine'
+ * ALWAYS use direct imports for hooks:
+ * 
+ * import { useStemAudioEngine } from '@/hooks/studio/useStemAudioEngine';
+ * import { useMultiTrackAudio } from '@/hooks/studio/useMultiTrackAudio';
+ * import { useStemStudioEngine } from '@/hooks/studio/useStemStudioEngine';
+ * import { useStemControls } from '@/hooks/studio/useStemControls';
+ * import { useStudioKeyboardShortcuts } from '@/hooks/studio/useStudioKeyboardShortcuts';
+ * import { useMixPresets, useAutoSaveMix } from '@/hooks/studio/useMixPresets';
+ * import { useLoopRegion } from '@/hooks/studio/useLoopRegion';
+ * import { useStudioAudio } from '@/hooks/studio/useStudioAudio';
+ * 
+ * For types and constants (safe to import):
+ * import type { StemEffects, MixPreset } from '@/hooks/studio/types';
+ * import { defaultStemEffects, eqPresets } from '@/hooks/studio/stemEffectsConfig';
  */
 
-// Safe type exports (no runtime code)
+// Only export types - no runtime code
 export type {
   StemEffects,
   EQSettings,
   CompressorSettings,
   ReverbSettings,
-} from './useStemAudioEngine';
+  StemConfig,
+  MixPreset,
+  StemState,
+  LoopRegion,
+  KeyboardShortcut,
+} from './types';
 
-// Safe constant exports (extracted to avoid pulling in the whole engine)
+// Safe constant exports - no AudioContext dependencies
 export { 
   defaultStemEffects,
   eqPresets,
@@ -31,37 +46,3 @@ export {
   defaultCompressorSettings,
   defaultReverbSettings,
 } from './stemEffectsConfig';
-
-// Safe hooks - no AudioContext dependencies
-export { useStudioDialogs } from './useStudioDialogs';
-export { useTrimExport } from './useTrimExport';
-export { useMidiSync } from './useMidiSync';
-export { useStemAudioSync } from './useStemAudioSync';
-export { useStemControls } from './useStemControls';
-export type { StemState } from './useStemControls';
-export { useStudioKeyboardShortcuts, formatShortcut } from './useStudioKeyboardShortcuts';
-export type { KeyboardShortcut } from './useStudioKeyboardShortcuts';
-export { 
-  useMixPresets, 
-  useAutoSaveMix, 
-  generatePresetForStems,
-  defaultMixPresets,
-} from './useMixPresets';
-export type { MixPreset, StemConfig } from './useMixPresets';
-export { useLoopRegion } from './useLoopRegion';
-export type { LoopRegion } from './useLoopRegion';
-export { 
-  useStudioAudio, 
-  registerStudioAudio, 
-  unregisterStudioAudio, 
-  pauseAllStudioAudio 
-} from './useStudioAudio';
-
-// Multi-track DAW store (safe - just Zustand)
-export { useStudioProjectStore } from '@/stores/useStudioProjectStore';
-export type { 
-  StudioProject, 
-  StudioTrack, 
-  StudioClip, 
-  ClipType 
-} from '@/stores/useStudioProjectStore';

@@ -30,16 +30,13 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { TrackStem } from '@/hooks/useTrackStems';
+import type { StemEffects, EQSettings, CompressorSettings, ReverbSettings } from '@/hooks/studio/types';
 import {
-  StemEffects,
-  EQSettings,
-  CompressorSettings,
-  ReverbSettings,
   eqPresets,
   compressorPresets,
   reverbPresets,
   defaultStemEffects,
-} from '@/hooks/studio/useStemAudioEngine';
+} from '@/hooks/studio/stemEffectsConfig';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';

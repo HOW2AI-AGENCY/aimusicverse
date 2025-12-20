@@ -1,38 +1,21 @@
 /**
  * Stem Effects Configuration
  * 
- * Extracted from useStemAudioEngine to prevent pulling in AudioContext
- * on initial bundle load. These are pure data/type exports.
+ * Default values and presets for stem effects.
+ * This file contains NO AudioContext code - safe to import anywhere.
+ * 
+ * Types are imported from types.ts to prevent circular dependencies.
  */
 
-export interface EQSettings {
-  lowGain: number;      // -12 to +12 dB
-  midGain: number;      // -12 to +12 dB
-  highGain: number;     // -12 to +12 dB
-  lowFreq: number;      // Hz (default 320)
-  highFreq: number;     // Hz (default 3200)
-}
+import type {
+  EQSettings,
+  CompressorSettings,
+  ReverbSettings,
+  StemEffects,
+} from './types';
 
-export interface CompressorSettings {
-  threshold: number;    // -100 to 0 dB
-  ratio: number;        // 1 to 20
-  attack: number;       // 0 to 1 seconds
-  release: number;      // 0 to 1 seconds
-  knee: number;         // 0 to 40 dB
-  enabled: boolean;
-}
-
-export interface ReverbSettings {
-  wetDry: number;       // 0 to 1 (dry to wet)
-  decay: number;        // 0.1 to 10 seconds
-  enabled: boolean;
-}
-
-export interface StemEffects {
-  eq: EQSettings;
-  compressor: CompressorSettings;
-  reverb: ReverbSettings;
-}
+// Re-export types for convenience
+export type { EQSettings, CompressorSettings, ReverbSettings, StemEffects };
 
 export const defaultEQSettings: EQSettings = {
   lowGain: 0,

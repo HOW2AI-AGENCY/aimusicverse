@@ -217,7 +217,12 @@ export default defineConfig(({ mode }) => ({
       "@supabase/supabase-js",
       "@radix-ui/react-dialog",
       "@radix-ui/react-dropdown-menu",
-      "tone", // Tone.js needs to be pre-bundled to avoid initialization errors
+    ],
+    // Exclude audio libraries from pre-bundling to allow lazy loading
+    // This prevents "Cannot access 't' before initialization" errors
+    exclude: [
+      "tone",
+      "wavesurfer.js",
     ],
   },
 }));
