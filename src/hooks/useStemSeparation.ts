@@ -27,9 +27,8 @@ export const useStemSeparation = () => {
 
       const { data, error } = await supabase.functions.invoke('suno-separate-vocals', {
         body: {
-          trackId: track.id,
+          taskId: track.suno_task_id,  // Edge function expects suno_task_id, not track.id
           audioId: track.suno_id,
-          audioUrl: track.audio_url,
           mode,
           userId: user.id,
         }
