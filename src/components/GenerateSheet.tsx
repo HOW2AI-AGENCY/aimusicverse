@@ -117,8 +117,13 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="h-[95vh] flex flex-col frost-sheet p-0">
-        {/* Compact Header */}
-        <div className="px-4 pt-3 pb-2 flex items-center justify-between border-b">
+        {/* Compact Header with safe area padding for Telegram Mini App */}
+        <div 
+          className="px-4 pb-2 flex items-center justify-between border-b"
+          style={{ 
+            paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))' 
+          }}
+        >
           <div className="flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-primary" />
             <h2 className="text-sm font-semibold">Создать трек</h2>
