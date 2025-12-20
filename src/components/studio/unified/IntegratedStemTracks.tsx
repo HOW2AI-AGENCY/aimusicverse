@@ -30,10 +30,12 @@ import {
 import { cn } from '@/lib/utils';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { StemWaveform } from '@/components/stem-studio/StemWaveform';
+import { StemTrackSkeleton } from '@/components/studio/StemTrackSkeleton';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { StemNotesPreview } from '@/components/studio/StemNotesPreview';
 import { StemTranscription } from '@/hooks/useStemTranscription';
+import { preloadRouteComponents } from '@/components/lazy';
 
 interface StemState {
   muted: boolean;
@@ -321,8 +323,8 @@ const StemTrackRowMobile = memo(({
               {Math.round(state.volume * 100)}
             </Button>
 
-            {/* Menu */}
-            <DropdownMenu>
+            {/* Menu - preload components on open */}
+            <DropdownMenu onOpenChange={(open) => open && preloadRouteComponents.studio()}>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="h-7 w-7 p-0 rounded-lg">
                   <MoreHorizontal className="w-4 h-4" />
@@ -731,7 +733,12 @@ export function IntegratedStemTracks({
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            {isMobile ? (
+            {/* Show skeleton while loading */}
+            {!stemsReady && stemsLoadingProgress < 100 ? (
+              <div className="p-2">
+                <StemTrackSkeleton count={stems.length} isMobile={isMobile} />
+              </div>
+            ) : isMobile ? (
               // Mobile: Card-style stacked layout
               <div className="p-2 space-y-2">
                 {stems.map((stem, index) => (

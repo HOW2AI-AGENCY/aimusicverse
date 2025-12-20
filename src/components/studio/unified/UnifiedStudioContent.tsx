@@ -215,9 +215,11 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   // Track loading progress
   const [stemsLoadingProgress, setStemsLoadingProgress] = useState(0);
 
-  // Initialize and manage stem audio elements with LIGHT loading
-  // Rationale: eager `preload="auto"` for many stems triggers parallel full downloads and can feel very slow.
-  // We only need metadata to enable playback controls; audio will buffer naturally on first play.
+  // Stem audio cache integration
+  const { loadStemWithCache, prefetchStems } = useStemAudioCache(stems);
+
+  // Initialize and manage stem audio elements with IndexedDB caching
+  // Priority order: vocals -> bass -> drums -> others (for progressive loading)
   useEffect(() => {
     if (!stems || stems.length === 0) {
       setStemsReady(false);
@@ -239,38 +241,52 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       }
     };
 
-    // Create audio elements for each stem - preload only metadata (fast)
-    stems.forEach((stem) => {
+    // Sort stems by priority for progressive loading
+    const prioritizedStems = getStemsByPriority(stems);
+
+    // Create audio elements for each stem with cache-first strategy
+    const loadStemAsync = async (stem: TrackStem) => {
       if (!stemAudioRefs.current[stem.id]) {
         const audio = new Audio();
-        // Only fetch metadata up-front; avoid full parallel buffering
         audio.preload = 'metadata';
         audio.volume = 0.85;
         audio.crossOrigin = 'anonymous';
 
         const handleLoadedMetadata = () => {
-          loadedCount++;
-          stemsLoadingCountRef.current = loadedCount;
-          logger.debug('Stem metadata ready', {
-            stemId: stem.id,
-            stemType: stem.stem_type,
-            loadedCount,
-            totalStems,
-          });
-          checkAllLoaded();
+          if (!audio.dataset.counted) {
+            audio.dataset.counted = 'true';
+            loadedCount++;
+            stemsLoadingCountRef.current = loadedCount;
+            logger.debug('Stem metadata ready', {
+              stemId: stem.id,
+              stemType: stem.stem_type,
+              loadedCount,
+              totalStems,
+              fromCache: audio.dataset.fromCache === 'true',
+            });
+            checkAllLoaded();
+          }
         };
 
         const handleError = (e: Event) => {
           logger.error('Stem audio load error', { stemId: stem.id, error: e });
-          // Still count as ready to not block other stems
-          loadedCount++;
-          checkAllLoaded();
+          if (!audio.dataset.counted) {
+            audio.dataset.counted = 'true';
+            loadedCount++;
+            checkAllLoaded();
+          }
         };
 
         audio.addEventListener('loadedmetadata', handleLoadedMetadata, { once: true });
         audio.addEventListener('error', handleError, { once: true });
 
-        // Fallback: if metadata doesn't load quickly (e.g. connection queue), count it anyway
+        // Try to load from cache first
+        const loaded = await loadStemWithCache(stem, audio);
+        if (loaded) {
+          audio.dataset.fromCache = 'true';
+        }
+
+        // Fallback: if metadata doesn't load quickly, count it anyway
         setTimeout(() => {
           if (!audio.dataset.counted && audio.readyState < 1) {
             audio.dataset.counted = 'true';
@@ -281,30 +297,34 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
               readyState: audio.readyState,
             });
           }
-        }, 2500);
-
-        // Start loading metadata immediately
-        audio.src = stem.audio_url;
-        audio.load();
+        }, 3000);
 
         stemAudioRefs.current[stem.id] = audio;
       } else {
         const audio = stemAudioRefs.current[stem.id];
-        // If already has metadata, count it
-        if (audio.readyState >= 1) {
+        if (audio.readyState >= 1 && !audio.dataset.counted) {
+          audio.dataset.counted = 'true';
           loadedCount++;
           checkAllLoaded();
-        } else {
+        } else if (!audio.dataset.counted) {
           audio.addEventListener(
             'loadedmetadata',
             () => {
-              loadedCount++;
-              checkAllLoaded();
+              if (!audio.dataset.counted) {
+                audio.dataset.counted = 'true';
+                loadedCount++;
+                checkAllLoaded();
+              }
             },
             { once: true }
           );
         }
       }
+    };
+
+    // Load stems in priority order with slight stagger for network efficiency
+    prioritizedStems.forEach((stem, index) => {
+      setTimeout(() => loadStemAsync(stem), index * 100); // 100ms stagger
     });
 
     // Cleanup: remove audio elements for stems that no longer exist
@@ -327,7 +347,18 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       setStemsReady(false);
       setStemsLoadingProgress(0);
     };
-  }, [stems]);
+  }, [stems, loadStemWithCache]);
+
+  // Prefetch stems in background when track loads
+  useEffect(() => {
+    if (stems && stems.length > 0) {
+      // Delay prefetch to not compete with initial load
+      const timer = setTimeout(() => {
+        prefetchStems(stems);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [stems, prefetchStems]);
 
   // Apply stem volume/mute/solo states
   useEffect(() => {
