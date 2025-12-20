@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Home,
@@ -17,11 +17,10 @@ import {
   Loader2,
   ChevronDown,
   ChevronRight,
-  Guitar // ✨ Добавлена иконка для Guitar Studio
+  Guitar
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
-import { GenerateSheet } from './GenerateSheet';
 import { NotificationCenter } from './notifications';
 import { usePlaylists } from '@/hooks/usePlaylists';
 import { useNotificationHub } from '@/contexts/NotificationContext';
@@ -29,6 +28,10 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collap
 import { Badge } from './ui/badge';
 import { Progress } from './ui/progress';
 import { ScrollArea } from './ui/scroll-area';
+import { preloadRoute } from '@/lib/route-preloader';
+
+// Lazy load GenerateSheet
+const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default: m.GenerateSheet })));
 
 const mainNavItems = [
   { path: '/', label: 'Главная', icon: Home },
@@ -93,15 +96,17 @@ export const Sidebar = () => {
     path: string;
     label: string;
     icon: React.ElementType;
-    badge?: number | string; // ✨ Поддержка числовых и текстовых бейджей
-    description?: string; // ✨ Описание для тултипа
+    badge?: number | string;
+    description?: string;
   }) => {
     const active = isActive(path);
-
-    // Определяем тип бейджа и его стиль
     const isPROBadge = badge === 'PRO';
     const isNumericBadge = typeof badge === 'number' && badge > 0;
-    const showBadge = isPROBadge || isNumericBadge;
+
+    // Preload route on hover for faster navigation
+    const handleMouseEnter = useCallback(() => {
+      preloadRoute(path);
+    }, [path]);
 
     return (
       <Button
@@ -111,19 +116,19 @@ export const Sidebar = () => {
           active && "bg-primary/10 text-primary border-l-2 border-primary rounded-l-none"
         )}
         onClick={() => navigate(path)}
-        title={description} // 📝 Native tooltip для desktop
+        onMouseEnter={handleMouseEnter}
+        onFocus={handleMouseEnter}
+        title={description}
       >
         <Icon className="w-4 h-4" />
         <span className="flex-1 text-left">{label}</span>
 
-        {/* Числовой бейдж (счётчик) */}
         {isNumericBadge && (
           <Badge variant="secondary" className="h-5 px-1.5 text-xs">
             {badge}
           </Badge>
         )}
 
-        {/* PRO бейдж (градиентный) */}
         {isPROBadge && (
           <Badge
             className={cn(
@@ -258,7 +263,11 @@ export const Sidebar = () => {
         </div>
       </aside>
     
-      <GenerateSheet open={generateOpen} onOpenChange={setGenerateOpen} />
+      {generateOpen && (
+        <Suspense fallback={null}>
+          <GenerateSheet open={generateOpen} onOpenChange={setGenerateOpen} />
+        </Suspense>
+      )}
     </>
   );
 };

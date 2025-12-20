@@ -3,6 +3,7 @@ import { useTelegram } from '@/contexts/TelegramContext';
 import { LoadingScreen } from '@/components/ui/loading-screen';
 import { logger } from '@/lib/logger';
 import { cleanupStaleData } from '@/lib/cleanupStaleData';
+import { preloadCriticalRoutes } from '@/lib/route-preloader';
 
 interface InitializationGuardProps {
   children: ReactNode;
@@ -120,6 +121,8 @@ export const InitializationGuard = ({ children }: InitializationGuardProps) => {
       initLogger.info('isInitialized became true - showing content');
       setTimeout(() => {
         setShowContent(true);
+        // Preload critical routes after showing content
+        preloadCriticalRoutes();
       }, 0);
     }
   }, [isInitialized]);

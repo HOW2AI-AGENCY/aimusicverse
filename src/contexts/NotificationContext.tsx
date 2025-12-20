@@ -146,9 +146,12 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [user?.id, fetchNotifications]);
 
-  // Fetch active generations
+  // Fetch active generations with visibility-aware polling
   useEffect(() => {
     if (!user?.id) return;
+
+    let pollInterval: ReturnType<typeof setInterval> | null = null;
+    let isVisible = !document.hidden;
 
     const fetchGenerations = async () => {
       const { data, error } = await supabase
@@ -162,10 +165,9 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
       if (!error && data) {
         const generations = data.map(task => {
           const stageInfo = getGenerationStage(task.status);
-          // Calculate estimated time based on creation time
           const createdAt = new Date(task.created_at).getTime();
           const elapsed = (Date.now() - createdAt) / 1000;
-          const estimatedTotal = 120; // ~2 min average
+          const estimatedTotal = 120;
           const remaining = Math.max(0, estimatedTotal - elapsed);
           
           return {
@@ -181,17 +183,35 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         });
         setActiveGenerations(generations);
         
-        // Update last status map
         generations.forEach(g => {
           lastGenerationStatus.current.set(g.id, g.status);
         });
       }
     };
 
+    const startPolling = () => {
+      if (pollInterval) clearInterval(pollInterval);
+      // Poll every 2s when visible, 10s when hidden
+      const interval = isVisible ? 2000 : 10000;
+      pollInterval = setInterval(fetchGenerations, interval);
+    };
+
+    const handleVisibilityChange = () => {
+      isVisible = !document.hidden;
+      if (isVisible) {
+        fetchGenerations(); // Immediate fetch when becoming visible
+      }
+      startPolling();
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     fetchGenerations();
-    // Faster polling (2s) for quicker streaming detection
-    const interval = setInterval(fetchGenerations, 2000);
-    return () => clearInterval(interval);
+    startPolling();
+
+    return () => {
+      if (pollInterval) clearInterval(pollInterval);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, [user?.id]);
 
   // Realtime subscription for notifications
