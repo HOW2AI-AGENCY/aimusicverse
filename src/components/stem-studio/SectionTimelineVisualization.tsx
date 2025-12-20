@@ -226,7 +226,7 @@ export function SectionTimelineVisualization({
 
       {/* Progress bar */}
       <div 
-        className="relative h-2 bg-muted/50 rounded-full cursor-pointer group"
+        className="relative h-3 bg-primary/15 rounded-full cursor-pointer group border border-primary/30"
         onClick={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();
           const x = e.clientX - rect.left;
@@ -236,15 +236,15 @@ export function SectionTimelineVisualization({
       >
         {/* Progress fill */}
         <motion.div 
-          className="absolute top-0 left-0 h-full bg-primary/50 rounded-full"
+          className="absolute top-0 left-0 h-full bg-gradient-to-r from-primary/70 to-primary rounded-full"
           style={{ width: `${progress}%` }}
           transition={{ duration: 0.1 }}
         />
         
         {/* Playhead */}
         <motion.div
-          className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-primary rounded-full shadow-lg border-2 border-background z-30"
-          style={{ left: `${progress}%`, marginLeft: '-6px' }}
+          className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-primary rounded-full shadow-lg shadow-primary/40 border-2 border-background z-30"
+          style={{ left: `${progress}%`, marginLeft: '-8px' }}
           variants={playheadVariants}
           initial="initial"
           animate="animate"
@@ -252,7 +252,7 @@ export function SectionTimelineVisualization({
         />
         
         {/* Hover effect */}
-        <div className="absolute inset-0 rounded-full group-hover:bg-foreground/5 transition-colors" />
+        <div className="absolute inset-0 rounded-full group-hover:bg-primary/10 transition-colors" />
       </div>
 
       {/* Time markers */}
