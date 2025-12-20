@@ -159,17 +159,18 @@ export function EnhancedLyricsPreview({
           </div>
         )}
 
-        {/* Lyrics display - expanded height for mobile */}
+        {/* Lyrics display - expanded height for mobile, flex-grow to fill space */}
         <ScrollArea className={cn(
+          "flex-1",
           fullHeight 
-            ? "max-h-[45vh] min-h-[200px]" 
+            ? "min-h-[250px]" 
             : "max-h-[200px] sm:max-h-[320px]"
         )}>
-          <div className="p-3">
+          <div className="p-3 pb-6">
             <StructuredLyricsDisplay
               lyrics={lyrics}
               showMetadata={false}
-              className="border-0 shadow-none bg-transparent p-0"
+              className="border-0 shadow-none bg-transparent p-0 [&_pre]:whitespace-pre-wrap [&_pre]:break-words"
             />
           </div>
         </ScrollArea>

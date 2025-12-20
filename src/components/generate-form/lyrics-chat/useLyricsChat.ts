@@ -229,18 +229,20 @@ export function useLyricsChat({
   }, [open, messages.length, initConversation]);
 
   // Smart auto-scroll - only scroll if user hasn't manually scrolled
+  // Also scroll when loading state changes (AI response received)
   useEffect(() => {
     if (!scrollRef.current || userScrolling) return;
 
-    // Use requestAnimationFrame for smooth scroll
-    requestAnimationFrame(() => {
+    // Small delay to ensure DOM is updated
+    const scrollToBottom = () => {
       if (!scrollRef.current) return;
 
       isProgrammaticScrollRef.current = true;
-      const targetScrollTop = scrollRef.current.scrollHeight;
+      const container = scrollRef.current;
+      const targetScrollTop = container.scrollHeight;
       lastScrollTopRef.current = targetScrollTop;
 
-      scrollRef.current.scrollTo({
+      container.scrollTo({
         top: targetScrollTop,
         behavior: 'smooth'
       });
@@ -249,8 +251,11 @@ export function useLyricsChat({
       setTimeout(() => {
         isProgrammaticScrollRef.current = false;
       }, PROGRAMMATIC_SCROLL_RESET_DELAY);
-    });
-  }, [messages, userScrolling]);
+    };
+
+    // Use requestAnimationFrame for smooth scroll
+    requestAnimationFrame(scrollToBottom);
+  }, [messages, isLoading, userScrolling]);
 
   const askForGenre = useCallback(() => {
     setTimeout(() => {
