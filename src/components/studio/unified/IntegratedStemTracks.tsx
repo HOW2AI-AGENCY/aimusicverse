@@ -15,7 +15,7 @@ import {
   Mic2, Guitar, Drum, Music, Piano, Waves,
   Volume2, VolumeX, MoreHorizontal, Music2, Download,
   Sparkles, ChevronDown, ChevronUp, Headphones, Plus, Sliders,
-  Wand2, FileMusic, Eye
+  Wand2, FileMusic, Eye, Loader2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -50,6 +50,8 @@ interface IntegratedStemTracksProps {
   duration: number;
   masterVolume: number;
   masterMuted: boolean;
+  stemsReady?: boolean;
+  stemsLoadingProgress?: number;
   onStemToggle: (stemId: string, type: 'mute' | 'solo') => void;
   onStemVolumeChange: (stemId: string, volume: number) => void;
   onMasterVolumeChange: (volume: number) => void;
@@ -249,6 +251,22 @@ const StemTrackRowMobile = memo(({
             <span className="text-xs font-mono font-semibold tracking-wider truncate">
               {config.shortLabel}
             </span>
+            {/* Transcription indicators */}
+            {transcription && (
+              <div className="flex items-center gap-0.5">
+                {transcription.midi_url && (
+                  <Badge variant="outline" className="h-4 px-1 text-[8px] bg-primary/10 border-primary/30 text-primary">
+                    <Music2 className="w-2.5 h-2.5 mr-0.5" />
+                    MIDI
+                  </Badge>
+                )}
+                {transcription.pdf_url && (
+                  <Badge variant="outline" className="h-4 px-1 text-[8px] bg-amber-500/10 border-amber-500/30 text-amber-500">
+                    <FileMusic className="w-2.5 h-2.5" />
+                  </Badge>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Controls */}
@@ -521,6 +539,8 @@ export function IntegratedStemTracks({
   duration,
   masterVolume,
   masterMuted,
+  stemsReady = true,
+  stemsLoadingProgress = 100,
   onStemToggle,
   onStemVolumeChange,
   onMasterVolumeChange,
@@ -563,9 +583,16 @@ export function IntegratedStemTracks({
         >
           <Headphones className="w-4 h-4 text-primary" />
           <span>Стемы</span>
-          <Badge variant="secondary" className="h-5 px-1.5 text-[10px] font-mono">
-            {stems.length}
-          </Badge>
+          {!stemsReady && stemsLoadingProgress < 100 ? (
+            <Badge variant="secondary" className="h-5 px-1.5 text-[10px] font-mono flex items-center gap-1">
+              <Loader2 className="w-3 h-3 animate-spin" />
+              {stemsLoadingProgress}%
+            </Badge>
+          ) : (
+            <Badge variant="secondary" className="h-5 px-1.5 text-[10px] font-mono">
+              {stems.length}
+            </Badge>
+          )}
           {soloedCount > 0 && (
             <Badge className="h-5 px-1.5 text-[10px] bg-primary">
               {soloedCount}S
