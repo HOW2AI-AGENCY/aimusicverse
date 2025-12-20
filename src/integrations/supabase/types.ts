@@ -2316,6 +2316,54 @@ export type Database = {
           },
         ]
       }
+      subscription_history: {
+        Row: {
+          action: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          metadata: Json | null
+          previous_tier: Database["public"]["Enums"]["subscription_tier"] | null
+          stars_transaction_id: string | null
+          tier: Database["public"]["Enums"]["subscription_tier"]
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          metadata?: Json | null
+          previous_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
+          stars_transaction_id?: string | null
+          tier: Database["public"]["Enums"]["subscription_tier"]
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          metadata?: Json | null
+          previous_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
+          stars_transaction_id?: string | null
+          tier?: Database["public"]["Enums"]["subscription_tier"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscription_history_stars_transaction_id_fkey"
+            columns: ["stars_transaction_id"]
+            isOneToOne: false
+            referencedRelation: "stars_transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       suno_meta_tags: {
         Row: {
           category: Database["public"]["Enums"]["tag_category"]
@@ -4135,6 +4183,7 @@ export type Database = {
           total_transactions: number
         }[]
       }
+      get_subscription_status: { Args: { p_user_id: string }; Returns: Json }
       get_telegram_bot_metrics: {
         Args: { _time_period?: unknown }
         Returns: {
