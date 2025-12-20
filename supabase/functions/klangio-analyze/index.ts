@@ -101,15 +101,17 @@ serve(async (req) => {
         baseEndpoint = `${API_BASE}/transcription`;
         queryParams.set('model', model || 'guitar');
         if (title) queryParams.set('title', title);
-        // Add outputs to query params - valid formats: midi, midi_quant, mxml, gp5, pdf
-        // Note: 'json' is NOT a valid output format - notes data is fetched separately via /job/{id}/json
-        const validFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
-        const requestedOutputs = outputs || ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf']; // Request all formats by default
-        const validOutputs = requestedOutputs.filter(o => validFormats.includes(o));
-        if (validOutputs.length === 0) validOutputs.push('midi'); // Ensure at least midi is requested
+        // Add outputs - valid formats: midi, midi_quant, mxml, gp5, pdf
+        const transcriptionValidFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
+        const requestedOutputs = outputs || ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
+        const validOutputs = requestedOutputs.filter((o: string) => transcriptionValidFormats.includes(o));
+        if (validOutputs.length === 0) validOutputs.push('midi');
         console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(requestedOutputs)}, valid=${JSON.stringify(validOutputs)}`);
-        // The API expects 'outputs' as query parameters, not in FormData
-        validOutputs.forEach(output => queryParams.append('outputs', output));
+        // Klangio expects 'outputs' in both query params AND form data for proper processing
+        validOutputs.forEach((output: string) => {
+          queryParams.append('outputs', output);
+          formData.append('outputs', output);
+        });
         console.log(`[klangio] QueryParams after appending outputs: ${queryParams.toString()}`);
         break;
         
