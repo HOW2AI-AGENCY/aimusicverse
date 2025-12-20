@@ -16,7 +16,7 @@ import {
   Clock,
   Loader2
 } from 'lucide-react';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { ProjectGeneratedTrack, useProjectGeneratedTracks } from '@/hooks/useProjectGeneratedTracks';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';

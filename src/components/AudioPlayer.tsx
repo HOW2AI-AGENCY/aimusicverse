@@ -2,7 +2,7 @@ import { Play, Pause, Loader2, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Card } from '@/components/ui/card';
-import { useAudioPlayer } from '@/hooks/audio';
+import { useAudioPlayer } from '@/hooks/audio/useAudioPlayer';
 import { LazyImage } from '@/components/ui/lazy-image';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';

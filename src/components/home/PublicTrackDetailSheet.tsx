@@ -13,7 +13,7 @@ import {
   Sparkles, ExternalLink, Copy, Check
 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { LikeButton } from '@/components/ui/like-button';
 import { TrackCommentsSection } from '@/components/track/TrackCommentsSection';

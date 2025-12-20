@@ -3,7 +3,7 @@ import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AudioPlayer } from './AudioPlayer';
 import { TimestampedLyrics } from './TimestampedLyrics';
-import { useAudioPlayer } from '@/hooks/audio';
+import { useAudioPlayer } from '@/hooks/audio/useAudioPlayer';
 
 interface TrackLyricsViewProps {
   track: {

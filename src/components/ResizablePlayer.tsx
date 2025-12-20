@@ -2,7 +2,7 @@ import React from 'react';
 import { CompactPlayer } from './CompactPlayer';
 import { FullscreenPlayer } from './FullscreenPlayer';
 import { ExpandedPlayer } from './player/ExpandedPlayer';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { AnimatePresence } from '@/lib/motion';
 
 export const ResizablePlayer = () => {

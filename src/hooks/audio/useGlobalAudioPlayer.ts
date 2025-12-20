@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useRef, useCallback } from 'react';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { getGlobalAudioRef } from '@/hooks/audio/useAudioTime';
 import { logger } from '@/lib/logger';
 

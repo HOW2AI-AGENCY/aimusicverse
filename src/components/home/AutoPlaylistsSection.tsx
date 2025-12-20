@@ -2,7 +2,7 @@ import { Music2, Play, ChevronRight, Disc3, Headphones, Sparkles } from 'lucide-
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { usePlaybackQueue } from '@/hooks/audio';
+import { usePlaybackQueue } from '@/hooks/audio/usePlaybackQueue';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { motion } from '@/lib/motion';

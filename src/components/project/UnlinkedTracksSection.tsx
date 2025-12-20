@@ -16,7 +16,7 @@ import {
   Link2,
   AlertCircle
 } from 'lucide-react';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useProjectGeneratedTracks, ProjectGeneratedTrack } from '@/hooks/useProjectGeneratedTracks';
 import { ProjectTrack } from '@/hooks/useProjectTracks';
 import { cn } from '@/lib/utils';
