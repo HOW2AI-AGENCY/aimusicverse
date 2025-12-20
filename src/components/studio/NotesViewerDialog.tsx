@@ -328,11 +328,16 @@ export function NotesViewerDialog({
         {/* Guitar Tab */}
         <TabsContent value="guitar" className="flex-1 m-0">
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap gap-2">
               <div>
-                <p className="text-sm font-medium">Guitar Pro файл</p>
+                <p className="text-sm font-medium flex items-center gap-2">
+                  Guitar Pro файл
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/20 text-amber-600 border border-amber-500/30">
+                    Табулатура + Ноты
+                  </span>
+                </p>
                 <p className="text-xs text-muted-foreground">
-                  Откройте в Guitar Pro или TuxGuitar для редактирования
+                  Содержит табулатуру и стандартную нотацию
                 </p>
               </div>
               <Button
@@ -343,13 +348,50 @@ export function NotesViewerDialog({
               </Button>
             </div>
 
-            <div className="p-8 rounded-lg border bg-muted/20 text-center">
-              <Guitar className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">
-                Предпросмотр Guitar Pro недоступен в браузере.
-                <br />
-                Скачайте файл для просмотра табулатуры.
-              </p>
+            <div className="p-6 rounded-lg border bg-muted/20 space-y-4">
+              <div className="text-center">
+                <Guitar className="w-12 h-12 text-amber-500 mx-auto mb-3" />
+                <p className="text-sm font-medium mb-1">Предпросмотр недоступен в браузере</p>
+                <p className="text-xs text-muted-foreground">
+                  Скачайте файл и откройте в одной из программ
+                </p>
+              </div>
+              
+              {/* Editor suggestions */}
+              <div className="pt-4 border-t border-border/50">
+                <p className="text-xs font-medium text-muted-foreground mb-2">Бесплатные редакторы:</p>
+                <div className="flex flex-wrap gap-2">
+                  <a 
+                    href="https://tuxguitar.app" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-background border text-xs hover:bg-muted transition-colors"
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    TuxGuitar
+                    <span className="text-muted-foreground">(бесплатно)</span>
+                  </a>
+                  <a 
+                    href="https://www.songsterr.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-background border text-xs hover:bg-muted transition-colors"
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    Songsterr
+                    <span className="text-muted-foreground">(онлайн)</span>
+                  </a>
+                  <a 
+                    href="https://www.guitar-pro.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-background border text-xs hover:bg-muted transition-colors"
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    Guitar Pro
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </TabsContent>

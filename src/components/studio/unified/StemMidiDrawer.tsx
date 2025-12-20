@@ -3,14 +3,15 @@
  * 
  * Uses Klangio as the main provider for transcription
  * Supports multiple output formats: MIDI, MusicXML, Guitar Pro, PDF
+ * Intelligently selects model and formats based on stem type
  */
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Music2, Download, Loader2, 
   Piano, Mic2, Drum, Guitar, FileAudio,
-  Play
+  Play, FileText, CheckCircle2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -32,18 +33,13 @@ import { MidiFilesCard } from '@/components/studio/MidiFilesCard';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-
-// Klangio models mapping
-const KLANGIO_MODELS = {
-  'guitar': { name: 'Гитара', icon: '🎸', description: 'Для гитарных партий' },
-  'piano': { name: 'Пианино', icon: '🎹', description: 'Для клавишных инструментов' },
-  'drums': { name: 'Барабаны', icon: '🥁', description: 'Для ударных и перкуссии' },
-  'vocal': { name: 'Вокал', icon: '🎤', description: 'Для вокальных мелодий' },
-  'bass': { name: 'Бас', icon: '🎸', description: 'Для басовых линий' },
-  'universal': { name: 'Универсальный', icon: '🎼', description: 'Для любых инструментов' },
-} as const;
-
-type KlangioModel = keyof typeof KLANGIO_MODELS;
+import { 
+  getTranscriptionConfig, 
+  getFormatLabel, 
+  MODEL_INFO,
+  type KlangioModel,
+  type TranscriptionOutput
+} from '@/lib/transcription-utils';
 
 interface StemMidiDrawerProps {
   open: boolean;
@@ -60,7 +56,14 @@ const modelIcons: Record<string, React.ReactNode> = {
   'vocal': <Mic2 className="w-4 h-4" />,
   'bass': <FileAudio className="w-4 h-4" />,
   'universal': <Music2 className="w-4 h-4" />,
+  'lead': <Music2 className="w-4 h-4" />,
+  'multi': <Music2 className="w-4 h-4" />,
+  'wind': <Music2 className="w-4 h-4" />,
+  'string': <Music2 className="w-4 h-4" />,
 };
+
+// Available models for user selection
+const SELECTABLE_MODELS: KlangioModel[] = ['guitar', 'piano', 'drums', 'vocal', 'bass', 'universal'];
 
 export function StemMidiDrawer({ 
   open, 
@@ -70,7 +73,7 @@ export function StemMidiDrawer({
   trackTitle 
 }: StemMidiDrawerProps) {
   const isMobile = useIsMobile();
-  const [selectedModel, setSelectedModel] = useState<KlangioModel>('guitar');
+  const [selectedModel, setSelectedModel] = useState<KlangioModel>('universal');
   const [activeTab, setActiveTab] = useState<'create' | 'player' | 'files'>('create');
   const [activeMidiUrl, setActiveMidiUrl] = useState<string | null>(null);
   const [transcriptionFiles, setTranscriptionFiles] = useState<TranscriptionFiles>({});
@@ -86,6 +89,42 @@ export function StemMidiDrawer({
     midiVersions, 
   } = useStemMidi(trackId, stem?.id);
 
+  // Get intelligent configuration based on stem type
+  const stemConfig = useMemo(() => {
+    if (!stem) return getTranscriptionConfig('universal');
+    return getTranscriptionConfig(stem.stem_type);
+  }, [stem]);
+
+  // Set recommended model when stem changes
+  useEffect(() => {
+    if (stem) {
+      const config = getTranscriptionConfig(stem.stem_type);
+      setSelectedModel(config.model as KlangioModel);
+    }
+  }, [stem]);
+
+  // Get outputs based on selected model
+  const selectedOutputs = useMemo((): TranscriptionOutput[] => {
+    // For manual model selection, determine outputs based on model
+    switch (selectedModel) {
+      case 'guitar':
+        return ['midi', 'midi_quant', 'gp5', 'pdf', 'mxml'];
+      case 'bass':
+        return ['midi', 'midi_quant', 'gp5', 'mxml'];
+      case 'drums':
+        return ['midi', 'midi_quant', 'pdf'];
+      case 'piano':
+        return ['midi', 'midi_quant', 'pdf', 'mxml'];
+      case 'vocal':
+        return ['midi', 'pdf', 'mxml'];
+      default:
+        return ['midi', 'midi_quant', 'mxml'];
+    }
+  }, [selectedModel]);
+
+  // Check if current selection supports tablature
+  const supportsTableture = selectedModel === 'guitar' || selectedModel === 'bass';
+
   // Update files when result changes
   useEffect(() => {
     if (result?.files) {
@@ -100,10 +139,15 @@ export function StemMidiDrawer({
     if (!stem) return;
 
     try {
+      // Cast model to the subset supported by the API
+      const apiModel = SELECTABLE_MODELS.includes(selectedModel) 
+        ? selectedModel as 'guitar' | 'piano' | 'drums' | 'vocal' | 'bass' | 'universal'
+        : 'universal';
+        
       const transcriptionResult = await transcribe(stem.audio_url, { 
         trackId,
-        model: selectedModel,
-        outputs: ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf']
+        model: apiModel,
+        outputs: selectedOutputs
       });
       
       if (transcriptionResult) {
@@ -117,7 +161,7 @@ export function StemMidiDrawer({
       console.error('Transcription error:', error);
       toast.error('Ошибка транскрипции');
     }
-  }, [stem, selectedModel, transcribe, trackId]);
+  }, [stem, selectedModel, selectedOutputs, transcribe, trackId]);
 
   const handleDownloadMidi = useCallback((url: string) => {
     window.open(url, '_blank');
@@ -128,20 +172,6 @@ export function StemMidiDrawer({
     setActiveTab('player');
   }, []);
 
-  // Get recommended model based on stem type
-  const getRecommendedModel = (): KlangioModel => {
-    if (!stem) return 'universal';
-    const stemType = stem.stem_type.toLowerCase();
-    
-    if (stemType.includes('piano') || stemType.includes('keys')) return 'piano';
-    if (stemType.includes('drum')) return 'drums';
-    if (stemType.includes('vocal')) return 'vocal';
-    if (stemType.includes('guitar')) return 'guitar';
-    if (stemType.includes('bass')) return 'bass';
-    return 'universal';
-  };
-
-  const recommendedModel = getRecommendedModel();
   const latestMidiUrl = result?.midiUrl || midiVersions?.[0]?.audio_url;
   const hasFiles = Object.keys(transcriptionFiles).length > 0;
 
@@ -193,8 +223,16 @@ export function StemMidiDrawer({
                         <Music2 className="w-5 h-5 text-primary" />
                       )}
                     </div>
-                    <div>
-                      <p className="font-medium text-sm">{stem.stem_type}</p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className="font-medium text-sm">{stem.stem_type}</p>
+                        {stemConfig.supportsTableture && (
+                          <Badge variant="outline" className="text-amber-500 border-amber-500/30 bg-amber-500/10">
+                            <Guitar className="w-3 h-3 mr-1" />
+                            Табулатура
+                          </Badge>
+                        )}
+                      </div>
                       <p className="text-xs text-muted-foreground">{trackTitle}</p>
                     </div>
                   </div>
@@ -207,44 +245,74 @@ export function StemMidiDrawer({
                       onValueChange={(v) => setSelectedModel(v as KlangioModel)}
                       className="space-y-2"
                     >
-                      {Object.entries(KLANGIO_MODELS).map(([key, model]) => (
-                        <motion.div
-                          key={key}
-                          initial={{ opacity: 0, y: 5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className={cn(
-                            "flex items-center space-x-3 p-3 rounded-lg border cursor-pointer transition-colors",
-                            selectedModel === key 
-                              ? "border-primary bg-primary/5" 
-                              : "border-border hover:bg-muted/50"
-                          )}
-                          onClick={() => setSelectedModel(key as KlangioModel)}
-                        >
-                          <RadioGroupItem value={key} id={key} />
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              {modelIcons[key]}
-                              <span className="font-medium text-sm">{model.name}</span>
-                              {key === recommendedModel && (
-                                <Badge className="text-[10px] h-4 px-1">
-                                  Рекомендуется
-                                </Badge>
-                              )}
+                      {SELECTABLE_MODELS.map((key) => {
+                        const model = MODEL_INFO[key];
+                        const isRecommended = key === stemConfig.model;
+                        const modelSupportsTabs = key === 'guitar' || key === 'bass';
+                        
+                        return (
+                          <motion.div
+                            key={key}
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className={cn(
+                              "flex items-center space-x-3 p-3 rounded-lg border cursor-pointer transition-colors",
+                              selectedModel === key 
+                                ? "border-primary bg-primary/5" 
+                                : "border-border hover:bg-muted/50"
+                            )}
+                            onClick={() => setSelectedModel(key)}
+                          >
+                            <RadioGroupItem value={key} id={key} />
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                {modelIcons[key]}
+                                <span className="font-medium text-sm">{model.name}</span>
+                                {isRecommended && (
+                                  <Badge className="text-[10px] h-4 px-1">
+                                    Рекомендуется
+                                  </Badge>
+                                )}
+                                {modelSupportsTabs && (
+                                  <Badge variant="outline" className="text-[10px] h-4 px-1 text-amber-500 border-amber-500/30">
+                                    TAB
+                                  </Badge>
+                                )}
+                              </div>
+                              <p className="text-xs text-muted-foreground mt-0.5">
+                                {model.description}
+                              </p>
                             </div>
-                            <p className="text-xs text-muted-foreground mt-0.5">
-                              {model.description}
-                            </p>
-                          </div>
-                        </motion.div>
-                      ))}
+                          </motion.div>
+                        );
+                      })}
                     </RadioGroup>
                   </div>
 
-                  {/* Output formats info */}
-                  <div className="p-3 rounded-lg bg-muted/30 border border-border/50">
-                    <p className="text-xs text-muted-foreground">
-                      📁 Форматы: MIDI, MIDI (Quantized), MusicXML, Guitar Pro, PDF
-                    </p>
+                  {/* Output formats preview */}
+                  <div className="p-3 rounded-lg bg-muted/30 border border-border/50 space-y-2">
+                    <p className="text-xs font-medium text-muted-foreground">Будут созданы:</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {selectedOutputs.map((format) => (
+                        <Badge 
+                          key={format} 
+                          variant="secondary" 
+                          className={cn(
+                            "text-[10px]",
+                            format === 'gp5' && "bg-amber-500/20 text-amber-600 border-amber-500/30"
+                          )}
+                        >
+                          <CheckCircle2 className="w-3 h-3 mr-1" />
+                          {getFormatLabel(format)}
+                        </Badge>
+                      ))}
+                    </div>
+                    {supportsTableture && (
+                      <p className="text-[10px] text-amber-600 flex items-center gap-1 mt-1">
+                        <Guitar className="w-3 h-3" />
+                        Guitar Pro содержит табулатуру + ноты
+                      </p>
+                    )}
                   </div>
 
                   {/* Transcribe Button */}
