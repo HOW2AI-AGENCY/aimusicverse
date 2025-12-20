@@ -1,7 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { StemStudioContent } from '@/components/stem-studio/StemStudioContent';
-import { TrackStudioContent } from '@/components/stem-studio/TrackStudioContent';
-import { useTrackStems } from '@/hooks/useTrackStems';
+import { UnifiedStudioContent } from '@/components/studio';
 import { useTracks } from '@/hooks/useTracks';
 import { FeatureErrorBoundary } from '@/components/ui/feature-error-boundary';
 import { Button } from '@/components/ui/button';
@@ -14,14 +12,12 @@ export default function StemStudio() {
   const navigate = useNavigate();
   const trackId = params.trackId;
   const { tracks, isLoading: tracksLoading } = useTracks();
-  const { data: stems = [], isLoading: stemsLoading } = useTrackStems(trackId || '');
 
   const track = tracks?.find(t => t.id === trackId);
-  const isLoading = tracksLoading || stemsLoading;
 
   // Validate track exists and is generated
   useEffect(() => {
-    if (!isLoading && trackId && tracks) {
+    if (!tracksLoading && trackId && tracks) {
       if (!track) {
         toast.error('Трек не найден');
         navigate('/library');
@@ -30,7 +26,7 @@ export default function StemStudio() {
         navigate('/library');
       }
     }
-  }, [isLoading, trackId, tracks, track, navigate]);
+  }, [tracksLoading, trackId, tracks, track, navigate]);
 
   if (!trackId) {
     return (
@@ -45,7 +41,7 @@ export default function StemStudio() {
     );
   }
 
-  if (isLoading) {
+  if (tracksLoading) {
     return (
       <div className="flex items-center justify-center h-screen bg-background">
         <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full" />
@@ -69,16 +65,10 @@ export default function StemStudio() {
     );
   }
 
-  // Route to appropriate studio based on stem availability
-  const hasStems = stems && stems.length > 0;
-
+  // Unified Studio - handles both section replacement and stems
   return (
-    <FeatureErrorBoundary featureName="Stem Studio">
-      {hasStems ? (
-        <StemStudioContent key={trackId} trackId={trackId} />
-      ) : (
-        <TrackStudioContent key={trackId} trackId={trackId} />
-      )}
+    <FeatureErrorBoundary featureName="Unified Studio">
+      <UnifiedStudioContent key={trackId} trackId={trackId} />
     </FeatureErrorBoundary>
   );
 }
