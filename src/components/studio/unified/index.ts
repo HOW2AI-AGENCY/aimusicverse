@@ -10,3 +10,5 @@ export { IntegratedStemTracks } from './IntegratedStemTracks';
 export { SectionVariantOverlay } from './SectionVariantOverlay';
 export { StudioActivityLog } from './StudioActivityLog';
 export { EnhancedVersionTimeline } from './EnhancedVersionTimeline';
+export { StemMidiDrawer } from './StemMidiDrawer';
+export { StemEffectsDrawer } from './StemEffectsDrawer';

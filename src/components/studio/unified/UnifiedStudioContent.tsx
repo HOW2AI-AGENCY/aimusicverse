@@ -50,7 +50,10 @@ import {
 } from '@/components/studio';
 import { IntegratedStemTracks } from './IntegratedStemTracks';
 import { SectionVariantOverlay } from './SectionVariantOverlay';
+import { StemMidiDrawer } from './StemMidiDrawer';
+import { StemEffectsDrawer } from './StemEffectsDrawer';
 import { registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
+import { useStemAudioEngine, defaultStemEffects } from '@/hooks/studio/useStemAudioEngine';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useStudioActivityLogger } from '@/hooks/useStudioActivityLogger';
 import { ReferenceManager } from '@/services/audio-reference';
@@ -113,6 +116,15 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   const [selectedStemForAction, setSelectedStemForAction] = useState<TrackStem | null>(null);
   const [showActionsPanel, setShowActionsPanel] = useState(!isMobile);
   const [showVariantComparison, setShowVariantComparison] = useState(false);
+  
+  // New: MIDI and Effects drawer states
+  const [midiDrawerOpen, setMidiDrawerOpen] = useState(false);
+  const [effectsDrawerOpen, setEffectsDrawerOpen] = useState(false);
+  const [selectedStemForMidi, setSelectedStemForMidi] = useState<TrackStem | null>(null);
+  const [selectedStemForEffects, setSelectedStemForEffects] = useState<TrackStem | null>(null);
+  
+  // Effects state for the selected stem
+  const [stemEffects, setStemEffects] = useState(defaultStemEffects);
   
   // Section Editor State
   const { 
@@ -315,11 +327,12 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         navigate('/', { state: { openGenerate: true } });
         break;
       case 'midi':
-        setSelectedStemForAction(stem);
-        setStemActionSheetOpen(true);
+        setSelectedStemForMidi(stem);
+        setMidiDrawerOpen(true);
         break;
       case 'effects':
-        toast.info('Эффекты доступны в DAW режиме');
+        setSelectedStemForEffects(stem);
+        setEffectsDrawerOpen(true);
         break;
       case 'download':
         window.open(stem.audio_url, '_blank');
@@ -766,6 +779,27 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         onDownload={(stem) => {
           window.open(stem.audio_url, '_blank');
         }}
+      />
+
+      {/* MIDI Drawer */}
+      <StemMidiDrawer
+        open={midiDrawerOpen}
+        onOpenChange={setMidiDrawerOpen}
+        stem={selectedStemForMidi}
+        trackId={trackId}
+        trackTitle={track.title || 'Трек'}
+      />
+
+      {/* Effects Drawer */}
+      <StemEffectsDrawer
+        open={effectsDrawerOpen}
+        onOpenChange={setEffectsDrawerOpen}
+        stem={selectedStemForEffects}
+        effects={stemEffects}
+        onUpdateEQ={(settings) => setStemEffects(prev => ({ ...prev, eq: { ...prev.eq, ...settings } }))}
+        onUpdateCompressor={(settings) => setStemEffects(prev => ({ ...prev, compressor: { ...prev.compressor, ...settings } }))}
+        onUpdateReverb={(settings) => setStemEffects(prev => ({ ...prev, reverb: { ...prev.reverb, ...settings } }))}
+        onReset={() => setStemEffects(defaultStemEffects)}
       />
 
       {/* Dialogs */}
