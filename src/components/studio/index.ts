@@ -40,3 +40,11 @@ export { SectionVariantOverlay } from './unified/SectionVariantOverlay';
 export { StemsLoadingProgress } from './StemsLoadingProgress';
 export { TranscriptionInProgress, TranscriptionPlaceholder } from './TranscriptionInProgress';
 export { StemNotesPreview, StemNotesPreviewSkeleton } from './StemNotesPreview';
+
+// Skeleton and virtualization
+export { StemTrackSkeleton, SingleStemSkeleton } from './StemTrackSkeleton';
+export { VirtualizedStemList } from './VirtualizedStemList';
+
+// Offline and loading progress
+export { OfflineIndicator } from './OfflineIndicator';
+export { AudioLoadingProgress } from './AudioLoadingProgress';

@@ -15,7 +15,7 @@ interface StemTrackSkeletonProps {
   className?: string;
 }
 
-const SingleStemSkeleton = memo(({ isMobile }: { isMobile: boolean }) => {
+export const SingleStemSkeleton = memo(({ isMobile }: { isMobile: boolean }) => {
   if (isMobile) {
     return (
       <div className="relative">
