@@ -109,6 +109,27 @@
     .light #loading-fallback p {
       color: rgba(0, 0, 0, 0.6);
     }
+    #error-display {
+      display: none;
+      margin-top: 16px;
+      padding: 12px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      text-align: left;
+      max-width: 90vw;
+      max-height: 200px;
+      overflow: auto;
+    }
+    #error-display.visible {
+      display: block;
+    }
+    #error-display pre {
+      font-size: 10px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      margin: 0;
+    }
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
@@ -121,6 +142,22 @@
       display: none !important;
     }
   </style>
+  
+  <!-- Early error catcher -->
+  <script>
+    window.__EARLY_ERRORS = [];
+    window.onerror = function(msg, url, line, col, error) {
+      window.__EARLY_ERRORS.push({msg: msg, url: url, line: line, error: error ? error.toString() : null, time: new Date().toISOString()});
+      console.error('[Early Error]', msg, url, line);
+      // Show error on fallback screen
+      var el = document.getElementById('error-display');
+      if (el) {
+        el.classList.add('visible');
+        el.innerHTML = '<pre>Error: ' + msg + '\nAt: ' + url + ':' + line + '</pre>';
+      }
+      return false;
+    };
+  </script>
 </head>
 
   <body>
@@ -129,10 +166,36 @@
       <div id="loading-fallback">
         <div class="content">
           <div class="spinner"></div>
-          <p>Загрузка MusicVerse...</p>
+          <p id="loading-status">Загрузка MusicVerse...</p>
+          <div id="error-display"></div>
         </div>
       </div>
     </div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Fallback timeout: if app doesn't load in 10s, show debug info -->
+    <script>
+      setTimeout(function() {
+        var root = document.getElementById('root');
+        var fallback = document.getElementById('loading-fallback');
+        if (root && fallback && fallback.style.display !== 'none') {
+          var status = document.getElementById('loading-status');
+          if (status) {
+            status.textContent = 'Загрузка занимает больше времени...';
+          }
+          // Check boot log
+          try {
+            var bootLog = sessionStorage.getItem('musicverse_boot_log');
+            if (bootLog) {
+              var el = document.getElementById('error-display');
+              if (el) {
+                el.classList.add('visible');
+                el.innerHTML = '<pre>Boot Log:\n' + JSON.parse(bootLog).join('\n') + '</pre>';
+              }
+            }
+          } catch(e) {}
+        }
+      }, 10000);
+    </script>
   </body>
 </html>
