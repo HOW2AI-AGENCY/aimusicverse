@@ -23,6 +23,7 @@ import { MobileFullscreenPlayer } from '@/components/player/MobileFullscreenPlay
 import { useIsMobile } from '@/hooks/use-mobile';
 import { hapticImpact } from '@/lib/haptic';
 import { logger } from '@/lib/logger';
+import { resumeAudioContext, ensureAudioRoutedToDestination } from '@/lib/audioContextManager';
 
 interface AlignedWord {
   word: string;
@@ -79,8 +80,6 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
       }
       
       try {
-        const { resumeAudioContext, ensureAudioRoutedToDestination } = await import('@/lib/audioContextManager');
-        
         // Resume AudioContext
         const resumed = await resumeAudioContext(3);
         if (!resumed) {

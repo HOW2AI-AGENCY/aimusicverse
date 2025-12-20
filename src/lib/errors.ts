@@ -3,6 +3,8 @@
  * Use these instead of generic Error for better type safety and user messages
  */
 
+import { captureError as sentryCaptureError } from './sentry';
+
 export class AppError extends Error {
   constructor(
     message: string,
@@ -180,9 +182,9 @@ export function logError(
   });
 
   // Send to Sentry if configured
-  import('./sentry').then(({ captureError }) => {
-    captureError(error, context);
-  }).catch(() => {
-    // Sentry not available, silent fail
-  });
+  try {
+    sentryCaptureError(error, context);
+  } catch {
+    // Sentry not available or failed, silent fail
+  }
 }

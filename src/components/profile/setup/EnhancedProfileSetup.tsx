@@ -15,21 +15,10 @@ import { ProfileSetupStep2About } from './ProfileSetupStep2About';
 import { ProfileSetupStep3Social } from './ProfileSetupStep3Social';
 import { ProfileSetupStep4Banner } from './ProfileSetupStep4Banner';
 import { ProfileProgressIndicator } from './ProfileProgressIndicator';
-import type { SocialLinks } from '@/types/profile';
+import type { ProfileSetupData } from './types';
 
 interface EnhancedProfileSetupProps {
   onComplete: () => void;
-}
-
-export interface ProfileSetupData {
-  displayName: string;
-  username: string;
-  avatarUrl: string;
-  bio: string;
-  role: 'producer' | 'musician' | 'listener' | '';
-  genres: string[];
-  socialLinks: SocialLinks;
-  bannerUrl: string;
 }
 
 const STEPS = [

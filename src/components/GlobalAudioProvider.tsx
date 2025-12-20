@@ -17,6 +17,7 @@ import { useOptimizedAudioPlayer } from '@/hooks/audio/useOptimizedAudioPlayer';
 import { usePlaybackPosition } from '@/hooks/audio/usePlaybackPosition';
 import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
+import { resumeAudioContext, ensureAudioRoutedToDestination } from '@/lib/audioContextManager';
 
 // Audio error messages by error code
 const AUDIO_ERROR_MESSAGES: Record<number, { ru: string; action?: string }> = {
@@ -242,7 +243,6 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
 
       // Resume AudioContext
       try {
-        const { resumeAudioContext, ensureAudioRoutedToDestination } = await import('@/lib/audioContextManager');
         const contextResumed = await resumeAudioContext(3);
         if (!contextResumed) {
           await ensureAudioRoutedToDestination();

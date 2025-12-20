@@ -30,6 +30,7 @@ import { formatTime } from '@/lib/player-utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
 import { logger } from '@/lib/logger';
+import { resumeAudioContext, ensureAudioRoutedToDestination } from '@/lib/audioContextManager';
 
 interface MobileFullscreenPlayerProps {
   track: Track;
@@ -74,8 +75,6 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
       }
       
       try {
-        const { resumeAudioContext, ensureAudioRoutedToDestination } = await import('@/lib/audioContextManager');
-        
         // Resume AudioContext
         const resumed = await resumeAudioContext(3);
         if (!resumed) {

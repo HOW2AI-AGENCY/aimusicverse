@@ -2,13 +2,10 @@ import { motion } from '@/lib/motion';
 import { Instagram, Globe, Music2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import type { ProfileSetupData } from './EnhancedProfileSetup';
+import type { ProfileSetupStepProps } from './types';
 import type { SocialLinks } from '@/types/profile';
 
-interface ProfileSetupStep3SocialProps {
-  data: ProfileSetupData;
-  onUpdate: (updates: Partial<ProfileSetupData>) => void;
-}
+type ProfileSetupStep3SocialProps = Omit<ProfileSetupStepProps, 'userId'>;
 
 // Custom icons for platforms
 const TwitterIcon = () => (

@@ -10,13 +10,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
 import { ImageGeneratorDialog } from '../ImageGeneratorDialog';
-import type { ProfileSetupData } from './EnhancedProfileSetup';
+import type { ProfileSetupStepProps } from './types';
 
-interface ProfileSetupStep1BasicProps {
-  data: ProfileSetupData;
-  onUpdate: (updates: Partial<ProfileSetupData>) => void;
-  userId?: string;
-}
+type ProfileSetupStep1BasicProps = ProfileSetupStepProps;
 
 export function ProfileSetupStep1Basic({ data, onUpdate, userId }: ProfileSetupStep1BasicProps) {
   const [isUploading, setIsUploading] = useState(false);

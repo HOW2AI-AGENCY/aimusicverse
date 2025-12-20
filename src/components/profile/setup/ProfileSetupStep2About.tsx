@@ -3,12 +3,9 @@ import { FileText, Music, Mic2, Headphones } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import type { ProfileSetupData } from './EnhancedProfileSetup';
+import type { ProfileSetupData, ProfileSetupStepProps } from './types';
 
-interface ProfileSetupStep2AboutProps {
-  data: ProfileSetupData;
-  onUpdate: (updates: Partial<ProfileSetupData>) => void;
-}
+type ProfileSetupStep2AboutProps = Omit<ProfileSetupStepProps, 'userId'>;
 
 const ROLES = [
   { id: 'producer', label: 'Продюсер', icon: Music, description: 'Создаю музыку' },

@@ -8,13 +8,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
 import { ImageGeneratorDialog } from '../ImageGeneratorDialog';
-import type { ProfileSetupData } from './EnhancedProfileSetup';
+import type { ProfileSetupStepProps } from './types';
 
-interface ProfileSetupStep4BannerProps {
-  data: ProfileSetupData;
-  onUpdate: (updates: Partial<ProfileSetupData>) => void;
-  userId?: string;
-}
+type ProfileSetupStep4BannerProps = ProfileSetupStepProps;
 
 export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetupStep4BannerProps) {
   const [isUploading, setIsUploading] = useState(false);
