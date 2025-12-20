@@ -260,9 +260,9 @@ export function LyricsChatAssistant({
               )}
             </AnimatePresence>
 
-            {/* Chat Area */}
-            <ScrollArea className="h-full px-4 py-3" ref={chat.scrollRef}>
-              <div className="space-y-3">
+            {/* Chat Area - fills available space */}
+            <ScrollArea className="flex-1 px-4 py-3" ref={chat.scrollRef}>
+              <div className="space-y-3 pb-4">
                 <AnimatePresence mode="popLayout">
                   {chat.messages.map((msg) => (
                     <motion.div
@@ -286,7 +286,7 @@ export function LyricsChatAssistant({
                         )}
                         layout
                       >
-                        <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</p>
+                        <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">{msg.content}</p>
                         
                         {msg.options && msg.role === 'assistant' && (
                           <motion.div 

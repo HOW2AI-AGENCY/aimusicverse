@@ -187,13 +187,13 @@ export function LyricsPreview({
 }: LyricsPreviewProps) {
   return (
     <motion.div 
-      className="mt-3 space-y-3"
+      className="mt-3 space-y-3 flex flex-col"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 }}
     >
       <motion.div
-        className="overflow-hidden"
+        className="overflow-hidden flex-1"
         initial={{ scale: 0.95 }}
         animate={{ scale: 1 }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
@@ -201,7 +201,7 @@ export function LyricsPreview({
         <StructuredLyricsDisplay
           lyrics={lyrics}
           showMetadata={false}
-          className="border-0 shadow-none [&_[data-radix-scroll-area-viewport]]:max-h-[250px] [&_[data-radix-scroll-area-viewport]]:sm:max-h-[350px]"
+          className="border-0 shadow-none [&_[data-radix-scroll-area-viewport]]:min-h-[200px] [&_[data-radix-scroll-area-viewport]]:sm:min-h-[250px] [&_pre]:whitespace-pre-wrap [&_pre]:break-words"
         />
       </motion.div>
       <div className="flex flex-wrap gap-2">
