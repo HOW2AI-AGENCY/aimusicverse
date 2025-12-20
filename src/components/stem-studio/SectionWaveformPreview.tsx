@@ -145,12 +145,12 @@ export function SectionWaveformPreview({
       )}
       onClick={handleContainerClick}
     >
-      {/* Background waveform */}
-      <div className="absolute inset-0 flex items-center justify-around px-1 opacity-30">
+      {/* Background waveform - high contrast for dark theme */}
+      <div className="absolute inset-0 flex items-center justify-around px-1">
         {bars.map((height, i) => (
           <div
             key={i}
-            className="w-0.5 rounded-full bg-muted-foreground/50"
+            className="w-0.5 rounded-full bg-primary/40 dark:bg-primary/60"
             style={{ height: `${height}%` }}
           />
         ))}
