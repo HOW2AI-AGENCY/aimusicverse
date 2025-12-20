@@ -35,6 +35,7 @@ import { MobileSectionTimelineCompact } from '@/components/stem-studio/MobileSec
 import { MobileStudioHeader } from '@/components/stem-studio/MobileStudioHeader';
 import { MobileMasterVolume } from '@/components/stem-studio/MobileMasterVolume';
 import { SectionQuickActions } from '@/components/stem-studio/SectionQuickActions';
+import { StemTracksTimeline } from '@/components/stem-studio/StemTracksTimeline';
 import { StudioQuickActions } from '@/components/stem-studio/StudioQuickActions';
 import { StudioContextTips } from '@/components/stem-studio/StudioContextTips';
 import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
@@ -701,13 +702,28 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
             onSeek={(time) => handleSeek([time])}
           />
           
-          {/* Quick Actions */}
+          {/* Quick Actions - only in edit mode */}
           {editMode !== 'none' && editMode !== 'comparing' && (
             <div className="mt-3">
               <SectionQuickActions
                 sections={detectedSections}
                 maxDuration={maxSectionDuration}
                 onSelectSection={handleSectionSelect}
+              />
+            </div>
+          )}
+
+          {/* Stem Tracks below sections - when NOT in edit mode */}
+          {editMode === 'none' && stems.length > 0 && (
+            <div className="mt-3 pt-3 border-t border-border/20">
+              <StemTracksTimeline
+                stems={stems}
+                stemStates={stemStates}
+                duration={duration}
+                currentTime={currentTime}
+                isPlaying={isPlaying}
+                onStemToggle={handleStemToggle}
+                onSeek={(time) => handleSeek([time])}
               />
             </div>
           )}
@@ -726,6 +742,21 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
             onSectionClick={handleSectionSelect}
             onSeek={(time) => handleSeek([time])}
           />
+          
+          {/* Stem Tracks below sections on mobile - when NOT in edit mode */}
+          {editMode === 'none' && stems.length > 0 && (
+            <div className="mt-2 pt-2 border-t border-border/20">
+              <StemTracksTimeline
+                stems={stems}
+                stemStates={stemStates}
+                duration={duration}
+                currentTime={currentTime}
+                isPlaying={isPlaying}
+                onStemToggle={handleStemToggle}
+                onSeek={(time) => handleSeek([time])}
+              />
+            </div>
+          )}
         </div>
       )}
 
@@ -748,6 +779,21 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
               {formatTime(duration)}
             </span>
           </div>
+          
+          {/* Stem Tracks below timeline when no sections */}
+          {stems.length > 0 && (
+            <div className="mt-3 pt-3 border-t border-border/20">
+              <StemTracksTimeline
+                stems={stems}
+                stemStates={stemStates}
+                duration={duration}
+                currentTime={currentTime}
+                isPlaying={isPlaying}
+                onStemToggle={handleStemToggle}
+                onSeek={(time) => handleSeek([time])}
+              />
+            </div>
+          )}
         </div>
       )}
 
