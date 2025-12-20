@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from '@/lib/motion';
 import { Sheet, SheetContent, SheetFooter } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -28,6 +28,16 @@ import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
 import { PromptHistory } from './generate-form/PromptHistory';
 import { LyricsChatAssistant } from './generate-form/LyricsChatAssistant';
 import { UploadAudioDialog } from './UploadAudioDialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 interface GenerateSheetProps {
   open: boolean;
@@ -39,7 +49,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const { projects } = useProjects();
   const { artists } = useArtists();
   const { tracks: allTracks } = useTracks();
-  const { hapticFeedback } = useTelegram();
+  const { hapticFeedback, enableClosingConfirmation, disableClosingConfirmation } = useTelegram();
 
   // Dialog states
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
@@ -52,6 +62,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
   const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [closeConfirmOpen, setCloseConfirmOpen] = useState(false);
 
   // Form hook
   const form = useGenerateForm({
@@ -62,6 +73,40 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     artists,
     allTracks,
   });
+
+  // Check if form has unsaved data
+  const hasUnsavedData = Boolean(
+    form.style.trim() ||
+    form.lyrics.trim() ||
+    form.title.trim()
+  );
+
+  // Enable/disable Telegram closing confirmation based on form state
+  useEffect(() => {
+    if (open && hasUnsavedData) {
+      enableClosingConfirmation();
+    } else {
+      disableClosingConfirmation();
+    }
+    return () => {
+      disableClosingConfirmation();
+    };
+  }, [open, hasUnsavedData, enableClosingConfirmation, disableClosingConfirmation]);
+
+  // Handle close with confirmation
+  const handleCloseRequest = useCallback(() => {
+    if (hasUnsavedData) {
+      hapticFeedback('warning');
+      setCloseConfirmOpen(true);
+    } else {
+      onOpenChange(false);
+    }
+  }, [hasUnsavedData, hapticFeedback, onOpenChange]);
+
+  const handleConfirmClose = useCallback(() => {
+    setCloseConfirmOpen(false);
+    onOpenChange(false);
+  }, [onOpenChange]);
 
   const projectTracks = form.selectedProjectId
     ? allTracks?.filter(t => t.project_id === form.selectedProjectId)
@@ -101,10 +146,10 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     visible: open,
   });
 
-  // Telegram BackButton integration
+  // Telegram BackButton integration - with confirmation for unsaved data
   useTelegramBackButton({
     visible: open,
-    onClick: () => onOpenChange(false),
+    onClick: handleCloseRequest,
   });
 
   // Show/hide progress on MainButton when loading changes
@@ -115,8 +160,34 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
       hideProgress();
     }
   }, [form.loading, showProgress, hideProgress]);
+
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
+    <>
+    {/* Close confirmation dialog */}
+    <AlertDialog open={closeConfirmOpen} onOpenChange={setCloseConfirmOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Закрыть форму?</AlertDialogTitle>
+          <AlertDialogDescription>
+            У вас есть несохранённые данные. Они будут потеряны.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Отмена</AlertDialogCancel>
+          <AlertDialogAction onClick={handleConfirmClose}>
+            Закрыть
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+
+    <Sheet open={open} onOpenChange={(newOpen) => {
+      if (!newOpen) {
+        handleCloseRequest();
+      } else {
+        onOpenChange(true);
+      }
+    }}>
       <SheetContent side="bottom" className="h-[95vh] flex flex-col frost-sheet p-0">
         {/* Header with centered logo and safe area for Telegram native buttons */}
         <div 
@@ -440,5 +511,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         }}
       />
     </Sheet>
+    </>
   );
 };

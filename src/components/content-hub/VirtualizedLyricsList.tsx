@@ -51,8 +51,12 @@ export function VirtualizedLyricsList({
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
             <h3 className="font-medium text-sm truncate">{template.name}</h3>
-            <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
-              {template.lyrics.substring(0, 100)}...
+            <p className="text-xs text-muted-foreground line-clamp-2 mt-1 whitespace-pre-wrap">
+              {template.lyrics ? (
+                template.lyrics.substring(0, 100) + (template.lyrics.length > 100 ? '...' : '')
+              ) : (
+                <span className="italic">Нет текста</span>
+              )}
             </p>
             <div className="flex items-center gap-1.5 mt-2 flex-wrap">
               {template.genre && (

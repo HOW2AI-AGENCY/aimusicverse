@@ -228,8 +228,8 @@ export function GenerateFormCustom({
               placeholder="Введите текст или используйте AI..."
               value={lyrics}
               onChange={(e) => onLyricsChange(e.target.value)}
-              rows={5}
-              className="resize-none text-sm"
+              rows={8}
+              className="text-sm min-h-[180px] max-h-[300px] overflow-y-auto whitespace-pre-wrap"
             />
           )}
         </div>
