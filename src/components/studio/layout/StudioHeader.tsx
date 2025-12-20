@@ -8,6 +8,7 @@ import { ChevronLeft, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { VersionTimeline } from '@/components/stem-studio/VersionTimeline';
+import { OfflineIndicator } from '@/components/studio/OfflineIndicator';
 import { cn } from '@/lib/utils';
 
 interface StudioHeaderProps {
@@ -16,6 +17,7 @@ interface StudioHeaderProps {
   hasStems?: boolean;
   stemsCount?: number;
   activeVersionId?: string | null;
+  audioUrls?: string[];
   onVersionChange?: (versionId: string, audioUrl: string) => void;
   onShowTutorial?: () => void;
   className?: string;
@@ -27,6 +29,7 @@ export function StudioHeader({
   hasStems,
   stemsCount = 0,
   activeVersionId,
+  audioUrls = [],
   onVersionChange,
   onShowTutorial,
   className,
@@ -66,6 +69,12 @@ export function StudioHeader({
       </div>
 
       <div className="flex items-center gap-2">
+        {/* Offline indicator */}
+        <OfflineIndicator 
+          audioUrls={audioUrls}
+          className="hidden sm:flex"
+        />
+
         {/* Version Timeline */}
         <VersionTimeline
           trackId={trackId}
