@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import WaveSurfer from 'wavesurfer.js';
-import RegionsPlugin from 'wavesurfer.js/dist/plugins/regions.js';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, Loader2, Scissors } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { logger } from '@/lib/logger';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+
+type WaveSurferCtor = typeof import('wavesurfer.js');
+type WaveSurferInstance = any;
+type RegionsPluginCtor = any;
+type RegionsPluginInstance = any;
 
 interface AudioTrimSelectorProps {
   audioUrl: string;
@@ -22,8 +25,8 @@ export const AudioTrimSelector = ({
   className 
 }: AudioTrimSelectorProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const wavesurferRef = useRef<WaveSurfer | null>(null);
-  const regionsRef = useRef<RegionsPlugin | null>(null);
+  const wavesurferRef = useRef<WaveSurferInstance | null>(null);
+  const regionsRef = useRef<RegionsPluginInstance | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -34,10 +37,10 @@ export const AudioTrimSelector = ({
 
   useEffect(() => {
     let mounted = true;
-    
-    const initWavesurfer = () => {
+
+    const initWavesurfer = async () => {
       if (!mounted) return;
-      
+
       if (!containerRef.current || !audioUrl) {
         setIsLoading(false);
         return;
@@ -46,40 +49,49 @@ export const AudioTrimSelector = ({
       setIsLoading(true);
       setIsReady(false);
 
-      const wavesurfer = WaveSurfer.create({
-        container: containerRef.current,
-        height: 80,
-        waveColor: 'hsl(var(--muted-foreground) / 0.3)',
-        progressColor: 'hsl(var(--primary))',
-        barWidth: 2,
-        barGap: 1,
-        barRadius: 2,
-        cursorWidth: 2,
-        cursorColor: 'hsl(var(--primary))',
-        normalize: true,
-        backend: 'WebAudio',
-        interact: true,
-        hideScrollbar: true,
-        fillParent: true,
-      });
+      try {
+        const mod: WaveSurferCtor = await import('wavesurfer.js');
+        const WaveSurfer = (mod as any).default ?? (mod as any);
 
-      // Initialize Regions plugin
-      const regions = wavesurfer.registerPlugin(RegionsPlugin.create());
-      regionsRef.current = regions;
+        const regionsMod = (await import('wavesurfer.js/dist/plugins/regions.js')) as any;
+        const RegionsPlugin: RegionsPluginCtor = regionsMod.default ?? regionsMod;
 
-      wavesurferRef.current = wavesurfer;
+        if (!mounted) return;
 
-      wavesurfer.on('ready', () => {
-        if (mounted) {
+        const wavesurfer: WaveSurferInstance = WaveSurfer.create({
+          container: containerRef.current,
+          height: 80,
+          waveColor: 'hsl(var(--muted-foreground) / 0.3)',
+          progressColor: 'hsl(var(--primary))',
+          barWidth: 2,
+          barGap: 1,
+          barRadius: 2,
+          cursorWidth: 2,
+          cursorColor: 'hsl(var(--primary))',
+          normalize: true,
+          backend: 'WebAudio',
+          interact: true,
+          hideScrollbar: true,
+          fillParent: true,
+        });
+
+        // Initialize Regions plugin
+        const regions: RegionsPluginInstance = wavesurfer.registerPlugin(RegionsPlugin.create());
+        regionsRef.current = regions;
+
+        wavesurferRef.current = wavesurfer;
+
+        wavesurfer.on('ready', () => {
+          if (!mounted) return;
           const audioDuration = wavesurfer.getDuration();
           setIsReady(true);
           setIsLoading(false);
           setDuration(audioDuration);
-          
+
           // Create initial selection region (first maxDuration seconds)
           const initialEnd = Math.min(maxDuration, audioDuration);
           setRegionEnd(initialEnd);
-          
+
           regions.addRegion({
             start: 0,
             end: initialEnd,
@@ -90,53 +102,56 @@ export const AudioTrimSelector = ({
 
           // Notify parent of initial selection
           onRegionSelected(0, initialEnd);
-        }
-      });
+        });
 
-      wavesurfer.on('error', (err) => {
-        logger.error('Waveform error', { error: err });
-        if (mounted) {
-          setIsLoading(false);
-        }
-      });
-
-      wavesurfer.on('audioprocess', () => {
-        if (mounted) {
-          setCurrentTime(wavesurfer.getCurrentTime());
-        }
-      });
-
-      wavesurfer.on('play', () => {
-        if (mounted) setIsPlaying(true);
-      });
-      
-      wavesurfer.on('pause', () => {
-        if (mounted) setIsPlaying(false);
-      });
-      
-      wavesurfer.on('finish', () => {
-        if (mounted) setIsPlaying(false);
-      });
-
-      // Handle region updates
-      regions.on('region-updated', (region) => {
-        if (mounted) {
-          const start = Math.max(0, region.start);
-          let end = Math.min(duration, region.end);
-          
-          // Enforce max duration
-          if (end - start > maxDuration) {
-            end = start + maxDuration;
-            region.setOptions({ start, end });
+        wavesurfer.on('error', (err: unknown) => {
+          logger.error('Waveform error', { error: err });
+          if (mounted) {
+            setIsLoading(false);
           }
-          
-          setRegionStart(start);
-          setRegionEnd(end);
-          onRegionSelected(start, end);
-        }
-      });
+        });
 
-      wavesurfer.load(audioUrl);
+        wavesurfer.on('audioprocess', () => {
+          if (mounted) {
+            setCurrentTime(wavesurfer.getCurrentTime());
+          }
+        });
+
+        wavesurfer.on('play', () => {
+          if (mounted) setIsPlaying(true);
+        });
+
+        wavesurfer.on('pause', () => {
+          if (mounted) setIsPlaying(false);
+        });
+
+        wavesurfer.on('finish', () => {
+          if (mounted) setIsPlaying(false);
+        });
+
+        // Handle region updates
+        regions.on('region-updated', (region: any) => {
+          if (mounted) {
+            const start = Math.max(0, region.start);
+            let end = Math.min(duration, region.end);
+
+            // Enforce max duration
+            if (end - start > maxDuration) {
+              end = start + maxDuration;
+              region.setOptions({ start, end });
+            }
+
+            setRegionStart(start);
+            setRegionEnd(end);
+            onRegionSelected(start, end);
+          }
+        });
+
+        wavesurfer.load(audioUrl);
+      } catch (e) {
+        logger.error('Failed to init WaveSurfer', e);
+        if (mounted) setIsLoading(false);
+      }
     };
 
     initWavesurfer();

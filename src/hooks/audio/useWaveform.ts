@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import WaveSurfer from 'wavesurfer.js';
 import { logger } from '@/lib/logger';
+
+type WaveSurferCtor = typeof import('wavesurfer.js');
+type WaveSurferInstance = any;
 
 interface UseWaveformOptions {
   audioUrl: string;
@@ -16,7 +18,7 @@ interface UseWaveformOptions {
 }
 
 interface UseWaveformReturn {
-  wavesurfer: WaveSurfer | null;
+  wavesurfer: WaveSurferInstance | null;
   isReady: boolean;
   isLoading: boolean;
   duration: number;
@@ -38,56 +40,75 @@ export const useWaveform = ({
   cursorWidth = 0,
   normalize = true,
 }: UseWaveformOptions): UseWaveformReturn => {
-  const wavesurferRef = useRef<WaveSurfer | null>(null);
+  const wavesurferRef = useRef<WaveSurferInstance | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
-    if (!container || !audioUrl) return;
+    let mounted = true;
 
-    setIsLoading(true);
-    setIsReady(false);
+    const init = async () => {
+      if (!container || !audioUrl) return;
 
-    const wavesurfer = WaveSurfer.create({
-      container,
-      height,
-      waveColor,
-      progressColor,
-      barWidth,
-      barGap,
-      barRadius,
-      cursorWidth,
-      normalize,
-      backend: 'WebAudio',
-      interact: false, // We handle interaction externally
-      hideScrollbar: true,
-      fillParent: true,
-    });
+      setIsLoading(true);
+      setIsReady(false);
 
-    wavesurferRef.current = wavesurfer;
+      try {
+        const mod: WaveSurferCtor = await import('wavesurfer.js');
+        const WaveSurfer = (mod as any).default ?? (mod as any);
+        if (!mounted) return;
 
-    wavesurfer.on('ready', () => {
-      setIsReady(true);
-      setIsLoading(false);
-      setDuration(wavesurfer.getDuration());
-    });
+        const wavesurfer = WaveSurfer.create({
+          container,
+          height,
+          waveColor,
+          progressColor,
+          barWidth,
+          barGap,
+          barRadius,
+          cursorWidth,
+          normalize,
+          backend: 'WebAudio',
+          interact: false, // We handle interaction externally
+          hideScrollbar: true,
+          fillParent: true,
+        });
 
-    wavesurfer.on('error', (err) => {
-      logger.error('Waveform error', err);
-      setIsLoading(false);
-    });
+        wavesurferRef.current = wavesurfer;
 
-    wavesurfer.on('timeupdate', (time) => {
-      setCurrentTime(time);
-    });
+        wavesurfer.on('ready', () => {
+          if (!mounted) return;
+          setIsReady(true);
+          setIsLoading(false);
+          setDuration(wavesurfer.getDuration());
+        });
 
-    wavesurfer.load(audioUrl);
+        wavesurfer.on('error', (err: unknown) => {
+          logger.error('Waveform error', err);
+          if (mounted) setIsLoading(false);
+        });
+
+        wavesurfer.on('timeupdate', (time: number) => {
+          if (mounted) setCurrentTime(time);
+        });
+
+        wavesurfer.load(audioUrl);
+      } catch (e) {
+        logger.error('Failed to init WaveSurfer', e);
+        if (mounted) setIsLoading(false);
+      }
+    };
+
+    init();
 
     return () => {
-      wavesurfer.destroy();
-      wavesurferRef.current = null;
+      mounted = false;
+      if (wavesurferRef.current) {
+        wavesurferRef.current.destroy();
+        wavesurferRef.current = null;
+      }
     };
   }, [audioUrl, container, height, waveColor, progressColor, barWidth, barGap, barRadius, cursorWidth, normalize]);
 
