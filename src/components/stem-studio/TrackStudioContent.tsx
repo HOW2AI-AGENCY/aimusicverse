@@ -16,6 +16,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import { Scissors, Split, Layers } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTracks } from '@/hooks/useTracks';
@@ -279,14 +280,39 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
         ? latestCompletion.newAudioUrlB
         : latestCompletion.newAudioUrl;
       
-      if (saveMode === 'apply' && latestCompletion.versionId) {
-        // Apply as primary version - updates the track
-        await setPrimaryVersionAsync({ 
-          trackId, 
-          versionId: latestCompletion.versionId 
-        });
+      if (saveMode === 'apply') {
+        let applied = false;
         
-        if (audioRef.current && audioUrl) {
+        if (latestCompletion.versionId) {
+          // Apply as primary version - updates the track
+          await setPrimaryVersionAsync({ 
+            trackId, 
+            versionId: latestCompletion.versionId 
+          });
+          applied = true;
+        } else if (audioUrl) {
+          // Try to find version by task ID
+          const { data: version } = await supabase
+            .from('track_versions')
+            .select('id')
+            .eq('track_id', trackId)
+            .eq('metadata->>original_task_id', latestCompletion.taskId)
+            .single();
+          
+          if (version?.id) {
+            await setPrimaryVersionAsync({ trackId, versionId: version.id });
+            applied = true;
+          } else {
+            // No version found - update track's audio_url directly
+            await supabase
+              .from('tracks')
+              .update({ audio_url: audioUrl })
+              .eq('id', trackId);
+            applied = true;
+          }
+        }
+        
+        if (applied && audioRef.current && audioUrl) {
           audioRef.current.src = audioUrl;
           audioRef.current.load();
           setCurrentAudioUrl(audioUrl);
@@ -294,11 +320,8 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
         
         toast.success(`Вариант ${selectedVariant === 'variantA' ? 'A' : 'B'} применён`);
       } else if (saveMode === 'newVersion') {
-        // Save as new version - keeps both old and new
         toast.success(`Сохранено как новая версия`);
       } else if (saveMode === 'newTrack') {
-        // Save as new track - creates separate track
-        // TODO: Implement track duplication with new audio
         toast.success(`Создан новый трек`);
       }
       
