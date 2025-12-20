@@ -15,7 +15,7 @@ import {
   Mic2, Guitar, Drum, Music, Piano, Waves,
   Volume2, VolumeX, MoreHorizontal, Music2, Download,
   Sparkles, ChevronDown, ChevronUp, Headphones, Plus, Sliders,
-  Wand2, FileMusic, Eye, Loader2
+  Wand2, FileMusic, Eye, Loader2, Trash2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -57,7 +57,7 @@ interface IntegratedStemTracksProps {
   onMasterVolumeChange: (volume: number) => void;
   onMasterMuteToggle: () => void;
   onSeek: (time: number) => void;
-  onStemAction: (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes') => void;
+  onStemAction: (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete') => void;
   onAddTrack?: () => void;
   effectsEnabled?: boolean;
   className?: string;
@@ -207,7 +207,7 @@ const StemTrackRowMobile = memo(({
   onToggle: (type: 'mute' | 'solo') => void;
   onVolumeChange: (volume: number) => void;
   onSeek: (time: number) => void;
-  onAction: (action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes') => void;
+  onAction: (action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete') => void;
 }) => {
   const [showVolume, setShowVolume] = useState(false);
   const haptic = useHapticFeedback();
@@ -339,6 +339,18 @@ const StemTrackRowMobile = memo(({
                   <Download className="w-4 h-4 mr-2" />
                   Скачать
                 </DropdownMenuItem>
+                {stem.source && stem.source !== 'separated' && (
+                  <>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={() => onAction('delete')}
+                      className="text-destructive focus:text-destructive"
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Удалить стем
+                    </DropdownMenuItem>
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -418,7 +430,7 @@ const StemTrackRowDesktop = memo(({
   onToggle: (type: 'mute' | 'solo') => void;
   onVolumeChange: (volume: number) => void;
   onSeek: (time: number) => void;
-  onAction: (action: 'midi' | 'reference' | 'download' | 'effects') => void;
+  onAction: (action: 'midi' | 'reference' | 'download' | 'effects' | 'delete') => void;
 }) => {
   const config = stemConfig[stem.stem_type.toLowerCase()] || stemConfig.other;
   const Icon = config.icon;
@@ -524,6 +536,17 @@ const StemTrackRowDesktop = memo(({
         >
           <Download className="w-3 h-3" />
         </Button>
+        {stem.source && stem.source !== 'separated' && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onAction('delete')}
+            className="h-6 w-6 p-0 text-destructive hover:text-destructive"
+            title="Удалить стем"
+          >
+            <Trash2 className="w-3 h-3" />
+          </Button>
+        )}
       </div>
     </motion.div>
   );
