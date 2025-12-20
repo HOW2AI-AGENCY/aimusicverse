@@ -45,12 +45,10 @@ export const WaveformCanvas = memo(function WaveformCanvas({
       return value || fallback;
     };
 
-    const mutedFg = getCSSColor('--muted-foreground', '240 3.8% 46.1%');
     const primary = getCSSColor('--primary', '217.2 91.2% 59.8%');
-    const bg = getCSSColor('--background', '0 0% 0%');
 
     colorsRef.current = {
-      wave: waveColor || `hsl(${mutedFg} / 0.4)`,
+      wave: waveColor || `hsl(${primary} / 0.35)`,
       progress: progressColor || `hsl(${primary})`,
       bg: backgroundColor || 'transparent',
     };
