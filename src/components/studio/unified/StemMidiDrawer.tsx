@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Music2, Download, Loader2, 
   Piano, Mic2, Drum, Guitar, FileAudio,
-  Play, FileText, CheckCircle2
+  Play, FileText, CheckCircle2, Eye
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -27,10 +27,10 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { useReplicateMidiTranscription, TranscriptionFiles } from '@/hooks/useReplicateMidiTranscription';
-import { useStemMidi } from '@/hooks/useStemMidi';
-import { useSaveTranscription } from '@/hooks/useStemTranscription';
+import { useStemTranscription, useSaveTranscription } from '@/hooks/useStemTranscription';
 import { MidiPlayerCard } from '@/components/studio/MidiPlayerCard';
 import { MidiFilesCard } from '@/components/studio/MidiFilesCard';
+import { NotesViewerDialog } from '@/components/studio/NotesViewerDialog';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -80,6 +80,7 @@ export function StemMidiDrawer({
   const [activeTab, setActiveTab] = useState<'create' | 'player' | 'files'>('create');
   const [activeMidiUrl, setActiveMidiUrl] = useState<string | null>(null);
   const [transcriptionFiles, setTranscriptionFiles] = useState<TranscriptionFiles>({});
+  const [notesViewerOpen, setNotesViewerOpen] = useState(false);
   
   const { 
     transcribe, 
@@ -89,8 +90,10 @@ export function StemMidiDrawer({
   } = useReplicateMidiTranscription();
   
   const { 
-    midiVersions, 
-  } = useStemMidi(trackId, stem?.id);
+    latestTranscription,
+    hasTranscription,
+    isLoading: isLoadingTranscription,
+  } = useStemTranscription(stem?.id);
   
   const { saveTranscription, isSaving } = useSaveTranscription();
 
@@ -107,6 +110,29 @@ export function StemMidiDrawer({
       setSelectedModel(config.model as KlangioModel);
     }
   }, [stem]);
+
+  // Load saved transcription data when drawer opens or transcription changes
+  useEffect(() => {
+    if (latestTranscription) {
+      const files: TranscriptionFiles = {};
+      if (latestTranscription.midi_url) files.midi = latestTranscription.midi_url;
+      if (latestTranscription.midi_quant_url) files.midi_quant = latestTranscription.midi_quant_url;
+      if (latestTranscription.mxml_url) files.mxml = latestTranscription.mxml_url;
+      if (latestTranscription.gp5_url) files.gp5 = latestTranscription.gp5_url;
+      if (latestTranscription.pdf_url) files.pdf = latestTranscription.pdf_url;
+      
+      setTranscriptionFiles(files);
+      
+      if (latestTranscription.midi_url) {
+        setActiveMidiUrl(latestTranscription.midi_url);
+      }
+      
+      // Set model from saved transcription
+      if (latestTranscription.model && SELECTABLE_MODELS.includes(latestTranscription.model as KlangioModel)) {
+        setSelectedModel(latestTranscription.model as KlangioModel);
+      }
+    }
+  }, [latestTranscription]);
 
   // Get outputs based on selected model
   const selectedOutputs = useMemo((): TranscriptionOutput[] => {
@@ -130,7 +156,7 @@ export function StemMidiDrawer({
   // Check if current selection supports tablature
   const supportsTableture = selectedModel === 'guitar' || selectedModel === 'bass';
 
-  // Update files when result changes
+  // Update files when new result comes in
   useEffect(() => {
     if (result?.files) {
       setTranscriptionFiles(result.files);
@@ -234,7 +260,7 @@ export function StemMidiDrawer({
     setActiveTab('player');
   }, []);
 
-  const latestMidiUrl = result?.midiUrl || midiVersions?.[0]?.audio_url;
+  const latestMidiUrl = result?.midiUrl || activeMidiUrl || latestTranscription?.midi_url;
   const hasFiles = Object.keys(transcriptionFiles).length > 0;
 
   return (
@@ -440,44 +466,23 @@ export function StemMidiDrawer({
                     )}
                   </AnimatePresence>
 
-                  {/* Previous MIDI versions */}
-                  {midiVersions && midiVersions.length > 0 && (
-                    <div className="space-y-2">
-                      <Label className="text-sm font-medium text-muted-foreground">
-                        Предыдущие версии
-                      </Label>
-                      <div className="space-y-2">
-                        {midiVersions.map((version) => (
-                          <div
-                            key={version.id}
-                            className="flex items-center justify-between p-2 rounded-lg bg-muted/30"
-                          >
-                            <div className="flex items-center gap-2">
-                              <Music2 className="w-4 h-4 text-muted-foreground" />
-                              <span className="text-xs">
-                                {version.metadata?.model_name || 'MIDI'}
-                              </span>
-                            </div>
-                            <div className="flex gap-1">
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                onClick={() => handlePlayMidi(version.audio_url)}
-                                title="Воспроизвести"
-                              >
-                                <Play className="w-3 h-3" />
-                              </Button>
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                onClick={() => handleDownloadMidi(version.audio_url)}
-                                title="Скачать"
-                              >
-                                <Download className="w-3 h-3" />
-                              </Button>
-                            </div>
-                          </div>
-                        ))}
+                  {/* Saved transcription info */}
+                  {hasTranscription && latestTranscription && !result?.midiUrl && (
+                    <div className="p-3 rounded-lg bg-muted/30 border border-border/50 space-y-2">
+                      <p className="text-xs font-medium text-muted-foreground flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3 text-success" />
+                        Сохранённая транскрипция
+                      </p>
+                      <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+                        {latestTranscription.bpm && (
+                          <span>BPM: {latestTranscription.bpm}</span>
+                        )}
+                        {latestTranscription.key_detected && (
+                          <span>Тональность: {latestTranscription.key_detected}</span>
+                        )}
+                        {latestTranscription.notes_count && (
+                          <span>Нот: {latestTranscription.notes_count}</span>
+                        )}
                       </div>
                     </div>
                   )}
@@ -509,12 +514,26 @@ export function StemMidiDrawer({
 
             <TabsContent value="files" className="flex-1 min-h-0 m-0">
               <ScrollArea className="h-full -mx-6 px-6">
-                <div className="pb-6">
+                <div className="pb-6 space-y-4">
                   {hasFiles ? (
-                    <MidiFilesCard
-                      files={transcriptionFiles}
-                      title="Доступные файлы"
-                    />
+                    <>
+                      <MidiFilesCard
+                        files={transcriptionFiles}
+                        title="Доступные файлы"
+                      />
+                      
+                      {/* View Notes Button */}
+                      {(latestTranscription?.midi_url || latestTranscription?.mxml_url || latestTranscription?.notes) && (
+                        <Button
+                          variant="outline"
+                          className="w-full"
+                          onClick={() => setNotesViewerOpen(true)}
+                        >
+                          <Eye className="w-4 h-4 mr-2" />
+                          Просмотр нот
+                        </Button>
+                      )}
+                    </>
                   ) : (
                     <div className="flex flex-col items-center justify-center py-12 text-center">
                       <Music2 className="w-12 h-12 text-muted-foreground mb-4" />
@@ -530,6 +549,14 @@ export function StemMidiDrawer({
           </Tabs>
         )}
       </SheetContent>
+      
+      {/* Notes Viewer Dialog */}
+      <NotesViewerDialog
+        open={notesViewerOpen}
+        onOpenChange={setNotesViewerOpen}
+        transcription={latestTranscription}
+        stemType={stem?.stem_type}
+      />
     </Sheet>
   );
 }
