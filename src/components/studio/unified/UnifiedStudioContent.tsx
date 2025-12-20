@@ -186,6 +186,70 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
     }
   }, [stems]);
 
+  // Initialize and manage stem audio elements
+  useEffect(() => {
+    if (!stems || stems.length === 0) return;
+
+    // Create audio elements for each stem
+    stems.forEach(stem => {
+      if (!stemAudioRefs.current[stem.id]) {
+        const audio = new Audio(stem.audio_url);
+        audio.preload = 'auto';
+        audio.volume = 0.85;
+        stemAudioRefs.current[stem.id] = audio;
+      }
+    });
+
+    // Cleanup: remove audio elements for stems that no longer exist
+    const stemIds = new Set(stems.map(s => s.id));
+    Object.keys(stemAudioRefs.current).forEach(id => {
+      if (!stemIds.has(id)) {
+        stemAudioRefs.current[id].pause();
+        stemAudioRefs.current[id].src = '';
+        delete stemAudioRefs.current[id];
+      }
+    });
+
+    return () => {
+      // Cleanup all stem audio on unmount
+      Object.values(stemAudioRefs.current).forEach(audio => {
+        audio.pause();
+        audio.src = '';
+      });
+      stemAudioRefs.current = {};
+    };
+  }, [stems]);
+
+  // Apply stem volume/mute/solo states
+  useEffect(() => {
+    if (!stems || stems.length === 0) return;
+
+    const hasSoloedStems = Object.values(stemStates).some(s => s.solo);
+
+    stems.forEach(stem => {
+      const audio = stemAudioRefs.current[stem.id];
+      if (!audio) return;
+
+      const state = stemStates[stem.id];
+      if (!state) return;
+
+      // Calculate effective volume
+      let effectiveVolume = state.volume * masterVolume;
+
+      // Apply mute logic
+      if (masterMuted || state.muted) {
+        effectiveVolume = 0;
+      }
+
+      // Apply solo logic: if any stem is soloed, mute all others
+      if (hasSoloedStems && !state.solo) {
+        effectiveVolume = 0;
+      }
+
+      audio.volume = effectiveVolume;
+    });
+  }, [stems, stemStates, masterVolume, masterMuted]);
+
   // Initialize main audio with coordination
   useEffect(() => {
     if (!currentAudioUrl) return;
@@ -197,6 +261,10 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
     // Register for audio coordination
     registerStudioAudio('unified-studio-player', () => {
       audio.pause();
+      // Also pause all stems
+      Object.values(stemAudioRefs.current).forEach(stemAudio => {
+        stemAudio.pause();
+      });
       setIsPlaying(false);
     });
 
@@ -205,6 +273,11 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
     });
 
     audio.addEventListener('ended', () => {
+      // Pause all stems when track ends
+      Object.values(stemAudioRefs.current).forEach(stemAudio => {
+        stemAudio.pause();
+        stemAudio.currentTime = 0;
+      });
       setIsPlaying(false);
       setCurrentTime(0);
     });
@@ -217,11 +290,17 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
     };
   }, [currentAudioUrl]);
 
-  // Update volume
+  // Update main track volume (when no stems or stems not playing)
   useEffect(() => {
     if (!audioRef.current) return;
-    audioRef.current.volume = muted ? 0 : volume;
-  }, [volume, muted]);
+    // When stems are available, main track is muted during playback
+    const hasPlayableStems = stems && stems.length > 0;
+    if (hasPlayableStems && isPlaying) {
+      audioRef.current.volume = 0;
+    } else {
+      audioRef.current.volume = muted ? 0 : volume;
+    }
+  }, [volume, muted, stems, isPlaying]);
 
   const updateTime = useCallback(() => {
     if (audioRef.current) {
@@ -231,17 +310,49 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   }, []);
 
   const togglePlay = async () => {
-    if (!audioRef.current) return;
+    // When stems are available, play stems instead of main track
+    const hasPlayableStems = stems && stems.length > 0;
 
     if (isPlaying) {
-      audioRef.current.pause();
+      // Pause main audio
+      audioRef.current?.pause();
+      
+      // Pause all stem audio
+      Object.values(stemAudioRefs.current).forEach(audio => {
+        audio.pause();
+      });
+      
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
       setIsPlaying(false);
     } else {
       try {
-        await audioRef.current.play();
+        if (hasPlayableStems) {
+          // Play all stems synchronized
+          const playPromises: Promise<void>[] = [];
+          
+          Object.values(stemAudioRefs.current).forEach(audio => {
+            // Sync time before playing
+            audio.currentTime = currentTime;
+            playPromises.push(audio.play());
+          });
+          
+          // Also sync and play main audio (muted as reference for seeking/duration)
+          if (audioRef.current) {
+            audioRef.current.currentTime = currentTime;
+            audioRef.current.volume = 0; // Mute main track when playing stems
+            playPromises.push(audioRef.current.play());
+          }
+          
+          await Promise.all(playPromises);
+        } else {
+          // No stems - play main audio only
+          if (audioRef.current) {
+            await audioRef.current.play();
+          }
+        }
+        
         setIsPlaying(true);
         animationFrameRef.current = requestAnimationFrame(updateTime);
       } catch (error) {
@@ -253,9 +364,16 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
 
   const handleSeek = useCallback((time: number) => {
     setCurrentTime(time);
+    
+    // Seek main audio
     if (audioRef.current) {
       audioRef.current.currentTime = time;
     }
+    
+    // Seek all stem audio
+    Object.values(stemAudioRefs.current).forEach(audio => {
+      audio.currentTime = time;
+    });
   }, []);
 
   const handleSkip = (direction: 'back' | 'forward') => {

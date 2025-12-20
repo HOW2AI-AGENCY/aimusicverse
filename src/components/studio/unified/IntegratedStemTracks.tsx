@@ -113,12 +113,62 @@ const stemConfig: Record<string, {
     gradient: 'from-emerald-500/20 to-emerald-600/5',
     accent: 'text-emerald-400 bg-emerald-500/20 border-emerald-500/30'
   },
+  synth: { 
+    icon: Sliders, 
+    label: 'Синтезатор', 
+    shortLabel: 'SYN',
+    gradient: 'from-cyan-500/20 to-cyan-600/5',
+    accent: 'text-cyan-400 bg-cyan-500/20 border-cyan-500/30'
+  },
   instrumental: { 
     icon: Guitar, 
     label: 'Инструментал', 
     shortLabel: 'INS',
     gradient: 'from-green-500/20 to-green-600/5',
     accent: 'text-green-400 bg-green-500/20 border-green-500/30'
+  },
+  // Generated stem types
+  generated_drums: { 
+    icon: Drum, 
+    label: 'Ударные AI', 
+    shortLabel: 'DRM+',
+    gradient: 'from-orange-500/20 to-yellow-600/5',
+    accent: 'text-orange-400 bg-orange-500/20 border-orange-500/30'
+  },
+  generated_bass: { 
+    icon: Waves, 
+    label: 'Бас AI', 
+    shortLabel: 'BAS+',
+    gradient: 'from-purple-500/20 to-violet-600/5',
+    accent: 'text-purple-400 bg-purple-500/20 border-purple-500/30'
+  },
+  generated_piano: { 
+    icon: Piano, 
+    label: 'Пианино AI', 
+    shortLabel: 'PNO+',
+    gradient: 'from-pink-500/20 to-rose-600/5',
+    accent: 'text-pink-400 bg-pink-500/20 border-pink-500/30'
+  },
+  generated_strings: { 
+    icon: Music, 
+    label: 'Струнные AI', 
+    shortLabel: 'STR+',
+    gradient: 'from-emerald-500/20 to-teal-600/5',
+    accent: 'text-emerald-400 bg-emerald-500/20 border-emerald-500/30'
+  },
+  generated_synth: { 
+    icon: Sliders, 
+    label: 'Синтезатор AI', 
+    shortLabel: 'SYN+',
+    gradient: 'from-cyan-500/20 to-blue-600/5',
+    accent: 'text-cyan-400 bg-cyan-500/20 border-cyan-500/30'
+  },
+  generated_sfx: { 
+    icon: Sparkles, 
+    label: 'Эффекты AI', 
+    shortLabel: 'SFX+',
+    gradient: 'from-yellow-500/20 to-orange-600/5',
+    accent: 'text-yellow-400 bg-yellow-500/20 border-yellow-500/30'
   },
   other: { 
     icon: Music, 
