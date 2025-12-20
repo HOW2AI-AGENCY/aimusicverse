@@ -73,6 +73,10 @@ export function useTelegramMainButton({
     typeof webApp.MainButton.setText === 'function'
   );
   
+  // Check if MainButton is actually visible (iOS Safari/Telegram can have API but not render)
+  // We check if MainButton.isVisible is true after we try to show it
+  const mainButtonVisible = webApp?.MainButton?.isVisible === true;
+  
   // Determine environment - real Mini App if platform is mobile AND MainButton API exists
   // IMPORTANT: On iOS/Android, even in dev mode, we should use native MainButton if available
   const isNativePlatform = platform === 'ios' || platform === 'android' || platform === 'tdesktop';
@@ -83,7 +87,10 @@ export function useTelegramMainButton({
     platform !== '' &&
     (isNativePlatform || !isDevelopmentMode) // Allow native button on iOS/Android even in dev mode
   );
-  const shouldShowUIButton = !isRealMiniApp;
+  
+  // CRITICAL FIX: Always show UI button as fallback if MainButton is not visibly rendering
+  // This fixes the issue on iPhones where MainButton API exists but doesn't render
+  const shouldShowUIButton = !isRealMiniApp || (isRealMiniApp && visible && !mainButtonVisible);
   
   // Stable callback wrapper
   const handleClick = useCallback(() => {

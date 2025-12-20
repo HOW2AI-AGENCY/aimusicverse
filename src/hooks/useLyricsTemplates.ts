@@ -75,6 +75,11 @@ export function useLyricsTemplates() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['lyrics-templates'] });
+      toast.success('Шаблон сохранён');
+    },
+    onError: (error) => {
+      console.error('Error saving template:', error);
+      toast.error('Ошибка сохранения шаблона');
     },
   });
 
