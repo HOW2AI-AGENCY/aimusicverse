@@ -197,7 +197,9 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   // Track loading progress
   const [stemsLoadingProgress, setStemsLoadingProgress] = useState(0);
 
-  // Initialize and manage stem audio elements with EAGER loading
+  // Initialize and manage stem audio elements with LIGHT loading
+  // Rationale: eager `preload="auto"` for many stems triggers parallel full downloads and can feel very slow.
+  // We only need metadata to enable playback controls; audio will buffer naturally on first play.
   useEffect(() => {
     if (!stems || stems.length === 0) {
       setStemsReady(false);
@@ -215,88 +217,81 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       setStemsLoadingProgress(Math.round((loadedCount / totalStems) * 100));
       if (loadedCount >= totalStems) {
         setStemsReady(true);
-        logger.info('All stems loaded and ready for playback', { count: totalStems });
+        logger.info('All stems initialized (metadata ready)', { count: totalStems });
       }
     };
 
-    // Create audio elements for each stem - use 'auto' preload for faster playback
-    stems.forEach((stem, index) => {
+    // Create audio elements for each stem - preload only metadata (fast)
+    stems.forEach((stem) => {
       if (!stemAudioRefs.current[stem.id]) {
         const audio = new Audio();
-        // Use 'auto' preload - browser will start buffering immediately
-        audio.preload = 'auto';
+        // Only fetch metadata up-front; avoid full parallel buffering
+        audio.preload = 'metadata';
         audio.volume = 0.85;
         audio.crossOrigin = 'anonymous';
 
-        const handleCanPlayThrough = () => {
+        const handleLoadedMetadata = () => {
           loadedCount++;
           stemsLoadingCountRef.current = loadedCount;
-          logger.debug('Stem ready for playback', { stemId: stem.id, stemType: stem.stem_type, loadedCount, totalStems });
+          logger.debug('Stem metadata ready', {
+            stemId: stem.id,
+            stemType: stem.stem_type,
+            loadedCount,
+            totalStems,
+          });
           checkAllLoaded();
-        };
-
-        // Fallback: if canplaythrough doesn't fire in 5s, consider it loaded
-        const handleProgress = () => {
-          // Check buffered amount
-          if (audio.buffered.length > 0 && audio.duration > 0) {
-            const bufferedEnd = audio.buffered.end(audio.buffered.length - 1);
-            const bufferedPercent = (bufferedEnd / audio.duration) * 100;
-            // Update individual stem progress through aggregate
-            if (bufferedPercent > 50 && !audio.dataset.countedPartial) {
-              audio.dataset.countedPartial = 'true';
-              // Don't increment count, just ensure we're not blocking
-            }
-          }
         };
 
         const handleError = (e: Event) => {
           logger.error('Stem audio load error', { stemId: stem.id, error: e });
-          // Still count as "loaded" to not block other stems
+          // Still count as ready to not block other stems
           loadedCount++;
           checkAllLoaded();
         };
 
-        audio.addEventListener('canplaythrough', handleCanPlayThrough, { once: true });
-        audio.addEventListener('progress', handleProgress);
+        audio.addEventListener('loadedmetadata', handleLoadedMetadata, { once: true });
         audio.addEventListener('error', handleError, { once: true });
 
-        // Fallback timeout - if stem doesn't load in 8s, count it anyway
+        // Fallback: if metadata doesn't load quickly (e.g. connection queue), count it anyway
         setTimeout(() => {
-          if (!audio.dataset.counted && audio.readyState < 4) {
+          if (!audio.dataset.counted && audio.readyState < 1) {
             audio.dataset.counted = 'true';
-            // If we have at least metadata, consider it ready for play
-            if (audio.readyState >= 1) {
-              loadedCount++;
-              checkAllLoaded();
-              logger.warn('Stem loading timeout, counting as ready', { stemId: stem.id, readyState: audio.readyState });
-            }
+            loadedCount++;
+            checkAllLoaded();
+            logger.warn('Stem metadata timeout, counting as ready', {
+              stemId: stem.id,
+              readyState: audio.readyState,
+            });
           }
-        }, 8000);
+        }, 2500);
 
-        // Start loading immediately
+        // Start loading metadata immediately
         audio.src = stem.audio_url;
         audio.load();
 
         stemAudioRefs.current[stem.id] = audio;
       } else {
         const audio = stemAudioRefs.current[stem.id];
-        // If already ready, count it
-        if (audio.readyState >= 4) {
+        // If already has metadata, count it
+        if (audio.readyState >= 1) {
           loadedCount++;
           checkAllLoaded();
-        } else if (audio.readyState >= 1) {
-          // Has metadata, listen for full load
-          audio.addEventListener('canplaythrough', () => {
-            loadedCount++;
-            checkAllLoaded();
-          }, { once: true });
+        } else {
+          audio.addEventListener(
+            'loadedmetadata',
+            () => {
+              loadedCount++;
+              checkAllLoaded();
+            },
+            { once: true }
+          );
         }
       }
     });
 
     // Cleanup: remove audio elements for stems that no longer exist
-    const stemIds = new Set(stems.map(s => s.id));
-    Object.keys(stemAudioRefs.current).forEach(id => {
+    const stemIds = new Set(stems.map((s) => s.id));
+    Object.keys(stemAudioRefs.current).forEach((id) => {
       if (!stemIds.has(id)) {
         stemAudioRefs.current[id].pause();
         stemAudioRefs.current[id].src = '';
@@ -306,7 +301,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
 
     return () => {
       // Cleanup all stem audio on unmount
-      Object.values(stemAudioRefs.current).forEach(audio => {
+      Object.values(stemAudioRefs.current).forEach((audio) => {
         audio.pause();
         audio.src = '';
       });
