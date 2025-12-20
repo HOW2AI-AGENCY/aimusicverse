@@ -1,9 +1,9 @@
 /**
  * NotesViewerDialog - Full-screen notes viewer with tabs
- * Shows Piano Roll, PDF Notes, Guitar Tab (GP5), and MusicXML
+ * Shows Piano Roll, PDF Notes, Guitar Tab (GP5), and MusicXML with note visualization
  */
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import {
   Music2,
@@ -18,6 +18,7 @@ import {
   ZoomIn,
   ZoomOut,
   Maximize2,
+  FileCode2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -41,8 +42,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { StemTranscription } from '@/hooks/useStemTranscription';
 import { PianoRollPreview } from '@/components/analysis/PianoRollPreview';
 import { useMidiFileParser, ParsedMidiNote } from '@/hooks/useMidiFileParser';
+import { useMusicXmlParser } from '@/hooks/useMusicXmlParser';
 import { useMidiSynth } from '@/hooks/useMidiSynth';
-import { useEffect } from 'react';
 
 interface NotesViewerDialogProps {
   open: boolean;
@@ -68,7 +69,9 @@ export function NotesViewerDialog({
   const [localPlaying, setLocalPlaying] = useState(false);
 
   const { parseMidiFromUrl, parsedMidi, isLoading: isParsing } = useMidiFileParser();
+  const { parseMusicXmlFromUrl, parsedXml, isLoading: isParsingXml } = useMusicXmlParser();
   const { playNote, stopAll, isReady } = useMidiSynth();
+  const [xmlZoom, setXmlZoom] = useState(1);
 
   // Parse MIDI when dialog opens
   useEffect(() => {
@@ -77,6 +80,13 @@ export function NotesViewerDialog({
     }
   }, [open, transcription?.midi_url, parseMidiFromUrl]);
 
+  // Parse MusicXML when tab is active or dialog opens with mxml
+  useEffect(() => {
+    if (open && transcription?.mxml_url && (activeTab === 'xml' || !transcription?.midi_url)) {
+      parseMusicXmlFromUrl(transcription.mxml_url);
+    }
+  }, [open, transcription?.mxml_url, activeTab, parseMusicXmlFromUrl, transcription?.midi_url]);
+
   // Sync with external playhead
   useEffect(() => {
     if (isPlaying) {
@@ -84,7 +94,7 @@ export function NotesViewerDialog({
     }
   }, [currentTime, isPlaying]);
 
-  // Notes for piano roll
+  // Notes for piano roll (MIDI tab)
   const notes = useMemo(() => {
     if (parsedMidi?.notes) {
       return parsedMidi.notes;
@@ -96,9 +106,21 @@ export function NotesViewerDialog({
     return [];
   }, [parsedMidi, transcription]);
 
+  // Notes for MusicXML visualization
+  const xmlNotes = useMemo(() => {
+    if (parsedXml?.notes) {
+      return parsedXml.notes;
+    }
+    return [];
+  }, [parsedXml]);
+
   const duration = useMemo(() => {
     return parsedMidi?.duration || transcription?.duration_seconds || 60;
   }, [parsedMidi, transcription]);
+
+  const xmlDuration = useMemo(() => {
+    return parsedXml?.duration || transcription?.duration_seconds || 60;
+  }, [parsedXml, transcription]);
 
   const handleDownload = useCallback((url: string | null, filename: string) => {
     if (!url) return;
@@ -131,7 +153,7 @@ export function NotesViewerDialog({
       tabs.push({ id: 'guitar', label: 'Табы (GP5)', icon: Guitar });
     }
     if (transcription?.mxml_url) {
-      tabs.push({ id: 'xml', label: 'MusicXML', icon: Music2 });
+      tabs.push({ id: 'xml', label: 'MusicXML', icon: FileCode2 });
     }
     
     return tabs;
@@ -420,14 +442,109 @@ export function NotesViewerDialog({
         {/* MusicXML Tab */}
         <TabsContent value="xml" className="flex-1 m-0">
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            {/* Controls */}
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              <div className="flex items-center gap-2">
+                {parsedXml?.notes && (
+                  <Badge variant="outline">
+                    {parsedXml.notes.length} нот
+                  </Badge>
+                )}
+                {parsedXml?.bpm && (
+                  <Badge variant="outline">
+                    {Math.round(parsedXml.bpm)} BPM
+                  </Badge>
+                )}
+                {parsedXml?.keySignature && (
+                  <Badge variant="outline">
+                    {parsedXml.keySignature}
+                  </Badge>
+                )}
+                {parsedXml?.timeSignature && (
+                  <Badge variant="outline">
+                    {parsedXml.timeSignature.numerator}/{parsedXml.timeSignature.denominator}
+                  </Badge>
+                )}
+                {parsedXml?.partNames && parsedXml.partNames.length > 0 && (
+                  <Badge variant="secondary" className="text-[10px]">
+                    {parsedXml.partNames.join(', ')}
+                  </Badge>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setXmlZoom(Math.max(0.5, xmlZoom - 0.25))}
+                  disabled={xmlZoom <= 0.5}
+                >
+                  <ZoomOut className="w-4 h-4" />
+                </Button>
+                <span className="text-xs text-muted-foreground w-12 text-center">
+                  {Math.round(xmlZoom * 100)}%
+                </span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setXmlZoom(Math.min(2, xmlZoom + 0.25))}
+                  disabled={xmlZoom >= 2}
+                >
+                  <ZoomIn className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Piano Roll Visualization */}
+            <div 
+              className="rounded-lg overflow-hidden border"
+              style={{ height: isMobile ? 200 : 300 }}
+            >
+              {xmlNotes.length > 0 ? (
+                <PianoRollPreview
+                  notes={xmlNotes}
+                  duration={xmlDuration}
+                  currentTime={localTime}
+                  height={isMobile ? 200 : 300}
+                />
+              ) : isParsingXml ? (
+                <div className="h-full flex items-center justify-center">
+                  <div className="animate-pulse text-muted-foreground flex items-center gap-2">
+                    <FileCode2 className="w-5 h-5 animate-spin" />
+                    Парсинг MusicXML...
+                  </div>
+                </div>
+              ) : (
+                <div className="h-full flex items-center justify-center bg-gradient-to-br from-muted/30 to-muted/10">
+                  <div className="text-center">
+                    <FileCode2 className="w-10 h-10 text-muted-foreground mx-auto mb-2" />
+                    <p className="text-sm text-muted-foreground">Нажмите для загрузки визуализации</p>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="mt-2"
+                      onClick={() => transcription?.mxml_url && parseMusicXmlFromUrl(transcription.mxml_url)}
+                    >
+                      Загрузить ноты
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Download and External Links */}
+            <div className="flex items-center justify-between flex-wrap gap-2">
               <div>
-                <p className="text-sm font-medium">MusicXML файл</p>
+                <p className="text-sm font-medium flex items-center gap-2">
+                  <FileCode2 className="w-4 h-4" />
+                  MusicXML файл
+                </p>
                 <p className="text-xs text-muted-foreground">
                   Универсальный формат для нотных редакторов
                 </p>
               </div>
               <Button
+                variant="outline"
                 onClick={() => handleDownload(transcription.mxml_url, `${stemType}_score.musicxml`)}
               >
                 <Download className="w-4 h-4 mr-2" />
@@ -435,13 +552,49 @@ export function NotesViewerDialog({
               </Button>
             </div>
 
-            <div className="p-8 rounded-lg border bg-muted/20 text-center">
-              <Music2 className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">
-                Откройте в MuseScore, Finale, Sibelius или
-                <br />
-                другом нотном редакторе.
-              </p>
+            {/* Editor suggestions */}
+            <div className="p-4 rounded-lg border bg-muted/20">
+              <p className="text-xs font-medium text-muted-foreground mb-2">Рекомендуемые редакторы:</p>
+              <div className="flex flex-wrap gap-2">
+                <a 
+                  href="https://musescore.org" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-background border text-xs hover:bg-muted transition-colors"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  MuseScore
+                  <span className="text-muted-foreground">(бесплатно)</span>
+                </a>
+                <a 
+                  href="https://flat.io" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-background border text-xs hover:bg-muted transition-colors"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  Flat.io
+                  <span className="text-muted-foreground">(онлайн)</span>
+                </a>
+                <a 
+                  href="https://www.finalemusic.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-background border text-xs hover:bg-muted transition-colors"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  Finale
+                </a>
+                <a 
+                  href="https://www.avid.com/sibelius" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-background border text-xs hover:bg-muted transition-colors"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  Sibelius
+                </a>
+              </div>
             </div>
           </div>
         </TabsContent>
