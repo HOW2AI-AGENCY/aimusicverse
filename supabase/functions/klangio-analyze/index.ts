@@ -530,39 +530,48 @@ serve(async (req) => {
             console.log("[klangio] Detected V3 format with Parts structure");
             const musicInfo = transcriptionData.MusicInfo || {};
             detectedBpm = musicInfo.Tempo || 120;
-            const measureDuration = musicInfo.MeasureDuration || 1; // in beats
             const secondsPerBeat = 60 / detectedBpm;
-            
+
+            // IMPORTANT: In V3, note.Duration and offsets are typically expressed as a FRACTION OF A MEASURE
+            // (e.g. 0.125 == 1/8 of a bar in 4/4), not seconds.
+            // The correct scaling is: measure_fraction * beats_per_measure * seconds_per_beat.
+            const timeSignature = (musicInfo.TimeSignature || '4/4') as string;
+            const beatsPerMeasure = (() => {
+              const n = Number.parseInt(timeSignature.split('/')[0] || '4', 10);
+              return Number.isFinite(n) && n > 0 ? n : 4;
+            })();
+            const measureSeconds = beatsPerMeasure * secondsPerBeat;
+
             let currentMeasureIndex = 0;
             for (const part of transcriptionData.Parts) {
               if (!part.Measures) continue;
               currentMeasureIndex = 0;
-              
+
               for (const measure of part.Measures) {
-                const measureStartTime = currentMeasureIndex * measureDuration * secondsPerBeat;
+                const measureStartTime = currentMeasureIndex * measureSeconds;
                 if (!measure.Voices) {
                   currentMeasureIndex++;
                   continue;
                 }
-                
+
                 for (const voice of measure.Voices) {
                   if (!voice.Notes) continue;
-                  let noteOffset = 0;
-                  
+                  let noteOffsetInMeasure = 0;
+
                   for (const note of voice.Notes) {
                     // Skip rests (Midi = [-1])
                     const midiValues = note.Midi || [];
                     const validMidi = midiValues.filter((m: number) => m > 0);
-                    
+
+                    const durationInMeasure = note.Duration || 0.25;
+                    const durationInSeconds = durationInMeasure * measureSeconds;
+                    const startTime = measureStartTime + (noteOffsetInMeasure * measureSeconds);
+
                     if (validMidi.length > 0) {
-                      const durationInBeats = note.Duration || 0.25;
-                      const durationInSeconds = durationInBeats * measureDuration * secondsPerBeat;
-                      const startTime = measureStartTime + (noteOffset * measureDuration * secondsPerBeat);
-                      
                       for (const midi of validMidi) {
                         notes.push({
                           pitch: midi,
-                          startTime: startTime,
+                          startTime,
                           endTime: startTime + durationInSeconds,
                           duration: durationInSeconds,
                           velocity: note.Velocity || 80,
@@ -570,13 +579,14 @@ serve(async (req) => {
                         });
                       }
                     }
-                    noteOffset += note.Duration || 0.25;
+
+                    noteOffsetInMeasure += durationInMeasure;
                   }
                 }
                 currentMeasureIndex++;
               }
             }
-            
+
             // Also store BPM and other metadata
             if (musicInfo.Tempo) {
               finalResult.bpm = musicInfo.Tempo;
