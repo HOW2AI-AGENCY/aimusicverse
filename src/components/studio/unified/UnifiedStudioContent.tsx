@@ -36,10 +36,13 @@ import { useReplacedSections } from '@/hooks/useReplacedSections';
 import { useReplaceSectionRealtime } from '@/hooks/useReplaceSectionRealtime';
 import { useVersionSwitcher } from '@/hooks/useVersionSwitcher';
 import { useStemSeparation } from '@/hooks/useStemSeparation';
+import { useStemSeparationRealtime } from '@/hooks/useStemSeparationRealtime';
 import { StudioLyricsPanel } from '@/components/stem-studio/StudioLyricsPanel';
 import { UnifiedWaveformTimeline } from '@/components/stem-studio/UnifiedWaveformTimeline';
 import { VersionTimeline } from '@/components/stem-studio/VersionTimeline';
 import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
+import { StemSeparationModeDialog } from '@/components/stem-studio/StemSeparationModeDialog';
+import { StemSeparationProgress } from '@/components/stem-studio/StemSeparationProgress';
 import { TrimDialog } from '@/components/stem-studio/TrimDialog';
 import { RemixDialog } from '@/components/stem-studio/RemixDialog';
 import { ExtendDialog } from '@/components/stem-studio/ExtendDialog';
@@ -87,6 +90,16 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   const { transcriptionsByStem } = useTrackTranscriptions(trackId);
   const { setPrimaryVersionAsync } = useVersionSwitcher();
   const { separate, isSeparating } = useStemSeparation();
+
+  // Stem separation realtime progress
+  const { 
+    activeTask: separationTask, 
+    progress: separationProgress, 
+    isProcessing: isSeparationProcessing 
+  } = useStemSeparationRealtime(trackId);
+
+  // Stem separation mode dialog
+  const [stemModeDialogOpen, setStemModeDialogOpen] = useState(false);
 
   // Track state (raw/simple_stems/detailed_stems)
   const { 
@@ -878,11 +891,11 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
             </Button>
           )}
 
-          {!hasStems && !isSeparating && (
+          {!hasStems && !isSeparating && !isSeparationProcessing && (
             <Button
               variant="outline"
               size="sm"
-              onClick={() => handleStemSeparation('detailed')}
+              onClick={() => setStemModeDialogOpen(true)}
               className="h-8 gap-1 text-xs"
             >
               <Split className="w-3.5 h-3.5" />
@@ -890,10 +903,10 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
             </Button>
           )}
 
-          {isSeparating && (
+          {(isSeparating || isSeparationProcessing) && (
             <Badge variant="secondary" className="h-8 gap-1 text-xs">
               <div className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-              <span>Разделение...</span>
+              <span>{separationProgress > 0 ? `${separationProgress}%` : 'Разделение...'}</span>
             </Badge>
           )}
 
@@ -917,7 +930,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       </header>
 
       {/* Version & Progress indicators */}
-      <div className="flex items-center justify-between px-3 py-1.5 border-b border-border/30 bg-muted/20">
+      <div className="flex flex-col gap-2 px-3 py-1.5 border-b border-border/30 bg-muted/20">
         <VersionTimeline 
           trackId={trackId}
           onVersionChange={(versionId, audioUrl) => {
@@ -929,6 +942,14 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
             queryClient.invalidateQueries({ queryKey: ['tracks'] });
           }}
         />
+        
+        {/* Stem Separation Progress */}
+        {separationTask && (
+          <StemSeparationProgress 
+            task={separationTask} 
+            progress={separationProgress} 
+          />
+        )}
       </div>
 
       {/* Synchronized Lyrics (collapsible) */}
@@ -1204,6 +1225,17 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         open={extendDialogOpen}
         onOpenChange={setExtendDialogOpen}
         track={track}
+      />
+
+      {/* Stem Separation Mode Dialog */}
+      <StemSeparationModeDialog
+        open={stemModeDialogOpen}
+        onOpenChange={setStemModeDialogOpen}
+        onConfirm={(mode) => {
+          setStemModeDialogOpen(false);
+          handleStemSeparation(mode);
+        }}
+        isProcessing={isSeparating}
       />
     </div>
   );
