@@ -15,6 +15,40 @@ interface KlangioRequest {
   title?: string;
   vocabulary?: 'major-minor' | 'full';
   user_id?: string;
+  stem_type?: string; // Used for intelligent output selection
+}
+
+// Intelligent output selection based on stem type
+function getSmartOutputs(stemType: string | undefined, requestedOutputs: string[] | undefined): string[] {
+  // If outputs explicitly provided, use them
+  if (requestedOutputs && requestedOutputs.length > 0) {
+    return requestedOutputs;
+  }
+  
+  // Intelligent selection based on stem type
+  const type = (stemType || '').toLowerCase();
+  
+  if (type.includes('guitar')) {
+    return ['midi', 'midi_quant', 'gp5', 'pdf', 'mxml'];
+  }
+  if (type.includes('bass')) {
+    return ['midi', 'midi_quant', 'gp5', 'mxml'];
+  }
+  if (type.includes('drum')) {
+    return ['midi', 'midi_quant', 'pdf'];
+  }
+  if (type.includes('piano') || type.includes('keys')) {
+    return ['midi', 'midi_quant', 'pdf', 'mxml'];
+  }
+  if (type.includes('vocal')) {
+    return ['midi', 'pdf', 'mxml'];
+  }
+  if (type.includes('instrumental') || type.includes('other')) {
+    return ['midi', 'midi_quant', 'mxml'];
+  }
+  
+  // Default outputs
+  return ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
 }
 
 const API_BASE = "https://api.klang.io";
@@ -40,19 +74,21 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    const { audio_url, mode, model, outputs, vocabulary, user_id, title } = await req.json() as KlangioRequest;
+  const { audio_url, mode, model, outputs, vocabulary, user_id, title, stem_type } = await req.json() as KlangioRequest;
 
     if (!audio_url || !mode) {
       throw new Error("audio_url and mode are required");
     }
 
+    console.log(`[klangio] Starting ${mode} analysis for: ${audio_url}, stem_type: ${stem_type || 'not specified'}`);
+
     console.log(`[klangio] Starting ${mode} analysis for: ${audio_url}`);
 
     // Create initial log entry
-    // OpenAPI spec JobOutputs: mxml, midi, pdf, gp5, json, midi_quant
-    const requestedOutputs = mode === 'transcription' 
-      ? (outputs || ['midi', 'midi_quant', 'gp5', 'pdf', 'mxml'])
-      : null;
+    // Use intelligent output selection based on stem_type
+    const smartOutputs = getSmartOutputs(stem_type, outputs);
+    const requestedOutputs = mode === 'transcription' ? smartOutputs : null;
+    console.log(`[klangio] Smart outputs for stem_type "${stem_type}": ${JSON.stringify(smartOutputs)}`);
 
     const { data: logData, error: logError } = await supabase
       .from('klangio_analysis_logs')
