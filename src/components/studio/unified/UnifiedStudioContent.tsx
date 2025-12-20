@@ -461,7 +461,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   };
 
   // Stem action handler
-  const handleStemAction = (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects') => {
+  const handleStemAction = (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes') => {
     switch (action) {
       case 'reference':
         ReferenceManager.createFromStem({
@@ -485,6 +485,11 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         break;
       case 'download':
         window.open(stem.audio_url, '_blank');
+        break;
+      case 'view-notes':
+        // Open MIDI drawer in player mode to view notes
+        setSelectedStemForMidi(stem);
+        setMidiDrawerOpen(true);
         break;
     }
   };

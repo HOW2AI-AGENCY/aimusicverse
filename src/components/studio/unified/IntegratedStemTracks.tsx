@@ -6,6 +6,7 @@
  * - Mobile-first responsive layout
  * - Swipe-friendly stem controls
  * - Synchronized playhead with main timeline
+ * - Inline MIDI notes preview with transcription support
  */
 
 import { memo, useState, useCallback } from 'react';
@@ -14,7 +15,7 @@ import {
   Mic2, Guitar, Drum, Music, Piano, Waves,
   Volume2, VolumeX, MoreHorizontal, Music2, Download,
   Sparkles, ChevronDown, ChevronUp, Headphones, Plus, Sliders,
-  Wand2
+  Wand2, FileMusic, Eye
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -31,6 +32,8 @@ import { TrackStem } from '@/hooks/useTrackStems';
 import { StemWaveform } from '@/components/stem-studio/StemWaveform';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { StemNotesPreview } from '@/components/studio/StemNotesPreview';
+import { StemTranscription } from '@/hooks/useStemTranscription';
 
 interface StemState {
   muted: boolean;
@@ -41,6 +44,7 @@ interface StemState {
 interface IntegratedStemTracksProps {
   stems: TrackStem[];
   stemStates: Record<string, StemState>;
+  transcriptionsByStem?: Record<string, StemTranscription>;
   isPlaying: boolean;
   currentTime: number;
   duration: number;
@@ -51,7 +55,7 @@ interface IntegratedStemTracksProps {
   onMasterVolumeChange: (volume: number) => void;
   onMasterMuteToggle: () => void;
   onSeek: (time: number) => void;
-  onStemAction: (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects') => void;
+  onStemAction: (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes') => void;
   onAddTrack?: () => void;
   effectsEnabled?: boolean;
   className?: string;
@@ -183,6 +187,7 @@ const stemConfig: Record<string, {
 const StemTrackRowMobile = memo(({ 
   stem, 
   state, 
+  transcription,
   isPlaying, 
   currentTime, 
   duration,
@@ -193,13 +198,14 @@ const StemTrackRowMobile = memo(({
 }: {
   stem: TrackStem;
   state: StemState;
+  transcription?: StemTranscription | null;
   isPlaying: boolean;
   currentTime: number;
   duration: number;
   onToggle: (type: 'mute' | 'solo') => void;
   onVolumeChange: (volume: number) => void;
   onSeek: (time: number) => void;
-  onAction: (action: 'midi' | 'reference' | 'download' | 'effects') => void;
+  onAction: (action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes') => void;
 }) => {
   const [showVolume, setShowVolume] = useState(false);
   const haptic = useHapticFeedback();
@@ -354,6 +360,19 @@ const StemTrackRowMobile = memo(({
             onSeek={onSeek}
           />
         </div>
+
+        {/* Notes Preview (if transcription exists) */}
+        {transcription && transcription.midi_url && (
+          <div className="px-3 pb-2">
+            <StemNotesPreview
+              transcription={transcription}
+              currentTime={currentTime}
+              duration={duration}
+              onViewFull={() => onAction('view-notes')}
+              onDownloadPdf={() => transcription.pdf_url && window.open(transcription.pdf_url, '_blank')}
+            />
+          </div>
+        )}
       </div>
     </motion.div>
   );
