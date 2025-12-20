@@ -190,10 +190,14 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   const [stemsReady, setStemsReady] = useState(false);
   const stemsLoadingCountRef = useRef(0);
 
+  // Track loading progress
+  const [stemsLoadingProgress, setStemsLoadingProgress] = useState(0);
+
   // Initialize and manage stem audio elements
   useEffect(() => {
     if (!stems || stems.length === 0) {
       setStemsReady(false);
+      setStemsLoadingProgress(0);
       return;
     }
 
@@ -201,24 +205,32 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
     const totalStems = stems.length;
     stemsLoadingCountRef.current = 0;
     setStemsReady(false);
+    setStemsLoadingProgress(0);
 
     const checkAllLoaded = () => {
+      setStemsLoadingProgress(Math.round((loadedCount / totalStems) * 100));
       if (loadedCount >= totalStems) {
         setStemsReady(true);
         logger.info('All stems loaded and ready for playback', { count: totalStems });
       }
     };
 
-    // Create audio elements for each stem
+    // Create audio elements for each stem - use loadeddata event (faster than canplaythrough)
     stems.forEach(stem => {
       if (!stemAudioRefs.current[stem.id]) {
         const audio = new Audio();
-        audio.preload = 'auto';
+        audio.preload = 'metadata'; // Only load metadata first, faster initial load
         audio.volume = 0.85;
         audio.crossOrigin = 'anonymous';
         
-        // Add load event handlers
-        const handleCanPlayThrough = () => {
+        // Use loadedmetadata - fires when duration/dimensions are available
+        const handleLoadedMetadata = () => {
+          // Now switch to auto preload for actual data
+          audio.preload = 'auto';
+        };
+
+        // Use canplay (readyState >= 3) instead of canplaythrough (readyState >= 4)
+        const handleCanPlay = () => {
           loadedCount++;
           stemsLoadingCountRef.current = loadedCount;
           logger.debug('Stem audio ready', { stemId: stem.id, stemType: stem.stem_type, loadedCount, totalStems });
@@ -232,7 +244,8 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           checkAllLoaded();
         };
         
-        audio.addEventListener('canplaythrough', handleCanPlayThrough, { once: true });
+        audio.addEventListener('loadedmetadata', handleLoadedMetadata, { once: true });
+        audio.addEventListener('canplay', handleCanPlay, { once: true });
         audio.addEventListener('error', handleError, { once: true });
         
         // Start loading
@@ -243,11 +256,11 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       } else {
         // Already exists, check if ready
         const audio = stemAudioRefs.current[stem.id];
-        if (audio.readyState >= 4) {
+        if (audio.readyState >= 3) { // HAVE_FUTURE_DATA is enough
           loadedCount++;
           checkAllLoaded();
         } else {
-          audio.addEventListener('canplaythrough', () => {
+          audio.addEventListener('canplay', () => {
             loadedCount++;
             checkAllLoaded();
           }, { once: true });
@@ -273,6 +286,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       });
       stemAudioRefs.current = {};
       setStemsReady(false);
+      setStemsLoadingProgress(0);
     };
   }, [stems]);
 
@@ -894,6 +908,8 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
             duration={duration}
             masterVolume={masterVolume}
             masterMuted={masterMuted}
+            stemsReady={stemsReady}
+            stemsLoadingProgress={stemsLoadingProgress}
             onStemToggle={handleStemToggle}
             onStemVolumeChange={handleStemVolumeChange}
             onMasterVolumeChange={setMasterVolume}
