@@ -9,7 +9,7 @@
  * 5. All actions accessible from one screen
  */
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -41,12 +41,7 @@ import { StudioLyricsPanel } from '@/components/stem-studio/StudioLyricsPanel';
 import { UnifiedWaveformTimeline } from '@/components/stem-studio/UnifiedWaveformTimeline';
 import { VersionTimeline } from '@/components/stem-studio/VersionTimeline';
 import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
-import { StemSeparationModeDialog } from '@/components/stem-studio/StemSeparationModeDialog';
 import { StemSeparationProgress } from '@/components/stem-studio/StemSeparationProgress';
-import { TrimDialog } from '@/components/stem-studio/TrimDialog';
-import { RemixDialog } from '@/components/stem-studio/RemixDialog';
-import { ExtendDialog } from '@/components/stem-studio/ExtendDialog';
-import { SectionEditorPanel } from '@/components/stem-studio/SectionEditorPanel';
 import { 
   SectionEditorSheet,
   StudioActionsPanel,
@@ -55,15 +50,25 @@ import {
 } from '@/components/studio';
 import { IntegratedStemTracks } from './IntegratedStemTracks';
 import { SectionVariantOverlay } from './SectionVariantOverlay';
-import { StemMidiDrawer } from './StemMidiDrawer';
-import { StemEffectsDrawer } from './StemEffectsDrawer';
-import { AddTrackDrawer } from './AddTrackDrawer';
+import { StemTrackSkeleton } from '@/components/studio/StemTrackSkeleton';
 import { registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
 import { useStemAudioEngine } from '@/hooks/studio/useStemAudioEngine';
+import { useStemAudioCache, getStemsByPriority } from '@/hooks/studio/useStemAudioCache';
 import { defaultStemEffects } from '@/hooks/studio/stemEffectsConfig';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useStudioActivityLogger } from '@/hooks/useStudioActivityLogger';
 import { ReferenceManager } from '@/services/audio-reference';
+import { 
+  LazyTrimDialog,
+  LazyRemixDialog,
+  LazyExtendDialog,
+  LazyStemMidiDrawer,
+  LazyStemEffectsDrawer,
+  LazySectionEditorPanel,
+  LazyAddTrackDrawer,
+  LazyStemSeparationModeDialog,
+  preloadRouteComponents,
+} from '@/components/lazy';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
@@ -1011,14 +1016,16 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
 
         {/* Section Editor (inline on desktop) */}
         {!isMobile && editMode === 'editing' && (
-          <SectionEditorPanel
-            trackId={trackId}
-            trackTitle={track.title || 'Трек'}
-            trackTags={track.tags}
-            audioUrl={currentAudioUrl}
-            duration={duration}
-            onClose={clearSelection}
-          />
+          <Suspense fallback={<div className="p-4 animate-pulse bg-muted/20 rounded-lg" />}>
+            <LazySectionEditorPanel
+              trackId={trackId}
+              trackTitle={track.title || 'Трек'}
+              trackTags={track.tags}
+              audioUrl={currentAudioUrl}
+              duration={duration}
+              onClose={clearSelection}
+            />
+          </Suspense>
         )}
 
         {/* Integrated Stem Tracks */}
@@ -1178,65 +1185,79 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       />
 
       {/* MIDI Drawer */}
-      <StemMidiDrawer
-        open={midiDrawerOpen}
-        onOpenChange={setMidiDrawerOpen}
-        stem={selectedStemForMidi}
-        trackId={trackId}
-        trackTitle={track.title || 'Трек'}
-      />
+      <Suspense fallback={null}>
+        <LazyStemMidiDrawer
+          open={midiDrawerOpen}
+          onOpenChange={setMidiDrawerOpen}
+          stem={selectedStemForMidi}
+          trackId={trackId}
+          trackTitle={track.title || 'Трек'}
+        />
+      </Suspense>
 
       {/* Effects Drawer */}
-      <StemEffectsDrawer
-        open={effectsDrawerOpen}
-        onOpenChange={setEffectsDrawerOpen}
-        stem={selectedStemForEffects}
-        effects={stemEffects}
-        onUpdateEQ={(settings) => setStemEffects(prev => ({ ...prev, eq: { ...prev.eq, ...settings } }))}
-        onUpdateCompressor={(settings) => setStemEffects(prev => ({ ...prev, compressor: { ...prev.compressor, ...settings } }))}
-        onUpdateReverb={(settings) => setStemEffects(prev => ({ ...prev, reverb: { ...prev.reverb, ...settings } }))}
-        onReset={() => setStemEffects(defaultStemEffects)}
-      />
+      <Suspense fallback={null}>
+        <LazyStemEffectsDrawer
+          open={effectsDrawerOpen}
+          onOpenChange={setEffectsDrawerOpen}
+          stem={selectedStemForEffects}
+          effects={stemEffects}
+          onUpdateEQ={(settings: Partial<typeof stemEffects.eq>) => setStemEffects(prev => ({ ...prev, eq: { ...prev.eq, ...settings } }))}
+          onUpdateCompressor={(settings: Partial<typeof stemEffects.compressor>) => setStemEffects(prev => ({ ...prev, compressor: { ...prev.compressor, ...settings } }))}
+          onUpdateReverb={(settings: Partial<typeof stemEffects.reverb>) => setStemEffects(prev => ({ ...prev, reverb: { ...prev.reverb, ...settings } }))}
+          onReset={() => setStemEffects(defaultStemEffects)}
+        />
+      </Suspense>
 
       {/* Add Track Drawer */}
-      <AddTrackDrawer
-        open={addTrackDrawerOpen}
-        onOpenChange={setAddTrackDrawerOpen}
-        trackId={trackId}
-        trackUrl={currentAudioUrl || ''}
-        trackTitle={track.title || undefined}
-      />
+      <Suspense fallback={null}>
+        <LazyAddTrackDrawer
+          open={addTrackDrawerOpen}
+          onOpenChange={setAddTrackDrawerOpen}
+          trackId={trackId}
+          trackUrl={currentAudioUrl || ''}
+          trackTitle={track.title || undefined}
+        />
+      </Suspense>
 
       {/* Dialogs */}
-      <TrimDialog
-        open={trimDialogOpen}
-        onOpenChange={setTrimDialogOpen}
-        track={track}
-        onTrimComplete={() => {}}
-      />
+      <Suspense fallback={null}>
+        <LazyTrimDialog
+          open={trimDialogOpen}
+          onOpenChange={setTrimDialogOpen}
+          track={track}
+          onTrimComplete={() => {}}
+        />
+      </Suspense>
       
-      <RemixDialog
-        open={remixDialogOpen}
-        onOpenChange={setRemixDialogOpen}
-        track={track}
-      />
+      <Suspense fallback={null}>
+        <LazyRemixDialog
+          open={remixDialogOpen}
+          onOpenChange={setRemixDialogOpen}
+          track={track}
+        />
+      </Suspense>
       
-      <ExtendDialog
-        open={extendDialogOpen}
-        onOpenChange={setExtendDialogOpen}
-        track={track}
-      />
+      <Suspense fallback={null}>
+        <LazyExtendDialog
+          open={extendDialogOpen}
+          onOpenChange={setExtendDialogOpen}
+          track={track}
+        />
+      </Suspense>
 
       {/* Stem Separation Mode Dialog */}
-      <StemSeparationModeDialog
-        open={stemModeDialogOpen}
-        onOpenChange={setStemModeDialogOpen}
-        onConfirm={(mode) => {
-          setStemModeDialogOpen(false);
-          handleStemSeparation(mode);
-        }}
-        isProcessing={isSeparating}
-      />
+      <Suspense fallback={null}>
+        <LazyStemSeparationModeDialog
+          open={stemModeDialogOpen}
+          onOpenChange={setStemModeDialogOpen}
+          onConfirm={(mode: 'simple' | 'detailed') => {
+            setStemModeDialogOpen(false);
+            handleStemSeparation(mode);
+          }}
+          isProcessing={isSeparating}
+        />
+      </Suspense>
     </div>
   );
 }

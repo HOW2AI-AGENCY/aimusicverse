@@ -104,6 +104,42 @@ export const LazyMobileFullscreenPlayer = lazy(() =>
 );
 
 // ============================================
+// Studio dialogs (heavy, load on demand)
+// ============================================
+
+export const LazyTrimDialog = lazy(() => 
+  import('@/components/stem-studio/TrimDialog').then(m => ({ default: m.TrimDialog }))
+);
+
+export const LazyRemixDialog = lazy(() => 
+  import('@/components/stem-studio/RemixDialog').then(m => ({ default: m.RemixDialog }))
+);
+
+export const LazyExtendDialog = lazy(() => 
+  import('@/components/stem-studio/ExtendDialog').then(m => ({ default: m.ExtendDialog }))
+);
+
+export const LazyStemMidiDrawer = lazy(() => 
+  import('@/components/studio/unified/StemMidiDrawer').then(m => ({ default: m.StemMidiDrawer }))
+);
+
+export const LazyStemEffectsDrawer = lazy(() => 
+  import('@/components/studio/unified/StemEffectsDrawer').then(m => ({ default: m.StemEffectsDrawer }))
+);
+
+export const LazySectionEditorPanel = lazy(() => 
+  import('@/components/stem-studio/SectionEditorPanel').then(m => ({ default: m.SectionEditorPanel }))
+);
+
+export const LazyAddTrackDrawer = lazy(() => 
+  import('@/components/studio/unified/AddTrackDrawer').then(m => ({ default: m.AddTrackDrawer }))
+);
+
+export const LazyStemSeparationModeDialog = lazy(() => 
+  import('@/components/stem-studio/StemSeparationModeDialog').then(m => ({ default: m.StemSeparationModeDialog }))
+);
+
+// ============================================
 // Preload utilities
 // ============================================
 
@@ -126,6 +162,9 @@ export const preloadRouteComponents = {
   studio: () => {
     preloadComponent(LazyStudioActionsPanel);
     preloadComponent(LazyVersionTree);
+    preloadComponent(LazyTrimDialog);
+    preloadComponent(LazyRemixDialog);
+    preloadComponent(LazyStemMidiDrawer);
   },
   generate: () => {
     preloadComponent(LazyGenerateSheet);

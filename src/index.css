@@ -823,4 +823,14 @@ All colors MUST be HSL.
   .animate-pulse-slow {
     animation: pulse-slow 4s ease-in-out infinite;
   }
+
+  /* Shimmer effect for skeleton loading */
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
 }
