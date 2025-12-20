@@ -485,12 +485,24 @@ if (data?.lyrics) {
           options: data.suggestions || undefined,
         });
       }
-    } catch (err) {
-      logger.error('Error in free chat', { error: err });
+    } catch (err: any) {
+      const errorMessage = err?.message || err?.error || 'Unknown error';
+      logger.error('Error in free chat', { error: errorMessage, details: err });
+      
+      // Show more specific error message
+      let displayMessage = '😔 Произошла ошибка. Попробуйте переформулировать.';
+      if (errorMessage.includes('429') || errorMessage.includes('rate')) {
+        displayMessage = '⏳ Слишком много запросов. Подождите немного и попробуйте снова.';
+      } else if (errorMessage.includes('402') || errorMessage.includes('balance')) {
+        displayMessage = '💳 Необходимо пополнить баланс для продолжения.';
+      } else if (errorMessage.includes('Unauthorized') || errorMessage.includes('401')) {
+        displayMessage = '🔐 Ошибка авторизации. Перезагрузите приложение.';
+      }
+      
       addMessage({
         id: Date.now().toString(),
         role: 'assistant',
-        content: '😔 Произошла ошибка. Попробуйте переформулировать.',
+        content: displayMessage,
       });
     } finally {
       setIsLoading(false);

@@ -139,11 +139,12 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   };
 
   // Telegram MainButton integration - shows native button in Mini App, UI button for test users
+  // Hide when LyricsChatAssistant is open (it has its own MainButton for "Apply")
   const { shouldShowUIButton, showProgress, hideProgress } = useTelegramMainButton({
     text: form.loading ? 'Создание...' : 'СГЕНЕРИРОВАТЬ',
     onClick: handleGenerate,
     enabled: !form.loading,
-    visible: open,
+    visible: open && !lyricsAssistantOpen,
   });
 
   // Telegram BackButton integration - with confirmation for unsaved data
