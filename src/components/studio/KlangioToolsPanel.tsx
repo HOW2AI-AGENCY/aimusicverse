@@ -28,6 +28,7 @@ import {
   AlertCircle,
   RefreshCw,
   ExternalLink,
+  Zap,
 } from 'lucide-react';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { 
@@ -39,7 +40,10 @@ import {
   OutputFormat,
   AnalysisStatus
 } from '@/hooks/useKlangioAnalysis';
+import { useReplicateMidiTranscription } from '@/hooks/useReplicateMidiTranscription';
 import { cn } from '@/lib/utils';
+
+type TranscriptionEngine = 'klangio' | 'mt3';
 
 interface KlangioToolsPanelProps {
   audioUrl?: string;
@@ -85,7 +89,11 @@ export const KlangioToolsPanel = memo(function KlangioToolsPanel({
     resetBeats,
   } = useKlangioAnalysis();
 
+  // MT3 (Replicate) transcription
+  const mt3 = useReplicateMidiTranscription();
+
   // Settings
+  const [transcriptionEngine, setTranscriptionEngine] = useState<TranscriptionEngine>('klangio');
   const [transcriptionModel, setTranscriptionModel] = useState<TranscriptionModel>('guitar');
   const [selectedFormats, setSelectedFormats] = useState<OutputFormat[]>(['midi', 'gp5']);
   const [extendedChords, setExtendedChords] = useState(true);
@@ -105,12 +113,29 @@ export const KlangioToolsPanel = memo(function KlangioToolsPanel({
     if (!audioUrl) return;
     haptic.impact('medium');
     
-    const result = await startTranscription(audioUrl, transcriptionModel, selectedFormats);
-    if (result) {
-      haptic.success();
-      onTranscriptionComplete?.(result);
+    if (transcriptionEngine === 'mt3') {
+      // Use MT3 (Replicate) for multi-instrument MIDI
+      const result = await mt3.transcribe(audioUrl);
+      if (result) {
+        haptic.success();
+        onTranscriptionComplete?.({
+          job_id: 'mt3-' + Date.now(),
+          mode: 'mt3',
+          status: 'completed',
+          files: { midi: result.midiUrl },
+        });
+      } else {
+        haptic.error();
+      }
     } else {
-      haptic.error();
+      // Use Klangio
+      const result = await startTranscription(audioUrl, transcriptionModel, selectedFormats);
+      if (result) {
+        haptic.success();
+        onTranscriptionComplete?.(result);
+      } else {
+        haptic.error();
+      }
     }
   };
 
@@ -389,50 +414,87 @@ export const KlangioToolsPanel = memo(function KlangioToolsPanel({
         id="transcription"
         title="Транскрипция"
         icon={Guitar}
-        status={transcription.status}
-        progress={transcription.progress}
-        error={transcription.error}
-        result={transcription.result}
+        status={transcriptionEngine === 'mt3' 
+          ? (mt3.isLoading ? 'processing' : mt3.result ? 'completed' : mt3.error ? 'error' : 'idle')
+          : transcription.status}
+        progress={transcriptionEngine === 'mt3' ? mt3.progress : transcription.progress}
+        error={transcriptionEngine === 'mt3' ? mt3.error || undefined : transcription.error}
+        result={transcriptionEngine === 'mt3' && mt3.result 
+          ? { job_id: 'mt3', mode: 'mt3', status: 'completed', files: { midi: mt3.result.midiUrl } } as TranscriptionResult
+          : transcription.result}
         onAction={handleTranscribe}
-        onReset={resetTranscription}
+        onReset={transcriptionEngine === 'mt3' ? () => {} : resetTranscription}
         actionLabel="Транскрибировать"
       >
         <div className="space-y-3">
+          {/* Engine selector */}
           <div>
-            <Label className="text-xs">Инструмент</Label>
-            <Select value={transcriptionModel} onValueChange={(v) => setTranscriptionModel(v as TranscriptionModel)}>
-              <SelectTrigger className="mt-1">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {transcriptionModels.map(model => (
-                  <SelectItem key={model.value} value={model.value}>
-                    <div className="flex items-center gap-2">
-                      <model.icon className="h-4 w-4" />
-                      {model.label}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Label className="text-xs mb-2 block">Движок транскрипции</Label>
+            <div className="flex gap-2">
+              <Badge
+                variant={transcriptionEngine === 'klangio' ? 'default' : 'outline'}
+                className="cursor-pointer flex-1 justify-center py-1.5"
+                onClick={() => setTranscriptionEngine('klangio')}
+              >
+                <Sparkles className="h-3 w-3 mr-1" />
+                Klangio
+              </Badge>
+              <Badge
+                variant={transcriptionEngine === 'mt3' ? 'default' : 'outline'}
+                className="cursor-pointer flex-1 justify-center py-1.5"
+                onClick={() => setTranscriptionEngine('mt3')}
+              >
+                <Zap className="h-3 w-3 mr-1" />
+                MT3 (Multi-track)
+              </Badge>
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              {transcriptionEngine === 'mt3' 
+                ? 'MT3 — универсальная модель для любых инструментов (только MIDI)'
+                : 'Klangio — специализированные модели с поддержкой GP5, PDF, MusicXML'}
+            </p>
           </div>
 
-          <div>
-            <Label className="text-xs mb-2 block">Форматы экспорта</Label>
-            <div className="flex flex-wrap gap-2">
-              {exportFormats.map(format => (
-                <Badge
-                  key={format.value}
-                  variant={selectedFormats.includes(format.value) ? 'default' : 'outline'}
-                  className="cursor-pointer"
-                  onClick={() => toggleFormat(format.value)}
-                >
-                  <format.icon className="h-3 w-3 mr-1" />
-                  {format.label}
-                </Badge>
-              ))}
-            </div>
-          </div>
+          {/* Klangio-specific settings */}
+          {transcriptionEngine === 'klangio' && (
+            <>
+              <div>
+                <Label className="text-xs">Инструмент</Label>
+                <Select value={transcriptionModel} onValueChange={(v) => setTranscriptionModel(v as TranscriptionModel)}>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {transcriptionModels.map(model => (
+                      <SelectItem key={model.value} value={model.value}>
+                        <div className="flex items-center gap-2">
+                          <model.icon className="h-4 w-4" />
+                          {model.label}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label className="text-xs mb-2 block">Форматы экспорта</Label>
+                <div className="flex flex-wrap gap-2">
+                  {exportFormats.map(format => (
+                    <Badge
+                      key={format.value}
+                      variant={selectedFormats.includes(format.value) ? 'default' : 'outline'}
+                      className="cursor-pointer"
+                      onClick={() => toggleFormat(format.value)}
+                    >
+                      <format.icon className="h-3 w-3 mr-1" />
+                      {format.label}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </ToolSection>
 
