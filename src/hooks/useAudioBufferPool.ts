@@ -4,10 +4,23 @@
  */
 
 import { useCallback, useRef, useEffect } from 'react';
-import * as Tone from 'tone';
+
+// Tone.js types - loaded dynamically to prevent "Cannot access 't' before initialization" error
+type ToneType = typeof import('tone');
+type ToneAudioBufferType = import('tone').ToneAudioBuffer;
+
+// Cached Tone module reference
+let ToneModule: ToneType | null = null;
+
+async function getToneModule(): Promise<ToneType> {
+  if (!ToneModule) {
+    ToneModule = await import('tone');
+  }
+  return ToneModule;
+}
 
 interface BufferEntry {
-  buffer: Tone.ToneAudioBuffer;
+  buffer: ToneAudioBufferType;
   lastAccessed: number;
   size: number;
 }
@@ -22,7 +35,7 @@ class AudioBufferPool {
   private preloadQueue: string[] = [];
   private isPreloading = false;
 
-  get(key: string): Tone.ToneAudioBuffer | null {
+  get(key: string): ToneAudioBufferType | null {
     const entry = this.cache.get(key);
     if (entry) {
       entry.lastAccessed = Date.now();
@@ -31,7 +44,7 @@ class AudioBufferPool {
     return null;
   }
 
-  set(key: string, buffer: Tone.ToneAudioBuffer): void {
+  set(key: string, buffer: ToneAudioBufferType): void {
     const size = buffer.length * 4; // Approximate size in bytes
 
     // Evict if necessary
@@ -75,6 +88,7 @@ class AudioBufferPool {
     if (this.cache.has(key)) return true;
 
     try {
+      const Tone = await getToneModule();
       const buffer = await Tone.ToneAudioBuffer.fromUrl(url);
       this.set(key, buffer);
       return true;
@@ -152,7 +166,7 @@ export function useAudioBufferPool() {
     return poolRef.current.get(key);
   }, []);
 
-  const setBuffer = useCallback((key: string, buffer: Tone.ToneAudioBuffer) => {
+  const setBuffer = useCallback((key: string, buffer: ToneAudioBufferType) => {
     poolRef.current.set(key, buffer);
   }, []);
 

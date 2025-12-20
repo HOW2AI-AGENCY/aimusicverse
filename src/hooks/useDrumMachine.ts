@@ -1,7 +1,22 @@
 import { useRef, useCallback, useEffect, useState } from 'react';
-import * as Tone from 'tone';
 import { drumKits, getKitById, presetPatterns, type DrumKit, type DrumPattern, type DrumSound } from '@/lib/drum-kits';
 import { logger } from '@/lib/logger';
+
+// Tone.js types - loaded dynamically to prevent "Cannot access 't' before initialization" error
+type ToneType = typeof import('tone');
+type MembraneSynthType = import('tone').MembraneSynth;
+type MetalSynthType = import('tone').MetalSynth;
+type NoiseSynthType = import('tone').NoiseSynth;
+type SynthType = import('tone').Synth;
+type SequenceType = import('tone').Sequence;
+type VolumeType = import('tone').Volume;
+type RecorderType = import('tone').Recorder;
+type FilterType = import('tone').Filter;
+type CompressorType = import('tone').Compressor;
+type PannerType = import('tone').Panner;
+
+// Cached Tone module reference
+let ToneModule: ToneType | null = null;
 
 export type StepLength = 16 | 32 | 64;
 
@@ -79,32 +94,35 @@ const defaultTrackEffects: TrackEffects = {
   pan: 0,
 };
 
-// Create synth for drum sound
-function createDrumSynth(sound: DrumSound): Tone.MembraneSynth | Tone.MetalSynth | Tone.NoiseSynth | Tone.Synth {
+// Create synth for drum sound (requires Tone to be loaded)
+function createDrumSynth(
+  Tone: ToneType,
+  sound: DrumSound
+): MembraneSynthType | MetalSynthType | NoiseSynthType | SynthType {
   switch (sound.type) {
     case 'membrane':
-      return new Tone.MembraneSynth(sound.params as unknown as Partial<Tone.MembraneSynthOptions>);
+      return new Tone.MembraneSynth(sound.params as any);
     case 'metal':
-      return new Tone.MetalSynth(sound.params as unknown as Partial<Tone.MetalSynthOptions>);
+      return new Tone.MetalSynth(sound.params as any);
     case 'noise':
-      return new Tone.NoiseSynth(sound.params as unknown as Partial<Tone.NoiseSynthOptions>);
+      return new Tone.NoiseSynth(sound.params as any);
     case 'synth':
     default:
-      return new Tone.Synth(sound.params as unknown as Partial<Tone.SynthOptions>);
+      return new Tone.Synth(sound.params as any);
   }
 }
 
 export function useDrumMachine(): UseDrumMachineReturn {
-  const synthsRef = useRef<Map<string, Tone.MembraneSynth | Tone.MetalSynth | Tone.NoiseSynth | Tone.Synth>>(new Map());
-  const sequenceRef = useRef<Tone.Sequence | null>(null);
-  const masterVolumeRef = useRef<Tone.Volume | null>(null);
-  const recorderRef = useRef<Tone.Recorder | null>(null);
+  const synthsRef = useRef<Map<string, MembraneSynthType | MetalSynthType | NoiseSynthType | SynthType>>(new Map());
+  const sequenceRef = useRef<SequenceType | null>(null);
+  const masterVolumeRef = useRef<VolumeType | null>(null);
+  const recorderRef = useRef<RecorderType | null>(null);
   
   // Per-track effects chains
-  const trackFiltersRef = useRef<Map<string, Tone.Filter>>(new Map());
-  const trackCompressorsRef = useRef<Map<string, Tone.Compressor>>(new Map());
-  const trackPannersRef = useRef<Map<string, Tone.Panner>>(new Map());
-  const trackVolumesRef = useRef<Map<string, Tone.Volume>>(new Map());
+  const trackFiltersRef = useRef<Map<string, FilterType>>(new Map());
+  const trackCompressorsRef = useRef<Map<string, CompressorType>>(new Map());
+  const trackPannersRef = useRef<Map<string, PannerType>>(new Map());
+  const trackVolumesRef = useRef<Map<string, VolumeType>>(new Map());
   
   const [isReady, setIsReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -140,6 +158,9 @@ export function useDrumMachine(): UseDrumMachineReturn {
 
   // Initialize synths for kit with effects chain
   const initializeSynths = useCallback((kit: DrumKit) => {
+    if (!ToneModule) return;
+    const Tone = ToneModule;
+    
     // Dispose old synths and effects
     synthsRef.current.forEach(synth => synth.dispose());
     synthsRef.current.clear();
@@ -165,7 +186,7 @@ export function useDrumMachine(): UseDrumMachineReturn {
 
     // Create synths with effects chain for each sound
     kit.sounds.forEach(sound => {
-      const synth = createDrumSynth(sound);
+      const synth = createDrumSynth(Tone, sound);
       
       // Create effects chain: synth -> filter -> compressor -> panner -> volume -> master
       const filter = new Tone.Filter({ frequency: 5000, type: 'lowpass', Q: 1 });
@@ -183,11 +204,17 @@ export function useDrumMachine(): UseDrumMachineReturn {
     });
   }, [volume]);
 
-  // Initialize Tone.js
+  // Initialize Tone.js with dynamic import
   const initialize = useCallback(async () => {
     if (isReady) return;
 
     try {
+      // Dynamically import Tone.js only when needed
+      if (!ToneModule) {
+        ToneModule = await import('tone');
+      }
+      const Tone = ToneModule;
+      
       await Tone.start();
       Tone.getTransport().bpm.value = bpm;
       
@@ -203,6 +230,9 @@ export function useDrumMachine(): UseDrumMachineReturn {
 
   // Trigger a sound
   const triggerSound = useCallback((soundId: string, velocity = 1) => {
+    if (!ToneModule) return;
+    const Tone = ToneModule;
+    
     const synth = synthsRef.current.get(soundId);
     if (!synth) return;
 
@@ -212,14 +242,16 @@ export function useDrumMachine(): UseDrumMachineReturn {
     if (mutedTracks.has(soundId)) return;
 
     try {
-      if (synth instanceof Tone.NoiseSynth) {
-        synth.triggerAttackRelease('16n', Tone.now(), velocity);
-      } else if (synth instanceof Tone.MetalSynth) {
-        synth.triggerAttackRelease('16n', Tone.now(), velocity);
-      } else if (synth instanceof Tone.MembraneSynth) {
-        synth.triggerAttackRelease('C1', '8n', Tone.now(), velocity);
-      } else {
-        synth.triggerAttackRelease('C4', '16n', Tone.now(), velocity);
+      if ('triggerAttackRelease' in synth) {
+        if (synth.constructor.name === 'NoiseSynth') {
+          (synth as NoiseSynthType).triggerAttackRelease('16n', Tone.now(), velocity);
+        } else if (synth.constructor.name === 'MetalSynth') {
+          (synth as MetalSynthType).triggerAttackRelease('16n', Tone.now(), velocity);
+        } else if (synth.constructor.name === 'MembraneSynth') {
+          (synth as MembraneSynthType).triggerAttackRelease('C1', '8n', Tone.now(), velocity);
+        } else {
+          (synth as SynthType).triggerAttackRelease('C4', '16n', Tone.now(), velocity);
+        }
       }
     } catch (err) {
       logger.error('Failed to trigger sound', err);
@@ -228,6 +260,9 @@ export function useDrumMachine(): UseDrumMachineReturn {
 
   // Create sequence
   const createSequence = useCallback(() => {
+    if (!ToneModule) return;
+    const Tone = ToneModule;
+    
     if (sequenceRef.current) {
       sequenceRef.current.dispose();
     }
@@ -249,14 +284,16 @@ export function useDrumMachine(): UseDrumMachineReturn {
             if (hasSolo && !soloTracks.has(soundId)) return;
             if (mutedTracks.has(soundId)) return;
 
-            if (synth instanceof Tone.NoiseSynth) {
-              synth.triggerAttackRelease('16n', time);
-            } else if (synth instanceof Tone.MetalSynth) {
-              synth.triggerAttackRelease('16n', time);
-            } else if (synth instanceof Tone.MembraneSynth) {
-              synth.triggerAttackRelease('C1', '8n', time);
-            } else {
-              synth.triggerAttackRelease('C4', '16n', time);
+            if ('triggerAttackRelease' in synth) {
+              if (synth.constructor.name === 'NoiseSynth') {
+                (synth as NoiseSynthType).triggerAttackRelease('16n', time);
+              } else if (synth.constructor.name === 'MetalSynth') {
+                (synth as MetalSynthType).triggerAttackRelease('16n', time);
+              } else if (synth.constructor.name === 'MembraneSynth') {
+                (synth as MembraneSynthType).triggerAttackRelease('C1', '8n', time);
+              } else {
+                (synth as SynthType).triggerAttackRelease('C4', '16n', time);
+              }
             }
           }
         });
@@ -268,7 +305,8 @@ export function useDrumMachine(): UseDrumMachineReturn {
 
   // Play
   const play = useCallback(() => {
-    if (!isReady) return;
+    if (!isReady || !ToneModule) return;
+    const Tone = ToneModule;
     
     createSequence();
     sequenceRef.current?.start(0);
@@ -278,6 +316,9 @@ export function useDrumMachine(): UseDrumMachineReturn {
 
   // Stop
   const stop = useCallback(() => {
+    if (!ToneModule) return;
+    const Tone = ToneModule;
+    
     Tone.getTransport().stop();
     sequenceRef.current?.stop();
     setIsPlaying(false);
@@ -294,6 +335,9 @@ export function useDrumMachine(): UseDrumMachineReturn {
 
   // Set BPM
   const setBpm = useCallback((newBpm: number) => {
+    if (!ToneModule) return;
+    const Tone = ToneModule;
+    
     const clampedBpm = Math.max(40, Math.min(220, newBpm));
     setBpmState(clampedBpm);
     Tone.getTransport().bpm.value = clampedBpm;
@@ -301,6 +345,9 @@ export function useDrumMachine(): UseDrumMachineReturn {
 
   // Set Swing
   const setSwing = useCallback((newSwing: number) => {
+    if (!ToneModule) return;
+    const Tone = ToneModule;
+    
     const clampedSwing = Math.max(0, Math.min(100, newSwing));
     setSwingState(clampedSwing);
     Tone.getTransport().swing = clampedSwing / 100;

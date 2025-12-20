@@ -4,11 +4,24 @@
  */
 
 import { useState, useCallback, useRef, useEffect, useMemo, useTransition } from 'react';
-import * as Tone from 'tone';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useDebouncedCallback } from 'use-debounce';
 import { useAudioBufferPool } from './useAudioBufferPool';
+
+// Tone.js types - loaded dynamically to prevent "Cannot access 't' before initialization" error
+type ToneType = typeof import('tone');
+type PlayerType = import('tone').Player;
+type PolySynthType = import('tone').PolySynth;
+type SequenceType = import('tone').Sequence;
+type AnalyserType = import('tone').Analyser;
+type ReverbType = import('tone').Reverb;
+type FilterType = import('tone').Filter;
+type FeedbackDelayType = import('tone').FeedbackDelay;
+type GainType = import('tone').Gain;
+
+// Cached Tone module reference
+let ToneModule: ToneType | null = null;
 
 // Available channel types that users can choose from
 export const CHANNEL_TYPES = [
@@ -142,16 +155,16 @@ export function usePromptDJEnhanced() {
   const isGeneratingLiveRef = useRef(false);
   
   // Audio refs
-  const playerRef = useRef<Tone.Player | null>(null);
-  const nextPlayerRef = useRef<Tone.Player | null>(null);
-  const synthRef = useRef<Tone.PolySynth | null>(null);
-  const sequenceRef = useRef<Tone.Sequence | null>(null);
-  const analyzerRef = useRef<Tone.Analyser | null>(null);
-  const reverbRef = useRef<Tone.Reverb | null>(null);
-  const filterRef = useRef<Tone.Filter | null>(null);
-  const delayRef = useRef<Tone.FeedbackDelay | null>(null);
-  const gainNodeRef = useRef<Tone.Gain | null>(null);
-  const nextGainNodeRef = useRef<Tone.Gain | null>(null);
+  const playerRef = useRef<PlayerType | null>(null);
+  const nextPlayerRef = useRef<PlayerType | null>(null);
+  const synthRef = useRef<PolySynthType | null>(null);
+  const sequenceRef = useRef<SequenceType | null>(null);
+  const analyzerRef = useRef<AnalyserType | null>(null);
+  const reverbRef = useRef<ReverbType | null>(null);
+  const filterRef = useRef<FilterType | null>(null);
+  const delayRef = useRef<FeedbackDelayType | null>(null);
+  const gainNodeRef = useRef<GainType | null>(null);
+  const nextGainNodeRef = useRef<GainType | null>(null);
   
   // Pattern state for real-time updates
   const patternRef = useRef<(string | null)[]>([]);
@@ -184,9 +197,16 @@ export function usePromptDJEnhanced() {
     });
   }, []);
 
-  // Initialize analyzer
+  // Initialize analyzer with dynamic import
   useEffect(() => {
-    analyzerRef.current = new Tone.Analyser('fft', 64);
+    const initAnalyzer = async () => {
+      if (!ToneModule) {
+        ToneModule = await import('tone');
+      }
+      analyzerRef.current = new ToneModule.Analyser('fft', 64);
+    };
+    initAnalyzer();
+    
     return () => {
       analyzerRef.current?.dispose();
       playerRef.current?.dispose();
@@ -200,8 +220,8 @@ export function usePromptDJEnhanced() {
 
   // REAL-TIME: Update BPM when it changes
   useEffect(() => {
-    if (isPreviewPlaying) {
-      Tone.getTransport().bpm.rampTo(globalSettings.bpm, 0.2);
+    if (isPreviewPlaying && ToneModule) {
+      ToneModule.getTransport().bpm.rampTo(globalSettings.bpm, 0.2);
     }
   }, [globalSettings.bpm, isPreviewPlaying]);
 
@@ -414,6 +434,11 @@ export function usePromptDJEnhanced() {
   // Play track with buffering
   const playTrack = useCallback(async (track: GeneratedTrack) => {
     try {
+      if (!ToneModule) {
+        ToneModule = await import('tone');
+      }
+      const Tone = ToneModule;
+      
       await Tone.start();
       stopPreview();
       
@@ -469,6 +494,11 @@ export function usePromptDJEnhanced() {
   // Start real-time preview with synth
   const previewWithSynth = useCallback(async () => {
     try {
+      if (!ToneModule) {
+        ToneModule = await import('tone');
+      }
+      const Tone = ToneModule;
+      
       await Tone.start();
       stopPreview();
 
@@ -575,6 +605,9 @@ export function usePromptDJEnhanced() {
 
   // Stop preview
   const stopPreview = useCallback(() => {
+    if (!ToneModule) return;
+    const Tone = ToneModule;
+    
     if (sequenceRef.current) {
       sequenceRef.current.stop();
       sequenceRef.current.dispose();
@@ -655,6 +688,11 @@ export function usePromptDJEnhanced() {
   // Crossfade to new track
   const crossfadeToTrack = useCallback(async (audioUrl: string, prompt: string) => {
     try {
+      if (!ToneModule) {
+        ToneModule = await import('tone');
+      }
+      const Tone = ToneModule;
+      
       await Tone.start();
       setLiveStatus('transitioning');
 
@@ -737,6 +775,11 @@ export function usePromptDJEnhanced() {
     toast.info('🎧 Генерация первого сегмента...');
 
     try {
+      if (!ToneModule) {
+        ToneModule = await import('tone');
+      }
+      const Tone = ToneModule;
+      
       await Tone.start();
       
       // First segment - no continuation
