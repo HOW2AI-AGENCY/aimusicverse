@@ -57,9 +57,100 @@ serve(async (req) => {
       console.error('Error fetching recovery tasks:', recoveryError);
     } else {
       console.log(`📊 Found ${recoveryTasks?.length || 0} tasks for recovery check`);
+      let recoveredCount = 0;
 
       // Recover tracks where task completed but track didn't update
       for (const task of recoveryTasks || []) {
+        // Skip replace_section tasks - they don't update the main track
+        if (task.generation_mode === 'replace_section') {
+          // For replace_section, check if version was created
+          const { data: existingVersion } = await supabase
+            .from('track_versions')
+            .select('id')
+            .eq('track_id', task.track_id)
+            .eq('metadata->>original_task_id', task.id)
+            .single();
+          
+          if (existingVersion) continue; // Already processed
+          
+          console.log(`🔧 Recovering replace_section task ${task.id}`);
+          
+          try {
+            let clips = task.audio_clips;
+            if (typeof clips === 'string') {
+              clips = JSON.parse(clips);
+            }
+            
+            if (!clips || !Array.isArray(clips) || clips.length === 0) {
+              console.error(`❌ No valid clips in replace_section task ${task.id}`);
+              continue;
+            }
+
+            const clip = clips[0];
+            const audioUrl = getAudioUrl(clip);
+            
+            if (!audioUrl) {
+              console.error(`❌ No audio URL in replace_section clip for task ${task.id}`);
+              continue;
+            }
+
+            // Download audio
+            let localAudioUrl = null;
+            try {
+              const audioResponse = await fetch(audioUrl);
+              if (audioResponse.ok) {
+                const audioBlob = await audioResponse.blob();
+                const audioFileName = `tracks/${task.user_id}/${task.track_id}_replace_${Date.now()}.mp3`;
+                const { data: audioUpload } = await supabase.storage
+                  .from('project-assets')
+                  .upload(audioFileName, audioBlob, { contentType: 'audio/mpeg', upsert: true });
+                if (audioUpload) {
+                  localAudioUrl = supabase.storage.from('project-assets').getPublicUrl(audioFileName).data.publicUrl;
+                }
+              }
+            } catch (downloadError) {
+              console.error(`⚠️ Error downloading replace_section audio:`, downloadError);
+            }
+
+            // Get next version label
+            const { data: latestVersion } = await supabase
+              .from('track_versions')
+              .select('version_label')
+              .eq('track_id', task.track_id)
+              .order('created_at', { ascending: false })
+              .limit(1)
+              .single();
+
+            const nextLabel = latestVersion?.version_label 
+              ? String.fromCharCode(latestVersion.version_label.charCodeAt(0) + 1)
+              : 'A';
+
+            // Create version
+            await supabase.from('track_versions').insert({
+              track_id: task.track_id,
+              audio_url: localAudioUrl || audioUrl,
+              duration_seconds: Math.round(clip.duration) || null,
+              version_type: 'replace_section',
+              version_label: nextLabel,
+              is_primary: false,
+              metadata: {
+                suno_id: clip.id,
+                suno_task_id: task.suno_task_id,
+                replace_section: true,
+                original_task_id: task.id,
+                recovered: true,
+              },
+            });
+
+            console.log(`✅ Replace section version ${nextLabel} created for task ${task.id}`);
+            recoveredCount++;
+            continue;
+          } catch (recoveryErr) {
+            console.error(`❌ Error recovering replace_section task ${task.id}:`, recoveryErr);
+            continue;
+          }
+        }
+        
         if (!task.tracks || task.tracks.status === 'completed') continue;
         
         console.log(`🔧 Recovering track ${task.track_id} from completed task ${task.id}`);
@@ -175,6 +266,7 @@ serve(async (req) => {
           }
 
           console.log(`✅ Track ${task.track_id} recovered successfully`);
+          recoveredCount++;
         } catch (recoveryErr) {
           console.error(`❌ Error recovering track ${task.track_id}:`, recoveryErr);
         }
@@ -525,6 +617,8 @@ serve(async (req) => {
       failed: failedCount,
     });
 
+    console.log(`📊 Sync completed: { recovered: ${recoveryTasks?.filter(t => t.tracks?.status !== 'completed').length || 0}, checked: ${staleTasks?.length || 0}, updated: ${updatedCount}, completed: ${completedCount}, failed: ${failedCount} }`);
+    
     return new Response(
       JSON.stringify({
         success: true,
