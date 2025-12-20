@@ -455,6 +455,10 @@ serve(async (req) => {
         console.error("[klangio] Error fetching JSON:", e);
       }
 
+      // Wait a bit for files to be ready after job completion
+      console.log('[klangio] Waiting 3s for files to be ready after job completion...');
+      await new Promise(resolve => setTimeout(resolve, 3000));
+
       // Fetch and upload each file format that API confirmed it generated
       for (const format of filesToFetch) {
         if (format === 'json') continue; // Already handled
@@ -467,14 +471,15 @@ serve(async (req) => {
 
           // Try each possible endpoint
           for (const apiEndpoint of apiEndpoints) {
-            // Retry logic for each endpoint
-            const maxRetries = 3;
-            const retryDelay = 2000;
+            // Enhanced retry logic with exponential backoff
+            const maxRetries = 5;
+            const baseRetryDelay = 2000;
 
             for (let retry = 0; retry < maxRetries; retry++) {
               if (retry > 0) {
-                console.log(`[klangio] Retry ${retry}/${maxRetries - 1} for ${format} via ${apiEndpoint}...`);
-                await new Promise(resolve => setTimeout(resolve, retryDelay));
+                const delay = baseRetryDelay * Math.pow(1.5, retry - 1);
+                console.log(`[klangio] Retry ${retry}/${maxRetries - 1} for ${format} via ${apiEndpoint} (waiting ${delay}ms)...`);
+                await new Promise(resolve => setTimeout(resolve, delay));
               }
 
               console.log(`[klangio] Fetching ${format} from /job/${jobId}/${apiEndpoint}`);
@@ -489,8 +494,10 @@ serve(async (req) => {
                 usedEndpoint = apiEndpoint;
                 break;
               } else if (fileResponse.status !== 404) {
+                // Non-404 error, don't retry
                 break;
               }
+              // For 404, continue retrying - file might still be generating
             }
             
             if (fetchSuccess) {
