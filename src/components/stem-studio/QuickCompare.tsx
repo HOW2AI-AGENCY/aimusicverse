@@ -91,6 +91,8 @@ export function QuickCompare({
   const [currentTime, setCurrentTime] = useState(sectionStart);
   const [volume, setVolume] = useState(0.8);
   const [isMuted, setIsMuted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const haptic = useHapticFeedback();
   
   const { pauseAllAudio } = useStudioAudio('quick-compare');
@@ -115,17 +117,42 @@ export function QuickCompare({
     }
   }, []);
 
-  // Initialize audio elements
+  // Initialize audio elements with proper loading handling
   useEffect(() => {
     if (isMobile && !open) return;
+    
+    setIsLoading(true);
+    setLoadError(null);
     
     // Pause all other studio audio first
     pauseAllAudio();
     
+    const loadPromises: Promise<void>[] = [];
+    
+    // Create and setup original audio
     originalRef.current = new Audio(originalAudioUrl);
+    loadPromises.push(new Promise<void>((resolve, reject) => {
+      const audio = originalRef.current!;
+      audio.oncanplaythrough = () => resolve();
+      audio.onerror = () => reject(new Error('Failed to load original audio'));
+    }));
+    
+    // Create and setup variant A audio
     variantARef.current = new Audio(variantAUrl);
+    loadPromises.push(new Promise<void>((resolve, reject) => {
+      const audio = variantARef.current!;
+      audio.oncanplaythrough = () => resolve();
+      audio.onerror = () => reject(new Error('Failed to load variant A'));
+    }));
+    
+    // Create and setup variant B audio if available
     if (variantBUrl) {
       variantBRef.current = new Audio(variantBUrl);
+      loadPromises.push(new Promise<void>((resolve, reject) => {
+        const audio = variantBRef.current!;
+        audio.oncanplaythrough = () => resolve();
+        audio.onerror = () => reject(new Error('Failed to load variant B'));
+      }));
     }
 
     // Set initial volume
@@ -133,6 +160,18 @@ export function QuickCompare({
     audios.forEach(audio => {
       if (audio) audio.volume = isMuted ? 0 : volume;
     });
+
+    // Wait for all audio to load
+    Promise.all(loadPromises)
+      .then(() => {
+        setIsLoading(false);
+        console.log('[QuickCompare] All audio loaded successfully');
+      })
+      .catch((error) => {
+        console.error('[QuickCompare] Audio load error:', error);
+        setLoadError(error.message);
+        setIsLoading(false);
+      });
 
     // Register pause handlers
     registerStudioAudio('compare-original', () => originalRef.current?.pause());
@@ -162,21 +201,32 @@ export function QuickCompare({
     });
   }, [volume, isMuted]);
 
+  // For variants, we play from 0 because they are generated sections
+  // For original, we play from sectionStart to sectionEnd
+  const getStartTime = useCallback((version: VersionType) => {
+    return version === 'original' ? sectionStart : 0;
+  }, [sectionStart]);
+
+  const getEndTime = useCallback((version: VersionType) => {
+    return version === 'original' ? sectionEnd : sectionDuration;
+  }, [sectionEnd, sectionDuration]);
+
   const updateProgress = useCallback(() => {
     const audioRef = getAudioRef(activeVersion);
     const audio = audioRef.current;
     if (audio) {
+      const endTime = getEndTime(activeVersion);
       setCurrentTime(audio.currentTime);
-      if (audio.currentTime >= sectionEnd) {
+      if (audio.currentTime >= endTime) {
         audio.pause();
-        audio.currentTime = sectionStart;
+        audio.currentTime = getStartTime(activeVersion);
         setIsPlaying(false);
-        setCurrentTime(sectionStart);
+        setCurrentTime(getStartTime(activeVersion));
       } else if (isPlaying) {
         animationRef.current = requestAnimationFrame(updateProgress);
       }
     }
-  }, [activeVersion, isPlaying, sectionEnd, sectionStart, getAudioRef]);
+  }, [activeVersion, isPlaying, getAudioRef, getStartTime, getEndTime]);
 
   useEffect(() => {
     if (isPlaying) {
@@ -196,9 +246,14 @@ export function QuickCompare({
   }, []);
 
   const togglePlay = async () => {
+    if (isLoading) return;
+    
     const audioRef = getAudioRef(activeVersion);
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio) {
+      console.error('[QuickCompare] No audio element for version:', activeVersion);
+      return;
+    }
     
     haptic.tap();
 
@@ -212,14 +267,17 @@ export function QuickCompare({
       // Pause global player too
       pauseAllAudio();
       
-      if (audio.currentTime < sectionStart || audio.currentTime >= sectionEnd) {
-        audio.currentTime = sectionStart;
+      const startTime = getStartTime(activeVersion);
+      const endTime = getEndTime(activeVersion);
+      
+      if (audio.currentTime < startTime || audio.currentTime >= endTime) {
+        audio.currentTime = startTime;
       }
       try {
         await audio.play();
         setIsPlaying(true);
       } catch (error) {
-        console.error('Playback failed', error);
+        console.error('[QuickCompare] Playback failed', error);
       }
     }
   };
@@ -231,13 +289,24 @@ export function QuickCompare({
     // Pause current audio
     pauseAllVersions();
     
-    // Set time on new audio
+    // For switching, calculate relative progress and map to new version's timeline
+    const oldStart = getStartTime(activeVersion);
+    const oldEnd = getEndTime(activeVersion);
+    const newStart = getStartTime(version);
+    const newEnd = getEndTime(version);
+    
+    // Calculate relative position (0-1) in current section
+    const relativeProgress = (currentTime - oldStart) / (oldEnd - oldStart);
+    // Map to new version's timeline
+    const newTime = newStart + relativeProgress * (newEnd - newStart);
+    
     const newAudioRef = getAudioRef(version);
     if (newAudioRef.current) {
-      newAudioRef.current.currentTime = currentTime;
+      newAudioRef.current.currentTime = Math.max(newStart, Math.min(newTime, newEnd));
     }
 
     setActiveVersion(version);
+    setCurrentTime(newTime);
     setIsPlaying(false);
     
     // If switching to a variant, select it
@@ -249,9 +318,10 @@ export function QuickCompare({
   const restart = () => {
     haptic.tap();
     const audioRef = getAudioRef(activeVersion);
+    const startTime = getStartTime(activeVersion);
     if (audioRef.current) {
-      audioRef.current.currentTime = sectionStart;
-      setCurrentTime(sectionStart);
+      audioRef.current.currentTime = startTime;
+      setCurrentTime(startTime);
     }
   };
 
@@ -282,7 +352,10 @@ export function QuickCompare({
     }
   };
 
-  const progress = ((currentTime - sectionStart) / sectionDuration) * 100;
+  // Calculate progress relative to current version's timeline
+  const startTime = getStartTime(activeVersion);
+  const endTime = getEndTime(activeVersion);
+  const progress = ((currentTime - startTime) / (endTime - startTime)) * 100;
 
   // Waveform bars visualization
   const waveformBars = useMemo(() => {
@@ -444,8 +517,8 @@ export function QuickCompare({
                 />
               </div>
               <div className="flex justify-between text-xs text-muted-foreground font-mono px-1">
-                <span>{formatTime(currentTime)}</span>
-                <span>{formatTime(sectionEnd)}</span>
+                <span>{formatTime(currentTime - startTime)}</span>
+                <span>{formatTime(endTime - startTime)}</span>
               </div>
             </motion.div>
 
@@ -466,6 +539,7 @@ export function QuickCompare({
                 <Button
                   onClick={togglePlay}
                   size="icon"
+                  disabled={isLoading}
                   className={cn(
                     "h-16 w-16 rounded-full shadow-lg",
                     activeVersion === 'variantA' && 'bg-primary hover:bg-primary/90',
@@ -474,13 +548,19 @@ export function QuickCompare({
                 >
                   <AnimatePresence mode="wait">
                     <motion.div
-                      key={isPlaying ? 'pause' : 'play'}
+                      key={isLoading ? 'loading' : isPlaying ? 'pause' : 'play'}
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0, opacity: 0 }}
                       transition={{ duration: 0.15 }}
                     >
-                      {isPlaying ? <Pause className="w-7 h-7" /> : <Play className="w-7 h-7 ml-1" />}
+                      {isLoading ? (
+                        <div className="w-7 h-7 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      ) : isPlaying ? (
+                        <Pause className="w-7 h-7" />
+                      ) : (
+                        <Play className="w-7 h-7 ml-1" />
+                      )}
                     </motion.div>
                   </AnimatePresence>
                 </Button>
@@ -716,6 +796,7 @@ export function QuickCompare({
                 <Button
                   variant={isPlaying ? 'secondary' : 'default'}
                   size="icon"
+                  disabled={isLoading}
                   className={cn(
                     "h-10 w-10 rounded-full",
                     activeVersion === 'variantA' && 'bg-primary hover:bg-primary/90',
@@ -723,7 +804,13 @@ export function QuickCompare({
                   )}
                   onClick={togglePlay}
                 >
-                  {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
+                  {isLoading ? (
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  ) : isPlaying ? (
+                    <Pause className="w-5 h-5" />
+                  ) : (
+                    <Play className="w-5 h-5 ml-0.5" />
+                  )}
                 </Button>
               </div>
 
@@ -733,7 +820,7 @@ export function QuickCompare({
                   max={100}
                   step={0.1}
                   onValueChange={([val]) => {
-                    const newTime = sectionStart + (val / 100) * sectionDuration;
+                    const newTime = startTime + (val / 100) * (endTime - startTime);
                     setCurrentTime(newTime);
                     const audioRef = getAudioRef(activeVersion);
                     if (audioRef.current) {
@@ -749,7 +836,7 @@ export function QuickCompare({
               </div>
 
               <span className="text-xs text-muted-foreground font-mono min-w-[80px] text-right">
-                {formatTime(currentTime)} / {formatTime(sectionEnd)}
+                {formatTime(currentTime - startTime)} / {formatTime(endTime - startTime)}
               </span>
 
               <div className="flex items-center gap-2">
