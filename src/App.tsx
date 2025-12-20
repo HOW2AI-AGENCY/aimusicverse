@@ -142,7 +142,9 @@ const App = () => (
                 <Route path="/pricing" element={<Pricing />} />
                 <Route path="/shop" element={<Pricing />} />
                 <Route path="/buy-credits" element={<BuyCredits />} />
+                <Route path="/payments/buy-credits" element={<Navigate to="/buy-credits" replace />} />
                 <Route path="/subscription" element={<Subscription />} />
+                <Route path="/payments/subscription" element={<Navigate to="/subscription" replace />} />
                 </Route>
 
                 {/* Routes without BottomNavigation */}
