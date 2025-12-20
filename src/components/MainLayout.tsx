@@ -92,9 +92,9 @@ export const MainLayout = () => {
         className={cn(
           'flex-1 flex flex-col overflow-y-auto relative',
           isDesktop ? 'ml-64' : 'pb-[calc(4rem+env(safe-area-inset-bottom,0px))]',
-          isGuestMode && 'pt-9',
-          // Add top padding for Telegram native buttons in fullscreen mode (mobile only)
-          !isDesktop && 'pt-[var(--tg-content-safe-area-inset-top,0px)]'
+          isGuestMode && 'pt-9'
+          // Note: Safe area padding is handled by individual page headers (HomeHeader, AppHeader)
+          // to avoid double padding and allow proper sticky header behavior
         )}
       >
         <div className={cn(
