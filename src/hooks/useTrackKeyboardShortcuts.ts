@@ -9,7 +9,7 @@
  */
 
 import { useEffect, useCallback } from 'react';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useGlobalAudioPlayer } from '@/hooks/audio/useGlobalAudioPlayer';
 import { Track } from '@/types/track';
 // Hook uses callbacks passed from components instead of global context

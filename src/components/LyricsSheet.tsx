@@ -8,7 +8,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TimestampedLyrics } from './TimestampedLyrics';
 import { ScrollArea } from './ui/scroll-area';
-import { useAudioPlayer } from '@/hooks/audio';
+import { useAudioPlayer } from '@/hooks/audio/useAudioPlayer';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 interface LyricsSheetProps {

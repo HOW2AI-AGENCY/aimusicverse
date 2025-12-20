@@ -3,7 +3,7 @@ import { Play, Pause, Share2, Music2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useTelegram } from '@/contexts/TelegramContext';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 import type { Track } from '@/types/track';

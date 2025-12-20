@@ -17,7 +17,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTrackVersions } from '@/hooks/useTrackVersions';
 import { useVersionSwitcher } from '@/hooks/useVersionSwitcher';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { cn } from '@/lib/utils';
 import { motion } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';

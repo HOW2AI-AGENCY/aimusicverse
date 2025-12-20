@@ -16,7 +16,7 @@ import {
   ChevronUp,
   CheckCircle2
 } from 'lucide-react';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useProjectGeneratedTracks, ProjectGeneratedTrack } from '@/hooks/useProjectGeneratedTracks';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';

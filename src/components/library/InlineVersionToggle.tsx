@@ -5,7 +5,7 @@ import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { logger } from '@/lib/logger';
 
 interface Version {
