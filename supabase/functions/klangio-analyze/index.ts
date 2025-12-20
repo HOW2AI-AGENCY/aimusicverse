@@ -320,6 +320,7 @@ serve(async (req) => {
       job_id: jobId,
       mode,
       status: "completed",
+      available_formats: [] as string[], // Will be populated with formats that were actually fetched
     };
 
     const fetchErrors: Record<string, string> = {};
@@ -546,9 +547,11 @@ serve(async (req) => {
 
       finalResult.files = files;
       finalResult.notes = notes;
+      finalResult.available_formats = Object.keys(files);
 
       console.log(`[klangio] ===== TRANSCRIPTION SUMMARY =====`);
       console.log(`[klangio] Files generated: ${Object.keys(files).length}`);
+      console.log(`[klangio] Available formats: ${finalResult.available_formats.join(', ')}`);
       console.log(`[klangio] File URLs:`, files);
       console.log(`[klangio] Notes: ${notes.length}`);
       console.log(`[klangio] Fetch errors:`, fetchErrors);
