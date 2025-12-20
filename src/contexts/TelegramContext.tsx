@@ -739,11 +739,20 @@ export const useTelegram = () => {
 // Component to handle deep linking using useNavigate
 export const DeepLinkHandler = () => {
   const navigate = useNavigate();
-  const { webApp, user } = useTelegram();
+  const { webApp, user, isDevelopmentMode } = useTelegram();
 
   useEffect(() => {
     const startParam = webApp?.initDataUnsafe?.start_param;
     if (!startParam) return;
+
+    // CRITICAL: Prevent re-processing deep links on every render
+    // Use sessionStorage to track if we've already processed this deep link
+    const processedKey = `deeplink_processed_${startParam}`;
+    if (sessionStorage.getItem(processedKey)) {
+      telegramLogger.debug('Deep link already processed, skipping', { startParam });
+      return;
+    }
+    sessionStorage.setItem(processedKey, 'true');
 
     telegramLogger.debug('Processing deep link', { startParam });
 

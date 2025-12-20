@@ -77,27 +77,32 @@ export const InitializationGuard = ({ children }: InitializationGuardProps) => {
     // Multi-level timeout strategy with progress updates
     const timeout1 = setTimeout(() => {
       bootLog('Timeout 1 (1.5s) reached');
-      setLoadingMessage('Подключение к Telegram...');
+      if (!hasShownRef.current) {
+        setLoadingMessage('Подключение...');
+      }
       if (isInitialized) {
         showContentSafely('initialized within 1.5s');
       }
     }, 1500);
 
     const timeout2 = setTimeout(() => {
-      bootLog('Timeout 2 (3s) reached');
-      setLoadingMessage('Инициализация приложения...');
-      initLogger.warn('Level 2 timeout (3s) - checking status');
+      bootLog('Timeout 2 (2.5s) reached');
+      if (!hasShownRef.current) {
+        setLoadingMessage('Загрузка занимает больше времени...');
+      }
+      initLogger.warn('Level 2 timeout (2.5s) - checking status');
+      // In development mode, don't wait - show content immediately
       if (isInitialized || !hasShownRef.current) {
         showContentSafely('level 2 timeout reached');
       }
-    }, 3000);
+    }, 2500);
 
-    // Emergency fallback - ALWAYS show content after 4 seconds (reduced from 5)
+    // Emergency fallback - ALWAYS show content after 3 seconds (reduced from 4)
     const emergencyTimeout = setTimeout(() => {
-      bootLog('EMERGENCY timeout (4s) - forcing display');
-      initLogger.error('Emergency timeout (4s) - forcing content display');
+      bootLog('EMERGENCY timeout (3s) - forcing display');
+      initLogger.error('Emergency timeout (3s) - forcing content display');
       showContentSafely('emergency fallback');
-    }, 4000);
+    }, 3000);
 
     return () => {
       mountedRef.current = false;

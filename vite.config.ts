@@ -224,11 +224,8 @@ export default defineConfig(({ mode }) => ({
       "@radix-ui/react-dialog",
       "@radix-ui/react-dropdown-menu",
     ],
-    // Exclude audio libraries from pre-bundling to allow lazy loading
-    // This prevents "Cannot access 't' before initialization" errors
-    exclude: [
-      "tone",
-      "wavesurfer.js",
-    ],
+    // Note: Audio libraries (tone, wavesurfer.js) are NOT excluded.
+    // They must be pre-bundled together to avoid TDZ errors.
+    // The manualChunks above separates them into different chunks for production.
   },
 }));
