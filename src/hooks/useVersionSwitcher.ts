@@ -30,15 +30,21 @@ export function useVersionSwitcher() {
 
   const setPrimaryVersionMutation = useMutation({
     mutationFn: async ({ trackId, versionId }: SetPrimaryVersionParams) => {
-      // Step 1: Get the version data to get audio_url
+      // Step 1: Get the version data including metadata with suno IDs
       const { data: versionData, error: fetchError } = await supabase
         .from('track_versions')
-        .select('audio_url, cover_url, duration_seconds')
+        .select('audio_url, cover_url, duration_seconds, metadata')
         .eq('id', versionId)
         .single();
 
       if (fetchError) throw fetchError;
       if (!versionData?.audio_url) throw new Error('Version has no audio URL');
+
+      // Extract suno IDs from version metadata for lyrics sync
+      const versionMetadata = versionData.metadata as {
+        suno_task_id?: string;
+        suno_id?: string;
+      } | null;
 
       // Step 2: Unset is_primary for ALL versions of this track
       const { error: unsetError } = await supabase
@@ -56,17 +62,32 @@ export function useVersionSwitcher() {
 
       if (setError) throw setError;
 
-      // Step 4: Update the track with new audio and reset stems
-      // Reset has_stems so stems will be regenerated for new audio
+      // Step 4: Update the track with new audio, suno IDs, and reset stems
+      // CRITICAL: Copy suno_task_id and suno_id so timestamped lyrics update
+      const trackUpdate: Record<string, unknown> = {
+        active_version_id: versionId,
+        audio_url: versionData.audio_url,
+        has_stems: false, // Reset so user can re-separate stems for new audio
+      };
+
+      // Only update if values exist
+      if (versionData.cover_url) {
+        trackUpdate.cover_url = versionData.cover_url;
+      }
+      if (versionData.duration_seconds) {
+        trackUpdate.duration_seconds = versionData.duration_seconds;
+      }
+      // CRITICAL: Update suno IDs for timestamped lyrics
+      if (versionMetadata?.suno_task_id) {
+        trackUpdate.suno_task_id = versionMetadata.suno_task_id;
+      }
+      if (versionMetadata?.suno_id) {
+        trackUpdate.suno_id = versionMetadata.suno_id;
+      }
+
       const { error: trackError } = await supabase
         .from('tracks')
-        .update({ 
-          active_version_id: versionId,
-          audio_url: versionData.audio_url,
-          cover_url: versionData.cover_url || undefined,
-          duration_seconds: versionData.duration_seconds || undefined,
-          has_stems: false, // Reset so user can re-separate stems for new audio
-        })
+        .update(trackUpdate)
         .eq('id', trackId);
 
       if (trackError) throw trackError;

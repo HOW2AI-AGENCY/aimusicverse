@@ -85,40 +85,21 @@ const actionOptions: ActionOption[] = [
   },
 ];
 
-const stemLabels: Record<string, string> = {
-  vocals: 'Вокал',
-  vocal: 'Вокал',
-  backing_vocals: 'Бэк-вокал',
-  drums: 'Ударные',
-  bass: 'Бас',
-  guitar: 'Гитара',
-  keyboard: 'Клавишные',
-  piano: 'Пианино',
-  strings: 'Струнные',
-  brass: 'Духовые',
-  percussion: 'Перкуссия',
-  synth: 'Синтезатор',
-  instrumental: 'Инструментал',
-  other: 'Другое',
-};
-
-const stemColors: Record<string, string> = {
-  vocals: 'bg-blue-500/10 border-blue-500/30',
-  vocal: 'bg-blue-500/10 border-blue-500/30',
-  backing_vocals: 'bg-cyan-500/10 border-cyan-500/30',
-  drums: 'bg-orange-500/10 border-orange-500/30',
-  bass: 'bg-purple-500/10 border-purple-500/30',
-  guitar: 'bg-amber-500/10 border-amber-500/30',
-  instrumental: 'bg-green-500/10 border-green-500/30',
-  other: 'bg-gray-500/10 border-gray-500/30',
-};
-
-const getStemLabel = (stemType: string): string => {
-  return stemLabels[stemType.toLowerCase()] || stemType;
-};
+// Using centralized stem labeling from @/lib/stemLabels
+import { getStemLabel } from '@/lib/stemLabels';
 
 const getStemColor = (stemType: string): string => {
-  return stemColors[stemType.toLowerCase()] || stemColors.other;
+  const colors: Record<string, string> = {
+    vocals: 'bg-blue-500/10 border-blue-500/30',
+    vocal: 'bg-blue-500/10 border-blue-500/30',
+    backing_vocals: 'bg-cyan-500/10 border-cyan-500/30',
+    drums: 'bg-orange-500/10 border-orange-500/30',
+    bass: 'bg-purple-500/10 border-purple-500/30',
+    guitar: 'bg-amber-500/10 border-amber-500/30',
+    instrumental: 'bg-green-500/10 border-green-500/30',
+    other: 'bg-gray-500/10 border-gray-500/30',
+  };
+  return colors[stemType.toLowerCase()] || colors.other;
 };
 
 export const StemActionsSheet = ({
