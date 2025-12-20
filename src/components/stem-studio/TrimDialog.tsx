@@ -12,7 +12,7 @@ import {
   RotateCcw, Volume2, VolumeX 
 } from 'lucide-react';
 import { TrimRegionSelector } from './TrimRegionSelector';
-import { useTrimExport } from '@/hooks/studio';
+import { useTrimExport } from '@/hooks/studio/useTrimExport';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';

@@ -19,7 +19,7 @@ import {
   compressorPresets,
   reverbPresets,
   defaultStemEffects,
-} from '@/hooks/studio';
+} from '@/hooks/studio/stemEffectsConfig';
 
 interface StemChannelProps {
   stem: TrackStem;

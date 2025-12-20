@@ -1,18 +1,26 @@
 /**
  * Audio playback hooks export
- * Hooks for audio player, time tracking, and visualization (IMP046)
+ * 
+ * SAFE EXPORTS ONLY - hooks that don't pull in heavy audio libraries
+ * 
+ * WARNING: Do NOT add useWaveform, useWaveformData, useAudioVisualizer, 
+ * useBeatGrid here - they pull in wavesurfer.js/Tone.js and cause 
+ * "Cannot access 't' before initialization" errors in production.
+ * 
+ * Import those directly from their files:
+ * - import { useWaveform } from '@/hooks/audio/useWaveform'
+ * - import { useWaveformData } from '@/hooks/audio/useWaveformData'
+ * - import { useAudioVisualizer } from '@/hooks/audio/useAudioVisualizer'
+ * - import { useBeatGrid } from '@/hooks/audio/useBeatGrid'
  */
 
+// Safe exports - no heavy dependencies
 export { useAudioPlayer } from './useAudioPlayer';
 export { useAudioTime, getGlobalAudioRef, setGlobalAudioRef } from './useAudioTime';
-export { useAudioVisualizer, resumeAudioContext } from './useAudioVisualizer';
 export { useGlobalAudioPlayer } from './useGlobalAudioPlayer';
 export { usePlayerStore } from './usePlayerState';
 export { usePlaybackQueue } from './usePlaybackQueue';
 export { useQueueHistory } from './useQueueHistory';
-export { useWaveform } from './useWaveform';
-export { useWaveformData } from './useWaveformData';
-export { useBeatGrid, generateSyntheticBeatGrid } from './useBeatGrid';
 export { useDebouncedAudioTime } from './useDebouncedAudioTime';
 export { useOptimizedAudioPlayer } from './useOptimizedAudioPlayer';
 export { usePlaybackHistory } from './usePlaybackHistory';
@@ -24,7 +32,7 @@ export { useAudioPerformanceMonitor } from './useAudioPerformanceMonitor';
 export { useNetworkStatus } from './useNetworkStatus';
 export { useReferenceAudioPlayer } from './useReferenceAudioPlayer';
 
-// Export audio system diagnostics for troubleshooting
+// Safe audio context utilities (lazy initialization)
 export { 
   getAudioSystemDiagnostics,
   getAudioContextState,

@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/select';
 import { RotateCcw, Waves } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { ReverbSettings, reverbPresets, defaultReverbSettings } from '@/hooks/studio';
+import { ReverbSettings, reverbPresets, defaultReverbSettings } from '@/hooks/studio/stemEffectsConfig';
 
 interface ReverbControlProps {
   settings: ReverbSettings;
@@ -30,6 +30,7 @@ const presetLabels: Record<keyof typeof reverbPresets, string> = {
   hall: 'Холл',
   plate: 'Plate',
   ambient: 'Ambient',
+  cathedral: 'Собор',
 };
 
 export function ReverbControl({ 
