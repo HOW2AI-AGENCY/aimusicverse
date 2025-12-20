@@ -4,10 +4,11 @@
  * Combined timeline showing sections and stems together.
  * - Section markers at top (clickable for replacement)
  * - Stem tracks below (clickable for stem focus)
- * - Shared playhead and progress bar
+ * - Shared playhead crossing all layers
+ * - Section highlighting on stem tracks
  */
 
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useRef } from 'react';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
@@ -37,6 +38,9 @@ interface UnifiedStudioTimelineProps {
   onStemToggle: (stemId: string, type: 'mute' | 'solo') => void;
   onStemClick: (stem: TrackStem) => void;
   
+  // Focused section (for highlighting on stems)
+  focusedSection?: DetectedSection | null;
+  
   // Playback
   duration: number;
   currentTime: number;
@@ -46,6 +50,7 @@ interface UnifiedStudioTimelineProps {
   // Config
   showSections?: boolean;
   showStems?: boolean;
+  showPlayhead?: boolean;
   className?: string;
 }
 
@@ -59,26 +64,38 @@ export const UnifiedStudioTimeline = memo(({
   focusedStemId,
   onStemToggle,
   onStemClick,
+  focusedSection,
   duration,
   currentTime,
   isPlaying,
   onSeek,
   showSections = true,
   showStems = true,
+  showPlayhead = true,
   className,
 }: UnifiedStudioTimelineProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
   const hasSolo = useMemo(() => Object.values(stemStates).some(s => s.solo), [stemStates]);
 
+  // Calculate focused section bounds for overlay
+  const focusedSectionBounds = useMemo(() => {
+    if (!focusedSection || duration <= 0) return null;
+    return {
+      left: (focusedSection.startTime / duration) * 100,
+      width: ((focusedSection.endTime - focusedSection.startTime) / duration) * 100,
+    };
+  }, [focusedSection, duration]);
+
   return (
-    <div className={cn("space-y-2", className)}>
+    <div ref={containerRef} className={cn("space-y-2 relative", className)}>
       {/* Section Markers Row */}
       {showSections && sections.length > 0 && (
         <div className="relative">
           <div className="absolute -left-2 top-1/2 -translate-y-1/2 text-[8px] text-muted-foreground font-medium uppercase tracking-wider rotate-[-90deg] origin-center whitespace-nowrap">
             Секции
           </div>
-          <div className="ml-4">
+          <div className="ml-4 relative">
             <SectionMarkersRow
               sections={sections}
               duration={duration}
@@ -87,6 +104,17 @@ export const UnifiedStudioTimeline = memo(({
               replacedRanges={replacedRanges}
               onSectionClick={onSectionClick}
             />
+            
+            {/* Playhead line on sections */}
+            {showPlayhead && duration > 0 && (
+              <div
+                className="absolute top-0 bottom-0 w-0.5 bg-primary z-20 pointer-events-none"
+                style={{ 
+                  left: `${progress}%`,
+                  boxShadow: '0 0 6px hsl(var(--primary) / 0.4)',
+                }}
+              />
+            )}
           </div>
         </div>
       )}
@@ -102,7 +130,21 @@ export const UnifiedStudioTimeline = memo(({
           <div className="absolute -left-2 top-1/2 -translate-y-1/2 text-[8px] text-muted-foreground font-medium uppercase tracking-wider rotate-[-90deg] origin-center whitespace-nowrap">
             Стемы
           </div>
-          <div className="ml-4 space-y-0.5">
+          <div className="ml-4 space-y-0.5 relative">
+            {/* Focused section overlay on stems */}
+            {focusedSectionBounds && (
+              <motion.div
+                className="absolute top-0 bottom-0 bg-primary/10 border-x border-primary/30 z-10 pointer-events-none"
+                style={{
+                  left: `calc(100px + ${focusedSectionBounds.left}%)`,
+                  width: `calc(${focusedSectionBounds.width}% - 100px)`,
+                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              />
+            )}
+            
             {stems.map((stem) => (
               <StemTrackRow
                 key={stem.id}
@@ -118,6 +160,17 @@ export const UnifiedStudioTimeline = memo(({
                 onClick={() => onStemClick(stem)}
               />
             ))}
+            
+            {/* Playhead line on stems */}
+            {showPlayhead && duration > 0 && (
+              <div
+                className="absolute top-0 bottom-0 w-0.5 bg-primary z-20 pointer-events-none"
+                style={{ 
+                  left: `calc(100px + ${progress}%)`,
+                  boxShadow: '0 0 6px hsl(var(--primary) / 0.4)',
+                }}
+              />
+            )}
           </div>
         </div>
       )}
