@@ -226,6 +226,12 @@ export function AudioActionDialog({
 
   const analyzeAudio = async (file: File, existingUrl?: string) => {
     setIsAnalyzing(true);
+    setAnalysisResult(null);
+    
+    // Create timeout controller for 60 second limit
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 60000);
+    
     try {
       logger.info('Uploading and analyzing audio');
       
@@ -246,7 +252,8 @@ export function AudioActionDialog({
         setSavedAudioId(audioRecord.id);
       }
 
-      const { data: analysisData, error: analysisError } = await supabase.functions.invoke(
+      // Make request with timeout
+      const analysisPromise = supabase.functions.invoke(
         'analyze-audio-flamingo',
         {
           body: {
@@ -256,38 +263,65 @@ export function AudioActionDialog({
         }
       );
 
+      // Race between analysis and timeout
+      const result = await Promise.race([
+        analysisPromise,
+        new Promise<never>((_, reject) => {
+          controller.signal.addEventListener('abort', () => {
+            reject(new Error('Превышено время ожидания анализа (60 сек)'));
+          });
+        })
+      ]);
+
+      clearTimeout(timeoutId);
+      
+      const { data: analysisData, error: analysisError } = result as { data: any; error: any };
+
       if (analysisError) throw new Error(analysisError.message || 'Network error');
       if (analysisData?.error) throw new Error(analysisData.error);
 
       if (analysisData?.success && analysisData.parsed) {
-        const result = {
+        const analysisResult = {
           style: analysisData.parsed.style_description,
           genre: analysisData.parsed.genre,
           mood: analysisData.parsed.mood,
         };
-        setAnalysisResult(result);
+        setAnalysisResult(analysisResult);
         
         // Update database record
         if (audioRecord?.id || savedAudioId) {
           await updateAnalysis({
             id: audioRecord?.id || savedAudioId!,
-            genre: result.genre,
-            mood: result.mood,
+            genre: analysisResult.genre,
+            mood: analysisResult.mood,
             analysisStatus: 'completed',
           });
         }
         
-        if (result.style) {
-          onAnalysisComplete?.(result.style);
+        if (analysisResult.style) {
+          onAnalysisComplete?.(analysisResult.style);
           toast.success('Стиль определён!');
         }
       } else {
         throw new Error('Не удалось проанализировать аудио');
       }
     } catch (error) {
+      clearTimeout(timeoutId);
       const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
       logger.error('Audio analysis error', { error: message });
       toast.error(`Ошибка анализа: ${message}`);
+      
+      // Reset progress on error
+      setAnalysisProgress(0);
+      setAnalysisStep(0);
+      
+      // Update database record with failed status if exists
+      if (savedAudioId) {
+        await updateAnalysis({
+          id: savedAudioId,
+          analysisStatus: 'failed',
+        }).catch(() => {});
+      }
     } finally {
       setIsAnalyzing(false);
     }
