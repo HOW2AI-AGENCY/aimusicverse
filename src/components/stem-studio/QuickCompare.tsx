@@ -161,11 +161,25 @@ export function QuickCompare({
       if (audio) audio.volume = isMuted ? 0 : volume;
     });
 
-    // Wait for all audio to load
+    // Wait for all audio to load, then autoplay
     Promise.all(loadPromises)
-      .then(() => {
+      .then(async () => {
         setIsLoading(false);
-        console.log('[QuickCompare] All audio loaded successfully');
+        console.log('[QuickCompare] All audio loaded successfully, starting autoplay');
+        
+        // Autoplay variant A after loading
+        const audio = variantARef.current;
+        if (audio) {
+          try {
+            audio.currentTime = 0;
+            await audio.play();
+            setIsPlaying(true);
+            setActiveVersion('variantA');
+            setCurrentTime(0);
+          } catch (e) {
+            console.warn('[QuickCompare] Autoplay blocked:', e);
+          }
+        }
       })
       .catch((error) => {
         console.error('[QuickCompare] Audio load error:', error);
