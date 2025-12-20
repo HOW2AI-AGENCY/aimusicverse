@@ -600,25 +600,49 @@ export function usePromptDJEnhanced() {
     setIsPreviewPlaying(false);
   }, []);
 
+  // Track the last generated audio URL for continuation
+  const lastAudioUrlRef = useRef<string | null>(null);
+  const segmentCountRef = useRef(0);
+
   // Live mode: Generate and play with crossfade transitions
-  const generateForLive = useCallback(async (prompt: string): Promise<string | null> => {
-    // Check cache first
-    const cachedUrl = audioCacheRef.current.get(prompt);
-    if (cachedUrl) return cachedUrl;
+  // Uses continuation mode for seamless melody generation
+  const generateForLive = useCallback(async (prompt: string, continuationUrl?: string): Promise<string | null> => {
+    // Create unique cache key including continuation context
+    const cacheKey = continuationUrl 
+      ? `${prompt}__continuation_${segmentCountRef.current}` 
+      : prompt;
+    
+    // Check cache first (only for exact matches without continuation)
+    if (!continuationUrl) {
+      const cachedUrl = audioCacheRef.current.get(cacheKey);
+      if (cachedUrl) return cachedUrl;
+    }
 
     try {
+      // Build generation request with continuation support
+      const requestBody: Record<string, unknown> = {
+        prompt: `${prompt}, seamless transition, continuous melody`,
+        duration: globalSettings.duration,
+        temperature: 0.8, // Lower temperature for more consistent output
+      };
+
+      // Add continuation audio for seamless melody
+      if (continuationUrl) {
+        requestBody.continuation_url = continuationUrl;
+        requestBody.continuation_start = Math.max(0, globalSettings.duration - 3); // Last 3 seconds
+        requestBody.prompt = `continuation of previous segment, ${prompt}, seamless transition`;
+      }
+
       const { data, error } = await supabase.functions.invoke('musicgen-generate', {
-        body: {
-          prompt,
-          duration: globalSettings.duration,
-          temperature: 1.0,
-        }
+        body: requestBody
       });
 
       if (error) throw error;
 
       if (data?.audio_url) {
-        audioCacheRef.current.set(prompt, data.audio_url);
+        audioCacheRef.current.set(cacheKey, data.audio_url);
+        lastAudioUrlRef.current = data.audio_url;
+        segmentCountRef.current += 1;
         return data.audio_url;
       }
       return null;
@@ -703,6 +727,10 @@ export function usePromptDJEnhanced() {
       return;
     }
 
+    // Reset continuation state for new session
+    lastAudioUrlRef.current = null;
+    segmentCountRef.current = 0;
+
     setIsLiveMode(true);
     setLiveStatus('generating');
     isGeneratingLiveRef.current = true;
@@ -711,6 +739,7 @@ export function usePromptDJEnhanced() {
     try {
       await Tone.start();
       
+      // First segment - no continuation
       const audioUrl = await generateForLive(currentPrompt);
       
       if (!audioUrl) {
@@ -832,15 +861,17 @@ export function usePromptDJEnhanced() {
       }
       
       setLiveStatus('generating');
-      toast.info('🎵 Генерация нового сегмента...');
+      toast.info('🎵 Генерация нового сегмента с плавным переходом...');
       
       try {
-        const audioUrl = await generateForLive(promptToGenerate);
+        // Use last audio URL for continuation to create seamless melody
+        const continuationUrl = lastAudioUrlRef.current;
+        const audioUrl = await generateForLive(promptToGenerate, continuationUrl || undefined);
         
         if (audioUrl) {
           lastGeneratedPromptRef.current = promptToGenerate;
           await crossfadeToTrack(audioUrl, promptToGenerate);
-          toast.success('✨ Переход к новому звучанию');
+          toast.success('✨ Бесшовный переход к новому звучанию');
         } else {
           setLiveStatus('playing');
         }
@@ -886,12 +917,14 @@ export function usePromptDJEnhanced() {
     toast.info('🎵 Генерация нового сегмента...');
 
     try {
-      const audioUrl = await generateForLive(promptToGenerate);
+      // Use continuation for seamless melody
+      const continuationUrl = lastAudioUrlRef.current;
+      const audioUrl = await generateForLive(promptToGenerate, continuationUrl || undefined);
       
       if (audioUrl) {
         lastGeneratedPromptRef.current = promptToGenerate;
         await crossfadeToTrack(audioUrl, promptToGenerate);
-        toast.success('✨ Переход к новому звучанию');
+        toast.success('✨ Бесшовный переход к новому звучанию');
       } else {
         setLiveStatus('playing');
       }
