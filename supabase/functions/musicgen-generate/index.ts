@@ -23,7 +23,15 @@ serve(async (req) => {
     });
 
     const body = await req.json();
-    const { prompt, duration = 30, temperature = 1.0, top_k = 250, model = 'large' } = body;
+    const { 
+      prompt, 
+      duration = 30, 
+      temperature = 1.0, 
+      top_k = 250, 
+      model = 'large',
+      continuation_url,
+      continuation_start 
+    } = body;
 
     if (!prompt) {
       return new Response(
@@ -32,25 +40,36 @@ serve(async (req) => {
       );
     }
 
-    console.log("Generating music with prompt:", prompt, "duration:", duration);
+    console.log("Generating music with prompt:", prompt, "duration:", duration, "continuation:", !!continuation_url);
+
+    // Build input for MusicGen
+    const input: Record<string, unknown> = {
+      prompt: prompt,
+      duration: Math.min(duration, 30), // Max 30 seconds for MusicGen
+      model_version: continuation_url ? 'melody' : model, // Use melody model for continuation
+      output_format: "mp3",
+      normalization_strategy: "peak",
+      temperature: temperature,
+      top_k: top_k,
+      top_p: 0.95,
+      classifier_free_guidance: 3,
+    };
+
+    // Add continuation audio for seamless melody generation
+    if (continuation_url) {
+      input.input_audio = continuation_url;
+      // continuation_start is the starting point in seconds to use as reference
+      if (continuation_start !== undefined) {
+        input.continuation_start = continuation_start;
+      }
+      // Use lower classifier guidance for smoother transitions
+      input.classifier_free_guidance = 2;
+    }
 
     // Use MusicGen model from Meta
-    // Model: facebook/musicgen
     const output = await replicate.run(
       "meta/musicgen:671ac645ce5e552cc63a54a2bbff63fcf798043055d2dac5fc9e36a837eedcfb",
-      {
-        input: {
-          prompt: prompt,
-          duration: Math.min(duration, 30), // Max 30 seconds for MusicGen
-          model_version: model, // 'melody', 'large', 'small'
-          output_format: "mp3",
-          normalization_strategy: "peak",
-          temperature: temperature,
-          top_k: top_k,
-          top_p: 0.95,
-          classifier_free_guidance: 3,
-        }
-      }
+      { input }
     );
 
     console.log("MusicGen response:", output);

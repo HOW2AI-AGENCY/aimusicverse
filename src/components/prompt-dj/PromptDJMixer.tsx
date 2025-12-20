@@ -519,9 +519,9 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
                 <Settings2 className="w-4 h-4" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="bottom" className="max-h-[50vh]">
+            <SheetContent side="bottom" className="max-h-[60vh] overflow-y-auto">
               <SheetHeader>
-                <SheetTitle>Настройки</SheetTitle>
+                <SheetTitle>Настройки генерации</SheetTitle>
               </SheetHeader>
               <div className="grid gap-4 py-4">
                 {/* Density */}
@@ -560,11 +560,11 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
                 <div className="space-y-2">
                   <span className="text-sm">Тональность</span>
                   <div className="flex flex-wrap gap-1">
-                    {['C', 'D', 'E', 'F', 'G', 'A', 'B'].map((key) => (
+                    {['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'].map((key) => (
                       <button
                         key={key}
                         className={cn(
-                          'w-8 h-8 rounded text-xs font-medium',
+                          'min-w-7 h-7 px-1 rounded text-[10px] font-medium',
                           globalSettings.key === key 
                             ? 'bg-primary text-primary-foreground' 
                             : 'bg-muted/30 hover:bg-muted/50'
@@ -575,6 +575,44 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
                       </button>
                     ))}
                   </div>
+                </div>
+
+                {/* Scale */}
+                <div className="space-y-2">
+                  <span className="text-sm">Лад</span>
+                  <div className="flex flex-wrap gap-1">
+                    {[
+                      { id: 'major', label: 'Мажор' },
+                      { id: 'minor', label: 'Минор' },
+                      { id: 'dorian', label: 'Дорийский' },
+                      { id: 'pentatonic', label: 'Пентатоника' },
+                    ].map((scale) => (
+                      <button
+                        key={scale.id}
+                        className={cn(
+                          'px-2 h-7 rounded text-xs font-medium',
+                          globalSettings.scale === scale.id 
+                            ? 'bg-primary text-primary-foreground' 
+                            : 'bg-muted/30 hover:bg-muted/50'
+                        )}
+                        onClick={() => updateGlobalSettings({ scale: scale.id })}
+                      >
+                        {scale.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Live mode info */}
+                <div className="p-3 rounded-lg bg-muted/30 border border-border/30 space-y-2">
+                  <h4 className="text-sm font-medium flex items-center gap-2">
+                    <Radio className="w-4 h-4 text-red-500" />
+                    Режим Live
+                  </h4>
+                  <p className="text-xs text-muted-foreground">
+                    В режиме Live новые сегменты генерируются с учётом предыдущего звучания 
+                    для бесшовного перехода. Меняйте настройки - звук будет плавно трансформироваться.
+                  </p>
                 </div>
               </div>
             </SheetContent>
