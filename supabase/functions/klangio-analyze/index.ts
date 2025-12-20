@@ -280,6 +280,7 @@ serve(async (req) => {
 
     // Fetch results based on mode
     const finalResult: any = {
+      success: true,
       job_id: jobId,
       mode,
       status: "completed",
