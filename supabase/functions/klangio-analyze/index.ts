@@ -353,9 +353,12 @@ serve(async (req) => {
         
         if (jsonResponse.ok) {
           const transcriptionData = await jsonResponse.json();
-          console.log("[klangio] Transcription JSON:", JSON.stringify(transcriptionData).slice(0, 2000));
+          console.log("[klangio] Transcription JSON structure:", Object.keys(transcriptionData));
+          console.log("[klangio] Transcription JSON:", JSON.stringify(transcriptionData).slice(0, 3000));
           
+          // Extract notes from various possible structures
           if (transcriptionData.notes && Array.isArray(transcriptionData.notes)) {
+            // Simple notes array
             notes = transcriptionData.notes.map((n: any) => ({
               pitch: n.pitch ?? n.midi ?? n.note ?? 60,
               startTime: n.start_time ?? n.startTime ?? n.time ?? n.onset ?? 0,
@@ -365,6 +368,7 @@ serve(async (req) => {
               noteName: n.note_name ?? n.noteName ?? null,
             }));
           } else if (transcriptionData.events && Array.isArray(transcriptionData.events)) {
+            // Events array format
             notes = transcriptionData.events.filter((e: any) => e.type === 'note' || e.pitch).map((n: any) => ({
               pitch: n.pitch ?? n.midi ?? 60,
               startTime: n.start ?? n.onset ?? n.time ?? 0,
@@ -373,6 +377,70 @@ serve(async (req) => {
               velocity: n.velocity ?? 80,
               noteName: null,
             }));
+          } else if (transcriptionData.Parts && Array.isArray(transcriptionData.Parts)) {
+            // Klang.io V3 format: Parts[].Measures[].Voices[].Notes[]
+            console.log("[klangio] Detected V3 format with Parts structure");
+            const musicInfo = transcriptionData.MusicInfo || {};
+            const bpm = musicInfo.Tempo || 120;
+            const measureDuration = musicInfo.MeasureDuration || 1; // in beats
+            const secondsPerBeat = 60 / bpm;
+            
+            let currentMeasureIndex = 0;
+            for (const part of transcriptionData.Parts) {
+              if (!part.Measures) continue;
+              currentMeasureIndex = 0;
+              
+              for (const measure of part.Measures) {
+                const measureStartTime = currentMeasureIndex * measureDuration * secondsPerBeat;
+                if (!measure.Voices) {
+                  currentMeasureIndex++;
+                  continue;
+                }
+                
+                for (const voice of measure.Voices) {
+                  if (!voice.Notes) continue;
+                  let noteOffset = 0;
+                  
+                  for (const note of voice.Notes) {
+                    // Skip rests (Midi = [-1])
+                    const midiValues = note.Midi || [];
+                    const validMidi = midiValues.filter((m: number) => m > 0);
+                    
+                    if (validMidi.length > 0) {
+                      const durationInBeats = note.Duration || 0.25;
+                      const durationInSeconds = durationInBeats * measureDuration * secondsPerBeat;
+                      const startTime = measureStartTime + (noteOffset * measureDuration * secondsPerBeat);
+                      
+                      for (const midi of validMidi) {
+                        notes.push({
+                          pitch: midi,
+                          startTime: startTime,
+                          endTime: startTime + durationInSeconds,
+                          duration: durationInSeconds,
+                          velocity: note.Velocity || 80,
+                          noteName: null,
+                        });
+                      }
+                    }
+                    noteOffset += note.Duration || 0.25;
+                  }
+                }
+                currentMeasureIndex++;
+              }
+            }
+            
+            // Also store BPM and other metadata
+            if (musicInfo.Tempo) {
+              finalResult.bpm = musicInfo.Tempo;
+            }
+            if (musicInfo.TimeSignature) {
+              finalResult.time_signature = musicInfo.TimeSignature;
+            }
+            if (musicInfo.Key !== undefined) {
+              // Convert key number to string (0 = C, 1 = G, etc.)
+              const keyNames = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'C#', 'F', 'Bb', 'Eb', 'Ab'];
+              finalResult.key = keyNames[musicInfo.Key] || `Key ${musicInfo.Key}`;
+            }
           }
           
           console.log(`[klangio] Parsed ${notes.length} notes`);

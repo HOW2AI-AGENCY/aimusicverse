@@ -260,8 +260,14 @@ const StemTrackRowMobile = memo(({
                     MIDI
                   </Badge>
                 )}
-                {transcription.pdf_url && (
+                {transcription.gp5_url && (
                   <Badge variant="outline" className="h-4 px-1 text-[8px] bg-amber-500/10 border-amber-500/30 text-amber-500">
+                    <Guitar className="w-2.5 h-2.5 mr-0.5" />
+                    TAB
+                  </Badge>
+                )}
+                {transcription.pdf_url && !transcription.gp5_url && (
+                  <Badge variant="outline" className="h-4 px-1 text-[8px] bg-emerald-500/10 border-emerald-500/30 text-emerald-500">
                     <FileMusic className="w-2.5 h-2.5" />
                   </Badge>
                 )}
@@ -472,10 +478,20 @@ const StemTrackRowDesktop = memo(({
                 <Music2 className="w-2.5 h-2.5" />
               </Badge>
             )}
-            {transcription.pdf_url && (
+            {transcription.gp5_url && (
               <Badge 
                 variant="outline" 
                 className="h-4 px-1 text-[8px] bg-amber-500/10 border-amber-500/30 text-amber-500 cursor-pointer hover:bg-amber-500/20"
+                onClick={() => onAction('view-notes')}
+                title="Табулатура (Guitar Pro)"
+              >
+                <Guitar className="w-2.5 h-2.5" />
+              </Badge>
+            )}
+            {transcription.pdf_url && !transcription.gp5_url && (
+              <Badge 
+                variant="outline" 
+                className="h-4 px-1 text-[8px] bg-emerald-500/10 border-emerald-500/30 text-emerald-500 cursor-pointer hover:bg-emerald-500/20"
                 onClick={() => onAction('view-notes')}
               >
                 <FileMusic className="w-2.5 h-2.5" />

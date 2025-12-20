@@ -65,7 +65,7 @@ export function useTelegramMainButton({
   const onClickRef = useRef(onClick);
   onClickRef.current = onClick;
   
-  // Check if MainButton API is actually available
+  // Check if MainButton API is actually available and functional
   const hasMainButtonAPI = !!(
     webApp?.MainButton && 
     typeof webApp.MainButton.show === 'function' &&
@@ -74,12 +74,14 @@ export function useTelegramMainButton({
   );
   
   // Determine environment - real Mini App if platform is mobile AND MainButton API exists
+  // IMPORTANT: On iOS/Android, even in dev mode, we should use native MainButton if available
+  const isNativePlatform = platform === 'ios' || platform === 'android' || platform === 'tdesktop';
   const isRealMiniApp = Boolean(
     hasMainButtonAPI && 
     platform && 
     platform !== 'web' && 
-    platform !== '' && 
-    !isDevelopmentMode
+    platform !== '' &&
+    (isNativePlatform || !isDevelopmentMode) // Allow native button on iOS/Android even in dev mode
   );
   const shouldShowUIButton = !isRealMiniApp;
   
