@@ -48,3 +48,8 @@ export { VirtualizedStemList } from './VirtualizedStemList';
 // Offline and loading progress
 export { OfflineIndicator } from './OfflineIndicator';
 export { AudioLoadingProgress } from './AudioLoadingProgress';
+
+// Error handling and warnings
+export { AudioErrorBoundary, useAudioErrorHandler } from './AudioErrorBoundary';
+export { MobileAudioWarning } from './MobileAudioWarning';
+export { KeyboardShortcutsDialog } from './KeyboardShortcutsDialog';
