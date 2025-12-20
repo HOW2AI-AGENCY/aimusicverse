@@ -46,9 +46,13 @@ export const WaveformCanvas = memo(function WaveformCanvas({
     };
 
     const primary = getCSSColor('--primary', '217.2 91.2% 59.8%');
+    
+    // Check if dark mode is active for better contrast
+    const isDark = document.documentElement.classList.contains('dark');
+    const waveOpacity = isDark ? 0.55 : 0.4;
 
     colorsRef.current = {
-      wave: waveColor || `hsl(${primary} / 0.35)`,
+      wave: waveColor || `hsl(${primary} / ${waveOpacity})`,
       progress: progressColor || `hsl(${primary})`,
       bg: backgroundColor || 'transparent',
     };
