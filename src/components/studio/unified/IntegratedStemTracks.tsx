@@ -9,7 +9,7 @@
  * - Inline MIDI notes preview with transcription support
  */
 
-import { memo, useState, useCallback } from 'react';
+import { memo, useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import {
   Mic2, Guitar, Drum, Music, Piano, Waves,
@@ -31,6 +31,7 @@ import { cn } from '@/lib/utils';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { StemWaveform } from '@/components/stem-studio/StemWaveform';
 import { StemTrackSkeleton } from '@/components/studio/StemTrackSkeleton';
+import { VirtualizedStemList } from '@/components/studio/VirtualizedStemList';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { StemNotesPreview } from '@/components/studio/StemNotesPreview';
@@ -723,7 +724,7 @@ export function IntegratedStemTracks({
         </div>
       </div>
 
-      {/* Stem tracks */}
+      {/* Stem tracks - using virtualized list for performance */}
       <AnimatePresence>
         {isExpanded && (
           <motion.div
@@ -738,56 +739,26 @@ export function IntegratedStemTracks({
               <div className="p-2">
                 <StemTrackSkeleton count={stems.length} isMobile={isMobile} />
               </div>
-            ) : isMobile ? (
-              // Mobile: Card-style stacked layout
-              <div className="p-2 space-y-2">
-                {stems.map((stem, index) => (
-                  <motion.div
-                    key={stem.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                  >
-                    <StemTrackRowMobile
-                      stem={stem}
-                      state={stemStates[stem.id] || { muted: false, solo: false, volume: 0.85 }}
-                      transcription={transcriptionsByStem?.[stem.id]}
-                      isPlaying={isPlaying}
-                      currentTime={currentTime}
-                      duration={duration}
-                      onToggle={(type) => onStemToggle(stem.id, type)}
-                      onVolumeChange={(vol) => onStemVolumeChange(stem.id, vol)}
-                      onSeek={onSeek}
-                      onAction={(action) => onStemAction(stem, action)}
-                    />
-                  </motion.div>
-                ))}
-              </div>
             ) : (
-              // Desktop: Compact DAW-style rows
-              <div className="bg-card/20">
-                {stems.map((stem, index) => (
-                  <motion.div
-                    key={stem.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: index * 0.03 }}
-                  >
-                    <StemTrackRowDesktop
-                      stem={stem}
-                      state={stemStates[stem.id] || { muted: false, solo: false, volume: 0.85 }}
-                      transcription={transcriptionsByStem?.[stem.id]}
-                      isPlaying={isPlaying}
-                      currentTime={currentTime}
-                      duration={duration}
-                      onToggle={(type) => onStemToggle(stem.id, type)}
-                      onVolumeChange={(vol) => onStemVolumeChange(stem.id, vol)}
-                      onSeek={onSeek}
-                      onAction={(action) => onStemAction(stem, action)}
-                    />
-                  </motion.div>
-                ))}
-              </div>
+              <VirtualizedStemList
+                stems={stems}
+                stemStates={stemStates}
+                transcriptionsByStem={transcriptionsByStem}
+                isPlaying={isPlaying}
+                currentTime={currentTime}
+                duration={duration}
+                isMobile={isMobile}
+                onStemToggle={onStemToggle}
+                onStemVolumeChange={onStemVolumeChange}
+                onSeek={onSeek}
+                onStemAction={onStemAction}
+                renderMobileRow={(props) => (
+                  <StemTrackRowMobile {...props} />
+                )}
+                renderDesktopRow={(props) => (
+                  <StemTrackRowDesktop {...props} />
+                )}
+              />
             )}
           </motion.div>
         )}
