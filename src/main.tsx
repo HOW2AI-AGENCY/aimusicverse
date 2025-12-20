@@ -92,6 +92,20 @@ window.addEventListener('orientationchange', () => {
 
 bootLog('Event listeners registered');
 
+// Register Audio Service Worker for offline caching
+if ('serviceWorker' in navigator) {
+  // Register after initial render to not block app startup
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/audio-sw.js', { scope: '/' })
+      .then((registration) => {
+        bootLog(`Audio SW registered: ${registration.scope}`);
+      })
+      .catch((error) => {
+        bootLog(`Audio SW registration failed: ${error}`);
+      });
+  });
+}
+
 // App entry point
 try {
   bootLog('Creating React root...');
