@@ -13,14 +13,11 @@ import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
-  ArrowLeft, 
   Bell, 
   User, 
   Shield, 
-  Smartphone,
   Moon,
   Sun,
-  Globe,
   Clock,
   Music,
   Loader2,
@@ -28,7 +25,8 @@ import {
   Send,
   UserX,
   Lightbulb,
-  Palette
+  Palette,
+  Settings as SettingsIcon
 } from "lucide-react";
 import { toast } from "sonner";
 import { TelegramBotSetup } from "@/components/TelegramBotSetup";
@@ -39,6 +37,8 @@ import { PrivacySettings } from "@/components/settings/PrivacySettings";
 import { HintsSettings } from "@/components/settings/HintsSettings";
 import { ThemeSettings } from "@/components/settings/ThemeSettings";
 import { motion } from '@/lib/motion';
+import { AppHeader } from "@/components/layout/AppHeader";
+import { NotificationBadge } from "@/components/NotificationBadge";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -113,21 +113,14 @@ export default function Settings() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
-      <div className="container max-w-2xl mx-auto px-4 py-6">
-        {/* Header */}
-        <motion.div 
-          className="flex items-center gap-3 mb-6"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
-          <div>
-            <h1 className="text-2xl font-bold">Настройки</h1>
-            <p className="text-sm text-muted-foreground">Управление аккаунтом и уведомлениями</p>
-          </div>
-        </motion.div>
+      <div className="container max-w-2xl mx-auto px-4">
+        {/* Unified Header with centered logo */}
+        <AppHeader
+          title="Настройки"
+          subtitle="Управление аккаунтом"
+          icon={<SettingsIcon className="w-3.5 h-3.5 text-primary" />}
+          rightAction={<NotificationBadge />}
+        />
 
         <Tabs defaultValue="profile" className="w-full">
           <TabsList className="grid w-full mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(70px, 1fr))' }}>
@@ -474,7 +467,7 @@ export default function Settings() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Smartphone className="w-5 h-5" />
+                    <Send className="w-5 h-5" />
                     Быстрый доступ
                   </CardTitle>
                   <CardDescription>

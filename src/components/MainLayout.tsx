@@ -4,7 +4,6 @@ import { BottomNavigation } from './BottomNavigation';
 import { Sidebar } from './Sidebar';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { ResizablePlayer } from './ResizablePlayer';
-// EnhancedGenerationIndicator removed - using skeleton in library instead
 import { OnboardingOverlay } from './onboarding/OnboardingOverlay';
 import { OnboardingTrigger } from './onboarding/OnboardingTrigger';
 import { usePlaybackTracking } from '@/hooks/usePlaybackTracking';
@@ -15,10 +14,6 @@ import { cn } from '@/lib/utils';
 import { SubscriptionRequiredDialog } from './dialogs/SubscriptionRequiredDialog';
 import { GamificationOnboarding } from './gamification/GamificationOnboarding';
 import { setSubscriptionDialogCallback } from '@/hooks/useTrackActions';
-import { UnifiedAnnouncement } from './layout/UnifiedAnnouncement';
-import { ContextualHint } from './hints/ContextualHint';
-import { useContextualHints } from '@/hooks/useContextualHints';
-import { LikeEncouragementProvider } from './engagement/LikeEncouragementToast';
 import { useTelegramSettingsButton } from '@/hooks/telegram';
 
 export const MainLayout = () => {
@@ -31,9 +26,8 @@ export const MainLayout = () => {
   // Track play counts when tracks are played
   usePlaybackTracking();
   
-  // Contextual hints system - memoize pathname to prevent unnecessary re-renders
+  // Memoize pathname to prevent unnecessary re-renders
   const pathname = useMemo(() => location.pathname, [location.pathname]);
-  const { currentHint, dismissHint } = useContextualHints(pathname);
   
   // Show Telegram Settings Button on all pages except /settings
   const showSettingsButton = pathname !== '/settings';
@@ -65,71 +59,55 @@ export const MainLayout = () => {
   };
 
   return (
-    <LikeEncouragementProvider>
-      <div className="flex h-screen bg-background">
-        {/* Skip to content for keyboard navigation */}
-        <SkipToContent />
-        
-        {/* Guest mode banner - subtle and compact */}
-        {isGuestMode && <GuestModeBanner />}
-        
-        {/* Onboarding system */}
-        <OnboardingTrigger />
-        <OnboardingOverlay />
-        
-        {/* Generation indicator removed - using only skeleton in library */}
-        
-        {/* Subscription Required Dialog */}
-        <SubscriptionRequiredDialog 
-          open={subscriptionDialogOpen} 
-          onOpenChange={setSubscriptionDialogOpen} 
-        />
-        
-        {/* Gamification Onboarding */}
-        <GamificationOnboarding
-          open={gamificationOnboardingOpen}
-          onComplete={handleGamificationOnboardingComplete}
-        />
-        
-        {/* Contextual Hints */}
-        {currentHint && (
-          <ContextualHint
-            hint={currentHint}
-            onDismiss={dismissHint}
-            position="bottom"
-          />
+    <div className="flex h-screen bg-background">
+      {/* Skip to content for keyboard navigation */}
+      <SkipToContent />
+      
+      {/* Guest mode banner - subtle and compact */}
+      {isGuestMode && <GuestModeBanner />}
+      
+      {/* Onboarding system */}
+      <OnboardingTrigger />
+      <OnboardingOverlay />
+      
+      {/* Subscription Required Dialog */}
+      <SubscriptionRequiredDialog 
+        open={subscriptionDialogOpen} 
+        onOpenChange={setSubscriptionDialogOpen} 
+      />
+      
+      {/* Gamification Onboarding */}
+      <GamificationOnboarding
+        open={gamificationOnboardingOpen}
+        onComplete={handleGamificationOnboardingComplete}
+      />
+      
+      {isDesktop && (
+        <div className="w-64 fixed inset-y-0 z-50">
+          <Sidebar />
+        </div>
+      )}
+      <main
+        id="main-content"
+        className={cn(
+          'flex-1 flex flex-col overflow-y-auto relative',
+          isDesktop ? 'ml-64' : 'pb-[calc(4rem+env(safe-area-inset-bottom,0px))]',
+          isGuestMode && 'pt-9',
+          // Add top padding for Telegram native buttons in fullscreen mode (mobile only)
+          !isDesktop && 'pt-[var(--tg-content-safe-area-inset-top,0px)]'
         )}
-        
-        {isDesktop && (
-          <div className="w-64 fixed inset-y-0 z-50">
-            <Sidebar />
-          </div>
-        )}
-        <main
-          id="main-content"
-          className={cn(
-            'flex-1 flex flex-col overflow-y-auto relative',
-            isDesktop ? 'ml-64' : 'pb-[calc(4rem+env(safe-area-inset-bottom,0px))]',
-            isGuestMode && 'pt-9',
-            // Add top padding for Telegram native buttons in fullscreen mode (mobile only)
-            !isDesktop && 'pt-[var(--tg-content-safe-area-inset-top,0px)]'
-          )}
-        >
-          {/* Unified Announcements - z-100, sticky top, accounts for safe area */}
-          <UnifiedAnnouncement />
-          
-          <div className={cn(
-            'flex-1',
-            isDesktop 
-              ? 'p-6' 
-              : 'px-4 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))]'
-          )}>
-            <Outlet />
-          </div>
-          <ResizablePlayer />
-        </main>
-        {!isDesktop && <BottomNavigation />}
-      </div>
-    </LikeEncouragementProvider>
+      >
+        <div className={cn(
+          'flex-1',
+          isDesktop 
+            ? 'p-6' 
+            : 'px-4 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))]'
+        )}>
+          <Outlet />
+        </div>
+        <ResizablePlayer />
+      </main>
+      {!isDesktop && <BottomNavigation />}
+    </div>
   );
 };

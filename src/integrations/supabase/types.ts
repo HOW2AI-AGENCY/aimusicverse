@@ -3611,6 +3611,7 @@ export type Database = {
           current_step: number
           id: string
           skipped: boolean
+          telegram_id: number | null
           updated_at: string
           user_id: string
         }
@@ -3621,6 +3622,7 @@ export type Database = {
           current_step?: number
           id?: string
           skipped?: boolean
+          telegram_id?: number | null
           updated_at?: string
           user_id: string
         }
@@ -3631,6 +3633,7 @@ export type Database = {
           current_step?: number
           id?: string
           skipped?: boolean
+          telegram_id?: number | null
           updated_at?: string
           user_id?: string
         }
