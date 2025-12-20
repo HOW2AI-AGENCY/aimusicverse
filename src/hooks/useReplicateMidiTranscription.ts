@@ -96,6 +96,10 @@ export function useReplicateMidiTranscription(): UseKlangioTranscriptionReturn {
       
       const files: TranscriptionFiles = data.files || {};
       
+      // Check if we got at least some usable output
+      const hasAnyFile = Object.keys(files).length > 0;
+      const hasMidi = !!files.midi;
+      
       const transcriptionResult: TranscriptionResult = {
         midiUrl: files.midi || data.midi_url || '',
         files,
@@ -110,12 +114,23 @@ export function useReplicateMidiTranscription(): UseKlangioTranscriptionReturn {
       log.info('Klangio transcription completed', { 
         midiUrl: transcriptionResult.midiUrl,
         filesCount: Object.keys(files).length,
-        notesCount: transcriptionResult.notes.length 
+        notesCount: transcriptionResult.notes.length,
+        hasMidi,
       });
       
-      toast.success('Транскрипция завершена', {
-        description: `Создано ${Object.keys(files).length} файлов`
-      });
+      if (hasAnyFile) {
+        if (hasMidi) {
+          toast.success('Транскрипция завершена', {
+            description: `Создано ${Object.keys(files).length} файлов`
+          });
+        } else {
+          toast.warning('Частичная транскрипция', {
+            description: 'MIDI не сгенерирован, но доступны ноты в PDF'
+          });
+        }
+      } else {
+        toast.error('Не удалось создать файлы транскрипции');
+      }
 
       return transcriptionResult;
     } catch (err) {
