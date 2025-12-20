@@ -18,6 +18,34 @@ interface KlangioRequest {
   stem_type?: string; // Used for intelligent output selection
 }
 
+// Intelligent model selection based on stem type
+function getSmartModel(stemType: string | undefined, requestedModel: string | undefined): string {
+  // If model explicitly provided, use it
+  if (requestedModel && requestedModel !== 'universal') {
+    return requestedModel;
+  }
+  
+  const type = (stemType || '').toLowerCase();
+  
+  if (type.includes('guitar')) return 'guitar';
+  if (type.includes('bass')) return 'bass';
+  if (type.includes('drum')) return 'drums';
+  if (type.includes('piano') || type.includes('keys')) return 'piano';
+  if (type.includes('vocal')) return 'vocal';
+  if (type.includes('lead')) return 'lead';
+  if (type.includes('string')) return 'string';
+  if (type.includes('wind')) return 'wind';
+  
+  // For unknown/other/instrumental - use 'piano' model which has better MIDI support
+  // 'universal' model often doesn't generate MIDI for complex polyphonic content
+  if (type.includes('instrumental') || type.includes('other') || !type) {
+    console.log(`[klangio] stem_type="${stemType}" - using 'piano' model for better MIDI support`);
+    return 'piano';
+  }
+  
+  return requestedModel || 'piano';
+}
+
 // Intelligent output selection based on stem type
 function getSmartOutputs(stemType: string | undefined, requestedOutputs: string[] | undefined): string[] {
   // If outputs explicitly provided, use them
@@ -51,6 +79,117 @@ function getSmartOutputs(stemType: string | undefined, requestedOutputs: string[
   return ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
 }
 
+// Generate MIDI file from notes array (fallback when API doesn't return MIDI)
+function generateMidiFromNotes(notes: any[], bpm: number = 120): Uint8Array {
+  // Standard MIDI File format (SMF Type 0)
+  const ticksPerBeat = 480;
+  const tempo = Math.round(60000000 / bpm); // microseconds per beat
+  
+  // Sort notes by start time
+  const sortedNotes = [...notes].sort((a, b) => a.startTime - b.startTime);
+  
+  // Convert time in seconds to ticks
+  const secondsToTicks = (seconds: number) => Math.round(seconds * ticksPerBeat * (bpm / 60));
+  
+  // Build track data
+  const trackEvents: Array<{delta: number, data: number[]}> = [];
+  
+  // Tempo event (FF 51 03 + 3-byte tempo)
+  trackEvents.push({
+    delta: 0,
+    data: [0xFF, 0x51, 0x03, (tempo >> 16) & 0xFF, (tempo >> 8) & 0xFF, tempo & 0xFF]
+  });
+  
+  // Convert notes to MIDI events (note on/off pairs)
+  interface MidiEvent {
+    tick: number;
+    type: 'on' | 'off';
+    pitch: number;
+    velocity: number;
+  }
+  
+  const midiEvents: MidiEvent[] = [];
+  
+  for (const note of sortedNotes) {
+    const startTick = secondsToTicks(note.startTime);
+    const endTick = secondsToTicks(note.endTime);
+    const pitch = Math.min(127, Math.max(0, note.pitch));
+    const velocity = Math.min(127, Math.max(1, note.velocity || 80));
+    
+    midiEvents.push({ tick: startTick, type: 'on', pitch, velocity });
+    midiEvents.push({ tick: endTick, type: 'off', pitch, velocity: 0 });
+  }
+  
+  // Sort by tick time
+  midiEvents.sort((a, b) => {
+    if (a.tick !== b.tick) return a.tick - b.tick;
+    // Note offs before note ons at same tick
+    return a.type === 'off' ? -1 : 1;
+  });
+  
+  // Convert to track events with delta times
+  let lastTick = 0;
+  for (const event of midiEvents) {
+    const delta = event.tick - lastTick;
+    lastTick = event.tick;
+    
+    const status = event.type === 'on' ? 0x90 : 0x80; // Channel 0
+    trackEvents.push({
+      delta,
+      data: [status, event.pitch, event.velocity]
+    });
+  }
+  
+  // End of track event
+  trackEvents.push({
+    delta: 0,
+    data: [0xFF, 0x2F, 0x00]
+  });
+  
+  // Encode variable-length quantity
+  function encodeVLQ(value: number): number[] {
+    if (value === 0) return [0];
+    const bytes: number[] = [];
+    let v = value;
+    bytes.unshift(v & 0x7F);
+    v >>= 7;
+    while (v > 0) {
+      bytes.unshift((v & 0x7F) | 0x80);
+      v >>= 7;
+    }
+    return bytes;
+  }
+  
+  // Build track chunk
+  const trackData: number[] = [];
+  for (const event of trackEvents) {
+    trackData.push(...encodeVLQ(event.delta));
+    trackData.push(...event.data);
+  }
+  
+  // Header chunk: MThd
+  const header = [
+    0x4D, 0x54, 0x68, 0x64, // "MThd"
+    0x00, 0x00, 0x00, 0x06, // chunk length (6)
+    0x00, 0x00,             // format type 0
+    0x00, 0x01,             // 1 track
+    (ticksPerBeat >> 8) & 0xFF, ticksPerBeat & 0xFF // ticks per beat
+  ];
+  
+  // Track chunk: MTrk
+  const trackLength = trackData.length;
+  const track = [
+    0x4D, 0x54, 0x72, 0x6B, // "MTrk"
+    (trackLength >> 24) & 0xFF,
+    (trackLength >> 16) & 0xFF,
+    (trackLength >> 8) & 0xFF,
+    trackLength & 0xFF,
+    ...trackData
+  ];
+  
+  return new Uint8Array([...header, ...track]);
+}
+
 const API_BASE = "https://api.klang.io";
 
 serve(async (req) => {
@@ -74,15 +213,16 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-  const { audio_url, mode, model, outputs, vocabulary, user_id, title, stem_type } = await req.json() as KlangioRequest;
+    const { audio_url, mode, model, outputs, vocabulary, user_id, title, stem_type } = await req.json() as KlangioRequest;
 
     if (!audio_url || !mode) {
       throw new Error("audio_url and mode are required");
     }
 
-    console.log(`[klangio] Starting ${mode} analysis for: ${audio_url}, stem_type: ${stem_type || 'not specified'}`);
-
+    // Use intelligent model selection
+    const smartModel = getSmartModel(stem_type, model);
     console.log(`[klangio] Starting ${mode} analysis for: ${audio_url}`);
+    console.log(`[klangio] stem_type: ${stem_type || 'not specified'}, requested model: ${model || 'none'}, using model: ${smartModel}`);
 
     // Create initial log entry
     // Use intelligent output selection based on stem_type
@@ -95,12 +235,12 @@ serve(async (req) => {
       .insert({
         user_id: user_id || '00000000-0000-0000-0000-000000000000',
         mode,
-        model: model || null,
+        model: smartModel,
         status: 'pending',
         audio_url,
         requested_outputs: requestedOutputs,
         vocabulary: vocabulary || null,
-        raw_request: { mode, model, outputs, vocabulary, title, audio_url },
+        raw_request: { mode, model: smartModel, outputs, vocabulary, title, audio_url, stem_type },
       })
       .select('id')
       .single();
@@ -135,14 +275,14 @@ serve(async (req) => {
     switch (mode) {
       case 'transcription':
         baseEndpoint = `${API_BASE}/transcription`;
-        queryParams.set('model', model || 'guitar');
+        queryParams.set('model', smartModel);
         if (title) queryParams.set('title', title);
         // Add outputs - valid formats: midi, midi_quant, mxml, gp5, pdf
         const transcriptionValidFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
-        const requestedOutputs = outputs || ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
-        const validOutputs = requestedOutputs.filter((o: string) => transcriptionValidFormats.includes(o));
+        const reqOutputs = outputs || smartOutputs;
+        const validOutputs = reqOutputs.filter((o: string) => transcriptionValidFormats.includes(o));
         if (validOutputs.length === 0) validOutputs.push('midi');
-        console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(requestedOutputs)}, valid=${JSON.stringify(validOutputs)}`);
+        console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(reqOutputs)}, valid=${JSON.stringify(validOutputs)}`);
         // Klangio expects 'outputs' in both query params AND form data for proper processing
         validOutputs.forEach((output: string) => {
           queryParams.append('outputs', output);
@@ -319,6 +459,7 @@ serve(async (req) => {
       success: true,
       job_id: jobId,
       mode,
+      model: smartModel,
       status: "completed",
       available_formats: [] as string[], // Will be populated with formats that were actually fetched
     };
@@ -331,21 +472,21 @@ serve(async (req) => {
       const filesToFetch = generatedFormats.length > 0 ? generatedFormats : ['midi'];
       const files: Record<string, string> = {};
       let notes: any[] = [];
+      let detectedBpm = 120; // default
 
       console.log(`[klangio] Fetching files for formats:`, filesToFetch, '(API confirmed generation)');
 
-      // Map format to API endpoints
-      // Note: docs say /midi_unq for quantized MIDI, request uses midi_quant
+      // Map format to API endpoints - try multiple endpoints for each format
       const formatToEndpoints: Record<string, string[]> = {
-        'midi': ['midi'],           // Un-quantized MIDI -> /midi endpoint
-        'midi_quant': ['midi_unq', 'midi_quant'], // Quantized MIDI -> /midi_unq endpoint (confusing naming!)
-        'mxml': ['xml'],
-        'gp5': ['gp5'],
-        'pdf': ['pdf'],
+        'midi': ['midi', 'download/midi', 'result/midi'],
+        'midi_quant': ['midi_unq', 'midi_quant', 'download/midi_unq'],
+        'mxml': ['xml', 'download/xml'],
+        'gp5': ['gp5', 'download/gp5'],
+        'pdf': ['pdf', 'download/pdf'],
         'json': ['json'],
       };
 
-      // Always fetch JSON for notes data
+      // Always fetch JSON for notes data first
       try {
         console.log("[klangio] Fetching notes JSON...");
         const jsonResponse = await fetch(`${API_BASE}/job/${jobId}/json`, {
@@ -382,9 +523,9 @@ serve(async (req) => {
             // Klang.io V3 format: Parts[].Measures[].Voices[].Notes[]
             console.log("[klangio] Detected V3 format with Parts structure");
             const musicInfo = transcriptionData.MusicInfo || {};
-            const bpm = musicInfo.Tempo || 120;
+            detectedBpm = musicInfo.Tempo || 120;
             const measureDuration = musicInfo.MeasureDuration || 1; // in beats
-            const secondsPerBeat = 60 / bpm;
+            const secondsPerBeat = 60 / detectedBpm;
             
             let currentMeasureIndex = 0;
             for (const part of transcriptionData.Parts) {
@@ -455,9 +596,9 @@ serve(async (req) => {
         console.error("[klangio] Error fetching JSON:", e);
       }
 
-      // Wait a bit for files to be ready after job completion
-      console.log('[klangio] Waiting 3s for files to be ready after job completion...');
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      // INCREASED wait time for files to be ready after job completion (from 3s to 8s)
+      console.log('[klangio] Waiting 8s for files to be ready after job completion...');
+      await new Promise(resolve => setTimeout(resolve, 8000));
 
       // Fetch and upload each file format that API confirmed it generated
       for (const format of filesToFetch) {
@@ -471,9 +612,9 @@ serve(async (req) => {
 
           // Try each possible endpoint
           for (const apiEndpoint of apiEndpoints) {
-            // Enhanced retry logic with exponential backoff
-            const maxRetries = 5;
-            const baseRetryDelay = 2000;
+            // Enhanced retry logic with exponential backoff - INCREASED retries from 5 to 8
+            const maxRetries = 8;
+            const baseRetryDelay = 2500; // Increased from 2000
 
             for (let retry = 0; retry < maxRetries; retry++) {
               if (retry > 0) {
@@ -552,11 +693,42 @@ serve(async (req) => {
         }
       }
 
+      // FALLBACK: Generate MIDI locally from notes if API didn't return MIDI but we have notes
+      if (!files['midi'] && notes.length > 0) {
+        console.log(`[klangio] ⚠️ API didn't return MIDI, but we have ${notes.length} notes. Generating MIDI locally...`);
+        try {
+          const midiData = generateMidiFromNotes(notes, detectedBpm);
+          const midiBlob = new Blob([new Uint8Array(midiData)], { type: 'audio/midi' });
+          
+          const fileName = `${user_id || 'anonymous'}/klangio/${jobId}_midi_generated.mid`;
+          
+          const { error: uploadError } = await supabase.storage
+            .from("project-assets")
+            .upload(fileName, midiBlob, {
+              contentType: 'audio/midi',
+              upsert: true,
+            });
+          
+          if (!uploadError) {
+            const { data: { publicUrl } } = supabase.storage
+              .from("project-assets")
+              .getPublicUrl(fileName);
+            files['midi'] = publicUrl;
+            console.log(`[klangio] ✅ Generated MIDI uploaded: ${publicUrl}`);
+          } else {
+            console.error(`[klangio] ❌ Failed to upload generated MIDI:`, uploadError);
+          }
+        } catch (e) {
+          console.error(`[klangio] ❌ Failed to generate MIDI from notes:`, e);
+        }
+      }
+
       finalResult.files = files;
       finalResult.notes = notes;
       finalResult.available_formats = Object.keys(files);
 
       console.log(`[klangio] ===== TRANSCRIPTION SUMMARY =====`);
+      console.log(`[klangio] Model used: ${smartModel}`);
       console.log(`[klangio] Files generated: ${Object.keys(files).length}`);
       console.log(`[klangio] Available formats: ${finalResult.available_formats.join(', ')}`);
       console.log(`[klangio] File URLs:`, files);
