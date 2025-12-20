@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useRef } from 'react';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
 

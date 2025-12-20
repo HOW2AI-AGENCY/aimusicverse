@@ -9,7 +9,7 @@ import { useTracks, type Track } from "@/hooks/useTracks";
 import { Button } from "@/components/ui/button";
 import { useGenerationRealtime } from "@/hooks/useGenerationRealtime";
 import { useTrackVersions } from "@/hooks/useTrackVersions";
-import { usePlayerStore } from "@/hooks/audio";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useDebounce } from "use-debounce";

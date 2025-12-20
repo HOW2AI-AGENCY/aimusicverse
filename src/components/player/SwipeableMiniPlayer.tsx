@@ -13,8 +13,8 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { Play, Pause, SkipBack, SkipForward, X, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { usePlayerStore } from '@/hooks/audio';
-import { useAudioTime } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { useAudioTime } from '@/hooks/audio/useAudioTime';
 import { useDrag } from '@use-gesture/react';
 import { useSpring, animated, config } from '@react-spring/web';
 import { hapticImpact } from '@/lib/haptic';

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ChevronDown, Maximize2, ListMusic, Heart, Sparkles, Music2 } from 'lucide-react';
-import { useAudioTime } from '@/hooks/audio';
+import { useAudioTime } from '@/hooks/audio/useAudioTime';
 import { PlaybackControls } from './PlaybackControls';
 import { ProgressBar } from './ProgressBar';
 import { QueueSheet } from './QueueSheet';
@@ -15,7 +15,7 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import type { PanInfo } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
 import { GlassCard } from '@/components/ui/glass-card';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 
 interface ExpandedPlayerProps {
   track: Track;

@@ -20,7 +20,7 @@ import { useTouchEvents, triggerHapticFeedback } from '@/lib/mobile-utils';
 import { toast } from 'sonner';
 import { motion, PanInfo } from '@/lib/motion';
 import { hapticImpact, hapticNotification } from '@/lib/haptic';
-import { usePlayerStore } from '@/hooks/audio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import {
   AlertDialog,
   AlertDialogAction,
