@@ -563,8 +563,8 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         highlightedSection={customRange}
       />
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      {/* Main Content Area - scrollable on mobile */}
+      <div className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden">
         {/* Waveform Timeline with Sections */}
         <div className={cn(
           "border-b border-border/30 bg-card/30",
