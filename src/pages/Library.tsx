@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate } from "react-router-dom";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle, Library as LibraryIcon } from "lucide-react";
 import { motion } from "@/lib/motion";
@@ -25,8 +24,9 @@ import { VirtualizedTrackList } from "@/components/library/VirtualizedTrackList"
 import { EmptyLibraryState } from "@/components/library/EmptyLibraryState";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
-import { EarlyListeningAnnouncement } from "@/components/library/EarlyListeningAnnouncement";
 import { useTracksMidiStatus } from "@/hooks/useTrackMidiStatus";
+import { AppHeader } from "@/components/layout/AppHeader";
+import { NotificationBadge } from "@/components/NotificationBadge";
 
 const log = logger.child({ module: 'Library' });
 
@@ -258,125 +258,93 @@ export default function Library() {
   return (
     <ErrorBoundaryWrapper>
       <div className="min-h-screen pb-20">
-        {/* Page Header - Premium gradient design */}
-        <header className="sticky top-0 z-30 bg-gradient-to-b from-background via-background/98 to-background/90 backdrop-blur-xl border-b border-border/30">
-          <div className="container mx-auto px-3 sm:px-4 py-2">
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1.5">
-                  <motion.div 
-                    className="p-1.5 rounded-md bg-gradient-to-br from-library/20 to-library/5 border border-library/30"
-                    initial={{ scale: 0, rotate: -90 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ type: 'spring', stiffness: 200 }}
+        {/* Unified Header with centered logo */}
+        <AppHeader
+          title="Библиотека"
+          subtitle={hasActiveGenerations 
+            ? `${activeGenerations.length} в работе • ${tracks?.length || 0}/${totalCount}` 
+            : `${tracks?.length || 0}/${totalCount} треков`
+          }
+          icon={<LibraryIcon className="w-3.5 h-3.5 text-library" />}
+          rightAction={
+            <div className="flex items-center gap-1">
+              <NotificationBadge />
+              {tracksToDisplay.length > 0 && (
+                <Button
+                  variant="default"
+                  size="icon"
+                  onClick={handlePlayAll}
+                  className="h-8 w-8 rounded-md bg-gradient-to-br from-primary to-primary/80 shadow-sm"
+                  aria-label="Воспроизвести все"
+                >
+                  <Play className="w-3.5 h-3.5" />
+                </Button>
+              )}
+              {!isMobile && tracksToDisplay.length > 0 && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleShuffleAll}
+                  className="h-8 w-8 rounded-md"
+                  aria-label="Перемешать"
+                >
+                  <Shuffle className="w-3.5 h-3.5" />
+                </Button>
+              )}
+              {!isMobile && (
+                <div className="flex items-center bg-muted/50 rounded-md p-0.5 border border-border/30">
+                  <Button
+                    variant={viewMode === "grid" ? "default" : "ghost"}
+                    size="icon"
+                    onClick={() => setViewMode("grid")}
+                    className={cn("h-6 w-6 rounded", viewMode === "grid" && "shadow-sm")}
+                    aria-label="Сетка"
                   >
-                    <LibraryIcon className="w-3.5 h-3.5 text-library" />
-                  </motion.div>
-                  <div>
-                    <h1 className="text-base sm:text-lg font-bold">Библиотека</h1>
-                    <div className="flex items-center gap-2">
-                      {hasActiveGenerations && (
-                        <motion.span 
-                          className="inline-flex items-center gap-1 text-generate text-[9px] font-medium"
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                        >
-                          <span className="relative flex h-1.5 w-1.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-generate opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-generate"></span>
-                          </span>
-                          {activeGenerations.length} в работе
-                        </motion.span>
-                      )}
-                      <span className="text-[9px] text-muted-foreground">
-                        <span className="tabular-nums font-semibold text-foreground">{tracks?.length || 0}</span>/{totalCount}
-                      </span>
-                    </div>
-                  </div>
+                    <Grid3x3 className="w-3 h-3" />
+                  </Button>
+                  <Button
+                    variant={viewMode === "list" ? "default" : "ghost"}
+                    size="icon"
+                    onClick={() => setViewMode("list")}
+                    className={cn("h-6 w-6 rounded", viewMode === "list" && "shadow-sm")}
+                    aria-label="Список"
+                  >
+                    <List className="w-3 h-3" />
+                  </Button>
                 </div>
-              </div>
-
-              <div className="flex items-center gap-1 shrink-0">
-                {tracksToDisplay.length > 0 && (
-                  <>
-                    <Button
-                      variant="default"
-                      size="icon"
-                      onClick={handlePlayAll}
-                      className="h-8 w-8 rounded-md bg-gradient-to-br from-primary to-primary/80 shadow-sm"
-                      aria-label="Воспроизвести все"
-                    >
-                      <Play className="w-3.5 h-3.5" />
-                    </Button>
-                    {!isMobile && (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={handleShuffleAll}
-                        className="h-8 w-8 rounded-md"
-                        aria-label="Перемешать"
-                      >
-                        <Shuffle className="w-3.5 h-3.5" />
-                      </Button>
-                    )}
-                  </>
-                )}
-                {!isMobile && (
-                  <div className="flex items-center bg-muted/50 rounded-md p-0.5 border border-border/30">
-                    <Button
-                      variant={viewMode === "grid" ? "default" : "ghost"}
-                      size="icon"
-                      onClick={() => setViewMode("grid")}
-                      className={cn("h-6 w-6 rounded", viewMode === "grid" && "shadow-sm")}
-                      aria-label="Сетка"
-                    >
-                      <Grid3x3 className="w-3 h-3" />
-                    </Button>
-                    <Button
-                      variant={viewMode === "list" ? "default" : "ghost"}
-                      size="icon"
-                      onClick={() => setViewMode("list")}
-                      className={cn("h-6 w-6 rounded", viewMode === "list" && "shadow-sm")}
-                      aria-label="Список"
-                    >
-                      <List className="w-3 h-3" />
-                    </Button>
-                  </div>
-                )}
-              </div>
+              )}
             </div>
+          }
+        />
 
-            {/* Search and Filters - Compact */}
-            <div className="mt-2 flex flex-col sm:flex-row gap-1.5">
-              <div className="relative flex-1 group">
-                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground w-3.5 h-3.5 group-focus-within:text-primary" />
-                <Input
-                  placeholder="Поиск..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-8 h-8 text-xs rounded-md border-border/50 bg-card/50 focus:bg-card"
-                />
-              </div>
-              <Select value={sortBy} onValueChange={(v: "recent" | "popular" | "liked") => setSortBy(v)}>
-                <SelectTrigger className="w-full sm:w-32 h-8 text-[11px] rounded-md border-border/50 bg-card/50">
-                  <SlidersHorizontal className="w-3 h-3 mr-1 text-muted-foreground" />
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="rounded-md">
-                  <SelectItem value="recent" className="text-xs">Недавние</SelectItem>
-                  <SelectItem value="popular" className="text-xs">Популярные</SelectItem>
-                  <SelectItem value="liked" className="text-xs">Любимые</SelectItem>
-                </SelectContent>
-              </Select>
+        {/* Search and Filters */}
+        <div className="sticky top-[calc(var(--tg-content-safe-area-inset-top,0px)+8rem)] z-20 bg-background/95 backdrop-blur-sm border-b border-border/30 -mx-4 px-4 py-2">
+          <div className="flex flex-col sm:flex-row gap-1.5">
+            <div className="relative flex-1 group">
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground w-3.5 h-3.5 group-focus-within:text-primary" />
+              <Input
+                placeholder="Поиск..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-8 h-8 text-xs rounded-md border-border/50 bg-card/50 focus:bg-card"
+              />
             </div>
+            <Select value={sortBy} onValueChange={(v: "recent" | "popular" | "liked") => setSortBy(v)}>
+              <SelectTrigger className="w-full sm:w-32 h-8 text-[11px] rounded-md border-border/50 bg-card/50">
+                <SlidersHorizontal className="w-3 h-3 mr-1 text-muted-foreground" />
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="rounded-md">
+                <SelectItem value="recent" className="text-xs">Недавние</SelectItem>
+                <SelectItem value="popular" className="text-xs">Популярные</SelectItem>
+                <SelectItem value="liked" className="text-xs">Любимые</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-        </header>
+        </div>
 
         {/* Content */}
-        <div className="container mx-auto px-3 sm:px-4 py-2 sm:py-3">
-          {/* Early Listening Announcement */}
-          <EarlyListeningAnnouncement />
-          
+        <div className="py-2 sm:py-3">
           {/* Filter Chips - Mobile optimized */}
           <div className="mb-2">
             <LibraryFilterChips 
