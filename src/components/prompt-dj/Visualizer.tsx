@@ -1,14 +1,15 @@
 /**
  * Visualizer - RAF-based audio visualizer with offscreen rendering
  * Uses requestAnimationFrame and canvas optimization for smooth 60fps
+ * NOTE: Uses generic analyzer type to avoid static Tone.js import
  */
 
 import { memo, useRef, useEffect, useCallback } from 'react';
-import * as Tone from 'tone';
 import { cn } from '@/lib/utils';
 
+// Use a generic type for the analyzer to avoid static Tone.js import
 interface VisualizerProps {
-  analyzerNode: Tone.Analyser | null;
+  analyzerNode: { getValue: () => Float32Array | Float32Array[] | number[] } | null;
   isActive: boolean;
   className?: string;
   variant?: 'bars' | 'wave' | 'circular';
@@ -132,7 +133,18 @@ export const Visualizer = memo(function Visualizer({
     }
 
     // Get frequency data
-    const rawData = analyzerNode.getValue() as Float32Array;
+    const rawDataResult = analyzerNode.getValue();
+    // Handle different return types from Tone.Analyser
+    let rawData: Float32Array;
+    if (rawDataResult instanceof Float32Array) {
+      rawData = rawDataResult;
+    } else if (Array.isArray(rawDataResult) && rawDataResult[0] instanceof Float32Array) {
+      rawData = rawDataResult[0];
+    } else if (Array.isArray(rawDataResult)) {
+      rawData = new Float32Array(rawDataResult as number[]);
+    } else {
+      rawData = new Float32Array(64);
+    }
 
     // Initialize or update smoothed data
     if (!smoothedDataRef.current || smoothedDataRef.current.length !== rawData.length) {

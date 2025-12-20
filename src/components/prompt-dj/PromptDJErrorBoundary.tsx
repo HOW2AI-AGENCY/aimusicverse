@@ -1,14 +1,17 @@
 /**
  * PromptDJErrorBoundary - Error boundary with recovery for PromptDJ
  * Handles audio context errors, network failures, and component crashes
+ * NOTE: Tone.js is loaded dynamically to prevent "Cannot access 'e' before initialization" error
  */
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, RefreshCw, Home, Volume2 } from 'lucide-react';
 import { toast } from 'sonner';
-import * as Tone from 'tone';
 import { logger } from '@/lib/logger';
+
+// Tone.js types - loaded dynamically
+type ToneType = typeof import('tone');
 
 const log = logger.child({ module: 'PromptDJErrorBoundary' });
 
@@ -27,6 +30,7 @@ interface State {
 export class PromptDJErrorBoundary extends Component<Props, State> {
   private maxRetries = 3;
   private audioCheckInterval: NodeJS.Timeout | null = null;
+  private ToneModule: ToneType | null = null;
 
   constructor(props: Props) {
     super(props);
@@ -73,7 +77,7 @@ export class PromptDJErrorBoundary extends Component<Props, State> {
   }
 
   componentDidMount() {
-    // Monitor audio context state
+    // Monitor audio context state (only start after Tone is loaded)
     this.startAudioMonitoring();
     
     // Handle global unhandled rejections related to audio
@@ -95,9 +99,22 @@ export class PromptDJErrorBoundary extends Component<Props, State> {
     }
   };
 
+  private async loadTone(): Promise<ToneType | null> {
+    if (this.ToneModule) return this.ToneModule;
+    try {
+      this.ToneModule = await import('tone');
+      return this.ToneModule;
+    } catch {
+      return null;
+    }
+  }
+
   private startAudioMonitoring = () => {
-    this.audioCheckInterval = setInterval(() => {
+    this.audioCheckInterval = setInterval(async () => {
       try {
+        const Tone = await this.loadTone();
+        if (!Tone) return;
+        
         const context = Tone.getContext();
         if (context.state === 'suspended' || context.state === 'closed') {
           log.warn('Audio context in bad state:', { state: context.state });
@@ -112,6 +129,12 @@ export class PromptDJErrorBoundary extends Component<Props, State> {
   private attemptAudioRecovery = async () => {
     try {
       log.info('Attempting audio recovery...');
+      
+      const Tone = await this.loadTone();
+      if (!Tone) {
+        log.error('Could not load Tone.js for recovery');
+        return;
+      }
       
       // Try to resume context
       await Tone.start();
