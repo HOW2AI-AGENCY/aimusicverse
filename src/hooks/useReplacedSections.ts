@@ -7,6 +7,7 @@ interface ReplacedSection {
   taskId: string;
   createdAt: string;
   audioUrl?: string;
+  audioUrlB?: string; // Second variant from Suno API
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
@@ -75,8 +76,9 @@ export function useReplacedSections(trackId: string) {
         } | null;
         
         if (startMetadata?.infillStartS !== undefined && startMetadata?.infillEndS !== undefined) {
-          // Get audio URL from completed log or clips
+          // Get audio URLs from completed log or clips
           let audioUrl: string | undefined;
+          let audioUrlB: string | undefined;
           
           // First try to get from completed log's version
           const matchingCompletedLog = completedLogs?.find((log) => {
@@ -86,13 +88,18 @@ export function useReplacedSections(trackId: string) {
           
           audioUrl = (matchingCompletedLog?.track_versions as { audio_url?: string } | null)?.audio_url;
           
-          // Fallback to audio_clips
-          if (!audioUrl && task.status === 'completed' && task.audio_clips) {
+          // Always check audio_clips for both variants (Suno returns 2 clips)
+          if (task.status === 'completed' && task.audio_clips) {
             try {
               const clips = typeof task.audio_clips === 'string' 
                 ? JSON.parse(task.audio_clips) 
                 : task.audio_clips;
-              audioUrl = clips?.[0]?.source_audio_url || clips?.[0]?.audio_url;
+              // First variant
+              if (!audioUrl) {
+                audioUrl = clips?.[0]?.source_audio_url || clips?.[0]?.audio_url;
+              }
+              // Second variant
+              audioUrlB = clips?.[1]?.source_audio_url || clips?.[1]?.audio_url;
             } catch {}
           }
 
@@ -102,6 +109,7 @@ export function useReplacedSections(trackId: string) {
             taskId: task.id,
             createdAt: task.created_at || '',
             audioUrl,
+            audioUrlB,
             status: task.status as ReplacedSection['status'],
           });
         }
