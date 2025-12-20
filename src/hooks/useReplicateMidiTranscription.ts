@@ -41,11 +41,12 @@ export function useReplicateMidiTranscription(): UseReplicateMidiTranscriptionRe
         setProgress(prev => Math.min(prev + 5, 85));
       }, 2000);
 
-      const { data, error: invokeError } = await supabase.functions.invoke('replicate-midi-transcription', {
+      // Use transcribe-midi function with basic-pitch model (more reliable)
+      const { data, error: invokeError } = await supabase.functions.invoke('transcribe-midi', {
         body: {
-          audioUrl,
-          trackId: options?.trackId,
-          recordingId: options?.recordingId,
+          audio_url: audioUrl,
+          model: 'basic-pitch',
+          track_id: options?.trackId,
         },
       });
 
@@ -55,14 +56,14 @@ export function useReplicateMidiTranscription(): UseReplicateMidiTranscriptionRe
         throw invokeError;
       }
 
-      if (!data?.success) {
+      if (!data?.success && !data?.midi_url) {
         throw new Error(data?.error || 'Transcription failed');
       }
 
       setProgress(100);
       const transcriptionResult: TranscriptionResult = {
-        midiUrl: data.midiUrl,
-        model: data.model,
+        midiUrl: data.midi_url || data.midiUrl,
+        model: data.model || 'basic-pitch',
       };
 
       setResult(transcriptionResult);
