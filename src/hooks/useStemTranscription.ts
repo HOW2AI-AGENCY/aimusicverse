@@ -84,9 +84,15 @@ export function useStemTranscription(stemId: string | undefined) {
     return transcriptions?.[0] || null;
   }, [transcriptions]);
 
-  // Has any transcription files
+  // Has any transcription files (MIDI, PDF, MusicXML, GP5)
   const hasTranscription = useMemo(() => {
-    return !!latestTranscription?.midi_url;
+    if (!latestTranscription) return false;
+    return !!(
+      latestTranscription.midi_url ||
+      latestTranscription.pdf_url ||
+      latestTranscription.mxml_url ||
+      latestTranscription.gp5_url
+    );
   }, [latestTranscription]);
 
   return {

@@ -251,8 +251,8 @@ const StemTrackRowMobile = memo(({
             <span className="text-xs font-mono font-semibold tracking-wider truncate">
               {config.shortLabel}
             </span>
-            {/* Transcription indicators */}
-            {transcription && (
+            {/* Transcription indicators - show if ANY transcription file exists */}
+            {transcription && (transcription.midi_url || transcription.pdf_url || transcription.gp5_url || transcription.mxml_url) && (
               <div className="flex items-center gap-0.5">
                 {transcription.midi_url && (
                   <Badge variant="outline" className="h-4 px-1 text-[8px] bg-primary/10 border-primary/30 text-primary">
@@ -266,9 +266,10 @@ const StemTrackRowMobile = memo(({
                     TAB
                   </Badge>
                 )}
-                {transcription.pdf_url && !transcription.gp5_url && (
+                {(transcription.pdf_url || transcription.mxml_url) && !transcription.gp5_url && !transcription.midi_url && (
                   <Badge variant="outline" className="h-4 px-1 text-[8px] bg-emerald-500/10 border-emerald-500/30 text-emerald-500">
-                    <FileMusic className="w-2.5 h-2.5" />
+                    <FileMusic className="w-2.5 h-2.5 mr-0.5" />
+                    NOTES
                   </Badge>
                 )}
               </div>
@@ -397,8 +398,8 @@ const StemTrackRowMobile = memo(({
           />
         </div>
 
-        {/* Notes Preview (if transcription exists) */}
-        {transcription && transcription.midi_url && (
+        {/* Notes Preview (if transcription exists with notes or PDF) */}
+        {transcription && (transcription.notes || transcription.pdf_url || transcription.midi_url) && (
           <div className="px-3 pb-2">
             <StemNotesPreview
               transcription={transcription}
@@ -466,8 +467,8 @@ const StemTrackRowDesktop = memo(({
         <span className="text-[11px] font-mono font-semibold tracking-wider">
           {config.shortLabel}
         </span>
-        {/* Transcription indicators */}
-        {transcription && (
+        {/* Transcription indicators - show if ANY file exists */}
+        {transcription && (transcription.midi_url || transcription.pdf_url || transcription.gp5_url || transcription.mxml_url) && (
           <div className="flex items-center gap-0.5">
             {transcription.midi_url && (
               <Badge 
@@ -488,11 +489,12 @@ const StemTrackRowDesktop = memo(({
                 <Guitar className="w-2.5 h-2.5" />
               </Badge>
             )}
-            {transcription.pdf_url && !transcription.gp5_url && (
+            {(transcription.pdf_url || transcription.mxml_url) && !transcription.gp5_url && !transcription.midi_url && (
               <Badge 
                 variant="outline" 
                 className="h-4 px-1 text-[8px] bg-emerald-500/10 border-emerald-500/30 text-emerald-500 cursor-pointer hover:bg-emerald-500/20"
                 onClick={() => onAction('view-notes')}
+                title="Ноты (PDF/MusicXML)"
               >
                 <FileMusic className="w-2.5 h-2.5" />
               </Badge>

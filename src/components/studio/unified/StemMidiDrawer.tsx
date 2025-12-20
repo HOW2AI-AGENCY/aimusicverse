@@ -154,33 +154,57 @@ export function StemMidiDrawer({
       });
       
       if (transcriptionResult) {
-        setTranscriptionFiles(transcriptionResult.files);
+        const files = transcriptionResult.files || {};
+        setTranscriptionFiles(files);
+        
         if (transcriptionResult.midiUrl) {
           setActiveMidiUrl(transcriptionResult.midiUrl);
           setActiveTab('player');
         }
         
-        // Save transcription to database for visualization
-        try {
-          await saveTranscription({
-            stemId: stem.id,
-            trackId,
-            midiUrl: transcriptionResult.files.midi || null,
-            midiQuantUrl: transcriptionResult.files.midi_quant || null,
-            mxmlUrl: transcriptionResult.files.mxml || null,
-            gp5Url: transcriptionResult.files.gp5 || null,
-            pdfUrl: transcriptionResult.files.pdf || null,
-            model: apiModel,
-            notes: transcriptionResult.notes,
-            notesCount: transcriptionResult.notes?.length || null,
-            bpm: transcriptionResult.bpm || null,
-            keyDetected: transcriptionResult.key || null,
-            timeSignature: transcriptionResult.timeSignature || null,
-            durationSeconds: null,
-          });
-        } catch (saveError) {
-          console.warn('Failed to save transcription to DB:', saveError);
-          // Don't block the flow - user still got the files
+        // Check if we have ANY files to save (not just MIDI)
+        const hasAnyFiles = !!(
+          files.midi || 
+          files.midi_quant || 
+          files.mxml || 
+          files.gp5 || 
+          files.pdf
+        );
+        
+        if (hasAnyFiles) {
+          // Save transcription to database for visualization
+          try {
+            console.log('[StemMidiDrawer] Saving transcription:', {
+              stemId: stem.id,
+              files: Object.keys(files),
+              notesCount: transcriptionResult.notes?.length || 0,
+            });
+            
+            await saveTranscription({
+              stemId: stem.id,
+              trackId,
+              midiUrl: files.midi || null,
+              midiQuantUrl: files.midi_quant || null,
+              mxmlUrl: files.mxml || null,
+              gp5Url: files.gp5 || null,
+              pdfUrl: files.pdf || null,
+              model: apiModel,
+              notes: transcriptionResult.notes,
+              notesCount: transcriptionResult.notes?.length || null,
+              bpm: transcriptionResult.bpm || null,
+              keyDetected: transcriptionResult.key || null,
+              timeSignature: transcriptionResult.timeSignature || null,
+              durationSeconds: null,
+            });
+            
+            console.log('[StemMidiDrawer] Transcription saved successfully');
+          } catch (saveError) {
+            console.error('[StemMidiDrawer] Failed to save transcription:', saveError);
+            toast.error('Не удалось сохранить транскрипцию');
+          }
+        } else {
+          console.warn('[StemMidiDrawer] No files to save from transcription result');
+          toast.info('Транскрипция не создала файлов');
         }
       }
     } catch (error) {

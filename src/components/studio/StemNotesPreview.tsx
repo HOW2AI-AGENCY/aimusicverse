@@ -120,7 +120,12 @@ export const StemNotesPreview = memo(function StemNotesPreview({
     );
   }
 
-  if (!transcription || !transcription.midi_url) {
+  // Show preview if we have MIDI, PDF, or notes
+  const hasMidi = !!transcription?.midi_url;
+  const hasPdf = !!transcription?.pdf_url;
+  const hasNotes = !!(transcription?.notes && (transcription.notes as any[]).length > 0);
+  
+  if (!transcription || (!hasMidi && !hasPdf && !hasNotes)) {
     return null;
   }
 
@@ -151,9 +156,15 @@ export const StemNotesPreview = memo(function StemNotesPreview({
         <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
           <Music2 className="w-3 h-3 text-primary shrink-0" />
           <span className="text-[10px] text-muted-foreground truncate">
-            {notesCount} {notesCount === 1 ? 'нота' : notesCount < 5 ? 'ноты' : 'нот'}
-            {bpm && ` • ${Math.round(bpm)} BPM`}
-            {keyDetected && ` • ${keyDetected}`}
+            {notesCount > 0 && (
+              <>
+                {notesCount} {notesCount === 1 ? 'нота' : notesCount < 5 ? 'ноты' : 'нот'}
+                {bpm && ` • ${Math.round(bpm)} BPM`}
+                {keyDetected && ` • ${keyDetected}`}
+              </>
+            )}
+            {notesCount === 0 && hasPdf && 'PDF ноты готовы'}
+            {notesCount === 0 && !hasPdf && hasMidi && 'MIDI готов'}
           </span>
         </div>
 
