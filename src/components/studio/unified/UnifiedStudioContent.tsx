@@ -186,17 +186,72 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
     }
   }, [stems]);
 
+  // Track audio loading state
+  const [stemsReady, setStemsReady] = useState(false);
+  const stemsLoadingCountRef = useRef(0);
+
   // Initialize and manage stem audio elements
   useEffect(() => {
-    if (!stems || stems.length === 0) return;
+    if (!stems || stems.length === 0) {
+      setStemsReady(false);
+      return;
+    }
+
+    let loadedCount = 0;
+    const totalStems = stems.length;
+    stemsLoadingCountRef.current = 0;
+    setStemsReady(false);
+
+    const checkAllLoaded = () => {
+      if (loadedCount >= totalStems) {
+        setStemsReady(true);
+        logger.info('All stems loaded and ready for playback', { count: totalStems });
+      }
+    };
 
     // Create audio elements for each stem
     stems.forEach(stem => {
       if (!stemAudioRefs.current[stem.id]) {
-        const audio = new Audio(stem.audio_url);
+        const audio = new Audio();
         audio.preload = 'auto';
         audio.volume = 0.85;
+        audio.crossOrigin = 'anonymous';
+        
+        // Add load event handlers
+        const handleCanPlayThrough = () => {
+          loadedCount++;
+          stemsLoadingCountRef.current = loadedCount;
+          logger.debug('Stem audio ready', { stemId: stem.id, stemType: stem.stem_type, loadedCount, totalStems });
+          checkAllLoaded();
+        };
+        
+        const handleError = (e: Event) => {
+          logger.error('Stem audio load error', { stemId: stem.id, error: e });
+          // Still count as "loaded" to not block other stems
+          loadedCount++;
+          checkAllLoaded();
+        };
+        
+        audio.addEventListener('canplaythrough', handleCanPlayThrough, { once: true });
+        audio.addEventListener('error', handleError, { once: true });
+        
+        // Start loading
+        audio.src = stem.audio_url;
+        audio.load();
+        
         stemAudioRefs.current[stem.id] = audio;
+      } else {
+        // Already exists, check if ready
+        const audio = stemAudioRefs.current[stem.id];
+        if (audio.readyState >= 4) {
+          loadedCount++;
+          checkAllLoaded();
+        } else {
+          audio.addEventListener('canplaythrough', () => {
+            loadedCount++;
+            checkAllLoaded();
+          }, { once: true });
+        }
       }
     });
 
@@ -217,6 +272,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         audio.src = '';
       });
       stemAudioRefs.current = {};
+      setStemsReady(false);
     };
   }, [stems]);
 
@@ -337,18 +393,54 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
     } else {
       try {
         if (hasPlayableStems) {
+          // Check if stems are ready
+          if (!stemsReady) {
+            toast.info('Загрузка аудио стемов...', { duration: 2000 });
+            
+            // Wait for stems to be ready (with timeout)
+            await new Promise<void>((resolve, reject) => {
+              const checkInterval = setInterval(() => {
+                // Check readyState of all stems
+                const allReady = Object.values(stemAudioRefs.current).every(
+                  audio => audio.readyState >= 3
+                );
+                if (allReady || stemsReady) {
+                  clearInterval(checkInterval);
+                  resolve();
+                }
+              }, 100);
+              
+              // Timeout after 10 seconds
+              setTimeout(() => {
+                clearInterval(checkInterval);
+                // Still try to play what we have
+                resolve();
+              }, 10000);
+            });
+          }
+          
           // Play all stems synchronized
           const playPromises: Promise<void>[] = [];
+          let playableCount = 0;
           
-          for (const audio of Object.values(stemAudioRefs.current)) {
+          for (const [stemId, audio] of Object.entries(stemAudioRefs.current)) {
             // Sync time before playing
             audio.currentTime = currentTime;
-            // Only play if audio is ready
+            
+            // Play if audio has enough data
             if (audio.readyState >= 2) {
+              playableCount++;
               playPromises.push(audio.play().catch(e => {
-                logger.warn('Stem play failed', { error: e });
+                logger.warn('Stem play failed', { stemId, error: e });
               }));
+            } else {
+              logger.warn('Stem not ready for playback', { stemId, readyState: audio.readyState });
             }
+          }
+          
+          if (playableCount === 0) {
+            toast.error('Стемы ещё загружаются, подождите...');
+            return;
           }
           
           // Also sync and play main audio (muted as reference for seeking/duration)
@@ -361,22 +453,31 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           }
           
           await Promise.all(playPromises);
+          logger.info('Stem playback started', { playableCount, totalStems: stems.length });
         } else {
           // No stems - play main audio only
           if (audioRef.current) {
             if (audioRef.current.readyState >= 2) {
               await audioRef.current.play();
             } else {
+              toast.info('Загрузка аудио...', { duration: 2000 });
               // Wait for audio to load
               await new Promise<void>((resolve, reject) => {
                 const audio = audioRef.current!;
                 const onCanPlay = () => {
                   audio.removeEventListener('canplay', onCanPlay);
+                  audio.removeEventListener('error', onError);
                   audio.play().then(resolve).catch(reject);
                 };
+                const onError = (e: Event) => {
+                  audio.removeEventListener('canplay', onCanPlay);
+                  audio.removeEventListener('error', onError);
+                  reject(new Error('Audio load error'));
+                };
                 audio.addEventListener('canplay', onCanPlay);
-                // Timeout after 5 seconds
-                setTimeout(() => reject(new Error('Audio load timeout')), 5000);
+                audio.addEventListener('error', onError);
+                // Timeout after 10 seconds
+                setTimeout(() => reject(new Error('Audio load timeout')), 10000);
               });
             }
           }
