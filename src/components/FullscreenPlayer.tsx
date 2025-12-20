@@ -43,10 +43,11 @@ interface TrackVersion {
 interface FullscreenPlayerProps {
   track: Track;
   versions?: TrackVersion[];
+  currentVersion?: TrackVersion | null;
   onClose: () => void;
 }
 
-export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPlayerProps) {
+export function FullscreenPlayer({ track, versions = [], currentVersion, onClose }: FullscreenPlayerProps) {
   // ALL HOOKS MUST BE CALLED BEFORE ANY CONDITIONAL RETURNS
   const isMobile = useIsMobile();
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -65,10 +66,12 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
   const { isPlaying, volume: storeVolume } = usePlayerStore();
   const { audioElement } = useGlobalAudioPlayer();
   
-  const { data: lyricsData } = useTimestampedLyrics(
-    track.suno_task_id || null,
-    track.suno_id || null
-  );
+  // CRITICAL: Use version-specific suno_task_id/suno_id for correct lyrics sync
+  const versionMetadata = currentVersion?.metadata as { suno_task_id?: string; suno_id?: string } | undefined;
+  const lyricsTaskId = versionMetadata?.suno_task_id || track.suno_task_id || null;
+  const lyricsAudioId = versionMetadata?.suno_id || track.suno_id || null;
+  
+  const { data: lyricsData } = useTimestampedLyrics(lyricsTaskId, lyricsAudioId);
 
   // CRITICAL: Ensure AudioContext is resumed and audio is routed on fullscreen open
   useEffect(() => {
