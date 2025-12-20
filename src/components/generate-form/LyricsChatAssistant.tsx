@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTelegramMainButton } from '@/hooks/telegram';
+import { useTelegram } from '@/contexts/TelegramContext';
 import { useLyricsChat } from './lyrics-chat/useLyricsChat';
 import { toast } from 'sonner';
 import { 
@@ -45,6 +46,8 @@ export function LyricsChatAssistant({
   initialMode = 'new',
 }: LyricsChatAssistantProps) {
   const isMobile = useIsMobile();
+  const { platform } = useTelegram();
+  const isIOS = platform === 'ios';
   const [activeTab, setActiveTab] = useState<'chat' | 'tags' | 'ai' | 'quick'>('chat');
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [isLoadingRecs, setIsLoadingRecs] = useState(false);
@@ -134,12 +137,16 @@ export function LyricsChatAssistant({
   }, [chat, onLyricsGenerated]);
 
   // Telegram MainButton integration for applying lyrics
+  // iOS Telegram can "lose" the MainButton after hide/show cycles.
+  // To avoid breaking the main Generate button, we always use the in-UI Apply button on iOS.
   const { shouldShowUIButton, showProgress, hideProgress } = useTelegramMainButton({
     text: 'ПРИМЕНИТЬ',
     onClick: chat.applyLyrics,
     enabled: !!chat.generatedLyrics && !chat.isLoading,
-    visible: open && !!chat.generatedLyrics,
+    visible: !isIOS && open && !!chat.generatedLyrics,
   });
+
+  const showApplyUIButton = isIOS ? true : shouldShowUIButton;
 
   const renderComponent = (msg: ChatMessage) => {
     switch (msg.component) {
@@ -192,7 +199,7 @@ export function LyricsChatAssistant({
               onStyleGenerated?.(style);
             }}
             fullHeight={isMobile}
-            showApplyButton={shouldShowUIButton}
+            showApplyButton={showApplyUIButton}
           />
         );
       default:

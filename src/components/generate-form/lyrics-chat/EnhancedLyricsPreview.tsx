@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Loader2, RotateCcw, Copy, Check, Bookmark, BookmarkCheck, 
@@ -90,10 +90,10 @@ export function EnhancedLyricsPreview({
   }, [editedTitle, editedStyle, title, style, onTitleChange, onStyleChange]);
 
   // Update edited values when props change
-  useState(() => {
+  useEffect(() => {
     setEditedTitle(title || '');
     setEditedStyle(style || '');
-  });
+  }, [title, style]);
 
   return (
     <motion.div 
