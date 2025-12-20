@@ -2143,6 +2143,101 @@ export type Database = {
           },
         ]
       }
+      stem_transcriptions: {
+        Row: {
+          bpm: number | null
+          created_at: string | null
+          duration_seconds: number | null
+          gp5_url: string | null
+          id: string
+          key_detected: string | null
+          klangio_log_id: string | null
+          midi_quant_url: string | null
+          midi_url: string | null
+          model: string
+          mxml_url: string | null
+          notes: Json | null
+          notes_count: number | null
+          pdf_url: string | null
+          stem_id: string
+          time_signature: string | null
+          track_id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          bpm?: number | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          gp5_url?: string | null
+          id?: string
+          key_detected?: string | null
+          klangio_log_id?: string | null
+          midi_quant_url?: string | null
+          midi_url?: string | null
+          model: string
+          mxml_url?: string | null
+          notes?: Json | null
+          notes_count?: number | null
+          pdf_url?: string | null
+          stem_id: string
+          time_signature?: string | null
+          track_id: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          bpm?: number | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          gp5_url?: string | null
+          id?: string
+          key_detected?: string | null
+          klangio_log_id?: string | null
+          midi_quant_url?: string | null
+          midi_url?: string | null
+          model?: string
+          mxml_url?: string | null
+          notes?: Json | null
+          notes_count?: number | null
+          pdf_url?: string | null
+          stem_id?: string
+          time_signature?: string | null
+          track_id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stem_transcriptions_klangio_log_id_fkey"
+            columns: ["klangio_log_id"]
+            isOneToOne: false
+            referencedRelation: "klangio_analysis_logs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stem_transcriptions_stem_id_fkey"
+            columns: ["stem_id"]
+            isOneToOne: false
+            referencedRelation: "track_stems"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stem_transcriptions_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stem_transcriptions_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       style_tag_mappings: {
         Row: {
           created_at: string
