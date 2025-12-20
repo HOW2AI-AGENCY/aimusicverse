@@ -674,13 +674,38 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         ? latestCompletion.newAudioUrlB
         : latestCompletion.newAudioUrl;
       
-      if (saveMode === 'apply' && latestCompletion.versionId) {
-        await setPrimaryVersionAsync({ 
-          trackId, 
-          versionId: latestCompletion.versionId 
-        });
+      if (saveMode === 'apply') {
+        let applied = false;
         
-        if (audioRef.current && audioUrl) {
+        if (latestCompletion.versionId) {
+          await setPrimaryVersionAsync({ 
+            trackId, 
+            versionId: latestCompletion.versionId 
+          });
+          applied = true;
+        } else if (audioUrl) {
+          // Try to find version by task ID
+          const { data: version } = await supabase
+            .from('track_versions')
+            .select('id')
+            .eq('track_id', trackId)
+            .eq('metadata->>original_task_id', latestCompletion.taskId)
+            .single();
+          
+          if (version?.id) {
+            await setPrimaryVersionAsync({ trackId, versionId: version.id });
+            applied = true;
+          } else {
+            // No version found - update track's audio_url directly
+            await supabase
+              .from('tracks')
+              .update({ audio_url: audioUrl })
+              .eq('id', trackId);
+            applied = true;
+          }
+        }
+        
+        if (applied && audioRef.current && audioUrl) {
           audioRef.current.src = audioUrl;
           audioRef.current.load();
           setCurrentAudioUrl(audioUrl);

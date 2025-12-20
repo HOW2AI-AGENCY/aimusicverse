@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import { 
   ChevronLeft, Play, Pause, SkipBack, SkipForward,
   Volume2, VolumeX, HelpCircle, Sliders, Scissors,
@@ -436,23 +437,50 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
 
   // Handle compare panel actions - accepts selected variant (A or B)
   const handleApplyReplacement = useCallback(async (selectedVariant: 'variantA' | 'variantB' = 'variantA') => {
-    if (latestCompletion?.versionId) {
-      try {
+    if (!latestCompletion) return;
+    
+    try {
+      // Get the audio URL based on selected variant
+      const audioUrl = selectedVariant === 'variantB' && latestCompletion.newAudioUrlB
+        ? latestCompletion.newAudioUrlB
+        : latestCompletion.newAudioUrl;
+      
+      if (latestCompletion.versionId) {
+        // If we have a version ID, set it as primary
         await setPrimaryVersionAsync({ 
           trackId, 
           versionId: latestCompletion.versionId 
         });
-        // Invalidate tracks to refresh audio URL
-        queryClient.invalidateQueries({ queryKey: ['tracks'] });
-        queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
-        toast.success(`Вариант ${selectedVariant === 'variantA' ? 'A' : 'B'} применён`);
-      } catch (error) {
-        logger.error('Failed to apply replacement', error);
-        toast.error('Ошибка при применении замены');
+      } else if (audioUrl) {
+        // If no version ID but we have audio URL, try to find the version by task ID
+        const { data: version } = await supabase
+          .from('track_versions')
+          .select('id')
+          .eq('track_id', trackId)
+          .eq('metadata->>original_task_id', latestCompletion.taskId)
+          .single();
+        
+        if (version?.id) {
+          await setPrimaryVersionAsync({ trackId, versionId: version.id });
+        } else {
+          // No version found - just update the track's audio_url directly
+          await supabase
+            .from('tracks')
+            .update({ audio_url: audioUrl })
+            .eq('id', trackId);
+        }
       }
-    } else {
-      toast.success('Замена применена');
+      
+      // Invalidate tracks to refresh audio URL
+      queryClient.invalidateQueries({ queryKey: ['tracks'] });
+      queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
+      queryClient.invalidateQueries({ queryKey: ['replaced-sections', trackId] });
+      toast.success(`Вариант ${selectedVariant === 'variantA' ? 'A' : 'B'} применён`);
+    } catch (error) {
+      logger.error('Failed to apply replacement', error);
+      toast.error('Ошибка при применении замены');
     }
+    
     setLatestCompletion(null);
   }, [latestCompletion, trackId, setPrimaryVersionAsync, queryClient, setLatestCompletion]);
 
