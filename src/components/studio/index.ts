@@ -53,3 +53,6 @@ export { AudioLoadingProgress } from './AudioLoadingProgress';
 export { AudioErrorBoundary, useAudioErrorHandler } from './AudioErrorBoundary';
 export { MobileAudioWarning } from './MobileAudioWarning';
 export { KeyboardShortcutsDialog } from './KeyboardShortcutsDialog';
+
+// Undo/Redo
+export { UndoRedoControls } from './UndoRedoControls';

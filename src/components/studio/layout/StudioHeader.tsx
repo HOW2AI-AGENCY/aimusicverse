@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { VersionTimeline } from '@/components/stem-studio/VersionTimeline';
 import { OfflineIndicator } from '@/components/studio/OfflineIndicator';
+import { UndoRedoControls } from '@/components/studio/UndoRedoControls';
 import { cn } from '@/lib/utils';
 
 interface StudioHeaderProps {
@@ -20,6 +21,7 @@ interface StudioHeaderProps {
   audioUrls?: string[];
   onVersionChange?: (versionId: string, audioUrl: string) => void;
   onShowTutorial?: () => void;
+  showUndoRedo?: boolean;
   className?: string;
 }
 
@@ -32,6 +34,7 @@ export function StudioHeader({
   audioUrls = [],
   onVersionChange,
   onShowTutorial,
+  showUndoRedo = true,
   className,
 }: StudioHeaderProps) {
   const navigate = useNavigate();
@@ -69,6 +72,11 @@ export function StudioHeader({
       </div>
 
       <div className="flex items-center gap-2">
+        {/* Undo/Redo controls */}
+        {showUndoRedo && (
+          <UndoRedoControls className="hidden sm:flex" />
+        )}
+        
         {/* Offline indicator */}
         <OfflineIndicator 
           audioUrls={audioUrls}
