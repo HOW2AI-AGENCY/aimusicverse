@@ -12,6 +12,11 @@ const mainLogger = logger.child({ module: 'main' });
 
 // Handle unhandled promise rejections
 window.addEventListener('unhandledrejection', (event) => {
+  // Ignore AbortError - these are expected during component cleanup
+  if (event.reason?.name === 'AbortError') {
+    event.preventDefault();
+    return;
+  }
   mainLogger.error('Unhandled promise rejection', event.reason instanceof Error ? event.reason : new Error(String(event.reason)));
   event.preventDefault(); // Prevent default browser error console
 });
