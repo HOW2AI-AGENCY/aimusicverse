@@ -2,20 +2,21 @@
  * UnifiedStudioTimeline
  * 
  * Combined timeline showing sections and stems together.
- * - Section markers at top (clickable for replacement)
- * - Stem tracks below (clickable for stem focus)
+ * - Section markers at top (click = seek + select, shows "ЗАМЕНИТЬ" button)
+ * - Inline replace form when user clicks "ЗАМЕНИТЬ"
+ * - Stem tracks below (always visible)
  * - Shared playhead crossing all layers
- * - Section highlighting on stem tracks
  */
 
-import { memo, useMemo, useRef } from 'react';
-import { motion } from '@/lib/motion';
+import { memo, useMemo, useRef, useState, useCallback } from 'react';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { SectionMarkersRow } from './SectionMarkersRow';
 import { StemTrackRow } from './StemTrackRow';
+import { InlineSectionReplaceForm } from './InlineSectionReplaceForm';
 import { Slider } from '@/components/ui/slider';
 
 interface StemState {
@@ -25,11 +26,16 @@ interface StemState {
 }
 
 interface UnifiedStudioTimelineProps {
+  // Track info
+  trackId: string;
+  trackTags?: string | null;
+  
   // Sections
   sections: DetectedSection[];
   selectedSectionIndex: number | null;
   replacedRanges?: { start: number; end: number }[];
   onSectionClick: (section: DetectedSection, index: number) => void;
+  onSectionSeek?: (section: DetectedSection) => void;
   
   // Stems
   stems: TrackStem[];
@@ -55,10 +61,13 @@ interface UnifiedStudioTimelineProps {
 }
 
 export const UnifiedStudioTimeline = memo(({
+  trackId,
+  trackTags,
   sections,
   selectedSectionIndex,
   replacedRanges = [],
   onSectionClick,
+  onSectionSeek,
   stems,
   stemStates,
   focusedStemId,
@@ -75,23 +84,55 @@ export const UnifiedStudioTimeline = memo(({
   className,
 }: UnifiedStudioTimelineProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [replaceFormSection, setReplaceFormSection] = useState<{ section: DetectedSection; index: number } | null>(null);
+  
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
   const hasSolo = useMemo(() => Object.values(stemStates).some(s => s.solo), [stemStates]);
 
   // Calculate focused section bounds for overlay
   const focusedSectionBounds = useMemo(() => {
-    if (!focusedSection || duration <= 0) return null;
+    const section = focusedSection || replaceFormSection?.section;
+    if (!section || duration <= 0) return null;
     return {
-      left: (focusedSection.startTime / duration) * 100,
-      width: ((focusedSection.endTime - focusedSection.startTime) / duration) * 100,
+      left: (section.startTime / duration) * 100,
+      width: ((section.endTime - section.startTime) / duration) * 100,
     };
-  }, [focusedSection, duration]);
+  }, [focusedSection, replaceFormSection, duration]);
+  
+  // Handle section click - seek to start and select
+  const handleSectionClick = useCallback((section: DetectedSection, index: number) => {
+    // Close form if clicking same section again
+    if (replaceFormSection?.index === index) {
+      setReplaceFormSection(null);
+      return;
+    }
+    
+    // Seek to section start
+    onSectionSeek?.(section);
+    onSeek(section.startTime);
+    
+    // Select section (for highlighting)
+    onSectionClick(section, index);
+    
+    // Close any open form
+    setReplaceFormSection(null);
+  }, [onSectionClick, onSectionSeek, onSeek, replaceFormSection]);
+  
+  // Handle "ЗАМЕНИТЬ" button click
+  const handleReplaceClick = useCallback((section: DetectedSection, index: number) => {
+    setReplaceFormSection({ section, index });
+  }, []);
+  
+  // Close inline form
+  const handleCloseForm = useCallback(() => {
+    setReplaceFormSection(null);
+  }, []);
 
   return (
     <div ref={containerRef} className={cn("space-y-2 relative", className)}>
       {/* Section Markers Row */}
       {showSections && sections.length > 0 && (
-        <div className="relative">
+        <div className="relative pt-8"> {/* Extra padding for ЗАМЕНИТЬ button */}
           <div className="absolute -left-2 top-1/2 -translate-y-1/2 text-[8px] text-muted-foreground font-medium uppercase tracking-wider rotate-[-90deg] origin-center whitespace-nowrap">
             Секции
           </div>
@@ -102,7 +143,8 @@ export const UnifiedStudioTimeline = memo(({
               currentTime={currentTime}
               selectedIndex={selectedSectionIndex}
               replacedRanges={replacedRanges}
-              onSectionClick={onSectionClick}
+              onSectionClick={handleSectionClick}
+              onReplaceClick={handleReplaceClick}
             />
             
             {/* Playhead line on sections */}
@@ -118,6 +160,22 @@ export const UnifiedStudioTimeline = memo(({
           </div>
         </div>
       )}
+      
+      {/* Inline Replace Form */}
+      <AnimatePresence mode="wait">
+        {replaceFormSection && (
+          <InlineSectionReplaceForm
+            key={replaceFormSection.index}
+            section={replaceFormSection.section}
+            sectionIndex={replaceFormSection.index}
+            trackId={trackId}
+            trackTags={trackTags}
+            duration={duration}
+            onClose={handleCloseForm}
+            onSuccess={handleCloseForm}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Divider */}
       {showSections && showStems && sections.length > 0 && stems.length > 0 && (

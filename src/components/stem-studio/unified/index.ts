@@ -8,3 +8,4 @@ export { UnifiedStudioTimeline } from './UnifiedStudioTimeline';
 export { StudioContextPanel } from './StudioContextPanel';
 export { SectionMarkersRow } from './SectionMarkersRow';
 export { StemTrackRow } from './StemTrackRow';
+export { InlineSectionReplaceForm } from './InlineSectionReplaceForm';

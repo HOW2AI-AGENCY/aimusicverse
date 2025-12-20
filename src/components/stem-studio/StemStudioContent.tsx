@@ -727,10 +727,13 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
             {/* Unified Timeline - sections + stems */}
             <div className="flex-1">
               <UnifiedStudioTimeline
+                trackId={trackId}
+                trackTags={track?.style}
                 sections={canReplaceSection ? detectedSections : []}
                 selectedSectionIndex={focusedSectionIndex}
                 replacedRanges={replacedRanges}
                 onSectionClick={handleSectionFocus}
+                onSectionSeek={(section) => handleSeek([section.startTime])}
                 stems={stems}
                 stemStates={stemStates}
                 focusedStemId={focusedStemId}

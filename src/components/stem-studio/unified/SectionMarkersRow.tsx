@@ -2,7 +2,8 @@
  * SectionMarkersRow
  * 
  * Horizontal row of clickable section markers for the unified timeline.
- * Clicking a section focuses it for replacement.
+ * Click = seek to section start + select
+ * Shows "ЗАМЕНИТЬ" button on selected section
  */
 
 import { memo, useMemo } from 'react';
@@ -11,7 +12,8 @@ import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Scissors } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Scissors, Wand2 } from 'lucide-react';
 
 interface SectionMarkersRowProps {
   sections: DetectedSection[];
@@ -20,6 +22,7 @@ interface SectionMarkersRowProps {
   selectedIndex: number | null;
   replacedRanges?: { start: number; end: number }[];
   onSectionClick: (section: DetectedSection, index: number) => void;
+  onReplaceClick?: (section: DetectedSection, index: number) => void;
 }
 
 const SECTION_COLORS: Record<DetectedSection['type'], { bg: string; border: string; text: string }> = {
@@ -40,6 +43,7 @@ export const SectionMarkersRow = memo(({
   selectedIndex,
   replacedRanges = [],
   onSectionClick,
+  onReplaceClick,
 }: SectionMarkersRowProps) => {
   // Calculate section positions
   const sectionPositions = useMemo(() => {
@@ -52,7 +56,7 @@ export const SectionMarkersRow = memo(({
   if (sections.length === 0) return null;
 
   return (
-    <div className="relative h-7 rounded-md overflow-hidden bg-muted/20">
+    <div className="relative h-10 rounded-md overflow-visible bg-muted/20">
       <TooltipProvider delayDuration={100}>
         {sections.map((section, idx) => {
           const pos = sectionPositions[idx];
@@ -64,53 +68,83 @@ export const SectionMarkersRow = memo(({
           );
 
           return (
-            <Tooltip key={idx}>
-              <TooltipTrigger asChild>
-                <motion.button
-                  className={cn(
-                    'absolute top-0 h-full border-x transition-all',
-                    colors.bg,
-                    colors.border,
-                    isSelected && 'ring-2 ring-primary ring-offset-1 ring-offset-background z-10 brightness-125',
-                    isActive && !isSelected && 'brightness-110',
-                    isReplaced && 'ring-1 ring-success/50',
-                    'cursor-pointer',
-                    'hover:brightness-125 hover:z-[5]'
-                  )}
-                  style={{ left: `${pos.left}%`, width: `${pos.width}%` }}
-                  onClick={() => onSectionClick(section, idx)}
-                  whileHover={{ y: -1 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {/* Replaced indicator */}
-                  {isReplaced && (
-                    <motion.div
-                      className="absolute -top-0.5 right-0.5 w-2 h-2 bg-success rounded-full"
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                    />
-                  )}
-                  
-                  <div className={cn(
-                    'absolute inset-0 flex items-center justify-center gap-0.5 text-[9px] font-medium truncate px-0.5',
-                    colors.text
-                  )}>
-                    {pos.width > 6 && <Scissors className="w-2.5 h-2.5 opacity-50" />}
-                    {pos.width > 10 && <span className="truncate">{section.label}</span>}
+            <div key={idx} className="contents">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <motion.button
+                    className={cn(
+                      'absolute top-0 h-full border-x transition-all',
+                      colors.bg,
+                      colors.border,
+                      isSelected && 'ring-2 ring-primary ring-offset-1 ring-offset-background z-10 brightness-125',
+                      isActive && !isSelected && 'brightness-110',
+                      isReplaced && 'ring-1 ring-success/50',
+                      'cursor-pointer',
+                      'hover:brightness-125 hover:z-[5]'
+                    )}
+                    style={{ left: `${pos.left}%`, width: `${pos.width}%` }}
+                    onClick={() => onSectionClick(section, idx)}
+                    whileHover={{ y: -1 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {/* Replaced indicator */}
+                    {isReplaced && (
+                      <motion.div
+                        className="absolute -top-0.5 right-0.5 w-2 h-2 bg-success rounded-full"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                      />
+                    )}
+                    
+                    <div className={cn(
+                      'absolute inset-0 flex items-center justify-center gap-0.5 text-[9px] font-medium truncate px-0.5',
+                      colors.text
+                    )}>
+                      {pos.width > 6 && <Scissors className="w-2.5 h-2.5 opacity-50" />}
+                      {pos.width > 10 && <span className="truncate">{section.label}</span>}
+                    </div>
+                  </motion.button>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="text-xs">
+                  <div className="font-medium">{section.label}</div>
+                  <div className="text-muted-foreground">
+                    {formatTime(section.startTime)} - {formatTime(section.endTime)}
                   </div>
-                </motion.button>
-              </TooltipTrigger>
-              <TooltipContent side="top" className="text-xs">
-                <div className="font-medium">{section.label}</div>
-                <div className="text-muted-foreground">
-                  {formatTime(section.startTime)} - {formatTime(section.endTime)}
-                </div>
-                <div className="text-primary text-[10px] mt-0.5 flex items-center gap-1">
-                  <Scissors className="w-3 h-3" />
-                  Нажмите для замены
-                </div>
-              </TooltipContent>
-            </Tooltip>
+                  <div className="text-primary text-[10px] mt-0.5">
+                    Клик для перехода
+                  </div>
+                </TooltipContent>
+              </Tooltip>
+              
+              {/* Replace button on selected section */}
+              <AnimatePresence>
+                {isSelected && onReplaceClick && (
+                  <motion.div
+                    className="absolute z-20"
+                    style={{ 
+                      left: `${pos.left + pos.width / 2}%`,
+                      top: '-2px',
+                      transform: 'translate(-50%, -100%)',
+                    }}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 4 }}
+                  >
+                    <Button
+                      size="sm"
+                      className="h-7 text-xs px-3 shadow-lg"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onReplaceClick(section, idx);
+                      }}
+                    >
+                      <Wand2 className="w-3 h-3 mr-1" />
+                      ЗАМЕНИТЬ
+                    </Button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           );
         })}
       </TooltipProvider>
