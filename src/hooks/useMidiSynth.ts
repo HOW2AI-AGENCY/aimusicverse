@@ -1,7 +1,10 @@
 import { useRef, useCallback, useEffect, useState } from 'react';
-import * as Tone from 'tone';
 import { logger } from '@/lib/logger';
 import type { MidiNote } from './useMidiVisualization';
+
+// Tone.js types - loaded dynamically to prevent "Cannot access 't' before initialization" error
+type ToneType = typeof import('tone');
+type PolySynthType = import('tone').PolySynth;
 
 interface UseMidiSynthReturn {
   isReady: boolean;
@@ -15,11 +18,6 @@ interface UseMidiSynthReturn {
   initialize: () => Promise<void>;
 }
 
-// Convert MIDI note number to frequency
-function midiToFrequency(midi: number): number {
-  return 440 * Math.pow(2, (midi - 69) / 12);
-}
-
 // Convert MIDI note number to note name
 function midiToNoteName(midi: number): string {
   const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
@@ -28,17 +26,26 @@ function midiToNoteName(midi: number): string {
   return `${note}${octave}`;
 }
 
+// Cached Tone module reference
+let ToneModule: ToneType | null = null;
+
 export function useMidiSynth(): UseMidiSynthReturn {
-  const synthRef = useRef<Tone.PolySynth | null>(null);
+  const synthRef = useRef<PolySynthType | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolumeState] = useState(-12); // dB
 
-  // Initialize synth
+  // Initialize synth with dynamic import to prevent circular dependency issues
   const initialize = useCallback(async () => {
     if (synthRef.current) return;
 
     try {
+      // Dynamically import Tone.js only when needed
+      if (!ToneModule) {
+        ToneModule = await import('tone');
+      }
+      const Tone = ToneModule;
+      
       await Tone.start();
       
       // Create a polyphonic synth with a pleasant sound
@@ -74,12 +81,12 @@ export function useMidiSynth(): UseMidiSynthReturn {
   }, []);
 
   // Play a single note
-  const playNote = useCallback((
+  const playNote = useCallback(async (
     noteOrMidi: MidiNote | number,
     duration: number = 0.3,
     velocity: number = 0.8
   ) => {
-    if (!synthRef.current || isMuted) return;
+    if (!synthRef.current || isMuted || !ToneModule) return;
 
     const midi = typeof noteOrMidi === 'number' ? noteOrMidi : noteOrMidi.pitch;
     const noteName = midiToNoteName(midi);
@@ -90,7 +97,7 @@ export function useMidiSynth(): UseMidiSynthReturn {
       synthRef.current.triggerAttackRelease(
         noteName,
         Math.min(actualDuration, 2), // Cap at 2 seconds for preview
-        Tone.now(),
+        ToneModule.now(),
         actualVelocity
       );
     } catch (err) {
@@ -99,14 +106,14 @@ export function useMidiSynth(): UseMidiSynthReturn {
   }, [isMuted]);
 
   // Play multiple notes (chord or sequence)
-  const playNotes = useCallback((notes: MidiNote[]) => {
-    if (!synthRef.current || isMuted || notes.length === 0) return;
+  const playNotes = useCallback(async (notes: MidiNote[]) => {
+    if (!synthRef.current || isMuted || notes.length === 0 || !ToneModule) return;
 
     try {
       // Sort by time
       const sortedNotes = [...notes].sort((a, b) => a.time - b.time);
       const startTime = sortedNotes[0].time;
-      const now = Tone.now();
+      const now = ToneModule.now();
 
       sortedNotes.forEach(note => {
         const noteName = midiToNoteName(note.pitch);
