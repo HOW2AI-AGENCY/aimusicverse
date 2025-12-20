@@ -717,31 +717,40 @@ if (data?.lyrics) {
 
     setIsSaving(true);
     try {
-      const genreLabel = GENRES.find(g => g.value === genre)?.label || genre || 'Общий';
-      const moodLabels = mood.map(m => MOODS.find(mo => mo.value === m)?.label || m);
-      const templateName = theme 
-        ? `${theme.slice(0, 50)}${theme.length > 50 ? '...' : ''}`
-        : `Текст песни (${genreLabel})`;
+      const genreLabel = GENRES.find(g => g.value === genre)?.label || genre || null;
+      const moodLabels = mood
+        .map(m => MOODS.find(mo => mo.value === m)?.label || m)
+        .filter(Boolean);
 
-      const { error } = await supabase.from('prompt_templates').insert({
-        user_id: user.id,
-        name: templateName,
-        template_text: generatedLyrics,
-        tags: [genreLabel, ...moodLabels].filter(Boolean),
-        is_public: false,
-      });
+      const templateName = theme
+        ? `${theme.slice(0, 50)}${theme.length > 50 ? '...' : ''}`
+        : `Текст песни${genreLabel ? ` (${genreLabel})` : ''}`;
+
+      const { error } = await supabase
+        .from('lyrics_templates')
+        .insert({
+          user_id: user.id,
+          name: templateName,
+          lyrics: generatedLyrics,
+          style: lastGeneratedStyle || null,
+          genre: genreLabel,
+          mood: moodLabels.length ? moodLabels.join(', ') : null,
+          tags: [genreLabel, ...moodLabels].filter(Boolean) as string[],
+          structure: structure || null,
+          language,
+        });
 
       if (error) throw error;
 
       setSaved(true);
-      toast.success('Сохранено в библиотеку шаблонов');
+      toast.success('Шаблон сохранён');
     } catch (err) {
-      logger.error('Error saving template', { error: err });
-      toast.error('Ошибка сохранения');
+      logger.error('Error saving lyrics template', { error: err });
+      toast.error('Ошибка сохранения шаблона');
     } finally {
       setIsSaving(false);
     }
-  }, [generatedLyrics, user, genre, mood, theme]);
+  }, [generatedLyrics, user, genre, mood, theme, lastGeneratedStyle, structure, language]);
 
   const handleClose = useCallback(() => {
     setMessages([]);
