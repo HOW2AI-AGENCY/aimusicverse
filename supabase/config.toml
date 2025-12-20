@@ -233,3 +233,6 @@ verify_jwt = true
 
 [functions.replicate-midi-transcription]
 verify_jwt = true
+
+[functions.generate-contextual-stem]
+verify_jwt = true

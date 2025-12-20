@@ -2795,8 +2795,11 @@ export type Database = {
         Row: {
           audio_url: string
           created_at: string | null
+          generation_model: string | null
+          generation_prompt: string | null
           id: string
           separation_mode: string | null
+          source: string | null
           stem_type: string
           track_id: string
           version_id: string | null
@@ -2804,8 +2807,11 @@ export type Database = {
         Insert: {
           audio_url: string
           created_at?: string | null
+          generation_model?: string | null
+          generation_prompt?: string | null
           id?: string
           separation_mode?: string | null
+          source?: string | null
           stem_type: string
           track_id: string
           version_id?: string | null
@@ -2813,8 +2819,11 @@ export type Database = {
         Update: {
           audio_url?: string
           created_at?: string | null
+          generation_model?: string | null
+          generation_prompt?: string | null
           id?: string
           separation_mode?: string | null
+          source?: string | null
           stem_type?: string
           track_id?: string
           version_id?: string | null

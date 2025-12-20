@@ -13,7 +13,8 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import {
   Mic2, Guitar, Drum, Music, Piano, Waves,
   Volume2, VolumeX, MoreHorizontal, Music2, Download,
-  Sparkles, ChevronDown, ChevronUp, Headphones
+  Sparkles, ChevronDown, ChevronUp, Headphones, Plus, Sliders,
+  Wand2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -51,6 +52,7 @@ interface IntegratedStemTracksProps {
   onMasterMuteToggle: () => void;
   onSeek: (time: number) => void;
   onStemAction: (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects') => void;
+  onAddTrack?: () => void;
   effectsEnabled?: boolean;
   className?: string;
 }
@@ -254,6 +256,10 @@ const StemTrackRowMobile = memo(({
                   <Music2 className="w-4 h-4 mr-2" />
                   MIDI
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onAction('effects')}>
+                  <Sliders className="w-4 h-4 mr-2" />
+                  Эффекты
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => onAction('download')}>
                   <Download className="w-4 h-4 mr-2" />
@@ -452,6 +458,7 @@ export function IntegratedStemTracks({
   onMasterMuteToggle,
   onSeek,
   onStemAction,
+  onAddTrack,
   effectsEnabled,
   className,
 }: IntegratedStemTracksProps) {
@@ -507,8 +514,20 @@ export function IntegratedStemTracks({
           )}
         </button>
 
-        {/* Master volume - compact */}
+        {/* Add Track + Master volume */}
         <div className="flex items-center gap-2">
+          {onAddTrack && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onAddTrack}
+              className="h-7 gap-1.5 text-xs"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Добавить</span>
+            </Button>
+          )}
+          
           <Button
             variant="ghost"
             size="sm"
