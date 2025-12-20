@@ -4,9 +4,17 @@
  */
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import * as Tone from 'tone';
 import { useHapticFeedback } from './useHapticFeedback';
 import { logger } from '@/lib/logger';
+
+// Tone.js types - loaded dynamically to prevent "Cannot access 't' before initialization" error
+type ToneType = typeof import('tone');
+type PolySynthType = import('tone').PolySynth;
+type RecorderType = import('tone').Recorder;
+type SequenceType = import('tone').Sequence;
+
+// Cached Tone module reference
+let ToneModule: ToneType | null = null;
 
 export interface StyleSlot {
   id: string;
@@ -71,15 +79,21 @@ export function useMelodyMixer(options: UseMelodyMixerOptions = {}) {
   });
 
   // Audio refs
-  const synthRef = useRef<Tone.PolySynth | null>(null);
-  const recorderRef = useRef<Tone.Recorder | null>(null);
-  const sequenceRef = useRef<Tone.Sequence | null>(null);
+  const synthRef = useRef<PolySynthType | null>(null);
+  const recorderRef = useRef<RecorderType | null>(null);
+  const sequenceRef = useRef<SequenceType | null>(null);
   const patternIndexRef = useRef(0);
 
   /**
-   * Initialize audio
+   * Initialize audio with dynamic Tone.js import
    */
   const initialize = useCallback(async () => {
+    // Dynamically import Tone.js only when needed
+    if (!ToneModule) {
+      ToneModule = await import('tone');
+    }
+    const Tone = ToneModule;
+    
     await Tone.start();
 
     // Create polyphonic synth with guitar-like sound
@@ -145,11 +159,14 @@ export function useMelodyMixer(options: UseMelodyMixerOptions = {}) {
    * Start playing
    */
   const startPlaying = useCallback(async () => {
-    if (!synthRef.current) {
+    if (!synthRef.current || !ToneModule) {
       await initialize();
     }
+    
+    if (!ToneModule) return;
+    const Tone = ToneModule;
 
-    Tone.Transport.bpm.value = state.bpm;
+    Tone.getTransport().bpm.value = state.bpm;
     
     const pattern = generatePattern();
     
@@ -171,7 +188,7 @@ export function useMelodyMixer(options: UseMelodyMixerOptions = {}) {
     sequence.start(0);
     sequenceRef.current = sequence;
     
-    Tone.Transport.start();
+    Tone.getTransport().start();
     setState(prev => ({ ...prev, isPlaying: true }));
     haptic.success();
     
@@ -188,7 +205,9 @@ export function useMelodyMixer(options: UseMelodyMixerOptions = {}) {
       sequenceRef.current = null;
     }
 
-    Tone.Transport.stop();
+    if (ToneModule) {
+      ToneModule.getTransport().stop();
+    }
     synthRef.current?.releaseAll();
     patternIndexRef.current = 0;
     
@@ -281,7 +300,9 @@ export function useMelodyMixer(options: UseMelodyMixerOptions = {}) {
    */
   const setBpm = useCallback((bpm: number) => {
     setState(prev => ({ ...prev, bpm: Math.max(40, Math.min(240, bpm)) }));
-    Tone.Transport.bpm.value = bpm;
+    if (ToneModule) {
+      ToneModule.getTransport().bpm.value = bpm;
+    }
   }, []);
 
   /**

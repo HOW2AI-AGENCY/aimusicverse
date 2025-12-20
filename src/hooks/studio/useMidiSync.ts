@@ -3,9 +3,15 @@
  * Plays MIDI notes in real-time as audio plays
  */
 import { useRef, useCallback, useEffect, useState } from 'react';
-import * as Tone from 'tone';
 import { logger } from '@/lib/logger';
 import type { MidiNote } from '@/hooks/useMidiVisualization';
+
+// Tone.js types - loaded dynamically to prevent "Cannot access 't' before initialization" error
+type ToneType = typeof import('tone');
+type PolySynthType = import('tone').PolySynth;
+
+// Cached Tone module reference
+let ToneModule: ToneType | null = null;
 
 interface UseMidiSyncOptions {
   notes: MidiNote[];
@@ -41,7 +47,7 @@ export function useMidiSync({
   isPlaying,
   enabled = true,
 }: UseMidiSyncOptions): UseMidiSyncReturn {
-  const synthRef = useRef<Tone.PolySynth | null>(null);
+  const synthRef = useRef<PolySynthType | null>(null);
   const playedNotesRef = useRef<Set<string>>(new Set());
   const lastTimeRef = useRef<number>(0);
   
@@ -50,11 +56,17 @@ export function useMidiSync({
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolumeState] = useState(-12); // dB
 
-  // Initialize synth
+  // Initialize synth with dynamic Tone.js import
   const initialize = useCallback(async () => {
     if (synthRef.current) return;
 
     try {
+      // Dynamically import Tone.js only when needed
+      if (!ToneModule) {
+        ToneModule = await import('tone');
+      }
+      const Tone = ToneModule;
+      
       await Tone.start();
       
       // Create a pleasant sounding polyphonic synth
@@ -91,7 +103,7 @@ export function useMidiSync({
 
   // Play notes that fall within the current time window
   useEffect(() => {
-    if (!isPlaying || !isSyncEnabled || isMuted || !synthRef.current || notes.length === 0) {
+    if (!isPlaying || !isSyncEnabled || isMuted || !synthRef.current || !ToneModule || notes.length === 0) {
       return;
     }
 
@@ -110,6 +122,8 @@ export function useMidiSync({
       return false;
     });
 
+    const Tone = ToneModule;
+    
     // Play the notes
     notesToPlay.forEach(note => {
       const noteId = `${note.pitch}_${note.time.toFixed(3)}`;
@@ -151,7 +165,7 @@ export function useMidiSync({
 
   // Play a single note preview
   const playNotePreview = useCallback((note: MidiNote) => {
-    if (!synthRef.current || isMuted) return;
+    if (!synthRef.current || isMuted || !ToneModule) return;
 
     const noteName = midiToNoteName(note.pitch);
     const velocity = note.velocity / 127;
@@ -160,7 +174,7 @@ export function useMidiSync({
       synthRef.current.triggerAttackRelease(
         noteName,
         Math.min(note.duration, 0.5),
-        Tone.now(),
+        ToneModule.now(),
         velocity
       );
     } catch (err) {
