@@ -757,8 +757,27 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
 
   return (
     <div className="h-screen flex flex-col bg-background overflow-hidden">
-      {/* Header */}
-      <header className="flex-shrink-0 flex items-center justify-between px-3 sm:px-4 py-2 border-b border-border/50 bg-card/50 backdrop-blur-sm">
+      {/* Header with Telegram safe area */}
+      <header 
+        className="flex-shrink-0 border-b border-border/50 bg-card/50 backdrop-blur-sm"
+        style={{ 
+          paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' 
+        }}
+      >
+        {/* Centered Logo */}
+        <div className="flex justify-center py-1.5">
+          <div className="flex items-center gap-2">
+            <img 
+              src="/lovable-uploads/e2a6a5f1-c3e6-42bc-95c6-fd65dcb9defe.png" 
+              alt="MusicVerse AI" 
+              className="h-8 w-8 rounded-lg shadow-sm" 
+            />
+            <span className="text-xs font-bold text-gradient">MusicVerse AI</span>
+          </div>
+        </div>
+        
+        {/* Track header row */}
+        <div className="flex items-center justify-between px-3 sm:px-4 py-2">
         <div className="flex items-center gap-2 min-w-0 flex-1">
           <Button
             variant="ghost"
@@ -851,6 +870,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
+        </div>
         </div>
       </header>
 
