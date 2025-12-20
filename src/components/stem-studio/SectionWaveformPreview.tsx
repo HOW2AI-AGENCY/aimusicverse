@@ -138,19 +138,19 @@ export function SectionWaveformPreview({
     <div 
       ref={containerRef}
       className={cn(
-        'relative h-20 rounded-lg bg-muted/30 overflow-hidden select-none',
+        'relative h-24 rounded-lg bg-muted/50 dark:bg-muted/40 border border-border/50 overflow-hidden select-none',
         interactive && 'cursor-pointer',
         isDragging && 'cursor-grabbing',
         className
       )}
       onClick={handleContainerClick}
     >
-      {/* Background waveform - high contrast for dark theme */}
+      {/* Background waveform - high contrast for visibility */}
       <div className="absolute inset-0 flex items-center justify-around px-1">
         {bars.map((height, i) => (
           <div
             key={i}
-            className="w-0.5 rounded-full bg-primary/40 dark:bg-primary/60"
+            className="w-1 rounded-full bg-muted-foreground/50 dark:bg-muted-foreground/70"
             style={{ height: `${height}%` }}
           />
         ))}

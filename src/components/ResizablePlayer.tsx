@@ -3,10 +3,14 @@ import { CompactPlayer } from './CompactPlayer';
 import { FullscreenPlayer } from './FullscreenPlayer';
 import { ExpandedPlayer } from './player/ExpandedPlayer';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { useMasterVersion } from '@/hooks/useTrackVersions';
 import { AnimatePresence } from '@/lib/motion';
 
 export const ResizablePlayer = () => {
   const { activeTrack, closePlayer, playerMode, setPlayerMode } = usePlayerStore();
+  
+  // Fetch the primary version for correct lyrics synchronization
+  const { data: currentVersion } = useMasterVersion(activeTrack?.id);
 
   const handleExpand = () => {
     setPlayerMode('expanded');
@@ -35,6 +39,7 @@ export const ResizablePlayer = () => {
         <CompactPlayer
           key="compact"
           track={activeTrack}
+          currentVersion={currentVersion as any}
           onExpand={handleExpand}
           onMaximize={handleMaximize}
           onClose={handleClose}
@@ -52,6 +57,7 @@ export const ResizablePlayer = () => {
         <FullscreenPlayer
           key="fullscreen"
           track={activeTrack}
+          currentVersion={currentVersion as any}
           onClose={handleMinimize}
         />
       )}

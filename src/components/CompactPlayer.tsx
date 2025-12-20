@@ -19,6 +19,11 @@ import { hapticImpact } from '@/lib/haptic';
 import type { Track } from '@/types/track';
 import { toast } from 'sonner';
 
+interface TrackVersion {
+  id: string;
+  metadata?: Record<string, unknown> | null;
+}
+
 interface CompactPlayerProps {
   track: {
     id: string;
@@ -32,12 +37,13 @@ interface CompactPlayerProps {
     is_liked?: boolean;
     status?: string | null;
   };
+  currentVersion?: TrackVersion | null;
   onClose: () => void;
   onMaximize: () => void;
   onExpand?: () => void;
 }
 
-export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactPlayerProps) {
+export function CompactPlayer({ track, currentVersion, onClose, onMaximize, onExpand }: CompactPlayerProps) {
   // Use store volume for consistency
   const { volume: storeVolume, setVolume: setStoreVolume } = usePlayerStore();
   const [muted, setMuted] = useState(false);
@@ -84,10 +90,12 @@ export function CompactPlayer({ track, onClose, onMaximize, onExpand }: CompactP
     };
   }, []);
 
-  const { data: lyricsData } = useTimestampedLyrics(
-    track.suno_task_id || null,
-    track.suno_id || null
-  );
+  // CRITICAL: Use version-specific suno_task_id/suno_id for correct lyrics sync
+  const versionMetadata = currentVersion?.metadata as { suno_task_id?: string; suno_id?: string } | undefined;
+  const lyricsTaskId = versionMetadata?.suno_task_id || track.suno_task_id || null;
+  const lyricsAudioId = versionMetadata?.suno_id || track.suno_id || null;
+  
+  const { data: lyricsData } = useTimestampedLyrics(lyricsTaskId, lyricsAudioId);
 
   const handleVolumeChange = useCallback((value: number[]) => {
     const newVolume = value[0];
