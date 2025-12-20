@@ -5,22 +5,12 @@
  */
 
 import { useCallback, useEffect } from 'react';
-import { StemEffects, defaultStemEffects } from './useStemAudioEngine';
+import type { StemEffects, StemConfig, MixPreset } from './types';
+import { defaultStemEffects } from './stemEffectsConfig';
 import { logger } from '@/lib/logger';
 
-export interface MixPreset {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  masterVolume: number;
-  stems: Record<string, {
-    volume: number;
-    muted: boolean;
-    solo: boolean;
-    effects: StemEffects;
-  }>;
-}
+// Re-export types for convenience
+export type { MixPreset, StemConfig };
 
 // Predefined presets for common mixing scenarios
 export const defaultMixPresets: Record<string, Omit<MixPreset, 'stems'>> = {
@@ -61,13 +51,6 @@ export const defaultMixPresets: Record<string, Omit<MixPreset, 'stems'>> = {
   },
 };
 
-export interface StemConfig {
-  volume: number;
-  muted: boolean;
-  solo: boolean;
-  effects: StemEffects;
-}
-
 /**
  * Generate preset configuration for specific stems
  */
@@ -83,7 +66,7 @@ export function generatePresetForStems(
   stems.forEach(stem => {
     const stemType = stem.stem_type.toLowerCase();
     let volume = 0.85;
-    const effectsConfig = { ...defaultStemEffects };
+    const effectsConfig: StemEffects = { ...defaultStemEffects };
 
     switch (presetId) {
       case 'balanced':

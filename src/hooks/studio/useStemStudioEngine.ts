@@ -8,16 +8,13 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { logger } from '@/lib/logger';
 import { AudioError, ErrorCode } from '@/lib/errors/AppError';
+import type { StemEffects, EQSettings, CompressorSettings, ReverbSettings } from './types';
 import {
-  StemEffects,
-  EQSettings,
-  CompressorSettings,
-  ReverbSettings,
   defaultStemEffects,
   eqPresets,
   compressorPresets,
   reverbPresets,
-} from './useStemAudioEngine';
+} from './stemEffectsConfig';
 
 // Shared AudioContext singleton
 let sharedAudioContext: AudioContext | null = null;
