@@ -597,9 +597,9 @@ serve(async (req) => {
         console.error("[klangio] Error fetching JSON:", e);
       }
 
-      // INCREASED wait time for files to be ready after job completion (from 3s to 8s)
-      console.log('[klangio] Waiting 8s for files to be ready after job completion...');
-      await new Promise(resolve => setTimeout(resolve, 8000));
+      // Wait shorter time (reduced from 8s to 3s) to leave time for fallback
+      console.log('[klangio] Waiting 3s for files to be ready after job completion...');
+      await new Promise(resolve => setTimeout(resolve, 3000));
 
       // Fetch and upload each file format that API confirmed it generated
       for (const format of filesToFetch) {
@@ -613,13 +613,13 @@ serve(async (req) => {
 
           // Try each possible endpoint
           for (const apiEndpoint of apiEndpoints) {
-            // Enhanced retry logic with exponential backoff - INCREASED retries from 5 to 8
-            const maxRetries = 8;
-            const baseRetryDelay = 2500; // Increased from 2000
+            // Reduced retry logic to prevent timeout (3 retries max, 1.5s base delay)
+            const maxRetries = 3;
+            const baseRetryDelay = 1500;
 
             for (let retry = 0; retry < maxRetries; retry++) {
               if (retry > 0) {
-                const delay = baseRetryDelay * Math.pow(1.5, retry - 1);
+                const delay = baseRetryDelay * Math.pow(1.3, retry - 1);
                 console.log(`[klangio] Retry ${retry}/${maxRetries - 1} for ${format} via ${apiEndpoint} (waiting ${delay}ms)...`);
                 await new Promise(resolve => setTimeout(resolve, delay));
               }
