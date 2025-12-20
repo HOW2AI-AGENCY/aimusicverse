@@ -246,7 +246,15 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         effectiveVolume = 0;
       }
 
-      audio.volume = effectiveVolume;
+      // Only set volume if audio is ready (has a valid source)
+      try {
+        if (audio.readyState >= 1) {
+          audio.volume = Math.max(0, Math.min(1, effectiveVolume));
+        }
+      } catch (e) {
+        // Ignore volume setting errors during loading
+        logger.warn('Failed to set stem volume', { stemId: stem.id, error: e });
+      }
     });
   }, [stems, stemStates, masterVolume, masterMuted]);
 
