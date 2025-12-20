@@ -18,13 +18,26 @@ const VIRTUALIZATION_THRESHOLD = 6;
 const MOBILE_ROW_HEIGHT = 140; // Including waveform, controls, notes
 const DESKTOP_ROW_HEIGHT = 44;
 
-interface StemState {
+export interface StemState {
   muted: boolean;
   solo: boolean;
   volume: number;
 }
 
-interface VirtualizedStemListProps {
+export interface StemRowProps {
+  stem: TrackStem;
+  state: StemState;
+  transcription?: StemTranscription | null;
+  isPlaying: boolean;
+  currentTime: number;
+  duration: number;
+  onToggle: (type: 'mute' | 'solo') => void;
+  onVolumeChange: (volume: number) => void;
+  onSeek: (time: number) => void;
+  onAction: (action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete') => void;
+}
+
+export interface VirtualizedStemListProps {
   stems: TrackStem[];
   stemStates: Record<string, StemState>;
   transcriptionsByStem?: Record<string, StemTranscription>;
@@ -36,30 +49,8 @@ interface VirtualizedStemListProps {
   onStemVolumeChange: (stemId: string, volume: number) => void;
   onSeek: (time: number) => void;
   onStemAction: (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete') => void;
-  renderMobileRow: (props: {
-    stem: TrackStem;
-    state: StemState;
-    transcription?: StemTranscription | null;
-    isPlaying: boolean;
-    currentTime: number;
-    duration: number;
-    onToggle: (type: 'mute' | 'solo') => void;
-    onVolumeChange: (volume: number) => void;
-    onSeek: (time: number) => void;
-    onAction: (action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete') => void;
-  }) => React.ReactNode;
-  renderDesktopRow: (props: {
-    stem: TrackStem;
-    state: StemState;
-    transcription?: StemTranscription | null;
-    isPlaying: boolean;
-    currentTime: number;
-    duration: number;
-    onToggle: (type: 'mute' | 'solo') => void;
-    onVolumeChange: (volume: number) => void;
-    onSeek: (time: number) => void;
-    onAction: (action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete') => void;
-  }) => React.ReactNode;
+  renderMobileRow: (props: StemRowProps) => React.ReactNode;
+  renderDesktopRow: (props: StemRowProps) => React.ReactNode;
   className?: string;
 }
 
