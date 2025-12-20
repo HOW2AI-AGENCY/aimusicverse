@@ -106,8 +106,9 @@ export const StemNotesPreview = memo(function StemNotesPreview({
   duration = 0,
   onViewFull,
   onDownloadPdf,
+  onDownloadMidi,
   className,
-}: StemNotesPreviewProps) {
+}: StemNotesPreviewProps & { onDownloadMidi?: () => void }) {
   if (isLoading) {
     return (
       <div className={cn("space-y-2 pt-1", className)}>
@@ -120,12 +121,14 @@ export const StemNotesPreview = memo(function StemNotesPreview({
     );
   }
 
-  // Show preview if we have MIDI, PDF, or notes
+  // Show preview if we have MIDI, PDF, GP5, MusicXML, or notes
   const hasMidi = !!transcription?.midi_url;
   const hasPdf = !!transcription?.pdf_url;
+  const hasGp5 = !!transcription?.gp5_url;
+  const hasMxml = !!transcription?.mxml_url;
   const hasNotes = !!(transcription?.notes && (transcription.notes as any[]).length > 0);
   
-  if (!transcription || (!hasMidi && !hasPdf && !hasNotes)) {
+  if (!transcription || (!hasMidi && !hasPdf && !hasGp5 && !hasMxml && !hasNotes)) {
     return null;
   }
 
@@ -163,12 +166,28 @@ export const StemNotesPreview = memo(function StemNotesPreview({
                 {keyDetected && ` • ${keyDetected}`}
               </>
             )}
-            {notesCount === 0 && hasPdf && 'PDF ноты готовы'}
-            {notesCount === 0 && !hasPdf && hasMidi && 'MIDI готов'}
+            {notesCount === 0 && hasGp5 && 'Табулатура готова'}
+            {notesCount === 0 && !hasGp5 && hasPdf && 'PDF ноты готовы'}
+            {notesCount === 0 && !hasGp5 && !hasPdf && hasMidi && 'MIDI готов'}
+            {notesCount === 0 && !hasGp5 && !hasPdf && !hasMidi && hasMxml && 'MusicXML готов'}
           </span>
         </div>
 
         <div className="flex items-center gap-1 shrink-0">
+          {/* Download MIDI button */}
+          {transcription.midi_url && onDownloadMidi && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onDownloadMidi}
+              className="h-5 w-5 p-0"
+              title="Скачать MIDI"
+            >
+              <Download className="w-3 h-3" />
+            </Button>
+          )}
+          
+          {/* Download PDF button */}
           {transcription.pdf_url && onDownloadPdf && (
             <Button
               variant="ghost"

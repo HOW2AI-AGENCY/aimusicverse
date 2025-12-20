@@ -477,8 +477,9 @@ serve(async (req) => {
       console.log(`[klangio] Fetching files for formats:`, filesToFetch, '(API confirmed generation)');
 
       // Map format to API endpoints - try multiple endpoints for each format
+      // According to Klang.io docs: /midi_unq is for unquantized MIDI (standard MIDI export)
       const formatToEndpoints: Record<string, string[]> = {
-        'midi': ['midi', 'download/midi', 'result/midi'],
+        'midi': ['midi_unq', 'midi', 'download/midi', 'result/midi'],
         'midi_quant': ['midi_unq', 'midi_quant', 'download/midi_unq'],
         'mxml': ['xml', 'download/xml'],
         'gp5': ['gp5', 'download/gp5'],
@@ -698,7 +699,11 @@ serve(async (req) => {
         console.log(`[klangio] ⚠️ API didn't return MIDI, but we have ${notes.length} notes. Generating MIDI locally...`);
         try {
           const midiData = generateMidiFromNotes(notes, detectedBpm);
-          const midiBlob = new Blob([new Uint8Array(midiData)], { type: 'audio/midi' });
+          // Convert Uint8Array to ArrayBuffer explicitly for Blob compatibility in Deno
+          const arrayBuffer = midiData.buffer.slice(midiData.byteOffset, midiData.byteOffset + midiData.byteLength) as ArrayBuffer;
+          const midiBlob = new Blob([arrayBuffer], { type: 'audio/midi' });
+          
+          console.log(`[klangio] Generated MIDI blob size: ${midiBlob.size} bytes from ${notes.length} notes`);
           
           const fileName = `${user_id || 'anonymous'}/klangio/${jobId}_midi_generated.mid`;
           
@@ -714,7 +719,7 @@ serve(async (req) => {
               .from("project-assets")
               .getPublicUrl(fileName);
             files['midi'] = publicUrl;
-            console.log(`[klangio] ✅ Generated MIDI uploaded: ${publicUrl}`);
+            console.log(`[klangio] ✅ Generated MIDI uploaded: ${publicUrl} (${midiBlob.size} bytes)`);
           } else {
             console.error(`[klangio] ❌ Failed to upload generated MIDI:`, uploadError);
           }
