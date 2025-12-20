@@ -8,6 +8,7 @@ import { Sparkles, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useProjects } from '@/hooks/useProjects';
 import { useArtists } from '@/hooks/useArtists';
+import logo from '@/assets/logo.png';
 import { useTracks } from '@/hooks/useTracks';
 import { useGenerateForm } from '@/hooks/generation';
 import { useTelegram } from '@/contexts/TelegramContext';
@@ -117,18 +118,32 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="h-[95vh] flex flex-col frost-sheet p-0">
-        {/* Compact Header with safe area padding for Telegram Mini App */}
+        {/* Header with centered logo and safe area for Telegram native buttons */}
         <div 
-          className="px-4 pb-2 flex items-center justify-between border-b"
+          className="px-3 pb-2 border-b bg-background/95 backdrop-blur-xl"
           style={{ 
-            paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))' 
+            paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' 
           }}
         >
-          <div className="flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-primary" />
-            <h2 className="text-sm font-semibold">Создать трек</h2>
+          {/* Centered Logo */}
+          <div className="flex justify-center mb-2">
+            <div className="flex flex-col items-center">
+              <img 
+                src={logo} 
+                alt="MusicVerse AI" 
+                className="h-10 w-10 rounded-xl shadow-md"
+              />
+              <span className="text-xs font-bold text-gradient mt-1">MusicVerse AI</span>
+            </div>
           </div>
-          <GenerateFormHeaderCompact
+          
+          {/* Form header row */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <h2 className="text-sm font-semibold">Создать трек</h2>
+            </div>
+            <GenerateFormHeaderCompact
             userBalance={form.userBalance}
             generationCost={form.generationCost}
             canGenerate={form.canGenerate}
@@ -137,8 +152,9 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             onModeChange={form.setMode}
             model={form.model}
             onModelChange={form.setModel}
-            isAdmin={form.isAdmin}
-          />
+              isAdmin={form.isAdmin}
+            />
+          </div>
         </div>
 
         {/* Loading Overlay */}

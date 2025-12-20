@@ -29,9 +29,9 @@ export function AppHeader({
   return (
     <motion.header 
       className={cn(
-        "sticky top-0 z-20 -mx-4 px-4",
-        // Use Telegram content safe area for native buttons
-        "pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+0.75rem),calc(env(safe-area-inset-top,0px)+1rem))] pb-3",
+        "sticky top-0 z-20 -mx-4 px-3",
+        // Telegram content safe area for native buttons - reduced base padding
+        "pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+0.5rem),calc(env(safe-area-inset-top,0px)+0.5rem))] pb-2",
         "backdrop-blur-xl bg-background/90 border-b border-border/50",
         className
       )}
@@ -39,10 +39,10 @@ export function AppHeader({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
     >
-      {/* Centered Logo */}
+      {/* Centered Logo - compact */}
       {showLogo && (
         <motion.div 
-          className="flex justify-center mb-3"
+          className="flex justify-center mb-2"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1, duration: 0.3 }}
@@ -56,9 +56,9 @@ export function AppHeader({
               className="relative"
               animate={{ 
                 boxShadow: [
-                  '0 0 20px hsl(207 90% 54% / 0.2)',
-                  '0 0 30px hsl(207 90% 54% / 0.3)',
-                  '0 0 20px hsl(207 90% 54% / 0.2)'
+                  '0 0 15px hsl(207 90% 54% / 0.2)',
+                  '0 0 25px hsl(207 90% 54% / 0.3)',
+                  '0 0 15px hsl(207 90% 54% / 0.2)'
                 ]
               }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
@@ -66,10 +66,10 @@ export function AppHeader({
               <img 
                 src={logo} 
                 alt="MusicVerse AI" 
-                className="h-12 w-12 sm:h-14 sm:w-14 rounded-2xl shadow-lg" 
+                className="h-10 w-10 rounded-xl shadow-md" 
               />
             </motion.div>
-            <h1 className="text-sm sm:text-base font-bold text-gradient leading-tight mt-1.5">
+            <h1 className="text-xs font-bold text-gradient leading-tight mt-1">
               MusicVerse AI
             </h1>
           </motion.div>
