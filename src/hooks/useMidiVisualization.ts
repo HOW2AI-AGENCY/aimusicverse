@@ -1,6 +1,9 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { Midi, Track } from '@tonejs/midi';
 import { logger } from '@/lib/logger';
+
+type MidiType = typeof import('@tonejs/midi');
+type MidiInstance = InstanceType<typeof import('@tonejs/midi').Midi>;
+type TrackInstance = InstanceType<typeof import('@tonejs/midi').Track>;
 
 export interface MidiNote {
   id: string;
@@ -88,8 +91,8 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
   // Clipboard
   const clipboardRef = useRef<MidiNote[]>([]);
   
-  const originalMidiRef = useRef<Midi | null>(null);
-  
+  const originalMidiRef = useRef<MidiInstance | null>(null);
+  const midiModuleRef = useRef<MidiType | null>(null);
   // Push current state to history
   const pushToHistory = useCallback((newNotes: MidiNote[]) => {
     setHistory(prev => {
@@ -102,7 +105,7 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
     setHistoryIndex(prev => Math.min(prev + 1, 49));
   }, [historyIndex]);
 
-  const parseMidi = useCallback((midi: Midi) => {
+  const parseMidi = useCallback((midi: MidiInstance) => {
     const allNotes: MidiNote[] = [];
     const parsedTracks: MidiTrack[] = [];
 
@@ -118,7 +121,7 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
     }
 
     // Parse tracks
-    midi.tracks.forEach((track: Track, trackIndex: number) => {
+    midi.tracks.forEach((track: TrackInstance, trackIndex: number) => {
       const trackNotes: MidiNote[] = [];
       
       track.notes.forEach((note) => {
@@ -161,13 +164,19 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
   const loadMidi = useCallback(async (url: string) => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
+      // Dynamically import @tonejs/midi to prevent vendor-audio chunk issues
+      if (!midiModuleRef.current) {
+        midiModuleRef.current = await import('@tonejs/midi');
+      }
+      const MidiClass = (midiModuleRef.current as any).Midi ?? midiModuleRef.current.Midi;
+
       const response = await fetch(url);
       if (!response.ok) throw new Error('Failed to fetch MIDI file');
-      
+
       const arrayBuffer = await response.arrayBuffer();
-      const midi = new Midi(arrayBuffer);
+      const midi = new MidiClass(arrayBuffer);
       parseMidi(midi);
       logger.info('MIDI file loaded', { url, tracks: midi.tracks.length });
     } catch (err) {
@@ -182,10 +191,16 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
   const loadMidiFromBlob = useCallback(async (blob: Blob) => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
+      // Dynamically import @tonejs/midi to prevent vendor-audio chunk issues
+      if (!midiModuleRef.current) {
+        midiModuleRef.current = await import('@tonejs/midi');
+      }
+      const MidiClass = (midiModuleRef.current as any).Midi ?? midiModuleRef.current.Midi;
+
       const arrayBuffer = await blob.arrayBuffer();
-      const midi = new Midi(arrayBuffer);
+      const midi = new MidiClass(arrayBuffer);
       parseMidi(midi);
     } catch (err) {
       const error = err instanceof Error ? err : new Error('Unknown error');
@@ -367,13 +382,19 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
   const canUndo = historyIndex > 0;
   const canRedo = historyIndex < history.length - 1;
 
-  // Export function
+  // Export function (sync but relies on cached midiModule)
   const exportMidi = useCallback((): Blob => {
-    const midi = new Midi();
-    
+    // We need the module to be loaded - throw if not
+    if (!midiModuleRef.current) {
+      throw new Error('MIDI module not loaded - please load a MIDI file first');
+    }
+    const MidiClass = (midiModuleRef.current as any).Midi ?? midiModuleRef.current.Midi;
+
+    const midi = new MidiClass();
+
     // Set tempo
     midi.header.setTempo(tempo);
-    
+
     // Group notes by track
     const notesByTrack = notes.reduce((acc, note) => {
       if (!acc[note.track]) acc[note.track] = [];
