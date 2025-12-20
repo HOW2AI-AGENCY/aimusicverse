@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, FolderOpen, Plus, Library, Menu, Bell } from 'lucide-react';
+import { Home, FolderOpen, Plus, Library, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
-import { GenerateSheet } from './GenerateSheet';
-import { NavigationMenuSheet } from './NavigationMenuSheet';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useUnreadCount } from '@/hooks/useNotifications';
+
+// Lazy load heavy sheet components - only needed when user opens them
+const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default: m.GenerateSheet })));
+const NavigationMenuSheet = lazy(() => import('./NavigationMenuSheet').then(m => ({ default: m.NavigationMenuSheet })));
 
 const navItems = [
   { path: '/', icon: Home, label: 'Главная', isCenter: false },
@@ -147,8 +149,17 @@ export const BottomNavigation = () => {
           </div>
       </motion.nav>
 
-      <GenerateSheet open={generateOpen} onOpenChange={setGenerateOpen} />
-      <NavigationMenuSheet open={menuOpen} onOpenChange={setMenuOpen} />
+      {/* Lazy load sheets only when opened */}
+      {generateOpen && (
+        <Suspense fallback={null}>
+          <GenerateSheet open={generateOpen} onOpenChange={setGenerateOpen} />
+        </Suspense>
+      )}
+      {menuOpen && (
+        <Suspense fallback={null}>
+          <NavigationMenuSheet open={menuOpen} onOpenChange={setMenuOpen} />
+        </Suspense>
+      )}
     </>
   );
 };

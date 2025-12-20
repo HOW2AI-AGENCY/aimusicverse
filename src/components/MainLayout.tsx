@@ -1,20 +1,22 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { BottomNavigation } from './BottomNavigation';
 import { Sidebar } from './Sidebar';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { ResizablePlayer } from './ResizablePlayer';
-import { OnboardingOverlay } from './onboarding/OnboardingOverlay';
 import { OnboardingTrigger } from './onboarding/OnboardingTrigger';
 import { usePlaybackTracking } from '@/hooks/usePlaybackTracking';
 import { SkipToContent } from './ui/skip-to-content';
 import { GuestModeBanner } from './GuestModeBanner';
 import { useGuestMode } from '@/contexts/GuestModeContext';
 import { cn } from '@/lib/utils';
-import { SubscriptionRequiredDialog } from './dialogs/SubscriptionRequiredDialog';
-import { GamificationOnboarding } from './gamification/GamificationOnboarding';
 import { setSubscriptionDialogCallback } from '@/hooks/useTrackActions';
 import { useTelegramSettingsButton } from '@/hooks/telegram';
+
+// Lazy load heavy dialogs - not needed on initial render
+const OnboardingOverlay = lazy(() => import('./onboarding/OnboardingOverlay').then(m => ({ default: m.OnboardingOverlay })));
+const SubscriptionRequiredDialog = lazy(() => import('./dialogs/SubscriptionRequiredDialog').then(m => ({ default: m.SubscriptionRequiredDialog })));
+const GamificationOnboarding = lazy(() => import('./gamification/GamificationOnboarding').then(m => ({ default: m.GamificationOnboarding })));
 
 export const MainLayout = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
@@ -68,19 +70,29 @@ export const MainLayout = () => {
       
       {/* Onboarding system */}
       <OnboardingTrigger />
-      <OnboardingOverlay />
+      <Suspense fallback={null}>
+        <OnboardingOverlay />
+      </Suspense>
       
-      {/* Subscription Required Dialog */}
-      <SubscriptionRequiredDialog 
-        open={subscriptionDialogOpen} 
-        onOpenChange={setSubscriptionDialogOpen} 
-      />
+      {/* Subscription Required Dialog - lazy loaded */}
+      {subscriptionDialogOpen && (
+        <Suspense fallback={null}>
+          <SubscriptionRequiredDialog 
+            open={subscriptionDialogOpen} 
+            onOpenChange={setSubscriptionDialogOpen} 
+          />
+        </Suspense>
+      )}
       
-      {/* Gamification Onboarding */}
-      <GamificationOnboarding
-        open={gamificationOnboardingOpen}
-        onComplete={handleGamificationOnboardingComplete}
-      />
+      {/* Gamification Onboarding - lazy loaded */}
+      {gamificationOnboardingOpen && (
+        <Suspense fallback={null}>
+          <GamificationOnboarding
+            open={gamificationOnboardingOpen}
+            onComplete={handleGamificationOnboardingComplete}
+          />
+        </Suspense>
+      )}
       
       {isDesktop && (
         <div className="w-64 fixed inset-y-0 z-50">
