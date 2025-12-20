@@ -1,0 +1,1 @@
+export { LyricsSyncDisplay } from './LyricsSyncDisplay';
