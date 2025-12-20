@@ -71,9 +71,17 @@ export class LyricsFormatter {
   static calculateCharCount(lyrics: string, excludeTags: boolean = true): number {
     if (excludeTags) {
       // Remove structural tags [tag] and dynamic tags (tag)
-      const lyricsWithoutTags = lyrics
+      let lyricsWithoutTags = lyrics
         .replace(/\[.*?\]/g, '')
         .replace(/\(.*?\)/g, '');
+
+      // Clean up extra whitespace left after tag removal
+      // Replace multiple consecutive newlines with double newline
+      lyricsWithoutTags = lyricsWithoutTags
+        .replace(/\n{3,}/g, '\n\n')  // max 2 consecutive newlines
+        .replace(/[ \t]+\n/g, '\n')   // remove trailing spaces before newlines
+        .replace(/\n[ \t]+/g, '\n');  // remove leading spaces after newlines
+
       return lyricsWithoutTags.trim().length;
     }
     return lyrics.length;
