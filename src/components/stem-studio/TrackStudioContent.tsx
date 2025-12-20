@@ -460,14 +460,21 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
               trackId={trackId}
               onViewResult={(taskId) => {
                 const replaced = replacedSections?.find(s => s.taskId === taskId);
-                if (replaced && track.audio_url && replaced.audioUrl) {
-                  setLatestCompletion({
-                    taskId,
-                    originalAudioUrl: track.audio_url,
-                    newAudioUrl: replaced.audioUrl,
-                    section: { start: replaced.start, end: replaced.end },
-                    status: 'completed',
-                  });
+                if (replaced && track.audio_url) {
+                  // Get audio URLs - try audioUrl first, fallback to checking if any variant exists
+                  const variantA = replaced.audioUrl;
+                  const variantB = replaced.audioUrlB;
+                  
+                  if (variantA) {
+                    setLatestCompletion({
+                      taskId,
+                      originalAudioUrl: track.audio_url,
+                      newAudioUrl: variantA,
+                      newAudioUrlB: variantB,
+                      section: { start: replaced.start, end: replaced.end },
+                      status: 'completed',
+                    });
+                  }
                 }
               }}
             />
