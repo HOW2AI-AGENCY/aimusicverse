@@ -1,9 +1,10 @@
 /**
  * Version Timeline Component
  * Visual representation of track versions with interactive switching
+ * Includes audio prefetching for faster version switching
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Check, Clock, GitBranch, ChevronDown, Star, Scissors, Wand2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -15,6 +16,7 @@ import { useTrackVersions, TrackVersion } from '@/hooks/useTrackVersions';
 import { useVersionSwitcher } from '@/hooks/useVersionSwitcher';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { prefetchAudio, shouldPrefetch } from '@/lib/audioCache';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { format } from 'date-fns';
@@ -56,6 +58,28 @@ export function VersionTimeline({
   const activeVersion = versions?.find(v => v.is_primary) ?? (versions && versions.length > 0 ? versions[0] : undefined);
   const versionCount = versions?.length || 0;
 
+  // Prefetch neighboring versions for instant switching
+  useEffect(() => {
+    if (!versions || versions.length <= 1 || !shouldPrefetch()) return;
+    
+    const activeIndex = versions.findIndex(v => v.id === activeVersion?.id);
+    if (activeIndex === -1) return;
+
+    // Prefetch next and previous versions
+    const indicesToPrefetch = [activeIndex - 1, activeIndex + 1].filter(
+      i => i >= 0 && i < versions.length && i !== activeIndex
+    );
+
+    indicesToPrefetch.forEach(i => {
+      const version = versions[i];
+      if (version?.audio_url) {
+        prefetchAudio(version.audio_url).catch(() => {
+          // Prefetch failure is not critical
+        });
+      }
+    });
+  }, [versions, activeVersion?.id]);
+
   const handleVersionSelect = async (version: TrackVersion) => {
     if (!version || version.id === activeVersion?.id) return;
     
@@ -67,6 +91,13 @@ export function VersionTimeline({
       setIsOpen(false);
     } catch (error) {
       // Error handled by mutation
+    }
+  };
+
+  // Prefetch version audio on hover for even faster switching
+  const handleVersionHover = (version: TrackVersion) => {
+    if (version?.audio_url && shouldPrefetch()) {
+      prefetchAudio(version.audio_url).catch(() => {});
     }
   };
 
@@ -110,6 +141,8 @@ export function VersionTimeline({
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
                     onClick={() => handleVersionSelect(version)}
+                    onMouseEnter={() => handleVersionHover(version)}
+                    onTouchStart={() => handleVersionHover(version)}
                     disabled={isSettingPrimary}
                     className={cn(
                       "w-full flex items-start gap-3 p-4 rounded-xl text-left transition-all",
@@ -181,6 +214,7 @@ export function VersionTimeline({
               <TooltipTrigger asChild>
                 <motion.button
                   onClick={() => handleVersionSelect(version)}
+                  onMouseEnter={() => handleVersionHover(version)}
                   disabled={isSettingPrimary}
                   className={cn(
                     "relative w-8 h-8 rounded-lg font-mono font-bold text-sm transition-all",
