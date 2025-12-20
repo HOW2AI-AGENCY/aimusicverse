@@ -157,7 +157,11 @@ export const UnifiedWaveformTimeline = memo(({
       setIsLoading(false);
     });
 
-    wavesurfer.on('error', (err) => {
+    wavesurfer.on('error', (err: any) => {
+      // Suppress AbortError as it's expected during cleanup
+      if (err?.name === 'AbortError' || err?.message?.includes('aborted')) {
+        return;
+      }
       logger.error('Waveform error', err);
       setIsLoading(false);
     });
