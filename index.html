@@ -137,10 +137,7 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    /* Hide fallback once React renders content */
-    #root:not(:empty) #loading-fallback {
-      display: none !important;
-    }
+    /* Fallback is removed automatically once React renders (root content replaced). */
   </style>
   
   <!-- Early error catcher -->
