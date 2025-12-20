@@ -1,9 +1,11 @@
 /**
  * Hook for parsing MIDI files from URL and extracting notes
+ * Uses dynamic import of @tonejs/midi to prevent vendor-audio chunk issues
  */
 import { useState, useCallback } from 'react';
-import { Midi } from '@tonejs/midi';
 import { logger } from '@/lib/logger';
+
+type MidiType = typeof import('@tonejs/midi');
 
 const log = logger.child({ module: 'MidiFileParser' });
 
@@ -44,22 +46,26 @@ export function useMidiFileParser() {
 
     try {
       log.info('Fetching MIDI file', { midiUrl });
-      
+
+      // Dynamically import @tonejs/midi to prevent vendor-audio chunk issues
+      const midiModule: MidiType = await import('@tonejs/midi');
+      const MidiClass = (midiModule as any).Midi ?? midiModule.Midi;
+
       const response = await fetch(midiUrl);
       if (!response.ok) {
         throw new Error(`Failed to fetch MIDI: ${response.status}`);
       }
 
       const arrayBuffer = await response.arrayBuffer();
-      const midi = new Midi(arrayBuffer);
+      const midi = new MidiClass(arrayBuffer);
 
       const notes: ParsedMidiNote[] = [];
       const trackNames: string[] = [];
 
-      midi.tracks.forEach((track, trackIndex) => {
+      midi.tracks.forEach((track: any, trackIndex: number) => {
         if (track.name) trackNames.push(track.name);
-        
-        track.notes.forEach((note) => {
+
+        track.notes.forEach((note: any) => {
           notes.push({
             pitch: note.midi,
             startTime: note.time,
