@@ -276,6 +276,10 @@ serve(async (req) => {
       case 'transcription':
         baseEndpoint = `${API_BASE}/transcription`;
         queryParams.set('model', smartModel);
+        // CRITICAL: Set demo=false to use full audio length with paid subscription
+        // Without this, Klangio only processes first ~50 seconds even with paid tier
+        queryParams.set('demo', 'false');
+        formData.append('demo', 'false');
         if (title) queryParams.set('title', title);
         // Add outputs - valid formats: midi, midi_quant, mxml, gp5, pdf
         const transcriptionValidFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
@@ -283,6 +287,7 @@ serve(async (req) => {
         const validOutputs = reqOutputs.filter((o: string) => transcriptionValidFormats.includes(o));
         if (validOutputs.length === 0) validOutputs.push('midi');
         console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(reqOutputs)}, valid=${JSON.stringify(validOutputs)}`);
+        console.log(`[klangio] Demo mode: false (paid tier - full length transcription)`);
         // Klangio expects 'outputs' in both query params AND form data for proper processing
         validOutputs.forEach((output: string) => {
           queryParams.append('outputs', output);
