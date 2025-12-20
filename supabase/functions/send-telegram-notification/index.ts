@@ -740,6 +740,66 @@ Deno.serve(async (req) => {
       }
     }
 
+    // Handle section_replaced notification - send audio file with replaced section
+    if (type === 'section_replaced' && audioUrl && finalTrackId) {
+      logger.info('Processing section_replaced notification', { trackId: finalTrackId });
+      
+      const trackTitle = escapeMarkdown(title || 'Секция заменена');
+      const versionText = versionLabel ? escapeMarkdown(` (версия ${versionLabel})`) : '';
+      
+      const caption = `✂️ *${trackTitle}*${versionText}\n\n🎵 Секция трека успешно заменена\\!\n\n🤖 _@AIMusicVerseBot_`;
+      
+      await sendTelegramAudio(finalChatId, audioUrl, {
+        caption,
+        title: `${title || 'Секция'} - ${versionLabel || 'New'}`,
+        performer: 'MusicVerse Studio',
+        coverUrl: coverUrl,
+        replyMarkup: {
+          inline_keyboard: [
+            [{ text: '🎛️ Открыть в студии', url: `${botDeepLink}?startapp=studio_${finalTrackId}` }],
+            [
+              { text: '✅ Применить', callback_data: `apply_version_${finalTrackId}` },
+              { text: '❌ Отклонить', callback_data: `discard_version_${finalTrackId}` }
+            ],
+            [{ text: '🏠 Меню', callback_data: 'open_main_menu' }]
+          ]
+        }
+      });
+
+      return new Response(
+        JSON.stringify({ success: true, type: 'section_replaced' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Handle stem_ready notification - send audio file with stem
+    if (type === 'stem_ready' && audioUrl && finalTrackId) {
+      logger.info('Processing stem_ready notification', { trackId: finalTrackId });
+      
+      const stemTitle = escapeMarkdown(title || 'Стем');
+      
+      const caption = `🎛️ *${stemTitle}*\n\n✨ Стем готов для использования\\!\n\n🤖 _@AIMusicVerseBot_`;
+      
+      await sendTelegramAudio(finalChatId, audioUrl, {
+        caption,
+        title: title || 'Stem',
+        performer: 'MusicVerse Studio',
+        coverUrl: coverUrl,
+        replyMarkup: {
+          inline_keyboard: [
+            [{ text: '🎛️ Открыть в студии', url: `${botDeepLink}?startapp=studio_${finalTrackId}` }],
+            [{ text: '📥 Скачать все стемы', callback_data: `download_stems_${finalTrackId}` }],
+            [{ text: '🏠 Меню', callback_data: 'open_main_menu' }]
+          ]
+        }
+      });
+
+      return new Response(
+        JSON.stringify({ success: true, type: 'stem_ready' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     // Handle track share type
     if (type === 'track_share' && finalTrackId) {
       logger.info('Processing track_share', { trackId: finalTrackId });

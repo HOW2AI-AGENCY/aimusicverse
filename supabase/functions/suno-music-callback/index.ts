@@ -346,13 +346,24 @@ serve(async (req) => {
           chainId: task.id,
         });
 
-        // Send notification
+        // Send notification with audio file
         if (task.telegram_chat_id) {
+          // Get track title
+          const { data: trackData } = await supabase
+            .from('tracks')
+            .select('title, cover_url')
+            .eq('id', trackId)
+            .single();
+          
           await supabase.functions.invoke('send-telegram-notification', {
             body: {
               type: 'section_replaced',
               chatId: task.telegram_chat_id,
               trackId,
+              audioUrl: finalAudioUrl,
+              title: trackData?.title || 'Новая секция',
+              coverUrl: trackData?.cover_url,
+              versionLabel: nextLabel,
               message: `Секция трека успешно заменена! Версия ${nextLabel}`,
             },
           });

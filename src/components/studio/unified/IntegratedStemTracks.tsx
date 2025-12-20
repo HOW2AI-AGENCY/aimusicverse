@@ -195,38 +195,34 @@ const StemTrackRowMobile = memo(({
 
           {/* Controls */}
           <div className="flex items-center gap-1">
-            {/* Solo */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => handleToggle('solo')}
-              className={cn(
-                "h-7 w-7 p-0 rounded-lg font-mono text-[10px] font-bold",
-                state.solo 
-                  ? "bg-primary text-primary-foreground" 
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              S
-            </Button>
-            
-            {/* Mute */}
+            {/* Mute - M button */}
             <Button
               variant="ghost"
               size="sm"
               onClick={() => handleToggle('mute')}
               className={cn(
-                "h-7 w-7 p-0 rounded-lg",
+                "h-7 w-7 p-0 rounded-lg font-mono text-[10px] font-bold transition-all",
                 state.muted 
-                  ? "bg-destructive/20 text-destructive" 
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "bg-destructive text-destructive-foreground" 
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
               )}
             >
-              {state.muted ? (
-                <VolumeX className="w-3.5 h-3.5" />
-              ) : (
-                <Volume2 className="w-3.5 h-3.5" />
+              M
+            </Button>
+            
+            {/* Solo - S button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleToggle('solo')}
+              className={cn(
+                "h-7 w-7 p-0 rounded-lg font-mono text-[10px] font-bold transition-all",
+                state.solo 
+                  ? "bg-primary text-primary-foreground" 
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
               )}
+            >
+              S
             </Button>
 
             {/* Volume toggle */}
@@ -359,29 +355,33 @@ const StemTrackRowDesktop = memo(({
         </span>
       </div>
 
-      {/* S/M buttons */}
+      {/* M/S buttons */}
       <div className="flex items-center gap-0.5 shrink-0">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => onToggle('solo')}
-          className={cn(
-            "h-5 w-5 p-0 rounded text-[9px] font-bold",
-            state.solo && "bg-primary text-primary-foreground"
-          )}
-        >
-          S
-        </Button>
         <Button
           variant="ghost"
           size="sm"
           onClick={() => onToggle('mute')}
           className={cn(
-            "h-5 w-5 p-0 rounded",
-            state.muted && "bg-destructive/20 text-destructive"
+            "h-5 w-5 p-0 rounded text-[9px] font-bold transition-all",
+            state.muted 
+              ? "bg-destructive text-destructive-foreground" 
+              : "hover:bg-muted"
           )}
         >
-          {state.muted ? <VolumeX className="w-2.5 h-2.5" /> : <Volume2 className="w-2.5 h-2.5" />}
+          M
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => onToggle('solo')}
+          className={cn(
+            "h-5 w-5 p-0 rounded text-[9px] font-bold transition-all",
+            state.solo 
+              ? "bg-primary text-primary-foreground" 
+              : "hover:bg-muted"
+          )}
+        >
+          S
         </Button>
       </div>
 

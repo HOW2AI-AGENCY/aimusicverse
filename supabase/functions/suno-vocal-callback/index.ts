@@ -200,6 +200,31 @@ serve(async (req) => {
       priority: 6,
     });
 
+    // Send Telegram notification with stem audio files
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('telegram_chat_id')
+      .eq('user_id', track.user_id)
+      .single();
+
+    if (profile?.telegram_chat_id) {
+      // Send notification for each stem with audio file
+      for (const stem of stemsToInsert) {
+        const stemLabel = stem.stem_type.charAt(0).toUpperCase() + stem.stem_type.slice(1);
+        await supabase.functions.invoke('send-telegram-notification', {
+          body: {
+            type: 'stem_ready',
+            chatId: profile.telegram_chat_id,
+            trackId: track.id,
+            audioUrl: stem.audio_url,
+            title: `${track.title || 'Трек'} - ${stemLabel}`,
+            coverUrl: track.cover_url,
+            message: `Стем ${stemLabel} готов`,
+          },
+        });
+      }
+    }
+
     return new Response(
       JSON.stringify({ success: true, stems_created: stemsToInsert.length }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }
