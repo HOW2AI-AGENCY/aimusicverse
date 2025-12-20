@@ -1,19 +1,19 @@
 /**
- * TranscriptionExportPanel - Export MIDI/Notes from Stems using klang.io
+ * TranscriptionExportPanel - Export MIDI/Notes from Stems
  *
  * Features:
- * - Transcribe individual stems to MIDI using klang.io API
- * - Export to multiple formats: MIDI, GP5, PDF, MusicXML
+ * - Transcribe individual stems to MIDI using klang.io or Replicate Basic Pitch
+ * - Export to multiple formats: MIDI, GP5, PDF, MusicXML (Klang.io only)
  * - Mobile-first design with clear UX
  * - Progress tracking for transcription
- * - Educational tooltips for users
+ * - Engine selection between Klang.io and Replicate
  */
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import {
   Music, Download, Loader2, FileMusic, Check,
-  AlertCircle, Info, Zap, FileText
+  AlertCircle, Info, Zap, FileText, Sparkles, Cpu
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -32,7 +32,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
 import { showErrorWithRecovery } from '@/lib/errorHandling';
-import { toAppError, ErrorCode } from '@/lib/errors/AppError';
+import { toAppError } from '@/lib/errors/AppError';
 
 const log = logger.child({ module: 'TranscriptionExportPanel' });
 
@@ -49,12 +49,14 @@ interface TranscriptionExportPanelProps {
   stemType: string;
   stemLabel: string;
   audioUrl: string;
+  trackId?: string;
   className?: string;
 }
 
+type TranscriptionEngine = 'replicate' | 'klangio';
 type TranscriptionModel = 'guitar' | 'piano' | 'bass' | 'drums' | 'vocal' | 'universal';
 
-const modelOptions: { value: TranscriptionModel; label: string; description: string }[] = [
+const klangioModels: { value: TranscriptionModel; label: string; description: string }[] = [
   { value: 'universal', label: 'Universal', description: 'Подходит для любых инструментов' },
   { value: 'guitar', label: 'Guitar', description: 'Оптимизирован для гитары' },
   { value: 'piano', label: 'Piano', description: 'Оптимизирован для фортепиано' },
@@ -79,6 +81,7 @@ export function TranscriptionExportPanel({
   stemType,
   stemLabel,
   audioUrl,
+  trackId,
   className,
 }: TranscriptionExportPanelProps) {
   const [isTranscribing, setIsTranscribing] = useState(false);
@@ -86,6 +89,7 @@ export function TranscriptionExportPanel({
   const [progressPercent, setProgressPercent] = useState(0);
   const [transcriptionFiles, setTranscriptionFiles] = useState<TranscriptionFiles | null>(null);
   const [selectedModel, setSelectedModel] = useState<TranscriptionModel>(getDefaultModel(stemType));
+  const [selectedEngine, setSelectedEngine] = useState<TranscriptionEngine>('replicate');
   const [error, setError] = useState<string | null>(null);
 
   const handleTranscribe = async () => {
@@ -95,61 +99,94 @@ export function TranscriptionExportPanel({
     setProgressPercent(10);
 
     try {
-      log.info('Starting transcription', { stemId, stemType, model: selectedModel });
+      log.info('Starting transcription', { stemId, stemType, model: selectedModel, engine: selectedEngine });
 
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
-      setProgress('Отправка на анализ klang.io...');
+      setProgress(`Отправка на анализ ${selectedEngine === 'replicate' ? 'Replicate' : 'klang.io'}...`);
       setProgressPercent(20);
 
-      // Call klang.io transcription API
-      const { data, error: transcriptionError } = await supabase.functions.invoke('klangio-analyze', {
-        body: {
-          audio_url: audioUrl,
-          mode: 'transcription',
-          model: selectedModel,
-          outputs: ['midi', 'midi_quant', 'gp5', 'pdf', 'mxml'],
-          user_id: user.id,
-          title: `${stemLabel} Stem`,
-        },
-      });
+      if (selectedEngine === 'replicate') {
+        // Use Replicate Basic Pitch via transcribe-midi edge function
+        const { data, error: transcriptionError } = await supabase.functions.invoke('transcribe-midi', {
+          body: {
+            track_id: trackId,
+            audio_url: audioUrl,
+            stem_id: stemId,
+            stem_type: stemType,
+            auto_select: true,
+          },
+        });
 
-      if (transcriptionError) throw transcriptionError;
+        if (transcriptionError) throw transcriptionError;
 
-      if (!data) {
-        throw new Error('No response from klang.io API');
-      }
+        if (!data?.success) {
+          throw new Error(data?.error || 'Ошибка транскрипции');
+        }
 
-      setProgress('Обработка результатов...');
-      setProgressPercent(80);
+        setProgress('Обработка результатов...');
+        setProgressPercent(80);
 
-      log.info('Transcription complete', { files: data.files });
+        log.info('Replicate transcription complete', { midiUrl: data.midi_url });
 
-      if (data.status === 'completed' && data.files) {
         setTranscriptionFiles({
-          midiUrl: data.files.midi,
-          midiQuantUrl: data.files.midi_quant || data.files.midi_unq, // API returns midi_quant (quantized MIDI)
-          gp5Url: data.files.gp5,
-          pdfUrl: data.files.pdf,
-          musicXmlUrl: data.files.mxml,
+          midiUrl: data.midi_url,
         });
 
         setProgress('Готово!');
         setProgressPercent(100);
 
         toast.success('Транскрипция завершена!', {
-          description: 'Файлы готовы к скачиванию',
+          description: 'MIDI файл готов к скачиванию',
         });
       } else {
-        throw new Error(data.error || 'Транскрипция не завершена');
+        // Use Klang.io for full transcription with multiple formats
+        const { data, error: transcriptionError } = await supabase.functions.invoke('klangio-analyze', {
+          body: {
+            audio_url: audioUrl,
+            mode: 'transcription',
+            model: selectedModel,
+            outputs: ['midi', 'midi_quant', 'gp5', 'pdf', 'mxml'],
+            user_id: user.id,
+            title: `${stemLabel} Stem`,
+          },
+        });
+
+        if (transcriptionError) throw transcriptionError;
+
+        if (!data) {
+          throw new Error('No response from klang.io API');
+        }
+
+        setProgress('Обработка результатов...');
+        setProgressPercent(80);
+
+        log.info('Klang.io transcription complete', { files: data.files });
+
+        if (data.status === 'completed' && data.files) {
+          setTranscriptionFiles({
+            midiUrl: data.files.midi,
+            midiQuantUrl: data.files.midi_quant || data.files.midi_unq,
+            gp5Url: data.files.gp5,
+            pdfUrl: data.files.pdf,
+            musicXmlUrl: data.files.mxml,
+          });
+
+          setProgress('Готово!');
+          setProgressPercent(100);
+
+          toast.success('Транскрипция завершена!', {
+            description: 'Файлы готовы к скачиванию',
+          });
+        } else {
+          throw new Error(data.error || 'Транскрипция не завершена');
+        }
       }
     } catch (err: unknown) {
       const appError = toAppError(err);
       log.error('Transcription error', appError.toJSON());
       setError(appError.message);
-      
-      // Use structured error recovery
       showErrorWithRecovery(appError);
     } finally {
       setIsTranscribing(false);
@@ -181,20 +218,55 @@ export function TranscriptionExportPanel({
           </div>
         </div>
 
+        {/* Engine Selection */}
+        {!hasFiles && !isTranscribing && (
+          <div className="mb-4">
+            <Label className="text-xs mb-2 block">AI Движок</Label>
+            <div className="flex gap-2">
+              <Button
+                variant={selectedEngine === 'replicate' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setSelectedEngine('replicate')}
+                className="flex-1 gap-1.5"
+              >
+                <Cpu className="w-3.5 h-3.5" />
+                <span className="text-xs">Basic Pitch</span>
+                <Badge variant="secondary" className="text-[10px] px-1 py-0">Быстро</Badge>
+              </Button>
+              <Button
+                variant={selectedEngine === 'klangio' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setSelectedEngine('klangio')}
+                className="flex-1 gap-1.5"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span className="text-xs">Klang.io</span>
+                <Badge variant="secondary" className="text-[10px] px-1 py-0">Форматы</Badge>
+              </Button>
+            </div>
+            <p className="text-[10px] text-muted-foreground mt-1.5">
+              {selectedEngine === 'replicate' 
+                ? 'Spotify Basic Pitch — быстрая транскрипция, только MIDI' 
+                : 'Klang.io — MIDI, PDF, Guitar Pro, MusicXML'}
+            </p>
+          </div>
+        )}
+
         {/* Info Alert */}
         <div className="mb-4 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 flex gap-2">
           <Info className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
           <div className="text-xs text-blue-200/80">
             <p className="font-medium mb-1">Как это работает?</p>
             <p>
-              Используем klang.io AI для транскрипции аудио стема в ноты.
-              Получите MIDI, табуляцию, ноты в PDF и Guitar Pro 5.
+              {selectedEngine === 'replicate'
+                ? 'Используем Spotify Basic Pitch для быстрой транскрипции аудио в MIDI.'
+                : 'Используем klang.io AI для транскрипции. Получите MIDI, табуляцию, ноты в PDF и Guitar Pro 5.'}
             </p>
           </div>
         </div>
 
-        {/* Model Selection */}
-        {!hasFiles && !isTranscribing && (
+        {/* Model Selection (Klang.io only) */}
+        {!hasFiles && !isTranscribing && selectedEngine === 'klangio' && (
           <div className="mb-4">
             <Label className="text-xs mb-2 block">Модель транскрипции</Label>
             <Select value={selectedModel} onValueChange={(v) => setSelectedModel(v as TranscriptionModel)}>
@@ -202,7 +274,7 @@ export function TranscriptionExportPanel({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {modelOptions.map((option) => (
+                {klangioModels.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
                     <div>
                       <div className="font-medium">{option.label}</div>
