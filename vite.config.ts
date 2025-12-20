@@ -122,10 +122,16 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("framer-motion")) {
               return "vendor-framer";
             }
-            // Audio/Media libraries - keep Tone.js with other audio libs to prevent circular dep errors
-            // "Cannot access 't' before initialization" occurs when Tone.js is in separate async chunk
-            if (id.includes("wavesurfer") || id.includes("audiomotion") || id.includes("tone")) {
-              return "vendor-audio";
+            // Audio/Media libraries
+            // IMPORTANT: keep these in SEPARATE chunks to avoid circular init/TDZ errors.
+            if (id.includes("tone")) {
+              return "vendor-tone";
+            }
+            if (id.includes("wavesurfer")) {
+              return "vendor-wavesurfer";
+            }
+            if (id.includes("audiomotion")) {
+              return "vendor-audiomotion";
             }
             // TanStack Query - MUST include both react-query AND query-core
             // query-core utilities must be with react-query to prevent circular dependencies
