@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import WaveSurfer from 'wavesurfer.js';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { logger } from '@/lib/logger';
+
+type WaveSurferCtor = typeof import('wavesurfer.js');
+type WaveSurferInstance = any;
 
 interface AudioWaveformPreviewProps {
   audioUrl: string;
@@ -13,7 +15,7 @@ interface AudioWaveformPreviewProps {
 
 export const AudioWaveformPreview = ({ audioUrl, className }: AudioWaveformPreviewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const wavesurferRef = useRef<WaveSurfer | null>(null);
+  const wavesurferRef = useRef<WaveSurferInstance | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -23,10 +25,10 @@ export const AudioWaveformPreview = ({ audioUrl, className }: AudioWaveformPrevi
   useEffect(() => {
     // Initialize loading state outside of effect body when possible
     let mounted = true;
-    
-    const initWavesurfer = () => {
+
+    const initWavesurfer = async () => {
       if (!mounted) return;
-      
+
       if (!containerRef.current || !audioUrl) {
         setIsLoading(false);
         return;
@@ -35,58 +37,65 @@ export const AudioWaveformPreview = ({ audioUrl, className }: AudioWaveformPrevi
       setIsLoading(true);
       setIsReady(false);
 
-      const wavesurfer = WaveSurfer.create({
-      container: containerRef.current,
-      height: 48,
-      waveColor: 'hsl(var(--muted-foreground) / 0.4)',
-      progressColor: 'hsl(var(--primary))',
-      barWidth: 2,
-      barGap: 2,
-      barRadius: 2,
-      cursorWidth: 1,
-      cursorColor: 'hsl(var(--primary))',
-      normalize: true,
-      backend: 'WebAudio',
-      interact: true,
-      hideScrollbar: true,
-      fillParent: true,
-    });
+      try {
+        const mod: WaveSurferCtor = await import('wavesurfer.js');
+        const WaveSurfer = (mod as any).default ?? (mod as any);
+        if (!mounted) return;
 
-    wavesurferRef.current = wavesurfer;
+        const wavesurfer = WaveSurfer.create({
+          container: containerRef.current,
+          height: 48,
+          waveColor: 'hsl(var(--muted-foreground) / 0.4)',
+          progressColor: 'hsl(var(--primary))',
+          barWidth: 2,
+          barGap: 2,
+          barRadius: 2,
+          cursorWidth: 1,
+          cursorColor: 'hsl(var(--primary))',
+          normalize: true,
+          backend: 'WebAudio',
+          interact: true,
+          hideScrollbar: true,
+          fillParent: true,
+        });
 
-      wavesurfer.on('ready', () => {
-        if (mounted) {
+        wavesurferRef.current = wavesurfer;
+
+        wavesurfer.on('ready', () => {
+          if (!mounted) return;
           setIsReady(true);
           setIsLoading(false);
           setDuration(wavesurfer.getDuration());
-        }
-      });
+        });
 
-      wavesurfer.on('error', (err) => {
-        logger.error('Waveform error', { error: err });
-        if (mounted) {
-          setIsLoading(false);
-        }
-      });
+        wavesurfer.on('error', (err: unknown) => {
+          logger.error('Waveform error', { error: err });
+          if (mounted) {
+            setIsLoading(false);
+          }
+        });
 
-      wavesurfer.on('audioprocess', () => {
-        if (mounted) {
-          setCurrentTime(wavesurfer.getCurrentTime());
-        }
-      });
+        wavesurfer.on('audioprocess', () => {
+          if (mounted) {
+            setCurrentTime(wavesurfer.getCurrentTime());
+          }
+        });
 
-      wavesurfer.on('play', () => {
-        if (mounted) setIsPlaying(true);
-      });
-      wavesurfer.on('pause', () => {
-        if (mounted) setIsPlaying(false);
-      });
-      wavesurfer.on('finish', () => {
-        if (mounted) setIsPlaying(false);
-      });
+        wavesurfer.on('play', () => {
+          if (mounted) setIsPlaying(true);
+        });
+        wavesurfer.on('pause', () => {
+          if (mounted) setIsPlaying(false);
+        });
+        wavesurfer.on('finish', () => {
+          if (mounted) setIsPlaying(false);
+        });
 
-      wavesurferRef.current = wavesurfer;
-      wavesurfer.load(audioUrl);
+        wavesurfer.load(audioUrl);
+      } catch (e) {
+        logger.error('Failed to init WaveSurfer', e);
+        if (mounted) setIsLoading(false);
+      }
     };
 
     initWavesurfer();

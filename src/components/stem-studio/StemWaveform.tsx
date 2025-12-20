@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState, useCallback, memo } from 'react';
-import WaveSurfer from 'wavesurfer.js';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import { logger } from '@/lib/logger';
+
+type WaveSurferCtor = typeof import('wavesurfer.js');
+type WaveSurferInstance = any;
 
 interface StemWaveformProps {
   audioUrl: string;
@@ -45,69 +47,83 @@ export const StemWaveform = memo(({
   onSeek,
 }: StemWaveformProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const wavesurferRef = useRef<WaveSurfer | null>(null);
+  const wavesurferRef = useRef<WaveSurferInstance | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const colors = colorMap[color] || colorMap.blue;
 
-  // Initialize WaveSurfer
+  // Initialize WaveSurfer (lazy-load to avoid pulling vendor-audio into initial route)
   useEffect(() => {
-    if (!containerRef.current || !audioUrl) return;
+    let mounted = true;
 
-    setIsLoading(true);
-    setIsReady(false);
+    const init = async () => {
+      if (!containerRef.current || !audioUrl) return;
 
-    const wavesurfer = WaveSurfer.create({
-      container: containerRef.current,
-      height,
-      waveColor: colors.wave,
-      progressColor: colors.progress,
-      barWidth: 2,
-      barGap: 1,
-      barRadius: 2,
-      cursorWidth: 0,
-      normalize: true,
-      backend: 'WebAudio',
-      interact: true,
-      hideScrollbar: true,
-      fillParent: true,
-    });
+      setIsLoading(true);
+      setIsReady(false);
 
-    wavesurferRef.current = wavesurfer;
+      const mod: WaveSurferCtor = await import('wavesurfer.js');
+      const WaveSurfer = (mod as any).default ?? (mod as any);
+      if (!mounted) return;
 
-    wavesurfer.on('ready', () => {
-      setIsReady(true);
-      setIsLoading(false);
-    });
+      const wavesurfer = WaveSurfer.create({
+        container: containerRef.current,
+        height,
+        waveColor: colors.wave,
+        progressColor: colors.progress,
+        barWidth: 2,
+        barGap: 1,
+        barRadius: 2,
+        cursorWidth: 0,
+        normalize: true,
+        backend: 'WebAudio',
+        interact: true,
+        hideScrollbar: true,
+        fillParent: true,
+      });
 
-    wavesurfer.on('error', (err: any) => {
-      // Suppress AbortError as it's expected during cleanup
-      if (err?.name === 'AbortError' || err?.message?.includes('aborted')) {
-        return;
-      }
-      logger.error('Waveform error', err);
-      setIsLoading(false);
-    });
+      wavesurferRef.current = wavesurfer;
 
-    wavesurfer.on('click', (relativeX) => {
-      if (onSeek && duration > 0) {
-        onSeek(relativeX * duration);
-      }
-    });
+      wavesurfer.on('ready', () => {
+        if (!mounted) return;
+        setIsReady(true);
+        setIsLoading(false);
+      });
 
-    wavesurfer.load(audioUrl);
+      wavesurfer.on('error', (err: any) => {
+        // Suppress AbortError as it's expected during cleanup
+        if (err?.name === 'AbortError' || err?.message?.includes('aborted')) {
+          return;
+        }
+        logger.error('Waveform error', err);
+        if (mounted) setIsLoading(false);
+      });
+
+      wavesurfer.on('click', (relativeX: number) => {
+        if (onSeek && duration > 0) {
+          onSeek(relativeX * duration);
+        }
+      });
+
+      wavesurfer.load(audioUrl);
+    };
+
+    init();
 
     return () => {
-      try {
-        wavesurfer.destroy();
-      } catch (e: any) {
-        // Suppress AbortError during cleanup
-        if (e?.name !== 'AbortError') {
-          logger.error('Waveform destroy error', e);
+      mounted = false;
+      if (wavesurferRef.current) {
+        try {
+          wavesurferRef.current.destroy();
+        } catch (e: any) {
+          // Suppress AbortError during cleanup
+          if (e?.name !== 'AbortError') {
+            logger.error('Waveform destroy error', e);
+          }
         }
+        wavesurferRef.current = null;
       }
-      wavesurferRef.current = null;
     };
   }, [audioUrl, height]);
 

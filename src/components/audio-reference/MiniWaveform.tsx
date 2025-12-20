@@ -4,9 +4,11 @@
  */
 
 import { useEffect, useRef, useState, memo } from 'react';
-import WaveSurfer from 'wavesurfer.js';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+
+type WaveSurferCtor = typeof import('wavesurfer.js');
+type WaveSurferInstance = any;
 
 interface MiniWaveformProps {
   audioUrl: string;
@@ -28,59 +30,74 @@ export const MiniWaveform = memo(function MiniWaveform({
   height = 32,
 }: MiniWaveformProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const wavesurferRef = useRef<WaveSurfer | null>(null);
+  const wavesurferRef = useRef<WaveSurferInstance | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const lastSeekRef = useRef<number>(0);
 
-  // Initialize WaveSurfer
+  // Initialize WaveSurfer (lazy-load to avoid pulling vendor-audio into initial route)
   useEffect(() => {
-    if (!containerRef.current || !audioUrl) return;
+    let mounted = true;
 
-    setIsLoading(true);
-    setIsReady(false);
+    const init = async () => {
+      if (!containerRef.current || !audioUrl) return;
 
-    const wavesurfer = WaveSurfer.create({
-      container: containerRef.current,
-      height,
-      waveColor: 'rgba(255, 255, 255, 0.3)',
-      progressColor: 'hsl(var(--primary))',
-      barWidth: 2,
-      barGap: 1,
-      barRadius: 2,
-      cursorWidth: 0,
-      normalize: true,
-      interact: true,
-      hideScrollbar: true,
-      fillParent: true,
-    });
+      setIsLoading(true);
+      setIsReady(false);
 
-    wavesurferRef.current = wavesurfer;
+      const mod: WaveSurferCtor = await import('wavesurfer.js');
+      const WaveSurfer = (mod as any).default ?? (mod as any);
+      if (!mounted) return;
 
-    wavesurfer.on('ready', () => {
-      setIsReady(true);
-      setIsLoading(false);
-    });
+      const wavesurfer = WaveSurfer.create({
+        container: containerRef.current,
+        height,
+        waveColor: 'rgba(255, 255, 255, 0.3)',
+        progressColor: 'hsl(var(--primary))',
+        barWidth: 2,
+        barGap: 1,
+        barRadius: 2,
+        cursorWidth: 0,
+        normalize: true,
+        interact: true,
+        hideScrollbar: true,
+        fillParent: true,
+      });
 
-    wavesurfer.on('error', () => {
-      setIsLoading(false);
-    });
+      wavesurferRef.current = wavesurfer;
 
-    wavesurfer.on('click', (relativeX) => {
-      if (onSeek && duration > 0) {
-        const seekTime = relativeX * duration;
-        lastSeekRef.current = seekTime;
-        onSeek(seekTime);
-      }
-    });
+      wavesurfer.on('ready', () => {
+        if (!mounted) return;
+        setIsReady(true);
+        setIsLoading(false);
+      });
 
-    // Mute WaveSurfer's audio - we use external audio element
-    wavesurfer.setMuted(true);
-    wavesurfer.load(audioUrl);
+      wavesurfer.on('error', () => {
+        if (!mounted) return;
+        setIsLoading(false);
+      });
+
+      wavesurfer.on('click', (relativeX: number) => {
+        if (onSeek && duration > 0) {
+          const seekTime = relativeX * duration;
+          lastSeekRef.current = seekTime;
+          onSeek(seekTime);
+        }
+      });
+
+      // Mute WaveSurfer's audio - we use external audio element
+      wavesurfer.setMuted(true);
+      wavesurfer.load(audioUrl);
+    };
+
+    init();
 
     return () => {
-      wavesurfer.destroy();
-      wavesurferRef.current = null;
+      mounted = false;
+      if (wavesurferRef.current) {
+        wavesurferRef.current.destroy();
+        wavesurferRef.current = null;
+      }
     };
   }, [audioUrl, height, duration, onSeek]);
 

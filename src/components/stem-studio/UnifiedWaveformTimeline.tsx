@@ -6,7 +6,6 @@
  */
 
 import { useEffect, useRef, useState, useCallback, memo, useMemo } from 'react';
-import WaveSurfer from 'wavesurfer.js';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
@@ -14,6 +13,9 @@ import { DetectedSection } from '@/hooks/useSectionDetection';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Skeleton } from '@/components/ui/skeleton';
 import { logger } from '@/lib/logger';
+
+type WaveSurferCtor = typeof import('wavesurfer.js');
+type WaveSurferInstance = any;
 
 interface UnifiedWaveformTimelineProps {
   audioUrl: string;
@@ -120,65 +122,84 @@ export const UnifiedWaveformTimeline = memo(({
 }: UnifiedWaveformTimelineProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const waveformRef = useRef<HTMLDivElement>(null);
-  const wavesurferRef = useRef<WaveSurfer | null>(null);
+  const wavesurferRef = useRef<WaveSurferInstance | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [hoveredSection, setHoveredSection] = useState<number | null>(null);
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
-  // Initialize WaveSurfer
+  // Initialize WaveSurfer (lazy-load to avoid pulling vendor-audio into initial route)
   useEffect(() => {
-    if (!waveformRef.current || !audioUrl) return;
+    let mounted = true;
 
-    setIsLoading(true);
-    setIsReady(false);
+    const init = async () => {
+      if (!waveformRef.current || !audioUrl) return;
 
-    const wavesurfer = WaveSurfer.create({
-      container: waveformRef.current,
-      height: height - 32, // Leave space for section labels
-      waveColor: 'hsl(var(--primary) / 0.25)',
-      progressColor: 'hsl(var(--primary) / 0.6)',
-      barWidth: 2,
-      barGap: 1,
-      barRadius: 2,
-      cursorWidth: 0,
-      normalize: true,
-      backend: 'WebAudio',
-      interact: false, // We handle interaction ourselves
-      hideScrollbar: true,
-      fillParent: true,
-    });
+      setIsLoading(true);
+      setIsReady(false);
 
-    wavesurferRef.current = wavesurfer;
+      try {
+        const mod: WaveSurferCtor = await import('wavesurfer.js');
+        const WaveSurfer = (mod as any).default ?? (mod as any);
+        if (!mounted) return;
 
-    wavesurfer.on('ready', () => {
-      setIsReady(true);
-      setIsLoading(false);
-    });
+        const wavesurfer = WaveSurfer.create({
+          container: waveformRef.current,
+          height: height - 32, // Leave space for section labels
+          waveColor: 'hsl(var(--primary) / 0.25)',
+          progressColor: 'hsl(var(--primary) / 0.6)',
+          barWidth: 2,
+          barGap: 1,
+          barRadius: 2,
+          cursorWidth: 0,
+          normalize: true,
+          backend: 'WebAudio',
+          interact: false, // We handle interaction ourselves
+          hideScrollbar: true,
+          fillParent: true,
+        });
 
-    wavesurfer.on('error', (err: any) => {
-      // Suppress AbortError as it's expected during cleanup
-      if (err?.name === 'AbortError' || err?.message?.includes('aborted')) {
-        return;
+        wavesurferRef.current = wavesurfer;
+
+        wavesurfer.on('ready', () => {
+          if (!mounted) return;
+          setIsReady(true);
+          setIsLoading(false);
+        });
+
+        wavesurfer.on('error', (err: any) => {
+          // Suppress AbortError as it's expected during cleanup
+          if (err?.name === 'AbortError' || err?.message?.includes('aborted')) {
+            return;
+          }
+          logger.error('Waveform error', err);
+          if (mounted) setIsLoading(false);
+        });
+
+        wavesurfer.load(audioUrl);
+      } catch (e) {
+        logger.error('Failed to init WaveSurfer', e);
+        if (mounted) setIsLoading(false);
       }
-      logger.error('Waveform error', err);
-      setIsLoading(false);
-    });
+    };
 
-    wavesurfer.load(audioUrl);
+    init();
 
     return () => {
-      // WaveSurfer can throw AbortError during destroy if a load is in-flight.
-      // This should not surface as an app error.
-      try {
-        wavesurfer.destroy();
-      } catch (e: any) {
-        if (e?.name !== 'AbortError') {
-          logger.error('Waveform destroy error', e);
+      mounted = false;
+      if (wavesurferRef.current) {
+        // WaveSurfer can throw AbortError during destroy if a load is in-flight.
+        // This should not surface as an app error.
+        try {
+          wavesurferRef.current.destroy();
+        } catch (e: any) {
+          if (e?.name !== 'AbortError') {
+            logger.error('Waveform destroy error', e);
+          }
+        } finally {
+          wavesurferRef.current = null;
         }
-      } finally {
-        wavesurferRef.current = null;
       }
     };
   }, [audioUrl, height]);
