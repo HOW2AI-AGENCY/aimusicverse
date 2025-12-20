@@ -8,6 +8,9 @@ export interface TrackStem {
   audio_url: string;
   separation_mode: string | null;
   version_id: string | null;
+  source?: 'separated' | 'generated' | 'uploaded' | string | null;
+  generation_prompt?: string | null;
+  generation_model?: string | null;
   created_at: string | null;
 }
 

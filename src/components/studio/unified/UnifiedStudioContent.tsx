@@ -12,6 +12,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import { 
   Scissors, Split, Layers, Sliders, ChevronLeft,
   Play, Pause, SkipBack, SkipForward, Volume2, VolumeX,
@@ -215,52 +216,43 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       }
     };
 
-    // Create audio elements for each stem - use loadeddata event (faster than canplaythrough)
+    // Create audio elements for each stem - only load metadata initially (fast)
     stems.forEach(stem => {
       if (!stemAudioRefs.current[stem.id]) {
         const audio = new Audio();
-        audio.preload = 'metadata'; // Only load metadata first, faster initial load
+        audio.preload = 'metadata';
         audio.volume = 0.85;
         audio.crossOrigin = 'anonymous';
-        
-        // Use loadedmetadata - fires when duration/dimensions are available
-        const handleLoadedMetadata = () => {
-          // Now switch to auto preload for actual data
-          audio.preload = 'auto';
-        };
 
-        // Use canplay (readyState >= 3) instead of canplaythrough (readyState >= 4)
-        const handleCanPlay = () => {
+        const handleLoadedMetadata = () => {
           loadedCount++;
           stemsLoadingCountRef.current = loadedCount;
-          logger.debug('Stem audio ready', { stemId: stem.id, stemType: stem.stem_type, loadedCount, totalStems });
+          logger.debug('Stem metadata loaded', { stemId: stem.id, stemType: stem.stem_type, loadedCount, totalStems });
           checkAllLoaded();
         };
-        
+
         const handleError = (e: Event) => {
           logger.error('Stem audio load error', { stemId: stem.id, error: e });
           // Still count as "loaded" to not block other stems
           loadedCount++;
           checkAllLoaded();
         };
-        
+
         audio.addEventListener('loadedmetadata', handleLoadedMetadata, { once: true });
-        audio.addEventListener('canplay', handleCanPlay, { once: true });
         audio.addEventListener('error', handleError, { once: true });
-        
-        // Start loading
+
+        // Start metadata loading
         audio.src = stem.audio_url;
         audio.load();
-        
+
         stemAudioRefs.current[stem.id] = audio;
       } else {
-        // Already exists, check if ready
         const audio = stemAudioRefs.current[stem.id];
-        if (audio.readyState >= 3) { // HAVE_FUTURE_DATA is enough
+        if (audio.readyState >= 1) {
           loadedCount++;
           checkAllLoaded();
         } else {
-          audio.addEventListener('canplay', () => {
+          audio.addEventListener('loadedmetadata', () => {
             loadedCount++;
             checkAllLoaded();
           }, { once: true });
@@ -438,6 +430,12 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           let playableCount = 0;
           
           for (const [stemId, audio] of Object.entries(stemAudioRefs.current)) {
+            // Ensure we actually start buffering only when user hits play
+            if (audio.preload !== 'auto') {
+              audio.preload = 'auto';
+              audio.load();
+            }
+
             // Sync time before playing
             audio.currentTime = currentTime;
             
@@ -576,7 +574,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   };
 
   // Stem action handler
-  const handleStemAction = (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes') => {
+  const handleStemAction = async (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete') => {
     switch (action) {
       case 'reference':
         ReferenceManager.createFromStem({
@@ -602,10 +600,49 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         window.open(stem.audio_url, '_blank');
         break;
       case 'view-notes':
-        // Open MIDI drawer in player mode to view notes
         setSelectedStemForMidi(stem);
         setMidiDrawerOpen(true);
         break;
+      case 'delete': {
+        if (!stem.source || stem.source === 'separated') {
+          toast.error('Этот стем нельзя удалить');
+          return;
+        }
+        const ok = window.confirm('Удалить этот стем? Это действие нельзя отменить.');
+        if (!ok) return;
+
+        try {
+          // Stop local audio immediately
+          const audio = stemAudioRefs.current[stem.id];
+          if (audio) {
+            audio.pause();
+            audio.src = '';
+            delete stemAudioRefs.current[stem.id];
+          }
+
+          // Remove local UI state
+          setStemStates(prev => {
+            const next = { ...prev };
+            delete next[stem.id];
+            return next;
+          });
+
+          const { error } = await supabase
+            .from('track_stems')
+            .delete()
+            .eq('id', stem.id)
+            .eq('track_id', trackId);
+
+          if (error) throw error;
+
+          queryClient.invalidateQueries({ queryKey: ['track-stems', trackId] });
+          toast.success('Стем удалён');
+        } catch (e) {
+          logger.error('Failed to delete stem', { stemId: stem.id, error: e });
+          toast.error('Не удалось удалить стем');
+        }
+        break;
+      }
     }
   };
 
