@@ -48,6 +48,7 @@ interface StemMidiDrawerProps {
   stem: TrackStem | null;
   trackId: string;
   trackTitle: string;
+  trackDurationSeconds?: number | null; // For engine auto-selection
 }
 
 const modelIcons: Record<string, React.ReactNode> = {
@@ -71,7 +72,8 @@ export function StemMidiDrawer({
   onOpenChange, 
   stem, 
   trackId,
-  trackTitle 
+  trackTitle,
+  trackDurationSeconds 
 }: StemMidiDrawerProps) {
   const isMobile = useIsMobile();
   const [selectedModel, setSelectedModel] = useState<KlangioModel>('universal');
@@ -149,8 +151,10 @@ export function StemMidiDrawer({
         
       const transcriptionResult = await transcribe(stem.audio_url, { 
         trackId,
+        stemId: stem.id,
         model: apiModel,
-        outputs: selectedOutputs
+        outputs: selectedOutputs,
+        durationSeconds: trackDurationSeconds || undefined,
       });
       
       if (transcriptionResult) {

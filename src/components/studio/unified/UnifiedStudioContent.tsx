@@ -1223,6 +1223,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           stem={selectedStemForMidi}
           trackId={trackId}
           trackTitle={track.title || 'Трек'}
+          trackDurationSeconds={track.duration_seconds}
         />
       </Suspense>
 
