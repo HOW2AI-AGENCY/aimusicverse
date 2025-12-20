@@ -310,6 +310,7 @@ export type Database = {
           created_at: string
           failed_count: number | null
           id: string
+          image_url: string | null
           message: string
           sender_id: string
           sent_count: number | null
@@ -320,6 +321,7 @@ export type Database = {
           created_at?: string
           failed_count?: number | null
           id?: string
+          image_url?: string | null
           message: string
           sender_id: string
           sent_count?: number | null
@@ -330,11 +332,45 @@ export type Database = {
           created_at?: string
           failed_count?: number | null
           id?: string
+          image_url?: string | null
           message?: string
           sender_id?: string
           sent_count?: number | null
           target_type?: string | null
           title?: string
+        }
+        Relationships: []
+      }
+      broadcast_templates: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          image_url: string | null
+          message: string
+          name: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          image_url?: string | null
+          message: string
+          name: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          image_url?: string | null
+          message?: string
+          name?: string
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }
