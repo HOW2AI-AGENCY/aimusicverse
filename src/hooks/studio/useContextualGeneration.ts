@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { getStemLabel } from '@/lib/stemLabels';
 
 export interface TrackContext {
   bpm?: number;
@@ -119,29 +120,8 @@ export function useContextualGeneration({ trackId, trackUrl }: UseContextualGene
   };
 }
 
-// Stem type labels
-const stemLabels: Record<string, string> = {
-  drums: 'Ударные',
-  bass: 'Бас',
-  piano: 'Пианино',
-  strings: 'Струнные',
-  synth: 'Синтезатор',
-  sfx: 'SFX',
-  guitar: 'Гитара',
-  pad: 'Пэд',
-  generated_drums: 'Ударные',
-  generated_bass: 'Бас',
-  generated_piano: 'Пианино',
-  generated_strings: 'Струнные',
-  generated_synth: 'Синтезатор',
-  generated_sfx: 'SFX',
-  generated_guitar: 'Гитара',
-  generated_pad: 'Пэд',
-};
-
-export function getStemLabel(stemType: string): string {
-  return stemLabels[stemType.toLowerCase()] || stemType;
-}
+// Re-export centralized stem labeling for backwards compatibility
+export { getStemLabel };
 
 // Stem type icons mapping
 export const stemTypeConfig: Record<StemType, { 

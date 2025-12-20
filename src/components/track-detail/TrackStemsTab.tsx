@@ -3,6 +3,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Play, Download, Loader2, Mic, Volume2, Music } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { getStemLabel } from '@/lib/stemLabels';
 
 interface TrackStemsTabProps {
   trackId: string;
@@ -20,19 +21,6 @@ export const TrackStemsTab = ({ trackId }: TrackStemsTabProps) => {
       default:
         return <Music className="w-4 h-4" />;
     }
-  };
-
-  const getStemLabel = (stemType: string) => {
-    const labels: Record<string, string> = {
-      vocal: 'Вокал',
-      instrumental: 'Инструментал',
-      drums: 'Барабаны',
-      bass: 'Бас',
-      guitar: 'Гитара',
-      piano: 'Фортепиано',
-      other: 'Другое',
-    };
-    return labels[stemType.toLowerCase()] || stemType;
   };
 
   if (isLoading) {

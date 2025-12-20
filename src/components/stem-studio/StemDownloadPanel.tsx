@@ -13,35 +13,12 @@ import { TrackStem } from '@/hooks/useTrackStems';
 import { toast } from 'sonner';
 import JSZip from 'jszip';
 import { logger } from '@/lib/logger';
+import { getStemLabel } from '@/lib/stemLabels';
 
 interface StemDownloadPanelProps {
   stems: TrackStem[];
   trackTitle: string;
 }
-
-const stemLabels: Record<string, string> = {
-  vocals: 'Вокал',
-  vocal: 'Вокал',
-  backing_vocals: 'Бэк-вокал',
-  drums: 'Ударные',
-  bass: 'Бас',
-  guitar: 'Гитара',
-  keyboard: 'Клавишные',
-  piano: 'Пианино',
-  strings: 'Струнные',
-  brass: 'Духовые',
-  woodwinds: 'Дер. духовые',
-  percussion: 'Перкуссия',
-  synth: 'Синтезатор',
-  fx: 'Эффекты',
-  atmosphere: 'Атмосфера',
-  instrumental: 'Инструментал',
-  other: 'Другое',
-};
-
-const getStemLabel = (stemType: string): string => {
-  return stemLabels[stemType.toLowerCase()] || stemType;
-};
 
 const sanitizeFilename = (name: string): string => {
   return name.replace(/[^a-zA-Zа-яА-Я0-9_\-\s]/g, '').trim().replace(/\s+/g, '_');

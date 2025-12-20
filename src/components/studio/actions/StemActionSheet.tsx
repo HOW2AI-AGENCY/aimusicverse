@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/sheet';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
 import { cn } from '@/lib/utils';
+import { getStemLabel } from '@/lib/stemLabels';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { TrackStem } from '@/hooks/useTrackStems';
 
@@ -101,20 +102,7 @@ export function StemActionSheet({
   const midiModels = MIDI_MODELS[stemType] || MIDI_MODELS.default;
   const isGuitar = stemType === 'guitar';
 
-  const getStemLabel = (type: string) => {
-    const labels: Record<string, string> = {
-      vocal: 'Вокал',
-      vocals: 'Вокал',
-      instrumental: 'Инструментал',
-      backing: 'Бэкинг',
-      accompaniment: 'Аккомпанемент',
-      drums: 'Ударные',
-      bass: 'Бас',
-      piano: 'Пианино',
-      guitar: 'Гитара',
-    };
-    return labels[type] || type;
-  };
+  // Using centralized getStemLabel from stemLabels utility
 
   const content = (
     <div className="space-y-6 p-4">
