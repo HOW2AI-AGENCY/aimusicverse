@@ -13,9 +13,9 @@ import { cn } from '@/lib/utils';
 import { EqualizerControl } from '@/components/stem-studio/effects/EqualizerControl';
 import { CompressorControl } from '@/components/stem-studio/effects/CompressorControl';
 import { ReverbControl } from '@/components/stem-studio/effects/ReverbControl';
-import { eqPresets, compressorPresets, reverbPresets } from '@/hooks/studio';
+import { eqPresets, compressorPresets, reverbPresets } from '@/hooks/studio/stemEffectsConfig';
 import type { Tables } from '@/integrations/supabase/types';
-import type { StemEffects, EQSettings, CompressorSettings, ReverbSettings } from '@/hooks/studio';
+import type { StemEffects, EQSettings, CompressorSettings, ReverbSettings } from '@/hooks/studio/stemEffectsConfig';
 
 interface MobileStemEffectsProps {
   stems: Tables<'track_stems'>[];

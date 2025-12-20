@@ -7,7 +7,7 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { StemEffects } from '@/hooks/studio';
+import { StemEffects } from '@/hooks/studio/stemEffectsConfig';
 import { cn } from '@/lib/utils';
 
 interface EffectsIndicatorProps {

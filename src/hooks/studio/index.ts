@@ -1,13 +1,28 @@
 /**
  * Stem Studio hooks export
- * Hooks for stem separation and audio studio functionality (IMP046)
  * 
- * @task T064 - Added useLoopRegion hook for loop region selection
+ * SAFE EXPORTS ONLY - types and lightweight utilities
+ * 
+ * WARNING: Do NOT add useStemAudioEngine, useMultiTrackAudio, useStemStudioEngine
+ * here - they create AudioContext at module level and cause 
+ * "Cannot access 't' before initialization" errors in production.
+ * 
+ * Import those directly from their files:
+ * - import { useStemAudioEngine } from '@/hooks/studio/useStemAudioEngine'
+ * - import { useMultiTrackAudio } from '@/hooks/studio/useMultiTrackAudio'
+ * - import { useStemStudioEngine } from '@/hooks/studio/useStemStudioEngine'
  */
 
-export { useStemStudioEngine } from './useStemStudioEngine';
+// Safe type exports (no runtime code)
+export type {
+  StemEffects,
+  EQSettings,
+  CompressorSettings,
+  ReverbSettings,
+} from './useStemAudioEngine';
+
+// Safe constant exports (extracted to avoid pulling in the whole engine)
 export { 
-  useStemAudioEngine,
   defaultStemEffects,
   eqPresets,
   compressorPresets,
@@ -15,14 +30,9 @@ export {
   defaultEQSettings,
   defaultCompressorSettings,
   defaultReverbSettings,
-} from './useStemAudioEngine';
-export type {
-  StemEffects,
-  EQSettings,
-  CompressorSettings,
-  ReverbSettings,
-} from './useStemAudioEngine';
-export { useStudioPlayer } from './useStudioPlayer';
+} from './stemEffectsConfig';
+
+// Safe hooks - no AudioContext dependencies
 export { useStudioDialogs } from './useStudioDialogs';
 export { useTrimExport } from './useTrimExport';
 export { useMidiSync } from './useMidiSync';
@@ -40,8 +50,6 @@ export {
 export type { MixPreset, StemConfig } from './useMixPresets';
 export { useLoopRegion } from './useLoopRegion';
 export type { LoopRegion } from './useLoopRegion';
-export { useMultiTrackAudio } from './useMultiTrackAudio';
-export type { MultiTrackAudioState } from './useMultiTrackAudio';
 export { 
   useStudioAudio, 
   registerStudioAudio, 
@@ -49,7 +57,7 @@ export {
   pauseAllStudioAudio 
 } from './useStudioAudio';
 
-// Multi-track DAW store
+// Multi-track DAW store (safe - just Zustand)
 export { useStudioProjectStore } from '@/stores/useStudioProjectStore';
 export type { 
   StudioProject, 

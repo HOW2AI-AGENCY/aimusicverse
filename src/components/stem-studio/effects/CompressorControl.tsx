@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/select';
 import { RotateCcw, Activity } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { CompressorSettings, compressorPresets, defaultCompressorSettings } from '@/hooks/studio';
+import { CompressorSettings, compressorPresets, defaultCompressorSettings } from '@/hooks/studio/stemEffectsConfig';
 
 interface CompressorControlProps {
   settings: CompressorSettings;

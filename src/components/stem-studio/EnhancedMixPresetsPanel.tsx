@@ -23,7 +23,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Sliders, Save, RotateCcw, Check, Info } from 'lucide-react';
-import { useMixPresets, MixPreset } from '@/hooks/studio';
+import { useMixPresets, MixPreset } from '@/hooks/studio/useMixPresets';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
