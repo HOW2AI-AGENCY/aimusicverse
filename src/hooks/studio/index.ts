@@ -17,7 +17,11 @@
  * import { useMixPresets, useAutoSaveMix } from '@/hooks/studio/useMixPresets';
  * import { useLoopRegion } from '@/hooks/studio/useLoopRegion';
  * import { useStudioAudio } from '@/hooks/studio/useStudioAudio';
- * 
+ * import { useStemAudioSync } from '@/hooks/studio/useStemAudioSync';
+ * import { useStemAudioCache } from '@/hooks/studio/useStemAudioCache';
+ * import { useMasterClock } from '@/hooks/studio/useMasterClock';
+ * import { useDebouncedStemControls } from '@/hooks/studio/useDebouncedStemControls';
+ *
  * For types and constants (safe to import):
  * import type { StemEffects, MixPreset } from '@/hooks/studio/types';
  * import { defaultStemEffects, eqPresets } from '@/hooks/studio/stemEffectsConfig';

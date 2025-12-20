@@ -2,7 +2,13 @@
  * Stem Audio Synchronization Hook
  * 
  * Manages audio synchronization across multiple stems
- * Handles drift detection and correction
+ * Handles drift detection and correction using a master clock approach
+ * 
+ * Key optimizations:
+ * - Uses first valid audio as master reference (more stable than average)
+ * - Tight drift threshold (30ms) for imperceptible sync
+ * - Critical drift threshold (100ms) for immediate correction
+ * - 60fps update rate for smooth visual feedback
  */
 
 import { useRef, useCallback, useEffect } from 'react';
@@ -14,15 +20,18 @@ interface UseStemAudioSyncProps {
   onTimeUpdate: (time: number) => void;
 }
 
-// Optimized drift threshold: 0.05s is imperceptible to human ear
-// This tighter threshold ensures stems stay perfectly synchronized
-const DRIFT_THRESHOLD = 0.05; // seconds - reduced from 0.1s
+// Optimized drift threshold: 0.03s (30ms) is imperceptible to human ear
+// This very tight threshold ensures stems stay perfectly synchronized
+const DRIFT_THRESHOLD = 0.03; // seconds - tightened from 0.05s
 
 // Critical drift threshold: requires immediate correction
-const CRITICAL_DRIFT = 0.15; // seconds
+const CRITICAL_DRIFT = 0.1; // seconds - tightened from 0.15s
 
 // Update rate: 60fps provides smooth visual updates without excessive CPU usage
 const ANIMATION_FRAME_INTERVAL = 1000 / 60; // 60fps (~16.67ms)
+
+// Maximum correction attempts before giving up on a problematic audio
+const MAX_CORRECTION_ATTEMPTS = 3;
 
 export function useStemAudioSync({
   audioRefs,
