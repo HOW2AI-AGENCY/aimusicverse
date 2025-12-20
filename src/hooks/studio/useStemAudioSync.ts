@@ -14,12 +14,14 @@ interface UseStemAudioSyncProps {
   onTimeUpdate: (time: number) => void;
 }
 
-// Optimal drift threshold: 0.1s is noticeable to human ear but prevents constant corrections
-// Lower values cause jittery playback, higher values cause audible desync
-const DRIFT_THRESHOLD = 0.1; // seconds
+// Optimized drift threshold: 0.05s is imperceptible to human ear
+// This tighter threshold ensures stems stay perfectly synchronized
+const DRIFT_THRESHOLD = 0.05; // seconds - reduced from 0.1s
+
+// Critical drift threshold: requires immediate correction
+const CRITICAL_DRIFT = 0.15; // seconds
 
 // Update rate: 60fps provides smooth visual updates without excessive CPU usage
-// Higher rates don't improve perceived smoothness but increase overhead
 const ANIMATION_FRAME_INTERVAL = 1000 / 60; // 60fps (~16.67ms)
 
 export function useStemAudioSync({
@@ -32,7 +34,7 @@ export function useStemAudioSync({
 
   /**
    * Update time and check for audio drift
-   * Only syncs the most drifted audio to avoid glitches
+   * Uses a master reference time and syncs drifted audios
    */
   const updateTime = useCallback(() => {
     const audios = Object.values(audioRefs);
@@ -60,26 +62,27 @@ export function useStemAudioSync({
       return;
     }
     
-    // Use average time from all valid audios for more accurate sync
-    const avgTime = validAudios.reduce((sum, audio) => sum + audio.currentTime, 0) / validAudios.length;
-    onTimeUpdate(avgTime);
+    // Use the first valid audio as master reference (more stable than average)
+    const masterTime = validAudios[0].currentTime;
+    onTimeUpdate(masterTime);
     
-    // Check sync drift and re-sync only the most drifted audio
-    const audioWithDrift = validAudios.map(audio => ({
-      audio,
-      drift: Math.abs(audio.currentTime - avgTime)
-    }));
-    
-    // Find most drifted audio
-    const mostDrifted = audioWithDrift.reduce((max, current) => 
-      current.drift > max.drift ? current : max
-    );
-    
-    // Only sync if drift exceeds threshold
-    if (mostDrifted.drift > DRIFT_THRESHOLD) {
-      logger.debug(`Syncing audio with drift: ${mostDrifted.drift.toFixed(3)}s`);
-      mostDrifted.audio.currentTime = avgTime;
-    }
+    // Check sync drift for all audios and correct as needed
+    validAudios.forEach((audio, index) => {
+      if (index === 0) return; // Skip master reference
+      
+      const drift = Math.abs(audio.currentTime - masterTime);
+      
+      // Critical drift: immediate correction with seek
+      if (drift > CRITICAL_DRIFT) {
+        logger.debug(`Critical drift detected: ${drift.toFixed(3)}s, forcing sync`);
+        audio.currentTime = masterTime;
+      } 
+      // Normal drift: gentle correction
+      else if (drift > DRIFT_THRESHOLD) {
+        logger.debug(`Syncing audio with drift: ${drift.toFixed(3)}s`);
+        audio.currentTime = masterTime;
+      }
+    });
     
     animationFrameRef.current = requestAnimationFrame(updateTime);
   }, [audioRefs, onTimeUpdate]);
