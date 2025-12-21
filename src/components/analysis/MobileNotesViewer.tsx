@@ -12,19 +12,11 @@ import {
   ListMusic, 
   FileText, 
   Download, 
-  ChevronDown,
   Zap,
-  Play,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { InteractivePianoRoll } from './InteractivePianoRoll';
 import { StaffNotation } from './StaffNotation';
 import { toast } from 'sonner';
@@ -166,58 +158,76 @@ export const MobileNotesViewer = memo(function MobileNotesViewer({
   }
 
   return (
-    <div className={cn("flex flex-col gap-3", className)}>
-      {/* Header with stats and view toggle */}
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 flex-wrap">
-          <Badge variant="outline" className="text-xs">
-            {stats?.total} нот
-          </Badge>
-          {bpm && (
-            <Badge variant="outline" className="text-xs">
-              {Math.round(bpm)} BPM
-            </Badge>
+    <div className={cn("flex flex-col gap-4", className)}>
+      {/* View mode toggle - segmented control style */}
+      <div className="flex items-center gap-1 p-1 rounded-lg bg-muted/50">
+        <button
+          onClick={() => setViewMode('piano')}
+          className={cn(
+            "flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-md text-sm font-medium transition-all",
+            viewMode === 'piano' 
+              ? "bg-background text-foreground shadow-sm" 
+              : "text-muted-foreground hover:text-foreground"
           )}
-          {keySignature && (
-            <Badge variant="outline" className="text-xs">
-              {keySignature}
-            </Badge>
+        >
+          <Piano className="w-4 h-4" />
+          <span>Piano</span>
+        </button>
+        <button
+          onClick={() => setViewMode('staff')}
+          className={cn(
+            "flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-md text-sm font-medium transition-all",
+            viewMode === 'staff' 
+              ? "bg-background text-foreground shadow-sm" 
+              : "text-muted-foreground hover:text-foreground"
           )}
-        </div>
-        
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-1.5">
-              {viewMode === 'piano' && <Piano className="w-4 h-4" />}
-              {viewMode === 'staff' && <Music className="w-4 h-4" />}
-              {viewMode === 'list' && <ListMusic className="w-4 h-4" />}
-              <ChevronDown className="w-3 h-3" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => setViewMode('piano')}>
-              <Piano className="w-4 h-4 mr-2" />
-              Piano Roll
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setViewMode('staff')}>
-              <Music className="w-4 h-4 mr-2" />
-              Нотный стан
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setViewMode('list')}>
-              <ListMusic className="w-4 h-4 mr-2" />
-              Список нот
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        >
+          <Music className="w-4 h-4" />
+          <span>Ноты</span>
+        </button>
+        <button
+          onClick={() => setViewMode('list')}
+          className={cn(
+            "flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-md text-sm font-medium transition-all",
+            viewMode === 'list' 
+              ? "bg-background text-foreground shadow-sm" 
+              : "text-muted-foreground hover:text-foreground"
+          )}
+        >
+          <ListMusic className="w-4 h-4" />
+          <span>Список</span>
+        </button>
       </div>
 
-      {/* Visualization area */}
-      <div className="rounded-lg border overflow-hidden bg-background">
+      {/* Stats badges - compact row */}
+      <div className="flex items-center gap-2 flex-wrap">
+        <Badge variant="secondary" className="text-xs font-medium">
+          {stats?.total} нот
+        </Badge>
+        {bpm && (
+          <Badge variant="outline" className="text-xs">
+            {Math.round(bpm)} BPM
+          </Badge>
+        )}
+        {keySignature && (
+          <Badge variant="outline" className="text-xs">
+            {keySignature}
+          </Badge>
+        )}
+        {stats && (
+          <Badge variant="outline" className="text-xs text-muted-foreground">
+            {stats.minNote} — {stats.maxNote}
+          </Badge>
+        )}
+      </div>
+
+      {/* Visualization area - larger for mobile */}
+      <div className="rounded-xl border overflow-hidden bg-background shadow-sm">
         {viewMode === 'piano' && (
           <InteractivePianoRoll
             notes={notes}
             duration={duration}
-            height={200}
+            height={280}
             onNoteClick={handleNoteClick}
           />
         )}
@@ -229,52 +239,52 @@ export const MobileNotesViewer = memo(function MobileNotesViewer({
             bpm={bpm}
             timeSignature={parsedTimeSignature}
             keySignature={keySignature}
-            height={200}
+            height={280}
           />
         )}
         
         {viewMode === 'list' && (
-          <ScrollArea className="h-[200px]">
-            <div className="divide-y divide-border">
-              {processedNotes.slice(0, 100).map((note, i) => (
+          <ScrollArea className="h-[280px]">
+            <div className="divide-y divide-border/50">
+              {processedNotes.slice(0, 150).map((note, i) => (
                 <div 
                   key={i}
                   className={cn(
-                    "flex items-center justify-between px-3 py-2 text-sm hover:bg-muted/50 transition-colors",
-                    selectedNoteIndex === note.index && "bg-primary/10"
+                    "flex items-center justify-between px-4 py-3 transition-colors active:bg-muted/50",
+                    selectedNoteIndex === note.index && "bg-primary/5"
                   )}
                   onClick={() => setSelectedNoteIndex(note.index)}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center font-mono text-xs font-medium">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center font-mono text-sm font-semibold text-primary">
                       {note.noteName}
                     </div>
                     <div>
-                      <p className="font-medium">{note.noteNameRu}</p>
+                      <p className="font-medium text-sm">{note.noteNameRu}</p>
                       <p className="text-xs text-muted-foreground">
                         {formatTime(note.startTime)} — {formatTime(note.endTime)}
                       </p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xs text-muted-foreground">
+                  <div className="text-right flex flex-col items-end gap-1">
+                    <span className="text-xs text-muted-foreground">
                       {(note.duration * 1000).toFixed(0)} мс
-                    </p>
+                    </span>
                     <div 
-                      className="h-1 w-12 rounded-full bg-muted mt-1"
+                      className="h-1.5 w-16 rounded-full bg-muted"
                       title={`Velocity: ${note.velocity}`}
                     >
                       <div 
-                        className="h-full rounded-full bg-primary/70"
+                        className="h-full rounded-full bg-primary"
                         style={{ width: `${(note.velocity / 127) * 100}%` }}
                       />
                     </div>
                   </div>
                 </div>
               ))}
-              {processedNotes.length > 100 && (
-                <div className="px-3 py-2 text-xs text-muted-foreground text-center">
-                  +{processedNotes.length - 100} ещё...
+              {processedNotes.length > 150 && (
+                <div className="px-4 py-3 text-xs text-muted-foreground text-center bg-muted/20">
+                  +{processedNotes.length - 150} ещё нот...
                 </div>
               )}
             </div>
@@ -282,62 +292,44 @@ export const MobileNotesViewer = memo(function MobileNotesViewer({
         )}
       </div>
 
-      {/* Stats row */}
-      {stats && (
-        <div className="grid grid-cols-3 gap-2 text-center">
-          <div className="p-2 rounded-lg bg-muted/30">
-            <p className="text-xs text-muted-foreground">Диапазон</p>
-            <p className="text-sm font-medium">{stats.minNote} — {stats.maxNote}</p>
-          </div>
-          <div className="p-2 rounded-lg bg-muted/30">
-            <p className="text-xs text-muted-foreground">Интервал</p>
-            <p className="text-sm font-medium">{stats.range} полутонов</p>
-          </div>
-          <div className="p-2 rounded-lg bg-muted/30">
-            <p className="text-xs text-muted-foreground">Частая нота</p>
-            <p className="text-sm font-medium">{stats.mostCommon || '—'}</p>
-          </div>
-        </div>
-      )}
-
-      {/* Actions */}
-      <div className="flex gap-2 flex-wrap">
+      {/* Actions - full width buttons for mobile */}
+      <div className="grid grid-cols-2 gap-2">
         {midiUrl && (
           <Button
             variant="outline"
-            size="sm"
+            size="lg"
             onClick={() => handleDownload(midiUrl, 'notes.mid')}
-            className="flex-1 min-w-[120px]"
+            className="h-12 gap-2"
           >
-            <Download className="w-4 h-4 mr-1.5" />
-            MIDI
+            <Download className="w-5 h-5" />
+            <span>MIDI</span>
           </Button>
         )}
         
         {pdfUrl ? (
           <Button
             variant="outline"
-            size="sm"
+            size="lg"
             onClick={() => handleDownload(pdfUrl, 'notes.pdf')}
-            className="flex-1 min-w-[120px]"
+            className="h-12 gap-2"
           >
-            <FileText className="w-4 h-4 mr-1.5" />
-            PDF
+            <FileText className="w-5 h-5" />
+            <span>PDF</span>
           </Button>
         ) : onGeneratePdf && (
           <Button
             variant="outline"
-            size="sm"
+            size="lg"
             onClick={onGeneratePdf}
             disabled={isGeneratingPdf}
-            className="flex-1 min-w-[120px]"
+            className="h-12 gap-2"
           >
             {isGeneratingPdf ? (
-              <Zap className="w-4 h-4 mr-1.5 animate-pulse" />
+              <Zap className="w-5 h-5 animate-pulse" />
             ) : (
-              <FileText className="w-4 h-4 mr-1.5" />
+              <FileText className="w-5 h-5" />
             )}
-            {isGeneratingPdf ? 'Генерация...' : 'Создать PDF'}
+            <span>{isGeneratingPdf ? 'Генерация...' : 'Создать PDF'}</span>
           </Button>
         )}
       </div>
