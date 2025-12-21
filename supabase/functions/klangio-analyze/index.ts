@@ -296,9 +296,8 @@ serve(async (req) => {
         formData.append('demo', 'false');
         if (title) queryParams.set('title', title);
         
-        // Klangio API requires BOTH:
-        // 1. "outputs" array in FormData body (required field per API error)
-        // 2. gen_* boolean parameters for each output format
+        // Klangio API requires gen_* boolean parameters for each output format
+        // The "outputs" field should be passed as individual form entries, NOT as JSON array
         const transcriptionValidFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
         const reqOutputs = outputs || smartOutputs;
         const validOutputs = reqOutputs.filter((o: string) => transcriptionValidFormats.includes(o));
@@ -307,9 +306,11 @@ serve(async (req) => {
         console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(reqOutputs)}, valid=${JSON.stringify(validOutputs)}`);
         console.log(`[klangio] Demo mode: false (paid tier - full length transcription)`);
         
-        // CRITICAL: Add "outputs" array to FormData - this is REQUIRED by Klangio API
-        // Error 422: {"detail":[{"type":"missing","loc":["body","outputs"],"msg":"Field required"}]}
-        formData.append('outputs', JSON.stringify(validOutputs));
+        // Add each output as a separate form entry (NOT as JSON array)
+        // Klangio expects multiple "outputs" fields, one for each format
+        for (const output of validOutputs) {
+          formData.append('outputs', output);
+        }
         
         // Also set explicit gen_* boolean parameters for each requested format
         if (validOutputs.includes('midi')) {
@@ -334,7 +335,7 @@ serve(async (req) => {
         }
         
         console.log(`[klangio] Gen parameters set: midi=${validOutputs.includes('midi')}, midi_quant=${validOutputs.includes('midi_quant')}, xml=${validOutputs.includes('mxml')}, gp5=${validOutputs.includes('gp5')}, pdf=${validOutputs.includes('pdf')}`);
-        console.log(`[klangio] Outputs in FormData: ${JSON.stringify(validOutputs)}`);
+        console.log(`[klangio] Outputs added individually: ${validOutputs.join(', ')}`);
         console.log(`[klangio] QueryParams after setting gen_*: ${queryParams.toString()}`);
         break;
         
