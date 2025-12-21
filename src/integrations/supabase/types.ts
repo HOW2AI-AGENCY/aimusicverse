@@ -743,6 +743,7 @@ export type Database = {
           received_clips: number | null
           source: string | null
           status: string
+          streaming_ready_at: string | null
           suno_task_id: string | null
           telegram_chat_id: number | null
           telegram_message_id: number | null
@@ -764,6 +765,7 @@ export type Database = {
           received_clips?: number | null
           source?: string | null
           status?: string
+          streaming_ready_at?: string | null
           suno_task_id?: string | null
           telegram_chat_id?: number | null
           telegram_message_id?: number | null
@@ -785,6 +787,7 @@ export type Database = {
           received_clips?: number | null
           source?: string | null
           status?: string
+          streaming_ready_at?: string | null
           suno_task_id?: string | null
           telegram_chat_id?: number | null
           telegram_message_id?: number | null
@@ -3945,6 +3948,13 @@ export type Database = {
       cleanup_expired_bot_sessions: { Args: never; Returns: undefined }
       cleanup_expired_notifications: { Args: never; Returns: number }
       cleanup_expired_wizard_states: { Args: never; Returns: undefined }
+      cleanup_stuck_generation_tasks: {
+        Args: never
+        Returns: {
+          tasks_failed: number
+          tracks_failed: number
+        }[]
+      }
       compute_track_genre: {
         Args: { _style: string; _tags: string }
         Returns: string
