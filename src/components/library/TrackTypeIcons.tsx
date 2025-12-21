@@ -1,4 +1,4 @@
-import { Mic2, Guitar, Layers, Music2, FileText } from 'lucide-react';
+import { Mic2, Guitar, Layers, Music2, FileText, FileMusic } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -13,6 +13,7 @@ interface TrackTypeIconsProps {
   compact?: boolean;
   hasMidi?: boolean;
   hasPdf?: boolean;
+  hasGp5?: boolean;
 }
 
 export function TrackTypeIcons({ 
@@ -20,13 +21,14 @@ export function TrackTypeIcons({
   compact = false,
   hasMidi = false,
   hasPdf = false,
+  hasGp5 = false,
 }: TrackTypeIconsProps) {
   const hasVocals = track.has_vocals === true;
   // is_instrumental derived from has_vocals if not explicitly set
   const isInstrumental = track.is_instrumental === true || (track.is_instrumental == null && track.has_vocals === false);
   const hasStems = track.has_stems === true;
 
-  if (!hasVocals && !isInstrumental && !hasStems && !hasMidi && !hasPdf) {
+  if (!hasVocals && !isInstrumental && !hasStems && !hasMidi && !hasPdf && !hasGp5) {
     return null;
   }
 
@@ -96,6 +98,19 @@ export function TrackTypeIcons({
             </TooltipTrigger>
             <TooltipContent side="top" className="text-xs">
               <p>Ноты (PDF)</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+
+        {hasGp5 && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="cursor-help p-0.5 rounded bg-orange-500/10">
+                <FileMusic className={cn(iconSize, "text-orange-500")} />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="text-xs">
+              <p>Guitar Pro 5</p>
             </TooltipContent>
           </Tooltip>
         )}

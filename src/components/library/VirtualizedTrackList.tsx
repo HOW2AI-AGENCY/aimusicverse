@@ -97,6 +97,7 @@ const MemoizedTrackItem = memo(function MemoizedTrackItem({
       stemCount={counts.stemCount}
       hasMidi={midiStatus?.hasMidi}
       hasPdf={midiStatus?.hasPdf}
+      hasGp5={midiStatus?.hasGp5}
       isFirstSwipeableItem={index === 0 && viewMode === "list"}
     />
   );

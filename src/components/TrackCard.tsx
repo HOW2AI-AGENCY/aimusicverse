@@ -48,9 +48,10 @@ interface TrackCardProps {
   // Counts passed from parent to avoid individual subscriptions
   versionCount?: number;
   stemCount?: number;
-  // MIDI/PDF status passed from parent
+  // MIDI/PDF/GP5 status passed from parent
   hasMidi?: boolean;
   hasPdf?: boolean;
+  hasGp5?: boolean;
   // For swipe onboarding tooltip
   isFirstSwipeableItem?: boolean;
 }
@@ -67,6 +68,7 @@ export const TrackCard = memo(({
   stemCount: propStemCount,
   hasMidi: propHasMidi,
   hasPdf: propHasPdf,
+  hasGp5: propHasGp5,
   isFirstSwipeableItem = false,
 }: TrackCardProps) => {
   const [localVersionCount, setLocalVersionCount] = useState<number>(0);
@@ -596,7 +598,7 @@ export const TrackCard = memo(({
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2 flex-1 min-w-0">
               <h3 className="font-semibold text-base sm:text-lg truncate">{track.title || 'Без названия'}</h3>
-              <TrackTypeIcons track={track} hasMidi={propHasMidi} hasPdf={propHasPdf} />
+              <TrackTypeIcons track={track} hasMidi={propHasMidi} hasPdf={propHasPdf} hasGp5={propHasGp5} />
             </div>
             {isMobile ? (
               <Button
