@@ -27,6 +27,7 @@ import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { notifyTranscriptionComplete } from '@/services/notificationManager';
 
 interface TranscriptionResult {
   midiUrl?: string;
@@ -299,11 +300,28 @@ export function GuitarRecordingStudio({ onComplete, compact = false }: GuitarRec
       setTranscriptionResult(result);
       
       const successParts: string[] = [];
+      const formats: string[] = [];
       if (beatResult.data?.status === 'completed') successParts.push('ритм');
       if (chordResult.data?.status === 'completed') successParts.push('аккорды');
-      if (transcriptionResult.data?.status === 'completed') successParts.push('ноты');
+      if (transcriptionResult.data?.status === 'completed') {
+        successParts.push('ноты');
+        if (result.midiUrl) formats.push('MIDI');
+        if (result.gp5Url) formats.push('Guitar Pro');
+        if (result.pdfUrl) formats.push('PDF');
+        if (result.musicXmlUrl) formats.push('MusicXML');
+      }
       
       toast.success(`Транскрипция завершена: ${successParts.join(', ')}`);
+      
+      // Send notification about transcription
+      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      if (currentUser && formats.length > 0) {
+        notifyTranscriptionComplete(
+          currentUser.id,
+          recordingTitle || 'Гитарная запись',
+          formats
+        );
+      }
       
     } catch (error) {
       console.error('Transcription error:', error);
