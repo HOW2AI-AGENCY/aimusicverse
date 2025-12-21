@@ -57,28 +57,24 @@
 - **Fix**: Implement XState for explicit transitions
 - **Priority**: P2 - Architecture
 
-**IMP039-IMP044** - Error handling standardization
-- **Issue**: Inconsistent error handling patterns
-- **Fix**: Create `AppError` class hierarchy
-- **Priority**: P2 - Architecture
+~~**IMP039-IMP044** - Error handling standardization~~ ✅ RESOLVED
+- Standardized error handling in klangio edge function using response codes
+- Using `src/lib/errors.ts` and `supabase/functions/_shared/response-utils.ts`
 
 ### Performance Optimizations
 
-**IMP033** - Audio buffer pooling
-- **Issue**: No buffer reuse across section replacements
-- **Fix**: Implement buffer pool
-- **Priority**: P2 - Performance
+~~**IMP033** - Audio buffer pooling~~ ✅ RESOLVED
+- Implemented `src/lib/audio/bufferPool.ts` with LRU eviction and TTL
 
 **IMP034** - Waveform blocking UI
 - **Issue**: Waveform generation blocks main thread
 - **Fix**: Use Web Worker
 - **Priority**: P2 - Performance
 
-**IMP057-IMP059** - Missing React optimizations
-- **Issue**: Heavy components not memoized
-- **Locations**: `StemChannel`, `SectionEditorPanel`, `TrackCard`
-- **Fix**: Add `React.memo`, `useCallback`, `useMemo`
-- **Priority**: P2 - Performance
+~~**IMP057-IMP059** - Missing React optimizations~~ ✅ RESOLVED
+- `StemChannel` - already has React.memo with custom comparison
+- `SectionEditorPanel` - added React.memo with custom comparison
+- `TrackCard` - already has React.memo with custom comparison
 
 ---
 

@@ -1,8 +1,11 @@
 /**
  * Section Editor Panel - Refactored
  * Uses modular components for clean architecture
+ * 
+ * Performance: React.memo with custom comparison (IMP057)
  */
 
+import { memo, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence, Variants } from '@/lib/motion';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useSectionReplacement } from '@/hooks/useSectionReplacement';
@@ -56,7 +59,7 @@ interface SectionEditorPanelProps {
   onClose: () => void;
 }
 
-export function SectionEditorPanel({
+function SectionEditorPanelInner({
   trackId,
   trackTitle,
   trackTags,
@@ -184,3 +187,22 @@ export function SectionEditorPanel({
     </AnimatePresence>
   );
 }
+
+/**
+ * Memoized Section Editor Panel
+ * Only re-renders when essential props change
+ */
+export const SectionEditorPanel = memo(
+  SectionEditorPanelInner,
+  (prevProps, nextProps) => {
+    return (
+      prevProps.trackId === nextProps.trackId &&
+      prevProps.trackTitle === nextProps.trackTitle &&
+      prevProps.trackTags === nextProps.trackTags &&
+      prevProps.audioUrl === nextProps.audioUrl &&
+      prevProps.duration === nextProps.duration
+    );
+  }
+);
+
+SectionEditorPanel.displayName = 'SectionEditorPanel';
