@@ -61,9 +61,10 @@ interface LyricsWorkspaceProps {
   onChange: (sections: LyricsSection[]) => void;
   onSave?: () => void;
   isSaving?: boolean;
+  hideSaveButton?: boolean;
 }
 
-export function LyricsWorkspace({ sections, onChange, onSave, isSaving }: LyricsWorkspaceProps) {
+export function LyricsWorkspace({ sections, onChange, onSave, isSaving, hideSaveButton = false }: LyricsWorkspaceProps) {
   const [selectedSection, setSelectedSection] = useState<LyricsSection | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
 
@@ -111,7 +112,7 @@ export function LyricsWorkspace({ sections, onChange, onSave, isSaving }: Lyrics
           <Music2 className="w-5 h-5 text-primary" />
           Редактор лирики
         </h2>
-        {onSave && (
+        {onSave && !hideSaveButton && (
           <Button onClick={onSave} disabled={isSaving} size="sm">
             <Save className="w-4 h-4 mr-2" />
             {isSaving ? 'Сохранение...' : 'Сохранить'}

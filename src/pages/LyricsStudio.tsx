@@ -429,6 +429,7 @@ export default function LyricsStudio() {
             onChange={handleSectionsChange}
             onSave={handleSave}
             isSaving={isSavingLyrics}
+            hideSaveButton
           />
         </div>
 
