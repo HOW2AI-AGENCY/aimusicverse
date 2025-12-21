@@ -90,6 +90,27 @@ window.addEventListener('orientationchange', () => {
   setTimeout(setViewportHeight, 100);
 });
 
+// iOS Keyboard height tracking via visualViewport API
+// This allows CSS to respond to keyboard appearance
+if ('visualViewport' in window && window.visualViewport) {
+  const updateKeyboardHeight = () => {
+    const keyboardHeight = window.innerHeight - window.visualViewport!.height;
+    const safeKeyboardHeight = Math.max(0, keyboardHeight);
+    document.documentElement.style.setProperty('--keyboard-height', `${safeKeyboardHeight}px`);
+    
+    // Add/remove class for keyboard-open state
+    if (safeKeyboardHeight > 100) {
+      document.body.classList.add('keyboard-open');
+    } else {
+      document.body.classList.remove('keyboard-open');
+    }
+  };
+  
+  window.visualViewport.addEventListener('resize', updateKeyboardHeight);
+  window.visualViewport.addEventListener('scroll', updateKeyboardHeight);
+  updateKeyboardHeight();
+}
+
 bootLog('Event listeners registered');
 
 // Register Audio Service Worker for offline caching
