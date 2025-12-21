@@ -736,8 +736,9 @@ export async function handleDeepLink(
         await trackDeepLinkAnalytics('album', value, userId);
         break;
       case 'onboarding':
-        const { startOnboarding } = await import('./onboarding.ts');
-        await startOnboarding(chatId, userId);
+        // Onboarding removed - show dashboard instead
+        const { handleDashboard: showDashboard } = await import('./dashboard.ts');
+        await showDashboard(chatId, userId);
         await trackDeepLinkAnalytics('onboarding', '', userId);
         break;
       case 'help':

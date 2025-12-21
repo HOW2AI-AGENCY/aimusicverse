@@ -259,12 +259,7 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
       return;
     }
 
-    // Onboarding handlers (NEW)
-    if (data.startsWith('onboarding_') || data === 'skip_onboarding' || data === 'start_onboarding') {
-      const { handleOnboardingCallback } = await import('./handlers/onboarding.ts');
-      await handleOnboardingCallback(data, chatId, from.id, messageId!, id);
-      return;
-    }
+    // Onboarding removed - directly show dashboard
 
     // Project wizard handlers
     if (data.startsWith('wizard_')) {
