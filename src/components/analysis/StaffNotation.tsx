@@ -279,7 +279,9 @@ export const StaffNotation = memo(function StaffNotation({
 
   // Render a single note
   const renderNote = (note: ProcessedNote, x: number) => {
-    const y = staffHeight - (note.position * lineSpacing / 2);
+    // Clamp position to reasonable range to prevent rendering issues
+    const clampedPosition = Math.max(-8, Math.min(16, note.position));
+    const y = staffHeight - (clampedPosition * lineSpacing / 2);
     const isFilled = note.noteType === 'quarter' || note.noteType === 'eighth' || note.noteType === 'sixteenth';
     const hasFlag = note.noteType === 'eighth' || note.noteType === 'sixteenth';
     const stemLength = 24;
@@ -288,43 +290,44 @@ export const StaffNotation = memo(function StaffNotation({
     
     const noteName = NOTE_NAMES[note.pitch % 12] + Math.floor(note.pitch / 12 - 1);
     
-    // Calculate ledger lines needed
-    const ledgerLinesBelow = note.position < 0 ? Math.ceil(-note.position / 2) : 0;
-    const ledgerLinesAbove = note.position > 8 ? Math.ceil((note.position - 8) / 2) : 0;
+    // Calculate ledger lines - lines are at even positions (0, 2, 4, 6, 8 are staff lines)
+    // Below staff: position -2, -4, -6... (also position 0 for middle C in treble)
+    // Above staff: position 10, 12, 14...
+    const ledgerLines: number[] = [];
+    
+    // Ledger lines below staff (position < 0)
+    // Middle C (position -1 for treble) needs line at position 0
+    if (clampedPosition <= 0) {
+      for (let pos = 0; pos >= clampedPosition - 1; pos -= 2) {
+        if (pos <= 0) {
+          ledgerLines.push(pos);
+        }
+      }
+    }
+    
+    // Ledger lines above staff (position > 8)
+    if (clampedPosition >= 9) {
+      for (let pos = 10; pos <= clampedPosition + 1; pos += 2) {
+        ledgerLines.push(pos);
+      }
+    }
     
     return (
-      <g key={`note-${note.startTime}-${note.pitch}`} transform={`translate(${x}, ${y})`}>
+      <g key={`note-${note.startTime}-${note.pitch}`} transform={`translate(${x}, 0)`}>
         {/* Accidental */}
         {note.accidental === 'sharp' && (
-          <text x="-12" y="4" fontSize="11" className="fill-foreground">♯</text>
+          <text x="-12" y={y + 4} fontSize="11" className="fill-foreground">♯</text>
         )}
         {note.accidental === 'flat' && (
-          <text x="-12" y="4" fontSize="11" className="fill-foreground">♭</text>
+          <text x="-12" y={y + 4} fontSize="11" className="fill-foreground">♭</text>
         )}
         
-        {/* Ledger lines below staff */}
-        {Array.from({ length: ledgerLinesBelow }).map((_, i) => {
-          const lineY = (Math.floor(-note.position / 2) - i) * lineSpacing;
+        {/* Ledger lines */}
+        {ledgerLines.map((linePos) => {
+          const lineY = staffHeight - (linePos * lineSpacing / 2);
           return (
             <line
-              key={`ledger-below-${i}`}
-              x1="-7"
-              y1={lineY}
-              x2="7"
-              y2={lineY}
-              stroke="currentColor"
-              strokeWidth="1"
-              className="text-foreground/60"
-            />
-          );
-        })}
-        
-        {/* Ledger lines above staff */}
-        {Array.from({ length: ledgerLinesAbove }).map((_, i) => {
-          const lineY = -(note.position - 8 - i * 2) * lineSpacing / 2 - lineSpacing;
-          return (
-            <line
-              key={`ledger-above-${i}`}
+              key={`ledger-${linePos}`}
               x1="-7"
               y1={lineY}
               x2="7"
@@ -339,22 +342,22 @@ export const StaffNotation = memo(function StaffNotation({
         {/* Note head */}
         <ellipse
           cx="0"
-          cy="0"
+          cy={y}
           rx="4.5"
           ry="3.5"
           className={cn(
             isFilled ? "fill-foreground" : "fill-background stroke-foreground stroke-[1.5]"
           )}
-          transform="rotate(-15)"
+          transform={`rotate(-15, 0, ${y})`}
         />
         
         {/* Stem (not for whole notes) */}
         {note.noteType !== 'whole' && (
           <line
             x1={stemX}
-            y1="0"
+            y1={y}
             x2={stemX}
-            y2={stemDirection * stemLength}
+            y2={y + stemDirection * stemLength}
             stroke="currentColor"
             strokeWidth="1.2"
             className="text-foreground"
@@ -365,8 +368,8 @@ export const StaffNotation = memo(function StaffNotation({
         {hasFlag && (
           <path
             d={note.stemUp 
-              ? `M ${stemX} ${stemDirection * stemLength} q 6 4 5 12 q -2 -6 -5 -8`
-              : `M ${stemX} ${stemDirection * stemLength} q 6 -4 5 -12 q -2 6 -5 8`
+              ? `M ${stemX} ${y + stemDirection * stemLength} q 6 4 5 12 q -2 -6 -5 -8`
+              : `M ${stemX} ${y + stemDirection * stemLength} q 6 -4 5 -12 q -2 6 -5 8`
             }
             className="fill-foreground"
           />
@@ -376,8 +379,8 @@ export const StaffNotation = memo(function StaffNotation({
         {note.noteType === 'sixteenth' && (
           <path
             d={note.stemUp 
-              ? `M ${stemX} ${stemDirection * stemLength + 6} q 6 4 5 12 q -2 -6 -5 -8`
-              : `M ${stemX} ${stemDirection * stemLength - 6} q 6 -4 5 -12 q -2 6 -5 8`
+              ? `M ${stemX} ${y + stemDirection * stemLength + 6} q 6 4 5 12 q -2 -6 -5 -8`
+              : `M ${stemX} ${y + stemDirection * stemLength - 6} q 6 -4 5 -12 q -2 6 -5 8`
             }
             className="fill-foreground"
           />
