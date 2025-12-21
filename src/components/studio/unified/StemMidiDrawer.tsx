@@ -80,7 +80,6 @@ export function StemMidiDrawer({
   const [activeMidiUrl, setActiveMidiUrl] = useState<string | null>(null);
   const [transcriptionFiles, setTranscriptionFiles] = useState<TranscriptionFiles>({});
   
-  
   const { 
     transcribe, 
     isLoading: isTranscribing, 
@@ -95,6 +94,14 @@ export function StemMidiDrawer({
   } = useStemTranscription(stem?.id);
   
   const { saveTranscription, isSaving } = useSaveTranscription();
+  
+  // Switch to player tab when files become available
+  useEffect(() => {
+    const hasMidi = latestTranscription?.midi_url || transcriptionFiles.midi || result?.midiUrl;
+    if (hasMidi && activeTab === 'create') {
+      setActiveTab('player');
+    }
+  }, [latestTranscription?.midi_url, transcriptionFiles.midi, result?.midiUrl]);
 
   // Get intelligent configuration based on stem type
   const stemConfig = useMemo(() => {
