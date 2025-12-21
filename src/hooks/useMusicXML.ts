@@ -73,9 +73,23 @@ export function useMusicXML({
 
         osmd.setLogLevel('warn');
 
-        // Load MusicXML - MUST complete before render()
-        log.info('Loading MusicXML', { url });
-        await osmd.load(url);
+        // Fetch MusicXML content from URL first
+        log.info('Fetching MusicXML', { url });
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch MusicXML: ${response.status} ${response.statusText}`);
+        }
+        const xmlContent = await response.text();
+        
+        // Check if cancelled during fetch
+        if (isCancelled) {
+          osmd.clear();
+          return;
+        }
+
+        // Load MusicXML content - MUST complete before render()
+        log.info('Loading MusicXML content', { contentLength: xmlContent.length });
+        await osmd.load(xmlContent);
 
         // Check if cancelled during async operation
         if (isCancelled) {
