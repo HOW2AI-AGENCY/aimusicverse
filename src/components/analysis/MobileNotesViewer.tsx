@@ -158,93 +158,99 @@ export const MobileNotesViewer = memo(function MobileNotesViewer({
   }
 
   return (
-    <div className={cn("flex flex-col gap-4", className)}>
-      {/* View mode toggle - segmented control style */}
-      <div className="flex items-center gap-1 p-1 rounded-lg bg-muted/50">
+    <div className={cn("flex flex-col gap-3", className)}>
+      {/* View mode toggle - compact segmented control */}
+      <div className="flex items-center gap-0.5 p-0.5 rounded-lg bg-muted/50 overflow-x-auto">
         <button
           onClick={() => setViewMode('piano')}
           className={cn(
-            "flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-md text-sm font-medium transition-all",
+            "flex-1 min-w-[80px] flex items-center justify-center gap-1 px-2 py-2 rounded-md text-xs font-medium transition-all whitespace-nowrap",
             viewMode === 'piano' 
               ? "bg-background text-foreground shadow-sm" 
               : "text-muted-foreground hover:text-foreground"
           )}
         >
-          <Piano className="w-4 h-4" />
+          <Piano className="w-3.5 h-3.5" />
           <span>Piano</span>
         </button>
         <button
           onClick={() => setViewMode('staff')}
           className={cn(
-            "flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-md text-sm font-medium transition-all",
+            "flex-1 min-w-[80px] flex items-center justify-center gap-1 px-2 py-2 rounded-md text-xs font-medium transition-all whitespace-nowrap",
             viewMode === 'staff' 
               ? "bg-background text-foreground shadow-sm" 
               : "text-muted-foreground hover:text-foreground"
           )}
         >
-          <Music className="w-4 h-4" />
+          <Music className="w-3.5 h-3.5" />
           <span>Ноты</span>
         </button>
         <button
           onClick={() => setViewMode('list')}
           className={cn(
-            "flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-md text-sm font-medium transition-all",
+            "flex-1 min-w-[80px] flex items-center justify-center gap-1 px-2 py-2 rounded-md text-xs font-medium transition-all whitespace-nowrap",
             viewMode === 'list' 
               ? "bg-background text-foreground shadow-sm" 
               : "text-muted-foreground hover:text-foreground"
           )}
         >
-          <ListMusic className="w-4 h-4" />
+          <ListMusic className="w-3.5 h-3.5" />
           <span>Список</span>
         </button>
       </div>
 
-      {/* Stats badges - compact row */}
-      <div className="flex items-center gap-2 flex-wrap">
-        <Badge variant="secondary" className="text-xs font-medium">
+      {/* Stats badges - horizontal scroll on mobile */}
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 -mx-1 px-1">
+        <Badge variant="secondary" className="text-[10px] font-medium flex-shrink-0">
           {stats?.total} нот
         </Badge>
         {bpm && (
-          <Badge variant="outline" className="text-xs">
+          <Badge variant="outline" className="text-[10px] flex-shrink-0">
             {Math.round(bpm)} BPM
           </Badge>
         )}
         {keySignature && (
-          <Badge variant="outline" className="text-xs">
+          <Badge variant="outline" className="text-[10px] flex-shrink-0">
             {keySignature}
           </Badge>
         )}
         {stats && (
-          <Badge variant="outline" className="text-xs text-muted-foreground">
-            {stats.minNote} — {stats.maxNote}
+          <Badge variant="outline" className="text-[10px] text-muted-foreground flex-shrink-0">
+            {stats.minNote}–{stats.maxNote}
           </Badge>
         )}
       </div>
 
-      {/* Visualization area - larger for mobile */}
+      {/* Visualization area - scrollable container */}
       <div className="rounded-xl border overflow-hidden bg-background shadow-sm">
-        {viewMode === 'piano' && (
-          <InteractivePianoRoll
-            notes={notes}
-            duration={duration}
-            height={280}
-            onNoteClick={handleNoteClick}
-          />
-        )}
-        
-        {viewMode === 'staff' && (
-          <StaffNotation
-            notes={notes}
-            duration={duration}
-            bpm={bpm}
-            timeSignature={parsedTimeSignature}
-            keySignature={keySignature}
-            height={280}
-          />
-        )}
+        <div className="overflow-x-auto touch-pan-x" style={{ WebkitOverflowScrolling: 'touch' }}>
+          {viewMode === 'piano' && (
+            <div className="min-w-[320px]">
+              <InteractivePianoRoll
+                notes={notes}
+                duration={duration}
+                height={220}
+                onNoteClick={handleNoteClick}
+              />
+            </div>
+          )}
+          
+          {viewMode === 'staff' && (
+            <div className="min-w-[320px]">
+              <StaffNotation
+                notes={notes}
+                duration={duration}
+                bpm={bpm}
+                timeSignature={parsedTimeSignature}
+                keySignature={keySignature}
+                height={220}
+              />
+            </div>
+          )}
+        </div>
         
         {viewMode === 'list' && (
-          <ScrollArea className="h-[280px]">
+          <ScrollArea className="h-[220px]">
             <div className="divide-y divide-border/50">
               {processedNotes.slice(0, 150).map((note, i) => (
                 <div 

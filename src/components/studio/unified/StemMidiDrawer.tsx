@@ -496,14 +496,16 @@ export function StemMidiDrawer({
                   {(activeMidiUrl || latestMidiUrl) ? (
                     <MidiPlayerCard
                       midiUrl={activeMidiUrl || latestMidiUrl!}
+                      musicXmlUrl={transcriptionFiles.mxml || latestTranscription?.mxml_url || undefined}
                       title={`${stem.stem_type} MIDI`}
                       onDownload={() => handleDownloadMidi(activeMidiUrl || latestMidiUrl!)}
+                      defaultViewMode={transcriptionFiles.mxml || latestTranscription?.mxml_url ? 'notation' : 'piano'}
                     />
                   ) : (
-                    <div className="flex flex-col items-center justify-center py-12 text-center">
-                      <Piano className="w-12 h-12 text-muted-foreground mb-4" />
-                      <p className="text-muted-foreground">Нет MIDI для воспроизведения</p>
-                      <p className="text-sm text-muted-foreground mt-1">
+                    <div className="flex flex-col items-center justify-center py-8 sm:py-12 text-center px-4">
+                      <Piano className="w-10 h-10 sm:w-12 sm:h-12 text-muted-foreground mb-3 sm:mb-4" />
+                      <p className="text-sm text-muted-foreground">Нет MIDI для воспроизведения</p>
+                      <p className="text-xs text-muted-foreground mt-1">
                         Создайте транскрипцию во вкладке "Создать"
                       </p>
                     </div>
