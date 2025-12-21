@@ -8,7 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { 
   Cloud, Search, Trash2, Play, Pause, Music, Mic, Upload, 
-  Sparkles, ArrowRight, FileText, Loader2, Edit, Check, X, Disc, FolderPlus, Scissors
+  Sparkles, ArrowRight, FileText, Loader2, Edit, Check, X, Disc, FolderPlus, Scissors,
+  Mic2, Guitar
 } from 'lucide-react';
 import { MultiTrackUpload } from '@/components/upload/MultiTrackUpload';
 import { cn } from '@/lib/utils';
@@ -45,6 +46,7 @@ import {
 } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Progress } from '@/components/ui/progress';
+import { AddVocalsToReferenceDialog } from '@/components/audio-reference/AddVocalsToReferenceDialog';
 
 // Simple upload dialog component
 function SimpleUploadDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
@@ -329,6 +331,7 @@ function AudioDetailPanel({
   const [isSaving, setIsSaving] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisProgress, setAnalysisProgress] = useState(0);
+  const [addVocalsDialogOpen, setAddVocalsDialogOpen] = useState(false);
 
   const formatDuration = (seconds: number | null) => {
     if (!seconds) return '--:--';
@@ -473,6 +476,26 @@ function AudioDetailPanel({
                   <div className="font-medium text-sm">Расширить</div>
                   <div className="text-[10px] opacity-70">Продолжить трек</div>
                 </div>
+              </Button>
+            </div>
+
+            {/* Add Vocals / Instrumental */}
+            <div className="grid grid-cols-2 gap-2">
+              <Button
+                variant="secondary"
+                onClick={() => setAddVocalsDialogOpen(true)}
+                className="h-12 gap-2"
+              >
+                <Mic2 className="w-4 h-4" />
+                <span className="text-sm">Добавить вокал</span>
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => setAddVocalsDialogOpen(true)}
+                className="h-12 gap-2"
+              >
+                <Guitar className="w-4 h-4" />
+                <span className="text-sm">Новая аранжировка</span>
               </Button>
             </div>
 
@@ -706,6 +729,13 @@ function AudioDetailPanel({
           </div>
         </ScrollArea>
       </SheetContent>
+
+      {/* Add Vocals/Instrumental Dialog */}
+      <AddVocalsToReferenceDialog
+        open={addVocalsDialogOpen}
+        onOpenChange={setAddVocalsDialogOpen}
+        audio={audio}
+      />
     </Sheet>
   );
 }

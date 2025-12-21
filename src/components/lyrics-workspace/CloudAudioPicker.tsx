@@ -110,7 +110,14 @@ export function CloudAudioPicker({
 
     const newAudio = new Audio(audio.file_url);
     newAudio.onended = () => setPlayingId(null);
-    newAudio.play();
+    newAudio.onerror = () => {
+      setPlayingId(null);
+      console.error('Failed to load audio:', audio.file_url);
+    };
+    newAudio.play().catch((err) => {
+      console.error('Audio play error:', err);
+      setPlayingId(null);
+    });
     audioRef.current = newAudio;
     setPlayingId(audio.id);
   };
