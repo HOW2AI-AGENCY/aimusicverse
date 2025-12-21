@@ -33,6 +33,7 @@ import { useSectionNotes, SaveSectionNoteData } from '@/hooks/useSectionNotes';
 import { useAuth } from '@/hooks/useAuth';
 import { hapticImpact } from '@/lib/haptic';
 import { toast } from 'sonner';
+import { SEOHead, SEO_PRESETS } from '@/components/SEOHead';
 
 // Parse lyrics text into sections
 function parseLyricsToSections(lyrics: string): LyricsSection[] {

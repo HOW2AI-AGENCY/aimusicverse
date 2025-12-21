@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 import { useTracksMidiStatus } from "@/hooks/useTrackMidiStatus";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { NotificationBadge } from "@/components/NotificationBadge";
+import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 
 const log = logger.child({ module: 'Library' });
 
@@ -236,6 +237,7 @@ export default function Library() {
 
   return (
     <ErrorBoundaryWrapper>
+      <SEOHead {...SEO_PRESETS.library} />
       <div className="min-h-screen pb-20">
         {/* Unified Header with centered logo */}
         <AppHeader
