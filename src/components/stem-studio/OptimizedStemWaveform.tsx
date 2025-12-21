@@ -14,7 +14,7 @@
 import { useEffect, useRef, useState, useCallback, memo } from 'react';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getWaveform, saveWaveform } from '@/lib/waveformCache';
+import { waveformWorkerPool } from '@/lib/waveformWorkerPool';
 import { logger } from '@/lib/logger';
 
 interface OptimizedStemWaveformProps {
@@ -57,42 +57,9 @@ const colorMap: Record<string, { wave: string; progress: string; bg: string }> =
   other: { wave: 'rgba(107, 114, 128, 0.3)', progress: 'rgba(107, 114, 128, 0.8)', bg: 'rgba(107, 114, 128, 0.1)' },
 };
 
-const SAMPLES = 100; // Number of bars to render
 const BAR_WIDTH = 2;
 const BAR_GAP = 1;
 const BAR_RADIUS = 1;
-
-/**
- * Generate peaks from audio URL (web audio API)
- */
-async function generatePeaksFromUrl(url: string, samples: number): Promise<number[]> {
-  const response = await fetch(url);
-  const arrayBuffer = await response.arrayBuffer();
-  
-  const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-  const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-  audioContext.close();
-  
-  const channelData = audioBuffer.getChannelData(0);
-  const blockSize = Math.floor(channelData.length / samples);
-  const peaks: number[] = [];
-  
-  for (let i = 0; i < samples; i++) {
-    const start = i * blockSize;
-    const end = Math.min(start + blockSize, channelData.length);
-    
-    let max = 0;
-    for (let j = start; j < end; j++) {
-      const abs = Math.abs(channelData[j]);
-      if (abs > max) max = abs;
-    }
-    peaks.push(max);
-  }
-  
-  // Normalize
-  const maxPeak = Math.max(...peaks, 0.01);
-  return peaks.map(p => p / maxPeak);
-}
 
 export const OptimizedStemWaveform = memo(({
   audioUrl,
@@ -113,7 +80,7 @@ export const OptimizedStemWaveform = memo(({
   
   const colors = colorMap[color.toLowerCase()] || colorMap.blue;
   
-  // Load waveform data (from cache or generate)
+  // Load waveform data using worker pool
   useEffect(() => {
     let mounted = true;
     
@@ -123,30 +90,18 @@ export const OptimizedStemWaveform = memo(({
       setIsLoading(true);
       
       try {
-        // Try cache first
-        const cached = await getWaveform(audioUrl);
-        if (cached && cached.length > 0) {
-          if (mounted) {
-            setPeaks(cached);
-            setIsLoading(false);
-          }
-          return;
-        }
-        
-        // Generate peaks
-        const newPeaks = await generatePeaksFromUrl(audioUrl, SAMPLES);
+        // Use worker pool (handles caching internally)
+        const newPeaks = await waveformWorkerPool.generate(audioUrl);
         
         if (mounted) {
           setPeaks(newPeaks);
           setIsLoading(false);
-          // Cache in background
-          saveWaveform(audioUrl, newPeaks).catch(() => {});
         }
       } catch (error) {
         logger.error('Failed to load waveform peaks', error);
         if (mounted) {
           // Fallback: generate placeholder peaks
-          setPeaks(Array.from({ length: SAMPLES }, () => Math.random() * 0.5 + 0.2));
+          setPeaks(Array.from({ length: 100 }, () => Math.random() * 0.5 + 0.2));
           setIsLoading(false);
         }
       }

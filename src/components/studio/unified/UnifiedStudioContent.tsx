@@ -28,8 +28,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useTracks } from '@/hooks/useTracks';
-import { useTrackStems, TrackStem } from '@/hooks/useTrackStems';
-import { useTrackTranscriptions } from '@/hooks/useStemTranscription';
+import { useStudioData, TrackStem } from '@/hooks/useStudioData';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useSectionDetection } from '@/hooks/useSectionDetection';
 import { useReplacedSections } from '@/hooks/useReplacedSections';
@@ -53,7 +52,7 @@ import { SectionVariantOverlay } from './SectionVariantOverlay';
 import { StemTrackSkeleton } from '@/components/studio/StemTrackSkeleton';
 import { registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
 import { useStemAudioEngine } from '@/hooks/studio/useStemAudioEngine';
-import { useStemAudioCache, getStemsByPriority } from '@/hooks/studio/useStemAudioCache';
+import { getStemsByPriority } from '@/hooks/studio/useStemAudioCache';
 import { defaultStemEffects } from '@/hooks/studio/stemEffectsConfig';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useStudioActivityLogger } from '@/hooks/useStudioActivityLogger';
@@ -92,8 +91,15 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   const isMobile = useIsMobile();
   const { tracks } = useTracks();
   const track = tracks?.find(t => t.id === trackId);
-  const { data: stems = [], isLoading: stemsLoading } = useTrackStems(trackId);
-  const { transcriptionsByStem } = useTrackTranscriptions(trackId);
+  
+  // Consolidated studio data fetching (stems + transcriptions in parallel)
+  const { 
+    stems, 
+    sortedStems, 
+    transcriptionsByStem, 
+    stemsLoading 
+  } = useStudioData(trackId);
+  
   const { setPrimaryVersionAsync } = useVersionSwitcher();
   const { separate, isSeparating } = useStemSeparation();
 
@@ -216,8 +222,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   // Track loading progress
   const [stemsLoadingProgress, setStemsLoadingProgress] = useState(0);
 
-  // Stem audio cache integration
-  const { loadStemWithCache, prefetchStems } = useStemAudioCache(stems);
+  // Audio caching is now handled by useStudioData hook with waveform prefetching
 
   // Initialize and manage stem audio elements with IndexedDB caching
   // Priority order: vocals -> bass -> drums -> others (for progressive loading)
@@ -281,11 +286,8 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         audio.addEventListener('loadedmetadata', handleLoadedMetadata, { once: true });
         audio.addEventListener('error', handleError, { once: true });
 
-        // Try to load from cache first
-        const loaded = await loadStemWithCache(stem, audio);
-        if (loaded) {
-          audio.dataset.fromCache = 'true';
-        }
+        // Set audio source directly - waveform prefetching handled by useStudioData
+        audio.src = stem.audio_url;
 
         // Faster fallback timeout - don't wait too long
         setTimeout(() => {
@@ -347,14 +349,9 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       setStemsReady(false);
       setStemsLoadingProgress(0);
     };
-  }, [stems, loadStemWithCache]);
+  }, [stems]);
 
-  // Prefetch stems immediately - no delay needed since main loading already started
-  useEffect(() => {
-    if (stems && stems.length > 0) {
-      prefetchStems(stems);
-    }
-  }, [stems, prefetchStems]);
+  // Waveform prefetching is now handled by useStudioData hook
 
   // Apply stem volume/mute/solo states
   useEffect(() => {
