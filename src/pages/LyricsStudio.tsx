@@ -1,6 +1,7 @@
 /**
  * Lyrics Studio Page
  * Professional lyrics editing with section notes, audio references, and tag enrichment
+ * Optimized for mobile with bottom sheets and touch-friendly controls
  */
 
 import { useState, useCallback, useMemo } from 'react';
@@ -17,7 +18,9 @@ import {
   Loader2,
   FolderOpen,
   Bot,
-  X
+  X,
+  MoreVertical,
+  PenLine
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -25,6 +28,8 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { 
   LyricsWorkspace, 
   LyricsSection, 
@@ -35,9 +40,11 @@ import {
 import { useLyricsTemplates } from '@/hooks/useLyricsTemplates';
 import { useSectionNotes, SaveSectionNoteData } from '@/hooks/useSectionNotes';
 import { useAuth } from '@/hooks/useAuth';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { hapticImpact } from '@/lib/haptic';
 import { toast } from 'sonner';
 import { SEOHead, SEO_PRESETS } from '@/components/SEOHead';
+import { cn } from '@/lib/utils';
 
 // Parse lyrics text into sections
 function parseLyricsToSections(lyrics: string): LyricsSection[] {
@@ -141,6 +148,7 @@ export default function LyricsStudio() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const templateId = searchParams.get('template');
+  const isMobile = useIsMobile();
   
   const { user } = useAuth();
   const { templates, saveTemplate, isLoading: templatesLoading } = useLyricsTemplates();
@@ -156,6 +164,7 @@ export default function LyricsStudio() {
   const [aiPanelOpen, setAiPanelOpen] = useState(false);
   const [tagsPanelOpen, setTagsPanelOpen] = useState(false);
   const [isSavingLyrics, setIsSavingLyrics] = useState(false);
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
 
   // Load template if provided
   useMemo(() => {
@@ -228,132 +237,266 @@ export default function LyricsStudio() {
 
   return (
     <div className="flex flex-col h-full bg-background">
-      {/* Header */}
-      <header className="flex items-center gap-3 p-4 border-b border-border/50">
+      {/* Header - Adaptive for mobile */}
+      <header className={cn(
+        "flex items-center gap-2 border-b border-border/50 bg-background/95 backdrop-blur-sm sticky top-0 z-10",
+        isMobile ? "px-3 py-2.5" : "px-4 py-3"
+      )}>
         <Button 
           variant="ghost" 
           size="icon" 
           onClick={() => navigate(-1)}
-          className="shrink-0"
+          className="shrink-0 h-9 w-9"
         >
           <ChevronLeft className="w-5 h-5" />
         </Button>
         
+        {/* Title - Editable on click for mobile */}
         <div className="flex-1 min-w-0">
-          <Input
-            value={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-              setIsDirty(true);
-            }}
-            className="text-lg font-semibold border-0 bg-transparent px-0 h-auto focus-visible:ring-0"
-            placeholder="Название текста..."
-          />
+          {isMobile && !isEditingTitle ? (
+            <button 
+              onClick={() => {
+                setIsEditingTitle(true);
+                hapticImpact('light');
+              }}
+              className="flex items-center gap-2 w-full text-left"
+            >
+              <span className="text-base font-semibold truncate">{title || 'Без названия'}</span>
+              <PenLine className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+            </button>
+          ) : (
+            <Input
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                setIsDirty(true);
+              }}
+              onBlur={() => setIsEditingTitle(false)}
+              autoFocus={isEditingTitle}
+              className={cn(
+                "font-semibold border-0 bg-transparent px-0 h-auto focus-visible:ring-0",
+                isMobile ? "text-base" : "text-lg"
+              )}
+              placeholder="Название текста..."
+            />
+          )}
         </div>
 
-        <div className="flex items-center gap-2">
-          {/* Templates */}
-          <Sheet open={templatesOpen} onOpenChange={setTemplatesOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <FolderOpen className="w-5 h-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-80">
-              <SheetHeader>
-                <SheetTitle className="flex items-center gap-2">
-                  <FileText className="w-5 h-5" />
-                  Мои тексты
-                </SheetTitle>
-              </SheetHeader>
-              <div className="mt-4 space-y-2">
-                <Button 
-                  variant="outline" 
-                  className="w-full justify-start gap-2"
-                  onClick={handleNewDocument}
-                >
-                  <Plus className="w-4 h-4" />
-                  Новый текст
+        {/* Actions - Condensed for mobile */}
+        {isMobile ? (
+          <div className="flex items-center gap-1">
+            {/* Save button always visible */}
+            <Button 
+              onClick={handleSave}
+              disabled={isSavingLyrics || !isDirty}
+              size="icon"
+              variant={isDirty ? "default" : "ghost"}
+              className="h-9 w-9"
+            >
+              {isSavingLyrics ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Save className="w-4 h-4" />
+              )}
+            </Button>
+
+            {/* More menu for mobile */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-9 w-9">
+                  <MoreVertical className="w-5 h-5" />
                 </Button>
-                
-                <ScrollArea className="h-[calc(100vh-200px)]">
-                  <div className="space-y-2 pr-4">
-                    {templatesLoading ? (
-                      <div className="flex justify-center py-8">
-                        <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
-                      </div>
-                    ) : templates?.length === 0 ? (
-                      <p className="text-sm text-muted-foreground text-center py-8">
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48 bg-popover">
+                <DropdownMenuItem onClick={() => setTemplatesOpen(true)}>
+                  <FolderOpen className="w-4 h-4 mr-2" />
+                  Мои тексты
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => {
+                  setAiPanelOpen(true);
+                  hapticImpact('light');
+                }}>
+                  <Bot className="w-4 h-4 mr-2" />
+                  AI-ассистент
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => {
+                  setTagsPanelOpen(true);
+                  hapticImpact('light');
+                }}>
+                  <Tag className="w-4 h-4 mr-2" />
+                  Теги ({globalTags.length + enrichedTags.length})
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleNewDocument}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Новый текст
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            {/* Templates */}
+            <Sheet open={templatesOpen} onOpenChange={setTemplatesOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <FolderOpen className="w-5 h-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-80">
+                <SheetHeader>
+                  <SheetTitle className="flex items-center gap-2">
+                    <FileText className="w-5 h-5" />
+                    Мои тексты
+                  </SheetTitle>
+                </SheetHeader>
+                <div className="mt-4 space-y-2">
+                  <Button 
+                    variant="outline" 
+                    className="w-full justify-start gap-2"
+                    onClick={handleNewDocument}
+                  >
+                    <Plus className="w-4 h-4" />
+                    Новый текст
+                  </Button>
+                  
+                  <ScrollArea className="h-[calc(100vh-200px)]">
+                    <div className="space-y-2 pr-4">
+                      {templatesLoading ? (
+                        <div className="flex justify-center py-8">
+                          <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+                        </div>
+                      ) : templates?.length === 0 ? (
+                        <p className="text-sm text-muted-foreground text-center py-8">
+                          Нет сохраненных текстов
+                        </p>
+                      ) : (
+                        templates?.map(template => (
+                          <Card
+                            key={template.id}
+                            className={`p-3 cursor-pointer transition-colors hover:bg-muted/50 ${
+                              templateId === template.id ? 'border-primary' : ''
+                            }`}
+                            onClick={() => handleLoadTemplate(template)}
+                          >
+                            <p className="font-medium text-sm truncate">{template.name}</p>
+                            <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                              {template.lyrics.substring(0, 100)}...
+                            </p>
+                          </Card>
+                        ))
+                      )}
+                    </div>
+                  </ScrollArea>
+                </div>
+              </SheetContent>
+            </Sheet>
+
+            {/* AI Assistant Toggle */}
+            <Button 
+              variant={aiPanelOpen ? 'secondary' : 'ghost'}
+              size="icon"
+              onClick={() => {
+                setAiPanelOpen(!aiPanelOpen);
+                hapticImpact('light');
+              }}
+            >
+              <Bot className="w-5 h-5" />
+            </Button>
+
+            {/* Tags Toggle */}
+            <Button 
+              variant={tagsPanelOpen ? 'secondary' : 'ghost'}
+              size="icon"
+              onClick={() => {
+                setTagsPanelOpen(!tagsPanelOpen);
+                hapticImpact('light');
+              }}
+              className="relative"
+            >
+              <Tag className="w-5 h-5" />
+              {(globalTags.length + enrichedTags.length) > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-[10px] font-bold text-primary-foreground rounded-full flex items-center justify-center">
+                  {globalTags.length + enrichedTags.length}
+                </span>
+              )}
+            </Button>
+
+            {/* Save */}
+            <Button 
+              onClick={handleSave}
+              disabled={isSavingLyrics || !isDirty}
+              size="sm"
+              className="gap-2"
+            >
+              {isSavingLyrics ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Save className="w-4 h-4" />
+              )}
+              Сохранить
+            </Button>
+          </div>
+        )}
+      </header>
+
+      {/* Mobile Templates Drawer */}
+      {isMobile && (
+        <Drawer open={templatesOpen} onOpenChange={setTemplatesOpen}>
+          <DrawerContent className="max-h-[85vh]">
+            <DrawerHeader className="border-b pb-3">
+              <DrawerTitle className="flex items-center gap-2">
+                <FileText className="w-5 h-5" />
+                Мои тексты
+              </DrawerTitle>
+            </DrawerHeader>
+            <div className="p-4 space-y-3">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start gap-2 h-12"
+                onClick={handleNewDocument}
+              >
+                <Plus className="w-5 h-5" />
+                Новый текст
+              </Button>
+              
+              <ScrollArea className="h-[50vh]">
+                <div className="space-y-2 pr-2">
+                  {templatesLoading ? (
+                    <div className="flex justify-center py-8">
+                      <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+                    </div>
+                  ) : templates?.length === 0 ? (
+                    <div className="text-center py-12">
+                      <FileText className="w-12 h-12 mx-auto text-muted-foreground/30 mb-3" />
+                      <p className="text-sm text-muted-foreground">
                         Нет сохраненных текстов
                       </p>
-                    ) : (
-                      templates?.map(template => (
-                        <Card
-                          key={template.id}
-                          className={`p-3 cursor-pointer transition-colors hover:bg-muted/50 ${
-                            templateId === template.id ? 'border-primary' : ''
-                          }`}
-                          onClick={() => handleLoadTemplate(template)}
-                        >
-                          <p className="font-medium text-sm truncate">{template.name}</p>
-                          <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
-                            {template.lyrics.substring(0, 100)}...
-                          </p>
-                        </Card>
-                      ))
-                    )}
-                  </div>
-                </ScrollArea>
-              </div>
-            </SheetContent>
-          </Sheet>
-
-          {/* AI Assistant Toggle */}
-          <Button 
-            variant={aiPanelOpen ? 'secondary' : 'ghost'}
-            size="icon"
-            onClick={() => {
-              setAiPanelOpen(!aiPanelOpen);
-              hapticImpact('light');
-            }}
-          >
-            <Bot className="w-5 h-5" />
-          </Button>
-
-          {/* Tags Toggle */}
-          <Button 
-            variant={tagsPanelOpen ? 'secondary' : 'ghost'}
-            size="icon"
-            onClick={() => {
-              setTagsPanelOpen(!tagsPanelOpen);
-              hapticImpact('light');
-            }}
-            className="relative"
-          >
-            <Tag className="w-5 h-5" />
-            {(globalTags.length + enrichedTags.length) > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-[10px] font-bold text-primary-foreground rounded-full flex items-center justify-center">
-                {globalTags.length + enrichedTags.length}
-              </span>
-            )}
-          </Button>
-
-          {/* Save */}
-          <Button 
-            onClick={handleSave}
-            disabled={isSavingLyrics || !isDirty}
-            size="sm"
-            className="gap-2"
-          >
-            {isSavingLyrics ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Save className="w-4 h-4" />
-            )}
-            Сохранить
-          </Button>
-        </div>
-      </header>
+                    </div>
+                  ) : (
+                    templates?.map(template => (
+                      <Card
+                        key={template.id}
+                        className={cn(
+                          "p-4 cursor-pointer transition-all active:scale-[0.98]",
+                          templateId === template.id 
+                            ? 'border-primary bg-primary/5' 
+                            : 'hover:bg-muted/50'
+                        )}
+                        onClick={() => handleLoadTemplate(template)}
+                      >
+                        <p className="font-medium truncate">{template.name}</p>
+                        <p className="text-xs text-muted-foreground line-clamp-2 mt-1.5">
+                          {template.lyrics.substring(0, 80)}...
+                        </p>
+                      </Card>
+                    ))
+                  )}
+                </div>
+              </ScrollArea>
+            </div>
+          </DrawerContent>
+        </Drawer>
+      )}
 
       {/* Tags Panel */}
       <AnimatePresence>
@@ -430,66 +573,137 @@ export default function LyricsStudio() {
             onSave={handleSave}
             isSaving={isSavingLyrics}
             hideSaveButton
+            onSectionSelect={setSelectedSection}
           />
         </div>
 
-        {/* AI Assistant Panel */}
-        <AnimatePresence>
-          {aiPanelOpen && (
-            <motion.div
-              initial={{ width: 0, opacity: 0 }}
-              animate={{ width: 320, opacity: 1 }}
-              exit={{ width: 0, opacity: 0 }}
-              className="border-l border-border/50 overflow-hidden bg-muted/20"
-            >
-              <div className="w-80 h-full overflow-y-auto p-4">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-semibold text-sm flex items-center gap-2">
-                    <Bot className="w-4 h-4" />
-                    AI-ассистент
-                  </h3>
-                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setAiPanelOpen(false)}>
-                    <X className="w-4 h-4" />
-                  </Button>
+        {/* AI Assistant Panel - Desktop sidebar */}
+        {!isMobile && (
+          <AnimatePresence>
+            {aiPanelOpen && (
+              <motion.div
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: 320, opacity: 1 }}
+                exit={{ width: 0, opacity: 0 }}
+                className="border-l border-border/50 overflow-hidden bg-muted/20"
+              >
+                <div className="w-80 h-full overflow-y-auto p-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-semibold text-sm flex items-center gap-2">
+                      <Bot className="w-4 h-4" />
+                      AI-ассистент
+                    </h3>
+                    <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setAiPanelOpen(false)}>
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                  <LyricsAIAssistant
+                    selectedText={selectedSection?.content || ''}
+                    onInsertText={(text) => {
+                      if (selectedSection) {
+                        handleSectionsChange(
+                          sections.map(s => 
+                            s.id === selectedSection.id 
+                              ? { ...s, content: s.content + '\n' + text }
+                              : s
+                          )
+                        );
+                      } else if (sections.length > 0) {
+                        const lastIdx = sections.length - 1;
+                        handleSectionsChange(
+                          sections.map((s, idx) => 
+                            idx === lastIdx 
+                              ? { ...s, content: s.content + '\n' + text }
+                              : s
+                          )
+                        );
+                      }
+                      toast.success('Текст добавлен');
+                    }}
+                    onAddTags={(tags) => {
+                      setGlobalTags(prev => [...new Set([...prev, ...tags])]);
+                      setIsDirty(true);
+                    }}
+                    context={{
+                      existingLyrics: sectionsToLyrics(sections),
+                      sectionType: selectedSection?.type,
+                    }}
+                  />
                 </div>
-                <LyricsAIAssistant
-                  selectedText={selectedSection?.content || ''}
-                  onInsertText={(text) => {
-                    if (selectedSection) {
-                      handleSectionsChange(
-                        sections.map(s => 
-                          s.id === selectedSection.id 
-                            ? { ...s, content: s.content + '\n' + text }
-                            : s
-                        )
-                      );
-                    } else if (sections.length > 0) {
-                      // Append to last section
-                      const lastIdx = sections.length - 1;
-                      handleSectionsChange(
-                        sections.map((s, idx) => 
-                          idx === lastIdx 
-                            ? { ...s, content: s.content + '\n' + text }
-                            : s
-                        )
-                      );
-                    }
-                    toast.success('Текст добавлен');
-                  }}
-                  onAddTags={(tags) => {
-                    setGlobalTags(prev => [...new Set([...prev, ...tags])]);
-                    setIsDirty(true);
-                  }}
-                  context={{
-                    existingLyrics: sectionsToLyrics(sections),
-                    sectionType: selectedSection?.type,
-                  }}
-                />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        )}
       </div>
+
+      {/* AI Assistant - Mobile Bottom Drawer */}
+      {isMobile && (
+        <Drawer open={aiPanelOpen} onOpenChange={setAiPanelOpen}>
+          <DrawerContent className="max-h-[85vh]">
+            <DrawerHeader className="border-b pb-3">
+              <DrawerTitle className="flex items-center gap-2">
+                <Bot className="w-5 h-5 text-primary" />
+                AI-ассистент
+              </DrawerTitle>
+            </DrawerHeader>
+            <ScrollArea className="h-[60vh] p-4">
+              <LyricsAIAssistant
+                selectedText={selectedSection?.content || ''}
+                onInsertText={(text) => {
+                  if (selectedSection) {
+                    handleSectionsChange(
+                      sections.map(s => 
+                        s.id === selectedSection.id 
+                          ? { ...s, content: s.content + '\n' + text }
+                          : s
+                      )
+                    );
+                  } else if (sections.length > 0) {
+                    const lastIdx = sections.length - 1;
+                    handleSectionsChange(
+                      sections.map((s, idx) => 
+                        idx === lastIdx 
+                          ? { ...s, content: s.content + '\n' + text }
+                          : s
+                      )
+                    );
+                  }
+                  toast.success('Текст добавлен');
+                  setAiPanelOpen(false);
+                }}
+                onAddTags={(tags) => {
+                  setGlobalTags(prev => [...new Set([...prev, ...tags])]);
+                  setIsDirty(true);
+                }}
+                context={{
+                  existingLyrics: sectionsToLyrics(sections),
+                  sectionType: selectedSection?.type,
+                }}
+              />
+            </ScrollArea>
+          </DrawerContent>
+        </Drawer>
+      )}
+
+      {/* Mobile FAB for AI Assistant */}
+      {isMobile && !aiPanelOpen && (
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="fixed bottom-6 right-4 z-50"
+        >
+          <Button
+            size="lg"
+            className="rounded-full h-14 w-14 shadow-lg shadow-primary/25"
+            onClick={() => {
+              setAiPanelOpen(true);
+              hapticImpact('medium');
+            }}
+          >
+            <Sparkles className="w-6 h-6" />
+          </Button>
+        </motion.div>
+      )}
 
       {/* Section Notes Panel */}
       {selectedSection && (
@@ -504,7 +718,6 @@ export default function LyricsStudio() {
           lyricsTemplateId={templateId || undefined}
           onSave={handleSaveNote}
           onEnrichWithTags={(tags) => {
-            // Update section tags
             handleSectionsChange(
               sections.map(s => 
                 s.id === selectedSection.id 

@@ -3,6 +3,7 @@
  * 
  * Visual section editor for lyrics with notes, tags, 
  * audio recordings, and reference audio per section.
+ * Optimized for mobile with larger touch targets and swipe actions.
  */
 
 import { useState, useCallback } from 'react';
@@ -18,7 +19,8 @@ import {
   ChevronRight,
   Trash2,
   Play,
-  Save
+  Save,
+  MoreHorizontal
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -27,8 +29,10 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export interface LyricsSection {
   id: string;
@@ -62,9 +66,18 @@ interface LyricsWorkspaceProps {
   onSave?: () => void;
   isSaving?: boolean;
   hideSaveButton?: boolean;
+  onSectionSelect?: (section: LyricsSection | null) => void;
 }
 
-export function LyricsWorkspace({ sections, onChange, onSave, isSaving, hideSaveButton = false }: LyricsWorkspaceProps) {
+export function LyricsWorkspace({ 
+  sections, 
+  onChange, 
+  onSave, 
+  isSaving, 
+  hideSaveButton = false,
+  onSectionSelect 
+}: LyricsWorkspaceProps) {
+  const isMobile = useIsMobile();
   const [selectedSection, setSelectedSection] = useState<LyricsSection | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
 
@@ -99,29 +112,38 @@ export function LyricsWorkspace({ sections, onChange, onSave, isSaving, hideSave
     hapticImpact('light');
     setSelectedSection(section);
     setDetailsOpen(true);
-  }, []);
+    onSectionSelect?.(section);
+  }, [onSectionSelect]);
 
   const getSectionTypeInfo = (type: string) => 
     SECTION_TYPES.find(t => t.value === type) || SECTION_TYPES[0];
 
   return (
     <div className="h-full flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border/50">
-        <h2 className="text-lg font-semibold flex items-center gap-2">
-          <Music2 className="w-5 h-5 text-primary" />
-          Редактор лирики
-        </h2>
-        {onSave && !hideSaveButton && (
-          <Button onClick={onSave} disabled={isSaving} size="sm">
-            <Save className="w-4 h-4 mr-2" />
-            {isSaving ? 'Сохранение...' : 'Сохранить'}
-          </Button>
-        )}
-      </div>
+      {/* Header - Hidden when embedded in LyricsStudio */}
+      {!hideSaveButton && (
+        <div className={cn(
+          "flex items-center justify-between border-b border-border/50",
+          isMobile ? "p-3" : "p-4"
+        )}>
+          <h2 className={cn(
+            "font-semibold flex items-center gap-2",
+            isMobile ? "text-base" : "text-lg"
+          )}>
+            <Music2 className="w-5 h-5 text-primary" />
+            Редактор лирики
+          </h2>
+          {onSave && (
+            <Button onClick={onSave} disabled={isSaving} size="sm">
+              <Save className="w-4 h-4 mr-2" />
+              {isSaving ? 'Сохранение...' : 'Сохранить'}
+            </Button>
+          )}
+        </div>
+      )}
 
       {/* Sections list */}
-      <ScrollArea className="flex-1 p-4">
+      <ScrollArea className={cn("flex-1", isMobile ? "p-3" : "p-4")}>
         <div className="space-y-3">
           <AnimatePresence mode="popLayout">
             {sections.map((section, index) => {
