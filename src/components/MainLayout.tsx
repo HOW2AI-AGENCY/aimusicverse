@@ -14,7 +14,7 @@ import { setSubscriptionDialogCallback } from '@/hooks/useTrackActions';
 import { useTelegramSettingsButton } from '@/hooks/telegram';
 
 // Lazy load heavy dialogs - not needed on initial render
-const OnboardingOverlay = lazy(() => import('./onboarding/OnboardingOverlay').then(m => ({ default: m.OnboardingOverlay })));
+const TelegramOnboarding = lazy(() => import('./onboarding/TelegramOnboarding').then(m => ({ default: m.TelegramOnboarding })));
 const SubscriptionRequiredDialog = lazy(() => import('./dialogs/SubscriptionRequiredDialog').then(m => ({ default: m.SubscriptionRequiredDialog })));
 const GamificationOnboarding = lazy(() => import('./gamification/GamificationOnboarding').then(m => ({ default: m.GamificationOnboarding })));
 
@@ -68,10 +68,10 @@ export const MainLayout = () => {
       {/* Guest mode banner - subtle and compact */}
       {isGuestMode && <GuestModeBanner />}
       
-      {/* Onboarding system */}
+      {/* Telegram-native Onboarding */}
       <OnboardingTrigger />
       <Suspense fallback={null}>
-        <OnboardingOverlay />
+        <TelegramOnboarding />
       </Suspense>
       
       {/* Subscription Required Dialog - lazy loaded */}
