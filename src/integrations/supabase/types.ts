@@ -1156,6 +1156,7 @@ export type Database = {
           concept: string | null
           context_vector: Json | null
           copyright_info: string | null
+          cover_prompt: string | null
           cover_url: string | null
           created_at: string | null
           description: string | null
@@ -1190,6 +1191,7 @@ export type Database = {
           concept?: string | null
           context_vector?: Json | null
           copyright_info?: string | null
+          cover_prompt?: string | null
           cover_url?: string | null
           created_at?: string | null
           description?: string | null
@@ -1224,6 +1226,7 @@ export type Database = {
           concept?: string | null
           context_vector?: Json | null
           copyright_info?: string | null
+          cover_prompt?: string | null
           cover_url?: string | null
           created_at?: string | null
           description?: string | null

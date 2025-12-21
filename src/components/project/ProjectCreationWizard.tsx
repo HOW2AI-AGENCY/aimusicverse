@@ -178,15 +178,46 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                   
                   // Update project with AI-generated data
                   if (aiResult?.data) {
-                    const { concept, visualAesthetic, coverPrompt } = aiResult.data;
-                    if (concept || visualAesthetic) {
+                    const { concept, visualAesthetic, coverPrompt, title: aiTitle, description: aiDescription } = aiResult.data;
+                    
+                    // Save all AI-generated fields
+                    const updateData: Record<string, any> = {};
+                    if (concept) updateData.concept = concept;
+                    if (visualAesthetic) updateData.visual_aesthetic = visualAesthetic;
+                    if (coverPrompt) updateData.cover_prompt = coverPrompt;
+                    if (!description && aiDescription) updateData.description = aiDescription;
+                    
+                    if (Object.keys(updateData).length > 0) {
                       await supabase
                         .from('music_projects')
-                        .update({
-                          concept: concept || null,
-                          description: description || aiResult.data.description || null,
-                        })
+                        .update(updateData)
                         .eq('id', data.id);
+                    }
+                    
+                    // Auto-generate cover if coverPrompt is available
+                    if (coverPrompt) {
+                      setStatusMessage('Генерация обложки...');
+                      setProgress(85);
+                      
+                      try {
+                        const { data: coverData, error: coverError } = await supabase.functions.invoke('generate-cover-image', {
+                          body: {
+                            projectId: data.id,
+                            prompt: coverPrompt,
+                            title: aiTitle || title,
+                            genre: genre || undefined,
+                            mood: mood || undefined,
+                          },
+                        });
+                        
+                        if (!coverError && coverData?.url) {
+                          logger.info('Cover generated successfully', { url: coverData.url });
+                          toast.success('Обложка создана!');
+                        }
+                      } catch (coverErr) {
+                        logger.warn('Cover generation failed, continuing...', { error: String(coverErr) });
+                        // Don't fail the whole process if cover fails
+                      }
                     }
                   }
                   
