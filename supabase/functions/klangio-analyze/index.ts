@@ -297,22 +297,21 @@ serve(async (req) => {
         if (title) queryParams.set('title', title);
         
         // Klangio API requires:
-        // 1. "outputs" field in FormData body (REQUIRED - contains array of output formats)
-        // 2. gen_* query parameters for each output format
+        // 1) outputs as repeated query parameters (e.g. outputs=midi&outputs=pdf)
+        // 2) gen_* query parameters for each output format
         const transcriptionValidFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
         const reqOutputs = outputs || smartOutputs;
         const validOutputs = reqOutputs.filter((o: string) => transcriptionValidFormats.includes(o));
         if (validOutputs.length === 0) validOutputs.push('midi');
-        
+
         console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(reqOutputs)}, valid=${JSON.stringify(validOutputs)}`);
         console.log(`[klangio] Demo mode: false (paid tier - full length transcription)`);
-        
-        // Klangio expects an "outputs" field in the multipart body.
-        // IMPORTANT: Send it ONLY once as a JSON array string.
-        // Sending repeated "outputs" fields (or multiple encodings) can make the server parse it as a nested list
-        // (e.g. [["midi"]]) which then fails enum validation.
-        formData.append('outputs', JSON.stringify(validOutputs));
-        console.log(`[klangio] FormData.outputs=${JSON.stringify(validOutputs)}`);
+
+        // IMPORTANT: Do NOT send outputs in the multipart body.
+        // Klangio expects outputs as repeated query parameters; sending it in body can be parsed as a nested list
+        // (e.g. [["midi"]]) and then fails enum validation.
+        validOutputs.forEach((o) => queryParams.append('outputs', o));
+        console.log(`[klangio] outputs query params: ${validOutputs.map((o) => `outputs=${o}`).join('&')}`);
 
         // Also set gen_* query parameters for each requested format
         if (validOutputs.includes('midi')) {
