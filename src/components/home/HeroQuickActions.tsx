@@ -1,10 +1,11 @@
-import { Sparkles, Library, FolderOpen, ListMusic, Music2, Guitar, Wand2 } from 'lucide-react';
+import { Sparkles, Library, FolderOpen, ListMusic, Music2, Guitar, Wand2, Mic } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion } from '@/lib/motion';
 import { useState } from 'react';
 import { MusicRecognitionDialog } from '@/components/music-recognition/MusicRecognitionDialog';
 import { GuitarRecordDialog } from '@/components/generate-form/GuitarRecordDialog';
+import { AudioRecordDialog } from '@/components/audio-record/AudioRecordDialog';
 import { TooltipWrapper } from '@/components/tooltips';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
@@ -24,6 +25,7 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
   const { hapticFeedback } = useTelegram();
   const [recognitionDialogOpen, setRecognitionDialogOpen] = useState(false);
   const [guitarDialogOpen, setGuitarDialogOpen] = useState(false);
+  const [audioRecordOpen, setAudioRecordOpen] = useState(false);
 
   const handleAction = (action: () => void) => {
     hapticFeedback?.('light');
@@ -122,11 +124,36 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
 
       {/* Tools Row - Compact */}
       <motion.div
-        className="grid grid-cols-2 gap-2"
+        className="grid grid-cols-3 gap-2"
         initial="hidden"
         animate="visible"
         variants={{ visible: { transition: { staggerChildren: 0.03, delayChildren: 0.1 } } }}
       >
+        {/* Audio Record Button - NEW */}
+        <motion.button
+          onClick={() => handleAction(() => setAudioRecordOpen(true))}
+          className={cn(
+            "group relative flex items-center gap-2 px-3 py-2.5 rounded-lg",
+            "bg-gradient-to-br from-rose-500/15 to-pink-500/10",
+            "border border-rose-500/25 hover:border-rose-500/40",
+            "touch-scale-sm transition-all duration-300 touch-manipulation min-h-[44px]"
+          )}
+          variants={{
+            hidden: { opacity: 0, y: 10, scale: 0.95 },
+            visible: { opacity: 1, y: 0, scale: 1 }
+          }}
+          whileTap={{ scale: 0.97 }}
+        >
+          <Mic className="w-4 h-4 text-rose-400 shrink-0" />
+          <div className="flex flex-col items-start">
+            <span className="text-xs font-semibold text-rose-400">Запись</span>
+            <span className="text-[9px] text-muted-foreground">Вокал</span>
+          </div>
+          <span className="absolute -top-1 -right-1 px-1 py-0.5 text-[8px] font-bold rounded bg-gradient-to-r from-rose-500 to-pink-500 text-white">
+            NEW
+          </span>
+        </motion.button>
+
         {/* Guitar Record Button */}
         <motion.button
           onClick={() => handleAction(() => setGuitarDialogOpen(true))}
@@ -147,9 +174,6 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
             <span className="text-xs font-semibold text-orange-400">Гитара</span>
             <span className="text-[9px] text-muted-foreground">Аккорды</span>
           </div>
-          <span className="absolute -top-1 -right-1 px-1 py-0.5 text-[8px] font-bold rounded bg-gradient-to-r from-orange-500 to-amber-500 text-white">
-            NEW
-          </span>
         </motion.button>
 
         {/* Music Recognition Button */}
@@ -184,6 +208,11 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         open={guitarDialogOpen}
         onOpenChange={setGuitarDialogOpen}
         onComplete={handleGuitarComplete}
+      />
+
+      <AudioRecordDialog
+        open={audioRecordOpen}
+        onOpenChange={setAudioRecordOpen}
       />
     </div>
   );
