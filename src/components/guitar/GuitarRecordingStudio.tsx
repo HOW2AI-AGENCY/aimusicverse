@@ -23,6 +23,7 @@ import {
 import { useRealtimeChordDetection } from '@/hooks/useRealtimeChordDetection';
 import { useAudioLevel } from '@/hooks/useAudioLevel';
 import { ChordDiagram } from '@/components/guitar/ChordDiagram';
+import { LiveChordDisplay } from '@/components/guitar/LiveChordDisplay';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { toast } from 'sonner';
@@ -490,8 +491,6 @@ export function GuitarRecordingStudio({ onComplete, compact = false }: GuitarRec
     };
   }, []);
 
-  // Note labels for chromagram
-  const NOTE_LABELS = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
   return (
     <div className={cn("space-y-4", compact && "space-y-3")}>
@@ -575,83 +574,15 @@ export function GuitarRecordingStudio({ onComplete, compact = false }: GuitarRec
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mt-6 space-y-4"
+                className="mt-6"
               >
-                {/* Current Chord */}
-                <div className="flex items-center justify-center gap-4">
-                  <AnimatePresence mode="wait">
-                    {currentChord ? (
-                      <motion.div
-                        key={currentChord.name}
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.8, opacity: 0 }}
-                        className="text-center"
-                      >
-                        <div className="text-4xl sm:text-5xl font-bold text-primary">
-                          {currentChord.name}
-                        </div>
-                        <span className="text-xs text-muted-foreground">
-                          {Math.round(currentChord.confidence * 100)}% уверенность
-                        </span>
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-muted-foreground flex items-center gap-2"
-                      >
-                        <Waves className="w-6 h-6 animate-pulse" />
-                        <span>Ожидание...</span>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                  
-                  {currentChord && (
-                    <div className="hidden sm:block">
-                      <ChordDiagram chord={currentChord.name} size="md" />
-                    </div>
-                  )}
-                </div>
-
-                {/* Chromagram */}
-                <div className="flex gap-0.5 h-8">
-                  {chromagram.map((value, i) => (
-                    <div key={i} className="flex-1 flex flex-col items-center">
-                      <div className="flex-1 w-full bg-muted rounded-sm overflow-hidden">
-                        <motion.div
-                          className="w-full bg-primary/70 rounded-sm"
-                          style={{ height: `${value * 100}%` }}
-                          animate={{ height: `${value * 100}%` }}
-                          transition={{ duration: 0.05 }}
-                        />
-                      </div>
-                      <span className="text-[8px] text-muted-foreground mt-0.5">
-                        {NOTE_LABELS[i]}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Chord History */}
-                {chordHistory.length > 0 && (
-                  <div className="flex flex-wrap gap-1 justify-center">
-                    {chordHistory.slice(0, 12).map((chord, i) => (
-                      <Badge 
-                        key={`${chord.name}-${i}`}
-                        variant={i === 0 ? "default" : "secondary"}
-                        className="text-xs"
-                      >
-                        {chord.name}
-                      </Badge>
-                    ))}
-                    {chordHistory.length > 12 && (
-                      <Badge variant="outline" className="text-xs">
-                        +{chordHistory.length - 12}
-                      </Badge>
-                    )}
-                  </div>
-                )}
+                <LiveChordDisplay
+                  currentChord={currentChord}
+                  chromagram={chromagram}
+                  chordHistory={chordHistory}
+                  volume={volume}
+                  isListening={isListening}
+                />
               </motion.div>
             )}
           </CardContent>
