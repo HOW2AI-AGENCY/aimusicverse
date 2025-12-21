@@ -9,6 +9,11 @@ import { consumePendingUpload, type PendingUpload, setPendingAudio } from '../co
 import { escapeMarkdown, trackMetric } from '../utils/index.ts';
 import { createLogger } from '../../_shared/logger.ts';
 import { deleteActiveMenu, setActiveMenuMessageId } from '../core/active-menu-manager.ts';
+import { 
+  setPendingClassification, 
+  showClassificationPrompt,
+  type PendingClassification 
+} from './audio-classifier.ts';
 
 const logger = createLogger('telegram-audio-handler');
 
@@ -47,8 +52,9 @@ interface TelegramDocument {
 /**
  * Handle incoming audio message
  * 
- * NEW BEHAVIOR: All audio is automatically uploaded to user's cloud storage
- * and processed through comprehensive analysis pipeline
+ * NEW BEHAVIOR: Show classification prompt before processing
+ * User selects: Instrumental / Vocal / Vocal+Instrumental
+ * Then we process with appropriate parameters
  */
 export async function handleAudioMessage(
   chatId: number,
@@ -62,12 +68,12 @@ export async function handleAudioMessage(
     // Delete any active menu before showing audio-related messages
     await deleteActiveMenu(userId, chatId);
     
-    // Check for pending upload (now async with DB)
+    // Check for pending upload (cover/extend mode)
     const pendingUpload = await consumePendingUpload(userId);
     
     if (!pendingUpload) {
-      // === NEW: Auto-upload ALL audio to cloud with comprehensive analysis ===
-      await handleAutoUploadWithPipeline(chatId, userId, audio, type, startTime);
+      // === NEW: Show classification prompt instead of auto-processing ===
+      await showAudioClassificationPromptInternal(chatId, userId, audio, type);
       return;
     }
     
@@ -197,14 +203,67 @@ ${escapeMarkdown(result.error || 'Неизвестная ошибка')}
 }
 
 /**
+ * NEW: Show audio classification prompt
+ * Collects file info and shows type selection buttons
+ */
+async function showAudioClassificationPromptInternal(
+  chatId: number,
+  userId: number,
+  audio: TelegramAudio | TelegramVoice | TelegramDocument,
+  type: 'audio' | 'voice' | 'document'
+): Promise<void> {
+  try {
+    // Get user profile first
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('user_id')
+      .eq('telegram_id', userId)
+      .single();
+
+    if (!profile) {
+      await sendMessage(chatId, '❌ Профиль не найден\\. Откройте Mini App для регистрации\\.');
+      return;
+    }
+
+    // Prepare file info
+    const fileName = 'file_name' in audio && audio.file_name 
+      ? audio.file_name 
+      : 'title' in audio && audio.title 
+        ? `${audio.title}.mp3` 
+        : type === 'voice' 
+          ? `Голосовое сообщение`
+          : `audio_${Date.now()}.mp3`;
+    
+    const duration = 'duration' in audio ? audio.duration : undefined;
+    const fileSize = 'file_size' in audio ? audio.file_size : undefined;
+    const mimeType = 'mime_type' in audio ? audio.mime_type : undefined;
+
+    // Store pending classification
+    const pendingData: PendingClassification = {
+      fileId: audio.file_id,
+      fileType: type,
+      fileName,
+      fileSize,
+      duration,
+      mimeType,
+      createdAt: Date.now(),
+    };
+
+    await setPendingClassification(userId, pendingData);
+
+    // Show classification prompt
+    await showClassificationPrompt(chatId, userId, pendingData);
+
+    logger.info('Showed classification prompt', { userId, fileName });
+  } catch (error) {
+    logger.error('Error showing classification prompt', error);
+    await sendMessage(chatId, '❌ Ошибка обработки файла\\. Попробуйте ещё раз\\.');
+  }
+}
+
+/**
  * AUTO-UPLOAD: Handle automatic upload of all audio to cloud with comprehensive pipeline
- * 
- * This is the new default behavior:
- * 1. Upload audio to storage immediately
- * 2. Run comprehensive analysis (Audio Flamingo 3)
- * 3. Extract lyrics if vocals detected
- * 4. Separate stems if both vocals AND instrumentals
- * 5. Send live progress updates
+ * (Legacy - kept for pending upload modes like cover/extend)
  */
 async function handleAutoUploadWithPipeline(
   chatId: number,

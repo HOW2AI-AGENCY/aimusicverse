@@ -46,7 +46,9 @@ export type MetricEventType =
   | 'wizard_started'
   | 'wizard_cancelled'
   | 'wizard_completed'
-  | 'quick_generation_started';
+  | 'quick_generation_started'
+  | 'classified_upload_completed'
+  | 'classified_upload_failed';
 
 interface MetricData {
   eventType: MetricEventType;
