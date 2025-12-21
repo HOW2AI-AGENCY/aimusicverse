@@ -387,6 +387,41 @@ export function useStemStudioEngine(stemIds: string[]) {
     }
   }, []);
 
+  // Remove and cleanup a single stem engine (IMP016 - Memory leak fix)
+  const removeStemEngine = useCallback((stemId: string) => {
+    const nodes = nodesMapRef.current[stemId];
+    if (!nodes) {
+      logger.warn('Attempted to remove non-existent stem engine', { stemId });
+      return;
+    }
+
+    try {
+      // Disconnect all nodes in reverse order of connection
+      nodes.outputGain.disconnect();
+      nodes.wetGain.disconnect();
+      nodes.dryGain.disconnect();
+      nodes.convolver.disconnect();
+      nodes.compressor.disconnect();
+      nodes.highEQ.disconnect();
+      nodes.midEQ.disconnect();
+      nodes.lowEQ.disconnect();
+      nodes.gainNode.disconnect();
+      nodes.source.disconnect();
+      
+      logger.info('Stem audio nodes cleaned up', { stemId });
+    } catch (e) {
+      // Nodes might already be disconnected
+      logger.warn('Error during stem cleanup', { stemId, error: e });
+    }
+
+    // Remove from refs and state
+    delete nodesMapRef.current[stemId];
+    setEnginesState(prev => {
+      const { [stemId]: removed, ...rest } = prev;
+      return rest;
+    });
+  }, []);
+
   // Mark as initialized when all stems have engines
   useEffect(() => {
     const allInitialized = stemIds.every(id => nodesMapRef.current[id]);
@@ -444,6 +479,7 @@ export function useStemStudioEngine(stemIds: string[]) {
     enginesState,
     isInitialized,
     initializeStemEngine,
+    removeStemEngine, // IMP016: Cleanup for individual stems
     updateStemEQ,
     updateStemCompressor,
     updateStemReverb,

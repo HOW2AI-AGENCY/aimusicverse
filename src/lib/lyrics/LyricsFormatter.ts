@@ -1,6 +1,7 @@
 /**
  * Lyrics formatting utilities for AI Lyrics Wizard
  * Extracted from lyricsWizardStore for better testability (IMP028)
+ * IMP014: Added type guards for section tag validation
  */
 
 import type { LyricSection } from '@/stores/lyricsWizardStore';
@@ -13,6 +14,77 @@ export interface EnrichmentTags {
 }
 
 /**
+ * Valid section tag types for Suno format
+ * IMP014: Explicit type for valid tags
+ */
+export type ValidSectionTag = 
+  | 'Verse' | 'Verse 1' | 'Verse 2' | 'Verse 3' | 'Verse 4'
+  | 'Chorus' | 'Pre-Chorus' | 'Post-Chorus'
+  | 'Bridge' | 'Intro' | 'Outro'
+  | 'Hook' | 'Drop' | 'Break' | 'Interlude'
+  | string; // Allow custom tags but with validation
+
+/**
+ * Type guard to check if a string is a valid bracket-enclosed tag
+ * IMP014: Ensures proper bracket formatting
+ */
+export function isValidBracketTag(tag: string): boolean {
+  // Tags should not contain nested brackets or unbalanced brackets
+  const openCount = (tag.match(/\[/g) || []).length;
+  const closeCount = (tag.match(/\]/g) || []).length;
+  
+  if (openCount !== closeCount) return false;
+  if (openCount > 0) return false; // Tag content shouldn't have brackets
+  
+  // Tags should not be empty or only whitespace
+  if (!tag.trim()) return false;
+  
+  // Tags should not exceed reasonable length
+  if (tag.length > 50) return false;
+  
+  return true;
+}
+
+/**
+ * Sanitize a tag to ensure it's properly formatted
+ * IMP014: Fix malformed tags
+ */
+export function sanitizeTag(tag: string): string {
+  // Remove any existing brackets
+  let sanitized = tag.replace(/[\[\]]/g, '');
+  
+  // Trim whitespace
+  sanitized = sanitized.trim();
+  
+  // Limit length
+  if (sanitized.length > 50) {
+    sanitized = sanitized.substring(0, 50);
+  }
+  
+  return sanitized;
+}
+
+/**
+ * Wrap a tag in brackets safely
+ * IMP014: Ensures proper bracket wrapping
+ */
+export function wrapInBrackets(tag: string): string {
+  const sanitized = sanitizeTag(tag);
+  if (!sanitized) return '';
+  return `[${sanitized}]`;
+}
+
+/**
+ * Wrap a tag in parentheses safely
+ * IMP014: Ensures proper parentheses wrapping
+ */
+export function wrapInParentheses(tag: string): string {
+  const sanitized = tag.replace(/[()]/g, '').trim();
+  if (!sanitized) return '';
+  return `(${sanitized})`;
+}
+
+/**
  * Format lyrics sections with enrichment tags into final Suno-compatible format
  */
 export class LyricsFormatter {
@@ -22,43 +94,64 @@ export class LyricsFormatter {
   static formatFinal(sections: LyricSection[], enrichment: EnrichmentTags): string {
     let lyrics = '';
     
-    // Add global vocal tags at the beginning
+    // Add global vocal tags at the beginning (IMP014: Use sanitized wrapping)
     if (enrichment.vocalTags.length > 0) {
-      lyrics += enrichment.vocalTags.map(t => `[${t}]`).join(' ') + '\n\n';
+      const validTags = enrichment.vocalTags
+        .map(t => wrapInBrackets(t))
+        .filter(t => t.length > 0);
+      if (validTags.length > 0) {
+        lyrics += validTags.join(' ') + '\n\n';
+      }
     }
     
     // Add each section with its tags
     sections.forEach((section, index) => {
       if (section.content.trim()) {
-        // Add section header
-        lyrics += `[${section.name}]\n`;
+        // Add section header (IMP014: Validate and sanitize section name)
+        const sectionHeader = wrapInBrackets(section.name);
+        if (sectionHeader) {
+          lyrics += sectionHeader + '\n';
+        }
         
         // Add dynamic tags if applicable
         if (index === 0 && enrichment.dynamicTags.includes('Soft Start')) {
           lyrics += '(softly)\n';
         }
         
-        // Add section-specific tags
+        // Add section-specific tags (IMP014: Use sanitized wrapping)
         if (section.tags.length > 0) {
-          lyrics += section.tags.map(t => `(${t})`).join(' ') + '\n';
+          const validSectionTags = section.tags
+            .map(t => wrapInParentheses(t))
+            .filter(t => t.length > 0);
+          if (validSectionTags.length > 0) {
+            lyrics += validSectionTags.join(' ') + '\n';
+          }
         }
         
         // Add section content
         lyrics += section.content.trim() + '\n\n';
         
-        // Add emotional cues if applicable
+        // Add emotional cues if applicable (IMP014: Use sanitized wrapping)
         if (enrichment.emotionalCues.length > 0 && index < sections.length - 1) {
           const cue = enrichment.emotionalCues[index % enrichment.emotionalCues.length];
           if (cue) {
-            lyrics += `(${cue})\n\n`;
+            const wrappedCue = wrapInParentheses(cue);
+            if (wrappedCue) {
+              lyrics += wrappedCue + '\n\n';
+            }
           }
         }
       }
     });
     
-    // Add instrument tags at the end if present
+    // Add instrument tags at the end if present (IMP014: Use sanitized wrapping)
     if (enrichment.instrumentTags.length > 0) {
-      lyrics += '\n' + enrichment.instrumentTags.map(t => `[${t}]`).join(' ');
+      const validInstrumentTags = enrichment.instrumentTags
+        .map(t => wrapInBrackets(t))
+        .filter(t => t.length > 0);
+      if (validInstrumentTags.length > 0) {
+        lyrics += '\n' + validInstrumentTags.join(' ');
+      }
     }
     
     return lyrics.trim();
