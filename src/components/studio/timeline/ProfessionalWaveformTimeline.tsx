@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { DetectedSection } from '@/hooks/useSectionDetection';
+import { createAudioContext } from '@/lib/audio/audioContextHelper';
 
 // Section colors by type
 const SECTION_COLORS: Record<string, { bg: string; border: string; text: string }> = {
@@ -77,7 +78,7 @@ export function ProfessionalWaveformTimeline({
     }
 
     setIsLoading(true);
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const audioContext = createAudioContext();
     
     fetch(audioUrl)
       .then(res => res.arrayBuffer())
