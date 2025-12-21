@@ -5,13 +5,9 @@
  * audio recordings, and reference audio per section.
  * Optimized for mobile with larger touch targets and swipe actions.
  * 
- * V5 Suno Features:
- * - Tags in [square brackets] only in English
- * - Backing vocals in (parentheses)
- * - Stress marks with capital letters (компАс)
  */
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Plus, 
@@ -35,9 +31,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { TagList, TagBadge } from '@/components/lyrics/shared/TagBadge';
+import { TagBadge } from '@/components/lyrics/shared/TagBadge';
 import { SectionTagSelector } from '@/components/lyrics/shared/SectionTagSelector';
-import { LyricsEditorToolbar } from '@/components/lyrics/shared/LyricsEditorToolbar';
 
 export interface LyricsSection {
   id: string;
@@ -85,7 +80,7 @@ export function LyricsWorkspace({
   const isMobile = useIsMobile();
   const [selectedSection, setSelectedSection] = useState<LyricsSection | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
-  const textareaRefs = useRef<Record<string, HTMLTextAreaElement | null>>({});
+  
 
   const addSection = useCallback((type: LyricsSection['type'] = 'verse') => {
     hapticImpact('light');
@@ -202,23 +197,12 @@ export function LyricsWorkspace({
                           )}
                         </div>
 
-                        {/* Editor toolbar */}
-                        <LyricsEditorToolbar
-                          textareaRef={{ current: textareaRefs.current[section.id] } as React.RefObject<HTMLTextAreaElement>}
-                          onInsertTag={(tag) => {
-                            if (!section.tags?.includes(tag)) {
-                              updateSectionTags(section.id, [...(section.tags || []), tag]);
-                            }
-                          }}
-                        />
-
                         {/* Lyrics textarea */}
                         <Textarea
-                          ref={(el) => { textareaRefs.current[section.id] = el; }}
                           value={section.content}
                           onChange={(e) => updateSection(section.id, { content: e.target.value })}
-                          placeholder="Введите текст секции...&#10;Используйте (скобки) для бэк-вокала&#10;Заглавная буква = ударение: компАс"
-                          className="min-h-[80px] resize-none text-sm rounded-t-none border-t-0"
+                          placeholder="Введите текст секции..."
+                          className="min-h-[80px] resize-none text-sm"
                         />
 
                         {/* Tags display with icons */}
