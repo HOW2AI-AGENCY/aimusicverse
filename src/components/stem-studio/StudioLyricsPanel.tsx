@@ -8,17 +8,24 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
-import { Music2, ChevronDown, ChevronUp, Scissors, Check } from 'lucide-react';
+import { Music2, ChevronDown, ChevronUp, Scissors, Check, Wand2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTimestampedLyrics, AlignedWord } from '@/hooks/useTimestampedLyrics';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { isStructuralTag as checkStructuralTag, filterStructuralTagWords } from '@/lib/lyricsUtils';
+import { SYNC_CONSTANTS } from '@/hooks/lyrics/useLyricsSynchronization';
 
 // Timing constants for synchronized lyrics
-const WORD_TIMING_TOLERANCE = 0.05; // seconds - tolerance for word activation timing
-const LINE_START_TOLERANCE = 0.1; // seconds - tolerance before line start
-const LINE_END_TOLERANCE = 0.3; // seconds - tolerance after line end
+const WORD_TIMING_TOLERANCE = SYNC_CONSTANTS.WORD_LOOK_AHEAD_MS / 1000;
+const LINE_START_TOLERANCE = SYNC_CONSTANTS.LINE_LOOK_AHEAD_MS / 1000;
+const LINE_END_TOLERANCE = SYNC_CONSTANTS.LINE_END_TOLERANCE_MS / 1000;
+
+// Section detection constants
+const SECTION_GAP_THRESHOLD = 1.5; // seconds - gap between sections
+const MIN_SECTION_LINES = 2;       // minimum lines for a section
+const MAX_SECTION_LINES = 8;       // maximum lines before forcing split
 
 interface StudioLyricsPanelProps {
   taskId: string | null;
@@ -48,30 +55,37 @@ interface DetectedSection {
   text: string;
 }
 
-// Group words into lines based on newlines or time gaps - improved
+// Group words into lines based on newlines or time gaps - improved with better timing
 function groupWordsIntoLines(words: AlignedWord[]): LyricLine[] {
   const lines: LyricLine[] = [];
   let currentLineWords: AlignedWord[] = [];
 
-  for (let i = 0; i < words.length; i++) {
-    const word = words[i];
-    const nextWord = words[i + 1];
+  // First filter out structural tags
+  const filteredWords = filterStructuralTagWords(words);
+
+  for (let i = 0; i < filteredWords.length; i++) {
+    const word = filteredWords[i];
+    const nextWord = filteredWords[i + 1];
     
     // Skip empty words
-    if (!word.word.trim()) continue;
+    const cleanWord = word.word.replace(/\n/g, '').trim();
+    if (!cleanWord || checkStructuralTag(cleanWord)) continue;
     
     currentLineWords.push(word);
 
     const hasNewline = word.word.includes('\n');
     const hasDoubleNewline = word.word.includes('\n\n');
-    // Increased gap threshold for better line separation (was 0.5, now 0.8)
-    const hasTimeGap = nextWord ? nextWord.startS - word.endS > 0.8 : true;
-    const isLongLine = currentLineWords.length >= 12; // Increased from 10 to 12
+    // Time gap detection - words with >0.6s gap likely indicate line break
+    const hasTimeGap = nextWord ? nextWord.startS - word.endS > 0.6 : true;
+    const isLongLine = currentLineWords.length >= 10;
+    // Punctuation-based line breaks
+    const endsWithPunctuation = /[.!?;]$/.test(cleanWord);
 
-    if (hasDoubleNewline || hasTimeGap || isLongLine || !nextWord) {
+    if (hasDoubleNewline || hasTimeGap || isLongLine || endsWithPunctuation || !nextWord) {
       if (currentLineWords.length > 0) {
         const lineText = currentLineWords
-          .map(w => w.word.replace(/\n/g, ''))
+          .map(w => w.word.replace(/\n/g, '').trim())
+          .filter(t => t && !checkStructuralTag(t))
           .join(' ')
           .trim();
         if (lineText) {
@@ -85,8 +99,6 @@ function groupWordsIntoLines(words: AlignedWord[]): LyricLine[] {
       }
       currentLineWords = [];
     } else if (hasNewline && !hasDoubleNewline) {
-      // Single newline: add to current line but prepare for potential split
-      // This handles cases where single \n is not a strong break
       continue;
     }
   }
@@ -94,12 +106,7 @@ function groupWordsIntoLines(words: AlignedWord[]): LyricLine[] {
   return lines;
 }
 
-// Filter out structural tags like [Verse], [Chorus], etc.
-function isStructuralTag(word: string): boolean {
-  return /^\[.*\]$/.test(word.trim());
-}
-
-// Group lines into sections based on time gaps
+// Improved section detection with smarter boundary detection
 function groupLinesIntoSections(lines: LyricLine[]): DetectedSection[] {
   const sections: DetectedSection[] = [];
   let currentSectionLines: LyricLine[] = [];
@@ -107,18 +114,32 @@ function groupLinesIntoSections(lines: LyricLine[]): DetectedSection[] {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     const nextLine = lines[i + 1];
+    const prevLine = lines[i - 1];
     
     currentSectionLines.push(line);
     
-    // Check for section break (large time gap > 2 seconds)
-    const hasLargeGap = nextLine ? nextLine.startTime - line.endTime > 2 : true;
-    const hasManyLines = currentSectionLines.length >= 4;
+    // Calculate time gaps
+    const gapToNext = nextLine ? nextLine.startTime - line.endTime : Infinity;
+    const gapFromPrev = prevLine ? line.startTime - prevLine.endTime : 0;
     
-    if ((hasLargeGap && hasManyLines) || !nextLine) {
+    // Detect section breaks based on:
+    // 1. Large time gap (> SECTION_GAP_THRESHOLD)
+    // 2. Minimum lines reached AND significant gap (>0.8s)
+    // 3. Maximum lines reached
+    const hasLargeGap = gapToNext > SECTION_GAP_THRESHOLD;
+    const hasModerateGap = gapToNext > 0.8 && currentSectionLines.length >= MIN_SECTION_LINES;
+    const reachedMaxLines = currentSectionLines.length >= MAX_SECTION_LINES;
+    const isLastLine = !nextLine;
+    
+    if (hasLargeGap || hasModerateGap || reachedMaxLines || isLastLine) {
       if (currentSectionLines.length > 0) {
         const sectionText = currentSectionLines.map(l => l.text).join('\n');
+        
+        // Detect section type based on content patterns
+        const sectionType = detectSectionType(sectionText);
+        
         sections.push({
-          type: 'unknown',
+          type: sectionType,
           lines: [...currentSectionLines],
           startTime: currentSectionLines[0].startTime,
           endTime: currentSectionLines[currentSectionLines.length - 1].endTime,
@@ -130,6 +151,84 @@ function groupLinesIntoSections(lines: LyricLine[]): DetectedSection[] {
   }
   
   return sections;
+}
+
+// Detect section type based on content patterns
+function detectSectionType(text: string): DetectedSection['type'] {
+  const lowerText = text.toLowerCase();
+  
+  // Check for repeated patterns (likely chorus)
+  // Check for short lines (likely hook)
+  // Check for narrative content (likely verse)
+  
+  if (lowerText.includes('oh') && lowerText.split('\n').length <= 4) {
+    return 'chorus';
+  }
+  
+  if (lowerText.split('\n').length >= 4) {
+    return 'verse';
+  }
+  
+  return 'unknown';
+}
+
+// Calculate optimal replacement boundaries with padding
+function calculateReplacementBounds(
+  lines: LyricLine[],
+  selectedIndices: number[]
+): { startTime: number; endTime: number; paddingStart: number; paddingEnd: number } {
+  if (!selectedIndices.length) {
+    return { startTime: 0, endTime: 0, paddingStart: 0, paddingEnd: 0 };
+  }
+  
+  const sortedIndices = [...selectedIndices].sort((a, b) => a - b);
+  const firstIdx = sortedIndices[0];
+  const lastIdx = sortedIndices[sortedIndices.length - 1];
+  
+  const firstLine = lines[firstIdx];
+  const lastLine = lines[lastIdx];
+  
+  if (!firstLine || !lastLine) {
+    return { startTime: 0, endTime: 0, paddingStart: 0, paddingEnd: 0 };
+  }
+  
+  // Base times from selected lines
+  let startTime = firstLine.startTime;
+  let endTime = lastLine.endTime;
+  
+  // Add padding for smoother transitions
+  // Look at gaps before first line and after last line
+  const prevLine = lines[firstIdx - 1];
+  const nextLine = lines[lastIdx + 1];
+  
+  // Padding: extend into gaps but not beyond midpoint
+  let paddingStart = 0;
+  let paddingEnd = 0;
+  
+  if (prevLine) {
+    const gapBefore = startTime - prevLine.endTime;
+    // Take up to half the gap, max 0.5s
+    paddingStart = Math.min(gapBefore * 0.4, 0.5);
+  } else {
+    // First line - add small padding if there's time
+    paddingStart = Math.min(startTime * 0.5, 0.3);
+  }
+  
+  if (nextLine) {
+    const gapAfter = nextLine.startTime - endTime;
+    // Take up to half the gap, max 0.5s
+    paddingEnd = Math.min(gapAfter * 0.4, 0.5);
+  } else {
+    // Last line - add small padding
+    paddingEnd = 0.3;
+  }
+  
+  return {
+    startTime: Math.max(0, startTime - paddingStart),
+    endTime: endTime + paddingEnd,
+    paddingStart,
+    paddingEnd,
+  };
 }
 
 export function StudioLyricsPanel({
@@ -150,12 +249,10 @@ export function StudioLyricsPanel({
   const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
 
-  // Process lyrics into lines
+  // Process lyrics into lines (filtering is done inside groupWordsIntoLines)
   const lines = useMemo(() => {
     if (!lyricsData?.alignedWords?.length) return [];
-    
-    const filteredWords = lyricsData.alignedWords.filter(w => !isStructuralTag(w.word));
-    return groupWordsIntoLines(filteredWords);
+    return groupWordsIntoLines(lyricsData.alignedWords);
   }, [lyricsData]);
 
   // Group lines into sections
@@ -196,9 +293,65 @@ export function StudioLyricsPanel({
     }));
   }, [lines, activeLineIndex, selectionMode, isMobile]);
 
+  // Track double-click for smart selection
+  const lastClickRef = useRef<{ index: number; time: number } | null>(null);
+  const DOUBLE_CLICK_THRESHOLD = 300; // ms
+
+  // Smart section selection - auto-expand to natural boundaries
+  const handleSmartSelectSection = useCallback((lineIndex: number) => {
+    if (!lines.length) return;
+    
+    const clickedLine = lines[lineIndex];
+    if (!clickedLine) return;
+    
+    // Find section boundaries around clicked line
+    let startIdx = lineIndex;
+    let endIdx = lineIndex;
+    
+    // Expand backwards until we hit a large gap or start
+    while (startIdx > 0) {
+      const currentLine = lines[startIdx];
+      const prevLine = lines[startIdx - 1];
+      const gap = currentLine.startTime - prevLine.endTime;
+      if (gap > SECTION_GAP_THRESHOLD) break;
+      startIdx--;
+    }
+    
+    // Expand forwards until we hit a large gap or end
+    while (endIdx < lines.length - 1) {
+      const currentLine = lines[endIdx];
+      const nextLine = lines[endIdx + 1];
+      const gap = nextLine.startTime - currentLine.endTime;
+      if (gap > SECTION_GAP_THRESHOLD) break;
+      endIdx++;
+    }
+    
+    // Select all lines in range
+    const newSelection = new Set<number>();
+    for (let i = startIdx; i <= endIdx; i++) {
+      newSelection.add(i);
+    }
+    setSelectedLines(newSelection);
+  }, [lines]);
+
   const handleLineClick = useCallback((line: LyricLine, globalIndex: number) => {
     if (selectionMode) {
-      // Toggle line selection
+      const now = Date.now();
+      const lastClick = lastClickRef.current;
+      
+      // Check for double-click on same line
+      if (lastClick && 
+          lastClick.index === globalIndex && 
+          now - lastClick.time < DOUBLE_CLICK_THRESHOLD) {
+        // Double-click: smart select entire section
+        handleSmartSelectSection(globalIndex);
+        lastClickRef.current = null;
+        return;
+      }
+      
+      // Single click: toggle line
+      lastClickRef.current = { index: globalIndex, time: now };
+      
       setSelectedLines(prev => {
         const next = new Set(prev);
         if (next.has(globalIndex)) {
@@ -211,7 +364,7 @@ export function StudioLyricsPanel({
     } else if (onSeek) {
       onSeek(line.startTime);
     }
-  }, [selectionMode, onSeek]);
+  }, [selectionMode, onSeek, handleSmartSelectSection]);
 
   const handleConfirmSelection = useCallback(() => {
     if (!selectedLines.size || !onSectionSelect) return;
@@ -220,11 +373,11 @@ export function StudioLyricsPanel({
     const selectedLinesList = sortedIndices.map(idx => lines[idx]).filter(Boolean);
     
     if (selectedLinesList.length > 0) {
-      const startTime = selectedLinesList[0].startTime;
-      const endTime = selectedLinesList[selectedLinesList.length - 1].endTime;
+      // Use improved boundary calculation with padding
+      const bounds = calculateReplacementBounds(lines, sortedIndices);
       const lyrics = selectedLinesList.map(l => l.text).join('\n');
       
-      onSectionSelect(startTime, endTime, lyrics);
+      onSectionSelect(bounds.startTime, bounds.endTime, lyrics);
       setSelectedLines(new Set());
     }
   }, [selectedLines, lines, onSectionSelect]);
@@ -318,14 +471,29 @@ export function StudioLyricsPanel({
         </div>
         <div className="flex items-center gap-2">
           {selectionMode && selectedLines.size > 0 && (
-            <Button
-              size="sm"
-              onClick={handleConfirmSelection}
-              className="h-7 px-3 gap-1 bg-amber-500 hover:bg-amber-600 text-white"
-            >
-              <Check className="w-3 h-3" />
-              <span className="hidden sm:inline">Выбрать</span>
-            </Button>
+            <>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setSelectedLines(new Set())}
+                className="h-7 px-2"
+              >
+                Очистить
+              </Button>
+              <Button
+                size="sm"
+                onClick={handleConfirmSelection}
+                className="h-7 px-3 gap-1 bg-amber-500 hover:bg-amber-600 text-white"
+              >
+                <Check className="w-3 h-3" />
+                <span className="hidden sm:inline">Выбрать</span>
+              </Button>
+            </>
+          )}
+          {selectionMode && !selectedLines.size && (
+            <span className="text-xs text-muted-foreground hidden sm:block">
+              Дважды нажмите для авто-выбора секции
+            </span>
           )}
           <Button
             variant="ghost"
