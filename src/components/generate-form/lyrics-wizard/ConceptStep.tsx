@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -9,47 +9,7 @@ import { useLyricsWizardStore } from '@/stores/lyricsWizardStore';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
-
-const GENRES = [
-  { value: 'pop', label: 'Поп' },
-  { value: 'rock', label: 'Рок' },
-  { value: 'hip-hop', label: 'Хип-хоп' },
-  { value: 'r&b', label: 'R&B' },
-  { value: 'electronic', label: 'Электроника' },
-  { value: 'indie', label: 'Инди' },
-  { value: 'folk', label: 'Фолк' },
-  { value: 'jazz', label: 'Джаз' },
-  { value: 'classical', label: 'Классика' },
-  { value: 'metal', label: 'Метал' },
-  { value: 'country', label: 'Кантри' },
-  { value: 'reggae', label: 'Регги' },
-];
-
-const MOODS = [
-  { value: 'happy', label: 'Радостное' },
-  { value: 'sad', label: 'Грустное' },
-  { value: 'romantic', label: 'Романтичное' },
-  { value: 'energetic', label: 'Энергичное' },
-  { value: 'melancholic', label: 'Меланхоличное' },
-  { value: 'aggressive', label: 'Агрессивное' },
-  { value: 'peaceful', label: 'Умиротворённое' },
-  { value: 'nostalgic', label: 'Ностальгическое' },
-  { value: 'hopeful', label: 'Обнадёживающее' },
-  { value: 'dark', label: 'Мрачное' },
-  { value: 'playful', label: 'Игривое' },
-  { value: 'epic', label: 'Эпичное' },
-];
-
-const THEME_SUGGESTIONS = [
-  'Любовь с первого взгляда',
-  'Расставание и принятие',
-  'Погоня за мечтой',
-  'Ночной город',
-  'Воспоминания о лете',
-  'Внутренняя борьба',
-  'Новое начало',
-  'Танцы до утра',
-];
+import { GENRES, MOODS, THEME_SUGGESTIONS } from '@/lib/lyrics/constants';
 
 export function ConceptStep() {
   const { concept, setTheme, setGenre, setMood, setLanguage } = useLyricsWizardStore();
@@ -137,7 +97,7 @@ export function ConceptStep() {
             <SelectContent>
               {GENRES.map((genre) => (
                 <SelectItem key={genre.value} value={genre.value}>
-                  {genre.label}
+                  {genre.emoji} {genre.label}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -168,7 +128,7 @@ export function ConceptStep() {
               className="cursor-pointer transition-colors"
               onClick={() => toggleMood(mood.value)}
             >
-              {mood.label}
+              {mood.emoji} {mood.label}
               {concept.mood.includes(mood.value) && (
                 <X className="h-3 w-3 ml-1" />
               )}

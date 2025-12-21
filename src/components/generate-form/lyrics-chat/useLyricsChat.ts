@@ -4,7 +4,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
 import type { ChatMessage, QuickOption, ProjectContext, TrackContext } from './types';
-import { GENRES, MOODS, STRUCTURE_MAP, INITIAL_MESSAGE_OPTIONS, getContextualOptions } from './constants';
+import { GENRES, MOODS, STRUCTURE_MAP } from '@/lib/lyrics/constants';
+import { INITIAL_MESSAGE_OPTIONS, getContextualOptions } from './constants';
 
 // Auto-scroll behavior constants
 const USER_SCROLL_THRESHOLD = 5; // pixels - minimum scroll delta to detect user scroll

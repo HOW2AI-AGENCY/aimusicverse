@@ -12,7 +12,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { StructuredLyricsDisplay } from '@/components/lyrics/StructuredLyricsDisplay';
-import { buttonVariants } from './constants';
+import { buttonVariants } from '@/lib/lyrics/constants';
 
 interface EnhancedLyricsPreviewProps {
   lyrics: string;

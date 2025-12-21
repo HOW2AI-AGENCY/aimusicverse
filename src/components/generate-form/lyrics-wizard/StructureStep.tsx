@@ -88,19 +88,7 @@ const STRUCTURE_TEMPLATES: Record<string, { name: string; description: string; s
   },
 };
 
-const SECTION_TYPES = [
-  { type: 'verse', name: 'Verse', icon: '📝' },
-  { type: 'chorus', name: 'Chorus', icon: '🎵' },
-  { type: 'prechorus', name: 'Pre-Chorus', icon: '⬆️' },
-  { type: 'bridge', name: 'Bridge', icon: '🌉' },
-  { type: 'hook', name: 'Hook', icon: '🪝' },
-  { type: 'intro', name: 'Intro', icon: '🎬' },
-  { type: 'outro', name: 'Outro', icon: '🔚' },
-  { type: 'build', name: 'Build', icon: '📈' },
-  { type: 'drop', name: 'Drop', icon: '💥' },
-  { type: 'breakdown', name: 'Breakdown', icon: '🔻' },
-  { type: 'solo', name: 'Solo', icon: '🎸' },
-];
+import { SECTION_TYPES } from '@/lib/lyrics/constants';
 
 export function StructureStep() {
   const { concept, structure, setTemplate, setCustomStructure, addSection, removeSection } = useLyricsWizardStore();
