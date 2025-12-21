@@ -295,19 +295,42 @@ serve(async (req) => {
         queryParams.set('demo', 'false');
         formData.append('demo', 'false');
         if (title) queryParams.set('title', title);
-        // Add outputs - valid formats: midi, midi_quant, mxml, gp5, pdf
+        
+        // Klangio API requires explicit boolean gen_* parameters for each output format
+        // NOT an outputs array - this is why PDF/GP5 weren't generating!
         const transcriptionValidFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
         const reqOutputs = outputs || smartOutputs;
         const validOutputs = reqOutputs.filter((o: string) => transcriptionValidFormats.includes(o));
         if (validOutputs.length === 0) validOutputs.push('midi');
+        
         console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(reqOutputs)}, valid=${JSON.stringify(validOutputs)}`);
         console.log(`[klangio] Demo mode: false (paid tier - full length transcription)`);
-        // Klangio expects 'outputs' in both query params AND form data for proper processing
-        validOutputs.forEach((output: string) => {
-          queryParams.append('outputs', output);
-          formData.append('outputs', output);
-        });
-        console.log(`[klangio] QueryParams after appending outputs: ${queryParams.toString()}`);
+        
+        // Set explicit gen_* boolean parameters for each requested format
+        // This is the correct way to request outputs per Klangio API
+        if (validOutputs.includes('midi')) {
+          queryParams.set('gen_midi', 'true');
+          formData.append('gen_midi', 'true');
+        }
+        if (validOutputs.includes('midi_quant')) {
+          queryParams.set('gen_midi_quant', 'true');
+          formData.append('gen_midi_quant', 'true');
+        }
+        if (validOutputs.includes('mxml')) {
+          queryParams.set('gen_xml', 'true');
+          formData.append('gen_xml', 'true');
+        }
+        if (validOutputs.includes('gp5')) {
+          queryParams.set('gen_gp5', 'true');
+          formData.append('gen_gp5', 'true');
+        }
+        if (validOutputs.includes('pdf')) {
+          queryParams.set('gen_pdf', 'true');
+          formData.append('gen_pdf', 'true');
+        }
+        
+        console.log(`[klangio] Gen parameters set: midi=${validOutputs.includes('midi')}, midi_quant=${validOutputs.includes('midi_quant')}, xml=${validOutputs.includes('mxml')}, gp5=${validOutputs.includes('gp5')}, pdf=${validOutputs.includes('pdf')}`);
+        console.log(`[klangio] QueryParams after setting gen_*: ${queryParams.toString()}`);
         break;
         
       case 'chord-recognition':
