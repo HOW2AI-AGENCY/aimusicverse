@@ -79,25 +79,54 @@ function SimpleUploadDialog({ open, onOpenChange }: { open: boolean; onOpenChang
         .getPublicUrl(path);
 
       // Get audio duration
-      const audio = new Audio();
-      audio.src = URL.createObjectURL(file);
+      const audioEl = new Audio();
+      audioEl.src = URL.createObjectURL(file);
       await new Promise<void>((resolve) => {
-        audio.onloadedmetadata = () => resolve();
-        audio.onerror = () => resolve();
+        audioEl.onloadedmetadata = () => resolve();
+        audioEl.onerror = () => resolve();
       });
-      const duration = audio.duration || null;
+      const duration = audioEl.duration || null;
 
-      await saveAudio({
+      // Save audio first
+      const savedAudio = await saveAudio({
         fileName: file.name,
         fileUrl: publicUrl,
         fileSize: file.size,
         mimeType: file.type,
         durationSeconds: duration ? Math.round(duration) : undefined,
         source: 'upload',
+        analysisStatus: 'analyzing',
       });
 
-      toast.success('Файл загружен');
+      toast.success('Файл загружен, запускаем анализ...');
       onOpenChange(false);
+
+      // Auto-trigger analysis
+      try {
+        const { data, error } = await supabase.functions.invoke('analyze-audio-flamingo', {
+          body: { audio_url: publicUrl },
+        });
+
+        if (!error && data?.parsed) {
+          const parsed = data.parsed;
+          await supabase.from('reference_audio').update({
+            genre: parsed.genre,
+            mood: parsed.mood,
+            style_description: parsed.style_description,
+            tempo: parsed.tempo,
+            energy: parsed.energy,
+            bpm: parsed.bpm ? Number(parsed.bpm) : null,
+            instruments: parsed.instruments,
+            vocal_style: parsed.vocal_style,
+            has_vocals: parsed.has_vocals ?? true,
+            analysis_status: 'completed',
+            analyzed_at: new Date().toISOString(),
+          }).eq('id', savedAudio.id);
+          toast.success('Анализ завершен');
+        }
+      } catch (analysisError) {
+        logger.error('Auto analysis failed', analysisError);
+      }
     } catch (error) {
       console.error('Upload error:', error);
       toast.error('Ошибка загрузки');
@@ -349,8 +378,11 @@ function AudioDetailPanel({
         mood: parsed.mood,
         styleDescription: parsed.style_description,
         tempo: parsed.tempo,
+        energy: parsed.energy,
+        bpm: parsed.bpm ? Number(parsed.bpm) : undefined,
+        vocalStyle: parsed.vocal_style,
         instruments: parsed.instruments,
-        hasVocals: true, // Flamingo doesn't detect this, assume true
+        hasVocals: parsed.has_vocals ?? true,
         analysisStatus: 'completed',
       });
 
