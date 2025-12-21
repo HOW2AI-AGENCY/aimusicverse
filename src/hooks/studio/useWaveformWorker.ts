@@ -3,19 +3,37 @@
  * 
  * Manages Web Worker for waveform peak generation.
  * Falls back to main thread if workers are not supported.
+ * 
+ * Phase 2 Tech Debt: IMP034 - Offload waveform calculation to Web Worker
+ * 
+ * @module hooks/studio/useWaveformWorker
+ * @example
+ * ```typescript
+ * const { generatePeaks, isSupported } = useWaveformWorker();
+ * 
+ * // Generate 100 peaks from audio data
+ * const peaks = await generatePeaks(audioBuffer.getChannelData(0), 100);
+ * ```
  */
 
 import { useRef, useCallback, useEffect } from 'react';
 import { logger } from '@/lib/logger';
 
+/** Pending task in the worker queue */
 interface PendingTask {
   resolve: (peaks: number[]) => void;
   reject: (error: Error) => void;
 }
 
+/**
+ * Return type for useWaveformWorker hook
+ */
 interface UseWaveformWorkerReturn {
+  /** Generate waveform peaks from audio data */
   generatePeaks: (audioData: Float32Array, targetPeaks: number) => Promise<number[]>;
+  /** Whether Web Workers are supported */
   isSupported: boolean;
+  /** Terminate the worker and cleanup resources */
   terminate: () => void;
 }
 
