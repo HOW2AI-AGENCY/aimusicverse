@@ -44,7 +44,9 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { hapticImpact } from '@/lib/haptic';
 import { toast } from 'sonner';
 import { SEOHead, SEO_PRESETS } from '@/components/SEOHead';
+import { AppHeader } from '@/components/layout/AppHeader';
 import { cn } from '@/lib/utils';
+import logo from '@/assets/logo.png';
 
 // Parse lyrics text into sections
 function parseLyricsToSections(lyrics: string): LyricsSection[] {
@@ -237,213 +239,70 @@ export default function LyricsStudio() {
 
   return (
     <div className="flex flex-col h-full bg-background">
-      {/* Header - Telegram Mini App optimized */}
-      <header 
-        className={cn(
-          "flex items-center gap-2 border-b border-border/50 bg-background/95 backdrop-blur-sm sticky top-0 z-10",
-          isMobile ? "px-3" : "px-4 py-3"
-        )}
-        style={isMobile ? {
-          paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))',
-          paddingBottom: '0.5rem',
-        } : undefined}
-      >
-        {/* Mobile: Centered logo with safe area */}
-        {isMobile ? (
-          <>
+      {/* Header - Using AppHeader pattern for Telegram Mini App */}
+      <AppHeader
+        title={title}
+        icon={<PenLine className="w-4 h-4 text-primary" />}
+        leftAction={
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => navigate(-1)}
+            className="h-8 w-8"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </Button>
+        }
+        rightAction={
+          <div className="flex items-center gap-1">
             <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={() => navigate(-1)}
-              className="shrink-0 h-9 w-9 absolute left-3"
+              onClick={handleSave}
+              disabled={isSavingLyrics || !isDirty}
+              size="icon"
+              variant={isDirty ? "default" : "ghost"}
+              className="h-8 w-8"
             >
-              <ChevronLeft className="w-5 h-5" />
+              {isSavingLyrics ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Save className="w-4 h-4" />
+              )}
             </Button>
-            
-            {/* Centered Logo */}
-            <div className="flex-1 flex justify-center">
-              <div className="flex items-center gap-1.5">
-                <img 
-                  src="/lovable-uploads/e2a6a5f1-c3e6-42bc-95c6-fd65dcb9defe.png" 
-                  alt="MusicVerse AI" 
-                  className="w-6 h-6 object-contain"
-                />
-                <span className="text-sm font-semibold text-foreground/90">Lyrics</span>
-              </div>
-            </div>
 
-            {/* Right actions */}
-            <div className="flex items-center gap-1 absolute right-3">
-              <Button 
-                onClick={handleSave}
-                disabled={isSavingLyrics || !isDirty}
-                size="icon"
-                variant={isDirty ? "default" : "ghost"}
-                className="h-9 w-9"
-              >
-                {isSavingLyrics ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Save className="w-4 h-4" />
-                )}
-              </Button>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-9 w-9">
-                    <MoreVertical className="w-5 h-5" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48 bg-popover">
-                  <DropdownMenuItem onClick={() => setTemplatesOpen(true)}>
-                    <FolderOpen className="w-4 h-4 mr-2" />
-                    Мои тексты
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => {
-                    setTagsPanelOpen(true);
-                    hapticImpact('light');
-                  }}>
-                    <Tag className="w-4 h-4 mr-2" />
-                    Теги ({globalTags.length + enrichedTags.length})
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleNewDocument}>
-                    <Plus className="w-4 h-4 mr-2" />
-                    Новый текст
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </>
-        ) : (
-          /* Desktop header */
-          <>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={() => navigate(-1)}
-              className="shrink-0 h-9 w-9"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </Button>
-        
-            {/* Title */}
-            <div className="flex-1 min-w-0">
-              <Input
-                value={title}
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                  setIsDirty(true);
-                }}
-                className="font-semibold border-0 bg-transparent px-0 h-auto focus-visible:ring-0 text-lg"
-                placeholder="Название текста..."
-              />
-            </div>
-
-            <div className="flex items-center gap-2">
-              {/* Templates */}
-              <Sheet open={templatesOpen} onOpenChange={setTemplatesOpen}>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <FolderOpen className="w-5 h-5" />
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="left" className="w-80">
-                  <SheetHeader>
-                    <SheetTitle className="flex items-center gap-2">
-                      <FileText className="w-5 h-5" />
-                      Мои тексты
-                    </SheetTitle>
-                  </SheetHeader>
-                  <div className="mt-4 space-y-2">
-                    <Button 
-                      variant="outline" 
-                      className="w-full justify-start gap-2"
-                      onClick={handleNewDocument}
-                    >
-                      <Plus className="w-4 h-4" />
-                      Новый текст
-                    </Button>
-                    
-                    <ScrollArea className="h-[calc(100vh-200px)]">
-                      <div className="space-y-2 pr-4">
-                        {templatesLoading ? (
-                          <div className="flex justify-center py-8">
-                            <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
-                          </div>
-                        ) : templates?.length === 0 ? (
-                          <p className="text-sm text-muted-foreground text-center py-8">
-                            Нет сохраненных текстов
-                          </p>
-                        ) : (
-                          templates?.map(template => (
-                            <Card
-                              key={template.id}
-                              className={`p-3 cursor-pointer transition-colors hover:bg-muted/50 ${
-                                templateId === template.id ? 'border-primary' : ''
-                              }`}
-                              onClick={() => handleLoadTemplate(template)}
-                            >
-                              <p className="font-medium text-sm truncate">{template.name}</p>
-                              <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
-                                {template.lyrics.substring(0, 100)}...
-                              </p>
-                            </Card>
-                          ))
-                        )}
-                      </div>
-                    </ScrollArea>
-                  </div>
-                </SheetContent>
-              </Sheet>
-
-              {/* AI Assistant Toggle */}
-              <Button 
-                variant={aiPanelOpen ? 'secondary' : 'ghost'}
-                size="icon"
-                onClick={() => {
-                  setAiPanelOpen(!aiPanelOpen);
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <MoreVertical className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48 bg-popover">
+                <DropdownMenuItem onClick={() => setTemplatesOpen(true)}>
+                  <FolderOpen className="w-4 h-4 mr-2" />
+                  Мои тексты
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => {
+                  setAiPanelOpen(true);
                   hapticImpact('light');
-                }}
-              >
-                <Bot className="w-5 h-5" />
-              </Button>
-
-              {/* Tags Toggle */}
-              <Button 
-                variant={tagsPanelOpen ? 'secondary' : 'ghost'}
-                size="icon"
-                onClick={() => {
-                  setTagsPanelOpen(!tagsPanelOpen);
+                }}>
+                  <Bot className="w-4 h-4 mr-2" />
+                  AI Ассистент
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => {
+                  setTagsPanelOpen(true);
                   hapticImpact('light');
-                }}
-                className="relative"
-              >
-                <Tag className="w-5 h-5" />
-                {(globalTags.length + enrichedTags.length) > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-[10px] font-bold text-primary-foreground rounded-full flex items-center justify-center">
-                    {globalTags.length + enrichedTags.length}
-                  </span>
-                )}
-              </Button>
-
-              {/* Save */}
-              <Button 
-                onClick={handleSave}
-                disabled={isSavingLyrics || !isDirty}
-                size="sm"
-                className="gap-2"
-              >
-                {isSavingLyrics ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Save className="w-4 h-4" />
-                )}
-                Сохранить
-              </Button>
-            </div>
-          </>
-        )}
-      </header>
+                }}>
+                  <Tag className="w-4 h-4 mr-2" />
+                  Теги ({globalTags.length + enrichedTags.length})
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleNewDocument}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Новый текст
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        }
+      />
 
       {/* Mobile Templates Drawer */}
       {isMobile && (
