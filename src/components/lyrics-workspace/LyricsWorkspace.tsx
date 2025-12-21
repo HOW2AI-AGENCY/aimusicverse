@@ -4,9 +4,14 @@
  * Visual section editor for lyrics with notes, tags, 
  * audio recordings, and reference audio per section.
  * Optimized for mobile with larger touch targets and swipe actions.
+ * 
+ * V5 Suno Features:
+ * - Tags in [square brackets] only in English
+ * - Backing vocals in (parentheses)
+ * - Stress marks with capital letters (компАс)
  */
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Plus, 
@@ -14,13 +19,11 @@ import {
   Music2, 
   Mic, 
   FileAudio, 
-  Tag, 
   MessageSquare,
   ChevronRight,
   Trash2,
   Play,
   Save,
-  MoreHorizontal
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -29,10 +32,12 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { TagList, TagBadge } from '@/components/lyrics/shared/TagBadge';
+import { SectionTagSelector } from '@/components/lyrics/shared/SectionTagSelector';
+import { LyricsEditorToolbar } from '@/components/lyrics/shared/LyricsEditorToolbar';
 
 export interface LyricsSection {
   id: string;
@@ -80,6 +85,7 @@ export function LyricsWorkspace({
   const isMobile = useIsMobile();
   const [selectedSection, setSelectedSection] = useState<LyricsSection | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const textareaRefs = useRef<Record<string, HTMLTextAreaElement | null>>({});
 
   const addSection = useCallback((type: LyricsSection['type'] = 'verse') => {
     hapticImpact('light');
@@ -115,6 +121,10 @@ export function LyricsWorkspace({
     onSectionSelect?.(section);
   }, [onSectionSelect]);
 
+  const updateSectionTags = useCallback((id: string, tags: string[]) => {
+    updateSection(id, { tags });
+  }, [updateSection]);
+
   const getSectionTypeInfo = (type: string) => 
     SECTION_TYPES.find(t => t.value === type) || SECTION_TYPES[0];
 
@@ -148,7 +158,7 @@ export function LyricsWorkspace({
           <AnimatePresence mode="popLayout">
             {sections.map((section, index) => {
               const typeInfo = getSectionTypeInfo(section.type);
-              const hasNotes = section.notes || section.tags?.length || section.audioNoteUrl || section.referenceAudioUrl;
+              const hasNotes = section.notes || section.audioNoteUrl || section.referenceAudioUrl;
 
               return (
                 <motion.div
@@ -159,8 +169,8 @@ export function LyricsWorkspace({
                   exit={{ opacity: 0, scale: 0.9 }}
                   className="group"
                 >
-                  <Card className="p-3 border-border/50 hover:border-primary/30 transition-colors">
-                    <div className="flex gap-3">
+                  <Card className="border-border/50 hover:border-primary/30 transition-colors overflow-hidden">
+                    <div className="flex gap-3 p-3">
                       {/* Drag handle */}
                       <div className="flex flex-col items-center gap-1 pt-1">
                         <GripVertical className="w-4 h-4 text-muted-foreground/50 cursor-grab" />
@@ -169,14 +179,21 @@ export function LyricsWorkspace({
 
                       {/* Content */}
                       <div className="flex-1 min-w-0">
-                        {/* Section type badge */}
-                        <div className="flex items-center gap-2 mb-2">
+                        {/* Section type badge + Add tag button */}
+                        <div className="flex items-center gap-2 mb-2 flex-wrap">
                           <Badge 
                             variant="outline" 
                             className={cn("text-xs", typeInfo.color, "text-white border-0")}
                           >
                             {typeInfo.label}
                           </Badge>
+                          
+                          {/* Add tag button */}
+                          <SectionTagSelector
+                            selectedTags={section.tags || []}
+                            onTagsChange={(tags) => updateSectionTags(section.id, tags)}
+                          />
+
                           {hasNotes && (
                             <Badge variant="outline" className="text-xs gap-1">
                               <MessageSquare className="w-3 h-3" />
@@ -185,22 +202,39 @@ export function LyricsWorkspace({
                           )}
                         </div>
 
-                        {/* Lyrics textarea */}
-                        <Textarea
-                          value={section.content}
-                          onChange={(e) => updateSection(section.id, { content: e.target.value })}
-                          placeholder="Введите текст секции..."
-                          className="min-h-[80px] resize-none text-sm"
+                        {/* Editor toolbar */}
+                        <LyricsEditorToolbar
+                          textareaRef={{ current: textareaRefs.current[section.id] } as React.RefObject<HTMLTextAreaElement>}
+                          onInsertTag={(tag) => {
+                            if (!section.tags?.includes(tag)) {
+                              updateSectionTags(section.id, [...(section.tags || []), tag]);
+                            }
+                          }}
                         />
 
-                        {/* Tags preview */}
+                        {/* Lyrics textarea */}
+                        <Textarea
+                          ref={(el) => { textareaRefs.current[section.id] = el; }}
+                          value={section.content}
+                          onChange={(e) => updateSection(section.id, { content: e.target.value })}
+                          placeholder="Введите текст секции...&#10;Используйте (скобки) для бэк-вокала&#10;Заглавная буква = ударение: компАс"
+                          className="min-h-[80px] resize-none text-sm rounded-t-none border-t-0"
+                        />
+
+                        {/* Tags display with icons */}
                         {section.tags && section.tags.length > 0 && (
                           <div className="flex flex-wrap gap-1 mt-2">
                             {section.tags.map(tag => (
-                              <Badge key={tag} variant="secondary" className="text-xs">
-                                <Tag className="w-3 h-3 mr-1" />
-                                {tag}
-                              </Badge>
+                              <TagBadge
+                                key={tag}
+                                tag={tag}
+                                onRemove={() => {
+                                  updateSectionTags(
+                                    section.id, 
+                                    section.tags?.filter(t => t !== tag) || []
+                                  );
+                                }}
+                              />
                             ))}
                           </div>
                         )}
@@ -283,21 +317,45 @@ export function LyricsWorkspace({
                 />
               </div>
 
-              {/* Tags */}
+              {/* Tags with selector */}
               <div>
                 <label className="text-sm font-medium flex items-center gap-2 mb-2">
-                  <Tag className="w-4 h-4" />
                   Теги стиля
+                  <SectionTagSelector
+                    selectedTags={selectedSection.tags || []}
+                    onTagsChange={(tags) => updateSection(selectedSection.id, { tags })}
+                    trigger={
+                      <Button variant="outline" size="sm" className="h-6 text-xs gap-1">
+                        <Plus className="w-3 h-3" />
+                        Добавить
+                      </Button>
+                    }
+                  />
                 </label>
-                <Input
-                  value={selectedSection.tags?.join(', ') || ''}
-                  onChange={(e) => updateSection(selectedSection.id, { 
-                    tags: e.target.value.split(',').map(t => t.trim()).filter(Boolean)
-                  })}
-                  placeholder="energetic, female vocal, piano..."
-                />
-                <p className="text-xs text-muted-foreground mt-1">
-                  Теги через запятую для точной генерации
+                
+                {selectedSection.tags && selectedSection.tags.length > 0 ? (
+                  <div className="flex flex-wrap gap-1.5">
+                    {selectedSection.tags.map(tag => (
+                      <TagBadge
+                        key={tag}
+                        tag={tag}
+                        size="md"
+                        onRemove={() => {
+                          updateSection(selectedSection.id, {
+                            tags: selectedSection.tags?.filter(t => t !== tag) || []
+                          });
+                        }}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    Нажмите "Добавить" для выбора тегов
+                  </p>
+                )}
+                
+                <p className="text-xs text-muted-foreground mt-2">
+                  Теги применяются в формате [Tag] к секции
                 </p>
               </div>
 
