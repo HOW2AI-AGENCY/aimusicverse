@@ -184,10 +184,13 @@ export class ButtonBuilder {
     const prevPage = page > 0 ? page - 1 : total - 1;
     const nextPage = page < total - 1 ? page + 1 : 0;
     
+    // "Слушать" button opens Mini App with track deep link for proper playback
+    const listenUrl = `${BOT_CONFIG.miniAppUrl}?startapp=track_${trackId}`;
+    
     return [
       [
         { text: '⏮️ Пред', callback_data: `lib_page_${prevPage}` },
-        { text: '▶️ Слушать', callback_data: `play_${trackId}` },
+        { text: '▶️ Слушать', web_app: { url: listenUrl } },
         { text: '⏭️ След', callback_data: `lib_page_${nextPage}` }
       ],
       [

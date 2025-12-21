@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { Navigate } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle, Library as LibraryIcon } from "lucide-react";
 import { motion } from "@/lib/motion";
@@ -28,6 +28,7 @@ import { useTracksMidiStatus } from "@/hooks/useTrackMidiStatus";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
+import { TrackDetailSheet } from "@/components/TrackDetailSheet";
 
 const log = logger.child({ module: 'Library' });
 
@@ -58,8 +59,13 @@ const fetchActiveGenerations = async (userId: string) => {
 export default function Library() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const { activeTrack, playTrack, queue } = usePlayerStore();
+  // State for deep link track detail sheet
+  const [selectedTrackForDetail, setSelectedTrackForDetail] = useState<Track | null>(null);
+  const deepLinkProcessedRef = useRef(false);
+  
   // Mobile defaults to list view, desktop to grid
   const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
     // Check if we're on mobile by checking window width (SSR-safe)
@@ -180,6 +186,35 @@ export default function Library() {
     
     logPlay(track.id);
   }, [tracksToDisplay, queue.length, activeTrack?.id, playTrack, logPlay]);
+
+  // Handle deep link: ?track=UUID - open track detail and auto-play
+  // Must be after handlePlay is defined
+  useEffect(() => {
+    const trackIdFromUrl = searchParams.get('track');
+    
+    if (trackIdFromUrl && tracks && tracks.length > 0 && !deepLinkProcessedRef.current) {
+      const track = tracks.find(t => t.id === trackIdFromUrl);
+      
+      if (track) {
+        deepLinkProcessedRef.current = true;
+        log.info('Deep link: opening track', { trackId: trackIdFromUrl });
+        
+        // Open track detail sheet
+        setSelectedTrackForDetail(track);
+        
+        // Auto-play the track
+        if (track.audio_url) {
+          handlePlay(track);
+        }
+        
+        // Clear the query parameter to prevent re-triggering
+        const newParams = new URLSearchParams(searchParams);
+        newParams.delete('track');
+        newParams.delete('view');
+        setSearchParams(newParams, { replace: true });
+      }
+    }
+  }, [searchParams, tracks, handlePlay, setSearchParams]);
 
   const handlePlayAll = useCallback(() => {
     const completedTracks = tracksToDisplay.filter(t => t.audio_url && t.status === 'completed');
@@ -396,6 +431,15 @@ export default function Library() {
           )}
         </div>
       </div>
+      
+      {/* Track Detail Sheet for deep link */}
+      {selectedTrackForDetail && (
+        <TrackDetailSheet
+          open={!!selectedTrackForDetail}
+          onOpenChange={(open) => !open && setSelectedTrackForDetail(null)}
+          track={selectedTrackForDetail}
+        />
+      )}
     </ErrorBoundaryWrapper>
   );
 }

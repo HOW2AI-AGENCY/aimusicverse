@@ -57,6 +57,16 @@ export function escapeMarkdown(text: string): string {
 }
 
 /**
+ * Safe MarkdownV2 escaping - always use this for dynamic user data
+ * This is the recommended function for escaping any text that will be
+ * included in MarkdownV2 formatted messages
+ */
+export function safeMarkdownV2(text: string | number | null | undefined): string {
+  if (text === null || text === undefined) return '';
+  return escapeMarkdown(String(text));
+}
+
+/**
  * Create a formatted header with emojis and separators
  */
 export function createHeader(

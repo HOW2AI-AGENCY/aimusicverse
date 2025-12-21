@@ -9,14 +9,16 @@ import { buildMessage, createSection, createKeyValue } from '../utils/message-fo
 import { ButtonBuilder, mediaPlayerKeyboard, paginationKeyboard } from '../utils/button-builder.ts';
 import { trackMessage, messageManager } from '../utils/message-manager.ts';
 import { escapeMarkdownV2 } from '../utils/text-processor.ts';
-import { navigateTo, getPreviousRoute, canGoBack, getBreadcrumb } from '../core/navigation-state.ts';
+import { navigateTo, getPreviousRoute, canGoBack, getBreadcrumb, clearNavigationState } from '../core/navigation-state.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { deleteActiveMenu, setActiveMenuMessageId, deleteAndSendNewMenuPhoto } from '../core/active-menu-manager.ts';
 import { getMenuImage } from '../keyboards/menu-images.ts';
 
 
 export async function handleNavigationMain(chatId: number, messageId?: number, userId?: number) {
+  // Clear navigation state to prevent "old variant" issues
   if (userId) {
+    clearNavigationState(userId);
     navigateTo(userId, 'main', messageId);
   }
   
@@ -46,9 +48,10 @@ export async function handleNavigationMain(chatId: number, messageId?: number, u
   const menuImage = await getMenuImage('mainMenu');
 
   if (messageId) {
+    // Delete all other main_menu messages except this one
     await messageManager.deleteCategory(chatId, 'main_menu', { except: messageId });
     
-    await editMessageMedia(
+    const editResult = await editMessageMedia(
       chatId,
       messageId,
       {
@@ -60,17 +63,33 @@ export async function handleNavigationMain(chatId: number, messageId?: number, u
       keyboard
     );
     
-    await trackMessage(chatId, messageId, 'menu', 'main_menu', { persistent: true });
-    
-    // Also update active menu state
-    if (userId) {
-      await setActiveMenuMessageId(userId, chatId, messageId, 'main_menu');
+    // If edit failed (message doesn't exist), send a new one
+    if (!editResult) {
+      if (userId) {
+        await deleteActiveMenu(userId, chatId);
+      }
+      const result = await sendPhoto(chatId, menuImage, {
+        caption,
+        replyMarkup: keyboard
+      });
+      if (result?.result?.message_id) {
+        await trackMessage(chatId, result.result.message_id, 'menu', 'main_menu', { persistent: true });
+        if (userId) {
+          await setActiveMenuMessageId(userId, chatId, result.result.message_id, 'main_menu');
+        }
+      }
+    } else {
+      await trackMessage(chatId, messageId, 'menu', 'main_menu', { persistent: true });
+      if (userId) {
+        await setActiveMenuMessageId(userId, chatId, messageId, 'main_menu');
+      }
     }
   } else {
     // Delete previous active menu before sending new one
     if (userId) {
       await deleteActiveMenu(userId, chatId);
     }
+    await messageManager.deleteCategory(chatId, 'main_menu');
     
     const result = await sendPhoto(chatId, menuImage, {
       caption,

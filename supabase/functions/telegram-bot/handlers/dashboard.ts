@@ -8,10 +8,10 @@ import { sendPhoto, editMessageMedia, escapeMarkdownV2 } from '../telegram-api.t
 import { buildMessage, createKeyValue, createProgressBar } from '../utils/message-formatter.ts';
 import { ButtonBuilder } from '../utils/button-builder.ts';
 import { getMenuImage } from '../keyboards/menu-images.ts';
-import { navigateTo } from '../core/navigation-state.ts';
+import { navigateTo, clearNavigationState } from '../core/navigation-state.ts';
 import { BOT_CONFIG } from '../config.ts';
-import { deleteAndSendNewMenuPhoto, setActiveMenuMessageId } from '../core/active-menu-manager.ts';
-import { trackMessage } from '../utils/message-manager.ts';
+import { deleteActiveMenu, deleteAndSendNewMenuPhoto, setActiveMenuMessageId } from '../core/active-menu-manager.ts';
+import { trackMessage, messageManager } from '../utils/message-manager.ts';
 
 const supabase = createClient(
   BOT_CONFIG.supabaseUrl,
@@ -107,7 +107,12 @@ export async function handleDashboard(
   messageId?: number,
   isNewUser: boolean = false
 ): Promise<void> {
+  // Clear navigation state and delete old menus to prevent duplication
+  clearNavigationState(userId);
   navigateTo(userId, 'main', messageId);
+  
+  // Always delete old main_menu messages first (except current if editing)
+  await messageManager.deleteCategory(chatId, 'main_menu', messageId ? { except: messageId } : undefined);
 
   const data = await getDashboardData(userId);
   const menuImage = await getMenuImage('mainMenu');
@@ -217,7 +222,7 @@ export async function handleDashboard(
     .build();
 
   if (messageId) {
-    await editMessageMedia(
+    const editResult = await editMessageMedia(
       chatId,
       messageId,
       {
@@ -229,9 +234,25 @@ export async function handleDashboard(
       keyboard
     );
     
-    await trackMessage(chatId, messageId, 'menu', 'main_menu', { persistent: true });
-    await setActiveMenuMessageId(userId, chatId, messageId, 'main_menu');
+    // If edit failed (message doesn't exist), send a new one
+    if (!editResult) {
+      await deleteActiveMenu(userId, chatId);
+      const result = await sendPhoto(chatId, menuImage, {
+        caption,
+        replyMarkup: keyboard
+      });
+      if (result?.result?.message_id) {
+        await trackMessage(chatId, result.result.message_id, 'menu', 'main_menu', { persistent: true });
+        await setActiveMenuMessageId(userId, chatId, result.result.message_id, 'main_menu');
+      }
+    } else {
+      await trackMessage(chatId, messageId, 'menu', 'main_menu', { persistent: true });
+      await setActiveMenuMessageId(userId, chatId, messageId, 'main_menu');
+    }
   } else {
+    // Delete previous active menu before sending new one
+    await deleteActiveMenu(userId, chatId);
+    
     const result = await sendPhoto(chatId, menuImage, {
       caption,
       replyMarkup: keyboard

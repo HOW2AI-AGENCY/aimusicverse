@@ -1,10 +1,14 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 // Import shared Telegram configuration
+// Sanitize URL: remove trailing slashes to prevent double-slash issues
+const sanitizeUrl = (url: string): string => url.replace(/\/+$/, '');
+
 const getTelegramConfig = () => {
   const botUsername = Deno.env.get('TELEGRAM_BOT_USERNAME') || 'AIMusicVerseBot';
   const appShortName = Deno.env.get('TELEGRAM_APP_SHORT_NAME') || 'app';
-  const miniAppUrl = Deno.env.get('MINI_APP_URL') || `https://t.me/${botUsername}/${appShortName}`;
+  const rawMiniAppUrl = Deno.env.get('MINI_APP_URL') || `https://t.me/${botUsername}/${appShortName}`;
+  const miniAppUrl = sanitizeUrl(rawMiniAppUrl);
   
   return {
     botUsername,
