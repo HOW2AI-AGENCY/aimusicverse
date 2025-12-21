@@ -3,6 +3,7 @@
  */
 
 import { answerCallbackQuery } from '../telegram-api.ts';
+import { handleClassificationCallback } from '../handlers/audio-classifier.ts';
 
 export async function handleAudioCallbacks(
   data: string,
@@ -11,6 +12,12 @@ export async function handleAudioCallbacks(
   messageId: number,
   queryId: string
 ): Promise<boolean> {
+  // Handle audio classification callbacks first
+  if (data.startsWith('audio_type_') || data.startsWith('audio_gender_') || 
+      data === 'audio_classify_back' || data === 'audio_classify_cancel') {
+    return await handleClassificationCallback(data, chatId, userId, messageId, queryId);
+  }
+
   // Audio upload actions
   if (data.startsWith('audio_action_')) {
     const action = data.replace('audio_action_', '');
