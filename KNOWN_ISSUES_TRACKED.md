@@ -1,7 +1,7 @@
 # Known Issues & Technical Debt - MusicVerse AI
 
 **Created**: 2025-12-12  
-**Last Updated**: 2025-12-12  
+**Last Updated**: 2025-12-21  
 **Source**: Code audit from specs/copilot/plan-improvements-for-project/
 
 ---
@@ -10,35 +10,20 @@
 
 ### Lyrics Wizard (`src/stores/lyricsWizardStore.ts`)
 
-**IMP009** - No state persistence
-- **Issue**: Wizard state is lost if user accidentally closes the form
-- **Impact**: Poor UX, lost work
-- **Fix**: Add localStorage persistence middleware
-- **Priority**: P1 - UX
+~~**IMP009** - No state persistence~~ ✅ RESOLVED
+- Added localStorage persistence middleware
 
-**IMP010** - Missing section validation
-- **Issue**: Users can proceed with empty sections
-- **Impact**: Invalid lyrics, generation failures
-- **Fix**: Add validation before step transitions (lines 92-110)
-- **Priority**: P1 - Data Quality
+~~**IMP010** - Missing section validation~~ ✅ RESOLVED  
+- Added validation with warnings before step transitions (lines 204-218)
 
-**IMP011** - Incorrect character count
-- **Issue**: Character count includes structural tags in 3000 limit
-- **Impact**: Misleading feedback to users
-- **Fix**: Exclude tags from count calculation (line 225)
-- **Priority**: P1 - Bug
+~~**IMP011** - Incorrect character count~~ ✅ RESOLVED
+- Refactored with `LyricsFormatter` and `LyricsValidator` utilities
 
-**IMP012** - Excessive validation calls
-- **Issue**: `validateLyrics()` runs on every keystroke
-- **Impact**: Performance degradation
-- **Fix**: Add 500ms debouncing (lines 218-253)
-- **Priority**: P1 - Performance
+~~**IMP012** - Excessive validation calls~~ ✅ RESOLVED
+- Added 500ms debouncing (line 177-179, 296-301)
 
-**IMP013** - No undo/redo functionality
-- **Issue**: Users cannot undo content changes
-- **Impact**: Poor editing experience
-- **Fix**: Implement history stack with Immer
-- **Priority**: P1 - UX
+~~**IMP013** - No undo/redo functionality~~ ✅ RESOLVED
+- Implemented history stack with undo/redo (lines 362-420)
 
 **IMP014** - Malformed brackets risk
 - **Issue**: No type guards for section tag insertion
@@ -60,23 +45,14 @@
 - **Fix**: Implement cleanup on stem removal (lines 76-84)
 - **Priority**: P1 - Memory Leak
 
-**IMP017** - Race conditions in audio graph
-- **Issue**: Concurrent modifications to audio graph
-- **Impact**: Crashes, corrupted audio
-- **Fix**: Add synchronization lock
-- **Priority**: P1 - Concurrency
+~~**IMP017** - Race conditions in audio graph~~ ✅ RESOLVED
+- Implemented `AsyncMutex` in `src/lib/audioMutex.ts`
 
-**IMP018** - Mobile audio element limits
-- **Issue**: No graceful degradation when 6-8 element limit reached
-- **Impact**: Silent failures on mobile
-- **Fix**: Implement fallback strategy
-- **Priority**: P1 - Mobile
+~~**IMP018** - Mobile audio element limits~~ ✅ RESOLVED
+- Implemented `useMobileAudioFallback` hook and `MobileAudioWarning` component
 
-**IMP019** - No Web Audio error boundary
-- **Issue**: Web Audio API errors crash the app
-- **Impact**: Complete app failure
-- **Fix**: Add error boundary with recovery
-- **Priority**: P1 - Robustness
+~~**IMP019** - No Web Audio error boundary~~ ✅ RESOLVED
+- Implemented `AudioErrorBoundary` in `src/components/studio/AudioErrorBoundary.tsx`
 
 ---
 
@@ -170,6 +146,17 @@
 
 ## Resolved Issues
 
+### ✅ Completed (Dec 21, 2025) - Phase 1 Tech Debt Closure
+- **IMP009** - Lyrics wizard state persistence via localStorage
+- **IMP010** - Section validation with warnings before step transitions
+- **IMP011** - Character count with `LyricsFormatter`/`LyricsValidator`
+- **IMP012** - 500ms debounced validation
+- **IMP013** - Undo/redo history stack  
+- **IMP017** - Audio graph mutex lock (`src/lib/audioMutex.ts`)
+- **IMP018** - Mobile audio fallback (`useMobileAudioFallback`)
+- **IMP019** - Audio error boundary (`AudioErrorBoundary`)
+- **Bundle optimization** - Centralized framer-motion/date-fns imports
+
 ### ✅ Completed (Dec 12, 2025)
 - **LazyImage adoption**: Expanded to all player components
 - **Skeleton loaders**: Implemented across 200+ async components
@@ -184,10 +171,9 @@
 
 These can be tackled quickly for high impact:
 
-1. **IMP011** - Fix character count (30 min)
-2. **IMP012** - Add debouncing (30 min)
-3. **IMP014** - Add type guards (45 min)
-4. **IMP015** - AudioContext checks (45 min)
+1. **IMP014** - Add type guards (45 min)
+2. **IMP015** - AudioContext checks (45 min)
+3. **IMP016** - Memory leak cleanup (1 hour)
 
 ---
 
