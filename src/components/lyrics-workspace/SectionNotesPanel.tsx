@@ -17,7 +17,9 @@ import {
   Trash2,
   Check,
   Loader2,
-  Wand2
+  Wand2,
+  Cloud,
+  Guitar
 } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
@@ -28,7 +30,8 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { SectionNote, ReferenceAnalysis, SaveSectionNoteData } from '@/hooks/useSectionNotes';
-import { AudioReferenceRecorder } from './AudioReferenceRecorder';
+import { AudioReferenceRecorder, RecordingType } from './AudioReferenceRecorder';
+import { CloudAudioPicker } from './CloudAudioPicker';
 import { ReferenceAnalysisDisplay } from './ReferenceAnalysisDisplay';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -80,6 +83,8 @@ export function SectionNotesPanel({
   const [isSaving, setIsSaving] = useState(false);
   const [showRecorder, setShowRecorder] = useState(false);
   const [recorderMode, setRecorderMode] = useState<'note' | 'reference'>('note');
+  const [recordingType, setRecordingType] = useState<RecordingType>('vocal');
+  const [showCloudPicker, setShowCloudPicker] = useState(false);
 
   // Reset state when section changes
   useEffect(() => {
@@ -132,7 +137,6 @@ export function SectionNotesPanel({
       setReferenceAudioUrl(url);
       if (analysis) {
         setReferenceAnalysis(analysis);
-        // Auto-add suggested tags
         if (analysis.suggested_tags) {
           const newTags = [...new Set([...tags, ...analysis.suggested_tags])];
           setTags(newTags);
@@ -140,6 +144,21 @@ export function SectionNotesPanel({
       }
     }
     setShowRecorder(false);
+  };
+
+  const handleCloudSelect = (audio: { file_url: string; genre?: string | null; mood?: string | null; bpm?: number | null; instruments?: string[] | null }) => {
+    setReferenceAudioUrl(audio.file_url);
+    // Build analysis from cloud audio metadata
+    if (audio.genre || audio.mood || audio.bpm || audio.instruments) {
+      setReferenceAnalysis({
+        genre: audio.genre || undefined,
+        mood: audio.mood || undefined,
+        bpm: audio.bpm || undefined,
+        instruments: audio.instruments || undefined,
+      });
+    }
+    setShowCloudPicker(false);
+    toast.success('Референс выбран из облака');
   };
 
   const handleApplyTagsToLyrics = () => {
@@ -155,6 +174,12 @@ export function SectionNotesPanel({
       onEnrichWithTags?.(allTags);
       toast.success(`Добавлено ${allTags.length} тегов`);
     }
+  };
+
+  const openRecorder = (mode: 'note' | 'reference', type: RecordingType) => {
+    setRecorderMode(mode);
+    setRecordingType(type);
+    setShowRecorder(true);
   };
 
   return (
@@ -256,10 +281,7 @@ export function SectionNotesPanel({
                   <Button
                     variant="outline"
                     className="w-full gap-2"
-                    onClick={() => {
-                      setRecorderMode('note');
-                      setShowRecorder(true);
-                    }}
+                    onClick={() => openRecorder('note', 'vocal')}
                   >
                     <Mic className="w-4 h-4" />
                     Записать заметку
@@ -273,7 +295,7 @@ export function SectionNotesPanel({
               <div className="space-y-3">
                 <Label className="flex items-center gap-2">
                   <Music2 className="w-4 h-4" />
-                  Референс (мелодия/вокал)
+                  Референс (мелодия/вокал/гитара)
                 </Label>
                 
                 {referenceAudioUrl ? (
@@ -297,29 +319,46 @@ export function SectionNotesPanel({
                     )}
                   </div>
                 ) : (
-                  <div className="grid grid-cols-2 gap-2">
-                    <Button
-                      variant="outline"
-                      className="gap-2"
-                      onClick={() => {
-                        setRecorderMode('reference');
-                        setShowRecorder(true);
-                      }}
-                    >
-                      <Mic className="w-4 h-4" />
-                      Записать
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="gap-2"
-                      onClick={() => {
-                        setRecorderMode('reference');
-                        setShowRecorder(true);
-                      }}
-                    >
-                      <Upload className="w-4 h-4" />
-                      Загрузить
-                    </Button>
+                  <div className="space-y-2">
+                    {/* Recording Options */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        variant="outline"
+                        className="gap-2 h-12"
+                        onClick={() => openRecorder('reference', 'vocal')}
+                      >
+                        <Mic className="w-4 h-4" />
+                        <span className="text-xs">Вокал</span>
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="gap-2 h-12"
+                        onClick={() => openRecorder('reference', 'guitar')}
+                      >
+                        <Guitar className="w-4 h-4" />
+                        <span className="text-xs">Гитара</span>
+                      </Button>
+                    </div>
+                    
+                    {/* Additional Options */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        variant="secondary"
+                        className="gap-2"
+                        onClick={() => openRecorder('reference', 'vocal')}
+                      >
+                        <Upload className="w-4 h-4" />
+                        Файл
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        className="gap-2"
+                        onClick={() => setShowCloudPicker(true)}
+                      >
+                        <Cloud className="w-4 h-4" />
+                        Облако
+                      </Button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -370,6 +409,14 @@ export function SectionNotesPanel({
         onOpenChange={setShowRecorder}
         mode={recorderMode}
         onComplete={handleRecordingComplete}
+        defaultRecordingType={recordingType}
+      />
+
+      {/* Cloud Audio Picker */}
+      <CloudAudioPicker
+        open={showCloudPicker}
+        onOpenChange={setShowCloudPicker}
+        onSelect={handleCloudSelect}
       />
     </>
   );
