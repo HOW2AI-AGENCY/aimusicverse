@@ -84,14 +84,14 @@ export function ScoreViewer({
   return (
     <Card className={cn('overflow-hidden', className)}>
       <CardContent className="p-0">
-        {/* Header */}
-        <div className="p-4 border-b bg-muted/30">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <Music className="w-5 h-5 text-primary" />
-              <h3 className="font-semibold">Ноты и табулатура</h3>
-              <Badge variant="secondary" className="text-xs">
-                {availableFormats.length} форматов
+        {/* Header - compact on mobile */}
+        <div className="p-2 sm:p-4 border-b bg-muted/30">
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+              <Music className="w-4 h-4 sm:w-5 sm:h-5 text-primary flex-shrink-0" />
+              <h3 className="font-semibold text-sm sm:text-base truncate">Ноты</h3>
+              <Badge variant="secondary" className="text-[10px] sm:text-xs flex-shrink-0">
+                {availableFormats.length}
               </Badge>
             </div>
 
@@ -109,33 +109,35 @@ export function ScoreViewer({
             )}
           </div>
 
-          {/* Format tabs */}
+          {/* Format tabs - horizontal scroll on mobile */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="w-full grid grid-cols-2 sm:grid-cols-4 h-auto gap-1 bg-transparent p-0">
-              {availableFormats.map(format => {
-                const Icon = format.icon;
-                return (
-                  <TabsTrigger
-                    key={format.key}
-                    value={format.key}
-                    className="flex-col gap-1 h-auto py-2 data-[state=active]:bg-background data-[state=active]:shadow-sm"
-                  >
-                    <Icon className="w-4 h-4" />
-                    <span className="text-xs">{format.label}</span>
-                  </TabsTrigger>
-                );
-              })}
-            </TabsList>
+            <div className="overflow-x-auto -mx-2 px-2 sm:mx-0 sm:px-0">
+              <TabsList className="inline-flex sm:grid sm:grid-cols-4 h-auto gap-1 bg-transparent p-0 min-w-max sm:min-w-0 sm:w-full">
+                {availableFormats.map(format => {
+                  const Icon = format.icon;
+                  return (
+                    <TabsTrigger
+                      key={format.key}
+                      value={format.key}
+                      className="flex-row sm:flex-col gap-1.5 sm:gap-1 h-auto py-1.5 sm:py-2 px-3 sm:px-2 data-[state=active]:bg-background data-[state=active]:shadow-sm whitespace-nowrap"
+                    >
+                      <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      <span className="text-[11px] sm:text-xs">{format.label}</span>
+                    </TabsTrigger>
+                  );
+                })}
+              </TabsList>
+            </div>
 
             {availableFormats.map(format => (
-              <TabsContent key={format.key} value={format.key} className="mt-3 space-y-2">
-                <div className="flex items-center justify-between text-xs text-muted-foreground bg-muted/50 p-2 rounded">
-                  <span>{format.description}</span>
-                  <div className="flex gap-1">
+              <TabsContent key={format.key} value={format.key} className="mt-2 sm:mt-3 space-y-2">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-0 text-xs text-muted-foreground bg-muted/50 p-1.5 sm:p-2 rounded">
+                  <span className="text-[11px] sm:text-xs">{format.description}</span>
+                  <div className="flex gap-1 flex-shrink-0">
                     <Button
                       size="sm"
                       variant="ghost"
-                      className="h-7 text-xs"
+                      className="h-6 sm:h-7 text-[11px] sm:text-xs px-2"
                       onClick={() => handleDownload(format.url, format.label)}
                     >
                       <Download className="w-3 h-3 mr-1" />
@@ -144,16 +146,16 @@ export function ScoreViewer({
                     {format.key === 'pdf' && (
                       <Dialog open={isFullscreen} onOpenChange={setIsFullscreen}>
                         <DialogTrigger asChild>
-                          <Button size="sm" variant="ghost" className="h-7">
+                          <Button size="sm" variant="ghost" className="h-6 sm:h-7 px-2">
                             <Maximize2 className="w-3 h-3" />
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="max-w-4xl h-[90vh] p-0">
-                          <DialogHeader className="px-4 py-3 border-b">
-                            <DialogTitle>Просмотр нот - PDF</DialogTitle>
+                        <DialogContent className="max-w-[100vw] w-[100vw] h-[100dvh] max-h-[100dvh] p-0 rounded-none sm:max-w-4xl sm:h-[90vh] sm:max-h-[90vh] sm:rounded-lg">
+                          <DialogHeader className="px-3 sm:px-4 py-2 sm:py-3 border-b">
+                            <DialogTitle className="text-sm sm:text-base">Просмотр нот - PDF</DialogTitle>
                           </DialogHeader>
-                          <ScrollArea className="h-full">
-                            <div className="p-4">
+                          <ScrollArea className="h-[calc(100dvh-50px)] sm:h-full">
+                            <div className="p-2 sm:p-4">
                               <PDFViewer url={format.url!} zoom={zoom} />
                             </div>
                           </ScrollArea>
@@ -164,7 +166,7 @@ export function ScoreViewer({
                       <Button
                         size="sm"
                         variant="ghost"
-                        className="h-7"
+                        className="h-6 sm:h-7 px-2"
                         onClick={() => window.open(format.url, '_blank')}
                       >
                         <ExternalLink className="w-3 h-3" />
@@ -177,8 +179,8 @@ export function ScoreViewer({
           </Tabs>
         </div>
 
-        {/* Content Area */}
-        <ScrollArea className="h-[400px] lg:h-[500px]">
+        {/* Content Area - smaller on mobile */}
+        <ScrollArea className="h-[280px] sm:h-[400px] lg:h-[500px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -186,7 +188,7 @@ export function ScoreViewer({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="p-4"
+              className="p-2 sm:p-4"
             >
               {activeTab === 'pdf' && pdfUrl && (
                 <PDFViewer url={pdfUrl} zoom={zoom} onLoadComplete={() => setPdfLoading(false)} />
@@ -199,43 +201,43 @@ export function ScoreViewer({
                   onZoomChange={setZoom}
                   onLoaded={() => toast.success('Ноты загружены')}
                   onError={(err) => toast.error(`Ошибка загрузки: ${err.message}`)}
-                  className="min-h-[400px]"
+                  className="min-h-[250px] sm:min-h-[400px]"
                 />
               )}
 
               {activeTab === 'gp5' && gp5Url && (
-                <div className="text-center py-12">
-                  <Guitar className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                  <p className="text-sm text-muted-foreground mb-2">
-                    Guitar Pro 5 файл доступен для скачивания
+                <div className="text-center py-8 sm:py-12">
+                  <Guitar className="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-muted-foreground mb-3 sm:mb-4" />
+                  <p className="text-xs sm:text-sm text-muted-foreground mb-1 sm:mb-2">
+                    Guitar Pro 5 файл
                   </p>
-                  <p className="text-xs text-muted-foreground mb-4">
+                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-3 sm:mb-4">
                     Откройте в Guitar Pro или TuxGuitar
                   </p>
-                  <Button onClick={() => handleDownload(gp5Url, 'Guitar Pro')}>
-                    <Download className="w-4 h-4 mr-2" />
+                  <Button size="sm" onClick={() => handleDownload(gp5Url, 'Guitar Pro')}>
+                    <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
                     Скачать GP5
                   </Button>
                 </div>
               )}
 
               {activeTab === 'midi' && (midiUrl || midiQuantUrl) && (
-                <div className="text-center py-12">
-                  <FileMusic className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                  <p className="text-sm text-muted-foreground mb-4">
-                    MIDI файлы доступны для скачивания
+                <div className="text-center py-8 sm:py-12">
+                  <FileMusic className="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-muted-foreground mb-3 sm:mb-4" />
+                  <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
+                    MIDI файлы для скачивания
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-2 justify-center">
+                  <div className="flex flex-col gap-2 justify-center">
                     {midiUrl && (
-                      <Button onClick={() => handleDownload(midiUrl, 'MIDI')} variant="outline">
-                        <Download className="w-4 h-4 mr-2" />
+                      <Button size="sm" onClick={() => handleDownload(midiUrl, 'MIDI')} variant="outline">
+                        <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
                         MIDI (оригинал)
                       </Button>
                     )}
                     {midiQuantUrl && (
-                      <Button onClick={() => handleDownload(midiQuantUrl, 'MIDI Quantized')}>
-                        <Download className="w-4 h-4 mr-2" />
-                        MIDI (квантизированный)
+                      <Button size="sm" onClick={() => handleDownload(midiQuantUrl, 'MIDI Quantized')}>
+                        <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
+                        MIDI (квант.)
                       </Button>
                     )}
                   </div>
@@ -245,13 +247,13 @@ export function ScoreViewer({
           </AnimatePresence>
         </ScrollArea>
 
-        {/* Footer info */}
+        {/* Footer info - compact on mobile */}
         <Separator />
-        <div className="p-3 bg-muted/20 text-xs text-muted-foreground">
-          <div className="flex items-center justify-between">
-            <span>💡 Используйте файлы для редактирования в музыкальных редакторах</span>
-            <Badge variant="outline" className="text-[10px]">
-              Powered by Klangio
+        <div className="p-2 sm:p-3 bg-muted/20 text-[10px] sm:text-xs text-muted-foreground">
+          <div className="flex items-center justify-between gap-2">
+            <span className="truncate">💡 Редактируйте в муз. редакторах</span>
+            <Badge variant="outline" className="text-[9px] sm:text-[10px] flex-shrink-0">
+              Klangio
             </Badge>
           </div>
         </div>
