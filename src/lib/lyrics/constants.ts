@@ -143,7 +143,197 @@ export const SECTION_TYPES: SectionType[] = [
   { type: 'solo', name: 'Solo', nameRu: 'Соло', icon: '🎸', defaultLines: 0 },
 ];
 
-// ==================== VOCAL & DYNAMIC TAGS ====================
+// ==================== TAG CATEGORIES (V5 Suno) ====================
+
+export type TagCategory = 'vocal' | 'instrument' | 'dynamic' | 'mood' | 'production' | 'structure';
+
+export interface TagCategoryInfo {
+  icon: string; // Lucide icon name
+  color: string;
+  colorClass: string;
+  label: string;
+  labelEn: string;
+}
+
+export const TAG_CATEGORIES: Record<TagCategory, TagCategoryInfo> = {
+  vocal: {
+    icon: 'Mic',
+    color: 'hsl(340, 82%, 52%)',
+    colorClass: 'bg-pink-500',
+    label: 'Вокал',
+    labelEn: 'Vocal',
+  },
+  instrument: {
+    icon: 'Guitar',
+    color: 'hsl(38, 92%, 50%)',
+    colorClass: 'bg-amber-500',
+    label: 'Инструменты',
+    labelEn: 'Instruments',
+  },
+  dynamic: {
+    icon: 'Volume2',
+    color: 'hsl(217, 91%, 60%)',
+    colorClass: 'bg-blue-500',
+    label: 'Динамика',
+    labelEn: 'Dynamic',
+  },
+  mood: {
+    icon: 'Heart',
+    color: 'hsl(271, 81%, 56%)',
+    colorClass: 'bg-purple-500',
+    label: 'Настроение',
+    labelEn: 'Mood',
+  },
+  production: {
+    icon: 'Sliders',
+    color: 'hsl(142, 71%, 45%)',
+    colorClass: 'bg-green-500',
+    label: 'Продакшн',
+    labelEn: 'Production',
+  },
+  structure: {
+    icon: 'Layers',
+    color: 'hsl(239, 84%, 67%)',
+    colorClass: 'bg-indigo-500',
+    label: 'Структура',
+    labelEn: 'Structure',
+  },
+};
+
+// ==================== SECTION TAGS (English only for Suno V5) ====================
+
+export interface TagDefinition {
+  value: string;
+  category: TagCategory;
+  labelRu: string;
+}
+
+export const SECTION_TAGS: TagDefinition[] = [
+  // Vocal
+  { value: 'Whisper', category: 'vocal', labelRu: 'Шёпот' },
+  { value: 'Powerful', category: 'vocal', labelRu: 'Мощный' },
+  { value: 'Falsetto', category: 'vocal', labelRu: 'Фальцет' },
+  { value: 'Raspy', category: 'vocal', labelRu: 'Хриплый' },
+  { value: 'Breathy', category: 'vocal', labelRu: 'Придыхание' },
+  { value: 'Belting', category: 'vocal', labelRu: 'Бэлтинг' },
+  { value: 'Harmony', category: 'vocal', labelRu: 'Гармония' },
+  { value: 'Spoken Word', category: 'vocal', labelRu: 'Речитатив' },
+  { value: 'Ad-lib', category: 'vocal', labelRu: 'Импровизация' },
+  { value: 'Gentle', category: 'vocal', labelRu: 'Нежный' },
+  { value: 'Soulful', category: 'vocal', labelRu: 'Соулфул' },
+  { value: 'Smooth', category: 'vocal', labelRu: 'Гладкий' },
+  { value: 'Raw', category: 'vocal', labelRu: 'Сырой' },
+
+  // Instruments
+  { value: 'Piano Only', category: 'instrument', labelRu: 'Только пианино' },
+  { value: 'Acoustic Guitar', category: 'instrument', labelRu: 'Акустическая гитара' },
+  { value: 'Electric Guitar', category: 'instrument', labelRu: 'Электрогитара' },
+  { value: 'Full Band', category: 'instrument', labelRu: 'Полный бэнд' },
+  { value: 'Strings', category: 'instrument', labelRu: 'Струнные' },
+  { value: 'Synth', category: 'instrument', labelRu: 'Синтезатор' },
+  { value: 'A Cappella', category: 'instrument', labelRu: 'А капелла' },
+  { value: 'Drums Only', category: 'instrument', labelRu: 'Только ударные' },
+  { value: 'Bass Heavy', category: 'instrument', labelRu: 'Тяжёлый бас' },
+  { value: 'Orchestral', category: 'instrument', labelRu: 'Оркестровый' },
+
+  // Dynamic
+  { value: 'Build', category: 'dynamic', labelRu: 'Нарастание' },
+  { value: 'Drop', category: 'dynamic', labelRu: 'Дроп' },
+  { value: 'Breakdown', category: 'dynamic', labelRu: 'Спад' },
+  { value: 'Crescendo', category: 'dynamic', labelRu: 'Крещендо' },
+  { value: 'Fade Out', category: 'dynamic', labelRu: 'Затухание' },
+  { value: 'Explosive', category: 'dynamic', labelRu: 'Взрывной' },
+  { value: 'Soft', category: 'dynamic', labelRu: 'Мягко' },
+  { value: 'Climax', category: 'dynamic', labelRu: 'Кульминация' },
+  { value: 'Soft Intro', category: 'dynamic', labelRu: 'Мягкое вступление' },
+  { value: 'Atmospheric', category: 'dynamic', labelRu: 'Атмосферный' },
+
+  // Mood/Emotional
+  { value: 'Intimate', category: 'mood', labelRu: 'Интимный' },
+  { value: 'Anthemic', category: 'mood', labelRu: 'Гимновый' },
+  { value: 'Melancholic', category: 'mood', labelRu: 'Меланхоличный' },
+  { value: 'Triumphant', category: 'mood', labelRu: 'Триумфальный' },
+  { value: 'Nostalgic', category: 'mood', labelRu: 'Ностальгический' },
+  { value: 'Tender', category: 'mood', labelRu: 'Нежный' },
+  { value: 'Passionate', category: 'mood', labelRu: 'Страстный' },
+  { value: 'Vulnerable', category: 'mood', labelRu: 'Уязвимый' },
+  { value: 'Confident', category: 'mood', labelRu: 'Уверенный' },
+  { value: 'Hopeful', category: 'mood', labelRu: 'Надежда' },
+  { value: 'Rebellious', category: 'mood', labelRu: 'Бунтарский' },
+
+  // Production
+  { value: 'Reverb', category: 'production', labelRu: 'Реверберация' },
+  { value: 'Echo', category: 'production', labelRu: 'Эхо' },
+  { value: 'Lo-fi', category: 'production', labelRu: 'Лоу-фай' },
+  { value: 'Distorted', category: 'production', labelRu: 'Дисторшн' },
+  { value: 'Clean', category: 'production', labelRu: 'Чистый' },
+  { value: 'Filtered', category: 'production', labelRu: 'Фильтрованный' },
+
+  // Structure modifiers (timed)
+  { value: 'Solo: 8s', category: 'structure', labelRu: 'Соло 8с' },
+  { value: 'Solo: 12s', category: 'structure', labelRu: 'Соло 12с' },
+  { value: 'Instrumental: 8s', category: 'structure', labelRu: 'Инструментал 8с' },
+  { value: 'Instrumental: 12s', category: 'structure', labelRu: 'Инструментал 12с' },
+  { value: 'Break: 4s', category: 'structure', labelRu: 'Пауза 4с' },
+  { value: 'Break: 8s', category: 'structure', labelRu: 'Пауза 8с' },
+];
+
+// ==================== V5 COMPOUND TAG PRESETS ====================
+
+export interface CompoundPreset {
+  id: string;
+  label: string;
+  labelEn: string;
+  tags: string[];
+  description: string;
+}
+
+export const V5_COMPOUND_PRESETS: CompoundPreset[] = [
+  {
+    id: 'tender-verse',
+    label: 'Нежный куплет',
+    labelEn: 'Tender Verse',
+    tags: ['Soft', 'Intimate', 'Acoustic Guitar'],
+    description: 'Мягкий и интимный звук для куплетов',
+  },
+  {
+    id: 'powerful-chorus',
+    label: 'Мощный припев',
+    labelEn: 'Powerful Chorus',
+    tags: ['Powerful', 'Anthemic', 'Full Band'],
+    description: 'Энергичный гимновый припев',
+  },
+  {
+    id: 'emotional-bridge',
+    label: 'Эмоциональный бридж',
+    labelEn: 'Emotional Bridge',
+    tags: ['Breakdown', 'Piano Only', 'Whisper'],
+    description: 'Уязвимый момент перед финалом',
+  },
+  {
+    id: 'explosive-finale',
+    label: 'Взрывной финал',
+    labelEn: 'Explosive Finale',
+    tags: ['Explosive', 'Belting', 'Crescendo'],
+    description: 'Мощная кульминация трека',
+  },
+  {
+    id: 'dreamy-intro',
+    label: 'Мечтательное вступление',
+    labelEn: 'Dreamy Intro',
+    tags: ['Atmospheric', 'Soft Intro', 'Reverb'],
+    description: 'Атмосферное начало трека',
+  },
+  {
+    id: 'raw-verse',
+    label: 'Сырой куплет',
+    labelEn: 'Raw Verse',
+    tags: ['Raw', 'Spoken Word', 'A Cappella'],
+    description: 'Минималистичный речитатив',
+  },
+];
+
+// ==================== VOCAL STYLE TAGS (Legacy) ====================
 
 export const VOCAL_STYLE_TAGS = [
   'Gentle', 'Powerful', 'Whisper', 'Falsetto', 'Raspy', 
@@ -215,4 +405,30 @@ export function getStructureByValue(value: string): StructureOption | undefined 
 
 export function getSectionTypeByType(type: string): SectionType | undefined {
   return SECTION_TYPES.find(s => s.type === type);
+}
+
+export function getTagDefinition(value: string): TagDefinition | undefined {
+  return SECTION_TAGS.find(t => t.value === value);
+}
+
+export function getTagsByCategory(category: TagCategory): TagDefinition[] {
+  return SECTION_TAGS.filter(t => t.category === category);
+}
+
+/**
+ * Validates that all tags are in English (no Cyrillic characters)
+ */
+export function validateTagLanguage(tags: string[]): { valid: boolean; invalid: string[] } {
+  const cyrillicPattern = /[а-яёА-ЯЁ]/;
+  const invalid = tags.filter(t => cyrillicPattern.test(t));
+  return { valid: invalid.length === 0, invalid };
+}
+
+/**
+ * Formats compound tags for Suno V5: [Tag1, Tag2, Tag3]
+ */
+export function formatCompoundTag(tags: string[]): string {
+  if (tags.length === 0) return '';
+  if (tags.length === 1) return `[${tags[0]}]`;
+  return `[${tags.join(', ')}]`;
 }
