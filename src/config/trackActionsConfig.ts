@@ -2,7 +2,7 @@ import {
   Download, Share2, Send, Folder, ListMusic, 
   Scissors, Wand2, ImagePlus, Music2, Video, Layers,
   Plus, Music, Globe, Lock, Info, Trash2,
-  Link, FileAudio, FileMusic, Archive, Disc, RefreshCw, Pencil, User
+  Link, FileAudio, FileMusic, Archive, Disc, RefreshCw, Pencil, User, Mic2
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 
@@ -16,7 +16,7 @@ export type ActionId =
   // Studio
   | 'open_studio' | 'replace_section' | 'stems_simple' | 'stems_detailed' | 'transcribe_midi' | 'transcribe_notes'
   // Create
-  | 'generate_cover' | 'cover' | 'extend' | 'remix' | 'create_artist_persona'
+  | 'generate_cover' | 'cover' | 'extend' | 'remix' | 'create_artist_persona' | 'add_vocals'
   // Delete
   | 'delete_version' | 'delete_all';
 
@@ -39,6 +39,7 @@ export interface TrackAction {
   requiresSunoId?: boolean;
   requiresSunoTaskId?: boolean;
   requiresStems?: boolean;
+  requiresInstrumental?: boolean;
   dangerous?: boolean;
 }
 
@@ -231,6 +232,16 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     category: 'create',
     priority: 45,
     requiresCompleted: true,
+  },
+  add_vocals: {
+    id: 'add_vocals',
+    label: 'Добавить вокал',
+    icon: Mic2,
+    category: 'create',
+    priority: 46,
+    requiresCompleted: true,
+    requiresAudio: true,
+    requiresInstrumental: true,
   },
 
   // Delete Actions (Priority 100+)

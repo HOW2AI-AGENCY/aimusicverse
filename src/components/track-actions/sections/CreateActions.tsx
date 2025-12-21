@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { DropdownMenuItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from '@/components/ui/dropdown-menu';
-import { Plus, Music, ImagePlus, Disc, Sparkles } from 'lucide-react';
+import { Plus, Music, ImagePlus, Disc, Sparkles, Mic2 } from 'lucide-react';
 import { Track } from '@/types/track';
 import { ActionId } from '@/config/trackActionsConfig';
 import { TrackActionState, isActionAvailable } from '@/lib/trackActionConditions';
@@ -23,8 +23,9 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
   const showCover = isActionAvailable('cover', track, state);
   const showExtend = isActionAvailable('extend', track, state);
   const showRemix = isActionAvailable('remix', track, state);
+  const showAddVocals = isActionAvailable('add_vocals', track, state);
 
-  const hasAnyAction = showGenerateCover || showCover || showExtend || showRemix;
+  const hasAnyAction = showGenerateCover || showCover || showExtend || showRemix || showAddVocals;
   if (!hasAnyAction) return null;
 
   if (variant === 'dropdown') {
@@ -57,6 +58,12 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
             <DropdownMenuItem onClick={() => onAction('remix')} disabled={isProcessing}>
               <Music className="w-4 h-4 mr-2" />
               Ремикс
+            </DropdownMenuItem>
+          )}
+          {showAddVocals && (
+            <DropdownMenuItem onClick={() => onAction('add_vocals')} disabled={isProcessing}>
+              <Mic2 className="w-4 h-4 mr-2" />
+              Добавить вокал
             </DropdownMenuItem>
           )}
         </DropdownMenuSubContent>
@@ -120,6 +127,17 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
           >
             <Music className="w-4 h-4" />
             <span>Ремикс</span>
+          </Button>
+        )}
+        {showAddVocals && (
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-3 h-11"
+            onClick={() => onAction('add_vocals')}
+            disabled={isProcessing}
+          >
+            <Mic2 className="w-4 h-4" />
+            <span>Добавить вокал</span>
           </Button>
         )}
       </CollapsibleContent>

@@ -60,7 +60,7 @@ interface IntegratedStemTracksProps {
   onMasterVolumeChange: (volume: number) => void;
   onMasterMuteToggle: () => void;
   onSeek: (time: number) => void;
-  onStemAction: (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete') => void;
+  onStemAction: (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete' | 'arrangement') => void;
   onAddTrack?: () => void;
   effectsEnabled?: boolean;
   className?: string;
@@ -340,6 +340,12 @@ const StemTrackRowMobile = memo(({
                   <Music2 className="w-4 h-4 mr-2" />
                   MIDI
                 </DropdownMenuItem>
+                {(stem.stem_type === 'vocal' || stem.stem_type === 'vocals') && (
+                  <DropdownMenuItem onClick={() => onAction('arrangement')}>
+                    <Guitar className="w-4 h-4 mr-2 text-amber-500" />
+                    Новая аранжировка
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem onClick={() => onAction('effects')}>
                   <Sliders className="w-4 h-4 mr-2" />
                   Эффекты

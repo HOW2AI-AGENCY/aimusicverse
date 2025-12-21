@@ -34,7 +34,7 @@ export interface StemRowProps {
   onToggle: (type: 'mute' | 'solo') => void;
   onVolumeChange: (volume: number) => void;
   onSeek: (time: number) => void;
-  onAction: (action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete') => void;
+  onAction: (action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete' | 'arrangement') => void;
 }
 
 export interface VirtualizedStemListProps {
@@ -48,7 +48,7 @@ export interface VirtualizedStemListProps {
   onStemToggle: (stemId: string, type: 'mute' | 'solo') => void;
   onStemVolumeChange: (stemId: string, volume: number) => void;
   onSeek: (time: number) => void;
-  onStemAction: (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete') => void;
+  onStemAction: (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete' | 'arrangement') => void;
   renderMobileRow: (props: StemRowProps) => React.ReactNode;
   renderDesktopRow: (props: StemRowProps) => React.ReactNode;
   className?: string;
@@ -90,7 +90,7 @@ function VirtualizedStemListComponent({
         onToggle: (type: 'mute' | 'solo') => onStemToggle(stem.id, type),
         onVolumeChange: (vol: number) => onStemVolumeChange(stem.id, vol),
         onSeek,
-        onAction: (action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete') =>
+        onAction: (action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete' | 'arrangement') =>
           onStemAction(stem, action),
       };
 
