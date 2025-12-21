@@ -16,7 +16,7 @@ export type ActionId =
   // Studio
   | 'open_studio' | 'replace_section' | 'stems_simple' | 'stems_detailed' | 'transcribe_midi' | 'transcribe_notes'
   // Create
-  | 'generate_cover' | 'cover' | 'extend' | 'remix' | 'create_artist_persona' | 'add_vocals'
+  | 'generate_cover' | 'cover' | 'extend' | 'remix' | 'create_artist_persona' | 'add_vocals' | 'add_instrumental'
   // Delete
   | 'delete_version' | 'delete_all';
 
@@ -242,6 +242,15 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     requiresCompleted: true,
     requiresAudio: true,
     requiresInstrumental: true,
+  },
+  add_instrumental: {
+    id: 'add_instrumental',
+    label: 'Добавить инструментал',
+    icon: Music,
+    category: 'create',
+    priority: 47,
+    requiresCompleted: true,
+    requiresAudio: true,
   },
 
   // Delete Actions (Priority 100+)

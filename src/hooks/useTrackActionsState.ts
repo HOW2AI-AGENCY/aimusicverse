@@ -29,6 +29,7 @@ interface DialogStates {
   rename: boolean;
   createArtist: boolean;
   addVocals: boolean;
+  addInstrumental: boolean;
 }
 
 export function useTrackActionsState({
@@ -55,6 +56,7 @@ export function useTrackActionsState({
     rename: false,
     createArtist: false,
     addVocals: false,
+    addInstrumental: false,
   });
 
   // Hooks
@@ -240,6 +242,9 @@ export function useTrackActionsState({
         break;
       case 'add_vocals':
         openDialog('addVocals');
+        break;
+      case 'add_instrumental':
+        openDialog('addInstrumental');
         break;
 
       // Delete actions
