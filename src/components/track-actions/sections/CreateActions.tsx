@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { DropdownMenuItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from '@/components/ui/dropdown-menu';
-import { Plus, Music, ImagePlus, Disc, Sparkles, Mic2 } from 'lucide-react';
+import { Plus, Music, ImagePlus, Disc, Sparkles, Mic2, Guitar } from 'lucide-react';
 import { Track } from '@/types/track';
 import { ActionId } from '@/config/trackActionsConfig';
 import { TrackActionState, isActionAvailable } from '@/lib/trackActionConditions';
@@ -24,8 +24,9 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
   const showExtend = isActionAvailable('extend', track, state);
   const showRemix = isActionAvailable('remix', track, state);
   const showAddVocals = isActionAvailable('add_vocals', track, state);
+  const showAddInstrumental = isActionAvailable('add_instrumental', track, state);
 
-  const hasAnyAction = showGenerateCover || showCover || showExtend || showRemix || showAddVocals;
+  const hasAnyAction = showGenerateCover || showCover || showExtend || showRemix || showAddVocals || showAddInstrumental;
   if (!hasAnyAction) return null;
 
   if (variant === 'dropdown') {
@@ -64,6 +65,12 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
             <DropdownMenuItem onClick={() => onAction('add_vocals')} disabled={isProcessing}>
               <Mic2 className="w-4 h-4 mr-2" />
               Добавить вокал
+            </DropdownMenuItem>
+          )}
+          {showAddInstrumental && (
+            <DropdownMenuItem onClick={() => onAction('add_instrumental')} disabled={isProcessing}>
+              <Guitar className="w-4 h-4 mr-2" />
+              Добавить инструментал
             </DropdownMenuItem>
           )}
         </DropdownMenuSubContent>
@@ -138,6 +145,17 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
           >
             <Mic2 className="w-4 h-4" />
             <span>Добавить вокал</span>
+          </Button>
+        )}
+        {showAddInstrumental && (
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-3 h-11"
+            onClick={() => onAction('add_instrumental')}
+            disabled={isProcessing}
+          >
+            <Guitar className="w-4 h-4" />
+            <span>Добавить инструментал</span>
           </Button>
         )}
       </CollapsibleContent>

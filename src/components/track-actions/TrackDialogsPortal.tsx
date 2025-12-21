@@ -10,6 +10,7 @@ import { AudioCoverDialog } from '@/components/AudioCoverDialog';
 import { RenameTrackDialog } from './RenameTrackDialog';
 import { CreateArtistDialog } from '@/components/CreateArtistDialog';
 import { AddVocalsDialog } from '@/components/AddVocalsDialog';
+import { AddInstrumentalDialog } from '@/components/AddInstrumentalDialog';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useState, useEffect } from 'react';
 
@@ -32,6 +33,7 @@ interface DialogStates {
   rename: boolean;
   createArtist: boolean;
   addVocals: boolean;
+  addInstrumental: boolean;
 }
 
 interface TrackDialogsPortalProps {
@@ -167,6 +169,13 @@ export function TrackDialogsPortal({
       <AddVocalsDialog
         open={dialogs.addVocals}
         onOpenChange={(open) => !open && onCloseDialog('addVocals')}
+        track={track}
+      />
+
+      {/* Add Instrumental dialog */}
+      <AddInstrumentalDialog
+        open={dialogs.addInstrumental}
+        onOpenChange={(open) => !open && onCloseDialog('addInstrumental')}
         track={track}
       />
     </>

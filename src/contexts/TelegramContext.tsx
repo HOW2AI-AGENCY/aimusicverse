@@ -828,6 +828,12 @@ export const DeepLinkHandler = () => {
       [/^quick_(.+)$/, (m) => `/generate?style=${m![1]}&quick=true`, 'quick'],
       [/^remix_(.+)$/, (m) => `/generate?remix=${m![1]}`, 'remix'],
       
+      // Vocal/Instrumental deep links (from Telegram bot)
+      [/^vocals_(.+)$/, (m) => `/library?track=${m![1]}&action=add_vocals`, 'add_vocals'],
+      [/^instrumental_(.+)$/, (m) => `/library?track=${m![1]}&action=add_instrumental`, 'add_instrumental'],
+      [/^extend_(.+)$/, (m) => `/library?track=${m![1]}&action=extend`, 'extend'],
+      [/^cover_(.+)$/, (m) => `/library?track=${m![1]}&action=cover`, 'cover'],
+      
       // Studio deep links
       [/^studio_ref_(.+)$/, (m) => `/content-hub?tab=cloud&ref=${m![1]}`, 'studio_ref'],
       [/^studio_(.+)$/, (m) => `/studio/${m![1]}`, 'studio'],

@@ -29,6 +29,10 @@ import { AppHeader } from "@/components/layout/AppHeader";
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { TrackDetailSheet } from "@/components/TrackDetailSheet";
+import { AddVocalsDialog } from "@/components/AddVocalsDialog";
+import { AddInstrumentalDialog } from "@/components/AddInstrumentalDialog";
+import { ExtendTrackDialog } from "@/components/ExtendTrackDialog";
+import { AudioCoverDialog } from "@/components/AudioCoverDialog";
 
 const log = logger.child({ module: 'Library' });
 
@@ -65,6 +69,10 @@ export default function Library() {
   // State for deep link track detail sheet
   const [selectedTrackForDetail, setSelectedTrackForDetail] = useState<Track | null>(null);
   const deepLinkProcessedRef = useRef(false);
+  
+  // State for deep link action dialogs
+  const [deepLinkDialogTrack, setDeepLinkDialogTrack] = useState<Track | null>(null);
+  const [deepLinkDialogType, setDeepLinkDialogType] = useState<'add_vocals' | 'add_instrumental' | 'extend' | 'cover' | null>(null);
   
   // Mobile defaults to list view, desktop to grid
   const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
@@ -187,30 +195,39 @@ export default function Library() {
     logPlay(track.id);
   }, [tracksToDisplay, queue.length, activeTrack?.id, playTrack, logPlay]);
 
-  // Handle deep link: ?track=UUID - open track detail and auto-play
+  // Handle deep link: ?track=UUID&action=xxx - open track detail or specific dialog
   // Must be after handlePlay is defined
   useEffect(() => {
     const trackIdFromUrl = searchParams.get('track');
+    const actionFromUrl = searchParams.get('action') as 'add_vocals' | 'add_instrumental' | 'extend' | 'cover' | null;
     
     if (trackIdFromUrl && tracks && tracks.length > 0 && !deepLinkProcessedRef.current) {
       const track = tracks.find(t => t.id === trackIdFromUrl);
       
       if (track) {
         deepLinkProcessedRef.current = true;
-        log.info('Deep link: opening track', { trackId: trackIdFromUrl });
+        log.info('Deep link: opening track', { trackId: trackIdFromUrl, action: actionFromUrl });
         
-        // Open track detail sheet
-        setSelectedTrackForDetail(track);
-        
-        // Auto-play the track
-        if (track.audio_url) {
-          handlePlay(track);
+        // Check if we have a specific action to perform
+        if (actionFromUrl && ['add_vocals', 'add_instrumental', 'extend', 'cover'].includes(actionFromUrl)) {
+          // Open the specific dialog for the action
+          setDeepLinkDialogTrack(track);
+          setDeepLinkDialogType(actionFromUrl);
+        } else {
+          // Open track detail sheet (default behavior)
+          setSelectedTrackForDetail(track);
+          
+          // Auto-play the track
+          if (track.audio_url) {
+            handlePlay(track);
+          }
         }
         
         // Clear the query parameter to prevent re-triggering
         const newParams = new URLSearchParams(searchParams);
         newParams.delete('track');
         newParams.delete('view');
+        newParams.delete('action');
         setSearchParams(newParams, { replace: true });
       }
     }
@@ -438,6 +455,64 @@ export default function Library() {
           open={!!selectedTrackForDetail}
           onOpenChange={(open) => !open && setSelectedTrackForDetail(null)}
           track={selectedTrackForDetail}
+        />
+      )}
+      
+      {/* Deep link action dialogs */}
+      {deepLinkDialogTrack && deepLinkDialogType === 'add_vocals' && (
+        <AddVocalsDialog
+          open={true}
+          onOpenChange={(open) => {
+            if (!open) {
+              setDeepLinkDialogTrack(null);
+              setDeepLinkDialogType(null);
+            }
+          }}
+          track={deepLinkDialogTrack}
+        />
+      )}
+      
+      {deepLinkDialogTrack && deepLinkDialogType === 'add_instrumental' && (
+        <AddInstrumentalDialog
+          open={true}
+          onOpenChange={(open) => {
+            if (!open) {
+              setDeepLinkDialogTrack(null);
+              setDeepLinkDialogType(null);
+            }
+          }}
+          track={deepLinkDialogTrack}
+        />
+      )}
+      
+      {deepLinkDialogTrack && deepLinkDialogType === 'extend' && (
+        <ExtendTrackDialog
+          open={true}
+          onOpenChange={(open) => {
+            if (!open) {
+              setDeepLinkDialogTrack(null);
+              setDeepLinkDialogType(null);
+            }
+          }}
+          track={deepLinkDialogTrack}
+        />
+      )}
+      
+      {deepLinkDialogTrack && deepLinkDialogType === 'cover' && (
+        <AudioCoverDialog
+          open={true}
+          onOpenChange={(open) => {
+            if (!open) {
+              setDeepLinkDialogTrack(null);
+              setDeepLinkDialogType(null);
+            }
+          }}
+          prefillData={{
+            title: deepLinkDialogTrack.title,
+            style: deepLinkDialogTrack.style,
+            lyrics: deepLinkDialogTrack.lyrics,
+            isInstrumental: deepLinkDialogTrack.is_instrumental ?? false,
+          }}
         />
       )}
     </ErrorBoundaryWrapper>
