@@ -1,6 +1,6 @@
 /**
  * NotesViewerDialog - Full-screen notes viewer with tabs
- * Shows Piano Roll, PDF Notes, Guitar Tab (GP5), and MusicXML with note visualization
+ * Shows Piano Roll, Staff Notation, PDF Notes, Guitar Tab (GP5), and MusicXML
  */
 
 import { useState, useCallback, useMemo, useEffect } from 'react';
@@ -17,6 +17,7 @@ import {
   Pause,
   Maximize2,
   FileCode2,
+  ListMusic,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -39,6 +40,7 @@ import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { StemTranscription } from '@/hooks/useStemTranscription';
 import { InteractivePianoRoll } from '@/components/analysis/InteractivePianoRoll';
+import { MobileNotesViewer } from '@/components/analysis/MobileNotesViewer';
 import { useMidiFileParser, ParsedMidiNote } from '@/hooks/useMidiFileParser';
 import { useMusicXmlParser } from '@/hooks/useMusicXmlParser';
 import { useMidiSynth } from '@/hooks/useMidiSynth';
@@ -553,25 +555,88 @@ export function NotesViewerDialog({
     );
   };
 
-  // Use Sheet for mobile, Dialog for desktop
+  // Mobile - use Sheet with simplified MobileNotesViewer
   if (isMobile) {
+    const mobileNotes = notes.length > 0 ? notes : xmlNotes;
+    const mobileDuration = notes.length > 0 ? duration : xmlDuration;
+    
     return (
       <Sheet open={open} onOpenChange={onOpenChange}>
-        <SheetContent side="bottom" className="h-[90vh] rounded-t-2xl flex flex-col">
-          <SheetHeader className="pb-4">
-            <SheetTitle className="flex items-center gap-2">
+        <SheetContent side="bottom" className="h-[85vh] rounded-t-2xl flex flex-col p-0">
+          <SheetHeader className="px-4 pt-4 pb-2 border-b">
+            <SheetTitle className="flex items-center gap-2 text-base">
               <Music2 className="w-5 h-5 text-primary" />
               Ноты: {stemType}
+              {transcription?.model && (
+                <Badge variant="secondary" className="text-[10px]">
+                  {transcription.model}
+                </Badge>
+              )}
             </SheetTitle>
           </SheetHeader>
-          <ScrollArea className="flex-1 -mx-6 px-6">
-            {renderContent()}
+          
+          <ScrollArea className="flex-1 px-4 py-3">
+            {mobileNotes.length > 0 || isParsing || isParsingXml ? (
+              <MobileNotesViewer
+                notes={mobileNotes}
+                duration={mobileDuration}
+                bpm={parsedMidi?.bpm ?? parsedXml?.bpm ?? transcription?.bpm ?? undefined}
+                timeSignature={
+                  parsedMidi?.timeSignature ?? 
+                  parsedXml?.timeSignature ?? 
+                  transcription?.time_signature ?? undefined
+                }
+                keySignature={
+                  parsedXml?.keySignature ?? 
+                  transcription?.key_detected ?? undefined
+                }
+                midiUrl={transcription?.midi_url}
+                pdfUrl={transcription?.pdf_url}
+              />
+            ) : (
+              <div className="flex flex-col items-center justify-center h-64 text-center">
+                <Music2 className="w-12 h-12 text-muted-foreground/40 mb-4" />
+                <p className="text-muted-foreground">
+                  {isParsing || isParsingXml ? 'Загрузка нот...' : 'Нет данных транскрипции'}
+                </p>
+              </div>
+            )}
+            
+            {/* Additional downloads for mobile */}
+            {(transcription?.gp5_url || transcription?.mxml_url) && (
+              <div className="mt-4 pt-4 border-t space-y-2">
+                <p className="text-xs text-muted-foreground mb-2">Дополнительные форматы:</p>
+                <div className="flex gap-2 flex-wrap">
+                  {transcription?.gp5_url && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDownload(transcription.gp5_url, `${stemType}.gp5`)}
+                    >
+                      <Guitar className="w-4 h-4 mr-1.5" />
+                      Guitar Pro
+                    </Button>
+                  )}
+                  {transcription?.mxml_url && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDownload(transcription.mxml_url, `${stemType}.musicxml`)}
+                    >
+                      <FileCode2 className="w-4 h-4 mr-1.5" />
+                      MusicXML
+                    </Button>
+                  )}
+                </div>
+              </div>
+            )}
           </ScrollArea>
         </SheetContent>
       </Sheet>
     );
   }
 
+  // Desktop - use Dialog with full tabs
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl h-[80vh] flex flex-col">
