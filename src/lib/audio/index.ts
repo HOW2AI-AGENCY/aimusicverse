@@ -9,3 +9,11 @@ export {
   type BufferPoolConfig,
   type PooledBuffer,
 } from './bufferPool';
+
+export {
+  getAudioContextClass,
+  createAudioContext,
+  isAudioContextSupported,
+  ensureAudioContextRunning,
+  safeCloseAudioContext,
+} from './audioContextHelper';

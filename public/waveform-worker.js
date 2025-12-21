@@ -5,37 +5,15 @@
  * Offloads CPU-intensive work from the main thread.
  */
 
-// Message types
-interface GeneratePeaksMessage {
-  type: 'generate-peaks';
-  id: string;
-  audioData: Float32Array;
-  sampleRate: number;
-  targetPeaks: number;
-}
-
-interface PeaksResultMessage {
-  type: 'peaks-result';
-  id: string;
-  peaks: number[];
-}
-
-interface ErrorMessage {
-  type: 'error';
-  id: string;
-  error: string;
-}
-
-type WorkerMessage = GeneratePeaksMessage;
-type WorkerResponse = PeaksResultMessage | ErrorMessage;
-
-// Generate peaks from audio data
-function generatePeaks(
-  audioData: Float32Array,
-  targetPeaks: number
-): number[] {
+/**
+ * Generate peaks from audio data
+ * @param {Float32Array} audioData
+ * @param {number} targetPeaks
+ * @returns {number[]}
+ */
+function generatePeaks(audioData, targetPeaks) {
   const samplesPerPeak = Math.ceil(audioData.length / targetPeaks);
-  const peaks: number[] = [];
+  const peaks = [];
   
   for (let i = 0; i < targetPeaks; i++) {
     const start = i * samplesPerPeak;
@@ -53,48 +31,40 @@ function generatePeaks(
   return peaks;
 }
 
-// Normalize peaks to 0-1 range
-function normalizePeaks(peaks: number[]): number[] {
+/**
+ * Normalize peaks to 0-1 range
+ * @param {number[]} peaks
+ * @returns {number[]}
+ */
+function normalizePeaks(peaks) {
   const max = Math.max(...peaks);
   if (max === 0) return peaks;
   return peaks.map(p => p / max);
 }
 
 // Handle incoming messages
-self.onmessage = (event: MessageEvent<WorkerMessage>) => {
-  const { type, id } = event.data;
+self.onmessage = function(event) {
+  const { type, id, audioData, targetPeaks } = event.data;
   
   try {
-    switch (type) {
-      case 'generate-peaks': {
-        const { audioData, targetPeaks } = event.data as GeneratePeaksMessage;
-        
-        // Generate and normalize peaks
-        const rawPeaks = generatePeaks(audioData, targetPeaks);
-        const normalizedPeaks = normalizePeaks(rawPeaks);
-        
-        const response: PeaksResultMessage = {
-          type: 'peaks-result',
-          id,
-          peaks: normalizedPeaks,
-        };
-        
-        self.postMessage(response);
-        break;
-      }
+    if (type === 'generate-peaks') {
+      // Generate and normalize peaks
+      const rawPeaks = generatePeaks(audioData, targetPeaks);
+      const normalizedPeaks = normalizePeaks(rawPeaks);
       
-      default:
-        throw new Error(`Unknown message type: ${type}`);
+      self.postMessage({
+        type: 'peaks-result',
+        id: id,
+        peaks: normalizedPeaks,
+      });
+    } else {
+      throw new Error('Unknown message type: ' + type);
     }
   } catch (error) {
-    const response: ErrorMessage = {
+    self.postMessage({
       type: 'error',
-      id,
+      id: id,
       error: error instanceof Error ? error.message : String(error),
-    };
-    self.postMessage(response);
+    });
   }
 };
-
-// Export for type checking (not used at runtime)
-export type { WorkerMessage, WorkerResponse };

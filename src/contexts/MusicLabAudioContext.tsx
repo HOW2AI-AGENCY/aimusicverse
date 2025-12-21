@@ -1,4 +1,5 @@
 import { createContext, useContext, useRef, ReactNode } from 'react';
+import { createAudioContext } from '@/lib/audio/audioContextHelper';
 
 /**
  * Music Lab Audio Context
@@ -21,7 +22,7 @@ export function MusicLabAudioProvider({ children }: { children: ReactNode }) {
 
   const getAudioContext = () => {
     if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      audioContextRef.current = createAudioContext();
     }
     return audioContextRef.current;
   };

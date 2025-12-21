@@ -7,6 +7,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { logger } from '@/lib/logger';
+import { getAudioContextClass, safeCloseAudioContext } from '@/lib/audio/audioContextHelper';
 import { TrackStem } from '@/hooks/useTrackStems';
 
 // Mobile browsers typically limit concurrent audio elements
@@ -70,12 +71,12 @@ async function detectAudioCapabilities(): Promise<AudioCapabilities> {
   let audioContextState: AudioContextState | 'unavailable' = 'unavailable';
   
   try {
-    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+    const AudioContextClass = getAudioContextClass();
     if (AudioContextClass) {
       supportsWebAudio = true;
       const testContext = new AudioContextClass();
       audioContextState = testContext.state;
-      await testContext.close();
+      await safeCloseAudioContext(testContext);
     }
   } catch {
     supportsWebAudio = false;
