@@ -81,65 +81,65 @@ export const BottomNavigation = () => {
               );
             }
 
-              const handleClick = item.path === '__profile__'
-                ? handleProfileClick
-                : () => handleNavigate(item.path);
+            const handleClick = item.path === '__profile__'
+              ? handleProfileClick
+              : () => handleNavigate(item.path);
 
-              const active = item.path === '__profile__'
-                ? location.pathname.includes('/profile')
-                : isActive(item.path);
+            const active = item.path === '__profile__'
+              ? location.pathname.includes('/profile')
+              : isActive(item.path);
 
-              return (
-                <motion.button
-                  key={item.path}
-                  onClick={handleClick}
-                  className={cn(
-                    "relative flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all min-h-[44px] min-w-[52px] touch-scale-sm touch-manipulation group",
-                    active
-                      ? "text-primary bg-primary/10"
-                      : "text-muted-foreground hover:text-foreground"
-                  )}
-                  whileTap={{ scale: 0.92 }}
-                  whileHover={{ scale: 1.05 }}
-                  aria-label={item.label}
-                  aria-current={active ? 'page' : undefined}
-                  title={item.label}
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.1 + index * 0.05 }}
+            return (
+              <motion.button
+                key={item.path}
+                onClick={handleClick}
+                className={cn(
+                  "relative flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all min-h-[44px] min-w-[52px] touch-scale-sm touch-manipulation group",
+                  active
+                    ? "text-primary bg-primary/10"
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+                whileTap={{ scale: 0.92 }}
+                whileHover={{ scale: 1.05 }}
+                aria-label={item.label}
+                aria-current={active ? 'page' : undefined}
+                title={item.label}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.1 + index * 0.05 }}
+              >
+                <motion.div
+                  initial={false}
+                  animate={active ? { scale: 1.1, y: -1 } : { scale: 1, y: 0 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                  className="relative"
                 >
-                  <motion.div
-                    initial={false}
-                    animate={active ? { scale: 1.1, y: -1 } : { scale: 1, y: 0 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                    className="relative"
-                  >
-                    <item.icon className="w-4.5 h-4.5" />
-                  </motion.div>
-                  <motion.span
-                    className="text-[9px] font-medium"
-                    initial={false}
-                    animate={active ? { fontWeight: 600 } : { fontWeight: 500 }}
-                  >
-                    {item.label}
-                  </motion.span>
+                  <item.icon className="w-4.5 h-4.5" />
+                </motion.div>
+                <motion.span
+                  className="text-[9px] font-medium"
+                  initial={false}
+                  animate={active ? { fontWeight: 600 } : { fontWeight: 500 }}
+                >
+                  {item.label}
+                </motion.span>
 
-                  {/* Active indicator - Modern pill */}
-                  <AnimatePresence>
-                    {active && (
-                      <motion.div
-                        className="absolute inset-0 rounded-xl bg-primary/5 border border-primary/20"
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.8, opacity: 0 }}
-                        transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                      />
-                    )}
-                  </AnimatePresence>
-                </motion.button>
-              );
-            })}
-          </div>
+                {/* Active indicator - Modern pill */}
+                <AnimatePresence>
+                  {active && (
+                    <motion.div
+                      className="absolute inset-0 rounded-xl bg-primary/5 border border-primary/20"
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.8, opacity: 0 }}
+                      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                    />
+                  )}
+                </AnimatePresence>
+              </motion.button>
+            );
+          })}
+        </div>
       </motion.nav>
 
       {/* Lazy load GenerateSheet only when opened */}
