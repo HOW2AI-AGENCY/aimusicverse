@@ -1,30 +1,28 @@
 import { useState, lazy, Suspense } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, FolderOpen, Plus, Library, Menu } from 'lucide-react';
+import { Home, Plus, Library, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion, AnimatePresence } from '@/lib/motion';
-import { useUnreadCount } from '@/hooks/useNotifications';
+import { useAuth } from '@/hooks/useAuth';
 
-// Lazy load heavy sheet components - only needed when user opens them
+// Lazy load heavy sheet component
 const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default: m.GenerateSheet })));
-const NavigationMenuSheet = lazy(() => import('./NavigationMenuSheet').then(m => ({ default: m.NavigationMenuSheet })));
 
+// Optimized navigation - 4 items: Home, Create (FAB), Library, Profile
 const navItems = [
   { path: '/', icon: Home, label: 'Главная', isCenter: false },
-  { path: '/projects', icon: FolderOpen, label: 'Проекты', isCenter: false },
   { path: '__generate__', icon: Plus, label: 'Создать', isCenter: true },
   { path: '/library', icon: Library, label: 'Библиотека', isCenter: false },
-  { path: '__menu__', icon: Menu, label: 'Меню', isCenter: false },
+  { path: '__profile__', icon: User, label: 'Профиль', isCenter: false },
 ];
 
 export const BottomNavigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { hapticFeedback } = useTelegram();
+  const { user } = useAuth();
   const [generateOpen, setGenerateOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const unreadCount = useUnreadCount();
 
   const handleNavigate = (path: string) => {
     hapticFeedback('light');
@@ -36,12 +34,16 @@ export const BottomNavigation = () => {
     setGenerateOpen(true);
   };
 
-  const handleMenuClick = () => {
+  const handleProfileClick = () => {
     hapticFeedback('light');
-    setMenuOpen(true);
+    if (user?.id) {
+      navigate(`/profile/${user.id}`);
+    } else {
+      navigate('/profile');
+    }
   };
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
 
   return (
     <>
@@ -79,23 +81,20 @@ export const BottomNavigation = () => {
               );
             }
 
-              const handleClick = item.path === '__menu__'
-                ? handleMenuClick
+              const handleClick = item.path === '__profile__'
+                ? handleProfileClick
                 : () => handleNavigate(item.path);
 
-              const active = item.path === '__menu__'
-                ? menuOpen
+              const active = item.path === '__profile__'
+                ? location.pathname.includes('/profile')
                 : isActive(item.path);
-
-              // Show notification badge for Menu item
-              const showNotificationBadge = item.path === '__menu__';
 
               return (
                 <motion.button
                   key={item.path}
                   onClick={handleClick}
                   className={cn(
-                    "relative flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-xl transition-all min-h-[44px] min-w-[44px] touch-scale-sm touch-manipulation group",
+                    "relative flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all min-h-[44px] min-w-[52px] touch-scale-sm touch-manipulation group",
                     active
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:text-foreground"
@@ -116,12 +115,6 @@ export const BottomNavigation = () => {
                     className="relative"
                   >
                     <item.icon className="w-4.5 h-4.5" />
-                    {/* Notification Badge for Menu */}
-                    {showNotificationBadge && unreadCount > 0 && (
-                      <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-destructive text-[9px] font-bold text-destructive-foreground">
-                        {unreadCount > 9 ? '9+' : unreadCount}
-                      </span>
-                    )}
                   </motion.div>
                   <motion.span
                     className="text-[9px] font-medium"
@@ -149,15 +142,10 @@ export const BottomNavigation = () => {
           </div>
       </motion.nav>
 
-      {/* Lazy load sheets only when opened */}
+      {/* Lazy load GenerateSheet only when opened */}
       {generateOpen && (
         <Suspense fallback={null}>
           <GenerateSheet open={generateOpen} onOpenChange={setGenerateOpen} />
-        </Suspense>
-      )}
-      {menuOpen && (
-        <Suspense fallback={null}>
-          <NavigationMenuSheet open={menuOpen} onOpenChange={setMenuOpen} />
         </Suspense>
       )}
     </>

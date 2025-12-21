@@ -1,15 +1,21 @@
 /**
  * HomeHeader - Unified header component for home page
- * Combines logo, welcome greeting, notifications and avatar in a clean layout
+ * Combines logo, welcome greeting, notifications, menu and avatar in a clean layout
  * Supports Telegram fullscreen safe area
  */
 
+import { useState, lazy, Suspense } from 'react';
 import { motion } from '@/lib/motion';
-import { User, Sun, Moon, Sunrise, Sunset } from 'lucide-react';
+import { User, Sun, Moon, Sunrise, Sunset, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { NotificationBadge } from '@/components/NotificationBadge';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { useUnreadCount } from '@/hooks/useNotifications';
+import { useTelegram } from '@/contexts/TelegramContext';
 import logo from '@/assets/logo.png';
+
+// Lazy load menu sheet
+const NavigationMenuSheet = lazy(() => import('@/components/NavigationMenuSheet').then(m => ({ default: m.NavigationMenuSheet })));
 
 interface HomeHeaderProps {
   userName?: string;
@@ -50,6 +56,14 @@ function getGreeting(): { text: string; icon: React.ReactNode; gradient: string 
 
 export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }: HomeHeaderProps) {
   const { text, icon, gradient } = getGreeting();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const unreadCount = useUnreadCount();
+  const { hapticFeedback } = useTelegram();
+
+  const handleMenuClick = () => {
+    hapticFeedback('light');
+    setMenuOpen(true);
+  };
 
   return (
     <motion.header 
@@ -143,8 +157,27 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
           </div>
         </div>
 
-        {/* Actions: Theme Toggle + Notifications + Avatar */}
-        <div className="flex items-center gap-1.5">
+        {/* Actions: Menu + Theme Toggle + Notifications + Avatar */}
+        <div className="flex items-center gap-1">
+          {/* Menu Button with badge */}
+          <motion.button
+            onClick={handleMenuClick}
+            className={cn(
+              "relative w-9 h-9 rounded-xl flex items-center justify-center",
+              "bg-muted/60 hover:bg-muted transition-colors touch-manipulation"
+            )}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Меню"
+          >
+            <Menu className="w-4 h-4" />
+            {unreadCount > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[9px] font-bold text-destructive-foreground">
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
+            )}
+          </motion.button>
+
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -184,6 +217,13 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
           </motion.button>
         </div>
       </motion.div>
+
+      {/* Menu Sheet */}
+      {menuOpen && (
+        <Suspense fallback={null}>
+          <NavigationMenuSheet open={menuOpen} onOpenChange={setMenuOpen} />
+        </Suspense>
+      )}
     </motion.header>
   );
 }
