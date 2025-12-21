@@ -7,7 +7,7 @@ import { useProjectTracks, ProjectTrack } from '@/hooks/useProjectTracks';
 import { useProjectGeneratedTracks } from '@/hooks/useProjectGeneratedTracks';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Sparkles, Music, MoreVertical, Play, Plus, Settings, Image, Rocket, Share2 } from 'lucide-react';
+import { ArrowLeft, Sparkles, Music, MoreVertical, Play, Plus, Settings, Image, Rocket, Share2, FileText } from 'lucide-react';
 import { AIActionsDialog } from '@/components/project/AIActionsDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -22,6 +22,8 @@ import { ProjectReadinessIndicator } from '@/components/project/ProjectReadiness
 import { PublishProjectDialog } from '@/components/project/PublishProjectDialog';
 import { UnlinkedTracksSection } from '@/components/project/UnlinkedTracksSection';
 import { ShareProjectCard } from '@/components/project/ShareProjectCard';
+import { ProjectLyricsTab } from '@/components/project/ProjectLyricsTab';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
@@ -496,8 +498,23 @@ export default function ProjectDetail() {
         />
       </div>
 
-      {/* Tracklist */}
-      <div className={cn(isMobile ? "px-3" : "px-4")}>
+      {/* Tabs: Tracklist and Lyrics */}
+      <Tabs defaultValue="tracks" className="w-full">
+        <div className={cn(isMobile ? "px-3" : "px-4")}>
+          <TabsList className="w-full grid grid-cols-2 mb-3">
+            <TabsTrigger value="tracks" className="gap-1.5">
+              <Music className="w-3.5 h-3.5" />
+              Треки
+            </TabsTrigger>
+            <TabsTrigger value="text" className="gap-1.5">
+              <FileText className="w-3.5 h-3.5" />
+              Текст
+            </TabsTrigger>
+          </TabsList>
+        </div>
+
+        <TabsContent value="tracks" className="mt-0">
+          <div className={cn(isMobile ? "px-3" : "px-4")}>
         {tracksLoading ? (
           <div className="flex items-center justify-center py-12">
             <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
@@ -569,9 +586,18 @@ export default function ProjectDetail() {
             <UnlinkedTracksSection projectId={id!} projectTracks={tracks} />
           </div>
         )}
-      </div>
+          </div>
+        </TabsContent>
 
-      {/* Dialogs */}
+        <TabsContent value="text" className="mt-0">
+          <ProjectLyricsTab
+            projectId={project.id}
+            tracks={tracks || []}
+            onOpenLyrics={handleOpenLyrics}
+            onOpenLyricsWizard={handleOpenLyricsWizard}
+          />
+        </TabsContent>
+      </Tabs>
       <AIActionsDialog
         open={aiDialogOpen}
         onOpenChange={setAiDialogOpen}

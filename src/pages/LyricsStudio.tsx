@@ -45,6 +45,7 @@ import { hapticImpact } from '@/lib/haptic';
 import { toast } from 'sonner';
 import { SEOHead, SEO_PRESETS } from '@/components/SEOHead';
 import { AppHeader } from '@/components/layout/AppHeader';
+import { EditableTitle } from '@/components/ui/editable-title';
 import { cn } from '@/lib/utils';
 import logo from '@/assets/logo.png';
 
@@ -242,6 +243,17 @@ export default function LyricsStudio() {
       {/* Header - Using AppHeader pattern for Telegram Mini App */}
       <AppHeader
         title={title}
+        titleElement={
+          <EditableTitle
+            value={title}
+            onChange={(newTitle) => {
+              setTitle(newTitle);
+              setIsDirty(true);
+            }}
+            placeholder="Название текста"
+            size="md"
+          />
+        }
         icon={<PenLine className="w-4 h-4 text-primary" />}
         leftAction={
           <Button 
