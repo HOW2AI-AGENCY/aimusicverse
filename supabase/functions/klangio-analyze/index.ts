@@ -307,17 +307,13 @@ serve(async (req) => {
         console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(reqOutputs)}, valid=${JSON.stringify(validOutputs)}`);
         console.log(`[klangio] Demo mode: false (paid tier - full length transcription)`);
         
-        // CRITICAL: Klangio expects an "outputs" field in the request body.
-        // Their backend validation can be picky across versions, so we send it in the two most common encodings:
-        // 1) outputs as repeated form fields (array-style)
-        // 2) outputs as a JSON-stringified array
-        // This guarantees the server-side parser sees the field.
-        validOutputs.forEach((o) => formData.append('outputs', o));
-        formData.append('outputs_json', JSON.stringify(validOutputs));
+        // Klangio expects an "outputs" field in the multipart body.
+        // IMPORTANT: Send it ONLY once as a JSON array string.
+        // Sending repeated "outputs" fields (or multiple encodings) can make the server parse it as a nested list
+        // (e.g. [["midi"]]) which then fails enum validation.
         formData.append('outputs', JSON.stringify(validOutputs));
-        console.log(`[klangio] FormData outputs (repeated): ${JSON.stringify(validOutputs)}`);
-        console.log(`[klangio] FormData outputs (json): ${JSON.stringify(validOutputs)}`);
-        
+        console.log(`[klangio] FormData.outputs=${JSON.stringify(validOutputs)}`);
+
         // Also set gen_* query parameters for each requested format
         if (validOutputs.includes('midi')) {
           queryParams.set('gen_midi', 'true');
