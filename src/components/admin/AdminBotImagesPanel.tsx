@@ -1,20 +1,19 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { 
+import {
   Image as ImageIcon,
   Upload,
   RefreshCw,
-  Check,
   Trash2,
-  ExternalLink
+  ExternalLink,
+  ShieldAlert,
 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
 
 interface MenuImageConfig {
   key: string;
@@ -102,107 +101,160 @@ export function AdminBotImagesPanel() {
   const fileInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const queryClient = useQueryClient();
 
+  const { data: adminAuth, isLoading: adminAuthLoading } = useAdminAuth();
+  const canManage = !!adminAuth?.isAdmin;
+
+  const accessHint = useMemo(() => {
+    if (adminAuthLoading) return "Проверяем права…";
+    if (!canManage) return "Нет прав администратора или сессия истекла. Перезайдите в аккаунт.";
+    return null;
+  }, [adminAuthLoading, canManage]);
+
   // Fetch current images from database config
   const { data: imageConfig, isLoading } = useQuery({
-    queryKey: ['bot-menu-images-config'],
+    queryKey: ["bot-menu-images-config"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('telegram_bot_config')
-        .select('*')
-        .eq('config_key', 'menu_images')
+        .from("telegram_bot_config")
+        .select("*")
+        .eq("config_key", "menu_images")
         .single();
-      
-      if (error && error.code !== 'PGRST116') throw error;
-      return data?.config_value as Record<string, string> || {};
-    }
+
+      if (error && error.code !== "PGRST116") throw error;
+      return (data?.config_value as Record<string, string>) || {};
+    },
+    enabled: canManage,
   });
+
 
   // Save config mutation
   const saveConfigMutation = useMutation({
     mutationFn: async (images: Record<string, string>) => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) throw new Error("Сессия истекла. Войдите снова.");
+      if (!canManage) throw new Error("Недостаточно прав администратора");
+
       const { error } = await supabase
-        .from('telegram_bot_config')
-        .upsert({
-          config_key: 'menu_images',
-          config_value: images,
-          description: 'Изображения меню бота',
-          updated_at: new Date().toISOString()
-        }, { onConflict: 'config_key' });
-      
+        .from("telegram_bot_config")
+        .upsert(
+          {
+            config_key: "menu_images",
+            config_value: images,
+            description: "Изображения меню бота",
+            updated_at: new Date().toISOString(),
+            updated_by: user.id,
+          },
+          { onConflict: "config_key" }
+        );
+
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['bot-menu-images-config'] });
-      toast.success('Конфигурация сохранена');
+      queryClient.invalidateQueries({ queryKey: ["bot-menu-images-config"] });
+      toast.success("Конфигурация сохранена");
     },
     onError: (error) => {
-      toast.error('Ошибка сохранения: ' + (error as Error).message);
-    }
+      toast.error("Ошибка сохранения: " + (error as Error).message);
+    },
   });
 
+
   const handleFileUpload = async (key: string, file: File) => {
-    if (!file.type.startsWith('image/')) {
-      toast.error('Выберите изображение');
+    if (!canManage) {
+      toast.error("Нет доступа: войдите как администратор");
+      return;
+    }
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      toast.error("Сессия истекла — войдите снова");
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Выберите изображение");
       return;
     }
 
     setUploadingKey(key);
     try {
-      const fileName = `menu-images/${key}.${file.name.split('.').pop()}`;
-      
-      // Delete existing file if any
-      await supabase.storage.from('bot-assets').remove([fileName]);
-      
+      const ext = file.name.split(".").pop() || "png";
+      const fileName = `menu-images/${key}.${ext}`;
+
+      // Delete existing file if any (ignore errors)
+      await supabase.storage.from("bot-assets").remove([fileName]);
+
       // Upload new file
       const { error: uploadError } = await supabase.storage
-        .from('bot-assets')
+        .from("bot-assets")
         .upload(fileName, file, { upsert: true });
-      
+
       if (uploadError) throw uploadError;
 
       // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('bot-assets')
-        .getPublicUrl(fileName);
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("bot-assets").getPublicUrl(fileName);
 
       // Update config
-      const newConfig = { ...imageConfig, [key]: publicUrl };
+      const newConfig = { ...(imageConfig || {}), [key]: publicUrl };
       await saveConfigMutation.mutateAsync(newConfig);
-      
+
       toast.success(`Изображение "${key}" загружено`);
     } catch (error) {
-      console.error('Upload error:', error);
-      toast.error('Ошибка загрузки: ' + (error as Error).message);
+      console.error("Upload error:", error);
+      toast.error("Ошибка загрузки: " + (error as Error).message);
     } finally {
       setUploadingKey(null);
     }
   };
 
   const handleDelete = async (key: string) => {
+    if (!canManage) {
+      toast.error("Нет доступа: войдите как администратор");
+      return;
+    }
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      toast.error("Сессия истекла — войдите снова");
+      return;
+    }
+
     try {
       // Remove from storage
-      const extensions = ['png', 'jpg', 'jpeg', 'webp'];
+      const extensions = ["png", "jpg", "jpeg", "webp"];
       for (const ext of extensions) {
-        await supabase.storage.from('bot-assets').remove([`menu-images/${key}.${ext}`]);
+        await supabase.storage.from("bot-assets").remove([`menu-images/${key}.${ext}`]);
       }
 
       // Update config
-      const newConfig = { ...imageConfig };
+      const newConfig = { ...(imageConfig || {}) };
       delete newConfig[key];
       await saveConfigMutation.mutateAsync(newConfig);
-      
+
       toast.success(`Изображение "${key}" удалено`);
     } catch (error) {
-      toast.error('Ошибка удаления: ' + (error as Error).message);
+      toast.error("Ошибка удаления: " + (error as Error).message);
     }
   };
 
   const getImageUrl = (config: MenuImageConfig) => {
-    return imageConfig?.[config.key] || config.fallbackUrl;
+    const cfg = imageConfig || {};
+    return cfg[config.key] || config.fallbackUrl;
   };
 
   const isCustomImage = (key: string) => {
-    return imageConfig?.[key] !== undefined;
+    return (imageConfig || {})[key] !== undefined;
   };
 
   return (
@@ -215,6 +267,12 @@ export function AdminBotImagesPanel() {
         <CardDescription>
           Загрузите изображения для пунктов меню Telegram бота. Рекомендуемый размер: 800x400px
         </CardDescription>
+        {accessHint && (
+          <div className="mt-3 rounded-lg border bg-muted/40 p-3 text-sm text-muted-foreground flex items-start gap-2">
+            <ShieldAlert className="h-4 w-4 mt-0.5 flex-shrink-0" />
+            <span>{accessHint}</span>
+          </div>
+        )}
       </CardHeader>
       <CardContent>
         <ScrollArea className="h-[500px] pr-4">
@@ -234,13 +292,13 @@ export function AdminBotImagesPanel() {
                       (e.target as HTMLImageElement).src = config.fallbackUrl;
                     }}
                   />
-                  {isCustomImage(config.key) && (
-                    <div className="absolute top-1 right-1">
-                      <div className="bg-green-500 text-white text-xs px-1.5 py-0.5 rounded">
-                        Custom
-                      </div>
-                    </div>
-                  )}
+                   {isCustomImage(config.key) && (
+                     <div className="absolute top-1 right-1">
+                       <div className="bg-primary text-primary-foreground text-xs px-1.5 py-0.5 rounded">
+                         Custom
+                       </div>
+                     </div>
+                   )}
                 </div>
 
                 {/* Info & Actions */}
@@ -264,38 +322,39 @@ export function AdminBotImagesPanel() {
                         if (file) handleFileUpload(config.key, file);
                       }}
                     />
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => fileInputRefs.current[config.key]?.click()}
-                      disabled={uploadingKey === config.key}
-                    >
-                      {uploadingKey === config.key ? (
-                        <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                      ) : (
-                        <Upload className="h-4 w-4 mr-2" />
-                      )}
-                      Загрузить
-                    </Button>
-                    
-                    {isCustomImage(config.key) && (
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => handleDelete(config.key)}
-                      >
-                        <Trash2 className="h-4 w-4 mr-2" />
-                        Удалить
-                      </Button>
-                    )}
-                    
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => window.open(getImageUrl(config), '_blank')}
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                    </Button>
+                     <Button
+                       size="sm"
+                       variant="outline"
+                       onClick={() => fileInputRefs.current[config.key]?.click()}
+                       disabled={!canManage || uploadingKey === config.key || saveConfigMutation.isPending}
+                     >
+                       {uploadingKey === config.key ? (
+                         <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                       ) : (
+                         <Upload className="h-4 w-4 mr-2" />
+                       )}
+                       Загрузить
+                     </Button>
+
+                     {isCustomImage(config.key) && (
+                       <Button
+                         size="sm"
+                         variant="ghost"
+                         onClick={() => handleDelete(config.key)}
+                         disabled={!canManage || saveConfigMutation.isPending}
+                       >
+                         <Trash2 className="h-4 w-4 mr-2" />
+                         Удалить
+                       </Button>
+                     )}
+
+                     <Button
+                       size="sm"
+                       variant="ghost"
+                       onClick={() => window.open(getImageUrl(config), "_blank")}
+                     >
+                       <ExternalLink className="h-4 w-4" />
+                     </Button>
                   </div>
                 </div>
               </div>
