@@ -501,15 +501,9 @@ export default function LyricsStudio() {
                           )
                         );
                       } else {
-                        // No sections yet: create the first one
-                        handleSectionsChange([
-                          {
-                            id: `verse-${Date.now()}`,
-                            type: 'verse',
-                            content: text,
-                            tags: [],
-                          },
-                        ]);
+                        // No sections yet: parse text into sections
+                        const parsedSections = parseLyricsToSections(text);
+                        handleSectionsChange(parsedSections);
                       }
                       setIsDirty(true);
                       setAiPanelOpen(false);
@@ -589,15 +583,9 @@ export default function LyricsStudio() {
                     )
                   );
                 } else {
-                  // No sections yet: create the first one
-                  handleSectionsChange([
-                    {
-                      id: `verse-${Date.now()}`,
-                      type: 'verse',
-                      content: text,
-                      tags: [],
-                    },
-                  ]);
+                  // No sections yet: parse text into sections
+                  const parsedSections = parseLyricsToSections(text);
+                  handleSectionsChange(parsedSections);
                 }
                 setIsDirty(true);
                 setAiPanelOpen(false);
