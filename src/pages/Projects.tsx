@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ContentHubTabs } from '@/components/content-hub/ContentHubTabs';
+import { SEOHead, SEO_PRESETS } from '@/components/SEOHead';
 
 export default function Projects() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -22,6 +23,7 @@ export default function Projects() {
 
   return (
     <div className="min-h-screen pb-20">
+      <SEOHead {...SEO_PRESETS.projects} />
       {/* Header - simplified to avoid duplication with tabs */}
       <div className={cn(
         "sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border/50",

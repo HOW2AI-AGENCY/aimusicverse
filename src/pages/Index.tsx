@@ -10,6 +10,7 @@ import { HomeHeader } from "@/components/home/HomeHeader";
 import { HomeSkeletonEnhanced } from "@/components/home/HomeSkeletonEnhanced";
 import { LazySection, SectionSkeleton } from "@/components/lazy/LazySection";
 import { motion, useReducedMotion } from '@/lib/motion';
+import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 
 // Critical above-the-fold components - loaded sync
 import { CommunityNewTracksSection } from "@/components/home/CommunityNewTracksSection";
@@ -120,6 +121,8 @@ const Index = () => {
         )}
         
         <div className="container max-w-6xl mx-auto pb-4 sm:px-4 sm:py-6 relative z-10">
+          {/* SEO */}
+          <SEOHead {...SEO_PRESETS.home} />
           {/* Unified Header Component */}
           <HomeHeader
             userName={displayUser?.first_name || displayUser?.username?.split('@')[0]}
