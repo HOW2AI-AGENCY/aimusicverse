@@ -201,21 +201,35 @@ export const StaffNotation = memo(function StaffNotation({
   const timeSignatureWidth = 22;
   const marginLeft = 10;
   const marginRight = 10;
-  const minMeasureWidth = 80;
-  const maxMeasureWidth = 160;
+  const minNoteSpacing = 14; // Minimum horizontal space between notes
   
-  // Calculate measures per row based on container width
-  const availableWidth = containerWidth - marginLeft - marginRight - clefWidth - keySignatureWidth - timeSignatureWidth;
   const secondsPerBeat = 60 / bpm;
   const secondsPerMeasure = ts.numerator * secondsPerBeat;
   const totalMeasures = Math.max(1, Math.ceil(duration / secondsPerMeasure));
   
-  // Calculate optimal measures per row
+  // Calculate notes per measure to determine adaptive measure width
+  const notesPerMeasure = useMemo(() => {
+    const counts: Record<number, number> = {};
+    processedNotes.forEach(note => {
+      counts[note.measure] = (counts[note.measure] || 0) + 1;
+    });
+    return counts;
+  }, [processedNotes]);
+  
+  const maxNotesPerMeasure = useMemo(() => {
+    return Math.max(4, ...Object.values(notesPerMeasure));
+  }, [notesPerMeasure]);
+  
+  // Adaptive measure width based on note density
+  const adaptiveMeasureWidth = Math.max(80, maxNotesPerMeasure * minNoteSpacing + 30);
+  
+  // Calculate measures per row based on container width
+  const availableWidth = containerWidth - marginLeft - marginRight - clefWidth - keySignatureWidth - timeSignatureWidth;
   const measuresPerRow = Math.max(1, Math.min(
     totalMeasures,
-    Math.floor(availableWidth / minMeasureWidth)
+    Math.floor(availableWidth / adaptiveMeasureWidth)
   ));
-  const measureWidth = Math.min(maxMeasureWidth, Math.max(minMeasureWidth, availableWidth / measuresPerRow));
+  const measureWidth = Math.max(adaptiveMeasureWidth, availableWidth / measuresPerRow);
   
   const totalRows = Math.ceil(totalMeasures / measuresPerRow);
   const svgHeight = Math.max(height, totalRows * rowHeight + 40);
@@ -494,17 +508,45 @@ export const StaffNotation = memo(function StaffNotation({
                 />
               ))}
               
-              {/* Notes in this row */}
-              {processedNotes
-                .filter(note => note.measure >= startMeasure && note.measure < endMeasure)
-                .map(note => {
+              {/* Notes in this row - with smart spacing */}
+              {(() => {
+                const notesInRow = processedNotes
+                  .filter(note => note.measure >= startMeasure && note.measure < endMeasure);
+                
+                // Group notes by measure for spacing calculation
+                const notesByMeasure: Record<number, ProcessedNote[]> = {};
+                notesInRow.forEach(note => {
+                  if (!notesByMeasure[note.measure]) notesByMeasure[note.measure] = [];
+                  notesByMeasure[note.measure].push(note);
+                });
+                
+                return notesInRow.map(note => {
                   const measureOffset = note.measure - startMeasure;
                   const measureX = notesAreaStart + measureOffset * measureWidth;
-                  const beatProgress = note.beatInMeasure / ts.numerator;
-                  const noteX = measureX + 12 + beatProgress * (measureWidth - 24);
+                  
+                  // Get notes in this specific measure
+                  const notesInThisMeasure = notesByMeasure[note.measure] || [];
+                  const noteIndexInMeasure = notesInThisMeasure.findIndex(n => 
+                    n.startTime === note.startTime && n.pitch === note.pitch
+                  );
+                  const totalNotesInMeasure = notesInThisMeasure.length;
+                  
+                  // Calculate X position with even spacing
+                  let noteX: number;
+                  if (totalNotesInMeasure <= 1) {
+                    // Single note - use beat position
+                    const beatProgress = note.beatInMeasure / ts.numerator;
+                    noteX = measureX + 15 + beatProgress * (measureWidth - 30);
+                  } else {
+                    // Multiple notes - spread evenly with minimum spacing
+                    const usableWidth = measureWidth - 30;
+                    const spacing = Math.max(minNoteSpacing, usableWidth / totalNotesInMeasure);
+                    noteX = measureX + 15 + noteIndexInMeasure * spacing;
+                  }
                   
                   return renderNote(note, noteX);
-                })}
+                });
+              })()}
             </g>
           );
         })}
