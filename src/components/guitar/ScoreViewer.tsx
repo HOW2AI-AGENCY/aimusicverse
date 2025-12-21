@@ -27,6 +27,7 @@ import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from '@/lib/motion';
 import type { TranscriptionFiles } from '@/hooks/useGuitarAnalysis';
+import { MusicXMLViewer } from './MusicXMLViewer';
 
 interface ScoreViewerProps {
   transcriptionFiles: TranscriptionFiles;
@@ -94,8 +95,8 @@ export function ScoreViewer({
               </Badge>
             </div>
 
-            {/* Zoom controls */}
-            {activeTab === 'pdf' && (
+            {/* Zoom controls - show for PDF and MusicXML */}
+            {(activeTab === 'pdf' || activeTab === 'musicxml') && (
               <div className="hidden sm:flex items-center gap-1">
                 <Button size="sm" variant="ghost" onClick={handleZoomOut} disabled={zoom <= 50}>
                   <ZoomOut className="w-4 h-4" />
@@ -192,16 +193,14 @@ export function ScoreViewer({
               )}
 
               {activeTab === 'musicxml' && musicXmlUrl && (
-                <div className="text-center py-12">
-                  <Music className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                  <p className="text-sm text-muted-foreground mb-4">
-                    MusicXML файл доступен для скачивания
-                  </p>
-                  <Button onClick={() => handleDownload(musicXmlUrl, 'MusicXML')}>
-                    <Download className="w-4 h-4 mr-2" />
-                    Скачать MusicXML
-                  </Button>
-                </div>
+                <MusicXMLViewer
+                  url={musicXmlUrl}
+                  zoom={zoom}
+                  onZoomChange={setZoom}
+                  onLoaded={() => toast.success('Ноты загружены')}
+                  onError={(err) => toast.error(`Ошибка загрузки: ${err.message}`)}
+                  className="min-h-[400px]"
+                />
               )}
 
               {activeTab === 'gp5' && gp5Url && (
