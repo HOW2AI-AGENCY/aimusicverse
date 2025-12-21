@@ -1106,6 +1106,62 @@ export type Database = {
         }
         Relationships: []
       }
+      lyrics_section_notes: {
+        Row: {
+          audio_note_url: string | null
+          created_at: string | null
+          id: string
+          lyrics_template_id: string | null
+          notes: string | null
+          position: number | null
+          reference_analysis: Json | null
+          reference_audio_url: string | null
+          section_id: string
+          section_type: string | null
+          tags: string[] | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          audio_note_url?: string | null
+          created_at?: string | null
+          id?: string
+          lyrics_template_id?: string | null
+          notes?: string | null
+          position?: number | null
+          reference_analysis?: Json | null
+          reference_audio_url?: string | null
+          section_id: string
+          section_type?: string | null
+          tags?: string[] | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          audio_note_url?: string | null
+          created_at?: string | null
+          id?: string
+          lyrics_template_id?: string | null
+          notes?: string | null
+          position?: number | null
+          reference_analysis?: Json | null
+          reference_audio_url?: string | null
+          section_id?: string
+          section_type?: string | null
+          tags?: string[] | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lyrics_section_notes_lyrics_template_id_fkey"
+            columns: ["lyrics_template_id"]
+            isOneToOne: false
+            referencedRelation: "lyrics_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lyrics_templates: {
         Row: {
           created_at: string
