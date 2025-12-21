@@ -15,7 +15,9 @@ import {
   Tag,
   Music2,
   Loader2,
-  FolderOpen
+  FolderOpen,
+  Bot,
+  X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -26,7 +28,9 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { 
   LyricsWorkspace, 
   LyricsSection, 
-  SectionNotesPanel 
+  SectionNotesPanel,
+  LyricsAIAssistant,
+  TagsEditor
 } from '@/components/lyrics-workspace';
 import { useLyricsTemplates } from '@/hooks/useLyricsTemplates';
 import { useSectionNotes, SaveSectionNoteData } from '@/hooks/useSectionNotes';
@@ -143,11 +147,14 @@ export default function LyricsStudio() {
   const { sectionNotes, saveSectionNote, getNoteForSection, getAllSuggestedTags, isSaving } = useSectionNotes(templateId || undefined);
   
   const [sections, setSections] = useState<LyricsSection[]>([]);
+  const [globalTags, setGlobalTags] = useState<string[]>([]);
   const [title, setTitle] = useState('Новый текст');
   const [isDirty, setIsDirty] = useState(false);
   const [selectedSection, setSelectedSection] = useState<LyricsSection | null>(null);
   const [notesPanelOpen, setNotesPanelOpen] = useState(false);
   const [templatesOpen, setTemplatesOpen] = useState(false);
+  const [aiPanelOpen, setAiPanelOpen] = useState(false);
+  const [tagsPanelOpen, setTagsPanelOpen] = useState(false);
   const [isSavingLyrics, setIsSavingLyrics] = useState(false);
 
   // Load template if provided
@@ -179,10 +186,11 @@ export default function LyricsStudio() {
     setIsSavingLyrics(true);
     try {
       const lyrics = sectionsToLyrics(sections);
+      const allTags = [...new Set([...globalTags, ...enrichedTags])].slice(0, 15);
       await saveTemplate({
         name: title,
         lyrics,
-        tags: enrichedTags.slice(0, 10),
+        tags: allTags,
       });
       setIsDirty(false);
       toast.success('Текст сохранен');
@@ -300,6 +308,36 @@ export default function LyricsStudio() {
             </SheetContent>
           </Sheet>
 
+          {/* AI Assistant Toggle */}
+          <Button 
+            variant={aiPanelOpen ? 'secondary' : 'ghost'}
+            size="icon"
+            onClick={() => {
+              setAiPanelOpen(!aiPanelOpen);
+              hapticImpact('light');
+            }}
+          >
+            <Bot className="w-5 h-5" />
+          </Button>
+
+          {/* Tags Toggle */}
+          <Button 
+            variant={tagsPanelOpen ? 'secondary' : 'ghost'}
+            size="icon"
+            onClick={() => {
+              setTagsPanelOpen(!tagsPanelOpen);
+              hapticImpact('light');
+            }}
+            className="relative"
+          >
+            <Tag className="w-5 h-5" />
+            {(globalTags.length + enrichedTags.length) > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-[10px] font-bold text-primary-foreground rounded-full flex items-center justify-center">
+                {globalTags.length + enrichedTags.length}
+              </span>
+            )}
+          </Button>
+
           {/* Save */}
           <Button 
             onClick={handleSave}
@@ -317,29 +355,63 @@ export default function LyricsStudio() {
         </div>
       </header>
 
-      {/* Enriched Tags Bar */}
+      {/* Tags Panel */}
       <AnimatePresence>
-        {enrichedTags.length > 0 && (
+        {tagsPanelOpen && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="border-b border-border/30 overflow-hidden"
+            className="border-b border-border/50 overflow-hidden bg-muted/30"
+          >
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-semibold text-sm flex items-center gap-2">
+                  <Tag className="w-4 h-4" />
+                  Теги для генерации
+                </h3>
+                <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setTagsPanelOpen(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+              <TagsEditor
+                tags={globalTags}
+                onChange={(tags) => {
+                  setGlobalTags(tags);
+                  setIsDirty(true);
+                }}
+                suggestedTags={enrichedTags}
+                maxTags={15}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Enriched Tags Bar (collapsed when Tags Panel is open) */}
+      <AnimatePresence>
+        {!tagsPanelOpen && (globalTags.length > 0 || enrichedTags.length > 0) && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="border-b border-border/30 overflow-hidden cursor-pointer hover:bg-muted/30 transition-colors"
+            onClick={() => setTagsPanelOpen(true)}
           >
             <div className="px-4 py-2.5 flex items-center gap-2">
               <div className="flex items-center gap-1.5 text-xs text-muted-foreground shrink-0">
-                <Sparkles className="w-3.5 h-3.5" />
+                <Tag className="w-3.5 h-3.5" />
                 Теги:
               </div>
               <div className="flex gap-1.5 overflow-x-auto scrollbar-hide">
-                {enrichedTags.slice(0, 8).map(tag => (
-                  <Badge key={tag} variant="secondary" className="text-xs whitespace-nowrap">
+                {[...globalTags, ...enrichedTags].slice(0, 8).map((tag, idx) => (
+                  <Badge key={`${tag}-${idx}`} variant="secondary" className="text-xs whitespace-nowrap">
                     {tag}
                   </Badge>
                 ))}
-                {enrichedTags.length > 8 && (
+                {(globalTags.length + enrichedTags.length) > 8 && (
                   <Badge variant="outline" className="text-xs">
-                    +{enrichedTags.length - 8}
+                    +{globalTags.length + enrichedTags.length - 8}
                   </Badge>
                 )}
               </div>
@@ -348,14 +420,74 @@ export default function LyricsStudio() {
         )}
       </AnimatePresence>
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-hidden">
-        <LyricsWorkspace
-          sections={sections}
-          onChange={handleSectionsChange}
-          onSave={handleSave}
-          isSaving={isSavingLyrics}
-        />
+      {/* Main Content with AI Panel */}
+      <div className="flex-1 overflow-hidden flex">
+        {/* Lyrics Workspace */}
+        <div className="flex-1 overflow-hidden">
+          <LyricsWorkspace
+            sections={sections}
+            onChange={handleSectionsChange}
+            onSave={handleSave}
+            isSaving={isSavingLyrics}
+          />
+        </div>
+
+        {/* AI Assistant Panel */}
+        <AnimatePresence>
+          {aiPanelOpen && (
+            <motion.div
+              initial={{ width: 0, opacity: 0 }}
+              animate={{ width: 320, opacity: 1 }}
+              exit={{ width: 0, opacity: 0 }}
+              className="border-l border-border/50 overflow-hidden bg-muted/20"
+            >
+              <div className="w-80 h-full overflow-y-auto p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-semibold text-sm flex items-center gap-2">
+                    <Bot className="w-4 h-4" />
+                    AI-ассистент
+                  </h3>
+                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setAiPanelOpen(false)}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+                <LyricsAIAssistant
+                  selectedText={selectedSection?.content || ''}
+                  onInsertText={(text) => {
+                    if (selectedSection) {
+                      handleSectionsChange(
+                        sections.map(s => 
+                          s.id === selectedSection.id 
+                            ? { ...s, content: s.content + '\n' + text }
+                            : s
+                        )
+                      );
+                    } else if (sections.length > 0) {
+                      // Append to last section
+                      const lastIdx = sections.length - 1;
+                      handleSectionsChange(
+                        sections.map((s, idx) => 
+                          idx === lastIdx 
+                            ? { ...s, content: s.content + '\n' + text }
+                            : s
+                        )
+                      );
+                    }
+                    toast.success('Текст добавлен');
+                  }}
+                  onAddTags={(tags) => {
+                    setGlobalTags(prev => [...new Set([...prev, ...tags])]);
+                    setIsDirty(true);
+                  }}
+                  context={{
+                    existingLyrics: sectionsToLyrics(sections),
+                    sectionType: selectedSection?.type,
+                  }}
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Section Notes Panel */}
