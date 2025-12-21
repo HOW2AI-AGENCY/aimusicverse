@@ -844,127 +844,183 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   ];
 
   return (
-    <div className="h-screen flex flex-col bg-background overflow-hidden">
-      {/* Header with Telegram safe area */}
+    <div className="h-screen flex flex-col bg-gradient-to-b from-background via-background to-muted/20 overflow-hidden">
+      {/* Header with refined desktop design */}
       <header 
-        className="flex-shrink-0 border-b border-border/50 bg-card/50 backdrop-blur-sm"
+        className={cn(
+          "flex-shrink-0 border-b border-border/30",
+          isMobile 
+            ? "bg-card/50 backdrop-blur-sm" 
+            : "bg-gradient-to-r from-card/80 via-card/60 to-card/80 backdrop-blur-md"
+        )}
         style={{ 
-          paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' 
+          paddingTop: isMobile 
+            ? 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' 
+            : undefined
         }}
       >
-        {/* Centered Logo */}
-        <div className="flex justify-center py-1.5">
-          <div className="flex items-center gap-2">
-            <img 
-              src="/lovable-uploads/e2a6a5f1-c3e6-42bc-95c6-fd65dcb9defe.png" 
-              alt="MusicVerse AI" 
-              className="h-8 w-8 rounded-lg shadow-sm" 
-            />
-            <span className="text-xs font-bold text-gradient">MusicVerse AI</span>
-          </div>
-        </div>
-        
-        {/* Track header row */}
-        <div className="flex items-center justify-between px-3 sm:px-4 py-2">
-        <div className="flex items-center gap-2 min-w-0 flex-1">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => navigate('/library')}
-            className="h-9 w-9 shrink-0"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </Button>
-          
-          <div className="flex items-center gap-2 min-w-0 flex-1">
-            {track.cover_url && (
-              <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0 bg-muted">
-                <img src={track.cover_url} alt="" className="w-full h-full object-cover" />
-              </div>
-            )}
-            
-            <div className="min-w-0 flex-1">
-              <h1 className="font-semibold text-sm truncate">{track.title || 'Без названия'}</h1>
-              {hasStems && (
-                <Badge variant="outline" className="text-[10px] h-4 px-1.5">
-                  {stems.length} стемов
-                </Badge>
-              )}
+        {/* Centered Logo - only on mobile */}
+        {isMobile && (
+          <div className="flex justify-center py-1.5">
+            <div className="flex items-center gap-2">
+              <img 
+                src="/lovable-uploads/e2a6a5f1-c3e6-42bc-95c6-fd65dcb9defe.png" 
+                alt="MusicVerse AI" 
+                className="h-8 w-8 rounded-lg shadow-sm" 
+              />
+              <span className="text-xs font-bold text-gradient">MusicVerse AI</span>
             </div>
           </div>
-        </div>
+        )}
+        
+        {/* Track header row */}
+        <div className={cn(
+          "flex items-center justify-between",
+          isMobile ? "px-3 py-2" : "px-6 py-3"
+        )}>
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate('/library')}
+              className={cn(
+                "shrink-0 rounded-full hover:bg-muted/50 transition-colors",
+                isMobile ? "h-9 w-9" : "h-10 w-10"
+              )}
+            >
+              <ChevronLeft className={isMobile ? "h-5 w-5" : "h-6 w-6"} />
+            </Button>
+            
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              {track.cover_url && (
+                <div className={cn(
+                  "rounded-xl overflow-hidden shrink-0 bg-muted shadow-lg ring-1 ring-white/10",
+                  isMobile ? "w-10 h-10" : "w-14 h-14"
+                )}>
+                  <img src={track.cover_url} alt="" className="w-full h-full object-cover" />
+                </div>
+              )}
+              
+              <div className="min-w-0 flex-1">
+                <h1 className={cn(
+                  "font-bold truncate",
+                  isMobile ? "text-sm" : "text-lg"
+                )}>
+                  {track.title || 'Без названия'}
+                </h1>
+                <div className="flex items-center gap-2 mt-0.5">
+                  {hasStems && (
+                    <Badge variant="secondary" className={cn(
+                      "font-medium",
+                      isMobile ? "text-[10px] h-4 px-1.5" : "text-xs h-5 px-2"
+                    )}>
+                      <Layers className="w-3 h-3 mr-1" />
+                      {stems.length} стемов
+                    </Badge>
+                  )}
+                  {!isMobile && track.tags && (
+                    <span className="text-xs text-muted-foreground truncate max-w-[200px]">
+                      {track.tags.split(',').slice(0, 3).map(t => t.trim()).join(' · ')}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
 
-        {/* Header actions */}
-        <div className="flex items-center gap-1.5">
-          <ReplacementProgressIndicator 
-            trackId={trackId}
-            onViewResult={(taskId) => {
-              const replaced = replacedSections?.find(s => s.taskId === taskId);
-              if (replaced && track.audio_url) {
-                const variantA = replaced.audioUrl;
-                const variantB = replaced.audioUrlB;
-                
-                if (variantA) {
-                  setLatestCompletion({
-                    taskId,
-                    originalAudioUrl: track.audio_url,
-                    newAudioUrl: variantA,
-                    newAudioUrlB: variantB,
-                    section: { start: replaced.start, end: replaced.end },
-                    status: 'completed',
-                  });
+          {/* Header actions */}
+          <div className={cn(
+            "flex items-center",
+            isMobile ? "gap-1.5" : "gap-2"
+          )}>
+            <ReplacementProgressIndicator 
+              trackId={trackId}
+              onViewResult={(taskId) => {
+                const replaced = replacedSections?.find(s => s.taskId === taskId);
+                if (replaced && track.audio_url) {
+                  const variantA = replaced.audioUrl;
+                  const variantB = replaced.audioUrlB;
+                  
+                  if (variantA) {
+                    setLatestCompletion({
+                      taskId,
+                      originalAudioUrl: track.audio_url,
+                      newAudioUrl: variantA,
+                      newAudioUrlB: variantB,
+                      section: { start: replaced.start, end: replaced.end },
+                      status: 'completed',
+                    });
+                  }
                 }
-              }
-            }}
-          />
+              }}
+            />
 
-          {canReplaceSection && editMode === 'none' && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setEditMode('selecting')}
-              className="h-8 gap-1 text-xs"
-            >
-              <Scissors className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Заменить</span>
-            </Button>
-          )}
-
-          {!hasStems && !isSeparating && !isSeparationProcessing && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setStemModeDialogOpen(true)}
-              className="h-8 gap-1 text-xs"
-            >
-              <Split className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Стемы</span>
-            </Button>
-          )}
-
-          {(isSeparating || isSeparationProcessing) && (
-            <Badge variant="secondary" className="h-8 gap-1 text-xs">
-              <div className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-              <span>{separationProgress > 0 ? `${separationProgress}%` : 'Разделение...'}</span>
-            </Badge>
-          )}
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8">
-                <MoreVertical className="h-4 w-4" />
+            {canReplaceSection && editMode === 'none' && (
+              <Button
+                variant={isMobile ? "outline" : "secondary"}
+                size={isMobile ? "sm" : "default"}
+                onClick={() => setEditMode('selecting')}
+                className={cn(
+                  "gap-1.5",
+                  isMobile ? "h-8 text-xs" : "h-9 px-4"
+                )}
+              >
+                <Scissors className={isMobile ? "w-3.5 h-3.5" : "w-4 h-4"} />
+                <span className={isMobile ? "hidden sm:inline" : ""}>Заменить секцию</span>
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {menuItems.map((item, idx) => (
-                <DropdownMenuItem key={idx} onClick={item.onClick}>
-                  {item.icon}
-                  <span>{item.label}</span>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+            )}
+
+            {!hasStems && !isSeparating && !isSeparationProcessing && (
+              <Button
+                variant={isMobile ? "outline" : "default"}
+                size={isMobile ? "sm" : "default"}
+                onClick={() => setStemModeDialogOpen(true)}
+                className={cn(
+                  "gap-1.5",
+                  isMobile ? "h-8 text-xs" : "h-9 px-4"
+                )}
+              >
+                <Split className={isMobile ? "w-3.5 h-3.5" : "w-4 h-4"} />
+                <span className={isMobile ? "hidden sm:inline" : ""}>Разделить на стемы</span>
+              </Button>
+            )}
+
+            {(isSeparating || isSeparationProcessing) && (
+              <Badge variant="secondary" className={cn(
+                "gap-1.5",
+                isMobile ? "h-8 text-xs" : "h-9 px-3 text-sm"
+              )}>
+                <div className={cn(
+                  "border-2 border-primary border-t-transparent rounded-full animate-spin",
+                  isMobile ? "w-3 h-3" : "w-4 h-4"
+                )} />
+                <span>{separationProgress > 0 ? `${separationProgress}%` : 'Разделение...'}</span>
+              </Badge>
+            )}
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className={cn(
+                    "rounded-full",
+                    isMobile ? "h-8 w-8" : "h-9 w-9"
+                  )}
+                >
+                  <MoreVertical className={isMobile ? "h-4 w-4" : "h-5 w-5"} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                {menuItems.map((item, idx) => (
+                  <DropdownMenuItem key={idx} onClick={item.onClick} className="gap-2">
+                    {item.icon}
+                    <span>{item.label}</span>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </header>
 
@@ -1008,11 +1064,16 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       />
 
       {/* Main Content Area - scrollable on mobile */}
-      <div className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden">
+      <div className={cn(
+        "flex-1 flex flex-col overflow-y-auto overflow-x-hidden",
+        !isMobile && "px-4 py-3"
+      )}>
         {/* Waveform Timeline with Sections */}
         <div className={cn(
-          "border-b border-border/30 bg-card/30",
-          isMobile ? "px-2 py-2" : "px-3 py-3"
+          "border-b border-border/20",
+          isMobile 
+            ? "px-2 py-2 bg-card/30" 
+            : "px-4 py-4 bg-card/40 rounded-xl mb-3 border border-border/30 shadow-sm"
         )}>
           {currentAudioUrl && (
             <UnifiedWaveformTimeline
@@ -1026,7 +1087,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
               replacedRanges={replacedRanges}
               onSectionClick={handleSectionSelect}
               onSeek={handleSeek}
-              height={isMobile ? 70 : 90}
+              height={isMobile ? 70 : 100}
               showSectionLabels={true}
             />
           )}
@@ -1087,32 +1148,45 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
 
         {/* Empty state when no section selected and no stems */}
         {editMode === 'none' && !hasStems && !showVariantComparison && (
-          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-              <Music2 className="w-8 h-8 text-primary" />
+          <div className={cn(
+            "flex-1 flex flex-col items-center justify-center text-center",
+            isMobile ? "p-6" : "p-12"
+          )}>
+            <div className={cn(
+              "rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-6 shadow-lg shadow-primary/10",
+              isMobile ? "w-16 h-16" : "w-24 h-24"
+            )}>
+              <Music2 className={cn("text-primary", isMobile ? "w-8 h-8" : "w-12 h-12")} />
             </div>
-            <h3 className="font-semibold text-lg mb-2">Студия трека</h3>
-            <p className="text-sm text-muted-foreground max-w-sm mb-4">
-              Выберите секцию на таймлайне для замены или разделите трек на стемы
+            <h3 className={cn("font-bold mb-3", isMobile ? "text-lg" : "text-2xl")}>
+              Студия трека
+            </h3>
+            <p className={cn(
+              "text-muted-foreground mb-6",
+              isMobile ? "text-sm max-w-sm" : "text-base max-w-md"
+            )}>
+              Выберите секцию на таймлайне для замены или разделите трек на стемы для полного контроля над звучанием
             </p>
-            <div className="flex gap-2">
+            <div className={cn("flex", isMobile ? "gap-2" : "gap-3")}>
               {canReplaceSection && (
                 <Button
                   variant="outline"
-                  size="sm"
+                  size={isMobile ? "sm" : "lg"}
                   onClick={() => setEditMode('selecting')}
+                  className={!isMobile ? "px-6" : ""}
                 >
-                  <Scissors className="w-4 h-4 mr-2" />
+                  <Scissors className={cn("mr-2", isMobile ? "w-4 h-4" : "w-5 h-5")} />
                   Заменить секцию
                 </Button>
               )}
               <Button
-                variant="outline"
-                size="sm"
+                variant="default"
+                size={isMobile ? "sm" : "lg"}
                 onClick={() => handleStemSeparation('detailed')}
                 disabled={isSeparating}
+                className={!isMobile ? "px-6" : ""}
               >
-                <Split className="w-4 h-4 mr-2" />
+                <Split className={cn("mr-2", isMobile ? "w-4 h-4" : "w-5 h-5")} />
                 Разделить на стемы
               </Button>
             </div>
@@ -1121,39 +1195,53 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       </div>
 
       {/* Player Bar */}
-      <div className="flex-shrink-0 border-t border-border/50 bg-card/50 backdrop-blur-sm px-4 py-3">
-        <div className="flex items-center gap-4">
+      <div className={cn(
+        "flex-shrink-0 border-t border-border/30 backdrop-blur-md",
+        isMobile 
+          ? "bg-card/50 px-4 py-3" 
+          : "bg-gradient-to-r from-card/80 via-card/60 to-card/80 px-6 py-4"
+      )}>
+        <div className={cn("flex items-center", isMobile ? "gap-4" : "gap-6")}>
           {/* Transport controls */}
-          <div className="flex items-center gap-1">
+          <div className={cn("flex items-center", isMobile ? "gap-1" : "gap-2")}>
             <Button
               variant="ghost"
               size="icon"
               onClick={() => handleSkip('back')}
-              className="h-9 w-9"
+              className={cn("rounded-full hover:bg-muted/50", isMobile ? "h-9 w-9" : "h-10 w-10")}
             >
-              <SkipBack className="w-4 h-4" />
+              <SkipBack className={isMobile ? "w-4 h-4" : "w-5 h-5"} />
             </Button>
             <Button
               variant="default"
               size="icon"
               onClick={togglePlay}
-              className="h-10 w-10 rounded-full"
+              className={cn(
+                "rounded-full shadow-lg shadow-primary/20",
+                isMobile ? "h-10 w-10" : "h-12 w-12"
+              )}
             >
-              {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
+              {isPlaying 
+                ? <Pause className={isMobile ? "w-5 h-5" : "w-6 h-6"} /> 
+                : <Play className={cn(isMobile ? "w-5 h-5" : "w-6 h-6", "ml-0.5")} />
+              }
             </Button>
             <Button
               variant="ghost"
               size="icon"
               onClick={() => handleSkip('forward')}
-              className="h-9 w-9"
+              className={cn("rounded-full hover:bg-muted/50", isMobile ? "h-9 w-9" : "h-10 w-10")}
             >
-              <SkipForward className="w-4 h-4" />
+              <SkipForward className={isMobile ? "w-4 h-4" : "w-5 h-5"} />
             </Button>
           </div>
 
           {/* Time display */}
-          <div className="flex items-center gap-2 text-xs text-muted-foreground tabular-nums">
-            <span>{formatTime(currentTime)}</span>
+          <div className={cn(
+            "flex items-center gap-2 text-muted-foreground tabular-nums font-mono",
+            isMobile ? "text-xs" : "text-sm"
+          )}>
+            <span className="text-foreground font-medium">{formatTime(currentTime)}</span>
             <span>/</span>
             <span>{formatTime(duration)}</span>
           </div>
@@ -1162,14 +1250,18 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           <div className="flex-1" />
 
           {/* Volume control */}
-          <div className="flex items-center gap-2">
+          <div className={cn("flex items-center", isMobile ? "gap-2" : "gap-3")}>
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setMuted(!muted)}
-              className={cn("h-8 w-8", muted && "text-destructive")}
+              className={cn(
+                "rounded-full",
+                isMobile ? "h-8 w-8" : "h-9 w-9",
+                muted && "text-destructive"
+              )}
             >
-              {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+              {muted ? <VolumeX className={isMobile ? "w-4 h-4" : "w-5 h-5"} /> : <Volume2 className={isMobile ? "w-4 h-4" : "w-5 h-5"} />}
             </Button>
             <Slider
               value={[volume]}
@@ -1178,7 +1270,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
               step={0.01}
               onValueChange={(v) => setVolume(v[0])}
               disabled={muted}
-              className="w-24"
+              className={isMobile ? "w-24" : "w-32"}
             />
           </div>
         </div>
