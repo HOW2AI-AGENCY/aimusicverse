@@ -7,9 +7,9 @@ Last updated: 2025-12-21
 | Priority | Total | Resolved | Remaining |
 |----------|-------|----------|-----------|
 | P1 - Critical | 8 | 8 | 0 |
-| P2 - High | 6 | 5 | 1 |
-| P3 - Medium | 6 | 1 | 5 |
-| P4 - Low | 2 | 0 | 2 |
+| P2 - High | 6 | 6 | 0 |
+| P3 - Medium | 6 | 4 | 2 |
+| P4 - Low | 2 | 1 | 1 |
 
 ## ✅ Resolved Issues
 
@@ -48,7 +48,12 @@ Last updated: 2025-12-21
 ~~**IMP019** - Audio error boundary~~ ✅ RESOLVED
 - See IMP009
 
-### P2 - High Priority
+### P2 - High Priority (All Resolved)
+
+~~**IMP027** - State machine for Lyrics Wizard~~ ✅ RESOLVED
+- Implemented in `src/lib/stateMachine.ts` with `useStateMachine` hook
+- Bridge hook at `src/hooks/useLyricsWizardMachine.ts`
+- ADR documented at `ADR/ADR-005-State-Machine-Architecture.md`
 
 ~~**IMP033** - Audio buffer pooling~~ ✅ RESOLVED
 - Implemented `src/lib/audio/bufferPool.ts` with LRU eviction and TTL
@@ -67,6 +72,7 @@ Last updated: 2025-12-21
 
 ~~**IMP051** - Branded types~~ ✅ RESOLVED
 - Created `src/types/branded.ts` with TrackId, UserId, StemId, etc.
+- Full JSDoc documentation added
 
 ~~**IMP052** - Audio context helper~~ ✅ RESOLVED
 - Created `src/lib/audio/audioContextHelper.ts` for type-safe webkit fallback
@@ -74,15 +80,17 @@ Last updated: 2025-12-21
 ~~**IMP053** - lamejs types~~ ✅ RESOLVED
 - Created `src/types/lamejs.d.ts`
 
+### P4 - Documentation
+
+~~**IMP073** - JSDoc coverage~~ ✅ RESOLVED
+- Added JSDoc to key public APIs:
+  - `src/types/branded.ts` - Full module and function documentation
+  - `src/hooks/studio/useWaveformWorker.ts` - Usage examples and type docs
+  - `src/lib/audio/bufferPool.ts` - Already documented
+  - `src/lib/audio/audioContextHelper.ts` - Already documented
+  - `src/lib/stateMachine.ts` - Already documented
+
 ## 🔄 Remaining Issues
-
-### P2 - High Priority
-
-**IMP027** - State machine for Lyrics Wizard
-- **Issue**: Loose state management in lyrics wizard
-- **Location**: `src/stores/lyricsWizardStore.ts`
-- **Fix**: Consider XState for explicit state transitions
-- **Priority**: P2 - Architecture
 
 ### P3 - Medium Priority  
 
@@ -99,24 +107,25 @@ Last updated: 2025-12-21
 
 ### P4 - Low Priority
 
-**IMP073** - JSDoc coverage
-- **Issue**: Missing JSDoc on some public APIs
-- **Fix**: Add documentation incrementally
-- **Priority**: P4 - Documentation
-
 **IMP085** - Architecture Decision Records
 - **Issue**: Major decisions not documented
 - **Fix**: Continue ADR practice in `/ADR` directory
 - **Priority**: P4 - Documentation
+- **Note**: Core decisions documented, expand as needed
 
 ## Summary
 
-All critical P1 issues have been resolved. The codebase is in good health with:
+✅ **All P1 and P2 issues are fully resolved.**
+
+The codebase is in excellent health with:
 - Proper error boundaries and fallbacks
 - Type-safe audio context handling
-- Branded types for ID safety
+- Branded types for ID safety with full JSDoc
+- State machine for complex wizard flows
 - Optimized bundle imports
 - Mobile-aware audio handling
 - Memory leak prevention
+- Buffer pooling for audio performance
+- Web Worker support for waveform generation
 
-Remaining items are organizational/documentation improvements that can be addressed incrementally.
+Remaining items are organizational/documentation improvements that can be addressed incrementally as the codebase grows.
