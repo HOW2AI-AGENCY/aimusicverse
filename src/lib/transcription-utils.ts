@@ -5,8 +5,8 @@
  * Optimizes requests by only requesting relevant formats for each stem type.
  */
 
-export type KlangioModel = 'guitar' | 'piano' | 'drums' | 'vocal' | 'bass' | 'universal' | 'lead' | 'multi' | 'wind' | 'string';
-export type TranscriptionOutput = 'midi' | 'midi_quant' | 'mxml' | 'gp5' | 'pdf';
+export type KlangioModel = 'guitar' | 'piano' | 'drums' | 'vocal' | 'bass' | 'universal' | 'lead' | 'multi' | 'wind' | 'string' | 'piano_arrangement';
+export type TranscriptionOutput = 'midi' | 'midi_quant' | 'mxml' | 'gp5' | 'pdf' | 'json';
 
 export interface TranscriptionConfig {
   model: KlangioModel;
@@ -171,9 +171,10 @@ export const MODEL_INFO: Record<KlangioModel, { name: string; icon: string; desc
   'drums': { name: 'Барабаны', icon: '🥁', description: 'Для ударных и перкуссии' },
   'vocal': { name: 'Вокал', icon: '🎤', description: 'Для вокальных мелодий' },
   'bass': { name: 'Бас', icon: '🎸', description: 'Для басовых линий с табулатурой' },
-  'universal': { name: 'Универсальный', icon: '🎼', description: 'Для любых инструментов' },
   'lead': { name: 'Соло', icon: '🎵', description: 'Для солирующих инструментов' },
+  'string': { name: 'Струнные', icon: '🎻', description: 'Для скрипки, виолончели и др.' },
+  'wind': { name: 'Духовые', icon: '🎷', description: 'Для саксофона, флейты и др.' },
   'multi': { name: 'Полифония', icon: '🎶', description: 'Для комбинированных дорожек' },
-  'wind': { name: 'Духовые', icon: '🎷', description: 'Для духовых инструментов' },
-  'string': { name: 'Струнные', icon: '🎻', description: 'Для струнных инструментов' },
+  'universal': { name: 'Универсальный', icon: '🎼', description: 'Для любых инструментов' },
+  'piano_arrangement': { name: 'Аранжировка', icon: '🎹', description: 'Полная партитура для фортепиано' },
 };

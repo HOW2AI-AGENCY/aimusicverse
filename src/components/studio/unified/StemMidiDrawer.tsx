@@ -61,10 +61,13 @@ const modelIcons: Record<string, React.ReactNode> = {
   'multi': <Music2 className="w-4 h-4" />,
   'wind': <Music2 className="w-4 h-4" />,
   'string': <Music2 className="w-4 h-4" />,
+  'piano_arrangement': <Piano className="w-4 h-4" />,
 };
 
-// Available models for user selection
-const SELECTABLE_MODELS: KlangioModel[] = ['guitar', 'piano', 'drums', 'vocal', 'bass', 'universal'];
+// All available models for user selection - extended list
+const SELECTABLE_MODELS: KlangioModel[] = [
+  'guitar', 'piano', 'drums', 'vocal', 'bass', 'lead', 'string', 'wind', 'multi', 'universal'
+];
 
 export function StemMidiDrawer({ 
   open, 

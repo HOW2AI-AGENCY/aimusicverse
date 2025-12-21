@@ -296,8 +296,8 @@ serve(async (req) => {
         formData.append('demo', 'false');
         if (title) queryParams.set('title', title);
         
-        // Klangio API requires gen_* boolean parameters for each output format
-        // The "outputs" field should be passed as individual form entries, NOT as JSON array
+        // Klangio API requires ONLY gen_* query parameters for output selection
+        // DO NOT add "outputs" field to FormData - it causes validation errors
         const transcriptionValidFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
         const reqOutputs = outputs || smartOutputs;
         const validOutputs = reqOutputs.filter((o: string) => transcriptionValidFormats.includes(o));
@@ -306,37 +306,25 @@ serve(async (req) => {
         console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(reqOutputs)}, valid=${JSON.stringify(validOutputs)}`);
         console.log(`[klangio] Demo mode: false (paid tier - full length transcription)`);
         
-        // Add each output as a separate form entry (NOT as JSON array)
-        // Klangio expects multiple "outputs" fields, one for each format
-        for (const output of validOutputs) {
-          formData.append('outputs', output);
-        }
-        
-        // Also set explicit gen_* boolean parameters for each requested format
+        // Set gen_* query parameters ONLY - no FormData for outputs
         if (validOutputs.includes('midi')) {
           queryParams.set('gen_midi', 'true');
-          formData.append('gen_midi', 'true');
         }
         if (validOutputs.includes('midi_quant')) {
           queryParams.set('gen_midi_quant', 'true');
-          formData.append('gen_midi_quant', 'true');
         }
         if (validOutputs.includes('mxml')) {
           queryParams.set('gen_xml', 'true');
-          formData.append('gen_xml', 'true');
         }
         if (validOutputs.includes('gp5')) {
           queryParams.set('gen_gp5', 'true');
-          formData.append('gen_gp5', 'true');
         }
         if (validOutputs.includes('pdf')) {
           queryParams.set('gen_pdf', 'true');
-          formData.append('gen_pdf', 'true');
         }
         
-        console.log(`[klangio] Gen parameters set: midi=${validOutputs.includes('midi')}, midi_quant=${validOutputs.includes('midi_quant')}, xml=${validOutputs.includes('mxml')}, gp5=${validOutputs.includes('gp5')}, pdf=${validOutputs.includes('pdf')}`);
-        console.log(`[klangio] Outputs added individually: ${validOutputs.join(', ')}`);
-        console.log(`[klangio] QueryParams after setting gen_*: ${queryParams.toString()}`);
+        console.log(`[klangio] Gen query params: midi=${validOutputs.includes('midi')}, midi_quant=${validOutputs.includes('midi_quant')}, xml=${validOutputs.includes('mxml')}, gp5=${validOutputs.includes('gp5')}, pdf=${validOutputs.includes('pdf')}`);
+        console.log(`[klangio] QueryParams: ${queryParams.toString()}`);
         break;
         
       case 'chord-recognition':
