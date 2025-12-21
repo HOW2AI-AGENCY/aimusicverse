@@ -13,6 +13,10 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Environment check - TELEGRAM_WEBHOOK_SECRET is mandatory in production
+const WEBHOOK_SECRET = Deno.env.get('TELEGRAM_WEBHOOK_SECRET');
+const IS_PRODUCTION = Deno.env.get('ENVIRONMENT') !== 'development';
+
 Deno.serve(async (req) => {
   // Handle CORS
   if (req.method === 'OPTIONS') {
@@ -24,7 +28,10 @@ Deno.serve(async (req) => {
     
     // Health check endpoint
     if (url.pathname === '/health') {
-      return new Response(JSON.stringify({ status: 'ok' }), {
+      return new Response(JSON.stringify({ 
+        status: 'ok',
+        webhookSecured: !!WEBHOOK_SECRET
+      }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
@@ -61,11 +68,25 @@ Deno.serve(async (req) => {
 
     // Handle webhook updates
     if (req.method === 'POST') {
-      // Security: Verify webhook secret token
-      const secretToken = Deno.env.get('TELEGRAM_WEBHOOK_SECRET');
-      if (secretToken) {
+      // SECURITY: Verify webhook secret token - MANDATORY in production
+      if (!WEBHOOK_SECRET) {
+        if (IS_PRODUCTION) {
+          logger.error('TELEGRAM_WEBHOOK_SECRET not configured in production - rejecting all requests');
+          return new Response(JSON.stringify({ 
+            error: 'Webhook not configured',
+            message: 'TELEGRAM_WEBHOOK_SECRET must be set in production'
+          }), {
+            status: 503,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        } else {
+          // Only warn in development
+          logger.warn('TELEGRAM_WEBHOOK_SECRET not configured - webhook is not protected (development mode)');
+        }
+      } else {
+        // Verify the secret token
         const receivedToken = req.headers.get('X-Telegram-Bot-Api-Secret-Token');
-        if (receivedToken !== secretToken) {
+        if (receivedToken !== WEBHOOK_SECRET) {
           logger.warn('Unauthorized webhook request', {
             hasToken: !!receivedToken,
             ip: req.headers.get('CF-Connecting-IP') || req.headers.get('X-Forwarded-For') || 'unknown'
@@ -75,9 +96,6 @@ Deno.serve(async (req) => {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
         }
-      } else {
-        // Warn if secret token is not configured (development mode)
-        logger.warn('TELEGRAM_WEBHOOK_SECRET not configured - webhook is not protected');
       }
 
       const update: TelegramUpdate = await req.json();

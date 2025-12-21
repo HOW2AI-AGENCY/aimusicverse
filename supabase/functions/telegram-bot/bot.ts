@@ -759,12 +759,27 @@ async function handleCallbackQuery(callbackQuery: NonNullable<TelegramUpdate['ca
       return;
     } else if (data === 'settings') {
       if (messageId) {
-        await editMessageText(chatId, messageId, '⚙️ *Настройки*\n\nНастройки доступны в приложении:', {
-          inline_keyboard: [
-            [{ text: '📱 Открыть настройки', web_app: { url: `${(await import('./config.ts')).BOT_CONFIG.miniAppUrl}/settings` } }],
-            [{ text: '🔙 Назад', callback_data: 'main_menu' }]
-          ]
-        });
+        // Check if this is a group chat - web_app buttons don't work in groups
+        const chatType = callbackQuery.message?.chat?.type;
+        const isGroup = chatType === 'group' || chatType === 'supergroup';
+        
+        if (isGroup) {
+          // In groups, show a link to open in private chat
+          await editMessageText(chatId, messageId, '⚙️ *Настройки*\n\nНастройки доступны в личном чате с ботом\\.\n\n📱 Откройте @AIMusicVerseBot напрямую для доступа к настройкам\\.', {
+            inline_keyboard: [
+              [{ text: '💬 Открыть бота', url: 'https://t.me/AIMusicVerseBot?start=settings' }],
+              [{ text: '🔙 Назад', callback_data: 'main_menu' }]
+            ]
+          }, 'MarkdownV2');
+        } else {
+          // In private chats, use web_app button
+          await editMessageText(chatId, messageId, '⚙️ *Настройки*\n\nНастройки доступны в приложении:', {
+            inline_keyboard: [
+              [{ text: '📱 Открыть настройки', web_app: { url: `${(await import('./config.ts')).BOT_CONFIG.miniAppUrl}/settings` } }],
+              [{ text: '🔙 Назад', callback_data: 'main_menu' }]
+            ]
+          });
+        }
       }
       await answerCallbackQuery(id);
       return;
