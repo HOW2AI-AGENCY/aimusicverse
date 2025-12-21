@@ -296,8 +296,9 @@ serve(async (req) => {
         formData.append('demo', 'false');
         if (title) queryParams.set('title', title);
         
-        // Klangio API requires ONLY gen_* query parameters for output selection
-        // DO NOT add "outputs" field to FormData - it causes validation errors
+        // Klangio API requires:
+        // 1. "outputs" field in FormData body (REQUIRED - contains array of output formats)
+        // 2. gen_* query parameters for each output format
         const transcriptionValidFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
         const reqOutputs = outputs || smartOutputs;
         const validOutputs = reqOutputs.filter((o: string) => transcriptionValidFormats.includes(o));
@@ -306,7 +307,12 @@ serve(async (req) => {
         console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(reqOutputs)}, valid=${JSON.stringify(validOutputs)}`);
         console.log(`[klangio] Demo mode: false (paid tier - full length transcription)`);
         
-        // Set gen_* query parameters ONLY - no FormData for outputs
+        // CRITICAL: Add "outputs" as a JSON array string in FormData - this is REQUIRED
+        // The API expects outputs to be a stringified JSON array, NOT multiple form fields
+        formData.append('outputs', JSON.stringify(validOutputs));
+        console.log(`[klangio] FormData outputs: ${JSON.stringify(validOutputs)}`);
+        
+        // Also set gen_* query parameters for each requested format
         if (validOutputs.includes('midi')) {
           queryParams.set('gen_midi', 'true');
         }
