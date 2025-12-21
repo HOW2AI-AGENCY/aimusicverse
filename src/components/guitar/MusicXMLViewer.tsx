@@ -4,7 +4,7 @@
  * Mobile-optimized with touch gestures and responsive layout
  */
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Loader2, ZoomIn, ZoomOut, AlertCircle, RefreshCw, Maximize2, Minimize2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -35,6 +35,11 @@ export function MusicXMLViewer({
   const fullscreenContainerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
+  const activeContainerRef = useMemo(
+    () => (isFullscreen ? fullscreenContainerRef : containerRef),
+    [isFullscreen]
+  );
+
   const {
     isLoading,
     error,
@@ -42,7 +47,7 @@ export function MusicXMLViewer({
     setZoom,
     render,
   } = useMusicXML({
-    containerRef: isFullscreen ? fullscreenContainerRef : containerRef,
+    containerRef: activeContainerRef,
     url,
     autoResize: true,
     initialZoom: externalZoom ? externalZoom / 100 : 0.8, // Start smaller on mobile
@@ -84,18 +89,36 @@ export function MusicXMLViewer({
     render();
   };
 
-  // Re-render when fullscreen changes - with safety check
-  // Note: The render() function internally checks isLoadedRef, so it's safe to call
+  // Re-render when fullscreen changes or container size becomes available.
+  // OSMD часто рендерит в контейнер с шириной 0 (вкладки/диалоги), из-за чего получается пустой экран.
   useEffect(() => {
-    // Skip during initial loading or when there was an error
     if (isLoading || error) return;
-    
-    // Small delay to let the container resize, then re-render
-    const timer = setTimeout(() => {
-      render();
-    }, 150);
-    return () => clearTimeout(timer);
-  }, [isFullscreen, render, isLoading, error]);
+
+    const el = activeContainerRef.current;
+    if (!el) return;
+
+    let raf = 0;
+    const schedule = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        // Re-render only when we actually have a measurable width
+        if (el.clientWidth > 0) render();
+      });
+    };
+
+    // Initial attempt when switching modes
+    const t = window.setTimeout(schedule, 50);
+
+    // Observe size changes (tabs, drawers, fullscreen)
+    const ro = new ResizeObserver(() => schedule());
+    ro.observe(el);
+
+    return () => {
+      window.clearTimeout(t);
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
+  }, [isFullscreen, isLoading, error, render, activeContainerRef]);
 
   if (error) {
     return (
