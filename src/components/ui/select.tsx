@@ -17,7 +17,17 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+      // Base styles with minimum 44px touch target for iOS
+      "flex min-h-[44px] h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2",
+      // Typography - text-base (16px) prevents iOS Safari zoom on focus
+      "text-base md:text-sm",
+      // States
+      "ring-offset-background placeholder:text-muted-foreground",
+      "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+      "disabled:cursor-not-allowed disabled:opacity-50",
+      // Touch optimization
+      "touch-manipulation",
+      "[&>span]:line-clamp-1",
       className,
     )}
     {...props}
@@ -105,7 +115,15 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 focus:bg-accent focus:text-accent-foreground",
+      // Base styles with minimum touch target
+      "relative flex w-full cursor-default select-none items-center rounded-sm min-h-[44px] py-2 pl-8 pr-2",
+      // Typography
+      "text-base md:text-sm",
+      // States
+      "outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "focus:bg-accent focus:text-accent-foreground",
+      // Touch optimization
+      "touch-manipulation",
       className,
     )}
     {...props}

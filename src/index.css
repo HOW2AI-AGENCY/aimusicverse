@@ -851,3 +851,86 @@ All colors MUST be HSL.
     }
   }
 }
+
+/* =========================================
+   iOS/Telegram Mini App Specific Fixes
+   ========================================= */
+
+/* CSS variable for keyboard height (set via JS) */
+:root {
+  --keyboard-height: 0px;
+}
+
+/* Scroll padding to account for keyboard */
+html {
+  scroll-padding-bottom: var(--keyboard-height, 0px);
+}
+
+/* iOS-specific optimizations */
+@supports (-webkit-touch-callout: none) {
+  /* Smooth momentum scrolling for all scrollable areas */
+  .overflow-y-auto,
+  .overflow-x-auto,
+  .overflow-auto,
+  [data-radix-scroll-area-viewport] {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Disable iOS context menu on interactive elements */
+  button,
+  a,
+  [role="button"],
+  .touch-manipulation {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+  }
+  
+  /* Prevent scroll bounce on body when keyboard is open */
+  body.keyboard-open {
+    position: fixed;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  /* Ensure backdrop-filter works on iOS */
+  .backdrop-blur-sm,
+  .backdrop-blur,
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl {
+    -webkit-backdrop-filter: blur(8px);
+  }
+  
+  /* Fix for iOS Safari 100vh issue */
+  .min-h-screen {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  .h-screen {
+    height: 100vh;
+    height: -webkit-fill-available;
+  }
+  
+  /* Minimum touch target size for iOS (44x44px) */
+  button:not(.icon-button),
+  [role="button"]:not(.icon-button),
+  a:not(.inline-link) {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Telegram Mini App specific fixes */
+@media screen and (max-width: 768px) {
+  /* Prevent overscroll/bounce effect that can close Mini App */
+  html, body {
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+  }
+  
+  /* Ensure content doesn't get hidden behind keyboard */
+  .pb-safe {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), var(--keyboard-height, 0px));
+  }
+}

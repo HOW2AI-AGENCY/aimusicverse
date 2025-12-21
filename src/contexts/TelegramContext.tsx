@@ -163,6 +163,16 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
         bootLog(`tg.expand() error: ${e}`);
       }
 
+      // CRITICAL: Disable vertical swipes to prevent accidental Mini App closure on iOS
+      if (typeof (tg as any).disableVerticalSwipes === 'function') {
+        try {
+          (tg as any).disableVerticalSwipes();
+          bootLog('Vertical swipes disabled');
+        } catch (e) {
+          bootLog(`disableVerticalSwipes error: ${e}`);
+        }
+      }
+
       // Lock orientation to portrait mode (vertical only)
       if (typeof (tg as any).lockOrientation === 'function') {
         try {
