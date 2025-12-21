@@ -32,6 +32,7 @@ export function useMusicXML({
   initialZoom = 1.0,
 }: UseMusicXMLOptions): UseMusicXMLReturn {
   const osmdRef = useRef<OSMD | null>(null);
+  const isLoadedRef = useRef(false); // Track if load() has completed
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [zoom, setZoomState] = useState(initialZoom);
@@ -41,15 +42,18 @@ export function useMusicXML({
     if (!containerRef.current || !url) return;
 
     const container = containerRef.current;
+    let isCancelled = false;
     
     const initOSMD = async () => {
       setIsLoading(true);
       setError(null);
+      isLoadedRef.current = false;
 
       try {
         // Clear previous instance
         if (osmdRef.current) {
           osmdRef.current.clear();
+          osmdRef.current = null;
         }
         container.innerHTML = '';
 
@@ -68,11 +72,20 @@ export function useMusicXML({
         });
 
         osmd.setLogLevel('warn');
-        osmdRef.current = osmd;
 
-        // Load MusicXML
+        // Load MusicXML - MUST complete before render()
         log.info('Loading MusicXML', { url });
         await osmd.load(url);
+
+        // Check if cancelled during async operation
+        if (isCancelled) {
+          osmd.clear();
+          return;
+        }
+
+        // Only set ref AFTER load() completes successfully
+        osmdRef.current = osmd;
+        isLoadedRef.current = true;
 
         // Set zoom and render
         osmd.zoom = zoom;
@@ -80,17 +93,22 @@ export function useMusicXML({
 
         log.info('MusicXML rendered successfully');
       } catch (err) {
+        if (isCancelled) return;
         const error = err instanceof Error ? err : new Error('Failed to load MusicXML');
         log.error('Failed to load MusicXML', error);
         setError(error);
       } finally {
-        setIsLoading(false);
+        if (!isCancelled) {
+          setIsLoading(false);
+        }
       }
     };
 
     initOSMD();
 
     return () => {
+      isCancelled = true;
+      isLoadedRef.current = false;
       if (osmdRef.current) {
         osmdRef.current.clear();
         osmdRef.current = null;
@@ -98,30 +116,30 @@ export function useMusicXML({
     };
   }, [url, containerRef, autoResize]);
 
-  // Handle zoom changes
+  // Handle zoom changes - only if loaded
   const setZoom = useCallback((newZoom: number) => {
     const clampedZoom = Math.max(0.3, Math.min(3.0, newZoom));
     setZoomState(clampedZoom);
 
-    if (osmdRef.current) {
+    if (osmdRef.current && isLoadedRef.current) {
       osmdRef.current.zoom = clampedZoom;
       osmdRef.current.render();
     }
   }, []);
 
-  // Manual render trigger
+  // Manual render trigger - only if loaded
   const render = useCallback(async () => {
-    if (osmdRef.current) {
+    if (osmdRef.current && isLoadedRef.current) {
       await osmdRef.current.render();
     }
   }, []);
 
-  // Handle window resize
+  // Handle window resize - only if loaded
   useEffect(() => {
-    if (!autoResize || !osmdRef.current) return;
+    if (!autoResize) return;
 
     const handleResize = () => {
-      if (osmdRef.current) {
+      if (osmdRef.current && isLoadedRef.current) {
         osmdRef.current.render();
       }
     };
