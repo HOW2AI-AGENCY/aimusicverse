@@ -6,6 +6,9 @@ import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/formatters';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { logger } from '@/lib/logger';
+import { useLyricsSynchronization, SYNC_CONSTANTS, groupWordsIntoLines } from '@/hooks/lyrics/useLyricsSynchronization';
+import { SynchronizedWord } from '@/components/lyrics/SynchronizedWord';
+import '@/styles/lyrics-sync.css';
 
 export interface AlignedWord {
   word: string;
@@ -154,34 +157,18 @@ export function TimestampedLyrics({
     );
   }
 
-  // Group words into lines (by detecting line breaks in words)
-  const lines: AlignedWord[][] = [];
-  let currentLine: AlignedWord[] = [];
-
-  lyricsData.alignedWords.forEach((word) => {
-    const hasLineBreak = word.word.includes('\n');
-    
-    if (hasLineBreak) {
-      const parts = word.word.split('\n');
-      parts.forEach((part, index) => {
-        if (part.trim()) {
-          currentLine.push({ ...word, word: part });
-        }
-        if (index < parts.length - 1) {
-          if (currentLine.length > 0) {
-            lines.push([...currentLine]);
-            currentLine = [];
-          }
-        }
-      });
-    } else {
-      currentLine.push(word);
-    }
+  // Group words into lines using unified helper
+  const lines = groupWordsIntoLines(lyricsData.alignedWords);
+  
+  // Use unified synchronization hook
+  const {
+    activeLineIndex,
+    currentTime: syncedTime,
+    constants,
+  } = useLyricsSynchronization({
+    words: lyricsData.alignedWords,
+    enabled: true,
   });
-
-  if (currentLine.length > 0) {
-    lines.push(currentLine);
-  }
 
   return (
     <div className="h-full flex flex-col pb-safe">
@@ -197,12 +184,12 @@ export function TimestampedLyrics({
       )}
 
       <ScrollArea className="flex-1" ref={scrollRef}>
-        <div className="px-4 md:px-6 pb-24 md:pb-6 space-y-2 md:space-y-3">
+        <div className="px-4 md:px-6 pb-24 md:pb-6 space-y-2 md:space-y-3 lyrics-container-enter">
           {lines.map((line, lineIndex) => {
-          const lineStart = line[0].startS;
-          const lineEnd = line[line.length - 1].endS;
-          const isActiveLine = currentTime >= lineStart && currentTime <= lineEnd;
-          const isPastLine = currentTime > lineEnd;
+          const lineStart = line.startTime;
+          const lineEnd = line.endTime;
+          const isActiveLine = lineIndex === activeLineIndex;
+          const isPastLine = syncedTime > lineEnd + constants.LINE_END_TOLERANCE_MS / 1000;
           
           return (
             <div
@@ -210,30 +197,32 @@ export function TimestampedLyrics({
               ref={isActiveLine ? activeLineRef : null}
               onClick={() => onSeek?.(lineStart)}
               className={cn(
-                'transition-all duration-200 cursor-pointer rounded-lg p-2 md:p-3',
+                'cursor-pointer rounded-lg p-2 md:p-3 lyric-line',
                 'hover:bg-muted/50 active:bg-muted touch-manipulation',
-                isActiveLine && 'bg-primary/10 scale-[1.02] md:scale-105',
+                'will-change-[transform,opacity,background-color] transform-gpu',
+                isActiveLine && 'bg-primary/10 scale-[1.02] md:scale-105 lyric-line--active',
                 !isActiveLine && 'scale-100'
               )}
             >
               <div className="flex flex-wrap gap-0.5 md:gap-1 leading-relaxed">
-                {line.map((word, wordIndex) => {
-                  const isActiveWord = currentTime >= word.startS && currentTime <= word.endS;
-                  const isPast = currentTime > word.endS;
+                {line.words.map((word, wordIndex) => {
+                  // Use sync constants for look-ahead
+                  const adjustedTime = syncedTime + constants.WORD_LOOK_AHEAD_MS / 1000;
+                  const endTolerance = constants.WORD_END_TOLERANCE_MS / 1000;
+                  const isActiveWord = isActiveLine && adjustedTime >= word.startS && adjustedTime <= word.endS + endTolerance;
+                  const isPast = syncedTime > word.endS + endTolerance;
                   
                   return (
-                    <span
-                      key={`${lineIndex}-${wordIndex}`}
-                      className={cn(
-                        'inline-block transition-all duration-150',
-                        'text-sm sm:text-base md:text-lg font-medium',
-                        isActiveWord && 'text-primary scale-110 font-bold drop-shadow-sm',
-                        !isActiveWord && isPast && 'text-foreground/80',
-                        !isActiveWord && !isPast && 'text-muted-foreground/60'
-                      )}
-                    >
-                      {word.word}
-                    </span>
+                    <SynchronizedWord
+                      key={`${lineIndex}-${wordIndex}-${word.startS}`}
+                      word={word.word}
+                      isActive={isActiveWord}
+                      isPast={isPast}
+                      className="text-sm sm:text-base md:text-lg font-medium"
+                      activeClassName="text-primary scale-110 font-bold drop-shadow-sm"
+                      pastClassName="text-foreground/80"
+                      futureClassName="text-muted-foreground/60"
+                    />
                   );
                 })}
               </div>
