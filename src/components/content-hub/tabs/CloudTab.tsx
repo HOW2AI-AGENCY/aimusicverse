@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useReferenceAudio, ReferenceAudio } from '@/hooks/useReferenceAudio';
 import { useReferenceStems } from '@/hooks/useReferenceStems';
@@ -21,6 +21,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { logger } from '@/lib/logger';
 import { VirtualizedCloudList } from '@/components/content-hub/VirtualizedCloudList';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { ReferenceManager } from '@/services/audio-reference';
 import {
   Dialog,
@@ -742,7 +743,8 @@ function AudioDetailPanel({
 
 export function CloudTab() {
   const navigate = useNavigate();
-  const { audioList, isLoading, deleteAudio } = useReferenceAudio();
+  const { user } = useAuth();
+  const { audioList, isLoading, deleteAudio, saveAudio } = useReferenceAudio();
   const { separateStems, isSeparating } = useReferenceStems();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedAudio, setSelectedAudio] = useState<ReferenceAudio | null>(null);
@@ -751,11 +753,141 @@ export function CloudTab() {
   const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [multiUploadOpen, setMultiUploadOpen] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const dragCounterRef = useRef(0);
+
   const filteredAudio = audioList?.filter((a) =>
     a.file_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (a.genre?.toLowerCase().includes(searchQuery.toLowerCase())) ||
     (a.mood?.toLowerCase().includes(searchQuery.toLowerCase()))
   ) || [];
+
+  // Drag and drop handlers
+  const handleDragEnter = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounterRef.current++;
+    if (e.dataTransfer.types.includes('Files')) {
+      setIsDragging(true);
+    }
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounterRef.current--;
+    if (dragCounterRef.current === 0) {
+      setIsDragging(false);
+    }
+  }, []);
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+
+  const handleDrop = useCallback(async (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    dragCounterRef.current = 0;
+
+    if (!user) {
+      toast.error('Необходимо авторизоваться');
+      return;
+    }
+
+    const files = Array.from(e.dataTransfer.files).filter(file => 
+      file.type.startsWith('audio/') || 
+      file.name.endsWith('.mp3') || 
+      file.name.endsWith('.wav') || 
+      file.name.endsWith('.m4a') ||
+      file.name.endsWith('.webm') ||
+      file.name.endsWith('.ogg')
+    );
+
+    if (files.length === 0) {
+      toast.error('Перетащите аудио файлы (MP3, WAV, M4A)');
+      return;
+    }
+
+    setIsUploading(true);
+    let successCount = 0;
+
+    for (const file of files) {
+      try {
+        const timestamp = Date.now();
+        const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+        const path = `${user.id}/reference-${timestamp}-${sanitizedName}`;
+        
+        const { error: uploadError } = await supabase.storage
+          .from('reference-audio')
+          .upload(path, file);
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('reference-audio')
+          .getPublicUrl(path);
+
+        // Get audio duration
+        const audioEl = new Audio();
+        audioEl.src = URL.createObjectURL(file);
+        await new Promise<void>((resolve) => {
+          audioEl.onloadedmetadata = () => resolve();
+          audioEl.onerror = () => resolve();
+        });
+        const duration = audioEl.duration || null;
+
+        // Save audio record
+        const savedAudio = await saveAudio({
+          fileName: file.name,
+          fileUrl: publicUrl,
+          fileSize: file.size,
+          mimeType: file.type,
+          durationSeconds: duration ? Math.round(duration) : undefined,
+          source: 'upload',
+          analysisStatus: 'pending',
+        });
+
+        successCount++;
+
+        // Auto-trigger analysis in background
+        supabase.functions.invoke('analyze-audio-flamingo', {
+          body: { audio_url: publicUrl },
+        }).then(async ({ data, error }) => {
+          if (!error && data?.parsed) {
+            const parsed = data.parsed;
+            await supabase.from('reference_audio').update({
+              genre: parsed.genre,
+              mood: parsed.mood,
+              style_description: parsed.style_description,
+              tempo: parsed.tempo,
+              energy: parsed.energy,
+              bpm: parsed.bpm ? Number(parsed.bpm) : null,
+              instruments: parsed.instruments,
+              vocal_style: parsed.vocal_style,
+              has_vocals: parsed.has_vocals ?? true,
+              analysis_status: 'completed',
+              analyzed_at: new Date().toISOString(),
+            }).eq('id', savedAudio.id);
+          }
+        }).catch(err => logger.error('Auto analysis failed', err));
+
+      } catch (error) {
+        logger.error('Upload error', { error, fileName: file.name });
+      }
+    }
+
+    setIsUploading(false);
+
+    if (successCount > 0) {
+      toast.success(`Загружено ${successCount} ${successCount === 1 ? 'файл' : 'файлов'}`);
+    } else {
+      toast.error('Не удалось загрузить файлы');
+    }
+  }, [user, saveAudio]);
 
   const handleSeparateStems = async (audio: ReferenceAudio) => {
     try {
@@ -874,7 +1006,48 @@ export function CloudTab() {
   }
 
   return (
-    <div className="space-y-4">
+    <div 
+      className="space-y-4 relative"
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
+      {/* Drag Overlay */}
+      <AnimatePresence>
+        {isDragging && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-50 flex items-center justify-center bg-primary/10 backdrop-blur-sm border-2 border-dashed border-primary rounded-xl"
+          >
+            <div className="text-center">
+              <Upload className="w-12 h-12 text-primary mx-auto mb-3 animate-bounce" />
+              <p className="text-lg font-medium text-primary">Перетащите аудио файлы сюда</p>
+              <p className="text-sm text-muted-foreground mt-1">MP3, WAV, M4A, OGG</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Upload Progress Overlay */}
+      <AnimatePresence>
+        {isUploading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-xl"
+          >
+            <div className="text-center">
+              <Loader2 className="w-10 h-10 text-primary mx-auto mb-3 animate-spin" />
+              <p className="text-lg font-medium">Загрузка файлов...</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Search & Upload */}
       <div className="flex items-center gap-2">
         <div className="relative flex-1">
@@ -915,13 +1088,18 @@ export function CloudTab() {
           onSeparateStems={handleSeparateStems}
         />
       ) : (
-        <div className="text-center py-12">
+        <div 
+          className={cn(
+            "text-center py-12 border-2 border-dashed rounded-xl transition-colors",
+            isDragging ? "border-primary bg-primary/5" : "border-border/50"
+          )}
+        >
           <Cloud className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
           <p className="text-muted-foreground">
             {searchQuery ? 'Ничего не найдено' : 'Нет загруженных файлов'}
           </p>
           <p className="text-xs text-muted-foreground mt-2 mb-4">
-            Загружайте аудио для использования в генерации
+            Перетащите аудио сюда или нажмите кнопку
           </p>
           <Button onClick={() => setUploadDialogOpen(true)} className="gap-2">
             <Upload className="w-4 h-4" />
