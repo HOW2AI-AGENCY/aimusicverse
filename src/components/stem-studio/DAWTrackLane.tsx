@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
 import { TrackStem } from '@/hooks/useTrackStems';
-import { StemWaveform } from './StemWaveform';
+import { OptimizedStemWaveform } from './OptimizedStemWaveform';
 
 interface DAWTrackLaneProps {
   stem: TrackStem;
@@ -132,9 +132,9 @@ export const DAWTrackLane = memo(({
         </div>
       </div>
 
-      {/* Waveform Area - Fills remaining space */}
+      {/* Waveform Area - Optimized canvas-based renderer */}
       <div className="flex-1 relative overflow-hidden bg-background/30">
-        <StemWaveform
+        <OptimizedStemWaveform
           audioUrl={stem.audio_url}
           currentTime={currentTime}
           duration={duration}
