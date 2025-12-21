@@ -15,7 +15,7 @@ import { hapticImpact } from '@/lib/haptic';
 import { AIToolbar } from './ai-agent/AIToolbar';
 import { useAITools } from './ai-agent/hooks/useAITools';
 import { WriteToolPanel, TagsToolPanel, RhymeToolPanel, AnalysisToolPanel, QuickToolPanel } from './ai-agent/tools';
-import { LyricsResultCard, TagsResultCard, RhythmAnalyzer, RhythmResultCard } from './ai-agent/results';
+import { LyricsResultCard, TagsResultCard, RhythmAnalyzer, RhythmResultCard, StructureResultCard } from './ai-agent/results';
 import { AIToolId, AIAgentContext } from './ai-agent/types';
 
 interface LyricsAIChatAgentProps {
@@ -249,6 +249,15 @@ export function LyricsAIChatAgent({
                                 analysis={message.data.analysis}
                                 onOptimize={() => executeTool('optimize', {})}
                               />
+                            )}
+
+                            {message.data?.structure && (
+                              <StructureResultCard content={message.data.structure} />
+                            )}
+
+                            {/* Show structure analysis from message type */}
+                            {message.type === 'analysis' && !message.data?.analysis?.rhythm && !message.data?.structure && (
+                              <StructureResultCard content={message.content} />
                             )}
                           </>
                         )}

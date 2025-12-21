@@ -131,7 +131,11 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated }: UseA
       if (data.lyrics) {
         responseData.lyrics = data.lyrics;
         responseType = 'lyrics';
-        onLyricsGenerated?.(data.lyrics);
+        // Only auto-insert for generation tools, not for analysis/chat
+        const autoInsertTools: AIToolId[] = ['write', 'continue', 'hook', 'optimize'];
+        if (autoInsertTools.includes(toolId)) {
+          onLyricsGenerated?.(data.lyrics);
+        }
       }
 
       if (data.tags && Array.isArray(data.tags)) {
