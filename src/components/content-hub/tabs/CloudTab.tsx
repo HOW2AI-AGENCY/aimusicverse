@@ -1,13 +1,14 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useReferenceAudio, ReferenceAudio } from '@/hooks/useReferenceAudio';
+import { useReferenceStems } from '@/hooks/useReferenceStems';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { 
   Cloud, Search, Trash2, Play, Pause, Music, Mic, Upload, 
-  Sparkles, ArrowRight, FileText, Loader2, Edit, Check, X, Disc, FolderPlus
+  Sparkles, ArrowRight, FileText, Loader2, Edit, Check, X, Disc, FolderPlus, Scissors
 } from 'lucide-react';
 import { MultiTrackUpload } from '@/components/upload/MultiTrackUpload';
 import { cn } from '@/lib/utils';
@@ -632,6 +633,7 @@ function AudioDetailPanel({
 export function CloudTab() {
   const navigate = useNavigate();
   const { audioList, isLoading, deleteAudio } = useReferenceAudio();
+  const { separateStems, isSeparating } = useReferenceStems();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedAudio, setSelectedAudio] = useState<ReferenceAudio | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
@@ -644,6 +646,15 @@ export function CloudTab() {
     (a.genre?.toLowerCase().includes(searchQuery.toLowerCase())) ||
     (a.mood?.toLowerCase().includes(searchQuery.toLowerCase()))
   ) || [];
+
+  const handleSeparateStems = async (audio: ReferenceAudio) => {
+    try {
+      toast.info('Запускаем разделение стемов...', { duration: 3000 });
+      await separateStems({ referenceId: audio.id, mode: 'simple' });
+    } catch (error) {
+      logger.error('Stem separation error', error);
+    }
+  };
 
   const handlePlay = (audio: ReferenceAudio) => {
     if (playingId === audio.id) {
@@ -751,6 +762,7 @@ export function CloudTab() {
           onPlay={handlePlay}
           onDelete={setDeleteConfirmId}
           onUseForGeneration={handleUseForGeneration}
+          onSeparateStems={handleSeparateStems}
         />
       ) : (
         <div className="text-center py-12">

@@ -1,5 +1,3 @@
-import { BOT_CONFIG } from '../config.ts';
-import { checkIfNewUser, startOnboarding } from '../handlers/onboarding.ts';
 import { handleDashboard } from '../handlers/dashboard.ts';
 import { handleDeepLink } from '../handlers/deep-links.ts';
 
@@ -12,14 +10,6 @@ export async function handleStart(chatId: number, userId: number, startParam?: s
     }
   }
   
-  // Check if user needs onboarding
-  const isNewUser = await checkIfNewUser(userId);
-  
-  if (isNewUser) {
-    // Start onboarding for new users
-    await startOnboarding(chatId, userId);
-  } else {
-    // Show personalized dashboard for returning users
-    await handleDashboard(chatId, userId);
-  }
+  // Show dashboard for all users (onboarding removed)
+  await handleDashboard(chatId, userId);
 }
