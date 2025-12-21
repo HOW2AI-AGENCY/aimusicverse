@@ -673,6 +673,48 @@ export type Database = {
         }
         Relationships: []
       }
+      failed_telegram_notifications: {
+        Row: {
+          chat_id: number
+          created_at: string
+          error_message: string | null
+          id: string
+          last_retry_at: string | null
+          max_retries: number
+          method: string
+          next_retry_at: string | null
+          payload: Json
+          retry_count: number
+          status: string
+        }
+        Insert: {
+          chat_id: number
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          last_retry_at?: string | null
+          max_retries?: number
+          method: string
+          next_retry_at?: string | null
+          payload: Json
+          retry_count?: number
+          status?: string
+        }
+        Update: {
+          chat_id?: number
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          last_retry_at?: string | null
+          max_retries?: number
+          method?: string
+          next_retry_at?: string | null
+          payload?: Json
+          retry_count?: number
+          status?: string
+        }
+        Relationships: []
+      }
       generation_tag_usage: {
         Row: {
           created_at: string
@@ -3989,6 +4031,7 @@ export type Database = {
       cleanup_expired_bot_sessions: { Args: never; Returns: undefined }
       cleanup_expired_notifications: { Args: never; Returns: number }
       cleanup_expired_wizard_states: { Args: never; Returns: undefined }
+      cleanup_failed_telegram_notifications: { Args: never; Returns: number }
       cleanup_stuck_generation_tasks: {
         Args: never
         Returns: {
@@ -4174,6 +4217,28 @@ export type Database = {
         SetofOptions: {
           from: "*"
           to: "telegram_failed_notifications"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      get_pending_telegram_retries: {
+        Args: { batch_size?: number }
+        Returns: {
+          chat_id: number
+          created_at: string
+          error_message: string | null
+          id: string
+          last_retry_at: string | null
+          max_retries: number
+          method: string
+          next_retry_at: string | null
+          payload: Json
+          retry_count: number
+          status: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "failed_telegram_notifications"
           isOneToOne: false
           isSetofReturn: true
         }
