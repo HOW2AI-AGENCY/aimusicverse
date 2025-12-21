@@ -500,6 +500,16 @@ export default function LyricsStudio() {
                               : s
                           )
                         );
+                      } else {
+                        // No sections yet: create the first one
+                        handleSectionsChange([
+                          {
+                            id: `verse-${Date.now()}`,
+                            type: 'verse',
+                            content: text,
+                            tags: [],
+                          },
+                        ]);
                       }
                       setIsDirty(true);
                       setAiPanelOpen(false);
@@ -578,6 +588,16 @@ export default function LyricsStudio() {
                         : s
                     )
                   );
+                } else {
+                  // No sections yet: create the first one
+                  handleSectionsChange([
+                    {
+                      id: `verse-${Date.now()}`,
+                      type: 'verse',
+                      content: text,
+                      tags: [],
+                    },
+                  ]);
                 }
                 setIsDirty(true);
                 setAiPanelOpen(false);
