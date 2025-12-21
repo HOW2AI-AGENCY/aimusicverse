@@ -506,64 +506,90 @@ export default function LyricsStudio() {
       {/* AI Assistant - Mobile Bottom Drawer */}
       {isMobile && (
         <Drawer open={aiPanelOpen} onOpenChange={setAiPanelOpen}>
-          <DrawerContent className="max-h-[85vh]">
-            <DrawerHeader className="border-b pb-3">
-              <DrawerTitle className="flex items-center gap-2">
-                <Bot className="w-5 h-5 text-primary" />
-                AI-ассистент
-              </DrawerTitle>
+          <DrawerContent className="h-[85vh] max-h-[85vh]">
+            <DrawerHeader className="border-b pb-3 flex-shrink-0">
+              <div className="flex items-center justify-between">
+                <DrawerTitle className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20">
+                    <Bot className="w-4 h-4 text-primary" />
+                  </div>
+                  <span>AI Lyrics Agent</span>
+                </DrawerTitle>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => setAiPanelOpen(false)}
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
             </DrawerHeader>
-            <ScrollArea className="h-[60vh] p-4">
-              <LyricsAIChatAgent
-                existingLyrics={sectionsToLyrics(sections)}
-                selectedSection={selectedSection ? {
-                  type: selectedSection.type,
-                  content: selectedSection.content,
-                } : undefined}
-                globalTags={globalTags}
-                sectionTags={selectedSection?.tags}
-                onInsertLyrics={(text: string) => {
-                  if (selectedSection) {
-                    handleSectionsChange(
-                      sections.map(s => 
-                        s.id === selectedSection.id 
-                          ? { ...s, content: s.content + '\n' + text }
-                          : s
-                      )
-                    );
-                  } else if (sections.length > 0) {
-                    const lastIdx = sections.length - 1;
-                    handleSectionsChange(
-                      sections.map((s, idx) => 
-                        idx === lastIdx 
-                          ? { ...s, content: s.content + '\n' + text }
-                          : s
-                      )
-                    );
-                  }
+            <LyricsAIChatAgent
+              existingLyrics={sectionsToLyrics(sections)}
+              selectedSection={selectedSection ? {
+                type: selectedSection.type,
+                content: selectedSection.content,
+              } : undefined}
+              globalTags={globalTags}
+              sectionTags={selectedSection?.tags}
+              onInsertLyrics={(text: string) => {
+                if (selectedSection) {
+                  handleSectionsChange(
+                    sections.map(s => 
+                      s.id === selectedSection.id 
+                        ? { ...s, content: s.content + '\n' + text }
+                        : s
+                    )
+                  );
+                } else if (sections.length > 0) {
+                  const lastIdx = sections.length - 1;
+                  handleSectionsChange(
+                    sections.map((s, idx) => 
+                      idx === lastIdx 
+                        ? { ...s, content: s.content + '\n' + text }
+                        : s
+                    )
+                  );
+                }
+                setAiPanelOpen(false);
+              }}
+              onReplaceLyrics={(text: string) => {
+                if (selectedSection) {
+                  handleSectionsChange(
+                    sections.map(s => 
+                      s.id === selectedSection.id 
+                        ? { ...s, content: text }
+                        : s
+                    )
+                  );
                   setAiPanelOpen(false);
-                }}
-                onAddTags={(tags: string[]) => {
-                  setGlobalTags(prev => [...new Set([...prev, ...tags])]);
-                  setIsDirty(true);
-                }}
-                className="h-[60vh]"
-              />
-            </ScrollArea>
+                }
+              }}
+              onAddTags={(tags: string[]) => {
+                setGlobalTags(prev => [...new Set([...prev, ...tags])]);
+                setIsDirty(true);
+              }}
+              className="flex-1 overflow-hidden"
+            />
           </DrawerContent>
         </Drawer>
       )}
 
-      {/* Mobile FAB for AI Assistant */}
+      {/* Mobile FAB for AI Assistant - positioned above bottom nav */}
       {isMobile && !aiPanelOpen && (
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="fixed bottom-6 right-4 z-50"
+          className="fixed z-50"
+          style={{
+            bottom: 'calc(env(safe-area-inset-bottom, 0px) + 5rem)',
+            right: '1rem'
+          }}
         >
           <Button
             size="lg"
-            className="rounded-full h-14 w-14 shadow-lg shadow-primary/25"
+            className="rounded-full h-14 w-14 shadow-xl shadow-primary/30 bg-gradient-to-br from-primary to-primary/80"
             onClick={() => {
               setAiPanelOpen(true);
               hapticImpact('medium');
