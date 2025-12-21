@@ -1,13 +1,15 @@
 /**
  * MusicXMLViewer - Component for rendering MusicXML notation using OpenSheetMusicDisplay
  * Provides interactive viewing with zoom controls and loading states
+ * Mobile-optimized with touch gestures and responsive layout
  */
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Loader2, ZoomIn, ZoomOut, AlertCircle, RefreshCw } from 'lucide-react';
+import { Loader2, ZoomIn, ZoomOut, AlertCircle, RefreshCw, Maximize2, Minimize2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useMusicXML } from '@/hooks/useMusicXML';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 interface MusicXMLViewerProps {
   url: string;
@@ -29,6 +31,8 @@ export function MusicXMLViewer({
   showControls = false,
 }: MusicXMLViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const fullscreenContainerRef = useRef<HTMLDivElement>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const {
     isLoading,
@@ -37,10 +41,10 @@ export function MusicXMLViewer({
     setZoom,
     render,
   } = useMusicXML({
-    containerRef,
+    containerRef: isFullscreen ? fullscreenContainerRef : containerRef,
     url,
     autoResize: true,
-    initialZoom: externalZoom ? externalZoom / 100 : 1.0,
+    initialZoom: externalZoom ? externalZoom / 100 : 0.8, // Start smaller on mobile
   });
 
   // Sync external zoom
@@ -79,11 +83,20 @@ export function MusicXMLViewer({
     render();
   };
 
+  // Re-render when fullscreen changes
+  useEffect(() => {
+    if (!isLoading) {
+      // Small delay to let the container resize
+      const timer = setTimeout(() => render(), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isFullscreen, render, isLoading]);
+
   if (error) {
     return (
-      <div className={cn('flex flex-col items-center justify-center py-12', className)}>
-        <AlertCircle className="w-12 h-12 text-destructive mb-4" />
-        <p className="text-sm text-muted-foreground mb-2">
+      <div className={cn('flex flex-col items-center justify-center py-8 px-4', className)}>
+        <AlertCircle className="w-10 h-10 sm:w-12 sm:h-12 text-destructive mb-3" />
+        <p className="text-sm text-muted-foreground mb-2 text-center">
           Не удалось загрузить ноты
         </p>
         <p className="text-xs text-muted-foreground mb-4 max-w-sm text-center">
@@ -97,57 +110,120 @@ export function MusicXMLViewer({
     );
   }
 
-  return (
-    <div className={cn('relative', className)}>
+  const ZoomControls = ({ className: controlsClassName }: { className?: string }) => (
+    <div className={cn(
+      'flex items-center gap-1 bg-background/95 backdrop-blur-sm rounded-lg p-1 shadow-md border',
+      controlsClassName
+    )}>
+      <Button
+        size="icon"
+        variant="ghost"
+        className="h-8 w-8 sm:h-7 sm:w-7"
+        onClick={handleZoomOut}
+        disabled={internalZoom <= 0.3}
+      >
+        <ZoomOut className="w-4 h-4" />
+      </Button>
+      <span className="text-xs text-muted-foreground w-10 text-center font-medium">
+        {Math.round(internalZoom * 100)}%
+      </span>
+      <Button
+        size="icon"
+        variant="ghost"
+        className="h-8 w-8 sm:h-7 sm:w-7"
+        onClick={handleZoomIn}
+        disabled={internalZoom >= 3.0}
+      >
+        <ZoomIn className="w-4 h-4" />
+      </Button>
+      <div className="w-px h-5 bg-border mx-1" />
+      <Button
+        size="icon"
+        variant="ghost"
+        className="h-8 w-8 sm:h-7 sm:w-7"
+        onClick={() => setIsFullscreen(!isFullscreen)}
+      >
+        {isFullscreen ? (
+          <Minimize2 className="w-4 h-4" />
+        ) : (
+          <Maximize2 className="w-4 h-4" />
+        )}
+      </Button>
+    </div>
+  );
+
+  const NotationContent = ({ containerRefProp, minHeight }: { 
+    containerRefProp: React.RefObject<HTMLDivElement | null>;
+    minHeight: string;
+  }) => (
+    <div className="relative w-full">
       {/* Loading overlay */}
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-background/80 z-10">
+        <div className="absolute inset-0 flex items-center justify-center bg-background/80 z-10 rounded-lg">
           <div className="text-center">
-            <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto mb-2" />
-            <p className="text-sm text-muted-foreground">Загрузка нот...</p>
+            <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-primary mx-auto mb-2" />
+            <p className="text-xs sm:text-sm text-muted-foreground">Загрузка нот...</p>
           </div>
-        </div>
-      )}
-
-      {/* Inline zoom controls */}
-      {showControls && !isLoading && (
-        <div className="absolute top-2 right-2 z-10 flex items-center gap-1 bg-background/90 rounded-md p-1 shadow-sm border">
-          <Button
-            size="icon"
-            variant="ghost"
-            className="h-7 w-7"
-            onClick={handleZoomOut}
-            disabled={internalZoom <= 0.3}
-          >
-            <ZoomOut className="w-4 h-4" />
-          </Button>
-          <span className="text-xs text-muted-foreground w-10 text-center">
-            {Math.round(internalZoom * 100)}%
-          </span>
-          <Button
-            size="icon"
-            variant="ghost"
-            className="h-7 w-7"
-            onClick={handleZoomIn}
-            disabled={internalZoom >= 3.0}
-          >
-            <ZoomIn className="w-4 h-4" />
-          </Button>
         </div>
       )}
 
       {/* OSMD render container */}
       <div
-        ref={containerRef}
+        ref={containerRefProp}
         className={cn(
-          'w-full min-h-[400px] bg-white rounded-lg overflow-auto',
+          'w-full bg-white rounded-lg overflow-x-auto overflow-y-auto touch-pan-x touch-pan-y',
           isLoading && 'opacity-50'
         )}
         style={{
-          // OSMD renders black notes, so we need white background
           backgroundColor: '#ffffff',
+          minHeight,
+          // Enable smooth scrolling on touch devices
+          WebkitOverflowScrolling: 'touch',
         }}
       />
     </div>
+  );
+
+  return (
+    <>
+      <div className={cn('relative', className)}>
+        {/* Mobile-friendly floating controls */}
+        {!isLoading && (
+          <div className="absolute top-2 right-2 z-20">
+            <ZoomControls />
+          </div>
+        )}
+
+        {/* Hint for mobile users */}
+        {!isLoading && (
+          <div className="absolute bottom-2 left-2 z-10 sm:hidden">
+            <span className="text-[10px] text-muted-foreground bg-background/80 px-2 py-1 rounded">
+              Прокрутите для просмотра →
+            </span>
+          </div>
+        )}
+
+        <NotationContent 
+          containerRefProp={containerRef} 
+          minHeight="300px" 
+        />
+      </div>
+
+      {/* Fullscreen dialog */}
+      <Dialog open={isFullscreen} onOpenChange={setIsFullscreen}>
+        <DialogContent className="max-w-[100vw] w-[100vw] h-[100vh] max-h-[100vh] p-0 rounded-none">
+          <DialogHeader className="px-4 py-2 border-b flex-row items-center justify-between space-y-0">
+            <DialogTitle className="text-sm sm:text-base">Просмотр нот</DialogTitle>
+            <ZoomControls className="mr-8" />
+          </DialogHeader>
+          <div className="flex-1 overflow-auto p-2 sm:p-4 bg-muted/20">
+            <NotationContent 
+              containerRefProp={fullscreenContainerRef} 
+              minHeight="calc(100vh - 80px)" 
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
