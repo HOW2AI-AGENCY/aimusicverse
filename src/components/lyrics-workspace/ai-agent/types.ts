@@ -6,12 +6,8 @@ import { LucideIcon } from 'lucide-react';
 
 export type AIToolId = 
   | 'write' 
-  | 'continue' 
-  | 'hook' 
-  | 'tags' 
-  | 'structure' 
-  | 'rhymes' 
-  | 'rhythm' 
+  | 'analyze'
+  | 'producer'
   | 'optimize';
 
 export type BackendAction = 
@@ -29,9 +25,11 @@ export type BackendAction =
   | 'context_recommendations'
   | 'generate_compound_tags'
   | 'analyze_rhythm'
-  | 'fit_structure';
+  | 'fit_structure'
+  | 'full_analysis'
+  | 'producer_review';
 
-export type OutputType = 'lyrics' | 'tags' | 'rhymes' | 'analysis' | 'suggestions' | 'text';
+export type OutputType = 'lyrics' | 'tags' | 'rhymes' | 'analysis' | 'suggestions' | 'text' | 'full_analysis' | 'producer_review';
 
 export interface AITool {
   id: AIToolId;
@@ -61,8 +59,17 @@ export interface AIMessage {
     analysis?: AnalysisData;
     suggestions?: string[];
     structure?: string;
+    fullAnalysis?: FullAnalysisData;
+    producerReview?: ProducerReviewData;
+    quickActions?: QuickAction[];
   };
   isLoading?: boolean;
+}
+
+export interface QuickAction {
+  label: string;
+  action: string;
+  icon?: string;
 }
 
 export interface RhymeData {
@@ -93,6 +100,62 @@ export interface AnalysisData {
   themes?: string[];
 }
 
+export interface FullAnalysisData {
+  meaning: {
+    theme: string;
+    emotions: string[];
+    issues: string[];
+    score: number;
+  };
+  rhythm: {
+    pattern: string;
+    issues: string[];
+    score: number;
+  };
+  rhymes: {
+    scheme: string;
+    weakRhymes: string[];
+    score: number;
+  };
+  structure: {
+    tags: string[];
+    issues: string[];
+    score: number;
+  };
+  overallScore: number;
+  recommendations: Array<{
+    type: 'tag' | 'text' | 'structure' | 'rhythm';
+    text: string;
+    priority: 'high' | 'medium' | 'low';
+  }>;
+  quickActions: QuickAction[];
+}
+
+export interface ProducerReviewData {
+  commercialScore: number;
+  hooks: {
+    current: string;
+    suggestions: string[];
+  };
+  vocalMap: Array<{
+    section: string;
+    effects: string[];
+    note: string;
+  }>;
+  arrangement: {
+    add: string[];
+    remove: string[];
+    dynamics: string[];
+  };
+  stylePrompt: string;
+  genreTags: string[];
+  topRecommendations: Array<{
+    priority: number;
+    text: string;
+  }>;
+  quickActions: QuickAction[];
+}
+
 export interface AnalysisIssue {
   type: 'warning' | 'error' | 'suggestion';
   message: string;
@@ -100,14 +163,25 @@ export interface AnalysisIssue {
   fix?: string;
 }
 
+export interface SectionNote {
+  type: string;
+  notes: string;
+  tags?: string[];
+}
+
 export interface AIAgentContext {
   existingLyrics?: string;
   selectedSection?: {
     type: string;
     content: string;
+    notes?: string;
+    tags?: string[];
   };
   globalTags?: string[];
   sectionTags?: string[];
+  allSectionNotes?: SectionNote[];
+  stylePrompt?: string;
+  title?: string;
   genre?: string;
   mood?: string;
   language?: 'ru' | 'en';

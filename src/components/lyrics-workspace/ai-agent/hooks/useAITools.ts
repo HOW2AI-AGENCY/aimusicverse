@@ -13,9 +13,10 @@ interface UseAIToolsOptions {
   context: AIAgentContext;
   onLyricsGenerated?: (lyrics: string) => void;
   onTagsGenerated?: (tags: string[]) => void;
+  onStylePromptGenerated?: (prompt: string) => void;
 }
 
-export function useAITools({ context, onLyricsGenerated, onTagsGenerated }: UseAIToolsOptions) {
+export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStylePromptGenerated }: UseAIToolsOptions) {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTool, setActiveTool] = useState<AIToolId | null>(null);
   const [messages, setMessages] = useState<AIMessage[]>([
@@ -66,64 +67,42 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated }: UseA
     setActiveTool(toolId);
     hapticImpact('light');
 
-    // Add user message
     const userContent = input.message || input.theme || `Выполняю: ${tool.name}`;
-    addMessage({
-      role: 'user',
-      content: userContent,
-      toolId,
-    });
-
-    // Add loading placeholder
-    const loadingMessage = addMessage({
-      role: 'assistant',
-      content: '',
-      toolId,
-      isLoading: true,
-    });
+    addMessage({ role: 'user', content: userContent, toolId });
+    addMessage({ role: 'assistant', content: '', toolId, isLoading: true });
 
     try {
       const requestBody: Record<string, any> = {
         action: tool.action,
         ...input,
+        existingLyrics: context.existingLyrics,
+        lyrics: context.existingLyrics,
+        stylePrompt: context.stylePrompt,
+        title: context.title,
+        allSectionNotes: context.allSectionNotes,
+        globalTags: context.globalTags,
       };
-
-      // Add context based on tool type
-      if (tool.autoContext || context.existingLyrics) {
-        requestBody.existingLyrics = context.existingLyrics;
-        requestBody.lyrics = context.existingLyrics;
-      }
 
       if (context.selectedSection) {
         requestBody.sectionType = context.selectedSection.type;
         requestBody.sectionContent = context.selectedSection.content;
-        requestBody.previousLyrics = context.selectedSection.content;
+        requestBody.sectionNotes = context.selectedSection.notes;
       }
 
       if (context.genre) requestBody.genre = context.genre;
       if (context.mood) requestBody.mood = context.mood;
       if (context.language) requestBody.language = context.language;
 
-      // Special handling for hook generation
-      if (toolId === 'hook') {
-        requestBody.sectionType = 'Hook';
-        requestBody.sectionName = 'Hook';
-      }
-
       const { data, error } = await supabase.functions.invoke('ai-lyrics-assistant', {
         body: requestBody,
       });
 
       if (error) {
-        if (error.message?.includes('429') || error.message?.includes('Rate limit')) {
-          toast.error('Превышен лимит запросов. Подождите немного.');
-        } else if (error.message?.includes('402') || error.message?.includes('Payment')) {
-          toast.error('Необходимо пополнить баланс AI.');
-        }
+        if (error.message?.includes('429')) toast.error('Превышен лимит запросов.');
+        else if (error.message?.includes('402')) toast.error('Необходимо пополнить баланс AI.');
         throw error;
       }
 
-      // Parse response based on output type
       let responseType: OutputType = tool.outputType;
       let responseData: AIMessage['data'] = {};
       let responseContent = data.message || data.result || 'Готово!';
@@ -131,40 +110,37 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated }: UseA
       if (data.lyrics) {
         responseData.lyrics = data.lyrics;
         responseType = 'lyrics';
-        // Only auto-insert for generation tools, not for analysis/chat
-        const autoInsertTools: AIToolId[] = ['write', 'continue', 'hook', 'optimize'];
-        if (autoInsertTools.includes(toolId)) {
+        if (toolId === 'write' || toolId === 'optimize') {
           onLyricsGenerated?.(data.lyrics);
         }
       }
 
       if (data.tags && Array.isArray(data.tags)) {
         responseData.tags = data.tags;
-        responseType = 'tags';
-        if (tool.directApply) {
-          onTagsGenerated?.(data.tags);
+        if (tool.directApply) onTagsGenerated?.(data.tags);
+      }
+
+      if (data.fullAnalysis) {
+        responseData.fullAnalysis = data.fullAnalysis;
+        responseType = 'full_analysis';
+      }
+
+      if (data.producerReview) {
+        responseData.producerReview = data.producerReview;
+        responseType = 'producer_review';
+        if (data.producerReview.stylePrompt) {
+          onStylePromptGenerated?.(data.producerReview.stylePrompt);
         }
       }
 
-      if (data.rhymes) {
-        responseData.rhymes = data.rhymes;
-        responseType = 'rhymes';
+      if (data.quickActions) {
+        responseData.quickActions = data.quickActions;
       }
 
-      if (data.analysis) {
-        responseData.analysis = data.analysis;
-        responseType = 'analysis';
-      }
+      if (data.analysis) responseData.analysis = data.analysis;
+      if (data.suggestions) responseData.suggestions = data.suggestions;
+      if (data.structure) responseData.structure = data.structure;
 
-      if (data.suggestions) {
-        responseData.suggestions = data.suggestions;
-      }
-
-      if (data.structure) {
-        responseData.structure = data.structure;
-      }
-
-      // Update the loading message with actual content
       updateLastMessage({
         content: responseContent,
         type: responseType,
@@ -177,34 +153,22 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated }: UseA
 
     } catch (error) {
       console.error('AI Tool error:', error);
-      updateLastMessage({
-        content: 'Произошла ошибка. Попробуйте ещё раз.',
-        isLoading: false,
-      });
+      updateLastMessage({ content: 'Произошла ошибка. Попробуйте ещё раз.', isLoading: false });
       toast.error('Ошибка выполнения');
       return null;
     } finally {
       setIsLoading(false);
       setActiveTool(null);
     }
-  }, [context, getToolById, addMessage, updateLastMessage, onLyricsGenerated, onTagsGenerated]);
+  }, [context, getToolById, addMessage, updateLastMessage, onLyricsGenerated, onTagsGenerated, onStylePromptGenerated]);
 
   const sendChatMessage = useCallback(async (message: string) => {
     if (!message.trim()) return;
 
     setIsLoading(true);
     hapticImpact('light');
-
-    addMessage({
-      role: 'user',
-      content: message,
-    });
-
-    addMessage({
-      role: 'assistant',
-      content: '',
-      isLoading: true,
-    });
+    addMessage({ role: 'user', content: message });
+    addMessage({ role: 'assistant', content: '', isLoading: true });
 
     try {
       const { data, error } = await supabase.functions.invoke('ai-lyrics-assistant', {
@@ -217,6 +181,8 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated }: UseA
             sectionContent: context.selectedSection?.content,
             globalTags: context.globalTags,
             sectionTags: context.sectionTags,
+            stylePrompt: context.stylePrompt,
+            allSectionNotes: context.allSectionNotes,
           },
         },
       });
@@ -224,10 +190,10 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated }: UseA
       if (error) throw error;
 
       let responseData: AIMessage['data'] = {};
-      
       if (data.lyrics) responseData.lyrics = data.lyrics;
       if (data.tags) responseData.tags = data.tags;
       if (data.suggestions) responseData.suggestions = data.suggestions;
+      if (data.quickActions) responseData.quickActions = data.quickActions;
 
       updateLastMessage({
         content: data.message || data.result || 'Готово!',
@@ -239,10 +205,7 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated }: UseA
       hapticImpact('medium');
     } catch (error) {
       console.error('Chat error:', error);
-      updateLastMessage({
-        content: 'Произошла ошибка. Попробуйте ещё раз.',
-        isLoading: false,
-      });
+      updateLastMessage({ content: 'Произошла ошибка. Попробуйте ещё раз.', isLoading: false });
     } finally {
       setIsLoading(false);
     }
