@@ -13,6 +13,8 @@ interface AppHeaderProps {
   icon?: React.ReactNode;
   leftAction?: React.ReactNode;
   rightAction?: React.ReactNode;
+  /** Custom title element to replace the default title text */
+  titleElement?: React.ReactNode;
   className?: string;
   showLogo?: boolean;
 }
@@ -22,7 +24,8 @@ export function AppHeader({
   subtitle, 
   icon,
   leftAction, 
-  rightAction, 
+  rightAction,
+  titleElement,
   className,
   showLogo = true,
 }: AppHeaderProps) {
@@ -100,8 +103,10 @@ export function AppHeader({
               {icon}
             </motion.div>
           )}
-          <div className="text-center">
-            <h2 className="text-base sm:text-lg font-bold truncate">{title}</h2>
+          <div className="text-center min-w-0 flex-1">
+            {titleElement || (
+              <h2 className="text-base sm:text-lg font-bold truncate">{title}</h2>
+            )}
             {subtitle && (
               <p className="text-xs text-muted-foreground">{subtitle}</p>
             )}
