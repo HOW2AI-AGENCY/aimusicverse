@@ -434,7 +434,7 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
           
           {viewMode === 'notation' && (
             <div className="min-w-[300px]">
-              {isParsingXml || isParsing ? (
+              {isParsingXml ? (
                 <div 
                   className="rounded-lg border bg-muted/20 flex items-center justify-center"
                   style={{ height: visualHeight }}
@@ -444,9 +444,9 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
                     Загрузка нот...
                   </div>
                 </div>
-              ) : (parsedXml?.notes?.length ?? 0) > 0 || notes.length > 0 ? (
-                <InteractivePianoRoll
-                  notes={parsedXml?.notes?.map(n => ({
+              ) : (parsedXml?.notes?.length ?? 0) > 0 ? (
+                <StaffNotation
+                  notes={parsedXml!.notes.map(n => ({
                     pitch: n.pitch,
                     startTime: n.startTime,
                     endTime: n.endTime,
@@ -454,9 +454,20 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
                     velocity: n.velocity,
                     noteName: n.noteName,
                     track: n.track,
-                  })) ?? notes}
-                  duration={parsedXml?.duration ?? duration}
-                  currentTime={currentTime}
+                  }))}
+                  duration={parsedXml!.duration}
+                  bpm={parsedXml?.bpm ?? effectiveBpm}
+                  timeSignature={parsedXml?.timeSignature ?? parsedTimeSignature}
+                  keySignature={parsedXml?.keySignature ?? keySignature}
+                  height={visualHeight}
+                />
+              ) : notes.length > 0 ? (
+                <StaffNotation
+                  notes={notes}
+                  duration={duration}
+                  bpm={effectiveBpm}
+                  timeSignature={parsedTimeSignature}
+                  keySignature={keySignature}
                   height={visualHeight}
                 />
               ) : (
