@@ -484,11 +484,26 @@ if (data?.lyrics) {
           onStyleGenerated(data.style);
         }
       } else if (data?.response) {
+        // Convert suggestions to proper QuickOption format if they exist
+        let formattedOptions: QuickOption[] | undefined;
+        if (data.suggestions && Array.isArray(data.suggestions)) {
+          formattedOptions = data.suggestions.map((s: string | { label?: string; value?: string }) => {
+            if (typeof s === 'string') {
+              return { label: s, value: s, action: 'setTheme' as const };
+            }
+            // If already an object, ensure it has required properties
+            return {
+              label: s.label || String(s.value || s),
+              value: s.value || String(s.label || s),
+              action: 'setTheme' as const,
+            };
+          });
+        }
         addMessage({
           id: Date.now().toString(),
           role: 'assistant',
           content: data.response,
-          options: data.suggestions || undefined,
+          options: formattedOptions,
         });
       }
     } catch (err: any) {
