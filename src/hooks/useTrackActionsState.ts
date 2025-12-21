@@ -28,6 +28,7 @@ interface DialogStates {
   deleteVersionSelect: boolean;
   rename: boolean;
   createArtist: boolean;
+  addVocals: boolean;
 }
 
 export function useTrackActionsState({
@@ -53,6 +54,7 @@ export function useTrackActionsState({
     deleteVersionSelect: false,
     rename: false,
     createArtist: false,
+    addVocals: false,
   });
 
   // Hooks
@@ -98,6 +100,13 @@ export function useTrackActionsState({
   // Check for specific stem types
   const hasVocalStem = stems.some(s => s.stem_type === 'vocal' || s.stem_type === 'vocals');
   const hasInstrumentalStem = stems.some(s => s.stem_type === 'instrumental');
+  
+  // Check if track is instrumental (no vocals based on style/lyrics or has instrumental stem without vocal)
+  const isInstrumentalTrack = !!(
+    track.style?.toLowerCase().includes('instrumental') ||
+    (track.lyrics === null || track.lyrics === '') ||
+    (hasInstrumentalStem && !hasVocalStem)
+  );
 
   // Action state for condition checks
   const actionState: TrackActionState = {
@@ -107,6 +116,7 @@ export function useTrackActionsState({
     isVideoGenerating,
     hasVocalStem,
     hasInstrumentalStem,
+    isInstrumentalTrack,
   };
 
   // Dialog helpers
@@ -227,6 +237,9 @@ export function useTrackActionsState({
         break;
       case 'create_artist_persona':
         openDialog('createArtist');
+        break;
+      case 'add_vocals':
+        openDialog('addVocals');
         break;
 
       // Delete actions

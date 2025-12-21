@@ -57,6 +57,7 @@ import { defaultStemEffects } from '@/hooks/studio/stemEffectsConfig';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useStudioActivityLogger } from '@/hooks/useStudioActivityLogger';
 import { ReferenceManager } from '@/services/audio-reference';
+import { NewArrangementDialog } from '@/components/NewArrangementDialog';
 import { 
   LazyTrimDialog,
   LazyRemixDialog,
@@ -151,6 +152,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   const [midiDrawerOpen, setMidiDrawerOpen] = useState(false);
   const [effectsDrawerOpen, setEffectsDrawerOpen] = useState(false);
   const [addTrackDrawerOpen, setAddTrackDrawerOpen] = useState(false);
+  const [newArrangementOpen, setNewArrangementOpen] = useState(false);
   const [selectedStemForMidi, setSelectedStemForMidi] = useState<TrackStem | null>(null);
   const [selectedStemForEffects, setSelectedStemForEffects] = useState<TrackStem | null>(null);
   
@@ -630,7 +632,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   };
 
   // Stem action handler
-  const handleStemAction = async (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete') => {
+  const handleStemAction = async (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete' | 'arrangement') => {
     switch (action) {
       case 'reference':
         ReferenceManager.createFromStem({
@@ -658,6 +660,12 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       case 'view-notes':
         setSelectedStemForMidi(stem);
         setMidiDrawerOpen(true);
+        break;
+      case 'arrangement':
+        // Open new arrangement dialog for vocal stems
+        if (track) {
+          setNewArrangementOpen(true);
+        }
         break;
       case 'delete': {
         if (!stem.source || stem.source === 'separated') {
@@ -1283,6 +1291,16 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           isProcessing={isSeparating}
         />
       </Suspense>
+
+      {/* New Arrangement Dialog */}
+      {track && (
+        <NewArrangementDialog
+          open={newArrangementOpen}
+          onOpenChange={setNewArrangementOpen}
+          track={track}
+          vocalStem={stems?.find(s => s.stem_type === 'vocal' || s.stem_type === 'vocals')}
+        />
+      )}
     </div>
   );
 }

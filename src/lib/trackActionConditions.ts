@@ -9,6 +9,7 @@ export interface TrackActionState {
   isVideoGenerating: boolean;
   hasVocalStem: boolean;
   hasInstrumentalStem: boolean;
+  isInstrumentalTrack: boolean;
 }
 
 /**
@@ -31,6 +32,7 @@ export function isActionAvailable(
   if (action.requiresSunoId && !track.suno_id) return false;
   if (action.requiresSunoTaskId && !track.suno_task_id) return false;
   if (action.requiresStems && state.stemCount === 0) return false;
+  if (action.requiresInstrumental && !state.isInstrumentalTrack) return false;
 
   // Action-specific conditions
   switch (actionId) {
@@ -58,6 +60,9 @@ export function isActionAvailable(
 
     case 'remix':
       return !!track.suno_id;
+
+    case 'add_vocals':
+      return isCompleted && hasAudio && state.isInstrumentalTrack;
 
     default:
       return true;

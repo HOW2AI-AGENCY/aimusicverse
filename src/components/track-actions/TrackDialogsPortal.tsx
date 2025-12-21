@@ -9,6 +9,7 @@ import { TrackDetailDialog } from '@/components/TrackDetailDialog';
 import { AudioCoverDialog } from '@/components/AudioCoverDialog';
 import { RenameTrackDialog } from './RenameTrackDialog';
 import { CreateArtistDialog } from '@/components/CreateArtistDialog';
+import { AddVocalsDialog } from '@/components/AddVocalsDialog';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useState, useEffect } from 'react';
 
@@ -30,6 +31,7 @@ interface DialogStates {
   deleteVersionSelect: boolean;
   rename: boolean;
   createArtist: boolean;
+  addVocals: boolean;
 }
 
 interface TrackDialogsPortalProps {
@@ -159,6 +161,13 @@ export function TrackDialogsPortal({
           cover_url: track.cover_url,
           audio_url: track.audio_url,
         }}
+      />
+
+      {/* Add Vocals dialog */}
+      <AddVocalsDialog
+        open={dialogs.addVocals}
+        onOpenChange={(open) => !open && onCloseDialog('addVocals')}
+        track={track}
       />
     </>
   );
