@@ -52,7 +52,7 @@ export function RhymeToolPanel({ context, onExecute, onClose, isLoading }: ToolP
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: 'auto' }}
       exit={{ opacity: 0, height: 0 }}
-      className="border-b border-border/50 bg-cyan-500/5"
+      className="border-b border-border/50 bg-cyan-500/5 max-h-[50vh] overflow-y-auto overscroll-contain"
     >
       <div className="p-3 space-y-3">
         {/* Header */}
