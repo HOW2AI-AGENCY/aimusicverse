@@ -6,10 +6,21 @@
 // Re-export metrics utilities
 export { trackMetric, withMetrics, flushMetrics, checkAlerts, type MetricEventType } from './metrics.ts';
 
+// Re-export database-backed rate limiter
+export { 
+  checkRateLimitDb, 
+  isRateLimited, 
+  getRateLimitInfo,
+  RateLimitConfigs,
+  type ActionType 
+} from './rate-limiter.ts';
+
 /**
- * Escape special characters for Telegram Markdown
+ * Escape special characters for Telegram MarkdownV2
+ * All special characters must be escaped: _ * [ ] ( ) ~ ` > # + - = | { } . !
  */
 export function escapeMarkdown(text: string): string {
+  if (!text) return '';
   return text.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
 }
 
@@ -96,7 +107,8 @@ export const logger = {
 };
 
 /**
- * Rate limiter for anti-spam
+ * @deprecated Use isRateLimited() from rate-limiter.ts instead
+ * This is kept for backward compatibility but uses in-memory (resets on restart)
  */
 const rateLimitMap = new Map<number, { count: number; resetAt: number }>();
 

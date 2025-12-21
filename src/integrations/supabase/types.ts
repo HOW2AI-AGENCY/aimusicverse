@@ -2750,6 +2750,33 @@ export type Database = {
         }
         Relationships: []
       }
+      telegram_rate_limits: {
+        Row: {
+          action_type: string
+          created_at: string
+          id: string
+          request_count: number
+          user_id: number
+          window_start: string
+        }
+        Insert: {
+          action_type?: string
+          created_at?: string
+          id?: string
+          request_count?: number
+          user_id: number
+          window_start?: string
+        }
+        Update: {
+          action_type?: string
+          created_at?: string
+          id?: string
+          request_count?: number
+          user_id?: number
+          window_start?: string
+        }
+        Relationships: []
+      }
       telegram_voice_transcriptions: {
         Row: {
           confidence: number | null
@@ -3945,6 +3972,20 @@ export type Database = {
         Args: { profile_row: Database["public"]["Tables"]["profiles"]["Row"] }
         Returns: number
       }
+      check_telegram_rate_limit: {
+        Args: {
+          p_action_type?: string
+          p_max_requests?: number
+          p_user_id: number
+          p_window_seconds?: number
+        }
+        Returns: {
+          current_count: number
+          is_limited: boolean
+          remaining: number
+          reset_at: string
+        }[]
+      }
       cleanup_expired_bot_sessions: { Args: never; Returns: undefined }
       cleanup_expired_notifications: { Args: never; Returns: number }
       cleanup_expired_wizard_states: { Args: never; Returns: undefined }
@@ -3955,6 +3996,7 @@ export type Database = {
           tracks_failed: number
         }[]
       }
+      cleanup_telegram_rate_limits: { Args: never; Returns: number }
       compute_track_genre: {
         Args: { _style: string; _tags: string }
         Returns: string

@@ -30,6 +30,7 @@ serve(async (req) => {
       failedTracks: 0,
       staleTasks: 0,
       orphanedVersions: 0,
+      staleRateLimits: 0,
     };
 
     // 1. Delete failed generation tasks older than 7 days
@@ -135,6 +136,19 @@ serve(async (req) => {
           results.orphanedVersions = orphanedVersionIds.length;
           console.log(`✅ Deleted ${results.orphanedVersions} orphaned track versions`);
         }
+      }
+    }
+
+    // 6. Cleanup stale rate limits
+    const { data: rateLimitCleanup, error: rateLimitError } = await supabase
+      .rpc('cleanup_telegram_rate_limits');
+    
+    if (rateLimitError) {
+      console.error('❌ Error cleaning rate limits:', rateLimitError);
+    } else {
+      results.staleRateLimits = rateLimitCleanup || 0;
+      if (results.staleRateLimits > 0) {
+        console.log(`✅ Cleaned up ${results.staleRateLimits} stale rate limit entries`);
       }
     }
 
