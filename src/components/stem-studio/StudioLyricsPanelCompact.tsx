@@ -12,6 +12,8 @@ import { cn } from '@/lib/utils';
 import { useTimestampedLyrics, AlignedWord } from '@/hooks/useTimestampedLyrics';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { SYNC_CONSTANTS } from '@/hooks/lyrics/useLyricsSynchronization';
+import '@/styles/lyrics-sync.css';
 
 interface StudioLyricsPanelCompactProps {
   taskId: string | null;
@@ -206,9 +208,12 @@ export function StudioLyricsPanelCompact({
             )}
           >
           {currentLine.words.map((word, wordIdx) => {
+              // Use look-ahead timing from sync constants
+              const adjustedTime = currentTime + SYNC_CONSTANTS.WORD_LOOK_AHEAD_MS / 1000;
+              const endTolerance = SYNC_CONSTANTS.WORD_END_TOLERANCE_MS / 1000;
               const isWordActive = isPlaying && 
-                currentTime >= word.startS && 
-                currentTime <= word.endS;
+                adjustedTime >= word.startS && 
+                adjustedTime <= word.endS + endTolerance;
               
               // Skip structural tags
               if (isStructuralTag(word.word)) return null;

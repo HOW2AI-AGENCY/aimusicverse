@@ -4,13 +4,13 @@
  * Redesigned fullscreen player optimized for mobile devices.
  * Features:
  * - Blurred album cover background
- * - Synchronized lyrics with word highlighting
+ * - Synchronized lyrics with word highlighting (improved sync)
  * - Large touch-friendly controls
  * - Audio visualizer with equalizer
  * - Clear timeline visualization
  */
 
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { X, Download, Share2, ListMusic, SkipBack, SkipForward, Play, Pause, Repeat, Shuffle, BarChart3 } from 'lucide-react';
 import { LikeButton } from '@/components/ui/like-button';
 import { toast } from 'sonner';
@@ -23,6 +23,8 @@ import { useAudioTime } from '@/hooks/audio/useAudioTime';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useGlobalAudioPlayer } from '@/hooks/audio/useGlobalAudioPlayer';
 import { useAudioVisualizer } from '@/hooks/audio/useAudioVisualizer';
+import { useLyricsSynchronization, SYNC_CONSTANTS, groupWordsIntoLines } from '@/hooks/lyrics/useLyricsSynchronization';
+import { SynchronizedWord } from '@/components/lyrics/SynchronizedWord';
 import { QueueSheet } from './QueueSheet';
 import { VersionSwitcher } from './VersionSwitcher';
 import { cn } from '@/lib/utils';
@@ -30,6 +32,7 @@ import { formatTime } from '@/lib/player-utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
 import { logger } from '@/lib/logger';
+import '@/styles/lyrics-sync.css';
 
 interface MobileFullscreenPlayerProps {
   track: Track;
@@ -229,15 +232,24 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     }
   }, [lyricsData, track.lyrics]);
 
-  // Find active line index
-  const activeLineIndex = useMemo(() => {
-    if (!lyricsLines) return -1;
-    return lyricsLines.findIndex(line => {
-      const lineStart = line[0]?.startS ?? 0;
-      const lineEnd = line[line.length - 1]?.endS ?? 0;
-      return currentTime >= lineStart && currentTime <= lineEnd;
-    });
-  }, [lyricsLines, currentTime]);
+  // Flatten words from parsed lines for synchronization hook
+  const flattenedWords = useMemo(() => {
+    if (!lyricsLines) return [];
+    return lyricsLines.flat();
+  }, [lyricsLines]);
+
+  // Use unified synchronization hook for precise timing
+  const {
+    activeLineIndex,
+    activeWordIndex,
+    currentTime: syncedTime,
+    isWordActive,
+    isWordPast,
+    constants,
+  } = useLyricsSynchronization({
+    words: flattenedWords,
+    enabled: !!lyricsLines?.length,
+  });
 
   // Handle user scroll detection
   useEffect(() => {
@@ -534,8 +546,8 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
             }}
           >
           {lyricsLines ? (
-            // Synchronized lyrics with line grouping and word highlighting
-            <div className="flex flex-col items-center text-center space-y-1 pb-[30vh]">
+            // Synchronized lyrics with improved timing using useLyricsSynchronization
+            <div className="flex flex-col items-center text-center space-y-1 pb-[30vh] lyrics-container-enter">
               {lyricsLines.map((line, lineIndex) => {
                 const isActiveLine = lineIndex === activeLineIndex;
                 const isPastLine = activeLineIndex > -1 && lineIndex < activeLineIndex;
@@ -550,29 +562,32 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                       scale: isActiveLine ? 1.02 : 1,
                       opacity: isActiveLine ? 1 : isPastLine ? 0.35 : 0.5,
                     }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.15, ease: 'easeOut' }}
                     className={cn(
-                      'px-3 py-1 rounded-lg cursor-pointer transition-colors w-full',
-                      isActiveLine && 'bg-primary/10'
+                      'px-3 py-1 rounded-lg cursor-pointer w-full lyric-line',
+                      'will-change-[transform,opacity,background-color] transform-gpu',
+                      isActiveLine && 'bg-primary/10 lyric-line--active'
                     )}
                   >
                     <div className="flex flex-wrap justify-center gap-x-1.5 gap-y-0.5">
                       {line.map((word, wordIndex) => {
-                        const isActiveWord = currentTime >= word.startS && currentTime <= word.endS;
-                        const isPastWord = currentTime > word.endS;
+                        // Use sync hook's look-ahead timing
+                        const adjustedTime = syncedTime + constants.WORD_LOOK_AHEAD_MS / 1000;
+                        const endTolerance = constants.WORD_END_TOLERANCE_MS / 1000;
+                        const isActiveWord = isActiveLine && adjustedTime >= word.startS && adjustedTime <= word.endS + endTolerance;
+                        const isPastWord = syncedTime > word.endS + endTolerance;
 
                         return (
-                          <span
-                            key={`${lineIndex}-${wordIndex}`}
-                            className={cn(
-                              'text-lg font-medium transition-all duration-150',
-                              isActiveWord && 'text-primary scale-110 font-bold',
-                              !isActiveWord && isPastWord && 'text-foreground/70',
-                              !isActiveWord && !isPastWord && 'text-foreground/50'
-                            )}
-                          >
-                            {word.word}
-                          </span>
+                          <SynchronizedWord
+                            key={`${lineIndex}-${wordIndex}-${word.startS}`}
+                            word={word.word}
+                            isActive={isActiveWord}
+                            isPast={isPastWord}
+                            className="text-lg font-medium"
+                            activeClassName="text-primary scale-110 font-bold"
+                            pastClassName="text-foreground/70"
+                            futureClassName="text-foreground/50"
+                          />
                         );
                       })}
                     </div>
