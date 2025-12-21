@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Users, FolderOpen, FileText, Cloud } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -10,6 +10,7 @@ import { CloudTab } from './tabs/CloudTab';
 
 interface ContentHubTabsProps {
   defaultTab?: string;
+  onTabChange?: (tabId: string) => void;
 }
 
 const tabs = [
@@ -19,9 +20,13 @@ const tabs = [
   { id: 'cloud', label: 'Облако', icon: Cloud },
 ];
 
-export function ContentHubTabs({ defaultTab = 'projects' }: ContentHubTabsProps) {
+export function ContentHubTabs({ defaultTab = 'projects', onTabChange }: ContentHubTabsProps) {
   const [activeTab, setActiveTab] = useState(defaultTab);
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    onTabChange?.(activeTab);
+  }, [activeTab, onTabChange]);
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">

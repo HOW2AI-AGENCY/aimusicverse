@@ -786,7 +786,7 @@ export function CloudTab() {
       
       try {
         const newAudio = new Audio();
-        newAudio.crossOrigin = 'anonymous';
+        // Don't set crossOrigin for Supabase storage - it's not needed and can cause issues
         newAudio.preload = 'auto';
         
         // Set up event handlers before setting src
@@ -796,8 +796,8 @@ export function CloudTab() {
         };
         
         newAudio.onerror = (e) => {
-          logger.error('Audio playback error', e);
-          toast.error('Ошибка воспроизведения');
+          logger.error('Audio playback error', { error: e, url: audio.file_url });
+          toast.error('Ошибка воспроизведения. Проверьте подключение.');
           setPlayingId(null);
           setAudioElement(null);
         };
