@@ -22,16 +22,13 @@ export default function Projects() {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* Header */}
+      {/* Header - simplified to avoid duplication with tabs */}
       <div className={cn(
         "sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border/50",
-        isMobile ? "px-3 py-2.5" : "px-4 py-3"
+        isMobile ? "px-3 py-2" : "px-4 py-2.5"
       )}>
         <div className="max-w-6xl mx-auto">
           <h1 className="text-lg sm:text-xl font-bold">Мой контент</h1>
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Артисты, проекты, тексты и загрузки
-          </p>
         </div>
       </div>
 
