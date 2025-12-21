@@ -296,8 +296,9 @@ serve(async (req) => {
         formData.append('demo', 'false');
         if (title) queryParams.set('title', title);
         
-        // Klangio API requires explicit boolean gen_* parameters for each output format
-        // NOT an outputs array - this is why PDF/GP5 weren't generating!
+        // Klangio API requires BOTH:
+        // 1. "outputs" array in FormData body (required field per API error)
+        // 2. gen_* boolean parameters for each output format
         const transcriptionValidFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
         const reqOutputs = outputs || smartOutputs;
         const validOutputs = reqOutputs.filter((o: string) => transcriptionValidFormats.includes(o));
@@ -306,8 +307,11 @@ serve(async (req) => {
         console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(reqOutputs)}, valid=${JSON.stringify(validOutputs)}`);
         console.log(`[klangio] Demo mode: false (paid tier - full length transcription)`);
         
-        // Set explicit gen_* boolean parameters for each requested format
-        // This is the correct way to request outputs per Klangio API
+        // CRITICAL: Add "outputs" array to FormData - this is REQUIRED by Klangio API
+        // Error 422: {"detail":[{"type":"missing","loc":["body","outputs"],"msg":"Field required"}]}
+        formData.append('outputs', JSON.stringify(validOutputs));
+        
+        // Also set explicit gen_* boolean parameters for each requested format
         if (validOutputs.includes('midi')) {
           queryParams.set('gen_midi', 'true');
           formData.append('gen_midi', 'true');
@@ -330,6 +334,7 @@ serve(async (req) => {
         }
         
         console.log(`[klangio] Gen parameters set: midi=${validOutputs.includes('midi')}, midi_quant=${validOutputs.includes('midi_quant')}, xml=${validOutputs.includes('mxml')}, gp5=${validOutputs.includes('gp5')}, pdf=${validOutputs.includes('pdf')}`);
+        console.log(`[klangio] Outputs in FormData: ${JSON.stringify(validOutputs)}`);
         console.log(`[klangio] QueryParams after setting gen_*: ${queryParams.toString()}`);
         break;
         
