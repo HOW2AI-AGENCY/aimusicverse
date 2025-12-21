@@ -444,8 +444,8 @@ function AudioDetailPanel({
               </Button>
             </div>
 
-            {/* Metadata */}
-            <div className="grid grid-cols-2 gap-3 text-sm p-3 rounded-lg bg-secondary/30">
+            {/* Metadata Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm p-3 rounded-lg bg-secondary/30">
               <div>
                 <p className="text-muted-foreground text-xs">Длительность</p>
                 <p className="font-medium">{formatDuration(audio.duration_seconds)}</p>
@@ -454,6 +454,12 @@ function AudioDetailPanel({
                 <p className="text-muted-foreground text-xs">Дата</p>
                 <p className="font-medium">{format(new Date(audio.created_at), 'd MMM yyyy', { locale: ru })}</p>
               </div>
+              {audio.bpm && (
+                <div>
+                  <p className="text-muted-foreground text-xs">BPM</p>
+                  <p className="font-medium">{audio.bpm}</p>
+                </div>
+              )}
               {audio.genre && (
                 <div>
                   <p className="text-muted-foreground text-xs">Жанр</p>
@@ -466,6 +472,34 @@ function AudioDetailPanel({
                   <p className="font-medium">{audio.mood}</p>
                 </div>
               )}
+              {audio.energy && (
+                <div>
+                  <p className="text-muted-foreground text-xs">Энергия</p>
+                  <p className="font-medium capitalize">{audio.energy}</p>
+                </div>
+              )}
+              {audio.tempo && (
+                <div>
+                  <p className="text-muted-foreground text-xs">Темп</p>
+                  <p className="font-medium capitalize">{audio.tempo}</p>
+                </div>
+              )}
+              {audio.detected_language && (
+                <div>
+                  <p className="text-muted-foreground text-xs">Язык</p>
+                  <p className="font-medium uppercase">{audio.detected_language}</p>
+                </div>
+              )}
+              <div>
+                <p className="text-muted-foreground text-xs">Тип</p>
+                <p className="font-medium">
+                  {audio.has_vocals && audio.has_instrumentals 
+                    ? '🎤 + 🎸' 
+                    : audio.has_vocals 
+                      ? '🎤 Вокал' 
+                      : '🎸 Инструментал'}
+                </p>
+              </div>
               {audio.vocal_style && (
                 <div className="col-span-2">
                   <p className="text-muted-foreground text-xs">Стиль вокала</p>
@@ -473,6 +507,20 @@ function AudioDetailPanel({
                 </div>
               )}
             </div>
+
+            {/* Instruments */}
+            {audio.instruments && audio.instruments.length > 0 && (
+              <div>
+                <p className="text-muted-foreground text-xs mb-2">Инструменты</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {audio.instruments.map((instrument, idx) => (
+                    <Badge key={idx} variant="outline" className="text-xs">
+                      {instrument}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Style Description */}
             {audio.style_description && (
@@ -656,21 +704,61 @@ export function CloudTab() {
     }
   };
 
-  const handlePlay = (audio: ReferenceAudio) => {
+  const handlePlay = async (audio: ReferenceAudio) => {
+    if (!audio.file_url) {
+      toast.error('URL аудио недоступен');
+      return;
+    }
+
     if (playingId === audio.id) {
+      // Stop playing
       audioElement?.pause();
       setPlayingId(null);
       setAudioElement(null);
     } else {
-      audioElement?.pause();
-      const newAudio = new Audio(audio.file_url);
-      newAudio.play();
-      newAudio.onended = () => {
-        setPlayingId(null);
-        setAudioElement(null);
-      };
-      setAudioElement(newAudio);
-      setPlayingId(audio.id);
+      // Stop previous audio
+      if (audioElement) {
+        audioElement.pause();
+        audioElement.src = '';
+      }
+      
+      try {
+        const newAudio = new Audio();
+        newAudio.crossOrigin = 'anonymous';
+        newAudio.preload = 'auto';
+        
+        // Set up event handlers before setting src
+        newAudio.onended = () => {
+          setPlayingId(null);
+          setAudioElement(null);
+        };
+        
+        newAudio.onerror = (e) => {
+          logger.error('Audio playback error', e);
+          toast.error('Ошибка воспроизведения');
+          setPlayingId(null);
+          setAudioElement(null);
+        };
+
+        newAudio.oncanplay = () => {
+          newAudio.play().catch((err) => {
+            logger.error('Play failed', err);
+            toast.error('Не удалось воспроизвести');
+            setPlayingId(null);
+            setAudioElement(null);
+          });
+        };
+        
+        // Set source and load
+        newAudio.src = audio.file_url;
+        newAudio.load();
+        
+        setAudioElement(newAudio);
+        setPlayingId(audio.id);
+      } catch (error) {
+        logger.error('Audio initialization error', error);
+        toast.error('Ошибка инициализации аудио');
+      }
     }
   };
 

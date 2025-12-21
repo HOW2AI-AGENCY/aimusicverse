@@ -89,6 +89,11 @@ export function VirtualizedCloudList({
               <span className="text-[10px] text-muted-foreground">
                 {formatDuration(audio.duration_seconds)}
               </span>
+              {audio.bpm && (
+                <span className="text-[10px] text-muted-foreground">
+                  {audio.bpm} BPM
+                </span>
+              )}
               {audio.genre && (
                 <Badge variant="secondary" className="text-[9px] h-4 px-1.5">
                   {audio.genre}
@@ -97,6 +102,21 @@ export function VirtualizedCloudList({
               {audio.mood && (
                 <Badge variant="outline" className="text-[9px] h-4 px-1.5">
                   {audio.mood}
+                </Badge>
+              )}
+              {audio.energy && (
+                <Badge variant="outline" className="text-[9px] h-4 px-1.5 text-orange-600 border-orange-600/30">
+                  ⚡{audio.energy}
+                </Badge>
+              )}
+              {audio.has_vocals === true && (
+                <Badge variant="outline" className="text-[9px] h-4 px-1.5 text-blue-600 border-blue-600/30">
+                  🎤
+                </Badge>
+              )}
+              {audio.has_vocals === false && (
+                <Badge variant="outline" className="text-[9px] h-4 px-1.5 text-amber-600 border-amber-600/30">
+                  🎸
                 </Badge>
               )}
               {audio.transcription && (
