@@ -79,7 +79,12 @@ export function useMusicXML({
         if (!response.ok) {
           throw new Error(`Failed to fetch MusicXML: ${response.status} ${response.statusText}`);
         }
-        const xmlContent = await response.text();
+        let xmlContent = await response.text();
+        
+        // Ensure XML declaration is present (some files may be missing it)
+        if (!xmlContent.trim().startsWith('<?xml')) {
+          xmlContent = '<?xml version="1.0" encoding="UTF-8"?>\n' + xmlContent;
+        }
         
         // Check if cancelled during fetch
         if (isCancelled) {
