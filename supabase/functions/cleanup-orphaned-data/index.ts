@@ -66,42 +66,43 @@ serve(async (req) => {
       console.log(`✅ Deleted ${results.failedTracks} failed tracks without audio`);
     }
 
-    // 3. Mark stale pending tasks as failed (older than 24 hours)
-    const twentyFourHoursAgo = new Date();
-    twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
+    // 3. Use database function to cleanup stuck tasks with proper timeouts
+    // This handles: pending/processing > 1 hour, streaming_ready > 30 minutes
+    const { data: stuckCleanup, error: stuckError } = await supabase
+      .rpc('cleanup_stuck_generation_tasks');
     
-    const { data: staleTasks, error: staleError } = await supabase
-      .from('generation_tasks')
-      .update({ 
-        status: 'failed', 
-        error_message: 'Task timed out after 24 hours' 
-      })
-      .eq('status', 'pending')
-      .lt('created_at', twentyFourHoursAgo.toISOString())
-      .select('id');
-    
-    if (staleError) {
-      console.error('❌ Error updating stale tasks:', staleError);
-    } else {
-      results.staleTasks = staleTasks?.length || 0;
-      console.log(`✅ Marked ${results.staleTasks} stale pending tasks as failed`);
-    }
-
-    // 4. Also update corresponding tracks to failed status
-    if (staleTasks && staleTasks.length > 0) {
-      const staleTaskIds = staleTasks.map(t => t.id);
+    if (stuckError) {
+      console.error('❌ Error cleaning stuck tasks:', stuckError);
+      // Fallback to original logic if RPC fails
+      const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
       
-      const { error: staleTracksError } = await supabase
-        .from('tracks')
+      const { data: staleTasks } = await supabase
+        .from('generation_tasks')
         .update({ 
           status: 'failed', 
-          error_message: 'Generation timed out' 
+          error_message: 'Task timed out (fallback cleanup)',
+          completed_at: new Date().toISOString()
         })
-        .in('id', staleTaskIds);
+        .in('status', ['pending', 'processing', 'streaming_ready'])
+        .lt('created_at', oneHourAgo.toISOString())
+        .select('id, track_id');
       
-      if (staleTracksError) {
-        console.error('❌ Error updating stale tracks:', staleTracksError);
+      results.staleTasks = staleTasks?.length || 0;
+      
+      // Update corresponding tracks
+      if (staleTasks && staleTasks.length > 0) {
+        const trackIds = staleTasks.map(t => t.track_id).filter(Boolean);
+        if (trackIds.length > 0) {
+          await supabase
+            .from('tracks')
+            .update({ status: 'failed', error_message: 'Generation timed out' })
+            .in('id', trackIds)
+            .not('status', 'eq', 'completed');
+        }
       }
+    } else if (stuckCleanup && stuckCleanup.length > 0) {
+      results.staleTasks = stuckCleanup[0].tasks_failed || 0;
+      console.log(`✅ Cleaned up ${results.staleTasks} stuck tasks, ${stuckCleanup[0].tracks_failed || 0} tracks`);
     }
 
     // 5. Delete orphaned track versions (where track no longer exists)
