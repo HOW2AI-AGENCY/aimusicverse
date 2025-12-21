@@ -1,6 +1,6 @@
 import { useState, lazy, Suspense } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, Plus, Library, User } from 'lucide-react';
+import { Home, Plus, Library, User, FolderOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion, AnimatePresence } from '@/lib/motion';
@@ -9,11 +9,12 @@ import { useAuth } from '@/hooks/useAuth';
 // Lazy load heavy sheet component
 const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default: m.GenerateSheet })));
 
-// Optimized navigation - 4 items: Home, Create (FAB), Library, Profile
+// Optimized navigation - 5 items with FAB in center
 const navItems = [
   { path: '/', icon: Home, label: 'Главная', isCenter: false },
+  { path: '/library', icon: Library, label: 'Треки', isCenter: false },
   { path: '__generate__', icon: Plus, label: 'Создать', isCenter: true },
-  { path: '/library', icon: Library, label: 'Библиотека', isCenter: false },
+  { path: '/projects', icon: FolderOpen, label: 'Проекты', isCenter: false },
   { path: '__profile__', icon: User, label: 'Профиль', isCenter: false },
 ];
 
@@ -94,7 +95,7 @@ export const BottomNavigation = () => {
                 key={item.path}
                 onClick={handleClick}
                 className={cn(
-                  "relative flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all min-h-[44px] min-w-[52px] touch-scale-sm touch-manipulation group",
+                  "relative flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-all min-h-[44px] min-w-[44px] touch-scale-sm touch-manipulation group",
                   active
                     ? "text-primary bg-primary/10"
                     : "text-muted-foreground hover:text-foreground"
