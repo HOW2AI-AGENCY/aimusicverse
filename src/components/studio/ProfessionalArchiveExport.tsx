@@ -151,7 +151,7 @@ https://musicverse.ai
 
     try {
       const zip = new JSZip();
-      const trackName = sanitizeFilename(track.title);
+      const trackName = sanitizeFilename(track.title || 'Track');
       const root = zip.folder(`${trackName}_Professional_Export`);
       
       if (!root) throw new Error('Failed to create archive');
