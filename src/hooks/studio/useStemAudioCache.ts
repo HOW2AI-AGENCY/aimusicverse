@@ -10,6 +10,7 @@
 
 import { useCallback, useRef, useEffect, useState } from 'react';
 import { getCachedAudio, cacheAudio, prefetchAudio, shouldPrefetch } from '@/lib/audioCache';
+import { getWaveform, saveWaveform } from '@/lib/waveformCache';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { logger } from '@/lib/logger';
 
@@ -122,12 +123,56 @@ export function useStemAudioCache(stems: TrackStem[]): UseStemAudioCacheResult {
     sorted.forEach(stem => {
       if (!prefetchedRef.current.has(stem.audio_url)) {
         prefetchedRef.current.add(stem.audio_url);
-        prefetchAudio(stem.audio_url).catch(() => {
-          // Prefetch failure is not critical
-        });
+        
+        // Prefetch audio
+        prefetchAudio(stem.audio_url).catch(() => {});
+        
+        // Pre-generate waveform data in background
+        prefetchWaveform(stem.audio_url);
       }
     });
   }, []);
+  
+  /**
+   * Pre-generate waveform data for faster display
+   */
+  const prefetchWaveform = async (url: string) => {
+    try {
+      const cached = await getWaveform(url);
+      if (cached) return; // Already cached
+      
+      // Generate peaks in background
+      const response = await fetch(url);
+      const arrayBuffer = await response.arrayBuffer();
+      
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+      audioContext.close();
+      
+      const channelData = audioBuffer.getChannelData(0);
+      const samples = 100;
+      const blockSize = Math.floor(channelData.length / samples);
+      const peaks: number[] = [];
+      
+      for (let i = 0; i < samples; i++) {
+        const start = i * blockSize;
+        const end = Math.min(start + blockSize, channelData.length);
+        let max = 0;
+        for (let j = start; j < end; j++) {
+          const abs = Math.abs(channelData[j]);
+          if (abs > max) max = abs;
+        }
+        peaks.push(max);
+      }
+      
+      // Normalize and cache
+      const maxPeak = Math.max(...peaks, 0.01);
+      const normalized = peaks.map(p => p / maxPeak);
+      await saveWaveform(url, normalized);
+    } catch {
+      // Prefetch failure is not critical
+    }
+  };
 
   /**
    * Get count of fully loaded stems

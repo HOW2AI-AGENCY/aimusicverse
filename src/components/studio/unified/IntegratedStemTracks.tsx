@@ -29,7 +29,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { TrackStem } from '@/hooks/useTrackStems';
-import { StemWaveform } from '@/components/stem-studio/StemWaveform';
+import { OptimizedStemWaveform } from '@/components/stem-studio/OptimizedStemWaveform';
 import { StemTrackSkeleton } from '@/components/studio/StemTrackSkeleton';
 import { VirtualizedStemList } from '@/components/studio/VirtualizedStemList';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -387,9 +387,9 @@ const StemTrackRowMobile = memo(({
           )}
         </AnimatePresence>
 
-        {/* Waveform */}
+        {/* Waveform - Optimized canvas-based renderer */}
         <div className="h-14 px-1 pb-1">
-          <StemWaveform
+          <OptimizedStemWaveform
             audioUrl={stem.audio_url}
             currentTime={currentTime}
             duration={duration}
@@ -548,9 +548,9 @@ const StemTrackRowDesktop = memo(({
         />
       </div>
 
-      {/* Waveform - main focus */}
+      {/* Waveform - Optimized canvas-based renderer */}
       <div className="flex-1 h-8 min-w-0 rounded overflow-hidden bg-background/30">
-        <StemWaveform
+        <OptimizedStemWaveform
           audioUrl={stem.audio_url}
           currentTime={currentTime}
           duration={duration}
