@@ -155,6 +155,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   const [newArrangementOpen, setNewArrangementOpen] = useState(false);
   const [selectedStemForMidi, setSelectedStemForMidi] = useState<TrackStem | null>(null);
   const [selectedStemForEffects, setSelectedStemForEffects] = useState<TrackStem | null>(null);
+  const [selectedStemForArrangement, setSelectedStemForArrangement] = useState<TrackStem | null>(null);
   
   // Effects state for the selected stem
   const [stemEffects, setStemEffects] = useState(defaultStemEffects);
@@ -664,6 +665,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       case 'arrangement':
         // Open new arrangement dialog for vocal stems
         if (track) {
+          setSelectedStemForArrangement(stem);
           setNewArrangementOpen(true);
         }
         break;
@@ -1296,9 +1298,12 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       {track && (
         <NewArrangementDialog
           open={newArrangementOpen}
-          onOpenChange={setNewArrangementOpen}
+          onOpenChange={(open) => {
+            setNewArrangementOpen(open);
+            if (!open) setSelectedStemForArrangement(null);
+          }}
           track={track}
-          vocalStem={stems?.find(s => s.stem_type === 'vocal' || s.stem_type === 'vocals')}
+          vocalStem={selectedStemForArrangement || stems?.find(s => s.stem_type === 'vocal' || s.stem_type === 'vocals')}
         />
       )}
     </div>
