@@ -6,6 +6,7 @@
  * Call getSoundEffects() to get the singleton instance when needed.
  */
 import { logger } from '@/lib/logger';
+import { createAudioContext } from '@/lib/audio/audioContextHelper';
 
 class SoundEffects {
   private audioContext: AudioContext | null = null;
@@ -13,7 +14,7 @@ class SoundEffects {
 
   private getContext(): AudioContext {
     if (!this.audioContext) {
-      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      this.audioContext = createAudioContext();
     }
     return this.audioContext;
   }

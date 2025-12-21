@@ -36,8 +36,8 @@ export function WaveformWithChords({
         const response = await fetch(audioUrl);
         const arrayBuffer = await response.arrayBuffer();
         
-        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-        const audioContext = new AudioContextClass();
+        const { createAudioContext } = await import('@/lib/audio/audioContextHelper');
+        const audioContext = createAudioContext();
         const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
         
         const channelData = audioBuffer.getChannelData(0);
