@@ -25,25 +25,16 @@
 ~~**IMP013** - No undo/redo functionality~~ ✅ RESOLVED
 - Implemented history stack with undo/redo (lines 362-420)
 
-**IMP014** - Malformed brackets risk
-- **Issue**: No type guards for section tag insertion
-- **Impact**: Invalid lyrics format
-- **Fix**: Add explicit validation (lines 266-278)
-- **Priority**: P1 - Data Quality
+~~**IMP014** - Malformed brackets risk~~ ✅ RESOLVED
+- Added type guards and sanitization functions in `LyricsFormatter`
 
-### Stem Studio (`src/hooks/useStemStudioEngine.ts`)
+### Stem Studio (`src/hooks/studio/useStemStudioEngine.ts`)
 
-**IMP015** - No AudioContext state check
-- **Issue**: Operations proceed without checking suspended/interrupted contexts
-- **Impact**: Silent failures, broken playback
-- **Fix**: Add state checks before operations (lines 24-28)
-- **Priority**: P1 - Bug
+~~**IMP015** - No AudioContext state check~~ ✅ RESOLVED
+- Added `ensureAudioContext()` function with suspended/closed state handling (lines 74-91)
 
-**IMP016** - Memory leak from audio nodes
-- **Issue**: Orphaned audio nodes when stem removed
-- **Impact**: Memory accumulation, eventual crash
-- **Fix**: Implement cleanup on stem removal (lines 76-84)
-- **Priority**: P1 - Memory Leak
+~~**IMP016** - Memory leak from audio nodes~~ ✅ RESOLVED
+- Added `removeStemEngine()` function for individual stem cleanup
 
 ~~**IMP017** - Race conditions in audio graph~~ ✅ RESOLVED
 - Implemented `AsyncMutex` in `src/lib/audioMutex.ts`
@@ -152,6 +143,9 @@
 - **IMP011** - Character count with `LyricsFormatter`/`LyricsValidator`
 - **IMP012** - 500ms debounced validation
 - **IMP013** - Undo/redo history stack  
+- **IMP014** - Type guards for section tags (`LyricsFormatter`)
+- **IMP015** - AudioContext state checks (`ensureAudioContext`)
+- **IMP016** - Stem cleanup (`removeStemEngine`)
 - **IMP017** - Audio graph mutex lock (`src/lib/audioMutex.ts`)
 - **IMP018** - Mobile audio fallback (`useMobileAudioFallback`)
 - **IMP019** - Audio error boundary (`AudioErrorBoundary`)
@@ -167,13 +161,15 @@
 
 ---
 
+## 🔴 P1 Critical Issues
+
+**ALL P1 ISSUES RESOLVED** ✅
+
+---
+
 ## Quick Wins (< 2 hours each)
 
-These can be tackled quickly for high impact:
-
-1. **IMP014** - Add type guards (45 min)
-2. **IMP015** - AudioContext checks (45 min)
-3. **IMP016** - Memory leak cleanup (1 hour)
+All quick wins have been completed. Moving to Phase 2 (P2) architectural improvements.
 
 ---
 
