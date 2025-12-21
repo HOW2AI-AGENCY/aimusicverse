@@ -1,4 +1,4 @@
-import { Sparkles, Library, FolderOpen, ListMusic, Music2, Guitar, Wand2, Mic } from 'lucide-react';
+import { Sparkles, Library, FolderOpen, ListMusic, Music2, Guitar, Wand2, Mic, PenLine } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion } from '@/lib/motion';
@@ -18,6 +18,7 @@ const quickActions = [
   { icon: Library, label: 'Библиотека', path: '/library', color: 'text-cyan-400', bgColor: 'from-cyan-500/20 to-cyan-600/10', borderColor: 'border-cyan-500/30' },
   { icon: FolderOpen, label: 'Проекты', path: '/projects', color: 'text-emerald-400', bgColor: 'from-emerald-500/20 to-emerald-600/10', borderColor: 'border-emerald-500/30' },
   { icon: ListMusic, label: 'Плейлисты', path: '/playlists', color: 'text-violet-400', bgColor: 'from-violet-500/20 to-violet-600/10', borderColor: 'border-violet-500/30' },
+  { icon: PenLine, label: 'Лирика', path: '/lyrics-studio', color: 'text-amber-400', bgColor: 'from-amber-500/20 to-amber-600/10', borderColor: 'border-amber-500/30' },
 ] as const;
 
 export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
@@ -90,7 +91,7 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
 
       {/* Quick Navigation - Compact cards */}
       <motion.div
-        className="grid grid-cols-3 gap-2"
+        className="grid grid-cols-4 gap-2"
         initial="hidden"
         animate="visible"
         variants={{ visible: { transition: { staggerChildren: 0.05 } } }}
