@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 import { useRewardShare } from '@/hooks/useGamification';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { toast } from 'sonner';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 
 interface PostGenerationSharePromptProps {

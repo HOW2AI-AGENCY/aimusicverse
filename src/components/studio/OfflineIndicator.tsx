@@ -7,7 +7,7 @@
 
 import { memo, useState, useEffect } from 'react';
 import { Cloud, CloudOff, Download, HardDrive, Loader2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {

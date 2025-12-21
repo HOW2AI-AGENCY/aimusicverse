@@ -8,11 +8,10 @@ import {
   Music, Folder, Users, Trophy, Bell as BellIcon, Trash2, X, Clock
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { formatDistanceToNow } from "date-fns";
-import { ru } from "date-fns/locale";
+import { formatRelative } from "@/lib/date-utils";
 import { useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "@/lib/motion";
 
 const iconMap: Record<string, React.ElementType> = {
   info: Info,
@@ -162,10 +161,7 @@ export const NotificationList = ({ onNotificationClick }: NotificationListProps)
                         </p>
                         {notification.created_at && (
                           <span className="text-xs text-muted-foreground">
-                            {formatDistanceToNow(new Date(notification.created_at), {
-                              addSuffix: true,
-                              locale: ru,
-                            })}
+                            {formatRelative(new Date(notification.created_at))}
                           </span>
                         )}
                       </div>

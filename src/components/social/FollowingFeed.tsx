@@ -10,11 +10,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Heart, Play, Users, Sparkles, Music2, UserCheck } from 'lucide-react';
-import { formatDistanceToNow } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { formatRelative } from '@/lib/date-utils';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 
 type FeedFilter = 'all' | 'following' | 'liked_creators';
 
@@ -193,10 +192,7 @@ interface FeedTrackItemProps {
 
 function FeedTrackItem({ track }: FeedTrackItemProps) {
   const creatorName = track.creator.displayName || track.creator.username || 'Автор';
-  const timeAgo = formatDistanceToNow(new Date(track.createdAt), { 
-    addSuffix: true, 
-    locale: ru 
-  });
+  const timeAgo = formatRelative(new Date(track.createdAt));
 
   return (
     <Card className="overflow-hidden hover:shadow-md transition-shadow">

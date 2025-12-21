@@ -3,7 +3,7 @@
  * Features musical animations and brand-consistent styling
  */
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import logo from '@/assets/logo.png';
 
