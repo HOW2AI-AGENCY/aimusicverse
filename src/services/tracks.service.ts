@@ -84,12 +84,9 @@ export async function fetchTracksWithLikes(
     return { tracks: [], totalCount, hasMore: false };
   }
 
-  // Fetch likes in parallel
+  // Fetch likes with a single query (combined counts + user likes)
   const trackIds = tracks.map(t => t.id);
-  const [likesCounts, userLikes] = await Promise.all([
-    tracksApi.fetchTrackLikes(trackIds),
-    tracksApi.fetchUserLikes(userId, trackIds),
-  ]);
+  const { counts: likesCounts, userLikes } = await tracksApi.fetchTrackLikesWithUser(trackIds, userId);
 
   // Enrich tracks with like data
   const enrichedTracks: EnrichedTrack[] = tracks.map(track => ({

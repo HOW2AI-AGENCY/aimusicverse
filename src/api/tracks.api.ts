@@ -153,38 +153,56 @@ export async function deleteTrack(trackId: string): Promise<void> {
 }
 
 /**
- * Fetch track likes for multiple tracks
+ * Fetch track likes and user likes in a single query
+ * Returns both the count per track and which ones the user liked
  */
-export async function fetchTrackLikes(trackIds: string[]): Promise<Record<string, number>> {
-  if (trackIds.length === 0) return {};
+export async function fetchTrackLikesWithUser(
+  trackIds: string[],
+  userId?: string
+): Promise<{ counts: Record<string, number>; userLikes: Set<string> }> {
+  if (trackIds.length === 0) {
+    return { counts: {}, userLikes: new Set() };
+  }
 
+  // Single query to get all likes for these tracks
   const { data, error } = await supabase
     .from('track_likes')
-    .select('track_id')
+    .select('track_id, user_id')
     .in('track_id', trackIds);
 
   if (error) throw new Error(error.message);
 
-  return (data || []).reduce((acc, like) => {
-    acc[like.track_id] = (acc[like.track_id] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
+  const counts: Record<string, number> = {};
+  const userLikes = new Set<string>();
+
+  (data || []).forEach(like => {
+    // Count total likes
+    counts[like.track_id] = (counts[like.track_id] || 0) + 1;
+    // Track user's likes
+    if (userId && like.user_id === userId) {
+      userLikes.add(like.track_id);
+    }
+  });
+
+  return { counts, userLikes };
 }
 
 /**
+ * @deprecated Use fetchTrackLikesWithUser instead
+ * Fetch track likes for multiple tracks
+ */
+export async function fetchTrackLikes(trackIds: string[]): Promise<Record<string, number>> {
+  const result = await fetchTrackLikesWithUser(trackIds);
+  return result.counts;
+}
+
+/**
+ * @deprecated Use fetchTrackLikesWithUser instead
  * Fetch user's liked tracks
  */
 export async function fetchUserLikes(userId: string, trackIds: string[]): Promise<Set<string>> {
-  if (trackIds.length === 0) return new Set();
-
-  const { data, error } = await supabase
-    .from('track_likes')
-    .select('track_id')
-    .eq('user_id', userId)
-    .in('track_id', trackIds);
-
-  if (error) throw new Error(error.message);
-  return new Set((data || []).map(l => l.track_id));
+  const result = await fetchTrackLikesWithUser(trackIds, userId);
+  return result.userLikes;
 }
 
 /**

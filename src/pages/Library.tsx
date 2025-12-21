@@ -121,28 +121,7 @@ export default function Library() {
     prevGenerationsCount.current = activeGenerations.length;
   }, [activeGenerations.length, refetchTracks]);
 
-  // Infinite scroll - load more when bottom is reached
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  
-  const loadMoreRef = useCallback((node: HTMLDivElement | null) => {
-    if (observerRef.current) {
-      observerRef.current.disconnect();
-    }
-    
-    if (!node) return;
-    
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          log.debug('Loading next page');
-          fetchNextPage();
-        }
-      },
-      { threshold: 0.1, rootMargin: '200px' }
-    );
-    
-    observerRef.current.observe(node);
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+  // Note: Infinite scroll is now handled by VirtualizedTrackList's endReached callback
 
   const fullscreenTrackId = activeTrack?.id;
   const { data: versions } = useTrackVersions(fullscreenTrackId || "");

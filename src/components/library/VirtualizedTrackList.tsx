@@ -1,7 +1,8 @@
-import { useCallback, forwardRef, memo, useMemo } from "react";
-import { Virtuoso, VirtuosoGrid, VirtuosoHandle } from "react-virtuoso";
+import { useCallback, forwardRef, memo, useEffect, useRef } from "react";
+import { Virtuoso, VirtuosoGrid } from "react-virtuoso";
 import type { Track } from "@/types/track";
 import { TrackCard } from "@/components/TrackCard";
+import { Loader2 } from "lucide-react";
 
 interface TrackMidiStatus {
   hasMidi: boolean;
@@ -115,6 +116,9 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   hasMore,
   isLoadingMore,
 }: VirtualizedTrackListProps) {
+  const loadingRef = useRef(false);
+  const lastLoadTimeRef = useRef(0);
+  
   // Memoize item key computation for better React reconciliation
   const computeItemKey = useCallback(
     (index: number) => tracks[index]?.id || `track-${index}`,
@@ -146,11 +150,48 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     [tracks, viewMode, activeTrackId, getCountsForTrack, getMidiStatus, onPlay, onDelete, onDownload, onToggleLike]
   );
 
+  // Reliable load more with debounce to prevent duplicate calls
   const handleEndReached = useCallback(() => {
+    const now = Date.now();
+    // Debounce: don't load if already loading or loaded recently (500ms)
+    if (loadingRef.current || now - lastLoadTimeRef.current < 500) {
+      return;
+    }
+    
     if (hasMore && !isLoadingMore) {
+      loadingRef.current = true;
+      lastLoadTimeRef.current = now;
       onLoadMore();
+      
+      // Reset loading flag after a short delay
+      setTimeout(() => {
+        loadingRef.current = false;
+      }, 1000);
     }
   }, [hasMore, isLoadingMore, onLoadMore]);
+  
+  // Reset loading flag when loading state changes
+  useEffect(() => {
+    if (!isLoadingMore) {
+      loadingRef.current = false;
+    }
+  }, [isLoadingMore]);
+  
+  // Footer component to show loading indicator
+  const Footer = useCallback(() => {
+    if (!hasMore) return null;
+    
+    return (
+      <div className="flex justify-center py-6">
+        {isLoadingMore ? (
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        ) : (
+          // Invisible trigger for intersection observer backup
+          <div className="h-1" />
+        )}
+      </div>
+    );
+  }, [hasMore, isLoadingMore]);
 
   // Grid view with VirtuosoGrid
   if (viewMode === "grid") {
@@ -158,14 +199,16 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
       <VirtuosoGrid
         useWindowScroll
         totalCount={tracks.length}
-        overscan={300} // Increased for smoother scrolling
+        overscan={200}
         computeItemKey={computeItemKey}
         components={{
           List: GridContainer,
           Item: GridItemWrapper,
+          Footer,
         }}
         endReached={handleEndReached}
         itemContent={renderTrackItem}
+        increaseViewportBy={{ top: 200, bottom: 500 }}
       />
     );
   }
@@ -175,13 +218,15 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     <Virtuoso
       useWindowScroll
       totalCount={tracks.length}
-      overscan={600} // Higher overscan for list view (larger items)
+      overscan={400}
       computeItemKey={computeItemKey}
       components={{
         List: ListContainer,
+        Footer,
       }}
       endReached={handleEndReached}
       itemContent={renderTrackItem}
+      increaseViewportBy={{ top: 200, bottom: 500 }}
     />
   );
 });
