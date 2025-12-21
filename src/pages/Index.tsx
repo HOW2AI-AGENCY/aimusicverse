@@ -8,14 +8,13 @@ import { usePublicContentBatch, getGenrePlaylists } from "@/hooks/usePublicConte
 import { HeroQuickActions } from "@/components/home/HeroQuickActions";
 import { HomeHeader } from "@/components/home/HomeHeader";
 import { HomeSkeletonEnhanced } from "@/components/home/HomeSkeletonEnhanced";
+import { QuickPresetsCarousel } from "@/components/home/QuickPresetsCarousel";
 import { LazySection, SectionSkeleton } from "@/components/lazy/LazySection";
 import { motion, useReducedMotion } from '@/lib/motion';
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
-
-// Critical above-the-fold components - loaded sync
+import { QuickCreatePreset } from "@/constants/quickCreatePresets";
 import { CommunityNewTracksSection } from "@/components/home/CommunityNewTracksSection";
 
-// Below-the-fold and conditional components - lazy loaded
 const DailyCheckin = lazy(() => import("@/components/gamification/DailyCheckin").then(m => ({ default: m.DailyCheckin })));
 const CompactStatsWidget = lazy(() => import("@/components/home/CompactStatsWidget").then(m => ({ default: m.CompactStatsWidget })));
 const RecentTracksSection = lazy(() => import("@/components/home/RecentTracksSection").then(m => ({ default: m.RecentTracksSection })));
@@ -100,6 +99,9 @@ const Index = () => {
     navigate(`/generate?remix=${trackId}`);
   };
 
+  const handlePresetSelect = (preset: QuickCreatePreset) => {
+    setGenerateSheetOpen(true);
+  };
 
   // Animation props - disabled when reduced motion is preferred
   const fadeInUp = prefersReducedMotion 
@@ -156,6 +158,14 @@ const Index = () => {
             transition={{ delay: 0.1, duration: 0.3 }}
           >
             <HeroQuickActions onGenerateClick={() => setGenerateSheetOpen(true)} />
+          </motion.section>
+
+          {/* Quick Presets Carousel */}
+          <motion.section
+            {...fadeInUp}
+            transition={{ delay: 0.11, duration: 0.3 }}
+          >
+            <QuickPresetsCarousel onSelectPreset={handlePresetSelect} />
           </motion.section>
 
           {/* Community New Tracks Section */}
