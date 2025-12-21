@@ -556,6 +556,72 @@ _${escapeMarkdown(lyricsText)}_
     return;
   }
 
+  // Handle add_vocals and add_instrumental actions
+  if (action === 'add_vocals' || action === 'add_instrumental') {
+    const isAddVocals = action === 'add_vocals';
+    await answerCallbackQuery(callbackId, isAddVocals ? '🎤 Добавление вокала' : '🎸 Новая аранжировка');
+    
+    try {
+      // Get user profile
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('user_id')
+        .eq('telegram_id', userId)
+        .single();
+
+      if (!profile) {
+        await editMessageText(chatId, messageId, '❌ Профиль не найден\\. Откройте Mini App\\.');
+        return;
+      }
+
+      // Find the reference_audio record by telegram_file_id
+      const { data: refAudio, error: refError } = await supabase
+        .from('reference_audio')
+        .select('id, file_url, duration_seconds, style_description, genre, mood, transcription, has_vocals, has_instrumentals')
+        .eq('user_id', profile.user_id)
+        .eq('telegram_file_id', audioData.fileId)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (refError || !refAudio?.file_url) {
+        // Fallback: try to find by recent uploads
+        const { data: recentAudio } = await supabase
+          .from('reference_audio')
+          .select('id, file_url, duration_seconds, style_description, genre, mood, transcription, has_vocals, has_instrumentals')
+          .eq('user_id', profile.user_id)
+          .eq('analysis_status', 'completed')
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        if (!recentAudio?.file_url) {
+          await editMessageText(chatId, messageId, `❌ Аудио не найдено\\. Отправьте файл снова\\.`);
+          return;
+        }
+        
+        // Use recent audio
+        await processAddVocalsInstrumental(
+          chatId, userId, profile.user_id, messageId, action, recentAudio
+        );
+        return;
+      }
+
+      // Use found reference audio
+      await processAddVocalsInstrumental(
+        chatId, userId, profile.user_id, messageId, action, refAudio
+      );
+
+      // Consume audio data after successful initiation
+      await consumePendingAudio(userId);
+
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      await editMessageText(chatId, messageId, `❌ *Ошибка*\n\n${escapeMarkdown(errorMessage)}\n\nПопробуйте отправить аудио ещё раз\\.`);
+    }
+    return;
+  }
+
   await answerCallbackQuery(callbackId, '❌ Неизвестное действие');
 }
 
@@ -626,6 +692,96 @@ async function processGenerationWithReference(
 
     // Update progress message with task started status
     await editMessageText(chatId, messageId, `${modeEmoji} *Создание ${modeText}*\n\n▓▓░░░░░░░░ 20%\n🚀 Генерация запущена\\.\\.\\.\n\n⏳ Обычно 2\\-4 минуты\n\n🤖 _@AIMusicVerseBot_`);
+
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    await editMessageText(chatId, messageId, `❌ *Ошибка генерации*
+
+${escapeMarkdown(errorMessage)}
+
+Попробуйте:
+• Проверить формат файла
+• Использовать файл меньшего размера
+• Попробовать позже
+
+🤖 _@AIMusicVerseBot_`, {
+      inline_keyboard: [
+        [{ text: '🔄 Попробовать снова', callback_data: `audio_action_${action}` }],
+        [{ text: '🏠 Меню', callback_data: 'nav_main' }]
+      ]
+    });
+  }
+}
+
+/**
+ * Process add vocals/instrumental generation using existing reference audio URL
+ */
+async function processAddVocalsInstrumental(
+  chatId: number,
+  telegramUserId: number,
+  supabaseUserId: string,
+  messageId: number,
+  action: 'add_vocals' | 'add_instrumental',
+  refAudio: { 
+    id: string; 
+    file_url: string; 
+    duration_seconds?: number | null;
+    style_description?: string | null;
+    genre?: string | null;
+    mood?: string | null;
+    transcription?: string | null;
+    has_vocals?: boolean | null;
+    has_instrumentals?: boolean | null;
+  }
+): Promise<void> {
+  const isAddVocals = action === 'add_vocals';
+  const modeText = isAddVocals ? 'вокала' : 'аранжировки';
+  const modeEmoji = isAddVocals ? '🎤' : '🎸';
+  
+  // Send initial progress message
+  await editMessageText(chatId, messageId, `${modeEmoji} *Добавление ${modeText}*\n\n▓░░░░░░░░░ 10%\n⏳ Отправляем на обработку\\.\\.\\.\n\n🤖 _@AIMusicVerseBot_`);
+
+  // Build style prompt from analysis
+  const stylePrompt = refAudio.style_description || 
+    [refAudio.genre, refAudio.mood].filter(Boolean).join(', ') || 
+    'modern music';
+
+  // Build default prompt based on action
+  const defaultPrompt = isAddVocals 
+    ? 'Добавить профессиональный вокал к этому инструменталу'
+    : 'Создать новую профессиональную аранжировку для этого вокала';
+
+  try {
+    const endpoint = isAddVocals ? 'suno-add-vocals' : 'suno-add-instrumental';
+    
+    const { data, error } = await supabase.functions.invoke(endpoint, {
+      body: {
+        source: 'telegram_bot',
+        audioUrl: refAudio.file_url,
+        prompt: defaultPrompt,
+        style: stylePrompt,
+        title: '',
+        negativeTags: '',
+        referenceAudioId: refAudio.id,
+        customMode: false,
+        telegramChatId: chatId,
+        telegramMessageId: messageId,
+      },
+      headers: {
+        'x-telegram-bot-secret': Deno.env.get('TELEGRAM_BOT_TOKEN') || '',
+      },
+    });
+
+    if (error) {
+      throw new Error(error.message || 'Generation failed');
+    }
+
+    if (!data?.success) {
+      throw new Error(data?.error || 'No task ID received');
+    }
+
+    // Update progress message with task started status
+    await editMessageText(chatId, messageId, `${modeEmoji} *Добавление ${modeText}*\n\n▓▓░░░░░░░░ 20%\n🚀 Генерация запущена\\.\\.\\.\n\n⏳ Обычно 2\\-4 минуты\n\n🤖 _@AIMusicVerseBot_`);
 
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';

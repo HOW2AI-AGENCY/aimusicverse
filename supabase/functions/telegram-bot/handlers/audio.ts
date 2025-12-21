@@ -431,26 +431,60 @@ async function handleAutoUploadWithPipeline(
 
     // Build action keyboard
     const hasLyrics = pipelineResult?.lyrics && pipelineResult.lyrics.length > 0;
-    const keyboardRows = [
-      [
-        { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
-        { text: '➕ Расширить трек', callback_data: 'audio_action_extend' }
-      ],
-      [
+    const hasVocals = analysis.has_vocals;
+    const hasInstrumental = analysis.has_instrumental;
+    
+    // Build dynamic action rows based on audio type
+    type InlineButton = { text: string; callback_data?: string; web_app?: { url: string } };
+    const createActionRows = (): InlineButton[][] => {
+      const rows: InlineButton[][] = [
+        [
+          { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
+          { text: '➕ Расширить трек', callback_data: 'audio_action_extend' }
+        ],
+      ];
+      
+      // Add vocals/instrumental actions based on what's in the audio
+      if (hasInstrumental && !hasVocals) {
+        // Instrumental only - offer to add vocals
+        rows.push([
+          { text: '🎤 Добавить вокал', callback_data: 'audio_action_add_vocals' },
+        ]);
+      } else if (hasVocals && !hasInstrumental) {
+        // Vocal only - offer to add instrumental
+        rows.push([
+          { text: '🎸 Новая аранжировка', callback_data: 'audio_action_add_instrumental' },
+        ]);
+      } else if (hasVocals && hasInstrumental) {
+        // Both - offer both options
+        rows.push([
+          { text: '🎤 Добавить вокал', callback_data: 'audio_action_add_vocals' },
+          { text: '🎸 Новая аранжировка', callback_data: 'audio_action_add_instrumental' },
+        ]);
+      }
+      
+      rows.push([
         { text: '🎛️ Разделить на стемы', callback_data: 'audio_action_stems' },
         { text: '🎹 MIDI', callback_data: 'audio_action_midi' }
-      ],
-      hasLyrics 
-        ? [{ text: '📝 Полный текст', callback_data: 'audio_action_show_lyrics' }]
-        : [],
-      [
+      ]);
+      
+      if (hasLyrics) {
+        rows.push([{ text: '📝 Полный текст', callback_data: 'audio_action_show_lyrics' }]);
+      }
+      
+      rows.push([
         { text: '✏️ Изменить стиль', callback_data: 'audio_action_edit_style' },
         { text: '📂 Мои загрузки', callback_data: 'my_uploads' }
-      ],
-      [
+      ]);
+      
+      rows.push([
         { text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=cloud` } }
-      ]
-    ].filter(row => row.length > 0);
+      ]);
+      
+      return rows;
+    };
+    
+    const keyboardRows = createActionRows();
 
     // Send final result as new message
     const resultMsg = await sendMessage(chatId, resultText, { inline_keyboard: keyboardRows });
