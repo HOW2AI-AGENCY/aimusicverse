@@ -15,8 +15,6 @@ import {
   X,
   Play,
   Pause,
-  ZoomIn,
-  ZoomOut,
   Maximize2,
   FileCode2,
 } from 'lucide-react';
@@ -27,6 +25,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from '@/components/ui/dialog';
 import {
   Sheet,
@@ -36,11 +35,10 @@ import {
 } from '@/components/ui/sheet';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { StemTranscription } from '@/hooks/useStemTranscription';
-import { PianoRollPreview } from '@/components/analysis/PianoRollPreview';
+import { InteractivePianoRoll } from '@/components/analysis/InteractivePianoRoll';
 import { useMidiFileParser, ParsedMidiNote } from '@/hooks/useMidiFileParser';
 import { useMusicXmlParser } from '@/hooks/useMusicXmlParser';
 import { useMidiSynth } from '@/hooks/useMidiSynth';
@@ -64,14 +62,12 @@ export function NotesViewerDialog({
 }: NotesViewerDialogProps) {
   const isMobile = useIsMobile();
   const [activeTab, setActiveTab] = useState<'piano' | 'pdf' | 'guitar' | 'xml'>('piano');
-  const [zoom, setZoom] = useState(1);
   const [localTime, setLocalTime] = useState(0);
   const [localPlaying, setLocalPlaying] = useState(false);
 
   const { parseMidiFromUrl, parsedMidi, isLoading: isParsing } = useMidiFileParser();
   const { parseMusicXmlFromUrl, parsedXml, isLoading: isParsingXml } = useMusicXmlParser();
   const { playNote, stopAll, isReady } = useMidiSynth();
-  const [xmlZoom, setXmlZoom] = useState(1);
 
   // Parse MIDI when dialog opens
   useEffect(() => {
@@ -187,79 +183,57 @@ export function NotesViewerDialog({
 
         {/* Piano Roll Tab */}
         <TabsContent value="piano" className="flex-1 m-0">
-          <div className="space-y-4">
-            {/* Controls */}
-            <div className="flex items-center justify-between gap-4 flex-wrap">
-              <div className="flex items-center gap-2">
-                {transcription.notes_count && (
-                  <Badge variant="outline">
-                    {transcription.notes_count} нот
-                  </Badge>
-                )}
-                {transcription.bpm && (
-                  <Badge variant="outline">
-                    {Math.round(transcription.bpm)} BPM
-                  </Badge>
-                )}
-                {transcription.key_detected && (
-                  <Badge variant="outline">
-                    {transcription.key_detected}
-                  </Badge>
-                )}
-                {transcription.time_signature && (
-                  <Badge variant="outline">
-                    {transcription.time_signature}
-                  </Badge>
-                )}
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setZoom(Math.max(0.5, zoom - 0.25))}
-                  disabled={zoom <= 0.5}
-                >
-                  <ZoomOut className="w-4 h-4" />
-                </Button>
-                <span className="text-xs text-muted-foreground w-12 text-center">
-                  {Math.round(zoom * 100)}%
-                </span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setZoom(Math.min(2, zoom + 0.25))}
-                  disabled={zoom >= 2}
-                >
-                  <ZoomIn className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-
-            {/* Piano Roll */}
-            <div 
-              className="rounded-lg overflow-hidden border"
-              style={{ height: isMobile ? 200 : 300 }}
-            >
-              {notes.length > 0 ? (
-                <PianoRollPreview
-                  notes={notes}
-                  duration={duration}
-                  currentTime={localTime}
-                  height={isMobile ? 200 : 300}
-                />
-              ) : isParsing ? (
-                <div className="h-full flex items-center justify-center">
-                  <div className="animate-pulse text-muted-foreground">
-                    Загрузка MIDI...
-                  </div>
-                </div>
-              ) : (
-                <div className="h-full flex items-center justify-center">
-                  <p className="text-muted-foreground">Ноты не найдены</p>
-                </div>
+          <div className="space-y-3">
+            {/* Metadata badges */}
+            <div className="flex items-center gap-2 flex-wrap">
+              {transcription.notes_count && (
+                <Badge variant="outline">
+                  {transcription.notes_count} нот
+                </Badge>
+              )}
+              {transcription.bpm && (
+                <Badge variant="outline">
+                  {Math.round(transcription.bpm)} BPM
+                </Badge>
+              )}
+              {transcription.key_detected && (
+                <Badge variant="outline">
+                  {transcription.key_detected}
+                </Badge>
+              )}
+              {transcription.time_signature && (
+                <Badge variant="outline">
+                  {transcription.time_signature}
+                </Badge>
               )}
             </div>
+
+            {/* Interactive Piano Roll */}
+            {notes.length > 0 ? (
+              <InteractivePianoRoll
+                notes={notes}
+                duration={duration}
+                currentTime={localTime}
+                height={isMobile ? 220 : 320}
+              />
+            ) : isParsing ? (
+              <div 
+                className="rounded-lg border bg-muted/20 flex items-center justify-center"
+                style={{ height: isMobile ? 220 : 320 }}
+              >
+                <div className="animate-pulse text-muted-foreground flex items-center gap-2">
+                  <Piano className="w-5 h-5" />
+                  Загрузка MIDI...
+                </div>
+              </div>
+            ) : (
+              <div 
+                className="rounded-lg border bg-muted/20 flex items-center justify-center"
+                style={{ height: isMobile ? 220 : 320 }}
+              >
+                <p className="text-muted-foreground">Ноты не найдены</p>
+              </div>
+            )}
 
             {/* Download MIDI */}
             <div className="flex gap-2 flex-wrap">
@@ -442,95 +416,72 @@ export function NotesViewerDialog({
         {/* MusicXML Tab */}
         <TabsContent value="xml" className="flex-1 m-0">
           <div className="space-y-4">
-            {/* Controls */}
-            <div className="flex items-center justify-between gap-4 flex-wrap">
-              <div className="flex items-center gap-2">
-                {parsedXml?.notes && (
-                  <Badge variant="outline">
-                    {parsedXml.notes.length} нот
-                  </Badge>
-                )}
-                {parsedXml?.bpm && (
-                  <Badge variant="outline">
-                    {Math.round(parsedXml.bpm)} BPM
-                  </Badge>
-                )}
-                {parsedXml?.keySignature && (
-                  <Badge variant="outline">
-                    {parsedXml.keySignature}
-                  </Badge>
-                )}
-                {parsedXml?.timeSignature && (
-                  <Badge variant="outline">
-                    {parsedXml.timeSignature.numerator}/{parsedXml.timeSignature.denominator}
-                  </Badge>
-                )}
-                {parsedXml?.partNames && parsedXml.partNames.length > 0 && (
-                  <Badge variant="secondary" className="text-[10px]">
-                    {parsedXml.partNames.join(', ')}
-                  </Badge>
-                )}
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setXmlZoom(Math.max(0.5, xmlZoom - 0.25))}
-                  disabled={xmlZoom <= 0.5}
-                >
-                  <ZoomOut className="w-4 h-4" />
-                </Button>
-                <span className="text-xs text-muted-foreground w-12 text-center">
-                  {Math.round(xmlZoom * 100)}%
-                </span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setXmlZoom(Math.min(2, xmlZoom + 0.25))}
-                  disabled={xmlZoom >= 2}
-                >
-                  <ZoomIn className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-
-            {/* Piano Roll Visualization */}
-            <div 
-              className="rounded-lg overflow-hidden border"
-              style={{ height: isMobile ? 200 : 300 }}
-            >
-              {xmlNotes.length > 0 ? (
-                <PianoRollPreview
-                  notes={xmlNotes}
-                  duration={xmlDuration}
-                  currentTime={localTime}
-                  height={isMobile ? 200 : 300}
-                />
-              ) : isParsingXml ? (
-                <div className="h-full flex items-center justify-center">
-                  <div className="animate-pulse text-muted-foreground flex items-center gap-2">
-                    <FileCode2 className="w-5 h-5 animate-spin" />
-                    Парсинг MusicXML...
-                  </div>
-                </div>
-              ) : (
-                <div className="h-full flex items-center justify-center bg-gradient-to-br from-muted/30 to-muted/10">
-                  <div className="text-center">
-                    <FileCode2 className="w-10 h-10 text-muted-foreground mx-auto mb-2" />
-                    <p className="text-sm text-muted-foreground">Нажмите для загрузки визуализации</p>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="mt-2"
-                      onClick={() => transcription?.mxml_url && parseMusicXmlFromUrl(transcription.mxml_url)}
-                    >
-                      Загрузить ноты
-                    </Button>
-                  </div>
-                </div>
+            {/* Metadata badges */}
+            <div className="flex items-center gap-2 flex-wrap">
+              {parsedXml?.notes && (
+                <Badge variant="outline">
+                  {parsedXml.notes.length} нот
+                </Badge>
+              )}
+              {parsedXml?.bpm && (
+                <Badge variant="outline">
+                  {Math.round(parsedXml.bpm)} BPM
+                </Badge>
+              )}
+              {parsedXml?.keySignature && (
+                <Badge variant="outline">
+                  {parsedXml.keySignature}
+                </Badge>
+              )}
+              {parsedXml?.timeSignature && (
+                <Badge variant="outline">
+                  {parsedXml.timeSignature.numerator}/{parsedXml.timeSignature.denominator}
+                </Badge>
+              )}
+              {parsedXml?.partNames && parsedXml.partNames.length > 0 && (
+                <Badge variant="secondary" className="text-[10px]">
+                  {parsedXml.partNames.join(', ')}
+                </Badge>
               )}
             </div>
+
+            {/* Interactive Piano Roll Visualization */}
+            {xmlNotes.length > 0 ? (
+              <InteractivePianoRoll
+                notes={xmlNotes}
+                duration={xmlDuration}
+                currentTime={localTime}
+                height={isMobile ? 220 : 320}
+              />
+            ) : isParsingXml ? (
+              <div 
+                className="rounded-lg border bg-muted/20 flex items-center justify-center"
+                style={{ height: isMobile ? 220 : 320 }}
+              >
+                <div className="animate-pulse text-muted-foreground flex items-center gap-2">
+                  <FileCode2 className="w-5 h-5" />
+                  Парсинг MusicXML...
+                </div>
+              </div>
+            ) : (
+              <div 
+                className="rounded-lg border bg-gradient-to-br from-muted/30 to-muted/10 flex items-center justify-center"
+                style={{ height: isMobile ? 220 : 320 }}
+              >
+                <div className="text-center">
+                  <FileCode2 className="w-10 h-10 text-muted-foreground mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground">Нажмите для загрузки визуализации</p>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="mt-2"
+                    onClick={() => transcription?.mxml_url && parseMusicXmlFromUrl(transcription.mxml_url)}
+                  >
+                    Загрузить ноты
+                  </Button>
+                </div>
+              </div>
+            )}
 
             {/* Download and External Links */}
             <div className="flex items-center justify-between flex-wrap gap-2">
