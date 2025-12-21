@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Loader2, ZoomIn, ZoomOut, AlertCircle, RefreshCw, Maximize2, Minimize2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useMusicXML } from '@/hooks/useMusicXML';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 interface MusicXMLViewerProps {
   url: string;
@@ -209,17 +210,20 @@ export function MusicXMLViewer({
         />
       </div>
 
-      {/* Fullscreen dialog */}
+      {/* Fullscreen dialog - mobile optimized */}
       <Dialog open={isFullscreen} onOpenChange={setIsFullscreen}>
-        <DialogContent className="max-w-[100vw] w-[100vw] h-[100vh] max-h-[100vh] p-0 rounded-none">
-          <DialogHeader className="px-4 py-2 border-b flex-row items-center justify-between space-y-0">
-            <DialogTitle className="text-sm sm:text-base">Просмотр нот</DialogTitle>
-            <ZoomControls className="mr-8" />
+        <DialogContent className="max-w-[100vw] w-[100vw] h-[100dvh] max-h-[100dvh] p-0 rounded-none gap-0">
+          <DialogHeader className="px-2 sm:px-4 py-2 border-b flex-row items-center justify-between space-y-0 flex-shrink-0">
+            <DialogTitle className="text-xs sm:text-base">Ноты</DialogTitle>
+            <VisuallyHidden>
+              <DialogDescription>Полноэкранный просмотр нотной записи</DialogDescription>
+            </VisuallyHidden>
+            <ZoomControls className="mr-6 sm:mr-8" />
           </DialogHeader>
-          <div className="flex-1 overflow-auto p-2 sm:p-4 bg-muted/20">
+          <div className="flex-1 overflow-auto p-1 sm:p-4 bg-muted/20 min-h-0">
             <NotationContent 
               containerRefProp={fullscreenContainerRef} 
-              minHeight="calc(100vh - 80px)" 
+              minHeight="calc(100dvh - 60px)" 
             />
           </div>
         </DialogContent>
