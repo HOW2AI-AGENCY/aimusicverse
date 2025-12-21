@@ -205,7 +205,14 @@ serve(async (req) => {
     const KLANGIO_API_KEY = Deno.env.get("KLANGIO_API_KEY");
     if (!KLANGIO_API_KEY) {
       console.error("[klangio] KLANGIO_API_KEY not configured");
-      throw new Error("KLANGIO_API_KEY is not configured. Please add your Klangio API key.");
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: "KLANGIO_API_KEY is not configured", 
+          code: "SERVICE_UNAVAILABLE" 
+        }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
 
     supabase = createClient(
@@ -216,7 +223,14 @@ serve(async (req) => {
     const { audio_url, mode, model, outputs, vocabulary, user_id, title, stem_type } = await req.json() as KlangioRequest;
 
     if (!audio_url || !mode) {
-      throw new Error("audio_url and mode are required");
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: "audio_url and mode are required", 
+          code: "VALIDATION_ERROR" 
+        }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
 
     // Use intelligent model selection
@@ -311,7 +325,14 @@ serve(async (req) => {
         break;
         
       default:
-        throw new Error(`Unknown mode: ${mode}`);
+        return new Response(
+          JSON.stringify({ 
+            success: false, 
+            error: `Unknown mode: ${mode}`, 
+            code: "VALIDATION_ERROR" 
+          }),
+          { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
     }
 
     const endpoint = queryParams.toString()
@@ -347,12 +368,33 @@ serve(async (req) => {
       }
       
       if (submitResponse.status === 401) {
-        throw new Error("Invalid Klangio API key. Please check your KLANGIO_API_KEY.");
+        return new Response(
+          JSON.stringify({ 
+            success: false, 
+            error: "Invalid Klangio API key", 
+            code: "AUTH_ERROR" 
+          }),
+          { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
       }
       if (submitResponse.status === 422) {
-        throw new Error(`Klangio validation error: ${errorText}`);
+        return new Response(
+          JSON.stringify({ 
+            success: false, 
+            error: `Klangio validation error: ${errorText}`, 
+            code: "VALIDATION_ERROR" 
+          }),
+          { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
       }
-      throw new Error(`Klangio API error: ${submitResponse.status}`);
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: `Klangio API error: ${submitResponse.status}`, 
+          code: "API_ERROR" 
+        }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
 
     const jobResponse = await submitResponse.json();
