@@ -362,50 +362,75 @@ async function handleAutoUploadWithPipeline(
       hasVocals: pipelineResult?.analysis?.has_vocals,
     });
 
-    // Build final result message
+    // Delete progress message first
+    if (progressMessageId) {
+      try {
+        await deleteMessage(chatId, progressMessageId);
+      } catch (e) { /* ignore */ }
+    }
+
+    // Build final result message with analysis as quote block
     const processingTime = Math.round((Date.now() - startTime) / 1000);
     const analysis = pipelineResult?.analysis || {};
     
     let resultText = `✅ *Аудио сохранено и проанализировано\\!*\n\n` +
       `📁 ${escapeMarkdown(originalName)}\n` +
-      `⏱️ Время обработки: ${processingTime} сек\n\n`;
-
-    if (analysis.genre) {
-      resultText += `🎵 *Жанр:* ${escapeMarkdown(analysis.genre)}\n`;
-    }
-    if (analysis.mood) {
-      resultText += `💫 *Настроение:* ${escapeMarkdown(analysis.mood)}\n`;
-    }
-    if (analysis.bpm_estimate) {
-      resultText += `🥁 *BPM:* ${analysis.bpm_estimate}\n`;
-    }
-    if (analysis.energy) {
-      resultText += `⚡ *Энергия:* ${escapeMarkdown(analysis.energy)}\n`;
-    }
+      `⏱ Время обработки: ${processingTime} сек\n`;
 
     // Type indicator
     if (analysis.has_vocals && analysis.has_instrumental) {
-      resultText += `\n🎤🎸 *Тип:* Вокал \\+ Инструментал\n`;
-      if (pipelineResult?.stem_separation_started) {
-        resultText += `🎛️ Стемы разделяются автоматически\\!\n`;
-      }
+      resultText += `\n🎤 *Тип:* Вокал \\+ Инструментал\n`;
     } else if (analysis.has_vocals) {
       resultText += `\n🎤 *Тип:* Вокал\n`;
     } else {
       resultText += `\n🎸 *Тип:* Инструментал\n`;
     }
 
-    // Lyrics preview
-    if (pipelineResult?.lyrics) {
-      const lyricsPreview = pipelineResult.lyrics.substring(0, 120);
-      resultText += `\n📝 *Текст:*\n_${escapeMarkdown(lyricsPreview)}${pipelineResult.lyrics.length > 120 ? '\\.\\.\\.' : ''}_\n`;
+    // Analysis results as quote block
+    let analysisQuote = '';
+    if (analysis.genre) {
+      analysisQuote += `🎵 Жанр: ${analysis.genre}\n`;
+    }
+    if (analysis.mood) {
+      analysisQuote += `💫 Настроение: ${analysis.mood}\n`;
+    }
+    if (analysis.bpm_estimate) {
+      analysisQuote += `🥁 BPM: ${analysis.bpm_estimate}\n`;
+    }
+    if (analysis.energy) {
+      analysisQuote += `⚡ Энергия: ${analysis.energy}\n`;
+    }
+    if (analysis.vocal_style && analysis.has_vocals) {
+      analysisQuote += `🎙 Вокал: ${analysis.vocal_style}\n`;
+    }
+    if (analysis.instruments && analysis.instruments.length > 0) {
+      analysisQuote += `🎹 Инструменты: ${analysis.instruments.slice(0, 5).join(', ')}\n`;
     }
 
-    resultText += `\n▓▓▓▓▓▓▓▓▓▓ 100%`;
+    // Format as blockquote (Telegram MarkdownV2)
+    if (analysisQuote) {
+      const quotedLines = analysisQuote.trim().split('\n').map(line => `>${escapeMarkdown(line)}`).join('\n');
+      resultText += `\n${quotedLines}\n`;
+    }
+
+    // Style prompt as italic
+    if (analysis.style_prompt) {
+      resultText += `\n_${escapeMarkdown(analysis.style_prompt.substring(0, 200))}_\n`;
+    }
+
+    // Lyrics preview
+    if (pipelineResult?.lyrics) {
+      const lyricsPreview = pipelineResult.lyrics.substring(0, 100);
+      resultText += `\n📝 *Текст:*\n_${escapeMarkdown(lyricsPreview)}${pipelineResult.lyrics.length > 100 ? '\\.\\.\\.' : ''}_\n`;
+    }
+
+    // Stem info
+    if (pipelineResult?.stem_separation_started || pipelineResult?.stems?.status === 'completed') {
+      resultText += `\n🎛 Стемы: ${pipelineResult?.stems?.status === 'completed' ? 'Готовы' : 'Обрабатываются'}\n`;
+    }
 
     // Build action keyboard
     const hasLyrics = pipelineResult?.lyrics && pipelineResult.lyrics.length > 0;
-    const hasBothVocalAndInstrumental = analysis.has_vocals && analysis.has_instrumental;
     const keyboardRows = [
       [
         { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
@@ -427,24 +452,10 @@ async function handleAutoUploadWithPipeline(
       ]
     ].filter(row => row.length > 0);
 
-    // Send final result (edit or new message)
-    if (progressMessageId) {
-      try {
-        const { editMessageText } = await import('../telegram-api.ts');
-        await editMessageText(chatId, progressMessageId, resultText, { inline_keyboard: keyboardRows });
-      } catch (e) {
-        // If edit fails, send new message
-        await deleteMessage(chatId, progressMessageId);
-        const resultMsg = await sendMessage(chatId, resultText, { inline_keyboard: keyboardRows });
-        if (resultMsg?.result?.message_id) {
-          await setActiveMenuMessageId(userId, chatId, resultMsg.result.message_id, 'audio_result');
-        }
-      }
-    } else {
-      const resultMsg = await sendMessage(chatId, resultText, { inline_keyboard: keyboardRows });
-      if (resultMsg?.result?.message_id) {
-        await setActiveMenuMessageId(userId, chatId, resultMsg.result.message_id, 'audio_result');
-      }
+    // Send final result as new message
+    const resultMsg = await sendMessage(chatId, resultText, { inline_keyboard: keyboardRows });
+    if (resultMsg?.result?.message_id) {
+      await setActiveMenuMessageId(userId, chatId, resultMsg.result.message_id, 'audio_result');
     }
 
     trackMetric({
