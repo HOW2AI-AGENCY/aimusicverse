@@ -239,3 +239,9 @@ verify_jwt = true
 
 [functions.separate-reference-stems]
 verify_jwt = false
+
+[functions.lyrics-ai-assistant]
+verify_jwt = true
+
+[functions.analyze-reference-audio]
+verify_jwt = true
