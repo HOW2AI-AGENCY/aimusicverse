@@ -26,6 +26,7 @@ import {
   FileMusic,
   Music,
   ExternalLink,
+  MicVocal,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
@@ -36,6 +37,7 @@ import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ChordDiagramUnified } from './ChordDiagramUnified';
 import { WaveformWithChords } from './WaveformWithChords';
+import { AddVocalsToGuitarDialog } from './AddVocalsToGuitarDialog';
 import type { GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
 
 interface GuitarAnalysisReportSimplifiedProps {
@@ -60,6 +62,7 @@ export function GuitarAnalysisReportSimplified({
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [activeTab, setActiveTab] = useState('chords');
+  const [addVocalsOpen, setAddVocalsOpen] = useState(false);
 
   const uniqueChords = [...new Set(analysis.chords.map(c => c.chord))];
 
@@ -437,6 +440,16 @@ export function GuitarAnalysisReportSimplified({
               </div>
 
               {/* Actions */}
+              {/* Add Vocals Button */}
+              <Button 
+                variant="outline" 
+                onClick={() => setAddVocalsOpen(true)} 
+                className="w-full gap-2 bg-gradient-to-r from-rose-500/10 to-pink-500/10 border-rose-500/30 hover:border-rose-500/50"
+              >
+                <MicVocal className="w-4 h-4 text-rose-400" />
+                Добавить вокал
+              </Button>
+
               {(onSave || onCreateTrack) && (
                 <>
                   <Separator />
@@ -472,6 +485,15 @@ export function GuitarAnalysisReportSimplified({
           </CardContent>
         </Card>
       )}
+
+      {/* Add Vocals Dialog */}
+      <AddVocalsToGuitarDialog
+        open={addVocalsOpen}
+        onOpenChange={setAddVocalsOpen}
+        audioUrl={analysis.audioUrl || audioUrl}
+        suggestedStyle={analysis.styleDescription}
+        suggestedTags={analysis.generatedTags}
+      />
     </div>
   );
 }

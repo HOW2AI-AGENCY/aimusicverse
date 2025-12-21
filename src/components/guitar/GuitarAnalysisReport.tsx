@@ -8,7 +8,7 @@ import {
   Play, Pause, Copy, Sparkles, ArrowRight, FileText,
   Music2, Gauge, Key, Clock,
   Guitar, Piano, Drum, ArrowUpDown, ChevronDown,
-  ChevronUp, Save
+  ChevronUp, Save, MicVocal
 } from 'lucide-react';
 import { ChordDiagramUnified as ChordDiagram } from './ChordDiagramUnified';
 import { WaveformWithChords } from './WaveformWithChords';
@@ -17,6 +17,7 @@ import { PianoRollPreview } from '@/components/analysis/PianoRollPreview';
 import { BeatGridVisualization } from '@/components/analysis/BeatGridVisualization';
 import { GuitarTabVisualization } from '@/components/analysis/GuitarTabVisualization';
 import { StrummingPatternVisualization } from '@/components/analysis/StrummingPatternVisualization';
+import { AddVocalsToGuitarDialog } from './AddVocalsToGuitarDialog';
 import type { GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -41,6 +42,7 @@ export function GuitarAnalysisReport({
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [showAllChords, setShowAllChords] = useState(false);
+  const [addVocalsOpen, setAddVocalsOpen] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -352,23 +354,44 @@ export function GuitarAnalysisReport({
 
             <Separator className="my-4" />
 
-            <div className="flex gap-2">
-              {onSave && (
-                <Button variant="outline" onClick={onSave} className="flex-1">
-                  <Save className="w-4 h-4 mr-2" />
-                  Сохранить
-                </Button>
-              )}
-              {onCreateTrack && (
-                <Button onClick={onCreateTrack} className="flex-1">
-                  Создать трек
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              )}
+            <div className="flex flex-col gap-2">
+              {/* Add Vocals Button - NEW */}
+              <Button 
+                variant="outline" 
+                onClick={() => setAddVocalsOpen(true)} 
+                className="w-full gap-2 bg-gradient-to-r from-rose-500/10 to-pink-500/10 border-rose-500/30 hover:border-rose-500/50"
+              >
+                <MicVocal className="w-4 h-4 text-rose-400" />
+                Добавить вокал
+              </Button>
+
+              <div className="flex gap-2">
+                {onSave && (
+                  <Button variant="outline" onClick={onSave} className="flex-1">
+                    <Save className="w-4 h-4 mr-2" />
+                    Сохранить
+                  </Button>
+                )}
+                {onCreateTrack && (
+                  <Button onClick={onCreateTrack} className="flex-1">
+                    Создать трек
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                )}
+              </div>
             </div>
           </CardContent>
         </Card>
       </motion.div>
+
+      {/* Add Vocals Dialog */}
+      <AddVocalsToGuitarDialog
+        open={addVocalsOpen}
+        onOpenChange={setAddVocalsOpen}
+        audioUrl={analysis.audioUrl || audioUrl}
+        suggestedStyle={analysis.styleDescription}
+        suggestedTags={analysis.generatedTags}
+      />
     </div>
   );
 }
