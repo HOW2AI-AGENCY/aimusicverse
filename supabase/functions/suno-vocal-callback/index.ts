@@ -200,7 +200,7 @@ serve(async (req) => {
       priority: 6,
     });
 
-    // Send Telegram notification with stem audio files
+    // Send ONE consolidated Telegram notification with all stems as media group
     const { data: profile } = await supabase
       .from('profiles')
       .select('telegram_chat_id')
@@ -208,21 +208,24 @@ serve(async (req) => {
       .single();
 
     if (profile?.telegram_chat_id) {
-      // Send notification for each stem with audio file
-      for (const stem of stemsToInsert) {
-        const stemLabel = stem.stem_type.charAt(0).toUpperCase() + stem.stem_type.slice(1);
-        await supabase.functions.invoke('send-telegram-notification', {
-          body: {
-            type: 'stem_ready',
-            chatId: profile.telegram_chat_id,
-            trackId: track.id,
-            audioUrl: stem.audio_url,
-            title: `${track.title || 'Трек'} - ${stemLabel}`,
-            coverUrl: track.cover_url,
-            message: `Стем ${stemLabel} готов`,
-          },
-        });
-      }
+      // Prepare stems data for consolidated notification
+      const stemsData = stemsToInsert.map(stem => ({
+        type: stem.stem_type,
+        label: stem.stem_type.charAt(0).toUpperCase() + stem.stem_type.slice(1),
+        audioUrl: stem.audio_url,
+      }));
+
+      await supabase.functions.invoke('send-telegram-notification', {
+        body: {
+          type: 'stems_complete',
+          chatId: profile.telegram_chat_id,
+          trackId: track.id,
+          trackTitle: track.title || 'Трек',
+          coverUrl: track.cover_url,
+          stems: stemsData,
+          stemsCount: stemsToInsert.length,
+        },
+      });
     }
 
     return new Response(

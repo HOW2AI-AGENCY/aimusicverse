@@ -45,6 +45,10 @@ interface NotificationPayload {
   message?: string;
   progress?: number;
   messageId?: number; // For editing/deleting progress messages
+  // Stems complete notification fields
+  trackTitle?: string;
+  stems?: Array<{ type: string; label: string; audioUrl: string }>;
+  stemsCount?: number;
 }
 
 interface NotificationSettings {
@@ -772,7 +776,36 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Handle stem_ready notification - send audio file with stem
+    // Handle stems_complete notification - ONE consolidated message for all stems
+    if (type === 'stems_complete' && payload.stems && payload.stems.length > 0) {
+      logger.info('Processing stems_complete notification', { 
+        trackId: finalTrackId, 
+        stemsCount: payload.stems.length 
+      });
+      
+      const trackTitle = escapeMarkdown(payload.trackTitle || 'Трек');
+      const stemsCount = payload.stemsCount || payload.stems.length;
+      const stemsList = payload.stems
+        .map((s: { type: string; label: string }) => `• ${s.label}`)
+        .join('\n');
+      
+      const caption = `🎛️ *Стемы готовы\\!*\n\n🎵 *${trackTitle}*\n\nРазделено на ${stemsCount} дорожек:\n${escapeMarkdown(stemsList)}\n\n🤖 _@AIMusicVerseBot_`;
+      
+      await sendTelegramMessage(finalChatId, caption, {
+        inline_keyboard: [
+          [{ text: '🎛️ Открыть в студии', url: `${botDeepLink}?startapp=studio_${finalTrackId}` }],
+          [{ text: '📥 Скачать все стемы', callback_data: `download_stems_${finalTrackId}` }],
+          [{ text: '🏠 Меню', callback_data: 'open_main_menu' }]
+        ]
+      });
+
+      return new Response(
+        JSON.stringify({ success: true, type: 'stems_complete' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Handle stem_ready notification - send audio file with stem (single stem)
     if (type === 'stem_ready' && audioUrl && finalTrackId) {
       logger.info('Processing stem_ready notification', { trackId: finalTrackId });
       

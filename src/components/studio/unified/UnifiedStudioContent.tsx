@@ -249,7 +249,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
     const loadStemAsync = async (stem: TrackStem) => {
       if (!stemAudioRefs.current[stem.id]) {
         const audio = new Audio();
-        audio.preload = 'metadata';
+        audio.preload = 'auto'; // Changed from 'metadata' to 'auto' for faster loading
         audio.volume = 0.85;
         audio.crossOrigin = 'anonymous';
 
@@ -287,7 +287,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           audio.dataset.fromCache = 'true';
         }
 
-        // Fallback: if metadata doesn't load quickly, count it anyway
+        // Faster fallback timeout - don't wait too long
         setTimeout(() => {
           if (!audio.dataset.counted && audio.readyState < 1) {
             audio.dataset.counted = 'true';
@@ -298,7 +298,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
               readyState: audio.readyState,
             });
           }
-        }, 3000);
+        }, 1500); // Reduced from 3000ms to 1500ms
 
         stemAudioRefs.current[stem.id] = audio;
       } else {
@@ -323,10 +323,9 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       }
     };
 
-    // Load stems in priority order with slight stagger for network efficiency
-    prioritizedStems.forEach((stem, index) => {
-      setTimeout(() => loadStemAsync(stem), index * 100); // 100ms stagger
-    });
+    // Load all stems in parallel for faster loading
+    // No stagger delay - modern browsers handle parallel connections efficiently
+    Promise.all(prioritizedStems.map(stem => loadStemAsync(stem)));
 
     // Cleanup: remove audio elements for stems that no longer exist
     const stemIds = new Set(stems.map((s) => s.id));
@@ -350,14 +349,10 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
     };
   }, [stems, loadStemWithCache]);
 
-  // Prefetch stems in background when track loads
+  // Prefetch stems immediately - no delay needed since main loading already started
   useEffect(() => {
     if (stems && stems.length > 0) {
-      // Delay prefetch to not compete with initial load
-      const timer = setTimeout(() => {
-        prefetchStems(stems);
-      }, 2000);
-      return () => clearTimeout(timer);
+      prefetchStems(stems);
     }
   }, [stems, prefetchStems]);
 
