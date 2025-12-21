@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Music2, Download, Loader2, 
   Piano, Mic2, Drum, Guitar, FileAudio,
-  Play, FileText, CheckCircle2, Eye
+  Play, FileText, CheckCircle2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -28,9 +28,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { useReplicateMidiTranscription, TranscriptionFiles } from '@/hooks/useReplicateMidiTranscription';
 import { useStemTranscription, useSaveTranscription } from '@/hooks/useStemTranscription';
-import { MidiPlayerCard } from '@/components/studio/MidiPlayerCard';
+import { UnifiedNotesViewer } from '@/components/studio/UnifiedNotesViewer';
 import { MidiFilesCard } from '@/components/studio/MidiFilesCard';
-import { NotesViewerDialog } from '@/components/studio/NotesViewerDialog';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -80,7 +79,7 @@ export function StemMidiDrawer({
   const [activeTab, setActiveTab] = useState<'create' | 'player' | 'files'>('create');
   const [activeMidiUrl, setActiveMidiUrl] = useState<string | null>(null);
   const [transcriptionFiles, setTranscriptionFiles] = useState<TranscriptionFiles>({});
-  const [notesViewerOpen, setNotesViewerOpen] = useState(false);
+  
   
   const { 
     transcribe, 
@@ -494,12 +493,22 @@ export function StemMidiDrawer({
               <ScrollArea className="h-full -mx-6 px-6">
                 <div className="pb-6">
                   {(activeMidiUrl || latestMidiUrl) ? (
-                    <MidiPlayerCard
-                      midiUrl={activeMidiUrl || latestMidiUrl!}
-                      musicXmlUrl={transcriptionFiles.mxml || latestTranscription?.mxml_url || undefined}
-                      title={`${stem.stem_type} MIDI`}
-                      onDownload={() => handleDownloadMidi(activeMidiUrl || latestMidiUrl!)}
-                      defaultViewMode={transcriptionFiles.mxml || latestTranscription?.mxml_url ? 'notation' : 'piano'}
+                    <UnifiedNotesViewer
+                      midiUrl={activeMidiUrl || latestMidiUrl}
+                      musicXmlUrl={transcriptionFiles.mxml || latestTranscription?.mxml_url}
+                      notes={latestTranscription?.notes as any[] || undefined}
+                      bpm={latestTranscription?.bpm || undefined}
+                      keySignature={latestTranscription?.key_detected || undefined}
+                      timeSignature={latestTranscription?.time_signature || undefined}
+                      notesCount={latestTranscription?.notes_count || undefined}
+                      model={latestTranscription?.model}
+                      files={{
+                        midiUrl: transcriptionFiles.midi || latestTranscription?.midi_url,
+                        midiQuantUrl: transcriptionFiles.midi_quant || latestTranscription?.midi_quant_url,
+                        pdfUrl: transcriptionFiles.pdf || latestTranscription?.pdf_url,
+                        gp5Url: transcriptionFiles.gp5 || latestTranscription?.gp5_url,
+                        musicXmlUrl: transcriptionFiles.mxml || latestTranscription?.mxml_url,
+                      }}
                     />
                   ) : (
                     <div className="flex flex-col items-center justify-center py-8 sm:py-12 text-center px-4">
@@ -518,24 +527,10 @@ export function StemMidiDrawer({
               <ScrollArea className="h-full -mx-6 px-6">
                 <div className="pb-6 space-y-4">
                   {hasFiles ? (
-                    <>
-                      <MidiFilesCard
-                        files={transcriptionFiles}
-                        title="Доступные файлы"
-                      />
-                      
-                      {/* View Notes Button */}
-                      {(latestTranscription?.midi_url || latestTranscription?.mxml_url || latestTranscription?.notes) && (
-                        <Button
-                          variant="outline"
-                          className="w-full"
-                          onClick={() => setNotesViewerOpen(true)}
-                        >
-                          <Eye className="w-4 h-4 mr-2" />
-                          Просмотр нот
-                        </Button>
-                      )}
-                    </>
+                    <MidiFilesCard
+                      files={transcriptionFiles}
+                      title="Доступные файлы"
+                    />
                   ) : (
                     <div className="flex flex-col items-center justify-center py-12 text-center">
                       <Music2 className="w-12 h-12 text-muted-foreground mb-4" />
@@ -551,14 +546,6 @@ export function StemMidiDrawer({
           </Tabs>
         )}
       </SheetContent>
-      
-      {/* Notes Viewer Dialog */}
-      <NotesViewerDialog
-        open={notesViewerOpen}
-        onOpenChange={setNotesViewerOpen}
-        transcription={latestTranscription}
-        stemType={stem?.stem_type}
-      />
     </Sheet>
   );
 }
