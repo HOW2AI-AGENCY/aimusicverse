@@ -25,9 +25,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Slider } from '@/components/ui/slider';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { InteractivePianoRoll } from '@/components/analysis/InteractivePianoRoll';
-import { StaffNotation } from '@/components/analysis/StaffNotation';
+import { MusicXMLViewer } from '@/components/guitar/MusicXMLViewer';
 import { useMidiFileParser, type ParsedMidiNote } from '@/hooks/useMidiFileParser';
-import { useMusicXmlParser } from '@/hooks/useMusicXmlParser';
 import { useMidiSynth } from '@/hooks/useMidiSynth';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
@@ -137,13 +136,6 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
     isLoading: isParsing 
   } = useMidiFileParser();
   
-  // MusicXML parsing (custom parser that works reliably)
-  const {
-    parseMusicXmlFromUrl,
-    parsedXml,
-    isLoading: isParsingXml,
-  } = useMusicXmlParser();
-  
   // MIDI synth for playback
   const {
     isReady: synthReady,
@@ -169,13 +161,6 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
       parseMidiFromUrl(effectiveMidiUrl);
     }
   }, [effectiveMidiUrl, providedNotes?.length, parseMidiFromUrl]);
-  
-  // Parse MusicXML when in notation mode and URL is available
-  useEffect(() => {
-    if (effectiveMusicXmlUrl && viewMode === 'notation') {
-      parseMusicXmlFromUrl(effectiveMusicXmlUrl);
-    }
-  }, [effectiveMusicXmlUrl, viewMode, parseMusicXmlFromUrl]);
   
   // Use parsed or provided notes
   const notes = useMemo((): ParsedMidiNote[] => {
@@ -432,53 +417,14 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
             </div>
           )}
           
-          {viewMode === 'notation' && (
-            <div className="min-w-[300px]">
-              {isParsingXml ? (
-                <div 
-                  className="rounded-lg border bg-muted/20 flex items-center justify-center"
-                  style={{ height: visualHeight }}
-                >
-                  <div className="animate-pulse text-muted-foreground flex items-center gap-2">
-                    <Music2 className="w-5 h-5" />
-                    Загрузка нот...
-                  </div>
-                </div>
-              ) : (parsedXml?.notes?.length ?? 0) > 0 ? (
-                <StaffNotation
-                  notes={parsedXml!.notes.map(n => ({
-                    pitch: n.pitch,
-                    startTime: n.startTime,
-                    endTime: n.endTime,
-                    duration: n.duration,
-                    velocity: n.velocity,
-                    noteName: n.noteName,
-                    track: n.track,
-                  }))}
-                  duration={parsedXml!.duration}
-                  bpm={parsedXml?.bpm ?? effectiveBpm}
-                  timeSignature={parsedXml?.timeSignature ?? parsedTimeSignature}
-                  keySignature={parsedXml?.keySignature ?? keySignature}
-                  height={visualHeight}
-                />
-              ) : notes.length > 0 ? (
-                <StaffNotation
-                  notes={notes}
-                  duration={duration}
-                  bpm={effectiveBpm}
-                  timeSignature={parsedTimeSignature}
-                  keySignature={keySignature}
-                  height={visualHeight}
-                />
-              ) : (
-                <div 
-                  className="rounded-lg border bg-muted/20 flex flex-col items-center justify-center gap-2"
-                  style={{ height: visualHeight }}
-                >
-                  <Music2 className="w-8 h-8 text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground">Нет нот для отображения</p>
-                </div>
-              )}
+          {viewMode === 'notation' && effectiveMusicXmlUrl && (
+            <div className="min-w-[300px]" style={{ minHeight: visualHeight }}>
+              <MusicXMLViewer
+                url={effectiveMusicXmlUrl}
+                className="w-full"
+                onLoaded={() => toast.success('Ноты загружены')}
+                onError={(err) => toast.error(`Ошибка загрузки нот: ${err.message}`)}
+              />
             </div>
           )}
         </div>
