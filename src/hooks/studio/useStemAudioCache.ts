@@ -74,28 +74,25 @@ export function useStemAudioCache(stems: TrackStem[]): UseStemAudioCacheResult {
         return true;
       }
 
-      // Not in cache - load from network and cache for future
+      // Not in cache - load from network
       audioElement.src = stem.audio_url;
       
-      audioElement.addEventListener('canplaythrough', async () => {
+      // Start caching in background immediately (don't block playback)
+      audioElement.addEventListener('loadstart', () => {
         loadedStemsRef.current.add(stem.id);
         
-        // Cache in background (don't await)
-        try {
-          const response = await fetch(stem.audio_url);
-          if (response.ok) {
-            const blob = await response.blob();
-            await cacheAudio(stem.audio_url, blob);
-            logger.debug('Stem cached after load', { 
-              stemId: stem.id, 
-              type: stem.stem_type,
-              size: blob.size 
-            });
-          }
-        } catch (cacheError) {
-          // Caching failure is not critical
-          logger.warn('Failed to cache stem', { stemId: stem.id, error: cacheError });
-        }
+        // Background cache - fire and forget
+        fetch(stem.audio_url)
+          .then(response => {
+            if (response.ok) {
+              return response.blob();
+            }
+            throw new Error('Fetch failed');
+          })
+          .then(blob => cacheAudio(stem.audio_url, blob))
+          .catch(() => {
+            // Caching failure is not critical
+          });
       }, { once: true });
 
       return true;
@@ -121,30 +118,15 @@ export function useStemAudioCache(stems: TrackStem[]): UseStemAudioCacheResult {
       return priorityA - priorityB;
     });
 
-    // Prefetch in batches to avoid overwhelming the network
-    const BATCH_SIZE = 2;
-    let batchIndex = 0;
-
-    const prefetchBatch = () => {
-      const batch = sorted.slice(batchIndex * BATCH_SIZE, (batchIndex + 1) * BATCH_SIZE);
-      
-      batch.forEach(stem => {
-        if (!prefetchedRef.current.has(stem.audio_url)) {
-          prefetchedRef.current.add(stem.audio_url);
-          prefetchAudio(stem.audio_url).catch(() => {
-            // Prefetch failure is not critical
-          });
-        }
-      });
-
-      batchIndex++;
-      if (batchIndex * BATCH_SIZE < sorted.length) {
-        // Prefetch next batch after a short delay
-        setTimeout(prefetchBatch, 1000);
+    // Prefetch all at once - browsers handle connection pooling
+    sorted.forEach(stem => {
+      if (!prefetchedRef.current.has(stem.audio_url)) {
+        prefetchedRef.current.add(stem.audio_url);
+        prefetchAudio(stem.audio_url).catch(() => {
+          // Prefetch failure is not critical
+        });
       }
-    };
-
-    prefetchBatch();
+    });
   }, []);
 
   /**
