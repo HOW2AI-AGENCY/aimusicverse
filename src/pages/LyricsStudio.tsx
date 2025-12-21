@@ -501,6 +501,21 @@ export default function LyricsStudio() {
                           )
                         );
                       }
+                      setIsDirty(true);
+                      setAiPanelOpen(false);
+                    }}
+                    onReplaceLyrics={(text: string) => {
+                      if (selectedSection) {
+                        handleSectionsChange(
+                          sections.map(s => 
+                            s.id === selectedSection.id 
+                              ? { ...s, content: text }
+                              : s
+                          )
+                        );
+                        setIsDirty(true);
+                        setAiPanelOpen(false);
+                      }
                     }}
                     onAddTags={(tags: string[]) => {
                       setGlobalTags(prev => [...new Set([...prev, ...tags])]);
@@ -564,6 +579,7 @@ export default function LyricsStudio() {
                     )
                   );
                 }
+                setIsDirty(true);
                 setAiPanelOpen(false);
               }}
               onReplaceLyrics={(text: string) => {
@@ -575,6 +591,7 @@ export default function LyricsStudio() {
                         : s
                     )
                   );
+                  setIsDirty(true);
                   setAiPanelOpen(false);
                 }
               }}
