@@ -4,7 +4,7 @@
  */
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
-import { sendPhoto, editMessageMedia } from '../telegram-api.ts';
+import { sendPhoto, editMessageMedia, escapeMarkdownV2 } from '../telegram-api.ts';
 import { buildMessage, createKeyValue, createProgressBar } from '../utils/message-formatter.ts';
 import { ButtonBuilder } from '../utils/button-builder.ts';
 import { getMenuImage } from '../keyboards/menu-images.ts';
@@ -162,20 +162,18 @@ export async function handleDashboard(
   const streakEmoji = getStreakEmoji(data.streak);
   const tierEmoji = getTierEmoji(data.subscriptionTier);
   
-  // Compact header with key stats
-  const headerLine = `${greeting}, ${data.firstName}! ${tierEmoji}`;
+  // IMPORTANT: We use MarkdownV2 in sendPhoto/editMessageMedia, so all dynamic text must be escaped.
+  const headerLineRaw = `${greeting}, ${data.firstName}! ${tierEmoji}`;
+  const headerLine = escapeMarkdownV2(headerLineRaw);
   
-  // Balance and streak line
-  const balanceLine = `💰 ${data.balance} кредитов`;
-  const streakLine = data.streak > 0 ? ` │ ${streakEmoji} ${data.streak} дн` : '';
-  const levelLine = ` │ Ур. ${data.level}`;
+  const balanceLine = escapeMarkdownV2(`💰 ${data.balance} кредитов`);
+  const streakLine = data.streak > 0 ? escapeMarkdownV2(` │ ${streakEmoji} ${data.streak} дн`) : '';
+  const levelLine = escapeMarkdownV2(` │ Ур. ${data.level}`);
   
-  // Stats line - compact
-  const statsLine = `🎵 ${data.trackCount} треков │ ❤️ ${data.likesReceived} │ ▶️ ${data.totalPlays}`;
+  const statsLine = escapeMarkdownV2(`🎵 ${data.trackCount} треков │ ❤️ ${data.likesReceived} │ ▶️ ${data.totalPlays}`);
   
-  // Active generation indicator
   const activeGenLine = data.activeGenerations > 0 
-    ? `\n\n⚡ *Генерируется:* ${data.activeGenerations} трек(ов)` 
+    ? `\n\n⚡ *Генерируется:* ${data.activeGenerations} ${escapeMarkdownV2('трек(ов)')}`
     : '';
 
   const caption = `*${headerLine}*\n━━━━━━━━━━━━━━━━━━\n\n${balanceLine}${streakLine}${levelLine}\n\n${statsLine}${activeGenLine}\n\n👇 *Выберите действие:*`;
