@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useNotificationHub, NotificationItem } from '@/contexts/NotificationContext';
-import { Info, CheckCircle, AlertTriangle, XCircle, Music2 } from 'lucide-react';
+import { Info, CheckCircle, AlertTriangle, XCircle, Music2, FileMusic, Trophy, Users, Settings } from 'lucide-react';
 
 const iconMap = {
   info: Info,
@@ -23,6 +23,10 @@ const iconMap = {
   warning: AlertTriangle,
   error: XCircle,
   generation: Music2,
+  project: FileMusic,
+  social: Users,
+  achievement: Trophy,
+  system: Settings,
 };
 
 const colorMap = {
@@ -31,6 +35,10 @@ const colorMap = {
   warning: 'text-yellow-500 bg-yellow-500/10',
   error: 'text-red-500 bg-red-500/10',
   generation: 'text-primary bg-primary/10',
+  project: 'text-purple-500 bg-purple-500/10',
+  social: 'text-pink-500 bg-pink-500/10',
+  achievement: 'text-amber-500 bg-amber-500/10',
+  system: 'text-slate-500 bg-slate-500/10',
 };
 
 function NotificationCard({ 

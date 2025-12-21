@@ -278,3 +278,46 @@ export async function notifySystem(
     priority: 3,
   });
 }
+
+/**
+ * MIDI/Transcription notification
+ */
+export async function notifyTranscriptionComplete(
+  userId: string,
+  recordingTitle: string,
+  formats: string[],
+  recordingId?: string
+): Promise<string | null> {
+  const formatList = formats.join(', ');
+  
+  return createNotification({
+    userId,
+    title: 'Транскрипция готова 🎼',
+    message: `${recordingTitle}: ${formatList}`,
+    type: 'success',
+    groupKey: recordingId ? `transcription_${recordingId}` : undefined,
+    actionUrl: '/guitar-studio',
+    metadata: { recordingTitle, formats, recordingId },
+    priority: 7,
+  });
+}
+
+/**
+ * New feature announcement notification
+ */
+export async function notifyFeatureAnnouncement(
+  userId: string,
+  featureTitle: string,
+  description: string,
+  actionUrl?: string
+): Promise<string | null> {
+  return createNotification({
+    userId,
+    title: `Новая функция: ${featureTitle} ✨`,
+    message: description,
+    type: 'info',
+    groupKey: `feature_${featureTitle.toLowerCase().replace(/\s+/g, '_')}`,
+    actionUrl,
+    priority: 5,
+  });
+}
