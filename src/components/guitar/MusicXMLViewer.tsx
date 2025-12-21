@@ -84,14 +84,18 @@ export function MusicXMLViewer({
     render();
   };
 
-  // Re-render when fullscreen changes
+  // Re-render when fullscreen changes - with safety check
+  // Note: The render() function internally checks isLoadedRef, so it's safe to call
   useEffect(() => {
-    if (!isLoading) {
-      // Small delay to let the container resize
-      const timer = setTimeout(() => render(), 100);
-      return () => clearTimeout(timer);
-    }
-  }, [isFullscreen, render, isLoading]);
+    // Skip during initial loading or when there was an error
+    if (isLoading || error) return;
+    
+    // Small delay to let the container resize, then re-render
+    const timer = setTimeout(() => {
+      render();
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [isFullscreen, render, isLoading, error]);
 
   if (error) {
     return (

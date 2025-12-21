@@ -140,16 +140,29 @@ export function useMusicXML({
     const clampedZoom = Math.max(0.3, Math.min(3.0, newZoom));
     setZoomState(clampedZoom);
 
+    // Double-check both ref and loaded flag for safety
     if (osmdRef.current && isLoadedRef.current) {
-      osmdRef.current.zoom = clampedZoom;
-      osmdRef.current.render();
+      try {
+        osmdRef.current.zoom = clampedZoom;
+        osmdRef.current.render();
+      } catch (err) {
+        log.warn('Failed to set zoom - OSMD may not be ready', { error: err });
+      }
     }
   }, []);
 
   // Manual render trigger - only if loaded
   const render = useCallback(async () => {
-    if (osmdRef.current && isLoadedRef.current) {
+    // Strict check: only render if OSMD exists AND load() completed
+    if (!osmdRef.current || !isLoadedRef.current) {
+      log.debug('Skipping render - OSMD not ready');
+      return;
+    }
+    
+    try {
       await osmdRef.current.render();
+    } catch (err) {
+      log.warn('Failed to render - OSMD may not be ready', { error: err });
     }
   }, []);
 
