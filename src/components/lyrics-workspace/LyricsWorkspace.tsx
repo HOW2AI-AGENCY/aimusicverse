@@ -24,6 +24,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { EditableLyricsContent } from './EditableLyricsContent';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -197,12 +198,11 @@ export function LyricsWorkspace({
                           )}
                         </div>
 
-                        {/* Lyrics textarea */}
-                        <Textarea
+                        {/* Lyrics content - inline editable */}
+                        <EditableLyricsContent
                           value={section.content}
-                          onChange={(e) => updateSection(section.id, { content: e.target.value })}
-                          placeholder="Введите текст секции..."
-                          className="min-h-[80px] resize-none text-sm"
+                          onChange={(content) => updateSection(section.id, { content })}
+                          placeholder="Нажмите, чтобы ввести текст..."
                         />
 
                         {/* Tags display with icons */}
