@@ -10,8 +10,11 @@ interface ChordDiagramEnhancedProps {
   isActive?: boolean;
 }
 
-// Common guitar chord fingerings (fret positions for each string, -1 = muted, 0 = open)
+// Comprehensive guitar chord fingerings with finger positions
 const CHORD_FINGERINGS: Record<string, { frets: number[]; fingers?: number[] }> = {
+  // Special chords
+  'N': { frets: [-1, -1, -1, -1, -1, -1], fingers: [0, 0, 0, 0, 0, 0] }, // No chord / silence
+  
   // Major chords
   'C': { frets: [-1, 3, 2, 0, 1, 0], fingers: [0, 3, 2, 0, 1, 0] },
   'D': { frets: [-1, -1, 0, 2, 3, 2], fingers: [0, 0, 0, 1, 3, 2] },
@@ -20,6 +23,11 @@ const CHORD_FINGERINGS: Record<string, { frets: number[]; fingers?: number[] }> 
   'G': { frets: [3, 2, 0, 0, 0, 3], fingers: [2, 1, 0, 0, 0, 3] },
   'A': { frets: [-1, 0, 2, 2, 2, 0], fingers: [0, 0, 1, 2, 3, 0] },
   'B': { frets: [-1, 2, 4, 4, 4, 2], fingers: [0, 1, 2, 3, 4, 1] },
+  'C#': { frets: [-1, 4, 3, 1, 2, 1], fingers: [0, 4, 3, 1, 2, 1] },
+  'Db': { frets: [-1, 4, 3, 1, 2, 1], fingers: [0, 4, 3, 1, 2, 1] },
+  'F#': { frets: [2, 4, 4, 3, 2, 2], fingers: [1, 3, 4, 2, 1, 1] },
+  'Gb': { frets: [2, 4, 4, 3, 2, 2], fingers: [1, 3, 4, 2, 1, 1] },
+  'Bb': { frets: [-1, 1, 3, 3, 3, 1], fingers: [0, 1, 2, 3, 4, 1] },
   
   // Minor chords
   'Am': { frets: [-1, 0, 2, 2, 1, 0], fingers: [0, 0, 2, 3, 1, 0] },
@@ -29,25 +37,62 @@ const CHORD_FINGERINGS: Record<string, { frets: number[]; fingers?: number[] }> 
   'Em': { frets: [0, 2, 2, 0, 0, 0], fingers: [0, 2, 3, 0, 0, 0] },
   'Fm': { frets: [1, 3, 3, 1, 1, 1], fingers: [1, 3, 4, 1, 1, 1] },
   'Gm': { frets: [3, 5, 5, 3, 3, 3], fingers: [1, 3, 4, 1, 1, 1] },
+  'F#m': { frets: [2, 4, 4, 2, 2, 2], fingers: [1, 3, 4, 1, 1, 1] },
+  'G#m': { frets: [4, 6, 6, 4, 4, 4], fingers: [1, 3, 4, 1, 1, 1] },
+  'Abm': { frets: [4, 6, 6, 4, 4, 4], fingers: [1, 3, 4, 1, 1, 1] },
+  'C#m': { frets: [-1, 4, 6, 6, 5, 4], fingers: [0, 1, 3, 4, 2, 1] },
+  'Bbm': { frets: [-1, 1, 3, 3, 2, 1], fingers: [0, 1, 3, 4, 2, 1] },
   
-  // 7th chords
+  // 7th chords (dominant)
   'A7': { frets: [-1, 0, 2, 0, 2, 0], fingers: [0, 0, 1, 0, 2, 0] },
   'B7': { frets: [-1, 2, 1, 2, 0, 2], fingers: [0, 2, 1, 3, 0, 4] },
   'C7': { frets: [-1, 3, 2, 3, 1, 0], fingers: [0, 3, 2, 4, 1, 0] },
   'D7': { frets: [-1, -1, 0, 2, 1, 2], fingers: [0, 0, 0, 2, 1, 3] },
   'E7': { frets: [0, 2, 0, 1, 0, 0], fingers: [0, 2, 0, 1, 0, 0] },
+  'F7': { frets: [1, 3, 1, 2, 1, 1], fingers: [1, 3, 1, 2, 1, 1] },
   'G7': { frets: [3, 2, 0, 0, 0, 1], fingers: [3, 2, 0, 0, 0, 1] },
+  'F#7': { frets: [2, 4, 2, 3, 2, 2], fingers: [1, 3, 1, 2, 1, 1] },
+  'Bb7': { frets: [-1, 1, 3, 1, 3, 1], fingers: [0, 1, 3, 1, 4, 1] },
   
-  // Minor 7th
+  // Minor 7th chords
   'Am7': { frets: [-1, 0, 2, 0, 1, 0], fingers: [0, 0, 2, 0, 1, 0] },
+  'Bm7': { frets: [-1, 2, 4, 2, 3, 2], fingers: [0, 1, 3, 1, 2, 1] },
+  'Cm7': { frets: [-1, 3, 5, 3, 4, 3], fingers: [0, 1, 3, 1, 2, 1] },
   'Dm7': { frets: [-1, -1, 0, 2, 1, 1], fingers: [0, 0, 0, 2, 1, 1] },
   'Em7': { frets: [0, 2, 0, 0, 0, 0], fingers: [0, 1, 0, 0, 0, 0] },
+  'Fm7': { frets: [1, 3, 1, 1, 1, 1], fingers: [1, 3, 1, 1, 1, 1] },
+  'Gm7': { frets: [3, 5, 3, 3, 3, 3], fingers: [1, 3, 1, 1, 1, 1] },
+  'F#m7': { frets: [2, 4, 2, 2, 2, 2], fingers: [1, 3, 1, 1, 1, 1] },
+  
+  // Major 7th chords
+  'Amaj7': { frets: [-1, 0, 2, 1, 2, 0], fingers: [0, 0, 2, 1, 3, 0] },
+  'Cmaj7': { frets: [-1, 3, 2, 0, 0, 0], fingers: [0, 3, 2, 0, 0, 0] },
+  'Dmaj7': { frets: [-1, -1, 0, 2, 2, 2], fingers: [0, 0, 0, 1, 2, 3] },
+  'Emaj7': { frets: [0, 2, 1, 1, 0, 0], fingers: [0, 2, 1, 1, 0, 0] },
+  'Fmaj7': { frets: [1, 3, 2, 2, 1, 1], fingers: [1, 4, 2, 3, 1, 1] },
+  'Gmaj7': { frets: [3, 2, 0, 0, 0, 2], fingers: [2, 1, 0, 0, 0, 3] },
   
   // Sus chords
   'Asus2': { frets: [-1, 0, 2, 2, 0, 0], fingers: [0, 0, 1, 2, 0, 0] },
   'Asus4': { frets: [-1, 0, 2, 2, 3, 0], fingers: [0, 0, 1, 2, 3, 0] },
   'Dsus2': { frets: [-1, -1, 0, 2, 3, 0], fingers: [0, 0, 0, 1, 2, 0] },
   'Dsus4': { frets: [-1, -1, 0, 2, 3, 3], fingers: [0, 0, 0, 1, 2, 3] },
+  'Esus4': { frets: [0, 2, 2, 2, 0, 0], fingers: [0, 1, 2, 3, 0, 0] },
+  
+  // Power chords
+  'A5': { frets: [-1, 0, 2, 2, -1, -1], fingers: [0, 0, 1, 2, 0, 0] },
+  'D5': { frets: [-1, -1, 0, 2, 3, -1], fingers: [0, 0, 0, 1, 2, 0] },
+  'E5': { frets: [0, 2, 2, -1, -1, -1], fingers: [0, 1, 2, 0, 0, 0] },
+  'G5': { frets: [3, 5, 5, -1, -1, -1], fingers: [1, 3, 4, 0, 0, 0] },
+  
+  // Diminished
+  'Adim': { frets: [-1, 0, 1, 2, 1, -1], fingers: [0, 0, 1, 3, 2, 0] },
+  'Bdim': { frets: [-1, 2, 3, 4, 3, -1], fingers: [0, 1, 2, 4, 3, 0] },
+  'Ddim': { frets: [-1, -1, 0, 1, 0, 1], fingers: [0, 0, 0, 1, 0, 2] },
+  
+  // Augmented
+  'Caug': { frets: [-1, 3, 2, 1, 1, 0], fingers: [0, 4, 3, 1, 2, 0] },
+  'Gaug': { frets: [3, 2, 1, 0, 0, 3], fingers: [3, 2, 1, 0, 0, 4] },
 };
 
 // Finger color mapping
@@ -60,13 +105,44 @@ const FINGER_COLORS = [
 ];
 
 function normalizeChord(chord: string): string {
+  // Handle empty or null
+  if (!chord || chord === 'N' || chord === 'N/A' || chord === 'none' || chord === 'nc') {
+    return 'N';
+  }
+  
+  // Try exact match first
   if (CHORD_FINGERINGS[chord]) return chord;
   
-  const withoutBass = chord.split('/')[0];
+  // Remove colon separator (e.g., "G:min" -> "Gmin", "D:7" -> "D7")
+  let normalized = chord.replace(':', '');
+  if (CHORD_FINGERINGS[normalized]) return normalized;
+  
+  // Try without bass note (e.g., "G/B" -> "G")
+  const withoutBass = normalized.split('/')[0];
   if (CHORD_FINGERINGS[withoutBass]) return withoutBass;
   
-  const normalized = withoutBass.replace('min', 'm').replace('maj', '');
+  // Try replacing 'min' with 'm'
+  normalized = withoutBass.replace('min', 'm').replace('maj', 'maj');
   if (CHORD_FINGERINGS[normalized]) return normalized;
+  
+  // Try adding 'm' for minor if it ends with 'min'
+  if (chord.includes('min')) {
+    const root = chord.replace(/:?min.*/, '');
+    if (CHORD_FINGERINGS[root + 'm']) return root + 'm';
+  }
+  
+  // Handle numbered chords like "D:7" -> "D7"
+  const numMatch = chord.match(/^([A-Ga-g][#b]?):?(\d+)$/);
+  if (numMatch) {
+    const formatted = numMatch[1] + numMatch[2];
+    if (CHORD_FINGERINGS[formatted]) return formatted;
+  }
+  
+  // Try just the root note for major
+  const rootMatch = chord.match(/^([A-Ga-g][#b]?)/);
+  if (rootMatch && CHORD_FINGERINGS[rootMatch[1]]) {
+    return rootMatch[1];
+  }
   
   return chord;
 }
