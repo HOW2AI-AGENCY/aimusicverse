@@ -8,10 +8,10 @@
  * - Time signatures
  * - Measure bar lines
  * - Note duration representation (whole, half, quarter, eighth, sixteenth)
- * - Beam grouping for eighth and sixteenth notes
+ * - Responsive line breaks based on container width
  */
 
-import { memo, useMemo, type ReactNode } from 'react';
+import { memo, useMemo, useRef, useState, useEffect, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
 interface NoteInput {
@@ -39,13 +39,8 @@ interface StaffNotationProps {
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
 // Staff line positions (0 = bottom line E4 for treble, G2 for bass)
-// Each step is a half-space (line or space)
 const TREBLE_BOTTOM_LINE_PITCH = 64; // E4
 const BASS_BOTTOM_LINE_PITCH = 43; // G2
-
-// Key signature sharps/flats order
-const SHARP_ORDER = ['F', 'C', 'G', 'D', 'A', 'E', 'B'];
-const FLAT_ORDER = ['B', 'E', 'A', 'D', 'G', 'C', 'F'];
 
 // Key signature to number of sharps/flats
 const KEY_SIGNATURES: Record<string, { sharps: number; flats: number }> = {
@@ -66,9 +61,9 @@ const KEY_SIGNATURES: Record<string, { sharps: number; flats: number }> = {
   'Cb': { sharps: 0, flats: 7 }, 'Abm': { sharps: 0, flats: 7 },
 };
 
-// Sharp positions on treble clef (line/space from bottom, 0-indexed)
-const SHARP_POSITIONS_TREBLE = [8, 5, 9, 6, 3, 7, 4]; // F5, C5, G5, D5, A4, E5, B4
-const FLAT_POSITIONS_TREBLE = [4, 7, 3, 6, 2, 5, 1];  // Bb4, Eb5, Ab4, Db5, Gb4, Cb5, Fb4
+// Sharp/flat positions on treble clef staff
+const SHARP_POSITIONS_TREBLE = [8, 5, 9, 6, 3, 7, 4];
+const FLAT_POSITIONS_TREBLE = [4, 7, 3, 6, 2, 5, 1];
 
 // Get staff position for a pitch (0 = bottom line, each step = line or space)
 function getStaffPosition(pitch: number, clef: 'treble' | 'bass'): number {
@@ -79,7 +74,6 @@ function getStaffPosition(pitch: number, clef: 'treble' | 'bass'): number {
   const baseNoteInOctave = basePitch % 12;
   const baseOctave = Math.floor(basePitch / 12);
   
-  // Map chromatic pitch to diatonic position (C=0, D=1, E=2, F=3, G=4, A=5, B=6)
   const chromaticToDiatonic = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6];
   
   const noteDiatonic = chromaticToDiatonic[noteInOctave] + (octave * 7);
@@ -88,10 +82,9 @@ function getStaffPosition(pitch: number, clef: 'treble' | 'bass'): number {
   return noteDiatonic - baseDiatonic;
 }
 
-// Check if pitch is sharp/flat (black key)
+// Check if pitch is sharp/flat
 function isAccidental(pitch: number): 'sharp' | 'flat' | null {
   const noteInOctave = pitch % 12;
-  // Black keys: C#, D#, F#, G#, A#
   if ([1, 3, 6, 8, 10].includes(noteInOctave)) {
     return 'sharp';
   }
@@ -107,9 +100,8 @@ function getNoteType(beatDuration: number): 'whole' | 'half' | 'quarter' | 'eigh
   return 'sixteenth';
 }
 
-// Check if stem should go up (notes below middle line B4 for treble)
+// Check if stem should go up (notes below middle line)
 function shouldStemUp(position: number): boolean {
-  // Middle line is at position 4 (B4 for treble clef)
   return position < 4;
 }
 
@@ -135,6 +127,27 @@ export const StaffNotation = memo(function StaffNotation({
   height = 200,
   className,
 }: StaffNotationProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(600);
+  
+  // Measure container width
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.clientWidth);
+      }
+    };
+    
+    updateWidth();
+    
+    const resizeObserver = new ResizeObserver(updateWidth);
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+    
+    return () => resizeObserver.disconnect();
+  }, []);
+
   const ts = timeSignature ?? { numerator: 4, denominator: 4 };
   
   const { processedNotes, clef, keyInfo } = useMemo(() => {
@@ -149,11 +162,9 @@ export const StaffNotation = memo(function StaffNotation({
     const secondsPerBeat = 60 / bpm;
     const secondsPerMeasure = ts.numerator * secondsPerBeat;
     
-    // Determine clef based on average pitch
     const avgPitch = notes.reduce((sum, n) => sum + (n.pitch ?? n.midi ?? 60), 0) / notes.length;
     const useClef: 'treble' | 'bass' = avgPitch < 55 ? 'bass' : 'treble';
     
-    // Process notes
     const processed: ProcessedNote[] = notes.map(n => {
       const pitch = n.pitch ?? n.midi ?? 60;
       const startTime = n.startTime ?? n.time ?? 0;
@@ -175,7 +186,6 @@ export const StaffNotation = memo(function StaffNotation({
       };
     }).sort((a, b) => a.startTime - b.startTime);
     
-    // Get key signature info
     const keyStr = keySignature?.replace(/m$/, 'm') || 'C';
     const ki = KEY_SIGNATURES[keyStr] || { sharps: 0, flats: 0 };
     
@@ -183,28 +193,37 @@ export const StaffNotation = memo(function StaffNotation({
   }, [notes, bpm, ts, keySignature]);
 
   // Layout constants
-  const lineSpacing = 8; // pixels between staff lines
-  const staffHeight = lineSpacing * 4; // 5 lines = 4 spaces
-  const rowHeight = staffHeight + 80; // Extra space for ledger lines and row gap
-  const measureWidth = 160;
-  const measuresPerRow = 4;
-  const clefWidth = 35;
-  const keySignatureWidth = keyInfo.sharps * 10 + keyInfo.flats * 10;
-  const timeSignatureWidth = 25;
-  const marginLeft = 15;
+  const lineSpacing = 8;
+  const staffHeight = lineSpacing * 4;
+  const rowHeight = staffHeight + 70;
+  const clefWidth = 32;
+  const keySignatureWidth = (keyInfo.sharps + keyInfo.flats) * 9;
+  const timeSignatureWidth = 22;
+  const marginLeft = 10;
+  const marginRight = 10;
+  const minMeasureWidth = 80;
+  const maxMeasureWidth = 160;
   
-  // Calculate total measures and rows
+  // Calculate measures per row based on container width
+  const availableWidth = containerWidth - marginLeft - marginRight - clefWidth - keySignatureWidth - timeSignatureWidth;
   const secondsPerBeat = 60 / bpm;
   const secondsPerMeasure = ts.numerator * secondsPerBeat;
   const totalMeasures = Math.max(1, Math.ceil(duration / secondsPerMeasure));
-  const totalRows = Math.ceil(totalMeasures / measuresPerRow);
   
-  const svgWidth = 800;
-  const svgHeight = Math.max(200, totalRows * rowHeight + 60);
+  // Calculate optimal measures per row
+  const measuresPerRow = Math.max(1, Math.min(
+    totalMeasures,
+    Math.floor(availableWidth / minMeasureWidth)
+  ));
+  const measureWidth = Math.min(maxMeasureWidth, Math.max(minMeasureWidth, availableWidth / measuresPerRow));
+  
+  const totalRows = Math.ceil(totalMeasures / measuresPerRow);
+  const svgHeight = Math.max(height, totalRows * rowHeight + 40);
 
   if (notes.length === 0) {
     return (
       <div 
+        ref={containerRef}
         className={cn(
           "rounded-lg bg-muted/30 flex flex-col items-center justify-center gap-2",
           className
@@ -218,7 +237,7 @@ export const StaffNotation = memo(function StaffNotation({
   }
 
   // Render key signature symbols
-  const renderKeySignature = (startX: number, rowIndex: number) => {
+  const renderKeySignature = (startX: number) => {
     const symbols: ReactNode[] = [];
     
     if (keyInfo.sharps > 0) {
@@ -228,9 +247,9 @@ export const StaffNotation = memo(function StaffNotation({
         symbols.push(
           <text
             key={`sharp-${i}`}
-            x={startX + i * 9}
+            x={startX + i * 8}
             y={y + 4}
-            fontSize="14"
+            fontSize="12"
             className="fill-foreground"
           >
             ♯
@@ -244,9 +263,9 @@ export const StaffNotation = memo(function StaffNotation({
         symbols.push(
           <text
             key={`flat-${i}`}
-            x={startX + i * 9}
+            x={startX + i * 8}
             y={y + 4}
-            fontSize="14"
+            fontSize="12"
             className="fill-foreground"
           >
             ♭
@@ -263,54 +282,66 @@ export const StaffNotation = memo(function StaffNotation({
     const y = staffHeight - (note.position * lineSpacing / 2);
     const isFilled = note.noteType === 'quarter' || note.noteType === 'eighth' || note.noteType === 'sixteenth';
     const hasFlag = note.noteType === 'eighth' || note.noteType === 'sixteenth';
-    const stemLength = 28;
+    const stemLength = 24;
     const stemDirection = note.stemUp ? -1 : 1;
-    const stemX = note.stemUp ? 5 : -5;
+    const stemX = note.stemUp ? 4 : -4;
     
     const noteName = NOTE_NAMES[note.pitch % 12] + Math.floor(note.pitch / 12 - 1);
+    
+    // Calculate ledger lines needed
+    const ledgerLinesBelow = note.position < 0 ? Math.ceil(-note.position / 2) : 0;
+    const ledgerLinesAbove = note.position > 8 ? Math.ceil((note.position - 8) / 2) : 0;
     
     return (
       <g key={`note-${note.startTime}-${note.pitch}`} transform={`translate(${x}, ${y})`}>
         {/* Accidental */}
         {note.accidental === 'sharp' && (
-          <text x="-14" y="4" fontSize="12" className="fill-foreground">♯</text>
+          <text x="-12" y="4" fontSize="11" className="fill-foreground">♯</text>
         )}
         {note.accidental === 'flat' && (
-          <text x="-14" y="4" fontSize="12" className="fill-foreground">♭</text>
+          <text x="-12" y="4" fontSize="11" className="fill-foreground">♭</text>
         )}
         
-        {/* Ledger lines */}
-        {note.position < 0 && Array.from({ length: Math.ceil(-note.position / 2) }).map((_, i) => (
-          <line
-            key={`ledger-below-${i}`}
-            x1="-8"
-            y1={(i + 1) * lineSpacing}
-            x2="8"
-            y2={(i + 1) * lineSpacing}
-            stroke="currentColor"
-            strokeWidth="1"
-            className="text-foreground/60"
-          />
-        ))}
-        {note.position > 8 && Array.from({ length: Math.ceil((note.position - 8) / 2) }).map((_, i) => (
-          <line
-            key={`ledger-above-${i}`}
-            x1="-8"
-            y1={-(i + 1) * lineSpacing + staffHeight - 8 * lineSpacing / 2}
-            x2="8"
-            y2={-(i + 1) * lineSpacing + staffHeight - 8 * lineSpacing / 2}
-            stroke="currentColor"
-            strokeWidth="1"
-            className="text-foreground/60"
-          />
-        ))}
+        {/* Ledger lines below staff */}
+        {Array.from({ length: ledgerLinesBelow }).map((_, i) => {
+          const lineY = (Math.floor(-note.position / 2) - i) * lineSpacing;
+          return (
+            <line
+              key={`ledger-below-${i}`}
+              x1="-7"
+              y1={lineY}
+              x2="7"
+              y2={lineY}
+              stroke="currentColor"
+              strokeWidth="1"
+              className="text-foreground/60"
+            />
+          );
+        })}
+        
+        {/* Ledger lines above staff */}
+        {Array.from({ length: ledgerLinesAbove }).map((_, i) => {
+          const lineY = -(note.position - 8 - i * 2) * lineSpacing / 2 - lineSpacing;
+          return (
+            <line
+              key={`ledger-above-${i}`}
+              x1="-7"
+              y1={lineY}
+              x2="7"
+              y2={lineY}
+              stroke="currentColor"
+              strokeWidth="1"
+              className="text-foreground/60"
+            />
+          );
+        })}
         
         {/* Note head */}
         <ellipse
           cx="0"
           cy="0"
-          rx="5"
-          ry="4"
+          rx="4.5"
+          ry="3.5"
           className={cn(
             isFilled ? "fill-foreground" : "fill-background stroke-foreground stroke-[1.5]"
           )}
@@ -325,17 +356,17 @@ export const StaffNotation = memo(function StaffNotation({
             x2={stemX}
             y2={stemDirection * stemLength}
             stroke="currentColor"
-            strokeWidth="1.5"
+            strokeWidth="1.2"
             className="text-foreground"
           />
         )}
         
-        {/* Flag for eighth/sixteenth notes */}
+        {/* Flag for eighth notes */}
         {hasFlag && (
           <path
             d={note.stemUp 
-              ? `M ${stemX} ${stemDirection * stemLength} q 8 5 6 15 q -2 -8 -6 -10`
-              : `M ${stemX} ${stemDirection * stemLength} q 8 -5 6 -15 q -2 8 -6 10`
+              ? `M ${stemX} ${stemDirection * stemLength} q 6 4 5 12 q -2 -6 -5 -8`
+              : `M ${stemX} ${stemDirection * stemLength} q 6 -4 5 -12 q -2 6 -5 8`
             }
             className="fill-foreground"
           />
@@ -345,8 +376,8 @@ export const StaffNotation = memo(function StaffNotation({
         {note.noteType === 'sixteenth' && (
           <path
             d={note.stemUp 
-              ? `M ${stemX} ${stemDirection * stemLength + 8} q 8 5 6 15 q -2 -8 -6 -10`
-              : `M ${stemX} ${stemDirection * stemLength - 8} q 8 -5 6 -15 q -2 8 -6 10`
+              ? `M ${stemX} ${stemDirection * stemLength + 6} q 6 4 5 12 q -2 -6 -5 -8`
+              : `M ${stemX} ${stemDirection * stemLength - 6} q 6 -4 5 -12 q -2 6 -5 8`
             }
             className="fill-foreground"
           />
@@ -359,22 +390,24 @@ export const StaffNotation = memo(function StaffNotation({
 
   return (
     <div 
+      ref={containerRef}
       className={cn("bg-white dark:bg-slate-950 rounded-lg overflow-auto", className)}
       style={{ height }}
     >
       <svg 
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-        className="w-full min-w-[600px]"
+        width={containerWidth}
+        height={svgHeight}
+        viewBox={`0 0 ${containerWidth} ${svgHeight}`}
         style={{ background: 'transparent' }}
       >
         {/* Title area */}
-        <g transform={`translate(${svgWidth / 2}, 20)`}>
+        <g transform={`translate(${containerWidth / 2}, 18)`}>
           <text 
             x="0" 
             y="0" 
             textAnchor="middle" 
             className="fill-muted-foreground"
-            fontSize="11"
+            fontSize="10"
           >
             {keySignature || 'C'} · {bpm} BPM · {ts.numerator}/{ts.denominator}
           </text>
@@ -382,14 +415,13 @@ export const StaffNotation = memo(function StaffNotation({
 
         {/* Staff rows */}
         {Array.from({ length: totalRows }).map((_, rowIndex) => {
-          const rowY = 45 + rowIndex * rowHeight;
+          const rowY = 35 + rowIndex * rowHeight;
           const startMeasure = rowIndex * measuresPerRow;
           const endMeasure = Math.min(startMeasure + measuresPerRow, totalMeasures);
           const numMeasuresInRow = endMeasure - startMeasure;
           
-          // Calculate staff width
           const staffStartX = marginLeft;
-          const notesAreaStart = staffStartX + clefWidth + keySignatureWidth + timeSignatureWidth;
+          const notesAreaStart = staffStartX + clefWidth + keySignatureWidth + (rowIndex === 0 ? timeSignatureWidth : 0);
           const staffWidth = notesAreaStart + numMeasuresInRow * measureWidth;
           
           return (
@@ -410,24 +442,24 @@ export const StaffNotation = memo(function StaffNotation({
               
               {/* Clef */}
               <text 
-                x={staffStartX + 5}
-                y={clef === 'treble' ? staffHeight - 5 : staffHeight / 2 + 10}
-                fontSize={clef === 'treble' ? '42' : '32'}
+                x={staffStartX + 3}
+                y={clef === 'treble' ? staffHeight - 3 : staffHeight / 2 + 8}
+                fontSize={clef === 'treble' ? '36' : '28'}
                 className="fill-foreground"
               >
                 {clef === 'treble' ? '𝄞' : '𝄢'}
               </text>
               
               {/* Key signature */}
-              {renderKeySignature(staffStartX + clefWidth, rowIndex)}
+              {renderKeySignature(staffStartX + clefWidth)}
               
               {/* Time signature (only on first row) */}
               {rowIndex === 0 && (
-                <g transform={`translate(${staffStartX + clefWidth + keySignatureWidth + 5}, 0)`}>
+                <g transform={`translate(${staffStartX + clefWidth + keySignatureWidth + 3}, 0)`}>
                   <text 
                     x="0" 
                     y={lineSpacing * 1.5} 
-                    fontSize="16" 
+                    fontSize="14" 
                     fontWeight="bold"
                     className="fill-foreground"
                   >
@@ -436,7 +468,7 @@ export const StaffNotation = memo(function StaffNotation({
                   <text 
                     x="0" 
                     y={lineSpacing * 3.5} 
-                    fontSize="16" 
+                    fontSize="14" 
                     fontWeight="bold"
                     className="fill-foreground"
                   >
@@ -454,7 +486,7 @@ export const StaffNotation = memo(function StaffNotation({
                   x2={notesAreaStart + i * measureWidth}
                   y2={staffHeight}
                   stroke="currentColor"
-                  strokeWidth={i === numMeasuresInRow ? 2 : 1}
+                  strokeWidth={i === numMeasuresInRow && rowIndex === totalRows - 1 ? 2 : 1}
                   className="text-foreground/50"
                 />
               ))}
@@ -466,7 +498,7 @@ export const StaffNotation = memo(function StaffNotation({
                   const measureOffset = note.measure - startMeasure;
                   const measureX = notesAreaStart + measureOffset * measureWidth;
                   const beatProgress = note.beatInMeasure / ts.numerator;
-                  const noteX = measureX + 15 + beatProgress * (measureWidth - 30);
+                  const noteX = measureX + 12 + beatProgress * (measureWidth - 24);
                   
                   return renderNote(note, noteX);
                 })}
