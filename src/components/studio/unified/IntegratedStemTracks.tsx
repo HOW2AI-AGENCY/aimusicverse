@@ -579,6 +579,17 @@ const StemTrackRowDesktop = memo(({
         >
           <Sparkles className="w-3 h-3" />
         </Button>
+        {(stem.stem_type === 'vocal' || stem.stem_type === 'vocals') && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onAction('arrangement')}
+            className="h-6 w-6 p-0 text-amber-500 hover:text-amber-400"
+            title="Новая аранжировка"
+          >
+            <Guitar className="w-3 h-3" />
+          </Button>
+        )}
         <Button
           variant="ghost"
           size="sm"
