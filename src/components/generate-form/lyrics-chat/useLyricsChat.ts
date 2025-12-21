@@ -641,6 +641,11 @@ if (data?.lyrics) {
     );
   }, []);
 
+  // Direct setter for MoodPicker compatibility
+  const setMoodArray = useCallback((moods: string[]) => {
+    setMood(moods);
+  }, []);
+
   const confirmMood = useCallback(() => {
     if (mood.length === 0) {
       toast.error('Выберите хотя бы одно настроение');
@@ -857,6 +862,7 @@ if (data?.lyrics) {
     handleQuickOption,
     handleGenreSelect,
     handleMoodSelect,
+    setMoodArray,
     confirmMood,
     handleStructureSelect,
     handleSendMessage,

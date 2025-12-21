@@ -13,13 +13,11 @@ import { useTelegramMainButton } from '@/hooks/telegram';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useLyricsChat } from './lyrics-chat/useLyricsChat';
 import { toast } from 'sonner';
-import { 
-  GenreSelector, 
-  MoodSelector, 
-  StructureSelector, 
-  LoadingIndicator 
-} from './lyrics-chat/ChatComponents';
+import { LoadingIndicator } from './lyrics-chat/ChatMessageBubble';
 import { EnhancedLyricsPreview } from './lyrics-chat/EnhancedLyricsPreview';
+import { GenrePicker } from '@/components/lyrics/shared/GenrePicker';
+import { MoodPicker } from '@/components/lyrics/shared/MoodPicker';
+import { StructurePicker } from '@/components/lyrics/shared/StructurePicker';
 import { TagBuilderPanel } from './TagBuilderPanel';
 import { ContextRecommendations, Recommendation } from './lyrics-chat/ContextRecommendations';
 import { QuickActions } from './lyrics-chat/QuickActions';
@@ -152,24 +150,26 @@ export function LyricsChatAssistant({
     switch (msg.component) {
       case 'genre':
         return (
-          <GenreSelector 
-            selectedGenre={chat.genre} 
-            onSelect={chat.handleGenreSelect} 
+          <GenrePicker 
+            value={chat.genre} 
+            onChange={chat.handleGenreSelect}
+            mode="grid"
           />
         );
       case 'mood':
         return (
-          <MoodSelector 
-            selectedMoods={chat.mood} 
-            onSelect={chat.handleMoodSelect}
+          <MoodPicker 
+            value={chat.mood} 
+            onChange={chat.setMoodArray}
             onConfirm={chat.confirmMood}
+            maxSelections={3}
           />
         );
       case 'structure':
         return (
-          <StructureSelector 
-            selectedStructure={chat.structure} 
-            onSelect={chat.handleStructureSelect} 
+          <StructurePicker 
+            value={chat.structure} 
+            onChange={chat.handleStructureSelect}
           />
         );
       case 'lyrics-preview':
