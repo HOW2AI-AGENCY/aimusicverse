@@ -322,6 +322,135 @@ _${escapeMarkdown(lyricsText)}_
     return;
   }
 
+  // Handle stems separation action
+  if (action === 'stems') {
+    const audioData = await getPendingAudioWithoutConsuming(userId);
+    if (!audioData) {
+      await answerCallbackQuery(callbackId, '⚠️ Аудио файл истёк. Отправьте снова.');
+      return;
+    }
+    
+    await answerCallbackQuery(callbackId, '🎛️ Разделение на стемы...');
+    await editMessageText(chatId, messageId, `🎛️ *Разделение на стемы*\n\n▓░░░░░░░░░ 10%\n⏳ Запускаем обработку\\.\\.\\.\n\n_Обычно занимает 2\\-4 минуты_`);
+    
+    try {
+      // Get user profile
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('user_id')
+        .eq('telegram_id', userId)
+        .single();
+
+      if (!profile) {
+        await editMessageText(chatId, messageId, '❌ Профиль не найден\\. Откройте Mini App\\.');
+        return;
+      }
+
+      // Find the reference_audio record by telegram_file_id
+      const { data: refAudio } = await supabase
+        .from('reference_audio')
+        .select('id, file_url, stems_status')
+        .eq('user_id', profile.user_id)
+        .eq('telegram_file_id', audioData.fileId)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (!refAudio?.id) {
+        await editMessageText(chatId, messageId, `❌ Аудио не найдено\\. Отправьте файл снова\\.`);
+        return;
+      }
+
+      if (refAudio.stems_status === 'completed') {
+        await editMessageText(chatId, messageId, `✅ *Стемы уже разделены\\!*\n\nОткройте файл в облаке для использования\\.`, {
+          inline_keyboard: [
+            [{ text: '📂 Мои загрузки', callback_data: 'my_uploads' }],
+            [{ text: '📱 Открыть в приложении', web_app: { url: `${(await import('../config.ts')).BOT_CONFIG.miniAppUrl}?startapp=cloud` } }]
+          ]
+        });
+        return;
+      }
+
+      // Call stem separation function
+      const { data, error } = await supabase.functions.invoke('separate-reference-stems', {
+        body: {
+          reference_id: refAudio.id,
+          user_id: profile.user_id,
+          telegram_chat_id: chatId,
+          telegram_message_id: messageId,
+          mode: 'simple',
+        },
+      });
+
+      if (error) {
+        throw new Error(error.message || 'Stem separation failed');
+      }
+
+      await editMessageText(chatId, messageId, `🎛️ *Разделение на стемы*\n\n▓▓▓░░░░░░░ 30%\n⏳ Обработка запущена\\.\\.\\.\n\n📬 Вы получите уведомление когда стемы будут готовы\\.`);
+
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      await editMessageText(chatId, messageId, `❌ *Ошибка разделения*\n\n${escapeMarkdown(errorMessage)}\n\nПопробуйте позже\\.`);
+    }
+    return;
+  }
+
+  // Handle edit style action
+  if (action === 'edit_style') {
+    const audioData = await getPendingAudioWithoutConsuming(userId);
+    if (!audioData) {
+      await answerCallbackQuery(callbackId, '⚠️ Аудио файл истёк. Отправьте снова.');
+      return;
+    }
+    
+    await answerCallbackQuery(callbackId, '✏️ Редактирование стиля...');
+    
+    try {
+      // Get user profile
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('user_id')
+        .eq('telegram_id', userId)
+        .single();
+
+      if (!profile) {
+        await editMessageText(chatId, messageId, '❌ Профиль не найден\\. Откройте Mini App\\.');
+        return;
+      }
+
+      // Find the reference_audio
+      const { data: refAudio } = await supabase
+        .from('reference_audio')
+        .select('id, style_description, genre, mood')
+        .eq('user_id', profile.user_id)
+        .eq('telegram_file_id', audioData.fileId)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      const currentStyle = refAudio?.style_description || 
+        [refAudio?.genre, refAudio?.mood].filter(Boolean).join(', ') || 
+        'Стиль не определён';
+
+      // Set pending style edit state
+      const { setWizardState } = await import('../core/db-session-store.ts');
+      await setWizardState(userId, 'edit_style', {
+        referenceId: refAudio?.id,
+        fileId: audioData.fileId,
+      });
+
+      await editMessageText(chatId, messageId, `✏️ *Редактирование стиля*\n\n📝 Текущий стиль:\n_${escapeMarkdown(currentStyle)}_\n\n🎨 Отправьте новое описание стиля для генерации\\.\n\nПример: _energetic rock with powerful guitars, driving drums and epic chorus_\n\n❌ Отмена: /cancel`, {
+        inline_keyboard: [
+          [{ text: '❌ Отмена', callback_data: 'cancel_edit_style' }]
+        ]
+      });
+
+    } catch (error) {
+      await editMessageText(chatId, messageId, `❌ Ошибка\\. Попробуйте позже\\.`);
+    }
+    return;
+  }
+
   // For cover/extend/upload actions - get the audio data (don't consume yet for cover/extend)
   const audioData = await getPendingAudioWithoutConsuming(userId);
 

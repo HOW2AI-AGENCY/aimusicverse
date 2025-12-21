@@ -2,7 +2,7 @@ import { forwardRef, useCallback } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Music, Mic, Play, Pause, MoreVertical, Trash2, Upload, FileText, ArrowRight, Disc, Sparkles } from 'lucide-react';
+import { Music, Mic, Play, Pause, MoreVertical, Trash2, Upload, FileText, ArrowRight, Disc, Sparkles, Scissors, Download } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   DropdownMenu,
@@ -20,6 +20,7 @@ interface VirtualizedCloudListProps {
   onPlay: (audio: ReferenceAudio) => void;
   onDelete: (id: string) => void;
   onUseForGeneration: (audio: ReferenceAudio, mode: 'cover' | 'extend') => void;
+  onSeparateStems?: (audio: ReferenceAudio) => void;
 }
 
 // List container
@@ -37,6 +38,7 @@ export function VirtualizedCloudList({
   onPlay,
   onDelete,
   onUseForGeneration,
+  onSeparateStems,
 }: VirtualizedCloudListProps) {
   const formatDuration = useCallback((seconds: number | null) => {
     if (!seconds) return '--:--';
@@ -109,6 +111,18 @@ export function VirtualizedCloudList({
                   Стиль
                 </Badge>
               )}
+              {audio.stems_status === 'completed' && (
+                <Badge variant="outline" className="text-[9px] h-4 px-1.5 text-purple-600 border-purple-600/30">
+                  <Scissors className="w-2.5 h-2.5 mr-0.5" />
+                  Стемы
+                </Badge>
+              )}
+              {audio.stems_status === 'processing' && (
+                <Badge variant="outline" className="text-[9px] h-4 px-1.5 text-yellow-600 border-yellow-600/30 animate-pulse">
+                  <Scissors className="w-2.5 h-2.5 mr-0.5" />
+                  ...
+                </Badge>
+              )}
             </div>
           </div>
 
@@ -134,6 +148,15 @@ export function VirtualizedCloudList({
               <ArrowRight className="w-4 h-4 mr-2" />
               Расширить
             </DropdownMenuItem>
+            {onSeparateStems && audio.stems_status !== 'completed' && audio.stems_status !== 'processing' && (
+              <DropdownMenuItem onClick={(e) => {
+                e.stopPropagation();
+                onSeparateStems(audio);
+              }}>
+                <Scissors className="w-4 h-4 mr-2" />
+                Разделить на стемы
+              </DropdownMenuItem>
+            )}
             <DropdownMenuSeparator />
             <DropdownMenuItem 
               onClick={(e) => {

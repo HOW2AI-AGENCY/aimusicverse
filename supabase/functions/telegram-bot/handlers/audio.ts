@@ -405,16 +405,21 @@ async function handleAutoUploadWithPipeline(
 
     // Build action keyboard
     const hasLyrics = pipelineResult?.lyrics && pipelineResult.lyrics.length > 0;
+    const hasBothVocalAndInstrumental = analysis.has_vocals && analysis.has_instrumental;
     const keyboardRows = [
       [
         { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
         { text: '➕ Расширить трек', callback_data: 'audio_action_extend' }
       ],
+      [
+        { text: '🎛️ Разделить на стемы', callback_data: 'audio_action_stems' },
+        { text: '🎹 MIDI', callback_data: 'audio_action_midi' }
+      ],
       hasLyrics 
         ? [{ text: '📝 Полный текст', callback_data: 'audio_action_show_lyrics' }]
         : [],
       [
-        { text: '🎹 MIDI', callback_data: 'audio_action_midi' },
+        { text: '✏️ Изменить стиль', callback_data: 'audio_action_edit_style' },
         { text: '📂 Мои загрузки', callback_data: 'my_uploads' }
       ],
       [

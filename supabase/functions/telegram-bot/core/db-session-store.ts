@@ -400,6 +400,89 @@ export async function setConversationContext(
 }
 
 /**
+ * Set wizard state for multi-step interactions (edit style, etc.)
+ */
+export async function setWizardState(
+  telegramUserId: number,
+  wizardType: string,
+  state: Record<string, unknown>
+): Promise<void> {
+  const supabase = getSupabase();
+  
+  try {
+    // Clear existing wizard state
+    await supabase
+      .from('telegram_bot_sessions')
+      .delete()
+      .eq('telegram_user_id', telegramUserId)
+      .eq('session_type', 'wizard');
+
+    // Set new wizard state
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+    
+    await supabase
+      .from('telegram_bot_sessions')
+      .insert({
+        telegram_user_id: telegramUserId,
+        session_type: 'wizard',
+        mode: wizardType,
+        options: { ...state, createdAt: Date.now() },
+        expires_at: expiresAt.toISOString(),
+      });
+      
+    logger.debug('Set wizard state', { telegramUserId, wizardType });
+  } catch (error) {
+    logger.error('Error in setWizardState', error);
+  }
+}
+
+/**
+ * Get wizard state
+ */
+export async function getWizardState(
+  telegramUserId: number
+): Promise<{ type: string; state: Record<string, unknown> } | null> {
+  const supabase = getSupabase();
+  
+  try {
+    const { data, error } = await supabase
+      .from('telegram_bot_sessions')
+      .select('*')
+      .eq('telegram_user_id', telegramUserId)
+      .eq('session_type', 'wizard')
+      .gt('expires_at', new Date().toISOString())
+      .single();
+
+    if (error || !data) return null;
+
+    return {
+      type: data.mode as string,
+      state: data.options as Record<string, unknown>,
+    };
+  } catch (error) {
+    logger.error('Error in getWizardState', error);
+    return null;
+  }
+}
+
+/**
+ * Clear wizard state
+ */
+export async function clearWizardState(telegramUserId: number): Promise<void> {
+  const supabase = getSupabase();
+  
+  try {
+    await supabase
+      .from('telegram_bot_sessions')
+      .delete()
+      .eq('telegram_user_id', telegramUserId)
+      .eq('session_type', 'wizard');
+  } catch (error) {
+    logger.error('Error in clearWizardState', error);
+  }
+}
+
+/**
  * Cleanup expired sessions (called periodically)
  */
 export async function cleanupSessions(): Promise<void> {

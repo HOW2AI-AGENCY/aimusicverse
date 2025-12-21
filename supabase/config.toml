@@ -236,3 +236,6 @@ verify_jwt = true
 
 [functions.generate-contextual-stem]
 verify_jwt = true
+
+[functions.separate-reference-stems]
+verify_jwt = false
