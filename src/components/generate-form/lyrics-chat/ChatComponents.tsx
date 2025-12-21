@@ -1,8 +1,11 @@
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Loader2, RotateCcw, Copy, Check, Bookmark, BookmarkCheck, ChevronRight, MessageSquarePlus } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { GENRES, MOODS, STRUCTURES, buttonVariants, badgeVariants } from './constants';
+import { GENRES, MOODS, STRUCTURES, buttonVariants, badgeVariants } from '@/lib/lyrics/constants';
 import { StructuredLyricsDisplay } from '@/components/lyrics/StructuredLyricsDisplay';
+import { GenrePicker } from '@/components/lyrics/shared/GenrePicker';
+import { MoodPicker } from '@/components/lyrics/shared/MoodPicker';
+import { StructurePicker } from '@/components/lyrics/shared/StructurePicker';
 
 interface GenreSelectorProps {
   selectedGenre: string;
