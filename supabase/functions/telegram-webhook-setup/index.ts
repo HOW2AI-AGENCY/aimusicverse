@@ -53,8 +53,9 @@ Deno.serve(async (req) => {
       ? `${supabaseUrl}/functions/v1/stars-webhook`
       : `${supabaseUrl}/functions/v1/telegram-bot`;
 
-    // Get secret token for webhook verification (optional but recommended)
-    const secretToken = Deno.env.get('TELEGRAM_WEBHOOK_SECRET_TOKEN');
+    // Get secret token for webhook verification (recommended)
+    // Use the same secret as the webhook handler expects.
+    const secretToken = Deno.env.get('TELEGRAM_WEBHOOK_SECRET');
 
     console.log(`Setting ${webhookType} webhook to:`, webhookUrl);
 
