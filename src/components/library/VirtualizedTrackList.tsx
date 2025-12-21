@@ -200,7 +200,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
       <VirtuosoGrid
         useWindowScroll
         totalCount={tracks.length}
-        overscan={200}
+        overscan={50}
         computeItemKey={computeItemKey}
         components={{
           List: GridContainer,
@@ -209,7 +209,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
         }}
         endReached={handleEndReached}
         itemContent={renderTrackItem}
-        increaseViewportBy={{ top: 200, bottom: 500 }}
+        increaseViewportBy={{ top: 100, bottom: 200 }}
       />
     );
   }
@@ -219,7 +219,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     <Virtuoso
       useWindowScroll
       totalCount={tracks.length}
-      overscan={400}
+      overscan={100}
       computeItemKey={computeItemKey}
       components={{
         List: ListContainer,
@@ -227,7 +227,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
       }}
       endReached={handleEndReached}
       itemContent={renderTrackItem}
-      increaseViewportBy={{ top: 200, bottom: 500 }}
+      increaseViewportBy={{ top: 100, bottom: 200 }}
     />
   );
 });
