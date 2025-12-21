@@ -78,12 +78,13 @@ export async function handleUploadCommand(
 }
 
 /**
- * Show user's uploaded audio files
+ * Show user's uploaded audio files with detailed info
  */
 export async function handleMyUploads(
   chatId: number,
   userId: number,
-  messageId?: number
+  messageId?: number,
+  page: number = 0
 ): Promise<void> {
   try {
     // Get user profile
@@ -98,13 +99,22 @@ export async function handleMyUploads(
       return;
     }
 
-    // Get user's uploaded reference audio
+    const pageSize = 5;
+    const offset = page * pageSize;
+
+    // Get total count
+    const { count: totalCount } = await supabase
+      .from('reference_audio')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', profile.user_id);
+
+    // Get user's uploaded reference audio with full details
     const { data: uploads, error } = await supabase
       .from('reference_audio')
-      .select('id, file_name, duration_seconds, created_at, source')
+      .select('id, file_name, duration_seconds, created_at, source, genre, mood, analysis_status, stems_status, has_vocals, transcription, style_description')
       .eq('user_id', profile.user_id)
       .order('created_at', { ascending: false })
-      .limit(10);
+      .range(offset, offset + pageSize - 1);
 
     if (error) {
       logger.error('Error fetching uploads', error);
@@ -117,11 +127,12 @@ export async function handleMyUploads(
 
 У вас пока нет загруженных аудиофайлов\\.
 
-Используйте /upload чтобы загрузить аудио в облако\\.`;
+💡 Просто отправьте любой аудиофайл в чат \\- он автоматически загрузится в облако и будет проанализирован\\!`;
 
       const keyboard = {
         inline_keyboard: [
-          [{ text: '☁️ Загрузить аудио', callback_data: 'start_upload' }]
+          [{ text: '☁️ Загрузить аудио', callback_data: 'start_upload' }],
+          [{ text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=cloud` } }]
         ]
       };
 
@@ -141,24 +152,68 @@ export async function handleMyUploads(
       return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
 
+    // Build list with icons
+    const getStatusIcons = (upload: typeof uploads[0]): string => {
+      const icons: string[] = [];
+      if (upload.has_vocals) icons.push('🎤');
+      if (upload.transcription) icons.push('📝');
+      if (upload.stems_status === 'completed') icons.push('🎛️');
+      if (upload.style_description) icons.push('🎨');
+      return icons.join('');
+    };
+
+    let text = `📂 *Мои загрузки* \\(${totalCount || uploads.length}\\)\n\n`;
+    
+    uploads.forEach((upload, i) => {
+      const num = offset + i + 1;
+      const name = escapeMarkdown(upload.file_name.substring(0, 25) + (upload.file_name.length > 25 ? '...' : ''));
+      const duration = formatDuration(upload.duration_seconds);
+      const icons = getStatusIcons(upload);
+      const genre = upload.genre ? escapeMarkdown(upload.genre) : '';
+      const mood = upload.mood ? escapeMarkdown(upload.mood) : '';
+      const tags = [genre, mood].filter(Boolean).join(' • ');
+      
+      text += `${num}\\. 🎵 *${name}*\n`;
+      text += `   ⏱️ ${duration}`;
+      if (tags) text += ` \\| ${tags}`;
+      if (icons) text += ` ${icons}`;
+      text += `\n\n`;
+    });
+
+    // Pagination
+    const totalPages = Math.ceil((totalCount || 0) / pageSize);
+    const currentPage = page + 1;
+    if (totalPages > 1) {
+      text += `📄 Страница ${currentPage}/${totalPages}`;
+    }
+
     // Build keyboard with uploaded files
     const fileButtons = uploads.map(upload => [{
-      text: `🎵 ${upload.file_name.substring(0, 30)}${upload.file_name.length > 30 ? '...' : ''} (${formatDuration(upload.duration_seconds)})`,
+      text: `${getStatusIcons(upload) || '🎵'} ${upload.file_name.substring(0, 28)}${upload.file_name.length > 28 ? '...' : ''}`,
       callback_data: `select_ref_${upload.id.substring(0, 32)}`
     }]);
 
-    const text = `📂 *Мои загрузки* \\(${uploads.length}\\)
-
-Выберите файл для использования:`;
+    // Pagination buttons
+    const navButtons: Array<{ text: string; callback_data: string }> = [];
+    if (page > 0) {
+      navButtons.push({ text: '◀️ Назад', callback_data: `uploads_page_${page - 1}` });
+    }
+    if (currentPage < totalPages) {
+      navButtons.push({ text: 'Вперёд ▶️', callback_data: `uploads_page_${page + 1}` });
+    }
 
     const keyboard = {
       inline_keyboard: [
         ...fileButtons,
+        navButtons.length > 0 ? navButtons : [],
         [
-          { text: '☁️ Загрузить новый', callback_data: 'start_upload' },
-          { text: '🔙 Назад', callback_data: 'main_menu' }
+          { text: '☁️ Загрузить', callback_data: 'start_upload' },
+          { text: '🔍 Поиск', callback_data: 'search_uploads' }
+        ],
+        [
+          { text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=cloud` } }
         ]
-      ]
+      ].filter(row => row.length > 0)
     };
 
     if (messageId) {
@@ -174,7 +229,7 @@ export async function handleMyUploads(
 }
 
 /**
- * Handle reference audio selection
+ * Handle reference audio selection - show detailed view
  */
 export async function handleSelectReference(
   chatId: number,
@@ -184,10 +239,10 @@ export async function handleSelectReference(
   callbackId: string
 ): Promise<void> {
   try {
-    // Get reference audio details
+    // Get reference audio details with all analysis
     const { data: reference } = await supabase
       .from('reference_audio')
-      .select('id, file_name, file_url, duration_seconds')
+      .select('*')
       .eq('id', referenceId)
       .single();
 
@@ -196,26 +251,86 @@ export async function handleSelectReference(
       return;
     }
 
-    const text = `🎵 *Выбран файл:*
-${escapeMarkdown(reference.file_name)}
-
-Что хотите сделать?`;
-
-    const keyboard = {
-      inline_keyboard: [
-        [
-          { text: '🎤 Создать кавер', callback_data: `use_ref_cover_${referenceId}` },
-          { text: '🔄 Расширить', callback_data: `use_ref_extend_${referenceId}` }
-        ],
-        [
-          { text: '🎛️ Открыть в Studio', url: `${BOT_CONFIG.deepLinkBase}?startapp=studio_ref_${referenceId}` }
-        ],
-        [
-          { text: '🗑️ Удалить', callback_data: `delete_ref_${referenceId}` },
-          { text: '🔙 К списку', callback_data: 'my_uploads' }
-        ]
-      ]
+    // Format duration
+    const formatDuration = (seconds: number | null): string => {
+      if (!seconds) return '?:??';
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
+
+    let text = `📁 *${escapeMarkdown(reference.file_name)}*\n\n`;
+    
+    // Basic info
+    text += `⏱️ Длительность: ${formatDuration(reference.duration_seconds)}\n`;
+    
+    // Analysis info
+    if (reference.genre || reference.mood) {
+      text += `\n📊 *Анализ:*\n`;
+      if (reference.genre) text += `🎵 Жанр: ${escapeMarkdown(reference.genre)}\n`;
+      if (reference.mood) text += `💫 Настроение: ${escapeMarkdown(reference.mood)}\n`;
+      if (reference.bpm) text += `🥁 BPM: ${reference.bpm}\n`;
+      if (reference.energy) text += `⚡ Энергия: ${escapeMarkdown(reference.energy)}\n`;
+    }
+    
+    // Type
+    if (reference.has_vocals !== null) {
+      text += `\n${reference.has_vocals ? '🎤 Вокал обнаружен' : '🎸 Инструментал'}\n`;
+    }
+    
+    // Transcription preview
+    if (reference.transcription) {
+      const lyricsPreview = reference.transcription.substring(0, 100);
+      text += `📝 Текст извлечён \\(${reference.transcription.length} символов\\)\n`;
+    }
+    
+    // Stems status
+    if (reference.stems_status === 'completed') {
+      text += `🎛️ Стемы разделены ✅\n`;
+    } else if (reference.stems_status === 'processing') {
+      text += `🎛️ Стемы обрабатываются\\.\\.\\.\n`;
+    }
+    
+    // Style description
+    if (reference.style_description) {
+      text += `\n🎨 *Стиль для генерации:*\n_${escapeMarkdown(reference.style_description.substring(0, 150))}${reference.style_description.length > 150 ? '...' : ''}_\n`;
+    }
+
+    // Build action keyboard
+    const actionRows: Array<Array<{ text: string; callback_data?: string; url?: string }>> = [
+      [
+        { text: '🎤 Кавер', callback_data: `use_ref_cover_${referenceId}` },
+        { text: '🔄 Расширить', callback_data: `use_ref_extend_${referenceId}` }
+      ],
+    ];
+    
+    // Stems button
+    if (reference.stems_status !== 'completed' && reference.stems_status !== 'processing') {
+      actionRows.push([
+        { text: '🎛️ Разделить на стемы', callback_data: `separate_ref_stems_${referenceId}` }
+      ]);
+    } else if (reference.stems_status === 'completed') {
+      actionRows.push([
+        { text: '⬇️ Скачать стемы', callback_data: `download_ref_stems_${referenceId}` },
+        { text: '🎤 Вокал → Кавер', callback_data: `stem_use_vocal_${referenceId}` }
+      ]);
+    }
+    
+    // Lyrics and style buttons
+    const utilityRow: Array<{ text: string; callback_data: string }> = [];
+    if (reference.transcription) {
+      utilityRow.push({ text: '📝 Текст', callback_data: `show_lyrics_${referenceId}` });
+    }
+    utilityRow.push({ text: '✏️ Стиль', callback_data: `edit_ref_style_${referenceId}` });
+    if (utilityRow.length > 0) actionRows.push(utilityRow);
+    
+    // Delete and back
+    actionRows.push([
+      { text: '🗑️ Удалить', callback_data: `delete_ref_${referenceId}` },
+      { text: '🔙 К списку', callback_data: 'my_uploads' }
+    ]);
+
+    const keyboard = { inline_keyboard: actionRows };
 
     await editMessageText(chatId, messageId, text, keyboard);
     await answerCallbackQuery(callbackId);
