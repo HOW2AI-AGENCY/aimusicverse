@@ -101,7 +101,7 @@ export function StemMidiDrawer({
     if (hasMidi && activeTab === 'create') {
       setActiveTab('player');
     }
-  }, [latestTranscription?.midi_url, transcriptionFiles.midi, result?.midiUrl]);
+  }, [latestTranscription?.midi_url, transcriptionFiles.midi, result?.midiUrl, activeTab]);
 
   // Get intelligent configuration based on stem type
   const stemConfig = useMemo(() => {
