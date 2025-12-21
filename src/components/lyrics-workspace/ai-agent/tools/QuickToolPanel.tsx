@@ -71,7 +71,7 @@ export function QuickToolPanel({
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: 'auto' }}
       exit={{ opacity: 0, height: 0 }}
-      className={cn("border-b border-border/50", tool.bgColor.replace('hover:', ''))}
+      className={cn("border-b border-border/50 max-h-[50vh] overflow-y-auto overscroll-contain", tool.bgColor.replace('hover:', ''))}
     >
       <div className="p-3 space-y-3">
         {/* Header */}
