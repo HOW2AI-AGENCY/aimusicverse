@@ -14,6 +14,10 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { getGlobalAudioRef } from '@/hooks/audio/useAudioTime';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { isStructuralTag, filterStructuralTagWords } from '@/lib/lyricsUtils';
+
+// Re-export for convenience
+export { isStructuralTag } from '@/lib/lyricsUtils';
 
 // Synchronization constants
 export const SYNC_CONSTANTS = {
@@ -138,29 +142,38 @@ function findActiveLineIndex(
 
 /**
  * Group words into lines based on newlines or time gaps
+ * Filters out structural tags like [Verse], [Chorus], [Куплет], etc.
  */
 export function groupWordsIntoLines(words: AlignedWord[]): LyricLine[] {
   if (!words?.length) return [];
+  
+  // Filter out structural tags first
+  const filteredWords = filterStructuralTagWords(words);
   
   const lines: LyricLine[] = [];
   let currentLineWords: AlignedWord[] = [];
   let lineIndex = 0;
   
-  for (let i = 0; i < words.length; i++) {
-    const word = words[i];
+  for (let i = 0; i < filteredWords.length; i++) {
+    const word = filteredWords[i];
+    
+    // Skip empty words or structural tags that slipped through
+    const cleanWord = word.word.replace(/\n/g, '').trim();
+    if (!cleanWord || isStructuralTag(cleanWord)) continue;
+    
     currentLineWords.push(word);
     
-    const nextWord = words[i + 1];
-    const hasNewline = word.word.includes('\\n');
+    const nextWord = filteredWords[i + 1];
+    const hasNewline = word.word.includes('\n');
     const hasTimeGap = nextWord ? nextWord.startS - word.endS > 0.5 : true;
     const isLongLine = currentLineWords.length >= 8;
-    const endsWithPunctuation = /[.!?;]$/.test(word.word.trim());
+    const endsWithPunctuation = /[.!?;]$/.test(cleanWord);
     
     if (hasNewline || hasTimeGap || isLongLine || endsWithPunctuation || !nextWord) {
       if (currentLineWords.length > 0) {
         const lineText = currentLineWords
-          .map(w => w.word.replace(/\\n/g, '').trim())
-          .filter(Boolean)
+          .map(w => w.word.replace(/\n/g, '').trim())
+          .filter(t => t && !isStructuralTag(t))
           .join(' ');
           
         if (lineText) {
