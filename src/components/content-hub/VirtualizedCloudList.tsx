@@ -192,7 +192,7 @@ export function VirtualizedCloudList({
         </DropdownMenu>
       </div>
     );
-  }, [playingId, onSelect, onPlay, onDelete, onUseForGeneration, formatDuration]);
+  }, [playingId, onSelect, onPlay, onDelete, onUseForGeneration, onSeparateStems, formatDuration]);
 
   // If few items, render directly without virtualization
   if (audioFiles.length <= 20) {

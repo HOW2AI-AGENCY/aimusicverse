@@ -66,12 +66,15 @@ serve(async (req) => {
 Genre: [main genre]
 Mood: [overall mood/emotion]
 Tempo: [tempo description, e.g., "fast", "medium", "slow"]
+BPM: [estimated beats per minute as a number, e.g., "120"]
 Key: [musical key if identifiable]
 Instruments: [comma-separated list of instruments]
 Structure: [song structure, e.g., "Intro, Verse, Chorus, Bridge, Outro"]
 Style: [detailed style description for music generation, include vocal characteristics, production techniques, and distinctive elements]
-Energy Level: [0-100, how energetic/arousing the track is]
+Vocal Style: [vocal style description if vocals present, otherwise "none"]
+Energy Level: [low/medium/high - how energetic the track is]
 Positivity: [0-100, how positive/happy vs negative/sad]
+Has Vocals: [yes/no - whether track has vocals]
 
 Provide concise, accurate information suitable for music generation AI.`;
 
@@ -123,6 +126,15 @@ Provide concise, accurate information suitable for music generation AI.`;
     const instruments = instrumentsText ? instrumentsText.split(',').map(i => i.trim()) : [];
     const structure = parseField(fullResponse, 'Structure');
     const styleDescription = parseField(fullResponse, 'Style');
+    const vocalStyle = parseField(fullResponse, 'Vocal Style');
+    const energy = parseField(fullResponse, 'Energy Level');
+    const hasVocalsText = parseField(fullResponse, 'Has Vocals');
+    const hasVocals = hasVocalsText ? hasVocalsText.toLowerCase().includes('yes') : null;
+    
+    // Parse BPM as a number
+    const bpmText = parseField(fullResponse, 'BPM');
+    const bpm = bpmText ? parseInt(bpmText.match(/\d+/)?.[0] || '', 10) : null;
+    
     const arousal = parseNumber(fullResponse, 'Energy Level');
     const valence = parseNumber(fullResponse, 'Positivity');
 
@@ -184,10 +196,14 @@ Provide concise, accurate information suitable for music generation AI.`;
           genre,
           mood,
           tempo,
+          bpm: bpm && !isNaN(bpm) ? bpm : null,
           key_signature: keySignature,
           instruments,
           structure,
           style_description: styleDescription,
+          vocal_style: vocalStyle !== 'none' ? vocalStyle : null,
+          energy,
+          has_vocals: hasVocals,
         },
       }),
       {
