@@ -296,9 +296,9 @@ serve(async (req) => {
         formData.append('demo', 'false');
         if (title) queryParams.set('title', title);
         
-        // Klangio API requires:
-        // 1) outputs as repeated query parameters (e.g. outputs=midi&outputs=pdf)
-        // 2) gen_* query parameters for each output format
+        // Klangio API (FastAPI/Pydantic) requires:
+        // 1) outputs as REPEATED FORM FIELDS in multipart body (NOT JSON string, NOT only query params)
+        // 2) gen_* query parameters for each output format (for backward compatibility)
         const transcriptionValidFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
         const reqOutputs = outputs || smartOutputs;
         const validOutputs = reqOutputs.filter((o: string) => transcriptionValidFormats.includes(o));
@@ -307,11 +307,14 @@ serve(async (req) => {
         console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(reqOutputs)}, valid=${JSON.stringify(validOutputs)}`);
         console.log(`[klangio] Demo mode: false (paid tier - full length transcription)`);
 
-        // IMPORTANT: Do NOT send outputs in the multipart body.
-        // Klangio expects outputs as repeated query parameters; sending it in body can be parsed as a nested list
-        // (e.g. [["midi"]]) and then fails enum validation.
-        validOutputs.forEach((o) => queryParams.append('outputs', o));
-        console.log(`[klangio] outputs query params: ${validOutputs.map((o) => `outputs=${o}`).join('&')}`);
+        // CRITICAL: Send outputs as REPEATED form fields in multipart body
+        // FastAPI/Pydantic parses repeated "outputs" fields (outputs=midi&outputs=pdf) as List[str]
+        // DO NOT send as JSON string (causes [["midi"]] nested array error)
+        // DO NOT send only in query params (causes "Field required" error in body)
+        validOutputs.forEach((o) => {
+          formData.append('outputs', o);
+        });
+        console.log(`[klangio] FormData outputs (repeated fields): ${validOutputs.join(', ')}`);
 
         // Also set gen_* query parameters for each requested format
         if (validOutputs.includes('midi')) {
