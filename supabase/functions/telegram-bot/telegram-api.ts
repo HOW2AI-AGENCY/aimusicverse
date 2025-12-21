@@ -1,4 +1,5 @@
 import { trackMetric, type MetricEventType } from './utils/metrics.ts';
+import { withRetry, storeFailedNotification, isRetryableError } from './utils/telegram-retry.ts';
 
 const BOT_TOKEN = Deno.env.get('TELEGRAM_BOT_TOKEN')!;
 const TELEGRAM_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
@@ -83,47 +84,64 @@ export function escapeMarkdownV2(text: string): string {
   return text.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
 }
 
+/**
+ * Internal fetch with retry logic
+ */
+async function telegramFetchWithRetry(
+  endpoint: string,
+  options: RequestInit,
+  chatId?: number
+): Promise<Response> {
+  return withRetry(
+    async () => {
+      const response = await fetch(`${TELEGRAM_API}${endpoint}`, options);
+      
+      if (!response.ok) {
+        const error = await response.text();
+        const err = new Error(`Telegram API error: ${error}`) as Error & { status: number };
+        err.status = response.status;
+        throw err;
+      }
+      
+      return response;
+    },
+    { maxRetries: 3, initialDelayMs: 1000 }
+  );
+}
+
 export async function sendMessage(
   chatId: number,
   text: string,
   replyMarkup?: {
     inline_keyboard?: InlineKeyboardButton[][];
   },
-  parseMode?: 'MarkdownV2' | 'HTML' | null
+  parseMode?: 'MarkdownV2' | 'HTML' | null,
+  storeOnFailure: boolean = true
 ) {
   const startTime = Date.now();
   
+  const body: Record<string, unknown> = {
+    chat_id: chatId,
+    text,
+    reply_markup: replyMarkup,
+  };
+  
+  if (parseMode) {
+    body.parse_mode = parseMode;
+  }
+  
   try {
-    const body: Record<string, unknown> = {
-      chat_id: chatId,
-      text,
-      reply_markup: replyMarkup,
-    };
-    
-    // Only add parse_mode if explicitly specified
-    if (parseMode) {
-      body.parse_mode = parseMode;
-    }
-    
-    const response = await fetch(`${TELEGRAM_API}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
+    const response = await telegramFetchWithRetry(
+      '/sendMessage',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      },
+      chatId
+    );
 
     const responseTimeMs = Date.now() - startTime;
-
-    if (!response.ok) {
-      const error = await response.text();
-      trackMetric({
-        eventType: 'message_failed',
-        success: false,
-        telegramChatId: chatId,
-        errorMessage: error,
-        responseTimeMs,
-      });
-      throw new Error(`Telegram API error: ${error}`);
-    }
 
     trackMetric({
       eventType: 'message_sent',
@@ -132,17 +150,24 @@ export async function sendMessage(
       responseTimeMs,
     });
 
-    const result = await response.json();
-    return result; // Returns { ok: true, result: { message_id: number, ... } }
+    return await response.json();
   } catch (error) {
     const responseTimeMs = Date.now() - startTime;
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    
     trackMetric({
       eventType: 'message_failed',
       success: false,
       telegramChatId: chatId,
-      errorMessage: error instanceof Error ? error.message : String(error),
+      errorMessage,
       responseTimeMs,
     });
+
+    // Store for retry if enabled and error is retryable
+    if (storeOnFailure && isRetryableError(error)) {
+      await storeFailedNotification(chatId, 'sendMessage', body, errorMessage);
+    }
+    
     throw error;
   }
 }
@@ -155,34 +180,40 @@ export async function sendPhoto(
     replyMarkup?: {
       inline_keyboard?: InlineKeyboardButton[][];
     };
-  } = {}
+  } = {},
+  storeOnFailure: boolean = true
 ) {
   console.log('Sending photo to chat:', chatId, 'URL:', photoUrl);
   
+  const body = {
+    chat_id: chatId,
+    photo: photoUrl,
+    caption: options.caption,
+    parse_mode: 'MarkdownV2',
+    reply_markup: options.replyMarkup,
+  };
+  
   try {
-    const response = await fetch(`${TELEGRAM_API}/sendPhoto`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        photo: photoUrl,
-        caption: options.caption,
-        parse_mode: 'MarkdownV2',
-        reply_markup: options.replyMarkup,
-      }),
-    });
-
-    if (!response.ok) {
-      const error = await response.text();
-      console.error('sendPhoto failed:', error);
-      throw new Error(`Telegram API error: ${error}`);
-    }
+    const response = await telegramFetchWithRetry(
+      '/sendPhoto',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      },
+      chatId
+    );
 
     const result = await response.json();
     console.log('sendPhoto success:', result.ok);
     return result;
   } catch (error) {
     console.error('sendPhoto exception:', error);
+    
+    if (storeOnFailure && isRetryableError(error)) {
+      await storeFailedNotification(chatId, 'sendPhoto', body, error instanceof Error ? error.message : String(error));
+    }
+    
     throw error;
   }
 }
