@@ -147,13 +147,15 @@ serve(async (req) => {
     console.log('📋 Callback URL:', callBackUrl);
 
     // Build request body - per SunoAPI docs all these fields are required
-    // IMPORTANT: negativeTags must be a non-empty string, Suno API rejects empty string
+    // NOTE: Some Suno endpoints require `tags` specifically (even if `style` is present).
+    // IMPORTANT: negativeTags must be a non-empty string, Suno API rejects empty string.
     const requestBody: any = {
       uploadUrl,
       prompt,        // Required
       title,         // Required
-      style,         // Required
-      negativeTags: negativeTags || 'low quality, distorted, noise',  // Required - default if not provided
+      style,         // Required (kept for compatibility)
+      tags: style,   // Required by add-instrumental endpoint (comma-separated string)
+      negativeTags: negativeTags || 'low quality, distorted, noise',
       callBackUrl,
       model: model === 'V4_5ALL' ? 'V4_5PLUS' : model, // Map to valid model
     };
