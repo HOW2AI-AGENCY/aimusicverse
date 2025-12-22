@@ -19,6 +19,7 @@ import { useTelegramMainButton } from '@/hooks/telegram';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { hapticImpact } from '@/lib/haptic';
 import { toast } from 'sonner';
+import { useKeyboardAware } from '@/hooks/useKeyboardAware';
 
 // AI Agent system imports
 import { AIToolbar } from '@/components/lyrics-workspace/ai-agent/AIToolbar';
@@ -62,6 +63,9 @@ export function LyricsChatAssistant({
   // Scrolling refs
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const shouldAutoScrollRef = useRef(true);
+  
+  // Keyboard-aware behavior для адаптации под клавиатуру iOS
+  const { keyboardHeight, isKeyboardOpen, createFocusHandler } = useKeyboardAware();
 
   // Build AI agent context
   const aiContext: AIAgentContext = {
@@ -462,7 +466,16 @@ export function LyricsChatAssistant({
 
       {/* Input Area - Only show in chat tab */}
       {activeTab === 'chat' && (
-        <div className="border-t border-border/50 p-3 bg-background/80 backdrop-blur-sm pb-safe shrink-0">
+        <div 
+          className="border-t border-border/50 p-3 bg-background/80 backdrop-blur-sm shrink-0"
+          style={{
+            // Применяем padding для клавиатуры + safe-area
+            paddingBottom: isKeyboardOpen
+              ? `${keyboardHeight + 12}px`
+              : 'max(0.75rem, env(safe-area-inset-bottom))',
+            transition: 'padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          }}
+        >
           <div className="flex gap-2">
             <Button 
               variant="ghost" 
@@ -478,6 +491,7 @@ export function LyricsChatAssistant({
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
+              onFocus={createFocusHandler()}
               className="min-h-[36px] max-h-[100px] resize-none text-sm flex-1"
               rows={1}
               disabled={isLoading}
