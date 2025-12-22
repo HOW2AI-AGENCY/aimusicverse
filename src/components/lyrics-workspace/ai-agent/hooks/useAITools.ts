@@ -107,36 +107,51 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
       let responseData: AIMessage['data'] = {};
       let responseContent = data.message || data.result || 'Готово!';
 
-      if (data.lyrics) {
-        responseData.lyrics = data.lyrics;
-        responseType = 'lyrics';
-        if (toolId === 'write' || toolId === 'optimize') {
-          onLyricsGenerated?.(data.lyrics);
-        }
-      }
-
-      if (data.tags && Array.isArray(data.tags)) {
-        responseData.tags = data.tags;
-        if (tool.directApply) onTagsGenerated?.(data.tags);
-      }
-
+      // Handle full_analysis response
       if (data.fullAnalysis) {
         responseData.fullAnalysis = data.fullAnalysis;
         responseType = 'full_analysis';
+        // Add quick actions from analysis if present
+        if (data.fullAnalysis.quickActions) {
+          responseData.quickActions = data.fullAnalysis.quickActions;
+        }
       }
-
-      if (data.producerReview) {
+      // Handle producer_review response
+      else if (data.producerReview) {
         responseData.producerReview = data.producerReview;
         responseType = 'producer_review';
         if (data.producerReview.stylePrompt) {
           onStylePromptGenerated?.(data.producerReview.stylePrompt);
         }
+        if (data.producerReview.quickActions) {
+          responseData.quickActions = data.producerReview.quickActions;
+        }
+        if (data.producerReview.suggestedTags) {
+          responseData.tags = data.producerReview.suggestedTags;
+        }
+      }
+      // Handle lyrics response
+      else if (data.lyrics) {
+        responseData.lyrics = data.lyrics;
+        responseType = 'lyrics';
+        // Auto-apply only for write/optimize tools
+        if (toolId === 'write' || toolId === 'optimize') {
+          onLyricsGenerated?.(data.lyrics);
+        }
       }
 
-      if (data.quickActions) {
+      // Handle tags
+      if (data.tags && Array.isArray(data.tags)) {
+        responseData.tags = data.tags;
+        if (tool.directApply) onTagsGenerated?.(data.tags);
+      }
+
+      // Handle additional data
+      if (data.quickActions && !responseData.quickActions) {
         responseData.quickActions = data.quickActions;
       }
-
+      if (data.stylePrompt) responseData.stylePrompt = data.stylePrompt;
+      if (data.changes) responseData.changes = data.changes;
       if (data.analysis) responseData.analysis = data.analysis;
       if (data.suggestions) responseData.suggestions = data.suggestions;
       if (data.structure) responseData.structure = data.structure;
@@ -190,14 +205,23 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
       if (error) throw error;
 
       let responseData: AIMessage['data'] = {};
-      if (data.lyrics) responseData.lyrics = data.lyrics;
+      let responseType: OutputType = 'text';
+      
+      // Handle lyrics - don't auto-apply, show in card with buttons
+      if (data.lyrics) {
+        responseData.lyrics = data.lyrics;
+        responseType = 'lyrics';
+      }
+      
       if (data.tags) responseData.tags = data.tags;
       if (data.suggestions) responseData.suggestions = data.suggestions;
       if (data.quickActions) responseData.quickActions = data.quickActions;
+      if (data.stylePrompt) responseData.stylePrompt = data.stylePrompt;
+      if (data.changes) responseData.changes = data.changes;
 
       updateLastMessage({
         content: data.message || data.result || 'Готово!',
-        type: data.lyrics ? 'lyrics' : data.tags ? 'tags' : 'text',
+        type: responseType,
         data: responseData,
         isLoading: false,
       });

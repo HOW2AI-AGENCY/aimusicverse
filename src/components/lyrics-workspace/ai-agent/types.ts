@@ -62,6 +62,8 @@ export interface AIMessage {
     fullAnalysis?: FullAnalysisData;
     producerReview?: ProducerReviewData;
     quickActions?: QuickAction[];
+    stylePrompt?: string;
+    changes?: string[];
   };
   isLoading?: boolean;
 }
@@ -123,37 +125,48 @@ export interface FullAnalysisData {
     score: number;
   };
   overallScore: number;
-  recommendations: Array<{
-    type: 'tag' | 'text' | 'structure' | 'rhythm';
+  recommendations?: Array<{
+    type: string;
     text: string;
     priority: 'high' | 'medium' | 'low';
   }>;
-  quickActions: QuickAction[];
+  quickActions?: QuickAction[];
 }
 
 export interface ProducerReviewData {
-  commercialScore: number;
-  hooks: {
+  overallScore?: number;
+  commercialScore?: number;
+  summary?: string;
+  strengths?: string[];
+  weaknesses?: string[];
+  productionNotes?: string;
+  hooks?: {
     current: string;
     suggestions: string[];
   };
-  vocalMap: Array<{
+  vocalMap?: Array<{
     section: string;
     effects: string[];
     note: string;
   }>;
-  arrangement: {
+  arrangement?: {
     add: string[];
     remove: string[];
     dynamics: string[];
   };
-  stylePrompt: string;
-  genreTags: string[];
-  topRecommendations: Array<{
+  stylePrompt?: string;
+  suggestedTags?: string[];
+  genreTags?: string[];
+  recommendations?: Array<{
+    category?: string;
+    priority: string | number;
+    text: string;
+  }>;
+  topRecommendations?: Array<{
     priority: number;
     text: string;
   }>;
-  quickActions: QuickAction[];
+  quickActions?: QuickAction[];
 }
 
 export interface AnalysisIssue {
