@@ -167,7 +167,27 @@ export default function LyricsStudio() {
     style_prompt: string | null;
     notes: string | null;
     recommended_tags: string[] | null;
+    recommended_structure: string | null;
+    position: number;
   } | null>(null);
+  const [projectData, setProjectData] = useState<{
+    id: string;
+    title: string;
+    genre: string | null;
+    mood: string | null;
+    concept: string | null;
+    target_audience: string | null;
+    reference_artists: string[] | null;
+    language: string | null;
+    project_type: string | null;
+  } | null>(null);
+  const [tracklist, setTracklist] = useState<Array<{
+    id: string;
+    position: number;
+    title: string;
+    lyrics: string | null;
+    status: string | null;
+  }>>([]);
   const [isLoadingTrack, setIsLoadingTrack] = useState(false);
   
   const { user } = useAuth();
@@ -200,40 +220,61 @@ export default function LyricsStudio() {
 
   // Load project track data when in project mode
   useEffect(() => {
-    async function loadProjectTrack() {
-      if (!isProjectTrackMode || !trackId) return;
+    async function loadProjectData() {
+      if (!isProjectTrackMode || !trackId || !projectId) return;
       
       setIsLoadingTrack(true);
       try {
-        const { data, error } = await supabase
-          .from('project_tracks')
-          .select('id, title, lyrics, style_prompt, notes, recommended_tags')
-          .eq('id', trackId)
-          .single();
+        // Load track, project, and tracklist in parallel
+        const [trackResult, projectResult, tracklistResult] = await Promise.all([
+          supabase
+            .from('project_tracks')
+            .select('id, title, lyrics, style_prompt, notes, recommended_tags, recommended_structure, position')
+            .eq('id', trackId)
+            .single(),
+          supabase
+            .from('music_projects')
+            .select('id, title, genre, mood, concept, target_audience, reference_artists, language, project_type')
+            .eq('id', projectId)
+            .single(),
+          supabase
+            .from('project_tracks')
+            .select('id, position, title, lyrics, status')
+            .eq('project_id', projectId)
+            .order('position', { ascending: true })
+        ]);
         
-        if (error) {
+        if (trackResult.error) {
           toast.error('Ошибка загрузки трека');
           navigate(`/projects/${projectId}`);
           return;
         }
         
-        if (data) {
-          setProjectTrack(data);
-          setTitle(data.title);
-          if (data.lyrics) {
-            setSections(parseLyricsToSections(data.lyrics));
+        if (trackResult.data) {
+          setProjectTrack(trackResult.data);
+          setTitle(trackResult.data.title);
+          if (trackResult.data.lyrics) {
+            setSections(parseLyricsToSections(trackResult.data.lyrics));
           }
-          if (data.recommended_tags) {
-            setGlobalTags(data.recommended_tags);
+          if (trackResult.data.recommended_tags) {
+            setGlobalTags(trackResult.data.recommended_tags);
           }
           setIsDirty(false);
+        }
+        
+        if (projectResult.data) {
+          setProjectData(projectResult.data);
+        }
+        
+        if (tracklistResult.data) {
+          setTracklist(tracklistResult.data);
         }
       } finally {
         setIsLoadingTrack(false);
       }
     }
     
-    loadProjectTrack();
+    loadProjectData();
   }, [isProjectTrackMode, trackId, projectId, navigate]);
 
   // Load template if provided (standalone mode)
@@ -599,8 +640,32 @@ export default function LyricsStudio() {
                     globalTags={globalTags}
                     sectionTags={selectedSection?.tags}
                     allSectionNotes={sectionNotes?.map(n => ({ type: n.section_type || '', notes: n.notes || '', tags: n.tags || [] }))}
-                    stylePrompt=""
+                    stylePrompt={projectTrack?.style_prompt || ""}
                     title={title}
+                    projectContext={projectData ? {
+                      projectId: projectData.id,
+                      projectTitle: projectData.title,
+                      projectType: projectData.project_type || undefined,
+                      genre: projectData.genre || undefined,
+                      mood: projectData.mood || undefined,
+                      concept: projectData.concept || undefined,
+                      targetAudience: projectData.target_audience || undefined,
+                      referenceArtists: projectData.reference_artists || undefined,
+                      language: projectData.language || undefined,
+                    } : undefined}
+                    trackContext={projectTrack ? {
+                      position: projectTrack.position,
+                      title: projectTrack.title,
+                      notes: projectTrack.notes || undefined,
+                      recommendedTags: projectTrack.recommended_tags || undefined,
+                      recommendedStructure: projectTrack.recommended_structure || undefined,
+                    } : undefined}
+                    tracklist={tracklist.map(t => ({
+                      position: t.position,
+                      title: t.title,
+                      hasLyrics: !!t.lyrics,
+                      status: t.status || undefined,
+                    }))}
                     onInsertLyrics={(text: string) => {
                       if (selectedSection) {
                         handleSectionsChange(
@@ -620,7 +685,6 @@ export default function LyricsStudio() {
                           )
                         );
                       } else {
-                        // No sections yet: parse text into sections
                         const parsedSections = parseLyricsToSections(text);
                         handleSectionsChange(parsedSections);
                       }
@@ -686,8 +750,32 @@ export default function LyricsStudio() {
               globalTags={globalTags}
               sectionTags={selectedSection?.tags}
               allSectionNotes={sectionNotes?.map(n => ({ type: n.section_type || '', notes: n.notes || '', tags: n.tags || [] }))}
-              stylePrompt=""
+              stylePrompt={projectTrack?.style_prompt || ""}
               title={title}
+              projectContext={projectData ? {
+                projectId: projectData.id,
+                projectTitle: projectData.title,
+                projectType: projectData.project_type || undefined,
+                genre: projectData.genre || undefined,
+                mood: projectData.mood || undefined,
+                concept: projectData.concept || undefined,
+                targetAudience: projectData.target_audience || undefined,
+                referenceArtists: projectData.reference_artists || undefined,
+                language: projectData.language || undefined,
+              } : undefined}
+              trackContext={projectTrack ? {
+                position: projectTrack.position,
+                title: projectTrack.title,
+                notes: projectTrack.notes || undefined,
+                recommendedTags: projectTrack.recommended_tags || undefined,
+                recommendedStructure: projectTrack.recommended_structure || undefined,
+              } : undefined}
+              tracklist={tracklist.map(t => ({
+                position: t.position,
+                title: t.title,
+                hasLyrics: !!t.lyrics,
+                status: t.status || undefined,
+              }))}
               onInsertLyrics={(text: string) => {
                 if (selectedSection) {
                   handleSectionsChange(
@@ -707,7 +795,6 @@ export default function LyricsStudio() {
                     )
                   );
                 } else {
-                  // No sections yet: parse text into sections
                   const parsedSections = parseLyricsToSections(text);
                   handleSectionsChange(parsedSections);
                 }

@@ -198,6 +198,31 @@ export interface AIAgentContext {
   genre?: string;
   mood?: string;
   language?: 'ru' | 'en';
+  // Project context for enhanced AI assistance
+  projectContext?: {
+    projectId: string;
+    projectTitle: string;
+    projectType?: string;
+    genre?: string;
+    mood?: string;
+    concept?: string;
+    targetAudience?: string;
+    referenceArtists?: string[];
+    language?: string;
+  };
+  trackContext?: {
+    position: number;
+    title: string;
+    notes?: string;
+    recommendedTags?: string[];
+    recommendedStructure?: string;
+  };
+  tracklist?: Array<{
+    position: number;
+    title: string;
+    hasLyrics: boolean;
+    status?: string;
+  }>;
 }
 
 export interface ToolPanelProps {
