@@ -12,6 +12,8 @@ import { navigateTo, clearNavigationState } from '../core/navigation-state.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { deleteActiveMenu, deleteAndSendNewMenuPhoto, setActiveMenuMessageId } from '../core/active-menu-manager.ts';
 import { trackMessage, messageManager } from '../utils/message-manager.ts';
+import { buildDynamicKeyboard } from './dynamic-menu.ts';
+import { logBotAction } from '../utils/bot-logger.ts';
 
 const supabase = createClient(
   BOT_CONFIG.supabaseUrl,
@@ -183,43 +185,64 @@ export async function handleDashboard(
 
   const caption = `*${headerLine}*\n━━━━━━━━━━━━━━━━━━\n\n${balanceLine}${streakLine}${levelLine}\n\n${statsLine}${activeGenLine}\n\n👇 *Выберите действие:*`;
 
-  // Simplified keyboard - 5 main actions
-  const keyboard = new ButtonBuilder()
-    .addButton({
-      text: 'Создать трек',
-      emoji: '🎵',
-      action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/generate` }
-    })
-    .addRow(
-      {
-        text: 'Библиотека',
-        emoji: '📚',
-        action: { type: 'callback', data: 'nav_library' }
-      },
-      {
-        text: 'Проекты',
-        emoji: '📁',
-        action: { type: 'callback', data: 'nav_projects' }
-      }
-    )
-    .addRow(
-      {
-        text: 'Анализ',
-        emoji: '🔬',
-        action: { type: 'callback', data: 'nav_analyze' }
-      },
-      {
-        text: 'Профиль',
-        emoji: '👤',
-        action: { type: 'callback', data: 'nav_profile' }
-      }
-    )
-    .addButton({
-      text: 'Быстрые действия',
-      emoji: '⚡',
-      action: { type: 'callback', data: 'quick_actions' }
-    })
-    .build();
+  // Load dynamic keyboard from database
+  let keyboard;
+  try {
+    const dynamicButtons = await buildDynamicKeyboard('main');
+    if (dynamicButtons && dynamicButtons.length > 0) {
+      keyboard = { inline_keyboard: dynamicButtons };
+    }
+  } catch (e) {
+    // Fallback to static keyboard if dynamic fails
+    console.error('Failed to load dynamic keyboard:', e);
+  }
+  
+  // Fallback to static keyboard
+  if (!keyboard) {
+    keyboard = new ButtonBuilder()
+      .addButton({
+        text: 'Создать трек',
+        emoji: '🎵',
+        action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/generate` }
+      })
+      .addRow(
+        {
+          text: 'Библиотека',
+          emoji: '📚',
+          action: { type: 'callback', data: 'nav_library' }
+        },
+        {
+          text: 'Проекты',
+          emoji: '📁',
+          action: { type: 'callback', data: 'nav_projects' }
+        }
+      )
+      .addRow(
+        {
+          text: 'Анализ',
+          emoji: '🔬',
+          action: { type: 'callback', data: 'nav_analyze' }
+        },
+        {
+          text: 'Профиль',
+          emoji: '👤',
+          action: { type: 'callback', data: 'nav_profile' }
+        }
+      )
+      .addButton({
+        text: 'Быстрые действия',
+        emoji: '⚡',
+        action: { type: 'callback', data: 'quick_actions' }
+      })
+      .build();
+  }
+  
+  // Log dashboard view
+  await logBotAction(userId, chatId, 'dashboard_view', { 
+    has_data: !!data,
+    balance: data.balance,
+    level: data.level
+  });
 
   if (messageId) {
     const editResult = await editMessageMedia(
