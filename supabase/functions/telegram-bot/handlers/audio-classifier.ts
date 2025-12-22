@@ -260,9 +260,9 @@ export async function showGenderPrompt(
 }
 
 /**
- * Start processing with selected parameters
+ * Upload audio to cloud and show action buttons (without auto-processing)
  */
-export async function startClassifiedProcessing(
+export async function uploadAndShowActions(
   chatId: number,
   userId: number,
   messageId: number,
@@ -287,19 +287,15 @@ export async function startClassifiedProcessing(
     const audioType = pendingData.audioType || 'full';
     const vocalGender = pendingData.vocalGender;
     
-    const skipLyrics = audioType === 'instrumental';
-    const skipStems = audioType !== 'full';
-    
-    // Show processing message
-    const processingText = 
-      `🎵 *Обработка аудио*\n\n` +
+    // Show uploading message
+    const uploadingText = 
+      `🎵 *Загрузка аудио*\n\n` +
       `📁 ${escapeMarkdown(pendingData.fileName)}\n` +
       `🏷 Тип: ${escapeMarkdown(getTypeLabel(audioType))}` +
       `${vocalGender ? `\n🎤 Вокал: ${escapeMarkdown(getGenderLabel(vocalGender))}` : ''}\n\n` +
-      `▓░░░░░░░░░ 5%\n` +
       `⏳ Загружаем в облако\\.\\.\\.`;
     
-    await editMessageText(chatId, messageId, processingText);
+    await editMessageText(chatId, messageId, uploadingText);
 
     // Get file URL from Telegram
     const fileUrl = await getFileUrl(pendingData.fileId);
@@ -344,112 +340,59 @@ export async function startClassifiedProcessing(
 
     logger.info('Audio uploaded to storage', { storagePath, publicUrl });
 
-    // Update progress
-    await editMessageText(
-      chatId,
-      messageId,
-      `🎵 *Обработка аудио*\n\n` +
-        `📁 ${escapeMarkdown(pendingData.fileName)}\n\n` +
-        `▓░░░░░░░░░ 10%\n` +
-        `⏳ Загрузка и анализ стиля\\.\\.\\.`
-    );
-
-    // Convert audio to base64 for Replicate (fixes Audio Flamingo 400 error)
-    // Use chunked approach to avoid stack overflow with large files
-    const uint8Array = new Uint8Array(audioBuffer);
-    const chunkSize = 32768; // 32KB chunks
-    let base64Audio = '';
-    for (let i = 0; i < uint8Array.length; i += chunkSize) {
-      const chunk = uint8Array.subarray(i, Math.min(i + chunkSize, uint8Array.length));
-      base64Audio += String.fromCharCode(...chunk);
-    }
-    base64Audio = btoa(base64Audio);
-    const dataUri = `data:${safeContentType};base64,${base64Audio}`;
-
-    // Call the comprehensive audio processing pipeline with classification params
-    const { data: pipelineResult, error: pipelineError } = await supabase.functions.invoke(
-      'process-audio-pipeline',
-      {
-        body: {
-          audio_url: publicUrl,
-          audio_base64: dataUri, // Pass base64 for Replicate
-          user_id: profile.user_id,
-          file_name: pendingData.fileName,
-          file_size: pendingData.fileSize,
-          duration_seconds: pendingData.duration,
-          source: 'telegram_classified',
-          telegram_chat_id: chatId,
-          telegram_file_id: pendingData.fileId,
-          telegram_message_id: messageId, // Reuse message for progress
-          skip_stems: skipStems,
-          skip_lyrics: skipLyrics,
-          user_classification: {
-            audio_type: audioType,
-            vocal_gender: vocalGender,
-          },
+    // Save reference_audio record to DB
+    const { data: refRecord, error: refError } = await supabase
+      .from('reference_audio')
+      .insert({
+        user_id: profile.user_id,
+        file_url: publicUrl,
+        file_name: pendingData.fileName,
+        file_size: pendingData.fileSize,
+        duration_seconds: pendingData.duration,
+        mime_type: safeContentType,
+        telegram_file_id: pendingData.fileId,
+        source: 'telegram_classified',
+        analysis_status: 'pending',
+        metadata: {
+          audio_type: audioType,
+          vocal_gender: vocalGender,
         },
-      }
-    );
+      })
+      .select('id')
+      .single();
 
-    if (pipelineError) {
-      logger.error('Pipeline error', pipelineError);
-      throw new Error(pipelineError.message || 'Pipeline processing failed');
+    if (refError) {
+      logger.error('Failed to save reference_audio record', refError);
+      throw new Error('Failed to save audio record');
     }
 
-    // Delete classification session
+    const referenceId = refRecord.id;
+
+    // Update pending classification with storage info
+    await updatePendingClassification(userId, {
+      storageUrl: publicUrl,
+      storagePath: storagePath,
+    });
+
+    // Delete classification session (upload complete)
     await consumePendingClassification(userId);
 
-    // Build final result message
-    const processingTime = Math.round((Date.now() - startTime) / 1000);
-    const analysis = pipelineResult?.analysis || {};
-    
-    let resultText = `✅ *Аудио сохранено и проанализировано\\!*\n\n` +
+    // Show success message with action buttons
+    const uploadTime = Math.round((Date.now() - startTime) / 1000);
+    const successText = 
+      `✅ *Аудио загружено в облако\\!*\n\n` +
       `📁 ${escapeMarkdown(pendingData.fileName)}\n` +
-      `⏱ Время: ${processingTime} сек\n`;
+      `🏷 Тип: ${escapeMarkdown(getTypeLabel(audioType))}` +
+      `${vocalGender ? ` \\| 🎤 ${escapeMarkdown(getGenderLabel(vocalGender))}` : ''}\n` +
+      `⏱ Время загрузки: ${uploadTime} сек\n\n` +
+      `*Выберите действие:*`;
 
-    // Type indicator from user classification
-    resultText += `\n🏷 *Тип:* ${escapeMarkdown(getTypeLabel(audioType))}`;
-    if (vocalGender) {
-      resultText += ` \\| 🎤 ${escapeMarkdown(getGenderLabel(vocalGender))}`;
-    }
-    resultText += '\n';
+    // Build action keyboard
+    const skipStems = audioType !== 'full';
+    const actionKeyboard = buildUploadedActionKeyboard(referenceId, skipStems);
 
-    // Analysis results as quote block (no double escaping!)
-    let analysisQuote = '';
-    if (analysis.genre) analysisQuote += `🎵 Жанр: ${analysis.genre}\n`;
-    if (analysis.mood) analysisQuote += `💫 Настроение: ${analysis.mood}\n`;
-    if (analysis.bpm_estimate) analysisQuote += `🥁 BPM: ${analysis.bpm_estimate}\n`;
-    if (analysis.energy) analysisQuote += `⚡ Энергия: ${analysis.energy}\n`;
-    if (analysis.vocal_style && audioType !== 'instrumental') {
-      analysisQuote += `🎙 Вокал: ${analysis.vocal_style}\n`;
-    }
-    if (analysis.instruments?.length > 0) {
-      analysisQuote += `🎹 Инструменты: ${analysis.instruments.slice(0, 5).join(', ')}\n`;
-    }
-
-    if (analysisQuote) {
-      // Escape each line first, then add quote prefix
-      const quotedLines = analysisQuote.trim().split('\n').map(line => `>${escapeMarkdown(line)}`).join('\n');
-      resultText += `\n${quotedLines}\n`;
-    }
-
-    // Style prompt
-    if (analysis.style_prompt) {
-      resultText += `\n_${escapeMarkdown(analysis.style_prompt.substring(0, 200))}_\n`;
-    }
-
-    // Lyrics preview
-    if (pipelineResult?.lyrics && audioType !== 'instrumental') {
-      const lyricsPreview = pipelineResult.lyrics.substring(0, 100);
-      resultText += `\n📝 *Текст:*\n_${escapeMarkdown(lyricsPreview)}${pipelineResult.lyrics.length > 100 ? '\\.\\.\\.' : ''}_\n`;
-    }
-
-    // Build action keyboard with reference ID for deep link
-    const referenceId = pipelineResult?.reference_id;
-    const actionRows = buildActionKeyboard(audioType, !!pipelineResult?.lyrics, referenceId);
-
-    await editMessageText(chatId, messageId, resultText, { inline_keyboard: actionRows });
-    await setActiveMenuMessageId(userId, chatId, messageId, 'audio_result');
+    await editMessageText(chatId, messageId, successText, { inline_keyboard: actionKeyboard });
+    await setActiveMenuMessageId(userId, chatId, messageId, 'audio_uploaded');
 
     trackMetric({
       eventType: 'classified_upload_completed',
@@ -459,12 +402,12 @@ export async function startClassifiedProcessing(
       metadata: { 
         audioType,
         vocalGender,
-        referenceId: pipelineResult?.reference_id,
+        referenceId,
       },
     });
 
   } catch (error) {
-    logger.error('Error in startClassifiedProcessing', { 
+    logger.error('Error in uploadAndShowActions', { 
       errorName: error instanceof Error ? error.name : 'Unknown',
       errorMessage: error instanceof Error ? error.message : String(error),
       errorStack: error instanceof Error ? error.stack : undefined
@@ -480,7 +423,7 @@ export async function startClassifiedProcessing(
     const errorText = error instanceof Error ? error.message : 'Попробуйте ещё раз';
     await sendAutoDeleteMessage(
       chatId,
-      `❌ *Ошибка обработки аудио*\n\n_${escapeMarkdown(errorText)}_`,
+      `❌ *Ошибка загрузки аудио*\n\n_${escapeMarkdown(errorText)}_`,
       AUTO_DELETE_TIMINGS.MEDIUM,
       { parseMode: 'MarkdownV2' }
     );
@@ -502,6 +445,39 @@ export async function startClassifiedProcessing(
       responseTimeMs: Date.now() - startTime,
     });
   }
+}
+
+/**
+ * Build action keyboard for uploaded audio
+ */
+function buildUploadedActionKeyboard(referenceId: string, skipStems: boolean): InlineButton[][] {
+  const rows: InlineButton[][] = [];
+  
+  // Analyze button
+  rows.push([
+    { text: '🔍 Анализировать стиль', callback_data: `audio_action_analyze_${referenceId}` },
+  ]);
+  
+  // Stems button (only for full tracks)
+  if (!skipStems) {
+    rows.push([
+      { text: '🎛 Разделить на стемы', callback_data: `audio_action_stems_${referenceId}` },
+    ]);
+  }
+  
+  // Both actions
+  if (!skipStems) {
+    rows.push([
+      { text: '✨ Анализ + Стемы', callback_data: `audio_action_full_${referenceId}` },
+    ]);
+  }
+  
+  // Open in app
+  rows.push([
+    { text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}/reference/${referenceId}` } },
+  ]);
+  
+  return rows;
 }
 
 // Helper functions
@@ -607,9 +583,9 @@ export async function handleClassificationCallback(
     await updatePendingClassification(userId, { audioType: 'instrumental' });
     await answerCallbackQuery(queryId);
     
-    // Instrumental - no gender needed, start processing
+    // Instrumental - no gender needed, upload and show actions
     pending.audioType = 'instrumental';
-    await startClassifiedProcessing(chatId, userId, messageId, pending);
+    await uploadAndShowActions(chatId, userId, messageId, pending);
     return true;
   }
   
@@ -655,9 +631,9 @@ export async function handleClassificationCallback(
     await updatePendingClassification(userId, { vocalGender: gender });
     await answerCallbackQuery(queryId);
     
-    // Start processing
+    // Upload and show actions
     pending.vocalGender = gender;
-    await startClassifiedProcessing(chatId, userId, messageId, pending);
+    await uploadAndShowActions(chatId, userId, messageId, pending);
     return true;
   }
   
@@ -683,6 +659,111 @@ export async function handleClassificationCallback(
     await consumePendingClassification(userId);
     await answerCallbackQuery(queryId, 'Загрузка отменена');
     await deleteMessage(chatId, messageId);
+    return true;
+  }
+  
+  // Handle audio action buttons (analyze, stems, full)
+  if (data.startsWith('audio_action_')) {
+    const parts = data.replace('audio_action_', '').split('_');
+    const action = parts[0]; // analyze, stems, or full
+    const referenceId = parts.slice(1).join('_'); // UUID may contain underscores
+    
+    if (!referenceId) {
+      await answerCallbackQuery(queryId, 'Ошибка: ID аудио не найден');
+      return true;
+    }
+    
+    await answerCallbackQuery(queryId, '⏳ Запускаем обработку...');
+    
+    // Get reference audio record
+    const { data: refAudio, error: refError } = await supabase
+      .from('reference_audio')
+      .select('*')
+      .eq('id', referenceId)
+      .single();
+    
+    if (refError || !refAudio) {
+      await editMessageText(chatId, messageId, '❌ Аудио не найдено\\. Попробуйте загрузить снова\\.');
+      return true;
+    }
+    
+    // Determine what to run
+    const skipLyrics = refAudio.metadata?.audio_type === 'instrumental';
+    const skipStems = action === 'analyze' || refAudio.metadata?.audio_type !== 'full';
+    const runAnalysis = action === 'analyze' || action === 'full';
+    const runStems = action === 'stems' || action === 'full';
+    
+    // Show processing message
+    let processingText = `🎵 *Обработка аудио*\n\n` +
+      `📁 ${escapeMarkdown(refAudio.file_name || 'audio')}\n\n`;
+    
+    if (runAnalysis && runStems) {
+      processingText += `▓░░░░░░░░░ 10%\n⏳ Анализ стиля \\+ разделение на стемы\\.\\.\\.`;
+    } else if (runAnalysis) {
+      processingText += `▓░░░░░░░░░ 10%\n⏳ Анализ стиля\\.\\.\\.`;
+    } else {
+      processingText += `▓░░░░░░░░░ 10%\n⏳ Разделение на стемы\\.\\.\\.`;
+    }
+    
+    await editMessageText(chatId, messageId, processingText);
+    
+    // Prepare base64 for Replicate if needed
+    let audioBase64: string | undefined;
+    if (runAnalysis || runStems) {
+      try {
+        const audioResponse = await fetch(refAudio.file_url);
+        if (audioResponse.ok) {
+          const audioBuffer = await audioResponse.arrayBuffer();
+          const uint8Array = new Uint8Array(audioBuffer);
+          const chunkSize = 32768;
+          let base64Audio = '';
+          for (let i = 0; i < uint8Array.length; i += chunkSize) {
+            const chunk = uint8Array.subarray(i, Math.min(i + chunkSize, uint8Array.length));
+            base64Audio += String.fromCharCode(...chunk);
+          }
+          audioBase64 = `data:${refAudio.mime_type || 'audio/mpeg'};base64,${btoa(base64Audio)}`;
+        }
+      } catch (err) {
+        logger.warn('Failed to prepare base64 for audio', { error: err instanceof Error ? err.message : String(err) });
+      }
+    }
+    
+    // Call pipeline
+    const { data: pipelineResult, error: pipelineError } = await supabase.functions.invoke(
+      'process-audio-pipeline',
+      {
+        body: {
+          audio_url: refAudio.file_url,
+          audio_base64: audioBase64,
+          user_id: refAudio.user_id,
+          file_name: refAudio.file_name,
+          file_size: refAudio.file_size,
+          duration_seconds: refAudio.duration_seconds,
+          source: 'telegram_action',
+          telegram_chat_id: chatId,
+          telegram_file_id: refAudio.telegram_file_id,
+          telegram_message_id: messageId,
+          reference_id: referenceId, // Link to existing record
+          skip_stems: !runStems || skipStems,
+          skip_lyrics: skipLyrics,
+          skip_analysis: !runAnalysis,
+          user_classification: refAudio.metadata,
+        },
+      }
+    );
+    
+    if (pipelineError) {
+      logger.error('Pipeline error from action', pipelineError);
+      await editMessageText(
+        chatId,
+        messageId,
+        `❌ *Ошибка обработки*\n\n_${escapeMarkdown(pipelineError.message || 'Попробуйте ещё раз')}_`
+      );
+      return true;
+    }
+    
+    // Success message will be sent by pipeline
+    logger.info('Pipeline started from action button', { action, referenceId });
     return true;
   }
   
