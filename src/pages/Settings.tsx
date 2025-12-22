@@ -49,7 +49,7 @@ export default function Settings() {
   const { settings, updateSettings, isLoading: settingsLoading, isUpdating } = useNotificationSettings();
   
   // Keyboard-aware behavior для адаптации под клавиатуру iOS
-  const { createFocusHandler } = useKeyboardAware();
+  const { createFocusHandler, getContainerStyle } = useKeyboardAware();
 
   // Telegram BackButton
   const { shouldShowUIButton } = useTelegramBackButton({
@@ -116,7 +116,10 @@ export default function Settings() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
+    <div 
+      className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5"
+      style={getContainerStyle(96)} // 96px = 24 * 4 (pb-24 equivalent)
+    >
       <div className="container max-w-2xl mx-auto px-4">
         {/* Unified Header with centered logo */}
         <AppHeader

@@ -338,6 +338,36 @@ class AudioElementPool {
 
     return null;
   }
+  
+  /**
+   * Get priority recommendations based on stem type
+   * Helper method for determining appropriate priority
+   * 
+   * @param stemType - Type of audio stem
+   * @returns Recommended priority level
+   */
+  public static getPriorityForStemType(stemType: string): AudioPriority {
+    const type = stemType.toLowerCase();
+    
+    // High priority: vocals, lead instruments
+    if (type.includes('vocal') || 
+        type.includes('lead') || 
+        type.includes('main') ||
+        type.includes('melody')) {
+      return AudioPriority.HIGH;
+    }
+    
+    // Medium priority: rhythm section
+    if (type.includes('bass') || 
+        type.includes('drum') ||
+        type.includes('rhythm') ||
+        type.includes('guitar')) {
+      return AudioPriority.MEDIUM;
+    }
+    
+    // Low priority: ambient, fx, other
+    return AudioPriority.LOW;
+  }
 }
 
 /**
@@ -363,6 +393,9 @@ class AudioElementPool {
  * ```
  */
 export const audioElementPool = AudioElementPool.getInstance();
+
+// Export class for testing and static methods
+export { AudioElementPool };
 
 /**
  * Hook для React компонентов
