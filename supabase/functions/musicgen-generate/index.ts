@@ -70,12 +70,20 @@ serve(async (req) => {
     // Add continuation audio for seamless melody generation
     if (continuation_url) {
       input.input_audio = continuation_url;
-      // continuation_start / continuation_end define the slice of input_audio used as context.
-      // continuation_end must be >= continuation_start; if only start is provided, set end to start+duration or a safe max.
-      const contStart = typeof continuation_start === 'number' ? Math.max(0, continuation_start) : 0;
+
+      // Replicate expects a valid slice [continuation_start, continuation_end] within the input audio.
+      // Our input audio is produced by this model and is max 30s, so clamp to that window.
+      const INPUT_AUDIO_MAX_SECONDS = 30;
+      const rawStart = typeof continuation_start === 'number' && Number.isFinite(continuation_start)
+        ? continuation_start
+        : 0;
+      const contStart = Math.min(Math.max(0, rawStart), INPUT_AUDIO_MAX_SECONDS - 1);
+      let contEnd = INPUT_AUDIO_MAX_SECONDS;
+      if (contEnd <= contStart) contEnd = contStart + 1;
+
       input.continuation_start = contStart;
-      input.continuation_end = contStart + Math.min(duration, 30); // end = start + new segment length
-      input.continuation = true;
+      input.continuation_end = contEnd;
+
       // Use lower classifier guidance for smoother transitions
       input.classifier_free_guidance = 2;
     }
