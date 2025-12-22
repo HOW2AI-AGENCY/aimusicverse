@@ -14,7 +14,8 @@ import { sendMessage, editMessageText, deleteMessage, answerCallbackQuery } from
 import { escapeMarkdown, trackMetric } from '../utils/index.ts';
 import { createLogger } from '../../_shared/logger.ts';
 import { setActiveMenuMessageId, deleteActiveMenu } from '../core/active-menu-manager.ts';
-
+import { sendAutoDeleteMessage, AUTO_DELETE_TIMINGS } from '../utils/auto-delete.ts';
+import { handleSubmenu } from './dynamic-menu.ts';
 const logger = createLogger('audio-classifier');
 
 const supabase = createClient(
@@ -354,7 +355,15 @@ export async function startClassifiedProcessing(
     );
 
     // Convert audio to base64 for Replicate (fixes Audio Flamingo 400 error)
-    const base64Audio = btoa(String.fromCharCode(...new Uint8Array(audioBuffer)));
+    // Use chunked approach to avoid stack overflow with large files
+    const uint8Array = new Uint8Array(audioBuffer);
+    const chunkSize = 32768; // 32KB chunks
+    let base64Audio = '';
+    for (let i = 0; i < uint8Array.length; i += chunkSize) {
+      const chunk = uint8Array.subarray(i, Math.min(i + chunkSize, uint8Array.length));
+      base64Audio += String.fromCharCode(...chunk);
+    }
+    base64Audio = btoa(base64Audio);
     const dataUri = `data:${safeContentType};base64,${base64Audio}`;
 
     // Call the comprehensive audio processing pipeline with classification params
@@ -453,13 +462,35 @@ export async function startClassifiedProcessing(
     });
 
   } catch (error) {
-    logger.error('Error in startClassifiedProcessing', error);
+    logger.error('Error in startClassifiedProcessing', { 
+      errorName: error instanceof Error ? error.name : 'Unknown',
+      errorMessage: error instanceof Error ? error.message : String(error),
+      errorStack: error instanceof Error ? error.stack : undefined
+    });
     
-    await editMessageText(
-      chatId, 
-      messageId, 
-      `❌ Ошибка обработки аудио\\.\n\n${escapeMarkdown(error instanceof Error ? error.message : 'Попробуйте ещё раз')}`
+    // Delete the processing message
+    await deleteMessage(chatId, messageId);
+    
+    // Clear the pending classification session
+    await consumePendingClassification(userId);
+    
+    // Send auto-delete error notification
+    const errorText = error instanceof Error ? error.message : 'Попробуйте ещё раз';
+    await sendAutoDeleteMessage(
+      chatId,
+      `❌ *Ошибка обработки аудио*\n\n_${escapeMarkdown(errorText)}_`,
+      AUTO_DELETE_TIMINGS.MEDIUM,
+      { parseMode: 'MarkdownV2' }
     );
+    
+    // Show main menu after short delay
+    setTimeout(async () => {
+      try {
+        await handleSubmenu(chatId, userId, 'main');
+      } catch (menuError) {
+        logger.error('Failed to show main menu after error', menuError);
+      }
+    }, 1000);
     
     trackMetric({
       eventType: 'classified_upload_failed',
