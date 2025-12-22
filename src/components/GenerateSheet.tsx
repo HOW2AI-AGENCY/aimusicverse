@@ -10,7 +10,7 @@ import { useProjects } from '@/hooks/useProjects';
 import { useArtists } from '@/hooks/useArtists';
 import logo from '@/assets/logo.png';
 import { useTracks } from '@/hooks/useTracks';
-import { useGenerateForm } from '@/hooks/generation';
+import { useGenerateForm, useAudioReference } from '@/hooks/generation';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useTelegramMainButton, useTelegramBackButton } from '@/hooks/telegram';
 // Form components
@@ -50,6 +50,9 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const { artists } = useArtists();
   const { tracks: allTracks } = useTracks();
   const { hapticFeedback, enableClosingConfirmation, disableClosingConfirmation } = useTelegram();
+  
+  // Get active audio reference for hasReferenceAudio check
+  const { activeReference } = useAudioReference();
 
   // Dialog states
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
@@ -313,7 +316,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   onWeirdnessConstraintChange={form.setWeirdnessConstraint}
                   audioWeight={form.audioWeight}
                   onAudioWeightChange={form.setAudioWeight}
-                  hasReferenceAudio={!!form.audioFile}
+                  hasReferenceAudio={!!form.audioFile || !!activeReference}
                   hasPersona={!!form.selectedArtistId}
                   model={form.model}
                   onModelChange={form.setModel}
