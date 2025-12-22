@@ -135,8 +135,23 @@ function createButton(item: MenuItem): InlineKeyboardButton {
 }
 
 /**
+ * Get button text length (including emoji)
+ */
+function getButtonTextLength(item: MenuItem): number {
+  const text = item.icon_emoji ? `${item.icon_emoji} ${item.title}` : item.title;
+  return text.length;
+}
+
+/**
+ * Max characters for buttons to be placed side-by-side
+ * Buttons with longer text will be placed on their own row
+ */
+const MAX_CHARS_FOR_PAIRING = 12;
+
+/**
  * Build keyboard from menu items
  * Groups items by row_position and respects column_span
+ * Automatically splits long text buttons onto separate rows
  */
 export function buildKeyboard(items: MenuItem[]): InlineKeyboardButton[][] {
   if (!items.length) return [];
@@ -162,13 +177,27 @@ export function buildKeyboard(items: MenuItem[]): InlineKeyboardButton[][] {
     // Sort items within row by sort_order
     rowItems.sort((a, b) => a.sort_order - b.sort_order);
     
-    const row: InlineKeyboardButton[] = [];
-    for (const item of rowItems) {
-      row.push(createButton(item));
+    // If only 1 item in row, just add it
+    if (rowItems.length === 1) {
+      keyboard.push([createButton(rowItems[0])]);
+      continue;
     }
     
-    if (row.length > 0) {
+    // Check if all items in this row have short enough titles to be paired
+    const allShort = rowItems.every(item => getButtonTextLength(item) <= MAX_CHARS_FOR_PAIRING);
+    
+    if (allShort && rowItems.length <= 3) {
+      // All buttons are short enough, place them side by side
+      const row: InlineKeyboardButton[] = [];
+      for (const item of rowItems) {
+        row.push(createButton(item));
+      }
       keyboard.push(row);
+    } else {
+      // Some buttons are too long, place each on its own row
+      for (const item of rowItems) {
+        keyboard.push([createButton(item)]);
+      }
     }
   }
   

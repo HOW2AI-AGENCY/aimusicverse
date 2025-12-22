@@ -4,7 +4,7 @@ import { getMenuImage } from './menu-images.ts';
 import { buildDynamicKeyboard, loadMenuItems, getMenuItem } from '../handlers/dynamic-menu.ts';
 
 // Channel configuration
-export const CHANNEL_USERNAME = 'AIMusiicVerse';
+export const CHANNEL_USERNAME = 'AIMusicVerse';
 export const CHANNEL_URL = `https://t.me/${CHANNEL_USERNAME}`;
 
 /**
