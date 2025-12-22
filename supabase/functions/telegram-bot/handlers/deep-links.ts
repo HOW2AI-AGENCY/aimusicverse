@@ -21,7 +21,7 @@ const supabase = createClient(
 export type DeepLinkType = 
   | 'track' | 'project' | 'artist' | 'playlist' | 'album' | 'blog'
   | 'generate' | 'quick' | 'studio' | 'remix' | 'lyrics' | 'stats' | 'share'
-  | 'profile' | 'user' | 'invite' | 'ref'
+  | 'profile' | 'user' | 'invite' | 'ref' | 'reference'
   | 'buy' | 'credits' | 'subscribe' | 'subscription' | 'pricing' | 'tariffs' | 'shop'
   | 'leaderboard' | 'achievements' | 'analyze' | 'recognize'
   | 'onboarding' | 'help' | 'settings' | 'feedback'
@@ -56,6 +56,7 @@ export function parseDeepLink(startParam: string): { type: DeepLinkType | null; 
     [/^user_(.+)$/, 'user'],
     [/^invite_(.+)$/, 'invite'],
     [/^ref_(.+)$/, 'ref'],
+    [/^reference_(.+)$/, 'reference'],
   ];
 
   // Simple matches without value
@@ -1036,6 +1037,27 @@ export async function handleDeepLink(
           .build();
         await sendMessage(chatId, '🎼 Открываем Melody Mixer\\.\\.\\.', melodyKeyboard, 'MarkdownV2');
         await trackDeepLinkAnalytics('melody', '', userId);
+        break;
+      case 'reference':
+        // Reference audio deep link - open in app
+        const referenceKeyboard = new ButtonBuilder()
+          .addButton({
+            text: 'Открыть аудио',
+            emoji: '🎵',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/reference/${value}` }
+          })
+          .addRow(
+            { text: 'Создать кавер', emoji: '🎤', action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/generate?mode=cover&ref=${value}` } },
+            { text: 'Расширить', emoji: '➕', action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/generate?mode=extend&ref=${value}` } }
+          )
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendMessage(chatId, '🎵 *Загруженное аудио*\n\nОткройте в приложении для просмотра деталей и действий', referenceKeyboard, 'MarkdownV2');
+        await trackDeepLinkAnalytics('reference', value, userId);
         break;
       case 'share':
         const shareKeyboard = new ButtonBuilder()
