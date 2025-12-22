@@ -65,21 +65,23 @@ serve(async (req) => {
       classifier_free_guidance: 3,
     };
 
-    console.log("MusicGen input:", JSON.stringify({ ...input, input_audio: continuation_url ? '[provided]' : undefined }));
-
     // Add continuation audio for seamless melody generation
     if (continuation_url) {
       input.input_audio = continuation_url;
 
       // Replicate expects a valid slice [continuation_start, continuation_end] within the input audio.
-      // Our input audio is produced by this model and is max 30s, so clamp to that window.
+      // MusicGen outputs are max ~30s here; provide a stable, non-zero context window.
       const INPUT_AUDIO_MAX_SECONDS = 30;
+      const CONTEXT_WINDOW_SECONDS = 10;
+
       const rawStart = typeof continuation_start === 'number' && Number.isFinite(continuation_start)
         ? continuation_start
         : 0;
-      const contStart = Math.min(Math.max(0, rawStart), INPUT_AUDIO_MAX_SECONDS - 1);
-      let contEnd = INPUT_AUDIO_MAX_SECONDS;
-      if (contEnd <= contStart) contEnd = contStart + 1;
+
+      // Clamp so that (end - start) is at least CONTEXT_WINDOW_SECONDS.
+      const contEnd = INPUT_AUDIO_MAX_SECONDS;
+      const contStartMax = Math.max(0, contEnd - CONTEXT_WINDOW_SECONDS);
+      const contStart = Math.min(Math.max(0, rawStart), contStartMax);
 
       input.continuation_start = contStart;
       input.continuation_end = contEnd;
@@ -87,6 +89,15 @@ serve(async (req) => {
       // Use lower classifier guidance for smoother transitions
       input.classifier_free_guidance = 2;
     }
+
+    console.log(
+      "MusicGen input:",
+      JSON.stringify({
+        ...input,
+        input_audio: continuation_url ? '[provided]' : undefined,
+      })
+    );
+
 
     // Use MusicGen model from Meta
     const output = await replicate.run(
