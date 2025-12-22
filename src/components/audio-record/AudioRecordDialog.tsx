@@ -1,8 +1,11 @@
 import { useState, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Mic, Square, Play, Pause, Trash2, Music, MicVocal, Loader2, Cloud } from 'lucide-react';
+import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
+import { Mic, Square, Play, Pause, Trash2, Music, MicVocal, Loader2, Cloud, Disc, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { toast } from 'sonner';
@@ -10,6 +13,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { logger } from '@/lib/logger';
 import { CloudAudioPicker } from './CloudAudioPicker';
+import { ReferenceManager } from '@/services/audio-reference/ReferenceManager';
 import type { ReferenceAudio } from '@/hooks/useReferenceAudio';
 
 interface AudioRecordDialogProps {
@@ -19,17 +23,20 @@ interface AudioRecordDialogProps {
 
 type RecordingState = 'idle' | 'recording' | 'recorded' | 'uploading';
 type SourceTab = 'record' | 'cloud';
+type ProcessingAction = 'instrumental' | 'vocals' | 'cover' | 'extend' | null;
 
 export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps) => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [sourceTab, setSourceTab] = useState<SourceTab>('record');
   const [state, setState] = useState<RecordingState>('idle');
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
-  const [processingAction, setProcessingAction] = useState<'instrumental' | 'vocals' | null>(null);
+  const [processingAction, setProcessingAction] = useState<ProcessingAction>(null);
   const [selectedCloudAudio, setSelectedCloudAudio] = useState<ReferenceAudio | null>(null);
+  const [continueAt, setContinueAt] = useState(0);
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -111,17 +118,24 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
     setDuration(0);
     setIsPlaying(false);
     setSelectedCloudAudio(null);
+    setContinueAt(0);
   }, [audioUrl]);
 
-  const uploadAndProcess = async (action: 'instrumental' | 'vocals') => {
-    if (!user) {
+  // Upload audio and process with selected action
+  const uploadAndProcess = async (action: ProcessingAction) => {
+    if (!user || !action) {
       toast.error('Необходимо авторизоваться');
       return;
     }
 
     // If cloud audio selected, use its URL directly
     if (sourceTab === 'cloud' && selectedCloudAudio) {
-      await processAudio(selectedCloudAudio.file_url, selectedCloudAudio.file_name, action);
+      await processAudio(
+        selectedCloudAudio.file_url, 
+        selectedCloudAudio.file_name, 
+        action,
+        selectedCloudAudio.duration_seconds || duration
+      );
       return;
     }
 
@@ -146,7 +160,7 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
       const publicUrl = urlData.publicUrl;
       const recordingTitle = `Запись ${new Date().toLocaleString('ru-RU')}`;
 
-      await processAudio(publicUrl, recordingTitle, action);
+      await processAudio(publicUrl, recordingTitle, action, duration);
     } catch (error) {
       logger.error('Failed to upload recording', { error });
       toast.error('Ошибка загрузки записи');
@@ -155,28 +169,71 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
     }
   };
 
-  const processAudio = async (audioUrl: string, title: string, action: 'instrumental' | 'vocals') => {
+  // Process audio with the selected action
+  const processAudio = async (
+    audioUrl: string, 
+    title: string, 
+    action: ProcessingAction,
+    audioDuration: number
+  ) => {
+    if (!action) return;
+    
     setProcessingAction(action);
     setState('uploading');
 
     try {
+      // For cover/extend, use ReferenceManager and navigate to generate form
+      if (action === 'cover' || action === 'extend') {
+        // Create reference from the uploaded audio URL
+        ReferenceManager.createFromCloud({
+          id: crypto.randomUUID(),
+          fileUrl: audioUrl,
+          fileName: title,
+          durationSeconds: audioDuration,
+        }, action);
+
+        toast.success(
+          action === 'cover' 
+            ? 'Аудио добавлено для создания кавера!' 
+            : 'Аудио добавлено для расширения!',
+          { description: 'Открываем форму генерации...' }
+        );
+
+        onOpenChange(false);
+        resetRecording();
+        
+        // Navigate to generate page
+        navigate('/generate');
+        return;
+      }
+
+      // For instrumental/vocals, call the appropriate edge function
       const functionName = action === 'instrumental' 
         ? 'suno-add-instrumental' 
         : 'suno-add-vocals';
 
-      const { error: functionError } = await supabase.functions.invoke(functionName, {
+      logger.info('Processing audio with action', { action, functionName, audioUrl });
+
+      const { data, error: functionError } = await supabase.functions.invoke(functionName, {
         body: {
           audioUrl,
           prompt: action === 'instrumental' 
             ? 'Добавить профессиональный инструментал к этому вокалу'
             : 'Добавить профессиональный вокал к этому инструменталу',
-          customMode: false,
-          style: action === 'instrumental' ? 'pop, instrumental' : 'pop, vocals',
+          customMode: true,
+          style: action === 'instrumental' 
+            ? 'professional instrumental backing track, full band arrangement' 
+            : 'professional vocal performance, clear singing',
           title,
         },
       });
 
-      if (functionError) throw functionError;
+      if (functionError) {
+        logger.error('Edge function error', { error: functionError, action });
+        throw functionError;
+      }
+
+      logger.info('Audio processing started', { action, response: data });
 
       toast.success(
         action === 'instrumental' 
@@ -190,7 +247,9 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
 
     } catch (error) {
       logger.error('Failed to process audio', { error, action });
-      toast.error('Ошибка обработки');
+      toast.error('Ошибка обработки', {
+        description: error instanceof Error ? error.message : 'Попробуйте еще раз'
+      });
     } finally {
       setProcessingAction(null);
       setState(sourceTab === 'cloud' ? 'idle' : 'recorded');
@@ -199,6 +258,10 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
 
   const handleCloudSelect = (audio: ReferenceAudio) => {
     setSelectedCloudAudio(audio);
+    // Set default continueAt for extend mode
+    if (audio.duration_seconds) {
+      setContinueAt(Math.floor(audio.duration_seconds * 0.8));
+    }
   };
 
   const formatTime = (seconds: number) => {
@@ -208,10 +271,13 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
   };
 
   const canProcess = sourceTab === 'cloud' ? !!selectedCloudAudio : state === 'recorded';
+  const currentDuration = sourceTab === 'cloud' 
+    ? (selectedCloudAudio?.duration_seconds || 0) 
+    : duration;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Mic className="w-5 h-5 text-primary" />
@@ -347,41 +413,72 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="space-y-3 pt-2"
+              className="space-y-4 pt-2"
             >
               <p className="text-sm text-muted-foreground text-center">
-                Выберите, что добавить к {sourceTab === 'cloud' ? 'выбранному файлу' : 'вашей записи'}:
+                Выберите действие для {sourceTab === 'cloud' ? 'выбранного файла' : 'вашей записи'}:
               </p>
               
+              {/* Main actions grid */}
               <div className="grid grid-cols-2 gap-3">
                 <Button
                   variant="outline"
-                  className="h-auto py-4 flex-col gap-2"
+                  className="h-auto py-3 flex-col gap-1.5"
                   onClick={() => uploadAndProcess('instrumental')}
                   disabled={processingAction !== null}
                 >
                   {processingAction === 'instrumental' ? (
-                    <Loader2 className="w-6 h-6 animate-spin" />
+                    <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
-                    <Music className="w-6 h-6 text-primary" />
+                    <Music className="w-5 h-5 text-primary" />
                   )}
-                  <span className="text-sm font-medium">Добавить инструментал</span>
-                  <span className="text-xs text-muted-foreground">К вашему вокалу</span>
+                  <span className="text-xs font-medium">+ Инструментал</span>
+                  <span className="text-[10px] text-muted-foreground">К вашему вокалу</span>
                 </Button>
                 
                 <Button
                   variant="outline"
-                  className="h-auto py-4 flex-col gap-2"
+                  className="h-auto py-3 flex-col gap-1.5"
                   onClick={() => uploadAndProcess('vocals')}
                   disabled={processingAction !== null}
                 >
                   {processingAction === 'vocals' ? (
-                    <Loader2 className="w-6 h-6 animate-spin" />
+                    <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
-                    <MicVocal className="w-6 h-6 text-primary" />
+                    <MicVocal className="w-5 h-5 text-primary" />
                   )}
-                  <span className="text-sm font-medium">Добавить вокал</span>
-                  <span className="text-xs text-muted-foreground">К инструменталу</span>
+                  <span className="text-xs font-medium">+ Вокал</span>
+                  <span className="text-[10px] text-muted-foreground">К инструменталу</span>
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className="h-auto py-3 flex-col gap-1.5"
+                  onClick={() => uploadAndProcess('cover')}
+                  disabled={processingAction !== null}
+                >
+                  {processingAction === 'cover' ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <Disc className="w-5 h-5 text-amber-500" />
+                  )}
+                  <span className="text-xs font-medium">Кавер</span>
+                  <span className="text-[10px] text-muted-foreground">Новая версия</span>
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className="h-auto py-3 flex-col gap-1.5"
+                  onClick={() => uploadAndProcess('extend')}
+                  disabled={processingAction !== null}
+                >
+                  {processingAction === 'extend' ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <ArrowRight className="w-5 h-5 text-emerald-500" />
+                  )}
+                  <span className="text-xs font-medium">Расширение</span>
+                  <span className="text-[10px] text-muted-foreground">Продолжить трек</span>
                 </Button>
               </div>
             </motion.div>
