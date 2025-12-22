@@ -20,13 +20,14 @@ const CompactStatsWidget = lazy(() => import("@/components/home/CompactStatsWidg
 const RecentTracksSection = lazy(() => import("@/components/home/RecentTracksSection").then(m => ({ default: m.RecentTracksSection })));
 const UserProjectsSection = lazy(() => import("@/components/home/UserProjectsSection").then(m => ({ default: m.UserProjectsSection })));
 const FollowingFeed = lazy(() => import("@/components/social/FollowingFeed").then(m => ({ default: m.FollowingFeed })));
-const UnifiedDiscoverySection = lazy(() => import("@/components/home/UnifiedDiscoverySection").then(m => ({ default: m.UnifiedDiscoverySection })));
 const AutoPlaylistsSection = lazy(() => import("@/components/home/AutoPlaylistsSection").then(m => ({ default: m.AutoPlaylistsSection })));
 const PublicArtistsSection = lazy(() => import("@/components/home/PublicArtistsSection").then(m => ({ default: m.PublicArtistsSection })));
-const FeaturedBlogBanners = lazy(() => import("@/components/home/FeaturedBlogBanners").then(m => ({ default: m.FeaturedBlogBanners })));
+const FeaturedBlogHero = lazy(() => import("@/components/home/FeaturedBlogHero").then(m => ({ default: m.FeaturedBlogHero })));
 const PopularCreatorsSection = lazy(() => import("@/components/home/PopularCreatorsSection").then(m => ({ default: m.PopularCreatorsSection })));
 const PublishedAlbumsSection = lazy(() => import("@/components/home/PublishedAlbumsSection").then(m => ({ default: m.PublishedAlbumsSection })));
 const ProfessionalToolsHub = lazy(() => import("@/components/home/ProfessionalToolsHub").then(m => ({ default: m.ProfessionalToolsHub })));
+const UnifiedTrackFeed = lazy(() => import("@/components/home/UnifiedTrackFeed").then(m => ({ default: m.UnifiedTrackFeed })));
+const EngagementBanner = lazy(() => import("@/components/home/EngagementBanner").then(m => ({ default: m.EngagementBanner })));
 
 // Dialogs - only loaded when opened
 const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then(m => ({ default: m.GenerateSheet })));
@@ -168,19 +169,33 @@ const Index = () => {
             <QuickPresetsCarousel onSelectPreset={handlePresetSelect} />
           </motion.section>
 
-          {/* Community New Tracks Section */}
-          <motion.section 
-            className="mb-4 sm:mb-5"
-            {...fadeInUp}
-            transition={{ delay: 0.12, duration: 0.3 }}
-          >
-            <CommunityNewTracksSection
-              tracks={publicContent?.recentTracks || []}
-              isLoading={contentLoading}
-              onRemix={handleRemix}
-              maxTracks={8}
-            />
-          </motion.section>
+          {/* Featured Blog Hero - Large Banner */}
+          <LazySection className="mb-4 sm:mb-5" fallback={<SectionSkeleton height="200px" />}>
+            <FeaturedBlogHero />
+          </LazySection>
+
+          {/* Unified Track Feed - Tabs with genres */}
+          <Suspense fallback={<SectionSkeleton height="300px" />}>
+            <motion.section 
+              className="mb-4 sm:mb-5"
+              {...fadeIn}
+              transition={{ delay: 0.15, duration: 0.3 }}
+            >
+              <UnifiedTrackFeed
+                recentTracks={publicContent?.recentTracks || []}
+                popularTracks={publicContent?.popularTracks || []}
+                isLoading={contentLoading}
+                onRemix={handleRemix}
+              />
+            </motion.section>
+          </Suspense>
+
+          {/* Engagement Banner - Follow creators */}
+          {!user && (
+            <LazySection className="mb-4 sm:mb-5" fallback={null}>
+              <EngagementBanner type="create_first" onAction={() => setGenerateSheetOpen(true)} />
+            </LazySection>
+          )}
 
           {/* Recent Tracks for logged-in users */}
           {user && (
@@ -188,7 +203,7 @@ const Index = () => {
               <motion.section
                 className="mb-4 sm:mb-5"
                 {...fadeInUp}
-                transition={{ delay: 0.15, duration: 0.3 }}
+                transition={{ delay: 0.18, duration: 0.3 }}
               >
                 <RecentTracksSection maxTracks={4} />
               </motion.section>
@@ -201,11 +216,18 @@ const Index = () => {
               <motion.section
                 className="mb-4 sm:mb-5"
                 {...fadeInUp}
-                transition={{ delay: 0.17, duration: 0.3 }}
+                transition={{ delay: 0.2, duration: 0.3 }}
               >
                 <UserProjectsSection />
               </motion.section>
             </Suspense>
+          )}
+
+          {/* Engagement Banner - Follow creators (for logged in users) */}
+          {user && (
+            <LazySection className="mb-4 sm:mb-5" fallback={null}>
+              <EngagementBanner type="follow_creators" />
+            </LazySection>
           )}
 
           {/* Following Feed - Tracks from followed users and liked creators */}
@@ -214,23 +236,6 @@ const Index = () => {
               <FollowingFeed />
             </LazySection>
           )}
-
-          {/* Unified Discovery Section - Main content */}
-          <Suspense fallback={<SectionSkeleton height="200px" />}>
-            <motion.section 
-              className="mb-4 sm:mb-5"
-              {...fadeIn}
-              transition={{ delay: 0.2, duration: 0.3 }}
-            >
-              <UnifiedDiscoverySection
-                featuredTracks={publicContent?.featuredTracks || []}
-                recentTracks={publicContent?.recentTracks || []}
-                popularTracks={publicContent?.popularTracks || []}
-                isLoading={contentLoading}
-                onRemix={handleRemix}
-              />
-            </motion.section>
-          </Suspense>
 
           {/* Auto Playlists by Genre */}
           <Suspense fallback={<SectionSkeleton height="160px" />}>
