@@ -443,8 +443,9 @@ export async function startClassifiedProcessing(
       resultText += `\n📝 *Текст:*\n_${escapeMarkdown(lyricsPreview)}${pipelineResult.lyrics.length > 100 ? '\\.\\.\\.' : ''}_\n`;
     }
 
-    // Build action keyboard
-    const actionRows = buildActionKeyboard(audioType, !!pipelineResult?.lyrics);
+    // Build action keyboard with reference ID for deep link
+    const referenceId = pipelineResult?.reference_id;
+    const actionRows = buildActionKeyboard(audioType, !!pipelineResult?.lyrics, referenceId);
 
     await editMessageText(chatId, messageId, resultText, { inline_keyboard: actionRows });
     await setActiveMenuMessageId(userId, chatId, messageId, 'audio_result');
@@ -570,13 +571,20 @@ async function getFileUrl(fileId: string): Promise<string | null> {
 
 type InlineButton = { text: string; callback_data?: string; web_app?: { url: string } };
 
-function buildActionKeyboard(audioType: AudioType, hasLyrics: boolean): InlineButton[][] {
-  const rows: InlineButton[][] = [
-    [
-      { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
-      { text: '➕ Расширить трек', callback_data: 'audio_action_extend' }
-    ],
-  ];
+function buildActionKeyboard(audioType: AudioType, hasLyrics: boolean, referenceId?: string): InlineButton[][] {
+  const rows: InlineButton[][] = [];
+  
+  // Primary action - Open in App with reference ID
+  if (referenceId) {
+    rows.push([
+      { text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}/reference/${referenceId}` } }
+    ]);
+  }
+  
+  rows.push([
+    { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
+    { text: '➕ Расширить трек', callback_data: 'audio_action_extend' }
+  ]);
   
   // Add type-specific actions
   if (audioType === 'instrumental') {
@@ -602,10 +610,6 @@ function buildActionKeyboard(audioType: AudioType, hasLyrics: boolean): InlineBu
   rows.push([
     { text: '✏️ Изменить стиль', callback_data: 'audio_action_edit_style' },
     { text: '📂 Мои загрузки', callback_data: 'my_uploads' }
-  ]);
-  
-  rows.push([
-    { text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=cloud` } }
   ]);
   
   return rows;
