@@ -35,10 +35,14 @@ import {
   LyricsWorkspace, 
   LyricsSection, 
   SectionNotesPanel,
-  TagsEditor
+  TagsEditor,
+  LyricsHistoryBar,
+  LyricsVersionsPanel,
 } from '@/components/lyrics-workspace';
 import { LyricsAIChatAgent } from '@/components/lyrics-workspace/LyricsAIChatAgent';
 import { useLyricsTemplates } from '@/hooks/useLyricsTemplates';
+import { useLyricsVersioning } from '@/hooks/useLyricsVersioning';
+import { useLyricsHistoryStore } from '@/stores/useLyricsHistoryStore';
 import { useSectionNotes, SaveSectionNoteData } from '@/hooks/useSectionNotes';
 import { useAuth } from '@/hooks/useAuth';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -204,8 +208,16 @@ export default function LyricsStudio() {
   const [templatesOpen, setTemplatesOpen] = useState(false);
   const [aiPanelOpen, setAiPanelOpen] = useState(false);
   const [tagsPanelOpen, setTagsPanelOpen] = useState(false);
+  const [versionsPanelOpen, setVersionsPanelOpen] = useState(false);
   const [isSavingLyrics, setIsSavingLyrics] = useState(false);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
+
+  // Versioning
+  const lyricsVersioning = useLyricsVersioning({
+    projectTrackId: isProjectTrackMode ? trackId : null,
+    lyricsTemplateId: !isProjectTrackMode ? templateId : null,
+  });
+  const lyricsHistory = useLyricsHistoryStore();
 
   // Telegram back button - return to project details if in project mode
   useTelegramBackButton({
@@ -690,12 +702,21 @@ export default function LyricsStudio() {
       </AnimatePresence>
 
       {/* Main Content with AI Panel */}
-      <div className="flex-1 overflow-hidden flex">
+      <div className="flex-1 overflow-hidden flex flex-col">
+        <div className="flex-1 overflow-hidden flex">
         {/* Lyrics Workspace */}
         <div className="flex-1 overflow-hidden relative">
           <LyricsWorkspace
             sections={sections}
-            onChange={handleSectionsChange}
+            onChange={(newSections) => {
+              handleSectionsChange(newSections);
+              // Push to local history
+              lyricsHistory.pushSnapshot({
+                sections: newSections,
+                tags: globalTags,
+                changeType: 'edit',
+              });
+            }}
             onSave={handleSave}
             isSaving={isSavingLyrics}
             hideSaveButton
