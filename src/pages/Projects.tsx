@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -6,16 +6,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { ContentHubTabs } from '@/components/content-hub/ContentHubTabs';
 import { SEOHead, SEO_PRESETS } from '@/components/SEOHead';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
-import { useTelegramMainButton } from '@/hooks/telegram/useTelegramMainButton';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
-
-const TAB_ACTIONS: Record<string, { text: string; action: string }> = {
-  artists: { text: 'СОЗДАТЬ АРТИСТА', action: '/artist/create' },
-  projects: { text: 'СОЗДАТЬ ПРОЕКТ', action: 'create-project' },
-  lyrics: { text: 'НОВЫЙ ТЕКСТ', action: '/lyrics/create' },
-  cloud: { text: 'ЗАГРУЗИТЬ ФАЙЛ', action: 'upload-file' },
-};
 
 const VALID_TABS = ['artists', 'projects', 'lyrics', 'cloud'];
 
@@ -44,29 +36,6 @@ export default function Projects() {
     fallbackPath: '/',
   });
 
-  // Handle main button action based on active tab
-  const handleMainAction = useCallback(() => {
-    const tabAction = TAB_ACTIONS[activeTab];
-    if (!tabAction) return;
-    
-    if (tabAction.action.startsWith('/')) {
-      navigate(tabAction.action);
-    } else {
-      // Dispatch custom event for tab-specific actions
-      window.dispatchEvent(new CustomEvent('content-hub-action', { 
-        detail: { tab: activeTab, action: tabAction.action } 
-      }));
-    }
-  }, [activeTab, navigate]);
-
-  // Telegram MainButton with dynamic text
-  const { shouldShowUIButton: showMainUIButton } = useTelegramMainButton({
-    text: TAB_ACTIONS[activeTab]?.text || 'СОЗДАТЬ',
-    onClick: handleMainAction,
-    visible: true,
-    color: 'primary',
-  });
-
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -80,7 +49,7 @@ export default function Projects() {
   }
 
   return (
-    <div className={cn("min-h-screen", showMainUIButton ? "pb-24" : "pb-20")}>
+    <div className="min-h-screen pb-20">
       <SEOHead {...SEO_PRESETS.projects} />
       
       {/* Header with centered logo on mobile */}
@@ -127,18 +96,6 @@ export default function Projects() {
       <div className={cn("max-w-6xl mx-auto", isMobile ? "px-4 py-3" : "px-4 py-4")}>
         <ContentHubTabs defaultTab={initialTab} onTabChange={setActiveTab} />
       </div>
-
-      {/* UI Fallback Main Button */}
-      {showMainUIButton && (
-        <div className="fixed bottom-20 left-0 right-0 px-4 pb-2 z-30">
-          <Button 
-            className="w-full h-12 text-base font-semibold"
-            onClick={handleMainAction}
-          >
-            {TAB_ACTIONS[activeTab]?.text || 'СОЗДАТЬ'}
-          </Button>
-        </div>
-      )}
     </div>
   );
 }
