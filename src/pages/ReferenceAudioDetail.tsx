@@ -33,6 +33,7 @@ import {
 import { motion } from 'framer-motion';
 import { ReferenceAudioPlayer } from '@/components/audio-reference/ReferenceAudioPlayer';
 import { ReferenceStemPlayer } from '@/components/audio-reference/ReferenceStemPlayer';
+import { ReferenceActionsPanel } from '@/components/audio-reference/ReferenceActionsPanel';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useReferenceStems } from '@/hooks/useReferenceStems';
 
@@ -466,57 +467,51 @@ export default function ReferenceAudioDetail() {
 
         <Separator />
 
-        {/* Action Buttons */}
+        {/* Action Buttons - New integrated panel */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="space-y-3"
         >
-          <h3 className="text-sm font-medium text-muted-foreground">Действия</h3>
-          
-          <div className="grid grid-cols-2 gap-3">
-            <Button onClick={handleGenerateCover} className="gap-2">
-              <Wand2 className="w-4 h-4" />
-              Создать кавер
-            </Button>
-            <Button onClick={handleGenerateExtend} variant="secondary" className="gap-2">
-              <Copy className="w-4 h-4" />
-              Расширить
-            </Button>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-3">
-            <Button 
-              onClick={handleSeparateStems} 
-              variant="outline" 
-              className="gap-2"
-              disabled={reference.stems_status === 'processing'}
-            >
-              <Layers className="w-4 h-4" />
-              Разделить
-            </Button>
-            <Button 
-              onClick={() => reanalyzeMutation.mutate()} 
-              variant="outline" 
-              className="gap-2"
-              disabled={reanalyzeMutation.isPending}
-            >
-              <RefreshCw className={`w-4 h-4 ${reanalyzeMutation.isPending ? 'animate-spin' : ''}`} />
-              Переанализ
-            </Button>
-          </div>
+          <ReferenceActionsPanel reference={reference} />
+        </motion.div>
 
-          <Button
-            onClick={() => deleteMutation.mutate()}
-            variant="destructive"
-            className="w-full gap-2"
-            disabled={deleteMutation.isPending}
+        {/* Utility Actions */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45 }}
+          className="grid grid-cols-2 gap-3"
+        >
+          <Button 
+            onClick={handleSeparateStems} 
+            variant="outline" 
+            className="gap-2"
+            disabled={reference.stems_status === 'processing' || !!hasStemUrls}
           >
-            <Trash2 className="w-4 h-4" />
-            Удалить аудио
+            <Layers className="w-4 h-4" />
+            {hasStemUrls ? 'Стемы готовы' : 'Разделить'}
+          </Button>
+          <Button 
+            onClick={() => reanalyzeMutation.mutate()} 
+            variant="outline" 
+            className="gap-2"
+            disabled={reanalyzeMutation.isPending}
+          >
+            <RefreshCw className={`w-4 h-4 ${reanalyzeMutation.isPending ? 'animate-spin' : ''}`} />
+            Переанализ
           </Button>
         </motion.div>
+
+        <Button
+          onClick={() => deleteMutation.mutate()}
+          variant="destructive"
+          className="w-full gap-2"
+          disabled={deleteMutation.isPending}
+        >
+          <Trash2 className="w-4 h-4" />
+          Удалить аудио
+        </Button>
       </div>
     </ScrollArea>
   );
