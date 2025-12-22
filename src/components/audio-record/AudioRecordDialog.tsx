@@ -224,6 +224,7 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
           style: action === 'instrumental' 
             ? 'professional instrumental backing track, full band arrangement' 
             : 'professional vocal performance, clear singing',
+          negativeTags: 'low quality, distorted, noise',
           title,
         },
       });
@@ -277,13 +278,16 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+      <DialogContent className="max-w-md h-[90vh] flex flex-col overflow-hidden">
+        <DialogHeader className="shrink-0">
           <DialogTitle className="flex items-center gap-2">
             <Mic className="w-5 h-5 text-primary" />
             Записать или выбрать аудио
           </DialogTitle>
         </DialogHeader>
+
+        <div className="flex-1 min-h-0 overflow-y-auto">
+
 
         {/* Source Tabs */}
         <Tabs value={sourceTab} onValueChange={(v) => setSourceTab(v as SourceTab)}>
@@ -484,9 +488,10 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
 
         {state === 'uploading' && (
-          <div className="text-center text-sm text-muted-foreground">
+          <div className="text-center text-sm text-muted-foreground shrink-0 px-2 pb-2">
             <Loader2 className="w-5 h-5 animate-spin mx-auto mb-2" />
             Загрузка и обработка...
           </div>
