@@ -30,6 +30,7 @@ interface PipelineRequest {
   telegram_message_id?: number; // Existing Telegram progress message to edit (prevents spam)
   skip_stems?: boolean;        // Skip stem separation
   skip_lyrics?: boolean;       // Skip lyrics extraction
+  skip_analysis?: boolean;     // Skip style analysis (use existing)
   force_reprocess?: boolean;   // Force reprocess even if exists
   reference_id?: string;       // Existing reference ID to update
   user_classification?: {      // User-provided classification
@@ -224,6 +225,7 @@ serve(async (req) => {
       telegram_message_id,
       skip_stems = false,
       skip_lyrics = false,
+      skip_analysis = false,
       force_reprocess = false,
       reference_id,
       user_classification,
@@ -303,22 +305,88 @@ serve(async (req) => {
     }
 
     // === STEP 2: Style Analysis with Audio Flamingo 3 ===
-    console.log('🔍 Running Audio Flamingo 3 analysis...');
-    console.log('🎵 Using input type:', audio_base64 ? 'base64' : 'url');
-    
-    // Update progress to 20% - throttled
-    if (telegram_chat_id && progressMessageId) {
-      await sendTelegramProgress(
-        telegram_chat_id,
-        `🎵 *Обработка аудио*\n\n` +
-        `📁 ${escapeMarkdown(file_name)}\n\n` +
-        `▓▓░░░░░░░░ 20%\n` +
-        `⏳ Анализ стиля с AI\\.\\.\\.`,
-        progressMessageId
-      );
-    }
-    
-    const flamingoPrompt = `Analyze this audio track comprehensively.
+    let analysisResult: {
+      hasVocals: boolean;
+      hasInstrumental: boolean;
+      language: string;
+      genre: string | null;
+      subGenre: string | null;
+      mood: string | null;
+      energy: string | null;
+      tempo: string | null;
+      bpmEstimate: number | null;
+      vocalStyle: string | null;
+      instruments: string[];
+      productionStyle: string | null;
+      stylePrompt: string | null;
+      fullResponse: string;
+    };
+
+    // If skip_analysis and reference_id provided, load existing analysis
+    if (skip_analysis && reference_id) {
+      console.log('⏭️ Skipping analysis, loading from reference_id:', reference_id);
+      const { data: existingRef } = await supabase
+        .from('reference_audio')
+        .select('*')
+        .eq('id', reference_id)
+        .single();
+      
+      if (existingRef) {
+        analysisResult = {
+          hasVocals: existingRef.has_vocals ?? (existingRef.metadata?.audio_type !== 'instrumental'),
+          hasInstrumental: existingRef.has_instrumentals ?? true,
+          language: existingRef.detected_language || 'unknown',
+          genre: existingRef.genre,
+          subGenre: null,
+          mood: existingRef.mood,
+          energy: existingRef.energy,
+          tempo: existingRef.tempo,
+          bpmEstimate: existingRef.bpm,
+          vocalStyle: existingRef.vocal_style,
+          instruments: existingRef.instruments || [],
+          productionStyle: null,
+          stylePrompt: existingRef.style_description,
+          fullResponse: '',
+        };
+        console.log('✅ Loaded existing analysis for reference');
+      } else {
+        // Fallback to defaults from user classification
+        const audioType = user_classification?.audio_type || 'full';
+        analysisResult = {
+          hasVocals: audioType !== 'instrumental',
+          hasInstrumental: audioType !== 'vocal',
+          language: 'unknown',
+          genre: null,
+          subGenre: null,
+          mood: null,
+          energy: null,
+          tempo: null,
+          bpmEstimate: null,
+          vocalStyle: null,
+          instruments: [],
+          productionStyle: null,
+          stylePrompt: null,
+          fullResponse: '',
+        };
+      }
+    } else {
+      // Run Audio Flamingo analysis
+      console.log('🔍 Running Audio Flamingo 3 analysis...');
+      console.log('🎵 Using input type:', audio_base64 ? 'base64' : 'url');
+      
+      // Update progress to 20% - throttled
+      if (telegram_chat_id && progressMessageId) {
+        await sendTelegramProgress(
+          telegram_chat_id,
+          `🎵 *Обработка аудио*\n\n` +
+          `📁 ${escapeMarkdown(file_name)}\n\n` +
+          `▓▓░░░░░░░░ 20%\n` +
+          `⏳ Анализ стиля с AI\\.\\.\\.`,
+          progressMessageId
+        );
+      }
+      
+      const flamingoPrompt = `Analyze this audio track comprehensively.
 Answer in EXACTLY this format:
 
 VOCALS: YES or NO (is there singing, rapping, or spoken vocals?)
@@ -337,104 +405,88 @@ STYLE_PROMPT: write a detailed style description suitable for AI music generatio
 
 Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
 
-    let analysisResult: {
-      hasVocals: boolean;
-      hasInstrumental: boolean;
-      language: string;
-      genre: string | null;
-      subGenre: string | null;
-      mood: string | null;
-      energy: string | null;
-      tempo: string | null;
-      bpmEstimate: number | null;
-      vocalStyle: string | null;
-      instruments: string[];
-      productionStyle: string | null;
-      stylePrompt: string | null;
-      fullResponse: string;
-    };
+      try {
+        const flamingoOutput = await replicate.run(
+          "zsxkib/audio-flamingo-3:2856d42f07154766b0cc0f3554fb425d7c3422ae77269264fbe0c983ac759fef",
+          {
+            input: {
+              audio: audioInputForReplicate, // Use base64 if available
+              prompt: 'Analyze this audio',
+              system_prompt: flamingoPrompt,
+              enable_thinking: false,
+              temperature: 0.1,
+              max_length: 1024,
+            },
+          }
+        ) as string;
 
-    try {
-      const flamingoOutput = await replicate.run(
-        "zsxkib/audio-flamingo-3:2856d42f07154766b0cc0f3554fb425d7c3422ae77269264fbe0c983ac759fef",
-        {
-          input: {
-            audio: audioInputForReplicate, // Use base64 if available
-            prompt: 'Analyze this audio',
-            system_prompt: flamingoPrompt,
-            enable_thinking: false,
-            temperature: 0.1,
-            max_length: 1024,
-          },
-        }
-      ) as string;
+        console.log('📊 Flamingo output:', flamingoOutput);
 
-      console.log('📊 Flamingo output:', flamingoOutput);
+        // Parse response
+        const parseField = (text: string, field: string): string | null => {
+          const regex = new RegExp(`${field}:\\s*([^\\n]+)`, 'i');
+          const match = text.match(regex);
+          return match ? match[1].trim() : null;
+        };
 
-      // Parse response
-      const parseField = (text: string, field: string): string | null => {
-        const regex = new RegExp(`${field}:\\s*([^\\n]+)`, 'i');
-        const match = text.match(regex);
-        return match ? match[1].trim() : null;
-      };
+        const vocalsRaw = parseField(flamingoOutput, 'VOCALS') || '';
+        const instrumentalRaw = parseField(flamingoOutput, 'INSTRUMENTAL') || '';
+        
+        // Robust vocal detection
+        const hasVocals = /yes/i.test(vocalsRaw) || 
+          /singing|singer|rapper|vocal|voice|lyrics/i.test(flamingoOutput);
+        const hasInstrumental = /yes/i.test(instrumentalRaw) || 
+          /instrumental|instruments|guitar|piano|drums|bass|synth/i.test(flamingoOutput);
 
-      const vocalsRaw = parseField(flamingoOutput, 'VOCALS') || '';
-      const instrumentalRaw = parseField(flamingoOutput, 'INSTRUMENTAL') || '';
-      
-      // Robust vocal detection
-      const hasVocals = /yes/i.test(vocalsRaw) || 
-        /singing|singer|rapper|vocal|voice|lyrics/i.test(flamingoOutput);
-      const hasInstrumental = /yes/i.test(instrumentalRaw) || 
-        /instrumental|instruments|guitar|piano|drums|bass|synth/i.test(flamingoOutput);
+        const bpmStr = parseField(flamingoOutput, 'BPM_ESTIMATE');
+        const bpmEstimate = bpmStr ? parseInt(bpmStr.replace(/\D/g, '')) || null : null;
 
-      const bpmStr = parseField(flamingoOutput, 'BPM_ESTIMATE');
-      const bpmEstimate = bpmStr ? parseInt(bpmStr.replace(/\D/g, '')) || null : null;
+        const instrumentsStr = parseField(flamingoOutput, 'INSTRUMENTS');
+        const instruments = instrumentsStr 
+          ? instrumentsStr.split(',').map(i => i.trim()).filter(Boolean)
+          : [];
 
-      const instrumentsStr = parseField(flamingoOutput, 'INSTRUMENTS');
-      const instruments = instrumentsStr 
-        ? instrumentsStr.split(',').map(i => i.trim()).filter(Boolean)
-        : [];
+        analysisResult = {
+          hasVocals,
+          hasInstrumental,
+          language: parseField(flamingoOutput, 'LANGUAGE') || 'unknown',
+          genre: parseField(flamingoOutput, 'GENRE'),
+          subGenre: parseField(flamingoOutput, 'SUB_GENRE'),
+          mood: parseField(flamingoOutput, 'MOOD'),
+          energy: parseField(flamingoOutput, 'ENERGY'),
+          tempo: parseField(flamingoOutput, 'TEMPO'),
+          bpmEstimate,
+          vocalStyle: parseField(flamingoOutput, 'VOCAL_STYLE'),
+          instruments,
+          productionStyle: parseField(flamingoOutput, 'PRODUCTION_STYLE'),
+          stylePrompt: parseField(flamingoOutput, 'STYLE_PROMPT'),
+          fullResponse: flamingoOutput,
+        };
 
-      analysisResult = {
-        hasVocals,
-        hasInstrumental,
-        language: parseField(flamingoOutput, 'LANGUAGE') || 'unknown',
-        genre: parseField(flamingoOutput, 'GENRE'),
-        subGenre: parseField(flamingoOutput, 'SUB_GENRE'),
-        mood: parseField(flamingoOutput, 'MOOD'),
-        energy: parseField(flamingoOutput, 'ENERGY'),
-        tempo: parseField(flamingoOutput, 'TEMPO'),
-        bpmEstimate,
-        vocalStyle: parseField(flamingoOutput, 'VOCAL_STYLE'),
-        instruments,
-        productionStyle: parseField(flamingoOutput, 'PRODUCTION_STYLE'),
-        stylePrompt: parseField(flamingoOutput, 'STYLE_PROMPT'),
-        fullResponse: flamingoOutput,
-      };
-
-      console.log('✅ Analysis complete:', {
-        hasVocals: analysisResult.hasVocals,
-        hasInstrumental: analysisResult.hasInstrumental,
-        genre: analysisResult.genre,
-      });
-    } catch (analysisError) {
-      console.error('❌ Audio Flamingo failed:', analysisError);
-      analysisResult = {
-        hasVocals: false,
-        hasInstrumental: true,
-        language: 'unknown',
-        genre: null,
-        subGenre: null,
-        mood: null,
-        energy: null,
-        tempo: null,
-        bpmEstimate: null,
-        vocalStyle: null,
-        instruments: [],
-        productionStyle: null,
-        stylePrompt: null,
-        fullResponse: '',
-      };
+        console.log('✅ Analysis complete:', {
+          hasVocals: analysisResult.hasVocals,
+          hasInstrumental: analysisResult.hasInstrumental,
+          genre: analysisResult.genre,
+        });
+      } catch (analysisError) {
+        console.error('❌ Audio Flamingo failed:', analysisError);
+        analysisResult = {
+          hasVocals: false,
+          hasInstrumental: true,
+          language: 'unknown',
+          genre: null,
+          subGenre: null,
+          mood: null,
+          energy: null,
+          tempo: null,
+          bpmEstimate: null,
+          vocalStyle: null,
+          instruments: [],
+          productionStyle: null,
+          stylePrompt: null,
+          fullResponse: '',
+        };
+      }
     }
 
     // === STEP 3: Update progress & extract lyrics if vocals ===
