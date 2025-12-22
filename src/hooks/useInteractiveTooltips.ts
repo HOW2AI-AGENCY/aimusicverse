@@ -10,8 +10,9 @@ export interface TooltipDefinition extends TooltipConfig {
   showOnce?: boolean;
 }
 
-// All available tooltips
+// All available tooltips - organized by priority and UX flow
 export const TOOLTIP_DEFINITIONS: TooltipDefinition[] = [
+  // Phase 1: Core generation flow
   {
     id: 'generate-button',
     title: 'Создайте первый трек',
@@ -31,6 +32,8 @@ export const TOOLTIP_DEFINITIONS: TooltipDefinition[] = [
     priority: 2,
     showOnce: true
   },
+  
+  // Phase 2: Library interactions  
   {
     id: 'library-swipe',
     title: 'Свайп для действий',
@@ -50,12 +53,34 @@ export const TOOLTIP_DEFINITIONS: TooltipDefinition[] = [
     showOnce: true
   },
   {
+    id: 'quick-studio-access',
+    title: 'Быстрый доступ к Studio',
+    description: 'Нажмите на иконку палочки, чтобы открыть Stem Studio для трека.',
+    position: 'top',
+    route: '/library',
+    priority: 3,
+    showOnce: true
+  },
+  
+  // Phase 3: Studio features
+  {
     id: 'stem-studio',
     title: 'Разделите на дорожки',
     description: 'Откройте Stem Studio чтобы разделить трек на вокал, ударные, бас и инструменты.',
     position: 'top',
-    route: '/stem-studio',
+    route: '/studio',
     priority: 1,
+    showOnce: true
+  },
+  
+  // Phase 4: Navigation
+  {
+    id: 'more-menu',
+    title: 'Все разделы',
+    description: 'Здесь находятся все студии, настройки, блог и профиль.',
+    position: 'top',
+    elementId: 'more-menu-button',
+    priority: 4,
     showOnce: true
   },
   {
@@ -67,13 +92,15 @@ export const TOOLTIP_DEFINITIONS: TooltipDefinition[] = [
     priority: 1,
     showOnce: true
   },
+  
+  // Phase 5: Player and rewards
   {
     id: 'player-queue',
     title: 'Очередь воспроизведения',
     description: 'Нажмите на иконку списка, чтобы управлять очередью треков.',
     position: 'top',
     elementId: 'queue-button',
-    priority: 3,
+    priority: 5,
     showOnce: true
   },
   {
@@ -82,7 +109,7 @@ export const TOOLTIP_DEFINITIONS: TooltipDefinition[] = [
     description: 'Заходите каждый день чтобы получать кредиты и поддерживать streak!',
     position: 'bottom',
     elementId: 'credits-balance',
-    priority: 4,
+    priority: 6,
     showOnce: true
   }
 ];

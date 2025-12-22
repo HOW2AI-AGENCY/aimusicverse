@@ -291,13 +291,22 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
             playSound.current();
           }
           
+          // Get track ID for direct navigation
+          const trackId = task.track_id;
+          
           toast.success('Трек готов! 🎵', {
             description: task.prompt?.slice(0, 50) + (task.prompt?.length > 50 ? '...' : ''),
+            duration: 10000, // Show for 10 seconds
             action: {
-              label: 'Открыть',
+              label: 'Открыть трек',
               onClick: () => {
                 queryClient.invalidateQueries({ queryKey: ['tracks'] });
-                window.location.href = '/library';
+                // Navigate to library with track ID for direct scroll/highlight
+                if (trackId) {
+                  window.location.href = `/library?track=${trackId}`;
+                } else {
+                  window.location.href = '/library';
+                }
               },
             },
           });
@@ -336,14 +345,15 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
                   
                   log.info('Audio preloading started', { url: trackData.streaming_url.substring(0, 50) });
                   
-                  // Notify user they can start listening
+                  // Notify user they can start listening with direct track link
                   toast.success('Можно слушать! 🎧', {
                     description: trackData.title || task.prompt?.slice(0, 40),
+                    duration: 8000,
                     action: {
                       label: 'Слушать',
                       onClick: () => {
                         queryClient.invalidateQueries({ queryKey: ['tracks'] });
-                        window.location.href = '/library';
+                        window.location.href = `/library?track=${task.track_id}`;
                       },
                     },
                   });
