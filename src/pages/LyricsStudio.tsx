@@ -930,7 +930,7 @@ export default function LyricsStudio() {
       {/* AI Assistant - Mobile Bottom Drawer */}
       {isMobile && (
         <Drawer open={aiPanelOpen} onOpenChange={setAiPanelOpen}>
-          <DrawerContent className="h-[85vh] max-h-[85vh]">
+          <DrawerContent className="h-[70vh] max-h-[70vh]">
             <DrawerHeader className="border-b pb-3 flex-shrink-0">
               <div className="flex items-center justify-between">
                 <DrawerTitle className="flex items-center gap-2">

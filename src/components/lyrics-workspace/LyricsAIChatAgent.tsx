@@ -13,7 +13,7 @@ import { hapticImpact } from '@/lib/haptic';
 
 import { AIToolbar } from './ai-agent/AIToolbar';
 import { useAITools } from './ai-agent/hooks/useAITools';
-import { WriteToolPanel, AnalyzeToolPanel, ProducerToolPanel, OptimizeToolPanel } from './ai-agent/tools';
+import { WriteToolPanel, AnalyzeToolPanel, ProducerToolPanel, OptimizeToolPanel, RhymeToolPanel, TagsToolPanel } from './ai-agent/tools';
 import { StructuredLyricsPreview, TagsResultCard, FullAnalysisResultCard, ProducerResultCard } from './ai-agent/results';
 import { AIToolId, AIAgentContext, SectionNote } from './ai-agent/types';
 
@@ -167,6 +167,8 @@ export function LyricsAIChatAgent({
       case 'analyze': return <AnalyzeToolPanel {...panelProps} />;
       case 'producer': return <ProducerToolPanel {...panelProps} />;
       case 'optimize': return <OptimizeToolPanel {...panelProps} />;
+      case 'rhyme': return <RhymeToolPanel {...panelProps} />;
+      case 'tags': return <TagsToolPanel {...panelProps} />;
       default: return null;
     }
   };

@@ -1,5 +1,6 @@
 /**
- * AIToolbar - Horizontal toolbar with AI tools
+ * AIToolbar - Compact horizontal toolbar with AI tools
+ * Optimized for mobile with smaller buttons
  */
 
 import { motion } from '@/lib/motion';
@@ -12,17 +13,22 @@ interface AIToolbarProps {
   onSelectTool: (toolId: AIToolId) => void;
   isLoading?: boolean;
   className?: string;
+  compact?: boolean;
 }
 
 export function AIToolbar({ 
   activeTool, 
   onSelectTool, 
   isLoading,
-  className 
+  className,
+  compact = false,
 }: AIToolbarProps) {
   return (
     <div className={cn("w-full overflow-x-auto scrollbar-hide", className)}>
-      <div className="flex gap-1.5 p-2 min-w-max">
+      <div className={cn(
+        "flex gap-1 p-1.5 min-w-max",
+        compact && "gap-0.5 p-1"
+      )}>
         {AI_TOOLS.map((tool) => (
           <ToolButton
             key={tool.id}
@@ -31,6 +37,7 @@ export function AIToolbar({
             isLoading={isLoading && activeTool === tool.id}
             onClick={() => onSelectTool(tool.id)}
             disabled={isLoading}
+            compact={compact}
           />
         ))}
       </div>
@@ -44,9 +51,10 @@ interface ToolButtonProps {
   isLoading?: boolean;
   onClick: () => void;
   disabled?: boolean;
+  compact?: boolean;
 }
 
-function ToolButton({ tool, isActive, isLoading, onClick, disabled }: ToolButtonProps) {
+function ToolButton({ tool, isActive, isLoading, onClick, disabled, compact }: ToolButtonProps) {
   const Icon = tool.icon;
   
   return (
@@ -54,11 +62,13 @@ function ToolButton({ tool, isActive, isLoading, onClick, disabled }: ToolButton
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "flex flex-col items-center gap-1 px-3 py-2 rounded-xl border transition-all",
-        "min-w-[4.5rem]",
+        "flex flex-col items-center gap-0.5 rounded-xl border transition-all touch-manipulation",
+        compact 
+          ? "px-2 py-1.5 min-w-[3rem]" 
+          : "px-2.5 py-1.5 min-w-[3.5rem]",
         isActive 
           ? `${tool.bgColor} border-2` 
-          : "bg-muted/30 border-border/50 hover:bg-muted/50",
+          : "bg-muted/30 border-border/50 hover:bg-muted/50 active:scale-95",
         disabled && !isLoading && "opacity-50 cursor-not-allowed"
       )}
       whileTap={{ scale: 0.95 }}
@@ -66,16 +76,19 @@ function ToolButton({ tool, isActive, isLoading, onClick, disabled }: ToolButton
       transition={isLoading ? { repeat: Infinity, duration: 1 } : {}}
     >
       <div className={cn(
-        "w-7 h-7 rounded-lg flex items-center justify-center",
+        "rounded-lg flex items-center justify-center",
+        compact ? "w-5 h-5" : "w-6 h-6",
         isActive ? tool.bgColor : "bg-muted/50"
       )}>
         <Icon className={cn(
-          "w-4 h-4 transition-colors",
+          "transition-colors",
+          compact ? "w-3 h-3" : "w-3.5 h-3.5",
           isActive ? tool.color : "text-muted-foreground"
         )} />
       </div>
       <span className={cn(
-        "text-[10px] font-medium leading-tight",
+        "font-medium leading-tight truncate max-w-full",
+        compact ? "text-[9px]" : "text-[10px]",
         isActive ? "text-foreground" : "text-muted-foreground"
       )}>
         {tool.name}

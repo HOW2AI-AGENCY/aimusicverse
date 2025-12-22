@@ -9,7 +9,9 @@ export type AIToolId =
   | 'analyze'
   | 'deep_analyze'
   | 'producer'
-  | 'optimize';
+  | 'optimize'
+  | 'rhyme'
+  | 'tags';
 
 export type BackendAction = 
   | 'generate'
