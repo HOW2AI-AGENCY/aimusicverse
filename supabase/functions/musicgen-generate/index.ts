@@ -42,11 +42,15 @@ serve(async (req) => {
 
     console.log("Generating music with prompt:", prompt, "duration:", duration, "continuation:", !!continuation_url);
 
+    // Valid model versions: "stereo-melody-large", "stereo-large", "melody-large", "large"
+    const validModels = ['stereo-melody-large', 'stereo-large', 'melody-large', 'large'];
+    const modelVersion = continuation_url ? 'melody-large' : (validModels.includes(model) ? model : 'large');
+
     // Build input for MusicGen
     const input: Record<string, unknown> = {
       prompt: prompt,
       duration: Math.min(duration, 30), // Max 30 seconds for MusicGen
-      model_version: continuation_url ? 'melody' : model, // Use melody model for continuation
+      model_version: modelVersion,
       output_format: "mp3",
       normalization_strategy: "peak",
       temperature: temperature,
