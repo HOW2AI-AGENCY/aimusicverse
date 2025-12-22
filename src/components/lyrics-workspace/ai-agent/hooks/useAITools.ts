@@ -93,6 +93,17 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
       if (context.mood) requestBody.mood = context.mood;
       if (context.language) requestBody.language = context.language;
 
+      // Add project context if available
+      if (context.projectContext) {
+        requestBody.projectContext = context.projectContext;
+      }
+      if (context.trackContext) {
+        requestBody.trackContext = context.trackContext;
+      }
+      if (context.tracklist) {
+        requestBody.tracklist = context.tracklist;
+      }
+
       const { data, error } = await supabase.functions.invoke('ai-lyrics-assistant', {
         body: requestBody,
       });

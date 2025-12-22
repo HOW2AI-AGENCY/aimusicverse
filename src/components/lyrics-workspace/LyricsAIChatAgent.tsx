@@ -27,6 +27,31 @@ interface LyricsAIChatAgentProps {
   title?: string;
   genre?: string;
   mood?: string;
+  // Project context
+  projectContext?: {
+    projectId: string;
+    projectTitle: string;
+    projectType?: string;
+    genre?: string;
+    mood?: string;
+    concept?: string;
+    targetAudience?: string;
+    referenceArtists?: string[];
+    language?: string;
+  };
+  trackContext?: {
+    position: number;
+    title: string;
+    notes?: string;
+    recommendedTags?: string[];
+    recommendedStructure?: string;
+  };
+  tracklist?: Array<{
+    position: number;
+    title: string;
+    hasLyrics: boolean;
+    status?: string;
+  }>;
   onInsertLyrics?: (lyrics: string) => void;
   onReplaceLyrics?: (lyrics: string) => void;
   onAddTags?: (tags: string[]) => void;
@@ -44,6 +69,9 @@ export function LyricsAIChatAgent({
   title,
   genre,
   mood,
+  projectContext,
+  trackContext,
+  tracklist,
   onInsertLyrics,
   onReplaceLyrics,
   onAddTags,
@@ -62,8 +90,11 @@ export function LyricsAIChatAgent({
     allSectionNotes,
     stylePrompt,
     title,
-    genre,
-    mood,
+    genre: genre || projectContext?.genre,
+    mood: mood || projectContext?.mood,
+    projectContext,
+    trackContext,
+    tracklist,
   };
 
   const {
