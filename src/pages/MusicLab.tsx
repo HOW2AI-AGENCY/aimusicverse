@@ -1,17 +1,7 @@
 /**
  * Music Lab Hub - Unified Creative Workspace
  * 
- * Consolidates all creative music tools:
- * - Quick Create (presets & 4-step flow)
- * - Drum Machine
- * - PromptDJ Mixer
- * - Chord Detection
- * - Tab Editor
- * - Guitar Studio (link)
- * 
- * Sprint 025: US-025-001 (Music Lab Hub)
- * Sprint 026: US-026-001 (Quick Create)
- * Sprint 026: US-026-003 (Workflow guide)
+ * Tabs: Вокал, Гитара, Лирика+AI, PromptDJ (PRO), Аккорды
  */
 
 import { useState, Suspense, lazy } from 'react';
@@ -21,16 +11,18 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { MusicLabAudioProvider } from '@/contexts/MusicLabAudioContext';
 import { toast } from 'sonner';
-import { Zap, Drum, Disc3, Mic, ArrowLeft } from 'lucide-react';
+import { Mic, Guitar, PenLine, Disc3, Music, ArrowLeft, Crown } from 'lucide-react';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { FeatureGate, PremiumBadge } from '@/components/premium';
+import { useFeatureAccess } from '@/hooks/useFeatureAccess';
 
-// Lazy load heavy components for better performance
-const QuickCreate = lazy(() => import('@/components/music-lab/QuickCreate').then(m => ({ default: m.QuickCreate })));
-const DrumMachineClean = lazy(() => import('@/components/drum-machine/pro').then(m => ({ default: m.DrumMachineClean })));
+// Lazy load heavy components
+const AudioRecordDialog = lazy(() => import('@/components/audio-record/AudioRecordDialog').then(m => ({ default: m.AudioRecordDialog })));
+const GuitarRecordDialog = lazy(() => import('@/components/generate-form/GuitarRecordDialog').then(m => ({ default: m.GuitarRecordDialog })));
+const LyricsAIChatAgent = lazy(() => import('@/components/lyrics-workspace/LyricsAIChatAgent').then(m => ({ default: m.LyricsAIChatAgent })));
 const PromptDJMixer = lazy(() => import('@/components/prompt-dj').then(m => ({ default: m.PromptDJMixer })));
 const RealtimeChordVisualizer = lazy(() => import('@/components/chord-detection/RealtimeChordVisualizer').then(m => ({ default: m.RealtimeChordVisualizer })));
 
-// Loading skeleton for lazy components
 function TabLoadingSkeleton() {
   return (
     <div className="space-y-4">
@@ -43,30 +35,24 @@ function TabLoadingSkeleton() {
 
 export default function MusicLab() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('quick-create');
+  const [activeTab, setActiveTab] = useState('vocal');
+  const [vocalDialogOpen, setVocalDialogOpen] = useState(false);
+  const [guitarDialogOpen, setGuitarDialogOpen] = useState(false);
+  
+  const { hasAccess: hasPromptDJ } = useFeatureAccess('prompt_dj');
+  const { hasAccess: hasGuitarStudio } = useFeatureAccess('guitar_studio');
 
-  // Telegram BackButton
-  const { shouldShowUIButton } = useTelegramBackButton({
-    visible: true,
-    fallbackPath: '/',
-  });
+  useTelegramBackButton({ visible: true, fallbackPath: '/' });
 
   const handleProgressionExport = (progression: string) => {
     toast.success('Прогрессия скопирована', { description: progression });
   };
 
-  const tabs = [
-    { id: 'quick-create', label: 'Quick', icon: Zap },
-    { id: 'drums', label: 'Drums', icon: Drum },
-    { id: 'promptdj', label: 'DJ', icon: Disc3 },
-    { id: 'chords', label: 'Chords', icon: Mic },
-  ];
-
   return (
     <MusicLabAudioProvider>
       <div className="min-h-screen bg-background pb-20">
         <div className="container max-w-4xl mx-auto px-3 py-4">
-          {/* Compact Header */}
+          {/* Header */}
           <div className="flex items-center gap-3 mb-4">
             <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
               <ArrowLeft className="h-5 w-5" />
@@ -74,36 +60,93 @@ export default function MusicLab() {
             <h1 className="text-xl font-bold">Music Lab</h1>
           </div>
 
-          {/* Main Tabs - Cleaner */}
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid grid-cols-4 w-full mb-4">
-              {tabs.slice(0, 4).map((tab) => (
-                <TabsTrigger key={tab.id} value={tab.id} className="gap-1 text-xs">
-                  <tab.icon className="h-4 w-4" />
-                  <span className="hidden sm:inline">{tab.label}</span>
-                </TabsTrigger>
-              ))}
+            <TabsList className="grid grid-cols-5 w-full mb-4">
+              <TabsTrigger value="vocal" className="gap-1 text-xs px-1">
+                <Mic className="h-4 w-4" />
+                <span className="hidden sm:inline">Вокал</span>
+              </TabsTrigger>
+              <TabsTrigger value="guitar" className="gap-1 text-xs px-1 relative">
+                <Guitar className="h-4 w-4" />
+                <span className="hidden sm:inline">Гитара</span>
+                {!hasGuitarStudio && <PremiumBadge tier="BASIC" className="absolute -top-1 -right-1 scale-75" />}
+              </TabsTrigger>
+              <TabsTrigger value="lyrics" className="gap-1 text-xs px-1">
+                <PenLine className="h-4 w-4" />
+                <span className="hidden sm:inline">Лирика</span>
+              </TabsTrigger>
+              <TabsTrigger value="promptdj" className="gap-1 text-xs px-1 relative">
+                <Disc3 className="h-4 w-4" />
+                <span className="hidden sm:inline">DJ</span>
+                {!hasPromptDJ && <PremiumBadge tier="PRO" className="absolute -top-1 -right-1 scale-75" />}
+              </TabsTrigger>
+              <TabsTrigger value="chords" className="gap-1 text-xs px-1">
+                <Music className="h-4 w-4" />
+                <span className="hidden sm:inline">Аккорды</span>
+              </TabsTrigger>
             </TabsList>
 
-            {/* Quick Create */}
-            <TabsContent value="quick-create" className="mt-0">
-              <Suspense fallback={<TabLoadingSkeleton />}>
-                <QuickCreate />
-              </Suspense>
+            {/* Vocal Recording */}
+            <TabsContent value="vocal" className="mt-0">
+              <div className="space-y-4">
+                <div className="text-center py-8">
+                  <Mic className="w-12 h-12 mx-auto mb-4 text-primary" />
+                  <h2 className="text-lg font-semibold mb-2">Запись вокала</h2>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Запишите вокал или загрузите аудио для обработки
+                  </p>
+                  <Button onClick={() => setVocalDialogOpen(true)}>
+                    <Mic className="w-4 h-4 mr-2" />
+                    Начать запись
+                  </Button>
+                </div>
+                <Suspense fallback={<TabLoadingSkeleton />}>
+                  <AudioRecordDialog open={vocalDialogOpen} onOpenChange={setVocalDialogOpen} />
+                </Suspense>
+              </div>
             </TabsContent>
 
-            {/* Drum Machine */}
-            <TabsContent value="drums" className="mt-0">
+            {/* Guitar Studio */}
+            <TabsContent value="guitar" className="mt-0">
+              <FeatureGate feature="guitar_studio">
+                <div className="space-y-4">
+                  <div className="text-center py-8">
+                    <Guitar className="w-12 h-12 mx-auto mb-4 text-primary" />
+                    <h2 className="text-lg font-semibold mb-2">Guitar Studio</h2>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Запишите гитару и получите анализ, аккорды и MIDI
+                    </p>
+                    <Button onClick={() => setGuitarDialogOpen(true)}>
+                      <Guitar className="w-4 h-4 mr-2" />
+                      Записать гитару
+                    </Button>
+                  </div>
+                  <Suspense fallback={<TabLoadingSkeleton />}>
+                    <GuitarRecordDialog open={guitarDialogOpen} onOpenChange={setGuitarDialogOpen} />
+                  </Suspense>
+                </div>
+              </FeatureGate>
+            </TabsContent>
+
+            {/* Lyrics + AI Agent */}
+            <TabsContent value="lyrics" className="mt-0">
               <Suspense fallback={<TabLoadingSkeleton />}>
-                <DrumMachineClean />
+                <LyricsAIChatAgent 
+                  existingLyrics=""
+                  globalTags={[]}
+                  stylePrompt=""
+                  title=""
+                />
               </Suspense>
             </TabsContent>
 
             {/* PromptDJ Mixer */}
             <TabsContent value="promptdj" className="mt-0">
-              <Suspense fallback={<TabLoadingSkeleton />}>
-                <PromptDJMixer />
-              </Suspense>
+              <FeatureGate feature="prompt_dj">
+                <Suspense fallback={<TabLoadingSkeleton />}>
+                  <PromptDJMixer />
+                </Suspense>
+              </FeatureGate>
             </TabsContent>
 
             {/* Chord Detection */}

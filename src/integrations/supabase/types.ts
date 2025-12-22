@@ -715,6 +715,45 @@ export type Database = {
         }
         Relationships: []
       }
+      feature_permissions: {
+        Row: {
+          created_at: string | null
+          credits_per_use: number | null
+          daily_limit: number | null
+          description: string | null
+          feature_key: string
+          id: string
+          is_admin_only: boolean | null
+          min_tier: string
+          name: Json
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          credits_per_use?: number | null
+          daily_limit?: number | null
+          description?: string | null
+          feature_key: string
+          id?: string
+          is_admin_only?: boolean | null
+          min_tier?: string
+          name?: Json
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          credits_per_use?: number | null
+          daily_limit?: number | null
+          description?: string | null
+          feature_key?: string
+          id?: string
+          is_admin_only?: boolean | null
+          min_tier?: string
+          name?: Json
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       generation_tag_usage: {
         Row: {
           created_at: string
@@ -2597,6 +2636,7 @@ export type Database = {
       }
       subscription_tiers: {
         Row: {
+          allowed_features: string[] | null
           audio_quality: string | null
           badge_text: string | null
           code: string
@@ -2628,6 +2668,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          allowed_features?: string[] | null
           audio_quality?: string | null
           badge_text?: string | null
           code: string
@@ -2659,6 +2700,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          allowed_features?: string[] | null
           audio_quality?: string | null
           badge_text?: string | null
           code?: string
