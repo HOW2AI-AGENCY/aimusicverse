@@ -1,11 +1,12 @@
 /**
  * Dynamic Menu Handler
  * Loads menu structure from database and builds keyboards dynamically
+ * Supports nested menus with rich text formatting
  */
 
 import { getSupabaseClient } from '../core/supabase-client.ts';
 import { sendPhoto, editMessageMedia, escapeMarkdownV2 } from '../telegram-api.ts';
-import { navigateTo } from '../core/navigation-state.ts';
+import { navigateTo, getPreviousRoute } from '../core/navigation-state.ts';
 import { deleteActiveMenu, setActiveMenuMessageId, deleteAndSendNewMenuPhoto } from '../core/active-menu-manager.ts';
 import { trackMessage } from '../utils/message-manager.ts';
 import { BOT_CONFIG } from '../config.ts';
@@ -31,6 +32,17 @@ export interface MenuItem {
   requires_auth: boolean;
   icon_emoji: string | null;
 }
+
+// Default images for menu sections
+const DEFAULT_IMAGES: Record<string, string> = {
+  main: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80',
+  generate: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80',
+  library: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80',
+  projects: 'https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=800&q=80',
+  analyze: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
+  settings: 'https://images.unsplash.com/photo-1563089145-599997674d42?w=800&q=80',
+  help: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&q=80'
+};
 
 interface InlineKeyboardButton {
   text: string;
@@ -188,7 +200,50 @@ export async function buildDynamicKeyboard(
 }
 
 /**
- * Handle submenu navigation
+ * Format caption with rich text styling
+ */
+function formatMenuCaption(item: MenuItem, hasChildren: boolean): string {
+  const parts: string[] = [];
+  
+  // Title with emoji
+  const emoji = item.icon_emoji || '📌';
+  const title = escapeMarkdownV2(item.title);
+  parts.push(`${emoji} *${title}*`);
+  
+  // Description if available
+  if (item.description) {
+    parts.push('');
+    parts.push(escapeMarkdownV2(item.description));
+  }
+  
+  // Custom caption (already formatted in DB, escape only special chars)
+  if (item.caption) {
+    parts.push('');
+    // Caption may contain MarkdownV2, escape only unescaped special chars
+    parts.push(item.caption);
+  }
+  
+  // Footer hint
+  if (hasChildren) {
+    parts.push('');
+    parts.push('👇 _Выберите действие:_');
+  }
+  
+  return parts.join('\n');
+}
+
+/**
+ * Get menu image with fallbacks
+ */
+function getMenuImageUrl(item: MenuItem): string {
+  return item.image_url 
+    || item.image_fallback 
+    || DEFAULT_IMAGES[item.menu_key] 
+    || DEFAULT_IMAGES.main;
+}
+
+/**
+ * Handle submenu navigation with rich formatting
  */
 export async function handleSubmenu(
   chatId: number,
@@ -208,22 +263,18 @@ export async function handleSubmenu(
   // Navigate to this menu
   navigateTo(userId, menuKey, messageId);
   
-  // Load child items and build keyboard
-  const keyboard = await buildDynamicKeyboard(menuKey, true);
+  // Check if this menu has children
+  const children = await loadMenuItems(menuKey);
+  const hasChildren = children.length > 0;
   
-  // Get image (from item, fallback, or default)
-  const image = menuItem.image_url 
-    || menuItem.image_fallback 
-    || 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80';
+  // Load keyboard with back button for non-main menus
+  const keyboard = await buildDynamicKeyboard(menuKey, menuKey !== 'main');
   
-  // Build caption
-  const title = escapeMarkdownV2(menuItem.title);
-  const description = menuItem.description 
-    ? `\n\n${escapeMarkdownV2(menuItem.description)}` 
-    : '';
-  const caption = menuItem.caption 
-    ? escapeMarkdownV2(menuItem.caption) 
-    : `*${title}*${description}\n\n👇 *Выберите действие:*`;
+  // Get image
+  const image = getMenuImageUrl(menuItem);
+  
+  // Build formatted caption
+  const caption = formatMenuCaption(menuItem, hasChildren);
   
   // Send or edit message
   await deleteAndSendNewMenuPhoto(
@@ -238,6 +289,7 @@ export async function handleSubmenu(
   // Log action
   await logBotAction(userId, chatId, 'submenu_open', {
     menu_key: menuKey,
+    has_children: hasChildren,
     response_time_ms: Date.now() - startTime
   });
   
@@ -245,8 +297,55 @@ export async function handleSubmenu(
 }
 
 /**
+ * Handle any menu item action (callback, url, webapp, submenu)
+ */
+export async function handleMenuAction(
+  chatId: number,
+  userId: number,
+  menuKey: string,
+  messageId?: number
+): Promise<boolean> {
+  const menuItem = await getMenuItem(menuKey);
+  if (!menuItem) {
+    return false;
+  }
+  
+  switch (menuItem.action_type) {
+    case 'submenu':
+      return handleSubmenu(chatId, userId, menuKey, messageId);
+    
+    case 'callback':
+      // Return false to let the router handle the callback
+      return false;
+    
+    case 'webapp':
+    case 'url':
+      // These are handled client-side by Telegram
+      return true;
+    
+    default:
+      return false;
+  }
+}
+
+/**
  * Get main menu items for dashboard
  */
 export async function getMainMenuKeyboard(): Promise<InlineKeyboardButton[][]> {
   return buildDynamicKeyboard('main', false);
+}
+
+/**
+ * Navigate back in menu hierarchy
+ */
+export async function handleMenuBack(
+  chatId: number,
+  userId: number,
+  currentMenuKey: string,
+  messageId?: number
+): Promise<boolean> {
+  const currentItem = await getMenuItem(currentMenuKey);
+  const parentKey = currentItem?.parent_key || 'main';
+  
+  return handleSubmenu(chatId, userId, parentKey, messageId);
 }

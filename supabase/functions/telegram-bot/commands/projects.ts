@@ -56,10 +56,11 @@ export async function handleProjects(chatId: number, userId: number, messageId?:
 
     if (!profile) {
       const text = '❌ Пользователь не найден\\. Сначала откройте Mini App\\.';
+      const keyboard = await createMainMenuKeyboard();
       if (messageId) {
-        await editMessageText(chatId, messageId, text, createMainMenuKeyboard(), 'MarkdownV2');
+        await editMessageText(chatId, messageId, text, keyboard, 'MarkdownV2');
       } else {
-        await sendMessage(chatId, text, createMainMenuKeyboard(), 'MarkdownV2');
+        await sendMessage(chatId, text, keyboard, 'MarkdownV2');
       }
       return;
     }
@@ -75,10 +76,11 @@ export async function handleProjects(chatId: number, userId: number, messageId?:
     if (error) {
       console.error('Error fetching projects:', error);
       const text = '❌ Ошибка при загрузке проектов\\.';
+      const keyboard = await createMainMenuKeyboard();
       if (messageId) {
-        await editMessageText(chatId, messageId, text, createMainMenuKeyboard(), 'MarkdownV2');
+        await editMessageText(chatId, messageId, text, keyboard, 'MarkdownV2');
       } else {
-        await sendMessage(chatId, text, createMainMenuKeyboard(), 'MarkdownV2');
+        await sendMessage(chatId, text, keyboard, 'MarkdownV2');
       }
       return;
     }
@@ -167,10 +169,11 @@ export async function handleProjects(chatId: number, userId: number, messageId?:
   } catch (error) {
     console.error('Error in projects command:', error);
     const text = '❌ Ошибка при загрузке проектов\\.';
+    const keyboard = await createMainMenuKeyboard();
     if (messageId) {
-      await editMessageText(chatId, messageId, text, createMainMenuKeyboard(), 'MarkdownV2');
+      await editMessageText(chatId, messageId, text, keyboard, 'MarkdownV2');
     } else {
-      await sendMessage(chatId, text, createMainMenuKeyboard(), 'MarkdownV2');
+      await sendMessage(chatId, text, keyboard, 'MarkdownV2');
     }
   }
 }
