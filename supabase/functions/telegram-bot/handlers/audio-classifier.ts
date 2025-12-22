@@ -572,46 +572,15 @@ async function getFileUrl(fileId: string): Promise<string | null> {
 
 type InlineButton = { text: string; callback_data?: string; web_app?: { url: string } };
 
-function buildActionKeyboard(audioType: AudioType, hasLyrics: boolean, referenceId?: string): InlineButton[][] {
+function buildActionKeyboard(_audioType: AudioType, _hasLyrics: boolean, referenceId?: string): InlineButton[][] {
   const rows: InlineButton[][] = [];
   
-  // Primary action - Open in App with reference ID
+  // Only one button - Open in App
   if (referenceId) {
     rows.push([
       { text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}/reference/${referenceId}` } }
     ]);
   }
-  
-  rows.push([
-    { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
-    { text: '➕ Расширить трек', callback_data: 'audio_action_extend' }
-  ]);
-  
-  // Add type-specific actions
-  if (audioType === 'instrumental') {
-    rows.push([
-      { text: '🎤 Добавить вокал', callback_data: 'audio_action_add_vocals' },
-    ]);
-  } else if (audioType === 'vocal') {
-    rows.push([
-      { text: '🎸 Добавить инструментал', callback_data: 'audio_action_add_instrumental' },
-    ]);
-  } else {
-    // Full track - offer both
-    rows.push([
-      { text: '🎛️ Разделить на стемы', callback_data: 'audio_action_stems' },
-      { text: '🎹 MIDI', callback_data: 'audio_action_midi' }
-    ]);
-  }
-  
-  if (hasLyrics) {
-    rows.push([{ text: '📝 Полный текст', callback_data: 'audio_action_show_lyrics' }]);
-  }
-  
-  rows.push([
-    { text: '✏️ Изменить стиль', callback_data: 'audio_action_edit_style' },
-    { text: '📂 Мои загрузки', callback_data: 'my_uploads' }
-  ]);
   
   return rows;
 }
