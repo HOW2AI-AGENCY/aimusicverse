@@ -995,6 +995,64 @@ export type Database = {
         }
         Relationships: []
       }
+      inline_result_chosen: {
+        Row: {
+          action_taken: string | null
+          created_at: string | null
+          id: string
+          inline_message_id: string | null
+          query: string | null
+          result_id: string
+          result_type: string | null
+          telegram_user_id: number
+          user_id: string | null
+        }
+        Insert: {
+          action_taken?: string | null
+          created_at?: string | null
+          id?: string
+          inline_message_id?: string | null
+          query?: string | null
+          result_id: string
+          result_type?: string | null
+          telegram_user_id: number
+          user_id?: string | null
+        }
+        Update: {
+          action_taken?: string | null
+          created_at?: string | null
+          id?: string
+          inline_message_id?: string | null
+          query?: string | null
+          result_id?: string
+          result_type?: string | null
+          telegram_user_id?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inline_result_chosen_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "inline_result_chosen_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "public_profile_view"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "inline_result_chosen_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "safe_public_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       inline_search_history: {
         Row: {
           category: string | null
@@ -3443,6 +3501,7 @@ export type Database = {
           prompt: string
           provider: string | null
           quality_score: number | null
+          share_count: number | null
           status: string | null
           streaming_url: string | null
           style: string | null
@@ -3499,6 +3558,7 @@ export type Database = {
           prompt: string
           provider?: string | null
           quality_score?: number | null
+          share_count?: number | null
           status?: string | null
           streaming_url?: string | null
           style?: string | null
@@ -3555,6 +3615,7 @@ export type Database = {
           prompt?: string
           provider?: string | null
           quality_score?: number | null
+          share_count?: number | null
           status?: string | null
           streaming_url?: string | null
           style?: string | null
@@ -4592,6 +4653,10 @@ export type Database = {
       }
       increment_track_play_count: {
         Args: { track_id_param: string }
+        Returns: undefined
+      }
+      increment_track_share_count: {
+        Args: { track_uuid: string }
         Returns: undefined
       }
       is_premium_or_admin: { Args: { _user_id: string }; Returns: boolean }

@@ -2,6 +2,7 @@ import { handleUpdate } from './bot.ts';
 import type { TelegramUpdate } from './telegram-api.ts';
 // Enhanced inline mode with 8 categories support
 import { handleInlineQuery } from './commands/inline-enhanced.ts';
+import { handleChosenInlineResult } from './handlers/inline-chosen.ts';
 import { flushMetrics, checkAlerts } from './utils/metrics.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { createLogger } from '../_shared/logger.ts';
@@ -110,6 +111,9 @@ Deno.serve(async (req) => {
       // Handle inline queries
       if (update.inline_query) {
         await handleInlineQuery(update.inline_query);
+      } else if (update.chosen_inline_result) {
+        // Handle chosen inline result for analytics
+        await handleChosenInlineResult(update.chosen_inline_result);
       } else {
         await handleUpdate(update);
       }

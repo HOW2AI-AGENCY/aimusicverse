@@ -10,6 +10,7 @@ import {
   type TrackSearchResult,
   type InlineQueryContext,
 } from './inline-types.ts';
+import { createGenerationResults, GENERATION_PRESETS } from '../handlers/inline-generation.ts';
 
 const supabase = createClient(
   BOT_CONFIG.supabaseUrl,
@@ -33,12 +34,15 @@ interface InlineQueryResult {
   caption?: string;
   parse_mode?: string;
   thumbnail_url?: string;
-  reply_markup?: { inline_keyboard: Array<Array<{ text: string; url?: string }>> };
+  description?: string;
+  input_message_content?: { message_text: string; parse_mode?: string };
+  reply_markup?: { inline_keyboard: Array<Array<{ text: string; url?: string; callback_data?: string; switch_inline_query_current_chat?: string }>> };
 }
 
 /**
  * Enhanced Inline Query Handler
  * Supports 8 categories: my, public, trending, new, featured, genre, mood, popular
+ * Plus generation presets and category hints
  */
 export async function handleInlineQuery(inlineQuery: InlineQuery) {
   const { id, query, from, offset } = inlineQuery;
@@ -56,6 +60,34 @@ export async function handleInlineQuery(inlineQuery: InlineQuery) {
       .select('user_id, username, display_name')
       .eq('telegram_id', from.id)
       .single();
+
+    // For empty query - show category hints
+    if (!query.trim()) {
+      const hints = getCategoryHints(!!profile);
+      await answerInlineQuery(id, hints, {
+        cache_time: 300,
+        is_personal: true,
+        button: {
+          text: '🎵 Открыть MusicVerse',
+          web_app: { url: BOT_CONFIG.miniAppUrl },
+        },
+      });
+      return;
+    }
+
+    // Check for generation prefix
+    if (query.toLowerCase().startsWith('gen:') || query.toLowerCase() === 'gen') {
+      const genResults = createGenerationResults();
+      await answerInlineQuery(id, genResults, {
+        cache_time: 300,
+        is_personal: true,
+        button: {
+          text: '🎵 Генерация в боте',
+          start_parameter: 'generate',
+        },
+      });
+      return;
+    }
 
     // For guests, show button to login and some public content
     if (!profile) {
@@ -129,6 +161,122 @@ export async function handleInlineQuery(inlineQuery: InlineQuery) {
       }
     });
   }
+}
+
+/**
+ * Get category hints for empty query
+ */
+function getCategoryHints(isLoggedIn: boolean): InlineQueryResult[] {
+  const hints: InlineQueryResult[] = [
+    {
+      type: 'article',
+      id: 'hint_search',
+      title: '🔍 Поиск треков',
+      description: 'Просто начните вводить название или стиль',
+      input_message_content: {
+        message_text: '💡 Введите название трека или стиль для поиска',
+      },
+      reply_markup: {
+        inline_keyboard: [[
+          { text: '🔍 Поиск', switch_inline_query_current_chat: '' }
+        ]]
+      }
+    },
+    {
+      type: 'article',
+      id: 'hint_gen',
+      title: '🎵 Быстрая генерация',
+      description: 'Введите "gen:" для создания музыки',
+      input_message_content: {
+        message_text: '🎵 Используйте @AIMusicVerseBot gen: для быстрой генерации',
+      },
+      reply_markup: {
+        inline_keyboard: [[
+          { text: '🎵 Генерация', switch_inline_query_current_chat: 'gen:' }
+        ]]
+      }
+    },
+    {
+      type: 'article',
+      id: 'hint_trending',
+      title: '🔥 Тренды',
+      description: 'Популярные треки прямо сейчас',
+      input_message_content: {
+        message_text: '🔥 Смотрите тренды в @AIMusicVerseBot',
+      },
+      reply_markup: {
+        inline_keyboard: [[
+          { text: '🔥 Тренды', switch_inline_query_current_chat: 'trending:' }
+        ]]
+      }
+    },
+    {
+      type: 'article',
+      id: 'hint_new',
+      title: '⭐ Новое',
+      description: 'Свежие релизы за последние 24 часа',
+      input_message_content: {
+        message_text: '⭐ Новые треки в @AIMusicVerseBot',
+      },
+      reply_markup: {
+        inline_keyboard: [[
+          { text: '⭐ Новое', switch_inline_query_current_chat: 'new:' }
+        ]]
+      }
+    },
+  ];
+
+  // Add personal hints for logged in users
+  if (isLoggedIn) {
+    hints.unshift({
+      type: 'article',
+      id: 'hint_my',
+      title: '🎵 Мои треки',
+      description: 'Поиск среди ваших треков',
+      input_message_content: {
+        message_text: '🎵 Мои треки в @AIMusicVerseBot',
+      },
+      reply_markup: {
+        inline_keyboard: [[
+          { text: '🎵 Мои треки', switch_inline_query_current_chat: 'my:' }
+        ]]
+      }
+    });
+  }
+
+  // Add genre and mood hints
+  hints.push(
+    {
+      type: 'article',
+      id: 'hint_genre',
+      title: '🎸 По жанру',
+      description: 'Введите "genre:rock", "genre:jazz" и т.д.',
+      input_message_content: {
+        message_text: '🎸 Поиск по жанрам: genre:rock, genre:pop, genre:jazz...',
+      },
+      reply_markup: {
+        inline_keyboard: [[
+          { text: '🎸 Жанры', switch_inline_query_current_chat: 'genre:' }
+        ]]
+      }
+    },
+    {
+      type: 'article',
+      id: 'hint_mood',
+      title: '💭 По настроению',
+      description: 'Введите "mood:chill", "mood:energetic" и т.д.',
+      input_message_content: {
+        message_text: '💭 Поиск по настроению: mood:chill, mood:energetic...',
+      },
+      reply_markup: {
+        inline_keyboard: [[
+          { text: '💭 Настроения', switch_inline_query_current_chat: 'mood:' }
+        ]]
+      }
+    }
+  );
+
+  return hints;
 }
 
 /**
