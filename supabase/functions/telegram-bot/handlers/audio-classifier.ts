@@ -346,12 +346,12 @@ export async function startClassifiedProcessing(
 
     // Update progress
     await editMessageText(
-      chatId, 
+      chatId,
       messageId,
       `🎵 *Обработка аудио*\n\n` +
-      `📁 ${escapeMarkdown(pendingData.fileName)}\n\n` +
-      `▓▓░░░░░░░░ 15%\n` +
-      `⏳ Анализируем стиль\\.\\.\\.`
+        `📁 ${escapeMarkdown(pendingData.fileName)}\n\n` +
+        `▓░░░░░░░░░ 10%\n` +
+        `⏳ Загрузка и анализ стиля\\.\\.\\.`
     );
 
     // Convert audio to base64 for Replicate (fixes Audio Flamingo 400 error)
