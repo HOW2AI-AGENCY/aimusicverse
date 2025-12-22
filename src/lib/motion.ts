@@ -147,19 +147,5 @@ export function getReducedMotionVariants(
     exit: { opacity: 0 },
   };
 }
-
-// Animation presets that respect reduced motion
-export function useAnimationPresets() {
-  // Import useReducedMotion from framer-motion
-  const { useReducedMotion: useReducedMotionHook } = require('framer-motion');
-  const prefersReducedMotion = useReducedMotionHook();
-  
-  return {
-    fadeIn: getReducedMotionVariants(fadeIn, !!prefersReducedMotion),
-    slideUp: getReducedMotionVariants(slideUp, !!prefersReducedMotion),
-    scaleIn: getReducedMotionVariants(scaleIn, !!prefersReducedMotion),
-    staggerContainer: prefersReducedMotion ? {} : staggerContainer,
-    staggerItem: getReducedMotionVariants(staggerItem, !!prefersReducedMotion),
-    transition: prefersReducedMotion ? { duration: 0 } : smoothTransition,
-  };
-}
+// Note: useAnimationPresets is deprecated - use useReducedMotion directly from exports
+// and call getReducedMotionVariants manually if needed

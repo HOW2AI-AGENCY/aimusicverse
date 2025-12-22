@@ -8,8 +8,6 @@ import { useState, lazy, Suspense } from 'react';
 import { motion } from '@/lib/motion';
 import { User, Sun, Moon, Sunrise, Sunset, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { NotificationBadge } from '@/components/NotificationBadge';
-import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { useUnreadCount } from '@/hooks/useNotifications';
 import { useTelegram } from '@/contexts/TelegramContext';
 import logo from '@/assets/logo.png';
@@ -157,9 +155,9 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
           </div>
         </div>
 
-        {/* Actions: Menu + Theme Toggle + Notifications + Avatar */}
-        <div className="flex items-center gap-1">
-          {/* Menu Button with badge */}
+        {/* Actions: Menu + Avatar (notifications moved to menu) */}
+        <div className="flex items-center gap-1.5">
+          {/* Menu Button with notification badge */}
           <motion.button
             onClick={handleMenuClick}
             className={cn(
@@ -170,37 +168,23 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
             whileTap={{ scale: 0.95 }}
             aria-label="Меню"
           >
-            <Menu className="w-4 h-4" />
+            <Menu className="w-4.5 h-4.5" />
             {unreadCount > 0 && (
               <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[9px] font-bold text-destructive-foreground">
                 {unreadCount > 9 ? '9+' : unreadCount}
               </span>
             )}
           </motion.button>
-
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <ThemeToggle variant="dropdown" />
-          </motion.div>
           
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <NotificationBadge />
-          </motion.div>
-          
+          {/* Avatar */}
           <motion.button
             onClick={onProfileClick}
             className={cn(
-              "w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden",
+              "w-9 h-9 rounded-full overflow-hidden",
               "border-2 border-primary/30 hover:border-primary/60",
-              "transition-all duration-200 touch-manipulation",
-              "ring-0 hover:ring-2 hover:ring-primary/20"
+              "transition-all duration-200 touch-manipulation"
             )}
-            whileHover={{ scale: 1.08 }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             {userPhotoUrl ? (
