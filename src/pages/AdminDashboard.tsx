@@ -46,6 +46,7 @@ import { AdminBotImagesPanel } from "@/components/admin/AdminBotImagesPanel";
 import { BotMenuEditor } from "@/components/admin/BotMenuEditor";
 import { StatCard, StatGrid } from "@/components/admin/StatCard";
 import { AdminUserCard } from "@/components/admin/AdminUserCard";
+import { SubscriptionTiersManager } from "@/components/admin/SubscriptionTiersManager";
 import { useQueryClient } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -74,6 +75,7 @@ const TAB_OPTIONS = [
   { value: "tracks", label: "Треки", icon: Music },
   { value: "moderation", label: "Жалобы", icon: AlertTriangle },
   { value: "feedback", label: "Фидбек", icon: MessageSquare },
+  { value: "tariffs", label: "Тарифы", icon: Crown },
   { value: "bot", label: "Бот", icon: MessageSquare },
   { value: "telegram", label: "Telegram", icon: Globe },
   { value: "payments", label: "Платежи", icon: Coins },
@@ -428,7 +430,16 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Users Tab */}
+        {/* Tariffs Tab */}
+        {activeTab === "tariffs" && (
+          <Card>
+            <CardContent className="pt-6">
+              <SubscriptionTiersManager />
+            </CardContent>
+          </Card>
+        )}
+
+
         {activeTab === "users" && (
           <Card>
             <CardHeader className="pb-3">
