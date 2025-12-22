@@ -3,7 +3,6 @@
  * Shows details of uploaded reference audio with actions
  */
 
-import { useEffect, useState } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -16,8 +15,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { toast } from 'sonner';
 import { 
   ArrowLeft, 
-  Play, 
-  Pause, 
   Music2, 
   Clock, 
   Mic2, 
@@ -31,16 +28,11 @@ import {
   Layers,
   Wand2,
   FileText,
-  Volume2
+  Volume2,
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-
-// Format duration helper
-function formatDuration(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-}
+import { motion } from 'framer-motion';
+import { ReferenceAudioPlayer } from '@/components/audio-reference/ReferenceAudioPlayer';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ReferenceAudio {
   id: string;
@@ -76,8 +68,7 @@ export default function ReferenceAudioDetail() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+  const isMobile = useIsMobile();
 
   // Fetch reference audio details
   const { data: reference, isLoading, error } = useQuery({
@@ -140,33 +131,7 @@ export default function ReferenceAudioDetail() {
     },
   });
 
-  // Cleanup audio on unmount
-  useEffect(() => {
-    return () => {
-      if (audio) {
-        audio.pause();
-        audio.src = '';
-      }
-    };
-  }, [audio]);
-
-  const handlePlayPause = () => {
-    if (!reference?.file_url) return;
-
-    if (!audio) {
-      const newAudio = new Audio(reference.file_url);
-      newAudio.onended = () => setIsPlaying(false);
-      setAudio(newAudio);
-      newAudio.play();
-      setIsPlaying(true);
-    } else if (isPlaying) {
-      audio.pause();
-      setIsPlaying(false);
-    } else {
-      audio.play();
-      setIsPlaying(true);
-    }
-  };
+  // No need for local audio state - ReferenceAudioPlayer handles it
 
   const handleGenerateCover = () => {
     navigate(`/generate?mode=cover&ref=${id}`);
@@ -257,71 +222,45 @@ export default function ReferenceAudioDetail() {
           transition={{ delay: 0.1 }}
         >
           <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <Button
-                  size="lg"
-                  className="h-16 w-16 rounded-full"
-                  onClick={handlePlayPause}
-                >
-                  <AnimatePresence mode="wait">
-                    {isPlaying ? (
-                      <motion.div
-                        key="pause"
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0 }}
-                      >
-                        <Pause className="w-6 h-6" />
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="play"
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0 }}
-                      >
-                        <Play className="w-6 h-6 ml-1" />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </Button>
-                
-                <div className="flex-1 space-y-2">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {reference.duration_seconds && (
-                      <Badge variant="secondary" className="gap-1">
-                        <Clock className="w-3 h-3" />
-                        {formatDuration(reference.duration_seconds)}
-                      </Badge>
-                    )}
-                    {reference.bpm && (
-                      <Badge variant="secondary" className="gap-1">
-                        <Drum className="w-3 h-3" />
-                        {reference.bpm} BPM
-                      </Badge>
-                    )}
-                    {reference.has_vocals && (
-                      <Badge variant="outline" className="gap-1">
-                        <Mic2 className="w-3 h-3" />
-                        Вокал
-                      </Badge>
-                    )}
-                    {reference.has_instrumentals && (
-                      <Badge variant="outline" className="gap-1">
-                        <Guitar className="w-3 h-3" />
-                        Инструментал
-                      </Badge>
-                    )}
-                  </div>
-                  
-                  {reference.file_size && (
-                    <p className="text-xs text-muted-foreground">
-                      {(reference.file_size / 1024 / 1024).toFixed(2)} MB
-                    </p>
-                  )}
-                </div>
+            <CardContent className={isMobile ? "p-4" : "p-6"}>
+              {/* Badges row */}
+              <div className="flex items-center gap-2 flex-wrap mb-4">
+                {reference.bpm && (
+                  <Badge variant="secondary" className="gap-1">
+                    <Drum className="w-3 h-3" />
+                    {reference.bpm} BPM
+                  </Badge>
+                )}
+                {reference.has_vocals && (
+                  <Badge variant="outline" className="gap-1">
+                    <Mic2 className="w-3 h-3" />
+                    Вокал
+                  </Badge>
+                )}
+                {reference.has_instrumentals && (
+                  <Badge variant="outline" className="gap-1">
+                    <Guitar className="w-3 h-3" />
+                    Инструментал
+                  </Badge>
+                )}
               </div>
+              
+              {/* Full-featured audio player with waveform */}
+              {reference.file_url && (
+                <ReferenceAudioPlayer
+                  audioUrl={reference.file_url}
+                  showWaveform={true}
+                  showVolumeControl={!isMobile}
+                  compact={false}
+                />
+              )}
+              
+              {/* File size info */}
+              {reference.file_size && (
+                <p className="text-xs text-muted-foreground mt-3">
+                  {(reference.file_size / 1024 / 1024).toFixed(2)} MB
+                </p>
+              )}
             </CardContent>
           </Card>
         </motion.div>
