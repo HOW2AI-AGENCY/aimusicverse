@@ -1,34 +1,40 @@
-import { useState, useEffect, useCallback } from 'react';
+/**
+ * LyricsChatAssistant - Unified AI Agent with fixed scrolling and visual editor
+ */
+
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Sparkles, Send, MessageCircle, Tag, Lightbulb, Info, X } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  Sparkles, Send, MessageCircle, Tag, Lightbulb, X, 
+  Bot, User, Loader2, Trash2, PenLine 
+} from 'lucide-react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTelegramMainButton } from '@/hooks/telegram';
 import { useTelegram } from '@/contexts/TelegramContext';
-import { useLyricsChat } from './lyrics-chat/useLyricsChat';
+import { hapticImpact } from '@/lib/haptic';
 import { toast } from 'sonner';
-import { LoadingIndicator } from './lyrics-chat/ChatMessageBubble';
-import { EnhancedLyricsPreview } from './lyrics-chat/EnhancedLyricsPreview';
-import { GenrePicker } from '@/components/lyrics/shared/GenrePicker';
-import { MoodPicker } from '@/components/lyrics/shared/MoodPicker';
-import { StructurePicker } from '@/components/lyrics/shared/StructurePicker';
+
+// AI Agent system imports
+import { AIToolbar } from '@/components/lyrics-workspace/ai-agent/AIToolbar';
+import { useAITools } from '@/components/lyrics-workspace/ai-agent/hooks/useAITools';
+import { WriteToolPanel, AnalyzeToolPanel, ProducerToolPanel, OptimizeToolPanel } from '@/components/lyrics-workspace/ai-agent/tools';
+import { StructuredLyricsPreview, TagsResultCard, FullAnalysisResultCard, ProducerResultCard } from '@/components/lyrics-workspace/ai-agent/results';
+import { AIToolId, AIAgentContext, AIMessage } from '@/components/lyrics-workspace/ai-agent/types';
+
+// Legacy imports for compatibility
 import { TagBuilderPanel } from './TagBuilderPanel';
 import { ContextRecommendations, Recommendation } from './lyrics-chat/ContextRecommendations';
 import { QuickActions } from './lyrics-chat/QuickActions';
-import { messageVariants, buttonVariants } from './lyrics-chat/constants';
-import type { LyricsChatAssistantProps, ChatMessage } from './lyrics-chat/types';
+import type { LyricsChatAssistantProps } from './lyrics-chat/types';
 import type { LyricsQuickAction } from './lyrics-chat/quickActions';
 
 export type { LyricsChatAssistantProps } from './lyrics-chat/types';
-
-// Show tag format notification once per session
-const TAG_FORMAT_NOTIFICATION_KEY = 'lyrics-tag-format-notification-shown';
 
 export function LyricsChatAssistant({
   open,
@@ -47,180 +53,290 @@ export function LyricsChatAssistant({
   const { platform } = useTelegram();
   const isIOS = platform === 'ios';
   const [activeTab, setActiveTab] = useState<'chat' | 'tags' | 'ai' | 'quick'>('chat');
+  const [openToolPanel, setOpenToolPanel] = useState<AIToolId | null>(null);
+  const [input, setInput] = useState('');
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [isLoadingRecs, setIsLoadingRecs] = useState(false);
+  const [generatedLyrics, setGeneratedLyrics] = useState('');
   
-  const chat = useLyricsChat({
-    open,
-    initialGenre,
-    initialMood,
-    initialLanguage,
-    projectContext,
-    trackContext,
-    initialMode,
-    onLyricsGenerated,
-    onStyleGenerated,
-    onTitleGenerated,
-    onClose: () => onOpenChange(false),
+  // Scrolling refs
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const shouldAutoScrollRef = useRef(true);
+
+  // Build AI agent context
+  const aiContext: AIAgentContext = {
+    existingLyrics: generatedLyrics,
+    genre: initialGenre || projectContext?.genre,
+    mood: initialMood?.[0] || projectContext?.mood,
+    language: initialLanguage,
+    projectContext: projectContext ? {
+      projectId: projectContext.projectId || '',
+      projectTitle: projectContext.projectTitle || '',
+      projectType: projectContext.projectType,
+      genre: projectContext.genre,
+      mood: projectContext.mood,
+      concept: projectContext.concept,
+      targetAudience: projectContext.targetAudience,
+      language: projectContext.language,
+    } : undefined,
+    trackContext: trackContext ? {
+      position: trackContext.position || 0,
+      title: trackContext.title || '',
+      notes: trackContext.notes,
+      recommendedTags: trackContext.recommendedTags,
+      recommendedStructure: trackContext.recommendedStructure,
+    } : undefined,
+  };
+
+  const {
+    messages,
+    isLoading,
+    activeTool,
+    executeTool,
+    sendChatMessage,
+    clearMessages,
+    setActiveTool,
+  } = useAITools({
+    context: aiContext,
+    onLyricsGenerated: (lyrics) => {
+      setGeneratedLyrics(lyrics);
+      onLyricsGenerated(lyrics);
+    },
+    onTagsGenerated: (tags) => {
+      // Append tags to lyrics
+      if (generatedLyrics) {
+        const tagsStr = tags.map(t => `[${t}]`).join(' ');
+        const updatedLyrics = `${tagsStr}\n\n${generatedLyrics}`;
+        setGeneratedLyrics(updatedLyrics);
+        onLyricsGenerated(updatedLyrics);
+      }
+    },
+    onStylePromptGenerated: onStyleGenerated,
   });
 
-  // Show tag format notification once per session
+  // Auto-scroll to bottom when messages change
   useEffect(() => {
-    if (open) {
-      const hasShown = sessionStorage.getItem(TAG_FORMAT_NOTIFICATION_KEY);
-      if (!hasShown) {
-        setTimeout(() => {
-          toast.info('Обновлён формат тегов', {
-            description: 'Все теги теперь на английском в [квадратных скобках]. Круглые скобки (текст) - для бэк-вокала.',
-            duration: 6000,
-            icon: <Info className="h-4 w-4" />,
-          });
-          sessionStorage.setItem(TAG_FORMAT_NOTIFICATION_KEY, 'true');
-        }, 500);
-      }
+    if (scrollContainerRef.current && shouldAutoScrollRef.current) {
+      requestAnimationFrame(() => {
+        if (scrollContainerRef.current) {
+          scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
+        }
+      });
     }
-  }, [open]);
+  }, [messages, isLoading]);
 
-  // Fetch recommendations on open when context is available
-  useEffect(() => {
-    if (open && (projectContext || trackContext)) {
-      loadRecommendations();
-    }
-  }, [open, projectContext, trackContext]);
+  // Handle user scroll
+  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+    const container = e.currentTarget;
+    const isAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 50;
+    shouldAutoScrollRef.current = isAtBottom;
+  }, []);
 
-  const loadRecommendations = useCallback(async () => {
-    setIsLoadingRecs(true);
-    try {
-      const recs = await chat.fetchContextRecommendations();
-      if (recs && recs.length > 0) {
-        setRecommendations(recs);
-      }
-    } finally {
-      setIsLoadingRecs(false);
-    }
-  }, [chat.fetchContextRecommendations]);
+  // Tool panel handlers
+  const handleToolSelect = useCallback((toolId: AIToolId) => {
+    hapticImpact('light');
+    setOpenToolPanel(prev => prev === toolId ? null : toolId);
+    setActiveTool(toolId);
+  }, [setActiveTool]);
 
-  const handleRecommendationSelect = useCallback((rec: Recommendation) => {
-    // Add to chat as user message and process
-    if (rec.type === 'theme') {
-      chat.setInputValue(rec.value);
-      chat.handleSendMessage();
-    } else if (rec.type === 'tag') {
-      // Insert tag directly into lyrics if available
-      if (chat.generatedLyrics) {
-        const updatedLyrics = `[${rec.value}]\n${chat.generatedLyrics}`;
-        onLyricsGenerated(updatedLyrics);
-      } else {
-        chat.setInputValue(`Добавь тег [${rec.value}] в текст`);
-      }
+  const handleToolExecute = useCallback((toolId: AIToolId, toolInput: Record<string, any>) => {
+    setOpenToolPanel(null);
+    executeTool(toolId, toolInput);
+  }, [executeTool]);
+
+  // Chat handlers
+  const handleSend = useCallback(() => {
+    if (!input.trim() || isLoading) return;
+    hapticImpact('light');
+    sendChatMessage(input);
+    setInput('');
+    shouldAutoScrollRef.current = true;
+  }, [input, isLoading, sendChatMessage]);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
     }
-  }, [chat, onLyricsGenerated]);
-  
+  }, [handleSend]);
+
+  // Quick actions handler
   const handleQuickActionSelect = useCallback((action: LyricsQuickAction) => {
-    // Send the action prompt as user message
-    chat.setInputValue(action.prompt);
-    chat.handleSendMessage();
-    setActiveTab('chat'); // Switch back to chat tab
-  }, [chat]);
+    sendChatMessage(action.prompt);
+    setActiveTab('chat');
+  }, [sendChatMessage]);
 
+  // Tags handler
   const handleTagsGenerated = useCallback((tags: string) => {
-    if (chat.generatedLyrics) {
-      // Insert at the beginning of lyrics
-      const updatedLyrics = `${tags}\n\n${chat.generatedLyrics}`;
+    if (generatedLyrics) {
+      const updatedLyrics = `${tags}\n\n${generatedLyrics}`;
+      setGeneratedLyrics(updatedLyrics);
       onLyricsGenerated(updatedLyrics);
     } else {
-      chat.setInputValue(`Создай текст с тегами: ${tags}`);
+      setInput(`Создай текст с тегами: ${tags}`);
     }
     setActiveTab('chat');
-  }, [chat, onLyricsGenerated]);
+  }, [generatedLyrics, onLyricsGenerated]);
 
-  // Telegram MainButton integration for applying lyrics
-  // iOS Telegram can "lose" the MainButton after hide/show cycles.
-  // To avoid breaking the main Generate button, we always use the in-UI Apply button on iOS.
-  const { shouldShowUIButton, showProgress, hideProgress } = useTelegramMainButton({
+  // Recommendations handler
+  const handleRecommendationSelect = useCallback((rec: Recommendation) => {
+    if (rec.type === 'theme') {
+      sendChatMessage(rec.value);
+    } else if (rec.type === 'tag') {
+      if (generatedLyrics) {
+        const updatedLyrics = `[${rec.value}]\n${generatedLyrics}`;
+        setGeneratedLyrics(updatedLyrics);
+        onLyricsGenerated(updatedLyrics);
+      } else {
+        setInput(`Добавь тег [${rec.value}] в текст`);
+      }
+    }
+    setActiveTab('chat');
+  }, [sendChatMessage, generatedLyrics, onLyricsGenerated]);
+
+  // Apply lyrics to form
+  const handleApplyLyrics = useCallback(() => {
+    if (generatedLyrics) {
+      onLyricsGenerated(generatedLyrics);
+      toast.success('Текст применён');
+      onOpenChange(false);
+    }
+  }, [generatedLyrics, onLyricsGenerated, onOpenChange]);
+
+  // Telegram MainButton
+  const { shouldShowUIButton } = useTelegramMainButton({
     text: 'ПРИМЕНИТЬ',
-    onClick: chat.applyLyrics,
-    enabled: !!chat.generatedLyrics && !chat.isLoading,
-    visible: !isIOS && open && !!chat.generatedLyrics,
+    onClick: handleApplyLyrics,
+    enabled: !!generatedLyrics && !isLoading,
+    visible: !isIOS && open && !!generatedLyrics,
   });
 
   const showApplyUIButton = isIOS ? true : shouldShowUIButton;
 
-  const renderComponent = (msg: ChatMessage) => {
-    switch (msg.component) {
-      case 'genre':
-        return (
-          <GenrePicker 
-            value={chat.genre} 
-            onChange={chat.handleGenreSelect}
-            mode="grid"
-          />
-        );
-      case 'mood':
-        return (
-          <MoodPicker 
-            value={chat.mood} 
-            onChange={chat.setMoodArray}
-            onConfirm={chat.confirmMood}
-            maxSelections={3}
-          />
-        );
-      case 'structure':
-        return (
-          <StructurePicker 
-            value={chat.structure} 
-            onChange={chat.handleStructureSelect}
-          />
-        );
-      case 'lyrics-preview':
-        return (
-          <EnhancedLyricsPreview
-            lyrics={typeof msg.data?.lyrics === 'string' ? msg.data.lyrics : (chat.generatedLyrics || '')}
-            title={typeof msg.data?.title === 'string' ? msg.data.title : null}
-            style={typeof msg.data?.style === 'string' ? msg.data.style : null}
-            copied={chat.copied}
-            saved={chat.saved}
-            isSaving={chat.isSaving}
-            isLoading={chat.isLoading}
-            onCopy={chat.handleCopy}
-            onSave={chat.handleSaveToLibrary}
-            onRegenerate={chat.regenerateLyrics}
-            onApply={chat.applyLyrics}
-            onContinue={chat.continueConversation}
-            onRequestEdit={(instruction) => {
-              chat.setInputValue(instruction);
-              chat.handleSendMessage();
-            }}
-            onTitleChange={(title) => {
-              chat.updateLastGeneratedTitle(title);
-            }}
-            onStyleChange={(style) => {
-              chat.updateLastGeneratedStyle(style);
-              onStyleGenerated?.(style);
-            }}
-            fullHeight={isMobile}
-            showApplyButton={showApplyUIButton}
-          />
-        );
-      default:
-        return null;
+  // Render tool panel
+  const renderToolPanel = () => {
+    if (!openToolPanel) return null;
+    
+    const panelProps = {
+      context: aiContext,
+      onExecute: (toolInput: Record<string, any>) => handleToolExecute(openToolPanel, toolInput),
+      onClose: () => setOpenToolPanel(null),
+      isLoading,
+    };
+
+    switch (openToolPanel) {
+      case 'write': return <WriteToolPanel {...panelProps} />;
+      case 'analyze': return <AnalyzeToolPanel {...panelProps} />;
+      case 'producer': return <ProducerToolPanel {...panelProps} />;
+      case 'optimize': return <OptimizeToolPanel {...panelProps} />;
+      default: return null;
     }
+  };
+
+  // Render message content based on data
+  const renderMessageContent = (message: AIMessage) => {
+    if (message.isLoading) {
+      return (
+        <div className="flex items-center gap-2 py-1">
+          <Loader2 className="w-4 h-4 animate-spin" />
+          <span className="text-sm text-muted-foreground">Думаю...</span>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
+        
+        {/* Lyrics result */}
+        {message.data?.lyrics && (
+          <StructuredLyricsPreview
+            lyrics={message.data.lyrics}
+            onInsert={(lyrics) => {
+              const updatedLyrics = generatedLyrics ? `${generatedLyrics}\n\n${lyrics}` : lyrics;
+              setGeneratedLyrics(updatedLyrics);
+              onLyricsGenerated(updatedLyrics);
+            }}
+            onReplace={(lyrics) => {
+              setGeneratedLyrics(lyrics);
+              onLyricsGenerated(lyrics);
+            }}
+            showReplace={!!generatedLyrics}
+          />
+        )}
+        
+        {/* Tags result */}
+        {message.data?.tags && message.data.tags.length > 0 && (
+          <TagsResultCard 
+            tags={message.data.tags} 
+            onApply={(tags) => {
+              if (generatedLyrics) {
+                const tagsStr = tags.map(t => `[${t}]`).join(' ');
+                const updatedLyrics = `${tagsStr}\n\n${generatedLyrics}`;
+                setGeneratedLyrics(updatedLyrics);
+                onLyricsGenerated(updatedLyrics);
+              }
+            }} 
+          />
+        )}
+
+        {/* Full analysis result */}
+        {message.data?.fullAnalysis && (
+          <FullAnalysisResultCard
+            analysis={message.data.fullAnalysis}
+            onQuickAction={(action) => sendChatMessage(action)}
+            onApplyRecommendations={(recs) => {
+              const formattedRecs = recs.map((r, i) => `${i + 1}. ${r}`).join('\n');
+              sendChatMessage(`Примени следующие рекомендации к тексту:\n${formattedRecs}`);
+            }}
+          />
+        )}
+
+        {/* Producer review result */}
+        {message.data?.producerReview && (
+          <ProducerResultCard
+            review={message.data.producerReview}
+            onQuickAction={(action) => sendChatMessage(action)}
+            onApplyStylePrompt={onStyleGenerated}
+            onApplyTags={(tags) => {
+              if (generatedLyrics) {
+                const tagsStr = tags.map(t => `[${t}]`).join(' ');
+                const updatedLyrics = `${tagsStr}\n\n${generatedLyrics}`;
+                setGeneratedLyrics(updatedLyrics);
+                onLyricsGenerated(updatedLyrics);
+              }
+            }}
+          />
+        )}
+      </>
+    );
   };
 
   // Get title based on context
   const getTitle = () => {
-    if (trackContext?.title) {
-      return `Лирика: ${trackContext.title}`;
-    }
-    if (projectContext?.projectTitle) {
-      return `${projectContext.projectTitle}`;
-    }
-    return 'AI Lyrics Assistant';
+    if (trackContext?.title) return `Лирика: ${trackContext.title}`;
+    if (projectContext?.projectTitle) return projectContext.projectTitle;
+    return 'AI Lyrics Agent';
   };
 
   const chatContent = (
     <div className="flex flex-col h-full min-h-0">
-      {/* Tabs for Chat / Tags / AI */}
+      {/* AI Toolbar */}
+      <div className="border-b border-border/50 shrink-0">
+        <AIToolbar 
+          activeTool={activeTool} 
+          onSelectTool={handleToolSelect} 
+          isLoading={isLoading}
+          className="px-2"
+        />
+      </div>
+
+      {/* Tool Panel */}
+      <AnimatePresence mode="wait">
+        {renderToolPanel()}
+      </AnimatePresence>
+
+      {/* Tabs for different views */}
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)} className="shrink-0 px-4 pt-2">
         <TabsList className="w-full grid grid-cols-4 h-8">
           <TabsTrigger value="chat" className="text-xs gap-1">
@@ -242,116 +358,95 @@ export function LyricsChatAssistant({
         </TabsList>
       </Tabs>
 
-      {/* Tab Contents */}
-      <div className="flex-1 min-h-0 overflow-hidden relative">
+      {/* Tab Contents - Fixed height scrollable area */}
+      <div className="flex-1 min-h-0 overflow-hidden">
         {activeTab === 'chat' && (
-          <>
-            {/* Auto-scroll indicator */}
-            <AnimatePresence>
-              {chat.userScrolling && (
+          <div 
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+            className="h-full overflow-y-auto overscroll-contain px-4 py-3"
+          >
+            <div className="space-y-3 pb-4">
+              <AnimatePresence mode="popLayout">
+                {messages.map((message) => (
+                  <motion.div
+                    key={message.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className={cn("flex gap-2", message.role === 'user' ? "justify-end" : "justify-start")}
+                  >
+                    {message.role === 'assistant' && (
+                      <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
+                        <Bot className="w-3.5 h-3.5 text-primary" />
+                      </div>
+                    )}
+                    
+                    <div className={cn(
+                      "max-w-[85%] rounded-2xl px-3 py-2",
+                      message.role === 'user' 
+                        ? "bg-primary text-primary-foreground rounded-br-sm"
+                        : "bg-muted/80 rounded-bl-sm border border-border/50"
+                    )}>
+                      {renderMessageContent(message)}
+                    </div>
+
+                    {message.role === 'user' && (
+                      <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                        <User className="w-3.5 h-3.5 text-primary" />
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+              
+              {/* Loading indicator */}
+              {isLoading && messages[messages.length - 1]?.role !== 'assistant' && (
                 <motion.div
-                  initial={{ opacity: 0, y: -10 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="absolute top-2 right-6 z-10 px-2.5 py-1 bg-muted/90 backdrop-blur-sm rounded-md text-xs text-muted-foreground border border-border/50 shadow-sm"
+                  className="flex gap-2 justify-start"
                 >
-                  Автоскролл выкл
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
+                    <Bot className="w-3.5 h-3.5 text-primary" />
+                  </div>
+                  <div className="bg-muted/80 rounded-2xl rounded-bl-sm border border-border/50 px-3 py-2">
+                    <div className="flex items-center gap-2">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span className="text-sm text-muted-foreground">Думаю...</span>
+                    </div>
+                  </div>
                 </motion.div>
               )}
-            </AnimatePresence>
-
-            {/* Chat Area - fills available space */}
-            <ScrollArea className="flex-1 px-4 py-3" ref={chat.scrollRef}>
-              <div className="space-y-3 pb-4">
-                <AnimatePresence mode="popLayout">
-                  {chat.messages.map((msg) => (
-                    <motion.div
-                      key={msg.id}
-                      variants={messageVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="exit"
-                      layout
-                      className={cn(
-                        'flex',
-                        msg.role === 'user' ? 'justify-end' : 'justify-start'
-                      )}
-                    >
-                      <motion.div
-                        className={cn(
-                          'max-w-[95%] sm:max-w-[85%] rounded-2xl px-4 py-2.5',
-                          msg.role === 'user'
-                            ? 'bg-primary text-primary-foreground rounded-br-md'
-                            : 'bg-muted rounded-bl-md'
-                        )}
-                        layout
-                      >
-                        <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">{msg.content}</p>
-                        
-                        {msg.options && msg.role === 'assistant' && (
-                          <motion.div 
-                            className="flex flex-wrap gap-2 mt-3"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.2 }}
-                          >
-                            {msg.options.map((opt, index) => (
-                              <motion.button
-                                key={opt.value}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.1 + index * 0.05 }}
-                                variants={buttonVariants}
-                                whileHover="hover"
-                                whileTap="tap"
-                                className="px-3 py-1.5 bg-background/80 hover:bg-background rounded-full text-xs font-medium text-foreground transition-colors shadow-sm"
-                                onClick={() => chat.handleQuickOption(opt)}
-                              >
-                                {opt.label}
-                              </motion.button>
-                            ))}
-                          </motion.div>
-                        )}
-                        
-                        {msg.component && renderComponent(msg)}
-                      </motion.div>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-                
-                <AnimatePresence>
-                  {chat.isLoading && <LoadingIndicator />}
-                </AnimatePresence>
-              </div>
-            </ScrollArea>
-          </>
+            </div>
+          </div>
         )}
 
         {activeTab === 'quick' && (
-          <ScrollArea className="h-full p-4">
+          <div className="h-full overflow-y-auto overscroll-contain p-4">
             <QuickActions
-              hasLyrics={!!chat.generatedLyrics}
+              hasLyrics={!!generatedLyrics}
               onActionSelect={handleQuickActionSelect}
             />
-          </ScrollArea>
+          </div>
         )}
 
         {activeTab === 'tags' && (
-          <ScrollArea className="h-full p-4">
+          <div className="h-full overflow-y-auto overscroll-contain p-4">
             <TagBuilderPanel
               onTagsGenerated={handleTagsGenerated}
-              genre={chat.genre || projectContext?.genre}
-              mood={chat.mood[0] || projectContext?.mood}
+              genre={initialGenre || projectContext?.genre}
+              mood={initialMood?.[0] || projectContext?.mood}
             />
-          </ScrollArea>
+          </div>
         )}
 
         {activeTab === 'ai' && (
-          <ScrollArea className="h-full p-4">
+          <div className="h-full overflow-y-auto overscroll-contain p-4">
             <ContextRecommendations
               recommendations={recommendations}
               isLoading={isLoadingRecs}
-              onRefresh={loadRecommendations}
+              onRefresh={() => setIsLoadingRecs(true)}
               onSelect={handleRecommendationSelect}
             />
             {!isLoadingRecs && recommendations.length === 0 && (
@@ -361,59 +456,53 @@ export function LyricsChatAssistant({
                 <p className="text-xs mt-1">Добавьте контекст проекта для получения AI-рекомендаций</p>
               </div>
             )}
-          </ScrollArea>
+          </div>
         )}
       </div>
 
       {/* Input Area - Only show in chat tab */}
       {activeTab === 'chat' && (
-        <div className="p-3 sm:p-4 pt-2 border-t border-border/50 bg-background/80 backdrop-blur-sm pb-safe shrink-0">
-          {/* Helper text - show only at start and on desktop */}
-          {!isMobile && !chat.generatedLyrics && chat.messages.length <= 2 && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-start gap-2 text-xs text-muted-foreground mb-2 bg-muted/30 rounded-lg p-2"
+        <div className="border-t border-border/50 p-3 bg-background/80 backdrop-blur-sm pb-safe shrink-0">
+          <div className="flex gap-2">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-9 w-9 shrink-0" 
+              onClick={clearMessages}
+              disabled={isLoading}
             >
-              <Sparkles className="h-3.5 w-3.5 mt-0.5 shrink-0 text-primary/70" />
-              <div className="space-y-0.5">
-                <p className="font-medium">💡 Пишите свободно! AI понимает:</p>
-                <ul className="list-disc list-inside space-y-0.5 text-[11px] leading-relaxed">
-                  <li>Прямые запросы: "Создай песню о море"</li>
-                  <li>С параметрами: "Грустная баллада про дождь"</li>
-                  <li>Вопросы: "Что можно написать?"</li>
-                </ul>
-              </div>
-            </motion.div>
-          )}
-          <motion.div
-            className="flex gap-2"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <Input
-              value={chat.inputValue}
-              onChange={(e) => chat.setInputValue(e.target.value)}
-              placeholder={
-                chat.generatedLyrics
-                  ? 'Например: "Сделай припев энергичнее"'
-                  : 'Например: "Создай песню о любви" или "Рок-баллада про дорогу"'
-              }
-              onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && chat.handleSendMessage()}
-              disabled={chat.isLoading}
-              className="flex-1 bg-muted/50 border-border/50 focus:bg-background transition-colors rounded-xl"
+              <Trash2 className="w-4 h-4 text-muted-foreground" />
+            </Button>
+            <Textarea
+              placeholder="Опишите задачу или задайте вопрос..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="min-h-[36px] max-h-[100px] resize-none text-sm flex-1"
+              rows={1}
+              disabled={isLoading}
             />
-            <motion.div variants={buttonVariants} whileHover="hover" whileTap="tap">
-              <Button
-                size="icon"
-                onClick={chat.handleSendMessage}
-                disabled={!chat.inputValue.trim() || chat.isLoading}
-                className="rounded-xl shrink-0"
-              >
-                <Send className="h-4 w-4" />
-              </Button>
-            </motion.div>
-          </motion.div>
+            <Button 
+              size="icon" 
+              className="h-9 w-9 shrink-0" 
+              onClick={handleSend} 
+              disabled={isLoading || !input.trim()}
+            >
+              {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+            </Button>
+          </div>
+          
+          {/* Apply button */}
+          {showApplyUIButton && generatedLyrics && (
+            <Button 
+              onClick={handleApplyLyrics} 
+              className="w-full mt-2 gap-2"
+              disabled={isLoading}
+            >
+              <PenLine className="w-4 h-4" />
+              Применить текст
+            </Button>
+          )}
         </div>
       )}
     </div>
@@ -453,8 +542,8 @@ export function LyricsChatAssistant({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg max-h-[85vh] flex flex-col p-0 gap-0">
-        <DialogHeader className="p-4 pb-2 border-b border-border/50">
+      <DialogContent className="max-w-2xl h-[85vh] flex flex-col p-0 gap-0">
+        <DialogHeader className="px-4 py-3 border-b border-border/50 shrink-0">
           <DialogTitle className="flex items-center gap-2">
             <motion.div
               animate={{ rotate: [0, 10, -10, 0] }}
@@ -462,10 +551,10 @@ export function LyricsChatAssistant({
             >
               <Sparkles className="h-5 w-5 text-primary" />
             </motion.div>
-            <span className="truncate">{getTitle()}</span>
+            {getTitle()}
           </DialogTitle>
         </DialogHeader>
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 min-h-0 overflow-hidden">
           {chatContent}
         </div>
       </DialogContent>
