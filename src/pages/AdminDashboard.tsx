@@ -73,6 +73,7 @@ const TAB_OPTIONS = [
   { value: "balances", label: "Балансы", icon: Coins },
   { value: "tracks", label: "Треки", icon: Music },
   { value: "moderation", label: "Жалобы", icon: AlertTriangle },
+  { value: "feedback", label: "Фидбек", icon: MessageSquare },
   { value: "bot", label: "Бот", icon: MessageSquare },
   { value: "telegram", label: "Telegram", icon: Globe },
   { value: "payments", label: "Платежи", icon: Coins },
@@ -300,6 +301,27 @@ export default function AdminDashboard() {
         {/* Moderation Tab */}
         {activeTab === "moderation" && (
           <ModerationReportsPanel />
+        )}
+
+        {/* Feedback Tab - redirect to dedicated page */}
+        {activeTab === "feedback" && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <MessageSquare className="h-5 w-5" />
+                Обратная связь
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-muted-foreground">
+                Просмотр и ответ на сообщения пользователей из бота.
+              </p>
+              <Button onClick={() => navigate("/admin/feedback")} className="w-full">
+                <MessageSquare className="h-4 w-4 mr-2" />
+                Открыть панель фидбека
+              </Button>
+            </CardContent>
+          </Card>
         )}
         {activeTab === "bot" && (
           <div className="space-y-4">

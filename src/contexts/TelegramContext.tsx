@@ -855,13 +855,14 @@ export const DeepLinkHandler = () => {
       ['buy', () => '/buy-credits', 'buy'],
       ['credits', () => '/buy-credits', 'credits'],
       ['subscribe', () => '/buy-credits?tab=subscriptions', 'subscribe'],
+      ['subscription', () => '/subscription', 'subscription'],
       ['leaderboard', () => '/rewards?tab=leaderboard', 'leaderboard'],
       ['achievements', () => '/rewards?tab=achievements', 'achievements'],
       ['analyze', () => '/?analyze=true', 'analyze'],
       ['recognize', () => '/?recognize=true', 'recognize'],
       ['shazam', () => '/?recognize=true', 'shazam'],
       ['settings', () => '/settings', 'settings'],
-      ['help', () => '/settings', 'help'], // No dedicated help page
+      ['help', () => '/settings', 'help'],
       ['onboarding', () => '/onboarding', 'onboarding'],
       ['library', () => '/library', 'library'],
       ['projects', () => '/projects', 'projects'],
@@ -877,6 +878,25 @@ export const DeepLinkHandler = () => {
       ['rewards', () => '/rewards', 'rewards'],
       ['community', () => '/community', 'community'],
       ['playlists', () => '/playlists', 'playlists'],
+      
+      // Content hub tabs
+      ['content-hub', () => '/projects', 'content_hub'],
+      ['cloud', () => '/projects?tab=cloud', 'cloud'],
+      ['lyrics', () => '/projects?tab=lyrics', 'lyrics'],
+      ['templates', () => '/templates', 'templates'],
+      
+      // Pricing & tariffs
+      ['pricing', () => '/pricing', 'pricing'],
+      ['tariffs', () => '/pricing', 'tariffs'],
+      ['shop', () => '/pricing', 'shop'],
+      
+      // Profile actions
+      ['profile', () => '/profile', 'profile'],
+      ['analytics', () => '/analytics', 'analytics'],
+      
+      // Admin (for admins only)
+      ['admin', () => '/admin', 'admin'],
+      ['feedback', () => '/admin/feedback', 'feedback'],
     ];
 
     // Try to match routes

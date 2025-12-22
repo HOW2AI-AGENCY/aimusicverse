@@ -22,11 +22,12 @@ export type DeepLinkType =
   | 'track' | 'project' | 'artist' | 'playlist' | 'album' | 'blog'
   | 'generate' | 'quick' | 'studio' | 'remix' | 'lyrics' | 'stats' | 'share'
   | 'profile' | 'user' | 'invite' | 'ref'
-  | 'buy' | 'credits' | 'subscribe'
+  | 'buy' | 'credits' | 'subscribe' | 'subscription' | 'pricing' | 'tariffs' | 'shop'
   | 'leaderboard' | 'achievements' | 'analyze' | 'recognize'
-  | 'onboarding' | 'help' | 'settings'
-  | 'library' | 'projects_list' | 'artists_list'
-  | 'creative' | 'musiclab' | 'drums' | 'dj' | 'guitar' | 'melody';
+  | 'onboarding' | 'help' | 'settings' | 'feedback'
+  | 'library' | 'projects_list' | 'artists_list' | 'cloud' | 'templates'
+  | 'creative' | 'musiclab' | 'drums' | 'dj' | 'guitar' | 'melody'
+  | 'content_hub' | 'analytics' | 'rewards' | 'community' | 'playlists_list';
 
 interface DeepLinkResult {
   handled: boolean;
@@ -62,6 +63,10 @@ export function parseDeepLink(startParam: string): { type: DeepLinkType | null; 
     'buy': 'buy',
     'credits': 'credits',
     'subscribe': 'subscribe',
+    'subscription': 'subscription',
+    'pricing': 'pricing',
+    'tariffs': 'tariffs',
+    'shop': 'shop',
     'leaderboard': 'leaderboard',
     'achievements': 'achievements',
     'analyze': 'analyze',
@@ -70,15 +75,24 @@ export function parseDeepLink(startParam: string): { type: DeepLinkType | null; 
     'onboarding': 'onboarding',
     'help': 'help',
     'settings': 'settings',
+    'feedback': 'feedback',
     'library': 'library',
     'projects': 'projects_list',
     'artists': 'artists_list',
+    'playlists': 'playlists_list',
     'creative': 'creative',
     'musiclab': 'musiclab',
     'drums': 'drums',
     'dj': 'dj',
     'guitar': 'guitar',
     'melody': 'melody',
+    'content-hub': 'content_hub',
+    'cloud': 'cloud',
+    'templates': 'templates',
+    'analytics': 'analytics',
+    'rewards': 'rewards',
+    'community': 'community',
+    'profile': 'profile',
   };
 
   // Check simple matches first
