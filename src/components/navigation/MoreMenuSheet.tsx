@@ -8,13 +8,14 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   User, Settings, Music2, Guitar, FileText, 
   Users, BookOpen, Gift, BarChart3, Sparkles,
-  Palette, Shield, Grid3X3
+  Palette, Shield, Grid3X3, MessageSquare, Flag
 } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
+import { useUserRole } from '@/hooks/useUserRole';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
@@ -67,11 +68,26 @@ const menuSections: MenuSection[] = [
   },
 ];
 
+// Admin section - only shown to admins
+const adminSection: MenuSection = {
+  title: 'Администрирование',
+  icon: Shield,
+  items: [
+    { path: '/admin', icon: BarChart3, label: 'Панель управления', description: 'Дашборд' },
+    { path: '/admin/moderation', icon: Flag, label: 'Модерация', description: 'Контент' },
+    { path: '/admin/feedback', icon: MessageSquare, label: 'Обратная связь', description: 'Отзывы' },
+  ],
+};
+
 export function MoreMenuSheet({ open, onOpenChange }: MoreMenuSheetProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
+  const { isAdmin } = useUserRole();
   const { hapticFeedback } = useTelegram();
+  
+  // Build sections list with admin section if user is admin
+  const allSections = isAdmin ? [...menuSections, adminSection] : menuSections;
 
   const handleNavigate = (path: string) => {
     hapticFeedback?.('light');
@@ -106,7 +122,7 @@ export function MoreMenuSheet({ open, onOpenChange }: MoreMenuSheetProps) {
         </SheetHeader>
 
         <div className="space-y-4 pt-2">
-          {menuSections.map((section, sectionIndex) => (
+          {allSections.map((section, sectionIndex) => (
             <motion.div
               key={section.title}
               initial={{ opacity: 0, y: 10 }}
@@ -166,7 +182,7 @@ export function MoreMenuSheet({ open, onOpenChange }: MoreMenuSheetProps) {
                 ))}
               </div>
 
-              {sectionIndex < menuSections.length - 1 && (
+              {sectionIndex < allSections.length - 1 && (
                 <Separator className="mt-4" />
               )}
             </motion.div>

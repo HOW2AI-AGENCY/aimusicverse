@@ -1,5 +1,4 @@
-import { Sparkles, Library, FolderOpen, ListMusic, Music2, Guitar, Wand2, Mic, PenLine } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Sparkles, Music2, Guitar, Wand2, Mic } from 'lucide-react';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion } from '@/lib/motion';
 import { useState } from 'react';
@@ -14,15 +13,7 @@ interface HeroQuickActionsProps {
   onGenerateClick: () => void;
 }
 
-const quickActions = [
-  { icon: Library, label: 'Библиотека', path: '/library', color: 'text-cyan-400', bgColor: 'from-cyan-500/20 to-cyan-600/10', borderColor: 'border-cyan-500/30' },
-  { icon: FolderOpen, label: 'Проекты', path: '/projects', color: 'text-emerald-400', bgColor: 'from-emerald-500/20 to-emerald-600/10', borderColor: 'border-emerald-500/30' },
-  { icon: ListMusic, label: 'Плейлисты', path: '/playlists', color: 'text-violet-400', bgColor: 'from-violet-500/20 to-violet-600/10', borderColor: 'border-violet-500/30' },
-  { icon: PenLine, label: 'Лирика', path: '/lyrics-studio', color: 'text-amber-400', bgColor: 'from-amber-500/20 to-amber-600/10', borderColor: 'border-amber-500/30' },
-] as const;
-
 export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
-  const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
   const [recognitionDialogOpen, setRecognitionDialogOpen] = useState(false);
   const [guitarDialogOpen, setGuitarDialogOpen] = useState(false);
@@ -38,12 +29,12 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
   };
 
   return (
-    <div className="space-y-2.5">
-      {/* Primary CTA - Generate - Compact */}
+    <div className="space-y-3">
+      {/* Primary CTA - Generate */}
       <TooltipWrapper tooltipId="generate-button">
         <motion.button
           onClick={() => handleAction(onGenerateClick)}
-          className="group relative w-full overflow-hidden rounded-xl p-3.5 touch-manipulation shadow-lg shadow-primary/20 fab touch-scale-sm"
+          className="group relative w-full overflow-hidden rounded-xl p-4 touch-manipulation shadow-lg shadow-primary/20 fab touch-scale-sm"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           whileTap={{ scale: 0.98 }}
@@ -62,26 +53,26 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
             transition={{ repeat: Infinity, duration: 2.5, ease: "linear" }}
           />
 
-          <div className="relative flex items-center justify-center gap-2.5">
+          <div className="relative flex items-center justify-center gap-3">
             <motion.div
               className="relative"
               animate={{ rotate: [0, 8, -8, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >
-              <Wand2 className="w-5 h-5 text-primary-foreground" />
+              <Wand2 className="w-6 h-6 text-primary-foreground" />
               <motion.div
                 className="absolute -top-0.5 -right-0.5"
                 animate={{ scale: [1, 1.2, 1], opacity: [1, 0.5, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               >
-                <Sparkles className="w-3 h-3 text-yellow-300" />
+                <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
               </motion.div>
             </motion.div>
             <div className="flex flex-col items-start">
-              <span className="text-base font-bold text-primary-foreground tracking-tight">
+              <span className="text-lg font-bold text-primary-foreground tracking-tight">
                 Создать музыку
               </span>
-              <span className="text-[10px] text-primary-foreground/70 font-medium">
+              <span className="text-xs text-primary-foreground/70 font-medium">
                 AI генерация за секунды
               </span>
             </div>
@@ -89,41 +80,15 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         </motion.button>
       </TooltipWrapper>
 
-      {/* Quick Navigation - Compact cards */}
-      <motion.div
-        className="grid grid-cols-4 gap-2"
-        initial="hidden"
-        animate="visible"
-        variants={{ visible: { transition: { staggerChildren: 0.05 } } }}
-      >
-        {quickActions.map((action) => (
-          <motion.button
-            key={action.path}
-            onClick={() => handleAction(() => navigate(action.path))}
-            className={cn(
-              "group relative flex flex-col items-center justify-center gap-1.5 p-2.5 rounded-xl",
-              "border backdrop-blur-sm transition-all duration-300 touch-manipulation min-h-[56px]",
-              `bg-gradient-to-br ${action.bgColor}`,
-              action.borderColor,
-              "hover:shadow-md hover:shadow-primary/10",
-              "touch-scale-sm card-pressable"
-            )}
-            variants={{
-              hidden: { opacity: 0, y: 10, scale: 0.95 },
-              visible: { opacity: 1, y: 0, scale: 1 }
-            }}
-            whileTap={{ scale: 0.96 }}
-            whileHover={{ scale: 1.02 }}
-          >
-            <action.icon className={cn("w-5 h-5 shrink-0", action.color)} />
-            <span className="text-[11px] font-semibold text-center leading-tight">
-              {action.label}
-            </span>
-          </motion.button>
-        ))}
-      </motion.div>
+      {/* Section header */}
+      <div className="flex items-center gap-2 pt-1">
+        <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+          🛠 Инструменты
+        </span>
+        <div className="flex-1 h-px bg-border/50" />
+      </div>
 
-      {/* Tools Row - Compact */}
+      {/* Tools Row - Only essential tools */}
       <motion.div
         className="grid grid-cols-3 gap-2"
         initial="hidden"
