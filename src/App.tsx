@@ -147,6 +147,7 @@ const App = () => (
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/pricing" element={<Pricing />} />
                 <Route path="/shop" element={<Pricing />} />
+                <Route path="/cloud" element={<Navigate to="/projects?tab=cloud" replace />} />
                 <Route path="/buy-credits" element={<BuyCredits />} />
                 <Route path="/payments/buy-credits" element={<Navigate to="/buy-credits" replace />} />
                 <Route path="/subscription" element={<Subscription />} />
