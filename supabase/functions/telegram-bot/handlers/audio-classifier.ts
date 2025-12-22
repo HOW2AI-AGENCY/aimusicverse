@@ -390,6 +390,14 @@ export async function uploadAndShowActions(
     // Build action keyboard
     const skipStems = audioType !== 'full';
     const actionKeyboard = buildUploadedActionKeyboard(referenceId, skipStems);
+    
+    logger.info('Showing action buttons after upload', { 
+      referenceId, 
+      audioType, 
+      skipStems, 
+      buttonCount: actionKeyboard.length,
+      buttons: actionKeyboard.map(row => row.map(btn => btn.text))
+    });
 
     await editMessageText(chatId, messageId, successText, { inline_keyboard: actionKeyboard });
     await setActiveMenuMessageId(userId, chatId, messageId, 'audio_uploaded');
