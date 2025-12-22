@@ -31,6 +31,11 @@ import { handleMidiCallbacks } from './midi.ts';
 import { handleMiscCallbacks } from './misc.ts';
 import { handleDynamicMenuCallback } from './dynamic-menu.ts';
 import { handleMediaGroupCallbacks } from './media-group.ts';
+import { handleUploadCallback, handleUploadCancel } from '../handlers/upload.ts';
+import { handleTracksCallback } from '../handlers/tracks.ts';
+import { handleProfileCallback } from '../handlers/profile.ts';
+import { handleCloudCallback } from '../handlers/cloud.ts';
+import { handleFeedbackCallback } from '../handlers/feedback.ts';
 
 /**
  * Main callback query handler
@@ -79,6 +84,36 @@ export async function handleCallbackQuery(
         });
         return;
       }
+    }
+    
+    // Handle section-specific callbacks
+    if (data.startsWith('upload_')) {
+      if (data === 'upload_cancel') {
+        const handled = await handleUploadCancel(chatId, from.id, messageId, id);
+        if (handled) return;
+      }
+      const handled = await handleUploadCallback(data, chatId, from.id, messageId, id);
+      if (handled) return;
+    }
+    
+    if (data.startsWith('tracks_')) {
+      const handled = await handleTracksCallback(data, chatId, from.id, messageId, id);
+      if (handled) return;
+    }
+    
+    if (data.startsWith('profile_')) {
+      const handled = await handleProfileCallback(data, chatId, from.id, messageId, id);
+      if (handled) return;
+    }
+    
+    if (data.startsWith('cloud_')) {
+      const handled = await handleCloudCallback(data, chatId, from.id, messageId, id);
+      if (handled) return;
+    }
+    
+    if (data.startsWith('feedback_')) {
+      const handled = await handleFeedbackCallback(data, chatId, from.id, messageId, id);
+      if (handled) return;
     }
     
     // Try each category handler in order of priority
