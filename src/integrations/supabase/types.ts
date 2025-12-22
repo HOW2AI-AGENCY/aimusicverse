@@ -2595,6 +2595,102 @@ export type Database = {
           },
         ]
       }
+      subscription_tiers: {
+        Row: {
+          audio_quality: string | null
+          badge_text: string | null
+          code: string
+          color: string | null
+          created_at: string
+          credits_amount: number
+          credits_period: string
+          custom_pricing: boolean | null
+          description: Json
+          display_order: number
+          features: Json | null
+          has_api_access: boolean | null
+          has_dedicated_support: boolean | null
+          has_mastering: boolean | null
+          has_midi_export: boolean | null
+          has_priority: boolean | null
+          has_stem_separation: boolean | null
+          icon_emoji: string
+          id: string
+          is_active: boolean | null
+          is_featured: boolean | null
+          max_concurrent_generations: number | null
+          metadata: Json | null
+          min_purchase_amount: number | null
+          name: Json
+          price_robokassa: number | null
+          price_stars: number | null
+          price_usd: number | null
+          updated_at: string
+        }
+        Insert: {
+          audio_quality?: string | null
+          badge_text?: string | null
+          code: string
+          color?: string | null
+          created_at?: string
+          credits_amount?: number
+          credits_period?: string
+          custom_pricing?: boolean | null
+          description?: Json
+          display_order?: number
+          features?: Json | null
+          has_api_access?: boolean | null
+          has_dedicated_support?: boolean | null
+          has_mastering?: boolean | null
+          has_midi_export?: boolean | null
+          has_priority?: boolean | null
+          has_stem_separation?: boolean | null
+          icon_emoji?: string
+          id?: string
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          max_concurrent_generations?: number | null
+          metadata?: Json | null
+          min_purchase_amount?: number | null
+          name?: Json
+          price_robokassa?: number | null
+          price_stars?: number | null
+          price_usd?: number | null
+          updated_at?: string
+        }
+        Update: {
+          audio_quality?: string | null
+          badge_text?: string | null
+          code?: string
+          color?: string | null
+          created_at?: string
+          credits_amount?: number
+          credits_period?: string
+          custom_pricing?: boolean | null
+          description?: Json
+          display_order?: number
+          features?: Json | null
+          has_api_access?: boolean | null
+          has_dedicated_support?: boolean | null
+          has_mastering?: boolean | null
+          has_midi_export?: boolean | null
+          has_priority?: boolean | null
+          has_stem_separation?: boolean | null
+          icon_emoji?: string
+          id?: string
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          max_concurrent_generations?: number | null
+          metadata?: Json | null
+          min_purchase_amount?: number | null
+          name?: Json
+          price_robokassa?: number | null
+          price_stars?: number | null
+          price_usd?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       suno_meta_tags: {
         Row: {
           category: Database["public"]["Enums"]["tag_category"]
