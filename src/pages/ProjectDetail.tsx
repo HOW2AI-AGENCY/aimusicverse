@@ -169,8 +169,8 @@ export default function ProjectDetail() {
   };
 
   const handleOpenLyrics = (track: ProjectTrack) => {
-    setSelectedTrackForLyrics(track);
-    setLyricsSheetOpen(true);
+    // Navigate to LyricsStudio with project and track context
+    navigate(`/lyrics-studio?projectId=${id}&trackId=${track.id}`);
   };
 
   const handleOpenLyricsWizard = (track: ProjectTrack) => {
