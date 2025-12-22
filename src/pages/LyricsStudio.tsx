@@ -2,9 +2,10 @@
  * Lyrics Studio Page
  * Professional lyrics editing with section notes, audio references, and tag enrichment
  * Optimized for mobile with bottom sheets and touch-friendly controls
+ * Supports both standalone template mode and project track editing mode
  */
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { 
@@ -41,6 +42,8 @@ import { useLyricsTemplates } from '@/hooks/useLyricsTemplates';
 import { useSectionNotes, SaveSectionNoteData } from '@/hooks/useSectionNotes';
 import { useAuth } from '@/hooks/useAuth';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { supabase } from '@/integrations/supabase/client';
 import { hapticImpact } from '@/lib/haptic';
 import { toast } from 'sonner';
 import { SEOHead, SEO_PRESETS } from '@/components/SEOHead';
@@ -151,7 +154,21 @@ export default function LyricsStudio() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const templateId = searchParams.get('template');
+  const projectId = searchParams.get('projectId');
+  const trackId = searchParams.get('trackId');
   const isMobile = useIsMobile();
+  
+  // Project track mode
+  const isProjectTrackMode = !!(projectId && trackId);
+  const [projectTrack, setProjectTrack] = useState<{
+    id: string;
+    title: string;
+    lyrics: string | null;
+    style_prompt: string | null;
+    notes: string | null;
+    recommended_tags: string[] | null;
+  } | null>(null);
+  const [isLoadingTrack, setIsLoadingTrack] = useState(false);
   
   const { user } = useAuth();
   const { templates, saveTemplate, isLoading: templatesLoading } = useLyricsTemplates();
@@ -169,9 +186,59 @@ export default function LyricsStudio() {
   const [isSavingLyrics, setIsSavingLyrics] = useState(false);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
 
-  // Load template if provided
+  // Telegram back button - return to project details if in project mode
+  useTelegramBackButton({
+    visible: true,
+    onClick: () => {
+      if (isProjectTrackMode && projectId) {
+        navigate(`/projects/${projectId}`);
+      } else {
+        navigate(-1);
+      }
+    },
+  });
+
+  // Load project track data when in project mode
+  useEffect(() => {
+    async function loadProjectTrack() {
+      if (!isProjectTrackMode || !trackId) return;
+      
+      setIsLoadingTrack(true);
+      try {
+        const { data, error } = await supabase
+          .from('project_tracks')
+          .select('id, title, lyrics, style_prompt, notes, recommended_tags')
+          .eq('id', trackId)
+          .single();
+        
+        if (error) {
+          toast.error('Ошибка загрузки трека');
+          navigate(`/projects/${projectId}`);
+          return;
+        }
+        
+        if (data) {
+          setProjectTrack(data);
+          setTitle(data.title);
+          if (data.lyrics) {
+            setSections(parseLyricsToSections(data.lyrics));
+          }
+          if (data.recommended_tags) {
+            setGlobalTags(data.recommended_tags);
+          }
+          setIsDirty(false);
+        }
+      } finally {
+        setIsLoadingTrack(false);
+      }
+    }
+    
+    loadProjectTrack();
+  }, [isProjectTrackMode, trackId, projectId, navigate]);
+
+  // Load template if provided (standalone mode)
   useMemo(() => {
-    if (templateId && templates) {
+    if (!isProjectTrackMode && templateId && templates) {
       const template = templates.find(t => t.id === templateId);
       if (template) {
         setTitle(template.name);
@@ -179,7 +246,7 @@ export default function LyricsStudio() {
         setIsDirty(false);
       }
     }
-  }, [templateId, templates]);
+  }, [templateId, templates, isProjectTrackMode]);
 
   // Get all enriched tags from section notes
   const enrichedTags = useMemo(() => getAllSuggestedTags(), [getAllSuggestedTags]);
@@ -199,20 +266,40 @@ export default function LyricsStudio() {
     try {
       const lyrics = sectionsToLyrics(sections);
       const allTags = [...new Set([...globalTags, ...enrichedTags])].slice(0, 15);
-      await saveTemplate({
-        name: title,
-        lyrics,
-        tags: allTags,
-      });
-      setIsDirty(false);
-      toast.success('Текст сохранен');
-      hapticImpact('medium');
+      
+      if (isProjectTrackMode && trackId) {
+        // Save to project track
+        const { error } = await supabase
+          .from('project_tracks')
+          .update({ 
+            lyrics, 
+            lyrics_status: 'draft',
+            recommended_tags: allTags 
+          })
+          .eq('id', trackId);
+        
+        if (error) throw error;
+        
+        setIsDirty(false);
+        toast.success('Лирика сохранена');
+        hapticImpact('medium');
+      } else {
+        // Save as template (standalone mode)
+        await saveTemplate({
+          name: title,
+          lyrics,
+          tags: allTags,
+        });
+        setIsDirty(false);
+        toast.success('Текст сохранен');
+        hapticImpact('medium');
+      }
     } catch (error) {
       toast.error('Ошибка сохранения');
     } finally {
       setIsSavingLyrics(false);
     }
-  }, [user, sections, title, enrichedTags, saveTemplate]);
+  }, [user, sections, title, enrichedTags, saveTemplate, isProjectTrackMode, trackId, globalTags]);
 
   const handleOpenNotes = useCallback((section: LyricsSection) => {
     setSelectedSection(section);
@@ -231,35 +318,62 @@ export default function LyricsStudio() {
   }, [navigate]);
 
   const handleNewDocument = useCallback(() => {
-    setSections([]);
-    setTitle('Новый текст');
-    setIsDirty(false);
-    navigate('/lyrics-studio');
+    if (isProjectTrackMode) {
+      // In project mode, going to standalone studio
+      navigate('/lyrics-studio');
+    } else {
+      setSections([]);
+      setTitle('Новый текст');
+      setIsDirty(false);
+      navigate('/lyrics-studio');
+    }
     hapticImpact('light');
-  }, [navigate]);
+  }, [navigate, isProjectTrackMode]);
+
+  const handleBack = useCallback(() => {
+    if (isProjectTrackMode && projectId) {
+      navigate(`/projects/${projectId}`);
+    } else {
+      navigate(-1);
+    }
+  }, [isProjectTrackMode, projectId, navigate]);
+
+  // Show loading state for project track
+  if (isLoadingTrack) {
+    return (
+      <div className="flex flex-col h-full bg-background items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <p className="text-sm text-muted-foreground mt-3">Загрузка...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-full bg-background">
       {/* Header - Using AppHeader pattern for Telegram Mini App */}
       <AppHeader
-        title={title}
+        title={isProjectTrackMode ? `${title} - Лирика` : title}
         titleElement={
-          <EditableTitle
-            value={title}
-            onChange={(newTitle) => {
-              setTitle(newTitle);
-              setIsDirty(true);
-            }}
-            placeholder="Название текста"
-            size="md"
-          />
+          isProjectTrackMode ? (
+            <span className="font-semibold truncate">{title}</span>
+          ) : (
+            <EditableTitle
+              value={title}
+              onChange={(newTitle) => {
+                setTitle(newTitle);
+                setIsDirty(true);
+              }}
+              placeholder="Название текста"
+              size="md"
+            />
+          )
         }
         icon={<PenLine className="w-4 h-4 text-primary" />}
         leftAction={
           <Button 
             variant="ghost" 
             size="icon" 
-            onClick={() => navigate(-1)}
+            onClick={handleBack}
             className="h-8 w-8"
           >
             <ChevronLeft className="w-5 h-5" />
