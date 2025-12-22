@@ -62,8 +62,11 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
   };
 
   const trackDuration = track.duration_seconds || 0;
-  const genreTag = track.style_prompt?.split(' ')[0] || '';
-  const moodTag = track.style_prompt?.split(' ')[1] || '';
+  // Extract style info from metadata if available
+  const metadata = track.metadata as Record<string, unknown> | null;
+  const stylePrompt = (metadata?.style_prompt as string) || '';
+  const genreTag = stylePrompt.split(' ')[0] || track.style || '';
+  const moodTag = stylePrompt.split(' ')[1] || '';
 
   return (
     <div className="flex flex-col h-full">
@@ -76,7 +79,7 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
             {track.cover_url ? (
               <img 
                 src={track.cover_url} 
-                alt={track.title}
+                alt={track.title || 'Track cover'}
                 className="w-full h-full object-cover"
               />
             ) : (
