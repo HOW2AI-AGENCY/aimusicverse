@@ -48,7 +48,7 @@ import { TrimDialog } from '@/components/stem-studio/TrimDialog';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useStemStudioEngine } from '@/hooks/studio/useStemStudioEngine';
 import { defaultStemEffects, StemEffects } from '@/hooks/studio/stemEffectsConfig';
-import { audioElementPool, AudioPriority } from '@/lib/audioElementPool';
+import { audioElementPool, AudioPriority, AudioElementPool } from '@/lib/audioElementPool';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
@@ -162,14 +162,30 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     
     const initialStates: Record<string, StemState> = {};
     let maxDuration = 0;
+    let failedToAcquire = false;
 
     stems.forEach(stem => {
       initialStates[stem.id] = { muted: false, solo: false, volume: 0.85 };
 
       if (!audioRefs.current[stem.id]) {
-        const audio = new Audio(stem.audio_url);
+        // Determine priority based on stem type
+        const stemType = stem.stem_type?.toLowerCase() || '';
+        const priority = AudioElementPool.getPriorityForStemType(stemType);
+        
+        // Try to acquire audio element from pool
+        const audio = audioElementPool.acquire(`stem-${stem.id}`, priority);
+        
+        if (!audio) {
+          // Failed to acquire - pool limit reached
+          failedToAcquire = true;
+          logger.warn(`Failed to acquire audio element for stem ${stem.id} (${stem.stem_type})`);
+          return; // Skip this stem
+        }
+        
+        // Configure audio element
         audio.crossOrigin = 'anonymous';
         audio.preload = 'auto';
+        audio.src = stem.audio_url;
         audioRefs.current[stem.id] = audio;
 
         audio.addEventListener('loadedmetadata', () => {
@@ -198,6 +214,17 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
       }
     });
     
+    // Show warning if some stems couldn't be loaded due to pool limit
+    if (failedToAcquire) {
+      setPoolLimitReached(true);
+      toast.warning('Достигнут лимит аудио элементов', {
+        description: 'Некоторые стемы не могут быть загружены. Попробуйте выключить неиспользуемые стемы.',
+        duration: 5000,
+      });
+    } else {
+      setPoolLimitReached(false);
+    }
+    
     setStemStates(prev => {
       if (Object.keys(prev).length === 0) {
         return initialStates;
@@ -206,12 +233,13 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
     });
 
     return () => {
-      // Cleanup - pause all audios and clear refs
-      Object.values(audioRefs.current).forEach(audio => {
+      // Cleanup - release all audio elements back to pool
+      Object.entries(audioRefs.current).forEach(([stemId, audio]) => {
         audio.pause();
-        // Set src to empty to release resources
         audio.src = '';
-        // Note: Event listeners will be garbage collected when audio element is released
+        // Release back to pool
+        const poolId = `stem-${stemId.replace('stem-', '')}`;
+        audioElementPool.release(poolId);
       });
       audioRefs.current = {};
     };
@@ -723,6 +751,19 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
             )}
           </div>
         </header>
+      )}
+
+      {/* Audio Pool Limit Warning */}
+      {poolLimitReached && (
+        <div className="px-4 py-3 border-b border-border/30">
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              Достигнут лимит аудио элементов (макс. 6-8 на iOS Safari).
+              Некоторые стемы не могут быть загружены. Отключите неиспользуемые стемы для освобождения ресурсов.
+            </AlertDescription>
+          </Alert>
+        </div>
       )}
 
       {/* Section Timeline Visualization - Desktop */}
