@@ -1,5 +1,5 @@
 /**
- * FullAnalysisResultCard - Display comprehensive lyrics analysis
+ * FullAnalysisResultCard - Display comprehensive lyrics analysis with actionable quick fixes
  */
 
 import { motion } from '@/lib/motion';
@@ -12,7 +12,13 @@ import {
   Lightbulb,
   ChevronDown,
   ChevronUp,
-  Zap
+  Zap,
+  AlertTriangle,
+  RefreshCw,
+  Wand2,
+  Languages,
+  Target,
+  Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -28,10 +34,25 @@ interface FullAnalysisResultCardProps {
 }
 
 const SECTION_CONFIG = {
-  meaning: { icon: FileText, label: 'Смысл', color: 'text-blue-400', bg: 'bg-blue-500/10' },
-  rhythm: { icon: Music2, label: 'Ритм', color: 'text-orange-400', bg: 'bg-orange-500/10' },
-  rhymes: { icon: Mic2, label: 'Рифмы', color: 'text-cyan-400', bg: 'bg-cyan-500/10' },
-  structure: { icon: LayoutGrid, label: 'Структура', color: 'text-purple-400', bg: 'bg-purple-500/10' },
+  meaning: { icon: FileText, label: 'Смысл', color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/30' },
+  rhythm: { icon: Music2, label: 'Ритм', color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/30' },
+  rhymes: { icon: Mic2, label: 'Рифмы', color: 'text-cyan-400', bg: 'bg-cyan-500/10', border: 'border-cyan-500/30' },
+  structure: { icon: LayoutGrid, label: 'Структура', color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/30' },
+};
+
+const PRIORITY_CONFIG = {
+  high: { color: 'bg-red-500', text: 'text-red-400', label: 'Важно', icon: AlertTriangle },
+  medium: { color: 'bg-amber-500', text: 'text-amber-400', label: 'Средне', icon: Target },
+  low: { color: 'bg-blue-500', text: 'text-blue-400', label: 'Мелочь', icon: Sparkles },
+};
+
+const QUICK_ACTION_ICONS: Record<string, any> = {
+  'translate': Languages,
+  'rhythm': Music2,
+  'rhyme': Mic2,
+  'structure': LayoutGrid,
+  'fix': Wand2,
+  'improve': RefreshCw,
 };
 
 function getScoreColor(score: number) {
@@ -40,11 +61,27 @@ function getScoreColor(score: number) {
   return 'text-red-500';
 }
 
+function getScoreGradient(score: number) {
+  if (score >= 80) return 'from-green-500/20 to-green-500/5';
+  if (score >= 60) return 'from-amber-500/20 to-amber-500/5';
+  return 'from-red-500/20 to-red-500/5';
+}
+
 function getScoreLabel(score: number) {
   if (score >= 90) return 'Отлично';
   if (score >= 80) return 'Хорошо';
   if (score >= 60) return 'Средне';
   return 'Требует работы';
+}
+
+function getQuickActionIcon(label: string) {
+  const lowerLabel = label.toLowerCase();
+  if (lowerLabel.includes('translat') || lowerLabel.includes('english') || lowerLabel.includes('перевод')) return Languages;
+  if (lowerLabel.includes('rhythm') || lowerLabel.includes('ритм')) return Music2;
+  if (lowerLabel.includes('rhyme') || lowerLabel.includes('рифм')) return Mic2;
+  if (lowerLabel.includes('structure') || lowerLabel.includes('структур')) return LayoutGrid;
+  if (lowerLabel.includes('fix') || lowerLabel.includes('исправ')) return Wand2;
+  return RefreshCw;
 }
 
 export function FullAnalysisResultCard({ 
@@ -58,6 +95,15 @@ export function FullAnalysisResultCard({
     setExpandedSection(prev => prev === section ? null : section);
   };
 
+  const hasIssues = 
+    (analysis.meaning?.issues?.length || 0) + 
+    (analysis.rhythm?.issues?.length || 0) + 
+    (analysis.rhymes?.weakRhymes?.length || 0) + 
+    (analysis.structure?.issues?.length || 0) > 0;
+
+  const quickActions = analysis.quickActions || [];
+  const recommendations = analysis.recommendations || [];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -65,210 +111,208 @@ export function FullAnalysisResultCard({
       className={cn("mt-3 rounded-xl border border-purple-500/30 bg-purple-500/5 overflow-hidden", className)}
     >
       {/* Overall Score Header */}
-      <div className="p-3 border-b border-border/50 bg-gradient-to-r from-purple-500/10 to-transparent">
-        <div className="flex items-center justify-between">
+      <div className={cn("p-4 border-b border-border/50 bg-gradient-to-r", getScoreGradient(analysis.overallScore))}>
+        <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <BarChart3 className="w-5 h-5 text-purple-400" />
-            <span className="font-semibold">Общий анализ</span>
+            <span className="font-semibold">Полный анализ</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className={cn("text-2xl font-bold", getScoreColor(analysis.overallScore))}>
+            <span className={cn("text-3xl font-bold", getScoreColor(analysis.overallScore))}>
               {analysis.overallScore}
             </span>
-            <span className="text-xs text-muted-foreground">/100</span>
+            <span className="text-sm text-muted-foreground">/100</span>
           </div>
         </div>
-        <Progress value={analysis.overallScore} className="mt-2 h-2" />
-        <p className="text-xs text-muted-foreground mt-1">{getScoreLabel(analysis.overallScore)}</p>
-      </div>
-
-      {/* Sections */}
-      <div className="divide-y divide-border/30">
-        {/* Meaning Section */}
-        <SectionBlock
-          config={SECTION_CONFIG.meaning}
-          score={analysis.meaning.score}
-          isExpanded={expandedSection === 'meaning'}
-          onToggle={() => toggleSection('meaning')}
-        >
-          <div className="space-y-2">
-            <div>
-              <span className="text-xs text-muted-foreground">Тема: </span>
-              <span className="text-sm">{analysis.meaning.theme}</span>
-            </div>
-            {analysis.meaning.emotions.length > 0 && (
-              <div className="flex flex-wrap gap-1">
-                {analysis.meaning.emotions.map((e, i) => (
-                  <Badge key={i} variant="secondary" className="text-[10px]">{e}</Badge>
-                ))}
-              </div>
-            )}
-            {analysis.meaning.issues.length > 0 && (
-              <div className="mt-2 space-y-1">
-                {analysis.meaning.issues.map((issue, i) => (
-                  <p key={i} className="text-xs text-amber-500">⚠ {issue}</p>
-                ))}
-              </div>
-            )}
-          </div>
-        </SectionBlock>
-
-        {/* Rhythm Section */}
-        <SectionBlock
-          config={SECTION_CONFIG.rhythm}
-          score={analysis.rhythm.score}
-          isExpanded={expandedSection === 'rhythm'}
-          onToggle={() => toggleSection('rhythm')}
-        >
-          <div className="space-y-2">
-            <p className="text-sm font-mono">{analysis.rhythm.pattern}</p>
-            {analysis.rhythm.issues.length > 0 && (
-              <div className="space-y-1">
-                {analysis.rhythm.issues.map((issue, i) => (
-                  <p key={i} className="text-xs text-amber-500">⚠ {issue}</p>
-                ))}
-              </div>
-            )}
-          </div>
-        </SectionBlock>
-
-        {/* Rhymes Section */}
-        <SectionBlock
-          config={SECTION_CONFIG.rhymes}
-          score={analysis.rhymes.score}
-          isExpanded={expandedSection === 'rhymes'}
-          onToggle={() => toggleSection('rhymes')}
-        >
-          <div className="space-y-2">
-            <div>
-              <span className="text-xs text-muted-foreground">Схема: </span>
-              <span className="text-sm font-mono">{analysis.rhymes.scheme}</span>
-            </div>
-            {analysis.rhymes.weakRhymes.length > 0 && (
-              <div>
-                <span className="text-xs text-muted-foreground">Слабые рифмы: </span>
-                <span className="text-sm text-amber-500">{analysis.rhymes.weakRhymes.join(', ')}</span>
-              </div>
-            )}
-          </div>
-        </SectionBlock>
-
-        {/* Structure Section */}
-        <SectionBlock
-          config={SECTION_CONFIG.structure}
-          score={analysis.structure.score}
-          isExpanded={expandedSection === 'structure'}
-          onToggle={() => toggleSection('structure')}
-        >
-          <div className="space-y-2">
-            <div className="flex flex-wrap gap-1">
-              {analysis.structure.tags.map((tag, i) => (
-                <Badge key={i} variant="outline" className="text-[10px]">{tag}</Badge>
-              ))}
-            </div>
-            {analysis.structure.issues.length > 0 && (
-              <div className="space-y-1">
-                {analysis.structure.issues.map((issue, i) => (
-                  <p key={i} className="text-xs text-amber-500">⚠ {issue}</p>
-                ))}
-              </div>
-            )}
-          </div>
-        </SectionBlock>
-      </div>
-
-      {/* Recommendations */}
-      {analysis.recommendations && analysis.recommendations.length > 0 && (
-        <div className="p-3 border-t border-border/50 bg-muted/30">
-          <div className="flex items-center gap-2 mb-2">
-            <Lightbulb className="w-4 h-4 text-amber-400" />
-            <span className="text-sm font-medium">Рекомендации</span>
-          </div>
-          <div className="space-y-1.5">
-            {analysis.recommendations.slice(0, 5).map((rec, i) => (
-              <div key={i} className="flex items-start gap-2 text-xs">
-                <Badge 
-                  variant={rec.priority === 'high' ? 'destructive' : rec.priority === 'medium' ? 'secondary' : 'outline'}
-                  className="text-[9px] shrink-0"
-                >
-                  {rec.priority === 'high' ? '!' : rec.priority === 'medium' ? '~' : '•'}
-                </Badge>
-                <span>{rec.text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Quick Actions */}
-      {analysis.quickActions && analysis.quickActions.length > 0 && onQuickAction && (
-        <div className="p-3 border-t border-border/50 bg-gradient-to-r from-primary/5 to-transparent">
-          <div className="flex items-center gap-2 mb-2">
-            <Zap className="w-4 h-4 text-primary" />
-            <span className="text-xs font-medium">Быстрые действия</span>
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            {analysis.quickActions.map((qa, i) => (
-              <Button
-                key={i}
-                variant="outline"
-                size="sm"
-                className="text-xs h-7"
-                onClick={() => onQuickAction(qa.action)}
-              >
-                {qa.label}
-              </Button>
-            ))}
-          </div>
-        </div>
-      )}
-    </motion.div>
-  );
-}
-
-interface SectionBlockProps {
-  config: { icon: any; label: string; color: string; bg: string };
-  score: number;
-  isExpanded: boolean;
-  onToggle: () => void;
-  children: React.ReactNode;
-}
-
-function SectionBlock({ config, score, isExpanded, onToggle, children }: SectionBlockProps) {
-  const Icon = config.icon;
-  
-  return (
-    <div>
-      <button
-        onClick={onToggle}
-        className="w-full p-2.5 flex items-center justify-between hover:bg-muted/30 transition-colors"
-      >
-        <div className="flex items-center gap-2">
-          <div className={cn("w-6 h-6 rounded flex items-center justify-center", config.bg)}>
-            <Icon className={cn("w-3.5 h-3.5", config.color)} />
-          </div>
-          <span className="text-sm font-medium">{config.label}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className={cn("text-sm font-bold", getScoreColor(score))}>{score}</span>
-          {isExpanded ? (
-            <ChevronUp className="w-4 h-4 text-muted-foreground" />
-          ) : (
-            <ChevronDown className="w-4 h-4 text-muted-foreground" />
+        <Progress value={analysis.overallScore} className="h-2" />
+        <div className="flex items-center justify-between mt-2">
+          <p className="text-xs text-muted-foreground">{getScoreLabel(analysis.overallScore)}</p>
+          {hasIssues && (
+            <Badge variant="secondary" className="text-[10px] bg-amber-500/20 text-amber-400">
+              <AlertTriangle className="w-3 h-3 mr-1" />
+              Есть замечания
+            </Badge>
           )}
         </div>
-      </button>
-      
-      {isExpanded && (
+      </div>
+
+      {/* Quick Actions - Prominent at top */}
+      {quickActions.length > 0 && onQuickAction && (
+        <div className="p-3 border-b border-border/50 bg-gradient-to-r from-primary/10 to-transparent">
+          <div className="flex items-center gap-2 mb-2">
+            <Zap className="w-4 h-4 text-primary animate-pulse" />
+            <span className="text-sm font-semibold">Быстрые исправления</span>
+          </div>
+          <div className="grid gap-2">
+            {quickActions.map((qa, i) => {
+              const Icon = getQuickActionIcon(qa.label);
+              return (
+                <Button
+                  key={i}
+                  variant="outline"
+                  size="sm"
+                  className="w-full justify-start text-left h-auto py-2 px-3 border-primary/30 hover:bg-primary/10 hover:border-primary/50 transition-all"
+                  onClick={() => onQuickAction(qa.action)}
+                >
+                  <Icon className="w-4 h-4 mr-2 text-primary shrink-0" />
+                  <span className="text-xs">{qa.label}</span>
+                </Button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Section Scores Summary */}
+      <div className="p-3 border-b border-border/30 grid grid-cols-4 gap-2">
+        {Object.entries(SECTION_CONFIG).map(([key, config]) => {
+          const sectionData = analysis[key as keyof typeof analysis] as any;
+          const score = sectionData?.score || 0;
+          const Icon = config.icon;
+          return (
+            <button
+              key={key}
+              onClick={() => toggleSection(key)}
+              className={cn(
+                "flex flex-col items-center p-2 rounded-lg transition-all",
+                expandedSection === key ? config.bg : "hover:bg-muted/30",
+                expandedSection === key && config.border,
+                expandedSection === key && "border"
+              )}
+            >
+              <Icon className={cn("w-4 h-4 mb-1", config.color)} />
+              <span className={cn("text-lg font-bold", getScoreColor(score))}>{score}</span>
+              <span className="text-[10px] text-muted-foreground">{config.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Expanded Section Details */}
+      {expandedSection && (
         <motion.div
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: 'auto', opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
-          className="px-3 pb-3"
+          className="border-b border-border/30"
         >
-          {children}
+          {expandedSection === 'meaning' && (
+            <div className="p-3 space-y-2">
+              <div>
+                <span className="text-xs text-muted-foreground">Тема: </span>
+                <span className="text-sm">{analysis.meaning.theme}</span>
+              </div>
+              {analysis.meaning.emotions.length > 0 && (
+                <div className="flex flex-wrap gap-1">
+                  {analysis.meaning.emotions.map((e, i) => (
+                    <Badge key={i} variant="secondary" className="text-[10px]">{e}</Badge>
+                  ))}
+                </div>
+              )}
+              {analysis.meaning.issues.length > 0 && (
+                <div className="mt-2 space-y-1">
+                  {analysis.meaning.issues.map((issue, i) => (
+                    <p key={i} className="text-xs text-amber-500 flex items-center gap-1">
+                      <AlertTriangle className="w-3 h-3" /> {issue}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {expandedSection === 'rhythm' && (
+            <div className="p-3 space-y-2">
+              <p className="text-sm font-mono bg-muted/30 p-2 rounded">{analysis.rhythm.pattern}</p>
+              {analysis.rhythm.issues.length > 0 && (
+                <div className="space-y-1">
+                  {analysis.rhythm.issues.map((issue, i) => (
+                    <p key={i} className="text-xs text-amber-500 flex items-center gap-1">
+                      <AlertTriangle className="w-3 h-3" /> {issue}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {expandedSection === 'rhymes' && (
+            <div className="p-3 space-y-2">
+              <div>
+                <span className="text-xs text-muted-foreground">Схема: </span>
+                <span className="text-sm font-mono">{analysis.rhymes.scheme}</span>
+              </div>
+              {analysis.rhymes.weakRhymes.length > 0 && (
+                <div>
+                  <span className="text-xs text-muted-foreground">Слабые рифмы: </span>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {analysis.rhymes.weakRhymes.map((rhyme, i) => (
+                      <Badge key={i} variant="outline" className="text-[10px] text-amber-500 border-amber-500/30">
+                        {rhyme}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {expandedSection === 'structure' && (
+            <div className="p-3 space-y-2">
+              <div className="flex flex-wrap gap-1">
+                {analysis.structure.tags.map((tag, i) => (
+                  <Badge key={i} variant="outline" className="text-[10px]">{tag}</Badge>
+                ))}
+              </div>
+              {analysis.structure.issues.length > 0 && (
+                <div className="space-y-1">
+                  {analysis.structure.issues.map((issue, i) => (
+                    <p key={i} className="text-xs text-amber-500 flex items-center gap-1">
+                      <AlertTriangle className="w-3 h-3" /> {issue}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </motion.div>
       )}
-    </div>
+
+      {/* Recommendations */}
+      {recommendations.length > 0 && (
+        <div className="p-3 bg-muted/30">
+          <div className="flex items-center gap-2 mb-2">
+            <Lightbulb className="w-4 h-4 text-amber-400" />
+            <span className="text-sm font-medium">Рекомендации</span>
+            <Badge variant="secondary" className="text-[10px] ml-auto">
+              {recommendations.length}
+            </Badge>
+          </div>
+          <div className="space-y-2">
+            {recommendations.slice(0, 5).map((rec, i) => {
+              const priorityConfig = PRIORITY_CONFIG[rec.priority];
+              return (
+                <div 
+                  key={i} 
+                  className={cn(
+                    "flex items-start gap-2 text-xs p-2 rounded-lg",
+                    rec.priority === 'high' && 'bg-red-500/10 border border-red-500/20',
+                    rec.priority === 'medium' && 'bg-amber-500/10 border border-amber-500/20',
+                    rec.priority === 'low' && 'bg-blue-500/10 border border-blue-500/20'
+                  )}
+                >
+                  <Badge 
+                    className={cn("text-[9px] shrink-0", priorityConfig?.color)}
+                  >
+                    {priorityConfig?.label || rec.priority}
+                  </Badge>
+                  <span>{rec.text}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </motion.div>
   );
 }
