@@ -406,7 +406,25 @@ export default function LyricsStudio() {
     <div className="flex flex-col h-full bg-background">
       {/* Project Header for project mode */}
       {isProjectTrackMode && projectData && (
-        <div className="border-b border-border/50 bg-gradient-to-r from-muted/50 to-background">
+        <div className={cn(
+          "border-b border-border/50 bg-gradient-to-r from-muted/50 to-background",
+          isMobile && "pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+0.5rem),calc(env(safe-area-inset-top,0px)+0.5rem))]"
+        )}>
+          {/* Centered logo for mobile */}
+          {isMobile && (
+            <div className="flex justify-center py-2">
+              <div className="flex flex-col items-center">
+                <img 
+                  src={logo} 
+                  alt="MusicVerse AI" 
+                  className="h-10 w-10 rounded-xl shadow-md" 
+                />
+                <span className="text-xs font-bold text-gradient leading-tight mt-1">
+                  MusicVerse AI
+                </span>
+              </div>
+            </div>
+          )}
           <div className="flex items-center gap-3 px-4 py-3">
             {/* Back button */}
             <Button 
@@ -502,6 +520,7 @@ export default function LyricsStudio() {
       {/* Standard Header for standalone mode */}
       {!isProjectTrackMode && (
         <AppHeader
+          showLogo={isMobile}
           title={title}
           titleElement={
             <EditableTitle
