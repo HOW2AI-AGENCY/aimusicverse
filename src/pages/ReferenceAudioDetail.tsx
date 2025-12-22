@@ -12,11 +12,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Progress } from '@/components/ui/progress';
 import { toast } from 'sonner';
 import { 
   ArrowLeft, 
   Music2, 
-  Clock, 
   Mic2, 
   Guitar, 
   Drum, 
@@ -32,7 +32,9 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { ReferenceAudioPlayer } from '@/components/audio-reference/ReferenceAudioPlayer';
+import { ReferenceStemPlayer } from '@/components/audio-reference/ReferenceStemPlayer';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useReferenceStems } from '@/hooks/useReferenceStems';
 
 interface ReferenceAudio {
   id: string;
@@ -60,6 +62,30 @@ interface ReferenceAudio {
   drums_stem_url: string | null;
   bass_stem_url: string | null;
   stems_status: string | null;
+  other_stem_url: string | null;
+}
+
+// Helper to build stems array for player
+function buildStemsArray(reference: ReferenceAudio) {
+  const stems: { id: string; type: string; url: string; label: string }[] = [];
+  
+  if (reference.vocal_stem_url) {
+    stems.push({ id: 'vocal', type: 'vocal', url: reference.vocal_stem_url, label: 'Вокал' });
+  }
+  if (reference.instrumental_stem_url) {
+    stems.push({ id: 'instrumental', type: 'instrumental', url: reference.instrumental_stem_url, label: 'Инструментал' });
+  }
+  if (reference.drums_stem_url) {
+    stems.push({ id: 'drums', type: 'drums', url: reference.drums_stem_url, label: 'Ударные' });
+  }
+  if (reference.bass_stem_url) {
+    stems.push({ id: 'bass', type: 'bass', url: reference.bass_stem_url, label: 'Бас' });
+  }
+  if (reference.other_stem_url) {
+    stems.push({ id: 'other', type: 'other', url: reference.other_stem_url, label: 'Другое' });
+  }
+  
+  return stems;
 }
 
 export default function ReferenceAudioDetail() {
@@ -146,22 +172,25 @@ export default function ReferenceAudioDetail() {
   };
 
   const handleSeparateStems = async () => {
-    if (!reference) return;
-    
-    toast.loading('Запуск разделения на стемы...');
+    if (!reference || !user) return;
     
     try {
-      const { error } = await supabase.functions.invoke('separate-stems', {
+      toast.loading('Запуск разделения на стемы...');
+      
+      const { error } = await supabase.functions.invoke('separate-reference-stems', {
         body: {
-          audioUrl: reference.file_url,
-          referenceId: reference.id,
+          reference_id: reference.id,
+          user_id: user.id,
+          mode: 'detailed', // 4 stems
         },
       });
       
       if (error) throw error;
-      toast.success('Разделение запущено. Это займёт несколько минут.');
+      toast.dismiss();
+      toast.success('Разделение запущено. Это займёт 2-3 минуты.');
       queryClient.invalidateQueries({ queryKey: ['reference-audio', id] });
     } catch (error) {
+      toast.dismiss();
       toast.error('Ошибка: ' + (error as Error).message);
     }
   };
@@ -380,70 +409,60 @@ export default function ReferenceAudioDetail() {
         )}
 
         {/* Stems Section */}
-        {(hasStemUrls || reference.stems_status) && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35 }}
-          >
-            <Card>
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <Layers className="w-5 h-5 text-primary" />
-                    Стемы
-                  </CardTitle>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+        >
+          <Card>
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Layers className="w-5 h-5 text-primary" />
+                  Стемы
+                </CardTitle>
+                {reference.stems_status && (
                   <Badge variant={reference.stems_status === 'completed' ? 'default' : 'secondary'}>
                     {reference.stems_status === 'completed' ? 'Готово' :
-                     reference.stems_status === 'processing' ? 'Обработка...' : 'Ожидает'}
+                     reference.stems_status === 'processing' ? 'Обработка...' : 
+                     reference.stems_status === 'failed' ? 'Ошибка' : 'Ожидает'}
                   </Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                {hasStemUrls ? (
-                  <div className="grid grid-cols-2 gap-2">
-                    {reference.vocal_stem_url && (
-                      <Button variant="outline" size="sm" className="gap-2" asChild>
-                        <a href={reference.vocal_stem_url} target="_blank" rel="noopener noreferrer">
-                          <Mic2 className="w-4 h-4" />
-                          Вокал
-                        </a>
-                      </Button>
-                    )}
-                    {reference.instrumental_stem_url && (
-                      <Button variant="outline" size="sm" className="gap-2" asChild>
-                        <a href={reference.instrumental_stem_url} target="_blank" rel="noopener noreferrer">
-                          <Guitar className="w-4 h-4" />
-                          Инструментал
-                        </a>
-                      </Button>
-                    )}
-                    {reference.drums_stem_url && (
-                      <Button variant="outline" size="sm" className="gap-2" asChild>
-                        <a href={reference.drums_stem_url} target="_blank" rel="noopener noreferrer">
-                          <Drum className="w-4 h-4" />
-                          Ударные
-                        </a>
-                      </Button>
-                    )}
-                    {reference.bass_stem_url && (
-                      <Button variant="outline" size="sm" className="gap-2" asChild>
-                        <a href={reference.bass_stem_url} target="_blank" rel="noopener noreferrer">
-                          <Volume2 className="w-4 h-4" />
-                          Бас
-                        </a>
-                      </Button>
-                    )}
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground text-center py-4">
-                    Стемы ещё не созданы
-                  </p>
                 )}
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
+              </div>
+            </CardHeader>
+            <CardContent>
+              {reference.stems_status === 'processing' && (
+                <div className="space-y-2 mb-4">
+                  <Progress value={33} className="w-full" />
+                  <p className="text-xs text-muted-foreground text-center">
+                    Разделение на стемы... ~2-3 мин
+                  </p>
+                </div>
+              )}
+              
+              {hasStemUrls ? (
+                <ReferenceStemPlayer
+                  stems={buildStemsArray(reference)}
+                  compact={isMobile}
+                />
+              ) : reference.stems_status !== 'processing' ? (
+                <div className="text-center py-4">
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Разделите аудио на отдельные дорожки
+                  </p>
+                  <Button
+                    onClick={handleSeparateStems}
+                    variant="outline"
+                    className="gap-2"
+                  >
+                    <Layers className="w-4 h-4" />
+                    Разделить на стемы
+                  </Button>
+                </div>
+              ) : null}
+            </CardContent>
+          </Card>
+        </motion.div>
 
         <Separator />
 
