@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from '@/components/ui/drawer';
 import { Button } from '@/components/ui/button';
@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Loader2, Music, Mic2, Volume2 } from 'lucide-react';
+import { Loader2, Music, Mic2, Volume2, FileText, Info } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Track } from '@/types/track';
@@ -14,6 +14,7 @@ import { TrackStem } from '@/hooks/useTrackStems';
 import { logger } from '@/lib/logger';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 interface NewArrangementDialogProps {
   open: boolean;
@@ -29,16 +30,25 @@ export const NewArrangementDialog = ({ open, onOpenChange, track, vocalStem }: N
   const [style, setStyle] = useState(track.style || '');
   const [title, setTitle] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showTrackInfo, setShowTrackInfo] = useState(false);
 
-  // Reset on open
+  // Derive default values from track
+  const defaultStyle = useMemo(() => track.style || 'pop, instrumental', [track.style]);
+  const trackLyrics = useMemo(() => track.lyrics || '', [track.lyrics]);
+  const hasLyrics = trackLyrics.trim().length > 0;
+
+  // Reset on open and pre-fill with track data
   useEffect(() => {
     if (open) {
-      setPrompt('');
-      setStyle(track.style || '');
+      // Pre-fill prompt with style context
+      const styleHint = track.style ? `Аранжировка в стиле: ${track.style}` : '';
+      setPrompt(styleHint);
+      setStyle(defaultStyle);
       setTitle('');
       setCustomMode(false);
+      setShowTrackInfo(false);
     }
-  }, [open, track.style]);
+  }, [open, track.style, defaultStyle]);
 
   const handleSubmit = async () => {
     if (!vocalStem?.audio_url) {
@@ -94,6 +104,37 @@ export const NewArrangementDialog = ({ open, onOpenChange, track, vocalStem }: N
           <span className="font-semibold truncate">{track.title || 'Без названия'}</span>
         </div>
       </div>
+
+      {/* Track info collapsible */}
+      {(track.style || hasLyrics) && (
+        <Collapsible open={showTrackInfo} onOpenChange={setShowTrackInfo}>
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" size="sm" className="w-full justify-between text-muted-foreground">
+              <span className="flex items-center gap-2">
+                <Info className="w-4 h-4" />
+                Информация из трека
+              </span>
+              <span className="text-xs">{showTrackInfo ? 'Скрыть' : 'Показать'}</span>
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="space-y-2 pt-2">
+            {track.style && (
+              <div className="p-2 bg-muted/30 rounded text-xs">
+                <span className="font-medium">Стиль:</span> {track.style}
+              </div>
+            )}
+            {hasLyrics && (
+              <div className="p-2 bg-muted/30 rounded text-xs max-h-24 overflow-y-auto">
+                <div className="flex items-center gap-1 font-medium mb-1">
+                  <FileText className="w-3 h-3" />
+                  Лирика (передаётся автоматически)
+                </div>
+                <pre className="whitespace-pre-wrap text-muted-foreground">{trackLyrics.slice(0, 200)}{trackLyrics.length > 200 ? '...' : ''}</pre>
+              </div>
+            )}
+          </CollapsibleContent>
+        </Collapsible>
+      )}
 
       <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
         <Label className="text-sm">Продвинутый режим</Label>

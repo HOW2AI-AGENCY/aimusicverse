@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from '@/components/ui/drawer';
 import { Button } from '@/components/ui/button';
@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Loader2, Mic, Music } from 'lucide-react';
+import { Loader2, Mic, Music, FileText, Info } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Track } from '@/types/track';
@@ -14,6 +14,7 @@ import { TrackStem } from '@/hooks/useTrackStems';
 import { logger } from '@/lib/logger';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 interface NewVocalDialogProps {
   open: boolean;
@@ -29,16 +30,30 @@ export const NewVocalDialog = ({ open, onOpenChange, track, instrumentalStem }: 
   const [style, setStyle] = useState(track.style || '');
   const [title, setTitle] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showTrackInfo, setShowTrackInfo] = useState(false);
+  const [useLyrics, setUseLyrics] = useState(true);
 
-  // Reset on open
+  // Derive default values from track
+  const defaultStyle = useMemo(() => track.style || 'pop, vocals', [track.style]);
+  const trackLyrics = useMemo(() => track.lyrics || '', [track.lyrics]);
+  const hasLyrics = trackLyrics.trim().length > 0;
+
+  // Reset on open and pre-fill with track data
   useEffect(() => {
     if (open) {
-      setPrompt('');
-      setStyle(track.style || '');
+      // If track has lyrics, pre-fill the prompt with them
+      if (hasLyrics && useLyrics) {
+        setPrompt(trackLyrics);
+      } else {
+        setPrompt('');
+      }
+      setStyle(defaultStyle);
       setTitle('');
-      setCustomMode(false);
+      setCustomMode(hasLyrics); // Enable custom mode if we have lyrics
+      setShowTrackInfo(false);
+      setUseLyrics(true);
     }
-  }, [open, track.style]);
+  }, [open, hasLyrics, trackLyrics, defaultStyle]);
 
   const handleSubmit = async () => {
     if (!instrumentalStem?.audio_url) {
@@ -94,6 +109,57 @@ export const NewVocalDialog = ({ open, onOpenChange, track, instrumentalStem }: 
           <span className="font-semibold truncate">{track.title || 'Без названия'}</span>
         </div>
       </div>
+
+      {/* Track info & lyrics toggle */}
+      {(track.style || hasLyrics) && (
+        <Collapsible open={showTrackInfo} onOpenChange={setShowTrackInfo}>
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" size="sm" className="w-full justify-between text-muted-foreground">
+              <span className="flex items-center gap-2">
+                <Info className="w-4 h-4" />
+                Информация из трека
+              </span>
+              <span className="text-xs">{showTrackInfo ? 'Скрыть' : 'Показать'}</span>
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="space-y-2 pt-2">
+            {track.style && (
+              <div className="p-2 bg-muted/30 rounded text-xs">
+                <span className="font-medium">Стиль:</span> {track.style}
+              </div>
+            )}
+            {hasLyrics && (
+              <div className="p-2 bg-muted/30 rounded text-xs">
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-1 font-medium">
+                    <FileText className="w-3 h-3" />
+                    Лирика из трека
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="h-6 text-xs"
+                    onClick={() => {
+                      if (!useLyrics) {
+                        setPrompt(trackLyrics);
+                        setUseLyrics(true);
+                      } else {
+                        setPrompt('');
+                        setUseLyrics(false);
+                      }
+                    }}
+                  >
+                    {useLyrics ? 'Очистить' : 'Использовать'}
+                  </Button>
+                </div>
+                <pre className="whitespace-pre-wrap text-muted-foreground max-h-20 overflow-y-auto">
+                  {trackLyrics.slice(0, 300)}{trackLyrics.length > 300 ? '...' : ''}
+                </pre>
+              </div>
+            )}
+          </CollapsibleContent>
+        </Collapsible>
+      )}
 
       <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
         <Label className="text-sm">Продвинутый режим</Label>
