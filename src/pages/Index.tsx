@@ -259,10 +259,6 @@ const Index = () => {
             <PopularCreatorsSection maxCreators={8} />
           </LazySection>
 
-          {/* Featured Blog Banners */}
-          <LazySection className="mb-4 sm:mb-5" fallback={<SectionSkeleton height="100px" />}>
-            <FeaturedBlogBanners />
-          </LazySection>
 
           {/* Public AI Artists Section */}
           <LazySection className="mb-4 sm:mb-5" fallback={<SectionSkeleton height="160px" />}>
