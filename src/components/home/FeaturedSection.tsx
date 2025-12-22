@@ -2,6 +2,7 @@ import { Sparkles } from 'lucide-react';
 import { PublicTrackCard } from './PublicTrackCard';
 import { cn } from '@/lib/utils';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
+import { SectionHeaderSkeleton, TrackCardSkeleton } from '@/components/ui/skeleton-components';
 
 interface FeaturedSectionProps {
   tracks: PublicTrackWithCreator[];
@@ -14,12 +15,31 @@ export function FeaturedSection({ tracks, isLoading, onRemix, className }: Featu
   if (isLoading) {
     return (
       <section className={cn('space-y-4', className)}>
-        <div className="flex items-center justify-between">
-          <div className="h-8 w-32 bg-muted animate-pulse rounded" />
+        {/* Section header skeleton */}
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 bg-muted animate-pulse rounded" />
+          <div className="space-y-2">
+            <div className="h-6 w-32 bg-muted animate-pulse rounded" />
+            <div className="h-3 w-48 bg-muted animate-pulse rounded" />
+          </div>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="aspect-square bg-muted animate-pulse rounded-lg" />
+        
+        {/* Desktop: Grid skeleton */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Featured large card (2x2) */}
+          <div className="md:col-span-2 lg:row-span-2">
+            <TrackCardSkeleton className="h-full" />
+          </div>
+          {/* Smaller cards */}
+          {[...Array(6)].map((_, i) => (
+            <TrackCardSkeleton key={i} />
+          ))}
+        </div>
+        
+        {/* Mobile: Horizontal scroll skeleton */}
+        <div className="md:hidden flex gap-3 overflow-x-auto pb-3">
+          {[...Array(4)].map((_, i) => (
+            <TrackCardSkeleton key={i} className="min-w-[140px] flex-shrink-0" />
           ))}
         </div>
       </section>

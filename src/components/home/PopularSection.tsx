@@ -2,6 +2,7 @@ import { TrendingUp } from 'lucide-react';
 import { PublicTrackCard } from './PublicTrackCard';
 import { cn } from '@/lib/utils';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
+import { GridSkeleton, TrackCardSkeleton } from '@/components/ui/skeleton-components';
 
 interface PopularSectionProps {
   tracks: PublicTrackWithCreator[];
@@ -14,14 +15,16 @@ export function PopularSection({ tracks, isLoading, onRemix, className }: Popula
   if (isLoading) {
     return (
       <section className={cn('space-y-4', className)}>
+        {/* Section header skeleton */}
         <div className="flex items-center gap-2">
-          <div className="h-8 w-32 bg-muted animate-pulse rounded" />
+          <div className="w-6 h-6 bg-muted animate-pulse rounded" />
+          <div className="space-y-2">
+            <div className="h-6 w-32 bg-muted animate-pulse rounded" />
+            <div className="h-3 w-48 bg-muted animate-pulse rounded" />
+          </div>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="aspect-square bg-muted animate-pulse rounded-lg" />
-          ))}
-        </div>
+        {/* Grid skeleton - responsive columns */}
+        <GridSkeleton count={10} columns={4} SkeletonComponent={TrackCardSkeleton} />
       </section>
     );
   }
