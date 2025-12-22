@@ -43,6 +43,7 @@ import { DeeplinkAnalyticsPanel } from "@/components/admin/DeeplinkAnalyticsPane
 import { EnhancedAnalyticsPanel } from "@/components/admin/EnhancedAnalyticsPanel";
 import { ModerationReportsPanel } from "@/components/admin/ModerationReportsPanel";
 import { AdminBotImagesPanel } from "@/components/admin/AdminBotImagesPanel";
+import { BotMenuEditor } from "@/components/admin/BotMenuEditor";
 import { StatCard, StatGrid } from "@/components/admin/StatCard";
 import { AdminUserCard } from "@/components/admin/AdminUserCard";
 import { useQueryClient } from "@tanstack/react-query";
@@ -355,6 +356,7 @@ export default function AdminDashboard() {
         {/* Telegram Settings Tab */}
         {activeTab === "telegram" && (
           <div className="space-y-6">
+            <BotMenuEditor />
             <MobileTelegramBotSettings />
             <AdminBotImagesPanel />
           </div>
