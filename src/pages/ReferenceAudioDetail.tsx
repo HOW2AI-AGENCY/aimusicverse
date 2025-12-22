@@ -34,6 +34,7 @@ import { motion } from 'framer-motion';
 import { ReferenceAudioPlayer } from '@/components/audio-reference/ReferenceAudioPlayer';
 import { ReferenceStemPlayer } from '@/components/audio-reference/ReferenceStemPlayer';
 import { ReferenceActionsPanel } from '@/components/audio-reference/ReferenceActionsPanel';
+import { ExtractLyricsButton } from '@/components/audio-reference/ExtractLyricsButton';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useReferenceStems } from '@/hooks/useReferenceStems';
 
@@ -386,28 +387,47 @@ export default function ReferenceAudioDetail() {
           </Card>
         </motion.div>
 
-        {/* Lyrics Section */}
-        {reference.transcription && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-primary" />
-                  Текст
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+        {/* Lyrics Section - only show if transcription exists OR stems ready (so user can extract) */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg flex items-center gap-2">
+                <FileText className="w-5 h-5 text-primary" />
+                Текст
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {reference.transcription ? (
                 <div className="p-3 rounded-lg bg-muted/30 max-h-48 overflow-y-auto">
                   <p className="text-sm whitespace-pre-wrap">{reference.transcription}</p>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
+              ) : reference.stems_status === 'completed' && reference.has_vocals ? (
+                <div className="text-center py-4">
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Извлеките текст из вокального стема
+                  </p>
+                  <ExtractLyricsButton referenceId={reference.id} vocalStemUrl={reference.vocal_stem_url} />
+                </div>
+              ) : reference.has_vocals ? (
+                <div className="text-center py-4">
+                  <p className="text-sm text-muted-foreground">
+                    Сначала разделите аудио на стемы, чтобы извлечь текст
+                  </p>
+                </div>
+              ) : (
+                <div className="text-center py-4">
+                  <p className="text-sm text-muted-foreground">
+                    Инструментальный трек без вокала
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </motion.div>
 
         {/* Stems Section */}
         <motion.div
