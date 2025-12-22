@@ -19,6 +19,7 @@ const corsHeaders = {
 
 interface PipelineRequest {
   audio_url: string;           // URL of audio to process
+  audio_base64?: string;       // Base64 data URI for APIs that don't accept URLs
   user_id: string;             // User ID
   file_name?: string;          // Original file name
   file_size?: number;          // File size in bytes
@@ -31,6 +32,10 @@ interface PipelineRequest {
   skip_lyrics?: boolean;       // Skip lyrics extraction
   force_reprocess?: boolean;   // Force reprocess even if exists
   reference_id?: string;       // Existing reference ID to update
+  user_classification?: {      // User-provided classification
+    audio_type?: string;
+    vocal_gender?: string;
+  };
 }
 
 interface StemUrls {
@@ -112,6 +117,7 @@ serve(async (req) => {
     
     const {
       audio_url,
+      audio_base64,
       user_id,
       file_name = 'audio.mp3',
       file_size,
@@ -124,7 +130,11 @@ serve(async (req) => {
       skip_lyrics = false,
       force_reprocess = false,
       reference_id,
+      user_classification,
     } = body;
+    
+    // Use base64 for Replicate APIs if available, otherwise fall back to URL
+    const audioInputForReplicate = audio_base64 || audio_url;
 
     // If caller already created a progress message, reuse it (edit instead of send)
     progressMessageId = telegram_message_id || progressMessageId;
@@ -196,6 +206,19 @@ serve(async (req) => {
 
     // === STEP 2: Style Analysis with Audio Flamingo 3 ===
     console.log('🔍 Running Audio Flamingo 3 analysis...');
+    console.log('🎵 Using input type:', audio_base64 ? 'base64' : 'url');
+    
+    // Update progress to 20%
+    if (telegram_chat_id && progressMessageId) {
+      await sendTelegramProgress(
+        telegram_chat_id,
+        `🎵 *Обработка аудио*\n\n` +
+        `📁 ${escapeMarkdown(file_name)}\n\n` +
+        `▓▓░░░░░░░░ 20%\n` +
+        `⏳ Анализ стиля с AI\\.\\.\\.`,
+        progressMessageId
+      );
+    }
     
     const flamingoPrompt = `Analyze this audio track comprehensively.
 Answer in EXACTLY this format:
@@ -238,7 +261,7 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
         "zsxkib/audio-flamingo-3:2856d42f07154766b0cc0f3554fb425d7c3422ae77269264fbe0c983ac759fef",
         {
           input: {
-            audio: audio_url,
+            audio: audioInputForReplicate, // Use base64 if available
             prompt: 'Analyze this audio',
             system_prompt: flamingoPrompt,
             enable_thinking: false,
@@ -341,7 +364,7 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
           "openai/whisper:4d50797290df275329f202e48c76360b3f22b08d28c196cbc54600319435f8d2",
           {
             input: {
-              audio: audio_url,
+              audio: audioInputForReplicate, // Use base64 if available
               model: "large-v3",
               language: analysisResult.language !== 'unknown' && analysisResult.language !== 'N/A' 
                 ? analysisResult.language.toLowerCase() 
@@ -366,7 +389,7 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
             "zsxkib/audio-flamingo-3:2856d42f07154766b0cc0f3554fb425d7c3422ae77269264fbe0c983ac759fef",
             {
               input: {
-                audio: audio_url,
+                audio: audioInputForReplicate, // Use base64 if available
                 prompt: 'What are all the lyrics?',
                 system_prompt: 'Transcribe ALL lyrics sung in this audio. Write only the lyrics. If unclear, write [unclear].',
                 enable_thinking: true,
@@ -411,11 +434,12 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
 
       try {
         // Use Demucs via Replicate for stem separation
+        // Demucs works better with URLs, so we pass the storage URL
         const demucsOutput = await replicate.run(
           "cjwbw/demucs:25a173108cff36ef9f80f854c162d01df9e6528be175794b81571db63d171161",
           {
             input: {
-              audio: audio_url,
+              audio: audio_url, // Demucs prefers URLs for large files
               stem: "none", // Return all stems
               model: "htdemucs",
               split: true,

@@ -414,7 +414,7 @@ export async function startClassifiedProcessing(
     }
     resultText += '\n';
 
-    // Analysis results as quote block
+    // Analysis results as quote block (no double escaping!)
     let analysisQuote = '';
     if (analysis.genre) analysisQuote += `🎵 Жанр: ${analysis.genre}\n`;
     if (analysis.mood) analysisQuote += `💫 Настроение: ${analysis.mood}\n`;
@@ -428,6 +428,7 @@ export async function startClassifiedProcessing(
     }
 
     if (analysisQuote) {
+      // Escape each line first, then add quote prefix
       const quotedLines = analysisQuote.trim().split('\n').map(line => `>${escapeMarkdown(line)}`).join('\n');
       resultText += `\n${quotedLines}\n`;
     }
