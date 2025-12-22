@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, lazy, Suspense } from 'react';
+import { useState, useEffect, useMemo, lazy, Suspense, useCallback } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { BottomNavigation } from './BottomNavigation';
 import { Sidebar } from './Sidebar';
@@ -18,12 +18,22 @@ const TelegramOnboarding = lazy(() => import('./onboarding/TelegramOnboarding').
 const SubscriptionRequiredDialog = lazy(() => import('./dialogs/SubscriptionRequiredDialog').then(m => ({ default: m.SubscriptionRequiredDialog })));
 const GamificationOnboarding = lazy(() => import('./gamification/GamificationOnboarding').then(m => ({ default: m.GamificationOnboarding })));
 
+const SIDEBAR_COLLAPSED_KEY = 'sidebar-collapsed';
+
 export const MainLayout = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const { isGuestMode } = useGuestMode();
   const location = useLocation();
   const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false);
   const [gamificationOnboardingOpen, setGamificationOnboardingOpen] = useState(false);
+  
+  // Sidebar collapse state
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === 'true';
+    }
+    return false;
+  });
   
   // Track play counts when tracks are played
   usePlaybackTracking();
@@ -59,6 +69,15 @@ export const MainLayout = () => {
     localStorage.setItem('gamification-onboarding-completed', 'true');
     setGamificationOnboardingOpen(false);
   };
+  
+  const handleSidebarCollapsedChange = useCallback((collapsed: boolean) => {
+    setSidebarCollapsed(collapsed);
+    localStorage.setItem(SIDEBAR_COLLAPSED_KEY, String(collapsed));
+  }, []);
+
+  // Calculate sidebar width based on collapsed state
+  const sidebarWidth = sidebarCollapsed ? 'w-16' : 'w-64';
+  const mainMargin = sidebarCollapsed ? 'ml-16' : 'ml-64';
 
   return (
     <div className="flex h-screen bg-background">
@@ -95,15 +114,18 @@ export const MainLayout = () => {
       )}
       
       {isDesktop && (
-        <div className="w-64 fixed inset-y-0 z-50">
-          <Sidebar />
+        <div className={cn("fixed inset-y-0 z-50 transition-all duration-300", sidebarWidth)}>
+          <Sidebar 
+            collapsed={sidebarCollapsed} 
+            onCollapsedChange={handleSidebarCollapsedChange} 
+          />
         </div>
       )}
       <main
         id="main-content"
         className={cn(
-          'flex-1 flex flex-col overflow-y-auto relative',
-          isDesktop ? 'ml-64' : 'pb-[calc(4rem+env(safe-area-inset-bottom,0px))]',
+          'flex-1 flex flex-col overflow-y-auto relative transition-all duration-300',
+          isDesktop ? mainMargin : 'pb-[calc(4rem+env(safe-area-inset-bottom,0px))]',
           isGuestMode && 'pt-9'
           // Note: Safe area padding is handled by individual page headers (HomeHeader, AppHeader)
           // to avoid double padding and allow proper sticky header behavior
