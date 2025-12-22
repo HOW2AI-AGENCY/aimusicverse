@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useReferenceAudio, ReferenceAudio } from '@/hooks/useReferenceAudio';
+import { useReferenceAudio, type ReferenceAudio } from '@/hooks/useReferenceAudio';
 import { useReferenceStems } from '@/hooks/useReferenceStems';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

@@ -1,6 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ContentHubTabs } from '@/components/content-hub/ContentHubTabs';
@@ -17,11 +17,26 @@ const TAB_ACTIONS: Record<string, { text: string; action: string }> = {
   cloud: { text: 'ЗАГРУЗИТЬ ФАЙЛ', action: 'upload-file' },
 };
 
+const VALID_TABS = ['artists', 'projects', 'lyrics', 'cloud'];
+
 export default function Projects() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('projects');
+  const [searchParams] = useSearchParams();
+  
+  // Get initial tab from URL or default to 'projects'
+  const urlTab = searchParams.get('tab');
+  const initialTab = urlTab && VALID_TABS.includes(urlTab) ? urlTab : 'projects';
+  const [activeTab, setActiveTab] = useState(initialTab);
+  
+  // Sync tab with URL changes
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab && VALID_TABS.includes(tab) && tab !== activeTab) {
+      setActiveTab(tab);
+    }
+  }, [searchParams, activeTab]);
 
   // Telegram BackButton - returns to home
   const { shouldShowUIButton } = useTelegramBackButton({
@@ -110,7 +125,7 @@ export default function Projects() {
       </div>
 
       <div className={cn("max-w-6xl mx-auto", isMobile ? "px-4 py-3" : "px-4 py-4")}>
-        <ContentHubTabs defaultTab="projects" onTabChange={setActiveTab} />
+        <ContentHubTabs defaultTab={initialTab} onTabChange={setActiveTab} />
       </div>
 
       {/* UI Fallback Main Button */}
