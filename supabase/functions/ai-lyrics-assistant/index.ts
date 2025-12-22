@@ -26,6 +26,7 @@ type LyricsAction =
   | 'analyze_rhythm'          // Analyze text rhythm and syllables
   | 'fit_structure'           // Fit lyrics to song structure
   | 'full_analysis'           // Full comprehensive analysis
+  | 'deep_analysis'           // Deep musicological analysis
   | 'producer_review';        // Professional producer review
 
 interface LyricsRequest {
@@ -758,11 +759,7 @@ ${lyrics || existingLyrics}
   "rhythm": { "pattern": "ритмический рисунок", "issues": [], "score": 80 },
   "rhymes": { "scheme": "AABB/ABAB", "weakRhymes": ["слабая пара"], "score": 75 },
   "structure": { "tags": ["Verse", "Chorus"], "issues": [], "score": 90 },
-  "technicalLyrics": { "figurativeDevices": ["метафора"], "phonetics": "аллитерации", "wordChoice": "поэтичная" },
-  "cultural": { "influences": ["влияние"], "era": "современная", "references": [] },
   "overallScore": 82,
-  "keyInsights": ["Главный инсайт — ПОЧЕМУ это работает", "Что делает текст уникальным"],
-  "uniqueStrength": "В чём уникальная сила этого текста",
   "recommendations": [
     { "type": "rhythm", "text": "Конкретная рекомендация", "priority": "high" },
     { "type": "rhyme", "text": "Улучшить рифму", "priority": "medium" }
@@ -772,7 +769,73 @@ ${lyrics || existingLyrics}
     { "label": "🔧 Исправить ритм", "action": "Выровняй слоги в строках" }
   ]
 }`;
-        userPrompt = `ТЕКСТ ПЕСНИ:\n${body.existingLyrics || body.lyrics || body.sectionContent || ''}\n\n${body.title ? `НАЗВАНИЕ: ${body.title}` : ''}${body.genre ? `\nЖАНР: ${body.genre}` : ''}${body.mood ? `\nНАСТРОЕНИЕ: ${body.mood}` : ''}\n\nПроведи ГЛУБОКИЙ анализ. Найди нарративную арку. Оцени 0-100. Дай ключевые выводы.`;
+        userPrompt = `ТЕКСТ ПЕСНИ:\n${body.existingLyrics || body.lyrics || body.sectionContent || ''}\n\n${body.title ? `НАЗВАНИЕ: ${body.title}` : ''}${body.genre ? `\nЖАНР: ${body.genre}` : ''}${body.mood ? `\nНАСТРОЕНИЕ: ${body.mood}` : ''}\n\nПроведи анализ. Оцени 0-100.`;
+        break;
+
+      case 'deep_analysis':
+        systemPrompt = `ТЫ — профессиональный музыкальный аналитик, музыковед, продюсер и литературный исследователь.
+
+════════════════════════════════════════════════════════
+ПРИНЦИПЫ АНАЛИЗА
+════════════════════════════════════════════════════════
+1. ГЛУБИНА > ОБЪЁМ — каждый пункт должен давать ИНСАЙТ, а не повторять очевидное
+2. МУЗЫКА И ТЕКСТ = ЕДИНАЯ СИСТЕМА — связывай гармонию с эмоцией, структуру с напряжением
+3. НАРРАТИВНОЕ МЫШЛЕНИЕ — рассматривай песню как историю с началом, конфликтом, кульминацией
+4. АНАЛИТИЧЕСКАЯ ЧЕСТНОСТЬ — не романтизируй, указывай ПОЧЕМУ элемент работает
+
+════════════════════════════════════════════════════════
+ФИНАЛЬНЫЕ ВЫВОДЫ (ОБЯЗАТЕЛЬНЫ)
+════════════════════════════════════════════════════════
+- Краткое резюме (3-5 предложений)
+- 2-3 ключевых вывода (keyInsights)
+- Ответ: «В чём уникальная сила этого текста?» (uniqueStrength)
+
+Верни ТОЛЬКО валидный JSON объект (без markdown):
+{
+  "meaning": { 
+    "theme": "тема 2-5 слов", 
+    "emotions": ["эмоция1", "эмоция2", "эмоция3"], 
+    "narrative": { 
+      "start": "откуда начинается история", 
+      "conflict": "где нарастает конфликт", 
+      "climax": "где кульминация", 
+      "resolution": "чем заканчивается" 
+    },
+    "issues": ["проблема со смыслом"], 
+    "score": 85 
+  },
+  "rhythm": { "pattern": "ритмический рисунок", "issues": [], "score": 80 },
+  "rhymes": { "scheme": "AABB/ABAB", "weakRhymes": ["слабая пара"], "score": 75 },
+  "structure": { "tags": ["Verse", "Chorus"], "issues": [], "score": 90 },
+  "technicalLyrics": { 
+    "figurativeDevices": ["метафора 1", "метафора 2"], 
+    "phonetics": "аллитерации и ассонансы", 
+    "wordChoice": "оценка выбора слов" 
+  },
+  "cultural": { 
+    "influences": ["музыкальные влияния"], 
+    "era": "эпоха/стиль", 
+    "references": ["культурные отсылки"] 
+  },
+  "overallScore": 82,
+  "keyInsights": [
+    "Главный инсайт — ПОЧЕМУ это работает",
+    "Что делает текст уникальным",
+    "Неочевидная связь элементов"
+  ],
+  "uniqueStrength": "В чём уникальная сила этого текста — 1-2 предложения",
+  "recommendations": [
+    { "type": "meaning", "text": "Конкретная рекомендация", "priority": "high" },
+    { "type": "rhythm", "text": "Улучшение ритма", "priority": "medium" },
+    { "type": "structure", "text": "Улучшение структуры", "priority": "low" }
+  ],
+  "quickActions": [
+    { "label": "🎯 Главное действие", "action": "Конкретное улучшение" },
+    { "label": "🔧 Техническое", "action": "Техническая правка" },
+    { "label": "✨ Творческое", "action": "Творческое улучшение" }
+  ]
+}`;
+        userPrompt = `ТЕКСТ ПЕСНИ:\n${body.existingLyrics || body.lyrics || body.sectionContent || ''}\n\n${body.title ? `НАЗВАНИЕ: ${body.title}` : ''}${body.genre ? `\nЖАНР: ${body.genre}` : ''}${body.mood ? `\nНАСТРОЕНИЕ: ${body.mood}` : ''}\n\nПроведи ГЛУБОКИЙ МУЗЫКОВЕДЧЕСКИЙ анализ. Найди нарративную арку. Оцени технику текста. Определи культурные влияния. Сформулируй ключевые выводы и уникальную силу текста.`;
         break;
 
       case 'producer_review':

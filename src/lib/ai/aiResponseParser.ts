@@ -199,6 +199,85 @@ export function parseLyricsResponse(content: string): ParsedLyricsResponse | nul
 }
 
 /**
+ * Universal AI response parser based on action type
+ */
+export function parseAIResponse(data: any, action: string): {
+  type: string;
+  message: string;
+  lyrics?: string;
+  data?: any;
+  expandedAnalysis?: ExpandedAnalysisData;
+  keyInsights?: string[];
+  uniqueStrength?: string;
+} {
+  // If data is already structured (from edge function), use it directly
+  if (data && typeof data === 'object') {
+    // Handle deep_analysis
+    if (action === 'deep_analysis' || data.expandedAnalysis) {
+      const expandedAnalysis = data.expandedAnalysis || data.fullAnalysis || data;
+      return {
+        type: 'expanded_analysis',
+        message: data.message || 'Глубокий анализ завершен',
+        expandedAnalysis: expandedAnalysis,
+        keyInsights: expandedAnalysis?.keyInsights || data.keyInsights,
+        uniqueStrength: expandedAnalysis?.uniqueStrength || data.uniqueStrength,
+      };
+    }
+
+    // Handle full_analysis
+    if (action === 'full_analysis' || data.fullAnalysis) {
+      return {
+        type: 'full_analysis',
+        message: data.message || 'Анализ завершен',
+        data: data.fullAnalysis || data,
+      };
+    }
+
+    // Handle producer_review
+    if (action === 'producer_review' || data.producerReview) {
+      return {
+        type: 'producer_review',
+        message: data.message || 'Разбор продюсера готов',
+        data: data.producerReview || data,
+      };
+    }
+
+    // Handle lyrics
+    if (data.lyrics) {
+      return {
+        type: 'lyrics',
+        message: data.message || 'Текст сгенерирован',
+        lyrics: data.lyrics,
+      };
+    }
+
+    // Default: return as-is
+    return {
+      type: 'text',
+      message: data.message || data.result || 'Готово',
+      data: data,
+    };
+  }
+
+  // If data is string, try to parse
+  if (typeof data === 'string') {
+    const parsed = extractJSON<any>(data);
+    if (parsed) {
+      return parseAIResponse(parsed, action);
+    }
+    return {
+      type: 'text',
+      message: data,
+    };
+  }
+
+  return {
+    type: 'text',
+    message: 'Ответ получен',
+  };
+}
+
+/**
  * Parse chat response which can contain multiple data types
  */
 export function parseChatResponse(content: string): {

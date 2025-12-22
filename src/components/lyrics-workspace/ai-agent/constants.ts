@@ -13,6 +13,7 @@ import {
   Wand2,
   BarChart3,
   Headphones,
+  Telescope,
 } from 'lucide-react';
 import { AITool } from './types';
 
@@ -38,6 +39,17 @@ export const AI_TOOLS: AITool[] = [
     bgColor: 'bg-purple-500/10 hover:bg-purple-500/20 border-purple-500/30',
     autoContext: true,
     outputType: 'full_analysis',
+  },
+  {
+    id: 'deep_analyze',
+    name: 'Глубокий',
+    icon: Telescope,
+    action: 'deep_analysis',
+    description: 'Полный музыковедческий разбор',
+    color: 'text-indigo-400',
+    bgColor: 'bg-indigo-500/10 hover:bg-indigo-500/20 border-indigo-500/30',
+    autoContext: true,
+    outputType: 'expanded_analysis',
   },
   {
     id: 'producer',

@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { hapticImpact } from '@/lib/haptic';
 import { AITool, AIMessage, AIAgentContext, AIToolId, OutputType } from '../types';
 import { AI_TOOLS } from '../constants';
+import { parseAIResponse } from '@/lib/ai/aiResponseParser';
 
 interface UseAIToolsOptions {
   context: AIAgentContext;
@@ -114,40 +115,53 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
         throw error;
       }
 
-      let responseType: OutputType = tool.outputType;
+      // Use robust parser
+      const parsed = parseAIResponse(data, tool.action);
+      
+      let responseType: OutputType = parsed.type as OutputType || tool.outputType;
       let responseData: AIMessage['data'] = {};
-      let responseContent = data.message || data.result || 'Готово!';
+      let responseContent = parsed.message || data.message || data.result || 'Готово!';
 
+      // Handle expanded/deep analysis response
+      if (parsed.type === 'expanded_analysis' && parsed.expandedAnalysis) {
+        responseData.expandedAnalysis = parsed.expandedAnalysis;
+        responseType = 'expanded_analysis';
+        if (parsed.expandedAnalysis.quickActions) {
+          responseData.quickActions = parsed.expandedAnalysis.quickActions;
+        }
+      }
       // Handle full_analysis response
-      if (data.fullAnalysis) {
-        responseData.fullAnalysis = data.fullAnalysis;
+      else if (data.fullAnalysis || parsed.type === 'full_analysis') {
+        responseData.fullAnalysis = data.fullAnalysis || parsed.data;
         responseType = 'full_analysis';
-        // Add quick actions from analysis if present
-        if (data.fullAnalysis.quickActions) {
+        if (data.fullAnalysis?.quickActions) {
           responseData.quickActions = data.fullAnalysis.quickActions;
         }
       }
       // Handle producer_review response
-      else if (data.producerReview) {
-        responseData.producerReview = data.producerReview;
+      else if (data.producerReview || parsed.type === 'producer_review') {
+        responseData.producerReview = data.producerReview || parsed.data;
         responseType = 'producer_review';
-        if (data.producerReview.stylePrompt) {
+        if (data.producerReview?.stylePrompt) {
           onStylePromptGenerated?.(data.producerReview.stylePrompt);
         }
-        if (data.producerReview.quickActions) {
+        if (data.producerReview?.quickActions) {
           responseData.quickActions = data.producerReview.quickActions;
         }
-        if (data.producerReview.suggestedTags) {
+        if (data.producerReview?.suggestedTags) {
           responseData.tags = data.producerReview.suggestedTags;
         }
       }
       // Handle lyrics response
-      else if (data.lyrics) {
-        responseData.lyrics = data.lyrics;
-        responseType = 'lyrics';
-        // Auto-apply only for write/optimize tools
-        if (toolId === 'write' || toolId === 'optimize') {
-          onLyricsGenerated?.(data.lyrics);
+      else if (data.lyrics || parsed.lyrics) {
+        const lyricsContent = data.lyrics || parsed.lyrics;
+        if (lyricsContent) {
+          responseData.lyrics = lyricsContent;
+          responseType = 'lyrics';
+          // Auto-apply only for write/optimize tools
+          if (toolId === 'write' || toolId === 'optimize') {
+            onLyricsGenerated?.(lyricsContent);
+          }
         }
       }
 
@@ -166,6 +180,8 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
       if (data.analysis) responseData.analysis = data.analysis;
       if (data.suggestions) responseData.suggestions = data.suggestions;
       if (data.structure) responseData.structure = data.structure;
+      if (parsed.keyInsights) responseData.keyInsights = parsed.keyInsights;
+      if (parsed.uniqueStrength) responseData.uniqueStrength = parsed.uniqueStrength;
 
       updateLastMessage({
         content: responseContent,
