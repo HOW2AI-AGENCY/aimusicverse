@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { AnimatePresence, motion } from '@/lib/motion';
 import { Sheet, SheetContent, SheetFooter } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -13,6 +13,7 @@ import { useTracks } from '@/hooks/useTracks';
 import { useGenerateForm, useAudioReference } from '@/hooks/generation';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useTelegramMainButton, useTelegramSecondaryButton, useTelegramBackButton } from '@/hooks/telegram';
+import { useKeyboardAware } from '@/hooks/useKeyboardAware';
 // Form components
 import { GenerateFormHeaderCompact } from './generate-form/GenerateFormHeaderCompact';
 import { GenerateFormActions } from './generate-form/GenerateFormActions';
@@ -53,6 +54,10 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   
   // Get active audio reference for hasReferenceAudio check
   const { activeReference } = useAudioReference();
+  
+  // Keyboard-aware behavior для адаптации под клавиатуру iOS
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const { keyboardHeight, isKeyboardOpen, createFocusHandler } = useKeyboardAware();
 
   // Dialog states
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
@@ -303,6 +308,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   onHasVocalsChange={form.setHasVocals}
                   onBoostStyle={form.handleBoostStyle}
                   boostLoading={form.boostLoading}
+                  // Передаём auto-scroll handler для input полей
+                  onInputFocus={createFocusHandler()}
                 />
               ) : (
                 <GenerateFormCustom
@@ -333,14 +340,25 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   hasPersona={!!form.selectedArtistId}
                   model={form.model}
                   onModelChange={form.setModel}
+                  // Передаём auto-scroll handler для input полей
+                  onInputFocus={createFocusHandler()}
                 />
               )}
             </AnimatePresence>
           </div>
         </ScrollArea>
 
-        {/* Footer - only show UI button for test users, real Mini App users get native MainButton */}
-        <div className="p-4 border-t bg-background/95 backdrop-blur pb-[max(1rem,env(safe-area-inset-bottom))]">
+        {/* Footer - keyboard-aware padding */}
+        <div 
+          className="p-4 border-t bg-background/95 backdrop-blur"
+          style={{
+            // Применяем padding для клавиатуры + safe-area
+            paddingBottom: isKeyboardOpen
+              ? `${keyboardHeight + 16}px`
+              : 'max(1rem, env(safe-area-inset-bottom))',
+            transition: 'padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          }}
+        >
           {form.loading && (
             <div className="mb-1.5">
               <Progress value={33} className="h-1" />
