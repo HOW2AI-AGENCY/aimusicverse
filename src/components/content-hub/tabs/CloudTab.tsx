@@ -412,7 +412,7 @@ function AudioDetailPanel({
 
     try {
       const { data, error } = await supabase.functions.invoke('transcribe-lyrics', {
-        body: { audioUrl: audio.file_url },
+        body: { audio_url: audio.file_url },
       });
 
       if (error) throw error;
