@@ -2767,6 +2767,42 @@ export type Database = {
         }
         Relationships: []
       }
+      telegram_bot_logs: {
+        Row: {
+          action_data: Json | null
+          action_type: string
+          chat_id: number
+          created_at: string | null
+          id: string
+          menu_key: string | null
+          message_id: number | null
+          response_time_ms: number | null
+          telegram_user_id: number
+        }
+        Insert: {
+          action_data?: Json | null
+          action_type: string
+          chat_id: number
+          created_at?: string | null
+          id?: string
+          menu_key?: string | null
+          message_id?: number | null
+          response_time_ms?: number | null
+          telegram_user_id: number
+        }
+        Update: {
+          action_data?: Json | null
+          action_type?: string
+          chat_id?: number
+          created_at?: string | null
+          id?: string
+          menu_key?: string | null
+          message_id?: number | null
+          response_time_ms?: number | null
+          telegram_user_id?: number
+        }
+        Relationships: []
+      }
       telegram_bot_metrics: {
         Row: {
           created_at: string
@@ -2881,6 +2917,75 @@ export type Database = {
           retry_count?: number | null
           status?: string | null
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      telegram_menu_items: {
+        Row: {
+          action_data: string | null
+          action_type: string
+          caption: string | null
+          column_span: number | null
+          created_at: string | null
+          description: string | null
+          icon_emoji: string | null
+          id: string
+          image_fallback: string | null
+          image_url: string | null
+          is_enabled: boolean | null
+          menu_key: string
+          parent_key: string | null
+          requires_auth: boolean | null
+          row_position: number | null
+          show_in_menu: boolean | null
+          sort_order: number | null
+          title: string
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          action_data?: string | null
+          action_type?: string
+          caption?: string | null
+          column_span?: number | null
+          created_at?: string | null
+          description?: string | null
+          icon_emoji?: string | null
+          id?: string
+          image_fallback?: string | null
+          image_url?: string | null
+          is_enabled?: boolean | null
+          menu_key: string
+          parent_key?: string | null
+          requires_auth?: boolean | null
+          row_position?: number | null
+          show_in_menu?: boolean | null
+          sort_order?: number | null
+          title: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          action_data?: string | null
+          action_type?: string
+          caption?: string | null
+          column_span?: number | null
+          created_at?: string | null
+          description?: string | null
+          icon_emoji?: string | null
+          id?: string
+          image_fallback?: string | null
+          image_url?: string | null
+          is_enabled?: boolean | null
+          menu_key?: string
+          parent_key?: string | null
+          requires_auth?: boolean | null
+          row_position?: number | null
+          show_in_menu?: boolean | null
+          sort_order?: number | null
+          title?: string
+          updated_at?: string | null
+          updated_by?: string | null
         }
         Relationships: []
       }
