@@ -36,7 +36,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { SectionNote, ReferenceAnalysis, SaveSectionNoteData } from '@/hooks/useSectionNotes';
 import { AudioReferenceRecorder, RecordingType } from './AudioReferenceRecorder';
 import { CloudAudioPicker } from './CloudAudioPicker';
-import { ReferenceAnalysisDisplay } from './ReferenceAnalysisDisplay';
+import { SectionReferenceDisplay } from './SectionReferenceDisplay';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { hapticImpact } from '@/lib/haptic';
@@ -401,7 +401,7 @@ export function SectionNotesPanel({
                         </div>
                         
                         {referenceAnalysis && (
-                          <ReferenceAnalysisDisplay analysis={referenceAnalysis} />
+                          <SectionReferenceDisplay analysis={referenceAnalysis} />
                         )}
                       </div>
                     ) : (

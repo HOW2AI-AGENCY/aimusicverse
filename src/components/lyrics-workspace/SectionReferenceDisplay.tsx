@@ -1,5 +1,5 @@
 /**
- * ReferenceAnalysisDisplay - Show analysis results from audio reference
+ * SectionReferenceDisplay - Show analysis results from audio reference for lyrics sections
  */
 
 import { Music2, Gauge, Key, Palette, Zap, Guitar, Tag, Mic } from 'lucide-react';
@@ -7,17 +7,17 @@ import { Badge } from '@/components/ui/badge';
 import { ReferenceAnalysis } from '@/hooks/useSectionNotes';
 import { cn } from '@/lib/utils';
 
-interface ReferenceAnalysisDisplayProps {
+interface SectionReferenceDisplayProps {
   analysis: ReferenceAnalysis;
   compact?: boolean;
   className?: string;
 }
 
-export function ReferenceAnalysisDisplay({ 
+export function SectionReferenceDisplay({ 
   analysis, 
   compact = false,
   className 
-}: ReferenceAnalysisDisplayProps) {
+}: SectionReferenceDisplayProps) {
   if (compact) {
     return (
       <div className={cn("flex flex-wrap gap-1.5", className)}>
