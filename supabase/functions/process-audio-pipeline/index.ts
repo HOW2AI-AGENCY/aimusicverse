@@ -46,18 +46,89 @@ interface StemUrls {
   other?: string;
 }
 
+// ==================== LANGUAGE MAP ====================
+// Maps full language names to ISO 639-1 codes for Whisper
+const LANGUAGE_MAP: Record<string, string> = {
+  'russian': 'ru',
+  'english': 'en',
+  'spanish': 'es',
+  'french': 'fr',
+  'german': 'de',
+  'italian': 'it',
+  'portuguese': 'pt',
+  'chinese': 'zh',
+  'mandarin': 'zh',
+  'cantonese': 'zh',
+  'japanese': 'ja',
+  'korean': 'ko',
+  'arabic': 'ar',
+  'hindi': 'hi',
+  'turkish': 'tr',
+  'polish': 'pl',
+  'ukrainian': 'uk',
+  'dutch': 'nl',
+  'swedish': 'sv',
+  'norwegian': 'no',
+  'danish': 'da',
+  'finnish': 'fi',
+  'greek': 'el',
+  'hebrew': 'he',
+  'czech': 'cs',
+  'romanian': 'ro',
+  'hungarian': 'hu',
+  'thai': 'th',
+  'vietnamese': 'vi',
+  'indonesian': 'id',
+  'malay': 'ms',
+  'filipino': 'tl',
+  'tagalog': 'tl',
+  'bengali': 'bn',
+  'tamil': 'ta',
+  'telugu': 'te',
+  'marathi': 'mr',
+  'gujarati': 'gu',
+  'punjabi': 'pa',
+  'urdu': 'ur',
+  'persian': 'fa',
+  'farsi': 'fa',
+  'swahili': 'sw',
+};
+
+function normalizeLanguage(lang: string | null | undefined): string | undefined {
+  if (!lang || lang === 'unknown' || lang === 'N/A' || lang === 'n/a') return undefined;
+  const lowerLang = lang.toLowerCase().trim();
+  // If already ISO code (2 letters)
+  if (lowerLang.length === 2) return lowerLang;
+  // Map full name to code
+  return LANGUAGE_MAP[lowerLang] || undefined;
+}
+
 const supabase = createClient(
   Deno.env.get('SUPABASE_URL')!,
   Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 );
 
+// ==================== TELEGRAM THROTTLING ====================
+// Prevent message edit spam - Telegram has rate limits
+let lastProgressUpdate = 0;
+const PROGRESS_THROTTLE_MS = 3000; // Minimum 3 seconds between progress updates
+
 async function sendTelegramProgress(
   chatId: number, 
   text: string, 
-  messageId?: number
+  messageId?: number,
+  forceUpdate = false // Skip throttle for important updates
 ): Promise<number | undefined> {
   const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
   if (!botToken || !chatId) return messageId;
+
+  // Throttle progress updates (unless forced)
+  const now = Date.now();
+  if (!forceUpdate && messageId && (now - lastProgressUpdate < PROGRESS_THROTTLE_MS)) {
+    console.log('⏳ Throttling Telegram update, skipping...');
+    return messageId;
+  }
+  lastProgressUpdate = now;
 
   try {
     if (messageId) {
@@ -73,6 +144,28 @@ async function sendTelegramProgress(
         }),
       });
       const data = await response.json();
+      
+      // Handle message not found - send new message instead
+      if (!data.ok) {
+        console.warn('⚠️ Failed to edit message:', data.description);
+        if (data.error_code === 400) {
+          // Message was deleted or not found - send new one
+          console.log('📤 Sending new message instead...');
+          const newResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: chatId,
+              text,
+              parse_mode: 'MarkdownV2',
+            }),
+          });
+          const newData = await newResponse.json();
+          return newData.ok ? newData.result?.message_id : undefined;
+        }
+        return messageId; // Keep old ID
+      }
+      
       return data.ok ? messageId : undefined;
     } else {
       // Send new message
@@ -105,6 +198,9 @@ serve(async (req) => {
 
   const startTime = Date.now();
   let progressMessageId: number | undefined;
+  
+  // Reset throttle for each request
+  lastProgressUpdate = 0;
 
   try {
     const REPLICATE_API_KEY = Deno.env.get('REPLICATE_API_KEY');
@@ -164,7 +260,8 @@ serve(async (req) => {
             `✅ *Аудио уже обработано\\!*\n\n` +
             `📁 ${escapeMarkdown(existing.file_name)}\n\n` +
             `🎵 Используем кэшированный анализ`,
-            progressMessageId
+            progressMessageId,
+            true // Force update for final message
           );
         }
 
@@ -199,7 +296,8 @@ serve(async (req) => {
         `📁 ${escapeMarkdown(file_name)}\n\n` +
         `▓░░░░░░░░░ 10%\n` +
         `⏳ Загрузка и анализ стиля\\.\\.\\.`,
-        progressMessageId
+        progressMessageId,
+        true // Force first update
       );
       progressMessageId = nextId || progressMessageId;
     }
@@ -208,7 +306,7 @@ serve(async (req) => {
     console.log('🔍 Running Audio Flamingo 3 analysis...');
     console.log('🎵 Using input type:', audio_base64 ? 'base64' : 'url');
     
-    // Update progress to 20%
+    // Update progress to 20% - throttled
     if (telegram_chat_id && progressMessageId) {
       await sendTelegramProgress(
         telegram_chat_id,
@@ -353,11 +451,16 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
           `🎤 Обнаружен вокал\n\n` +
           `▓▓▓▓░░░░░░ 40%\n` +
           `⏳ Извлечение текста песни\\.\\.\\.`,
-          progressMessageId
+          progressMessageId,
+          true // Force update - stage change
         );
       }
 
       console.log('🎤 Extracting lyrics with Whisper...');
+      
+      // Normalize language for Whisper API (needs ISO 639-1 code, not full name)
+      const whisperLanguage = normalizeLanguage(analysisResult.language);
+      console.log('🌐 Language for Whisper:', analysisResult.language, '->', whisperLanguage);
 
       try {
         const whisperOutput = await replicate.run(
@@ -366,9 +469,7 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
             input: {
               audio: audioInputForReplicate, // Use base64 if available
               model: "large-v3",
-              language: analysisResult.language !== 'unknown' && analysisResult.language !== 'N/A' 
-                ? analysisResult.language.toLowerCase() 
-                : undefined,
+              language: whisperLanguage, // Now properly normalized
               translate: false,
               temperature: 0,
               transcription: "plain text",
@@ -425,7 +526,8 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
           `🎤 Вокал \\+ 🎸 Инструментал\n\n` +
           `▓▓▓▓▓▓░░░░ 60%\n` +
           `⏳ Запуск разделения на стемы\\.\\.\\.`,
-          progressMessageId
+          progressMessageId,
+          true // Force update - stage change
         );
       }
 
@@ -434,9 +536,9 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
 
       try {
         // Use Demucs via Replicate for stem separation
-        // Demucs works better with URLs, so we pass the storage URL
+        // Updated to latest version (auto-resolves)
         const demucsOutput = await replicate.run(
-          "cjwbw/demucs:25a173108cff36ef9f80f854c162d01df9e6528be175794b81571db63d171161",
+          "cjwbw/demucs",
           {
             input: {
               audio: audio_url, // Demucs prefers URLs for large files
@@ -486,7 +588,8 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
         `${shouldSeparateStems ? '✅ Стемы разделены' : ''}\n\n` +
         `▓▓▓▓▓▓▓▓░░ 80%\n` +
         `⏳ Сохранение результатов\\.\\.\\.`,
-        progressMessageId
+        progressMessageId,
+        true // Force update - stage change
       );
     }
 
@@ -570,7 +673,8 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
         `📁 ${escapeMarkdown(file_name)}\n\n` +
         `▓▓▓▓▓▓▓▓▓░ 90%\n` +
         `⏳ Завершаем обработку\\.\\.\\.`,
-        progressMessageId
+        progressMessageId,
+        true // Force final update
       );
     }
 
