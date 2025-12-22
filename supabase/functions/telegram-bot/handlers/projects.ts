@@ -670,3 +670,156 @@ export async function handleProjectTracks(
   await editMessageText(chatId, messageId, text, { inline_keyboard: keyboard });
   await answerCallbackQuery(callbackId);
 }
+
+/**
+ * Show projects in carousel mode (like tracks)
+ */
+export async function handleProjectsCarousel(
+  chatId: number,
+  userId: number,
+  messageId: number,
+  callbackId: string,
+  index: number = 0
+) {
+  // Get user_id from profile
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('user_id')
+    .eq('telegram_id', userId)
+    .single();
+
+  if (!profile) {
+    await answerCallbackQuery(callbackId, '❌ Профиль не найден');
+    return;
+  }
+
+  // Get all user's projects
+  const { data: projects, count } = await supabase
+    .from('music_projects')
+    .select('id, title, description, status, project_type, cover_url, genre, mood, total_tracks_count, approved_tracks_count, created_at', { count: 'exact' })
+    .eq('user_id', profile.user_id)
+    .order('updated_at', { ascending: false });
+
+  if (!projects || projects.length === 0) {
+    // No projects - show empty state
+    const text = `📁 *Мои проекты*\n\n` +
+      `У вас пока нет музыкальных проектов\\.\n\n` +
+      `🎵 Проект объединяет треки в альбом, EP или сингл\\.\n` +
+      `✨ Создайте первый проект\\!`;
+    
+    try {
+      await sendPhoto(chatId, DEFAULT_PROJECT_COVER, {
+        caption: text,
+        replyMarkup: {
+          inline_keyboard: [
+            [{ text: '➕ Создать проект', callback_data: 'wizard_start_project' }],
+            [{ text: '📱 В приложении', url: `${MINI_APP_URL}?startapp=content-hub` }],
+            [{ text: '🔙 Назад', callback_data: 'nav_main' }],
+          ],
+        },
+      });
+    } catch {
+      await sendMessage(chatId, text, {
+        inline_keyboard: [
+          [{ text: '➕ Создать проект', callback_data: 'wizard_start_project' }],
+          [{ text: '📱 В приложении', url: `${MINI_APP_URL}?startapp=content-hub` }],
+          [{ text: '🔙 Назад', callback_data: 'nav_main' }],
+        ],
+      });
+    }
+    await answerCallbackQuery(callbackId);
+    return;
+  }
+
+  const total = projects.length;
+  const safeIndex = Math.max(0, Math.min(index, total - 1));
+  const project = projects[safeIndex];
+
+  // Get track stats for this project
+  const { data: projectTracks } = await supabase
+    .from('project_tracks')
+    .select('id, track_id')
+    .eq('project_id', project.id);
+
+  const totalTracks = projectTracks?.length || project.total_tracks_count || 0;
+  const completedTracks = projectTracks?.filter(t => t.track_id).length || project.approved_tracks_count || 0;
+  const progress = totalTracks > 0 ? Math.round((completedTracks / totalTracks) * 100) : 0;
+
+  const status = getStatusInfo(project.status || 'draft');
+  const type = getTypeInfo(project.project_type || 'single');
+
+  // Build caption
+  let text = `📁 *${escapeMarkdownV2(project.title || 'Проект')}*\n\n`;
+  text += `${type.emoji} ${escapeMarkdownV2(type.label)} • ${status.emoji} ${escapeMarkdownV2(status.label)}\n`;
+  
+  if (project.genre) {
+    text += `🎵 ${escapeMarkdownV2(project.genre)}`;
+    if (project.mood) text += ` • ${escapeMarkdownV2(project.mood)}`;
+    text += `\n`;
+  }
+  
+  if (project.description) {
+    const desc = truncateText(project.description, 100);
+    text += `\n_${escapeMarkdownV2(desc)}_\n`;
+  }
+  
+  text += `\n📊 *Прогресс*\n`;
+  text += `${getProgressBar(progress, 10)} ${progress}%\n`;
+  text += `🎵 Треков: ${completedTracks}/${totalTracks}\n`;
+  text += `\n📄 _${safeIndex + 1} из ${total}_`;
+
+  // Build keyboard
+  const keyboard: any[][] = [];
+  
+  // Navigation row
+  const navRow: any[] = [];
+  if (safeIndex > 0) {
+    navRow.push({ text: '◀️', callback_data: `project_carousel_${safeIndex - 1}` });
+  } else {
+    navRow.push({ text: '◀️', callback_data: `project_carousel_${total - 1}` }); // Loop to last
+  }
+  navRow.push({ text: `${safeIndex + 1}/${total}`, callback_data: 'noop' });
+  if (safeIndex < total - 1) {
+    navRow.push({ text: '▶️', callback_data: `project_carousel_${safeIndex + 1}` });
+  } else {
+    navRow.push({ text: '▶️', callback_data: `project_carousel_0` }); // Loop to first
+  }
+  keyboard.push(navRow);
+
+  // Action buttons
+  keyboard.push([{ text: '📱 Открыть проект', url: `${MINI_APP_URL}?startapp=project_${project.id}` }]);
+  keyboard.push([
+    { text: '🎵 Треки', callback_data: `project_tracks_${project.id}` },
+    { text: '📤 Поделиться', callback_data: `project_share_${project.id}` },
+  ]);
+  keyboard.push([{ text: '➕ Новый проект', callback_data: 'wizard_start_project' }]);
+  keyboard.push([{ text: '📋 Список', callback_data: 'nav_projects' }]);
+  keyboard.push([{ text: '🔙 В меню', callback_data: 'nav_main' }]);
+
+  const coverUrl = project.cover_url || DEFAULT_PROJECT_COVER;
+
+  try {
+    if (messageId) {
+      await editMessageMedia(chatId, messageId, {
+        type: 'photo',
+        media: coverUrl,
+        caption: text,
+        parse_mode: 'MarkdownV2'
+      }, { inline_keyboard: keyboard });
+    } else {
+      await sendPhoto(chatId, coverUrl, {
+        caption: text,
+        replyMarkup: { inline_keyboard: keyboard },
+      });
+    }
+  } catch (e) {
+    // Fallback without image
+    if (messageId) {
+      await editMessageText(chatId, messageId, text, { inline_keyboard: keyboard });
+    } else {
+      await sendMessage(chatId, text, { inline_keyboard: keyboard });
+    }
+  }
+  
+  await answerCallbackQuery(callbackId);
+}

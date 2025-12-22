@@ -24,12 +24,20 @@ export async function handleProjectCallbacks(
     handleProjectDelete, 
     handleProjectTracks,
     handleProjectShare,
-    handleProjectStats
+    handleProjectStats,
+    handleProjectsCarousel
   } = await import('../handlers/projects.ts');
   
   if (data === 'nav_projects' || data.startsWith('projects_page_')) {
     const page = data.startsWith('projects_page_') ? parseInt(data.split('_')[2]) : 0;
     await handleProjectsCallback(chatId, userId, messageId, queryId, page);
+    return true;
+  }
+
+  // Carousel navigation
+  if (data.startsWith('project_carousel_')) {
+    const index = parseInt(data.replace('project_carousel_', ''));
+    await handleProjectsCarousel(chatId, userId, messageId, queryId, index);
     return true;
   }
 
