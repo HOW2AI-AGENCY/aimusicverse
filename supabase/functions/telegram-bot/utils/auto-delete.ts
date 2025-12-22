@@ -49,9 +49,9 @@ export function scheduleMessageDelete(
     await new Promise(resolve => setTimeout(resolve, deleteAfterMs));
     try {
       await deleteMessage(chatId, messageId);
-      logger.debug('Auto-deleted message', { chatId, messageId, delay: deleteAfterMs });
+      logger.info('Auto-deleted message', { chatId, messageId, delay: deleteAfterMs });
     } catch {
-      logger.debug('Failed to auto-delete message (may already be deleted)', { messageId });
+      logger.info('Failed to auto-delete message (may already be deleted)', { messageId });
     }
   };
   

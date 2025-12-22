@@ -3,7 +3,7 @@
  */
 
 import { editMessageText, answerCallbackQuery } from '../telegram-api.ts';
-import { setWaitingForInput } from '../db-session-store.ts';
+import { setPendingUpload, cancelPendingUpload } from '../core/db-session-store.ts';
 import { sendAutoDeleteMessage, AUTO_DELETE_TIMINGS } from '../utils/auto-delete.ts';
 import { logger } from '../utils/index.ts';
 import { logBotAction } from '../utils/bot-logger.ts';
@@ -31,6 +31,13 @@ const UPLOAD_INSTRUCTIONS: Record<string, { text: string; waitingType: string }>
   },
 };
 
+// Map waitingType to upload mode
+function getUploadMode(waitingType: string): 'upload' | 'cover' | 'extend' {
+  if (waitingType === 'cover_upload') return 'cover';
+  if (waitingType === 'extend_upload') return 'extend';
+  return 'upload';
+}
+
 export async function handleUploadCallback(
   data: string,
   chatId: number,
@@ -45,7 +52,8 @@ export async function handleUploadCallback(
   }
   
   try {
-    await setWaitingForInput(userId, instruction.waitingType, { chatId, messageId });
+    // Use existing session store
+    await setPendingUpload(userId, getUploadMode(instruction.waitingType));
     
     await editMessageText(chatId, messageId, instruction.text, {
       parse_mode: 'MarkdownV2',
@@ -75,7 +83,7 @@ export async function handleUploadCancel(
   queryId: string
 ): Promise<boolean> {
   try {
-    await setWaitingForInput(userId, null);
+    await cancelPendingUpload(userId);
     await sendAutoDeleteMessage(chatId, '❌ Загрузка отменена', AUTO_DELETE_TIMINGS.SHORT);
     await answerCallbackQuery(queryId, 'Отменено');
     return true;
