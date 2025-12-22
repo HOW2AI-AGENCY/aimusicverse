@@ -70,10 +70,12 @@ serve(async (req) => {
     // Add continuation audio for seamless melody generation
     if (continuation_url) {
       input.input_audio = continuation_url;
-      // continuation_start is the starting point in seconds to use as reference
-      if (continuation_start !== undefined) {
-        input.continuation_start = continuation_start;
-      }
+      // continuation_start / continuation_end define the slice of input_audio used as context.
+      // continuation_end must be >= continuation_start; if only start is provided, set end to start+duration or a safe max.
+      const contStart = typeof continuation_start === 'number' ? Math.max(0, continuation_start) : 0;
+      input.continuation_start = contStart;
+      input.continuation_end = contStart + Math.min(duration, 30); // end = start + new segment length
+      input.continuation = true;
       // Use lower classifier guidance for smoother transitions
       input.classifier_free_guidance = 2;
     }
