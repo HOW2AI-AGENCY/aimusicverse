@@ -14,6 +14,7 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tag, Plus, X, Music2, Mic, Zap, Heart, Check } from 'lucide-react';
+import { TagBadge } from '@/components/lyrics/shared/TagBadge';
 import { cn } from '@/lib/utils';
 
 // Predefined tag categories for quick selection
@@ -101,15 +102,12 @@ export function SectionTagSelector({
       <div className="flex items-center gap-1.5 flex-wrap">
         {selectedTags.length > 0 ? (
           selectedTags.map(tag => (
-            <Badge 
-              key={tag} 
-              variant="secondary" 
-              className="text-xs h-6 gap-1 pr-1 cursor-pointer hover:bg-secondary/80"
-              onClick={() => removeTag(tag)}
-            >
-              {tag}
-              <X className="h-2.5 w-2.5 opacity-70" />
-            </Badge>
+            <TagBadge
+              key={tag}
+              tag={tag}
+              size="sm"
+              onRemove={() => removeTag(tag)}
+            />
           ))
         ) : (
           <span className="text-xs text-muted-foreground/60 italic">
