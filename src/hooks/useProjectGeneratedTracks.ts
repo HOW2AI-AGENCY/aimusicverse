@@ -23,6 +23,10 @@ export interface ProjectGeneratedTrack {
   project_track_id: string | null;
   project_id: string | null;
   created_at: string | null;
+  // Assets info
+  stems_count?: number;
+  has_midi?: boolean;
+  has_notes?: boolean;
 }
 
 export function useProjectGeneratedTracks(projectId: string | undefined, projectTrackId?: string) {

@@ -1,8 +1,9 @@
 /**
  * Panel showing all generated versions for a project track slot
- * Allows selecting master version
+ * Allows selecting master version and shows stems/MIDI/notes for master
  */
-import { memo } from 'react';
+import { memo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -14,13 +15,24 @@ import {
   Loader2,
   ChevronDown,
   ChevronUp,
-  CheckCircle2
+  CheckCircle2,
+  Mic2,
+  Guitar,
+  Drum,
+  Piano,
+  FileMusic,
+  FileText,
+  Download,
+  ExternalLink
 } from 'lucide-react';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useProjectGeneratedTracks, ProjectGeneratedTrack } from '@/hooks/useProjectGeneratedTracks';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { formatDuration } from '@/lib/formatters';
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
 
 interface TrackVersionsPanelProps {
   projectId: string;
@@ -30,6 +42,228 @@ interface TrackVersionsPanelProps {
   onToggle?: () => void;
 }
 
+// Stem type display config
+const STEM_ICONS: Record<string, React.ElementType> = {
+  vocals: Mic2,
+  instrumental: Piano,
+  drums: Drum,
+  bass: Guitar,
+  other: Music,
+};
+
+const STEM_LABELS: Record<string, string> = {
+  vocals: 'Вокал',
+  instrumental: 'Инструментал',
+  drums: 'Ударные',
+  bass: 'Бас',
+  other: 'Другое',
+};
+
+// Fetch stems for a track
+function useTrackAssets(trackId: string | undefined) {
+  // Fetch stems
+  const { data: stems, isLoading: stemsLoading } = useQuery({
+    queryKey: ['track-stems', trackId],
+    queryFn: async () => {
+      if (!trackId) return [];
+      const { data, error } = await supabase
+        .from('track_stems')
+        .select('*')
+        .eq('track_id', trackId);
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!trackId,
+  });
+
+  // Fetch stem transcriptions (MIDI/notes)
+  const { data: transcriptions, isLoading: transcriptionsLoading } = useQuery({
+    queryKey: ['stem-transcriptions', trackId],
+    queryFn: async () => {
+      if (!trackId) return [];
+      const { data, error } = await supabase
+        .from('stem_transcriptions')
+        .select('*')
+        .eq('track_id', trackId);
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!trackId,
+  });
+
+  // Fetch guitar recordings (for notes/tabs)
+  const { data: guitarRecordings, isLoading: guitarLoading } = useQuery({
+    queryKey: ['guitar-recordings', trackId],
+    queryFn: async () => {
+      if (!trackId) return [];
+      const { data, error } = await supabase
+        .from('guitar_recordings')
+        .select('*')
+        .eq('track_id', trackId);
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!trackId,
+  });
+
+  return {
+    stems: stems || [],
+    transcriptions: transcriptions || [],
+    guitarRecordings: guitarRecordings || [],
+    isLoading: stemsLoading || transcriptionsLoading || guitarLoading,
+    hasStems: (stems?.length || 0) > 0,
+    hasTranscriptions: (transcriptions?.length || 0) > 0,
+    hasGuitarRecordings: (guitarRecordings?.length || 0) > 0,
+  };
+}
+
+// Master version assets display
+function MasterVersionAssets({ trackId }: { trackId: string }) {
+  const navigate = useNavigate();
+  const { stems, transcriptions, guitarRecordings, isLoading, hasStems, hasTranscriptions, hasGuitarRecordings } = useTrackAssets(trackId);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center gap-1 py-1">
+        <Loader2 className="w-3 h-3 animate-spin text-muted-foreground" />
+        <span className="text-[9px] text-muted-foreground">Загрузка...</span>
+      </div>
+    );
+  }
+
+  const hasAnyAssets = hasStems || hasTranscriptions || hasGuitarRecordings;
+
+  if (!hasAnyAssets) {
+    return null;
+  }
+
+  return (
+    <TooltipProvider>
+      <motion.div
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ opacity: 1, height: 'auto' }}
+        className="mt-2 pt-2 border-t border-border/30"
+      >
+        <p className="text-[9px] text-muted-foreground mb-1.5">Ассеты мастер-версии:</p>
+        
+        <div className="flex flex-wrap gap-1">
+          {/* Stems */}
+          {hasStems && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-6 px-2 text-[9px] gap-1"
+                  onClick={() => navigate(`/studio/${trackId}`)}
+                >
+                  <Music className="w-3 h-3" />
+                  Стемы ({stems.length})
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="text-xs">
+                <div className="space-y-0.5">
+                  {stems.map(stem => {
+                    const Icon = STEM_ICONS[stem.stem_type] || Music;
+                    return (
+                      <div key={stem.id} className="flex items-center gap-1.5">
+                        <Icon className="w-3 h-3" />
+                        <span>{STEM_LABELS[stem.stem_type] || stem.stem_type}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </TooltipContent>
+            </Tooltip>
+          )}
+
+          {/* MIDI/Transcriptions */}
+          {hasTranscriptions && transcriptions.map(trans => (
+            <Tooltip key={trans.id}>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-6 px-2 text-[9px] gap-1"
+                  onClick={() => {
+                    if (trans.midi_url) {
+                      window.open(trans.midi_url, '_blank');
+                    }
+                  }}
+                >
+                  <FileMusic className="w-3 h-3" />
+                  MIDI
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="text-xs">
+                <div className="space-y-0.5">
+                  {trans.bpm && <div>BPM: {trans.bpm}</div>}
+                  {trans.key_detected && <div>Тональность: {trans.key_detected}</div>}
+                  {trans.notes_count && <div>Нот: {trans.notes_count}</div>}
+                </div>
+              </TooltipContent>
+            </Tooltip>
+          ))}
+
+          {/* Guitar tabs/notes */}
+          {hasGuitarRecordings && guitarRecordings.map(rec => (
+            <div key={rec.id} className="flex gap-1">
+              {rec.gp5_url && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-6 px-2 text-[9px] gap-1"
+                      onClick={() => window.open(rec.gp5_url!, '_blank')}
+                    >
+                      <Guitar className="w-3 h-3" />
+                      GP5
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Guitar Pro файл</TooltipContent>
+                </Tooltip>
+              )}
+              {rec.pdf_url && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-6 px-2 text-[9px] gap-1"
+                      onClick={() => window.open(rec.pdf_url!, '_blank')}
+                    >
+                      <FileText className="w-3 h-3" />
+                      Ноты
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>PDF с нотами</TooltipContent>
+                </Tooltip>
+              )}
+              {rec.midi_url && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-6 px-2 text-[9px] gap-1"
+                      onClick={() => window.open(rec.midi_url!, '_blank')}
+                    >
+                      <FileMusic className="w-3 h-3" />
+                      MIDI
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>MIDI файл</TooltipContent>
+                </Tooltip>
+              )}
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    </TooltipProvider>
+  );
+}
+
 export const TrackVersionsPanel = memo(function TrackVersionsPanel({ 
   projectId, 
   projectTrackId, 
@@ -37,6 +271,7 @@ export const TrackVersionsPanel = memo(function TrackVersionsPanel({
   isExpanded = false,
   onToggle,
 }: TrackVersionsPanelProps) {
+  const navigate = useNavigate();
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
   const { 
     tracksBySlot, 
@@ -131,6 +366,23 @@ export const TrackVersionsPanel = memo(function TrackVersionsPanel({
 
         {/* Actions */}
         <div className="flex items-center gap-0.5 shrink-0">
+          {/* Open in studio */}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="h-6 w-6 p-0"
+                  onClick={() => navigate(`/studio/${version.id}`)}
+                >
+                  <ExternalLink className="w-3 h-3" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Открыть в студии</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
           {!isMaster ? (
             <Button
               size="sm"
@@ -198,6 +450,11 @@ export const TrackVersionsPanel = memo(function TrackVersionsPanel({
             <div className="space-y-1 pt-1.5">
               {versions.map((version, index) => renderTrackItem(version, index))}
             </div>
+
+            {/* Master version assets */}
+            {masterVersion && (
+              <MasterVersionAssets trackId={masterVersion.id} />
+            )}
           </motion.div>
         )}
       </AnimatePresence>
