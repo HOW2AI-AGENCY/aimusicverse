@@ -25,6 +25,8 @@ interface VirtualizedTrackListProps {
   onLoadMore: () => void;
   hasMore: boolean;
   isLoadingMore: boolean;
+  onTrackSelect?: (track: Track) => void;
+  selectedTrackId?: string;
 }
 
 // Optimized grid container - using CSS grid for better performance
@@ -116,6 +118,8 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   onLoadMore,
   hasMore,
   isLoadingMore,
+  onTrackSelect,
+  selectedTrackId,
 }: VirtualizedTrackListProps) {
   const loadingRef = useRef(false);
   const lastLoadTimeRef = useRef(0);

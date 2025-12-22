@@ -78,7 +78,7 @@ export function DesktopLibraryLayout({
           onToggleLike={onToggleLike}
           onLoadMore={onLoadMore}
           hasMore={hasMore}
-          isLoadingMore={isLoadingMore}
+          isLoadingMore={isLoadingMore ?? false}
           onTrackSelect={handleTrackSelect}
           selectedTrackId={selectedTrack?.id}
         />
