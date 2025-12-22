@@ -2,6 +2,7 @@
  * Edge Function: separate-reference-stems
  * 
  * Separates stems from reference_audio using Replicate Demucs
+ * Downloads stems and stores them in Supabase Storage
  */
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
@@ -19,6 +20,58 @@ interface SeparationRequest {
   telegram_chat_id?: number;
   telegram_message_id?: number;
   mode?: 'simple' | 'detailed'; // simple = 2 stems, detailed = 4+ stems
+}
+
+async function downloadAndUploadStem(
+  supabase: any,
+  stemUrl: string,
+  userId: string,
+  referenceId: string,
+  stemType: string
+): Promise<string | null> {
+  try {
+    console.log(`Downloading stem ${stemType} from ${stemUrl}`);
+    
+    // Download the stem file
+    const response = await fetch(stemUrl);
+    if (!response.ok) {
+      console.error(`Failed to download ${stemType}: ${response.status}`);
+      return null;
+    }
+    
+    const arrayBuffer = await response.arrayBuffer();
+    const contentType = response.headers.get('content-type') || 'audio/wav';
+    
+    // Determine file extension
+    const ext = contentType.includes('mp3') ? 'mp3' : 'wav';
+    const storagePath = `${userId}/${referenceId}/${stemType}.${ext}`;
+    
+    console.log(`Uploading ${stemType} to storage: ${storagePath}`);
+    
+    // Upload to Supabase Storage
+    const { error: uploadError } = await supabase.storage
+      .from('stems')
+      .upload(storagePath, arrayBuffer, {
+        contentType,
+        upsert: true,
+      });
+    
+    if (uploadError) {
+      console.error(`Failed to upload ${stemType}:`, uploadError);
+      return null;
+    }
+    
+    // Get public URL
+    const { data: publicUrl } = supabase.storage
+      .from('stems')
+      .getPublicUrl(storagePath);
+    
+    console.log(`Uploaded ${stemType}: ${publicUrl.publicUrl}`);
+    return publicUrl.publicUrl;
+  } catch (error) {
+    console.error(`Error processing ${stemType}:`, error);
+    return null;
+  }
 }
 
 serve(async (req) => {
@@ -93,12 +146,9 @@ serve(async (req) => {
 
     console.log(`Starting stem separation for reference ${reference_id} with mode ${mode}`);
 
-    // Choose model based on mode
-    const model = mode === 'detailed' 
-      ? "cjwbw/demucs:25a173108cff36ef9f80f854c162d01df9e6528be175794b81b7a0f3b7571ebe"
-      : "cjwbw/demucs:25a173108cff36ef9f80f854c162d01df9e6528be175794b81b7a0f3b7571ebe";
-
-    // Run Demucs model
+    // Run Demucs model - htdemucs for 4-stem, htdemucs_6s for 6-stem
+    const model = "cjwbw/demucs:25a173108cff36ef9f80f854c162d01df9e6528be175794b81b7a0f3b7571ebe";
+    
     const prediction = await replicate.run(model, {
       input: {
         audio: refAudio.file_url,
@@ -108,31 +158,47 @@ serve(async (req) => {
 
     console.log("Demucs prediction result:", prediction);
 
-    // Parse results - Demucs returns URLs for each stem
-    let stemUrls: Record<string, string> = {};
+    // Parse results and upload to storage
+    const storedStems: Record<string, string> = {};
     
     if (typeof prediction === 'object' && prediction !== null) {
       const pred = prediction as Record<string, unknown>;
       
-      // Demucs returns stems as URLs
-      if (pred.vocals) stemUrls.vocal_stem_url = pred.vocals as string;
-      if (pred.accompaniment) stemUrls.instrumental_stem_url = pred.accompaniment as string;
-      if (pred.drums) stemUrls.drums_stem_url = pred.drums as string;
-      if (pred.bass) stemUrls.bass_stem_url = pred.bass as string;
-      if (pred.other) stemUrls.other_stem_url = pred.other as string;
+      // Map Demucs output to our stem types and upload to storage
+      const stemMappings: [string, string][] = [
+        ['vocals', 'vocal_stem_url'],
+        ['accompaniment', 'instrumental_stem_url'],
+        ['no_vocals', 'instrumental_stem_url'],
+        ['drums', 'drums_stem_url'],
+        ['bass', 'bass_stem_url'],
+        ['other', 'other_stem_url'],
+      ];
       
-      // Some models return 'no_vocals' instead of 'accompaniment'
-      if (pred.no_vocals && !stemUrls.instrumental_stem_url) {
-        stemUrls.instrumental_stem_url = pred.no_vocals as string;
+      for (const [demucsKey, dbKey] of stemMappings) {
+        const stemUrl = pred[demucsKey] as string | undefined;
+        if (stemUrl && !storedStems[dbKey]) {
+          const storedUrl = await downloadAndUploadStem(
+            supabase,
+            stemUrl,
+            user_id,
+            reference_id,
+            demucsKey
+          );
+          if (storedUrl) {
+            storedStems[dbKey] = storedUrl;
+          }
+        }
       }
     }
 
-    // Update reference_audio with stem URLs
+    console.log("Stored stems:", storedStems);
+
+    // Update reference_audio with storage URLs
     const { error: updateError } = await supabase
       .from("reference_audio")
       .update({
-        ...stemUrls,
-        stems_status: 'completed',
+        ...storedStems,
+        stems_status: Object.keys(storedStems).length > 0 ? 'completed' : 'failed',
       })
       .eq("id", reference_id);
 
@@ -144,10 +210,12 @@ serve(async (req) => {
     // Send Telegram notification if chat_id provided
     if (telegram_chat_id) {
       try {
-        const stemCount = Object.keys(stemUrls).length;
-        const stemTypes = Object.keys(stemUrls)
+        const stemCount = Object.keys(storedStems).length;
+        const stemTypes = Object.keys(storedStems)
           .map(k => k.replace('_stem_url', '').replace('_', ' '))
           .join(', ');
+
+        const BOT_URL = Deno.env.get("TELEGRAM_BOT_MINIAPP_URL") || "https://ygmvthybdrqymfsqifmj.lovable.app";
 
         await supabase.functions.invoke('send-telegram-notification', {
           body: {
@@ -155,23 +223,15 @@ serve(async (req) => {
             message: `✅ *Стемы готовы\\!*\n\n` +
               `📁 ${refAudio.file_name?.replace(/[_*[\]()~`>#+=|{}.!-]/g, '\\$&') || 'Аудио'}\n` +
               `🎛️ Разделено на ${stemCount} стемов:\n` +
-              `_${stemTypes}_\n\n` +
-              `Используйте стемы как референс для генерации:`,
+              `_${stemTypes}_`,
             reply_markup: {
               inline_keyboard: [
                 [
-                  { text: '🎤 Вокал → Кавер', callback_data: `stem_use_vocal_${reference_id}` },
-                  { text: '🎸 Инструментал', callback_data: `stem_use_instrumental_${reference_id}` }
-                ],
-                [
-                  { text: '⬇️ Скачать стемы', callback_data: `stem_download_${reference_id}` }
-                ],
-                [
-                  { text: '📱 Открыть в приложении', web_app: { url: `${SUPABASE_URL.replace('.supabase.co', '')}.lovable.app?startapp=cloud` } }
+                  { text: '📱 Открыть в приложении', web_app: { url: `${BOT_URL}/reference/${reference_id}` } }
                 ]
               ]
             },
-            message_id: telegram_message_id, // Edit existing message if provided
+            message_id: telegram_message_id,
           },
         });
       } catch (notifError) {
@@ -183,8 +243,8 @@ serve(async (req) => {
       JSON.stringify({
         success: true,
         reference_id,
-        stems: stemUrls,
-        stem_count: Object.keys(stemUrls).length,
+        stems: storedStems,
+        stem_count: Object.keys(storedStems).length,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
