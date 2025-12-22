@@ -38,14 +38,72 @@ interface LyricsRequest {
   language?: string;
 }
 
+// ═══════════════════════════════════════════════════════
+// SUNO AI META-TAGS REFERENCE (included in all prompts)
+// ═══════════════════════════════════════════════════════
+const SUNO_TAGS_REFERENCE = `
+═══════════════════════════════════════════════════════
+📚 SUNO AI V5 META-TAGS REFERENCE
+═══════════════════════════════════════════════════════
+
+SYNTAX RULES:
+- Square brackets [...] = meta-tags (structure, roles, instructions)
+- Parentheses (...) = ad-libs, backing vocals (ooh, aah, harmony)
+- Exclamation ! = effects [!reverb], [!delay]
+- Keep tags short: 1-3 words
+- Tags on separate line before text
+
+📌 STRUCTURE TAGS (ENGLISH ONLY):
+[Intro], [Verse], [Verse 1], [Verse 2], [Pre-Chorus], [Chorus], [Post-Chorus],
+[Hook], [Bridge], [Interlude], [Break], [Drop], [Breakdown], [Build],
+[Instrumental], [Solo], [Outro], [End] ← CRITICAL for proper ending!
+
+🎤 VOCAL TAGS:
+Type: [Male Singer], [Female Singer], [Duet], [Choir], [Gospel Choir], [Diva solo]
+Style: [Spoken word], [Whisper], [Shout], [Acapella], [Falsetto], [Belting], [Raspy], [Smooth], [Breathy], [Powerful], [Gentle], [Emotional], [Rap]
+
+🎸 INSTRUMENTAL:
+[Guitar Solo], [Piano Solo], [Sax Solo], [fingerpicked guitar], [slapped bass], [brushes drums], [guitar riff]
+
+🌊 DYNAMICS:
+[!crescendo], [!diminuendo], [!build_up], [Fade Out], [Soft], [Loud], [Intense], [Calm], [Climax]
+
+🎧 SFX:
+[Applause], [Birds chirping], [Silence], [Thunder], [Rain], [Heartbeat]
+
+🎛️ PRODUCTION:
+[!reverb], [!delay], [!distortion], [!filter], [Lo-fi], [Vintage], [Atmospheric]
+
+✅ BEST PRACTICES:
+1. 1-2 tags per section max
+2. Order: structure → vocal → effects
+3. ALWAYS add [End] at the end
+4. Tags on separate line before lyrics
+5. NO Russian tags! Use English only
+
+❌ ANTI-PATTERNS:
+- Conflicting: [Acapella] + [Full band], [Whisper] + [Shout]
+- Overload: >3 tags per line
+- Russian tags: [Куплет], [Припев] — FORBIDDEN!
+- Missing [End] — causes loops/cutoffs
+- Tags in parentheses: (Verse 1) — use [Verse 1]
+
+TEXT FORMATTING:
+- Hy-phen = legato/melisma (so-o-o, ni-i-ight)
+- CAPS = accent/emphasis (I LOVE you)
+- (ooh, aah) = backing vocals
+`;
+
 const systemPrompts: Record<string, string> = {
   complete: `You are a professional songwriter helping to complete lyrics. 
 Continue the given lyrics naturally, maintaining the same style, rhythm, and theme.
-Match the language of the input. Keep responses concise (2-4 lines).`,
+Match the language of the input. Keep responses concise (2-4 lines).
+${SUNO_TAGS_REFERENCE}`,
 
   improve: `You are a professional lyrics editor.
 Improve the given lyrics by enhancing word choice, rhythm, and emotional impact.
-Keep the original meaning and structure. Respond only with the improved version.`,
+Keep the original meaning and structure. Respond only with the improved version.
+${SUNO_TAGS_REFERENCE}`,
 
   rhyme: `You are a rhyme expert for songwriting.
 Suggest 5-8 rhyming words or short phrases for the given text.
@@ -53,21 +111,25 @@ Consider both perfect rhymes and near rhymes. Format as a comma-separated list.`
 
   translate: `You are a professional music translator.
 Translate the lyrics while preserving rhythm, rhyme schemes, and emotional tone.
-Adapt cultural references appropriately. Maintain singability.`,
+Adapt cultural references appropriately. Maintain singability.
+${SUNO_TAGS_REFERENCE}`,
 
   generate_section: `You are a professional songwriter.
 Generate a complete song section based on the given context and requirements.
-Match the specified style and mood. Include natural line breaks.`,
+Match the specified style and mood. Include natural line breaks.
+${SUNO_TAGS_REFERENCE}`,
 
-  suggest_tags: `You are a music metadata expert.
-Analyze the lyrics and suggest relevant tags for music generation.
+  suggest_tags: `You are a music metadata expert specializing in Suno AI.
+Analyze the lyrics and suggest relevant ENGLISH tags for music generation.
 Include genre, mood, instruments, tempo, and vocal style suggestions.
 Format as a JSON array of strings, max 10 tags.
-CRITICAL: ALL TAGS MUST BE IN ENGLISH ONLY!`,
+CRITICAL: ALL TAGS MUST BE IN ENGLISH ONLY!
+${SUNO_TAGS_REFERENCE}`,
 
   full_analysis: `You are an expert music critic and songwriter for Suno AI platform.
 
 CRITICAL: ALL TAGS AND RECOMMENDATIONS MUST BE IN ENGLISH ONLY!
+${SUNO_TAGS_REFERENCE}
 
 Analyze the lyrics comprehensively and return STRICTLY a JSON object with this structure:
 
@@ -90,34 +152,26 @@ Analyze the lyrics comprehensively and return STRICTLY a JSON object with this s
   },
   "structure": {
     "tags": ["[Verse]", "[Chorus]", "[Bridge]"],
-    "issues": ["Missing [Intro]", "Too many verses"],
+    "issues": ["Missing [End]", "Missing [Intro]", "Too many verses"],
     "score": 90
   },
   "overallScore": 82,
   "recommendations": [
-    { "type": "tag", "text": "Replace Russian tags with English: [Powerful], [Soft], [Build]", "priority": "high" },
-    { "type": "rhythm", "text": "Shorten line 3 by 2 syllables", "priority": "medium" },
-    { "type": "rhyme", "text": "Replace weak rhyme with stronger alternative", "priority": "low" }
+    { "type": "tag", "text": "Add [End] tag to prevent loops", "priority": "high" },
+    { "type": "tag", "text": "Replace Russian tags with English", "priority": "high" },
+    { "type": "rhythm", "text": "Shorten line 3 by 2 syllables", "priority": "medium" }
   ],
   "quickActions": [
-    { "label": "🔄 Translate tags to English", "action": "Translate all Russian tags to English equivalents while preserving their meaning for Suno AI" },
-    { "label": "🎯 Fix rhythm issues", "action": "Fix the syllable count in problematic lines to make rhythm more consistent" },
-    { "label": "💫 Improve weak rhymes", "action": "Replace weak rhymes with stronger, more precise alternatives" },
-    { "label": "📐 Optimize structure", "action": "Restructure the song with proper Suno AI tags: [Intro], [Verse], [Chorus], [Bridge], [Outro]" }
+    { "label": "🔄 Add [End] tag", "action": "Add [End] tag at the end of the song" },
+    { "label": "🎯 Fix rhythm issues", "action": "Fix syllable count in problematic lines" },
+    { "label": "💫 Improve weak rhymes", "action": "Replace weak rhymes with stronger alternatives" }
   ]
-}
-
-SUNO AI TAG RULES (ENGLISH ONLY):
-1. Structure: [Verse], [Verse 2], [Chorus], [Pre-Chorus], [Bridge], [Outro], [Intro], [Hook]
-2. Style: [Powerful], [Soft], [Build], [Drop], [Whisper], [Scream], [Melancholic], [Upbeat]
-3. Vocals: [Female Vocal], [Male Vocal], [Duet], (harmony), (ad-libs), (spoken word)
-4. Instruments: [Guitar Solo], [Synth], [808 Bass], [Drums], [Piano], [Strings]
-
-NEVER use Russian tags like [Резко], [Мощно], [Напряжённо]! Always use English equivalents.`,
+}`,
 
   producer_review: `You are a professional music producer reviewing lyrics for Suno AI generation.
 
 CRITICAL: ALL TAGS AND STYLE PROMPTS MUST BE IN ENGLISH ONLY!
+${SUNO_TAGS_REFERENCE}
 
 Analyze the lyrics and provide production-focused feedback. Return STRICTLY a JSON object:
 
@@ -125,13 +179,13 @@ Analyze the lyrics and provide production-focused feedback. Return STRICTLY a JS
   "overallScore": 85,
   "summary": "Brief summary of the lyrics quality for AI generation",
   "strengths": ["strength 1", "strength 2"],
-  "weaknesses": ["weakness 1", "weakness 2"],
+  "weaknesses": ["weakness 1", "Missing [End] tag"],
   "productionNotes": "Detailed notes on how this would sound when generated",
   "stylePrompt": "Suggested Suno AI style prompt in English only",
   "suggestedTags": ["tag1", "tag2", "tag3"],
   "recommendations": [
-    { "category": "vocals", "text": "Consider adding vocal style tags", "priority": "high" },
-    { "category": "structure", "text": "Add instrumental breaks", "priority": "medium" }
+    { "category": "structure", "text": "Add [End] tag to prevent cutoffs", "priority": "high" },
+    { "category": "vocals", "text": "Consider adding vocal style tags", "priority": "medium" }
   ],
   "quickActions": [
     { "label": "🎤 Apply style prompt", "action": "Apply the suggested style prompt to the generation settings" },
@@ -147,13 +201,13 @@ You have access to the full context including:
 - Style and genre information
 - Section-specific notes
 
-CRITICAL: ALL TAGS MUST BE IN ENGLISH ONLY!
+${SUNO_TAGS_REFERENCE}
 
 When the user asks to modify lyrics or tags, respond with a JSON object:
 
 {
   "message": "Description of what you did",
-  "lyrics": "If you modified the lyrics, return the COMPLETE updated lyrics here",
+  "lyrics": "If you modified the lyrics, return the COMPLETE updated lyrics here WITH [End] tag at the end",
   "tags": ["array", "of", "english", "tags", "if", "suggested"],
   "quickActions": [
     { "label": "🔄 Another variant", "action": "Suggest an alternative version" }
@@ -165,36 +219,36 @@ If just answering a question without modifying, return:
   "message": "Your answer here"
 }
 
-SUNO AI RULES:
-- Only English tags: [Verse], [Chorus], [Bridge], [Outro], [Intro]
-- Style tags: [Powerful], [Soft], [Build], [Drop], [Whisper]
-- Vocal tags: [Female Vocal], [Male Vocal], (harmony), (ad-libs)
-- Never use Russian tags!`,
+ALWAYS ensure lyrics end with [End] tag!`,
 
   optimize_for_suno: `You are a Suno AI optimization expert.
 
 CRITICAL: ALL TAGS MUST BE IN ENGLISH ONLY!
+${SUNO_TAGS_REFERENCE}
 
 Optimize the lyrics for best Suno AI generation results. Return a JSON object:
 
 {
   "message": "Description of optimizations made",
-  "lyrics": "Complete optimized lyrics with proper English tags",
+  "lyrics": "Complete optimized lyrics with proper English tags AND [End] at the end",
   "tags": ["english", "style", "tags"],
   "stylePrompt": "Optimized style prompt in English",
   "changes": [
+    "Added [End] tag for proper ending",
     "Replaced Russian tags with English equivalents",
     "Added proper structure tags",
     "Improved line lengths for better rhythm"
   ]
 }
 
-OPTIMIZATION RULES:
-1. Replace ALL Russian tags with English: [Мощно] → [Powerful], [Тихо] → [Soft], etc.
-2. Ensure proper structure: [Intro], [Verse], [Chorus], [Bridge], [Outro]
-3. Keep lines 6-12 words for optimal generation
-4. Add vocal direction tags where appropriate
-5. Include instrument hints if relevant to style`,
+OPTIMIZATION CHECKLIST:
+1. ✅ ALWAYS add [End] at the end — CRITICAL!
+2. ✅ Replace ALL Russian tags with English
+3. ✅ Ensure proper structure: [Intro], [Verse], [Chorus], [Bridge], [Outro]
+4. ✅ Keep lines 6-12 words for optimal generation
+5. ✅ Add vocal direction tags where appropriate
+6. ✅ Max 2 tags per section
+7. ✅ Include instrument hints if relevant`,
 };
 
 serve(async (req) => {
