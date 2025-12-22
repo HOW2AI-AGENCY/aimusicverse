@@ -116,6 +116,13 @@ export async function handleCallbackQuery(
       if (handled) return;
     }
     
+    // Handle tariff callbacks
+    if (data.startsWith('tariff_')) {
+      const { handleTariffCallback } = await import('../handlers/tariffs.ts');
+      const handled = await handleTariffCallback(data, chatId, from.id, messageId, id);
+      if (handled) return;
+    }
+    
     // Try each category handler in order of priority
     const handlers: CallbackHandler[] = [
       handleQuickActionsCallbacks,
