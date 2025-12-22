@@ -2,3 +2,5 @@ export { WriteToolPanel } from './WriteToolPanel';
 export { AnalyzeToolPanel } from './AnalyzeToolPanel';
 export { ProducerToolPanel } from './ProducerToolPanel';
 export { OptimizeToolPanel } from './OptimizeToolPanel';
+export { RhymeToolPanel } from './RhymeToolPanel';
+export { TagsToolPanel } from './TagsToolPanel';
