@@ -151,7 +151,7 @@ export function PublicArtistsSection() {
                 </div>
 
                 {/* Info section */}
-                <div className="p-3 space-y-2">
+                <div className="p-3 space-y-2 min-h-[72px]">
                   {/* Name */}
                   <p className="font-semibold text-sm truncate group-hover:text-primary transition-colors">
                     {artist.name}
@@ -172,13 +172,13 @@ export function PublicArtistsSection() {
                     </div>
                   )}
 
-                  {/* Genre tags */}
-                  <div className="flex flex-wrap gap-1">
+                  {/* Genre tags - Fixed height container */}
+                  <div className="flex flex-wrap gap-1 h-5 overflow-hidden">
                     {artist.genre_tags?.slice(0, 2).map((tag, tagIndex) => (
                       <Badge 
                         key={tagIndex}
                         variant="glass" 
-                        className="text-[9px] px-1.5 py-0"
+                        className="text-[9px] px-1.5 py-0 h-4"
                       >
                         <Music className="w-2 h-2 mr-0.5" />
                         {tag}

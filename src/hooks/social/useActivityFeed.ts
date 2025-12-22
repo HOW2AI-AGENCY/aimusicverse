@@ -46,8 +46,7 @@ export function useFollowingIds() {
       const { data, error } = await supabase
         .from('user_follows')
         .select('following_id')
-        .eq('follower_id', user.id)
-        .eq('status', 'active');
+        .eq('follower_id', user.id);
 
       if (error) throw error;
       return data?.map(f => f.following_id) || [];
