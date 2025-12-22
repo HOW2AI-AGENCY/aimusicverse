@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLyricsTemplates, LyricsTemplate } from '@/hooks/useLyricsTemplates';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { FileText, Search, Trash2, Copy } from 'lucide-react';
+import { FileText, Search, Trash2, PenLine } from 'lucide-react';
 import { toast } from 'sonner';
 import { VirtualizedLyricsList } from '@/components/content-hub/VirtualizedLyricsList';
 import { StructuredLyricsPreview } from '@/components/lyrics-workspace/ai-agent/results/StructuredLyricsPreview';
@@ -26,20 +27,20 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 export function LyricsTab() {
+  const navigate = useNavigate();
   const { templates, isLoading, deleteTemplate } = useLyricsTemplates();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTemplate, setSelectedTemplate] = useState<LyricsTemplate | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
+  const handleEdit = (templateId: string) => {
+    navigate(`/lyrics-studio?template=${templateId}`);
+  };
+
   const filteredTemplates = templates?.filter((t) =>
     t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     t.lyrics.toLowerCase().includes(searchQuery.toLowerCase())
   ) || [];
-
-  const handleCopy = (lyrics: string) => {
-    navigator.clipboard.writeText(lyrics);
-    toast.success('Текст скопирован');
-  };
 
   const handleDelete = (id: string) => {
     deleteTemplate(id);
@@ -120,15 +121,17 @@ export function LyricsTab() {
                   {/* Lyrics - Visual Display */}
                   <StructuredLyricsPreview lyrics={selectedTemplate.lyrics} />
 
-                  {/* Actions */}
+                  {/* Actions - icon buttons only */}
                   <div className="flex gap-2 pt-4">
                     <Button 
-                      variant="outline" 
-                      className="flex-1"
-                      onClick={() => handleCopy(selectedTemplate.lyrics)}
+                      variant="default"
+                      size="icon"
+                      onClick={() => {
+                        handleEdit(selectedTemplate.id);
+                        setSelectedTemplate(null);
+                      }}
                     >
-                      <Copy className="w-4 h-4 mr-2" />
-                      Копировать
+                      <PenLine className="w-4 h-4" />
                     </Button>
                     <Button 
                       variant="destructive" 
