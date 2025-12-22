@@ -12,7 +12,7 @@ import logo from '@/assets/logo.png';
 import { useTracks } from '@/hooks/useTracks';
 import { useGenerateForm, useAudioReference } from '@/hooks/generation';
 import { useTelegram } from '@/contexts/TelegramContext';
-import { useTelegramMainButton, useTelegramBackButton } from '@/hooks/telegram';
+import { useTelegramMainButton, useTelegramSecondaryButton, useTelegramBackButton } from '@/hooks/telegram';
 // Form components
 import { GenerateFormHeaderCompact } from './generate-form/GenerateFormHeaderCompact';
 import { GenerateFormActions } from './generate-form/GenerateFormActions';
@@ -148,6 +148,19 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     onClick: handleGenerate,
     enabled: !form.loading,
     visible: open && !lyricsAssistantOpen,
+  });
+
+  // Telegram SecondaryButton for "Save Draft" - NEW FEATURE
+  // Only show when there's unsaved data
+  const { shouldShowUIButton: shouldShowSecondaryUIButton } = useTelegramSecondaryButton({
+    text: 'Сохранить черновик',
+    onClick: () => {
+      hapticFeedback('light');
+      toast.success('Черновик сохранён');
+    },
+    enabled: hasUnsavedData && !form.loading,
+    visible: open && hasUnsavedData && !lyricsAssistantOpen,
+    position: 'left',
   });
 
   // Telegram BackButton integration - with confirmation for unsaved data
@@ -333,25 +346,45 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               <Progress value={33} className="h-1" />
             </div>
           )}
-          {shouldShowUIButton && (
-            <Button
-              onClick={handleGenerate}
-              disabled={form.loading}
-              className="w-full h-12 text-sm font-semibold gap-2 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 rounded-xl disabled:opacity-50"
-            >
-              {form.loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Создание...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-4 h-4" />
-                  Сгенерировать
-                </>
-              )}
-            </Button>
-          )}
+          <div className="flex gap-2">
+            {/* SecondaryButton fallback - Save Draft */}
+            {shouldShowSecondaryUIButton && (
+              <Button
+                onClick={() => {
+                  hapticFeedback('light');
+                  toast.success('Черновик сохранён');
+                }}
+                variant="outline"
+                disabled={form.loading || !hasUnsavedData}
+                className="flex-1 h-12 text-sm font-semibold rounded-xl"
+              >
+                Сохранить черновик
+              </Button>
+            )}
+            {/* MainButton fallback - Generate */}
+            {shouldShowUIButton && (
+              <Button
+                onClick={handleGenerate}
+                disabled={form.loading}
+                className={cn(
+                  "h-12 text-sm font-semibold gap-2 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 rounded-xl disabled:opacity-50",
+                  shouldShowSecondaryUIButton ? "flex-1" : "w-full"
+                )}
+              >
+                {form.loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Создание...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4" />
+                    Сгенерировать
+                  </>
+                )}
+              </Button>
+            )}
+          </div>
         </div>
       </SheetContent>
 
