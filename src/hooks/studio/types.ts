@@ -29,10 +29,35 @@ export interface ReverbSettings {
   enabled: boolean;
 }
 
+export interface DelaySettings {
+  time: number;         // 0 to 1000 ms
+  feedback: number;     // 0 to 1
+  mix: number;          // 0 to 1
+  sync: boolean;        // sync to tempo
+  enabled: boolean;
+}
+
+export interface ChorusSettings {
+  depth: number;        // 0 to 1
+  speed: number;        // 0.1 to 10 Hz
+  mix: number;          // 0 to 1
+  enabled: boolean;
+}
+
+export interface FilterSettings {
+  type: 'lowpass' | 'highpass' | 'bandpass';
+  cutoff: number;       // 20 to 20000 Hz
+  resonance: number;    // 0 to 30
+  enabled: boolean;
+}
+
 export interface StemEffects {
   eq: EQSettings;
   compressor: CompressorSettings;
   reverb: ReverbSettings;
+  delay?: DelaySettings;
+  chorus?: ChorusSettings;
+  filter?: FilterSettings;
 }
 
 export interface StemConfig {
