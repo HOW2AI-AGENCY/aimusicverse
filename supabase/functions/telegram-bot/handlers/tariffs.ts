@@ -338,8 +338,7 @@ async function showEnterpriseContact(chatId: number, messageId: number): Promise
     });
   } else {
     await sendMessage(chatId, escapeMarkdownV2(text), {
-      parse_mode: 'MarkdownV2',
-      reply_markup: { inline_keyboard: keyboard },
+      inline_keyboard: keyboard,
     });
   }
 }
