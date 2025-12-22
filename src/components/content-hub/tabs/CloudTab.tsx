@@ -108,22 +108,26 @@ function SimpleUploadDialog({ open, onOpenChange }: { open: boolean; onOpenChang
       // Auto-trigger analysis using hook function for proper cache invalidation
       try {
         const { data, error } = await supabase.functions.invoke('analyze-audio-flamingo', {
-          body: { audio_url: publicUrl },
+          body: { 
+            audio_url: publicUrl,
+            reference_id: savedAudio.id, // Pass reference_id so function updates the record directly
+          },
         });
 
         if (!error && data?.parsed) {
-          const parsed = data.parsed;
+          // Function now updates the record directly, but we still call updateAnalysis
+          // to invalidate React Query cache
           await updateAnalysis({
             id: savedAudio.id,
-            genre: parsed.genre,
-            mood: parsed.mood,
-            styleDescription: parsed.style_description,
-            tempo: parsed.tempo,
-            energy: parsed.energy,
-            bpm: parsed.bpm ? Number(parsed.bpm) : undefined,
-            instruments: parsed.instruments,
-            vocalStyle: parsed.vocal_style,
-            hasVocals: parsed.has_vocals ?? true,
+            genre: data.parsed.genre,
+            mood: data.parsed.mood,
+            styleDescription: data.parsed.style_description,
+            tempo: data.parsed.tempo,
+            energy: data.parsed.energy,
+            bpm: data.parsed.bpm ? Number(data.parsed.bpm) : undefined,
+            instruments: data.parsed.instruments,
+            vocalStyle: data.parsed.vocal_style,
+            hasVocals: data.parsed.has_vocals ?? true,
             analysisStatus: 'completed',
           });
           toast.success('Анализ завершен');
@@ -369,7 +373,10 @@ function AudioDetailPanel({
 
     try {
       const { data, error } = await supabase.functions.invoke('analyze-audio-flamingo', {
-        body: { audio_url: audio.file_url },
+        body: { 
+          audio_url: audio.file_url,
+          reference_id: audio.id,
+        },
       });
 
       if (error) throw error;
@@ -857,7 +864,10 @@ export function CloudTab() {
 
         // Auto-trigger analysis in background with proper cache invalidation
         supabase.functions.invoke('analyze-audio-flamingo', {
-          body: { audio_url: publicUrl },
+          body: { 
+            audio_url: publicUrl,
+            reference_id: savedAudio.id,
+          },
         }).then(async ({ data, error }) => {
           if (!error && data?.parsed) {
             const parsed = data.parsed;
