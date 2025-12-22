@@ -30,7 +30,16 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
       .sort((a, b) => a.sort_order - b.sort_order);
   }, [items, currentMenu]);
   
-  // Group items by row
+  // Max characters for buttons to be placed side-by-side
+  const MAX_CHARS_FOR_PAIRING = 12;
+  
+  // Get button text length including emoji
+  const getButtonTextLength = (item: BotMenuItem): number => {
+    const text = item.icon_emoji ? `${item.icon_emoji} ${item.title}` : item.title;
+    return text.length;
+  };
+  
+  // Group items by row with smart layout
   const rows = useMemo(() => {
     const rowMap = new Map<number, BotMenuItem[]>();
     
@@ -42,9 +51,35 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
       rowMap.get(row)!.push(item);
     }
     
-    return [...rowMap.entries()]
-      .sort((a, b) => a[0] - b[0])
-      .map(([, items]) => items);
+    // Build keyboard with smart layout
+    const result: BotMenuItem[][] = [];
+    const sortedRows = [...rowMap.entries()].sort((a, b) => a[0] - b[0]);
+    
+    for (const [, rowItems] of sortedRows) {
+      // Sort items within row by sort_order
+      rowItems.sort((a, b) => a.sort_order - b.sort_order);
+      
+      // If only 1 item in row, just add it
+      if (rowItems.length === 1) {
+        result.push(rowItems);
+        continue;
+      }
+      
+      // Check if all items in this row have short enough titles to be paired
+      const allShort = rowItems.every(item => getButtonTextLength(item) <= MAX_CHARS_FOR_PAIRING);
+      
+      if (allShort && rowItems.length <= 3) {
+        // All buttons are short enough, place them side by side
+        result.push(rowItems);
+      } else {
+        // Some buttons are too long, place each on its own row
+        for (const item of rowItems) {
+          result.push([item]);
+        }
+      }
+    }
+    
+    return result;
   }, [currentItems]);
   
   const handleButtonClick = (item: BotMenuItem) => {
