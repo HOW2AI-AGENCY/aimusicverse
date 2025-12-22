@@ -17,3 +17,10 @@ export {
   ensureAudioContextRunning,
   safeCloseAudioContext,
 } from './audioContextHelper';
+
+export {
+  audioManager,
+  AudioManager,
+  type AudioManagerConfig,
+  type AudioElementMetadata,
+} from './AudioManager';
