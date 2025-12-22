@@ -3,10 +3,22 @@
  */
 
 import { editMessageText, answerCallbackQuery } from '../telegram-api.ts';
-import { getUserByTelegramId } from '../db-helpers.ts';
-import { createSupabaseClient } from '../supabase-client.ts';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { logger } from '../utils/index.ts';
 import { logBotAction } from '../utils/bot-logger.ts';
+
+// Helper to get user by telegram ID
+async function getUserByTelegramId(telegramId: number): Promise<{ id: string; user_id: string } | null> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id, user_id')
+    .eq('telegram_id', telegramId)
+    .single();
+  
+  if (error) return null;
+  return data;
+}
 
 export async function handleCloudCallback(
   data: string,
@@ -49,7 +61,7 @@ export async function handleCloudCallback(
 }
 
 async function showCloudFiles(chatId: number, supabaseUserId: string, messageId: number): Promise<void> {
-  const supabase = createSupabaseClient();
+  const supabase = getSupabaseClient();
   const { count } = await supabase.from('reference_audio').select('id', { count: 'exact' }).eq('user_id', supabaseUserId);
   
   const text = `📂 *МОИ ФАЙЛЫ*\n\n📊 *Всего файлов:* ${count || 0}\n\n_Загрузите аудио через меню "Загрузка"_`;
@@ -84,7 +96,7 @@ async function showMidiFiles(chatId: number, _supabaseUserId: string, messageId:
 }
 
 async function showStorageInfo(chatId: number, supabaseUserId: string, messageId: number): Promise<void> {
-  const supabase = createSupabaseClient();
+  const supabase = getSupabaseClient();
   const { count } = await supabase.from('reference_audio').select('id', { count: 'exact' }).eq('user_id', supabaseUserId);
   
   const text = `📊 *ХРАНИЛИЩЕ*\n\n📂 *Файлов:* ${count || 0}\n💾 *Лимит:* 500 MB\n\n_Увеличьте лимит с подпиской Pro\\!_`;

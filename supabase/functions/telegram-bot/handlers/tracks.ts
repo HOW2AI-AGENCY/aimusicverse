@@ -3,11 +3,22 @@
  */
 
 import { editMessageText, answerCallbackQuery } from '../telegram-api.ts';
-import { getUserByTelegramId } from '../db-helpers.ts';
-import { createSupabaseClient } from '../supabase-client.ts';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { logger } from '../utils/index.ts';
 import { logBotAction } from '../utils/bot-logger.ts';
-import { setWaitingForInput } from '../db-session-store.ts';
+
+// Helper to get user by telegram ID
+async function getUserByTelegramId(telegramId: number): Promise<{ id: string; user_id: string } | null> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id, user_id')
+    .eq('telegram_id', telegramId)
+    .single();
+  
+  if (error) return null;
+  return data;
+}
 
 const TRACKS_PER_PAGE = 5;
 
@@ -73,7 +84,7 @@ async function showTracksList(
   filter: 'all' | 'recent' | 'favorites',
   page: number
 ): Promise<void> {
-  const supabase = createSupabaseClient();
+  const supabase = getSupabaseClient();
   
   let query = supabase
     .from('tracks')
@@ -150,8 +161,8 @@ async function showGenreFilter(chatId: number, messageId: number): Promise<void>
   } as Record<string, unknown>);
 }
 
-async function promptTrackSearch(chatId: number, telegramUserId: number, messageId: number): Promise<void> {
-  await setWaitingForInput(telegramUserId, 'track_search', { chatId, messageId });
+async function promptTrackSearch(chatId: number, _telegramUserId: number, messageId: number): Promise<void> {
+  // Simple prompt without session storage
   
   const text = `🔍 *ПОИСК ТРЕКОВ*\n\nВведите название или ключевые слова:`;
   

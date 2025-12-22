@@ -3,12 +3,34 @@
  */
 
 import { editMessageText, answerCallbackQuery, sendMessage } from '../telegram-api.ts';
-import { getUserByTelegramId } from '../db-helpers.ts';
-import { createSupabaseClient } from '../supabase-client.ts';
-import { setWaitingForInput } from '../db-session-store.ts';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { sendAutoDeleteMessage, AUTO_DELETE_TIMINGS } from '../utils/auto-delete.ts';
 import { logger } from '../utils/index.ts';
 import { logBotAction } from '../utils/bot-logger.ts';
+
+// Helper to get user by telegram ID
+async function getUserByTelegramId(telegramId: number): Promise<{ id: string; user_id: string } | null> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id, user_id')
+    .eq('telegram_id', telegramId)
+    .single();
+  
+  if (error) return null;
+  return data;
+}
+
+// Session state for feedback inputs
+const feedbackSessions = new Map<number, { type: string; chatId: number; messageId: number }>();
+
+async function setWaitingForInput(telegramUserId: number, type: string | null, data?: { chatId: number; messageId: number; type?: string }): Promise<void> {
+  if (type === null) {
+    feedbackSessions.delete(telegramUserId);
+  } else if (data) {
+    feedbackSessions.set(telegramUserId, { type, chatId: data.chatId, messageId: data.messageId });
+  }
+}
 
 export async function handleFeedbackCallback(
   data: string,
@@ -79,7 +101,7 @@ async function showRatingOptions(chatId: number, messageId: number): Promise<voi
 }
 
 async function handleRating(chatId: number, telegramUserId: number, messageId: number, rating: number): Promise<void> {
-  const supabase = createSupabaseClient();
+  const supabase = getSupabaseClient();
   const user = await getUserByTelegramId(telegramUserId);
   
   if (user) {
@@ -107,7 +129,7 @@ async function cancelFeedback(chatId: number, telegramUserId: number, queryId: s
 }
 
 export async function processFeedbackMessage(chatId: number, telegramUserId: number, messageText: string, feedbackType: string): Promise<void> {
-  const supabase = createSupabaseClient();
+  const supabase = getSupabaseClient();
   const user = await getUserByTelegramId(telegramUserId);
   
   if (user) {
