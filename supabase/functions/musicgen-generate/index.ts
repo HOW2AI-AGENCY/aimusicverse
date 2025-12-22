@@ -45,8 +45,11 @@ serve(async (req) => {
     // Valid model versions: "stereo-melody-large", "stereo-large", "melody-large", "large"
     const validModels = ['stereo-melody-large', 'stereo-large', 'melody-large', 'large'];
     const modelClean = typeof model === 'string' ? model.trim() : 'large';
+
+    // For continuation we must use one of the melody-capable variants.
+    // Empirically, Replicate validates continuation inputs best with the stereo melody checkpoint.
     const modelVersion = continuation_url
-      ? 'melody-large'
+      ? 'stereo-melody-large'
       : (validModels.includes(modelClean) ? modelClean : 'large');
 
     // Build input for MusicGen
