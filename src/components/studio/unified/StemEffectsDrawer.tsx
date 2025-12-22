@@ -8,7 +8,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Sliders, RotateCcw, Volume2, 
-  Waves, Settings2, Sparkles
+  Waves, Settings2, Sparkles, Gauge
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -29,6 +29,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { TrackStem } from '@/hooks/useTrackStems';
 import type { StemEffects, EQSettings, CompressorSettings, ReverbSettings } from '@/hooks/studio/types';
 import {
@@ -37,6 +38,7 @@ import {
   reverbPresets,
   defaultStemEffects,
 } from '@/hooks/studio/stemEffectsConfig';
+import { HardwareEQPanel, HardwareCompressorPanel, HardwareReverbPanel } from '@/components/stem-studio/effects';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
@@ -66,6 +68,7 @@ export function StemEffectsDrawer({
   const isMobile = useIsMobile();
   const haptic = useHapticFeedback();
   const [activeTab, setActiveTab] = useState('eq');
+  const [isHardwareMode, setIsHardwareMode] = useState(true); // Default to hardware mode
 
   const handlePresetChange = useCallback((
     type: 'eq' | 'compressor' | 'reverb',

@@ -15,7 +15,7 @@ import {
   Mic2, Guitar, Drum, Music, Piano, Waves,
   Volume2, VolumeX, MoreHorizontal, Music2, Download,
   Sparkles, ChevronDown, ChevronUp, Headphones, Plus, Sliders,
-  Wand2, FileMusic, Eye, Loader2, Trash2
+  Wand2, FileMusic, Eye, Loader2, Trash2, Gauge
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -27,11 +27,13 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { OptimizedStemWaveform } from '@/components/stem-studio/OptimizedStemWaveform';
 import { StemTrackSkeleton } from '@/components/studio/StemTrackSkeleton';
 import { VirtualizedStemList } from '@/components/studio/VirtualizedStemList';
+import { HardwareMixer } from '@/components/stem-studio/hardware';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { StemNotesPreview } from '@/components/studio/StemNotesPreview';
@@ -640,6 +642,7 @@ export function IntegratedStemTracks({
 }: IntegratedStemTracksProps) {
   const isMobile = useIsMobile();
   const [isExpanded, setIsExpanded] = useState(true);
+  const [isHardwareMode, setIsHardwareMode] = useState(false);
   const haptic = useHapticFeedback();
 
   const toggleExpand = useCallback(() => {
@@ -647,11 +650,24 @@ export function IntegratedStemTracks({
     setIsExpanded(prev => !prev);
   }, [haptic]);
 
+  const toggleHardwareMode = useCallback(() => {
+    haptic.impact();
+    setIsHardwareMode(prev => !prev);
+  }, [haptic]);
+
   if (!stems || stems.length === 0) return null;
 
   // Count active stems
   const soloedCount = Object.values(stemStates).filter(s => s.solo).length;
   const mutedCount = Object.values(stemStates).filter(s => s.muted).length;
+
+  // Convert stems to hardware mixer format
+  const hardwareStems = useMemo(() => stems.map(stem => ({
+    id: stem.id,
+    name: stem.stem_type.charAt(0).toUpperCase() + stem.stem_type.slice(1),
+    type: stem.stem_type,
+    level: 0, // TODO: Add actual audio level metering
+  })), [stems]);
 
   return (
     <motion.div
@@ -697,8 +713,30 @@ export function IntegratedStemTracks({
           )}
         </button>
 
-        {/* Add Track + Master volume */}
+        {/* Hardware mode toggle + Add Track + Master volume */}
         <div className="flex items-center gap-2">
+          {/* Hardware mode toggle - desktop only */}
+          {!isMobile && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant={isHardwareMode ? "default" : "ghost"}
+                  size="sm"
+                  onClick={toggleHardwareMode}
+                  className={cn(
+                    "h-7 w-7 p-0 rounded-lg",
+                    isHardwareMode && "bg-primary text-primary-foreground"
+                  )}
+                >
+                  <Gauge className="w-4 h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                {isHardwareMode ? 'Обычный микшер' : 'Hardware микшер'}
+              </TooltipContent>
+            </Tooltip>
+          )}
+
           {onAddTrack && (
             <Button
               variant="outline"
@@ -741,10 +779,11 @@ export function IntegratedStemTracks({
         </div>
       </div>
 
-      {/* Stem tracks - using virtualized list for performance */}
-      <AnimatePresence>
+      {/* Stem tracks - standard or hardware mode */}
+      <AnimatePresence mode="wait">
         {isExpanded && (
           <motion.div
+            key={isHardwareMode ? 'hardware' : 'standard'}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -756,7 +795,23 @@ export function IntegratedStemTracks({
               <div className="p-2">
                 <StemTrackSkeleton count={stems.length} isMobile={isMobile} />
               </div>
+            ) : isHardwareMode && !isMobile ? (
+              /* Hardware Mixer Mode - desktop only */
+              <div className="p-4 bg-gradient-to-b from-muted/20 to-background">
+                <HardwareMixer
+                  stems={hardwareStems}
+                  stemStates={stemStates}
+                  masterVolume={masterVolume}
+                  masterMuted={masterMuted}
+                  onStemVolumeChange={(stemId, volume) => onStemVolumeChange(stemId, volume)}
+                  onStemMuteToggle={(stemId) => onStemToggle(stemId, 'mute')}
+                  onStemSoloToggle={(stemId) => onStemToggle(stemId, 'solo')}
+                  onMasterVolumeChange={onMasterVolumeChange}
+                  onMasterMuteToggle={onMasterMuteToggle}
+                />
+              </div>
             ) : (
+              /* Standard mode - virtualized list */
               <VirtualizedStemList
                 stems={stems}
                 stemStates={stemStates}
