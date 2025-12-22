@@ -18,12 +18,11 @@ export async function handleAudioCallbacks(
     return await handleClassificationCallback(data, chatId, userId, messageId, queryId);
   }
 
-  // Audio upload actions
+  // Audio action callbacks are now handled by audio-classifier.ts
+  // which uses the referenceId embedded in the callback data
+  // Format: audio_action_{action}_{referenceId}
   if (data.startsWith('audio_action_')) {
-    const action = data.replace('audio_action_', '');
-    const { handleAudioActionCallback } = await import('../commands/audio-upload.ts');
-    await handleAudioActionCallback(chatId, userId, action, messageId, queryId);
-    return true;
+    return await handleClassificationCallback(data, chatId, userId, messageId, queryId);
   }
 
   // Cancel upload
