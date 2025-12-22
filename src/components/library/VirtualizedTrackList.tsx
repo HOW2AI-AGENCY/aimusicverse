@@ -213,8 +213,8 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
         }}
         endReached={handleEndReached}
         itemContent={renderTrackItem}
-        increaseViewportBy={{ top: 100, bottom: 200 }}
-      />
+        increaseViewportBy={{ top: 200, bottom: 400 }}
+        endReachedThreshold={300}
     );
   }
 
@@ -231,7 +231,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
       }}
       endReached={handleEndReached}
       itemContent={renderTrackItem}
-      increaseViewportBy={{ top: 100, bottom: 200 }}
-    />
+      increaseViewportBy={{ top: 200, bottom: 400 }}
+      endReachedThreshold={300}
   );
 });
