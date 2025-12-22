@@ -25,7 +25,7 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const body = await req.json();
-    const { track_id, audio_url, analysis_type = 'auto', custom_prompt } = body;
+    const { track_id, reference_id, audio_url, analysis_type = 'auto', custom_prompt } = body;
     console.log('Analyzing audio:', { track_id, audio_url, analysis_type });
 
     if (!audio_url) {
@@ -138,8 +138,44 @@ Provide concise, accurate information suitable for music generation AI.`;
     const arousal = parseNumber(fullResponse, 'Energy Level');
     const valence = parseNumber(fullResponse, 'Positivity');
 
-    // Save analysis to database only if track_id is provided
+    // Save analysis to database
     let analysis = null;
+    
+    // If reference_id is provided, update reference_audio table
+    if (reference_id) {
+      const { error: refError } = await supabase
+        .from('reference_audio')
+        .update({
+          genre,
+          mood,
+          tempo,
+          bpm: bpm && !isNaN(bpm) ? bpm : null,
+          energy,
+          vocal_style: vocalStyle !== 'none' ? vocalStyle : null,
+          style_description: styleDescription,
+          instruments,
+          has_vocals: hasVocals,
+          has_instrumentals: hasVocals === false,
+          analysis_status: 'completed',
+          analyzed_at: new Date().toISOString(),
+          analysis_metadata: {
+            key_signature: keySignature,
+            structure,
+            arousal,
+            valence,
+            full_response: fullResponse,
+          },
+        })
+        .eq('id', reference_id);
+      
+      if (refError) {
+        console.error('Error updating reference_audio:', refError);
+      } else {
+        console.log('Reference audio updated:', reference_id);
+      }
+    }
+    
+    // If track_id is provided, save to audio_analysis table
     if (track_id) {
       const { data: savedAnalysis, error: insertError } = await supabase
         .from('audio_analysis')
@@ -174,7 +210,7 @@ Provide concise, accurate information suitable for music generation AI.`;
       }
 
       // Update track with analyzed data if it's empty
-      const updates: any = {};
+      const updates: Record<string, string> = {};
       if (!track.style && styleDescription) {
         updates.style = styleDescription;
       }
