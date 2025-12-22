@@ -44,7 +44,10 @@ serve(async (req) => {
 
     // Valid model versions: "stereo-melody-large", "stereo-large", "melody-large", "large"
     const validModels = ['stereo-melody-large', 'stereo-large', 'melody-large', 'large'];
-    const modelVersion = continuation_url ? 'melody-large' : (validModels.includes(model) ? model : 'large');
+    const modelClean = typeof model === 'string' ? model.trim() : 'large';
+    const modelVersion = continuation_url
+      ? 'melody-large'
+      : (validModels.includes(modelClean) ? modelClean : 'large');
 
     // Build input for MusicGen
     const input: Record<string, unknown> = {
@@ -58,6 +61,8 @@ serve(async (req) => {
       top_p: 0.95,
       classifier_free_guidance: 3,
     };
+
+    console.log("MusicGen input:", JSON.stringify({ ...input, input_audio: continuation_url ? '[provided]' : undefined }));
 
     // Add continuation audio for seamless melody generation
     if (continuation_url) {
