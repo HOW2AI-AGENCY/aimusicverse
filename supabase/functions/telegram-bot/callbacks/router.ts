@@ -5,6 +5,7 @@
 
 import { answerCallbackQuery } from '../telegram-api.ts';
 import { logger, checkRateLimit } from '../utils/index.ts';
+import { logBotAction } from '../utils/bot-logger.ts';
 import type { TelegramUpdate } from '../telegram-api.ts';
 
 // Handler types
@@ -28,6 +29,7 @@ import { handlePaymentCallbacks } from './payments.ts';
 import { handleAnalyzeCallbacks } from './analyze.ts';
 import { handleMidiCallbacks } from './midi.ts';
 import { handleMiscCallbacks } from './misc.ts';
+import { handleDynamicMenuCallback } from './dynamic-menu.ts';
 
 /**
  * Main callback query handler
@@ -49,7 +51,22 @@ export async function handleCallbackQuery(
 
   logger.info('callback_query', { userId: from.id, data, chatId });
 
+  const startTime = Date.now();
+  
   try {
+    // Handle dynamic menu callbacks first (menu_*)
+    if (data.startsWith('menu_')) {
+      const handled = await handleDynamicMenuCallback(data, chatId, from.id, messageId, id);
+      if (handled) {
+        await logBotAction(from.id, chatId, 'callback', { 
+          data, 
+          handler: 'dynamic_menu',
+          response_time_ms: Date.now() - startTime 
+        });
+        return;
+      }
+    }
+    
     // Try each category handler in order of priority
     const handlers: CallbackHandler[] = [
       handleQuickActionsCallbacks,

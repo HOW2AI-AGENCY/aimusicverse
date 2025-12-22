@@ -4,6 +4,7 @@
 
 import { answerCallbackQuery, sendMessage, editMessageText } from '../telegram-api.ts';
 import { escapeMarkdownV2 } from '../utils/text-processor.ts';
+import { logNavigation } from '../utils/bot-logger.ts';
 
 export async function handleNavigationCallbacks(
   data: string,
@@ -35,11 +36,14 @@ export async function handleNavigationCallbacks(
 
   // Main menu navigation
   if (data === 'main_menu' || data === 'open_main_menu') {
+    await logNavigation(userId, chatId, data, 'main');
+    
     if (data === 'open_main_menu') {
       const { deleteAndSendNewMenu } = await import('../core/active-menu-manager.ts');
-      const { createMainMenuKeyboard } = await import('../keyboards/main-menu.ts');
+      const { createMainMenuKeyboardAsync } = await import('../keyboards/main-menu.ts');
       const { MESSAGES } = await import('../config.ts');
-      await deleteAndSendNewMenu(chatId, userId, MESSAGES.welcome, createMainMenuKeyboard(), 'main_menu', 'MarkdownV2');
+      const keyboard = await createMainMenuKeyboardAsync();
+      await deleteAndSendNewMenu(chatId, userId, MESSAGES.welcome, keyboard, 'main_menu', 'MarkdownV2');
     } else {
       const { handleNavigationMain } = await import('../handlers/navigation.ts');
       await handleNavigationMain(chatId, messageId, userId);

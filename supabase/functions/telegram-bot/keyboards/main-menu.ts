@@ -1,12 +1,19 @@
 import { BOT_CONFIG } from '../config.ts';
 import type { InlineKeyboardButton } from '../telegram-api.ts';
 import { getMenuImage } from './menu-images.ts';
+import { buildDynamicKeyboard, loadMenuItems } from '../handlers/dynamic-menu.ts';
 
 // Channel configuration
 export const CHANNEL_USERNAME = 'AIMusiicVerse';
 export const CHANNEL_URL = `https://t.me/${CHANNEL_USERNAME}`;
 
+/**
+ * Create main menu keyboard
+ * Tries to load from database, falls back to static if unavailable
+ */
 export function createMainMenuKeyboard() {
+  // Return static keyboard for synchronous calls
+  // Use createMainMenuKeyboardAsync for dynamic loading
   return {
     inline_keyboard: [
       [{ text: '🚀 Открыть студию', web_app: { url: BOT_CONFIG.miniAppUrl + '/studio' } }],
@@ -27,6 +34,25 @@ export function createMainMenuKeyboard() {
       ]
     ] as InlineKeyboardButton[][]
   };
+}
+
+/**
+ * Create main menu keyboard from database
+ * Async version that loads menu structure dynamically
+ */
+export async function createMainMenuKeyboardAsync(): Promise<{ inline_keyboard: InlineKeyboardButton[][] }> {
+  try {
+    const keyboard = await buildDynamicKeyboard('main', false);
+    
+    if (keyboard.length > 0) {
+      return { inline_keyboard: keyboard };
+    }
+  } catch (error) {
+    // Fall back to static keyboard
+    console.error('Failed to load dynamic menu, using static', error);
+  }
+  
+  return createMainMenuKeyboard();
 }
 
 export function createGenerateKeyboard() {
