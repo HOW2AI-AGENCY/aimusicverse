@@ -762,10 +762,96 @@ export async function handleClassificationCallback(
       return true;
     }
     
-    // Success message will be sent by pipeline
-    logger.info('Pipeline started from action button', { action, referenceId });
+    // Handle successful pipeline response
+    if (pipelineResult?.success) {
+      const resultRefId = pipelineResult.reference_id || referenceId;
+      const analysis = pipelineResult.analysis;
+      const stems = pipelineResult.stems;
+      
+      // Build success message with results
+      let successText = `✅ *Обработка завершена\\!*\n\n` +
+        `📁 ${escapeMarkdown(refAudio.file_name || 'audio')}\n\n`;
+      
+      // Add analysis results if available
+      if (analysis && runAnalysis) {
+        successText += `*🎵 Анализ стиля:*\n`;
+        if (analysis.genre) successText += `• Жанр: ${escapeMarkdown(analysis.genre)}${analysis.sub_genre ? ` \\(${escapeMarkdown(analysis.sub_genre)}\\)` : ''}\n`;
+        if (analysis.mood) successText += `• Настроение: ${escapeMarkdown(analysis.mood)}\n`;
+        if (analysis.energy) successText += `• Энергия: ${escapeMarkdown(analysis.energy)}\n`;
+        if (analysis.tempo || analysis.bpm_estimate) successText += `• Темп: ${escapeMarkdown(analysis.tempo || '')}${analysis.bpm_estimate ? ` \\(~${analysis.bpm_estimate} BPM\\)` : ''}\n`;
+        if (analysis.vocal_style) successText += `• Вокал: ${escapeMarkdown(analysis.vocal_style)}\n`;
+        if (analysis.instruments && analysis.instruments.length > 0) {
+          successText += `• Инструменты: ${escapeMarkdown(analysis.instruments.slice(0, 4).join(', '))}${analysis.instruments.length > 4 ? '...' : ''}\n`;
+        }
+        successText += '\n';
+      }
+      
+      // Add stems status if processed
+      if (stems && runStems && stems.status !== 'skipped') {
+        successText += `*🎛 Стемы:*\n`;
+        if (stems.vocal_url) successText += `• ✅ Вокал\n`;
+        if (stems.instrumental_url) successText += `• ✅ Инструментал\n`;
+        if (stems.drums_url) successText += `• ✅ Барабаны\n`;
+        if (stems.bass_url) successText += `• ✅ Бас\n`;
+        if (stems.other_url) successText += `• ✅ Другое\n`;
+        successText += '\n';
+      }
+      
+      successText += `⏱ Время: ${Math.round((pipelineResult.processing_time_ms || 0) / 1000)} сек`;
+      
+      // Build action keyboard for completed audio
+      const completedKeyboard = buildCompletedActionKeyboard(resultRefId, action, refAudio.metadata?.audio_type);
+      
+      await editMessageText(chatId, messageId, successText, { inline_keyboard: completedKeyboard });
+      await setActiveMenuMessageId(userId, chatId, messageId, 'audio_processed');
+      
+      logger.info('Pipeline completed, showing results', { action, referenceId: resultRefId });
+    } else {
+      // Pipeline returned but with unknown status
+      await editMessageText(
+        chatId,
+        messageId,
+        `⚠️ *Обработка завершена*\n\nОткройте приложение для просмотра результатов\\.`,
+        { inline_keyboard: [[{ text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}/reference/${referenceId}` } }]] }
+      );
+    }
+    
     return true;
   }
   
   return false;
+}
+
+/**
+ * Build action keyboard for completed audio processing
+ */
+function buildCompletedActionKeyboard(referenceId: string, completedAction: string, audioType?: string): InlineButton[][] {
+  const rows: InlineButton[][] = [];
+  const isFullTrack = audioType === 'full';
+  
+  // If only analyzed - offer stems option
+  if (completedAction === 'analyze' && isFullTrack) {
+    rows.push([
+      { text: '🎛 Разделить на стемы', callback_data: `audio_action_stems_${referenceId}` },
+    ]);
+  }
+  
+  // If only stems - offer analysis option
+  if (completedAction === 'stems') {
+    rows.push([
+      { text: '🔍 Анализировать стиль', callback_data: `audio_action_analyze_${referenceId}` },
+    ]);
+  }
+  
+  // Always show open in app
+  rows.push([
+    { text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}/reference/${referenceId}` } },
+  ]);
+  
+  // Back to main menu
+  rows.push([
+    { text: '🏠 Главное меню', callback_data: 'menu_main' },
+  ]);
+  
+  return rows;
 }
