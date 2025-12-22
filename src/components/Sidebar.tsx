@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense, useCallback, useEffect } from 'react';
+import { useState, lazy, Suspense, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Home,
@@ -19,8 +19,10 @@ import {
   ChevronRight,
   Guitar,
   PanelLeftClose,
-  PanelLeft
+  PanelLeft,
+  Shield
 } from 'lucide-react';
+import { useUserRole } from '@/hooks/useUserRole';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { NotificationCenter } from './notifications';
@@ -43,7 +45,11 @@ const mainNavItems = [
   { path: '/projects', label: 'Проекты', icon: FolderOpen },
   { path: '/library', label: 'Библиотека', icon: Library },
   { path: '/analytics', label: 'Аналитика', icon: BarChart2 },
-  { path: '/guitar-studio', label: 'Guitar Studio', icon: Guitar },
+];
+
+// Admin navigation items
+const adminNavItems = [
+  { path: '/admin', label: 'Админ-панель', icon: Shield, description: 'Панель управления' },
 ];
 
 /**
@@ -56,8 +62,8 @@ const musicNavItems = [
     path: '/guitar-studio',
     label: 'Guitar Studio',
     icon: Guitar,
-    badge: 'PRO', // ⭐ PRO функционал
-    description: 'Запись и анализ гитары' // Описание для тултипа
+    badge: 'PRO',
+    description: 'Запись и анализ гитары'
   },
   { path: '/templates', label: 'Шаблоны', icon: FileText },
   { path: '/artists', label: 'AI-артисты', icon: Users },
@@ -84,6 +90,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
   const [accountOpen, setAccountOpen] = useState(false);
   const { playlists } = usePlaylists();
   const { activeGenerations, generationCount } = useNotificationHub();
+  const { isAdmin } = useUserRole();
   
   // Internal collapsed state with localStorage persistence
   const [internalCollapsed, setInternalCollapsed] = useState(() => {
@@ -396,6 +403,29 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                   ))}
                 </CollapsibleContent>
               </Collapsible>
+            )}
+
+            {/* Admin Section - Only for admins */}
+            {isAdmin && (
+              isCollapsed ? (
+                <div className="pt-4 space-y-1">
+                  {adminNavItems.map((item) => (
+                    <NavButton key={item.path} {...item} />
+                  ))}
+                </div>
+              ) : (
+                <div className="pt-4 space-y-1">
+                  <div className="flex items-center gap-2 px-2 pb-1">
+                    <Shield className="w-3.5 h-3.5 text-destructive" />
+                    <span className="text-xs font-semibold text-destructive uppercase tracking-wider">
+                      Админ
+                    </span>
+                  </div>
+                  {adminNavItems.map((item) => (
+                    <NavButton key={item.path} {...item} />
+                  ))}
+                </div>
+              )
             )}
           </nav>
         </ScrollArea>
