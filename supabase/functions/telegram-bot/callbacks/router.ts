@@ -30,6 +30,7 @@ import { handleAnalyzeCallbacks } from './analyze.ts';
 import { handleMidiCallbacks } from './midi.ts';
 import { handleMiscCallbacks } from './misc.ts';
 import { handleDynamicMenuCallback } from './dynamic-menu.ts';
+import { handleMediaGroupCallbacks } from './media-group.ts';
 
 /**
  * Main callback query handler
@@ -61,6 +62,19 @@ export async function handleCallbackQuery(
         await logBotAction(from.id, chatId, 'callback', { 
           data, 
           handler: 'dynamic_menu',
+          response_time_ms: Date.now() - startTime 
+        });
+        return;
+      }
+    }
+    
+    // Handle media group callbacks (mg_*)
+    if (data.startsWith('mg_')) {
+      const handled = await handleMediaGroupCallbacks(data, chatId, from.id, messageId, id);
+      if (handled) {
+        await logBotAction(from.id, chatId, 'callback', { 
+          data, 
+          handler: 'media_group',
           response_time_ms: Date.now() - startTime 
         });
         return;
