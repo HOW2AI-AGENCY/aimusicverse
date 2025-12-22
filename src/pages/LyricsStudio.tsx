@@ -702,10 +702,10 @@ export default function LyricsStudio() {
       </AnimatePresence>
 
       {/* Main Content with AI Panel */}
-      <div className="flex-1 overflow-hidden flex flex-col">
-        <div className="flex-1 overflow-hidden flex">
+      <div className="flex-1 overflow-hidden flex">
         {/* Lyrics Workspace */}
-        <div className="flex-1 overflow-hidden relative">
+        <div className="flex-1 overflow-hidden relative flex flex-col">
+          <div className="flex-1 overflow-hidden">
           <LyricsWorkspace
             sections={sections}
             onChange={(newSections) => {
@@ -722,13 +722,23 @@ export default function LyricsStudio() {
             hideSaveButton
             onSectionSelect={setSelectedSection}
           />
+          </div>
+          
+          {/* History Bar */}
+          <LyricsHistoryBar
+            onStateChange={(entry) => {
+              setSections(entry.sections);
+              setGlobalTags(entry.tags);
+            }}
+            onOpenVersions={() => setVersionsPanelOpen(true)}
+          />
           
           {/* Desktop FAB for AI when panel is closed */}
           {!isMobile && !aiPanelOpen && (
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="absolute bottom-6 right-6 z-10"
+              className="absolute bottom-16 right-6 z-10"
             >
               <Button
                 size="lg"
@@ -1046,6 +1056,24 @@ export default function LyricsStudio() {
           }}
         />
       )}
+
+      {/* Versions Panel */}
+      <LyricsVersionsPanel
+        open={versionsPanelOpen}
+        onOpenChange={setVersionsPanelOpen}
+        versions={lyricsVersioning.versions}
+        currentVersion={lyricsVersioning.currentVersion}
+        isLoading={lyricsVersioning.isLoading}
+        onRestore={async (versionId) => {
+          const restored = await lyricsVersioning.restoreVersion(versionId);
+          if (restored && restored.sections_data) {
+            setSections(restored.sections_data);
+            if (restored.tags) setGlobalTags(restored.tags);
+            setIsDirty(true);
+          }
+        }}
+        onDelete={lyricsVersioning.deleteVersion}
+      />
     </div>
   );
 }
