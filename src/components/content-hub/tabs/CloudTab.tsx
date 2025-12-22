@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { useReferenceAudio, type ReferenceAudio } from '@/hooks/useReferenceAudio';
 import { useReferenceStems } from '@/hooks/useReferenceStems';
 import { Button } from '@/components/ui/button';
@@ -59,7 +60,7 @@ function SimpleUploadDialog({ open, onOpenChange }: { open: boolean; onOpenChang
   const audioChunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const { user } = useAuth();
-  const { saveAudio } = useReferenceAudio();
+  const { saveAudio, updateAnalysis } = useReferenceAudio();
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -104,7 +105,7 @@ function SimpleUploadDialog({ open, onOpenChange }: { open: boolean; onOpenChang
       toast.success('Файл загружен, запускаем анализ...');
       onOpenChange(false);
 
-      // Auto-trigger analysis
+      // Auto-trigger analysis using hook function for proper cache invalidation
       try {
         const { data, error } = await supabase.functions.invoke('analyze-audio-flamingo', {
           body: { audio_url: publicUrl },
@@ -112,19 +113,19 @@ function SimpleUploadDialog({ open, onOpenChange }: { open: boolean; onOpenChang
 
         if (!error && data?.parsed) {
           const parsed = data.parsed;
-          await supabase.from('reference_audio').update({
+          await updateAnalysis({
+            id: savedAudio.id,
             genre: parsed.genre,
             mood: parsed.mood,
-            style_description: parsed.style_description,
+            styleDescription: parsed.style_description,
             tempo: parsed.tempo,
             energy: parsed.energy,
-            bpm: parsed.bpm ? Number(parsed.bpm) : null,
+            bpm: parsed.bpm ? Number(parsed.bpm) : undefined,
             instruments: parsed.instruments,
-            vocal_style: parsed.vocal_style,
-            has_vocals: parsed.has_vocals ?? true,
-            analysis_status: 'completed',
-            analyzed_at: new Date().toISOString(),
-          }).eq('id', savedAudio.id);
+            vocalStyle: parsed.vocal_style,
+            hasVocals: parsed.has_vocals ?? true,
+            analysisStatus: 'completed',
+          });
           toast.success('Анализ завершен');
         }
       } catch (analysisError) {
@@ -744,7 +745,8 @@ function AudioDetailPanel({
 export function CloudTab() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { audioList, isLoading, deleteAudio, saveAudio } = useReferenceAudio();
+  const queryClient = useQueryClient();
+  const { audioList, isLoading, deleteAudio, saveAudio, updateAnalysis } = useReferenceAudio();
   const { separateStems, isSeparating } = useReferenceStems();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedAudio, setSelectedAudio] = useState<ReferenceAudio | null>(null);
@@ -853,25 +855,25 @@ export function CloudTab() {
 
         successCount++;
 
-        // Auto-trigger analysis in background
+        // Auto-trigger analysis in background with proper cache invalidation
         supabase.functions.invoke('analyze-audio-flamingo', {
           body: { audio_url: publicUrl },
         }).then(async ({ data, error }) => {
           if (!error && data?.parsed) {
             const parsed = data.parsed;
-            await supabase.from('reference_audio').update({
+            await updateAnalysis({
+              id: savedAudio.id,
               genre: parsed.genre,
               mood: parsed.mood,
-              style_description: parsed.style_description,
+              styleDescription: parsed.style_description,
               tempo: parsed.tempo,
               energy: parsed.energy,
-              bpm: parsed.bpm ? Number(parsed.bpm) : null,
+              bpm: parsed.bpm ? Number(parsed.bpm) : undefined,
               instruments: parsed.instruments,
-              vocal_style: parsed.vocal_style,
-              has_vocals: parsed.has_vocals ?? true,
-              analysis_status: 'completed',
-              analyzed_at: new Date().toISOString(),
-            }).eq('id', savedAudio.id);
+              vocalStyle: parsed.vocal_style,
+              hasVocals: parsed.has_vocals ?? true,
+              analysisStatus: 'completed',
+            });
           }
         }).catch(err => logger.error('Auto analysis failed', err));
 
@@ -887,7 +889,7 @@ export function CloudTab() {
     } else {
       toast.error('Не удалось загрузить файлы');
     }
-  }, [user, saveAudio]);
+  }, [user, saveAudio, updateAnalysis]);
 
   const handleSeparateStems = async (audio: ReferenceAudio) => {
     try {
