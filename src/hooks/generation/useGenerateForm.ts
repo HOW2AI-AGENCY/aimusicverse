@@ -629,29 +629,53 @@ export function useGenerateForm({
       } else {
         // Check for remix parent track id
         const parentTrackId = sessionStorage.getItem('parentTrackId') || undefined;
-        
-        const result = await supabase.functions.invoke('suno-music-generate', {
-          body: {
-            mode,
-            prompt: mode === 'simple' ? description : prompt,
-            title: mode === 'custom' ? title : undefined,
-            style: mode === 'custom' ? style : undefined,
-            instrumental,
-            model: finalModel,
-            negativeTags: negativeTags || undefined,
-            vocalGender: vocalGender || undefined,
-            styleWeight: styleWeight[0],
-            weirdnessConstraint: weirdnessConstraint[0],
-            audioWeight: personaId ? audioWeight[0] : undefined,
-            personaId: personaId,
-            artistId: selectedArtistId,
-            projectId: selectedProjectId || initialProjectId,
-            planTrackId: planTrackId,
-            parentTrackId: parentTrackId,
-          },
-        });
-        data = result.data;
-        error = result.error;
+
+        // If we have an audio reference in cover/extend mode, use legacy proxy that routes
+        // to the correct backend function with required parameters (audioUrl/continueAt).
+        if (activeReference?.audioUrl && (activeReference.intendedMode === 'extend' || activeReference.intendedMode === 'cover')) {
+          const continueAt = Math.floor((activeReference.durationSeconds || 60) * 0.8);
+
+          const result = await supabase.functions.invoke('suno-generate', {
+            body: activeReference.intendedMode === 'extend'
+              ? {
+                  action: 'extend',
+                  extendAudioUrl: activeReference.audioUrl,
+                  continueAt,
+                  prompt: mode === 'simple' ? description : prompt,
+                  style: mode === 'custom' ? style : undefined,
+                }
+              : {
+                  action: 'cover',
+                  coverAudioUrl: activeReference.audioUrl,
+                  prompt: mode === 'simple' ? description : prompt,
+                },
+          });
+          data = result.data;
+          error = result.error;
+        } else {
+          const result = await supabase.functions.invoke('suno-music-generate', {
+            body: {
+              mode,
+              prompt: mode === 'simple' ? description : prompt,
+              title: mode === 'custom' ? title : undefined,
+              style: mode === 'custom' ? style : undefined,
+              instrumental,
+              model: finalModel,
+              negativeTags: negativeTags || undefined,
+              vocalGender: vocalGender || undefined,
+              styleWeight: styleWeight[0],
+              weirdnessConstraint: weirdnessConstraint[0],
+              audioWeight: personaId ? audioWeight[0] : undefined,
+              personaId: personaId,
+              artistId: selectedArtistId,
+              projectId: selectedProjectId || initialProjectId,
+              planTrackId: planTrackId,
+              parentTrackId: parentTrackId,
+            },
+          });
+          data = result.data;
+          error = result.error;
+        }
         
         // Clear parent track id after use
         if (parentTrackId) {
