@@ -479,9 +479,14 @@ export default function LyricsStudio() {
                     selectedSection={selectedSection ? {
                       type: selectedSection.type,
                       content: selectedSection.content,
+                      notes: getNoteForSection(selectedSection.id)?.notes || undefined,
+                      tags: selectedSection.tags,
                     } : undefined}
                     globalTags={globalTags}
                     sectionTags={selectedSection?.tags}
+                    allSectionNotes={sectionNotes?.map(n => ({ type: n.section_type || '', notes: n.notes || '', tags: n.tags || [] }))}
+                    stylePrompt=""
+                    title={title}
                     onInsertLyrics={(text: string) => {
                       if (selectedSection) {
                         handleSectionsChange(
@@ -561,9 +566,14 @@ export default function LyricsStudio() {
               selectedSection={selectedSection ? {
                 type: selectedSection.type,
                 content: selectedSection.content,
+                notes: getNoteForSection(selectedSection.id)?.notes || undefined,
+                tags: selectedSection.tags,
               } : undefined}
               globalTags={globalTags}
               sectionTags={selectedSection?.tags}
+              allSectionNotes={sectionNotes?.map(n => ({ type: n.section_type || '', notes: n.notes || '', tags: n.tags || [] }))}
+              stylePrompt=""
+              title={title}
               onInsertLyrics={(text: string) => {
                 if (selectedSection) {
                   handleSectionsChange(
