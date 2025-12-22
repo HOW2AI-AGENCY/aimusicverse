@@ -1,10 +1,12 @@
 /**
  * Navigation Callback Handlers
+ * Unified navigation using dynamic menu system
  */
 
 import { answerCallbackQuery, sendMessage, editMessageText } from '../telegram-api.ts';
 import { escapeMarkdownV2 } from '../utils/text-processor.ts';
 import { logNavigation } from '../utils/bot-logger.ts';
+import { handleSubmenu, handleMenuAction, getMenuItem } from '../handlers/dynamic-menu.ts';
 
 export async function handleNavigationCallbacks(
   data: string,
@@ -34,29 +36,29 @@ export async function handleNavigationCallbacks(
     return handled;
   }
 
-  // Main menu navigation
+  // Main menu navigation - use dynamic menu
   if (data === 'main_menu' || data === 'open_main_menu') {
     await logNavigation(userId, chatId, data, 'main');
-    
-    if (data === 'open_main_menu') {
-      const { deleteAndSendNewMenu } = await import('../core/active-menu-manager.ts');
-      const { createMainMenuKeyboardAsync } = await import('../keyboards/main-menu.ts');
-      const { MESSAGES } = await import('../config.ts');
-      const keyboard = await createMainMenuKeyboardAsync();
-      await deleteAndSendNewMenu(chatId, userId, MESSAGES.welcome, keyboard, 'main_menu', 'MarkdownV2');
-    } else {
-      const { handleNavigationMain } = await import('../handlers/navigation.ts');
-      await handleNavigationMain(chatId, messageId, userId);
-    }
+    await handleSubmenu(chatId, userId, 'main', messageId);
     await answerCallbackQuery(queryId);
     return true;
   }
 
-  // Help
+  // Help - try dynamic menu first, fallback to static
   if (data === 'help') {
-    const { MESSAGES } = await import('../config.ts');
-    const { createMainMenuKeyboard } = await import('../keyboards/main-menu.ts');
-    await sendMessage(chatId, MESSAGES.help, createMainMenuKeyboard(), 'MarkdownV2');
+    await logNavigation(userId, chatId, data, 'help');
+    
+    // Try to load help from dynamic menu
+    const helpItem = await getMenuItem('help');
+    if (helpItem) {
+      await handleSubmenu(chatId, userId, 'help', messageId);
+    } else {
+      // Fallback to static help
+      const { MESSAGES } = await import('../config.ts');
+      const { createMainMenuKeyboardAsync } = await import('../keyboards/main-menu.ts');
+      const keyboard = await createMainMenuKeyboardAsync();
+      await sendMessage(chatId, MESSAGES.help, keyboard, 'MarkdownV2');
+    }
     await answerCallbackQuery(queryId);
     return true;
   }

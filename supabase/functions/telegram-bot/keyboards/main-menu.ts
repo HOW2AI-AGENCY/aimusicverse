@@ -1,39 +1,18 @@
 import { BOT_CONFIG } from '../config.ts';
 import type { InlineKeyboardButton } from '../telegram-api.ts';
 import { getMenuImage } from './menu-images.ts';
-import { buildDynamicKeyboard, loadMenuItems } from '../handlers/dynamic-menu.ts';
+import { buildDynamicKeyboard, loadMenuItems, getMenuItem } from '../handlers/dynamic-menu.ts';
 
 // Channel configuration
 export const CHANNEL_USERNAME = 'AIMusiicVerse';
 export const CHANNEL_URL = `https://t.me/${CHANNEL_USERNAME}`;
 
 /**
- * Create main menu keyboard
- * Tries to load from database, falls back to static if unavailable
+ * Create main menu keyboard - ALWAYS uses async dynamic loading
+ * @deprecated Use createMainMenuKeyboardAsync instead
  */
-export function createMainMenuKeyboard() {
-  // Return static keyboard for synchronous calls
-  // Use createMainMenuKeyboardAsync for dynamic loading
-  return {
-    inline_keyboard: [
-      [{ text: '🚀 Открыть студию', web_app: { url: BOT_CONFIG.miniAppUrl + '/studio' } }],
-      [
-        { text: '🎼 Генератор', callback_data: 'generate' },
-        { text: '📚 Библиотека', callback_data: 'library' }
-      ],
-      [
-        { text: '🔬 Анализ аудио', callback_data: 'analyze' },
-        { text: '📁 Проекты', callback_data: 'projects' }
-      ],
-      [
-        { text: '📢 Канал @AIMusiicVerse', url: CHANNEL_URL }
-      ],
-      [
-        { text: '⚙️ Настройки', callback_data: 'settings' },
-        { text: 'ℹ️ О платформе', callback_data: 'help' }
-      ]
-    ] as InlineKeyboardButton[][]
-  };
+export async function createMainMenuKeyboard(): Promise<{ inline_keyboard: InlineKeyboardButton[][] }> {
+  return createMainMenuKeyboardAsync();
 }
 
 /**
@@ -48,11 +27,15 @@ export async function createMainMenuKeyboardAsync(): Promise<{ inline_keyboard: 
       return { inline_keyboard: keyboard };
     }
   } catch (error) {
-    // Fall back to static keyboard
-    console.error('Failed to load dynamic menu, using static', error);
+    console.error('Failed to load dynamic menu', error);
   }
   
-  return createMainMenuKeyboard();
+  // Minimal fallback - just studio link
+  return {
+    inline_keyboard: [
+      [{ text: '🚀 Открыть студию', web_app: { url: BOT_CONFIG.miniAppUrl } }]
+    ]
+  };
 }
 
 export function createGenerateKeyboard() {

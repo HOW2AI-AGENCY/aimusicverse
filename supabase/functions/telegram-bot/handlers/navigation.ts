@@ -1,6 +1,5 @@
 import { musicService } from '../core/services/music.ts';
 import { 
-  createMainMenuKeyboard, 
   createPlayerControls, 
   createProjectControls
 } from '../keyboards/main-menu.ts';
@@ -13,98 +12,20 @@ import { navigateTo, getPreviousRoute, canGoBack, getBreadcrumb, clearNavigation
 import { BOT_CONFIG } from '../config.ts';
 import { deleteActiveMenu, setActiveMenuMessageId, deleteAndSendNewMenuPhoto } from '../core/active-menu-manager.ts';
 import { getMenuImage } from '../keyboards/menu-images.ts';
+import { handleSubmenu } from './dynamic-menu.ts';
 
-
+/**
+ * Handle navigation to main menu
+ * Uses dynamic menu system
+ */
 export async function handleNavigationMain(chatId: number, messageId?: number, userId?: number) {
-  // Clear navigation state to prevent "old variant" issues
+  // Clear navigation state
   if (userId) {
     clearNavigationState(userId);
-    navigateTo(userId, 'main', messageId);
   }
   
-  const caption = buildMessage({
-    title: 'MusicVerse Studio',
-    emoji: '🏠',
-    description: 'Создавайте музыку с помощью искусственного интеллекта',
-    sections: [
-      {
-        title: 'Возможности',
-        content: [
-          'Генерация треков по текстовым промптам',
-          'Создание каверов и расширение треков',
-          'Разделение на стемы и MIDI',
-          'Анализ аудио и распознавание музыки'
-        ],
-        emoji: '✨',
-        style: 'list'
-      }
-    ],
-    footer: 'Выберите раздел ниже 👇'
-  });
-  
-  const keyboard = createMainMenuKeyboard();
-  
-  // Get menu image
-  const menuImage = await getMenuImage('mainMenu');
-
-  if (messageId) {
-    // Delete all other main_menu messages except this one
-    await messageManager.deleteCategory(chatId, 'main_menu', { except: messageId });
-    
-    const editResult = await editMessageMedia(
-      chatId,
-      messageId,
-      {
-        type: 'photo',
-        media: menuImage,
-        caption,
-        parse_mode: 'MarkdownV2'
-      },
-      keyboard
-    );
-    
-    // If edit failed (message doesn't exist), send a new one
-    if (!editResult) {
-      if (userId) {
-        await deleteActiveMenu(userId, chatId);
-      }
-      const result = await sendPhoto(chatId, menuImage, {
-        caption,
-        replyMarkup: keyboard
-      });
-      if (result?.result?.message_id) {
-        await trackMessage(chatId, result.result.message_id, 'menu', 'main_menu', { persistent: true });
-        if (userId) {
-          await setActiveMenuMessageId(userId, chatId, result.result.message_id, 'main_menu');
-        }
-      }
-    } else {
-      await trackMessage(chatId, messageId, 'menu', 'main_menu', { persistent: true });
-      if (userId) {
-        await setActiveMenuMessageId(userId, chatId, messageId, 'main_menu');
-      }
-    }
-  } else {
-    // Delete previous active menu before sending new one
-    if (userId) {
-      await deleteActiveMenu(userId, chatId);
-    }
-    await messageManager.deleteCategory(chatId, 'main_menu');
-    
-    const result = await sendPhoto(chatId, menuImage, {
-      caption,
-      replyMarkup: keyboard
-    });
-    
-    if (result?.result?.message_id) {
-      await trackMessage(chatId, result.result.message_id, 'menu', 'main_menu', { persistent: true });
-      
-      // Save as active menu
-      if (userId) {
-        await setActiveMenuMessageId(userId, chatId, result.result.message_id, 'main_menu');
-      }
-    }
-  }
+  // Use dynamic menu system
+  await handleSubmenu(chatId, userId || 0, 'main', messageId);
 }
 
 export async function handleNavigationLibrary(
