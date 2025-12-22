@@ -1,21 +1,23 @@
 import { useState, lazy, Suspense } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, Plus, Library, User, FolderOpen } from 'lucide-react';
+import { Home, Plus, Library, Grid3X3, FolderOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useAuth } from '@/hooks/useAuth';
+import { MoreMenuSheet } from './navigation/MoreMenuSheet';
 
 // Lazy load heavy sheet component
 const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default: m.GenerateSheet })));
 
 // Optimized navigation - 5 items with FAB in center
+// Profile moved to MoreMenu, replaced with "More" button
 const navItems = [
   { path: '/', icon: Home, label: 'Главная', isCenter: false },
   { path: '/library', icon: Library, label: 'Треки', isCenter: false },
   { path: '__generate__', icon: Plus, label: 'Создать', isCenter: true },
   { path: '/projects', icon: FolderOpen, label: 'Проекты', isCenter: false },
-  { path: '__profile__', icon: User, label: 'Профиль', isCenter: false },
+  { path: '__more__', icon: Grid3X3, label: 'Ещё', isCenter: false },
 ];
 
 export const BottomNavigation = () => {
@@ -24,6 +26,7 @@ export const BottomNavigation = () => {
   const { hapticFeedback } = useTelegram();
   const { user } = useAuth();
   const [generateOpen, setGenerateOpen] = useState(false);
+  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
 
   const handleNavigate = (path: string) => {
     hapticFeedback('light');
@@ -35,13 +38,9 @@ export const BottomNavigation = () => {
     setGenerateOpen(true);
   };
 
-  const handleProfileClick = () => {
+  const handleMoreClick = () => {
     hapticFeedback('light');
-    if (user?.id) {
-      navigate(`/profile/${user.id}`);
-    } else {
-      navigate('/profile');
-    }
+    setMoreMenuOpen(true);
   };
 
   const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
@@ -82,12 +81,12 @@ export const BottomNavigation = () => {
               );
             }
 
-            const handleClick = item.path === '__profile__'
-              ? handleProfileClick
+            const handleClick = item.path === '__more__'
+              ? handleMoreClick
               : () => handleNavigate(item.path);
 
-            const active = item.path === '__profile__'
-              ? location.pathname.includes('/profile')
+            const active = item.path === '__more__'
+              ? moreMenuOpen
               : isActive(item.path);
 
             return (
@@ -149,6 +148,9 @@ export const BottomNavigation = () => {
           <GenerateSheet open={generateOpen} onOpenChange={setGenerateOpen} />
         </Suspense>
       )}
+
+      {/* More menu sheet */}
+      <MoreMenuSheet open={moreMenuOpen} onOpenChange={setMoreMenuOpen} />
     </>
   );
 };

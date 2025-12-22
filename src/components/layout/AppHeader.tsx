@@ -6,6 +6,12 @@
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import logo from '@/assets/logo.png';
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
 
 interface AppHeaderProps {
   title: string;
@@ -17,6 +23,10 @@ interface AppHeaderProps {
   titleElement?: React.ReactNode;
   className?: string;
   showLogo?: boolean;
+  /** Breadcrumb items for nested navigation */
+  breadcrumbs?: BreadcrumbItem[];
+  /** Whether to show auto-generated breadcrumbs based on route */
+  showBreadcrumbs?: boolean;
 }
 
 export function AppHeader({ 
@@ -28,6 +38,8 @@ export function AppHeader({
   titleElement,
   className,
   showLogo = true,
+  breadcrumbs,
+  showBreadcrumbs = false,
 }: AppHeaderProps) {
   return (
     <motion.header 
@@ -91,25 +103,36 @@ export function AppHeader({
           {leftAction}
         </div>
 
-        {/* Title section - center */}
-        <div className="flex items-center gap-2 flex-1 justify-center min-w-0">
-          {icon && (
-            <motion.div 
-              className="flex-shrink-0 p-1.5 rounded-md bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30"
-              initial={{ scale: 0, rotate: -90 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ type: 'spring', stiffness: 200 }}
-            >
-              {icon}
-            </motion.div>
+        {/* Title section with optional breadcrumbs - center */}
+        <div className="flex flex-col items-center flex-1 min-w-0">
+          {/* Breadcrumbs - shown above title on nested pages */}
+          {(breadcrumbs || showBreadcrumbs) && (
+            <Breadcrumbs 
+              items={breadcrumbs} 
+              className="mb-1 text-[11px]" 
+              showHome={true}
+            />
           )}
-          <div className="text-center min-w-0 flex-1">
-            {titleElement || (
-              <h2 className="text-base sm:text-lg font-bold truncate">{title}</h2>
+          {/* Title with icon */}
+          <div className="flex items-center gap-2 justify-center">
+            {icon && (
+              <motion.div 
+                className="flex-shrink-0 p-1.5 rounded-md bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30"
+                initial={{ scale: 0, rotate: -90 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: 'spring', stiffness: 200 }}
+              >
+                {icon}
+              </motion.div>
             )}
-            {subtitle && (
-              <p className="text-xs text-muted-foreground">{subtitle}</p>
-            )}
+            <div className="text-center min-w-0 flex-1">
+              {titleElement || (
+                <h2 className="text-base sm:text-lg font-bold truncate">{title}</h2>
+              )}
+              {subtitle && (
+                <p className="text-xs text-muted-foreground">{subtitle}</p>
+              )}
+            </div>
           </div>
         </div>
 
