@@ -5,3 +5,4 @@ export { RhythmResultCard } from './RhythmResultCard';
 export { StructureResultCard } from './StructureResultCard';
 export { FullAnalysisResultCard } from './FullAnalysisResultCard';
 export { ProducerResultCard } from './ProducerResultCard';
+export { StructuredLyricsPreview } from './StructuredLyricsPreview';
