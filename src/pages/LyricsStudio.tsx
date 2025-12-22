@@ -598,7 +598,7 @@ export default function LyricsStudio() {
       {/* Main Content with AI Panel */}
       <div className="flex-1 overflow-hidden flex">
         {/* Lyrics Workspace */}
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-hidden relative">
           <LyricsWorkspace
             sections={sections}
             onChange={handleSectionsChange}
@@ -607,6 +607,26 @@ export default function LyricsStudio() {
             hideSaveButton
             onSectionSelect={setSelectedSection}
           />
+          
+          {/* Desktop FAB for AI when panel is closed */}
+          {!isMobile && !aiPanelOpen && (
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="absolute bottom-6 right-6 z-10"
+            >
+              <Button
+                size="lg"
+                className="rounded-full h-14 w-14 shadow-xl shadow-primary/30 bg-gradient-to-br from-primary to-primary/80"
+                onClick={() => {
+                  setAiPanelOpen(true);
+                  hapticImpact('medium');
+                }}
+              >
+                <Bot className="w-6 h-6" />
+              </Button>
+            </motion.div>
+          )}
         </div>
 
         {/* AI Assistant Panel - Desktop sidebar */}
@@ -615,20 +635,74 @@ export default function LyricsStudio() {
             {aiPanelOpen && (
               <motion.div
                 initial={{ width: 0, opacity: 0 }}
-                animate={{ width: 320, opacity: 1 }}
+                animate={{ width: 400, opacity: 1 }}
                 exit={{ width: 0, opacity: 0 }}
-                className="border-l border-border/50 overflow-hidden bg-muted/20"
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                className="border-l border-border/50 overflow-hidden bg-gradient-to-b from-muted/30 to-background flex flex-col"
               >
-                <div className="w-80 h-full overflow-y-auto p-4">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold text-sm flex items-center gap-2">
-                      <Bot className="w-4 h-4" />
-                      AI-ассистент
-                    </h3>
-                    <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setAiPanelOpen(false)}>
-                      <X className="w-4 h-4" />
-                    </Button>
+                <div className="w-[400px] h-full flex flex-col">
+                  {/* Panel Header */}
+                  <div className="p-4 border-b border-border/50 shrink-0">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20">
+                          <Bot className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-sm">AI Lyrics Agent</h3>
+                          <p className="text-[10px] text-muted-foreground">
+                            {isProjectTrackMode ? 'Режим проекта' : 'Свободный режим'}
+                          </p>
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setAiPanelOpen(false)}>
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
+                    
+                    {/* Project Context Summary for Desktop */}
+                    {isProjectTrackMode && projectData && (
+                      <div className="p-3 rounded-lg bg-primary/5 border border-primary/10 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Music2 className="w-3.5 h-3.5 text-primary" />
+                            <span className="text-xs font-medium">{projectData.title}</span>
+                          </div>
+                          {projectTrack && (
+                            <Badge variant="outline" className="text-[10px]">
+                              #{projectTrack.position + 1} {projectTrack.title}
+                            </Badge>
+                          )}
+                        </div>
+                        
+                        <div className="flex flex-wrap gap-1">
+                          {projectData.genre && (
+                            <Badge variant="secondary" className="text-[10px]">
+                              {projectData.genre}
+                            </Badge>
+                          )}
+                          {projectData.mood && (
+                            <Badge variant="secondary" className="text-[10px]">
+                              {projectData.mood}
+                            </Badge>
+                          )}
+                          {tracklist.length > 0 && (
+                            <Badge variant="outline" className="text-[10px]">
+                              {tracklist.filter(t => !!t.lyrics).length}/{tracklist.length} треков
+                            </Badge>
+                          )}
+                        </div>
+                        
+                        {projectData.concept && (
+                          <p className="text-[10px] text-muted-foreground line-clamp-2">
+                            {projectData.concept}
+                          </p>
+                        )}
+                      </div>
+                    )}
                   </div>
+                  
+                  {/* Chat Agent */}
                   <LyricsAIChatAgent
                     existingLyrics={sectionsToLyrics(sections)}
                     selectedSection={selectedSection ? {
@@ -689,26 +763,18 @@ export default function LyricsStudio() {
                         handleSectionsChange(parsedSections);
                       }
                       setIsDirty(true);
-                      setAiPanelOpen(false);
                     }}
                     onReplaceLyrics={(text: string) => {
-                      if (selectedSection) {
-                        handleSectionsChange(
-                          sections.map(s => 
-                            s.id === selectedSection.id 
-                              ? { ...s, content: text }
-                              : s
-                          )
-                        );
-                        setIsDirty(true);
-                        setAiPanelOpen(false);
-                      }
+                      // Replace all sections with new parsed lyrics
+                      const parsedSections = parseLyricsToSections(text);
+                      handleSectionsChange(parsedSections);
+                      setIsDirty(true);
                     }}
                     onAddTags={(tags: string[]) => {
                       setGlobalTags(prev => [...new Set([...prev, ...tags])]);
                       setIsDirty(true);
                     }}
-                    className="h-full"
+                    className="flex-1 overflow-hidden"
                   />
                 </div>
               </motion.div>
@@ -802,17 +868,11 @@ export default function LyricsStudio() {
                 setAiPanelOpen(false);
               }}
               onReplaceLyrics={(text: string) => {
-                if (selectedSection) {
-                  handleSectionsChange(
-                    sections.map(s => 
-                      s.id === selectedSection.id 
-                        ? { ...s, content: text }
-                        : s
-                    )
-                  );
-                  setIsDirty(true);
-                  setAiPanelOpen(false);
-                }
+                // Replace all sections with new parsed lyrics
+                const parsedSections = parseLyricsToSections(text);
+                handleSectionsChange(parsedSections);
+                setIsDirty(true);
+                setAiPanelOpen(false);
               }}
               onAddTags={(tags: string[]) => {
                 setGlobalTags(prev => [...new Set([...prev, ...tags])]);
