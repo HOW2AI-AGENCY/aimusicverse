@@ -1207,6 +1207,75 @@ export type Database = {
         }
         Relationships: []
       }
+      lyrics_versions: {
+        Row: {
+          ai_model_used: string | null
+          ai_prompt_used: string | null
+          change_description: string | null
+          change_type: string
+          created_at: string
+          id: string
+          is_current: boolean | null
+          lyrics: string
+          lyrics_template_id: string | null
+          project_track_id: string | null
+          sections_data: Json | null
+          tags: string[] | null
+          user_id: string
+          version_name: string | null
+          version_number: number
+        }
+        Insert: {
+          ai_model_used?: string | null
+          ai_prompt_used?: string | null
+          change_description?: string | null
+          change_type: string
+          created_at?: string
+          id?: string
+          is_current?: boolean | null
+          lyrics: string
+          lyrics_template_id?: string | null
+          project_track_id?: string | null
+          sections_data?: Json | null
+          tags?: string[] | null
+          user_id: string
+          version_name?: string | null
+          version_number?: number
+        }
+        Update: {
+          ai_model_used?: string | null
+          ai_prompt_used?: string | null
+          change_description?: string | null
+          change_type?: string
+          created_at?: string
+          id?: string
+          is_current?: boolean | null
+          lyrics?: string
+          lyrics_template_id?: string | null
+          project_track_id?: string | null
+          sections_data?: Json | null
+          tags?: string[] | null
+          user_id?: string
+          version_name?: string | null
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lyrics_versions_lyrics_template_id_fkey"
+            columns: ["lyrics_template_id"]
+            isOneToOne: false
+            referencedRelation: "lyrics_templates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lyrics_versions_project_track_id_fkey"
+            columns: ["project_track_id"]
+            isOneToOne: false
+            referencedRelation: "project_tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       moderation_reports: {
         Row: {
           created_at: string
