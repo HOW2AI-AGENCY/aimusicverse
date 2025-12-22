@@ -74,6 +74,13 @@ export async function handleDynamicMenuCallback(
         await answerCallbackQuery(queryId);
         return true;
       
+      case 'switch_inline':
+        // Switch to inline mode with prefilled query
+        // This action type is handled client-side via switch_inline_query_current_chat
+        // But if callback comes through, show hint
+        await answerCallbackQuery(queryId, `💡 Используйте @AIMusicVerseBot ${menuItem.action_data || ''}`);
+        return true;
+      
       case 'webapp':
       case 'url':
         // These are handled client-side by Telegram buttons

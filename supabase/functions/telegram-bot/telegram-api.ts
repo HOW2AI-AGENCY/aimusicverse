@@ -66,6 +66,16 @@ export interface TelegramUpdate {
     total_amount: number;
     invoice_payload: string;
   };
+  chosen_inline_result?: {
+    result_id: string;
+    from: {
+      id: number;
+      first_name: string;
+      username?: string;
+    };
+    query: string;
+    inline_message_id?: string;
+  };
 }
 
 export interface InlineKeyboardButton {
