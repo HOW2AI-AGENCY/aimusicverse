@@ -5,6 +5,7 @@ import { useTelegram } from "@/contexts/TelegramContext";
 import { useProfile, useUpdateProfile, ProfileUpdate } from "@/hooks/useProfile";
 import { useNotificationSettings } from "@/hooks/useNotificationSettings";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
+import { useKeyboardAware } from "@/hooks/useKeyboardAware";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -46,6 +47,9 @@ export default function Settings() {
   const { data: profile, isLoading: profileLoading } = useProfile();
   const updateProfile = useUpdateProfile();
   const { settings, updateSettings, isLoading: settingsLoading, isUpdating } = useNotificationSettings();
+  
+  // Keyboard-aware behavior для адаптации под клавиатуру iOS
+  const { createFocusHandler } = useKeyboardAware();
 
   // Telegram BackButton
   const { shouldShowUIButton } = useTelegramBackButton({
@@ -187,6 +191,7 @@ export default function Settings() {
                       id="firstName"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
+                      onFocus={createFocusHandler()}
                       placeholder="Введите имя"
                     />
                   </div>
@@ -197,6 +202,7 @@ export default function Settings() {
                       id="lastName"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
+                      onFocus={createFocusHandler()}
                       placeholder="Введите фамилию"
                     />
                   </div>
@@ -414,6 +420,7 @@ export default function Settings() {
                         type="time"
                         value={settings?.quiet_hours_start || ""}
                         onChange={(e) => updateSettings({ quiet_hours_start: e.target.value || null })}
+                        onFocus={createFocusHandler()}
                         disabled={isUpdating}
                       />
                     </div>
@@ -423,6 +430,7 @@ export default function Settings() {
                         type="time"
                         value={settings?.quiet_hours_end || ""}
                         onChange={(e) => updateSettings({ quiet_hours_end: e.target.value || null })}
+                        onFocus={createFocusHandler()}
                         disabled={isUpdating}
                       />
                     </div>
