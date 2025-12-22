@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Users, FolderOpen, FileText, Cloud } from 'lucide-react';
+import { Users, FolderOpen, FileText, Cloud, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { ArtistsTab } from './tabs/ArtistsTab';
-import { ProjectsTab } from './tabs/ProjectsTab';
-import { LyricsTab } from './tabs/LyricsTab';
-import { CloudTab } from './tabs/CloudTab';
+
+// Lazy load tabs to prevent circular dependencies and improve initial load
+const ArtistsTab = lazy(() => import('./tabs/ArtistsTab').then(m => ({ default: m.ArtistsTab })));
+const ProjectsTab = lazy(() => import('./tabs/ProjectsTab').then(m => ({ default: m.ProjectsTab })));
+const LyricsTab = lazy(() => import('./tabs/LyricsTab').then(m => ({ default: m.LyricsTab })));
+const CloudTab = lazy(() => import('./tabs/CloudTab').then(m => ({ default: m.CloudTab })));
 
 interface ContentHubTabsProps {
   defaultTab?: string;
@@ -19,6 +21,12 @@ const tabs = [
   { id: 'lyrics', label: 'Тексты', icon: FileText },
   { id: 'cloud', label: 'Облако', icon: Cloud },
 ];
+
+const TabLoader = () => (
+  <div className="flex items-center justify-center py-12">
+    <Loader2 className="h-6 w-6 animate-spin text-primary" />
+  </div>
+);
 
 export function ContentHubTabs({ defaultTab = 'projects', onTabChange }: ContentHubTabsProps) {
   const [activeTab, setActiveTab] = useState(defaultTab);
@@ -50,21 +58,23 @@ export function ContentHubTabs({ defaultTab = 'projects', onTabChange }: Content
         ))}
       </TabsList>
 
-      <TabsContent value="artists" className="mt-4 focus-visible:outline-none">
-        <ArtistsTab />
-      </TabsContent>
+      <Suspense fallback={<TabLoader />}>
+        <TabsContent value="artists" className="mt-4 focus-visible:outline-none">
+          <ArtistsTab />
+        </TabsContent>
 
-      <TabsContent value="projects" className="mt-4 focus-visible:outline-none">
-        <ProjectsTab />
-      </TabsContent>
+        <TabsContent value="projects" className="mt-4 focus-visible:outline-none">
+          <ProjectsTab />
+        </TabsContent>
 
-      <TabsContent value="lyrics" className="mt-4 focus-visible:outline-none">
-        <LyricsTab />
-      </TabsContent>
+        <TabsContent value="lyrics" className="mt-4 focus-visible:outline-none">
+          <LyricsTab />
+        </TabsContent>
 
-      <TabsContent value="cloud" className="mt-4 focus-visible:outline-none">
-        <CloudTab />
-      </TabsContent>
+        <TabsContent value="cloud" className="mt-4 focus-visible:outline-none">
+          <CloudTab />
+        </TabsContent>
+      </Suspense>
     </Tabs>
   );
 }
