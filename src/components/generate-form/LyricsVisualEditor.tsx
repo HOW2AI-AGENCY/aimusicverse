@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
 import { SectionTagSelector } from './SectionTagSelector';
+import { TagBadge, TagList } from '@/components/lyrics/shared/TagBadge';
 import { cn } from '@/lib/utils';
 
 interface LyricSection {

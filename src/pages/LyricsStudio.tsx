@@ -180,6 +180,7 @@ export default function LyricsStudio() {
     reference_artists: string[] | null;
     language: string | null;
     project_type: string | null;
+    cover_url: string | null;
   } | null>(null);
   const [tracklist, setTracklist] = useState<Array<{
     id: string;
@@ -234,7 +235,7 @@ export default function LyricsStudio() {
             .single(),
           supabase
             .from('music_projects')
-            .select('id, title, genre, mood, concept, target_audience, reference_artists, language, project_type')
+            .select('id, title, genre, mood, concept, target_audience, reference_artists, language, project_type, cover_url')
             .eq('id', projectId)
             .single(),
           supabase
@@ -391,13 +392,106 @@ export default function LyricsStudio() {
 
   return (
     <div className="flex flex-col h-full bg-background">
-      {/* Header - Using AppHeader pattern for Telegram Mini App */}
-      <AppHeader
-        title={isProjectTrackMode ? `${title} - Лирика` : title}
-        titleElement={
-          isProjectTrackMode ? (
-            <span className="font-semibold truncate">{title}</span>
-          ) : (
+      {/* Project Header for project mode */}
+      {isProjectTrackMode && projectData && (
+        <div className="border-b border-border/50 bg-gradient-to-r from-muted/50 to-background">
+          <div className="flex items-center gap-3 px-4 py-3">
+            {/* Back button */}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={handleBack}
+              className="h-9 w-9 shrink-0"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </Button>
+            
+            {/* Project cover */}
+            <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted shrink-0 border border-border/50">
+              {projectData.cover_url ? (
+                <img 
+                  src={projectData.cover_url} 
+                  alt={projectData.title}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
+                  <Music2 className="w-6 h-6 text-primary/50" />
+                </div>
+              )}
+            </div>
+            
+            {/* Project & Track info */}
+            <div className="flex-1 min-w-0">
+              <p className="text-xs text-muted-foreground truncate">
+                {projectData.title}
+              </p>
+              <h1 className="font-semibold text-sm truncate">
+                {projectTrack && `#${projectTrack.position + 1} `}{title}
+              </h1>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                {projectData.genre && (
+                  <Badge variant="secondary" className="text-[10px] h-4">
+                    {projectData.genre}
+                  </Badge>
+                )}
+                {projectData.mood && (
+                  <Badge variant="outline" className="text-[10px] h-4">
+                    {projectData.mood}
+                  </Badge>
+                )}
+              </div>
+            </div>
+            
+            {/* Actions */}
+            <div className="flex items-center gap-1 shrink-0">
+              <Button 
+                onClick={handleSave}
+                disabled={isSavingLyrics || !isDirty}
+                size="icon"
+                variant={isDirty ? "default" : "ghost"}
+                className="h-9 w-9"
+              >
+                {isSavingLyrics ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Save className="w-4 h-4" />
+                )}
+              </Button>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-9 w-9">
+                    <MoreVertical className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48 bg-popover">
+                  <DropdownMenuItem onClick={() => {
+                    setAiPanelOpen(true);
+                    hapticImpact('light');
+                  }}>
+                    <Bot className="w-4 h-4 mr-2" />
+                    AI Ассистент
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => {
+                    setTagsPanelOpen(true);
+                    hapticImpact('light');
+                  }}>
+                    <Tag className="w-4 h-4 mr-2" />
+                    Теги ({globalTags.length + enrichedTags.length})
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Standard Header for standalone mode */}
+      {!isProjectTrackMode && (
+        <AppHeader
+          title={title}
+          titleElement={
             <EditableTitle
               value={title}
               onChange={(newTitle) => {
@@ -407,69 +501,69 @@ export default function LyricsStudio() {
               placeholder="Название текста"
               size="md"
             />
-          )
-        }
-        icon={<PenLine className="w-4 h-4 text-primary" />}
-        leftAction={
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={handleBack}
-            className="h-8 w-8"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </Button>
-        }
-        rightAction={
-          <div className="flex items-center gap-1">
+          }
+          icon={<PenLine className="w-4 h-4 text-primary" />}
+          leftAction={
             <Button 
-              onClick={handleSave}
-              disabled={isSavingLyrics || !isDirty}
-              size="icon"
-              variant={isDirty ? "default" : "ghost"}
+              variant="ghost" 
+              size="icon" 
+              onClick={handleBack}
               className="h-8 w-8"
             >
-              {isSavingLyrics ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Save className="w-4 h-4" />
-              )}
+              <ChevronLeft className="w-5 h-5" />
             </Button>
+          }
+          rightAction={
+            <div className="flex items-center gap-1">
+              <Button 
+                onClick={handleSave}
+                disabled={isSavingLyrics || !isDirty}
+                size="icon"
+                variant={isDirty ? "default" : "ghost"}
+                className="h-8 w-8"
+              >
+                {isSavingLyrics ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Save className="w-4 h-4" />
+                )}
+              </Button>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <MoreVertical className="w-4 h-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48 bg-popover">
-                <DropdownMenuItem onClick={() => setTemplatesOpen(true)}>
-                  <FolderOpen className="w-4 h-4 mr-2" />
-                  Мои тексты
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => {
-                  setAiPanelOpen(true);
-                  hapticImpact('light');
-                }}>
-                  <Bot className="w-4 h-4 mr-2" />
-                  AI Ассистент
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => {
-                  setTagsPanelOpen(true);
-                  hapticImpact('light');
-                }}>
-                  <Tag className="w-4 h-4 mr-2" />
-                  Теги ({globalTags.length + enrichedTags.length})
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleNewDocument}>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Новый текст
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        }
-      />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <MoreVertical className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48 bg-popover">
+                  <DropdownMenuItem onClick={() => setTemplatesOpen(true)}>
+                    <FolderOpen className="w-4 h-4 mr-2" />
+                    Мои тексты
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => {
+                    setAiPanelOpen(true);
+                    hapticImpact('light');
+                  }}>
+                    <Bot className="w-4 h-4 mr-2" />
+                    AI Ассистент
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => {
+                    setTagsPanelOpen(true);
+                    hapticImpact('light');
+                  }}>
+                    <Tag className="w-4 h-4 mr-2" />
+                    Теги ({globalTags.length + enrichedTags.length})
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleNewDocument}>
+                    <Plus className="w-4 h-4 mr-2" />
+                    Новый текст
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          }
+        />
+      )}
 
       {/* Mobile Templates Drawer */}
       {isMobile && (
