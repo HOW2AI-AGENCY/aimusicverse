@@ -29,6 +29,7 @@ import {
   Wand2,
   FileText,
   Volume2,
+  X,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { ReferenceAudioPlayer } from '@/components/audio-reference/ReferenceAudioPlayer';
@@ -37,6 +38,8 @@ import { ReferenceActionsPanel } from '@/components/audio-reference/ReferenceAct
 import { ExtractLyricsButton } from '@/components/audio-reference/ExtractLyricsButton';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useReferenceStems } from '@/hooks/useReferenceStems';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { useTelegram } from '@/contexts/TelegramContext';
 
 interface ReferenceAudio {
   id: string;
@@ -97,6 +100,16 @@ export default function ReferenceAudioDetail() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const isMobile = useIsMobile();
+  const { close } = useTelegram();
+
+  // Setup Telegram back button
+  const { shouldShowUIButton } = useTelegramBackButton({
+    visible: true,
+    fallbackPath: '/library?tab=uploads',
+  });
+
+  const handleGoBack = () => navigate(-1);
+  const handleClose = () => close();
 
   // Fetch reference audio details
   const { data: reference, isLoading, error } = useQuery({
@@ -228,22 +241,29 @@ export default function ReferenceAudioDetail() {
 
   return (
     <ScrollArea className="h-full">
-      <div className="container max-w-2xl mx-auto p-4 pb-24 space-y-6">
-        {/* Header */}
+      <div className="container max-w-2xl mx-auto p-4 pb-24 space-y-6 pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+1rem),calc(env(safe-area-inset-top,0px)+1rem))]">
+        {/* Header with safe area */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center gap-3"
         >
-          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
+          {shouldShowUIButton && (
+            <Button variant="ghost" size="icon" onClick={handleGoBack}>
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+          )}
           <div className="flex-1 min-w-0">
             <h1 className="text-xl font-bold truncate">{reference.file_name}</h1>
             <p className="text-sm text-muted-foreground">
               Загружено {new Date(reference.created_at).toLocaleDateString('ru-RU')}
             </p>
           </div>
+          {shouldShowUIButton && (
+            <Button variant="ghost" size="icon" onClick={handleClose}>
+              <X className="w-5 h-5" />
+            </Button>
+          )}
         </motion.div>
 
         {/* Player Card */}
