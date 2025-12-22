@@ -651,11 +651,32 @@ export async function handleDeepLink(
       case 'buy':
       case 'credits':
       case 'subscribe':
-        await handlePaymentDeepLink(chatId, userId, type);
+      case 'subscription':
+      case 'pricing':
+      case 'tariffs':
+      case 'shop':
+        await handlePaymentDeepLink(chatId, userId, 'buy');
         break;
       case 'profile':
       case 'user':
-        await handleProfileDeepLink(chatId, userId, value);
+        if (value) {
+          await handleProfileDeepLink(chatId, userId, value);
+        } else {
+          // Own profile
+          const profileKeyboard = new ButtonBuilder()
+            .addButton({
+              text: 'Открыть профиль',
+              emoji: '👤',
+              action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/profile` }
+            })
+            .addButton({
+              text: 'Главное меню',
+              emoji: '🏠',
+              action: { type: 'callback', data: 'nav_main' }
+            })
+            .build();
+          await sendMessage(chatId, '👤 *Ваш профиль*', profileKeyboard, 'MarkdownV2');
+        }
         break;
       case 'invite':
       case 'ref':
@@ -672,15 +693,14 @@ export async function handleDeepLink(
         await handleAnalyzeDeepLink(chatId, userId);
         break;
       case 'studio':
-        // Redirect to studio
-        const keyboard = new ButtonBuilder()
+        const studioKb = new ButtonBuilder()
           .addButton({
             text: 'Открыть студию',
             emoji: '🎛️',
             action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/studio/${value}` }
           })
           .build();
-        await sendMessage(chatId, '🎛️ Открываем студию\\.\\.\\.', keyboard, 'MarkdownV2');
+        await sendMessage(chatId, '🎛️ Открываем студию\\.\\.\\.', studioKb, 'MarkdownV2');
         await trackDeepLinkAnalytics('studio', value, userId);
         break;
       case 'remix':
@@ -750,7 +770,6 @@ export async function handleDeepLink(
         await trackDeepLinkAnalytics('album', value, userId);
         break;
       case 'onboarding':
-        // Onboarding removed - show dashboard instead
         const { handleDashboard: showDashboard } = await import('./dashboard.ts');
         await showDashboard(chatId, userId);
         await trackDeepLinkAnalytics('onboarding', '', userId);
@@ -771,6 +790,22 @@ export async function handleDeepLink(
         await sendMessage(chatId, '⚙️ Открываем настройки\\.\\.\\.', settingsKeyboard, 'MarkdownV2');
         await trackDeepLinkAnalytics('settings', '', userId);
         break;
+      case 'feedback':
+        const feedbackKeyboard = new ButtonBuilder()
+          .addButton({
+            text: 'Написать отзыв',
+            emoji: '💬',
+            action: { type: 'callback', data: 'feedback_start' }
+          })
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendMessage(chatId, '💬 *Обратная связь*\n\nРасскажите нам о вашем опыте использования MusicVerse\\!', feedbackKeyboard, 'MarkdownV2');
+        await trackDeepLinkAnalytics('feedback', '', userId);
+        break;
       
       // Navigation shortcuts
       case 'library':
@@ -788,7 +823,7 @@ export async function handleDeepLink(
           .addButton({
             text: 'Открыть AI Артисты',
             emoji: '🎤',
-            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/artists` }
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/projects?tab=artists` }
           })
           .addButton({
             text: 'Главное меню',
@@ -798,6 +833,146 @@ export async function handleDeepLink(
           .build();
         await sendMessage(chatId, '🎤 *AI Артисты*\n\nОткройте список ваших AI артистов', artistsKeyboard, 'MarkdownV2');
         await trackDeepLinkAnalytics('artists_list', '', userId);
+        break;
+      case 'playlists_list':
+        const playlistsListKb = new ButtonBuilder()
+          .addButton({
+            text: 'Мои плейлисты',
+            emoji: '📀',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/library?tab=playlists` }
+          })
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendMessage(chatId, '📀 *Плейлисты*\n\nВаши музыкальные коллекции', playlistsListKb, 'MarkdownV2');
+        await trackDeepLinkAnalytics('playlists_list', '', userId);
+        break;
+      
+      // Content Hub
+      case 'content_hub':
+        const contentHubKb = new ButtonBuilder()
+          .addButton({
+            text: 'Открыть Content Hub',
+            emoji: '📂',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/projects` }
+          })
+          .addRow(
+            { text: 'Проекты', emoji: '📁', action: { type: 'callback', data: 'nav_projects' } },
+            { text: 'Артисты', emoji: '🎤', action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/projects?tab=artists` } }
+          )
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendMessage(chatId, '📂 *Content Hub*\n\nУправляйте проектами, артистами и текстами', contentHubKb, 'MarkdownV2');
+        await trackDeepLinkAnalytics('content_hub', '', userId);
+        break;
+      
+      // Cloud storage
+      case 'cloud':
+        const cloudKb = new ButtonBuilder()
+          .addButton({
+            text: 'Открыть облако',
+            emoji: '☁️',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/projects?tab=cloud` }
+          })
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendMessage(chatId, '☁️ *Облачное хранилище*\n\nВаши аудио и референсы', cloudKb, 'MarkdownV2');
+        await trackDeepLinkAnalytics('cloud', '', userId);
+        break;
+      
+      // Templates
+      case 'templates':
+        const templatesKb = new ButtonBuilder()
+          .addButton({
+            text: 'Открыть шаблоны',
+            emoji: '📝',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/projects?tab=lyrics` }
+          })
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendMessage(chatId, '📝 *Шаблоны текстов*\n\nВаши сохранённые тексты и шаблоны', templatesKb, 'MarkdownV2');
+        await trackDeepLinkAnalytics('templates', '', userId);
+        break;
+      
+      // Analytics
+      case 'analytics':
+        const analyticsKb = new ButtonBuilder()
+          .addButton({
+            text: 'Моя статистика',
+            emoji: '📊',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/profile?tab=stats` }
+          })
+          .addRow(
+            { text: 'Лидерборд', emoji: '🏆', action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/leaderboard` } },
+            { text: 'Достижения', emoji: '🏅', action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/achievements` } }
+          )
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendMessage(chatId, '📊 *Аналитика*\n\nОтслеживайте свой прогресс и достижения', analyticsKb, 'MarkdownV2');
+        await trackDeepLinkAnalytics('analytics', '', userId);
+        break;
+      
+      // Rewards
+      case 'rewards':
+        const rewardsKb = new ButtonBuilder()
+          .addButton({
+            text: 'Ежедневный бонус',
+            emoji: '🎁',
+            action: { type: 'callback', data: 'checkin_daily' }
+          })
+          .addRow(
+            { text: 'Достижения', emoji: '🏅', action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/achievements` } },
+            { text: 'Реферальная программа', emoji: '👥', action: { type: 'callback', data: 'nav_referral' } }
+          )
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendMessage(chatId, '🎁 *Награды*\n\nПолучайте бонусы за активность', rewardsKb, 'MarkdownV2');
+        await trackDeepLinkAnalytics('rewards', '', userId);
+        break;
+      
+      // Community
+      case 'community':
+        const communityKb = new ButtonBuilder()
+          .addButton({
+            text: 'Лента треков',
+            emoji: '🌐',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/` }
+          })
+          .addRow(
+            { text: 'Лидерборд', emoji: '🏆', action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/leaderboard` } },
+            { text: 'Поиск', emoji: '🔍', action: { type: 'callback', data: 'search_inline' } }
+          )
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendMessage(chatId, '🌐 *Сообщество*\n\nОткрывайте музыку других пользователей', communityKb, 'MarkdownV2');
+        await trackDeepLinkAnalytics('community', '', userId);
         break;
       
       // MusicLab shortcuts
