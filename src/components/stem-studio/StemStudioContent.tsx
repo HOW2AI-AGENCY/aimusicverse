@@ -5,12 +5,14 @@ import { supabase } from '@/integrations/supabase/client';
 import { 
   ChevronLeft, Play, Pause, SkipBack, SkipForward,
   Volume2, VolumeX, HelpCircle, Sliders, Scissors,
-  Shuffle, Clock, Wand2, BrainCircuit, Music, Piano
+  Shuffle, Clock, Wand2, BrainCircuit, Music, Piano,
+  AlertCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useTrackStems } from '@/hooks/useTrackStems';
 import { useTracks } from '@/hooks/useTracks';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
@@ -46,6 +48,7 @@ import { TrimDialog } from '@/components/stem-studio/TrimDialog';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useStemStudioEngine } from '@/hooks/studio/useStemStudioEngine';
 import { defaultStemEffects, StemEffects } from '@/hooks/studio/stemEffectsConfig';
+import { audioElementPool, AudioPriority } from '@/lib/audioElementPool';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
@@ -79,6 +82,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   const [masterMuted, setMasterMuted] = useState(false);
   const [stemStates, setStemStates] = useState<Record<string, StemState>>({});
   const [effectsEnabled, setEffectsEnabled] = useState(false);
+  const [poolLimitReached, setPoolLimitReached] = useState(false);
   
   // Dialogs state
   const [showRemixDialog, setShowRemixDialog] = useState(false);
