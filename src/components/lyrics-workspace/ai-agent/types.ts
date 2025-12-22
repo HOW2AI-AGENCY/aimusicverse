@@ -7,6 +7,7 @@ import { LucideIcon } from 'lucide-react';
 export type AIToolId = 
   | 'write' 
   | 'analyze'
+  | 'deep_analyze'
   | 'producer'
   | 'optimize';
 
@@ -27,9 +28,10 @@ export type BackendAction =
   | 'analyze_rhythm'
   | 'fit_structure'
   | 'full_analysis'
+  | 'deep_analysis'
   | 'producer_review';
 
-export type OutputType = 'lyrics' | 'tags' | 'rhymes' | 'analysis' | 'suggestions' | 'text' | 'full_analysis' | 'producer_review';
+export type OutputType = 'lyrics' | 'tags' | 'rhymes' | 'analysis' | 'suggestions' | 'text' | 'full_analysis' | 'expanded_analysis' | 'producer_review';
 
 export interface AITool {
   id: AIToolId;
@@ -60,10 +62,13 @@ export interface AIMessage {
     suggestions?: string[];
     structure?: string;
     fullAnalysis?: FullAnalysisData;
+    expandedAnalysis?: ExpandedAnalysisData;
     producerReview?: ProducerReviewData;
     quickActions?: QuickAction[];
     stylePrompt?: string;
     changes?: string[];
+    keyInsights?: string[];
+    uniqueStrength?: string;
   };
   isLoading?: boolean;
 }
@@ -131,6 +136,40 @@ export interface FullAnalysisData {
     priority: 'high' | 'medium' | 'low';
   }>;
   quickActions?: QuickAction[];
+}
+
+export interface ExpandedAnalysisData extends FullAnalysisData {
+  metadata?: {
+    genre?: string;
+    tempo?: string;
+    key?: string;
+    duration?: string;
+    context?: string;
+  };
+  composition?: {
+    harmony?: string;
+    rhythm?: string;
+    instruments?: string[];
+    production?: string;
+  };
+  narrative?: {
+    start?: string;
+    conflict?: string;
+    climax?: string;
+    resolution?: string;
+  };
+  cultural?: {
+    influences?: string[];
+    references?: string[];
+    era?: string;
+  };
+  technicalLyrics?: {
+    syllables?: string;
+    phonetics?: string;
+    metaphors?: string[];
+  };
+  keyInsights?: string[];
+  uniqueStrength?: string;
 }
 
 export interface ProducerReviewData {
