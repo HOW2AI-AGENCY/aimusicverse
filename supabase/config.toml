@@ -245,3 +245,6 @@ verify_jwt = true
 
 [functions.analyze-reference-audio]
 verify_jwt = true
+
+[functions.extract-lyrics-from-stem]
+verify_jwt = true

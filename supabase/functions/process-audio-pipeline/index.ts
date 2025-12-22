@@ -29,10 +29,12 @@ interface PipelineRequest {
   telegram_file_id?: string;   // Original Telegram file ID
   telegram_message_id?: number; // Existing Telegram progress message to edit (prevents spam)
   skip_stems?: boolean;        // Skip stem separation
-  skip_lyrics?: boolean;       // Skip lyrics extraction
+  skip_lyrics?: boolean;       // Skip lyrics extraction  
   skip_analysis?: boolean;     // Skip style analysis (use existing)
   force_reprocess?: boolean;   // Force reprocess even if exists
   reference_id?: string;       // Existing reference ID to update
+  extract_lyrics_from_vocal?: boolean; // Extract lyrics from vocal stem after separation
+  action?: 'analyze' | 'stems' | 'full' | 'transcribe'; // Specific action to run
   user_classification?: {      // User-provided classification
     audio_type?: string;
     vocal_gender?: string;
@@ -228,6 +230,8 @@ serve(async (req) => {
       skip_analysis = false,
       force_reprocess = false,
       reference_id,
+      extract_lyrics_from_vocal = false,
+      action,
       user_classification,
     } = body;
     
@@ -422,11 +426,37 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
 
         console.log('📊 Flamingo output:', flamingoOutput);
 
-        // Parse response
+        // Parse response with improved regex that handles multi-word values
+        // Uses lookahead to find content until next FIELD: or end of text
+        const FIELD_ORDER = [
+          'VOCALS', 'INSTRUMENTAL', 'LANGUAGE', 'GENRE', 'SUB_GENRE', 
+          'MOOD', 'ENERGY', 'TEMPO', 'BPM_ESTIMATE', 'VOCAL_STYLE',
+          'INSTRUMENTS', 'PRODUCTION_STYLE', 'STYLE_PROMPT'
+        ];
+        
         const parseField = (text: string, field: string): string | null => {
-          const regex = new RegExp(`${field}:\\s*([^\\n]+)`, 'i');
+          // Build regex pattern that matches field value until next field or end
+          const fieldIndex = FIELD_ORDER.indexOf(field);
+          const remainingFields = FIELD_ORDER.slice(fieldIndex + 1);
+          
+          let pattern: string;
+          if (remainingFields.length > 0) {
+            // Match until next field name
+            const nextFieldsPattern = remainingFields.join('|');
+            pattern = `${field}:\\s*(.+?)(?=\\s*(?:${nextFieldsPattern}):|$)`;
+          } else {
+            // Last field - match until end
+            pattern = `${field}:\\s*(.+)$`;
+          }
+          
+          const regex = new RegExp(pattern, 'is');
           const match = text.match(regex);
-          return match ? match[1].trim() : null;
+          
+          if (match && match[1]) {
+            // Clean up: trim, remove extra whitespace
+            return match[1].trim().replace(/\s+/g, ' ');
+          }
+          return null;
         };
 
         const vocalsRaw = parseField(flamingoOutput, 'VOCALS') || '';
@@ -445,6 +475,19 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
         const instruments = instrumentsStr 
           ? instrumentsStr.split(',').map(i => i.trim()).filter(Boolean)
           : [];
+        
+        // Get clean style prompt
+        const stylePrompt = parseField(flamingoOutput, 'STYLE_PROMPT');
+
+        console.log('📊 Parsed fields:', {
+          genre: parseField(flamingoOutput, 'GENRE'),
+          mood: parseField(flamingoOutput, 'MOOD'),
+          energy: parseField(flamingoOutput, 'ENERGY'),
+          tempo: parseField(flamingoOutput, 'TEMPO'),
+          vocalStyle: parseField(flamingoOutput, 'VOCAL_STYLE'),
+          instruments,
+          stylePrompt,
+        });
 
         analysisResult = {
           hasVocals,
@@ -459,7 +502,7 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
           vocalStyle: parseField(flamingoOutput, 'VOCAL_STYLE'),
           instruments,
           productionStyle: parseField(flamingoOutput, 'PRODUCTION_STYLE'),
-          stylePrompt: parseField(flamingoOutput, 'STYLE_PROMPT'),
+          stylePrompt,
           fullResponse: flamingoOutput,
         };
 
@@ -489,75 +532,15 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
       }
     }
 
-    // === STEP 3: Update progress & extract lyrics if vocals ===
+    // === STEP 3: NO AUTO TRANSCRIPTION ===
+    // Lyrics are only extracted from VOCAL STEM after stem separation
+    // This is triggered by action='transcribe' or extract_lyrics_from_vocal=true
     let lyrics: string | null = null;
     let transcriptionMethod: string | null = null;
-
-    if (analysisResult.hasVocals && !skip_lyrics) {
-      if (telegram_chat_id && progressMessageId) {
-        await sendTelegramProgress(
-          telegram_chat_id,
-          `🎵 *Обработка аудио*\n\n` +
-          `📁 ${escapeMarkdown(file_name)}\n\n` +
-          `✅ Анализ стиля завершён\n` +
-          `🎤 Обнаружен вокал\n\n` +
-          `▓▓▓▓░░░░░░ 40%\n` +
-          `⏳ Извлечение текста песни\\.\\.\\.`,
-          progressMessageId,
-          true // Force update - stage change
-        );
-      }
-
-      console.log('🎤 Extracting lyrics with Whisper...');
-      
-      // Normalize language for Whisper API (needs ISO 639-1 code, not full name)
-      const whisperLanguage = normalizeLanguage(analysisResult.language);
-      console.log('🌐 Language for Whisper:', analysisResult.language, '->', whisperLanguage);
-
-      try {
-        const whisperOutput = await replicate.run(
-          "openai/whisper:4d50797290df275329f202e48c76360b3f22b08d28c196cbc54600319435f8d2",
-          {
-            input: {
-              audio: audioInputForReplicate, // Use base64 if available
-              model: "large-v3",
-              language: whisperLanguage, // Now properly normalized
-              translate: false,
-              temperature: 0,
-              transcription: "plain text",
-              no_speech_threshold: 0.6,
-            },
-          }
-        ) as { transcription?: string; text?: string };
-
-        lyrics = whisperOutput?.transcription || whisperOutput?.text || null;
-        transcriptionMethod = 'whisper-large-v3';
-        console.log('✅ Lyrics extracted:', lyrics?.length, 'chars');
-      } catch (whisperError) {
-        console.error('❌ Whisper failed:', whisperError);
-        
-        // Fallback to Audio Flamingo for lyrics
-        try {
-          const lyricsOutput = await replicate.run(
-            "zsxkib/audio-flamingo-3:2856d42f07154766b0cc0f3554fb425d7c3422ae77269264fbe0c983ac759fef",
-            {
-              input: {
-                audio: audioInputForReplicate, // Use base64 if available
-                prompt: 'What are all the lyrics?',
-                system_prompt: 'Transcribe ALL lyrics sung in this audio. Write only the lyrics. If unclear, write [unclear].',
-                enable_thinking: true,
-                temperature: 0.1,
-                max_length: 2048,
-              },
-            }
-          ) as string;
-          
-          lyrics = lyricsOutput;
-          transcriptionMethod = 'audio-flamingo-3';
-        } catch (e) {
-          console.error('❌ Flamingo lyrics fallback failed:', e);
-        }
-      }
+    
+    // Log that we're skipping auto-transcription
+    if (analysisResult.hasVocals) {
+      console.log('ℹ️ Vocals detected but skipping auto-transcription. Use vocal stem for lyrics extraction.');
     }
 
     // === STEP 4: Stem separation if both vocals AND instrumentals ===
@@ -574,10 +557,9 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
           `🎵 *Обработка аудио*\n\n` +
           `📁 ${escapeMarkdown(file_name)}\n\n` +
           `✅ Анализ стиля завершён\n` +
-          `✅ Текст извлечён\n` +
           `🎤 Вокал \\+ 🎸 Инструментал\n\n` +
-          `▓▓▓▓▓▓░░░░ 60%\n` +
-          `⏳ Запуск разделения на стемы\\.\\.\\.`,
+          `▓▓▓▓▓░░░░░ 50%\n` +
+          `⏳ Разделение на стемы\\.\\.\\.`,
           progressMessageId,
           true // Force update - stage change
         );
@@ -620,6 +602,50 @@ Be precise. If you hear ANY human voice singing/rapping, VOCALS: YES`;
           
           stemsStatus = 'completed';
           console.log('✅ Stems extracted:', Object.keys(stemUrls).filter(k => stemUrls[k as keyof StemUrls]));
+          
+          // === STEP 4.5: Extract lyrics from VOCAL STEM ===
+          if (stemUrls.vocal && (extract_lyrics_from_vocal || action === 'transcribe' || action === 'full')) {
+            if (telegram_chat_id && progressMessageId) {
+              await sendTelegramProgress(
+                telegram_chat_id,
+                `🎵 *Обработка аудио*\n\n` +
+                `📁 ${escapeMarkdown(file_name)}\n\n` +
+                `✅ Анализ стиля\n` +
+                `✅ Стемы разделены\n\n` +
+                `▓▓▓▓▓▓▓░░░ 70%\n` +
+                `⏳ Извлечение текста из вокала\\.\\.\\.`,
+                progressMessageId,
+                true
+              );
+            }
+            
+            console.log('🎤 Extracting lyrics from VOCAL STEM...');
+            
+            const whisperLanguage = normalizeLanguage(analysisResult.language);
+            
+            try {
+              const whisperOutput = await replicate.run(
+                "openai/whisper:4d50797290df275329f202e48c76360b3f22b08d28c196cbc54600319435f8d2",
+                {
+                  input: {
+                    audio: stemUrls.vocal, // Use VOCAL STEM, not original audio
+                    model: "large-v3",
+                    language: whisperLanguage,
+                    translate: false,
+                    temperature: 0,
+                    transcription: "plain text",
+                    no_speech_threshold: 0.6,
+                  },
+                }
+              ) as { transcription?: string; text?: string };
+
+              lyrics = whisperOutput?.transcription || whisperOutput?.text || null;
+              transcriptionMethod = 'whisper-large-v3-from-vocal-stem';
+              console.log('✅ Lyrics extracted from vocal stem:', lyrics?.length, 'chars');
+            } catch (whisperError) {
+              console.error('❌ Whisper failed on vocal stem:', whisperError);
+            }
+          }
         }
       } catch (demucsError) {
         console.error('❌ Demucs failed:', demucsError);
