@@ -14,7 +14,7 @@ import { hapticImpact } from '@/lib/haptic';
 import { AIToolbar } from './ai-agent/AIToolbar';
 import { useAITools } from './ai-agent/hooks/useAITools';
 import { WriteToolPanel, AnalyzeToolPanel, ProducerToolPanel, OptimizeToolPanel } from './ai-agent/tools';
-import { LyricsResultCard, TagsResultCard, FullAnalysisResultCard, ProducerResultCard } from './ai-agent/results';
+import { StructuredLyricsPreview, TagsResultCard, FullAnalysisResultCard, ProducerResultCard } from './ai-agent/results';
 import { AIToolId, AIAgentContext, SectionNote } from './ai-agent/types';
 
 interface LyricsAIChatAgentProps {
@@ -76,7 +76,7 @@ export function LyricsAIChatAgent({
     setActiveTool,
   } = useAITools({
     context,
-    onLyricsGenerated: onInsertLyrics,
+    onLyricsGenerated: onReplaceLyrics, // Quick actions should replace, not insert
     onTagsGenerated: onAddTags,
     onStylePromptGenerated: onApplyStylePrompt,
   });
@@ -114,6 +114,11 @@ export function LyricsAIChatAgent({
 
   const handleQuickAction = useCallback((action: string) => {
     sendChatMessage(action);
+  }, [sendChatMessage]);
+
+  const handleApplyRecommendations = useCallback((recommendations: string[]) => {
+    const formattedRecs = recommendations.map((r, i) => `${i + 1}. ${r}`).join('\n');
+    sendChatMessage(`Примени следующие рекомендации к тексту:\n${formattedRecs}`);
   }, [sendChatMessage]);
 
   const renderToolPanel = () => {
@@ -176,11 +181,11 @@ export function LyricsAIChatAgent({
                       <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
                       
                       {message.data?.lyrics && (
-                        <LyricsResultCard
+                        <StructuredLyricsPreview
                           lyrics={message.data.lyrics}
                           onInsert={onInsertLyrics}
                           onReplace={onReplaceLyrics}
-                          showReplace={!!selectedSection}
+                          showReplace={!!existingLyrics}
                         />
                       )}
                       
@@ -192,6 +197,7 @@ export function LyricsAIChatAgent({
                         <FullAnalysisResultCard
                           analysis={message.data.fullAnalysis}
                           onQuickAction={handleQuickAction}
+                          onApplyRecommendations={handleApplyRecommendations}
                         />
                       )}
 

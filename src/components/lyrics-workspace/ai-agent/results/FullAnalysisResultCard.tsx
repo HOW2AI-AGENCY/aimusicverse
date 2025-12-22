@@ -18,7 +18,10 @@ import {
   Wand2,
   Languages,
   Target,
-  Sparkles
+  Sparkles,
+  Check,
+  CheckCheck,
+  Play
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -30,6 +33,7 @@ import { useState } from 'react';
 interface FullAnalysisResultCardProps {
   analysis: FullAnalysisData;
   onQuickAction?: (action: string) => void;
+  onApplyRecommendations?: (recommendations: string[]) => void;
   className?: string;
 }
 
@@ -87,12 +91,45 @@ function getQuickActionIcon(label: string) {
 export function FullAnalysisResultCard({ 
   analysis, 
   onQuickAction,
+  onApplyRecommendations,
   className 
 }: FullAnalysisResultCardProps) {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [selectedRecommendations, setSelectedRecommendations] = useState<Set<number>>(new Set());
 
   const toggleSection = (section: string) => {
     setExpandedSection(prev => prev === section ? null : section);
+  };
+
+  const toggleRecommendation = (index: number) => {
+    setSelectedRecommendations(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return newSet;
+    });
+  };
+
+  const selectAllRecommendations = () => {
+    const allIndices = new Set(recommendations.map((_, i) => i));
+    setSelectedRecommendations(allIndices);
+  };
+
+  const handleApplySelected = () => {
+    if (onApplyRecommendations && selectedRecommendations.size > 0) {
+      const selectedTexts = Array.from(selectedRecommendations).map(i => recommendations[i].text);
+      onApplyRecommendations(selectedTexts);
+    }
+  };
+
+  const handleApplyAll = () => {
+    if (onQuickAction && recommendations.length > 0) {
+      const allRecsText = recommendations.map(r => `- ${r.text}`).join('\n');
+      onQuickAction(`Примени все рекомендации:\n${allRecsText}`);
+    }
   };
 
   const hasIssues = 
@@ -284,33 +321,97 @@ export function FullAnalysisResultCard({
           <div className="flex items-center gap-2 mb-2">
             <Lightbulb className="w-4 h-4 text-amber-400" />
             <span className="text-sm font-medium">Рекомендации</span>
-            <Badge variant="secondary" className="text-[10px] ml-auto">
-              {recommendations.length}
+            <Badge variant="secondary" className="text-[10px]">
+              {selectedRecommendations.size > 0 ? `${selectedRecommendations.size}/` : ''}{recommendations.length}
             </Badge>
+            {onQuickAction && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="ml-auto h-6 text-[10px] px-2"
+                onClick={selectAllRecommendations}
+              >
+                <CheckCheck className="w-3 h-3 mr-1" />
+                Выбрать все
+              </Button>
+            )}
           </div>
           <div className="space-y-2">
             {recommendations.slice(0, 5).map((rec, i) => {
               const priorityConfig = PRIORITY_CONFIG[rec.priority];
+              const isSelected = selectedRecommendations.has(i);
               return (
                 <div 
                   key={i} 
+                  onClick={() => onQuickAction && toggleRecommendation(i)}
                   className={cn(
-                    "flex items-start gap-2 text-xs p-2 rounded-lg",
+                    "flex items-start gap-2 text-xs p-2 rounded-lg transition-all",
                     rec.priority === 'high' && 'bg-red-500/10 border border-red-500/20',
                     rec.priority === 'medium' && 'bg-amber-500/10 border border-amber-500/20',
-                    rec.priority === 'low' && 'bg-blue-500/10 border border-blue-500/20'
+                    rec.priority === 'low' && 'bg-blue-500/10 border border-blue-500/20',
+                    onQuickAction && 'cursor-pointer hover:opacity-80',
+                    isSelected && 'ring-2 ring-primary ring-offset-1 ring-offset-background'
                   )}
                 >
+                  {onQuickAction && (
+                    <div className={cn(
+                      "w-4 h-4 rounded border flex items-center justify-center shrink-0 mt-0.5",
+                      isSelected ? "bg-primary border-primary" : "border-muted-foreground/30"
+                    )}>
+                      {isSelected && <Check className="w-3 h-3 text-primary-foreground" />}
+                    </div>
+                  )}
                   <Badge 
                     className={cn("text-[9px] shrink-0", priorityConfig?.color)}
                   >
                     {priorityConfig?.label || rec.priority}
                   </Badge>
-                  <span>{rec.text}</span>
+                  <span className="flex-1">{rec.text}</span>
+                  {onQuickAction && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-5 w-5 p-0 shrink-0 opacity-0 group-hover:opacity-100"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onQuickAction(rec.text);
+                      }}
+                    >
+                      <Play className="w-3 h-3" />
+                    </Button>
+                  )}
                 </div>
               );
             })}
           </div>
+          
+          {/* Apply buttons */}
+          {onQuickAction && selectedRecommendations.size > 0 && (
+            <div className="flex gap-2 mt-3 pt-2 border-t border-border/30">
+              <Button
+                size="sm"
+                className="flex-1 h-8 text-xs gap-1"
+                onClick={handleApplySelected}
+              >
+                <Wand2 className="w-3 h-3" />
+                Применить выбранные ({selectedRecommendations.size})
+              </Button>
+            </div>
+          )}
+          
+          {onQuickAction && selectedRecommendations.size === 0 && recommendations.length > 0 && (
+            <div className="mt-3 pt-2 border-t border-border/30">
+              <Button
+                size="sm"
+                variant="outline"
+                className="w-full h-8 text-xs gap-1"
+                onClick={handleApplyAll}
+              >
+                <Wand2 className="w-3 h-3" />
+                Применить все рекомендации
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </motion.div>
