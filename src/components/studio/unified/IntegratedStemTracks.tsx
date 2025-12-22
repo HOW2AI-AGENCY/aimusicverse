@@ -715,27 +715,25 @@ export function IntegratedStemTracks({
 
         {/* Hardware mode toggle + Add Track + Master volume */}
         <div className="flex items-center gap-2">
-          {/* Hardware mode toggle - desktop only */}
-          {!isMobile && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant={isHardwareMode ? "default" : "ghost"}
-                  size="sm"
-                  onClick={toggleHardwareMode}
-                  className={cn(
-                    "h-7 w-7 p-0 rounded-lg",
-                    isHardwareMode && "bg-primary text-primary-foreground"
-                  )}
-                >
-                  <Gauge className="w-4 h-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                {isHardwareMode ? 'Обычный микшер' : 'Hardware микшер'}
-              </TooltipContent>
-            </Tooltip>
-          )}
+          {/* Hardware mode toggle - available on all devices */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant={isHardwareMode ? "default" : "ghost"}
+                size="sm"
+                onClick={toggleHardwareMode}
+                className={cn(
+                  "h-7 w-7 p-0 rounded-lg",
+                  isHardwareMode && "bg-primary text-primary-foreground"
+                )}
+              >
+                <Gauge className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              {isHardwareMode ? 'Обычный микшер' : 'Hardware микшер'}
+            </TooltipContent>
+          </Tooltip>
 
           {onAddTrack && (
             <Button
@@ -795,9 +793,12 @@ export function IntegratedStemTracks({
               <div className="p-2">
                 <StemTrackSkeleton count={stems.length} isMobile={isMobile} />
               </div>
-            ) : isHardwareMode && !isMobile ? (
-              /* Hardware Mixer Mode - desktop only */
-              <div className="p-4 bg-gradient-to-b from-muted/20 to-background">
+            ) : isHardwareMode ? (
+              /* Hardware Mixer Mode - all devices, compact on mobile */
+              <div className={cn(
+                "bg-gradient-to-b from-muted/20 to-background",
+                isMobile ? "p-2 overflow-x-auto" : "p-4"
+              )}>
                 <HardwareMixer
                   stems={hardwareStems}
                   stemStates={stemStates}
@@ -808,6 +809,7 @@ export function IntegratedStemTracks({
                   onStemSoloToggle={(stemId) => onStemToggle(stemId, 'solo')}
                   onMasterVolumeChange={onMasterVolumeChange}
                   onMasterMuteToggle={onMasterMuteToggle}
+                  compact={isMobile}
                 />
               </div>
             ) : (
