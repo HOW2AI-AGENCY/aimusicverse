@@ -3860,6 +3860,54 @@ export type Database = {
         }
         Relationships: []
       }
+      user_feedback: {
+        Row: {
+          admin_reply: string | null
+          created_at: string
+          id: string
+          message: string
+          rating: number | null
+          replied_at: string | null
+          replied_by: string | null
+          status: string
+          telegram_chat_id: number | null
+          telegram_id: number
+          type: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          admin_reply?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          rating?: number | null
+          replied_at?: string | null
+          replied_by?: string | null
+          status?: string
+          telegram_chat_id?: number | null
+          telegram_id: number
+          type: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          admin_reply?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          rating?: number | null
+          replied_at?: string | null
+          replied_by?: string | null
+          status?: string
+          telegram_chat_id?: number | null
+          telegram_id?: number
+          type?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_follows: {
         Row: {
           created_at: string
