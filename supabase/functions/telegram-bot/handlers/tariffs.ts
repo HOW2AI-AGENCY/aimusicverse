@@ -9,6 +9,13 @@ import { logger } from '../utils/index.ts';
 import { logBotAction } from '../utils/bot-logger.ts';
 import { escapeMarkdownV2 } from '../utils/text-processor.ts';
 import { BOT_CONFIG } from '../config.ts';
+import { 
+  sendAutoDeleteMessage, 
+  sendSuccessNotification, 
+  sendErrorNotification,
+  AUTO_DELETE_TIMINGS 
+} from '../utils/auto-delete.ts';
+import { createProgressMessage } from '../utils/progress-bar.ts';
 
 interface SubscriptionTier {
   id: string;
@@ -92,6 +99,17 @@ function formatPeriod(period: string, lang = 'ru'): string {
   return periods[period]?.[lang] || period;
 }
 
+/**
+ * Get quality badge
+ */
+function getQualityBadge(quality: string): string {
+  switch (quality) {
+    case 'ultra': return '🎧 Ultra HD';
+    case 'hd': return '🎵 HD';
+    default: return '🎼 Стандарт';
+  }
+}
+
 export async function handleTariffCallback(
   data: string,
   chatId: number,
@@ -133,103 +151,135 @@ export async function handleTariffCallback(
   } catch (error) {
     logger.error('Failed to handle tariff callback', error);
     await answerCallbackQuery(queryId, '❌ Ошибка');
+    await sendErrorNotification(chatId, 'Произошла ошибка. Попробуйте позже.');
     return true;
   }
 }
 
 /**
- * Show tariffs menu with all available tiers
+ * Show tariffs menu with all available tiers - beautifully formatted
  */
 async function showTariffsMenu(chatId: number, messageId: number): Promise<void> {
   const tiers = await loadTiers();
   
-  let text = `💎 *ТАРИФЫ*\n\nВыберите подходящий тариф:\n\n`;
+  let text = `💎 *ТАРИФНЫЕ ПЛАНЫ*\n`;
+  text += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  text += `🎯 Выберите подходящий тариф для ваших задач:\n\n`;
   
   for (const tier of tiers) {
-    const name = tier.name.ru || tier.name.en || tier.code;
+    const name = tier.name.ru || tier.name.en || tier.code.toUpperCase();
     const period = formatPeriod(tier.credits_period);
     
     if (tier.code === 'free') {
-      text += `${tier.icon_emoji} *${name}* — ${tier.credits_amount} кредитов/${period}\n`;
+      text += `${tier.icon_emoji} *${name}*\n`;
+      text += `   └ ${tier.credits_amount} кредитов/${period} • Бесплатно\n\n`;
     } else if (tier.custom_pricing) {
-      text += `${tier.icon_emoji} *${name}* — от $${tier.min_purchase_amount}/мес\n`;
+      text += `${tier.icon_emoji} *${name}*\n`;
+      text += `   └ Безлимит • от $${tier.min_purchase_amount}/мес\n\n`;
     } else {
-      text += `${tier.icon_emoji} *${name}* $${tier.price_usd} — ${tier.credits_amount} кредитов/${period}\n`;
+      const badge = tier.badge_text ? ` 🏷️` : '';
+      text += `${tier.icon_emoji} *${name}*${badge}\n`;
+      text += `   └ ${tier.credits_amount} кред/${period} • $${tier.price_usd} (${tier.price_stars}⭐)\n\n`;
     }
   }
   
-  text += `\n_Выберите тариф для подробной информации:_`;
+  text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+  text += `📌 _Нажмите на тариф для подробностей_`;
   
   const keyboard = tiers.map(tier => [{
-    text: `${tier.icon_emoji} ${tier.name.ru || tier.code}`,
+    text: `${tier.icon_emoji} ${tier.name.ru || tier.code}${tier.badge_text ? ' ✨' : ''}`,
     callback_data: tier.code === 'enterprise' ? 'tariff_contact_enterprise' : `tariff_info_${tier.code}`
   }]);
   
-  keyboard.push([{ text: '📊 Сравнить тарифы', callback_data: 'tariff_compare' }]);
-  keyboard.push([{ text: '◀️ Назад', callback_data: 'menu_main' }]);
+  keyboard.push([{ text: '📊 Сравнить все тарифы', callback_data: 'tariff_compare' }]);
+  keyboard.push([{ text: '◀️ Главное меню', callback_data: 'menu_main' }]);
   
   await editMessageText(chatId, messageId, escapeMarkdownV2(text), {
-    parse_mode: 'MarkdownV2',
-    reply_markup: { inline_keyboard: keyboard },
-  } as Record<string, unknown>);
+    inline_keyboard: keyboard,
+  });
 }
 
 /**
- * Show detailed tier information
+ * Show detailed tier information with rich formatting
  */
 async function showTierInfo(chatId: number, messageId: number, tierCode: string): Promise<void> {
   const tier = await getTier(tierCode);
   
   if (!tier) {
     logger.error('Tier not found', { tierCode });
+    await sendErrorNotification(chatId, 'Тариф не найден');
     return;
   }
   
   const name = tier.name.ru || tier.name.en || tier.code;
   const period = formatPeriod(tier.credits_period);
-  const features = tier.features || [];
   
-  let text = `${tier.icon_emoji} *${name.toUpperCase()}*\n\n`;
+  // Build rich formatted message
+  let text = `${tier.icon_emoji} *${name.toUpperCase()}*\n`;
+  text += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
   
+  // Pricing section
   if (tier.price_usd > 0) {
-    text += `💰 *Цена:* $${tier.price_usd}/мес`;
+    text += `💰 *СТОИМОСТЬ*\n`;
+    text += `├ USD: *$${tier.price_usd}*/месяц\n`;
     if (tier.price_stars > 0) {
-      text += ` или ${tier.price_stars} ⭐`;
+      text += `├ Stars: *${tier.price_stars}* ⭐\n`;
     }
-    text += `\n\n`;
+    if (tier.price_robokassa > 0) {
+      text += `└ RUB: *${tier.price_robokassa}₽*\n`;
+    }
+    text += `\n`;
   } else {
-    text += `💰 *Бесплатно!*\n\n`;
+    text += `💰 *БЕСПЛАТНО!* 🎉\n\n`;
   }
   
-  text += `✅ *Что включено:*\n`;
-  text += `• ${tier.credits_amount} кредитов/${period}\n`;
-  text += `• ${tier.max_concurrent_generations} треков одновременно\n`;
-  text += `• ${tier.audio_quality === 'ultra' ? 'Ultra HD' : tier.audio_quality === 'hd' ? 'HD' : 'Стандартное'} качество\n`;
+  // Credits section
+  text += `📦 *КРЕДИТЫ*\n`;
+  text += `├ Количество: *${tier.credits_amount}*/${period}\n`;
+  text += `└ Одновременно: *${tier.max_concurrent_generations}* треков\n\n`;
   
-  if (tier.has_priority) text += `• Приоритетная генерация\n`;
-  if (tier.has_stem_separation) text += `• Stem-сепарация\n`;
-  if (tier.has_mastering) text += `• Мастеринг\n`;
-  if (tier.has_midi_export) text += `• MIDI экспорт\n`;
-  if (tier.has_api_access) text += `• API доступ\n`;
-  if (tier.has_dedicated_support) text += `• Персональная поддержка\n`;
+  // Features section
+  text += `✨ *ВОЗМОЖНОСТИ*\n`;
+  text += `├ ${getQualityBadge(tier.audio_quality)}\n`;
   
+  const features: string[] = [];
+  if (tier.has_priority) features.push('⚡ Приоритет');
+  if (tier.has_stem_separation) features.push('🎛️ Стемы');
+  if (tier.has_mastering) features.push('🎚️ Мастеринг');
+  if (tier.has_midi_export) features.push('🎹 MIDI');
+  if (tier.has_api_access) features.push('🔌 API');
+  if (tier.has_dedicated_support) features.push('👨‍💻 Поддержка 24/7');
+  
+  if (features.length > 0) {
+    features.forEach((f, i) => {
+      text += `${i === features.length - 1 ? '└' : '├'} ${f}\n`;
+    });
+  } else {
+    text += `└ Базовый набор функций\n`;
+  }
+  
+  // Badge
   if (tier.badge_text) {
-    text += `\n🏷️ _${tier.badge_text}_`;
+    text += `\n🏷️ _${tier.badge_text}_\n`;
   }
+  
+  text += `\n━━━━━━━━━━━━━━━━━━━━━`;
   
   const keyboard: Array<Array<{ text: string; callback_data?: string; url?: string }>> = [];
   
   if (tier.price_usd > 0 && !tier.custom_pricing) {
-    keyboard.push([{ text: `⭐ Оплатить ${tier.price_stars} Stars`, callback_data: `tariff_buy_${tier.code}` }]);
+    keyboard.push([{ 
+      text: `⭐ Оформить за ${tier.price_stars} Stars`, 
+      callback_data: `tariff_buy_${tier.code}` 
+    }]);
   }
   
   keyboard.push([{ text: '📊 Сравнить тарифы', callback_data: 'tariff_compare' }]);
-  keyboard.push([{ text: '◀️ Назад к тарифам', callback_data: 'tariff_menu' }]);
+  keyboard.push([{ text: '◀️ Все тарифы', callback_data: 'tariff_menu' }]);
   
   await editMessageText(chatId, messageId, escapeMarkdownV2(text), {
-    parse_mode: 'MarkdownV2',
-    reply_markup: { inline_keyboard: keyboard },
-  } as Record<string, unknown>);
+    inline_keyboard: keyboard,
+  });
 }
 
 async function initiateTariffPurchase(chatId: number, userId: number, tierCode: string, queryId: string): Promise<void> {
@@ -245,6 +295,17 @@ async function initiateTariffPurchase(chatId: number, userId: number, tierCode: 
     return;
   }
   
+  // Show loading notification
+  const loadingMsgId = await sendAutoDeleteMessage(
+    chatId,
+    createProgressMessage('Подготовка платежа', 50, 'Создаём счёт...', {
+      icon: '💳',
+      showBar: true,
+      barStyle: 'modern',
+    }),
+    AUTO_DELETE_TIMINGS.MEDIUM
+  );
+  
   const supabase = getSupabaseClient();
   
   // Get user profile
@@ -255,7 +316,7 @@ async function initiateTariffPurchase(chatId: number, userId: number, tierCode: 
     .single();
   
   if (!profile) {
-    await answerCallbackQuery(queryId, '❌ Профиль не найден');
+    await sendErrorNotification(chatId, 'Профиль не найден. Начните с /start');
     return;
   }
   
@@ -281,30 +342,38 @@ async function initiateTariffPurchase(chatId: number, userId: number, tierCode: 
   
   if (error) {
     logger.error('Failed to create transaction', error);
-    await answerCallbackQuery(queryId, '❌ Ошибка создания платежа');
+    await sendErrorNotification(chatId, 'Не удалось создать платёж. Попробуйте позже.');
     return;
   }
   
   const name = tier.name.ru || tier.name.en || tier.code;
   
-  // Redirect to webapp for payment
-  const paymentUrl = `${BOT_CONFIG.miniAppUrl}/shop?product=${productCode}&tx=${transaction.id}`;
+  // Success notification
+  await sendSuccessNotification(chatId, 'Счёт создан! Выберите способ оплаты', AUTO_DELETE_TIMINGS.SHORT);
   
-  const text = `${tier.icon_emoji} *ОПЛАТА ${name.toUpperCase()}*\n\n` +
-    `💰 Стоимость: ${tier.price_stars} Stars (~$${tier.price_usd})\n` +
-    `📦 Кредитов: ${tier.credits_amount}/${formatPeriod(tier.credits_period)}\n\n` +
-    `Выберите способ оплаты:`;
+  // Payment options message
+  const paymentUrl = `${BOT_CONFIG.miniAppUrl}/shop?product=${productCode}&tx=${transaction.id}`;
+  const robokassaUrl = `${BOT_CONFIG.miniAppUrl}/shop?product=${productCode}&method=robokassa&tx=${transaction.id}`;
+  
+  let text = `${tier.icon_emoji} *ОФОРМЛЕНИЕ ${name.toUpperCase()}*\n`;
+  text += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  text += `📦 *Что вы получите:*\n`;
+  text += `├ ${tier.credits_amount} кредитов/${formatPeriod(tier.credits_period)}\n`;
+  text += `├ ${tier.max_concurrent_generations} треков одновременно\n`;
+  text += `└ ${getQualityBadge(tier.audio_quality)}\n\n`;
+  text += `💳 *Выберите способ оплаты:*\n\n`;
+  text += `⭐ Telegram Stars — мгновенно\n`;
+  text += `💳 Robokassa — карты РФ/СНГ\n\n`;
+  text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+  text += `💰 Итого: *$${tier.price_usd}* или *${tier.price_stars}⭐*`;
   
   await editMessageText(chatId, 0, escapeMarkdownV2(text), {
-    parse_mode: 'MarkdownV2',
-    reply_markup: {
-      inline_keyboard: [
-        [{ text: `⭐ Telegram Stars (${tier.price_stars})`, url: paymentUrl }],
-        [{ text: `💳 Robokassa (${tier.price_robokassa}₽)`, url: `${BOT_CONFIG.miniAppUrl}/shop?product=${productCode}&method=robokassa` }],
-        [{ text: '◀️ Назад', callback_data: 'tariff_menu' }]
-      ]
-    }
-  } as Record<string, unknown>);
+    inline_keyboard: [
+      [{ text: `⭐ Telegram Stars (${tier.price_stars})`, url: paymentUrl }],
+      [{ text: `💳 Robokassa (${tier.price_robokassa}₽)`, url: robokassaUrl }],
+      [{ text: '◀️ Отмена', callback_data: 'tariff_menu' }]
+    ]
+  });
   
   logger.info('Payment initiated', { userId, tierCode, transactionId: transaction.id });
 }
@@ -312,24 +381,31 @@ async function initiateTariffPurchase(chatId: number, userId: number, tierCode: 
 async function showEnterpriseContact(chatId: number, messageId: number): Promise<void> {
   const tier = await getTier('enterprise');
   
-  const text = `🏆 *ENTERPRISE ТАРИФ*\n\n` +
-    `Индивидуальные решения для бизнеса!\n\n` +
-    `✅ *Включает:*\n` +
-    `• Безлимитные кредиты\n` +
-    `• Полный API доступ\n` +
-    `• White-label решение\n` +
-    `• Выделенные ресурсы\n` +
-    `• SLA гарантии 99.9%\n` +
-    `• Персональная поддержка 24/7\n` +
-    `• Кастомные AI модели\n\n` +
-    `💰 *Цена:* от $${tier?.min_purchase_amount || 50}/мес\n` +
-    `_Цена за 1 кредит договорная_\n\n` +
-    `📧 Свяжитесь с нами для обсуждения!`;
+  let text = `🏆 *ENTERPRISE ТАРИФ*\n`;
+  text += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  text += `🎯 *Индивидуальные решения для бизнеса*\n\n`;
+  
+  text += `✨ *ВСЁ ВКЛЮЧЕНО:*\n`;
+  text += `├ ♾️ Безлимитные кредиты\n`;
+  text += `├ 🔌 Полный API доступ\n`;
+  text += `├ 🏷️ White-label решение\n`;
+  text += `├ 🖥️ Выделенные ресурсы\n`;
+  text += `├ 📋 SLA гарантии 99.9%\n`;
+  text += `├ 👨‍💻 Поддержка 24/7\n`;
+  text += `└ 🤖 Кастомные AI модели\n\n`;
+  
+  text += `💰 *СТОИМОСТЬ*\n`;
+  text += `├ От *$${tier?.min_purchase_amount || 50}*/месяц\n`;
+  text += `└ Цена за кредит — _договорная_\n\n`;
+  
+  text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+  text += `📧 _Свяжитесь с нами для обсуждения!_`;
 
   const keyboard = [
-    [{ text: '📧 Написать нам', url: 'https://t.me/MusicVerseSupport' }],
+    [{ text: '📧 Написать менеджеру', url: 'https://t.me/MusicVerseSupport' }],
+    [{ text: '📞 Заказать звонок', callback_data: 'enterprise_callback' }],
     [{ text: '📊 Сравнить тарифы', callback_data: 'tariff_compare' }],
-    [{ text: '◀️ Назад', callback_data: 'tariff_menu' }],
+    [{ text: '◀️ Все тарифы', callback_data: 'tariff_menu' }],
   ];
 
   if (messageId > 0) {
@@ -346,34 +422,52 @@ async function showEnterpriseContact(chatId: number, messageId: number): Promise
 async function showTariffComparison(chatId: number, messageId: number): Promise<void> {
   const tiers = await loadTiers();
   
-  let text = `📊 *СРАВНЕНИЕ ТАРИФОВ*\n\n`;
+  let text = `📊 *СРАВНЕНИЕ ТАРИФОВ*\n`;
+  text += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  
+  // Header row
+  text += `           💰    📦    🎵\n`;
+  text += `           Цена  Кред  Треки\n`;
+  text += `───────────────────────────\n`;
   
   for (const tier of tiers) {
-    const name = tier.name.ru || tier.code;
-    const period = formatPeriod(tier.credits_period);
+    const name = (tier.name.ru || tier.code).padEnd(8).slice(0, 8);
+    const price = tier.price_usd > 0 ? `$${tier.price_usd}`.padEnd(5) : 'FREE'.padEnd(5);
+    const credits = tier.custom_pricing ? '∞' : `${tier.credits_amount}`.padEnd(5);
+    const tracks = `${tier.max_concurrent_generations}`;
     
-    text += `${tier.icon_emoji} *${name}*\n`;
-    
-    if (tier.price_usd > 0) {
-      text += `   💰 $${tier.price_usd}/мес`;
-      if (tier.price_stars > 0) text += ` (${tier.price_stars}⭐)`;
-      text += `\n`;
-    } else {
-      text += `   💰 Бесплатно\n`;
-    }
-    
-    text += `   📦 ${tier.credits_amount} кред/${period}\n`;
-    text += `   🎵 ${tier.max_concurrent_generations} треков\n\n`;
+    text += `${tier.icon_emoji} ${name} ${price} ${credits} ${tracks}\n`;
   }
+  
+  text += `───────────────────────────\n\n`;
+  
+  // Features comparison
+  text += `✨ *ФУНКЦИИ:*\n\n`;
+  
+  const featureRows = [
+    { name: '⚡ Приоритет', check: (t: SubscriptionTier) => t.has_priority },
+    { name: '🎛️ Стемы', check: (t: SubscriptionTier) => t.has_stem_separation },
+    { name: '🎚️ Мастеринг', check: (t: SubscriptionTier) => t.has_mastering },
+    { name: '🎹 MIDI', check: (t: SubscriptionTier) => t.has_midi_export },
+    { name: '🔌 API', check: (t: SubscriptionTier) => t.has_api_access },
+  ];
+  
+  for (const feature of featureRows) {
+    const marks = tiers.map(t => feature.check(t) ? '✅' : '—').join(' ');
+    text += `${feature.name}: ${marks}\n`;
+  }
+  
+  text += `\n━━━━━━━━━━━━━━━━━━━━━\n`;
+  text += `📌 _Выберите тариф для оформления_`;
   
   const keyboard = tiers
     .filter(t => t.price_usd > 0 && !t.custom_pricing)
     .map(t => [{
-      text: `${t.icon_emoji} ${t.name.ru || t.code} ${t.price_stars}⭐`,
+      text: `${t.icon_emoji} ${t.name.ru || t.code} — $${t.price_usd}`,
       callback_data: `tariff_buy_${t.code}`
     }]);
   
-  keyboard.push([{ text: '🏆 Enterprise', callback_data: 'tariff_contact_enterprise' }]);
+  keyboard.push([{ text: '🏆 Enterprise — от $50', callback_data: 'tariff_contact_enterprise' }]);
   keyboard.push([{ text: '◀️ Назад', callback_data: 'tariff_menu' }]);
 
   await editMessageText(chatId, messageId, escapeMarkdownV2(text), {
