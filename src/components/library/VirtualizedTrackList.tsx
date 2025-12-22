@@ -3,6 +3,7 @@ import { Virtuoso, VirtuosoGrid } from "react-virtuoso";
 import type { Track } from "@/types/track";
 import { TrackCard } from "@/components/TrackCard";
 import { Loader2 } from "lucide-react";
+import { GridSkeleton, TrackCardSkeleton, TrackCardSkeletonCompact } from "@/components/ui/skeleton-components";
 
 interface TrackMidiStatus {
   hasMidi: boolean;

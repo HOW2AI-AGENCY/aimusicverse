@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { telegramAuthService } from '@/services/telegram-auth';
 import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
+import { toast } from 'sonner';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TelegramWebApp = any;
@@ -767,7 +768,8 @@ export const useTelegram = () => {
 // Component to handle deep linking using useNavigate
 export const DeepLinkHandler = () => {
   const navigate = useNavigate();
-  const { webApp, user, isDevelopmentMode } = useTelegram();
+  const { webApp, user, isDevelopmentMode, hapticFeedback } = useTelegram();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     const startParam = webApp?.initDataUnsafe?.start_param;
@@ -783,6 +785,10 @@ export const DeepLinkHandler = () => {
     sessionStorage.setItem(processedKey, 'true');
 
     telegramLogger.debug('Processing deep link', { startParam });
+
+    // Show loading state
+    setIsProcessing(true);
+    hapticFeedback('light');
 
     // Track analytics async - get user_id from auth session
     const trackDeepLink = async (type: string, value: string, converted: boolean = true) => {
@@ -904,14 +910,36 @@ export const DeepLinkHandler = () => {
       if (typeof pattern === 'string') {
         if (startParam === pattern) {
           trackDeepLink(analyticsType, startParam);
-          navigate(getPath(null));
+          
+          // Show toast with navigation info
+          toast.info('Переход по ссылке', {
+            description: getDeepLinkDescription(analyticsType, startParam),
+            duration: 2000,
+          });
+          
+          // Navigate with small delay for feedback
+          setTimeout(() => {
+            navigate(getPath(null));
+            setIsProcessing(false);
+          }, 200);
           return;
         }
       } else {
         const match = startParam.match(pattern);
         if (match) {
           trackDeepLink(analyticsType, match[1] || startParam);
-          navigate(getPath(match));
+          
+          // Show toast with navigation info
+          toast.info('Переход по ссылке', {
+            description: getDeepLinkDescription(analyticsType, match[1] || startParam),
+            duration: 2000,
+          });
+          
+          // Navigate with small delay for feedback
+          setTimeout(() => {
+            navigate(getPath(match));
+            setIsProcessing(false);
+          }, 200);
           return;
         }
       }
@@ -920,7 +948,54 @@ export const DeepLinkHandler = () => {
     // Fallback: unknown deep link, track and log it
     trackDeepLink('unknown', startParam, false);
     telegramLogger.warn('Unknown deep link', { startParam });
-  }, [webApp?.initDataUnsafe?.start_param, navigate, webApp?.platform, webApp?.version, user?.telegram_id]);
+    
+    toast.error('Неизвестная ссылка', {
+      description: 'Ссылка не распознана',
+      duration: 3000,
+    });
+    setIsProcessing(false);
+  }, [webApp?.initDataUnsafe?.start_param, navigate, webApp?.platform, webApp?.version, user?.telegram_id, hapticFeedback]);
 
+  // Helper function to get user-friendly descriptions
+  function getDeepLinkDescription(type: string, value: string): string {
+    const descriptions: Record<string, string> = {
+      track: 'Открываем трек',
+      project: 'Открываем проект',
+      artist: 'Открываем артиста',
+      playlist: 'Открываем плейлист',
+      album: 'Открываем альбом',
+      blog: 'Открываем статью',
+      generate: 'Создание трека',
+      quick: 'Быстрое создание',
+      remix: 'Создание ремикса',
+      vocals: 'Добавление вокала',
+      instrumental: 'Создание инструментала',
+      extend: 'Расширение трека',
+      cover: 'Создание кавера',
+      studio: 'Открываем студию',
+      lyrics: 'Просмотр текста',
+      stats: 'Просмотр статистики',
+      share: 'Просмотр трека',
+      profile: 'Открываем профиль',
+      invite: 'Реферальная ссылка',
+      referral: 'Реферальная ссылка',
+      buy: 'Покупка кредитов',
+      credits: 'Покупка кредитов',
+      subscribe: 'Оформление подписки',
+      subscription: 'Управление подпиской',
+      library: 'Библиотека треков',
+      projects: 'Мои проекты',
+      artists: 'Артисты',
+      community: 'Сообщество',
+      playlists: 'Плейлисты',
+      settings: 'Настройки',
+      help: 'Помощь',
+    };
+    
+    return descriptions[type] || 'Обработка ссылки...';
+  }
+
+  // Optional: Show loading indicator while processing
+  // This could be a full-screen loader or just null
   return null;
 };

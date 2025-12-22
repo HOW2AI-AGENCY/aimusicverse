@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { AnimatePresence, motion } from '@/lib/motion';
 import { Sheet, SheetContent, SheetFooter } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -12,7 +12,8 @@ import logo from '@/assets/logo.png';
 import { useTracks } from '@/hooks/useTracks';
 import { useGenerateForm, useAudioReference } from '@/hooks/generation';
 import { useTelegram } from '@/contexts/TelegramContext';
-import { useTelegramMainButton, useTelegramBackButton } from '@/hooks/telegram';
+import { useTelegramMainButton, useTelegramSecondaryButton, useTelegramBackButton } from '@/hooks/telegram';
+import { useKeyboardAware } from '@/hooks/useKeyboardAware';
 // Form components
 import { GenerateFormHeaderCompact } from './generate-form/GenerateFormHeaderCompact';
 import { GenerateFormActions } from './generate-form/GenerateFormActions';
@@ -53,6 +54,10 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   
   // Get active audio reference for hasReferenceAudio check
   const { activeReference } = useAudioReference();
+  
+  // Keyboard-aware behavior для адаптации под клавиатуру iOS
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const { keyboardHeight, isKeyboardOpen, createFocusHandler } = useKeyboardAware();
 
   // Dialog states
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
@@ -148,6 +153,19 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     onClick: handleGenerate,
     enabled: !form.loading,
     visible: open && !lyricsAssistantOpen,
+  });
+
+  // Telegram SecondaryButton for "Save Draft" - NEW FEATURE
+  // Only show when there's unsaved data
+  const { shouldShowUIButton: shouldShowSecondaryUIButton } = useTelegramSecondaryButton({
+    text: 'Сохранить черновик',
+    onClick: () => {
+      hapticFeedback('light');
+      toast.success('Черновик сохранён');
+    },
+    enabled: hasUnsavedData && !form.loading,
+    visible: open && hasUnsavedData && !lyricsAssistantOpen,
+    position: 'left',
   });
 
   // Telegram BackButton integration - with confirmation for unsaved data
@@ -290,6 +308,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   onHasVocalsChange={form.setHasVocals}
                   onBoostStyle={form.handleBoostStyle}
                   boostLoading={form.boostLoading}
+                  // Передаём auto-scroll handler для input полей
+                  onInputFocus={createFocusHandler()}
                 />
               ) : (
                 <GenerateFormCustom
@@ -320,38 +340,69 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   hasPersona={!!form.selectedArtistId}
                   model={form.model}
                   onModelChange={form.setModel}
+                  // Передаём auto-scroll handler для input полей
+                  onInputFocus={createFocusHandler()}
                 />
               )}
             </AnimatePresence>
           </div>
         </ScrollArea>
 
-        {/* Footer - only show UI button for test users, real Mini App users get native MainButton */}
-        <div className="p-4 border-t bg-background/95 backdrop-blur pb-[max(1rem,env(safe-area-inset-bottom))]">
+        {/* Footer - keyboard-aware padding */}
+        <div 
+          className="p-4 border-t bg-background/95 backdrop-blur"
+          style={{
+            // Применяем padding для клавиатуры + safe-area
+            paddingBottom: isKeyboardOpen
+              ? `${keyboardHeight + 16}px`
+              : 'max(1rem, env(safe-area-inset-bottom))',
+            transition: 'padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          }}
+        >
           {form.loading && (
             <div className="mb-1.5">
               <Progress value={33} className="h-1" />
             </div>
           )}
-          {shouldShowUIButton && (
-            <Button
-              onClick={handleGenerate}
-              disabled={form.loading}
-              className="w-full h-12 text-sm font-semibold gap-2 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 rounded-xl disabled:opacity-50"
-            >
-              {form.loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Создание...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-4 h-4" />
-                  Сгенерировать
-                </>
-              )}
-            </Button>
-          )}
+          <div className="flex gap-2">
+            {/* SecondaryButton fallback - Save Draft */}
+            {shouldShowSecondaryUIButton && (
+              <Button
+                onClick={() => {
+                  hapticFeedback('light');
+                  toast.success('Черновик сохранён');
+                }}
+                variant="outline"
+                disabled={form.loading || !hasUnsavedData}
+                className="flex-1 h-12 text-sm font-semibold rounded-xl"
+              >
+                Сохранить черновик
+              </Button>
+            )}
+            {/* MainButton fallback - Generate */}
+            {shouldShowUIButton && (
+              <Button
+                onClick={handleGenerate}
+                disabled={form.loading}
+                className={cn(
+                  "h-12 text-sm font-semibold gap-2 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 rounded-xl disabled:opacity-50",
+                  shouldShowSecondaryUIButton ? "flex-1" : "w-full"
+                )}
+              >
+                {form.loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Создание...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4" />
+                    Сгенерировать
+                  </>
+                )}
+              </Button>
+            )}
+          </div>
         </div>
       </SheetContent>
 
