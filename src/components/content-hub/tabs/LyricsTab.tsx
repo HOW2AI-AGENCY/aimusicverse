@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { FileText, Search, Trash2, Copy } from 'lucide-react';
 import { toast } from 'sonner';
 import { VirtualizedLyricsList } from '@/components/content-hub/VirtualizedLyricsList';
+import { StructuredLyricsPreview } from '@/components/lyrics-workspace/ai-agent/results/StructuredLyricsPreview';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -116,10 +117,8 @@ export function LyricsTab() {
                     )}
                   </div>
 
-                  {/* Lyrics */}
-                  <pre className="whitespace-pre-wrap text-sm font-sans leading-relaxed">
-                    {selectedTemplate.lyrics}
-                  </pre>
+                  {/* Lyrics - Visual Display */}
+                  <StructuredLyricsPreview lyrics={selectedTemplate.lyrics} />
 
                   {/* Actions */}
                   <div className="flex gap-2 pt-4">
