@@ -4,7 +4,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { Crown, Music2, Heart, ArrowRight, Users } from 'lucide-react';
+import { Crown, Music2, Heart, ArrowRight, Users, UserPlus, Check, Loader2 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { supabase } from '@/integrations/supabase/client';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { useAuth } from '@/hooks/useAuth';
+import { useFollow } from '@/hooks/social/useFollow';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 
@@ -189,6 +191,11 @@ function CreatorCard({
   rank: number;
   onClick: () => void;
 }) {
+  const { user } = useAuth();
+  const { hapticFeedback } = useTelegram();
+  const isOwnProfile = user?.id === creator.user_id;
+  const { isFollowing, toggleFollow, isLoading: isFollowLoading } = useFollow(creator.user_id);
+
   const displayName = creator.display_name || 
     [creator.first_name, creator.last_name].filter(Boolean).join(' ') || 
     creator.username || 
@@ -203,6 +210,12 @@ function CreatorCard({
 
   const rankConfig = getRankConfig();
 
+  const handleFollowClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    hapticFeedback?.('light');
+    toggleFollow();
+  };
+
   return (
     <motion.div
       className="relative flex-shrink-0 w-[140px] sm:w-[150px] cursor-pointer group"
@@ -211,7 +224,7 @@ function CreatorCard({
       onClick={onClick}
     >
       <div className={cn(
-        "relative p-3 rounded-xl bg-card/80 border border-border/50 backdrop-blur-sm h-full min-h-[160px] flex flex-col",
+        "relative p-3 rounded-xl bg-card/80 border border-border/50 backdrop-blur-sm h-full min-h-[180px] flex flex-col",
         "hover:border-primary/30 hover:shadow-md transition-all",
         rankConfig && `bg-gradient-to-br ${rankConfig.bg}`
       )}>
@@ -250,8 +263,8 @@ function CreatorCard({
           {creator.username ? `@${creator.username}` : ''}
         </p>
 
-        {/* Stats - pushed to bottom */}
-        <div className="flex items-center justify-center gap-2 text-[10px] mt-auto">
+        {/* Stats */}
+        <div className="flex items-center justify-center gap-2 text-[10px] mb-2">
           <div className="flex items-center gap-0.5 text-muted-foreground">
             <Music2 className="w-2.5 h-2.5" />
             <span className="font-medium">{creator.tracks_count}</span>
@@ -261,6 +274,34 @@ function CreatorCard({
             <span className="font-medium">{creator.total_likes}</span>
           </div>
         </div>
+
+        {/* Follow Button - pushed to bottom */}
+        {user && !isOwnProfile && (
+          <Button
+            size="sm"
+            variant={isFollowing ? "outline" : "default"}
+            className={cn(
+              "w-full h-7 text-[10px] mt-auto gap-1 rounded-lg",
+              isFollowing && "border-primary/30 text-primary"
+            )}
+            onClick={handleFollowClick}
+            disabled={isFollowLoading}
+          >
+            {isFollowLoading ? (
+              <Loader2 className="w-3 h-3 animate-spin" />
+            ) : isFollowing ? (
+              <>
+                <Check className="w-3 h-3" />
+                Подписка
+              </>
+            ) : (
+              <>
+                <UserPlus className="w-3 h-3" />
+                Подписаться
+              </>
+            )}
+          </Button>
+        )}
       </div>
     </motion.div>
   );
