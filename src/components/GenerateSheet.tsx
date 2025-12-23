@@ -339,6 +339,12 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   hasPersona={!!form.selectedArtistId}
                   model={form.model}
                   onModelChange={form.setModel}
+                  provider={form.provider}
+                  onProviderChange={form.setProvider}
+                  audioDuration={activeReference?.durationSeconds}
+                  stabilityStrength={form.stabilityStrength}
+                  onStabilityStrengthChange={form.setStabilityStrength}
+                  showProviderSelector={!!activeReference && (activeReference.intendedMode === 'cover' || activeReference.intendedMode === 'extend')}
                 />
               )}
             </AnimatePresence>
