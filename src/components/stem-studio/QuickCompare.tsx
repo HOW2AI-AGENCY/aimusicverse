@@ -7,12 +7,13 @@
 
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
-import { Play, Pause, RotateCcw, Check, X, Volume2, VolumeX, Sparkles, ChevronLeft, ChevronRight, Save, FilePlus, Shuffle } from 'lucide-react';
+import { Play, Pause, RotateCcw, Check, X, Volume2, VolumeX, Sparkles, ChevronLeft, ChevronRight, Save, FilePlus, Shuffle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useStudioAudio, registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
@@ -94,6 +95,8 @@ export function QuickCompare({
   const [isMuted, setIsMuted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [crossfadeMode, setCrossfadeMode] = useState(false);
+  const [crossfadeDuration] = useState(0.5); // seconds
   const haptic = useHapticFeedback();
   
   const { pauseAllAudio } = useStudioAudio('quick-compare');
@@ -260,40 +263,116 @@ export function QuickCompare({
     variantBRef.current?.pause();
   }, []);
 
+  // Crossfade playback logic - plays both tracks simultaneously with volume crossfade
+  const crossfadePoint = sectionStart + (sectionDuration / 2);
+  
+  const applyCrossfade = useCallback((time: number) => {
+    const original = originalRef.current;
+    const variant = selectedVariant === 'variantA' ? variantARef.current : variantBRef.current;
+    if (!original || !variant) return;
+    
+    const effectiveVolume = isMuted ? 0 : volume;
+    const fadeStart = crossfadePoint - (crossfadeDuration / 2);
+    const fadeEnd = crossfadePoint + (crossfadeDuration / 2);
+    
+    if (time < fadeStart) {
+      original.volume = effectiveVolume;
+      variant.volume = 0;
+    } else if (time > fadeEnd) {
+      original.volume = 0;
+      variant.volume = effectiveVolume;
+    } else {
+      const progress = (time - fadeStart) / crossfadeDuration;
+      original.volume = Math.cos(progress * Math.PI / 2) * effectiveVolume;
+      variant.volume = Math.sin(progress * Math.PI / 2) * effectiveVolume;
+    }
+  }, [crossfadePoint, crossfadeDuration, volume, isMuted, selectedVariant]);
+
+  const updateCrossfadeProgress = useCallback(() => {
+    const original = originalRef.current;
+    if (!original) return;
+    
+    const time = original.currentTime;
+    setCurrentTime(time);
+    applyCrossfade(time);
+    
+    if (time >= sectionEnd) {
+      pauseAllVersions();
+      setIsPlaying(false);
+      return;
+    }
+    
+    if (isPlaying && crossfadeMode) {
+      animationRef.current = requestAnimationFrame(updateCrossfadeProgress);
+    }
+  }, [sectionEnd, applyCrossfade, isPlaying, crossfadeMode, pauseAllVersions]);
+
+  const playCrossfade = useCallback(async () => {
+    const original = originalRef.current;
+    const variant = selectedVariant === 'variantA' ? variantARef.current : variantBRef.current;
+    if (!original || !variant) return;
+    
+    pauseAllAudio();
+    pauseAllVersions();
+    
+    original.currentTime = sectionStart;
+    variant.currentTime = 0;
+    
+    try {
+      await Promise.all([original.play(), variant.play()]);
+      setIsPlaying(true);
+      animationRef.current = requestAnimationFrame(updateCrossfadeProgress);
+    } catch (error) {
+      console.error('[QuickCompare] Crossfade playback failed:', error);
+    }
+  }, [sectionStart, selectedVariant, pauseAllVersions, pauseAllAudio, updateCrossfadeProgress]);
+
+  const isCrossfading = crossfadeMode && 
+    currentTime >= (crossfadePoint - crossfadeDuration / 2) && 
+    currentTime <= (crossfadePoint + crossfadeDuration / 2);
+
   const togglePlay = async () => {
     if (isLoading) return;
     
+    haptic.tap();
+
+    if (isPlaying) {
+      pauseAllVersions();
+      setIsPlaying(false);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      return;
+    }
+
+    // Crossfade mode - play both tracks
+    if (crossfadeMode) {
+      await playCrossfade();
+      return;
+    }
+
+    // Normal mode - play single version
     const audioRef = getAudioRef(activeVersion);
     const audio = audioRef.current;
     if (!audio) {
       console.error('[QuickCompare] No audio element for version:', activeVersion);
       return;
     }
-    
-    haptic.tap();
 
-    // Pause all other versions
     pauseAllVersions();
-
-    if (isPlaying) {
-      audio.pause();
-      setIsPlaying(false);
-    } else {
-      // Pause global player too
-      pauseAllAudio();
-      
-      const startTime = getStartTime(activeVersion);
-      const endTime = getEndTime(activeVersion);
-      
-      if (audio.currentTime < startTime || audio.currentTime >= endTime) {
-        audio.currentTime = startTime;
-      }
-      try {
-        await audio.play();
-        setIsPlaying(true);
-      } catch (error) {
-        console.error('[QuickCompare] Playback failed', error);
-      }
+    pauseAllAudio();
+    
+    const startTime = getStartTime(activeVersion);
+    const endTime = getEndTime(activeVersion);
+    
+    if (audio.currentTime < startTime || audio.currentTime >= endTime) {
+      audio.currentTime = startTime;
+    }
+    try {
+      await audio.play();
+      setIsPlaying(true);
+    } catch (error) {
+      console.error('[QuickCompare] Playback failed', error);
     }
   };
 
@@ -685,6 +764,19 @@ export function QuickCompare({
                 <span className="text-xs text-muted-foreground font-mono">
                   {formatTime(sectionStart)} — {formatTime(sectionEnd)}
                 </span>
+                {/* Crossfade toggle */}
+                <div className="flex items-center gap-2 ml-4 px-3 py-1.5 rounded-lg bg-muted/30 border border-border/50">
+                  <Switch
+                    id="crossfade-mode"
+                    checked={crossfadeMode}
+                    onCheckedChange={setCrossfadeMode}
+                    className="scale-90"
+                  />
+                  <Label htmlFor="crossfade-mode" className="text-xs cursor-pointer flex items-center gap-1.5">
+                    <RefreshCw className={cn("w-3 h-3", crossfadeMode && "text-primary")} />
+                    Crossfade
+                  </Label>
+                </div>
               </div>
               <div className="flex items-center gap-2">
                 <Button variant="ghost" size="sm" onClick={handleDiscard} className="h-8 text-destructive hover:text-destructive">
@@ -705,6 +797,69 @@ export function QuickCompare({
                 </Button>
               </div>
             </div>
+
+            {/* Crossfade indicator */}
+            <AnimatePresence>
+              {crossfadeMode && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="overflow-hidden"
+                >
+                  <div className="relative h-10 bg-gradient-to-r from-muted/30 to-muted/30 rounded-lg overflow-hidden">
+                    {/* Progress bar */}
+                    <motion.div
+                      className="absolute inset-y-0 left-0 bg-primary/20"
+                      style={{ width: `${((currentTime - sectionStart) / sectionDuration) * 100}%` }}
+                    />
+                    
+                    {/* Crossfade zone */}
+                    <div 
+                      className="absolute inset-y-0 bg-gradient-to-r from-primary/30 via-primary/50 to-accent/30"
+                      style={{
+                        left: `${((crossfadePoint - crossfadeDuration - sectionStart) / sectionDuration) * 100}%`,
+                        width: `${(crossfadeDuration * 2 / sectionDuration) * 100}%`,
+                      }}
+                    />
+                    
+                    {/* Labels */}
+                    <div className="absolute inset-0 flex items-center justify-between px-4">
+                      <motion.span
+                        animate={{ opacity: currentTime < crossfadePoint ? 1 : 0.3 }}
+                        className="text-xs font-medium"
+                      >
+                        Оригинал
+                      </motion.span>
+                      
+                      {isCrossfading && (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-primary/20 border border-primary/30"
+                        >
+                          <RefreshCw className="w-3 h-3 text-primary animate-spin" />
+                          <span className="text-[10px] font-medium text-primary">Crossfade</span>
+                        </motion.div>
+                      )}
+                      
+                      <motion.span
+                        animate={{ opacity: currentTime >= crossfadePoint ? 1 : 0.3 }}
+                        className="text-xs font-medium"
+                      >
+                        {VERSION_CONFIG[selectedVariant].label}
+                      </motion.span>
+                    </div>
+                    
+                    {/* Playhead */}
+                    <motion.div
+                      className="absolute top-0 bottom-0 w-0.5 bg-primary shadow-lg"
+                      style={{ left: `${((currentTime - sectionStart) / sectionDuration) * 100}%` }}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Version Cards */}
             <div className={cn("grid gap-3", hasVariantB ? "grid-cols-3" : "grid-cols-2")}>
