@@ -37,6 +37,7 @@ serve(async (req) => {
       continueAt,
       coverAudioUrl,
       stemMode,
+      defaultParamFlag,
     } = body;
 
     console.log(`[suno-generate] Legacy proxy - action: ${action}`);
@@ -67,6 +68,7 @@ serve(async (req) => {
             prompt: prompt,
             style: style,
             title: title,
+            defaultParamFlag: defaultParamFlag ?? true, // Default to using original params
           };
         } else {
           targetFunction = 'suno-music-extend';

@@ -1,8 +1,10 @@
 /**
- * Suno Extend Audio - Extend track from audio URL
+ * Suno Extend Audio - Extend track from uploaded audio URL
  * 
- * Similar to suno-remix but specifically for extending tracks.
- * Used when user wants to extend a recording or reference audio file.
+ * Uses /api/v1/generate/upload-extend endpoint to extend audio files.
+ * This is different from suno-music-extend which extends existing Suno tracks.
+ * 
+ * CRITICAL: Uses upload-extend endpoint, NOT generic generate endpoint!
  */
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
@@ -53,22 +55,37 @@ serve(async (req) => {
     const body = await req.json();
     const {
       audioUrl,
-      continueAt = 30,
+      continueAt,
       prompt = '',
       style = '',
       title = '',
       model = 'V4_5',
       instrumental = false,
+      // Additional parameters for upload-extend
+      defaultParamFlag = true, // Use original params by default for seamless extension
+      negativeTags,
+      vocalGender,
+      styleWeight,
+      weirdnessConstraint,
+      audioWeight,
+      personaId,
     } = body;
 
     if (!audioUrl) {
       throw new Error('audioUrl is required');
     }
 
+    // Validate continueAt - required for upload-extend
+    // Must be > 0 and < total duration of audio
+    const effectiveContinueAt = typeof continueAt === 'number' && continueAt > 0 
+      ? continueAt 
+      : 30; // Default to 30 seconds if not specified
+
     console.log('[suno-extend-audio] Request:', { 
-      audioUrl: audioUrl.substring(0, 50), 
-      continueAt, 
-      hasPrompt: !!prompt 
+      audioUrl: audioUrl.substring(0, 80), 
+      continueAt: effectiveContinueAt, 
+      hasPrompt: !!prompt,
+      defaultParamFlag,
     });
 
     const effectiveModel = getApiModelName(model);
@@ -81,7 +98,7 @@ serve(async (req) => {
         user_id: user.id,
         prompt: prompt || 'Extended audio',
         title: effectiveTitle,
-        style: style || 'pop',
+        style: style || 'continuation',
         has_vocals: !instrumental,
         status: 'pending',
         provider: 'suno',
@@ -126,41 +143,67 @@ serve(async (req) => {
 
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
     
-    // Use SunoAPI generate with uploadUrl for extend from audio URL
-    // This creates a new track based on the uploaded audio
+    // Build payload for upload-extend endpoint
+    // Per API docs: https://docs.sunoapi.org/suno-api/upload-extend-music
+    const sunoPayload: Record<string, unknown> = {
+      uploadUrl: audioUrl,
+      continueAt: effectiveContinueAt, // REQUIRED for upload-extend
+      defaultParamFlag, // true = use original params, false = use custom
+      model: effectiveModel,
+      callBackUrl: callbackUrl,
+      instrumental,
+    };
+
+    // Add custom parameters when not using default params
+    if (!defaultParamFlag) {
+      sunoPayload.prompt = prompt || 'Continue in the same style';
+      sunoPayload.style = style || 'seamless continuation';
+      sunoPayload.title = effectiveTitle;
+    }
+
+    // Add optional parameters if provided
+    if (negativeTags) sunoPayload.negativeTags = negativeTags;
+    if (vocalGender) sunoPayload.vocalGender = vocalGender;
+    if (styleWeight !== undefined) sunoPayload.styleWeight = styleWeight;
+    if (weirdnessConstraint !== undefined) sunoPayload.weirdnessConstraint = weirdnessConstraint;
+    if (audioWeight !== undefined) sunoPayload.audioWeight = audioWeight;
+    if (personaId) sunoPayload.personaId = personaId;
+
+    console.log('[suno-extend-audio] Sending to upload-extend endpoint:', {
+      ...sunoPayload,
+      uploadUrl: audioUrl.substring(0, 50) + '...',
+    });
+
+    // CRITICAL: Use upload-extend endpoint, NOT generic generate!
     const startTime = Date.now();
-    const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate', {
+    const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate/upload-extend', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${sunoApiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        uploadUrl: audioUrl,
-        customMode: true,
-        prompt: prompt || 'Continue in the same style',
-        style: style || 'continuation, seamless transition',
-        title: effectiveTitle,
-        instrumental,
-        model: effectiveModel,
-        callBackUrl: callbackUrl,
-        // Note: continueAt is for extend from existing Suno track
-        // For uploadUrl, the API creates a new track inspired by the audio
-      }),
+      body: JSON.stringify(sunoPayload),
     });
 
     const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
     
-    console.log(`[suno-extend-audio] Response (${duration}ms):`, JSON.stringify(sunoData).substring(0, 200));
+    console.log(`[suno-extend-audio] Response (${duration}ms):`, JSON.stringify(sunoData).substring(0, 300));
 
     // Log API call
     await supabase.from('api_usage_logs').insert({
       user_id: user.id,
       service: 'suno',
-      endpoint: 'extend-audio',
+      endpoint: 'upload-extend',
       method: 'POST',
-      request_body: { audioUrl: audioUrl.substring(0, 100), continueAt, prompt, style, title },
+      request_body: { 
+        uploadUrl: audioUrl.substring(0, 100), 
+        continueAt: effectiveContinueAt, 
+        prompt, 
+        style, 
+        title,
+        defaultParamFlag,
+      },
       response_status: sunoResponse.status,
       response_body: sunoData,
       duration_ms: duration,
@@ -168,17 +211,20 @@ serve(async (req) => {
     });
 
     if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
+      const errorMsg = sunoData.msg || `SunoAPI upload-extend failed (${sunoResponse.status})`;
+      console.error('[suno-extend-audio] API error:', errorMsg, sunoData);
+      
       await supabase.from('generation_tasks').update({ 
         status: 'failed', 
-        error_message: sunoData.msg || 'SunoAPI request failed' 
+        error_message: errorMsg,
       }).eq('id', task.id);
 
       await supabase.from('tracks').update({ 
         status: 'failed', 
-        error_message: sunoData.msg || 'SunoAPI request failed' 
+        error_message: errorMsg,
       }).eq('id', newTrack.id);
 
-      throw new Error(sunoData.msg || 'SunoAPI request failed');
+      throw new Error(errorMsg);
     }
 
     const sunoTaskId = sunoData.data?.taskId;
@@ -197,7 +243,11 @@ serve(async (req) => {
       status: 'processing',
     }).eq('id', newTrack.id);
 
-    console.log('[suno-extend-audio] Success:', { trackId: newTrack.id, sunoTaskId });
+    console.log('[suno-extend-audio] Success:', { 
+      trackId: newTrack.id, 
+      sunoTaskId,
+      continueAt: effectiveContinueAt,
+    });
 
     return new Response(
       JSON.stringify({
@@ -212,12 +262,13 @@ serve(async (req) => {
       }
     );
 
-  } catch (error: any) {
-    console.error('[suno-extend-audio] Error:', error);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('[suno-extend-audio] Error:', errorMessage);
     return new Response(
       JSON.stringify({ 
         success: false, 
-        error: error.message || 'Unknown error',
+        error: errorMessage,
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
