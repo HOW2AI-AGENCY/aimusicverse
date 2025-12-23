@@ -57,27 +57,50 @@ serve(async (req) => {
         break;
 
       case 'extend':
-        targetFunction = 'suno-music-extend';
-        mappedBody = {
-          sourceTrackId: trackId,  // Use trackId as sourceTrackId
-          audioUrl: extendAudioUrl,
-          continueAt: continueAt,
-          prompt: prompt,
-          style: style,
-          title: title,
-          defaultParamFlag: false, // Use custom params when provided
-        };
+        // If we have extendAudioUrl, use upload-extend (for reference audio/recordings)
+        // If we have trackId, use music-extend (for existing tracks)
+        if (extendAudioUrl) {
+          targetFunction = 'suno-upload-extend';
+          mappedBody = {
+            audioUrl: extendAudioUrl,
+            continueAt: continueAt,
+            prompt: prompt,
+            style: style,
+            title: title,
+            customMode: !!(prompt || style), // Use custom mode if prompt or style provided
+            instrumental: makeInstrumental,
+          };
+        } else if (trackId) {
+          targetFunction = 'suno-music-extend';
+          mappedBody = {
+            sourceTrackId: trackId,
+            continueAt: continueAt,
+            prompt: prompt,
+            style: style,
+            title: title,
+            defaultParamFlag: false, // Use custom params when provided
+          };
+        } else {
+          throw new Error('Either extendAudioUrl or trackId is required for extend action');
+        }
         break;
 
       case 'cover':
-        targetFunction = 'suno-remix';
-        mappedBody = {
-          audioUrl: coverAudioUrl,
-          prompt: prompt,
-          style: style,
-          title: title,
-          instrumental: makeInstrumental,
-        };
+        // If we have coverAudioUrl, route to either upload-cover or remix
+        // upload-cover is the proper function for cover generation with audio uploads
+        if (coverAudioUrl) {
+          targetFunction = 'suno-upload-cover';
+          mappedBody = {
+            audioUrl: coverAudioUrl,
+            prompt: prompt,
+            style: style,
+            title: title,
+            customMode: !!(prompt || style), // Use custom mode if prompt or style provided
+            instrumental: makeInstrumental,
+          };
+        } else {
+          throw new Error('coverAudioUrl is required for cover action');
+        }
         break;
 
       case 'stems':
