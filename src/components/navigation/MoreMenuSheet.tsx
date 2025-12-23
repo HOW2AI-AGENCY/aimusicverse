@@ -68,13 +68,14 @@ const menuSections: MenuSection[] = [
   },
 ];
 
-// Admin section - only shown to admins
+// Admin section - separate from profile, shown prominently to admins
 const adminSection: MenuSection = {
   title: 'Администрирование',
   icon: Shield,
   items: [
-    { path: '/admin', icon: BarChart3, label: 'Панель управления', description: 'Дашборд' },
+    { path: '/admin', icon: Shield, label: 'Админ панель', badge: 'Admin', description: 'Управление' },
     { path: '/admin/moderation', icon: Flag, label: 'Модерация', description: 'Контент' },
+    { path: '/admin/analytics', icon: BarChart3, label: 'Аналитика', description: 'Статистика' },
     { path: '/admin/feedback', icon: MessageSquare, label: 'Обратная связь', description: 'Отзывы' },
   ],
 };

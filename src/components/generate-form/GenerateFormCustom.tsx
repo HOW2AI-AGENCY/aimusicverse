@@ -5,13 +5,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { Sparkles, Loader2, Mic } from 'lucide-react';
+import { Sparkles, Loader2, Mic, FileText, ExternalLink } from 'lucide-react';
 import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
 import { FormFieldActions } from '@/components/ui/FormFieldActions';
 import { LyricsVisualEditor } from './LyricsVisualEditor';
 import { AdvancedSettings } from './AdvancedSettings';
 import { SaveTemplateDialog } from './SaveTemplateDialog';
+import { SavedLyricsSelector } from './SavedLyricsSelector';
 import type { GenerationProvider } from './ProviderSelector';
+import { useNavigate } from 'react-router-dom';
 
 interface GenerateFormCustomProps {
   title: string;
@@ -91,8 +93,10 @@ export function GenerateFormCustom({
   genre,
   mood,
 }: GenerateFormCustomProps) {
+  const navigate = useNavigate();
   const [showVisualEditor, setShowVisualEditor] = useState(false);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
+  const [templateSelectorOpen, setTemplateSelectorOpen] = useState(false);
 
   return (
     <motion.div
@@ -199,6 +203,26 @@ export function GenerateFormCustom({
           <div className="flex items-center justify-between mb-1.5">
             <Label className="text-xs font-medium">Текст песни</Label>
             <div className="flex items-center gap-1">
+              {/* Template selector button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-6 px-2 gap-1"
+                onClick={() => setTemplateSelectorOpen(true)}
+              >
+                <FileText className="w-3 h-3" />
+                <span className="text-xs hidden sm:inline">Шаблоны</span>
+              </Button>
+              {/* Lyrics Studio link */}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-6 px-2 gap-1"
+                onClick={() => navigate('/lyrics-studio')}
+              >
+                <ExternalLink className="w-3 h-3" />
+                <span className="text-xs hidden sm:inline">Студия</span>
+              </Button>
               <FormFieldActions
                 value={lyrics}
                 onClear={() => onLyricsChange('')}
@@ -283,6 +307,16 @@ export function GenerateFormCustom({
         style={style}
         genre={genre}
         mood={mood}
+      />
+
+      {/* Saved Lyrics Selector */}
+      <SavedLyricsSelector
+        open={templateSelectorOpen}
+        onOpenChange={setTemplateSelectorOpen}
+        onSelect={(template) => {
+          onLyricsChange(template.lyrics);
+          if (template.style) onStyleChange(template.style);
+        }}
       />
     </motion.div>
   );
