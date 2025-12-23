@@ -46,6 +46,7 @@ import {
   MultiTrackStudioLayout,
   SectionReplacementHistory,
   CrossfadePreview,
+  ReplacementTimelineOverlay,
 } from '@/components/studio';
 import { registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
@@ -602,6 +603,29 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
                   onSeek={handleSeek}
                   height={isMobile ? 70 : 90}
                   showSectionLabels={true}
+                />
+              )}
+              
+              {/* Replacement Timeline Overlay - shows on waveform when comparing */}
+              {editMode === 'comparing' && latestCompletion?.newAudioUrl && track.audio_url && (
+                <ReplacementTimelineOverlay
+                  originalAudioUrl={track.audio_url}
+                  variants={
+                    latestCompletion.newAudioUrlB 
+                      ? [
+                          { id: 'A' as const, audioUrl: latestCompletion.newAudioUrl, label: 'Вариант A' },
+                          { id: 'B' as const, audioUrl: latestCompletion.newAudioUrlB, label: 'Вариант B' }
+                        ]
+                      : [
+                          { id: 'A' as const, audioUrl: latestCompletion.newAudioUrl, label: 'Вариант A' }
+                        ]
+                  }
+                  sectionStart={latestCompletion.section.start}
+                  sectionEnd={latestCompletion.section.end}
+                  duration={duration}
+                  onApply={(variantId) => handleApplyReplacement(variantId === 'A' ? 'variantA' : 'variantB')}
+                  onDiscard={handleDiscardReplacement}
+                  className="mt-3"
                 />
               )}
             </div>
