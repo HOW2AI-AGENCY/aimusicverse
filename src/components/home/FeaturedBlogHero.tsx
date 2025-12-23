@@ -118,8 +118,8 @@ export function FeaturedBlogHero() {
               )}
             </div>
 
-            {/* Title */}
-            <h3 className="text-lg sm:text-xl font-bold text-white line-clamp-2 mb-2 group-hover:text-primary transition-colors">
+            {/* Title - with proper truncation */}
+            <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors leading-tight line-clamp-2 sm:line-clamp-1 break-words">
               {featuredPost.title}
             </h3>
 

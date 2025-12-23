@@ -4,14 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { Music2, Clock, Tag, FileText, Mic, Wand2, Heart, Play, BookmarkPlus, User, FolderOpen, FileAudio, Cpu, Lock, Unlock } from 'lucide-react';
+import { Music2, Clock, Tag, FileText, Mic, Wand2, Heart, Play, BookmarkPlus, User, FolderOpen, FileAudio, Cpu, Lock, Unlock, Headphones, Link2 } from 'lucide-react';
 import { savePromptToBookmarks } from '@/components/generate-form/PromptHistory';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { VideoSection } from './VideoSection';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { formatDuration } from '@/lib/player-utils';
-import { RemixButton } from './RemixButton';
 import { ParentTrackLink } from './ParentTrackLink';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
@@ -59,6 +58,35 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
     },
     enabled: !!track.project_id,
   });
+
+  // Fetch reference audio if track was generated with a reference
+  const { data: referenceAudio } = useQuery({
+    queryKey: ['track-reference-audio', track.id],
+    queryFn: async () => {
+      // First check user_generation_history for reference_audio_id
+      const { data: historyData } = await supabase
+        .from('user_generation_history')
+        .select('reference_audio_id')
+        .eq('track_id', track.id)
+        .not('reference_audio_id', 'is', null)
+        .maybeSingle();
+
+      if (historyData?.reference_audio_id) {
+        const { data: refAudio, error } = await supabase
+          .from('reference_audio')
+          .select('id, file_name, file_url, genre, mood, bpm, style_description, duration_seconds')
+          .eq('id', historyData.reference_audio_id)
+          .single();
+        
+        if (!error && refAudio) {
+          return refAudio;
+        }
+      }
+
+      return null;
+    },
+    enabled: !!track.id,
+  });
   
   // Mutation to toggle allow_remix
   const toggleRemixMutation = useMutation({
@@ -91,8 +119,17 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
     return modelLabels[model] || model;
   };
 
+  // Check if prompt and lyrics are the same (to avoid duplication)
+  const promptAndLyricsSame = track.prompt && track.lyrics && 
+    track.prompt.trim().toLowerCase() === track.lyrics.trim().toLowerCase();
+
+  // Determine if this is a cover/extension based on generation_mode or parent_track_id
+  const isCoverOrExtension = track.generation_mode === 'cover' || 
+    track.generation_mode === 'extend' || 
+    !!track.parent_track_id;
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-20">
       {/* Full-width Cover on Mobile */}
       <div className="relative -mx-4 sm:mx-0">
         {track.cover_url ? (
@@ -123,6 +160,13 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
             {track.is_public && (
               <Badge variant="outline" className="border-primary bg-background/80 backdrop-blur-sm">
                 Публичный
+              </Badge>
+            )}
+            {track.generation_mode && (
+              <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm capitalize">
+                {track.generation_mode === 'cover' ? 'Кавер' : 
+                 track.generation_mode === 'extend' ? 'Расширение' : 
+                 track.generation_mode}
               </Badge>
             )}
           </div>
@@ -164,9 +208,6 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
         </div>
       </div>
 
-      {/* Remix Button - Main action */}
-      <RemixButton track={track} />
-
       {/* Parent Track Link - if this is a remix */}
       {track.parent_track_id && (
         <ParentTrackLink parentTrackId={track.parent_track_id} />
@@ -201,7 +242,9 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
           </div>
         </>
       )}
-      {(artist || project || track.streaming_url) && (
+
+      {/* References Section - Artist, Project, and Audio Reference */}
+      {(artist || project || referenceAudio || (isCoverOrExtension && track.streaming_url)) && (
         <>
           <Separator />
           <div className="space-y-4">
@@ -254,6 +297,59 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
                   </div>
                 </div>
               )}
+
+              {/* Audio Reference - for covers/extensions */}
+              {referenceAudio && (
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-orange-500/10 to-amber-500/5 border border-orange-500/20 sm:col-span-2">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-orange-500/20 to-amber-500/10 flex items-center justify-center flex-shrink-0">
+                    <Headphones className="w-6 h-6 text-orange-500" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs text-muted-foreground">Аудио референс</p>
+                    <p className="font-medium truncate">{referenceAudio.file_name}</p>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5">
+                      {referenceAudio.genre && <span>{referenceAudio.genre}</span>}
+                      {referenceAudio.bpm && <span>• {referenceAudio.bpm} BPM</span>}
+                      {referenceAudio.duration_seconds && (
+                        <span>• {formatDuration(referenceAudio.duration_seconds)}</span>
+                      )}
+                    </div>
+                  </div>
+                  {referenceAudio.file_url && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 shrink-0"
+                      onClick={() => window.open(referenceAudio.file_url, '_blank')}
+                    >
+                      <Link2 className="w-4 h-4" />
+                    </Button>
+                  )}
+                </div>
+              )}
+
+              {/* Streaming URL reference for covers/extensions when no reference_audio found */}
+              {!referenceAudio && isCoverOrExtension && track.streaming_url && (
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-orange-500/10 to-amber-500/5 border border-orange-500/20 sm:col-span-2">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-orange-500/20 to-amber-500/10 flex items-center justify-center flex-shrink-0">
+                    <Headphones className="w-6 h-6 text-orange-500" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs text-muted-foreground">
+                      {track.generation_mode === 'cover' ? 'Оригинальный трек' : 'Исходный трек'}
+                    </p>
+                    <p className="font-medium truncate">Внешний аудио-референс</p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 shrink-0"
+                    onClick={() => window.open(track.streaming_url!, '_blank')}
+                  >
+                    <Link2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </>
@@ -304,8 +400,8 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
         </>
       )}
 
-      {/* Prompt */}
-      {track.prompt && (
+      {/* Prompt - only if different from lyrics or no lyrics */}
+      {track.prompt && !promptAndLyricsSame && (
         <>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -347,10 +443,35 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
       {track.lyrics && (
         <>
           <div className="space-y-3">
-            <h4 className="font-semibold flex items-center gap-2 text-lg">
-              <FileText className="w-5 h-5 text-primary" />
-              Текст песни
-            </h4>
+            <div className="flex items-center justify-between">
+              <h4 className="font-semibold flex items-center gap-2 text-lg">
+                <FileText className="w-5 h-5 text-primary" />
+                Текст песни
+              </h4>
+              {/* Show bookmark button here if prompt was same as lyrics */}
+              {promptAndLyricsSame && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-1.5"
+                  onClick={() => {
+                    const promptName = track.title || track.lyrics!.substring(0, 30);
+                    savePromptToBookmarks({
+                      name: promptName,
+                      mode: track.generation_mode === 'custom' ? 'custom' : 'simple',
+                      description: track.generation_mode === 'simple' ? track.prompt : undefined,
+                      title: track.title || undefined,
+                      style: track.style || undefined,
+                      lyrics: track.lyrics || undefined,
+                      model: track.suno_model || 'V4_5ALL',
+                    });
+                  }}
+                >
+                  <BookmarkPlus className="w-4 h-4" />
+                  <span className="hidden sm:inline">В закладки</span>
+                </Button>
+              )}
+            </div>
             <div className="p-4 rounded-lg bg-muted/50 border border-border max-h-80 overflow-y-auto">
               <p className="text-sm whitespace-pre-wrap leading-relaxed">{track.lyrics}</p>
             </div>
