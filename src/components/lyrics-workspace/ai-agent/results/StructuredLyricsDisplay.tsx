@@ -63,15 +63,17 @@ function parseLyrics(lyrics: string): ParsedSection[] {
   let currentSection: ParsedSection | null = null;
   let contentLines: string[] = [];
   
-  const sectionRegex = /^\[([^\]]+)\]$/i;
-  const structureKeywords = ['verse', 'chorus', 'bridge', 'intro', 'outro', 'hook', 'prechorus', 'pre-chorus', 'breakdown', 'end', 'instrumental', 'drop', 'interlude', 'solo'];
+  // Match section header at start of line, possibly followed by content
+  // e.g., [Verse], [Chorus 1], [Bridge, Powerful], [Intro]Hello
+  const sectionStartRegex = /^\[([^\]]+)\]/i;
+  const structureKeywords = ['verse', 'chorus', 'bridge', 'intro', 'outro', 'hook', 'prechorus', 'pre-chorus', 'breakdown', 'end', 'instrumental', 'drop', 'interlude', 'solo', 'build'];
   
   for (const line of lines) {
     const trimmedLine = line.trim();
+    if (!trimmedLine) continue;
     
-    const sectionMatch = trimmedLine.match(sectionRegex);
+    const sectionMatch = trimmedLine.match(sectionStartRegex);
     if (sectionMatch) {
-      // Check if this is a structure tag
       const fullHeader = sectionMatch[1];
       const lowerHeader = fullHeader.toLowerCase();
       const isStructureTag = structureKeywords.some(k => lowerHeader.startsWith(k));
@@ -92,14 +94,34 @@ function parseLyrics(lyrics: string): ParsedSection[] {
         
         currentSection = { type: sectionType, content: '', tags, lineCount: 0 };
         contentLines = [];
+        
+        // Check for content immediately after tag (e.g., [Verse]Hello world)
+        const afterTag = trimmedLine.slice(sectionMatch[0].length).trim();
+        if (afterTag) {
+          // Extract inline tags from afterTag
+          const inlineTagRegex = /\[([^\]]+)\]/g;
+          let match: RegExpExecArray | null;
+          while ((match = inlineTagRegex.exec(afterTag)) !== null) {
+            const tag = match[1];
+            if (!currentSection.tags.includes(tag) && !structureKeywords.some(k => tag.toLowerCase().startsWith(k))) {
+              currentSection.tags.push(tag);
+            }
+          }
+          contentLines.push(afterTag);
+        }
       } else {
-        // This is an inline tag, add to current section tags
+        // This is an inline tag line like [Powerful] or [Male Vocal]
         if (currentSection && !currentSection.tags.includes(fullHeader)) {
           currentSection.tags.push(fullHeader);
         }
+        // Check for content after the inline tag
+        const afterTag = trimmedLine.slice(sectionMatch[0].length).trim();
+        if (afterTag && currentSection) {
+          contentLines.push(afterTag);
+        }
       }
     } else if (currentSection) {
-      // Extract inline tags from the line
+      // Regular content line - extract any inline tags
       const inlineTagRegex = /\[([^\]]+)\]/g;
       let match: RegExpExecArray | null;
       while ((match = inlineTagRegex.exec(trimmedLine)) !== null) {
@@ -110,7 +132,7 @@ function parseLyrics(lyrics: string): ParsedSection[] {
       }
       contentLines.push(trimmedLine);
     } else if (trimmedLine) {
-      // Content before any section
+      // Content before any section - create default verse
       currentSection = { type: 'verse', content: '', tags: [], lineCount: 0 };
       contentLines.push(trimmedLine);
     }

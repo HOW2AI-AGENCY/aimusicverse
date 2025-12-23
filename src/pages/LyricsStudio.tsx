@@ -40,6 +40,7 @@ import {
   LyricsVersionsPanel,
 } from '@/components/lyrics-workspace';
 import { LyricsAIChatAgent } from '@/components/lyrics-workspace/LyricsAIChatAgent';
+import { MobileAIAgentPanel } from '@/components/lyrics-workspace/ai-agent/MobileAIAgentPanel';
 import { useLyricsTemplates } from '@/hooks/useLyricsTemplates';
 import { useLyricsVersioning } from '@/hooks/useLyricsVersioning';
 import { useLyricsHistoryStore } from '@/stores/useLyricsHistoryStore';
@@ -927,29 +928,11 @@ export default function LyricsStudio() {
         )}
       </div>
 
-      {/* AI Assistant - Mobile Bottom Drawer */}
+      {/* AI Assistant - Mobile Full-screen Panel */}
       {isMobile && (
-        <Drawer open={aiPanelOpen} onOpenChange={setAiPanelOpen}>
-          <DrawerContent className="h-[70vh] max-h-[70vh]">
-            <DrawerHeader className="border-b pb-3 flex-shrink-0">
-              <div className="flex items-center justify-between">
-                <DrawerTitle className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20">
-                    <Bot className="w-4 h-4 text-primary" />
-                  </div>
-                  <span>AI Lyrics Agent</span>
-                </DrawerTitle>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8"
-                  onClick={() => setAiPanelOpen(false)}
-                >
-                  <X className="w-4 h-4" />
-                </Button>
-              </div>
-            </DrawerHeader>
-            <LyricsAIChatAgent
+        <AnimatePresence>
+          {aiPanelOpen && (
+            <MobileAIAgentPanel
               existingLyrics={sectionsToLyrics(sections)}
               selectedSection={selectedSection ? {
                 type: selectedSection.type,
@@ -962,6 +945,8 @@ export default function LyricsStudio() {
               allSectionNotes={sectionNotes?.map(n => ({ type: n.section_type || '', notes: n.notes || '', tags: n.tags || [] }))}
               stylePrompt={projectTrack?.style_prompt || ""}
               title={title}
+              genre={projectData?.genre || undefined}
+              mood={projectData?.mood || undefined}
               projectContext={projectData ? {
                 projectId: projectData.id,
                 projectTitle: projectData.title,
@@ -1009,10 +994,8 @@ export default function LyricsStudio() {
                   handleSectionsChange(parsedSections);
                 }
                 setIsDirty(true);
-                setAiPanelOpen(false);
               }}
               onReplaceLyrics={(text: string) => {
-                // Replace all sections with new parsed lyrics
                 const parsedSections = parseLyricsToSections(text);
                 handleSectionsChange(parsedSections);
                 setIsDirty(true);
@@ -1022,10 +1005,11 @@ export default function LyricsStudio() {
                 setGlobalTags(prev => [...new Set([...prev, ...tags])]);
                 setIsDirty(true);
               }}
-              className="flex-1 overflow-hidden"
+              onClose={() => setAiPanelOpen(false)}
+              isOpen={aiPanelOpen}
             />
-          </DrawerContent>
-        </Drawer>
+          )}
+        </AnimatePresence>
       )}
 
       {/* Mobile FAB for AI Assistant - positioned above bottom nav */}

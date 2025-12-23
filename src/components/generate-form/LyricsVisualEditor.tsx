@@ -82,29 +82,71 @@ function parseLyrics(text: string): LyricSection[] {
   let currentSection: LyricSection | null = null;
 
   for (const line of lines) {
-    const match = line.match(/\[(\w+)(?:\s+\d+)?\]/i);
-
-    if (match) {
+    // Improved regex: matches [TAG] at start of line, potentially followed by content
+    // e.g., [Verse], [Verse 1], [Chorus, Powerful], or [Tag]Word
+    const sectionMatch = line.match(/^\[(\w+)(?:\s+\d+)?(?:,\s*[^\]]+)?\]/i);
+    
+    if (sectionMatch) {
       if (currentSection) {
         parsed.push(currentSection);
       }
 
-      const type = match[1].toLowerCase() as LyricSection['type'];
+      const type = sectionMatch[1].toLowerCase() as LyricSection['type'];
       const validType = SECTION_TYPES.find(t => t.value === type) ? type : 'verse';
+      
+      // Get remaining content after the section tag (for cases like [Tag]Word)
+      const afterTag = line.slice(sectionMatch[0].length).trim();
+      
+      // Extract any comma-separated tags from the section header like [Verse, Powerful]
+      const headerTags: string[] = [];
+      const fullMatch = line.match(/^\[([^\]]+)\]/);
+      if (fullMatch) {
+        const parts = fullMatch[1].split(',').map(p => p.trim());
+        // First part is section type, rest are tags
+        headerTags.push(...parts.slice(1));
+      }
 
       currentSection = {
         id: `${validType}-${Date.now()}-${Math.random()}`,
         type: validType,
-        content: '',
-        tags: [],
+        content: afterTag, // Start with any content after the tag
+        tags: headerTags,
       };
-    } else if (currentSection && line.trim()) {
-      // Extract inline tags
-      const tagMatches = line.matchAll(/\(([^)]+)\)/g);
-      const tags = Array.from(tagMatches).map(m => m[1]);
-      if (tags.length > 0 && currentSection.tags) {
-        currentSection.tags = [...new Set([...currentSection.tags, ...tags])];
+    } else if (line.trim()) {
+      // Handle lines without section headers
+      if (!currentSection) {
+        // Create a default verse section if content appears before any section
+        currentSection = {
+          id: `verse-${Date.now()}-${Math.random()}`,
+          type: 'verse',
+          content: '',
+          tags: [],
+        };
       }
+      
+      // Extract inline tags in brackets like [Powerful] or [Male Vocal]
+      const inlineTagMatches = Array.from(line.matchAll(/\[([^\]]+)\]/g));
+      const structureKeywords = ['verse', 'chorus', 'bridge', 'intro', 'outro', 'hook', 'pre', 'drop', 'breakdown'];
+      
+      for (const tagMatch of inlineTagMatches) {
+        const tagContent = tagMatch[1];
+        const isStructure = structureKeywords.some(k => tagContent.toLowerCase().startsWith(k));
+        if (!isStructure && currentSection.tags && !currentSection.tags.includes(tagContent)) {
+          currentSection.tags.push(tagContent);
+        }
+      }
+      
+      // Extract parentheses tags like (ooh, aah), (harmony)
+      const parenTagMatches = Array.from(line.matchAll(/\(([^)]+)\)/g));
+      for (const tagMatch of parenTagMatches) {
+        const tagContent = tagMatch[1];
+        // Only add as tag if it looks like a production tag, not sung content
+        const looksLikeTag = /^[A-Za-z\s]+$/.test(tagContent) && tagContent.length < 30;
+        if (looksLikeTag && currentSection.tags && !currentSection.tags.includes(tagContent)) {
+          currentSection.tags.push(tagContent);
+        }
+      }
+      
       currentSection.content += (currentSection.content ? '\n' : '') + line;
     }
   }
