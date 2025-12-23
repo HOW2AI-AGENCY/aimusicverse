@@ -230,11 +230,11 @@ export function SmartAlertProvider({ children }: SmartAlertProviderProps) {
           }
         }
 
-        // Check for ready stems not visited
+        // Check for ready stems not visited (join with tracks to filter by user)
         const { data: readyStems } = await supabase
           .from('track_stems')
-          .select('track_id')
-          .eq('user_id', user.id)
+          .select('track_id, tracks!inner(user_id)')
+          .eq('tracks.user_id', user.id)
           .eq('status', 'ready')
           .limit(1);
 
