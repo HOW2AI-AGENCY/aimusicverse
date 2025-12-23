@@ -162,39 +162,52 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
             onClick={handleMenuClick}
             className={cn(
               "relative w-9 h-9 rounded-xl flex items-center justify-center",
-              "bg-muted/60 hover:bg-muted transition-colors touch-manipulation"
+              "bg-muted/60 hover:bg-muted transition-all duration-200 touch-manipulation",
+              "hover:shadow-md"
             )}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.08, rotate: 3 }}
+            whileTap={{ scale: 0.92 }}
             aria-label="Меню"
           >
             <Menu className="w-4.5 h-4.5" />
             {unreadCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[9px] font-bold text-destructive-foreground">
+              <motion.span 
+                className="absolute -top-1 -right-1 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-destructive text-[9px] font-bold text-destructive-foreground shadow-lg"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 400 }}
+              >
                 {unreadCount > 9 ? '9+' : unreadCount}
-              </span>
+              </motion.span>
             )}
           </motion.button>
           
-          {/* Avatar */}
+          {/* Avatar with glow effect */}
           <motion.button
             onClick={onProfileClick}
             className={cn(
-              "w-9 h-9 rounded-full overflow-hidden",
-              "border-2 border-primary/30 hover:border-primary/60",
-              "transition-all duration-200 touch-manipulation"
+              "relative w-9 h-9 rounded-full overflow-hidden",
+              "border-2 border-primary/40 hover:border-primary/80",
+              "transition-all duration-300 touch-manipulation",
+              "hover:shadow-lg hover:shadow-primary/25"
             )}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.92 }}
           >
+            {/* Animated ring */}
+            <motion.div
+              className="absolute -inset-1 rounded-full bg-gradient-to-r from-primary via-generate to-primary opacity-0 group-hover:opacity-100"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            />
             {userPhotoUrl ? (
               <img
                 src={userPhotoUrl}
                 alt="Avatar"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover relative z-10"
               />
             ) : (
-              <div className="w-full h-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center">
+              <div className="w-full h-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center relative z-10">
                 <User className="w-4 h-4 text-primary" />
               </div>
             )}

@@ -3,7 +3,7 @@
  * One-tap generation with pre-filled parameters
  */
 
-import { motion } from '@/lib/motion';
+import { motion } from 'framer-motion';
 import { Sparkles, ChevronRight, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { QUICK_CREATE_PRESETS, QuickCreatePreset } from '@/constants/quickCreatePresets';
@@ -81,33 +81,52 @@ export function QuickPresetsCarousel({ onSelectPreset, className }: QuickPresets
                 key={preset.id}
                 onClick={() => handlePresetClick(preset)}
                 className={cn(
-                  "flex-shrink-0 w-[120px] p-2.5 rounded-xl",
-                  "bg-card/80 backdrop-blur-sm border hover:border-primary/50",
+                  "relative flex-shrink-0 w-[120px] p-2.5 rounded-xl overflow-hidden",
+                  "bg-card/80 backdrop-blur-sm border",
                   colors.border,
-                  "transition-all duration-200 touch-manipulation",
-                  "text-left group active:scale-95"
+                  "transition-all duration-300 touch-manipulation",
+                  "text-left group active:scale-95",
+                  "hover:shadow-lg hover:shadow-primary/10"
                 )}
-                initial={{ opacity: 0, x: 15 }}
+                initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.04, duration: 0.25 }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.96 }}
+                transition={{ delay: index * 0.05, duration: 0.3 }}
+                whileHover={{ scale: 1.04, y: -3 }}
+                whileTap={{ scale: 0.95 }}
               >
+                {/* Hover glow effect */}
+                <motion.div 
+                  className={cn(
+                    "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity",
+                    colors.bg.replace('/10', '/5')
+                  )}
+                />
+                
                 {/* Icon with colored background */}
-                <div className={cn(
-                  "w-9 h-9 rounded-lg flex items-center justify-center mb-2",
-                  colors.bg
-                )}>
-                  <span className="text-xl">{preset.icon}</span>
-                </div>
+                <motion.div 
+                  className={cn(
+                    "relative w-9 h-9 rounded-lg flex items-center justify-center mb-2",
+                    colors.bg
+                  )}
+                  whileHover={{ rotate: [0, -5, 5, 0] }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <motion.span 
+                    className="text-xl"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
+                  >
+                    {preset.icon}
+                  </motion.span>
+                </motion.div>
                 
                 {/* Name - extract just the text without emoji */}
-                <h3 className="text-[11px] font-semibold truncate mb-1 group-hover:text-primary transition-colors leading-tight">
+                <h3 className="relative text-[11px] font-semibold truncate mb-1 group-hover:text-primary transition-colors leading-tight">
                   {preset.name.replace(/^[^\s]+\s/, '')}
                 </h3>
                 
                 {/* Short description */}
-                <p className="text-[9px] text-muted-foreground line-clamp-2 leading-tight">
+                <p className="relative text-[9px] text-muted-foreground line-clamp-2 leading-tight">
                   {preset.description.slice(0, 40)}...
                 </p>
               </motion.button>
@@ -119,17 +138,23 @@ export function QuickPresetsCarousel({ onSelectPreset, className }: QuickPresets
             onClick={handleMoreClick}
             className={cn(
               "flex-shrink-0 w-[70px] p-2.5 rounded-xl",
-              "bg-muted/30 border border-dashed border-border hover:border-primary/40",
+              "bg-muted/30 border border-dashed border-border hover:border-primary/50",
               "flex flex-col items-center justify-center text-muted-foreground",
-              "transition-all duration-200 touch-manipulation hover:text-primary"
+              "transition-all duration-300 touch-manipulation hover:text-primary",
+              "hover:shadow-lg hover:shadow-primary/10"
             )}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.25 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            whileHover={{ scale: 1.05, y: -3 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <Sparkles className="w-5 h-5 mb-1" />
+            <motion.div
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              <Sparkles className="w-5 h-5 mb-1" />
+            </motion.div>
             <span className="text-[10px] font-medium">Ещё</span>
             <span className="text-[9px]">+{QUICK_CREATE_PRESETS.length - 6}</span>
           </motion.button>
