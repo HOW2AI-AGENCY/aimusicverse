@@ -58,7 +58,6 @@ import { motion, AnimatePresence, fadeIn, slideUp } from '@/lib/motion';
 
 ```typescript
 import { 
-  LazyUploadAudioDialog,
   LazyGenerateSheet,
   LazyLyricsChatAssistant,
   LazyTrackDetailSheet,
