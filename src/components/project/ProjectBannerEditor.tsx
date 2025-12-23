@@ -228,22 +228,26 @@ export function ProjectBannerEditor({
 
       // Convert to blob and upload
       const blob = await new Promise<Blob>((resolve) => {
-        canvas.toBlob((b) => resolve(b!), 'image/png', 0.95);
+        canvas.toBlob((b) => resolve(b!), 'image/webp', 0.85);
       });
 
-      const fileName = `banners/${project.id}_${Date.now()}.png`;
+      // Get current user for folder path
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Unauthorized');
+
+      const fileName = `${user.id}/${project.id}_${Date.now()}.webp`;
       
       const { error: uploadError } = await supabase.storage
-        .from('project-assets')
+        .from('project-banners')
         .upload(fileName, blob, {
-          contentType: 'image/png',
-          upsert: false,
+          contentType: 'image/webp',
+          upsert: true,
         });
 
       if (uploadError) throw uploadError;
 
       const { data: { publicUrl } } = supabase.storage
-        .from('project-assets')
+        .from('project-banners')
         .getPublicUrl(fileName);
 
       // Update project
