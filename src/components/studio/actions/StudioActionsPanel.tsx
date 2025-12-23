@@ -36,6 +36,7 @@ interface StudioActionsPanelProps {
   onSectionReplace: () => void;
   onStemSeparation: (mode: 'simple' | 'detailed') => void;
   onNewVocal?: () => void;
+  onAddVocal?: () => void; // For instrumental tracks
   onNewArrangement?: () => void;
   onStemAction?: (stem: TrackStem, action: StemActionType) => void;
   onTrim?: () => void;
@@ -83,6 +84,7 @@ export function StudioActionsPanel({
   onSectionReplace,
   onStemSeparation,
   onNewVocal,
+  onAddVocal,
   onNewArrangement,
   onStemAction,
   onTrim,
@@ -188,6 +190,24 @@ export function StudioActionsPanel({
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+          )}
+
+          {/* Add Vocal - For instrumental tracks */}
+          {onAddVocal && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onAddVocal}
+              className="h-auto py-3 flex-col gap-1.5 items-start"
+            >
+              <div className="flex items-center gap-2 w-full">
+                <Mic2 className="w-4 h-4 text-primary" />
+                <span className="font-medium">Добавить вокал</span>
+              </div>
+              <span className="text-xs text-muted-foreground text-left">
+                Для инструментала
+              </span>
+            </Button>
           )}
 
           {/* New Vocal - After simple stems */}

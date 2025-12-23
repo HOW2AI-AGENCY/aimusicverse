@@ -3480,8 +3480,10 @@ export type Database = {
           id: string
           separation_mode: string | null
           source: string | null
+          status: string | null
           stem_type: string
           track_id: string
+          updated_at: string | null
           version_id: string | null
         }
         Insert: {
@@ -3492,8 +3494,10 @@ export type Database = {
           id?: string
           separation_mode?: string | null
           source?: string | null
+          status?: string | null
           stem_type: string
           track_id: string
+          updated_at?: string | null
           version_id?: string | null
         }
         Update: {
@@ -3504,8 +3508,10 @@ export type Database = {
           id?: string
           separation_mode?: string | null
           source?: string | null
+          status?: string | null
           stem_type?: string
           track_id?: string
+          updated_at?: string | null
           version_id?: string | null
         }
         Relationships: [

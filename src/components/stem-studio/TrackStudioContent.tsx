@@ -320,6 +320,36 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
           setCurrentAudioUrl(audioUrl);
         }
         
+        // === POST-REPLACEMENT AUTOMATION ===
+        if (applied) {
+          // 1. Invalidate timestamped lyrics cache (audio changed, timings may differ)
+          if (track?.suno_task_id) {
+            queryClient.invalidateQueries({ queryKey: ['timestamped-lyrics', track.suno_task_id] });
+          }
+          
+          // 2. Mark stems as needing re-split (audio changed)
+          const { error: stemsError } = await supabase
+            .from('track_stems')
+            .update({ 
+              status: 'needs_resplit',
+              updated_at: new Date().toISOString()
+            })
+            .eq('track_id', trackId);
+          
+          if (stemsError) {
+            logger.warn('Could not mark stems for re-split', { message: stemsError.message });
+          }
+          
+          // 3. Invalidate stems cache to reset UI
+          queryClient.invalidateQueries({ queryKey: ['track-stems', trackId] });
+          
+          logger.info('Post-replacement automation completed', {
+            trackId,
+            stemsMarkedForResplit: !stemsError,
+            lyricsInvalidated: !!track?.suno_task_id
+          });
+        }
+        
         toast.success(`Вариант ${selectedVariant === 'variantA' ? 'A' : 'B'} применён`);
       } else if (saveMode === 'newVersion') {
         toast.success(`Сохранено как новая версия`);
@@ -338,7 +368,7 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
     }
     
     setLatestCompletion(null);
-  }, [latestCompletion, trackId, setPrimaryVersionAsync, queryClient, setLatestCompletion, logReplacementApply]);
+  }, [latestCompletion, trackId, track?.suno_task_id, setPrimaryVersionAsync, queryClient, setLatestCompletion, logReplacementApply]);
 
   const handleDiscardReplacement = useCallback(() => {
     logReplacementDiscard();
@@ -717,6 +747,10 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
                   handleStemSeparation(mode);
                 }}
                 onNewVocal={hasInstrumentalStem ? () => {
+                  setShowActionsPanel(false);
+                  setNewVocalDialogOpen(true);
+                } : undefined}
+                onAddVocal={track?.is_instrumental || track?.has_vocals === false ? () => {
                   setShowActionsPanel(false);
                   setNewVocalDialogOpen(true);
                 } : undefined}
