@@ -44,6 +44,8 @@ import {
   StemActionSheet,
   useStudioTrackState,
   MultiTrackStudioLayout,
+  SectionReplacementHistory,
+  CrossfadePreview,
 } from '@/components/studio';
 import { registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
@@ -617,7 +619,34 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
 
           {/* Right: Actions Panel (desktop) or hidden on mobile */}
           {!isMobile && (
-            <div className="w-80 overflow-y-auto p-4 bg-muted/10">
+            <div className="w-80 overflow-y-auto p-4 bg-muted/10 space-y-4">
+              {/* Section Replacement History */}
+              {currentAudioUrl && (
+                <SectionReplacementHistory
+                  trackId={trackId}
+                  currentAudioUrl={currentAudioUrl}
+                  onRollback={(audioUrl, taskId, section) => {
+                    // Set latest completion to trigger compare view
+                    setLatestCompletion({
+                      taskId,
+                      originalAudioUrl: currentAudioUrl,
+                      newAudioUrl: audioUrl,
+                      section,
+                      status: 'completed',
+                    });
+                    setEditMode('comparing');
+                  }}
+                  onPreview={(audioUrl, section) => {
+                    // Just play the preview
+                    if (audioRef.current) {
+                      audioRef.current.src = audioUrl;
+                      audioRef.current.currentTime = 0;
+                      audioRef.current.play();
+                    }
+                  }}
+                />
+              )}
+              
               <StudioActionsPanel
                 trackState={trackState}
                 stems={stems}
