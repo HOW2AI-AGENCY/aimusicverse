@@ -25,6 +25,7 @@ const PublicArtistsSection = lazy(() => import("@/components/home/PublicArtistsS
 const FeaturedBlogHero = lazy(() => import("@/components/home/FeaturedBlogHero").then(m => ({ default: m.FeaturedBlogHero })));
 const PopularCreatorsSection = lazy(() => import("@/components/home/PopularCreatorsSection").then(m => ({ default: m.PopularCreatorsSection })));
 const PublishedAlbumsSection = lazy(() => import("@/components/home/PublishedAlbumsSection").then(m => ({ default: m.PublishedAlbumsSection })));
+const PublishedProjectsSlider = lazy(() => import("@/components/home/PublishedProjectsSlider").then(m => ({ default: m.PublishedProjectsSlider })));
 const ProfessionalToolsHub = lazy(() => import("@/components/home/ProfessionalToolsHub").then(m => ({ default: m.ProfessionalToolsHub })));
 const UnifiedTrackFeed = lazy(() => import("@/components/home/UnifiedTrackFeed").then(m => ({ default: m.UnifiedTrackFeed })));
 const EngagementBanner = lazy(() => import("@/components/home/EngagementBanner").then(m => ({ default: m.EngagementBanner })));
@@ -265,7 +266,15 @@ const Index = () => {
             <PublicArtistsSection />
           </LazySection>
 
-          {/* Published Albums Section - Lazy loaded */}
+          {/* Published Projects Slider - Large Banners with Create CTA */}
+          <LazySection 
+            className="mb-4 sm:mb-5"
+            fallback={<SectionSkeleton height="180px" />}
+          >
+            <PublishedProjectsSlider />
+          </LazySection>
+
+          {/* Published Albums Section */}
           <LazySection 
             className="mb-4 sm:mb-5"
             fallback={<SectionSkeleton height="180px" />}
