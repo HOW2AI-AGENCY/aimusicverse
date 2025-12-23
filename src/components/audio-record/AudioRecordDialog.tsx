@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
-import { Mic, Square, Play, Pause, Trash2, Music, MicVocal, Loader2, Cloud, Disc, ArrowRight, X } from 'lucide-react';
+import { Mic, Square, Play, Pause, Trash2, Music, MicVocal, Loader2, Cloud, Disc, ArrowRight, X, CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { toast } from 'sonner';
@@ -16,6 +16,7 @@ import { CloudAudioPicker } from './CloudAudioPicker';
 import { ReferenceManager } from '@/services/audio-reference/ReferenceManager';
 import type { ReferenceAudio } from '@/hooks/useReferenceAudio';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { useRecordingUpload } from '@/hooks/useRecordingUpload';
 
 interface AudioRecordDialogProps {
   open: boolean;
@@ -38,6 +39,20 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
   const [processingAction, setProcessingAction] = useState<ProcessingAction>(null);
   const [selectedCloudAudio, setSelectedCloudAudio] = useState<ReferenceAudio | null>(null);
   const [continueAt, setContinueAt] = useState(0);
+  const [autoSavedUrl, setAutoSavedUrl] = useState<string | null>(null);
+
+  // Auto-upload hook for cloud saving
+  const { uploadRecordingQuietly, isUploading: isAutoSaving } = useRecordingUpload({
+    bucket: 'reference-audio',
+    folder: 'mic-recordings',
+    onSuccess: (result) => {
+      setAutoSavedUrl(result.url);
+      logger.info('Recording auto-saved to cloud', { url: result.url, size: result.size });
+    },
+    onError: (error) => {
+      logger.error('Failed to auto-save recording', error);
+    }
+  });
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -73,12 +88,16 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
         }
       };
       
-      mediaRecorder.onstop = () => {
+      mediaRecorder.onstop = async () => {
         const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
         setAudioBlob(blob);
         setAudioUrl(URL.createObjectURL(blob));
         setState('recorded');
         stream.getTracks().forEach(track => track.stop());
+
+        // Auto-save to cloud in background
+        logger.info('Recording stopped, auto-saving to cloud', { size: blob.size });
+        uploadRecordingQuietly(blob);
       };
       
       mediaRecorder.start(100);
@@ -126,6 +145,7 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
     setIsPlaying(false);
     setSelectedCloudAudio(null);
     setContinueAt(0);
+    setAutoSavedUrl(null);
   }, [audioUrl]);
 
   // Upload audio and process with selected action
