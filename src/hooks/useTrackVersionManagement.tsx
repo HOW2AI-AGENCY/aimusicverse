@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Track } from '@/types/track';
 import { logger } from '@/lib/logger';
 
 export function useTrackVersionManagement() {
   const [isProcessing, setIsProcessing] = useState(false);
+  const queryClient = useQueryClient();
 
   const createVersionFromTrack = async (track: Track) => {
     if (!track.audio_url) {
@@ -131,8 +133,10 @@ export function useTrackVersionManagement() {
 
       toast.success('Версия установлена как основная');
       
-      // Force refetch instead of full page reload for better UX
-      window.location.reload();
+      // Invalidate queries to refresh data without page reload
+      await queryClient.invalidateQueries({ queryKey: ['tracks'] });
+      await queryClient.invalidateQueries({ queryKey: ['track', trackId] });
+      await queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
     } catch (error: any) {
       logger.error('Set primary error', error);
       toast.error(error.message || 'Ошибка установки версии');

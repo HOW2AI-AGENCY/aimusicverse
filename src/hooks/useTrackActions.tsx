@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Track } from '@/types/track';
 import { useRewardShare } from './useGamification';
@@ -15,6 +16,7 @@ export function setSubscriptionDialogCallback(callback: SubscriptionDialogCallba
 
 export function useTrackActions() {
   const [isProcessing, setIsProcessing] = useState(false);
+  const queryClient = useQueryClient();
   const rewardShare = useRewardShare();
 
   const handleShare = async (track: Track, onSuccess?: () => void) => {
@@ -138,7 +140,10 @@ export function useTrackActions() {
       if (error) throw error;
 
       toast.success(track.is_public ? 'Трек теперь приватный' : 'Трек теперь публичный');
-      window.location.reload();
+      
+      // Invalidate queries to refresh data without page reload
+      await queryClient.invalidateQueries({ queryKey: ['tracks'] });
+      await queryClient.invalidateQueries({ queryKey: ['track', track.id] });
     } catch (error: any) {
       logger.error('Toggle public error', error);
       toast.error('Ошибка изменения видимости');

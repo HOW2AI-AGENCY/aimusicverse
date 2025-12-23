@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useAuth } from '@/hooks/useAuth';
@@ -43,6 +43,7 @@ function mapToStarsProduct(p: DBProduct): StarsProduct {
 export default function Pricing() {
   const { webApp, showAlert } = useTelegram();
   const { user } = useAuth();
+  const queryClient = useQueryClient();
   const userId = user?.id;
   const [purchasingProduct, setPurchasingProduct] = useState<string | null>(null);
 
@@ -177,7 +178,7 @@ export default function Pricing() {
       <div className="flex flex-col items-center justify-center min-h-screen px-4">
         <p className="text-destructive mb-4">Ошибка загрузки продуктов</p>
         <button
-          onClick={() => window.location.reload()}
+          onClick={() => queryClient.invalidateQueries({ queryKey: ['stars-products'] })}
           className="text-primary underline"
         >
           Попробовать снова
