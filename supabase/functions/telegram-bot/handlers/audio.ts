@@ -68,6 +68,14 @@ export async function handleAudioMessage(
     // Delete any active menu before showing audio-related messages
     await deleteActiveMenu(userId, chatId);
     
+    // === VOICE MESSAGE: Route to specialized voice processor ===
+    // Voice messages get special treatment: transcription + melody detection
+    if (type === 'voice') {
+      const { processVoiceMessage } = await import('./voice-processor.ts');
+      await processVoiceMessage(chatId, userId, audio as TelegramVoice);
+      return;
+    }
+    
     // Check for pending upload (cover/extend mode)
     const pendingUpload = await consumePendingUpload(userId);
     

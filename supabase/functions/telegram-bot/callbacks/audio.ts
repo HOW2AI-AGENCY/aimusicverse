@@ -12,6 +12,12 @@ export async function handleAudioCallbacks(
   messageId: number,
   queryId: string
 ): Promise<boolean> {
+  // Handle voice processor callbacks first (voice_*)
+  if (data.startsWith('voice_')) {
+    const { handleVoiceProcessorCallback } = await import('../handlers/voice-processor.ts');
+    return await handleVoiceProcessorCallback(data, chatId, userId, messageId, queryId);
+  }
+
   // Handle audio classification callbacks first
   if (data.startsWith('audio_type_') || data.startsWith('audio_gender_') || 
       data === 'audio_classify_back' || data === 'audio_classify_cancel') {
