@@ -585,6 +585,8 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
                 audioUrl={currentAudioUrl}
                 duration={duration}
                 detectedSections={detectedSections}
+                sunoTaskId={track.suno_task_id}
+                sunoId={track.suno_id}
               />
             )}
 
@@ -653,6 +655,8 @@ export const TrackStudioContent = ({ trackId }: TrackStudioContentProps) => {
           audioUrl={currentAudioUrl}
           duration={duration}
           detectedSections={detectedSections}
+          sunoTaskId={track.suno_task_id}
+          sunoId={track.suno_id}
         />
       )}
 
