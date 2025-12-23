@@ -39,6 +39,7 @@ serve(async (req) => {
     const body = await req.json();
     const {
       audioId,
+      audioUrl,  // Direct audio URL for reference audio
       prompt,
       style,
       title,
@@ -46,30 +47,51 @@ serve(async (req) => {
       model = 'V4_5ALL',
     } = body;
 
-    if (!audioId) {
-      throw new Error('audioId is required');
+    // Need either audioId (for existing tracks) or audioUrl (for reference audio)
+    if (!audioId && !audioUrl) {
+      throw new Error('audioId or audioUrl is required');
     }
 
-    // Get original track
-    const { data: originalTrack, error: trackError } = await supabase
-      .from('tracks')
-      .select('*')
-      .eq('suno_id', audioId)
-      .single();
+    // Get original track info if audioId provided, otherwise use reference audio URL
+    let originalTrack: any = null;
+    let uploadUrl = audioUrl;
+    let basePrompt = prompt || '';
+    let baseStyle = style || '';
+    let baseTitle = title || 'AI Remix';
 
-    if (trackError || !originalTrack) {
-      throw new Error('Original track not found');
+    if (audioId) {
+      const { data: trackData, error: trackError } = await supabase
+        .from('tracks')
+        .select('*')
+        .eq('suno_id', audioId)
+        .single();
+
+      if (trackError || !trackData) {
+        throw new Error('Original track not found');
+      }
+      
+      originalTrack = trackData;
+      uploadUrl = trackData.audio_url;
+      basePrompt = prompt || trackData.prompt || '';
+      baseStyle = style || trackData.style || '';
+      baseTitle = title || `${trackData.title} (Remix)`;
     }
+
+    if (!uploadUrl) {
+      throw new Error('No audio URL available for remix');
+    }
+
+    console.log('Creating remix from:', { audioId, hasAudioUrl: !!audioUrl, uploadUrl: uploadUrl?.substring(0, 50) });
 
     // Create new track record
     const { data: newTrack, error: newTrackError } = await supabase
       .from('tracks')
       .insert({
         user_id: user.id,
-        project_id: originalTrack.project_id,
-        prompt: prompt || `Remix of: ${originalTrack.prompt}`,
-        title: title || `${originalTrack.title} (Remix)`,
-        style: style || originalTrack.style,
+        project_id: originalTrack?.project_id || null,
+        prompt: basePrompt || 'Remix',
+        title: baseTitle,
+        style: baseStyle,
         has_vocals: !instrumental,
         status: 'pending',
         provider: 'suno',
@@ -80,6 +102,7 @@ serve(async (req) => {
       .single();
 
     if (newTrackError || !newTrack) {
+      console.error('Failed to create track record:', newTrackError);
       throw new Error('Failed to create track record');
     }
 
@@ -88,7 +111,7 @@ serve(async (req) => {
       .from('generation_tasks')
       .insert({
         user_id: user.id,
-        prompt: prompt || originalTrack.prompt,
+        prompt: basePrompt || 'Remix',
         status: 'pending',
         track_id: newTrack.id,
         source: 'mini_app',
@@ -99,6 +122,7 @@ serve(async (req) => {
       .single();
 
     if (taskError || !task) {
+      console.error('Failed to create generation task:', taskError);
       throw new Error('Failed to create generation task');
     }
 
@@ -113,11 +137,11 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        uploadUrl: originalTrack.audio_url,
+        uploadUrl,
         customMode: true,
-        prompt: prompt || originalTrack.prompt,
-        style: style || originalTrack.style,
-        title: title || `${originalTrack.title} (Remix)`,
+        prompt: basePrompt,
+        style: baseStyle,
+        title: baseTitle,
         instrumental,
         model,
         callBackUrl: callbackUrl,
@@ -127,7 +151,7 @@ serve(async (req) => {
     const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
     
-    console.log(`📥 Remix response (${duration}ms, $0.04)`);
+    console.log(`📥 Remix response (${duration}ms, $0.04):`, JSON.stringify(sunoData).substring(0, 200));
 
     // Log API call
     await supabase.from('api_usage_logs').insert({
@@ -135,7 +159,7 @@ serve(async (req) => {
       service: 'suno',
       endpoint: 'remix',
       method: 'POST',
-      request_body: { audioId, prompt, style, title, instrumental, model },
+      request_body: { audioId, audioUrl, prompt: basePrompt, style: baseStyle, title: baseTitle, instrumental, model },
       response_status: sunoResponse.status,
       response_body: sunoData,
       duration_ms: duration,
