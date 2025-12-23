@@ -10,11 +10,16 @@ export interface Profile {
   first_name: string;
   last_name?: string | null;
   username?: string | null;
+  display_name?: string | null;
   language_code?: string | null;
   photo_url?: string | null;
+  banner_url?: string | null;
+  bio?: string | null;
   is_public?: boolean | null;
   subscription_tier?: string | null;
   telegram_chat_id?: number | null;
+  profile_completeness?: number | null;
+  social_links?: Record<string, string> | null;
   created_at?: string;
   updated_at?: string;
 }

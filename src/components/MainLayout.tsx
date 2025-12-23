@@ -12,6 +12,7 @@ import { useGuestMode } from '@/contexts/GuestModeContext';
 import { cn } from '@/lib/utils';
 import { setSubscriptionDialogCallback } from '@/hooks/useTrackActions';
 import { useTelegramSettingsButton } from '@/hooks/telegram';
+import { SmartAlertProvider } from './notifications/smart-alerts';
 
 // Lazy load heavy dialogs - not needed on initial render
 const TelegramOnboarding = lazy(() => import('./onboarding/TelegramOnboarding').then(m => ({ default: m.TelegramOnboarding })));
@@ -80,6 +81,7 @@ export const MainLayout = () => {
   const mainMargin = sidebarCollapsed ? 'ml-16' : 'ml-64';
 
   return (
+    <SmartAlertProvider>
     <div className="flex h-screen bg-background">
       {/* Skip to content for keyboard navigation */}
       <SkipToContent />
@@ -143,5 +145,6 @@ export const MainLayout = () => {
       </main>
       {!isDesktop && <BottomNavigation />}
     </div>
+    </SmartAlertProvider>
   );
 };
