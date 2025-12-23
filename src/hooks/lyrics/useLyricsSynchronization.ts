@@ -1,13 +1,14 @@
 /**
- * Unified Lyrics Synchronization Hook
+ * Unified Lyrics Synchronization Hook - Enhanced Precision Version
  * 
- * Provides high-frequency time tracking with look-ahead for precise
+ * Provides high-frequency time tracking with advanced look-ahead for precise
  * word and line highlighting. Uses requestAnimationFrame for 60fps updates.
  * 
  * Key features:
- * - Look-ahead compensation for rendering delay (~50ms for words, ~100ms for lines)
- * - High-frequency updates during playback (RAF-based ~60fps)
- * - Time interpolation between frames for smooth highlighting
+ * - Sub-frame precision timing with jitter smoothing
+ * - Adaptive look-ahead based on word position in phrase
+ * - Phoneme-aware highlighting for better timing
+ * - Velocity compensation for smoother playback feel
  * - Unified tolerance constants across all lyrics components
  */
 
@@ -15,19 +16,28 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { getGlobalAudioRef } from '@/hooks/audio/useAudioTime';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { isStructuralTag, filterStructuralTagWords } from '@/lib/lyricsUtils';
+import { 
+  enhanceWordsForSync, 
+  groupIntoEnhancedLines,
+  findActiveWordPrecision,
+  findActiveLinePrecision,
+  TimeSmootherAdvanced,
+  type EnhancedWord,
+  type EnhancedLine
+} from '@/lib/lyrics/precisionSync';
 
 // Re-export for convenience
 export { isStructuralTag } from '@/lib/lyricsUtils';
 
-// Synchronization constants
+// Synchronization constants - enhanced for precision
 export const SYNC_CONSTANTS = {
-  // Look-ahead times to compensate for rendering delay
-  WORD_LOOK_AHEAD_MS: 50,      // Words highlighted 50ms early
-  LINE_LOOK_AHEAD_MS: 100,    // Lines highlighted 100ms early
+  // Base look-ahead times (will be adjusted dynamically)
+  WORD_LOOK_AHEAD_MS: 80,      // Words highlighted 80ms early (was 50ms)
+  LINE_LOOK_AHEAD_MS: 120,     // Lines highlighted 120ms early (was 100ms)
   
   // End tolerances - how long to keep highlighting after end time
-  WORD_END_TOLERANCE_MS: 80,   // Keep word highlighted 80ms after end
-  LINE_END_TOLERANCE_MS: 150,  // Keep line highlighted 150ms after end
+  WORD_END_TOLERANCE_MS: 100,   // Keep word highlighted 100ms after end (was 80ms)
+  LINE_END_TOLERANCE_MS: 180,   // Keep line highlighted 180ms after end (was 150ms)
   
   // Update intervals
   UPDATE_INTERVAL_PLAYING: 16,  // ~60fps when playing
@@ -36,6 +46,11 @@ export const SYNC_CONSTANTS = {
   // Scroll behavior
   SCROLL_DEBOUNCE_MS: 150,      // Debounce scroll updates
   USER_SCROLL_TIMEOUT_MS: 4000, // Resume auto-scroll after 4s
+  
+  // Precision timing
+  JITTER_SMOOTHING_FACTOR: 0.15, // How much to smooth time jitter
+  MIN_WORD_DURATION_MS: 100,     // Minimum displayable word duration
+  PHRASE_START_BOOST_MS: 30,     // Extra look-ahead for phrase starts
 } as const;
 
 export interface AlignedWord {
@@ -57,15 +72,18 @@ export interface LyricLine {
 interface SyncState {
   currentTime: number;
   adjustedTime: number;        // Time with look-ahead applied
+  smoothedTime: number;        // Jitter-smoothed time
   activeWordIndex: number;
   activeLineIndex: number;
   isPlaying: boolean;
+  confidence: number;          // Match confidence 0-1
 }
 
 interface UseLyricsSynchronizationOptions {
   words?: AlignedWord[];
   lines?: LyricLine[];
   enabled?: boolean;
+  usePrecisionMode?: boolean;  // Use enhanced precision algorithms
   onActiveLineChange?: (lineIndex: number) => void;
   onActiveWordChange?: (wordIndex: number) => void;
 }
@@ -103,12 +121,23 @@ function findActiveWordIndex(
     }
   }
   
-  // Fallback: linear search for edge cases
+  // Fallback: linear search for edge cases (gaps between words)
   if (result === -1) {
     for (let i = 0; i < words.length; i++) {
       const word = words[i];
       if (adjustedTime >= word.startS && adjustedTime <= word.endS + endTolerance) {
         return i;
+      }
+      // Check if we're in a gap before the next word
+      if (i < words.length - 1) {
+        const nextWord = words[i + 1];
+        if (adjustedTime > word.endS && adjustedTime < nextWord.startS) {
+          // In gap - show the previous word if gap is small
+          const gapSize = nextWord.startS - word.endS;
+          if (gapSize < 0.3) {
+            return i; // Keep showing previous word
+          }
+        }
       }
     }
   }
@@ -134,6 +163,17 @@ function findActiveLineIndex(
     const line = lines[i];
     if (adjustedTime >= line.startTime && adjustedTime <= line.endTime + endTolerance) {
       return i;
+    }
+    // Handle gaps between lines
+    if (i < lines.length - 1) {
+      const nextLine = lines[i + 1];
+      if (adjustedTime > line.endTime && adjustedTime < nextLine.startTime) {
+        const gapSize = nextLine.startTime - line.endTime;
+        // If gap is small or we're closer to current line, keep it active
+        if (gapSize < 0.5 || (adjustedTime - line.endTime) < (nextLine.startTime - adjustedTime)) {
+          return i;
+        }
+      }
     }
   }
   
@@ -167,7 +207,7 @@ export function groupWordsIntoLines(words: AlignedWord[]): LyricLine[] {
     const hasNewline = word.word.includes('\n');
     const hasTimeGap = nextWord ? nextWord.startS - word.endS > 0.5 : true;
     const isLongLine = currentLineWords.length >= 8;
-    const endsWithPunctuation = /[.!?;]$/.test(cleanWord);
+    const endsWithPunctuation = /[.!?;,]$/.test(cleanWord);
     
     if (hasNewline || hasTimeGap || isLongLine || endsWithPunctuation || !nextWord) {
       if (currentLineWords.length > 0) {
@@ -194,12 +234,13 @@ export function groupWordsIntoLines(words: AlignedWord[]): LyricLine[] {
 }
 
 /**
- * Main synchronization hook
+ * Main synchronization hook - Enhanced Precision Version
  */
 export function useLyricsSynchronization({
   words = [],
   lines: providedLines,
   enabled = true,
+  usePrecisionMode = true,
   onActiveLineChange,
   onActiveWordChange,
 }: UseLyricsSynchronizationOptions = {}) {
@@ -207,15 +248,18 @@ export function useLyricsSynchronization({
   const [syncState, setSyncState] = useState<SyncState>({
     currentTime: 0,
     adjustedTime: 0,
+    smoothedTime: 0,
     activeWordIndex: -1,
     activeLineIndex: -1,
     isPlaying: false,
+    confidence: 1,
   });
   
   const rafRef = useRef<number | null>(null);
   const lastUpdateRef = useRef<number>(0);
   const prevActiveLineRef = useRef<number>(-1);
   const prevActiveWordRef = useRef<number>(-1);
+  const timeSmootherRef = useRef(new TimeSmootherAdvanced(SYNC_CONSTANTS.JITTER_SMOOTHING_FACTOR));
   
   // Memoize lines - use provided or generate from words
   const lines = useMemo(() => {
@@ -227,6 +271,18 @@ export function useLyricsSynchronization({
     if (words.length) return words;
     return lines.flatMap(line => line.words);
   }, [words, lines]);
+  
+  // Enhanced words for precision mode
+  const enhancedWords = useMemo(() => {
+    if (!usePrecisionMode || !allWords.length) return null;
+    return enhanceWordsForSync(allWords);
+  }, [usePrecisionMode, allWords]);
+  
+  // Enhanced lines for precision mode
+  const enhancedLines = useMemo(() => {
+    if (!usePrecisionMode || !enhancedWords) return null;
+    return groupIntoEnhancedLines(enhancedWords);
+  }, [usePrecisionMode, enhancedWords]);
   
   // High-frequency update loop
   const updateSync = useCallback(() => {
@@ -247,25 +303,39 @@ export function useLyricsSynchronization({
     }
     
     lastUpdateRef.current = now;
-    const currentTime = audio.currentTime;
+    const rawTime = audio.currentTime;
     
-    // Calculate adjusted time with look-ahead for word matching
-    const adjustedTime = currentTime + SYNC_CONSTANTS.WORD_LOOK_AHEAD_MS / 1000;
+    // Smooth time to reduce jitter
+    const smoothedTime = timeSmootherRef.current.smooth(rawTime, now);
     
-    // Find active indices
-    const activeWordIndex = findActiveWordIndex(
-      allWords,
-      currentTime,
-      SYNC_CONSTANTS.WORD_LOOK_AHEAD_MS,
-      SYNC_CONSTANTS.WORD_END_TOLERANCE_MS
-    );
+    let activeWordIndex: number;
+    let activeLineIndex: number;
+    let confidence = 1;
     
-    const activeLineIndex = findActiveLineIndex(
-      lines,
-      currentTime,
-      SYNC_CONSTANTS.LINE_LOOK_AHEAD_MS,
-      SYNC_CONSTANTS.LINE_END_TOLERANCE_MS
-    );
+    if (usePrecisionMode && enhancedWords && enhancedLines) {
+      // Use precision algorithms
+      const wordResult = findActiveWordPrecision(enhancedWords, smoothedTime);
+      activeWordIndex = wordResult.index;
+      confidence = wordResult.confidence;
+      
+      const lineResult = findActiveLinePrecision(enhancedLines, smoothedTime);
+      activeLineIndex = lineResult.index;
+    } else {
+      // Standard algorithm
+      activeWordIndex = findActiveWordIndex(
+        allWords,
+        smoothedTime,
+        SYNC_CONSTANTS.WORD_LOOK_AHEAD_MS,
+        SYNC_CONSTANTS.WORD_END_TOLERANCE_MS
+      );
+      
+      activeLineIndex = findActiveLineIndex(
+        lines,
+        smoothedTime,
+        SYNC_CONSTANTS.LINE_LOOK_AHEAD_MS,
+        SYNC_CONSTANTS.LINE_END_TOLERANCE_MS
+      );
+    }
     
     // Trigger callbacks on change
     if (activeLineIndex !== prevActiveLineRef.current) {
@@ -279,18 +349,27 @@ export function useLyricsSynchronization({
     }
     
     setSyncState({
-      currentTime,
-      adjustedTime,
+      currentTime: rawTime,
+      adjustedTime: smoothedTime + SYNC_CONSTANTS.WORD_LOOK_AHEAD_MS / 1000,
+      smoothedTime,
       activeWordIndex,
       activeLineIndex,
       isPlaying,
+      confidence,
     });
     
     // Continue loop if playing
     if (isPlaying) {
       rafRef.current = requestAnimationFrame(updateSync);
     }
-  }, [enabled, isPlaying, allWords, lines, onActiveLineChange, onActiveWordChange]);
+  }, [enabled, isPlaying, allWords, lines, enhancedWords, enhancedLines, usePrecisionMode, onActiveLineChange, onActiveWordChange]);
+  
+  // Reset smoother when playback stops/starts
+  useEffect(() => {
+    if (!isPlaying) {
+      timeSmootherRef.current = new TimeSmootherAdvanced(SYNC_CONSTANTS.JITTER_SMOOTHING_FACTOR);
+    }
+  }, [isPlaying]);
   
   // Start/stop update loop based on playing state
   useEffect(() => {
@@ -323,21 +402,30 @@ export function useLyricsSynchronization({
   
   // Check if word/line is past (already played)
   const isWordPast = useCallback((word: AlignedWord): boolean => {
-    return syncState.currentTime > word.endS + SYNC_CONSTANTS.WORD_END_TOLERANCE_MS / 1000;
-  }, [syncState.currentTime]);
+    return syncState.smoothedTime > word.endS + SYNC_CONSTANTS.WORD_END_TOLERANCE_MS / 1000;
+  }, [syncState.smoothedTime]);
   
   const isLinePast = useCallback((line: LyricLine): boolean => {
-    return syncState.currentTime > line.endTime + SYNC_CONSTANTS.LINE_END_TOLERANCE_MS / 1000;
-  }, [syncState.currentTime]);
+    return syncState.smoothedTime > line.endTime + SYNC_CONSTANTS.LINE_END_TOLERANCE_MS / 1000;
+  }, [syncState.smoothedTime]);
+  
+  // Get enhanced word data for advanced highlighting
+  const getEnhancedWord = useCallback((index: number): EnhancedWord | null => {
+    if (!enhancedWords || index < 0 || index >= enhancedWords.length) return null;
+    return enhancedWords[index];
+  }, [enhancedWords]);
   
   return {
     ...syncState,
     lines,
     allWords,
+    enhancedWords,
+    enhancedLines,
     isWordActive,
     isLineActive,
     isWordPast,
     isLinePast,
+    getEnhancedWord,
     constants: SYNC_CONSTANTS,
   };
 }
