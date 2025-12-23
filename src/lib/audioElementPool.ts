@@ -140,7 +140,7 @@ class AudioElementPool {
 
     // Если лимит достигнут - попытка освободить элемент с низким приоритетом
     if (!element) {
-      element = this.evictLowPriorityElement(priority);
+      element = this.evictLowPriorityElement(priority) ?? undefined;
       if (element) {
         logger.warn(`AudioElementPool: Evicted low priority element for ${id}`);
       }
