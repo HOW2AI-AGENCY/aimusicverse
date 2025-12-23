@@ -317,7 +317,12 @@ export default function AdminFeedback() {
   const pendingCount = feedback.filter(f => f.status === 'pending').length;
 
   return (
-    <div className="container max-w-6xl mx-auto p-3 md:p-4 pb-24 pb-[calc(6rem+env(safe-area-inset-bottom))]">
+    <div 
+      className="container max-w-6xl mx-auto p-3 md:p-4 pb-[calc(6rem+env(safe-area-inset-bottom))]"
+      style={{
+        paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))'
+      }}
+    >
       {/* Header */}
       <div className="flex items-center justify-between gap-2 mb-4">
         <div className="flex items-center gap-2 md:gap-4">

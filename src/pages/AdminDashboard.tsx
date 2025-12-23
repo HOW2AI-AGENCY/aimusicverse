@@ -157,7 +157,12 @@ export default function AdminDashboard() {
   const CurrentTabIcon = TAB_OPTIONS.find(t => t.value === activeTab)?.icon || Activity;
 
   return (
-    <div className="container mx-auto p-3 md:p-4 space-y-4 pb-24 pb-[calc(6rem+env(safe-area-inset-bottom))]">
+    <div 
+      className="container mx-auto p-3 md:p-4 space-y-4 pb-[calc(6rem+env(safe-area-inset-bottom))]"
+      style={{
+        paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))'
+      }}
+    >
       {/* Header */}
       <div className="flex items-center justify-between gap-2">
         <h1 className="text-lg md:text-2xl font-bold flex items-center gap-2">

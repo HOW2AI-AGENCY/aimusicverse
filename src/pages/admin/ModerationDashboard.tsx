@@ -98,8 +98,13 @@ export default function ModerationDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
-      <div className="container max-w-4xl mx-auto px-4 py-6">
+    <div 
+      className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24"
+      style={{
+        paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))'
+      }}
+    >
+      <div className="container max-w-4xl mx-auto px-4 py-4">
         <motion.div 
           className="flex items-center gap-3 mb-6"
           initial={{ opacity: 0, y: -10 }}
