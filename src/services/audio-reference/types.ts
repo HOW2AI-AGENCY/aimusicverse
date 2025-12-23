@@ -60,6 +60,9 @@ export interface UnifiedAudioReference {
   // Intended usage mode
   intendedMode?: ReferenceMode;
   
+  // For extend mode: where to continue from (in seconds)
+  continueAt?: number;
+  
   // Timestamps
   createdAt: number;
   expiresAt?: number;

@@ -3,7 +3,7 @@
  * Compact preview of active audio reference in generation form with waveform
  */
 
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -28,6 +28,7 @@ import { formatTime } from '@/lib/formatters';
 import { MiniWaveform } from './MiniWaveform';
 import { ReferenceAnalysisDisplay } from './ReferenceAnalysisDisplay';
 import { ReferenceModeSelector } from './ReferenceModeSelector';
+import { ExtendRangeSelector } from './ExtendRangeSelector';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ReferenceManager, type ReferenceMode } from '@/services/audio-reference';
 
@@ -69,9 +70,39 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
 
   const handleModeChange = useCallback((newMode: ReferenceMode) => {
     if (activeReference) {
-      ReferenceManager.setActive({ ...activeReference, intendedMode: newMode });
+      // Auto-set continueAt to near end when switching to extend mode
+      const effectiveDur = duration || activeReference.durationSeconds || 60;
+      const defaultContinueAt = Math.max(5, effectiveDur - 5);
+      
+      ReferenceManager.setActive({ 
+        ...activeReference, 
+        intendedMode: newMode,
+        // Set continueAt when switching to extend, preserve otherwise
+        continueAt: newMode === 'extend' ? (activeReference.continueAt || defaultContinueAt) : undefined,
+      });
+    }
+  }, [activeReference, duration]);
+
+  const handleContinueAtChange = useCallback((time: number) => {
+    if (activeReference) {
+      ReferenceManager.setActive({ 
+        ...activeReference, 
+        continueAt: time,
+      });
     }
   }, [activeReference]);
+
+  // Auto-set continueAt when entering extend mode
+  useEffect(() => {
+    if (activeReference?.intendedMode === 'extend' && !activeReference.continueAt) {
+      const effectiveDur = duration || activeReference.durationSeconds || 60;
+      const defaultContinueAt = Math.max(5, effectiveDur - 5);
+      ReferenceManager.setActive({ 
+        ...activeReference, 
+        continueAt: defaultContinueAt,
+      });
+    }
+  }, [activeReference?.intendedMode, duration]);
 
   if (!activeReference) return null;
 
@@ -228,7 +259,7 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
           </div>
         </div>
 
-        {/* Expanded section with mode selector and analysis */}
+        {/* Expanded section with mode selector, extend range, and analysis */}
         <CollapsibleContent>
           <div className="px-3 pb-3 pt-1 border-t border-border/50 space-y-3">
             {/* Mode selector */}
@@ -237,6 +268,18 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
                 mode={activeReference.intendedMode || 'reference'}
                 onModeChange={handleModeChange}
                 compact={false}
+              />
+            )}
+            
+            {/* Extend range selector - only show in extend mode */}
+            {activeReference.intendedMode === 'extend' && effectiveDuration > 0 && (
+              <ExtendRangeSelector
+                audioUrl={activeReference.audioUrl}
+                duration={effectiveDuration}
+                continueAt={activeReference.continueAt || Math.max(5, effectiveDuration - 5)}
+                onContinueAtChange={handleContinueAtChange}
+                minTime={5}
+                height={48}
               />
             )}
             
