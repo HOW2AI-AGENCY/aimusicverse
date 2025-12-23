@@ -29,7 +29,7 @@ import { ArtistSelector } from './generate-form/ArtistSelector';
 import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
 import { PromptHistory } from './generate-form/PromptHistory';
 import { LyricsChatAssistant } from './generate-form/LyricsChatAssistant';
-import { UploadAudioDialog } from './UploadAudioDialog';
+// UploadAudioDialog removed - now using unified form for cover/extend
 import {
   AlertDialog,
   AlertDialogAction,
@@ -64,9 +64,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
   const [artistDialogOpen, setArtistDialogOpen] = useState(false);
   const [audioActionDialogOpen, setAudioActionDialogOpen] = useState(false); // For reference audio selection
-  const [uploadAudioDialogOpen, setUploadAudioDialogOpen] = useState(false); // For direct cover/extend generation
-  const [uploadAudioMode, setUploadAudioMode] = useState<'cover' | 'extend'>('cover');
-  const [pendingAudioFile, setPendingAudioFile] = useState<File | null>(null);
+  // Legacy UploadAudioDialog states removed - now using unified form
   const [historyOpen, setHistoryOpen] = useState(false);
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
   const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
@@ -474,24 +472,28 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           toast.success(`Обнаружено ${chords.length} аккордов`);
         }}
         onOpenCoverDialog={(file, mode) => {
-          // Open UploadAudioDialog for direct cover/extend generation
-          setPendingAudioFile(file);
-          setUploadAudioMode(mode);
-          setUploadAudioDialogOpen(true);
-        }}
-      />
-
-      {/* UploadAudioDialog for direct cover/extend generation */}
-      <UploadAudioDialog
-        open={uploadAudioDialogOpen}
-        onOpenChange={(open) => {
-          setUploadAudioDialogOpen(open);
-          if (!open) {
-            setPendingAudioFile(null);
+          // Instead of opening legacy UploadAudioDialog, 
+          // use unified audio reference system and switch form to custom mode
+          hapticFeedback?.('light');
+          
+          // Close the audio action dialog
+          setAudioActionDialogOpen(false);
+          
+          // Switch form to custom mode with appropriate audio weight
+          form.setMode('custom');
+          if (mode === 'extend') {
+            form.setAudioWeight([0.9]);
+          } else {
+            form.setAudioWeight([0.5]);
           }
+          
+          // Open advanced settings to show provider selector
+          setAdvancedOpen(true);
+          
+          toast.success(mode === 'cover' ? 'Режим кавера активирован' : 'Режим расширения активирован', {
+            description: 'Настройте параметры в форме генерации',
+          });
         }}
-        defaultMode={uploadAudioMode}
-        initialAudioFile={pendingAudioFile ?? undefined}
       />
 
       <LyricsChatAssistant
