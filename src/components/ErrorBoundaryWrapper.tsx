@@ -3,6 +3,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle } from 'lucide-react';
 import { logger } from '@/lib/logger';
+import { navigateTo, forceReload } from '@/hooks/useAppNavigate';
 
 interface Props {
   children: ReactNode;
@@ -42,14 +43,25 @@ export class ErrorBoundaryWrapper extends Component<Props, State> {
             <p className="text-muted-foreground">
               {this.state.error?.message || 'Произошла неожиданная ошибка'}
             </p>
-            <Button
-              onClick={() => {
-                this.setState({ hasError: false, error: null });
-                window.location.reload();
-              }}
-            >
-              Перезагрузить страницу
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  this.setState({ hasError: false, error: null });
+                  navigateTo('/');
+                }}
+              >
+                На главную
+              </Button>
+              <Button
+                onClick={() => {
+                  this.setState({ hasError: false, error: null });
+                  forceReload();
+                }}
+              >
+                Перезагрузить
+              </Button>
+            </div>
           </div>
         </Card>
       );
