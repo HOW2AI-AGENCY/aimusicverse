@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ChevronDown, Maximize2, ListMusic, Heart, Sparkles, Music2 } from 'lucide-react';
@@ -27,9 +27,23 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
   const { toggleLike } = useTracks();
   const [queueOpen, setQueueOpen] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
-  const { isPlaying, queue } = usePlayerStore();
+  const { isPlaying, queue, preservedTime, clearPreservedTime } = usePlayerStore();
 
   const { currentTime, duration, buffered, seek } = useAudioTime();
+  
+  // Restore preserved time on mount (from mode switch)
+  useEffect(() => {
+    if (preservedTime !== null && !isNaN(preservedTime)) {
+      const audio = (window as any).__globalAudioRef;
+      if (audio) {
+        const timer = setTimeout(() => {
+          audio.currentTime = preservedTime;
+          clearPreservedTime();
+        }, 50);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [preservedTime, clearPreservedTime]);
 
   const handleLike = async () => {
     setIsLiking(true);

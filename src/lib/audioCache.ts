@@ -18,6 +18,8 @@ const STORE_NAME = 'audio_files';
 const MAX_CACHE_SIZE_MB = 500; // 500MB max cache
 const MAX_CACHE_ENTRIES = 100;
 const PREFETCH_AHEAD = 2; // Prefetch 2 tracks ahead
+const MAX_CACHE_AGE_DAYS = 14; // 14 days max cache age (provider stores for 15 days)
+const MAX_CACHE_AGE_MS = MAX_CACHE_AGE_DAYS * 24 * 60 * 60 * 1000;
 
 interface AudioCacheEntry {
   url: string;
@@ -68,6 +70,7 @@ function getDB(): Promise<IDBDatabase> {
 
 /**
  * Get cached audio blob by URL
+ * Returns null if cache entry is expired (older than 14 days)
  */
 export async function getCachedAudio(url: string): Promise<Blob | null> {
   // Check memory cache first
@@ -93,6 +96,16 @@ export async function getCachedAudio(url: string): Promise<Blob | null> {
     });
 
     if (entry) {
+      // Check if entry is expired (older than 14 days)
+      const age = Date.now() - entry.createdAt;
+      if (age > MAX_CACHE_AGE_MS) {
+        // Entry expired, remove it
+        logger.debug('Cache entry expired, removing', { url: url.substring(0, 50), ageDays: Math.floor(age / (24 * 60 * 60 * 1000)) });
+        removeCacheEntry(url);
+        cacheMisses++;
+        return null;
+      }
+      
       cacheHits++;
       // Update access time asynchronously
       updateAccessTimeInDB(url);
@@ -106,6 +119,21 @@ export async function getCachedAudio(url: string): Promise<Blob | null> {
 
   cacheMisses++;
   return null;
+}
+
+/**
+ * Remove a single cache entry
+ */
+async function removeCacheEntry(url: string): Promise<void> {
+  memoryCache.delete(url);
+  try {
+    const db = await getDB();
+    const transaction = db.transaction(STORE_NAME, 'readwrite');
+    const store = transaction.objectStore(STORE_NAME);
+    store.delete(url);
+  } catch {
+    // Silently fail
+  }
 }
 
 /**
@@ -370,4 +398,49 @@ export function shouldPrefetch(): boolean {
   if (!connection) return true;
   
   return !connection.saveData && connection.effectiveType !== 'slow-2g' && connection.effectiveType !== '2g';
+}
+
+/**
+ * Cleanup expired cache entries (older than 14 days)
+ * Should be called periodically or on app startup
+ */
+export async function cleanupExpiredEntries(): Promise<number> {
+  let removedCount = 0;
+  
+  try {
+    const db = await getDB();
+    const transaction = db.transaction(STORE_NAME, 'readwrite');
+    const store = transaction.objectStore(STORE_NAME);
+    const index = store.index('createdAt');
+    
+    const cutoffTime = Date.now() - MAX_CACHE_AGE_MS;
+    const range = IDBKeyRange.upperBound(cutoffTime);
+    
+    const cursorRequest = index.openCursor(range);
+    
+    await new Promise<void>((resolve) => {
+      cursorRequest.onsuccess = (event) => {
+        const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result;
+        if (cursor) {
+          const entry = cursor.value as AudioCacheEntry;
+          memoryCache.delete(entry.url);
+          cursor.delete();
+          removedCount++;
+          cursor.continue();
+        } else {
+          resolve();
+        }
+      };
+      
+      cursorRequest.onerror = () => resolve();
+    });
+    
+    if (removedCount > 0) {
+      logger.info('Cleaned up expired cache entries', { removedCount });
+    }
+  } catch (error) {
+    logger.error('Error cleaning up expired cache entries', error instanceof Error ? error : new Error(String(error)));
+  }
+  
+  return removedCount;
 }

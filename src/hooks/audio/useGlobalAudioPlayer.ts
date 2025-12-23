@@ -3,12 +3,24 @@
  * 
  * Singleton audio player that syncs with Zustand store.
  * Provides actual audio playback connected to global player state.
+ * Includes audio caching with 14-day expiry for optimized playback.
  */
 
 import { useEffect, useRef, useCallback } from 'react';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { getGlobalAudioRef } from '@/hooks/audio/useAudioTime';
 import { logger } from '@/lib/logger';
+import { cleanupExpiredEntries, prefetchQueue, shouldPrefetch } from '@/lib/audioCache';
+
+// Run cache cleanup on module load (once per session)
+let cacheCleanupRun = false;
+if (!cacheCleanupRun) {
+  cacheCleanupRun = true;
+  // Delay cleanup to not block initial load
+  setTimeout(() => {
+    cleanupExpiredEntries().catch(() => {});
+  }, 5000);
+}
 
 export function useGlobalAudioPlayer() {
   const {
@@ -17,6 +29,8 @@ export function useGlobalAudioPlayer() {
     repeat,
     pauseTrack,
     nextTrack,
+    queue,
+    currentIndex,
   } = usePlayerStore();
 
   const lastTrackIdRef = useRef<string | null>(null);
@@ -27,6 +41,19 @@ export function useGlobalAudioPlayer() {
     if (!activeTrack) return null;
     return activeTrack.streaming_url || activeTrack.local_audio_url || activeTrack.audio_url;
   }, [activeTrack]);
+  
+  // Prefetch next tracks when current track changes
+  useEffect(() => {
+    if (!activeTrack || queue.length === 0 || !shouldPrefetch()) return;
+    
+    const audioUrls = queue
+      .map(t => t.streaming_url || t.audio_url)
+      .filter((url): url is string => !!url);
+    
+    if (audioUrls.length > 0) {
+      prefetchQueue(audioUrls, currentIndex);
+    }
+  }, [activeTrack?.id, queue, currentIndex]);
 
   // Handle track change - load new source
   // CRITICAL: Reload audio when track ID OR audio source changes (for version switching)
