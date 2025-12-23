@@ -1678,6 +1678,87 @@ export type Database = {
         }
         Relationships: []
       }
+      performance_metrics: {
+        Row: {
+          branch: string | null
+          bundle_size_gzip_kb: number | null
+          bundle_size_kb: number | null
+          cls: number | null
+          commit_sha: string | null
+          connection: string | null
+          created_at: string
+          device: string | null
+          fcp_ms: number | null
+          fid_ms: number | null
+          id: string
+          lcp_ms: number | null
+          lighthouse_accessibility: number | null
+          lighthouse_best_practices: number | null
+          lighthouse_performance: number | null
+          lighthouse_seo: number | null
+          pr_number: number | null
+          recorded_at: string
+          source: string
+          speed_index_ms: number | null
+          tbt_ms: number | null
+          ttfb_ms: number | null
+          tti_ms: number | null
+          url: string | null
+        }
+        Insert: {
+          branch?: string | null
+          bundle_size_gzip_kb?: number | null
+          bundle_size_kb?: number | null
+          cls?: number | null
+          commit_sha?: string | null
+          connection?: string | null
+          created_at?: string
+          device?: string | null
+          fcp_ms?: number | null
+          fid_ms?: number | null
+          id?: string
+          lcp_ms?: number | null
+          lighthouse_accessibility?: number | null
+          lighthouse_best_practices?: number | null
+          lighthouse_performance?: number | null
+          lighthouse_seo?: number | null
+          pr_number?: number | null
+          recorded_at?: string
+          source?: string
+          speed_index_ms?: number | null
+          tbt_ms?: number | null
+          ttfb_ms?: number | null
+          tti_ms?: number | null
+          url?: string | null
+        }
+        Update: {
+          branch?: string | null
+          bundle_size_gzip_kb?: number | null
+          bundle_size_kb?: number | null
+          cls?: number | null
+          commit_sha?: string | null
+          connection?: string | null
+          created_at?: string
+          device?: string | null
+          fcp_ms?: number | null
+          fid_ms?: number | null
+          id?: string
+          lcp_ms?: number | null
+          lighthouse_accessibility?: number | null
+          lighthouse_best_practices?: number | null
+          lighthouse_performance?: number | null
+          lighthouse_seo?: number | null
+          pr_number?: number | null
+          recorded_at?: string
+          source?: string
+          speed_index_ms?: number | null
+          tbt_ms?: number | null
+          ttfb_ms?: number | null
+          tti_ms?: number | null
+          url?: string | null
+        }
+        Relationships: []
+      }
       playlist_tracks: {
         Row: {
           added_at: string | null
