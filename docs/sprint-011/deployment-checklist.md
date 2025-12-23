@@ -352,6 +352,8 @@
 - **DevOps**: [Name, Telegram, Phone]
 - **QA Lead**: [Name, Telegram, Phone]
 
+> ⚠️ **IMPORTANT**: Fill in actual contact information before production deployment!
+
 ### Escalation Path
 1. **Level 1**: Deployment engineer (responds in 5 min)
 2. **Level 2**: Tech lead (responds in 15 min)

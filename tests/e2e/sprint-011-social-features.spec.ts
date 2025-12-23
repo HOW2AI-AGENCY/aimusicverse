@@ -13,31 +13,26 @@ import { test, expect } from '@playwright/test';
 // ===================================================================
 
 test.describe('US7: User Profiles', () => {
-  test('T110: User registration → profile creation workflow', async ({ page }) => {
-    // TODO: Implement this test
-    // Steps:
-    // 1. Navigate to app
-    // 2. Complete Telegram authentication (use test account)
-    // 3. Fill out profile form (display name, bio, avatar upload)
-    // 4. Submit profile
-    // 5. Verify profile appears correctly
-    // 6. Verify stats show 0 followers, 0 following, 0 tracks
-    // Expected: Profile created successfully, all fields saved
-    test.skip('Implementation needed');
-  });
+  test.todo('T110: User registration → profile creation workflow');
+  
+  // Implementation guide:
+  // 1. Navigate to app
+  // 2. Complete Telegram authentication (use test account)
+  // 3. Fill out profile form (display name, bio, avatar upload)
+  // 4. Submit profile
+  // 5. Verify profile appears correctly
+  // 6. Verify stats show 0 followers, 0 following, 0 tracks
+  // Expected: Profile created successfully, all fields saved
 
-  test('T115: Load profile with 1000+ tracks (verify 60fps scrolling)', async ({ page }) => {
-    // TODO: Implement performance test
-    // Setup: Create test account with 1000+ tracks
-    // Steps:
-    // 1. Navigate to profile page
-    // 2. Measure scroll performance with Chrome DevTools
-    // 3. Verify virtualization is active (only ~20 track cards rendered)
-    // 4. Scroll through entire list
-    // 5. Verify FPS stays above 55fps during scroll
-    // Expected: Smooth scrolling, no jank, virtualization working
-    test.skip('Implementation needed');
-  });
+  test.todo('T115: Load profile with 1000+ tracks (verify 60fps scrolling)');
+  
+  // Setup: Create test account with 1000+ tracks using seed script
+  // 1. Navigate to profile page
+  // 2. Measure scroll performance with Chrome DevTools
+  // 3. Verify virtualization is active (only ~20 track cards rendered)
+  // 4. Scroll through entire list
+  // 5. Verify FPS stays above 55fps during scroll
+  // Expected: Smooth scrolling, no jank, virtualization working
 });
 
 // ===================================================================
@@ -60,7 +55,7 @@ test.describe('US8: Following System', () => {
     // 9. Verify notification for new follower
     // 10. Verify notification for new comment
     // Expected: Following works, comment posted, notifications delivered
-    test.skip('Implementation needed');
+    test.todo('Implementation needed');
   });
 });
 
@@ -80,7 +75,7 @@ test.describe('US9: Comments System', () => {
     // 5. Scroll through all comments
     // 6. Verify smooth scrolling
     // Expected: Fast render, no UI freeze, virtualization working
-    test.skip('Implementation needed');
+    test.todo('Implementation needed');
   });
 
   test('T119: Comment delivery time (<1s target)', async ({ page, context }) => {
@@ -94,7 +89,7 @@ test.describe('US9: Comments System', () => {
     // 5. Calculate latency: T2 - T1
     // 6. Verify latency < 1000ms
     // Expected: Comment appears on User A's screen within 1 second
-    test.skip('Implementation needed');
+    test.todo('Implementation needed');
   });
 });
 
@@ -117,7 +112,7 @@ test.describe('US10: Likes System', () => {
     // 8. Click notification
     // 9. Verify navigates to track detail page
     // Expected: Like registered, notification sent, navigation works
-    test.skip('Implementation needed');
+    test.todo('Implementation needed');
   });
 
   test('T120: Notification delivery time', async ({ page, context }) => {
@@ -130,7 +125,7 @@ test.describe('US10: Likes System', () => {
     // 4. Calculate latency: T2 - T1
     // 5. Verify latency < 2000ms
     // Expected: Notification appears within 2 seconds
-    test.skip('Implementation needed');
+    test.todo('Implementation needed');
   });
 });
 
@@ -152,7 +147,7 @@ test.describe('US11: Activity Feed', () => {
     // 7. Click on activity item
     // 8. Verify navigates to appropriate content
     // Expected: Activity feed populated, filters work, navigation works
-    test.skip('Implementation needed');
+    test.todo('Implementation needed');
   });
 
   test('T116: Scroll activity feed with 1000+ activities', async ({ page }) => {
@@ -166,7 +161,7 @@ test.describe('US11: Activity Feed', () => {
     // 5. Verify FPS > 55fps
     // 6. Verify infinite scroll loads more activities
     // Expected: Fast load, smooth scroll, pagination works
-    test.skip('Implementation needed');
+    test.todo('Implementation needed');
   });
 
   test('T121: Activity feed update latency', async ({ page, context }) => {
@@ -179,7 +174,7 @@ test.describe('US11: Activity Feed', () => {
     // 4. Calculate latency: T2 - T1
     // 5. Verify latency < 3000ms
     // Expected: Activity appears in feed within 3 seconds
-    test.skip('Implementation needed');
+    test.todo('Implementation needed');
   });
 });
 
@@ -203,7 +198,7 @@ test.describe('US13: Privacy Controls', () => {
     // 10. Verify tracks not visible
     // 11. Verify cannot comment
     // Expected: Privacy settings enforced correctly
-    test.skip('Implementation needed');
+    test.todo('Implementation needed');
   });
 
   test('T122: Test RLS policies (private profiles, blocked users)', async ({ page, context }) => {
@@ -219,7 +214,7 @@ test.describe('US13: Privacy Controls', () => {
     // 7. Login as User C (not blocked)
     // 8. Attempt to view User A's profile (should show limited info)
     // Expected: All unauthorized actions fail gracefully
-    test.skip('Implementation needed');
+    test.todo('Implementation needed');
   });
 
   test('T123: Attempt unauthorized access (should fail)', async ({ page }) => {
@@ -234,7 +229,7 @@ test.describe('US13: Privacy Controls', () => {
     // 7. Attempt to view User B's private activity (direct API call)
     // 8. Verify fails with 403 Forbidden
     // Expected: All unauthorized API calls rejected by RLS
-    test.skip('Implementation needed');
+    test.todo('Implementation needed');
   });
 
   test('T124: Verify content moderation enforcement', async ({ page }) => {
@@ -254,7 +249,7 @@ test.describe('US13: Privacy Controls', () => {
     // 12. Hide comment
     // 13. Verify comment hidden from public view
     // Expected: Profanity filter works, moderation actions work
-    test.skip('Implementation needed');
+    test.todo('Implementation needed');
   });
 });
 
@@ -274,7 +269,7 @@ test.describe('Performance & Database', () => {
     // 5. Verify DOM element count stays constant
     // 6. Verify FPS > 55fps during scroll
     // Expected: Virtualization active, minimal DOM, smooth scroll
-    test.skip('Implementation needed');
+    test.todo('Implementation needed');
   });
 
   test('T125: EXPLAIN ANALYZE all critical queries (<100ms at p95)', async ({ page }) => {

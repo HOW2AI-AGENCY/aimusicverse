@@ -21,6 +21,9 @@
 ### Шаг 1: [Название шага]
 [Описание шага]
 
+> **📸 Note**: Create `docs/sprint-011/images/` directory and save screenshots there.  
+> Use descriptive names: `profile-step1-setup.png`, `profile-step1-complete.png`
+
 ![Screenshot](../images/step1.png)
 
 ### Шаг 2: [Название шага]
