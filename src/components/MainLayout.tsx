@@ -14,6 +14,7 @@ import { setSubscriptionDialogCallback } from '@/hooks/useTrackActions';
 import { useTelegramSettingsButton } from '@/hooks/telegram';
 import { SmartAlertProvider } from './notifications/smart-alerts';
 import { BetaFooter } from './BetaFooter';
+import { useAdminDailyStats } from '@/hooks/useAdminDailyStats';
 
 // Lazy load heavy dialogs - not needed on initial render
 const TelegramOnboarding = lazy(() => import('./onboarding/TelegramOnboarding').then(m => ({ default: m.TelegramOnboarding })));
@@ -39,6 +40,9 @@ export const MainLayout = () => {
   
   // Track play counts when tracks are played
   usePlaybackTracking();
+  
+  // Show daily admin stats notification (only for admins)
+  useAdminDailyStats();
   
   // Memoize pathname to prevent unnecessary re-renders
   const pathname = useMemo(() => location.pathname, [location.pathname]);

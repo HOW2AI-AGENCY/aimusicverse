@@ -17,6 +17,7 @@ interface ReferenceModeSelectorProps {
   className?: string;
 }
 
+// Only Cover and Extend modes - Reference removed as per user request
 const modeConfig = {
   cover: { 
     icon: Disc, 
@@ -32,14 +33,11 @@ const modeConfig = {
     desc: 'Продолжить композицию',
     color: 'bg-blue-500/20 text-blue-700 dark:text-blue-400 border-blue-500/30',
   },
-  reference: { 
-    icon: Music, 
-    label: 'Референс', 
-    shortLabel: 'Реф.',
-    desc: 'Использовать как стилистический референс',
-    color: 'bg-muted text-muted-foreground border-border',
-  },
 };
+
+// Available modes for iteration
+const availableModes = ['cover', 'extend'] as const;
+type AvailableMode = typeof availableModes[number];
 
 export const ReferenceModeSelector = memo(function ReferenceModeSelector({
   mode = 'reference',
@@ -51,7 +49,7 @@ export const ReferenceModeSelector = memo(function ReferenceModeSelector({
     // Compact badge-style selector
     return (
       <div className={cn("flex items-center gap-1", className)}>
-        {(['cover', 'extend', 'reference'] as const).map((m) => {
+        {availableModes.map((m) => {
           const cfg = modeConfig[m];
           const isActive = mode === m;
           return (
@@ -72,16 +70,18 @@ export const ReferenceModeSelector = memo(function ReferenceModeSelector({
     );
   }
 
-  // Full tabs selector
+  // Full tabs selector - only cover and extend
+  const currentMode = (mode === 'cover' || mode === 'extend') ? mode : 'cover';
+  
   return (
     <div className={cn("space-y-1.5", className)}>
       <Tabs 
-        value={mode || 'reference'} 
+        value={currentMode} 
         onValueChange={(v) => onModeChange(v as ReferenceMode)} 
         className="w-full"
       >
-        <TabsList className="grid w-full grid-cols-3 h-9">
-          {(['cover', 'extend', 'reference'] as const).map((m) => {
+        <TabsList className="grid w-full grid-cols-2 h-9">
+          {availableModes.map((m) => {
             const cfg = modeConfig[m];
             const Icon = cfg.icon;
             return (
@@ -98,7 +98,7 @@ export const ReferenceModeSelector = memo(function ReferenceModeSelector({
         </TabsList>
       </Tabs>
       <p className="text-[10px] text-muted-foreground text-center">
-        {modeConfig[mode || 'reference'].desc}
+        {modeConfig[currentMode].desc}
       </p>
     </div>
   );
