@@ -1419,6 +1419,8 @@ export type Database = {
         Row: {
           ai_context: Json | null
           approved_tracks_count: number | null
+          banner_prompt: string | null
+          banner_url: string | null
           bpm_range: unknown
           concept: string | null
           context_vector: Json | null
@@ -1454,6 +1456,8 @@ export type Database = {
         Insert: {
           ai_context?: Json | null
           approved_tracks_count?: number | null
+          banner_prompt?: string | null
+          banner_url?: string | null
           bpm_range?: unknown
           concept?: string | null
           context_vector?: Json | null
@@ -1489,6 +1493,8 @@ export type Database = {
         Update: {
           ai_context?: Json | null
           approved_tracks_count?: number | null
+          banner_prompt?: string | null
+          banner_url?: string | null
           bpm_range?: unknown
           concept?: string | null
           context_vector?: Json | null

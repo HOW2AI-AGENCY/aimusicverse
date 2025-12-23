@@ -25,6 +25,7 @@ const FeaturedBlogHero = lazy(() => import("@/components/home/FeaturedBlogHero")
 const PopularCreatorsSection = lazy(() => import("@/components/home/PopularCreatorsSection").then(m => ({ default: m.PopularCreatorsSection })));
 const PublishedProjectsSlider = lazy(() => import("@/components/home/PublishedProjectsSlider").then(m => ({ default: m.PublishedProjectsSlider })));
 const ProfessionalToolsHub = lazy(() => import("@/components/home/ProfessionalToolsHub").then(m => ({ default: m.ProfessionalToolsHub })));
+const FeaturedProjectsBanner = lazy(() => import("@/components/home/FeaturedProjectsBanner").then(m => ({ default: m.FeaturedProjectsBanner })));
 const UnifiedTrackFeed = lazy(() => import("@/components/home/UnifiedTrackFeed").then(m => ({ default: m.UnifiedTrackFeed })));
 const EngagementBanner = lazy(() => import("@/components/home/EngagementBanner").then(m => ({ default: m.EngagementBanner })));
 
@@ -149,6 +150,11 @@ const Index = () => {
           {contentLoading && !publicContent && (
             <HomeSkeletonEnhanced />
           )}
+
+          {/* Featured Projects Banner - Widescreen CTA */}
+          <LazySection className="mb-4 sm:mb-5" fallback={<div className="w-full rounded-2xl bg-card/40 animate-pulse" style={{ aspectRatio: '21/9' }} />}>
+            <FeaturedProjectsBanner />
+          </LazySection>
 
           {/* Hero Quick Actions - Primary CTA */}
           <motion.section 
