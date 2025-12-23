@@ -88,21 +88,21 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         <div className="flex-1 h-px bg-border/50" />
       </div>
 
-      {/* Tools Row - Only essential tools */}
+      {/* Tools Row - With descriptions */}
       <motion.div
         className="grid grid-cols-3 gap-2"
         initial="hidden"
         animate="visible"
         variants={{ visible: { transition: { staggerChildren: 0.03, delayChildren: 0.1 } } }}
       >
-        {/* Audio Record Button - NEW */}
+        {/* Audio Record Button */}
         <motion.button
           onClick={() => handleAction(() => setAudioRecordOpen(true))}
           className={cn(
-            "group relative flex items-center gap-2 px-3 py-2.5 rounded-lg",
+            "group relative flex flex-col items-start gap-1 px-3 py-3 rounded-lg",
             "bg-gradient-to-br from-rose-500/15 to-pink-500/10",
             "border border-rose-500/25 hover:border-rose-500/40",
-            "touch-scale-sm transition-all duration-300 touch-manipulation min-h-[44px]"
+            "touch-scale-sm transition-all duration-300 touch-manipulation min-h-[72px]"
           )}
           variants={{
             hidden: { opacity: 0, y: 10, scale: 0.95 },
@@ -110,11 +110,13 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
           }}
           whileTap={{ scale: 0.97 }}
         >
-          <Mic className="w-4 h-4 text-rose-400 shrink-0" />
-          <div className="flex flex-col items-start">
+          <div className="flex items-center gap-2">
+            <Mic className="w-4 h-4 text-rose-400 shrink-0" />
             <span className="text-xs font-semibold text-rose-400">Запись</span>
-            <span className="text-[9px] text-muted-foreground">Вокал</span>
           </div>
+          <span className="text-[9px] text-muted-foreground leading-tight">
+            Записать вокал или мелодию
+          </span>
           <span className="absolute -top-1 -right-1 px-1 py-0.5 text-[8px] font-bold rounded bg-gradient-to-r from-rose-500 to-pink-500 text-white">
             NEW
           </span>
@@ -124,10 +126,10 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         <motion.button
           onClick={() => handleAction(() => setGuitarDialogOpen(true))}
           className={cn(
-            "group relative flex items-center gap-2 px-3 py-2.5 rounded-lg",
+            "group relative flex flex-col items-start gap-1 px-3 py-3 rounded-lg",
             "bg-gradient-to-br from-orange-500/15 to-amber-500/10",
             "border border-orange-500/25 hover:border-orange-500/40",
-            "touch-scale-sm transition-all duration-300 touch-manipulation min-h-[44px]"
+            "touch-scale-sm transition-all duration-300 touch-manipulation min-h-[72px]"
           )}
           variants={{
             hidden: { opacity: 0, y: 10, scale: 0.95 },
@@ -135,21 +137,23 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
           }}
           whileTap={{ scale: 0.97 }}
         >
-          <Guitar className="w-4 h-4 text-orange-400 shrink-0" />
-          <div className="flex flex-col items-start">
+          <div className="flex items-center gap-2">
+            <Guitar className="w-4 h-4 text-orange-400 shrink-0" />
             <span className="text-xs font-semibold text-orange-400">Гитара</span>
-            <span className="text-[9px] text-muted-foreground">Аккорды</span>
           </div>
+          <span className="text-[9px] text-muted-foreground leading-tight">
+            Распознать аккорды
+          </span>
         </motion.button>
 
         {/* Music Recognition Button */}
         <motion.button
           onClick={() => handleAction(() => setRecognitionDialogOpen(true))}
           className={cn(
-            "group relative flex items-center gap-2 px-3 py-2.5 rounded-lg",
+            "group relative flex flex-col items-start gap-1 px-3 py-3 rounded-lg",
             "bg-gradient-to-br from-purple-500/15 to-violet-500/10",
             "border border-purple-500/25 hover:border-purple-500/40",
-            "touch-scale-sm transition-all duration-300 touch-manipulation min-h-[44px]"
+            "touch-scale-sm transition-all duration-300 touch-manipulation min-h-[72px]"
           )}
           variants={{
             hidden: { opacity: 0, y: 10, scale: 0.95 },
@@ -157,11 +161,13 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
           }}
           whileTap={{ scale: 0.97 }}
         >
-          <Music2 className="w-4 h-4 text-purple-400 shrink-0" />
-          <div className="flex flex-col items-start">
+          <div className="flex items-center gap-2">
+            <Music2 className="w-4 h-4 text-purple-400 shrink-0" />
             <span className="text-xs font-semibold text-purple-400">Shazam</span>
-            <span className="text-[9px] text-muted-foreground">Найти</span>
           </div>
+          <span className="text-[9px] text-muted-foreground leading-tight">
+            Найти песню по звуку
+          </span>
         </motion.button>
       </motion.div>
 
