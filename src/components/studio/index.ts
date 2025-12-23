@@ -11,6 +11,10 @@ export { CleanStudioLayout } from './layout/CleanStudioLayout';
 // Editor components
 export { SectionEditorSheet } from './editor/SectionEditorSheet';
 export { WaveformRangeSelector } from './editor/WaveformRangeSelector';
+export { SynchronizedSectionLyrics } from './editor/SynchronizedSectionLyrics';
+export { SectionReplacementHistory } from './editor/SectionReplacementHistory';
+export { CrossfadePreview } from './editor/CrossfadePreview';
+export { ReplacementTimelineOverlay } from './editor/ReplacementTimelineOverlay';
 
 // Action components
 export { StudioActionsPanel } from './actions/StudioActionsPanel';

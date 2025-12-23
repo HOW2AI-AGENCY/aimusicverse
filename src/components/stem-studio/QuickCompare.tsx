@@ -7,11 +7,12 @@
 
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
-import { Play, Pause, RotateCcw, Check, X, Volume2, VolumeX, Sparkles, ChevronLeft, ChevronRight, Save, FilePlus } from 'lucide-react';
+import { Play, Pause, RotateCcw, Check, X, Volume2, VolumeX, Sparkles, ChevronLeft, ChevronRight, Save, FilePlus, Shuffle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Switch } from '@/components/ui/switch';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useStudioAudio, registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
