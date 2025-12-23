@@ -6,8 +6,8 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { 
-  Send, Loader2, Bot, User, Trash2, X, ChevronDown, Sparkles,
-  PenLine, Music2, Wand2, BarChart3, Headphones, Quote, Tag
+  Send, Loader2, Bot, User, Trash2, X, Sparkles,
+  PenLine, Wand2, BarChart3, Headphones, Quote, Tag, Mic, MicOff
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -15,6 +15,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
+import { useVoiceInput } from '@/hooks/useVoiceInput';
 
 import { useTelegramMainButton } from '@/hooks/telegram/useTelegramMainButton';
 import { useAITools } from './hooks/useAITools';
@@ -22,7 +23,7 @@ import { WriteToolPanel, AnalyzeToolPanel, ProducerToolPanel, OptimizeToolPanel,
 import { StructuredLyricsDisplay } from './results/StructuredLyricsDisplay';
 import { AIProgressIndicator } from './AIProgressIndicator';
 import { QuickActionsBar } from './QuickActionsBar';
-import { AIToolId, AIAgentContext, SectionNote, AIMessage, QuickAction } from './types';
+import { AIToolId, AIAgentContext, SectionNote, AIMessage } from './types';
 
 interface MobileAIAgentPanelProps {
   existingLyrics?: string;
@@ -139,7 +140,14 @@ export function MobileAIAgentPanel({
     onStylePromptGenerated: onApplyStylePrompt,
   });
 
-  // Check if there's generated lyrics in messages
+  // Voice input for chat
+  const { isRecording, isProcessing, toggleRecording } = useVoiceInput({
+    onResult: (text) => {
+      setInput(prev => prev ? `${prev} ${text}` : text);
+    },
+    context: 'lyrics',
+    autoCorrect: true,
+  });
   const hasGeneratedLyrics = useMemo(() => {
     return messages.some(m => m.role === 'assistant' && m.data?.lyrics);
   }, [messages]);
@@ -492,13 +500,37 @@ export function MobileAIAgentPanel({
           >
             <Trash2 className="w-4 h-4 text-muted-foreground" />
           </Button>
+          
+          {/* Voice input button */}
+          <Button
+            variant={isRecording ? 'destructive' : 'ghost'}
+            size="icon"
+            className={cn("h-10 w-10 shrink-0 relative", isRecording && "animate-pulse")}
+            onClick={toggleRecording}
+            disabled={isProcessing || isLoading}
+          >
+            {isProcessing ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : isRecording ? (
+              <>
+                <MicOff className="w-4 h-4" />
+                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-ping" />
+              </>
+            ) : (
+              <Mic className="w-4 h-4 text-muted-foreground" />
+            )}
+          </Button>
+          
           <div className="flex-1 relative">
             <Textarea
-              placeholder="Опишите задачу или задайте вопрос..."
+              placeholder={isRecording ? "Говорите..." : "Опишите задачу или задайте вопрос..."}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="min-h-[40px] max-h-[100px] resize-none text-sm pr-12"
+              className={cn(
+                "min-h-[40px] max-h-[100px] resize-none text-sm",
+                isRecording && "border-red-500/50 bg-red-500/5"
+              )}
               rows={1}
             />
           </div>
@@ -506,7 +538,7 @@ export function MobileAIAgentPanel({
             size="icon" 
             className="h-10 w-10 shrink-0" 
             onClick={handleSend} 
-            disabled={isLoading || !input.trim()}
+            disabled={isLoading || !input.trim() || isRecording}
           >
             {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
           </Button>
