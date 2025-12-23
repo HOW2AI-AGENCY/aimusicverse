@@ -37,6 +37,7 @@ import { MidiSettingsSection } from "@/components/settings/MidiSettingsSection";
 import { PrivacySettings } from "@/components/settings/PrivacySettings";
 import { HintsSettings } from "@/components/settings/HintsSettings";
 import { ThemeSettings } from "@/components/settings/ThemeSettings";
+import { ProfileEmojiPicker } from "@/components/settings/ProfileEmojiPicker";
 import { motion } from '@/lib/motion';
 import { AppHeader } from "@/components/layout/AppHeader";
 import { NotificationBadge } from "@/components/NotificationBadge";
@@ -470,6 +471,15 @@ export default function Settings() {
               <TelegramBotSetup />
             </motion.div>
 
+            {/* Profile Emoji Picker - for Telegram Premium users */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 }}
+            >
+              <ProfileEmojiPicker />
+            </motion.div>
+
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -523,6 +533,10 @@ export default function Settings() {
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
                       <span>Inline-режим для поиска треков</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span>Голосовые сообщения с транскрипцией</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />

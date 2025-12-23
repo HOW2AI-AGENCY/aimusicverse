@@ -9,7 +9,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { Crown, Sparkles, Lock, Check } from 'lucide-react';
-import { useTelegramIntegration } from '@/hooks/useTelegramIntegration';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
@@ -56,12 +55,10 @@ const STATUS_EMOJIS = [
 ];
 
 interface ProfileEmojiPickerProps {
-  isPremium?: boolean;
   onUpgrade?: () => void;
 }
 
-export function ProfileEmojiPicker({ isPremium = false, onUpgrade }: ProfileEmojiPickerProps) {
-  const telegramIntegration = useTelegramIntegration();
+export function ProfileEmojiPicker({ onUpgrade }: ProfileEmojiPickerProps) {
   const webApp = (window as any).Telegram?.WebApp;
   const isTelegram = !!webApp;
   
@@ -77,8 +74,11 @@ export function ProfileEmojiPicker({ isPremium = false, onUpgrade }: ProfileEmoj
     status: STATUS_EMOJIS,
   };
 
-  // Check if emoji status API is available
-  const isEmojiStatusAvailable = isTelegram && webApp?.setEmojiStatus && webApp?.requestEmojiStatusAccess;
+  // Check if emoji status API is available (only on Telegram Premium)
+  const isEmojiStatusAvailable = isTelegram && typeof webApp?.setEmojiStatus === 'function';
+  
+  // Check if user has Telegram Premium
+  const isTelegramPremium = isTelegram && webApp?.initDataUnsafe?.user?.is_premium;
 
   // Request access to emoji status
   const requestAccess = useCallback(async () => {
@@ -185,8 +185,8 @@ export function ProfileEmojiPicker({ isPremium = false, onUpgrade }: ProfileEmoj
     );
   }
 
-  // Not premium user
-  if (!isPremium) {
+  // Not Telegram Premium user - show upgrade prompt
+  if (!isTelegramPremium) {
     return (
       <Card className="border-border/50">
         <CardHeader className="pb-3">
@@ -194,7 +194,7 @@ export function ProfileEmojiPicker({ isPremium = false, onUpgrade }: ProfileEmoj
             <Crown className="h-5 w-5 text-yellow-500" />
             <CardTitle className="text-base">Эмодзи статус</CardTitle>
             <Badge variant="secondary" className="text-xs">
-              Premium
+              Telegram Premium
             </Badge>
           </div>
           <CardDescription>
