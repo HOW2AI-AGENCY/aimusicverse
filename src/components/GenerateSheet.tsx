@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { AnimatePresence, motion } from '@/lib/motion';
+import { cn } from '@/lib/utils';
 import { Sheet, SheetContent, SheetFooter } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
@@ -308,8 +309,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   onHasVocalsChange={form.setHasVocals}
                   onBoostStyle={form.handleBoostStyle}
                   boostLoading={form.boostLoading}
-                  // Передаём auto-scroll handler для input полей
-                  onInputFocus={createFocusHandler()}
                 />
               ) : (
                 <GenerateFormCustom
@@ -340,8 +339,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   hasPersona={!!form.selectedArtistId}
                   model={form.model}
                   onModelChange={form.setModel}
-                  // Передаём auto-scroll handler для input полей
-                  onInputFocus={createFocusHandler()}
                 />
               )}
             </AnimatePresence>

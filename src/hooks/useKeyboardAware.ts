@@ -242,12 +242,12 @@ export function useKeyboardAwareContainer(
       const focusHandler = createFocusHandler();
       
       inputs.forEach((input) => {
-        input.addEventListener('focus', focusHandler as EventListener);
+        input.addEventListener('focus', focusHandler as unknown as EventListener);
       });
 
       return () => {
         inputs.forEach((input) => {
-          input.removeEventListener('focus', focusHandler as EventListener);
+          input.removeEventListener('focus', focusHandler as unknown as EventListener);
         });
       };
     }

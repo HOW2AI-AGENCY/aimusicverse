@@ -219,7 +219,7 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
           </Button>
           
           {/* Share to Story */}
-          {shareToStory && item.coverUrl && (
+          {typeof shareToStory === 'function' && item.coverUrl && (
             <Button 
               onClick={handleShareToStory} 
               className="w-full h-12 gap-2 justify-start"

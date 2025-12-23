@@ -8,7 +8,7 @@ interface SecondaryButtonConfig {
   visible?: boolean;
   color?: string;
   textColor?: string;
-  position?: 'left' | 'right' | 'top' | 'bottom';
+  position?: 'left' | 'right';
 }
 
 interface SecondaryButtonReturn {
