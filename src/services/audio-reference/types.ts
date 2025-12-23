@@ -14,7 +14,7 @@ export type ReferenceSource =
   | 'telegram'    // From Telegram bot
   | 'track';      // From existing track
 
-export type ReferenceMode = 'cover' | 'extend';
+export type ReferenceMode = 'cover' | 'extend' | 'reference';
 
 export interface AudioAnalysis {
   genre?: string;
