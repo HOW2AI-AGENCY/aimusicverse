@@ -13,10 +13,9 @@ import { LazySection, SectionSkeleton } from "@/components/lazy/LazySection";
 import { motion, useReducedMotion } from '@/lib/motion';
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { QuickCreatePreset } from "@/constants/quickCreatePresets";
-import { CommunityNewTracksSection } from "@/components/home/CommunityNewTracksSection";
 
-const DailyCheckin = lazy(() => import("@/components/gamification/DailyCheckin").then(m => ({ default: m.DailyCheckin })));
-const CompactStatsWidget = lazy(() => import("@/components/home/CompactStatsWidget").then(m => ({ default: m.CompactStatsWidget })));
+// Lazy loaded components
+const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
 const RecentTracksSection = lazy(() => import("@/components/home/RecentTracksSection").then(m => ({ default: m.RecentTracksSection })));
 const UserProjectsSection = lazy(() => import("@/components/home/UserProjectsSection").then(m => ({ default: m.UserProjectsSection })));
 const FollowingFeed = lazy(() => import("@/components/social/FollowingFeed").then(m => ({ default: m.FollowingFeed })));
@@ -24,7 +23,6 @@ const AutoPlaylistsSection = lazy(() => import("@/components/home/AutoPlaylistsS
 const PublicArtistsSection = lazy(() => import("@/components/home/PublicArtistsSection").then(m => ({ default: m.PublicArtistsSection })));
 const FeaturedBlogHero = lazy(() => import("@/components/home/FeaturedBlogHero").then(m => ({ default: m.FeaturedBlogHero })));
 const PopularCreatorsSection = lazy(() => import("@/components/home/PopularCreatorsSection").then(m => ({ default: m.PopularCreatorsSection })));
-const PublishedAlbumsSection = lazy(() => import("@/components/home/PublishedAlbumsSection").then(m => ({ default: m.PublishedAlbumsSection })));
 const PublishedProjectsSlider = lazy(() => import("@/components/home/PublishedProjectsSlider").then(m => ({ default: m.PublishedProjectsSlider })));
 const ProfessionalToolsHub = lazy(() => import("@/components/home/ProfessionalToolsHub").then(m => ({ default: m.ProfessionalToolsHub })));
 const UnifiedTrackFeed = lazy(() => import("@/components/home/UnifiedTrackFeed").then(m => ({ default: m.UnifiedTrackFeed })));
@@ -124,7 +122,7 @@ const Index = () => {
           </div>
         )}
         
-        <div className="container max-w-6xl mx-auto pb-4 sm:px-4 sm:py-6 relative z-10">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 pb-4 sm:py-6 relative z-10">
           {/* SEO */}
           <SEOHead {...SEO_PRESETS.home} />
           {/* Unified Header Component */}
@@ -134,16 +132,15 @@ const Index = () => {
             onProfileClick={goToProfile}
           />
 
-          {/* Compact Gamification - Single row */}
+          {/* Compact Gamification Bar */}
           {user && (
-            <Suspense fallback={null}>
+            <Suspense fallback={<div className="h-14 bg-card/40 animate-pulse rounded-2xl mb-3" />}>
               <motion.div 
-                className="mb-3 space-y-2"
+                className="mb-3"
                 {...fadeInUp}
                 transition={{ delay: 0.05, duration: 0.25 }}
               >
-                <DailyCheckin />
-                <CompactStatsWidget />
+                <GamificationBar />
               </motion.div>
             </Suspense>
           )}
@@ -272,14 +269,6 @@ const Index = () => {
             fallback={<SectionSkeleton height="180px" />}
           >
             <PublishedProjectsSlider />
-          </LazySection>
-
-          {/* Published Albums Section */}
-          <LazySection 
-            className="mb-4 sm:mb-5"
-            fallback={<SectionSkeleton height="180px" />}
-          >
-            <PublishedAlbumsSection />
           </LazySection>
 
           {/* Professional Tools Hub - Desktop only, Lazy loaded */}

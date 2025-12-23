@@ -96,8 +96,8 @@ export function useActivityFeed(options?: {
   filter?: 'all' | 'following' | 'liked_creators';
 }) {
   const { user } = useAuth();
-  const { data: followingIds = [] } = useFollowingIds();
-  const { data: likedCreatorIds = [] } = useLikedCreatorIds();
+  const { data: followingIds = [], isLoading: loadingFollowing } = useFollowingIds();
+  const { data: likedCreatorIds = [], isLoading: loadingLiked } = useLikedCreatorIds();
   const filter = options?.filter || 'all';
 
   // Combine user IDs based on filter
@@ -108,7 +108,9 @@ export function useActivityFeed(options?: {
     return [...new Set([...followingIds, ...likedCreatorIds])];
   })();
 
-  return useInfiniteQuery<FeedPage>({
+  const isLoadingDependencies = loadingFollowing || loadingLiked;
+
+  const query = useInfiniteQuery<FeedPage>({
     queryKey: ['activity-feed', user?.id, filter, userIds.join(',')],
     queryFn: async ({ pageParam }) => {
       const offset = (pageParam as number) || 0;
@@ -176,8 +178,13 @@ export function useActivityFeed(options?: {
       if (!lastPage) return undefined;
       return lastPage.nextCursor;
     },
-    enabled: !!user?.id && userIds.length > 0,
+    enabled: !!user?.id && !isLoadingDependencies,
   });
+
+  return {
+    ...query,
+    isLoading: query.isLoading || isLoadingDependencies,
+  };
 }
 
 /**
