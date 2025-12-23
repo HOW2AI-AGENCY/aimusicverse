@@ -4,6 +4,7 @@
  * Bottom sheet on mobile, inline panel on desktop
  * For editing and replacing track sections
  * Features waveform timeline with draggable boundaries
+ * and synchronized lyrics display
  */
 
 import { useState, useCallback, useEffect, useRef } from 'react';
@@ -22,7 +23,9 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/u
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useSectionReplacement, SECTION_PRESETS } from '@/hooks/useSectionReplacement';
 import { DetectedSection } from '@/hooks/useSectionDetection';
+import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { WaveformRangeSelector } from './WaveformRangeSelector';
+import { SynchronizedSectionLyrics } from './SynchronizedSectionLyrics';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -37,6 +40,8 @@ interface SectionEditorSheetProps {
   audioUrl?: string | null;
   duration: number;
   detectedSections: DetectedSection[];
+  sunoTaskId?: string | null;
+  sunoId?: string | null;
 }
 
 export function SectionEditorSheet({
@@ -48,12 +53,31 @@ export function SectionEditorSheet({
   audioUrl,
   duration,
   detectedSections,
+  sunoTaskId,
+  sunoId,
 }: SectionEditorSheetProps) {
   const isMobile = useIsMobile();
   const { selectedSection, customRange, clearSelection, setCustomRange } = useSectionEditorStore();
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
   const [isPreviewPlaying, setIsPreviewPlaying] = useState(false);
+  const [previewCurrentTime, setPreviewCurrentTime] = useState(0);
   const previewAudioRef = useRef<HTMLAudioElement | null>(null);
+  const animationRef = useRef<number | undefined>(undefined);
+
+  // Fetch timestamped lyrics for sync
+  const { data: lyricsData } = useTimestampedLyrics(sunoTaskId || null, sunoId || null);
+
+  const handleClose = useCallback(() => {
+    clearSelection();
+    setIsPreviewPlaying(false);
+    if (previewAudioRef.current) {
+      previewAudioRef.current.pause();
+    }
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
+    onClose();
+  }, [clearSelection, onClose]);
 
   const {
     startTime,
@@ -81,17 +105,7 @@ export function SectionEditorSheet({
     },
   });
 
-  const handleClose = useCallback(() => {
-    reset();
-    clearSelection();
-    setIsPreviewPlaying(false);
-    if (previewAudioRef.current) {
-      previewAudioRef.current.pause();
-    }
-    onClose();
-  }, [reset, clearSelection, onClose]);
-
-  // Preview audio controls
+  // Preview audio controls with time tracking
   useEffect(() => {
     if (!audioUrl || !open) return;
     
@@ -106,8 +120,35 @@ export function SectionEditorSheet({
       audio.pause();
       audio.src = '';
       previewAudioRef.current = null;
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
     };
   }, [audioUrl, open]);
+
+  // Update preview time for sync
+  useEffect(() => {
+    if (!isPreviewPlaying || !previewAudioRef.current) return;
+    
+    const updateTime = () => {
+      if (previewAudioRef.current) {
+        setPreviewCurrentTime(previewAudioRef.current.currentTime);
+        if (previewAudioRef.current.currentTime >= endTime) {
+          previewAudioRef.current.pause();
+          setIsPreviewPlaying(false);
+        } else {
+          animationRef.current = requestAnimationFrame(updateTime);
+        }
+      }
+    };
+    animationRef.current = requestAnimationFrame(updateTime);
+    
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [isPreviewPlaying, endTime]);
 
   const togglePreview = useCallback(() => {
     if (!previewAudioRef.current) return;
@@ -119,17 +160,8 @@ export function SectionEditorSheet({
       previewAudioRef.current.currentTime = startTime;
       previewAudioRef.current.play();
       setIsPreviewPlaying(true);
-      
-      // Stop at end time
-      const checkEnd = setInterval(() => {
-        if (previewAudioRef.current && previewAudioRef.current.currentTime >= endTime) {
-          previewAudioRef.current.pause();
-          setIsPreviewPlaying(false);
-          clearInterval(checkEnd);
-        }
-      }, 100);
     }
-  }, [isPreviewPlaying, startTime, endTime]);
+  }, [isPreviewPlaying, startTime]);
 
 
   // Editor content
@@ -272,37 +304,17 @@ export function SectionEditorSheet({
         ))}
       </div>
 
-      {/* Lyrics editor - always visible */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <label className="text-xs font-medium flex items-center gap-1.5">
-            <MessageSquare className="w-3 h-3" />
-            Текст секции
-          </label>
-          {selectedSection?.lyrics && lyrics !== selectedSection.lyrics && (
-            <Badge 
-              variant="secondary" 
-              className="h-5 text-[10px] bg-amber-500/20 text-amber-600 dark:text-amber-400"
-            >
-              Изменён
-            </Badge>
-          )}
-        </div>
-        <Textarea
-          value={lyrics}
-          onChange={(e) => setLyrics(e.target.value)}
-          placeholder="Введите или измените текст секции..."
-          className={cn(
-            "min-h-[100px] text-sm font-mono resize-none",
-            "bg-background/50 border-border/50",
-            "focus:border-primary/50 focus:ring-primary/20",
-            selectedSection?.lyrics && lyrics !== selectedSection.lyrics && "border-amber-500/50"
-          )}
-        />
-        <p className="text-[10px] text-muted-foreground">
-          Измените текст, чтобы сгенерировать секцию с новыми словами
-        </p>
-      </div>
+      {/* Synchronized Lyrics editor */}
+      <SynchronizedSectionLyrics
+        words={lyricsData?.alignedWords || []}
+        startTime={startTime}
+        endTime={endTime}
+        currentTime={previewCurrentTime}
+        isPlaying={isPreviewPlaying}
+        initialLyrics={selectedSection?.lyrics || lyrics}
+        onLyricsChange={setLyrics}
+        compact={isMobile}
+      />
 
       {/* Prompt input */}
       <div className="space-y-2">

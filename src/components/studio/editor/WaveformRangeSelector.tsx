@@ -70,9 +70,14 @@ export function WaveformRangeSelector({
           data.push(sum / blockSize);
         }
         
-        // Normalize
-        const max = Math.max(...data);
-        setWaveformData(data.map(d => d / max));
+        // Normalize with minimum visibility threshold
+        const max = Math.max(...data, 0.001);
+        const normalized = data.map(d => {
+          const value = d / max;
+          // Ensure minimum visibility (0.15) and boost low values
+          return Math.max(0.15, Math.pow(value, 0.7));
+        });
+        setWaveformData(normalized);
         audioContext.close();
       } catch (error) {
         // Fallback to generated waveform
