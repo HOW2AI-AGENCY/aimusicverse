@@ -1,9 +1,12 @@
 import { useCallback, forwardRef, memo, useEffect, useRef } from "react";
-import { Virtuoso, VirtuosoGrid } from "react-virtuoso";
+import { Virtuoso, VirtuosoGrid, ListRange } from "react-virtuoso";
 import type { Track } from "@/types/track";
 import { TrackCard } from "@/components/TrackCard";
 import { Loader2 } from "lucide-react";
 import { GridSkeleton, TrackCardSkeleton, TrackCardSkeletonCompact } from "@/components/ui/skeleton-components";
+import { logger } from "@/lib/logger";
+
+const log = logger.child({ module: 'VirtualizedTrackList' });
 
 interface TrackMidiStatus {
   hasMidi: boolean;
@@ -123,7 +126,6 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   selectedTrackId,
 }: VirtualizedTrackListProps) {
   const loadingRef = useRef(false);
-  const lastLoadTimeRef = useRef(0);
   
   // Memoize item key computation for better React reconciliation
   const computeItemKey = useCallback(
@@ -156,25 +158,34 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     [tracks, viewMode, activeTrackId, getCountsForTrack, getMidiStatus, onPlay, onDelete, onDownload, onToggleLike]
   );
 
-  // Reliable load more with debounce to prevent duplicate calls
+  // Improved load more - no debounce, just check loading state
   const handleEndReached = useCallback(() => {
-    const now = Date.now();
-    // Debounce: don't load if already loading or loaded recently (500ms)
-    if (loadingRef.current || now - lastLoadTimeRef.current < 500) {
+    if (loadingRef.current || isLoadingMore) {
       return;
     }
     
-    if (hasMore && !isLoadingMore) {
+    if (hasMore) {
       loadingRef.current = true;
-      lastLoadTimeRef.current = now;
+      log.debug('Loading more tracks', { 
+        currentCount: tracks.length, 
+        hasMore, 
+        isLoadingMore 
+      });
       onLoadMore();
-      
-      // Reset loading flag after a short delay
-      setTimeout(() => {
-        loadingRef.current = false;
-      }, 1000);
     }
-  }, [hasMore, isLoadingMore, onLoadMore]);
+  }, [hasMore, isLoadingMore, onLoadMore, tracks.length]);
+
+  // Range-based loading as backup trigger (when 5 items from end)
+  const handleRangeChanged = useCallback((range: ListRange) => {
+    const { endIndex } = range;
+    const threshold = tracks.length - 5;
+    
+    if (endIndex >= threshold && hasMore && !isLoadingMore && !loadingRef.current) {
+      loadingRef.current = true;
+      log.debug('Range trigger: loading more', { endIndex, threshold, total: tracks.length });
+      onLoadMore();
+    }
+  }, [tracks.length, hasMore, isLoadingMore, onLoadMore]);
   
   // Reset loading flag when loading state changes
   useEffect(() => {
@@ -205,7 +216,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
       <VirtuosoGrid
         useWindowScroll
         totalCount={tracks.length}
-        overscan={50}
+        overscan={100}
         computeItemKey={computeItemKey}
         components={{
           List: GridContainer,
@@ -213,8 +224,9 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
           Footer,
         }}
         endReached={handleEndReached}
+        rangeChanged={handleRangeChanged}
         itemContent={renderTrackItem}
-        increaseViewportBy={{ top: 200, bottom: 400 }}
+        increaseViewportBy={{ top: 300, bottom: 800 }}
       />
     );
   }
@@ -224,15 +236,16 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     <Virtuoso
       useWindowScroll
       totalCount={tracks.length}
-      overscan={100}
+      overscan={150}
       computeItemKey={computeItemKey}
       components={{
         List: ListContainer,
         Footer,
       }}
       endReached={handleEndReached}
+      rangeChanged={handleRangeChanged}
       itemContent={renderTrackItem}
-      increaseViewportBy={{ top: 200, bottom: 400 }}
+      increaseViewportBy={{ top: 300, bottom: 800 }}
     />
   );
 });

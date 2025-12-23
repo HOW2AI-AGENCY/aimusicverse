@@ -181,7 +181,11 @@ export class PromptDJErrorBoundary extends Component<Props, State> {
   };
 
   private handleGoHome = () => {
-    window.location.href = '/';
+    import('@/hooks/useAppNavigate').then(({ navigateTo }) => {
+      navigateTo('/');
+    }).catch(() => {
+      window.location.href = '/';
+    });
   };
 
   private getErrorContent = () => {

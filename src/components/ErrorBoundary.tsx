@@ -68,7 +68,13 @@ export class ErrorBoundary extends Component<Props, State> {
   };
 
   handleGoHome = () => {
-    window.location.href = '/';
+    // Use global navigate if available for SPA navigation
+    import('@/hooks/useAppNavigate').then(({ navigateTo }) => {
+      navigateTo('/');
+    }).catch(() => {
+      // Fallback if import fails
+      window.location.href = '/';
+    });
   };
 
   handleReset = () => {
