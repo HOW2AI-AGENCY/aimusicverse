@@ -80,7 +80,7 @@ export const OptimizedStemWaveform = memo(({
   
   const colors = colorMap[color.toLowerCase()] || colorMap.blue;
   
-  // Load waveform data using worker pool
+  // Load waveform data using worker pool with mobile fix
   useEffect(() => {
     let mounted = true;
     
@@ -93,15 +93,30 @@ export const OptimizedStemWaveform = memo(({
         // Use worker pool (handles caching internally)
         const newPeaks = await waveformWorkerPool.generate(audioUrl);
         
-        if (mounted) {
-          setPeaks(newPeaks);
+        if (mounted && newPeaks && newPeaks.length > 0) {
+          // Normalize peaks to ensure visibility on mobile
+          const maxPeak = Math.max(...newPeaks, 0.01);
+          const normalizedPeaks = newPeaks.map(p => {
+            // Ensure minimum visibility and normalize
+            const normalized = p / maxPeak;
+            // Boost low values to ensure visibility (min 15% height)
+            return Math.max(0.15, normalized);
+          });
+          
+          setPeaks(normalizedPeaks);
           setIsLoading(false);
         }
       } catch (error) {
         logger.error('Failed to load waveform peaks', error);
         if (mounted) {
-          // Fallback: generate placeholder peaks
-          setPeaks(Array.from({ length: 100 }, () => Math.random() * 0.5 + 0.2));
+          // Fallback: generate more realistic placeholder peaks
+          const placeholderPeaks = Array.from({ length: 150 }, (_, i) => {
+            // Create a more natural looking waveform pattern
+            const base = 0.3 + Math.sin(i * 0.1) * 0.2;
+            const variation = Math.random() * 0.4;
+            return Math.max(0.15, Math.min(1, base + variation));
+          });
+          setPeaks(placeholderPeaks);
           setIsLoading(false);
         }
       }
