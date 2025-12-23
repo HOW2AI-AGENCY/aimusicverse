@@ -2,11 +2,11 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { FolderOpen, MoreVertical, Trash2, Music, Calendar, Disc, ChevronRight } from 'lucide-react';
+import { FolderOpen, MoreVertical, Trash2, Music, Calendar, Disc, ChevronRight, Sparkles, Globe } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { motion } from '@/lib/motion';
+import { motion } from 'framer-motion';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -48,50 +48,78 @@ export function VirtualizedProjectsList({
     const status = statusLabels[project.status || 'draft'] || defaultStatus;
     const projectType = typeLabels[project.project_type || 'album'] || project.project_type;
 
+    const isPublished = project.status === 'published';
+
     return (
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.2, delay: index * 0.03 }}
+        transition={{ duration: 0.25, delay: index * 0.04 }}
+        whileHover={{ y: -4 }}
         onClick={() => navigate(`/projects/${project.id}`)}
         className={cn(
           "group relative overflow-hidden rounded-2xl cursor-pointer touch-manipulation",
           "bg-gradient-to-br from-card/95 to-card/85 border border-border/60",
-          "hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10",
+          "hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10",
           "transition-all duration-300 active:scale-[0.98]"
         )}
       >
-        <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-primary/20 via-generate/10 to-primary/5">
+        {/* Glow effect for published */}
+        {isPublished && (
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-transparent to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+            animate={{ 
+              backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] 
+            }}
+            transition={{ duration: 5, repeat: Infinity }}
+          />
+        )}
+
+        <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-primary/20 via-primary/10 to-primary/5">
           {project.cover_url ? (
-            <img
+            <motion.img
               src={project.cover_url}
               alt={project.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className="w-full h-full object-cover"
               loading="lazy"
+              whileHover={{ scale: 1.08 }}
+              transition={{ duration: 0.5 }}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <Disc className="w-16 h-16 text-primary/30" />
+              <motion.div
+                animate={{ rotate: [0, 5, -5, 0] }}
+                transition={{ duration: 4, repeat: Infinity }}
+              >
+                <Disc className="w-16 h-16 text-primary/30" />
+              </motion.div>
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
           <div className="absolute top-2 left-2">
-            <Badge className="bg-black/60 backdrop-blur-sm text-white border-0 text-[10px] h-5 px-2">
+            <Badge className="bg-black/60 backdrop-blur-sm text-white border-0 text-[10px] h-5 px-2 shadow-lg">
               {projectType}
             </Badge>
           </div>
 
           <div className="absolute top-2 right-2 z-10">
-            <Badge className={cn("text-[10px] h-5 px-2 border-0 backdrop-blur-sm", status.color)}>
-              {status.label}
-            </Badge>
+            <motion.div whileHover={{ scale: 1.05 }}>
+              <Badge className={cn(
+                "text-[10px] h-5 px-2 border-0 backdrop-blur-sm shadow-lg",
+                status.color,
+                isPublished && "flex items-center gap-1"
+              )}>
+                {isPublished && <Globe className="w-2.5 h-2.5" />}
+                {status.label}
+              </Badge>
+            </motion.div>
           </div>
 
           <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
             <DropdownMenu>
               <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-                <Button variant="secondary" size="icon" className="h-8 w-8 backdrop-blur-md">
+                <Button variant="secondary" size="icon" className="h-8 w-8 backdrop-blur-md shadow-lg">
                   <MoreVertical className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -145,12 +173,14 @@ export function VirtualizedProjectsList({
   const ProjectListItem = useCallback(({ project, index }: { project: Project; index: number }) => {
     const status = statusLabels[project.status || 'draft'] || defaultStatus;
     const projectType = typeLabels[project.project_type || 'album'] || project.project_type;
+    const isPublished = project.status === 'published';
 
     return (
       <motion.div
         initial={{ opacity: 0, x: -10 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.2, delay: index * 0.02 }}
+        whileHover={{ x: 4 }}
         className={cn(
           "group relative overflow-hidden rounded-xl bg-gradient-to-br from-card/80 to-card/40",
           "border border-border/50 hover:border-primary/30 transition-all duration-200",
@@ -166,7 +196,7 @@ export function VirtualizedProjectsList({
               <img
                 src={project.cover_url}
                 alt={project.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 loading="lazy"
               />
             ) : (
@@ -186,7 +216,12 @@ export function VirtualizedProjectsList({
               {project.title}
             </h3>
             <div className="flex items-center gap-1.5 mt-1 flex-wrap">
-              <Badge className={cn("text-[9px] h-4 px-1.5 border-0", status.color)}>
+              <Badge className={cn(
+                "text-[9px] h-4 px-1.5 border-0",
+                status.color,
+                isPublished && "flex items-center gap-0.5"
+              )}>
+                {isPublished && <Globe className="w-2.5 h-2.5" />}
                 {status.label}
               </Badge>
               {project.genre && (

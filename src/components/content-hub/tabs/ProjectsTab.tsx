@@ -3,12 +3,13 @@ import { useProjects } from '@/hooks/useProjects';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { FolderOpen, Search, Plus, LayoutGrid, LayoutList } from 'lucide-react';
+import { FolderOpen, Search, Plus, LayoutGrid, LayoutList, Sparkles, TrendingUp } from 'lucide-react';
 import { ProjectCreationWizard } from '@/components/project/ProjectCreationWizard';
 import { toast } from 'sonner';
 import { VirtualizedProjectsList } from '@/components/content-hub/VirtualizedProjectsList';
 import { ProjectsOnboarding } from '@/components/content-hub/ProjectsOnboarding';
-import { AnimatePresence } from '@/lib/motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from '@/lib/utils';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -73,16 +74,29 @@ export function ProjectsTab() {
     }
   };
 
+  const publishedCount = projects?.filter(p => p.status === 'published').length || 0;
+  const completedCount = projects?.filter(p => p.status === 'completed').length || 0;
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary" />
+        <motion.div 
+          className="relative"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+        >
+          <div className="h-8 w-8 rounded-full border-2 border-primary/30 border-t-primary" />
+        </motion.div>
       </div>
     );
   }
-
   return (
-    <div className="space-y-4">
+    <motion.div 
+      className="space-y-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
       {/* Onboarding */}
       <AnimatePresence>
         {showOnboarding && (
@@ -101,14 +115,19 @@ export function ProjectsTab() {
       </AnimatePresence>
 
       {/* Search & Create */}
-      <div className="flex items-center gap-2">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+      <motion.div 
+        className="flex items-center gap-2"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+      >
+        <div className="relative flex-1 group">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground group-focus-within:text-primary transition-colors" />
           <Input
-            placeholder="Поиск..."
+            placeholder="Поиск проектов..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 h-9 text-sm"
+            className="pl-9 h-9 text-sm transition-all focus:ring-2 focus:ring-primary/20"
           />
         </div>
         {/* View mode toggle */}
@@ -116,7 +135,10 @@ export function ProjectsTab() {
           <Button
             variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
             size="icon"
-            className="h-8 w-8"
+            className={cn(
+              "h-8 w-8 transition-all",
+              viewMode === 'grid' && "shadow-sm"
+            )}
             onClick={() => setViewMode('grid')}
           >
             <LayoutGrid className="w-4 h-4" />
@@ -124,24 +146,52 @@ export function ProjectsTab() {
           <Button
             variant={viewMode === 'list' ? 'secondary' : 'ghost'}
             size="icon"
-            className="h-8 w-8"
+            className={cn(
+              "h-8 w-8 transition-all",
+              viewMode === 'list' && "shadow-sm"
+            )}
             onClick={() => setViewMode('list')}
           >
             <LayoutList className="w-4 h-4" />
           </Button>
         </div>
-        <Button size="sm" onClick={() => setCreateSheetOpen(true)} className="gap-1.5 shrink-0">
-          <Plus className="w-4 h-4" />
-          Создать
-        </Button>
-      </div>
+        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <Button size="sm" onClick={() => setCreateSheetOpen(true)} className="gap-1.5 shrink-0 shadow-sm">
+            <Plus className="w-4 h-4" />
+            Создать
+          </Button>
+        </motion.div>
+      </motion.div>
 
-      {/* Stats */}
-      <div className="flex gap-2 text-xs text-muted-foreground">
-        <span>{projects?.length || 0} проектов</span>
-        <span>•</span>
-        <span>{projects?.filter(p => p.status === 'completed').length || 0} завершено</span>
-      </div>
+      {/* Stats with animations */}
+      <motion.div 
+        className="flex items-center gap-3 text-xs"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+      >
+        <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-muted/50">
+          <FolderOpen className="w-3 h-3 text-muted-foreground" />
+          <span className="text-muted-foreground">{projects?.length || 0} проектов</span>
+        </div>
+        {publishedCount > 0 && (
+          <motion.div 
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-emerald-500/10"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <Sparkles className="w-3 h-3 text-emerald-500" />
+            <span className="text-emerald-600 dark:text-emerald-400">{publishedCount} опубликовано</span>
+          </motion.div>
+        )}
+        {completedCount > 0 && (
+          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-green-500/10">
+            <TrendingUp className="w-3 h-3 text-green-500" />
+            <span className="text-green-600 dark:text-green-400">{completedCount} завершено</span>
+          </div>
+        )}
+      </motion.div>
 
       {/* Projects Grid/List */}
       {filteredProjects.length > 0 ? (
@@ -192,6 +242,6 @@ export function ProjectsTab() {
         open={createSheetOpen} 
         onOpenChange={setCreateSheetOpen}
       />
-    </div>
+    </motion.div>
   );
 }
