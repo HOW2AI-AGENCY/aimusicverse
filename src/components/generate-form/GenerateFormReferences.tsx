@@ -56,6 +56,8 @@ export function GenerateFormReferences({
         <InlineReferencePreview 
           onRemove={onRemoveAudioFile}
           onOpenDrawer={onOpenReferenceDrawer}
+          showModeSelector={true}
+          showAnalysis={true}
         />
       )}
 
