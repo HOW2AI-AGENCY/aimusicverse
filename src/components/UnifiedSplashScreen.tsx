@@ -7,6 +7,7 @@ import { motion, AnimatePresence, useReducedMotion } from '@/lib/motion';
 import { Loader2, Music2, Disc3 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
+import { APP_CONFIG } from '@/config/app.config';
 
 export type SplashVariant = 'splash' | 'loading' | 'overlay' | 'inline' | 'minimal';
 
@@ -247,9 +248,16 @@ export function UnifiedSplashScreen({
                 <h1 className="text-3xl sm:text-4xl font-bold text-gradient mb-1">
                   MusicVerse AI
                 </h1>
-                <p className="text-sm text-muted-foreground">
-                  Генерация музыки с AI
-                </p>
+                <div className="flex items-center justify-center gap-2">
+                  <p className="text-sm text-muted-foreground">
+                    Генерация музыки с AI
+                  </p>
+                  {APP_CONFIG.beta.enabled && (
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-500 font-medium">
+                      {APP_CONFIG.versionName} v{APP_CONFIG.version}
+                    </span>
+                  )}
+                </div>
               </motion.div>
             )}
 
