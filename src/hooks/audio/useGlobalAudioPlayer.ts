@@ -20,6 +20,7 @@ export function useGlobalAudioPlayer() {
   } = usePlayerStore();
 
   const lastTrackIdRef = useRef<string | null>(null);
+  const lastAudioSourceRef = useRef<string | null>(null);
 
   // Get audio source from track
   const getAudioSource = useCallback(() => {
@@ -28,22 +29,25 @@ export function useGlobalAudioPlayer() {
   }, [activeTrack]);
 
   // Handle track change - load new source
-  // CRITICAL: Only reload audio when track ID actually changes
+  // CRITICAL: Reload audio when track ID OR audio source changes (for version switching)
   useEffect(() => {
     const audio = getGlobalAudioRef();
     if (!audio) return;
     
     const trackId = activeTrack?.id;
+    const source = getAudioSource();
     
-    // Skip if track hasn't changed
-    if (trackId === lastTrackIdRef.current) {
+    // Skip if neither track ID nor audio source has changed
+    const sourceChanged = source !== lastAudioSourceRef.current;
+    const trackChanged = trackId !== lastTrackIdRef.current;
+    
+    if (!sourceChanged && !trackChanged) {
       return;
     }
     
-    const source = getAudioSource();
-    
-    // Update ref before any state changes
+    // Update refs before any state changes
     lastTrackIdRef.current = trackId || null;
+    lastAudioSourceRef.current = source || null;
 
     if (!source) {
       // Only clear src if no track is active
@@ -54,9 +58,14 @@ export function useGlobalAudioPlayer() {
     }
 
     // Load new audio source
+    logger.debug('Audio source loading', { 
+      trackId, 
+      sourceChanged, 
+      trackChanged,
+      source: source.substring(0, 50) 
+    });
     audio.src = source;
     audio.load();
-    logger.debug('Audio source loaded for new track', { trackId, source: source.substring(0, 50) });
   }, [activeTrack?.id, getAudioSource]);
 
   // Handle play/pause state with race condition protection

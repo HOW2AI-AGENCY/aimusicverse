@@ -28,8 +28,20 @@ export function VersionSwitcher({ track, size = 'medium', className }: VersionSw
     ? track.id.split('_v')[0] 
     : track.id;
 
-  // Fetch versions for this track
-  const { data: versions } = useQuery({
+  const sizeClasses = {
+    compact: 'h-6 w-6 text-xs',
+    medium: 'h-8 w-8 text-sm',
+    large: 'h-10 w-10 text-base',
+  };
+
+  const gapClasses = {
+    compact: 'gap-1',
+    medium: 'gap-1.5',
+    large: 'gap-2',
+  };
+
+  // Fetch versions for this track with optimized loading
+  const { data: versions, isLoading } = useQuery({
     queryKey: ['track-versions-switcher', originalTrackId],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -43,7 +55,25 @@ export function VersionSwitcher({ track, size = 'medium', className }: VersionSw
     },
     enabled: !!originalTrackId,
     staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000, // Keep in cache for 30 minutes
   });
+
+  // Show loading skeleton while fetching
+  if (isLoading) {
+    return (
+      <div className={cn('flex items-center', gapClasses[size], className)}>
+        {[0, 1].map((i) => (
+          <div
+            key={i}
+            className={cn(
+              sizeClasses[size],
+              'rounded-full bg-muted animate-pulse'
+            )}
+          />
+        ))}
+      </div>
+    );
+  }
 
   // Don't show if only one or no versions
   if (!versions || versions.length <= 1) {
@@ -53,11 +83,14 @@ export function VersionSwitcher({ track, size = 'medium', className }: VersionSw
   const handleVersionClick = (version: typeof versions[0]) => {
     hapticImpact('light');
     
-    // Create track object for this version
+    // Create track object for this version with proper audio URLs
+    // CRITICAL: Use audio_url for playback - it's the source URL
     const versionTrack: Track = {
       ...track,
       id: version.id,
       audio_url: version.audio_url,
+      streaming_url: version.audio_url, // Use audio_url as streaming source
+      local_audio_url: null, // Clear local URL to use streaming
       cover_url: version.cover_url || track.cover_url,
     };
 
@@ -66,18 +99,6 @@ export function VersionSwitcher({ track, size = 'medium', className }: VersionSw
 
   const isVersionActive = (versionId: string) => {
     return activeTrack?.id === versionId;
-  };
-
-  const sizeClasses = {
-    compact: 'h-6 w-6 text-xs',
-    medium: 'h-8 w-8 text-sm',
-    large: 'h-10 w-10 text-base',
-  };
-
-  const gapClasses = {
-    compact: 'gap-1',
-    medium: 'gap-1.5',
-    large: 'gap-2',
   };
 
   return (

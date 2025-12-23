@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { X, Maximize2, Volume2, VolumeX, Heart, Download, AlertCircle, Loader2 } from 'lucide-react';
+import { X, Maximize2, Volume2, VolumeX, Heart, Download, AlertCircle, Loader2, ListPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Card } from '@/components/ui/card';
@@ -18,6 +18,7 @@ import { formatTime } from '@/lib/player-utils';
 import { hapticImpact } from '@/lib/haptic';
 import type { Track } from '@/types/track';
 import { toast } from 'sonner';
+import { AddToPlaylistDialog } from '@/components/track/AddToPlaylistDialog';
 
 interface TrackVersion {
   id: string;
@@ -49,6 +50,7 @@ export function CompactPlayer({ track, currentVersion, onClose, onMaximize, onEx
   const [muted, setMuted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [playlistDialogOpen, setPlaylistDialogOpen] = useState(false);
   const { toggleLike, downloadTrack } = useTracks();
 
   // Use global audio time from provider
@@ -128,12 +130,13 @@ export function CompactPlayer({ track, currentVersion, onClose, onMaximize, onEx
   };
 
   return (
+    <>
     <motion.div
       drag="y"
       dragConstraints={{ top: 0, bottom: 0 }}
       dragElastic={0.2}
       onDragEnd={handleDragEnd}
-      className="fixed bottom-[4rem] sm:bottom-16 md:bottom-4 left-2 right-2 sm:left-4 sm:right-4 md:left-auto md:w-[400px] z-40"
+      className="fixed bottom-[calc(4rem+env(safe-area-inset-bottom,0px)+0.25rem)] sm:bottom-[calc(4rem+0.5rem)] md:bottom-4 left-2 right-2 sm:left-4 sm:right-4 md:left-auto md:w-[400px] z-40"
     >
       <Card className="glass-card border-primary/20 p-2.5 sm:p-3 shadow-xl rounded-xl">
         {/* Swipe indicator - mobile only */}
@@ -267,9 +270,9 @@ export function CompactPlayer({ track, currentVersion, onClose, onMaximize, onEx
         </div>
 
         {/* Controls */}
-        <div className="flex items-center justify-between gap-2">
-          {/* Left side: Like & Download - Hidden on small mobile */}
-          <div className="hidden sm:flex items-center gap-0.5">
+        <div className="flex items-center justify-between gap-1">
+          {/* Left side: Like & Playlist - Always visible */}
+          <div className="flex items-center gap-0.5 flex-shrink-0">
             <TouchTarget>
               <Button
                 variant="ghost"
@@ -278,7 +281,7 @@ export function CompactPlayer({ track, currentVersion, onClose, onMaximize, onEx
                   triggerHaptic('light');
                   toggleLike({ trackId: track.id, isLiked: track.is_liked || false });
                 }}
-                className="h-8 w-8 flex-shrink-0"
+                className="h-8 w-8"
                 aria-label={track.is_liked ? "Убрать из избранного" : "Добавить в избранное"}
                 disabled={!track.id}
               >
@@ -291,13 +294,13 @@ export function CompactPlayer({ track, currentVersion, onClose, onMaximize, onEx
                 size="icon"
                 onClick={() => {
                   triggerHaptic('light');
-                  downloadTrack({ trackId: track.id, audioUrl: track.audio_url!, coverUrl: track.cover_url! });
+                  setPlaylistDialogOpen(true);
                 }}
-                className="h-8 w-8 flex-shrink-0"
-                aria-label="Скачать трек"
-                disabled={!track.audio_url}
+                className="h-8 w-8"
+                aria-label="Добавить в плейлист"
+                disabled={!track.id}
               >
-                <Download className="h-3.5 w-3.5" />
+                <ListPlus className="h-3.5 w-3.5" />
               </Button>
             </TouchTarget>
           </div>
@@ -346,5 +349,13 @@ export function CompactPlayer({ track, currentVersion, onClose, onMaximize, onEx
         </div>
       </Card>
     </motion.div>
+    
+    {/* Add to Playlist Dialog */}
+    <AddToPlaylistDialog
+      open={playlistDialogOpen}
+      onOpenChange={setPlaylistDialogOpen}
+      track={track as Track}
+    />
+    </>
   );
 }

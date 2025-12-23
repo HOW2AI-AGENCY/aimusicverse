@@ -58,6 +58,9 @@ interface PlayerState {
   // UI state
   playerMode: PlayerMode;            // Current player display mode
   
+  // Time preservation across player mode transitions
+  preservedTime: number | null;      // Preserved currentTime when switching modes
+  
   // Playback control actions
   playTrack: (track?: Track) => void;      // Play specific track or resume current
   pauseTrack: () => void;                  // Pause current playback
@@ -84,6 +87,10 @@ interface PlayerState {
   expandPlayer: () => void;                   // Switch to expanded mode
   minimizePlayer: () => void;                 // Switch to compact mode
   maximizePlayer: () => void;                 // Switch to fullscreen mode
+  
+  // Time preservation
+  preserveTime: (time: number) => void;       // Preserve time before mode switch
+  clearPreservedTime: () => void;             // Clear preserved time after using
 }
 
 /**
@@ -254,6 +261,7 @@ export const usePlayerStore = create<PlayerState>()(
   versionMode: 'active',  // Default: play only active versions
   volume: 1.0,  // Default volume
   playerMode: 'minimized',
+  preservedTime: null,  // Time preservation for mode switches
   
   /**
    * Play track action - delegates to playerLogic and auto-opens player UI
@@ -429,6 +437,17 @@ export const usePlayerStore = create<PlayerState>()(
    * Maximize player - switches to fullscreen mode
    */
   maximizePlayer: () => set({ playerMode: 'fullscreen' }),
+  
+  /**
+   * Preserve current playback time before mode switch
+   * @param time - Current playback time in seconds
+   */
+  preserveTime: (time) => set({ preservedTime: time }),
+  
+  /**
+   * Clear preserved time after it has been used
+   */
+  clearPreservedTime: () => set({ preservedTime: null }),
     }),
     {
       name: 'player-settings',
