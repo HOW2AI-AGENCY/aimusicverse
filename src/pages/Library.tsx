@@ -114,7 +114,7 @@ export default function Library() {
   } = useTracks({
     searchQuery: debouncedSearchQuery,
     sortBy,
-    pageSize: 20,
+    pageSize: 50, // Increased for better initial load
     paginate: true,
   });
   

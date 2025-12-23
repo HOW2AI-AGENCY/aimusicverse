@@ -103,9 +103,12 @@ export function useTrackActionsState({
   const hasVocalStem = stems.some(s => s.stem_type === 'vocal' || s.stem_type === 'vocals');
   const hasInstrumentalStem = stems.some(s => s.stem_type === 'instrumental');
   
-  // Check if track is instrumental - ONLY if explicitly marked in style or has stems showing it
-  // Empty lyrics alone is NOT enough - many tracks may have empty lyrics field
+  // Check if track is instrumental:
+  // 1. Explicit is_instrumental flag from database
+  // 2. Style contains "instrumental"
+  // 3. Has instrumental stem but no vocal stem
   const isInstrumentalTrack = !!(
+    track.is_instrumental === true ||
     track.style?.toLowerCase().includes('instrumental') ||
     (hasInstrumentalStem && !hasVocalStem)
   );

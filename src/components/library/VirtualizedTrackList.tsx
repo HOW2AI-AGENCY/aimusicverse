@@ -158,39 +158,57 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     [tracks, viewMode, activeTrackId, getCountsForTrack, getMidiStatus, onPlay, onDelete, onDownload, onToggleLike]
   );
 
-  // Improved load more - no debounce, just check loading state
+  // Improved load more with debounce protection
   const handleEndReached = useCallback(() => {
+    // Prevent multiple simultaneous calls
     if (loadingRef.current || isLoadingMore) {
+      log.debug('Skipping load - already loading', { loadingRef: loadingRef.current, isLoadingMore });
       return;
     }
     
-    if (hasMore) {
+    // Only load if there's more data
+    if (hasMore && tracks.length > 0) {
       loadingRef.current = true;
       log.debug('Loading more tracks', { 
         currentCount: tracks.length, 
         hasMore, 
         isLoadingMore 
       });
-      onLoadMore();
+      
+      // Use setTimeout to break potential synchronous loops
+      setTimeout(() => {
+        onLoadMore();
+      }, 0);
     }
   }, [hasMore, isLoadingMore, onLoadMore, tracks.length]);
 
   // Range-based loading as backup trigger (when 5 items from end)
   const handleRangeChanged = useCallback((range: ListRange) => {
     const { endIndex } = range;
-    const threshold = tracks.length - 5;
+    const threshold = Math.max(0, tracks.length - 5);
     
-    if (endIndex >= threshold && hasMore && !isLoadingMore && !loadingRef.current) {
+    // Prevent loading if no tracks or already loading
+    if (tracks.length === 0 || loadingRef.current || isLoadingMore) {
+      return;
+    }
+    
+    if (endIndex >= threshold && hasMore) {
       loadingRef.current = true;
       log.debug('Range trigger: loading more', { endIndex, threshold, total: tracks.length });
-      onLoadMore();
+      setTimeout(() => {
+        onLoadMore();
+      }, 0);
     }
   }, [tracks.length, hasMore, isLoadingMore, onLoadMore]);
   
   // Reset loading flag when loading state changes
   useEffect(() => {
     if (!isLoadingMore) {
-      loadingRef.current = false;
+      // Small delay to prevent immediate re-trigger
+      const timer = setTimeout(() => {
+        loadingRef.current = false;
+      }, 100);
+      return () => clearTimeout(timer);
     }
   }, [isLoadingMore]);
   
