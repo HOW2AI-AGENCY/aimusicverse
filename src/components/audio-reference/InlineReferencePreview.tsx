@@ -3,7 +3,7 @@
  * Compact preview of active audio reference in generation form with waveform
  */
 
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -27,14 +27,16 @@ import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/formatters';
 import { MiniWaveform } from './MiniWaveform';
 import { ReferenceAnalysisDisplay } from './ReferenceAnalysisDisplay';
+import { ReferenceModeSelector } from './ReferenceModeSelector';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { useState } from 'react';
+import { ReferenceManager, type ReferenceMode } from '@/services/audio-reference';
 
 interface InlineReferencePreviewProps {
   onRemove?: () => void;
   onOpenDrawer?: () => void;
   className?: string;
   showAnalysis?: boolean;
+  showModeSelector?: boolean;
 }
 
 export const InlineReferencePreview = memo(function InlineReferencePreview({ 
@@ -42,6 +44,7 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
   onOpenDrawer,
   className,
   showAnalysis = true,
+  showModeSelector = true,
 }: InlineReferencePreviewProps) {
   const { activeReference, clearActive, analysisStatus } = useAudioReference();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -62,6 +65,12 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
     clearActive();
     onRemove?.();
   }, [clearActive, onRemove]);
+
+  const handleModeChange = useCallback((newMode: ReferenceMode) => {
+    if (activeReference) {
+      ReferenceManager.setActive({ ...activeReference, intendedMode: newMode });
+    }
+  }, [activeReference]);
 
   if (!activeReference) return null;
 
@@ -169,8 +178,8 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
               </div>
             </div>
 
-            {/* Expand button (if has analysis) */}
-            {showAnalysis && hasAnalysisData && (
+            {/* Expand button - always show when mode selector enabled or has analysis */}
+            {(showModeSelector || (showAnalysis && hasAnalysisData)) && (
               <CollapsibleTrigger asChild>
                 <Button
                   variant="ghost"
@@ -218,18 +227,28 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
           </div>
         </div>
 
-        {/* Expanded analysis section */}
-        {showAnalysis && hasAnalysisData && (
-          <CollapsibleContent>
-            <div className="px-3 pb-3 pt-1 border-t border-border/50">
+        {/* Expanded section with mode selector and analysis */}
+        <CollapsibleContent>
+          <div className="px-3 pb-3 pt-1 border-t border-border/50 space-y-3">
+            {/* Mode selector */}
+            {showModeSelector && (
+              <ReferenceModeSelector
+                mode={activeReference.intendedMode || 'reference'}
+                onModeChange={handleModeChange}
+                compact={false}
+              />
+            )}
+            
+            {/* Analysis */}
+            {showAnalysis && hasAnalysisData && (
               <ReferenceAnalysisDisplay
                 analysis={activeReference.analysis}
                 status={analysisStatus}
                 compact
               />
-            </div>
-          </CollapsibleContent>
-        )}
+            )}
+          </div>
+        </CollapsibleContent>
       </div>
     </Collapsible>
   );

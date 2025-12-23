@@ -7,3 +7,5 @@ export { InlineReferencePreview } from './InlineReferencePreview';
 export { MiniWaveform } from './MiniWaveform';
 export { ReferenceAudioPlayer } from './ReferenceAudioPlayer';
 export { ReferenceAnalysisDisplay } from './ReferenceAnalysisDisplay';
+export { ReferenceModeSelector, modeConfig } from './ReferenceModeSelector';
+export { CloudAudioSelector } from './CloudAudioSelector';
