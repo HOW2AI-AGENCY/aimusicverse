@@ -50,6 +50,7 @@ interface StudioActionsPanelProps {
   onReplaceSection?: () => void;
   onReplaceVocal?: () => void;
   onReplaceArrangement?: () => void;
+  onAddVocal?: () => void; // New: for instrumental tracks without stems
   onRemix?: () => void;
   onExtend?: () => void;
   onTrim?: () => void;
@@ -69,6 +70,7 @@ export function StudioActionsPanel({
   onReplaceSection,
   onReplaceVocal,
   onReplaceArrangement,
+  onAddVocal,
   onRemix,
   onExtend,
   onTrim,
@@ -83,6 +85,7 @@ export function StudioActionsPanel({
   const canSeparate = !!track.suno_id && !hasStems;
   const canReplace = !!track.suno_id && !!track.suno_task_id;
   const hasVocals = track.has_vocals !== false && !track.is_instrumental;
+  const isInstrumental = track.is_instrumental || track.has_vocals === false;
 
   const categories: ActionCategory[] = [
     {
@@ -127,6 +130,16 @@ export function StudioActionsPanel({
       title: 'Создание',
       icon: Wand2,
       actions: [
+        // Add Vocal - for instrumental tracks (with or without stems)
+        {
+          id: 'add_vocal',
+          icon: Mic,
+          label: 'Добавить вокал',
+          description: 'Сгенерировать вокал для инструментала',
+          available: canReplace && isInstrumental && !!onAddVocal,
+          badge: 'AI',
+          onClick: onAddVocal,
+        },
         {
           id: 'replace_vocal',
           icon: Mic,
