@@ -1,6 +1,6 @@
 /**
  * GamificationBar - Modern, compact gamification widget
- * Combines daily check-in and stats into a single sleek component
+ * Optimized for mobile with tooltips and micro-animations
  */
 import { memo, useState } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
@@ -15,9 +15,10 @@ import {
 import { useAuth } from '@/hooks/useAuth';
 import { 
   Coins, Flame, Zap, Gift, Check, Sparkles, 
-  ChevronRight, Star
+  ChevronRight, Info, Star
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { RewardCelebration } from './RewardCelebration';
 
@@ -55,7 +56,7 @@ export const GamificationBar = memo(function GamificationBar({ className }: Gami
 
   if (!user || isLoading) {
     return (
-      <div className={cn("h-14 bg-card/40 animate-pulse rounded-2xl", className)} />
+      <div className={cn("h-12 sm:h-14 bg-card/40 animate-pulse rounded-2xl", className)} />
     );
   }
 
@@ -65,205 +66,242 @@ export const GamificationBar = memo(function GamificationBar({ className }: Gami
   const balance = credits?.balance || 0;
 
   return (
-    <>
-      <motion.div
-        initial={{ opacity: 0, y: -10, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
-        className={cn(
-          "relative overflow-hidden rounded-2xl",
-          "bg-gradient-to-r from-card/80 via-card/60 to-card/80",
-          "backdrop-blur-xl border border-border/30",
-          "shadow-lg shadow-black/5",
-          className
-        )}
-      >
-        {/* Animated background glow */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <motion.div
-            className="absolute -top-10 -left-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl"
-            animate={{ 
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3]
-            }}
-            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <motion.div
-            className="absolute -bottom-10 -right-10 w-28 h-28 bg-accent/10 rounded-full blur-3xl"
-            animate={{ 
-              scale: [1.2, 1, 1.2],
-              opacity: [0.3, 0.5, 0.3]
-            }}
-            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          />
-        </div>
-
-        <div className="relative p-3 flex items-center gap-3">
-          {/* Level Badge with Progress Ring */}
-          <motion.button
-            onClick={() => navigate('/rewards')}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative flex-shrink-0 group"
-          >
-            <svg className="w-11 h-11 -rotate-90" viewBox="0 0 44 44">
-              {/* Background ring */}
-              <circle
-                cx="22"
-                cy="22"
-                r="18"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="3"
-                className="text-muted/20"
-              />
-              {/* Progress ring */}
-              <motion.circle
-                cx="22"
-                cy="22"
-                r="18"
-                fill="none"
-                stroke="url(#levelGradient)"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeDasharray={`${progress * 113.1} 113.1`}
-                initial={{ strokeDasharray: '0 113.1' }}
-                animate={{ strokeDasharray: `${progress * 113.1} 113.1` }}
-                transition={{ duration: 1, ease: 'easeOut' }}
-              />
-              <defs>
-                <linearGradient id="levelGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="hsl(var(--primary))" />
-                  <stop offset="100%" stopColor="hsl(var(--accent))" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-xs font-bold bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent">
-                {level}
-              </span>
-            </div>
-            {/* Level up glow effect */}
+    <TooltipProvider delayDuration={300}>
+      <>
+        <motion.div
+          initial={{ opacity: 0, y: -10, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+          className={cn(
+            "relative overflow-hidden rounded-2xl",
+            "bg-gradient-to-r from-card/80 via-card/60 to-card/80",
+            "backdrop-blur-xl border border-border/30",
+            "shadow-lg shadow-black/5",
+            className
+          )}
+        >
+          {/* Animated background glow */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <motion.div
-              className="absolute inset-0 rounded-full bg-primary/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute -top-10 -left-10 w-24 sm:w-32 h-24 sm:h-32 bg-primary/10 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.5, 0.3]
+              }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
             />
-          </motion.button>
-
-          {/* Stats */}
-          <div className="flex-1 flex items-center gap-2 overflow-x-auto scrollbar-hide">
-            {/* Balance */}
-            <StatPill
-              icon={<Coins className="w-3.5 h-3.5" />}
-              value={balance}
-              color="warning"
-              onClick={() => navigate('/rewards')}
-              pulse={balance < 20}
+            <motion.div
+              className="absolute -bottom-10 -right-10 w-20 sm:w-28 h-20 sm:h-28 bg-accent/10 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1.2, 1, 1.2],
+                opacity: [0.3, 0.5, 0.3]
+              }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
             />
-
-            {/* XP */}
-            <StatPill
-              icon={<Zap className="w-3.5 h-3.5" />}
-              value={`${currentXP}XP`}
-              color="primary"
-              onClick={() => navigate('/rewards')}
-            />
-
-            {/* Streak */}
-            {streak > 0 && (
-              <StatPill
-                icon={<Flame className="w-3.5 h-3.5" />}
-                value={`${streak}д`}
-                color="streak"
-                glow
-              />
-            )}
           </div>
 
-          {/* Check-in Button */}
-          <AnimatePresence mode="wait">
-            {canCheckin ? (
-              <motion.div
-                key="checkin"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-              >
-                <Button
-                  onClick={handleCheckin}
-                  disabled={checkin.isPending}
-                  size="sm"
-                  className={cn(
-                    "relative h-9 px-4 rounded-xl font-medium",
-                    "bg-gradient-to-r from-primary to-primary/80",
-                    "hover:from-primary/90 hover:to-primary/70",
-                    "shadow-lg shadow-primary/20",
-                    "transition-all duration-300"
-                  )}
+          <div className="relative p-2 sm:p-3 flex items-center gap-2 sm:gap-3">
+            {/* Level Badge with Progress Ring */}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <motion.button
+                  onClick={() => navigate('/rewards')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative flex-shrink-0 group"
                 >
-                  {checkin.isPending ? (
-                    <Sparkles className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <>
-                      <Gift className="w-4 h-4 mr-1.5" />
-                      <span className="text-xs">+{ACTION_REWARDS.checkin.credits}</span>
-                    </>
-                  )}
-                  {/* Pulse indicator */}
-                  <motion.span
-                    className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-orange-400"
-                    animate={{ scale: [1, 1.3, 1] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
+                  <svg className="w-9 h-9 sm:w-11 sm:h-11 -rotate-90" viewBox="0 0 44 44">
+                    {/* Background ring */}
+                    <circle
+                      cx="22"
+                      cy="22"
+                      r="18"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      className="text-muted/20"
+                    />
+                    {/* Progress ring */}
+                    <motion.circle
+                      cx="22"
+                      cy="22"
+                      r="18"
+                      fill="none"
+                      stroke="url(#levelGradient)"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeDasharray={`${progress * 113.1} 113.1`}
+                      initial={{ strokeDasharray: '0 113.1' }}
+                      animate={{ strokeDasharray: `${progress * 113.1} 113.1` }}
+                      transition={{ duration: 1, ease: 'easeOut' }}
+                    />
+                    <defs>
+                      <linearGradient id="levelGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="hsl(var(--primary))" />
+                        <stop offset="100%" stopColor="hsl(var(--accent))" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <motion.span 
+                      className="text-[10px] sm:text-xs font-bold bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent"
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                    >
+                      {level}
+                    </motion.span>
+                  </div>
+                  {/* Level up glow effect */}
+                  <motion.div
+                    className="absolute inset-0 rounded-full bg-primary/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity"
                   />
-                </Button>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="done"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-green-500/10 border border-green-500/20"
-              >
-                <Check className="w-4 h-4 text-green-500" />
-                <span className="text-xs font-medium text-green-500">✓</span>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                </motion.button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="text-xs">
+                <p className="font-semibold">Уровень {level}</p>
+                <p className="text-muted-foreground">{currentXP} / {nextLevelXP} XP</p>
+              </TooltipContent>
+            </Tooltip>
 
-          {/* Navigate Arrow */}
-          <motion.button
-            onClick={() => navigate('/rewards')}
-            whileHover={{ x: 2 }}
-            whileTap={{ scale: 0.9 }}
-            className="p-1.5 rounded-lg hover:bg-white/5 transition-colors"
-          >
-            <ChevronRight className="w-4 h-4 text-muted-foreground" />
-          </motion.button>
-        </div>
+            {/* Stats - Scrollable on mobile */}
+            <div className="flex-1 flex items-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-hide">
+              {/* Balance */}
+              <StatPill
+                icon={<Coins className="w-3 h-3 sm:w-3.5 sm:h-3.5" />}
+                value={balance}
+                color="warning"
+                onClick={() => navigate('/rewards')}
+                pulse={balance < 20}
+                tooltip="Кредиты для генерации музыки"
+              />
 
-        {/* Bottom XP progress bar */}
-        <div className="h-0.5 bg-muted/20">
-          <motion.div
-            className="h-full bg-gradient-to-r from-primary via-accent to-primary"
-            initial={{ width: 0 }}
-            animate={{ width: `${progress * 100}%` }}
-            transition={{ duration: 1, ease: 'easeOut' }}
-          />
-        </div>
-      </motion.div>
+              {/* XP */}
+              <StatPill
+                icon={<Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5" />}
+                value={`${currentXP}`}
+                color="primary"
+                onClick={() => navigate('/rewards')}
+                tooltip={`${currentXP} / ${nextLevelXP} до следующего уровня`}
+              />
 
-      <RewardCelebration
-        show={showCelebration}
-        credits={celebrationData?.credits}
-        experience={celebrationData?.experience}
-        streak={celebrationData?.streak}
-        onComplete={() => setShowCelebration(false)}
-      />
-    </>
+              {/* Streak */}
+              {streak > 0 && (
+                <StatPill
+                  icon={<Flame className="w-3 h-3 sm:w-3.5 sm:h-3.5" />}
+                  value={streak}
+                  color="streak"
+                  glow
+                  tooltip={`Серия ${streak} дней подряд`}
+                />
+              )}
+            </div>
+
+            {/* Check-in Button */}
+            <AnimatePresence mode="wait">
+              {canCheckin ? (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <motion.div
+                      key="checkin"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                    >
+                      <Button
+                        onClick={handleCheckin}
+                        disabled={checkin.isPending}
+                        size="sm"
+                        className={cn(
+                          "relative h-8 sm:h-9 px-2.5 sm:px-4 rounded-xl font-medium text-xs",
+                          "bg-gradient-to-r from-primary to-primary/80",
+                          "hover:from-primary/90 hover:to-primary/70",
+                          "shadow-lg shadow-primary/20",
+                          "transition-all duration-300"
+                        )}
+                      >
+                        {checkin.isPending ? (
+                          <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin" />
+                        ) : (
+                          <>
+                            <Gift className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-1.5" />
+                            <span className="hidden sm:inline">+{ACTION_REWARDS.checkin.credits}</span>
+                          </>
+                        )}
+                        {/* Pulse indicator */}
+                        <motion.span
+                          className="absolute -top-0.5 -right-0.5 w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-orange-400"
+                          animate={{ scale: [1, 1.3, 1] }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                        />
+                      </Button>
+                    </motion.div>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom" className="text-xs">
+                    <p>Забрать ежедневный бонус</p>
+                    <p className="text-muted-foreground">+{ACTION_REWARDS.checkin.credits} кредитов</p>
+                  </TooltipContent>
+                </Tooltip>
+              ) : (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <motion.div
+                      key="done"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      className="flex items-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-green-500/10 border border-green-500/20"
+                    >
+                      <motion.div
+                        animate={{ scale: [1, 1.2, 1] }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-500" />
+                      </motion.div>
+                    </motion.div>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom" className="text-xs">
+                    <p>Бонус получен</p>
+                    <p className="text-muted-foreground">Приходи завтра!</p>
+                  </TooltipContent>
+                </Tooltip>
+              )}
+            </AnimatePresence>
+
+            {/* Navigate Arrow */}
+            <motion.button
+              onClick={() => navigate('/rewards')}
+              whileHover={{ x: 2 }}
+              whileTap={{ scale: 0.9 }}
+              className="p-1 sm:p-1.5 rounded-lg hover:bg-white/5 transition-colors"
+            >
+              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" />
+            </motion.button>
+          </div>
+
+          {/* Bottom XP progress bar */}
+          <div className="h-0.5 bg-muted/20">
+            <motion.div
+              className="h-full bg-gradient-to-r from-primary via-accent to-primary"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress * 100}%` }}
+              transition={{ duration: 1, ease: 'easeOut' }}
+            />
+          </div>
+        </motion.div>
+
+        <RewardCelebration
+          show={showCelebration}
+          credits={celebrationData?.credits}
+          experience={celebrationData?.experience}
+          streak={celebrationData?.streak}
+          onComplete={() => setShowCelebration(false)}
+        />
+      </>
+    </TooltipProvider>
   );
 });
 
-// Stat Pill Component
+// Stat Pill Component with Tooltip
 interface StatPillProps {
   icon: React.ReactNode;
   value: string | number;
@@ -271,6 +309,7 @@ interface StatPillProps {
   onClick?: () => void;
   pulse?: boolean;
   glow?: boolean;
+  tooltip?: string;
 }
 
 const StatPill = memo(function StatPill({ 
@@ -279,7 +318,8 @@ const StatPill = memo(function StatPill({
   color, 
   onClick, 
   pulse, 
-  glow 
+  glow,
+  tooltip 
 }: StatPillProps) {
   const colorStyles = {
     primary: 'bg-primary/10 text-primary border-primary/20',
@@ -288,14 +328,14 @@ const StatPill = memo(function StatPill({
     success: 'bg-green-500/10 text-green-400 border-green-500/20',
   };
 
-  return (
+  const content = (
     <motion.button
       onClick={onClick}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       className={cn(
-        "relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl",
-        "text-xs font-semibold whitespace-nowrap",
+        "relative flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg sm:rounded-xl",
+        "text-[10px] sm:text-xs font-semibold whitespace-nowrap",
         "border backdrop-blur-sm",
         "transition-all duration-200",
         colorStyles[color],
@@ -303,13 +343,21 @@ const StatPill = memo(function StatPill({
         glow && "shadow-lg shadow-orange-500/20"
       )}
     >
-      {icon}
+      <motion.div
+        animate={glow ? { 
+          scale: [1, 1.2, 1],
+          rotate: [0, 5, -5, 0]
+        } : {}}
+        transition={{ duration: 1, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        {icon}
+      </motion.div>
       <span className="tabular-nums">{value}</span>
       
       {/* Pulse animation for low balance */}
       {pulse && (
         <motion.span
-          className="absolute inset-0 rounded-xl border-2 border-amber-400"
+          className="absolute inset-0 rounded-lg sm:rounded-xl border-2 border-amber-400"
           animate={{ 
             scale: [1, 1.1, 1],
             opacity: [0.5, 0, 0.5]
@@ -319,6 +367,21 @@ const StatPill = memo(function StatPill({
       )}
     </motion.button>
   );
+
+  if (tooltip) {
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>
+          {content}
+        </TooltipTrigger>
+        <TooltipContent side="bottom" className="text-xs max-w-[200px]">
+          {tooltip}
+        </TooltipContent>
+      </Tooltip>
+    );
+  }
+
+  return content;
 });
 
 export default GamificationBar;
