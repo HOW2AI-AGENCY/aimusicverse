@@ -86,9 +86,14 @@ function RecognitionContent({
 
         <TabsContent value="microphone" className="mt-6">
           <div className="flex flex-col items-center gap-6">
-            <p className="text-sm text-muted-foreground text-center">
-              Нажмите кнопку и поднесите устройство к источнику музыки
-            </p>
+            <div className="text-center space-y-1">
+              <p className="text-sm text-muted-foreground">
+                Нажмите кнопку и поднесите устройство к источнику музыки
+              </p>
+              <p className="text-xs text-muted-foreground/70">
+                AI распознает трек и найдёт текст, ссылки на стриминги и информацию об исполнителе
+              </p>
+            </div>
             
             <button
               onClick={handleMicrophoneClick}
