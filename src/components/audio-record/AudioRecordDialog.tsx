@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,7 @@ import { logger } from '@/lib/logger';
 import { CloudAudioPicker } from './CloudAudioPicker';
 import { ReferenceManager } from '@/services/audio-reference/ReferenceManager';
 import type { ReferenceAudio } from '@/hooks/useReferenceAudio';
+import { useTelegram } from '@/contexts/TelegramContext';
 
 interface AudioRecordDialogProps {
   open: boolean;
@@ -28,6 +29,7 @@ type ProcessingAction = 'instrumental' | 'vocals' | 'cover' | 'extend' | null;
 export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps) => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { webApp } = useTelegram();
   const [sourceTab, setSourceTab] = useState<SourceTab>('record');
   const [state, setState] = useState<RecordingState>('idle');
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
@@ -119,6 +121,40 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
     setIsPlaying(false);
     setSelectedCloudAudio(null);
     setContinueAt(0);
+  }, [audioUrl]);
+
+  // Handle Telegram Back Button
+  useEffect(() => {
+    if (!webApp) return;
+
+    const handleBackButton = () => {
+      logger.info('Telegram Back Button pressed in AudioRecordDialog');
+      onOpenChange(false);
+    };
+
+    if (open) {
+      // Show and enable back button when dialog opens
+      webApp.BackButton.show();
+      webApp.BackButton.onClick(handleBackButton);
+    }
+
+    return () => {
+      // Hide and cleanup back button when dialog closes
+      webApp.BackButton.hide();
+      webApp.BackButton.offClick(handleBackButton);
+    };
+  }, [open, webApp, onOpenChange]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+      if (audioUrl) {
+        URL.revokeObjectURL(audioUrl);
+      }
+    };
   }, [audioUrl]);
 
   // Upload audio and process with selected action
@@ -278,8 +314,12 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md h-[90vh] flex flex-col overflow-hidden">
-        <DialogHeader className="shrink-0">
+      <DialogContent className={cn(
+        "max-w-md h-[90vh] flex flex-col overflow-hidden",
+        // Add safe area padding for Telegram native UI
+        "pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+1rem),calc(env(safe-area-inset-top,0px)+1rem))]"
+      )}>
+        <DialogHeader className="shrink-0 relative z-50">
           <DialogTitle className="flex items-center gap-2">
             <Mic className="w-5 h-5 text-primary" />
             Записать или выбрать аудио

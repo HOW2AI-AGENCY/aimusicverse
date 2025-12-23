@@ -73,7 +73,7 @@ export function SystemAnnouncement() {
   }
 
   return (
-    <div className="space-y-3 px-4 pt-4">
+    <div className="space-y-3 px-4 pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+1rem),calc(env(safe-area-inset-top,0px)+1rem))]">
       {visibleAnnouncements.map((announcement) => (
         <Card
           key={announcement.id}
