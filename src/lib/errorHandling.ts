@@ -226,7 +226,13 @@ export function getRecoveryAction(error: unknown): {
       return {
         strategy: recoveryStrategy,
         message: 'Войдите в аккаунт',
-        action: () => window.location.href = '/auth',
+        action: () => {
+          import('@/hooks/useAppNavigate').then(({ navigateTo }) => {
+            navigateTo('/auth');
+          }).catch(() => {
+            window.location.href = '/auth';
+          });
+        },
       };
     case RecoveryStrategy.REFRESH:
       return {

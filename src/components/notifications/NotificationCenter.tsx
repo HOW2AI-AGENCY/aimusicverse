@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Bell, Volume2, VolumeX, CheckCheck, Trash2, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Button } from '@/components/ui/button';
@@ -45,10 +46,12 @@ function NotificationCard({
   notification, 
   onMarkAsRead,
   onDelete,
+  onNavigate,
 }: { 
   notification: NotificationItem;
   onMarkAsRead: (id: string) => void;
   onDelete: (id: string) => void;
+  onNavigate: (path: string) => void;
 }) {
   const Icon = iconMap[notification.type as keyof typeof iconMap] || Info;
   const colorClass = colorMap[notification.type as keyof typeof colorMap] || colorMap.info;
@@ -116,7 +119,7 @@ function NotificationCard({
                 variant="link"
                 size="sm"
                 className="h-auto p-0 text-xs"
-                onClick={() => window.location.href = notification.action_url!}
+                onClick={() => onNavigate(notification.action_url!)}
               >
                 <ExternalLink className="w-3 h-3 mr-1" />
                 Открыть
@@ -140,8 +143,18 @@ export function NotificationCenter() {
     clearNotification,
   } = useNotificationHub();
   
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const unreadNotifications = notifications.filter(n => !n.read);
+  
+  const handleNavigate = (path: string) => {
+    setOpen(false);
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+      window.open(path, '_blank', 'noopener,noreferrer');
+    } else {
+      navigate(path);
+    }
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -226,6 +239,7 @@ export function NotificationCenter() {
                         notification={notification}
                         onMarkAsRead={markAsRead}
                         onDelete={clearNotification}
+                        onNavigate={handleNavigate}
                       />
                     ))}
                   </AnimatePresence>
@@ -250,6 +264,7 @@ export function NotificationCenter() {
                         notification={notification}
                         onMarkAsRead={markAsRead}
                         onDelete={clearNotification}
+                        onNavigate={handleNavigate}
                       />
                     ))}
                   </AnimatePresence>

@@ -45,7 +45,12 @@ export class FeatureErrorBoundary extends Component<Props, State> {
   };
 
   handleGoHome = () => {
-    window.location.href = '/';
+    // Use global navigate if available for SPA navigation
+    import('@/hooks/useAppNavigate').then(({ navigateTo }) => {
+      navigateTo('/');
+    }).catch(() => {
+      window.location.href = '/';
+    });
   };
 
   render() {

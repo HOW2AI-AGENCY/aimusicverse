@@ -5,6 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
 import { cleanupExpiredNotifications } from '@/services/notificationManager';
+import { getGlobalNavigate } from '@/hooks/useAppNavigate';
 
 const log = logger.child({ module: 'NotificationContext' });
 
@@ -240,7 +241,14 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
           description: newNotification.message,
           action: newNotification.action_url ? {
             label: 'Открыть',
-            onClick: () => window.location.href = newNotification.action_url!,
+            onClick: () => {
+              const navigate = getGlobalNavigate();
+              if (navigate) {
+                navigate(newNotification.action_url!);
+              } else {
+                window.location.href = newNotification.action_url!;
+              }
+            },
           } : undefined,
         });
       })
@@ -302,10 +310,12 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
               onClick: () => {
                 queryClient.invalidateQueries({ queryKey: ['tracks'] });
                 // Navigate to library with track ID for direct scroll/highlight
-                if (trackId) {
-                  window.location.href = `/library?track=${trackId}`;
+                const navigate = getGlobalNavigate();
+                const targetPath = trackId ? `/library?track=${trackId}` : '/library';
+                if (navigate) {
+                  navigate(targetPath);
                 } else {
-                  window.location.href = '/library';
+                  window.location.href = targetPath;
                 }
               },
             },
@@ -353,7 +363,13 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
                       label: 'Слушать',
                       onClick: () => {
                         queryClient.invalidateQueries({ queryKey: ['tracks'] });
-                        window.location.href = `/library?track=${task.track_id}`;
+                        const navigate = getGlobalNavigate();
+                        const targetPath = `/library?track=${task.track_id}`;
+                        if (navigate) {
+                          navigate(targetPath);
+                        } else {
+                          window.location.href = targetPath;
+                        }
                       },
                     },
                   });
