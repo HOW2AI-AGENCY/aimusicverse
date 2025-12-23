@@ -239,8 +239,11 @@ export default function PublicProfilePage() {
   return (
     <div className="min-h-screen bg-background pb-24">
       {/* Header */}
-      <div className="sticky top-0 z-30 backdrop-blur-md bg-background/80 border-b border-border/50">
-        <div className="flex items-center justify-between px-4 py-3">
+      <div 
+        className="sticky top-0 z-30 backdrop-blur-md bg-background/80 border-b border-border/50"
+        style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.25rem), calc(env(safe-area-inset-top, 0px) + 0.25rem))' }}
+      >
+        <div className="flex items-center justify-between px-4 py-2">
           {showUIBackButton ? (
             <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
               <ChevronLeft className="w-5 h-5" />

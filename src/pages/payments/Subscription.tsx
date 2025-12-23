@@ -1,11 +1,14 @@
 /**
  * Subscription Page
  * Displays subscription tiers with features and manages user subscriptions
+ * Note: Admins are redirected to home as they have full access
  */
 
 import { useState } from 'react';
-import { Crown, Calendar, AlertCircle } from 'lucide-react';
+import { Navigate } from 'react-router-dom';
+import { Crown, Calendar, AlertCircle, Loader2 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useUserRole } from '@/hooks/useUserRole';
 import { useStarsPayment } from '@/hooks/useStarsPayment';
 import { useProductsByType } from '@/hooks/useStarsProducts';
 import { useSubscriptionStatus } from '@/hooks/useSubscriptionStatus';
@@ -30,6 +33,7 @@ function LoadingState() {
 
 export default function Subscription() {
   const { user } = useAuth();
+  const { isAdmin, isLoading: roleLoading } = useUserRole();
   const [selectedProduct, setSelectedProduct] = useState<StarsProduct | null>(null);
 
   const {
@@ -51,6 +55,19 @@ export default function Subscription() {
   });
 
   const { initiatePayment, flowState, resetFlow } = useStarsPayment();
+
+  // Admin users don't need subscriptions - redirect to home
+  if (roleLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (isAdmin) {
+    return <Navigate to="/" replace />;
+  }
 
   const handleSubscribe = (product: StarsProduct) => {
     setSelectedProduct(product);

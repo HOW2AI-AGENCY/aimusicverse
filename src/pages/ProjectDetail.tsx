@@ -306,7 +306,10 @@ export default function ProjectDetail() {
             />
             
             {/* Desktop: Header */}
-            <div className="relative sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/30 px-4 py-3">
+            <div 
+              className="relative sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/30 px-4 pb-3"
+              style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' }}
+            >
               <div className="flex items-center justify-between">
                 <Button 
                   variant="ghost" 

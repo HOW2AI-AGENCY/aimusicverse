@@ -41,7 +41,10 @@ export default function Playlists() {
   return (
     <div className="min-h-screen bg-background pb-24">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 py-3">
+      <div 
+        className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 pb-3"
+        style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' }}
+      >
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-bold">Плейлисты</h1>
           <Button size="sm" onClick={() => setCreateDialogOpen(true)}>

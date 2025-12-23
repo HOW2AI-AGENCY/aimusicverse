@@ -44,7 +44,10 @@ export default function Community() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
-      <div className="container max-w-6xl mx-auto px-4 py-6">
+      <div 
+        className="container max-w-6xl mx-auto px-4 pb-6"
+        style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))' }}
+      >
         {/* Header */}
         <motion.header 
           className="mb-6"

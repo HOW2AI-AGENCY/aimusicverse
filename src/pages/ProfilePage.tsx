@@ -94,7 +94,10 @@ export const ProfilePage = () => {
   ];
 
   return (
-    <div className="container mx-auto max-w-4xl py-8 px-4 pb-24">
+    <div 
+      className="container mx-auto max-w-4xl px-4 pb-24"
+      style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))' }}
+    >
       {/* User Profile Card */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
