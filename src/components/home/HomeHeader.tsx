@@ -12,8 +12,8 @@ import { useUnreadCount } from '@/hooks/useNotifications';
 import { useTelegram } from '@/contexts/TelegramContext';
 import logo from '@/assets/logo.png';
 
-// Lazy load menu sheet
-const NavigationMenuSheet = lazy(() => import('@/components/NavigationMenuSheet').then(m => ({ default: m.NavigationMenuSheet })));
+// Use the same menu as bottom navigation "More" button
+const MoreMenuSheet = lazy(() => import('@/components/navigation/MoreMenuSheet').then(m => ({ default: m.MoreMenuSheet })));
 
 interface HomeHeaderProps {
   userName?: string;
@@ -215,10 +215,10 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
         </div>
       </motion.div>
 
-      {/* Menu Sheet */}
+      {/* Menu Sheet - unified with bottom navigation "More" button */}
       {menuOpen && (
         <Suspense fallback={null}>
-          <NavigationMenuSheet open={menuOpen} onOpenChange={setMenuOpen} />
+          <MoreMenuSheet open={menuOpen} onOpenChange={setMenuOpen} />
         </Suspense>
       )}
     </motion.header>

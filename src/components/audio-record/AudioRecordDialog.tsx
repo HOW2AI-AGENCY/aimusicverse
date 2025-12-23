@@ -156,7 +156,12 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
     setState('uploading');
 
     try {
-      const fileName = `recordings/${user.id}/${Date.now()}.webm`;
+      // Generate descriptive filename
+      const dateStr = new Date().toISOString().slice(0, 10);
+      const timeStr = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }).replace(':', '-');
+      const actionLabel = action === 'vocals' ? 'vocal' : action === 'instrumental' ? 'inst' : action;
+      const fileName = `recordings/${user.id}/rec_${actionLabel}_${dateStr}_${timeStr}.webm`;
+      
       const { error: uploadError } = await supabase.storage
         .from('audio')
         .upload(fileName, audioBlob, { contentType: 'audio/webm' });
@@ -165,7 +170,7 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
 
       const { data: urlData } = supabase.storage.from('audio').getPublicUrl(fileName);
       const publicUrl = urlData.publicUrl;
-      const recordingTitle = `Запись ${new Date().toLocaleString('ru-RU')}`;
+      const recordingTitle = `Запись ${action === 'vocals' ? 'вокала' : action === 'instrumental' ? 'инструментала' : ''} ${new Date().toLocaleDateString('ru-RU')}`;
 
       await processAudio(publicUrl, recordingTitle, action, duration);
     } catch (error) {
@@ -292,22 +297,13 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
         }}
       >
         <DialogHeader className="shrink-0">
-          <div className="flex items-center justify-between">
-            <DialogTitle className="flex items-center gap-2">
-              <Mic className="w-5 h-5 text-primary" />
-              Записать или выбрать аудио
-            </DialogTitle>
-            {shouldShowUIButton && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-full"
-                onClick={() => onOpenChange(false)}
-              >
-                <X className="w-4 h-4" />
-              </Button>
-            )}
-          </div>
+          <DialogTitle className="flex items-center gap-2">
+            <Mic className="w-5 h-5 text-primary" />
+            Запись вокала
+          </DialogTitle>
+          <p className="text-sm text-muted-foreground mt-1">
+            Запишите голос или выберите аудио из облака. AI добавит профессиональный инструментал или вокал к вашей записи.
+          </p>
         </DialogHeader>
 
         <div className="flex-1 min-h-0 overflow-y-auto">

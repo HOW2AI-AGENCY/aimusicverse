@@ -4,13 +4,14 @@
  * Singleton audio player that syncs with Zustand store.
  * Provides actual audio playback connected to global player state.
  * Includes audio caching with 14-day expiry for optimized playback.
+ * Plays from cache when available for instant playback.
  */
 
 import { useEffect, useRef, useCallback } from 'react';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { getGlobalAudioRef } from '@/hooks/audio/useAudioTime';
 import { logger } from '@/lib/logger';
-import { cleanupExpiredEntries, prefetchQueue, shouldPrefetch } from '@/lib/audioCache';
+import { cleanupExpiredEntries, prefetchQueue, shouldPrefetch, getCachedAudio, cacheAudio } from '@/lib/audioCache';
 
 // Run cache cleanup on module load (once per session)
 let cacheCleanupRun = false;
@@ -57,6 +58,7 @@ export function useGlobalAudioPlayer() {
 
   // Handle track change - load new source
   // CRITICAL: Reload audio when track ID OR audio source changes (for version switching)
+  // Prioritize cached audio for instant playback
   useEffect(() => {
     const audio = getGlobalAudioRef();
     if (!audio) return;
@@ -84,15 +86,55 @@ export function useGlobalAudioPlayer() {
       return;
     }
 
-    // Load new audio source
-    logger.debug('Audio source loading', { 
-      trackId, 
-      sourceChanged, 
-      trackChanged,
-      source: source.substring(0, 50) 
-    });
-    audio.src = source;
-    audio.load();
+    // Try to load from cache first for instant playback
+    const loadAudio = async () => {
+      try {
+        const cachedBlob = await getCachedAudio(source);
+        
+        if (cachedBlob) {
+          // Play from cache - instant playback
+          const blobUrl = URL.createObjectURL(cachedBlob);
+          logger.debug('Playing from cache', { 
+            trackId, 
+            source: source.substring(0, 50) 
+          });
+          audio.src = blobUrl;
+          audio.load();
+          
+          // Cleanup blob URL when audio changes
+          const cleanup = () => {
+            URL.revokeObjectURL(blobUrl);
+          };
+          audio.addEventListener('emptied', cleanup, { once: true });
+        } else {
+          // Load from network and cache for future use
+          logger.debug('Loading from network', { 
+            trackId, 
+            sourceChanged, 
+            trackChanged,
+            source: source.substring(0, 50) 
+          });
+          audio.src = source;
+          audio.load();
+          
+          // Cache the audio in background after it loads
+          fetch(source)
+            .then(response => {
+              if (response.ok) return response.blob();
+              throw new Error('Failed to fetch audio');
+            })
+            .then(blob => cacheAudio(source, blob))
+            .catch(err => logger.debug('Cache fetch failed', { error: err.message }));
+        }
+      } catch (error) {
+        // Fallback to direct load if cache fails
+        logger.debug('Cache error, loading directly', { error });
+        audio.src = source;
+        audio.load();
+      }
+    };
+    
+    loadAudio();
   }, [activeTrack?.id, getAudioSource]);
 
   // Handle play/pause state with race condition protection
