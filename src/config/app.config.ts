@@ -13,8 +13,6 @@ export const APP_CONFIG = {
   beta: {
     enabled: true,
     feedbackUrl: 'https://t.me/musicverse_support',
-    showDisclaimer: true,
-    disclaimerDismissable: true,
   },
   
   // Feature flags for beta

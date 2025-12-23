@@ -83,10 +83,11 @@ export function MoreMenuSheet({ open, onOpenChange }: MoreMenuSheetProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
-  const { isAdmin } = useUserRole();
+  const { isAdmin, isLoading: rolesLoading } = useUserRole();
   const { hapticFeedback } = useTelegram();
   
   // Build sections list with admin section if user is admin
+  // Also add admin section if still loading to prevent flash
   const allSections = isAdmin ? [...menuSections, adminSection] : menuSections;
 
   const handleNavigate = (path: string) => {
@@ -191,8 +192,8 @@ export function MoreMenuSheet({ open, onOpenChange }: MoreMenuSheetProps) {
 
         {/* Version info */}
         <div className="mt-6 pt-4 border-t border-border/50 text-center">
-          <p className="text-[10px] text-muted-foreground/60">
-            MusicVerse AI v1.0
+          <p className="text-[10px] tracking-wider text-muted-foreground/25 font-light">
+            V0.1.0 · BETA · HOW2AI.AGENCY © 2025
           </p>
         </div>
       </SheetContent>
