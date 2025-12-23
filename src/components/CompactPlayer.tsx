@@ -46,7 +46,7 @@ interface CompactPlayerProps {
 
 export function CompactPlayer({ track, currentVersion, onClose, onMaximize, onExpand }: CompactPlayerProps) {
   // Use store volume for consistency
-  const { volume: storeVolume, setVolume: setStoreVolume } = usePlayerStore();
+  const { volume: storeVolume, setVolume: setStoreVolume, preservedTime, clearPreservedTime } = usePlayerStore();
   const [muted, setMuted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -59,6 +59,20 @@ export function CompactPlayer({ track, currentVersion, onClose, onMaximize, onEx
   // Check if track has valid audio source
   const hasAudioSource = !!(track.streaming_url || track.local_audio_url || track.audio_url);
   const isProcessing = track.status === 'processing' || track.status === 'pending';
+  
+  // Restore preserved time on mount (from mode switch)
+  useEffect(() => {
+    if (preservedTime !== null && !isNaN(preservedTime)) {
+      const audio = getGlobalAudioRef();
+      if (audio) {
+        const timer = setTimeout(() => {
+          audio.currentTime = preservedTime;
+          clearPreservedTime();
+        }, 50);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [preservedTime, clearPreservedTime]);
 
   // Monitor audio loading state
   useEffect(() => {

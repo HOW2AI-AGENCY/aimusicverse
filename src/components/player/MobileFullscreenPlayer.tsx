@@ -57,13 +57,27 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   
   const { toggleLike, downloadTrack } = useTracks();
   const { currentTime, duration, seek } = useAudioTime();
-  const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, repeat, shuffle, toggleRepeat, toggleShuffle, volume } = usePlayerStore();
+  const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, repeat, shuffle, toggleRepeat, toggleShuffle, volume, preservedTime, clearPreservedTime } = usePlayerStore();
   const { audioElement } = useGlobalAudioPlayer();
   
   // Get audio URL for waveform
   const audioUrl = useMemo(() => {
     return track.streaming_url || track.audio_url;
   }, [track.streaming_url, track.audio_url]);
+  
+  // Restore preserved time on mount (from mode switch)
+  useEffect(() => {
+    if (preservedTime !== null && audioElement && !isNaN(preservedTime)) {
+      // Small delay to ensure audio is ready
+      const timer = setTimeout(() => {
+        if (audioElement && preservedTime !== null) {
+          audioElement.currentTime = preservedTime;
+          clearPreservedTime();
+        }
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [preservedTime, audioElement, clearPreservedTime]);
   
   // CRITICAL: Resume AudioContext and ensure audio routing when fullscreen opens
   // Run only ONCE on mount to avoid multiple re-initializations

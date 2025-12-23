@@ -1,33 +1,45 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { CompactPlayer } from './CompactPlayer';
 import { FullscreenPlayer } from './FullscreenPlayer';
 import { ExpandedPlayer } from './player/ExpandedPlayer';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useMasterVersion } from '@/hooks/useTrackVersions';
+import { getGlobalAudioRef } from '@/hooks/audio/useAudioTime';
 import { AnimatePresence } from '@/lib/motion';
 
 export const ResizablePlayer = () => {
-  const { activeTrack, closePlayer, playerMode, setPlayerMode } = usePlayerStore();
+  const { activeTrack, closePlayer, playerMode, setPlayerMode, preserveTime } = usePlayerStore();
   
   // Fetch the primary version for correct lyrics synchronization
   const { data: currentVersion } = useMasterVersion(activeTrack?.id);
 
-  const handleExpand = () => {
+  // Preserve current time before mode switch to avoid audio restart
+  const preserveCurrentTime = useCallback(() => {
+    const audio = getGlobalAudioRef();
+    if (audio && !isNaN(audio.currentTime)) {
+      preserveTime(audio.currentTime);
+    }
+  }, [preserveTime]);
+
+  const handleExpand = useCallback(() => {
+    preserveCurrentTime();
     setPlayerMode('expanded');
-  };
+  }, [preserveCurrentTime, setPlayerMode]);
 
-  const handleMaximize = () => {
+  const handleMaximize = useCallback(() => {
+    preserveCurrentTime();
     setPlayerMode('fullscreen');
-  };
+  }, [preserveCurrentTime, setPlayerMode]);
 
-  const handleMinimize = () => {
+  const handleMinimize = useCallback(() => {
+    preserveCurrentTime();
     setPlayerMode('compact');
-  };
+  }, [preserveCurrentTime, setPlayerMode]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     closePlayer();
     setPlayerMode('compact');
-  };
+  }, [closePlayer, setPlayerMode]);
 
   if (!activeTrack) {
     return null;
