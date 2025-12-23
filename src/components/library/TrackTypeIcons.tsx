@@ -1,4 +1,4 @@
-import { Mic2, Guitar, Layers, Music2, FileText, FileMusic } from 'lucide-react';
+import { Mic2, Guitar, Layers, Music2, FileText, FileMusic, Copy, ArrowRight } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -27,8 +27,19 @@ export function TrackTypeIcons({
   // is_instrumental derived from has_vocals if not explicitly set
   const isInstrumental = track.is_instrumental === true || (track.is_instrumental == null && track.has_vocals === false);
   const hasStems = track.has_stems === true;
+  
+  // Detect cover/extend based on generation_mode
+  // 'remix', 'cover', 'upload_cover' are all covers
+  // 'extend', 'upload_extend' are extensions
+  const isCover = track.generation_mode === 'remix' || 
+    track.generation_mode === 'cover' || 
+    track.generation_mode === 'upload_cover';
+  const isExtend = track.generation_mode === 'extend' || 
+    track.generation_mode === 'upload_extend';
 
-  if (!hasVocals && !isInstrumental && !hasStems && !hasMidi && !hasPdf && !hasGp5) {
+  const hasAnyIcon = hasVocals || isInstrumental || hasStems || hasMidi || hasPdf || hasGp5 || isCover || isExtend;
+
+  if (!hasAnyIcon) {
     return null;
   }
 
@@ -37,6 +48,34 @@ export function TrackTypeIcons({
   return (
     <TooltipProvider delayDuration={300}>
       <div className="flex items-center gap-0.5">
+        {/* Cover indicator */}
+        {isCover && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="cursor-help p-0.5 rounded bg-purple-500/10">
+                <Copy className={cn(iconSize, "text-purple-500")} />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="text-xs">
+              <p>Кавер</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+        
+        {/* Extend indicator */}
+        {isExtend && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="cursor-help p-0.5 rounded bg-cyan-500/10">
+                <ArrowRight className={cn(iconSize, "text-cyan-500")} />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="text-xs">
+              <p>Расширение</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+
         {hasVocals && (
           <Tooltip>
             <TooltipTrigger asChild>

@@ -660,6 +660,9 @@ export function useGenerateForm({
                   action: 'cover',
                   coverAudioUrl: activeReference.audioUrl,
                   prompt: mode === 'simple' ? description : prompt,
+                  style: mode === 'custom' ? style : undefined,
+                  title: mode === 'custom' ? title : undefined,
+                  audioWeight: audioWeight[0], // Pass audioWeight for cover control
                 },
           });
           data = result.data;
