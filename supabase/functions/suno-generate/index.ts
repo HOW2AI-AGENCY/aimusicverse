@@ -71,6 +71,9 @@ serve(async (req) => {
         mappedBody = {
           audioUrl: coverAudioUrl,
           prompt: prompt,
+          style: style,
+          title: title,
+          instrumental: makeInstrumental,
         };
         break;
 
