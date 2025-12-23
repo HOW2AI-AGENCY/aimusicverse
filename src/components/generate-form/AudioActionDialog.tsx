@@ -14,17 +14,19 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { 
   FileAudio, Mic, X, Play, Pause, Sparkles, Upload, 
-  Disc, ArrowRight, Loader2, FileText, Check, History,
-  Clock, Music2, ChevronDown, ChevronUp, Rocket, Guitar
+  Disc, ArrowRight, Loader2, FileText, Check,
+  Rocket, Guitar
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useReferenceAudio, ReferenceAudio } from '@/hooks/useReferenceAudio';
+import { useAudioReference } from '@/hooks/useAudioReference';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { GuitarModeRecorder } from './GuitarModeRecorder';
+import { CloudAudioSelector } from '@/components/audio-reference';
 
 type AudioMode = 'cover' | 'extend';
 type RecordingMode = 'standard' | 'guitar';
@@ -59,7 +61,8 @@ export function AudioActionDialog({
   onOpenCoverDialog,
 }: AudioActionDialogProps) {
   const isMobile = useIsMobile();
-  const { audioList, saveAudio, updateAnalysis, isLoading: isLoadingHistory } = useReferenceAudio();
+  const { saveAudio, updateAnalysis: updateDbAnalysis } = useReferenceAudio();
+  const { setFromUpload, setFromCloud } = useAudioReference();
   
   const [mode, setMode] = useState<AudioMode>(initialMode);
   const [recordingMode, setRecordingMode] = useState<RecordingMode>('standard');
@@ -72,8 +75,6 @@ export function AudioActionDialog({
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [savedAudioId, setSavedAudioId] = useState<string | null>(null);
   
-  // Show history panel
-  const [showHistory, setShowHistory] = useState(false);
   
   // Analysis state with progress
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -106,7 +107,6 @@ export function AudioActionDialog({
       setAnalysisResult(null);
       setExtractedLyrics(null);
       setHasVocals(null);
-      setShowHistory(false);
       setAnalysisStep(0);
       setAnalysisProgress(0);
     }
@@ -290,7 +290,7 @@ export function AudioActionDialog({
         
         // Update database record
         if (audioRecord?.id || savedAudioId) {
-          await updateAnalysis({
+          await updateDbAnalysis({
             id: audioRecord?.id || savedAudioId!,
             genre: analysisResult.genre,
             mood: analysisResult.mood,
@@ -317,7 +317,7 @@ export function AudioActionDialog({
       
       // Update database record with failed status if exists
       if (savedAudioId) {
-        await updateAnalysis({
+        await updateDbAnalysis({
           id: savedAudioId,
           analysisStatus: 'failed',
         }).catch(() => {});
@@ -348,7 +348,7 @@ export function AudioActionDialog({
       
       // Update database record
       if (savedAudioId) {
-        await updateAnalysis({
+        await updateDbAnalysis({
           id: savedAudioId,
           hasVocals: data?.has_vocals,
           transcription: data?.lyrics,
@@ -449,41 +449,6 @@ export function AudioActionDialog({
     setAudioFile(file);
     await analyzeAudio(file);
   };
-
-  const selectFromHistory = async (item: ReferenceAudio) => {
-    setShowHistory(false);
-    
-    // Fetch the file from URL
-    try {
-      const response = await fetch(item.file_url);
-      const blob = await response.blob();
-      const file = new File([blob], item.file_name, { type: item.mime_type || 'audio/mpeg' });
-      
-      setAudioUrl(item.file_url);
-      setAudioFile(file);
-      setAudioDuration(item.duration_seconds ?? null);
-      setSavedAudioId(item.id);
-      
-      // Restore analysis if available
-      if (item.analysis_status === 'completed') {
-        setAnalysisResult({
-          genre: item.genre ?? undefined,
-          mood: item.mood ?? undefined,
-        });
-        setHasVocals(item.has_vocals);
-        if (item.transcription) {
-          setExtractedLyrics(item.transcription);
-        }
-      } else {
-        // Re-analyze if not completed
-        await analyzeAudio(file, item.file_url);
-      }
-    } catch (error) {
-      logger.error('Error loading from history', { error });
-      toast.error('Не удалось загрузить аудио');
-    }
-  };
-
   const handleRemove = () => {
     if (audioUrl && !audioUrl.startsWith('http')) {
       URL.revokeObjectURL(audioUrl);
@@ -510,11 +475,19 @@ export function AudioActionDialog({
     }
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (audioFile) {
+      // Use unified reference system
+      await setFromUpload(audioFile, mode);
       onAudioSelected(audioFile, mode);
       onOpenChange(false);
     }
+  };
+
+  // Handle cloud audio selection - integrates with unified reference
+  const handleCloudSelect = (audio: ReferenceAudio) => {
+    setFromCloud(audio, mode);
+    onOpenChange(false);
   };
 
   const modeConfig = {
@@ -593,57 +566,13 @@ export function AudioActionDialog({
       {/* Upload/Record/History */}
       {!isAnalyzing && !audioFile && !showGuitarMode && (
         <div className="space-y-2">
-          {/* History Toggle */}
-          {audioList.length > 0 && (
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="w-full justify-between text-muted-foreground"
-              onClick={() => setShowHistory(!showHistory)}
-            >
-              <span className="flex items-center gap-2">
-                <History className="w-4 h-4" />
-                Недавние ({audioList.length})
-              </span>
-              {showHistory ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </Button>
-          )}
-
-          {/* History List */}
-          {showHistory && (
-            <div className="max-h-40 overflow-y-auto rounded-lg border bg-muted/30">
-              {isLoadingHistory ? (
-                <div className="p-4 text-center">
-                  <Loader2 className="w-4 h-4 animate-spin mx-auto" />
-                </div>
-              ) : (
-                <div className="divide-y divide-border">
-                  {audioList.slice(0, 5).map((item) => (
-                    <button
-                      key={item.id}
-                      className="w-full p-2 flex items-center gap-2 hover:bg-muted/50 transition-colors text-left"
-                      onClick={() => selectFromHistory(item)}
-                    >
-                      <Music2 className="w-4 h-4 text-muted-foreground shrink-0" />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium truncate">{item.file_name}</p>
-                        <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
-                          {item.duration_seconds && (
-                            <span>{formatTime(Math.floor(item.duration_seconds))}</span>
-                          )}
-                          {item.genre && <Badge variant="outline" className="text-[10px] h-4 px-1">{item.genre}</Badge>}
-                        </div>
-                      </div>
-                      {item.analysis_status === 'completed' && (
-                        <Check className="w-3 h-3 text-green-500 shrink-0" />
-                      )}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+          {/* Cloud Audio Selector - integrated with unified reference system */}
+          <CloudAudioSelector
+            selectedMode={mode}
+            onSelect={(audio) => handleCloudSelect(audio)}
+            maxItems={5}
+            compact
+          />
 
           {/* Upload/Record Buttons */}
           <div className="grid grid-cols-3 gap-2">
