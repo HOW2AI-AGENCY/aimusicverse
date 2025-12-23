@@ -10,40 +10,11 @@ import type { Track } from '@/types/track';
 import { GenerateSheet } from '@/components/GenerateSheet';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { setRemixData, clearRemixData, type RemixData } from '@/lib/remix-storage';
 
 interface RemixButtonProps {
   track: Track;
   className?: string;
-}
-
-// Session storage key for remix data
-const REMIX_DATA_KEY = 'musicverse_remix_data';
-
-export interface RemixData {
-  parentTrackId: string;
-  parentTrackTitle: string;
-  title: string;
-  style: string;
-  lyrics: string;
-  tags: string;
-}
-
-export function setRemixData(data: RemixData) {
-  sessionStorage.setItem(REMIX_DATA_KEY, JSON.stringify(data));
-}
-
-export function getRemixData(): RemixData | null {
-  const data = sessionStorage.getItem(REMIX_DATA_KEY);
-  if (!data) return null;
-  try {
-    return JSON.parse(data);
-  } catch {
-    return null;
-  }
-}
-
-export function clearRemixData() {
-  sessionStorage.removeItem(REMIX_DATA_KEY);
 }
 
 export function RemixButton({ track, className }: RemixButtonProps) {
