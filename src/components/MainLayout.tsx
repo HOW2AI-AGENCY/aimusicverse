@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
 import { setSubscriptionDialogCallback } from '@/hooks/useTrackActions';
 import { useTelegramSettingsButton } from '@/hooks/telegram';
 import { SmartAlertProvider } from './notifications/smart-alerts';
-import { BetaDisclaimer } from './beta';
+import { BetaFooter } from './BetaFooter';
 
 // Lazy load heavy dialogs - not needed on initial render
 const TelegramOnboarding = lazy(() => import('./onboarding/TelegramOnboarding').then(m => ({ default: m.TelegramOnboarding })));
@@ -84,9 +84,6 @@ export const MainLayout = () => {
   return (
     <SmartAlertProvider>
     <div className="flex flex-col h-screen bg-background">
-      {/* Beta disclaimer banner */}
-      <BetaDisclaimer />
-      
       <div className="flex flex-1 overflow-hidden">
       {/* Skip to content for keyboard navigation */}
       <SkipToContent />
@@ -145,6 +142,7 @@ export const MainLayout = () => {
             : 'px-4 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))]'
         )}>
           <Outlet />
+          <BetaFooter />
         </div>
         <ResizablePlayer />
       </main>
