@@ -113,7 +113,7 @@ export function BetaDisclaimer({ className, variant = 'banner' }: BetaDisclaimer
     );
   }
 
-  // Default banner variant
+  // Default banner variant with Telegram safe area support
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -124,6 +124,9 @@ export function BetaDisclaimer({ className, variant = 'banner' }: BetaDisclaimer
         "border-b border-amber-500/20",
         className
       )}
+      style={{
+        paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px)), env(safe-area-inset-top, 0px))'
+      }}
     >
       {/* Animated background shimmer */}
       <motion.div
