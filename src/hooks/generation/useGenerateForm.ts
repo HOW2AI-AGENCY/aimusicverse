@@ -640,13 +640,10 @@ export function useGenerateForm({
         // If we have an audio reference in cover/extend mode, use legacy proxy that routes
         // to the correct backend function with required parameters (audioUrl/continueAt).
         if (activeReference?.audioUrl && (activeReference.intendedMode === 'extend' || activeReference.intendedMode === 'cover')) {
-          // For extend: continueAt should be close to end but not at the very end
-          // Use 80% of duration or duration - 5 seconds, whichever is smaller
+          // For extend: use continueAt from reference (set by user via ExtendRangeSelector)
+          // or fallback to near the end of the track
           const duration = activeReference.durationSeconds || 60;
-          const continueAt = Math.min(
-            Math.floor(duration * 0.8),
-            Math.max(duration - 5, 1)
-          );
+          const continueAt = activeReference.continueAt ?? Math.max(5, duration - 5);
 
           const result = await supabase.functions.invoke('suno-generate', {
             body: activeReference.intendedMode === 'extend'
