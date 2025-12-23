@@ -8,9 +8,8 @@ import { motion } from '@/lib/motion';
 import { SectionSkeleton } from '@/components/lazy/LazySection';
 import { cn } from '@/lib/utils';
 
-const DailyCheckin = lazy(() => import('@/components/gamification/DailyCheckin').then(m => ({ default: m.DailyCheckin })));
-const CompactStatsWidget = lazy(() => import('@/components/home/CompactStatsWidget').then(m => ({ default: m.CompactStatsWidget })));
 const FollowingFeed = lazy(() => import('@/components/social/FollowingFeed').then(m => ({ default: m.FollowingFeed })));
+const GamificationBar = lazy(() => import('@/components/gamification/GamificationBar').then(m => ({ default: m.GamificationBar })));
 
 interface DesktopDashboardLayoutProps {
   children: ReactNode;
@@ -38,20 +37,9 @@ export function DesktopDashboardLayout({
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2, duration: 0.3 }}
         >
-          {/* Daily Checkin Widget */}
-          <Suspense fallback={<SectionSkeleton height="120px" />}>
-            <div className="bg-card rounded-xl border border-border/50 p-4">
-              <h3 className="text-sm font-semibold mb-3">Ежедневный чекин</h3>
-              <DailyCheckin />
-            </div>
-          </Suspense>
-
-          {/* Stats Widget */}
-          <Suspense fallback={<SectionSkeleton height="100px" />}>
-            <div className="bg-card rounded-xl border border-border/50 p-4">
-              <h3 className="text-sm font-semibold mb-3">Статистика</h3>
-              <CompactStatsWidget />
-            </div>
+          {/* Gamification Widget - includes checkin and stats */}
+          <Suspense fallback={<SectionSkeleton height="80px" />}>
+            <GamificationBar />
           </Suspense>
 
           {/* Following Feed Widget */}

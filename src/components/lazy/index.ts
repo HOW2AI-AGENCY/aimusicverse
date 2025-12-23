@@ -11,10 +11,6 @@ import { lazy } from 'react';
 // Heavy dialogs and sheets
 // ============================================
 
-export const LazyUploadAudioDialog = lazy(() => 
-  import('@/components/UploadAudioDialog').then(m => ({ default: m.UploadAudioDialog }))
-);
-
 export const LazyGenerateSheet = lazy(() => 
   import('@/components/GenerateSheet').then(m => ({ default: m.GenerateSheet }))
 );
