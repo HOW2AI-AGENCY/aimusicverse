@@ -27,6 +27,7 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   in_progress: { label: 'В работе', color: 'bg-blue-500/20 text-blue-500' },
   completed: { label: 'Завершен', color: 'bg-green-500/20 text-green-500' },
   released: { label: 'Выпущен', color: 'bg-purple-500/20 text-purple-500' },
+  published: { label: 'Опубликован', color: 'bg-emerald-500/20 text-emerald-500' },
 };
 
 const typeLabels: Record<string, string> = {
