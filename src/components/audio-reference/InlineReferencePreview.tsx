@@ -47,7 +47,8 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
   showModeSelector = true,
 }: InlineReferencePreviewProps) {
   const { activeReference, clearActive, analysisStatus } = useAudioReference();
-  const [isExpanded, setIsExpanded] = useState(false);
+  // Auto-expand when mode selector is shown to let user choose cover/extend
+  const [isExpanded, setIsExpanded] = useState(showModeSelector);
 
   const {
     isPlaying,

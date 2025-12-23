@@ -57,16 +57,28 @@ serve(async (req) => {
         break;
 
       case 'extend':
-        targetFunction = 'suno-music-extend';
-        mappedBody = {
-          sourceTrackId: trackId,  // Use trackId as sourceTrackId
-          audioUrl: extendAudioUrl,
-          continueAt: continueAt,
-          prompt: prompt,
-          style: style,
-          title: title,
-          defaultParamFlag: false, // Use custom params when provided
-        };
+        // For extend with audioUrl (from reference audio), use suno-extend-audio
+        // For extend with trackId (from existing track), use suno-music-extend
+        if (extendAudioUrl && !trackId) {
+          targetFunction = 'suno-extend-audio';
+          mappedBody = {
+            audioUrl: extendAudioUrl,
+            continueAt: continueAt,
+            prompt: prompt,
+            style: style,
+            title: title,
+          };
+        } else {
+          targetFunction = 'suno-music-extend';
+          mappedBody = {
+            sourceTrackId: trackId,
+            continueAt: continueAt,
+            prompt: prompt,
+            style: style,
+            title: title,
+            defaultParamFlag: false,
+          };
+        }
         break;
 
       case 'cover':
@@ -99,6 +111,8 @@ serve(async (req) => {
       default:
         throw new Error(`Unknown action: ${action}. Use suno-music-generate directly.`);
     }
+
+    console.log(`[suno-generate] Forwarding to ${targetFunction}`, { hasAudioUrl: !!extendAudioUrl, hasTrackId: !!trackId });
 
     // Forward the request with original auth header
     const response = await fetch(`${supabaseUrl}/functions/v1/${targetFunction}`, {

@@ -248,3 +248,6 @@ verify_jwt = true
 
 [functions.extract-lyrics-from-stem]
 verify_jwt = true
+
+[functions.suno-extend-audio]
+verify_jwt = true
