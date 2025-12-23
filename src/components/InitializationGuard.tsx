@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState, useRef } from 'react';
 import { useTelegram } from '@/contexts/TelegramContext';
-import { LoadingScreen } from '@/components/ui/loading-screen';
+import { LoadingScreen } from '@/components/UnifiedSplashScreen';
 import { logger } from '@/lib/logger';
 import { cleanupStaleData } from '@/lib/cleanupStaleData';
 import { preloadCriticalRoutes } from '@/lib/route-preloader';

@@ -6,7 +6,7 @@ import { useGuestMode } from '@/contexts/GuestModeContext';
 import { Loader2, Music, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { SplashScreen } from '@/components/SplashScreen';
+import { SplashScreen } from '@/components/UnifiedSplashScreen';
 import logo from '@/assets/logo.png';
 import { logger } from '@/lib/logger';
 
