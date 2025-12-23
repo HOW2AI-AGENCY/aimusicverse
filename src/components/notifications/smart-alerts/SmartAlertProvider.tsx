@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { SmartAlert, MAX_ALERTS_ON_PAGE_LOAD, ALERT_PRIORITIES } from './types';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { SmartAlert, MAX_ALERTS_ON_PAGE_LOAD, ALERT_PRIORITIES, QUIET_ROUTES } from './types';
 import { SmartAlertOverlay } from './SmartAlertOverlay';
 import { useAntiSpam } from './useAntiSpam';
 import { useAuth } from '@/contexts/AuthContext';
@@ -32,14 +32,26 @@ interface SmartAlertProviderProps {
 export function SmartAlertProvider({ children }: SmartAlertProviderProps) {
   const [currentAlert, setCurrentAlert] = useState<SmartAlert | null>(null);
   const [alertQueue, setAlertQueue] = useState<SmartAlert[]>([]);
-  const { canShowAlert, markAlertShown } = useAntiSpam();
+  const { canShowAlert, markAlertShown, getSessionCount } = useAntiSpam();
   const { user } = useAuth();
   const { data: profile } = useProfile();
   const hasCheckedOnLoad = useRef(false);
   const alertsShownOnLoad = useRef(0);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Check if current route is a quiet route
+  const isQuietRoute = useCallback(() => {
+    return QUIET_ROUTES.some(route => location.pathname.startsWith(route));
+  }, [location.pathname]);
 
   const showAlert = useCallback((alert: SmartAlert) => {
+    // Don't show alerts on quiet routes (unless immediate)
+    if (isQuietRoute() && !alert.id.startsWith('immediate-')) {
+      logger.debug('Alert blocked on quiet route', { alertId: alert.id, route: location.pathname });
+      return;
+    }
+
     // Check anti-spam
     if (!canShowAlert(alert.id)) {
       logger.debug('Alert blocked by anti-spam', { alertId: alert.id });
@@ -74,7 +86,7 @@ export function SmartAlertProvider({ children }: SmartAlertProviderProps) {
         setCurrentAlert(prev => prev?.id === alert.id ? null : prev);
       }, alert.autoHide);
     }
-  }, [canShowAlert, markAlertShown, currentAlert]);
+  }, [canShowAlert, markAlertShown, currentAlert, isQuietRoute, location.pathname]);
 
   const dismissAlert = useCallback(() => {
     setCurrentAlert(null);
@@ -115,10 +127,19 @@ export function SmartAlertProvider({ children }: SmartAlertProviderProps) {
   // Check conditions on mount
   useEffect(() => {
     if (!user || !profile || hasCheckedOnLoad.current) return;
+    if (isQuietRoute()) return; // Don't check on quiet routes
+    
     hasCheckedOnLoad.current = true;
 
     const checkConditions = async () => {
       try {
+        // Check session count - don't annoy users who already saw many alerts
+        const sessionCount = getSessionCount();
+        if (sessionCount >= 2) {
+          logger.debug('Skipping condition checks - session limit reached');
+          return;
+        }
+
         // Check for no projects (only if user has been around for a while)
         const { count: projectsCount } = await supabase
           .from('music_projects')
@@ -133,6 +154,7 @@ export function SmartAlertProvider({ children }: SmartAlertProviderProps) {
             message: 'Начните с создания музыкального проекта — альбома, EP или сингла.',
             illustration: 'empty-projects',
             priority: ALERT_PRIORITIES['no-projects'],
+            featureKey: 'projects',
             actions: [
               {
                 label: 'Создать проект',
@@ -159,6 +181,7 @@ export function SmartAlertProvider({ children }: SmartAlertProviderProps) {
               message: 'Заполните профиль, чтобы другие пользователи могли найти вашу музыку.',
               illustration: 'profile-setup',
               priority: ALERT_PRIORITIES['profile-incomplete'],
+              featureKey: 'profile',
               actions: [
                 {
                   label: 'Настроить',
@@ -195,6 +218,7 @@ export function SmartAlertProvider({ children }: SmartAlertProviderProps) {
               message: 'Создайте уникального AI-артиста для персонализации стиля ваших треков.',
               illustration: 'artist-create',
               priority: ALERT_PRIORITIES['no-artists'],
+              featureKey: 'artists',
               actions: [
                 {
                   label: 'Создать артиста',
@@ -222,6 +246,7 @@ export function SmartAlertProvider({ children }: SmartAlertProviderProps) {
             message: 'Ваши стемы готовы для редактирования. Откройте студию, чтобы начать работу.',
             illustration: 'stems-ready',
             priority: ALERT_PRIORITIES['stems-ready'],
+            featureKey: 'stems',
             actions: [
               {
                 label: 'Открыть студию',
@@ -238,7 +263,7 @@ export function SmartAlertProvider({ children }: SmartAlertProviderProps) {
     // Delay check to not interrupt initial page load
     const timer = setTimeout(checkConditions, 3000);
     return () => clearTimeout(timer);
-  }, [user, profile, canShowAlert, showAlert, navigate]);
+  }, [user, profile, canShowAlert, showAlert, navigate, isQuietRoute, getSessionCount]);
 
   // Listen for generation errors
   useEffect(() => {

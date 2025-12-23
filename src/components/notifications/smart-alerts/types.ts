@@ -1,3 +1,5 @@
+import type { FeatureKey } from './FeatureDescriptions';
+
 export type AlertType = 'error' | 'warning' | 'info' | 'success' | 'onboarding';
 
 export type AlertIllustration = 
@@ -27,6 +29,7 @@ export interface SmartAlert {
   autoHide?: number; // ms
   priority?: number;
   soundEffect?: boolean;
+  featureKey?: FeatureKey; // For "Learn More" button
 }
 
 export interface AlertCondition {
@@ -37,13 +40,21 @@ export interface AlertCondition {
   priority: number;
 }
 
+// Anti-spam constants
+export const MIN_ALERT_INTERVAL = 30 * 1000; // 30 seconds between any alerts
+export const MAX_ALERTS_PER_SESSION = 3; // Max 3 alerts per session
+export const MAX_ALERTS_ON_PAGE_LOAD = 1;
+
+// Routes where alerts should not appear
+export const QUIET_ROUTES = ['/studio', '/generate', '/onboarding'];
+
 export const ALERT_COOLDOWNS: Record<string, number> = {
-  'generation-error': 5 * 60 * 1000, // 5 минут
-  'no-projects': 7 * 24 * 60 * 60 * 1000, // 7 дней
-  'profile-incomplete': 3 * 24 * 60 * 60 * 1000, // 3 дня
-  'no-artists': 5 * 24 * 60 * 60 * 1000, // 5 дней
-  'stems-ready': 1 * 24 * 60 * 60 * 1000, // 1 день
-  'welcome-back': 3 * 24 * 60 * 60 * 1000, // 3 дня
+  'generation-error': 5 * 60 * 1000, // 5 minutes
+  'no-projects': 7 * 24 * 60 * 60 * 1000, // 7 days
+  'profile-incomplete': 3 * 24 * 60 * 60 * 1000, // 3 days
+  'no-artists': 5 * 24 * 60 * 60 * 1000, // 5 days
+  'stems-ready': 1 * 24 * 60 * 60 * 1000, // 1 day
+  'welcome-back': 3 * 24 * 60 * 60 * 1000, // 3 days
 };
 
 export const ALERT_PRIORITIES: Record<string, number> = {
@@ -57,4 +68,5 @@ export const ALERT_PRIORITIES: Record<string, number> = {
 };
 
 export const STORAGE_KEY = 'smart_alerts_shown';
-export const MAX_ALERTS_ON_PAGE_LOAD = 1;
+export const SESSION_KEY = 'smart_alerts_session';
+export const LAST_ALERT_KEY = 'smart_alerts_last_time';
