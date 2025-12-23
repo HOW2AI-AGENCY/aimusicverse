@@ -95,7 +95,8 @@ export function isUserMentioned(
 }
 
 /**
- * Replace mentions with links in formatted text
+ * Replace mentions with clickable spans for SPA navigation
+ * Uses data attributes instead of <a href> to prevent full page reloads
  */
 export function formatMentionsAsLinks(
   content: string,
@@ -117,11 +118,28 @@ export function formatMentionsAsLinks(
     );
     const after = formatted.substring(mention.endIndex);
     
-    const displayName = mention.displayName || mention.username;
-    formatted = `${before}<a href="/profile/${mention.userId}" class="mention" data-user-id="${mention.userId}" data-username="${mention.username}">${mentionText}</a>${after}`;
+    // Use span with data attributes for SPA-friendly click handling
+    formatted = `${before}<span class="mention cursor-pointer text-primary hover:underline" data-mention-navigate="/profile/${mention.userId}" data-user-id="${mention.userId}" data-username="${mention.username}" role="link" tabindex="0">${mentionText}</span>${after}`;
   });
 
   return formatted;
+}
+
+/**
+ * Handle mention click events - attach to parent container
+ * Usage: container.addEventListener('click', handleMentionClick)
+ */
+export function createMentionClickHandler(navigate: (path: string) => void) {
+  return (event: Event) => {
+    const target = event.target as HTMLElement;
+    const mentionPath = target.getAttribute('data-mention-navigate');
+    
+    if (mentionPath) {
+      event.preventDefault();
+      event.stopPropagation();
+      navigate(mentionPath);
+    }
+  };
 }
 
 /**

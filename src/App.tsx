@@ -19,6 +19,7 @@ import { GlobalAudioProvider } from "@/components/GlobalAudioProvider";
 import { LoadingScreen } from "@/components/ui/loading-screen";
 import { InitializationGuard } from "@/components/InitializationGuard";
 import { ProfileSetupGuard } from "@/components/profile/ProfileSetupGuard";
+import { NavigationProvider } from "@/components/NavigationProvider";
 
 // Wrapper to use ProfileSetupGuard with Outlet
 function ProfileSetupGuardWrapper({ children }: { children: React.ReactNode }) {
@@ -98,6 +99,7 @@ const App = () => (
                       <TooltipProvider>
                         <Sonner />
                       <BrowserRouter>
+                      <NavigationProvider>
                       <InteractiveTooltipProvider>
                         <DeepLinkHandler />
                       <Suspense fallback={<LoadingScreen />}>
@@ -171,6 +173,7 @@ const App = () => (
                       </Routes>
                       </Suspense>
                         </InteractiveTooltipProvider>
+                      </NavigationProvider>
                       </BrowserRouter>
                     </TooltipProvider>
                   </GamificationProvider>

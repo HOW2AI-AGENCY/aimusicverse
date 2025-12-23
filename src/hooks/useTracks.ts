@@ -15,7 +15,7 @@ import * as tracksApi from '@/api/tracks.api';
 export type { Track, TrackWithCreator, TrackSummary } from '@/types/track';
 export type { EnrichedTrack } from '@/services/tracks.service';
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 30; // Increased for fewer requests
 
 export interface UseTracksParams {
   projectId?: string;
@@ -59,10 +59,11 @@ export function useTracks(params: UseTracksParams = {}) {
       return lastPage.hasMore ? allPages.length : undefined;
     },
     enabled: !!user?.id && paginate === true,
-    staleTime: 30000,
-    gcTime: 10 * 60 * 1000,
+    staleTime: 60 * 1000, // 1 minute - optimized caching
+    gcTime: 15 * 60 * 1000, // 15 minutes - keep data longer
     initialPageParam: 0,
     refetchOnWindowFocus: false,
+    refetchOnMount: false, // Prevent refetch when component remounts
   });
 
   // Simple query for non-paginated mode
@@ -77,9 +78,10 @@ export function useTracks(params: UseTracksParams = {}) {
       return result.tracks;
     },
     enabled: !!user?.id && paginate === false,
-    staleTime: 30000,
-    gcTime: 10 * 60 * 1000,
+    staleTime: 60 * 1000, // 1 minute
+    gcTime: 15 * 60 * 1000, // 15 minutes
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
   // Realtime subscription
