@@ -259,7 +259,7 @@ export function useLyricsSynchronization({
   const lastUpdateRef = useRef<number>(0);
   const prevActiveLineRef = useRef<number>(-1);
   const prevActiveWordRef = useRef<number>(-1);
-  const timeSmootherRef = useRef(new TimeSmootherAdvanced(SYNC_CONSTANTS.JITTER_SMOOTHING_FACTOR));
+  const timeSmootherRef = useRef(new TimeSmootherAdvanced());
   
   // Memoize lines - use provided or generate from words
   const lines = useMemo(() => {
@@ -306,7 +306,7 @@ export function useLyricsSynchronization({
     const rawTime = audio.currentTime;
     
     // Smooth time to reduce jitter
-    const smoothedTime = timeSmootherRef.current.smooth(rawTime, now);
+    const smoothedTime = timeSmootherRef.current.update(rawTime);
     
     let activeWordIndex: number;
     let activeLineIndex: number;
@@ -367,7 +367,7 @@ export function useLyricsSynchronization({
   // Reset smoother when playback stops/starts
   useEffect(() => {
     if (!isPlaying) {
-      timeSmootherRef.current = new TimeSmootherAdvanced(SYNC_CONSTANTS.JITTER_SMOOTHING_FACTOR);
+      timeSmootherRef.current.reset();
     }
   }, [isPlaying]);
   
