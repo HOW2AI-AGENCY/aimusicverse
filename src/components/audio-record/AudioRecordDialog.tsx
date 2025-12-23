@@ -1,11 +1,11 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
-import { Mic, Square, Play, Pause, Trash2, Music, MicVocal, Loader2, Cloud, Disc, ArrowRight } from 'lucide-react';
+import { Mic, Square, Play, Pause, Trash2, Music, MicVocal, Loader2, Cloud, Disc, ArrowRight, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { toast } from 'sonner';
@@ -15,6 +15,7 @@ import { logger } from '@/lib/logger';
 import { CloudAudioPicker } from './CloudAudioPicker';
 import { ReferenceManager } from '@/services/audio-reference/ReferenceManager';
 import type { ReferenceAudio } from '@/hooks/useReferenceAudio';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 interface AudioRecordDialogProps {
   open: boolean;
@@ -42,6 +43,12 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
   const audioChunksRef = useRef<Blob[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Telegram back button integration
+  const { shouldShowUIButton } = useTelegramBackButton({
+    visible: open,
+    onClick: () => onOpenChange(false),
+  });
 
   const startRecording = useCallback(async () => {
     try {
@@ -278,12 +285,29 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md h-[90vh] flex flex-col overflow-hidden">
+      <DialogContent 
+        className="max-w-md h-[90vh] flex flex-col overflow-hidden"
+        style={{
+          paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))'
+        }}
+      >
         <DialogHeader className="shrink-0">
-          <DialogTitle className="flex items-center gap-2">
-            <Mic className="w-5 h-5 text-primary" />
-            Записать или выбрать аудио
-          </DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle className="flex items-center gap-2">
+              <Mic className="w-5 h-5 text-primary" />
+              Записать или выбрать аудио
+            </DialogTitle>
+            {shouldShowUIButton && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 rounded-full"
+                onClick={() => onOpenChange(false)}
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            )}
+          </div>
         </DialogHeader>
 
         <div className="flex-1 min-h-0 overflow-y-auto">
