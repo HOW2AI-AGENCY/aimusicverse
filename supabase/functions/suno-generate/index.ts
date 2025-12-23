@@ -59,10 +59,13 @@ serve(async (req) => {
       case 'extend':
         targetFunction = 'suno-music-extend';
         mappedBody = {
+          sourceTrackId: trackId,  // Use trackId as sourceTrackId
           audioUrl: extendAudioUrl,
           continueAt: continueAt,
           prompt: prompt,
           style: style,
+          title: title,
+          defaultParamFlag: false, // Use custom params when provided
         };
         break;
 

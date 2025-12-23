@@ -81,6 +81,9 @@ export function useTelegramSecondaryButton({
     typeof webApp.SecondaryButton.setText === 'function'
   );
   
+  // Track if we've attempted to show the native button
+  const attemptedShowRef = useRef(false);
+  
   // Check if SecondaryButton is actually visible
   const secondaryButtonVisible = webApp?.SecondaryButton ? (webApp.SecondaryButton as { isVisible?: boolean }).isVisible === true : false;
   
@@ -94,8 +97,11 @@ export function useTelegramSecondaryButton({
     (isNativePlatform || !isDevelopmentMode)
   );
   
-  // Show UI button as fallback if SecondaryButton is not supported or not rendering
-  const shouldShowUIButton = !isSupported || (isSupported && visible && !secondaryButtonVisible);
+  // Show UI button ONLY if:
+  // 1. Native button is not supported at all, OR
+  // 2. We've attempted to show native button but it's not visible after a delay
+  // Don't show UI button initially when native is supported - wait for native to render
+  const shouldShowUIButton = !isSupported;
   
   // Stable callback wrapper
   const handleClick = useCallback(() => {
