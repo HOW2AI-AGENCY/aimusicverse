@@ -23,6 +23,7 @@ interface ProjectMediaGeneratorProps {
     mood?: string | null;
     concept?: string | null;
     cover_url?: string | null;
+    banner_url?: string | null;
   };
   track?: {
     id: string;
@@ -63,10 +64,26 @@ export function ProjectMediaGenerator({
   const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'generate' | 'result'>('generate');
 
   const targetEntity = track ? 'трека' : 'проекта';
   const entityTitle = track?.title || project.title;
+
+  // Get current media URL based on selected asset type
+  const getCurrentMediaUrl = () => {
+    switch (assetType) {
+      case 'cover': return project.cover_url || null;
+      case 'banner': return project.banner_url || null;
+      case 'story': return null; // Stories are not persisted
+      default: return null;
+    }
+  };
+
+  const currentMediaUrl = getCurrentMediaUrl();
+  
+  // Default to 'current' tab if media exists, otherwise 'generate'
+  const [activeTab, setActiveTab] = useState<'generate' | 'result' | 'current'>(
+    project.cover_url ? 'current' : 'generate'
+  );
 
   const buildPrompt = () => {
     const parts: string[] = [];
@@ -195,16 +212,75 @@ export function ProjectMediaGenerator({
   const content = (
     <div className="flex flex-col h-full min-h-0">
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)} className="flex flex-col h-full min-h-0">
-        <TabsList className="w-full grid grid-cols-2 shrink-0 mx-4 mt-2" style={{ width: 'calc(100% - 32px)' }}>
+        <TabsList className={cn(
+          "w-full shrink-0 mx-4 mt-2",
+          currentMediaUrl ? "grid grid-cols-3" : "grid grid-cols-2"
+        )} style={{ width: 'calc(100% - 32px)' }}>
+          {currentMediaUrl && (
+            <TabsTrigger value="current" className="gap-1.5">
+              <Image className="w-3.5 h-3.5" />
+              Текущее
+            </TabsTrigger>
+          )}
           <TabsTrigger value="generate" className="gap-1.5">
             <Wand2 className="w-3.5 h-3.5" />
             Создать
           </TabsTrigger>
           <TabsTrigger value="result" disabled={!generatedUrl} className="gap-1.5">
-            <Image className="w-3.5 h-3.5" />
+            <Sparkles className="w-3.5 h-3.5" />
             Результат
           </TabsTrigger>
         </TabsList>
+
+        {/* Current Media Tab */}
+        {currentMediaUrl && (
+          <TabsContent value="current" className="flex-1 overflow-hidden mt-0">
+            <ScrollArea className="h-full">
+              <div className="p-4 space-y-4">
+                <div className="space-y-2">
+                  <Label className="text-sm flex items-center gap-2">
+                    <Check className="w-3.5 h-3.5 text-green-500" />
+                    {assetType === 'cover' ? 'Текущая обложка' : 
+                     assetType === 'banner' ? 'Текущий баннер' : 'Текущая история'}
+                  </Label>
+                  <div className={cn(
+                    "relative rounded-lg overflow-hidden bg-muted border",
+                    assetType === 'cover' ? 'aspect-square' :
+                    assetType === 'banner' ? 'aspect-video' : 'aspect-[9/16]'
+                  )}>
+                    <img
+                      src={currentMediaUrl}
+                      alt="Current media"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  <Button 
+                    variant="outline" 
+                    className="flex-1 gap-2"
+                    onClick={() => setActiveTab('generate')}
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                    Заменить
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="gap-2"
+                    onClick={() => {
+                      if (currentMediaUrl) {
+                        window.open(currentMediaUrl, '_blank');
+                      }
+                    }}
+                  >
+                    <Download className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </ScrollArea>
+          </TabsContent>
+        )}
 
         <TabsContent value="generate" className="flex-1 overflow-hidden mt-0">
           <ScrollArea className="h-full">
