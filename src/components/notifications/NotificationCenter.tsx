@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bell, Volume2, VolumeX, CheckCheck, Trash2, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence } from '@/lib/motion';
@@ -146,6 +146,28 @@ export function NotificationCenter() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const unreadNotifications = notifications.filter(n => !n.read);
+  const markAsReadTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Auto-mark notifications as read after opening popover for 2 seconds
+  useEffect(() => {
+    if (open && unreadCount > 0) {
+      // Clear any existing timeout
+      if (markAsReadTimeoutRef.current) {
+        clearTimeout(markAsReadTimeoutRef.current);
+      }
+      
+      // Mark all as read after 2 seconds of viewing
+      markAsReadTimeoutRef.current = setTimeout(() => {
+        markAllAsRead();
+      }, 2000);
+    }
+    
+    return () => {
+      if (markAsReadTimeoutRef.current) {
+        clearTimeout(markAsReadTimeoutRef.current);
+      }
+    };
+  }, [open, unreadCount, markAllAsRead]);
   
   const handleNavigate = (path: string) => {
     setOpen(false);
