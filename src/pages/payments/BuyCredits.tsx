@@ -1,11 +1,14 @@
 /**
  * BuyCredits Page
  * Displays credit packages for purchase with Telegram Stars
+ * Note: Admins are redirected to home as they don't need to purchase credits
  */
 
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { Sparkles, Filter } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useUserRole } from '@/hooks/useUserRole';
 import { useStarsPayment } from '@/hooks/useStarsPayment';
 import { useGroupedProducts } from '@/hooks/useStarsProducts';
 import { CreditPackageCard } from '@/components/payments/CreditPackageCard';
@@ -14,6 +17,7 @@ import { PaymentSuccessModal } from '@/components/payments/PaymentSuccessModal';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Loader2 } from 'lucide-react';
 import type { StarsProduct } from '@/services/starsPaymentService';
 
 type FilterType = 'all' | 'featured';
@@ -32,11 +36,25 @@ function LoadingState() {
 
 export default function BuyCredits() {
   const { user } = useAuth();
+  const { isAdmin, isLoading: roleLoading } = useUserRole();
   const [filter, setFilter] = useState<FilterType>('all');
   const [selectedProduct, setSelectedProduct] = useState<StarsProduct | null>(null);
   
   const { data: groupedProducts, isLoading, error } = useGroupedProducts();
   const { initiatePayment, isCreatingInvoice, flowState, resetFlow } = useStarsPayment();
+
+  // Admin users don't need to purchase credits - redirect to home
+  if (roleLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (isAdmin) {
+    return <Navigate to="/" replace />;
+  }
 
   // Determine which products to display
   const displayProducts =

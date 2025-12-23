@@ -81,7 +81,10 @@ export default function Artists() {
     <div className="min-h-screen bg-background pb-24">
       {/* Compact Header */}
       <div className="relative overflow-hidden border-b border-border/30 bg-gradient-to-b from-primary/5 to-background">
-        <div className="container max-w-6xl mx-auto px-4 py-4 relative">
+        <div 
+          className="container max-w-6xl mx-auto px-4 pb-4 relative"
+          style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' }}
+        >
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

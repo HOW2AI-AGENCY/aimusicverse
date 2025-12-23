@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useAuth } from '@/hooks/useAuth';
+import { useUserRole } from '@/hooks/useUserRole';
 import { PricingCard, type StarsProduct } from '@/components/payment/PricingCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
@@ -43,11 +45,23 @@ function mapToStarsProduct(p: DBProduct): StarsProduct {
 export default function Pricing() {
   const { webApp, showAlert } = useTelegram();
   const { user } = useAuth();
+  const { isAdmin, isLoading: roleLoading } = useUserRole();
   const queryClient = useQueryClient();
   const userId = user?.id;
   const [purchasingProduct, setPurchasingProduct] = useState<string | null>(null);
 
-  // Set up back button
+  // Admin users don't need to purchase - redirect to home
+  if (roleLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (isAdmin) {
+    return <Navigate to="/" replace />;
+  }
   useEffect(() => {
     if (webApp) {
       webApp.BackButton.show();
