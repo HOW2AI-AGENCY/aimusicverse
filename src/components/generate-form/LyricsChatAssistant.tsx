@@ -324,7 +324,7 @@ export function LyricsChatAssistant({
   };
 
   const chatContent = (
-    <div className="flex flex-col h-full min-h-0">
+    <div className="flex flex-col flex-1 h-full min-h-0 overflow-hidden">
       {/* AI Toolbar */}
       <div className="border-b border-border/50 shrink-0">
         <AIToolbar 
@@ -362,13 +362,13 @@ export function LyricsChatAssistant({
         </TabsList>
       </Tabs>
 
-      {/* Tab Contents - Fixed height scrollable area */}
-      <div className="flex-1 min-h-0 overflow-hidden">
+      {/* Tab Contents - Fixed height scrollable area - takes all remaining space */}
+      <div className="flex-1 min-h-0 overflow-hidden relative">
         {activeTab === 'chat' && (
           <div 
             ref={scrollContainerRef}
             onScroll={handleScroll}
-            className="h-full overflow-y-auto overscroll-contain px-4 py-3"
+            className="absolute inset-0 overflow-y-auto overscroll-contain px-4 py-3"
           >
             <div className="space-y-3 pb-4">
               <AnimatePresence mode="popLayout">
@@ -427,7 +427,7 @@ export function LyricsChatAssistant({
         )}
 
         {activeTab === 'quick' && (
-          <div className="h-full overflow-y-auto overscroll-contain p-4">
+          <div className="absolute inset-0 overflow-y-auto overscroll-contain p-4">
             <QuickActions
               hasLyrics={!!generatedLyrics}
               onActionSelect={handleQuickActionSelect}
@@ -436,7 +436,7 @@ export function LyricsChatAssistant({
         )}
 
         {activeTab === 'tags' && (
-          <div className="h-full overflow-y-auto overscroll-contain p-4">
+          <div className="absolute inset-0 overflow-y-auto overscroll-contain p-4">
             <TagBuilderPanel
               onTagsGenerated={handleTagsGenerated}
               genre={initialGenre || projectContext?.genre}
@@ -446,7 +446,7 @@ export function LyricsChatAssistant({
         )}
 
         {activeTab === 'ai' && (
-          <div className="h-full overflow-y-auto overscroll-contain p-4">
+          <div className="absolute inset-0 overflow-y-auto overscroll-contain p-4">
             <ContextRecommendations
               recommendations={recommendations}
               isLoading={isLoadingRecs}
@@ -526,7 +526,7 @@ export function LyricsChatAssistant({
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="h-[100dvh] max-h-[100dvh] flex flex-col safe-area-inset rounded-none">
+        <DrawerContent className="h-[100dvh] max-h-[100dvh] flex flex-col safe-area-inset rounded-none overflow-hidden">
           <DrawerHeader className="pb-2 border-b border-border/50 shrink-0 flex items-center justify-between">
             <DrawerTitle className="flex items-center gap-2 text-base">
               <motion.div
@@ -546,7 +546,7 @@ export function LyricsChatAssistant({
               <X className="h-4 w-4" />
             </Button>
           </DrawerHeader>
-          <div className="flex-1 min-h-0 overflow-hidden">
+          <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
             {chatContent}
           </div>
         </DrawerContent>
