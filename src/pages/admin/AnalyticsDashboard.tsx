@@ -126,7 +126,12 @@ export default function AnalyticsDashboard() {
   const isLoading = statsLoading || metricsLoading || firstGenLoading;
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
+    <div 
+      className="container mx-auto py-4 px-3 space-y-6 pb-24"
+      style={{
+        paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))'
+      }}
+    >
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Аналитика пользователей</h1>

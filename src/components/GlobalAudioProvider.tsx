@@ -267,11 +267,17 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         });
 
         if (err.name === 'NotAllowedError') {
-          toast.error('Воспроизведение заблокировано', {
-            description: 'Нажмите на экран и попробуйте снова',
-          });
+          // Don't show toast during startup to avoid stale data errors
+          if (!isStartupPeriod()) {
+            toast.error('Воспроизведение заблокировано', {
+              description: 'Нажмите на экран и попробуйте снова',
+            });
+          }
         } else if (err.name === 'NotSupportedError') {
-          toast.error('Формат аудио не поддерживается');
+          // Don't show toast during startup to avoid stale data errors
+          if (!isStartupPeriod()) {
+            toast.error('Формат аудио не поддерживается');
+          }
         }
 
         pauseTrack();
@@ -372,6 +378,9 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         retryCount,
       });
       
+      // During startup, suppress toasts to avoid stale data errors
+      const suppressToast = isStartupPeriod();
+      
       // Retry logic for network errors (code 2)
       if (errorCode === 2 && retryCount < MAX_RETRIES) {
         retryCount++;
@@ -391,19 +400,23 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
             });
           }
           
-          toast.info('Повторная попытка загрузки...', {
-            description: `Попытка ${retryCount} из ${MAX_RETRIES}`,
-          });
+          if (!suppressToast) {
+            toast.info('Повторная попытка загрузки...', {
+              description: `Попытка ${retryCount} из ${MAX_RETRIES}`,
+            });
+          }
         }, retryDelay);
         
         return;
       }
       
       // Max retries reached or non-retryable error
-      // Show user-friendly error message
-      toast.error(errorInfo.ru, {
-        description: errorInfo.action,
-      });
+      // Show user-friendly error message (but not during startup)
+      if (!suppressToast) {
+        toast.error(errorInfo.ru, {
+          description: errorInfo.action,
+        });
+      }
       
       pauseTrack();
       
