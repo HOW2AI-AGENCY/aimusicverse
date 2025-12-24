@@ -197,8 +197,32 @@ export function useRecordingUpload(options: UseRecordingUploadOptions = {}) {
         size: blob.size,
       };
 
+      // Save to reference_audio table so it appears in "From Cloud" picker
+      try {
+        const { error: dbError } = await supabase
+          .from('reference_audio')
+          .insert({
+            user_id: user.id,
+            file_name: fileName,
+            file_url: urlData.publicUrl,
+            file_size: blob.size,
+            mime_type: blob.type,
+            source: 'microphone',
+            analysis_status: 'pending',
+          });
+        
+        if (dbError) {
+          log.error('Failed to save recording to database', dbError);
+        } else {
+          log.debug('Recording saved to reference_audio table', { fileName });
+        }
+      } catch (dbErr) {
+        log.error('Database insert error', dbErr);
+      }
+
       setLastUploadResult(result);
       setIsUploading(false);
+      onSuccess?.(result);
       
       log.debug('Quiet upload successful', { filePath });
       return result;
@@ -206,9 +230,10 @@ export function useRecordingUpload(options: UseRecordingUploadOptions = {}) {
     } catch (error) {
       log.error('Quiet upload failed', error, { filePath });
       setIsUploading(false);
+      onError?.(error instanceof Error ? error : new Error(String(error)));
       return null;
     }
-  }, [user, bucket, folder]);
+  }, [user, bucket, folder, onSuccess, onError]);
 
   return {
     uploadRecording,

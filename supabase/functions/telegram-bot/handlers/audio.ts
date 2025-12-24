@@ -501,51 +501,24 @@ async function handleAutoUploadWithPipeline(
     const hasVocals = analysis.has_vocals;
     const hasInstrumental = analysis.has_instrumental;
     
-    // Build dynamic action rows based on audio type
+    // Simplified action rows - Cover/Extend only available in app interface
     type InlineButton = { text: string; callback_data?: string; web_app?: { url: string } };
     const createActionRows = (): InlineButton[][] => {
-      const rows: InlineButton[][] = [
-        [
-          { text: '🎤 Создать кавер', callback_data: 'audio_action_cover' },
-          { text: '➕ Расширить трек', callback_data: 'audio_action_extend' }
-        ],
-      ];
+      const rows: InlineButton[][] = [];
       
-      // Add vocals/instrumental actions based on what's in the audio
-      if (hasInstrumental && !hasVocals) {
-        // Instrumental only - offer to add vocals
-        rows.push([
-          { text: '🎤 Добавить вокал', callback_data: 'audio_action_add_vocals' },
-        ]);
-      } else if (hasVocals && !hasInstrumental) {
-        // Vocal only - offer to add instrumental
-        rows.push([
-          { text: '🎸 Новая аранжировка', callback_data: 'audio_action_add_instrumental' },
-        ]);
-      } else if (hasVocals && hasInstrumental) {
-        // Both - offer both options
-        rows.push([
-          { text: '🎤 Добавить вокал', callback_data: 'audio_action_add_vocals' },
-          { text: '🎸 Новая аранжировка', callback_data: 'audio_action_add_instrumental' },
-        ]);
-      }
+      // Main action - open in app with deeplink to reference audio
+      const referenceId = pipelineResult?.reference_id;
+      const deeplink = referenceId 
+        ? `${BOT_CONFIG.miniAppUrl}?startapp=ref_${referenceId}`
+        : `${BOT_CONFIG.miniAppUrl}?startapp=cloud`;
       
       rows.push([
-        { text: '🎛️ Разделить на стемы', callback_data: 'audio_action_stems' },
-        { text: '🎹 MIDI', callback_data: 'audio_action_midi' }
+        { text: '📱 Открыть в приложении', web_app: { url: deeplink } }
       ]);
       
-      if (hasLyrics) {
-        rows.push([{ text: '📝 Полный текст', callback_data: 'audio_action_show_lyrics' }]);
-      }
-      
+      // Menu button
       rows.push([
-        { text: '✏️ Изменить стиль', callback_data: 'audio_action_edit_style' },
-        { text: '📂 Мои загрузки', callback_data: 'my_uploads' }
-      ]);
-      
-      rows.push([
-        { text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=cloud` } }
+        { text: '📋 Меню', callback_data: 'main_menu' }
       ]);
       
       return rows;

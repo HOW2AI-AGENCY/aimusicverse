@@ -291,30 +291,22 @@ export async function processVoiceMessage(
       }
     }
 
-    // Build action keyboard
+    // Simplified action keyboard - Cover/Extend only available in app interface
     const keyboard: Array<Array<{ text: string; callback_data?: string; web_app?: { url: string } }>> = [];
 
-    if (transcription) {
-      keyboard.push([
-        { text: '🎵 Сгенерировать трек', callback_data: `voice_to_track_${savedRef?.id || 'new'}` },
-        { text: '✏️ Редактировать текст', callback_data: `voice_edit_text_${savedRef?.id || 'new'}` },
-      ]);
-    }
+    // Build deeplink with reference ID if available
+    const deeplink = savedRef?.id 
+      ? `${BOT_CONFIG.miniAppUrl}?startapp=ref_${savedRef.id}`
+      : `${BOT_CONFIG.miniAppUrl}?startapp=cloud`;
 
-    if (hasMelody) {
-      keyboard.push([
-        { text: '🎹 Скачать MIDI', callback_data: `voice_download_midi_${savedRef?.id || 'new'}` },
-        { text: '🎸 Создать аранжировку', callback_data: `voice_to_arrangement_${savedRef?.id || 'new'}` },
-      ]);
-    }
-
+    // Main action - open in app
     keyboard.push([
-      { text: '🎤 Создать кавер', callback_data: `voice_to_cover_${savedRef?.id || 'new'}` },
-      { text: '🎛️ Разделить на стемы', callback_data: `voice_to_stems_${savedRef?.id || 'new'}` },
+      { text: '📱 Открыть в приложении', web_app: { url: deeplink } },
     ]);
 
+    // Menu button
     keyboard.push([
-      { text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=cloud` } },
+      { text: '📋 Меню', callback_data: 'main_menu' },
     ]);
 
     // Send result message
