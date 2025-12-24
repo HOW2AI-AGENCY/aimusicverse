@@ -1,19 +1,7 @@
-import { useState } from 'react';
 import { motion } from '@/lib/motion';
-import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
-import { Sparkles, Loader2, Mic, FileText, ExternalLink } from 'lucide-react';
-import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
-import { FormFieldActions } from '@/components/ui/FormFieldActions';
-import { LyricsVisualEditor } from './LyricsVisualEditor';
+import { TitleSection, StyleSection, VocalsToggle, LyricsSection } from './sections';
 import { AdvancedSettings } from './AdvancedSettings';
-import { SaveTemplateDialog } from './SaveTemplateDialog';
-import { SavedLyricsSelector } from './SavedLyricsSelector';
 import type { GenerationProvider } from './ProviderSelector';
-import { useNavigate } from 'react-router-dom';
 
 interface GenerateFormCustomProps {
   title: string;
@@ -93,11 +81,6 @@ export function GenerateFormCustom({
   genre,
   mood,
 }: GenerateFormCustomProps) {
-  const navigate = useNavigate();
-  const [showVisualEditor, setShowVisualEditor] = useState(false);
-  const [saveDialogOpen, setSaveDialogOpen] = useState(false);
-  const [templateSelectorOpen, setTemplateSelectorOpen] = useState(false);
-
   return (
     <motion.div
       key="custom"
@@ -107,173 +90,33 @@ export function GenerateFormCustom({
       transition={{ duration: 0.2, ease: "easeInOut" }}
       className="space-y-3"
     >
-      {/* Title Field */}
-      <div>
-        <div className="flex items-center justify-between mb-1.5">
-          <Label htmlFor="title" className="text-xs font-medium">
-            Название
-          </Label>
-          <FormFieldActions
-            value={title}
-            onClear={() => onTitleChange('')}
-          />
-        </div>
-        <Input
-          id="title"
-          placeholder="Автогенерация если пусто"
-          value={title}
-          onChange={(e) => onTitleChange(e.target.value)}
-          className="h-9 text-sm"
-        />
-      </div>
+      <TitleSection title={title} onTitleChange={onTitleChange} />
 
-      {/* Style Field */}
-      <div>
-        <div className="flex items-center justify-between mb-1.5">
-          <Label htmlFor="style" className="text-xs font-medium">
-            Стиль
-          </Label>
-          <div className="flex items-center gap-1">
-            <FormFieldActions
-              value={style}
-              onClear={() => onStyleChange('')}
-            />
-            <VoiceInputButton
-              onResult={onStyleChange}
-              context="style"
-              currentValue={style}
-              appendMode
-              className="h-6 w-6 p-0"
-            />
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={onBoostStyle}
-              disabled={boostLoading || !style}
-              className="h-6 px-2 gap-1"
-            >
-              {boostLoading ? (
-                <Loader2 className="w-3 h-3 animate-spin" />
-              ) : (
-                <Sparkles className="w-3 h-3" />
-              )}
-              <span className="text-xs">AI</span>
-            </Button>
-          </div>
-        </div>
-        <Textarea
-          id="style"
-          placeholder="Опишите стиль, жанр, настроение..."
-          value={style}
-          onChange={(e) => onStyleChange(e.target.value)}
-          rows={3}
-          className="resize-none text-sm"
-        />
-        <div className="flex justify-end mt-1">
-          <span className={`text-xs ${style.length > 450 ? 'text-destructive' : 'text-muted-foreground'}`}>
-            {style.length}/500
-          </span>
-        </div>
-      </div>
+      <StyleSection
+        style={style}
+        onStyleChange={onStyleChange}
+        onBoostStyle={onBoostStyle}
+        boostLoading={boostLoading}
+      />
 
-      {/* Vocals Toggle */}
-      <div className="flex items-center justify-between p-3 rounded-lg border">
-        <div className="flex items-center gap-2">
-          <Mic className="w-4 h-4" />
-          <Label htmlFor="vocals-toggle" className="cursor-pointer text-sm font-medium">
-            С вокалом
-          </Label>
-        </div>
-        <Switch
-          id="vocals-toggle"
-          checked={hasVocals}
-          onCheckedChange={(checked) => {
-            onHasVocalsChange(checked);
-            if (!checked) {
-              onLyricsChange('');
-            }
-          }}
-        />
-      </div>
+      <VocalsToggle
+        hasVocals={hasVocals}
+        onHasVocalsChange={onHasVocalsChange}
+        onLyricsChange={onLyricsChange}
+      />
 
-      {/* Lyrics Section - Only show when hasVocals is true */}
       {hasVocals && (
-        <div>
-          <div className="flex items-center justify-between mb-1.5">
-            <Label className="text-xs font-medium">Текст песни</Label>
-            <div className="flex items-center gap-1">
-              {/* Template selector button */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-6 px-2 gap-1"
-                onClick={() => setTemplateSelectorOpen(true)}
-              >
-                <FileText className="w-3 h-3" />
-                <span className="text-xs hidden sm:inline">Шаблоны</span>
-              </Button>
-              {/* Lyrics Studio link */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-6 px-2 gap-1"
-                onClick={() => navigate('/lyrics-studio')}
-              >
-                <ExternalLink className="w-3 h-3" />
-                <span className="text-xs hidden sm:inline">Студия</span>
-              </Button>
-              <FormFieldActions
-                value={lyrics}
-                onClear={() => onLyricsChange('')}
-                showSave
-                onSave={async () => setSaveDialogOpen(true)}
-              />
-              <VoiceInputButton
-                onResult={onLyricsChange}
-                context="lyrics"
-                currentValue={lyrics}
-                appendMode
-                className="h-6 w-6 p-0"
-              />
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-6 px-2"
-                onClick={() => setShowVisualEditor(!showVisualEditor)}
-              >
-                <span className="text-xs">{showVisualEditor ? 'Текст' : 'Визуал'}</span>
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-6 px-2"
-                onClick={onOpenLyricsAssistant}
-              >
-                <Sparkles className="w-3 h-3" />
-              </Button>
-            </div>
-          </div>
-
-          {showVisualEditor ? (
-            <LyricsVisualEditor
-              value={lyrics}
-              onChange={onLyricsChange}
-              onAIGenerate={onOpenLyricsAssistant}
-            />
-          ) : (
-            <Textarea
-              placeholder="Введите текст или используйте AI..."
-              value={lyrics}
-              onChange={(e) => onLyricsChange(e.target.value)}
-              rows={8}
-              className="text-sm min-h-[180px] max-h-[300px] overflow-y-auto whitespace-pre-wrap"
-            />
-          )}
-        </div>
+        <LyricsSection
+          lyrics={lyrics}
+          onLyricsChange={onLyricsChange}
+          onStyleChange={onStyleChange}
+          onOpenLyricsAssistant={onOpenLyricsAssistant}
+          style={style}
+          genre={genre}
+          mood={mood}
+        />
       )}
 
-      {/* Advanced Settings Collapsible */}
       <AdvancedSettings
         open={advancedOpen}
         onOpenChange={onAdvancedOpenChange}
@@ -297,26 +140,6 @@ export function GenerateFormCustom({
         stabilityStrength={stabilityStrength}
         onStabilityStrengthChange={onStabilityStrengthChange}
         showProviderSelector={showProviderSelector}
-      />
-
-      {/* Save Template Dialog */}
-      <SaveTemplateDialog
-        open={saveDialogOpen}
-        onOpenChange={setSaveDialogOpen}
-        lyrics={lyrics}
-        style={style}
-        genre={genre}
-        mood={mood}
-      />
-
-      {/* Saved Lyrics Selector */}
-      <SavedLyricsSelector
-        open={templateSelectorOpen}
-        onOpenChange={setTemplateSelectorOpen}
-        onSelect={(template) => {
-          onLyricsChange(template.lyrics);
-          if (template.style) onStyleChange(template.style);
-        }}
       />
     </motion.div>
   );

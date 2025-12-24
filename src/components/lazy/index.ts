@@ -144,6 +144,54 @@ export const LazyKlangioToolsPanel = lazy(() =>
 );
 
 // ============================================
+// Generation form components (heavy, load on demand)
+// ============================================
+
+export const LazyGenerateFormCustom = lazy(() => 
+  import('@/components/generate-form/GenerateFormCustom').then(m => ({ default: m.GenerateFormCustom }))
+);
+
+export const LazyGenerateFormSimple = lazy(() => 
+  import('@/components/generate-form/GenerateFormSimple').then(m => ({ default: m.GenerateFormSimple }))
+);
+
+export const LazyLyricsVisualEditor = lazy(() => 
+  import('@/components/generate-form/LyricsVisualEditor').then(m => ({ default: m.LyricsVisualEditor }))
+);
+
+export const LazyTagBuilderPanel = lazy(() => 
+  import('@/components/generate-form/TagBuilderPanel').then(m => ({ default: m.TagBuilderPanel }))
+);
+
+export const LazyAdvancedSettings = lazy(() => 
+  import('@/components/generate-form/AdvancedSettings').then(m => ({ default: m.AdvancedSettings }))
+);
+
+// ============================================
+// Lyrics workspace (heavy, load on demand)
+// ============================================
+
+export const LazyLyricsWorkspace = lazy(() => 
+  import('@/components/lyrics-workspace/LyricsWorkspace').then(m => ({ default: m.LyricsWorkspace }))
+);
+
+export const LazyUnifiedLyricsView = lazy(() => 
+  import('@/components/lyrics/UnifiedLyricsView').then(m => ({ default: m.UnifiedLyricsView }))
+);
+
+// ============================================
+// Admin components (load only for admins)
+// ============================================
+
+export const LazyBroadcastPanel = lazy(() => 
+  import('@/components/admin/BroadcastPanel').then(m => ({ default: m.BroadcastPanel }))
+);
+
+export const LazyGenerationLogsPanel = lazy(() => 
+  import('@/components/admin/GenerationLogsPanel').then(m => ({ default: m.GenerationLogsPanel }))
+);
+
+// ============================================
 // Preload utilities
 // ============================================
 
@@ -173,9 +221,20 @@ export const preloadRouteComponents = {
   generate: () => {
     preloadComponent(LazyGenerateSheet);
     preloadComponent(LazyLyricsChatAssistant);
+    preloadComponent(LazyGenerateFormCustom);
+    preloadComponent(LazyAdvancedSettings);
   },
   player: () => {
     preloadComponent(LazyFullscreenPlayer);
     preloadComponent(LazyExpandedPlayer);
+  },
+  lyrics: () => {
+    preloadComponent(LazyLyricsWorkspace);
+    preloadComponent(LazyLyricsVisualEditor);
+    preloadComponent(LazyUnifiedLyricsView);
+  },
+  admin: () => {
+    preloadComponent(LazyBroadcastPanel);
+    preloadComponent(LazyGenerationLogsPanel);
   },
 };
