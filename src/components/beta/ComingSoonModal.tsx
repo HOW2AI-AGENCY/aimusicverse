@@ -1,7 +1,7 @@
 /**
  * ComingSoonModal - Beautiful modal for features not yet available
  */
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Clock, Bell, Sparkles, ArrowRight, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {

@@ -12,8 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useLyricsTemplates, LyricsTemplate } from '@/hooks/useLyricsTemplates';
 import { cn } from '@/lib/utils';
-import { formatDistanceToNow } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { formatDistanceToNow, ru } from '@/lib/date-utils';
 
 interface SavedLyricsSelectorProps {
   open: boolean;

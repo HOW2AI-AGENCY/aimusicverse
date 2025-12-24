@@ -2,8 +2,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Heart, Reply, MoreHorizontal, Flag, Trash2 } from 'lucide-react';
-import { formatDistanceToNow } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { formatDistanceToNow, ru } from '@/lib/date-utils';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
 import { useLikeComment } from '@/hooks/engagement/useLikeComment';

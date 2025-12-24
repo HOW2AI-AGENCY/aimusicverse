@@ -52,8 +52,7 @@ import {
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
-import { formatDistanceToNow } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { formatDistanceToNow, ru } from '@/lib/date-utils';
 
 interface LyricsVersionsPanelProps {
   open: boolean;

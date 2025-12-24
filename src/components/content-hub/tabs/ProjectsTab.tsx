@@ -8,7 +8,7 @@ import { ProjectCreationWizard } from '@/components/project/ProjectCreationWizar
 import { toast } from 'sonner';
 import { VirtualizedProjectsList } from '@/components/content-hub/VirtualizedProjectsList';
 import { ProjectsOnboarding } from '@/components/content-hub/ProjectsOnboarding';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import {
   AlertDialog,
