@@ -3,8 +3,7 @@ import { useCreditTransactions } from '@/hooks/useGamification';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { format, isToday, isYesterday } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { format, isToday, isYesterday, ru } from '@/lib/date-utils';
 import { 
   Coins, 
   TrendingUp, 

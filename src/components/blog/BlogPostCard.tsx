@@ -5,8 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Calendar, Clock, Edit, Trash2, Eye } from 'lucide-react';
-import { formatDistanceToNow, format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { formatDistanceToNow, format, ru } from '@/lib/date-utils';
 import { cn } from '@/lib/utils';
 import type { BlogPost } from '@/hooks/useBlog';
 

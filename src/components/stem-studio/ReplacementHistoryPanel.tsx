@@ -16,8 +16,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { SectionComparePanel } from './SectionComparePanel';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { format, ru } from '@/lib/date-utils';
 
 interface ReplacementRecord {
   id: string;

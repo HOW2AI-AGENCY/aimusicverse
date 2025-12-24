@@ -20,7 +20,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Crown, Calendar, Loader2 } from "lucide-react";
-import { format, addDays, addMonths } from "date-fns";
+import { format, addDays, addMonths } from '@/lib/date-utils';
 
 interface AdminUserSubscriptionDialogProps {
   open: boolean;

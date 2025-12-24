@@ -9,8 +9,7 @@ import { useCreateTask, useTaskCategories } from "@/hooks/useTasks";
 import { Plus, Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { format } from "date-fns";
-import { ru } from "date-fns/locale";
+import { format, ru } from '@/lib/date-utils';
 import { cn } from "@/lib/utils";
 
 export const TaskForm = () => {

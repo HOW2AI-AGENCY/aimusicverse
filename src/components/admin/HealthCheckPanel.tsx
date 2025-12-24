@@ -21,8 +21,7 @@ import {
   Clock,
   AlertOctagon
 } from 'lucide-react';
-import { formatDistanceToNow } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { formatDistanceToNow, ru } from '@/lib/date-utils';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useState } from 'react';

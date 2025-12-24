@@ -17,8 +17,7 @@ import {
   Music,
   Loader2
 } from "lucide-react";
-import { formatDistanceToNow, format } from "date-fns";
-import { ru } from "date-fns/locale";
+import { formatDistanceToNow, format, ru } from '@/lib/date-utils';
 import { useGenerationLogs, useGenerationStats } from "@/hooks/useGenerationLogs";
 
 export function GenerationLogsPanel() {

@@ -10,8 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Crown, Coins, MessageSquare, Shield, ShieldOff, MoreVertical } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import { ru } from "date-fns/locale";
+import { formatDistanceToNow, ru } from '@/lib/date-utils';
 
 interface UserWithRoles {
   id: string;

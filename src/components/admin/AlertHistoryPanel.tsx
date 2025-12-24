@@ -23,8 +23,7 @@ import {
   AlertOctagon,
   TestTube
 } from 'lucide-react';
-import { formatDistanceToNow, format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { formatDistanceToNow, format, ru } from '@/lib/date-utils';
 import { toast } from 'sonner';
 
 const statusConfig = {

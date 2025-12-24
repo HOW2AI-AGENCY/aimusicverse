@@ -5,8 +5,7 @@ import { useBlogPosts } from '@/hooks/useBlog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { format, ru } from '@/lib/date-utils';
 
 export function BlogSection() {
   const navigate = useNavigate();

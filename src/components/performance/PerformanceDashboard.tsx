@@ -24,7 +24,7 @@ import { LighthouseScoresCard } from './LighthouseScoresCard';
 import { BundleSizeCard } from './BundleSizeCard';
 import { PerformanceChart } from './PerformanceChart';
 import { MetricsTrend } from './MetricsTrend';
-import { format, subDays } from 'date-fns';
+import { format, subDays } from '@/lib/date-utils';
 
 export function PerformanceDashboard() {
   const [dateRange, setDateRange] = useState<'7d' | '30d' | '90d'>('30d');
