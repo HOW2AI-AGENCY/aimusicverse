@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, memo } from 'react';
 import { X, Maximize2, Volume2, VolumeX, Heart, Download, AlertCircle, Loader2, ListPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -44,7 +44,7 @@ interface CompactPlayerProps {
   onExpand?: () => void;
 }
 
-export function CompactPlayer({ track, currentVersion, onClose, onMaximize, onExpand }: CompactPlayerProps) {
+export const CompactPlayer = memo(function CompactPlayer({ track, currentVersion, onClose, onMaximize, onExpand }: CompactPlayerProps) {
   // Use store volume for consistency
   const { volume: storeVolume, setVolume: setStoreVolume, preservedTime, clearPreservedTime } = usePlayerStore();
   const [muted, setMuted] = useState(false);
@@ -372,4 +372,4 @@ export function CompactPlayer({ track, currentVersion, onClose, onMaximize, onEx
     />
     </>
   );
-}
+});

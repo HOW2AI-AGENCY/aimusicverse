@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, lazy, Suspense, memo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Home, Plus, Library, Grid3X3, FolderOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -20,7 +20,7 @@ const navItems = [
   { path: '__more__', icon: Grid3X3, label: 'Ещё', isCenter: false },
 ];
 
-export const BottomNavigation = () => {
+export const BottomNavigation = memo(function BottomNavigation() {
   const navigate = useNavigate();
   const location = useLocation();
   const { hapticFeedback } = useTelegram();
@@ -153,4 +153,4 @@ export const BottomNavigation = () => {
       <MoreMenuSheet open={moreMenuOpen} onOpenChange={setMoreMenuOpen} />
     </>
   );
-};
+});
