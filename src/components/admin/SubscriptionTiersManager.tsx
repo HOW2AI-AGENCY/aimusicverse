@@ -31,6 +31,7 @@ interface SubscriptionTier {
   code: string;
   name: Record<string, string>;
   description: Record<string, string>;
+  detailed_description: Record<string, string>;
   icon_emoji: string;
   price_usd: number;
   price_stars: number;
@@ -52,6 +53,7 @@ interface SubscriptionTier {
   features: string[];
   custom_pricing: boolean;
   min_purchase_amount: number;
+  cover_url: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -114,6 +116,8 @@ export function SubscriptionTiersManager() {
       has_api_access: tier.has_api_access,
       has_dedicated_support: tier.has_dedicated_support,
       min_purchase_amount: tier.min_purchase_amount,
+      cover_url: tier.cover_url,
+      detailed_description: tier.detailed_description,
     });
     setIsEditing(true);
   };
@@ -469,10 +473,55 @@ export function SubscriptionTiersManager() {
 
               <Separator />
 
-              {/* Display Section */}
+              {/* Telegram Bot Section */}
               <div className="space-y-4">
                 <h3 className="font-medium flex items-center gap-2">
                   <Music className="h-4 w-4" />
+                  Telegram бот
+                </h3>
+                
+                <div className="space-y-2">
+                  <Label>URL обложки</Label>
+                  <Input
+                    placeholder="https://example.com/cover.jpg"
+                    value={(editedTier as any).cover_url ?? ''}
+                    onChange={(e) => setEditedTier({
+                      ...editedTier,
+                      cover_url: e.target.value || null
+                    } as any)}
+                  />
+                  {(editedTier as any).cover_url && (
+                    <img 
+                      src={(editedTier as any).cover_url} 
+                      alt="Preview" 
+                      className="w-full h-32 object-cover rounded-lg mt-2"
+                    />
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Детальное описание (RU)</Label>
+                  <Textarea
+                    placeholder="Полное описание тарифа для Telegram..."
+                    rows={6}
+                    value={(editedTier as any).detailed_description?.ru ?? ''}
+                    onChange={(e) => setEditedTier({
+                      ...editedTier,
+                      detailed_description: {
+                        ...((editedTier as any).detailed_description || {}),
+                        ru: e.target.value
+                      }
+                    } as any)}
+                  />
+                </div>
+              </div>
+
+              <Separator />
+
+              {/* Display Section */}
+              <div className="space-y-4">
+                <h3 className="font-medium flex items-center gap-2">
+                  <Settings className="h-4 w-4" />
                   Отображение
                 </h3>
                 

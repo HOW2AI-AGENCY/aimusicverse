@@ -3,7 +3,7 @@
  * Loads pricing from subscription_tiers table
  */
 
-import { editMessageText, answerCallbackQuery, sendMessage } from '../telegram-api.ts';
+import { editMessageText, editMessageMedia, answerCallbackQuery, sendMessage, sendPhoto } from '../telegram-api.ts';
 import { getSupabaseClient } from '../core/supabase-client.ts';
 import { logger } from '../utils/index.ts';
 import { logBotAction } from '../utils/bot-logger.ts';
@@ -22,6 +22,7 @@ interface SubscriptionTier {
   code: string;
   name: Record<string, string>;
   description: Record<string, string>;
+  detailed_description: Record<string, string>;
   icon_emoji: string;
   price_usd: number;
   price_stars: number;
@@ -43,6 +44,7 @@ interface SubscriptionTier {
   features: string[];
   custom_pricing: boolean;
   min_purchase_amount: number;
+  cover_url: string | null;
 }
 
 // Cache for tiers
@@ -214,10 +216,11 @@ async function showTariffsMenu(chatId: number, messageId: number): Promise<void>
 }
 
 /**
- * Show detailed tier information with rich formatting
+ * Show detailed tier information with cover image and rich formatting
  */
 async function showTierInfo(chatId: number, messageId: number, tierCode: string): Promise<void> {
   const tier = await getTier(tierCode);
+  const allTiers = await loadTiers();
   
   if (!tier) {
     logger.error('Tier not found', { tierCode });
@@ -228,59 +231,74 @@ async function showTierInfo(chatId: number, messageId: number, tierCode: string)
   const name = tier.name.ru || tier.name.en || tier.code;
   const period = formatPeriod(tier.credits_period);
   
-  // Build rich formatted message
+  // Use detailed description if available, otherwise build from features
   let text = `${tier.icon_emoji} *${name.toUpperCase()}*\n`;
   text += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
   
-  // Pricing section
-  if (tier.price_usd > 0) {
-    text += `💰 *СТОИМОСТЬ*\n`;
-    text += `├ USD: *$${tier.price_usd}*/месяц\n`;
-    if (tier.price_stars > 0) {
-      text += `├ Stars: *${tier.price_stars}* ⭐\n`;
-    }
-    if (tier.price_robokassa > 0) {
-      text += `└ RUB: *${tier.price_robokassa}₽*\n`;
-    }
-    text += `\n`;
+  // Use detailed_description from database if available
+  const detailedDesc = tier.detailed_description?.ru || tier.detailed_description?.en;
+  
+  if (detailedDesc) {
+    text += `${detailedDesc}\n\n`;
   } else {
-    text += `💰 *БЕСПЛАТНО!* 🎉\n\n`;
+    // Fallback to generated description
+    // Pricing section
+    if (tier.price_usd > 0) {
+      text += `💰 *СТОИМОСТЬ*\n`;
+      text += `├ USD: *$${tier.price_usd}*/месяц\n`;
+      if (tier.price_stars > 0) {
+        text += `├ Stars: *${tier.price_stars}* ⭐\n`;
+      }
+      if (tier.price_robokassa > 0) {
+        text += `└ RUB: *${tier.price_robokassa}₽*\n`;
+      }
+      text += `\n`;
+    } else {
+      text += `💰 *БЕСПЛАТНО!* 🎉\n\n`;
+    }
+    
+    // Credits section
+    text += `📦 *КРЕДИТЫ*\n`;
+    text += `├ Количество: *${tier.credits_amount}*/${period}\n`;
+    text += `└ Одновременно: *${tier.max_concurrent_generations}* треков\n\n`;
+    
+    // Features section
+    text += `✨ *ВОЗМОЖНОСТИ*\n`;
+    text += `├ ${getQualityBadge(tier.audio_quality)}\n`;
+    
+    const features: string[] = [];
+    if (tier.has_priority) features.push('⚡ Приоритет');
+    if (tier.has_stem_separation) features.push('🎛️ Стемы');
+    if (tier.has_mastering) features.push('🎚️ Мастеринг');
+    if (tier.has_midi_export) features.push('🎹 MIDI');
+    if (tier.has_api_access) features.push('🔌 API');
+    if (tier.has_dedicated_support) features.push('👨‍💻 Поддержка 24/7');
+    
+    if (features.length > 0) {
+      features.forEach((f, i) => {
+        text += `${i === features.length - 1 ? '└' : '├'} ${f}\n`;
+      });
+    } else {
+      text += `└ Базовый набор функций\n`;
+    }
   }
   
-  // Credits section
-  text += `📦 *КРЕДИТЫ*\n`;
-  text += `├ Количество: *${tier.credits_amount}*/${period}\n`;
-  text += `└ Одновременно: *${tier.max_concurrent_generations}* треков\n\n`;
-  
-  // Features section
-  text += `✨ *ВОЗМОЖНОСТИ*\n`;
-  text += `├ ${getQualityBadge(tier.audio_quality)}\n`;
-  
-  const features: string[] = [];
-  if (tier.has_priority) features.push('⚡ Приоритет');
-  if (tier.has_stem_separation) features.push('🎛️ Стемы');
-  if (tier.has_mastering) features.push('🎚️ Мастеринг');
-  if (tier.has_midi_export) features.push('🎹 MIDI');
-  if (tier.has_api_access) features.push('🔌 API');
-  if (tier.has_dedicated_support) features.push('👨‍💻 Поддержка 24/7');
-  
-  if (features.length > 0) {
-    features.forEach((f, i) => {
-      text += `${i === features.length - 1 ? '└' : '├'} ${f}\n`;
-    });
-  } else {
-    text += `└ Базовый набор функций\n`;
+  // Pricing summary
+  if (tier.price_usd > 0 && !tier.custom_pricing) {
+    text += `\n💳 *Цена:* $${tier.price_usd} / ${tier.price_stars}⭐`;
   }
   
   // Badge
   if (tier.badge_text) {
-    text += `\n🏷️ _${tier.badge_text}_\n`;
+    text += `\n🏷️ _${tier.badge_text}_`;
   }
   
-  text += `\n━━━━━━━━━━━━━━━━━━━━━`;
+  text += `\n\n━━━━━━━━━━━━━━━━━━━━━`;
   
-  const keyboard: Array<Array<{ text: string; callback_data?: string; url?: string }>> = [];
+  // Build keyboard with navigation
+  const keyboard: Array<Array<{ text: string; callback_data?: string; url?: string; web_app?: { url: string } }>> = [];
   
+  // Purchase button
   if (tier.price_usd > 0 && !tier.custom_pricing) {
     keyboard.push([{ 
       text: `⭐ Оформить за ${tier.price_stars} Stars`, 
@@ -288,9 +306,51 @@ async function showTierInfo(chatId: number, messageId: number, tierCode: string)
     }]);
   }
   
+  // Navigation between tiers
+  const currentIndex = allTiers.findIndex(t => t.code === tierCode);
+  const navRow: Array<{ text: string; callback_data: string }> = [];
+  
+  if (currentIndex > 0) {
+    const prevTier = allTiers[currentIndex - 1];
+    navRow.push({ 
+      text: `⬅️ ${prevTier.icon_emoji} ${prevTier.name.ru || prevTier.code}`, 
+      callback_data: prevTier.code === 'enterprise' ? 'tariff_contact_enterprise' : `tariff_info_${prevTier.code}` 
+    });
+  }
+  
+  if (currentIndex < allTiers.length - 1) {
+    const nextTier = allTiers[currentIndex + 1];
+    navRow.push({ 
+      text: `${nextTier.icon_emoji} ${nextTier.name.ru || nextTier.code} ➡️`, 
+      callback_data: nextTier.code === 'enterprise' ? 'tariff_contact_enterprise' : `tariff_info_${nextTier.code}` 
+    });
+  }
+  
+  if (navRow.length > 0) {
+    keyboard.push(navRow);
+  }
+  
   keyboard.push([{ text: '📊 Сравнить тарифы', callback_data: 'tariff_compare' }]);
   keyboard.push([{ text: '◀️ Все тарифы', callback_data: 'tariff_menu' }]);
   
+  // Try to send with cover image if available
+  if (tier.cover_url) {
+    try {
+      await editMessageMedia(chatId, messageId, {
+        type: 'photo',
+        media: tier.cover_url,
+        caption: escapeMarkdownV2(text),
+        parse_mode: 'MarkdownV2',
+      }, {
+        inline_keyboard: keyboard,
+      });
+      return;
+    } catch (error) {
+      logger.warn('Failed to edit with media, falling back to text', { error });
+    }
+  }
+  
+  // Fallback to text only
   await editMessageText(chatId, messageId, escapeMarkdownV2(text), {
     inline_keyboard: keyboard,
   });

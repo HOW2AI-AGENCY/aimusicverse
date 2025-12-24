@@ -2728,11 +2728,13 @@ export type Database = {
           badge_text: string | null
           code: string
           color: string | null
+          cover_url: string | null
           created_at: string
           credits_amount: number
           credits_period: string
           custom_pricing: boolean | null
           description: Json
+          detailed_description: Json
           display_order: number
           features: Json | null
           has_api_access: boolean | null
@@ -2760,11 +2762,13 @@ export type Database = {
           badge_text?: string | null
           code: string
           color?: string | null
+          cover_url?: string | null
           created_at?: string
           credits_amount?: number
           credits_period?: string
           custom_pricing?: boolean | null
           description?: Json
+          detailed_description?: Json
           display_order?: number
           features?: Json | null
           has_api_access?: boolean | null
@@ -2792,11 +2796,13 @@ export type Database = {
           badge_text?: string | null
           code?: string
           color?: string | null
+          cover_url?: string | null
           created_at?: string
           credits_amount?: number
           credits_period?: string
           custom_pricing?: boolean | null
           description?: Json
+          detailed_description?: Json
           display_order?: number
           features?: Json | null
           has_api_access?: boolean | null
