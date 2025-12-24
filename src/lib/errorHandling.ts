@@ -80,6 +80,32 @@ const ERROR_CODE_MESSAGES: Record<string, { title: string; description: string; 
     description: 'Сервис генерации временно недоступен. Попробуйте позже.',
     canRetry: true,
   },
+  // New error codes based on real error logs
+  AUDIO_GENERATION_FAILED: {
+    title: 'Ошибка генерации аудио',
+    description: 'Не удалось создать аудио. Попробуйте другой промпт или модель.',
+    canRetry: true,
+  },
+  INTERNAL_ERROR: {
+    title: 'Внутренняя ошибка',
+    description: 'Временная проблема на сервере. Попробуйте через несколько минут.',
+    canRetry: true,
+  },
+  AUDIO_FETCH_FAILED: {
+    title: 'Не удалось загрузить аудио',
+    description: 'Проверьте, что файл доступен и не повреждён. Попробуйте загрузить другой файл.',
+    canRetry: false,
+  },
+  AUDIO_PARSE_FAILED: {
+    title: 'Не удалось обработать аудио',
+    description: 'Файл повреждён или в неподдерживаемом формате. Используйте MP3 или WAV.',
+    canRetry: false,
+  },
+  EXTEND_LYRICS_EMPTY: {
+    title: 'Отсутствует текст для продолжения',
+    description: 'Добавьте текст для продолжения трека или используйте инструментальный режим.',
+    canRetry: false,
+  },
 };
 
 /**
@@ -117,26 +143,27 @@ export function showGenerationError(error: unknown): void {
     return;
   }
 
-  // Pattern matching for common errors
-  if (errorMessage.includes('prompt too long') || errorMessage.includes('слишком длинн')) {
-    toast.error(ERROR_CODE_MESSAGES.PROMPT_TOO_LONG.title, {
-      description: ERROR_CODE_MESSAGES.PROMPT_TOO_LONG.description,
-    });
-    return;
-  }
+  // Pattern matching for common errors from real error logs
+  const patterns: Array<{ match: (msg: string) => boolean; code: string }> = [
+    { match: (msg) => msg.includes('prompt too long') || msg.includes('слишком длинн'), code: 'PROMPT_TOO_LONG' },
+    { match: (msg) => msg.includes('model error'), code: 'MODEL_ERROR' },
+    { match: (msg) => msg.includes('rate limit') || msg.includes('too many'), code: 'RATE_LIMIT' },
+    { match: (msg) => msg.includes('audio generation failed'), code: 'AUDIO_GENERATION_FAILED' },
+    { match: (msg) => msg.includes('internal error') || msg.includes('please try again later'), code: 'INTERNAL_ERROR' },
+    { match: (msg) => msg.includes("can't fetch") || msg.includes('cannot fetch') || msg.includes('uploaded audio'), code: 'AUDIO_FETCH_FAILED' },
+    { match: (msg) => msg.includes("can't parse") || msg.includes('source is corrupted'), code: 'AUDIO_PARSE_FAILED' },
+    { match: (msg) => msg.includes('extending lyrics empty') || msg.includes('lyrics malformed'), code: 'EXTEND_LYRICS_EMPTY' },
+    { match: (msg) => msg.includes('artist name') || msg.includes("don't reference specific artists"), code: 'ARTIST_NAME_NOT_ALLOWED' },
+  ];
 
-  if (errorMessage.includes('model error')) {
-    toast.error(ERROR_CODE_MESSAGES.MODEL_ERROR.title, {
-      description: ERROR_CODE_MESSAGES.MODEL_ERROR.description,
-    });
-    return;
-  }
-
-  if (errorMessage.includes('rate limit') || errorMessage.includes('too many')) {
-    toast.error(ERROR_CODE_MESSAGES.RATE_LIMIT.title, {
-      description: ERROR_CODE_MESSAGES.RATE_LIMIT.description,
-    });
-    return;
+  for (const pattern of patterns) {
+    if (pattern.match(errorMessage)) {
+      const info = ERROR_CODE_MESSAGES[pattern.code];
+      if (info) {
+        toast.error(info.title, { description: info.description });
+        return;
+      }
+    }
   }
 
   // Use type-specific error messages

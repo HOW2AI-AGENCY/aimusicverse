@@ -25,6 +25,9 @@ const ERROR_ICONS: Record<string, typeof AlertCircle> = {
   MALFORMED_LYRICS: Edit3,
   RATE_LIMIT: RefreshCw,
   INSUFFICIENT_CREDITS: XCircle,
+  AUDIO_FETCH_FAILED: XCircle,
+  AUDIO_PARSE_FAILED: XCircle,
+  EXTEND_LYRICS_EMPTY: Edit3,
 };
 
 const ERROR_COLORS: Record<string, string> = {
@@ -34,6 +37,11 @@ const ERROR_COLORS: Record<string, string> = {
   RATE_LIMIT: 'text-amber-500',
   INSUFFICIENT_CREDITS: 'text-red-500',
   GENERATION_FAILED: 'text-red-500',
+  AUDIO_GENERATION_FAILED: 'text-red-500',
+  INTERNAL_ERROR: 'text-amber-500',
+  AUDIO_FETCH_FAILED: 'text-red-500',
+  AUDIO_PARSE_FAILED: 'text-red-500',
+  EXTEND_LYRICS_EMPTY: 'text-amber-500',
 };
 
 export function GenerationErrorCard({
@@ -51,7 +59,8 @@ export function GenerationErrorCard({
 
   const needsEdit = errorCode === 'ARTIST_NAME_NOT_ALLOWED' || 
                     errorCode === 'COPYRIGHTED_CONTENT' || 
-                    errorCode === 'MALFORMED_LYRICS';
+                    errorCode === 'MALFORMED_LYRICS' ||
+                    errorCode === 'EXTEND_LYRICS_EMPTY';
 
   return (
     <Card className={cn('border-destructive/50 bg-destructive/5', className)}>
