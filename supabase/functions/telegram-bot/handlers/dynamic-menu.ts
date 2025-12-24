@@ -33,6 +33,18 @@ export interface MenuItem {
   icon_emoji: string | null;
 }
 
+interface SubscriptionTierLite {
+  code: string;
+  name: Record<string, string>;
+  icon_emoji: string;
+  price_usd: number;
+  price_stars: number;
+  custom_pricing: boolean;
+  min_purchase_amount: number;
+  display_order: number;
+  is_active: boolean;
+}
+
 // Default images for menu sections
 const DEFAULT_IMAGES: Record<string, string> = {
   main: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80',
@@ -101,30 +113,51 @@ export async function getMenuItem(menuKey: string): Promise<MenuItem | null> {
 }
 
 /**
+ * Load subscription tiers (used for tariffs menu)
+ */
+async function loadTariffTiers(): Promise<SubscriptionTierLite[]> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from('subscription_tiers')
+    .select('code,name,icon_emoji,price_usd,price_stars,custom_pricing,min_purchase_amount,display_order,is_active')
+    .eq('is_active', true)
+    .order('display_order', { ascending: true });
+
+  if (error) {
+    logger.error('Failed to load subscription tiers', error);
+    return [];
+  }
+
+  return (data || []) as SubscriptionTierLite[];
+}
+
+/**
  * Create button based on action type
  */
 function createButton(item: MenuItem): InlineKeyboardButton {
-  const text = item.icon_emoji ? `${item.icon_emoji} ${item.title}` : item.title;
-  
+  const title = item.title?.trim() || '';
+  const titleHasLeadingEmoji = /^[\p{Extended_Pictographic}]/u.test(title);
+  const text = item.icon_emoji && !titleHasLeadingEmoji ? `${item.icon_emoji} ${title}` : title;
+
   switch (item.action_type) {
     case 'webapp':
       return {
         text,
         web_app: { url: `${BOT_CONFIG.miniAppUrl}${item.action_data || ''}` }
       };
-    
+
     case 'url':
       return {
         text,
         url: item.action_data || '#'
       };
-    
+
     case 'submenu':
       return {
         text,
         callback_data: `menu_${item.menu_key}`
       };
-    
+
     case 'callback':
     default:
       return {
@@ -211,20 +244,68 @@ export async function buildDynamicKeyboard(
   parentKey: string = 'main',
   includeBack: boolean = false
 ): Promise<InlineKeyboardButton[][]> {
+  // Special menu: tariffs should show real prices from subscription_tiers
+  if (parentKey === 'tariffs') {
+    const tiers = await loadTariffTiers();
+
+    const keyboard: InlineKeyboardButton[][] = tiers.map(tier => {
+      const name = tier.name?.ru || tier.name?.en || tier.code;
+
+      let text: string;
+      if (tier.code === 'free' || (tier.price_usd ?? 0) <= 0) {
+        text = `${tier.icon_emoji} ${name} — Бесплатно`;
+      } else if (tier.custom_pricing) {
+        text = `${tier.icon_emoji} ${name} — от $${tier.min_purchase_amount}/мес`;
+      } else {
+        text = `${tier.icon_emoji} ${name} — $${tier.price_usd} / ${tier.price_stars}⭐`;
+      }
+
+      return [
+        {
+          text,
+          callback_data: tier.code === 'enterprise' ? 'tariff_contact_enterprise' : `tariff_info_${tier.code}`,
+        },
+      ];
+    });
+
+    keyboard.push([
+      {
+        text: '📊 Сравнить тарифы',
+        web_app: { url: `${BOT_CONFIG.miniAppUrl}/pricing` },
+      },
+    ]);
+
+    if (includeBack) {
+      const parentItem = await getMenuItem(parentKey);
+      const backTarget = parentItem?.parent_key || 'main';
+
+      keyboard.push([
+        {
+          text: '⬅️ Назад',
+          callback_data: backTarget === 'main' ? 'main_menu' : `menu_${backTarget}`,
+        },
+      ]);
+    }
+
+    return keyboard;
+  }
+
   const items = await loadMenuItems(parentKey);
   const keyboard = buildKeyboard(items);
-  
+
   // Add back button for submenus
   if (includeBack && parentKey !== 'main') {
     const parentItem = await getMenuItem(parentKey);
     const backTarget = parentItem?.parent_key || 'main';
-    
-    keyboard.push([{
-      text: '⬅️ Назад',
-      callback_data: backTarget === 'main' ? 'main_menu' : `menu_${backTarget}`
-    }]);
+
+    keyboard.push([
+      {
+        text: '⬅️ Назад',
+        callback_data: backTarget === 'main' ? 'main_menu' : `menu_${backTarget}`,
+      },
+    ]);
   }
-  
+
   return keyboard;
 }
 
