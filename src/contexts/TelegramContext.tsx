@@ -265,8 +265,9 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
             ensureInitialized();
           });
       } else {
-        bootLog('ERROR: InitData not received');
-        telegramLogger.error('InitData not received from Telegram');
+        // InitData отсутствует - это нормально при открытии вне Telegram
+        bootLog('INFO: InitData not available (expected outside Telegram)');
+        telegramLogger.info('InitData not available - running outside Telegram Mini App');
         // No initData means we can't authenticate, but still need to initialize UI
         clearTimeout(initializationTimeout);
         ensureInitialized();
