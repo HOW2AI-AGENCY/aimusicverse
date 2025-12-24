@@ -186,10 +186,24 @@ async function showTariffsMenu(chatId: number, messageId: number): Promise<void>
   text += `━━━━━━━━━━━━━━━━━━━━━\n`;
   text += `📌 _Нажмите на тариф для подробностей_`;
   
-  const keyboard = tiers.map(tier => [{
-    text: `${tier.icon_emoji} ${tier.name.ru || tier.code}${tier.badge_text ? ' ✨' : ''}`,
-    callback_data: tier.code === 'enterprise' ? 'tariff_contact_enterprise' : `tariff_info_${tier.code}`
-  }]);
+  // Build keyboard with prices on buttons (no duplicate emoji)
+  const keyboard = tiers.map(tier => {
+    const name = tier.name.ru || tier.code;
+    let buttonText: string;
+    
+    if (tier.code === 'free') {
+      buttonText = `${tier.icon_emoji} ${name} — Бесплатно`;
+    } else if (tier.custom_pricing) {
+      buttonText = `${tier.icon_emoji} ${name} — от $${tier.min_purchase_amount}`;
+    } else {
+      buttonText = `${tier.icon_emoji} ${name} — ${tier.price_stars}⭐`;
+    }
+    
+    return [{
+      text: buttonText,
+      callback_data: tier.code === 'enterprise' ? 'tariff_contact_enterprise' : `tariff_info_${tier.code}`
+    }];
+  });
   
   keyboard.push([{ text: '📊 Сравнить все тарифы', callback_data: 'tariff_compare' }]);
   keyboard.push([{ text: '◀️ Главное меню', callback_data: 'menu_main' }]);
