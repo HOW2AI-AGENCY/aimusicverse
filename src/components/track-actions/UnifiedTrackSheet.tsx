@@ -10,6 +10,7 @@ import { CreateActions } from './sections/CreateActions';
 import { DeleteActions } from './sections/DeleteActions';
 import { TrackDialogsPortal } from './TrackDialogsPortal';
 import { VersionsSection } from './sections/VersionsSection';
+import { QuickStemsButton } from './sections/QuickStemsButton';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 interface UnifiedTrackSheetProps {
@@ -70,6 +71,15 @@ export function UnifiedTrackSheet({
           </SheetHeader>
           
           <div className="mt-6 space-y-1">
+            {/* Quick Stems CTA - prominent button for new tracks */}
+            <QuickStemsButton
+              track={track}
+              state={actionState}
+              onAction={executeAction}
+              isProcessing={isProcessing}
+              className="mb-4"
+            />
+
             {/* Versions Section - if multiple versions exist */}
             {versionCount > 1 && (
               <>

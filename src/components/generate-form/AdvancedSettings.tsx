@@ -70,6 +70,7 @@ export function AdvancedSettings({
   onWeirdnessConstraintChange,
   audioWeight,
   onAudioWeightChange,
+  // Default to closed for simplified UX
   hasReferenceAudio,
   hasPersona = false,
   model,
