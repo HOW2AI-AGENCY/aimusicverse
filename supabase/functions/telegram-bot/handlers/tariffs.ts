@@ -186,7 +186,7 @@ async function showTariffsMenu(chatId: number, messageId: number): Promise<void>
   text += `━━━━━━━━━━━━━━━━━━━━━\n`;
   text += `📌 _Нажмите на тариф для подробностей_`;
   
-  // Build keyboard with prices on buttons (no duplicate emoji)
+  // Build keyboard with prices in $ and ⭐ (no duplicate emoji)
   const keyboard = tiers.map(tier => {
     const name = tier.name.ru || tier.code;
     let buttonText: string;
@@ -194,9 +194,9 @@ async function showTariffsMenu(chatId: number, messageId: number): Promise<void>
     if (tier.code === 'free') {
       buttonText = `${tier.icon_emoji} ${name} — Бесплатно`;
     } else if (tier.custom_pricing) {
-      buttonText = `${tier.icon_emoji} ${name} — от $${tier.min_purchase_amount}`;
+      buttonText = `${tier.icon_emoji} ${name} — от $${tier.min_purchase_amount}/мес`;
     } else {
-      buttonText = `${tier.icon_emoji} ${name} — ${tier.price_stars}⭐`;
+      buttonText = `${tier.icon_emoji} ${name} — $${tier.price_usd} / ${tier.price_stars}⭐`;
     }
     
     return [{
