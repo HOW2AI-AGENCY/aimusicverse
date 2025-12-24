@@ -2,25 +2,32 @@
  * BuyCredits Page
  * Displays credit packages for purchase with Telegram Stars
  * Note: Admins are redirected to home as they don't need to purchase credits
+ * 
+ * UX Improvements (Sprint 011):
+ * - Added comparison table with value indicators
+ * - Shows conversion rate (3 credits = 1 track)
+ * - Best Value badge for optimal package
  */
 
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { Sparkles, Filter } from 'lucide-react';
+import { Sparkles, Zap, LayoutGrid, List } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useUserRole } from '@/hooks/useUserRole';
 import { useStarsPayment } from '@/hooks/useStarsPayment';
 import { useGroupedProducts } from '@/hooks/useStarsProducts';
 import { CreditPackageCard } from '@/components/payments/CreditPackageCard';
+import { PackageComparisonTable } from '@/components/payments/PackageComparisonTable';
 import { StarsPaymentButton } from '@/components/payments/StarsPaymentButton';
 import { PaymentSuccessModal } from '@/components/payments/PaymentSuccessModal';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2 } from 'lucide-react';
 import type { StarsProduct } from '@/services/starsPaymentService';
 
-type FilterType = 'all' | 'featured';
+type ViewMode = 'grid' | 'list';
 
 function LoadingState() {
   return (
@@ -37,7 +44,7 @@ function LoadingState() {
 export default function BuyCredits() {
   const { user } = useAuth();
   const { isAdmin, isLoading: roleLoading } = useUserRole();
-  const [filter, setFilter] = useState<FilterType>('all');
+  const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [selectedProduct, setSelectedProduct] = useState<StarsProduct | null>(null);
   
   const { data: groupedProducts, isLoading, error } = useGroupedProducts();
@@ -56,11 +63,7 @@ export default function BuyCredits() {
     return <Navigate to="/" replace />;
   }
 
-  // Determine which products to display
-  const displayProducts =
-    filter === 'featured'
-      ? groupedProducts?.featured || []
-      : groupedProducts?.credits || [];
+  const displayProducts = groupedProducts?.credits || [];
 
   const handleProductClick = (product: StarsProduct) => {
     setSelectedProduct(product);
@@ -73,7 +76,7 @@ export default function BuyCredits() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl pb-32">
+    <div className="container mx-auto px-4 py-8 max-w-4xl pb-32">
       {/* Header */}
       <div className="mb-8 text-center space-y-4">
         <div className="flex items-center justify-center gap-2">
@@ -85,6 +88,22 @@ export default function BuyCredits() {
         </p>
       </div>
 
+      {/* Conversion Rate Banner */}
+      <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20">
+        <div className="flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-primary/20">
+            <Zap className="w-5 h-5 text-primary" />
+          </div>
+          <div>
+            <p className="font-medium">Как работают кредиты?</p>
+            <p className="text-sm text-muted-foreground">
+              <strong>3 кредита</strong> = 1 сгенерированный трек • 
+              <strong> 1 кредит</strong> = разделение на стемы
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Error State */}
       {error && (
         <Alert variant="destructive" className="mb-6">
@@ -94,38 +113,37 @@ export default function BuyCredits() {
         </Alert>
       )}
 
-      {/* Filter Bar */}
-      <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-          <Button
-            variant={filter === 'all' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setFilter('all')}
-          >
-            Все пакеты
-          </Button>
-          <Button
-            variant={filter === 'featured' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setFilter('featured')}
-          >
-            Популярные
-          </Button>
-        </div>
-
-        {displayProducts.length > 0 && (
-          <p className="text-sm text-muted-foreground">
-            {displayProducts.length} {displayProducts.length === 1 ? 'пакет' : 'пакетов'}
-          </p>
-        )}
+      {/* View Mode Toggle */}
+      <div className="flex items-center justify-between mb-6">
+        <p className="text-sm text-muted-foreground">
+          {displayProducts.length} {displayProducts.length === 1 ? 'пакет' : 'пакетов'} доступно
+        </p>
+        <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as ViewMode)}>
+          <TabsList className="grid w-auto grid-cols-2">
+            <TabsTrigger value="list" className="px-3">
+              <List className="w-4 h-4" />
+            </TabsTrigger>
+            <TabsTrigger value="grid" className="px-3">
+              <LayoutGrid className="w-4 h-4" />
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
       </div>
 
       {/* Loading State */}
       {isLoading && <LoadingState />}
 
-      {/* Products Grid */}
-      {!isLoading && displayProducts.length > 0 && (
+      {/* Products - List View */}
+      {!isLoading && displayProducts.length > 0 && viewMode === 'list' && (
+        <PackageComparisonTable
+          products={displayProducts}
+          selectedProduct={selectedProduct}
+          onSelect={handleProductClick}
+        />
+      )}
+
+      {/* Products - Grid View */}
+      {!isLoading && displayProducts.length > 0 && viewMode === 'grid' && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {displayProducts.map((product) => (
             <CreditPackageCard
@@ -157,7 +175,10 @@ export default function BuyCredits() {
                 <div>
                   <p className="text-sm text-muted-foreground">Выбранный пакет</p>
                   <p className="font-semibold">
-                    {selectedProduct.credits_amount} кредитов
+                    {selectedProduct.credits_amount ?? 0} кредитов
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    ≈ {Math.floor((selectedProduct.credits_amount ?? 0) / 3)} треков
                   </p>
                 </div>
                 <div className="text-right">
