@@ -1,8 +1,7 @@
 import { useTrackChangelog } from '@/hooks/useTrackChangelog';
 import { Badge } from '@/components/ui/badge';
 import { FileEdit, Sparkles, Upload, Download, Music2, User } from 'lucide-react';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { format, ru } from '@/lib/date-utils';
 
 interface TrackChangelogTabProps {
   trackId: string;

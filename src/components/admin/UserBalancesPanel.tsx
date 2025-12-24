@@ -16,7 +16,7 @@ import {
   AlertTriangle,
   Loader2
 } from "lucide-react";
-import { format } from "date-fns";
+import { format } from '@/lib/date-utils';
 import { useUserBalanceSummary, useUsersWithBalances } from "@/hooks/useUserBalanceSummary";
 import { useAdminBalance } from "@/hooks/useAdminBalance";
 

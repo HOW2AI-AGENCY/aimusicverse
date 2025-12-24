@@ -12,8 +12,7 @@ import {
   Clock, Gauge, Key, FileMusic, FileText, Guitar, ArrowRight,
   CheckCircle2, AlertCircle, Wand2, Piano
 } from 'lucide-react';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { format, ru } from '@/lib/date-utils';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { useGuitarAnalysis } from '@/hooks/useGuitarAnalysis';

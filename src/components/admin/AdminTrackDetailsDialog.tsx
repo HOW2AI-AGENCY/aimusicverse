@@ -7,8 +7,7 @@ import {
   Music, Play, Pause, Globe, Lock, Clock, 
   Heart, Calendar, User, FileAudio 
 } from "lucide-react";
-import { format } from "date-fns";
-import { ru } from "date-fns/locale";
+import { format, ru } from '@/lib/date-utils';
 import { useRef, useState } from "react";
 import { formatDuration } from '@/lib/player-utils';
 

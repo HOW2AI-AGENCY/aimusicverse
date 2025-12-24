@@ -6,8 +6,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
-import { format, subDays, startOfWeek, endOfWeek } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { format, subDays, startOfWeek, endOfWeek, ru } from '@/lib/date-utils';
 
 export interface DailyLikes {
   date: string;

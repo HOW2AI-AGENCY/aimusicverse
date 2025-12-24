@@ -25,8 +25,7 @@ import {
   Clock,
   AlertTriangle
 } from 'lucide-react';
-import { format, startOfDay, subDays, differenceInMinutes } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { format, startOfDay, subDays, differenceInMinutes, ru } from '@/lib/date-utils';
 
 const COLORS = {
   unhealthy: 'hsl(var(--destructive))',

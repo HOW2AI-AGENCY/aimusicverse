@@ -7,8 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Trophy, Clock, Star, Flame, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { differenceInDays, endOfWeek, startOfWeek, format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { differenceInDays, endOfWeek, startOfWeek, format, ru } from '@/lib/date-utils';
 
 interface Challenge {
   id: string;

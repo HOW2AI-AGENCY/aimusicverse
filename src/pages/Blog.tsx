@@ -12,8 +12,7 @@ import { BlogContentRenderer } from "@/components/blog/BlogContentRenderer";
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
 import { BlogHeroSection } from "@/components/blog/BlogHeroSection";
 import { BlogListSkeleton } from "@/components/blog/BlogSkeleton";
-import { formatDistanceToNow, format } from "date-fns";
-import { ru } from "date-fns/locale";
+import { formatDistanceToNow, format, ru } from '@/lib/date-utils';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 export default function Blog() {

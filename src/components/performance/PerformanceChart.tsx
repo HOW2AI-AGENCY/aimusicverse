@@ -16,7 +16,7 @@ import {
   ReferenceLine,
   Legend
 } from 'recharts';
-import { format } from 'date-fns';
+import { format } from '@/lib/date-utils';
 import { PerformanceMetric } from '@/hooks/usePerformanceMetrics';
 
 interface ChartField {

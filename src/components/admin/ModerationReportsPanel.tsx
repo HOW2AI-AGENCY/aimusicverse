@@ -27,8 +27,7 @@ import {
   XCircle,
   Loader2,
 } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import { ru } from "date-fns/locale";
+import { formatDistanceToNow, ru } from '@/lib/date-utils';
 import {
   useAdminModerationReports,
   useUpdateReportStatus,

@@ -19,8 +19,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { useReplacedSections } from '@/hooks/useReplacedSections';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { format, ru } from '@/lib/date-utils';
 
 interface SectionReplacementHistoryProps {
   trackId: string;

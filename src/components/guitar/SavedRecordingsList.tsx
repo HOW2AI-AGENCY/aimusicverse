@@ -11,8 +11,7 @@ import {
 } from 'lucide-react';
 import { useGuitarRecordings, type GuitarRecording } from '@/hooks/useGuitarRecordings';
 import { cn } from '@/lib/utils';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { format, ru } from '@/lib/date-utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { SavedRecordingDetailSheet } from './SavedRecordingDetailSheet';
 import { formatDuration } from '@/lib/player-utils';
