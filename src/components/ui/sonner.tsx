@@ -16,12 +16,14 @@ const Toaster = ({ ...props }: ToasterProps) => {
       offset={0}
       style={{
         // Telegram + device safe areas (avoid native buttons + notches)
+        // Increased padding from 12px to 32px for better visibility in Telegram Mini App
         paddingTop:
-          'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 12px), calc(env(safe-area-inset-top, 0px) + 12px))',
+          'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 32px), calc(env(safe-area-inset-top, 0px) + 32px))',
         paddingLeft:
           'max(var(--tg-content-safe-area-inset-left, 0px), env(safe-area-inset-left, 0px))',
         paddingRight:
           'max(var(--tg-content-safe-area-inset-right, 0px), env(safe-area-inset-right, 0px))',
+        zIndex: 9999,
       }}
       toastOptions={{
         classNames: {
