@@ -102,12 +102,41 @@ serve(async (req) => {
       throw new Error('No audio URL available for cover');
     }
 
+    // URL Validation logging for debugging cover errors
+    console.log('[suno-remix] URL Validation:', {
+      uploadUrl: uploadUrl,
+      urlLength: uploadUrl.length,
+      isSupabaseUrl: uploadUrl.includes('supabase'),
+      hasToken: uploadUrl.includes('token='),
+      protocol: uploadUrl.startsWith('https://') ? 'https' : uploadUrl.startsWith('http://') ? 'http' : 'unknown',
+    });
+
+    // Validate URL accessibility before sending to Suno
+    try {
+      const urlCheck = await fetch(uploadUrl, { method: 'HEAD' });
+      console.log('[suno-remix] URL accessibility check:', {
+        status: urlCheck.status,
+        contentType: urlCheck.headers.get('content-type'),
+        contentLength: urlCheck.headers.get('content-length'),
+        accessible: urlCheck.ok,
+      });
+      
+      if (!urlCheck.ok) {
+        console.error('[suno-remix] URL not accessible:', {
+          status: urlCheck.status,
+          statusText: urlCheck.statusText,
+        });
+      }
+    } catch (urlError) {
+      console.error('[suno-remix] URL validation failed:', urlError);
+    }
+
     const effectiveModel = getApiModelName(model);
 
     console.log('[suno-remix] Creating cover:', { 
       audioId, 
       hasAudioUrl: !!audioUrl, 
-      uploadUrl: uploadUrl?.substring(0, 50),
+      uploadUrl: uploadUrl?.substring(0, 100),
       audioWeight,
     });
 

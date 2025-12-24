@@ -1,7 +1,6 @@
 import { motion } from '@/lib/motion';
 import { TitleSection, StyleSection, VocalsToggle, LyricsSection } from './sections';
 import { AdvancedSettings } from './AdvancedSettings';
-import type { GenerationProvider } from './ProviderSelector';
 
 interface GenerateFormCustomProps {
   title: string;
@@ -32,13 +31,6 @@ interface GenerateFormCustomProps {
   hasPersona: boolean;
   model: string;
   onModelChange: (value: string) => void;
-  // Provider selection for cover/extend modes
-  provider?: GenerationProvider;
-  onProviderChange?: (provider: GenerationProvider) => void;
-  audioDuration?: number | null;
-  stabilityStrength?: number[];
-  onStabilityStrengthChange?: (value: number[]) => void;
-  showProviderSelector?: boolean;
   // Optional context for saving templates
   genre?: string;
   mood?: string;
@@ -72,12 +64,6 @@ export function GenerateFormCustom({
   hasPersona,
   model,
   onModelChange,
-  provider,
-  onProviderChange,
-  audioDuration,
-  stabilityStrength,
-  onStabilityStrengthChange,
-  showProviderSelector = false,
   genre,
   mood,
 }: GenerateFormCustomProps) {
@@ -134,12 +120,6 @@ export function GenerateFormCustom({
         hasPersona={hasPersona}
         model={model}
         onModelChange={onModelChange}
-        provider={provider}
-        onProviderChange={onProviderChange}
-        audioDuration={audioDuration}
-        stabilityStrength={stabilityStrength}
-        onStabilityStrengthChange={onStabilityStrengthChange}
-        showProviderSelector={showProviderSelector}
       />
     </motion.div>
   );

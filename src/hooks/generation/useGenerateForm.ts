@@ -19,7 +19,7 @@ import {
 } from '@/constants/generationConstants';
 import { showGenerationError } from '@/lib/errorHandling';
 import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
-import type { GenerationProvider } from '@/components/generate-form/ProviderSelector';
+// GenerationProvider type removed - only Suno is used
 
 export interface GenerateFormState {
   mode: 'simple' | 'custom';
@@ -91,10 +91,6 @@ export function useGenerateForm({
   const [styleWeight, setStyleWeight] = useState([DEFAULT_STYLE_WEIGHT]);
   const [weirdnessConstraint, setWeirdnessConstraint] = useState([DEFAULT_WEIRDNESS]);
   const [audioWeight, setAudioWeight] = useState([DEFAULT_AUDIO_WEIGHT]);
-  
-  // Provider settings for cover/extend modes
-  const [provider, setProvider] = useState<GenerationProvider>('suno');
-  const [stabilityStrength, setStabilityStrength] = useState([0.7]);
 
   // Reference data
   const [selectedProjectId, setSelectedProjectId] = useState<string | undefined>(initialProjectId);
@@ -115,8 +111,6 @@ export function useGenerateForm({
     setStyleWeight([DEFAULT_STYLE_WEIGHT]);
     setWeirdnessConstraint([DEFAULT_WEIRDNESS]);
     setAudioWeight([DEFAULT_AUDIO_WEIGHT]);
-    setProvider('suno');
-    setStabilityStrength([0.7]);
     setSelectedProjectId(initialProjectId);
     setSelectedTrackId(undefined);
     setSelectedArtistId(undefined);
@@ -840,10 +834,6 @@ export function useGenerateForm({
     setWeirdnessConstraint,
     audioWeight,
     setAudioWeight,
-    provider,
-    setProvider,
-    stabilityStrength,
-    setStabilityStrength,
     
     // References
     selectedProjectId,

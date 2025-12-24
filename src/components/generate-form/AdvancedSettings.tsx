@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ChevronDown, AlertTriangle } from 'lucide-react';
 import { SUNO_MODELS, getAvailableModels } from '@/constants/sunoModels';
-import { ProviderSelector, type GenerationProvider } from './ProviderSelector';
 
 /**
  * Get audio weight label based on reference type
@@ -48,13 +47,6 @@ interface AdvancedSettingsProps {
   hasPersona?: boolean;
   model?: string;
   onModelChange?: (value: string) => void;
-  // Provider selection for cover/extend modes
-  provider?: GenerationProvider;
-  onProviderChange?: (provider: GenerationProvider) => void;
-  audioDuration?: number | null;
-  stabilityStrength?: number[];
-  onStabilityStrengthChange?: (value: number[]) => void;
-  showProviderSelector?: boolean;
 }
 
 export function AdvancedSettings({
@@ -70,17 +62,10 @@ export function AdvancedSettings({
   onWeirdnessConstraintChange,
   audioWeight,
   onAudioWeightChange,
-  // Default to closed for simplified UX
   hasReferenceAudio,
   hasPersona = false,
   model,
   onModelChange,
-  provider,
-  onProviderChange,
-  audioDuration,
-  stabilityStrength,
-  onStabilityStrengthChange,
-  showProviderSelector = false,
 }: AdvancedSettingsProps) {
   return (
     <Collapsible open={open} onOpenChange={onOpenChange}>
@@ -96,18 +81,6 @@ export function AdvancedSettings({
       </CollapsibleTrigger>
 
       <CollapsibleContent className="space-y-4 pt-4">
-        {/* Provider Selection for cover/extend modes */}
-        {showProviderSelector && provider && onProviderChange && (
-          <ProviderSelector
-            provider={provider}
-            onProviderChange={onProviderChange}
-            audioDuration={audioDuration}
-            stabilityStrength={stabilityStrength}
-            onStabilityStrengthChange={onStabilityStrengthChange}
-            showStrengthSlider={true}
-          />
-        )}
-
         {/* Model Selection */}
         {model && onModelChange && (
           <div>
