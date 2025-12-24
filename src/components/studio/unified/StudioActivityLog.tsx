@@ -20,8 +20,7 @@ import {
 } from '@/components/ui/collapsible';
 import { useStudioChangeLog, StudioChangeEntry, getChangeTypeLabel, StudioChangeType } from '@/hooks/useStudioChangeLog';
 import { cn } from '@/lib/utils';
-import { formatDistanceToNow } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { formatDistanceToNow, ru } from '@/lib/date-utils';
 
 interface StudioActivityLogProps {
   trackId: string;

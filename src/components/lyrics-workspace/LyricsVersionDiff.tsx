@@ -13,8 +13,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/u
 import { LyricsVersion, changeTypeLabels, ChangeType } from '@/hooks/useLyricsVersioning';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
-import { formatDistanceToNow } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { formatDistanceToNow, ru } from '@/lib/date-utils';
 
 interface LyricsVersionDiffProps {
   open: boolean;

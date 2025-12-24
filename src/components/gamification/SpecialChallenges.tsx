@@ -8,7 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Rocket, Crown, Gem, Zap, Lock, Gift, Timer } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { differenceInHours } from 'date-fns';
+import { differenceInHours } from '@/lib/date-utils';
 
 interface SpecialChallenge {
   id: string;

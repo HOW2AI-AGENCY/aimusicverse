@@ -3,7 +3,7 @@
  * One-tap generation with pre-filled parameters
  */
 
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Sparkles, ChevronRight, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { QUICK_CREATE_PRESETS, QuickCreatePreset } from '@/constants/quickCreatePresets';

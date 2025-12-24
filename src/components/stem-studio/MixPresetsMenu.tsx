@@ -35,8 +35,7 @@ import { useMixPresets } from '@/hooks/useMixPresets';
 import { StemEffects } from '@/hooks/studio/stemEffectsConfig';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
-import { formatDistanceToNow } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { formatDistanceToNow, ru } from '@/lib/date-utils';
 
 interface StemState {
   muted: boolean;

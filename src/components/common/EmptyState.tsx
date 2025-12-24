@@ -1,7 +1,7 @@
 /**
  * EmptyState - Reusable animated empty state component
  */
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { LucideIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';

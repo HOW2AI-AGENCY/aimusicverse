@@ -34,8 +34,7 @@ import { useReferenceAudioPlayer } from '@/hooks/audio/useReferenceAudioPlayer';
 import { ReferenceMode } from '@/services/audio-reference';
 import { ReferenceAnalysisDisplay } from './ReferenceAnalysisDisplay';
 import { cn } from '@/lib/utils';
-import { formatDistanceToNow } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { formatDistanceToNow, ru } from '@/lib/date-utils';
 import { toast } from 'sonner';
 
 interface ReferenceDrawerProps {

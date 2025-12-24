@@ -29,7 +29,7 @@ import {
   Wand2,
   Sparkles,
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { toast } from 'sonner';
 import { useReferenceAnalysisData, type ReferenceAnalysisData } from '@/hooks/useReferenceAnalysisData';
 import { ReferenceMidiSheet } from './ReferenceMidiSheet';

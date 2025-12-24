@@ -4,9 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FolderOpen, MoreVertical, Trash2, Music, Calendar, Disc, ChevronRight, Sparkles, Globe } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
-import { motion } from 'framer-motion';
+import { format, ru } from '@/lib/date-utils';
+import { motion } from '@/lib/motion';
 import {
   DropdownMenu,
   DropdownMenuContent,

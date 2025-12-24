@@ -11,8 +11,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { toast } from 'sonner';
 import { motion } from '@/lib/motion';
-import { formatDistanceToNow } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { formatDistanceToNow, ru } from '@/lib/date-utils';
 
 type ReportStatus = 'pending' | 'reviewed' | 'resolved' | 'dismissed';
 

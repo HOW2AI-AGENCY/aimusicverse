@@ -31,7 +31,7 @@ import {
   Volume2,
   X,
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { ReferenceAudioPlayer } from '@/components/audio-reference/ReferenceAudioPlayer';
 import { ReferenceStemPlayer } from '@/components/audio-reference/ReferenceStemPlayer';
 import { ReferenceActionsPanel } from '@/components/audio-reference/ReferenceActionsPanel';

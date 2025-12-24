@@ -19,6 +19,7 @@ export {
   endOfWeek,
   subDays,
   addDays,
+  addMonths,
   isToday,
   isYesterday,
   isBefore,
