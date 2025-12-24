@@ -268,12 +268,6 @@ export async function buildDynamicKeyboard(
       ];
     });
 
-    keyboard.push([
-      {
-        text: '📊 Сравнить тарифы',
-        web_app: { url: `${BOT_CONFIG.miniAppUrl}/pricing` },
-      },
-    ]);
 
     if (includeBack) {
       const parentItem = await getMenuItem(parentKey);
