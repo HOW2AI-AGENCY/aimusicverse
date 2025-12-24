@@ -139,8 +139,6 @@ export async function handleTariffCallback(
       await initiateTariffPurchase(chatId, userId, tierCode, queryId);
     } else if (action === 'contact_enterprise') {
       await showEnterpriseContact(chatId, messageId);
-    } else if (action === 'compare') {
-      await showTariffComparison(chatId, messageId);
     } else if (action === 'menu' || action === 'back') {
       await showTariffsMenu(chatId, messageId);
     } else {
@@ -207,7 +205,6 @@ async function showTariffsMenu(chatId: number, messageId: number): Promise<void>
     }];
   });
   
-  keyboard.push([{ text: '📊 Сравнить все тарифы', callback_data: 'tariff_compare' }]);
   keyboard.push([{ text: '◀️ Главное меню', callback_data: 'menu_main' }]);
   
   await editMessageText(chatId, messageId, escapeMarkdownV2(text), {
@@ -330,7 +327,6 @@ async function showTierInfo(chatId: number, messageId: number, tierCode: string)
     keyboard.push(navRow);
   }
   
-  keyboard.push([{ text: '📊 Сравнить тарифы', callback_data: 'tariff_compare' }]);
   keyboard.push([{ text: '◀️ Все тарифы', callback_data: 'tariff_menu' }]);
   
   // Try to send with cover image if available
@@ -478,7 +474,6 @@ async function showEnterpriseContact(chatId: number, messageId: number): Promise
   const keyboard = [
     [{ text: '📧 Написать менеджеру', url: 'https://t.me/MusicVerseSupport' }],
     [{ text: '📞 Заказать звонок', callback_data: 'enterprise_callback' }],
-    [{ text: '📊 Сравнить тарифы', callback_data: 'tariff_compare' }],
     [{ text: '◀️ Все тарифы', callback_data: 'tariff_menu' }],
   ];
 
@@ -491,60 +486,4 @@ async function showEnterpriseContact(chatId: number, messageId: number): Promise
       inline_keyboard: keyboard,
     });
   }
-}
-
-async function showTariffComparison(chatId: number, messageId: number): Promise<void> {
-  const tiers = await loadTiers();
-  
-  let text = `📊 *СРАВНЕНИЕ ТАРИФОВ*\n`;
-  text += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
-  
-  // Header row
-  text += `           💰    📦    🎵\n`;
-  text += `           Цена  Кред  Треки\n`;
-  text += `───────────────────────────\n`;
-  
-  for (const tier of tiers) {
-    const name = (tier.name.ru || tier.code).padEnd(8).slice(0, 8);
-    const price = tier.price_usd > 0 ? `$${tier.price_usd}`.padEnd(5) : 'FREE'.padEnd(5);
-    const credits = tier.custom_pricing ? '∞' : `${tier.credits_amount}`.padEnd(5);
-    const tracks = `${tier.max_concurrent_generations}`;
-    
-    text += `${tier.icon_emoji} ${name} ${price} ${credits} ${tracks}\n`;
-  }
-  
-  text += `───────────────────────────\n\n`;
-  
-  // Features comparison
-  text += `✨ *ФУНКЦИИ:*\n\n`;
-  
-  const featureRows = [
-    { name: '⚡ Приоритет', check: (t: SubscriptionTier) => t.has_priority },
-    { name: '🎛️ Стемы', check: (t: SubscriptionTier) => t.has_stem_separation },
-    { name: '🎚️ Мастеринг', check: (t: SubscriptionTier) => t.has_mastering },
-    { name: '🎹 MIDI', check: (t: SubscriptionTier) => t.has_midi_export },
-    { name: '🔌 API', check: (t: SubscriptionTier) => t.has_api_access },
-  ];
-  
-  for (const feature of featureRows) {
-    const marks = tiers.map(t => feature.check(t) ? '✅' : '—').join(' ');
-    text += `${feature.name}: ${marks}\n`;
-  }
-  
-  text += `\n━━━━━━━━━━━━━━━━━━━━━\n`;
-  text += `📌 _Выберите тариф для оформления_`;
-  
-  const keyboard = tiers
-    .filter(t => t.price_usd > 0 && !t.custom_pricing)
-    .map(t => [{
-      text: `${t.icon_emoji} ${t.name.ru || t.code} — $${t.price_usd}`,
-      callback_data: `tariff_buy_${t.code}`
-    }]);
-  
-  keyboard.push([{ text: '🏆 Enterprise — от $50', callback_data: 'tariff_contact_enterprise' }]);
-  keyboard.push([{ text: '◀️ Назад', callback_data: 'tariff_menu' }]);
-
-  await editMessageText(chatId, messageId, escapeMarkdownV2(text), {
-    inline_keyboard: keyboard,
-  });
 }
