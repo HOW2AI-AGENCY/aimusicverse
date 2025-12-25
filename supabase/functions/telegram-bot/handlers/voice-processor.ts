@@ -103,7 +103,8 @@ export async function processVoiceMessage(
       throw new Error('Failed to download voice from Telegram');
     }
 
-    const audioBlob = await audioResponse.blob();
+    // IMPORTANT: Response body can only be consumed once, so use arrayBuffer first
+    // and create Blob from it if needed
     const audioBuffer = await audioResponse.arrayBuffer();
 
     // Update progress
