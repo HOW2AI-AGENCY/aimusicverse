@@ -61,6 +61,11 @@ const LyricsStudio = lazy(() => import("./pages/LyricsStudio"));
 const ReferenceAudioDetail = lazy(() => import("./pages/ReferenceAudioDetail"));
 const HardwareStudioDemo = lazy(() => import("./pages/HardwareStudioDemo"));
 
+// Studio V2 pages (isolated from existing studio)
+const StudioHubPage = lazy(() => import("./pages/studio-v2/StudioHubPage"));
+const UnifiedStudioPage = lazy(() => import("./pages/studio-v2/UnifiedStudioPage"));
+const NewStudioProjectPage = lazy(() => import("./pages/studio-v2/NewStudioProjectPage"));
+
 const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Pricing = lazy(() => import("./pages/Pricing"));
@@ -162,6 +167,28 @@ const App = () => (
                 <Route path="/studio/:trackId" element={
                   <ProtectedRoute>
                     <StemStudio />
+                  </ProtectedRoute>
+                } />
+
+                {/* Studio V2 - isolated new studio implementation */}
+                <Route path="/studio-v2" element={
+                  <ProtectedRoute>
+                    <StudioHubPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/studio-v2/new" element={
+                  <ProtectedRoute>
+                    <NewStudioProjectPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/studio-v2/project/:projectId" element={
+                  <ProtectedRoute>
+                    <UnifiedStudioPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/studio-v2/track/:trackId" element={
+                  <ProtectedRoute>
+                    <UnifiedStudioPage />
                   </ProtectedRoute>
                 } />
 
