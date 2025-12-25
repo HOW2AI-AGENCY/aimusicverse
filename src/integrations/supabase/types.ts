@@ -2631,6 +2631,81 @@ export type Database = {
           },
         ]
       }
+      studio_projects: {
+        Row: {
+          bpm: number | null
+          created_at: string | null
+          description: string | null
+          duration_seconds: number | null
+          id: string
+          key_signature: string | null
+          master_volume: number | null
+          name: string
+          opened_at: string | null
+          source_track_id: string | null
+          status: string | null
+          stems_mode: string | null
+          time_signature: string | null
+          tracks: Json | null
+          updated_at: string | null
+          user_id: string
+          view_settings: Json | null
+        }
+        Insert: {
+          bpm?: number | null
+          created_at?: string | null
+          description?: string | null
+          duration_seconds?: number | null
+          id?: string
+          key_signature?: string | null
+          master_volume?: number | null
+          name: string
+          opened_at?: string | null
+          source_track_id?: string | null
+          status?: string | null
+          stems_mode?: string | null
+          time_signature?: string | null
+          tracks?: Json | null
+          updated_at?: string | null
+          user_id: string
+          view_settings?: Json | null
+        }
+        Update: {
+          bpm?: number | null
+          created_at?: string | null
+          description?: string | null
+          duration_seconds?: number | null
+          id?: string
+          key_signature?: string | null
+          master_volume?: number | null
+          name?: string
+          opened_at?: string | null
+          source_track_id?: string | null
+          status?: string | null
+          stems_mode?: string | null
+          time_signature?: string | null
+          tracks?: Json | null
+          updated_at?: string | null
+          user_id?: string
+          view_settings?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "studio_projects_source_track_id_fkey"
+            columns: ["source_track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "studio_projects_source_track_id_fkey"
+            columns: ["source_track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       style_tag_mappings: {
         Row: {
           created_at: string
