@@ -14,7 +14,9 @@ import { StudioWaveformTimeline } from './StudioWaveformTimeline';
 import { StudioMixerPanel } from './StudioMixerPanel';
 import { ExportMixDialog } from './ExportMixDialog';
 import { StemEffectsDrawer } from './StemEffectsDrawer';
+import { MobileAudioWarning } from '@/components/studio/MobileAudioWarning';
 import { useStudioAudioEngine, AudioTrack } from '@/hooks/studio/useStudioAudioEngine';
+import { useMobileAudioFallback } from '@/hooks/studio/useMobileAudioFallback';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -59,6 +61,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
 import type { StemEffects, EQSettings, CompressorSettings, ReverbSettings } from '@/hooks/studio/types';
 import { defaultStemEffects } from '@/hooks/studio/stemEffectsConfig';
+import type { TrackStem } from '@/hooks/useTrackStems';
 
 interface StudioShellProps {
   className?: string;
@@ -136,6 +139,35 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         };
       });
   }, [project?.tracks]);
+
+  // Convert tracks to TrackStem format for mobile fallback detection
+  const tracksAsStems = useMemo((): TrackStem[] => {
+    if (!project) return [];
+    return project.tracks
+      .filter(t => t.status !== 'pending' && t.status !== 'failed')
+      .map(track => ({
+        id: track.id,
+        track_id: project.id,
+        stem_type: track.type,
+        audio_url: track.audioUrl || '',
+        separation_mode: null,
+        version_id: null,
+        created_at: new Date().toISOString(),
+      }));
+  }, [project?.tracks, project?.id]);
+
+  // Mobile audio fallback handling
+  const {
+    activeStems,
+    limitedStems,
+    isLimited: isMobileAudioLimited,
+    showFallbackWarning,
+    dismissWarning,
+    capabilities,
+  } = useMobileAudioFallback({
+    stems: tracksAsStems,
+    enabled: isMobile,
+  });
 
   // Multi-track audio engine
   const audioEngine = useStudioAudioEngine({
@@ -414,6 +446,14 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           height={80}
         />
       </div>
+
+      {/* Mobile Audio Fallback Warning */}
+      <MobileAudioWarning
+        show={showFallbackWarning}
+        activeCount={activeStems.length}
+        limitedStems={limitedStems}
+        onDismiss={dismissWarning}
+      />
 
       {/* Transport Controls */}
       <div className="flex items-center gap-3 px-4 py-2 border-b border-border/50 bg-card/50 shrink-0">
