@@ -17,6 +17,7 @@ import { ReferenceManager } from '@/services/audio-reference/ReferenceManager';
 import type { ReferenceAudio } from '@/hooks/useReferenceAudio';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { useRecordingUpload } from '@/hooks/useRecordingUpload';
+import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
 
 interface AudioRecordDialogProps {
   open: boolean;
@@ -274,6 +275,26 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
       }
 
       logger.info('Audio processing started', { action, response: data });
+
+      // For instrumental action, create studio project and navigate
+      if (action === 'instrumental') {
+        const createProject = useUnifiedStudioStore.getState().createProject;
+        const projectId = await createProject({
+          name: `Студия: ${title}`,
+          sourceAudioUrl: audioUrl,
+          duration: audioDuration,
+        });
+
+        if (projectId) {
+          toast.success('Добавление инструментала началось! 🎸', {
+            description: 'Открываю студию для сведения...'
+          });
+          onOpenChange(false);
+          resetRecording();
+          navigate(`/studio-v2/project/${projectId}`);
+          return;
+        }
+      }
 
       toast.success(
         action === 'instrumental' 
