@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { useUnifiedStudioStore, ViewMode, TrackType, TRACK_COLORS } from '@/stores/useUnifiedStudioStore';
 import { StudioTransport } from './StudioTransport';
 import { StudioTrackRow } from './StudioTrackRow';
+import { StudioPendingTrackRow } from './StudioPendingTrackRow';
 import { StudioWaveformTimeline } from './StudioWaveformTimeline';
 import { StudioMixerPanel } from './StudioMixerPanel';
 import { Button } from '@/components/ui/button';
@@ -51,6 +52,8 @@ import { toast } from 'sonner';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { formatTime } from '@/lib/formatters';
 import { Slider } from '@/components/ui/slider';
+import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 
 interface StudioShellProps {
   className?: string;
@@ -75,6 +78,10 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     undo,
     redo,
     addTrack,
+    addPendingTrack,
+    resolvePendingTrack,
+    setTrackActiveVersion,
+    loadProject,
     play,
     pause,
     stop,
@@ -235,6 +242,32 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handlePlayPause, undo, redo]);
+
+  // Realtime subscription for project updates (e.g., when instrumental generation completes)
+  useEffect(() => {
+    if (!project?.id) return;
+
+    const channel = supabase
+      .channel(`studio-project-${project.id}`)
+      .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'studio_projects',
+        filter: `id=eq.${project.id}`,
+      }, (payload) => {
+        logger.info('Studio project updated via realtime', { projectId: project.id });
+        // Reload project to get updated tracks
+        loadProject(project.id);
+        toast.success('Инструментал готов! 🎸', {
+          description: 'Выберите версию A или B'
+        });
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [project?.id, loadProject]);
 
   const duration = audioDuration || project?.durationSeconds || 180;
 
@@ -458,30 +491,44 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         </Button>
       </div>
 
-      {/* Track List */}
       <ScrollArea className="flex-1">
         <div className="p-3 space-y-2">
           <AnimatePresence>
             {project.tracks.map((track) => (
-              <StudioTrackRow
-                key={track.id}
-                track={track}
-                isPlaying={isPlaying}
-                currentTime={currentTime}
-                duration={duration}
-                onToggleMute={() => toggleTrackMute(track.id)}
-                onToggleSolo={() => toggleTrackSolo(track.id)}
-                onVolumeChange={(v) => setTrackVolume(track.id, v)}
-                onSeek={handleSeek}
-                onRemove={() => removeTrack(track.id)}
-                onAction={(action) => {
-                  if (action === 'download' && track.audioUrl) {
-                    window.open(track.audioUrl, '_blank');
-                  } else {
-                    toast.info('Функция в разработке');
-                  }
-                }}
-              />
+              track.status === 'pending' ? (
+                <StudioPendingTrackRow
+                  key={track.id}
+                  track={{
+                    id: track.id,
+                    name: track.name,
+                    type: track.type,
+                    taskId: track.taskId,
+                    status: 'pending',
+                  }}
+                  onCancel={() => removeTrack(track.id)}
+                />
+              ) : (
+                <StudioTrackRow
+                  key={track.id}
+                  track={track}
+                  isPlaying={isPlaying}
+                  currentTime={currentTime}
+                  duration={duration}
+                  onToggleMute={() => toggleTrackMute(track.id)}
+                  onToggleSolo={() => toggleTrackSolo(track.id)}
+                  onVolumeChange={(v) => setTrackVolume(track.id, v)}
+                  onSeek={handleSeek}
+                  onRemove={() => removeTrack(track.id)}
+                  onVersionChange={track.versions ? (label: string) => setTrackActiveVersion(track.id, label) : undefined}
+                  onAction={(action) => {
+                    if (action === 'download' && track.audioUrl) {
+                      window.open(track.audioUrl, '_blank');
+                    } else {
+                      toast.info('Функция в разработке');
+                    }
+                  }}
+                />
+              )
             ))}
           </AnimatePresence>
 

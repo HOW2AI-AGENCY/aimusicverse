@@ -22,6 +22,7 @@ import {
 import { cn } from '@/lib/utils';
 import { StudioTrack, TrackType } from '@/stores/useUnifiedStudioStore';
 import { OptimizedStemWaveform } from '@/components/stem-studio/OptimizedStemWaveform';
+import { StudioVersionSelector } from './StudioVersionSelector';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
@@ -101,6 +102,7 @@ interface StudioTrackRowProps {
   onVolumeChange: (volume: number) => void;
   onSeek: (time: number) => void;
   onRemove: () => void;
+  onVersionChange?: (versionLabel: string) => void;
   onAction?: (action: 'download' | 'effects' | 'reference') => void;
 }
 
@@ -114,6 +116,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
   onVolumeChange,
   onSeek,
   onRemove,
+  onVersionChange,
   onAction,
 }: StudioTrackRowProps) {
   const isMobile = useIsMobile();
@@ -207,6 +210,16 @@ export const StudioTrackRow = memo(function StudioTrackRow({
             >
               S
             </Button>
+
+            {/* Version Selector */}
+            {track.versions && track.versions.length > 1 && onVersionChange && (
+              <StudioVersionSelector
+                versions={track.versions}
+                activeLabel={track.activeVersionLabel || 'A'}
+                onSelect={onVersionChange}
+                compact
+              />
+            )}
 
             {/* Volume toggle */}
             <Button
