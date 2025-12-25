@@ -526,7 +526,7 @@ export function LyricsChatAssistant({
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="h-[100dvh] max-h-[100dvh] flex flex-col safe-area-inset rounded-none overflow-hidden">
+        <DrawerContent className="h-[100dvh] max-h-[100dvh] flex flex-col rounded-none overflow-hidden">
           <DrawerHeader className="pb-2 border-b border-border/50 shrink-0 flex items-center justify-between">
             <DrawerTitle className="flex items-center gap-2 text-base">
               <motion.div

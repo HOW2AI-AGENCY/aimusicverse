@@ -131,7 +131,10 @@ export function EnhancedGenerationIndicator() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] w-[calc(100vw-2rem)] max-w-md"
+      className="fixed left-1/2 -translate-x-1/2 z-[100] w-[calc(100vw-2rem)] max-w-md"
+      style={{
+        top: 'max(calc(var(--tg-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))',
+      }}
     >
       <div className="bg-background/95 backdrop-blur-xl border border-primary/30 rounded-2xl shadow-lg shadow-primary/10 overflow-hidden">
         {/* Main indicator */}

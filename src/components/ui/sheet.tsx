@@ -58,24 +58,48 @@ interface SheetContentProps
 }
 
 const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Content>, SheetContentProps>(
-  ({ side = "right", className, children, hideTitle = false, accessibleTitle = "Боковая панель", ...props }, ref) => (
-    <SheetPortal>
-      <SheetOverlay />
-      <SheetPrimitive.Content ref={ref} className={cn(sheetVariants({ side }), className)} {...props}>
-        {/* Accessible title for screen readers when no visible title exists */}
-        {hideTitle && (
-          <VisuallyHidden asChild>
-            <SheetPrimitive.Title>{accessibleTitle}</SheetPrimitive.Title>
-          </VisuallyHidden>
-        )}
-        {children}
-        <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity data-[state=open]:bg-secondary hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
-          <X className="h-4 w-4" />
-          <span className="sr-only">Закрыть</span>
-        </SheetPrimitive.Close>
-      </SheetPrimitive.Content>
-    </SheetPortal>
-  ),
+  ({ side = "right", className, children, hideTitle = false, accessibleTitle = "Боковая панель", ...props }, ref) => {
+    // Check if this is a fullscreen sheet (has h-full, h-screen, or h-[100dvh] in className)
+    const isFullscreen = className?.includes('h-full') || className?.includes('h-screen') || className?.includes('h-[100dvh]') || className?.includes('h-[100vh]');
+    
+    return (
+      <SheetPortal>
+        <SheetOverlay />
+        <SheetPrimitive.Content 
+          ref={ref} 
+          className={cn(sheetVariants({ side }), className)} 
+          style={isFullscreen ? {
+            // Apply safe area padding for fullscreen sheets based on side
+            paddingTop: side === 'top' 
+              ? 'max(calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px)), calc(env(safe-area-inset-top, 0px) + 0.5rem))'
+              : undefined,
+            paddingBottom: side === 'bottom' 
+              ? 'max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))'
+              : undefined,
+            paddingLeft: side === 'left'
+              ? 'max(var(--tg-safe-area-inset-left, 0px), env(safe-area-inset-left, 0px))'
+              : undefined,
+            paddingRight: side === 'right'
+              ? 'max(var(--tg-safe-area-inset-right, 0px), env(safe-area-inset-right, 0px))'
+              : undefined,
+          } : undefined}
+          {...props}
+        >
+          {/* Accessible title for screen readers when no visible title exists */}
+          {hideTitle && (
+            <VisuallyHidden asChild>
+              <SheetPrimitive.Title>{accessibleTitle}</SheetPrimitive.Title>
+            </VisuallyHidden>
+          )}
+          {children}
+          <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity data-[state=open]:bg-secondary hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
+            <X className="h-4 w-4" />
+            <span className="sr-only">Закрыть</span>
+          </SheetPrimitive.Close>
+        </SheetPrimitive.Content>
+      </SheetPortal>
+    );
+  },
 );
 SheetContent.displayName = SheetPrimitive.Content.displayName;
 
