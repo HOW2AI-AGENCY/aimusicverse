@@ -169,7 +169,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     // Only load if there's more data
     if (hasMore && tracks.length > 0) {
       loadingRef.current = true;
-      log.debug('Loading more tracks', { 
+      log.info('Loading more tracks (endReached)', { 
         currentCount: tracks.length, 
         hasMore, 
         isLoadingMore 
@@ -178,7 +178,16 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
       // Use setTimeout to break potential synchronous loops
       setTimeout(() => {
         onLoadMore();
+        // Safety: Reset loading flag after 5 seconds if nothing happens
+        setTimeout(() => {
+          if (loadingRef.current) {
+            log.warn('LoadingRef stuck, resetting after timeout');
+            loadingRef.current = false;
+          }
+        }, 5000);
       }, 0);
+    } else {
+      log.debug('Not loading more', { hasMore, trackCount: tracks.length, loadingRef: loadingRef.current, isLoadingMore });
     }
   }, [hasMore, isLoadingMore, onLoadMore, tracks.length]);
 
@@ -194,9 +203,16 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     
     if (endIndex >= threshold && hasMore) {
       loadingRef.current = true;
-      log.debug('Range trigger: loading more', { endIndex, threshold, total: tracks.length });
+      log.info('Range trigger: loading more', { endIndex, threshold, total: tracks.length });
       setTimeout(() => {
         onLoadMore();
+        // Safety: Reset loading flag after 5 seconds if nothing happens
+        setTimeout(() => {
+          if (loadingRef.current) {
+            log.warn('LoadingRef stuck (range), resetting after timeout');
+            loadingRef.current = false;
+          }
+        }, 5000);
       }, 0);
     }
   }, [tracks.length, hasMore, isLoadingMore, onLoadMore]);

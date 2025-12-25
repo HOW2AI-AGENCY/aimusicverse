@@ -118,6 +118,20 @@ export default function Library() {
     paginate: true,
   });
   
+  // Debug logging for track loading
+  useEffect(() => {
+    if (tracks && tracks.length > 0) {
+      log.info('Tracks loaded in Library', { 
+        loadedCount: tracks.length, 
+        totalCount, 
+        hasNextPage,
+        isFetchingNextPage,
+        filter: typeFilter,
+        searchQuery: debouncedSearchQuery
+      });
+    }
+  }, [tracks?.length, totalCount, hasNextPage, isFetchingNextPage, typeFilter, debouncedSearchQuery]);
+  
   // downloadTrack - use separate mutation or API
   const downloadTrack = useCallback(async (track: Track) => {
     if (!track.audio_url) return;
@@ -164,6 +178,9 @@ export default function Library() {
   }, [tracks, typeFilter]);
 
   // Count tracks for filter badges
+  // NOTE: These counts reflect only loaded tracks, not all available tracks
+  // This is intentional to avoid additional database queries
+  // The "All" count will match tracks.length which may be less than totalCount
   const filterCounts = useMemo(() => ({
     all: (tracks || []).length,
     vocals: (tracks || []).filter(t => t.has_vocals === true).length,
