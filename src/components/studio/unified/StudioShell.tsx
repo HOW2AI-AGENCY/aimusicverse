@@ -3,7 +3,7 @@
  * Main layout wrapper for the unified studio with full audio integration
  */
 
-import { memo, useState, useCallback, useEffect } from 'react';
+import { memo, useState, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useUnifiedStudioStore, ViewMode, TrackType, TRACK_COLORS } from '@/stores/useUnifiedStudioStore';
@@ -12,6 +12,7 @@ import { StudioTrackRow } from './StudioTrackRow';
 import { StudioPendingTrackRow } from './StudioPendingTrackRow';
 import { StudioWaveformTimeline } from './StudioWaveformTimeline';
 import { StudioMixerPanel } from './StudioMixerPanel';
+import { useStudioAudioEngine, AudioTrack } from '@/hooks/studio/useStudioAudioEngine';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -96,82 +97,82 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   const [showAddTrackDialog, setShowAddTrackDialog] = useState(false);
   const [showMixerSheet, setShowMixerSheet] = useState(false);
 
-  // Audio state (simple approach - single audio element for main track)
-  const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
-  const [audioDuration, setAudioDuration] = useState(0);
-
-  // Get main audio URL from project
-  const mainAudioUrl = project?.tracks[0]?.audioUrl || project?.tracks[0]?.clips[0]?.audioUrl;
-
-  // Initialize audio element
-  useEffect(() => {
-    if (!mainAudioUrl) return;
-
-    const audio = new Audio(mainAudioUrl);
-    audio.preload = 'auto';
+  // Convert store tracks to AudioTrack format for engine
+  const audioTracks = useMemo((): AudioTrack[] => {
+    if (!project) return [];
     
-    audio.onloadedmetadata = () => {
-      setAudioDuration(audio.duration);
-    };
-    
-    audio.onended = () => {
+    return project.tracks
+      .filter(t => t.status !== 'pending' && t.status !== 'failed')
+      .map(track => {
+        // Get audio URL from track or active version
+        let audioUrl = track.audioUrl;
+        if (!audioUrl && track.versions?.length) {
+          const activeVersion = track.versions.find(v => v.label === track.activeVersionLabel);
+          audioUrl = activeVersion?.audioUrl || track.versions[0]?.audioUrl;
+        }
+        if (!audioUrl && track.clips?.[0]?.audioUrl) {
+          audioUrl = track.clips[0].audioUrl;
+        }
+        
+        return {
+          id: track.id,
+          audioUrl,
+          volume: track.volume,
+          muted: track.muted,
+          solo: track.solo,
+        };
+      });
+  }, [project?.tracks]);
+
+  // Multi-track audio engine
+  const audioEngine = useStudioAudioEngine({
+    tracks: audioTracks,
+    masterVolume: project?.masterVolume ?? 0.85,
+    onTimeUpdate: seek,
+    onDurationChange: undefined,
+    onEnded: () => {
       pause();
       seek(0);
-    };
+    },
+  });
 
-    setAudioElement(audio);
+  // Get main audio URL for waveform visualization
+  const mainAudioUrl = project?.tracks[0]?.audioUrl || project?.tracks[0]?.clips[0]?.audioUrl;
+  const duration = audioEngine.duration || project?.durationSeconds || 180;
 
-    return () => {
-      audio.pause();
-      audio.src = '';
-    };
-  }, [mainAudioUrl, pause, seek]);
-
-  // Sync playback with store
+  // Sync playback state with store
   useEffect(() => {
-    if (!audioElement) return;
-
-    if (isPlaying) {
-      audioElement.play().catch(console.error);
-    } else {
-      audioElement.pause();
+    if (isPlaying && !audioEngine.isPlaying) {
+      audioEngine.play();
+    } else if (!isPlaying && audioEngine.isPlaying) {
+      audioEngine.pause();
     }
-  }, [isPlaying, audioElement]);
+  }, [isPlaying, audioEngine]);
 
-  // Update current time
-  useEffect(() => {
-    if (!audioElement || !isPlaying) return;
-
-    let animationFrame: number;
-    
-    const updateTime = () => {
-      seek(audioElement.currentTime);
-      animationFrame = requestAnimationFrame(updateTime);
-    };
-    
-    animationFrame = requestAnimationFrame(updateTime);
-    
-    return () => {
-      cancelAnimationFrame(animationFrame);
-    };
-  }, [isPlaying, audioElement, seek]);
-
-  // Sync seek with audio
+  // Sync seek with audio engine
   const handleSeek = useCallback((time: number) => {
-    if (audioElement) {
-      audioElement.currentTime = time;
-    }
+    audioEngine.seek(time);
     seek(time);
-  }, [audioElement, seek]);
+  }, [audioEngine, seek]);
 
   // Handle play/pause
   const handlePlayPause = useCallback(() => {
     if (isPlaying) {
+      audioEngine.pause();
       pause();
     } else {
+      audioEngine.play();
       play();
     }
-  }, [isPlaying, play, pause]);
+  }, [isPlaying, play, pause, audioEngine]);
+
+  // Update track volumes in engine when they change
+  useEffect(() => {
+    if (!project) return;
+    project.tracks.forEach(track => {
+      audioEngine.setTrackVolume(track.id, track.volume);
+    });
+  }, [project?.tracks, audioEngine]);
 
   // Handle save
   const handleSave = useCallback(async () => {
@@ -268,8 +269,6 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
       supabase.removeChannel(channel);
     };
   }, [project?.id, loadProject]);
-
-  const duration = audioDuration || project?.durationSeconds || 180;
 
   if (isLoading) {
     return (
