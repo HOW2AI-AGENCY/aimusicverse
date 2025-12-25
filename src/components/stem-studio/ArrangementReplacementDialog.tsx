@@ -122,8 +122,11 @@ export const ArrangementReplacementDialog = ({
           title: track.title ? `${track.title} (новая аранжировка)` : 'Новая аранжировка',
           projectId: track.project_id,
           negativeTags: 'acapella, vocals only, karaoke, low quality',
-          audioWeight: 0.75, // High weight to sync with vocal
-          styleWeight: 0.6,
+          // Critical weights for following the vocal
+          audioWeight: 0.8,
+          styleWeight: 0.55,
+          weirdnessConstraint: 0.25,
+          model: 'V4_5PLUS',
         }
       });
 
