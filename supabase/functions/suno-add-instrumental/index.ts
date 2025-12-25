@@ -52,7 +52,7 @@ serve(async (req) => {
       audioUrl,
       prompt,        // Optional - for DB record only, not sent to Suno API
       customMode = false,
-      style,         // Maps to 'tags' in Suno API
+      style,         // Maps to 'tags' in Suno API (can be built from settings)
       title,
       negativeTags,
       vocalGender,   // 'm' or 'f'
@@ -64,6 +64,11 @@ serve(async (req) => {
       // Studio project integration
       studioProjectId,
       pendingTrackId,
+      // NEW: Instrumental settings from dialog
+      genre,
+      mood,
+      bpm,
+      customStyle,
     } = await req.json();
 
     if (!audioFile && !audioUrl) {
@@ -81,9 +86,22 @@ serve(async (req) => {
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
-    if (!style) {
+
+    // Build style from settings if not directly provided
+    let effectiveStyle = style;
+    if (!effectiveStyle && (genre || mood || bpm || customStyle)) {
+      const styleParts: string[] = [];
+      if (genre) styleParts.push(genre);
+      if (mood) styleParts.push(mood);
+      if (bpm) styleParts.push(`${bpm} bpm`);
+      if (customStyle) styleParts.push(customStyle);
+      styleParts.push('professional instrumental backing track');
+      effectiveStyle = styleParts.join(', ');
+    }
+
+    if (!effectiveStyle) {
       return new Response(
-        JSON.stringify({ error: 'style/tags is required for add-instrumental' }),
+        JSON.stringify({ error: 'style/tags or genre/mood settings required for add-instrumental' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -94,7 +112,11 @@ serve(async (req) => {
       );
     }
 
-    console.log('🎸 Adding instrumental to vocals:', { customMode, model, userId: user.id, hasFile: !!audioFile, hasUrl: !!audioUrl });
+    console.log('🎸 Adding instrumental to vocals:', { 
+      customMode, model, userId: user.id, 
+      hasFile: !!audioFile, hasUrl: !!audioUrl,
+      genre, mood, bpm, customStyle 
+    });
 
     let uploadUrl: string;
 
@@ -163,9 +185,9 @@ serve(async (req) => {
     
     const requestBody: Record<string, unknown> = {
       uploadUrl,
-      title,                    // Required
-      tags: style,              // Required - describes instrumental style
-      negativeTags,             // Required - styles to exclude
+      title,                         // Required
+      tags: effectiveStyle,          // Required - describes instrumental style (built from settings)
+      negativeTags,                  // Required - styles to exclude
       callBackUrl,
       model: model === 'V4_5ALL' ? 'V4_5PLUS' : model,
       // These weights control audio adherence vs style creativity
@@ -223,7 +245,7 @@ serve(async (req) => {
         project_id: projectId,
         prompt: prompt || 'Add instrumental',
         title: title || null,
-        style: style || null,
+        style: effectiveStyle || null,
         status: 'pending',
         provider: 'suno',
         suno_model: model,
@@ -239,10 +261,16 @@ serve(async (req) => {
       throw trackError;
     }
 
-    // Create generation task with studio metadata
+    // Create generation task with studio metadata and settings
     const taskMetadata = {
       studio_project_id: studioProjectId || null,
       pending_track_id: pendingTrackId || null,
+      settings: {
+        genre: genre || null,
+        mood: mood || null,
+        bpm: bpm || null,
+        customStyle: customStyle || null,
+      },
     };
 
     const { error: taskError } = await supabase
