@@ -335,7 +335,7 @@ export function MobileAIAgentPanel({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: '100%' }}
       transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-      className="fixed inset-0 z-50 bg-background flex flex-col"
+      className="fixed inset-0 z-[100] bg-background flex flex-col"
       style={{ 
         paddingTop: 'max(env(safe-area-inset-top, 0px), 44px)',
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
@@ -488,8 +488,8 @@ export function MobileAIAgentPanel({
         </div>
       </ScrollArea>
 
-      {/* Input area */}
-      <div className="border-t border-border/50 p-3 shrink-0 bg-background">
+      {/* Input area - positioned above navigation */}
+      <div className="border-t border-border/50 p-3 shrink-0 bg-background relative z-50">
         <div className="flex gap-2">
           <Button 
             variant="ghost" 

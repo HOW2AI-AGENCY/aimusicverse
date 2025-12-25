@@ -63,7 +63,7 @@ export function useTracks(params: UseTracksParams = {}) {
     gcTime: 15 * 60 * 1000, // 15 minutes - keep data longer
     initialPageParam: 0,
     refetchOnWindowFocus: false,
-    refetchOnMount: false, // Prevent refetch when component remounts
+    refetchOnMount: 'always', // Always fetch on mount to ensure data loads
   });
 
   // Simple query for non-paginated mode
@@ -81,7 +81,7 @@ export function useTracks(params: UseTracksParams = {}) {
     staleTime: 60 * 1000, // 1 minute
     gcTime: 15 * 60 * 1000, // 15 minutes
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
+    refetchOnMount: 'always', // Always fetch on mount to ensure data loads
   });
 
   // Realtime subscription
