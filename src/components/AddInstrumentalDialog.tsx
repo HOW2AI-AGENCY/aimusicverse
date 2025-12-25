@@ -37,20 +37,22 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
 
     setLoading(true);
     try {
-      // SunoAPI requires: prompt, title, style, negativeTags for add-instrumental endpoint
-      const effectiveTitle = customMode && title ? title : track.title || 'Трек с инструменталом';
-      const effectiveStyle = customMode && style ? style : track.style || 'pop, instrumental';
-      const effectivePrompt = prompt || 'Добавить профессиональный инструментал к этому вокалу';
+      // SunoAPI add-instrumental requires: title, tags (style), negativeTags
+      // CRITICAL: audioWeight controls adherence to input vocal - higher = more sync
+      const effectiveTitle = customMode && title ? title : `${track.title || 'Трек'} с инструменталом`;
+      const effectiveStyle = customMode && style ? style : prompt || track.style || 'full band arrangement, professional backing track';
       
       const { data, error } = await supabase.functions.invoke('suno-add-instrumental', {
         body: {
           audioUrl: track.audio_url,
-          prompt: effectivePrompt,
           customMode,
           style: effectiveStyle,
           title: effectiveTitle,
-          negativeTags: '',
+          negativeTags: 'acapella, vocals only, karaoke',
           projectId: track.project_id,
+          // High audioWeight ensures the AI follows the vocal timing/melody
+          audioWeight: 0.75,
+          styleWeight: 0.55,
         },
       });
 
