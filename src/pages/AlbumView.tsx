@@ -208,7 +208,10 @@ export default function AlbumView() {
         />
 
         {/* Header */}
-        <div className="relative sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/30 px-4 py-3">
+        <div 
+          className="relative sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/30 px-4 py-3"
+          style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))' }}
+        >
           <div className="flex items-center gap-3">
             {showUIBackButton && (
               <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
