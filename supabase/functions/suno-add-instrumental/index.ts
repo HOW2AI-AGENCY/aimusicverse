@@ -61,6 +61,9 @@ serve(async (req) => {
       weirdnessConstraint,
       audioWeight,
       projectId,
+      // Studio project integration
+      studioProjectId,
+      pendingTrackId,
     } = await req.json();
 
     if (!audioFile && !audioUrl) {
@@ -236,7 +239,12 @@ serve(async (req) => {
       throw trackError;
     }
 
-    // Create generation task
+    // Create generation task with studio metadata
+    const taskMetadata = {
+      studio_project_id: studioProjectId || null,
+      pending_track_id: pendingTrackId || null,
+    };
+
     const { error: taskError } = await supabase
       .from('generation_tasks')
       .insert({
@@ -247,6 +255,7 @@ serve(async (req) => {
         suno_task_id: sunoTaskId,
         model_used: model,
         generation_mode: 'add_instrumental',
+        audio_clips: JSON.stringify(taskMetadata),
       });
 
     if (taskError) {

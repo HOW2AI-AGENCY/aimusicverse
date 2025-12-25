@@ -633,6 +633,79 @@ serve(async (req) => {
         }).eq('id', projectTrackId);
       }
 
+      // Handle studio project integration for add_instrumental mode
+      const studioProjectId = taskMetadata?.studio_project_id;
+      const pendingTrackId = taskMetadata?.pending_track_id;
+      
+      if (studioProjectId && pendingTrackId && task.generation_mode === 'add_instrumental') {
+        logger.info('Updating studio project with instrumental versions', { studioProjectId, pendingTrackId });
+        
+        try {
+          // Fetch current studio project
+          const { data: studioProject, error: studioError } = await supabase
+            .from('studio_projects')
+            .select('tracks')
+            .eq('id', studioProjectId)
+            .single();
+          
+          if (studioError || !studioProject) {
+            logger.error('Studio project not found', studioError);
+          } else {
+            // Prepare versions from clips (A/B)
+            const versions = clips.slice(0, 2).map((clip: any, i: number) => ({
+              label: ['A', 'B'][i] || `V${i + 1}`,
+              audioUrl: getAudioUrl(clip),
+              duration: Math.round(clip.duration) || 180,
+            }));
+            
+            // Update the pending track with versions
+            const tracks = (studioProject.tracks as any[]) || [];
+            const updatedTracks = tracks.map((track: any) => {
+              if (track.id === pendingTrackId && track.status === 'pending') {
+                return {
+                  ...track,
+                  status: 'ready',
+                  versions,
+                  audioUrl: versions[0]?.audioUrl,
+                  activeVersionLabel: versions[0]?.label || 'A',
+                  clips: versions[0] ? [{
+                    id: `clip-${Date.now()}`,
+                    trackId: track.id,
+                    audioUrl: versions[0].audioUrl,
+                    name: track.name.replace(' (генерация...)', ''),
+                    startTime: 0,
+                    duration: versions[0].duration,
+                    trimStart: 0,
+                    trimEnd: 0,
+                    fadeIn: 0,
+                    fadeOut: 0,
+                  }] : [],
+                  name: track.name.replace(' (генерация...)', ''),
+                };
+              }
+              return track;
+            });
+            
+            // Save updated studio project
+            const { error: updateError } = await supabase
+              .from('studio_projects')
+              .update({
+                tracks: updatedTracks,
+                updated_at: new Date().toISOString(),
+              })
+              .eq('id', studioProjectId);
+            
+            if (updateError) {
+              logger.error('Failed to update studio project', updateError);
+            } else {
+              logger.success('Studio project updated with instrumental versions', { versions: versions.length });
+            }
+          }
+        } catch (studioErr) {
+          logger.error('Studio project update error', studioErr);
+        }
+      }
+
       await supabase.from('generation_tasks').update({
         status: 'completed',
         completed_at: new Date().toISOString(),

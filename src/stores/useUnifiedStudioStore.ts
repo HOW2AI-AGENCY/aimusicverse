@@ -35,6 +35,14 @@ export interface StudioClip {
   waveformData?: number[];
 }
 
+export interface StudioTrackVersion {
+  label: string;
+  audioUrl: string;
+  duration?: number;
+}
+
+export type TrackStatus = 'ready' | 'pending' | 'processing' | 'failed';
+
 export interface StudioTrack {
   id: string;
   name: string;
@@ -51,6 +59,12 @@ export interface StudioTrack {
     reverb?: number;
     compression?: number;
   };
+  // Pending/version fields
+  status?: TrackStatus;
+  taskId?: string;
+  versions?: StudioTrackVersion[];
+  activeVersionLabel?: string;
+  errorMessage?: string;
 }
 
 export interface StudioProject {
@@ -161,6 +175,10 @@ interface UnifiedStudioState {
   
   // Track Actions
   addTrack: (track: Omit<StudioTrack, 'id' | 'clips'>) => string;
+  addPendingTrack: (params: { name: string; type: TrackType; taskId?: string }) => string;
+  resolvePendingTrack: (taskId: string, versions: { label: string; audioUrl: string; duration?: number }[]) => void;
+  updatePendingTrackTaskId: (trackId: string, taskId: string) => void;
+  setTrackActiveVersion: (trackId: string, versionLabel: string) => void;
   removeTrack: (trackId: string) => void;
   updateTrack: (trackId: string, updates: Partial<StudioTrack>) => void;
   setTrackVolume: (trackId: string, volume: number) => void;
@@ -521,6 +539,7 @@ export const useUnifiedStudioStore = create<UnifiedStudioState>()(
                 id: trackId,
                 clips: [],
                 color: trackData.color || TRACK_COLORS[trackData.type] || TRACK_COLORS.other,
+                status: trackData.status || 'ready',
               };
               
               return {
@@ -534,6 +553,125 @@ export const useUnifiedStudioStore = create<UnifiedStudioState>()(
             });
             get().pushToHistory();
             return trackId;
+          },
+
+          addPendingTrack: ({ name, type, taskId }) => {
+            const trackId = generateId();
+            set(state => {
+              if (!state.project) return state;
+
+              const newTrack: StudioTrack = {
+                id: trackId,
+                name,
+                type,
+                volume: 0.8,
+                pan: 0,
+                muted: false,
+                solo: false,
+                color: TRACK_COLORS[type] || TRACK_COLORS.other,
+                clips: [],
+                status: 'pending',
+                taskId,
+              };
+
+              return {
+                project: {
+                  ...state.project,
+                  tracks: [...state.project.tracks, newTrack],
+                  updatedAt: new Date().toISOString(),
+                },
+                hasUnsavedChanges: true,
+              };
+            });
+            get().pushToHistory();
+            return trackId;
+          },
+
+          updatePendingTrackTaskId: (trackId, taskId) => {
+            set(state => {
+              if (!state.project) return state;
+              return {
+                project: {
+                  ...state.project,
+                  tracks: state.project.tracks.map(t =>
+                    t.id === trackId ? { ...t, taskId } : t
+                  ),
+                  updatedAt: new Date().toISOString(),
+                },
+                hasUnsavedChanges: true,
+              };
+            });
+          },
+
+          resolvePendingTrack: (taskId, versions) => {
+            set(state => {
+              if (!state.project) return state;
+
+              return {
+                project: {
+                  ...state.project,
+                  tracks: state.project.tracks.map(t => {
+                    if (t.taskId === taskId && t.status === 'pending') {
+                      return {
+                        ...t,
+                        status: 'ready' as TrackStatus,
+                        versions,
+                        audioUrl: versions[0]?.audioUrl,
+                        activeVersionLabel: versions[0]?.label || 'A',
+                        clips: versions[0] ? [{
+                          id: generateId(),
+                          trackId: t.id,
+                          audioUrl: versions[0].audioUrl,
+                          name: t.name,
+                          startTime: 0,
+                          duration: versions[0].duration || 180,
+                          trimStart: 0,
+                          trimEnd: 0,
+                          fadeIn: 0,
+                          fadeOut: 0,
+                        }] : [],
+                      };
+                    }
+                    return t;
+                  }),
+                  updatedAt: new Date().toISOString(),
+                },
+                hasUnsavedChanges: true,
+              };
+            });
+            get().pushToHistory();
+            // Auto-save after resolving pending track
+            get().saveProject();
+          },
+
+          setTrackActiveVersion: (trackId, versionLabel) => {
+            set(state => {
+              if (!state.project) return state;
+
+              return {
+                project: {
+                  ...state.project,
+                  tracks: state.project.tracks.map(t => {
+                    if (t.id === trackId && t.versions) {
+                      const version = t.versions.find(v => v.label === versionLabel);
+                      if (version) {
+                        return {
+                          ...t,
+                          activeVersionLabel: versionLabel,
+                          audioUrl: version.audioUrl,
+                          clips: t.clips.map((clip, i) => 
+                            i === 0 ? { ...clip, audioUrl: version.audioUrl } : clip
+                          ),
+                        };
+                      }
+                    }
+                    return t;
+                  }),
+                  updatedAt: new Date().toISOString(),
+                },
+                hasUnsavedChanges: true,
+              };
+            });
           },
 
           removeTrack: (trackId) => {

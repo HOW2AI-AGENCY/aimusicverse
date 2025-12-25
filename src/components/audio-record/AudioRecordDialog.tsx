@@ -247,6 +247,39 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
 
       logger.info('Processing audio with action', { action, functionName, audioUrl });
 
+      // For instrumental action, prepare studio project first
+      let studioProjectId: string | null = null;
+      let pendingTrackId: string | null = null;
+
+      if (action === 'instrumental') {
+        const store = useUnifiedStudioStore.getState();
+        
+        // Create project with vocal track
+        studioProjectId = await store.createProject({
+          name: `Студия: ${title}`,
+          sourceAudioUrl: audioUrl,
+          duration: audioDuration,
+          tracks: [{
+            name: 'Вокал',
+            type: 'vocal',
+            audioUrl: audioUrl,
+            volume: 0.85,
+            pan: 0,
+            muted: false,
+            solo: false,
+            color: 'hsl(340 82% 52%)',
+          }],
+        });
+
+        if (studioProjectId) {
+          // Add pending instrumental track
+          pendingTrackId = store.addPendingTrack({
+            name: 'Инструментал (генерация...)',
+            type: 'instrumental',
+          });
+        }
+      }
+
       const { data, error: functionError } = await supabase.functions.invoke(functionName, {
         body: {
           audioUrl,
@@ -266,6 +299,9 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
           styleWeight: 0.55,       // Moderate style adherence
           weirdnessConstraint: 0.25, // Low for predictable result
           model: 'V4_5PLUS',
+          // Studio project info
+          studioProjectId,
+          pendingTrackId,
         },
       });
 
@@ -276,24 +312,20 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
 
       logger.info('Audio processing started', { action, response: data });
 
-      // For instrumental action, create studio project and navigate
-      if (action === 'instrumental') {
-        const createProject = useUnifiedStudioStore.getState().createProject;
-        const projectId = await createProject({
-          name: `Студия: ${title}`,
-          sourceAudioUrl: audioUrl,
-          duration: audioDuration,
-        });
+      // For instrumental action, update pending track with taskId and navigate
+      if (action === 'instrumental' && studioProjectId && pendingTrackId && data?.taskId) {
+        const store = useUnifiedStudioStore.getState();
+        
+        // Update pending track with the taskId from the edge function
+        store.updatePendingTrackTaskId(pendingTrackId, data.taskId);
 
-        if (projectId) {
-          toast.success('Добавление инструментала началось! 🎸', {
-            description: 'Открываю студию для сведения...'
-          });
-          onOpenChange(false);
-          resetRecording();
-          navigate(`/studio-v2/project/${projectId}`);
-          return;
-        }
+        toast.success('Добавление инструментала началось! 🎸', {
+          description: 'Открываю студию для сведения...'
+        });
+        onOpenChange(false);
+        resetRecording();
+        navigate(`/studio-v2/project/${studioProjectId}`);
+        return;
       }
 
       toast.success(
