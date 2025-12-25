@@ -50,12 +50,12 @@ serve(async (req) => {
     const {
       audioFile,
       audioUrl,
-      prompt,
+      prompt,        // Optional - for DB record only, not sent to Suno API
       customMode = false,
-      style,
+      style,         // Maps to 'tags' in Suno API
       title,
       negativeTags,
-      personaId,
+      vocalGender,   // 'm' or 'f'
       model = 'V4_5PLUS',
       styleWeight,
       weirdnessConstraint,
@@ -71,12 +71,7 @@ serve(async (req) => {
     }
 
     // Validate required parameters per SunoAPI docs
-    if (!prompt) {
-      return new Response(
-        JSON.stringify({ error: 'prompt is required for add-instrumental' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
+    // Note: prompt is NOT required by Suno API for add-instrumental
     if (!title) {
       return new Response(
         JSON.stringify({ error: 'title is required for add-instrumental' }),
@@ -85,7 +80,13 @@ serve(async (req) => {
     }
     if (!style) {
       return new Response(
-        JSON.stringify({ error: 'style is required for add-instrumental' }),
+        JSON.stringify({ error: 'style/tags is required for add-instrumental' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    if (!negativeTags) {
+      return new Response(
+        JSON.stringify({ error: 'negativeTags is required for add-instrumental' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -146,31 +147,37 @@ serve(async (req) => {
     console.log('📋 Upload URL:', uploadUrl);
     console.log('📋 Callback URL:', callBackUrl);
 
-    // Build request body - per SunoAPI docs
+    // Build request body - per SunoAPI OpenAPI docs
+    // Required: uploadUrl, title, tags, negativeTags, callBackUrl
+    // Optional: vocalGender, styleWeight, audioWeight, weirdnessConstraint, model
+    
     // CRITICAL: audioWeight controls how much the generation follows the input audio
     // Higher audioWeight = more adherence to vocal timing and melody
-    // Default to 0.7 for good vocal sync
-    const effectiveAudioWeight = audioWeight !== undefined ? audioWeight : 0.7;
+    // Default to 0.75 for good vocal sync (higher than before)
+    const effectiveAudioWeight = audioWeight !== undefined ? audioWeight : 0.75;
     const effectiveStyleWeight = styleWeight !== undefined ? styleWeight : 0.6;
+    const effectiveWeirdness = weirdnessConstraint !== undefined ? weirdnessConstraint : 0.3;
     
     const requestBody: Record<string, unknown> = {
       uploadUrl,
-      title,         // Required
-      tags: style,   // Required by add-instrumental endpoint (describes instrumental style)
-      negativeTags: negativeTags || 'low quality, distorted, noise, acapella, vocals only',
+      title,                    // Required
+      tags: style,              // Required - describes instrumental style
+      negativeTags,             // Required - styles to exclude
       callBackUrl,
       model: model === 'V4_5ALL' ? 'V4_5PLUS' : model,
-      // CRITICAL: These weights ensure the AI follows the input vocal
-      audioWeight: effectiveAudioWeight,   // Follow input audio timing/melody
-      styleWeight: effectiveStyleWeight,   // Style adherence
+      // These weights control audio adherence vs style creativity
+      audioWeight: effectiveAudioWeight,       // Follow input audio timing/melody (0-1)
+      styleWeight: effectiveStyleWeight,       // Style adherence (0-1)
+      weirdnessConstraint: effectiveWeirdness, // Creativity constraint (0-1)
     };
 
     // Optional parameters
-    if (personaId) requestBody.personaId = personaId;
-    if (weirdnessConstraint !== undefined) requestBody.weirdnessConstraint = weirdnessConstraint;
+    if (vocalGender && (vocalGender === 'm' || vocalGender === 'f')) {
+      requestBody.vocalGender = vocalGender;
+    }
 
     console.log('📋 Suno add-instrumental payload:', JSON.stringify(requestBody, null, 2));
-    console.log('🎚️ Audio weight:', effectiveAudioWeight, '| Style weight:', effectiveStyleWeight);
+    console.log('🎚️ Audio weight:', effectiveAudioWeight, '| Style weight:', effectiveStyleWeight, '| Weirdness:', effectiveWeirdness);
 
     // Call Suno API
     const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate/add-instrumental', {

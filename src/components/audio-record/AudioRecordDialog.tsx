@@ -250,14 +250,21 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
         body: {
           audioUrl,
           prompt: action === 'instrumental' 
-            ? 'Добавить профессиональный инструментал к этому вокалу'
+            ? '' // Not required for add-instrumental
             : 'Добавить профессиональный вокал к этому инструменталу',
           customMode: true,
           style: action === 'instrumental' 
             ? 'professional instrumental backing track, full band arrangement' 
             : 'professional vocal performance, clear singing',
-          negativeTags: 'low quality, distorted, noise',
+          negativeTags: action === 'instrumental'
+            ? 'acapella, vocals only, karaoke, low quality'
+            : 'instrumental only, low quality, distorted',
           title,
+          // Critical weights for following the input audio
+          audioWeight: 0.8,        // High to sync with input
+          styleWeight: 0.55,       // Moderate style adherence
+          weirdnessConstraint: 0.25, // Low for predictable result
+          model: 'V4_5PLUS',
         },
       });
 

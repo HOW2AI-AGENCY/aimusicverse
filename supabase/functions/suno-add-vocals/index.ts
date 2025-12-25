@@ -147,29 +147,39 @@ serve(async (req) => {
     console.log('📋 Upload URL:', uploadUrl);
     console.log('📋 Callback URL:', callBackUrl);
 
-    // Build request body - per SunoAPI docs all these fields are required
-    // IMPORTANT: some Suno endpoints treat empty string as null; always send a non-empty negativeTags.
-    const requestBody: any = {
+    // Build request body - per SunoAPI docs
+    // Required: uploadUrl, prompt, title, style, negativeTags, callBackUrl
+    // Optional: vocalGender, styleWeight, audioWeight, weirdnessConstraint, model
+    
+    // Set reasonable defaults for weights if not provided
+    const effectiveAudioWeight = audioWeight !== undefined ? audioWeight : 0.7;
+    const effectiveStyleWeight = styleWeight !== undefined ? styleWeight : 0.6;
+    const effectiveWeirdness = weirdnessConstraint !== undefined ? weirdnessConstraint : 0.3;
+    
+    const requestBody: Record<string, unknown> = {
       uploadUrl,
-      prompt,        // Required
+      prompt,        // Required - lyrics or vocal description
       title,         // Required
       style,         // Required
-      tags: style,   // Keep tags in sync with style for compatibility across endpoints
+      tags: style,   // Keep tags in sync with style for compatibility
       negativeTags: (typeof negativeTags === 'string' && negativeTags.trim().length > 0)
         ? negativeTags
-        : 'low quality, distorted, noise',
+        : 'low quality, distorted, noise, instrumental only',
       callBackUrl,
-      model: model === 'V4_5ALL' ? 'V4_5PLUS' : model, // Map to valid model
+      model: model === 'V4_5ALL' ? 'V4_5PLUS' : model,
+      // Weights control audio adherence vs style creativity
+      audioWeight: effectiveAudioWeight,
+      styleWeight: effectiveStyleWeight,
+      weirdnessConstraint: effectiveWeirdness,
     };
 
     // Optional parameters
-    if (personaId) requestBody.personaId = personaId;
-    if (vocalGender) requestBody.vocalGender = vocalGender;
-    if (styleWeight !== undefined) requestBody.styleWeight = styleWeight;
-    if (weirdnessConstraint !== undefined) requestBody.weirdnessConstraint = weirdnessConstraint;
-    if (audioWeight !== undefined) requestBody.audioWeight = audioWeight;
+    if (vocalGender && (vocalGender === 'm' || vocalGender === 'f')) {
+      requestBody.vocalGender = vocalGender;
+    }
 
     console.log('📋 Suno add-vocals payload:', JSON.stringify(requestBody, null, 2));
+    console.log('🎚️ Audio weight:', effectiveAudioWeight, '| Style weight:', effectiveStyleWeight, '| Weirdness:', effectiveWeirdness);
 
     // Call Suno API
     const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate/add-vocals', {

@@ -105,10 +105,12 @@ export function useTrackActionsState({
   
   // Check if track is instrumental:
   // 1. Explicit is_instrumental flag from database
-  // 2. Style contains "instrumental"
-  // 3. Has instrumental stem but no vocal stem
+  // 2. has_vocals is explicitly false
+  // 3. Style contains "instrumental"
+  // 4. Has instrumental stem but no vocal stem
   const isInstrumentalTrack = !!(
     track.is_instrumental === true ||
+    track.has_vocals === false ||
     track.style?.toLowerCase().includes('instrumental') ||
     (hasInstrumentalStem && !hasVocalStem)
   );
