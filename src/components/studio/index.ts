@@ -39,6 +39,8 @@ export { useStudioTrackState } from './hooks/useStudioTrackState';
 export { UnifiedStudioContent } from './unified/UnifiedStudioContent';
 export { IntegratedStemTracks } from './unified/IntegratedStemTracks';
 export { SectionVariantOverlay } from './unified/SectionVariantOverlay';
+export { StudioVersionSelector } from './unified/StudioVersionSelector';
+export { StudioPendingTrackRow } from './unified/StudioPendingTrackRow';
 
 // Loading and transcription indicators
 export { StemsLoadingProgress } from './StemsLoadingProgress';
