@@ -130,6 +130,7 @@ export default function Library() {
         searchQuery: debouncedSearchQuery
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tracks?.length, totalCount, hasNextPage, isFetchingNextPage, typeFilter, debouncedSearchQuery]);
   
   // downloadTrack - use separate mutation or API
