@@ -5,14 +5,14 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Slider } from '@/components/ui/slider';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Loader2, Music, ChevronDown, Settings2 } from 'lucide-react';
+import { Loader2, Music, Info, ExternalLink } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Track } from '@/types/track';
 import { logger } from '@/lib/logger';
+import { GenerationAdvancedSettings, GenerationSettings } from '@/components/common/GenerationAdvancedSettings';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useNavigate } from 'react-router-dom';
 
 interface AddInstrumentalDialogProps {
   open: boolean;
@@ -21,19 +21,21 @@ interface AddInstrumentalDialogProps {
 }
 
 export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrumentalDialogProps) => {
-  const [customMode, setCustomMode] = useState(false);
+  const navigate = useNavigate();
   const [style, setStyle] = useState(track.style || 'full band arrangement, professional backing track');
   const [title, setTitle] = useState('');
   const [negativeTags, setNegativeTags] = useState('acapella, vocals only, karaoke, low quality');
   const [loading, setLoading] = useState(false);
+  const [openInStudio, setOpenInStudio] = useState(true);
   
   // Advanced settings
-  const [showAdvanced, setShowAdvanced] = useState(false);
-  const [audioWeight, setAudioWeight] = useState(0.75);
-  const [styleWeight, setStyleWeight] = useState(0.6);
-  const [weirdnessConstraint, setWeirdnessConstraint] = useState(0.3);
-  const [model, setModel] = useState<'V4_5PLUS' | 'V5'>('V4_5PLUS');
-  const [vocalGender, setVocalGender] = useState<'m' | 'f' | ''>('');
+  const [advancedSettings, setAdvancedSettings] = useState<GenerationSettings>({
+    audioWeight: 0.75,
+    styleWeight: 0.6,
+    weirdnessConstraint: 0.3,
+    model: 'V4_5PLUS',
+    vocalGender: '',
+  });
 
   const handleSubmit = async () => {
     if (!track.audio_url) {
@@ -52,30 +54,36 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
       
       const body: Record<string, unknown> = {
         audioUrl: track.audio_url,
-        customMode,
+        customMode: true,
         style: style.trim(),
         title: effectiveTitle,
         negativeTags: negativeTags.trim() || 'low quality, distorted, noise',
         projectId: track.project_id,
-        // Weights control how AI follows the input audio
-        audioWeight,
-        styleWeight,
-        weirdnessConstraint,
-        model,
+        audioWeight: advancedSettings.audioWeight,
+        styleWeight: advancedSettings.styleWeight,
+        weirdnessConstraint: advancedSettings.weirdnessConstraint,
+        model: advancedSettings.model,
+        openInStudio, // Flag to open in studio after generation
+        originalTrackId: track.id, // For creating studio project
       };
 
-      // Only add vocalGender if specified
-      if (vocalGender) {
-        body.vocalGender = vocalGender;
+      if (advancedSettings.vocalGender) {
+        body.vocalGender = advancedSettings.vocalGender;
       }
 
       const { data, error } = await supabase.functions.invoke('suno-add-instrumental', { body });
 
       if (error) throw error;
 
-      toast.success('Добавление инструментала началось! 🎸', {
-        description: 'Новый трек появится в библиотеке через 1-3 минуты',
-      });
+      if (openInStudio) {
+        toast.success('Генерация началась! 🎸', {
+          description: 'После завершения откроется студия для сведения треков',
+        });
+      } else {
+        toast.success('Добавление инструментала началось! 🎸', {
+          description: 'Новый трек появится в библиотеке через 1-3 минуты',
+        });
+      }
 
       onOpenChange(false);
     } catch (error) {
@@ -98,18 +106,41 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
         </DialogHeader>
 
         <div className="space-y-4">
+          {/* Info block */}
           <div className="p-3 bg-muted rounded-lg">
             <p className="text-sm">
               <Music className="w-4 h-4 inline mr-2" />
-              Будет использован вокальный трек: <span className="font-semibold">{track.title || 'Без названия'}</span>
+              Вокальный трек: <span className="font-semibold">{track.title || 'Без названия'}</span>
             </p>
           </div>
 
-          <div className="flex items-center justify-between">
-            <Label>Продвинутый режим</Label>
-            <Switch checked={customMode} onCheckedChange={setCustomMode} />
+          {/* Important info about result */}
+          <Alert variant="default" className="border-amber-500/50 bg-amber-500/10">
+            <Info className="w-4 h-4 text-amber-500" />
+            <AlertTitle className="text-sm">Важно о результате</AlertTitle>
+            <AlertDescription className="text-xs space-y-1">
+              <p>
+                AI сгенерирует инструментал, синхронизированный с вашим вокалом.
+                <strong> Результат — отдельная дорожка инструментала</strong>, не смешанная с вокалом.
+              </p>
+              <p>
+                Для получения готовой песни рекомендуем использовать Stem Studio для сведения.
+              </p>
+            </AlertDescription>
+          </Alert>
+
+          {/* Open in studio option */}
+          <div className="flex items-center justify-between p-3 rounded-lg border bg-card">
+            <div className="space-y-0.5">
+              <Label className="text-sm font-medium">Открыть в студии после генерации</Label>
+              <p className="text-xs text-muted-foreground">
+                Автоматически создаст проект с вокалом и инструменталом для сведения
+              </p>
+            </div>
+            <Switch checked={openInStudio} onCheckedChange={setOpenInStudio} />
           </div>
 
+          {/* Style */}
           <div>
             <Label htmlFor="style">Стиль инструментала *</Label>
             <Textarea
@@ -125,6 +156,7 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
             </p>
           </div>
 
+          {/* Negative tags */}
           <div>
             <Label htmlFor="negativeTags">Исключить стили</Label>
             <Input
@@ -136,115 +168,25 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
             />
           </div>
 
-          {customMode && (
-            <div>
-              <Label htmlFor="title">Название трека</Label>
-              <Input
-                id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Мой новый трек с инструменталом"
-                className="mt-2"
-              />
-            </div>
-          )}
+          {/* Title */}
+          <div>
+            <Label htmlFor="title">Название трека</Label>
+            <Input
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Мой новый трек с инструменталом"
+              className="mt-2"
+            />
+          </div>
 
           {/* Advanced Settings */}
-          <Collapsible open={showAdvanced} onOpenChange={setShowAdvanced}>
-            <CollapsibleTrigger asChild>
-              <Button variant="ghost" className="w-full justify-between p-2 h-auto">
-                <span className="flex items-center gap-2 text-sm">
-                  <Settings2 className="w-4 h-4" />
-                  Расширенные настройки
-                </span>
-                <ChevronDown className={`w-4 h-4 transition-transform ${showAdvanced ? 'rotate-180' : ''}`} />
-              </Button>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="space-y-4 pt-4">
-              {/* Audio Weight */}
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <Label>Следование аудио</Label>
-                  <span className="text-sm text-muted-foreground">{audioWeight.toFixed(2)}</span>
-                </div>
-                <Slider
-                  value={[audioWeight]}
-                  onValueChange={([v]) => setAudioWeight(v)}
-                  min={0}
-                  max={1}
-                  step={0.05}
-                />
-                <p className="text-xs text-muted-foreground">
-                  Выше = инструментал точнее следует ритму и мелодии вокала
-                </p>
-              </div>
-
-              {/* Style Weight */}
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <Label>Следование стилю</Label>
-                  <span className="text-sm text-muted-foreground">{styleWeight.toFixed(2)}</span>
-                </div>
-                <Slider
-                  value={[styleWeight]}
-                  onValueChange={([v]) => setStyleWeight(v)}
-                  min={0}
-                  max={1}
-                  step={0.05}
-                />
-                <p className="text-xs text-muted-foreground">
-                  Выше = инструментал точнее соответствует указанному стилю
-                </p>
-              </div>
-
-              {/* Weirdness */}
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <Label>Креативность</Label>
-                  <span className="text-sm text-muted-foreground">{weirdnessConstraint.toFixed(2)}</span>
-                </div>
-                <Slider
-                  value={[weirdnessConstraint]}
-                  onValueChange={([v]) => setWeirdnessConstraint(v)}
-                  min={0}
-                  max={1}
-                  step={0.05}
-                />
-                <p className="text-xs text-muted-foreground">
-                  Выше = более экспериментальный и неожиданный результат
-                </p>
-              </div>
-
-              {/* Model */}
-              <div className="space-y-2">
-                <Label>Модель</Label>
-                <Select value={model} onValueChange={(v) => setModel(v as 'V4_5PLUS' | 'V5')}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="V4_5PLUS">V4.5 Plus (рекомендуется)</SelectItem>
-                    <SelectItem value="V5">V5 (новейшая)</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Vocal Gender */}
-              <div className="space-y-2">
-                <Label>Пол вокала (если есть)</Label>
-                <Select value={vocalGender} onValueChange={(v) => setVocalGender(v as 'm' | 'f' | '')}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Не указано" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">Не указано</SelectItem>
-                    <SelectItem value="m">Мужской</SelectItem>
-                    <SelectItem value="f">Женский</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </CollapsibleContent>
-          </Collapsible>
+          <GenerationAdvancedSettings
+            settings={advancedSettings}
+            onChange={setAdvancedSettings}
+            showVocalGender={true}
+            vocalGenderLabel="Пол вокала (если есть)"
+          />
 
           <div className="flex gap-2 justify-end pt-4">
             <Button variant="outline" onClick={() => onOpenChange(false)}>
