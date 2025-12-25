@@ -24,13 +24,15 @@ interface PublishProjectDialogProps {
   onOpenChange: (open: boolean) => void;
   project: Project;
   tracks: ProjectTrack[];
+  onOpenBannerEditor?: () => void;
 }
 
 export function PublishProjectDialog({ 
   open, 
   onOpenChange, 
   project, 
-  tracks 
+  tracks,
+  onOpenBannerEditor
 }: PublishProjectDialogProps) {
   const { mutate: publishProject, isPending } = usePublishProject();
   const [bannerDialogOpen, setBannerDialogOpen] = useState(false);
@@ -169,7 +171,7 @@ export function PublishProjectDialog({
         onCreateBanner={() => {
           setBannerDialogOpen(false);
           onOpenChange(false);
-          // Navigate to project settings - user can create banner there
+          onOpenBannerEditor?.();
         }}
       />
     </>
