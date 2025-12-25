@@ -57,7 +57,8 @@ export function PublishedProjectsSlider() {
           user_id,
           published_at,
           total_tracks_count,
-          project_type
+          project_type,
+          project_tracks(count)
         `)
         .eq('is_public', true)
         .eq('status', 'published')
@@ -76,10 +77,15 @@ export function PublishedProjectsSlider() {
 
       const profilesMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
 
-      return data.map(project => ({
-        ...project,
-        profiles: profilesMap.get(project.user_id) || null,
-      })) as PublishedProject[];
+      return data.map(project => {
+        // Use actual track count from project_tracks relation
+        const actualTrackCount = (project.project_tracks as any)?.[0]?.count || project.total_tracks_count || 0;
+        return {
+          ...project,
+          total_tracks_count: actualTrackCount,
+          profiles: profilesMap.get(project.user_id) || null,
+        };
+      }) as PublishedProject[];
     },
     staleTime: 1000 * 60 * 5,
   });
