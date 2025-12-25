@@ -8,6 +8,9 @@ import { logger } from "@/lib/logger";
 
 const log = logger.child({ module: 'VirtualizedTrackList' });
 
+// Safety timeout duration to reset loadingRef if it gets stuck
+const LOADING_SAFETY_TIMEOUT_MS = 5000;
+
 interface TrackMidiStatus {
   hasMidi: boolean;
   hasPdf: boolean;
@@ -126,6 +129,16 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   selectedTrackId,
 }: VirtualizedTrackListProps) {
   const loadingRef = useRef(false);
+  const safetyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  
+  // Cleanup timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (safetyTimeoutRef.current) {
+        clearTimeout(safetyTimeoutRef.current);
+      }
+    };
+  }, []);
   
   // Memoize item key computation for better React reconciliation
   const computeItemKey = useCallback(
@@ -169,16 +182,30 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     // Only load if there's more data
     if (hasMore && tracks.length > 0) {
       loadingRef.current = true;
-      log.debug('Loading more tracks', { 
+      log.info('Loading more tracks (endReached)', { 
         currentCount: tracks.length, 
         hasMore, 
         isLoadingMore 
       });
       
+      // Clear any existing safety timeout
+      if (safetyTimeoutRef.current) {
+        clearTimeout(safetyTimeoutRef.current);
+      }
+      
       // Use setTimeout to break potential synchronous loops
       setTimeout(() => {
         onLoadMore();
+        // Safety: Reset loading flag after timeout if nothing happens
+        safetyTimeoutRef.current = setTimeout(() => {
+          if (loadingRef.current) {
+            log.warn('LoadingRef stuck, resetting after timeout');
+            loadingRef.current = false;
+          }
+        }, LOADING_SAFETY_TIMEOUT_MS);
       }, 0);
+    } else {
+      log.debug('Not loading more', { hasMore, trackCount: tracks.length, loadingRef: loadingRef.current, isLoadingMore });
     }
   }, [hasMore, isLoadingMore, onLoadMore, tracks.length]);
 
@@ -194,9 +221,22 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     
     if (endIndex >= threshold && hasMore) {
       loadingRef.current = true;
-      log.debug('Range trigger: loading more', { endIndex, threshold, total: tracks.length });
+      log.info('Range trigger: loading more', { endIndex, threshold, total: tracks.length });
+      
+      // Clear any existing safety timeout
+      if (safetyTimeoutRef.current) {
+        clearTimeout(safetyTimeoutRef.current);
+      }
+      
       setTimeout(() => {
         onLoadMore();
+        // Safety: Reset loading flag after timeout if nothing happens
+        safetyTimeoutRef.current = setTimeout(() => {
+          if (loadingRef.current) {
+            log.warn('LoadingRef stuck (range), resetting after timeout');
+            loadingRef.current = false;
+          }
+        }, LOADING_SAFETY_TIMEOUT_MS);
       }, 0);
     }
   }, [tracks.length, hasMore, isLoadingMore, onLoadMore]);

@@ -118,6 +118,25 @@ export default function Library() {
     paginate: true,
   });
   
+  // Debug logging for track loading
+  // Note: Intentionally using tracks?.length instead of tracks in deps array
+  // to avoid re-logging on every array reference change (which happens frequently
+  // during pagination). We only want to log when the actual count changes.
+  // Including 'tracks' would cause excessive logging with no benefit.
+  useEffect(() => {
+    if (tracks && tracks.length > 0) {
+      log.info('Tracks loaded in Library', { 
+        loadedCount: tracks.length, 
+        totalCount, 
+        hasNextPage,
+        isFetchingNextPage,
+        filter: typeFilter,
+        searchQuery: debouncedSearchQuery
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tracks?.length, totalCount, hasNextPage, isFetchingNextPage, typeFilter, debouncedSearchQuery]);
+  
   // downloadTrack - use separate mutation or API
   const downloadTrack = useCallback(async (track: Track) => {
     if (!track.audio_url) return;
@@ -164,6 +183,9 @@ export default function Library() {
   }, [tracks, typeFilter]);
 
   // Count tracks for filter badges
+  // NOTE: These counts reflect only loaded tracks, not all available tracks
+  // This is intentional to avoid additional database queries
+  // The "All" count will match tracks.length which may be less than totalCount
   const filterCounts = useMemo(() => ({
     all: (tracks || []).length,
     vocals: (tracks || []).filter(t => t.has_vocals === true).length,

@@ -80,6 +80,18 @@ export async function fetchTracksWithLikes(
   const tracks = response.data;
   const totalCount = response.count || 0;
 
+  // Log pagination info for debugging
+  if (pagination) {
+    logger.debug('fetchTracksWithLikes pagination', {
+      page: pagination.page,
+      pageSize: pagination.pageSize,
+      fetchedCount: tracks.length,
+      totalCount,
+      from: pagination.page * pagination.pageSize,
+      to: pagination.page * pagination.pageSize + pagination.pageSize - 1,
+    });
+  }
+
   if (tracks.length === 0) {
     return { tracks: [], totalCount, hasMore: false };
   }
@@ -99,6 +111,13 @@ export async function fetchTracksWithLikes(
   const hasMore = pagination 
     ? (pagination.page + 1) * pagination.pageSize < totalCount
     : false;
+
+  logger.debug('fetchTracksWithLikes result', {
+    enrichedCount: enrichedTracks.length,
+    totalCount,
+    hasMore,
+    nextPage: hasMore ? pagination.page + 1 : null,
+  });
 
   return { tracks: enrichedTracks, totalCount, hasMore };
 }
