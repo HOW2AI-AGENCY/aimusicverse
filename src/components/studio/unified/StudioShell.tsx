@@ -17,6 +17,7 @@ import { StemEffectsDrawer } from './StemEffectsDrawer';
 import { MobileAudioWarning } from '@/components/studio/MobileAudioWarning';
 import { useStudioAudioEngine, AudioTrack } from '@/hooks/studio/useStudioAudioEngine';
 import { useMobileAudioFallback } from '@/hooks/studio/useMobileAudioFallback';
+import { useStudioOptimizations } from '@/hooks/studio/useStudioOptimizations';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -167,6 +168,16 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   } = useMobileAudioFallback({
     stems: tracksAsStems,
     enabled: isMobile,
+  });
+
+  // Studio optimizations (caching, offline support, debounced controls)
+  const studioOptimizations = useStudioOptimizations({
+    stems: tracksAsStems,
+    audioRefs: {}, // Will be populated by audio engine
+    onTimeUpdate: seek,
+    onStemVolumeChange: (stemId, volume) => setTrackVolume(stemId, volume),
+    onMasterVolumeChange: setMasterVolume,
+    onSeek: seek,
   });
 
   // Multi-track audio engine
@@ -396,6 +407,25 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           >
             <Redo2 className="h-4 w-4" />
           </Button>
+
+          {/* Offline/Online indicator */}
+          {studioOptimizations.isOfflineCapable && (
+            <div 
+              className={cn(
+                "flex items-center gap-1 px-2 py-1 rounded text-xs",
+                studioOptimizations.isOnline 
+                  ? "text-muted-foreground" 
+                  : "text-yellow-600 bg-yellow-500/10"
+              )}
+              title={studioOptimizations.isOnline ? "Онлайн" : "Офлайн режим"}
+            >
+              {studioOptimizations.isOnline ? (
+                <Cloud className="h-3 w-3" />
+              ) : (
+                <CloudOff className="h-3 w-3" />
+              )}
+            </div>
+          )}
 
           {isMobile && (
             <Button
