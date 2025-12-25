@@ -8,6 +8,9 @@ import { logger } from "@/lib/logger";
 
 const log = logger.child({ module: 'VirtualizedTrackList' });
 
+// Safety timeout duration to reset loadingRef if it gets stuck
+const LOADING_SAFETY_TIMEOUT_MS = 5000;
+
 interface TrackMidiStatus {
   hasMidi: boolean;
   hasPdf: boolean;
@@ -126,7 +129,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   selectedTrackId,
 }: VirtualizedTrackListProps) {
   const loadingRef = useRef(false);
-  const safetyTimeoutRef = useRef<number | null>(null);
+  const safetyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   
   // Cleanup timeouts on unmount
   useEffect(() => {
@@ -193,13 +196,13 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
       // Use setTimeout to break potential synchronous loops
       setTimeout(() => {
         onLoadMore();
-        // Safety: Reset loading flag after 5 seconds if nothing happens
+        // Safety: Reset loading flag after timeout if nothing happens
         safetyTimeoutRef.current = setTimeout(() => {
           if (loadingRef.current) {
             log.warn('LoadingRef stuck, resetting after timeout');
             loadingRef.current = false;
           }
-        }, 5000);
+        }, LOADING_SAFETY_TIMEOUT_MS);
       }, 0);
     } else {
       log.debug('Not loading more', { hasMore, trackCount: tracks.length, loadingRef: loadingRef.current, isLoadingMore });
@@ -227,13 +230,13 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
       
       setTimeout(() => {
         onLoadMore();
-        // Safety: Reset loading flag after 5 seconds if nothing happens
+        // Safety: Reset loading flag after timeout if nothing happens
         safetyTimeoutRef.current = setTimeout(() => {
           if (loadingRef.current) {
             log.warn('LoadingRef stuck (range), resetting after timeout');
             loadingRef.current = false;
           }
-        }, 5000);
+        }, LOADING_SAFETY_TIMEOUT_MS);
       }, 0);
     }
   }, [tracks.length, hasMore, isLoadingMore, onLoadMore]);
