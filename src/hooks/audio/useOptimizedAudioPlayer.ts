@@ -2,17 +2,20 @@
  * Optimized Audio Player Hook
  * 
  * Enhanced audio player with:
- * - Audio caching via IndexedDB
- * - Prefetch next tracks in queue
+ * - Audio caching via IndexedDB + memory cache
+ * - Intelligent prefetch with priority queue
  * - Network-aware quality selection
  * - Gapless playback support
- * - Crossfade between tracks
+ * - Smooth crossfade between tracks
+ * - Progressive loading for fast start
  */
 
 import { useEffect, useCallback, useRef } from 'react';
 import { usePlayerStore } from './usePlayerState';
 import { getGlobalAudioRef } from './useAudioTime';
-import { getCachedAudio, cacheAudio, prefetchQueue, shouldPrefetch } from '@/lib/audioCache';
+import { getCachedAudio, cacheAudio, shouldPrefetch } from '@/lib/audioCache';
+import { getPrefetchManager, prefetchNextTracks as prefetchTracks } from '@/lib/audio/prefetchManager';
+import { preconnectToHost } from '@/lib/audio/streamingLoader';
 import { logger } from '@/lib/logger';
 import { useNetworkStatus } from './useNetworkStatus';
 import { checkAudioHealth, attemptAudioRecovery } from '@/lib/audioHealthCheck';
@@ -23,13 +26,15 @@ interface UseOptimizedAudioPlayerOptions {
   enablePrefetch?: boolean;
   enableCache?: boolean;
   crossfadeDuration?: number; // in seconds
+  prefetchCount?: number; // Number of tracks to prefetch
 }
 
 export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions = {}) {
   const {
     enablePrefetch = true,
     enableCache = true,
-    crossfadeDuration = 0.5,
+    crossfadeDuration = 0.3,
+    prefetchCount = 3,
   } = options;
 
   const {
@@ -43,12 +48,13 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
   const currentBlobUrlRef = useRef<string | null>(null);
   const isCrossfadingRef = useRef(false);
   const healthCheckIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const lastPrefetchIndexRef = useRef<number>(-1);
   
   // Network status monitoring
   const { isOnline, isSuitableForStreaming, shouldPrefetch: networkAllowsPrefetch } = useNetworkStatus();
 
   /**
-   * Get audio source from track with caching
+   * Get audio source from track with caching and preconnect
    */
   const getAudioSource = useCallback(async (track: typeof activeTrack) => {
     if (!track) return null;
@@ -56,12 +62,15 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
     const sourceUrl = track.streaming_url || track.local_audio_url || track.audio_url;
     if (!sourceUrl) return null;
 
+    // Preconnect to host for faster loading
+    preconnectToHost(sourceUrl);
+
     // Try to get from cache if enabled
     if (enableCache) {
       try {
         const cachedBlob = await getCachedAudio(sourceUrl);
         if (cachedBlob) {
-          log.debug('Using cached audio', { trackId: track.id });
+          log.debug('Using cached audio', { trackId: track.id, size: cachedBlob.size });
           
           // Revoke old blob URL if exists
           if (currentBlobUrlRef.current) {
@@ -82,26 +91,28 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
   }, [enableCache]);
 
   /**
-   * Cache current audio in background
+   * Cache current audio in background with priority
    */
-  const cacheCurrentAudio = useCallback(async (url: string) => {
+  const cacheCurrentAudio = useCallback(async (url: string, priority: number = 0) => {
     if (!enableCache) return;
     
+    // Skip blob URLs - already in memory
+    if (url.startsWith('blob:')) return;
+    
     try {
-      // Fetch and cache
       const response = await fetch(url);
       if (!response.ok) return;
       
       const blob = await response.blob();
-      await cacheAudio(url, blob);
-      log.debug('Audio cached successfully', { url: url.substring(0, 50) });
+      await cacheAudio(url, blob, priority);
+      log.debug('Audio cached successfully', { url: url.substring(0, 50), size: blob.size });
     } catch (error) {
       log.warn('Failed to cache audio', { error });
     }
   }, [enableCache]);
 
   /**
-   * Prefetch next tracks in queue with network awareness
+   * Prefetch next tracks using intelligent prefetch manager
    */
   const prefetchNextTracks = useCallback(async () => {
     // Check both local and network prefetch settings
@@ -120,26 +131,23 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
     }
 
     if (!queue || queue.length === 0) return;
+    
+    // Avoid duplicate prefetch for same position
+    if (lastPrefetchIndexRef.current === currentIndex) return;
+    lastPrefetchIndexRef.current = currentIndex;
 
+    // Get next tracks to prefetch
     const nextTracks = queue.slice(
       currentIndex + 1,
-      Math.min(currentIndex + 3, queue.length)
+      Math.min(currentIndex + 1 + prefetchCount, queue.length)
     );
 
-    for (const track of nextTracks) {
-      const url = track.streaming_url || track.local_audio_url || track.audio_url;
-      if (url && !prefetchedRef.current.has(url)) {
-        prefetchedRef.current.add(url);
-        
-        // Prefetch asynchronously without blocking
-        prefetchQueue([url], 0).then(() => {
-          log.debug('Prefetched track', { trackId: track.id });
-        }).catch(err => {
-          log.warn('Prefetch failed', { trackId: track.id, error: err });
-        });
-      }
+    if (nextTracks.length > 0) {
+      // Use prefetch manager for intelligent queuing
+      prefetchTracks(nextTracks, prefetchCount);
+      log.debug('Queued tracks for prefetch', { count: nextTracks.length });
     }
-  }, [enablePrefetch, queue, currentIndex, networkAllowsPrefetch, isOnline]);
+  }, [enablePrefetch, queue, currentIndex, networkAllowsPrefetch, isOnline, prefetchCount]);
 
   /**
    * Apply crossfade effect when transitioning between tracks
@@ -179,7 +187,7 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
   }, [crossfadeDuration]);
 
   /**
-   * Load track with caching and prefetch
+   * Load track with caching, prefetch, and optimized loading
    */
   const loadTrack = useCallback(async (track: typeof activeTrack) => {
     const audio = getGlobalAudioRef();
@@ -195,19 +203,23 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
         return;
       }
 
-      // Apply fade out before changing track
-      if (isPlaying && crossfadeDuration > 0) {
+      // Apply fade out before changing track (short fade for responsiveness)
+      if (isPlaying && crossfadeDuration > 0 && !audio.paused) {
         await applyCrossfade(audio, true);
       }
 
       // Load new track
       audio.pause();
       audio.src = source;
+      
+      // Use 'auto' preload for cached content, 'metadata' for network
+      audio.preload = source.startsWith('blob:') ? 'auto' : 'metadata';
       audio.load();
 
       // Cache the audio if it's a direct URL (not already a blob URL)
       if (!source.startsWith('blob:')) {
-        cacheCurrentAudio(source);
+        // Cache with highest priority (currently playing)
+        cacheCurrentAudio(source, 0);
       }
 
       // Prefetch next tracks
@@ -215,12 +227,13 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
 
       // Apply fade in after loading
       if (isPlaying) {
-        audio.addEventListener('canplay', () => {
-          audio.play();
+        const handleCanPlay = () => {
+          audio.play().catch(e => log.warn('Play after load failed', e));
           if (crossfadeDuration > 0) {
             applyCrossfade(audio, false);
           }
-        }, { once: true });
+        };
+        audio.addEventListener('canplay', handleCanPlay, { once: true });
       }
     } catch (error) {
       log.error('Failed to load track', error, { trackId: track?.id });
@@ -245,13 +258,13 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
   }, [activeTrack?.id]); // Only re-run when track ID changes
 
   /**
-   * Effect: Periodic health check and auto-recovery
+   * Effect: Periodic health check and auto-recovery (reduced frequency)
    */
   useEffect(() => {
     const audio = getGlobalAudioRef();
     if (!audio) return;
 
-    // Run health check every 30 seconds when playing
+    // Run health check every 45 seconds when playing (reduced from 30s)
     if (isPlaying) {
       healthCheckIntervalRef.current = setInterval(async () => {
         const report = checkAudioHealth(audio);
@@ -272,7 +285,7 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
             });
           }
         }
-      }, 30000);
+      }, 45000);
     }
 
     return () => {
@@ -284,18 +297,30 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
   }, [isPlaying]);
 
   /**
-   * Effect: Prefetch on queue or index change
+   * Effect: Prefetch on queue or index change (with debounce)
    */
   useEffect(() => {
     if (queue.length > 0 && enablePrefetch) {
-      // Small delay to avoid blocking main thread
-      const timer = setTimeout(prefetchNextTracks, 1000);
+      // Delay prefetch to avoid blocking main thread during track changes
+      const timer = setTimeout(prefetchNextTracks, 500);
       return () => clearTimeout(timer);
     }
-  }, [queue, currentIndex, enablePrefetch, prefetchNextTracks]);
+  }, [queue.length, currentIndex, enablePrefetch, prefetchNextTracks]);
+
+  /**
+   * Effect: Cleanup prefetch manager on unmount
+   */
+  useEffect(() => {
+    return () => {
+      // Clear prefetched refs
+      prefetchedRef.current.clear();
+      lastPrefetchIndexRef.current = -1;
+    };
+  }, []);
 
   return {
     loadTrack,
     prefetchNextTracks,
+    getPrefetchStatus: () => getPrefetchManager().getStatus(),
   };
 }

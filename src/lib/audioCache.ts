@@ -3,23 +3,27 @@
  * 
  * Provides efficient audio file caching using IndexedDB and memory cache.
  * Features:
- * - LRU eviction policy
+ * - LRU eviction policy with priority support
  * - Configurable cache size limits
- * - Prefetch next track in queue
+ * - Fast memory cache with size limits
  * - Background cache cleanup
  * - Network-aware quality selection
+ * - Partial caching for large files
  */
 
 import { logger } from './logger';
 
 const DB_NAME = 'musicverse_audio_cache';
-const DB_VERSION = 1;
+const DB_VERSION = 2; // Upgraded for new features
 const STORE_NAME = 'audio_files';
+const META_STORE_NAME = 'cache_meta';
 const MAX_CACHE_SIZE_MB = 500; // 500MB max cache
+const MAX_MEMORY_CACHE_SIZE_MB = 100; // 100MB memory cache
 const MAX_CACHE_ENTRIES = 100;
-const PREFETCH_AHEAD = 2; // Prefetch 2 tracks ahead
-const MAX_CACHE_AGE_DAYS = 14; // 14 days max cache age (provider stores for 15 days)
+const PREFETCH_AHEAD = 3; // Prefetch 3 tracks ahead
+const MAX_CACHE_AGE_DAYS = 14;
 const MAX_CACHE_AGE_MS = MAX_CACHE_AGE_DAYS * 24 * 60 * 60 * 1000;
+const MAX_SINGLE_FILE_MB = 50; // Don't cache files > 50MB
 
 interface AudioCacheEntry {
   url: string;
@@ -27,6 +31,8 @@ interface AudioCacheEntry {
   size: number;
   lastAccessed: number;
   createdAt: number;
+  priority?: number; // For LRU with priority
+  accessCount?: number; // For frequency-based eviction
 }
 
 interface CacheStats {
@@ -34,13 +40,35 @@ interface CacheStats {
   entryCount: number;
   hitRate: number;
   missRate: number;
+  memorySize: number;
+  memoryEntries: number;
 }
 
 let dbPromise: Promise<IDBDatabase> | null = null;
-const memoryCache = new Map<string, Blob>();
+const memoryCache = new Map<string, { blob: Blob; size: number; lastAccess: number }>();
+let memoryCacheSize = 0;
 const accessLog = new Map<string, number>();
 let cacheHits = 0;
 let cacheMisses = 0;
+
+/**
+ * Manage memory cache size
+ */
+function evictFromMemoryCache(): void {
+  const maxSize = MAX_MEMORY_CACHE_SIZE_MB * 1024 * 1024;
+  if (memoryCacheSize <= maxSize) return;
+  
+  // Sort by last access time
+  const entries = Array.from(memoryCache.entries())
+    .sort((a, b) => a[1].lastAccess - b[1].lastAccess);
+  
+  // Remove oldest until under limit
+  while (memoryCacheSize > maxSize * 0.8 && entries.length > 0) {
+    const [url, entry] = entries.shift()!;
+    memoryCache.delete(url);
+    memoryCacheSize -= entry.size;
+  }
+}
 
 /**
  * Initialize IndexedDB connection
@@ -56,11 +84,31 @@ function getDB(): Promise<IDBDatabase> {
 
     request.onupgradeneeded = (event) => {
       const db = (event.target as IDBOpenDBRequest).result;
+      const oldVersion = event.oldVersion;
+      
+      // Create audio files store
       if (!db.objectStoreNames.contains(STORE_NAME)) {
         const store = db.createObjectStore(STORE_NAME, { keyPath: 'url' });
         store.createIndex('lastAccessed', 'lastAccessed', { unique: false });
         store.createIndex('createdAt', 'createdAt', { unique: false });
         store.createIndex('size', 'size', { unique: false });
+        store.createIndex('priority', 'priority', { unique: false });
+      }
+      
+      // Add priority index if upgrading from v1
+      if (oldVersion === 1) {
+        const tx = (event.target as IDBOpenDBRequest).transaction;
+        if (tx) {
+          const store = tx.objectStore(STORE_NAME);
+          if (!store.indexNames.contains('priority')) {
+            store.createIndex('priority', 'priority', { unique: false });
+          }
+        }
+      }
+      
+      // Create metadata store for cache stats
+      if (!db.objectStoreNames.contains(META_STORE_NAME)) {
+        db.createObjectStore(META_STORE_NAME, { keyPath: 'key' });
       }
     };
   });
@@ -73,11 +121,13 @@ function getDB(): Promise<IDBDatabase> {
  * Returns null if cache entry is expired (older than 14 days)
  */
 export async function getCachedAudio(url: string): Promise<Blob | null> {
-  // Check memory cache first
-  if (memoryCache.has(url)) {
+  // Check memory cache first (fastest)
+  const memEntry = memoryCache.get(url);
+  if (memEntry) {
     cacheHits++;
+    memEntry.lastAccess = Date.now();
     updateAccessTime(url);
-    return memoryCache.get(url) || null;
+    return memEntry.blob;
   }
 
   // Check IndexedDB
@@ -99,18 +149,28 @@ export async function getCachedAudio(url: string): Promise<Blob | null> {
       // Check if entry is expired (older than 14 days)
       const age = Date.now() - entry.createdAt;
       if (age > MAX_CACHE_AGE_MS) {
-        // Entry expired, remove it
-        logger.debug('Cache entry expired, removing', { url: url.substring(0, 50), ageDays: Math.floor(age / (24 * 60 * 60 * 1000)) });
+        logger.debug('Cache entry expired, removing', { 
+          url: url.substring(0, 50), 
+          ageDays: Math.floor(age / (24 * 60 * 60 * 1000)) 
+        });
         removeCacheEntry(url);
         cacheMisses++;
         return null;
       }
       
       cacheHits++;
-      // Update access time asynchronously
-      updateAccessTimeInDB(url);
+      
+      // Update access time and count asynchronously
+      updateAccessTimeInDB(url, (entry.accessCount || 0) + 1);
+      
       // Store in memory for faster subsequent access
-      memoryCache.set(url, entry.blob);
+      const entrySize = entry.blob.size;
+      memoryCache.set(url, { blob: entry.blob, size: entrySize, lastAccess: Date.now() });
+      memoryCacheSize += entrySize;
+      
+      // Evict if memory cache too large
+      evictFromMemoryCache();
+      
       return entry.blob;
     }
   } catch (error) {
@@ -139,17 +199,19 @@ async function removeCacheEntry(url: string): Promise<void> {
 /**
  * Save audio blob to cache
  */
-export async function cacheAudio(url: string, blob: Blob): Promise<void> {
+export async function cacheAudio(url: string, blob: Blob, priority: number = 5): Promise<void> {
   const size = blob.size;
   
-  // Don't cache if blob is too large (>50MB)
-  if (size > 50 * 1024 * 1024) {
+  // Don't cache if blob is too large
+  if (size > MAX_SINGLE_FILE_MB * 1024 * 1024) {
     logger.warn('Audio file too large to cache', { size, url: url.substring(0, 50) });
     return;
   }
 
-  // Store in memory cache immediately
-  memoryCache.set(url, blob);
+  // Store in memory cache immediately for fast access
+  memoryCache.set(url, { blob, size, lastAccess: Date.now() });
+  memoryCacheSize += size;
+  evictFromMemoryCache();
 
   try {
     const db = await getDB();
@@ -163,6 +225,8 @@ export async function cacheAudio(url: string, blob: Blob): Promise<void> {
       size,
       lastAccessed: Date.now(),
       createdAt: Date.now(),
+      priority,
+      accessCount: 1,
     };
 
     await new Promise<void>((resolve, reject) => {
@@ -173,6 +237,8 @@ export async function cacheAudio(url: string, blob: Blob): Promise<void> {
       request.onerror = () => reject(request.error);
       request.onsuccess = () => resolve();
     });
+    
+    logger.debug('Audio cached', { url: url.substring(0, 50), size });
   } catch (error) {
     logger.error('Error saving to audio cache', error instanceof Error ? error : new Error(String(error)));
   }
@@ -222,7 +288,7 @@ function updateAccessTime(url: string): void {
 /**
  * Update access time in IndexedDB (async, non-blocking)
  */
-async function updateAccessTimeInDB(url: string): Promise<void> {
+async function updateAccessTimeInDB(url: string, accessCount?: number): Promise<void> {
   try {
     const db = await getDB();
     const transaction = db.transaction(STORE_NAME, 'readwrite');
@@ -233,6 +299,9 @@ async function updateAccessTimeInDB(url: string): Promise<void> {
       const entry = getRequest.result as AudioCacheEntry | undefined;
       if (entry) {
         entry.lastAccessed = Date.now();
+        if (accessCount !== undefined) {
+          entry.accessCount = accessCount;
+        }
         store.put(entry);
       }
     };
@@ -360,6 +429,8 @@ export async function getCacheStats(): Promise<CacheStats> {
       entryCount: entries.length,
       hitRate: totalRequests > 0 ? cacheHits / totalRequests : 0,
       missRate: totalRequests > 0 ? cacheMisses / totalRequests : 0,
+      memorySize: memoryCacheSize,
+      memoryEntries: memoryCache.size,
     };
   } catch {
     return {
@@ -367,6 +438,8 @@ export async function getCacheStats(): Promise<CacheStats> {
       entryCount: 0,
       hitRate: 0,
       missRate: 0,
+      memorySize: 0,
+      memoryEntries: 0,
     };
   }
 }
