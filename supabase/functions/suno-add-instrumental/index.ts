@@ -146,30 +146,31 @@ serve(async (req) => {
     console.log('📋 Upload URL:', uploadUrl);
     console.log('📋 Callback URL:', callBackUrl);
 
-    // Build request body - per SunoAPI docs all these fields are required
-    // NOTE: Some Suno endpoints require `tags` specifically (even if `style` is present).
-    // IMPORTANT: negativeTags must be a non-empty string, Suno API rejects empty string.
-    const requestBody: any = {
+    // Build request body - per SunoAPI docs
+    // CRITICAL: audioWeight controls how much the generation follows the input audio
+    // Higher audioWeight = more adherence to vocal timing and melody
+    // Default to 0.7 for good vocal sync
+    const effectiveAudioWeight = audioWeight !== undefined ? audioWeight : 0.7;
+    const effectiveStyleWeight = styleWeight !== undefined ? styleWeight : 0.6;
+    
+    const requestBody: Record<string, unknown> = {
       uploadUrl,
-      prompt,        // Required
       title,         // Required
-      style,         // Required (kept for compatibility)
-      tags: style,   // Required by add-instrumental endpoint (comma-separated string)
-      negativeTags: negativeTags || 'low quality, distorted, noise',
+      tags: style,   // Required by add-instrumental endpoint (describes instrumental style)
+      negativeTags: negativeTags || 'low quality, distorted, noise, acapella, vocals only',
       callBackUrl,
-      model: model === 'V4_5ALL' ? 'V4_5PLUS' : model, // Map to valid model
+      model: model === 'V4_5ALL' ? 'V4_5PLUS' : model,
+      // CRITICAL: These weights ensure the AI follows the input vocal
+      audioWeight: effectiveAudioWeight,   // Follow input audio timing/melody
+      styleWeight: effectiveStyleWeight,   // Style adherence
     };
 
     // Optional parameters
     if (personaId) requestBody.personaId = personaId;
-    if (styleWeight !== undefined) requestBody.styleWeight = styleWeight;
     if (weirdnessConstraint !== undefined) requestBody.weirdnessConstraint = weirdnessConstraint;
-    if (audioWeight !== undefined) requestBody.audioWeight = audioWeight;
 
     console.log('📋 Suno add-instrumental payload:', JSON.stringify(requestBody, null, 2));
-    if (styleWeight !== undefined) requestBody.styleWeight = styleWeight;
-    if (weirdnessConstraint !== undefined) requestBody.weirdnessConstraint = weirdnessConstraint;
-    if (audioWeight !== undefined) requestBody.audioWeight = audioWeight;
+    console.log('🎚️ Audio weight:', effectiveAudioWeight, '| Style weight:', effectiveStyleWeight);
 
     // Call Suno API
     const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate/add-instrumental', {

@@ -113,14 +113,17 @@ export const ArrangementReplacementDialog = ({
       }, 1000);
 
       // Call suno-add-instrumental with the vocal stem URL
+      // CRITICAL: audioWeight ensures the new arrangement follows the vocal
       const { data, error } = await supabase.functions.invoke('suno-add-instrumental', {
         body: {
-          audioUrl: vocalStem.audio_url, // Key fix: pass vocal stem URL
-          prompt: tags,
+          audioUrl: vocalStem.audio_url,
           customMode: true,
-          style,
-          title: track.title ? `${track.title} (новая аранжировка)` : undefined,
+          style: `${style}, ${tags}`.trim(),
+          title: track.title ? `${track.title} (новая аранжировка)` : 'Новая аранжировка',
           projectId: track.project_id,
+          negativeTags: 'acapella, vocals only, karaoke, low quality',
+          audioWeight: 0.75, // High weight to sync with vocal
+          styleWeight: 0.6,
         }
       });
 
