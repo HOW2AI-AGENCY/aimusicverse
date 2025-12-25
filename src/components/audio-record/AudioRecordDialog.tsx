@@ -1,11 +1,9 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { Mic, Square, Play, Pause, Trash2, Music, MicVocal, Loader2, Cloud, Disc, ArrowRight, X, CheckCircle } from 'lucide-react';
+import { Mic, Square, Play, Pause, Trash2, Music, MicVocal, Loader2, Cloud, Disc, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { toast } from 'sonner';
@@ -18,6 +16,7 @@ import type { ReferenceAudio } from '@/hooks/useReferenceAudio';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { useRecordingUpload } from '@/hooks/useRecordingUpload';
 import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
+import { InstrumentalSettingsDialog, type InstrumentalSettings } from './InstrumentalSettingsDialog';
 
 interface AudioRecordDialogProps {
   open: boolean;
@@ -41,6 +40,10 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
   const [selectedCloudAudio, setSelectedCloudAudio] = useState<ReferenceAudio | null>(null);
   const [continueAt, setContinueAt] = useState(0);
   const [autoSavedUrl, setAutoSavedUrl] = useState<string | null>(null);
+  
+  // Settings dialog state
+  const [showSettingsDialog, setShowSettingsDialog] = useState(false);
+  const [pendingInstrumentalSettings, setPendingInstrumentalSettings] = useState<InstrumentalSettings | null>(null);
 
   // Auto-upload hook for cloud saving
   const { uploadRecordingQuietly, isUploading: isAutoSaving } = useRecordingUpload({
@@ -149,8 +152,24 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
     setAutoSavedUrl(null);
   }, [audioUrl]);
 
+  // Handler for opening instrumental settings
+  const handleInstrumentalClick = () => {
+    if (!user) {
+      toast.error('Необходимо авторизоваться');
+      return;
+    }
+    setShowSettingsDialog(true);
+  };
+
+  // Handler for settings confirmation
+  const handleSettingsConfirm = async (settings: InstrumentalSettings) => {
+    setPendingInstrumentalSettings(settings);
+    setShowSettingsDialog(false);
+    await uploadAndProcess('instrumental', settings);
+  };
+
   // Upload audio and process with selected action
-  const uploadAndProcess = async (action: ProcessingAction) => {
+  const uploadAndProcess = async (action: ProcessingAction, settings?: InstrumentalSettings) => {
     if (!user || !action) {
       toast.error('Необходимо авторизоваться');
       return;
@@ -162,7 +181,8 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
         selectedCloudAudio.file_url, 
         selectedCloudAudio.file_name, 
         action,
-        selectedCloudAudio.duration_seconds || duration
+        selectedCloudAudio.duration_seconds || duration,
+        settings
       );
       return;
     }
@@ -193,7 +213,7 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
       const publicUrl = urlData.publicUrl;
       const recordingTitle = `Запись ${action === 'vocals' ? 'вокала' : action === 'instrumental' ? 'инструментала' : ''} ${new Date().toLocaleDateString('ru-RU')}`;
 
-      await processAudio(publicUrl, recordingTitle, action, duration);
+      await processAudio(publicUrl, recordingTitle, action, duration, settings);
     } catch (error) {
       logger.error('Failed to upload recording', { error });
       toast.error('Ошибка загрузки записи');
@@ -207,7 +227,8 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
     audioUrl: string, 
     title: string, 
     action: ProcessingAction,
-    audioDuration: number
+    audioDuration: number,
+    settings?: InstrumentalSettings
   ) => {
     if (!action) return;
     
@@ -245,11 +266,22 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
         ? 'suno-add-instrumental' 
         : 'suno-add-vocals';
 
-      logger.info('Processing audio with action', { action, functionName, audioUrl });
+      logger.info('Processing audio with action', { action, functionName, audioUrl, settings });
 
       // For instrumental action, prepare studio project first
       let studioProjectId: string | null = null;
       let pendingTrackId: string | null = null;
+
+      // Build style string from settings
+      let stylePrompt = 'professional instrumental backing track, full band arrangement';
+      if (action === 'instrumental' && settings) {
+        const styleParts: string[] = [];
+        if (settings.genre) styleParts.push(settings.genre);
+        if (settings.mood) styleParts.push(settings.mood);
+        styleParts.push(`${settings.bpm} bpm`);
+        if (settings.customStyle) styleParts.push(settings.customStyle);
+        stylePrompt = styleParts.join(', ') + ', professional instrumental backing track';
+      }
 
       if (action === 'instrumental') {
         const store = useUnifiedStudioStore.getState();
@@ -272,9 +304,12 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
         });
 
         if (studioProjectId) {
-          // Add pending instrumental track
+          // Add pending instrumental track with settings info
+          const settingsLabel = settings?.genre || settings?.mood 
+            ? ` (${[settings.genre, settings.mood].filter(Boolean).join(', ')})`
+            : '';
           pendingTrackId = store.addPendingTrack({
-            name: 'Инструментал (генерация...)',
+            name: `Инструментал${settingsLabel} (генерация...)`,
             type: 'instrumental',
           });
         }
@@ -287,13 +322,16 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
             ? '' // Not required for add-instrumental
             : 'Добавить профессиональный вокал к этому инструменталу',
           customMode: true,
-          style: action === 'instrumental' 
-            ? 'professional instrumental backing track, full band arrangement' 
-            : 'professional vocal performance, clear singing',
+          style: action === 'instrumental' ? stylePrompt : 'professional vocal performance, clear singing',
           negativeTags: action === 'instrumental'
             ? 'acapella, vocals only, karaoke, low quality'
             : 'instrumental only, low quality, distorted',
           title,
+          // Instrumental settings
+          genre: settings?.genre,
+          mood: settings?.mood,
+          bpm: settings?.bpm,
+          customStyle: settings?.customStyle,
           // Critical weights for following the input audio
           audioWeight: 0.8,        // High to sync with input
           styleWeight: 0.55,       // Moderate style adherence
@@ -527,8 +565,8 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
               <div className="grid grid-cols-2 gap-3">
                 <Button
                   variant="outline"
-                  className="h-auto py-3 flex-col gap-1.5"
-                  onClick={() => uploadAndProcess('instrumental')}
+                  className="h-auto py-3 flex-col gap-1.5 border-primary/30 hover:border-primary"
+                  onClick={handleInstrumentalClick}
                   disabled={processingAction !== null}
                 >
                   {processingAction === 'instrumental' ? (
@@ -537,7 +575,7 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
                     <Music className="w-5 h-5 text-primary" />
                   )}
                   <span className="text-xs font-medium">+ Инструментал</span>
-                  <span className="text-[10px] text-muted-foreground">К вашему вокалу</span>
+                  <span className="text-[10px] text-muted-foreground">Настроить стиль</span>
                 </Button>
                 
                 <Button
@@ -597,6 +635,14 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
           </div>
         )}
       </DialogContent>
+
+      {/* Instrumental Settings Dialog */}
+      <InstrumentalSettingsDialog
+        open={showSettingsDialog}
+        onOpenChange={setShowSettingsDialog}
+        onConfirm={handleSettingsConfirm}
+        isProcessing={processingAction === 'instrumental'}
+      />
     </Dialog>
   );
 };
