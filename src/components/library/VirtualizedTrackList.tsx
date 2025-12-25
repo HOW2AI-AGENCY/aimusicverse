@@ -126,6 +126,16 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   selectedTrackId,
 }: VirtualizedTrackListProps) {
   const loadingRef = useRef(false);
+  const safetyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Cleanup timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (safetyTimeoutRef.current) {
+        clearTimeout(safetyTimeoutRef.current);
+      }
+    };
+  }, []);
   
   // Memoize item key computation for better React reconciliation
   const computeItemKey = useCallback(
@@ -175,11 +185,16 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
         isLoadingMore 
       });
       
+      // Clear any existing safety timeout
+      if (safetyTimeoutRef.current) {
+        clearTimeout(safetyTimeoutRef.current);
+      }
+      
       // Use setTimeout to break potential synchronous loops
       setTimeout(() => {
         onLoadMore();
         // Safety: Reset loading flag after 5 seconds if nothing happens
-        setTimeout(() => {
+        safetyTimeoutRef.current = setTimeout(() => {
           if (loadingRef.current) {
             log.warn('LoadingRef stuck, resetting after timeout');
             loadingRef.current = false;
@@ -204,10 +219,16 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     if (endIndex >= threshold && hasMore) {
       loadingRef.current = true;
       log.info('Range trigger: loading more', { endIndex, threshold, total: tracks.length });
+      
+      // Clear any existing safety timeout
+      if (safetyTimeoutRef.current) {
+        clearTimeout(safetyTimeoutRef.current);
+      }
+      
       setTimeout(() => {
         onLoadMore();
         // Safety: Reset loading flag after 5 seconds if nothing happens
-        setTimeout(() => {
+        safetyTimeoutRef.current = setTimeout(() => {
           if (loadingRef.current) {
             log.warn('LoadingRef stuck (range), resetting after timeout');
             loadingRef.current = false;

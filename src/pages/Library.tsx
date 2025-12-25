@@ -119,6 +119,8 @@ export default function Library() {
   });
   
   // Debug logging for track loading
+  // Note: Intentionally using tracks?.length instead of tracks in deps
+  // to avoid re-logging on every array reference change
   useEffect(() => {
     if (tracks && tracks.length > 0) {
       log.info('Tracks loaded in Library', { 
