@@ -68,13 +68,19 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
         <SheetPrimitive.Content 
           ref={ref} 
           className={cn(sheetVariants({ side }), className)} 
-          style={isFullscreen && (side === 'top' || side === 'bottom' || side === 'right' || side === 'left') ? {
-            // Apply safe area padding for fullscreen sheets to avoid Telegram native buttons
-            paddingTop: side === 'top' || side === 'right' || side === 'left' 
+          style={isFullscreen ? {
+            // Apply safe area padding for fullscreen sheets based on side
+            paddingTop: side === 'top' 
               ? 'max(calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px)), calc(env(safe-area-inset-top, 0px) + 0.5rem))'
               : undefined,
             paddingBottom: side === 'bottom' 
               ? 'max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))'
+              : undefined,
+            paddingLeft: side === 'left'
+              ? 'max(var(--tg-safe-area-inset-left, 0px), env(safe-area-inset-left, 0px))'
+              : undefined,
+            paddingRight: side === 'right'
+              ? 'max(var(--tg-safe-area-inset-right, 0px), env(safe-area-inset-right, 0px))'
               : undefined,
           } : undefined}
           {...props}
