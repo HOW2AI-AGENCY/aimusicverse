@@ -6,13 +6,14 @@
 import { memo, useState, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from '@/lib/motion';
-import { useUnifiedStudioStore, ViewMode, TrackType, TRACK_COLORS } from '@/stores/useUnifiedStudioStore';
+import { useUnifiedStudioStore, ViewMode, TrackType, TRACK_COLORS, StudioTrack } from '@/stores/useUnifiedStudioStore';
 import { StudioTransport } from './StudioTransport';
 import { StudioTrackRow } from './StudioTrackRow';
 import { StudioPendingTrackRow } from './StudioPendingTrackRow';
 import { StudioWaveformTimeline } from './StudioWaveformTimeline';
 import { StudioMixerPanel } from './StudioMixerPanel';
 import { ExportMixDialog } from './ExportMixDialog';
+import { StemEffectsDrawer } from './StemEffectsDrawer';
 import { useStudioAudioEngine, AudioTrack } from '@/hooks/studio/useStudioAudioEngine';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -56,9 +57,16 @@ import { formatTime } from '@/lib/formatters';
 import { Slider } from '@/components/ui/slider';
 import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
+import type { StemEffects, EQSettings, CompressorSettings, ReverbSettings } from '@/hooks/studio/types';
+import { defaultStemEffects } from '@/hooks/studio/stemEffectsConfig';
 
 interface StudioShellProps {
   className?: string;
+}
+
+// Track effects state (stored per track)
+interface TrackEffectsState {
+  [trackId: string]: StemEffects;
 }
 
 export const StudioShell = memo(function StudioShell({ className }: StudioShellProps) {
@@ -98,6 +106,9 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   const [showAddTrackDialog, setShowAddTrackDialog] = useState(false);
   const [showMixerSheet, setShowMixerSheet] = useState(false);
   const [showExportDialog, setShowExportDialog] = useState(false);
+  const [showEffectsDrawer, setShowEffectsDrawer] = useState(false);
+  const [selectedEffectsTrack, setSelectedEffectsTrack] = useState<StudioTrack | null>(null);
+  const [trackEffects, setTrackEffects] = useState<TrackEffectsState>({});
 
   // Convert store tracks to AudioTrack format for engine
   const audioTracks = useMemo((): AudioTrack[] => {
@@ -524,8 +535,11 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
                   onAction={(action) => {
                     if (action === 'download' && track.audioUrl) {
                       window.open(track.audioUrl, '_blank');
-                    } else {
-                      toast.info('Функция в разработке');
+                    } else if (action === 'effects') {
+                      setSelectedEffectsTrack(track);
+                      setShowEffectsDrawer(true);
+                    } else if (action === 'reference') {
+                      toast.info('Функция референса в разработке');
                     }
                   }}
                 />
@@ -581,6 +595,59 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         }))}
         masterVolume={project.masterVolume}
         trackTitle={project.name}
+      />
+
+      {/* Track Effects Drawer */}
+      <StemEffectsDrawer
+        open={showEffectsDrawer}
+        onOpenChange={setShowEffectsDrawer}
+        stem={selectedEffectsTrack ? {
+          id: selectedEffectsTrack.id,
+          stem_type: selectedEffectsTrack.type,
+          audio_url: selectedEffectsTrack.audioUrl || '',
+          track_id: project.id,
+          separation_mode: null,
+          version_id: null,
+          created_at: new Date().toISOString(),
+        } : null}
+        effects={selectedEffectsTrack ? (trackEffects[selectedEffectsTrack.id] || defaultStemEffects) : defaultStemEffects}
+        onUpdateEQ={(settings) => {
+          if (!selectedEffectsTrack) return;
+          setTrackEffects(prev => ({
+            ...prev,
+            [selectedEffectsTrack.id]: {
+              ...(prev[selectedEffectsTrack.id] || defaultStemEffects),
+              eq: { ...(prev[selectedEffectsTrack.id]?.eq || defaultStemEffects.eq), ...settings }
+            }
+          }));
+        }}
+        onUpdateCompressor={(settings) => {
+          if (!selectedEffectsTrack) return;
+          setTrackEffects(prev => ({
+            ...prev,
+            [selectedEffectsTrack.id]: {
+              ...(prev[selectedEffectsTrack.id] || defaultStemEffects),
+              compressor: { ...(prev[selectedEffectsTrack.id]?.compressor || defaultStemEffects.compressor), ...settings }
+            }
+          }));
+        }}
+        onUpdateReverb={(settings) => {
+          if (!selectedEffectsTrack) return;
+          setTrackEffects(prev => ({
+            ...prev,
+            [selectedEffectsTrack.id]: {
+              ...(prev[selectedEffectsTrack.id] || defaultStemEffects),
+              reverb: { ...(prev[selectedEffectsTrack.id]?.reverb || defaultStemEffects.reverb), ...settings }
+            }
+          }));
+        }}
+        onReset={() => {
+          if (!selectedEffectsTrack) return;
+          setTrackEffects(prev => ({
+            ...prev,
+            [selectedEffectsTrack.id]: defaultStemEffects
+          }));
+        }}
       />
     </div>
   );
