@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from '@/components/ui/drawer';
 import { Button } from '@/components/ui/button';
@@ -32,14 +32,49 @@ interface ProjectMediaGeneratorProps {
     notes?: string | null;
   } | null;
   onCoverGenerated?: (url: string) => void;
+  initialAssetType?: AssetType;
 }
 
 type AssetType = 'cover' | 'banner' | 'story';
 
-const ASSET_TYPES: { value: AssetType; label: string; icon: React.ReactNode; dimensions: string; aspect: string }[] = [
-  { value: 'cover', label: 'Обложка', icon: <Square className="w-4 h-4" />, dimensions: '1024x1024', aspect: '1:1' },
-  { value: 'banner', label: 'Баннер', icon: <RectangleVertical className="w-4 h-4 rotate-90" />, dimensions: '1920x1080', aspect: '16:9' },
-  { value: 'story', label: 'История', icon: <RectangleVertical className="w-4 h-4" />, dimensions: '1080x1920', aspect: '9:16' },
+interface AssetTypeConfig {
+  value: AssetType;
+  label: string;
+  description: string;
+  icon: React.ReactNode;
+  dimensions: string;
+  aspect: string;
+  usage: string;
+}
+
+const ASSET_TYPES: AssetTypeConfig[] = [
+  { 
+    value: 'cover', 
+    label: 'Обложка', 
+    description: 'Квадратная обложка для плеера и библиотеки',
+    icon: <Square className="w-4 h-4" />, 
+    dimensions: '1024x1024', 
+    aspect: '1:1',
+    usage: 'Плеер • Библиотека • Плейлисты'
+  },
+  { 
+    value: 'banner', 
+    label: 'Баннер', 
+    description: 'Широкоформатный баннер для ленты и страницы проекта',
+    icon: <RectangleVertical className="w-4 h-4 rotate-90" />, 
+    dimensions: '1920x1080', 
+    aspect: '16:9',
+    usage: 'Главная • Страница проекта • Поделиться'
+  },
+  { 
+    value: 'story', 
+    label: 'История', 
+    description: 'Вертикальный формат для социальных сетей',
+    icon: <RectangleVertical className="w-4 h-4" />, 
+    dimensions: '1080x1920', 
+    aspect: '9:16',
+    usage: 'Instagram • TikTok • Stories'
+  },
 ];
 
 const STYLE_PRESETS = [
@@ -57,13 +92,21 @@ export function ProjectMediaGenerator({
   project,
   track,
   onCoverGenerated,
+  initialAssetType = 'cover',
 }: ProjectMediaGeneratorProps) {
   const isMobile = useIsMobile();
-  const [assetType, setAssetType] = useState<AssetType>('cover');
+  const [assetType, setAssetType] = useState<AssetType>(initialAssetType);
   const [customPrompt, setCustomPrompt] = useState('');
   const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
+
+  // Update asset type when initialAssetType changes (e.g., opening for banner)
+  useEffect(() => {
+    if (open) {
+      setAssetType(initialAssetType);
+    }
+  }, [open, initialAssetType]);
 
   const targetEntity = track ? 'трека' : 'проекта';
   const entityTitle = track?.title || project.title;
@@ -173,14 +216,21 @@ export function ProjectMediaGenerator({
         // Apply to track - would need to update track cover
         toast.success('Обложка трека обновлена');
       } else {
-        // Apply to project
+        // Apply to project based on asset type
+        const updateField = assetType === 'banner' ? 'banner_url' : 'cover_url';
         const { error } = await supabase
           .from('music_projects')
-          .update({ cover_url: generatedUrl })
+          .update({ [updateField]: generatedUrl })
           .eq('id', project.id);
 
         if (error) throw error;
-        toast.success('Обложка проекта обновлена');
+        
+        const successMessage = assetType === 'banner' 
+          ? 'Баннер проекта обновлён' 
+          : assetType === 'story'
+          ? 'История сохранена'
+          : 'Обложка проекта обновлена';
+        toast.success(successMessage);
       }
 
       onCoverGenerated?.(generatedUrl);
@@ -301,23 +351,37 @@ export function ProjectMediaGenerator({
               </div>
 
               {/* Asset Type Selection */}
-              <div className="space-y-2">
-                <Label className="text-sm">Тип ассета</Label>
-                <div className="grid grid-cols-3 gap-2">
+              <div className="space-y-3">
+                <Label className="text-sm">Выберите тип изображения</Label>
+                <div className="space-y-2">
                   {ASSET_TYPES.map((type) => (
                     <button
                       key={type.value}
                       onClick={() => setAssetType(type.value)}
                       className={cn(
-                        "flex flex-col items-center gap-1.5 p-3 rounded-lg border transition-all",
+                        "w-full flex items-start gap-3 p-3 rounded-lg border transition-all text-left",
                         assetType === type.value
-                          ? "border-primary bg-primary/5"
-                          : "border-border hover:border-primary/50"
+                          ? "border-primary bg-primary/5 ring-1 ring-primary/20"
+                          : "border-border hover:border-primary/50 hover:bg-muted/30"
                       )}
                     >
-                      {type.icon}
-                      <span className="text-xs font-medium">{type.label}</span>
-                      <span className="text-[10px] text-muted-foreground">{type.dimensions}</span>
+                      <div className={cn(
+                        "shrink-0 w-10 h-10 rounded-lg flex items-center justify-center",
+                        assetType === type.value ? "bg-primary text-primary-foreground" : "bg-muted"
+                      )}>
+                        {type.icon}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-sm">{type.label}</span>
+                          <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+                            {type.aspect}
+                          </Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-0.5">{type.description}</p>
+                        <p className="text-[10px] text-muted-foreground/70 mt-1">{type.usage}</p>
+                      </div>
+                      <span className="text-[10px] text-muted-foreground shrink-0">{type.dimensions}</span>
                     </button>
                   ))}
                 </div>
@@ -385,7 +449,11 @@ export function ProjectMediaGenerator({
               {generatedUrl && (
                 <>
                   {/* Preview */}
-                  <div className="relative rounded-lg overflow-hidden bg-muted aspect-square">
+                  <div className={cn(
+                    "relative rounded-lg overflow-hidden bg-muted",
+                    assetType === 'cover' ? 'aspect-square' :
+                    assetType === 'banner' ? 'aspect-video' : 'aspect-[9/16]'
+                  )}>
                     <img
                       src={generatedUrl}
                       alt="Generated media"

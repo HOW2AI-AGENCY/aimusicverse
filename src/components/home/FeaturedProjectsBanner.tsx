@@ -138,7 +138,7 @@ export function FeaturedProjectsBanner() {
   if (isLoading) {
     return (
       <div className="w-full rounded-2xl bg-gradient-to-br from-card to-card/60 animate-pulse" 
-           style={{ aspectRatio: '21/9' }} />
+           style={{ aspectRatio: '16/9' }} />
     );
   }
 
@@ -160,7 +160,7 @@ export function FeaturedProjectsBanner() {
         {/* Banner Container */}
         <div 
           className="relative w-full"
-          style={{ aspectRatio: '21/9' }}
+          style={{ aspectRatio: '16/9' }}
         >
           <AnimatePresence mode="wait">
             {isCtaSlide ? (
