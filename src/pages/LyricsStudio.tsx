@@ -404,12 +404,13 @@ export default function LyricsStudio() {
   }
 
   return (
-    <div className="flex flex-col h-full bg-background">
+    <div className="flex flex-col h-full bg-background" style={{
+      paddingTop: isMobile ? 'max(var(--tg-content-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))' : undefined
+    }}>
       {/* Project Header for project mode */}
       {isProjectTrackMode && projectData && (
         <div className={cn(
-          "border-b border-border/50 bg-gradient-to-r from-muted/50 to-background",
-          isMobile && "pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+0.5rem),calc(env(safe-area-inset-top,0px)+0.5rem))]"
+          "border-b border-border/50 bg-gradient-to-r from-muted/50 to-background"
         )}>
           {/* Centered logo for mobile */}
           {isMobile && (
@@ -1017,7 +1018,7 @@ export default function LyricsStudio() {
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="fixed z-50"
+          className="fixed z-40"
           style={{
             bottom: 'calc(env(safe-area-inset-bottom, 0px) + 5rem)',
             right: '1rem'

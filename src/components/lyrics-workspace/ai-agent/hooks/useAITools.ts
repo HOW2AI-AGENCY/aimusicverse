@@ -20,11 +20,40 @@ interface UseAIToolsOptions {
 export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStylePromptGenerated }: UseAIToolsOptions) {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTool, setActiveTool] = useState<AIToolId | null>(null);
+  
+  // Generate context-aware welcome message
+  const getWelcomeMessage = () => {
+    if (context.projectContext) {
+      const parts = ['Привет! Я готов помочь с лирикой для вашего проекта'];
+      if (context.projectContext.projectTitle) {
+        parts.push(`"${context.projectContext.projectTitle}"`);
+      }
+      if (context.trackContext) {
+        parts.push(`(трек #${context.trackContext.position + 1}: "${context.trackContext.title}")`);
+      }
+      parts.push('.');
+      
+      if (context.existingLyrics) {
+        parts.push('\n\nУ вас уже есть текст. Хотите его улучшить, дополнить или создать новый вариант?');
+      } else {
+        parts.push('\n\nГотов сгенерировать лирику на основе концепции проекта. Используйте инструмент "Написать" или опишите желаемое настроение и тему.');
+      }
+      
+      return parts.join(' ');
+    }
+    
+    if (context.existingLyrics) {
+      return 'Привет! Вижу, у вас уже есть текст. Выберите инструмент для его анализа, улучшения или дополнения.';
+    }
+    
+    return 'Привет! Я AI-помощник для создания лирики. Выберите инструмент "Написать" для генерации текста или опишите свою задачу.';
+  };
+  
   const [messages, setMessages] = useState<AIMessage[]>([
     {
       id: 'welcome',
       role: 'assistant',
-      content: 'Привет! Я AI-помощник для создания лирики. Выберите инструмент или опишите задачу.',
+      content: getWelcomeMessage(),
       timestamp: new Date(),
     },
   ]);
