@@ -116,7 +116,7 @@ export async function fetchTracksWithLikes(
     enrichedCount: enrichedTracks.length,
     totalCount,
     hasMore,
-    nextPage: hasMore ? pagination.page + 1 : null,
+    nextPage: hasMore && pagination ? pagination.page + 1 : null,
   });
 
   return { tracks: enrichedTracks, totalCount, hasMore };
