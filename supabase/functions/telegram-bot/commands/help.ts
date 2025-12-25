@@ -1,25 +1,131 @@
 import { BOT_CONFIG } from '../config.ts';
-import { sendMessage } from '../telegram-api.ts';
-import { buildMessage, createSection, createList, createDivider } from '../utils/message-formatter.ts';
+import { sendPhoto, sendMessage } from '../telegram-api.ts';
+import { buildMessage } from '../utils/message-formatter.ts';
 import { ButtonBuilder } from '../utils/button-builder.ts';
 import { trackMessage } from '../utils/message-manager.ts';
+import { getMenuImage } from '../keyboards/menu-images.ts';
 
 export async function handleHelp(chatId: number) {
+  const helpImage = getMenuImage('help');
+  
   const helpMessage = buildMessage({
-    title: 'Справка по командам',
+    title: 'Справка и обучение',
     emoji: '📚',
-    description: 'Полный список команд и возможностей бота',
+    description: 'Полное руководство по использованию MusicVerse AI',
     sections: [
       {
+        title: 'Быстрый старт',
+        content: 'Создайте первый трек за 5 минут',
+        emoji: '🚀'
+      },
+      {
         title: 'Основные команды',
+        emoji: '🤖',
+        content: [
+          '/generate - Создать трек',
+          '/analyze - Анализ аудио',
+          '/library - Мои треки',
+          '/projects - Проекты'
+        ],
+        style: 'list'
+      }
+    ],
+    footer: 'Выберите раздел для подробной информации'
+  });
+
+  const keyboard = new ButtonBuilder()
+    // Row 1: Main tutorials
+    .addRow(
+      {
+        text: 'Быстрый старт',
+        emoji: '🚀',
+        action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/help?section=quickstart` }
+      },
+      {
+        text: 'Генерация',
+        emoji: '🎵',
+        action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/help?section=generation` }
+      }
+    )
+    // Row 2: Analysis and projects
+    .addRow(
+      {
+        text: 'Анализ',
+        emoji: '🔬',
+        action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/help?section=analysis` }
+      },
+      {
+        text: 'Проекты',
+        emoji: '📁',
+        action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/help?section=projects` }
+      }
+    )
+    // Row 3: FAQ and tips
+    .addRow(
+      {
+        text: 'FAQ',
+        emoji: '❓',
+        action: { type: 'callback', data: 'deeplink_faq' }
+      },
+      {
+        text: 'Советы',
+        emoji: '💡',
+        action: { type: 'callback', data: 'deeplink_tips' }
+      }
+    )
+    // Row 4: Blog and support
+    .addRow(
+      {
+        text: 'Блог',
+        emoji: '📝',
+        action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/blog` }
+      },
+      {
+        text: 'Поддержка',
+        emoji: '💬',
+        action: { type: 'url', url: 'https://t.me/MusicVerseSupport' }
+      }
+    )
+    // Row 5: All commands
+    .addButton({
+      text: 'Все команды бота',
+      emoji: '📋',
+      action: { type: 'callback', data: 'help_commands' }
+    })
+    // Row 6: Back to main
+    .addButton({
+      text: 'Главное меню',
+      emoji: '🏠',
+      action: { type: 'callback', data: 'nav_main' }
+    })
+    .build();
+
+  const result = await sendPhoto(chatId, helpImage, {
+    caption: helpMessage,
+    replyMarkup: keyboard
+  });
+  
+  if (result?.result?.message_id) {
+    await trackMessage(chatId, result.result.message_id, 'menu', 'help', { persistent: true });
+  }
+}
+
+/**
+ * Show full command list
+ */
+export async function handleHelpCommands(chatId: number) {
+  const commandsMessage = buildMessage({
+    title: 'Все команды бота',
+    emoji: '📋',
+    sections: [
+      {
+        title: 'Генерация',
         emoji: '🎵',
         content: [
           '/generate <описание> - Создать трек',
-          '/analyze - Анализ аудио (MIDI, аккорды, BPM)',
-          '/library - Мои треки (последние 5)',
-          '/projects - Мои проекты',
-          '/status - Статус генерации',
-          '/app - Открыть приложение'
+          '/cover - Создать кавер (загрузите аудио)',
+          '/extend - Расширить трек',
+          '/status - Статус генерации'
         ],
         style: 'list'
       },
@@ -31,39 +137,38 @@ export async function handleHelp(chatId: number) {
           '/midi - Конвертация в MIDI',
           '/piano - Фортепианная аранжировка',
           '/guitar - Анализ гитарной партии',
-          '/recognize - Распознать музыку'
+          '/recognize - Распознать музыку (Shazam)'
         ],
         style: 'list'
       },
       {
-        title: 'Загрузка аудио',
-        emoji: '📤',
+        title: 'Библиотека',
+        emoji: '📚',
         content: [
-          '/cover <описание> - Создать кавер',
-          '/extend <описание> - Расширить трек',
-          '/audio - Справка по аудио',
-          '/cancel - Отменить загрузку'
+          '/library - Мои треки',
+          '/projects - Мои проекты',
+          '/uploads - Загруженные файлы'
+        ],
+        style: 'list'
+      },
+      {
+        title: 'Прочее',
+        emoji: '⚙️',
+        content: [
+          '/app - Открыть приложение',
+          '/buy - Купить кредиты',
+          '/help - Эта справка',
+          '/cancel - Отменить операцию'
         ],
         style: 'list'
       },
       {
         title: 'Параметры генерации',
-        emoji: '⚙️',
+        emoji: '🎛️',
         content: [
           '--instrumental - Без вокала',
           '--style="стиль" - Музыкальный стиль',
-          '--model=v5 - Версия модели (v4/v5)'
-        ],
-        style: 'list'
-      },
-      {
-        title: 'Примеры использования',
-        emoji: '💡',
-        content: [
-          '/generate мелодичный поп трек о любви',
-          '/generate энергичный рок с гитарой',
-          '/cover --style="indie rock" мой кавер',
-          '/extend --instrumental продолжение'
+          '--model=v5 - Версия модели'
         ],
         style: 'list'
       }
@@ -73,32 +178,16 @@ export async function handleHelp(chatId: number) {
 
   const keyboard = new ButtonBuilder()
     .addButton({
-      text: 'Открыть полную документацию',
-      emoji: '📖',
-      action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/help` }
+      text: 'Открыть генератор',
+      emoji: '🎵',
+      action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/generate` }
     })
-    .addRow(
-      {
-        text: 'Попробовать генератор',
-        emoji: '🎼',
-        action: { type: 'callback', data: 'nav_generate' }
-      },
-      {
-        text: 'Анализ аудио',
-        emoji: '🔬',
-        action: { type: 'callback', data: 'nav_analyze' }
-      }
-    )
     .addButton({
-      text: 'Главное меню',
-      emoji: '🏠',
-      action: { type: 'callback', data: 'nav_main' }
+      text: 'Назад к справке',
+      emoji: '⬅️',
+      action: { type: 'callback', data: 'nav_help' }
     })
     .build();
 
-  const result = await sendMessage(chatId, helpMessage, keyboard, 'MarkdownV2');
-  
-  if (result?.result?.message_id) {
-    await trackMessage(chatId, result.result.message_id, 'content', 'help', { expiresIn: 300000 }); // 5 minutes
-  }
+  await sendMessage(chatId, commandsMessage, keyboard, 'MarkdownV2');
 }

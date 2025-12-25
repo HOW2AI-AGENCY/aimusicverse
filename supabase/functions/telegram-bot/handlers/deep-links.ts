@@ -27,7 +27,8 @@ export type DeepLinkType =
   | 'onboarding' | 'help' | 'settings' | 'feedback'
   | 'library' | 'projects_list' | 'artists_list' | 'cloud' | 'templates'
   | 'creative' | 'musiclab' | 'drums' | 'dj' | 'guitar' | 'melody'
-  | 'content_hub' | 'analytics' | 'rewards' | 'community' | 'playlists_list';
+  | 'content_hub' | 'analytics' | 'rewards' | 'community' | 'playlists_list'
+  | 'tutorials' | 'guide' | 'faq' | 'getting_started' | 'tips';
 
 interface DeepLinkResult {
   handled: boolean;
@@ -94,6 +95,14 @@ export function parseDeepLink(startParam: string): { type: DeepLinkType | null; 
     'rewards': 'rewards',
     'community': 'community',
     'profile': 'profile',
+    // Tutorials and guides
+    'tutorials': 'tutorials',
+    'guide': 'guide',
+    'faq': 'faq',
+    'getting-started': 'getting_started',
+    'start-guide': 'getting_started',
+    'tips': 'tips',
+    'blog': 'blog',
   };
 
   // Check simple matches first
@@ -1070,6 +1079,208 @@ export async function handleDeepLink(
         await sendMessage(chatId, '🔗 Открываем по ссылке\\.\\.\\.', shareKeyboard, 'MarkdownV2');
         await trackDeepLinkAnalytics('share', value, userId);
         break;
+      
+      // Tutorials and guides
+      case 'tutorials':
+        const tutorialsMessage = buildMessage({
+          title: 'Обучающие материалы',
+          emoji: '📚',
+          description: 'Изучите все возможности MusicVerse AI',
+          sections: [
+            {
+              title: 'Быстрый старт',
+              content: 'Создайте первый трек за 5 минут',
+              emoji: '🚀'
+            },
+            {
+              title: 'Продвинутые техники',
+              content: 'Мастер-классы по созданию музыки',
+              emoji: '🎓'
+            }
+          ]
+        });
+        const tutorialsKb = new ButtonBuilder()
+          .addButton({
+            text: 'Быстрый старт',
+            emoji: '🚀',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/help?section=quickstart` }
+          })
+          .addRow(
+            { text: 'Генерация', emoji: '🎵', action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/help?section=generation` } },
+            { text: 'Анализ', emoji: '🔬', action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/help?section=analysis` } }
+          )
+          .addRow(
+            { text: 'Проекты', emoji: '📁', action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/help?section=projects` } },
+            { text: 'Стемы', emoji: '🎛️', action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/help?section=stems` } }
+          )
+          .addButton({
+            text: 'Читать блог',
+            emoji: '📝',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/blog` }
+          })
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendPhoto(chatId, getMenuImage('help'), {
+          caption: tutorialsMessage,
+          replyMarkup: tutorialsKb
+        });
+        await trackDeepLinkAnalytics('tutorials', '', userId);
+        break;
+      
+      case 'getting_started':
+        const gettingStartedKb = new ButtonBuilder()
+          .addButton({
+            text: 'Начать обучение',
+            emoji: '🎓',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/help?section=quickstart` }
+          })
+          .addButton({
+            text: 'Создать первый трек',
+            emoji: '🎵',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/generate` }
+          })
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendMessage(chatId, '🚀 *Добро пожаловать\\!*\n\nДавайте начнём знакомство с MusicVerse AI\\. Следуйте простым шагам и создайте свой первый трек\\!', gettingStartedKb, 'MarkdownV2');
+        await trackDeepLinkAnalytics('getting_started', '', userId);
+        break;
+      
+      case 'guide':
+        const guideKb = new ButtonBuilder()
+          .addButton({
+            text: 'Открыть справку',
+            emoji: '📖',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/help` }
+          })
+          .addRow(
+            { text: 'Команды бота', emoji: '🤖', action: { type: 'callback', data: 'nav_help' } },
+            { text: 'FAQ', emoji: '❓', action: { type: 'callback', data: 'deeplink_faq' } }
+          )
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendMessage(chatId, '📖 *Руководство пользователя*\n\nПолная документация по всем функциям приложения', guideKb, 'MarkdownV2');
+        await trackDeepLinkAnalytics('guide', '', userId);
+        break;
+      
+      case 'faq':
+        const faqMessage = buildMessage({
+          title: 'Часто задаваемые вопросы',
+          emoji: '❓',
+          sections: [
+            {
+              title: 'Сколько стоит генерация?',
+              content: '1 трек = 10 кредитов. Новым пользователям — 50 кредитов бесплатно!',
+              emoji: '💰'
+            },
+            {
+              title: 'Какие форматы поддерживаются?',
+              content: 'MP3, WAV, OGG для загрузки. Скачивание в MP3.',
+              emoji: '📁'
+            },
+            {
+              title: 'Как создать кавер?',
+              content: 'Загрузите аудио и используйте режим Cover.',
+              emoji: '🎤'
+            }
+          ]
+        });
+        const faqKb = new ButtonBuilder()
+          .addButton({
+            text: 'Полный FAQ',
+            emoji: '📋',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/help?section=faq` }
+          })
+          .addButton({
+            text: 'Написать в поддержку',
+            emoji: '💬',
+            action: { type: 'url', url: 'https://t.me/MusicVerseSupport' }
+          })
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendMessage(chatId, faqMessage, faqKb, 'MarkdownV2');
+        await trackDeepLinkAnalytics('faq', '', userId);
+        break;
+      
+      case 'tips':
+        const tipsMessage = buildMessage({
+          title: 'Советы по генерации',
+          emoji: '💡',
+          sections: [
+            {
+              title: 'Детальное описание',
+              content: 'Чем подробнее промпт, тем лучше результат',
+              emoji: '📝'
+            },
+            {
+              title: 'Указывайте жанр',
+              content: 'pop, rock, electronic, jazz, hip-hop...',
+              emoji: '🎸'
+            },
+            {
+              title: 'Добавляйте настроение',
+              content: 'energetic, melancholic, uplifting, dark...',
+              emoji: '🌈'
+            },
+            {
+              title: 'Используйте референсы',
+              content: 'Загрузите похожий трек для лучшего результата',
+              emoji: '🎵'
+            }
+          ]
+        });
+        const tipsKb = new ButtonBuilder()
+          .addButton({
+            text: 'Попробовать генератор',
+            emoji: '🎵',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/generate` }
+          })
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendMessage(chatId, tipsMessage, tipsKb, 'MarkdownV2');
+        await trackDeepLinkAnalytics('tips', '', userId);
+        break;
+      
+      case 'blog':
+        const blogKb = new ButtonBuilder()
+          .addButton({
+            text: 'Читать блог',
+            emoji: '📝',
+            action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/blog` }
+          })
+          .addRow(
+            { text: 'Новости', emoji: '📰', action: { type: 'callback', data: 'nav_news' } },
+            { text: 'Канал', emoji: '📢', action: { type: 'url', url: 'https://t.me/MusicVerseAI' } }
+          )
+          .addButton({
+            text: 'Главное меню',
+            emoji: '🏠',
+            action: { type: 'callback', data: 'nav_main' }
+          })
+          .build();
+        await sendMessage(chatId, '📝 *Блог MusicVerse*\n\nСтатьи, новости и руководства по созданию музыки с AI', blogKb, 'MarkdownV2');
+        await trackDeepLinkAnalytics('blog', '', userId);
+        break;
+      
       default:
         return { handled: false };
     }
