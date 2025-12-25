@@ -12,6 +12,7 @@ import { StudioTrackRow } from './StudioTrackRow';
 import { StudioPendingTrackRow } from './StudioPendingTrackRow';
 import { StudioWaveformTimeline } from './StudioWaveformTimeline';
 import { StudioMixerPanel } from './StudioMixerPanel';
+import { ExportMixDialog } from './ExportMixDialog';
 import { useStudioAudioEngine, AudioTrack } from '@/hooks/studio/useStudioAudioEngine';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -96,6 +97,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
   const [showAddTrackDialog, setShowAddTrackDialog] = useState(false);
   const [showMixerSheet, setShowMixerSheet] = useState(false);
+  const [showExportDialog, setShowExportDialog] = useState(false);
 
   // Convert store tracks to AudioTrack format for engine
   const audioTracks = useMemo((): AudioTrack[] => {
@@ -186,7 +188,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
   // Handle export
   const handleExport = useCallback(() => {
-    toast.info('Экспорт пока недоступен');
+    setShowExportDialog(true);
   }, []);
 
   // Handle back
@@ -566,6 +568,19 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         open={showAddTrackDialog}
         onOpenChange={setShowAddTrackDialog}
         onAdd={handleAddTrack}
+      />
+
+      {/* Export Mix Dialog */}
+      <ExportMixDialog
+        open={showExportDialog}
+        onOpenChange={setShowExportDialog}
+        tracks={audioTracks.map(t => ({
+          url: t.audioUrl || '',
+          volume: t.volume,
+          muted: t.muted
+        }))}
+        masterVolume={project.masterVolume}
+        trackTitle={project.name}
       />
     </div>
   );
