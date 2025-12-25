@@ -126,7 +126,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   selectedTrackId,
 }: VirtualizedTrackListProps) {
   const loadingRef = useRef(false);
-  const safetyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const safetyTimeoutRef = useRef<number | null>(null);
   
   // Cleanup timeouts on unmount
   useEffect(() => {
