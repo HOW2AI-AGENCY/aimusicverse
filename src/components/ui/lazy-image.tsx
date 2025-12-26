@@ -1,23 +1,74 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect, memo } from "react";
 import { cn } from "@/lib/utils";
+import { getOptimizedImageUrl, getTrackCoverUrl } from "@/lib/imageOptimization";
 
 interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   alt: string;
   fallback?: React.ReactNode;
   containerClassName?: string;
+  /** Optimize for track cover sizes */
+  coverSize?: 'small' | 'medium' | 'large';
+  /** Priority loading (above the fold) */
+  priority?: boolean;
 }
 
-export function LazyImage({
+export const LazyImage = memo(function LazyImage({
   src,
   alt,
   className,
   containerClassName,
   fallback,
+  coverSize,
+  priority = false,
   ...props
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const [shouldLoad, setShouldLoad] = useState(priority);
+
+  // Get optimized URL
+  const optimizedSrc = coverSize 
+    ? getTrackCoverUrl(src, coverSize)
+    : getOptimizedImageUrl(src, { quality: 80 });
+
+  // Intersection observer for lazy loading
+  useEffect(() => {
+    if (priority || shouldLoad) return;
+    
+    const element = imgRef.current;
+    if (!element) return;
+
+    // Check if already in viewport
+    if (typeof IntersectionObserver === 'undefined') {
+      setShouldLoad(true);
+      return;
+    }
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setShouldLoad(true);
+          observerRef.current?.disconnect();
+        }
+      },
+      { rootMargin: '200px' } // Start loading 200px before entering viewport
+    );
+
+    observerRef.current.observe(element);
+
+    return () => {
+      observerRef.current?.disconnect();
+    };
+  }, [priority, shouldLoad]);
+
+  // Reset state when src changes
+  useEffect(() => {
+    setIsLoaded(false);
+    setHasError(false);
+  }, [src]);
 
   const handleLoad = useCallback(() => {
     setIsLoaded(true);
@@ -39,33 +90,37 @@ export function LazyImage({
 
   return (
     <div className={cn("relative overflow-hidden", containerClassName)}>
-      {/* Placeholder with blur */}
-      <div
-        className={cn(
-          "absolute inset-0 bg-gradient-to-br from-muted to-muted/50",
-          "transition-opacity duration-500 ease-out",
-          isLoaded ? "opacity-0" : "opacity-100"
-        )}
-      >
-        {/* Animated shimmer effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/5 to-transparent animate-shimmer" />
-      </div>
+      {/* Placeholder with shimmer - only show while loading */}
+      {!isLoaded && (
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-muted to-muted/50"
+        >
+          {/* Animated shimmer effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/5 to-transparent animate-shimmer" />
+        </div>
+      )}
 
       {/* Actual image */}
       <img
-        src={src}
+        ref={imgRef}
+        src={shouldLoad ? optimizedSrc : undefined}
+        data-src={optimizedSrc}
         alt={alt}
-        loading="lazy"
+        loading={priority ? "eager" : "lazy"}
         decoding="async"
+        fetchPriority={priority ? "high" : "auto"}
         onLoad={handleLoad}
         onError={handleError}
         className={cn(
-          "transition-all duration-500 ease-out",
-          isLoaded ? "opacity-100 scale-100 blur-0" : "opacity-0 scale-105 blur-sm",
+          "transition-opacity duration-300 ease-out",
+          isLoaded ? "opacity-100" : "opacity-0",
           className
         )}
         {...props}
       />
     </div>
   );
-}
+});
+
+// Re-export for backwards compatibility
+export { LazyImage as default };

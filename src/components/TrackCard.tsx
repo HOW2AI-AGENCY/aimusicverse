@@ -308,6 +308,7 @@ export const TrackCard = memo(({
             alt={track.title || 'Track cover'}
             className="w-full h-full object-cover"
             containerClassName="w-full h-full"
+            coverSize="small"
             fallback={
               <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary/30">
                 🎵
@@ -474,6 +475,7 @@ export const TrackCard = memo(({
               // 📱 Mobile: без hover-эффектов (лучше производительность)
             )}
             containerClassName="w-full h-full"
+            coverSize="medium"
             onClick={(e) => {
               e.stopPropagation();
               onPlay?.();
