@@ -310,11 +310,67 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     );
   }, [project?.tracks]);
 
-  // Realtime subscription for project updates (e.g., when instrumental generation completes)
+  // Realtime subscription for generation tasks (when instrumental generation completes)
   useEffect(() => {
     if (!project?.id) return;
 
-    const channel = supabase
+    // Get all pending task IDs
+    const pendingTasks = project.tracks
+      .filter(t => t.status === 'pending' && t.taskId)
+      .map(t => ({ trackId: t.id, taskId: t.taskId! }));
+
+    if (pendingTasks.length === 0) return;
+
+    logger.info('Subscribing to pending tasks', { count: pendingTasks.length });
+
+    // Subscribe to generation_tasks table for each pending task
+    const channels = pendingTasks.map(({ trackId, taskId }) => {
+      return supabase
+        .channel(`task-complete-${taskId}`)
+        .on('postgres_changes', {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'generation_tasks',
+          filter: `suno_task_id=eq.${taskId}`,
+        }, async (payload) => {
+          const newData = payload.new as any;
+          logger.info('Task update received in StudioShell', { 
+            taskId, 
+            status: newData.status, 
+            clips: newData.audio_clips 
+          });
+
+          if (newData.status === 'completed' && newData.audio_clips) {
+            // Parse audio clips and resolve the pending track
+            try {
+              const clips = typeof newData.audio_clips === 'string' 
+                ? JSON.parse(newData.audio_clips) 
+                : newData.audio_clips;
+              
+              if (Array.isArray(clips) && clips.length > 0) {
+                const versions = clips.map((clip: any, idx: number) => ({
+                  label: String.fromCharCode(65 + idx), // A, B, C...
+                  audioUrl: clip.audio_url,
+                  duration: clip.duration_seconds || 180,
+                }));
+
+                resolvePendingTrack(taskId, versions);
+                toast.success('Инструментал готов! 🎸', {
+                  description: versions.length > 1 ? 'Выберите версию A или B' : 'Трек добавлен'
+                });
+              }
+            } catch (err) {
+              logger.error('Failed to parse audio clips', err);
+            }
+          } else if (newData.status === 'failed') {
+            toast.error('Ошибка генерации инструментала');
+          }
+        })
+        .subscribe();
+    });
+
+    // Also subscribe to studio_projects for full project updates
+    const projectChannel = supabase
       .channel(`studio-project-${project.id}`)
       .on('postgres_changes', {
         event: 'UPDATE',
@@ -334,18 +390,16 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           if (resolvedTracks.length > 0) {
             // Reload project to get updated tracks
             await loadProject(project.id);
-            toast.success('Инструментал готов! 🎸', {
-              description: `${resolvedTracks.length > 1 ? 'Выберите версии' : 'Выберите версию A или B'}`
-            });
           }
         }
       })
       .subscribe();
 
     return () => {
-      supabase.removeChannel(channel);
+      channels.forEach(ch => supabase.removeChannel(ch));
+      supabase.removeChannel(projectChannel);
     };
-  }, [project?.id, loadProject, pendingTrackIds]);
+  }, [project?.id, project?.tracks, loadProject, pendingTrackIds, resolvePendingTrack]);
 
   if (isLoading) {
     return (
@@ -366,8 +420,18 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     );
   }
 
+  // Calculate Telegram safe area padding
+  const telegramSafeAreaTop = 'calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)))';
+  const telegramSafeAreaBottom = 'calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)))';
+
   return (
-    <div className={cn('flex flex-col h-screen bg-background', className)}>
+    <div 
+      className={cn('flex flex-col h-screen bg-background overflow-x-hidden', className)}
+      style={{
+        paddingTop: telegramSafeAreaTop,
+        paddingBottom: telegramSafeAreaBottom,
+      }}
+    >
       {/* Header */}
       <header className="flex items-center justify-between gap-2 px-3 py-2 border-b border-border/50 bg-card/50 backdrop-blur-sm shrink-0">
         {/* Left: Back + Title */}
@@ -507,90 +571,94 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
       />
 
       {/* Transport Controls */}
-      <div className="flex items-center gap-3 px-4 py-2 border-b border-border/50 bg-card/50 shrink-0">
+      <div className="flex items-center gap-2 px-3 py-2 border-b border-border/50 bg-card/50 shrink-0 overflow-hidden">
         {/* Play Controls */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-0.5 shrink-0">
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8"
+            className="h-7 w-7 md:h-8 md:w-8"
             onClick={() => handleSeek(0)}
           >
-            <SkipBack className="h-4 w-4" />
+            <SkipBack className="h-3.5 w-3.5 md:h-4 md:w-4" />
           </Button>
 
           <Button
             variant="default"
             size="icon"
-            className="h-10 w-10 rounded-full"
+            className="h-9 w-9 md:h-10 md:w-10 rounded-full"
             onClick={handlePlayPause}
           >
             {isPlaying ? (
-              <Pause className="h-5 w-5" />
+              <Pause className="h-4 w-4 md:h-5 md:w-5" />
             ) : (
-              <Play className="h-5 w-5 ml-0.5" />
+              <Play className="h-4 w-4 md:h-5 md:w-5 ml-0.5" />
             )}
           </Button>
 
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8"
+            className="h-7 w-7 md:h-8 md:w-8"
             onClick={() => handleSeek(duration)}
           >
-            <SkipForward className="h-4 w-4" />
+            <SkipForward className="h-3.5 w-3.5 md:h-4 md:w-4" />
           </Button>
         </div>
 
         {/* Time Display */}
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-mono font-medium">
+        <div className="flex items-center gap-1 shrink-0">
+          <span className="text-xs md:text-sm font-mono font-medium">
             {formatTime(currentTime)}
           </span>
-          <span className="text-muted-foreground">/</span>
-          <span className="text-sm font-mono text-muted-foreground">
+          <span className="text-muted-foreground text-xs">/</span>
+          <span className="text-xs md:text-sm font-mono text-muted-foreground">
             {formatTime(duration)}
           </span>
         </div>
 
         {/* Spacer */}
-        <div className="flex-1" />
+        <div className="flex-1 min-w-0" />
 
-        {/* Master Volume */}
-        <div className="flex items-center gap-2">
+        {/* Master Volume - hide slider on mobile */}
+        <div className="flex items-center gap-1 shrink-0">
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8"
+            className="h-7 w-7 md:h-8 md:w-8"
             onClick={() => setMasterVolume(project.masterVolume === 0 ? 0.85 : 0)}
           >
             {project.masterVolume === 0 ? (
-              <VolumeX className="h-4 w-4" />
+              <VolumeX className="h-3.5 w-3.5 md:h-4 md:w-4" />
             ) : (
-              <Volume2 className="h-4 w-4" />
+              <Volume2 className="h-3.5 w-3.5 md:h-4 md:w-4" />
             )}
           </Button>
-          <Slider
-            value={[project.masterVolume]}
-            max={1}
-            step={0.01}
-            onValueChange={(v) => setMasterVolume(v[0])}
-            className="w-24"
-          />
-          <span className="text-xs font-mono text-muted-foreground w-8">
-            {Math.round(project.masterVolume * 100)}
-          </span>
+          {!isMobile && (
+            <>
+              <Slider
+                value={[project.masterVolume]}
+                max={1}
+                step={0.01}
+                onValueChange={(v) => setMasterVolume(v[0])}
+                className="w-20"
+              />
+              <span className="text-xs font-mono text-muted-foreground w-6">
+                {Math.round(project.masterVolume * 100)}
+              </span>
+            </>
+          )}
         </div>
 
-        {/* Add Track */}
+        {/* Add Track - icon only on mobile */}
         <Button
           variant="outline"
-          size="sm"
+          size="icon"
           onClick={() => setShowAddTrackDialog(true)}
-          className="gap-1"
+          className="h-7 w-7 md:h-8 md:w-auto md:px-3 shrink-0"
         >
-          <Plus className="h-4 w-4" />
-          <span className="hidden sm:inline">Дорожка</span>
+          <Plus className="h-3.5 w-3.5 md:h-4 md:w-4" />
+          <span className="hidden md:inline ml-1">Дорожка</span>
         </Button>
       </div>
 
