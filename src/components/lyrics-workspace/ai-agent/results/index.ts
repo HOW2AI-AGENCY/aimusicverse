@@ -7,3 +7,8 @@ export { FullAnalysisResultCard } from './FullAnalysisResultCard';
 export { ProducerResultCard } from './ProducerResultCard';
 export { StructuredLyricsPreview } from './StructuredLyricsPreview';
 export { StructuredLyricsDisplay } from './StructuredLyricsDisplay';
+// Phase 2 result cards
+export { HookResultCard } from './HookResultCard';
+export { VocalMapResultCard } from './VocalMapResultCard';
+export { ParaphraseResultCard } from './ParaphraseResultCard';
+export { TranslateResultCard } from './TranslateResultCard';

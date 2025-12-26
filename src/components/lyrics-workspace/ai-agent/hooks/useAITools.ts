@@ -187,11 +187,44 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
         if (lyricsContent) {
           responseData.lyrics = lyricsContent;
           responseType = 'lyrics';
-          // Auto-apply only for write/optimize tools
-          if (toolId === 'write' || toolId === 'optimize') {
+          // Auto-apply only for write/optimize/style_convert/translate tools
+          if (toolId === 'write' || toolId === 'optimize' || toolId === 'style_convert' || toolId === 'translate') {
             onLyricsGenerated?.(lyricsContent);
           }
         }
+      }
+      // Handle hooks response (Phase 2)
+      else if (data.currentHooks || data.suggestedHooks || data.hookScore !== undefined) {
+        responseData.hooks = {
+          currentHooks: data.currentHooks,
+          suggestedHooks: data.suggestedHooks,
+          hookScore: data.hookScore,
+          recommendations: data.recommendations,
+        };
+        responseType = 'hooks';
+      }
+      // Handle vocal map response (Phase 2)
+      else if (data.sections && toolId === 'vocal_map') {
+        responseData.vocalMap = data.sections;
+        responseType = 'vocal_map';
+      }
+      // Handle paraphrase response (Phase 2)
+      else if (data.variants && toolId === 'paraphrase') {
+        responseData.paraphraseVariants = data.variants;
+        responseType = 'paraphrase';
+      }
+      // Handle translation response (Phase 2)
+      else if (data.translatedLyrics) {
+        responseData.translation = {
+          translatedLyrics: data.translatedLyrics,
+          sourceLanguage: data.sourceLanguage,
+          targetLanguage: data.targetLanguage,
+          adaptationNotes: data.adaptationNotes,
+          syllablePreserved: data.syllablePreserved,
+        };
+        responseType = 'translation';
+        // Also store lyrics for apply button
+        responseData.lyrics = data.translatedLyrics;
       }
 
       // Handle tags
