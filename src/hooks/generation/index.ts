@@ -9,6 +9,8 @@ export type { GenerateFormState, UseGenerateFormProps } from './useGenerateForm'
 export { useGenerateDraft } from './useGenerateDraft';
 export { useActiveGenerations } from './useActiveGenerations';
 export { useSyncStaleTasks } from './useSyncStaleTasks';
+export { useAddVocalsProgress } from './useAddVocalsProgress';
+export type { AddVocalsStatus, AddVocalsProgressState } from './useAddVocalsProgress';
 
 // Unified audio reference hook
 export { useAudioReference } from '../useAudioReference';

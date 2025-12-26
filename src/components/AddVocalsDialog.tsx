@@ -11,6 +11,8 @@ import { logger } from '@/lib/logger';
 import { InlineLyricsEditor } from '@/components/common/InlineLyricsEditor';
 import { GenerationAdvancedSettings, GenerationSettings } from '@/components/common/GenerationAdvancedSettings';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useAddVocalsProgress } from '@/hooks/generation/useAddVocalsProgress';
+import { AddVocalsProgressDialog } from '@/components/AddVocalsProgressDialog';
 
 interface AddVocalsDialogProps {
   open: boolean;
@@ -24,6 +26,10 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
   const [title, setTitle] = useState('');
   const [negativeTags, setNegativeTags] = useState('instrumental only, low quality, distorted');
   const [loading, setLoading] = useState(false);
+  const [showProgress, setShowProgress] = useState(false);
+  
+  // Progress tracking hook
+  const progress = useAddVocalsProgress();
   
   // Advanced settings
   const [advancedSettings, setAdvancedSettings] = useState<GenerationSettings>({
@@ -46,6 +52,8 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
     }
 
     setLoading(true);
+    progress.setSubmitting();
+    
     try {
       const effectiveTitle = title.trim() || track.title || 'Трек с вокалом';
       const effectiveStyle = style.trim() || 'pop, vocals';
@@ -72,15 +80,33 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
 
       if (error) throw error;
 
-      toast.success('Добавление вокала началось! 🎤', {
-        description: 'Новый трек появится в библиотеке через 1-3 минуты',
-      });
+      // Extract task and track IDs from response
+      const taskId = data?.taskId || data?.task?.id;
+      const newTrackId = data?.trackId || data?.track?.id;
 
-      onOpenChange(false);
+      if (taskId && newTrackId) {
+        // Start tracking progress
+        progress.startTracking(taskId, newTrackId);
+        
+        // Close main dialog, show progress dialog
+        onOpenChange(false);
+        setShowProgress(true);
+        
+        toast.success('Добавление вокала началось! 🎤', {
+          description: 'Следите за прогрессом в окне',
+        });
+      } else {
+        // Fallback if no IDs returned (legacy behavior)
+        toast.success('Добавление вокала началось! 🎤', {
+          description: 'Новый трек появится в библиотеке через 1-3 минуты',
+        });
+        onOpenChange(false);
+      }
     } catch (error) {
       logger.error('Add vocals error', { error });
       const errorMessage = error instanceof Error ? error.message : 'Ошибка добавления вокала';
       toast.error(errorMessage);
+      progress.setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -90,108 +116,125 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
     setStyle(newStyle);
   };
 
+  const handleProgressClose = () => {
+    setShowProgress(false);
+    if (progress.isCompleted || progress.isError) {
+      progress.reset();
+    }
+  };
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Mic2 className="w-5 h-5" />
-            Добавить вокал
-          </DialogTitle>
-        </DialogHeader>
+    <>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Mic2 className="w-5 h-5" />
+              Добавить вокал
+            </DialogTitle>
+          </DialogHeader>
 
-        <div className="space-y-4">
-          {/* Info block */}
-          <div className="p-3 bg-muted rounded-lg">
-            <p className="text-sm">
-              <Mic2 className="w-4 h-4 inline mr-2" />
-              Инструментальный трек: <span className="font-semibold">{track.title || 'Без названия'}</span>
-            </p>
-          </div>
+          <div className="space-y-4">
+            {/* Info block */}
+            <div className="p-3 bg-muted rounded-lg">
+              <p className="text-sm">
+                <Mic2 className="w-4 h-4 inline mr-2" />
+                Инструментальный трек: <span className="font-semibold">{track.title || 'Без названия'}</span>
+              </p>
+            </div>
 
-          {/* Alert about lyrics */}
-          <Alert>
-            <Info className="w-4 h-4" />
-            <AlertDescription className="text-xs">
-              Введите текст песни, который AI будет петь. Используйте теги [Verse], [Chorus], [Bridge] для структуры.
-            </AlertDescription>
-          </Alert>
+            {/* Alert about lyrics */}
+            <Alert>
+              <Info className="w-4 h-4" />
+              <AlertDescription className="text-xs">
+                Введите текст песни, который AI будет петь. Используйте теги [Verse], [Chorus], [Bridge] для структуры.
+              </AlertDescription>
+            </Alert>
 
-          {/* Lyrics editor with inline AI panel */}
-          <div>
-            <Label className="mb-2 block">Текст песни (Lyrics) *</Label>
-            <InlineLyricsEditor
-              value={lyrics}
-              onChange={setLyrics}
-              onStyleChange={handleStyleChange}
-              minRows={10}
+            {/* Lyrics editor with inline AI panel */}
+            <div>
+              <Label className="mb-2 block">Текст песни (Lyrics) *</Label>
+              <InlineLyricsEditor
+                value={lyrics}
+                onChange={setLyrics}
+                onStyleChange={handleStyleChange}
+                minRows={10}
+              />
+            </div>
+
+            {/* Style */}
+            <div>
+              <Label htmlFor="style">Стиль вокала</Label>
+              <Input
+                id="style"
+                value={style}
+                onChange={(e) => setStyle(e.target.value)}
+                placeholder="pop, powerful vocals, energetic"
+                className="mt-2"
+              />
+            </div>
+
+            {/* Negative tags */}
+            <div>
+              <Label htmlFor="negativeTags">Исключить</Label>
+              <Input
+                id="negativeTags"
+                value={negativeTags}
+                onChange={(e) => setNegativeTags(e.target.value)}
+                placeholder="instrumental only, low quality"
+                className="mt-2"
+              />
+            </div>
+
+            {/* Title */}
+            <div>
+              <Label htmlFor="title">Название трека</Label>
+              <Input
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Мой новый трек с вокалом"
+                className="mt-2"
+              />
+            </div>
+
+            {/* Advanced Settings */}
+            <GenerationAdvancedSettings
+              settings={advancedSettings}
+              onChange={setAdvancedSettings}
+              showVocalGender={true}
+              vocalGenderLabel="Пол вокала"
             />
-          </div>
 
-          {/* Style */}
-          <div>
-            <Label htmlFor="style">Стиль вокала</Label>
-            <Input
-              id="style"
-              value={style}
-              onChange={(e) => setStyle(e.target.value)}
-              placeholder="pop, powerful vocals, energetic"
-              className="mt-2"
-            />
+            <div className="flex gap-2 justify-end pt-4">
+              <Button variant="outline" onClick={() => onOpenChange(false)}>
+                Отмена
+              </Button>
+              <Button 
+                onClick={handleSubmit} 
+                disabled={loading || !track.audio_url || !lyrics.trim()}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Обработка...
+                  </>
+                ) : (
+                  'Добавить вокал'
+                )}
+              </Button>
+            </div>
           </div>
+        </DialogContent>
+      </Dialog>
 
-          {/* Negative tags */}
-          <div>
-            <Label htmlFor="negativeTags">Исключить</Label>
-            <Input
-              id="negativeTags"
-              value={negativeTags}
-              onChange={(e) => setNegativeTags(e.target.value)}
-              placeholder="instrumental only, low quality"
-              className="mt-2"
-            />
-          </div>
-
-          {/* Title */}
-          <div>
-            <Label htmlFor="title">Название трека</Label>
-            <Input
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Мой новый трек с вокалом"
-              className="mt-2"
-            />
-          </div>
-
-          {/* Advanced Settings */}
-          <GenerationAdvancedSettings
-            settings={advancedSettings}
-            onChange={setAdvancedSettings}
-            showVocalGender={true}
-            vocalGenderLabel="Пол вокала"
-          />
-
-          <div className="flex gap-2 justify-end pt-4">
-            <Button variant="outline" onClick={() => onOpenChange(false)}>
-              Отмена
-            </Button>
-            <Button 
-              onClick={handleSubmit} 
-              disabled={loading || !track.audio_url || !lyrics.trim()}
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Обработка...
-                </>
-              ) : (
-                'Добавить вокал'
-              )}
-            </Button>
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+      {/* Progress dialog */}
+      <AddVocalsProgressDialog
+        open={showProgress}
+        onClose={handleProgressClose}
+        state={progress}
+        onReset={progress.reset}
+      />
+    </>
   );
 };
