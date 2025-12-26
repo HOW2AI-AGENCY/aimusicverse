@@ -14,7 +14,13 @@ export type AIToolId =
   | 'tags'
   | 'continue'
   | 'structure'
-  | 'rhythm';
+  | 'rhythm'
+  // Phase 2 tools
+  | 'style_convert'
+  | 'paraphrase'
+  | 'hook_generator'
+  | 'vocal_map'
+  | 'translate';
 
 export type BackendAction = 
   | 'generate'
@@ -34,7 +40,13 @@ export type BackendAction =
   | 'fit_structure'
   | 'full_analysis'
   | 'deep_analysis'
-  | 'producer_review';
+  | 'producer_review'
+  // Phase 2 actions
+  | 'style_convert'
+  | 'paraphrase'
+  | 'hook_generator'
+  | 'vocal_map'
+  | 'translate_adapt';
 
 export type OutputType = 'lyrics' | 'tags' | 'rhymes' | 'analysis' | 'suggestions' | 'text' | 'full_analysis' | 'expanded_analysis' | 'producer_review';
 
