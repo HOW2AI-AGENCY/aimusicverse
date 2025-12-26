@@ -300,6 +300,16 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handlePlayPause, undo, redo]);
 
+  // Track pending track IDs to detect when they become ready
+  const pendingTrackIds = useMemo(() => {
+    if (!project) return new Set<string>();
+    return new Set(
+      project.tracks
+        .filter(t => t.status === 'pending')
+        .map(t => t.id)
+    );
+  }, [project?.tracks]);
+
   // Realtime subscription for project updates (e.g., when instrumental generation completes)
   useEffect(() => {
     if (!project?.id) return;
@@ -311,20 +321,31 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         schema: 'public',
         table: 'studio_projects',
         filter: `id=eq.${project.id}`,
-      }, (payload) => {
+      }, async (payload) => {
         logger.info('Studio project updated via realtime', { projectId: project.id });
-        // Reload project to get updated tracks
-        loadProject(project.id);
-        toast.success('Инструментал готов! 🎸', {
-          description: 'Выберите версию A или B'
-        });
+        
+        // Check if any pending track became ready
+        const newTracks = (payload.new as any)?.tracks as StudioTrack[] | undefined;
+        if (newTracks) {
+          const resolvedTracks = newTracks.filter(t => 
+            t.status === 'ready' && pendingTrackIds.has(t.id)
+          );
+          
+          if (resolvedTracks.length > 0) {
+            // Reload project to get updated tracks
+            await loadProject(project.id);
+            toast.success('Инструментал готов! 🎸', {
+              description: `${resolvedTracks.length > 1 ? 'Выберите версии' : 'Выберите версию A или B'}`
+            });
+          }
+        }
       })
       .subscribe();
 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [project?.id, loadProject]);
+  }, [project?.id, loadProject, pendingTrackIds]);
 
   if (isLoading) {
     return (

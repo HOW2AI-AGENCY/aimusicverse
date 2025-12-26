@@ -46,13 +46,18 @@ export const StudioPendingTrackRow = memo(function StudioPendingTrackRow({
 
   // Subscribe to realtime updates for the generation task
   useEffect(() => {
-    if (!track.taskId) return;
+    if (!track.taskId) {
+      // No taskId yet, start at 5% and animate slowly
+      setAnimatedProgress(5);
+      return;
+    }
 
     const taskId = track.taskId;
 
-    // Initial fetch of task status
+    // Initial fetch of task status - try both suno_task_id and by taskId patterns
     const fetchTaskStatus = async () => {
-      const { data } = await supabase
+      // First try by suno_task_id
+      let { data } = await supabase
         .from('generation_tasks')
         .select('status, received_clips, expected_clips')
         .eq('suno_task_id', taskId)
