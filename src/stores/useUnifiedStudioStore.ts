@@ -262,8 +262,12 @@ export const useUnifiedStudioStore = create<UnifiedStudioState>()(
             const projectId = generateId();
             const tracks: StudioTrack[] = [];
 
-            // Add source track if provided
-            if (params.sourceAudioUrl) {
+            // Check if we have explicit tracks passed (like from AudioRecordDialog)
+            const hasExplicitTracks = params.tracks && params.tracks.length > 0;
+
+            // Add source track as Main Track ONLY if no explicit tracks provided
+            // This prevents duplicate tracks (Main + Vocal with same audio)
+            if (params.sourceAudioUrl && !hasExplicitTracks) {
               tracks.push({
                 id: generateId(),
                 name: 'Main Track',
@@ -290,7 +294,7 @@ export const useUnifiedStudioStore = create<UnifiedStudioState>()(
               tracks[0].clips[0].trackId = tracks[0].id;
             }
 
-            // Add additional tracks
+            // Add additional tracks (takes priority over auto-generated Main Track)
             if (params.tracks) {
               for (const track of params.tracks) {
                 const trackId = generateId();
