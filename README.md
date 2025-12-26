@@ -25,7 +25,7 @@
   <img src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=flat-square&logo=telegram" alt="Telegram" />
   <img src="https://img.shields.io/badge/Lovable_Cloud-Backend-8B5CF6?style=flat-square" alt="Lovable Cloud" />
   <img src="https://img.shields.io/badge/Suno_AI-v5-e74c3c?style=flat-square" alt="Suno AI" />
-  <img src="https://img.shields.io/badge/Sprint-026-green?style=flat-square" alt="Current Sprint" />
+  <img src="https://img.shields.io/badge/Sprint-027-green?style=flat-square" alt="Current Sprint" />
 </p>
 
 </div>
@@ -48,7 +48,7 @@
 
 > 💡 **Навигация:** См. [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) для полной карты документации
 > 
-> 🎯 **Текущий статус:** Sprint 026 (UX Unification) - ✅ Complete  
+> 🎯 **Текущий статус:** Sprint 027 (AI Lyrics Agent Tools) - 🔄 In Progress  
 > 📊 **Статус спринтов:** [SPRINT_STATUS.md](SPRINT_STATUS.md) | **Статус проекта:** [PROJECT_STATUS.md](PROJECT_STATUS.md)
 >
 > 📚 **Ключевая документация:**
@@ -66,6 +66,7 @@
 - **A/B версии** — каждая генерация создаёт 2 варианта
 - **Streaming preview** — предпрослушивание во время генерации
 - **Custom режим** — полный контроль над lyrics и стилем
+- **AI Lyrics Agent** — 10+ инструментов для работы с текстами (NEW)
 - **AI Lyrics Chat** — чат-ассистент для написания текстов
 - **Голосовой ввод** — диктовка описания через Whisper API
 - **Авто-сохранение** — черновики формы сохраняются 30 минут

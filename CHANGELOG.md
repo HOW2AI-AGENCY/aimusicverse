@@ -7,6 +7,19 @@
 
 ## [Unreleased]
 
+### Добавлено - 2025-12-26
+- **AI Lyrics Agent Tools**: 10+ новых инструментов для работы с текстами
+  - `continue` — продолжение текста в выбранном стиле (natural, dramatic, contrast, climax)
+  - `structure` — перестроение текста по шаблону (verse-chorus, full-song, hip-hop)
+  - `rhythm` — анализ слогов, ударений и ритмических паттернов
+  - `style_convert` — конвертация в другой стиль/жанр/артиста
+  - `paraphrase` — перефразирование с разными тонами (поэтичный, простой, агрессивный)
+  - `hook_generator` — анализ хуков и генерация новых вариантов
+  - `vocal_map` — карта вокальной продакшн по секциям
+  - `translate` — адаптивный перевод с сохранением ритма и слогов
+- **Новые result-компоненты**: HookResultCard, VocalMapResultCard, ParaphraseResultCard, TranslateResultCard
+- **Расширен ai-lyrics-assistant edge function**: новые экшены для Phase 2 инструментов
+
 ### Добавлено - 2025-12-12
 - **Comprehensive Project Audit**: Полный аудит состояния проекта
   - Build health: 100/100 (43.52s, оптимизировано)
