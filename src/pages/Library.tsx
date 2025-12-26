@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { Input } from "@/components/ui/input";
-import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle, Library as LibraryIcon } from "lucide-react";
+import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle, Library as LibraryIcon, Sparkles } from "lucide-react";
 import { motion } from "@/lib/motion";
 import { useTracks, type Track } from "@/hooks/useTracks";
 import { Button } from "@/components/ui/button";
@@ -33,6 +33,8 @@ import { AddVocalsDialog } from "@/components/AddVocalsDialog";
 import { AddInstrumentalDialog } from "@/components/AddInstrumentalDialog";
 import { ExtendTrackDialog } from "@/components/ExtendTrackDialog";
 import { AudioCoverDialog } from "@/components/AudioCoverDialog";
+import { DesktopLibrarySidebar } from "@/components/library/DesktopLibrarySidebar";
+import { DesktopLibraryLayout } from "@/components/library/DesktopLibraryLayout";
 
 const log = logger.child({ module: 'Library' });
 
@@ -70,13 +72,15 @@ export default function Library() {
   const [selectedTrackForDetail, setSelectedTrackForDetail] = useState<Track | null>(null);
   const deepLinkProcessedRef = useRef(false);
   
+  // Desktop sidebar state
+  const [generateSidebarCollapsed, setGenerateSidebarCollapsed] = useState(false);
+  
   // State for deep link action dialogs
   const [deepLinkDialogTrack, setDeepLinkDialogTrack] = useState<Track | null>(null);
   const [deepLinkDialogType, setDeepLinkDialogType] = useState<'add_vocals' | 'add_instrumental' | 'extend' | 'cover' | null>(null);
   
   // Mobile defaults to list view, desktop to grid
   const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
-    // Check if we're on mobile by checking window width (SSR-safe)
     if (typeof window !== 'undefined') {
       return window.innerWidth < 768 ? "list" : "grid";
     }
@@ -312,7 +316,17 @@ export default function Library() {
   return (
     <ErrorBoundaryWrapper>
       <SEOHead {...SEO_PRESETS.library} />
-      <div className="min-h-screen pb-20">
+      <div className="min-h-screen pb-20 flex">
+        {/* Desktop Generate Sidebar */}
+        {!isMobile && (
+          <DesktopLibrarySidebar
+            isCollapsed={generateSidebarCollapsed}
+            onToggleCollapse={() => setGenerateSidebarCollapsed(!generateSidebarCollapsed)}
+          />
+        )}
+        
+        {/* Main Content */}
+        <div className="flex-1 min-w-0">
         {/* Unified Header with centered logo */}
         <AppHeader
           title="Библиотека"
@@ -468,6 +482,7 @@ export default function Library() {
               )}
             </>
           )}
+        </div>
         </div>
       </div>
       
