@@ -8,6 +8,8 @@ import { Plus, Music2, Clock, Layers, MoreVertical, Trash2 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useStudioProject } from '@/hooks/studio/useStudioProject';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { getTelegramHeaderPaddingTop } from '@/lib/telegramSafeArea';
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -45,6 +47,12 @@ export default function StudioHubPage() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const { deleteProject, isLoading: isDeleting } = useStudioProject();
 
+  // Telegram BackButton - navigate to home
+  useTelegramBackButton({
+    visible: true,
+    fallbackPath: '/',
+  });
+
   useEffect(() => {
     loadProjects();
   }, []);
@@ -76,8 +84,13 @@ export default function StudioHubPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      {/* Header with Telegram safe area */}
+      <header 
+        className="sticky top-0 z-10 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+        style={{
+          paddingTop: getTelegramHeaderPaddingTop(),
+        }}
+      >
         <div className="container flex h-14 items-center justify-between px-4">
           <h1 className="text-lg font-semibold">Студия v2</h1>
           <Button size="sm" onClick={() => navigate('/studio-v2/new')}>
