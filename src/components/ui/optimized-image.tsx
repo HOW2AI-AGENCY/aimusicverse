@@ -1,11 +1,17 @@
 /**
  * Optimized Image Component
- * Lazy loading, responsive sizing, and format optimization
+ * Lazy loading, responsive sizing, srcset, and format optimization
  */
 
 import * as React from 'react';
 import { cn } from '@/lib/utils';
-import { useLazyImage, generatePlaceholder, getOptimizedImageUrl } from '@/lib/imageOptimization';
+import { 
+  useLazyImage, 
+  generatePlaceholder, 
+  getOptimizedImageUrl,
+  generateSrcSet,
+  useAdaptiveImageQuality,
+} from '@/lib/imageOptimization';
 
 export interface OptimizedImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   /** Image source URL */
@@ -24,6 +30,10 @@ export interface OptimizedImageProps extends React.ImgHTMLAttributes<HTMLImageEl
   quality?: number;
   /** Object fit mode */
   objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
+  /** Enable responsive srcset */
+  responsive?: boolean;
+  /** Sizes attribute for responsive images */
+  sizes?: string;
   /** Callback when image loads */
   onLoad?: () => void;
   /** Callback on error */
@@ -37,28 +47,43 @@ export const OptimizedImage = React.memo(function OptimizedImage({
   height,
   placeholderColor = '#1a1a2e',
   priority = false,
-  quality = 80,
+  quality,
   objectFit = 'cover',
+  responsive = false,
+  sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
   className,
   onLoad,
   onError,
   ...props
 }: OptimizedImageProps) {
+  // Use adaptive quality based on network
+  const { qualityPercent, maxWidth } = useAdaptiveImageQuality();
+  const finalQuality = quality ?? qualityPercent;
+  
   const placeholder = React.useMemo(
     () => generatePlaceholder(width || 100, height || 100, placeholderColor),
     [width, height, placeholderColor]
   );
 
+  // Limit width based on network conditions
+  const optimizedWidth = width ? Math.min(width, maxWidth) : undefined;
+  
   const optimizedSrc = React.useMemo(
-    () => getOptimizedImageUrl(src, { width, quality }),
-    [src, width, quality]
+    () => getOptimizedImageUrl(src, { width: optimizedWidth, quality: finalQuality }),
+    [src, optimizedWidth, finalQuality]
+  );
+
+  const srcSet = React.useMemo(
+    () => responsive ? generateSrcSet(src) : undefined,
+    [src, responsive]
   );
 
   const { ref, isLoaded, isError, currentSrc } = useLazyImage(
-    priority ? optimizedSrc : optimizedSrc,
+    optimizedSrc,
     {
       placeholder,
       rootMargin: '200px',
+      priority,
     }
   );
 
@@ -67,11 +92,13 @@ export const OptimizedImage = React.memo(function OptimizedImage({
     if (isError && onError) onError();
   }, [isLoaded, isError, onLoad, onError]);
 
-  // For priority images, load immediately
+  // For priority images, load immediately with fetchPriority
   if (priority) {
     return (
       <img
         src={optimizedSrc}
+        srcSet={srcSet}
+        sizes={responsive ? sizes : undefined}
         alt={alt}
         width={width}
         height={height}
@@ -83,6 +110,7 @@ export const OptimizedImage = React.memo(function OptimizedImage({
         )}
         loading="eager"
         decoding="async"
+        fetchPriority="high"
         {...props}
       />
     );
@@ -92,6 +120,8 @@ export const OptimizedImage = React.memo(function OptimizedImage({
     <img
       ref={ref}
       src={currentSrc}
+      srcSet={isLoaded ? srcSet : undefined}
+      sizes={responsive && isLoaded ? sizes : undefined}
       alt={alt}
       width={width}
       height={height}
@@ -119,6 +149,7 @@ export interface OptimizedAvatarProps {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   fallback?: React.ReactNode;
   className?: string;
+  priority?: boolean;
 }
 
 const sizeMap = {
@@ -143,6 +174,7 @@ export const OptimizedAvatar = React.memo(function OptimizedAvatar({
   size = 'md',
   fallback,
   className,
+  priority = false,
 }: OptimizedAvatarProps) {
   const [hasError, setHasError] = React.useState(false);
   const pixelSize = sizeMap[size];
@@ -174,6 +206,8 @@ export const OptimizedAvatar = React.memo(function OptimizedAvatar({
       height={pixelSize}
       className={cn('rounded-full', sizeClassMap[size], className)}
       objectFit="cover"
+      priority={priority}
+      quality={85} // Higher quality for avatars
       onError={() => setHasError(true)}
     />
   );
@@ -197,7 +231,12 @@ export const LazyBackground = React.memo(function LazyBackground({
   overlay = false,
   overlayOpacity = 0.5,
 }: LazyBackgroundProps) {
-  const { ref, isLoaded, currentSrc } = useLazyImage(src, {
+  const optimizedSrc = React.useMemo(
+    () => getOptimizedImageUrl(src, { quality: 70 }),
+    [src]
+  );
+  
+  const { ref, isLoaded, currentSrc } = useLazyImage(optimizedSrc, {
     rootMargin: '200px',
   });
 
