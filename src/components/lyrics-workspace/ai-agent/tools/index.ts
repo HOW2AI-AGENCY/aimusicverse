@@ -4,3 +4,6 @@ export { ProducerToolPanel } from './ProducerToolPanel';
 export { OptimizeToolPanel } from './OptimizeToolPanel';
 export { RhymeToolPanel } from './RhymeToolPanel';
 export { TagsToolPanel } from './TagsToolPanel';
+export { ContinueToolPanel } from './ContinueToolPanel';
+export { StructureToolPanel } from './StructureToolPanel';
+export { RhythmToolPanel } from './RhythmToolPanel';

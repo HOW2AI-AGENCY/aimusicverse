@@ -15,6 +15,8 @@ import {
   Headphones,
   Telescope,
   Quote,
+  CornerDownRight,
+  Activity,
 } from 'lucide-react';
 import { AITool } from './types';
 
@@ -84,6 +86,39 @@ export const AI_TOOLS: AITool[] = [
     autoContext: true,
     outputType: 'lyrics',
     directApply: true,
+  },
+  {
+    id: 'continue',
+    name: 'Продолжить',
+    icon: CornerDownRight,
+    action: 'continue_line',
+    description: 'Продолжить текст',
+    color: 'text-sky-400',
+    bgColor: 'bg-sky-500/10 hover:bg-sky-500/20 border-sky-500/30',
+    autoContext: true,
+    outputType: 'lyrics',
+  },
+  {
+    id: 'structure',
+    name: 'Структура',
+    icon: LayoutGrid,
+    action: 'fit_structure',
+    description: 'Перестроить по шаблону',
+    color: 'text-indigo-400',
+    bgColor: 'bg-indigo-500/10 hover:bg-indigo-500/20 border-indigo-500/30',
+    autoContext: true,
+    outputType: 'lyrics',
+  },
+  {
+    id: 'rhythm',
+    name: 'Ритм',
+    icon: Activity,
+    action: 'analyze_rhythm',
+    description: 'Анализ слогов и ритма',
+    color: 'text-orange-400',
+    bgColor: 'bg-orange-500/10 hover:bg-orange-500/20 border-orange-500/30',
+    autoContext: true,
+    outputType: 'analysis',
   },
 ];
 
