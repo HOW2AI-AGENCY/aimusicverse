@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   History, Search, Trash2, Copy, 
-  Clock, Music2, Bookmark, BookmarkPlus, Plus, Sparkles, X, TrendingUp
+  Clock, Music2, Bookmark, BookmarkPlus, Plus, Sparkles, X, TrendingUp, Loader2
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
@@ -17,6 +17,7 @@ import { ru } from 'date-fns/locale';
 import { INSPIRATION_PROMPTS, getPromptUsageCount, incrementPromptUsage } from './inspirationPrompts';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
+import { usePromptHistorySync } from '@/hooks/usePromptHistorySync';
 
 export interface PromptHistoryItem {
   id: string;
@@ -73,7 +74,7 @@ const scrollbarStyles = `
 `;
 
 export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHistoryProps) {
-  const [history, setHistory] = useState<PromptHistoryItem[]>([]);
+  const [localHistory, setLocalHistory] = useState<PromptHistoryItem[]>([]);
   const [savedPrompts, setSavedPrompts] = useState<SavedPrompt[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'history' | 'inspiration' | 'saved'>('history');
@@ -84,11 +85,17 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
   });
   const [inspirationUsage, setInspirationUsage] = useState<Record<string, number>>({});
 
-  // Load data from localStorage
+  // Use sync hook for merged DB + localStorage history
+  const { history: dbMergedHistory, savedPrompts: dbSavedPrompts, isLoading: historyLoading } = usePromptHistorySync();
+
+  // Merge sources when available
+  const history = dbMergedHistory.length > 0 ? dbMergedHistory : localHistory;
+
+  // Load data from localStorage (fallback and for saved prompts)
   useEffect(() => {
     const loadData = () => {
       try {
-        // Load history
+        // Load local history as fallback
         const storedHistory = localStorage.getItem('musicverse_prompt_history');
         if (storedHistory) {
           const parsed = JSON.parse(storedHistory) as Array<Omit<PromptHistoryItem, 'timestamp'> & { timestamp: string }>;
@@ -96,10 +103,10 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
             ...item,
             timestamp: new Date(item.timestamp),
           }));
-          setHistory(items);
+          setLocalHistory(items);
         }
 
-        // Load saved prompts
+        // Load saved prompts from localStorage 
         const storedSaved = localStorage.getItem('musicverse_saved_prompts');
         if (storedSaved) {
           const parsed = JSON.parse(storedSaved) as Array<Omit<SavedPrompt, 'createdAt'> & { createdAt: string }>;
@@ -159,14 +166,17 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
   });
 
   const handleSelectHistory = (item: PromptHistoryItem) => {
-    // Update usage count
-    const updated = history.map(h => 
-      h.id === item.id 
-        ? { ...h, usageCount: h.usageCount + 1, lastUsed: new Date() }
-        : h
-    );
-    setHistory(updated);
-    localStorage.setItem('musicverse_prompt_history', JSON.stringify(updated));
+    // Update usage count in local storage
+    const localHistoryRaw = localStorage.getItem('musicverse_prompt_history');
+    if (localHistoryRaw) {
+      const parsed = JSON.parse(localHistoryRaw);
+      const updated = parsed.map((h: any) => 
+        h.id === item.id 
+          ? { ...h, usageCount: (h.usageCount || 0) + 1, lastUsed: new Date().toISOString() }
+          : h
+      );
+      localStorage.setItem('musicverse_prompt_history', JSON.stringify(updated));
+    }
     
     onSelectPrompt(item);
     onOpenChange(false);
@@ -213,9 +223,13 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
 
   const handleDeleteHistory = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
-    const updated = history.filter(item => item.id !== id);
-    setHistory(updated);
-    localStorage.setItem('musicverse_prompt_history', JSON.stringify(updated));
+    const localHistoryRaw = localStorage.getItem('musicverse_prompt_history');
+    if (localHistoryRaw) {
+      const parsed = JSON.parse(localHistoryRaw);
+      const updated = parsed.filter((item: any) => item.id !== id);
+      localStorage.setItem('musicverse_prompt_history', JSON.stringify(updated));
+      setLocalHistory(items => items.filter(item => item.id !== id));
+    }
     toast.success('Промпт удален из истории');
   };
 
@@ -282,7 +296,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
 
   const handleClearHistory = () => {
     if (confirm('Удалить всю историю промптов?')) {
-      setHistory([]);
+      setLocalHistory([]);
       localStorage.removeItem('musicverse_prompt_history');
       toast.success('История очищена');
     }

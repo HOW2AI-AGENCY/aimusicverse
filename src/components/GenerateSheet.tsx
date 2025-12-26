@@ -29,6 +29,7 @@ import { ArtistSelector } from './generate-form/ArtistSelector';
 import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
 import { PromptHistory } from './generate-form/PromptHistory';
 import { LyricsChatAssistant } from './generate-form/LyricsChatAssistant';
+import { StylePresetSelector } from './generate-form/StylePresetSelector';
 // UploadAudioDialog removed - now using unified form for cover/extend
 import {
   AlertDialog,
@@ -67,6 +68,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   // Legacy UploadAudioDialog states removed - now using unified form
   const [historyOpen, setHistoryOpen] = useState(false);
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
+  const [stylesOpen, setStylesOpen] = useState(false);
   const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [closeConfirmOpen, setCloseConfirmOpen] = useState(false);
@@ -275,6 +277,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               onOpenArtistDialog={() => setArtistDialogOpen(true)}
               onOpenProjectDialog={() => setProjectDialogOpen(true)}
               onOpenHistory={() => setHistoryOpen(true)}
+              onOpenStyles={() => setStylesOpen(true)}
             />
 
             {/* Selected References Indicators */}
@@ -562,6 +565,22 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             form.setLyrics(prompt.lyrics || '');
           }
           if (prompt.model) form.setModel(prompt.model);
+        }}
+      />
+
+      <StylePresetSelector
+        open={stylesOpen}
+        onOpenChange={setStylesOpen}
+        currentStyle={form.style}
+        onSelect={(style, tags) => {
+          form.setMode('custom');
+          form.setStyle(prevStyle => {
+            if (prevStyle && prevStyle.trim()) {
+              return `${prevStyle}, ${style}`;
+            }
+            return style;
+          });
+          toast.success('Стиль применён');
         }}
       />
     </Sheet>
