@@ -8,6 +8,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
 const log = logger.child({ module: 'RecordingUpload' });
 
@@ -35,6 +36,7 @@ export function useRecordingUpload(options: UseRecordingUploadOptions = {}) {
   } = options;
 
   const { user } = useAuth();
+  const queryClient = useQueryClient();
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [lastUploadResult, setLastUploadResult] = useState<UploadResult | null>(null);
@@ -213,11 +215,17 @@ export function useRecordingUpload(options: UseRecordingUploadOptions = {}) {
         
         if (dbError) {
           log.error('Failed to save recording to database', dbError);
+          toast.error('Запись не сохранена в библиотеку', {
+            description: 'Файл загружен, но не добавлен в список облака'
+          });
         } else {
           log.debug('Recording saved to reference_audio table', { fileName });
+          // Invalidate query cache so CloudAudioPicker updates
+          queryClient.invalidateQueries({ queryKey: ['reference-audio'] });
         }
       } catch (dbErr) {
         log.error('Database insert error', dbErr);
+        toast.error('Ошибка сохранения записи');
       }
 
       setLastUploadResult(result);
