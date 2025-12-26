@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { X, ChevronRight, Lightbulb } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { getTelegramSafeAreaInsets } from '@/lib/telegramSafeArea';
 
 export interface TooltipConfig {
   id: string;
@@ -31,7 +32,48 @@ export function InteractiveTooltip({
 }: InteractiveTooltipProps) {
   const [isVisible, setIsVisible] = useState(true);
   const tooltipRef = useRef<HTMLDivElement>(null);
-  const position = config.position || 'bottom';
+  const containerRef = useRef<HTMLDivElement>(null);
+  const requestedPosition = config.position || 'bottom';
+
+  // Calculate safe position based on Telegram safe areas
+  const safePosition = useMemo(() => {
+    if (typeof window === 'undefined') return requestedPosition;
+    
+    const insets = getTelegramSafeAreaInsets();
+    const totalTopInset = insets.top + insets.contentTop;
+    
+    // If requested position is 'top' and we're close to the top of the screen
+    // switch to 'bottom' to avoid collision with Telegram header
+    if (requestedPosition === 'top') {
+      const container = containerRef.current;
+      if (container) {
+        const rect = container.getBoundingClientRect();
+        // If tooltip would appear above safe area or too close to it
+        if (rect.top < totalTopInset + 80) {
+          return 'bottom';
+        }
+      } else {
+        // If container not yet measured, assume we need bottom if top inset exists
+        if (totalTopInset > 50) {
+          return 'bottom';
+        }
+      }
+    }
+    
+    // If requested position is 'bottom' and we're close to the bottom
+    if (requestedPosition === 'bottom') {
+      const container = containerRef.current;
+      if (container) {
+        const rect = container.getBoundingClientRect();
+        // If tooltip would appear below safe area
+        if (window.innerHeight - rect.bottom < insets.bottom + 80) {
+          return 'top';
+        }
+      }
+    }
+    
+    return requestedPosition;
+  }, [requestedPosition]);
 
   const handleDismiss = () => {
     setIsVisible(false);
@@ -58,7 +100,7 @@ export function InteractiveTooltip({
   };
 
   return (
-    <div className={cn('relative', className)}>
+    <div ref={containerRef} className={cn('relative', className)}>
       <div className="w-full">{children}</div>
       
       <AnimatePresence>
@@ -70,14 +112,14 @@ export function InteractiveTooltip({
             exit={{ opacity: 0, scale: 0.9 }}
             className={cn(
               'absolute z-[100] w-64 p-3 rounded-xl bg-primary text-primary-foreground shadow-xl',
-              positionClasses[position]
+              positionClasses[safePosition]
             )}
           >
             {/* Arrow */}
             <div 
               className={cn(
                 'absolute w-0 h-0 border-[6px]',
-                arrowClasses[position]
+                arrowClasses[safePosition]
               )} 
             />
             

@@ -148,13 +148,20 @@ export function LyricsChatAssistant({
     executeTool(toolId, toolInput);
   }, [executeTool]);
 
-  // Chat handlers
+  // Input ref for maintaining focus
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // Chat handlers - keep focus to prevent keyboard jump
   const handleSend = useCallback(() => {
     if (!input.trim() || isLoading) return;
     hapticImpact('light');
     sendChatMessage(input);
     setInput('');
     shouldAutoScrollRef.current = true;
+    // Keep focus on input to prevent keyboard from closing abruptly
+    requestAnimationFrame(() => {
+      inputRef.current?.focus();
+    });
   }, [input, isLoading, sendChatMessage]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
@@ -487,6 +494,7 @@ export function LyricsChatAssistant({
               <Trash2 className="w-4 h-4 text-muted-foreground" />
             </Button>
             <Textarea
+              ref={inputRef}
               placeholder="Опишите задачу или задайте вопрос..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -526,8 +534,26 @@ export function LyricsChatAssistant({
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="h-[100dvh] max-h-[100dvh] flex flex-col rounded-none overflow-hidden">
-          <DrawerHeader className="pb-2 border-b border-border/50 shrink-0 flex items-center justify-between">
+        <DrawerContent 
+          className="flex flex-col rounded-none overflow-hidden"
+          style={{
+            // Fixed positioning with Telegram safe areas
+            position: 'fixed',
+            top: 'calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px))',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 'auto',
+            maxHeight: 'none',
+          }}
+        >
+          <DrawerHeader 
+            className="pb-2 border-b border-border/50 shrink-0 flex items-center justify-between"
+            style={{
+              // Extra padding for header on iOS
+              paddingTop: 'max(0.5rem, env(safe-area-inset-top, 0px))',
+            }}
+          >
             <DrawerTitle className="flex items-center gap-2 text-base">
               <motion.div
                 animate={{ rotate: [0, 10, -10, 0] }}

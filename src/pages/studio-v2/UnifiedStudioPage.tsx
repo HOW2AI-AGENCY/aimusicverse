@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useStudioProject } from '@/hooks/studio/useStudioProject';
 import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { StudioShell } from '@/components/studio/unified/StudioShell';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,6 +13,12 @@ export default function UnifiedStudioPage() {
   const { loadProject, createFromTrack, isLoading, error } = useStudioProject();
   const project = useUnifiedStudioStore(state => state.project);
   const [initialized, setInitialized] = useState(false);
+
+  // Telegram BackButton - navigate to studio hub
+  useTelegramBackButton({
+    visible: true,
+    fallbackPath: '/studio-v2',
+  });
 
   useEffect(() => {
     const init = async () => {

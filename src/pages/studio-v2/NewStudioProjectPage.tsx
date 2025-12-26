@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStudioProject } from '@/hooks/studio/useStudioProject';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { getTelegramHeaderPaddingTop } from '@/lib/telegramSafeArea';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -20,6 +22,12 @@ interface TrackOption {
 export default function NewStudioProjectPage() {
   const navigate = useNavigate();
   const { createEmptyProject, createFromTrack, isLoading } = useStudioProject();
+  
+  // Telegram BackButton - navigate to studio hub
+  useTelegramBackButton({
+    visible: true,
+    fallbackPath: '/studio-v2',
+  });
   
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -71,8 +79,13 @@ export default function NewStudioProjectPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-border/40 bg-background/95 backdrop-blur">
+      {/* Header with Telegram safe area */}
+      <header 
+        className="sticky top-0 z-10 border-b border-border/40 bg-background/95 backdrop-blur"
+        style={{
+          paddingTop: getTelegramHeaderPaddingTop(),
+        }}
+      >
         <div className="container flex h-14 items-center px-4">
           <Button 
             variant="ghost" 

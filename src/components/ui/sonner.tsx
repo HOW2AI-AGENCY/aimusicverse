@@ -1,28 +1,46 @@
 import { useTheme } from "@/contexts/ThemeContext";
 import { Toaster as Sonner, toast } from "sonner";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { resolvedTheme } = useTheme();
+  const isMobile = useIsMobile();
+
+  // On mobile, use bottom-center to avoid Telegram header buttons
+  const position = isMobile ? "bottom-center" : "top-center";
 
   return (
     <Sonner
       theme={resolvedTheme as ToasterProps["theme"]}
       className="toaster group"
-      position="top-center"
+      position={position}
       expand={false}
       richColors
       offset={0}
       style={{
-        // Telegram + device safe areas (avoid native buttons + notches)
-        // Adjusted padding for better positioning in Telegram Mini App
-        paddingTop:
-          'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))',
-        paddingLeft:
-          'max(calc(var(--tg-content-safe-area-inset-left, 0px) + 0.5rem), calc(env(safe-area-inset-left, 0px) + 0.5rem))',
-        paddingRight:
-          'max(calc(var(--tg-content-safe-area-inset-right, 0px) + 0.5rem), calc(env(safe-area-inset-right, 0px) + 0.5rem))',
+        // Telegram + device safe areas
+        // Different padding based on position
+        ...(isMobile
+          ? {
+              // Bottom positioning for mobile - account for bottom safe area + player
+              paddingBottom:
+                'max(calc(var(--tg-safe-area-inset-bottom, 0px) + 5rem), calc(env(safe-area-inset-bottom, 0px) + 5rem))',
+              paddingLeft:
+                'max(calc(var(--tg-content-safe-area-inset-left, 0px) + 0.5rem), calc(env(safe-area-inset-left, 0px) + 0.5rem))',
+              paddingRight:
+                'max(calc(var(--tg-content-safe-area-inset-right, 0px) + 0.5rem), calc(env(safe-area-inset-right, 0px) + 0.5rem))',
+            }
+          : {
+              // Top positioning for desktop
+              paddingTop:
+                'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))',
+              paddingLeft:
+                'max(calc(var(--tg-content-safe-area-inset-left, 0px) + 0.5rem), calc(env(safe-area-inset-left, 0px) + 0.5rem))',
+              paddingRight:
+                'max(calc(var(--tg-content-safe-area-inset-right, 0px) + 0.5rem), calc(env(safe-area-inset-right, 0px) + 0.5rem))',
+            }),
         zIndex: 9999,
       }}
       toastOptions={{
