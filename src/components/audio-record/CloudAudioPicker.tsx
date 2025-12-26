@@ -68,7 +68,11 @@ export function CloudAudioPicker({ onSelect, selectedId }: CloudAudioPickerProps
         <Cloud className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
         <p className="text-muted-foreground">Нет загруженных файлов</p>
         <p className="text-xs text-muted-foreground mt-2">
-          Загрузите аудио в облако, чтобы использовать здесь
+          Загрузите аудио через Telegram бот или сделайте запись
+        </p>
+        <p className="text-[10px] text-muted-foreground/70 mt-3">
+          Если вы записывали аудио, но оно не появилось — <br />
+          проверьте подключение к интернету и повторите запись
         </p>
       </div>
     );

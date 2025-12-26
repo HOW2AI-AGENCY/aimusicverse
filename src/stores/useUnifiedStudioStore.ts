@@ -370,7 +370,15 @@ export const useUnifiedStudioStore = create<UnifiedStudioState>()(
               return projectId;
             } catch (err) {
               console.error('Failed to save project to database:', err);
-              return projectId; // Still return ID, project exists in memory
+              // Import toast dynamically to avoid circular dependency
+              import('sonner').then(({ toast }) => {
+                toast.error('Не удалось создать проект', {
+                  description: 'Проверьте подключение к интернету'
+                });
+              });
+              // Clear the in-memory project since it wasn't saved
+              set({ project: null, projectId: null, hasUnsavedChanges: false });
+              return null;
             }
           },
 
