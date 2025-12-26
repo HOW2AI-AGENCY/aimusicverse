@@ -239,7 +239,7 @@ serve(async (req) => {
     }
 
     // Create generation task
-    const { error: taskError } = await supabase
+    const { data: generationTask, error: taskError } = await supabase
       .from('generation_tasks')
       .insert({
         user_id: user.id,
@@ -249,17 +249,22 @@ serve(async (req) => {
         suno_task_id: sunoTaskId,
         model_used: model,
         generation_mode: 'add_vocals',
-      });
+      })
+      .select('id')
+      .single();
 
     if (taskError) {
       console.error('Task creation error:', taskError);
       throw taskError;
     }
 
+    console.log('✅ Generation task created:', generationTask?.id);
+
     return new Response(
       JSON.stringify({
         success: true,
-        taskId: sunoTaskId,
+        taskId: generationTask?.id,  // Return generation_tasks.id for frontend tracking
+        sunoTaskId: sunoTaskId,      // Also include Suno's task ID
         trackId: track.id,
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
