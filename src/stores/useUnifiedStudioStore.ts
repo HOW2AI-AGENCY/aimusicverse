@@ -177,7 +177,7 @@ interface UnifiedStudioState {
   addTrack: (track: Omit<StudioTrack, 'id' | 'clips'>) => string;
   addPendingTrack: (params: { name: string; type: TrackType; taskId?: string }) => string;
   resolvePendingTrack: (taskId: string, versions: { label: string; audioUrl: string; duration?: number }[]) => void;
-  updatePendingTrackTaskId: (trackId: string, taskId: string) => void;
+  updatePendingTrackTaskId: (trackId: string, taskId: string) => Promise<void>;
   setTrackActiveVersion: (trackId: string, versionLabel: string) => void;
   removeTrack: (trackId: string) => void;
   updateTrack: (trackId: string, updates: Partial<StudioTrack>) => void;
@@ -587,7 +587,7 @@ export const useUnifiedStudioStore = create<UnifiedStudioState>()(
             return trackId;
           },
 
-          updatePendingTrackTaskId: (trackId, taskId) => {
+          updatePendingTrackTaskId: async (trackId, taskId) => {
             set(state => {
               if (!state.project) return state;
               return {
@@ -601,6 +601,8 @@ export const useUnifiedStudioStore = create<UnifiedStudioState>()(
                 hasUnsavedChanges: true,
               };
             });
+            // Auto-save to persist taskId to database for realtime updates
+            await get().saveProject();
           },
 
           resolvePendingTrack: (taskId, versions) => {

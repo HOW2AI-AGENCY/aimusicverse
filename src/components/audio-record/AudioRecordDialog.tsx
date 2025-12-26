@@ -350,12 +350,18 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
 
       logger.info('Audio processing started', { action, response: data });
 
-      // For instrumental action, update pending track with taskId and navigate
+      // For instrumental action, update pending track with taskId and navigate to studio
       if (action === 'instrumental' && studioProjectId && pendingTrackId && data?.taskId) {
         const store = useUnifiedStudioStore.getState();
         
-        // Update pending track with the taskId from the edge function
-        store.updatePendingTrackTaskId(pendingTrackId, data.taskId);
+        logger.info('Updating pending track with taskId', { 
+          studioProjectId, 
+          pendingTrackId, 
+          taskId: data.taskId 
+        });
+        
+        // Update pending track with the taskId from the edge function (auto-saves to DB)
+        await store.updatePendingTrackTaskId(pendingTrackId, data.taskId);
 
         toast.success('Добавление инструментала началось! 🎸', {
           description: 'Открываю студию для сведения...'
