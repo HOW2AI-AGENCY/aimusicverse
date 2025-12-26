@@ -75,9 +75,8 @@ serve(async (req) => {
 
     const callBackUrl = `${supabaseUrl}/functions/v1/suno-cover-callback`;
 
-    // Build comprehensive prompt
-    const imagePrompt = prompt || 
-      `${track.title || 'Music'} - ${track.style || 'abstract music'} album cover art, ${style || 'professional, artistic'}`;
+    // Build comprehensive prompt with variety based on track details
+    const imagePrompt = prompt || buildDynamicPrompt(track, style);
 
     // Call Suno API for cover image generation
     const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/image/generate', {
@@ -128,3 +127,116 @@ serve(async (req) => {
     );
   }
 });
+
+// Build dynamic prompt with variety based on track details
+function buildDynamicPrompt(track: any, style?: string): string {
+  const title = track.title || 'Music';
+  const trackStyle = track.style || style || 'abstract music';
+  
+  // Hash for consistent but varied selection
+  const hash = simpleHash(title + trackStyle + (track.id || ''));
+  
+  // Art styles variety
+  const artStyles = [
+    'digital 3D render',
+    'abstract expressionist painting',
+    'surrealist artwork',
+    'minimalist design',
+    'neon cyberpunk',
+    'vintage photograph style',
+    'watercolor illustration',
+    'geometric abstract',
+    'photorealistic',
+    'pop art',
+    'anime-inspired',
+    'oil painting',
+    'glitch art',
+    'collage mixed media',
+    'vector illustration',
+  ];
+  
+  // Color palettes
+  const colorPalettes = [
+    'vibrant neon colors with electric blue and hot pink',
+    'warm sunset tones with orange, gold, and magenta',
+    'cool ocean hues with teal, navy, and seafoam',
+    'dark moody palette with deep purple and crimson',
+    'pastel dreamscape with soft pink, lavender, and mint',
+    'high contrast black and white with red accent',
+    'earthy natural tones with forest green and terracotta',
+    'cosmic palette with deep space purple and starlight gold',
+    'candy colors with bright pink, yellow, and turquoise',
+    'monochromatic blue variations from navy to sky',
+    'autumn warmth with rust, amber, and burgundy',
+    'icy cool tones with silver, ice blue, and white',
+    'retro 80s with neon pink, cyan, and yellow',
+    'golden hour with warm amber, coral, and champagne',
+    'midnight palette with indigo, violet, and silver',
+  ];
+  
+  // Compositions
+  const compositions = [
+    'centered focal point with radial symmetry',
+    'dramatic diagonal composition',
+    'minimalist with lots of negative space',
+    'layered depth with foreground and background',
+    'extreme close-up abstract detail',
+    'panoramic wide view',
+    'symmetrical mirror reflection',
+    'chaotic but balanced arrangement',
+    'spiral golden ratio composition',
+    'split screen contrast',
+  ];
+  
+  // Visual themes based on style
+  const getVisualTheme = (s: string): string => {
+    const styleLower = s.toLowerCase();
+    if (styleLower.includes('rock') || styleLower.includes('metal')) {
+      return 'dramatic flames, lightning, or shattered elements';
+    }
+    if (styleLower.includes('electronic') || styleLower.includes('edm')) {
+      return 'futuristic cityscapes, digital particles, or holographic surfaces';
+    }
+    if (styleLower.includes('jazz') || styleLower.includes('soul')) {
+      return 'smoky atmosphere, musical instruments, or vintage club scene';
+    }
+    if (styleLower.includes('hip') || styleLower.includes('rap')) {
+      return 'urban street scene, luxury elements, or bold graphic shapes';
+    }
+    if (styleLower.includes('pop')) {
+      return 'colorful bubbles, glossy surfaces, or playful shapes';
+    }
+    if (styleLower.includes('ambient') || styleLower.includes('chill')) {
+      return 'serene landscapes, misty mountains, or calm water';
+    }
+    if (styleLower.includes('classical')) {
+      return 'elegant baroque flourishes, marble sculpture, or concert hall';
+    }
+    return 'abstract shapes and dynamic movement';
+  };
+  
+  const selectedArtStyle = artStyles[hash % artStyles.length];
+  const selectedPalette = colorPalettes[(hash + 3) % colorPalettes.length];
+  const selectedComposition = compositions[(hash + 7) % compositions.length];
+  const visualTheme = getVisualTheme(trackStyle);
+  
+  return `Create a ${selectedArtStyle} album cover art for "${title}".
+Music style: ${trackStyle}.
+Color palette: ${selectedPalette}.
+Composition: ${selectedComposition}.
+Visual theme: ${visualTheme}.
+Professional quality, suitable for streaming platforms.
+NO text, NO watermarks, NO logos, NO words, NO letters.
+Square format, high resolution, distinctive and memorable.`;
+}
+
+// Simple string hash for consistent randomization
+function simpleHash(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash;
+  }
+  return Math.abs(hash);
+}
