@@ -27,7 +27,13 @@ type LyricsAction =
   | 'fit_structure'           // Fit lyrics to song structure
   | 'full_analysis'           // Full comprehensive analysis
   | 'deep_analysis'           // Deep musicological analysis
-  | 'producer_review';        // Professional producer review
+  | 'producer_review'         // Professional producer review
+  // Phase 2 actions
+  | 'style_convert'           // Convert lyrics to different style/artist
+  | 'paraphrase'              // Paraphrase with different tone
+  | 'hook_generator'          // Generate catchy hooks
+  | 'vocal_map'               // Generate vocal production map
+  | 'translate_adapt';        // Translate with rhythm preservation
 
 interface LyricsRequest {
   action: LyricsAction;
@@ -58,6 +64,12 @@ interface LyricsRequest {
   dynamicTags?: string[];
   emotionalCues?: string[];
   useAdvancedTags?: boolean;
+  // Phase 2 options
+  targetStyle?: string;         // For style_convert: artist/genre to convert to
+  targetTone?: string;          // For paraphrase: desired tone
+  targetLanguage?: string;      // For translate_adapt
+  preserveSyllables?: boolean;  // For translate_adapt
+  variantsCount?: number;       // Number of variants to generate
 }
 
 // Tag templates for different genres and moods
@@ -959,6 +971,181 @@ ${conversationHistory.slice(-10).map((m: any) => `${m.role === 'user' ? '👤 П
         userPrompt = body.message || 'Привет';
         break;
 
+      case 'style_convert':
+        systemPrompt = `Ты эксперт по музыкальным стилям и мастер адаптации текстов под разные жанры и артистов.
+        
+ВАЖНО: Сохраняй основной смысл и эмоции текста, но адаптируй:
+- Словарный запас и сленг
+- Ритмические паттерны  
+- Структуру строф
+- Характерные для стиля приёмы`;
+        userPrompt = `Перепиши текст в стиле "${body.targetStyle || 'рэп'}":
+
+ИСХОДНЫЙ ТЕКСТ:
+${lyrics || existingLyrics}
+
+ЦЕЛЕВОЙ СТИЛЬ: ${body.targetStyle || 'рэп'}
+
+ТРЕБОВАНИЯ:
+1. Сохрани основную тему и эмоции
+2. Адаптируй под характерные черты стиля
+3. Измени ритм если нужно для нового стиля
+4. Добавь соответствующие теги Suno
+5. Сохрани длину примерно такой же
+
+Верни JSON:
+{
+  "lyrics": "переписанный текст с тегами",
+  "style": "style prompt для Suno",
+  "changes": ["что изменилось 1", "что изменилось 2"],
+  "originalStyle": "определённый стиль оригинала"
+}`;
+        break;
+
+      case 'paraphrase':
+        systemPrompt = `Ты мастер русского/английского языка и поэт, создающий вариации текстов с разными оттенками.`;
+        userPrompt = `Перефразируй текст с тоном "${body.targetTone || 'более поэтично'}":
+
+ТЕКСТ:
+${lyrics || existingLyrics}
+
+ЦЕЛЕВОЙ ТОН: ${body.targetTone || 'более поэтично'}
+КОЛИЧЕСТВО ВАРИАНТОВ: ${body.variantsCount || 3}
+
+ВАРИАНТЫ ТОНА:
+- "поэтичнее" = больше метафор, образности
+- "проще" = разговорный язык, прямота
+- "агрессивнее" = резче, энергичнее
+- "нежнее" = мягче, интимнее
+- "драматичнее" = больше контрастов, эмоций
+
+Верни JSON:
+{
+  "variants": [
+    {"text": "вариант 1", "tone": "описание тона", "highlight": "что изменилось"},
+    {"text": "вариант 2", "tone": "описание тона", "highlight": "что изменилось"},
+    ...
+  ],
+  "original": "исходный текст"
+}`;
+        break;
+
+      case 'hook_generator':
+        systemPrompt = `Ты хит-мейкер, специализирующийся на создании запоминающихся хуков и припевов.
+        
+ПРИНЦИПЫ ХУКА:
+- Краткость (1-2 строки)
+- Повторяемость
+- Мелодичность
+- Эмоциональный резонанс
+- Универсальность (легко подпевать)`;
+        userPrompt = `Проанализируй и улучши хуки в тексте:
+
+ТЕКСТ:
+${lyrics || existingLyrics}
+
+ЖАНР: ${genre || 'поп'}
+НАСТРОЕНИЕ: ${mood || 'энергичное'}
+ТЕМА: ${theme || 'любовь'}
+
+ЗАДАЧИ:
+1. Найди существующие хуки (если есть)
+2. Оцени их силу (1-10)
+3. Предложи 5 новых вариантов хуков
+4. Укажи где их лучше разместить
+
+Верни JSON:
+{
+  "currentHooks": [
+    {"text": "хук из текста", "location": "Chorus", "score": 7, "issue": "проблема или null"}
+  ],
+  "suggestedHooks": [
+    {"text": "новый хук", "style": "melodic/rhythmic/call-response", "bestFor": "Chorus/Hook/Pre-Chorus"},
+    ...
+  ],
+  "hookScore": 75,
+  "recommendations": ["рекомендация 1", "рекомендация 2"]
+}`;
+        break;
+
+      case 'vocal_map':
+        systemPrompt = `Ты вокальный продюсер и аранжировщик с опытом работы в студии.
+        
+Создай детальную карту вокальной записи с указанием:
+- Вокальных эффектов для каждой секции
+- Бэк-вокалов и гармоний
+- Динамических изменений
+- Эмоциональных заметок для исполнителя`;
+        userPrompt = `Создай вокальную карту для текста:
+
+ТЕКСТ:
+${lyrics || existingLyrics}
+
+ЖАНР: ${genre || 'поп'}
+НАСТРОЕНИЕ: ${mood || 'эмоциональное'}
+
+Для каждой секции укажи:
+1. Тип вокала (шёпот, мощный, фальцет и т.д.)
+2. Эффекты обработки
+3. Бэк-вокалы
+4. Динамику (тихо→громко и т.д.)
+5. Эмоциональные указания
+
+Верни JSON:
+{
+  "sections": [
+    {
+      "name": "Verse 1",
+      "vocalType": "intimate, breathy",
+      "effects": ["[Soft]", "[Whisper]"],
+      "backingVocals": "(ooh)",
+      "dynamics": "quiet, building",
+      "emotionalNote": "уязвимость, размышление",
+      "sunoTags": "[Male Vocal] [Intimate] [Soft]"
+    },
+    ...
+  ],
+  "generalNotes": "общие указания по вокалу",
+  "suggestedSingerType": "Female/Male, Alto/Tenor и т.д."
+}`;
+        break;
+
+      case 'translate_adapt':
+        const targetLang = body.targetLanguage || 'en';
+        const preserveSyl = body.preserveSyllables !== false;
+        systemPrompt = `Ты профессиональный переводчик песенных текстов, сохраняющий ритмику и смысл.
+
+ВАЖНО: Это НЕ дословный перевод, а адаптация для пения:
+- ${preserveSyl ? 'СТРОГО сохраняй количество слогов' : 'Допустимы небольшие отклонения по слогам'}
+- Сохраняй рифмы
+- Сохраняй эмоции и образы
+- Текст должен быть естественным на целевом языке`;
+        userPrompt = `Переведи и адаптируй текст на ${targetLang === 'en' ? 'английский' : 'русский'}:
+
+ТЕКСТ:
+${lyrics || existingLyrics}
+
+ЦЕЛЕВОЙ ЯЗЫК: ${targetLang === 'en' ? 'Английский' : 'Русский'}
+СОХРАНЯТЬ СЛОГИ: ${preserveSyl ? 'Да, строго' : 'Приблизительно'}
+
+ТРЕБОВАНИЯ:
+1. Каждая строка должна иметь примерно такое же количество слогов
+2. Сохрани рифменную схему
+3. Адаптируй идиомы и метафоры для культуры целевого языка
+4. Сохрани эмоциональный тон
+
+Верни JSON:
+{
+  "translatedLyrics": "переведённый текст с тегами",
+  "adaptationNotes": [
+    {"original": "оригинал", "translated": "перевод", "syllables": "8→8", "note": "изменение смысла"}
+  ],
+  "preservedElements": ["рифмы", "ритм", "образы"],
+  "changedElements": ["идиома X → Y"],
+  "qualityScore": 85
+}`;
+        break;
+
       default:
         return new Response(
           JSON.stringify({ success: false, error: 'Invalid action' }),
@@ -1107,7 +1294,92 @@ ${conversationHistory.slice(-10).map((m: any) => `${m.role === 'user' ? '👤 П
         // If JSON parsing fails, return raw text as response
         response.response = generatedContent;
       }
-    } else {
+    }
+    // Handle Phase 2 actions
+    else if (action === 'style_convert') {
+      try {
+        const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          response.lyrics = parsed.lyrics;
+          response.style = parsed.style;
+          response.changes = parsed.changes;
+          response.originalStyle = parsed.originalStyle;
+          logger.info('Parsed style_convert response');
+        } else {
+          response.lyrics = generatedContent;
+        }
+      } catch (e) {
+        response.lyrics = generatedContent;
+      }
+    }
+    else if (action === 'paraphrase') {
+      try {
+        const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          response.variants = parsed.variants;
+          response.original = parsed.original;
+          logger.info('Parsed paraphrase response', { variantsCount: parsed.variants?.length });
+        } else {
+          response.message = generatedContent;
+        }
+      } catch (e) {
+        response.message = generatedContent;
+      }
+    }
+    else if (action === 'hook_generator') {
+      try {
+        const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          response.currentHooks = parsed.currentHooks;
+          response.suggestedHooks = parsed.suggestedHooks;
+          response.hookScore = parsed.hookScore;
+          response.recommendations = parsed.recommendations;
+          logger.info('Parsed hook_generator response', { hookScore: parsed.hookScore });
+        } else {
+          response.message = generatedContent;
+        }
+      } catch (e) {
+        response.message = generatedContent;
+      }
+    }
+    else if (action === 'vocal_map') {
+      try {
+        const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          response.sections = parsed.sections;
+          response.generalNotes = parsed.generalNotes;
+          response.suggestedSingerType = parsed.suggestedSingerType;
+          logger.info('Parsed vocal_map response', { sectionsCount: parsed.sections?.length });
+        } else {
+          response.message = generatedContent;
+        }
+      } catch (e) {
+        response.message = generatedContent;
+      }
+    }
+    else if (action === 'translate_adapt') {
+      try {
+        const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          response.translatedLyrics = parsed.translatedLyrics;
+          response.adaptationNotes = parsed.adaptationNotes;
+          response.preservedElements = parsed.preservedElements;
+          response.changedElements = parsed.changedElements;
+          response.qualityScore = parsed.qualityScore;
+          logger.info('Parsed translate_adapt response', { qualityScore: parsed.qualityScore });
+        } else {
+          response.lyrics = generatedContent;
+        }
+      } catch (e) {
+        response.lyrics = generatedContent;
+      }
+    }
+    else {
       response.lyrics = generatedContent;
     }
 
