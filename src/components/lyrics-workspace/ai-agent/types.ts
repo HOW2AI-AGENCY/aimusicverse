@@ -48,7 +48,21 @@ export type BackendAction =
   | 'vocal_map'
   | 'translate_adapt';
 
-export type OutputType = 'lyrics' | 'tags' | 'rhymes' | 'analysis' | 'suggestions' | 'text' | 'full_analysis' | 'expanded_analysis' | 'producer_review';
+export type OutputType = 
+  | 'lyrics' 
+  | 'tags' 
+  | 'rhymes' 
+  | 'analysis' 
+  | 'suggestions' 
+  | 'text' 
+  | 'full_analysis' 
+  | 'expanded_analysis' 
+  | 'producer_review'
+  // Phase 2 output types
+  | 'hooks'
+  | 'vocal_map'
+  | 'paraphrase'
+  | 'translation';
 
 export interface AITool {
   id: AIToolId;
@@ -86,6 +100,11 @@ export interface AIMessage {
     changes?: string[];
     keyInsights?: string[];
     uniqueStrength?: string;
+    // Phase 2 data
+    hooks?: HooksData;
+    vocalMap?: VocalMapSection[];
+    paraphraseVariants?: ParaphraseVariant[];
+    translation?: TranslationData;
   };
   isLoading?: boolean;
 }
@@ -236,6 +255,41 @@ export interface SectionNote {
   type: string;
   notes: string;
   tags?: string[];
+}
+
+// Phase 2 data types
+export interface HooksData {
+  currentHooks?: Array<{
+    text: string;
+    score: number;
+    location?: string;
+  }>;
+  suggestedHooks?: string[];
+  hookScore?: number;
+  recommendations?: string[];
+}
+
+export interface VocalMapSection {
+  section: string;
+  vocalType?: string;
+  effects?: string[];
+  backingVocals?: string;
+  dynamics?: string;
+  emotionalNote?: string;
+}
+
+export interface ParaphraseVariant {
+  text: string;
+  tone?: string;
+  style?: string;
+}
+
+export interface TranslationData {
+  translatedLyrics: string;
+  sourceLanguage?: string;
+  targetLanguage?: string;
+  adaptationNotes?: string[];
+  syllablePreserved?: boolean;
 }
 
 export interface AIAgentContext {
