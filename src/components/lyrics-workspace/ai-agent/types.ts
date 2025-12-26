@@ -11,7 +11,10 @@ export type AIToolId =
   | 'producer'
   | 'optimize'
   | 'rhyme'
-  | 'tags';
+  | 'tags'
+  | 'continue'
+  | 'structure'
+  | 'rhythm';
 
 export type BackendAction = 
   | 'generate'
