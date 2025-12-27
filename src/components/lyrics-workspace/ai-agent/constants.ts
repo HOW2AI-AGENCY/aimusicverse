@@ -144,7 +144,7 @@ export const AI_TOOLS: AITool[] = [
     color: 'text-teal-400',
     bgColor: 'bg-teal-500/10 hover:bg-teal-500/20 border-teal-500/30',
     autoContext: true,
-    outputType: 'suggestions',
+    outputType: 'paraphrase',
   },
   {
     id: 'hook_generator',
@@ -155,7 +155,7 @@ export const AI_TOOLS: AITool[] = [
     color: 'text-amber-400',
     bgColor: 'bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/30',
     autoContext: true,
-    outputType: 'analysis',
+    outputType: 'hooks',
   },
   {
     id: 'vocal_map',
@@ -166,7 +166,7 @@ export const AI_TOOLS: AITool[] = [
     color: 'text-violet-400',
     bgColor: 'bg-violet-500/10 hover:bg-violet-500/20 border-violet-500/30',
     autoContext: true,
-    outputType: 'analysis',
+    outputType: 'vocal_map',
   },
   {
     id: 'translate',
