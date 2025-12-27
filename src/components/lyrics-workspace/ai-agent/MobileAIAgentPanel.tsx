@@ -7,7 +7,8 @@ import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Send, Loader2, Bot, User, Trash2, X, Sparkles,
-  PenLine, Wand2, BarChart3, Headphones, Quote, Tag, Mic, MicOff
+  PenLine, Wand2, BarChart3, Headphones, Quote, Tag, Mic, MicOff,
+  ArrowRight, LayoutList, Music2, Shuffle, RefreshCw, Anchor, AudioLines, Languages
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -19,7 +20,14 @@ import { useVoiceInput } from '@/hooks/useVoiceInput';
 
 import { useTelegramMainButton } from '@/hooks/telegram/useTelegramMainButton';
 import { useAITools } from './hooks/useAITools';
-import { WriteToolPanel, AnalyzeToolPanel, ProducerToolPanel, OptimizeToolPanel, RhymeToolPanel, TagsToolPanel } from './tools';
+import { 
+  WriteToolPanel, AnalyzeToolPanel, ProducerToolPanel, OptimizeToolPanel, RhymeToolPanel, TagsToolPanel,
+  ContinueToolPanel, StructureToolPanel, RhythmToolPanel,
+  StyleConvertToolPanel, ParaphraseToolPanel, HookGeneratorToolPanel, VocalMapToolPanel, TranslateToolPanel
+} from './tools';
+import { 
+  HookResultCard, VocalMapResultCard, ParaphraseResultCard, TranslateResultCard 
+} from './results';
 import { StructuredLyricsDisplay } from './results/StructuredLyricsDisplay';
 import { AIProgressIndicator } from './AIProgressIndicator';
 import { QuickActionsBar } from './QuickActionsBar';
@@ -69,11 +77,23 @@ interface MobileAIAgentPanelProps {
 
 const QUICK_TOOLS = [
   { id: 'write' as AIToolId, icon: PenLine, label: 'Написать', color: 'text-blue-400' },
+  { id: 'continue' as AIToolId, icon: ArrowRight, label: 'Продолжить', color: 'text-green-400' },
+  { id: 'structure' as AIToolId, icon: LayoutList, label: 'Структура', color: 'text-orange-400' },
+  { id: 'rhythm' as AIToolId, icon: Music2, label: 'Ритм', color: 'text-pink-400' },
   { id: 'rhyme' as AIToolId, icon: Quote, label: 'Рифмы', color: 'text-cyan-400' },
   { id: 'tags' as AIToolId, icon: Tag, label: 'Теги', color: 'text-emerald-400' },
   { id: 'analyze' as AIToolId, icon: BarChart3, label: 'Анализ', color: 'text-purple-400' },
   { id: 'producer' as AIToolId, icon: Headphones, label: 'Продюсер', color: 'text-amber-400' },
   { id: 'optimize' as AIToolId, icon: Wand2, label: 'Suno', color: 'text-primary' },
+];
+
+// Extended Phase 2 tools
+const EXTENDED_TOOLS = [
+  { id: 'style_convert' as AIToolId, icon: Shuffle, label: 'Стиль', color: 'text-fuchsia-400' },
+  { id: 'paraphrase' as AIToolId, icon: RefreshCw, label: 'Перефраз', color: 'text-indigo-400' },
+  { id: 'hook_generator' as AIToolId, icon: Anchor, label: 'Хуки', color: 'text-red-400' },
+  { id: 'vocal_map' as AIToolId, icon: AudioLines, label: 'Вокал', color: 'text-violet-400' },
+  { id: 'translate' as AIToolId, icon: Languages, label: 'Перевод', color: 'text-teal-400' },
 ];
 
 const WORKFLOW_STEPS = [
@@ -246,6 +266,15 @@ export function MobileAIAgentPanel({
       case 'optimize': return <OptimizeToolPanel {...panelProps} />;
       case 'rhyme': return <RhymeToolPanel {...panelProps} />;
       case 'tags': return <TagsToolPanel {...panelProps} />;
+      // Phase 2 tools
+      case 'continue': return <ContinueToolPanel {...panelProps} />;
+      case 'structure': return <StructureToolPanel {...panelProps} />;
+      case 'rhythm': return <RhythmToolPanel {...panelProps} />;
+      case 'style_convert': return <StyleConvertToolPanel {...panelProps} />;
+      case 'paraphrase': return <ParaphraseToolPanel {...panelProps} />;
+      case 'hook_generator': return <HookGeneratorToolPanel {...panelProps} />;
+      case 'vocal_map': return <VocalMapToolPanel {...panelProps} />;
+      case 'translate': return <TranslateToolPanel {...panelProps} />;
       default: return null;
     }
   };
@@ -304,6 +333,39 @@ export function MobileAIAgentPanel({
               </Button>
             )}
           </div>
+        )}
+
+        {/* Hooks result */}
+        {message.data?.hooks && (
+          <HookResultCard 
+            data={message.data.hooks}
+            onApplyHook={(hook) => onInsertLyrics?.(hook)}
+          />
+        )}
+
+        {/* Vocal map result */}
+        {message.data?.vocalMap && (
+          <VocalMapResultCard sections={message.data.vocalMap} />
+        )}
+
+        {/* Paraphrase variants result */}
+        {message.data?.paraphraseVariants && (
+          <ParaphraseResultCard 
+            variants={message.data.paraphraseVariants}
+            onApplyVariant={(text: string) => onReplaceLyrics?.(text)}
+          />
+        )}
+
+        {/* Translation result */}
+        {message.data?.translation && (
+          <TranslateResultCard 
+            translatedLyrics={message.data.translation.translatedLyrics}
+            sourceLanguage={message.data.translation.sourceLanguage}
+            targetLanguage={message.data.translation.targetLanguage}
+            adaptationNotes={message.data.translation.adaptationNotes}
+            syllablePreserved={message.data.translation.syllablePreserved}
+            onApply={(text: string) => onReplaceLyrics?.(text)}
+          />
         )}
 
         {/* Quick actions from AI */}
@@ -386,8 +448,8 @@ export function MobileAIAgentPanel({
         </div>
       </div>
 
-      {/* Quick tools bar */}
-      <div className="px-2 py-2 border-b border-border/30 shrink-0 overflow-x-auto scrollbar-hide">
+      {/* Quick tools bar - Basic */}
+      <div className="px-2 py-1.5 border-b border-border/30 shrink-0 overflow-x-auto scrollbar-hide">
         <div className="flex gap-1 min-w-max">
           {QUICK_TOOLS.map((tool) => {
             const Icon = tool.icon;
@@ -398,14 +460,40 @@ export function MobileAIAgentPanel({
                 variant={isActive ? 'default' : 'ghost'}
                 size="sm"
                 className={cn(
-                  "h-8 px-3 gap-1.5 shrink-0",
+                  "h-7 px-2 gap-1 shrink-0",
                   isActive && "bg-primary"
                 )}
                 onClick={() => handleToolSelect(tool.id)}
                 disabled={isLoading}
               >
-                <Icon className={cn("w-3.5 h-3.5", !isActive && tool.color)} />
-                <span className="text-xs">{tool.label}</span>
+                <Icon className={cn("w-3 h-3", !isActive && tool.color)} />
+                <span className="text-[10px]">{tool.label}</span>
+              </Button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Extended tools bar - Phase 2 */}
+      <div className="px-2 py-1.5 border-b border-border/30 shrink-0 overflow-x-auto scrollbar-hide bg-muted/30">
+        <div className="flex gap-1 min-w-max">
+          {EXTENDED_TOOLS.map((tool) => {
+            const Icon = tool.icon;
+            const isActive = activeTool === tool.id;
+            return (
+              <Button
+                key={tool.id}
+                variant={isActive ? 'default' : 'ghost'}
+                size="sm"
+                className={cn(
+                  "h-7 px-2 gap-1 shrink-0",
+                  isActive && "bg-primary"
+                )}
+                onClick={() => handleToolSelect(tool.id)}
+                disabled={isLoading}
+              >
+                <Icon className={cn("w-3 h-3", !isActive && tool.color)} />
+                <span className="text-[10px]">{tool.label}</span>
               </Button>
             );
           })}
