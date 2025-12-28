@@ -65,8 +65,8 @@ export function isActionAvailable(
       return isCompleted && hasAudio && state.isInstrumentalTrack;
 
     case 'add_instrumental':
-      // Available for tracks with vocals but no instrumental (opposite of add_vocals)
-      return isCompleted && hasAudio && !state.isInstrumentalTrack;
+      // Available for tracks with vocals (either has vocal stem from separation, or is not instrumental)
+      return isCompleted && hasAudio && (state.hasVocalStem || !state.isInstrumentalTrack);
 
     default:
       return true;

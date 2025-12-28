@@ -70,11 +70,13 @@ export const NewArrangementDialog = ({ open, onOpenChange, track, vocalStem }: N
       const { data, error } = await supabase.functions.invoke('suno-add-instrumental', {
         body: {
           audioUrl: vocalStem.audio_url,
+          prompt: effectivePrompt,
           customMode,
           style: effectiveStyle,
           title: effectiveTitle,
           negativeTags: 'acapella, vocals only, karaoke, low quality',
           projectId: track.project_id,
+          originalTrackId: track.id,
           // Critical weights for following the vocal
           audioWeight: 0.8,
           styleWeight: 0.55,
