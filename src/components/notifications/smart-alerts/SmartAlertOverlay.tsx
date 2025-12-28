@@ -132,9 +132,11 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -30, scale: 0.95 }}
               transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-              className="fixed left-1/2 -translate-x-1/2 z-[201] w-[90vw] max-w-md"
+              className="fixed z-[201] w-[calc(100vw-2rem)] max-w-md"
               style={{
-                top: 'max(calc(var(--tg-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))',
+                top: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))',
+                left: '50%',
+                transform: 'translateX(-50%)',
               }}
             >
               {/* Shake animation wrapper for errors */}
