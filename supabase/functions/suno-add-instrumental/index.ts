@@ -105,12 +105,8 @@ serve(async (req) => {
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
-    if (!negativeTags) {
-      return new Response(
-        JSON.stringify({ error: 'negativeTags is required for add-instrumental' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
+    // Use default negativeTags if not provided or empty
+    const effectiveNegativeTags = negativeTags?.trim() || 'low quality, distorted, amateur';
 
     console.log('🎸 Adding instrumental to vocals:', { 
       customMode, model, userId: user.id, 
@@ -187,7 +183,7 @@ serve(async (req) => {
       uploadUrl,
       title,                         // Required
       tags: effectiveStyle,          // Required - describes instrumental style (built from settings)
-      negativeTags,                  // Required - styles to exclude
+      negativeTags: effectiveNegativeTags, // Defaults applied above if empty
       callBackUrl,
       model: model === 'V4_5ALL' ? 'V4_5PLUS' : model,
       // These weights control audio adherence vs style creativity

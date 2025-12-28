@@ -88,6 +88,11 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
 
       const functionName = mode === 'add_vocals' ? 'suno-add-vocals' : 'suno-add-instrumental';
       
+      // Default negativeTags based on mode
+      const defaultNegativeTags = mode === 'add_vocals' 
+        ? 'instrumental only, no vocals, karaoke, low quality'
+        : 'acapella, vocals only, karaoke, low quality';
+
       const { data, error } = await supabase.functions.invoke(functionName, {
         body: {
           audioUrl: audio.file_url,
@@ -95,7 +100,7 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
           customMode,
           style: effectiveStyle,
           title: effectiveTitle,
-          negativeTags: '',
+          negativeTags: defaultNegativeTags,
           referenceAudioId: audio.id,
         },
       });
