@@ -592,9 +592,10 @@ serve(async (req) => {
             .from('notifications')
             .insert({
               user_id: user.id,
-              type: 'generation_error',
+              type: 'error',
               title: 'Ошибка генерации',
-              message: error.message || 'Произошла ошибка при генерации трека',
+              message: (error.message || 'Произошла ошибка при генерации трека').substring(0, 250),
+              metadata: { error_type: 'generation_error', original_message: error.message },
             });
         }
       }
