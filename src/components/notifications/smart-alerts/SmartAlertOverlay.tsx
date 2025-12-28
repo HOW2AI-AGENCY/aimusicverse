@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { X, AlertTriangle, Info, CheckCircle, AlertCircle, Sparkles, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
