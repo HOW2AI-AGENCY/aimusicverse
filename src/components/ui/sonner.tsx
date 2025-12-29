@@ -20,26 +20,29 @@ const Toaster = ({ ...props }: ToasterProps) => {
       richColors
       offset={0}
       style={{
+        // Ensure toaster is centered and not "pushed" by asymmetric safe-area insets
+        // (Telegram may report different left/right insets which can shift the toaster).
+        left: 0,
+        right: 0,
+        width: '100%',
+        boxSizing: 'border-box',
         // Telegram + device safe areas
-        // Different padding based on position
         ...(isMobile
           ? {
               // Bottom positioning for mobile - account for bottom safe area + player
               paddingBottom:
                 'max(calc(var(--tg-safe-area-inset-bottom, 0px) + 5rem), calc(env(safe-area-inset-bottom, 0px) + 5rem))',
-              paddingLeft:
-                'max(calc(var(--tg-content-safe-area-inset-left, 0px) + 0.5rem), calc(env(safe-area-inset-left, 0px) + 0.5rem))',
-              paddingRight:
-                'max(calc(var(--tg-content-safe-area-inset-right, 0px) + 0.5rem), calc(env(safe-area-inset-right, 0px) + 0.5rem))',
+              // Use symmetric inline padding (max of left/right) to keep perfect centering
+              paddingInline:
+                'max(calc(var(--tg-content-safe-area-inset-left, 0px) + 0.5rem), calc(var(--tg-content-safe-area-inset-right, 0px) + 0.5rem), calc(env(safe-area-inset-left, 0px) + 0.5rem), calc(env(safe-area-inset-right, 0px) + 0.5rem))',
             }
           : {
               // Top positioning for desktop
               paddingTop:
                 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))',
-              paddingLeft:
-                'max(calc(var(--tg-content-safe-area-inset-left, 0px) + 0.5rem), calc(env(safe-area-inset-left, 0px) + 0.5rem))',
-              paddingRight:
-                'max(calc(var(--tg-content-safe-area-inset-right, 0px) + 0.5rem), calc(env(safe-area-inset-right, 0px) + 0.5rem))',
+              // Symmetric inline padding for centering
+              paddingInline:
+                'max(calc(var(--tg-content-safe-area-inset-left, 0px) + 0.5rem), calc(var(--tg-content-safe-area-inset-right, 0px) + 0.5rem), calc(env(safe-area-inset-left, 0px) + 0.5rem), calc(env(safe-area-inset-right, 0px) + 0.5rem))',
             }),
         zIndex: 9999,
       }}
