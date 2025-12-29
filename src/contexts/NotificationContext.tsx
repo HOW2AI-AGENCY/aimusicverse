@@ -328,9 +328,9 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
           queryClient.invalidateQueries({ queryKey: ['tracks'] });
           queryClient.invalidateQueries({ queryKey: ['tracks-infinite'] });
         } else if (task.status === 'failed') {
-          toast.error('Ошибка генерации', {
-            description: task.error_message || 'Попробуйте ещё раз',
-          });
+          // Note: Error toast is NOT shown here - SmartAlertProvider handles generation errors
+          // to avoid duplicate notifications. See SmartAlertProvider.tsx
+          log.info('Generation failed - handled by SmartAlert', { id: task.id, error: task.error_message });
           setActiveGenerations(prev => prev.filter(g => g.id !== task.id));
         } else if (['pending', 'processing', 'streaming_ready'].includes(task.status)) {
           // Update generation progress
