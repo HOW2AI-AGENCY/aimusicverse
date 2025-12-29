@@ -219,21 +219,28 @@ export async function handleCheckTask(
               });
 
             // Generate custom MusicVerse cover (same as suno-music-callback)
+            // Use direct HTTP call instead of supabase.functions.invoke for reliability
             console.log('Generating MusicVerse cover for track:', task.track_id);
             try {
-              const { error: coverError } = await supabase.functions.invoke('generate-track-cover', {
-                body: {
+              const coverResponse = await fetch(`${BOT_CONFIG.supabaseUrl}/functions/v1/generate-track-cover`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${BOT_CONFIG.supabaseServiceKey}`,
+                },
+                body: JSON.stringify({
                   trackId: task.track_id,
                   title: firstClip.title || task.tracks?.title,
                   style: task.tracks?.style || firstClip.tags || '',
                   lyrics: firstClip.lyric || task.prompt || '',
                   userId: task.user_id,
                   projectId: task.tracks?.project_id || null,
-                },
+                }),
               });
               
-              if (coverError) {
-                console.error('Cover generation error:', coverError);
+              if (!coverResponse.ok) {
+                const errorText = await coverResponse.text();
+                console.error('Cover generation error:', coverResponse.status, errorText);
               } else {
                 console.log('MusicVerse cover generation started');
               }
