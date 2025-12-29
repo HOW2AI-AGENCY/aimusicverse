@@ -121,44 +121,201 @@ Design requirements:
 Art direction: ${artStyle}, ${visualStyle.aesthetic}`;
     }
 
+    // Try Lovable AI first, fallback to Replicate if it fails
+    let imageData: string | null = null;
+    let usedProvider = 'lovable';
+
     console.log('🖼️ Generating cover with Lovable AI...');
+    try {
+      const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${lovableApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'google/gemini-3-pro-image-preview',
+          messages: [
+            {
+              role: 'user',
+              content: imagePrompt,
+            },
+          ],
+          modalities: ['image', 'text'],
+        }),
+      });
 
-    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${lovableApiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'google/gemini-3-pro-image-preview',
-        messages: [
-          {
-            role: 'user',
-            content: imagePrompt,
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ Lovable AI error:', response.status, errorText);
+        // If 402 (payment required) or 429 (rate limit), try Replicate
+        if (response.status === 402 || response.status === 429) {
+          throw new Error(`Lovable AI unavailable: ${response.status}`);
+        }
+        throw new Error(`AI generation failed: ${response.status}`);
+      }
+
+      const result = await response.json();
+      imageData = result.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+
+      if (!imageData) {
+        console.error('❌ No image in Lovable response:', JSON.stringify(result).substring(0, 500));
+        throw new Error('No image generated from Lovable AI');
+      }
+    } catch (lovableError: any) {
+      console.warn('⚠️ Lovable AI failed, trying Replicate fallback...', lovableError.message);
+      
+      // Fallback to Replicate with FLUX Schnell
+      const replicateApiKey = Deno.env.get('REPLICATE_API_KEY');
+      if (!replicateApiKey) {
+        throw new Error('Both Lovable AI and Replicate are unavailable');
+      }
+
+      usedProvider = 'replicate';
+      
+      // Simplify prompt for FLUX
+      const fluxPrompt = `Album cover art, square format 1:1, no text, no watermarks, no logos, no letters. ${title || 'Music track'}. Style: ${style || 'modern music'}. Professional digital art for streaming platforms, high quality, distinctive and memorable.`;
+      
+      console.log('🎨 Generating with Replicate FLUX...');
+      
+      const replicateResponse = await fetch('https://api.replicate.com/v1/predictions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${replicateApiKey}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'wait',
+        },
+        body: JSON.stringify({
+          version: 'black-forest-labs/flux-schnell',
+          input: {
+            prompt: fluxPrompt,
+            go_fast: true,
+            megapixels: '1',
+            num_outputs: 1,
+            aspect_ratio: '1:1',
+            output_format: 'png',
+            output_quality: 90,
+            num_inference_steps: 4,
           },
-        ],
-        modalities: ['image', 'text'],
-      }),
-    });
+        }),
+      });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('❌ Lovable AI error:', response.status, errorText);
-      throw new Error(`AI generation failed: ${response.status}`);
+      if (!replicateResponse.ok) {
+        const errorText = await replicateResponse.text();
+        console.error('❌ Replicate error:', replicateResponse.status, errorText);
+        throw new Error(`Replicate generation failed: ${replicateResponse.status}`);
+      }
+
+      const replicateResult = await replicateResponse.json();
+      
+      // If still processing, wait and poll
+      let prediction = replicateResult;
+      let attempts = 0;
+      const maxAttempts = 30; // 30 seconds max
+      
+      while (prediction.status === 'starting' || prediction.status === 'processing') {
+        if (attempts >= maxAttempts) {
+          throw new Error('Replicate generation timeout');
+        }
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        const statusResponse = await fetch(`https://api.replicate.com/v1/predictions/${prediction.id}`, {
+          headers: {
+            'Authorization': `Bearer ${replicateApiKey}`,
+          },
+        });
+        prediction = await statusResponse.json();
+        attempts++;
+      }
+
+      if (prediction.status === 'failed') {
+        console.error('❌ Replicate prediction failed:', prediction.error);
+        throw new Error(`Replicate failed: ${prediction.error}`);
+      }
+
+      const replicateImageUrl = prediction.output?.[0];
+      if (!replicateImageUrl) {
+        throw new Error('No image from Replicate');
+      }
+
+      console.log('✅ Replicate generated image, downloading...');
+      
+      // Download the image from Replicate URL
+      const imageResponse = await fetch(replicateImageUrl);
+      const imageBuffer = await imageResponse.arrayBuffer();
+      const replicateBinaryData = new Uint8Array(imageBuffer);
+
+      // Upload directly to Supabase Storage
+      const coverFileName = `covers/${userId || 'system'}/${trackId}_cover_${Date.now()}.png`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from('project-assets')
+        .upload(coverFileName, replicateBinaryData, {
+          contentType: 'image/png',
+          upsert: true,
+        });
+
+      if (uploadError) {
+        console.error('❌ Upload error:', uploadError);
+        throw new Error(`Upload failed: ${uploadError.message}`);
+      }
+
+      const publicUrl = supabase.storage.from('project-assets').getPublicUrl(coverFileName).data.publicUrl;
+      console.log(`✅ Cover uploaded via Replicate: ${publicUrl}`);
+
+      // Update track with new cover
+      const { error: trackUpdateError } = await supabase
+        .from('tracks')
+        .update({
+          cover_url: publicUrl,
+          local_cover_url: publicUrl,
+        })
+        .eq('id', trackId);
+
+      if (trackUpdateError) {
+        console.error('❌ Track update error:', trackUpdateError);
+      } else {
+        console.log('✅ Track cover updated');
+      }
+
+      // Update ALL versions with the same cover
+      await supabase
+        .from('track_versions')
+        .update({ cover_url: publicUrl })
+        .eq('track_id', trackId);
+
+      // Log to content_audit_log
+      await supabase.from('content_audit_log').insert({
+        entity_type: 'cover',
+        entity_id: trackId,
+        user_id: userId || 'system',
+        actor_type: 'ai',
+        ai_model_used: 'replicate/flux-schnell',
+        action_type: 'generated',
+        action_category: 'generation',
+        prompt_used: fluxPrompt,
+        output_metadata: {
+          cover_url: publicUrl,
+          storage_path: coverFileName,
+          provider: 'replicate',
+        },
+      });
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          coverUrl: publicUrl,
+          trackId,
+          provider: 'replicate',
+        }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
-    const result = await response.json();
-    const imageData = result.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+    console.log(`✅ Cover generated via ${usedProvider}, uploading to storage...`);
 
-    if (!imageData) {
-      console.error('❌ No image in response:', JSON.stringify(result).substring(0, 500));
-      throw new Error('No image generated');
-    }
-
-    console.log('✅ Cover generated, uploading to storage...');
-
-    // Convert base64 to blob
-    const base64Data = imageData.replace(/^data:image\/\w+;base64,/, '');
+    // Convert base64 to blob for Lovable AI response
+    const base64Data = imageData!.replace(/^data:image\/\w+;base64,/, '');
     const binaryData = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
 
     // Upload to Supabase Storage
