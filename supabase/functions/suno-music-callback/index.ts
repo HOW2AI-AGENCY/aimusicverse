@@ -599,21 +599,28 @@ serve(async (req) => {
       }
 
       // Generate custom MusicVerse cover (one cover for all versions)
+      // Use direct HTTP call instead of supabase.functions.invoke for reliability
       logger.info('Generating MusicVerse cover');
       try {
-        const { error: coverError } = await supabase.functions.invoke('generate-track-cover', {
-          body: {
+        const coverResponse = await fetch(`${supabaseUrl}/functions/v1/generate-track-cover`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${supabaseServiceKey}`,
+          },
+          body: JSON.stringify({
             trackId,
             title: trackTitle,
             style: task.tracks?.style || clips[0]?.tags || '',
             lyrics: clips[0]?.prompt || task.prompt || '',
             userId: task.user_id,
             projectId: task.tracks?.project_id || null,
-          },
+          }),
         });
         
-        if (coverError) {
-          logger.error('Cover generation error', coverError);
+        if (!coverResponse.ok) {
+          const errorText = await coverResponse.text();
+          logger.error('Cover generation error', { status: coverResponse.status, error: errorText });
         } else {
           logger.success('MusicVerse cover generated');
         }
