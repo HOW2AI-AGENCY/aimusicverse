@@ -14,9 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useDebounce } from "use-debounce";
 import { TrackCardSkeleton } from "@/components/ui/skeleton-loader";
 import { GeneratingTrackSkeleton } from "@/components/library/GeneratingTrackSkeleton";
-import { supabase } from "@/integrations/supabase/client";
-import { useQuery } from "@tanstack/react-query";
-import { useSyncStaleTasks } from "@/hooks/generation";
+import { useSyncStaleTasks, useActiveGenerations } from "@/hooks/generation";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrackCounts } from "@/hooks/useTrackCounts";
 import { LibraryFilterChips } from "@/components/library/LibraryFilterChips";
@@ -39,29 +37,6 @@ import { DesktopLibraryLayout } from "@/components/library/DesktopLibraryLayout"
 const log = logger.child({ module: 'Library' });
 
 type FilterOption = 'all' | 'vocals' | 'instrumental' | 'stems';
-
-interface GenerationTask {
-  id: string;
-  prompt: string;
-  status: string;
-  generation_mode: string;
-  model_used: string;
-  created_at: string;
-}
-
-const fetchActiveGenerations = async (userId: string) => {
-  const { data, error } = await supabase
-    .from('generation_tasks')
-    .select('id, prompt, status, generation_mode, model_used, created_at')
-    .eq('user_id', userId)
-    .in('status', ['pending', 'processing', 'streaming_ready'])
-    .order('created_at', { ascending: false })
-    .limit(5);
-
-  if (error) throw new Error(error.message);
-  return data as GenerationTask[];
-};
-
 export default function Library() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
@@ -95,13 +70,8 @@ export default function Library() {
   // Auto-sync stale tasks on mount, visibility change, and periodically
   useSyncStaleTasks();
 
-  // Fetch active generation tasks
-  const { data: activeGenerations = [] } = useQuery({
-    queryKey: ['active_generations', user?.id],
-    queryFn: () => fetchActiveGenerations(user!.id),
-    enabled: !!user,
-    refetchInterval: 5000,
-  });
+  // Fetch active generation tasks - use centralized hook
+  const { data: activeGenerations = [] } = useActiveGenerations();
 
   const { 
     tracks, 
