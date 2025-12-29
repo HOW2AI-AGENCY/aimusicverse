@@ -706,6 +706,134 @@ serve(async (req) => {
         }
       }
 
+      // NEW: Create studio project if open_in_studio flag is set and no existing project
+      const openInStudio = taskMetadata?.open_in_studio;
+      const originalTrackId = taskMetadata?.original_track_id;
+      
+      if (openInStudio && !studioProjectId && task.generation_mode === 'add_instrumental' && originalTrackId) {
+        logger.info('Creating new studio project for add_instrumental', { originalTrackId, newTrackId: trackId });
+        
+        try {
+          // Fetch original track (vocal) info
+          const { data: originalTrack, error: origError } = await supabase
+            .from('tracks')
+            .select('id, title, audio_url, duration_seconds, style')
+            .eq('id', originalTrackId)
+            .single();
+          
+          if (origError || !originalTrack) {
+            logger.error('Original track not found for studio project', origError);
+          } else {
+            // Fetch newly created track info
+            const { data: newTrack, error: newTrackError } = await supabase
+              .from('tracks')
+              .select('id, title, audio_url, duration_seconds, style')
+              .eq('id', trackId)
+              .single();
+            
+            if (newTrackError || !newTrack) {
+              logger.error('New track not found for studio project', newTrackError);
+            } else {
+              // Create studio project with both tracks
+              const studioTracks = [
+                {
+                  id: `track-vocal-${Date.now()}`,
+                  name: originalTrack.title || 'Вокал',
+                  type: 'vocals',
+                  audioUrl: originalTrack.audio_url,
+                  sourceTrackId: originalTrack.id,
+                  volume: 0.8,
+                  pan: 0,
+                  mute: false,
+                  solo: false,
+                  status: 'ready',
+                  clips: [{
+                    id: `clip-vocal-${Date.now()}`,
+                    trackId: `track-vocal-${Date.now()}`,
+                    audioUrl: originalTrack.audio_url,
+                    name: originalTrack.title || 'Вокал',
+                    startTime: 0,
+                    duration: originalTrack.duration_seconds || 180,
+                    trimStart: 0,
+                    trimEnd: 0,
+                    fadeIn: 0,
+                    fadeOut: 0,
+                  }],
+                },
+                {
+                  id: `track-instrumental-${Date.now() + 1}`,
+                  name: newTrack.title || 'Инструментал',
+                  type: 'instrumental',
+                  audioUrl: newTrack.audio_url,
+                  sourceTrackId: newTrack.id,
+                  volume: 0.7,
+                  pan: 0,
+                  mute: false,
+                  solo: false,
+                  status: 'ready',
+                  clips: [{
+                    id: `clip-instrumental-${Date.now() + 1}`,
+                    trackId: `track-instrumental-${Date.now() + 1}`,
+                    audioUrl: newTrack.audio_url,
+                    name: newTrack.title || 'Инструментал',
+                    startTime: 0,
+                    duration: newTrack.duration_seconds || 180,
+                    trimStart: 0,
+                    trimEnd: 0,
+                    fadeIn: 0,
+                    fadeOut: 0,
+                  }],
+                },
+              ];
+              
+              const { data: newProject, error: projectError } = await supabase
+                .from('studio_projects')
+                .insert({
+                  user_id: task.user_id,
+                  source_track_id: originalTrack.id,
+                  name: `${originalTrack.title || 'Трек'} + Инструментал`,
+                  description: 'Автоматически создано из добавления инструментала',
+                  status: 'draft',
+                  stems_mode: 'simple',
+                  tracks: studioTracks,
+                  duration_seconds: Math.max(
+                    originalTrack.duration_seconds || 180,
+                    newTrack.duration_seconds || 180
+                  ),
+                })
+                .select('id')
+                .single();
+              
+              if (projectError) {
+                logger.error('Failed to create studio project', projectError);
+              } else {
+                logger.success('Created studio project for add_instrumental', { 
+                  projectId: newProject?.id,
+                  vocalTrackId: originalTrackId,
+                  instrumentalTrackId: trackId 
+                });
+                
+                // Create notification for user to open studio
+                await supabase.from('notifications').insert({
+                  user_id: task.user_id,
+                  type: 'studio_ready',
+                  title: 'Инструментал готов! 🎸',
+                  message: `Инструментал для "${originalTrack.title || 'трека'}" готов. Открыть студию для сведения?`,
+                  action_url: `/studio-v2/project/${newProject?.id}`,
+                  metadata: {
+                    studio_project_id: newProject?.id,
+                    original_track_id: originalTrackId,
+                    instrumental_track_id: trackId,
+                  },
+                });
+              }
+            }
+          }
+        } catch (studioCreateErr) {
+          logger.error('Studio project creation error', studioCreateErr);
+        }
+      }
+
       await supabase.from('generation_tasks').update({
         status: 'completed',
         completed_at: new Date().toISOString(),

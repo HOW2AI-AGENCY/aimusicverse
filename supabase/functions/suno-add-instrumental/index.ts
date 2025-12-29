@@ -69,6 +69,9 @@ serve(async (req) => {
       mood,
       bpm,
       customStyle,
+      // NEW: From AddInstrumentalDialog
+      openInStudio,
+      originalTrackId,
     } = await req.json();
 
     if (!audioFile && !audioUrl) {
@@ -261,6 +264,8 @@ serve(async (req) => {
     const taskMetadata = {
       studio_project_id: studioProjectId || null,
       pending_track_id: pendingTrackId || null,
+      open_in_studio: openInStudio || false,
+      original_track_id: originalTrackId || null,
       settings: {
         genre: genre || null,
         mood: mood || null,
@@ -269,7 +274,7 @@ serve(async (req) => {
       },
     };
 
-    const { error: taskError } = await supabase
+    const { data: generationTask, error: taskError } = await supabase
       .from('generation_tasks')
       .insert({
         user_id: user.id,
@@ -280,17 +285,22 @@ serve(async (req) => {
         model_used: model,
         generation_mode: 'add_instrumental',
         audio_clips: JSON.stringify(taskMetadata),
-      });
+      })
+      .select('id')
+      .single();
 
     if (taskError) {
       console.error('Task creation error:', taskError);
       throw taskError;
     }
 
+    console.log('✅ Generation task created:', generationTask?.id, 'openInStudio:', openInStudio);
+
     return new Response(
       JSON.stringify({
         success: true,
-        taskId: sunoTaskId,
+        taskId: generationTask?.id,  // Return generation_tasks.id for frontend tracking (consistent with add-vocals)
+        sunoTaskId: sunoTaskId,      // Also include Suno's task ID
         trackId: track.id,
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
