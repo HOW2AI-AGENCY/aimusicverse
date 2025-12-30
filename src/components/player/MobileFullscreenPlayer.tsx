@@ -253,6 +253,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   }, [lyricsLines]);
 
   // Use unified synchronization hook for precise timing
+  // Only enable when playing AND we have lyrics to reduce CPU usage
   const {
     activeLineIndex,
     activeWordIndex,
@@ -262,7 +263,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     constants,
   } = useLyricsSynchronization({
     words: flattenedWords,
-    enabled: !!lyricsLines?.length,
+    enabled: !!lyricsLines?.length && isPlaying,
   });
 
   // Handle user scroll detection
