@@ -1,8 +1,9 @@
 /**
  * SFX Generator Panel - Generate sound effects via Replicate/fal.ai
+ * Integrates with studio audio coordination
  */
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useId } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -11,10 +12,16 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, Sparkles, Play, Plus, Volume2 } from 'lucide-react';
+import { Loader2, Sparkles, Play, Pause, Plus, Volume2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useStudioProjectStore } from '@/stores/useStudioProjectStore';
 import { cn } from '@/lib/utils';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { 
+  registerStudioAudio, 
+  unregisterStudioAudio, 
+  pauseAllStudioAudio 
+} from '@/hooks/studio/useStudioAudio';
 
 interface SFXGeneratorPanelProps {
   onClose: () => void;
@@ -37,8 +44,32 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
   const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio] = useState(() => new Audio());
+  const sourceId = useId();
   
   const { addTrack, addClip, currentProject } = useStudioProjectStore();
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+
+  // Register with studio audio coordinator
+  useEffect(() => {
+    const fullSourceId = `sfx-generator-${sourceId}`;
+    registerStudioAudio(fullSourceId, () => {
+      audio.pause();
+      setIsPlaying(false);
+    });
+
+    return () => {
+      unregisterStudioAudio(fullSourceId);
+      audio.pause();
+    };
+  }, [sourceId, audio]);
+
+  // Pause when global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying, audio]);
 
   const generateMutation = useMutation({
     mutationFn: async ({ prompt, duration }: { prompt: string; duration: number }) => {
@@ -78,6 +109,10 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
       audio.pause();
       setIsPlaying(false);
     } else {
+      // Pause global player and other studio audio
+      pauseTrack();
+      pauseAllStudioAudio(`sfx-generator-${sourceId}`);
+
       audio.src = generatedUrl;
       audio.play();
       setIsPlaying(true);
@@ -200,7 +235,7 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
               onClick={handlePreview}
             >
               {isPlaying ? (
-                <Volume2 className="h-4 w-4 mr-2 animate-pulse" />
+                <Pause className="h-4 w-4 mr-2" />
               ) : (
                 <Play className="h-4 w-4 mr-2" />
               )}

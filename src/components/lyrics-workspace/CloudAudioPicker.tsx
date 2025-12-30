@@ -1,8 +1,9 @@
 /**
  * CloudAudioPicker - Select audio from cloud reference library
+ * Integrates with studio audio coordination
  */
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useId } from 'react';
 import { 
   Cloud, 
   Search, 
@@ -28,6 +29,12 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { 
+  registerStudioAudio, 
+  unregisterStudioAudio, 
+  pauseAllStudioAudio 
+} from '@/hooks/studio/useStudioAudio';
 
 interface CloudAudio {
   id: string;
@@ -59,6 +66,9 @@ export function CloudAudioPicker({
   const [searchQuery, setSearchQuery] = useState('');
   const [playingId, setPlayingId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const sourceId = useId();
+  
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
 
   // Fetch audio list
   useEffect(() => {
@@ -66,6 +76,27 @@ export function CloudAudioPicker({
       fetchAudioList();
     }
   }, [open, user]);
+
+  // Register with studio audio coordinator
+  useEffect(() => {
+    const fullSourceId = `lyrics-cloud-picker-${sourceId}`;
+    registerStudioAudio(fullSourceId, () => {
+      audioRef.current?.pause();
+      setPlayingId(null);
+    });
+
+    return () => {
+      unregisterStudioAudio(fullSourceId);
+    };
+  }, [sourceId]);
+
+  // Pause when global player starts
+  useEffect(() => {
+    if (globalIsPlaying && playingId) {
+      audioRef.current?.pause();
+      setPlayingId(null);
+    }
+  }, [globalIsPlaying, playingId]);
 
   // Cleanup audio on close
   useEffect(() => {
@@ -104,9 +135,12 @@ export function CloudAudioPicker({
       return;
     }
 
-    if (audioRef.current) {
-      audioRef.current.pause();
-    }
+    // Stop current playback
+    audioRef.current?.pause();
+
+    // Pause global player and other studio audio
+    pauseTrack();
+    pauseAllStudioAudio(`lyrics-cloud-picker-${sourceId}`);
 
     const newAudio = new Audio(audio.file_url);
     newAudio.onended = () => setPlayingId(null);

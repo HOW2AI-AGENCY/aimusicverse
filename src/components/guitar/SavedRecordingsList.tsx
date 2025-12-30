@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect, useId } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -15,6 +15,12 @@ import { format, ru } from '@/lib/date-utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { SavedRecordingDetailSheet } from './SavedRecordingDetailSheet';
 import { formatDuration } from '@/lib/player-utils';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { 
+  registerStudioAudio, 
+  unregisterStudioAudio, 
+  pauseAllStudioAudio 
+} from '@/hooks/studio/useStudioAudio';
 
 interface SavedRecordingsListProps {
   onSelect?: (recording: GuitarRecording) => void;
@@ -27,6 +33,32 @@ export function SavedRecordingsList({ onSelect, selectedId, showDetails = true }
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState('');
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const sourceId = useId();
+  
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+
+  // Register with studio audio coordinator
+  useEffect(() => {
+    const fullSourceId = `saved-recordings-${sourceId}`;
+    registerStudioAudio(fullSourceId, () => {
+      audioRef.current?.pause();
+      setPlayingId(null);
+    });
+
+    return () => {
+      unregisterStudioAudio(fullSourceId);
+      audioRef.current?.pause();
+    };
+  }, [sourceId]);
+
+  // Pause when global player starts
+  useEffect(() => {
+    if (globalIsPlaying && playingId) {
+      audioRef.current?.pause();
+      setPlayingId(null);
+    }
+  }, [globalIsPlaying, playingId]);
   const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
   const [detailRecording, setDetailRecording] = useState<GuitarRecording | null>(null);
 
@@ -34,19 +66,24 @@ export function SavedRecordingsList({ onSelect, selectedId, showDetails = true }
     e.stopPropagation();
     
     if (playingId === recording.id) {
-      audioElement?.pause();
+      audioRef.current?.pause();
       setPlayingId(null);
       return;
     }
 
-    if (audioElement) {
-      audioElement.pause();
-    }
+    // Stop current playback
+    audioRef.current?.pause();
 
+    // Pause global player and other studio audio
+    pauseTrack();
+    pauseAllStudioAudio(`saved-recordings-${sourceId}`);
+
+    // Play this recording
     const audio = new Audio(recording.audio_url);
     audio.onended = () => setPlayingId(null);
+    audio.onerror = () => setPlayingId(null);
     audio.play();
-    setAudioElement(audio);
+    audioRef.current = audio;
     setPlayingId(recording.id);
   };
 
@@ -65,7 +102,7 @@ export function SavedRecordingsList({ onSelect, selectedId, showDetails = true }
   const handleDelete = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     if (playingId === id) {
-      audioElement?.pause();
+      audioRef.current?.pause();
       setPlayingId(null);
     }
     deleteRecording.mutate(id);

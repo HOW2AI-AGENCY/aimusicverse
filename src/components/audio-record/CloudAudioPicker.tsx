@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useId } from 'react';
 import { useReferenceAudio, ReferenceAudio } from '@/hooks/useReferenceAudio';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,6 +7,12 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Search, Play, Pause, Music, Mic, Cloud, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { 
+  registerStudioAudio, 
+  unregisterStudioAudio, 
+  pauseAllStudioAudio 
+} from '@/hooks/studio/useStudioAudio';
 
 interface CloudAudioPickerProps {
   onSelect: (audio: ReferenceAudio) => void;
@@ -18,6 +24,31 @@ export function CloudAudioPicker({ onSelect, selectedId }: CloudAudioPickerProps
   const [searchQuery, setSearchQuery] = useState('');
   const [playingId, setPlayingId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const sourceId = useId();
+  
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+
+  // Register with studio audio coordinator
+  useEffect(() => {
+    const fullSourceId = `cloud-picker-${sourceId}`;
+    registerStudioAudio(fullSourceId, () => {
+      audioRef.current?.pause();
+      setPlayingId(null);
+    });
+
+    return () => {
+      unregisterStudioAudio(fullSourceId);
+      audioRef.current?.pause();
+    };
+  }, [sourceId]);
+
+  // Pause when global player starts
+  useEffect(() => {
+    if (globalIsPlaying && playingId) {
+      audioRef.current?.pause();
+      setPlayingId(null);
+    }
+  }, [globalIsPlaying, playingId]);
 
   const filteredAudio = audioList?.filter((a) =>
     a.file_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -39,9 +70,13 @@ export function CloudAudioPicker({ onSelect, selectedId }: CloudAudioPickerProps
       audioRef.current?.pause();
       setPlayingId(null);
     } else {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
+      // Stop current playback
+      audioRef.current?.pause();
+
+      // Pause global player and other studio audio
+      pauseTrack();
+      pauseAllStudioAudio(`cloud-picker-${sourceId}`);
+
       const newAudio = new Audio(audio.file_url);
       newAudio.onended = () => setPlayingId(null);
       newAudio.onerror = () => {

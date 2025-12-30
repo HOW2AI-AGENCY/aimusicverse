@@ -1,15 +1,22 @@
-import { memo } from 'react';
+import { memo, useState, useRef, useEffect } from 'react';
 import { useTrackVersions } from '@/hooks/useTrackVersions';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Music2, Clock, Play, Download, Check, Trash2, Plus } from 'lucide-react';
+import { Music2, Clock, Play, Pause, Download, Check, Trash2, Plus } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useTrackVersionManagement } from '@/hooks/useTrackVersionManagement';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import type { Track } from '@/types/track';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { 
+  registerStudioAudio, 
+  unregisterStudioAudio, 
+  pauseAllStudioAudio 
+} from '@/hooks/studio/useStudioAudio';
 import { formatTime } from '@/lib/formatters';
+import { Pause } from 'lucide-react';
 
 interface VersionMetadata {
   prompt?: string;
@@ -34,6 +41,33 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
     setVersionAsPrimary, 
     deleteVersion 
   } = useTrackVersionManagement();
+  
+  const [playingId, setPlayingId] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const sourceId = `versions-tab-${trackId}`;
+  
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+
+  // Register with studio audio coordinator
+  useEffect(() => {
+    registerStudioAudio(sourceId, () => {
+      audioRef.current?.pause();
+      setPlayingId(null);
+    });
+
+    return () => {
+      unregisterStudioAudio(sourceId);
+      audioRef.current?.pause();
+    };
+  }, [sourceId]);
+
+  // Pause when global player starts
+  useEffect(() => {
+    if (globalIsPlaying && playingId) {
+      audioRef.current?.pause();
+      setPlayingId(null);
+    }
+  }, [globalIsPlaying, playingId]);
 
   // Fetch main track data
   const { data: mainTrack } = useQuery({
@@ -125,9 +159,27 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
     );
   }
 
-  const handlePlayVersion = (audioUrl: string) => {
+  const handlePlayVersion = (versionId: string, audioUrl: string) => {
+    if (playingId === versionId) {
+      audioRef.current?.pause();
+      setPlayingId(null);
+      return;
+    }
+
+    // Stop current playback
+    audioRef.current?.pause();
+
+    // Pause global player and other studio audio
+    pauseTrack();
+    pauseAllStudioAudio(sourceId);
+
+    // Play this version
     const audio = new Audio(audioUrl);
+    audio.onended = () => setPlayingId(null);
+    audio.onerror = () => setPlayingId(null);
     audio.play();
+    audioRef.current = audio;
+    setPlayingId(versionId);
   };
 
   return (
@@ -253,12 +305,16 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
                 <div className="flex gap-2 flex-wrap">
                   <Button 
                     size="sm" 
-                    variant="outline" 
+                    variant={playingId === version.id ? "default" : "outline"}
                     className="flex-1"
-                    onClick={() => handlePlayVersion(version.audio_url)}
+                    onClick={() => handlePlayVersion(version.id, version.audio_url)}
                   >
-                    <Play className="w-3 h-3 mr-1" />
-                    Прослушать
+                    {playingId === version.id ? (
+                      <Pause className="w-3 h-3 mr-1" />
+                    ) : (
+                      <Play className="w-3 h-3 mr-1" />
+                    )}
+                    {playingId === version.id ? 'Пауза' : 'Прослушать'}
                   </Button>
                   <Button 
                     size="sm" 
