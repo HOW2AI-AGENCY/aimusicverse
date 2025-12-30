@@ -2,7 +2,7 @@
  * Piano Roll with MIDI synchronized playback
  * Plays MIDI notes in real-time with audio
  */
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useId } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -19,6 +19,8 @@ import type { MidiNote } from '@/hooks/useMidiVisualization';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { motion } from '@/lib/motion';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
 
 interface NoteData {
   pitch: number;
@@ -65,9 +67,31 @@ export function PianoRollWithMidiSync({
   className,
 }: PianoRollWithMidiSyncProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const sourceId = useId();
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
+
+  // Register for studio audio coordination
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      registerStudioAudio(sourceId, () => {
+        audio.pause();
+        setIsPlaying(false);
+      });
+    }
+    return () => unregisterStudioAudio(sourceId);
+  }, [sourceId]);
+
+  // Pause if global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying]);
   
   const midiNotes = toMidiNotes(notes);
   
@@ -129,6 +153,8 @@ export function PianoRollWithMidiSync({
       audio.pause();
       stopAll();
     } else {
+      pauseTrack();
+      pauseAllStudioAudio(sourceId);
       audio.play();
     }
   };

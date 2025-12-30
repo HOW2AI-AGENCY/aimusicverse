@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useId } from 'react';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, Loader2, Scissors } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { logger } from '@/lib/logger';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
 
 type WaveSurferCtor = typeof import('wavesurfer.js');
 type WaveSurferInstance = any;
@@ -27,6 +29,8 @@ export const AudioTrimSelector = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const wavesurferRef = useRef<WaveSurferInstance | null>(null);
   const regionsRef = useRef<RegionsPluginInstance | null>(null);
+  const sourceId = useId();
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
   const [isReady, setIsReady] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -34,6 +38,25 @@ export const AudioTrimSelector = ({
   const [duration, setDuration] = useState(0);
   const [regionStart, setRegionStart] = useState(0);
   const [regionEnd, setRegionEnd] = useState(maxDuration);
+
+  // Register for studio audio coordination
+  useEffect(() => {
+    if (wavesurferRef.current) {
+      registerStudioAudio(sourceId, () => {
+        wavesurferRef.current?.pause();
+        setIsPlaying(false);
+      });
+    }
+    return () => unregisterStudioAudio(sourceId);
+  }, [sourceId, isReady]);
+
+  // Pause if global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      wavesurferRef.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying]);
 
   useEffect(() => {
     let mounted = true;
@@ -167,12 +190,20 @@ export const AudioTrimSelector = ({
 
   const togglePlayPause = () => {
     if (wavesurferRef.current) {
-      wavesurferRef.current.playPause();
+      if (isPlaying) {
+        wavesurferRef.current.pause();
+      } else {
+        pauseTrack();
+        pauseAllStudioAudio(sourceId);
+        wavesurferRef.current.play();
+      }
     }
   };
 
   const playRegion = () => {
     if (wavesurferRef.current) {
+      pauseTrack();
+      pauseAllStudioAudio(sourceId);
       wavesurferRef.current.setTime(regionStart);
       wavesurferRef.current.play();
       
