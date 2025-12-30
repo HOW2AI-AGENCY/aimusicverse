@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
   Trash2, ListMusic, Sparkles, Layers, Layers2, Clock, Music2, 
-  Shuffle, Repeat, Repeat1, Save, Check
+  Shuffle, Repeat, Repeat1, Save, Check, Radio, Loader2
 } from 'lucide-react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
@@ -22,6 +22,7 @@ import { cn } from '@/lib/utils';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
+import { useRadioMode } from '@/hooks/audio/useRadioMode';
 
 interface QueueSheetProps {
   open: boolean;
@@ -37,6 +38,9 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
 
   const { user } = useAuth();
   const [isSaving, setIsSaving] = useState(false);
+  
+  // Radio mode for auto-adding similar tracks
+  const { isEnabled: radioEnabled, isFetching: radioFetching, toggleRadioMode, autoAddedCount } = useRadioMode();
 
   const { 
     queue, 
@@ -266,6 +270,31 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
             >
               {versionMode === 'all' ? <Layers className="w-3.5 h-3.5" /> : <Layers2 className="w-3.5 h-3.5" />}
               {versionMode === 'all' ? 'Все' : 'Активные'}
+            </Button>
+          </div>
+
+          {/* Second row: Radio mode and Save */}
+          <div className="flex items-center gap-2 mt-2">
+            {/* Radio mode toggle */}
+            <Button
+              variant={radioEnabled ? "default" : "outline"}
+              size="sm"
+              onClick={toggleRadioMode}
+              disabled={radioFetching}
+              className={cn(
+                "h-8 px-3 rounded-xl gap-1.5 text-xs",
+                radioEnabled && "bg-accent text-accent-foreground"
+              )}
+            >
+              {radioFetching ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <Radio className="w-3.5 h-3.5" />
+              )}
+              Радио
+              {radioEnabled && autoAddedCount > 0 && (
+                <span className="ml-1 text-[10px] opacity-70">+{autoAddedCount}</span>
+              )}
             </Button>
 
             {/* Save as playlist */}
