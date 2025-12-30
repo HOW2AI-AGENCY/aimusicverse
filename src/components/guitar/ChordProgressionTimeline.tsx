@@ -4,7 +4,7 @@
  * Based on klang.io chord recognition results
  */
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useId } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -13,6 +13,8 @@ import { Music2, PlayCircle, PauseCircle, SkipBack, SkipForward } from 'lucide-r
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import type { ChordData } from '@/hooks/useGuitarAnalysis';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
 
 interface ChordProgressionTimelineProps {
   chords: ChordData[];
@@ -42,9 +44,31 @@ export function ChordProgressionTimeline({
 }: ChordProgressionTimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const sourceId = useId();
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [currentChordIndex, setCurrentChordIndex] = useState<number>(-1);
+
+  // Register for studio audio coordination
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      registerStudioAudio(sourceId, () => {
+        audio.pause();
+        setIsPlaying(false);
+      });
+    }
+    return () => unregisterStudioAudio(sourceId);
+  }, [sourceId]);
+
+  // Pause if global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying]);
 
   // Map unique chords to colors
   const uniqueChords = Array.from(new Set(chords.map(c => c.chord)));
@@ -82,6 +106,8 @@ export function ChordProgressionTimeline({
     if (isPlaying) {
       audio.pause();
     } else {
+      pauseTrack();
+      pauseAllStudioAudio(sourceId);
       audio.play();
     }
     setIsPlaying(!isPlaying);
