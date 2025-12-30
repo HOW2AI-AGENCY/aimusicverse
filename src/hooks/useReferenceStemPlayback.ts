@@ -2,9 +2,16 @@
  * useReferenceStemPlayback - Hook for synchronized stem playback
  * 
  * Manages multiple audio elements with mute/solo, volume control, and sync
+ * Integrates with studio audio coordination to ensure single playback source
  */
 
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, useId } from 'react';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { 
+  registerStudioAudio, 
+  unregisterStudioAudio, 
+  pauseAllStudioAudio 
+} from '@/hooks/studio/useStudioAudio';
 
 export interface Stem {
   id: string;
@@ -33,11 +40,15 @@ interface UseReferenceStemPlaybackReturn {
   toggleSolo: (stemId: string) => void;
   setStemVolume: (stemId: string, volume: number) => void;
   audioRefs: React.MutableRefObject<Map<string, HTMLAudioElement>>;
+  pause: () => void;
 }
 
 export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybackReturn {
+  const sourceId = useId();
   const audioRefs = useRef<Map<string, HTMLAudioElement>>(new Map());
   const animationRef = useRef<number | undefined>(undefined);
+  
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
   
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -63,6 +74,12 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
     if (hasSolo && !state.solo) return 0;
     return state.volume * masterVolume;
   }, [stemStates, masterVolume, hasSolo]);
+
+  // Pause function for external coordination
+  const pause = useCallback(() => {
+    audioRefs.current.forEach(audio => audio.pause());
+    setIsPlaying(false);
+  }, []);
 
   // Initialize audio elements
   useEffect(() => {
@@ -102,8 +119,16 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
     
     audioRefs.current = newAudioRefs;
     
+    // Register with studio audio coordinator
+    const studioSourceId = `reference-stems-${sourceId}`;
+    registerStudioAudio(studioSourceId, () => {
+      audioRefs.current.forEach(audio => audio.pause());
+      setIsPlaying(false);
+    });
+    
     // Cleanup
     return () => {
+      unregisterStudioAudio(studioSourceId);
       audioRefs.current.forEach(audio => {
         audio.pause();
         audio.src = '';
@@ -113,7 +138,7 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [stems]);
+  }, [stems, sourceId]);
 
   // Update volumes when state changes
   useEffect(() => {
@@ -121,6 +146,14 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
       audio.volume = getEffectiveVolume(stemId);
     });
   }, [getEffectiveVolume]);
+
+  // Pause when global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audioRefs.current.forEach(audio => audio.pause());
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying]);
 
   // Animation frame for time updates
   useEffect(() => {
@@ -150,6 +183,10 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
     if (isPlaying) {
       audioRefs.current.forEach(audio => audio.pause());
     } else {
+      // Pause global player and other studio audio first
+      pauseTrack();
+      pauseAllStudioAudio(`reference-stems-${sourceId}`);
+      
       // Sync all audio elements to the same time before playing
       const targetTime = currentTime;
       audioRefs.current.forEach(audio => {
@@ -158,7 +195,7 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
       });
     }
     setIsPlaying(!isPlaying);
-  }, [isPlaying, currentTime]);
+  }, [isPlaying, currentTime, pauseTrack, sourceId]);
 
   const seek = useCallback((time: number) => {
     audioRefs.current.forEach(audio => {
@@ -215,5 +252,6 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
     toggleSolo,
     setStemVolume,
     audioRefs,
+    pause,
   };
 }
