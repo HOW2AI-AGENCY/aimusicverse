@@ -3,7 +3,7 @@
  * Hero waveform + swipeable tabs + micro-animations
  */
 
-import { memo, useState, useCallback, useRef, useEffect } from 'react';
+import { memo, useState, useCallback, useRef, useEffect, useId } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   ChevronLeft, 
@@ -32,6 +32,8 @@ import { studioAnimations, getChordColor } from '@/lib/studio-animations';
 import { formatTime } from '@/lib/player-utils';
 import type { GuitarRecording } from '@/types/guitar';
 import type { Database } from '@/integrations/supabase/types';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
 
 interface GuitarAnalysisFullscreenProps {
   recording: GuitarRecording;
@@ -55,6 +57,8 @@ export const GuitarAnalysisFullscreen = memo(function GuitarAnalysisFullscreen({
 }: GuitarAnalysisFullscreenProps) {
   const haptic = useHapticFeedback();
   const audioRef = useRef<HTMLAudioElement>(null);
+  const sourceId = useId();
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
   
   const [activeTab, setActiveTab] = useState('chords');
   const [isPlaying, setIsPlaying] = useState(false);
@@ -63,6 +67,26 @@ export const GuitarAnalysisFullscreen = memo(function GuitarAnalysisFullscreen({
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [currentChord, setCurrentChord] = useState<string | null>(null);
+
+  // Register for studio audio coordination
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      registerStudioAudio(sourceId, () => {
+        audio.pause();
+        setIsPlaying(false);
+      });
+    }
+    return () => unregisterStudioAudio(sourceId);
+  }, [sourceId]);
+
+  // Pause if global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying]);
 
   // Parse chord data and convert to consistent format
   const rawChords = Array.isArray(recording.chords) ? recording.chords : [];
@@ -135,10 +159,12 @@ export const GuitarAnalysisFullscreen = memo(function GuitarAnalysisFullscreen({
     if (isPlaying) {
       audio.pause();
     } else {
+      pauseTrack();
+      pauseAllStudioAudio(sourceId);
       audio.play();
     }
     haptic.impact('light');
-  }, [isPlaying, haptic]);
+  }, [isPlaying, haptic, pauseTrack, sourceId]);
 
   const handleSeek = useCallback((time: number) => {
     const audio = audioRef.current;

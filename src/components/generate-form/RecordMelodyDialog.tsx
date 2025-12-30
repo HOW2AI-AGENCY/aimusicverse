@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useId } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,8 @@ import { Mic, MicOff, Music2, Sparkles, Play, Pause, Trash2, ArrowRight, Piano, 
 import { useMelodyAnalysis, type MelodyAnalysisResult } from '@/hooks/useMelodyAnalysis';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
 
 interface RecordMelodyDialogProps {
   onComplete: (data: {
@@ -25,6 +27,8 @@ export function RecordMelodyDialog({ onComplete, trigger }: RecordMelodyDialogPr
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const isMobile = useIsMobile();
+  const sourceId = useId();
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
 
   const {
     isAnalyzing,
@@ -37,6 +41,26 @@ export function RecordMelodyDialog({ onComplete, trigger }: RecordMelodyDialogPr
     analyzeRecordedAudio,
     clearRecording,
   } = useMelodyAnalysis();
+
+  // Register for studio audio coordination
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      registerStudioAudio(sourceId, () => {
+        audio.pause();
+        setIsPlaying(false);
+      });
+    }
+    return () => unregisterStudioAudio(sourceId);
+  }, [sourceId]);
+
+  // Pause if global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying]);
 
   // Cleanup on close
   useEffect(() => {
@@ -53,6 +77,8 @@ export function RecordMelodyDialog({ onComplete, trigger }: RecordMelodyDialogPr
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
+      pauseTrack();
+      pauseAllStudioAudio(sourceId);
       audioRef.current.play();
       setIsPlaying(true);
     }
