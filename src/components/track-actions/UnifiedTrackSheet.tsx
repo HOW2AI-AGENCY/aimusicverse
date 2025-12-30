@@ -8,6 +8,7 @@ import { ShareActions } from './sections/ShareActions';
 import { StudioActions } from './sections/StudioActions';
 import { CreateActions } from './sections/CreateActions';
 import { DeleteActions } from './sections/DeleteActions';
+import { QueueActionsSheet } from './sections/QueueActions';
 import { TrackDialogsPortal } from './TrackDialogsPortal';
 import { VersionsSection } from './sections/VersionsSection';
 import { QuickStemsButton } from './sections/QuickStemsButton';
@@ -99,7 +100,13 @@ export function UnifiedTrackSheet({
 
             <Separator className="my-2" />
 
-            {/* Download Actions */}
+            {/* Queue Actions */}
+            <QueueActionsSheet 
+              track={track} 
+              onAction={() => onOpenChange(false)} 
+            />
+
+            <Separator className="my-2" />
             <DownloadActions
               track={track}
               state={actionState}

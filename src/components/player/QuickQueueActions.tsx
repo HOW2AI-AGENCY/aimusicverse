@@ -39,7 +39,7 @@ export function QuickQueueActions({
   iconClassName,
   showLabels = false,
 }: QuickQueueActionsProps) {
-  const { addTrack, queue, currentIndex } = usePlaybackQueue();
+  const { addTrack, playNext } = usePlaybackQueue();
 
   /**
    * Play track now (replace queue)
@@ -57,11 +57,7 @@ export function QuickQueueActions({
    */
   const handlePlayNext = () => {
     hapticImpact('light');
-    
-    // Insert after current track
-    const newQueue = [...queue];
-    newQueue.splice(currentIndex + 1, 0, track);
-    
+    playNext(track);
     toast.success('Добавлено в очередь', {
       description: `Играет следующим: ${track.title}`,
     });
