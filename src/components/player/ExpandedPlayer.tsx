@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ChevronDown, Maximize2, ListMusic, Heart, Sparkles, Music2 } from 'lucide-react';
-import { useAudioTime } from '@/hooks/audio/useAudioTime';
+import { useAudioTime, getGlobalAudioRef } from '@/hooks/audio/useAudioTime';
 import { PlaybackControls } from './PlaybackControls';
 import { ProgressBar } from './ProgressBar';
 import { QueueSheet } from './QueueSheet';
@@ -16,6 +16,7 @@ import type { PanInfo } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
 import { GlassCard } from '@/components/ui/glass-card';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { logger } from '@/lib/logger';
 
 interface ExpandedPlayerProps {
   track: Track;
@@ -27,23 +28,54 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
   const { toggleLike } = useTracks();
   const [queueOpen, setQueueOpen] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
-  const { isPlaying, queue, preservedTime, clearPreservedTime } = usePlayerStore();
+  const { isPlaying, queue, preservedTime, clearPreservedTime, volume } = usePlayerStore();
 
   const { currentTime, duration, buffered, seek } = useAudioTime();
   
-  // Restore preserved time on mount (from mode switch)
+  // Restore preserved time on mount (from mode switch) - use proper audio ref
   useEffect(() => {
     if (preservedTime !== null && !isNaN(preservedTime)) {
-      const audio = (window as any).__globalAudioRef;
+      const audio = getGlobalAudioRef();
       if (audio) {
         const timer = setTimeout(() => {
-          audio.currentTime = preservedTime;
-          clearPreservedTime();
+          const currentAudio = getGlobalAudioRef();
+          if (currentAudio && preservedTime !== null) {
+            currentAudio.currentTime = preservedTime;
+            clearPreservedTime();
+          }
         }, 50);
         return () => clearTimeout(timer);
       }
     }
   }, [preservedTime, clearPreservedTime]);
+  
+  // Ensure audio context is ready and volume is synced
+  useEffect(() => {
+    let mounted = true;
+    
+    const ensureAudio = async () => {
+      const audio = getGlobalAudioRef();
+      if (!audio || !mounted) return;
+      
+      try {
+        const { resumeAudioContext, ensureAudioRoutedToDestination } = await import('@/lib/audioContextManager');
+        await resumeAudioContext(2);
+        await ensureAudioRoutedToDestination();
+        
+        // Sync volume
+        if (audio && mounted) {
+          audio.volume = volume;
+          audio.muted = false;
+        }
+      } catch (err) {
+        logger.warn('Error ensuring audio in expanded player');
+      }
+    };
+    
+    ensureAudio();
+    
+    return () => { mounted = false; };
+  }, [volume]);
 
   const handleLike = async () => {
     setIsLiking(true);

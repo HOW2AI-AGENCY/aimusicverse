@@ -170,6 +170,10 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
   // Stable ref for isPlaying to avoid effect re-runs
   const isPlayingRef = useRef(isPlaying);
   isPlayingRef.current = isPlaying;
+  
+  // Ref to track if we're currently loading a new track
+  const isLoadingRef = useRef(false);
+  const playPromiseRef = useRef<Promise<void> | null>(null);
 
   // Effect for loading new tracks - only triggers on track change
   useEffect(() => {
@@ -184,6 +188,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       audio.pause();
       audio.src = '';
       lastTrackIdRef.current = null;
+      isLoadingRef.current = false;
       return;
     }
 
@@ -192,15 +197,36 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     // Only load if track actually changed
     if (trackChanged) {
       lastTrackIdRef.current = activeTrack?.id || null;
+      isLoadingRef.current = true;
+      
       logger.debug('Loading new track', { 
         trackId: activeTrack?.id,
         title: activeTrack?.title 
       });
       
+      // Cancel any pending play promise
+      playPromiseRef.current = null;
+      
       // Pause before changing source to prevent conflicts
       audio.pause();
       audio.src = source;
       audio.load();
+      
+      // Mark loading complete when audio is ready
+      const handleCanPlayThrough = () => {
+        isLoadingRef.current = false;
+        audio.removeEventListener('canplaythrough', handleCanPlayThrough);
+      };
+      audio.addEventListener('canplaythrough', handleCanPlayThrough);
+      
+      // Also mark ready on loadeddata for faster response
+      const handleLoadedData = () => {
+        if (audio.readyState >= 2) {
+          isLoadingRef.current = false;
+        }
+        audio.removeEventListener('loadeddata', handleLoadedData);
+      };
+      audio.addEventListener('loadeddata', handleLoadedData);
     }
   }, [activeTrack?.id, activeTrack?.title, getAudioSource]);
 
@@ -214,6 +240,27 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
 
     const attemptPlay = async () => {
       if (isCleanedUp) return;
+
+      // CRITICAL: Wait for loading to complete before playing
+      if (isLoadingRef.current) {
+        logger.debug('Waiting for audio to load before playing');
+        // Wait for loadeddata or canplaythrough
+        const waitForLoad = new Promise<void>((resolve) => {
+          const checkReady = () => {
+            if (!isLoadingRef.current || audio.readyState >= 2) {
+              resolve();
+              return;
+            }
+            setTimeout(checkReady, 50);
+          };
+          checkReady();
+        });
+        
+        await Promise.race([
+          waitForLoad,
+          new Promise(resolve => setTimeout(resolve, 3000)) // 3s timeout
+        ]);
+      }
 
       // Log detailed audio state before play attempt
       logger.debug('Attempting to play', {
@@ -251,8 +298,19 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         logger.warn('AudioContext resume issue');
       }
 
+      // Wait for any pending play promise
+      if (playPromiseRef.current) {
+        try {
+          await playPromiseRef.current;
+        } catch {
+          // Ignore
+        }
+        playPromiseRef.current = null;
+      }
+
       try {
-        await audio.play();
+        playPromiseRef.current = audio.play();
+        await playPromiseRef.current;
         logger.info('Playback started successfully', { trackId: activeTrack?.id });
       } catch (error: unknown) {
         const err = error as { name?: string };
@@ -281,12 +339,14 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         }
 
         pauseTrack();
+      } finally {
+        playPromiseRef.current = null;
       }
     };
 
     if (isPlaying) {
       // Wait for audio to be ready if needed
-      if (audio.readyState >= 2) {
+      if (audio.readyState >= 2 && !isLoadingRef.current) {
         attemptPlay();
       } else {
         const handleCanPlay = () => {
@@ -302,6 +362,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
           audio.removeEventListener('canplay', handleCanPlay);
           // If still not ready after 5s, try anyway
           if (!isCleanedUp && isPlayingRef.current && audio.src) {
+            isLoadingRef.current = false;
             attemptPlay();
           }
         }, 5000);
@@ -313,6 +374,10 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         };
       }
     } else {
+      // Cancel any pending play
+      if (playPromiseRef.current) {
+        playPromiseRef.current = null;
+      }
       audio.pause();
     }
 
