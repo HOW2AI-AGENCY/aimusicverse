@@ -38,6 +38,7 @@ export function usePlaybackQueue() {
     shuffle,
     repeat,
     addToQueue,
+    playNext: playNextAction,
     removeFromQueue,
     clearQueue,
     reorderQueue,
@@ -64,6 +65,16 @@ export function usePlaybackQueue() {
       }
     },
     [queue, addToQueue]
+  );
+
+  /**
+   * Insert track to play next (after current track)
+   */
+  const playNext = useCallback(
+    (track: Track) => {
+      playNextAction(track);
+    },
+    [playNextAction]
   );
 
   /**
@@ -300,6 +311,7 @@ export function usePlaybackQueue() {
     // Queue operations
     addTrack,
     addTracks,
+    playNext,
     setQueue,
     removeTrack,
     clear,

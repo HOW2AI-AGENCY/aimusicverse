@@ -1,3 +1,4 @@
+import { useState, useMemo } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -6,18 +7,21 @@ import {
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Trash2, ListMusic, Sparkles, Layers, Layers2, Clock, Music2, Shuffle, Repeat, Repeat1 } from 'lucide-react';
+import { 
+  Trash2, ListMusic, Sparkles, Layers, Layers2, Clock, Music2, 
+  Shuffle, Repeat, Repeat1, Save, Check
+} from 'lucide-react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { QueueItem } from './QueueItem';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from '@/lib/motion';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 
 interface QueueSheetProps {
   open: boolean;
@@ -30,6 +34,9 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
     visible: open,
     onClick: () => onOpenChange(false),
   });
+
+  const { user } = useAuth();
+  const [isSaving, setIsSaving] = useState(false);
 
   const { 
     queue, 
@@ -45,6 +52,14 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
     toggleRepeat,
     activeTrack
   } = usePlayerStore();
+
+  // Split queue into current track and upcoming tracks
+  const { currentTrack, upNextTracks, remainingDuration } = useMemo(() => {
+    const current = queue[currentIndex] || null;
+    const upNext = queue.slice(currentIndex + 1);
+    const remaining = upNext.reduce((acc, track) => acc + (track.duration_seconds || 0), 0);
+    return { currentTrack: current, upNextTracks: upNext, remainingDuration: remaining };
+  }, [queue, currentIndex]);
 
   // Calculate total duration
   const totalDuration = queue.reduce((acc, track) => acc + (track.duration_seconds || 0), 0);
@@ -98,6 +113,54 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
         ? 'Режим: все версии треков' 
         : 'Режим: только активные версии'
     );
+  };
+
+  /**
+   * Save queue as playlist
+   */
+  const handleSaveAsPlaylist = async () => {
+    if (!user || queue.length === 0) return;
+
+    setIsSaving(true);
+    try {
+      // Create playlist
+      const { data: playlist, error: playlistError } = await supabase
+        .from('playlists')
+        .insert({
+          user_id: user.id,
+          title: `Плейлист ${new Date().toLocaleDateString('ru-RU')}`,
+          description: 'Создан из очереди воспроизведения',
+          is_public: false,
+          track_count: queue.length,
+          total_duration: totalDuration,
+        })
+        .select()
+        .single();
+
+      if (playlistError) throw playlistError;
+
+      // Add tracks to playlist
+      const trackEntries = queue.map((track, index) => ({
+        playlist_id: playlist.id,
+        track_id: track.id,
+        position: index,
+      }));
+
+      const { error: tracksError } = await supabase
+        .from('playlist_tracks')
+        .insert(trackEntries);
+
+      if (tracksError) throw tracksError;
+
+      toast.success('Плейлист создан', {
+        description: `${queue.length} треков сохранено`,
+      });
+    } catch (error) {
+      console.error('Failed to save playlist:', error);
+      toast.error('Не удалось сохранить плейлист');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const getRepeatIcon = () => {
@@ -197,13 +260,31 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
               size="sm"
               onClick={handleToggleVersionMode}
               className={cn(
-                "h-8 px-3 rounded-xl gap-1.5 text-xs ml-auto",
+                "h-8 px-3 rounded-xl gap-1.5 text-xs",
                 versionMode === 'all' && "bg-generate/20 text-generate hover:bg-generate/30 border-generate/30"
               )}
             >
               {versionMode === 'all' ? <Layers className="w-3.5 h-3.5" /> : <Layers2 className="w-3.5 h-3.5" />}
-              {versionMode === 'all' ? 'Все версии' : 'Активные'}
+              {versionMode === 'all' ? 'Все' : 'Активные'}
             </Button>
+
+            {/* Save as playlist */}
+            {user && queue.length > 1 && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleSaveAsPlaylist}
+                disabled={isSaving}
+                className="h-8 px-3 rounded-xl gap-1.5 text-xs ml-auto"
+              >
+                {isSaving ? (
+                  <Check className="w-3.5 h-3.5 animate-pulse" />
+                ) : (
+                  <Save className="w-3.5 h-3.5" />
+                )}
+                Сохранить
+              </Button>
+            )}
           </div>
         </div>
 
@@ -236,24 +317,70 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
                   onDragEnd={handleDragEnd}
                 >
                   <SortableContext items={queue.map(t => t.id)} strategy={verticalListSortingStrategy}>
-                    <div className="space-y-2">
-                      {/* Now playing indicator */}
-                      {activeTrack && currentIndex >= 0 && currentIndex < queue.length && (
-                        <div className="mb-3">
-                          <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium mb-2 px-1">
-                            Сейчас играет
-                          </p>
+                    <div className="space-y-1">
+                      {/* Now Playing Section */}
+                      {currentTrack && (
+                        <div className="mb-4">
+                          <div className="flex items-center justify-between mb-2 px-1">
+                            <p className="text-[10px] uppercase tracking-wider text-primary font-semibold flex items-center gap-1.5">
+                              <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+                              Сейчас играет
+                            </p>
+                          </div>
+                          <QueueItem
+                            track={currentTrack}
+                            isCurrentTrack={true}
+                            onRemove={() => removeFromQueue(currentIndex)}
+                          />
                         </div>
                       )}
-                      
-                      {queue.map((track, index) => (
-                        <QueueItem
-                          key={track.id}
-                          track={track}
-                          isCurrentTrack={index === currentIndex}
-                          onRemove={() => removeFromQueue(index)}
-                        />
-                      ))}
+
+                      {/* Up Next Section */}
+                      {upNextTracks.length > 0 && (
+                        <div>
+                          <div className="flex items-center justify-between mb-2 px-1 pt-3 border-t border-border/30">
+                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                              Далее • {upNextTracks.length} {upNextTracks.length === 1 ? 'трек' : upNextTracks.length < 5 ? 'трека' : 'треков'}
+                            </p>
+                            {remainingDuration > 0 && (
+                              <p className="text-[10px] text-muted-foreground">
+                                {formatTotalDuration(remainingDuration)}
+                              </p>
+                            )}
+                          </div>
+                          <div className="space-y-1">
+                            {upNextTracks.map((track, idx) => (
+                              <QueueItem
+                                key={track.id}
+                                track={track}
+                                isCurrentTrack={false}
+                                onRemove={() => removeFromQueue(currentIndex + 1 + idx)}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Previous tracks (already played) */}
+                      {currentIndex > 0 && (
+                        <div>
+                          <div className="flex items-center justify-between mb-2 px-1 pt-3 border-t border-border/30">
+                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground/60 font-medium">
+                              Уже воспроизведено
+                            </p>
+                          </div>
+                          <div className="space-y-1 opacity-60">
+                            {queue.slice(0, currentIndex).map((track, idx) => (
+                              <QueueItem
+                                key={track.id}
+                                track={track}
+                                isCurrentTrack={false}
+                                onRemove={() => removeFromQueue(idx)}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </SortableContext>
                 </DndContext>

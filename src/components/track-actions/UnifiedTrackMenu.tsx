@@ -14,6 +14,7 @@ import { ShareActions } from './sections/ShareActions';
 import { StudioActions } from './sections/StudioActions';
 import { CreateActions } from './sections/CreateActions';
 import { DeleteActions } from './sections/DeleteActions';
+import { QueueActionsMenu } from './sections/QueueActions';
 import { TrackDialogsPortal } from './TrackDialogsPortal';
 
 interface UnifiedTrackMenuProps {
@@ -59,6 +60,9 @@ export function UnifiedTrackMenu({ track, onDelete, onDownload }: UnifiedTrackMe
             variant="dropdown"
             isProcessing={isProcessing}
           />
+
+          {/* Queue Actions */}
+          <QueueActionsMenu track={track} />
 
           <DropdownMenuSeparator />
 

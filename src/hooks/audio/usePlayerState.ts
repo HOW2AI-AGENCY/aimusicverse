@@ -70,6 +70,7 @@ interface PlayerState {
   
   // Queue management actions
   addToQueue: (track: Track) => void;                      // Add track to end of queue
+  playNext: (track: Track) => void;                        // Insert track after current
   removeFromQueue: (index: number) => void;                // Remove track at index
   clearQueue: () => void;                                  // Clear entire queue
   reorderQueue: (oldIndex: number, newIndex: number) => void;  // Reorder queue items
@@ -305,6 +306,32 @@ export const usePlayerStore = create<PlayerState>()(
   addToQueue: (track) => {
     const { queue } = get();
     set({ queue: [...queue, track] });
+  },
+  
+  /**
+   * Play next action - inserts track after current position
+   * If queue is empty, adds track and starts playing
+   */
+  playNext: (track) => {
+    const { queue, currentIndex, activeTrack } = get();
+    
+    // If queue is empty, start fresh queue with this track
+    if (queue.length === 0) {
+      set({ 
+        queue: [track], 
+        activeTrack: track, 
+        currentIndex: 0, 
+        isPlaying: true,
+        playerMode: 'compact' 
+      });
+      return;
+    }
+    
+    // Insert after current position
+    const insertIndex = currentIndex + 1;
+    const newQueue = [...queue];
+    newQueue.splice(insertIndex, 0, track);
+    set({ queue: newQueue });
   },
   
   /**
