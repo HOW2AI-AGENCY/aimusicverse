@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, Heart, Mic, Volume2, Globe, Lock, MoreHorizontal, Layers, Music2, Trash2, User, Wand2 } from 'lucide-react';
+import { Play, Pause, Heart, Mic, Volume2, Globe, Lock, MoreHorizontal, Layers, Music2, Trash2, User, Wand2, ListMusic } from 'lucide-react';
 import type { Track } from '@/types/track';
 import { useState, useEffect, memo } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -21,6 +21,7 @@ import { toast } from 'sonner';
 import { motion, PanInfo } from '@/lib/motion';
 import { hapticImpact, hapticNotification } from '@/lib/haptic';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { useQueuePosition } from '@/hooks/audio/useQueuePosition';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -79,6 +80,7 @@ export const TrackCard = memo(({
   const [swipeOffset, setSwipeOffset] = useState(0);
   const isMobile = useIsMobile();
   const { addToQueue } = usePlayerStore();
+  const { isInQueue, position, isCurrentTrack, isNextTrack } = useQueuePosition(track.id);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   
@@ -341,6 +343,20 @@ export const TrackCard = memo(({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <h3 className="font-medium text-sm sm:text-base truncate">{track.title || 'Без названия'}</h3>
+            {/* Queue Position Indicator */}
+            {isInQueue && !isCurrentTrack && (
+              <Badge 
+                variant={isNextTrack ? "default" : "secondary"} 
+                size="sm" 
+                className={cn(
+                  "flex-shrink-0 gap-0.5 px-1.5 text-[10px]",
+                  isNextTrack && "bg-primary/20 text-primary border-primary/30"
+                )}
+              >
+                <ListMusic className="w-2.5 h-2.5" />
+                {position}
+              </Badge>
+            )}
             {/* Version Toggle - only show if more than 1 version */}
             {versionCount > 1 && (
               <InlineVersionToggle
@@ -578,8 +594,22 @@ export const TrackCard = memo(({
           )}
         </div>
 
-        {/* Badges - Versions and Stems */}
+        {/* Badges - Versions, Stems, and Queue Position */}
         <div className="absolute top-2 right-2 flex gap-1">
+          {/* Queue Position Badge */}
+          {isInQueue && !isCurrentTrack && (
+            <Badge 
+              variant={isNextTrack ? "default" : "glass"} 
+              size="sm"
+              className={cn(
+                "gap-0.5",
+                isNextTrack && "bg-primary text-primary-foreground"
+              )}
+            >
+              <ListMusic className="w-3 h-3" />
+              {position}
+            </Badge>
+          )}
           {versionCount > 1 && (
             <InlineVersionToggle
               trackId={track.id}

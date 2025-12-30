@@ -120,6 +120,30 @@ export function usePlaybackQueue() {
   }, [clearQueue]);
 
   /**
+   * Play all tracks starting from a specific index
+   * Useful for "Play All from Here" functionality in playlists/library
+   * 
+   * @param tracks - Full array of tracks
+   * @param startIndex - Index to start playing from
+   */
+  const playFromIndex = useCallback((tracks: Track[], startIndex: number = 0) => {
+    if (tracks.length === 0) return;
+    
+    const safeIndex = Math.max(0, Math.min(startIndex, tracks.length - 1));
+    
+    // Set queue with all tracks, starting from the specified index
+    usePlayerStore.setState({
+      queue: tracks,
+      activeTrack: tracks[safeIndex],
+      currentIndex: safeIndex,
+      isPlaying: true,
+      playerMode: 'compact',
+    });
+    
+    log.info('Playing from index', { startIndex: safeIndex, totalTracks: tracks.length });
+  }, []);
+
+  /**
    * Remove track from queue by index
    */
   const removeTrack = useCallback(
@@ -313,6 +337,7 @@ export function usePlaybackQueue() {
     addTracks,
     playNext,
     setQueue,
+    playFromIndex,
     removeTrack,
     clear,
     reorder,
