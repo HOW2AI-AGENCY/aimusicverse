@@ -1,7 +1,9 @@
-import React, { memo, useRef, useState, useEffect } from 'react';
+import React, { memo, useRef, useState, useEffect, useId } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Circle, Square, Download, Trash2, AudioLines, Upload } from 'lucide-react';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
 
 interface DrumRecorderProps {
   recordingState: 'idle' | 'recording' | 'recorded';
@@ -27,8 +29,28 @@ export const DrumRecorder = memo(function DrumRecorder({
   className
 }: DrumRecorderProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const sourceId = useId();
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
   const [recordingTime, setRecordingTime] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Register for studio audio coordination
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      registerStudioAudio(sourceId, () => {
+        audio.pause();
+      });
+    }
+    return () => unregisterStudioAudio(sourceId);
+  }, [sourceId]);
+
+  // Pause if global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying && audioRef.current) {
+      audioRef.current.pause();
+    }
+  }, [globalIsPlaying, isPlaying]);
 
   // Recording timer
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect, useId } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
@@ -6,6 +6,8 @@ import { FileAudio, Mic, X, Play, Pause, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
 
 const refLogger = logger.child({ module: 'AudioReferenceUpload' });
 
@@ -39,6 +41,8 @@ export function AudioReferenceUpload({
   onAnalysisComplete,
   onMelodyAnalysis 
 }: AudioReferenceUploadProps) {
+  const sourceId = useId();
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
   const [isRecording, setIsRecording] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
@@ -46,6 +50,26 @@ export function AudioReferenceUpload({
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+
+  // Register for studio audio coordination
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      registerStudioAudio(sourceId, () => {
+        audio.pause();
+        setIsPlaying(false);
+      });
+    }
+    return () => unregisterStudioAudio(sourceId);
+  }, [sourceId]);
+
+  // Pause if global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying]);
 
   // Check for cached analysis by file URL
   const checkCachedAnalysis = useCallback(async (fileUrl: string): Promise<ReferenceAnalysisResult | null> => {
@@ -301,6 +325,8 @@ export function AudioReferenceUpload({
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
+      pauseTrack();
+      pauseAllStudioAudio(sourceId);
       audioRef.current.play();
       setIsPlaying(true);
     }

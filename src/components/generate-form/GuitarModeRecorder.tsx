@@ -3,7 +3,7 @@
  * Shows chords in real-time during microphone recording
  */
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useId } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -17,6 +17,8 @@ import { ChordDiagram } from '@/components/guitar/ChordDiagram';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { toast } from 'sonner';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
 
 type UseMode = 'style' | 'audio';
 
@@ -35,6 +37,8 @@ export function GuitarModeRecorder({
   onRecordingComplete, 
   onCancel 
 }: GuitarModeRecorderProps) {
+  const sourceId = useId();
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
   const [isRecording, setIsRecording] = useState(false);
   const [recordingDuration, setRecordingDuration] = useState(0);
   const [recordedAudioUrl, setRecordedAudioUrl] = useState<string | null>(null);
@@ -47,6 +51,26 @@ export function GuitarModeRecorder({
   const timerRef = useRef<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+
+  // Register for studio audio coordination
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      registerStudioAudio(sourceId, () => {
+        audio.pause();
+        setIsPlaying(false);
+      });
+    }
+    return () => unregisterStudioAudio(sourceId);
+  }, [sourceId]);
+
+  // Pause if global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying]);
 
   const {
     currentChord,
@@ -187,6 +211,8 @@ export function GuitarModeRecorder({
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
+      pauseTrack();
+      pauseAllStudioAudio(sourceId);
       audioRef.current.play();
       setIsPlaying(true);
     }

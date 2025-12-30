@@ -8,7 +8,7 @@
  * - Cloud storage for recordings and files
  */
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useId } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -29,6 +29,8 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { notifyTranscriptionComplete } from '@/services/notificationManager';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
 
 interface TranscriptionResult {
   midiUrl?: string;
@@ -58,6 +60,9 @@ interface GuitarRecordingStudioProps {
 }
 
 export function GuitarRecordingStudio({ onComplete, compact = false }: GuitarRecordingStudioProps) {
+  const sourceId = useId();
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+  
   // Recording state
   const [isRecording, setIsRecording] = useState(false);
   const [recordingDuration, setRecordingDuration] = useState(0);
@@ -82,6 +87,26 @@ export function GuitarRecordingStudio({ onComplete, compact = false }: GuitarRec
   const timerRef = useRef<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+
+  // Register for studio audio coordination
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      registerStudioAudio(sourceId, () => {
+        audio.pause();
+        setIsPlaying(false);
+      });
+    }
+    return () => unregisterStudioAudio(sourceId);
+  }, [sourceId]);
+
+  // Pause if global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying]);
 
   // Real-time chord detection
   const {
@@ -204,6 +229,8 @@ export function GuitarRecordingStudio({ onComplete, compact = false }: GuitarRec
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
+      pauseTrack();
+      pauseAllStudioAudio(sourceId);
       audioRef.current.play();
       setIsPlaying(true);
     }
