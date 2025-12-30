@@ -36,15 +36,22 @@ serve(async (req) => {
       );
     }
 
-    const coverInfo = coverData?.[0];
-    if (!coverInfo?.imageUrl) {
-      throw new Error('No cover image URL in callback data');
+    // Handle various response formats from SunoAPI
+    const coverInfo = coverData?.[0] || coverData;
+    const imageUrl = coverInfo?.imageUrl || coverInfo?.image_url || coverInfo?.url;
+    
+    if (!imageUrl) {
+      console.error('❌ No cover image URL in callback data:', JSON.stringify(data).substring(0, 500));
+      return new Response(
+        JSON.stringify({ success: false, error: 'No image URL in callback' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
     }
 
-    console.log('Cover generation completed, URL:', coverInfo.imageUrl);
+    console.log('Cover generation completed, URL:', imageUrl);
 
     // Download cover image
-    const coverResponse = await fetch(coverInfo.imageUrl);
+    const coverResponse = await fetch(imageUrl);
     const coverBlob = await coverResponse.blob();
     const fileName = `covers/${sunoTaskId}_${Date.now()}.jpg`;
     

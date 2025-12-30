@@ -391,8 +391,14 @@ export async function editMessageText(
 
   if (!response.ok) {
     const error = await response.text();
-    // Игнорируем ошибку "message is not modified" - это не критично
-    if (!error.includes('message is not modified')) {
+    // Игнорируем некритичные ошибки Telegram
+    const ignorableErrors = [
+      'message is not modified',
+      'there is no text in the message to edit',
+      'message to edit not found',
+    ];
+    const shouldIgnore = ignorableErrors.some(e => error.includes(e));
+    if (!shouldIgnore) {
       console.error('editMessageText error:', error);
     }
     return null;
