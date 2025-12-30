@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useId } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -27,6 +27,8 @@ import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { GuitarModeRecorder } from './GuitarModeRecorder';
 import { CloudAudioSelector } from '@/components/audio-reference';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
 
 type AudioMode = 'cover' | 'extend';
 type RecordingMode = 'standard' | 'guitar';
@@ -63,6 +65,8 @@ export function AudioActionDialog({
   const isMobile = useIsMobile();
   const { saveAudio, updateAnalysis: updateDbAnalysis } = useReferenceAudio();
   const { setFromUpload, setFromCloud } = useAudioReference();
+  const sourceId = useId();
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
   
   const [mode, setMode] = useState<AudioMode>(initialMode);
   const [recordingMode, setRecordingMode] = useState<RecordingMode>('standard');
@@ -74,6 +78,26 @@ export function AudioActionDialog({
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [savedAudioId, setSavedAudioId] = useState<string | null>(null);
+
+  // Register for studio audio coordination
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      registerStudioAudio(sourceId, () => {
+        audio.pause();
+        setIsPlaying(false);
+      });
+    }
+    return () => unregisterStudioAudio(sourceId);
+  }, [sourceId]);
+
+  // Pause if global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying]);
   
   
   // Analysis state with progress
@@ -470,6 +494,8 @@ export function AudioActionDialog({
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
+      pauseTrack();
+      pauseAllStudioAudio(sourceId);
       audioRef.current.play();
       setIsPlaying(true);
     }

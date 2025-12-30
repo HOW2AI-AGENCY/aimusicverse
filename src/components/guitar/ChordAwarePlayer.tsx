@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useCallback, useId } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -9,6 +9,8 @@ import { formatTime } from '@/lib/formatters';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import type { ChordData } from '@/hooks/useGuitarAnalysis';
 import { ChordDiagramUnified as ChordDiagramEnhanced } from './ChordDiagramUnified';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
 
 // Get actual CSS color value from CSS variable with proper comma syntax
 const getCSSColor = (cssVar: string, fallback: string): string => {
@@ -50,6 +52,8 @@ export function ChordAwarePlayer({
   const audioRef = useRef<HTMLAudioElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { tap, selectionChanged } = useHapticFeedback();
+  const sourceId = useId();
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
   
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -57,6 +61,26 @@ export function ChordAwarePlayer({
   const [isMuted, setIsMuted] = useState(false);
   const [waveformData, setWaveformData] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Register for studio audio coordination
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      registerStudioAudio(sourceId, () => {
+        audio.pause();
+        setIsPlaying(false);
+      });
+    }
+    return () => unregisterStudioAudio(sourceId);
+  }, [sourceId]);
+
+  // Pause if global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying]);
 
   // Generate waveform data
   useEffect(() => {
@@ -206,10 +230,12 @@ export function ChordAwarePlayer({
     if (isPlaying) {
       audio.pause();
     } else {
+      pauseTrack();
+      pauseAllStudioAudio(sourceId);
       audio.play();
     }
     setIsPlaying(!isPlaying);
-  }, [isPlaying, tap]);
+  }, [isPlaying, tap, pauseTrack, sourceId]);
 
   const handleSeek = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     selectionChanged();

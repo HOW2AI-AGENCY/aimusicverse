@@ -16,7 +16,6 @@ import {
   pauseAllStudioAudio 
 } from '@/hooks/studio/useStudioAudio';
 import { formatTime } from '@/lib/formatters';
-import { Pause } from 'lucide-react';
 
 interface VersionMetadata {
   prompt?: string;
