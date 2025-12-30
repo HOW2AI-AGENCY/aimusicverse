@@ -16,7 +16,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { 
   Scissors, Split, Layers, Sliders, ChevronLeft,
   Play, Pause, SkipBack, SkipForward, Volume2, VolumeX,
-  MoreVertical, Music2
+  MoreVertical, Music2, Mic2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -68,6 +68,7 @@ import {
   LazyAddTrackDrawer,
   LazyStemSeparationModeDialog,
   LazyKlangioAnalysisPanel,
+  LazyAddVocalsDrawer,
   preloadRouteComponents,
 } from '@/components/lazy';
 import { toast } from 'sonner';
@@ -152,6 +153,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   const [midiDrawerOpen, setMidiDrawerOpen] = useState(false);
   const [effectsDrawerOpen, setEffectsDrawerOpen] = useState(false);
   const [addTrackDrawerOpen, setAddTrackDrawerOpen] = useState(false);
+  const [addVocalsDrawerOpen, setAddVocalsDrawerOpen] = useState(false);
   const [newArrangementOpen, setNewArrangementOpen] = useState(false);
   const [selectedStemForMidi, setSelectedStemForMidi] = useState<TrackStem | null>(null);
   const [selectedStemForEffects, setSelectedStemForEffects] = useState<TrackStem | null>(null);
@@ -1167,7 +1169,19 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
             )}>
               Выберите секцию на таймлайне для замены или разделите трек на стемы для полного контроля над звучанием
             </p>
-            <div className={cn("flex", isMobile ? "gap-2" : "gap-3")}>
+            <div className={cn("flex flex-wrap justify-center", isMobile ? "gap-2" : "gap-3")}>
+              {/* Add Vocals button - for instrumental tracks */}
+              {(track.is_instrumental || track.has_vocals === false) && track.audio_url && (
+                <Button
+                  variant="default"
+                  size={isMobile ? "sm" : "lg"}
+                  onClick={() => setAddVocalsDrawerOpen(true)}
+                  className={cn("gap-2", !isMobile && "px-6")}
+                >
+                  <Mic2 className={isMobile ? "w-4 h-4" : "w-5 h-5"} />
+                  Добавить вокал
+                </Button>
+              )}
               {canReplaceSection && (
                 <Button
                   variant="outline"
@@ -1180,7 +1194,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
                 </Button>
               )}
               <Button
-                variant="default"
+                variant={track.is_instrumental || track.has_vocals === false ? "outline" : "default"}
                 size={isMobile ? "sm" : "lg"}
                 onClick={() => handleStemSeparation('detailed')}
                 disabled={isSeparating}
@@ -1397,6 +1411,21 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           track={track}
           vocalStem={selectedStemForArrangement || stems?.find(s => s.stem_type === 'vocal' || s.stem_type === 'vocals')}
         />
+      )}
+
+      {/* Add Vocals Drawer */}
+      {track && (
+        <Suspense fallback={null}>
+          <LazyAddVocalsDrawer
+            open={addVocalsDrawerOpen}
+            onOpenChange={setAddVocalsDrawerOpen}
+            track={track}
+            onSuccess={(newTrackId) => {
+              queryClient.invalidateQueries({ queryKey: ['user-tracks'] });
+              queryClient.invalidateQueries({ queryKey: ['library'] });
+            }}
+          />
+        </Suspense>
       )}
     </div>
   );
