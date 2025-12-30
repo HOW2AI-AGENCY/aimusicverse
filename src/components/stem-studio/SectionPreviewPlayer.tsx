@@ -1,9 +1,10 @@
 /**
  * Audio preview player for selected section
  * Plays only the selected range with loop option
+ * Coordinates with global player and other studio audio
  */
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useId } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Play, Pause, RotateCcw, Volume2, VolumeX, Repeat } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,6 +13,12 @@ import { Toggle } from '@/components/ui/toggle';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { 
+  registerStudioAudio, 
+  unregisterStudioAudio, 
+  pauseAllStudioAudio 
+} from '@/hooks/studio/useStudioAudio';
 
 interface SectionPreviewPlayerProps {
   audioUrl: string;
@@ -28,6 +35,7 @@ export function SectionPreviewPlayer({
   onTimeUpdate,
   className,
 }: SectionPreviewPlayerProps) {
+  const sourceId = useId();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(startTime);
@@ -35,15 +43,23 @@ export function SectionPreviewPlayer({
   const [isMuted, setIsMuted] = useState(false);
   const [isLooping, setIsLooping] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
+  
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
 
   const duration = endTime - startTime;
   const progress = duration > 0 ? ((currentTime - startTime) / duration) * 100 : 0;
 
-  // Initialize audio element
+  // Initialize audio element with coordination
   useEffect(() => {
     const audio = new Audio(audioUrl);
     audio.preload = 'auto';
     audioRef.current = audio;
+
+    // Register for audio coordination
+    registerStudioAudio(`section-preview-${sourceId}`, () => {
+      audio.pause();
+      setIsPlaying(false);
+    });
 
     const handleCanPlay = () => setIsLoaded(true);
     const handleEnded = () => {
@@ -63,9 +79,18 @@ export function SectionPreviewPlayer({
       audio.removeEventListener('canplay', handleCanPlay);
       audio.removeEventListener('ended', handleEnded);
       audio.pause();
+      unregisterStudioAudio(`section-preview-${sourceId}`);
       audioRef.current = null;
     };
-  }, [audioUrl]);
+  }, [audioUrl, sourceId]);
+
+  // Pause when global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying]);
 
   // Handle time updates
   useEffect(() => {
@@ -117,6 +142,10 @@ export function SectionPreviewPlayer({
       audio.pause();
       setIsPlaying(false);
     } else {
+      // Pause global player and other studio audio
+      pauseTrack();
+      pauseAllStudioAudio(`section-preview-${sourceId}`);
+      
       // Ensure we start from the section start if outside range
       if (audio.currentTime < startTime || audio.currentTime >= endTime) {
         audio.currentTime = startTime;
@@ -128,11 +157,15 @@ export function SectionPreviewPlayer({
         // Playback failed silently
       }
     }
-  }, [isPlaying, isLoaded, startTime, endTime]);
+  }, [isPlaying, isLoaded, startTime, endTime, pauseTrack, sourceId]);
 
   const restart = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
+    
+    // Pause other audio sources
+    pauseTrack();
+    pauseAllStudioAudio(`section-preview-${sourceId}`);
     
     audio.currentTime = startTime;
     setCurrentTime(startTime);
@@ -141,7 +174,7 @@ export function SectionPreviewPlayer({
       audio.play();
       setIsPlaying(true);
     }
-  }, [startTime, isPlaying, isLoaded]);
+  }, [startTime, isPlaying, isLoaded, pauseTrack, sourceId]);
 
   return (
     <TooltipProvider>
