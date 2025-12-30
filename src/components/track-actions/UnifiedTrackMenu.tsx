@@ -21,9 +21,19 @@ interface UnifiedTrackMenuProps {
   track: Track;
   onDelete?: () => void;
   onDownload?: () => void;
+  /** List of tracks for "Play From Here" functionality */
+  trackList?: Track[];
+  /** Index of current track in the list */
+  trackIndex?: number;
 }
 
-export function UnifiedTrackMenu({ track, onDelete, onDownload }: UnifiedTrackMenuProps) {
+export function UnifiedTrackMenu({ 
+  track, 
+  onDelete, 
+  onDownload,
+  trackList,
+  trackIndex 
+}: UnifiedTrackMenuProps) {
   const {
     actionState,
     isProcessing,
@@ -62,7 +72,11 @@ export function UnifiedTrackMenu({ track, onDelete, onDownload }: UnifiedTrackMe
           />
 
           {/* Queue Actions */}
-          <QueueActionsMenu track={track} />
+          <QueueActionsMenu 
+            track={track} 
+            trackList={trackList}
+            trackIndex={trackIndex}
+          />
 
           <DropdownMenuSeparator />
 

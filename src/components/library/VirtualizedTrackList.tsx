@@ -4,6 +4,7 @@ import type { Track } from "@/types/track";
 import { TrackCard } from "@/components/TrackCard";
 import { Loader2 } from "lucide-react";
 import { GridSkeleton, TrackCardSkeleton, TrackCardSkeletonCompact } from "@/components/ui/skeleton-components";
+import { TrackListProvider } from "@/contexts/TrackListContext";
 import { logger } from "@/lib/logger";
 
 const log = logger.child({ module: 'VirtualizedTrackList' });
@@ -271,14 +272,36 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   // Grid view with VirtuosoGrid
   if (viewMode === "grid") {
     return (
-      <VirtuosoGrid
+      <TrackListProvider tracks={tracks}>
+        <VirtuosoGrid
+          useWindowScroll
+          totalCount={tracks.length}
+          overscan={100}
+          computeItemKey={computeItemKey}
+          components={{
+            List: GridContainer,
+            Item: GridItemWrapper,
+            Footer,
+          }}
+          endReached={handleEndReached}
+          rangeChanged={handleRangeChanged}
+          itemContent={renderTrackItem}
+          increaseViewportBy={{ top: 300, bottom: 800 }}
+        />
+      </TrackListProvider>
+    );
+  }
+
+  // List view with Virtuoso
+  return (
+    <TrackListProvider tracks={tracks}>
+      <Virtuoso
         useWindowScroll
         totalCount={tracks.length}
-        overscan={100}
+        overscan={150}
         computeItemKey={computeItemKey}
         components={{
-          List: GridContainer,
-          Item: GridItemWrapper,
+          List: ListContainer,
           Footer,
         }}
         endReached={handleEndReached}
@@ -286,24 +309,6 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
         itemContent={renderTrackItem}
         increaseViewportBy={{ top: 300, bottom: 800 }}
       />
-    );
-  }
-
-  // List view with Virtuoso
-  return (
-    <Virtuoso
-      useWindowScroll
-      totalCount={tracks.length}
-      overscan={150}
-      computeItemKey={computeItemKey}
-      components={{
-        List: ListContainer,
-        Footer,
-      }}
-      endReached={handleEndReached}
-      rangeChanged={handleRangeChanged}
-      itemContent={renderTrackItem}
-      increaseViewportBy={{ top: 300, bottom: 800 }}
-    />
+    </TrackListProvider>
   );
 });

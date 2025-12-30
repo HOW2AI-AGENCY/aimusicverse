@@ -20,6 +20,10 @@ interface UnifiedTrackSheetProps {
   onOpenChange: (open: boolean) => void;
   onDelete?: () => void;
   onDownload?: () => void;
+  /** List of tracks for "Play From Here" functionality */
+  trackList?: Track[];
+  /** Index of current track in the list */
+  trackIndex?: number;
 }
 
 export function UnifiedTrackSheet({ 
@@ -27,7 +31,9 @@ export function UnifiedTrackSheet({
   open, 
   onOpenChange,
   onDelete,
-  onDownload 
+  onDownload,
+  trackList,
+  trackIndex 
 }: UnifiedTrackSheetProps) {
   // Telegram BackButton integration
   useTelegramBackButton({
@@ -103,7 +109,9 @@ export function UnifiedTrackSheet({
             {/* Queue Actions */}
             <QueueActionsSheet 
               track={track} 
-              onAction={() => onOpenChange(false)} 
+              onAction={() => onOpenChange(false)}
+              trackList={trackList}
+              trackIndex={trackIndex}
             />
 
             <Separator className="my-2" />
