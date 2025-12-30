@@ -3,14 +3,21 @@
  * 
  * Shows replacement variants on the timeline with A/B comparison
  * Allows quick preview and selection of variants
+ * Integrates with studio audio coordination
  */
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect, useId } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Play, Pause, Check, X, Volume2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { 
+  registerStudioAudio, 
+  unregisterStudioAudio, 
+  pauseAllStudioAudio 
+} from '@/hooks/studio/useStudioAudio';
 
 interface ReplacementVariant {
   id: 'A' | 'B';
@@ -43,10 +50,44 @@ export function ReplacementTimelineOverlay({
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const sourceId = useId();
+  
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
 
   // Calculate position percentages
   const startPercent = (sectionStart / duration) * 100;
   const widthPercent = ((sectionEnd - sectionStart) / duration) * 100;
+
+  // Register with studio audio coordinator
+  useEffect(() => {
+    const fullSourceId = `replacement-overlay-${sourceId}`;
+    registerStudioAudio(fullSourceId, () => {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    });
+
+    return () => {
+      unregisterStudioAudio(fullSourceId);
+      audioRef.current?.pause();
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [sourceId]);
+
+  // Pause when global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    }
+  }, [globalIsPlaying, isPlaying]);
 
   const getCurrentAudioUrl = useCallback(() => {
     if (activeVariant === 'original') return originalAudioUrl;
@@ -65,6 +106,10 @@ export function ReplacementTimelineOverlay({
       }
       return;
     }
+
+    // Pause global player and other studio audio
+    pauseTrack();
+    pauseAllStudioAudio(`replacement-overlay-${sourceId}`);
 
     const audio = new Audio(getCurrentAudioUrl());
     audioRef.current = audio;
@@ -87,7 +132,7 @@ export function ReplacementTimelineOverlay({
     audio.addEventListener('ended', () => {
       setIsPlaying(false);
     });
-  }, [isPlaying, getCurrentAudioUrl, sectionStart, sectionEnd]);
+  }, [isPlaying, getCurrentAudioUrl, sectionStart, sectionEnd, pauseTrack, sourceId]);
 
   const switchVariant = (variantId: 'original' | 'A' | 'B') => {
     if (audioRef.current) {

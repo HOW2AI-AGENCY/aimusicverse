@@ -1,9 +1,16 @@
+import { useState, useRef, useEffect } from 'react';
 import { useTrackStems } from '@/hooks/useTrackStems';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Download, Loader2, Mic, Volume2, Music } from 'lucide-react';
+import { Play, Pause, Download, Loader2, Mic, Volume2, Music } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { getStemLabel } from '@/lib/stemLabels';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { 
+  registerStudioAudio, 
+  unregisterStudioAudio, 
+  pauseAllStudioAudio 
+} from '@/hooks/studio/useStudioAudio';
 
 interface TrackStemsTabProps {
   trackId: string;
@@ -11,6 +18,55 @@ interface TrackStemsTabProps {
 
 export const TrackStemsTab = ({ trackId }: TrackStemsTabProps) => {
   const { data: stems, isLoading } = useTrackStems(trackId);
+  const [playingId, setPlayingId] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const sourceId = `stems-tab-${trackId}`;
+  
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+
+  // Register with studio audio coordinator
+  useEffect(() => {
+    registerStudioAudio(sourceId, () => {
+      audioRef.current?.pause();
+      setPlayingId(null);
+    });
+
+    return () => {
+      unregisterStudioAudio(sourceId);
+      audioRef.current?.pause();
+    };
+  }, [sourceId]);
+
+  // Pause when global player starts
+  useEffect(() => {
+    if (globalIsPlaying && playingId) {
+      audioRef.current?.pause();
+      setPlayingId(null);
+    }
+  }, [globalIsPlaying, playingId]);
+
+  const handlePlay = (stemId: string, audioUrl: string) => {
+    if (playingId === stemId) {
+      audioRef.current?.pause();
+      setPlayingId(null);
+      return;
+    }
+
+    // Stop any current playback
+    audioRef.current?.pause();
+
+    // Pause global player and other studio audio
+    pauseTrack();
+    pauseAllStudioAudio(sourceId);
+
+    // Play this stem
+    const audio = new Audio(audioUrl);
+    audio.onended = () => setPlayingId(null);
+    audio.onerror = () => setPlayingId(null);
+    audio.play();
+    audioRef.current = audio;
+    setPlayingId(stemId);
+  };
 
   const getStemIcon = (stemType: string) => {
     switch (stemType.toLowerCase()) {
@@ -79,13 +135,14 @@ export const TrackStemsTab = ({ trackId }: TrackStemsTabProps) => {
               <div className="flex items-center gap-2">
                 <Button
                   size="icon"
-                  variant="ghost"
-                  onClick={() => {
-                    const audio = new Audio(stem.audio_url);
-                    audio.play();
-                  }}
+                  variant={playingId === stem.id ? "default" : "ghost"}
+                  onClick={() => handlePlay(stem.id, stem.audio_url)}
                 >
-                  <Play className="w-4 h-4" />
+                  {playingId === stem.id ? (
+                    <Pause className="w-4 h-4" />
+                  ) : (
+                    <Play className="w-4 h-4" />
+                  )}
                 </Button>
                 <Button
                   size="icon"

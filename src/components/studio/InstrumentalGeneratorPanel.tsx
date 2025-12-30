@@ -1,8 +1,9 @@
 /**
  * Instrumental Generator Panel - Generate complementary instrumentals
+ * Integrates with studio audio coordination
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useId } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -12,11 +13,17 @@ import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Loader2, Music, Play, Plus, Sparkles, RefreshCw } from 'lucide-react';
+import { Loader2, Music, Play, Pause, Plus, Sparkles, RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
 import { useStudioProjectStore } from '@/stores/useStudioProjectStore';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { 
+  registerStudioAudio, 
+  unregisterStudioAudio, 
+  pauseAllStudioAudio 
+} from '@/hooks/studio/useStudioAudio';
 
 const log = logger.child({ module: 'InstrumentalGenerator' });
 
@@ -62,8 +69,32 @@ export function InstrumentalGeneratorPanel({
   const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio] = useState(() => new Audio());
+  const sourceId = useId();
   
   const { addTrack, addClip, currentProject } = useStudioProjectStore();
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+
+  // Register with studio audio coordinator
+  useEffect(() => {
+    const fullSourceId = `instrumental-generator-${sourceId}`;
+    registerStudioAudio(fullSourceId, () => {
+      audio.pause();
+      setIsPlaying(false);
+    });
+
+    return () => {
+      unregisterStudioAudio(fullSourceId);
+      audio.pause();
+    };
+  }, [sourceId, audio]);
+
+  // Pause when global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying, audio]);
 
   // Analyze main track
   const { data: analysis, isLoading: isAnalyzing, refetch: reanalyze } = useQuery({
@@ -134,6 +165,10 @@ export function InstrumentalGeneratorPanel({
       audio.pause();
       setIsPlaying(false);
     } else {
+      // Pause global player and other studio audio
+      pauseTrack();
+      pauseAllStudioAudio(`instrumental-generator-${sourceId}`);
+
       audio.src = generatedUrl;
       audio.play();
       setIsPlaying(true);
@@ -307,7 +342,11 @@ export function InstrumentalGeneratorPanel({
               className="flex-1"
               onClick={handlePreview}
             >
-              <Play className={cn("h-4 w-4 mr-2", isPlaying && "animate-pulse")} />
+              {isPlaying ? (
+                <Pause className="h-4 w-4 mr-2" />
+              ) : (
+                <Play className="h-4 w-4 mr-2" />
+              )}
               {isPlaying ? 'Играет...' : 'Прослушать'}
             </Button>
             
