@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -17,6 +17,12 @@ import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { useRecordingUpload } from '@/hooks/useRecordingUpload';
 import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
 import { InstrumentalSettingsDialog, type InstrumentalSettings } from './InstrumentalSettingsDialog';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { 
+  registerStudioAudio, 
+  unregisterStudioAudio, 
+  pauseAllStudioAudio 
+} from '@/hooks/studio/useStudioAudio';
 
 interface AudioRecordDialogProps {
   open: boolean;
@@ -30,6 +36,8 @@ type ProcessingAction = 'instrumental' | 'vocals' | 'cover' | 'extend' | null;
 export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps) => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+  
   const [sourceTab, setSourceTab] = useState<SourceTab>('record');
   const [state, setState] = useState<RecordingState>('idle');
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
@@ -62,6 +70,27 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
   const audioChunksRef = useRef<Blob[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Register and coordinate with other audio sources
+  useEffect(() => {
+    if (audioRef.current) {
+      registerStudioAudio('record-dialog-player', () => {
+        audioRef.current?.pause();
+        setIsPlaying(false);
+      });
+    }
+    return () => {
+      unregisterStudioAudio('record-dialog-player');
+    };
+  }, [audioUrl]);
+
+  // Pause when global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying]);
 
   // Telegram back button integration
   const { shouldShowUIButton } = useTelegramBackButton({
@@ -133,10 +162,13 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
     if (isPlaying) {
       audioRef.current.pause();
     } else {
+      // Pause global player and other studio audio
+      pauseTrack();
+      pauseAllStudioAudio('record-dialog-player');
       audioRef.current.play();
     }
     setIsPlaying(!isPlaying);
-  }, [isPlaying, audioUrl]);
+  }, [isPlaying, audioUrl, pauseTrack]);
 
   const resetRecording = useCallback(() => {
     if (audioUrl) {

@@ -1,9 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useId, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { logger } from '@/lib/logger';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { 
+  registerStudioAudio, 
+  unregisterStudioAudio, 
+  pauseAllStudioAudio 
+} from '@/hooks/studio/useStudioAudio';
 
 type WaveSurferCtor = typeof import('wavesurfer.js');
 type WaveSurferInstance = any;
@@ -14,6 +20,7 @@ interface AudioWaveformPreviewProps {
 }
 
 export const AudioWaveformPreview = ({ audioUrl, className }: AudioWaveformPreviewProps) => {
+  const sourceId = useId();
   const containerRef = useRef<HTMLDivElement>(null);
   const wavesurferRef = useRef<WaveSurferInstance | null>(null);
   const [isReady, setIsReady] = useState(false);
@@ -21,6 +28,8 @@ export const AudioWaveformPreview = ({ audioUrl, className }: AudioWaveformPrevi
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
 
   useEffect(() => {
     // Initialize loading state outside of effect body when possible
@@ -91,6 +100,11 @@ export const AudioWaveformPreview = ({ audioUrl, className }: AudioWaveformPrevi
           if (mounted) setIsPlaying(false);
         });
 
+        // Register for audio coordination
+        registerStudioAudio(`waveform-preview-${sourceId}`, () => {
+          wavesurfer.pause();
+        });
+
         wavesurfer.load(audioUrl);
       } catch (e) {
         logger.error('Failed to init WaveSurfer', e);
@@ -102,18 +116,32 @@ export const AudioWaveformPreview = ({ audioUrl, className }: AudioWaveformPrevi
 
     return () => {
       mounted = false;
+      unregisterStudioAudio(`waveform-preview-${sourceId}`);
       if (wavesurferRef.current) {
         wavesurferRef.current.destroy();
         wavesurferRef.current = null;
       }
     };
-  }, [audioUrl]);
+  }, [audioUrl, sourceId]);
 
-  const togglePlayPause = () => {
-    if (wavesurferRef.current) {
-      wavesurferRef.current.playPause();
+  // Pause when global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying && wavesurferRef.current) {
+      wavesurferRef.current.pause();
     }
-  };
+  }, [globalIsPlaying, isPlaying]);
+
+  const togglePlayPause = useCallback(() => {
+    if (!wavesurferRef.current) return;
+    
+    if (!isPlaying) {
+      // Pause global player and other studio audio before playing
+      pauseTrack();
+      pauseAllStudioAudio(`waveform-preview-${sourceId}`);
+    }
+    
+    wavesurferRef.current.playPause();
+  }, [isPlaying, pauseTrack, sourceId]);
 
   return (
     <div className={cn('rounded-lg bg-muted/30 p-3', className)}>
