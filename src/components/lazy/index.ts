@@ -139,6 +139,10 @@ export const LazyKlangioAnalysisPanel = lazy(() =>
   import('@/components/studio/unified/KlangioAnalysisPanel').then(m => ({ default: m.KlangioAnalysisPanel }))
 );
 
+export const LazyAddVocalsDrawer = lazy(() => 
+  import('@/components/studio/unified/AddVocalsDrawer').then(m => ({ default: m.AddVocalsDrawer }))
+);
+
 export const LazyKlangioToolsPanel = lazy(() => 
   import('@/components/studio/KlangioToolsPanel').then(m => ({ default: m.KlangioToolsPanel }))
 );
