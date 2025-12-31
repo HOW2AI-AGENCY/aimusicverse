@@ -106,11 +106,56 @@ export const useProjects = () => {
     };
   }, [user?.id, queryClient]);
 
+  // Check if user can create more projects
+  const checkProjectLimit = useCallback(async (): Promise<{
+    allowed: boolean;
+    currentCount: number;
+    limit: number | null;
+    remaining?: number;
+    reason?: string;
+  }> => {
+    if (!user?.id) {
+      return { allowed: false, currentCount: 0, limit: 3, reason: 'Требуется авторизация' };
+    }
+
+    const { data, error } = await supabase.rpc('can_create_project', {
+      _user_id: user.id
+    });
+
+    if (error) {
+      logger.error('Error checking project limit', error);
+      return { allowed: true, currentCount: 0, limit: null }; // Allow on error
+    }
+
+    // Cast to proper type since RPC returns Json
+    const result = data as { 
+      allowed?: boolean; 
+      current_count?: number; 
+      limit?: number; 
+      remaining?: number; 
+      reason?: string; 
+    } | null;
+
+    return {
+      allowed: result?.allowed ?? true,
+      currentCount: result?.current_count ?? 0,
+      limit: result?.limit ?? null,
+      remaining: result?.remaining,
+      reason: result?.reason,
+    };
+  }, [user?.id]);
+
   const createProject = useMutation({
     mutationFn: async (projectData: Partial<Project> & { title: string }) => {
       if (!user?.id) throw new Error('User not authenticated');
 
       return retryWithBackoff(async () => {
+        // Check project limit for free users
+        const limitCheck = await checkProjectLimit();
+        if (!limitCheck.allowed) {
+          throw new Error(limitCheck.reason || 'Достигнут лимит проектов');
+        }
+
         // Check if user is premium or admin to set default is_public
         const { data: isPremium } = await supabase.rpc('is_premium_or_admin', {
           _user_id: user.id
@@ -146,7 +191,10 @@ export const useProjects = () => {
     },
     onError: (error: any) => {
       logger.error('Error creating project', error);
-      toast.error('Ошибка создания проекта');
+      const errorMessage = error?.message?.includes('лимит') 
+        ? error.message 
+        : 'Ошибка создания проекта';
+      toast.error(errorMessage);
     },
   });
 
@@ -268,5 +316,7 @@ export const useProjects = () => {
     isUpdating: updateProject.isPending,
     isDeleting: deleteProject.isPending,
     isGenerating: generateProjectConcept.isPending,
+    // Project limit check for UI
+    checkProjectLimit,
   };
 };
