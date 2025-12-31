@@ -21,6 +21,8 @@ import { useStudioOptimizations } from '@/hooks/studio/useStudioOptimizations';
 import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { LazyAddVocalsDrawer } from '@/components/lazy';
+import { ExtendTrackDialog } from '@/components/ExtendTrackDialog';
+import { SectionEditorSheet } from '@/components/studio/editor/SectionEditorSheet';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -123,6 +125,14 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   // Add Vocals state
   const [showAddVocalsDrawer, setShowAddVocalsDrawer] = useState(false);
   const [selectedVocalsTrack, setSelectedVocalsTrack] = useState<StudioTrack | null>(null);
+  
+  // Extend Track state
+  const [showExtendDialog, setShowExtendDialog] = useState(false);
+  const [selectedExtendTrack, setSelectedExtendTrack] = useState<StudioTrack | null>(null);
+  
+  // Section Editor state
+  const [showSectionEditor, setShowSectionEditor] = useState(false);
+  const [selectedSectionTrack, setSelectedSectionTrack] = useState<StudioTrack | null>(null);
 
   // Convert store tracks to AudioTrack format for engine
   const audioTracks = useMemo((): AudioTrack[] => {
@@ -770,6 +780,12 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
                     } else if (action === 'add_vocals') {
                       setSelectedVocalsTrack(track);
                       setShowAddVocalsDrawer(true);
+                    } else if (action === 'extend') {
+                      setSelectedExtendTrack(track);
+                      setShowExtendDialog(true);
+                    } else if (action === 'replace_section') {
+                      setSelectedSectionTrack(track);
+                      setShowSectionEditor(true);
                     }
                   }}
                 />
@@ -904,6 +920,45 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
             }}
           />
         </Suspense>
+      )}
+
+      {/* Extend Track Dialog */}
+      {selectedExtendTrack && (
+        <ExtendTrackDialog
+          open={showExtendDialog}
+          onOpenChange={(open) => {
+            setShowExtendDialog(open);
+            if (!open) setSelectedExtendTrack(null);
+          }}
+          track={{
+            id: selectedExtendTrack.id,
+            title: selectedExtendTrack.name,
+            audio_url: selectedExtendTrack.audioUrl || selectedExtendTrack.clips[0]?.audioUrl || '',
+            cover_url: null,
+            style: null,
+            duration_seconds: selectedExtendTrack.clips[0]?.duration || selectedExtendTrack.versions?.[0]?.duration || 60,
+            project_id: project.id,
+            suno_id: null,
+            is_liked: false,
+            likes_count: 0,
+          } as unknown as Track}
+        />
+      )}
+
+      {/* Section Editor Sheet */}
+      {selectedSectionTrack && (
+        <SectionEditorSheet
+          open={showSectionEditor}
+          onClose={() => {
+            setShowSectionEditor(false);
+            setSelectedSectionTrack(null);
+          }}
+          trackId={selectedSectionTrack.id}
+          trackTitle={selectedSectionTrack.name}
+          audioUrl={selectedSectionTrack.audioUrl || selectedSectionTrack.clips[0]?.audioUrl}
+          duration={selectedSectionTrack.clips[0]?.duration || selectedSectionTrack.versions?.[0]?.duration || 60}
+          detectedSections={[]}
+        />
       )}
     </div>
   );
